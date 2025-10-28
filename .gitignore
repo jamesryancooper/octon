@@ -1,0 +1,14 @@
+# Node/Turbo/Vercel
+node_modules/
+.turbo/
+.next/
+.vercel/
+dist/
+build/
+coverage/
+reports/
+sbom/
+.DS_Store
+*.tsbuildinfo
+*.log
+

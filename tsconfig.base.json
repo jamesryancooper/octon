@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@domain/*": ["packages/domain/*"],
+      "@adapters/*": ["packages/adapters/*"],
+      "@contracts/*": ["packages/contracts/*"],
+      "@ui-kit/*": ["packages/ui-kit/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build"]
+}
+

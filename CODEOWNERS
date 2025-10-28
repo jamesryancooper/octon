@@ -1,0 +1,14 @@
+# Set repository ownership and review responsibilities.
+
+# apps
+/apps/web/      @you @teammate
+/apps/api/      @you @teammate
+
+# domain & contracts need both eyes
+/packages/domain/    @you @teammate
+/packages/contracts/ @you @teammate
+
+# infra & otel
+/infra/ci/      @you
+/infra/otel/    @teammate
+
