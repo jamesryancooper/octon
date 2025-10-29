@@ -4,11 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node -e \"console.log('apps/web dev placeholder')\"",
-    "build": "node -e \"console.log('apps/web build placeholder')\"",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "preview:vercel": "astro preview --host 0.0.0.0 --port 4173",
+    "typecheck": "sh -c 'astro check && touch tsconfig.tsbuildinfo'",
     "lint": "sh -c 'mkdir -p reports && eslint . -f json -o reports/eslint-web.json'",
     "test": "node -e \"console.log('apps/web test placeholder')\""
+  },
+  "dependencies": {
+    "astro": "^5.15.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "typescript": "^5.9.3"
   }
 }
-

@@ -16,7 +16,7 @@ Below is a **BMAD v6–focused implementation guide** that shows exactly what yo
 
 **Integration surface.**
 
-* **BMAD Core + BMM + BMB** supply the foundation (agents, workflows). Project installs BMAD v6 alpha (`npx bmad-method@6.0.0-beta.0 install`, Node 20+ per repo guidance). We keep SDD custom workflows in `src/modules/sdd`. ([GitHub][4])
+* **BMAD Core + BMM + BMB** supply the foundation (agents, workflows). Project installs BMAD v6 alpha (`npx bmad-method@6.0.0-beta.0 install`, Node 22+ per repo guidance). We keep SDD custom workflows in `src/modules/sdd`. ([GitHub][4])
 * **Monorepo & CI/CD:** Turborepo for **pipelines/remote cache**, Vercel for **branch previews & guarded promote to production**, **feature flags** using Vercel Flags SDK + Edge Config (or your provider), and **OpenTelemetry** via `@vercel/otel`. ([Turborepo][1])
 
 **Reliability & Security guardrails baked in.**
@@ -72,7 +72,7 @@ flowchart LR
 
 * **S‑1** Spec coherence, **P‑1** BMM alignment, **S‑2** Coverage (security/perf/tests), **I‑1** Plan saved, **I‑2** Post‑build drift.
 
-> *Where you see `bmad` below, use `npx bmad-method@6.0.0-beta.0 …` (Node 20+) as recommended in v6 alpha docs.* ([GitHub][4])
+> *Where you see `bmad` below, use `npx bmad-method@6.0.0-beta.0 …` (Node 22+) as recommended in v6 alpha docs.* ([GitHub][4])
 
 ### A — Spec (SDD) + ADR intake
 
@@ -214,7 +214,7 @@ apps/api/vercel.json
 {
   "functions": {
     "api/index.ts": {
-      "runtime": "nodejs20.x",
+      "runtime": "nodejs22.x",
       "maxDuration": 10
     }
   },
@@ -411,9 +411,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
+        with: { version: 10 }
       - uses: actions/setup-node@v4
-        with: { node-version: '20' }
+        with: { node-version: '22' }
       - run: pnpm install --frozen-lockfile
       - name: Lint & typecheck
         run: pnpm turbo run lint typecheck --cache-dir=.turbo
@@ -498,8 +498,8 @@ jobs:
 ```bash
 # 1) Init monorepo
 pnpm dlx create-turbo@latest my-saas && cd my-saas
-# 2) Node 20.x recommended for BMAD v6 alpha
-node -v  # ensure >=20
+# 2) Node 22.x recommended for BMAD v6 alpha
+node -v  # ensure >=22
 # 3) Install BMAD v6 alpha core
 npx bmad-method@6.0.0-beta.0 install
 # 4) Add SDD sidecar & modules (copy /src/modules/*, /scripts/*, templates)

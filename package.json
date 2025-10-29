@@ -2,7 +2,7 @@
   "name": "harmony-monorepo",
   "private": true,
   "version": "0.0.0",
-  "packageManager": "pnpm@9",
+  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
@@ -17,10 +17,13 @@
     "preview:vercel": "turbo run preview:vercel"
   },
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "turbo": "^2.5.8"
+  }
 }

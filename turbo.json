@@ -1,7 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["pnpm-lock.yaml", "package.json", "tsconfig.base.json"],
-  "pipeline": {
+  "tasks": {
     "dev": {
       "cache": false,
       "persistent": true,
@@ -57,4 +57,3 @@
     }
   }
 }
-

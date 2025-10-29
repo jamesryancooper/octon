@@ -16,12 +16,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v3
-        with: { version: 9 }
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile || pnpm install
@@ -70,10 +70,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v3
-        with: { version: 9 }
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
       - uses: actions/setup-node@v4
-        with: { node-version: '20', cache: 'pnpm' }
+        with: { node-version: '22', cache: 'pnpm' }
       - run: pnpm install --frozen-lockfile || pnpm install
       - name: Vercel pull env
         run: npx vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
@@ -92,4 +92,3 @@ jobs:
               repo: context.repo.repo,
               body: `Vercel Preview: ${{ steps.deploy.outputs.url }}`
             })
-
