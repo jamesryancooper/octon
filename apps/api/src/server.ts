@@ -1,5 +1,5 @@
 // Import OpenTelemetry bootstrap early so it instruments the process.
-import '@infra/otel/instrumentation';
+import initializeInstrumentation from '@infra/otel/instrumentation';
 
 import fastify from 'fastify';
 import cors from '@fastify/cors';
@@ -31,6 +31,7 @@ type VersionResponseDTO = { version: string };
  * @param port - The port to bind to (defaults to `DEFAULT_PORT`).
  */
 async function startServer(port: number = DEFAULT_PORT): Promise<void> {
+  await initializeInstrumentation();
   const app = fastify({ logger: false });
 
   await app.register(helmet, { global: true });

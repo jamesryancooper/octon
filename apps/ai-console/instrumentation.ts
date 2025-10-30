@@ -7,7 +7,8 @@ export async function register(): Promise<void> {
       // path aliases for. This ensures '@infra/*' resolves correctly while
       // keeping the import behind the Node.js runtime guard to avoid pulling
       // Node-only deps into Edge instrumentation bundles.
-      await import('@infra/otel/instrumentation');
+      const { default: initializeInstrumentation } = await import('@infra/otel/instrumentation');
+      await initializeInstrumentation();
     } catch (err) {
       // eslint-disable-next-line no-console
       console.warn('OTel not initialized for ai-console:', err);
