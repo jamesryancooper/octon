@@ -1,0 +1,9 @@
+{
+  "name": "@coe/contracts",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "contracts:check": "echo 'Run oasdiff via CI action'",
+    "build": "echo 'no build'"
+  }
+}

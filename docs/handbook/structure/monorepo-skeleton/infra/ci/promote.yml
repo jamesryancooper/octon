@@ -1,0 +1,15 @@
+name: promote
+on:
+  workflow_dispatch:
+    inputs:
+      previewUrl:
+        description: "Vercel preview URL to promote"
+        required: true
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Promote preview to production
+        run: npx vercel promote ${{ inputs.previewUrl }} --token=${{ secrets.VERCEL_TOKEN }}

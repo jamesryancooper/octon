@@ -1,0 +1,104 @@
+name: pr
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      pull-requests: write
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM:  ${{ secrets.TURBO_TEAM }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with: { version: 9 }
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm turbo run typecheck lint test --cache-dir=.turbo
+      - run: pnpm turbo run build --filter=...[origin/main]
+
+      # CodeQL
+      - name: Init CodeQL
+        uses: github/codeql-action/init@v3
+        with: { languages: javascript }
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+      # Semgrep
+      - name: Semgrep Scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/ci
+          generateSarif: "1"
+
+      # Dependency Review
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+
+      # TruffleHog Secrets
+      - name: TruffleHog
+        uses: trufflesecurity/trufflehog@v3
+        with:
+          scan: git
+          extra_args: --since-commit HEAD~50
+
+      # SBOM (CycloneDX via Anchore)
+      - name: SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: .
+          format: spdx-json
+          output-file: sbom/sbom.spdx.json
+
+      # OpenAPI breaking-change check (oasdiff)
+      - name: OpenAPI diff
+        uses: oasdiff/oasdiff-action/diff@main
+        with:
+          base: packages/contracts/openapi-base.yaml
+          revision: packages/contracts/openapi.yaml
+
+  preview:
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+
+      - name: Vercel pull env
+        run: npx vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build (prebuilt artifacts)
+        run: npx vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy preview
+        id: deploy
+        run: echo "url=$(npx vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
+
+      - name: Comment Preview URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `Vercel Preview: ${{ steps.deploy.outputs.url }}`
+            })
