@@ -1,3 +1,98 @@
 
 # Don't index SpecStory auto-save files, but allow explicit context inclusion via @ references
 .specstory/**
+
+# Version control
+.git/
+
+# Dependencies and build artifacts
+node_modules/
+.turbo/
+.next/
+.vercel/
+dist/
+build/
+coverage/
+reports/
+sbom/
+sbom/sbom.spdx.json
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Editor/project files
+.vscode/
+.idea/
+.DS_Store
+
+# Caches and test outputs
+.astro/
+.cache/
+.vitest/
+test-results/
+playwright-report/
+junit.xml
+nyc_output/
+coverage-final.json
+lcov.info
+
+# Logs and lock files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+logs/
+
+# Additional build outputs
+out/
+storybook-static/
+
+# Cypress artifacts
+cypress/screenshots/
+cypress/videos/
+cypress/downloads/
+
+# Large/binary assets
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+**/*.avif
+**/*.svg
+**/*.ico
+**/*.mp4
+**/*.mov
+**/*.zip
+**/*.tar
+**/*.gz
+**/*.rar
+**/*.7z
+**/*.pdf
+**/*.docx
+**/*.xlsx
+**/*.pptx
+**/*.woff
+**/*.woff2
+**/*.ttf
+**/*.otf
+
+# Editor caches
+.eslintcache
+
+# OS-specific files
+Thumbs.db
+Desktop.ini
+Icon?
+._*
+.AppleDouble
