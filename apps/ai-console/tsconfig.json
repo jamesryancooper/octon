@@ -1,20 +1,18 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "jsx": "preserve",
-    "noEmit": true,
-    "incremental": true,
-    "types": ["node", "react", "react-dom"]
-  },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "next.config.ts",
-    "instrumentation.ts"
-  ],
-  "exclude": ["node_modules"]
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": "../../tsconfig.base.json",
+    "compilerOptions": {
+        "jsx": "preserve",
+        "noEmit": true,
+        "incremental": true,
+        "types": ["node", "react", "react-dom"]
+    },
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "next.config.ts",
+        "instrumentation.ts"
+    ],
+    "exclude": ["node_modules"]
 }
-
-

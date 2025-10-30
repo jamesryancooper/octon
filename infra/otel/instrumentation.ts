@@ -1,4 +1,17 @@
-const otlpEndpoint = process.env.OTEL_EXPORTER_OTLP_ENDPOINT || 'http://localhost:4318';
+const OTEL_EXPORTER_ENDPOINT_ENV_KEY = 'OTEL_EXPORTER_OTLP_ENDPOINT';
+
+type GlobalWithProcess = typeof globalThis & {
+  process?: {
+    env?: Record<string, string | undefined>;
+  };
+};
+
+const resolveEnvVar = (name: string): string | undefined => {
+  const maybeProcess = (globalThis as GlobalWithProcess).process;
+  return maybeProcess?.env?.[name];
+};
+
+const otlpEndpoint = resolveEnvVar(OTEL_EXPORTER_ENDPOINT_ENV_KEY) || 'http://localhost:4318';
 
 let initializationPromise: Promise<void> | null = null;
 

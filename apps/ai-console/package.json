@@ -12,18 +12,19 @@
     "test": "node -e \"console.log('apps/ai-console test placeholder')\""
   },
   "dependencies": {
-    "next": "^16.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/auto-instrumentations-node": "^0.66.0",
     "@opentelemetry/exporter-metrics-otlp-proto": "^0.207.0",
     "@opentelemetry/exporter-trace-otlp-proto": "^0.207.0",
     "@opentelemetry/sdk-metrics": "^2.2.0",
-    "@opentelemetry/sdk-node": "^0.207.0"
+    "@opentelemetry/sdk-node": "^0.207.0",
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/react": "19.2.2",
+    "@types/react-dom": "^19.2.2",
     "eslint-config-next": "^16.0.0",
     "typescript": "^5.6.0"
   },

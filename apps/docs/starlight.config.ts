@@ -12,6 +12,10 @@ const starlightConfig: StarlightUserConfig = {
       items: [{ label: 'Overview', link: '/index' }],
     },
     {
+      label: 'Handbook',
+      autogenerate: { directory: 'handbook' },
+    },
+    {
       label: 'References',
       items: [{ label: 'OpenAPI', link: '/reference/api' }],
     },
