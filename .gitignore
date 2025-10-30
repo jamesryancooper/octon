@@ -90,3 +90,38 @@ Icon?
 
 # Archives from packaging
 *.tgz
+
+# Python / virtualenv (ai-gateway)
+.venv/
+venv/
+.python-version
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.tox/
+.nox/
+.hypothesis/
+.pyre/
+.ipynb_checkpoints/
+.coverage
+.coverage.*
+coverage.xml
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+*.egg
+*.whl
+
+# direnv / envrc
+.direnv/
+.envrc
+
+# Editor swap/backup files
+*~
+*.swp
+*.swo
+.fleet/
