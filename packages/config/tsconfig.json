@@ -5,7 +5,7 @@
     "rootDir": "src",
     "declaration": true
   },
-  "include": ["src/**/*.ts", "flags.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "build"]
 }
 

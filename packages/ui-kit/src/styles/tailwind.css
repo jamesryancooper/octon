@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+
+@theme {
+  --background: 255 255 255;
+  --foreground: 17 24 39;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+}
+
+:root {
+  color-scheme: light;
+  --background: 255 255 255;
+  --foreground: 17 24 39;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: 17 24 39;
+  --foreground: 241 245 249;
+}
+
+/* Base styles to align Radix primitives */
+body {
+  background-color: rgb(var(--background));
+  color: rgb(var(--foreground));
+}
+
+

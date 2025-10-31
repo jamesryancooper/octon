@@ -16,12 +16,23 @@
     "test": "node -e \"console.log('apps/docs test placeholder')\""
   },
   "dependencies": {
+    "@astrojs/react": "^3.6.0",
     "@astrojs/starlight": "^0.36.1",
-    "astro": "^5.15.2"
+    "@harmony/config": "workspace:*",
+    "@harmony/ui-kit": "workspace:*",
+    "astro": "^5.15.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.7.5",
     "@astrojs/check": "^0.9.5",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "postcss-preset-env": "^10.4.0",
+    "tailwindcss": "^4.1.16",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "typescript": "^5.9.3"
   }
 }

@@ -78,6 +78,7 @@ export function listFlags(): Readonly<Record<FlagName, boolean>> {
     result[flag] = defaults[flag];
   });
 
-  return result as const;
+  return result as Readonly<Record<FlagName, boolean>>;
 }
+
 

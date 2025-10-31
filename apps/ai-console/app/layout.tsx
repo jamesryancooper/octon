@@ -1,3 +1,5 @@
+import '@harmony/ui-kit/dist/ui.css';
+
 import React from 'react';
 import type { Metadata } from 'next';
 
@@ -10,11 +12,21 @@ export default function RootLayout({
   children
 }: {
   children: React.ReactNode;
-}): JSX.Element {
+}): React.ReactElement {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning style={{ fontFamily: 'system-ui, sans-serif', margin: 24 }}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body
+        style={{
+          minHeight: '100vh',
+          backgroundColor: 'rgb(var(--background))',
+          color: 'rgb(var(--foreground))',
+          fontFamily:
+            "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+          WebkitFontSmoothing: 'antialiased',
+          MozOsxFontSmoothing: 'grayscale'
+        }}
+      >
+        <div style={{ padding: '2rem 1.5rem', maxWidth: '72rem', margin: '0 auto' }}>{children}</div>
       </body>
     </html>
   );

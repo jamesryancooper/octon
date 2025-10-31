@@ -6,6 +6,7 @@ import type { StarlightUserConfig } from '@astrojs/starlight/types';
 const starlightConfig: StarlightUserConfig = {
   title: 'Harmony Docs',
   description: 'Guides, architecture, and references for the Harmony monorepo.',
+  customCss: ['/src/styles/tailwind.css'],
   sidebar: [
     {
       label: 'Getting Started',

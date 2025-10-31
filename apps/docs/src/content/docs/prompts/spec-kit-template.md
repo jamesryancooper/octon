@@ -40,7 +40,7 @@ description: Prompt scaffold for generating Spec Kit one-pagers with harmony-spe
 - Mitigations/tests:
 
 ## Rollout & Flags
-- Feature flags (see `@config/flags`)
+- Feature flags (see `@harmony/config`)
 - Migration/rollback plan (promote prior Vercel preview)
 
 ## Telemetry & Ops

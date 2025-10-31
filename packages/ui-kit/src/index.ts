@@ -1,4 +1,5 @@
-export function UIButton(): void {
-  // placeholder for UI component library
-}
+export { default as Button } from './components/button.js';
+export type { ButtonProps } from './components/button.js';
+
+export { cn } from './lib/cn.js';
 

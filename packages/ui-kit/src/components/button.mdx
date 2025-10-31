@@ -1,0 +1,19 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/blocks';
+import * as Stories from './button.stories';
+
+<Meta of={Stories} />
+
+# Button
+
+`Button` is the primary action control in Harmony surfaces. Variants map to semantic intent and
+inherit theme tokens via Tailwind presets.
+
+<Canvas>
+  <Story id="components-button--default" />
+</Canvas>
+
+## Props
+
+<Controls of={Stories.Default} />
+
+

@@ -1,18 +1,36 @@
 ---
+import '../styles/tailwind.css';
+import GetStartedButton from '../components/islands/get-started-button';
 ---
 
-<html lang="en">
+<html lang="en" class="bg-background text-foreground">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Harmony Web • Astro</title>
   </head>
-  <body>
-    <main>
-      <h1>Welcome to Astro</h1>
-      <p>apps/web is now powered by Astro.</p>
+  <body class="antialiased">
+    <main class="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-6 py-16">
+      <header class="grid gap-3">
+        <span class="text-sm uppercase tracking-widest text-black/60">Harmony</span>
+        <h1 class="text-4xl font-semibold tracking-tight">Lean engineering for shipping with confidence.</h1>
+        <p class="text-lg text-black/70">
+          This marketing surface is built with Astro 5. React components from <code>@harmony/ui-kit</code>
+          are embedded via isolated islands—no shared React context across boundaries.
+        </p>
+      </header>
+
+      <GetStartedButton client:idle href="/docs" label="View documentation" />
+
+      <section class="grid gap-4 rounded-[var(--radius-md)] border border-black/10 bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-medium">Why islands?</h2>
+        <p class="text-sm text-black/70">
+          Astro keeps the marketing shell fast while React powers targeted interactivity. Each island owns
+          its own state—hydrate only what you need, and keep cross-island communication via fetch or
+          events instead of shared context.
+        </p>
+      </section>
     </main>
   </body>
-  
 </html>
 

@@ -6,7 +6,7 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 
 import { log, withTrace } from './log';
-import { listFlags } from '@config/flags';
+import { listFlags } from '@harmony/config';
 import { HealthAdapter } from '@adapters/src/index';
 
 const DEFAULT_PORT = 3000;

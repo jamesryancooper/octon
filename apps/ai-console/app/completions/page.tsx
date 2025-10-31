@@ -1,13 +1,15 @@
 'use client';
 
 import React from 'react';
+import { Button } from '@harmony/ui-kit';
+
 import generateCompletion from '../../actions/generate-completion.action';
 
 type FormState =
   | { pending: false; result?: string; tokens?: number; error?: string }
   | { pending: true; result?: string; tokens?: number; error?: string };
 
-export default function CompletionsPage(): JSX.Element {
+export default function CompletionsPage(): React.ReactElement {
   const [state, formAction] = React.useActionState(
     async (prev: FormState, formData: FormData): Promise<FormState> => {
       const prompt = String(formData.get('prompt') || '');
@@ -36,25 +38,52 @@ export default function CompletionsPage(): JSX.Element {
   );
 
   return (
-    <main style={{ display: 'grid', gap: 16, maxWidth: 760 }}>
-      <h1>Completions</h1>
-      <form action={formAction} style={{ display: 'grid', gap: 12 }}>
-        <textarea name="prompt" rows={6} placeholder="Enter a prompt..." required />
-        <div style={{ display: 'flex', gap: 12 }}>
-          <input name="model" placeholder="Model (optional)" />
-          <input name="temperature" type="number" step={0.1} min={0} max={2} placeholder="0.7" />
-          <input name="maxTokens" type="number" min={1} max={8192} placeholder="512" />
+    <main className="grid max-w-3xl gap-6">
+      <h1 className="text-2xl font-semibold tracking-tight">Completions</h1>
+      <form action={formAction} className="grid gap-4">
+        <textarea
+          name="prompt"
+          rows={6}
+          placeholder="Enter a prompt..."
+          required
+          className="w-full rounded-[var(--radius-md)] border border-black/10 bg-white p-4 shadow-sm focus:border-black focus:outline-none"
+        />
+        <div className="grid gap-3 md:grid-cols-3">
+          <input
+            name="model"
+            placeholder="Model (optional)"
+            className="rounded-[var(--radius-md)] border border-black/10 bg-white px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+          />
+          <input
+            name="temperature"
+            type="number"
+            step={0.1}
+            min={0}
+            max={2}
+            placeholder="0.7"
+            className="rounded-[var(--radius-md)] border border-black/10 bg-white px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+          />
+          <input
+            name="maxTokens"
+            type="number"
+            min={1}
+            max={8192}
+            placeholder="512"
+            className="rounded-[var(--radius-md)] border border-black/10 bg-white px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+          />
         </div>
-        <button type="submit" disabled={state.pending}>
+        <Button type="submit" disabled={state.pending} className="justify-self-start">
           {state.pending ? 'Generating…' : 'Generate'}
-        </button>
+        </Button>
       </form>
-      {state.error && <p style={{ color: 'crimson' }}>{state.error}</p>}
+      {state.error && <p className="text-red-600">{state.error}</p>}
       {state.result && (
-        <section>
-          <h2>Output</h2>
-          <pre>{state.result}</pre>
-          {!!state.tokens && <small>Tokens: {state.tokens}</small>}
+        <section className="grid gap-3 rounded-[var(--radius-md)] border border-black/10 bg-white p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-medium">Output</h2>
+            {!!state.tokens && <span className="text-sm text-black/60">Tokens: {state.tokens}</span>}
+          </div>
+          <pre className="whitespace-pre-wrap text-sm text-black/80">{state.result}</pre>
         </section>
       )}
     </main>

@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import type { AstroIntegration } from 'astro';
 import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
 import starlight from '@astrojs/starlight';
 
 import starlightConfig from './starlight.config';
@@ -58,6 +59,6 @@ const harmonyOpenApiIntegration = (): AstroIntegration => {
  */
 export default defineConfig({
   site: 'https://docs.example.com',
-  integrations: [starlight(starlightConfig), harmonyOpenApiIntegration()],
+  integrations: [react(), starlight(starlightConfig), harmonyOpenApiIntegration()],
 });
 

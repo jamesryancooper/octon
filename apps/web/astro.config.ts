@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
 
 // https://docs.astro.build/reference/configuration-reference/
 export default defineConfig({
-  // Keep defaults for a minimal setup.
+  integrations: [react()]
 });
 
