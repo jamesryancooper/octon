@@ -1,0 +1,46 @@
+name: ADR Auto-Prompt on Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  prompt:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post ADR prompt comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const isHighRisk = /Risk class:\s*High/i.test(pr.body || '') || /Risk:\s*High/i.test(pr.body || '') || (pr.labels || []).some(l => /high[- ]risk/i.test(l.name));
+            const lines = [];
+            lines.push('### ADR Prompt');
+            lines.push('Please capture the decision as an ADR. Suggested path:');
+            lines.push('');
+            lines.push('`docs/handbook/documentation-standards/template/docs/specs/feature-name/adr-0001.md`');
+            lines.push('');
+            lines.push('Copy the template and include:');
+            lines.push('- Context: link this PR and Preview URL');
+            lines.push('- Decision & Alternatives');
+            lines.push('- Consequences & Rollback plan');
+            lines.push('- Flags: name, owner, expiry, rollout');
+            if (isHighRisk) {
+              lines.push('- Traces: link representative trace(s) for the changed flow');
+            }
+            lines.push('');
+            lines.push('References: Harmony DoS/HITL, SLOs, and threat model link.');
+            const body = lines.join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              body
+            });
+
+

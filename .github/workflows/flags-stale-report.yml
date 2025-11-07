@@ -1,0 +1,63 @@
+name: Flags Stale Report
+
+on:
+  schedule:
+    - cron: '0 9 * * 1' # Mondays at 09:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate flags stale report
+        run: |
+          node scripts/flags-stale-report.js | tee flags-stale-console.md
+
+      - name: Create or update issue when stale/missing
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const core = require('@actions/core');
+            const report = JSON.parse(fs.readFileSync('flags-stale-report.json','utf8'));
+            const body = fs.readFileSync('flags-stale-summary.md','utf8');
+            if ((report.missingCount + report.staleCount + report.warnCount) === 0) {
+              core.info('No stale or missing metadata found.');
+              return;
+            }
+            const title = 'Stale Flags Report';
+            const { data: issues } = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${title}" state:open`
+            });
+            if (issues.total_count > 0) {
+              const issue = issues.items[0];
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['maintenance','flags']
+              });
+            }
+
+
