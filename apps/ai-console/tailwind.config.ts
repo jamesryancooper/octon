@@ -7,7 +7,7 @@ const config: Config = {
   content: [
     './app/**/*.{ts,tsx,js,jsx}',
     './actions/**/*.{ts,tsx,js,jsx}',
-    '../../packages/ui-kit/src/**/*.{ts,tsx}'
+    '../../packages/ui/src/**/*.{ts,tsx}'
   ]
 };
 

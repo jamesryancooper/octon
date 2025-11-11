@@ -1,0 +1,71 @@
+version: 1
+suite: Harmony-AIToolkit-Implementation-Validation
+description: >
+  Runs three applied assessments (Harmony, AI-Toolkit, Implementation Guide) with immediate
+  in-place edits when misalignments are found. If fully aligned, each step declares "no updates"
+  and stops. Steps are independent but should be run in sequence.
+
+defaults:
+  runner:
+    model: gpt-5-thinking
+    temperature: 0.2
+    max_tokens: 8000
+  io:
+    apply_edits: true            # if false, actions.edit will be ignored
+    backup_before_edit: true     # write *.bak alongside the original before editing
+    diff_comment_in_pr: true     # optional: if running in CI against a PR
+  stop_conditions:
+    on_no_update: true
+    on_successful_update: true
+
+steps:
+  - id: harmony-methodology-check
+    name: Harmony Methodology — Applied Assessment
+    target:
+      document_path: docs/handbook/harmony/README.md     # <-- adjust to your path if different
+    output_mode: apply_or_declare
+    no_update_phrase: "No updates required. The Harmony methodology is fully aligned and systemically sound."
+    stop_instruction: "If alignment is confirmed or corrections are complete, stop all processing and end execution."
+    prompt_path: .prompts/assessment-suite/methodology-assessment.md
+
+    actions:
+      - type: analyze
+      - type: edit_when_needed
+      - type: declare_no_update_when_aligned
+
+  - id: ai-toolkit-check
+    name: AI-Toolkit — System Alignment & Optimization
+    depends_on: [harmony-methodology-check]
+    target:
+      document_path: docs/handbook/ai-toolkit/README.md  # <-- adjust to your path if different
+    output_mode: apply_or_declare
+    no_update_phrase: "No updates required. The AI-Toolkit is fully aligned with Harmony’s methodology."
+    stop_instruction: "If alignment is confirmed or updates are complete, stop all processing and end execution."
+    prompt_path: .prompts/assessment-suite/toolkit-assessment.md
+
+    actions:
+      - type: analyze
+      - type: edit_when_needed
+      - type: declare_no_update_when_aligned
+
+  - id: implementation-guide-check
+    name: Implementation Guide — SpecKit + PlanKit(BMAD) Integration Alignment
+    depends_on: [ai-toolkit-check]
+    target:
+      document_path: docs/handbook/implementation/implementation-guide.md  # e.g., /mnt/data/implementation-guide.md
+    output_mode: apply_or_declare
+    no_update_phrase: "No updates required. The Implementation Guide is fully aligned with the Harmony Methodology and the AI-Toolkit."
+    stop_instruction: "Once alignment is confirmed or updates are complete, stop all processing and end execution."
+    prompt_path: .prompts/assessment-suite/implementation-guide-assessment.md
+
+    actions:
+      - type: analyze
+      - type: edit_when_needed
+      - type: declare_no_update_when_aligned
+
+# Optional: post-run behavior
+post_run:
+  summarize_results: true
+  require_all_steps_to_pass: false
+  notes: >
+    If any step applies edits, consider re-running downstream steps to validate cross-document consistency.

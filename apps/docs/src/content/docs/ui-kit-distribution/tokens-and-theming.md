@@ -18,7 +18,7 @@ Package exposes:
 UI Kit consumes variables in recipes:
 
 ```css
-/* packages/ui-kit/src/styles/button.css (excerpt) */
+/* packages/ui/src/styles/button.css (excerpt) */
 @layer components {
   .btn--primary { @apply bg-[var(--brand)] text-white; }
 }

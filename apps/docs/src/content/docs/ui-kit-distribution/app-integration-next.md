@@ -1,13 +1,13 @@
 ---
 title: Next.js App Integration (No Tailwind)
-description: Import precompiled CSS from @harmony/ui-kit, add app overrides and micro-utilities, and use CSS Modules for page specifics.
+description: Import precompiled CSS from @harmony/ui, add app overrides and micro-utilities, and use CSS Modules for page specifics.
 ---
 
 ## Import UI Kit CSS and app overrides
 
 ```ts
 // app/layout.tsx
-import '@harmony/ui-kit/dist/ui.css'
+import '@harmony/ui/dist/ui.css'
 import './styles/app.css'
 ```
 
@@ -71,7 +71,7 @@ export function Hero() {
 ```js
 // next.config.js
 module.exports = {
-  transpilePackages: ['@harmony/ui-kit'],
+  transpilePackages: ['@harmony/ui'],
 }
 ```
 

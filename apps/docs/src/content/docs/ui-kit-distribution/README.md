@@ -1,11 +1,11 @@
 ---
 title: UI Kit Distribution Model
-description: Ship @harmony/ui-kit as precompiled CSS; apps import CSS (no Tailwind) and theme via CSS variables. Works across multiple apps with Turborepo + Next.js (App Router).
+description: Ship @harmony/ui as precompiled CSS; apps import CSS (no Tailwind) and theme via CSS variables. Works across multiple apps with Turborepo + Next.js (App Router).
 ---
 
 ## Overview
 
-This distribution model confines Tailwind to the design system package `@harmony/ui-kit`, compiles styles to prebuilt CSS (for example, `dist/ui.css` and split CSS entries), and has apps import the compiled CSS directly. Apps do not run Tailwind. They theme at runtime via CSS variables and compose pages using a tiny set of micro-utilities plus CSS Modules.
+This distribution model confines Tailwind to the design system package `@harmony/ui`, compiles styles to prebuilt CSS (for example, `dist/ui.css` and split CSS entries), and has apps import the compiled CSS directly. Apps do not run Tailwind. They theme at runtime via CSS variables and compose pages using a tiny set of micro-utilities plus CSS Modules.
 
 ### Why this model
 
@@ -24,7 +24,7 @@ This distribution model confines Tailwind to the design system package `@harmony
 
 ```mermaid
 flowchart TD
-  subgraph UI_Kit_Package[@harmony/ui-kit]
+  subgraph UI_Kit_Package[@harmony/ui]
     A[Tailwind source (RSC-friendly CSS)
       + optional @harmony/tokens] --> B[Tailwind + PostCSS build]
     B --> C[dist/ui.css]
@@ -45,7 +45,7 @@ flowchart TD
 
 ```ts
 // app/layout.tsx
-import '@harmony/ui-kit/dist/ui.css'
+import '@harmony/ui/dist/ui.css'
 import './styles/app.css'
 ```
 
@@ -84,7 +84,7 @@ import './styles/app.css'
 
 ```js
 // next.config.js
-module.exports = { transpilePackages: ['@harmony/ui-kit'] }
+module.exports = { transpilePackages: ['@harmony/ui'] }
 ```
 
 4) Ensure the UI Kit builds before the app in your Turborepo pipeline:
@@ -94,18 +94,18 @@ module.exports = { transpilePackages: ['@harmony/ui-kit'] }
 {
   "pipeline": {
     "build": { "dependsOn": ["^build"] },
-    "dev":   { "dependsOn": ["@harmony/ui-kit#build"] }
+    "dev":   { "dependsOn": ["@harmony/ui#build"] }
   }
 }
 ```
 
 ## CSS Layers and overrides
 
-`@harmony/ui-kit` compiles CSS into `@layer base, components, utilities`. Your app-level CSS should come after and can define its own `@layer` blocks. Because layer order is explicit, app rules can override DS defaults without `!important`.
+`@harmony/ui` compiles CSS into `@layer base, components, utilities`. Your app-level CSS should come after and can define its own `@layer` blocks. Because layer order is explicit, app rules can override DS defaults without `!important`.
 
 ## Where to go next
 
 - Architecture and ownership boundaries → `architecture.md`
-- Authoring components in the UI Kit → `ui-kit-authoring.md`
+- Authoring components in the UI Kit → `ui-authoring.md`
 - App integration with Next (no Tailwind) → `app-integration-next.md`
 - Tokens and theming strategies → `tokens-and-theming.md`

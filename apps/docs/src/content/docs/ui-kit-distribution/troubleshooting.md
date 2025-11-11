@@ -1,13 +1,13 @@
 ---
 title: Troubleshooting
-description: Common issues and fixes when consuming @harmony/ui-kit as precompiled CSS in Next apps.
+description: Common issues and fixes when consuming @harmony/ui as precompiled CSS in Next apps.
 ---
 
 ## Styles don’t apply
 
-- Ensure `@harmony/ui-kit/dist/ui.css` is imported before `./styles/app.css`.
+- Ensure `@harmony/ui/dist/ui.css` is imported before `./styles/app.css`.
 - Verify the UI Kit build ran and outputs exist (`dist/ui.css`, `dist/css/*`).
-- Confirm Turborepo dependency: app `dev/build` depends on `@harmony/ui-kit#build`.
+- Confirm Turborepo dependency: app `dev/build` depends on `@harmony/ui#build`.
 
 ## Overrides not winning
 

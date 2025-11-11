@@ -30,7 +30,7 @@ repo/
     domain/         # core business logic
     adapters/       # db, http clients
     contracts/      # OpenAPI/JSON Schemas, Pact files
-    ui-kit/         # shared React UI
+    ui/         # shared React UI
   infra/
     ci/             # GH Actions workflows (CodeQL/Semgrep/SBOM/etc.)
     otel/           # OpenTelemetry config

@@ -15,7 +15,7 @@
       "@domain/*": ["packages/domain/src/*"],
       "@adapters/*": ["packages/adapters/src/*"],
       "@contracts/*": ["packages/contracts/*"],
-      "@ui/*": ["packages/ui-kit/src/*"]
+      "@ui/*": ["packages/ui/src/*"]
     }
   }
 }

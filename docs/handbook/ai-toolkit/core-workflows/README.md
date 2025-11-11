@@ -4,6 +4,6 @@ Do the work (docs, code, stack, retrieval)
 
 ## Kits
 
-- [Dockit](./dockit.md)
-- [DevKit](./devkit.md)
-- [StackKit](./stackkit.md)
+- [Dockit](./dockit/guide.md)
+- [DevKit](./devkit/guide.md)
+- [StackKit](./stackkit/guide.md)

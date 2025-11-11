@@ -15,7 +15,7 @@ export default [
         { type: 'adapters', pattern: 'packages/adapters/**' },
         { type: 'contracts', pattern: 'packages/contracts/**' },
         { type: 'config', pattern: 'packages/config/**' },
-        { type: 'ui', pattern: 'packages/ui-kit/**' },
+        { type: 'ui', pattern: 'packages/ui/**' },
         { type: 'app', pattern: 'apps/**' }
       ]
     },

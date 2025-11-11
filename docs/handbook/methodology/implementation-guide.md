@@ -1,34 +1,46 @@
 ---
-title: Lean AI-Accelerated Methodology Implementation Guide
-description: Detailed playbook for wiring Harmony’s BMAD-focused methodology, tooling, and governance into a Turborepo + Vercel stack.
+title: Harmony Lean AI-Accelerated Methodology Implementation Guide
+description: Detailed playbook for wiring Harmony’s Spec‑First (via SpecKit `speckit` wrapper for GitHub’s Spec Kit) + Agentic agile (via PlanKit `plankit` wrapper for BMAD) methodology, tooling, and governance into a Turborepo + Vercel stack.
 ---
 
-Below is a **BMAD v6–focused implementation guide** that shows exactly what you can wire into BMAD today, what needs a thin custom module/agent/workflow, and what should stay in CI/Vercel. I also give you a runnable **SDD sidecar** (spec‑driven development loop) that replicates Spec Kit semantics **without installing Spec Kit**, hands off to **BMM** for PRD/Architecture/Stories, and fits a **Turborepo + Vercel** monorepo.
+Below is a Harmony‑aligned implementation guide that shows exactly what you can wire up today, what needs a thin wrapper/kit, and what should stay in CI/Vercel. This guide aligns with the Harmony Methodology and the AI‑Toolkit. Our approach:
 
-> **Sources** used for concrete behavior, commands, and integration details are cited inline where they matter most (Turborepo cache, Vercel previews/promote & flags, SLO/error budgets, OpenTelemetry for Next.js, OWASP ASVS & NIST SSDF, BMAD v6 alpha module layout & BMB workflow path, etc.). ([Turborepo][1])
+- Wrap GitHub’s Spec Kit via our SpecKit (`speckit`) wrapper for Spec‑First flows and publishing.
+- Wrap BMAD via PlanKit (our `plankit` kit) for ADRs and planning/BMAD story generation.
+
+This removes duplication, keeps us on the official GitHub’s Spec Kit semantics, and isolates BMAD API churn behind PlanKit.
+
+> Terminology note: “SpecKit” refers to our AI‑Toolkit kit (code `speckit`) that wraps GitHub’s Spec Kit. Mentions of the upstream tool explicitly use “GitHub’s Spec Kit”.
+> **Sources** used for concrete behavior, commands, and integration details are cited inline where they matter most (Turborepo cache, Vercel previews/promote & flags, SLO/error budgets, OpenTelemetry for Next.js, OWASP ASVS & NIST SSDF, BMAD v6 alpha notes, plus AI‑Toolkit kit mappings). ([Turborepo][1])
 
 ---
 
 ## 1) Executive Summary
 
-**Decision.** Implement the Spec Kit loop **inside BMAD** as a **separate “SDD” sidecar module** that orchestrates:
-`specify → plan → tasks → analyze`, writes artifacts under `docs/specs/<feature>/…`, then **hands off to BMM** to generate **PRD → Architecture → Stories**. Keeping SDD separate isolates churn from the evolving **BMM v6 workflows**, while still using BMAD’s module conventions and the **BMB builder** to standardize agents. (BMB `create-agent` lives at `src/modules/bmb/workflows/create-agent/` in v6‑alpha.) ([GitHub][2])
+**Decision.** Use AI‑Toolkit kits:
 
-**Why separate (not merged with BMM)?**
+- SpecKit (`speckit`) wraps GitHub’s Spec Kit for `specify → clarify → plan → tasks → analyze` and publishing via Dockit. Artifacts live under `docs/specs/<feature>/…` (or GitHub’s Spec Kit defaults).
+- PlanKit (`plankit`) wraps BMAD to generate ADRs and a BMAD plan/story from the validated SpecKit outputs.
 
-- **API stability & upgrade safety.** BMM v6 is active and evolving; issues like *solution‑architecture workflow changes* indicate ongoing adjustments. SDD as a sidecar preserves your internal templates and gates even if BMM’s workflow names/params change. ([GitHub][3])
-- **Spec-first rigor.** The sidecar makes SDD artifacts **first-class** (spec, risks, security, SRE, plan, tasks, analysis), validated by **thin BMAD workflows** and **CLI scripts** before BMM consumes them.
+This keeps Spec semantics authoritative (from GitHub’s Spec Kit) and makes BMAD usage stable behind a single kit boundary (PlanKit).
+
+**Why wrappers?**
+
+- **Upgrade safety.** BMAD v6 is active and evolving; encapsulating BMAD behind PlanKit shields calling sites from workflow/param churn. ([GitHub][3])
+- **Spec‑first integrity.** We rely on GitHub’s Spec Kit instead of re‑implementing it; SpecKit adds validation, structure, and publishing only.
+- **Harmony alignment.** Clean handoff: `SpecKit → PlanKit → AgentKit/TestKit/PolicyKit`, matching the Methodology and AI‑Toolkit READMEs.
 
 **Integration surface.**
 
-- **BMAD Core + BMM + BMB** supply the foundation (agents, workflows). Project installs BMAD v6 alpha (`npx bmad-method@6.0.0-beta.0 install`, Node 24+ per repo guidance). We keep SDD custom workflows in `src/modules/sdd`. ([GitHub][4])
+- **Kits:** `speckit` (SpecKit kit; wraps GitHub’s Spec Kit) and `plankit` (BMAD wrapper), located under `packages/kits/*`. Contracts live under `packages/contracts/**` (e.g., `/v1/speckit/*` operations).
+- **BMAD & agents:** Continue to use BMAD and BMB internally; PlanKit calls BMAD. If you need new personas, use BMB’s builder (`create-agent`). ([GitHub][2])
 - **Monorepo & CI/CD:** Turborepo for **pipelines/remote cache**, Vercel for **branch previews & guarded promote to production**, **feature flags** using Vercel Flags SDK + Edge Config (or your provider), and **OpenTelemetry** via `@vercel/otel`. ([Turborepo][1])
 
 **Reliability & Security guardrails baked in.**
 
 - **SRE**: SLIs/SLOs/error budgets & postmortems per Google SRE workbook guidance. The SRE module produces `docs/sre/<feature>/…` and gates merges when error budgets would be exceeded. ([Google SRE][5])
-- **DevSecOps**: CI gates include CodeQL, Semgrep, Gitleaks, SBOM (CycloneDX via `cyclonedx-node-npm` or Syft), OpenAPI lint (Spectral), Schemathesis fuzzing for APIs. ([GitHub Docs][6])
-- **Framework mappings**: OWASP ASVS (v4.0.3; note that 5.0 has released/RC—template accounts for both), NIST SSDF SP 800‑218, and STRIDE micro‑threat models per feature. ([GitHub][7])
+- **DevSecOps**: CI gates include CodeQL, Semgrep, Gitleaks, SBOM (**Syft → SPDX preferred; CycloneDX optional**), OpenAPI lint (Spectral), OpenAPI diff (oasdiff), and Schemathesis fuzzing for APIs. ([GitHub Docs][6])
+- **Framework mappings**: OWASP ASVS v5 (default; v4.0.3 for legacy cross-reference), NIST SSDF SP 800‑218, and STRIDE micro‑threat models per feature. ([GitHub][7])
 
 **Expected impact.**
 
@@ -38,12 +50,13 @@ Below is a **BMAD v6–focused implementation guide** that shows exactly what yo
 
 ---
 
-## 2) Overview table — **Native vs Custom vs External**
+## 2) Overview table — **Kits vs BMAD vs External**
 
 | Method element / Lifecycle node              | Classification              | What/Where                                                                                                                                        |
 | -------------------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **BMAD agents/workflows (BMM/BMB)**          | **Native (BMAD v6 alpha)**  | `bmad/bmm` (method workflows), `bmad/bmb` (builder, e.g., `create-agent`) in repo. Use CLI `bmad-method`. ([GitHub][4])                           |
-| **SDD sidecar** (Spec Kit loop replica)      | **Custom BMAD**             | `src/modules/sdd/…` with workflows `specify/plan/tasks/analyze` that write to `docs/specs/<feature>/…` and call BMM.                              |
+| **Spec‑First (GitHub’s Spec Kit via SpecKit)** | **AI‑Toolkit (SpecKit)**    | `speckit` wrapper around GitHub’s Spec Kit; CLI/HTTP/MCP ops (contracts in `packages/contracts/**`) for `init`, `validate`, `render`, `diagram`.   |
+| **Plan/ADRs (BMAD)**                         | **AI‑Toolkit (PlanKit)**    | `plankit` wraps BMAD to produce ADRs and BMAD plans/stories from SpecKit outputs.                                                                 |
+| **BMAD agents/workflows (BMM/BMB)**          | **Native (BMAD v6 alpha)**  | Use BMM and BMB internally; PlanKit calls BMAD. `bmad/bmb` builder (e.g., `create-agent`). ([GitHub][4])                                         |
 | **SRE module** (SLOs, runbooks, postmortems) | **Custom BMAD**             | `src/modules/sre/…` with workflows `sre:define/validate/postmortem` → `docs/sre/<feature>/…`. References Google SRE. ([Google SRE][5])            |
 | **Security module** (ASVS/SSDF/STRIDE)       | **Custom BMAD**             | `src/modules/sec/…` with `sec:threat-model/asvs-map/validate` → `docs/security/<feature>/…`. ASVS v4.0.3 + v5.0 note, SSDF 800‑218. ([GitHub][7]) |
 | **QA module** (test strategy/contracts)      | **Custom BMAD**             | `src/modules/qa/…` with `qa:strategy/contracts/validate` → `docs/tests/<feature>/…`. Pact, Schemathesis, Playwright. ([Pact Docs][11])            |
@@ -52,8 +65,8 @@ Below is a **BMAD v6–focused implementation guide** that shows exactly what yo
 | **Twelve‑Factor / Hexagonal enforcement**    | **Custom BMAD + External**  | Encoded as **check files** + CI checks; structure enforced in repo layout and simple validations. 12‑Factor reference. ([12factor][12])           |
 | **Monorepo + Turborepo**                     | **External (tooling)**      | `turbo.json` pipelines, remote cache with Vercel; CI uses cache. ([Turborepo][1])                                                                 |
 | **Vercel previews & promote**                | **External**                | PR preview per branch; `vercel promote` for guarded prod. Feature flags via Vercel Flags SDK. ([Vercel][13])                                      |
-| **OpenTelemetry**                            | **External (+ small code)** | Next.js OTel guide and `@vercel/otel` to enable traces/metrics. ([Next.js][14])                                                                   |
-| **Security scans, SBOM**                     | **External (CI)**           | CodeQL, Semgrep, Gitleaks, CycloneDX/Syft. ([GitHub Docs][6])                                                                                     |
+| **OpenTelemetry + Observability**            | **External (+ ObservaKit)** | Bootstrap Node OTel via `infra/otel/instrumentation.ts` (repo) and record ObservaKit spans/logs; link `trace_id` in PRs. ([Next.js][14])         |
+| **Security scans, SBOM**                     | **External (CI)**           | CodeQL, Semgrep, Gitleaks, **Syft/SPDX (preferred)** or CycloneDX. ([GitHub Docs][6])                                                             |
 
 ---
 
@@ -61,74 +74,79 @@ Below is a **BMAD v6–focused implementation guide** that shows exactly what yo
 
 ```mermaid
 flowchart LR
-  A[Spec (SDD) + ADR] --> B[Shape & Scope Cuts]
-  B --> C[BMAD Story (context packets + agent plan + AC)]
+  A[Spec (GitHub’s Spec Kit via SpecKit) + ADR stub] --> B[Shape & Scope Cuts]
+  B --> C[PlanKit (BMAD plan + ADR)]
   C --> D[Dev in Cursor (human checkpoints)]
-  D --> E[PR -> Vercel Preview (feature-flagged)]
+  D --> E[PR -> Vercel Preview (feature-flagged; ObservaKit trace linked)]
   E --> F[CI Gates: lint/type/test/scan/contract/SBOM]
   F -->|all green| G[Merge to Trunk]
-  G --> H[Auto Deploy to Preview/Prod (guarded)]
+  G --> H["Auto Deploy to Preview; Manual Promote to Prod (guarded)"]
   H --> I[Operate: SLOs, alerts, OTel, logs]
   I --> J[Learn: Postmortem & ADR updates]
   J -->|feedback| A
 ```
 
-**Gates legend:**
+**Gates legend and runtime/caching defaults:**
 
-- **S‑1** Spec coherence, **P‑1** BMM alignment, **S‑2** Coverage (security/perf/tests), **I‑1** Plan saved, **I‑2** Post‑build drift.
+- **S‑1** Spec coherence (SpecKit validated), **P‑1** PlanKit/BMAD alignment, **S‑2** Coverage (security/perf/tests), **I‑1** Plan saved, **I‑2** Post‑build drift.
+- Next.js 15+/16: default `fetch`/GET handlers are `no-store`. Opt into caching explicitly (`force-static`, `revalidate`) with stable cache keys and record them in run records.
+- Bundling & cold starts (Next.js 15/16): use bundling controls to externalize heavy packages from Edge surfaces; keep heavy/stateful work on Node/Serverless. Measure cold‑start and bundle deltas with ObservaKit spans/metrics before and after changes; only adopt bundling tweaks that materially reduce latency without raising complexity.
+- Evaluate feature flags server‑side. Use Edge selectively (flags/headers); keep heavy/long‑running work in Node/serverless; schedule non‑blocking side‑effects via `next/after`.
 
-> *Where you see `bmad` below, use `npx bmad-method@6.0.0-beta.0 …` (Node 24+) as recommended in v6 alpha docs.* ([GitHub][4])
+> When BMAD is used under PlanKit, follow BMAD’s Node/version guidance (v6 alpha currently recommends Node 24+). ([GitHub][4])
 
-### A — Spec (SDD) + ADR intake
+### A — Spec (GitHub’s Spec Kit via SpecKit) + ADR intake
 
-- **BMAD mgmt**: **Custom BMAD** (SDD sidecar).
-- **Modules/Workflows**: `src/modules/sdd/workflows/specify.yaml`
+- **Mgmt**: **AI‑Toolkit (SpecKit)**.
 - **Inputs → Outputs**:
 
   - In: intent/idea (issue), constraints.
-  - Out: `docs/specs/<feature>/spec.md`, `risk.md` (STRIDE), `security.md` (ASVS/SSDF mapping), `sre.md` (SLIs/SLOs), `plan.md`, `adr.md`. (ASVS/SSDF per OWASP/NIST.) ([GitHub][7])
-- **Commands & hooks**: `npm run sdd:specify -- --feature <name>` → wraps `bmad run sdd:specify`.
+  - Out: `docs/specs/<feature>/spec.md` and related GitHub’s Spec Kit docs; ADR is created in the next stage by PlanKit. (ASVS/SSDF per OWASP/NIST.) ([GitHub][7])
+- **Commands & hooks**: `speckit init …` to author; `speckit validate …` to ensure structure; `speckit render …` to publish. See `docs/handbook/ai-toolkit/README.md` (SpecKit + PlanKit sections) and docs/handbook/ai-toolkit/planning-and-orchestration/speckit/guide.md for wrapper details and contracts.
 - **Human checkpoint**: Driver & Navigator confirm problem, scope, non‑functionals.
-- **Integrations**: None yet.
-- **Gate**: **S‑1** passes when all SDD templates exist & minimal completeness checklist passes.
+- **Integrations**: Open an ObservaKit trace at spec start and persist the `trace_id` for downstream linkage.
+- **Gate**: **S‑1** passes when SpecKit validation succeeds and required fields are present.
 
 ### B — Shape & Scope cuts
 
-- **BMAD mgmt**: **Custom BMAD** (`sdd:plan`), optional BMM shape workflow if you enable it later.
-- **Workflows**: `src/modules/sdd/workflows/plan.yaml`.
+- **Mgmt**: **AI‑Toolkit (SpecKit)** for clarify/plan/tasks, or keep shaping lightweight in the spec.
 - **Outputs**: `docs/specs/<feature>/plan.md` (hexagonal plan; ports/adapters), updated `security.md` (ASVS), `sre.md` budgets.
-- **Command**: `npm run sdd:plan -- --feature <name>`.
+- **Command**: `speckit plan …` (optional) or update plan.md manually as part of SpecKit flow.
 - **Human**: Approve scope cuts.
 - **Gate**: **I‑1** (plan saved & signed).
 
-### C — BMAD Story (context packets + agent plan + AC)
+### C — Plan & Acceptance Criteria (PlanKit → BMAD)
 
-- **BMAD mgmt**: **Native + Custom** — SDD hands off to **BMM**.
-- **Workflows**: `bmm:prd`, `bmm:architecture`, `bmm:stories` (names abstracted; wire via wrapper scripts that read SDD files).
-- **Outputs**: `docs/implementation/<feature>.md`, `docs/alignment/<feature>.md`, `docs/stories/<feature>/story.md`.
-- **Command**: `npm run bmm:stories -- --feature <name>` (wrapper calls BMAD run). (BMB `create-agent` available if you need a new agent persona.) ([GitHub][2])
-- **Human**: Verify ACs & security/perf AC embedded.
-- **Gate**: **P‑1** (BMM alignment: PRD ↔ spec/plan tie-out).
+- **Mgmt**: **AI‑Toolkit (PlanKit)** wraps BMAD.
+- **Workflows**: PlanKit reads SpecKit outputs and emits ADR + BMAD plan/story.
+- **Outputs**: `docs/implementation/<feature>.md`, `docs/alignment/<feature>.md`, `docs/stories/<feature>/story.md`, plus `plan.json` if you persist the machine‑readable plan.
+- **Command**: `plankit plan --spec docs/specs/<feature>/spec.md --out plan.json`. (BMB `create-agent` available if you need a new agent persona.) ([GitHub][2])
+- **Human**: Verify ACs & security/perf AC embedded; confirm AI determinism plan (pinned provider/model/version, temperature ≤ 0.3, prompt hash, golden tests).
+- **Gate**: **P‑1** (PlanKit/BMAD alignment: ADR/plan ↔ spec/plan tie‑out).
 
 ### D — Dev in Cursor (guided, HITL)
 
 - **BMAD mgmt**: **Custom BMAD** *policy files* + **Cursor rules**.
-- **Artifacts**: `.cursorrules` seeds prompts with SDD + gates; Cursor **Commands** for “spec‑to‑code”, “threat‑model”, “generate tests”. ([Cursor][15])
-- **Command**: Cursor custom command triggers SDD/BMM scripts; or run `npm run sdd:*` directly.
-- **Human**: Approve agent plans & diffs; license‑safe suggestion check (ORT or license‑checker). ([OSS Review Toolkit][16])
-- **Gate**: **S‑2** pre‑merge checks stubbed locally (lint/type/units/contracts).
+- **Artifacts**: `.cursorrules` seeds prompts with SpecKit + gates; Cursor **Commands** for “spec‑to‑code”, “threat‑model”, “generate tests”. ([Cursor][15])
+- **Command**: Cursor custom command triggers SpecKit/PlanKit flows; or run `speckit …` / `plankit …` directly.
+- **Human**: Approve agent plans & diffs; license‑safe suggestion check (ORT or license‑checker); record AI provenance (provider/model/version/params, prompt hash) and attach ObservaKit `trace_id` to PR. ([OSS Review Toolkit][16])
+- **Determinism**: Follow AI‑Toolkit Deterministic Operation Policy — pin AI config, add golden tests guarded by JSON‑Schema, avoid new deps unless they materially reduce complexity.
+- **Agentic execution boundary (no‑silent‑apply)**: Use **AgentKit** (with **ToolKit** wrappers) to produce proposed diffs, tests, and artifacts under `runs/**`. Local/dev runs default to `--dry-run`; mutating operations MUST use idempotency keys; GuardKit redacts at write/log boundaries. Required spans: `kit.agentkit.execute`, `kit.toolkit.call.*`. Run records include `run.id`, `stage=implement`, and determinism fields (`prompt_hash`, `idempotencyKey`). See “Alignment addenda (AI‑Toolkit v0.2)” for observability/run‑record details. AgentKit orchestration can be implemented atop frameworks like LangGraph while remaining runtime‑agnostic; keep orchestration choices hidden behind the kit boundary and preserve the no‑silent‑apply constraint.
+- **Gate**: **S‑2** pre‑merge checks stubbed locally (lint/type/units/contracts); PolicyKit/EvalKit dry‑run pass.
 
 ### E — PR → Vercel Preview (feature‑flagged)
 
 - **BMAD mgmt**: **External** (GitHub + Vercel).
-- **Artifacts**: PR template comment prints preview URL; feature flags via **Vercel Flags SDK** (or provider). ([Vercel][13])
+- **Artifacts**: PR template comment prints preview URL; feature flags via **Vercel Flags SDK** (or provider). Attach `trace_id` and (if agents used) AI provenance. ([Vercel][13])
 - **Command**: Open PR; Vercel auto‑creates preview per branch/PR. ([Vercel][13])
+- **Governance**: PRs SHOULD use the **PatchKit PR Template** (see AI‑Toolkit) and include risk class, rollback/flag plan, ObservaKit `trace_id`, and pinned AI configuration (provider/model/version/params + prompt hash when applicable).
 - **Gate**: **S‑2** CI gates must pass.
 
 ### F — CI Gates
 
 - **BMAD mgmt**: **External** (GitHub Actions).
-- **Checks**: ESLint/TS strict; unit + **contract tests** (Pact), **OpenAPI lint** (Spectral), **Schemathesis** API fuzz, **CodeQL/Semgrep/Gitleaks**, **SBOM** (CycloneDX/Syft), **bundle budgets** (Size‑Limit). ([Pact Docs][11])
+- **Checks**: ESLint/TS strict; unit + **contract tests** (Pact), **OpenAPI lint** (Spectral), **OpenAPI diff** (oasdiff), **Schemathesis** API fuzz, **CodeQL/Semgrep/Gitleaks**, **SBOM** (**Syft/SPDX preferred**), **Dependency Review (licenses)**, **bundle budgets** (Size‑Limit), and preview smoke (Playwright or `scripts/smoke-check.sh`). Enforce observability presence on changed flows (required spans/logs with `trace_id`). **PolicyKit** rulesets are fail‑closed; **EvalKit/TestKit** gates must pass or block the PR; **ComplianceKit** evidence is required for High‑risk changes. ([Pact Docs][11])
+- **PR body governance**: Validate **PatchKit PR Template** fields (risk rubric, flags/rollback, ObservaKit trace URL/ID, AI determinism config). Validate kit run records against the AI‑Toolkit run‑record schema and fail if required determinism/observability fields are missing.
 - **Gate**: **S‑2** passes when required checks are ✅.
 
 ### G — Merge to Trunk
@@ -140,17 +158,18 @@ flowchart LR
 
 - **BMAD mgmt**: **External** (Vercel).
 - **Artifacts**: Promote preview → production (`vercel promote`); instant rollback available. ([Vercel][17])
-- **Gate**: “Flagged on” via Vercel flags; canary checklist.
+- **Gate**: “Flagged on” via Vercel flags; canary checklist; start a short watch window and link ObservaKit trace in PR notes; rollback path validated. When error budgets are burning (SLO burn‑rate), freeze risky merges/promotions until budgets recover.
+- **Production policy**: In Vercel, disable **Auto Production Deployments** so Production is updated exclusively via `vercel promote <preview-url>`. This enforces Harmony’s guarded promote/rollback discipline and preserves a deterministic rollback path.
 
 ### I — Operate (SLOs, alerts, OTel)
 
 - **BMAD mgmt**: **Custom BMAD (sre)** + **External** (observability).
-- **Artifacts**: `docs/sre/<feature>/slo.md`, `runbook.md`, OTel traces via `@vercel/otel` + Next.js instrumentation guide. ([Vercel][10])
+- **Artifacts**: `docs/sre/<feature>/slo.md`, `runbook.md`, OTel traces via `infra/otel/instrumentation.ts` (Node SDK) and Next.js instrumentation; ObservaKit records spans/logs. ([Vercel][10])
 - **Gate**: Error budget burn check; auto‑open incident.
 
 ### J — Learn (postmortem, ADR)
 
-- **BMAD mgmt**: **Custom BMAD (sre)** + **SDD analyze**.
+- **BMAD mgmt**: **Custom BMAD (sre)** + optional **SpecKit** analyze.
 - **Artifacts**: `docs/sre/<feature>/postmortem.md`, updated `adr.md`, `docs/specs/<feature>/analysis.md`.
 - **Gate**: **I‑2** (post‑build drift documented & back‑propagated).
 
@@ -165,7 +184,7 @@ flowchart LR
 /apps/api/src/app      # use-cases/services
 /apps/api/src/ports    # interfaces (ports)
 /apps/api/src/adapters # http/db/queue (adapters)
-/docs/specs/<feature>/ # SDD artifacts (sidecar writes here)
+/docs/specs/<feature>/ # GitHub’s Spec Kit artifacts (via SpecKit)
 /docs/implementation/<feature>.md
 /docs/alignment/<feature>.md
 /docs/sre/<feature>/{slo.md,runbook.md,postmortem-template.md}
@@ -173,9 +192,11 @@ flowchart LR
 /docs/tests/<feature>/{strategy.md,contracts.md,e2e.md}
 /docs/performance/<feature>/{budgets.md,load-test.md}
 /docs/devops/<feature>/{pipeline.md,infra.md}
-/src/modules/sdd/{README.md,workflows/*.yaml,agents/*.md,templates/*}
+/packages/contracts/**  # HTTP/MCP contracts for SpecKit wrapper (and other kits)
+/packages/kits/speckit/**  # SpecKit kit implementation (`speckit`) — wraps GitHub’s Spec Kit
+/packages/kits/plankit/**  # PlanKit implementation (wrapper around BMAD)
 /src/modules/{sre,sec,qa,perf,devops}/(README.md,workflows/*.yaml,agents/*.md)
-/scripts/{sdd.ts,bmm-handlers.ts,validate-gates.ts}
+/scripts/{speckit.ts,plan.ts,validate-gates.ts}
 /.cursorrules
 turbo.json
 tsconfig.base.json
@@ -184,6 +205,7 @@ apps/api/vercel.json
 .github/workflows/ci.yml
 .github/workflows/security.yml
 .spectral.yaml
+scripts/flags-stale-report.js
 ```
 
 ---
@@ -195,18 +217,53 @@ apps/api/vercel.json
 ```json
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
-    "lint": { "outputs": [] },
-    "typecheck": { "outputs": [] },
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**"]
+  "globalDependencies": ["pnpm-lock.yaml", "package.json", "tsconfig.base.json"],
+  "tasks": {
+    "lint": {
+      "dependsOn": ["^lint"],
+      "outputs": ["reports/eslint-*.json"]
     },
-    "test": { "outputs": ["coverage/**"] },
-    "check:contracts": { "outputs": [] },
-    "check:openapi": { "outputs": [] },
-    "check:sbom": { "outputs": ["sbom/**"] },
-    "check:bundle": { "outputs": [] }
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "outputs": ["tsconfig.tsbuildinfo"]
+    },
+    "build": {
+      "dependsOn": ["^build", "typecheck"],
+      "outputs": [
+        "dist/**",
+        "build/**",
+        ".next/**",
+        ".vercel/output/**",
+        "!.next/cache/**"
+      ],
+      "env": ["NODE_ENV", "NEXT_PUBLIC_*"]
+    },
+    "test": {
+      "dependsOn": ["^test", "build"],
+      "outputs": ["coverage/**", "reports/junit-*.xml"]
+    },
+    "contracts:check": {
+      "dependsOn": ["^build"],
+      "inputs": ["packages/contracts/**"],
+      "outputs": ["packages/contracts/reports/**"],
+      "env": ["OPENAPI_BASE_REF", "PACT_BROKER_BASE_URL"]
+    },
+    "sbom": {
+      "outputs": ["sbom/**"]
+    },
+    "secrets:scan": {
+      "cache": false
+    },
+    "preview:vercel": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "env": [
+        "VERCEL_ORG_ID",
+        "VERCEL_PROJECT_ID",
+        "VERCEL_TOKEN",
+        "NEXT_PUBLIC_*"
+      ]
+    }
   }
 }
 ```
@@ -231,101 +288,90 @@ apps/api/vercel.json
 
 > Vercel **cron** uses `vercel.json` with `crons` array; **promote** previews to production with dashboard or CLI `vercel promote`. Use **Flags SDK** for feature‑gated rollout. ([Vercel][18])
 
-### 5.3 Next.js / Node **OpenTelemetry** (if you add a web app) – `apps/api/src/instrumentation.ts`
+### 5.3 Node / Next.js **OpenTelemetry & ObservaKit** – `infra/otel/instrumentation.ts` (bootstrap) and app usage
 
 ```ts
-import { registerOTel } from "@vercel/otel";
-export function register() {
-  registerOTel({ serviceName: "api", instrumentationConfig: {} });
-}
+// infra/otel/instrumentation.ts is already provided in this repo.
+// Usage in a Node entrypoint (e.g., apps/api/src/server.ts)
+import initializeInstrumentation from '@infra/otel/instrumentation';
+await initializeInstrumentation(); // before creating HTTP server
 ```
 
-> `@vercel/otel` provides a simplified setup; Next.js docs cover OTel instrumentation. ([Vercel][10])
+> Bootstrap via `infra/otel/instrumentation.ts` (Node SDK). For Next.js App Router, see `apps/ai-console/instrumentation.ts` which guards Node runtime and dynamically imports the initializer. Attach `trace_id` to PRs for changed flows. ([Vercel][10])
+>
+> ObservaKit alignment (required telemetry fields):
+>
+> - Resource attributes: `service.name` (e.g., `harmony.kit.<kitName>` or app service), `service.version`, `deployment.environment`.
+> - Span attributes on lifecycle/action spans: `run.id`, `kit.name`, `kit.version`, `stage`, `git.sha`, `repo`, `branch` (and AI params when applicable).
+> - Keep attribute cardinality low and never log secrets/PII; pair with GuardKit redaction.
+>
+> Security headers (Next.js surfaces): enforce CSP and core headers via `next-safe-middleware` for SSR; prefer platform-level headers on Vercel for SSG and avoid duplicative/conflicting policies.
 
-### 5.4 SDD sidecar — **module manifests**
+### 5.3b Next.js 15/16 bundling controls (cold starts)
 
-`src/modules/sdd/README.md` (excerpt)
+- Prefer Node/Serverless for heavy/stateful dependencies; keep Edge handlers read‑mostly and small.
+- Use Next.js bundling controls to externalize large packages from Edge bundles; avoid shipping heavy crypto/ORM/tooling on the Edge.
+- Measure impact with ObservaKit: emit spans/metrics for cold start and bundle deltas; only adopt changes that materially reduce latency without adding operational complexity.
+- Document bundling choices in the PR using the PatchKit template (perf deltas + rollback plan).
 
-```md
-# SDD (Spec-Driven Development) Sidecar
-Workflows: `specify` → `plan` → `tasks` → `analyze`
-Writes to: `docs/specs/<feature>/…`
-Hand-off: Calls BMM to generate PRD/Architecture/Stories
+### 5.3c ObservaKit offline/local‑first telemetry (buffered export)
+
+- When `--dry-run` is set or the OTLP endpoint is unavailable, buffer spans/logs to `runs/{timestamp}-{kit}-{runId}/otel-buffer.ndjson` and flush later.
+- Still include required resource attributes and span/log fields; never serialize secrets/PII (GuardKit redaction at write/log boundaries).
+- Add a buffered‑export summary event to the parent lifecycle span upon later flush to preserve provenance.
+
+### 5.3a Feature Flags (server‑side) — provider registration and resolution
+
+```ts
+// packages/config/src/flags.ts (already in repo)
+// Register your provider during app startup (API and SSR surfaces).
+import { setFlagProvider, isFlagEnabled, listFlags } from '@harmony/config';
+import { vercelFlagsProvider } from './your-vercel-flags-adapter'; // implement adapter to FlagProvider
+
+setFlagProvider(vercelFlagsProvider);
+
+// Resolution order: Provider → Env (HARMONY_FLAG_*) → Defaults.
+// Evaluate on the server (Node/Edge). Do not expose secrets or provider internals to clients.
+const enabled = isFlagEnabled('enableNewNav');
+const snapshot = listFlags();
 ```
 
-`src/modules/sdd/workflows/specify.yaml`
+> Keep flags short‑lived; run `scripts/flags-stale-report.js` weekly and remove stale flags. Default OFF; enable for internal cohorts first.
 
-```yaml
-name: sdd:specify
-inputs:
-  feature: string
-steps:
-  - run: node ./scripts/sdd.js specify --feature ${{ inputs.feature }}
-outputs:
-  - docs/specs/${{ inputs.feature }}/spec.md
-  - docs/specs/${{ inputs.feature }}/risk.md
-  - docs/specs/${{ inputs.feature }}/security.md
-  - docs/specs/${{ inputs.feature }}/sre.md
-  - docs/specs/${{ inputs.feature }}/plan.md
-  - docs/specs/${{ inputs.feature }}/adr.md
-gate: S-1
+### 5.4 SpecKit + PlanKit — minimal usage and artifacts
+
+SpecKit (`speckit`) wraps GitHub’s Spec Kit and provides consistent CLI/HTTP/MCP operations; PlanKit wraps BMAD to produce ADRs and plans from the validated SpecKit outputs.
+
+Examples
+
+```bash
+# Author and scaffold a new spec
+speckit init --feature oauth-billing --owner you@org --out docs/specs/oauth-billing
+
+# Validate required artifacts and structure
+speckit validate --path docs/specs/oauth-billing
+
+# Render/publish docs via Dockit
+speckit render --path docs/specs/oauth-billing --publish
+
+# Create ADR and BMAD plan/story from the spec
+plankit plan --spec docs/specs/oauth-billing/spec.md --out plan.json
 ```
 
-`src/modules/sdd/workflows/plan.yaml`
+See `docs/handbook/ai-toolkit/README.md` (SpecKit + PlanKit sections) for wrapper details.
 
-```yaml
-name: sdd:plan
-inputs:
-  feature: string
-steps:
-  - run: node ./scripts/sdd.js plan --feature ${{ inputs.feature }}
-outputs:
-  - docs/specs/${{ inputs.feature }}/plan.md
-  - docs/specs/${{ inputs.feature }}/security.md
-  - docs/specs/${{ inputs.feature }}/sre.md
-gate: I-1
-```
+### 5.4a Contracts Registry & Kit Metadata (normative)
 
-`src/modules/sdd/workflows/tasks.yaml`
+- Place kit input/output JSON‑Schemas under `packages/contracts/schemas/kits/` with versioned names:
+  - `speckit.inputs.v1.json`, `speckit.outputs.v1.json`
+  - `plankit.inputs.v1.json`, `plankit.outputs.v1.json`
+- Add kit metadata files under each kit, conforming to AI‑Toolkit KitMetadata v0.2:
+  - `packages/kits/<kit>/metadata/kit.metadata.json` declaring `pillars`, `lifecycleStages`, `inputsSchema`, `outputsSchema`, required spans, determinism/HITL/idempotency.
+- Update `packages/contracts/src/index.ts` (barrel) to re‑export schemas for programmatic consumers; include schema diffs in PRs when interfaces change.
+- Validate kit run records against the AI‑Toolkit run‑record schema (v0.2). Runs MUST include: `runId`, `kit`, `stage`, `risk`, `telemetry.trace_id`, determinism (`prompt_hash`, `idempotencyKey`, optional `cacheKey`), `status`, and `summary`.
+- Enforce OpenAPI diffs (oasdiff) for API changes and JSON‑Schema diffs for kit contracts as CI gates.
 
-```yaml
-name: sdd:tasks
-inputs:
-  feature: string
-steps:
-  - run: node ./scripts/sdd.js tasks --feature ${{ inputs.feature }}
-outputs:
-  - docs/specs/${{ inputs.feature }}/tasks.md
-  - docs/tests/${{ inputs.feature }}/strategy.md
-  - docs/tests/${{ inputs.feature }}/contracts.md
-gate: S-2
-```
-
-`src/modules/sdd/workflows/analyze.yaml`
-
-```yaml
-name: sdd:analyze
-inputs:
-  feature: string
-steps:
-  - run: node ./scripts/sdd.js analyze --feature ${{ inputs.feature }}
-  - run: node ./scripts/validate-gates.js --feature ${{ inputs.feature }}
-outputs:
-  - docs/specs/${{ inputs.feature }}/analysis.md
-gate: I-2
-```
-
-**Agent instructions** (BMB-compatible), e.g., `src/modules/sdd/agents/spec-writer.md`
-
-```md
-# Role: Spec Writer
-Goal: From a short problem statement & constraints, produce {spec.md, risk.md (STRIDE), security.md (ASVS/SSDF), sre.md, plan.md, adr.md}
-Constraints: Follow Hexagonal boundaries; 12-Factor; Monolith-first; OWASP ASVS; NIST SSDF; STRIDE; SLO templates.
-```
-
-> BMB `create-agent` workflow path in v6‑alpha repo confirms agent scaffolding pattern. ([GitHub][2])
-
-### 5.5 SDD templates (under `docs/specs/<feature>/`)
+### 5.5 Spec templates (under `docs/specs/<feature>/`)
 
 `spec.md`
 
@@ -425,15 +471,29 @@ jobs:
       - name: Unit tests
         run: pnpm turbo run test
       - name: Contract tests (Pact)
-        run: pnpm turbo run check:contracts
+        run: pnpm turbo run contracts:check
       - name: OpenAPI lint (Spectral)
-        run: npx spectral lint ./apps/api/openapi.yaml
+        run: npx spectral lint ./packages/contracts/openapi.yaml
+      - name: OpenAPI diff (oasdiff)
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          npx @redocly/oasdiff breaking-changes "origin/${{ github.base_ref }}:packages/contracts/openapi.yaml" "packages/contracts/openapi.yaml"
       - name: API fuzz (Schemathesis)
-        run: pipx run schemathesis run ./apps/api/openapi.yaml --checks all --hypothesis-derandomize
+        run: pipx run schemathesis run ./packages/contracts/openapi.yaml --checks all --hypothesis-derandomize
       - name: Bundle budgets
         run: npx size-limit
-      - name: Generate SBOM (CycloneDX)
-        run: npx @cyclonedx/cyclonedx-npm --output-file sbom/bom.json
+      - name: Generate SBOM (Syft → SPDX)
+        run: syft dir:. -o spdx-json=sbom/sbom.spdx.json
+      - name: Dependency Review (licenses)
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          allow-licenses: Apache-2.0,BSD-2-Clause,BSD-3-Clause,MIT
+      - name: Preview smoke (if PREVIEW_URL provided by Vercel App or prior step)
+        if: env.PREVIEW_URL != ''
+        env:
+          PREVIEW_URL: ${{ env.PREVIEW_URL }}
+        run: bash scripts/smoke-check.sh "$PREVIEW_URL"
 ```
 
 `.github/workflows/security.yml` (excerpt)
@@ -460,7 +520,7 @@ jobs:
 
 ### 5.7 **Monorepo skeleton** (TypeScript; monolith‑first; Hexagonal)
 
-```
+```plaintext
 /apps/api
   /src/core            # domain entities, value objects
   /src/app             # use-cases/services orchestrating core
@@ -498,45 +558,43 @@ jobs:
 
 ## 6) Command cookbook (copy‑paste)
 
-**Day‑0 bootstrap (empty repo)**
+**Day‑0 bootstrap (empty repo)**:
 
 ```bash
 # 1) Init monorepo
 pnpm dlx create-turbo@latest my-saas && cd my-saas
-# 2) Node 24.x recommended for BMAD v6 alpha
-node -v  # ensure >=24
-# 3) Install BMAD v6 alpha core
-npx bmad-method@6.0.0-beta.0 install
-# 4) Add SDD sidecar & modules (copy /src/modules/*, /scripts/*, templates)
+# 2) Ensure Node 20+ (24.x if using BMAD v6 alpha under PlanKit)
+node -v
+# 3) Add kits and contracts (repo-specific)
+#    - SpecKit wrapper contracts live in packages/contracts/**
+#    - Implement speckit/plankit or vendor as needed
 git add .
-# 5) First SDD run
-npm run sdd:specify -- --feature oauth-billing
-npm run sdd:plan -- --feature oauth-billing
-npm run sdd:tasks -- --feature oauth-billing
-# 6) Generate PRD/Architecture/Stories with BMM via wrappers
-npm run bmm:stories -- --feature oauth-billing
-# 7) Push branch -> PR -> Vercel Preview
+# 4) First Spec run (GitHub’s Spec Kit via SpecKit)
+speckit init --feature oauth-billing --out docs/specs/oauth-billing
+speckit validate --path docs/specs/oauth-billing
+# 5) Plan/ADRs (PlanKit → BMAD)
+plankit plan --spec docs/specs/oauth-billing/spec.md --out plan.json
+# 6) Push branch -> PR -> Vercel Preview
 git checkout -b feat/oauth-billing && git commit -am "feat: init oauth billing" && git push -u origin HEAD
-# 8) CI gates -> merge -> guarded promote
+# 7) CI gates -> merge -> guarded promote
 # in Vercel dashboard or CLI:
 vercel promote  # promote preview to production
 ```
 
-> BMAD v6 alpha repo shows install via `npx bmad-method …`; PR previews & promote are built‑in to Vercel. ([GitHub][4])
+> PR previews & promote are built‑in to Vercel. If using BMAD v6 alpha under PlanKit, follow BMAD’s Node/version guidance. ([GitHub][4])
 
 **Useful npm scripts (add to root `package.json`):**
 
 ```json
 {
   "scripts": {
-    "sdd:specify": "node ./scripts/sdd.js specify",
-    "sdd:plan": "node ./scripts/sdd.js plan",
-    "sdd:tasks": "node ./scripts/sdd.js tasks",
-    "sdd:analyze": "node ./scripts/sdd.js analyze",
-    "bmm:stories": "node ./scripts/bmm-handlers.js stories",
-    "check:openapi": "spectral lint ./apps/api/openapi.yaml",
+    "speckit:init": "speckit init",
+    "speckit:validate": "speckit validate",
+    "speckit:render": "speckit render",
+    "plankit:plan": "plankit plan",
+    "check:openapi": "spectral lint ./packages/contracts/openapi.yaml",
     "check:contracts": "pnpm --filter @api test:contracts",
-    "check:sbom": "cyclonedx-npm --output-file sbom/bom.json",
+    "check:sbom": "syft dir:. -o spdx-json=sbom/sbom.spdx.json",
     "check:bundle": "size-limit"
   }
 }
@@ -553,140 +611,58 @@ vercel promote  # promote preview to production
   - **analyze**: after release; record drift, update ADR.
 - **Exit criteria**
 
-  - **S‑1**: `spec.md`, `risk.md`, `security.md`, `sre.md`, `plan.md`, `adr.md` exist; completeness checklist passes.
-  - **P‑1**: BMM PRD/Architecture/Stories align with SDD; AC includes security/perf.
-  - **S‑2**: CI **all green** (lint/type/unit/contract/openapi/schemathesis/size/CodeQL/Semgrep/Gitleaks/SBOM).
+  - **S‑1**: SpecKit artifacts validated; completeness checklist passes.
+  - **P‑1**: PlanKit/BMAD ADR/plan/story align with the Spec; AC includes security/perf and AI determinism (pinned model/params, prompt hash, golden tests).
+  - **S‑2**: CI **all green** (lint/type/unit/contract/openapi lint+diff/schemathesis/size/CodeQL/Semgrep/Gitleaks/SBOM/preview smoke). PolicyKit/EvalKit pass; ObservaKit present on changed flows.
   - **I‑1**: Tasks split to ports/adapters; DOR/DOD present.
   - **I‑2**: Postmortem & ADR updated when incidents occur.
 - **Feature flags**: all user‑visible work behind flags; enable canary checks on preview first. ([Vercel][24])
-- **SLOs & alerts**: maintain SLO files per feature; if **error budget** exhausted, freeze flag rollout until remediation. ([Google SRE][5])
+- **SLOs & alerts**: maintain SLO files per feature; if **error budget** exhausted, freeze flag rollout until remediation; link ObservaKit trace IDs in PRs. ([Google SRE][5])
+
+### CacheKit TTL & Validity Policy (summary)
+
+- Pure fetches with low volatility: TTL ≈ 15 minutes; derived indexes/stores: content‑addressed and invalidated on input hash change; provider metadata: ≈ 24 hours.
+- TTLs must never leak into artifact names or outputs; declare and record stable cache keys in run records when caching is used.
+- Provide `--cache-key` for pure/expensive operations; raise a `CacheIntegrityError` (exit 8) on integrity failures and block in CI.
 
 ---
 
-# SDD sidecar (Spec Kit loop replicated inside BMAD)
+## SpecKit + PlanKit (SpecKit wraps GitHub’s Spec Kit; PlanKit wraps BMAD)
 
-### Module & structure
+### Minimal wiring
 
-```
-src/modules/sdd/
-  README.md
-  workflows/
-    specify.yaml
-    plan.yaml
-    tasks.yaml
-    analyze.yaml
-  agents/
-    spec-writer.md
-    planner.md
-    task-splitter.md
-    analyst.md
-  templates/
-    spec.md
-    risk.md
-    security.md
-    sre.md
-    plan.md
-    tasks.md
-    analysis.md
+```plaintext
+packages/contracts/
+  openapi.yaml             # SpecKit wrapper HTTP contract (/v1/speckit/*)
+packages/kits/
+  speckit/**               # SpecKit kit (`speckit`) — wraps GitHub’s Spec Kit
+  plankit/**               # PlanKit kit (BMAD wrapper)
 scripts/
-  sdd.js
-  bmm-handlers.js
-  validate-gates.js
+  speckit.ts               # thin CLI to call SpecKit (`speckit`), which calls GitHub’s Spec Kit
+  plan.ts                  # thin CLI that calls PlanKit (and PlanKit calls BMAD)
+docs/specs/<feature>/      # SpecKit artifacts
 ```
 
-`src/modules/sdd/README.md` explains inputs/outputs, gates, and **handoff to BMM**.
+### Flows
 
-### Workflows
+- **`speckit init`** → writes: `spec.md`, `risk.md`, `security.md`, optional `data-model.md`, `quickstart.md` → **Gate S‑1** when validated.
+- **`speckit plan/tasks/analyze`** (optional) → updates plan/tasks and post‑build analysis.
+- **`plankit plan`** → generates ADR + BMAD plan/story from the validated SpecKit outputs → **Gate P‑1** when aligned with scope and constraints.
 
-- **`sdd:specify`** → writes: `spec.md`, `risk.md`, `security.md`, `sre.md`, `plan.md`, `adr.md` → **Gate S‑1**.
-- **`sdd:plan`** → updates `plan.md`, `security.md`, `sre.md` (budgets & SLIs) → **Gate I‑1**.
-- **`sdd:tasks`** → `tasks.md`, test strategy/contracts → **Gate S‑2 (local)**.
-- **`sdd:analyze`** → `analysis.md`, post‑build drift → **Gate I‑2**.
+> PlanKit encapsulates BMAD APIs. Keep callers bound to PlanKit so BMAD workflow renames/param shifts don’t leak.
 
-### Handoff to **BMM**
+### Scripts & commands (optional wrappers)
 
-`bmm-handlers.js` reads `docs/specs/<feature>/*` and invokes BMM workflows (via `bmad-method run …`) to produce:
+- Prefer invoking `speckit` and `plankit` directly. If you add local wrappers, keep them thin and declarative; do not re‑implement SpecKit.
 
-- `docs/implementation/<feature>.md` (PRD)
-- `docs/alignment/<feature>.md` (architecture tie-outs)
-- `docs/stories/<feature>/story.md` (context packets, agent plan, AC)
-
-> BMM and BMB layout is present in v6‑alpha branch; use wrapper funcs pending concrete workflow names stabilizing. ([GitHub][4])
-
-### Scripts & commands
-
-`/scripts/sdd.js` (excerpt)
-
-```js
-#!/usr/bin/env node
-import fs from 'node:fs';
-import path from 'node:path';
-
-const feature = process.argv.at(-1).replace('--feature','').trim() || process.env.FEATURE;
-const phase = process.argv[2]; // specify|plan|tasks|analyze
-const base = `docs/specs/${feature}`;
-fs.mkdirSync(base, { recursive: true });
-
-const TPL = (name)=>fs.readFileSync(`src/modules/sdd/templates/${name}`,'utf8');
-
-if (phase === 'specify') {
-  const files = ['spec.md','risk.md','security.md','sre.md','plan.md','tasks.md'];
-  for (const f of files) {
-    const p = path.join(base, f);
-    if (!fs.existsSync(p)) fs.writeFileSync(p, TPL(f));
-  }
-  const adr = path.join(base, 'adr.md');
-  if (!fs.existsSync(adr)) fs.writeFileSync(adr, '# ADR: Initial decision\n');
-  process.exit(0);
-}
-
-if (phase === 'plan') {
-  // mutate plan.md with scope cuts markers if needed...
-  process.exit(0);
-}
-
-if (phase === 'tasks') {
-  // ensure tasks.md exists and has DOR/DOD stubs
-  process.exit(0);
-}
-
-if (phase === 'analyze') {
-  const p = path.join(base, 'analysis.md');
-  if (!fs.existsSync(p)) fs.writeFileSync(p, '# Analysis\nOutcomes, drift, lessons.');
-  process.exit(0);
-}
-```
-
-`/scripts/bmm-handlers.js` (excerpt)
-
-```js
-#!/usr/bin/env node
-import { spawnSync } from 'node:child_process';
-const feature = process.argv.at(-1).replace('--feature','').trim() || process.env.FEATURE;
-const story = process.argv[2]; // "stories"
-spawnSync('npx', ['bmad-method@6.0.0-beta.0', 'run', 'bmm:stories', '--feature', feature], { stdio:'inherit' });
-```
-
-`/scripts/validate-gates.js` (excerpt)
-
-```js
-#!/usr/bin/env node
-import fs from 'fs';
-const feature = process.argv.at(-1).replace('--feature','').trim() || process.env.FEATURE;
-const base = `docs/specs/${feature}`;
-const must = ['spec.md','risk.md','security.md','sre.md','plan.md','tasks.md','analysis.md'];
-for (const f of must) { if (!fs.existsSync(`${base}/${f}`)) { console.error('Missing', f); process.exit(1); } }
-console.log('SDD artifacts present. Gates S-1/I-1/S-2/I-2 satisfied preliminarily.');
-```
-
-### Wiring to BMM & BMB
+### Wiring to PlanKit & BMAD/BMB
 
 - **BMB agent(s):** If you need a new persona (e.g., “Security Architect”), scaffold via `bmb/workflows/create-agent`. ([GitHub][2])
-- **BMM workflows:** wrapper script calls `bmm:prd`, `bmm:architecture`, `bmm:stories` (names are placeholders, wrap them in your repo so you can update once when BMM renames; the wrapper preserves your SDD API).
+- **PlanKit orchestration:** PlanKit wraps BMAD. Keep a thin local CLI/HTTP boundary for PlanKit so callers don’t depend on BMAD’s internal workflow names/params.
 
 ---
 
-## Custom sidecar modules (other methodology areas)
+## Custom modules (other methodology areas)
 
 ### a) **SRE module** (`src/modules/sre/`)
 
@@ -701,7 +677,7 @@ console.log('SDD artifacts present. Gates S-1/I-1/S-2/I-2 satisfied preliminaril
 - **Purpose:** STRIDE + ASVS + SSDF mapping per feature.
 - **Workflows:** `sec:threat-model` → `docs/security/<feature>/stride.md`, `sec:asvs-map` → `asvs.md`, `sec:validate` (ASVS level + SSDF evidence present).
 - **Agent:** `agents/security-engineer.md`.
-- **Refs:** ASVS v4.0.3, 5.0 updates, SSDF SP 800‑218. ([GitHub][7])
+- **Refs:** ASVS v5 (default; v4.0.3 legacy mapping), SSDF SP 800‑218. ([GitHub][7])
 
 ### c) **Quality (QA) module** (`src/modules/qa/`)
 
@@ -723,13 +699,13 @@ console.log('SDD artifacts present. Gates S-1/I-1/S-2/I-2 satisfied preliminaril
 - **Workflows:** `devops:pipeline`, `devops:infra`, `devops:validate`.
 - **Artifacts:** `docs/devops/<feature>/pipeline.md`, `infra.md`.
 
-**Cross‑module integration:** `sdd:analyze` calls each module’s `:validate` to ensure coherence, then hands off to **BMM** for final story generation.
+**Cross‑module integration:** `speckit analyze` (optional) or a simple validate script calls each module’s `:validate` to ensure coherence; PlanKit then updates ADR/plan if needed. Use PolicyKit to enforce fail‑closed gates and ComplianceKit to assemble evidence (eval/policy outcomes, traces, contracts, SBOM).
 
 ---
 
 ## Coverage classification (what runs where)
 
-**Practices & controls**
+**Practices & controls**:
 
 - **XP/TDD/refactor** → **Custom** (Cursor rules + unit test targets).
 - **Kanban flow/WIP** → **Custom** (board policy docs + automation on PR labels).
@@ -737,7 +713,7 @@ console.log('SDD artifacts present. Gates S-1/I-1/S-2/I-2 satisfied preliminaril
 - **SRE (SLI/SLO)** → **Custom** (`sre` module) + **External** (OTel). ([Vercel][10])
 - **OWASP ASVS/NIST SSDF/STRIDE** → **Custom** (`sec` module) + **External** (CI scans). ([GitHub][7])
 - **12‑Factor** → **Custom** (checklist validation + CI) + **External** (Vercel env). ([12factor][12])
-- **Hexagonal** → **Custom** (repo layout + lint rule + SDD templates). ([Alistair Cockburn][20])
+- **Hexagonal** → **Custom** (repo layout + lint rule + Spec templates). ([Alistair Cockburn][20])
 - **Monorepo/Turborepo** → **External** (turbo pipelines, remote cache). ([Turborepo][1])
 
 ---
@@ -749,9 +725,9 @@ console.log('SDD artifacts present. Gates S-1/I-1/S-2/I-2 satisfied preliminaril
 - **Hexagonal boundaries**: add a simple ESLint rule set that forbids adapters importing from adapters, or core depending on adapters; allow only `core <- app <- adapters`.
 - **Gates**:
 
-  - **S‑1** requires existence of SDD files.
-  - **P‑1** requires BMM story to include AC reflecting ASVS/SSDF & perf budgets.
-  - **S‑2** requires all CI checks (lint, types, **Pact**, **Spectral**, **Schemathesis**, **CodeQL**, **Semgrep**, **Gitleaks**, **SBOM**, **Size‑Limit**) to pass. ([GitHub][25])
+  - **S‑1** requires validated SpecKit artifacts (via SpecKit).
+  - **P‑1** requires PlanKit/BMAD plan to include AC reflecting ASVS/SSDF & perf budgets, plus AI determinism (pinned model, low variance, golden tests).
+  - **S‑2** requires all CI checks (lint, types, **Pact**, **Spectral**, **oasdiff**, **Schemathesis**, **CodeQL**, **Semgrep**, **Gitleaks**, **SBOM**, **Size‑Limit**, preview smoke) to pass. ([GitHub][25])
 
 ---
 
@@ -765,7 +741,7 @@ flowchart TD
   C1 --> OA[OpenAPI Lint (Spectral)]
   OA --> FZ[Schemathesis Fuzz]
   FZ --> SZ[Bundle Budgets (Size-Limit)]
-  SZ --> SB[SBOM (CycloneDX/Syft)]
+  SZ --> SB[SBOM (Syft/SPDX)]
   SB --> SC[Security Scans (CodeQL/Semgrep/Gitleaks)]
   SC --> OK[All green?]
   OK -->|yes| MERGE[Merge]
@@ -776,13 +752,14 @@ flowchart TD
 
   - ESLint + Prettier; **TS `--strict`**
   - Unit coverage floor
-  - **Pact** provider/consumer ✅; **Spectral** lint of `openapi.yaml` ✅; **Schemathesis** no new criticals ✅
+  - **Pact** provider/consumer ✅; **Spectral** lint of `openapi.yaml` ✅; **oasdiff** non‑breaking ✅; **Schemathesis** no new criticals ✅
   - **CodeQL**, **Semgrep**, **Gitleaks** → no high/critical
   - **SBOM** produced & uploaded artifact
   - **Size‑Limit** budgets respected
-  - Preview smoke (Playwright) against Vercel preview
+  - Preview smoke (Playwright or `scripts/smoke-check.sh`) against Vercel preview
+  - Observability present on changed flows (span/log with `trace_id` linked in PR)
 
-> Tooling references: Pact/Schemathesis, Spectral, CodeQL/Semgrep/Gitleaks, Size‑Limit, CycloneDX. ([Pact Docs][11])
+> Tooling references: Pact/Schemathesis, Spectral, CodeQL/Semgrep/Gitleaks, Size‑Limit, Syft (SPDX) or CycloneDX. ([Pact Docs][11])
 
 ---
 
@@ -796,43 +773,129 @@ flowchart TD
 
 ## 30/60/90 Adoption plan (high‑level)
 
-- **30 days**: SDD sidecar + QA/security gates (Spectral, Schemathesis, Gitleaks); Vercel previews; Feature flags SDK.
+- **30 days**: SpecKit + PlanKit in place; QA/security gates (Spectral, Schemathesis, Gitleaks); Vercel previews; Feature flags SDK.
 - **60 days**: CodeQL/Semgrep; SBOM flow; OTel basic traces; SLOs for top endpoints.
-- **90 days**: Incident process; postmortems; perf budgets; automated promote/rollback guardrails.
+- **90 days**: Incident process; postmortems; perf budgets; automated promote/rollback guardrails; PolicyKit fail‑closed profiles; ComplianceKit evidence packs.
 
 ---
 
 ## Worked example — “OAuth login + org billing”
 
-1. `npm run sdd:specify -- --feature oauth-billing` → creates `spec.md` (auth flows), `risk.md` (STRIDE on OAuth callback/CSRF), `security.md` (ASVS auth/session controls), `sre.md` (p95 login under 300ms), `plan.md` (ports: AuthPort, BillingPort). ([GitHub][7])
-2. `npm run sdd:plan -- --feature oauth-billing` → scope cuts (passwordless later).
-3. `npm run sdd:tasks -- --feature oauth-billing` → defines contracts: `/api/auth/callback` schema, `/billing/webhook` Pact.
-4. `npm run bmm:stories -- --feature oauth-billing` → produces PRD + stories with AC (flag `auth.oauth`).
-5. Dev in Cursor: use `.cursorrules` snippets “spec‑to‑code”, generate adapters & tests; human approves diffs. ([Cursor][23])
+1. `speckit init --feature oauth-billing --out docs/specs/oauth-billing` → creates `spec.md` (auth flows), `risk.md` (STRIDE on OAuth callback/CSRF), `security.md` (ASVS auth/session controls), optional `data-model.md`, `quickstart.md`. ([GitHub][7])
+2. `speckit validate --path docs/specs/oauth-billing` → structure/required fields validated.
+3. `plankit plan --spec docs/specs/oauth-billing/spec.md --out plan.json` → ADR + BMAD plan/story; define contracts: `/api/auth/callback` schema, `/billing/webhook` Pact.
+4. Dev in Cursor: use `.cursorrules` snippets “spec‑to‑code”, generate adapters & tests; human approves diffs. ([Cursor][23])
 6. Open PR → Vercel preview; Playwright smoke (`/login` happy path); Spectral lint; Schemathesis runs against `openapi.yaml`; SBOM & scans pass. ([Vercel][13])
 7. Merge → `vercel promote` when flag‑on canary looks good; instant rollback if error budget spikes. ([Vercel][17])
 
 ---
 
+## Alignment addenda (AI‑Toolkit v0.2)
+
+### Risk & HITL policy (Harmony default)
+
+| Risk | Required gates | HITL | Flags & rollback |
+| --- | --- | --- | --- |
+| Trivial | Lint, typecheck | Optional reviewer | Not required |
+| Low | + Unit/contract; Policy/Eval pass | One reviewer | Optional flag; rollback note |
+| Medium | + Preview smoke; ObservaKit trace link | Navigator review | Feature flag required; rollback plan |
+| High | + Security + license + SBOM; watch window | Navigator + security | Feature flag required; rollback rehearsed |
+
+Waivers are exceptional; scope/timebox (≤ 7 days) with navigator approval; disallowed for secrets/PII exposure, missing observability/flag/rollback, or active SLO burn.
+
+### Observability & run records (minimal contract)
+
+- Required spans on changed flows and kits: `kit.speckit.specify`, `kit.plankit.plan`, `kit.agentkit.execute`, `kit.toolkit.call.*`, `kit.evalkit.verify`, `kit.policykit.check`, `kit.patchkit.open_pr`.
+- Logs include `trace_id` and `span_id`; attributes keep low cardinality (include `run.id`, `kit.name`, `kit.version`, `stage`, `git.sha`, `repo`, `branch`).
+- Run records (stored under `runs/**`) include: `runId`, `kit`, `stage`, `risk`, `telemetry.trace_id`, determinism (`prompt_hash`, `idempotencyKey`, optional `cacheKey`), `status`, `summary`. Never serialize secrets/PII; GuardKit redacts at write/log boundaries.
+- Resource attributes & log fields MUST follow ObservaKit’s standard: `service.name`, `service.version`, `deployment.environment` as resources; and structured logs with `trace_id`, `span_id`, severity, and summary. Keep attribute cardinality bounded.
+
+### Deterministic operation (short)
+
+1) Pin AI provider/model/version; temperature ≤ 0.3; record prompt hash.  
+2) Validate outputs against JSON‑Schema or contracts; add golden tests for critical prompts.  
+3) Idempotency keys on mutations; Cache keys for pure expensive ops.  
+4) PolicyKit/EvalKit/TestKit gates are fail‑closed; attach outcomes and ObservaKit trace links in PRs.  
+5) License/provenance via Dependency Review; avoid new deps unless materially reducing complexity.
+
+### Node vs Edge & Next.js 15 caching (clarified)
+
+- Defaults for `fetch`/GET handlers are `no-store`. Opt‑in to caching (`force-static`, `revalidate`) only with stable cache keys; record keys in run records.  
+- Evaluate feature flags server‑side; Edge (short, read‑mostly) for flags/headers; heavy or stateful work (AI/indexing/long I/O) in Node/serverless; schedule follow‑ups with `next/after`.
+
+### PolicyKit rulesets (versioned, fail‑closed)
+
+- Ruleset identity and versioning are explicit: `policy.ruleset = <framework>|<profile>@<version>` (e.g., `ASVS@5.0`, `SSDF@1.1`, or `Harmony-Minimal@2025-11-01`).  
+- Default is fail‑closed: any missing evidence or provider error blocks progression with a typed `PolicyViolationError`.  
+- Evidence linking: record `policy.checked[]` IDs (e.g., `ASVS-2.1.1`) and `policy.result` in run records and span attributes.  
+- PatchKit SHOULD render a ruleset summary in PR bodies and require navigator acknowledgement for deviations.
+
+### HITL states & semantics (operational)
+
+- States: `planned` → `requested` → `approved` | `rejected` | `waived`.  
+- Required fields in run records/telemetry:  
+  - `hitl.checkpoint` (`pre-implement`, `pre-merge`, `pre-promote`, `post-promote`)  
+  - `hitl.approver` (handle/email), `hitl.approvedAt` (ISO8601)  
+  - For waivers: `hitl.justification` and PR comment/link  
+- Emit span events: `hitl.requested`, `hitl.approved`, `hitl.rejected`, `hitl.waived` on the parent lifecycle span to preserve auditability.
+
+### Kit exit codes & HTTP mapping (standard v0.2)
+
+- Exit codes:  
+  - `0` Success; `1` Generic failure; `2` Policy violation; `3` Evaluation/test failure; `4` Guard/redaction violation;  
+  - `5` Invalid inputs/schema; `6` Upstream/provider error; `7` Idempotency conflict; `8` Cache integrity error.  
+- HTTP mapping for Route/HTTP wrappers:  
+  - `0`→200; `1`→500; `2`→403/422; `3`→422; `4`→400; `5`→400; `6`→502; `7`→409; `8`→500.  
+- Errors MUST be typed (e.g., `PolicyViolationError`) and logged as structured errors with `error.type`, `error.code`, `trace_id`, `span_id`.
+
+### Kit metadata & contracts registry (harmonized)
+
+- Kits MUST include metadata (`metadata/kit.metadata.json`) conforming to AI‑Toolkit KitMetadata v0.2, declaring `pillars`, `lifecycleStages`, `inputsSchema`, `outputsSchema`, required spans, determinism, safety (HITL), and idempotency.  
+- Contracts live under `packages/contracts` with kit JSON‑Schemas at `packages/contracts/schemas/kits/<kit>.{inputs|outputs}.v<MAJOR>.json`.  
+- Observe semantic versioning: breaking contract changes bump MAJOR and include migration notes; additive changes bump MINOR.  
+- Update `packages/contracts/src/index.ts` (barrel) when schemas change; PatchKit PRs MUST link schema diffs when interfaces are touched.
+
+### Astro (SSG/SSR) integration (guidance)
+
+- Prefer SSG for content‑first surfaces (docs/marketing). For SSR adapters, follow the same caching defaults as Next.js (`no-store` by default; opt‑in with stable cache keys).  
+- Evaluate feature flags server‑side. For SSG, inject flag values at build time or fetch via Edge/API—do not rely on `process.env` in the browser.  
+- Enforce CSP and core security headers at the platform for SSG; use SSR middleware only when necessary. Never expose secrets client‑side.
+
+### Partial Prerendering (PPR) & Streaming
+
+- Opt pages/layouts into PPR selectively to combine static shells with dynamic data behind `Suspense`.  
+- Keep dynamic islands bounded by clear spans; measure TTFB/TTI before/after. Maintain `no-store` defaults unless stability justifies caching with recorded `cacheKey`.
+
+---
+
 # Limits, risks, workarounds
 
-- **BMAD v6 alpha workflow names** may change (active issues indicate ongoing changes). **Workaround:** keep thin wrapper scripts (`bmm-handlers.js`) so calling sites remain stable. ([GitHub][3])
-- **Spec Kit** not installed by decision/constraint — **SDD** replicates semantics with templates and BMAD agents.
-- **OTel exporter/backend** choice is external; use `@vercel/otel` starter then wire to your APM later. ([Vercel][10])
+- **BMAD v6 alpha workflow names** may change (active issues indicate ongoing changes). **Workaround:** keep PlanKit as the boundary so calling sites remain stable. ([GitHub][3])
+- **Spec semantics** come from GitHub’s Spec Kit. Use SpecKit to orchestrate and validate, rather than re‑implementing GitHub’s Spec Kit.
+- **OTel exporter/backend** choice is external; bootstrap via `infra/otel/instrumentation.ts` and wire to your APM later. ([Vercel][10])
 
 ---
 
 # Quick-Start Page (tomorrow morning)
 
 - **Cadence & Roles**: 1‑week cycle; **Driver** / **Navigator** rotate weekly; async daily in PR thread.
-- **Board columns**: **Backlog → SDD:Specify → Plan → Tasks → Dev → PR/Preview → Ready to Merge → Released → Analyze** (WIP: 1 per person; PRs ≤ ~200 LOC).
-- **Spec → BMM flow**: `npm run sdd:specify/plan/tasks` → `npm run bmm:stories`.
-- **CI required checks**: lint, types, unit, Pact, Spectral, Schemathesis, SBOM, CodeQL, Semgrep, Gitleaks, Size‑Limit, Playwright smoke.
+- **Board columns**: **Backlog → Spec (SpecKit) → Plan (PlanKit) → Dev → PR/Preview → Ready to Merge → Released → Analyze** (WIP: 1 per person; PRs ≤ ~200 LOC).
+- **Spec → Plan flow**: `speckit init/validate` → `plankit plan`.
+- **CI required checks**: lint, types, unit, Pact, Spectral, oasdiff, Schemathesis, SBOM, CodeQL, Semgrep, Gitleaks, Size‑Limit, Playwright smoke; ObservaKit trace present on changed flows.
 - **SLOs**: API p95 ≤ 300ms; avail 99.9%; error budget 0.1%/month.
 - **Release behind flag**: define with Vercel Flags SDK; enable on preview; then `vercel promote`. ([Vercel][24])
 - **Rollback**: **Promote** previous preview or use **instant rollback** in Vercel. ([Vercel][9])
-- **Top 10 security/perf checks**: ASVS auth/session, input validation, output encoding, TLS, secrets scan, dep scan & SBOM, OpenAPI lint, contract tests, fuzz, bundle budget. ([GitHub][7])
+- **Top 10 security/perf checks**: ASVS v5 auth/session, input validation, output encoding, TLS, secrets scan, dep scan & SBOM, OpenAPI lint+diff, contract tests, fuzz, bundle budget. ([GitHub][7])
 - **Incident hotline**: page on **error‑budget burn >2%/h**; follow runbook; file **blameless postmortem** same day. ([Google SRE][5])
+
+### Stop‑the‑line triggers (enforced)
+
+- Secret exposure or prohibited data in artifacts/logs → block/rollback; scrub artifacts and rotate credentials as needed.
+- License/provenance violations → block until resolved; document in PR.
+- Security regressions or critical ASVS/STRIDE failures → block; navigator/security review required.
+- SLO burn‑rate breach → freeze risky merges/promotions; rollback if needed.
+- Missing rollback path/feature flag or missing observability on changed flows → block until provided.
+- AI provenance not pinned (provider/model/version/params) when agents were used → block until recorded.
 
 ---
 
@@ -842,7 +905,7 @@ flowchart TD
 - **Turborepo** caching & monorepo on Vercel. ([Turborepo][1])
 - **Vercel** previews/promote/flags/env/OTel. ([Vercel][13])
 - **OpenTelemetry** for Next.js/Node. ([Next.js][14])
-- **ASVS v4.0.3/v5**, **SSDF SP 800‑218**, **STRIDE**. ([GitHub][7])
+- **ASVS v5**, **SSDF SP 800‑218**, **STRIDE**. ([GitHub][7])
 - **SRE** error budgets & SLOs. ([Google SRE][5])
 - **Spectral, Pact, Schemathesis, CodeQL, Semgrep, Gitleaks, SBOM**. ([GitHub][25])
 - **12‑Factor**, **Hexagonal architecture**. ([12factor][12])
@@ -851,7 +914,7 @@ flowchart TD
 
 ### Appendix — Definitions of Ready/Done (abbrev)
 
-- **DOR (Spec)**: all SDD files exist; ASVS/SSDF/STRIDE mapped; SLOs stated.
+- **DOR (Spec)**: GitHub’s Spec Kit artifacts validated (via SpecKit); ASVS/SSDF/STRIDE mapped; SLOs stated.
 - **DOD (Code)**: unit + contracts + Spectral + fuzz + scans + SBOM + bundle budgets + preview smoke all green; flags staged; runbook updated.
 
 ---

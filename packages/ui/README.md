@@ -1,4 +1,4 @@
-# @harmony/ui-kit
+# @harmony/ui
 
 Shared React component library built on **shadcn/ui**, **Radix UI**, and **Tailwind CSS v4**. The
 package is consumed by multiple Harmony apps:
@@ -7,16 +7,16 @@ package is consumed by multiple Harmony apps:
 - `apps/web` (Astro 5) – React islands only
 - `apps/docs` (Astro 5 + Starlight) – React islands only
 
-> The `ui-kit` package must stay framework-agnostic beyond React/Radix. Do **not** import domain or
+> The `ui` package must stay framework-agnostic beyond React/Radix. Do **not** import domain or
 > adapter packages from here.
 
 ## Installation & build
 
 ```bash
 pnpm install
-pnpm --filter @harmony/ui-kit build          # emits dist/index.js + dist/ui.css
-pnpm --filter @harmony/ui-kit storybook      # optional local playground
-pnpm --filter @harmony/ui-kit test           # Vitest + RTL
+pnpm --filter @harmony/ui build          # emits dist/index.js + dist/ui.css
+pnpm --filter @harmony/ui storybook      # optional local playground
+pnpm --filter @harmony/ui test           # Vitest + RTL
 ```
 
 ## Tailwind v4 preset & CSS
@@ -24,7 +24,7 @@ pnpm --filter @harmony/ui-kit test           # Vitest + RTL
 - Consumers that run Tailwind (e.g., Astro apps) should reuse the shared preset exported from
   `@harmony/config/tailwind-preset` plus the PostCSS preset from `@harmony/config/postcss-preset.mjs`.
 - Tailwind content globs **must** include this package so classes are not purged.
-- The Next.js app currently imports the **prebuilt CSS bundle** (`@harmony/ui-kit/dist/ui.css`) instead
+- The Next.js app currently imports the **prebuilt CSS bundle** (`@harmony/ui/dist/ui.css`) instead
   of running Tailwind, due to a known Turbopack ↔ Tailwind v4 / lightningcss issue. See "Tailwind in
   consumers" below for options and guidance.
 
@@ -35,8 +35,8 @@ imports the compiled design-system CSS:
 
 ```tsx
 // app/layout.tsx
-import '@harmony/ui-kit/dist/ui.css';
-import { Button } from '@harmony/ui-kit';
+import '@harmony/ui/dist/ui.css';
+import { Button } from '@harmony/ui';
 
 export default function Page() {
   return (
@@ -54,13 +54,13 @@ and switch the import back to a Tailwind entrypoint.
 
 1. Install the React integration (`@astrojs/react`) and enable it in `astro.config.ts`.
 2. Import Tailwind (or the prebuilt CSS) inside Astro layouts.
-3. Wrap ui-kit components inside **a single island per interactive region** to avoid cross-island
+3. Wrap ui components inside **a single island per interactive region** to avoid cross-island
    context issues:
 
 ```tsx
 // src/components/islands/cta-button.tsx
 'use client';
-import { Button } from '@harmony/ui-kit';
+import { Button } from '@harmony/ui';
 
 export default function CtaButton({ href }: { href: string }) {
   return (
@@ -89,7 +89,7 @@ import CtaButton from '../components/islands/cta-button.tsx';
 ## Tailwind in consumers (Next mitigation & options)
 
 - **Current mitigation (Next.js)**: Tailwind is compiled during the UI kit build, and the app imports
-  `@harmony/ui-kit/dist/ui.css`. This sidesteps the lightningcss native module issue in Turbopack and
+  `@harmony/ui/dist/ui.css`. This sidesteps the lightningcss native module issue in Turbopack and
   keeps SSR/HMR happy.
 
 - **Option A – Tailwind inside the UI kit (default)**
@@ -111,7 +111,7 @@ import CtaButton from '../components/islands/cta-button.tsx';
     }
     ```
 
-    Consumers just import `@harmony/ui-kit/dist/ui.css`.
+    Consumers just import `@harmony/ui/dist/ui.css`.
 
 - **Option B – Theme via CSS variables**
   - Expose tokens from the kit and let apps override them without Tailwind:
@@ -137,7 +137,7 @@ import CtaButton from '../components/islands/cta-button.tsx';
 
   ```tsx
   import s from './CardShell.module.css';
-  import { Card } from '@harmony/ui-kit';
+  import { Card } from '@harmony/ui';
   ```
 
 Recommended path: keep Tailwind authoring inside the UI kit build (Option A), expose CSS variables
@@ -162,7 +162,7 @@ story stabilizes.
    tests for critical behavior.
 3. Keep PRs small: update tokens/configs separately from component changes. Run `pnpm test`,
    `pnpm lint`, and `pnpm build` before pushing.
-4. Document new patterns in `docs/specs/adr-ui-kit-shadcn.md` and update the contributor guide when
+4. Document new patterns in `docs/specs/adr-ui-shadcn.md` and update the contributor guide when
    deviating from the defaults.
 
 Questions? Reach out in the Harmony #ui channel and link your Spec + ADR before shipping changes.

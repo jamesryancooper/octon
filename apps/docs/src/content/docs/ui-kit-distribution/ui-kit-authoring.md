@@ -1,5 +1,5 @@
 ---
-title: Authoring Components in @harmony/ui-kit
+title: Authoring Components in @harmony/ui
 description: Tailwind usage rules inside the kit, file layout, Button example, and accessibility/state conventions.
 ---
 
@@ -12,7 +12,7 @@ description: Tailwind usage rules inside the kit, file layout, Button example, a
 ## File layout (suggested)
 
 ```
-packages/ui-kit/
+packages/ui/
   src/
     components/
       Button.tsx
@@ -38,7 +38,7 @@ packages/ui-kit/
 ## Example: Button built with Tailwind + @apply
 
 ```css
-/* @harmony/ui-kit/src/styles/button.css */
+/* @harmony/ui/src/styles/button.css */
 @layer components {
   .btn { @apply inline-flex items-center justify-center font-semibold rounded-xl px-4 py-2; }
   .btn--primary { @apply bg-[var(--brand)] text-white hover:opacity-90; }
@@ -47,7 +47,7 @@ packages/ui-kit/
 ```
 
 ```tsx
-// @harmony/ui-kit/src/components/Button.tsx
+// @harmony/ui/src/components/Button.tsx
 import clsx from 'clsx'
 
 export function Button({ variant='primary', className, ...props }: { variant?: 'primary' | 'ghost' } & React.ButtonHTMLAttributes<HTMLButtonElement>) {

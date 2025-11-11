@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '@harmony/ui-kit';
+import { Button } from '@harmony/ui';
 
 export default function HomePage(): React.ReactElement {
   return (

@@ -6,7 +6,7 @@ description: Tailwind/PostCSS inside the kit, split CSS entrypoints, package exp
 ## Tailwind and PostCSS (inside the kit)
 
 ```ts
-// packages/ui-kit/tailwind.config.ts
+// packages/ui/tailwind.config.ts
 import type { Config } from 'tailwindcss'
 
 export default {
@@ -25,7 +25,7 @@ export default {
 ```
 
 ```js
-// packages/ui-kit/postcss.config.mjs
+// packages/ui/postcss.config.mjs
 export default {
   plugins: {
     tailwindcss: {},
@@ -48,7 +48,7 @@ Mark CSS as side effects and export CSS entrypoints for tree-shaking:
 
 ```json
 {
-  "name": "@harmony/ui-kit",
+  "name": "@harmony/ui",
   "sideEffects": ["**/*.css"],
   "exports": {
     "./ui.css": "./dist/ui.css",
@@ -67,7 +67,7 @@ Mark CSS as side effects and export CSS entrypoints for tree-shaking:
 ## Build commands (example)
 
 ```json
-// packages/ui-kit/package.json (scripts excerpt)
+// packages/ui/package.json (scripts excerpt)
 {
   "scripts": {
     "build:css": "postcss src/styles/*.css -o dist/ui.css",

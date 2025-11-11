@@ -1,7 +1,7 @@
 import autoprefixer from 'autoprefixer';
 import postcssPresetEnv from 'postcss-preset-env';
 
-// Tailwind processing is disabled for this app; styles come from prebuilt ui-kit CSS.
+// Tailwind processing is disabled for this app; styles come from prebuilt ui CSS.
 export default {
   plugins: [postcssPresetEnv(), autoprefixer()]
 };

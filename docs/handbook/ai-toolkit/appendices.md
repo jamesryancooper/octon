@@ -6,19 +6,19 @@ These appendices are referenced by **Core Comms Guide**, **Agent Layer Guide**, 
 
 ## A) Glossary
 
-* **Agent** — A thin policy that sequences kit operations where judgment is needed.
-* **AgentKit** — The orchestrator implementing agent policies, budgets, and telemetry.
-* **Artifact** — A durable file/object produced/consumed by kits (e.g., indexes, evidence packs).
-* **CloudEvents** — CNCF event envelope used on the event bus.
-* **Comms Stack** — Ports (typed calls), Artifacts (URIs/manifests), Events (CloudEvents).
-* **Hexagonal Architecture** — Ports (core interfaces) + Adapters (HTTP/MCP/etc.).
-* **Idempotency Key** — Caller-provided token allowing safe retries of mutating ops.
-* **Kit** — Deterministic service exposing typed capabilities (the building blocks).
-* **Manifest** — JSON file listing artifact contents, checksums, provenance.
-* **MCP** — Model Context Protocol; adapter exposing kit ops as tools/resources over stdio/wss.
-* **Run ID** — Correlation id for a workflow spanning multiple kits.
-* **SLO** — Service Level Objective; target for latency/availability.
-* **Trace Context** — W3C `traceparent` header propagated across calls/events.
+- **Agent** — A thin policy that sequences kit operations where judgment is needed.
+- **AgentKit** — The orchestrator implementing agent policies, budgets, and telemetry.
+- **Artifact** — A durable file/object produced/consumed by kits (e.g., indexes, evidence packs).
+- **CloudEvents** — CNCF event envelope used on the event bus.
+- **Comms Stack** — Ports (typed calls), Artifacts (URIs/manifests), Events (CloudEvents).
+- **Hexagonal Architecture** — Ports (core interfaces) + Adapters (HTTP/MCP/etc.).
+- **Idempotency Key** — Caller-provided token allowing safe retries of mutating ops.
+- **Kit** — Deterministic service exposing typed capabilities (the building blocks).
+- **Manifest** — JSON file listing artifact contents, checksums, provenance.
+- **MCP** — Model Context Protocol; adapter exposing kit ops as tools/resources over stdio/wss.
+- **Run ID** — Correlation id for a workflow spanning multiple kits.
+- **SLO** — Service Level Objective; target for latency/availability.
+- **Trace Context** — W3C `traceparent` header propagated across calls/events.
 
 ---
 
@@ -26,8 +26,8 @@ These appendices are referenced by **Core Comms Guide**, **Agent Layer Guide**, 
 
 ### B.1 Location & layout
 
-* **Repository:** `schemas/` at repo root or a dedicated `ai-toolkit-schemas` repo.
-* **Structure:**
+- **Repository:** `schemas/` at repo root or a dedicated `ai-toolkit-schemas` repo.
+- **Structure:**
 
 ```text
 schemas/
@@ -45,14 +45,14 @@ schemas/
 
 ### B.2 Versioning & naming
 
-* File name pattern: `<operation>.v<major>.json` (major follows SemVer for breaking changes).
-* Use `$id` and `$schema` fields; include `examples` and `x-deprecated` where applicable.
+- File name pattern: `<operation>.v<major>.json` (major follows SemVer for breaking changes).
+- Use `$id` and `$schema` fields; include `examples` and `x-deprecated` where applicable.
 
 ### B.3 Tooling
 
-* **Validation:** AJV (TS) / pydantic v2 (Py) in CI.
-* **Generation:** typebox/zod (TS) and pydantic models (Py) generated from schemas.
-* **Docs:** auto-render schema docs (e.g., Redocly or custom script) to `/docs/schemas`.
+- **Validation:** AJV (TS) / pydantic v2 (Py) in CI.
+- **Generation:** typebox/zod (TS) and pydantic models (Py) generated from schemas.
+- **Docs:** auto-render schema docs (e.g., Redocly or custom script) to `/docs/schemas`.
 
 ---
 
@@ -60,12 +60,12 @@ schemas/
 
 ### C.1 Per-operation SLOs
 
-* **Availability:** 99.9% monthly (or as defined per kit).
-* **Latency:** p95 ≤ target (e.g., 500 ms for small queries; kit-specific for heavy ops).
-* **Error budget policy:**
+- **Availability:** 99.9% monthly (or as defined per kit).
+- **Latency:** p95 ≤ target (e.g., 500 ms for small queries; kit-specific for heavy ops).
+- **Error budget policy:**
 
-  * 2-window burn-rate alerts (e.g., 2h at 14x, 24h at 6x).
-  * Freeze risky deploys when burn-rate sustained for >30 min.
+  - 2-window burn-rate alerts (e.g., 2h at 14x, 24h at 6x).
+  - Freeze risky deploys when burn-rate sustained for >30 min.
 
 **SLO YAML (example):**
 
@@ -87,8 +87,8 @@ alerts:
 
 ### C.2 Metrics cardinality guardrails
 
-* Dimensions: `kit`, `tool/op`, `caller`, `code`, `region` (bounded sets only).
-* Avoid unbounded labels (e.g., `run_id`) on metrics; put those in logs/traces.
+- Dimensions: `kit`, `tool/op`, `caller`, `code`, `region` (bounded sets only).
+- Avoid unbounded labels (e.g., `run_id`) on metrics; put those in logs/traces.
 
 ---
 
@@ -96,7 +96,7 @@ alerts:
 
 ### D.1 Where ADRs live
 
-* `docs/adr/` in the monorepo or a dedicated `ai-toolkit-adr` repo; each ADR is immutable after `Accepted`.
+- `docs/adr/` in the monorepo or a dedicated `ai-toolkit-adr` repo; each ADR is immutable after `Accepted`.
 
 ### D.2 Template
 
@@ -121,20 +121,20 @@ Proposed | Accepted | Superseded by ADR-...
 
 ### D.3 Seed ADRs (suggested)
 
-* ADR-0001: Monolith-first with hexagonal boundaries (Harmony)
-* ADR-0002: Comms stack = Ports + Artifacts + Events (no blob RPC)
-* ADR-0003: CloudEvents envelope on NATS
-* ADR-0004: JSON Schema as contract; codegen for TS/Py
-* ADR-0005: MCP as provider adapter; return URIs for large data
-* ADR-0006: Error taxonomy (v1)
-* ADR-0007: SLOs and burn-rate policy
+- ADR-0001: Monolith-first with hexagonal boundaries (Harmony)
+- ADR-0002: Comms stack = Ports + Artifacts + Events (no blob RPC)
+- ADR-0003: CloudEvents envelope on NATS
+- ADR-0004: JSON Schema as contract; codegen for TS/Py
+- ADR-0005: MCP as provider adapter; return URIs for large data
+- ADR-0006: Error taxonomy (v1)
+- ADR-0007: SLOs and burn-rate policy
 
 ---
 
 ## E) Cross-references
 
-* **Core Comms Guide:** definitions for ports, manifests, events, security.
-* **Agent Layer Guide:** policies, guardrails, budgets, eval.
-* **MCP Provider Guide:** tool/resource mapping, security, compatibility.
+- **Core Comms Guide:** definitions for ports, manifests, events, security.
+- **Agent Layer Guide:** policies, guardrails, budgets, eval.
+- **MCP Provider Guide:** tool/resource mapping, security, compatibility.
 
 **Note:** update cross-links on every minor version bump; keep a compatibility matrix at the top of each guide.

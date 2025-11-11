@@ -90,7 +90,7 @@ If your component emits on-disk artifacts (JSON/JSONL/manifests), also define JS
 Explain how to use/configure a component (modes, inputs/outputs, artifacts), with contracts, examples, and troubleshooting.
 
 **Why this fits**
-Harmony favors **flow over ceremony**: central specs + contracts, while detailed component usage lives in a focused **dev guide** that downstream features link to. (Your `indexkit.md` already follows this pattern with contracts, emitted artifacts, and example configs.)  
+Harmony favors **flow over ceremony**: central specs + contracts, while detailed component usage lives in a focused **dev guide** that downstream features link to. (Your `indexkit/guide.md` already follows this pattern with contracts, emitted artifacts, and example configs.)  
 
 **Ultra-lean template:**
 
@@ -150,7 +150,7 @@ Harmony’s reliability guardrails expect **SLOs, error-budget policy**, **previ
    Build to OpenAPI/JSON-Schema; let CI stop breaking changes with **oasdiff** and contract tests at hexagonal boundaries.  
 
 4. **Use the Component/Developer Guide for depth**
-   Don’t bloat the Spec—link to the component guide for configuration, artifacts, and troubleshooting (e.g., your `indexkit.md`).
+   Don’t bloat the Spec—link to the component guide for configuration, artifacts, and troubleshooting (e.g., your `indexkit/guide.md`).
 
 5. **Ship via flags, previews, and gates**
    Each PR gets a **Preview URL**; run smoke, then merge only when **required gates** (lint, typecheck, unit, contract, static, deps/license, secrets, SBOM, perf/bundles) are green. Release by enabling the flag gradually; **rollback** by promoting a prior preview.
@@ -229,4 +229,4 @@ When documenting kits in `docs/handbook/ai-toolkit`, include these data points w
 - Harmony Alignment bullets mapping to spec‑first, auditability, security baselines, and modular CI/CD
 - Minimal Interfaces (functions/config shapes) and FAQs
 
-See `docs/handbook/ai-toolkit/knowledge-and-retrieval/indexkit.md` for a good exemplar that follows this pattern.
+See `docs/handbook/ai-toolkit/knowledge-and-retrieval/indexkit/guide.md` for a good exemplar that follows this pattern.

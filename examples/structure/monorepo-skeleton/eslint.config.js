@@ -19,7 +19,7 @@ export default [{
       { type: 'domain',   pattern: 'packages/domain/**' },
       { type: 'adapters', pattern: 'packages/adapters/**' },
       { type: 'contracts',pattern: 'packages/contracts/**' },
-      { type: 'ui',       pattern: 'packages/ui-kit/**' },
+      { type: 'ui',       pattern: 'packages/ui/**' },
       { type: 'app',      pattern: 'apps/**' }
     ]
   },

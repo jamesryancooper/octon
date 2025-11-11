@@ -14,7 +14,7 @@
       "@domain/*": ["packages/domain/*"],
       "@adapters/*": ["packages/adapters/*"],
       "@contracts/*": ["packages/contracts/*"],
-      "@ui-kit/*": ["packages/ui-kit/*"],
+      "@ui/*": ["packages/ui/*"],
       "@config/*": ["packages/config/*"],
       "@infra/*": ["infra/*"]
     }

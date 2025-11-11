@@ -13,7 +13,7 @@ flowchart LR
     T[Optional @harmony/tokens\nCSS vars + TS types]
   end
 
-  subgraph Build[@harmony/ui-kit build]
+  subgraph Build[@harmony/ui build]
     C[Tailwind] --> D[PostCSS]
   end
 
@@ -25,7 +25,7 @@ flowchart LR
   D --> G[package.json exports + sideEffects]
 
   subgraph App[Next.js (App Router)]
-    H[Import @harmony/ui-kit/dist/ui.css]
+    H[Import @harmony/ui/dist/ui.css]
     I[Import ./styles/app.css\n(tokens + micro-utilities + overrides)]
     J[CSS Modules for page specifics]
   end
@@ -47,7 +47,7 @@ flowchart LR
 The UI Kit compiles CSS with layers like:
 
 ```css
-/* Compiled inside @harmony/ui-kit */
+/* Compiled inside @harmony/ui */
 @layer base { /* Normalize, resets, tokens-to-vars mapping (if any) */ }
 @layer components { /* Component recipes (e.g., .btn, .card) */ }
 @layer utilities { /* Kit-scoped helpers if any */ }

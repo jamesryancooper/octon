@@ -15,7 +15,7 @@
   "dependencies": {
     "@astrojs/react": "^3.6.0",
     "@harmony/config": "workspace:*",
-    "@harmony/ui-kit": "workspace:*",
+    "@harmony/ui": "workspace:*",
     "astro": "^5.15.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

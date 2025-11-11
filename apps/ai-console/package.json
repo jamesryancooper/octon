@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@harmony/config": "workspace:*",
-    "@harmony/ui-kit": "workspace:*",
+    "@harmony/ui": "workspace:*",
     "@opentelemetry/api": "^1.9.0",
     "@opentelemetry/auto-instrumentations-node": "^0.66.0",
     "@opentelemetry/exporter-metrics-otlp-proto": "^0.207.0",

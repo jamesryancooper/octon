@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button } from '@harmony/ui-kit';
+import { Button } from '@harmony/ui';
 
 export interface DocCtaProps {
   href: string;
@@ -10,7 +10,7 @@ export interface DocCtaProps {
 }
 
 /**
- * React island used within Starlight pages to demonstrate ui-kit consumption.
+ * React island used within Starlight pages to demonstrate ui consumption.
  * Each island owns its own state; avoid sharing React context across islands.
  */
 export default function DocCta({ href, label, variant = 'default' }: DocCtaProps): React.ReactElement {

@@ -4,4 +4,4 @@ Lightweight surfaces for humans
 
 ## Kits
 
-- [UIkit](./uikit.md)
+- [UIkit](./uikit/guide.md)

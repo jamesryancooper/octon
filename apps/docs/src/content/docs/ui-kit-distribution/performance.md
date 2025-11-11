@@ -7,9 +7,9 @@ description: Keep CSS lean with split entrypoints and tree-shaking. Balance crit
 
 Ship a lean base and split component CSS entries from the UI Kit:
 
-- `@harmony/ui-kit/dist/ui.css` — all-in-one (useful for quick starts and SSR stability).
-- `@harmony/ui-kit/dist/css/base.css` — base+tokens only.
-- `@harmony/ui-kit/dist/css/*.css` — per-component entries.
+- `@harmony/ui/dist/ui.css` — all-in-one (useful for quick starts and SSR stability).
+- `@harmony/ui/dist/css/base.css` — base+tokens only.
+- `@harmony/ui/dist/css/*.css` — per-component entries.
 
 With `"sideEffects": ["**/*.css"]` and explicit `exports`, bundlers can tree-shake unused CSS entries when components don’t import them.
 

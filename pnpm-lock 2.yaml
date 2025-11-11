@@ -20,9 +20,9 @@ importers:
       '@harmony/config':
         specifier: workspace:*
         version: link:../../packages/config
-      '@harmony/ui-kit':
+      '@harmony/ui':
         specifier: workspace:*
-        version: link:../../packages/ui-kit
+        version: link:../../packages/ui
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -135,9 +135,9 @@ importers:
       '@harmony/config':
         specifier: workspace:*
         version: link:../../packages/config
-      '@harmony/ui-kit':
+      '@harmony/ui':
         specifier: workspace:*
-        version: link:../../packages/ui-kit
+        version: link:../../packages/ui
       astro:
         specifier: ^5.15.2
         version: 5.15.2(@types/node@22.18.13)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
@@ -184,9 +184,9 @@ importers:
       '@harmony/config':
         specifier: workspace:*
         version: link:../../packages/config
-      '@harmony/ui-kit':
+      '@harmony/ui':
         specifier: workspace:*
-        version: link:../../packages/ui-kit
+        version: link:../../packages/ui
       astro:
         specifier: ^5.15.2
         version: 5.15.2(@types/node@24.9.2)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)
@@ -250,7 +250,7 @@ importers:
 
   packages/domain: {}
 
-  packages/ui-kit:
+  packages/ui:
     dependencies:
       '@radix-ui/react-slot':
         specifier: ^1.1.1

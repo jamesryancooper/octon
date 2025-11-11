@@ -6,7 +6,7 @@ const config: Config = {
   darkMode: 'class',
   content: [
     './src/**/*.{astro,md,mdx,ts,tsx}',
-    '../../packages/ui-kit/src/**/*.{ts,tsx}'
+    '../../packages/ui/src/**/*.{ts,tsx}'
   ]
 };
 

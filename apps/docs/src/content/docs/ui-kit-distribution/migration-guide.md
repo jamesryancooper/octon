@@ -6,17 +6,17 @@ description: Step-by-step plan to remove Tailwind from the app, adopt UI Kit CSS
 ## Goals
 
 - Remove Tailwind from the app layer while preserving velocity and visual stability.
-- Centralize styling inside `@harmony/ui-kit`; compose pages with micro-utilities + CSS Modules.
+- Centralize styling inside `@harmony/ui`; compose pages with micro-utilities + CSS Modules.
 
 ## Prerequisites
 
 - UI Kit publishes `dist/ui.css` and split entries with `sideEffects` + `exports`.
-- Turborepo pipeline ensures `@harmony/ui-kit#build` precedes app `dev/build`.
+- Turborepo pipeline ensures `@harmony/ui#build` precedes app `dev/build`.
 
 ## Step-by-step plan
 
 1) Wire base CSS
-   - Import `@harmony/ui-kit/dist/ui.css` and `./styles/app.css` in `app/layout.tsx`.
+   - Import `@harmony/ui/dist/ui.css` and `./styles/app.css` in `app/layout.tsx`.
    - Commit the micro-utilities and tokens file.
 
 2) Disable Tailwind in the app

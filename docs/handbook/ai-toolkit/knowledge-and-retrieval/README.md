@@ -4,10 +4,10 @@ Organize and query your knowledge base
 
 ## Kits
 
-- [SearchKit](./searchkit.md)
-- [IngestKit](./ingestkit.md)
-- [IndexKit](./indexkit.md)
-- [QueryKit](./querykit.md)
+- [SearchKit](./searchkit/guide.md)
+- [IngestKit](./ingestkit/guide.md)
+- [IndexKit](./indexkit/guide.md)
+- [QueryKit](./querykit/guide.md)
 
 ## IndexKit and RAG Best Practices
 

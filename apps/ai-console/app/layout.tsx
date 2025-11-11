@@ -1,4 +1,4 @@
-import '@harmony/ui-kit/dist/ui.css';
+import '@harmony/ui/dist/ui.css';
 
 import React from 'react';
 import type { Metadata } from 'next';

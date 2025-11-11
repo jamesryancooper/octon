@@ -4,4 +4,4 @@ See what happened and learn
 
 ## Kits
 
-- [ObservaKit](./observakit.md)
+- [ObservaKit](./observakit/guide.md)

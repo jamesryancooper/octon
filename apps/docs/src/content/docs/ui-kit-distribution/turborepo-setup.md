@@ -5,21 +5,21 @@ description: Ensure the UI Kit builds before apps. Recommended task graph, cachi
 
 ## Pipeline dependencies
 
-Make the app `dev` and `build` depend on `@harmony/ui-kit#build` to guarantee CSS is ready:
+Make the app `dev` and `build` depend on `@harmony/ui#build` to guarantee CSS is ready:
 
 ```json
 // turbo.json (snippet)
 {
   "pipeline": {
     "build": { "dependsOn": ["^build"] },
-    "dev":   { "dependsOn": ["@harmony/ui-kit#build"] }
+    "dev":   { "dependsOn": ["@harmony/ui#build"] }
   }
 }
 ```
 
 ## Recommended task graph
 
-- `@harmony/ui-kit#build` → builds CSS (`dist/ui.css`, `dist/css/*`).
+- `@harmony/ui#build` → builds CSS (`dist/ui.css`, `dist/css/*`).
 - `@harmony/web|api#dev` → depends on the kit build when needed.
 - `typecheck`, `lint`, `test` run per-package with cache keys including lockfile and source hashes.
 

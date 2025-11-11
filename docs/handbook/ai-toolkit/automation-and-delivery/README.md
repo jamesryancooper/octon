@@ -4,10 +4,10 @@ Ship changes and keep things moving
 
 ## Kits
 
-- [ToolKit](./toolkit.md)
-- [PatchKit](./patchkit.md)
-- [ScheduleKit](./schedulekit.md)
-- [NotifyKit](./notifykit.md)
-- [CostKit](./costkit.md)
-- [CacheKit](./cachekit.md)
-- [FlagKit](./flagkit.md)
+- [ToolKit](./toolkit/guide.md)
+- [PatchKit](./patchkit/guide.md)
+- [ScheduleKit](./schedulekit/guide.md)
+- [NotifyKit](./notifykit/guide.md)
+- [CostKit](./costkit/guide.md)
+- [CacheKit](./cachekit/guide.md)
+- [FlagKit](./flagkit/guide.md)

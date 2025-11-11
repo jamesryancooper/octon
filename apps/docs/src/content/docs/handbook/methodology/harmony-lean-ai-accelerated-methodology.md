@@ -64,9 +64,9 @@ Harmony is a lean, **opinionated** methodology you can adopt tomorrow with two d
 
 ## Harmony’s Unifying Objective
 
-Harmony unifies speed, safety, and simplicity so a tiny team can ship high‑quality software quickly, safely, and predictably. Every framework and tool listed above reinforces one of Harmony’s three pillars and closes the loop from secure specification → agentic implementation → observable operations → postmortem learning.
+Harmony unifies speed, safety, and simplicity so a tiny team can ship high‑quality software quickly, safely, and predictably. Every framework and tool listed above reinforces one of Harmony’s four pillars and closes the loop from secure specification → agentic implementation → observable operations → postmortem learning.
 
-### The Three Pillars
+### The Four Pillars
 
 - Build safely — Security, compliance, correctness
   - OWASP ASVS, NIST SSDF, STRIDE, CodeQL, Semgrep, OWASP Cheat Sheets
@@ -74,6 +74,8 @@ Harmony unifies speed, safety, and simplicity so a tiny team can ship high‑qua
   - Trunk‑Based Development, Monolith‑First, 12‑Factor, Kanban/Little’s Law, Shape Up
 - Operate observably — Reliability, measurement, and learning
   - Google SRE, DORA, OpenTelemetry (OTel via ObservaKit), Vercel, GitHub, Turborepo
+- Guided Agentic Autonomy — AI systems autonomously self-build, self-heal, and self-tune within deterministic, observable, and reversible bounds—while humans retain ultimate authority, oversight, and accountability.
+  - Agentic loops with HITL checkpoints: AgentKit, GuardKit, PolicyKit/EvalKit, ObservaKit, PatchKit/NotifyKit
 
 Together these pillars create a self‑reinforcing system that makes changes small, deterministic, testable, and reversible.
 
@@ -350,7 +352,7 @@ repo/
   │   ├── domain/     # core business logic (pure TS/Python)
   │   ├── adapters/   # db, http clients
   │   ├── contracts/  # OpenAPI/JSON Schemas, Pact files
-  │   └── ui-kit/     # shared React UI
+  │   └── ui/     # shared React UI
   ├── infra/
   │   ├── ci/         # GH Actions workflows
   │   └── otel/       # OTel config

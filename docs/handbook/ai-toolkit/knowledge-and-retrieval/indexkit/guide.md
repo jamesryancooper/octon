@@ -156,7 +156,7 @@ IndexKit’s hybrid mode builds one or more retrieval signals and fuses them in 
 `signals: ["dense", "keyword", "graph", "vision", "entities", "sparse_learned"]` and tune fusion via `fuse`.
 
 Serving note: If you publish to a database (e.g., PostgreSQL + pgvector + FTS/trigrams + edges), QueryKit can retrieve
-directly from the DB instead of local artifacts. See [QueryKit](./querykit.md) (Database Adapters).
+directly from the DB instead of local artifacts. See [QueryKit](../querykit/guide.md) (Database Adapters).
 
 - Dense
   - Purpose: semantic search over embeddings.
@@ -313,7 +313,7 @@ IndexKit reinforces the Harmony methodology, as detailed in [harmony-lean-ai-acc
 
 - **Input contract (from IngestKit)**
   - Required: `uri` (path or URL), `source` (namespace), `ts` (build timestamp), `hash` (content hash), `tokens` (int), `text` (string)
-  - Recommended: `id` (stable string). If absent, IndexKit derives a deterministic ID (e.g., `uri + content hash`). IngestKit typically sets `id` from frontmatter when present. See [IngestKit](./ingestkit.md).
+  - Recommended: `id` (stable string). If absent, IndexKit derives a deterministic ID (e.g., `uri + content hash`). IngestKit typically sets `id` from frontmatter when present. See [IngestKit](../ingestkit/guide.md).
   - Optional: `labels` (map or array), `lang` (BCP‑47), `parent_id` (for hierarchies)
 - **Document output (`.index/index.json`)**
   - Top‑level: `schema_version` (semver), `mode` ("document"), `build` (`ts`,`source_hash`), `stats` (`doc_count`,`avg_doc_len`)

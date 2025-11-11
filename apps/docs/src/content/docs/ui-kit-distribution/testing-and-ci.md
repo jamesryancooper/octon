@@ -26,7 +26,7 @@ Chromatic (hosted) or Playwright (self-hosted) both work:
 Keep Tailwind rules scoped to the UI Kit. In the kit, enforce:
 
 ```json
-// packages/ui-kit/.stylelintrc.json (example)
+// packages/ui/.stylelintrc.json (example)
 {
   "extends": [
     "stylelint-config-standard",

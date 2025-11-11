@@ -1,6 +1,8 @@
-# SpecKit — Spec‑First, Powered by GitHub SpecKit
+# SpecKit — Spec‑First, Powered by GitHub’s Spec Kit
 
-SpecKit wraps GitHub’s SpecKit to author, validate, and publish Harmony‑aligned specifications, then provides these validated inputs to PlanKit. PlanKit owns ADRs and BMAD.
+SpecKit (`speckit`) wraps GitHub’s Spec Kit to author, validate, and publish Harmony‑aligned specifications, then provides these validated inputs to PlanKit. PlanKit owns ADRs and BMAD.
+
+> Terminology note: “SpecKit” refers to our AI‑Toolkit kit (code `speckit`) that wraps GitHub’s Spec Kit. Mentions of the upstream tool explicitly use “GitHub’s Spec Kit”.
 
 ## Quick Snapshot
 
@@ -13,7 +15,7 @@ SpecKit wraps GitHub’s SpecKit to author, validate, and publish Harmony‑alig
 
 ## What It Does
 
-- Wraps GitHub SpecKit CLI to run slash‑command workflows reliably across agents
+- Wraps GitHub’s Spec Kit CLI to run slash‑command workflows reliably across agents
 - Validates prerequisites and structure (`specify check`, folders/files) and normalizes outputs
 - Integrates with Dockit (publish) and DiagramKit (render diagrams); exposes telemetry hooks
 - Emits review‑ready artifacts; aligns to ASVS/NIST SSDF and Harmony Core Comms
@@ -27,7 +29,7 @@ SpecKit wraps GitHub’s SpecKit to author, validate, and publish Harmony‑alig
 
 ## Opinionated Implementation Choices
 
-- Use GitHub SpecKit as the authoritative workflow and artifacts
+- Use GitHub’s Spec Kit as the authoritative workflow and artifacts
 - Externalize contracts under `packages/contracts/**`
 - CI gates: oasdiff on API contracts, schema validation (where applicable), content linting
 
@@ -231,8 +233,8 @@ speckit validate --path .
 
 ## Common Questions
 
-- How does this relate to GitHub SpecKit?
-  - We wrap SpecKit to standardize runs and wire governance/telemetry; follow GitHub’s docs for commands and artifacts.
+- How does this relate to GitHub’s Spec Kit?
+  - We wrap GitHub’s Spec Kit with our SpecKit wrapper to standardize runs and wire governance/telemetry; follow GitHub’s Spec Kit docs for commands and artifacts.
 - Do I need to expose an MCP provider?
   - Optional. Expose `speckit.init|validate|render|diagram` as tools per the MCP Provider Guide.
 - What about agent guardrails?

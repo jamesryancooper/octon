@@ -4,11 +4,11 @@ Keep outputs correct, consistent, and compliant
 
 ## Kits
 
-- [TestKit](./testkit.md)
-- [PromptKit](./promptkit.md)
-- [EvalKit](./evalkit.md)
-- [PolicyKit](./policykit.md)
-- [GuardKit](./guardkit.md)
-- [ComplianceKit](./compliancekit.md)
-- [A11yKit](./a11ykit.md)
-- [HeadersKit](./headerskit.md)
+- [TestKit](./testkit/guide.md)
+- [PromptKit](./promptkit/guide.md)
+- [EvalKit](./evalkit/guide.md)
+- [PolicyKit](./policykit/guide.md)
+- [GuardKit](./guardkit/guide.md)
+- [ComplianceKit](./compliancekit/guide.md)
+- [A11yKit](./a11ykit/guide.md)
+- [HeadersKit](./headerskit/guide.md)

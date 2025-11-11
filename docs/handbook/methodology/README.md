@@ -1,25 +1,37 @@
 ---
 title: Lean AI-Accelerated Methodology Overview
-description: Summary of the Harmony methodology combining BMAD, Cursor, Turborepo, Vercel, and compliance guardrails for fast delivery.
+description: Lean, principle-driven development methodology integrating Spec‑First, agentic workflows, opinionated guardrails, and automated quality gates—enabling safe, high-velocity shipping for small teams using modern AI and monorepo tools.
 ---
 
 # Harmony Methodology
 
-Harmony is a lean, **opinionated**, AI-accelerated methodology you can adopt tomorrow with two developers, optimized for **speed and quality with safety** on your stated stack and hosting. It integrates **Spec‑First (via SpecKit) +  Agentic agile (BMAD) + AI-driven IDE (Cursor) + Monorepo Workflow (Turborepo) + Deployment Platform (Vercel)** end‑to‑end, while baking in **SRE, DevSecOps, OWASP ASVS, NIST SSDF, STRIDE, 12‑Factor, Monolith‑First, Hexagonal**.
+Harmony is a lean, **opinionated**, AI-accelerated methodology you can adopt tomorrow with two developers, optimized for **speed and quality with safety** on your stated stack and hosting. It integrates **Spec‑First (via SpecKit `speckit` wrapping GitHub’s Spec Kit) + Agentic agile (via PlanKit `plankit` wrapping BMAD) + AI-driven IDE (Cursor) + Monorepo Workflow (Turborepo) + Deployment Platform (Vercel)** end‑to‑end, while baking in **SRE, DevSecOps, OWASP ASVS, NIST SSDF, STRIDE, 12‑Factor, Monolith‑First, Hexagonal**.
 
 ---
 
 ## Harmony’s Unifying Objective
 
-Harmony unifies speed, safety, and simplicity so a tiny team can ship high‑quality software quickly, safely, and predictably. Every framework and tool listed above reinforces one of Harmony’s three pillars and closes the loop from secure specification → agentic implementation → observable operations → postmortem learning.
+Harmony unifies speed, safety, and simplicity so a tiny team can ship high‑quality software quickly, safely, and predictably. Every framework and tool listed above reinforces one of Harmony’s four pillars and closes the loop from secure specification → agentic implementation → observable operations → postmortem learning.
 
-### The Three Pillars
+### The Four Pillars
 
 1. **Speed with Safety** — Fast flow (trunk-based development, small PRs), automated quality/security gates, and frequent integration deliver quick results without sacrificing reliability.
 2. **Simplicity over Complexity** — Monolith-first and 12-Factor patterns keep architecture lean, Kanban and Shape Up focus work and limit scope, and spec-driven changes minimize dependencies and overhead.
 3. **Quality through Determinism** — Rigorous, measurable gates (OWASP ASVS, NIST SSDF, STRIDE threat modeling, SLOs/DORA metrics) plus contract and property-based tests ensure every change is observable, testable, and reversible.
+4. **Guided Agentic Autonomy** — AI systems autonomously self-build, self-heal, and self-tune within deterministic, observable, and reversible bounds—while humans retain ultimate authority, oversight, and accountability.
 
 Together these pillars create a self‑reinforcing system that makes changes small, deterministic, testable, and reversible.
+
+> Terminology note: “SpecKit” refers to our AI‑Toolkit kit (code `speckit`) that wraps GitHub’s Spec Kit. Mentions of the upstream tool explicitly use “GitHub’s Spec Kit”.
+
+#### Pillars → Practices Map (at a glance)
+
+| Pillar | Primary Practices/Tools | Feedback loop it reinforces |
+| --- | --- | --- |
+| Speed with Safety | Trunk‑Based Development; Vercel Previews + `vercel promote`; Feature Flags (Vercel Flags); Tiny PRs | Frequent, reversible integration; instant rollback; safe, progressive rollout |
+| Simplicity over Complexity | Monolith‑First (Turborepo); 12‑Factor; Hexagonal boundaries; Spec‑First | Low coordination cost; crisp ports/adapters; scope control before code |
+| Quality through Determinism | Spec‑First + BMAD; OpenAPI/JSON‑Schema; PolicyKit/EvalKit/TestKit; ObservaKit | Typed contracts; fail‑closed governance; observable outcomes tied to traces |
+| Guided Agentic Autonomy | AgentKit; GuardKit; PolicyKit/EvalKit; PatchKit/NotifyKit (HITL); ObservaKit | Deterministic agent loops; HITL checkpoints; pinned AI config & golden tests; traces/provenance; fail‑closed governance |
 
 ---
 
@@ -30,7 +42,7 @@ The AI‑Toolkit provides the kit‑level building blocks that implement Harmony
 ### Stage‑to‑Kit Map (operational)
 
 - Spec → Plan → Implement → Verify → Ship → Learn
-  - Spec/Shape: SpecKit, PlanKit
+  - Spec/Shape: SpecKit (`speckit`), PlanKit
   - Implement (agentic): AgentKit, DevKit, CodeModKit (as needed)
   - Verify/Govern: EvalKit (structure/hallucination), PolicyKit (ASVS/SSDF policy), GuardKit (redaction), TestKit (unit/contract/e2e), ComplianceKit (evidence)
   - Ship: PatchKit (PRs), Vercel Previews (promotion), ReleaseKit (changelog)
@@ -49,6 +61,26 @@ The AI‑Toolkit provides the kit‑level building blocks that implement Harmony
 - License and provenance:
   - Run GitHub Dependency Review and include a license/provenance note in the PR.
   - Avoid adding new dependencies unless they materially reduce complexity; prefer permissive licenses (MIT/BSD/Apache).
+
+---
+
+## System Guarantees (self‑reinforcing invariants)
+
+Harmony operates as a closed loop with a few non‑negotiable, compounding habits that keep tiny teams fast, safe, and sustainable:
+
+- Spec‑first changes: Every material change starts with a one‑pager + ADR and micro‑STRIDE. No spec, no start.
+- No silent apply: Agents produce plans/diffs/tests only; humans gate side‑effects. Local runs default to `--dry-run`.
+- Deterministic AI: Provider/model/version/params pinned; low variance (temperature ≤ 0.3); prompt hash recorded; golden tests guard drift.
+- Observability required: Changed flows must emit OTel spans/logs; PRs link a `trace_id`. Evidence packs are assembled per PR.
+- Idempotency & rollback: Mutations use idempotency keys; risky features ship behind flags; rollback is “promote prior preview”.
+- Fail‑closed governance: Policy/Eval/Test gates block on missing evidence or violations; High‑risk changes require navigator + security review.
+- Local‑first & privacy‑first: Secrets never leave Vault/env; PII redacted at log/write boundaries; offline telemetry buffers flush later.
+- Cost & efficiency guardrails: Publish monthly AI token and infra budgets; alert on cost anomalies; freeze risky merges/promotions on sustained anomalies until budgets recover. PRs that use AI must include pinned model config and a short cost note (estimated/observed).
+- Supply chain provenance: SBOMs are produced for releases and build artifacts are attested (e.g., GitHub attestations/Sigstore). Provenance notes are linked in PRs for changes that affect build/release surfaces.
+- Small batches by policy: Trunk‑based, tiny PRs, explicit WIP limits, and preview smoke keep cycle time short and outcomes reversible.
+- Waiver discipline: Gate waivers are exceptional and rare; Navigator approval (and Security for High‑risk) is required with an explicit scope/timebox (≤ 7 days or until merge) and a PR‑linked justification. Waivers are disallowed for secrets/PII exposure, missing observability on changed flows, missing rollback/flag, and sustained SLO burn‑rate violations. Waivers auto‑expire at merge and must include a follow‑up issue for any residual risk or work.
+
+These guarantees align 1:1 with the AI‑Toolkit’s invariants (determinism, typed contracts, idempotency, observability, and fail‑closed policy), ensuring the methodology is self‑reinforcing instead of fragile.
 
 ---
 
@@ -167,6 +199,14 @@ Methods (SRE, DORA, Shape Up) define how work flows. Frameworks and standards (A
 - Combined with JSON Schema validations and EvalKit, they produce verifiable AI and code outputs.
 - Outcome: agent‑assisted changes are safe, observable, and reversible.
 
+### 6) Guided Agentic Autonomy (Deterministic Agent Loops & HITL)
+
+- Deterministic, reviewable agent loops: Plan → Diff → Explain → Test; no silent apply.
+- Pinned AI configuration and low‑variance defaults; golden tests guarded by JSON‑Schema prevent drift.
+- Observability and provenance: OTel traces/logs on runs; PRs include representative `trace_id` and Eval/Policy outcomes.
+- Fail‑closed governance: HITL checkpoints enforced; agents cannot approve PRs or push to protected branches; humans retain ultimate authority, oversight, and accountability.
+- Outcome: AI systems autonomously self‑build, self‑heal, and self‑tune within deterministic, observable, and reversible bounds.
+
 ### In Short
 
 - Not random best practices: each fills a clear gap (security, flow, observability, architecture) with minimal overlap.
@@ -208,8 +248,8 @@ Methods (SRE, DORA, Shape Up) define how work flows. Frameworks and standards (A
 
 - Non‑negotiables (AI)
   - Cannot commit directly to protected branches; cannot approve PRs; cannot handle secrets or long‑lived credentials.
-  - Must produce artifacts (plan, diffs, tests) for human review; no silent apply.
-  - Must operate with pinned provider/model/version and documented parameters (temperature, top_p, max_tokens, seed if supported).
+  - Must produce artifacts (plan, diffs, tests) for human review; no silent apply. Mutations require idempotency keys.
+  - Must operate with pinned provider/model/version and documented parameters (temperature, top_p, max_tokens, seed if supported); runs record a stable prompt hash.
 
 - Non‑negotiables (Humans)
   - Classify PR risk (Trivial/Low/Medium/High) and confirm rollback/flag plan.
@@ -224,8 +264,17 @@ Methods (SRE, DORA, Shape Up) define how work flows. Frameworks and standards (A
   - Secret exposure, license violation, security regression (ASVS high/critical), SLO burn‑rate breach.
   - Missing rollback path or flag; Preview e2e red; OpenAPI breaking change without consumer sign‑off.
   - Missing observability on changed flows; missing PR risk rubric; AI model/provider/params not pinned when agents were used.
+  - Debt budget exceeded or WIP limits breached for >24h without mitigation (freeze feature work; restore system health first).
 - Decision log
   - Dockit auto‑prompts an ADR summary on merge; link PR, preview URL, post‑deploy notes, and (when agents were used) AI provider/model/version + parameters and ObservaKit/EvalKit run links.
+
+### HITL Waivers & Exceptions (minimal rules)
+
+- Waivers are exceptional and rare—prefer scope cuts, flags, and staged rollouts.
+- Who can waive: Navigator (High‑risk requires Navigator + Security). Agents cannot waive.
+- PR requirements: waiver justification (why safe now), explicit scope/timebox (≤ 7 days or until merge), named owner, and link to a follow‑up issue.
+- Disallowed waivers: secrets/PII exposure, missing rollback/flag, missing observability on changed flows, sustained SLO burn‑rate breaches (see Stop‑the‑line triggers).
+- Expiration & tracking: waivers auto‑expire at merge; reopening requires a new waiver. Add a `waiver` label and review in the weekly retro.
 
 ---
 
@@ -233,7 +282,7 @@ Methods (SRE, DORA, Shape Up) define how work flows. Frameworks and standards (A
 
 ```mermaid
 flowchart LR
-  A["SpecKit Spec + ADR"] --> B[Shape & Scope Cuts]
+  A["Spec (GitHub’s Spec Kit via SpecKit) + ADR"] --> B[Shape & Scope Cuts]
   B --> C["BMAD Story (context packets + agent plan + AC)"]
   C --> D["Dev in Cursor (human checkpoints)"]
   D --> E["PR -> Vercel Preview (feature-flagged)"]
@@ -258,14 +307,30 @@ Note: Schedule non‑blocking tasks (e.g., notifications, cache invalidation, an
 - **Pairing**: Ping‑pong for risky changes and critical boundaries (auth, billing, data).
 - **Weekly retro (≤15 min)**: 3 questions: What slowed flow? What broke gates? What SLO budget burned? Adjust WIP/gates accordingly (error‑budget policy).
 
+### Backlog Intake & Triage (lightweight)
+
+- Keep Backlog bounded (≤ 30 active items); archive/split items stale > 30 days.
+- New work must meet DoR essentials before moving to Ready; otherwise keep as “Idea/Draft”.
+- Prioritize by appetite, SLO/risk, and value; stamp initial risk class and note flag/rollback approach.
+
 ### Sustainable Pace Policy
 
 - Focus hours: two 2‑hour deep‑work blocks per day; async by default outside those blocks.
 - No after‑hours work except incidents; incidents follow rollback‑first policy and postmortem within 48h.
-- Daily Kaizen: 10 minutes to remove one friction (tooling, doc, test); track as a tiny PR.
+- Daily Kaizen: 10 minutes to remove one friction (tooling, doc, test); track as a tiny PR and label `kaizen` for easy weekly review.
 - If WIP limits are exceeded for >24h, pause new work, swarm to restore flow, then resume.
 - No mid‑cycle scope increases; new asks go to Backlog/Ready. Descoping is allowed to protect the appetite.
 - Reserve 10% weekly capacity for maintenance (deps, tests, docs) to prevent debt accumulation.
+- WIP aging triggers: any card >2 days in **In‑Dev** or >3 days end‑to‑end cycle time triggers a swarm to unblock; >3 days in **In‑Dev** escalates to a scope cut or split. Track WIP age and cycle time in board insights.
+
+### Sustainability & Burnout Guardrails
+
+- Meeting budget: ≤4 hours/week total synchronous meetings; default to async. Require an agenda and desired outcomes; auto‑cancel if missing. Keep at least one no‑meeting day/week for deep work.
+- Focus protection: During focus blocks, notifications are silenced; only on‑call incidents may interrupt. Use the board to signal availability.
+- Review SLA: PRs in **In‑Review** receive first response within 4 working hours. If blocked >4 hours, escalate to Navigator or reassign to maintain flow.
+- Timeboxing & scope: If a task is estimated to exceed 1 day, split or descoped before starting. If **In‑Dev** reaches 1 day without reviewable output, initiate a scope cut or pair‑swarm.
+- Communication hygiene: Prefer issues/PRs over DMs for decisions; summarize decisions in the PR/issue thread to preserve history.
+- Recovery policy: No heroics. After incidents, preserve the 48h blameless postmortem and protect the following day’s focus blocks to recover.
 
 ---
 
@@ -277,20 +342,34 @@ Note: Schedule non‑blocking tasks (e.g., notifications, cache invalidation, an
 
 - Ready: 3 cards max; In‑Dev: 1 per dev; In‑Review: 2 total; Preview: 2.
   **Pull policies**: A card moves **only** when Definition of Ready/Done is satisfied.
+- Blocked: 2 max across the board. If exceeded for >24h, freeze new pulls and swarm root causes. Capture blockers in issues with owners and timestamps.
+- Aging targets: median **In‑Dev** age < 2 days; 90th percentile card age < 5 days. Adjust WIP or cut scope if targets are missed for 2 consecutive weeks.
 
 - **Definition of Ready (DoR)**: BMAD spec one‑pager + ADR present; acceptance criteria + contracts; **STRIDE** threats & mitigations listed; flags plan; perf budget; test outline.
+  - Data classification noted for changed surfaces (PII/PHI/SECRET/AUTH/OTHER_SENSITIVE) with handling approach.
+  - AI determinism plan (if agents used): provider/model/version pinned, temperature ≤ 0.3, prompt hash strategy, golden tests plan, and ObservaKit trace linkage.
+  - Observability plan: which spans/logs to add and where the representative `trace_id` will be captured in PR.
+  - Cost note (if AI or infra-impacting): expected token/infra impact and budget alignment (OK/Investigate).
 
 - **Definition of Ready (DoR) addenda**: PR risk class selected (Trivial/Low/Medium/High) with rollback and flag plan noted.
 
-- **Definition of Done (DoD)**: All **CI gates** pass; coverage & budgets OK; **preview e2e smoke** OK; **SLO guard** no regression; docs/runbook updated; **DoS satisfied**; feature behind a flag; default OFF; PR includes risk rubric and (if agents used) AI provenance. Enable only when the error budget is healthy; disable or halt rollout on burn‑rate alerts.
+- **Definition of Done (DoD)**: All **CI gates** pass; coverage & budgets OK; **preview e2e smoke** OK; **SLO guard** no regression; docs/runbook updated; **DoSafe** and **DoSm** satisfied; feature behind a flag; default OFF; PR includes risk rubric and (if agents used) AI provenance. Enable only when the error budget is healthy; disable or halt rollout on burn‑rate alerts.
 
-### Definition of Safe (DoS)
+### Definition of Safe (DoSafe)
+
+Note: Terminology harmonization — we use **DoSafe** for “Definition of Safe” (to avoid confusion with Denial‑of‑Service).
 
 - License and provenance approved (no policy‑blocked licenses; note in PR).
 - Secrets absent; CSP/CSRF/SSRF defenses in place per surface; outbound allow‑list enforced.
 - Rollback path validated (previous preview ready) and feature flag kill‑switch documented.
 - SLOs unchanged or improved; p95 latency and error rate within budgets on Preview.
 - Observability present: trace/span coverage on the changed flow; structured logs include trace IDs.
+
+### Definition of Small (DoSm)
+
+- One concern per PR (single user‑visible change or boundary).
+- Default thresholds: ≤500 changed LOC (excluding generated/lock files) and ≤10 files touched; ≤1 day from start to review. If larger, split by scope or guard behind a feature flag.
+- Exceptions require a short “size‑override” note in the PR and Navigator approval before merge.
 
 ### Tech Debt Budget & Risk Classifier
 
@@ -309,6 +388,27 @@ Note: Schedule non‑blocking tasks (e.g., notifications, cache invalidation, an
 
 ---
 
+### Change Types & Required Gates (fast classifier)
+
+| Change type | Typical risk | Required gates (minimum) |
+| --- | --- | --- |
+| Docs/content only | Trivial | Lint/typecheck |
+| UI copy/style (no logic) | Trivial/Low | Lint/typecheck; unit (if components changed) |
+| UI logic/SSR (no auth/data) | Low/Medium | Lint/typecheck; unit; preview smoke; observability update |
+| API/controller changes (no breaking contracts) | Medium | Standard CI; contracts present; preview smoke; flag; navigator review |
+| Contract change (OpenAPI/DTO) | Medium/High | oasdiff; consumer sign‑off; contract tests; preview smoke; flag; navigator review |
+| Auth/session/access control | High | CodeQL/Semgrep; unit/contract; preview smoke; security review; flag; rollback plan |
+| Data model/migration | High | Migration plan; idempotency; backup/rollback; preview smoke; flag; navigator + security review |
+| Build/release/infra (pipelines, headers, CSP) | Medium/High | Static analysis; SBOM; provenance/attestation; preview smoke; navigator review |
+| AI prompt/logic surfaces | Medium | AI determinism checks; golden tests; ObservaKit trace; cost note; preview smoke; flag |
+
+Notes:
+
+- “Required gates” are additive to the Lightweight PR Risk Rubric. Breaking changes require explicit consumer approval.
+- For AI changes, pin provider/model/version/params and attach a cost note (estimated/observed) in the PR.
+
+---
+
 ## Spec‑First + BMAD (step‑by‑step)
 
 1. **Write the SpecKit spec one‑pager** (template below): problem, constraints, **API/UI contracts (OpenAPI/JSON‑Schema)**, non‑functionals (perf, reliability, privacy), **ASVS** controls and **SSDF** tasks, **STRIDE** risks & tests.
@@ -321,6 +421,7 @@ Note: Schedule non‑blocking tasks (e.g., notifications, cache invalidation, an
    - Add/update **AI golden tests** (EvalKit/TestKit) for deterministic outputs; guard with JSON‑Schema.
    - Record **license status** via GitHub **Dependency Review** + **SBOM (Syft)**. Optionally run Node `license-checker` or Python `pip-licenses` locally and attach notes to the PR.
    - Run **threat-model from spec** prompt to produce test cases (XSS/CSRF/SSRF/IDOR). Use **OWASP cheat sheets** for CSP/CSRF/SSRF while coding.
+   - Determinism & runtime: follow the AI‑Toolkit’s “Deterministic Operation Policy” and “Runtime Compatibility (Node vs Edge)” guidance in `docs/handbook/ai-toolkit/README.md` to keep outputs reproducible and runtime choices simple.
 
 ---
 
@@ -329,10 +430,23 @@ Note: Schedule non‑blocking tasks (e.g., notifications, cache invalidation, an
 - **Trunk‑Based**: short‑lived branches (≤1 day). One small change per PR. Use **feature flags** for any risky behavior.
 - **Vercel Previews**: every PR gets a live URL for acceptance and e2e smoke. **Promote** a known‑good preview to production (instant rollback path).
 - **Environment naming & Production policy**: Use **PR Preview** (per PR), **Trunk Preview** (on `main`), and **Production** (manual promote only). In Vercel, disable **Auto Production Deployments** so Production is updated exclusively via `vercel promote <preview-url>`.
-- **Feature flags**: use **Vercel Flags** (Edge Config‑backed) as the provider (server‑evaluated). The in‑repo `packages/config/flags.ts` reads flag values from the Vercel provider (registered at app startup) and falls back to env overrides (`HARMONY_FLAG_*`) for local/dev. Call `setFlagProvider(vercelFlagsProvider)` during application startup — for this repo, register in `apps/api/src/server.ts` (API) and in the SSR entry when adding SSR surfaces. For **Astro SSG/static** pages, evaluate flags server‑side and inject values at build time or via Edge middleware; avoid using `process.env` in the browser. Otherwise, evaluation uses env (`HARMONY_FLAG_*`) and defaults. Clean up flags within 2 cycles.
+- **Feature flags**: use **Vercel Flags** (Edge Config‑backed) as the provider (server‑evaluated). The in‑repo `packages/config/flags.ts` reads flag values from the Vercel provider (registered at app startup) and falls back to env overrides (`HARMONY_FLAG_*`) for local/dev. Call `setFlagProvider(vercelFlagsProvider)` during application startup — for this repo, register in `apps/api/src/server.ts` (API) and in Next.js SSR entry points (e.g., `apps/ai-console/instrumentation.ts` or your App Router root) when adding SSR surfaces. For **Astro SSG/static** pages, evaluate flags server‑side and inject values at build time or via Edge middleware; avoid using `process.env` in the browser. Otherwise, evaluation uses env (`HARMONY_FLAG_*`) and defaults. Clean up flags within 2 cycles.
 - **Environments & secrets**: use **Vercel envs** + CLI to manage; never commit secrets; rely on **GitHub secret scanning** + **TruffleHog** in CI.
 - **Preview smoke (fast path)**: Use Playwright or the provided helper `scripts/smoke-check.sh` to verify the PR Preview URL for core routes; link results in the PR.
 - **Flags hygiene automation**: Run `scripts/flags-stale-report.js` weekly and remove or consolidate stale flags; each flag must have an owner and explicit expiry.
+- **Next.js 15+/16 and React 19 note**: Defaults for `fetch`/GET handlers are `no-store`; opt into caching explicitly when stable and record cache keys. Prefer Server Actions for mutations and `next/after` for non‑blocking tasks; heed hydration mismatch warnings before enabling caching.
+- **Small change policy**: PRs should satisfy **DoSm** by default. If not feasible, split scope or include a brief “size‑override” justification and obtain Navigator approval before merge.
+- **Review cadence**: Aim for first reviewer response within 4 working hours; if exceeded, ping the alternate reviewer listed in **CODEOWNERS** to prevent idle WIP.
+
+### Release Freeze Procedure (error‑budget policy)
+
+Triggered when multi‑window burn‑rate alerts sustain > 30 minutes or SLOs are at risk:
+
+1. Freeze risky merges and promotions (Medium/High risk) until budgets recover.
+2. Keep features behind flags; reduce or disable canary cohorts; validate rollback by promoting a known‑good preview.
+3. Prioritize reliability fixes: incident triage, perf regressions, error spikes, and missing observability on changed flows.
+4. Exit criteria: error‑budget burn returns to healthy thresholds for two consecutive alert windows (or 24h) and preview smoke is green.
+5. Communicate status in the current PR(s) and retro; link ObservaKit trace IDs and postmortem follow‑ups.
 
 ---
 
@@ -361,20 +475,34 @@ flowchart TB
 
 **Checklist (required to merge unless marked optional/adopt incrementally)**:
 
-- [] **Lint/format**: ESLint (type-aware) + `typescript-eslint`; add Ruff/Black when Python is added (optional).
-- [] **Type Check**: TypeScript (`tsc --noEmit` with strict); add mypy when Python is added (optional).
-- [] **Tests**: unit. OpenAPI breaking-change check (**oasdiff**) enforced. Pact/Schemathesis and preview **e2e smoke** (Playwright) are recommended (optional).
-- [] **Static analysis**: **CodeQL** (GitHub code scanning) + **Semgrep** rules; fail on high‑sev.
-- [] **Dependencies**: **Dependabot alerts** + SCA (e.g., OWASP Dependency‑Check); license policy via GitHub **Dependency Review**.
-- [] **Secret scan**: GitHub **secret scanning** + **TruffleHog**.
-- [] **SBOM**: **Syft** (SPDX by default) uploaded as artifact (e.g., `sbom/sbom.spdx.json`).
-- [] **Contracts & bundles**: OpenAPI/JSON‑Schema present; enforce OpenAPI diff (**oasdiff**). **Bundle size** budgets are recommended; add CI enforcement later.
-- [] **Preview URL** comment: linked from Vercel integration; feature **flag off by default**.
-- [] **PR template & risk rubric**: include risk class, rollback plan, flag name(s), license/provenance note, and threat‑model link.
-- [] **HITL gate**: High‑risk PRs require navigator review and security review before merge.
-- [] **SPDX/REUSE headers**: adopt incrementally; add SPDX identifiers to new/changed files (optional).
-- [] **Observability**: changed flows emit traces/logs; trace IDs visible in logs and in a PR comment (**required for changed flows**).
-- [] **AI provenance** (when agents used): pin provider/model/version and parameters (temperature/top_p, max_tokens, seed if supported); include ObservaKit trace URL and EvalKit run links in PR.
+- [ ] **Lint/format**: ESLint (type-aware) + `typescript-eslint`; add Ruff/Black when Python is added (optional).
+- [ ] **Type Check**: TypeScript (`tsc --noEmit` with strict); add mypy when Python is added (optional).
+- [ ] **Tests**: unit. OpenAPI breaking-change check (**oasdiff**) enforced. Pact/Schemathesis and preview **e2e smoke** (Playwright) are recommended (optional).
+- [ ] **Static analysis**: **CodeQL** (GitHub code scanning) + **Semgrep** rules; fail on high‑sev.
+- [ ] **Dependencies**: **Dependabot alerts** + SCA (e.g., OWASP Dependency‑Check); license policy via GitHub **Dependency Review**.
+- [ ] **Secret scan**: GitHub **secret scanning** + **TruffleHog**.
+- [ ] **SBOM**: **Syft** (SPDX by default) uploaded as artifact (e.g., `sbom/sbom.spdx.json`).
+- [ ] **Provenance/attestation**: build/release artifacts attested (e.g., GitHub attestations/Sigstore cosign). Adopt incrementally; cite link in PR for infra/release-impacting changes.
+- [ ] **Contracts & bundles**: OpenAPI/JSON‑Schema present; enforce OpenAPI diff (**oasdiff**). **Bundle size** budgets are recommended; add CI enforcement later.
+- [ ] **Preview URL** comment: linked from Vercel integration; feature **flag off by default**.
+- [ ] **PR template & risk rubric**: include risk class, rollback plan, flag name(s), license/provenance note, and threat‑model link.
+- [ ] **PR size policy**: Meets **DoSm** thresholds or includes a navigator‑approved size‑override note.
+- [ ] **HITL gate**: High‑risk PRs require navigator review and security review before merge.
+- [ ] **SPDX/REUSE headers**: adopt incrementally; add SPDX identifiers to new/changed files (optional).
+- [ ] **Observability**: changed flows emit traces/logs; trace IDs visible in logs and in a PR comment (**required for changed flows**).
+- [ ] **AI provenance** (when agents used): pin provider/model/version and parameters (temperature/top_p, max_tokens, seed if supported); include ObservaKit trace URL and EvalKit run links in PR.
+- [ ] **Cost budgets** (AI + infra): PR includes brief cost note for AI changes; cost anomaly alerts freeze risky merges/promotions until resolved (policy aligned with error‑budget freeze).
+- [ ] **SLO freeze automation**: when burn‑rate alerts sustain >30 minutes, block risky merges and promotions until budgets recover (fail‑closed policy).
+- [ ] **WIP aging check**: if median **In‑Dev** age > 2 days for 2 consecutive weeks, tighten WIP or cut scope before accepting new work.
+
+### Gate Waivers (rare)
+
+- Authority: Only the Navigator may waive a gate (High‑risk requires Navigator + Security). Agents cannot waive.
+- Recording: Document the waiver inline in the PR using the “Waivers” section of the template with justification, scope/timebox (≤ 7 days or until merge), owner, and follow‑up issue link.
+- Disallowed: secrets/PII scan failures, missing observability on changed flows, missing rollback/flag, or active SLO freeze—these cannot be waived.
+- Lifecycle: Waivers are labeled `waiver`, reviewed in weekly retro, and auto‑expire at merge.
+
+Reference: Use the PatchKit PR Template (canonical) in `docs/handbook/ai-toolkit/README.md` (section “PatchKit PR Template”) to standardize PR bodies, determinism/provenance notes, and risk rubric.
 
 ---
 
@@ -386,6 +514,13 @@ flowchart TB
 - **Golden test stability**: prefer deterministic fixtures and schema-based assertions; allow bounded tolerances for token variance. Fail on schema or material output drift, not minor wording differences.
 - **E2E smoke** on Preview (Playwright) for core flows (login, pay, CRUD) — recommended.
 - **Canary/flag validation checklist** before enabling flags for a % of users.
+  - Start with a small, internal or low‑risk cohort (≤ 5% traffic) and default OFF.
+  - Kill‑switch documented and verified; rollout plan and owner recorded.
+  - Success criteria defined up‑front: p95 latency within budget, 5xx ≤ 0.5%, no SLO burn‑rate breach.
+  - Observability in place: representative `trace_id` linked in PR; dashboard links attached.
+  - Rollback rehearsal completed (`vercel promote <known‑good‑preview>`).
+  - Idempotency validated on toggles; no client‑cached secrets or state drift.
+  - Minimum canary window: ≥ 60 minutes of normal traffic before widening.
 
 ---
 
@@ -409,6 +544,15 @@ flowchart TB
 - **Secrets** only in Vercel envs; CI blocks leaks. **CSP/HSTS/X‑Frame‑Options/Referrer‑Policy** via framework middleware or platform headers; for Astro static sites, configure headers at the hosting layer (e.g., Vercel) and prefer platform‑level headers for SSG. For SSR (Next.js or Astro adapters), enforce headers in middleware; platform‑level headers take precedence, and SSR middleware should complement, not conflict. CSRF protections for mutations; SSRF‑hardening on outbound calls.
 - **SBOM** in releases; **license policy** gates (ban GPL if incompatible).
   - **Data classification & PII**: classify data touched by a change; ensure appropriate handling (encryption, redaction, access controls) and avoid logging sensitive content.
+  - **Provenance & signed releases**: attest build artifacts (e.g., GitHub attestations/Sigstore cosign) and sign releases; link provenance in PRs that modify pipelines or release processes.
+
+#### Accessibility & Privacy Addendum
+
+- Enable `eslint-plugin-jsx-a11y` for UI surfaces; treat critical a11y violations as policy/eval failures on reviewable surfaces.
+- Use semantic HTML and appropriate ARIA attributes; exercise basic keyboard/screen‑reader checks on critical flows (adopt incrementally).
+- Never log PII/PHI; rely on **GuardKit** redaction by default and log only stable IDs/non‑sensitive metadata.
+- Enforce CSP and core security headers via platform/middleware (see Next.js guidance); avoid duplicative/conflicting policies.
+- Cookies and sessions follow secure defaults: `HttpOnly`, `Secure`, `SameSite`, and CSRF tokens on mutations.
 
 ---
 
@@ -421,12 +565,22 @@ flowchart TB
   - p95 page **TTFB ≤ 400 ms** for top route.
   - 5xx error rate ≤ **0.5%**.
 - **Error budgets**: 43m/month at 99.9%; if burned, freeze feature flags and focus on reliability until recovered. Alert on **burn‑rate** (multi‑window).
+- **Cost guardrails**: publish monthly AI token and infra cost budgets; alert on anomalies (spend or unit‑cost spikes). Treat sustained anomalies like error‑budget burns: freeze risky merges/promotions and resolve before widening rollout.
 - **On‑call (2‑dev rotation)**: 1 week each; no 24/7 pages for low‑impact; page only for SLO threats.
 - **Incidents**: severities, **rollback first** (Vercel promote), then fix‑forward; blameless **postmortem** template below.
 - **Observability**: **OpenTelemetry** for traces/metrics + structured logs (**pino**) wired to your vendor. Next.js supports OTel and `@vercel/otel`; Astro can emit server traces when using SSR adapters. Bootstrap OTel early from `infra/otel/instrumentation.ts` (default OTLP endpoint `http://localhost:4318`, override with `OTEL_EXPORTER_OTLP_ENDPOINT`).
   - Coverage: target trace/span coverage for the top 5 user flows; add spans around new/changed paths.
   - Safety: use GuardKit to redact PII in logs by default; only log IDs and non‑sensitive metadata.
   - Hygiene: include `trace_id`/`span_id` in all logs; set retention appropriate to data policies; link a representative trace in the PR comment for High‑risk changes.
+  - Local‑first telemetry: when offline or in `--dry-run`, buffer spans/logs locally and flush later (per ObservaKit’s offline mode) to preserve provenance without leaking secrets.
+
+### Incident Severity Levels (summary)
+
+| Severity | Impact & Examples | Action |
+| --- | --- | --- |
+| Sev‑1 | Broad customer impact or SLO breach in production; revenue/security risk | Page on‑call; rollback first (promote prior preview); freeze risky merges; 30‑min watch window; postmortem within 48h |
+| Sev‑2 | Limited cohort impact or partial degradation; error budget at risk | Page on‑call; mitigate (flag, rollback subset); prioritize fix in current cycle; postmortem if SLO budget materially affected |
+| Sev‑3 | Minor issue with workaround; no SLO risk | Triage during focus hours; fix‑forward via small PR behind a flag; include note in weekly retro |
 
 ---
 
@@ -437,6 +591,8 @@ flowchart TB
 - **Queues/backpressure**: Default: **QStash** for serverless simplicity; alternative: **BullMQ + Upstash (Redis)** for heavier workloads or long‑running tasks; **Vercel Cron** for scheduled jobs.
 - **DB basics**: indexes on read paths, batched writes, pagination, idempotency keys, soft limits and rate limiting.
 - **Load test plan**: quick repeatables (k6/Artillery/autocannon) on Preview. Run against **PR Preview** for risky changes or **Trunk Preview** for broader regressions; minimum 2 minutes or ≥1,000 requests. Recommended policy: consider gating merges if p95 exceeds budget by >10%.
+- **Partial Prerendering & Streaming**: adopt PPR for mixed static/dynamic pages; keep dynamic islands behind `Suspense` with clear span boundaries; measure TTFB/TTI before/after adoption.
+- **Cost/perf correlation**: track token usage and infra cost alongside latency/error SLIs (ObservaKit + CostKit). Prefer changes that improve or maintain both; flag regressions in PRs with a short note.
 
 ---
 
@@ -449,6 +605,7 @@ flowchart TB
 Framework strategy: **Next.js** is the default for SaaS/dynamic web apps; **Astro** is used for content‑first properties (blogs/docs/marketing). The current `apps/web` is Astro; additional Next.js apps will be added for dynamic surfaces as the project grows.
 
 - **Feature flags implementation**: flags are declared in `packages/config/flags.ts`. At app startup, register the **Vercel Flags provider** (Edge Config‑backed) so `isFlagEnabled()` and `listFlags()` read from it by default, with local env (`HARMONY_FLAG_*`) as fallback for development. On **SSR** surfaces (Next.js, Astro adapters), flags are server‑evaluated by the provider. On **Astro SSG/static** pages, use `isFlagEnabled` only on the server; inject flag values at build time or fetch via Edge/API — do not rely on `process.env` in the browser.
+- **React 19/Next.js 15+/16 integration**: prefer **Server Actions** for deterministic mutations (thin controllers over use‑cases), evaluate flags server‑side, and use `next/after` for background side‑effects. Fix hydration mismatches before enabling caching; default to `no-store` and opt‑in to caching with stable `cacheKey`s.
 
 **Example layout & ownership (CODEOWNERS)**:
 Note: Illustrative example; `apps/app` (Next.js) may not exist yet. Add Next.js surfaces as needed.
@@ -463,7 +620,7 @@ repo/
   │   ├── domain/     # core business logic (pure TS/Python)
   │   ├── adapters/   # db, http clients
   │   ├── contracts/  # OpenAPI/JSON Schemas, Pact files
-  │   └── ui-kit/     # shared React UI
+  │   └── ui/     # shared React UI
   ├── infra/
   │   ├── ci/         # GH Actions workflows
   │   └── otel/       # OTel config
@@ -483,6 +640,7 @@ Use **CODEOWNERS** to enforce review by area (e.g., `packages/domain` → both d
 - Require High‑risk changes to add a short canary (internal flag cohort) for ≥1 hour before general enablement.
 - Run daily trunk Preview e2e smoke against top flows; gate promotions on failures.
 - Keep flags short‑lived: set owner and expiry, and automate weekly stale‑flag reports.
+- Add resilience to ownership: nominate alternates in **CODEOWNERS** per area to avoid single‑reviewer bottlenecks. If a review is idle >24h, the alternate is auto‑pinged and empowered to proceed.
 
 ---
 
@@ -527,6 +685,9 @@ Use **CODEOWNERS** to enforce review by area (e.g., `packages/domain` → both d
 
 - **Minimal DORA**: lead time (PR open→merge), deployment frequency, change‑fail %, MTTR. Track automatically via PR & Actions timestamps; correlate with SLO burn.
 - **SRE targets**: publish current SLOs, weekly error‑budget report; adjust gates when burn is high (e.g., freeze features, raise test thresholds).
+- **Kaizen log**: surface daily `kaizen` PRs in the weekly retro; aim for ≥5 small improvements/week. Celebrate and keep the habit compounding.
+- **WIP/cycle analytics**: monitor WIP aging, 50th/90th percentile cycle time, and blocked WIP. Tighten WIP or cut scope if trends degrade for 2 consecutive weeks.
+- **Cost dashboard**: review monthly AI token and infra cost trends; investigate anomalies; record decisions in the weekly retro and PR notes.
 - **Weekly retro prompts**:
 
   - *What blocked flow?*

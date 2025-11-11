@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button } from '@harmony/ui-kit';
+import { Button } from '@harmony/ui';
 
 import generateEmbedding from '../../actions/generate-embedding.action';
 
