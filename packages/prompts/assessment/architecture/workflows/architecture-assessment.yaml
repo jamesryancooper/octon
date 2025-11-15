@@ -3,6 +3,8 @@ suite: Harmony-Architecture-Assessment-Actions
 description: >
   Orchestrates the Harmony Architecture assessment as a sequence of action-specific prompts.
 
+canonical_prompt_path: assessment/architecture/architecture-assessment.md
+
 defaults:
   runner:
     model: gpt-5-thinking
@@ -107,4 +109,3 @@ steps:
       action: declare_no_update
       subject: architecture
       step_index: 9
-
