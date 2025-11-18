@@ -1,0 +1,31 @@
+{
+  "id": "docs_glossary",
+  "displayName": "Docs Glossary Sweep",
+  "description": "Scan docs/harmony for repeated terminology and emit a normalized glossary report.",
+  "type": "assessment",
+  "subject": "glossary",
+  "mode": "read-only",
+  "subtype": "inventory",
+  "canonicalPromptPath": "packages/prompts/assessment/glossary/docs-glossary.md",
+  "workflowManifestPath": "packages/prompts/assessment/glossary/workflows/docs-glossary.yaml",
+  "workflowEntrypoint": "docs-glossary-collect",
+  "runtime": {
+    "type": "http-service",
+    "url": "http://127.0.0.1:8410",
+    "autoStart": {
+      "pythonCommand": "agents/runner/runtime/.venv/bin/python",
+      "module": "agents.runner.runtime.server",
+      "host": "127.0.0.1",
+      "port": 8410,
+      "readyTimeoutSeconds": 60
+    },
+    "timeoutSeconds": 900
+  },
+  "policyProfile": "docs-glossary-default",
+  "requiredGates": ["policykit"],
+  "observability": {
+    "spanPrefix": "harmony.flow.docs_glossary"
+  }
+}
+
+

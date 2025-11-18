@@ -1,5 +1,12 @@
 import { randomUUID } from "node:crypto";
 
+export interface FlowObservabilityConfig {
+  /**
+   * Prefix applied to spans/trace ids for observability correlation.
+   */
+  spanPrefix?: string;
+}
+
 export interface FlowConfig {
   /**
    * Identifier for the flow to run (e.g., "architecture_assessment").
@@ -26,6 +33,11 @@ export interface FlowConfig {
    * Optional workflow entrypoint id (falls back to manifest order if omitted).
    */
   workflowEntrypoint?: string;
+
+  /**
+   * Optional observability hints (passed through to the runtime).
+   */
+  observability?: FlowObservabilityConfig;
 }
 
 export interface FlowRunRequest {
@@ -36,6 +48,18 @@ export interface FlowRunRequest {
    * Concrete flows should define a typed shape and validate it at the edge.
    */
   params?: Record<string, unknown>;
+}
+
+export interface FlowRunMetadata {
+  flowName: string;
+  workflowManifestPath: string;
+  canonicalPromptPath: string;
+  workspaceRoot: string;
+  runnerEndpoint: string;
+  workflowEntrypoint?: string;
+  runtimeRunId?: string;
+  spanPrefix?: string;
+  [key: string]: unknown;
 }
 
 export interface FlowRunResult {
@@ -58,14 +82,7 @@ export interface FlowRunResult {
   /**
    * Optional metadata about the flow run (model config, manifest path, etc.).
    */
-  metadata?: {
-    flowName?: string;
-    workflowManifestPath?: string;
-    canonicalPromptPath?: string;
-    repoRoot?: string;
-    runnerEndpoint?: string;
-    runtimeRunId?: string;
-  };
+  metadata?: FlowRunMetadata;
 }
 
 /**
@@ -127,13 +144,15 @@ export function createHttpFlowRunner(
     async run(request: FlowRunRequest): Promise<FlowRunResult> {
       const { config, params } = request;
       const runId = randomUUID();
+      const workspaceRoot = config.workspaceRoot ?? process.cwd();
       const payload = {
         runId,
         flowName: config.flowName,
         canonicalPromptPath: config.canonicalPromptPath,
         workflowManifestPath: config.workflowManifestPath,
         workflowEntrypoint: config.workflowEntrypoint,
-        workspaceRoot: config.workspaceRoot,
+        workspaceRoot,
+        observability: config.observability,
         params: params ?? {},
       };
 
@@ -156,15 +175,17 @@ export function createHttpFlowRunner(
 
       return {
         result: data.result,
-        artifacts: data.artifacts,
+        artifacts: data.artifacts ?? undefined,
         runId,
         metadata: {
           flowName: config.flowName,
           workflowManifestPath: config.workflowManifestPath,
+          workflowEntrypoint: config.workflowEntrypoint,
           canonicalPromptPath: config.canonicalPromptPath,
-          repoRoot: config.workspaceRoot || process.cwd(),
+          workspaceRoot,
           runnerEndpoint: baseUrl,
           runtimeRunId: data.runtimeRunId,
+          spanPrefix: config.observability?.spanPrefix,
           ...(data.metadata ?? {}),
         },
       };

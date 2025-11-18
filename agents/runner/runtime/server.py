@@ -10,6 +10,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from .assessment.run import run_assessment_from_canonical_prompt
+from .glossary.run import run_docs_glossary_from_canonical_prompt
 
 logger = logging.getLogger("flowkit.runner")
 
@@ -68,8 +69,38 @@ def _run_assessment(payload: FlowRunPayload) -> FlowRunResponse:
     )
 
 
+def _run_docs_glossary(payload: FlowRunPayload) -> FlowRunResponse:
+    state = run_docs_glossary_from_canonical_prompt(
+        canonical_prompt_path=payload.canonicalPromptPath,
+        workflow_manifest_path=payload.workflowManifestPath,
+        workflow_entrypoint=payload.workflowEntrypoint,
+        repo_root=payload.workspaceRoot,
+        run_id=payload.runId,
+        flow_name=payload.flowName,
+    )
+
+    if state.glossary_report is not None:
+        result: Any = state.glossary_report.model_dump()
+    else:
+        result = {"message": "DocsGlossaryFlow completed without a glossary report."}
+
+    metadata = {
+        "flowName": payload.flowName,
+        "workflowManifestPath": str(Path(payload.workflowManifestPath)),
+        "canonicalPromptPath": payload.canonicalPromptPath,
+        "repoRoot": payload.workspaceRoot,
+    }
+
+    return FlowRunResponse(
+        result=result,
+        metadata=metadata,
+        runtimeRunId=state.run_id,
+    )
+
+
 FLOW_HANDLERS: Dict[str, FlowHandler] = {
     "architecture_assessment": _run_assessment,
+    "docs_glossary": _run_docs_glossary,
 }
 
 

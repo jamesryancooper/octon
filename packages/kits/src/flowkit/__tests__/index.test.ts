@@ -12,7 +12,10 @@ const baseConfig = {
   workspaceRoot: "/tmp/harmony",
   workflowManifestPath:
     "packages/prompts/assessment/architecture/workflows/architecture-assessment.yaml",
-  workflowEntrypoint: "architecture-inventory"
+  workflowEntrypoint: "architecture-inventory",
+  observability: {
+    spanPrefix: "harmony.flow.test"
+  }
 };
 
 const createFetchStub = (response: {
@@ -64,12 +67,16 @@ test("createHttpFlowRunner posts payloads and surfaces metadata", async () => {
   const parsedBody = JSON.parse(requests[0].body);
   assert.equal(parsedBody.flowName, baseConfig.flowName);
   assert.equal(parsedBody.workflowManifestPath, baseConfig.workflowManifestPath);
+  assert.equal(parsedBody.observability.spanPrefix, "harmony.flow.test");
 
   assert.deepEqual(result.result, { ok: true, score: 95 });
   assert.equal(result.runId.length > 0, true);
   assert.deepEqual(result.artifacts, ["report.json"]);
   assert.equal(result.metadata?.runnerEndpoint, "http://127.0.0.1:8410");
   assert.equal(result.metadata?.runtimeRunId, "py-run");
+  assert.equal(result.metadata?.workspaceRoot, "/tmp/harmony");
+  assert.equal(result.metadata?.workflowEntrypoint, "architecture-inventory");
+  assert.equal(result.metadata?.spanPrefix, "harmony.flow.test");
 });
 
 test("createHttpFlowRunner throws when the runner returns non-2xx", async () => {

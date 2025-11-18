@@ -425,7 +425,8 @@ export const runFlowFromConfigPath = async (
     canonicalPromptPath: flowConfig.canonicalPromptPath,
     workflowManifestPath: flowConfig.workflowManifestPath,
     workflowEntrypoint: flowConfig.workflowEntrypoint,
-    workspaceRoot: flowConfig.workspaceRoot ?? workspaceRoot
+    workspaceRoot: flowConfig.workspaceRoot ?? workspaceRoot,
+    observability: flowConfig.observability
   };
 
   try {
