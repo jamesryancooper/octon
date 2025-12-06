@@ -16,7 +16,8 @@
     "sbom": "pnpm dlx @cyclonedx/cyclonedx-npm --output-file sbom/sbom.spdx.json",
     "secrets:scan": "pnpm dlx trufflehog filesystem --no-update --fail --path .",
     "preview:vercel": "turbo run preview:vercel",
-    "flowkit:run": "pnpm --filter @harmony/kits flowkit:run-config"
+    "flowkit:run": "pnpm --filter @harmony/kits flowkit:run-config",
+    "harmony": "pnpm --filter @harmony/cli harmony"
   },
   "engines": {
     "node": "24.x"

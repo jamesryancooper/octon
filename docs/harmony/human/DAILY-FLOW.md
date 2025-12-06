@@ -78,16 +78,21 @@ For each PR waiting for review:
 
 ```bash
 # Start a new feature
-harmony spec "add webhook notifications for order updates"
+harmony feature "add webhook notifications for order updates"
 
 # Fix a bug
 harmony fix "#423"
 
+# Build the current task
+harmony build
+
 # Continue paused work
-harmony resume oauth-integration
+harmony retry
 ```
 
 AI will generate specs and start building. You'll be notified when things are ready for review.
+
+> **CLI Reference**: Run `harmony help` to see all available commands and options.
 
 ---
 
@@ -147,10 +152,13 @@ For features that are approved and ready:
 
 ```bash
 # Check what's ready to ship
-harmony ship --list
+harmony status
 
 # Ship a specific feature (behind a flag)
-harmony ship user-profiles
+harmony ship
+
+# Ship a specific task by ID
+harmony ship <task-id>
 
 # Or use Vercel directly
 vercel promote <preview-url>
@@ -169,11 +177,12 @@ AI can continue working while you're away:
 
 ```bash
 # Start a larger feature that AI can work on overnight
-harmony spec "refactor authentication to use OAuth2"
+harmony feature "refactor authentication to use OAuth2"
+harmony build
 
-# Queue multiple items
-harmony queue "add pagination to /api/orders"
-harmony queue "update all deprecated API calls"
+# Start another task
+harmony feature "add pagination to /api/orders"
+harmony build
 ```
 
 You'll have PRs waiting for review in the morning.
@@ -253,7 +262,7 @@ In a 2-dev team, you rotate roles weekly:
 | 11:15 | Review and approve PR |
 | 11:30 | AI merges, deploys to preview |
 | 14:00 | `harmony plan-week` — Adjust priorities with Dev B |
-| 14:30 | Start T3 OAuth spec: `harmony spec "google oauth" --tier 3` |
+| 14:30 | Start T3 OAuth spec: `harmony feature "google oauth" --tier T3` |
 | 15:00 | Review generated spec with Dev B |
 | 15:30 | Approve spec, `harmony build oauth-integration` |
 | 17:00 | Check AI progress, queue questions for tomorrow |
@@ -280,31 +289,28 @@ In a 2-dev team, you rotate roles weekly:
 ### "I need to change direction mid-task"
 
 ```bash
-harmony pause user-profiles
-harmony refine user-profiles --context "actually, we need pagination too"
-harmony resume user-profiles
+harmony pause
+# Adjust the task
+harmony retry --context "actually, we need pagination too"
 ```
 
 ### "AI's approach isn't what I wanted"
 
 ```bash
-harmony retry user-profiles --constraint "use cursor-based pagination, not offset"
+harmony retry --constraint "use cursor-based pagination, not offset"
 ```
 
 ### "I need to understand what AI did"
 
 ```bash
-harmony explain user-profiles --detailed
+harmony explain <task-id> "why did you use this approach?"
 ```
 
-### "I want to work on something manually"
+### "Something went wrong, need to redo"
 
 ```bash
-# AI steps back, you take over
-harmony manual user-profiles
-
-# When done, let AI take back over for tests/docs
-harmony auto user-profiles --from tests
+harmony pause
+harmony retry --model claude-opus
 ```
 
 ---
@@ -347,6 +353,7 @@ Compare to pre-AI approach where each of these would be 2-4 hours of work.
 
 For deep dives into the methodology, see the AI-facing docs:
 
+- **CLI Reference**: `packages/harmony-cli/README.md` — Full command reference, options, and integration points
 - **CI/CD Details**: [../ai/methodology/ci-cd-quality-gates.md](../ai/methodology/ci-cd-quality-gates.md)
 - **Flow & WIP Policy**: [../ai/methodology/flow-and-wip-policy.md](../ai/methodology/flow-and-wip-policy.md)
 - **Reliability & Ops**: [../ai/methodology/reliability-and-ops.md](../ai/methodology/reliability-and-ops.md)

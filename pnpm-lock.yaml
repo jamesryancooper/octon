@@ -253,6 +253,19 @@ importers:
 
   packages/domain: {}
 
+  packages/harmony-cli:
+    dependencies:
+      '@harmony/kits':
+        specifier: workspace:*
+        version: link:../kits
+    devDependencies:
+      tsx:
+        specifier: ^4.19.2
+        version: 4.20.6
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+
   packages/kits:
     devDependencies:
       tsx:
