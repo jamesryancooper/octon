@@ -17,6 +17,29 @@ export {
 } from "./golden.js";
 export type { PromptConfig, PromptMetadata, PromptCategory } from "./types.js";
 
+// Hallucination detection
+export {
+  checkForHallucinations,
+  quickHallucinationCheck,
+  validateWithHallucinationCheck,
+  formatHallucinationReport,
+  HALLUCINATION_INDICATORS,
+  type HallucinationIndicator,
+  type HallucinationContext,
+  type HallucinationMatch,
+  type HallucinationCheckResult,
+} from "./hallucination.js";
+
+// Monitoring infrastructure
+export {
+  GoldenTestMonitor,
+  generateWeeklySummary,
+  type MonitoringRecord,
+  type MonitoringMetrics,
+  type MonitoringAlert,
+  type MonitoringThresholds,
+} from "./monitoring.js";
+
 // Re-export utility functions
 export { validateInput, validateOutput } from "./validator.js";
 export { getPromptPath, listPrompts } from "./loader.js";

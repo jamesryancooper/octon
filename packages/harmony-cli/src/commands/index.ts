@@ -11,5 +11,6 @@ export { explainCommand, explainHelp } from "./explain.js";
 export { retryCommand, retryHelp } from "./retry.js";
 export { pauseCommand, pauseHelp } from "./pause.js";
 export { rollbackCommand, rollbackHelp } from "./rollback.js";
+export { checkCommand, checkHelp } from "./check.js";
 export { helpCommand, mainHelp } from "./help.js";
 

@@ -338,7 +338,6 @@ export class GoldenTestManager {
   /**
    * Calculate similarity between two values.
    * Uses a simple structural similarity for objects.
-   * Returns a normalized score between 0 and 1.
    */
   private calculateSimilarity(actual: unknown, expected: unknown): number {
     // For non-objects, use exact match
@@ -354,34 +353,21 @@ export class GoldenTestManager {
     const eObj = expected as Record<string, unknown>;
 
     const allKeys = new Set([...Object.keys(aObj), ...Object.keys(eObj)]);
-    
-    if (allKeys.size === 0) {
-      return 1; // Both empty objects are identical
-    }
-
-    let totalSimilarity = 0;
+    let matches = 0;
 
     for (const key of allKeys) {
       if (key in aObj && key in eObj) {
-        // Key exists in both - calculate similarity for this key (0-1)
-        const aVal = aObj[key];
-        const eVal = eObj[key];
-        
-        if (typeof aVal === "object" && typeof eVal === "object") {
-          // Nested objects: recursively calculate similarity (already returns 0-1)
-          totalSimilarity += this.calculateSimilarity(aVal, eVal);
-        } else if (aVal === eVal) {
-          // Exact primitive match
-          totalSimilarity += 1;
+        if (typeof aObj[key] === "object" && typeof eObj[key] === "object") {
+          matches += this.calculateSimilarity(aObj[key], eObj[key]);
+        } else if (aObj[key] === eObj[key]) {
+          matches += 1;
         } else {
-          // Values differ but key exists in both - partial credit
-          totalSimilarity += 0.5;
+          matches += 0.5; // Partial credit for having the key
         }
       }
-      // Keys missing from one side contribute 0 to similarity
     }
 
-    return totalSimilarity / allKeys.size;
+    return allKeys.size > 0 ? matches / allKeys.size : 1;
   }
 }
 
@@ -404,4 +390,3 @@ export function createGoldenFromOutput(
     tags: [],
   };
 }
-

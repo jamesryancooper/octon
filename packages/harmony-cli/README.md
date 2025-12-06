@@ -45,6 +45,13 @@ harmony ship
 | `pause` | Pause a running task | `harmony pause` |
 | `rollback` | Rollback production | `harmony rollback` |
 
+### Verification Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `check` | Run guardrail checks on AI output | `harmony check output.ts` |
+| `check --verify-imports` | Verify imports against package.json | `harmony check --verify-imports src/` |
+
 ## Risk Tiers
 
 AI automatically assigns risk tiers. You can override with `--tier`.
@@ -89,6 +96,21 @@ harmony retry --constraint "Don't modify the database schema"
 ```bash
 harmony rollback
 # Then follow the printed instructions
+```
+
+### Check AI output for issues
+```bash
+# Full guardrail check
+harmony check generated-code.ts
+
+# Verify imports only
+harmony check --verify-imports src/
+
+# Check with specific tier
+harmony check --file output.ts --tier T3
+
+# Check inline content
+harmony check "const x = eval(input)"
 ```
 
 ## How It Works
@@ -155,6 +177,7 @@ packages/harmony-cli/
     ├── orchestrator/
     │   ├── state.ts          # Task persistence (.harmony/state.json)
     │   ├── workflow.ts       # Maps human commands to kit operations
+    │   ├── guardrails.ts     # AI guardrail integration (GuardKit)
     │   └── index.ts          # Orchestrator exports
     └── commands/
         ├── status.ts         # harmony status
@@ -166,6 +189,7 @@ packages/harmony-cli/
         ├── retry.ts          # harmony retry
         ├── pause.ts          # harmony pause
         ├── rollback.ts       # harmony rollback
+        ├── check.ts          # harmony check (guardrails)
         ├── help.ts           # harmony help
         └── index.ts          # Command exports
 ```
@@ -185,6 +209,7 @@ For faster typing, most commands have short aliases:
 | `retry` | `r` |
 | `pause` | `stop` |
 | `rollback` | `revert` |
+| `check` | `verify` |
 | `help` | `h`, `--help`, `-h` |
 
 ## Key Design Decisions
@@ -234,7 +259,7 @@ This CLI is built on top of the Harmony kit ecosystem:
 | **PatchKit** | PR creation and management | `shipTask()` in `workflow.ts` |
 | **ObservaKit** | Observability and tracing | Throughout orchestrator |
 | **PolicyKit** | Policy enforcement | Gate checks in workflow |
-| **GuardKit** | Input sanitization | Before AI calls |
+| **GuardKit** | AI output protection | `check` command, `guardrails.ts` |
 
 Humans don't need to interact with these directly — the CLI handles it all.
 

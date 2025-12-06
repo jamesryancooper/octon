@@ -39,6 +39,10 @@ pnpm validate
 
 7. **Versioning**: Prompts are semantically versioned with changelogs
 
+8. **Hallucination Detection**: Built-in checks for fake imports, APIs, and placeholders
+
+9. **Quality Monitoring**: Track AI output quality over time with drift detection and alerts
+
 ## Overview
 
 This package contains the core prompts used by Harmony AI agents to generate specifications, plans, code, tests, and threat models. Each prompt includes:
@@ -81,7 +85,9 @@ packages/prompts/
     ├── catalog.ts            # Catalog management
     ├── loader.ts             # Prompt loading
     ├── validator.ts          # Schema validation
-    └── golden.ts             # Golden test infrastructure
+    ├── golden.ts             # Golden test infrastructure
+    ├── hallucination.ts      # Hallucination detection
+    └── monitoring.ts         # Quality monitoring
 ```
 
 ## Usage
@@ -188,6 +194,108 @@ const results = await manager.runAllTests(async (input) => {
 console.log(`Passed: ${results.passed}/${results.total}`);
 ```
 
+### Hallucination Detection
+
+Check AI outputs for common hallucination patterns:
+
+```typescript
+import { 
+  checkForHallucinations, 
+  quickHallucinationCheck,
+  formatHallucinationReport 
+} from '@harmony/prompts';
+
+// Quick check (fast, less thorough)
+if (quickHallucinationCheck(aiOutput)) {
+  console.log('Possible hallucination detected');
+}
+
+// Full check with context
+const result = checkForHallucinations(aiOutput, {
+  knownPackages: ['react', 'zod', 'express'],  // From package.json
+  knownFiles: ['src/utils.ts', 'src/api.ts'],   // Project files
+  originalIntent: 'Add user login',             // What was requested
+  tier: 'T2',                                    // Risk tier
+});
+
+if (result.detected) {
+  console.log(formatHallucinationReport(result));
+  // Shows: indicators found, confidence score, recommendations
+}
+```
+
+#### Hallucination Indicators
+
+| Indicator | Severity | Description |
+|-----------|----------|-------------|
+| `unknown_import` | High | Import from package not in dependencies |
+| `suspicious_helper` | Medium | Generic `utils/helpers` imports |
+| `nonexistent_api` | High | APIs that don't exist (e.g., `localStorage.getAsync()`) |
+| `todo_placeholder` | Low | TODO/FIXME/placeholder markers |
+| `empty_catch` | Medium | Error handling that swallows errors |
+| `generic_variable` | Low | Overly generic variable names |
+| `scope_creep` | Medium | Generated code exceeds request scope |
+| `confident_assertion` | Medium | Comments asserting incorrect facts |
+
+### Quality Monitoring
+
+Track AI output quality over time:
+
+```typescript
+import { GoldenTestMonitor, generateWeeklySummary } from '@harmony/prompts';
+
+// Create monitor with thresholds
+const monitor = new GoldenTestMonitor('./monitoring-data', {
+  minPassRate: 0.9,        // Alert if pass rate < 90%
+  maxDrift: 0.15,          // Alert if drift > 15%
+  minConsistency: 0.85,    // Alert if consistency < 85%
+  consecutiveFailuresAlert: 2,
+});
+
+// Record a golden test run
+const record = monitor.recordRun(
+  'spec-from-intent',      // Prompt ID
+  testSummary,              // GoldenTestSummary from runAllTests
+  'gpt-4o',                 // Model used
+  0.2                       // Temperature
+);
+
+// Check for alerts
+const alerts = monitor.checkAlerts('spec-from-intent');
+for (const alert of alerts) {
+  console.log(`${alert.severity}: ${alert.message}`);
+  console.log(`Action: ${alert.action}`);
+}
+
+// Generate monitoring report
+const report = monitor.generateReport('spec-from-intent');
+console.log(report);
+
+// Weekly summary across all prompts
+const weeklySummary = generateWeeklySummary(monitor, [
+  'spec-from-intent',
+  'plan-from-spec',
+  'code-from-plan',
+]);
+```
+
+#### Alert Types
+
+| Type | Severity | Trigger |
+|------|----------|---------|
+| `pass_rate_drop` | Warning/Critical | Pass rate below threshold |
+| `drift_detected` | Warning/Critical | Significant change from previous run |
+| `consistency_low` | Warning | High variance in results |
+| `new_failure` | Warning | Consecutive runs with failures |
+
+#### Metrics Tracked
+
+- **Pass Rate**: Percentage of golden tests passing
+- **Trend**: Is quality improving or declining?
+- **Consistency**: How stable are the results?
+- **Drift**: How much did output change from baseline?
+- **Recent Failures**: Which tests are failing and why?
+
 ## Prompt Catalog
 
 The `catalog.yaml` file is the central registry:
@@ -223,6 +331,7 @@ pnpm validate
 ```
 
 This checks:
+
 - Schema compilation
 - Template structure
 - Required sections present
@@ -231,6 +340,7 @@ This checks:
 ## Versioning
 
 Prompts are versioned semantically:
+
 - **Major**: Breaking changes to input/output schemas
 - **Minor**: New optional fields or capabilities
 - **Patch**: Bug fixes and clarifications
@@ -290,18 +400,34 @@ if (validation.valid) {
 ```typescript
 // Main exports
 import { 
+  // Catalog and loading
   PromptCatalog,        // Catalog management class
   loadCatalog,          // Load catalog from default location
   PromptLoader,         // Load prompts with templates and schemas
   LoadedPrompt,         // Type for loaded prompt
+  
+  // Validation
   PromptValidator,      // Schema validation
   ValidationResult,     // Validation result type
   validateInput,        // Standalone input validation
   validateOutput,       // Standalone output validation
   getPromptPath,        // Get path to prompt directory
   listPrompts,          // List all available prompts
+  
+  // Golden tests
   GoldenTestManager,    // Golden test infrastructure
   createGoldenFromOutput, // Helper to create golden tests from output
+  
+  // Hallucination detection
+  checkForHallucinations,      // Full hallucination check
+  quickHallucinationCheck,     // Fast preliminary check
+  validateWithHallucinationCheck, // Combine validation + hallucination
+  formatHallucinationReport,   // Human-readable report
+  HALLUCINATION_INDICATORS,    // Built-in indicators
+  
+  // Quality monitoring
+  GoldenTestMonitor,           // Track quality over time
+  generateWeeklySummary,       // Weekly summary across prompts
 } from '@harmony/prompts';
 
 // Type exports
@@ -312,6 +438,18 @@ import type {
   GoldenTestCase,       // Golden test case structure
   GoldenTestResult,     // Result of running a golden test
   GoldenTestSummary,    // Summary of a golden test run
+  
+  // Hallucination types
+  HallucinationIndicator,
+  HallucinationContext,
+  HallucinationMatch,
+  HallucinationCheckResult,
+  
+  // Monitoring types
+  MonitoringRecord,
+  MonitoringMetrics,
+  MonitoringAlert,
+  MonitoringThresholds,
 } from '@harmony/prompts';
 ```
 
@@ -329,9 +467,10 @@ import type {
 | `src/loader.ts` | Prompt loading utilities |
 | `src/validator.ts` | Schema validation with AJV |
 | `src/golden.ts` | Golden test infrastructure |
+| `src/hallucination.ts` | Hallucination detection utilities |
+| `src/monitoring.ts` | Quality monitoring infrastructure |
 | `src/types.ts` | TypeScript type definitions |
 
 ## License
 
 MIT - See repository root for full license.
-
