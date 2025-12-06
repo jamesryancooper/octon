@@ -34,8 +34,8 @@ A change qualifies as T1 if ALL of the following are true:
 ```yaml
 tier1_criteria:
   scope:
-    max_lines_changed: 50
-    max_files_changed: 5
+    max_lines_changed: 49      # < 50 (exclusive); 50+ triggers T2
+    max_files_changed: 4       # < 5 (exclusive); 5+ triggers T2
     
   surfaces_touched:
     allowed:
@@ -175,7 +175,7 @@ A change qualifies as T2 if:
 tier2_criteria:
   scope:
     lines_changed: 50-300
-    files_changed: 6-20
+    files_changed: 5-20
     
   surfaces_touched:
     triggers_t2:
@@ -874,7 +874,7 @@ approval_checkpoints:
 | Metric | T1 | T2 | T3 |
 |--------|-----|-----|-----|
 | Lines changed | < 50 | 50-300 | Any |
-| Files changed | < 5 | 6-20 | Any |
+| Files changed | < 5 | 5-20 | Any |
 | New endpoints | 0 | Any | Any |
 | Auth/security surfaces | 0 | 0 | Any |
 | Data migrations | 0 | 0 | Any |

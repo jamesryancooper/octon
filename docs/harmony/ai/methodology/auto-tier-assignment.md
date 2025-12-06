@@ -286,11 +286,11 @@ t2_path_triggers:
 t2_scope_triggers:
   lines_threshold:
     min: 50
-    # Changes >= 50 lines trigger T2
+    # Changes >= 50 lines trigger T2 (T1 allows < 50)
     
   files_threshold:
     min: 5
-    # Changes to >= 5 files trigger T2
+    # Changes to >= 5 files trigger T2 (T1 allows < 5)
     
   complexity_indicators:
     - "Multiple files modified"
@@ -333,8 +333,8 @@ t2_content_triggers:
 ```yaml
 t1_all_required:
   scope_limits:
-    max_lines_changed: 50
-    max_files_changed: 5
+    max_lines_changed: 49      # < 50 (exclusive); 50+ triggers T2
+    max_files_changed: 4       # < 5 (exclusive); 5+ triggers T2
     
   file_restrictions:
     allowed_extensions:
