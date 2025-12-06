@@ -1,0 +1,23 @@
+# Example: T1 Spec for a typo fix
+# This demonstrates the minimal spec format for trivial changes
+
+input:
+  intent: "Fix the typo in ErrorBoundary.tsx where 'recieved' should be 'received'"
+  tier: T1
+
+output:
+  title: "Fix typo in ErrorBoundary error message"
+  tier: T1
+  description: "Correct spelling of 'received' in error message displayed to users when an error boundary catches an exception."
+  files:
+    - "src/components/ErrorBoundary.tsx"
+  risks: "none - cosmetic text change only"
+  tests: "existing tests pass - no logic change"
+  rollback: "revert commit"
+
+# Validation notes:
+# - Tier is appropriate: single character change, no logic
+# - Files list is complete
+# - Risks correctly identified as none
+# - Rollback is simple and appropriate
+

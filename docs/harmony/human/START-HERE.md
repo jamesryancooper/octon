@@ -167,6 +167,7 @@ AI auto-assigns a risk tier to every change. Higher tiers require more human att
 The simple docs you're reading are the human-facing layer. For full details on methodology, architecture, kits, and policies, see:
 
 - **CLI Reference**: `packages/harmony-cli/README.md` — Full command docs, options, integration points
+- **Prompt Library**: `packages/prompts/README.md` — Canonical prompts with schemas and validation
 - **Full Methodology**: [../ai/methodology/README.md](../ai/methodology/README.md)
 - **Architecture**: [../ai/architecture/overview.md](../ai/architecture/overview.md)
 - **Kit Documentation**: [../ai/kits/README.md](../ai/kits/README.md)

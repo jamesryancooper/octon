@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/prompts/code-from-plan.output.json",
+  "title": "Code from Plan - Output Schema",
+  "description": "Output schema for the code-from-plan prompt",
+  "oneOf": [
+    { "$ref": "#/$defs/CodeOutput" },
+    { "$ref": "#/$defs/ClarificationRequest" }
+  ],
+  "$defs": {
+    "CodeOutput": {
+      "type": "object",
+      "required": ["step_number", "step_name", "files", "verification"],
+      "properties": {
+        "step_number": { "type": "integer" },
+        "step_name": { "type": "string" },
+        "files": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/FileChange" },
+          "minItems": 1
+        },
+        "imports_added": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "exports_added": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "dependencies_needed": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "npm packages that need to be installed"
+        },
+        "verification": {
+          "type": "object",
+          "required": ["commands", "expected_results"],
+          "properties": {
+            "commands": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 1
+            },
+            "expected_results": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 1
+            }
+          }
+        },
+        "notes": {
+          "type": "string",
+          "description": "Implementation notes for reviewers"
+        }
+      }
+    },
+    "FileChange": {
+      "type": "object",
+      "required": ["path", "action"],
+      "properties": {
+        "path": { "type": "string" },
+        "action": {
+          "type": "string",
+          "enum": ["create", "modify", "delete"]
+        },
+        "content": {
+          "type": "string",
+          "description": "Full file content for create action"
+        },
+        "changes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Change" },
+          "description": "Specific changes for modify action"
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "action": { "const": "create" } } },
+          "then": { "required": ["content"] }
+        },
+        {
+          "if": { "properties": { "action": { "const": "modify" } } },
+          "then": { "required": ["changes"] }
+        }
+      ]
+    },
+    "Change": {
+      "type": "object",
+      "required": ["type", "location"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["add", "replace", "delete"]
+        },
+        "location": {
+          "type": "string",
+          "description": "Human-readable description of where the change goes"
+        },
+        "old_content": {
+          "type": "string",
+          "description": "Content being replaced or deleted"
+        },
+        "new_content": {
+          "type": "string",
+          "description": "New content being added or replacing old"
+        }
+      }
+    },
+    "ClarificationRequest": {
+      "type": "object",
+      "required": ["needs_clarification", "questions"],
+      "properties": {
+        "needs_clarification": { "const": true },
+        "questions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "missing_context": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Specific files or information needed"
+        }
+      }
+    }
+  }
+}
+

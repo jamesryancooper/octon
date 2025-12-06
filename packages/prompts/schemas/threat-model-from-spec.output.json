@@ -1,0 +1,187 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/prompts/threat-model-from-spec.output.json",
+  "title": "Threat Model from Spec - Output Schema",
+  "description": "Output schema for the threat-model-from-spec prompt",
+  "oneOf": [
+    { "$ref": "#/$defs/T2ThreatModel" },
+    { "$ref": "#/$defs/T3ThreatModel" }
+  ],
+  "$defs": {
+    "T2ThreatModel": {
+      "type": "object",
+      "required": ["tier", "summary", "primary_risks", "recommended_controls"],
+      "properties": {
+        "tier": { "const": "T2" },
+        "summary": {
+          "type": "string",
+          "minLength": 100,
+          "description": "2-3 paragraph threat summary"
+        },
+        "primary_risks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/PrimaryRisk" },
+          "minItems": 1,
+          "maxItems": 5
+        },
+        "recommended_controls": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
+    "T3ThreatModel": {
+      "type": "object",
+      "required": ["tier", "overview", "data_flow", "stride", "security_requirements"],
+      "properties": {
+        "tier": { "const": "T3" },
+        "overview": {
+          "type": "string",
+          "minLength": 100
+        },
+        "data_flow": {
+          "type": "object",
+          "required": ["description", "trust_boundaries", "sensitive_data"],
+          "properties": {
+            "description": { "type": "string" },
+            "trust_boundaries": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "sensitive_data": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "stride": {
+          "type": "object",
+          "required": ["spoofing", "tampering", "repudiation", "information_disclosure", "denial_of_service", "elevation_of_privilege"],
+          "properties": {
+            "spoofing": { "$ref": "#/$defs/STRIDECategory" },
+            "tampering": { "$ref": "#/$defs/STRIDECategory" },
+            "repudiation": { "$ref": "#/$defs/STRIDECategory" },
+            "information_disclosure": { "$ref": "#/$defs/STRIDECategory" },
+            "denial_of_service": { "$ref": "#/$defs/STRIDECategory" },
+            "elevation_of_privilege": { "$ref": "#/$defs/STRIDECategory" }
+          }
+        },
+        "residual_risks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["description", "acceptance_rationale"],
+            "properties": {
+              "description": { "type": "string" },
+              "acceptance_rationale": { "type": "string" }
+            }
+          }
+        },
+        "security_requirements": {
+          "type": "object",
+          "required": ["must_have"],
+          "properties": {
+            "must_have": {
+              "type": "array",
+              "items": { "type": "string" },
+              "minItems": 1
+            },
+            "should_have": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "PrimaryRisk": {
+      "type": "object",
+      "required": ["category", "threat", "mitigation", "test"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": ["Spoofing", "Tampering", "Repudiation", "Information Disclosure", "Denial of Service", "Elevation of Privilege"]
+        },
+        "threat": { "type": "string" },
+        "mitigation": { "type": "string" },
+        "test": { "type": "string" }
+      }
+    },
+    "STRIDECategory": {
+      "type": "object",
+      "required": ["threats", "mitigations", "tests"],
+      "properties": {
+        "threats": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Threat" }
+        },
+        "mitigations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Mitigation" }
+        },
+        "tests": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/SecurityTest" }
+        },
+        "not_applicable_reason": {
+          "type": "string",
+          "description": "If this category has no threats, explain why"
+        }
+      }
+    },
+    "Threat": {
+      "type": "object",
+      "required": ["id", "description", "likelihood", "impact"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z][0-9]+$"
+        },
+        "description": { "type": "string" },
+        "likelihood": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "impact": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "attack_scenario": { "type": "string" }
+      }
+    },
+    "Mitigation": {
+      "type": "object",
+      "required": ["threat_ids", "control", "implementation"],
+      "properties": {
+        "threat_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "control": { "type": "string" },
+        "implementation": { "type": "string" },
+        "asvs_mapping": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "SecurityTest": {
+      "type": "object",
+      "required": ["mitigation_for", "test_type", "description", "expected_result"],
+      "properties": {
+        "mitigation_for": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "test_type": {
+          "type": "string",
+          "enum": ["unit", "contract", "e2e", "manual", "penetration"]
+        },
+        "description": { "type": "string" },
+        "expected_result": { "type": "string" }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,368 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/prompts/spec-from-intent.output.json",
+  "title": "Spec from Intent - Output Schema",
+  "description": "Output schema for the spec-from-intent prompt",
+  "oneOf": [
+    { "$ref": "#/$defs/T1Spec" },
+    { "$ref": "#/$defs/T2Spec" },
+    { "$ref": "#/$defs/T3Spec" },
+    { "$ref": "#/$defs/ClarificationRequest" }
+  ],
+  "$defs": {
+    "T1Spec": {
+      "type": "object",
+      "required": ["title", "tier", "description", "files", "risks", "tests", "rollback"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 100
+        },
+        "tier": {
+          "const": "T1"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 500
+        },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "risks": {
+          "type": "string"
+        },
+        "tests": {
+          "type": "string"
+        },
+        "rollback": {
+          "type": "string",
+          "minLength": 5
+        }
+      },
+      "additionalProperties": false
+    },
+    "T2Spec": {
+      "type": "object",
+      "required": ["title", "tier", "description", "surfaces", "contracts", "threat_summary", "tests", "flag", "rollback"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 100
+        },
+        "tier": {
+          "const": "T2"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 20
+        },
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["api", "ui", "data", "background", "cli"]
+          },
+          "minItems": 1
+        },
+        "contracts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Contract" }
+        },
+        "threat_summary": {
+          "type": "string",
+          "minLength": 20
+        },
+        "tests": { "$ref": "#/$defs/TestCounts" },
+        "flag": {
+          "type": "string",
+          "pattern": "^feature\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
+        },
+        "rollback": {
+          "type": "string",
+          "minLength": 10
+        }
+      },
+      "additionalProperties": false
+    },
+    "T3Spec": {
+      "type": "object",
+      "required": ["title", "tier", "description", "surfaces", "contracts", "stride", "slos", "observability", "tests", "flag", "rollback", "human_review"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 100
+        },
+        "tier": {
+          "const": "T3"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 50
+        },
+        "surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["api", "ui", "data", "background", "cli", "auth", "billing"]
+          },
+          "minItems": 1
+        },
+        "data_classification": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/DataClassification" }
+        },
+        "contracts": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/DetailedContract" },
+          "minItems": 1
+        },
+        "stride": { "$ref": "#/$defs/STRIDE" },
+        "slos": { "$ref": "#/$defs/SLOs" },
+        "observability": { "$ref": "#/$defs/Observability" },
+        "tests": { "$ref": "#/$defs/DetailedTestCounts" },
+        "flag": {
+          "type": "string",
+          "pattern": "^feature\\.[a-z][a-z0-9-]*\\.[a-z][a-z0-9-]*$"
+        },
+        "rollback": { "$ref": "#/$defs/DetailedRollback" },
+        "migration": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/$defs/Migration" }
+          ]
+        },
+        "human_review": { "$ref": "#/$defs/HumanReview" }
+      },
+      "additionalProperties": false
+    },
+    "ClarificationRequest": {
+      "type": "object",
+      "required": ["needs_clarification", "questions"],
+      "properties": {
+        "needs_clarification": {
+          "const": true
+        },
+        "questions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "partial_understanding": {
+          "type": "string",
+          "description": "What AI understood so far"
+        },
+        "recommended_tier": {
+          "type": "string",
+          "enum": ["T1", "T2", "T3"]
+        }
+      }
+    },
+    "Contract": {
+      "type": "object",
+      "required": ["path", "method"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^/[a-z0-9/:_-]*$"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+        },
+        "request_schema": { "type": "string" },
+        "response_schema": { "type": "string" }
+      }
+    },
+    "DetailedContract": {
+      "type": "object",
+      "required": ["path", "method", "auth_required"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "pattern": "^/[a-z0-9/:_-]*$"
+        },
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+        },
+        "auth_required": { "type": "boolean" },
+        "rate_limit": { "type": "string" },
+        "request_schema": { "type": "string" },
+        "response_schema": { "type": "string" },
+        "error_schemas": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "DataClassification": {
+      "type": "object",
+      "required": ["field", "classification", "handling"],
+      "properties": {
+        "field": { "type": "string" },
+        "classification": {
+          "type": "string",
+          "enum": ["PII", "PHI", "SECRET", "AUTH", "OTHER_SENSITIVE", "PUBLIC"]
+        },
+        "handling": {
+          "type": "string",
+          "enum": ["encryption", "redaction", "audit_log", "none"]
+        }
+      }
+    },
+    "STRIDECategory": {
+      "type": "object",
+      "required": ["risks", "mitigations", "tests"],
+      "properties": {
+        "risks": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "mitigations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tests": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "STRIDE": {
+      "type": "object",
+      "required": ["spoofing", "tampering", "repudiation", "information_disclosure", "denial_of_service", "elevation_of_privilege"],
+      "properties": {
+        "spoofing": { "$ref": "#/$defs/STRIDECategory" },
+        "tampering": { "$ref": "#/$defs/STRIDECategory" },
+        "repudiation": { "$ref": "#/$defs/STRIDECategory" },
+        "information_disclosure": { "$ref": "#/$defs/STRIDECategory" },
+        "denial_of_service": { "$ref": "#/$defs/STRIDECategory" },
+        "elevation_of_privilege": { "$ref": "#/$defs/STRIDECategory" }
+      }
+    },
+    "SLOs": {
+      "type": "object",
+      "required": ["availability", "p95_latency_ms", "error_rate"],
+      "properties": {
+        "availability": {
+          "type": "number",
+          "minimum": 99,
+          "maximum": 100
+        },
+        "p95_latency_ms": {
+          "type": "integer",
+          "minimum": 50,
+          "maximum": 5000
+        },
+        "error_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        }
+      }
+    },
+    "Observability": {
+      "type": "object",
+      "required": ["spans", "metrics", "logs"],
+      "properties": {
+        "spans": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "metrics": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "logs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "TestCounts": {
+      "type": "object",
+      "required": ["unit", "contract", "e2e"],
+      "properties": {
+        "unit": { "type": "integer", "minimum": 0 },
+        "contract": { "type": "integer", "minimum": 0 },
+        "e2e": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "DetailedTestCounts": {
+      "type": "object",
+      "required": ["unit", "contract", "e2e", "golden"],
+      "properties": {
+        "unit": { "type": "integer", "minimum": 1 },
+        "contract": { "type": "integer", "minimum": 0 },
+        "e2e": { "type": "integer", "minimum": 1 },
+        "golden": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "DetailedRollback": {
+      "type": "object",
+      "required": ["immediate", "full"],
+      "properties": {
+        "immediate": {
+          "type": "string",
+          "minLength": 10
+        },
+        "full": {
+          "type": "string",
+          "minLength": 20
+        }
+      }
+    },
+    "Migration": {
+      "type": "object",
+      "required": ["type", "steps", "rollback_steps", "estimated_duration"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["additive", "breaking", "data_backfill"]
+        },
+        "steps": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "rollback_steps": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "estimated_duration": {
+          "type": "string"
+        },
+        "requires_downtime": {
+          "type": "boolean"
+        }
+      }
+    },
+    "HumanReview": {
+      "type": "object",
+      "required": ["spec_approved"],
+      "properties": {
+        "spec_approved": { "type": "boolean" },
+        "spec_approved_by": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string" }
+          ]
+        },
+        "spec_approved_at": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "format": "date-time" }
+          ]
+        }
+      }
+    }
+  }
+}
+

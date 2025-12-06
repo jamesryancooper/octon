@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/prompts/spec-from-intent.input.json",
+  "title": "Spec from Intent - Input Schema",
+  "description": "Input schema for the spec-from-intent prompt",
+  "type": "object",
+  "required": ["intent"],
+  "properties": {
+    "intent": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 5000,
+      "description": "Natural language description of the desired feature or change"
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["T1", "T2", "T3"],
+      "description": "Risk tier - if not provided, AI will recommend one"
+    },
+    "context": {
+      "type": "object",
+      "description": "Relevant codebase context",
+      "properties": {
+        "relevant_files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "File path relative to workspace root"
+              },
+              "content": {
+                "type": "string",
+                "description": "File content or relevant excerpt"
+              },
+              "summary": {
+                "type": "string",
+                "description": "AI-generated summary of file purpose"
+              }
+            }
+          },
+          "description": "Files that are relevant to this change"
+        },
+        "existing_contracts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "API path (e.g., /api/users)"
+              },
+              "method": {
+                "type": "string",
+                "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Existing API contracts that may be affected"
+        },
+        "patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Architectural patterns used in the codebase"
+        },
+        "related_specs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Paths to related existing specifications"
+        }
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional constraints or requirements from the human developer"
+    }
+  },
+  "examples": [
+    {
+      "intent": "Add a GET /api/users/:id endpoint that returns user profile information",
+      "tier": "T2"
+    },
+    {
+      "intent": "Fix the typo in ErrorBoundary.tsx where 'recieved' should be 'received'",
+      "tier": "T1"
+    },
+    {
+      "intent": "Add Google OAuth login support with session management",
+      "tier": "T3",
+      "context": {
+        "relevant_files": [
+          {
+            "path": "apps/api/src/routes/auth.ts",
+            "summary": "Existing auth routes"
+          }
+        ],
+        "patterns": ["hexagonal", "repository-pattern"]
+      }
+    }
+  ]
+}
+

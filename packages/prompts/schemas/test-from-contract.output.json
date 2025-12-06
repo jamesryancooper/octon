@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/prompts/test-from-contract.output.json",
+  "title": "Test from Contract - Output Schema",
+  "description": "Output schema for the test-from-contract prompt",
+  "type": "object",
+  "required": ["test_type", "target", "files", "coverage"],
+  "properties": {
+    "test_type": {
+      "type": "string",
+      "enum": ["unit", "contract", "e2e", "golden"]
+    },
+    "target": {
+      "type": "string",
+      "description": "What's being tested (endpoint, module, flow)"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "content"],
+        "properties": {
+          "path": { "type": "string" },
+          "content": { "type": "string" }
+        }
+      },
+      "minItems": 1
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["acceptance_criteria"],
+      "properties": {
+        "acceptance_criteria": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Which acceptance criteria are covered"
+        },
+        "threat_mitigations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Which threat mitigations are tested"
+        },
+        "edge_cases": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Edge cases covered"
+        },
+        "status_codes": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "description": "HTTP status codes tested (for contract/e2e)"
+        }
+      }
+    },
+    "fixtures_needed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "content": { "type": "string" }
+        }
+      }
+    },
+    "setup_requirements": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Setup needed to run these tests"
+    }
+  }
+}
+

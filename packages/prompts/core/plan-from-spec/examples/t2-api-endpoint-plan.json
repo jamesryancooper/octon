@@ -1,0 +1,206 @@
+{
+  "plan_id": "550e8400-e29b-41d4-a716-446655440001",
+  "spec_title": "Add user profile endpoint",
+  "tier": "T2",
+  "estimated_steps": 7,
+  "estimated_duration": "2-3 hours",
+  
+  "architecture": {
+    "pattern": "hexagonal",
+    "layers_affected": ["domain", "adapters", "api", "tests"],
+    "new_files": [
+      "packages/domain/src/user/profile.ts",
+      "apps/api/src/routes/users/profile.ts",
+      "apps/api/src/routes/users/profile.test.ts",
+      "packages/contracts/schemas/user-profile.schema.json"
+    ],
+    "modified_files": [
+      "apps/api/src/routes/users/index.ts",
+      "packages/contracts/openapi.yaml"
+    ],
+    "deleted_files": []
+  },
+  
+  "steps": [
+    {
+      "step_number": 1,
+      "name": "Define types and schema",
+      "description": "Create UserProfile type and JSON schema defining the public profile fields (name, avatar, bio)",
+      "type": "scaffold",
+      "dependencies": [],
+      "files": {
+        "create": [
+          "packages/domain/src/user/profile.ts",
+          "packages/contracts/schemas/user-profile.schema.json"
+        ],
+        "modify": [],
+        "delete": []
+      },
+      "success_criteria": [
+        "TypeScript compiles without errors",
+        "JSON schema is valid",
+        "Types export correctly from domain package"
+      ],
+      "rollback": "Delete created files",
+      "checkpoint": false
+    },
+    {
+      "step_number": 2,
+      "name": "Update OpenAPI contract",
+      "description": "Add GET /api/users/:id endpoint to OpenAPI spec with request/response schemas",
+      "type": "scaffold",
+      "dependencies": [1],
+      "files": {
+        "create": [],
+        "modify": ["packages/contracts/openapi.yaml"],
+        "delete": []
+      },
+      "success_criteria": [
+        "OpenAPI spec validates (spectral lint passes)",
+        "Endpoint documented with auth requirement",
+        "Response schema references user-profile.schema.json"
+      ],
+      "rollback": "Revert openapi.yaml changes",
+      "checkpoint": true
+    },
+    {
+      "step_number": 3,
+      "name": "Implement domain logic",
+      "description": "Create getUserProfile function that fetches user and returns only public fields",
+      "type": "implement",
+      "dependencies": [1],
+      "files": {
+        "create": [],
+        "modify": ["packages/domain/src/user/profile.ts"],
+        "delete": []
+      },
+      "success_criteria": [
+        "Function fetches user by ID",
+        "Only public fields (name, avatar, bio) are returned",
+        "Returns null for non-existent users"
+      ],
+      "rollback": "Remove function, keep types",
+      "checkpoint": false
+    },
+    {
+      "step_number": 4,
+      "name": "Write unit tests",
+      "description": "Unit tests for getUserProfile covering happy path, not found, and field filtering",
+      "type": "test",
+      "dependencies": [3],
+      "files": {
+        "create": ["packages/domain/src/user/profile.test.ts"],
+        "modify": [],
+        "delete": []
+      },
+      "success_criteria": [
+        "Tests pass",
+        "Coverage > 80% for profile.ts",
+        "Tests verify sensitive fields are NOT returned"
+      ],
+      "rollback": "Delete test file",
+      "checkpoint": true
+    },
+    {
+      "step_number": 5,
+      "name": "Implement API route",
+      "description": "Create route handler with auth check, input validation, and response formatting",
+      "type": "implement",
+      "dependencies": [2, 3],
+      "files": {
+        "create": ["apps/api/src/routes/users/profile.ts"],
+        "modify": ["apps/api/src/routes/users/index.ts"],
+        "delete": []
+      },
+      "success_criteria": [
+        "Route registered at GET /api/users/:id",
+        "Auth middleware applied",
+        "Response matches OpenAPI schema",
+        "404 returned for non-existent users"
+      ],
+      "rollback": "Remove route file and registration",
+      "checkpoint": false
+    },
+    {
+      "step_number": 6,
+      "name": "Write contract tests",
+      "description": "API contract tests verifying schema compliance and auth requirements",
+      "type": "test",
+      "dependencies": [5],
+      "files": {
+        "create": ["apps/api/src/routes/users/profile.test.ts"],
+        "modify": [],
+        "delete": []
+      },
+      "success_criteria": [
+        "Contract tests pass",
+        "Unauthorized request returns 401",
+        "Valid request returns correct schema",
+        "Non-existent user returns 404"
+      ],
+      "rollback": "Delete test file",
+      "checkpoint": false
+    },
+    {
+      "step_number": 7,
+      "name": "Add feature flag and observability",
+      "description": "Wrap endpoint in feature flag, add tracing span and structured logging",
+      "type": "config",
+      "dependencies": [5],
+      "files": {
+        "create": [],
+        "modify": [
+          "apps/api/src/routes/users/profile.ts",
+          "packages/config/src/flags.ts"
+        ],
+        "delete": []
+      },
+      "success_criteria": [
+        "Flag feature.users.profile-endpoint defined",
+        "Endpoint returns 404 when flag is off",
+        "Span 'api.users.get_profile' emitted",
+        "Request/response logged with trace_id"
+      ],
+      "rollback": "Remove flag check and observability code",
+      "checkpoint": true,
+      "human_required": false
+    }
+  ],
+  
+  "test_plan": {
+    "unit_tests": [
+      "packages/domain/src/user/profile.test.ts - getUserProfile happy path",
+      "packages/domain/src/user/profile.test.ts - getUserProfile not found",
+      "packages/domain/src/user/profile.test.ts - getUserProfile filters sensitive fields"
+    ],
+    "contract_tests": [
+      "apps/api/src/routes/users/profile.test.ts - GET /api/users/:id returns 401 without auth",
+      "apps/api/src/routes/users/profile.test.ts - GET /api/users/:id returns profile for valid user",
+      "apps/api/src/routes/users/profile.test.ts - GET /api/users/:id returns 404 for invalid user"
+    ],
+    "e2e_tests": [
+      "e2e/users/profile.spec.ts - authenticated user can view own profile",
+      "e2e/users/profile.spec.ts - authenticated user can view other user profile"
+    ],
+    "golden_tests": []
+  },
+  
+  "risk_checkpoints": [
+    {
+      "after_step": 2,
+      "check": "Verify OpenAPI contract matches spec requirements",
+      "human_required": false
+    },
+    {
+      "after_step": 4,
+      "check": "Verify unit tests cover security requirements (no sensitive data leakage)",
+      "human_required": false
+    },
+    {
+      "after_step": 7,
+      "check": "Verify feature flag works and observability is complete",
+      "human_required": false
+    }
+  ]
+}
+

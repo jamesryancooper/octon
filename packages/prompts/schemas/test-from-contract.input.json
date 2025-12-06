@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/prompts/test-from-contract.input.json",
+  "title": "Test from Contract - Input Schema",
+  "description": "Input schema for the test-from-contract prompt",
+  "type": "object",
+  "required": ["contracts", "test_type"],
+  "properties": {
+    "contracts": {
+      "type": "object",
+      "description": "OpenAPI and schema contracts to test against",
+      "properties": {
+        "openapi_paths": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "method"],
+            "properties": {
+              "path": { "type": "string" },
+              "method": { "type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
+              "operationId": { "type": "string" },
+              "summary": { "type": "string" },
+              "requestBody": { "type": "object" },
+              "responses": { 
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "description": { "type": "string" },
+                    "schema": { "type": "object" }
+                  }
+                }
+              },
+              "security": { "type": "array" }
+            }
+          }
+        },
+        "schemas": {
+          "type": "object",
+          "additionalProperties": { "type": "object" },
+          "description": "JSON schemas referenced by the API"
+        }
+      }
+    },
+    "spec": {
+      "type": "object",
+      "description": "The specification with acceptance criteria",
+      "properties": {
+        "title": { "type": "string" },
+        "tier": { "type": "string", "enum": ["T1", "T2", "T3"] },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "threat_summary": { "type": "string" },
+        "stride": {
+          "type": "object",
+          "description": "Full STRIDE analysis for T3 specs"
+        }
+      }
+    },
+    "test_type": {
+      "type": "string",
+      "enum": ["unit", "contract", "e2e", "golden"],
+      "description": "Type of tests to generate"
+    },
+    "test_context": {
+      "type": "object",
+      "description": "Existing test patterns and utilities",
+      "properties": {
+        "framework": {
+          "type": "string",
+          "enum": ["vitest", "jest", "mocha"],
+          "default": "vitest"
+        },
+        "existing_helpers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "import": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "existing_fixtures": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "patterns": {
+          "type": "object",
+          "properties": {
+            "describe_style": { "type": "string" },
+            "assertion_style": { "type": "string" },
+            "mock_style": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
+

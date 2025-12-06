@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/prompts/plan-from-spec.output.json",
+  "title": "Plan from Spec - Output Schema",
+  "description": "Output schema for the plan-from-spec prompt",
+  "type": "object",
+  "required": ["plan_id", "spec_title", "tier", "estimated_steps", "estimated_duration", "architecture", "steps", "test_plan"],
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for this plan"
+    },
+    "spec_title": {
+      "type": "string",
+      "description": "Title from the input spec"
+    },
+    "tier": {
+      "type": "string",
+      "enum": ["T1", "T2", "T3"]
+    },
+    "estimated_steps": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20
+    },
+    "estimated_duration": {
+      "type": "string",
+      "description": "Human-readable duration estimate (e.g., '30 minutes', '2 hours')"
+    },
+    "architecture": {
+      "type": "object",
+      "required": ["pattern", "layers_affected", "new_files", "modified_files"],
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "enum": ["hexagonal", "layered", "mvc", "minimal", "other"]
+        },
+        "layers_affected": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["domain", "adapters", "api", "ui", "config", "tests", "docs"]
+          }
+        },
+        "new_files": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "modified_files": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "deleted_files": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Step" },
+      "minItems": 1
+    },
+    "test_plan": {
+      "type": "object",
+      "required": ["unit_tests"],
+      "properties": {
+        "unit_tests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "contract_tests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "e2e_tests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "golden_tests": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "risk_checkpoints": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/RiskCheckpoint" }
+    }
+  },
+  "$defs": {
+    "Step": {
+      "type": "object",
+      "required": ["step_number", "name", "description", "type", "dependencies", "files", "success_criteria", "rollback", "checkpoint"],
+      "properties": {
+        "step_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 50
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10
+        },
+        "type": {
+          "type": "string",
+          "enum": ["scaffold", "implement", "test", "refactor", "config"]
+        },
+        "dependencies": {
+          "type": "array",
+          "items": { "type": "integer" },
+          "description": "Step numbers this step depends on"
+        },
+        "files": {
+          "type": "object",
+          "properties": {
+            "create": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "modify": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "delete": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "success_criteria": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "rollback": {
+          "type": "string",
+          "minLength": 5
+        },
+        "checkpoint": {
+          "type": "boolean",
+          "description": "If true, pause for verification before proceeding"
+        },
+        "human_required": {
+          "type": "boolean",
+          "description": "If true, human approval needed at this checkpoint"
+        }
+      }
+    },
+    "RiskCheckpoint": {
+      "type": "object",
+      "required": ["after_step", "check", "human_required"],
+      "properties": {
+        "after_step": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "check": {
+          "type": "string",
+          "description": "What to verify at this checkpoint"
+        },
+        "human_required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
+
