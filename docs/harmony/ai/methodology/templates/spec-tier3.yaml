@@ -1,0 +1,767 @@
+# ==============================================================================
+# TIER 3 SPEC TEMPLATE: FULL
+# ==============================================================================
+# Use this template for elevated-risk changes:
+# - Auth, billing, security, data handling
+# - Database migrations
+# - PII/PHI/sensitive data
+# - Any change AI flags as high-risk
+#
+# AI agents: Fill this template completely. Human reviews full spec (30-60 min).
+# Spec must be approved BEFORE AI builds.
+# ==============================================================================
+
+# Schema version for template validation
+_schema_version: "1.0"
+_template: tier3-full
+
+# ==============================================================================
+# REQUIRED FIELDS
+# ==============================================================================
+
+tier: 3
+
+title: ""
+# Example: "Implement Google OAuth login"
+# Concise, descriptive, action-oriented
+
+created: ""
+# ISO date: YYYY-MM-DD
+
+owner: ""
+# Primary developer responsible
+
+navigator: ""
+# Second developer (required for T3)
+# Navigator provides security-focused review
+
+classification_reason: ""
+# Why is this T3?
+# Example: "Touches authentication system and session management"
+
+# ------------------------------------------------------------------------------
+# Problem & Solution
+# ------------------------------------------------------------------------------
+problem:
+  statement: ""
+  # What problem does this solve?
+  # Be detailed - this justifies the elevated risk
+  # Example: "Users currently can only sign up with email/password. Adding OAuth
+  # increases conversion by reducing friction and improves security by delegating
+  # credential management to Google."
+  
+  context: ""
+  # Why now? Business/user impact?
+  # Example: "User research shows 40% drop-off at signup. OAuth is table stakes
+  # for B2C SaaS. Required for enterprise SSO roadmap."
+  
+  impact:
+    users_affected: ""
+    # Who is affected?
+    # Example: "All new and existing users; ~10K current users, 500+ signups/week"
+    
+    systems_affected:
+      - ""
+    # Which systems are touched?
+    # Example:
+    #   - "Authentication service"
+    #   - "User database"
+    #   - "Session management"
+    #   - "Frontend auth flows"
+  
+  user_story: ""
+  # As a <user>, I want <goal> so that <benefit>
+
+solution:
+  summary: ""
+  # How are we solving it?
+  # Example: "Integrate Google OAuth 2.0 with PKCE flow. Create or link accounts
+  # on successful auth. Maintain existing email/password as fallback."
+  
+  approach: ""
+  # Detailed technical approach
+  # Example: "
+  # 1. Add Google OAuth routes (/auth/google/start, /auth/google/callback)
+  # 2. Implement PKCE flow with state parameter for CSRF protection
+  # 3. On callback: verify tokens, extract user info, create/link account
+  # 4. Issue session using existing session infrastructure
+  # 5. Add Google login button to auth UI
+  # "
+  
+  alternatives_considered:
+    - option: ""
+      rejected_because: ""
+    # Example:
+    #   - option: "Auth0 integration"
+    #     rejected_because: "Adds vendor dependency and cost; Google OAuth is sufficient for MVP"
+    #   - option: "Multiple OAuth providers at once"
+    #     rejected_because: "Scope creep; can add more providers later"
+
+# ------------------------------------------------------------------------------
+# Scope
+# ------------------------------------------------------------------------------
+scope:
+  in_scope:
+    - ""
+  # What behaviors/features ARE included
+  # Example:
+  #   - "Google OAuth login for new users"
+  #   - "Link Google account to existing email users"
+  #   - "Maintain email/password as fallback"
+  #   - "Session management for OAuth users"
+  
+  out_of_scope:
+    - ""
+  # What we're explicitly NOT doing
+  # Example:
+  #   - "Other OAuth providers (Apple, GitHub)"
+  #   - "Account unlinking"
+  #   - "OAuth-only accounts (email still required)"
+  #   - "Enterprise SSO/SAML"
+  
+  dependencies:
+    - ""
+  # External dependencies
+  # Example:
+  #   - "Google OAuth API"
+  #   - "Google Cloud Console project setup"
+  
+  surfaces:
+    - type: ""
+      # Options: api, ui, worker, adapter, service, database
+      path: ""
+      # Specific path or component
+      sensitivity: ""
+      # high or critical for T3
+      description: ""
+      # Brief description of changes
+  # Example:
+  #   - type: api
+  #     path: "/auth/google/*"
+  #     sensitivity: critical
+  #     description: "OAuth flow endpoints"
+  #   - type: service
+  #     path: "AuthService"
+  #     sensitivity: critical
+  #     description: "OAuth integration logic"
+  #   - type: database
+  #     path: "users table"
+  #     sensitivity: high
+  #     description: "Add google_id column"
+  
+  files_estimate:
+    new: 0
+    modified: 0
+    deleted: 0
+    total_lines: 0
+
+# ------------------------------------------------------------------------------
+# Data Classification
+# ------------------------------------------------------------------------------
+data_classification:
+  categories_touched:
+    - category: ""
+      # Options: pii, phi, secret, auth, financial, internal
+      fields:
+        - ""
+      # Specific fields
+      handling: ""
+      # How is this data handled?
+  # Example:
+  #   - category: pii
+  #     fields: ["email", "name", "avatar_url"]
+  #     handling: "Retrieved from Google, stored in users table, displayed in UI"
+  #   - category: auth
+  #     fields: ["google_id", "access_token", "refresh_token"]
+  #     handling: "google_id stored permanently; tokens stored encrypted, short-lived"
+  
+  data_flows:
+    - from: ""
+      to: ""
+      encrypted_in_transit: true
+      encrypted_at_rest: true
+      logged: false
+      sensitive_fields_redacted: true
+  # Example:
+  #   - from: "Google OAuth API"
+  #     to: "AuthService"
+  #     encrypted_in_transit: true
+  #     encrypted_at_rest: false  # Tokens in memory only
+  #     logged: false  # Never log tokens
+  #     sensitive_fields_redacted: true
+  #   - from: "AuthService"
+  #     to: "users table"
+  #     encrypted_in_transit: true
+  #     encrypted_at_rest: true
+  #     logged: false
+  #     sensitive_fields_redacted: true
+
+# ------------------------------------------------------------------------------
+# Contracts
+# ------------------------------------------------------------------------------
+contracts:
+  - path: ""
+    method: ""
+    description: ""
+    
+    auth:
+      required: false
+      # Usually false for OAuth start, may vary
+      type: ""
+      # e.g., "none", "session", "bearer"
+      scopes: []
+      # Required scopes if applicable
+    
+    rate_limiting:
+      enabled: true
+      limit: ""
+      # e.g., "10/min per IP"
+      rationale: ""
+      # Why this limit?
+    
+    request:
+      params: {}
+      query: {}
+      body: {}
+      headers: {}
+      # Include security-relevant headers
+      
+    response:
+      success:
+        status: 200
+        schema: {}
+        headers: {}
+        # Include security-relevant headers
+        
+      errors:
+        - status: 0
+          description: ""
+          security_note: ""
+          # Any security considerations for this error
+  # Example:
+  #   - path: "/auth/google/start"
+  #     method: GET
+  #     description: "Initiates Google OAuth flow"
+  #     auth:
+  #       required: false
+  #       type: "none"
+  #     rate_limiting:
+  #       enabled: true
+  #       limit: "10/min per IP"
+  #       rationale: "Prevent enumeration/abuse"
+  #     response:
+  #       success:
+  #         status: 302
+  #         headers:
+  #           Location: "Google OAuth URL with state parameter"
+
+# ------------------------------------------------------------------------------
+# Full STRIDE Threat Model
+# ------------------------------------------------------------------------------
+threat_model:
+  classification: elevated
+  
+  assets:
+    - name: ""
+      sensitivity: ""
+      # high or critical
+      description: ""
+  # Example:
+  #   - name: "User sessions"
+  #     sensitivity: critical
+  #     description: "Session tokens grant access to user account"
+  #   - name: "OAuth tokens"
+  #     sensitivity: critical
+  #     description: "Access tokens for Google API"
+  #   - name: "User PII"
+  #     sensitivity: high
+  #     description: "Email, name from Google profile"
+  
+  stride:
+    spoofing:
+      applicable: true
+      threats:
+        - id: "S1"
+          description: ""
+          # Example: "Attacker initiates OAuth flow and captures callback"
+          attack_vector: ""
+          # How would this be exploited?
+          likelihood: ""
+          # low, medium, high
+          impact: ""
+          # low, medium, high, critical
+          mitigation: ""
+          # How is this prevented?
+          implementation: ""
+          # Specific code/config that implements mitigation
+          tests:
+            - ""
+          # Tests that verify mitigation
+          # Example: ["Test that state parameter mismatch returns 403"]
+          residual_risk: ""
+          # Any remaining risk after mitigation
+    
+    tampering:
+      applicable: true
+      threats:
+        - id: "T1"
+          description: ""
+          attack_vector: ""
+          likelihood: ""
+          impact: ""
+          mitigation: ""
+          implementation: ""
+          tests: []
+          residual_risk: ""
+    
+    repudiation:
+      applicable: true
+      threats:
+        - id: "R1"
+          description: ""
+          attack_vector: ""
+          likelihood: ""
+          impact: ""
+          mitigation: ""
+          implementation: ""
+          tests: []
+          residual_risk: ""
+    
+    information_disclosure:
+      applicable: true
+      threats:
+        - id: "I1"
+          description: ""
+          attack_vector: ""
+          likelihood: ""
+          impact: ""
+          mitigation: ""
+          implementation: ""
+          tests: []
+          residual_risk: ""
+    
+    denial_of_service:
+      applicable: true
+      threats:
+        - id: "D1"
+          description: ""
+          attack_vector: ""
+          likelihood: ""
+          impact: ""
+          mitigation: ""
+          implementation: ""
+          tests: []
+          residual_risk: ""
+    
+    elevation_of_privilege:
+      applicable: true
+      threats:
+        - id: "E1"
+          description: ""
+          attack_vector: ""
+          likelihood: ""
+          impact: ""
+          mitigation: ""
+          implementation: ""
+          tests: []
+          residual_risk: ""
+  
+  # ASVS Controls (OWASP Application Security Verification Standard)
+  asvs_controls:
+    - id: ""
+      # ASVS control ID, e.g., "V2.1.1"
+      description: ""
+      # Control description
+      implementation: ""
+      # How we implement this control
+      verified_by: ""
+      # Test or evidence that verifies implementation
+  # Example:
+  #   - id: "V2.1.1"
+  #     description: "Verify password is at least 12 characters"
+  #     implementation: "N/A - OAuth replaces password for these users"
+  #   - id: "V3.1.1"
+  #     description: "Verify session token changes on auth state change"
+  #     implementation: "New session created on OAuth callback"
+  #     verified_by: "Test: session_rotates_on_oauth_login"
+  
+  residual_risks:
+    - risk: ""
+      # Risk that remains after mitigations
+      likelihood: ""
+      impact: ""
+      acceptance_rationale: ""
+      # Why is this acceptable?
+      accepted_by: ""
+      # Who accepts this risk?
+      review_date: ""
+      # When to review this acceptance
+
+# ------------------------------------------------------------------------------
+# Testing
+# ------------------------------------------------------------------------------
+testing:
+  unit_tests:
+    count: 0
+    coverage_target: ""
+    
+    security_focused:
+      - description: ""
+        threat_id: ""
+        # Links to threat in STRIDE model
+    # Example:
+    #   - description: "State parameter mismatch returns 403"
+    #     threat_id: "S1"
+    #   - description: "Invalid OAuth code returns 401"
+    #     threat_id: "S1"
+    
+    key_scenarios:
+      - ""
+  
+  contract_tests:
+    count: 0
+    paths: []
+  
+  integration_tests:
+    count: 0
+    scenarios:
+      - ""
+    # Cross-service or cross-component tests
+  
+  security_tests:
+    count: 0
+    categories:
+      auth_bypass: []
+      injection: []
+      idor: []
+      session_management: []
+      other: []
+    # Example:
+    #   auth_bypass:
+    #     - "Cannot access protected routes without valid session"
+    #     - "Cannot use OAuth callback without valid state"
+    #   session_management:
+    #     - "Session expires after configured timeout"
+    #     - "Session invalidated on logout"
+  
+  golden_tests:
+    count: 0
+    critical_paths:
+      - path: ""
+        description: ""
+        inputs: {}
+        expected_outputs: {}
+    # Example:
+    #   - path: "OAuth happy path"
+    #     description: "Valid Google OAuth results in authenticated session"
+    #     inputs:
+    #       google_id: "123"
+    #       email: "test@example.com"
+    #     expected_outputs:
+    #       session_created: true
+    #       user_linked: true
+  
+  e2e_smoke:
+    required: true
+    extended: true
+    # Extended E2E for T3
+    flows:
+      - ""
+    # Example:
+    #   - "Click Google login → Complete OAuth → Return to app authenticated"
+    #   - "Existing user links Google account successfully"
+
+# ------------------------------------------------------------------------------
+# Migration (if applicable)
+# ------------------------------------------------------------------------------
+migration:
+  required: false
+  # Set to true if database/data changes needed
+  
+  type: ""
+  # schema, data, or both
+  
+  strategy: ""
+  # forward_only, dual_write, blue_green
+  
+  changes:
+    - type: ""
+      # add_column, drop_column, add_table, modify_column, data_backfill
+      target: ""
+      # Table or entity
+      details: {}
+      # Specific change details
+      reversible: true
+  # Example:
+  #   - type: add_column
+  #     target: users
+  #     details:
+  #       column: google_id
+  #       type: varchar(255)
+  #       nullable: true
+  #       unique: true
+  #     reversible: true
+  
+  steps:
+    - step: 1
+      description: ""
+      command: ""
+      reversible: true
+      rollback_command: ""
+      estimated_duration: ""
+      locks: []
+      # Tables locked during migration
+  
+  validation:
+    pre_migration:
+      - ""
+    # Checks before running migration
+    
+    post_migration:
+      - ""
+    # Checks after migration completes
+  
+  rollback:
+    possible: true
+    method: ""
+    data_loss: ""
+    # none, acceptable, requires_backup
+    commands:
+      - ""
+
+# ------------------------------------------------------------------------------
+# Rollout
+# ------------------------------------------------------------------------------
+rollout:
+  flag:
+    name: ""
+    # e.g., "auth.google-oauth"
+    default: false
+    kill_switch: true
+    # Can this be turned off instantly?
+  
+  stages:
+    - name: internal
+      percentage: 100
+      duration: ""
+      # e.g., "1 day"
+      success_criteria:
+        - metric: ""
+          threshold: ""
+      exit_criteria: ""
+      # What must be true to proceed?
+      
+    - name: canary
+      percentage: 5
+      duration: ""
+      # e.g., "1 hour minimum"
+      success_criteria:
+        - metric: error_rate
+          threshold: "<= 0.5%"
+        - metric: latency_p95
+          threshold: "<= 500ms"
+      exit_criteria: ""
+      
+    - name: general
+      percentage: 100
+      success_criteria:
+        - metric: ""
+          threshold: ""
+  
+  rollback:
+    immediate:
+      action: "disable flag"
+      expected_recovery_time: ""
+      # e.g., "< 1 minute"
+    
+    full:
+      action: ""
+      # e.g., "promote prior preview + disable flag"
+      steps:
+        - ""
+      expected_recovery_time: ""
+    
+    data_rollback:
+      required: false
+      procedure: ""
+      # If migration involved, how to rollback data
+  
+  watch_window:
+    duration: "30 minutes"
+    # Minimum for T3
+    
+    owner: ""
+    # Who is watching?
+    
+    metrics_to_watch:
+      - name: ""
+        expected_range: ""
+        alert_threshold: ""
+    
+    dashboards:
+      - ""
+    # Links to monitoring dashboards
+    
+    escalation:
+      - condition: ""
+        action: ""
+
+# ------------------------------------------------------------------------------
+# Observability
+# ------------------------------------------------------------------------------
+observability:
+  spans:
+    - name: ""
+      attributes:
+        - name: ""
+          type: ""
+          pii: false
+          # Is this attribute PII?
+      events:
+        - name: ""
+          # Events within the span
+  
+  metrics:
+    - name: ""
+      type: ""
+      # counter, histogram, gauge
+      labels:
+        - ""
+      alert_conditions:
+        - condition: ""
+          severity: ""
+          # warning, critical
+  
+  logs:
+    - level: ""
+      event: ""
+      fields:
+        - name: ""
+          pii: false
+          redacted: false
+          # Is this field redacted in logs?
+  
+  dashboards:
+    - name: ""
+      url: ""
+      panels:
+        - ""
+  
+  alerts:
+    - name: ""
+      condition: ""
+      severity: ""
+      runbook: ""
+      # Link to runbook
+
+# ------------------------------------------------------------------------------
+# SLO Implications
+# ------------------------------------------------------------------------------
+slo_implications:
+  affected_slos:
+    - slo: ""
+      current_target: ""
+      expected_impact: ""
+      # Will this affect the SLO?
+  
+  new_slis:
+    - name: ""
+      definition: ""
+      target: ""
+
+# ------------------------------------------------------------------------------
+# Human Approval Checkpoints
+# ------------------------------------------------------------------------------
+approval_checkpoints:
+  spec_approval:
+    required: true
+    approvers:
+      - role: owner
+        name: ""
+        approved: false
+        approved_at: ""
+      - role: navigator
+        name: ""
+        approved: false
+        approved_at: ""
+    criteria:
+      - "Spec captures requirements correctly"
+      - "Threat model covers obvious risks"
+      - "Mitigations are appropriate"
+      - "Testing plan is comprehensive"
+      - "Rollback plan is viable"
+    
+    concerns: []
+    # Any concerns raised during review
+    
+    blocked_until: ""
+    # If blocked, what's needed?
+  
+  pr_approval:
+    required: true
+    approvers:
+      - role: owner
+        name: ""
+        approved: false
+        approved_at: ""
+      - role: navigator
+        name: ""
+        approved: false
+        approved_at: ""
+        security_review: true
+        # Navigator does security-focused review
+    criteria:
+      - "Implementation matches spec"
+      - "Security mitigations implemented"
+      - "Tests cover critical paths"
+      - "Observability in place"
+    
+    concerns: []
+  
+  promotion_approval:
+    required: true
+    approver:
+      role: owner
+      name: ""
+      approved: false
+      approved_at: ""
+    criteria:
+      - "Preview testing complete"
+      - "Rollback plan verified"
+      - "Watch window scheduled"
+      - "Dashboards accessible"
+
+# ==============================================================================
+# AI GENERATION METADATA
+# ==============================================================================
+_metadata:
+  generated_at: ""
+  generated_by: ""
+  model: ""
+  confidence: 0.0
+  
+  classification_signals:
+    file_paths: []
+    patterns_detected: []
+    surfaces_checked: []
+    t3_triggers:
+      - ""
+    # What triggered T3 classification?
+    
+  stride_automated: false
+  # STRIDE is human-reviewed for T3
+  
+  human_review_required_before_build: true
+  # Spec must be approved before AI builds
+
+# ==============================================================================
+# ADR LINK (required for T3)
+# ==============================================================================
+adr:
+  required: true
+  path: ""
+  # Path to ADR document
+  title: ""
+  status: ""
+  # proposed, accepted, deprecated, superseded
+

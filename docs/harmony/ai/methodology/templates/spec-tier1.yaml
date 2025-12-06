@@ -1,0 +1,144 @@
+# ==============================================================================
+# TIER 1 SPEC TEMPLATE: BMAD-LITE
+# ==============================================================================
+# Use this template for trivial changes:
+# - Bug fixes, typos, documentation updates
+# - < 50 lines changed, < 5 files
+# - No auth, billing, security, or data surfaces
+#
+# AI agents: Fill this template completely. Human review is minimal (2-3 min).
+# ==============================================================================
+
+# Schema version for template validation
+_schema_version: "1.0"
+_template: tier1-bmad-lite
+
+# ==============================================================================
+# REQUIRED FIELDS
+# ==============================================================================
+
+tier: 1
+
+title: ""
+# Example: "Fix typo in ErrorBoundary component"
+# Keep concise, descriptive, action-oriented
+
+intent: ""
+# Example: "Change 'recieved' to 'received' in error message displayed to users"
+# 1-2 sentences: what and why
+# Should answer: What is changing? Why does it matter?
+
+# ------------------------------------------------------------------------------
+# Scope
+# ------------------------------------------------------------------------------
+scope:
+  files: []
+  # List all files being modified
+  # Example:
+  #   - "src/components/ErrorBoundary.tsx"
+  #   - "src/components/ErrorBoundary.test.ts"
+  
+  surfaces: []
+  # Should be empty for T1 changes
+  # If not empty, reconsider tier classification
+  
+  lines_changed_estimate: 0
+  # Estimated total lines changed (additions + deletions)
+  # T1 should be < 50
+
+# ------------------------------------------------------------------------------
+# Risk Assessment
+# ------------------------------------------------------------------------------
+risk_assessment:
+  classification: trivial
+  # Always "trivial" for T1
+  
+  security_impact: none
+  # Always "none" for T1
+  # If not "none", this is NOT a T1 change
+  
+  data_impact: none
+  # Always "none" for T1
+  # If not "none", this is NOT a T1 change
+  
+  breaking_changes: false
+  # Should always be false for T1
+  # If true, reconsider tier
+  
+  rollback: "revert commit"
+  # Standard rollback for T1
+  # Alternatives: "revert PR", "cherry-pick revert"
+
+# ------------------------------------------------------------------------------
+# Verification
+# ------------------------------------------------------------------------------
+verification:
+  tests_affected: existing_pass
+  # Options:
+  #   - existing_pass: No new tests needed, existing tests cover the change
+  #   - new_added: New tests added for the change
+  #   - not_applicable: Change doesn't require tests (docs only)
+  
+  manual_check: not_required
+  # Options:
+  #   - not_required: No manual verification needed
+  #   - recommended: Quick manual check suggested
+  # For T1, should typically be "not_required"
+
+# ==============================================================================
+# OPTIONAL FIELDS (include if helpful)
+# ==============================================================================
+
+# Related issues or PRs
+related:
+  issues: []
+  # Example: ["#123", "#456"]
+  
+  prs: []
+  # Example: ["#789"]
+
+# Notes for reviewer
+notes: ""
+# Optional context that might help reviewer
+# Keep brief - this is T1, minimal review needed
+
+# ==============================================================================
+# AI GENERATION METADATA (filled by AI agent)
+# ==============================================================================
+_metadata:
+  generated_at: ""
+  # ISO timestamp
+  
+  generated_by: ""
+  # AI agent identifier
+  
+  model: ""
+  # Model used for generation (e.g., "gpt-4o", "claude-sonnet")
+  
+  confidence: 0.0
+  # AI confidence in tier classification (0.0-1.0)
+  # If < 0.8, consider bumping to T2
+  
+  classification_signals:
+    file_paths: []
+    # Paths that influenced classification
+    
+    patterns_detected: []
+    # Patterns detected (e.g., "typo_fix", "doc_update")
+    
+    surfaces_checked: []
+    # Surfaces verified as not touched
+
+# ==============================================================================
+# HUMAN REVIEW SECTION (filled by human)
+# ==============================================================================
+_review:
+  approved: false
+  approved_by: ""
+  approved_at: ""
+  
+  tier_override:
+    requested: false
+    new_tier: null
+    reason: ""
+

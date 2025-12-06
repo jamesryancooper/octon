@@ -1,0 +1,326 @@
+# ==============================================================================
+# TIER 2 SPEC TEMPLATE: STANDARD
+# ==============================================================================
+# Use this template for standard changes:
+# - New features, endpoints, components
+# - 50-300 lines changed
+# - Business logic changes (non-security)
+# - Refactoring across multiple files
+#
+# AI agents: Fill this template completely. Human reviews summary (15-20 min).
+# ==============================================================================
+
+# Schema version for template validation
+_schema_version: "1.0"
+_template: tier2-standard
+
+# ==============================================================================
+# REQUIRED FIELDS
+# ==============================================================================
+
+tier: 2
+
+title: ""
+# Example: "Add user profile endpoint"
+# Concise, descriptive, action-oriented
+
+created: ""
+# ISO date: YYYY-MM-DD
+
+owner: ""
+# Primary developer responsible
+
+# ------------------------------------------------------------------------------
+# Problem & Solution
+# ------------------------------------------------------------------------------
+problem:
+  statement: ""
+  # What problem does this solve?
+  # Example: "Users cannot view other users' public profiles, limiting social features"
+  
+  context: ""
+  # Why now? What's the business/user impact?
+  # Example: "Social features are blocked until profiles are viewable. Key for Q1 launch."
+  
+  user_story: ""
+  # Optional: As a <user>, I want <goal> so that <benefit>
+  # Example: "As a user, I want to view other users' profiles so I can learn about people I interact with"
+
+solution:
+  summary: ""
+  # How are we solving it?
+  # Example: "Add GET /api/users/:id endpoint returning public profile fields"
+  
+  approach: ""
+  # Technical approach in 2-3 sentences
+  # Example: "Create new endpoint in users router. Query user by ID, filter to public 
+  # fields only (name, avatar, bio). Return 404 if user not found. Require authentication."
+
+# ------------------------------------------------------------------------------
+# Scope
+# ------------------------------------------------------------------------------
+scope:
+  in_scope:
+    - ""
+  # What behaviors/features ARE included
+  # Example:
+  #   - "Return public profile fields (name, avatar, bio)"
+  #   - "Require authentication to view profiles"
+  #   - "Return 404 for non-existent users"
+  
+  out_of_scope:
+    - ""
+  # What we're explicitly NOT doing
+  # Example:
+  #   - "Private profile fields (email, phone)"
+  #   - "Profile editing"
+  #   - "Profile privacy settings"
+  
+  surfaces:
+    - type: ""
+      # Options: api, ui, worker, adapter, service
+      path: ""
+      # Specific path or component
+      description: ""
+      # Brief description of changes to this surface
+  # Example:
+  #   - type: api
+  #     path: "/api/users/:id"
+  #     description: "New GET endpoint for user profiles"
+  
+  files_estimate:
+    new: 0
+    modified: 0
+    deleted: 0
+    total_lines: 0
+    # T2: typically 50-300 total lines
+
+# ------------------------------------------------------------------------------
+# Contracts (if API/data changes)
+# ------------------------------------------------------------------------------
+contracts:
+  # Leave empty array if no API changes
+  - path: ""
+    # API path, e.g., "/api/users/:id"
+    
+    method: ""
+    # HTTP method: GET, POST, PUT, PATCH, DELETE
+    
+    description: ""
+    # What this endpoint does
+    
+    auth_required: true
+    # Whether authentication is required
+    
+    request:
+      params: {}
+      # URL parameters
+      # Example: { "id": { "type": "string", "description": "User ID" } }
+      
+      query: {}
+      # Query parameters
+      
+      body: {}
+      # Request body schema (for POST/PUT/PATCH)
+      
+    response:
+      success:
+        status: 200
+        schema: {}
+        # Response schema
+        # Example:
+        # {
+        #   "type": "object",
+        #   "properties": {
+        #     "id": { "type": "string" },
+        #     "name": { "type": "string" },
+        #     "avatar": { "type": "string", "format": "uri" },
+        #     "bio": { "type": "string" }
+        #   }
+        # }
+        
+      errors:
+        - status: 404
+          description: "User not found"
+        - status: 401
+          description: "Authentication required"
+
+# ------------------------------------------------------------------------------
+# Threat Analysis (STRIDE-lite)
+# ------------------------------------------------------------------------------
+threat_analysis:
+  classification: standard
+  
+  stride_lite:
+    spoofing:
+      applicable: false
+      # Is spoofing a concern for this change?
+      risk: ""
+      # If applicable, what's the risk?
+      mitigation: ""
+      # How is it mitigated?
+    
+    tampering:
+      applicable: false
+      risk: ""
+      mitigation: ""
+    
+    repudiation:
+      applicable: false
+      risk: ""
+      mitigation: ""
+    
+    information_disclosure:
+      applicable: false
+      # Often applicable for data endpoints
+      risk: ""
+      # Example: "Endpoint might expose private user data"
+      mitigation: ""
+      # Example: "Filter response to public fields only"
+    
+    denial_of_service:
+      applicable: false
+      risk: ""
+      mitigation: ""
+    
+    elevation_of_privilege:
+      applicable: false
+      risk: ""
+      mitigation: ""
+  
+  summary: ""
+  # 1-2 sentence summary of threat posture
+  # Example: "Low risk. Main concern is information disclosure, mitigated by 
+  # filtering to public fields. Auth required prevents enumeration."
+
+# ------------------------------------------------------------------------------
+# Testing
+# ------------------------------------------------------------------------------
+testing:
+  unit_tests:
+    count: 0
+    # Number of unit tests to add
+    coverage_target: ""
+    # Coverage target, e.g., "80%"
+    key_scenarios:
+      - ""
+    # Key scenarios to test
+    # Example:
+    #   - "Returns profile for valid user ID"
+    #   - "Returns 404 for non-existent user"
+    #   - "Returns 401 when not authenticated"
+  
+  contract_tests:
+    count: 0
+    # Number of contract tests
+    paths:
+      - ""
+    # API paths covered by contract tests
+  
+  e2e_smoke:
+    required: true
+    # Always true for T2
+    flows:
+      - ""
+    # E2E flows to verify
+    # Example:
+    #   - "Navigate to user profile, verify data displays"
+
+# ------------------------------------------------------------------------------
+# Rollout
+# ------------------------------------------------------------------------------
+rollout:
+  flag:
+    name: ""
+    # Feature flag name, e.g., "feature.user-profiles"
+    default: false
+    # Default value (always false for new features)
+  
+  stages:
+    - name: internal
+      percentage: 100
+      # Start with internal users
+      
+    - name: canary
+      percentage: 5
+      # Small percentage of production users
+      
+    - name: general
+      percentage: 100
+      # Full rollout
+  
+  rollback:
+    immediate: "disable flag"
+    # First line of defense
+    full: "promote prior preview"
+    # If flag disable isn't enough
+
+# ------------------------------------------------------------------------------
+# Observability
+# ------------------------------------------------------------------------------
+observability:
+  spans:
+    - name: ""
+      # Span names to add
+      # Example: "api.users.getProfile"
+      attributes:
+        - ""
+      # Attributes to include
+      # Example: "user_id", "requester_id"
+  
+  metrics:
+    - name: ""
+      # Metric names
+      # Example: "api.users.profile.requests"
+      type: ""
+      # counter, histogram, gauge
+  
+  logs:
+    - level: ""
+      # info, warn, error
+      event: ""
+      # Event description
+      # Example: "Profile retrieved successfully"
+      fields:
+        - ""
+      # Fields to include in log
+      # Example: "user_id", "requester_id"
+
+# ==============================================================================
+# AI GENERATION METADATA
+# ==============================================================================
+_metadata:
+  generated_at: ""
+  generated_by: ""
+  model: ""
+  confidence: 0.0
+  
+  classification_signals:
+    file_paths: []
+    patterns_detected: []
+    surfaces_checked: []
+    
+  stride_automated: true
+  # Whether STRIDE analysis was automated (always true for T2)
+
+# ==============================================================================
+# HUMAN REVIEW SECTION
+# ==============================================================================
+_review:
+  # Spec summary review (before approving PR)
+  summary_reviewed: false
+  summary_reviewed_by: ""
+  summary_reviewed_at: ""
+  summary_concerns: ""
+  
+  # PR approval
+  pr_approved: false
+  pr_approved_by: ""
+  pr_approved_at: ""
+  
+  # Tier override
+  tier_override:
+    requested: false
+    new_tier: null
+    reason: ""
+
