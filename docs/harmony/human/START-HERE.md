@@ -133,9 +133,10 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 | **Promote** | Move a preview to production. |
 | **Rollback** | Revert to a previous deployment. Instant with `vercel promote`. |
 | **Flag** | Feature flag. New features ship OFF by default, then get enabled gradually. |
-| **Kit** | Tools AI uses under the hood. You don't interact with them directly. |
+| **Kit** | Tools AI uses under the hood. You can use kit CLIs directly for debugging. |
 
 → See [../shared/GLOSSARY.md](../shared/GLOSSARY.md) for complete glossary.
+→ See [KITS.md](./KITS.md) for kit CLI quick reference.
 
 ---
 
@@ -178,6 +179,8 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 The simple docs you're reading are the human-facing layer. For full details on methodology, architecture, kits, and policies, see:
 
 - **CLI Reference**: `packages/harmony-cli/README.md` — Full command docs, options, integration points
+- **Kit CLIs**: [KITS.md](./KITS.md) — Quick reference for using kit CLIs directly
+- **Kit Technical Docs**: `/packages/kits/README.md` — Full kit documentation
 - **Prompt Library**: `packages/prompts/README.md` — Canonical prompts with schemas and validation
 - **Full Methodology**: [../ai/methodology/README.md](../ai/methodology/README.md)
 - **Architecture**: [../ai/architecture/overview.md](../ai/architecture/overview.md)

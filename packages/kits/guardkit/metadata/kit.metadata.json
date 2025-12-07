@@ -1,4 +1,6 @@
 {
+  "schemaVersion": "1.2.0",
+  "methodologyVersion": "0.2.0",
   "name": "guardkit",
   "version": "0.1.0",
   "description": "AI output protection: injection detection, hallucination checks, secrets/PII redaction, code safety",
@@ -12,8 +14,10 @@
     "logRedaction": true
   },
   "policy": {
+    "rulesetRef": "harmony-policy-v1",
     "rules": ["no-secrets", "no-pii", "no-injection"],
     "rulesetVersion": "1.0.0",
+    "enforcement": "block",
     "failClosed": true
   },
   "determinism": {
@@ -33,8 +37,10 @@
     "supported": true
   },
   "compatibility": {
+    "minSchemaVersion": "1.1.0",
+    "maxSchemaVersion": "1.2.0",
+    "supportedMethodologyVersions": ["0.2.0"],
     "contracts": ["guardkit.inputs.v1", "guardkit.outputs.v1"],
     "kits": ["promptkit", "flowkit"]
   }
 }
-

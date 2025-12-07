@@ -1,0 +1,19 @@
+{
+  "runId": "2025-12-07T18-06-26Z-costkit-235f",
+  "kit": {
+    "name": "costkit",
+    "version": "0.1.0"
+  },
+  "inputs": {
+    "workflowType": "spec-from-intent",
+    "tier": "T2"
+  },
+  "status": "success",
+  "summary": "Estimated cost: $0.0350 for spec-from-intent",
+  "stage": "plan",
+  "risk": "low",
+  "telemetry": {
+    "trace_id": "7e16b6b0-14b2-4390-b6c3-7bd5a86058bf"
+  },
+  "createdAt": "2025-12-07T18:06:26.493Z"
+}

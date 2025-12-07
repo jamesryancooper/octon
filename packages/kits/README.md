@@ -4,13 +4,54 @@ Modular building blocks for Harmony AI agents. Kits provide reusable functionali
 
 ## Philosophy
 
-**Kits are tools for AI, not humans.**
+**Kits are designed primarily for AI/automated use via the programmatic API.**
 
-Human developers orchestrate AI agents via the `harmony` CLI. AI agents use Kits to do the actual work. You rarely need to interact with Kits directly.
+Human developers orchestrate AI agents via the `harmony` CLI. AI agents use Kits to do the actual work. We also provide CLIs so humans (and shell-based agents) can experiment, debug, and integrate quickly.
 
 ```
-Human → harmony CLI → AI Agents → Kits → Results
+Human → harmony CLI → AI Agents → Kits (Programmatic API) → Results
 ```
+
+## Methodology-as-Code
+
+Kits implement **Methodology-as-Code**: methodology constraints (pillars, lifecycle stages, policy rules) are encoded into machine-readable schemas. AI agents consume these schemas as contracts; humans read documentation.
+
+### Current Versions
+
+| Component | Version | Description |
+|-----------|---------|-------------|
+| **Schema** | 1.2.0 | Kit metadata schema with versioning and enforcement |
+| **Methodology** | 0.2.0 | Harmony methodology (5 pillars, 7 stages) |
+
+### Key Features
+
+- **Version tracking** — All metadata includes `schemaVersion` and `methodologyVersion`
+- **Enforcement modes** — `block`, `warn`, or `off` for graceful transitions
+- **Deprecation tracking** — Migration guidance for evolving schemas
+- **CI validation** — `pnpm --filter @harmony/kit-base validate:methodology`
+
+See [Methodology-as-Code Policy](../../docs/harmony/ai/methodology/methodology-as-code.md) for full documentation.
+
+## Interface Hierarchy
+
+Kits expose three interfaces to serve different consumers. All interfaces share the same underlying implementation and return consistent data structures.
+
+| Interface | Primary | Consumers | Use Cases |
+|-----------|---------|-----------|-----------|
+| **Programmatic API** | Yes | AI agents, services, batch jobs | Production traffic, high-volume automation |
+| **HTTP/RPC** | — | Python/cross-language clients | Distributed systems, microservices |
+| **CLI** | — | Humans, CI/CD, shell-based agents | Debugging, scripts, simple integrations |
+
+### Consumer Matrix
+
+| Consumer | Preferred Interface | CLI Okay? |
+|----------|---------------------|-----------|
+| Production web app / API | Programmatic API | Only for ops/debug |
+| CI/CD pipelines | CLI or API | Yes |
+| Developer at terminal | CLI | Yes |
+| Early experimental AI agent | CLI or API | Yes |
+| Long-lived internal kaizen agent | Programmatic API | CLI only as fallback |
+| Python/cross-language agent | HTTP Interface | — |
 
 ## Package Structure
 
@@ -63,43 +104,42 @@ pnpm typecheck
 
 ## Usage
 
-### GuardKit
+### Programmatic API (Primary)
 
-Protects against AI failures and security risks:
+The programmatic API is the **source of truth** for all kit functionality. Use it for production traffic, AI agents, and any automated systems.
 
-- **Prompt Injection Detection**: Blocks attempts to manipulate AI behavior
-- **Hallucination Detection**: Identifies fake imports, functions, APIs
-- **Secret Scanning**: Catches leaked API keys, passwords, tokens
-- **PII Detection**: Flags email addresses, phone numbers, SSNs
-- **Code Safety**: Catches dangerous patterns (eval, SQL injection, XSS)
+#### GuardKit
 
 ```typescript
 import { GuardKit } from '@harmony/guardkit';
 
+// Create instance
 const guard = new GuardKit({
   projectRoot: process.cwd(),
   packageJson: require('./package.json'),
 });
 
+// Check AI output before using
 const result = guard.check(aiOutput);
 if (!result.safe) {
-  console.error('Issues:', result.checks.filter(c => !c.passed));
+  console.error('Issues detected:', result.checks.filter(c => !c.passed));
 }
+
+// Sanitize user input before including in prompts
+const sanitized = guard.sanitizeInput(userInput);
 ```
 
-See [`guardkit/README.md`](./guardkit/README.md) for detailed documentation.
-
-### FlowKit
-
-Orchestrates multi-step AI workflows:
+#### FlowKit
 
 ```typescript
 import { createHttpFlowRunner, type FlowRunRequest } from '@harmony/flowkit';
 
+// Create runner connected to flow service
 const runner = createHttpFlowRunner({
   baseUrl: 'http://127.0.0.1:8410',
 });
 
+// Execute a workflow
 const result = await runner.run({
   config: {
     flowName: 'my_workflow',
@@ -110,31 +150,24 @@ const result = await runner.run({
 });
 ```
 
-See [`flowkit/README.md`](./flowkit/README.md) for detailed documentation.
-
-### PromptKit
-
-Runtime prompt compiler with determinism guarantees:
+#### PromptKit
 
 ```typescript
 import { PromptKit } from '@harmony/promptkit';
 
 const promptKit = new PromptKit();
 
+// Compile a prompt with variables
 const compiled = await promptKit.compile('spec-from-intent', {
   intent: 'Add user authentication',
   tier: 'T2',
 });
 
 console.log(compiled.prompt);       // Rendered prompt
-console.log(compiled.prompt_hash);  // sha256:abc123...
+console.log(compiled.prompt_hash);  // sha256:abc123... (deterministic)
 ```
 
-See [`promptkit/README.md`](./promptkit/README.md) for detailed documentation.
-
-### CostKit
-
-LLM cost management and optimization:
+#### CostKit
 
 ```typescript
 import { CostKit } from '@harmony/costkit';
@@ -148,8 +181,6 @@ const estimate = await costKit.estimate({
   stage: 'final',
 });
 
-console.log(`Estimated cost: $${estimate.estimatedCostUsd.toFixed(4)}`);
-
 // Check budget before proceeding
 const budgetCheck = costKit.checkBudget(estimate.estimatedCostUsd);
 if (!budgetCheck.allowed) {
@@ -157,11 +188,31 @@ if (!budgetCheck.allowed) {
 }
 ```
 
-See [`costkit/README.md`](./costkit/README.md) for detailed documentation.
+### HTTP Interface (Cross-Language)
 
-## CLI Usage
+For Python agents, microservices, or any cross-language consumption, use the HTTP runners:
 
-All kits provide consistent CLI interfaces with standard flags:
+```typescript
+import { createHttpGuardRunner } from '@harmony/guardkit';
+import { createHttpCostRunner } from '@harmony/costkit';
+import { createHttpPromptRunner } from '@harmony/promptkit';
+
+// GuardKit HTTP runner
+const guard = createHttpGuardRunner({ baseUrl: 'http://guardkit:8081' });
+const result = await guard.check('AI content');
+
+// CostKit HTTP runner
+const cost = createHttpCostRunner({ baseUrl: 'http://costkit:8082' });
+const estimate = await cost.estimate({ workflowType: 'code-from-plan', tier: 'T2' });
+
+// PromptKit HTTP runner
+const prompt = createHttpPromptRunner({ baseUrl: 'http://promptkit:8083' });
+const compiled = await prompt.compile('spec-from-intent', { intent: 'Add auth' });
+```
+
+### CLI (Debugging and CI/CD)
+
+CLIs are provided for human debugging, CI/CD pipelines, and shell-based tools.
 
 ```bash
 # FlowKit - run workflows
@@ -188,20 +239,20 @@ costkit summary
 
 All kit CLIs support these standard flags:
 
-```
---dry-run, -n              Validate without side effects (default: true in local)
---stage, -s <stage>        Lifecycle stage: spec|plan|implement|verify|ship|operate|learn
---risk, -r <tier>          Risk tier: T1|T2|T3
---risk-level <level>       Risk level: trivial|low|medium|high
---idempotency-key, -i <key> Idempotency key for mutating operations
---cache-key, -c <key>      Cache key for pure/expensive operations
---trace, -t                Enable trace linking
---trace-parent <id>        Parent trace ID for correlation
---verbose, -v              Enable verbose output
---format, -f <format>      Output format: json|text (default: text)
---enable-run-records       Enable run record generation (default: true)
---runs-dir <dir>           Directory to write run records
-```
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--dry-run` | `-n` | true (local) | Validate without side effects |
+| `--stage` | `-s` | — | Lifecycle stage: spec\|plan\|implement\|verify\|ship\|operate\|learn |
+| `--risk` | `-r` | — | Risk tier: T1\|T2\|T3 |
+| `--risk-level` | — | — | Risk level: trivial\|low\|medium\|high |
+| `--idempotency-key` | `-i` | — | Idempotency key for mutating operations |
+| `--cache-key` | `-c` | — | Cache key for pure/expensive operations |
+| `--trace` | `-t` | false | Enable trace linking |
+| `--trace-parent` | — | — | Parent trace ID for correlation |
+| `--verbose` | `-v` | false | Enable verbose output |
+| `--format` | `-f` | text | Output format: json\|text |
+| `--enable-run-records` | — | true | Enable run record generation |
+| `--runs-dir` | — | — | Directory to write run records |
 
 ## Shared Infrastructure (kit-base)
 
@@ -214,6 +265,7 @@ All kits share common infrastructure from `@harmony/kit-base`:
 - **CLI Base**: Standard CLI scaffolding and flag parsing
 - **Validation**: Zod-based schema validation utilities
 - **Idempotency**: Key generation and conflict detection
+- **HTTP Client**: Shared HTTP client utilities for runners
 
 ```typescript
 import { 
@@ -237,10 +289,29 @@ import {
   // Idempotency
   deriveIdempotencyKey,
   withIdempotency,
+  
+  // HTTP
+  createKitHttpClient,
 } from '@harmony/kit-base';
 ```
 
 See [`kit-base/README.md`](./kit-base/README.md) for detailed documentation.
+
+## Configuration Precedence
+
+Configuration is resolved differently depending on the interface:
+
+**CLI Operations:**
+1. CLI flags — highest priority
+2. Environment variables
+3. Kit defaults
+
+**Programmatic API:**
+1. Constructor/method config — highest priority
+2. Environment variables
+3. Kit defaults
+
+See [`kit-base/README.md`](./kit-base/README.md) for detailed documentation on configuration precedence.
 
 ## Architecture Overview
 
@@ -297,9 +368,11 @@ harmony feature "Add user login"
 harmony build
 ```
 
+For debugging and development, use kit CLIs directly. See [KITS.md](/docs/harmony/human/KITS.md) for a human-friendly guide.
+
 ## For AI Agents
 
-Kits are your primary tools. Import and use them directly:
+Kits are your primary tools. Import and use the programmatic API directly:
 
 ```typescript
 // Guard AI-generated content
@@ -313,6 +386,14 @@ import { PromptKit } from '@harmony/promptkit';
 
 // Manage costs
 import { CostKit } from '@harmony/costkit';
+```
+
+For cross-language agents (Python, etc.), use HTTP runners:
+
+```typescript
+import { createHttpGuardRunner } from '@harmony/guardkit';
+import { createHttpCostRunner } from '@harmony/costkit';
+import { createHttpPromptRunner } from '@harmony/promptkit';
 ```
 
 ## Development

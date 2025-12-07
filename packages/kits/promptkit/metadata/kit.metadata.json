@@ -1,4 +1,6 @@
 {
+  "schemaVersion": "1.2.0",
+  "methodologyVersion": "0.2.0",
   "name": "promptkit",
   "version": "0.1.0",
   "description": "Runtime prompt compiler: template rendering, hashing, variant selection, token management, role assembly",
@@ -12,8 +14,10 @@
     "logRedaction": true
   },
   "policy": {
+    "rulesetRef": "harmony-policy-v1",
     "rules": ["prompt-exists", "variables-valid", "within-context-window"],
     "rulesetVersion": "1.0.0",
+    "enforcement": "block",
     "failClosed": true
   },
   "determinism": {
@@ -35,8 +39,10 @@
     "supported": true
   },
   "compatibility": {
+    "minSchemaVersion": "1.1.0",
+    "maxSchemaVersion": "1.2.0",
+    "supportedMethodologyVersions": ["0.2.0"],
     "contracts": ["promptkit.inputs.v1", "promptkit.outputs.v1"],
     "kits": ["flowkit", "guardkit"]
   }
 }
-

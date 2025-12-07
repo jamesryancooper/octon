@@ -1,4 +1,6 @@
 {
+  "schemaVersion": "1.2.0",
+  "methodologyVersion": "0.2.0",
   "name": "flowkit",
   "version": "0.1.0",
   "description": "Workflow orchestration and multi-step execution for AI-powered workflows",
@@ -12,8 +14,10 @@
     "logRedaction": true
   },
   "policy": {
+    "rulesetRef": "harmony-policy-v1",
     "rules": ["workflow-exists", "workflow-valid", "runner-available"],
     "rulesetVersion": "1.0.0",
+    "enforcement": "block",
     "failClosed": true
   },
   "determinism": {
@@ -33,8 +37,10 @@
     "supported": true
   },
   "compatibility": {
+    "minSchemaVersion": "1.1.0",
+    "maxSchemaVersion": "1.2.0",
+    "supportedMethodologyVersions": ["0.2.0"],
     "contracts": ["flowkit.inputs.v1", "flowkit.outputs.v1"],
     "kits": ["promptkit", "guardkit", "costkit"]
   }
 }
-

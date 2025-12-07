@@ -3,9 +3,25 @@
  *
  * Provides standardized CLI scaffolding that all kits can extend to ensure
  * consistent user experience and behavior.
+ *
+ * ## Configuration Precedence
+ *
+ * For CLI operations, configuration is resolved in this order (highest to lowest):
+ * 1. CLI flags (e.g., `--dry-run`, `--stage implement`)
+ * 2. Environment variables (e.g., `HARMONY_DRY_RUN=true`)
+ * 3. Kit defaults
+ *
+ * For programmatic API usage, configuration is resolved:
+ * 1. Constructor/method config object
+ * 2. Environment variables
+ * 3. Kit defaults
+ *
+ * This ensures CLI flags always win, but environment variables provide
+ * a way to set defaults for both interfaces.
  */
 
 import { parseStandardFlags, getStandardFlagsHelp, type StandardKitFlags } from "./cli-flags.js";
+import { isKitError, ExitCodes, type KitErrorJSON } from "./errors.js";
 import type { LifecycleStage, RiskTier, RiskLevel } from "./types.js";
 
 // ============================================================================
@@ -159,25 +175,61 @@ export async function runKitCli(
 
     return result.exitCode;
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+    return handleCliError(error, config.name, config.version, standardFlags.format || "text");
+  }
+}
 
-    if (standardFlags.format === "json") {
+/**
+ * Handle CLI errors with consistent formatting.
+ *
+ * For JSON output, uses the canonical KitErrorJSON format so that
+ * CLI error output matches programmatic API and HTTP error responses.
+ */
+function handleCliError(
+  error: unknown,
+  kitName: string,
+  kitVersion: string,
+  format: "json" | "text"
+): number {
+  if (format === "json") {
+    // Use structured error format for JSON output
+    if (isKitError(error)) {
+      const errorJson = error.toJSON();
       console.log(
         JSON.stringify({
-          status: "failure",
-          error: message,
-          _kit: {
-            name: config.name,
-            version: config.version,
-          },
-        })
+          ...errorJson,
+          _kit: { name: kitName, version: kitVersion },
+        }, null, 2)
       );
-    } else {
-      console.error(`[${config.name}] Error: ${message}`);
+      return error.code;
     }
 
-    return 1;
+    // Wrap unknown errors in canonical format
+    const message = error instanceof Error ? error.message : String(error);
+    const wrappedError: KitErrorJSON & { _kit: { name: string; version: string } } = {
+      success: false,
+      error: {
+        code: "GenericKitError",
+        exitCode: ExitCodes.GENERIC_FAILURE,
+        message,
+        suggestedAction: "Review the error details and retry.",
+      },
+      _kit: { name: kitName, version: kitVersion },
+    };
+    console.log(JSON.stringify(wrappedError, null, 2));
+    return ExitCodes.GENERIC_FAILURE;
   }
+
+  // Text format
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`[${kitName}] Error: ${message}`);
+
+  if (isKitError(error)) {
+    console.error(`  Suggested action: ${error.suggestedAction}`);
+    return error.code;
+  }
+
+  return ExitCodes.GENERIC_FAILURE;
 }
 
 // ============================================================================

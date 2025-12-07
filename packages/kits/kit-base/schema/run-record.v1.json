@@ -1,11 +1,22 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://harmony.local/schemas/kit-base/run-record.v1.json",
+  "$id": "https://harmony.local/schemas/kit-base/run-record.v1.1.json",
   "title": "KitRunRecord",
-  "description": "Run record for Harmony Kit operations conforming to methodology v0.2",
+  "description": "Run record schema v1.1. Adds explicit methodology and schema versioning for Methodology-as-Code sustainability.",
   "type": "object",
-  "required": ["runId", "kit", "inputs", "status", "summary", "telemetry", "stage", "risk", "createdAt"],
+  "required": ["schemaVersion", "runId", "kit", "inputs", "status", "summary", "telemetry", "stage", "risk", "createdAt"],
   "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "description": "Version of the run-record schema this document conforms to",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "const": "1.1.0"
+    },
+    "methodologyVersion": {
+      "type": "string",
+      "description": "Version of the Harmony methodology this run was executed under",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
     "runId": {
       "type": "string",
       "description": "Stable run identifier in format: <timestamp>-<kitName>-<shortId>",
@@ -23,6 +34,11 @@
         "version": {
           "type": "string",
           "description": "Semantic version of the kit"
+        },
+        "schemaVersion": {
+          "type": "string",
+          "description": "Kit metadata schema version the kit conforms to",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
         }
       }
     },
@@ -60,6 +76,7 @@
       "description": "Policy check results",
       "properties": {
         "ruleset": { "type": "string" },
+        "rulesetVersion": { "type": "string" },
         "checked": {
           "type": "array",
           "items": { "type": "string" }
@@ -67,6 +84,11 @@
         "result": {
           "type": "string",
           "enum": ["pass", "fail"]
+        },
+        "enforcement": {
+          "type": "string",
+          "enum": ["block", "warn", "off"],
+          "description": "Enforcement mode active during this run"
         }
       }
     },
@@ -136,6 +158,18 @@
         "cacheKey": { "type": "string" }
       }
     },
+    "deprecationWarnings": {
+      "type": "array",
+      "description": "Deprecation warnings encountered during the run",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": { "type": "string" },
+          "message": { "type": "string" },
+          "removeAt": { "type": "string" }
+        }
+      }
+    },
     "createdAt": {
       "type": "string",
       "format": "date-time",
@@ -148,4 +182,3 @@
     }
   }
 }
-

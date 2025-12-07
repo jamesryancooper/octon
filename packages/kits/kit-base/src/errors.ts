@@ -13,6 +13,38 @@
  * - 8: Cache integrity error
  */
 
+// ============================================================================
+// Types
+// ============================================================================
+
+/**
+ * Structured error response format used across all kit interfaces.
+ * 
+ * This is the canonical error format for:
+ * - Programmatic API error responses
+ * - HTTP API error responses
+ * - CLI `--format json` error output
+ */
+export interface KitErrorJSON {
+  success: false;
+  error: {
+    /** Error class name (e.g., "InputValidationError") */
+    code: string;
+    /** Numeric exit code for CLI (0-8) */
+    exitCode: number;
+    /** Human-readable error message */
+    message: string;
+    /** Additional structured context (varies by error type) */
+    details?: Record<string, unknown>;
+    /** Suggested action to resolve the error */
+    suggestedAction: string;
+  };
+}
+
+// ============================================================================
+// Exit Codes
+// ============================================================================
+
 /**
  * Standard exit codes for kit operations.
  */
@@ -51,6 +83,23 @@ export abstract class KitError extends Error {
     super(message, options as ErrorOptions);
     this.name = this.constructor.name;
     this.context = context;
+  }
+
+  /**
+   * Convert error to a structured JSON object suitable for API/CLI responses.
+   * This is the canonical error format used across all interfaces (programmatic, HTTP, CLI).
+   */
+  toJSON(): KitErrorJSON {
+    return {
+      success: false,
+      error: {
+        code: this.name,
+        exitCode: this.code,
+        message: this.message,
+        details: Object.keys(this.context).length > 0 ? this.context : undefined,
+        suggestedAction: this.suggestedAction,
+      },
+    };
   }
 
   /**

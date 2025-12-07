@@ -1,0 +1,19 @@
+{
+  "runId": "2025-12-07T18-06-26Z-costkit-d8f3",
+  "kit": {
+    "name": "costkit",
+    "version": "0.1.0"
+  },
+  "inputs": {
+    "workflowType": "code-from-plan",
+    "tier": "T2"
+  },
+  "status": "success",
+  "summary": "Estimated cost: $0.0525 for code-from-plan",
+  "stage": "plan",
+  "risk": "low",
+  "telemetry": {
+    "trace_id": "cde465ea-8960-42a2-a137-f0a2e9de8a76"
+  },
+  "createdAt": "2025-12-07T18:06:26.494Z"
+}

@@ -2,16 +2,21 @@
 
 CostKit provides comprehensive cost management for AI-enabled workflows, including pre-flight estimation, real-time tracking, budget management, and alerting.
 
-## Features
+## Interfaces
 
-- **Pre-flight Cost Estimation**: Get accurate cost estimates before running expensive LLM operations
-- **Real-time Tracking**: Track actual costs as operations complete
-- **Budget Management**: Set and enforce budgets at daily, weekly, and monthly levels
-- **Tier-based Model Selection**: Automatically select cost-appropriate models based on risk tier
-- **Alerting**: Receive alerts when budgets are exceeded or unusual spending is detected
-- **Optimization Suggestions**: Get recommendations for reducing costs
+CostKit provides three interfaces:
 
-## Quick Start
+| Interface | Consumers | Use For |
+|-----------|-----------|---------|
+| **Programmatic API** (primary) | AI agents, services | Production cost tracking, automated budgeting |
+| **HTTP Runner** | Python agents, microservices | Cross-language, distributed systems |
+| **CLI** | Humans, CI/CD | Debugging, cost reports, manual checks |
+
+## Programmatic API (Primary)
+
+The programmatic API is the **source of truth** for CostKit functionality.
+
+### Quick Start
 
 ```typescript
 import { CostKit } from '@harmony/costkit';
@@ -33,20 +38,6 @@ const estimate = costKit.estimate({
 });
 
 console.log(costKit.formatEstimate(estimate));
-// 📊 Cost Estimate
-// ─────────────────────────────
-// Workflow: code-from-plan
-// Tier: T2 (final)
-// Model: gpt-4o (openai)
-// 
-// Tokens:
-//   Input:  ~5,000
-//   Output: ~4,000
-//   Total:  ~9,000
-// 
-// Estimated Cost: $0.0625
-// Range: $0.0438 - $0.0813
-// Confidence: 60%
 
 // Check budget before proceeding
 const budgetCheck = costKit.checkBudget(estimate.estimatedCostUsd);
@@ -66,11 +57,203 @@ costKit.recordUsage({
   durationMs: 12500,
   success: true,
 });
-
-// Check budget status
-const status = costKit.getBudgetStatus();
-console.log(costKit.formatBudgetStatus(status));
 ```
+
+### Configuration
+
+```typescript
+interface CostKitConfig {
+  /** Path to cost policy file */
+  policyPath?: string;
+
+  /** Inline policy (takes precedence over policyPath) */
+  policy?: CostPolicy;
+
+  /** Path to store usage data */
+  dataPath?: string;
+
+  /** Enable real-time tracking */
+  enableTracking?: boolean;
+
+  /** Enable alerting */
+  enableAlerts?: boolean;
+
+  /** Enable cost estimates before operations */
+  enableEstimates?: boolean;
+
+  /** Enable run record generation (default: true) */
+  enableRunRecords?: boolean;
+
+  /** Directory to write run records */
+  runsDir?: string;
+}
+```
+
+### Key Methods
+
+#### `estimate(options): CostEstimate`
+
+Get pre-flight cost estimate for an operation:
+
+```typescript
+const estimate = costKit.estimate({
+  workflowType: 'spec-from-intent',
+  tier: 'T2',
+  inputText: 'Add user authentication with Google OAuth...',
+});
+
+console.log(`Estimated: $${estimate.estimatedCostUsd.toFixed(4)}`);
+console.log(`Range: $${estimate.costRange.min.toFixed(4)} - $${estimate.costRange.max.toFixed(4)}`);
+```
+
+#### `recordUsage(params): UsageRecord`
+
+Record actual usage after an operation:
+
+```typescript
+const record = costKit.recordUsage({
+  model: 'gpt-4o',
+  inputTokens: 5000,
+  outputTokens: 3000,
+  workflowType: 'code-from-plan',
+  tier: 'T2',
+  durationMs: 12500,
+  success: true,
+});
+```
+
+#### `getBudgetStatus(period?): BudgetStatus`
+
+Get current budget status:
+
+```typescript
+const status = costKit.getBudgetStatus('monthly');
+console.log(`Spent: $${status.spentUsd.toFixed(2)} / $${status.limitUsd.toFixed(2)}`);
+console.log(`Used: ${status.usedPercent.toFixed(1)}%`);
+```
+
+#### `getCostSummary(period?): CostSummary`
+
+Get cost summary with breakdowns:
+
+```typescript
+const summary = costKit.getCostSummary('monthly');
+console.log(`Total: $${summary.totalSpentUsd.toFixed(2)}`);
+console.log('By Model:', summary.byModel);
+console.log('By Workflow:', summary.byWorkflow);
+```
+
+#### `checkBudget(estimatedCost): { allowed: boolean; reason?: string }`
+
+Check if an operation is within budget:
+
+```typescript
+const check = costKit.checkBudget(0.50);
+if (!check.allowed) {
+  console.log('Blocked:', check.reason);
+}
+```
+
+## HTTP Interface (Cross-Language)
+
+For Python agents, microservices, or distributed systems:
+
+```typescript
+import { createHttpCostRunner } from '@harmony/costkit';
+
+const cost = createHttpCostRunner({
+  baseUrl: 'http://costkit-service:8082',
+  timeoutMs: 30000,
+});
+
+// Same interface as programmatic API
+const estimate = await cost.estimate({
+  workflowType: 'code-from-plan',
+  tier: 'T2',
+  stage: 'final',
+});
+
+const record = await cost.recordUsage({
+  model: 'gpt-4o',
+  inputTokens: 5200,
+  outputTokens: 3800,
+  workflowType: 'code-from-plan',
+  tier: 'T2',
+  durationMs: 12500,
+  success: true,
+});
+
+const status = await cost.getBudgetStatus('monthly');
+const summary = await cost.getCostSummary('monthly');
+const alerts = await cost.getAlerts();
+```
+
+### HTTP Protocol
+
+The HTTP runner expects a service implementing:
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/cost/estimate` | POST | Get pre-flight cost estimate |
+| `/cost/record` | POST | Record actual usage |
+| `/cost/status` | GET | Get budget status |
+| `/cost/summary` | GET | Get cost summary |
+| `/cost/alerts` | GET | Get unacknowledged alerts |
+| `/cost/alerts/:id/ack` | POST | Acknowledge an alert |
+| `/cost/check-budget` | POST | Check if cost is within budget |
+
+## CLI (Debugging and CI/CD)
+
+The CLI is a **thin wrapper** around the programmatic API for human debugging and CI/CD.
+
+```bash
+# Get cost estimate for a workflow
+costkit estimate --workflow code-from-plan --tier T2 --workflow-stage final
+
+# Check current budget status
+costkit status --period monthly
+
+# Get cost summary
+costkit summary --period monthly
+
+# Record usage (typically called by other kits)
+costkit record --model gpt-4o --input-tokens 5000 --output-tokens 3000
+
+# View unacknowledged alerts
+costkit alerts
+
+# Dry-run mode (default in local)
+costkit estimate --dry-run --workflow code-from-plan
+
+# JSON output (matches programmatic API response structure)
+costkit status --format json
+```
+
+### CLI Commands
+
+| Command | Description |
+|---------|-------------|
+| `estimate` | Get cost estimate for a workflow |
+| `status` | Check current budget status |
+| `summary` | Get cost summary for a period |
+| `record` | Record actual LLM usage |
+| `alerts` | Show unacknowledged alerts |
+
+### CLI Options
+
+| Option | Description |
+|--------|-------------|
+| `--workflow, -w` | Workflow type (e.g., code-from-plan) |
+| `--tier` | Risk tier: T1\|T2\|T3 |
+| `--workflow-stage` | Workflow stage: draft\|final |
+| `--period, -p` | Budget period: daily\|weekly\|monthly |
+| `--model, -m` | Model name (for record) |
+| `--input-tokens` | Number of input tokens |
+| `--output-tokens` | Number of output tokens |
+| `--policy-path` | Path to cost policy YAML |
+| `--data-path` | Path to cost data file |
+
+Plus all [standard kit flags](../README.md#standard-cli-flags).
 
 ## Tier-Based Model Selection
 
@@ -85,154 +268,13 @@ CostKit automatically selects appropriate models based on risk tier:
 
 ```typescript
 // Get the appropriate model for a tier
-const model = costKit.selectModel('T2', 'final');
-// Returns: 'gpt-4o'
+const model = costKit.selectModel('T2', 'final');  // Returns: 'gpt-4o'
 
 // Get all allowed models for a tier
-const models = costKit.getTierModels('T1');
-// Returns: ['gpt-4o-mini', 'claude-haiku', 'gemini-2.0-flash']
+const models = costKit.getTierModels('T1');  // Returns: ['gpt-4o-mini', 'claude-haiku', ...]
 ```
 
-## Pre-flight Estimation
-
-Get cost estimates before running operations:
-
-```typescript
-// Single operation estimate
-const estimate = costKit.estimate({
-  workflowType: 'spec-from-intent',
-  tier: 'T2',
-  inputText: 'Add user authentication with Google OAuth...', // optional, improves accuracy
-});
-
-// Full workflow estimate (all stages)
-const workflow = costKit.estimateWorkflow({
-  intent: 'Add user authentication with Google OAuth',
-  tier: 'T2',
-});
-
-console.log(costKit.formatWorkflowEstimates(workflow));
-// 📊 Workflow Cost Estimate
-// ══════════════════════════════════════
-// 
-// spec-from-intent: $0.0045 [gpt-4o-mini]
-// plan-from-spec: $0.0038 [gpt-4o-mini]
-// code-from-plan (draft): $0.0042 [gpt-4o-mini]
-// code-from-plan (final): $0.0625 [gpt-4o]
-// test-from-contract: $0.0035 [gpt-4o-mini]
-// threat-model-from-spec: $0.0050 [gpt-4o-mini]
-// 
-// ──────────────────────────────────────
-// Total Estimated: $0.0835
-// Range: $0.0584 - $0.1086
-```
-
-## Budget Management
-
-Set and track budgets:
-
-```typescript
-// Get current budget status
-const status = costKit.getBudgetStatus('monthly');
-
-console.log(`Status: ${status.status}`);        // 'healthy', 'warning', 'critical', 'exceeded'
-console.log(`Spent: $${status.spentUsd.toFixed(2)}`);
-console.log(`Remaining: $${status.remainingUsd.toFixed(2)}`);
-console.log(`Used: ${status.usedPercent.toFixed(1)}%`);
-
-// Check if an operation would exceed budget
-const check = costKit.checkBudget(0.50);
-if (!check.allowed) {
-  console.log('Blocked:', check.reason);
-}
-```
-
-## Cost Tracking and Reporting
-
-Track costs and generate reports:
-
-```typescript
-// Get cost summary
-const summary = costKit.getCostSummary('monthly');
-
-console.log(costKit.formatCostSummary(summary));
-// 📊 Cost Summary
-// ══════════════════════════════════════
-// Period: 2025-01-01 to 2025-01-31
-// 
-// Total Spent: $127.50
-// Operations:  1,234
-// Avg Cost:    $0.1033/op
-// Success:     98.5%
-// 
-// Tokens Used:
-//   Input:  2,500,000
-//   Output: 1,800,000
-//   Total:  4,300,000
-// 
-// Trend: 📈 +15.2% vs previous period
-// 
-// 💡 Optimization Opportunities:
-//   • Using expensive model (gpt-4o) for T1 task
-//     Potential savings: $12.50
-//     → Use gpt-4o-mini for trivial tasks
-
-// Get usage breakdown
-console.log('By Model:', summary.byModel);
-console.log('By Workflow:', summary.byWorkflow);
-console.log('By Tier:', summary.byTier);
-```
-
-## Alerting
-
-CostKit automatically generates alerts:
-
-```typescript
-// Get unacknowledged alerts
-const alerts = costKit.getUnacknowledgedAlerts();
-
-console.log(costKit.formatAlerts(alerts));
-// 🔔 Alerts (2)
-// ══════════════════════════════════════
-// 
-// ⚠️ Budget warning: 75.0% of monthly budget used
-// ─────────────────────────────
-// $375.00 remaining of $500.00 monthly budget.
-// 
-// Type: budget_warning
-// Time: 1/15/2025, 10:30:00 AM
-// 
-// ⚠️ Deprecated model in use: gpt-4
-// ─────────────────────────────
-// Model "gpt-4" is deprecated. Consider migrating to "gpt-4o".
-
-// Acknowledge an alert
-costKit.acknowledgeAlert(alerts[0].alertId, 'developer@team.com');
-```
-
-## Model Pricing
-
-Get pricing information for models:
-
-```typescript
-import { getModelPricing, calculateCost, compareModelCosts } from '@harmony/costkit';
-
-// Get pricing for a model
-const pricing = getModelPricing('gpt-4o');
-console.log(`Input: $${pricing.inputPricePer1M}/1M tokens`);
-console.log(`Output: $${pricing.outputPricePer1M}/1M tokens`);
-
-// Calculate cost for token usage
-const cost = calculateCost('gpt-4o', 5000, 3000);
-console.log(`Cost: $${cost.toFixed(4)}`);
-
-// Compare two models
-const comparison = compareModelCosts('gpt-4o', 'gpt-4o-mini', 5000, 3000);
-console.log(`Cheaper: ${comparison.cheaperModel}`);
-console.log(`Savings: $${comparison.savingsUsd.toFixed(4)} (${comparison.savingsPercent.toFixed(1)}%)`);
-```
-
-## Configuration
+## Cost Policy Configuration
 
 Create a `cost-policy.yaml` file to customize behavior:
 
@@ -268,117 +310,24 @@ alerts:
   dedupe_window_minutes: 60
 ```
 
-## API Reference
+## Model Pricing Utilities
 
-### CostKit Class
+```typescript
+import { getModelPricing, calculateCost, compareModelCosts } from '@harmony/costkit';
 
-| Method | Description |
-|--------|-------------|
-| `estimate(options)` | Get pre-flight cost estimate |
-| `estimateWorkflow(options)` | Estimate full workflow cost |
-| `checkBudget(cost)` | Check if cost is within budget |
-| `recordUsage(params)` | Record actual usage |
-| `getBudgetStatus(period)` | Get current budget status |
-| `getCostSummary(period)` | Get cost summary/report |
-| `getAlerts()` | Get all alerts |
-| `acknowledgeAlert(id)` | Acknowledge an alert |
-| `selectModel(tier, stage)` | Get appropriate model for tier |
+// Get pricing for a model
+const pricing = getModelPricing('gpt-4o');
+console.log(`Input: $${pricing.inputPricePer1M}/1M tokens`);
 
-### Utility Functions
+// Calculate cost for token usage
+const cost = calculateCost('gpt-4o', 5000, 3000);
+console.log(`Cost: $${cost.toFixed(4)}`);
 
-| Function | Description |
-|----------|-------------|
-| `getModelPricing(model)` | Get pricing for a model |
-| `calculateCost(model, input, output)` | Calculate cost for tokens |
-| `compareModelCosts(a, b, input, output)` | Compare two models |
-| `getTierModels(tier, stage)` | Get models for a tier |
-| `getCheapestModel(options)` | Find cheapest model meeting requirements |
-
-## CLI Usage
-
-CostKit provides a CLI for direct cost management:
-
-```bash
-# Get cost estimate for a workflow
-costkit estimate --workflow code-from-plan --tier T2 --workflow-stage final
-
-# Check current budget status
-costkit status --period monthly
-
-# Get cost summary
-costkit summary --period monthly
-
-# Record usage (typically called by other kits)
-costkit record --model gpt-4o --input-tokens 5000 --output-tokens 3000
-
-# View unacknowledged alerts
-costkit alerts
-
-# Dry-run mode (default in local)
-costkit estimate --dry-run --workflow code-from-plan
-
-# JSON output
-costkit status --format json
+// Compare two models
+const comparison = compareModelCosts('gpt-4o', 'gpt-4o-mini', 5000, 3000);
+console.log(`Cheaper: ${comparison.cheaperModel}`);
+console.log(`Savings: ${comparison.savingsPercent.toFixed(1)}%`);
 ```
-
-### CLI Commands
-
-| Command | Description |
-|---------|-------------|
-| `estimate` | Get cost estimate for a workflow |
-| `status` | Check current budget status |
-| `summary` | Get cost summary for a period |
-| `record` | Record actual LLM usage |
-| `alerts` | Show unacknowledged alerts |
-
-### CLI Options
-
-| Option | Description |
-|--------|-------------|
-| `--workflow, -w` | Workflow type (e.g., code-from-plan) |
-| `--tier` | Risk tier: T1\|T2\|T3 |
-| `--workflow-stage` | Workflow stage: draft\|final |
-| `--period, -p` | Budget period: daily\|weekly\|monthly |
-| `--model, -m` | Model name (for record) |
-| `--input-tokens` | Number of input tokens |
-| `--output-tokens` | Number of output tokens |
-| `--policy-path` | Path to cost policy YAML |
-| `--data-path` | Path to cost data file |
-
-Plus all [standard kit flags](#standard-flags).
-
-## Integration with Harmony CLI
-
-CostKit is integrated into the Harmony CLI:
-
-```bash
-# Check current budget status
-harmony cost status
-
-# Get estimate before running a workflow
-harmony cost estimate feature "Add user authentication"
-
-# Show recent spending
-harmony cost summary
-
-# List alerts
-harmony cost alerts
-
-# Acknowledge an alert
-harmony cost ack <alert-id>
-```
-
-## Best Practices
-
-1. **Always estimate before expensive operations**: Use `estimate()` or `estimateWorkflow()` before running T2 final or T3 operations.
-
-2. **Respect tier model limits**: Let CostKit select models based on tier - don't manually override unless necessary.
-
-3. **Monitor weekly**: Check the cost summary weekly to catch trends early.
-
-4. **Acknowledge alerts promptly**: Review and acknowledge alerts to maintain a clean alert state.
-
-5. **Update pricing periodically**: Model pricing changes - update `pricing.ts` when providers announce changes.
 
 ## Supported Models
 
@@ -394,5 +343,25 @@ harmony cost ack <alert-id>
 ### Mistral
 - mistral-large, mistral-small, codestral
 
-See `pricing.ts` for current pricing data.
+## Best Practices
 
+1. **Always estimate before expensive operations**: Use `estimate()` before T2 final or T3 operations.
+2. **Respect tier model limits**: Let CostKit select models based on tier.
+3. **Monitor weekly**: Check cost summary weekly to catch trends early.
+4. **Acknowledge alerts promptly**: Review and acknowledge alerts to maintain clean state.
+
+## Testing
+
+```bash
+# Run CostKit tests
+pnpm --filter @harmony/costkit test
+```
+
+## See Also
+
+- [@harmony/kit-base](../kit-base/README.md) - Shared infrastructure
+- [COST-MANAGEMENT.md](/docs/harmony/human/COST-MANAGEMENT.md) - Human-facing cost guide
+
+## License
+
+Private — part of the Harmony monorepo.

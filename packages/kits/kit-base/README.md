@@ -7,15 +7,145 @@ Shared infrastructure for Harmony Kits providing foundational utilities for:
 - **Observability** — OpenTelemetry helpers for consistent tracing
 - **CLI Flags** — Standard flag parsing across all kit CLIs
 - **CLI Base** — Scaffolding for building consistent kit CLIs
-- **Validation** — Zod-based schema validation utilities
+- **Validation** — Zod-based schema validation utilities with enforcement modes
 - **Idempotency** — Key generation and conflict detection
 - **Metadata** — Kit metadata types and loading utilities
+- **Methodology-as-Code** — Versioned methodology constraints for AI consumption
+
+## Methodology-as-Code
+
+Harmony uses a **Methodology-as-Code** approach: methodology constraints (pillars, lifecycle stages, policy rules) are encoded directly into JSON schemas and runtime validation. This enables AI agents to consume methodology as machine-readable contracts.
+
+### Version Tracking
+
+All kit metadata includes explicit version fields:
+
+```json
+{
+  "schemaVersion": "1.2.0",
+  "methodologyVersion": "0.2.0",
+  "name": "flowkit",
+  "version": "0.1.0"
+}
+```
+
+| Field | Current | Description |
+|-------|---------|-------------|
+| `schemaVersion` | 1.2.0 | Kit metadata schema version |
+| `methodologyVersion` | 0.2.0 | Harmony methodology version |
+
+### Enforcement Modes
+
+Methodology validation supports graceful transitions:
+
+| Mode | Behavior | Use Case |
+|------|----------|----------|
+| `block` | Fail on violations (default) | Production, CI |
+| `warn` | Log warnings but proceed | Development, transitions |
+| `off` | Skip validation | Testing, emergencies |
+
+```typescript
+import { validateWithEnforcement, KitMetadataSchema } from "@harmony/kit-base";
+
+const result = validateWithEnforcement(KitMetadataSchema, metadata, {
+  enforcementMode: "warn",
+  checkDeprecations: true,
+});
+```
+
+### CI Validation
+
+Validate methodology alignment across all kits:
+
+```bash
+pnpm --filter @harmony/kit-base validate:methodology
+```
+
+See [Methodology-as-Code Policy](../../docs/harmony/ai/methodology/methodology-as-code.md) for full documentation.
 
 ## Installation
 
 ```bash
 pnpm add @harmony/kit-base
 ```
+
+## Interface Architecture
+
+Kits expose three interfaces, each serving different consumers. All interfaces share the same underlying implementation and return consistent data structures.
+
+### Interface Hierarchy
+
+| Interface | Primary | Consumers | Use Cases |
+|-----------|---------|-----------|-----------|
+| **Programmatic API** | Yes | AI agents, services, batch jobs | Production traffic, high-volume automation |
+| **HTTP/RPC** | — | Python/cross-language clients | Distributed systems, microservices |
+| **CLI** | — | Humans, CI/CD, shell-based agents | Debugging, scripts, simple integrations |
+
+### Consumer Matrix
+
+| Consumer | Preferred Interface | CLI Okay? |
+|----------|---------------------|-----------|
+| Production web app / API | Programmatic API | Only for ops/debug |
+| CI/CD pipelines | CLI or API | Yes |
+| Developer at terminal | CLI | Yes |
+| Early experimental AI agent | CLI or API | Yes |
+| Long-lived internal kaizen agent | Programmatic API | CLI only as fallback |
+| Python/cross-language agent | HTTP Interface | — |
+
+### Configuration Precedence
+
+Configuration is resolved differently depending on the interface:
+
+**CLI Operations:**
+1. CLI flags (e.g., `--dry-run`, `--stage implement`) — highest priority
+2. Environment variables (e.g., `HARMONY_DRY_RUN=true`)
+3. Kit defaults — lowest priority
+
+**Programmatic API:**
+1. Constructor/method config object — highest priority
+2. Environment variables
+3. Kit defaults — lowest priority
+
+This ensures CLI flags always win for command-line usage, while programmatic callers have full control via config objects. Environment variables provide a way to set defaults across both interfaces.
+
+```typescript
+// CLI: flags win
+guardkit check "content" --dry-run  // dryRun=true, regardless of env
+
+// Programmatic: config wins
+new GuardKit({ dryRun: false });    // dryRun=false, regardless of env
+
+// Both respect env vars when not explicitly set
+// HARMONY_DRY_RUN=true
+guardkit check "content"            // dryRun=true (from env)
+new GuardKit({});                   // dryRun=true (from env)
+```
+
+### Error Contract
+
+All interfaces return errors in the same canonical structure:
+
+```typescript
+interface KitErrorJSON {
+  success: false;
+  error: {
+    code: string;           // Error class (e.g., "InputValidationError")
+    exitCode: number;       // CLI exit code (0-8)
+    message: string;        // Human-readable message
+    details?: unknown;      // Structured context
+    suggestedAction: string;
+  };
+  _kit?: {
+    name: string;
+    version: string;
+  };
+}
+```
+
+This ensures:
+- CLI `--format json` output matches HTTP API responses
+- Error parsing logic can be shared across interfaces
+- AI agents get consistent, machine-readable errors
 
 ## Error Taxonomy
 
@@ -274,14 +404,16 @@ console.log(getStandardFlagsHelp());
 
 Kit metadata types and loading utilities.
 
-### kit.metadata.json Format
+### kit.metadata.json Format (v1.2)
 
 ```json
 {
+  "schemaVersion": "1.2.0",
+  "methodologyVersion": "0.2.0",
   "name": "flowkit",
   "version": "0.1.0",
   "description": "Workflow orchestration for AI-powered workflows",
-  "pillars": ["speed_with_safety", "guided_agentic_autonomy"],
+  "pillars": ["speed_with_safety", "guided_agentic_autonomy", "evolvable_modularity"],
   "lifecycleStages": ["implement"],
   "inputsSchema": "schema/flowkit.inputs.v1.json",
   "outputsSchema": "schema/flowkit.outputs.v1.json",
@@ -290,14 +422,27 @@ Kit metadata types and loading utilities.
     "requiredSpans": ["kit.flowkit.run"],
     "logRedaction": true
   },
+  "policy": {
+    "rulesetRef": "harmony-policy-v1",
+    "rules": ["workflow-exists", "workflow-valid"],
+    "enforcement": "block",
+    "failClosed": true
+  },
   "determinism": {
     "artifactNaming": "{flowName}-{runId}"
   },
   "safety": {
     "hitl": { "requiredFor": ["high"] }
   },
+  "idempotency": {
+    "required": true,
+    "idempotencyKeyFrom": ["flowName", "config.canonicalPromptPath"]
+  },
   "dryRun": { "supported": true },
   "compatibility": {
+    "minSchemaVersion": "1.1.0",
+    "maxSchemaVersion": "1.2.0",
+    "supportedMethodologyVersions": ["0.2.0"],
     "contracts": ["flowkit.inputs.v1"],
     "kits": ["promptkit", "guardkit"]
   }
@@ -371,12 +516,45 @@ const ExtendedConfigSchema = BaseKitConfigSchema.merge(
 
 | Schema | Description |
 |--------|-------------|
-| `BaseKitConfigSchema` | Base config (enableRunRecords, runsDir, dryRun, idempotencyKey) |
-| `KitMetadataSchema` | Kit metadata (v1.1 - determinism, safety, idempotency required) |
-| `HarmonyPillarSchema` | Pillar enumeration |
-| `LifecycleStageSchema` | Lifecycle stage enumeration |
+| `BaseKitConfigSchema` | Base config (enableRunRecords, runsDir, dryRun, idempotencyKey, enforcementMode) |
+| `KitMetadataSchema` | Kit metadata (v1.2 - with versioning and enforcement modes) |
+| `RunRecordSchema` | Run record (v1.1 - with versioning and deprecation tracking) |
+| `HarmonyPillarSchema` | Pillar enumeration (structural methodology) |
+| `LifecycleStageSchema` | Lifecycle stage enumeration (structural methodology) |
 | `RiskTierSchema` | Risk tier (T1/T2/T3) |
 | `RiskLevelSchema` | Risk level enumeration |
+| `EnforcementModeSchema` | Enforcement mode (block/warn/off) |
+| `DeprecationSchema` | Deprecation notice with migration guidance |
+
+### Version Constants
+
+```typescript
+import {
+  CURRENT_SCHEMA_VERSION,      // "1.2.0"
+  CURRENT_METHODOLOGY_VERSION, // "0.2.0"
+  MIN_SUPPORTED_SCHEMA_VERSION // "1.0.0"
+} from "@harmony/kit-base";
+```
+
+### Enforcement-Aware Validation
+
+```typescript
+import { validateWithEnforcement, KitMetadataSchema } from "@harmony/kit-base";
+
+const result = validateWithEnforcement(KitMetadataSchema, metadata, {
+  enforcementMode: "warn",  // "block" | "warn" | "off"
+  checkDeprecations: true,
+  schemaName: "kit.metadata.json",
+});
+
+if (!result.success) {
+  console.error("Errors:", result.errors);
+}
+
+if (result.warnings?.length) {
+  console.warn("Deprecations:", result.warnings);
+}
+```
 
 ## Idempotency
 

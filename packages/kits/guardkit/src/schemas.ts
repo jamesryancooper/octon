@@ -59,100 +59,100 @@ export const CheckOptionsSchema = z.object({
 export const SeveritySchema = z.enum(["critical", "high", "medium", "low", "info"]);
 
 /**
- * Individual check result schema.
+ * Guardrail category schema.
  */
-export const CheckResultSchema = z.object({
-  /** Check name */
+export const GuardrailCategorySchema = z.enum([
+  "prompt_injection",
+  "hallucination",
+  "pii_exposure",
+  "secret_exposure",
+  "schema_violation",
+  "code_safety",
+  "content_safety",
+]);
+
+/**
+ * Location schema for check results - matches GuardrailCheckResult.location.
+ */
+export const CheckLocationSchema = z.object({
+  start: z.number(),
+  end: z.number(),
+  context: z.string(),
+});
+
+/**
+ * Individual guardrail check result schema - matches GuardrailCheckResult interface.
+ */
+export const GuardrailCheckResultSchema = z.object({
+  /** Unique identifier for the check */
+  checkId: z.string(),
+
+  /** Human-readable name */
   name: z.string(),
+
+  /** Category of the check */
+  category: GuardrailCategorySchema,
 
   /** Whether the check passed */
   passed: z.boolean(),
 
-  /** Severity level */
-  severity: SeveritySchema,
+  /** Severity if failed */
+  severity: SeveritySchema.optional(),
 
-  /** Human-readable message */
+  /** Detailed message */
   message: z.string(),
 
-  /** Suggested fix */
+  /** Location in the content where issue was found */
+  location: CheckLocationSchema.optional(),
+
+  /** Suggested fix or action */
   suggestion: z.string().optional(),
-
-  /** Location information */
-  location: z.object({
-    start: z.number().optional(),
-    end: z.number().optional(),
-    line: z.number().optional(),
-    column: z.number().optional(),
-  }).optional(),
 });
 
 /**
- * Check summary schema.
- */
-export const CheckSummarySchema = z.object({
-  critical: z.number(),
-  high: z.number(),
-  medium: z.number(),
-  low: z.number(),
-  info: z.number(),
-});
-
-/**
- * Guardrail result schema.
+ * Guardrail result schema - matches GuardrailResult interface.
  */
 export const GuardrailResultSchema = z.object({
-  /** Whether content is safe */
+  /** Whether all critical/high checks passed */
   safe: z.boolean(),
 
-  /** Individual check results */
-  checks: z.array(CheckResultSchema),
-
-  /** Summary counts */
-  summary: CheckSummarySchema,
+  /** Whether the content can proceed (passed or only low-severity issues) */
+  canProceed: z.boolean(),
 
   /** Total checks run */
   totalChecks: z.number(),
 
-  /** Checks that passed */
+  /** Checks passed */
   passedChecks: z.number(),
 
-  /** Content hash for caching */
-  contentHash: z.string().optional(),
+  /** Individual check results */
+  checks: z.array(GuardrailCheckResultSchema),
+
+  /** Summary of issues by severity */
+  summary: z.record(SeveritySchema, z.number()),
+
+  /** Timestamp of the check */
+  timestamp: z.string(),
 });
 
 /**
- * Modification record schema.
- */
-export const ModificationSchema = z.object({
-  type: z.string(),
-  reason: z.string(),
-  original: z.string().optional(),
-  replacement: z.string().optional(),
-});
-
-/**
- * Redaction record schema.
- */
-export const RedactionSchema = z.object({
-  type: z.string(),
-  count: z.number(),
-});
-
-/**
- * Sanitize result schema.
+ * Sanitize result schema - matches SanitizeResult interface.
  */
 export const SanitizeResultSchema = z.object({
   /** Sanitized content */
   sanitized: z.string(),
 
+  /** Original content */
+  original: z.string(),
+
   /** Whether content was modified */
   modified: z.boolean(),
 
-  /** List of modifications made */
-  modifications: z.array(ModificationSchema),
+  /** Modifications made */
+  modifications: z.array(z.string()),
 
-  /** Redaction summary */
-  redactions: z.array(RedactionSchema),
+  /** Content that was redacted (for logging) */
+  redactions: z.array(z.string()),
 });
 
 /**
@@ -174,11 +174,10 @@ export type BlockThreshold = z.infer<typeof BlockThresholdSchema>;
 export type GuardKitConfig = z.infer<typeof GuardKitConfigSchema>;
 export type CheckOptions = z.infer<typeof CheckOptionsSchema>;
 export type Severity = z.infer<typeof SeveritySchema>;
-export type CheckResult = z.infer<typeof CheckResultSchema>;
-export type CheckSummary = z.infer<typeof CheckSummarySchema>;
+export type GuardrailCategory = z.infer<typeof GuardrailCategorySchema>;
+export type CheckLocation = z.infer<typeof CheckLocationSchema>;
+export type GuardrailCheckResult = z.infer<typeof GuardrailCheckResultSchema>;
 export type GuardrailResult = z.infer<typeof GuardrailResultSchema>;
-export type Modification = z.infer<typeof ModificationSchema>;
-export type Redaction = z.infer<typeof RedactionSchema>;
 export type SanitizeResult = z.infer<typeof SanitizeResultSchema>;
 export type QuickCheckResult = z.infer<typeof QuickCheckResultSchema>;
 

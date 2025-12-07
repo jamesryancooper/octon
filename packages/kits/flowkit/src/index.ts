@@ -50,7 +50,7 @@ import {
 } from "@harmony/kit-base";
 import {
   createRunRecord,
-  writeRunRecord,
+  safeWriteRunRecord,
   getRunsDirectory,
   type RunRecord,
 } from "@harmony/kit-base";
@@ -78,7 +78,7 @@ import type {
 } from "./types.js";
 
 // Re-export run record utilities for consumers
-export { createRunRecord, writeRunRecord, getRunsDirectory } from "@harmony/kit-base";
+export { createRunRecord, writeRunRecord, safeWriteRunRecord, getRunsDirectory } from "@harmony/kit-base";
 export type { RunRecord } from "@harmony/kit-base";
 
 /** Kit metadata */
@@ -212,7 +212,7 @@ export function createHttpFlowRunner(
                 });
 
                 const runsDir = options.runsDir || getRunsDirectory(workspaceRoot);
-                writeRunRecord(runRecord, runsDir);
+                safeWriteRunRecord(runRecord, runsDir);
               }
 
               throw new UpstreamProviderError(
@@ -278,7 +278,7 @@ export function createHttpFlowRunner(
               });
 
               const runsDir = options.runsDir || getRunsDirectory(workspaceRoot);
-              writeRunRecord(runRecord, runsDir);
+              safeWriteRunRecord(runRecord, runsDir);
             }
 
             return result;
@@ -297,7 +297,7 @@ export function createHttpFlowRunner(
               });
 
               const runsDir = options.runsDir || getRunsDirectory(workspaceRoot);
-              writeRunRecord(runRecord, runsDir);
+              safeWriteRunRecord(runRecord, runsDir);
             }
             throw error;
           }

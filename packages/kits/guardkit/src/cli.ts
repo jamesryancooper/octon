@@ -44,7 +44,10 @@ const KIT_VERSION = "0.1.0";
 /**
  * CLI-specific options for GuardKit.
  */
-interface GuardKitCliOptions extends StandardKitFlags {
+interface GuardKitCliOptions extends Record<string, unknown> {
+  dryRun?: boolean;
+  enableRunRecords?: boolean;
+  runsDir?: string;
   file?: string;
   projectRoot?: string;
   threshold?: string;
@@ -305,7 +308,7 @@ function formatSanitizeResult(result: SanitizeResult): string {
       lines.push("");
       lines.push("Modifications:");
       for (const mod of result.modifications) {
-        lines.push(`  - ${mod.type}: ${mod.reason}`);
+        lines.push(`  - ${mod}`);
       }
     }
 
@@ -313,7 +316,7 @@ function formatSanitizeResult(result: SanitizeResult): string {
       lines.push("");
       lines.push("Redactions:");
       for (const red of result.redactions) {
-        lines.push(`  - ${red.type}: ${red.count} occurrence(s)`);
+        lines.push(`  - ${red}`);
       }
     }
   } else {

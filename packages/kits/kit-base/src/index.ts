@@ -10,6 +10,7 @@
  * - Zod-based validation utilities
  * - Idempotency key management
  * - CLI base utilities
+ * - HTTP client utilities for kit runners
  */
 
 // Errors
@@ -38,4 +39,7 @@ export * from "./validation.js";
 
 // Idempotency
 export * from "./idempotency.js";
+
+// HTTP Client
+export * from "./http-client.js";
 

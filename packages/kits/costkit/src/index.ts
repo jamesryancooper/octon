@@ -90,7 +90,7 @@ import {
 import { PolicyViolationError } from "@harmony/kit-base";
 import {
   createRunRecord,
-  writeRunRecord,
+  safeWriteRunRecord,
   getRunsDirectory,
 } from "@harmony/kit-base";
 
@@ -316,7 +316,7 @@ export class CostKit {
         });
 
         const runsDir = this.config.runsDir || getRunsDirectory(process.cwd());
-        writeRunRecord(runRecord, runsDir);
+        safeWriteRunRecord(runRecord, runsDir);
       }
 
       return result;
@@ -496,7 +496,7 @@ export class CostKit {
         });
 
         const runsDir = this.config.runsDir || getRunsDirectory(process.cwd());
-        writeRunRecord(runRecord, runsDir);
+        safeWriteRunRecord(runRecord, runsDir);
       }
 
       return record;
@@ -770,4 +770,14 @@ export {
   formatAlert,
   formatAlerts,
 } from "./alerts.js";
+
+// HTTP Runner
+export {
+  createHttpCostRunner,
+  notImplementedCostRunner,
+  type CostRunner,
+  type HttpCostRunnerOptions,
+  type EstimateOptions,
+  type RecordUsageOptions,
+} from "./http-runner.js";
 

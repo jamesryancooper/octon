@@ -40,7 +40,7 @@ import {
 import { GuardViolationError } from "@harmony/kit-base";
 import {
   createRunRecord,
-  writeRunRecord,
+  safeWriteRunRecord,
   getRunsDirectory,
 } from "@harmony/kit-base";
 
@@ -405,7 +405,7 @@ export class GuardKit {
         });
 
         const runsDir = this.config.runsDir || getRunsDirectory(this.config.projectRoot || process.cwd());
-        writeRunRecord(runRecord, runsDir);
+        safeWriteRunRecord(runRecord, runsDir);
       }
 
       return result;
@@ -563,3 +563,12 @@ export {
   HUMAN_RED_FLAGS,
   matchesPatterns,
 } from "./patterns.js";
+
+// HTTP Runner
+export {
+  createHttpGuardRunner,
+  notImplementedGuardRunner,
+  type GuardRunner,
+  type HttpGuardRunnerOptions,
+  type CheckOptions,
+} from "./http-runner.js";

@@ -332,7 +332,25 @@ export function getRunRecordPath(runsDir: string, runId: string): string {
 }
 
 /**
+ * Result of a safe run record write operation.
+ */
+export interface WriteRunRecordResult {
+  /** Whether the write succeeded */
+  success: boolean;
+  /** File path if successful */
+  path?: string;
+  /** Error message if failed */
+  error?: string;
+}
+
+/**
  * Write a run record to disk.
+ *
+ * WARNING: This function throws on filesystem errors. For non-critical
+ * run record writes (where failure shouldn't crash the main operation),
+ * use `safeWriteRunRecord` instead.
+ *
+ * @throws {Error} If directory creation or file write fails
  */
 export function writeRunRecord(
   record: RunRecord,
@@ -349,6 +367,37 @@ export function writeRunRecord(
   writeFileSync(filePath, JSON.stringify(record, null, 2));
 
   return filePath;
+}
+
+/**
+ * Safely write a run record to disk without throwing.
+ *
+ * This is the recommended function for kit implementations where
+ * run record writing is a best-effort operation that shouldn't
+ * cause the main operation to fail.
+ *
+ * Filesystem errors (permissions, disk full, etc.) are caught and
+ * logged as warnings. The main kit operation continues regardless.
+ *
+ * @returns Result object with success status, path, and any error message
+ */
+export function safeWriteRunRecord(
+  record: RunRecord,
+  outputDir: string
+): WriteRunRecordResult {
+  try {
+    const path = writeRunRecord(record, outputDir);
+    return { success: true, path };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+
+    // Log warning but don't throw - run records are best-effort
+    console.warn(
+      `[kit-base] Failed to write run record ${record.runId}: ${message}`
+    );
+
+    return { success: false, error: message };
+  }
 }
 
 /**

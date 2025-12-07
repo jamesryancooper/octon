@@ -110,147 +110,248 @@ export const CostRangeSchema = z.object({
 });
 
 /**
- * Token estimate schema.
+ * Token estimate schema - matches TokenEstimate interface.
  */
 export const TokenEstimateSchema = z.object({
-  input: z.number(),
-  output: z.number(),
+  /** Estimated input tokens */
+  inputTokens: z.number(),
+
+  /** Estimated output tokens */
+  outputTokens: z.number(),
+
+  /** Total estimated tokens */
+  totalTokens: z.number(),
+
+  /** Confidence level (0-1) */
+  confidence: z.number().min(0).max(1),
+
+  /** Basis for the estimate */
+  basis: z.enum(["historical", "heuristic", "measured"]),
 });
 
 /**
- * Cost estimate schema.
+ * LLM provider schema.
+ */
+export const LLMProviderSchema = z.enum(["openai", "anthropic", "google", "mistral", "local"]);
+
+/**
+ * Cost estimate schema - matches CostEstimate interface.
  */
 export const CostEstimateSchema = z.object({
-  /** Workflow type */
-  workflowType: z.string(),
+  /** Unique identifier for this estimate */
+  estimateId: z.string(),
 
-  /** Risk tier */
-  tier: RiskTierSchema,
-
-  /** Model used for estimate */
+  /** The model to be used */
   model: z.string(),
+
+  /** Provider */
+  provider: LLMProviderSchema,
+
+  /** Estimated tokens */
+  tokens: TokenEstimateSchema,
 
   /** Estimated cost in USD */
   estimatedCostUsd: z.number(),
 
-  /** Cost range */
+  /** Cost range (min-max) in USD */
   costRange: CostRangeSchema,
-
-  /** Estimated tokens */
-  estimatedTokens: TokenEstimateSchema,
-
-  /** Whether this exceeds budget */
-  exceedsBudget: z.boolean(),
-
-  /** Budget remaining after this estimate */
-  budgetRemainingUsd: z.number().optional(),
-});
-
-/**
- * Usage record schema.
- */
-export const UsageRecordSchema = z.object({
-  /** Record ID */
-  id: z.string(),
-
-  /** Timestamp */
-  timestamp: z.string(),
-
-  /** Model used */
-  model: z.string(),
-
-  /** Input tokens */
-  inputTokens: z.number(),
-
-  /** Output tokens */
-  outputTokens: z.number(),
-
-  /** Actual cost in USD */
-  actualCostUsd: z.number(),
 
   /** Workflow type */
   workflowType: z.string(),
 
   /** Risk tier */
   tier: RiskTierSchema,
+
+  /** Stage (for T2) */
+  stage: WorkflowStageSchema.optional(),
+
+  /** Created timestamp */
+  createdAt: z.string(),
+
+  /** Whether this exceeds budget */
+  exceedsBudget: z.boolean(),
+
+  /** Budget warnings if any */
+  budgetWarnings: z.array(z.string()),
+});
+
+/**
+ * Usage record schema - matches UsageRecord interface.
+ */
+export const UsageRecordSchema = z.object({
+  /** Unique identifier */
+  usageId: z.string(),
+
+  /** Associated estimate ID if pre-flight was done */
+  estimateId: z.string().optional(),
+
+  /** Model used */
+  model: z.string(),
+
+  /** Provider */
+  provider: LLMProviderSchema,
+
+  /** Actual tokens used */
+  tokens: z.object({
+    input: z.number(),
+    output: z.number(),
+    total: z.number(),
+  }),
+
+  /** Actual cost in USD */
+  actualCostUsd: z.number(),
+
+  /** Prompt or workflow type */
+  workflowType: z.string(),
+
+  /** Risk tier */
+  tier: RiskTierSchema,
+
+  /** Task ID if associated with a task */
+  taskId: z.string().optional(),
+
+  /** Timestamp */
+  timestamp: z.string(),
 
   /** Duration in milliseconds */
   durationMs: z.number(),
 
   /** Whether the operation succeeded */
   success: z.boolean(),
+
+  /** Error message if failed */
+  error: z.string().optional(),
 });
 
 /**
- * Budget status schema.
+ * Top spending model entry schema.
+ */
+export const TopModelEntrySchema = z.object({
+  model: z.string(),
+  spentUsd: z.number(),
+  percent: z.number(),
+});
+
+/**
+ * Top spending workflow entry schema.
+ */
+export const TopWorkflowEntrySchema = z.object({
+  workflowType: z.string(),
+  spentUsd: z.number(),
+  percent: z.number(),
+});
+
+/**
+ * Budget status schema - matches BudgetStatus interface.
  */
 export const BudgetStatusSchema = z.object({
   /** Budget period */
   period: BudgetPeriodSchema,
 
-  /** Amount spent in USD */
-  spentUsd: z.number(),
+  /** Period start date */
+  periodStart: z.string(),
+
+  /** Period end date */
+  periodEnd: z.string(),
 
   /** Budget limit in USD */
   limitUsd: z.number(),
 
+  /** Amount spent in USD */
+  spentUsd: z.number(),
+
   /** Remaining budget in USD */
   remainingUsd: z.number(),
 
-  /** Usage percentage */
+  /** Percentage of budget used (0-100) */
   usedPercent: z.number(),
 
-  /** Whether over budget */
-  overBudget: z.boolean(),
+  /** Current status */
+  status: z.enum(["healthy", "warning", "critical", "exceeded"]),
 
-  /** Whether warning threshold triggered */
-  warningTriggered: z.boolean(),
+  /** Projected end-of-period spend based on current burn rate */
+  projectedSpendUsd: z.number(),
+
+  /** Whether projected spend exceeds budget */
+  projectedOverBudget: z.boolean(),
+
+  /** Top spending models */
+  topModels: z.array(TopModelEntrySchema),
+
+  /** Top spending workflow types */
+  topWorkflows: z.array(TopWorkflowEntrySchema),
 });
 
 /**
- * Model cost breakdown schema.
+ * Breakdown entry schema (for byModel, byWorkflow, byTier).
  */
-export const ModelCostBreakdownSchema = z.object({
-  costUsd: z.number(),
-  requests: z.number(),
+export const BreakdownEntrySchema = z.object({
+  spentUsd: z.number(),
   tokens: z.number(),
+  operations: z.number(),
 });
 
 /**
- * Cost trend schema.
+ * Cost trend schema - matches CostSummary.trend interface.
  */
 export const CostTrendSchema = z.object({
+  previousPeriodSpent: z.number(),
   changePercent: z.number(),
   direction: z.enum(["up", "down", "stable"]),
 });
 
 /**
- * Cost summary schema.
+ * Optimization opportunity schema.
+ */
+export const OptimizationOpportunitySchema = z.object({
+  description: z.string(),
+  estimatedSavingsUsd: z.number(),
+  recommendation: z.string(),
+});
+
+/**
+ * Cost summary schema - matches CostSummary interface.
  */
 export const CostSummarySchema = z.object({
-  /** Period covered */
-  period: z.object({
-    start: z.string(),
-    end: z.string(),
+  /** Summary period start */
+  periodStart: z.string(),
+
+  /** Summary period end */
+  periodEnd: z.string(),
+
+  /** Total spend in USD */
+  totalSpentUsd: z.number(),
+
+  /** Total tokens used */
+  totalTokens: z.object({
+    input: z.number(),
+    output: z.number(),
+    total: z.number(),
   }),
 
-  /** Total cost in USD */
-  totalCostUsd: z.number(),
+  /** Number of operations */
+  operationCount: z.number(),
 
-  /** Total requests */
-  totalRequests: z.number(),
+  /** Success rate (0-1) */
+  successRate: z.number().min(0).max(1),
 
-  /** Total tokens */
-  totalTokens: z.number(),
+  /** Average cost per operation */
+  avgCostPerOperation: z.number(),
 
   /** Breakdown by model */
-  byModel: z.record(ModelCostBreakdownSchema).optional(),
+  byModel: z.record(BreakdownEntrySchema),
 
-  /** Breakdown by workflow */
-  byWorkflow: z.record(ModelCostBreakdownSchema).optional(),
+  /** Breakdown by workflow type */
+  byWorkflow: z.record(BreakdownEntrySchema),
 
-  /** Trend compared to previous period */
-  trend: CostTrendSchema.optional(),
+  /** Breakdown by tier */
+  byTier: z.record(RiskTierSchema, BreakdownEntrySchema),
+
+  /** Cost trend compared to previous period */
+  trend: CostTrendSchema,
+
+  /** Optimization opportunities identified */
+  optimizationOpportunities: z.array(OptimizationOpportunitySchema),
 });
 
 /**
@@ -259,26 +360,51 @@ export const CostSummarySchema = z.object({
 export const AlertSeveritySchema = z.enum(["info", "warning", "critical"]);
 
 /**
- * Cost alert schema.
+ * Alert type schema.
+ */
+export const AlertTypeSchema = z.enum([
+  "budget_warning",
+  "budget_critical",
+  "budget_exceeded",
+  "unusual_spend",
+  "model_deprecated",
+  "pricing_change",
+  "estimate_exceeded",
+]);
+
+/**
+ * Cost alert schema - matches CostAlert interface.
  */
 export const CostAlertSchema = z.object({
-  /** Alert ID */
-  id: z.string(),
+  /** Unique identifier */
+  alertId: z.string(),
 
   /** Alert type */
-  type: z.string(),
+  type: AlertTypeSchema,
 
-  /** Severity */
+  /** Severity level */
   severity: AlertSeveritySchema,
 
-  /** Alert message */
+  /** Human-readable message */
   message: z.string(),
 
-  /** Timestamp */
-  timestamp: z.string(),
+  /** Detailed description */
+  details: z.string(),
 
-  /** Whether acknowledged */
+  /** Associated data */
+  data: z.record(z.unknown()),
+
+  /** When the alert was created */
+  createdAt: z.string(),
+
+  /** Whether the alert has been acknowledged */
   acknowledged: z.boolean(),
+
+  /** Who acknowledged it */
+  acknowledgedBy: z.string().optional(),
+
+  /** When it was acknowledged */
+  acknowledgedAt: z.string().optional(),
 });
 
 // ============================================================================
@@ -288,6 +414,7 @@ export const CostAlertSchema = z.object({
 export type RiskTier = z.infer<typeof RiskTierSchema>;
 export type WorkflowStage = z.infer<typeof WorkflowStageSchema>;
 export type BudgetPeriod = z.infer<typeof BudgetPeriodSchema>;
+export type LLMProvider = z.infer<typeof LLMProviderSchema>;
 export type CostKitConfig = z.infer<typeof CostKitConfigSchema>;
 export type EstimateRequest = z.infer<typeof EstimateRequestSchema>;
 export type RecordUsageRequest = z.infer<typeof RecordUsageRequestSchema>;
@@ -295,10 +422,15 @@ export type CostRange = z.infer<typeof CostRangeSchema>;
 export type TokenEstimate = z.infer<typeof TokenEstimateSchema>;
 export type CostEstimate = z.infer<typeof CostEstimateSchema>;
 export type UsageRecord = z.infer<typeof UsageRecordSchema>;
+export type TopModelEntry = z.infer<typeof TopModelEntrySchema>;
+export type TopWorkflowEntry = z.infer<typeof TopWorkflowEntrySchema>;
 export type BudgetStatus = z.infer<typeof BudgetStatusSchema>;
+export type BreakdownEntry = z.infer<typeof BreakdownEntrySchema>;
 export type CostSummary = z.infer<typeof CostSummarySchema>;
 export type CostTrend = z.infer<typeof CostTrendSchema>;
+export type OptimizationOpportunity = z.infer<typeof OptimizationOpportunitySchema>;
 export type AlertSeverity = z.infer<typeof AlertSeveritySchema>;
+export type AlertType = z.infer<typeof AlertTypeSchema>;
 export type CostAlert = z.infer<typeof CostAlertSchema>;
 
 // ============================================================================

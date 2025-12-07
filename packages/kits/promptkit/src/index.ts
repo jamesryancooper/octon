@@ -82,7 +82,7 @@ import {
 import { InputValidationError } from "@harmony/kit-base";
 import {
   createRunRecord,
-  writeRunRecord,
+  safeWriteRunRecord,
   getRunsDirectory,
 } from "@harmony/kit-base";
 
@@ -298,7 +298,7 @@ export class PromptKit {
       });
 
       const runsDir = this.config.runsDir || getRunsDirectory(process.cwd());
-      writeRunRecord(runRecord, runsDir);
+      safeWriteRunRecord(runRecord, runsDir);
     }
 
     return result;
@@ -629,4 +629,15 @@ export {
   merge,
   splitIfNeeded,
 } from "./assembler";
+
+// HTTP Runner
+export {
+  createHttpPromptRunner,
+  notImplementedPromptRunner,
+  type PromptRunner,
+  type HttpPromptRunnerOptions,
+  type CompileVariables,
+  type ValidationResult,
+  type TokenInfo,
+} from "./http-runner";
 

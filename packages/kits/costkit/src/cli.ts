@@ -48,7 +48,10 @@ const KIT_VERSION = "0.1.0";
 /**
  * CLI-specific options for CostKit.
  */
-interface CostKitCliOptions extends StandardKitFlags {
+interface CostKitCliOptions extends Record<string, unknown> {
+  dryRun?: boolean;
+  enableRunRecords?: boolean;
+  runsDir?: string;
   workflow?: string;
   tier?: string;
   workflowStage?: string;
@@ -222,7 +225,7 @@ const summaryCommand: CliCommand<CostKitCliOptions> = {
     const output = withKitMetadata(
       {
         status: "success",
-        summary: `Total cost: $${summary.totalCostUsd.toFixed(2)}`,
+        summary: `Total cost: $${summary.totalSpentUsd.toFixed(2)}`,
         costSummary: summary,
       },
       KIT_NAME,
@@ -375,7 +378,7 @@ function formatEstimate(estimate: CostEstimate): string {
   lines.push("");
   lines.push(`Estimated Cost: $${estimate.estimatedCostUsd.toFixed(4)}`);
   lines.push(`Cost Range: $${estimate.costRange.min.toFixed(4)} - $${estimate.costRange.max.toFixed(4)}`);
-  lines.push(`Tokens: ~${estimate.estimatedTokens.input.toLocaleString()} input, ~${estimate.estimatedTokens.output.toLocaleString()} output`);
+  lines.push(`Tokens: ~${estimate.tokens.inputTokens.toLocaleString()} input, ~${estimate.tokens.outputTokens.toLocaleString()} output`);
 
   if (estimate.exceedsBudget) {
     lines.push("");
@@ -397,10 +400,10 @@ function formatBudgetStatus(status: BudgetStatus): string {
   lines.push(`Used: ${status.usedPercent.toFixed(1)}%`);
   lines.push(`Remaining: $${status.remainingUsd.toFixed(2)}`);
 
-  if (status.overBudget) {
+  if (status.status === "exceeded") {
     lines.push("");
     lines.push("Warning: Over budget!");
-  } else if (status.warningTriggered) {
+  } else if (status.status === "warning" || status.status === "critical") {
     lines.push("");
     lines.push("Warning: Approaching budget limit");
   }
@@ -415,16 +418,16 @@ function formatCostSummary(summary: CostSummary): string {
   const lines: string[] = [];
   lines.push("[CostKit] Cost Summary");
   lines.push("─────────────────────────────");
-  lines.push(`Period: ${summary.period.start} to ${summary.period.end}`);
-  lines.push(`Total Cost: $${summary.totalCostUsd.toFixed(2)}`);
-  lines.push(`Total Requests: ${summary.totalRequests.toLocaleString()}`);
-  lines.push(`Total Tokens: ${summary.totalTokens.toLocaleString()}`);
+  lines.push(`Period: ${summary.periodStart} to ${summary.periodEnd}`);
+  lines.push(`Total Cost: $${summary.totalSpentUsd.toFixed(2)}`);
+  lines.push(`Total Operations: ${summary.operationCount.toLocaleString()}`);
+  lines.push(`Total Tokens: ${summary.totalTokens.total.toLocaleString()}`);
 
   if (summary.byModel && Object.keys(summary.byModel).length > 0) {
     lines.push("");
     lines.push("By Model:");
     for (const [model, data] of Object.entries(summary.byModel)) {
-      lines.push(`  ${model}: $${data.costUsd.toFixed(2)} (${data.requests} requests)`);
+      lines.push(`  ${model}: $${data.spentUsd.toFixed(2)} (${data.operations} operations)`);
     }
   }
 

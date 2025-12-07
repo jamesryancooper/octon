@@ -41,13 +41,18 @@
     "./cli-base": {
       "types": "./dist/cli-base.d.ts",
       "import": "./dist/cli-base.js"
+    },
+    "./http-client": {
+      "types": "./dist/http-client.d.ts",
+      "import": "./dist/http-client.js"
     }
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "validate:methodology": "npx tsx scripts/validate-methodology-alignment.ts"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.0",
