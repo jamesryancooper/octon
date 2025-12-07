@@ -14,7 +14,7 @@ CostKit provides comprehensive cost management for AI-enabled workflows, includi
 ## Quick Start
 
 ```typescript
-import { CostKit } from '@harmony/kits';
+import { CostKit } from '@harmony/costkit';
 
 // Initialize with default policy
 const costKit = new CostKit();
@@ -215,7 +215,7 @@ costKit.acknowledgeAlert(alerts[0].alertId, 'developer@team.com');
 Get pricing information for models:
 
 ```typescript
-import { getModelPricing, calculateCost, compareModelCosts } from '@harmony/kits/costkit';
+import { getModelPricing, calculateCost, compareModelCosts } from '@harmony/costkit';
 
 // Get pricing for a model
 const pricing = getModelPricing('gpt-4o');

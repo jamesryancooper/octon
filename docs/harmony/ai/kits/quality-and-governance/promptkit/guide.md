@@ -31,7 +31,7 @@ PromptKit is the **runtime compiler/renderer** that transforms static prompt tem
 ## Installation
 
 ```typescript
-import { PromptKit } from '@harmony/kits/promptkit';
+import { PromptKit } from '@harmony/promptkit';
 
 const promptKit = new PromptKit();
 ```
@@ -159,7 +159,7 @@ core_prompts:
 PromptKit computes deterministic SHA-256 hashes for all compiled prompts:
 
 ```typescript
-import { computePromptHash, verifyPromptHash, shortHash } from '@harmony/kits/promptkit';
+import { computePromptHash, verifyPromptHash, shortHash } from '@harmony/promptkit';
 
 // Compute hash
 const hash = computePromptHash(prompt, variables, promptId, version);
@@ -259,8 +259,8 @@ PromptKit emits spans for tracing:
 
 ### With CostKit
 ```typescript
-import { CostKit } from '@harmony/kits/costkit';
-import { PromptKit } from '@harmony/kits/promptkit';
+import { CostKit } from '@harmony/costkit';
+import { PromptKit } from '@harmony/promptkit';
 
 const costKit = new CostKit();
 const promptKit = new PromptKit();
@@ -280,7 +280,7 @@ console.log(`Estimated cost: $${estimate.estimatedCostUsd.toFixed(4)}`);
 
 ### With GuardKit
 ```typescript
-import { GuardKit } from '@harmony/kits/guardkit';
+import { GuardKit } from '@harmony/guardkit';
 
 // Validate AI output before processing
 const guardResult = await guardKit.fullCheck({

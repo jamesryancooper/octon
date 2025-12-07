@@ -424,7 +424,7 @@ Example (Node/TS):
 import {
   architectureAssessmentCliRunner,
   type FlowConfig
-} from "@harmony/kits";
+} from "@harmony/flowkit";
 
 const config: FlowConfig = {
   flowName: "architecture_assessment",

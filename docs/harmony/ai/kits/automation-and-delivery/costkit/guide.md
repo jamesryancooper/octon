@@ -1,6 +1,6 @@
 # CostKit — LLM Cost Management
 
-**Package:** `@harmony/kits` (costkit module)  
+**Package:** `@harmony/costkit`  
 **Purpose:** Token & spend guardrails, budget management, model selection, cost optimization  
 **Status:** Implemented
 
@@ -58,7 +58,7 @@ CostKit provides comprehensive cost management for AI-enabled workflows:
 ### CostKit Class
 
 ```typescript
-import { CostKit } from '@harmony/kits';
+import { CostKit } from '@harmony/costkit';
 
 const costKit = new CostKit({
   policyPath: './cost-policy.yaml',
@@ -183,7 +183,7 @@ import {
   compareModelCosts,
   getTierModels,
   getCheapestModel,
-} from '@harmony/kits/costkit';
+} from '@harmony/costkit';
 
 // Get pricing for a model
 const pricing = getModelPricing('gpt-4o');
@@ -341,7 +341,7 @@ Span attributes include:
 
 ## File Locations
 
-- **Implementation**: `packages/kits/src/costkit/`
+- **Implementation**: `packages/kits/costkit/src/`
 - **Policy**: `packages/config/cost-policy.yaml`
 - **Data Storage**: `.harmony/cost-data.json` (default)
 

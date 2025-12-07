@@ -12,19 +12,38 @@ Human developers orchestrate AI agents via the `harmony` CLI. AI agents use Kits
 Human → harmony CLI → AI Agents → Kits → Results
 ```
 
+## Package Structure
+
+This is a multi-package workspace containing the following kits:
+
+```
+packages/kits/
+├── kit-base/        # Shared infrastructure (types, errors, observability)
+├── flowkit/         # Workflow orchestration and multi-step execution
+├── guardkit/        # AI output protection (injection, hallucination, secrets)
+├── promptkit/       # Runtime prompt compilation (templates, hashing, variants)
+├── costkit/         # LLM cost management (estimation, tracking, budgeting)
+├── package.json     # Workspace configuration
+├── tsconfig.json    # Shared TypeScript config
+└── README.md        # This file
+```
+
 ## Available Kits
 
-| Kit | Purpose | Status |
-|-----|---------|--------|
-| **FlowKit** | Workflow orchestration and multi-step execution | ✅ Implemented |
-| **GuardKit** | AI output protection (injection, hallucination, secrets) | ✅ Implemented |
-| **SpecKit** | Specification generation and validation | 🔄 Planned |
-| **PlanKit** | Implementation planning and ADR generation | 🔄 Planned |
-| **TestKit** | Test generation and execution | 🔄 Planned |
-| **PatchKit** | PR creation and code patches | 🔄 Planned |
-| **EvalKit** | AI output evaluation and quality scoring | 🔄 Planned |
-| **PolicyKit** | Policy enforcement and compliance | 🔄 Planned |
-| **ObservaKit** | Observability and telemetry | 🔄 Planned |
+| Kit | Purpose | Status | Package |
+|-----|---------|--------|---------|
+| **kit-base** | Shared infrastructure (types, errors, observability) | ✅ Implemented | `@harmony/kit-base` |
+| **FlowKit** | Workflow orchestration and multi-step execution | ✅ Implemented | `@harmony/flowkit` |
+| **GuardKit** | AI output protection (injection, hallucination, secrets) | ✅ Implemented | `@harmony/guardkit` |
+| **PromptKit** | Runtime prompt compilation (templates, hashing, variants) | ✅ Implemented | `@harmony/promptkit` |
+| **CostKit** | LLM cost management and optimization | ✅ Implemented | `@harmony/costkit` |
+| **SpecKit** | Specification generation and validation | 🔄 Planned | — |
+| **PlanKit** | Implementation planning and ADR generation | 🔄 Planned | — |
+| **TestKit** | Test generation and execution | 🔄 Planned | — |
+| **PatchKit** | PR creation and code patches | 🔄 Planned | — |
+| **EvalKit** | AI output evaluation and quality scoring | 🔄 Planned | — |
+| **PolicyKit** | Policy enforcement and compliance | 🔄 Planned | — |
+| **ObservaKit** | Observability and telemetry | 🔄 Planned | — |
 
 ## Quick Start
 
@@ -32,14 +51,19 @@ Human → harmony CLI → AI Agents → Kits → Results
 # Install dependencies
 pnpm install
 
-# Build
+# Build all kits
 pnpm build
 
 # Run tests
 pnpm test
+
+# Type check
+pnpm typecheck
 ```
 
-## GuardKit
+## Usage
+
+### GuardKit
 
 Protects against AI failures and security risks:
 
@@ -50,7 +74,7 @@ Protects against AI failures and security risks:
 - **Code Safety**: Catches dangerous patterns (eval, SQL injection, XSS)
 
 ```typescript
-import { GuardKit } from '@harmony/kits/guardkit';
+import { GuardKit } from '@harmony/guardkit';
 
 const guard = new GuardKit({
   projectRoot: process.cwd(),
@@ -63,26 +87,98 @@ if (!result.safe) {
 }
 ```
 
-See [`src/guardkit/README.md`](./src/guardkit/README.md) for detailed documentation.
+See [`guardkit/README.md`](./guardkit/README.md) for detailed documentation.
 
-## FlowKit
+### FlowKit
 
 Orchestrates multi-step AI workflows:
 
 ```typescript
-import { FlowKit } from '@harmony/kits/flowkit';
+import { createHttpFlowRunner, type FlowRunRequest } from '@harmony/flowkit';
 
-const flow = new FlowKit();
+const runner = createHttpFlowRunner({
+  baseUrl: 'http://127.0.0.1:8410',
+});
 
-// Define and execute a workflow
-const result = await flow.execute({
-  steps: [
-    { id: 'spec', prompt: specPrompt, input: intent },
-    { id: 'plan', prompt: planPrompt, depends: ['spec'] },
-    { id: 'code', prompt: codePrompt, depends: ['plan'] },
-  ],
+const result = await runner.run({
+  config: {
+    flowName: 'my_workflow',
+    canonicalPromptPath: 'packages/prompts/my-prompt.md',
+    workflowManifestPath: 'langgraph.json',
+  },
+  params: { targetPath: './src' },
 });
 ```
+
+See [`flowkit/README.md`](./flowkit/README.md) for detailed documentation.
+
+### PromptKit
+
+Runtime prompt compiler with determinism guarantees:
+
+```typescript
+import { PromptKit } from '@harmony/promptkit';
+
+const promptKit = new PromptKit();
+
+const compiled = await promptKit.compile('spec-from-intent', {
+  intent: 'Add user authentication',
+  tier: 'T2',
+});
+
+console.log(compiled.prompt);       // Rendered prompt
+console.log(compiled.prompt_hash);  // sha256:abc123...
+```
+
+See [`promptkit/README.md`](./promptkit/README.md) for detailed documentation.
+
+### CostKit
+
+LLM cost management and optimization:
+
+```typescript
+import { CostKit } from '@harmony/costkit';
+
+const costKit = new CostKit();
+
+// Get pre-flight estimate
+const estimate = await costKit.estimate({
+  workflowType: 'code-from-plan',
+  tier: 'T2',
+  stage: 'final',
+});
+
+console.log(`Estimated cost: $${estimate.estimatedCostUsd.toFixed(4)}`);
+
+// Check budget before proceeding
+const budgetCheck = costKit.checkBudget(estimate.estimatedCostUsd);
+if (!budgetCheck.allowed) {
+  console.warn('Budget exceeded:', budgetCheck.reason);
+}
+```
+
+See [`costkit/README.md`](./costkit/README.md) for detailed documentation.
+
+## Shared Infrastructure (kit-base)
+
+All kits share common infrastructure from `@harmony/kit-base`:
+
+- **Types**: Common types like `KitState`, `LifecycleStage`, `RiskTier`
+- **Errors**: Typed errors (`InputValidationError`, `PolicyViolationError`, etc.)
+- **Observability**: Tracing helpers (`createKitSpan`, `withKitSpan`, `emitStateTransition`)
+- **Run Records**: Standardized audit trail creation
+- **CLI Flags**: Standard flag parsing (`--dry-run`, `--stage`, `--risk`)
+
+```typescript
+import { 
+  InputValidationError,
+  PolicyViolationError,
+  createKitSpan,
+  parseStandardFlags,
+} from '@harmony/kit-base';
+```
+
+See [`kit-base/README.md`](./kit-base/README.md) for detailed documentation.
 
 ## Architecture Overview
 
@@ -90,33 +186,38 @@ const result = await flow.execute({
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Human Developer                           │
 │  ┌─────────────────┐  ┌──────────────────┐  ┌────────────────┐  │
-│  │  harmony check  │  │ AI-GUARDRAILS.md │  │ Review Prompts │  │
+│  │  harmony CLI    │  │ AI-GUARDRAILS.md │  │ Review Prompts │  │
 │  └────────┬────────┘  └──────────────────┘  └────────────────┘  │
 └───────────┼─────────────────────────────────────────────────────┘
             │
             ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                      GuardKit (kits package)                     │
-│  ┌──────────────┐  ┌──────────────┐  ┌─────────────────────┐    │
-│  │  Sanitizer   │  │   Detector   │  │      Patterns       │    │
-│  │ - Injection  │  │ - Hallucin.  │  │ - Injection (8)     │    │
-│  │ - Secrets    │  │ - Imports    │  │ - Secrets (8)       │    │
-│  │ - PII        │  │ - APIs       │  │ - PII (5)           │    │
-│  └──────────────┘  └──────────────┘  │ - Code Safety (8)   │    │
-│                                       │ - Hallucination (7) │    │
-│                                       └─────────────────────┘    │
+│                         AI Agents                                │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────────┐  │
+│  │   FlowKit    │  │   CostKit    │  │      PromptKit        │  │
+│  │  Workflows   │  │ Cost Mgmt    │  │  Prompt Compilation   │  │
+│  └──────────────┘  └──────────────┘  └───────────────────────┘  │
+│                                                                   │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │                      GuardKit                              │   │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌─────────────────┐  │   │
+│  │  │  Sanitizer   │  │   Detector   │  │    Patterns     │  │   │
+│  │  │ - Injection  │  │ - Hallucin.  │  │ - Injection (8) │  │   │
+│  │  │ - Secrets    │  │ - Imports    │  │ - Secrets (8)   │  │   │
+│  │  │ - PII        │  │ - APIs       │  │ - PII (5)       │  │   │
+│  │  └──────────────┘  └──────────────┘  │ - Code Safety   │  │   │
+│  │                                       └─────────────────┘  │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────────┘
             │
             ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                   Prompts Package Integration                    │
-│  ┌──────────────────┐  ┌──────────────────────────────────────┐ │
-│  │ Hallucination    │  │ Golden Test Monitoring                │ │
-│  │ - 8 indicators   │  │ - Record runs                         │ │
-│  │ - Confidence     │  │ - Drift detection                     │ │
-│  │ - Reports        │  │ - Alerts (4 types)                    │ │
-│  └──────────────────┘  │ - Weekly summaries                    │ │
-│                        └──────────────────────────────────────┘ │
+│                   kit-base (Shared Infrastructure)               │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────────┐  │
+│  │    Types     │  │    Errors    │  │    Observability      │  │
+│  │ - KitState   │  │ - Typed      │  │ - Tracing             │  │
+│  │ - Lifecycle  │  │ - Exit Codes │  │ - Run Records         │  │
+│  └──────────────┘  └──────────────┘  └───────────────────────┘  │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -140,49 +241,35 @@ Kits are your primary tools. Import and use them directly:
 
 ```typescript
 // Guard AI-generated content
-import { GuardKit } from '@harmony/kits/guardkit';
+import { GuardKit } from '@harmony/guardkit';
 
 // Orchestrate multi-step workflows  
-import { FlowKit } from '@harmony/kits/flowkit';
+import { createHttpFlowRunner } from '@harmony/flowkit';
 
-// Validate specs (when implemented)
-import { SpecKit } from '@harmony/kits/speckit';
-```
+// Compile prompts with determinism
+import { PromptKit } from '@harmony/promptkit';
 
-## Package Structure
-
-```
-packages/kits/
-├── package.json
-├── tsconfig.json
-├── README.md
-└── src/
-    ├── index.ts              # Main exports
-    ├── flowkit/              # Workflow orchestration
-    │   ├── index.ts
-    │   ├── cli.ts
-    │   └── __tests__/
-    └── guardkit/             # AI guardrails
-        ├── README.md         # Detailed docs
-        ├── index.ts          # Main class
-        ├── types.ts          # Type definitions
-        ├── patterns.ts       # Detection patterns
-        ├── sanitizer.ts      # Input sanitization
-        ├── detector.ts       # Hallucination detection
-        └── __tests__/
+// Manage costs
+import { CostKit } from '@harmony/costkit';
 ```
 
 ## Development
 
 ```bash
-# Type check
+# Type check all kits
 pnpm typecheck
 
 # Run all tests
 pnpm test
 
 # Run specific kit tests
-pnpm test src/guardkit/__tests__/
+pnpm --filter @harmony/guardkit test
+pnpm --filter @harmony/flowkit test
+pnpm --filter @harmony/promptkit test
+pnpm --filter @harmony/costkit test
+
+# Build all kits
+pnpm build
 ```
 
 ## Integration with Other Packages
@@ -196,4 +283,3 @@ pnpm test src/guardkit/__tests__/
 ## License
 
 Private — part of the Harmony monorepo.
-

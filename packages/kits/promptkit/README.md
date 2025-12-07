@@ -17,12 +17,12 @@ PromptKit transforms static prompt templates from `@harmony/prompts` into ready-
 ## Quick Start
 
 ```typescript
-import { PromptKit } from '@harmony/kits/promptkit';
+import { PromptKit } from '@harmony/promptkit';
 
 const promptKit = new PromptKit();
 
 // Compile a prompt
-const compiled = promptKit.compile('spec-from-intent', {
+const compiled = await promptKit.compile('spec-from-intent', {
   intent: 'Add user authentication',
   tier: 'T2',
 });

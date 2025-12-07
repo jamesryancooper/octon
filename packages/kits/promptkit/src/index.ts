@@ -7,7 +7,7 @@
  *
  * @example
  * ```typescript
- * import { PromptKit } from '@harmony/kits/promptkit';
+ * import { PromptKit } from '@harmony/promptkit';
  *
  * const promptKit = new PromptKit();
  *

@@ -9,7 +9,7 @@
  *
  * @example
  * ```typescript
- * import { CostKit } from '@harmony/kits/costkit';
+ * import { CostKit } from '@harmony/costkit';
  *
  * // Initialize with a cost policy
  * const costKit = new CostKit({

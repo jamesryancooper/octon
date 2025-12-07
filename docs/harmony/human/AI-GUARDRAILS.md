@@ -295,7 +295,7 @@ For developers who want to understand the implementation:
 
 | Component | Package | Description |
 |-----------|---------|-------------|
-| GuardKit | `@harmony/kits/guardkit` | Core guardrail implementation |
+| GuardKit | `@harmony/guardkit` | Core guardrail implementation |
 | Hallucination Detection | `@harmony/prompts` | Prompt output validation |
 | Quality Monitoring | `@harmony/prompts` | Golden test monitoring |
 | CLI Integration | `@harmony/harmony-cli` | `check` command implementation |

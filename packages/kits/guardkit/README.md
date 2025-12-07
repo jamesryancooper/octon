@@ -5,7 +5,7 @@ Comprehensive AI output protection for the Harmony methodology. GuardKit validat
 ## Quick Start
 
 ```typescript
-import { GuardKit } from '@harmony/kits/guardkit';
+import { GuardKit } from '@harmony/guardkit';
 
 const guard = new GuardKit({
   projectRoot: process.cwd(),
@@ -127,7 +127,7 @@ Catches dangerous code patterns:
 ### GuardKit Class
 
 ```typescript
-import { GuardKit, GuardKitConfig } from '@harmony/kits/guardkit';
+import { GuardKit, GuardKitConfig } from '@harmony/guardkit';
 
 const guard = new GuardKit(config?: GuardKitConfig);
 ```
@@ -304,7 +304,7 @@ import {
   HALLUCINATION_PATTERNS,
   HUMAN_RED_FLAGS,
   matchesPatterns,
-} from '@harmony/kits/guardkit';
+} from '@harmony/guardkit';
 ```
 
 ## Integration with Harmony CLI
@@ -410,7 +410,7 @@ guardkit/
 Add custom patterns:
 
 ```typescript
-import { matchesPatterns, type Pattern } from '@harmony/kits/guardkit';
+import { matchesPatterns, type Pattern } from '@harmony/guardkit';
 
 const customPatterns: Pattern[] = [
   {

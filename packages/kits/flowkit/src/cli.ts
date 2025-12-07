@@ -701,4 +701,3 @@ if (entryPoint) {
     process.exitCode = 1;
   });
 }
-
