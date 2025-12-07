@@ -33,11 +33,42 @@ export interface PromptConfig {
   /** Which tiers this prompt supports */
   tier_support: Array<"T1" | "T2" | "T3">;
 
+  /** Available template variants (optional) */
+  variants?: Record<string, VariantConfig>;
+
   /** Runtime metrics (populated after usage) */
   metrics: PromptMetrics;
 
   /** Version changelog */
   changelog: ChangelogEntry[];
+}
+
+/**
+ * Configuration for a prompt variant.
+ */
+export interface VariantConfig {
+  /** Path to the variant's template file */
+  template_path: string;
+
+  /** Human-readable description */
+  description?: string;
+
+  /** Conditions under which this variant is enabled */
+  enabled_when?: VariantCondition[];
+}
+
+/**
+ * Condition for enabling a variant.
+ */
+export interface VariantCondition {
+  /** Flag that must be true */
+  flag?: string;
+
+  /** Tier(s) that enable this variant */
+  tier?: RiskTier[];
+
+  /** Stage that enables this variant */
+  stage?: "draft" | "final";
 }
 
 /**

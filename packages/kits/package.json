@@ -5,20 +5,29 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "promptkit": "./dist/promptkit/cli.js"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "sh -c 'mkdir -p reports && eslint . -f json -o reports/eslint-kits.json'",
-    "test": "tsx --test \"src/**/__tests__/**/*.test.ts\"",
-    "flowkit:run-config": "tsx src/flowkit/cli.ts"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "flowkit:run-config": "tsx src/flowkit/cli.ts",
+    "promptkit": "tsx src/promptkit/cli.ts"
   },
   "dependencies": {
+    "@harmony/prompts": "workspace:*",
+    "nunjucks": "^3.2.4",
     "yaml": "^2.7.0"
   },
   "devDependencies": {
     "@types/node": "^22.18.13",
+    "@types/nunjucks": "^3.2.6",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^3.1.3"
   }
 }
 

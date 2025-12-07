@@ -15,7 +15,14 @@ export {
   type GoldenTestResult,
   type GoldenTestSummary,
 } from "./golden.js";
-export type { PromptConfig, PromptMetadata, PromptCategory } from "./types.js";
+export type {
+  PromptConfig,
+  PromptMetadata,
+  PromptCategory,
+  VariantConfig,
+  VariantCondition,
+  RiskTier,
+} from "./types.js";
 
 // Hallucination detection
 export {

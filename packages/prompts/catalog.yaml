@@ -27,6 +27,16 @@ core_prompts:
     input_schema: "./schemas/spec-from-intent.input.json"
     output_schema: "./schemas/spec-from-intent.output.json"
     tier_support: [T1, T2, T3]
+    # Variant templates for different contexts
+    variants:
+      default:
+        template_path: "./core/spec-from-intent/prompt.md"
+        description: "Standard comprehensive specification template"
+      concise:
+        template_path: "./core/spec-from-intent/prompt-concise.md"
+        description: "Shorter template for simple changes"
+        enabled_when:
+          - tier: [T1]
     metrics:
       success_rate: null  # Populated after first 100 uses
       human_override_rate: null
@@ -46,6 +56,20 @@ core_prompts:
     input_schema: "./schemas/plan-from-spec.input.json"
     output_schema: "./schemas/plan-from-spec.output.json"
     tier_support: [T1, T2, T3]
+    variants:
+      default:
+        template_path: "./core/plan-from-spec/prompt.md"
+        description: "Full planning template with architecture considerations"
+      quick:
+        template_path: "./core/plan-from-spec/prompt-quick.md"
+        description: "Minimal planning for T1 changes"
+        enabled_when:
+          - tier: [T1]
+      detailed:
+        template_path: "./core/plan-from-spec/prompt-detailed.md"
+        description: "Extra detailed planning for T3 security-sensitive changes"
+        enabled_when:
+          - tier: [T3]
     metrics:
       success_rate: null
       human_override_rate: null
