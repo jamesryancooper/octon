@@ -1,6 +1,12 @@
 packages:
   - apps/*
   - packages/*
+  # Individual kit packages
+  - packages/kits/kit-base
+  - packages/kits/flowkit
+  - packages/kits/guardkit
+  - packages/kits/promptkit
+  - packages/kits/costkit
 
 ignoredBuiltDependencies:
   - esbuild

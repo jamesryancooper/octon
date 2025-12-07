@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/flowkit/flowkit.outputs.v1.json",
+  "title": "FlowKitOutputs",
+  "description": "Output schema for FlowKit run results",
+  "type": "object",
+  "required": ["result", "runId"],
+  "properties": {
+    "result": {
+      "description": "Flow-specific result payload",
+      "type": ["object", "array", "string", "number", "boolean", "null"]
+    },
+    "runId": {
+      "type": "string",
+      "description": "Stable identifier for this run",
+      "format": "uuid"
+    },
+    "artifacts": {
+      "type": "array",
+      "description": "Paths to artifacts produced by the flow",
+      "items": {
+        "type": "string"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Metadata about the flow run",
+      "properties": {
+        "flowName": { "type": "string" },
+        "workflowManifestPath": { "type": "string" },
+        "canonicalPromptPath": { "type": "string" },
+        "workspaceRoot": { "type": "string" },
+        "runnerEndpoint": { "type": "string" },
+        "workflowEntrypoint": { "type": "string" },
+        "runtimeRunId": { "type": "string" },
+        "spanPrefix": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  }
+}
+

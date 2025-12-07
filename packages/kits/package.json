@@ -3,31 +3,53 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "description": "Aggregate package re-exporting all Harmony Kits",
+  "exports": {
+    "./flowkit": {
+      "types": "./flowkit/dist/index.d.ts",
+      "import": "./flowkit/dist/index.js"
+    },
+    "./guardkit": {
+      "types": "./guardkit/dist/index.d.ts",
+      "import": "./guardkit/dist/index.js"
+    },
+    "./promptkit": {
+      "types": "./promptkit/dist/index.d.ts",
+      "import": "./promptkit/dist/index.js"
+    },
+    "./costkit": {
+      "types": "./costkit/dist/index.d.ts",
+      "import": "./costkit/dist/index.js"
+    },
+    "./kit-base": {
+      "types": "./kit-base/dist/index.d.ts",
+      "import": "./kit-base/dist/index.js"
+    }
+  },
   "bin": {
-    "promptkit": "./dist/promptkit/cli.js"
+    "promptkit": "./promptkit/dist/cli.js",
+    "flowkit": "./flowkit/dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -b",
+    "typecheck": "tsc -b --noEmit",
     "lint": "sh -c 'mkdir -p reports && eslint . -f json -o reports/eslint-kits.json'",
     "test": "vitest run",
     "test:watch": "vitest",
-    "flowkit:run-config": "tsx src/flowkit/cli.ts",
-    "promptkit": "tsx src/promptkit/cli.ts"
+    "flowkit:run-config": "tsx flowkit/src/cli.ts",
+    "promptkit": "tsx promptkit/src/cli.ts"
   },
   "dependencies": {
-    "@harmony/prompts": "workspace:*",
-    "nunjucks": "^3.2.4",
-    "yaml": "^2.7.0"
+    "@harmony/kit-base": "workspace:*",
+    "@harmony/flowkit": "workspace:*",
+    "@harmony/guardkit": "workspace:*",
+    "@harmony/promptkit": "workspace:*",
+    "@harmony/costkit": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.18.13",
-    "@types/nunjucks": "^3.2.6",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "vitest": "^3.1.3"
   }
 }
-

@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/kit-base/kit-metadata.v1.json",
+  "title": "KitMetadata",
+  "description": "Kit metadata conforming to Harmony methodology v0.2",
+  "type": "object",
+  "required": ["name", "version", "pillars", "lifecycleStages", "inputsSchema", "outputsSchema", "observability"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Kit name (e.g., flowkit)"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[A-Za-z0-9.-]+)?$"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description"
+    },
+    "pillars": {
+      "type": "array",
+      "description": "Harmony pillars this kit reinforces",
+      "items": {
+        "type": "string",
+        "enum": [
+          "speed_with_safety",
+          "simplicity_over_complexity",
+          "quality_through_determinism",
+          "guided_agentic_autonomy",
+          "evolvable_modularity"
+        ]
+      },
+      "minItems": 1
+    },
+    "lifecycleStages": {
+      "type": "array",
+      "description": "Lifecycle stages this kit participates in",
+      "items": {
+        "type": "string",
+        "enum": ["spec", "plan", "implement", "verify", "ship", "operate", "learn"]
+      },
+      "minItems": 1
+    },
+    "inputsSchema": {
+      "type": "string",
+      "description": "Path to inputs JSON schema"
+    },
+    "outputsSchema": {
+      "type": "string",
+      "description": "Path to outputs JSON schema"
+    },
+    "policy": {
+      "type": "object",
+      "description": "Policy configuration",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rulesetVersion": { "type": "string" },
+        "failClosed": { "type": "boolean" }
+      }
+    },
+    "observability": {
+      "type": "object",
+      "description": "Observability configuration",
+      "required": ["serviceName", "requiredSpans"],
+      "properties": {
+        "serviceName": {
+          "type": "string",
+          "description": "OTel service name (e.g., harmony.kit.flowkit)"
+        },
+        "requiredSpans": {
+          "type": "array",
+          "description": "Required span names",
+          "items": { "type": "string" }
+        },
+        "logRedaction": {
+          "type": "boolean",
+          "description": "Whether log redaction is enabled"
+        }
+      }
+    },
+    "determinism": {
+      "type": "object",
+      "description": "Determinism configuration",
+      "properties": {
+        "ai": {
+          "type": "object",
+          "properties": {
+            "provider": { "type": "string" },
+            "model": { "type": "string" },
+            "temperatureMax": { "type": "number" },
+            "supportsSeed": { "type": "boolean" },
+            "promptHashAlgorithm": { "type": "string" }
+          }
+        },
+        "artifactNaming": { "type": "string" }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "description": "Safety configuration",
+      "properties": {
+        "hitl": {
+          "type": "object",
+          "properties": {
+            "requiredFor": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["medium", "high"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "idempotency": {
+      "type": "object",
+      "description": "Idempotency configuration",
+      "properties": {
+        "required": { "type": "boolean" },
+        "idempotencyKeyFrom": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "description": "Compatibility and versioning",
+      "properties": {
+        "contracts": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "kits": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "breakingChangePolicy": { "type": "string" },
+        "deprecatedSince": { "type": "string" }
+      }
+    },
+    "dryRun": {
+      "type": "object",
+      "description": "Dry-run support",
+      "properties": {
+        "supported": { "type": "boolean" }
+      }
+    }
+  }
+}
+

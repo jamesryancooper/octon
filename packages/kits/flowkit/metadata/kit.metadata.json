@@ -1,0 +1,30 @@
+{
+  "name": "flowkit",
+  "version": "0.1.0",
+  "description": "Workflow orchestration and multi-step execution for AI-powered workflows",
+  "pillars": ["speed_with_safety", "guided_agentic_autonomy"],
+  "lifecycleStages": ["implement"],
+  "inputsSchema": "schema/flowkit.inputs.v1.json",
+  "outputsSchema": "schema/flowkit.outputs.v1.json",
+  "observability": {
+    "serviceName": "harmony.kit.flowkit",
+    "requiredSpans": ["kit.flowkit.run"],
+    "logRedaction": true
+  },
+  "determinism": {
+    "artifactNaming": "{flowName}-{runId}"
+  },
+  "safety": {
+    "hitl": {
+      "requiredFor": ["high"]
+    }
+  },
+  "dryRun": {
+    "supported": true
+  },
+  "compatibility": {
+    "contracts": ["flowkit.inputs.v1", "flowkit.outputs.v1"],
+    "kits": ["promptkit", "guardkit", "costkit"]
+  }
+}
+

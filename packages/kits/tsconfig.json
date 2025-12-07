@@ -1,15 +1,10 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true
-  },
-  "include": ["src"],
-  "exclude": ["src/**/__tests__/**", "**/*.test.ts"],
+  "files": [],
   "references": [
-    { "path": "../prompts" }
+    { "path": "./kit-base" },
+    { "path": "./flowkit" },
+    { "path": "./guardkit" },
+    { "path": "./promptkit" },
+    { "path": "./costkit" }
   ]
 }
-

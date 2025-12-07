@@ -1,0 +1,35 @@
+{
+  "name": "costkit",
+  "version": "0.1.0",
+  "description": "LLM cost management and optimization: estimation, tracking, budgeting, alerts",
+  "pillars": ["speed_with_safety", "quality_through_determinism"],
+  "lifecycleStages": ["implement", "operate"],
+  "inputsSchema": "schema/costkit.inputs.v1.json",
+  "outputsSchema": "schema/costkit.outputs.v1.json",
+  "observability": {
+    "serviceName": "harmony.kit.costkit",
+    "requiredSpans": ["kit.costkit.estimate", "kit.costkit.record"],
+    "logRedaction": true
+  },
+  "policy": {
+    "rules": ["budget-check", "tier-compliance"],
+    "failClosed": false
+  },
+  "determinism": {
+    "ai": null,
+    "artifactNaming": "cost-{period}-{timestamp}"
+  },
+  "safety": {
+    "hitl": {
+      "requiredFor": ["high"]
+    }
+  },
+  "dryRun": {
+    "supported": true
+  },
+  "compatibility": {
+    "contracts": ["costkit.inputs.v1", "costkit.outputs.v1"],
+    "kits": ["flowkit", "promptkit"]
+  }
+}
+

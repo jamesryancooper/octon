@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/guardkit/guardkit.inputs.v1.json",
+  "title": "GuardKitInputs",
+  "description": "Input schema for GuardKit check and sanitize operations",
+  "type": "object",
+  "required": ["content"],
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "Content to check or sanitize"
+    },
+    "options": {
+      "type": "object",
+      "description": "Check/sanitize options",
+      "properties": {
+        "checks": {
+          "type": "object",
+          "description": "Enable/disable specific checks",
+          "properties": {
+            "promptInjection": { "type": "boolean" },
+            "hallucination": { "type": "boolean" },
+            "secrets": { "type": "boolean" },
+            "pii": { "type": "boolean" },
+            "codeSafety": { "type": "boolean" },
+            "contentPolicy": { "type": "boolean" }
+          }
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["strict", "permissive"],
+          "description": "Check mode"
+        },
+        "customPatterns": {
+          "type": "array",
+          "description": "Custom patterns to detect",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "pattern": { "type": "string" },
+              "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

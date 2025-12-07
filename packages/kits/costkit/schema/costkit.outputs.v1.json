@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/costkit/costkit.outputs.v1.json",
+  "title": "CostKitOutputs",
+  "description": "Output schema for CostKit operations",
+  "oneOf": [
+    {
+      "title": "CostEstimate",
+      "type": "object",
+      "required": ["estimateId", "model", "provider", "tokens", "estimatedCostUsd", "costRange", "workflowType", "tier"],
+      "properties": {
+        "estimateId": {
+          "type": "string",
+          "description": "Unique estimate identifier",
+          "format": "uuid"
+        },
+        "model": {
+          "type": "string",
+          "description": "Selected model"
+        },
+        "provider": {
+          "type": "string",
+          "enum": ["openai", "anthropic", "google", "mistral", "local"],
+          "description": "LLM provider"
+        },
+        "tokens": {
+          "type": "object",
+          "description": "Token estimates",
+          "properties": {
+            "inputTokens": { "type": "integer" },
+            "outputTokens": { "type": "integer" },
+            "totalTokens": { "type": "integer" },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+            "basis": { "type": "string", "enum": ["historical", "heuristic", "measured"] }
+          }
+        },
+        "estimatedCostUsd": {
+          "type": "number",
+          "description": "Estimated cost in USD",
+          "minimum": 0
+        },
+        "costRange": {
+          "type": "object",
+          "description": "Cost range",
+          "properties": {
+            "min": { "type": "number" },
+            "max": { "type": "number" }
+          }
+        },
+        "workflowType": { "type": "string" },
+        "tier": { "type": "string", "enum": ["T1", "T2", "T3"] },
+        "stage": { "type": "string", "enum": ["draft", "final"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "exceedsBudget": { "type": "boolean" },
+        "budgetWarnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    {
+      "title": "UsageRecord",
+      "type": "object",
+      "required": ["usageId", "model", "provider", "tokens", "actualCostUsd", "workflowType", "tier", "timestamp", "durationMs", "success"],
+      "properties": {
+        "usageId": {
+          "type": "string",
+          "description": "Unique usage record identifier",
+          "format": "uuid"
+        },
+        "estimateId": {
+          "type": "string",
+          "description": "Associated estimate ID"
+        },
+        "model": { "type": "string" },
+        "provider": { "type": "string", "enum": ["openai", "anthropic", "google", "mistral", "local"] },
+        "tokens": {
+          "type": "object",
+          "properties": {
+            "input": { "type": "integer" },
+            "output": { "type": "integer" },
+            "total": { "type": "integer" }
+          }
+        },
+        "actualCostUsd": {
+          "type": "number",
+          "minimum": 0
+        },
+        "workflowType": { "type": "string" },
+        "tier": { "type": "string", "enum": ["T1", "T2", "T3"] },
+        "taskId": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "durationMs": { "type": "integer" },
+        "success": { "type": "boolean" },
+        "error": { "type": "string" }
+      }
+    }
+  ]
+}
+

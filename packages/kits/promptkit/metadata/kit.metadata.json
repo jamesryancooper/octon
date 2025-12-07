@@ -1,0 +1,33 @@
+{
+  "name": "promptkit",
+  "version": "0.1.0",
+  "description": "Runtime prompt compiler: template rendering, hashing, variant selection, token management, role assembly",
+  "pillars": ["quality_through_determinism", "simplicity_over_complexity"],
+  "lifecycleStages": ["implement"],
+  "inputsSchema": "schema/promptkit.inputs.v1.json",
+  "outputsSchema": "schema/promptkit.outputs.v1.json",
+  "observability": {
+    "serviceName": "harmony.kit.promptkit",
+    "requiredSpans": ["kit.promptkit.compile"],
+    "logRedaction": true
+  },
+  "determinism": {
+    "ai": {
+      "promptHashAlgorithm": "sha256"
+    },
+    "artifactNaming": "{promptId}-{hash}"
+  },
+  "safety": {
+    "hitl": {
+      "requiredFor": []
+    }
+  },
+  "dryRun": {
+    "supported": true
+  },
+  "compatibility": {
+    "contracts": ["promptkit.inputs.v1", "promptkit.outputs.v1"],
+    "kits": ["flowkit", "guardkit"]
+  }
+}
+

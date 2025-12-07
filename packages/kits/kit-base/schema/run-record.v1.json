@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/kit-base/run-record.v1.json",
+  "title": "KitRunRecord",
+  "description": "Run record for Harmony Kit operations conforming to methodology v0.2",
+  "type": "object",
+  "required": ["runId", "kit", "inputs", "status", "summary", "telemetry", "stage", "risk", "createdAt"],
+  "properties": {
+    "runId": {
+      "type": "string",
+      "description": "Stable run identifier in format: <timestamp>-<kitName>-<shortId>",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}Z-[a-z]+-[a-f0-9]{4}$"
+    },
+    "kit": {
+      "type": "object",
+      "description": "Kit that produced this record",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Kit name (e.g., flowkit, guardkit)"
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version of the kit"
+        }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "description": "Input parameters (with secrets redacted)"
+    },
+    "ai": {
+      "type": "object",
+      "description": "AI configuration if used",
+      "properties": {
+        "provider": { "type": "string" },
+        "model": { "type": "string" },
+        "version": { "type": "string" },
+        "temperature": { "type": "number", "minimum": 0, "maximum": 2 },
+        "top_p": { "type": "number", "minimum": 0, "maximum": 1 },
+        "seed": { "type": ["integer", "string"] }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "description": "Artifacts produced by the run",
+      "items": {
+        "type": "object",
+        "required": ["path", "type"],
+        "properties": {
+          "path": { "type": "string" },
+          "type": { "type": "string" },
+          "hash": { "type": "string" }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "description": "Policy check results",
+      "properties": {
+        "ruleset": { "type": "string" },
+        "checked": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "result": {
+          "type": "string",
+          "enum": ["pass", "fail"]
+        }
+      }
+    },
+    "eval": {
+      "type": "object",
+      "description": "Evaluation results",
+      "properties": {
+        "suite": { "type": "string" },
+        "score": { "type": "number" },
+        "threshold": { "type": "number" }
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "description": "Telemetry correlation",
+      "required": ["trace_id"],
+      "properties": {
+        "trace_id": { "type": "string" },
+        "spans": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "failure"],
+      "description": "Run status"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Human-readable summary"
+    },
+    "stage": {
+      "type": "string",
+      "enum": ["spec", "plan", "implement", "verify", "ship", "operate", "learn"],
+      "description": "Lifecycle stage"
+    },
+    "risk": {
+      "type": "string",
+      "enum": ["trivial", "low", "medium", "high"],
+      "description": "Risk level"
+    },
+    "hitl": {
+      "type": "object",
+      "description": "HITL checkpoint information",
+      "properties": {
+        "checkpoint": {
+          "type": "string",
+          "enum": ["pre-implement", "pre-merge", "pre-promote", "post-promote"]
+        },
+        "state": {
+          "type": "string",
+          "enum": ["approved", "rejected", "waived", "pending"]
+        },
+        "approver": { "type": "string" },
+        "approvedAt": { "type": "string", "format": "date-time" },
+        "justification": { "type": "string" }
+      }
+    },
+    "determinism": {
+      "type": "object",
+      "description": "Determinism tracking",
+      "properties": {
+        "prompt_hash": { "type": "string" },
+        "idempotencyKey": { "type": "string" },
+        "cacheKey": { "type": "string" }
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO8601 timestamp"
+    },
+    "durationMs": {
+      "type": "integer",
+      "description": "Duration in milliseconds",
+      "minimum": 0
+    }
+  }
+}
+
