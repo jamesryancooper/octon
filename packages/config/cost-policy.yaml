@@ -1,0 +1,213 @@
+# Harmony Cost Policy Configuration
+# This file defines budgets, model selection, and alerting for LLM cost management.
+#
+# For human developers: You rarely need to edit this file directly.
+# Use `harmony cost status` to see current spending and budget.
+# Use `harmony cost estimate <workflow>` to see pre-flight estimates.
+#
+# For AI agents: Load this policy via CostKit and respect budget limits.
+
+version: "1.0.0"
+updated_at: "2025-01-15"
+
+# ============================================================================
+# Budget Configuration
+# ============================================================================
+# Define spending limits for different periods.
+# When budgets are exceeded, operations may be blocked or warned.
+
+budgets:
+  # Monthly budget is the primary control
+  monthly:
+    period: monthly
+    limit_usd: 500.00
+    warning_threshold_percent: 70    # Alert at 70% usage
+    critical_threshold_percent: 90   # Critical alert at 90%
+    block_on_exceed: false           # Don't block, but warn heavily
+
+  # Optional weekly budget for tighter control
+  weekly:
+    period: weekly
+    limit_usd: 150.00
+    warning_threshold_percent: 70
+    critical_threshold_percent: 90
+    block_on_exceed: false
+
+  # Optional daily budget for very tight control (uncomment to enable)
+  # daily:
+  #   period: daily
+  #   limit_usd: 30.00
+  #   warning_threshold_percent: 80
+  #   critical_threshold_percent: 95
+  #   block_on_exceed: true
+
+# ============================================================================
+# Tier-Based Model Selection
+# ============================================================================
+# Each risk tier has appropriate models and cost limits.
+# AI agents should respect these constraints.
+
+tier_models:
+  # T1: Trivial tasks (bug fixes, typos, small refactors)
+  # Use cheapest capable models
+  T1:
+    default_model: gpt-4o-mini
+    allowed_models:
+      - gpt-4o-mini
+      - claude-haiku
+      - gemini-2.0-flash
+      - mistral-small
+    max_cost_per_operation: 0.01    # $0.01 max per operation
+    allow_cheaper_fallback: true
+    fallback_model: gpt-4o-mini
+
+  # T2 Draft: First pass on standard features
+  # Use cheap models for iteration
+  T2_draft:
+    default_model: gpt-4o-mini
+    allowed_models:
+      - gpt-4o-mini
+      - claude-haiku
+      - gemini-2.0-flash
+    max_cost_per_operation: 0.05    # $0.05 max per draft
+    allow_cheaper_fallback: true
+    fallback_model: gpt-4o-mini
+
+  # T2 Final: Final version of standard features
+  # Use quality models for merge-ready code
+  T2_final:
+    default_model: gpt-4o
+    allowed_models:
+      - gpt-4o
+      - claude-sonnet
+      - gemini-1.5-pro
+    max_cost_per_operation: 0.20    # $0.20 max per final version
+    allow_cheaper_fallback: true
+    fallback_model: gpt-4o-mini
+
+  # T3: High-risk tasks (auth, security, data migrations)
+  # Use best available models
+  T3:
+    default_model: gpt-4o
+    allowed_models:
+      - gpt-4o
+      - claude-opus
+      - claude-sonnet
+      - o1
+      - o1-mini
+    max_cost_per_operation: 1.00    # $1.00 max for critical work
+    allow_cheaper_fallback: false   # Never downgrade on high-risk
+
+# ============================================================================
+# Alert Configuration
+# ============================================================================
+# Configure how and when cost alerts are generated.
+
+alerts:
+  enabled: true
+  
+  # Where to send alerts (future: slack, email, webhook)
+  channels:
+    - console
+    # - slack
+    # - email
+  
+  # Suppress duplicate alerts within this window (minutes)
+  dedupe_window_minutes: 60
+  
+  # Alert on unusual spending (compared to historical average)
+  unusual_spend_multiplier: 3.0     # Alert if 3x normal spending
+
+# ============================================================================
+# Optimization Settings
+# ============================================================================
+# Configure cost optimization behaviors.
+
+optimization:
+  # Prefer cheaper models when quality requirements allow
+  prefer_cheaper: true
+  
+  # Cache identical prompts to reduce costs
+  enable_caching: true
+  cache_ttl_seconds: 3600           # 1 hour cache TTL
+  
+  # Minimum savings to suggest optimization (USD)
+  min_savings_threshold: 0.01
+  
+  # Track and suggest model downgrades when patterns are stable
+  suggest_downgrades: true
+
+# ============================================================================
+# Model Selection Rules
+# ============================================================================
+# Guidelines for AI agents on when to use which models.
+
+model_selection_rules:
+  # Use case -> recommended models (in order of preference)
+  
+  # Fast drafts and iteration
+  drafting:
+    - gpt-4o-mini
+    - claude-haiku
+    - gemini-2.0-flash
+  
+  # Code generation (final quality)
+  code_generation:
+    - gpt-4o
+    - claude-sonnet
+    - codestral
+  
+  # Complex reasoning and analysis
+  reasoning:
+    - o1
+    - claude-opus
+    - gpt-4o
+  
+  # Security analysis and threat modeling
+  security:
+    - claude-opus
+    - o1
+    - gpt-4o
+  
+  # Long context processing
+  long_context:
+    - gemini-1.5-pro
+    - claude-sonnet
+    - gpt-4o
+  
+  # Documentation and explanation
+  documentation:
+    - gpt-4o-mini
+    - claude-haiku
+    - gemini-2.0-flash
+
+# ============================================================================
+# Cost Thresholds
+# ============================================================================
+# Require confirmation or estimates above these thresholds.
+
+thresholds:
+  # Require estimate before operations costing more than this
+  require_estimate_above_usd: 0.10
+  
+  # Require human confirmation for operations above this cost
+  require_confirmation_above_usd: 0.50
+  
+  # Hard block operations above this cost (safety limit)
+  hard_block_above_usd: 5.00
+
+# ============================================================================
+# Reporting
+# ============================================================================
+# Configure cost reporting and summaries.
+
+reporting:
+  # Generate weekly summary
+  weekly_summary: true
+  
+  # Include in status command
+  include_in_status: true
+  
+  # Show cost estimate before workflows
+  show_pre_flight_estimate: true
+

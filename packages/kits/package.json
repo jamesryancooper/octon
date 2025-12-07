@@ -9,11 +9,16 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "sh -c 'mkdir -p reports && eslint . -f json -o reports/eslint-kits.json'",
-    "test": "tsx --test \"src/flowkit/__tests__/**/*.test.ts\"",
+    "test": "tsx --test \"src/**/__tests__/**/*.test.ts\"",
     "flowkit:run-config": "tsx src/flowkit/cli.ts"
   },
+  "dependencies": {
+    "yaml": "^2.7.0"
+  },
   "devDependencies": {
-    "tsx": "^4.19.2"
+    "@types/node": "^22.18.13",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
   }
 }
 
