@@ -85,6 +85,13 @@ import {
   safeWriteRunRecord,
   getRunsDirectory,
 } from "@harmony/kit-base";
+import {
+  checkIdempotencyKey,
+  deriveIdempotencyKey,
+  hashInputs,
+  getIdempotencyManager,
+} from "@harmony/kit-base";
+import { randomUUID } from "node:crypto";
 
 /** Kit metadata */
 const KIT_NAME = "promptkit";
@@ -155,6 +162,7 @@ export class PromptKit {
    * 5. Applies token budget if specified
    *
    * Observability: Emits `kit.promptkit.compile` span.
+   * Idempotency: Uses promptId and variablesHash for caching (pure operation).
    *
    * @param promptId - The prompt identifier (e.g., "spec-from-intent")
    * @param variables - Variables to substitute into the template
@@ -166,6 +174,31 @@ export class PromptKit {
     variables: Record<string, unknown>,
     options: CompileOptions = {}
   ): CompiledPrompt {
+    // Derive idempotency key from stable inputs
+    // Per kit.metadata.json: promptId, variablesHash, variantId
+    const variablesHash = hashInputs(redactSecrets(variables));
+    const idempotencyKey = options.idempotencyKey ?? deriveIdempotencyKey({
+      kitName: KIT_NAME,
+      operation: "compile",
+      stableInputs: {
+        promptId,
+        variablesHash,
+        variantId: options.variantId,
+      },
+    });
+
+    // Check for cached result (pure operation - no locking needed)
+    const existing = checkIdempotencyKey<CompiledPrompt>(
+      idempotencyKey,
+      KIT_NAME,
+      "compile",
+      { promptId, variablesHash }
+    );
+    if (existing?.state === "completed" && existing.cachedResult) {
+      console.log(`[promptkit] Returning cached result for idempotency key ${idempotencyKey}`);
+      return existing.cachedResult;
+    }
+
     // Create observability span
     const ctx = getSpanContext();
     const span = createKitSpan(ctx, "compile", {
@@ -173,7 +206,13 @@ export class PromptKit {
       "options.maxTokens": options.maxTokens,
       "options.variantId": options.variantId,
       "options.model": options.model,
+      "idempotency.key": idempotencyKey,
     });
+
+    // Start idempotency tracking
+    const manager = getIdempotencyManager();
+    const runId = randomUUID();
+    manager.startOperation(idempotencyKey, KIT_NAME, "compile", variablesHash, runId);
 
     try {
     // Load the prompt
@@ -280,7 +319,7 @@ export class PromptKit {
     span.setAttribute("prompt.truncated", truncated);
     span.setStatus({ code: SpanStatusCode.OK });
 
-    // Generate run record if enabled
+    // Generate run record if enabled with idempotency info
     if (this.config.enableRunRecords) {
       const runRecord = createRunRecord({
         kit: { name: KIT_NAME, version: KIT_VERSION },
@@ -290,19 +329,30 @@ export class PromptKit {
         stage: "implement",
         risk: "low",
         traceId: getCurrentTraceId() || promptHash,
-        determinism: { prompt_hash: promptHash },
+        determinism: {
+          prompt_hash: promptHash,
+          idempotencyKey,
+          inputsHash: variablesHash,
+        },
         ai: {
           provider: "openai", // Default, could be inferred from model
           model,
         },
+        outputs: result, // Store result for idempotency cache
       });
 
       const runsDir = this.config.runsDir || getRunsDirectory(process.cwd());
       safeWriteRunRecord(runRecord, runsDir);
     }
 
+    // Mark idempotency as complete and cache result
+    manager.completeOperation(idempotencyKey, result, runId);
+
     return result;
     } catch (error) {
+      // Mark idempotency as failed
+      manager.failOperation(idempotencyKey);
+
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: error instanceof Error ? error.message : "Unknown error",

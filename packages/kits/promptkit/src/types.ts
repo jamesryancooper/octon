@@ -81,6 +81,12 @@ export interface CompileOptions {
 
   /** Additional context for variant selection */
   variantContext?: VariantContext;
+
+  /**
+   * Idempotency key for caching compiled prompts.
+   * If not provided, derived from promptId and variablesHash.
+   */
+  idempotencyKey?: string;
 }
 
 /**

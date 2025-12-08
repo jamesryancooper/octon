@@ -573,6 +573,31 @@ export function safeReadRunRecord(
 }
 
 /**
+ * Load a run record from a relative path within the runs directory.
+ *
+ * @param runsDir - The runs directory
+ * @param relativePath - Path relative to the runs directory (e.g., "flowkit/2024-01-01/run-abc.json")
+ * @returns The run record or null if not found
+ */
+export function loadRunRecordFromPath(
+  runsDir: string,
+  relativePath: string
+): RunRecord | null {
+  const fullPath = join(runsDir, relativePath);
+
+  if (!existsSync(fullPath)) {
+    return null;
+  }
+
+  try {
+    const content = readFileSync(fullPath, "utf-8");
+    return JSON.parse(content) as RunRecord;
+  } catch {
+    return null;
+  }
+}
+
+/**
  * List all kit subdirectories in the runs directory.
  */
 function listKitDirectories(runsDir: string): string[] {

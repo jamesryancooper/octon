@@ -36,7 +36,7 @@
   },
   "idempotency": {
     "required": true,
-    "idempotencyKeyFrom": ["model", "inputTokens", "outputTokens", "workflowType", "timestamp"]
+    "idempotencyKeyFrom": ["model", "inputTokens", "outputTokens", "workflowType"]
   },
   "dryRun": {
     "supported": true

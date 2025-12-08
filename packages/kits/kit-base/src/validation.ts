@@ -395,6 +395,30 @@ export const RunRecordSchema = z.object({
 // ============================================================================
 
 /**
+ * Idempotency options schema for configuring idempotency behavior.
+ */
+export const IdempotencyOptionsSchema = z.object({
+  /** Enable idempotency enforcement (default: true) */
+  enabled: z.boolean().default(true),
+
+  /**
+   * Storage backend: "memory" | "durable"
+   * - memory: In-memory, lost on process restart (fast CLI)
+   * - durable: Backed by run records, survives restarts
+   */
+  storage: z.enum(["memory", "durable"]).default("durable"),
+
+  /** Auto-derive keys when not provided (default: true) */
+  autoDerive: z.boolean().default(true),
+
+  /** TTL for pending operations in milliseconds (default: 1 hour) */
+  pendingTtlMs: z.number().positive().default(60 * 60 * 1000),
+
+  /** TTL for completed operations in milliseconds (default: 24 hours) */
+  completedTtlMs: z.number().positive().default(24 * 60 * 60 * 1000),
+});
+
+/**
  * Base configuration schema that all kits should extend.
  */
 export const BaseKitConfigSchema = z.object({
@@ -412,6 +436,9 @@ export const BaseKitConfigSchema = z.object({
 
   /** Enforcement mode override (for testing/transitions) */
   enforcementMode: EnforcementModeSchema.optional(),
+
+  /** Idempotency configuration */
+  idempotency: IdempotencyOptionsSchema.optional(),
 });
 
 // ============================================================================
@@ -431,6 +458,7 @@ export type ValidationObservabilityConfig = z.infer<
 export type DeterminismConfig = z.infer<typeof DeterminismConfigSchema>;
 export type SafetyConfig = z.infer<typeof SafetyConfigSchema>;
 export type IdempotencyConfig = z.infer<typeof IdempotencyConfigSchema>;
+export type IdempotencyOptions = z.infer<typeof IdempotencyOptionsSchema>;
 export type CompatibilityConfig = z.infer<typeof CompatibilityConfigSchema>;
 export type KitMetadataV = z.infer<typeof KitMetadataSchema>;
 export type RunRecordV = z.infer<typeof RunRecordSchema>;

@@ -40,6 +40,7 @@ export * from "./validation.js";
 
 // Idempotency
 export * from "./idempotency.js";
+export * from "./idempotency-index.js";
 
 // HTTP Client
 export * from "./http-client.js";

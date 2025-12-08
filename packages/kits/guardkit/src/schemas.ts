@@ -47,6 +47,12 @@ export const CheckOptionsSchema = z.object({
 
   /** Additional context for checks */
   context: z.record(z.unknown()).optional(),
+
+  /**
+   * Idempotency key for caching check results.
+   * If not provided, derived from content hash.
+   */
+  idempotencyKey: z.string().optional(),
 });
 
 // ============================================================================

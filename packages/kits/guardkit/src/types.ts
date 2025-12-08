@@ -53,6 +53,17 @@ export interface GuardrailCheckResult {
 }
 
 /**
+ * Options for the check operation.
+ */
+export interface CheckOptions {
+  /**
+   * Idempotency key for caching check results.
+   * If not provided, derived from content hash.
+   */
+  idempotencyKey?: string;
+}
+
+/**
  * Overall result of running guardrail checks.
  */
 export interface GuardrailResult {

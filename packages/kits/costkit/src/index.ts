@@ -93,6 +93,11 @@ import {
   safeWriteRunRecord,
   getRunsDirectory,
 } from "@harmony/kit-base";
+import {
+  withIdempotencySync,
+  deriveIdempotencyKey,
+  hashInputs,
+} from "@harmony/kit-base";
 
 import {
   AlertManager,
@@ -416,6 +421,7 @@ export class CostKit {
    * Record actual LLM usage.
    *
    * Observability: Emits `kit.costkit.record` span.
+   * Idempotency: Uses withIdempotencySync to prevent duplicate recordings.
    */
   recordUsage(params: {
     model: string;
@@ -428,90 +434,130 @@ export class CostKit {
     durationMs: number;
     success: boolean;
     error?: string;
+    idempotencyKey?: string;
   }): UsageRecord {
-    const ctx = getSpanContext();
-    const span = createKitSpan(ctx, "record", {
-      "model": params.model,
-      "workflow.type": params.workflowType,
-      "tier": params.tier,
-      "tokens.input": params.inputTokens,
-      "tokens.output": params.outputTokens,
-      "success": params.success,
+    // Derive idempotency key from stable inputs
+    // Per kit.metadata.json: model, inputTokens, outputTokens, workflowType (timestamp excluded to allow retries)
+    const stableInputs = {
+      model: params.model,
+      inputTokens: params.inputTokens,
+      outputTokens: params.outputTokens,
+      workflowType: params.workflowType,
+    };
+    const idempotencyKey = params.idempotencyKey ?? deriveIdempotencyKey({
+      kitName: KIT_NAME,
+      operation: "recordUsage",
+      stableInputs,
     });
+    const inputsHashValue = hashInputs(stableInputs);
 
-    try {
-      const record = this.tracker.recordUsage(params);
-
-      // Update span with results
-      span.setAttribute("usage.id", record.usageId);
-      span.setAttribute("usage.costUsd", record.actualCostUsd);
-
-      // Check for alerts if enabled
-      if (this.config.enableAlerts) {
-        // Check for deprecated model
-        const deprecatedAlert = this.alertManager.checkDeprecatedModelAlert(
-          params.model,
-          this.policy.alerts.dedupeWindowMinutes * 60 * 1000
-        );
-        if (deprecatedAlert) {
-          this.handleAlert(deprecatedAlert);
-        }
-
-        // Check budget status after recording
-        const budgetConfig = this.policy.budgets.monthly;
-        const status = this.tracker.getBudgetStatus(budgetConfig);
-        const budgetAlerts = this.alertManager.checkBudgetAlerts(
-          status,
-          this.policy.alerts.dedupeWindowMinutes * 60 * 1000
-        );
-
-        for (const alert of budgetAlerts) {
-          this.handleAlert(alert);
-        }
-      }
-
-      span.setStatus({ code: SpanStatusCode.OK });
-
-      // Generate run record if enabled
-      if (this.config.enableRunRecords) {
-        const runRecord = createRunRecord({
-          kit: { name: KIT_NAME, version: KIT_VERSION },
-          inputs: {
-            model: params.model,
-            workflowType: params.workflowType,
-            tier: params.tier,
-            inputTokens: params.inputTokens,
-            outputTokens: params.outputTokens,
-          },
-          status: params.success ? "success" : "failure",
-          summary: `Recorded usage: $${record.actualCostUsd.toFixed(4)} for ${params.workflowType}`,
-          stage: "implement",
-          risk: "low",
-          traceId: getCurrentTraceId() || record.usageId,
-          ai: {
-            provider: record.provider,
-            model: params.model,
-          },
-          durationMs: params.durationMs,
+    // Wrap operation with idempotency protection
+    const { result: record, cached, runId: idempotencyRunId } = withIdempotencySync<UsageRecord>(
+      idempotencyKey,
+      KIT_NAME,
+      "recordUsage",
+      stableInputs,
+      () => {
+        // This is the actual operation - only executes if not cached
+        const ctx = getSpanContext();
+        const span = createKitSpan(ctx, "record", {
+          "model": params.model,
+          "workflow.type": params.workflowType,
+          "tier": params.tier,
+          "tokens.input": params.inputTokens,
+          "tokens.output": params.outputTokens,
+          "success": params.success,
+          "idempotency.key": idempotencyKey,
         });
 
-        const runsDir = this.config.runsDir || getRunsDirectory(process.cwd());
-        safeWriteRunRecord(runRecord, runsDir);
-      }
+        try {
+          const usageRecord = this.tracker.recordUsage(params);
 
-      return record;
-    } catch (error) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error instanceof Error ? error.message : "Unknown error",
-      });
-      if (error instanceof Error) {
-        span.recordException(error);
+          // Update span with results
+          span.setAttribute("usage.id", usageRecord.usageId);
+          span.setAttribute("usage.costUsd", usageRecord.actualCostUsd);
+
+          // Check for alerts if enabled
+          if (this.config.enableAlerts) {
+            // Check for deprecated model
+            const deprecatedAlert = this.alertManager.checkDeprecatedModelAlert(
+              params.model,
+              this.policy.alerts.dedupeWindowMinutes * 60 * 1000
+            );
+            if (deprecatedAlert) {
+              this.handleAlert(deprecatedAlert);
+            }
+
+            // Check budget status after recording
+            const budgetConfig = this.policy.budgets.monthly;
+            const status = this.tracker.getBudgetStatus(budgetConfig);
+            const budgetAlerts = this.alertManager.checkBudgetAlerts(
+              status,
+              this.policy.alerts.dedupeWindowMinutes * 60 * 1000
+            );
+
+            for (const alert of budgetAlerts) {
+              this.handleAlert(alert);
+            }
+          }
+
+          span.setStatus({ code: SpanStatusCode.OK });
+
+          // Generate run record if enabled with idempotency info
+          if (this.config.enableRunRecords) {
+            const runRecord = createRunRecord({
+              kit: { name: KIT_NAME, version: KIT_VERSION },
+              inputs: {
+                model: params.model,
+                workflowType: params.workflowType,
+                tier: params.tier,
+                inputTokens: params.inputTokens,
+                outputTokens: params.outputTokens,
+              },
+              status: params.success ? "success" : "failure",
+              summary: `Recorded usage: $${usageRecord.actualCostUsd.toFixed(4)} for ${params.workflowType}`,
+              stage: "implement",
+              risk: "low",
+              traceId: getCurrentTraceId() || usageRecord.usageId,
+              ai: {
+                provider: usageRecord.provider,
+                model: params.model,
+              },
+              durationMs: params.durationMs,
+              determinism: {
+                idempotencyKey,
+                inputsHash: inputsHashValue,
+              },
+              outputs: usageRecord, // Store result for idempotency cache
+            });
+
+            const runsDir = this.config.runsDir || getRunsDirectory(process.cwd());
+            safeWriteRunRecord(runRecord, runsDir);
+          }
+
+          // Add idempotency key to the record
+          return { ...usageRecord, idempotencyKey };
+        } catch (error) {
+          span.setStatus({
+            code: SpanStatusCode.ERROR,
+            message: error instanceof Error ? error.message : "Unknown error",
+          });
+          if (error instanceof Error) {
+            span.recordException(error);
+          }
+          throw error;
+        } finally {
+          span.end();
+        }
       }
-      throw error;
-    } finally {
-      span.end();
+    );
+
+    // If result was cached, log for observability
+    if (cached && idempotencyRunId) {
+      console.log(`[costkit] Returning cached result for idempotency key ${idempotencyKey} (runId: ${idempotencyRunId})`);
     }
+
+    return record;
   }
 
   /**

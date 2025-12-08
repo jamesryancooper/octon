@@ -15,8 +15,10 @@ import type { LifecycleStage } from "./types.js";
 import {
   findRunRecordByIdempotencyKey,
   getRunsDirectory,
+  loadRunRecordFromPath,
   type RunRecord,
 } from "./run-record.js";
+import { IdempotencyIndexManager } from "./idempotency-index.js";
 
 // ============================================================================
 // Types
@@ -196,8 +198,13 @@ export class InMemoryIdempotencyStorage implements IdempotencyStorage {
  * Uses run records as a durable store for idempotency state.
  * Records persist across process restarts.
  *
+ * Performance:
+ * - Uses an index file for O(1) lookups instead of O(n) file scans
+ * - Index is automatically maintained on write
+ * - Fallback to file scan if index is corrupted or missing entry
+ *
  * Behavior:
- * - On get: Searches run records for matching idempotency key
+ * - On get: O(1) lookup via index, then load run record
  * - On set: Stores in memory (actual run record written by kit)
  * - Pending operations: In-memory only (not durable)
  * - Completed operations: Backed by run records on disk
@@ -206,9 +213,21 @@ export class RunRecordIdempotencyStorage implements IdempotencyStorage {
   private runsDir: string;
   // In-memory cache for pending operations (not yet in run records)
   private pendingCache = new Map<string, IdempotencyRecord<unknown>>();
+  // Index manager for O(1) lookups
+  private indexManager: IdempotencyIndexManager | null = null;
 
   constructor(runsDir?: string) {
     this.runsDir = runsDir || getRunsDirectory(process.cwd());
+  }
+
+  /**
+   * Get or create the index manager lazily.
+   */
+  private getIndexManager(): IdempotencyIndexManager {
+    if (!this.indexManager) {
+      this.indexManager = new IdempotencyIndexManager({ runsDir: this.runsDir });
+    }
+    return this.indexManager;
   }
 
   get<T>(key: string): IdempotencyRecord<T> | null {
@@ -218,7 +237,21 @@ export class RunRecordIdempotencyStorage implements IdempotencyStorage {
       return pending as IdempotencyRecord<T>;
     }
 
-    // Then check run records for completed operations
+    // O(1) lookup via index
+    const index = this.getIndexManager();
+    const entry = index.get(key);
+
+    if (entry) {
+      // Load run record from path in index
+      const runRecord = loadRunRecordFromPath(this.runsDir, entry.runRecordPath);
+      if (runRecord) {
+        return this.runRecordToIdempotencyRecord<T>(runRecord);
+      }
+      // Index entry exists but run record is missing - clean up index
+      index.delete(key);
+    }
+
+    // Fallback to file scan (for backward compatibility or corrupted index)
     const runRecord = findRunRecordByIdempotencyKey(this.runsDir, key);
     if (runRecord) {
       return this.runRecordToIdempotencyRecord<T>(runRecord);
@@ -236,18 +269,29 @@ export class RunRecordIdempotencyStorage implements IdempotencyStorage {
       // Remove from pending cache when completed/failed
       this.pendingCache.delete(key);
       // Note: The actual run record is written by the kit, not here
+      // The index is updated via indexRunRecord() when the run record is written
     }
   }
 
   delete(key: string): void {
     this.pendingCache.delete(key);
     // Note: We don't delete run records - they're append-only audit logs
+    // But we do remove from index for lookup purposes
+    this.getIndexManager().delete(key);
   }
 
   has(key: string): boolean {
     if (this.pendingCache.has(key)) {
       return true;
     }
+
+    // O(1) check via index
+    const index = this.getIndexManager();
+    if (index.has(key)) {
+      return true;
+    }
+
+    // Fallback to file scan
     const runRecord = findRunRecordByIdempotencyKey(this.runsDir, key);
     return runRecord !== null;
   }
@@ -255,10 +299,12 @@ export class RunRecordIdempotencyStorage implements IdempotencyStorage {
   clear(): void {
     this.pendingCache.clear();
     // Note: We don't clear run records - they're append-only audit logs
+    // But we do clear the index
+    this.getIndexManager().clear();
   }
 
-  cleanupExpired(pendingTtlMs: number, _completedTtlMs: number): void {
-    // Only clean up pending cache (run records have their own retention)
+  cleanupExpired(pendingTtlMs: number, completedTtlMs: number): void {
+    // Clean up pending cache
     const now = Date.now();
     for (const [key, record] of this.pendingCache) {
       const createdAt = new Date(record.createdAt).getTime();
@@ -266,6 +312,25 @@ export class RunRecordIdempotencyStorage implements IdempotencyStorage {
         this.pendingCache.delete(key);
       }
     }
+
+    // Clean up expired index entries
+    this.getIndexManager().cleanupExpired(completedTtlMs);
+  }
+
+  /**
+   * Index a run record for O(1) lookups.
+   *
+   * Call this after writing a run record with an idempotency key.
+   */
+  indexRunRecord(runRecord: RunRecord, runRecordPath: string): void {
+    this.getIndexManager().indexRunRecord(runRecord, runRecordPath);
+  }
+
+  /**
+   * Get the index manager for external use (e.g., rebuild command).
+   */
+  getIndex(): IdempotencyIndexManager {
+    return this.getIndexManager();
   }
 
   /**
@@ -705,5 +770,183 @@ export function checkIdempotencyKey<T = unknown>(
   const manager = getIdempotencyManager();
   const inputsHash = hashInputs(inputs);
   return manager.checkIdempotency<T>(key, kitName, operation, inputsHash);
+}
+
+/**
+ * Execute a synchronous operation with idempotency protection.
+ *
+ * Use this for synchronous kit operations (e.g., CostKit.recordUsage,
+ * GuardKit.check, PromptKit.compile).
+ *
+ * @param key - Idempotency key (or config to derive one)
+ * @param kitName - Kit name
+ * @param operation - Operation name
+ * @param inputs - Operation inputs
+ * @param fn - The synchronous operation to execute
+ * @returns The result of the operation, or the cached result if already completed
+ */
+export function withIdempotencySync<T>(
+  key: string | IdempotencyKeyConfig,
+  kitName: string,
+  operation: string,
+  inputs: Record<string, unknown>,
+  fn: () => T
+): { result: T; cached: boolean; runId?: string } {
+  const manager = getIdempotencyManager();
+
+  const idempotencyKey =
+    typeof key === "string" ? key : deriveIdempotencyKey(key);
+  const inputsHash = hashInputs(inputs);
+
+  // Check for existing operation
+  const existing = manager.checkIdempotency<T>(
+    idempotencyKey,
+    kitName,
+    operation,
+    inputsHash
+  );
+
+  if (existing && existing.state === "completed") {
+    // Return the cached result from the previous execution
+    return {
+      result: existing.cachedResult as T,
+      cached: true,
+      runId: existing.runId,
+    };
+  }
+
+  // Start new operation
+  const runId = randomUUID();
+  manager.startOperation(idempotencyKey, kitName, operation, inputsHash, runId);
+
+  try {
+    const result = fn();
+    manager.completeOperation(idempotencyKey, result, runId);
+    return { result, cached: false, runId };
+  } catch (error) {
+    manager.failOperation(idempotencyKey);
+    throw error;
+  }
+}
+
+// ============================================================================
+// Smart Storage Selection
+// ============================================================================
+
+/**
+ * Context for selecting idempotency storage.
+ */
+export interface IdempotencyContext {
+  /** User-provided idempotency key */
+  idempotencyKey?: string;
+
+  /** Whether run records are enabled */
+  enableRunRecords?: boolean;
+
+  /** Runs directory */
+  runsDir?: string;
+
+  /** Override storage type */
+  storageType?: "memory" | "durable";
+}
+
+/**
+ * Select the appropriate idempotency storage based on context.
+ *
+ * Selection logic:
+ * 1. If explicitly configured, use that
+ * 2. If user provided an idempotency key, use durable storage (they expect durability)
+ * 3. If run records are enabled, use durable storage
+ * 4. Default to in-memory for fast CLI invocations
+ */
+export function selectIdempotencyStorage(
+  context: IdempotencyContext
+): IdempotencyStorage {
+  // If explicitly configured, use that
+  if (context.storageType === "memory") {
+    return new InMemoryIdempotencyStorage();
+  }
+  if (context.storageType === "durable") {
+    return new RunRecordIdempotencyStorage(context.runsDir);
+  }
+
+  // If user provided an idempotency key, they expect durability
+  if (context.idempotencyKey) {
+    return new RunRecordIdempotencyStorage(context.runsDir);
+  }
+
+  // If run records are enabled, use durable storage
+  if (context.enableRunRecords) {
+    return new RunRecordIdempotencyStorage(context.runsDir);
+  }
+
+  // Default to in-memory for fast CLI invocations
+  return new InMemoryIdempotencyStorage();
+}
+
+/**
+ * Kit configuration with idempotency options.
+ */
+export interface KitConfigWithIdempotency {
+  /** User-provided idempotency key */
+  idempotencyKey?: string;
+
+  /** Whether run records are enabled */
+  enableRunRecords?: boolean;
+
+  /** Runs directory */
+  runsDir?: string;
+
+  /** Idempotency configuration */
+  idempotency?: {
+    /** Enable idempotency enforcement */
+    enabled?: boolean;
+    /** Storage backend: "memory" | "durable" */
+    storage?: "memory" | "durable";
+    /** TTL for pending operations (ms) */
+    pendingTtlMs?: number;
+    /** TTL for completed operations (ms) */
+    completedTtlMs?: number;
+  };
+}
+
+/**
+ * Create an idempotency manager configured for a kit.
+ *
+ * Uses smart defaults based on kit configuration:
+ * - If idempotency.enabled is false, still creates a manager but with no-op behavior
+ * - If idempotency.storage is specified, uses that
+ * - Otherwise, uses selectIdempotencyStorage() for smart defaults
+ *
+ * @param kitName - Kit name (for logging)
+ * @param config - Kit configuration with idempotency options
+ * @returns Configured idempotency manager
+ */
+export function createIdempotencyManagerForKit(
+  kitName: string,
+  config: KitConfigWithIdempotency
+): IdempotencyManager {
+  // If idempotency is disabled, return a manager with in-memory storage
+  // (effectively no-op for stateless operations)
+  if (config.idempotency?.enabled === false) {
+    return new IdempotencyManager({
+      storage: new InMemoryIdempotencyStorage(),
+      pendingTtlMs: 0, // Immediate expiration
+      completedTtlMs: 0,
+    });
+  }
+
+  const storage = selectIdempotencyStorage({
+    idempotencyKey: config.idempotencyKey,
+    enableRunRecords: config.enableRunRecords,
+    runsDir: config.runsDir,
+    storageType: config.idempotency?.storage,
+  });
+
+  return new IdempotencyManager({
+    storage,
+    pendingTtlMs: config.idempotency?.pendingTtlMs,
+    completedTtlMs: config.idempotency?.completedTtlMs,
+  });
 }
 

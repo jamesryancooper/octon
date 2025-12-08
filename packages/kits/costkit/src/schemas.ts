@@ -221,6 +221,12 @@ export const UsageRecordSchema = z.object({
 
   /** Error message if failed */
   error: z.string().optional(),
+
+  /**
+   * Idempotency key for this usage record.
+   * If not provided, derived from model, tokens, workflowType.
+   */
+  idempotencyKey: z.string().optional(),
 });
 
 /**

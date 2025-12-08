@@ -43,6 +43,11 @@ import {
   safeWriteRunRecord,
   getRunsDirectory,
 } from "@harmony/kit-base";
+import {
+  checkIdempotencyKey,
+  hashInputs,
+  getIdempotencyManager,
+} from "@harmony/kit-base";
 
 import type {
   GuardrailResult,
@@ -53,7 +58,9 @@ import type {
   HallucinationCheckResult,
   CodeSafetyConfig,
   Severity,
+  CheckOptions,
 } from "./types.js";
+import { randomUUID } from "node:crypto";
 
 import {
   sanitize,
@@ -182,8 +189,32 @@ export class GuardKit {
    * Run all guardrail checks on content.
    *
    * Observability: Emits `kit.guardkit.check` span.
+   * Idempotency: Uses content hash for caching results (pure operation).
    */
-  check(content: string): GuardrailResult {
+  check(content: string, options?: CheckOptions): GuardrailResult {
+    // Derive idempotency key from content hash and config
+    // Per kit.metadata.json: contentHash, checkType
+    const contentHash = hashInputs({ content, config: {
+      checkInjection: this.config.checkInjection,
+      checkSecrets: this.config.checkSecrets,
+      checkPii: this.config.checkPii,
+      checkHallucinations: this.config.checkHallucinations,
+      checkCodeSafety: this.config.checkCodeSafety,
+    }});
+    const idempotencyKey = options?.idempotencyKey ?? `${KIT_NAME}:check:${contentHash.slice(0, 16)}`;
+
+    // Check for cached result (pure operation - no locking needed)
+    const existing = checkIdempotencyKey<GuardrailResult>(
+      idempotencyKey,
+      KIT_NAME,
+      "check",
+      { contentHash }
+    );
+    if (existing?.state === "completed" && existing.cachedResult) {
+      console.log(`[guardkit] Returning cached result for idempotency key ${idempotencyKey}`);
+      return existing.cachedResult;
+    }
+
     const ctx = getSpanContext();
     const span = createKitSpan(ctx, "check", {
       "content.length": content.length,
@@ -193,7 +224,13 @@ export class GuardKit {
       "config.checkHallucinations": this.config.checkHallucinations,
       "config.checkCodeSafety": this.config.checkCodeSafety,
       "config.blockThreshold": this.config.blockThreshold,
+      "idempotency.key": idempotencyKey,
     });
+
+    // Start idempotency tracking
+    const manager = getIdempotencyManager();
+    const runId = randomUUID();
+    manager.startOperation(idempotencyKey, KIT_NAME, "check", contentHash, runId);
 
     try {
       const checks: GuardrailCheckResult[] = [];
@@ -381,7 +418,7 @@ export class GuardKit {
 
       span.setStatus({ code: SpanStatusCode.OK });
 
-      // Generate run record if enabled
+      // Generate run record if enabled with idempotency info
       if (this.config.enableRunRecords) {
         const runRecord = createRunRecord({
           kit: { name: KIT_NAME, version: KIT_VERSION },
@@ -402,14 +439,25 @@ export class GuardKit {
           policy: result.safe
             ? { result: "pass", checked: ["injection", "secrets", "pii", "hallucination", "code_safety"] }
             : { result: "fail", checked: ["injection", "secrets", "pii", "hallucination", "code_safety"] },
+          determinism: {
+            idempotencyKey,
+            inputsHash: contentHash,
+          },
+          outputs: result, // Store result for idempotency cache
         });
 
         const runsDir = this.config.runsDir || getRunsDirectory(this.config.projectRoot || process.cwd());
         safeWriteRunRecord(runRecord, runsDir);
       }
 
+      // Mark idempotency as complete and cache result
+      manager.completeOperation(idempotencyKey, result, runId);
+
       return result;
     } catch (error) {
+      // Mark idempotency as failed
+      manager.failOperation(idempotencyKey);
+
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: error instanceof Error ? error.message : "Unknown error",

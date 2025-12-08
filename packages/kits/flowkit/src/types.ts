@@ -76,6 +76,13 @@ export interface FlowRunRequest {
    * Concrete flows should define a typed shape and validate it at the edge.
    */
   params?: Record<string, unknown>;
+
+  /**
+   * Optional idempotency key for this flow run.
+   * If not provided, a key will be derived from flowName, canonicalPromptPath,
+   * and workflowManifestPath.
+   */
+  idempotencyKey?: string;
 }
 
 /**

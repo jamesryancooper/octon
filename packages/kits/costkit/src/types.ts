@@ -159,6 +159,12 @@ export interface UsageRecord {
 
   /** Error message if failed */
   error?: string;
+
+  /**
+   * Idempotency key for this usage record.
+   * If not provided, derived from model, tokens, workflowType.
+   */
+  idempotencyKey?: string;
 }
 
 /**

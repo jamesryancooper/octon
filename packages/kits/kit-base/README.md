@@ -730,8 +730,11 @@ import {
   deriveIdempotencyKey,
   hashInputs,
   withIdempotency,
+  withIdempotencySync,
   checkIdempotencyKey,
   IdempotencyManager,
+  selectIdempotencyStorage,
+  createIdempotencyManagerForKit,
 } from "@harmony/kit-base";
 
 // Derive a stable idempotency key
@@ -744,7 +747,7 @@ const key = deriveIdempotencyKey({
 });
 // => "flowkit:run:a1b2c3d4e5f6g7h8"
 
-// Execute with idempotency protection
+// Execute async operation with idempotency protection
 const { result, cached, runId } = await withIdempotency(
   key,
   "flowkit",
@@ -752,6 +755,17 @@ const { result, cached, runId } = await withIdempotency(
   inputs,
   async () => {
     return await executeOperation();
+  }
+);
+
+// Execute sync operation with idempotency protection
+const { result, cached, runId } = withIdempotencySync(
+  key,
+  "guardkit",
+  "check",
+  inputs,
+  () => {
+    return performCheck();
   }
 );
 
@@ -766,28 +780,45 @@ if (existing) {
   console.log("Already processed:", existing.runId);
   console.log("Cached result:", existing.cachedResult);
 }
-
-// Direct manager access
-const manager = new IdempotencyManager({
-  pendingTtlMs: 60 * 60 * 1000,    // 1 hour
-  completedTtlMs: 24 * 60 * 60 * 1000,  // 24 hours
-});
 ```
 
 ### Storage Backends
 
-Idempotency supports pluggable storage backends:
+Idempotency supports pluggable storage backends with smart selection:
 
 ```typescript
 import {
   createInMemoryIdempotencyManager,
   createDurableIdempotencyManager,
   useDurableIdempotency,
+  selectIdempotencyStorage,
+  createIdempotencyManagerForKit,
   InMemoryIdempotencyStorage,
   RunRecordIdempotencyStorage,
 } from "@harmony/kit-base";
 
-// In-memory storage (default, single process)
+// Smart storage selection based on context
+const storage = selectIdempotencyStorage({
+  idempotencyKey: "my-key",  // If provided, use durable storage
+  enableRunRecords: true,     // If enabled, use durable storage
+  runsDir: "./runs",
+  storageType: "durable",     // Explicit override
+});
+
+// Create manager for a kit with smart defaults
+const manager = createIdempotencyManagerForKit("flowkit", {
+  idempotencyKey: config.idempotencyKey,
+  enableRunRecords: config.enableRunRecords,
+  runsDir: config.runsDir,
+  idempotency: {
+    enabled: true,
+    storage: "durable",
+    pendingTtlMs: 60 * 60 * 1000,     // 1 hour
+    completedTtlMs: 24 * 60 * 60 * 1000, // 24 hours
+  },
+});
+
+// In-memory storage (single process, fast CLI)
 const manager = createInMemoryIdempotencyManager();
 
 // Durable storage backed by run records (survives restarts)
@@ -795,18 +826,38 @@ const manager = createDurableIdempotencyManager(runsDir);
 
 // Set durable storage as the default for all kits
 useDurableIdempotency(runsDir);
-
-// Custom storage backend
-const customStorage = new MyCustomStorage();
-const manager = new IdempotencyManager({
-  storage: customStorage,
-});
 ```
 
 | Storage Backend | Durability | Use Case |
 |----------------|------------|----------|
-| `InMemoryIdempotencyStorage` | Process lifetime | Single-process, testing |
+| `InMemoryIdempotencyStorage` | Process lifetime | Single-process, testing, fast CLI |
 | `RunRecordIdempotencyStorage` | Disk | Production, survives restarts |
+
+### Idempotency Index
+
+The durable storage uses a JSON index file for O(1) lookups instead of scanning all run records:
+
+```typescript
+import {
+  IdempotencyIndexManager,
+  createIdempotencyIndex,
+  rebuildIdempotencyIndex,
+} from "@harmony/kit-base";
+
+// Create an index manager
+const index = createIdempotencyIndex(runsDir);
+
+// O(1) lookup
+const entry = index.get("flowkit:run:abc123");
+
+// Index is automatically maintained when writing run records
+// But can be rebuilt if corrupted:
+const result = rebuildIdempotencyIndex(runsDir, true);
+console.log(`Rebuilt index: ${result.indexed} entries`);
+
+// Via CLI
+// kit-runs rebuild-index
+```
 
 ### Key Derivation
 
@@ -818,6 +869,40 @@ Keys are derived from:
 - Lifecycle stage (optional)
 
 Format: `<kitName>:<operation>:<hash>`
+
+### Configuration
+
+Idempotency behavior can be configured per-kit:
+
+```typescript
+import { IdempotencyOptionsSchema } from "@harmony/kit-base";
+
+const config = {
+  idempotency: {
+    enabled: true,           // Enable idempotency enforcement
+    storage: "durable",      // "memory" | "durable"
+    autoDerive: true,        // Auto-derive keys when not provided
+    pendingTtlMs: 3600000,   // 1 hour TTL for pending operations
+    completedTtlMs: 86400000, // 24 hour TTL for completed operations
+  },
+};
+```
+
+### Future Work: Distributed Scenarios (Phase 4)
+
+For distributed deployments (multiple instances, long-running services), consider:
+
+- **When to implement:**
+  - Multiple instances of kits running concurrently
+  - Kits deployed as long-running services (not CLI)
+  - Need for distributed locking to prevent race conditions
+
+- **Approach:**
+  - Add `DistributedIdempotencyStorage` interface with `acquireLock()` / `releaseLock()`
+  - Implement adapters: `RedisIdempotencyStorage`, `PostgresIdempotencyStorage`
+  - Use distributed lock TTLs to handle process crashes
+
+The current run record-backed storage is sufficient for CLI and single-process service usage
 
 ## CLI Base
 

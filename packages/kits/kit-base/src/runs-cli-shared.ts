@@ -517,13 +517,14 @@ export function getRunsCliHelp(kitName?: string): string {
 Usage: ${cmd} <command> [options]
 
 Commands:
-  list      List run records with filtering
-  show      Show details of a specific run record
-  stats     Show aggregate statistics
-  find      Find run records by trace ID or idempotency key
-  cleanup   Delete old run records based on retention policy
-  export    Export run records to file or OTel collector
-  help      Show this help message
+  list           List run records with filtering
+  show           Show details of a specific run record
+  stats          Show aggregate statistics
+  find           Find run records by trace ID or idempotency key
+  cleanup        Delete old run records based on retention policy
+  export         Export run records to file or OTel collector
+  rebuild-index  Rebuild the idempotency key index from run records
+  help           Show this help message
 
 Options:
   --kit, -k <name>         Filter by kit name
@@ -559,6 +560,124 @@ Examples:
   ${cmd} find --trace abc123
   ${cmd} cleanup --max-age 30d --dry-run
   ${cmd} export --export-format ndjson -o backup.ndjson
+  ${cmd} rebuild-index
 `.trim();
+}
+
+// ============================================================================
+// Rebuild Index Command
+// ============================================================================
+
+import { listRunRecords, readRunRecord, getRunsDirectory } from "./run-record.js";
+import { IdempotencyIndexManager } from "./idempotency-index.js";
+
+/**
+ * Result of a rebuild-index operation.
+ */
+export interface RebuildIndexResult {
+  /** Number of run records scanned */
+  scanned: number;
+
+  /** Number of records with idempotency keys indexed */
+  indexed: number;
+
+  /** Number of records without idempotency keys */
+  skipped: number;
+
+  /** Duration in milliseconds */
+  durationMs: number;
+
+  /** Index file path */
+  indexPath: string;
+}
+
+/**
+ * Rebuild the idempotency key index from existing run records.
+ *
+ * Use this to:
+ * - Recover from a corrupted or missing index
+ * - Migrate from O(n) scans to O(1) lookups
+ * - Verify index consistency
+ *
+ * @param runsDir - The runs directory
+ * @param verbose - Whether to log progress
+ * @returns The rebuild result
+ */
+export function rebuildIdempotencyIndex(
+  runsDir: string,
+  verbose = false
+): RebuildIndexResult {
+  const startTime = Date.now();
+
+  // Create a fresh index manager (will create new index file)
+  const indexManager = new IdempotencyIndexManager({
+    runsDir,
+    autoPersist: false, // We'll persist at the end
+  });
+
+  // Clear any existing entries
+  indexManager.clear();
+
+  // List all run records
+  const summaries = listRunRecords(runsDir, {});
+
+  let scanned = 0;
+  let indexed = 0;
+  let skipped = 0;
+
+  for (const summary of summaries) {
+    scanned++;
+
+    // Only process records that have an idempotency key
+    if (!summary.idempotencyKey) {
+      skipped++;
+      continue;
+    }
+
+    // Load the full run record to index it
+    const record = readRunRecord(runsDir, summary.path);
+    if (record && record.determinism?.idempotencyKey) {
+      indexManager.indexRunRecord(record, summary.path);
+      indexed++;
+
+      if (verbose) {
+        console.log(
+          `Indexed: ${record.determinism.idempotencyKey} -> ${summary.path}`
+        );
+      }
+    } else {
+      skipped++;
+    }
+  }
+
+  // Persist the rebuilt index
+  indexManager.persist();
+
+  const durationMs = Date.now() - startTime;
+
+  return {
+    scanned,
+    indexed,
+    skipped,
+    durationMs,
+    indexPath: indexManager.getIndexPath(),
+  };
+}
+
+/**
+ * Format rebuild-index result for display.
+ */
+export function formatRebuildIndexResult(result: RebuildIndexResult): string {
+  const lines: string[] = [
+    "=== INDEX REBUILD COMPLETE ===",
+    "",
+    `Scanned:  ${result.scanned} run record(s)`,
+    `Indexed:  ${result.indexed} record(s) with idempotency keys`,
+    `Skipped:  ${result.skipped} record(s) without idempotency keys`,
+    `Duration: ${result.durationMs}ms`,
+    `Index:    ${result.indexPath}`,
+  ];
+
+  return lines.join("\n");
 }
 

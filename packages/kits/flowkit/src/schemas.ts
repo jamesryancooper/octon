@@ -67,7 +67,13 @@ export const FlowRunRequestSchema = z.object({
   /** Flow configuration */
   config: FlowConfigSchema,
 
-  /** Idempotency key for the run */
+  /** Optional parameters for the flow */
+  params: z.record(z.unknown()).optional(),
+
+  /**
+   * Idempotency key for the run.
+   * If not provided, derived from flowName, canonicalPromptPath, workflowManifestPath.
+   */
   idempotencyKey: z.string().optional(),
 
   /** Dry-run mode */
