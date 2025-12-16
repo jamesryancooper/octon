@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "tasks": [
+    {
+      "id": "workspace-setup",
+      "description": "Initialize .workspace for api-reference docs",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "audit-docs",
+      "description": "Audit all endpoint docs for completeness",
+      "status": "pending",
+      "blocked_by": null
+    },
+    {
+      "id": "identify-outdated",
+      "description": "Identify docs with outdated examples",
+      "status": "pending",
+      "blocked_by": null
+    },
+    {
+      "id": "add-error-docs",
+      "description": "Add error documentation to 5 endpoints",
+      "status": "pending",
+      "blocked_by": ["audit-docs"]
+    },
+    {
+      "id": "update-examples",
+      "description": "Update outdated examples to v2 API",
+      "status": "pending",
+      "blocked_by": ["identify-outdated"]
+    },
+    {
+      "id": "add-python-examples",
+      "description": "Add Python code examples to all endpoints",
+      "status": "pending",
+      "blocked_by": ["update-examples"]
+    }
+  ]
+}

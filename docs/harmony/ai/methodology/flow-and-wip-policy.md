@@ -210,3 +210,22 @@ Note: Terminology harmonization — we use **DoSafe** for "Definition of Safe" (
 - Humans can bump up tiers (always allowed) or down (requires justification)
 - Breaking changes require explicit consumer approval regardless of tier
 - For AI changes, pin provider/model/version/params and attach a cost note
+
+---
+
+## Pillar Alignment
+
+The flow and WIP policy serves Harmony's [Six Pillars](../pillars/README.md) by operationalizing key principles from the PLAN and SHIP phases.
+
+| Pillar | How This Policy Serves It |
+|--------|---------------------------|
+| [Focus](../pillars/focus.md) | WIP limits reduce cognitive load and context-switching. Developers work on one thing at a time, preserving mental bandwidth for what matters. |
+| [Velocity](../pillars/velocity.md) | Flow optimization via Little's Law maximizes throughput. Strict WIP limits and aging targets keep cycle times low, enabling sustained high-frequency delivery. |
+| [Trust](../pillars/trust.md) | Definition of Safe (DoSafe) gates enforce safety at every tier. Rollback paths, feature flags, and security reviews ensure changes are reversible and governed. |
+| [Direction](../pillars/direction.md) | Definition of Ready (DoR) requires validated specs before work begins. No card moves to In-Dev without a tier-appropriate spec. |
+
+### Key Pillar Connections
+
+- **Focus through Absorbed Complexity**: The tiered system absorbs process complexity—AI assigns tiers and selects templates automatically, freeing developers from meta-work.
+- **Velocity through Agentic Automation**: Automated tier assignment, gate enforcement, and AI-generated specs remove bottlenecks from the flow.
+- **Trust through Governed Determinism**: Each tier has explicit, predictable gates. DoSafe ensures security is non-negotiable regardless of tier.

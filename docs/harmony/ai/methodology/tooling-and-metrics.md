@@ -27,3 +27,36 @@ This document centralizes Harmony’s tooling and metrics guidance. Use it along
   - *What broke gates?*
   - *Which SLI/SLO regressed?*
   - *What 1 guardrail to tighten/loosen?*
+
+---
+
+## Metrics-to-Pillar Mapping
+
+Every metric category in Harmony traces back to one or more of the [Six Pillars](../pillars/README.md). This mapping ensures we measure what matters for the outcomes we care about.
+
+| Metric Category | Primary Pillar | Connection |
+|-----------------|----------------|------------|
+| **DORA metrics** | [Velocity](../pillars/velocity.md) | Lead time and deploy frequency measure delivery speed; change-fail rate and MTTR measure sustainable velocity. |
+| **SRE targets** | [Trust](../pillars/trust.md) | SLOs and error budgets enforce governed determinism; they're the quantitative expression of trustworthy systems. |
+| **WIP/cycle analytics** | [Focus](../pillars/focus.md) | WIP aging and cycle time reveal cognitive load and flow health. High WIP signals lost focus. |
+| **Kaizen log** | [Insight](../pillars/insight.md) | Daily improvements and retro-driven changes embody structured learning. Each kaizen PR is learning made concrete. |
+| **Cost dashboard** | [Trust](../pillars/trust.md) | Cost governance is a trust guardrail—predictable costs mean predictable operations. |
+
+### Secondary Pillar Connections
+
+| Metric Category | Secondary Pillars | Why |
+|-----------------|-------------------|-----|
+| DORA metrics | Direction | High velocity without direction is wasted motion; track spec coverage alongside deploy frequency. |
+| SRE targets | Continuity | SLO burn analysis requires traces and logs preserved by Continuity. |
+| Kaizen log | Velocity | Friction removal accelerates flow; each improvement compounds. |
+| Weekly retro | Insight → Direction | Retro learnings feed the next cycle's specs, closing the feedback loop. |
+
+### The Insight → Direction Loop in Metrics
+
+The weekly retro prompts explicitly connect Insight back to Direction:
+- "What blocked flow?" → informs next cycle's scope cuts
+- "What broke gates?" → informs spec validation criteria
+- "Which SLI/SLO regressed?" → informs future perf/reliability requirements
+- "What guardrail to tighten/loosen?" → informs methodology refinement
+
+This is the [Insight → Direction feedback loop](../pillars/insight.md) made operational.

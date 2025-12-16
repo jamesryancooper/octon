@@ -25,6 +25,31 @@ Every change in Harmony is classified into one of three risk tiers:
 
 ---
 
+## Pillar Alignment by Tier
+
+The risk tier system operationalizes Harmony's [Six Pillars](../pillars/README.md), with each tier emphasizing different pillars based on the nature and risk of the change.
+
+| Tier | Primary Pillars | Rationale |
+|------|-----------------|-----------|
+| **T1** | [Velocity](../pillars/velocity.md) | Fast delivery with basic gates. Trivial changes benefit from speed; minimal ceremony serves throughput. |
+| **T2** | [Direction](../pillars/direction.md), [Velocity](../pillars/velocity.md), [Trust](../pillars/trust.md) | Validated spec ensures we build the right thing. Threat analysis and feature flags balance speed with safety. |
+| **T3** | [Direction](../pillars/direction.md), [Trust](../pillars/trust.md), [Continuity](../pillars/continuity.md) | Full spec validation, security review, and ADRs. Elevated risk demands governed determinism and institutional memory. |
+
+### How Each Pillar Manifests Across Tiers
+
+| Pillar | T1 | T2 | T3 |
+|--------|-----|-----|-----|
+| **Direction** | Intent identified | Validated spec with scope | Full spec with alternatives |
+| **Focus** | Minimal process overhead | AI absorbs complexity | AI handles full analysis |
+| **Velocity** | Fast path: 2-3 min | Balanced: 15-20 min | Thorough: 30-60 min |
+| **Trust** | Basic gates | Threat-lite + flags | Full STRIDE + security review |
+| **Continuity** | — | Observability required | ADRs + traces required |
+| **Insight** | — | — | Postmortem potential |
+
+The tier system ensures that the pillar emphasis scales with risk: T1 optimizes for Velocity, T2 balances Velocity with Trust and Direction, and T3 prioritizes Trust, Direction, and Continuity.
+
+---
+
 ## Tier 1: Trivial Changes
 
 ### Classification Criteria

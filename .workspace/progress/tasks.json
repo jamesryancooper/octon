@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "tasks": [
+    {
+      "id": "setup-structure",
+      "description": "Set up refined .workspace directory structure",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "evaluate-workspace",
+      "description": "Run evaluate-workspace.md and implement suggestions",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "create-context-commands",
+      "description": "Create context/ and commands/ with tools.md, compaction.md, recover.md",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "create-init-script",
+      "description": "Create init.sh bootstrap script",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "create-scaffolding",
+      "description": "Create workspace scaffolding system (workflow, templates, Cursor command)",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "create-prompts",
+      "description": "Create additional prompt templates in prompts/",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "create-examples",
+      "description": "Add example content to examples/",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "test-scaffolding",
+      "description": "Test /create-workspace command on a target directory",
+      "status": "pending",
+      "blocked_by": null,
+      "note": "Deferred — will complete in future session"
+    },
+    {
+      "id": "test-harness",
+      "description": "Test the harness with actual agent sessions",
+      "status": "pending",
+      "blocked_by": ["test-scaffolding"],
+      "note": "Deferred — will complete in future session"
+    }
+  ]
+}

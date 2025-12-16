@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "tasks": [
+    {
+      "id": "workspace-setup",
+      "description": "Initialize .workspace for ui-kit",
+      "status": "done",
+      "completed_at": "2025-12-10"
+    },
+    {
+      "id": "document-inventory",
+      "description": "Document current component inventory",
+      "status": "pending",
+      "blocked_by": null
+    },
+    {
+      "id": "identify-test-gaps",
+      "description": "Identify components with low test coverage",
+      "status": "pending",
+      "blocked_by": null
+    },
+    {
+      "id": "identify-story-gaps",
+      "description": "Identify components missing Storybook stories",
+      "status": "pending",
+      "blocked_by": null
+    },
+    {
+      "id": "improve-coverage",
+      "description": "Improve test coverage for priority components",
+      "status": "pending",
+      "blocked_by": ["identify-test-gaps"]
+    }
+  ]
+}

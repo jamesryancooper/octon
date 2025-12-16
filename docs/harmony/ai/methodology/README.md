@@ -33,6 +33,17 @@ Harmony's pillars are organized in three phases forming a complete feedback loop
 
 Together these pillars create a self‑reinforcing system: Direction ensures we build the right thing, Focus gives us bandwidth to build it, Velocity and Trust let us ship fast and safely, Continuity preserves what we learned, and Insight feeds back to Direction for the next cycle.
 
+#### Pillar Quick Reference
+
+| Phase | Pillar | Developer Question | Key Practice |
+|-------|--------|-------------------|--------------|
+| PLAN | [Direction](../pillars/direction.md) | "What are we building?" | Spec-first validation |
+| PLAN | [Focus](../pillars/focus.md) | "How do we think about it?" | Kits absorb complexity |
+| SHIP | [Velocity](../pillars/velocity.md) | "How do we deliver fast?" | Agentic automation |
+| SHIP | [Trust](../pillars/trust.md) | "How do we deliver safely?" | Governed determinism |
+| LEARN | [Continuity](../pillars/continuity.md) | "How do we remember?" | ADRs, traces, ObservaKit |
+| LEARN | [Insight](../pillars/insight.md) | "How do we improve?" | Postmortems, EvalKit |
+
 > Terminology note: “SpecKit” refers to our AI‑Toolkit kit (code `speckit`) that wraps GitHub’s Spec Kit. Mentions of the upstream tool explicitly use “GitHub’s Spec Kit”.
 
 #### Pillars → Practices Map (at a glance)
@@ -351,19 +362,32 @@ Methods (SRE, DORA, Shape Up) define how work flows. Frameworks and standards (A
 
 ## Method Lifecycle Overview
 
+The lifecycle maps to Harmony's three pillar phases: **PLAN → SHIP → LEARN**, forming a closed feedback loop.
+
 ```mermaid
 flowchart LR
-  A["Spec (GitHub’s Spec Kit via SpecKit) + ADR"] --> B[Shape & Scope Cuts]
-  B --> C["BMAD Story (context packets + agent plan + AC)"]
-  C --> D["Dev in Cursor (human checkpoints)"]
-  D --> E["PR -> Vercel Preview (feature-flagged)"]
-  E --> F[CI Gates: lint/type/test/scan/contract/SBOM]
-  F -->|all green| G[Merge to Trunk]
-  G --> H["Auto Deploy to Preview; Manual Promote to Prod (guarded)"]
-  H --> I[Operate: SLOs, alerts, OTel, logs]
-  I --> J[Learn: Postmortem & ADR updates]
-  J -->|feedback| A
+  subgraph PLAN ["PLAN Phase (Direction + Focus)"]
+    A["Spec (SpecKit) + ADR"] --> B[Shape & Scope Cuts]
+    B --> C["BMAD Story (context + plan + AC)"]
+  end
+  
+  subgraph SHIP ["SHIP Phase (Velocity + Trust)"]
+    C --> D["Dev in Cursor (human checkpoints)"]
+    D --> E["PR -> Vercel Preview (flagged)"]
+    E --> F[CI Gates]
+    F -->|all green| G[Merge to Trunk]
+    G --> H["Promote to Prod (guarded)"]
+  end
+  
+  subgraph LEARN ["LEARN Phase (Continuity + Insight)"]
+    H --> I[Operate: SLOs, OTel, logs]
+    I --> J[Learn: Postmortem & ADR updates]
+  end
+  
+  J -->|"Insight → Direction"| A
 ```
+
+**The loop closes:** Insight (what we learned) feeds back to Direction (what we build next). Postmortems reveal what we should have validated; eval results inform future spec criteria.
 
 Note: Schedule non‑blocking tasks (e.g., notifications, cache invalidation, analytics enrichment) with `next/after` where applicable so responses are fast and side‑effects are reliable without blocking the user path.
 
@@ -481,6 +505,8 @@ See `security-baseline.md` for full control mappings, STRIDE guidance, header/se
 ## Reliability & Ops (Google SRE)
 
 Harmony borrows heavily from Google SRE: SLIs/SLOs, error budgets, and blameless postmortems drive how we respond to incidents and tune guardrails over time.
+
+**Insight → Direction:** Postmortems are where the [LEARN phase](../pillars/insight.md) feeds back to [PLAN](../pillars/direction.md). Each postmortem should answer: *"What should we have validated in the spec that we didn't?"* Action items flow into future spec criteria, closing the feedback loop.
 
 See `reliability-and-ops.md` for detailed SLI/SLO guidance, error budget policy, on-call expectations, and the full postmortem template and severity table.
 

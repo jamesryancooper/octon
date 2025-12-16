@@ -5,9 +5,80 @@ description: Unified, queryable engineering knowledge linking specs, contracts, 
 
 # Knowledge Plane: Linking Specifications, Contracts, Tests, Traces, and SBOM
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [runtime architecture](./runtime-architecture.md), [tooling integration](./tooling-integration.md), [observability requirements](./observability-requirements.md), [governance model](./governance-model.md), [contracts registry](./contracts-registry.md), [python runtime workspace](./python-runtime-workspace.md)
+Related docs: [Content Plane](../content-plane/README.md), [Continuity Plane](../continuity-plane/continuity-plane.md), [Three Planes Integration](../continuity-plane/three-planes-integration.md), [monorepo polyglot (normative)](../monorepo-polyglot.md), [runtime architecture](../runtime-architecture.md), [tooling integration](../tooling-integration.md), [observability requirements](../observability-requirements.md), [governance model](../governance-model.md), [contracts registry](../contracts-registry.md)
 
-The Knowledge Plane is the unified, queryable body of system knowledge across requirements, design contracts, code artifacts, tests, build outputs, runtime telemetry, and compliance. It provides a single source of truth and end-to-end traceability so that both developers and AI agents can reason about intent versus behavior and drive informed decisions.
+The Knowledge Plane is the unified, queryable body of **system knowledge**—specifications, contracts, code artifacts, tests, build outputs, runtime telemetry, and compliance. It provides traceability from requirements to runtime signals so that both developers and AI agents can reason about **what the system is** and **how it behaves**.
+
+---
+
+## Position in the Three-Plane Architecture
+
+The Knowledge Plane is one of three architectural planes in Harmony:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        THE THREE PLANES OF HARMONY                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌─────────────────┐   ┌─────────────────┐   ┌─────────────────┐          │
+│   │  CONTENT PLANE  │   │ CONTINUITY PLANE│   │ KNOWLEDGE PLANE │          │
+│   │                 │   │                 │   │   ◄── You are   │          │
+│   │  "What we       │   │  "What we       │   │       here      │          │
+│   │   publish"      │   │   decided"      │   │                 │          │
+│   │                 │   │                 │   │  "What the      │          │
+│   │  • Docs         │   │  • Decisions    │   │   system is"    │          │
+│   │  • Entities     │   │  • Handoffs     │   │                 │          │
+│   │  • Pages        │   │  • Progress     │   │  • Specs        │          │
+│   │  • Prompts      │   │  • Backlogs     │   │  • Contracts    │          │
+│   │                 │   │                 │   │  • Code refs    │          │
+│   │                 │   │                 │   │  • Tests        │          │
+│   │                 │   │                 │   │  • Traces       │          │
+│   │                 │   │                 │   │  • SBOM         │          │
+│   └─────────────────┘   └─────────────────┘   └─────────────────┘          │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Core Question
+
+> **"What IS the system and how does it BEHAVE?"**
+
+The Knowledge Plane answers questions about the system itself:
+
+- What specs define this feature?
+- What tests verify this behavior?
+- What code implements this contract?
+- What traces show this SLO violation?
+- What dependencies have vulnerabilities?
+
+This contrasts with:
+- **Content Plane**: "What content do we publish?" (documents, entities, pages)
+- **Continuity Plane**: "What did we decide and why?" (decisions, handoffs, rationale)
+
+### Boundary Clarification
+
+The Knowledge Plane **does NOT own**:
+- **Decision records (ADRs)** — owned by Continuity Plane
+- **Decision rationale** — owned by Continuity Plane
+- **Session handoffs** — owned by Continuity Plane
+- **Progress logs** — owned by Continuity Plane
+
+The Knowledge Plane **DOES own**:
+- Specifications (behavioral definitions)
+- Contracts (interface definitions)
+- Code module references
+- Test results and coverage
+- Runtime traces and metrics
+- SBOM and dependency graph
+
+The Knowledge Plane **indexes** (but doesn't own):
+- ADR effects via `ADR INFORMS Contract` edges
+- ADR impacts via `ADR AFFECTS CodeModule` edges
+- Decision references for traceability queries
+
+See [Three Planes Integration](../continuity-plane/three-planes-integration.md) for complete boundary definitions.
+
+---
 
 ## Objectives
 
@@ -18,53 +89,122 @@ The Knowledge Plane is the unified, queryable body of system knowledge across re
 
 ## Scope
 
-The Knowledge Plane indexes and links the following domains:
+The Knowledge Plane indexes and links **system knowledge** across these domains:
 
-- Specifications and policies
-- Design contracts and interfaces
-- Code modules and build artifacts
-- Tests, coverage, and results
-- Runtime traces, logs, and metrics (including standardized attributes from the platform runtime service such as `flow_id`, `flow_version`, `run_id`, `caller_kind`, `caller_id`, `project_id`, `environment`, and `risk_tier`)
-- SBOM components and vulnerability/license posture
-- Provenance/history and decision records
+| Domain | What It Contains | Source |
+|--------|------------------|--------|
+| **Specifications** | Behavioral definitions, policies, constraints | Content Plane docs, inline code |
+| **Contracts** | OpenAPI, JSON Schema, interface definitions | `contracts/` directory |
+| **Code Modules** | Implementation references, AST metadata | Codebase parsing |
+| **Tests** | Test cases, coverage, results, flakiness | CI/CD pipelines |
+| **Runtime Telemetry** | Traces, logs, metrics, SLO signals | OpenTelemetry ingestion |
+| **SBOM** | Dependencies, versions, licenses, vulnerabilities | Build-time generation |
+| **Decision Effects** | ADR → Contract/Module links (indexed, not owned) | Cross-plane refs |
+
+### What Knowledge Plane Does NOT Own
+
+The following belong to the **Continuity Plane** (see [Continuity Plane](../continuity-plane/continuity-plane.md)):
+
+- Decision records (ADRs, CDRs) — their rationale and alternatives
+- Session handoffs — context transfer between agents/humans
+- Progress events — work audit trails
+- Backlogs — work item management
+
+The Knowledge Plane **indexes ADR effects** for traceability (e.g., "What decisions affect this module?") but the **source of truth** for decisions lives in Continuity.
+
+### Runtime Telemetry Attributes
+
+Runtime traces, logs, and metrics include standardized attributes from the platform runtime service:
+- `flow_id`, `flow_version`, `run_id`
+- `caller_kind`, `caller_id`
+- `project_id`, `environment`, `risk_tier`
 
 ## Core Concepts
 
-- Specification (Spec): Statement of behavior, constraints, or policy.
-- Contract: Interface definitions (for example, OpenAPI/JSON Schema in the root `contracts/` registry, module interfaces), schemas, and design decisions. In the polyglot monorepo, HTTP contracts live under `contracts/openapi` and `contracts/schemas`, with generated TS/Python clients in `contracts/ts` and `contracts/py`.
-- Code Module: Implementation units that realize specs and contracts.
-- Test Case: Unit/integration/e2e tests validating specs and contracts.
-- Build Artifact: Outputs from CI/CD (images, packages, reports).
-- Trace/Log/Metric: Runtime telemetry for operations and SLOs.
-- RuntimeRun: A run record for a flow executed by the platform runtime service (identified at minimum by `flow_id`, `flow_version`, and `run_id` plus caller metadata).
-- SBOM Component: Third-party dependency with version/licensing.
-- Link/Edge: Typed relationship across entities enabling traceability.
+| Concept | Definition | Owned By |
+|---------|------------|----------|
+| **Specification (Spec)** | Statement of behavior, constraints, or policy | Knowledge Plane |
+| **Contract** | Interface definitions (OpenAPI/JSON Schema in `contracts/` registry), schemas | Knowledge Plane |
+| **Code Module** | Implementation units that realize specs and contracts | Knowledge Plane |
+| **Test Case** | Unit/integration/e2e tests validating specs and contracts | Knowledge Plane |
+| **Build Artifact** | Outputs from CI/CD (images, packages, reports) | Knowledge Plane |
+| **Trace/Log/Metric** | Runtime telemetry for operations and SLOs | Knowledge Plane |
+| **RuntimeRun** | A run record for a flow (`flow_id`, `flow_version`, `run_id` + metadata) | Knowledge Plane |
+| **SBOM Component** | Third-party dependency with version/licensing | Knowledge Plane |
+| **Decision (ADR/CDR)** | Architectural or content decisions with rationale | **Continuity Plane** (indexed here) |
+| **Link/Edge** | Typed relationship across entities enabling traceability | Both (within + cross-plane) |
+
+### Contract Storage
+
+In the polyglot monorepo, contracts are organized as:
+- HTTP contracts: `contracts/openapi` and `contracts/schemas`
+- Generated clients: `contracts/ts` (TypeScript), `contracts/py` (Python)
 
 ## Data Model and Relationships
 
-Represent relationships in a knowledge graph (e.g., Neo4j/RDF) or equivalent index. Typical nodes and edges:
+Represent relationships in a knowledge graph (e.g., Neo4j/RDF) or equivalent index.
 
-- Nodes: Spec, Contract, CodeModule, TestCase, BuildArtifact, Trace, Metric, LogEvent, RuntimeRun, SbomComponent, Policy, ADR, Requirement, PullRequest, PipelineRun, Deployment, FeatureFlagChange.
-- Edges (examples):
-  - CodeModule IMPLEMENTS Spec
-  - TestCase VERIFIES Spec
-  - TestCase COVERS CodeModule
-  - CodeModule DEPENDS_ON SbomComponent
-  - RuntimeRun EXECUTES Spec|Feature
-  - RuntimeRun OBSERVES CodeModule
-  - Trace OBSERVES CodeModule
-  - Trace VIOLATES Policy
-  - ADR INFORMS Contract
-  - BuildArtifact PRODUCED_BY CodeModule
-  - BuildArtifact ASSOCIATED_WITH PullRequest
-  - PipelineRun PRODUCES BuildArtifact
-  - PullRequest TRIGGERED PipelineRun
-  - Deployment DEPLOYS BuildArtifact
-  - Trace CORRELATES_WITH PullRequest
-  - Trace CORRELATES_WITH PipelineRun
-  - RuntimeRun CORRELATES_WITH PullRequest
-  - RuntimeRun CORRELATES_WITH PipelineRun
-  - FeatureFlagChange AFFECTS Spec|Feature
+### Node Types (Owned by Knowledge Plane)
+
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│                   KNOWLEDGE PLANE NODES                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │     Spec     │  │   Contract   │  │  CodeModule  │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │   TestCase   │  │BuildArtifact │  │    Trace     │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │    Metric    │  │   LogEvent   │  │  RuntimeRun  │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │SbomComponent │  │    Policy    │  │  Deployment  │          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│                                                                 │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
+│  │ PullRequest  │  │ PipelineRun  │  │FeatureFlagChg│          │
+│  └──────────────┘  └──────────────┘  └──────────────┘          │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Internal Edges (Within Knowledge Plane)
+
+| Edge | From | To | Meaning |
+|------|------|----|---------|
+| `IMPLEMENTS` | CodeModule | Spec | Code realizes specification |
+| `VERIFIES` | TestCase | Spec | Test validates behavior |
+| `COVERS` | TestCase | CodeModule | Test exercises code |
+| `DEPENDS_ON` | CodeModule | SbomComponent | Dependency relationship |
+| `EXECUTES` | RuntimeRun | Spec/Feature | Runtime exercises behavior |
+| `OBSERVES` | Trace | CodeModule | Telemetry from code |
+| `VIOLATES` | Trace | Policy | Policy violation detected |
+| `PRODUCED_BY` | BuildArtifact | CodeModule | Build output source |
+| `ASSOCIATED_WITH` | BuildArtifact | PullRequest | Artifact from PR |
+| `PRODUCES` | PipelineRun | BuildArtifact | CI produces output |
+| `TRIGGERED` | PullRequest | PipelineRun | PR triggers CI |
+| `DEPLOYS` | Deployment | BuildArtifact | Deployment of artifact |
+| `CORRELATES_WITH` | Trace | PullRequest/PipelineRun | Trace-to-change link |
+| `AFFECTS` | FeatureFlagChange | Spec/Feature | Flag impacts behavior |
+
+### Cross-Plane Edges (Indexed from Continuity Plane)
+
+These edges link to nodes **owned by the Continuity Plane** (see [Three Planes Integration](../continuity-plane/three-planes-integration.md)):
+
+| Edge | From (Continuity) | To (Knowledge) | Meaning |
+|------|-------------------|----------------|---------|
+| `INFORMS` | Decision (ADR) | Contract | Decision shapes interface |
+| `AFFECTS` | Decision (ADR) | CodeModule | Decision impacts implementation |
+| `MOTIVATED_BY` | Spec | Decision (ADR) | Spec driven by decision |
+| `VERIFIED_BY` | Decision | TestCase | Decision has test evidence |
+
+**Important**: The Knowledge Plane indexes these edges for traceability queries, but the **Decision nodes themselves** (with rationale, alternatives, context) live in the Continuity Plane.
 
 Example Cypher query (illustrative):
 

@@ -81,7 +81,7 @@ This document codifies how Harmony's [six pillars](./pillars/README.md) translat
 ## How To Use These
 
 - Reference in PR templates and design notes; cite specific principles when making trade‑offs.
-- When a principle conflicts, favor the five pillars and governance safety.
+- When a principle conflicts, favor the six pillars and governance safety.
 - If you need an exception, file a short waiver per governance and set an expiry.
 
 ## Related Docs

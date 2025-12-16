@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "tasks": [
+    {
+      "id": "initial-setup",
+      "description": "Define scope and initial tasks",
+      "status": "done",
+      "completed_at": "{{DATE}}"
+    },
+    {
+      "id": "first-task",
+      "description": "[Define first task]",
+      "status": "pending",
+      "blocked_by": null
+    }
+  ]
+}
