@@ -1,0 +1,18 @@
+{
+  "$schema": "../../manifest.schema.json",
+  "name": "workspace-node-ts",
+  "description": "Scoped workspace template for Node.js/TypeScript packages.",
+  "inherits": "workspace",
+  "overrides": [
+    "START.md",
+    "scope.md",
+    "conventions.md",
+    "checklists/done.md"
+  ],
+  "additions": {
+    "directories": [],
+    "files": []
+  },
+  "usage": "/create-workspace @path/to/package --template node-ts"
+}
+

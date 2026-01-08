@@ -10,7 +10,7 @@
 - Created `scope.md` with boundaries for root workspace
 - Created `conventions.md` with style rules
 - Set up `progress/` directory with log.md and tasks.json
-- Created `checklists/done.md` with quality gates
+- Created `checklists/complete.md` with quality gates
 - Moved verbose README to `.humans/README.md` (preserved for humans)
 - Created `prompts/` with `evaluate-workspace.md`
 - Established flat, agent-facing structure with dot-prefix ignore convention
@@ -32,7 +32,7 @@
 **Completed:**
 
 - Ran `evaluate-workspace.md` prompt against `.workspace/`
-- Removed redundant failure modes from `START.md` (duplicated in `done.md`)
+- Removed redundant failure modes from `START.md` (duplicated in `complete.md`)
 - Moved terminology definitions from `conventions.md` to `.humans/README.md`
 - Corrected progress log to reflect actual state
 - Created `context/` directory with:
@@ -61,7 +61,7 @@
 - Created `commands/scaffold.md` — atomic scaffolding reference
 - Created templates in `templates/`:
   - `START.md`, `scope.md`, `conventions.md`
-  - `done.md`, `log.md`, `tasks.json`
+  - `complete.md`, `log.md`, `tasks.json`
 - Created Cursor slash command `.cursor/commands/create-workspace.md`
 - Created Cursor slash command `.cursor/commands/evaluate-workspace.md`
 - Documented both commands in `.humans/README.md`

@@ -7,7 +7,7 @@ set -e
 echo "=== .workspace Health Check ==="
 
 # Check required files
-for file in START.md scope.md conventions.md; do
+for file in START.md scope.md conventions.md catalog.md; do
   if [ -f "$file" ]; then
     echo "✓ $file"
   else
@@ -16,7 +16,7 @@ for file in START.md scope.md conventions.md; do
 done
 
 # Check required directories
-for dir in progress checklists prompts; do
+for dir in progress checklists prompts workflows commands context; do
   if [ -d "$dir" ]; then
     echo "✓ $dir/"
   else
@@ -24,10 +24,10 @@ for dir in progress checklists prompts; do
   fi
 done
 
-# Check optional directories
+# Check standard directories (create as needed)
 echo ""
-echo "Optional directories:"
-for dir in workflows commands context templates examples; do
+echo "Standard directories:"
+for dir in templates examples; do
   if [ -d "$dir" ]; then
     echo "✓ $dir/"
   else

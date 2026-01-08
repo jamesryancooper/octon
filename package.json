@@ -17,6 +17,7 @@
     "secrets:scan": "pnpm dlx trufflehog filesystem --no-update --fail --path .",
     "preview:vercel": "turbo run preview:vercel",
     "flowkit:run": "pnpm --filter @harmony/kits flowkit:run-config",
+    "flowkit:check-paths": "node scripts/check-flowkit-paths.js",
     "harmony": "pnpm --filter @harmony/cli harmony"
   },
   "engines": {

@@ -1,3 +1,9 @@
+---
+title: Recover from Errors
+description: Recovery procedures for common agent failure modes.
+access: human
+---
+
 # Recover from Errors
 
 ## Code is broken
@@ -26,3 +32,7 @@
 - `StrReplace` requires unique `old_string`
 - Add more context lines to make unique
 - Or use `replace_all: true` for global replace
+
+## References
+
+- **Canonical:** `docs/architecture/workspaces/commands.md`

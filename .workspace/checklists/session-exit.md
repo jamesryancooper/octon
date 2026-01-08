@@ -1,0 +1,77 @@
+---
+title: Session Exit Checklist
+description: Steps to complete before ending a session or context reset.
+---
+
+# Session Exit Checklist
+
+Complete before ending a session, context reset, or handoff.
+
+## Required Steps
+
+- [ ] **Update `progress/log.md`** with session summary
+  - Date header
+  - Session focus
+  - What was completed
+  - What's next
+  - Any blockers
+
+- [ ] **Update `progress/tasks.json`** status
+  - Mark completed tasks as `completed` with `completed_at`
+  - Mark incomplete work as `in_progress` or `blocked`
+  - Add any new tasks discovered
+
+- [ ] **Update `progress/entities.json`** if applicable
+  - Record state of any artifacts being actively modified
+  - Note in-flight changes that aren't committed
+
+- [ ] **Document in-flight state**
+  - If mid-task, describe current position in `progress/log.md`
+  - Include any uncommitted reasoning or partial work
+
+## Conditional Steps
+
+### If a decision was made
+
+- [ ] Add to `context/decisions.md`
+- [ ] Optionally create full ADR in `.humans/decisions/`
+
+### If something failed
+
+- [ ] Add to `context/lessons.md`
+- [ ] Note in `progress/log.md`
+
+### If new patterns discovered
+
+- [ ] Consider adding to `conventions.md`
+- [ ] Or add to `context/lessons.md` as anti-pattern
+
+## Session Summary Template
+
+Use this format in `progress/log.md`:
+
+```markdown
+## YYYY-MM-DD
+
+**Session focus:** [one-line summary]
+
+**Completed:**
+- [task 1]
+- [task 2]
+
+**In-flight:**
+- [partial work, current state]
+
+**Next:**
+- [priority item for next session]
+
+**Blockers:**
+- [if any]
+
+**Decisions:**
+- [if any, reference D### in decisions.md]
+
+**Lessons:**
+- [if any failures worth noting]
+```
+

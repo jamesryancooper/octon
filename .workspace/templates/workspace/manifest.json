@@ -1,0 +1,64 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "workspace",
+  "description": "Base workspace template for all workspaces.",
+  "inherits": null,
+  "files": {
+    "required": [
+      "START.md",
+      "scope.md",
+      "conventions.md",
+      "catalog.md"
+    ],
+    "directories": {
+      "required": [
+        "progress",
+        "checklists",
+        "prompts",
+        "workflows",
+        "commands",
+        "context"
+      ],
+      "standard": [
+        "templates",
+        "examples",
+        "assistants",
+        "missions"
+      ]
+    }
+  },
+  "contents": {
+    "START.md": "Boot sequence and orientation",
+    "scope.md": "Boundaries and responsibilities",
+    "conventions.md": "Style and formatting rules",
+    "catalog.md": "Index of commands and workflows",
+    "progress/log.md": "Append-only session history",
+    "progress/tasks.json": "Structured task list with goal",
+    "progress/entities.json": "Entity state tracking",
+    "progress/next.md": "Immediate actionable steps (promoted from .scratch/)",
+    "checklists/done.md": "Definition of done for tasks",
+    "checklists/session-exit.md": "Steps before ending a session",
+    "prompts/README.md": "Placeholder for prompts",
+    "workflows/README.md": "Placeholder for workflows",
+    "workflows/00-overview.md": "Workflow overview template",
+    "commands/README.md": "Placeholder for commands",
+    "context/README.md": "Context directory overview",
+    "context/decisions.md": "Agent-readable decision summaries",
+    "context/lessons.md": "Anti-patterns and failures to avoid",
+    "context/glossary.md": "Domain-specific terminology",
+    "context/dependencies.md": "External dependencies",
+    "context/constraints.md": "Technical and business constraints",
+    "context/compaction.md": "Token compaction strategies",
+    "context/tools.md": "Available tools reference",
+    "templates/README.md": "Placeholder for templates",
+    "examples/README.md": "Placeholder for examples",
+    "assistants/registry.yml": "Assistant @mention mappings",
+    "assistants/README.md": "How to use and create assistants",
+    "assistants/_template/assistant.md": "Template for new assistants",
+    "missions/registry.yml": "Active and archived missions index",
+    "missions/README.md": "How to create and manage missions",
+    "missions/_template/mission.md": "Mission template",
+    "missions/_template/tasks.json": "Mission tasks template",
+    "missions/_template/log.md": "Mission log template"
+  }
+}

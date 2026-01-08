@@ -1,3 +1,9 @@
+---
+title: Bootstrap Session
+description: Quick-start a new agent session in a workspace.
+access: human
+---
+
 # Bootstrap Session
 
 ## Context
@@ -12,12 +18,7 @@ Quick-start a new agent session in a `.workspace`-enabled directory.
    - If none exists, suggest `/create-workspace`
 
 2. **Execute boot sequence**
-   ```
-   1. Read scope.md → Know boundaries
-   2. Read conventions.md → Know style rules
-   3. Read progress/log.md → Know what's been done
-   4. Read progress/tasks.json → Know priorities
-   ```
+   Follow the boot sequence in `START.md`
 
 3. **Assess state**
    - Identify highest-priority unblocked task

@@ -67,7 +67,7 @@ packages/ui-kit/.workspace/
 │   ├── log.md
 │   └── tasks.json
 └── checklists/
-    └── done.md
+    └── complete.md
 ```
 
 ---
@@ -80,7 +80,7 @@ packages/ui-kit/.workspace/
 > |------|---------------|
 > | `scope.md` | "Shared React UI component library for the design system" |
 > | `conventions.md` | PascalCase for components, camelCase for utils |
-> | `done.md` | Jest tests, ESLint, TypeScript types, Storybook stories |
+> | `complete.md` | Jest tests, ESLint, TypeScript types, Storybook stories |
 > | `START.md` | `pnpm install`, entry point `src/index.ts` |
 > | `tasks.json` | "Document current components", "Identify missing tests" |
 >

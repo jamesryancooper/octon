@@ -1,0 +1,1 @@
+Explore implementing tool pack definitions and tool pack catalogs for the workspace.

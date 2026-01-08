@@ -1,0 +1,30 @@
+{
+  "id": "docs_glossary",
+  "displayName": "Docs Glossary",
+  "description": "Scan Harmony documentation and produce a glossary of repeated terminology with usage statistics.",
+  "type": "glossary",
+  "subject": "docs",
+  "mode": "full",
+  "subtype": "terminology",
+  "canonicalPromptPath": "packages/workflows/docs_glossary/00-overview.md",
+  "workflowManifestPath": "packages/workflows/docs_glossary/manifest.yaml",
+  "workflowEntrypoint": "docs-glossary-collect",
+  "runtime": {
+    "type": "http-service",
+    "url": "http://127.0.0.1:8410",
+    "autoStart": {
+      "pythonCommand": "agents/runner/runtime/.venv/bin/python",
+      "module": "agents.runner.runtime.server",
+      "host": "127.0.0.1",
+      "port": 8410,
+      "readyTimeoutSeconds": 60
+    },
+    "timeoutSeconds": 600
+  },
+  "policyProfile": "glossary-default",
+  "requiredGates": [],
+  "observability": {
+    "spanPrefix": "harmony.flow.docs_glossary"
+  }
+}
+

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.1",
+  "goal": "{{WORKSPACE_GOAL or 'Define the high-level objective this workspace serves'}}",
+  "tasks": [
+    {
+      "id": "initial-setup",
+      "description": "Define scope and initial tasks",
+      "status": "done",
+      "completed_at": "{{DATE}}"
+    },
+    {
+      "id": "{{FIRST_TASK_ID}}",
+      "description": "{{FIRST_TASK_DESCRIPTION}}",
+      "status": "pending",
+      "blocked_by": null,
+      "goal_contribution": "{{HOW_THIS_ADVANCES_THE_GOAL}}"
+    }
+  ]
+}

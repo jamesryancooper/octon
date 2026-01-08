@@ -89,6 +89,53 @@ paths:
         '400': { $ref: '#/components/responses/InvalidInput' }
         '404': { $ref: '#/components/responses/NotFound' }
         '500': { $ref: '#/components/responses/Internal' }
+
+  # FlowKit Runtime API
+  /flows/run:
+    post:
+      summary: Execute a FlowKit flow
+      description: >-
+        Executes a LangGraph flow identified by flowName. The runtime dispatches
+        to the appropriate flow handler (e.g., architecture_assessment, docs_glossary).
+      operationId: flowkitRun
+      tags:
+        - FlowKit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlowRunRequest'
+      responses:
+        '200':
+          description: Flow executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowRunResponse'
+        '400': { $ref: '#/components/responses/InvalidInput' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '500': { $ref: '#/components/responses/Internal' }
+
+  /healthz:
+    get:
+      summary: Health check endpoint
+      description: Simple readiness endpoint used by FlowKit CLI to verify the runtime is available.
+      operationId: healthz
+      tags:
+        - System
+      responses:
+        '200':
+          description: Runtime is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
+                required: [status]
 components:
   responses:
     InvalidInput:
@@ -235,4 +282,60 @@ components:
           required: [code, message]
           additionalProperties: true
       required: [error]
+      additionalProperties: false
+
+    # FlowKit Schemas
+    FlowRunRequest:
+      type: object
+      description: Request payload for executing a FlowKit flow.
+      properties:
+        runId:
+          type: string
+          description: Client-provided run identifier for correlation.
+        flowName:
+          type: string
+          description: Identifier of the flow to execute (e.g., "architecture_assessment", "docs_glossary").
+          pattern: "^[a-z][a-z0-9_]*$"
+        canonicalPromptPath:
+          type: string
+          description: Path to the canonical prompt markdown file (relative to workspace root).
+        workflowManifestPath:
+          type: string
+          description: Path to the YAML workflow manifest.
+        workflowEntrypoint:
+          type: string
+          description: Optional node ID to use as entrypoint (defaults to first step in manifest).
+        workspaceRoot:
+          type: string
+          description: Workspace root for resolving relative paths (defaults to ".").
+        params:
+          type: object
+          description: Optional flow-specific parameters.
+          additionalProperties: true
+      required: [runId, flowName, canonicalPromptPath, workflowManifestPath]
+      additionalProperties: false
+
+    FlowRunResponse:
+      type: object
+      description: Response from a FlowKit flow execution.
+      properties:
+        result:
+          description: Flow-specific result payload (e.g., AlignmentReport, GlossaryReport).
+        metadata:
+          type: object
+          description: Execution metadata for correlation and debugging.
+          properties:
+            flowName: { type: string }
+            workflowManifestPath: { type: string }
+            canonicalPromptPath: { type: string }
+            repoRoot: { type: string }
+          additionalProperties: true
+        runtimeRunId:
+          type: string
+          description: Runtime-assigned run identifier.
+        artifacts:
+          type: array
+          description: Paths to artifacts produced by the flow.
+          items: { type: string }
+      required: [result, metadata, runtimeRunId]
       additionalProperties: false

@@ -1,0 +1,130 @@
+# Architecture Assessment Workflow Manifest
+# Defines the step ordering and configuration for the architecture assessment flow.
+
+suite: architecture-assessment
+description: Evaluate Harmony architecture documentation alignment and consistency.
+canonical_prompt_path: packages/workflows/architecture_assessment/00-overview.md
+
+# Assessment configuration
+assessment:
+  docs_path: docs/architecture
+  expected_files:
+    - docs/architecture/overview.md
+    - docs/architecture/monorepo-layout.md
+    - docs/architecture/runtime-policy.md
+    - docs/architecture/repository-blueprint.md
+  expected_cross_refs:
+    docs/architecture/overview.md:
+      - docs/architecture/monorepo-layout.md
+      - docs/architecture/runtime-policy.md
+  thresholds:
+    min_alignment_score_for_no_update: 90
+
+# Workflow steps
+steps:
+  - id: architecture-inventory
+    name: Inventory Architecture Docs
+    prompt_path: packages/workflows/architecture_assessment/01-inventory.md
+    meta:
+      type: assessment
+      mode: full
+      action: inventory
+      subject: architecture
+      step_index: 1
+
+  - id: architecture-analyze
+    name: Analyze Terminology and Decisions
+    prompt_path: packages/workflows/architecture_assessment/02-analyze.md
+    depends_on:
+      - architecture-inventory
+    meta:
+      type: assessment
+      mode: full
+      action: analyze
+      subject: architecture
+      step_index: 2
+
+  - id: architecture-map
+    name: Map and Normalize
+    prompt_path: packages/workflows/architecture_assessment/03-map.md
+    depends_on:
+      - architecture-analyze
+    meta:
+      type: assessment
+      mode: full
+      action: map
+      subject: architecture
+      step_index: 3
+
+  - id: architecture-detect-issues
+    name: Detect Issues
+    prompt_path: packages/workflows/architecture_assessment/04-detect-issues.md
+    depends_on:
+      - architecture-map
+    meta:
+      type: assessment
+      mode: full
+      action: detect_issues
+      subject: architecture
+      step_index: 4
+
+  - id: architecture-align
+    name: Create Alignment Plan
+    prompt_path: packages/workflows/architecture_assessment/05-align.md
+    depends_on:
+      - architecture-detect-issues
+    meta:
+      type: assessment
+      mode: full
+      action: align
+      subject: architecture
+      step_index: 5
+
+  - id: architecture-edit
+    name: Record Edits
+    prompt_path: packages/workflows/architecture_assessment/06-edit.md
+    depends_on:
+      - architecture-align
+    meta:
+      type: assessment
+      mode: full
+      action: edit
+      subject: architecture
+      step_index: 6
+
+  - id: architecture-validate
+    name: Validate Alignment
+    prompt_path: packages/workflows/architecture_assessment/07-validate.md
+    depends_on:
+      - architecture-edit
+    meta:
+      type: assessment
+      mode: full
+      action: validate
+      subject: architecture
+      step_index: 7
+
+  - id: architecture-summarize
+    name: Summarize Report
+    prompt_path: packages/workflows/architecture_assessment/08-summarize.md
+    depends_on:
+      - architecture-validate
+    meta:
+      type: assessment
+      mode: full
+      action: summarize
+      subject: architecture
+      step_index: 8
+
+  - id: architecture-declare-no-update
+    name: Declare No Update (if applicable)
+    prompt_path: packages/workflows/architecture_assessment/09-declare-no-update.md
+    depends_on:
+      - architecture-summarize
+    meta:
+      type: assessment
+      mode: full
+      action: declare_no_update
+      subject: architecture
+      step_index: 9
+

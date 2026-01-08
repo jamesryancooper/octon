@@ -20,8 +20,8 @@
  * const request: FlowRunRequest = {
  *   config: {
  *     flowName: 'architecture_assessment',
- *     canonicalPromptPath: 'packages/prompts/assessment/architecture/architecture-assessment.md',
- *     workflowManifestPath: 'langgraph.json',
+ *     canonicalPromptPath: 'packages/workflows/architecture_assessment/00-overview.md',
+ *     workflowManifestPath: 'packages/workflows/architecture_assessment/manifest.yaml',
  *   },
  *   params: {
  *     targetPath: './src',
@@ -202,7 +202,6 @@ export function createHttpFlowRunner(
                 workflowManifestPath: config.workflowManifestPath,
                 workflowEntrypoint: config.workflowEntrypoint,
                 workspaceRoot,
-                observability: config.observability,
                 params: params ?? {},
               };
 

@@ -1,0 +1,1 @@
+Explore implementing agent team definitions for the workspace.

@@ -11,18 +11,17 @@ from ..run import (
 
 REPO_ROOT = Path(__file__).resolve().parents[5]
 CANONICAL_PROMPT = (
-    REPO_ROOT / "packages/prompts/assessment/architecture/architecture-assessment.md"
+    REPO_ROOT / "packages/workflows/architecture_assessment/00-overview.md"
 )
 WORKFLOW_MANIFEST = (
-    REPO_ROOT
-    / "packages/prompts/assessment/architecture/workflows/architecture-assessment.yaml"
+    REPO_ROOT / "packages/workflows/architecture_assessment/manifest.yaml"
 )
 
 
 def test_validate_canonical_prompt_requires_title_and_description() -> None:
     meta = validate_canonical_prompt(CANONICAL_PROMPT)
 
-    assert meta["title"] == "Harmony Architecture Assessment Prompt"
+    assert meta["title"] == "Harmony Architecture Assessment"
     assert meta["description"].startswith("Guide for assessing")
 
 
@@ -52,7 +51,7 @@ def test_run_assessment_from_canonical_prompt_produces_alignment_report() -> Non
 
 
 def test_run_assessment_accepts_repo_relative_canonical_prompt() -> None:
-    relative_prompt = "packages/prompts/assessment/architecture/architecture-assessment.md"
+    relative_prompt = "packages/workflows/architecture_assessment/00-overview.md"
     state = run_assessment_from_canonical_prompt(
         canonical_prompt_path=relative_prompt,
         workflow_manifest_path=WORKFLOW_MANIFEST,

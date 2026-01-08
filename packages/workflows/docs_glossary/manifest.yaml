@@ -1,0 +1,37 @@
+# Docs Glossary Workflow Manifest
+# Defines the step ordering and configuration for the docs glossary flow.
+
+suite: docs-glossary
+description: Scan Harmony documentation and extract a glossary of repeated terminology.
+canonical_prompt_path: packages/workflows/docs_glossary/00-overview.md
+
+# Glossary configuration
+glossary:
+  docs_path: docs
+  max_terms: 25
+  min_term_length: 4
+
+# Workflow steps
+steps:
+  - id: docs-glossary-collect
+    name: Collect Terms
+    prompt_path: packages/workflows/docs_glossary/01-collect-terms.md
+    meta:
+      type: glossary
+      mode: full
+      action: collect_terms
+      subject: docs
+      step_index: 1
+
+  - id: docs-glossary-summarize
+    name: Summarize Glossary
+    prompt_path: packages/workflows/docs_glossary/02-summarize-glossary.md
+    depends_on:
+      - docs-glossary-collect
+    meta:
+      type: glossary
+      mode: full
+      action: summarize_glossary
+      subject: docs
+      step_index: 2
+

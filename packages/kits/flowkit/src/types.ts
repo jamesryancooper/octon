@@ -37,7 +37,7 @@ export interface FlowConfig {
 
   /**
    * Absolute or repo-relative path to the canonical prompt that defines the flow.
-   * Example: "packages/prompts/assessment/architecture/architecture-assessment.md"
+   * Example: "packages/workflows/architecture_assessment/00-overview.md"
    */
   canonicalPromptPath: string;
 

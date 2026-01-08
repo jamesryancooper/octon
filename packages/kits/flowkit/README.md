@@ -30,8 +30,8 @@ const runner = createHttpFlowRunner({
 const request: FlowRunRequest = {
   config: {
     flowName: 'architecture_assessment',
-    canonicalPromptPath: 'packages/prompts/assessment/architecture/architecture-assessment.md',
-    workflowManifestPath: 'langgraph.json',
+    canonicalPromptPath: 'packages/workflows/architecture_assessment/00-overview.md',
+    workflowManifestPath: 'packages/workflows/architecture_assessment/manifest.yaml',
   },
   params: {
     targetPath: './src',
@@ -128,8 +128,8 @@ The runner sends POST requests to `{baseUrl}/flows/run` with the following paylo
 {
   "runId": "uuid",
   "flowName": "architecture_assessment",
-  "canonicalPromptPath": "packages/prompts/...",
-  "workflowManifestPath": "langgraph.json",
+  "canonicalPromptPath": "packages/workflows/architecture_assessment/00-overview.md",
+  "workflowManifestPath": "packages/workflows/architecture_assessment/manifest.yaml",
   "workflowEntrypoint": "optional_entrypoint",
   "workspaceRoot": "/path/to/workspace",
   "observability": { "spanPrefix": "..." },

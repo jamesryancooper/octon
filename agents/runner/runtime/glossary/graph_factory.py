@@ -8,7 +8,7 @@ from langgraph.graph.state import CompiledStateGraph
 from .graph import build_glossary_graph
 
 DEFAULT_MANIFEST_PATH: Final[str] = (
-    "packages/prompts/assessment/glossary/workflows/docs-glossary.yaml"
+    "packages/workflows/docs_glossary/manifest.yaml"
 )
 
 

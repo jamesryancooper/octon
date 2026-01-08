@@ -1,0 +1,39 @@
+{
+  "$schema": "../../manifest.schema.json",
+  "name": "workspace-docs",
+  "description": "Scoped workspace template for documentation areas.",
+  "inherits": "workspace",
+  "overrides": [
+    "START.md",
+    "scope.md",
+    "conventions.md",
+    "checklists/done.md"
+  ],
+  "additions": {
+    "directories": [
+      "workflows/are"
+    ],
+    "files": [
+      "workflows/are/00-overview.md",
+      "workflows/are/01-are-analyze-single-doc.md",
+      "workflows/are/02-are-analyze-audits.md",
+      "workflows/are/03-are-refine.md",
+      "workflows/are/04-are-evaluate.md",
+      "workflows/are/05-are-stress-tests.md",
+      "workflows/are/06-are-quality-gates.md",
+      "workflows/are/07-are-templates.md",
+      "workflows/are/08-are-tooling.md",
+      "workflows/are/09-are-best-practices.md",
+      "workflows/are/10-are-quick-reference.md",
+      "workflows/are/11-are-worked-example.md",
+      "workflows/are/agent-harness.md",
+      "workflows/are/are-document-sets.md",
+      "workflows/are/are-init.sh",
+      "workflows/are/are-loop.md",
+      "workflows/are/concept-aligned-are-loop.meta.md",
+      "workflows/are/workflow-document-set-improvement.md"
+    ]
+  },
+  "usage": "/create-workspace @path/to/docs --template docs"
+}
+

@@ -1,0 +1,1 @@
+Explore implementing skills for the workspace.

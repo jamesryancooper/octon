@@ -22,9 +22,9 @@ const BASE_CONFIG = {
   mode: "full",
   subtype: "alignment",
   canonicalPromptPath:
-    "packages/prompts/assessment/architecture/architecture-assessment.md",
+    "packages/workflows/architecture_assessment/00-overview.md",
   workflowManifestPath:
-    "packages/prompts/assessment/architecture/workflows/architecture-assessment.yaml",
+    "packages/workflows/architecture_assessment/manifest.yaml",
   workflowEntrypoint: "architecture-inventory",
   runtime: {
     type: "http-service",
@@ -128,7 +128,7 @@ describe("FlowKit CLI", () => {
   it("runFlowFromConfigPath resolves relative paths against INIT_CWD", async () => {
     const repoRoot = await mkdtemp(join(tmpdir(), "flowkit-root-"));
     const relativePath =
-      "packages/prompts/assessment/architecture/architecture-assessment.flow.json";
+      "packages/workflows/architecture_assessment/config.flow.json";
     const absoluteConfigPath = join(repoRoot, relativePath);
     await mkdir(dirname(absoluteConfigPath), { recursive: true });
     await writeFile(absoluteConfigPath, JSON.stringify(BASE_CONFIG), "utf8");

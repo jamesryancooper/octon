@@ -9,7 +9,7 @@ from .graph import build_assessment_graph
 from .paths import resolve_manifest_path
 
 DEFAULT_MANIFEST_PATH: Final[str] = (
-    "packages/prompts/assessment/architecture/workflows/architecture-assessment.yaml"
+    "packages/workflows/architecture_assessment/manifest.yaml"
 )
 
 

@@ -8,11 +8,10 @@ from ..run import run_docs_glossary_from_canonical_prompt
 
 REPO_ROOT = Path(__file__).resolve().parents[5]
 CANONICAL_PROMPT = (
-    REPO_ROOT / "packages/prompts/assessment/glossary/docs-glossary.md"
+    REPO_ROOT / "packages/workflows/docs_glossary/00-overview.md"
 )
 WORKFLOW_MANIFEST = (
-    REPO_ROOT
-    / "packages/prompts/assessment/glossary/workflows/docs-glossary.yaml"
+    REPO_ROOT / "packages/workflows/docs_glossary/manifest.yaml"
 )
 
 

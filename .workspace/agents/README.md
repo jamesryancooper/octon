@@ -1,0 +1,1 @@
+Explore defining agent roles and responsibilities for the workspace.

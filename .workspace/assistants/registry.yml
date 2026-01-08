@@ -1,0 +1,21 @@
+# Assistants Registry
+# Maps @mention aliases to assistant definitions
+
+schema_version: "1.0"
+default: null  # No default assistant for root workspace
+
+assistants:
+  - name: reviewer
+    path: reviewer/
+    aliases: ["@review", "@rev"]
+    description: "Code review specialist for quality, style, and correctness."
+
+  - name: refactor
+    path: refactor/
+    aliases: ["@refactor", "@ref"]
+    description: "Refactoring specialist for code improvements."
+
+  - name: docs
+    path: docs/
+    aliases: ["@docs", "@doc"]
+    description: "Documentation specialist for clarity and completeness."

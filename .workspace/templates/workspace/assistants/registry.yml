@@ -1,0 +1,12 @@
+# Assistants Registry
+# Maps @mention aliases to assistant definitions
+
+schema_version: "1.0"
+default: null  # No default assistant
+
+assistants: []
+# Example:
+#   - name: reviewer
+#     path: reviewer/
+#     aliases: ["@review", "@rev"]
+#     description: "Code review specialist for quality, style, and correctness."

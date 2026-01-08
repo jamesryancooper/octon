@@ -10,11 +10,10 @@ client = TestClient(app)
 
 REPO_ROOT = Path(__file__).resolve().parents[4]
 CANONICAL_PROMPT = (
-    REPO_ROOT / "packages/prompts/assessment/architecture/architecture-assessment.md"
+    REPO_ROOT / "packages/workflows/architecture_assessment/00-overview.md"
 )
 WORKFLOW_MANIFEST = (
-    REPO_ROOT
-    / "packages/prompts/assessment/architecture/workflows/architecture-assessment.yaml"
+    REPO_ROOT / "packages/workflows/architecture_assessment/manifest.yaml"
 )
 
 
