@@ -1,0 +1,14 @@
+# Git attributes for harmony repository
+
+# Ensure symlinks work correctly across platforms
+* text=auto
+
+# Preserve symlinks in harness skill folders
+.claude/skills/* -text
+.cursor/skills/* -text
+.codex/skills/* -text
+
+# Mark skill symlinks explicitly (optional, helps some tools)
+.claude/skills/** symlink
+.cursor/skills/** symlink
+.codex/skills/** symlink

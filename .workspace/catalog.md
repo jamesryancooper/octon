@@ -40,6 +40,24 @@ See `missions/README.md` for when to create a mission.
 
 ---
 
+## Skills
+
+Composable capabilities in `skills/`:
+
+| Skill | Commands | Description |
+|-------|----------|-------------|
+| [research-synthesizer](./skills/research-synthesizer/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
+
+**Invocation:** Use `/command` in chat or `use skill: skill-id` for explicit selection.
+
+**Pipelines:** Skills chain via inputs/outputs. See `skills/registry.yml` for pipelines.
+
+**Progressive disclosure:** Read `skills/registry.yml` first, load SKILL.md only when needed.
+
+See `skills/README.md` for creating and using skills.
+
+---
+
 ## Commands
 
 Atomic operations in `commands/`:

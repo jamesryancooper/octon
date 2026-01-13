@@ -17,6 +17,7 @@ This document clarifies the distinctions between workspace artifact types: **com
 | **Workspace Command** | `.workspace/commands/` | Deterministic procedure | Atomic, repeatable operation |
 | **Workspace Workflow** | `.workspace/workflows/` | Multi-step procedure (source of truth) | Complex, sequential operation |
 | **Workspace Prompt** | `.workspace/prompts/` | Task template | Context-dependent, requires judgment |
+| **Workspace Skill** | `.workspace/skills/` | Composable capability | Defined I/O, pipelines, auditability |
 | **Assistant** | `.workspace/assistants/` | Focused specialist | Scoped, delegatable tasks |
 | **Mission** | `.workspace/missions/` | Sub-project | Isolated, time-bounded work |
 | **FlowKit Flow (repo-wide)** | `packages/workflows/` | Runnable flow assets | Needs FlowKit runtime/CI/Studio execution |
@@ -274,6 +275,45 @@ stateDiagram-v2
 | Delegatable unit of work | Yes |
 | Single task, one session | No |
 | Different codebase area | No (use nested workspace) |
+
+---
+
+## Skills
+
+**Location:** `.workspace/skills/<id>/skill.md`
+
+Composable capability units with defined inputs, outputs, and behavior.
+
+See [skills.md](./skills.md) for full details.
+
+### Characteristics
+
+- Invoked via `/command` or `use skill: <id>`
+- Has defined inputs and outputs (enables composition)
+- Writes outputs only to designated paths
+- Logs execution for auditability (run logs)
+- Progressive disclosure via registry
+
+### Skills vs Other Artifacts
+
+| Characteristic | Skill | Assistant | Workflow | Prompt |
+|----------------|-------|-----------|----------|--------|
+| **I/O contract** | Yes (typed paths) | No | No | No |
+| **Composable** | Yes (pipelines) | No | Loosely | No |
+| **Logging** | Required (run logs) | No | No | No |
+| **Invocation** | `/command` or explicit | `@mention` | Reference | Reference |
+| **Scope** | Composable capability | Focused specialist | Procedure | Template |
+
+### When to Create a Skill
+
+| Scenario | Use Skill? |
+|----------|------------|
+| Repeated capability with defined I/O | Yes |
+| Need to chain operations (pipelines) | Yes |
+| Require auditability (run logs) | Yes |
+| One-off task requiring judgment | No (use Prompt) |
+| Focused specialist role | No (use Assistant) |
+| Complex multi-step procedure | No (use Workflow) |
 
 ---
 

@@ -1,0 +1,55 @@
+{
+    "workbench.colorCustomizations": {
+        "[Harmony Dark]": {
+            "terminal.background": "#1B2130",
+            "terminal.foreground": "#E7ECF6",
+
+            "terminalCursor.foreground": "#F2D7B5",
+            "terminalCursor.background": "#141823",
+
+            "terminal.ansiBlack":   "#141823",
+            "terminal.ansiRed":     "#FF5C7A",
+            "terminal.ansiGreen":   "#9FE870",
+            "terminal.ansiYellow":  "#FFD97A",
+            "terminal.ansiBlue":    "#6A8CFF",
+            "terminal.ansiMagenta": "#B18CFF",
+            "terminal.ansiCyan":    "#64D9FF",
+            "terminal.ansiWhite":   "#C9D3E6",
+
+            "terminal.ansiBrightBlack":   "#3A4663",
+            "terminal.ansiBrightRed":     "#FF86A0",
+            "terminal.ansiBrightGreen":   "#9FE870",
+            "terminal.ansiBrightYellow":  "#FFD97A",
+            "terminal.ansiBrightBlue":    "#93A9FF",
+            "terminal.ansiBrightMagenta": "#C7A9FF",
+            "terminal.ansiBrightCyan":    "#8AE6FF",
+            "terminal.ansiBrightWhite":   "#E7ECF6"
+        },
+
+        "[Harmony Light]": {
+            "terminal.background": "#FBFCFE",
+            "terminal.foreground": "#2E333B",
+
+            "terminalCursor.foreground": "#3C6EE7",
+            "terminalCursor.background": "#FBFCFE",
+
+            "terminal.ansiBlack":   "#FBFCFE",
+            "terminal.ansiRed":     "#D9486A",
+            "terminal.ansiGreen":   "#2C9A6A",
+            "terminal.ansiYellow":  "#D26A3E",
+            "terminal.ansiBlue":    "#4A6FE8",
+            "terminal.ansiMagenta": "#C95DBA",
+            "terminal.ansiCyan":    "#1D97C7",
+            "terminal.ansiWhite":   "#2E333B",
+
+            "terminal.ansiBrightBlack":   "#FBFCFE",
+            "terminal.ansiBrightRed":     "#D9486A",
+            "terminal.ansiBrightGreen":   "#2C9A6A",
+            "terminal.ansiBrightYellow":  "#D26A3E",
+            "terminal.ansiBrightBlue":    "#4A6FE8",
+            "terminal.ansiBrightMagenta": "#8A63F6",
+            "terminal.ansiBrightCyan":    "#178E94",
+            "terminal.ansiBrightWhite":   "#B2BCCB"
+        }
+    }
+}

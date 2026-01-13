@@ -83,6 +83,16 @@ Agents struggle when they "arrive with no memory of what came before." A `.works
 │       ├── tasks.json    # Mission-specific tasks
 │       └── log.md        # Mission-specific progress
 │
+├── skills/               # Composable capabilities
+│   ├── registry.yml      # Skill catalog (progressive disclosure)
+│   ├── _template/        # New skill template
+│   │   └── skill.md
+│   ├── <skill-id>/       # Individual skills
+│   │   └── skill.md      # Skill definition
+│   ├── sources/          # Standard input folder
+│   ├── outputs/          # Standard output folders
+│   └── logs/runs/        # Execution logs
+│
 ├── prompts/              # Reusable task templates
 ├── workflows/            # Multi-step procedures
 ├── commands/             # Atomic operations
@@ -425,11 +435,13 @@ See `.cursor/rules/workspace/RULE.md` for the authoritative token budget table t
 - [Workspace Commands](./commands.md) — Workspace-scoped atomic operations
 - [Assistants](./assistants.md) — Focused specialists for scoped tasks
 - [Missions](./missions.md) — Time-bounded sub-projects
+- [Skills](./skills.md) — Composable capabilities with defined I/O
 
 ### Directory Documentation
 
 - [Dot-Prefixed Directories](./dot-files.md) — `.humans/`, `.scratch/`, `.inbox/`, `.archive/` and autonomy rules
 - [Scratch Area](./scratch.md) — Human-led thinking space with research projects
+- [Research Projects](./projects.md) — Human-led, multi-session investigations
 - [Prompts](./prompts.md) — Reusable task templates
 - [Templates](./templates.md) — Boilerplate for new content
 - [Examples](./examples.md) — Reference patterns

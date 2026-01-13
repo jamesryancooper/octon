@@ -6,7 +6,6 @@ This document lists the current tmux keybindings configured for this environment
 
 ## Session Management
 
-
 | Key | Action                     |
 | --- | -------------------------- |
 | `d` | Detach from session        |
@@ -17,9 +16,7 @@ This document lists the current tmux keybindings configured for this environment
 | `L` | Switch to last session     |
 | `D` | Choose client              |
 
-
 ## Window Management
-
 
 | Key         | Action                     |
 | ----------- | -------------------------- |
@@ -35,27 +32,23 @@ This document lists the current tmux keybindings configured for this environment
 | `'`         | Select window by index     |
 | `.`         | Move window to target      |
 
-
 ## Pane Management
 
-
-| Key | Action                   |
-| --- | ------------------------ |
-| `   | `                        |
-| `-` | Split vertically         |
-| `x` | Kill pane (with confirm) |
-| `o` | Select next pane         |
-| `;` | Last pane                |
-| `{` | Swap pane up             |
-| `}` | Swap pane down           |
-| `z` | Toggle pane zoom         |
-| `!` | Break pane to window     |
-| `q` | Display pane numbers     |
-| `M` | Mark pane                |
-
+| Key  | Action                   |
+| ---- | ------------------------ |
+| `\|` |                          |
+| `-`  | Split vertically         |
+| `x`  | Kill pane (with confirm) |
+| `o`  | Select next pane         |
+| `;`  | Last pane                |
+| `{`  | Swap pane up             |
+| `}`  | Swap pane down           |
+| `z`  | Toggle pane zoom         |
+| `!`  | Break pane to window     |
+| `q`  | Display pane numbers     |
+| `M`  | Mark pane                |
 
 ## Pane Navigation (vim-style)
-
 
 | Key          | Action                   |
 | ------------ | ------------------------ |
@@ -65,18 +58,14 @@ This document lists the current tmux keybindings configured for this environment
 | `l`          | Select pane right        |
 | `Arrow keys` | Select pane (repeatable) |
 
-
 ## Pane Resizing
-
 
 | Key       | Action           |
 | --------- | ---------------- |
 | `C-Arrow` | Resize pane by 1 |
 | `M-Arrow` | Resize pane by 5 |
 
-
 ## Layouts
-
 
 | Key     | Action              |
 | ------- | ------------------- |
@@ -88,9 +77,7 @@ This document lists the current tmux keybindings configured for this environment
 | `M-4`   | Main vertical       |
 | `M-5`   | Tiled               |
 
-
 ## Copy Mode
-
 
 | Key    | Action              |
 | ------ | ------------------- |
@@ -100,9 +87,7 @@ This document lists the current tmux keybindings configured for this environment
 | `=`    | Choose buffer       |
 | `PgUp` | Copy mode + page up |
 
-
 ### Copy Mode Vi Keys
-
 
 | Key           | Action                |
 | ------------- | --------------------- |
@@ -121,9 +106,7 @@ This document lists the current tmux keybindings configured for this environment
 | `C-u/C-d`     | Half page up/down     |
 | `C-b/C-f`     | Full page up/down     |
 
-
 ## Plugin Bindings (TPM, Resurrect)
-
 
 | Key   | Action                       |
 | ----- | ---------------------------- |
@@ -136,9 +119,7 @@ This document lists the current tmux keybindings configured for this environment
 | `C-s` | Save session (Resurrect)     |
 | `C-r` | Restore session (Resurrect)  |
 
-
 ## Miscellaneous
-
 
 | Key   | Action                     |
 | ----- | -------------------------- |
@@ -152,9 +133,7 @@ This document lists the current tmux keybindings configured for this environment
 | `C-z` | Suspend client             |
 | `C-a` | Send prefix to nested tmux |
 
-
 ## Mouse Bindings
-
 
 | Action       | Behavior                 |
 | ------------ | ------------------------ |
@@ -167,10 +146,8 @@ This document lists the current tmux keybindings configured for this environment
 | Triple-click | Select line              |
 | Right-click  | Context menu             |
 
-
 ## Key Notation
 
 - `C-` = Ctrl
 - `M-` = Alt/Meta
 - `S-` = Shift
-

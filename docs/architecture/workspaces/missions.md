@@ -316,6 +316,7 @@ planner (with @reviewer for code review)
 ## See Also
 
 - [README.md](./README.md) — Canonical workspace structure
+- [Research Projects](./projects.md) — Human-led investigations (compare to missions)
 - [Assistants](./assistants.md) — Focused specialists
 - [Progress](./progress.md) — Session continuity tracking
 - [Taxonomy](./taxonomy.md) — Artifact type classification

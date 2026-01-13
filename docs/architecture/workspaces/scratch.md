@@ -279,6 +279,7 @@ graph TB
 
 ## See Also
 
+- [Research Projects](./projects.md) — Dedicated documentation for research projects
 - [Dot-Prefixed Directories](./dot-files.md) — Autonomy rules for all human-led directories
 - [README.md](./README.md) — Canonical workspace structure
 - [Missions](./missions.md) — Agent-facing sub-projects (compare to research projects)
