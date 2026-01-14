@@ -1,11 +1,11 @@
 ---
 title: Dot-Prefixed Directories
-description: Human-led and agent-ignored directories within a .workspace, with autonomy rules.
+description: The human-led zone within a .workspace, with autonomy rules.
 ---
 
 # Dot-Prefixed Directories
 
-Directories within `.workspace/` that start with a dot (`.`) are **off-limits to autonomous agents**. They exist for human use, with some allowing human-led collaboration.
+Directories within `.workspace/` that start with a dot (`.`) are **off-limits to autonomous agents**. They exist for human use, with human-led collaboration when explicitly directed.
 
 ## The Rule
 
@@ -14,193 +14,144 @@ Directories within `.workspace/` that start with a dot (`.`) are **off-limits to
 | No dot | Agent reads and acts on this content |
 | Dot (`.`) | Agent does not access autonomously |
 
-## Autonomy Levels
+## Human-Led Directories
 
-| Level | Directories | Description |
-|-------|-------------|-------------|
-| **Never access** | `.humans/`, `.archive/` | Agents must not read, write, or reference under any circumstances |
-| **Human-led only** | `.scratch/`, `.inbox/` | Agents may access only when human explicitly directs to specific files |
+Two directory types require explicit human direction:
+
+| Directory | Purpose | Autonomy Level |
+|-----------|---------|----------------|
+| `projects/` | Human-led explorations that produce artifacts | Human-led (no dot prefix, but requires direction) |
+| `.scratchpad/` | Ephemeral content and early-stage idea funnel | Human-led only |
+
+### Why Projects Are Human-Led
+
+Projects (`projects/`) are human-led explorations, not autonomous agent work. Agents assist with projects only when humans explicitly direct them to specific files. This preserves the exploratory, divergent nature of research while allowing findings to flow directly to workspace artifacts.
 
 ### Human-Led Collaboration
 
-For `.scratch/` and `.inbox/`, agents MAY assist when ALL of these are true:
+Agents MAY assist with human-led content when ALL of these are true:
 
-1. Human explicitly references a specific file (e.g., "look at `.scratch/ideas.md`")
+1. Human explicitly references a specific file (e.g., "look at `projects/auth-research/findings.md`")
 2. Human requests a concrete action (e.g., "summarize this", "add X")
 3. Agent's work stays within the referenced files
 
-**During autonomous operation:** Treat `.scratch/` and `.inbox/` as if they do not exist.
+**During autonomous operation:** Treat `projects/` and `.scratchpad/` as if they do not exist.
 
 ---
 
-## `.humans/`
+## The Funnel
 
-**Purpose:** Human-facing documentation that agents should never read.
+Ideas flow from ephemeral scratchpad to committed work:
 
-### Structure
-
-```text
-.humans/
-├── README.md       # Design rationale for the workspace
-├── onboarding/     # How to contribute to this area
-├── decisions/      # Architecture Decision Records (ADRs)
-├── rationale/      # Deep explanations of design choices
-└── examples/       # Detailed walkthroughs for humans
+```
+.scratchpad/ideas/      → Quick captures (most die here)
+        ↓
+.scratchpad/brainstorm/ → Structured exploration (filter stage)
+        ↓
+projects/               → Committed research (produces artifacts)
+        ↓
+missions/               → Committed execution
+        ↓
+context/                → Permanent knowledge
 ```
 
-### When to Use
-
-- Explaining *why* something works the way it does
-- Onboarding new human contributors
-- Recording decisions that agents don't need to execute
-- Providing context that would bloat agent token budgets
-
-### Agent Behavior
-
-Agents MUST NOT:
-
-- Read from `.humans/` when gathering context
-- Reference `.humans/` content in their work
-- Write to `.humans/`
-
 ---
 
-## `.scratch/`
-
-**Purpose:** Persistent human-led thinking, research, and collaboration space.
-
-**Autonomy:** Human-led only.
-
-### Structure
+## `.scratchpad/` Structure
 
 ```text
-.scratch/
-├── README.md       # Purpose, rules, publish workflow
-├── projects/       # Isolated research projects
-│   ├── registry.md
-│   ├── _template/
-│   └── <project-slug>/
-├── ideas/          # Brainstorming, possibilities
+.scratchpad/
+├── README.md       # Purpose, rules
+├── inbox/          # Temporary staging for imports
+├── archive/        # Deprecated content
+├── brainstorm/     # Ideas under structured exploration
+├── ideas/          # Quick captures, possibilities
 ├── daily/          # Date-based notes (YYYY-MM-DD.md)
 ├── drafts/         # Work-in-progress documents
 └── clips/          # Snippets and fragments
 ```
 
-### Research Projects
+### Subdirectory Purposes
 
-For structured, multi-session research, use `projects/`. Each project is a scaled-down workspace with its own goal, scope, memory, and continuity.
-
-See [Scratch Area](./scratch.md) for full documentation on research projects.
-
-### When to Use
-
-- Conducting structured research (use `projects/`)
-- Exploring ideas before committing to a direction
-- Drafting content that isn't ready for agent consumption
-- Daily notes and stream-of-consciousness thinking
-
-### Agent Behavior
-
-| Mode | Behavior |
-|------|----------|
-| Autonomous | MUST NOT scan, read, or write to `.scratch/**` |
-| Human-directed | MAY read/edit specific files when human explicitly points to them |
-
-### Lifecycle
-
-1. Human adds thinking, research, or drafts to `.scratch/`
-2. Content may remain indefinitely (this is persistent space)
-3. When content matures, human promotes to agent-facing locations
-4. Use `workflows/promote-from-scratch.md` for structured promotion
-
-### Promotion Workflow
-
-When insights mature, promote distilled summaries to:
-
-| Content Type | Destination |
-|--------------|-------------|
-| Finalized decisions | `context/decisions.md` |
-| Non-negotiables | `context/constraints.md` |
-| Domain terms | `context/glossary.md` |
-| Next actions | `progress/next.md` |
-
-**Rule:** Never copy raw scratch verbatim. Always summarize and distill.
+| Subdirectory | Purpose | Lifecycle |
+|--------------|---------|-----------|
+| `inbox/` | Temporary staging for external imports | Move out when processed |
+| `archive/` | Deprecated content retained for reference | Permanent |
+| `brainstorm/` | Ideas under structured exploration | Graduate to projects or kill |
+| `ideas/` | Quick captures, possibilities | Graduate to brainstorm or die |
+| `daily/` | Date-based notes (YYYY-MM-DD.md) | Reference |
+| `drafts/` | Work-in-progress documents | Promote when ready |
+| `clips/` | Snippets and fragments | Reference |
 
 ---
 
-## `.inbox/`
+## When to Use Each
 
-**Purpose:** Temporary staging area for external imports and untriaged artifacts.
-
-**Autonomy:** Human-led only.
-
-### When to Use
+### `inbox/` — Temporary Staging
 
 - External imports (PDFs, screenshots, copied content)
 - Rough drops (quick notes, voice transcripts)
 - Untriaged artifacts pending review
-- Work-in-progress inputs
 
-### Agent Behavior
+**Lifecycle:** Items should eventually move out or be deleted.
 
-| Mode | Behavior |
-|------|----------|
-| Autonomous | MUST NOT scan, read, or write to `.inbox/**` |
-| Human-directed | MAY read/edit specific files when human explicitly points to them |
+### `archive/` — Deprecated Content
 
-### Lifecycle
+- Outdated content preserved for historical reference
+- Superseded workflows or prompts
+- Materials that shouldn't inform current work
 
-1. Human adds material to `.inbox/`
-2. Human reviews and triages material
-3. Processed content moves to canonical location (often outside `.workspace/`)
-4. Delete or archive processed items
+**Lifecycle:** Permanent reference. Delete periodically if no longer needed.
 
-**Key principle:** Items in `.inbox/` are **temporary**. Unlike `.scratch/`, content should eventually move out.
+### `brainstorm/` — Structured Exploration
 
-### Difference from `.scratch/`
+- Ideas worth more than a quick note
+- Single-file exploration before committing to a project
+- Filter stage: graduate to projects or kill
 
-| Aspect | `.inbox/` | `.scratch/` |
-|--------|-----------|-------------|
-| Purpose | Temporary staging | Persistent thinking |
-| Lifecycle | Move out → delete | May remain indefinitely |
-| Content origin | External imports | Internal exploration |
-| Destination | Usually outside `.workspace/` | Often `context/` files |
+**Lifecycle:** Short-term. Graduate survivors to `projects/`, kill the rest.
+
+### `ideas/`, `drafts/`, `daily/`, `clips/`
+
+- Quick captures and brainstorming
+- Work-in-progress before maturation
+- Stream-of-consciousness notes
 
 ---
 
-## `.archive/`
+## Agent Behavior
 
-**Purpose:** Deprecated content retained for reference.
+| Mode | Behavior |
+|------|----------|
+| Autonomous | MUST NOT scan, read, or write to `projects/` or `.scratchpad/**` |
+| Human-directed | MAY read/edit specific files when human explicitly points to them |
 
-### When to Use
+---
 
-- Preserving outdated content for historical reference
-- Retaining superseded workflows or prompts
-- Keeping materials that might be useful later but shouldn't inform current work
+## Publishing Findings
 
-### Agent Behavior
+When project findings are ready:
 
-Agents MUST NOT:
+| Content Type | Destination |
+|--------------|-------------|
+| Design decisions | `context/decisions.md` |
+| Anti-patterns | `context/lessons.md` |
+| New terminology | `context/glossary.md` |
+| Actionable work | Create mission in `missions/` |
 
-- Read from `.archive/` (content is outdated)
-- Write to `.archive/`
-- Reference `.archive/` content
+Since projects live at workspace level, findings flow directly to their destinations without a separate "promotion" step.
 
-### Lifecycle
-
-1. Content becomes outdated or superseded
-2. Move to `.archive/` with optional date prefix: `2024-01-15-old-workflow.md`
-3. Delete periodically if no longer needed
+**Rule:** Summarize and distill findings; don't copy project notes verbatim.
 
 ---
 
 ## Why This Convention
 
-1. **Token efficiency** — Agents don't waste context on explanatory content
-2. **Clear boundaries** — Simple rules determine what agents access
-3. **Human needs met** — Humans have space for thinking, staging, and history
-4. **Collaboration mode** — Human-led directories enable explicit collaboration without autonomous scanning
-5. **No confusion** — The dot prefix is a universal "handle with care" signal
+1. **Simplicity** — One rule: "don't access `.scratchpad/` or `projects/` autonomously"
+2. **Token efficiency** — Agents don't waste context on human-led content
+3. **Clear boundaries** — Human-led directories are clearly identified
+4. **Human needs met** — Exploration and ephemeral content have their place
+5. **Collaboration mode** — Human-directed access when explicitly requested
 
 ---
 
@@ -209,23 +160,43 @@ Agents MUST NOT:
 ### Scenario: External Import via Inbox
 
 ```text
-1. Human imports research PDF → .inbox/research-paper.pdf
-2. Human: "Summarize .inbox/research-paper.pdf"
+1. Human imports research PDF → .scratchpad/inbox/research-paper.pdf
+2. Human: "Summarize .scratchpad/inbox/research-paper.pdf"
 3. Agent reads specific file, provides summary
 4. Human extracts key insights
 5. Human moves content to docs/research/paper-summary.md
-6. Human deletes original from .inbox/
+6. Human deletes original from .scratchpad/inbox/
 ```
 
-### Scenario: Collaborative Research in Scratch
+### Scenario: Collaborative Research in Projects
 
 ```text
-1. Human explores authentication options in .scratch/projects/auth-options/
-2. Human: "Review .scratch/projects/auth-options/findings.md and help organize"
+1. Human explores authentication options in projects/auth-options/
+2. Human: "Review projects/auth-options/project.md and help organize findings"
 3. Agent reads specific file, proposes organization
 4. Human refines, makes decision
-5. Human promotes to context/decisions.md using promote workflow
-6. Original research remains in .scratch/ for reference
+5. Human updates context/decisions.md directly
+6. Human marks project completed in registry
+```
+
+### Scenario: Brainstorm to Project
+
+```text
+1. Human captures idea in .scratchpad/ideas/new-feature.md
+2. Human moves to .scratchpad/brainstorm/new-feature.md for exploration
+3. Human: "Help me think through the key questions in .scratchpad/brainstorm/new-feature.md"
+4. Agent assists with specific file
+5. If idea graduates, human creates projects/new-feature/
+6. Brainstorm file archived or deleted
+```
+
+### Scenario: Archiving Deprecated Content
+
+```text
+1. Workflow becomes outdated
+2. Human moves to .scratchpad/archive/2024-01-15-old-workflow.md
+3. Agent never sees it during autonomous operation
+4. Human can still reference it when needed
 ```
 
 ---
@@ -235,10 +206,8 @@ Agents MUST NOT:
 The `.workspace/agent-autonomy-guard.globs` file contains patterns that autonomous agents should exclude:
 
 ```text
-.workspace/.scratch/**
-.workspace/.inbox/**
-.workspace/.humans/**
-.workspace/.archive/**
+.workspace/.scratchpad/**
+.workspace/projects/**
 ```
 
 Tools that scan, index, or retrieve content should respect these patterns during autonomous operation. Human-directed sessions may override by explicitly referencing specific files.
@@ -248,8 +217,8 @@ Tools that scan, index, or retrieve content should respect these patterns during
 ## See Also
 
 - [README.md](./README.md) — Canonical workspace structure reference
-- [Scratch Area](./scratch.md) — Human-led thinking space with research projects
+- [Scratchpad](./scratchpad.md) — Ephemeral content and idea funnel
+- [Projects](./projects.md) — Human-led explorations
 - [Taxonomy](./taxonomy.md) — Command and workflow types
-- `.workspace/.scratch/README.md` — Scratchpad details and promotion workflow
-- `.workspace/.inbox/README.md` — Inbox lifecycle and triage
-- `.workspace/workflows/promote-from-scratch.md` — Publishing workflow
+- `.workspace/.scratchpad/README.md` — Scratchpad details
+- `.workspace/projects/README.md` — Projects details

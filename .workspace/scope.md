@@ -7,30 +7,24 @@ description: Boundaries and responsibilities for the root .workspace harness.
 
 ## This Workspace Covers
 
-The root `.workspace` serves a dual purpose:
-
-1. **Meta-documentation** — Defines the `.workspace` harness pattern itself
-2. **Repo-wide agent harness** — A fully functional workspace for repository-wide operations
+The root `.workspace` is the **repo-wide agent harness** — a functional workspace for repository-wide operations, decisions, and context.
 
 This workspace contains:
 
-- Templates for creating new `.workspace` directories (base and scoped variants)
-- Workflows for workspace management (create, update, evaluate, migrate)
-- Workflows for FlowKit integration (run-flow)
-- Workflows for mission management (create-mission, complete-mission)
-- Agent prompts for workspace evaluation and refinement
-- Assistants for focused, delegatable tasks (reviewer, refactor, docs)
+- Repository-wide decisions, lessons, and constraints
+- Progress tracking for repo-level work
 - Mission tracking for time-bounded sub-projects
+- Domain-specific workflows (e.g., FlowKit integration)
+
+**Note:** Workspace pattern definitions, templates, generic assistants, and shared components live in `.harmony/`, not here. See `.harmony/README.md`.
 
 ## In Scope
 
-- Defining the `.workspace` structure and conventions
-- Creating reusable prompts for workspace operations
-- Documenting best practices for agent harnesses
-- Maintaining token-efficient, actionable content
+- Repository-wide context (decisions, lessons, glossary, constraints)
+- Repo-level progress tracking and session continuity
 - Repository-wide workflows (e.g., FlowKit execution)
-- Defining and maintaining assistants (focused specialists)
 - Managing missions (time-bounded sub-projects)
+- Repo-specific conventions and style rules
 
 ## Out of Scope
 
@@ -43,16 +37,22 @@ This workspace contains:
 
 | Content Type | Location | Example |
 |--------------|----------|---------|
-| Workspace management workflows | Root `.workspace/workflows/workspace/` | `create-workspace`, `migrate-workspace` |
-| Mission management workflows | Root `.workspace/workflows/missions/` | `create-mission`, `complete-mission` |
-| Repository-wide tool workflows | Root `.workspace/workflows/<tool>/` | `flowkit/run-flow` |
-| Domain-specific workflows | Domain's `.workspace/workflows/` | `docs/api/.workspace/workflows/` |
-| Workspace templates | Root `.workspace/templates/` | `workspace/`, `workspace-docs/` |
-| Assistants (focused specialists) | Root `.workspace/assistants/` | `reviewer/`, `refactor/`, `docs/` |
-| Missions (sub-projects) | Root `.workspace/missions/` | `auth-overhaul/`, `billing-v2/` |
+| **Shared (in `.harmony/`)** | | |
+| Workspace templates | `.harmony/templates/` | `workspace/`, `workspace-docs/` |
+| Generic assistants | `.harmony/assistants/` | `reviewer/`, `refactor/`, `docs/` |
+| Workspace management workflows | `.harmony/workflows/workspace/` | `create-workspace`, `migrate-workspace` |
+| Mission management workflows | `.harmony/workflows/missions/` | `create-mission`, `complete-mission` |
+| Generic skills | `.harmony/skills/` | `research-synthesizer/` |
+| **Repo-wide (in `.workspace/`)** | | |
+| Repository-wide tool workflows | `.workspace/workflows/<tool>/` | `flowkit/run-flow` |
+| Repo-level missions | `.workspace/missions/` | `auth-overhaul/`, `billing-v2/` |
+| Repo-wide context | `.workspace/context/` | `decisions.md`, `lessons.md` |
+| **Domain-specific** | | |
+| Domain workflows | Domain's `.workspace/workflows/` | `docs/api/.workspace/workflows/` |
+| Domain conventions | Domain's `.workspace/conventions.md` | Package-specific style rules |
+| **Harness entry points** | | |
 | Cursor command wrappers | `.cursor/commands/` | `create-workspace.md`, `run-flow.md` |
 | Global Cursor commands | `~/.cursor/commands/` | Git utilities, personal workflows |
-| Domain conventions | Domain's `.workspace/conventions.md` | Package-specific style rules |
 
 ## Decision Authority
 
@@ -71,7 +71,7 @@ This workspace contains:
 
 | Area | Relationship |
 |------|--------------|
-| `.workspace/templates/workspace-docs/` | Scoped template for documentation areas |
-| `.workspace/templates/workspace-node-ts/` | Scoped template for Node.js/TypeScript packages |
+| `.harmony/` | Shared foundation — templates, assistants, workflows, skills |
+| `.harmony/templates/` | Workspace scaffolding (base and scoped variants) |
 | `.cursor/` | IDE-specific agent configuration (complementary) |
 | `docs/architecture/workspaces/` | Canonical documentation for workspace pattern |

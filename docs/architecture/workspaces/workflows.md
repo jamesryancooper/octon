@@ -90,10 +90,10 @@ Start with `00-overview.md` and follow each step in sequence.
 
 For other harnesses, create equivalent wrappers in their respective directories (e.g., `.claude/commands/`, `.codex/commands/`).
 
-### Example: Research Project Workflow
+### Example: Create Project Workflow
 
 **Workflow (source of truth):**
-`.workspace/workflows/scratch/create-research-project/00-overview.md`
+`.workspace/workflows/projects/create-project.md`
 
 **Cursor wrapper:**
 `.cursor/commands/research.md` → Points to workflow

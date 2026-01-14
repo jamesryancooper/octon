@@ -10,9 +10,32 @@ description: Canonical reference for the localized agent harness pattern.
 | Term | Meaning |
 |------|---------|
 | Harness | The `.workspace` support structure |
+| Shared foundation | The `.harmony/` directory with reusable infrastructure |
 | Boot sequence | Steps to orient and begin work |
 | Cold start | First session without prior context |
 | Token budget | Maximum tokens for agent-facing content |
+
+---
+
+## Two-Layer Architecture
+
+Workspaces follow a **two-layer architecture**:
+
+```
+.harmony/            <- Shared foundation (generic, domain-agnostic)
+    |
+    v inherits
+.workspace/          <- Project-specific (progress, missions, domain context)
+```
+
+| Layer | Location | Contains |
+|-------|----------|----------|
+| **Shared** | `.harmony/` | Generic assistants, templates, workflows, skills, commands, prompts, checklists |
+| **Local** | `.workspace/` | Project-specific context, progress, missions, domain workflows |
+
+**Resolution:** Local `.workspace/` overrides shared `.harmony/`. Agents check local first.
+
+**Portability:** The `.harmony/` directory is designed to be copied to other repositories. It provides the shared foundation for managing workspaces, while each repo's `.workspace/` directories contain project-specific state. See [Shared Foundation](./shared-foundation.md) for adoption instructions.
 
 ---
 
@@ -114,26 +137,21 @@ Agents struggle when they "arrive with no memory of what came before." A `.works
 ├── templates/            # Boilerplate for new content
 ├── examples/             # Reference patterns (minimal, copyable)
 │
-├── .humans/              # Human-facing documentation (AGENTS: NEVER ACCESS)
-│   ├── README.md         # This file - design rationale
-│   ├── onboarding/       # How to contribute
-│   ├── decisions/        # Full ADRs (agent-readable summaries in context/)
-│   ├── rationale/        # Deep explanations
-│   └── examples/         # Detailed walkthroughs
+├── projects/             # Human-led explorations (produces artifacts)
+│   ├── README.md         # Projects overview
+│   ├── registry.md       # Active/paused/completed index
+│   ├── _template/        # New project template
+│   └── <project-slug>/   # Individual project
 │
-├── .scratch/             # Human-led thinking/research (AGENTS: HUMAN-LED ONLY)
-│   ├── README.md         # Purpose, rules, publish workflow
-│   ├── projects/         # Isolated research projects
-│   │   ├── registry.md
-│   │   ├── _template/
-│   │   └── <project-slug>/
-│   ├── ideas/            # Brainstorming, possibilities
-│   ├── daily/            # Date-based notes (YYYY-MM-DD.md)
-│   ├── drafts/           # Work-in-progress documents
-│   └── clips/            # Snippets and fragments
-│
-├── .inbox/               # Human-led staging (AGENTS: HUMAN-LED ONLY)
-└── .archive/             # Deprecated content (AGENTS: NEVER ACCESS)
+└── .scratchpad/          # Human-led zone (AGENTS: HUMAN-LED ONLY)
+    ├── README.md         # Purpose, rules
+    ├── inbox/            # Temporary staging for imports
+    ├── archive/          # Deprecated content
+    ├── brainstorm/       # Ideas under structured exploration
+    ├── ideas/            # Quick captures, possibilities
+    ├── daily/            # Date-based notes (YYYY-MM-DD.md)
+    ├── drafts/           # Work-in-progress documents
+    └── clips/            # Snippets and fragments
 ```
 
 ### Structure Categorization
@@ -142,8 +160,8 @@ Agents struggle when they "arrive with no memory of what came before." A `.works
 |----------|-------|-------------|
 | **Required** | `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `progress/`, `checklists/complete.md`, `prompts/`, `workflows/`, `commands/`, `context/` | MUST exist in every workspace |
 | **Recommended** | `checklists/session-exit.md` | SHOULD exist for session continuity |
-| **Standard** | `templates/`, `examples/`, `assistants/`, `missions/` | Create as needed for the workspace's use case |
-| **Agent-ignored** | `.humans/`, `.scratch/`, `.inbox/`, `.archive/` | Dot-prefixed; agents MUST NOT access autonomously |
+| **Standard** | `templates/`, `examples/`, `assistants/`, `missions/`, `projects/` | Create as needed for the workspace's use case |
+| **Human-led** | `projects/`, `.scratchpad/` | Require explicit human direction for agent access |
 
 ---
 
@@ -170,22 +188,42 @@ The `.workspace` directory uses a dot prefix to signal "supporting infrastructur
 
 ### Dot-prefixed directories *within* `.workspace`
 
-The "ignore dot-prefixed" convention applies **inside** `.workspace`, not to `.workspace` itself. Four directories within `.workspace` are **off-limits to autonomous agents**:
+The "ignore dot-prefixed" convention applies **inside** `.workspace`, not to `.workspace` itself. One directory within `.workspace` is **off-limits to autonomous agents**:
 
 | Directory | Purpose | Autonomy Level |
 |-----------|---------|----------------|
-| `.humans/` | Design rationale and human documentation | **Never access** |
-| `.scratch/` | Persistent thinking, research, drafts | **Human-led only** |
-| `.inbox/` | Temporary staging for external imports | **Human-led only** |
-| `.archive/` | Historical materials retained for reference | **Never access** |
+| `.scratchpad/` | Human-led zone for thinking, staging, and archives | **Human-led only** |
 
-#### Never-Access Directories
+#### The `.scratchpad/` Directory
 
-Agents MUST NOT read, write, or reference content from `.humans/` or `.archive/` under any circumstances.
+`.scratchpad/` consolidates human-led ephemeral content and the early-stage idea funnel:
 
-#### Human-Led Directories
+| Subdirectory | Purpose | Lifecycle |
+|--------------|---------|-----------|
+| `inbox/` | Temporary staging for imports | Move out when processed |
+| `archive/` | Deprecated content | Permanent reference |
+| `brainstorm/` | Ideas under structured exploration | Graduate to projects or kill |
+| `ideas/` | Quick captures, possibilities | Graduate to brainstorm or die |
+| `drafts/` | Work-in-progress | Promote when ready |
+| `daily/` | Date-based notes | Reference |
 
-`.scratch/` and `.inbox/` have a special collaboration mode:
+**The Funnel:** Ideas flow from `.scratchpad/` to committed work:
+
+```
+.scratchpad/ideas/      → Quick captures (most die here)
+        ↓
+.scratchpad/brainstorm/ → Structured exploration (filter stage)
+        ↓
+projects/               → Committed research (produces artifacts)
+        ↓
+missions/               → Committed execution
+        ↓
+context/                → Permanent knowledge
+```
+
+#### Human-Led Collaboration
+
+`.scratchpad/` has a special collaboration mode:
 
 | Rule | Description |
 |------|-------------|
@@ -196,36 +234,29 @@ Agents MUST NOT read, write, or reference content from `.humans/` or `.archive/`
 **Example: Valid collaboration**
 
 ```text
-Human: "Review .scratch/projects/auth-research/findings.md and summarize"
+Human: "Review projects/auth-research/findings.md and summarize"
 Agent: [Reads the specific file, provides summary as directed]
 ```
 
 **Example: Invalid autonomous action**
 
 ```text
-Agent: "I noticed some relevant notes in .scratch/ that might help..."
-→ VIOLATION: Agent scanned .scratch/ without explicit human direction
+Agent: "I noticed some relevant notes in .scratchpad/ that might help..."
+→ VIOLATION: Agent scanned .scratchpad/ without explicit human direction
 ```
 
-#### Human Use of These Directories
+#### Projects and the Funnel
 
-- **`.humans/`** — Understand design decisions and rationale
-- **`.scratch/`** — Persistent thinking, research, collaborative drafting
-- **`.inbox/`** — Temporary staging for external imports (move out when processed)
-- **`.archive/`** — Preserve institutional memory without cluttering active content
+Projects (`projects/`) have graduated from scratchpad to workspace-level because they frequently produce artifacts that feed the main workspace. Projects are still human-led (require explicit direction) but findings flow directly to `context/` without a separate promotion step.
 
-#### Promotion Workflow
+| Content Type | Destination |
+|--------------|-------------|
+| Design decisions | `context/decisions.md` |
+| Anti-patterns | `context/lessons.md` |
+| New terminology | `context/glossary.md` |
+| Actionable work | Create mission in `missions/` |
 
-When content in `.scratch/` matures, humans promote distilled insights to agent-facing locations using the `workflows/promote-from-scratch.md` workflow.
-
-| Scratch Content | Promotes To |
-|-----------------|-------------|
-| Finalized decisions | `context/decisions.md` |
-| Non-negotiables | `context/constraints.md` |
-| Domain terms | `context/glossary.md` |
-| Next actions | `progress/next.md` |
-
-**Rule:** Never copy raw scratch verbatim. Always summarize and distill.
+**Rule:** Summarize and distill findings; don't copy project notes verbatim.
 
 ---
 
@@ -244,27 +275,29 @@ The root-level files form an **orientation layer**—the first things an agent r
 
 ### Root-Level Directories (Agent-Facing)
 
-| Directory | Purpose |
-|-----------|---------|
-| `assistants/` | Focused specialists invoked via @mention or delegation |
-| `missions/` | Time-bounded sub-projects with isolated progress |
-| `prompts/` | Reusable task templates for common operations |
-| `workflows/` | Multi-step procedures (e.g., "add new document") |
-| `commands/` | Workspace-specific atomic operations (e.g., "format for publication") |
-| `context/` | Background knowledge: glossary, dependencies |
-| `progress/` | Session continuity: log.md, tasks.json |
-| `checklists/` | Quality gates: complete.md |
-| `templates/` | Boilerplate for creating new content |
-| `examples/` | Minimal, copyable reference patterns |
+| Directory | Purpose | Inheritance |
+|-----------|---------|-------------|
+| `assistants/` | Focused specialists invoked via @mention or delegation | Inherits from `.harmony/` |
+| `missions/` | Time-bounded sub-projects with isolated progress | Local only |
+| `prompts/` | Reusable task templates for common operations | Inherits from `.harmony/` |
+| `workflows/` | Multi-step procedures (e.g., "add new document") | Inherits from `.harmony/` |
+| `commands/` | Workspace-specific atomic operations | Inherits from `.harmony/` |
+| `context/` | Background knowledge: glossary, dependencies | Inherits from `.harmony/` |
+| `progress/` | Session continuity: log.md, tasks.json | Local only |
+| `checklists/` | Quality gates: complete.md | Inherits from `.harmony/` |
+| `templates/` | Boilerplate for creating new content | Inherits from `.harmony/` |
+| `examples/` | Minimal, copyable reference patterns | Inherits from `.harmony/` |
+| `skills/` | Composable capabilities with defined I/O | Inherits from `.harmony/` |
+
+**Inheritance note:** "Inherits from `.harmony/`" means the directory can exist locally for project-specific content or overrides, but shared/generic content lives in `.harmony/`. Local always takes precedence. "Local only" means this content is always project-specific and doesn't inherit.
 
 ### Dot-Prefixed Directories (Human-Facing)
 
 | Directory | Purpose | Autonomy |
 |-----------|---------|----------|
-| `.humans/` | Design rationale, onboarding, ADRs | Never access |
-| `.scratch/` | Persistent thinking, research, drafts | Human-led only |
-| `.inbox/` | Temporary staging for imports | Human-led only |
-| `.archive/` | Deprecated content retained for reference | Never access |
+| `.scratchpad/` | Human-led zone (thinking, staging, archives) | Human-led only |
+
+The `.scratchpad/` directory contains subdirectories for different purposes: `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`.
 
 See [Dot-Prefixed Directories](./dot-files.md) for detailed autonomy rules.
 
@@ -320,7 +353,7 @@ Not every directory needs a `.workspace`. Use this guide to decide.
 | **Continuity** | `progress/log.md` + `tasks.json` survive context resets |
 | **Explicit boundaries** | `scope.md` prevents scope creep; agent knows when to stop |
 | **Quality gates** | `complete.md` checklist prevents premature completion |
-| **Separation** | Agent-facing vs human-facing is explicit (`.humans/`) |
+| **Separation** | Agent-facing vs human-led is explicit (dot-prefixed directories) |
 
 ### Risks to watch
 
@@ -373,15 +406,18 @@ Workspaces are designed to be **portable across all AI harnesses**—Cursor, Cla
        │              │              │              │
        ▼              ▼              ▼              ▼
 ┌────────────────────────────────────────────────────────────┐
-│              .workspace/workflows/<name>/                  │
-│                                                            │
-│   Source of truth — same workflow for all harnesses        │
+│                    TWO-LAYER RESOLUTION                    │
+├────────────────────────────────────────────────────────────┤
+│  .workspace/workflows/<name>/  (local, project-specific)   │
+│              ↓ falls back to                               │
+│  .harmony/workflows/<name>/    (shared, generic)           │
 └────────────────────────────────────────────────────────────┘
 ```
 
 | Principle | Description |
 |-----------|-------------|
-| **Workflows are the source of truth** | All execution logic lives in `.workspace/workflows/` |
+| **Shared workflows in `.harmony/`** | Generic workflows (workspace management, missions) live in shared foundation |
+| **Local workflows in `.workspace/`** | Project-specific workflows (domain logic) stay local |
 | **Harness entry points are thin wrappers** | `.<harness>/commands/` only provides syntax and delegation |
 | **No harness-specific logic in workflows** | Workflows work identically regardless of invoking harness |
 | **Workspace is portable** | Copy a `.workspace/` to any repo, and it works with any harness |
@@ -403,18 +439,20 @@ The `.cursor/rules/workspace/RULE.md` provides context when editing `.workspace/
 
 ### Harness Entry Points
 
-Harness-specific commands wrap workspace workflows for integration:
+Harness-specific commands wrap workflows for integration. Generic workflows live in `.harmony/`, project-specific in `.workspace/`:
 
-| Command | Delegates To | Purpose |
-|---------|--------------|---------|
-| `/create-workspace` | `.workspace/workflows/workspace/create-workspace/` | Scaffold a new workspace |
-| `/update-workspace` | `.workspace/workflows/workspace/update-workspace/` | Align with canonical definition |
-| `/evaluate-workspace` | `.workspace/workflows/workspace/evaluate-workspace/` | Assess token efficiency |
-| `/migrate-workspace` | `.workspace/workflows/workspace/migrate-workspace/` | Upgrade older workspace |
-| `/research` | `.workspace/workflows/scratch/create-research-project/` | Create research project |
-| `/bootstrap` | `.workspace/prompts/bootstrap-session.md` | Quick-start a session |
+| Command | Delegates To | Layer |
+|---------|--------------|-------|
+| `/create-workspace` | `.harmony/workflows/workspace/create-workspace/` | Shared |
+| `/update-workspace` | `.harmony/workflows/workspace/update-workspace/` | Shared |
+| `/evaluate-workspace` | `.harmony/workflows/workspace/evaluate-workspace/` | Shared |
+| `/migrate-workspace` | `.harmony/workflows/workspace/migrate-workspace/` | Shared |
+| `/bootstrap` | `.harmony/prompts/bootstrap-session.md` | Shared |
+| `/synthesize-research` | `.harmony/skills/research-synthesizer/` | Shared |
+| `/research` | `.workspace/workflows/projects/create-project.md` | Local |
+| `/run-flow` | `.workspace/workflows/flowkit/run-flow/` | Local |
 
-These commands live in `.<harness>/commands/` (e.g., `.cursor/commands/`, `.claude/commands/`) and are thin wrappers that point to the workflows.
+These commands live in `.<harness>/commands/` (e.g., `.cursor/commands/`, `.claude/commands/`) and are thin wrappers that delegate to the workflows.
 
 ---
 
@@ -430,6 +468,7 @@ See `.cursor/rules/workspace/RULE.md` for the authoritative token budget table t
 
 ### Core Concepts
 
+- [Shared Foundation](./shared-foundation.md) — The `.harmony/` layer: inheritance, resolution, and what goes where
 - [Taxonomy](./taxonomy.md) — Harness entry points, workspace commands, workflows, and their relationships
 - [Workspace Workflows](./workflows.md) — Multi-step procedures and the Universal Harness-Agnostic Pattern
 - [Workspace Commands](./commands.md) — Workspace-scoped atomic operations
@@ -439,9 +478,9 @@ See `.cursor/rules/workspace/RULE.md` for the authoritative token budget table t
 
 ### Directory Documentation
 
-- [Dot-Prefixed Directories](./dot-files.md) — `.humans/`, `.scratch/`, `.inbox/`, `.archive/` and autonomy rules
-- [Scratch Area](./scratch.md) — Human-led thinking space with research projects
-- [Research Projects](./projects.md) — Human-led, multi-session investigations
+- [Dot-Prefixed Directories](./dot-files.md) — `.scratchpad/` human-led zone and autonomy rules
+- [Scratchpad](./scratchpad.md) — Human-led thinking space and idea funnel
+- [Projects](./projects.md) — Human-led explorations that produce workspace artifacts
 - [Prompts](./prompts.md) — Reusable task templates
 - [Templates](./templates.md) — Boilerplate for new content
 - [Examples](./examples.md) — Reference patterns

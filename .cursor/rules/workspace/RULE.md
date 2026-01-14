@@ -80,11 +80,13 @@ See `docs/architecture/workspaces/README.md` for the full structure reference, i
 
 | Template | Path | Use For |
 |----------|------|---------|
-| Base workspace | `.workspace/templates/workspace/` | All workspaces inherit from this |
-| Docs workspace | `.workspace/templates/workspace-docs/` | Documentation areas |
-| Node.js/TS workspace | `.workspace/templates/workspace-node-ts/` | TypeScript packages |
-| Cursor command | `.workspace/templates/cursor-command.md` | Cursor command wrappers |
-| Document | `.workspace/templates/document.md` | General documents |
+| Base workspace | `.harmony/templates/workspace/` | All workspaces inherit from this |
+| Docs workspace | `.harmony/templates/workspace-docs/` | Documentation areas |
+| Node.js/TS workspace | `.harmony/templates/workspace-node-ts/` | TypeScript packages |
+| Cursor command | `.workspace/templates/cursor-command.md` | Cursor command wrappers (local) |
+| Document | `.workspace/templates/document.md` | General documents (local) |
+
+> **Note:** Base templates live in `.harmony/` (shared). Project-specific templates stay in `.workspace/`.
 
 ---
 
@@ -102,19 +104,19 @@ See `docs/architecture/workspaces/README.md` for the full structure reference, i
 | Directory | Autonomy Level | Description |
 |-----------|----------------|-------------|
 | `.humans/` | **Never access** | Agents MUST NOT read, write, or reference |
-| `.scratch/` | **Human-led only** | Agents access ONLY when human explicitly directs to specific files |
+| `.scratchpad/` | **Human-led only** | Agents access ONLY when human explicitly directs to specific files |
 | `.inbox/` | **Human-led only** | Agents access ONLY when human explicitly directs to specific files |
 | `.archive/` | **Never access** | Agents MUST NOT read, write, or reference |
 
 ### Human-Led Collaboration
 
-For `.scratch/` and `.inbox/`, agents MAY assist when ALL of these are true:
+For `.scratchpad/` and `.inbox/`, agents MAY assist when ALL of these are true:
 
-1. Human explicitly references a specific file (e.g., "look at `.scratch/ideas/auth.md`")
+1. Human explicitly references a specific file (e.g., "look at `.scratchpad/ideas/auth.md`")
 2. Human requests a concrete action (e.g., "summarize this", "add X")
 3. Agent's work stays within the referenced files
 
-**During autonomous operation:** Treat `.scratch/` and `.inbox/` as if they do not exist. No scanning, no retrieval, no "helpful" edits.
+**During autonomous operation:** Treat `.scratchpad/` and `.inbox/` as if they do not exist. No scanning, no retrieval, no "helpful" edits.
 
 See `docs/architecture/workspaces/dot-files.md` for full documentation.
 

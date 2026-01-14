@@ -2,7 +2,7 @@
 
 Evaluate a `.workspace` directory for token efficiency and agent effectiveness.
 
-See `.workspace/workflows/workspace/evaluate-workspace/00-overview.md` for full description and steps.
+See `.harmony/workflows/workspace/evaluate-workspace/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -18,11 +18,11 @@ Or for a nested workspace:
 
 ## Implementation
 
-Execute the workflow in `.workspace/workflows/workspace/evaluate-workspace/`.
+Execute the workflow in `.harmony/workflows/workspace/evaluate-workspace/`.
 
 Start with `00-overview.md`, then follow each step in sequence.
 
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Workflow:** `.workspace/workflows/workspace/evaluate-workspace/`
+- **Workflow:** `.harmony/workflows/workspace/evaluate-workspace/`

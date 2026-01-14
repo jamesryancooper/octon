@@ -82,7 +82,7 @@ Thin wrappers that provide harness-specific invocation for workspace commands or
          │                 │                   │
          ▼                 ▼                   ▼
 ┌─────────────────────────────────────────────────────────┐
-│  .workspace/workflows/scratch/create-research-project/  │
+│  .workspace/workflows/projects/create-project.md        │
 │                                                         │
 │  Source of truth — same workflow for all harnesses      │
 └─────────────────────────────────────────────────────────┘

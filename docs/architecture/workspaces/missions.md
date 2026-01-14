@@ -57,7 +57,7 @@ stateDiagram-v2
 | **Active** | Work in progress |
 | **Completed** | Success criteria met |
 | **Cancelled** | Abandoned (scope change, no longer needed) |
-| **Archived** | Moved to `.archive/` after completion/cancellation |
+| **Archived** | Moved to `missions/.archive/` after completion/cancellation |
 
 ---
 
@@ -67,7 +67,7 @@ stateDiagram-v2
 .workspace/missions/
 ├── registry.yml           # Index of active/archived missions
 ├── README.md              # Usage guide
-├── .archive/              # Completed/cancelled missions
+├── .archive/              # Completed/cancelled missions (mission-specific archive)
 ├── _template/             # Template for new missions
 │   ├── mission.md
 │   ├── tasks.json

@@ -20,9 +20,8 @@ Terms used consistently throughout workspace documentation. Use these terms exac
 | Workspace workflow | Multi-step procedure in `.workspace/workflows/`. |
 | Prompt | Task template in `.workspace/prompts/` requiring judgment. |
 | Agent-ignored | Dot-prefixed directories that agents MUST NOT access autonomously. |
-| Never-access | `.humans/` and `.archive/`—agents must not access under any circumstances. |
-| Human-led | `.scratch/` and `.inbox/`—agents may access only when human explicitly directs to specific files. |
-| Scratch | Persistent human thinking/research space (`.scratch/`); content may remain indefinitely. |
-| Inbox | Temporary staging for external imports (`.inbox/`); content should eventually move out. |
-| Promote | Workflow to distill mature scratch content into agent-facing artifacts (`workflows/promote-from-scratch.md`). |
-
+| Human-led | Directories (`projects/`, `.scratchpad/`) agents may access only when human explicitly directs to specific files. |
+| Scratchpad | Human-led zone (`.scratchpad/`) for ephemeral content and the early-stage idea funnel. Subdirectories: `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`. |
+| Project | Human-led exploration in `projects/` that produces workspace artifacts. |
+| Brainstorm | Single-file structured exploration in `.scratchpad/brainstorm/` — filter stage between ideas and projects. |
+| The Funnel | Pipeline from ideas to committed work: `ideas/` → `brainstorm/` → `projects/` → `missions/` → `context/`. |

@@ -31,7 +31,7 @@ Created → Active → Completed → Archived
 1. **Created:** Scaffolded via `/create-mission`
 2. **Active:** Work in progress with isolated log and tasks
 3. **Completed:** Success criteria met
-4. **Archived:** Moved to `.archive/` via `/complete-mission`
+4. **Archived:** Moved to `missions/.archive/` via `/complete-mission`
 
 ## Creating a New Mission
 

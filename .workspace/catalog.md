@@ -32,7 +32,7 @@ Time-bounded sub-projects in `missions/`:
 | Status | Count | Description |
 |--------|-------|-------------|
 | Active | See `registry.yml` | Currently in progress |
-| Archived | See `.archive/` | Completed or cancelled |
+| Archived | See `missions/.archive/` | Completed or cancelled |
 
 **Lifecycle:** Created → Active → Completed → Archived
 
@@ -82,11 +82,11 @@ Multi-step procedures in `workflows/`:
 | [migrate-workspace](./workflows/workspace/migrate-workspace/00-overview.md) | human | Upgrade older workspace to current conventions |
 | [update-workspace](./workflows/workspace/update-workspace/00-overview.md) | human | Align with canonical definition |
 
-### Scratch & Inbox
+### Projects
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [promote-from-scratch](./workflows/promote-from-scratch.md) | human | Publish distilled insights from `.scratch/` to agent-facing artifacts |
+| [create-project](./workflows/projects/create-project.md) | human | Scaffold a new project in `projects/` |
 
 ### Missions
 
@@ -262,7 +262,7 @@ Session continuity in `progress/`:
 | [log.md](./progress/log.md) | Append-only session history |
 | [tasks.json](./progress/tasks.json) | Structured task list with goal |
 | [entities.json](./progress/entities.json) | Entity state tracking |
-| [next.md](./progress/next.md) | Immediate actionable steps (promoted from `.scratch/`) |
+| [next.md](./progress/next.md) | Immediate actionable steps (promoted from `.scratchpad/`) |
 
 ---
 

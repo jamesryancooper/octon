@@ -5,6 +5,25 @@ description: Boot sequence and orientation for the root .workspace harness.
 
 # .workspace: Start Here
 
+## Inheritance
+
+This workspace extends `.harmony/` for shared infrastructure.
+
+| Component | Local (Project-Specific) | Shared (in `.harmony/`) |
+|-----------|--------------------------|-------------------------|
+| Assistants | `.workspace/assistants/` | `.harmony/assistants/` |
+| Templates | `.workspace/templates/` | `.harmony/templates/` |
+| Workflows | `.workspace/workflows/` | `.harmony/workflows/` |
+| Skills | `.workspace/skills/` | `.harmony/skills/` |
+| Commands | `.workspace/commands/` | `.harmony/commands/` |
+| Prompts | `.workspace/prompts/` | `.harmony/prompts/` |
+| Context | `.workspace/context/` | `.harmony/context/` |
+| Checklists | `.workspace/checklists/` | `.harmony/checklists/` |
+
+**Resolution:** Local overrides shared. Check `.workspace/` first, then `.harmony/`.
+
+---
+
 ## Structure
 
 ```text
@@ -15,7 +34,8 @@ description: Boot sequence and orientation for the root .workspace harness.
 ├── catalog.md      ← Available operations
 │
 ├── assistants/     ← Focused specialists (@mention invocation)
-├── missions/       ← Time-bounded sub-projects
+├── missions/       ← Time-bounded sub-projects (agent-accessible)
+├── projects/       ← Human-led explorations (produces artifacts)
 │
 ├── prompts/        ← Task templates
 ├── workflows/      ← Multi-step procedures
@@ -27,10 +47,12 @@ description: Boot sequence and orientation for the root .workspace harness.
 ├── templates/      ← Boilerplate for new content
 ├── examples/       ← Reference patterns
 │
-├── .humans/        ← Human docs (IGNORE)
-├── .scratch/       ← Human thinking/research (IGNORE)
-├── .inbox/         ← Human staging (IGNORE)
-└── .archive/       ← Deprecated (IGNORE)
+└── .scratchpad/    ← Human-led zone (IGNORE)
+    ├── inbox/      ← Temporary staging
+    ├── archive/    ← Deprecated content
+    ├── brainstorm/ ← Ideas under exploration
+    ├── ideas/      ← Quick captures
+    └── ...
 ```
 
 ## Boot Sequence
@@ -56,18 +78,18 @@ See `assistants/registry.yml` for full list and `catalog.md` for details.
 
 ## Visibility & Autonomy Rules
 
-Dot-prefixed directories are **human-led zones**. Agents MUST NOT access them autonomously.
+Two directories are **human-led**. Agents MUST NOT access them autonomously.
 
 | Directory | Purpose | Autonomy |
 |-----------|---------|----------|
-| `.humans/` | Human documentation | **Never access** |
-| `.scratch/` | Persistent thinking/research | **Human-led only** |
-| `.inbox/` | Temporary staging for imports | **Human-led only** |
-| `.archive/` | Deprecated content | **Never access** |
+| `projects/` | Human-led explorations | **Human-led only** |
+| `.scratchpad/` | Ephemeral content and idea funnel | **Human-led only** |
+
+**Scratchpad subdirectories:** `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`.
 
 ### Human-Led Collaboration
 
-Agents MAY access `.scratch/` and `.inbox/` ONLY when:
+Agents MAY access `projects/` or `.scratchpad/` ONLY when:
 
 1. Human explicitly points to specific file(s)
 2. Human requests a concrete change
@@ -77,19 +99,40 @@ Agents MAY access `.scratch/` and `.inbox/` ONLY when:
 
 ---
 
+## The Funnel
+
+Ideas flow from ephemeral scratchpad to committed work:
+
+```
+.scratchpad/ideas/      → Quick captures (most die here)
+        ↓
+.scratchpad/brainstorm/ → Structured exploration (filter stage)
+        ↓
+projects/               → Committed research (produces artifacts)
+        ↓
+missions/               → Committed execution
+        ↓
+context/                → Permanent knowledge
+```
+
+---
+
 ## Where Things Go
 
 | Content | Destination | Lifecycle |
 |---------|-------------|-----------|
-| External imports, raw drops | `.inbox/` | Temporary → triage → move out |
-| Thinking, research, drafts | `.scratch/` | Persistent (may stay indefinitely) |
+| External imports, raw drops | `.scratchpad/inbox/` | Temporary → triage → move out |
+| Quick ideas | `.scratchpad/ideas/` | May graduate or die |
+| Ideas worth exploring | `.scratchpad/brainstorm/` | Graduate to projects or kill |
+| Committed research | `projects/<slug>/` | Until findings published |
+| Deprecated content | `.scratchpad/archive/` | Permanent reference |
 | Finalized decisions | `context/decisions.md` | Permanent |
 | Constraints, non-negotiables | `context/constraints.md` | Permanent |
 | Next actions | `progress/next.md` | Active |
 | Domain terminology | `context/glossary.md` | Reference |
 | Lessons learned | `context/lessons.md` | Reference |
 
-**Promote workflow:** When `.scratch/` content matures, use `workflows/promote-from-scratch.md` to publish to agent-facing artifacts.
+**Publishing findings:** Project findings flow directly to `context/` files without a separate promotion step.
 
 ---
 

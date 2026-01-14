@@ -1,5 +1,5 @@
 # Agent Autonomy Guard
-# 
+#
 # Patterns for directories that autonomous agents MUST NOT access.
 # Human-led collaboration may override by explicitly referencing specific files.
 #
@@ -9,14 +9,6 @@
 #
 # See: .workspace/START.md → "Visibility & Autonomy Rules"
 
-# Human-led scratchpad (persistent thinking/research)
-.workspace/.scratch/**
-
-# Human-led inbox (temporary staging for imports)
-.workspace/.inbox/**
-
-# Human documentation (never agent-accessible)
-.workspace/.humans/**
-
-# Deprecated content (never agent-accessible)
-.workspace/.archive/**
+# Human-led zones
+.workspace/.scratchpad/**
+.workspace/projects/**

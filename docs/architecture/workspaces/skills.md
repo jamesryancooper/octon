@@ -322,7 +322,7 @@ flowchart TD
 ### Explicit Commands (Recommended)
 
 ```text
-/synthesize-research .scratch/projects/topic/
+/synthesize-research projects/topic/
 ```
 
 ### Explicit Pattern
@@ -334,7 +334,7 @@ use skill: research-synthesizer
 ### Generic Invocation
 
 ```text
-/use-skill research-synthesizer .scratch/projects/topic/
+/use-skill research-synthesizer projects/topic/
 ```
 
 ### Trigger Matching (Probabilistic)
@@ -390,7 +390,7 @@ started_at: 2025-01-12T10:31:00Z
 ended_at: 2025-01-12T10:44:12Z
 
 inputs:
-  - .scratch/projects/auth-patterns/
+  - projects/auth-patterns/
 outputs:
   - .workspace/skills/outputs/drafts/auth-patterns-synthesis.md
 tools_used:
@@ -483,7 +483,7 @@ This will:
 
 ## Integration with Projects
 
-Research projects (`.scratch/projects/`) can leverage skills throughout their lifecycle.
+Research projects (`projects/`) can leverage skills throughout their lifecycle.
 
 ### Research Phases and Skills
 
@@ -498,7 +498,7 @@ Research projects (`.scratch/projects/`) can leverage skills throughout their li
 ### Invoking Skills from Projects
 
 ```text
-/synthesize-research .scratch/projects/my-research/
+/synthesize-research projects/my-research/
 ```
 
 ### Integrating Skill Outputs

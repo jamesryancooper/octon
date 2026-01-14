@@ -4,6 +4,7 @@ globs:
   - "docs/**/*.md"
   - "**/README.md"
   - ".workspace/**/*.md"
+  - ".harmony/**/*.md"
   - "**/GLOSSARY.md"
 alwaysApply: false
 ---

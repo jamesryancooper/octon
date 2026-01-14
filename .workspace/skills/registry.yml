@@ -1,37 +1,20 @@
-# Skills Registry
-# Catalog for progressive disclosure - read this first, load skills on demand
+# Skills Registry (Project-Specific)
+# Extends .harmony/skills/registry.yml with project-specific input/output mappings.
 #
-# Routing: Agents read this registry to route skill invocations.
-# Progressive disclosure: Load skill definitions only when needed.
+# This file defines:
+# - Input/output paths for inherited skills
+# - Project-specific skills (not in .harmony/)
+# - Project-specific pipelines
 
 schema_version: "1.1"
+extends: "../../.harmony/skills/registry.yml"
 default: null
 
-# Global routing rules
-routing:
-  # If true, only explicit /commands trigger skills (no trigger matching)
-  explicit_command_required: false
-  # How to handle ambiguous matches: "ask" | "first_match" | "most_specific"
-  ambiguity_resolution: "ask"
-
-# Available skills
-# Each entry provides enough info for routing without loading full skill.md
-skills:
-  - id: research-synthesizer
-    name: Research Synthesizer
-    path: research-synthesizer/
-    version: "1.0.0"
-    summary: "Synthesize scattered research notes into coherent findings."
-    commands:
-      - /synthesize-research
-    explicit_call_patterns:
-      - "use skill: research-synthesizer"
-    triggers:
-      - "synthesize my research"
-      - "consolidate findings"
-      - "summarize research notes"
+# Project-specific input/output mappings for inherited skills
+skill_mappings:
+  research-synthesizer:
     inputs:
-      - path: ".scratch/projects/<project>/"
+      - path: "projects/<project>/"
         type: folder
       - path: "sources/<topic>/"
         type: folder
@@ -40,26 +23,23 @@ skills:
         type: markdown
         format: markdown
         determinism: stable
-    requires:
-      tools:
-        - filesystem.read
-        - filesystem.write.outputs
-    depends_on: []
 
-# Common pipelines (skill chains)
-# Pipelines define sequences of skills where outputs flow to inputs
+# Project-specific skills (not in .harmony/)
+skills: []
+
+# Project-specific pipelines
 pipelines:
   - id: research-synthesis
     name: Research Synthesis Pipeline
-    description: "Synthesize research project findings"
-    use_case: "When you have a research project ready for consolidation"
+    description: "Synthesize project findings"
+    use_case: "When you have a project ready for consolidation"
     steps:
       - research-synthesizer
     inputs:
-      - ".scratch/projects/<project>/"
+      - "projects/<project>/"
     outputs:
       - "outputs/drafts/<project>-synthesis.md"
-    invocation: "/synthesize-research .scratch/projects/<project>/"
+    invocation: "/synthesize-research projects/<project>/"
 
   # Future pipelines (uncomment when skills are added):
   # - id: research-to-publish
@@ -69,6 +49,6 @@ pipelines:
   #     - research-synthesizer
   #     - html-reader-builder
   #   inputs:
-  #     - ".scratch/projects/<project>/"
+  #     - "projects/<project>/"
   #   outputs:
   #     - "outputs/html/<project>.html"

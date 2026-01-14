@@ -30,7 +30,7 @@ See `catalog.md#command-vs-prompt-decision` for the canonical decision logic, fl
 ## Output (what to produce)
 ```
 
-### Human-Facing Files (in `.humans/`)
+### Human-Facing Files (in `.scratchpad/` or `docs/`)
 
 - Full prose explanations welcome
 - Include rationale and history
@@ -40,7 +40,7 @@ See `catalog.md#command-vs-prompt-decision` for the canonical decision logic, fl
 
 | Do | Don't |
 |----|-------|
-| Use imperative verbs | Explain why (save for `.humans/`) |
+| Use imperative verbs | Explain why (save for `.scratchpad/` or `docs/`) |
 | Use lists over prose | Write paragraphs |
 | Be specific and concrete | Use vague language |
 | Include examples when non-obvious | Over-document obvious patterns |

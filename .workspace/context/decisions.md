@@ -5,7 +5,12 @@ description: Agent-readable summary of key decisions affecting this workspace
 
 # Decisions
 
-Key decisions that constrain or guide work in this workspace. For full rationale, see `.humans/decisions/`.
+Key decisions that constrain or guide work in this workspace. For full rationale, see `.workspace/decisions/`.
+
+**ADRs:**
+- [ADR-001](../decisions/001-harmony-shared-foundation.md) — Shared `.harmony/` foundation (D007)
+- [ADR-002](../decisions/002-consolidated-scratchpad-zone.md) — Consolidated `.scratchpad/` zone (D003, D005, D008, D009)
+- [ADR-003](../decisions/003-projects-elevation-and-funnel.md) — Projects elevation and idea funnel (D010, D011, D012)
 
 ## Active Decisions
 
@@ -13,10 +18,15 @@ Key decisions that constrain or guide work in this workspace. For full rationale
 |----|----------|--------|------------|------|
 | D001 | State format | JSON over YAML | Must parse without external dependencies | 2025-12-10 |
 | D002 | Token budget | ~2,000 target, ~5,000 max | Leave context window for actual work | 2025-12-10 |
-| D003 | Agent-ignored prefix | Dot (`.`) prefix | `.humans/`, `.scratch/`, `.inbox/`, `.archive/` off-limits to autonomous agents | 2025-12-10 |
+| D003 | Human-led zones | `.scratchpad/` and `projects/` directories | Human-led content in designated zones; agents MUST NOT access autonomously | 2026-01-14 |
 | D004 | Boot sequence | 7-step process | Ensures consistent orientation | 2025-12-18 |
-| D005 | Human-led directories | `.scratch/` and `.inbox/` | Human-led collaboration allowed when explicitly directed; autonomous access forbidden | 2025-01-04 |
-| D006 | Scratch vs inbox semantics | Scratch=persistent, inbox=temporary | `.scratch/` for ongoing research; `.inbox/` for imports that move out | 2025-01-04 |
+| D005 | Human-led collaboration | `.scratchpad/` and `projects/` | Human-led collaboration allowed when explicitly directed; autonomous access forbidden | 2026-01-14 |
+| D007 | Shared foundation | `.harmony/` for generic, `.workspace/` for local | Generic components shared; local overrides shared; check local first | 2026-01-13 |
+| D008 | Consolidated scratchpad | `.scratchpad/` with subdirectories | `inbox/`, `archive/`, `ideas/`, `brainstorm/` are subdirectories of `.scratchpad/` | 2026-01-14 |
+| D009 | Human-led zone naming | `.scratchpad/` over `.scratch/` | Explicit, self-documenting name preferred over shorter abbreviation | 2026-01-13 |
+| D010 | Projects location | Workspace level (`projects/`) | Projects live at workspace level, not in `.scratchpad/`; direct artifact flow to `context/` | 2026-01-14 |
+| D011 | Brainstorm stage | Single-file exploration in `.scratchpad/brainstorm/` | Filter stage between ideas and projects; most ideas die here | 2026-01-14 |
+| D012 | The Funnel | ideas → brainstorm → projects → missions → context | Clear pipeline from raw ideas to permanent knowledge | 2026-01-14 |
 
 ## Decision Format
 
@@ -40,5 +50,5 @@ Move here when a decision is replaced. Include reference to replacement.
 
 | ID | Decision | Superseded By | Date |
 |----|----------|---------------|------|
-| — | — | — | — |
+| D006 | Scratch vs inbox semantics | D008 | 2026-01-13 |
 

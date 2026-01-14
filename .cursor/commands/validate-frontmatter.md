@@ -2,7 +2,7 @@
 
 Validate YAML frontmatter in markdown files.
 
-See `.workspace/commands/validate-frontmatter.md` for full action details.
+See `.harmony/commands/validate-frontmatter.md` for full action details.
 
 ## Usage
 
@@ -12,10 +12,10 @@ See `.workspace/commands/validate-frontmatter.md` for full action details.
 
 ## Implementation
 
-Execute `.workspace/commands/validate-frontmatter.md` in the target directory.
+Execute `.harmony/commands/validate-frontmatter.md` in the target directory.
 
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/commands.md`
-- **Command:** `.workspace/commands/validate-frontmatter.md`
+- **Command:** `.harmony/commands/validate-frontmatter.md`
 

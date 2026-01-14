@@ -2,7 +2,7 @@
 
 Reference guide for common agent failure modes.
 
-See `.workspace/commands/recover.md` for recovery procedures.
+See `.harmony/commands/recover.md` for recovery procedures.
 
 ## Usage
 
@@ -12,9 +12,9 @@ See `.workspace/commands/recover.md` for recovery procedures.
 
 ## Implementation
 
-Display `.workspace/commands/recover.md` as a reference. Agent selects relevant recovery procedure based on error type.
+Display `.harmony/commands/recover.md` as a reference. Agent selects relevant recovery procedure based on error type.
 
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/commands.md`
-- **Command:** `.workspace/commands/recover.md`
+- **Command:** `.harmony/commands/recover.md`

@@ -1,0 +1,39 @@
+# Skills Registry (Shared Foundation)
+# Skill definitions without project-specific paths.
+# Project-specific input/output mappings go in .workspace/skills/registry.yml
+#
+# Progressive disclosure: Agents read this registry for routing, then load
+# SKILL.md on demand.
+
+schema_version: "1.1"
+default: null
+
+# Global routing rules
+routing:
+  # If true, only explicit /commands trigger skills (no trigger matching)
+  explicit_command_required: false
+  # How to handle ambiguous matches: "ask" | "first_match" | "most_specific"
+  ambiguity_resolution: "ask"
+
+# Shared skill definitions
+# Each entry provides enough info for routing without loading full SKILL.md
+skills:
+  - id: research-synthesizer
+    name: Research Synthesizer
+    path: research-synthesizer/
+    version: "1.0.0"
+    summary: "Synthesize scattered research notes into coherent findings."
+    commands:
+      - /synthesize-research
+    explicit_call_patterns:
+      - "use skill: research-synthesizer"
+    triggers:
+      - "synthesize my research"
+      - "consolidate findings"
+      - "summarize research notes"
+    # Input/output paths are project-specific - defined in .workspace/skills/registry.yml
+    requires:
+      tools:
+        - filesystem.read
+        - filesystem.write.outputs
+    depends_on: []

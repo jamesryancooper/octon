@@ -2,7 +2,7 @@
 
 Upgrade an older `.workspace` to current conventions.
 
-See `.workspace/workflows/workspace/migrate-workspace/00-overview.md` for full description and steps.
+See `.harmony/workflows/workspace/migrate-workspace/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -18,12 +18,12 @@ Or for the root workspace:
 
 ## Implementation
 
-Execute the workflow in `.workspace/workflows/workspace/migrate-workspace/`.
+Execute the workflow in `.harmony/workflows/workspace/migrate-workspace/`.
 
 Start with `00-overview.md`, then follow each step in sequence.
 
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Workflow:** `.workspace/workflows/workspace/migrate-workspace/`
+- **Workflow:** `.harmony/workflows/workspace/migrate-workspace/`
 

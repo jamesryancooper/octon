@@ -34,13 +34,13 @@ The `context/` directory contains **background knowledge** that agents need to w
 | Token compaction strategies | ✅ Yes |
 | Available tools reference | ✅ Yes |
 | How-to instructions | ❌ No (use prompts/workflows) |
-| Full decision rationale | ❌ No (use `.humans/decisions/`) |
+| Full decision rationale | ❌ No (use `docs/decisions/` or `.scratchpad/`) |
 
 ---
 
 ## `decisions.md`
 
-Agent-readable summaries of key decisions that constrain work. Not full ADRs—those go in `.humans/decisions/`.
+Agent-readable summaries of key decisions that constrain work. Full ADRs with extended rationale can go in `docs/decisions/` or `.scratchpad/` for drafts.
 
 ### Decisions Format
 
@@ -57,7 +57,7 @@ Agent-readable summaries of key decisions that constrain work. Not full ADRs—t
 
 - MUST include only decisions that affect agent behavior
 - MUST be actionable (agent can apply the constraint)
-- SHOULD reference full ADR in `.humans/decisions/` if one exists
+- SHOULD reference full ADR in `docs/decisions/` if one exists
 - MAY include superseded decisions section
 
 ---
@@ -223,7 +223,7 @@ Reference of available tools and capabilities for agents working in this workspa
 
 ## Token Budget
 
-Context files should be **minimal**. Only include information an agent needs to act correctly. Extended explanations belong in `.humans/`.
+Context files should be **minimal**. Only include information an agent needs to act correctly. Extended explanations can go in `docs/` or `.scratchpad/`.
 
 See `.cursor/rules/workspace/RULE.md` for the authoritative token budget table.
 

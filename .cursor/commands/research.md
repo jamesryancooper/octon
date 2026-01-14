@@ -1,8 +1,6 @@
-# Start Research Project `/research`
+# Start Project `/research`
 
-Create a new research project in `.workspace/.scratch/projects/`.
-
-See `.workspace/workflows/scratch/create-research-project/00-overview.md` for full description and steps.
+Create a new project in `.workspace/projects/`.
 
 ## Usage
 
@@ -23,13 +21,32 @@ See `.workspace/workflows/scratch/create-research-project/00-overview.md` for fu
 
 ## Implementation
 
-Execute the workflow in `.workspace/workflows/scratch/create-research-project/`.
+1. Copy `.workspace/projects/_template/` to `.workspace/projects/<slug>/`
+2. Update `project.md` with the slug and current date
+3. Add entry to `.workspace/projects/registry.md` under **Active**
+4. Report success to user
 
-Start with `00-overview.md` and follow each step in sequence.
+## The Funnel
+
+Projects are part of a pipeline from ideas to executed work:
+
+```
+.scratchpad/ideas/      → Quick captures (most die here)
+        ↓
+.scratchpad/brainstorm/ → Structured exploration (filter stage)
+        ↓
+projects/               → Committed research (produces artifacts)
+        ↓
+missions/               → Committed execution
+        ↓
+context/                → Permanent knowledge
+```
+
+Use `/research` when you're ready to commit to a structured exploration that will produce workspace artifacts.
 
 ## References
 
-- **Workflow:** `.workspace/workflows/scratch/create-research-project/`
-- **Registry:** `.workspace/.scratch/projects/registry.md`
-- **Template:** `.workspace/.scratch/projects/_template/`
-- **Documentation:** `docs/architecture/workspaces/scratch.md`
+- **Registry:** `.workspace/projects/registry.md`
+- **Template:** `.workspace/projects/_template/`
+- **Documentation:** `docs/architecture/workspaces/projects.md`
+- **Brainstorm (upstream):** `.workspace/.scratchpad/brainstorm/`

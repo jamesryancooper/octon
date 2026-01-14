@@ -2,7 +2,7 @@
 
 Synthesize scattered research notes into a coherent findings document.
 
-See `.workspace/skills/research-synthesizer/skill.md` for full details.
+See `.harmony/skills/research-synthesizer/SKILL.md` for full details.
 
 ## Usage
 
@@ -12,7 +12,7 @@ See `.workspace/skills/research-synthesizer/skill.md` for full details.
 
 **Examples:**
 ```text
-/synthesize-research .scratch/projects/auth-patterns/
+/synthesize-research projects/auth-patterns/
 /synthesize-research .workspace/skills/sources/api-design/
 ```
 
@@ -42,6 +42,7 @@ See `.workspace/skills/research-synthesizer/skill.md` for full details.
 
 ## References
 
-- **Skill:** `.workspace/skills/research-synthesizer/skill.md`
-- **Registry:** `.workspace/skills/registry.yml`
+- **Skill:** `.harmony/skills/research-synthesizer/SKILL.md`
+- **Shared Registry:** `.harmony/skills/registry.yml`
+- **Local Registry:** `.workspace/skills/registry.yml` (for input/output mappings)
 - **Documentation:** `docs/architecture/workspaces/skills.md`
