@@ -3,6 +3,7 @@ title: "ADR-001: Shared .harmony/ Foundation"
 description: Extract generic components from .workspace/ to shared .harmony/ directory.
 date: 2026-01-13
 status: accepted
+mutability: append-only
 ---
 
 # ADR-001: Shared `.harmony/` Foundation

@@ -1,6 +1,7 @@
 ---
 title: Decisions
-description: Agent-readable summary of key decisions affecting this workspace
+description: Agent-readable summary of key decisions affecting this workspace.
+mutability: append-only
 ---
 
 # Decisions
@@ -11,6 +12,7 @@ Key decisions that constrain or guide work in this workspace. For full rationale
 - [ADR-001](../decisions/001-harmony-shared-foundation.md) — Shared `.harmony/` foundation (D007)
 - [ADR-002](../decisions/002-consolidated-scratchpad-zone.md) — Consolidated `.scratchpad/` zone (D003, D005, D008, D009)
 - [ADR-003](../decisions/003-projects-elevation-and-funnel.md) — Projects elevation and idea funnel (D010, D011, D012)
+- [ADR-004](../decisions/004-refactor-workflow.md) — Refactor workflow and universal commands (D013, D014, D015, D016)
 
 ## Active Decisions
 
@@ -27,6 +29,10 @@ Key decisions that constrain or guide work in this workspace. For full rationale
 | D010 | Projects location | Workspace level (`projects/`) | Projects live at workspace level, not in `.scratchpad/`; direct artifact flow to `context/` | 2026-01-14 |
 | D011 | Brainstorm stage | Single-file exploration in `.scratchpad/brainstorm/` | Filter stage between ideas and projects; most ideas die here | 2026-01-14 |
 | D012 | The Funnel | ideas → brainstorm → projects → missions → context | Clear pipeline from raw ideas to permanent knowledge | 2026-01-14 |
+| D013 | Refactor verification | Mandatory verification gate | Refactors cannot be declared complete until all audit searches return zero | 2026-01-14 |
+| D014 | Continuity artifact immutability | Append-only during refactors | Historical records (`progress/log.md`, `decisions/*.md`) must not be modified, only appended | 2026-01-14 |
+| D015 | Universal commands | Symlink from harness to `.harmony/commands/` | Commands defined once in `.harmony/`, symlinked to `.cursor/`, `.claude/` | 2026-01-14 |
+| D016 | Mutability frontmatter | `mutability: append-only` property | Files with this property must not have existing content modified; check before editing | 2026-01-14 |
 
 ## Decision Format
 

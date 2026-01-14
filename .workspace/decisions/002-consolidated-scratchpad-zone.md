@@ -3,6 +3,7 @@ title: "ADR-002: Consolidated .scratchpad/ Human-Led Zone"
 description: Consolidate .humans/, .inbox/, and .archive/ into single .scratchpad/ directory.
 date: 2026-01-13
 status: accepted
+mutability: append-only
 ---
 
 # ADR-002: Consolidated `.scratchpad/` Human-Led Zone

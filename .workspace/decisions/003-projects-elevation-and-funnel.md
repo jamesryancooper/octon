@@ -3,6 +3,7 @@ title: "ADR-003: Projects Elevation and Idea Funnel"
 description: Elevate projects/ to workspace level and introduce brainstorm/ as filter stage.
 date: 2026-01-14
 status: accepted
+mutability: append-only
 ---
 
 # ADR-003: Projects Elevation and Idea Funnel

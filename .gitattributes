@@ -8,7 +8,15 @@
 .cursor/skills/* -text
 .codex/skills/* -text
 
+# Preserve symlinks in harness command folders
+.claude/commands/refactor.md -text
+.cursor/commands/refactor.md -text
+
 # Mark skill symlinks explicitly (optional, helps some tools)
 .claude/skills/** symlink
 .cursor/skills/** symlink
 .codex/skills/** symlink
+
+# Mark command symlinks explicitly
+.claude/commands/refactor.md symlink
+.cursor/commands/refactor.md symlink

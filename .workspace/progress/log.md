@@ -1,3 +1,9 @@
+---
+title: Progress Log
+description: Chronological record of session work and decisions.
+mutability: append-only
+---
+
 # Progress Log
 
 ## 2025-12-10
@@ -244,6 +250,88 @@ Projects have significant structure (registry, templates, lifecycle) and frequen
 
 - Test project creation workflow with updated templates
 - Verify funnel documentation is discoverable
+
+**Blockers:**
+
+- None
+
+## 2026-01-14 (session 2)
+
+**Session focus:** Create verified refactor workflow and universal command pattern
+
+**Completed:**
+
+- Created `.harmony/workflows/refactor/` with 6-step verified workflow:
+  - `01-define-scope.md` — Capture patterns and search variations
+  - `02-audit.md` — Exhaustive search for ALL references
+  - `03-plan.md` — Create manifest of all changes
+  - `04-execute.md` — Make changes systematically
+  - `05-verify.md` — Mandatory verification gate (must return zero)
+  - `06-document.md` — Update continuity artifacts (append-only)
+- Established continuity artifact immutability rule:
+  - Progress logs, decisions, ADRs are append-only during refactors
+  - Historical accuracy preserved over naming consistency
+- Created universal command pattern for cross-harness commands:
+  - `.harmony/commands/refactor.md` — Source of truth
+  - `.cursor/commands/refactor.md` → symlink to `.harmony/`
+  - `.claude/commands/refactor.md` → symlink to `.harmony/`
+- Updated `.harmony/README.md` with command symlink documentation
+- Updated `.gitattributes` with symlink preservation rules
+- Created ADR-004: Refactor Workflow and Universal Commands
+
+**Decisions made:**
+
+- D013: Refactor verification — Mandatory verification gate before completion
+- D014: Continuity artifact immutability — Append-only rule for historical records
+- D015: Universal commands — Symlink pattern for cross-harness commands
+
+**Rationale:**
+
+Refactors frequently left orphaned references because there was no verification step. The new workflow enforces audit → plan → execute → verify, where verification must pass (zero remaining references) before completion can be declared. Continuity artifacts are append-only to preserve historical accuracy.
+
+**Next:**
+
+- Test refactor workflow on an actual refactor
+- Consider adding continuity artifact protection to conventions
+
+**Blockers:**
+
+- None
+
+## 2026-01-14 (session 3)
+
+**Session focus:** Implement continuity artifact safeguards
+
+**Completed:**
+
+- Added `mutability: append-only` frontmatter property to all continuity artifacts:
+  - `progress/log.md` — Added full frontmatter block
+  - `context/decisions.md` — Added mutability property
+  - `decisions/001-harmony-shared-foundation.md` — Added mutability property
+  - `decisions/002-consolidated-scratchpad-zone.md` — Added mutability property
+  - `decisions/003-projects-elevation-and-funnel.md` — Added mutability property
+  - `decisions/004-refactor-workflow.md` — Added mutability property
+- Added "Continuity Artifacts" section to `.workspace/conventions.md`:
+  - Protected files table listing all append-only files
+  - Mutability frontmatter example and documentation
+  - "What append-only means" table (allowed vs not allowed)
+  - Refactor-specific guidance with concrete examples
+  - Cross-references to D014, ADR-004, and refactor workflow
+- Updated "Progress Log Format" section with explicit immutability rule:
+  - Added statement: "Past entries in `progress/log.md` are immutable"
+
+**Decisions made:**
+
+- D016: Mutability frontmatter — `mutability: append-only` property signals protected files
+
+**Rationale:**
+
+The `mutability` frontmatter property provides a machine-readable signal that agents can check before modifying files. Combined with the conventions documentation, this creates both programmatic and human-readable safeguards for historical records.
+
+**Next:**
+
+- Test refactor workflow on an actual refactor
+- Verify agents respect mutability frontmatter
 
 **Blockers:**
 

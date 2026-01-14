@@ -100,3 +100,53 @@ See `[reference]` for full details.
 **Blockers:**
 - [if any]
 ```
+
+**Immutability rule:** Past entries in `progress/log.md` are immutable. New sessions append new entries; existing entries are never modified. This preserves historical accuracy across refactors and renames.
+
+## Continuity Artifacts
+
+Continuity artifacts are files that preserve historical context across sessions. They use `mutability: append-only` in frontmatter to signal protection.
+
+### Protected Files
+
+| File | Purpose | Rule |
+|------|---------|------|
+| `progress/log.md` | Session history | Append new entries; never modify past entries |
+| `context/decisions.md` | Decision summary | Append new decisions; never update old references |
+| `decisions/*.md` | Full ADRs | Append addendums; never modify accepted content |
+
+### Mutability Frontmatter
+
+Files marked with `mutability: append-only` must not have existing content modified:
+
+```yaml
+---
+title: Progress Log
+description: Chronological record of session work and decisions.
+mutability: append-only
+---
+```
+
+### What "Append-Only" Means
+
+| Allowed | Not Allowed |
+|---------|-------------|
+| Add new log entry | Modify existing log entry |
+| Add new decision row | Update old decision text |
+| Add ADR addendum section | Change accepted ADR content |
+| Fix typos in current session's entry | Fix typos in past session's entry |
+
+### During Refactors
+
+When renaming or moving paths, **do not** update historical references:
+
+- A log entry from 2026-01-13 that says `.scratch/` should forever say `.scratch/`, even after renaming to `.scratchpad/`
+- Add a new entry documenting the rename instead
+
+**Rationale:** Historical accuracy is more important than naming consistency. Future readers should see the progression of changes, not a sanitized history.
+
+### See Also
+
+- **Decision:** D014 (Continuity artifact immutability)
+- **ADR:** [ADR-004](decisions/004-refactor-workflow.md)
+- **Workflow:** `.harmony/workflows/refactor/`

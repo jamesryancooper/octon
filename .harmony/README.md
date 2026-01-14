@@ -62,6 +62,7 @@ When resolving a resource, agents check local first, then shared:
 │
 ├── commands/           <- Generic atomic operations
 │   ├── recover.md
+│   ├── refactor.md
 │   └── validate-frontmatter.md
 │
 ├── context/            <- Generic reference material
@@ -92,7 +93,7 @@ When resolving a resource, agents check local first, then shared:
 - Generic assistants (reviewer, refactor, docs)
 - Base templates for workspace creation
 - Workspace/mission management workflows
-- Generic commands (recover, validate-frontmatter)
+- Generic commands (recover, refactor, validate-frontmatter)
 - Tool usage and compaction guides
 - Base quality checklists
 - Skills framework and generic skills
@@ -118,6 +119,8 @@ When resolving a resource, agents check local first, then shared:
 
 ## Harness Integration
 
+### Skills
+
 Harness directories (`.claude/`, `.cursor/`, `.codex/`) symlink to `.harmony/skills/` for shared skills:
 
 ```
@@ -126,7 +129,18 @@ Harness directories (`.claude/`, `.cursor/`, `.codex/`) symlink to `.harmony/ski
 .codex/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
 ```
 
-Cursor commands in `.cursor/commands/` reference `.harmony/` workflows and commands.
+### Commands
+
+Harness command directories symlink to `.harmony/commands/` for shared commands:
+
+```
+.cursor/commands/refactor.md -> ../../.harmony/commands/refactor.md
+.claude/commands/refactor.md -> ../../.harmony/commands/refactor.md
+```
+
+**Note:** Codex CLI does not support project-level custom commands. Codex users have two options:
+1. Manually copy commands from `.harmony/commands/` to `~/.codex/prompts/`
+2. Invoke the workflow directly: "Execute `.harmony/workflows/refactor/00-overview.md`"
 
 ## Adopting in Other Repos
 
