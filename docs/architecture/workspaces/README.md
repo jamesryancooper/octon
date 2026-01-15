@@ -110,7 +110,7 @@ Agents struggle when they "arrive with no memory of what came before." A `.works
 │   ├── registry.yml      # Skill catalog (progressive disclosure)
 │   ├── _template/        # New skill template
 │   │   └── skill.md
-│   ├── <skill-id>/       # Individual skills
+│   ├── <skill-name>/       # Individual skills
 │   │   └── skill.md      # Skill definition
 │   ├── sources/          # Standard input folder
 │   ├── outputs/          # Standard output folders

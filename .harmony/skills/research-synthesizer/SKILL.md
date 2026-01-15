@@ -1,7 +1,7 @@
 ---
 # Identity
 id: "research-synthesizer"
-name: "Research Synthesizer"
+name: "synthesize-research"
 version: "1.0.0"
 summary: "Synthesize scattered research notes into coherent findings. Use when consolidating research."
 description: |

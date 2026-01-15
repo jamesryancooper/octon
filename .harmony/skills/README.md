@@ -5,16 +5,19 @@ Composable capabilities with defined I/O contracts and progressive disclosure.
 ## Quick Start
 
 **Invoke a skill:**
+
 ```text
 /use-skill <skill-id> [input-path]
 ```
 
 **Or use skill-specific commands:**
+
 ```text
 /synthesize-research sources/topic/
 ```
 
 **Or explicit call pattern:**
+
 ```text
 use skill: research-synthesizer
 ```
@@ -131,11 +134,13 @@ examples:
 ## Creating a Skill
 
 **Via command:**
+
 ```text
 /create-skill <skill-id>
 ```
 
 **Manually:**
+
 1. Copy `_template/` to `<skill-id>/`
 2. Update `SKILL.md` with definition
 3. Add entry to `registry.yml`
@@ -162,22 +167,26 @@ Skills are distributed to agent harnesses via symlinks:
 ```
 
 **Setup all links:**
+
 ```bash
 ./scripts/setup-harness-links.sh
 ```
 
 **Setup single skill:**
+
 ```bash
 ./scripts/setup-harness-links.sh <skill-id>
 ```
 
 **Why symlinks?**
+
 - Single source of truth (no drift)
 - Zero duplication
 - Changes propagate automatically
 - All harnesses see the same skill definition
 
 **Compatibility:**
+
 - Uses uppercase `SKILL.md` per Agent Skills standard
 - Works with Claude Code, Cursor, Codex, and other compliant harnesses
 
@@ -185,7 +194,7 @@ Skills are distributed to agent harnesses via symlinks:
 
 Skills compose via outputs becoming inputs:
 
-```
+```text
 skill-1 (outputs/drafts/) → skill-2 (outputs/refined/) → skill-3 (outputs/html/)
 ```
 
@@ -194,11 +203,13 @@ Define common pipelines in `registry.yml` for discoverability.
 ## Run Logging
 
 Every skill execution produces a log at:
+
 ```text
 logs/runs/<timestamp>-<skill-id>.md
 ```
 
 Log format:
+
 ```yaml
 ---
 run_id: 2025-01-12T10-31-00Z-skill-id

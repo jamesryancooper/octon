@@ -1,8 +1,8 @@
 ---
 title: Create Skill
-description: Scaffold a new skill from template with registry entry.
+description: Scaffold a new skill from template with registry entry, following the agentskills.io spec.
 access: human
-version: "1.2.0"
+version: "2.0.0"
 depends_on: []
 checkpoints:
   enabled: true
@@ -12,73 +12,131 @@ parallel_steps: []
 
 # Create Skill
 
-Scaffold a new skill with I/O contracts, safety policies, and registry entry.
+Scaffold a new skill following the [agentskills.io](https://agentskills.io) specification with proper naming, progressive disclosure structure, and registry entry.
 
 ## Usage
 
 ```text
-/create-skill <skill-id>
+/create-skill <skill-name>
 ```
 
-**Example:**
+**Examples:**
 ```text
-/create-skill history-researcher
+/create-skill refine-prompt
+/create-skill generate-report
+/create-skill analyze-codebase
 ```
+
+## Naming Convention
+
+**Use action-oriented names** following the verb-noun pattern:
+
+| Pattern | Good Examples | Bad Examples |
+|---------|---------------|--------------|
+| verb-noun | `refine-prompt`, `generate-report` | `prompt-refiner`, `report-generator` |
+| verb-object | `analyze-codebase`, `process-payment` | `codebase-analyzer`, `payment-processor` |
+| action-target | `validate-schema`, `extract-data` | `schema-validator`, `data-extractor` |
+
+**Rules:**
+- Use lowercase letters, numbers, and hyphens only
+- Start with a verb (action word)
+- Must match the directory name exactly
+- No consecutive hyphens (`--`)
+- No leading/trailing hyphens
 
 ## Prerequisites
 
-- Skill ID must be lowercase with hyphens (e.g., `history-researcher`)
-- No existing skill with the same ID in `skills/registry.yml`
+- Skill name follows action-oriented naming convention
+- No existing skill with the same name in registry
+- Name is 1-64 characters, lowercase with hyphens
 
 ## Failure Conditions
 
-- Invalid skill ID format (not kebab-case)
-- Skill ID already exists
+- Invalid skill name format (not kebab-case)
+- Name doesn't follow verb-noun pattern (warning, not blocking)
+- Skill name already exists
 - Cannot write to skills directory
 
 ## Steps
 
-1. [Validate ID](./01-validate-id.md) — Check format and uniqueness
-2. [Copy Template](./02-copy-template.md) — Copy `_template/` to `skills/<skill-id>/`
-3. [Initialize Skill](./03-initialize-skill.md) — Update `SKILL.md` with ID and placeholders
+1. [Validate Name](./01-validate-name.md) — Check format, naming convention, and uniqueness
+2. [Copy Template](./02-copy-template.md) — Copy template to `skills/<skill-name>/`
+3. [Initialize Skill](./03-initialize-skill.md) — Update `SKILL.md` with name and placeholders
 4. [Update Registry](./04-update-registry.md) — Add entry to `registry.yml`
 5. [Update Catalog](./05-update-catalog.md) — Add row to skills table in `catalog.md`
 6. [Report Success](./06-report-success.md) — Confirm creation and next steps
 
-## Output
+## Output Structure
 
-A new skill directory ready for definition:
+A new skill directory following the agentskills.io spec:
 
 ```text
-skills/<skill-id>/
-├── SKILL.md       # Ready for capability definition
-├── templates/     # (empty, for skill-specific templates)
-└── reference/     # (empty, for detailed reference material)
+skills/<skill-name>/
+├── SKILL.md              # Core skill definition (<500 lines)
+├── references/           # Detailed documentation (progressive disclosure)
+│   ├── behaviors.md      # Phase-by-phase behavior details
+│   ├── triggers.md       # Commands and invocation patterns
+│   ├── io-contract.md    # Inputs, outputs, dependencies
+│   ├── safety.md         # Tool and file policies
+│   ├── examples.md       # Full usage examples
+│   └── validation.md     # Acceptance criteria
+├── scripts/              # Executable code (optional)
+└── assets/               # Static resources (optional)
 
 # Plus symlinks in harness folders:
-.claude/skills/<skill-id> -> ../../.workspace/skills/<skill-id>
-.cursor/skills/<skill-id> -> ../../.workspace/skills/<skill-id>
-.codex/skills/<skill-id> -> ../../.workspace/skills/<skill-id>
+.claude/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
+.cursor/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
+.codex/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
 ```
 
 ## Next Steps After Creation
 
-1. Define commands and triggers in `SKILL.md`
-2. Specify inputs and outputs
-3. Write behavior steps
-4. Set safety policies
-5. Add acceptance criteria
+1. **Edit `SKILL.md`** to define:
+   - Description (what it does and when to use it)
+   - Core workflow phases
+   - Parameters and output locations
+   - Boundaries and escalation triggers
+
+2. **Edit reference files** to add details:
+   - `references/behaviors.md` — Detailed phase steps
+   - `references/triggers.md` — Natural language triggers
+   - `references/io-contract.md` — Input/output schemas
+   - `references/safety.md` — Tool and file policies
+   - `references/examples.md` — Full examples
+   - `references/validation.md` — Acceptance criteria
+
+3. **Update `registry.yml`** with:
+   - Human-readable summary
+   - Trigger patterns
+   - Tool requirements
+
+4. **Test the skill** by invoking:
+   ```text
+   /<skill-name> [input]
+   ```
+
+## Spec Compliance
+
+This workflow creates skills that comply with [agentskills.io/specification](https://agentskills.io/specification):
+
+- **Required frontmatter:** `name`, `description`
+- **Optional frontmatter:** `license`, `compatibility`, `metadata`, `allowed-tools`
+- **Directory structure:** `references/`, `scripts/`, `assets/`
+- **Progressive disclosure:** Core SKILL.md < 500 lines, details in references/
 
 ## Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.2.0 | 2025-01-14 | Added Idempotency sections to all step files |
+| 2.0.0 | 2025-01-15 | Aligned with agentskills.io spec, action-oriented naming, progressive disclosure |
+| 1.2.0 | 2025-01-14 | Added idempotency sections to all step files |
 | 1.1.0 | 2025-01-14 | Added gap remediation fields |
 | 1.0.0 | 2025-01-05 | Initial version |
 
 ## References
 
+- **Spec:** [agentskills.io/specification](https://agentskills.io/specification)
 - **Documentation:** `docs/architecture/workspaces/skills.md`
-- **Template:** `.workspace/skills/_template/SKILL.md`
-- **Registry:** `.workspace/skills/registry.yml`
+- **Example:** `.harmony/skills/refine-prompt/`
+- **Template:** `.harmony/skills/_template/`
+- **Registry:** `.harmony/skills/registry.yml`

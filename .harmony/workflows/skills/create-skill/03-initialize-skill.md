@@ -1,64 +1,91 @@
 ---
 title: Initialize Skill
-description: Update SKILL.md with ID and initial values.
+description: Update SKILL.md and reference files with skill name and initial values.
 ---
 
 # Step 3: Initialize Skill
 
 ## Input
 
-- `skill-id` from Step 1
-- `SKILL.md` template from Step 2
+- `skill-name` from Step 1
+- Template files from Step 2
 
 ## Actions
 
-Update `skills/<skill-id>/SKILL.md` frontmatter and content:
+### Update SKILL.md Frontmatter
 
-```text
-1. Replace placeholders with actual skill-id:
-   - id: "<skill-id>"
-   - name: "[Skill Name - TODO]"
-   - explicit_call_patterns: ["use skill: <skill-id>"]
-   - commands: [/<skill-id>]
-   - All other [skill-id] placeholders in content
+Replace placeholders in `skills/<skill-name>/SKILL.md`:
 
-2. Set initial values:
-   - version: "0.1.0"
-   - created_at: "[current date YYYY-MM-DD]"
-   - updated_at: "[current date YYYY-MM-DD]"
-
-3. Leave other placeholders for user to fill:
-   - summary
-   - description
-   - author
-   - triggers
-   - inputs/outputs
-   - behavior goals/steps
-   - acceptance criteria
-   - examples
+```yaml
+---
+name: <skill-name>                    # Must match directory name
+description: >
+  [TODO: One paragraph describing what this skill does...]
+license: MIT
+compatibility: Designed for Claude Code and similar AI coding assistants.
+metadata:
+  author: "[TODO: Author Name]"
+  version: "0.1.0"
+  created: "[current date YYYY-MM-DD]"
+  updated: "[current date YYYY-MM-DD]"
+allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
+---
 ```
+
+### Update SKILL.md Body
+
+Replace placeholders:
+- `# [Skill Name]` -> `# [Human-Readable Name - TODO]`
+- `/skill-name` -> `/<skill-name>`
+- `skill-name skill` -> `<skill-name> skill`
+- All `logs/runs/<timestamp>-skill-name.md` -> `logs/runs/<timestamp>-<skill-name>.md`
+
+### Update Reference Files
+
+For each file in `references/`:
+- Replace all `skill-name` with `<skill-name>`
+- Replace `/skill-name` with `/<skill-name>`
+- Update any skill-specific paths
+
+**Files to update:**
+- `references/behaviors.md`
+- `references/triggers.md`
+- `references/io-contract.md`
+- `references/safety.md`
+- `references/examples.md`
+- `references/validation.md`
+
+### Set Dates
+
+Set to current date in ISO format (YYYY-MM-DD):
+- `metadata.created`
+- `metadata.updated`
 
 ## Verification
 
-- Frontmatter has correct `id`
-- `commands` array has `/<skill-id>`
-- `explicit_call_patterns` has `use skill: <skill-id>`
-- Dates are set to current date
+- Frontmatter `name` field equals `<skill-name>`
+- `metadata.created` has valid date
+- `metadata.updated` has valid date
+- All `skill-name` placeholders replaced in SKILL.md
+- All `skill-name` placeholders replaced in reference files
+- Command references use `/<skill-name>`
 
 ## Idempotency
 
 **Check:** Is SKILL.md already initialized?
-- [ ] Frontmatter `id` field matches `<skill-id>`
-- [ ] `created_at` field has valid date
-- [ ] `commands` array contains `/<skill-id>`
+- [ ] Frontmatter `name` field matches `<skill-name>`
+- [ ] `metadata.created` field has valid date
+- [ ] Reference files have `<skill-name>` (not `skill-name`)
 
 **If Already Complete:**
 - Verify initialization is correct
 - Skip to next step
 
-**Marker:** `checkpoints/create-skill/<skill-id>/03-initialize.complete`
+**Marker:** `checkpoints/create-skill/<skill-name>/03-initialize.complete`
 
 ## Output
 
-- Initialized `SKILL.md` ready for user customization
+- Initialized `SKILL.md` with correct name and dates
+- Initialized reference files with correct skill name
+- Ready for user customization
 - Proceed to Step 4

@@ -69,10 +69,10 @@
 - [ ] Implement RAG (flat-file, vectorless, graph and agentic rag, multi-query + query expansion, context aware  chunking and late chuncking, hierarchical chunking, self-refective,etc.)
 - [ ] Look at integrating graphs across the framework. Architect a flat-file knowledge graph for the framework to connect files and directories together. Reference: <https://chatgpt.com/share/e/695290bb-e2c4-8012-a0cc-05dc257a4ccb>
 - [ ] Do some research on flat-file workflow architectures and patterns.
-- [ ] Create a prompt for pulling implementable architectural patterns from context graph and memory graph research. What concepts could be applied to the framework? Look into decision traces. Look into types of context and types of memory. 
+- [ ] Create a prompt for pulling implementable architectural patterns from context graph and memory graph research. What concepts could be applied to the framework? Look into decision traces. Look into types of context and types of memory.
 - [ ] Researching into continuity should include looking into the concept of context and memory as they relate to the framework. Context and memory engineering should be considered as part of the framework. Context and memory should be localized to the workspace harnesses. Explore how we might bestconnect context and memory from one workspace to another workspace.
-- [ ] Look into Resource Description Framework, Property Graphs, Knowledge Graphs, and other graph-based architectures and patterns. (https://www.youtube.com/watch?v=gZjlt5WcWB4)
-- [ ] Look into https://github.com/FlatbreadLabs/flatbread
+- [ ] Look into Resource Description Framework, Property Graphs, Knowledge Graphs, and other graph-based architectures and patterns. (<https://www.youtube.com/watch?v=gZjlt5WcWB4>)
+- [ ] Look into <https://github.com/FlatbreadLabs/flatbread>
 - [ ] Explore implementing a context exploration/discovery/walker agent and a context collection agent that walks through knowledge and context graphs and collects connectted context to provide to other agents. Explore how we navigate graphs to gather and engineer context to provide to other agents.
 - [ ] How does subjective and obejective truth play into observations?
 - [ ] How do we track context vs memory vs knowledge vs observations vs decisions vs handoffs vs progress vs backlogs vs rationale vs etc.?
@@ -80,7 +80,7 @@
 - [ ] Explore flat-file graph architecture patterns and how they can be applied to the framework. Look into sqlite and json graph architectures and patterns.
 - [ ] Explore ontologies: Research what ontologies are, the role they play in structuring knowledge and context (e.g., semantic web, domain-specific standards), and how Harmony should handle them. Investigate using existing, industry-standard ontologies versus creating custom ones, as well as strategies for ingesting, mapping, and applying ontologies within the Harmony framework to support knowledge interoperability and context graph retrieval.
 
-Charts from: https://www.youtube.com/watch?v=gZjlt5WcWB4
+Charts from: <https://www.youtube.com/watch?v=gZjlt5WcWB4>
 
 ```mermaid
 flowchart LR
@@ -140,6 +140,13 @@ flowchart TB
   RDF --> Note
   Note --> Score
 ```
+
+## 6) Skills
+
+- [ ] Update the create-skill workflow to create skills that align with the agent skills spec. Use `.harmony/skills/refine-prompt` as an example. Progressive disclosure is important. Also, include the following instructions for naming skills:
+     When naming agent skills, use clear, consistent, action-oriented names (like verbs or gerunds, e.g., generate-report, process-payment),
+    incorporate keywords for searchability, keep them concise, use hyphens/lowercase for technical systems, and group related skills for better
+    organization, reflecting their function and making them easy to find and use by both humans and AI.
 
 ## Completed
 

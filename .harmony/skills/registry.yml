@@ -38,15 +38,15 @@ skills:
         - filesystem.write.outputs
     depends_on: []
 
-  - id: prompt-refiner
-    name: Prompt Refiner
-    path: prompt-refiner/
+  - id: refine-prompt
+    name: Refine Prompt
+    path: refine-prompt/
     version: "2.1.1"
     summary: "Context-aware prompt refinement with persona assignment, anti-patterns, self-critique, and intent confirmation."
     commands:
       - /refine-prompt
     explicit_call_patterns:
-      - "use skill: prompt-refiner"
+      - "use skill: refine-prompt"
     triggers:
       - "refine my prompt"
       - "improve this prompt"
