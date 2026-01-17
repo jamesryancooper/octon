@@ -1,157 +1,58 @@
 ---
-# Identity
-id: "research-synthesizer"
-name: "synthesize-research"
-version: "1.0.0"
-summary: "Synthesize scattered research notes into coherent findings. Use when consolidating research."
-description: |
-  Transforms scattered research notes into a coherent, structured findings document.
-  Use this skill when you need to consolidate research, summarize findings across
-  multiple files, or create a synthesis document from dispersed notes.
-access: agent
-
-# Provenance
-author:
-  name: "Harmony Workspace"
-  contact: "workspace@harmony"
-created_at: "2025-01-12"
-updated_at: "2025-01-14"
-license: "MIT"
-
-# Invocation
-commands:
-  - /synthesize-research
-explicit_call_patterns:
-  - "use skill: research-synthesizer"
-triggers:
-  - "synthesize my research"
-  - "consolidate findings"
-  - "summarize research notes"
-
-# I/O Contract
-inputs:
-  - name: research_folder
-    type: folder
-    required: true
-    path_hint: "projects/<project>/ or sources/<topic>/"
-    schema: null
-    description: "Folder containing research notes, logs, and findings"
-
-outputs:
-  - name: synthesis_document
-    type: markdown
-    path: "outputs/drafts/<topic>-synthesis.md"
-    format: "markdown"
-    determinism: "stable"
-    description: "Consolidated findings document"
-  - name: run_log
-    type: log
-    path: "logs/runs/<timestamp>-research-synthesizer.md"
-    format: "yaml-frontmatter-markdown"
-    determinism: "stable"
-
-# Dependencies
-requires:
-  tools:
-    - filesystem.read
-    - filesystem.write.outputs
-  packages: []
-  services: []
-depends_on: []
-
-# Safety Policies
-safety:
-  tool_policy:
-    mode: deny-by-default
-    allowed:
-      - filesystem.read
-      - filesystem.write.outputs
-  file_policy:
-    write_scope:
-      - ".workspace/skills/outputs/**"
-      - ".workspace/skills/logs/**"
-    destructive_actions: never
-
-# Behavior (structured for machine parsing)
-behavior:
-  goals:
-    - "Consolidate dispersed research into a single coherent document"
-    - "Identify and organize findings by theme"
-    - "Surface contradictions and resolve or flag them"
-    - "Highlight remaining gaps and open questions"
-    - "Produce audit trail via run log"
-  steps:
-    - "Read all .md files in the input folder"
-    - "Extract explicit findings, insights, and conclusions"
-    - "Group related findings into 3-7 themes"
-    - "Write executive summary and themed sections"
-    - "Write outputs to declared paths and run log"
-
-# Validation
-acceptance_criteria:
-  - "Synthesis document exists in outputs/drafts/"
-  - "Document includes executive summary"
-  - "Key findings are organized by theme"
-  - "Open questions are clearly listed"
-  - "Run log captures inputs and outputs"
-
-# Examples (for testing and documentation)
-examples:
-  - input: "projects/auth-patterns/"
-    invocation: "/synthesize-research projects/auth-patterns/"
-    output: "outputs/drafts/auth-patterns-synthesis.md"
-    description: "Synthesize authentication pattern research"
-  - input: "sources/api-design/"
-    invocation: "/synthesize-research sources/api-design/"
-    output: "outputs/drafts/api-design-synthesis.md"
-    description: "Consolidate API design research notes"
+name: research-synthesizer
+description: >
+  Transforms scattered research notes into a coherent, structured findings
+  document. Consolidates dispersed research, identifies themes, surfaces
+  contradictions, and highlights gaps. Use when you need to synthesize
+  research, summarize findings across multiple files, or create a synthesis
+  document from dispersed notes.
+license: MIT
+compatibility: Designed for Claude Code and similar AI coding assistants.
+metadata:
+  author: Harmony Workspace
+  created: "2025-01-12"
+  updated: "2025-01-14"
+allowed-tools: Read Write(outputs/*) Write(logs/*)
 ---
 
-# Skill: research-synthesizer
+# Research Synthesizer
 
-## Mission
+Transform scattered research notes into coherent, structured findings documents.
 
-Transform scattered research notes into a coherent, structured findings document that distills key insights, identifies themes, and highlights gaps.
+## When to Use
 
-## Behavior
+Use this skill when:
 
-### Goals
+- You have research notes scattered across multiple files
+- You need to consolidate findings into a single document
+- You want to identify themes and patterns across research
+- You need to surface contradictions or gaps in research
 
-1. Consolidate dispersed research into a single coherent document
-2. Identify and organize findings by theme
-3. Surface contradictions and resolve or flag them
-4. Highlight remaining gaps and open questions
-5. Produce audit trail via run log
+## Quick Start
 
-### Steps
+```
+/synthesize-research sources/topic/
+```
 
-1. **Gather materials**
-   - Read all `.md` files in the input folder
-   - Identify `project.md`, `log.md`, `findings.md` if present
-   - Note the research goal and key questions
+## Core Workflow
 
-2. **Extract findings**
-   - Pull out explicit findings, insights, and conclusions
-   - Note supporting evidence for each
-   - Flag contradictions or uncertain claims
+1. **Gather Materials** - Read all markdown files in the input folder
+2. **Extract Findings** - Pull out explicit findings, insights, and conclusions
+3. **Identify Themes** - Group related findings into 3-7 themes
+4. **Synthesize** - Write executive summary and themed sections
+5. **Output** - Save synthesis document and execution log
 
-3. **Identify themes**
-   - Group related findings into 3-7 themes
-   - Name each theme descriptively
-   - Order themes by importance or logical flow
+## Parameters
 
-4. **Synthesize**
-   - Write executive summary (3-5 sentences)
-   - For each theme:
-     - State the key insight
-     - Provide supporting evidence
-     - Note confidence level (high/medium/low)
-   - List resolved contradictions
-   - List open questions and gaps
+Parameters are defined in `.harmony/skills/registry.yml` (single source of truth).
 
-5. **Write outputs**
-   - Write synthesis to `outputs/drafts/<topic>-synthesis.md`
-   - Write run log to `logs/runs/<timestamp>-research-synthesizer.md`
+This skill accepts one required parameter: a folder path containing research notes (markdown files).
+
+## Output Location
+
+Output paths are defined in `.workspace/skills/registry.yml` (single source of truth).
+
+Outputs are written to `outputs/drafts/` (synthesis document) and `logs/runs/` (execution log).
 
 ## Output Format
 
@@ -177,19 +78,14 @@ Transform scattered research notes into a coherent, structured findings document
 
 **Confidence:** [High/Medium/Low]
 
-### Theme 2: [Name]
-...
-
 ## Contradictions & Resolutions
 
 | Finding A | Finding B | Resolution |
 |-----------|-----------|------------|
-| [Claim] | [Conflicting claim] | [How resolved or "Unresolved"] |
 
 ## Open Questions
 
 1. [Question that remains unanswered]
-2. [Gap in research coverage]
 
 ## Sources Reviewed
 
@@ -214,5 +110,11 @@ Transform scattered research notes into a coherent, structured findings document
 
 ## References
 
-For detailed reference materials, see `reference/` directory.
-For executable helpers, see `scripts/` directory.
+For detailed documentation:
+
+- [I/O contract](references/io-contract.md) - Inputs, outputs, dependencies, command-line usage
+- [Behavior phases](references/behaviors.md) - Full phase-by-phase instructions
+- [Safety policies](references/safety.md) - Tool and file policies
+- [Examples](references/examples.md) - Full synthesis examples
+- [Validation](references/validation.md) - Acceptance criteria
+- [Error handling](references/errors.md) - Error codes, recovery procedures, troubleshooting

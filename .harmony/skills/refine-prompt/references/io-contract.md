@@ -1,81 +1,36 @@
 ---
-inputs:
-  - name: raw_prompt
-    type: text
-    required: true
-    path_hint: "inline text or file path"
-    schema: null
-    description: "The raw prompt text to refine (inline or from file)"
-  - name: execute
-    type: boolean
-    required: false
-    path_hint: "flag"
-    schema: null
-    description: "Execute the refined prompt after saving (default: false)"
-  - name: context_depth
-    type: text
-    required: false
-    path_hint: "minimal/standard/deep"
-    schema: null
-    description: "How deep to analyze repository context (default: standard)"
-  - name: skip_confirmation
-    type: text
-    required: false
-    path_hint: "true/false"
-    schema: null
-    description: "Skip intent confirmation step (default: false)"
-
-outputs:
-  - name: refined_prompt
-    type: markdown
-    path: "outputs/prompts/<timestamp>-refined.md"
-    format: "markdown"
-    determinism: "stable"
-    description: "The refined, improved prompt ready for execution"
-  - name: run_log
-    type: log
-    path: "logs/runs/<timestamp>-refine-prompt.md"
-    format: "yaml-frontmatter-markdown"
-    determinism: "stable"
-
-requires:
-  tools:
-    - filesystem.read
-    - filesystem.write.outputs
-    - filesystem.glob
-    - filesystem.grep
-  packages: []
-  services: []
-
-depends_on: []
+# I/O Contract Documentation
+# This file provides extended documentation for human reference.
+#
+# AUTHORITATIVE SOURCES (Single Source of Truth):
+#   - Tool permissions: SKILL.md frontmatter `allowed-tools`
+#   - Parameters: .harmony/skills/registry.yml
+#   - Output paths: .workspace/skills/registry.yml
+#
+# Prose descriptions below are derived from these sources.
+# If discrepancies exist, the authoritative sources are correct.
 ---
 
 # I/O Contract Reference
 
-Input/output specifications and dependencies for the refine-prompt skill.
+Extended input/output documentation for the refine-prompt skill.
 
-## Inputs
+> **Authoritative Sources:**
+> - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
+> - Parameters: `.harmony/skills/registry.yml`
+> - Output paths: `.workspace/skills/registry.yml`
 
-| Name | Type | Required | Description |
-|------|------|----------|-------------|
-| `raw_prompt` | text | Yes | The raw prompt text to refine (inline or file path) |
-| `execute` | boolean | No | Execute the refined prompt after saving (default: false) |
-| `context_depth` | text | No | Analysis depth: minimal/standard/deep (default: standard) |
-| `skip_confirmation` | text | No | Skip intent confirmation step (default: false) |
+## Context Depth Levels
 
-## Outputs
+The `context_depth` parameter controls how deeply the skill analyzes the repository:
 
-### Refined Prompt
-- **Path:** `outputs/prompts/<timestamp>-refined.md`
-- **Format:** Markdown
-- **Content:** The refined, improved prompt ready for execution
+| Level | Behavior |
+|-------|----------|
+| `minimal` | Scan immediate directory, check for README/package.json only |
+| `standard` | Scan relevant directories, identify key files, patterns |
+| `deep` | Full codebase analysis, dependency graph, cross-module patterns |
 
-### Run Log
-- **Path:** `logs/runs/<timestamp>-refine-prompt.md`
-- **Format:** YAML frontmatter + Markdown
-- **Content:** Execution log with input, context analyzed, and output summary
-
-## Output Structure
+## Output Format
 
 The refined prompt follows this structure:
 
@@ -128,11 +83,39 @@ The refined prompt follows this structure:
 
 ## Dependencies
 
-### Required Tools
-- `filesystem.read` - Read codebase files for context
-- `filesystem.write.outputs` - Write refined prompts and logs
-- `filesystem.glob` - Find relevant files
-- `filesystem.grep` - Search for patterns
+Tool requirements are defined in `.harmony/skills/registry.yml` (single source of truth).
 
-### External Dependencies
-None required. Works with any codebase structure.
+No external dependencies required. Works with any codebase structure.
+
+---
+
+## Command-Line Usage
+
+### Basic Invocation
+
+```bash
+/refine-prompt "add caching to the api"
+```
+
+### With Options
+
+```bash
+# Deep context analysis
+/refine-prompt "refactor the auth module" --context_depth=deep
+
+# Execute after refinement
+/refine-prompt "add caching" --execute
+
+# Skip confirmation step
+/refine-prompt "quick fix" --skip_confirmation=true
+
+# Combined options
+/refine-prompt "major refactor" --context_depth=deep --execute
+```
+
+### From File
+
+```bash
+/refine-prompt path/to/rough-prompt.txt
+/refine-prompt path/to/prompt.txt --context_depth=standard
+```

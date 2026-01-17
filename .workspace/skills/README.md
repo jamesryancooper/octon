@@ -1,24 +1,26 @@
 # Skills
 
-Shared skills and the skills framework live in `.harmony/skills/`.
+Workspace-specific skill outputs and configuration.
 
-Project-specific skills are created here.
+For full documentation, see `.harmony/skills/README.md` and `docs/architecture/workspaces/skills/`.
 
-## Inherited from `.harmony/`
+## This Directory
 
-- `_template/` - Template for creating new skills
-- `research-synthesizer/` - Synthesize research notes into coherent findings
-- `scripts/setup-harness-links.sh` - Create harness symlinks
+| Content | Purpose |
+|---------|---------|
+| `manifest.yml` | Workspace-specific skill index (extends shared) |
+| `registry.yml` | I/O path mappings (single source of truth for paths) |
+| `outputs/` | All skill outputs |
+| `logs/runs/` | Execution audit logs |
+| `sources/` | Input sources for skills |
 
-## Local Directories
+## Inherited Skills
 
-- `outputs/` - All skill outputs write here (always local)
-- `logs/` - Execution logs (always local)
-- `sources/` - Input sources (always local)
+This workspace inherits skills from `.harmony/skills/`:
 
-## Registry Pattern
+- `refine-prompt` — Context-aware prompt refinement
+- `research-synthesizer` — Research synthesis
 
-- `.harmony/skills/registry.yml` - Skill definitions (shared)
-- `.workspace/skills/registry.yml` - Project-specific input/output mappings
+## Validation
 
-See CLAUDE.md for the progressive disclosure pattern.
+Run `.harmony/skills/scripts/validate-skills.sh` to detect drift issues.

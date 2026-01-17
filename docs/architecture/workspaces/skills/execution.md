@@ -153,20 +153,20 @@ Output paths are defined in the skill's registry I/O mapping and validated again
 
 | Category | Path Pattern |
 |----------|--------------|
-| Prompts | `.workspace/skills/outputs/prompts/<timestamp>-<name>.md` |
-| Drafts | `.workspace/skills/outputs/drafts/<timestamp>-<name>.md` |
-| Reports | `.workspace/skills/outputs/reports/<timestamp>-<name>.md` |
-| Logs | `.workspace/skills/logs/runs/<timestamp>-<skill>.md` |
+| Prompts | `.workspace/skills/outputs/prompts/{{timestamp}}-{{name}}.md` |
+| Drafts | `.workspace/skills/outputs/drafts/{{timestamp}}-{{name}}.md` |
+| Reports | `.workspace/skills/outputs/reports/{{timestamp}}-{{name}}.md` |
+| Logs | `.workspace/skills/logs/runs/{{timestamp}}-{{skill_id}}.md` |
 
 **Tier 2 & 3 — Custom Paths (must declare, scope-validated):**
 
 ```yaml
 outputs:
   # Tier 2: Within .workspace/
-  - path: "projects/<project>/synthesis.md"
+  - path: "projects/{{project}}/synthesis.md"
 
   # Tier 3: Workspace root (within scope)
-  - path: "docs/generated/<name>.md"
+  - path: "docs/generated/{{name}}.md"
 
   # Tier 3: Descendant workspace (within scope)
   - path: "flowkit/README.md"
@@ -183,6 +183,107 @@ Example: `2025-01-15T12:00:00Z`
 For filenames, use compact format: `YYYYMMDD-HHMMSS`
 
 Example: `20250115-120000-refined.md`
+
+---
+
+## Placeholder Resolution
+
+Output and input paths in registry.yml may contain placeholders that are resolved at runtime. This section documents the resolution rules.
+
+### Placeholder Syntax
+
+Placeholders use **double curly braces with snake_case** names:
+
+```
+{{placeholder_name}}
+```
+
+**Convention:**
+- Use `{{snake_case}}` format (double curly braces, snake_case names)
+- This distinguishes placeholders from literal text
+- Consistent with template systems (Jinja2, Mustache, etc.)
+
+**Examples:**
+- `{{timestamp}}` — Not `<timestamp>` or `{timestamp}`
+- `{{project_name}}` — Not `<project-name>` or `{{projectName}}`
+- `{{skill_id}}` — Not `<skill>` or `{{skillId}}`
+
+### Standard Placeholders
+
+| Placeholder | Resolution | Example |
+|-------------|------------|---------|
+| `{{timestamp}}` | ISO 8601 compact format: `YYYYMMDDTHHMMSSZ` | `20250115T103100Z` |
+| `{{date}}` | Date portion only: `YYYY-MM-DD` | `2025-01-15` |
+| `{{project}}` | User-provided parameter or inferred from input path | `auth-patterns` |
+| `{{topic}}` | Derived from input folder name or user-provided | `api-design` |
+| `{{name}}` | Skill output name or user-provided identifier | `refined` |
+| `{{skill_id}}` | Skill ID being executed | `research-synthesizer` |
+| `{{category}}` | Output category (prompts, drafts, reports) | `drafts` |
+
+### Resolution Rules
+
+1. **User-provided values take precedence** — If a parameter matches a placeholder name, use the parameter value
+2. **Infer from input** — Derive `{{project}}` or `{{topic}}` from input folder name if not explicitly provided
+3. **Default to skill context** — Use skill ID for `{{skill_id}}`, execution category for `{{category}}`
+4. **Timestamp at execution start** — All `{{timestamp}}` placeholders use the same value within a single execution
+
+### Resolution Order
+
+```
+1. Explicit parameter (e.g., --project=auth)     → Use parameter value
+2. Infer from input path (e.g., projects/auth/)  → Extract "auth" as project
+3. Skill-defined default (from registry)         → Use registry default
+4. Fail with clear error                         → "Cannot resolve {{placeholder}}"
+```
+
+### Examples
+
+**Registry definition:**
+
+```yaml
+outputs:
+  - path: "outputs/drafts/{{topic}}-synthesis.md"
+```
+
+**Invocation:**
+
+```bash
+/synthesize-research sources/api-design/
+```
+
+**Resolution:**
+
+| Placeholder | Source | Resolved Value |
+|-------------|--------|----------------|
+| `{{topic}}` | Inferred from input path (`api-design/`) | `api-design` |
+
+**Result:** `outputs/drafts/api-design-synthesis.md`
+
+### Placeholder Validation
+
+At execution time, validate that:
+
+1. All placeholders in output paths can be resolved
+2. Resolved paths remain within hierarchical scope
+3. No unresolved `{{placeholder}}` patterns remain in final paths
+
+If resolution fails, report the specific placeholder and suggest how to provide the value.
+
+### Template Placeholders
+
+Skill templates (e.g., `_template/SKILL.md`) use the same `{{snake_case}}` convention for authoring placeholders:
+
+| Template Placeholder | Purpose |
+|---------------------|---------|
+| `{{skill_name}}` | Skill identifier (matches directory name) |
+| `{{skill_display_name}}` | Human-readable name (Title Case) |
+| `{{skill_description}}` | Full description for SKILL.md |
+| `{{skill_one_liner}}` | Single sentence value proposition |
+| `{{author_name}}` | Skill author |
+| `{{created_date}}` | Creation date (YYYY-MM-DD) |
+| `{{updated_date}}` | Last update date (YYYY-MM-DD) |
+
+When creating a new skill, replace all `{{placeholder}}` values with actual content.
 
 ---
 
@@ -229,6 +330,6 @@ Example: `20250115-120000-refined.md`
 ## See Also
 
 - [Architecture](./architecture.md) — Hierarchical workspace model and scope authority
-- [Registry](./registry.md) — Path declaration and scope validation rules
+- [Discovery](./discovery.md) — Path declaration and scope validation rules
 - [Reference Artifacts](./reference-artifacts.md) — The `safety.md` and `validation.md` files
 - [Invocation](./invocation.md) — How execution is triggered

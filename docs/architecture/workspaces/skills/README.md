@@ -1,11 +1,11 @@
 ---
 title: Workspace Skills
-description: Hierarchical workspace skills architecture following the agentskills.io specification.
+description: Two-tier, hierarchical workspace skills system (shared definitions + workspace-specific I/O) aligned with the agentskills.io specification.
 ---
 
 # Workspace Skills
 
-Skills are **composable capability units** following the [agentskills.io](https://agentskills.io) specification. This workspace implements a **hierarchical architecture** with shared skill definitions (`.harmony/skills/`) and workspace-specific I/O configuration (`.workspace/skills/`).
+Skills are **composable capability units** defined by the [agentskills.io](https://agentskills.io) specification. In Harmony, they use a **two-tier hierarchical architecture**: portable, shared skill definitions live in `.harmony/skills/`, while workspace-specific I/O and execution configuration live in `.workspace/skills/`.
 
 ---
 
@@ -13,7 +13,7 @@ Skills are **composable capability units** following the [agentskills.io](https:
 
 A `.workspace/` directory designates its parent as a **workspace root**. Workspaces can be nested, creating a hierarchy where parent workspaces have authority over descendants.
 
-```
+```markdown
 repo/                          ← Root workspace
 ├── .workspace/
 ├── docs/                      ← Docs workspace (nested)
@@ -25,6 +25,7 @@ repo/                          ← Root workspace
 ```
 
 **Hierarchical authority:**
+
 - Workspaces can write **down** into descendant workspaces
 - Workspaces cannot write **up** into ancestors or **sideways** into siblings
 - Default output: `.workspace/skills/outputs/` (no declaration needed)
@@ -50,17 +51,17 @@ Per the [agentskills.io specification](https://agentskills.io/what-are-skills), 
 
 This documentation is organized into the following sections:
 
-| Document | Description |
-|----------|-------------|
-| [Architecture](./architecture.md) | Hierarchical workspace model, scope authority, progressive disclosure |
-| [Skill Format](./skill-format.md) | SKILL.md structure, naming conventions, frontmatter |
-| [Reference Artifacts](./reference-artifacts.md) | Reference file system, universal vs. customizable files |
-| [Registry](./registry.md) | Shared and workspace-specific registry formats |
-| [Creation](./creation.md) | Creating new skills, workflow steps, post-creation tasks |
-| [Invocation](./invocation.md) | Commands, triggers, routing rules |
-| [Execution](./execution.md) | Run logging, safety policies |
-| [Comparison](./comparison.md) | Skills vs. other primitives, decision heuristics |
-| [Specification](./specification.md) | Spec compliance, extensions, validation |
+| Document                                       | Description                                                           |
+|------------------------------------------------|-----------------------------------------------------------------------|
+| [Architecture](./architecture.md)              | Hierarchical workspace model, scope authority, progressive disclosure |
+| [Skill Format](./skill-format.md)              | SKILL.md structure, naming conventions, frontmatter                   |
+| [Reference Artifacts](./reference-artifacts.md)| Reference file system, universal vs. customizable files               |
+| [Discovery](./discovery.md)                    | Manifest and registry formats for skill discovery                     |
+| [Creation](./creation.md)                      | Creating new skills, workflow steps, post-creation tasks              |
+| [Invocation](./invocation.md)                  | Commands, triggers, routing rules                                     |
+| [Execution](./execution.md)                    | Run logging, safety policies                                          |
+| [Comparison](./comparison.md)                  | Skills vs. other primitives, decision heuristics                      |
+| [Specification](./specification.md)            | Spec compliance, extensions, validation                               |
 
 ---
 
@@ -84,15 +85,18 @@ See [Creation](./creation.md) for the full workflow.
 
 ## Key Locations
 
-| Location | Purpose |
-|----------|---------|
-| `.harmony/skills/` | Shared skill definitions (portable) |
-| `.harmony/skills/registry.yml` | Shared skill catalog for routing |
-| `.harmony/skills/_template/` | Scaffolding for new skills |
-| `.workspace/skills/` | Workspace-specific I/O configuration |
-| `.workspace/skills/registry.yml` | Workspace I/O mappings |
-| `.workspace/skills/outputs/` | Skill-generated files |
-| `.workspace/skills/logs/runs/` | Execution audit logs |
+| Location                             | Purpose                               |
+|--------------------------------------|---------------------------------------|
+| `.harmony/skills/`                   | Shared skill definitions (portable)   |
+| `.harmony/skills/manifest.yml`       | Skill discovery index (id, display_name, summary, triggers) |
+| `.harmony/skills/registry.yml`       | Extended metadata (version, commands, parameters) |
+| `.harmony/skills/_template/`         | Scaffolding for new skills            |
+| `.harmony/skills/scripts/validate-skills.sh` | Drift detection validation script |
+| `.workspace/skills/`                 | Workspace-specific I/O configuration  |
+| `.workspace/skills/manifest.yml`     | Workspace-specific skill index        |
+| `.workspace/skills/registry.yml`     | Workspace I/O mappings                |
+| `.workspace/skills/outputs/`         | Skill-generated files                 |
+| `.workspace/skills/logs/runs/`       | Execution audit logs                  |
 
 ---
 

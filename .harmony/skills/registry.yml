@@ -1,12 +1,33 @@
-# Skills Registry (Shared Foundation)
-# Skill definitions without project-specific paths.
-# Project-specific input/output mappings go in .workspace/skills/registry.yml
+# Skills Registry (Extended Metadata)
+# Full skill definitions for routing validation and execution.
+# Agents load manifest.yml first, then this file after matching.
 #
-# Progressive disclosure: Agents read this registry for routing, then load
-# SKILL.md on demand.
+# Single Source of Truth:
+#   - SKILL.md frontmatter: name, description, allowed-tools (AUTHORITATIVE)
+#   - This file: version, commands, parameters, requires.context, depends_on
+#   - .workspace/skills/registry.yml: input/output paths (I/O mappings)
+#
+# Fields:
+#   version          - Semantic version string
+#   commands         - Slash commands that invoke this skill
+#   parameters       - Input parameters the skill accepts
+#   requires.context - Context conditions for skill activation
+#   depends_on       - Other skills this skill requires
+#
+# Parameter Schema:
+#   name        - Parameter identifier
+#   type        - text | boolean | file | folder
+#   required    - true | false
+#   default     - Default value (if not required)
+#   description - Human-readable description
+#
+# Note: Input/output paths are defined in .workspace/skills/registry.yml
+# to keep workspace-specific configuration separate from portable skill logic.
+#
+# Note: The pattern "use skill: <id>" is universal and does not need
+# per-skill configuration. Agents recognize this pattern automatically.
 
-schema_version: "1.1"
-default: null
+schema_version: "1.2"
 
 # Global routing rules
 routing:
@@ -15,49 +36,51 @@ routing:
   # How to handle ambiguous matches: "ask" | "first_match" | "most_specific"
   ambiguity_resolution: "ask"
 
-# Shared skill definitions
-# Each entry provides enough info for routing without loading full SKILL.md
+# Extended skill metadata (keyed by id)
 skills:
-  - id: research-synthesizer
-    name: Research Synthesizer
-    path: research-synthesizer/
+  research-synthesizer:
     version: "1.0.0"
-    summary: "Synthesize scattered research notes into coherent findings."
     commands:
       - /synthesize-research
-    explicit_call_patterns:
-      - "use skill: research-synthesizer"
-    triggers:
-      - "synthesize my research"
-      - "consolidate findings"
-      - "summarize research notes"
-    # Input/output paths are project-specific - defined in .workspace/skills/registry.yml
+    parameters:
+      - name: research_folder
+        type: folder
+        required: true
+        description: "Folder containing research notes (.md files)"
     requires:
-      tools:
-        - filesystem.read
-        - filesystem.write.outputs
+      context:
+        - type: directory_exists
+          path: ".workspace/"
+          description: "Requires a workspace directory"
     depends_on: []
 
-  - id: refine-prompt
-    name: Refine Prompt
-    path: refine-prompt/
+  refine-prompt:
     version: "2.1.1"
-    summary: "Context-aware prompt refinement with persona assignment, anti-patterns, self-critique, and intent confirmation."
     commands:
       - /refine-prompt
-    explicit_call_patterns:
-      - "use skill: refine-prompt"
-    triggers:
-      - "refine my prompt"
-      - "improve this prompt"
-      - "expand this prompt"
-      - "spell check my prompt"
-      - "clarify my prompt"
-      - "analyze and improve my prompt"
+    parameters:
+      - name: raw_prompt
+        type: text
+        required: true
+        description: "The raw prompt text to refine (inline or file path)"
+      - name: execute
+        type: boolean
+        required: false
+        default: false
+        description: "Execute the refined prompt after saving"
+      - name: context_depth
+        type: text
+        required: false
+        default: "standard"
+        description: "How deep to analyze repository context (minimal, standard, deep)"
+      - name: skip_confirmation
+        type: boolean
+        required: false
+        default: false
+        description: "Skip intent confirmation step"
     requires:
-      tools:
-        - filesystem.read
-        - filesystem.write.outputs
-        - filesystem.glob
-        - filesystem.grep
+      context:
+        - type: directory_exists
+          path: ".workspace/"
+          description: "Requires a workspace directory"
     depends_on: []

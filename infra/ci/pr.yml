@@ -64,6 +64,40 @@ jobs:
           base: packages/contracts/openapi-base.yaml
           revision: packages/contracts/openapi.yaml
 
+  skills-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install tiktoken for accurate token counting
+        run: pip install tiktoken
+
+      - name: Validate skills (manifest, registry, SKILL.md consistency)
+        run: .harmony/skills/scripts/validate-skills.sh --strict
+
+      - name: Check documentation examples match implementation
+        run: |
+          # Verify that SKILL.md name fields match directory names
+          for skill_dir in .harmony/skills/*/; do
+            skill_name=$(basename "$skill_dir")
+            if [[ "$skill_name" == "_template" ]] || [[ "$skill_name" == "scripts" ]]; then
+              continue
+            fi
+            skill_md="$skill_dir/SKILL.md"
+            if [[ -f "$skill_md" ]]; then
+              name_field=$(grep -E "^name:" "$skill_md" | head -1 | sed 's/name:\s*//' | tr -d '"' | tr -d "'" | xargs)
+              if [[ "$name_field" != "$skill_name" ]]; then
+                echo "ERROR: SKILL.md name '$name_field' does not match directory '$skill_name'"
+                exit 1
+              fi
+            fi
+          done
+          echo "Documentation validation passed"
+
   python:
     if: ${{ hashFiles('apps/ai-gateway/pyproject.toml') != '' }}
     runs-on: ubuntu-latest

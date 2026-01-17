@@ -25,8 +25,7 @@ Report to user:
 
 **References (progressive disclosure):**
 - `references/behaviors.md` — Detailed phase behavior
-- `references/triggers.md` — Commands and natural language triggers
-- `references/io-contract.md` — Inputs, outputs, dependencies
+- `references/io-contract.md` — Inputs, outputs, dependencies, command-line usage
 - `references/safety.md` — Tool and file policies
 - `references/examples.md` — Full usage examples
 - `references/validation.md` — Acceptance criteria
@@ -67,18 +66,18 @@ Edit reference files for progressive disclosure:
 | File | Content |
 |------|---------|
 | `references/behaviors.md` | Detailed step-by-step behavior |
-| `references/triggers.md` | Natural language triggers |
-| `references/io-contract.md` | Input/output schemas (YAML frontmatter) |
+| `references/io-contract.md` | Input/output schemas, command-line usage |
 | `references/safety.md` | Tool permissions and file policies |
 | `references/examples.md` | Full worked examples |
 | `references/validation.md` | Acceptance criteria |
 
-#### 3. Update Registry
+#### 3. Update Manifest and Registry
 
-Edit `skills/registry.yml` to add:
-- Human-readable `name`
-- `summary` for routing
-- `triggers` for natural language activation
+Edit `manifest.yml` and `registry.yml` to add:
+- Human-readable `name` and `summary` (manifest)
+- `status` and `tags` for filtering (manifest)
+- `triggers` for natural language activation (manifest)
+- `commands` and `requires.context` (registry)
 
 #### 4. Test the Skill
 

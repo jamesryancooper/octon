@@ -19,7 +19,6 @@ description: Copy skill template to new skill directory with spec-compliant stru
 
 3. Create and copy reference files:
    - skills/_template/references/behaviors.md -> skills/<skill-name>/references/behaviors.md
-   - skills/_template/references/triggers.md -> skills/<skill-name>/references/triggers.md
    - skills/_template/references/io-contract.md -> skills/<skill-name>/references/io-contract.md
    - skills/_template/references/safety.md -> skills/<skill-name>/references/safety.md
    - skills/_template/references/examples.md -> skills/<skill-name>/references/examples.md
@@ -44,8 +43,7 @@ skills/<skill-name>/
 ├── SKILL.md              # Core skill definition
 ├── references/           # Progressive disclosure content
 │   ├── behaviors.md      # Detailed phase behavior
-│   ├── triggers.md       # Commands and triggers
-│   ├── io-contract.md    # Inputs/outputs/dependencies
+│   ├── io-contract.md    # Inputs/outputs/dependencies + CLI usage
 │   ├── safety.md         # Safety policies
 │   ├── examples.md       # Full examples
 │   └── validation.md     # Acceptance criteria

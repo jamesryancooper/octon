@@ -1,9 +1,9 @@
 ---
-title: Update Registry
-description: Add new skill entry to registry.yml following agentskills.io conventions.
+title: Update Manifest and Registry
+description: Add new skill entry to manifest.yml and registry.yml following agentskills.io conventions.
 ---
 
-# Step 4: Update Registry
+# Step 4: Update Manifest and Registry
 
 ## Input
 
@@ -12,7 +12,9 @@ description: Add new skill entry to registry.yml following agentskills.io conven
 
 ## Actions
 
-Add entry to `skills/registry.yml` under `skills:` array:
+### 1. Add entry to `manifest.yml` (Tier 1 Discovery)
+
+Add to `.harmony/skills/manifest.yml` under `skills:` array:
 
 ```yaml
 skills:
@@ -21,56 +23,82 @@ skills:
   - id: <skill-name>
     name: "[Human-Readable Name - TODO]"
     path: <skill-name>/
-    version: "0.1.0"
     summary: "[TODO: One-line description for routing]"
+    status: active
+    tags:
+      - "[TODO: category-tag]"
+    triggers:
+      - "[TODO: natural language trigger]"
+```
+
+### 2. Add entry to `registry.yml` (Extended Metadata)
+
+Add to `.harmony/skills/registry.yml` under `skills:` map:
+
+```yaml
+skills:
+  # ... existing skills ...
+
+  <skill-name>:
+    version: "0.1.0"
     commands:
       - /<skill-name>
-    explicit_call_patterns:
-      - "use skill: <skill-name>"
-    triggers: []
     requires:
       tools:
         - filesystem.read
         - filesystem.write.outputs
+      context:
+        - type: directory_exists
+          path: ".workspace/"
+          description: "Requires a workspace directory"
     depends_on: []
 ```
 
-## Registry Entry Fields
+## Manifest Entry Fields (Tier 1 Discovery)
 
-| Field | Purpose | Spec Alignment |
-|-------|---------|----------------|
-| `id` | Unique identifier, matches directory | Matches `name` in SKILL.md |
-| `name` | Human-readable display name | User-friendly version |
-| `path` | Relative path to skill directory | Directory reference |
-| `version` | Skill version | From `metadata.version` |
-| `summary` | Brief description for routing | From `description` |
-| `commands` | Slash commands | Invocation |
-| `explicit_call_patterns` | Direct invocation patterns | Invocation |
-| `triggers` | Natural language triggers | Activation |
-| `requires.tools` | Required tool permissions | From `allowed-tools` |
-| `depends_on` | Skill dependencies | Execution order |
+| Field | Purpose | Required |
+|-------|---------|----------|
+| `id` | Unique identifier, matches directory | Yes |
+| `name` | Human-readable display name | Yes |
+| `path` | Relative path to skill directory | Yes |
+| `summary` | Brief description for routing | Yes |
+| `status` | Lifecycle state (active/deprecated/experimental) | No |
+| `tags` | Freeform labels for filtering | No |
+| `triggers` | Natural language activation phrases | No |
+
+## Registry Entry Fields (Extended Metadata)
+
+| Field | Purpose | Required |
+|-------|---------|----------|
+| `version` | Semantic version | No |
+| `commands` | Slash commands for invocation | Yes |
+| `requires.tools` | Required tool permissions | No |
+| `requires.context` | Context conditions for activation | No |
+| `depends_on` | Skill dependencies | No |
+
+**Note:** The `use skill: <skill-name>` pattern is universal and recognized automatically. It does not require per-skill configuration.
 
 ## Verification
 
-- Entry added to `skills:` array
+- Entry added to `manifest.yml` skills array
+- Entry added to `registry.yml` skills map
 - `id` matches skill directory name
-- `path` points to correct directory
 - `commands` includes `/<skill-name>`
-- `explicit_call_patterns` includes `use skill: <skill-name>`
 
 ## Idempotency
 
-**Check:** Is registry already updated?
-- [ ] Entry with `id: <skill-name>` exists in `registry.yml`
-- [ ] Entry has correct `path` value
+**Check:** Are manifest and registry already updated?
+- [ ] Entry with `id: <skill-name>` exists in `manifest.yml`
+- [ ] Entry with key `<skill-name>` exists in `registry.yml`
 
 **If Already Complete:**
-- Verify entry is correct
+- Verify entries are correct
 - Skip to next step
 
 **Marker:** `checkpoints/create-skill/<skill-name>/04-registry.complete`
 
 ## Output
 
-- Updated `registry.yml` with new skill entry
+- Updated `manifest.yml` with new skill entry
+- Updated `registry.yml` with extended metadata
 - Proceed to Step 5

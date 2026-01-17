@@ -144,17 +144,34 @@ flowchart TB
 
 ## 6) Skills
 
+- [ ] Ensure that skills employ deterministic and predictable execution patterns and behavior.
+- [ ] Ensure we are properly applying progressive disclosure within the skills system.
+- [ ] Actually implement the hierarchical workspace model, scope authority, and workspace resolution algorithm that was doucmented in @docs/architecture/workspaces/skills/architecture.md
+- [ ] Update the research-synthesizer skill to align with our latest documentation and best practices (e.g. naming conventions: synthesize-research, etc.).
+- [ ] Create evaluate-skill (check for alignment and create an alignment plan) and update-skill (implement the alignment plan) workflows.
+- [ ] Bring the refine-prompt skill into alignment with the latest documentation and best practices.
+
+## Workflows
+
+- [ ] Is there a need for workflows now that we have workflow skills? What would workflows bring to the table? If we keep both, how do we adress cognitive confusion?
+- [ ] Update the create-skill workflow to create skills that are aligned with the latest documentation and best practices.
+
+## Workspaces
+
+- [ ] Update pillar simplicity over complexity with mention of justified complexity.
+- [ ] Create a workspaceKit for creating and managing workspaces.
+- [ ] Determine where we implement the workspace resolution algorithm that was documented in @docs/architecture/workspaces/skills/architecture.md. In the @.harmony/skills/scripts directory?
+
+
+
+## Pillars
+
+## Completed
+
 - [x] Update the create-skill workflow to create skills that align with the agent skills spec. Use `.harmony/skills/refine-prompt` as an example. Progressive disclosure is important. Also, include the following instructions for naming skills:
      When naming agent skills, use clear, consistent, action-oriented names (like verbs or gerunds, e.g., generate-report, process-payment),
     incorporate keywords for searchability, keep them concise, use hyphens/lowercase for technical systems, and group related skills for better
     organization, reflecting their function and making them easy to find and use by both humans and AI.
-- [ ] Ensure that skills employ deterministic and predictable execution patterns and behavior.
-- [ ] Ensure we we are properly applying progressive disclosure within the skills system.
-- [ ] Actually implement the hierarchical workspace model, scope authority, and workspace resolution algorithm that was doucmented in @docs/architecture/workspaces/skills/architecture.md
-- [ ] Update the research-synthesizer skill to align with our latest documentation and best practices (e.g. naming conventions: synthesize-research, etc.).
-
-## Completed
-
 - [x] How do we know which .workspace we are working in? Do we need to set it explicitly when calling a skill? Change into the workspace directory before calling a skill?
 - [x] Need to update workspace documentation to include the hierarchical workspace model and scope authority.
 - [x] Should I move prompts in the /packages directory?

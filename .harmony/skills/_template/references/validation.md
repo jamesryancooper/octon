@@ -58,8 +58,8 @@ All outputs must:
 ### Output Paths
 
 All outputs must be written to:
-- `outputs/[category]/<timestamp>-[name].md`
-- `logs/runs/<timestamp>-skill-name.md`
+- `outputs/[category]/{{timestamp}}-[name].md`
+- `logs/runs/{{timestamp}}-skill-name.md`
 
 ### Timestamp Format
 

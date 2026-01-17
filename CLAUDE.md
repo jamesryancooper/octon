@@ -2,28 +2,42 @@
 
 ## Workspace Skills
 
-**CRITICAL:** Read `.harmony/skills/registry.yml` for shared skills, then `.workspace/skills/registry.yml` for project-specific skills and mappings.
+**CRITICAL:** Read `.harmony/skills/manifest.yml` for skill discovery, then `.workspace/skills/manifest.yml` for project-specific skills.
 
 ### Quick Reference
 
-- **Shared Skills:** `.harmony/skills/registry.yml` (read first)
-- **Local Skills:** `.workspace/skills/registry.yml` (project-specific mappings and skills)
+- **Shared Manifest:** `.harmony/skills/manifest.yml` (Tier 1 discovery - read first)
+- **Shared Registry:** `.harmony/skills/registry.yml` (extended metadata - read after match)
+- **Local Skills:** `.workspace/skills/manifest.yml` and `registry.yml` (project-specific)
 - **Skill Definitions:** `.harmony/skills/<skill-id>/SKILL.md` or `.workspace/skills/<skill-id>/SKILL.md`
 - **Outputs:** `.workspace/skills/outputs/` (all skill writes here)
 - **Logs:** `.workspace/skills/logs/runs/` (execution logs)
 
+### Skill Discovery Order
+
+**Workspace skills extend (not replace) shared skills.** Load order and precedence:
+
+1. Read `.harmony/skills/manifest.yml` — shared skill index (loaded first)
+2. Read `.workspace/skills/manifest.yml` — workspace-specific skills (extends shared)
+3. **Merge behavior:** Workspace skills are added to the shared skill list
+4. **Conflict resolution:** If a workspace skill has the same `id` as a shared skill, workspace definition wins
+5. **Trigger precedence:** Workspace-specific triggers take precedence for routing when multiple skills match
+
+**Default skill:** If workspace manifest sets `default: <skill-id>`, it overrides the shared manifest's default.
+
 ### Progressive Disclosure
 
-1. Read `.harmony/skills/registry.yml` for shared skill definitions
-2. Read `.workspace/skills/registry.yml` for project-specific mappings and additional skills
-3. Load `SKILL.md` only when a skill is selected
-4. Load `reference/` or `scripts/` only if needed
+1. Read `.harmony/skills/manifest.yml` for skill index (id, name, summary, triggers)
+2. Read `.workspace/skills/manifest.yml` for project-specific skills
+3. After matching, read `registry.yml` for extended metadata (commands, parameters, context)
+4. Load `SKILL.md` when a skill is activated (includes `allowed-tools` for tool permissions)
+5. Load `references/` or `scripts/` only if needed
 
 ### Invocation
 
 - Explicit command: `/synthesize-research <path>`
 - Explicit call: `use skill: research-synthesizer`
-- Natural triggers: Match against `triggers` in registry
+- Natural triggers: Match against `triggers` in manifest
 
 ### Safety
 

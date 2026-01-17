@@ -2,15 +2,87 @@
 
 Composable capabilities with defined I/O contracts and progressive disclosure.
 
+For full documentation, see [docs/architecture/workspaces/skills/](../../docs/architecture/workspaces/skills/README.md).
+
+---
+
+## Quick Create Checklist
+
+Creating a new skill requires updating **4 files** across **2 locations**. Use this checklist to avoid missing steps.
+
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  SKILL CREATION CHECKLIST                                                   │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  1. SKILL DEFINITION (.harmony/skills/<skill-id>/)                          │
+│     □ Copy _template/ to <skill-id>/                                        │
+│     □ Edit SKILL.md:                                                        │
+│       - Set `name:` to match directory name (kebab-case)                    │
+│       - Write `description:` (1-1024 chars, include keywords)               │
+│       - Set `allowed-tools:` (single source of truth for permissions)       │
+│       - Replace all {{placeholders}} with actual content                    │
+│     □ Choose archetype: Utility (no refs) / Workflow (5 refs) / Domain      │
+│                                                                             │
+│  2. SHARED MANIFEST (.harmony/skills/manifest.yml)                          │
+│     □ Add skill entry under `skills:`:                                      │
+│       - id: <skill-id>           # Must match directory and SKILL.md name   │
+│       - display_name: <Title Case>  # e.g., "Research Synthesizer"          │
+│       - path: <skill-id>/                                                   │
+│       - summary: "<one-line description>"                                   │
+│       - status: experimental | active | deprecated                          │
+│       - tags: [<tag1>, <tag2>]                                              │
+│       - triggers: ["<trigger phrase 1>", "<trigger phrase 2>"]              │
+│                                                                             │
+│  3. SHARED REGISTRY (.harmony/skills/registry.yml)                          │
+│     □ Add skill entry under `skills:`:                                      │
+│       - version: "1.0.0"                                                    │
+│       - commands: [/<skill-id>]                                             │
+│       - parameters: [{name, type, required, description}]                   │
+│       - requires.context: [{type, path, description}]                       │
+│       - depends_on: []                                                      │
+│                                                                             │
+│  4. WORKSPACE REGISTRY (.workspace/skills/registry.yml)                     │
+│     □ Add I/O mapping under `skill_mappings:`:                              │
+│       - inputs: [{path, kind, required, description}]                       │
+│       - outputs: [{name, path, kind, format, determinism, description}]     │
+│                                                                             │
+│  5. VALIDATE                                                                │
+│     □ Run: ./scripts/validate-skills.sh <skill-id>                          │
+│     □ Fix any errors or warnings                                            │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+**Skill Archetypes** (choose based on complexity):
+
+| Archetype | Reference Files | When to Use |
+|-----------|-----------------|-------------|
+| **Utility** | None | Single-purpose, obvious I/O |
+| **Workflow** | io-contract, safety, examples, behaviors, validation | Multi-phase execution |
+| **Domain** | Workflow + errors, glossary, `<domain>.md` | Specialized domains |
+
+The template includes **Workflow** archetype files. See [reference-artifacts.md](../../docs/architecture/workspaces/skills/reference-artifacts.md) for details.
+
+**Quick command to scaffold and validate:**
+
+```bash
+# Copy template
+cp -r .harmony/skills/_template .harmony/skills/<skill-id>
+
+# Edit files (use your editor)
+# Then validate
+.harmony/skills/scripts/validate-skills.sh <skill-id>
+
+# Use --fix to see scaffolding suggestions for missing entries
+.harmony/skills/scripts/validate-skills.sh <skill-id> --fix
+```
+
+---
+
 ## Quick Start
 
 **Invoke a skill:**
-
-```text
-/use-skill <skill-id> [input-path]
-```
-
-**Or use skill-specific commands:**
 
 ```text
 /synthesize-research sources/topic/
@@ -22,230 +94,193 @@ Composable capabilities with defined I/O contracts and progressive disclosure.
 use skill: research-synthesizer
 ```
 
-**List available skills:**
-Check `registry.yml` or the Skills section in `.workspace/catalog.md`.
+**List available skills:** Check `manifest.yml` for the skill index.
 
 ## Directory Structure
 
 ```text
-skills/
-├── registry.yml           # Skill catalog (read first)
-├── _template/
-│   ├── SKILL.md           # Template for new skills
-│   └── scripts/           # Template for executable helpers
-├── <skill-id>/
-│   ├── SKILL.md           # Skill definition
-│   ├── templates/         # Skill-specific templates (optional)
-│   ├── reference/         # Detailed reference material (optional)
-│   └── scripts/           # Executable helpers (optional)
-├── sources/               # Standard input folder
-├── outputs/
-│   ├── drafts/            # Initial outputs
-│   ├── refined/           # Processed outputs
-│   ├── html/              # HTML outputs
-│   ├── social/            # Social media outputs
-│   └── assets/            # Generated assets
-└── logs/
-    └── runs/              # Execution logs
+.harmony/skills/                    # Shared skill definitions
+├── manifest.yml                    # Tier 1 discovery index
+├── registry.yml                    # Extended metadata (version, commands, parameters)
+├── _template/                      # Scaffolding for new skills
+└── <skill-id>/SKILL.md             # Core instructions (<500 lines)
+
+.workspace/skills/                  # Workspace-specific configuration
+├── manifest.yml                    # Workspace-specific skills (extends shared)
+├── registry.yml                    # I/O paths (single source of truth)
+├── outputs/                        # Skill outputs
+└── logs/runs/                      # Execution logs
 ```
 
-## Progressive Disclosure
+## Architecture Diagram
 
-Skills follow a three-tier loading model:
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         SKILLS ARCHITECTURE                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌─────────────────────────────────────────────────────────────────────┐   │
+│   │  TIER 1: SHARED FOUNDATION (.harmony/skills/)                       │   │
+│   │  ─────────────────────────────────────────────────────────────────  │   │
+│   │  Portable skill definitions — logic, behaviors, instructions        │   │
+│   │                                                                     │   │
+│   │  manifest.yml ──────▶ Discovery index (id, summary, triggers)       │   │
+│   │       │                      ~50 tokens/skill                       │   │
+│   │       ▼                                                             │   │
+│   │  registry.yml ──────▶ Extended metadata (commands, parameters)      │   │
+│   │       │                      ~50 tokens/skill                       │   │
+│   │       ▼                                                             │   │
+│   │  <skill>/SKILL.md ──▶ Full instructions + allowed-tools             │   │
+│   │       │                      <5000 tokens                           │   │
+│   │       ▼                                                             │   │
+│   │  <skill>/references/ ▶ Detailed docs, examples, scripts             │   │
+│   │                              On demand                              │   │
+│   └─────────────────────────────────────────────────────────────────────┘   │
+│                                    │                                        │
+│                                    │ I/O paths defined in                   │
+│                                    ▼                                        │
+│   ┌─────────────────────────────────────────────────────────────────────┐   │
+│   │  TIER 2: WORKSPACE CONFIG (.workspace/skills/)                      │   │
+│   │  ─────────────────────────────────────────────────────────────────  │   │
+│   │  Workspace-specific I/O — paths, outputs, logs                      │   │
+│   │                                                                     │   │
+│   │  registry.yml ──────▶ I/O mappings (inputs, outputs)                │   │
+│   │       │                                                             │   │
+│   │       ├──▶ outputs/    Skill-generated files                        │   │
+│   │       └──▶ logs/runs/  Execution audit logs                         │   │
+│   └─────────────────────────────────────────────────────────────────────┘   │
+│                                    │                                        │
+│                                    │ exposed via symlinks                   │
+│                                    ▼                                        │
+│   ┌─────────────────────────────────────────────────────────────────────┐   │
+│   │  HOST ADAPTERS (Agent Access Points)                                │   │
+│   │  ─────────────────────────────────────────────────────────────────  │   │
+│   │  .claude/skills/  .cursor/skills/  .codex/skills/                   │   │
+│   │       ▲                ▲                 ▲                          │   │
+│   │       └────────────────┴─────────────────┘                          │   │
+│   │                   Symlinks to .harmony/skills/                      │   │
+│   └─────────────────────────────────────────────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 
-1. **Tier 1 (always):** `registry.yml` - compact catalog for routing
-2. **Tier 2 (on demand):** `<skill-id>/SKILL.md` - full instructions
-3. **Tier 3 (rare):** `reference/`, `templates/`, `scripts/` - deep resources
-
-**Rule:** Read `registry.yml` first. Load SKILL.md only when needed.
-
-## Skill Schema
-
-Skills use YAML frontmatter with these fields:
-
-```yaml
----
-# Identity
-id: "skill-id"           # Stable kebab-case identifier
-name: "Skill Name"       # Human-readable name
-version: "1.0.0"         # Semantic version
-summary: "..."           # One-line routing hint
-description: "..."       # Longer description with usage context
-
-# Provenance
-author:
-  name: "Author"
-  contact: "email/handle"
-created_at: "YYYY-MM-DD"
-updated_at: "YYYY-MM-DD"
-license: "MIT"
-
-# Invocation
-commands: [/command]
-explicit_call_patterns: ["use skill: skill-id"]
-triggers: ["natural language"]
-
-# I/O Contract
-inputs:
-  - name: input_name
-    type: file|text|folder|glob|json|yaml
-    required: true
-    path_hint: "sources/..."
-outputs:
-  - name: output_name
-    type: markdown|html|json|images|audio|log
-    path: "outputs/..."
-    format: "markdown"
-    determinism: stable|variable|non-deterministic
-
-# Dependencies
-requires:
-  tools: [filesystem.read, web.search, shell, http.fetch]
-  packages: []
-  services: []
-depends_on: [other-skill-ids]
-
-# Safety
-safety:
-  tool_policy:
-    mode: deny-by-default
-    allowed: [...]
-  file_policy:
-    write_scope: [".workspace/skills/outputs/**"]
-    destructive_actions: never
-
-# Behavior
-behavior:
-  goals: ["..."]
-  steps: ["..."]
-
-# Validation
-acceptance_criteria: ["..."]
-
-# Examples
-examples:
-  - input: "..."
-    invocation: "/command args"
-    output: "outputs/..."
-    description: "..."
----
+DATA FLOW:
+  Agent receives task
+         │
+         ▼
+  Read manifest.yml ────────▶ Match skill by triggers/commands
+         │
+         ▼
+  Read registry.yml ─────────▶ Get commands, parameters, context requirements
+         │
+         ▼
+  Read SKILL.md ─────────────▶ Load full instructions + tool permissions
+         │
+         ▼
+  Execute skill ─────────────▶ Write to outputs/, log to logs/runs/
 ```
+
+## Single Source of Truth
+
+| Metadata | Source |
+|----------|--------|
+| `name`, `description` | SKILL.md frontmatter |
+| `allowed-tools` (tool permissions) | SKILL.md frontmatter (**authoritative**) |
+| `summary`, `triggers`, `tags` | `.harmony/skills/manifest.yml` |
+| `version`, `commands`, `parameters`, `depends_on` | `.harmony/skills/registry.yml` |
+| Input/output paths | `.workspace/skills/registry.yml` |
+
+**Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived via the mapping function in `validate-skills.sh`. See [specification.md](../../docs/architecture/workspaces/skills/specification.md) for details.
+
+**Validation:** Run `./scripts/validate-skills.sh` to verify skill consistency.
+
+**Token Validation:** For accurate token budget validation, install tiktoken:
+
+```bash
+pip install tiktoken
+```
+
+Without tiktoken, word count approximation is used (±20% variance). CI environments should install tiktoken for consistent validation.
 
 ## Creating a Skill
 
-**Via command:**
+1. Copy `_template/` to `{{skill_id}}/`
+2. Update `SKILL.md` frontmatter (`name` must match directory, set `allowed-tools`)
+3. Replace all `{{placeholder}}` values with actual content
+4. Add entry to `manifest.yml` (id, display_name, path, summary, triggers)
+5. Add entry to `.harmony/skills/registry.yml` (version, commands, parameters)
+6. Add entry to `.workspace/skills/registry.yml` (inputs, outputs)
+7. Run `./scripts/validate-skills.sh {{skill_id}}` to verify consistency
 
-```text
-/create-skill <skill-id>
+**Validation Options:**
+
+```bash
+./scripts/validate-skills.sh              # Validate all skills
+./scripts/validate-skills.sh my-skill     # Validate specific skill
+./scripts/validate-skills.sh --fix        # Scaffold missing entries
+./scripts/validate-skills.sh --strict     # Treat trigger duplicates as errors
 ```
 
-**Manually:**
+## Host Adapter Symlinks
 
-1. Copy `_template/` to `<skill-id>/`
-2. Update `SKILL.md` with definition
-3. Add entry to `registry.yml`
-4. Update `.workspace/catalog.md` skills table
-5. Run `./scripts/setup-harness-links.sh <skill-id>` to create harness symlinks
+Skills are exposed to different AI agents (Claude, Cursor, Codex) via symlinks from their respective skills directories to the shared `.harmony/skills/` definitions. This allows multiple agents to share the same canonical skill definitions.
 
-## Harness Distribution
+### Why Symlinks?
 
-Skills are distributed to agent harnesses via symlinks:
+Agent products discover skills in their own directories:
+- `.claude/skills/` — Claude Code
+- `.cursor/skills/` — Cursor
+- `.codex/skills/` — Codex
 
-```text
-.workspace/skills/                      # Source of truth
-├── research-synthesizer/
-│   └── SKILL.md
+Symlinks allow all agents to share the same skill definition without duplication.
 
-.claude/skills/                         # Claude Code
-└── research-synthesizer -> ../../.workspace/skills/research-synthesizer
+### Setup
 
-.cursor/skills/                         # Cursor
-└── research-synthesizer -> ../../.workspace/skills/research-synthesizer
-
-.codex/skills/                          # OpenAI Codex
-└── research-synthesizer -> ../../.workspace/skills/research-synthesizer
-```
-
-**Setup all links:**
+**Automatic setup (recommended):**
 
 ```bash
 ./scripts/setup-harness-links.sh
 ```
 
-**Setup single skill:**
+This creates symlinks for all skills in `.harmony/skills/` to each agent's skills directory.
+
+**Manual setup:**
 
 ```bash
-./scripts/setup-harness-links.sh <skill-id>
+# Create directories
+mkdir -p .claude/skills .cursor/skills .codex/skills
+
+# Link a specific skill
+ln -s ../../.harmony/skills/refine-prompt .claude/skills/refine-prompt
+ln -s ../../.harmony/skills/refine-prompt .cursor/skills/refine-prompt
+ln -s ../../.harmony/skills/refine-prompt .codex/skills/refine-prompt
 ```
 
-**Why symlinks?**
+**Link a single skill:**
 
-- Single source of truth (no drift)
-- Zero duplication
-- Changes propagate automatically
-- All harnesses see the same skill definition
-
-**Compatibility:**
-
-- Uses uppercase `SKILL.md` per Agent Skills standard
-- Works with Claude Code, Cursor, Codex, and other compliant harnesses
-
-## Skill Pipelines
-
-Skills compose via outputs becoming inputs:
-
-```text
-skill-1 (outputs/drafts/) → skill-2 (outputs/refined/) → skill-3 (outputs/html/)
+```bash
+./scripts/setup-harness-links.sh refine-prompt
 ```
 
-Define common pipelines in `registry.yml` for discoverability.
+### Troubleshooting
 
-## Run Logging
+| Issue | Solution |
+|-------|----------|
+| Symlinks not working | Ensure your filesystem supports symlinks (Windows may need admin) |
+| Agent can't find skill | Run `setup-harness-links.sh` to recreate links |
+| Wrong skill version | Delete the symlink and recreate it |
+| Permission denied | Check file permissions on `.harmony/skills/` |
 
-Every skill execution produces a log at:
+### Verification
 
-```text
-logs/runs/<timestamp>-<skill-id>.md
+Check current symlinks:
+
+```bash
+ls -la .claude/skills/
+ls -la .cursor/skills/
+ls -la .codex/skills/
 ```
-
-Log format:
-
-```yaml
----
-run_id: 2025-01-12T10-31-00Z-skill-id
-skill_id: skill-id
-skill_version: "1.0.0"
-status: success  # success | partial | failed
-started_at: 2025-01-12T10:31:00Z
-ended_at: 2025-01-12T10:44:12Z
-inputs: [list of input paths]
-outputs: [list of output paths]
-tools_used: [list of tools]
-external_calls:
-  - type: web.search
-    purpose: "verify dates"
-  - type: http.fetch
-    purpose: "retrieve resource"
----
-
-## Summary
-- What was done
-
-## Notes
-- Any issues or decisions made
-```
-
-## Safety
-
-Skills declare safety constraints in frontmatter:
-
-- **tool_policy:** Capabilities the skill may use (deny-by-default)
-- **file_policy:** Where the skill may write (scoped to outputs/)
-
-Default: `deny-by-default` with explicit allowlist.
 
 ## See Also
 
-- [Skills Documentation](../../docs/architecture/workspaces/skills.md)
-- [Taxonomy](../../docs/architecture/workspaces/taxonomy.md)
-- [Catalog](./../catalog.md)
+- [Full Documentation](../../docs/architecture/workspaces/skills/README.md) — Complete architecture and reference
+- [agentskills.io Specification](https://agentskills.io/specification) — Official spec

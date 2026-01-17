@@ -49,7 +49,6 @@ For each file in `references/`:
 
 **Files to update:**
 - `references/behaviors.md`
-- `references/triggers.md`
 - `references/io-contract.md`
 - `references/safety.md`
 - `references/examples.md`

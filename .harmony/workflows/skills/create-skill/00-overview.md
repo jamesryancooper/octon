@@ -75,8 +75,7 @@ skills/<skill-name>/
 ├── SKILL.md              # Core skill definition (<500 lines)
 ├── references/           # Detailed documentation (progressive disclosure)
 │   ├── behaviors.md      # Phase-by-phase behavior details
-│   ├── triggers.md       # Commands and invocation patterns
-│   ├── io-contract.md    # Inputs, outputs, dependencies
+│   ├── io-contract.md    # Inputs, outputs, dependencies, command-line usage
 │   ├── safety.md         # Tool and file policies
 │   ├── examples.md       # Full usage examples
 │   └── validation.md     # Acceptance criteria
@@ -99,8 +98,7 @@ skills/<skill-name>/
 
 2. **Edit reference files** to add details:
    - `references/behaviors.md` — Detailed phase steps
-   - `references/triggers.md` — Natural language triggers
-   - `references/io-contract.md` — Input/output schemas
+   - `references/io-contract.md` — Input/output schemas, command-line usage
    - `references/safety.md` — Tool and file policies
    - `references/examples.md` — Full examples
    - `references/validation.md` — Acceptance criteria

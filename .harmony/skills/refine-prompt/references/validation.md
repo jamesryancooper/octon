@@ -78,8 +78,8 @@ All file paths referenced in the refined prompt must:
 ### Output Paths
 
 All outputs must be written to:
-- `outputs/prompts/<timestamp>-refined.md`
-- `logs/runs/<timestamp>-refine-prompt.md`
+- `outputs/prompts/{{timestamp}}-refined.md`
+- `logs/runs/{{timestamp}}-refine-prompt.md`
 
 ### Timestamp Format
 

@@ -1,76 +1,91 @@
 ---
-name: skill-name
+name: {{skill_name}}
 description: >
-  [One paragraph describing what this skill does and when to use it.
+  {{skill_description}}
   Include specific keywords to help agents identify relevant tasks.
-  Describe the value proposition and typical use cases.]
+  Describe the value proposition and typical use cases.
 license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
-  author: "[Author Name]"
-  version: "0.1.0"
-  created: "[YYYY-MM-DD]"
-  updated: "[YYYY-MM-DD]"
+  author: "{{author_name}}"
+  created: "{{created_date}}"
+  updated: "{{updated_date}}"
+  # Note: version is defined in .harmony/skills/registry.yml, not here
 allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
 ---
 
-# [Skill Name]
+# {{skill_display_name}}
 
-[One sentence describing what this skill does and its primary value.]
+{{skill_one_liner}}
 
 ## When to Use
 
 Use this skill when:
 
-- [Trigger condition 1]
-- [Trigger condition 2]
-- [Trigger condition 3]
+- {{trigger_condition_1}}
+- {{trigger_condition_2}}
+- {{trigger_condition_3}}
 
 ## Quick Start
 
 ```
-/skill-name "[input]"
+/{{skill_name}} "{{example_input}}"
 ```
 
 ## Core Workflow
 
-1. **[Phase 1]** - [Brief description]
-2. **[Phase 2]** - [Brief description]
-3. **[Phase 3]** - [Brief description]
+1. **{{phase_1_name}}** - {{phase_1_description}}
+2. **{{phase_2_name}}** - {{phase_2_description}}
+3. **{{phase_3_name}}** - {{phase_3_description}}
 4. **Output** - Save results and execution log
 
 ## Parameters
 
-| Parameter | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `[param1]` | Yes | - | [Description] |
-| `[param2]` | No | [default] | [Description] |
+Parameters are defined in `.harmony/skills/registry.yml` (single source of truth).
+
+This skill accepts {{parameters_summary}}.
 
 ## Output Location
 
-- **Results:** `outputs/[category]/<timestamp>-[name].md`
-- **Run logs:** `logs/runs/<timestamp>-skill-name.md`
+Output paths are defined in `.workspace/skills/registry.yml` (single source of truth).
+
+Outputs are written to `outputs/{{output_category}}/` (results) and `logs/runs/` (execution log).
 
 ## Boundaries
 
-- [Constraint 1 - what the skill must never do]
-- [Constraint 2 - what the skill must always do]
+- {{constraint_must_not}}
+- {{constraint_must_do}}
 - Write only to designated output paths
-- [Additional constraints]
+- {{additional_constraint}}
 
 ## When to Escalate
 
-- [Condition requiring user input]
-- [Ambiguous situation]
-- [Error condition]
+- {{escalation_condition_1}}
+- {{escalation_condition_2}}
+- {{escalation_condition_3}}
 
-## References
+## References (Optional)
 
-For detailed documentation:
+Reference files are **optional**. Choose the archetype that matches your skill's complexity:
 
-- [Behavior phases](references/behaviors.md) - Full phase-by-phase instructions
-- [Invocation patterns](references/triggers.md) - Commands, triggers, parameters
-- [I/O contract](references/io-contract.md) - Inputs, outputs, dependencies
+| Archetype | Structure | When to Use |
+|-----------|-----------|-------------|
+| **Utility** | SKILL.md only | Single-purpose skills with obvious I/O |
+| **Workflow** | SKILL.md + references/ | Multi-phase execution with defined steps |
+| **Domain** | Workflow + domain files | Specialized domains requiring terminology & auditability |
+
+See [Reference Artifacts](../../../docs/architecture/workspaces/skills/reference-artifacts.md) for the full archetype decision matrix.
+
+**This template includes Workflow archetype references:**
+
+- [I/O contract](references/io-contract.md) - Inputs, outputs, dependencies, command-line usage
 - [Safety policies](references/safety.md) - Tool and file policies
 - [Examples](references/examples.md) - Full usage examples
+- [Behavior phases](references/behaviors.md) - Full phase-by-phase instructions
 - [Validation](references/validation.md) - Acceptance criteria
+
+**For Domain archetype, add:**
+
+- `errors.md` - Error codes and recovery procedures
+- `glossary.md` - Domain-specific terminology
+- `<domain>.md` - Domain-specific reference material (e.g., `finance.md`, `security.md`)

@@ -1,0 +1,52 @@
+# Skills Manifest (Tier 1 Discovery)
+# Compact index for agent routing - load this first.
+# Extended metadata lives in registry.yml.
+#
+# Token Budget: ~50 tokens/entry (see progressive-disclosure.md)
+#
+# Fields:
+#   id           - Unique identifier (matches directory name and SKILL.md name)
+#                  Format: lowercase, hyphens only (per agentskills.io spec)
+#   display_name - Human-readable display name
+#                  Convention: Title Case derived from id (e.g., "refine-prompt" → "Refine Prompt")
+#   path         - Relative path to skill directory
+#   summary      - One-line description for routing decisions
+#                  Should align with first sentence of SKILL.md description
+#   status       - Lifecycle state: active | deprecated | experimental
+#   tags         - Freeform labels for filtering/grouping
+#   triggers     - Natural language phrases for intent matching
+
+schema_version: "1.2"
+default: null
+
+skills:
+  - id: research-synthesizer
+    display_name: Research Synthesizer
+    path: research-synthesizer/
+    summary: "Synthesize scattered research notes into coherent findings."
+    status: active
+    tags:
+      - research
+      - synthesis
+      - documentation
+    triggers:
+      - "synthesize my research"
+      - "consolidate findings"
+      - "summarize research notes"
+
+  - id: refine-prompt
+    display_name: Refine Prompt
+    path: refine-prompt/
+    summary: "Context-aware prompt refinement with persona assignment."
+    status: active
+    tags:
+      - prompt
+      - refinement
+      - context-aware
+    triggers:
+      - "refine my prompt"
+      - "improve this prompt"
+      - "expand this prompt"
+      - "spell check my prompt"
+      - "clarify my prompt"
+      - "analyze and improve my prompt"

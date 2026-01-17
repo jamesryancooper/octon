@@ -1,35 +1,29 @@
 ---
-safety:
-  tool_policy:
-    mode: deny-by-default
-    allowed:
-      - filesystem.read
-      - filesystem.write.outputs
-      - filesystem.glob
-      - filesystem.grep
-  file_policy:
-    write_scope:
-      - ".workspace/skills/outputs/**"
-      - ".workspace/skills/logs/**"
-    destructive_actions: never
+title: Safety Reference
+description: Safety policies and behavioral constraints for the refine-prompt skill.
+# AUTHORITATIVE SOURCES (Single Source of Truth):
+#   - Tool permissions: SKILL.md frontmatter `allowed-tools`
+#   - Output paths: .workspace/skills/registry.yml
+#
+# Prose descriptions below are derived from these sources.
+# If discrepancies exist, the authoritative sources are correct.
 ---
 
 # Safety Reference
 
-Safety policies and constraints for the refine-prompt skill.
+Safety policies and behavioral constraints for the refine-prompt skill.
+
+> **Authoritative Sources:**
+> - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
+> - Output paths: `.workspace/skills/registry.yml`
 
 ## Tool Policy
 
 **Mode:** Deny-by-default
 
-Only the following tools are permitted:
+Allowed tools are defined in SKILL.md `allowed-tools` frontmatter (single source of truth).
 
-| Tool | Purpose |
-|------|---------|
-| `filesystem.read` | Read codebase files for context analysis |
-| `filesystem.write.outputs` | Write refined prompts and logs to output directories |
-| `filesystem.glob` | Find files matching patterns |
-| `filesystem.grep` | Search file contents |
+This skill requires read access to codebase files, glob for pattern matching, grep for content search, and write access to output directories.
 
 ## File Policy
 

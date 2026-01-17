@@ -19,7 +19,7 @@ The most reliable way to invoke a skill:
 /refine-prompt "add caching to the api"
 ```
 
-Commands are defined in the skill's registry entry and `triggers.md` reference file.
+Commands are defined in the skill's registry entry (`registry.yml`).
 
 ### Explicit Pattern
 
@@ -50,22 +50,23 @@ Triggers are matched against the `triggers` field in the registry.
 When a user invokes a skill, the system follows these steps:
 
 1. **Resolve workspace** — Determine active workspace (see below)
-2. **Read shared registry** — Load `.harmony/skills/registry.yml`
-3. **Read workspace registry** — Load active workspace's `.workspace/skills/registry.yml`
+2. **Read shared manifest** — Load `.harmony/skills/manifest.yml` for skill index
+3. **Read workspace manifest** — Load active workspace's `.workspace/skills/manifest.yml`
 4. **Check explicit command** — If `/skill-name`, route directly
 5. **Check explicit pattern** — If `use skill: <name>`, route directly
-6. **Match triggers** — Compare input against registered triggers
-7. **Resolve ambiguity** — If multiple matches, use `ambiguity_resolution` setting
+6. **Match triggers** — Compare input against registered triggers in manifest
+7. **Resolve ambiguity** — If multiple matches, use `ambiguity_resolution` setting (from registry)
+8. **Load extended metadata** — Read `registry.yml` for matched skill's commands/requires
 
 ### Ambiguity Resolution
 
 When multiple skills match a trigger:
 
-| Mode | Behavior |
-|------|----------|
-| `ask` | Ask user to choose (default) |
-| `first_match` | Use first matching skill |
-| `most_specific` | Use skill with most specific trigger match |
+| Mode            | Behavior                                  |
+|-----------------|-------------------------------------------|
+| `ask`           | Ask user to choose (default)              |
+| `first_match`   | Use first matching skill                  |
+| `most_specific` | Use skill with most specific trigger match|
 
 Configure in registry:
 
@@ -110,11 +111,11 @@ Skills execute within a workspace context that determines their scope and permis
 
 ### Resolution Priority
 
-| Priority | Method | Example |
-|----------|--------|---------|
-| 1 | Explicit `--workspace` flag | `/skill --workspace=path/to/ws "input"` |
-| 2 | Input path | Nearest `.workspace/` ancestor of input files |
-| 3 | Current directory | Nearest `.workspace/` ancestor of CWD |
+| Priority |         Method          |                  Example                         |
+|----------|-------------------------|--------------------------------------------------|
+|    1     | Explicit `--workspace`  | `/skill --workspace=path/to/ws "input"`          |
+|    2     | Input path              | Nearest `.workspace/` ancestor of input files    |
+|    3     | Current directory       | Nearest `.workspace/` ancestor of CWD            |
 
 ### Workspace Flag
 
@@ -144,12 +145,12 @@ Without an explicit flag, the workspace is determined automatically:
 
 ### Workspace Context Affects
 
-| Aspect | How Workspace Context Applies |
-|--------|-------------------------------|
-| **Registry loading** | Loads the active workspace's `.workspace/skills/registry.yml` |
-| **Output paths** | Validates paths against workspace's hierarchical scope |
-| **Write permissions** | Can write down (descendants), not up (ancestors) or sideways (siblings) |
-| **Run logs** | Written to active workspace's `.workspace/skills/logs/runs/` |
+| Aspect               | How Workspace Context Applies                                                   |
+|----------------------|---------------------------------------------------------------------------------|
+| **Registry loading** | Loads the active workspace's `.workspace/skills/registry.yml`                   |
+| **Output paths**     | Validates paths against workspace's hierarchical scope                          |
+| **Write permissions**| Can write down (descendants), not up (ancestors), or sideways (siblings)        |
+| **Run logs**         | Written to active workspace's `.workspace/skills/logs/runs/`                    |
 
 See [Architecture](./architecture.md#workspace-resolution) for the complete resolution algorithm.
 
@@ -195,9 +196,15 @@ Agent: [Matches "refine my prompt" trigger → routes to refine-prompt skill]
 
 ### List Available Skills
 
-Skills are discovered from:
-- `.harmony/skills/registry.yml` — Shared skills
-- `.workspace/skills/registry.yml` — Workspace-specific skills
+Skills are discovered from manifest files (Tier 1):
+
+- `.harmony/skills/manifest.yml` — Shared skill index
+- `.workspace/skills/manifest.yml` — Workspace-specific skills
+
+Extended metadata is loaded from registry files after matching:
+
+- `.harmony/skills/registry.yml` — Commands, requires, depends_on
+- `.workspace/skills/registry.yml` — I/O mappings, pipelines
 
 ### Skill Information
 
@@ -214,6 +221,6 @@ The agent will load the skill's `SKILL.md` and description.
 ## See Also
 
 - [Architecture](./architecture.md) — Workspace resolution and hierarchical scope
-- [Registry](./registry.md) — Registry format and trigger definitions
-- [Reference Artifacts](./reference-artifacts.md) — The `triggers.md` reference file
+- [Discovery](./discovery.md) — Manifest and registry formats
+- [Reference Artifacts](./reference-artifacts.md) — Reference file documentation
 - [Execution](./execution.md) — What happens after invocation

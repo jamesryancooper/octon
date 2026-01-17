@@ -119,8 +119,8 @@ The Markdown body follows the frontmatter and contains skill instructions. Per t
 |-----------|----------|---------|-------------|
 
 ## Output Location
-- **Results:** `outputs/[category]/<timestamp>-[name].md`
-- **Run logs:** `logs/runs/<timestamp>-skill-name.md`
+- **Results:** `outputs/{{category}}/{{timestamp}}-{{name}}.md`
+- **Run logs:** `logs/runs/{{timestamp}}-{{skill_id}}.md`
 
 ## Boundaries
 - [Constraints]
@@ -130,7 +130,6 @@ The Markdown body follows the frontmatter and contains skill instructions. Per t
 
 ## References
 - [Behavior phases](references/behaviors.md)
-- [Invocation patterns](references/triggers.md)
 - [I/O contract](references/io-contract.md)
 - [Safety policies](references/safety.md)
 - [Examples](references/examples.md)
@@ -147,15 +146,16 @@ A complete skill directory:
 <skill-name>/
 ├── SKILL.md              # Required: core instructions (<500 lines)
 ├── references/           # Optional: progressive disclosure
-│   ├── io-contract.md    # Inputs, outputs, dependencies
+│   ├── io-contract.md    # Inputs, outputs, dependencies, command-line usage
 │   ├── safety.md         # Tool and file policies
-│   ├── triggers.md       # Commands, invocation patterns
 │   ├── examples.md       # Full worked examples
 │   ├── behaviors.md      # Phase-by-phase execution
 │   └── validation.md     # Acceptance criteria
 ├── scripts/              # Optional: executable code
 └── assets/               # Optional: static resources
 ```
+
+**Note:** Commands and triggers are defined in `manifest.yml` and `registry.yml` at the skill collection level, not in individual reference files.
 
 ---
 

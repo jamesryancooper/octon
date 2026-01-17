@@ -1,6 +1,6 @@
 ---
 title: Safety Reference
-description: Safety policies and constraints for the skill-name skill.
+description: Security boundaries and behavioral constraints for the research-synthesizer skill.
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .workspace/skills/registry.yml
@@ -11,7 +11,7 @@ description: Safety policies and constraints for the skill-name skill.
 
 # Safety Reference
 
-Safety policies and constraints for the skill-name skill.
+Security boundaries and behavioral constraints for the research-synthesizer skill.
 
 > **Authoritative Sources:**
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
@@ -21,9 +21,9 @@ Safety policies and constraints for the skill-name skill.
 
 **Mode:** Deny-by-default
 
-Tool permissions are defined in SKILL.md `allowed-tools` frontmatter (single source of truth).
+Allowed tools are defined in SKILL.md `allowed-tools` frontmatter (single source of truth).
 
-Describe the tools this skill uses and their purposes in prose here. Reference the `allowed-tools` field in SKILL.md for the authoritative list.
+This skill requires only read access to source files and write access to output directories. It does not require glob, grep, network, or shell access.
 
 ## File Policy
 
@@ -33,7 +33,7 @@ The skill may only write to designated output locations:
 
 | Tier | Path | Purpose |
 |------|------|---------|
-| **Tier 1** | `.workspace/skills/outputs/**` | Skill outputs |
+| **Tier 1** | `.workspace/skills/outputs/**` | Synthesis documents |
 | **Tier 1** | `.workspace/skills/logs/**` | Execution logs |
 
 ### Scope Authority
@@ -50,7 +50,7 @@ The skill may only write to designated output locations:
 
 The skill must never:
 - Delete files
-- Overwrite source code
+- Overwrite source research notes
 - Modify files outside designated output paths
 - Write to ancestor or sibling workspace paths
 
@@ -58,34 +58,40 @@ The skill must never:
 
 ### Must Always
 
-- [Boundary 1 - what the skill must always do]
-- [Boundary 2]
-- Write only to designated output paths
+- Cite source files for all findings
+- Preserve the nuance of original research
 - State assumptions explicitly
+- Mark uncertain findings with appropriate confidence level
+- Write only to outputs/ and logs/ directories
 
 ### Must Never
 
-- [Boundary 1 - what the skill must never do]
-- [Boundary 2]
+- Fabricate findings not present in source materials
+- Make recommendations beyond what evidence supports
+- Overstate confidence in uncertain findings
 - Delete or modify source files
-- Access resources outside defined scope
+- Access external resources or services
 
 ## Escalation Triggers
 
-The skill must escalate to the user when:
+The skill must stop and request user intervention when:
 
 | Condition | Action |
 |-----------|--------|
-| [Condition 1] | [Action to take] |
-| [Condition 2] | [Action to take] |
-| [Condition 3] | [Action to take] |
+| Input folder is empty | Report error, ask for valid path |
+| No `.md` files found | Report error, ask for valid path |
+| Research goal is unclear | Ask one clarifying question |
+| Major contradictions unresolved | Flag for human review |
+| Findings require domain expertise | Note limitations, proceed with caveats |
+| Scope exceeds reasonable size (>50 files) | Warn user, suggest narrowing scope |
 
 ## Input Validation
 
 Before processing, validate:
 
-- [ ] Input path/value exists and is valid
-- [ ] Input meets expected format
-- [ ] Required context is available
+- [ ] Input path exists
+- [ ] Input path is a directory
+- [ ] Directory contains at least one `.md` file
+- [ ] Files are readable
 
 If validation fails, report the specific issue and exit gracefully.

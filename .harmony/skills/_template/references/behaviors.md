@@ -13,7 +13,7 @@ behavior:
     - name: "Output"
       steps:
         - "Structure output with all context"
-        - "Save to outputs/[category]/<timestamp>-[name].md"
+        - "Save to outputs/[category]/{{timestamp}}-[name].md"
         - "Log execution to logs/runs/"
   goals:
     - "[Primary goal]"
@@ -60,8 +60,8 @@ Produce the final output:
    - Format for readability
 
 2. **Save artifacts**
-   - Write to `outputs/[category]/<timestamp>-[name].md`
-   - Log to `logs/runs/<timestamp>-skill-name.md`
+   - Write to `outputs/[category]/{{timestamp}}-[name].md`
+   - Log to `logs/runs/{{timestamp}}-skill-name.md`
 
 ## [Optional Reference Tables]
 

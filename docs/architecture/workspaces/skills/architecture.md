@@ -1,9 +1,9 @@
 ---
-title: Skills Architecture
+title: Workspace Skills Architecture
 description: Hierarchical workspace model with scoped authority and progressive disclosure.
 ---
 
-# Skills Architecture
+# Workspace Skills Architecture
 
 This document describes the architectural design of the skills system, including the hierarchical workspace model, scope authority, and progressive disclosure.
 
@@ -13,7 +13,7 @@ This document describes the architectural design of the skills system, including
 
 A `.workspace/` directory designates its **parent directory** as a workspace root. Workspaces can be nested at any level, creating a hierarchy.
 
-```
+```markdown
 repo/                              ← Root workspace (scope: repo/**)
 ├── .workspace/
 ├── src/
@@ -31,145 +31,45 @@ repo/                              ← Root workspace (scope: repo/**)
 
 ---
 
-## Workspace Resolution
-
-When a skill is invoked, the system must determine which workspace context to use. This follows the **nearest ancestor** model, similar to how git finds the repository root.
-
-### Resolution Algorithm
-
-```
-RESOLVE_WORKSPACE(cwd, input_paths, explicit_workspace):
-  1. If explicit_workspace provided → use it
-  2. Else if input_paths provided → find nearest .workspace/ ancestor of first input
-  3. Else → find nearest .workspace/ ancestor of cwd
-  4. If none found → error: "No workspace context"
-```
-
-### Resolution Priority
-
-| Priority | Method | Description |
-|----------|--------|-------------|
-| 1 | Explicit flag | `--workspace=path/to/ws` overrides all |
-| 2 | Input path | Nearest `.workspace/` ancestor of input files |
-| 3 | Current directory | Nearest `.workspace/` ancestor of CWD |
-
-### Finding the Nearest Workspace
-
-Walk up from the starting directory until a `.workspace/` is found:
-
-```
-Starting: /repo/packages/kits/flowkit/src/
-         ↑ check for .workspace/ → not found
-         /repo/packages/kits/flowkit/
-         ↑ check for .workspace/ → FOUND
-
-Active workspace: flowkit
-Workspace root: /repo/packages/kits/flowkit/
-Scope: flowkit/**
-```
-
-### Examples
-
-```bash
-# CWD-based resolution (most common)
-cd /repo/packages/kits/flowkit/src
-/refine-prompt "add caching"
-# → Resolves to flowkit workspace
-
-# Input-based resolution
-cd /repo
-/research-synthesizer packages/kits/flowkit/notes/
-# → Resolves to flowkit workspace (based on input path)
-
-# Explicit override
-cd /repo/packages/kits/flowkit/src
-/refine-prompt --workspace=/repo "add caching"
-# → Resolves to repo workspace (explicit override)
-```
-
-### Agent Harness Implementation
-
-Agent harnesses should:
-
-1. **Track CWD** — Maintain awareness of current working directory
-2. **Resolve workspace** — Apply the resolution algorithm before skill execution
-3. **Provide context** — Pass workspace root and scope to the skill
-4. **Display status** — Optionally show active workspace in prompt/status
-
-```
-# Example status line showing active workspace
-[flowkit] > /refine-prompt "add caching"
-    ↑
-    active workspace indicator
-```
-
-### No Workspace Found
-
-If no `.workspace/` is found walking up from the starting point:
-
-- **Error state** — Skills requiring workspace context cannot execute
-- **Fallback** — Some read-only operations may proceed without workspace context
-- **User action** — Create a `.workspace/` directory or specify `--workspace` explicitly
-
----
-
 ## Hierarchical Scope
 
 Each workspace's scope includes its parent directory and **all descendants**, including directories that contain their own `.workspace/`.
 
 ### Scope Authority Rules
 
-| Direction | Allowed | Description |
-|-----------|---------|-------------|
-| **DOWN** | ✓ | Can write into descendant workspaces |
-| **UP** | ✗ | Cannot write into ancestor workspaces |
-| **SIDEWAYS** | ✗ | Cannot write into sibling workspaces |
+| Direction    | Allowed | Description                              |
+|--------------|---------|------------------------------------------|
+| **DOWN**     | ✓       | Can write into descendant workspaces     |
+| **UP**       | ✗       | Cannot write into ancestor workspaces    |
+| **SIDEWAYS** | ✗       | Cannot write into sibling workspaces     |
 
 ### Write Permission Matrix
 
-| Workspace | Can Write To |
-|-----------|--------------|
-| **repo** | `repo/**` (includes `docs/**`, `kits/**`, `flowkit/**`) |
-| **docs** | `docs/**` only |
-| **kits** | `kits/**` (includes `flowkit/**`) |
-| **flowkit** | `flowkit/**` only |
+| Workspace   | Can Write To                                             |
+|-------------|----------------------------------------------------------|
+| **repo**    | `repo/**` (includes `docs/**`, `kits/**`, `flowkit/**`)  |
+| **docs**    | `docs/**` only                                           |
+| **kits**    | `kits/**` (includes `flowkit/**`)                        |
+| **flowkit** | `flowkit/**` only                                        |
 
-### Example: Who Can Write `flowkit/src/generated.ts`?
+### Example: Who Can Write `flowkit/src/generated.ts`
 
-| Workspace | Permission | Reason |
-|-----------|------------|--------|
-| repo | ✓ | flowkit is a descendant |
-| kits | ✓ | flowkit is a descendant |
-| flowkit | ✓ | within own scope |
-| docs | ✗ | flowkit is not a descendant of docs |
-
----
-
-## Output Permission Tiers
-
-Within each workspace, output locations follow a tiered permission model:
-
-| Tier | Location | Declaration Required |
-|------|----------|---------------------|
-| **Tier 1** | `.workspace/skills/outputs/**` | None (always allowed) |
-| **Tier 2** | `.workspace/**` | Registry declaration |
-| **Tier 3** | `<workspace-root>/**` | Registry declaration |
-
-**Default behavior:** Without explicit declaration, skills write to Tier 1:
-```
-.workspace/skills/outputs/<category>/<timestamp>-<name>.md
-```
-
-Custom paths (Tier 2 and 3) require registry declaration and are validated against the workspace's hierarchical scope.
+| Workspace | Permission | Reason                                |
+|-----------|:----------:|---------------------------------------|
+| repo      |     ✓      | flowkit is a descendant               |
+| kits      |     ✓      | flowkit is a descendant               |
+| flowkit   |     ✓      | within own scope                      |
+| docs      |     ✗      | flowkit is not a descendant of docs   |
 
 ---
 
 ## Skill Definition Tiers
 
-```
+```markdown
 ┌─────────────────────────────────────────────────────────────────┐
-│  .harmony/skills/              Shared Foundation                 │
-│  ├── registry.yml              Skill catalog for routing        │
+│  .harmony/skills/              Shared Foundation                │
+│  ├── manifest.yml              Tier 1 discovery index           │
+│  ├── registry.yml              Extended metadata for routing    │
 │  ├── _template/                Scaffolding for new skills       │
 │  ├── refine-prompt/            Shared skill definition          │
 │  │   ├── SKILL.md              Core instructions (<500 lines)   │
@@ -180,7 +80,7 @@ Custom paths (Tier 2 and 3) require registry declaration and are validated again
                                  │ I/O paths defined in
                                  ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│  .workspace/skills/            Workspace I/O                     │
+│  .workspace/skills/            Workspace I/O                    │
 │  ├── registry.yml              I/O mappings (scope-validated)   │
 │  ├── outputs/                  Default output location (Tier 1) │
 │  ├── logs/runs/                Execution audit logs             │
@@ -190,7 +90,7 @@ Custom paths (Tier 2 and 3) require registry declaration and are validated again
                                  │ exposed via symlinks
                                  ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│  Host Adapters                 Agent Access                      │
+│  Host Adapters                 Agent Access                     │
 │  .claude/skills/   .cursor/skills/   .codex/skills/             │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -201,14 +101,83 @@ Custom paths (Tier 2 and 3) require registry declaration and are validated again
 
 Portable skill definitions that work across workspaces:
 
-| Content | Purpose |
-|---------|---------|
-| `registry.yml` | Skill metadata for routing (no workspace-specific paths) |
-| `_template/` | Scaffolding for new skills |
-| `<skill-name>/SKILL.md` | Core skill instructions (required) |
-| `<skill-name>/references/` | Detailed documentation (progressive disclosure) |
-| `<skill-name>/scripts/` | Executable helpers (optional) |
-| `<skill-name>/assets/` | Static resources (optional) |
+| Content                    | Purpose                                                  |
+|----------------------------|----------------------------------------------------------|
+| `manifest.yml`             | Tier 1 discovery index (id, name, summary, triggers)     |
+| `registry.yml`             | Extended metadata (commands, requires, depends_on)       |
+| `_template/`               | Scaffolding for new skills                               |
+| `<skill-name>/SKILL.md`    | Core skill instructions (required)                       |
+| `<skill-name>/references/` | Detailed documentation (progressive disclosure)          |
+| `<skill-name>/scripts/`    | Executable helpers (optional)                            |
+| `<skill-name>/assets/`     | Static resources (optional)                              |
+
+---
+
+## Progressive Disclosure
+
+Skills follow a **four-tier disclosure model** for token efficiency, as defined in the [agentskills.io specification](https://agentskills.io/what-are-skills):
+
+| Tier       | Source              | Content                                      | When Loaded                 | Token Budget   |
+|------------|---------------------|----------------------------------------------|-----------------------------|----------------|
+| **Tier 1** | `manifest.yml`      | `id`, `name`, `summary`, `triggers`          | Always (discovery)          | ~50 tokens     |
+| **Tier 2** | `registry.yml`      | `commands`, `requires`, `depends_on`         | After skill matched         | ~50 tokens     |
+| **Tier 3** | `SKILL.md`          | Full skill instructions                      | When skill activated        | <5000 tokens   |
+| **Tier 4** | `references/`, etc. | Detailed docs, scripts, assets               | When specific detail needed | On demand      |
+
+> **Token Budget Note:** The agentskills.io spec recommends ~100 tokens for discovery metadata (name + description in SKILL.md). Harmony's Tier 1 + Tier 2 combined equals ~100 tokens, aligning with spec guidance while enabling finer-grained progressive loading.
+
+### Two-File Discovery
+
+The manifest/registry split optimizes for progressive disclosure:
+
+| File            | Tier   | Purpose                                      | Agent Loads When                |
+|-----------------|--------|----------------------------------------------|---------------------------------|
+| `manifest.yml`  | Tier 1 | Compact index for routing decisions          | Session start (always)          |
+| `registry.yml`  | Tier 2 | Extended metadata for validation/execution   | After matching, before activation |
+
+**manifest.yml** contains only what agents need for initial routing:
+
+```yaml
+skills:
+  - id: refine-prompt
+    display_name: Refine Prompt
+    path: refine-prompt/
+    summary: "Context-aware prompt refinement with persona assignment."
+    status: active
+    tags:
+      - prompt
+      - refinement
+    triggers:
+      - "refine my prompt"
+      - "improve this prompt"
+```
+
+**registry.yml** contains extended metadata loaded after a match:
+
+```yaml
+skills:
+  refine-prompt:
+    version: "2.1.1"
+    commands:
+      - /refine-prompt
+    requires:
+      context:
+        - type: directory_exists
+          path: ".workspace/"
+    depends_on: []
+```
+
+> **Tool Permissions:** Tool permissions are defined in SKILL.md frontmatter via `allowed-tools`, not in registry.yml. See [Specification](./specification.md#tool-permissions-single-source-of-truth) for details.
+
+### Loading Sequence
+
+1. **Discovery** — Agent reads `manifest.yml` (shared, then workspace) for skill index
+2. **Matching** — Agent matches user task to skill summaries or triggers
+3. **Validation** — Agent reads matched skill's entry from `registry.yml` for commands/requires
+4. **Activation** — User confirms or agent proceeds; agent loads full `SKILL.md`
+5. **Detail** — Agent loads reference files only when specific information needed
+
+This approach keeps initial context minimal (~50 tokens per skill) while providing full metadata on demand.
 
 ---
 
@@ -229,91 +198,32 @@ Output paths are declared in `registry.yml` and validated against the workspace'
 
 | Path Type | Example | Validation |
 |-----------|---------|------------|
-| **Default (Tier 1)** | `outputs/<category>/<file>` | Always allowed |
-| **Workspace internal (Tier 2)** | `.workspace/projects/<project>/<file>` | Must be declared |
-| **Workspace root (Tier 3)** | `src/generated/<file>` | Must be declared, scope-validated |
+| **Default (Tier 1)** | `outputs/{{category}}/{{file}}` | Always allowed |
+| **Workspace internal (Tier 2)** | `.workspace/projects/{{project}}/{{file}}` | Must be declared |
+| **Workspace root (Tier 3)** | `src/generated/{{file}}` | Must be declared, scope-validated |
 | **Descendant workspace** | `flowkit/docs/api.md` | Must be declared, scope-validated |
 
 **Scope validation:** Paths are checked to ensure they fall within the workspace's hierarchical scope (can write down, not up or sideways).
 
 ---
 
-## Host Adapters (Symlinks)
+## Output Permission Tiers
 
-Symlinks expose shared skills to different agent hosts:
+Within each workspace, output locations follow a tiered permission model:
 
-```bash
-.claude/skills/refine-prompt -> ../../.harmony/skills/refine-prompt
-.cursor/skills/refine-prompt -> ../../.harmony/skills/refine-prompt
-.codex/skills/refine-prompt  -> ../../.harmony/skills/refine-prompt
+| Tier | Location | Declaration Required |
+|------|----------|---------------------|
+| **Tier 1** | `.workspace/skills/outputs/**` | None (always allowed) |
+| **Tier 2** | `.workspace/**` | Registry declaration |
+| **Tier 3** | `<workspace-root>/**` | Registry declaration |
+
+**Default behavior:** Without explicit declaration, skills write to Tier 1:
+
+```markdown
+.workspace/skills/outputs/{{category}}/{{timestamp}}-{{name}}.md
 ```
 
-**Setup:** Run `.harmony/skills/scripts/setup-harness-links.sh` to create symlinks, or create them manually:
-
-```bash
-# Manual symlink creation
-mkdir -p .claude/skills .cursor/skills .codex/skills
-
-# Link a skill to all harnesses
-ln -s ../../.harmony/skills/refine-prompt .claude/skills/refine-prompt
-ln -s ../../.harmony/skills/refine-prompt .cursor/skills/refine-prompt
-ln -s ../../.harmony/skills/refine-prompt .codex/skills/refine-prompt
-```
-
-**Why symlinks?** Agent products discover skills in their own directories (`.claude/skills/`, `.cursor/skills/`, etc.). Symlinks allow multiple agents to share the same canonical skill definition while maintaining expected directory structures.
-
----
-
-## Progressive Disclosure
-
-Skills follow a **three-tier disclosure model** for token efficiency, as defined in the [agentskills.io specification](https://agentskills.io/what-are-skills):
-
-| Tier | Content | When Loaded | Token Budget |
-|------|---------|-------------|--------------|
-| **Tier 1** | `name` + `description` (from registry or frontmatter) | Always (routing/discovery) | ~100 tokens |
-| **Tier 2** | Full `SKILL.md` body | When skill activated | <5000 tokens |
-| **Tier 3** | `references/`, `scripts/`, `assets/` | When specific detail needed | On demand |
-
-### Loading Sequence
-
-1. **Discovery** — Agent scans skill directories, parses frontmatter only
-2. **Matching** — Agent matches user task to skill descriptions
-3. **Activation** — User invokes skill (explicit or trigger), agent loads full `SKILL.md`
-4. **Detail** — Agent loads reference files only when specific information needed
-
-This approach keeps agents fast while giving them access to more context on demand.
-
----
-
-## Design Principles
-
-### Hierarchical Authority
-
-- Parent workspaces can orchestrate across descendant workspaces
-- Child workspaces remain focused and contained
-- Sibling workspaces are independent
-
-### Separation of Concerns
-
-| Layer | Contains | Does NOT Contain |
-|-------|----------|------------------|
-| Shared (`.harmony/`) | Skill logic, behaviors, constraints | Workspace paths, local config |
-| Workspace (`.workspace/`) | I/O paths, outputs, logs | Skill logic |
-| Host Adapters | Symlinks only | Any actual content |
-
-### Portability
-
-Skills in `.harmony/skills/` can be:
-- Copied to other repositories
-- Shared via git submodules
-- Published to skill registries
-
-### Auditability
-
-Every skill execution produces:
-- Output artifacts (default or custom paths within scope)
-- Run logs in `logs/runs/`
-- Timestamped entries for traceability
+Custom paths (Tier 2 and 3) require registry declaration and are validated against the workspace's hierarchical scope.
 
 ---
 
@@ -328,7 +238,7 @@ Output paths declared in the registry are validated at two points:
 
 ### Validation Logic
 
-```
+```markdown
 VALIDATE_PATH(declared_path, workspace_root):
   1. Resolve path relative to workspace_root
   2. Normalize to absolute path
@@ -351,8 +261,98 @@ skill_mappings:
 
 ---
 
+## Host Adapters (Symlinks)
+
+Symlinks expose shared skills to different agent hosts:
+
+```bash
+.claude/skills/refine-prompt -> ../../.harmony/skills/refine-prompt
+.cursor/skills/refine-prompt -> ../../.harmony/skills/refine-prompt
+.codex/skills/refine-prompt  -> ../../.harmony/skills/refine-prompt
+```
+
+**Why symlinks?** Agent products discover skills in their own directories (`.claude/skills/`, `.cursor/skills/`, etc.). Symlinks allow multiple agents to share the same canonical skill definition while maintaining expected directory structures.
+
+### Setup
+
+**Automatic (recommended):**
+
+```bash
+# Create symlinks for all skills
+.harmony/skills/scripts/setup-harness-links.sh
+
+# Create symlinks for a specific skill
+.harmony/skills/scripts/setup-harness-links.sh refine-prompt
+```
+
+**Manual:**
+
+```bash
+# Create directories
+mkdir -p .claude/skills .cursor/skills .codex/skills
+
+# Link a skill to all harnesses
+ln -s ../../.harmony/skills/refine-prompt .claude/skills/refine-prompt
+ln -s ../../.harmony/skills/refine-prompt .cursor/skills/refine-prompt
+ln -s ../../.harmony/skills/refine-prompt .codex/skills/refine-prompt
+```
+
+### Verification
+
+```bash
+# Check symlink status
+ls -la .claude/skills/
+ls -la .cursor/skills/
+ls -la .codex/skills/
+```
+
+### Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Symlinks not working on Windows | Enable Developer Mode or run as Administrator |
+| Agent can't find skill | Run `setup-harness-links.sh` to recreate links |
+| Broken symlinks after moving files | Delete and recreate symlinks |
+| Permission errors | Check filesystem permissions on `.harmony/skills/` |
+
+---
+
+## Design Principles
+
+### Hierarchical Authority
+
+- Parent workspaces can orchestrate across descendant workspaces
+- Child workspaces remain focused and contained
+- Sibling workspaces are independent
+
+### Separation of Concerns
+
+| Layer | Contains | Does NOT Contain |
+|-------|----------|------------------|
+| Shared (`.harmony/`) | Skill logic, behaviors, constraints | Workspace paths, local config |
+| Workspace (`.workspace/`) | I/O paths, outputs, logs | Skill logic |
+| Host Adapters | Symlinks only | Any actual content |
+
+### Portability
+
+Skills in `.harmony/skills/` can be:
+
+- Copied to other repositories
+- Shared via git submodules
+- Published to skill registries
+
+### Auditability
+
+Every skill execution produces:
+
+- Output artifacts (default or custom paths within scope)
+- Run logs in `logs/runs/`
+- Timestamped entries for traceability
+
+---
+
 ## See Also
 
-- [Registry](./registry.md) — Registry format and path declaration
+- [Discovery](./discovery.md) — Manifest and registry formats
 - [Execution](./execution.md) — Run logging and scope enforcement
 - [Reference Artifacts](./reference-artifacts.md) — Progressive disclosure content

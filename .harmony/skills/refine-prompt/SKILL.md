@@ -10,7 +10,6 @@ license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Harmony Framework
-  version: "2.1.1"
   created: "2025-01-14"
   updated: "2025-01-15"
 allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
@@ -51,17 +50,15 @@ Use this skill when:
 
 ## Parameters
 
-| Parameter | Required | Default | Description |
-|-----------|----------|---------|-------------|
-| `raw_prompt` | Yes | - | The prompt text to refine |
-| `execute` | No | false | Execute after refinement |
-| `context_depth` | No | standard | minimal/standard/deep |
-| `skip_confirmation` | No | false | Skip intent confirmation |
+Parameters are defined in `.harmony/skills/registry.yml` (single source of truth).
+
+This skill accepts one required parameter (`raw_prompt`) and three optional parameters for execution mode, context depth, and confirmation behavior.
 
 ## Output Location
 
-- **Refined prompts:** `outputs/prompts/<timestamp>-refined.md`
-- **Run logs:** `logs/runs/<timestamp>-refine-prompt.md`
+Output paths are defined in `.workspace/skills/registry.yml` (single source of truth).
+
+Outputs are written to `outputs/prompts/` (refined prompt) and `logs/runs/` (execution log).
 
 ## Boundaries
 
@@ -87,8 +84,8 @@ Use this skill when:
 For detailed documentation:
 
 - [Behavior phases](references/behaviors.md) - Full phase-by-phase instructions
-- [Invocation patterns](references/triggers.md) - Commands, triggers, parameters
-- [I/O contract](references/io-contract.md) - Inputs, outputs, dependencies
+- [I/O contract](references/io-contract.md) - Inputs, outputs, dependencies, command-line usage
 - [Safety policies](references/safety.md) - Tool and file policies
 - [Examples](references/examples.md) - Full refinement examples
 - [Validation](references/validation.md) - Acceptance criteria
+- [Error handling](references/errors.md) - Error codes, recovery procedures, troubleshooting

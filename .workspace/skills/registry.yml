@@ -1,28 +1,77 @@
-# Skills Registry (Project-Specific)
-# Extends .harmony/skills/registry.yml with project-specific input/output mappings.
+# Skills Registry (Workspace-Specific)
+# Extends .harmony/skills/registry.yml with workspace-specific I/O configuration.
+#
+# Single Source of Truth:
+#   - .harmony/skills/registry.yml: version, commands, parameters, requires.tools
+#   - This file: input/output paths for all skills
 #
 # This file defines:
-# - Input/output paths for inherited skills
-# - Project-specific skills (not in .harmony/)
-# - Project-specific pipelines
+# - Input/output paths for inherited skills (skill_mappings)
+# - Extended metadata for workspace-specific skills (skills)
+# - Workspace-specific pipelines
+#
+# For Tier 1 discovery (id, name, summary, triggers), see manifest.yml
+#
+# I/O Schema:
+#   path         - File path (supports <placeholders>)
+#   kind         - file | directory (default: file)
+#   format       - markdown | json | yaml | text | binary
+#   required     - true | false (for inputs, default: true)
+#   determinism  - stable (same input = same output) | variable | unique
+#   description  - Human-readable description
 
-schema_version: "1.1"
+schema_version: "1.2"
 extends: "../../.harmony/skills/registry.yml"
 default: null
 
 # Project-specific input/output mappings for inherited skills
+#
+# Placeholder Syntax: Use {{snake_case}} for path placeholders
+# See docs/architecture/workspaces/skills/execution.md#placeholder-resolution
 skill_mappings:
   research-synthesizer:
     inputs:
-      - path: "projects/<project>/"
-        type: folder
-      - path: "sources/<topic>/"
-        type: folder
+      - path: "projects/{{project}}/"
+        kind: directory
+        required: true
+        description: "Project folder containing research notes"
+      - path: "sources/{{topic}}/"
+        kind: directory
+        required: false
+        description: "Additional source materials by topic"
     outputs:
-      - path: "outputs/drafts/<topic>-synthesis.md"
-        type: markdown
+      - name: synthesis_document
+        path: "outputs/drafts/{{topic}}-synthesis.md"
+        kind: file
         format: markdown
         determinism: stable
+        description: "Consolidated findings document with themes and evidence"
+      - name: run_log
+        path: "logs/runs/{{timestamp}}-research-synthesizer.md"
+        kind: file
+        format: markdown
+        determinism: unique
+        description: "Execution log capturing inputs, outputs, and processing notes"
+
+  refine-prompt:
+    inputs:
+      - path: "sources/prompts/"
+        kind: directory
+        required: false
+        description: "Optional folder containing prompt source files"
+    outputs:
+      - name: refined_prompt
+        path: "outputs/prompts/{{timestamp}}-refined.md"
+        kind: file
+        format: markdown
+        determinism: stable
+        description: "The refined, improved prompt ready for execution"
+      - name: run_log
+        path: "logs/runs/{{timestamp}}-refine-prompt.md"
+        kind: file
+        format: markdown
+        determinism: unique
+        description: "Execution log with input, context analyzed, and output summary"
 
 # Project-specific skills (not in .harmony/)
 skills: []
@@ -36,10 +85,13 @@ pipelines:
     steps:
       - research-synthesizer
     inputs:
-      - "projects/<project>/"
+      - path: "projects/{{project}}/"
+        kind: directory
     outputs:
-      - "outputs/drafts/<project>-synthesis.md"
-    invocation: "/synthesize-research projects/<project>/"
+      - path: "outputs/drafts/{{project}}-synthesis.md"
+        kind: file
+        format: markdown
+    invocation: "/synthesize-research projects/{{project}}/"
 
   # Future pipelines (uncomment when skills are added):
   # - id: research-to-publish
@@ -49,6 +101,9 @@ pipelines:
   #     - research-synthesizer
   #     - html-reader-builder
   #   inputs:
-  #     - "projects/<project>/"
+  #     - path: "projects/<project>/"
+  #       kind: directory
   #   outputs:
-  #     - "outputs/html/<project>.html"
+  #     - path: "outputs/html/<project>.html"
+  #       kind: file
+  #       format: html
