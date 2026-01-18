@@ -426,6 +426,96 @@ The seven primitives were documented across various files but lacked a central r
 
 - None
 
+## 2026-01-15
+
+**Session focus:** Align skills with agentskills.io spec and implement progressive disclosure
+
+**Completed:**
+
+- Renamed `prompt-refiner` skill to `refine-prompt` (verb-noun convention per spec)
+- Simplified SKILL.md template from 138 to 76 lines with progressive disclosure
+- Added `references/` directory to skill template with standard files:
+  - behaviors.md, io-contract.md, safety.md, examples.md, validation.md
+- Updated create-skill workflow to v2.0.0:
+  - Renamed "skill-id" to "skill-name" throughout
+  - Added naming convention guidance (verb-noun pattern)
+- Split monolithic skills.md (763 lines) into 10 focused documents:
+  - README.md, architecture.md, comparison.md, creation.md, execution.md
+  - invocation.md, reference-artifacts.md, registry.md, skill-format.md, specification.md
+- Added hierarchical workspace authority model:
+  - Workspaces can write DOWN into descendants
+  - Cannot write UP into ancestors or SIDEWAYS into siblings
+- Added output permission tiers (Tier 1 default, Tier 2/3 declared)
+- Updated harness symlinks to point to renamed skills
+- Created ADR-008: Skills Architecture Refactor
+
+**Decisions made:**
+
+- D027: Skill naming convention — Verb-noun pattern (e.g., `refine-prompt`)
+- D028: Progressive disclosure — Three-tier model with references/
+- D029: Reference file structure — Standard files for all skills
+- D030: Hierarchical workspace authority — DOWN only, not UP or SIDEWAYS
+- D031: Output permission tiers — Tier 1/2/3 with scope validation
+- D032: Documentation split — Monolithic to 10 focused documents
+
+**Next:**
+
+- Add manifest.yml for tier-1 discovery
+- Create validation tooling
+- Document Harmony principles
+
+**Blockers:**
+
+- None
+
+## 2026-01-17
+
+**Session focus:** Implement manifest-based discovery, validation tooling, and principles documentation
+
+**Completed:**
+
+- Created manifest.yml files for tier-1 discovery (~50 tokens/skill):
+  - `.harmony/skills/manifest.yml` — Shared skills index
+  - `.workspace/skills/manifest.yml` — Workspace-specific skills
+- Created validate-skills.sh with 21 automated checks:
+  - Manifest/registry sync validation
+  - Token budget enforcement (SKILL.md < 5000, manifest < 100 tokens)
+  - Placeholder format validation (`{{snake_case}}`)
+  - Trigger overlap detection
+  - Cross-reference validation
+  - Description/summary alignment
+- Created `docs/principles/` with 8 formal principle definitions:
+  - progressive-disclosure.md, single-source-of-truth.md, locality.md
+  - simplicity-over-complexity.md, deny-by-default.md, determinism.md
+  - hitl-checkpoints.md, reversibility.md
+- Added complete reference files for research-synthesizer skill
+- Added errors.md to refine-prompt references
+- Documented `display_name` extension in specification.md
+- Added placeholder validation (check 21) to validate-skills.sh
+- Verified CI integration already present (skills-validation job in pr.yml)
+- Analyzed skills architecture for pillar/principle alignment
+- Created ADR-009: Manifest-Based Discovery and Validation Tooling
+
+**Decisions made:**
+
+- D033: Four-tier progressive disclosure — manifest → registry → SKILL.md → references
+- D034: Manifest as Tier 1 discovery — Centralized index for fast routing
+- D035: Validation tooling — validate-skills.sh with 21 checks
+- D036: Principles documentation — Formal docs/principles/ directory
+- D037: display_name extension — Title Case derived from id
+- D038: Placeholder validation — `{{snake_case}}` format enforced
+- D039: CI integration — skills-validation job with tiktoken
+
+**Next:**
+
+- Test validation tooling in CI environment
+- Consider generating reference tables from registry
+- Evaluate making display_name optional (derivable)
+
+**Blockers:**
+
+- None
+
 ## 2026-01-14 (session 5)
 
 **Session focus:** Create prompt-refiner skill with context-aware refinement pipeline

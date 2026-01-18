@@ -16,6 +16,8 @@ Key decisions that constrain or guide work in this workspace. For full rationale
 - [ADR-005](../decisions/005-workflow-meta-architecture.md) — Workflow meta-architecture and gap remediation (D017, D018, D019, D020)
 - [ADR-006](../decisions/006-prompt-refiner-skill.md) — Prompt refiner skill with 10-phase pipeline (D021, D022, D023, D024)
 - [ADR-007](../decisions/007-primitives-documentation.md) — Central primitives documentation (D025, D026)
+- [ADR-008](../decisions/008-skills-architecture-refactor.md) — Skills architecture refactor and agentskills.io alignment (D027, D028, D029, D030, D031, D032)
+- [ADR-009](../decisions/009-manifest-discovery-and-validation.md) — Manifest-based discovery and validation tooling (D033, D034, D035, D036, D037, D038, D039)
 
 ## Active Decisions
 
@@ -46,6 +48,19 @@ Key decisions that constrain or guide work in this workspace. For full rationale
 | D024 | Intent confirmation | User confirms before execution | Refined prompts summarize understanding and request confirmation; skip with `--skip_confirmation` | 2026-01-14 |
 | D025 | Primitives documentation | Central reference in `.harmony/context/primitives.md` | Consult before creating new primitives; explains when to use each type | 2026-01-14 |
 | D026 | Seven primitives | Skills, Commands, Workflows, Assistants, Checklists, Prompts, Templates | These are the canonical building blocks; new primitives require ADR | 2026-01-14 |
+| D027 | Skill naming convention | Verb-noun pattern (e.g., `refine-prompt`) | Skill names must use verb-noun for action-oriented clarity | 2026-01-15 |
+| D028 | Progressive disclosure | Three-tier: SKILL.md + references/ + assets/ | Keep SKILL.md under 500 lines; details in references/ | 2026-01-15 |
+| D029 | Reference file structure | behaviors.md, io-contract.md, safety.md, examples.md, validation.md | Standard files for all skills; machine-parseable YAML frontmatter | 2026-01-15 |
+| D030 | Hierarchical workspace authority | DOWN only, not UP or SIDEWAYS | Workspaces can write to descendants; cannot write to ancestors or siblings | 2026-01-15 |
+| D031 | Output permission tiers | Tier 1 (outputs/), Tier 2 (.workspace/**), Tier 3 (root/**) | Tier 1 always allowed; Tier 2/3 require declaration and scope validation | 2026-01-15 |
+| D032 | Documentation split | Monolithic skills.md → 10 focused documents | Each document under 300 lines; single responsibility | 2026-01-15 |
+| D033 | Four-tier progressive disclosure | manifest → registry → SKILL.md → references | Load in tiers; ~50 tokens at discovery, <5000 at activation | 2026-01-17 |
+| D034 | Manifest as Tier 1 discovery | Centralized index in manifest.yml | Read manifest.yml first for skill routing; ~50 tokens per skill | 2026-01-17 |
+| D035 | Validation tooling | validate-skills.sh with 21 checks | Run validation before commits; CI enforces in pr.yml | 2026-01-17 |
+| D036 | Principles documentation | Formal docs/principles/ directory | 8 principles documented; reference when designing new features | 2026-01-17 |
+| D037 | display_name extension | Title Case derived from id | Human-readable name; derivable but explicit for clarity | 2026-01-17 |
+| D038 | Placeholder validation | `{{snake_case}}` format enforced | Paths use `{{placeholder}}`; validation catches deprecated formats | 2026-01-17 |
+| D039 | CI integration | skills-validation job in pr.yml | tiktoken for accurate token counting; --strict mode | 2026-01-17 |
 
 ## Decision Format
 
