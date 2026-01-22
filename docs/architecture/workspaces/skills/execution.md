@@ -11,7 +11,9 @@ This document covers what happens when a skill runs, including run logging, safe
 
 ## Run Logging
 
-Every skill execution produces a log at `.workspace/skills/logs/runs/`:
+> **Note:** For workflow archetype skills, see [Design Conventions](./design-conventions.md) for the recommended log structure using `logs/{{skill-id}}/` with multi-level indexes.
+
+Every skill execution produces a log. The log location follows this pattern:
 
 ```markdown
 ---
@@ -25,10 +27,10 @@ ended_at: 2025-01-15T10:44:12Z
 inputs:
   - "add caching to the api"
 outputs:
-  - .workspace/skills/outputs/prompts/20250115-refined.md  # or projects/<project>/...
+  - .workspace/prompts/20250115-refined.md
 tools_used:
   - filesystem.read
-  - filesystem.write.outputs
+  - filesystem.write
 ---
 
 ## Summary
@@ -77,14 +79,26 @@ Skills follow a **deny-by-default** tool policy.
 
 ### File Policy
 
-Skills may only write to paths defined in their registry I/O mappings, validated against hierarchical scope:
+Skills may only write to paths defined in their registry I/O mappings, validated against hierarchical scope. Skills produce two distinct artifact types with different permission models.
 
-| Tier | Path | Declaration |
-|------|------|-------------|
-| **Tier 1** | `.workspace/skills/outputs/**` | None required (default) |
-| **Tier 1** | `.workspace/skills/logs/**` | None required (always permitted) |
-| **Tier 2** | `.workspace/**` | Must declare in registry |
-| **Tier 3** | `<workspace-root>/**` | Must declare in registry |
+**Deliverables (Final Products):**
+
+| Tier | Scope | Purpose |
+|------|-------|---------|
+| **Tier 1** | `.workspace/{{category}}/` | Standard deliverables (final destination) |
+| **Tier 2** | `.workspace/**` | Custom workspace locations (must declare) |
+| **Tier 3** | `<workspace-root>/**` | Project source locations (must declare) |
+
+**Operational Artifacts (`.workspace/skills/`):**
+
+| Category | Path Pattern | Read/Write |
+|----------|--------------|------------|
+| `configs/` | `configs/{{skill-id}}/` | Read (skills), Write (user/setup) |
+| `resources/` | `resources/{{skill-id}}/` | Read (skills), Write (user) |
+| `runs/` | `runs/{{skill-id}}/{{run-id}}/` | Read/Write (skills) |
+| `logs/` | `logs/{{skill-id}}/{{run-id}}.md` | Read/Write (skills) |
+
+> **Note:** All `.workspace/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. Skills typically read from `configs/` and `resources/`, and write to `runs/` and `logs/`.
 
 ### Hierarchical Scope Enforcement
 
@@ -137,7 +151,7 @@ Skills must escalate to the user when:
 - Intent is completely unclear
 - Referenced files don't exist
 - Request conflicts with constraints
-- Scope is too large (e.g., >20 files)
+- Scope is too large (>50 files)
 - Domain expertise is needed
 - Self-critique reveals major issues
 
@@ -147,16 +161,27 @@ Skills must escalate to the user when:
 
 ### Output Locations
 
-Output paths are defined in the skill's registry I/O mapping and validated against hierarchical scope.
+Output paths are defined in the skill's registry I/O mapping. Skills produce two types of artifacts:
 
-**Tier 1 — Default (no declaration needed):**
+**Deliverables (Final Products):**
 
 | Category | Path Pattern |
 |----------|--------------|
-| Prompts | `.workspace/skills/outputs/prompts/{{timestamp}}-{{name}}.md` |
-| Drafts | `.workspace/skills/outputs/drafts/{{timestamp}}-{{name}}.md` |
-| Reports | `.workspace/skills/outputs/reports/{{timestamp}}-{{name}}.md` |
-| Logs | `.workspace/skills/logs/runs/{{timestamp}}-{{skill_id}}.md` |
+| Prompts | `.workspace/prompts/{{timestamp}}-{{name}}.md` |
+| Drafts | `.workspace/drafts/{{timestamp}}-{{name}}.md` |
+| Reports | `.workspace/reports/{{timestamp}}-{{name}}.md` |
+
+**Operational Artifacts (`.workspace/skills/`):**
+
+All operational categories follow the `{{category}}/{{skill-id}}/` pattern:
+
+| Category | Path Pattern | Read/Write |
+|----------|--------------|------------|
+| Configs | `configs/{{skill-id}}/` | Read (skills), Write (user/setup) |
+| Resources | `resources/{{skill-id}}/` | Read (skills), Write (user) |
+| Checkpoints | `runs/{{skill-id}}/{{run-id}}/checkpoint.yml` | Read/Write (skills) |
+| Manifests | `runs/{{skill-id}}/{{run-id}}/*.md` | Read/Write (skills) |
+| Logs | `logs/{{skill-id}}/{{run-id}}.md` | Read/Write (skills) |
 
 **Tier 2 & 3 — Custom Paths (must declare, scope-validated):**
 
@@ -192,6 +217,8 @@ Output and input paths in registry.yml may contain placeholders that are resolve
 
 ### Placeholder Syntax
 
+> **Convention Standardization:** All placeholders across templates and documentation use double curly braces `{{name}}`. This was chosen for consistency with industry-standard templating systems (Handlebars, Mustache, Jinja2) and to avoid collisions with shell variables, regex patterns, and JSON/YAML syntax.
+
 Placeholders use **double curly braces with snake_case** names:
 
 ```
@@ -202,6 +229,7 @@ Placeholders use **double curly braces with snake_case** names:
 - Use `{{snake_case}}` format (double curly braces, snake_case names)
 - This distinguishes placeholders from literal text
 - Consistent with template systems (Jinja2, Mustache, etc.)
+- Avoids collision with shell `${var}`, Python f-strings `{var}`, and regex `{n,m}`
 
 **Examples:**
 - `{{timestamp}}` — Not `<timestamp>` or `{timestamp}`
@@ -214,11 +242,11 @@ The `{{snake_case}}` format is used consistently across **three contexts**:
 
 | Context | Purpose | Example |
 |---------|---------|---------|
-| **Path interpolation** | Runtime path resolution in registry | `outputs/{{category}}/{{timestamp}}-{{name}}.md` |
+| **Path interpolation** | Runtime path resolution in registry | `.workspace/{{category}}/{{timestamp}}-{{name}}.md` |
 | **Template fill-ins** | Skill authoring placeholders | `{{skill_name}}`, `{{Description}}` |
 | **Output format examples** | Document structure in documentation | `**Generated:** {{timestamp}}` |
 
-**Path interpolation:** Placeholders in `registry.yml` paths that are resolved at execution time. The agent substitutes actual values (e.g., `{{topic}}` becomes `api-design`).
+**Path interpolation:** Placeholders in `registry.yml` paths that are resolved at execution time. The agent substitutes actual values (e.g., `{{topic}}` becomes `api-design`). Note that `{{category}}` and `{{skill-id}}` are structural placeholders that represent fixed directory names (e.g., `configs`, `logs`, `refine-prompt`), while `{{timestamp}}`, `{{topic}}`, and `{{name}}` are runtime values resolved during execution.
 
 **Template fill-ins:** Placeholders in `_template/` files and reference file templates that skill authors replace with actual content when creating a new skill.
 
@@ -238,7 +266,7 @@ The `{{snake_case}}` format is used consistently across **three contexts**:
 | `{{project}}` | User-provided parameter or inferred from input path | `auth-patterns` |
 | `{{topic}}` | Derived from input folder name or user-provided | `api-design` |
 | `{{name}}` | Skill output name or user-provided identifier | `refined` |
-| `{{skill_id}}` | Skill ID being executed | `research-synthesizer` |
+| `{{skill_id}}` | Skill ID being executed | `synthesize-research` |
 | `{{category}}` | Output category (prompts, drafts, reports) | `drafts` |
 
 ### Resolution Rules
@@ -263,13 +291,13 @@ The `{{snake_case}}` format is used consistently across **three contexts**:
 
 ```yaml
 outputs:
-  - path: "outputs/drafts/{{topic}}-synthesis.md"
+  - path: "../../drafts/{{topic}}-synthesis.md"
 ```
 
 **Invocation:**
 
 ```bash
-/synthesize-research sources/api-design/
+/synthesize-research resources/synthesize-research/api-design/
 ```
 
 **Resolution:**
@@ -278,7 +306,7 @@ outputs:
 |-------------|--------|----------------|
 | `{{topic}}` | Inferred from input path (`api-design/`) | `api-design` |
 
-**Result:** `outputs/drafts/api-design-synthesis.md`
+**Result:** `.workspace/drafts/api-design-synthesis.md`
 
 ### Placeholder Validation
 
@@ -341,7 +369,7 @@ When creating a new skill, replace all `{{placeholder}}` values with actual cont
 │  5. WRITE OUTPUT (scope-validated)                              │
 │     ├── Re-validate path is within hierarchical scope           │
 │     ├── Save to declared output path                            │
-│     └── Log to logs/runs/                                       │
+│     └── Log to logs/{{skill-id}}/{{run-id}}.md                  │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -350,6 +378,7 @@ When creating a new skill, replace all `{{placeholder}}` values with actual cont
 
 ## See Also
 
+- [Design Conventions](./design-conventions.md) — Log structure, checkpoints, and cross-cutting patterns
 - [Architecture](./architecture.md) — Hierarchical workspace model and scope authority
 - [Discovery](./discovery.md) — Path declaration and scope validation rules
 - [Reference Artifacts](./reference-artifacts.md) — The `safety.md` and `validation.md` files

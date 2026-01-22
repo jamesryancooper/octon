@@ -80,7 +80,7 @@ When resolving a resource, agents check local first, then shared:
 ├── skills/             <- Skills framework + generic skills
 │   ├── registry.yml
 │   ├── _template/
-│   ├── research-synthesizer/
+│   ├── synthesize-research/
 │   └── scripts/
 │
 └── examples/           <- Reference patterns
@@ -124,9 +124,9 @@ When resolving a resource, agents check local first, then shared:
 Harness directories (`.claude/`, `.cursor/`, `.codex/`) symlink to `.harmony/skills/` for shared skills:
 
 ```
-.claude/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
-.cursor/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
-.codex/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
+.claude/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
+.cursor/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
+.codex/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
 ```
 
 ### Commands

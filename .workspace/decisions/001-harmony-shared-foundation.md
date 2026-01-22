@@ -44,7 +44,7 @@ Introduce a **two-layer architecture** with a shared `.harmony/` foundation:
 | `context/` | tools.md, compaction.md |
 | `checklists/` | complete.md, session-exit.md |
 | `prompts/` | bootstrap-session, research/ |
-| `skills/` | framework, _template/, research-synthesizer |
+| `skills/` | framework, _template/, synthesize-research |
 | `examples/` | create-workspace-flow.md |
 
 ## Components Remaining in `.workspace/`
@@ -71,9 +71,9 @@ To separate skill definitions from project-specific configuration:
 Symlinks updated to point to `.harmony/skills/`:
 
 ```
-.claude/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
-.codex/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
-.cursor/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
+.claude/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
+.codex/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
+.cursor/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
 ```
 
 Cursor commands updated to reference `.harmony/` for shared workflows:
@@ -82,7 +82,7 @@ Cursor commands updated to reference `.harmony/` for shared workflows:
 |---------|--------------|
 | `/create-workspace` | `.harmony/workflows/workspace/create-workspace/` |
 | `/bootstrap` | `.harmony/prompts/bootstrap-session.md` |
-| `/synthesize-research` | `.harmony/skills/research-synthesizer/` |
+| `/synthesize-research` | `.harmony/skills/synthesize-research/` |
 
 ## Consequences
 

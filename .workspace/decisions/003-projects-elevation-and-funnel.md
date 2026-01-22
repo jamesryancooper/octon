@@ -151,8 +151,8 @@ Brainstorms are lightweight exploration, not committed research:
 - `.harmony/prompts/research/README.md` — Updated paths
 - `.harmony/prompts/research/synthesize-findings.md` — Updated paths
 - `.harmony/prompts/research/prepare-promotion.md` — Updated paths
-- `.harmony/skills/research-synthesizer/README.md` — Updated examples
-- `.harmony/skills/research-synthesizer/SKILL.md` — Updated paths
+- `.harmony/skills/synthesize-research/README.md` — Updated examples
+- `.harmony/skills/synthesize-research/SKILL.md` — Updated paths
 - `.harmony/templates/workspace/progress/next.md` — Updated description
 - `.harmony/workflows/workspace/migrate-workspace/02-structure-migration.md` — Added migration step
 

@@ -39,7 +39,7 @@ The key insight: **separate what's reusable from what's project-specific**.
 ├── skills/             <- Skills framework + generic skills
 │   ├── registry.yml        <- Skill catalog (progressive disclosure)
 │   ├── _template/
-│   ├── research-synthesizer/
+│   ├── synthesize-research/
 │   └── scripts/
 │
 ├── commands/           <- Generic atomic operations
@@ -100,7 +100,7 @@ Workspaces follow a **two-layer inheritance model**:
 | Generic assistants | `reviewer/`, `refactor/`, `docs/` | Reusable across any project |
 | Base templates | `workspace/`, `workspace-docs/` | Scaffolding is domain-agnostic |
 | Management workflows | `create-workspace`, `migrate-workspace` | Workspace operations are generic |
-| Skill definitions | `research-synthesizer/SKILL.md` | Capability logic is reusable |
+| Skill definitions | `synthesize-research/SKILL.md` | Capability logic is reusable |
 | Generic commands | `recover.md`, `validate-frontmatter.md` | Fixed procedures, no project context |
 | Tool/compaction guides | `context/tools.md` | Reference material applies everywhere |
 
@@ -133,9 +133,9 @@ Skills use a split pattern where **capability** lives in `.harmony/` but **confi
 
 ```yaml
 skills:
-  - id: research-synthesizer
-    name: Research Synthesizer
-    path: research-synthesizer/
+  - id: synthesize-research
+    name: Synthesize Research
+    path: synthesize-research/
     summary: "Synthesize scattered research notes into coherent findings."
     commands:
       - /synthesize-research
@@ -148,7 +148,7 @@ skills:
 extends: "../../.harmony/skills/registry.yml"
 
 skill_mappings:
-  research-synthesizer:
+  synthesize-research:
     inputs:
       - path: "projects/<project>/"
     outputs:
@@ -164,9 +164,9 @@ This separation means the skill logic is reusable, but each project defines wher
 Harness directories (`.claude/`, `.cursor/`, `.codex/`) integrate with `.harmony/` via symlinks:
 
 ```
-.claude/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
-.cursor/skills/research-synthesizer -> ../../.harmony/skills/research-synthesizer
-.codex/skills/research-synthesizer  -> ../../.harmony/skills/research-synthesizer
+.claude/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
+.cursor/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
+.codex/skills/synthesize-research  -> ../../.harmony/skills/synthesize-research
 ```
 
 ### Why Symlinks?
@@ -184,7 +184,7 @@ Harness commands in `.<harness>/commands/` are thin wrappers that delegate to `.
 | Command | Delegates To |
 |---------|--------------|
 | `/create-workspace` | `.harmony/workflows/workspace/create-workspace/` |
-| `/synthesize-research` | `.harmony/skills/research-synthesizer/` |
+| `/synthesize-research` | `.harmony/skills/synthesize-research/` |
 
 ---
 
@@ -233,9 +233,9 @@ The `.harmony/` directory is designed to be **copied to other repositories** to 
 
 4. **Set up skill symlinks** (if using skills):
    ```bash
-   # Example for research-synthesizer
+   # Example for synthesize-research
    mkdir -p .cursor/skills
-   ln -s ../../.harmony/skills/research-synthesizer .cursor/skills/research-synthesizer
+   ln -s ../../.harmony/skills/synthesize-research .cursor/skills/synthesize-research
    ```
 
 ### What You Get
@@ -245,7 +245,7 @@ The `.harmony/` directory is designed to be **copied to other repositories** to 
 | `templates/` | Scaffolding for new workspaces (`/create-workspace`) |
 | `assistants/` | Generic specialists (reviewer, refactor, docs) |
 | `workflows/` | Workspace management (create, update, evaluate, migrate) |
-| `skills/` | Composable capabilities (research-synthesizer) |
+| `skills/` | Composable capabilities (synthesize-research) |
 | `commands/` | Atomic operations (recover, validate-frontmatter) |
 | `checklists/` | Quality gates (complete, session-exit) |
 

@@ -42,7 +42,7 @@ This workspace contains:
 | Generic assistants | `.harmony/assistants/` | `reviewer/`, `refactor/`, `docs/` |
 | Workspace management workflows | `.harmony/workflows/workspace/` | `create-workspace`, `migrate-workspace` |
 | Mission management workflows | `.harmony/workflows/missions/` | `create-mission`, `complete-mission` |
-| Generic skills | `.harmony/skills/` | `research-synthesizer/` |
+| Generic skills | `.harmony/skills/` | `synthesize-research/` |
 | **Repo-wide (in `.workspace/`)** | | |
 | Repository-wide tool workflows | `.workspace/workflows/<tool>/` | `flowkit/run-flow` |
 | Repo-level missions | `.workspace/missions/` | `auth-overhaul/`, `billing-v2/` |

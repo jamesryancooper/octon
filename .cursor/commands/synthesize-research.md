@@ -2,7 +2,7 @@
 
 Synthesize scattered research notes into a coherent findings document.
 
-See `.harmony/skills/research-synthesizer/SKILL.md` for full details.
+See `.harmony/skills/synthesize-research/SKILL.md` for full details.
 
 ## Usage
 
@@ -12,8 +12,8 @@ See `.harmony/skills/research-synthesizer/SKILL.md` for full details.
 
 **Examples:**
 ```text
-/synthesize-research projects/auth-patterns/
-/synthesize-research .workspace/skills/sources/api-design/
+/synthesize-research resources/synthesize-research/projects/auth-patterns/
+/synthesize-research resources/synthesize-research/api-design/
 ```
 
 ## Parameters
@@ -31,18 +31,18 @@ See `.harmony/skills/research-synthesizer/SKILL.md` for full details.
    - Key themes with evidence
    - Contradictions and resolutions
    - Open questions
-4. Writes output to `.workspace/skills/outputs/drafts/<topic>-synthesis.md`
-5. Creates run log in `.workspace/skills/logs/runs/`
+4. Writes output to `.workspace/drafts/<topic>-synthesis.md`
+5. Creates run log in `.workspace/skills/logs/synthesize-research/`
 
 ## Output
 
 ```text
-.workspace/skills/outputs/drafts/<topic>-synthesis.md
+.workspace/drafts/<topic>-synthesis.md
 ```
 
 ## References
 
-- **Skill:** `.harmony/skills/research-synthesizer/SKILL.md`
+- **Skill:** `.harmony/skills/synthesize-research/SKILL.md`
 - **Shared Registry:** `.harmony/skills/registry.yml`
 - **Local Registry:** `.workspace/skills/registry.yml` (for input/output mappings)
 - **Documentation:** `docs/architecture/workspaces/skills.md`

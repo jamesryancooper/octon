@@ -76,10 +76,9 @@ license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Harmony Framework
-  version: "2.1.1"
   created: "2025-01-14"
   updated: "2025-01-15"
-allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
+allowed-tools: Read Glob Grep Write(../prompts/*) Write(logs/*)
 ---
 ```
 
@@ -87,8 +86,10 @@ allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
 |-------|-------------|---------|
 | `license` | License name or reference | Legal terms for the skill |
 | `compatibility` | Max 500 chars | Environment requirements (product, system packages, network) |
-| `metadata` | Key-value mapping | Author, version, dates, custom fields |
+| `metadata` | Key-value mapping | Author, dates, custom fields |
 | `allowed-tools` | Space-delimited list | Pre-approved tools (experimental) |
+
+> **Note:** The authoritative `version` is defined in `.harmony/skills/registry.yml`, not in SKILL.md metadata. This prevents version drift between files. See [Specification](./specification.md#manifest-and-registry-files) for the single source of truth principle.
 
 ---
 
@@ -119,8 +120,8 @@ The Markdown body follows the frontmatter and contains skill instructions. Per t
 |-----------|----------|---------|-------------|
 
 ## Output Location
-- **Results:** `outputs/{{category}}/{{timestamp}}-{{name}}.md`
-- **Run logs:** `logs/runs/{{timestamp}}-{{skill_id}}.md`
+- **Deliverables:** `.workspace/{{category}}/{{timestamp}}-{{name}}.md`
+- **Run logs:** `logs/{{skill-id}}/{{run-id}}.md`
 
 ## Boundaries
 - [Constraints]

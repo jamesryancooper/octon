@@ -38,7 +38,7 @@ routing:
 
 # Extended skill metadata (keyed by id)
 skills:
-  research-synthesizer:
+  synthesize-research:
     version: "1.0.1"
     commands:
       - /synthesize-research
@@ -80,6 +80,65 @@ skills:
         description: "Skip intent confirmation step"
     requires:
       context:
+        - type: directory_exists
+          path: ".workspace/"
+          description: "Requires a workspace directory"
+    depends_on: []
+
+  refactor:
+    version: "1.0.0"
+    commands:
+      - /refactor
+    parameters:
+      - name: scope
+        type: text
+        required: true
+        description: "What to refactor: 'old-pattern → new-pattern'"
+      - name: file_types
+        type: text
+        required: false
+        default: "md,yml,yaml,json,ts,js"
+        description: "Comma-separated file extensions to search"
+      - name: dry_run
+        type: boolean
+        required: false
+        default: false
+        description: "Execute phases 1-3 only (audit and plan)"
+      - name: exclusions
+        type: text
+        required: false
+        default: "node_modules,.git,dist"
+        description: "Comma-separated patterns to skip"
+    requires:
+      context:
+        - type: directory_exists
+          path: ".workspace/"
+          description: "Requires a workspace directory"
+    depends_on: []
+
+  create-skill:
+    version: "1.0.0"
+    commands:
+      - /create-skill
+    parameters:
+      - name: skill_name
+        type: text
+        required: true
+        description: "Skill identifier (kebab-case, 1-64 characters)"
+      - name: description
+        type: text
+        required: false
+        description: "Initial description for SKILL.md"
+      - name: archetype
+        type: text
+        required: false
+        default: "workflow"
+        description: "Skill archetype: utility or workflow"
+    requires:
+      context:
+        - type: directory_exists
+          path: ".harmony/skills/_template/"
+          description: "Requires skill template directory"
         - type: directory_exists
           path: ".workspace/"
           description: "Requires a workspace directory"

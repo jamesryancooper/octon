@@ -20,9 +20,9 @@ schema_version: "1.2"
 default: null
 
 skills:
-  - id: research-synthesizer
-    display_name: Research Synthesizer
-    path: research-synthesizer/
+  - id: synthesize-research
+    display_name: Synthesize Research
+    path: synthesize-research/
     summary: "Synthesize scattered research notes into coherent findings."
     status: active
     tags:
@@ -50,3 +50,36 @@ skills:
       - "spell check my prompt"
       - "clarify my prompt"
       - "analyze and improve my prompt"
+
+  - id: refactor
+    display_name: Refactor
+    path: refactor/
+    summary: "Execute verified codebase refactor with exhaustive audit."
+    status: active
+    tags:
+      - refactor
+      - rename
+      - codebase
+      - verification
+    triggers:
+      - "refactor this"
+      - "rename across codebase"
+      - "move and update references"
+      - "systematic rename"
+      - "refactor the pattern"
+
+  - id: create-skill
+    display_name: Create Skill
+    path: create-skill/
+    summary: "Scaffold a new skill from template with registry entry."
+    status: active
+    tags:
+      - scaffolding
+      - skills
+      - generator
+      - workflow
+    triggers:
+      - "create a new skill"
+      - "scaffold a skill"
+      - "generate skill boilerplate"
+      - "add a new skill"

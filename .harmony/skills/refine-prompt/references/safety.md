@@ -31,8 +31,8 @@ This skill requires read access to codebase files, glob for pattern matching, gr
 
 The skill may only write to:
 
-- `.workspace/skills/outputs/**`
-- `.workspace/skills/logs/**`
+- `.workspace/prompts/**` — Refined prompts (deliverables)
+- `.workspace/skills/logs/**` — Execution logs
 
 ### Destructive Actions
 

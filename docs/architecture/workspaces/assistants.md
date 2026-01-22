@@ -1,36 +1,74 @@
 ---
 title: Workspace Assistants
-description: Focused specialists that serve agents or humans for scoped tasks.
+description: Specialized subagents that perform focused tasks for agents or humans.
 ---
 
 # Workspace Assistants
 
-Assistants are **focused specialists** that perform scoped, one-off tasks. They can be invoked directly by humans via `@mention` or delegated to by agents.
+Assistants are **specialized subagents** within the Harmony multi-agent architecture. They provide focused modularity for complex problems by operating with their own context, skills, and tools to complete scoped tasks assigned by agents or humans.
 
 ---
 
 ## What is an Assistant?
 
-An assistant is a packaged behavior definition that:
+An assistant is a packaged specialist behavior that:
 
 - Has a **specific mission** (review code, refactor, write docs)
-- Accepts **invocation** via @mention or delegation
+- Accepts **invocation** via @mention or agent delegation
 - Produces **structured output** in a defined format
 - Operates under **boundaries** and knows when to escalate
+- Can **use skills** to complete tasks
 
-Assistants are **stateless**—they inherit context from the calling workspace or agent, complete their task, and return results.
+Assistants are **stateless subagents**—they inherit context from the calling agent or workspace, complete their focused task, and return results. They assist agents by handling specialized work that benefits from domain focus.
+
+---
+
+## Multi-Agent Hierarchy
+
+Assistants fit into the Harmony multi-agent architecture as specialized subagents:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  AGENT (Supervisor)                                             │
+│  Planner, Builder, Verifier                                     │
+│  • High autonomy, persistent state                              │
+│  • Reasons, plans, delegates                                    │
+│  • Commands missions                                            │
+├─────────────────────────────────────────────────────────────────┤
+│                    │ delegates to                               │
+│                    ▼                                            │
+│  ASSISTANT (Specialist Subagent)                                │
+│  @reviewer, @refactor, @docs                                    │
+│  • Focused autonomy, stateless                                  │
+│  • Executes specialized tasks                                   │
+│  • Uses skills, escalates to agents                             │
+├─────────────────────────────────────────────────────────────────┤
+│                    │ uses                                       │
+│                    ▼                                            │
+│  SKILLS (Capabilities)                                          │
+│  refactor, synthesize, create-workspace                         │
+│  • Composable I/O units                                         │
+│  • Single-session execution                                     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## Assistants vs Agents
 
-| Characteristic | Agent | Assistant |
-|----------------|-------|-----------|
-| **Autonomy** | Autonomous, long-running | Invoked for specific tasks |
+| Characteristic | Agent (Supervisor) | Assistant (Specialist) |
+|----------------|-------------------|------------------------|
+| **Role** | Supervisor | Subagent |
+| **Autonomy** | High — reasons, plans, decides | Focused — executes assigned tasks |
 | **Lifecycle** | Persistent across sessions | Stateless (inherits context) |
-| **Scope** | Orchestrates broad work | Focused, scoped operations |
-| **State** | Maintains own progress/memory | No persistent state |
+| **Scope** | Broad — orchestrates complex work | Narrow — scoped operations |
+| **State** | Maintains context and memory | No persistent state |
+| **Invocation** | Assigned to missions/workspaces | `@mention` or delegation |
+| **Delegation** | Delegates **to** assistants | Escalates **to** agents/humans |
+| **Skills** | Commands skills via missions | Uses skills directly |
 | **Examples** | Planner, Builder, Verifier | Reviewer, Refactor, Docs |
+
+**Key insight:** Agents think about *what* needs to be done and *who* should do it. Assistants focus on *how* to do their specific task well.
 
 ```mermaid
 graph TB

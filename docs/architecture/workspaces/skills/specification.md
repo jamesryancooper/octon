@@ -19,8 +19,8 @@ This implementation follows [agentskills.io/specification](https://agentskills.i
 | Optional: `license`, `compatibility`, `metadata`, `allowed-tools` | ✓ In `SKILL.md` |
 | Directory structure: `references/`, `scripts/`, `assets/` | ✓ Per spec |
 | `SKILL.md` < 500 lines | ✓ Details in `references/` |
-| Name matches directory | ✓ Enforced by `create-skill` workflow |
-| Progressive disclosure | ✓ Three-tier model |
+| Name matches directory | ✓ Enforced by `create-skill` skill |
+| Progressive disclosure | ✓ Four-tier model |
 
 ---
 
@@ -50,7 +50,7 @@ allowed-tools in SKILL.md → SINGLE SOURCE OF TRUTH
 The `allowed-tools` field in SKILL.md frontmatter uses space-delimited tool names:
 
 ```yaml
-allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
+allowed-tools: Read Glob Grep Write(../prompts/*) Write(logs/*)
 ```
 
 ### Tool Reference
@@ -58,7 +58,8 @@ allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
 | `allowed-tools` | Internal Format | Description |
 |-----------------|-----------------|-------------|
 | `Read` | `filesystem.read` | Read files |
-| `Write(outputs/*)` | `filesystem.write.outputs` | Write to outputs directory |
+| `Write(runs/*)` | `filesystem.write.runs` | Write execution state |
+| `Write(../{{category}}/*)` | `filesystem.write.deliverables` | Write deliverables to final destination |
 | `Write(logs/*)` | `filesystem.write.logs` | Write to logs directory |
 | `Glob` | `filesystem.glob` | Pattern matching for file discovery |
 | `Grep` | `filesystem.grep` | Content search |
@@ -78,8 +79,9 @@ map_allowed_to_internal() {
     local allowed="$1"
     case "$allowed" in
         Read)                    echo "filesystem.read" ;;
-        Write\(outputs/\*\))     echo "filesystem.write.outputs" ;;
+        Write\(runs/\*\))        echo "filesystem.write.runs" ;;
         Write\(logs/\*\))        echo "filesystem.write.logs" ;;
+        Write\(../*\))           echo "filesystem.write.deliverables" ;;
         Glob)                    echo "filesystem.glob" ;;
         Grep)                    echo "filesystem.grep" ;;
         WebFetch)                echo "network.fetch" ;;
@@ -179,7 +181,7 @@ See [Discovery](./discovery.md) for details.
 
 **Why:** The agentskills.io spec uses `name` (kebab-case, directory-matching) as the skill identifier. However, user interfaces benefit from human-readable display names. Adding `display_name` provides:
 
-- **Readability** — "Research Synthesizer" is clearer than "research-synthesizer" in UI
+- **Readability** — "Synthesize Research" is clearer than "synthesize-research" in UI
 - **Consistency** — Title Case derived from `id` via convention
 - **Separation** — Machine-readable `id` vs human-readable `display_name`
 
@@ -188,14 +190,14 @@ See [Discovery](./discovery.md) for details.
 ```yaml
 # In manifest.yml
 skills:
-  - id: research-synthesizer          # Machine-readable (matches directory)
-    display_name: Research Synthesizer # Human-readable (Title Case)
+  - id: synthesize-research          # Machine-readable (matches directory)
+    display_name: Synthesize Research  # Human-readable (Title Case)
 ```
 
 **Convention:** `display_name` should be derived from `id` using Title Case transformation:
 
 ```
-id: research-synthesizer → display_name: Research Synthesizer
+id: synthesize-research → display_name: Synthesize Research
 id: refine-prompt       → display_name: Refine Prompt
 ```
 
@@ -226,13 +228,13 @@ id_to_title_case() {
 
 **Implementation:**
 
-| File | Purpose | Classification |
-|------|---------|----------------|
-| `io-contract.md` | Inputs, outputs, command-line usage | Universal |
-| `safety.md` | Tool and file policies | Universal |
-| `examples.md` | Worked examples | Universal |
-| `behaviors.md` | Phase-by-phase execution | Partial (structure universal, content custom) |
-| `validation.md` | Acceptance criteria | Partial (structure universal, content custom) |
+| File | Archetype | Purpose |
+|------|-----------|---------|
+| `examples.md` | Utility (with examples), Workflow | Worked examples |
+| `io-contract.md` | Workflow | Inputs, outputs, command-line usage |
+| `safety.md` | Workflow | Tool and file policies |
+| `behaviors.md` | Workflow | Phase-by-phase execution |
+| `validation.md` | Workflow | Acceptance criteria |
 
 See [Reference Artifacts](./reference-artifacts.md) for details.
 
@@ -323,8 +325,8 @@ Validate a skill manually:
 
 #### Execution
 
-- [ ] Skill produces output in `outputs/` directory
-- [ ] Skill creates run log in `logs/runs/`
+- [ ] Skill produces output in designated location (deliverables to `.workspace/{{category}}/`, execution state to `runs/{{skill-id}}/`)
+- [ ] Skill creates run log in `logs/{{skill-id}}/{{run-id}}.md`
 - [ ] Output matches format defined in `.workspace/skills/registry.yml`
 - [ ] All acceptance criteria are met
 

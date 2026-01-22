@@ -62,8 +62,8 @@ Harmony's skill system implements progressive disclosure through four tiers:
 ```yaml
 # .harmony/skills/manifest.yml
 skills:
-  - id: research-synthesizer
-    name: Research Synthesizer
+  - id: synthesize-research
+    name: Synthesize Research
     summary: Synthesize research documents into structured insights
     triggers:
       - "synthesize research"
@@ -104,8 +104,8 @@ Detailed configuration options that most users won't need...
 ```yaml
 # Bad: Everything in one file that must be fully loaded
 skills:
-  - id: research-synthesizer
-    name: Research Synthesizer
+  - id: synthesize-research
+    name: Synthesize Research
     summary: Synthesize research...
     full_instructions: |
       [5000 tokens of instructions]

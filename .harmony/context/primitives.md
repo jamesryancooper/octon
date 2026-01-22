@@ -6,13 +6,162 @@ This document explains the core building blocks in Harmony and when to use each.
 
 | Primitive | Purpose | Invocation | State |
 |-----------|---------|------------|-------|
+| **Agent** | Autonomous supervisor that orchestrates work | Assigned to workspace/mission | Persistent |
+| **Mission** | Durable multi-session orchestration | `/start-mission`, agent command | Persistent (state machine) |
 | **Skill** | Composable capability with I/O contract | `/command`, `use skill:`, triggers | Stateless |
+| **Assistant** | Specialist subagent for focused tasks | `@mention`, agent delegation | Stateless |
 | **Command** | Lightweight entry point | `/command` | Stateless |
-| **Workflow** | Multi-step procedure with checkpoints | Referenced by command or direct | Stateful |
-| **Assistant** | Persona-based specialist | `@mention` | Stateless |
 | **Checklist** | Quality gate for verification | Referenced at checkpoints | Stateless |
 | **Prompt** | Task template with structured I/O | Copy/paste or direct reference | Stateless |
 | **Template** | Scaffolding for new structures | Copied to target location | N/A |
+
+> **Note:** Workflows are deprecated and consolidated into Skills. See the workflows → skills migration in `docs/architecture/workspaces/skills/`.
+
+---
+
+## Multi-Agent Hierarchy
+
+The primitives form a hierarchical multi-agent system:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  AGENT (Supervisor)                                             │
+│  • Autonomous, persistent across sessions                       │
+│  • Reasons, plans, delegates                                    │
+│  • Commands missions                                            │
+├─────────────────────────────────────────────────────────────────┤
+│           │ commands              │ delegates to                │
+│           ▼                       ▼                             │
+│  ┌─────────────────┐    ┌─────────────────────────────┐        │
+│  │ MISSION         │    │ ASSISTANT (Specialist)      │        │
+│  │ (Durable Orch.) │    │ • Focused, stateless        │        │
+│  │ • State machine │    │ • @mention invocation       │        │
+│  │ • Multi-session │    │ • Uses skills               │        │
+│  └────────┬────────┘    └──────────────┬──────────────┘        │
+│           │ invokes                     │ uses                  │
+│           ▼                             ▼                       │
+│  ┌─────────────────────────────────────────────────────────┐   │
+│  │  SKILLS (Composable Capabilities)                        │   │
+│  │  • Single-session, defined I/O                          │   │
+│  │  • agentskills.io compliant                             │   │
+│  └─────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Agents
+
+**Location:** `.harmony/agents/<agent-name>/agent.md`
+
+**Registry:** `.harmony/agents/registry.yml`
+
+**Purpose:** Autonomous supervisors that orchestrate complex work, command missions, and delegate to assistants.
+
+### Characteristics
+
+- **Persistent** — Maintains context and memory across sessions
+- **Autonomous** — Perceives, reasons, plans, and decides
+- **Supervisory** — Delegates to assistants, commands missions
+- **High-level** — Focuses on *what* and *who*, not *how*
+
+### When to Use
+
+- Autonomous orchestration of complex work
+- Persistent context across sessions required
+- Commands missions (durable, multi-session work)
+- Coordinates multiple assistants
+
+### Agent Roles
+
+| Role | Purpose |
+|------|---------|
+| Planner | Strategic planning, goal decomposition |
+| Builder | Implementation, code generation |
+| Verifier | Validation, testing, quality assurance |
+| Coordinator | Cross-mission orchestration |
+
+### Structure
+
+```yaml
+# registry.yml entry
+- name: planner
+  path: planner/
+  role: "Strategic planning and goal decomposition"
+  capabilities:
+    - goal_decomposition
+    - task_planning
+    - assistant_delegation
+    - mission_command
+```
+
+```markdown
+# agent.md sections
+- Role
+- Capabilities
+- Operating Principles
+- Delegation Rules
+- Mission Command
+- Context Management
+- Escalation
+```
+
+---
+
+## Missions
+
+**Location:** `.harmony/missions/<mission-id>/mission.yml`
+
+**Purpose:** Durable, multi-session orchestration units with formal state machines, commanded by agents.
+
+### Characteristics
+
+- **Durable** — Survives restarts, persists state
+- **Multi-session** — Designed to span days or weeks
+- **State machine** — Formal YAML-defined states and transitions
+- **FlowKit-native** — Executes on FlowKit runtime
+- **Checkpoint-enabled** — Human approval gates with timeouts
+
+### When to Use
+
+- Work that spans multiple sessions (days/weeks)
+- Complex decision trees with >5 branch points
+- Human approval gates mid-execution
+- Durable execution that survives restarts
+- Orchestration of multiple skills
+
+### Structure
+
+```yaml
+# mission.yml
+name: auth-migration
+goal: "Migrate to JWT authentication"
+owner: planner  # Agent that commands this mission
+
+states:
+  - id: audit
+    type: skill
+    skill: refactor
+    transitions:
+      - on: complete → plan
+
+  - id: human-review
+    type: checkpoint
+    prompt: "Approve migration plan?"
+    timeout: 72h
+    transitions:
+      - on: approved → execute
+      - on: rejected → revise
+```
+
+### Missions vs Skills
+
+| Aspect | Mission | Skill |
+|--------|---------|-------|
+| Duration | Days/weeks | Single session |
+| State | Persistent state machine | Stateless |
+| Branching | Complex (formal DSL) | Simple (prose) |
+| Runtime | FlowKit | Agent-interpreted |
 
 ---
 
@@ -39,7 +188,7 @@ This document explains the core building blocks in Harmony and when to use each.
 
 ### Examples
 
-- `research-synthesizer`: notes → synthesis document
+- `synthesize-research`: notes → synthesis document
 - `prompt-refiner`: rough prompt → context-aware refined prompt
 
 ### Template
@@ -76,48 +225,29 @@ See `.harmony/skills/_template/SKILL.md`
 
 ---
 
-## Workflows
+## Workflows (DEPRECATED)
 
-**Location:** `.harmony/workflows/<workflow-name>/`
+> **Deprecated:** Workflows are consolidated into Skills. Use Skills for single-session procedural work and Missions for durable multi-session orchestration.
 
-**Purpose:** Multi-step procedures with progression gates, checkpoints, and idempotent execution.
+**Former Location:** `.harmony/workflows/<workflow-name>/`
 
-### Structure
+**Migration Path:**
 
-```
-workflow-name/
-├── 00-overview.md      # Problem, prerequisites, step list, verification gate
-├── 01-first-step.md    # Input, actions, idempotency check, checkpoint
-├── 02-second-step.md
-├── ...
-└── NN-verify.md        # Final verification gate (mandatory)
-```
+| Former Workflow | Migrate To |
+|----------------|------------|
+| Single-session procedures | **Skill** (phases in SKILL.md) |
+| Multi-session durable work | **Mission** (state machine) |
+| `refactor/` | `refactor` skill |
+| `create-workspace/` | `create-workspace` skill |
 
-### Characteristics
+**Why deprecated:**
 
-- **Stateful:** Maintains progress across sessions
-- **Checkpointed:** Can pause and resume at specific steps
-- **Idempotent:** Each step detects if already complete; safe to re-run
-- **Gated:** Cannot proceed until verification passes
-- **Continuity-aware:** Historical records are append-only
+1. Skills can implement multi-phase procedures (proven by `refine-prompt` with 10 phases)
+2. Skills provide I/O contracts, audit logging, and progressive disclosure
+3. Missions handle durable, multi-session work that workflows couldn't
+4. Eliminates cognitive overhead of choosing between workflows and skills
 
-### When to Use
-
-- Complex multi-step procedure that might need to pause/resume
-- Idempotent re-execution is important (safe to re-run any step)
-- Progress tracking and checkpoint recovery needed
-- Mandatory verification gates required
-- Audit trail / historical continuity matters
-
-### Examples
-
-- `refactor/`: define scope → audit → plan → execute → verify → document
-- `create-mission/`: scaffold missions with isolated progress tracking
-- `create-workspace/`: validate → analyze → gather → copy → customize → verify
-
-### Template
-
-See `.harmony/workflows/_template/`
+See `docs/architecture/workspaces/skills/` for migration guidance.
 
 ---
 
@@ -127,22 +257,32 @@ See `.harmony/workflows/_template/`
 
 **Registry:** `.harmony/assistants/registry.yml`
 
-**Purpose:** Persona-based specialists with defined missions, rules, and output formats.
+**Purpose:** Specialized subagents that perform focused tasks for agents or humans within the multi-agent hierarchy.
 
 ### Characteristics
 
-- Invoked via `@mention` aliases (e.g., `@reviewer`, `@docs`)
-- Has a defined mission, operating rules, and boundaries
-- Produces structured output in a consistent format
-- Can escalate to other assistants or humans when appropriate
-- Registered in `registry.yml` with aliases
+- **Subagent** — Reports to agents, handles specialized work
+- **Stateless** — Inherits context from caller, returns results
+- **Focused** — Narrow scope, deep expertise
+- **Invokable** — Via `@mention` aliases or agent delegation
+- **Skill-enabled** — Can use skills to complete tasks
+- **Escalation-aware** — Knows when to escalate to agents/humans
 
 ### When to Use
 
-- Task benefits from a specialized persona/role
+- Focused, specialized task requiring domain expertise
 - Consistent output format is important
-- You want delegation between specialists
-- The "who" matters as much as the "what"
+- Agent needs to delegate scoped work
+- Task benefits from a specialist persona
+
+### Assistants vs Agents
+
+| Aspect | Agent | Assistant |
+|--------|-------|-----------|
+| Role | Supervisor | Specialist subagent |
+| Autonomy | High (reasons, plans) | Focused (executes tasks) |
+| State | Persistent | Stateless |
+| Scope | Broad orchestration | Narrow specialization |
 
 ### Examples
 
@@ -167,7 +307,7 @@ See `.harmony/workflows/_template/`
 - Operating Rules
 - Output Format
 - Boundaries
-- When to Escalate
+- When to Escalate (to agents or humans)
 ```
 
 ---
@@ -317,17 +457,18 @@ templates/
 
 | Situation | Choose | Reason |
 |-----------|--------|--------|
+| Autonomous orchestration of complex work | **Agent** | Reasons, plans, delegates |
+| Work spanning multiple sessions (days/weeks) | **Mission** | Durable state machine |
+| Complex decision trees (>5 branches) | **Mission** | Formal DSL for branching |
 | Reusable task with clear I/O | **Skill** | Composable, portable, pipelines |
+| Multi-phase single-session procedure | **Skill** | Phases in SKILL.md |
 | Quick interface to complex work | **Command** | Lightweight gateway |
-| Multi-step with possible interruption | **Workflow** | Checkpoints, resumption |
-| Needs mandatory verification | **Workflow** | Gates prevent incomplete work |
-| Task benefits from specialist persona | **Assistant** | Mission, rules, escalation |
+| Focused, specialized task | **Assistant** | Domain expertise, consistent output |
 | Quality gate at checkpoint | **Checklist** | Consistent verification |
 | Common task needing structure | **Prompt** | Template without full skill spec |
 | Bootstrapping new structure | **Template** | Copy and customize |
-| One-off session task | **Command** | No persistence needed |
 | Cross-project reuse | **Skill** | Symlinked, versioned |
-| Access control (human vs agent) | **Command** | `access` field support |
+| Delegate work from agent | **Assistant** | Subagent specialization |
 
 ---
 
@@ -337,21 +478,33 @@ templates/
 
 | Question | Primitive |
 |----------|-----------|
+| Who supervises the work? | **Agent** |
+| What long-running goal? | **Mission** |
 | What reusable capability? | **Skill** |
+| Who specializes in this task? | **Assistant** |
 | What action to take? | **Command** |
-| What multi-step procedure? | **Workflow** |
-| Who does this work? | **Assistant** |
 | Is this done correctly? | **Checklist** |
 | How do I start this task? | **Prompt** |
 | What structure do I copy? | **Template** |
+
+### By Autonomy Level
+
+| Level | Primitive | Description |
+|-------|-----------|-------------|
+| **High** | Agent | Reasons, plans, decides, orchestrates |
+| **Medium** | Mission | Durable execution with checkpoints |
+| **Low** | Assistant | Focused execution of assigned tasks |
+| **None** | Skill | Composable capability, no autonomy |
 
 ### By Lifecycle Phase
 
 | Phase | Primitives |
 |-------|------------|
 | **Setup** | Template, Prompt (bootstrap) |
-| **Execution** | Skill, Command, Workflow, Assistant |
-| **Verification** | Checklist, Workflow (verify step) |
+| **Planning** | Agent (goal decomposition) |
+| **Orchestration** | Agent, Mission |
+| **Execution** | Skill, Assistant, Command |
+| **Verification** | Checklist, Mission (checkpoint states) |
 
 ---
 
@@ -359,7 +512,7 @@ templates/
 
 ### "Consolidate research notes from multiple files"
 
-→ **Skill** (`research-synthesizer`)
+→ **Skill** (`synthesize-research`)
 
 Discrete input (notes), discrete output (synthesis doc), reusable across projects.
 
@@ -409,12 +562,15 @@ Registry supports `pipelines` section for skill composition without manual orche
 
 ## Related Resources
 
-| Primitive | Registry | Template |
-|-----------|----------|----------|
-| Skills | `.harmony/skills/registry.yml` | `.harmony/skills/_template/` |
-| Commands | — | — |
-| Workflows | — | `.harmony/workflows/_template/` |
-| Assistants | `.harmony/assistants/registry.yml` | `.harmony/assistants/_template/` |
-| Checklists | — | — |
-| Prompts | — | — |
-| Templates | — | `.harmony/templates/` |
+| Primitive | Registry | Template | Documentation |
+|-----------|----------|----------|---------------|
+| Agents | `.harmony/agents/registry.yml` | `.harmony/agents/_template/` | `docs/architecture/workspaces/agents.md` |
+| Missions | `.harmony/missions/registry.yml` | `.harmony/missions/_template/` | `docs/architecture/workspaces/missions.md` |
+| Skills | `.harmony/skills/registry.yml` | `.harmony/skills/_template/` | `docs/architecture/workspaces/skills/` |
+| Assistants | `.harmony/assistants/registry.yml` | `.harmony/assistants/_template/` | `docs/architecture/workspaces/assistants.md` |
+| Commands | — | — | `docs/architecture/workspaces/commands.md` |
+| Checklists | — | — | `docs/architecture/workspaces/checklists.md` |
+| Prompts | — | — | `docs/architecture/workspaces/prompts.md` |
+| Templates | — | `.harmony/templates/` | `docs/architecture/workspaces/templates.md` |
+
+> **Note:** Workflows are deprecated. See Skills and Missions.

@@ -14,13 +14,13 @@ errors:
   - code: "E002"
     condition: "Input exceeds maximum length (>10000 characters)"
     severity: recoverable
-    message: "Prompt exceeds maximum length: {length} characters"
+    message: "Prompt exceeds maximum length: {{length}} characters"
     action: "Truncate to first 10000 characters; warn user"
 
   - code: "E003"
     condition: "Input file path does not exist"
     severity: fatal
-    message: "Prompt file not found: {path}"
+    message: "Prompt file not found: {{path}}"
     action: "Verify file path and retry"
 
   - code: "E010"
@@ -32,7 +32,7 @@ errors:
   - code: "E011"
     condition: "Scope exceeds 20 files"
     severity: recoverable
-    message: "Scope too large: {count} files identified"
+    message: "Scope too large: {{count}} files identified"
     action: "Suggest narrowing scope; offer to proceed with subset"
 
   - code: "E012"
@@ -44,7 +44,7 @@ errors:
   - code: "E020"
     condition: "Cannot write to output path"
     severity: fatal
-    message: "Cannot write to: {path}"
+    message: "Cannot write to: {{path}}"
     action: "Check permissions; verify path is within allowed scope"
 
   - code: "E030"
@@ -56,7 +56,7 @@ errors:
   - code: "E040"
     condition: "Required tool not available"
     severity: fatal
-    message: "Required tool not available: {tool}"
+    message: "Required tool not available: {{tool}}"
     action: "Verify skill has correct allowed-tools in SKILL.md"
 
   - code: "E050"
@@ -68,7 +68,7 @@ errors:
   - code: "E051"
     condition: "Self-critique reveals major issues"
     severity: recoverable
-    message: "Self-critique identified issues: {issues}"
+    message: "Self-critique identified issues: {{issues}}"
     action: "Address identified issues before proceeding"
 
   - code: "E052"

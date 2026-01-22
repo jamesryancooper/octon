@@ -119,6 +119,33 @@ Common tag categories:
 - **Function:** `synthesis`, `generation`, `analysis`, `transformation`
 - **Scope:** `codebase-wide`, `file-level`, `project-level`
 
+### Semantic Tags vs Archetypes
+
+Tags in manifest.yml express **semantic categories**—what kind of thing a skill is:
+
+```yaml
+skills:
+  - id: validate-schema
+    tags: [validator, json, schema]
+
+  - id: format-json
+    tags: [transformer, json, formatter]
+
+  - id: generate-uuid
+    tags: [generator, utility]
+```
+
+**Tags are not archetypes.** A skill's archetype (Utility, Utility with examples, Workflow) is determined by its documentation needs, not its semantic category.
+
+| Concept | Determined By | Purpose |
+|---------|---------------|---------|
+| Archetype | Directory structure | How much documentation to load |
+| Tags | manifest.yml `tags` field | Discovery, filtering, categorization |
+
+Both `validate-schema` and `format-json` might be Utility skills (same archetype) but have different tags (different semantic categories).
+
+See [Architecture](./architecture.md#why-documentation-based-archetypes) for the full rationale behind documentation-based archetypes.
+
 ---
 
 ## Shared Registry (`.harmony/skills/registry.yml`)
@@ -240,14 +267,14 @@ default: null
 
 # Workspace-specific I/O mappings for inherited skills
 skill_mappings:
-  research-synthesizer:
+  synthesize-research:
     inputs:
       - path: "projects/{{project}}/"
         kind: directory
         required: true
         description: "Project folder containing research notes"
     outputs:
-      - path: "outputs/drafts/{{topic}}-synthesis.md"
+      - path: "../../drafts/{{topic}}-synthesis.md"
         kind: file
         format: markdown
         determinism: stable
@@ -261,7 +288,7 @@ pipelines:
   - id: research-synthesis
     name: Research Synthesis Pipeline
     steps:
-      - research-synthesizer
+      - synthesize-research
 ```
 
 ### Workspace Registry Fields
@@ -281,17 +308,19 @@ Override I/O paths for inherited skills without modifying the shared definition:
 skill_mappings:
   refine-prompt:
     inputs:
-      - path: "sources/prompts/"
+      - path: "resources/refine-prompt/prompts/"
         kind: directory
         required: false
         description: "Optional prompt source folder"
     outputs:
-      - path: "outputs/refined-prompts/{{timestamp}}-refined.md"
+      - path: "../../prompts/{{timestamp}}-refined.md"
         kind: file
         format: markdown
         determinism: stable
         description: "Refined prompt output"
 ```
+
+> **Note:** All `.workspace/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#workspace-skills-directory-structure) for details.
 
 ### I/O Schema
 
@@ -318,33 +347,43 @@ Input and output entries use a standardized schema:
 
 ### Output Paths and Permission Tiers
 
-Output paths are declared in the registry and validated against the workspace's hierarchical scope.
+Output paths are declared in the registry and validated against the workspace's hierarchical scope. Skills produce two distinct artifact types with different permission models.
 
-#### Permission Tiers
+#### Deliverables (Final Products)
 
-| Tier | Location | Declaration |
-|------|----------|-------------|
-| **Tier 1** | `.workspace/skills/outputs/**` | None required (default) |
-| **Tier 2** | `.workspace/**` | Must declare in registry |
-| **Tier 3** | `<workspace-root>/**` | Must declare in registry |
+Deliverables go directly to their final destination with tiered permissions:
 
-#### Default Output (Tier 1)
-
-Without explicit declaration, skills write to the default safe zone:
+| Tier | Scope | Example Path | Use Case |
+|------|-------|--------------|----------|
+| **Tier 1** | `.workspace/{{category}}/` | `.workspace/prompts/refined.md` | Standard deliverables |
+| **Tier 2** | `.workspace/**` | `.workspace/custom/exports/data.json` | Custom workspace locations |
+| **Tier 3** | `<workspace-root>/**` | `src/generated/api-client.ts` | Project source locations |
 
 ```yaml
-# No declaration needed - automatically allowed
-.workspace/skills/outputs/{{category}}/{{timestamp}}-{{name}}.md
+# Deliverables - final destination
+.workspace/prompts/{{timestamp}}-refined.md
+.workspace/drafts/{{topic}}-synthesis.md
 ```
+
+#### Operational Artifacts
+
+Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.workspace/skills/`:
+
+| Category | Path Pattern | Purpose |
+|----------|--------------|---------|
+| `configs/` | `configs/{{skill-id}}/` | Per-skill configuration overrides |
+| `resources/` | `resources/{{skill-id}}/` | Per-skill input materials |
+| `runs/` | `runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
+| `logs/` | `logs/{{skill-id}}/{{run-id}}.md` | Execution history |
 
 #### Custom Paths (Tier 2 & 3)
 
-Declare custom output paths in the registry:
+Declare custom deliverable paths in the registry:
 
 ```yaml
 skill_mappings:
   # Tier 2: Within .workspace/
-  research-synthesizer:
+  synthesize-research:
     inputs:
       - path: "projects/{{project}}/"
         type: folder
@@ -425,7 +464,7 @@ pipelines:
     name: Full Research Pipeline
     steps:
       - gather-sources
-      - research-synthesizer
+      - synthesize-research
       - generate-report
     description: "End-to-end research with synthesis and reporting"
 ```

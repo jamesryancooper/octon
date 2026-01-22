@@ -12,7 +12,7 @@ metadata:
   author: Harmony Framework
   created: "2025-01-14"
   updated: "2025-01-15"
-allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
+allowed-tools: Read Glob Grep Write(../prompts/*) Write(logs/*)
 ---
 
 # Refine Prompt
@@ -58,7 +58,7 @@ This skill accepts one required parameter (`raw_prompt`) and three optional para
 
 Output paths are defined in `.workspace/skills/registry.yml` (single source of truth).
 
-Outputs are written to `outputs/prompts/` (refined prompt) and `logs/runs/` (execution log).
+Outputs are written to `.workspace/prompts/` (refined prompt) and `logs/refine-prompt/` (execution log).
 
 ## Boundaries
 

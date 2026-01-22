@@ -57,7 +57,7 @@ behavior:
     - name: "Output"
       steps:
         - "Structure refined prompt with all context"
-        - "Save to outputs/prompts/{{timestamp}}-refined.md"
+        - "Save to .workspace/prompts/{{timestamp}}-refined.md"
         - "Log execution to logs/runs/"
         - "Optionally execute the refined prompt"
   goals:
@@ -304,7 +304,7 @@ Produce the final refined prompt:
    - End with negative constraints and success criteria
 
 2. **Save artifacts**
-   - Write to `outputs/prompts/{{timestamp}}-refined.md`
+   - Write to `.workspace/prompts/{{timestamp}}-refined.md`
    - Log to `logs/runs/{{timestamp}}-refine-prompt.md`
 
 3. **Execute (optional)**

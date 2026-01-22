@@ -140,7 +140,7 @@ get_manifest_display_name() {
 }
 
 # Convert skill id (kebab-case) to expected Title Case display_name
-# Example: "research-synthesizer" -> "Research Synthesizer"
+# Example: "synthesize-research" -> "Synthesize Research"
 id_to_title_case() {
     local skill_id="$1"
     echo "$skill_id" | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1'
@@ -218,8 +218,9 @@ get_skill_tools() {
 # | allowed-tools (SKILL.md)   | Internal Format           | Description              |
 # |----------------------------|---------------------------|--------------------------|
 # | Read                       | filesystem.read           | Read files               |
-# | Write(outputs/*)           | filesystem.write.outputs  | Write to outputs dir     |
+# | Write(runs/*)              | filesystem.write.runs     | Write execution state (session recovery) |
 # | Write(logs/*)              | filesystem.write.logs     | Write to logs dir        |
+# | Write(../{category}/*)     | filesystem.write.deliverables | Write deliverables   |
 # | Glob                       | filesystem.glob           | Pattern file discovery   |
 # | Grep                       | filesystem.grep           | Content search           |
 # | WebFetch                   | network.fetch             | HTTP requests (read)     |
@@ -232,8 +233,9 @@ map_allowed_to_internal() {
     local allowed="$1"
     case "$allowed" in
         Read)                    echo "filesystem.read" ;;
-        Write\(outputs/\*\))     echo "filesystem.write.outputs" ;;
+        Write\(runs/\*\))        echo "filesystem.write.runs" ;;
         Write\(logs/\*\))        echo "filesystem.write.logs" ;;
+        Write\(../*\))           echo "filesystem.write.deliverables" ;;
         Glob)                    echo "filesystem.glob" ;;
         Grep)                    echo "filesystem.grep" ;;
         WebFetch)                echo "network.fetch" ;;
@@ -435,13 +437,21 @@ get_workspace_output_paths() {
     ' "$WORKSPACE_REGISTRY"
 }
 
-# Validate that a path is within workspace scope (doesn't escape upward)
+# Validate that a path is within workspace scope
+# Note: Paths starting with ../../ are allowed for deliverables that go to .workspace/{category}/
 validate_path_scope() {
     local path="$1"
     local workspace_root="$2"
     
-    # Check for path traversal attempts
-    if [[ "$path" == ../* ]] || [[ "$path" == */../* ]]; then
+    # Allow ../ paths for deliverables going to .workspace/{category}/
+    # These are intentional - deliverables go to final destination outside skills/
+    if [[ "$path" == ../../* ]]; then
+        # This is expected for deliverables like ../../drafts/ or ../../prompts/
+        return 0
+    fi
+    
+    # Check for deeper path traversal attempts (more than two levels up)
+    if [[ "$path" == */../../../* ]]; then
         echo "Path escapes workspace scope: $path"
         return 1
     fi
@@ -971,7 +981,7 @@ scaffold_workspace_mapping() {
         description: \"Optional input source folder\"
     outputs:
       - name: result
-        path: \"outputs/{{category}}/{{timestamp}}-${skill_id}.md\"
+        path: \"../../{category}/{{timestamp}}-${skill_id}.md\"
         kind: file
         format: markdown
         determinism: stable

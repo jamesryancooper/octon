@@ -13,7 +13,7 @@ Reference files in the `references/` directory provide **progressive disclosure*
 
 ## Skill Archetypes
 
-Skills fall into **three archetypes** based on complexity. Choose the archetype that matches your skill — simpler skills need fewer files.
+Skills fall into **two archetypes** based on complexity, each with an optional expanded variant. Choose the archetype that matches your skill — simpler skills need fewer files.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -22,14 +22,26 @@ Skills fall into **three archetypes** based on complexity. Choose the archetype 
 │                                                                             │
 │  UTILITY ────────────────────────────────────────────────────────────────── │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │  SKILL.md only — all instructions, examples, edge cases inline      │    │
+│  │  SKILL.md only — all instructions, edge cases inline                │    │
 │  │                                                                     │    │
 │  │  Best for: Single-purpose skills with clear I/O                     │    │
 │  │  Examples: format-json, validate-schema, count-tokens               │    │
+│  │                                                                     │    │
+│  │  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  │    │
+│  │                                                                     │    │
+│  │  Optional (with examples):                                          │    │
+│  │  ┌─────────────┐                                                    │    │
+│  │  │  examples   │  ← Add when worked examples clarify behavior       │    │
+│  │  │    .md      │                                                    │    │
+│  │  └─────────────┘                                                    │    │
+│  │                                                                     │    │
+│  │  Best for: Simple skills where output format isn't obvious          │    │
+│  │  Examples: summarize-text, extract-keywords, normalize-paths        │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
 │                                                                             │
 │  WORKFLOW ───────────────────────────────────────────────────────────────── │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │  Core files:                                                        │    │
 │  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐                    │    │
 │  │  │io-contract  │ │  safety     │ │  examples   │                    │    │
 │  │  │    .md      │ │    .md      │ │    .md      │                    │    │
@@ -39,20 +51,14 @@ Skills fall into **three archetypes** based on complexity. Choose the archetype 
 │  │  │    .md      │ │    .md      │                                    │    │
 │  │  └─────────────┘ └─────────────┘                                    │    │
 │  │                                                                     │    │
-│  │  Best for: Multi-phase execution with defined steps                 │    │
-│  │  Examples: refine-prompt, research-synthesizer, code-reviewer       │    │
-│  └─────────────────────────────────────────────────────────────────────┘    │
-│                                                                             │
-│  DOMAIN ─────────────────────────────────────────────────────────────────── │
-│  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │  All Workflow files PLUS:                                           │    │
+│  │  Optional (for domain-oriented skills):                             │    │
 │  │  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐                    │    │
 │  │  │  errors     │ │  glossary   │ │  <domain>   │                    │    │
 │  │  │    .md      │ │    .md      │ │    .md      │                    │    │
 │  │  └─────────────┘ └─────────────┘ └─────────────┘                    │    │
 │  │                                                                     │    │
-│  │  Best for: Specialized domains requiring terminology & auditability │    │
-│  │  Examples: audit-compliance, legal-processor, financial-analyzer    │    │
+│  │  Best for: Multi-phase execution with defined steps                 │    │
+│  │  Examples: refine-prompt, synthesize-research, audit-compliance     │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -60,26 +66,50 @@ Skills fall into **three archetypes** based on complexity. Choose the archetype 
 
 ---
 
+## Archetype Design Philosophy
+
+Skill archetypes answer one question: **"How much documentation does this skill need for an agent to use it correctly?"**
+
+This is a deliberate design choice for AI-native systems where token efficiency matters more than execution-type dispatch. The archetype determines how much context an agent loads, not how the skill executes.
+
+| Documentation Need | Archetype |
+|--------------------|-----------|
+| None beyond SKILL.md | Utility |
+| Examples clarify output | Utility (with examples) |
+| Multi-phase + safety + validation | Workflow |
+| Domain-specific terminology | Workflow + domain files |
+
+**Semantic categories** (validator, transformer, generator) are expressed as `tags` in manifest.yml, not as archetypes. Tags help with discovery; archetypes determine documentation structure.
+
+See [Architecture](./architecture.md#why-documentation-based-archetypes) for the full design rationale.
+
+---
+
 ## Choosing an Archetype
 
-**Single decision question:**
+**Two-step decision:**
 
-> **What kind of skill is this?**
+> **Step 1: What kind of skill is this?**
 >
-> - **Utility** → Does one thing, obvious I/O → `SKILL.md` only
-> - **Workflow** → Multi-phase, needs examples → Add core references
-> - **Domain** → Specialized expertise, auditability → Add full references + domain files
+> - **Utility** → Does one thing, obvious I/O → `SKILL.md` only (or with examples)
+> - **Workflow** → Multi-phase, complex execution → Add core references (plus optional domain files)
+>
+> **Step 2: Does it need examples?**
+>
+> - **Utility** → Output format obvious? → `SKILL.md` only
+> - **Utility** → Output format needs demonstration? → Add `examples.md`
+> - **Workflow** → Always includes `examples.md` as a core file
 
 ### Decision Heuristics
 
 | Question | If Yes → |
 |----------|----------|
 | Does the skill do one thing with obvious inputs/outputs? | **Utility** |
-| Does the skill have multiple execution phases? | **Workflow** minimum |
-| Does the skill need worked examples for clarity? | **Workflow** minimum |
-| Does the skill operate in a specialized domain (finance, legal, security)? | **Domain** |
-| Does the skill require domain-specific terminology definitions? | **Domain** |
-| Does the skill have complex error handling or compliance requirements? | **Domain** |
+| Is the output format non-obvious or would users benefit from seeing examples? | **Utility (with examples)** |
+| Do execution phases need documentation for correct execution? | **Workflow** |
+| Does the skill operate in a specialized domain (finance, legal, security)? | **Workflow** + optional domain files |
+| Does the skill require domain-specific terminology definitions? | **Workflow** + `glossary.md` |
+| Does the skill have complex error handling or compliance requirements? | **Workflow** + `errors.md` |
 
 ---
 
@@ -100,13 +130,41 @@ Single-purpose skills with clear I/O and minimal documentation needs.
 
 - Skill does one thing well
 - Obvious inputs and outputs (1-2 inputs, 1 output)
-- All instructions fit comfortably in SKILL.md (<200 lines)
+- All instructions fit comfortably in a single file (complexity matters more than line count)
 - No complex edge cases or domain-specific terminology
 - Single-phase execution with clear success criteria
+- Output format is self-explanatory
 
 **Examples:** `format-json`, `validate-schema`, `count-tokens`, `generate-uuid`
 
-**Upgrade signal:** If SKILL.md exceeds ~200 lines or you need worked examples, upgrade to **Workflow**.
+**Upgrade signal:** If output format isn't obvious or users would benefit from seeing examples, add `examples.md`.
+
+---
+
+### Utility Skill (with examples)
+
+Single-purpose skills where worked examples clarify expected behavior or output format.
+
+**Structure:**
+
+```
+<skill-name>/
+├── SKILL.md              # Core instructions
+└── references/
+    └── examples.md       # 2-3 worked input→output examples
+```
+
+**When to use:**
+
+- Skill does one thing well (still single-purpose)
+- Output format isn't immediately obvious from the description
+- Users would benefit from seeing concrete input→output examples
+- Edge cases exist that are best explained through examples
+- All other instructions still fit in SKILL.md
+
+**Examples:** `summarize-text`, `extract-keywords`, `normalize-paths`, `generate-slug`
+
+**Upgrade signal:** If you need to document multi-phase execution, safety constraints, or I/O contracts beyond examples, upgrade to **Workflow**.
 
 ---
 
@@ -119,12 +177,17 @@ Multi-phase execution skills with defined steps, examples, and validation criter
 ```
 <skill-name>/
 ├── SKILL.md              # Core instructions (<500 lines)
-└── references/
-    ├── io-contract.md    # Inputs, outputs, dependencies, CLI usage
-    ├── safety.md         # Tool and file policies
-    ├── examples.md       # Full worked examples
-    ├── behaviors.md      # Phase-by-phase execution
-    └── validation.md     # Acceptance criteria
+├── references/
+│   ├── io-contract.md    # Inputs, outputs, dependencies, CLI usage
+│   ├── safety.md         # Tool and file policies
+│   ├── examples.md       # Full worked examples
+│   ├── behaviors.md      # Phase-by-phase execution
+│   ├── validation.md     # Acceptance criteria
+│   ├── errors.md         # (optional) Error codes and recovery procedures
+│   ├── glossary.md       # (optional) Domain-specific terminology
+│   └── <domain>.md       # (optional) Domain-specific reference
+├── scripts/              # Optional: executable code
+└── assets/               # Optional: static resources
 ```
 
 **When to use:**
@@ -135,9 +198,9 @@ Multi-phase execution skills with defined steps, examples, and validation criter
 - Needs worked examples for clarity
 - Skills that will be maintained over time
 
-**Examples:** `refine-prompt`, `research-synthesizer`, `code-reviewer`
+**Examples:** `refine-prompt`, `synthesize-research`, `code-reviewer`, `audit-compliance`
 
-**Reference file purposes:**
+**Core reference file purposes:**
 
 | File | Purpose | Key Question |
 |------|---------|--------------|
@@ -147,43 +210,7 @@ Multi-phase execution skills with defined steps, examples, and validation criter
 | `behaviors.md` | Phase-by-phase execution workflow | "What happens during execution?" |
 | `validation.md` | Acceptance criteria, quality checklist | "How do I know it worked?" |
 
-**Upgrade signal:** If skill requires domain terminology, complex error handling, or compliance auditability, upgrade to **Domain**.
-
----
-
-### Domain Skill
-
-Specialized skills requiring domain expertise, terminology definitions, and auditability.
-
-**Structure:**
-
-```
-<skill-name>/
-├── SKILL.md              # Core instructions (<500 lines)
-├── references/
-│   ├── io-contract.md    # Inputs, outputs, dependencies, CLI usage
-│   ├── safety.md         # Tool and file policies
-│   ├── examples.md       # Full worked examples
-│   ├── behaviors.md      # Phase-by-phase execution
-│   ├── validation.md     # Acceptance criteria
-│   ├── errors.md         # Error codes and recovery procedures
-│   ├── glossary.md       # Domain-specific terminology
-│   └── <domain>.md       # Domain-specific reference (see below)
-├── scripts/              # Optional: executable code
-└── assets/               # Optional: static resources
-```
-
-**When to use:**
-
-- Operates in specialized domain (finance, legal, security, compliance, healthcare)
-- Requires domain-specific terminology definitions
-- Has complex error handling with formal error codes
-- Needs auditability for compliance or review
-- External dependencies that may fail
-
-**Examples:** `audit-compliance`, `legal-document-processor`, `financial-analyzer`, `security-scanner`
-
-**Additional reference file purposes:**
+**Optional reference files (for domain-oriented skills):**
 
 | File | Purpose | Key Question |
 |------|---------|--------------|
@@ -191,11 +218,13 @@ Specialized skills requiring domain expertise, terminology definitions, and audi
 | `glossary.md` | Domain-specific terminology definitions | "What do these terms mean?" |
 | `<domain>.md` | Domain-specific reference material | "What domain knowledge is needed?" |
 
+> **Domain-Oriented Skills:** Skills operating in specialized domains (finance, legal, security, compliance, healthcare) should consider adding `glossary.md` for terminology consistency, `errors.md` for audit-trail-friendly error handling, and a domain-specific reference file (e.g., `compliance.md`, `hipaa.md`).
+
 ---
 
-## Domain-Specific Artifacts
+## Optional Domain-Oriented Reference Files
 
-Domain skills include custom artifacts based on their specialized area. Add files as needed:
+For Workflow skills operating in specialized domains, add these optional files as needed:
 
 | Domain | Artifact | Purpose |
 |--------|----------|---------|
@@ -207,12 +236,59 @@ Domain skills include custom artifacts based on their specialized area. Add file
 | **Data** | `data.md` | Schema definitions, transformation rules, quality metrics, lineage |
 | *Custom* | `<domain>.md` | Any domain-specific reference material |
 
+**When to add domain files:**
+
+- Skill operates in a regulated or specialized domain
+- Domain-specific terminology needs consistent definitions
+- Compliance or audit trail requirements exist
+- External dependencies may fail and need formal error handling
+
 **Creating domain artifacts:**
 
 1. Identify domain-specific knowledge the skill requires
 2. Create `<domain>.md` with terminology, rules, and constraints
 3. Reference the domain file from SKILL.md and behaviors.md
-4. Update glossary.md with domain terms
+4. Add `glossary.md` with domain terms if terminology consistency is needed
+5. Add `errors.md` if formal error codes and recovery procedures are required
+
+---
+
+## Validation Expectations by Archetype
+
+Each archetype has different expectations for how skill execution is validated:
+
+| Archetype | Validation Approach | Where Documented |
+|-----------|---------------------|------------------|
+| **Utility** | Inline success criteria | SKILL.md (e.g., "Success: output is valid JSON") |
+| **Utility (with examples)** | Examples as test cases | `examples.md` — output should match demonstrated patterns |
+| **Workflow** | Formal acceptance checklist | `validation.md` — explicit criteria for each phase |
+
+### Utility Skills
+
+For Utility skills, include a brief success criterion in SKILL.md:
+
+```markdown
+## Success Criteria
+
+- Output is valid JSON
+- All input fields are preserved
+- Formatting matches specified style
+```
+
+### Utility (with examples) Skills
+
+Examples serve as implicit test cases. The agent should produce output that matches the patterns demonstrated in `examples.md`. Include at least one example for:
+
+- Typical input → expected output
+- Edge case input → expected handling
+
+### Workflow Skills
+
+Workflow skills require formal validation in `validation.md`:
+
+- Acceptance criteria for each phase
+- Quality checklist for final output
+- Error conditions and expected handling
 
 ---
 
@@ -220,14 +296,16 @@ Domain skills include custom artifacts based on their specialized area. Add file
 
 | File | Archetype | Purpose |
 |------|-----------|---------|
-| `io-contract.md` | Workflow+ | Input/output specifications, dependencies, CLI usage |
-| `safety.md` | Workflow+ | Tool permissions, file policies, behavioral boundaries |
-| `examples.md` | Workflow+ | Complete worked examples demonstrating skill behavior |
-| `behaviors.md` | Workflow+ | Phase-by-phase execution workflow |
-| `validation.md` | Workflow+ | Acceptance criteria and quality checklist |
-| `errors.md` | Domain | Error codes, recovery procedures, troubleshooting |
-| `glossary.md` | Domain | Domain-specific terminology definitions |
-| `<domain>.md` | Domain | Domain-specific reference material |
+| `examples.md` | Utility (with examples), Workflow | Complete worked examples demonstrating skill behavior |
+| `io-contract.md` | Workflow | Input/output specifications, dependencies, CLI usage |
+| `safety.md` | Workflow | Tool permissions, file policies, behavioral boundaries |
+| `behaviors.md` | Workflow | Phase-by-phase execution workflow |
+| `validation.md` | Workflow | Acceptance criteria and quality checklist |
+| `errors.md` | Workflow (optional) | Error codes, recovery procedures, troubleshooting |
+| `glossary.md` | Workflow (optional) | Domain-specific terminology definitions |
+| `<domain>.md` | Workflow (optional) | Domain-specific reference material |
+
+> **Note:** The optional files (`errors.md`, `glossary.md`, `<domain>.md`) are recommended for Workflow skills operating in specialized domains (finance, legal, security, compliance, healthcare) where terminology consistency, formal error handling, or auditability is important.
 
 **Single Source of Truth:** Commands, triggers, and tool requirements (`allowed-tools`) are defined in `manifest.yml` and `SKILL.md` frontmatter for machine routing. Reference files document these values in prose but do NOT duplicate them in YAML frontmatter. This prevents drift between multiple sources.
 
@@ -242,33 +320,29 @@ Domain skills include custom artifacts based on their specialized area. Add file
 └── SKILL.md              # Required: all content in one file
 ```
 
+### Utility (with examples)
+
+```
+<skill-name>/
+├── SKILL.md              # Required: core instructions
+└── references/
+    └── examples.md       # Required: 2-3 worked input→output examples
+```
+
 ### Workflow
 
 ```
 <skill-name>/
 ├── SKILL.md              # Required: core instructions (<500 lines)
-└── references/
-    ├── io-contract.md    # Inputs, outputs, dependencies, CLI usage
-    ├── safety.md         # Tool and file policies
-    ├── examples.md       # Full worked examples
-    ├── behaviors.md      # Phase-by-phase execution
-    └── validation.md     # Acceptance criteria
-```
-
-### Domain
-
-```
-<skill-name>/
-├── SKILL.md              # Required: core instructions (<500 lines)
 ├── references/
-│   ├── io-contract.md    # Inputs, outputs, dependencies, CLI usage
-│   ├── safety.md         # Tool and file policies
-│   ├── examples.md       # Full worked examples
-│   ├── behaviors.md      # Phase-by-phase execution
-│   ├── validation.md     # Acceptance criteria
-│   ├── errors.md         # Error codes and recovery procedures
-│   ├── glossary.md       # Domain-specific terminology
-│   └── <domain>.md       # Domain-specific (finance.md, legal.md, etc.)
+│   ├── io-contract.md    # Core: inputs, outputs, dependencies, CLI usage
+│   ├── safety.md         # Core: tool and file policies
+│   ├── examples.md       # Core: full worked examples
+│   ├── behaviors.md      # Core: phase-by-phase execution
+│   ├── validation.md     # Core: acceptance criteria
+│   ├── errors.md         # Optional: error codes and recovery procedures
+│   ├── glossary.md       # Optional: domain-specific terminology
+│   └── <domain>.md       # Optional: domain-specific (finance.md, legal.md, etc.)
 ├── scripts/              # Optional: executable code
 └── assets/               # Optional: static resources
 ```
@@ -304,9 +378,9 @@ The YAML frontmatter provides structured data that agents can parse programmatic
 
 ---
 
-## Workflow Reference Files
+## Core Workflow Reference Files
 
-These files apply to **Workflow** and **Domain** archetypes. Copy from the template and fill in skill-specific values.
+These files apply to **Workflow** skills. Copy from the template and fill in skill-specific values.
 
 ### `io-contract.md` — Input/Output Contract
 
@@ -366,7 +440,8 @@ safety:
     # Allowed tools defined in SKILL.md frontmatter (allowed-tools)
   file_policy:
     write_scope:                   # Paths where writing is allowed
-      - ".workspace/skills/outputs/**"   # Default (always allowed)
+      - ".workspace/{{category}}/**"     # Deliverables (final destination)
+      - ".workspace/skills/runs/**"      # Execution state (session recovery)
       - ".workspace/skills/logs/**"      # Logs (always allowed)
       # Custom paths as defined in registry I/O mapping
       # Must be within workspace's hierarchical scope
@@ -463,8 +538,8 @@ behavior:
         - "[Step 3]"
     - name: "Output"               # Final phase (universal)
       steps:
-        - "Save to outputs/[category]/{{timestamp}}-[name].md"
-        - "Log to logs/runs/{{timestamp}}-skill-name.md"
+        - "Save deliverable to .workspace/{{category}}/{{timestamp}}-{{name}}.md"
+        - "Log to logs/{{skill-id}}/{{run-id}}.md"
   goals:
     - "[Primary goal]"             # What the skill aims to achieve
     - "[Secondary goal]"
@@ -477,8 +552,8 @@ behavior:
 - name: "Output"
   steps:
     - "Structure output with all context"
-    - "Save to outputs/[category]/{{timestamp}}-[name].md"
-    - "Log execution to logs/runs/"
+    - "Save to .workspace/{{category}}/{{timestamp}}-{{name}}.md"
+    - "Log execution to logs/{{skill-id}}/{{run-id}}.md"
 ```
 
 **Customization Guide:**
@@ -514,7 +589,7 @@ behavior:
 acceptance_criteria:
   - "[Skill-specific criterion 1]"
   - "[Skill-specific criterion 2]"
-  - "Output exists in outputs/[category]/"    # Universal
+  - "Output exists in .workspace/{{category}}/"   # Universal
   - "Run log captures input, context, and output"  # Universal
 ---
 ```
@@ -523,7 +598,7 @@ acceptance_criteria:
 
 ```yaml
 acceptance_criteria:
-  - "Output exists in outputs/[category]/"
+  - "Output exists in .workspace/{{category}}/"
   - "Run log captures input, context, and output"
   - "No errors during execution"
   - "Output follows expected format"
@@ -560,9 +635,9 @@ acceptance_criteria:
 
 ---
 
-## Domain Reference Files
+## Optional Reference Files
 
-These files apply to **Domain** archetype skills only. Create from scratch based on skill requirements.
+These files are optional additions for Workflow skills, particularly those operating in specialized domains. Create from scratch based on skill requirements.
 
 ### `errors.md` — Error Handling
 
@@ -608,19 +683,19 @@ errors:
   - code: "E001"
     condition: "Referenced file does not exist"
     severity: recoverable
-    message: "File not found: {path}"
+    message: "File not found: {{path}}"
     action: "Escalate to user with file path; suggest alternatives"
 
   - code: "E002"
-    condition: "Scope exceeds maximum (>20 files)"
+    condition: "Scope exceeds maximum (>50 files)"
     severity: warning
-    message: "Scope too large: {count} files"
+    message: "Scope too large: {{count}} files"
     action: "Suggest narrowing focus; offer to proceed with subset"
 
   - code: "E003"
     condition: "External service unavailable"
     severity: fatal
-    message: "Cannot reach {service}"
+    message: "Cannot reach {{service}}"
     action: "Abort with clear error; suggest retry later"
 
 fallback_behavior: "Log partial results if any; preserve user input for retry"
@@ -720,7 +795,6 @@ When creating a new skill, follow this sequence:
 │     │                                        │                              │
 │     │ • Single-purpose, obvious I/O?  ──────▶ Utility (SKILL.md only)       │
 │     │ • Multi-phase execution?        ──────▶ Workflow (+ references/)      │
-│     │ • Specialized domain?           ──────▶ Domain (+ domain files)       │
 │     └────────────────────────────────────────┘                              │
 │           │                                                                 │
 │           ▼                                                                 │
@@ -732,16 +806,16 @@ When creating a new skill, follow this sequence:
 │     └────────────────────────────────────────┘                              │
 │           │                                                                 │
 │           ▼                                                                 │
-│  3. ADD REFERENCE FILES (if Workflow or Domain)                             │
+│  3. ADD REFERENCE FILES (if Workflow)                                       │
 │     ┌────────────────────────────────────────┐                              │
-│     │ Workflow:                              │                              │
+│     │ Core files:                            │                              │
 │     │   • io-contract.md ──▶ I/O specs       │                              │
 │     │   • safety.md ──────▶ Permissions      │                              │
 │     │   • examples.md ────▶ Worked examples  │                              │
 │     │   • behaviors.md ───▶ Phase steps      │                              │
 │     │   • validation.md ──▶ Acceptance       │                              │
 │     │                                        │                              │
-│     │ Domain (add to Workflow):              │                              │
+│     │ Optional (for domain-oriented skills): │                              │
 │     │   • errors.md ──────▶ Error handling   │                              │
 │     │   • glossary.md ────▶ Terminology      │                              │
 │     │   • <domain>.md ────▶ Domain reference │                              │
@@ -771,16 +845,25 @@ When creating a new skill, follow this sequence:
 
 | File | Archetype | Key Question It Answers |
 |------|-----------|-------------------------|
-| `io-contract.md` | Workflow+ | "What does this skill accept, produce, and how do I run it?" |
-| `safety.md` | Workflow+ | "What can this skill do and not do?" |
-| `examples.md` | Workflow+ | "What does this look like in practice?" |
-| `behaviors.md` | Workflow+ | "What happens during execution?" |
-| `validation.md` | Workflow+ | "How do I know it worked?" |
-| `errors.md` | Domain | "What happens when something goes wrong?" |
-| `glossary.md` | Domain | "What do these terms mean?" |
-| `<domain>.md` | Domain | "What domain knowledge is needed?" |
+| `examples.md` | Utility (with examples), Workflow | "What does this look like in practice?" |
+| `io-contract.md` | Workflow | "What does this skill accept, produce, and how do I run it?" |
+| `safety.md` | Workflow | "What can this skill do and not do?" |
+| `behaviors.md` | Workflow | "What happens during execution?" |
+| `validation.md` | Workflow | "How do I know it worked?" |
+| `errors.md` | Workflow (optional) | "What happens when something goes wrong?" |
+| `glossary.md` | Workflow (optional) | "What do these terms mean?" |
+| `<domain>.md` | Workflow (optional) | "What domain knowledge is needed?" |
 
 **Note:** Commands and triggers are defined in `manifest.yml` and `registry.yml`, not in reference files. This single-source-of-truth approach prevents duplication and drift.
+
+### Archetype Summary
+
+| Archetype | Structure | When to Use |
+|-----------|-----------|-------------|
+| **Utility** | `SKILL.md` only | Single-purpose, obvious I/O, output format self-explanatory |
+| **Utility (with examples)** | `SKILL.md` + `examples.md` | Single-purpose, but output format benefits from demonstration |
+| **Workflow** | `SKILL.md` + 5 core refs | Multi-phase execution, safety constraints, formal validation |
+| **Workflow (domain)** | Workflow + optional refs | Specialized domain requiring glossary, error codes, or domain docs |
 
 ---
 

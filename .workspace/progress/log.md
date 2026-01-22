@@ -230,7 +230,7 @@ mutability: append-only
   - `.workspace/.scratchpad/` files: README.md, ideas/README.md, inbox/README.md
   - `.workspace/skills/registry.yml` — Updated input paths
   - `docs/architecture/workspaces/` — README.md, scratchpad.md, projects.md, dot-files.md, workflows.md, taxonomy.md, skills.md
-  - `.harmony/` — prompts/research/*.md, skills/research-synthesizer/*.md, workflows, templates
+  - `.harmony/` — prompts/research/*.md, skills/synthesize-research/*.md, workflows, templates
   - `.cursor/commands/` — research.md, use-skill.md, synthesize-research.md
 - Created ADR-003: Projects Elevation and Idea Funnel
 - Updated `context/decisions.md` with D010, D011, D012; updated D003, D005, D008
@@ -488,7 +488,7 @@ The seven primitives were documented across various files but lacked a central r
   - progressive-disclosure.md, single-source-of-truth.md, locality.md
   - simplicity-over-complexity.md, deny-by-default.md, determinism.md
   - hitl-checkpoints.md, reversibility.md
-- Added complete reference files for research-synthesizer skill
+- Added complete reference files for synthesize-research skill
 - Added errors.md to refine-prompt references
 - Documented `display_name` extension in specification.md
 - Added placeholder validation (check 21) to validate-skills.sh

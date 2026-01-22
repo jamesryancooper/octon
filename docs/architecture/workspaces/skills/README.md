@@ -28,7 +28,8 @@ repo/                          ← Root workspace
 
 - Workspaces can write **down** into descendant workspaces
 - Workspaces cannot write **up** into ancestors or **sideways** into siblings
-- Default output: `.workspace/skills/outputs/` (no declaration needed)
+- Deliverables go to `.workspace/{{category}}/` (final destination)
+- Execution state goes to `.workspace/skills/runs/{{skill-id}}/{{run-id}}/`
 - Custom paths: declared in registry, validated against scope
 
 See [Architecture](./architecture.md) for the complete model.
@@ -57,9 +58,11 @@ This documentation is organized into the following sections:
 | [Skill Format](./skill-format.md)              | SKILL.md structure, naming conventions, frontmatter                   |
 | [Reference Artifacts](./reference-artifacts.md)| Reference file system, universal vs. customizable files               |
 | [Discovery](./discovery.md)                    | Manifest and registry formats for skill discovery                     |
-| [Creation](./creation.md)                      | Creating new skills, workflow steps, post-creation tasks              |
+| [Creation](./creation.md)                      | Creating new skills, creation phases, post-creation tasks             |
 | [Invocation](./invocation.md)                  | Commands, triggers, routing rules                                     |
 | [Execution](./execution.md)                    | Run logging, safety policies                                          |
+| [Workspace Resolution](./workspace-resolution.md) | Nearest ancestor model for determining active workspace            |
+| [Design Conventions](./design-conventions.md)  | Cross-cutting patterns: log structure, checkpoints, correlation       |
 | [Comparison](./comparison.md)                  | Skills vs. other primitives, decision heuristics                      |
 | [Specification](./specification.md)            | Spec compliance, extensions, validation                               |
 
@@ -85,18 +88,24 @@ See [Creation](./creation.md) for the full workflow.
 
 ## Key Locations
 
-| Location                             | Purpose                               |
-|--------------------------------------|---------------------------------------|
-| `.harmony/skills/`                   | Shared skill definitions (portable)   |
-| `.harmony/skills/manifest.yml`       | Skill discovery index (id, display_name, summary, triggers) |
-| `.harmony/skills/registry.yml`       | Extended metadata (version, commands, parameters) |
-| `.harmony/skills/_template/`         | Scaffolding for new skills            |
-| `.harmony/skills/scripts/validate-skills.sh` | Drift detection validation script |
-| `.workspace/skills/`                 | Workspace-specific I/O configuration  |
-| `.workspace/skills/manifest.yml`     | Workspace-specific skill index        |
-| `.workspace/skills/registry.yml`     | Workspace I/O mappings                |
-| `.workspace/skills/outputs/`         | Skill-generated files                 |
-| `.workspace/skills/logs/runs/`       | Execution audit logs                  |
+| Location                                      | Purpose                                                      |
+|-----------------------------------------------|--------------------------------------------------------------|
+| `.harmony/skills/`                            | Shared skill definitions (portable)                          |
+| `.harmony/skills/manifest.yml`                | Skill discovery index (id, display_name, summary, triggers)  |
+| `.harmony/skills/registry.yml`                | Extended metadata (version, commands, parameters)            |
+| `.harmony/skills/_template/`                  | Scaffolding for new skills                                   |
+| `.harmony/skills/scripts/validate-skills.sh`  | Drift detection validation script                            |
+| `.workspace/skills/`                          | Workspace-specific I/O configuration                         |
+| `.workspace/skills/manifest.yml`              | Workspace-specific skill index                               |
+| `.workspace/skills/registry.yml`              | Workspace I/O mappings                                       |
+| `.workspace/skills/configs/{{skill-id}}/`     | Per-skill configuration overrides                            |
+| `.workspace/skills/resources/{{skill-id}}/`   | Per-skill input resources                                    |
+| `.workspace/skills/runs/{{skill-id}}/`        | Execution state (checkpoints)                                |
+| `.workspace/skills/logs/{{skill-id}}/`        | Skill-specific logs with index                               |
+| `.workspace/skills/logs/index.yml`            | Cross-skill log index                                        |
+| `.workspace/{{category}}/`                    | Deliverables (prompts, drafts, etc.)                         |
+
+> **Note:** All `.workspace/skills/` operational categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#workspace-skills-directory-structure) for details.
 
 ---
 
@@ -111,8 +120,8 @@ See [Creation](./creation.md) for the full workflow.
 ### Internal Resources
 
 - `.harmony/skills/refine-prompt/` — Example skill implementation
+- `.harmony/skills/create-skill/` — Skill creation skill (scaffolds new skills)
 - `.harmony/skills/_template/` — Skill template
-- `.harmony/workflows/skills/create-skill/` — Skill creation workflow
 
 ### Related Documentation
 

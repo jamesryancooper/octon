@@ -74,17 +74,19 @@ Each workspace's scope includes its parent directory and **all descendants**, in
 │  ├── refine-prompt/            Shared skill definition          │
 │  │   ├── SKILL.md              Core instructions (<500 lines)   │
 │  │   └── references/           Progressive disclosure content   │
-│  └── research-synthesizer/                                      │
+│  └── synthesize-research/                                      │
 └─────────────────────────────────────────────────────────────────┘
                                  │
                                  │ I/O paths defined in
                                  ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  .workspace/skills/            Workspace I/O                    │
+│  ├── manifest.yml              Workspace skill index            │
 │  ├── registry.yml              I/O mappings (scope-validated)   │
-│  ├── outputs/                  Default output location (Tier 1) │
-│  ├── logs/runs/                Execution audit logs             │
-│  └── sources/                  Input files                      │
+│  ├── configs/                  Per-skill configuration          │
+│  ├── resources/                Per-skill input resources        │
+│  ├── runs/                     Execution state (checkpoints)    │
+│  └── logs/                     Execution logs with indexes      │
 └─────────────────────────────────────────────────────────────────┘
                                  │
                                  │ exposed via symlinks
@@ -103,7 +105,7 @@ Portable skill definitions that work across workspaces:
 
 | Content                    | Purpose                                                  |
 |----------------------------|----------------------------------------------------------|
-| `manifest.yml`             | Tier 1 discovery index (id, name, summary, triggers)     |
+| `manifest.yml`             | Tier 1 discovery index (id, display_name, summary, triggers) |
 | `registry.yml`             | Extended metadata (commands, requires, depends_on)       |
 | `_template/`               | Scaffolding for new skills                               |
 | `<skill-name>/SKILL.md`    | Core skill instructions (required)                       |
@@ -119,7 +121,7 @@ Skills follow a **four-tier disclosure model** for token efficiency, as defined 
 
 | Tier       | Source              | Content                                      | When Loaded                 | Token Budget   |
 |------------|---------------------|----------------------------------------------|-----------------------------|----------------|
-| **Tier 1** | `manifest.yml`      | `id`, `name`, `summary`, `triggers`          | Always (discovery)          | ~50 tokens     |
+| **Tier 1** | `manifest.yml`      | `id`, `display_name`, `summary`, `triggers`  | Always (discovery)          | ~50 tokens     |
 | **Tier 2** | `registry.yml`      | `commands`, `requires`, `depends_on`         | After skill matched         | ~50 tokens     |
 | **Tier 3** | `SKILL.md`          | Full skill instructions                      | When skill activated        | <5000 tokens   |
 | **Tier 4** | `references/`, etc. | Detailed docs, scripts, assets               | When specific detail needed | On demand      |
@@ -183,24 +185,34 @@ This approach keeps initial context minimal (~50 tokens per skill) while providi
 
 ## Workspace I/O (`.workspace/skills/`)
 
-Workspace-specific configuration and outputs:
+Workspace-specific configuration and outputs. All categories follow the `{{category}}/{{skill-id}}/` pattern:
 
 | Content | Purpose |
 |---------|---------|
+| `manifest.yml` | Workspace skill index (extends shared manifest) |
 | `registry.yml` | Extends shared registry, adds I/O path mappings |
-| `outputs/` | Default output location (Tier 1, always allowed) |
-| `logs/runs/` | Execution audit logs |
-| `sources/` | Input files for skills |
+| `configs/{{skill-id}}/` | Per-skill configuration overrides |
+| `resources/{{skill-id}}/` | Per-skill input resources (notes, docs, data) |
+| `runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
+| `logs/index.yml` | Cross-skill chronological index |
+| `logs/{{skill-id}}/index.yml` | Skill-level run metadata |
+| `logs/{{skill-id}}/{{run-id}}.md` | Execution audit logs |
+
+> **Bounded top-level:** The top level has 6 fixed entries regardless of skill count: `manifest.yml`, `registry.yml`, `configs/`, `resources/`, `runs/`, `logs/`.
+
+> **Terminology Note:** The `runs/` directory stores **execution state** for session recovery (checkpoints, manifests). This is distinct from **workspace continuity files** (progress logs, ADRs, decisions) which preserve project history. See [Design Conventions](./design-conventions.md#continuity-artifact-detection) for continuity file handling.
 
 ### Output Paths
 
 Output paths are declared in `registry.yml` and validated against the workspace's hierarchical scope.
 
-| Path Type | Example | Validation |
-|-----------|---------|------------|
-| **Default (Tier 1)** | `outputs/{{category}}/{{file}}` | Always allowed |
-| **Workspace internal (Tier 2)** | `.workspace/projects/{{project}}/{{file}}` | Must be declared |
-| **Workspace root (Tier 3)** | `src/generated/{{file}}` | Must be declared, scope-validated |
+| Path Type | Example | Purpose |
+|-----------|---------|---------|
+| **Deliverables** | `.workspace/{{category}}/{{file}}` | Final products (prompts, drafts) |
+| **Configs** | `configs/{{skill-id}}/` | Per-skill configuration |
+| **Resources** | `resources/{{skill-id}}/` | Per-skill input materials |
+| **Execution state** | `runs/{{skill-id}}/{{run-id}}/` | Checkpoints, manifests |
+| **Logs** | `logs/{{skill-id}}/{{run-id}}.md` | Execution audit |
 | **Descendant workspace** | `flowkit/docs/api.md` | Must be declared, scope-validated |
 
 **Scope validation:** Paths are checked to ensure they fall within the workspace's hierarchical scope (can write down, not up or sideways).
@@ -209,21 +221,34 @@ Output paths are declared in `registry.yml` and validated against the workspace'
 
 ## Output Permission Tiers
 
-Within each workspace, output locations follow a tiered permission model:
+Skills produce two distinct artifact types with different permission models:
 
-| Tier | Location | Declaration Required |
-|------|----------|---------------------|
-| **Tier 1** | `.workspace/skills/outputs/**` | None (always allowed) |
-| **Tier 2** | `.workspace/**` | Registry declaration |
-| **Tier 3** | `<workspace-root>/**` | Registry declaration |
+### Deliverables (Final Products)
 
-**Default behavior:** Without explicit declaration, skills write to Tier 1:
+Deliverables go directly to their final destination with tiered permissions:
 
-```markdown
-.workspace/skills/outputs/{{category}}/{{timestamp}}-{{name}}.md
-```
+| Tier | Scope | Example Path | Use Case |
+|------|-------|--------------|----------|
+| **Tier 1** | `.workspace/{{category}}/` | `.workspace/prompts/refined.md` | Standard deliverables |
+| **Tier 2** | `.workspace/**` | `.workspace/custom/exports/data.json` | Custom workspace locations |
+| **Tier 3** | `<workspace-root>/**` | `src/generated/api-client.ts` | Project source locations |
 
-Custom paths (Tier 2 and 3) require registry declaration and are validated against the workspace's hierarchical scope.
+**Scope validation:** All paths are validated against the workspace's hierarchical scope—skills can write **down** into descendant workspaces but never **up** to ancestors or **sideways** to siblings.
+
+**Permission requirements:** Tier 3 paths (workspace root locations) require explicit declaration in `registry.yml`.
+
+### Operational Artifacts
+
+Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.workspace/skills/`:
+
+| Category | Path Pattern | Purpose |
+|----------|--------------|---------|
+| `configs/` | `configs/{{skill-id}}/` | Per-skill configuration overrides |
+| `resources/` | `resources/{{skill-id}}/` | Per-skill input materials |
+| `runs/` | `runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
+| `logs/` | `logs/{{skill-id}}/{{run-id}}.md` | Execution history |
+
+**Correlation pattern:** `logs/{{skill-id}}/{{run-id}}.md` pairs with `runs/{{skill-id}}/{{run-id}}/` for easy correlation.
 
 ---
 
@@ -317,6 +342,47 @@ ls -la .codex/skills/
 
 ---
 
+## Why Documentation-Based Archetypes
+
+In AI-native systems, the consumer of skill definitions is an LLM, not a runtime engine. This fundamentally changes what archetypes should represent.
+
+### The Core Insight
+
+| System Type | Archetype Answers | Optimizes For |
+|-------------|-------------------|---------------|
+| Traditional | "How to execute this?" | Runtime dispatch |
+| AI-Native (Harmony) | "How much context to load?" | Token efficiency |
+
+Traditional systems create archetypes for execution characteristics: "Validator," "Transformer," "Pipeline," "Stateful." These distinctions help runtimes dispatch to different execution paths.
+
+In Harmony, the agent reads documentation to understand what a skill does. The relevant question becomes: *"How much documentation does this skill need for an agent to use it correctly?"*
+
+### Benefits
+
+1. **Token efficiency is a first-class concern.** Progressive disclosure maps directly to archetype choice—Utility loads one file, Workflow loads five+.
+
+2. **Agent comprehension scales with complexity.** Simple skills need simple docs. The archetype signals this proportionally.
+
+3. **Avoids false taxonomies.** "Validator" vs "Transformer" doesn't affect how an agent uses a skill. Both are single-purpose with obvious I/O—both are Utility.
+
+4. **Keeps skills atomic.** No Pipeline/Composite archetype means orchestration stays in Missions where it belongs.
+
+### Semantic Categories as Tags
+
+For discoverability, use `tags` in manifest.yml:
+
+```yaml
+- id: validate-schema
+  tags: [validator, json]
+
+- id: format-json
+  tags: [transformer, json, formatter]
+```
+
+Tags enable filtering ("show me all validators") without creating structural overhead. See [Discovery](./discovery.md#semantic-tags-vs-archetypes) for details.
+
+---
+
 ## Design Principles
 
 ### Hierarchical Authority
@@ -346,13 +412,14 @@ Skills in `.harmony/skills/` can be:
 Every skill execution produces:
 
 - Output artifacts (default or custom paths within scope)
-- Run logs in `logs/runs/`
+- Run logs in `logs/{{skill-id}}/{{run-id}}.md`
 - Timestamped entries for traceability
 
 ---
 
 ## See Also
 
+- [Design Conventions](./design-conventions.md) — Log structure, checkpoints, and operational patterns
 - [Discovery](./discovery.md) — Manifest and registry formats
 - [Execution](./execution.md) — Run logging and scope enforcement
 - [Reference Artifacts](./reference-artifacts.md) — Progressive disclosure content

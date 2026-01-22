@@ -50,7 +50,7 @@ cd /repo/packages/kits/flowkit/src
 
 # Input-based resolution
 cd /repo
-/research-synthesizer packages/kits/flowkit/notes/
+/synthesize-research packages/kits/flowkit/notes/
 # → Resolves to flowkit workspace (based on input path)
 
 # Explicit override

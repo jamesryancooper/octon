@@ -37,7 +37,7 @@ Composable capabilities with defined I/O contracts.
 
 | Skill | Command | Use For |
 |-------|---------|---------|
-| research-synthesizer | `/synthesize-research` | Consolidate scattered notes into coherent findings |
+| synthesize-research | `/synthesize-research` | Consolidate scattered notes into coherent findings |
 
 ### Invocation
 

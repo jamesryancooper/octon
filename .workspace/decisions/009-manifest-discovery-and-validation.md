@@ -98,8 +98,8 @@ Added to `docs/architecture/workspaces/skills/specification.md`:
 ```yaml
 # In manifest.yml
 skills:
-  - id: research-synthesizer          # Machine-readable
-    display_name: Research Synthesizer # Human-readable (Title Case)
+  - id: synthesize-research          # Machine-readable
+    display_name: Synthesize Research  # Human-readable (Title Case)
 ```
 
 **Placeholder format:**

@@ -3,7 +3,7 @@ acceptance_criteria:
   - "{{Criterion 1: what must be true for success}}"
   - "{{Criterion 2}}"
   - "{{Criterion 3}}"
-  - "Output exists in outputs/{{category}}/"
+  - "Output exists in designated .workspace/{{category}}/ location"
   - "Run log captures input, context, and output"
 ---
 
@@ -18,7 +18,7 @@ A successful execution requires:
 - [ ] {{Criterion 1}}
 - [ ] {{Criterion 2}}
 - [ ] {{Criterion 3}}
-- [ ] Output exists in `outputs/{{category}}/`
+- [ ] Output exists in `.workspace/{{category}}/`
 - [ ] Run log captures input, context, and output
 
 ## Quality Checklist
@@ -60,8 +60,8 @@ All outputs must:
 
 All outputs must be written to:
 
-- `outputs/{{category}}/{{timestamp}}-{{name}}.md`
-- `logs/runs/{{timestamp}}-skill-name.md`
+- `.workspace/{{category}}/{{timestamp}}-{{name}}.md` (deliverable)
+- `logs/{{skill-id}}/{{run-id}}.md` (execution log)
 
 ### Timestamp Format
 

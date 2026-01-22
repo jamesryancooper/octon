@@ -22,12 +22,12 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - Write `description:` (1-1024 chars, include keywords)               │
 │       - Set `allowed-tools:` (single source of truth for permissions)       │
 │       - Replace all {{placeholders}} with actual content                    │
-│     □ Choose archetype: Utility (no refs) / Workflow (5 refs) / Domain      │
+│     □ Choose archetype: Utility (no refs) / Workflow (5+ refs)              │
 │                                                                             │
 │  2. SHARED MANIFEST (.harmony/skills/manifest.yml)                          │
 │     □ Add skill entry under `skills:`:                                      │
 │       - id: <skill-id>           # Must match directory and SKILL.md name   │
-│       - display_name: <Title Case>  # e.g., "Research Synthesizer"          │
+│       - display_name: <Title Case>  # e.g., "Synthesize Research"           │
 │       - path: <skill-id>/                                                   │
 │       - summary: "<one-line description>"                                   │
 │       - status: experimental | active | deprecated                          │
@@ -56,27 +56,32 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 
 **Skill Archetypes** (choose based on complexity):
 
-| Archetype     | Reference Files                                        | When to Use                 |
-|:------------- |:------------------------------------------------------ |:----------------------------|
-| **Utility**   | None                                                   | Single-purpose, obvious I/O |
-| **Workflow**  | io-contract, safety, examples, behaviors, validation   | Multi-phase execution       |
-| **Domain**    | Workflow + errors, glossary, `{{domain}}.md`           | Specialized domains         |
+| Archetype                    | Reference Files                                            | When to Use                              |
+|:-----------------------------|:-----------------------------------------------------------|:-----------------------------------------|
+| **Utility**                  | None                                                       | Single-purpose, obvious I/O              |
+| **Utility (with examples)**  | `examples.md` only                                         | Single-purpose, output needs demo        |
+| **Workflow**                 | Core: io-contract, safety, examples, behaviors, validation | Multi-phase execution                    |
+|                              | Optional: errors, glossary, `<domain>.md`                  | (add for specialized domains)            |
+
+> **Design Note:** Archetypes are based on **documentation needs**, not execution type. Semantic categories like `validator`, `transformer`, or `generator` should use `tags` in manifest.yml for discovery and filtering. See [architecture.md](../../docs/architecture/workspaces/skills/architecture.md#why-documentation-based-archetypes) for the full rationale.
 
 **Archetype Selection Matrix:**
 
 | Question | Yes → | No → |
 |----------|-------|------|
 | Can you explain the skill in one sentence? | Consider Utility | Continue ↓ |
-| Does the skill have multiple distinct phases? | Continue ↓ | Utility |
-| Are there safety boundaries or escalation rules? | Continue ↓ | Utility |
-| Does the skill require domain-specific terminology? | Domain | Workflow |
-| Are there complex error recovery procedures? | Domain | Workflow |
+| Is the output format non-obvious or would examples help? | Utility (with examples) | Utility |
+| Do phases need documentation for correct execution? | Workflow | Utility or Utility (with examples) |
+| Are there safety boundaries or escalation rules? | Workflow | Utility or Utility (with examples) |
+| Does the skill require domain-specific terminology? | Workflow + `glossary.md` | Workflow |
+| Are there complex error recovery procedures? | Workflow + `errors.md` | Workflow |
 
 **Decision Examples:**
 
 - **Format JSON** → Utility (single-purpose, no phases, obvious I/O)
+- **Summarize Text** → Utility (with examples) (single-purpose, but output format benefits from demonstration)
 - **Refine Prompt** → Workflow (10 phases, context analysis, safety boundaries)
-- **Financial Audit** → Domain (terminology glossary, compliance rules, audit trail requirements)
+- **Financial Audit** → Workflow + optional files (terminology glossary, compliance rules, audit trail requirements)
 
 The template includes **Workflow** archetype files. See [reference-artifacts.md](../../docs/architecture/workspaces/skills/reference-artifacts.md) for details.
 
@@ -101,13 +106,13 @@ cp -r .harmony/skills/_template .harmony/skills/<skill-id>
 **Invoke a skill:**
 
 ```text
-/synthesize-research sources/topic/
+/synthesize-research resources/synthesize-research/topic/
 ```
 
 **Or explicit call pattern:**
 
 ```text
-use skill: research-synthesizer
+use skill: synthesize-research
 ```
 
 **List available skills:** Check `manifest.yml` for the skill index.
@@ -124,8 +129,13 @@ use skill: research-synthesizer
 .workspace/skills/                  # Workspace-specific configuration
 ├── manifest.yml                    # Workspace-specific skills (extends shared)
 ├── registry.yml                    # I/O paths (single source of truth)
-├── outputs/                        # Skill outputs
-└── logs/runs/                      # Execution logs
+├── runs/                           # Execution state (checkpoints, manifests) for session recovery
+└── logs/                           # Execution logs
+
+.workspace/                          # Deliverables (final products)
+├── prompts/                        # Refined prompts
+├── drafts/                         # Synthesis documents
+└── reports/                        # Analysis reports
 ```
 
 ## Architecture Diagram
@@ -162,8 +172,8 @@ use skill: research-synthesizer
 │   │                                                                     │   │
 │   │  registry.yml ──────▶ I/O mappings (inputs, outputs)                │   │
 │   │       │                                                             │   │
-│   │       ├──▶ outputs/    Skill-generated files                        │   │
-│   │       └──▶ logs/runs/  Execution audit logs                         │   │
+│   │       ├──▶ runs/       Execution state (session recovery)            │   │
+│   │       └──▶ logs/       Execution audit logs                         │   │
 │   └─────────────────────────────────────────────────────────────────────┘   │
 │                                    │                                        │
 │                                    │ exposed via symlinks                   │
@@ -192,7 +202,7 @@ DATA FLOW:
   Read SKILL.md ─────────────▶ Load full instructions + tool permissions
          │
          ▼
-  Execute skill ─────────────▶ Write to outputs/, log to logs/runs/
+  Execute skill ─────────────▶ Write deliverables + runs/, log to logs/
 ```
 
 ## Single Source of Truth
@@ -305,7 +315,7 @@ Harmony extends the [agentskills.io specification](https://agentskills.io/specif
 
 | Field | Purpose | Example |
 |-------|---------|---------|
-| `display_name` | Human-readable title (Title Case) | `"Research Synthesizer"` |
+| `display_name` | Human-readable title (Title Case) | `"Synthesize Research"` |
 | `status` | Lifecycle state | `active`, `experimental`, `deprecated` |
 | `tags` | Filtering and grouping labels | `[research, synthesis]` |
 | `triggers` | Natural language phrases for intent matching | `["synthesize my research"]` |
@@ -336,10 +346,10 @@ parameters:
 The `allowed-tools` field in SKILL.md frontmatter is the **single source of truth** for tool permissions. Harmony extends the agentskills.io format with path scoping:
 
 ```yaml
-allowed-tools: Read Glob Grep Write(outputs/*) Write(logs/*)
-#              │    │    │    │                 │
-#              │    │    │    │                 └─ Scoped write (logs only)
-#              │    │    │    └─ Scoped write (outputs only)
+allowed-tools: Read Glob Grep Write(../prompts/*) Write(logs/*)
+#              │    │    │    │                    │
+#              │    │    │    │                    └─ Scoped write (logs only)
+#              │    │    │    └─ Scoped write (deliverables destination)
 #              │    │    └─ Read-only tool
 #              │    └─ Read-only tool
 #              └─ Read-only tool

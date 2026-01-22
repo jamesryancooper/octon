@@ -448,7 +448,7 @@ Harness-specific commands wrap workflows for integration. Generic workflows live
 | `/evaluate-workspace` | `.harmony/workflows/workspace/evaluate-workspace/` | Shared |
 | `/migrate-workspace` | `.harmony/workflows/workspace/migrate-workspace/` | Shared |
 | `/bootstrap` | `.harmony/prompts/bootstrap-session.md` | Shared |
-| `/synthesize-research` | `.harmony/skills/research-synthesizer/` | Shared |
+| `/synthesize-research` | `.harmony/skills/synthesize-research/` | Shared |
 | `/research` | `.workspace/workflows/projects/create-project.md` | Local |
 | `/run-flow` | `.workspace/workflows/flowkit/run-flow/` | Local |
 

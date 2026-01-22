@@ -32,17 +32,21 @@ Parameter definitions are in `registry.yml` (single source of truth). Summary:
 
 ## Outputs
 
-Output definitions are in `.workspace/skills/registry.yml` (single source of truth). Summary:
+Output definitions are in `.workspace/skills/registry.yml` (single source of truth).
 
-### {{Primary Output}}
+> **Note:** All `.workspace/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern: `configs/`, `resources/`, `runs/`, `logs/`.
 
-- **Path:** `outputs/{{category}}/{{timestamp}}-{{name}}.md`
+Summary:
+
+### {{Primary Output}} (Deliverable)
+
+- **Path:** `.workspace/{{category}}/{{timestamp}}-{{name}}.md`
 - **Format:** Markdown
 - **Content:** {{Description of output content}}
 
 ### Run Log
 
-- **Path:** `logs/runs/{{timestamp}}-skill-name.md`
+- **Path:** `logs/{{skill-id}}/{{run-id}}.md`
 - **Format:** YAML frontmatter + Markdown
 - **Content:** Execution log with input, context, and output summary
 
@@ -50,7 +54,7 @@ Output definitions are in `.workspace/skills/registry.yml` (single source of tru
 
 ```yaml
 ---
-run_id: 2025-01-15T10-30-00Z-skill-name
+run_id: "2025-01-15T10-30-00Z-skill-name"
 skill_id: skill-name
 skill_version: "1.0.0"
 status: success  # success | partial | failed
@@ -59,11 +63,11 @@ ended_at: 2025-01-15T10:32:15Z
 inputs:
   - {{input_path_or_value}}
 outputs:
-  - outputs/{{category}}/{{timestamp}}-{{name}}.md
+  - .workspace/{{category}}/{{timestamp}}-{{name}}.md
 tools_used:
   - filesystem.read
   - filesystem.glob
-  - filesystem.write.outputs
+  - filesystem.write
 ---
 
 ## Summary
@@ -102,7 +106,8 @@ Tool requirements are defined in SKILL.md `allowed-tools` frontmatter (single so
 | Tool              | Purpose       |
 |-------------------|---------------|
 | `Read`            | {{Purpose}}   |
-| `Write(outputs/*)`| {{Purpose}}   |
+| `Write(../{{category}}/*)`| Write deliverables to final destination |
+| `Write(logs/*)`   | Write execution logs |
 | `Glob`            | {{Purpose}}   |
 | `Grep`            | {{Purpose}}   |
 

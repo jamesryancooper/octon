@@ -41,7 +41,7 @@ Natural language phrases can trigger skill activation:
 → Routes to refine-prompt skill
 ```
 
-Triggers are matched against the `triggers` field in the registry.
+Triggers are matched against the `triggers` field in the manifest.
 
 ---
 
@@ -139,20 +139,20 @@ Without an explicit flag, the workspace is determined automatically:
 # → Resolves to flowkit workspace (nearest .workspace/ from CWD)
 
 # Input-based resolution
-/research-synthesizer packages/kits/flowkit/notes/
+/synthesize-research packages/kits/flowkit/notes/
 # → Resolves to flowkit workspace (nearest .workspace/ from input path)
 ```
 
 ### Workspace Context Affects
 
-| Aspect               | How Workspace Context Applies                                                   |
-|----------------------|---------------------------------------------------------------------------------|
-| **Registry loading** | Loads the active workspace's `.workspace/skills/registry.yml`                   |
-| **Output paths**     | Validates paths against workspace's hierarchical scope                          |
-| **Write permissions**| Can write down (descendants), not up (ancestors), or sideways (siblings)        |
-| **Run logs**         | Written to active workspace's `.workspace/skills/logs/runs/`                    |
+| Aspect               | How Workspace Context Applies                                                         |
+|----------------------|---------------------------------------------------------------------------------------|
+| **Registry loading** | Loads the active workspace's `.workspace/skills/registry.yml`                         |
+| **Output paths**     | Validates paths against workspace's hierarchical scope                                |
+| **Write permissions**| Can write down (descendants), not up (ancestors), or sideways (siblings)              |
+| **Run logs**         | Written to active workspace's `.workspace/skills/logs/{{skill-id}}/{{run-id}}.md`     |
 
-See [Architecture](./architecture.md#workspace-resolution) for the complete resolution algorithm.
+See [Workspace Resolution](./workspace-resolution.md) for the complete resolution algorithm.
 
 ---
 

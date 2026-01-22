@@ -1,6 +1,6 @@
 ---
 acceptance_criteria:
-  - "Refined prompt exists in outputs/prompts/"
+  - "Refined prompt exists in .workspace/prompts/"
   - "Persona is assigned with clear role and expertise level"
   - "Context section includes relevant file paths"
   - "Negative constraints section lists what to avoid"
@@ -22,7 +22,7 @@ Acceptance criteria and validation rules for the refine-prompt skill.
 
 A refined prompt is valid when:
 
-- [ ] Refined prompt exists in `outputs/prompts/`
+- [ ] Refined prompt exists in `.workspace/prompts/`
 - [ ] Persona is assigned with clear role and expertise level
 - [ ] Context section includes relevant file paths
 - [ ] Negative constraints section lists what to avoid
@@ -78,8 +78,8 @@ All file paths referenced in the refined prompt must:
 ### Output Paths
 
 All outputs must be written to:
-- `outputs/prompts/{{timestamp}}-refined.md`
-- `logs/runs/{{timestamp}}-refine-prompt.md`
+- `.workspace/prompts/{{timestamp}}-refined.md` (deliverable)
+- `logs/refine-prompt/{{run_id}}.md` (execution log)
 
 ### Timestamp Format
 

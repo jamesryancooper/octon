@@ -2,11 +2,11 @@
 examples:
   - input: "{{example input}}"
     invocation: "/skill-name '{{example input}}'"
-    output: "outputs/{{category}}/20250115-120000-{{name}}.md"
+    output: ".workspace/{{category}}/{{timestamp}}-{{name}}.md"
     description: "{{What this example demonstrates}}"
   - input: "{{another example}}"
     invocation: "/skill-name '{{another example}}' --option={{value}}"
-    output: "outputs/{{category}}/20250115-120100-{{name}}.md"
+    output: ".workspace/{{category}}/{{timestamp}}-{{name}}.md"
     description: "{{What this example demonstrates}}"
 ---
 

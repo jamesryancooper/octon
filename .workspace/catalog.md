@@ -46,7 +46,7 @@ Composable capabilities in `skills/`:
 
 | Skill | Commands | Description |
 |-------|----------|-------------|
-| [research-synthesizer](./skills/research-synthesizer/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
+| [synthesize-research](./skills/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
 | [prompt-refiner](../.harmony/skills/prompt-refiner/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
 
 **Invocation:** Use `/command` in chat or `use skill: skill-id` for explicit selection.

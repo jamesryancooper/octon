@@ -12,7 +12,7 @@ See `.harmony/skills/registry.yml` for shared skills and `.workspace/skills/regi
 
 **Examples:**
 ```text
-/use-skill research-synthesizer projects/auth-patterns/
+/use-skill synthesize-research projects/auth-patterns/
 /use-skill html-reader-builder outputs/refined/video-games.md
 ```
 

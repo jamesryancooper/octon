@@ -64,6 +64,7 @@
 - [ ] Look at adding a decisions directory into the workspace for managing decision traces. Reference: <https://foundationcapital.com/context-graphs-ais-trillion-dollar-opportunity/>, <https://cloudedjudgement.substack.com/p/clouded-judgement-121225-long-live>,
 - [ ] Implemented a scratchpad within the main workspace harness. Ensure that it is implemented into the other local workspace harnesses.
 - [ ] Implement workspace harnesses where we are not replicating artifacts across the framework (i.e. local workspaces that are in child directories of the the repository). An inheritance pattern should be used to ensure that the workspace harnesses are consistent, up to date, and avoid drift or duplication.
+- [ ] Implement a universal agent + assistant standard in the framework (.workspace/.scratchpad/archive/universal-agent-assistant-standard-draft.md). This standard should be used to define the agents and assistants in the framework.
 
 ## 6) Knowledge (RAG, graphs, context/memory)
 
@@ -147,14 +148,16 @@ flowchart TB
 - [ ] Ensure that skills employ deterministic and predictable execution patterns and behavior.
 - [ ] Ensure we are properly applying progressive disclosure within the skills system.
 - [ ] Actually implement the hierarchical workspace model, scope authority, and workspace resolution algorithm that was doucmented in @docs/architecture/workspaces/skills/architecture.md
-- [ ] Update the research-synthesizer skill to align with our latest documentation and best practices (e.g. naming conventions: synthesize-research, etc.).
+- [x] Update the synthesize-research skill to align with our latest documentation and best practices (e.g. naming conventions: synthesize-research, etc.).
 - [ ] Create evaluate-skill (check for alignment and create an alignment plan) and update-skill (implement the alignment plan) workflows.
-- [ ] Bring the refine-prompt skill into alignment with the latest documentation and best practices.
+- [x] Bring the refine-prompt skill into alignment with the latest documentation and best practices.
+- [x] Ensure skills documentation aligns with our latest implementation and best practices. See: @migrate-refactor-workflow-to-skills.md and @workflows-vs-skills-analysis.md
 
 ## Workflows
 
-- [ ] Is there a need for workflows now that we have workflow skills? What would workflows bring to the table? If we keep both, how do we adress cognitive confusion?
+- [x] Is there a need for workflows now that we have workflow skills? What would workflows bring to the table? If we keep both, how do we adress cognitive confusion? **Decision**: No, we don't need workflows.
 - [ ] Update the create-skill workflow to create skills that are aligned with the latest documentation and best practices.
+- [ ] Migrate all workflows to skills. Deprecate the workflows primitive.
 
 ## Workspaces
 
@@ -165,8 +168,17 @@ flowchart TB
 
 - [ ] Stop with diminishing returns.
 - [ ] Update simplicity over complexity with mention of justified complexity.
+- [ ] Build based on principles: <https://youtu.be/_gPODg6br5w?si=5fBlsJmwIzobFGgr>
+- [ ] Flexible determinism + constrained flexibility:don't be so rigid, allow for some flexibility in the determinism of the framework.
+- [ ] Progressive diclosure and localizability everywhere.
+- [ ] Agent native, agent forward, age first. Humans for ideas, directions, guidance, and approval.  
+- [ ] Simplicity and Consistency for reduced complexity.
 
 ## Pillars
+
+## Docs
+
+- [ ] Apply progressive disclosure to the docs.
 
 ## Completed
 

@@ -1,12 +1,23 @@
 ---
-title: Safety Reference
-description: Safety policies and constraints for the skill-name skill.
-# AUTHORITATIVE SOURCES (Single Source of Truth):
-#   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Output paths: .workspace/skills/registry.yml
-#
-# Prose descriptions below are derived from these sources.
-# If discrepancies exist, the authoritative sources are correct.
+# Safety Policy Documentation
+# Note: Tool permissions are authoritative in SKILL.md frontmatter (allowed-tools)
+# This file documents policies and boundaries for human reference
+safety:
+  tool_policy:
+    mode: deny-by-default         # Always deny-by-default
+    # Allowed tools defined in SKILL.md frontmatter (allowed-tools)
+  file_policy:
+    write_scope:                   # Paths where writing is allowed
+      - ".workspace/{{category}}/**"     # Deliverables (final destination)
+      - ".workspace/skills/runs/**"      # Execution state (session recovery)
+      - ".workspace/skills/logs/**"      # Logs (always allowed)
+      # Custom paths as defined in registry I/O mapping
+      # Must be within workspace's hierarchical scope
+    scope_authority:               # Hierarchical scope rules
+      down: allowed                # Can write into descendant workspaces
+      up: blocked                  # Cannot write into ancestor workspaces
+      sideways: blocked            # Cannot write into sibling workspaces
+    destructive_actions: never     # Always 'never'
 ---
 
 # Safety Reference
@@ -32,10 +43,11 @@ Describe the tools this skill uses and their purposes in prose here. Reference t
 
 The skill may only write to designated output locations:
 
-| Tier        | Path                             | Purpose        |
-|-------------|----------------------------------|----------------|
-| **Tier 1**  | `.workspace/skills/outputs/**`   | Skill outputs  |
-| **Tier 1**  | `.workspace/skills/logs/**`      | Execution logs |
+| Tier        | Path                                      | Purpose              |
+|-------------|-------------------------------------------|----------------------|
+| **Tier 1**  | `.workspace/{{category}}/**`              | Deliverables         |
+| **Tier 1**  | `.workspace/skills/runs/{{skill-id}}/**`  | Execution state (session recovery) |
+| **Tier 1**  | `.workspace/skills/logs/**`               | Execution logs       |
 
 ### Scope Authority
 

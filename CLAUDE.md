@@ -36,7 +36,7 @@
 ### Invocation
 
 - Explicit command: `/synthesize-research <path>`
-- Explicit call: `use skill: research-synthesizer`
+- Explicit call: `use skill: synthesize-research`
 - Natural triggers: Match against `triggers` in manifest
 
 ### Safety
