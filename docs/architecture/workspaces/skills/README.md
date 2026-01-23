@@ -1,11 +1,37 @@
 ---
 title: Workspace Skills
-description: Two-tier, hierarchical workspace skills system (shared definitions + workspace-specific I/O) aligned with the agentskills.io specification.
+description: Capability-driven workspace skills system with two-tier architecture (shared definitions + workspace-specific I/O).
 ---
 
 # Workspace Skills
 
 Skills are **composable capability units** defined by the [agentskills.io](https://agentskills.io) specification. In Harmony, they use a **two-tier hierarchical architecture**: portable, shared skill definitions live in `.harmony/skills/`, while workspace-specific I/O and execution configuration live in `.workspace/skills/`.
+
+Skills declare their **capabilities** (what they can do) and **skill sets** (capability bundles), which determine their documentation requirements and discovery patterns.
+
+---
+
+## Quick Reference
+
+| Concept | Description |
+|---------|-------------|
+| **Capability** | What a skill can do (e.g., `phased`, `stateful`, `composable`) |
+| **Skill Set** | Pre-defined capability bundle (e.g., `executor`, `guardian`) |
+| **Reference File** | Documentation required by a capability |
+
+### Skill Sets
+
+| Skill Set | Capabilities | Use When |
+|-----------|--------------|----------|
+| `executor` | phased, branching, stateful | Multi-step workflow |
+| `coordinator` | task-coordinating, parallel | Manages external tasks |
+| `delegator` | agent-delegating | Spawns sub-agents |
+| `collaborator` | human-collaborative, stateful | Requires human input |
+| `integrator` | composable, contract-driven | Pipeline building block |
+| `specialist` | domain-specialized | Requires domain expertise |
+| `guardian` | self-validating, safety-bounded | Has quality gates |
+
+See [Skill Sets](./skill-sets.md) and [Capabilities](./capabilities.md) for complete reference.
 
 ---
 
@@ -30,7 +56,6 @@ repo/                          ← Root workspace
 - Workspaces cannot write **up** into ancestors or **sideways** into siblings
 - Deliverables go to `.workspace/{{category}}/` (final destination)
 - Execution state goes to `.workspace/skills/runs/{{skill-id}}/{{run-id}}/`
-- Custom paths: declared in registry, validated against scope
 
 See [Architecture](./architecture.md) for the complete model.
 
@@ -45,26 +70,30 @@ Per the [agentskills.io specification](https://agentskills.io/what-are-skills), 
 - **Progressive disclosure** — Metadata for routing, full instructions on demand
 - **Auditable execution** — Run logs for every invocation
 - **Portability** — Skills are just files, easy to edit, version, and share
+- **Capability declaration** — What the skill can do, driving documentation requirements
 
 ---
 
 ## Documentation Structure
 
-This documentation is organized into the following sections:
-
-| Document                                       | Description                                                           |
-|------------------------------------------------|-----------------------------------------------------------------------|
-| [Architecture](./architecture.md)              | Hierarchical workspace model, scope authority, progressive disclosure |
-| [Skill Format](./skill-format.md)              | SKILL.md structure, naming conventions, frontmatter                   |
-| [Reference Artifacts](./reference-artifacts.md)| Reference file system, universal vs. customizable files               |
-| [Discovery](./discovery.md)                    | Manifest and registry formats for skill discovery                     |
-| [Creation](./creation.md)                      | Creating new skills, creation phases, post-creation tasks             |
-| [Invocation](./invocation.md)                  | Commands, triggers, routing rules                                     |
-| [Execution](./execution.md)                    | Run logging, safety policies                                          |
-| [Workspace Resolution](./workspace-resolution.md) | Nearest ancestor model for determining active workspace            |
-| [Design Conventions](./design-conventions.md)  | Cross-cutting patterns: log structure, checkpoints, correlation       |
-| [Comparison](./comparison.md)                  | Skills vs. other primitives, decision heuristics                      |
-| [Specification](./specification.md)            | Spec compliance, extensions, validation                               |
+| Document | Description |
+|----------|-------------|
+| [Architecture](./architecture.md) | Hierarchical workspace model, scope authority, progressive disclosure |
+| [Capabilities](./capabilities.md) | All 17 capabilities with reference file mapping |
+| [Skill Sets](./skill-sets.md) | Pre-defined capability bundles and common combinations |
+| [Declaration](./declaration.md) | How to declare capabilities, resolution rules |
+| [Validation](./validation.md) | Validation rules for capabilities and references |
+| [Reference Artifacts](./reference-artifacts.md) | Reference files organized by capability |
+| [Skill Format](./skill-format.md) | SKILL.md structure, naming conventions, frontmatter |
+| [Discovery](./discovery.md) | Manifest and registry formats for skill discovery |
+| [Creation](./creation.md) | Creating new skills with capabilities |
+| [Invocation](./invocation.md) | Commands, triggers, routing rules |
+| [Execution](./execution.md) | Run logging, safety policies |
+| [Workspace Resolution](./workspace-resolution.md) | Nearest ancestor model |
+| [Design Conventions](./design-conventions.md) | Cross-cutting patterns |
+| [Comparison](./comparison.md) | Skills vs. other primitives |
+| [Specification](./specification.md) | Spec compliance, extensions |
+| [Migration Guide](./migration-guide.md) | Migrating from archetype model |
 
 ---
 
@@ -88,24 +117,19 @@ See [Creation](./creation.md) for the full workflow.
 
 ## Key Locations
 
-| Location                                      | Purpose                                                      |
-|-----------------------------------------------|--------------------------------------------------------------|
-| `.harmony/skills/`                            | Shared skill definitions (portable)                          |
-| `.harmony/skills/manifest.yml`                | Skill discovery index (id, display_name, summary, triggers)  |
-| `.harmony/skills/registry.yml`                | Extended metadata (version, commands, parameters)            |
-| `.harmony/skills/_template/`                  | Scaffolding for new skills                                   |
-| `.harmony/skills/scripts/validate-skills.sh`  | Drift detection validation script                            |
-| `.workspace/skills/`                          | Workspace-specific I/O configuration                         |
-| `.workspace/skills/manifest.yml`              | Workspace-specific skill index                               |
-| `.workspace/skills/registry.yml`              | Workspace I/O mappings                                       |
-| `.workspace/skills/configs/{{skill-id}}/`     | Per-skill configuration overrides                            |
-| `.workspace/skills/resources/{{skill-id}}/`   | Per-skill input resources                                    |
-| `.workspace/skills/runs/{{skill-id}}/`        | Execution state (checkpoints)                                |
-| `.workspace/skills/logs/{{skill-id}}/`        | Skill-specific logs with index                               |
-| `.workspace/skills/logs/index.yml`            | Cross-skill log index                                        |
-| `.workspace/{{category}}/`                    | Deliverables (prompts, drafts, etc.)                         |
-
-> **Note:** All `.workspace/skills/` operational categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#workspace-skills-directory-structure) for details.
+| Location | Purpose |
+|----------|---------|
+| `.harmony/skills/` | Shared skill definitions (portable) |
+| `.harmony/skills/manifest.yml` | Skill index with capabilities |
+| `.harmony/skills/registry.yml` | Extended metadata + skill set definitions |
+| `.harmony/skills/_template/` | Scaffolding for new skills |
+| `.harmony/skills/scripts/validate-skills.sh` | Capability validation script |
+| `.workspace/skills/` | Workspace-specific I/O configuration |
+| `.workspace/skills/manifest.yml` | Workspace-specific skill index |
+| `.workspace/skills/registry.yml` | Workspace I/O mappings |
+| `.workspace/skills/runs/{{skill-id}}/` | Execution state (checkpoints) |
+| `.workspace/skills/logs/{{skill-id}}/` | Skill-specific logs |
+| `.workspace/{{category}}/` | Deliverables (prompts, drafts, etc.) |
 
 ---
 
@@ -115,13 +139,12 @@ See [Creation](./creation.md) for the full workflow.
 
 - [agentskills.io](https://agentskills.io) — Official specification
 - [agentskills.io/specification](https://agentskills.io/specification) — Full format specification
-- [agentskills.io/integrate-skills](https://agentskills.io/integrate-skills) — Agent integration guide
 
 ### Internal Resources
 
-- `.harmony/skills/refine-prompt/` — Example skill implementation
-- `.harmony/skills/create-skill/` — Skill creation skill (scaffolds new skills)
-- `.harmony/skills/_template/` — Skill template
+- `.harmony/skills/refactor/` — Example skill with `[executor, guardian]` skill sets
+- `.harmony/skills/refine-prompt/` — Example skill with `[executor, collaborator]` skill sets
+- `.harmony/skills/_template/` — Skill template with capability guidance
 
 ### Related Documentation
 

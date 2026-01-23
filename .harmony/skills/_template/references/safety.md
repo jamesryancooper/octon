@@ -2,6 +2,20 @@
 # Safety Policy Documentation
 # Note: Tool permissions are authoritative in SKILL.md frontmatter (allowed-tools)
 # This file documents policies and boundaries for human reference
+#
+# ## Domain Content Guidelines
+#
+# This file should contain ONLY:
+# - Tool and file policies (permissions, write scope)
+# - Must/must-not behavioral constraints
+# - Escalation triggers
+# - Hierarchical scope authority rules
+#
+# If this file exceeds 100 lines AND domain-specific content (patterns, algorithms, rationale)
+# exceeds 30 lines, extract that content to a `<domain>.md` file.
+#
+# See: docs/architecture/workspaces/skills/reference-artifacts.md#domain-file-extraction-heuristics
+#
 safety:
   tool_policy:
     mode: deny-by-default         # Always deny-by-default
@@ -21,6 +35,8 @@ safety:
 ---
 
 # Safety Reference
+
+**Required when capability:** `safety-bounded`
 
 Safety policies and constraints for the skill-name skill.
 

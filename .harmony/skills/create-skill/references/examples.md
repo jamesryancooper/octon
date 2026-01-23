@@ -273,14 +273,14 @@ Phase 6: Report Success
 
 ---
 
-## Example 7: Utility Archetype
+## Example 7: Atomic Archetype
 
-**Goal:** Create a simple utility skill without references/.
+**Goal:** Create a simple atomic skill without references/.
 
 ### Invocation
 
 ```
-/create-skill "format-json" --archetype=utility
+/create-skill "format-json" --archetype=atomic
 ```
 
 ### Result
@@ -294,7 +294,7 @@ Minimal structure created:
 └── assets/
 ```
 
-Note: No `references/` directory for utility archetype.
+Note: No `references/` directory for atomic archetype.
 
 ---
 

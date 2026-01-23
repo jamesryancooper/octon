@@ -21,7 +21,7 @@ Input/output specifications for the create-skill skill.
 |-----------|------|----------|---------|-------------|
 | `skill_name` | text | Yes | - | Skill identifier (kebab-case, 1-64 chars) |
 | `description` | text | No | - | Initial description for SKILL.md |
-| `archetype` | text | No | `workflow` | Skill archetype: `utility` or `workflow` |
+| `archetype` | text | No | `complex` | Skill archetype: `atomic` or `complex` |
 
 ## Output Structure
 
@@ -116,7 +116,7 @@ resume:
 parameters:
   skill_name: "{{skill-name}}"
   description: null
-  archetype: "workflow"
+  archetype: "complex"
 ```
 
 ## Log Index Schemas
@@ -195,7 +195,7 @@ Tool requirements defined in SKILL.md `allowed-tools`:
 ### Specify Archetype
 
 ```
-/create-skill "format-json" --archetype=utility
+/create-skill "format-json" --archetype=atomic
 ```
 
 ### Resume Interrupted

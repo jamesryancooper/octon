@@ -12,6 +12,8 @@ examples:
 
 # Examples Reference
 
+**Optional:** Include when output format benefits from worked examples.
+
 Full examples demonstrating skill-name skill usage.
 
 ## Example 1: {{Example Name}}

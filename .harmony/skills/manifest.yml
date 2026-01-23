@@ -15,8 +15,10 @@
 #   status       - Lifecycle state: active | deprecated | experimental
 #   tags         - Freeform labels for filtering/grouping
 #   triggers     - Natural language phrases for intent matching
+#   skill_sets   - Capability bundles: executor, coordinator, delegator, collaborator, integrator, specialist, guardian
+#   capabilities - Additional capabilities beyond skill set bundles (see registry.yml for valid values)
 
-schema_version: "1.2"
+schema_version: "2.0"
 default: null
 
 skills:
@@ -33,6 +35,10 @@ skills:
       - "synthesize my research"
       - "consolidate findings"
       - "summarize research notes"
+    skill_sets:
+      - executor
+    capabilities:
+      - domain-specialized
 
   - id: refine-prompt
     display_name: Refine Prompt
@@ -50,6 +56,10 @@ skills:
       - "spell check my prompt"
       - "clarify my prompt"
       - "analyze and improve my prompt"
+    skill_sets:
+      - executor
+      - collaborator
+    capabilities: []
 
   - id: refactor
     display_name: Refactor
@@ -67,6 +77,11 @@ skills:
       - "move and update references"
       - "systematic rename"
       - "refactor the pattern"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - resumable
 
   - id: create-skill
     display_name: Create Skill
@@ -83,3 +98,7 @@ skills:
       - "scaffold a skill"
       - "generate skill boilerplate"
       - "add a new skill"
+    skill_sets:
+      - executor
+    capabilities:
+      - self-validating

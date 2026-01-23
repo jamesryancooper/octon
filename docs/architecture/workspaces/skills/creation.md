@@ -19,70 +19,83 @@ This invokes the `create-skill` skill defined in `.harmony/skills/create-skill/`
 
 ---
 
-## Choose Your Archetype First
+## Choose Your Capabilities
 
-**Reference files are optional.** Before creating a skill, choose the appropriate archetype based on complexity:
+**Reference files are driven by capabilities.** Before creating a skill, identify what capabilities it needs:
 
-| Archetype | Structure | When to Use |
-|-----------|-----------|-------------|
-| **Utility** | `SKILL.md` only | Single-purpose skills with obvious I/O (e.g., `format-json`, `validate-schema`) |
-| **Utility (with examples)** | `SKILL.md` + `examples.md` | Single-purpose skills where output format benefits from demonstration (e.g., `summarize-text`, `extract-keywords`) |
-| **Workflow** | `SKILL.md` + `references/` | Multi-phase execution with defined steps (e.g., `refine-prompt`, `audit-compliance`) |
+### Step 1: Choose Skill Sets
 
-> **Domain-Oriented Skills:** For Workflow skills in specialized domains (finance, legal, security), add optional files: `errors.md`, `glossary.md`, `<domain>.md`. See [Reference Artifacts](./reference-artifacts.md).
+Skill sets are pre-defined capability bundles. Choose those that match your skill's pattern:
 
-### Utility Skills: The Simplest Option
+| Skill Set | Use When | Bundled Capabilities |
+|-----------|----------|---------------------|
+| `executor` | Multi-step work with phases | phased, branching, stateful |
+| `coordinator` | Manages external tasks/jobs | task-coordinating, parallel |
+| `delegator` | Spawns sub-agents | agent-delegating |
+| `collaborator` | Requires human decisions | human-collaborative, stateful |
+| `integrator` | Pipeline building block | composable, contract-driven |
+| `specialist` | Requires domain expertise | domain-specialized |
+| `guardian` | Has quality gates/safety | self-validating, safety-bounded |
 
-For simple, single-purpose skills, you can skip reference files entirely:
+### Step 2: Add Extra Capabilities
 
-```
-my-utility-skill/
-└── SKILL.md              # All instructions, constraints in one file
-```
+Add individual capabilities for specific needs beyond skill sets:
 
-**When to use Utility archetype:**
+| Capability | When to Add |
+|------------|-------------|
+| `resumable` | Can checkpoint and resume after interruption |
+| `error-resilient` | Has complex error recovery procedures |
+| `idempotent` | Safe to retry; same input = same effect |
+| `cancellable` | Can be stopped mid-execution |
+| `external-dependent` | Requires external services |
 
-- Skill does one thing well
-- Obvious inputs and outputs (1-2 inputs, 1 output)
-- All instructions fit comfortably in a single file (complexity matters more than line count)
-- No complex edge cases or domain-specific terminology
-- Output format is self-explanatory
+### Step 3: Add Reference Files
 
-**Upgrade signal:** If output format isn't obvious or users would benefit from seeing examples, add `examples.md`.
-
-**You still need to:** Add entries to `manifest.yml` and `registry.yml` for discovery.
-
-### Utility (with examples): When Output Needs Demonstration
-
-For single-purpose skills where worked examples clarify expected behavior:
+Each capability maps to a reference file. Add files for your resolved capabilities:
 
 ```
-my-utility-skill/
-├── SKILL.md              # Core instructions
-└── references/
-    └── examples.md       # 2-3 worked input→output examples
+my-skill/
+├── SKILL.md              # Core instructions (required)
+└── references/           # Capability-driven reference files
+    ├── phases.md         # ← phased
+    ├── decisions.md      # ← branching
+    ├── checkpoints.md    # ← stateful, resumable
+    ├── validation.md     # ← self-validating
+    ├── safety.md         # ← safety-bounded
+    └── examples.md       # ← (optional for any skill)
 ```
 
-**When to use Utility (with examples) archetype:**
+### Common Patterns
 
-- Skill does one thing well (still single-purpose)
-- Output format isn't immediately obvious from the description
-- Users would benefit from seeing concrete input→output examples
-- Edge cases exist that are best explained through examples
+**Minimal skill (no capabilities):**
+```yaml
+skill_sets: []
+capabilities: []
+# No reference files needed
+```
 
-**Upgrade signal:** If you need to document multi-phase execution, safety constraints, or I/O contracts, upgrade to **Workflow**.
+**Standard multi-phase skill:**
+```yaml
+skill_sets: [executor]
+capabilities: []
+# Refs: phases.md, decisions.md, checkpoints.md
+```
 
-See [Reference Artifacts](./reference-artifacts.md) for the full archetype decision matrix.
+**Multi-phase with quality gates:**
+```yaml
+skill_sets: [executor, guardian]
+capabilities: []
+# Refs: phases.md, decisions.md, checkpoints.md, validation.md, safety.md
+```
 
-### Validation Expectations
+**Pipeline component:**
+```yaml
+skill_sets: [integrator]
+capabilities: []
+# Refs: composition.md, io-contract.md
+```
 
-Each archetype has different validation expectations:
-
-- **Utility:** Include inline success criteria in SKILL.md (e.g., "Success: output is valid JSON")
-- **Utility (with examples):** Examples serve as test cases—output should match demonstrated patterns
-- **Workflow:** Formal `validation.md` with acceptance criteria for each phase
-
-See [Reference Artifacts](./reference-artifacts.md#validation-expectations-by-archetype) for details.
+See [Capabilities](./capabilities.md) and [Skill Sets](./skill-sets.md) for complete reference.
 
 ---
 
@@ -128,15 +141,23 @@ A new skill directory following the agentskills.io spec:
 
 ## Post-Creation Steps
 
-After the workflow completes, customize based on your chosen archetype.
+After creation completes, customize based on your chosen archetype.
 
 ### 1. Edit `SKILL.md`
 
-Add the skill's core content:
+**For Atomic skills,** add:
 
 - Description of what the skill does
 - When to use it (trigger conditions)
-- Core workflow phases
+- Parameters and their defaults
+- Output format specification
+- Inline success criteria (e.g., "Success: output is valid JSON")
+
+**For Complex skills,** add:
+
+- Description of what the skill does
+- When to use it (trigger conditions)
+- Core execution phases (high-level overview)
 - Parameters and their defaults
 - Output locations
 - Boundaries and constraints
@@ -146,19 +167,17 @@ Add the skill's core content:
 
 Reference file requirements depend on your chosen archetype:
 
-**Utility archetype:** Skip this step. Keep all content in `SKILL.md` and delete the empty `references/` directory if created.
+**Atomic archetype:** Reference files are optional. Add them only when they reduce agent confusion:
 
-**Utility (with examples) archetype:** Create only `references/examples.md` with 2-3 worked input→output examples. Delete other reference files from the template.
-
-**Workflow archetype:** Customize all five core reference files in `references/`.
-
-**For Utility (with examples),** create `references/examples.md`:
-
-| File | What to Add |
+| File | When to Add |
 |------|-------------|
-| `examples.md` | 2-3 worked examples showing input→output transformations |
+| `examples.md` | Output format needs demonstration (>3 example cases) |
+| `errors.md` | Complex failure modes or external dependencies (>30 lines) |
+| `glossary.md` | Domain-specific terminology (>5 terms) |
 
-**For Workflow skills,** customize each reference file:
+If no reference files are needed, delete the empty `references/` directory if created.
+
+**Complex archetype:** Customize all five core reference files in `references/`:
 
 | File | What to Add |
 |------|-------------|

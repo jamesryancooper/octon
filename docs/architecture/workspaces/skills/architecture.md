@@ -189,7 +189,7 @@ Workspace-specific configuration and outputs. All categories follow the `{{categ
 
 | Content | Purpose |
 |---------|---------|
-| `manifest.yml` | Workspace skill index (extends shared manifest) |
+| `manifest.yml` | Workspace skill index (extends shared manifest; see merge rules below) |
 | `registry.yml` | Extends shared registry, adds I/O path mappings |
 | `configs/{{skill-id}}/` | Per-skill configuration overrides |
 | `resources/{{skill-id}}/` | Per-skill input resources (notes, docs, data) |
@@ -201,6 +201,19 @@ Workspace-specific configuration and outputs. All categories follow the `{{categ
 > **Bounded top-level:** The top level has 6 fixed entries regardless of skill count: `manifest.yml`, `registry.yml`, `configs/`, `resources/`, `runs/`, `logs/`.
 
 > **Terminology Note:** The `runs/` directory stores **execution state** for session recovery (checkpoints, manifests). This is distinct from **workspace continuity files** (progress logs, ADRs, decisions) which preserve project history. See [Design Conventions](./design-conventions.md#continuity-artifact-detection) for continuity file handling.
+
+### Manifest Merge Rules
+
+Workspace manifests **extend** shared manifests with these rules:
+
+| Scenario | Behavior |
+|----------|----------|
+| New skill (id not in shared) | Added to skill list |
+| Same id as shared skill | Workspace definition **replaces** shared definition entirely |
+| Workspace sets `default:` | Overrides shared manifest's default |
+| Trigger conflicts | Workspace triggers take precedence |
+
+**Key principle:** Workspace definitions override (not merge with) shared definitions when IDs match. This enables workspace-specific customization without complex merge logic.
 
 ### Output Paths
 
@@ -342,30 +355,45 @@ ls -la .codex/skills/
 
 ---
 
-## Why Documentation-Based Archetypes
+## Why Capabilities
 
-In AI-native systems, the consumer of skill definitions is an LLM, not a runtime engine. This fundamentally changes what archetypes should represent.
+In AI-native systems, the consumer of skill definitions is an LLM, not a runtime engine. This changes what drives documentation requirements.
 
 ### The Core Insight
 
-| System Type | Archetype Answers | Optimizes For |
-|-------------|-------------------|---------------|
+| System Type | Question | Optimizes For |
+|-------------|----------|---------------|
 | Traditional | "How to execute this?" | Runtime dispatch |
-| AI-Native (Harmony) | "How much context to load?" | Token efficiency |
+| AI-Native (Harmony) | "What can this skill do?" | Documentation needs |
 
-Traditional systems create archetypes for execution characteristics: "Validator," "Transformer," "Pipeline," "Stateful." These distinctions help runtimes dispatch to different execution paths.
-
-In Harmony, the agent reads documentation to understand what a skill does. The relevant question becomes: *"How much documentation does this skill need for an agent to use it correctly?"*
+Traditional systems categorize by execution type: "Validator," "Transformer," "Pipeline." In Harmony, capabilities describe what a skill can do—and that drives what documentation it needs.
 
 ### Benefits
 
-1. **Token efficiency is a first-class concern.** Progressive disclosure maps directly to archetype choice—Utility loads one file, Workflow loads five+.
+1. **Granular control.** 17 capabilities vs 2 archetypes—declare exactly what you need.
 
-2. **Agent comprehension scales with complexity.** Simple skills need simple docs. The archetype signals this proportionally.
+2. **Clear documentation requirements.** Each capability maps to specific reference files.
 
-3. **Avoids false taxonomies.** "Validator" vs "Transformer" doesn't affect how an agent uses a skill. Both are single-purpose with obvious I/O—both are Utility.
+3. **Flexible composition.** Skill sets bundle common patterns; capabilities allow fine-tuning.
 
-4. **Keeps skills atomic.** No Pipeline/Composite archetype means orchestration stays in Missions where it belongs.
+4. **Validation.** System can check that declared capabilities have matching documentation.
+
+5. **Discovery.** Query skills by capability ("find all resumable skills") or skill set.
+
+### Skill Sets vs Capabilities
+
+**Skill sets** are pre-defined capability bundles for common patterns:
+
+```yaml
+skill_sets: [executor, guardian]
+# Expands to: phased, branching, stateful, self-validating, safety-bounded
+```
+
+**Capabilities** allow fine-grained control:
+
+```yaml
+capabilities: [resumable]  # Add to skill set capabilities
+```
 
 ### Semantic Categories as Tags
 
@@ -379,7 +407,7 @@ For discoverability, use `tags` in manifest.yml:
   tags: [transformer, json, formatter]
 ```
 
-Tags enable filtering ("show me all validators") without creating structural overhead. See [Discovery](./discovery.md#semantic-tags-vs-archetypes) for details.
+Tags enable filtering ("show me all validators") without affecting capabilities. See [Discovery](./discovery.md) for details.
 
 ---
 

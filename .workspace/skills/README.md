@@ -28,10 +28,14 @@ All operational categories follow the `{category}/{skill-id}/` pattern:
 
 This workspace inherits skills from `.harmony/skills/`:
 
-- `refine-prompt` — Context-aware prompt refinement
-- `synthesize-research` — Research synthesis
-- `refactor` — Verified codebase refactoring
-- `create-skill` — Skill scaffolding
+| Skill | Skill Sets | Capabilities | Description |
+|-------|------------|--------------|-------------|
+| `refine-prompt` | executor, collaborator | — | Context-aware prompt refinement |
+| `synthesize-research` | executor | domain-specialized | Research synthesis |
+| `refactor` | executor, guardian | resumable | Verified codebase refactoring |
+| `create-skill` | executor | self-validating | Skill scaffolding |
+
+See `.harmony/skills/manifest.yml` for the complete skill index with all capabilities.
 
 ## Validation
 

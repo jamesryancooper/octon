@@ -9,6 +9,8 @@ acceptance_criteria:
 
 # Validation Reference
 
+**Required when capability:** `self-validating`
+
 Acceptance criteria and validation rules for the skill-name skill.
 
 ## Acceptance Criteria

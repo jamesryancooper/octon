@@ -130,7 +130,7 @@ The Markdown body follows the frontmatter and contains skill instructions. Per t
 - [Conditions]
 
 ## References
-- [Behavior phases](references/behaviors.md)
+- [Phases](references/phases.md)
 - [I/O contract](references/io-contract.md)
 - [Safety policies](references/safety.md)
 - [Examples](references/examples.md)

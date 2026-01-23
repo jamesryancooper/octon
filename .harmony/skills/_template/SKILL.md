@@ -11,6 +11,25 @@ metadata:
   created: "{{created_date}}"
   updated: "{{updated_date}}"
   # Note: version is defined in .harmony/skills/registry.yml, not here
+# Capability Model
+# Skills declare skill_sets (bundles) and individual capabilities.
+# Resolved capabilities determine which reference files are needed.
+#
+# Skill Sets (choose applicable bundles):
+#   executor     - Multi-step work (→ phased, branching, stateful)
+#   coordinator  - Manages external tasks (→ task-coordinating, parallel)
+#   delegator    - Delegates to sub-agents (→ agent-delegating)
+#   collaborator - Works with humans (→ human-collaborative, stateful)
+#   integrator   - Pipeline building block (→ composable, contract-driven)
+#   specialist   - Requires domain expertise (→ domain-specialized)
+#   guardian     - Enforces quality/safety (→ self-validating, safety-bounded)
+#
+# Additional Capabilities (beyond skill set bundles):
+#   resumable, error-resilient, idempotent, cancellable, external-dependent
+#
+# See: docs/architecture/workspaces/skills/capabilities.md
+skill_sets: []
+capabilities: []
 # Tool Permissions (Single Source of Truth)
 # Format: Space-delimited list. Add (path/glob) to scope writes.
 # Example: Read Glob Grep Write(../prompts/*) Write(logs/*)
@@ -20,7 +39,7 @@ metadata:
 #
 # Output Types:
 #   - Deliverables: Write(../{{category}}/*) - e.g., Write(../prompts/*), Write(../drafts/*)
-#   - Continuity Artifacts: Write(runs/*) - for workflow skills with checkpoints
+#   - Continuity Artifacts: Write(runs/*) - for stateful/resumable skills
 allowed-tools: Read Glob Grep Write(../{{category}}/*) Write(logs/*)
 ---
 
@@ -64,7 +83,7 @@ All operational categories in `.workspace/skills/` follow the `{{category}}/{{sk
 - **Deliverables:** `.workspace/{{category}}/` (e.g., `.workspace/prompts/`, `.workspace/drafts/`)
 - **Configs:** `.workspace/skills/configs/{{skill-id}}/` (per-skill configuration overrides)
 - **Resources:** `.workspace/skills/resources/{{skill-id}}/` (per-skill input materials)
-- **Continuity Artifacts:** `.workspace/skills/runs/{{skill-id}}/{{run-id}}/` (for workflow skills)
+- **Continuity Artifacts:** `.workspace/skills/runs/{{skill-id}}/{{run-id}}/` (for stateful/resumable skills)
 - **Execution Logs:** `.workspace/skills/logs/{{skill-id}}/{{run-id}}.md`
 
 ## Boundaries
@@ -80,58 +99,70 @@ All operational categories in `.workspace/skills/` follow the `{{category}}/{{sk
 - {{escalation_condition_2}}
 - {{escalation_condition_3}}
 
-## References (Optional)
+## References
 
-Reference files are **optional**. Choose the archetype that matches your skill's complexity:
+Reference files are included based on your declared **capabilities**. Each capability maps to specific reference files:
 
-| Archetype                   | Structure                      | When to Use                                 |
-|-----------------------------|--------------------------------|---------------------------------------------|
-| **Utility**                 | SKILL.md only                  | Single-purpose skills with obvious I/O      |
-| **Utility (with examples)** | SKILL.md + examples.md         | Single-purpose, output needs demonstration  |
-| **Workflow**                | SKILL.md + references/         | Multi-phase execution with defined steps    |
+| Capability | Reference File | When Needed |
+|------------|----------------|-------------|
+| `phased` | [phases.md](references/phases.md) | Skill has distinct execution phases |
+| `branching` | [decisions.md](references/decisions.md) | Skill has conditional execution paths |
+| `stateful` / `resumable` | [checkpoints.md](references/checkpoints.md) | State persists across phases |
+| `human-collaborative` | [interaction.md](references/interaction.md) | Human decisions required |
+| `agent-delegating` | [agents.md](references/agents.md) | Spawns sub-agents |
+| `task-coordinating` / `parallel` | [orchestration.md](references/orchestration.md) | Manages external tasks |
+| `composable` | [composition.md](references/composition.md) | Designed for chaining |
+| `contract-driven` | [io-contract.md](references/io-contract.md) | Formal I/O specification |
+| `self-validating` | [validation.md](references/validation.md) | Formal acceptance criteria |
+| `safety-bounded` | [safety.md](references/safety.md) | Explicit constraints |
+| `domain-specialized` | [glossary.md](references/glossary.md) | Domain terminology |
+| `error-resilient` | [errors.md](references/errors.md) | Recovery procedures |
+| `idempotent` | [idempotency.md](references/idempotency.md) | Safe retry semantics |
+| `cancellable` | [cancellation.md](references/cancellation.md) | Mid-execution stopping |
+| `external-dependent` | [dependencies.md](references/dependencies.md) | External service requirements |
 
-See [Reference Artifacts](../../../../docs/architecture/workspaces/skills/reference-artifacts.md) for the full archetype decision matrix.
+### Capability Selection Guide
 
-### Utility Archetype (Simplest)
+**Choose skill sets first** (bundles of related capabilities):
 
-For simple skills, delete the `references/` folder entirely and keep only SKILL.md. A Utility skill is appropriate when:
+```yaml
+# Simple multi-phase skill
+skill_sets: [executor]
+capabilities: []
 
-- The skill has a single, obvious purpose
-- Input/output formats are self-explanatory
-- No complex multi-phase workflow
+# Multi-phase with human checkpoints
+skill_sets: [executor, collaborator]
+capabilities: []
 
-**To convert to Utility archetype:** Delete `references/` directory. Everything needed fits in this SKILL.md file.
+# Multi-phase with quality gates
+skill_sets: [executor, guardian]
+capabilities: []
 
-### Utility (with examples) Archetype
+# Pipeline component
+skill_sets: [integrator]
+capabilities: []
 
-For single-purpose skills where worked examples clarify expected behavior:
+# Minimal skill (no references needed)
+skill_sets: []
+capabilities: []
+```
 
-- The skill has a single, obvious purpose
-- Output format isn't immediately obvious from the description
-- Users would benefit from seeing concrete input→output examples
+**Add individual capabilities** for specific needs beyond skill set bundles:
 
-**To convert to Utility (with examples) archetype:** Delete all files in `references/` except `examples.md`. Keep SKILL.md + `references/examples.md` only.
+```yaml
+# Executor that can resume after interruption
+skill_sets: [executor]
+capabilities: [resumable]
 
-### Workflow Archetype (This Template)
+# Integrator with retry safety
+skill_sets: [integrator]
+capabilities: [idempotent]
+```
 
-This template includes Workflow archetype core references:
+**To use this template:**
 
-- [I/O contract](references/io-contract.md) - Inputs, outputs, dependencies, command-line usage
-- [Safety policies](references/safety.md) - Tool and file policies
-- [Examples](references/examples.md) - Full usage examples
-- [Behavior phases](references/behaviors.md) - Full phase-by-phase instructions
-- [Validation](references/validation.md) - Acceptance criteria
+1. Set `skill_sets` and `capabilities` in frontmatter above
+2. Delete reference files you don't need (based on resolved capabilities)
+3. Update remaining reference files with skill-specific content
 
-**Optional files for domain-oriented skills:**
-
-- `errors.md` - Error codes and recovery procedures (add for complex error handling)
-- `glossary.md` - Domain-specific terminology (add for specialized domains)
-- `<domain>.md` - Domain-specific reference material (e.g., `finance.md`, `security.md`)
-
-### Validation Expectations
-
-Choose validation approach based on archetype:
-
-- **Utility:** Add a "Success Criteria" section to this SKILL.md with 2-3 bullet points
-- **Utility (with examples):** Examples in `examples.md` serve as test cases—output should match demonstrated patterns
-- **Workflow:** Use `references/validation.md` for formal acceptance criteria
+See [Reference Artifacts](../../../../docs/architecture/workspaces/skills/reference-artifacts.md) for the complete capability-to-reference mapping.

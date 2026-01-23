@@ -152,12 +152,19 @@ flowchart TB
 - [ ] Create evaluate-skill (check for alignment and create an alignment plan) and update-skill (implement the alignment plan) workflows.
 - [x] Bring the refine-prompt skill into alignment with the latest documentation and best practices.
 - [x] Ensure skills documentation aligns with our latest implementation and best practices. See: @migrate-refactor-workflow-to-skills.md and @workflows-vs-skills-analysis.md
+- [x] Since we have implemented pattern-triggered complex files, should we roll the atomic skills into the complex skills and just introduce complexity to skills as needed? Decision: Keep the two-tier system.
+- [ ] Implement the Progressive Complexity Architecture proposal (@progressive-complexity-proposal.md also in the claude code tab).
+- [ ] Implement capabilities.yml in the `.harmony/skills/capabilities.yml` file for fast skill capability lookup.
 
 ## Workflows
 
 - [x] Is there a need for workflows now that we have workflow skills? What would workflows bring to the table? If we keep both, how do we adress cognitive confusion? **Decision**: No, we don't need workflows.
 - [ ] Update the create-skill workflow to create skills that are aligned with the latest documentation and best practices.
 - [ ] Migrate all workflows to skills. Deprecate the workflows primitive.
+- [ ] Determine whether "workflows" should be renamed to "processes" and include Linear, Looped, and Interconnected process patterns. How do missions fit into this?
+  - Linear: It handles standard "if-this-then-that" steps. A straightforward sequence of steps where each action follows the last, like reading a file or executing a simple script.
+  - Looped: It manages cyclic or iterative feedback loops, allowing processes to return to previous states based on real-time data. Processes that repeat a set of actions until a condition is met, like a while loop or a data processing batch.
+  - Interconnected: It coordinates cross-departmental "symphonies" where multiple separate workflows must trigger or influence each other simultaneously. Systems where different states and processes interact dynamically, often event-driven, like user interfaces or concurrent systems.
 
 ## Workspaces
 
@@ -173,6 +180,7 @@ flowchart TB
 - [ ] Progressive diclosure and localizability everywhere.
 - [ ] Agent native, agent forward, age first. Humans for ideas, directions, guidance, and approval.  
 - [ ] Simplicity and Consistency for reduced complexity.
+- [ ] Introduce progressive complexity to skillls and to our principles.
 
 ## Pillars
 

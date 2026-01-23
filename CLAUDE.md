@@ -20,10 +20,18 @@
 1. Read `.harmony/skills/manifest.yml` — shared skill index (loaded first)
 2. Read `.workspace/skills/manifest.yml` — workspace-specific skills (extends shared)
 3. **Merge behavior:** Workspace skills are added to the shared skill list
-4. **Conflict resolution:** If a workspace skill has the same `id` as a shared skill, workspace definition wins
+4. **Override behavior:** If a workspace skill has the same `id` as a shared skill:
+   - Workspace `SKILL.md` replaces shared `SKILL.md` entirely (no merge)
+   - Workspace manifest entry replaces shared manifest entry (no merge)
+   - This enables workspace-specific customization of shared skills
 5. **Trigger precedence:** Workspace-specific triggers take precedence for routing when multiple skills match
 
 **Default skill:** If workspace manifest sets `default: <skill-id>`, it overrides the shared manifest's default.
+
+**Extension vs Override:**
+
+- **New skill** (id not in shared): Added to skill list (extension)
+- **Same id as shared**: Workspace definition completely replaces shared definition (override)
 
 ### Progressive Disclosure
 

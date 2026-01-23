@@ -13,6 +13,8 @@
 
 # I/O Contract Reference
 
+**Required when capability:** `contract-driven`
+
 Input/output specifications for the skill-name skill.
 
 > **Authoritative Sources:**

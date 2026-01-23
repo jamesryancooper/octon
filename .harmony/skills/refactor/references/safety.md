@@ -109,22 +109,29 @@ During Phase 3 (Plan):
    - Flag for user confirmation
    - Ask: "Is `{{file}}` a continuity artifact (append-only)?"
 
-## Scope Limits
+## Scope Signals
 
-| Metric | Threshold | Action |
-|--------|-----------|--------|
-| Files to modify | >50 | Escalate to mission |
-| Match count | >200 | Escalate to mission |
-| Modules affected | >3 | Warn user, offer escalation |
-| External dependencies | Any | Escalate to mission |
+These thresholds are **complexity signals, not hard limits**. Use judgment based on:
+- Code coupling (40 tightly-coupled files may be harder than 60 simple renames)
+- Change risk (config files vs source code)
+- Review capacity (how much can be meaningfully reviewed?)
 
-### Why 50 Files?
+| Metric | Threshold | Signal Strength | Suggested Action |
+|--------|-----------|-----------------|------------------|
+| Files to modify | >50 | Strong | Consider mission-level coordination |
+| Match count | >200 | Strong | Consider mission-level coordination |
+| Modules affected | >3 | Moderate | Warn user, offer escalation |
+| External dependencies | Any | Strong | Likely needs mission coordination |
 
-50 files represents a natural session boundary. Beyond this:
-- Review becomes impractical
-- Risk of errors increases
-- Multi-session coordination needed
-- Mission-level planning is more appropriate
+### Why These Signals?
+
+These thresholds indicate where single-session execution typically becomes impractical:
+- **>50 files:** Review becomes difficult; risk of missed changes increases
+- **>200 matches:** Manual verification becomes tedious; higher chance of errors
+- **>3 modules:** Cross-cutting changes need broader architectural consideration
+- **External deps:** Changes may cascade beyond the codebase
+
+**Override guidance:** If you have high confidence in the scope (e.g., simple mechanical renames across many files), you may proceed with user acknowledgment. Document the rationale in the run log.
 
 ## Git Integration
 

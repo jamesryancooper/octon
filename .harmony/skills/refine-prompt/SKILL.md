@@ -11,7 +11,9 @@ compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Harmony Framework
   created: "2025-01-14"
-  updated: "2025-01-15"
+  updated: "2026-01-23"
+skill_sets: [executor, collaborator]
+capabilities: []
 allowed-tools: Read Glob Grep Write(../prompts/*) Write(logs/*)
 ---
 

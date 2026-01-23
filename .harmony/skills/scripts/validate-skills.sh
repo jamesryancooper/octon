@@ -36,6 +36,20 @@
 #   21. Placeholder format validation ({{snake_case}} in workspace registry paths)
 #   22. Version staleness check (warns if version is 1.0.0 for mature skills)
 #   23. Line count validation (SKILL.md < 500 lines per agentskills.io spec)
+#   24. Reference file token budgets (io-contract, safety, examples, behaviors, validation)
+#   25. Aggregate complexity budget (total reference file tokens vs complexity thresholds)
+#   26. Capability-triggered file validation (references match declared capabilities)
+#   27. Skill set and capability validation (valid values, reference file matching)
+#
+# Capability Model:
+#   Skills declare skill_sets (bundles) and capabilities in manifest.yml and SKILL.md.
+#   Each capability maps to specific reference files:
+#   - phased → phases.md
+#   - branching → decisions.md
+#   - stateful/resumable → checkpoints.md
+#   - self-validating → validation.md
+#   - safety-bounded → safety.md
+#   See: docs/architecture/workspaces/skills/capabilities.md
 #
 # Tool Permission Model:
 #   - allowed-tools in SKILL.md frontmatter is the SINGLE SOURCE OF TRUTH
@@ -65,6 +79,23 @@ FIX_MODE=false
 SKILL_MD_TOKEN_BUDGET=5000
 SKILL_MD_LINE_BUDGET=500
 MANIFEST_ENTRY_TOKEN_BUDGET=100
+
+# Reference file token budgets (hard limits from reference-artifacts.md)
+IO_CONTRACT_TOKEN_BUDGET=1000
+SAFETY_TOKEN_BUDGET=1000
+EXAMPLES_TOKEN_BUDGET=2000
+PHASES_TOKEN_BUDGET=1500
+VALIDATION_TOKEN_BUDGET=800
+
+# Valid skill sets and capabilities
+VALID_SKILL_SETS=("executor" "coordinator" "delegator" "collaborator" "integrator" "specialist" "guardian")
+VALID_CAPABILITIES=("phased" "branching" "parallel" "task-coordinating" "agent-delegating" "human-collaborative" "stateful" "resumable" "self-validating" "error-resilient" "composable" "contract-driven" "domain-specialized" "safety-bounded" "idempotent" "cancellable" "external-dependent")
+
+# Aggregate complexity budgets (from reference-artifacts.md Common Profiles section)
+# These are soft limits that trigger warnings, not errors
+AGGREGATE_STANDARD_BUDGET=7000    # Standard Complex skill
+AGGREGATE_ENTERPRISE_BUDGET=12000 # Enterprise Complex skill
+AGGREGATE_DOMAIN_BUDGET=15000     # Domain Expert skill (may legitimately exceed)
 
 # Colors for output
 RED='\033[0;31m'
@@ -714,6 +745,168 @@ validate_token_budgets() {
     return $issues
 }
 
+# Validate token budgets for reference files
+validate_reference_token_budgets() {
+    local skill_id="$1"
+    local skill_dir="$2"
+    local refs_dir="$skill_dir/references"
+
+    if [[ ! -d "$refs_dir" ]]; then
+        return 0  # No references directory, nothing to check
+    fi
+
+    local issues=0
+
+    # Define reference files and their budgets
+    declare -A ref_budgets=(
+        ["io-contract.md"]=$IO_CONTRACT_TOKEN_BUDGET
+        ["safety.md"]=$SAFETY_TOKEN_BUDGET
+        ["examples.md"]=$EXAMPLES_TOKEN_BUDGET
+        ["phases.md"]=$PHASES_TOKEN_BUDGET
+        ["validation.md"]=$VALIDATION_TOKEN_BUDGET
+    )
+
+    for ref_file in "${!ref_budgets[@]}"; do
+        local ref_path="$refs_dir/$ref_file"
+        if [[ -f "$ref_path" ]]; then
+            local tokens
+            tokens=$(estimate_tokens "$ref_path")
+            local budget=${ref_budgets[$ref_file]}
+
+            if [[ $tokens -gt $budget ]]; then
+                log_warning "$ref_file exceeds token budget (~$tokens > $budget tokens)"
+                log_info "  Consider splitting content or extracting to domain-specific file"
+                ((issues++)) || true
+            else
+                log_success "$ref_file within token budget (~$tokens tokens)"
+            fi
+        fi
+    done
+
+    return $issues
+}
+
+# ============================================================================
+# Aggregate Complexity Budget Validation
+# ============================================================================
+# Validates that total reference file tokens stay within complexity budgets.
+# These are soft limits (warnings) to prevent pattern explosion while
+# preserving flexibility for domain-expert skills.
+#
+# Budget Tiers:
+#   - Standard Complex: ~7000 tokens (2-4 reference files)
+#   - Enterprise Complex: ~12000 tokens (4-6 reference files)
+#   - Domain Expert: ~15000 tokens (5-8 reference files, domain knowledge extensive)
+#
+# See: docs/architecture/workspaces/skills/reference-artifacts.md#complexity-budget
+
+# Calculate aggregate token count for all reference files in a skill
+calculate_aggregate_reference_tokens() {
+    local skill_dir="$1"
+    local refs_dir="$skill_dir/references"
+    local total=0
+
+    if [[ ! -d "$refs_dir" ]]; then
+        echo 0
+        return
+    fi
+
+    # Sum tokens for all markdown files in references/
+    for ref_file in "$refs_dir"/*.md; do
+        if [[ -f "$ref_file" ]]; then
+            local tokens
+            tokens=$(estimate_tokens "$ref_file")
+            total=$((total + tokens))
+        fi
+    done
+
+    echo $total
+}
+
+# Validate aggregate complexity budget for a skill
+# Returns 0 if OK, logs warnings if approaching/exceeding thresholds
+validate_aggregate_complexity() {
+    local skill_id="$1"
+    local skill_dir="$2"
+    local refs_dir="$skill_dir/references"
+
+    # Only check Complex skills (those with reference files)
+    if [[ ! -d "$refs_dir" ]]; then
+        return 0  # Atomic skill, no aggregate check needed
+    fi
+
+    local ref_count
+    ref_count=$(find "$refs_dir" -maxdepth 1 -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+
+    if [[ $ref_count -eq 0 ]]; then
+        return 0  # No reference files
+    fi
+
+    local aggregate_tokens
+    aggregate_tokens=$(calculate_aggregate_reference_tokens "$skill_dir")
+
+    # Determine if this is a domain-expert skill (has glossary.md or <domain>.md files)
+    local is_domain_skill=false
+    if [[ -f "$refs_dir/glossary.md" ]]; then
+        is_domain_skill=true
+    fi
+    # Check for domain-specific files (files other than standard pattern files)
+    for ref_file in "$refs_dir"/*.md; do
+        local basename
+        basename=$(basename "$ref_file")
+        case "$basename" in
+            io-contract.md|phases.md|safety.md|examples.md|validation.md|\
+            checkpoints.md|orchestration.md|decisions.md|interaction.md|\
+            agents.md|composition.md|errors.md|glossary.md|\
+            idempotency.md|cancellation.md|dependencies.md)
+                # Standard capability-triggered file
+                ;;
+            *)
+                # Domain-specific file
+                is_domain_skill=true
+                ;;
+        esac
+    done
+
+    # Apply appropriate budget based on skill type
+    local budget_label
+    local budget_threshold
+    local ceiling_threshold
+
+    if [[ "$is_domain_skill" == "true" ]]; then
+        budget_label="Domain Expert"
+        budget_threshold=$AGGREGATE_ENTERPRISE_BUDGET
+        ceiling_threshold=$AGGREGATE_DOMAIN_BUDGET
+    else
+        budget_label="Standard Complex"
+        budget_threshold=$AGGREGATE_STANDARD_BUDGET
+        ceiling_threshold=$AGGREGATE_ENTERPRISE_BUDGET
+    fi
+
+    # Report and warn based on thresholds
+    if [[ $aggregate_tokens -le $AGGREGATE_STANDARD_BUDGET ]]; then
+        log_success "Aggregate reference tokens within standard budget (~$aggregate_tokens tokens, $ref_count files)"
+    elif [[ $aggregate_tokens -le $AGGREGATE_ENTERPRISE_BUDGET ]]; then
+        log_warning "Aggregate reference tokens approaching complexity ceiling (~$aggregate_tokens > $AGGREGATE_STANDARD_BUDGET tokens)"
+        log_info "  Consider: consolidate redundant content, extract shared domain knowledge"
+        log_info "  See: docs/architecture/workspaces/skills/reference-artifacts.md#reducing-complexity"
+    elif [[ $aggregate_tokens -le $AGGREGATE_DOMAIN_BUDGET ]]; then
+        if [[ "$is_domain_skill" == "true" ]]; then
+            log_success "Domain Expert skill within extended budget (~$aggregate_tokens tokens, $ref_count files)"
+        else
+            log_warning "Aggregate reference tokens exceed typical budget (~$aggregate_tokens > $AGGREGATE_ENTERPRISE_BUDGET tokens)"
+            log_info "  This skill may be doing too much — consider decomposition"
+            log_info "  Or add domain-specific files if this is a Domain Expert skill"
+        fi
+    else
+        log_warning "Aggregate reference tokens significantly exceed budget (~$aggregate_tokens > $AGGREGATE_DOMAIN_BUDGET tokens)"
+        log_info "  Even Domain Expert skills rarely need this much documentation"
+        log_info "  Strongly consider: skill decomposition, extracting reusable domain files"
+    fi
+
+    return 0
+}
+
 # ============================================================================
 # Line Count Validation
 # ============================================================================
@@ -1235,7 +1428,7 @@ get_registry_version() {
     ' "$REGISTRY"
 }
 
-# Check if skill has reference files (indicates maturity beyond Utility archetype)
+# Check if skill has reference files (indicates maturity beyond Atomic archetype)
 has_reference_files() {
     local skill_dir="$1"
     [[ -d "$skill_dir/references" ]] && [[ -n "$(ls -A "$skill_dir/references" 2>/dev/null)" ]]
@@ -1277,6 +1470,335 @@ check_version_staleness() {
     fi
 
     return 0
+}
+
+# ============================================================================
+# Capability Validation
+# ============================================================================
+# Validates that skills have appropriate capabilities and matching reference files.
+#
+# Capability-to-Reference Mapping:
+#   phased → phases.md
+#   branching → decisions.md
+#   stateful/resumable → checkpoints.md
+#   self-validating → validation.md
+#   safety-bounded → safety.md
+#   human-collaborative → interaction.md
+#   agent-delegating → agents.md
+#   task-coordinating/parallel → orchestration.md
+#   composable → composition.md
+#   contract-driven → io-contract.md
+#   domain-specialized → glossary.md
+#   error-resilient → errors.md
+#   idempotent → idempotency.md
+#   cancellable → cancellation.md
+#   external-dependent → dependencies.md
+
+# Capability thresholds (for suggesting capabilities)
+CAPABILITY_THRESHOLD_PHASES=3
+CAPABILITY_THRESHOLD_TOKENS=3000
+CAPABILITY_THRESHOLD_BRANCHES=3
+
+# Count phases in SKILL.md (looks for ## Phase or numbered workflow steps)
+count_skill_phases() {
+    local skill_dir="$1"
+    local skill_md="$skill_dir/SKILL.md"
+    if [[ ! -f "$skill_md" ]]; then
+        echo 0
+        return
+    fi
+
+    # Count phase-like patterns:
+    # - "## Phase N" or "### Phase N"
+    # - "1. **Phase" or "1. Phase"
+    # - Numbered workflow steps like "1. **Name** -"
+    local phase_count=0
+
+    # Count markdown headers with "Phase"
+    local header_phases
+    header_phases=$(grep -cE "^#{2,3}\s+(Phase|Step)\s+" "$skill_md" 2>/dev/null || echo 0)
+
+    # Count numbered workflow items (e.g., "1. **Name** -" pattern in Core Workflow)
+    local numbered_phases
+    numbered_phases=$(grep -cE "^[0-9]+\.\s+\*\*[^*]+\*\*" "$skill_md" 2>/dev/null || echo 0)
+
+    # Take the maximum (skills typically use one pattern or the other)
+    if [[ $header_phases -gt $numbered_phases ]]; then
+        echo "$header_phases"
+    else
+        echo "$numbered_phases"
+    fi
+}
+
+# Count conditional branches in SKILL.md (if/else patterns, decision points)
+count_skill_branches() {
+    local skill_dir="$1"
+    local skill_md="$skill_dir/SKILL.md"
+    if [[ ! -f "$skill_md" ]]; then
+        echo 0
+        return
+    fi
+
+    # Count branch-like patterns:
+    # - "If ... then" or "When ... then"
+    # - Decision points like "Choose:", "Select:", "Option:"
+    # - Conditional markers like "- If", "- When", "- Otherwise"
+    local branch_count=0
+
+    # Count "If/When" conditional statements
+    local if_branches
+    if_branches=$(grep -ciE "(^|\s)(if|when)\s+.*(then|:)" "$skill_md" 2>/dev/null || echo 0)
+
+    # Count decision point markers
+    local decision_branches
+    decision_branches=$(grep -ciE "^-\s+(if|when|otherwise|else)" "$skill_md" 2>/dev/null || echo 0)
+
+    # Count option/choice markers
+    local option_branches
+    option_branches=$(grep -ciE "(option|choice|alternative)\s*[0-9]*:" "$skill_md" 2>/dev/null || echo 0)
+
+    echo $((if_branches + decision_branches + option_branches))
+}
+
+# Check for interaction/approval patterns in SKILL.md
+has_interaction_patterns() {
+    local skill_dir="$1"
+    local skill_md="$skill_dir/SKILL.md"
+    if [[ ! -f "$skill_md" ]]; then
+        return 1
+    fi
+
+    # Look for human-in-the-loop indicators
+    grep -qiE "(approval|approve|confirm|user input|ask user|human review|gate|checkpoint)" "$skill_md" 2>/dev/null
+}
+
+# Check for sub-agent/delegation patterns in SKILL.md
+has_delegation_patterns() {
+    local skill_dir="$1"
+    local skill_md="$skill_dir/SKILL.md"
+    if [[ ! -f "$skill_md" ]]; then
+        return 1
+    fi
+
+    # Look for sub-agent/delegation indicators
+    grep -qiE "(sub-agent|subagent|delegate|spawn|parallel agent|agent coordination)" "$skill_md" 2>/dev/null
+}
+
+# Check for state/checkpoint patterns in SKILL.md
+has_state_patterns() {
+    local skill_dir="$1"
+    local skill_md="$skill_dir/SKILL.md"
+    if [[ ! -f "$skill_md" ]]; then
+        return 1
+    fi
+
+    # Look for state persistence indicators
+    grep -qiE "(checkpoint|resume|state|persist|recovery|intermediate)" "$skill_md" 2>/dev/null
+}
+
+# Validate capability heuristics for minimal skills
+# Returns suggestions if skill should add capabilities
+validate_capability_heuristics() {
+    local skill_id="$1"
+    local skill_dir="$2"
+    local suggestions=""
+    local should_add_caps=false
+
+    # Only check minimal skills (no declared capabilities)
+    if has_capabilities "$skill_dir"; then
+        return 0  # Already has capabilities, skip heuristics check
+    fi
+
+    # Check 1: Phase count threshold → suggest 'phased' capability
+    local phase_count
+    phase_count=$(count_skill_phases "$skill_dir")
+    if [[ $phase_count -ge $CAPABILITY_THRESHOLD_PHASES ]]; then
+        suggestions="${suggestions}\n  - Has $phase_count phases → consider 'executor' skill set or 'phased' capability"
+        should_add_caps=true
+    fi
+
+    # Check 2: Token count threshold
+    local token_count
+    token_count=$(estimate_tokens "$skill_dir/SKILL.md")
+    if [[ $token_count -gt $CAPABILITY_THRESHOLD_TOKENS ]]; then
+        suggestions="${suggestions}\n  - SKILL.md has ~$token_count tokens → consider adding capabilities and reference files"
+        should_add_caps=true
+    fi
+
+    # Check 3: Branch count threshold → suggest 'branching' capability
+    local branch_count
+    branch_count=$(count_skill_branches "$skill_dir")
+    if [[ $branch_count -ge $CAPABILITY_THRESHOLD_BRANCHES ]]; then
+        suggestions="${suggestions}\n  - Has $branch_count conditional branches → consider 'branching' capability"
+        should_add_caps=true
+    fi
+
+    # Check 4: Human-in-the-loop patterns → suggest 'collaborator' skill set
+    if has_interaction_patterns "$skill_dir"; then
+        suggestions="${suggestions}\n  - Contains human-in-the-loop patterns → consider 'collaborator' skill set"
+        should_add_caps=true
+    fi
+
+    # Check 5: Sub-agent coordination patterns → suggest 'delegator' skill set
+    if has_delegation_patterns "$skill_dir"; then
+        suggestions="${suggestions}\n  - Contains sub-agent/delegation patterns → consider 'delegator' skill set"
+        should_add_caps=true
+    fi
+
+    # Check 6: State persistence patterns → suggest 'stateful' or 'resumable' capability
+    if has_state_patterns "$skill_dir"; then
+        suggestions="${suggestions}\n  - Contains state/checkpoint patterns → consider 'stateful' or 'resumable' capability"
+        should_add_caps=true
+    fi
+
+    # Report findings
+    if [[ "$should_add_caps" == "true" ]]; then
+        log_warning "Minimal skill may benefit from capability declarations:"
+        echo -e "$suggestions"
+        log_info "  Add skill_sets and capabilities to manifest.yml and SKILL.md"
+        log_info "  See: docs/architecture/workspaces/skills/capabilities.md"
+        return 1
+    fi
+
+    log_success "Minimal skill appropriate (complexity within thresholds)"
+    return 0
+}
+
+# Check if skill has declared capabilities
+has_capabilities() {
+    local skill_dir="$1"
+    local skill_md="$skill_dir/SKILL.md"
+    if [[ ! -f "$skill_md" ]]; then
+        return 1
+    fi
+
+    # Check for skill_sets or capabilities in frontmatter
+    if grep -qE "^skill_sets:\s*\[" "$skill_md" 2>/dev/null; then
+        # Check if the array is non-empty
+        if grep -E "^skill_sets:\s*\[" "$skill_md" | grep -qv "\[\]"; then
+            return 0
+        fi
+    fi
+    if grep -qE "^capabilities:\s*\[" "$skill_md" 2>/dev/null; then
+        if grep -E "^capabilities:\s*\[" "$skill_md" | grep -qv "\[\]"; then
+            return 0
+        fi
+    fi
+
+    return 1
+}
+
+# ============================================================================
+# Complex Skill Reference File Validation
+# ============================================================================
+# Validates that Complex skills have at least one pattern-triggered reference file.
+# Pattern-triggered files include: io-contract, behaviors, safety, examples,
+# validation, checkpoints, orchestration, decisions, interaction, agents,
+# composition, errors, glossary, or domain-specific files.
+
+# List of capability-triggered reference files
+# Mapping: capability → reference file
+# phased → phases.md, branching → decisions.md, stateful/resumable → checkpoints.md
+# self-validating → validation.md, safety-bounded → safety.md, etc.
+PATTERN_TRIGGERED_FILES=(
+    "io-contract.md"
+    "phases.md"
+    "safety.md"
+    "examples.md"
+    "validation.md"
+    "checkpoints.md"
+    "orchestration.md"
+    "decisions.md"
+    "interaction.md"
+    "agents.md"
+    "composition.md"
+    "errors.md"
+    "glossary.md"
+    "idempotency.md"
+    "cancellation.md"
+    "dependencies.md"
+)
+
+# Check if skill is Complex archetype
+# Complex skills have at least one pattern-triggered reference file
+is_complex_skill() {
+    local skill_dir="$1"
+    local refs_dir="$skill_dir/references"
+
+    if [[ ! -d "$refs_dir" ]]; then
+        return 1  # No references directory = Atomic
+    fi
+
+    # Check for any pattern-triggered file
+    for file in "${PATTERN_TRIGGERED_FILES[@]}"; do
+        if [[ -f "$refs_dir/$file" ]]; then
+            return 0  # Found at least one = Complex
+        fi
+    done
+
+    # Also check for domain-specific files (any .md file in references/)
+    local md_count
+    md_count=$(find "$refs_dir" -maxdepth 1 -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+    if [[ $md_count -gt 0 ]]; then
+        return 0  # Has reference files = Complex
+    fi
+
+    return 1  # No pattern-triggered files = Atomic
+}
+
+# Count pattern-triggered files present
+count_pattern_files() {
+    local skill_dir="$1"
+    local refs_dir="$skill_dir/references"
+    local count=0
+
+    if [[ ! -d "$refs_dir" ]]; then
+        echo 0
+        return
+    fi
+
+    for file in "${PATTERN_TRIGGERED_FILES[@]}"; do
+        if [[ -f "$refs_dir/$file" ]]; then
+            ((count++)) || true
+        fi
+    done
+
+    echo $count
+}
+
+# Check for pattern-triggered files in Complex skills
+# Complex skills must have at least one pattern-triggered reference file
+check_complex_skill_files() {
+    local skill_id="$1"
+    local skill_dir="$2"
+    local issues=0
+
+    local refs_dir="$skill_dir/references"
+
+    # If no references directory, this is an Atomic skill
+    if [[ ! -d "$refs_dir" ]]; then
+        return 0
+    fi
+
+    # Count pattern-triggered files
+    local pattern_count
+    pattern_count=$(count_pattern_files "$skill_dir")
+
+    if [[ $pattern_count -eq 0 ]]; then
+        # Check for any .md files (could be domain-specific)
+        local md_count
+        md_count=$(find "$refs_dir" -maxdepth 1 -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
+
+        if [[ $md_count -eq 0 ]]; then
+            log_warning "Skill has references/ directory but no pattern-triggered files"
+            log_info "  Add at least one of: io-contract.md, behaviors.md, safety.md, etc."
+            log_info "  Or remove references/ directory if this is an Atomic skill"
+        fi
+    else
+        log_success "Complex skill has $pattern_count pattern-triggered reference file(s)"
+    fi
+
+    return $issues
 }
 
 validate_skill() {
@@ -1516,6 +2038,18 @@ validate_skill() {
     else
         log_success "SKILL.md within line budget ($line_count lines)"
     fi
+
+    # Check 22: Reference file token budgets
+    validate_reference_token_budgets "$skill_id" "$skill_dir" || true
+
+    # Check 23: Aggregate complexity budget (total reference file tokens)
+    validate_aggregate_complexity "$skill_id" "$skill_dir" || true
+
+    # Check 24: Complex skill pattern-triggered files
+    check_complex_skill_files "$skill_id" "$skill_dir" || true
+
+    # Check 25: Capability heuristics (for minimal skills)
+    validate_capability_heuristics "$skill_id" "$skill_dir" || true
 }
 
 # Main

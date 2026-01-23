@@ -11,7 +11,7 @@ This document covers what happens when a skill runs, including run logging, safe
 
 ## Run Logging
 
-> **Note:** For workflow archetype skills, see [Design Conventions](./design-conventions.md) for the recommended log structure using `logs/{{skill-id}}/` with multi-level indexes.
+> **Note:** For skills with the `phased` capability, see [Design Conventions](./design-conventions.md) for the recommended log structure using `logs/{{skill-id}}/` with multi-level indexes.
 
 Every skill execution produces a log. The log location follows this pattern:
 
@@ -357,7 +357,7 @@ When creating a new skill, replace all `{{placeholder}}` values with actual cont
 │     └── Apply behavioral boundaries                             │
 │                                                                 │
 │  3. EXECUTE PHASES                                              │
-│     ├── Load behaviors.md for phase details                     │
+│     ├── Load phases.md for phase details                        │
 │     ├── Execute each phase in sequence                          │
 │     └── Log progress                                            │
 │                                                                 │

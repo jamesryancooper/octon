@@ -17,6 +17,7 @@ This implementation follows [agentskills.io/specification](https://agentskills.i
 |------------------|----------------|
 | Required frontmatter: `name`, `description` | ✓ In `SKILL.md` |
 | Optional: `license`, `compatibility`, `metadata`, `allowed-tools` | ✓ In `SKILL.md` |
+| Capability declaration: `skill_sets`, `capabilities` | ✓ In `SKILL.md` and `manifest.yml` |
 | Directory structure: `references/`, `scripts/`, `assets/` | ✓ Per spec |
 | `SKILL.md` < 500 lines | ✓ Details in `references/` |
 | Name matches directory | ✓ Enforced by `create-skill` skill |
@@ -228,13 +229,17 @@ id_to_title_case() {
 
 **Implementation:**
 
-| File | Archetype | Purpose |
-|------|-----------|---------|
-| `examples.md` | Utility (with examples), Workflow | Worked examples |
-| `io-contract.md` | Workflow | Inputs, outputs, command-line usage |
-| `safety.md` | Workflow | Tool and file policies |
-| `behaviors.md` | Workflow | Phase-by-phase execution |
-| `validation.md` | Workflow | Acceptance criteria |
+| File               | Archetype                                 | Purpose                        |
+|--------------------|-------------------------------------------|--------------------------------|
+| `io-contract.md`   | Complex (when: non-trivial I/O)           | Inputs, outputs, CLI usage     |
+| `behaviors.md`     | Complex (when: distinct phases)           | Phase-by-phase execution       |
+| `safety.md`        | Complex (when: tool/file policies)        | Tool and file policies         |
+| `examples.md`      | Atomic (optional), Complex (when needed)  | Worked examples                |
+| `validation.md`    | Complex (when: quality gates)             | Acceptance criteria            |
+| `errors.md`        | Atomic (optional), Complex (optional)     | Error handling                 |
+| `glossary.md`      | Atomic (optional), Complex (optional)     | Terminology                    |
+
+> **Note:** Complex skills must have at least one pattern-triggered reference file. Add files based on exhibited patterns rather than following a fixed mandatory list.
 
 See [Reference Artifacts](./reference-artifacts.md) for details.
 

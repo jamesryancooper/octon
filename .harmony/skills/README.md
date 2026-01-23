@@ -1,6 +1,6 @@
 # Workspace Skills
 
-Composable capabilities with defined I/O contracts and progressive disclosure.
+Complex capabilities with defined I/O contracts and progressive disclosure.
 
 For full documentation, see [docs/architecture/workspaces/skills/](../../docs/architecture/workspaces/skills/README.md).
 
@@ -22,7 +22,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - Write `description:` (1-1024 chars, include keywords)               │
 │       - Set `allowed-tools:` (single source of truth for permissions)       │
 │       - Replace all {{placeholders}} with actual content                    │
-│     □ Choose archetype: Utility (no refs) / Workflow (5+ refs)              │
+│     □ Set `skill_sets:` and `capabilities:` (determines ref files)          │
 │                                                                             │
 │  2. SHARED MANIFEST (.harmony/skills/manifest.yml)                          │
 │     □ Add skill entry under `skills:`:                                      │
@@ -33,6 +33,8 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - status: experimental | active | deprecated                          │
 │       - tags: [<tag1>, <tag2>]                                              │
 │       - triggers: ["<trigger phrase 1>", "<trigger phrase 2>"]              │
+│       - skill_sets: [executor, guardian]  # Capability bundles              │
+│       - capabilities: [resumable]         # Additional capabilities         │
 │                                                                             │
 │  3. SHARED REGISTRY (.harmony/skills/registry.yml)                          │
 │     □ Add skill entry under `skills:`:                                      │
@@ -54,36 +56,52 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Skill Archetypes** (choose based on complexity):
+**Skill Sets** (choose capability bundles):
 
-| Archetype                    | Reference Files                                            | When to Use                              |
-|:-----------------------------|:-----------------------------------------------------------|:-----------------------------------------|
-| **Utility**                  | None                                                       | Single-purpose, obvious I/O              |
-| **Utility (with examples)**  | `examples.md` only                                         | Single-purpose, output needs demo        |
-| **Workflow**                 | Core: io-contract, safety, examples, behaviors, validation | Multi-phase execution                    |
-|                              | Optional: errors, glossary, `<domain>.md`                  | (add for specialized domains)            |
+| Skill Set | Bundled Capabilities | When to Use |
+|:----------|:---------------------|:------------|
+| `executor` | phased, branching, stateful | Multi-step workflow |
+| `coordinator` | task-coordinating, parallel | Manages external tasks |
+| `delegator` | agent-delegating | Spawns sub-agents |
+| `collaborator` | human-collaborative, stateful | Requires human input |
+| `integrator` | composable, contract-driven | Pipeline building block |
+| `specialist` | domain-specialized | Requires domain expertise |
+| `guardian` | self-validating, safety-bounded | Has quality gates |
 
-> **Design Note:** Archetypes are based on **documentation needs**, not execution type. Semantic categories like `validator`, `transformer`, or `generator` should use `tags` in manifest.yml for discovery and filtering. See [architecture.md](../../docs/architecture/workspaces/skills/architecture.md#why-documentation-based-archetypes) for the full rationale.
+> **Design Note:** Capabilities determine documentation needs. Each capability maps to specific reference files. See [capabilities.md](../../docs/architecture/workspaces/skills/capabilities.md) for the full mapping.
 
-**Archetype Selection Matrix:**
+**Capability Selection Guide:**
 
-| Question | Yes → | No → |
-|----------|-------|------|
-| Can you explain the skill in one sentence? | Consider Utility | Continue ↓ |
-| Is the output format non-obvious or would examples help? | Utility (with examples) | Utility |
-| Do phases need documentation for correct execution? | Workflow | Utility or Utility (with examples) |
-| Are there safety boundaries or escalation rules? | Workflow | Utility or Utility (with examples) |
-| Does the skill require domain-specific terminology? | Workflow + `glossary.md` | Workflow |
-| Are there complex error recovery procedures? | Workflow + `errors.md` | Workflow |
+| Question | Yes → Add |
+|----------|-----------|
+| Does the skill have multiple phases? | `executor` skill set |
+| Does the skill need human approval? | `collaborator` skill set |
+| Does the skill have quality gates? | `guardian` skill set |
+| Can the skill resume after interruption? | `resumable` capability |
+| Is the skill a pipeline component? | `integrator` skill set |
+| Does the skill need domain terminology? | `specialist` skill set |
 
-**Decision Examples:**
+**Declaration Examples:**
 
-- **Format JSON** → Utility (single-purpose, no phases, obvious I/O)
-- **Summarize Text** → Utility (with examples) (single-purpose, but output format benefits from demonstration)
-- **Refine Prompt** → Workflow (10 phases, context analysis, safety boundaries)
-- **Financial Audit** → Workflow + optional files (terminology glossary, compliance rules, audit trail requirements)
+```yaml
+# Minimal skill (no capabilities)
+skill_sets: []
+capabilities: []
 
-The template includes **Workflow** archetype files. See [reference-artifacts.md](../../docs/architecture/workspaces/skills/reference-artifacts.md) for details.
+# Standard multi-phase workflow
+skill_sets: [executor]
+capabilities: []
+
+# Multi-phase with quality gates
+skill_sets: [executor, guardian]
+capabilities: []
+
+# Multi-phase with resume support
+skill_sets: [executor]
+capabilities: [resumable]
+```
+
+The template includes guidance for choosing capabilities. See [reference-artifacts.md](../../docs/architecture/workspaces/skills/reference-artifacts.md) for the complete capability-to-reference mapping.
 
 **Quick command to scaffold and validate:**
 
@@ -210,6 +228,7 @@ DATA FLOW:
 | Metadata                                         | Source                                   |
 |--------------------------------------------------|------------------------------------------|
 | `name`, `description`                            | SKILL.md frontmatter                     |
+| `skill_sets`, `capabilities`                     | SKILL.md frontmatter + manifest.yml      |
 | `allowed-tools` (tool permissions)               | SKILL.md frontmatter (**authoritative**) |
 | `summary`, `triggers`, `tags`                    | `.harmony/skills/manifest.yml`           |
 | `version`, `commands`, `parameters`, `depends_on`| `.harmony/skills/registry.yml`           |

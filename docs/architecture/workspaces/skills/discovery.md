@@ -95,6 +95,8 @@ default: refine-prompt
 | `status` | No | Lifecycle state: `active`, `deprecated`, `experimental` (default: `active`) |
 | `tags` | No | Freeform labels for filtering and grouping |
 | `triggers` | No | Natural language phrases for matching |
+| `skill_sets` | No | Capability bundles (executor, guardian, etc.) |
+| `capabilities` | No | Additional capabilities beyond skill sets |
 
 ### Status Values
 
@@ -119,32 +121,37 @@ Common tag categories:
 - **Function:** `synthesis`, `generation`, `analysis`, `transformation`
 - **Scope:** `codebase-wide`, `file-level`, `project-level`
 
-### Semantic Tags vs Archetypes
+### Tags vs Capabilities
 
-Tags in manifest.yml express **semantic categories**—what kind of thing a skill is:
+**Tags** and **capabilities** serve different purposes:
+
+| Concept | Determined By | Purpose |
+|---------|---------------|---------|
+| Tags | `tags` field | Discovery, filtering, semantic categorization |
+| Skill Sets | `skill_sets` field | Capability bundles for common patterns |
+| Capabilities | `capabilities` field | What the skill can do, drives documentation |
+
+**Tags** express semantic categories—what kind of thing a skill is:
 
 ```yaml
 skills:
   - id: validate-schema
     tags: [validator, json, schema]
+    skill_sets: []
+    capabilities: []
 
-  - id: format-json
-    tags: [transformer, json, formatter]
-
-  - id: generate-uuid
-    tags: [generator, utility]
+  - id: refactor
+    tags: [refactor, codebase, verification]
+    skill_sets: [executor, guardian]
+    capabilities: [resumable]
 ```
 
-**Tags are not archetypes.** A skill's archetype (Utility, Utility with examples, Workflow) is determined by its documentation needs, not its semantic category.
+**Capabilities** determine documentation requirements. Two skills with the same tags might have different capabilities:
 
-| Concept | Determined By | Purpose |
-|---------|---------------|---------|
-| Archetype | Directory structure | How much documentation to load |
-| Tags | manifest.yml `tags` field | Discovery, filtering, categorization |
+- `validate-schema` (tag: validator) — `skill_sets: []` (minimal docs)
+- `audit-compliance` (tag: validator) — `skill_sets: [executor, guardian]` (full workflow docs)
 
-Both `validate-schema` and `format-json` might be Utility skills (same archetype) but have different tags (different semantic categories).
-
-See [Architecture](./architecture.md#why-documentation-based-archetypes) for the full rationale behind documentation-based archetypes.
+See [Capabilities](./capabilities.md) and [Skill Sets](./skill-sets.md) for the complete reference.
 
 ---
 

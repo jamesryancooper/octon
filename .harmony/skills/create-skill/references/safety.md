@@ -166,5 +166,5 @@ If rollback needed after completion:
 
 | Value | Description |
 |-------|-------------|
-| `utility` | Simple, single-purpose (SKILL.md only) |
-| `workflow` | Multi-phase with references/ (default, includes optional domain files) |
+| `atomic` | Simple, single-purpose (SKILL.md only) |
+| `complex` | Multi-phase with references/ (default, includes optional domain files) |
