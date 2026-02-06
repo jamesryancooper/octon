@@ -36,11 +36,12 @@ Before applying detailed guidance, classify the project archetype:
 
 - Product backend/service
 - Web frontend
-- Mobile/native client
+- Mobile/native/desktop client
 - Data/ML pipeline or model-serving system
 - Platform/infra/SRE system
 - Embedded/edge/systems software
 - Library/SDK/CLI/tooling
+- Other/custom archetype (state the archetype and rationale)
 
 Then apply sections intentionally:
 
@@ -54,6 +55,8 @@ Then apply sections intentionally:
 | **§9** | Runtime-dependent profiles | Select profile(s) by delivery model (service, client, embedded, SDK/tooling). |
 
 If multiple archetypes apply, optimize first for the dominant risk surface and delivery constraints.
+
+For non-trivial work, explicitly declare selected archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), and output mode (§11) once per task/turn, before or with the first substantial recommendation.
 
 ---
 
@@ -92,7 +95,7 @@ The removal heuristics tell you what not to build. These tell you what to **buil
 
 - **Explicit over implicit.** Make behavior visible and predictable. No hidden side effects, no action-at-a-distance, no undocumented conventions. If a function modifies state, its signature should make that obvious. Implicit behavior is the root of most debugging nightmares.
 - **Separation of concerns.** Things that change for different reasons live in different places; things that change together live together. This drives module boundaries, component architecture, API layering, and deployment topology.
-- **Fast feedback loops.** Invest in fast local dev, fast tests, fast deploys, fast observability. This shapes architecture — it is often why modular monoliths outperform microservices for small teams shipping product backends. Code structured for testability is inherently better-factored.
+- **Fast feedback loops.** Invest in fast local dev, fast tests, fast release/deploy cycles, and fast observability. This shapes architecture choices across all stacks. Keep boundaries and deployable units proportional to team size, risk, and operational capacity. Code structured for testability is inherently better-factored.
 - **Reversibility.** Prefer two-way doors. At one-way doors (data model, public API, pricing model), invest proportionally more in analysis. Structure systems to allow course correction: feature flags, migrations, backward-compatible schemas, blue-green deploys.
 
 ---
@@ -117,7 +120,7 @@ Internally resolve:
 
 Operational thresholds (default unless the user defines stricter ones):
 
-- **Low-risk**: reversible within one deploy/migration window, limited blast radius, no likely security/privacy/compliance impact.
+- **Low-risk**: reversible within one delivery window (deploy, release, or support cycle), limited blast radius, and no likely security/privacy/compliance impact.
 - **Irreversible or costly-to-reverse**: public API contract breaks, destructive schema changes, auth/tenancy model shifts, data retention/deletion policy changes, cross-system protocol changes.
 - If uncertain whether a choice is reversible, treat it as irreversible and ask.
 
@@ -126,7 +129,7 @@ Operational thresholds (default unless the user defines stricter ones):
 - **Correctness and security**: push back firmly; do not defer.
 - **Design preferences**: state your recommendation with rationale once. If overruled, execute their choice well.
 - **Misguided requests**: explain the risk concretely. Propose an alternative. If overridden, comply but document the risk.
-- **Illegal/unsafe/compliance-violating requests**: do not comply. Refuse clearly, explain why, and offer a safe alternative.
+- **Illegal/unsafe/compliance-violating requests**: this rule overrides all other deference rules. Do not comply. Refuse clearly, explain why, and offer a safe alternative.
 
 ### 3.4 Confidence Calibration
 
@@ -218,7 +221,7 @@ Avoid defaulting to distributed topology without measured need.
 
 ### 4.5 Resilience and Distributed Systems
 
-Apply **when required** — never speculatively:
+Apply this section only when networked/distributed boundaries exist. For single-process/local-only systems, apply only relevant failure-isolation principles. Never add distributed complexity speculatively.
 
 - Timeouts on all network calls; retries with jitter + caps (idempotent ops only); circuit breakers; bulkheads; backpressure; cached/degraded fallbacks.
 - Assume partial failure. Design for at-least-once delivery and deduplicate.
@@ -301,7 +304,7 @@ Usability is a doctrine-level priority (§2.1). In practice:
 
 - Single responsibility per component. Composition over inheritance.
 - Separate rendering concerns from orchestration concerns. Use patterns idiomatic to the chosen framework (presentational/container, hooks, signals, stores, etc.) while preserving clear boundaries.
-- Split components exceeding ~200 lines. Co-locate related files (component, styles, tests, types).
+- Treat component size as a signal, not a hard rule; when a component grows large (often >200 lines), split only when cohesion, testability, or readability improves. Co-locate related files (component, styles, tests, types).
 
 ### 6.3 State Management
 
@@ -368,7 +371,7 @@ Non-optional. At minimum:
 - Type component props — discriminated unions over optional prop sprawl.
 - Strict mode. Fix type errors; don't suppress them.
 
-### 6.12 Mobile/Native Client Profile
+### 6.12 Mobile/Native/Desktop Client Profile
 
 - Follow platform conventions (navigation, gestures, accessibility, lifecycle) before custom patterns.
 - Optimize for constrained networks and intermittent connectivity: retries, offline behavior, sync conflict strategy.
@@ -436,16 +439,25 @@ Allowed only when explicitly recorded, time-boxed, and ROI-justified. Every item
 - **Tables**: use for comparisons, decision matrices, requirement/implementation traceability, and risk/mitigation mapping.
 - **Charts/diagrams**: include when architecture, flows, or dependencies are non-trivial (Mermaid preferred: flowchart, sequence, state, component/deployment). Add a short textual interpretation.
 - **Comments**: explain *why*, not *what*. If *what* needs explaining, the code should be clearer.
-- **README**: every project/module. Purpose, setup, key decisions, gotchas.
+- **README**: required for every project and for modules with external consumers, operational ownership, or non-obvious setup/constraints. Tiny private/generated modules may defer to a parent README.
 - **ADRs**: for non-obvious architectural choices. Format: context, decision, consequences.
 - **API docs**: generated from schema where possible; hand-written for complex behavioral contracts.
-- **Runbooks**: for any operational procedure not fully automated.
+- **Runbooks**: required for production-impacting or on-call operational procedures that are not fully automated.
 
 ---
 
-## 8) Testing and Verification
+## 8) Testing and Verification Profiles
 
-### 8.1 Test Pyramid (default)
+Apply profile(s) based on runtime shape and delivery model.
+
+### 8.0 Profile Selection
+
+- **Service/distributed runtimes**: apply §8.1 and relevant parts of §8.4.
+- **Client/native/embedded runtimes**: apply §8.2 and relevant parts of §8.4.
+- **Library/SDK/CLI/tooling**: apply §8.3 and relevant parts of §8.4.
+- **Data/ML systems**: combine §8.1 or §8.3 with data/model verification from §6.13 and rollout checks in §9.3.
+
+### 8.1 Service and Distributed Runtime Profile
 
 - **Unit**: business logic, invariants, pure functions, edge cases.
 - **Integration**: module boundaries, data access, API contracts.
@@ -453,13 +465,27 @@ Allowed only when explicitly recorded, time-boxed, and ROI-justified. Every item
 
 Deviate when warranted (e.g., testing trophy for UI-heavy apps). Optimize for confidence per test-dollar.
 
-### 8.2 Always Test
+### 8.2 Client/Native/Embedded Profile
+
+- **Unit/component tests**: state transitions, rendering behavior, boundary conditions, and failure handling.
+- **Integration tests**: device/OS interfaces, storage/network behavior, update and recovery paths.
+- **End-to-end/system tests**: critical user/operator flows on supported device/runtime matrix.
+- **Resource/fault tests**: startup performance, memory/CPU/battery budgets, offline/intermittent network, and crash recovery where applicable.
+
+### 8.3 Library/SDK/CLI/Tooling Profile
+
+- **Unit tests**: API behavior, edge cases, determinism, and error semantics.
+- **Contract/compatibility tests**: backward compatibility, version constraints, and deprecation behavior.
+- **Integration tests**: supported runtimes/platforms/dependency ranges and interoperability surfaces.
+- **CLI/tool tests**: command contracts, exit codes, stdout/stderr guarantees, and config precedence.
+
+### 8.4 Always Test (when applicable)
 
 Edge cases and invariants, error/failure paths, authorization boundaries, migrations and backward compatibility.
 
-### 8.3 Quality Gates
+### 8.5 Quality Gates
 
-Lint + format + type checks + tests in CI for all non-trivial changes. Static analysis and dependency scanning when relevant.
+Run the strongest equivalent automated quality checks available for the stack (for example: linting/format checks, static analysis, type checks, build verification, tests) for all non-trivial changes, preferably in CI where available. Add dependency/security scanning when relevant.
 
 ---
 
@@ -517,9 +543,10 @@ Leave the codebase better than you found it. Explain non-obvious decisions in co
 
 ### 11.0 Output Mode Selection (mandatory)
 
-- **Lightweight mode (default for short/low-risk requests)**: use when work is reversible within one deploy/release window, limited blast radius, and no likely security/privacy/compliance impact.
+- **Lightweight mode (default for short/low-risk requests)**: use when work is reversible within one delivery window (deploy, release, or support cycle), limited blast radius, and no likely security/privacy/compliance impact.
 - Lightweight mode is mandatory when the request does **not** introduce new public contracts, destructive schema changes, or cross-system rollout coordination.
-- **Full mode**: required for non-trivial requests per §3.5.
+- **Full mode**: required for non-trivial requests per §3.5 and always overrides lightweight mode when both could apply.
+- For non-trivial requests in either mode, include a short **Selected Context** line listing archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), and chosen mode.
 
 Lightweight mode template:
 
@@ -537,12 +564,12 @@ Use a compendious format: concise narrative per section plus structured artifact
 
 1. **Goal / Problem** — what and why now (short narrative)
 2. **Context & Constraints** — time, tech, compliance, team, performance (table preferred)
-3. **Options Considered** — at least 2 options with pros/cons and rejection rationale (table)
+3. **Options Considered** — compare viable options with pros/cons and rejection rationale; if only one viable option exists, document constraints that ruled out alternatives
 4. **Decision** — chosen approach and rationale
 5. **Architecture Overview** — component/flow diagram (Mermaid) + short explanation
 6. **Key Contracts & Boundaries** — APIs, data ownership, invariants (table/list)
 7. **Tradeoffs** — what we give up and why acceptable
-8. **Risks & Mitigations** — explicit risk matrix (table)
+8. **Risks & Mitigations** — explicit risk matrix (table) or concise structured list, based on complexity
 9. **Rollout Plan** — phases, checkpoints, rollback strategy
 10. **Observability** — logs, metrics, traces, alerts tied to success criteria
 11. **Testing Strategy** — unit/integration/E2E scope and critical edge cases
