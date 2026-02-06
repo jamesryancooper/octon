@@ -52,11 +52,39 @@ Then apply sections intentionally:
 | **§5** | Backend/server components | Applies to APIs/services and server-side boundaries. |
 | **§6.1-§6.11** | Web frontend only | Browser-specific guidance. |
 | **§6.12-§6.16** | Domain-specific profiles | Apply profile(s) matching the archetype. |
-| **§9** | Runtime-dependent profiles | Select profile(s) by delivery model (service, client, embedded, SDK/tooling). |
+| **§9** | Runtime-dependent profiles | Select profile(s) by delivery model (service, client, embedded, SDK/tooling, Data/ML) and custom-mapped runtimes. |
 
-If multiple archetypes apply, optimize first for the dominant risk surface and delivery constraints.
+For **Other/custom archetype** selections, map the system explicitly to the nearest runtime and delivery profiles before applying detailed guidance:
 
-For non-trivial work, explicitly declare selected archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), and output mode (§11) once per task/turn, before or with the first substantial recommendation. This is a hard gate: do not provide non-trivial recommendations until this context is declared.
+- Declare the closest standard archetype(s) used for policy inheritance and why.
+- Select testing profile(s) from §8 by runtime shape.
+- Select observability/operations profile(s) from §9 by delivery model and runtime constraints.
+
+If multiple archetypes apply:
+
+- Declare a **primary archetype** (dominant risk surface) and all **secondary archetypes** that are materially relevant.
+- State 1-3 non-negotiable constraints per selected archetype as a keyed mapping (`<archetype>: [constraints...]`).
+- Optimize for the primary archetype while satisfying all declared non-negotiables for secondary archetypes.
+- If more than one secondary archetype applies, use a compact archetype-to-constraints matrix to keep tradeoffs explicit.
+
+For non-trivial work, explicitly declare selected archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), and output mode (§11) once per task/turn, before or with the first substantial recommendation.
+
+If context is incomplete (for example: incident triage, discovery spikes, or unclear brownfield systems), declare a **Provisional Context** using the §11 single- or multi-archetype format (with confidence and assumptions), then proceed with clearly conditional recommendations.
+
+When evidence changes context materially, restate context and update prior recommendations.
+
+### 1.3 Archetype Parity Guardrail
+
+Guidance density in this file reflects common failure patterns, not inherent priority of one stack over another. Section length must not bias recommendations.
+
+For every selected archetype (including those with shorter profile sections), explicitly evaluate:
+
+- Contracts and boundary clarity
+- Data ownership and lifecycle guarantees
+- Performance, resilience, and resource budgets relevant to that runtime
+- Security, privacy, and compliance obligations
+- Testing strategy and quality gates
+- Observability, release, and support model
 
 ---
 
@@ -74,6 +102,12 @@ For non-trivial work, explicitly declare selected archetype(s), testing profile(
 8. **Cost Efficiency** — excellent architecture ensures value scales faster than cost
 9. **Scalability** — only when needed; scale the simplest thing
 10. **Extensibility** — via clean boundaries, not speculative frameworks
+
+### 2.1.1 Adaptive Priority Weighting (archetype and phase aware)
+
+- Priorities **1-2 are invariant guardrails** unless explicitly superseded by legal or safety incident protocols.
+- Reweight priorities **3-10** by archetype and mission phase (discovery, delivery, incident response, stabilization, scale).
+- When weighting materially changes a non-trivial recommendation, state the adjusted order and rationale.
 
 ### 2.2 YAGNI · KISS · DRY
 
@@ -184,6 +218,36 @@ Choose the option with the highest expected delivery confidence per unit complex
 - For dual-use requests, constrain output to defensive, compliant, and auditable patterns.
 - When required controls/approvals are missing, stop and request them before proceeding.
 
+### 3.10 Incident and Emergency Operating Mode
+
+When handling active incidents (outage, security event, severe degradation), switch to incident mode:
+
+- Incident mode temporarily overrides §1 sequencing defaults and §3.5 plan-before-implementation requirements until critical system health/objectives are stabilized.
+- Prioritize in order: protect safety/data/compliance, contain blast radius, restore critical functionality.
+- Use minimal reversible interventions first; defer non-essential refactors and broad redesign during containment.
+- During active mitigation, allow **staged verification**: run the minimum checks required for safe containment now, then complete full §8.5 quality gates after stabilization.
+- During active mitigation, allow **abbreviated incident output** (objective, containment actions, current risk, next checkpoint) and defer full §11 templates until stabilization.
+- A provisional context is sufficient during active mitigation; backfill full context and durable design decisions after stabilization.
+- For irreversible actions, request explicit confirmation unless immediate action is required to prevent ongoing material harm.
+- After stabilization, produce follow-up actions: root-cause hypothesis, permanent fix plan, rollback hardening, and observability/test gaps.
+
+### 3.11 Exploration Mode and Promotion Gate
+
+Use exploration mode for discovery spikes, feasibility checks, and architecture probes where uncertainty is high and production impact is intentionally constrained.
+
+- Time-box the spike and define explicit learning goals or hypotheses.
+- Avoid irreversible contract/data changes while in exploration mode.
+- Default to non-production experiments. If production experimentation is required, constrain blast radius (flags/canary/cohort limits), require delivery-model-appropriate containment controls (for example: kill switch, release halt/pin, rapid disable path) plus rollback/revert path, and record approval/ownership.
+- Permit lighter documentation and testing during the spike, but record assumptions, findings, and unresolved risks.
+
+Promotion gate from exploration to maintained scope:
+
+- Problem framing and success criteria are explicit.
+- Target architecture/contracts are chosen (or alternatives narrowed with rationale).
+- Required quality gates, observability, and compliance controls are identified and satisfied before promotion, or explicitly waived with named risk acceptance, owner, and time-bounded follow-up.
+- Rollout/rollback approach is defined for production-, release-, or consumer-impacting changes.
+- Ownership and follow-up implementation plan are explicit.
+
 ---
 
 ## 4) Architecture Standards
@@ -199,13 +263,15 @@ Choose the option with the highest expected delivery confidence per unit complex
 
 ### 4.2 Topology Defaults by Archetype
 
-- **Product backend/service**: start with a modular monolith decomposed by domain boundaries. Promote to services **only** when scaling, failure isolation, or deployment cadence demands it.
+- **Product backend/service**: start with the simplest topology that fits dominant constraints. A modular monolith is the default for cohesive domains and moderate scale; prefer event-driven/serverless composition when bursty workloads, asynchronous integration, or low-ops teams dominate; prefer edge-distributed or multi-service boundaries when latency locality, fault isolation, or independent deploy cadence is a first-order requirement.
+- **Web frontend**: start with route/feature-based modular boundaries and choose rendering split (SSR/SSG/CSR/hybrid) by product needs (SEO, first paint, personalization, offline, operational constraints).
+- **Mobile/native/desktop clients**: start with feature/module boundaries that align with platform navigation/lifecycle and offline/upgrade constraints; keep service interfaces explicit and versioned, and split client surfaces only when release cadence, safety, or platform fragmentation demands it.
 - **Library/SDK/CLI/tooling**: start as a modular package with a stable public interface and clear internal boundaries.
 - **Data/ML systems**: start with explicit pipeline stages and contracts (ingest/transform/train/serve), then split runtime surfaces only where required.
 - **Platform/infra systems**: start with composable control-plane/data-plane boundaries and strong operational contracts.
 - **Embedded/edge systems**: start with a single deployable artifact where feasible; split components only when required by safety, timing, or resource isolation.
 
-Avoid defaulting to distributed topology without measured need.
+Select topology by the dominant constraint set: latency locality, consistency/transaction needs, failure isolation, deploy independence, team operational capacity, and cost profile. Avoid distributed complexity without measured need.
 
 ### 4.3 Dependency Rules
 
@@ -223,9 +289,10 @@ Avoid defaulting to distributed topology without measured need.
 
 Apply this section only when networked/distributed boundaries exist. For single-process/local-only systems, apply only relevant failure-isolation principles. Never add distributed complexity speculatively.
 
-- Timeouts on all network calls; retries with jitter + caps (idempotent ops only); circuit breakers; bulkheads; backpressure; cached/degraded fallbacks.
-- Assume partial failure. Design for at-least-once delivery and deduplicate.
-- Idempotency keys for write endpoints. Avoid distributed transactions; use sagas/compensation when necessary.
+- For request/response interactions: use timeouts, bounded retries with jitter (idempotent operations only), circuit breakers, bulkheads, and degraded fallbacks where appropriate.
+- For streaming/event-driven interactions: define consumer lag/backpressure strategy, replay semantics, dead-letter handling, lease/heartbeat behavior, and recovery from out-of-order or duplicate events.
+- Assume partial failure. Choose delivery semantics explicitly (at-most-once, at-least-once, effectively-once/exactly-once where feasible) based on domain invariants and platform guarantees; apply idempotency, deduplication, and ordering controls accordingly.
+- Use an idempotency mechanism appropriate to the interaction contract (for example: idempotency keys, deterministic operation IDs, sequence/version checks, or replay protection). Avoid distributed transactions; use sagas/compensation when necessary.
 
 ### 4.6 Architectural Seams (structural YAGNI exceptions)
 
@@ -248,6 +315,31 @@ Some decisions are cheap now and ruinous to retrofit — one-way doors (see §2.
 - Document the intended evolution in an ADR.
 
 The feature is YAGNI; the joint in the structure is not.
+
+### 4.7 Polyglot Boundary Discipline
+
+Polyglot is allowed when it materially improves delivery or operations; monoglot is preferred when benefits are marginal.
+
+- Add a new language/runtime only with explicit, measurable rationale (for example: latency class, memory profile, platform reach, ecosystem requirement, or compliance constraint).
+- Require clear interop contracts at boundaries (schema/IDL, versioning policy, compatibility tests, ownership).
+- Keep cross-runtime observability, security controls, CI quality gates, and release discipline equivalent.
+- Cap polyglot surface area: isolate by bounded context and avoid cross-language sprawl inside the same domain module.
+- Document migration/exit cost before adopting irreversible runtime diversity.
+- Define runtime portfolio review cadence and ownership for each runtime/language.
+- Set explicit runtime deprecation triggers (maintenance risk, talent bottleneck, security posture, cost disproportionality, or overlap without distinct value).
+- Maintain a contraction plan: when a runtime no longer has clear differentiated value, migrate surfaces and retire it deliberately.
+
+### 4.8 Data Governance and Compliance Profile
+
+Apply this profile when systems process personal, financial, health, regulated, or customer-confidential data, or when cross-border data transfer constraints may apply.
+
+- Classify data types and map applicable legal/regulatory obligations.
+- Define data residency/sovereignty and cross-border transfer constraints.
+- Define retention, deletion, archival, and legal hold requirements.
+- Define access control, auditability, and key/secrets management expectations.
+- Define consent/lawful basis and purpose limitation requirements where applicable.
+- Define incident/breach response obligations and evidence requirements.
+- If this profile is not applicable, state why.
 
 ---
 
@@ -360,16 +452,18 @@ Non-optional. At minimum:
 ### 6.10 Styling and Design System
 
 - Enforce conventions for spacing, typography, color, elevation.
-- Build **UI primitives** (button, input, card, layout) as the foundation. Use **design tokens** for consistency and theming.
+- Apply rigor proportionally to maturity: prototypes/spikes may use lightweight local styling; maintained or multi-team surfaces should standardize on UI primitives and design tokens.
+- Build **UI primitives** (button, input, card, layout) as the foundation for maintained surfaces. Use **design tokens** for consistency and theming.
 - No magic numbers — every value references a token or has a documented reason.
 - Mobile-first responsive design. Document component patterns to prevent UI drift.
 
 ### 6.11 Type Safety
 
-- TypeScript (or equivalent) for all frontend code. Avoid `any` except at true system boundaries with runtime validation.
+- Prefer TypeScript (or equivalent) for maintained frontend code. For legacy JavaScript or short-lived prototypes, allow scoped exceptions with explicit runtime validation and a migration path proportional to risk.
+- Avoid `any` except at true system boundaries with runtime validation.
 - Type API responses; generate from schemas (OpenAPI, GraphQL codegen) when possible.
 - Type component props — discriminated unions over optional prop sprawl.
-- Strict mode. Fix type errors; don't suppress them.
+- For maintained code, enforce strict mode and fix type errors rather than suppressing them. For legacy migrations, require no-net-regression on type safety and a staged strictness plan.
 
 ### 6.12 Mobile/Native/Desktop Client Profile
 
@@ -455,7 +549,8 @@ Apply profile(s) based on runtime shape and delivery model.
 - **Service/distributed runtimes**: apply §8.1 and relevant parts of §8.4.
 - **Client/native/desktop/embedded runtimes**: apply §8.2 and relevant parts of §8.4.
 - **Library/SDK/CLI/tooling**: apply §8.3 and relevant parts of §8.4.
-- **Data/ML systems**: combine §8.1 or §8.3 with data/model verification from §6.13 and rollout checks in §9.3.
+- **Data/ML systems**: combine the runtime-matching profile (§8.1, §8.2, or §8.3) with data/model verification from §6.13 and rollout checks in §9.3.
+- For systems spanning multiple runtime/delivery surfaces in scope, apply each relevant testing profile and declare the selected profile list explicitly in §11.0 context lines.
 
 ### 8.1 Service and Distributed Runtime Profile
 
@@ -485,7 +580,13 @@ Edge cases and invariants, error/failure paths, authorization boundaries, migrat
 
 ### 8.5 Quality Gates
 
-Run the strongest equivalent automated quality checks available for the stack (for example: linting/format checks, static analysis, type checks, build verification, tests) for all non-trivial changes, preferably in CI where available. Add dependency/security scanning when relevant.
+Run the strongest equivalent automated quality checks available for the stack (for example: linting/format checks, static analysis, type checks, build verification, tests) for all non-trivial **production-, release-, or consumer-impacting** changes (for example: service runtime changes, shipped client/native artifacts, library/SDK releases, CLI/tooling distributions, or model/data artifact rollouts), preferably in CI where available. Add dependency/security scanning when relevant, unless staged exceptions in §3.10 or §3.11 explicitly apply.
+
+For exploration mode (§3.11), run a risk-proportional subset that protects safety, security, and data integrity, document omitted gates, and complete full quality gates before promotion to maintained scope or broad production rollout beyond controlled experimental cohorts.
+
+For controlled production experiments in exploration mode, include a minimum deployment-safety baseline before exposure: build/package integrity checks, rollback path validation, and critical smoke/health checks for impacted user/operator paths.
+
+For active incidents in §3.10, staged verification takes precedence during containment; complete deferred quality gates as part of stabilization and follow-up hardening.
 
 ---
 
@@ -498,6 +599,8 @@ Apply profile(s) based on runtime shape and delivery model.
 - **Service/distributed runtimes**: apply §9.1 and the relevant parts of §9.3.
 - **Client/native/desktop/embedded runtimes**: apply §9.2 and the relevant parts of §9.3.
 - **Library/SDK/CLI/tooling**: apply §9.2; use §9.3 for release and support readiness.
+- **Data/ML systems**: apply §9.1 for online serving/control-plane services; apply §9.2 for offline/batch/artifact-heavy workflows; always apply Data/ML rollout and monitoring requirements in §9.3.
+- For systems spanning multiple runtime/delivery surfaces in scope, apply each relevant operations profile and declare the selected profile list explicitly in §11.0 context lines.
 
 ### 9.1 Service and Distributed Runtime Profile
 
@@ -543,12 +646,31 @@ Leave the codebase better than you found it. Explain non-obvious decisions in co
 
 ### 11.0 Output Mode Selection (mandatory)
 
-- **Lightweight mode (default for short/low-risk requests)**: use when work is reversible within one delivery window (deploy, release, or support cycle), limited blast radius, and no likely security/privacy/compliance impact.
-- Lightweight mode is mandatory when the request does **not** introduce new public contracts, destructive schema changes, or cross-system rollout coordination.
-- **Full mode**: required for non-trivial requests per §3.5 and always overrides lightweight mode when both could apply.
-- For non-trivial requests in either mode, include a short **Selected Context** line listing archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), and chosen mode.
-- Use this format: `Selected Context: archetype=<...>; testing=<§8.x>; operations=<§9.x>; mode=<lightweight|full>`.
-- If the selected context is missing or inconsistent with the recommendation depth, correct it before finalizing the response.
+Determine mode in this order:
+1. If active incident mode (§3.10) is in effect and critical system health/objectives are not yet stabilized, use the incident fast path (abbreviated incident output + staged verification) and defer full templates until stabilization.
+2. Else if the work is a time-boxed exploration spike focused on uncertainty reduction **and** can proceed without irreversible contract/data changes **and** with constrained blast radius plus reversible operational impact, use **Exploration mode** (non-production by default; controlled production experiments allowed with strict guardrails).
+3. Else if the request is non-trivial and changes architecture boundaries, public contracts, schema ownership/migrations, or cross-system rollout shape, use **Full mode (architecture)**.
+4. Else if the primary requested deliverable is non-trivial technical documentation (for example: spec, design doc, runbook, implementation guide), use **Full mode (documentation)**.
+5. Else if the request is non-trivial, use **Full mode (implementation)**.
+6. Otherwise, use **Lightweight mode** (default for short/low-risk requests).
+- For non-trivial requests in any mode, include a short **Selected Context** line listing archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), and chosen mode.
+- Use this format: `Selected Context: archetype=<...>; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<incident|lightweight|exploration|full-implementation|full-architecture|full-documentation>`.
+- For multi-archetype work, use: `Selected Context: archetypes=primary:<...>,secondary:[<...>]; non_negotiables={<archetype>:[...]}; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<...>`.
+- For multi-archetype work with more than one secondary archetype, include a compact archetype-to-constraints matrix.
+- If context is incomplete (single archetype), use: `Provisional Context: archetype=<...>; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<...>; confidence=<low|medium|high>; assumptions=<...>`.
+- If context is incomplete (multi-archetype), use: `Provisional Context: archetypes=primary:<...>,secondary:[<...>]; non_negotiables={<archetype>:[...]}; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<...>; confidence=<low|medium|high>; assumptions=<...>`.
+- When only one testing or operations profile applies, use a single section reference.
+- During active incident containment (§3.10), a `Provisional Context` with `mode=incident` satisfies this context requirement until stabilization.
+- If selected/provisional context is missing or inconsistent with recommendation depth, correct it before finalizing.
+
+Exploration mode template (time-boxed, uncertainty-reduction):
+
+1. **Objective / Hypotheses** — what uncertainty is being reduced
+2. **Scope / Guardrails** — explicit limits, safety constraints, and (if applicable) delivery-model-appropriate production experiment safeguards
+3. **Approach** — experiments or probes to run
+4. **Findings / Signals** — what evidence was observed
+5. **Decision** — promote, iterate, or abandon
+6. **Promotion Requirements** — concrete hardening steps if promoted
 
 Lightweight mode template:
 
@@ -560,23 +682,40 @@ Lightweight mode template:
 
 In lightweight mode, tables/diagrams are optional and used only when they materially improve clarity.
 
-### 11.1 Full Architecture Proposal
+### 11.1 Full Implementation Proposal (architecture-stable non-trivial work)
+
+Use this when architecture/contracts are stable but execution is non-trivial.
+Adapt sections to archetype and delivery model; omit non-applicable sections explicitly with a short reason.
+
+1. **Goal / Outcome** — what changes and why now
+2. **Context & Constraints** — runtime, dependency, and delivery constraints
+3. **Archetype Coverage Check** — verify key constraints/non-negotiables for each selected archetype and any remaining tensions
+4. **Data Governance / Compliance Delta** — obligations or control changes affected by this implementation (or explicit non-applicability)
+5. **Implementation Plan** — ordered workstream by module/boundary
+6. **Risky Changes & Mitigations** — failure modes and safeguards
+7. **Verification Plan** — tests, quality gates, and acceptance criteria
+8. **Rollout / Rollback** — deployment plan and backout path
+9. **Open Questions / Assumptions** — decisions needing confirmation
+
+### 11.2 Full Architecture Proposal
 
 Use a compendious format: concise narrative per section plus structured artifacts for precision. Adapt sections to archetype; omit non-applicable sections explicitly with a short reason.
 
 1. **Goal / Problem** — what and why now (short narrative)
 2. **Context & Constraints** — time, tech, compliance, team, performance (table preferred)
-3. **Options Considered** — compare viable options with pros/cons and rejection rationale; if only one viable option exists, document constraints that ruled out alternatives
-4. **Decision** — chosen approach and rationale
-5. **Architecture Overview** — component/flow diagram (Mermaid) + short explanation
-6. **Key Contracts & Boundaries** — APIs, data ownership, invariants (table/list)
-7. **Tradeoffs** — what we give up and why acceptable
-8. **Risks & Mitigations** — explicit risk matrix (table) or concise structured list, based on complexity
-9. **Rollout / Release Plan** — phases, checkpoints, rollback strategy
-10. **Observability** — logs, metrics, traces, alerts tied to success criteria
-11. **Testing Strategy** — unit/integration/E2E scope and critical edge cases
+3. **Archetype Coverage Check** — verify key constraints/non-negotiables for each selected archetype and unresolved tensions
+4. **Options Considered** — compare viable options with pros/cons and rejection rationale; if only one viable option exists, document constraints that ruled out alternatives
+5. **Decision** — chosen approach and rationale
+6. **Architecture Overview** — component/flow diagram (Mermaid) + short explanation
+7. **Key Contracts & Boundaries** — APIs, data ownership, invariants (table/list)
+8. **Data Governance / Compliance** — classification, residency, retention, controls, and obligations (or explicit non-applicability)
+9. **Tradeoffs** — what we give up and why acceptable
+10. **Risks & Mitigations** — explicit risk matrix (table) or concise structured list, based on complexity
+11. **Rollout / Release Plan** — phases, checkpoints, rollback strategy
+12. **Observability** — logs, metrics, traces, alerts tied to success criteria
+13. **Testing Strategy** — unit/integration/E2E scope and critical edge cases
 
-### 11.2 Full Technical Documentation Deliverable
+### 11.3 Full Technical Documentation Deliverable
 
 When producing full technical documentation (specs, design docs, runbooks, implementation guides), default to this Markdown structure:
 
@@ -584,13 +723,15 @@ Adapt sections to archetype; omit non-applicable sections explicitly with a shor
 
 1. **Title + Summary** — 1 short paragraph
 2. **Background / Scope** — what is in/out of scope
-3. **System or Feature Narrative** — concise explanation of behavior and intent
-4. **Detailed Design / Implementation** — ordered steps, rules, and constraints
-5. **Interfaces / Contracts** — table or structured list of endpoints/events/schemas/invariants
-6. **Operational Considerations** — deployment, monitoring, troubleshooting
-7. **Risks, Assumptions, Open Questions** — explicit list/table
-8. **Diagrams / Charts** — architecture or workflow diagrams for non-trivial topics
-9. **References** — ADRs, related docs, code locations
+3. **Archetype Coverage Check** — key constraints/non-negotiables per selected archetype and how conflicts are resolved
+4. **System or Feature Narrative** — concise explanation of behavior and intent
+5. **Detailed Design / Implementation** — ordered steps, rules, and constraints
+6. **Interfaces / Contracts** — table or structured list of endpoints/events/schemas/invariants
+7. **Data Governance / Compliance** — classification, retention, residency, controls, obligations, or explicit non-applicability
+8. **Operational Considerations** — deployment, monitoring, troubleshooting
+9. **Risks, Assumptions, Open Questions** — explicit list/table
+10. **Diagrams / Charts** — architecture or workflow diagrams for non-trivial topics
+11. **References** — ADRs, related docs, code locations
 
 Formatting expectations:
 
@@ -599,7 +740,7 @@ Formatting expectations:
 - Include diagrams/charts when architecture, workflow, or dependencies are not obvious from text.
 - Keep sections skimmable, but complete enough for implementation and handoff.
 
-### 11.3 PR/Change Checklist
+### 11.4 PR/Change Checklist
 
 - [ ] Requirements met; edge cases handled
 - [ ] Security reviewed (authz, input validation, secrets)
