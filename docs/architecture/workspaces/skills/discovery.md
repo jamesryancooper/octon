@@ -5,16 +5,17 @@ description: Manifest and registry formats for skill discovery and routing.
 
 # Skill Discovery
 
-Skills use a **two-file, two-location model** for progressive disclosure:
+Skills use a **three-file, two-location model** for progressive disclosure:
 
-**Two files** optimize for token efficiency:
+**Three files** optimize for token efficiency:
 
 | File | Purpose | When Loaded | Token Budget |
 |------|---------|-------------|--------------|
 | `manifest.yml` | Skill discovery index | Always (session start) | ~50 tokens/skill |
+| `capabilities.yml` | Capability schema | For validation/expansion | ~75 lines total |
 | `registry.yml` | Extended metadata | After skill matched | ~50 tokens/skill |
 
-> **Token Budget Note:** The [agentskills.io specification](https://agentskills.io/specification) recommends ~100 tokens for discovery metadata. Harmony's two-file model splits this: ~50 tokens for manifest (always loaded) + ~50 tokens for registry (loaded after match). SKILL.md frontmatter (name + description) should stay under ~100 tokens per the spec.
+> **Token Budget Note:** The [agentskills.io specification](https://agentskills.io/specification) recommends ~100 tokens for discovery metadata. Harmony's multi-file model splits this: ~50 tokens for manifest (always loaded) + ~50 tokens for registry (loaded after match). Capability schema is loaded separately for validation. SKILL.md frontmatter (name + description) should stay under ~100 tokens per the spec.
 
 **Two locations** separate shared definitions from workspace-specific configuration:
 

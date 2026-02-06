@@ -154,7 +154,7 @@ flowchart TB
 - [x] Ensure skills documentation aligns with our latest implementation and best practices. See: @migrate-refactor-workflow-to-skills.md and @workflows-vs-skills-analysis.md
 - [x] Since we have implemented pattern-triggered complex files, should we roll the atomic skills into the complex skills and just introduce complexity to skills as needed? Decision: Keep the two-tier system.
 - [ ] Implement the Progressive Complexity Architecture proposal (@progressive-complexity-proposal.md also in the claude code tab).
-- [ ] Implement capabilities.yml in the `.harmony/skills/capabilities.yml` file for fast skill capability lookup.
+- [x] Implement capabilities.yml in the `.harmony/skills/capabilities.yml` file for fast skill capability lookup.
 
 ## Workflows
 

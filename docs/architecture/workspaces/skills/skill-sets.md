@@ -160,7 +160,7 @@ resolved_capabilities:
 
 ## Skill Set Definitions (YAML)
 
-The complete skill set definitions as stored in `registry.yml`:
+The complete skill set definitions as stored in `capabilities.yml`:
 
 ```yaml
 skill_set_definitions:

@@ -2,8 +2,14 @@
 # Full skill definitions for routing validation and execution.
 # Agents load manifest.yml first, then this file after matching.
 #
+# Load Order:
+#   1. manifest.yml      - Skill discovery index
+#   2. capabilities.yml  - Capability schema (skill sets, valid capabilities, refs)
+#   3. registry.yml      - Extended skill metadata (this file)
+#
 # Single Source of Truth:
 #   - SKILL.md frontmatter: name, description, allowed-tools (AUTHORITATIVE)
+#   - capabilities.yml: skill_set_definitions, valid_capabilities, capability_refs
 #   - This file: version, commands, parameters, requires.context, depends_on
 #   - .workspace/skills/registry.yml: input/output paths (I/O mappings)
 #
@@ -28,106 +34,6 @@
 # per-skill configuration. Agents recognize this pattern automatically.
 
 schema_version: "2.0"
-
-# ============================================================================
-# SKILL SET DEFINITIONS
-# Pre-defined capability bundles for common skill patterns.
-# Skills declare skill_sets in manifest.yml; capabilities are resolved here.
-# ============================================================================
-skill_set_definitions:
-  executor:
-    description: Does multi-step work itself
-    capabilities: [phased, branching, stateful]
-    primary_refs: [phases.md, decisions.md, checkpoints.md]
-
-  coordinator:
-    description: Manages external tasks/jobs
-    capabilities: [task-coordinating, parallel]
-    primary_refs: [orchestration.md]
-
-  delegator:
-    description: Delegates to autonomous sub-agents
-    capabilities: [agent-delegating]
-    primary_refs: [agents.md]
-
-  collaborator:
-    description: Works with humans at decision points
-    capabilities: [human-collaborative, stateful]
-    primary_refs: [interaction.md, checkpoints.md]
-
-  integrator:
-    description: Pipeline building block
-    capabilities: [composable, contract-driven]
-    primary_refs: [composition.md, io-contract.md]
-
-  specialist:
-    description: Requires domain expertise
-    capabilities: [domain-specialized]
-    primary_refs: [glossary.md]
-
-  guardian:
-    description: Enforces quality and safety
-    capabilities: [self-validating, safety-bounded]
-    primary_refs: [validation.md, safety.md]
-
-# ============================================================================
-# VALID CAPABILITIES
-# All recognized capability names for validation.
-# ============================================================================
-valid_capabilities:
-  # Execution
-  - phased              # Has distinct execution phases
-  - branching           # Has conditional execution paths
-  - parallel            # Can execute work concurrently
-
-  # Coordination
-  - task-coordinating   # Manages external tasks/jobs
-  - agent-delegating    # Delegates to autonomous sub-agents
-  - human-collaborative # Requires human decisions
-
-  # State
-  - stateful            # Persists state across phases
-  - resumable           # Can checkpoint and resume
-
-  # Quality
-  - self-validating     # Has formal acceptance criteria
-  - error-resilient     # Has recovery procedures
-
-  # Integration
-  - composable          # Designed for chaining
-  - contract-driven     # Formal I/O specification
-
-  # Scope
-  - domain-specialized  # Requires domain knowledge
-  - safety-bounded      # Explicit constraints
-
-  # Reliability
-  - idempotent          # Safe to retry; same input = same effect
-  - cancellable         # Can be stopped mid-execution
-  - external-dependent  # Requires external services (APIs, DBs)
-
-# ============================================================================
-# CAPABILITY TO REFERENCE MAPPING
-# Which reference files are expected for each capability.
-# ============================================================================
-capability_refs:
-  phased: [phases.md]
-  branching: [decisions.md]
-  parallel: [orchestration.md]
-  task-coordinating: [orchestration.md]
-  agent-delegating: [agents.md]
-  human-collaborative: [interaction.md]
-  stateful: [checkpoints.md]
-  resumable: [checkpoints.md]
-  self-validating: [validation.md]
-  error-resilient: [errors.md]
-  composable: [composition.md]
-  contract-driven: [io-contract.md]
-  domain-specialized: [glossary.md]
-  safety-bounded: [safety.md]
-  idempotent: [idempotency.md]
-  cancellable: [cancellation.md]
-  external-dependent: [dependencies.md]
 
 # Global routing rules
 routing:
