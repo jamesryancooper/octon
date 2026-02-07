@@ -1,6 +1,6 @@
 ---
 title: Create Workspace
-description: Scaffold a new .workspace directory in a target location.
+description: Scaffold a new .harmony/ directory in a target location.
 access: human
 version: "1.2.0"
 depends_on: []
@@ -15,7 +15,7 @@ parallel_steps:
 
 # Create Workspace: Overview
 
-Scaffold a new `.workspace` directory in a target location, customized to the directory's context.
+Scaffold a new `.harmony/` directory in a target location, customized to the directory's context.
 
 ## Target
 
@@ -24,7 +24,7 @@ Parent directory where `.harmony/` will be created.
 ## Prerequisites
 
 - Exactly one parent directory reference provided
-- `.harmony/scaffolding/templates/workspace/` exists
+- `.harmony/scaffolding/templates/harmony/` exists
 
 ## Failure Conditions
 
@@ -53,4 +53,4 @@ Parent directory where `.harmony/` will be created.
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Templates:** `.harmony/scaffolding/templates/workspace/`
+- **Templates:** `.harmony/scaffolding/templates/harmony/`

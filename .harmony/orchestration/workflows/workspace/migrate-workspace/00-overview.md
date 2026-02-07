@@ -48,5 +48,5 @@ Existing `.harmony/` directory using older conventions.
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Templates:** `.harmony/scaffolding/templates/workspace/` (for new structure)
+- **Templates:** `.harmony/scaffolding/templates/harmony/` (for new structure)
 

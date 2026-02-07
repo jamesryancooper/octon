@@ -80,9 +80,9 @@ See `docs/architecture/workspaces/README.md` for the full structure reference, i
 
 | Template | Path | Use For |
 |----------|------|---------|
-| Base workspace | `.harmony/scaffolding/templates/workspace/` | All workspaces inherit from this |
-| Docs workspace | `.harmony/scaffolding/templates/workspace-docs/` | Documentation areas |
-| Node.js/TS workspace | `.harmony/scaffolding/templates/workspace-node-ts/` | TypeScript packages |
+| Base workspace | `.harmony/scaffolding/templates/harmony/` | All workspaces inherit from this |
+| Docs workspace | `.harmony/scaffolding/templates/harmony-docs/` | Documentation areas |
+| Node.js/TS workspace | `.harmony/scaffolding/templates/harmony-node-ts/` | TypeScript packages |
 | Cursor command | `.harmony/scaffolding/templates/cursor-command.md` | Cursor command wrappers (local) |
 | Document | `.harmony/scaffolding/templates/document.md` | General documents (local) |
 

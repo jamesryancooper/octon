@@ -90,4 +90,4 @@ packages/ui-kit/.workspace/
 
 ## 6. Resulting Files
 
-See `examples/workspace-node-ts/` for the complete output.
+See `examples/harmony-node-ts/` for the complete output.

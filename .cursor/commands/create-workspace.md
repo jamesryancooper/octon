@@ -1,6 +1,6 @@
 # Create Workspace `/create-workspace`
 
-Scaffold a new `.workspace` directory in a target location.
+Scaffold a new `.harmony/` directory in a target location.
 
 See `.harmony/orchestration/workflows/workspace/create-workspace/00-overview.md` for full description and steps.
 
@@ -22,7 +22,7 @@ With a scoped template:
 | Parameter | Required | Description |
 |-----------|----------|-------------|
 | `@path` | Yes | Target directory for the new workspace |
-| `--template` | No | Scoped template to use (`docs`, `node-ts`). Defaults to base `workspace` template. |
+| `--template` | No | Scoped template to use (`docs`, `node-ts`). Defaults to base `harmony` template. |
 
 ## Available Templates
 

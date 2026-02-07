@@ -13,32 +13,32 @@ Templates are **boilerplate files** stored in `.harmony/scaffolding/templates/`.
 .harmony/scaffolding/templates/
 ├── cursor-command.md       # Template for Cursor commands
 ├── document.md             # Template for new documents
-├── workspace/              # Base workspace template
+├── harmony/                # Base .harmony/ template
 │   ├── START.md
 │   ├── scope.md
 │   ├── conventions.md
 │   ├── catalog.md
-│   ├── commands/
-│   ├── workflows/
-│   ├── prompts/
-│   ├── context/
-│   ├── progress/
-│   ├── checklists/
-│   ├── templates/
-│   └── examples/
-├── workspace-docs/         # Scoped template for documentation areas
+│   ├── capabilities/commands/
+│   ├── orchestration/workflows/
+│   ├── scaffolding/prompts/
+│   ├── cognition/context/
+│   ├── continuity/
+│   ├── quality/
+│   ├── scaffolding/templates/
+│   └── scaffolding/examples/
+├── harmony-docs/           # Scoped template for documentation areas
 │   ├── MANIFEST.md         # Inheritance metadata
 │   ├── START.md            # Overrides base
 │   ├── scope.md            # Overrides base
 │   ├── conventions.md      # Overrides base
-│   ├── checklists/complete.md  # Overrides base
-│   └── workflows/are/      # Docs-specific workflows
-└── workspace-node-ts/      # Scoped template for Node.js/TypeScript
+│   ├── quality/done.md     # Overrides base
+│   └── orchestration/workflows/are/  # Docs-specific workflows
+└── harmony-node-ts/        # Scoped template for Node.js/TypeScript
     ├── MANIFEST.md         # Inheritance metadata
     ├── START.md            # Overrides base
     ├── scope.md            # Overrides base
     ├── conventions.md      # Overrides base
-    └── checklists/complete.md  # Overrides base
+    └── quality/done.md     # Overrides base
 ```
 
 ---
@@ -80,19 +80,19 @@ A JSON schema is available at `.harmony/scaffolding/templates/manifest.schema.js
 
 ## Template Inheritance
 
-Scoped workspace templates **extend** the base `workspace/` template:
+Scoped templates **extend** the base `harmony/` template:
 
 | Template | Inherits From | Adds/Overrides |
 |----------|---------------|----------------|
-| `workspace/` | — | Base structure for all workspaces |
-| `workspace-docs/` | `workspace/` | Docs conventions, ARE workflows |
-| `workspace-node-ts/` | `workspace/` | TypeScript/React conventions |
+| `harmony/` | — | Base structure for all workspaces |
+| `harmony-docs/` | `harmony/` | Docs conventions, ARE workflows |
+| `harmony-node-ts/` | `harmony/` | TypeScript/React conventions |
 
 ### Resolution Order
 
 When creating a workspace with a scoped template:
 
-1. Copy all files from `workspace/` (base)
+1. Copy all files from `harmony/` (base)
 2. Overlay files from the scoped template (overrides)
 3. Copy any scope-specific directories (e.g., `workflows/are/`)
 
@@ -122,7 +122,7 @@ See each template's `MANIFEST.md` for human-readable details or `manifest.json` 
 
 ## Using Templates
 
-Templates are typically used by workflows (e.g., `/create-workspace` copies from `.harmony/scaffolding/templates/workspace/`).
+Templates are typically used by workflows (e.g., `/create-workspace` copies from `.harmony/scaffolding/templates/harmony/`).
 
 ### With Scoped Templates
 

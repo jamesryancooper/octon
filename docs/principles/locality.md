@@ -110,7 +110,7 @@ packages/billing/
 **Use inheritance for shared defaults:**
 
 ```yaml
-# .harmony/scaffolding/templates/workspace/conventions.md (shared)
+# .harmony/scaffolding/templates/harmony/conventions.md (shared)
 - Use TypeScript strict mode
 - Format with Prettier
 

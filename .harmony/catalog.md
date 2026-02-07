@@ -286,9 +286,9 @@ Boilerplate in `templates/`:
 |----------|-------------|
 | [cursor-command.md](./templates/cursor-command.md) | Template for Cursor command wrappers |
 | [document.md](./templates/document.md) | Template for general documents |
-| [workspace/](./templates/workspace/) | Base workspace template (all workspaces inherit from this) |
-| [workspace-docs/](./templates/workspace-docs/) | Scoped template for documentation areas (extends base) |
-| [workspace-node-ts/](./templates/workspace-node-ts/) | Scoped template for Node.js/TypeScript packages (extends base) |
+| [harmony/](./templates/harmony/) | Base .harmony/ template (all workspaces inherit from this) |
+| [harmony-docs/](./templates/harmony-docs/) | Scoped template for documentation areas (extends base) |
+| [harmony-node-ts/](./templates/harmony-node-ts/) | Scoped template for Node.js/TypeScript packages (extends base) |
 
 Each workspace template contains:
 - `manifest.json` — Machine-readable structure for `/create-workspace`

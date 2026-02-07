@@ -61,12 +61,12 @@ Complete workspace structure examples (for documentation areas, Node.js/TypeScri
 
 | Former Example | Now Template |
 |----------------|--------------|
-| `workspace-docs/` | `.harmony/scaffolding/templates/workspace-docs/` |
-| `workspace-node-ts/` | `.harmony/scaffolding/templates/workspace-node-ts/` |
+| `harmony-docs/` | `.harmony/scaffolding/templates/harmony-docs/` |
+| `harmony-node-ts/` | `.harmony/scaffolding/templates/harmony-node-ts/` |
 
 Scoped templates are more useful than static examples because they:
 
-1. Inherit from the base `workspace/` template (stay in sync)
+1. Inherit from the base `harmony/` template (stay in sync)
 2. Can be directly used by `/create-workspace` workflow
 3. Contain only scope-specific customizations
 

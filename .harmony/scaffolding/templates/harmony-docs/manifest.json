@@ -1,8 +1,8 @@
 {
   "$schema": "../../manifest.schema.json",
-  "name": "workspace-docs",
-  "description": "Scoped workspace template for documentation areas.",
-  "inherits": "workspace",
+  "name": "harmony-docs",
+  "description": "Scoped .harmony/ template for documentation areas.",
+  "inherits": "harmony",
   "overrides": [
     "START.md",
     "scope.md",

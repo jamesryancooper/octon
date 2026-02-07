@@ -1,19 +1,19 @@
 # Evaluate Workspace `/evaluate-workspace`
 
-Evaluate a `.workspace` directory for token efficiency and agent effectiveness.
+Evaluate a `.harmony/` directory for token efficiency and agent effectiveness.
 
 See `.harmony/orchestration/workflows/workspace/evaluate-workspace/00-overview.md` for full description and steps.
 
 ## Usage
 
 ```text
-/evaluate-workspace @.workspace
+/evaluate-workspace @.harmony
 ```
 
 Or for a nested workspace:
 
 ```text
-/evaluate-workspace @docs/my-feature/.workspace
+/evaluate-workspace @docs/my-feature/.harmony
 ```
 
 ## Implementation

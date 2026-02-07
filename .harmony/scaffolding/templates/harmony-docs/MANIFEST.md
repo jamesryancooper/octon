@@ -1,23 +1,23 @@
 ---
-title: Workspace Template Manifest (docs)
-description: Scoped workspace template for documentation areas.
+title: Harmony Template Manifest (docs)
+description: Scoped .harmony/ template for documentation areas.
 ---
 
-# Workspace Template: docs
+# Harmony Template: docs
 
-A scoped workspace template for **documentation areas** (API docs, guides, reference docs).
+A scoped `.harmony/` template for **documentation areas** (API docs, guides, reference docs).
 
 > **Machine-readable manifest:** See `manifest.json` in this directory for the structured definition used by `/create-workspace`.
 
 ## Inheritance
 
-This template **extends** the base workspace template at `.harmony/scaffolding/templates/workspace/`.
+This template **extends** the base template at `.harmony/scaffolding/templates/harmony/`.
 
 ### Resolution Order
 
 When creating a workspace using this template:
 
-1. Copy all files from `.harmony/scaffolding/templates/workspace/` (base)
+1. Copy all files from `.harmony/scaffolding/templates/harmony/` (base)
 2. Overlay files from this directory (scope-specific overrides)
 3. Copy `workflows/are/` for document improvement workflows
 
@@ -34,7 +34,7 @@ When creating a workspace using this template:
 
 ### Files Inherited from Base
 
-All other files come from `.harmony/scaffolding/templates/workspace/`:
+All other files come from `.harmony/scaffolding/templates/harmony/`:
 
 - `catalog.md`
 - `cognition/context/` (decisions, lessons, glossary, dependencies, constraints)

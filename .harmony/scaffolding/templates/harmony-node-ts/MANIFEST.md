@@ -1,23 +1,23 @@
 ---
-title: Workspace Template Manifest (node-ts)
-description: Scoped workspace template for Node.js/TypeScript packages.
+title: Harmony Template Manifest (node-ts)
+description: Scoped .harmony/ template for Node.js/TypeScript packages.
 ---
 
-# Workspace Template: node-ts
+# Harmony Template: node-ts
 
-A scoped workspace template for **Node.js/TypeScript packages** (libraries, components, CLI tools).
+A scoped `.harmony/` template for **Node.js/TypeScript packages** (libraries, components, CLI tools).
 
 > **Machine-readable manifest:** See `manifest.json` in this directory for the structured definition used by `/create-workspace`.
 
 ## Inheritance
 
-This template **extends** the base workspace template at `.harmony/scaffolding/templates/workspace/`.
+This template **extends** the base template at `.harmony/scaffolding/templates/harmony/`.
 
 ### Resolution Order
 
 When creating a workspace using this template:
 
-1. Copy all files from `.harmony/scaffolding/templates/workspace/` (base)
+1. Copy all files from `.harmony/scaffolding/templates/harmony/` (base)
 2. Overlay files from this directory (scope-specific overrides)
 
 ### Files in This Template
@@ -32,7 +32,7 @@ When creating a workspace using this template:
 
 ### Files Inherited from Base
 
-All other files come from `.harmony/scaffolding/templates/workspace/`:
+All other files come from `.harmony/scaffolding/templates/harmony/`:
 
 - `catalog.md`
 - `cognition/context/` (decisions, lessons, glossary, dependencies, constraints)

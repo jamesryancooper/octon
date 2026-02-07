@@ -1,13 +1,13 @@
 ---
 title: Scope
-description: Boundaries and responsibilities for the root .workspace harness.
+description: Boundaries and responsibilities for the root .harmony/ harness.
 ---
 
-# Scope: Root .workspace
+# Scope: Root .harmony/
 
 ## This Workspace Covers
 
-The root `.workspace` is the **repo-wide agent harness** — a functional workspace for repository-wide operations, decisions, and context.
+The root `.harmony/` is the **repo-wide agent harness** — a functional workspace for repository-wide operations, decisions, and context.
 
 This workspace contains:
 
@@ -16,7 +16,7 @@ This workspace contains:
 - Mission tracking for time-bounded sub-projects
 - Domain-specific workflows (e.g., FlowKit integration)
 
-**Note:** Workspace pattern definitions, templates, generic assistants, and shared components live in `.harmony/`, not here. See `.harmony/README.md`.
+**Note:** All content is organized by capability within `.harmony/`. See `.harmony/README.md` for the full structure.
 
 ## In Scope
 
@@ -28,17 +28,17 @@ This workspace contains:
 
 ## Out of Scope
 
-- Domain-specific content (belongs in domain's own `.workspace`)
+- Domain-specific content (belongs in domain's own `.harmony/`)
 - General project documentation (belongs in `/docs`)
 - Code implementation (belongs in `/packages`, `/apps`)
-- Human onboarding beyond `.workspace` usage
+- Human onboarding beyond `.harmony/` usage
 
 ## Content Placement Guide
 
 | Content Type | Location | Example |
 |--------------|----------|---------|
 | **Shared (in `.harmony/`)** | | |
-| Workspace templates | `.harmony/scaffolding/templates/` | `workspace/`, `workspace-docs/` |
+| Workspace templates | `.harmony/scaffolding/templates/` | `harmony/`, `harmony-docs/` |
 | Generic assistants | `.harmony/agency/assistants/` | `reviewer/`, `refactor/`, `docs/` |
 | Workspace management workflows | `.harmony/orchestration/workflows/workspace/` | `create-workspace`, `migrate-workspace` |
 | Mission management workflows | `.harmony/orchestration/workflows/missions/` | `create-mission`, `complete-mission` |
@@ -58,13 +58,13 @@ This workspace contains:
 
 **Decide locally:**
 
-- File naming within this `.workspace`
+- File naming within this `.harmony/`
 - Prompt templates and workflow definitions
 - Progress tracking format
 
 **Escalate:**
 
-- Changes to the `.workspace` pattern that affect other workspaces
+- Changes to the `.harmony/` pattern that affect other workspaces
 - New conventions that should apply project-wide
 
 ## Adjacent Areas

@@ -432,9 +432,9 @@ access: human
 
 ### Examples
 
-- `workspace/`: Base workspace structure
-- `workspace-docs/`: Documentation-focused workspace variant
-- `workspace-node-ts/`: Node.js + TypeScript workspace variant
+- `harmony/`: Base .harmony/ structure
+- `harmony-docs/`: Documentation-focused variant
+- `harmony-node-ts/`: Node.js + TypeScript variant
 
 ### Structure
 
@@ -447,8 +447,8 @@ templates/
 │   ├── catalog.md
 │   ├── context/
 │   └── progress/
-├── workspace-docs/      # Variant for docs projects
-└── workspace-node-ts/   # Variant for Node+TS projects
+├── harmony-docs/        # Variant for docs projects
+└── harmony-node-ts/     # Variant for Node+TS projects
 ```
 
 ---

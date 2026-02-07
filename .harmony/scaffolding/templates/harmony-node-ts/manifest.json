@@ -1,8 +1,8 @@
 {
   "$schema": "../../manifest.schema.json",
-  "name": "workspace-node-ts",
-  "description": "Scoped workspace template for Node.js/TypeScript packages.",
-  "inherits": "workspace",
+  "name": "harmony-node-ts",
+  "description": "Scoped .harmony/ template for Node.js/TypeScript packages.",
+  "inherits": "harmony",
   "overrides": [
     "START.md",
     "scope.md",

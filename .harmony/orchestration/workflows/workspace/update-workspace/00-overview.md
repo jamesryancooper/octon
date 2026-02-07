@@ -50,4 +50,4 @@ Existing `.harmony/` directory.
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Templates:** `.harmony/scaffolding/templates/workspace/` (for missing required files)
+- **Templates:** `.harmony/scaffolding/templates/harmony/` (for missing required files)

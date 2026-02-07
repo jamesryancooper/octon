@@ -7,7 +7,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "Template identifier (e.g., 'workspace', 'workspace-docs')"
+      "description": "Template identifier (e.g., 'harmony', 'harmony-docs')"
     },
     "description": {
       "type": "string",

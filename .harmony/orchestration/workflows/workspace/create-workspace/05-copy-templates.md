@@ -8,15 +8,15 @@ description: Copy workspace template structure to target directory.
 Copy the template directory structure to the target:
 
 ```text
-.harmony/scaffolding/templates/workspace/    →    <target>/.workspace/
+.harmony/scaffolding/templates/harmony/    →    <target>/.harmony/
 ├── START.md                            ├── START.md
 ├── scope.md                            ├── scope.md
 ├── conventions.md                      ├── conventions.md
-├── progress/                           ├── progress/
+├── continuity/                         ├── continuity/
 │   ├── log.md                          │   ├── log.md
 │   └── tasks.json                      │   └── tasks.json
-└── checklists/                         └── checklists/
-    └── complete.md                             └── complete.md
+└── quality/                            └── quality/
+    └── done.md                                 └── done.md
 ```
 
 ## Idempotency

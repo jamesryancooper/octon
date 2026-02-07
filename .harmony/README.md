@@ -43,47 +43,32 @@ When resolving a resource, agents check local first, then shared:
 .harmony/
 ├── README.md           <- You are here
 │
-├── assistants/         <- Generic specialists (@mention invocation)
-│   ├── registry.yml
-│   ├── _template/
-│   ├── reviewer/
-│   ├── refactor/
-│   └── docs/
+├── agency/
+│   └── assistants/     <- Generic specialists (@mention invocation)
 │
-├── templates/          <- Workspace scaffolding
-│   ├── workspace/
-│   ├── workspace-docs/
-│   └── workspace-node-ts/
+├── capabilities/
+│   ├── skills/         <- Skills framework + generic skills
+│   └── commands/       <- Generic atomic operations
 │
-├── workflows/          <- Generic multi-step procedures
-│   ├── workspace/      <- Workspace management
-│   ├── missions/       <- Mission lifecycle
-│   └── skills/         <- Skill creation
+├── cognition/
+│   └── context/        <- Generic reference material (tools, compaction)
 │
-├── commands/           <- Generic atomic operations
-│   ├── recover.md
-│   ├── refactor.md
-│   └── validate-frontmatter.md
+├── continuity/         <- Session log, tasks, entities
 │
-├── context/            <- Generic reference material
-│   ├── tools.md
-│   └── compaction.md
+├── orchestration/
+│   ├── workflows/      <- Multi-step procedures (workspace, missions, skills)
+│   └── missions/       <- Time-bounded sub-projects
 │
-├── checklists/         <- Generic quality gates
-│   ├── complete.md
-│   └── session-exit.md
+├── scaffolding/
+│   ├── templates/      <- Workspace scaffolding (harmony/, harmony-docs/, harmony-node-ts/)
+│   ├── prompts/        <- Task templates
+│   └── examples/       <- Reference patterns
 │
-├── prompts/            <- Generic task templates
-│   ├── bootstrap-session.md
-│   └── research/
+├── quality/            <- Quality gates (done.md, session-exit.md)
 │
-├── skills/             <- Skills framework + generic skills
-│   ├── registry.yml
-│   ├── _template/
-│   ├── synthesize-research/
-│   └── scripts/
+├── ideation/           <- Human-led zone (scratchpad/, projects/)
 │
-└── examples/           <- Reference patterns
+└── output/             <- Reports, drafts, artifacts
 ```
 
 ## What Lives Here
@@ -101,12 +86,12 @@ When resolving a resource, agents check local first, then shared:
 ### Project-Specific Content
 
 - `START.md`, `scope.md`, `conventions.md`, `catalog.md`
-- `progress/` (session continuity)
-- `missions/` instances (time-bounded sub-projects)
-- Domain-specific context (decisions, lessons, glossary, constraints)
+- `continuity/` (session log, tasks, entities)
+- `orchestration/missions/` instances (time-bounded sub-projects)
+- Domain-specific context (`cognition/context/` — decisions, lessons, glossary, constraints)
 - Domain-specific workflows (e.g., flowkit)
 - Skills outputs and logs (always local)
-- `.scratchpad/` (human-led zone with inbox/, archive/, projects/, etc.)
+- `ideation/scratchpad/` (human-led zone with inbox/, archive/, etc.)
 
 ## Skills Registry Pattern
 
@@ -153,7 +138,7 @@ To use this workspace infrastructure in another repository:
 cp -r /path/to/harmony/.harmony /path/to/your-repo/
 
 # 2. Create a root workspace from template
-cp -r .harmony/scaffolding/templates/workspace .workspace
+cp -r .harmony/scaffolding/templates/harmony .harmony
 
 # 3. Customize .harmony/scope.md and .harmony/conventions.md
 ```

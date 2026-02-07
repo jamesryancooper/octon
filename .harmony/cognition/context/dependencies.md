@@ -19,7 +19,7 @@ External systems, APIs, or packages this workspace interacts with.
 | Reference | Purpose | Location |
 |-----------|---------|----------|
 | Canonical Workspace Docs | Authoritative workspace definition | `docs/architecture/workspaces/` |
-| Workspace Templates | Boilerplate for new workspaces | `.harmony/scaffolding/templates/workspace/` |
+| Workspace Templates | Boilerplate for new workspaces | `.harmony/scaffolding/templates/harmony/` |
 | Cursor Commands | IDE integration entry points | `.cursor/commands/` |
 | Cursor Rules | Agent context triggers | `.cursor/rules/` |
 
