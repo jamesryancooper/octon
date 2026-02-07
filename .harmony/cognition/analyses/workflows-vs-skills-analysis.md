@@ -210,7 +210,7 @@ skill_mappings:
 - Skills can checkpoint by:
   1. Writing partial outputs to designated paths
   2. Resuming by reading prior outputs as inputs
-  3. Using the workspace `progress/` directory for state
+  3. Using the workspace `continuity/` directory for state
 - The `refine-prompt` skill already supports this implicitly - a refined prompt can be saved and executed later
 
 **How it works in practice:**
