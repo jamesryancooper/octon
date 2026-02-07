@@ -14,12 +14,12 @@ This document clarifies the distinctions between workspace artifact types: **com
 | Type | Location | Nature | When to Use |
 |------|----------|--------|-------------|
 | **Harness Entry Point** | `.<harness>/commands/` | Thin wrapper | Harness-specific invocation (Cursor, Claude Code, Codex) |
-| **Workspace Command** | `.workspace/commands/` | Deterministic procedure | Atomic, repeatable operation |
-| **Workspace Workflow** | `.workspace/workflows/` | Multi-step procedure (source of truth) | Complex, sequential operation |
-| **Workspace Prompt** | `.workspace/prompts/` | Task template | Context-dependent, requires judgment |
-| **Workspace Skill** | `.workspace/skills/` | Composable capability | Defined I/O, pipelines, auditability |
-| **Assistant** | `.workspace/assistants/` | Focused specialist | Scoped, delegatable tasks |
-| **Mission** | `.workspace/missions/` | Sub-project | Isolated, time-bounded work |
+| **Workspace Command** | `.harmony/capabilities/commands/` | Deterministic procedure | Atomic, repeatable operation |
+| **Workspace Workflow** | `.harmony/orchestration/workflows/` | Multi-step procedure (source of truth) | Complex, sequential operation |
+| **Workspace Prompt** | `.harmony/scaffolding/prompts/` | Task template | Context-dependent, requires judgment |
+| **Workspace Skill** | `.harmony/capabilities/skills/` | Composable capability | Defined I/O, pipelines, auditability |
+| **Assistant** | `.harmony/agency/assistants/` | Focused specialist | Scoped, delegatable tasks |
+| **Mission** | `.harmony/orchestration/missions/` | Sub-project | Isolated, time-bounded work |
 | **FlowKit Flow (repo-wide)** | `packages/workflows/` | Runnable flow assets | Needs FlowKit runtime/CI/Studio execution |
 
 ---
@@ -47,9 +47,9 @@ This document clarifies the distinctions between workspace artifact types: **com
 | Term | Location | Triggered By | Scope |
 |------|----------|--------------|-------|
 | **Harness Entry Point** | `.<harness>/commands/` | User typing `/command` in any AI harness | Repository-wide, harness-specific |
-| **Workspace Command** | `.workspace/commands/` | Harness delegation or direct agent reference | Workspace-specific, atomic |
-| **Workspace Workflow** | `.workspace/workflows/` | Harness delegation or direct agent reference | Workspace-specific, multi-step |
-| **Workspace Prompt** | `.workspace/prompts/` | Direct agent reference | Workspace-specific, template |
+| **Workspace Command** | `.harmony/capabilities/commands/` | Harness delegation or direct agent reference | Workspace-specific, atomic |
+| **Workspace Workflow** | `.harmony/orchestration/workflows/` | Harness delegation or direct agent reference | Workspace-specific, multi-step |
+| **Workspace Prompt** | `.harmony/scaffolding/prompts/` | Direct agent reference | Workspace-specific, template |
 | **FlowKit Flow** | `packages/workflows/` | `pnpm flowkit:run packages/workflows/<flowId>/config.flow.json` or `/run-flow @packages/workflows/<flowId>/config.flow.json` | Repository-wide |
 
 ### Supported Harnesses
@@ -82,7 +82,7 @@ Thin wrappers that provide harness-specific invocation for workspace commands or
          │                 │                   │
          ▼                 ▼                   ▼
 ┌─────────────────────────────────────────────────────────┐
-│  .workspace/workflows/projects/create-project.md        │
+│  .harmony/orchestration/workflows/projects/create-project.md        │
 │                                                         │
 │  Source of truth — same workflow for all harnesses      │
 └─────────────────────────────────────────────────────────┘
@@ -94,7 +94,7 @@ Thin wrappers that provide harness-specific invocation for workspace commands or
 - **Harness-specific integration** — Autocomplete, slash commands, etc.
 - **Repository-wide scope** — Available everywhere in the repo
 - **User-initiated** — Triggered by typing `/command` in chat
-- **No business logic** — All logic lives in `.workspace/workflows/` or `.workspace/commands/`
+- **No business logic** — All logic lives in `.harmony/orchestration/workflows/` or `.harmony/capabilities/commands/`
 
 ### Entry Point Template
 
@@ -103,7 +103,7 @@ Thin wrappers that provide harness-specific invocation for workspace commands or
 
 Brief description.
 
-See `.workspace/workflows/<category>/<name>/00-overview.md` for full description and steps.
+See `.harmony/orchestration/workflows/<category>/<name>/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -119,20 +119,20 @@ See `.workspace/workflows/<category>/<name>/00-overview.md` for full description
 
 ## Implementation
 
-Execute the workflow in `.workspace/workflows/<category>/<name>/`.
+Execute the workflow in `.harmony/orchestration/workflows/<category>/<name>/`.
 
 Start with `00-overview.md` and follow each step in sequence.
 
 ## References
 
-- **Workflow:** `.workspace/workflows/<category>/<name>/`
+- **Workflow:** `.harmony/orchestration/workflows/<category>/<name>/`
 ```
 
 ---
 
 ## Workspace Commands
 
-**Location:** `.workspace/commands/*.md`
+**Location:** `.harmony/capabilities/commands/*.md`
 
 Workspace-specific atomic operations that operate on artifacts in the workspace's parent directory.
 
@@ -156,7 +156,7 @@ See [commands.md](./commands.md) for full details and examples.
 
 ## Workspace Workflows
 
-**Location:** `.workspace/workflows/*.md` or `.workspace/workflows/<name>/`
+**Location:** `.harmony/orchestration/workflows/*.md` or `.harmony/orchestration/workflows/<name>/`
 
 Multi-step procedures that operate on artifacts in the workspace's parent directory. Workflows are the **source of truth** for complex operations.
 
@@ -181,7 +181,7 @@ See [workflows.md](./workflows.md) for full details, including the Universal Har
 
 ## Workspace Prompts
 
-**Location:** `.workspace/prompts/*.md`
+**Location:** `.harmony/scaffolding/prompts/*.md`
 
 Task templates that guide agents through context-dependent work requiring judgment or parameterization.
 
@@ -202,13 +202,13 @@ See [prompts.md](./prompts.md) for full details.
 
 ### Command vs Prompt Decision
 
-See `.workspace/catalog.md#command-vs-prompt-decision` for the canonical decision logic.
+See `.harmony/catalog.md#command-vs-prompt-decision` for the canonical decision logic.
 
 ---
 
 ## Assistants
 
-**Location:** `.workspace/assistants/<name>/assistant.md`
+**Location:** `.harmony/agency/assistants/<name>/assistant.md`
 
 Focused specialists that serve agents or humans for scoped, one-off tasks.
 
@@ -240,7 +240,7 @@ See [assistants.md](./assistants.md) for full details.
 
 ## Missions
 
-**Location:** `.workspace/missions/<slug>/`
+**Location:** `.harmony/orchestration/missions/<slug>/`
 
 Time-bounded sub-projects with isolated progress tracking.
 
@@ -280,7 +280,7 @@ stateDiagram-v2
 
 ## Skills
 
-**Location:** `.workspace/skills/<id>/skill.md`
+**Location:** `.harmony/capabilities/skills/<id>/skill.md`
 
 Composable capability units with defined inputs, outputs, and behavior.
 
@@ -329,11 +329,11 @@ FlowKit flows are **executable flow assets** run by FlowKit (CLI + LangGraph run
 - **Repo-wide scope** — used by the FlowKit CLI, CI automation, and LangGraph Studio.
 - **Different metadata model** — canonical prompt frontmatter stays minimal; wiring and classification live in config/manifest.
 
-### Choosing Between `.workspace/workflows/**` and `packages/workflows/**`
+### Choosing Between `.harmony/orchestration/workflows/**` and `packages/workflows/**`
 
 Use this guide when you're deciding *where* a multi-step workflow belongs:
 
-| Dimension | `.workspace/workflows/**` (Workspace Workflow) | `packages/workflows/**` (FlowKit Flow Assets) |
+| Dimension | `.harmony/orchestration/workflows/**` (Workspace Workflow) | `packages/workflows/**` (FlowKit Flow Assets) |
 |---|---|---|
 | Primary purpose | Human/agent **procedure** (“follow these steps”) | Runnable **execution contract** (config + manifest + prompts) |
 | How it runs | An agent reads Markdown and follows steps | FlowKit CLI + runtime execute a manifest-defined graph |
@@ -345,7 +345,7 @@ Use this guide when you're deciding *where* a multi-step workflow belongs:
 **Rule of thumb**
 
 - If it must be runnable/auditable as a system (CLI/CI/runtime/Studio) → `packages/workflows/<flowId>/`
-- If it’s primarily guidance/UX (“how we do this here”, optionally wrapped as a Cursor command) → `.workspace/workflows/**`
+- If it’s primarily guidance/UX (“how we do this here”, optionally wrapped as a Cursor command) → `.harmony/orchestration/workflows/**`
 
 See `docs/kits/planning-and-orchestration/flowkit/guide.md` for the ownership map and entrypoints.
 
@@ -353,13 +353,13 @@ See `docs/kits/planning-and-orchestration/flowkit/guide.md` for the ownership ma
 
 ## Decision Guidance
 
-All decision flowcharts and tables are maintained in `.workspace/catalog.md#decision-guidance` as the single source of truth. This includes:
+All decision flowcharts and tables are maintained in `.harmony/catalog.md#decision-guidance` as the single source of truth. This includes:
 
 - **Artifact Type Decision** — When to create Cursor commands, workspace commands, workflows, or prompts
 - **Command vs Prompt Decision** — Distinguishing deterministic operations from templates
 - **Workspace Modification Decision** — Choosing between create, update, migrate, and evaluate
 
-See `.workspace/catalog.md` for complete decision flowcharts and examples.
+See `.harmony/catalog.md` for complete decision flowcharts and examples.
 
 ---
 
@@ -368,12 +368,12 @@ See `.workspace/catalog.md` for complete decision flowcharts and examples.
 | Type | Location | Scope | Harness Integration |
 |------|----------|-------|---------------------|
 | Harness Entry Points | `.<harness>/commands/*.md` | Repository-wide | Yes (harness-specific) |
-| Workspace Commands | `.workspace/commands/*.md` | This workspace only | No (unless wrapped) |
-| Workspace Workflows | `.workspace/workflows/*.md` | This workspace only | No (unless wrapped) |
-| Prompts | `.workspace/prompts/*.md` | Task templates | No |
-| Assistants | `.workspace/assistants/<name>/` | Focused specialists | Via @mention |
-| Missions | `.workspace/missions/<slug>/` | Sub-projects | No |
-| Checklists | `.workspace/checklists/*.md` | Quality gates | No |
+| Workspace Commands | `.harmony/capabilities/commands/*.md` | This workspace only | No (unless wrapped) |
+| Workspace Workflows | `.harmony/orchestration/workflows/*.md` | This workspace only | No (unless wrapped) |
+| Prompts | `.harmony/scaffolding/prompts/*.md` | Task templates | No |
+| Assistants | `.harmony/agency/assistants/<name>/` | Focused specialists | Via @mention |
+| Missions | `.harmony/orchestration/missions/<slug>/` | Sub-projects | No |
+| Checklists | `.harmony/quality/*.md` | Quality gates | No |
 | FlowKit Flow assets | `packages/workflows/<flowId>/` | Repository-wide | No (but can be wrapped via `/run-flow`) |
 
 ### Harness Entry Point Directories

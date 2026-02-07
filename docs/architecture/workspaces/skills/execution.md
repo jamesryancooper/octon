@@ -27,7 +27,7 @@ ended_at: 2025-01-15T10:44:12Z
 inputs:
   - "add caching to the api"
 outputs:
-  - .workspace/prompts/20250115-refined.md
+  - .harmony/scaffolding/prompts/20250115-refined.md
 tools_used:
   - filesystem.read
   - filesystem.write
@@ -85,11 +85,11 @@ Skills may only write to paths defined in their registry I/O mappings, validated
 
 | Tier | Scope | Purpose |
 |------|-------|---------|
-| **Tier 1** | `.workspace/{{category}}/` | Standard deliverables (final destination) |
+| **Tier 1** | `.harmony/{{category}}/` | Standard deliverables (final destination) |
 | **Tier 2** | `.workspace/**` | Custom workspace locations (must declare) |
 | **Tier 3** | `<workspace-root>/**` | Project source locations (must declare) |
 
-**Operational Artifacts (`.workspace/skills/`):**
+**Operational Artifacts (`.harmony/capabilities/skills/`):**
 
 | Category | Path Pattern | Read/Write |
 |----------|--------------|------------|
@@ -98,7 +98,7 @@ Skills may only write to paths defined in their registry I/O mappings, validated
 | `runs/` | `runs/{{skill-id}}/{{run-id}}/` | Read/Write (skills) |
 | `logs/` | `logs/{{skill-id}}/{{run-id}}.md` | Read/Write (skills) |
 
-> **Note:** All `.workspace/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. Skills typically read from `configs/` and `resources/`, and write to `runs/` and `logs/`.
+> **Note:** All `.harmony/capabilities/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. Skills typically read from `configs/` and `resources/`, and write to `runs/` and `logs/`.
 
 ### Hierarchical Scope Enforcement
 
@@ -167,11 +167,11 @@ Output paths are defined in the skill's registry I/O mapping. Skills produce two
 
 | Category | Path Pattern |
 |----------|--------------|
-| Prompts | `.workspace/prompts/{{timestamp}}-{{name}}.md` |
-| Drafts | `.workspace/drafts/{{timestamp}}-{{name}}.md` |
-| Reports | `.workspace/reports/{{timestamp}}-{{name}}.md` |
+| Prompts | `.harmony/scaffolding/prompts/{{timestamp}}-{{name}}.md` |
+| Drafts | `.harmony/output/drafts/{{timestamp}}-{{name}}.md` |
+| Reports | `.harmony/output/reports/{{timestamp}}-{{name}}.md` |
 
-**Operational Artifacts (`.workspace/skills/`):**
+**Operational Artifacts (`.harmony/capabilities/skills/`):**
 
 All operational categories follow the `{{category}}/{{skill-id}}/` pattern:
 
@@ -242,7 +242,7 @@ The `{{snake_case}}` format is used consistently across **three contexts**:
 
 | Context | Purpose | Example |
 |---------|---------|---------|
-| **Path interpolation** | Runtime path resolution in registry | `.workspace/{{category}}/{{timestamp}}-{{name}}.md` |
+| **Path interpolation** | Runtime path resolution in registry | `.harmony/{{category}}/{{timestamp}}-{{name}}.md` |
 | **Template fill-ins** | Skill authoring placeholders | `{{skill_name}}`, `{{Description}}` |
 | **Output format examples** | Document structure in documentation | `**Generated:** {{timestamp}}` |
 
@@ -306,7 +306,7 @@ outputs:
 |-------------|--------|----------------|
 | `{{topic}}` | Inferred from input path (`api-design/`) | `api-design` |
 
-**Result:** `.workspace/drafts/api-design-synthesis.md`
+**Result:** `.harmony/output/drafts/api-design-synthesis.md`
 
 ### Placeholder Validation
 

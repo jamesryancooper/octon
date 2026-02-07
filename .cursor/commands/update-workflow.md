@@ -1,1 +1,1 @@
-../../.harmony/commands/update-workflow.md
+../../.harmony/capabilities/commands/update-workflow.md

@@ -2,7 +2,7 @@
 
 Synthesize scattered research notes into a coherent findings document.
 
-See `.harmony/skills/synthesize-research/SKILL.md` for full details.
+See `.harmony/capabilities/skills/synthesize-research/SKILL.md` for full details.
 
 ## Usage
 
@@ -31,18 +31,18 @@ See `.harmony/skills/synthesize-research/SKILL.md` for full details.
    - Key themes with evidence
    - Contradictions and resolutions
    - Open questions
-4. Writes output to `.workspace/drafts/<topic>-synthesis.md`
-5. Creates run log in `.workspace/skills/logs/synthesize-research/`
+4. Writes output to `.harmony/drafts/<topic>-synthesis.md`
+5. Creates run log in `.harmony/capabilities/skills/logs/synthesize-research/`
 
 ## Output
 
 ```text
-.workspace/drafts/<topic>-synthesis.md
+.harmony/drafts/<topic>-synthesis.md
 ```
 
 ## References
 
-- **Skill:** `.harmony/skills/synthesize-research/SKILL.md`
-- **Shared Registry:** `.harmony/skills/registry.yml`
-- **Local Registry:** `.workspace/skills/registry.yml` (for input/output mappings)
+- **Skill:** `.harmony/capabilities/skills/synthesize-research/SKILL.md`
+- **Shared Registry:** `.harmony/capabilities/skills/registry.yml`
+- **Local Registry:** `.harmony/capabilities/skills/registry.yml` (for input/output mappings)
 - **Documentation:** `docs/architecture/workspaces/skills.md`

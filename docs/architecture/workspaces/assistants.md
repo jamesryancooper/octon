@@ -95,7 +95,7 @@ graph TB
 ## Directory Structure
 
 ```text
-.workspace/assistants/
+.harmony/agency/assistants/
 ├── registry.yml           # @mention mappings
 ├── README.md              # Usage guide
 ├── _template/             # Template for new assistants
@@ -209,7 +209,7 @@ If a user message starts with `@assistant_name`, route the entire turn to that a
 If `@assistant_name` appears mid-message, treat it as a subtask delegation.
 
 **Rule C — Locality:**
-Nearest `.workspace/assistants/registry.yml` wins. Child workspaces can override parent assistants.
+Nearest `.harmony/agency/assistants/registry.yml` wins. Child workspaces can override parent assistants.
 
 ---
 

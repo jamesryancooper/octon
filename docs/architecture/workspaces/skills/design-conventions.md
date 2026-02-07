@@ -18,7 +18,7 @@ This document defines cross-cutting design decisions that apply to all skills, p
 ### Target Structure
 
 ```markdown
-.workspace/skills/
+.harmony/capabilities/skills/
 ├── manifest.yml              # Workspace skill index (extends .harmony)
 ├── registry.yml              # Workspace I/O mappings
 ├── configs/                  # Per-skill configuration overrides
@@ -51,8 +51,8 @@ All operational categories follow the `{{category}}/{{skill-id}}/` pattern:
 
 | Directory | Organization | Primary Purpose |
 |-----------|--------------|-----------------|
-| `.harmony/skills/` | Skill-first | **Authoring** — work on one skill at a time |
-| `.workspace/skills/` | Artifact-first | **Operations** — debug, clean up, monitor across skills |
+| `.harmony/capabilities/skills/` | Skill-first | **Authoring** — work on one skill at a time |
+| `.harmony/capabilities/skills/` | Artifact-first | **Operations** — debug, clean up, monitor across skills |
 
 This intentional difference optimizes each directory for its primary use case.
 
@@ -100,7 +100,7 @@ Skills typically read from `configs/` and `resources/`, and write to `runs/` and
 ### Directory Structure
 
 ```markdown
-.workspace/skills/logs/
+.harmony/capabilities/skills/logs/
 ├── index.yml                          # Top-level: recent runs across ALL skills
 ├── refactor/
 │   ├── index.yml                      # Skill-level: ALL refactor runs with metadata
@@ -197,7 +197,7 @@ scopes_completed:
 ### Directory Structure
 
 ```markdown
-.workspace/skills/runs/refactor/2026-01-19-rename-scratch/
+.harmony/capabilities/skills/runs/refactor/2026-01-19-rename-scratch/
 ├── checkpoint.yml        # Execution state (source of truth for resume)
 ├── scope.md              # Phase 1 output
 ├── audit-manifest.md     # Phase 2 output
@@ -249,7 +249,7 @@ phases:
     progress:
       total_items: 13
       completed_items: 7
-      current_item: ".harmony/workflows/example.md"
+      current_item: ".harmony/orchestration/workflows/example.md"
   5_verify:
     status: pending
   6_document:
@@ -258,7 +258,7 @@ phases:
 resume:
   phase: 4
   instruction: "Continue from item 8 in change-manifest.md"
-  last_completed: ".workspace/START.md"
+  last_completed: ".harmony/START.md"
 
 parameters:
   dry_run: false
@@ -403,10 +403,10 @@ These thresholds are based on practical constraints of agent sessions and human 
 1. **Start with defaults** — Use the values in the table above
 2. **Run a few skills** — Observe where escalation triggers feel premature or too late
 3. **Adjust incrementally** — Change one threshold at a time, by 25-50%
-4. **Document your settings** — Override in `.workspace/skills/configs/defaults.yml`:
+4. **Document your settings** — Override in `.harmony/capabilities/skills/configs/defaults.yml`:
 
 ```yaml
-# .workspace/skills/configs/defaults.yml
+# .harmony/capabilities/skills/configs/defaults.yml
 scope_limits:
   files_to_modify: 75      # Raised: monorepo with small files
   match_count: 150         # Lowered: limited test coverage
@@ -449,7 +449,7 @@ scope_limits:
 3. Report: "This task exceeds skill scope. Recommend creating a mission."
 4. Provide the mission template path for user to review and initiate
 
-See `.harmony/workflows/` for mission templates and orchestration patterns.
+See `.harmony/orchestration/workflows/` for mission templates and orchestration patterns.
 
 ---
 
@@ -634,7 +634,7 @@ continuity_patterns:
 During planning phase, for each file in the change manifest:
 
 1. Check against `continuity_patterns` (default list above)
-2. Check against `.workspace/context/continuity.md` if it exists
+2. Check against `.harmony/cognition/context/continuity.md` if it exists
 3. If match found:
    - Mark file as `continuity: true` in manifest
    - Add to "Continuity Artifacts (APPEND ONLY)" section
@@ -680,14 +680,14 @@ Skills produce two distinct artifact types with different storage patterns:
 
 #### Deliverables (Final Products)
 
-Deliverables go directly to their **final destination** in `.workspace/{{category}}/`:
+Deliverables go directly to their **final destination** in `.harmony/{{category}}/`:
 
 | Category | Purpose | Example Path |
 |----------|---------|--------------|
-| `prompts` | Refined prompts | `.workspace/prompts/` |
-| `drafts` | Document drafts | `.workspace/drafts/` |
-| `reports` | Analysis reports | `.workspace/reports/` |
-| `analyses` | Code/data analyses | `.workspace/analyses/` |
+| `prompts` | Refined prompts | `.harmony/scaffolding/prompts/` |
+| `drafts` | Document drafts | `.harmony/output/drafts/` |
+| `reports` | Analysis reports | `.harmony/output/reports/` |
+| `analyses` | Code/data analyses | `.harmony/cognition/analyses/` |
 | `scaffolds` | Generated scaffolds | Target directory |
 
 #### Custom Destinations
@@ -696,7 +696,7 @@ Skills can write deliverables to custom locations beyond the standard categories
 
 | Tier | Scope | Example Path | Use Case |
 |------|-------|--------------|----------|
-| **Tier 1** | `.workspace/{{category}}/` | `.workspace/prompts/refined.md` | Standard deliverables |
+| **Tier 1** | `.harmony/{{category}}/` | `.harmony/scaffolding/prompts/refined.md` | Standard deliverables |
 | **Tier 2** | `.workspace/**` | `.workspace/custom/exports/data.json` | Custom workspace locations |
 | **Tier 3** | `<workspace-root>/**` | `src/generated/api-client.ts` | Project source locations |
 
@@ -707,7 +707,7 @@ skills:
   generate-client:
     outputs:
       # Tier 1: Standard category
-      - path: ".workspace/reports/{{{run-id}}}-generation.md"
+      - path: ".harmony/output/reports/{{{run-id}}}-generation.md"
         type: deliverable
       
       # Tier 2: Custom workspace location
@@ -723,7 +723,7 @@ skills:
 
 **Permission requirements:** Tier 3 paths (workspace root locations) require explicit declaration in `registry.yml`. Skills should document why project-level writes are necessary.
 
-#### Operational Artifacts (`.workspace/skills/`)
+#### Operational Artifacts (`.harmony/capabilities/skills/`)
 
 Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 
@@ -746,7 +746,7 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 | **Category pattern** | All categories follow `{{category}}/{{skill-id}}/` pattern |
 | **Log structure** | `logs/{{skill-id}}/` with multi-level indexes |
 | **Checkpoint storage** | `runs/{{skill-id}}/{{run-id}}/checkpoint.yml` as source of truth |
-| **Deliverables** | Write to `.workspace/{{category}}/` (final destination) |
+| **Deliverables** | Write to `.harmony/{{category}}/` (final destination) |
 | **Operational artifacts** | Write to `configs/`, `resources/`, `runs/`, `logs/` |
 | **Progressive disclosure** | Tiered state discovery (index → checkpoint → phase outputs) |
 | **Runs-log correlation** | `runs/{{skill-id}}/{{run-id}}/` pairs with `logs/{{skill-id}}/{{run-id}}.md` |

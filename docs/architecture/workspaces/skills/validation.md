@@ -127,19 +127,19 @@ WARNING: Skill 'my-skill' has 'checkpoints.md' but neither 'stateful' nor 'resum
 ### Validate All Skills
 
 ```bash
-.harmony/skills/scripts/validate-skills.sh
+.harmony/capabilities/skills/scripts/validate-skills.sh
 ```
 
 ### Validate Specific Skill
 
 ```bash
-.harmony/skills/scripts/validate-skills.sh my-skill
+.harmony/capabilities/skills/scripts/validate-skills.sh my-skill
 ```
 
 ### Strict Mode (Treat Warnings as Errors)
 
 ```bash
-.harmony/skills/scripts/validate-skills.sh --strict
+.harmony/capabilities/skills/scripts/validate-skills.sh --strict
 ```
 
 ---

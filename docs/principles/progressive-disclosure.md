@@ -60,7 +60,7 @@ Harmony's skill system implements progressive disclosure through four tiers:
 **Structure manifests for fast scanning:**
 
 ```yaml
-# .harmony/skills/manifest.yml
+# .harmony/capabilities/skills/manifest.yml
 skills:
   - id: synthesize-research
     name: Synthesize Research
@@ -158,7 +158,7 @@ Reference material (Tier 4)
 
 ### Workspace Boot Sequence
 
-The `.workspace/START.md` pattern implements progressive disclosure for workspace orientation:
+The `.harmony/START.md` pattern implements progressive disclosure for workspace orientation:
 
 1. **Immediate context**: Scope, current state
 2. **Navigation**: Links to relevant files

@@ -16,7 +16,7 @@ date: 2025-12-20
 FlowKit appears in multiple "layers" of the repository:
 
 - **Cursor commands** (`.cursor/commands/run-flow.md`) — IDE entrypoint
-- **Workspace harness** (`.workspace/workflows/flowkit/run-flow/`) — Procedural workflow
+- **Workspace harness** (`.harmony/orchestration/workflows/flowkit/run-flow/`) — Procedural workflow
 - **Package implementation** (`packages/kits/flowkit/`) — TypeScript kit + CLI
 - **Runtime implementation** (`agents/runner/runtime/`) — Python LangGraph graphs
 
@@ -82,8 +82,8 @@ Current flows:
 
 ### Drift Prevention (Phase 1)
 
-- Updated `.workspace/workflows/flowkit/run-flow/02-parse-config.md` to reference package schema
-- Added clarification note to `.workspace/catalog.md`
+- Updated `.harmony/orchestration/workflows/flowkit/run-flow/02-parse-config.md` to reference package schema
+- Added clarification note to `.harmony/catalog.md`
 
 ### Studio UX (Phase 2)
 
@@ -109,6 +109,6 @@ Current flows:
 ## Related
 
 - [FlowKit Guide](../../kits/planning-and-orchestration/flowkit/guide.md)
-- [Workspace Scope](.workspace/scope.md)
+- [Workspace Scope](.harmony/scope.md)
 - [Contracts OpenAPI](packages/contracts/openapi.yaml)
 

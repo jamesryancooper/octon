@@ -1,1 +1,1 @@
-../../.harmony/commands/create-workflow.md
+../../.harmony/capabilities/commands/create-workflow.md

@@ -1,6 +1,6 @@
 ---
 title: Workspace Context
-description: Background knowledge stored in .workspace/context/ including decisions, lessons, and domain knowledge
+description: Background knowledge stored in .harmony/cognition/context/ including decisions, lessons, and domain knowledge
 ---
 
 # Workspace Context
@@ -10,7 +10,7 @@ The `context/` directory contains **background knowledge** that agents need to w
 ## Location
 
 ```text
-.workspace/context/
+.harmony/cognition/context/
 ├── decisions.md     # Agent-readable decision summaries
 ├── lessons.md       # Anti-patterns and failures to avoid
 ├── glossary.md      # Domain-specific terminology

@@ -1,1 +1,1 @@
-../../.harmony/commands/evaluate-workflow.md
+../../.harmony/capabilities/commands/evaluate-workflow.md

@@ -67,7 +67,7 @@ Each workspace's scope includes its parent directory and **all descendants**, in
 
 ```markdown
 ┌─────────────────────────────────────────────────────────────────┐
-│  .harmony/skills/              Shared Foundation                │
+│  .harmony/capabilities/skills/              Shared Foundation                │
 │  ├── manifest.yml              Tier 1 discovery index           │
 │  ├── registry.yml              Extended metadata for routing    │
 │  ├── _template/                Scaffolding for new skills       │
@@ -80,7 +80,7 @@ Each workspace's scope includes its parent directory and **all descendants**, in
                                  │ I/O paths defined in
                                  ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│  .workspace/skills/            Workspace I/O                    │
+│  .harmony/capabilities/skills/            Workspace I/O                    │
 │  ├── manifest.yml              Workspace skill index            │
 │  ├── registry.yml              I/O mappings (scope-validated)   │
 │  ├── configs/                  Per-skill configuration          │
@@ -99,7 +99,7 @@ Each workspace's scope includes its parent directory and **all descendants**, in
 
 ---
 
-## Shared Foundation (`.harmony/skills/`)
+## Shared Foundation (`.harmony/capabilities/skills/`)
 
 Portable skill definitions that work across workspaces:
 
@@ -183,7 +183,7 @@ This approach keeps initial context minimal (~50 tokens per skill) while providi
 
 ---
 
-## Workspace I/O (`.workspace/skills/`)
+## Workspace I/O (`.harmony/capabilities/skills/`)
 
 Workspace-specific configuration and outputs. All categories follow the `{{category}}/{{skill-id}}/` pattern:
 
@@ -221,7 +221,7 @@ Output paths are declared in `registry.yml` and validated against the workspace'
 
 | Path Type | Example | Purpose |
 |-----------|---------|---------|
-| **Deliverables** | `.workspace/{{category}}/{{file}}` | Final products (prompts, drafts) |
+| **Deliverables** | `.harmony/{{category}}/{{file}}` | Final products (prompts, drafts) |
 | **Configs** | `configs/{{skill-id}}/` | Per-skill configuration |
 | **Resources** | `resources/{{skill-id}}/` | Per-skill input materials |
 | **Execution state** | `runs/{{skill-id}}/{{run-id}}/` | Checkpoints, manifests |
@@ -242,7 +242,7 @@ Deliverables go directly to their final destination with tiered permissions:
 
 | Tier | Scope | Example Path | Use Case |
 |------|-------|--------------|----------|
-| **Tier 1** | `.workspace/{{category}}/` | `.workspace/prompts/refined.md` | Standard deliverables |
+| **Tier 1** | `.harmony/{{category}}/` | `.harmony/scaffolding/prompts/refined.md` | Standard deliverables |
 | **Tier 2** | `.workspace/**` | `.workspace/custom/exports/data.json` | Custom workspace locations |
 | **Tier 3** | `<workspace-root>/**` | `src/generated/api-client.ts` | Project source locations |
 
@@ -252,7 +252,7 @@ Deliverables go directly to their final destination with tiered permissions:
 
 ### Operational Artifacts
 
-Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.workspace/skills/`:
+Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/skills/`:
 
 | Category | Path Pattern | Purpose |
 |----------|--------------|---------|
@@ -288,7 +288,7 @@ VALIDATE_PATH(declared_path, workspace_root):
 ### Invalid Path Examples
 
 ```yaml
-# In docs/.workspace/skills/registry.yml (scope: docs/**)
+# In docs/.harmony/capabilities/skills/registry.yml (scope: docs/**)
 skill_mappings:
   generate-guide:
     outputs:
@@ -304,9 +304,9 @@ skill_mappings:
 Symlinks expose shared skills to different agent hosts:
 
 ```bash
-.claude/skills/refine-prompt -> ../../.harmony/skills/refine-prompt
-.cursor/skills/refine-prompt -> ../../.harmony/skills/refine-prompt
-.codex/skills/refine-prompt  -> ../../.harmony/skills/refine-prompt
+.claude/skills/refine-prompt -> ../../.harmony/capabilities/skills/refine-prompt
+.cursor/skills/refine-prompt -> ../../.harmony/capabilities/skills/refine-prompt
+.codex/skills/refine-prompt  -> ../../.harmony/capabilities/skills/refine-prompt
 ```
 
 **Why symlinks?** Agent products discover skills in their own directories (`.claude/skills/`, `.cursor/skills/`, etc.). Symlinks allow multiple agents to share the same canonical skill definition while maintaining expected directory structures.
@@ -317,10 +317,10 @@ Symlinks expose shared skills to different agent hosts:
 
 ```bash
 # Create symlinks for all skills
-.harmony/skills/scripts/setup-harness-links.sh
+.harmony/capabilities/skills/scripts/setup-harness-links.sh
 
 # Create symlinks for a specific skill
-.harmony/skills/scripts/setup-harness-links.sh refine-prompt
+.harmony/capabilities/skills/scripts/setup-harness-links.sh refine-prompt
 ```
 
 **Manual:**
@@ -330,9 +330,9 @@ Symlinks expose shared skills to different agent hosts:
 mkdir -p .claude/skills .cursor/skills .codex/skills
 
 # Link a skill to all harnesses
-ln -s ../../.harmony/skills/refine-prompt .claude/skills/refine-prompt
-ln -s ../../.harmony/skills/refine-prompt .cursor/skills/refine-prompt
-ln -s ../../.harmony/skills/refine-prompt .codex/skills/refine-prompt
+ln -s ../../.harmony/capabilities/skills/refine-prompt .claude/skills/refine-prompt
+ln -s ../../.harmony/capabilities/skills/refine-prompt .cursor/skills/refine-prompt
+ln -s ../../.harmony/capabilities/skills/refine-prompt .codex/skills/refine-prompt
 ```
 
 ### Verification
@@ -351,7 +351,7 @@ ls -la .codex/skills/
 | Symlinks not working on Windows | Enable Developer Mode or run as Administrator |
 | Agent can't find skill | Run `setup-harness-links.sh` to recreate links |
 | Broken symlinks after moving files | Delete and recreate symlinks |
-| Permission errors | Check filesystem permissions on `.harmony/skills/` |
+| Permission errors | Check filesystem permissions on `.harmony/capabilities/skills/` |
 
 ---
 
@@ -429,7 +429,7 @@ Tags enable filtering ("show me all validators") without affecting capabilities.
 
 ### Portability
 
-Skills in `.harmony/skills/` can be:
+Skills in `.harmony/capabilities/skills/` can be:
 
 - Copied to other repositories
 - Shared via git submodules

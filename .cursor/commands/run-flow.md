@@ -2,7 +2,7 @@
 
 Execute a FlowKit LangGraph flow from its `.flow.json` config file.
 
-See `.workspace/workflows/flowkit/run-flow/00-overview.md` for full description and steps.
+See `.harmony/orchestration/workflows/flowkit/run-flow/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -12,7 +12,7 @@ See `.workspace/workflows/flowkit/run-flow/00-overview.md` for full description 
 
 ## Implementation
 
-Execute the workflow in `.workspace/workflows/flowkit/run-flow/`.
+Execute the workflow in `.harmony/orchestration/workflows/flowkit/run-flow/`.
 
 Start with `00-overview.md`, then follow each step in sequence.
 
@@ -21,4 +21,4 @@ Start with `00-overview.md`, then follow each step in sequence.
 ## References
 
 - **Canonical:** `docs/kits/planning-and-orchestration/flowkit/guide.md`
-- **Workflow:** `.workspace/workflows/flowkit/run-flow/`
+- **Workflow:** `.harmony/orchestration/workflows/flowkit/run-flow/`

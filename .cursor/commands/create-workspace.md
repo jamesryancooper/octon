@@ -2,7 +2,7 @@
 
 Scaffold a new `.workspace` directory in a target location.
 
-See `.harmony/workflows/workspace/create-workspace/00-overview.md` for full description and steps.
+See `.harmony/orchestration/workflows/workspace/create-workspace/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -34,12 +34,12 @@ With a scoped template:
 
 ## Implementation
 
-Execute the workflow in `.harmony/workflows/workspace/create-workspace/`.
+Execute the workflow in `.harmony/orchestration/workflows/workspace/create-workspace/`.
 
 Start with `00-overview.md`, then follow each step in sequence.
 
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Workflow:** `.harmony/workflows/workspace/create-workspace/`
-- **Templates:** `.harmony/templates/`
+- **Workflow:** `.harmony/orchestration/workflows/workspace/create-workspace/`
+- **Templates:** `.harmony/scaffolding/templates/`

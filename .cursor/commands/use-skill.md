@@ -2,7 +2,7 @@
 
 Invoke a workspace skill with explicit selection.
 
-See `.harmony/skills/registry.yml` for shared skills and `.workspace/skills/registry.yml` for project-specific skills.
+See `.harmony/capabilities/skills/registry.yml` for shared skills and `.harmony/capabilities/skills/registry.yml` for project-specific skills.
 
 ## Usage
 
@@ -25,13 +25,13 @@ See `.harmony/skills/registry.yml` for shared skills and `.workspace/skills/regi
 
 ## Implementation
 
-1. Read `.harmony/skills/registry.yml` for shared skill definitions
-2. Read `.workspace/skills/registry.yml` for project-specific mappings and additional skills
-3. Load the skill definition from `.harmony/skills/<skill-id>/SKILL.md` or `.workspace/skills/<skill-id>/SKILL.md`
+1. Read `.harmony/capabilities/skills/registry.yml` for shared skill definitions
+2. Read `.harmony/capabilities/skills/registry.yml` for project-specific mappings and additional skills
+3. Load the skill definition from `.harmony/capabilities/skills/<skill-id>/SKILL.md`
 4. Validate inputs match skill requirements
 5. Execute the skill's behavior steps
-6. Write outputs to `.workspace/skills/outputs/` (always local)
-7. Write run log to `.workspace/skills/logs/runs/<timestamp>-<skill-id>.md`
+6. Write outputs to `.harmony/capabilities/skills/outputs/` (always local)
+7. Write run log to `.harmony/capabilities/skills/logs/runs/<timestamp>-<skill-id>.md`
 
 ## Progressive Disclosure
 
@@ -59,7 +59,7 @@ Skills can also be invoked via:
 
 ## References
 
-- **Shared Registry:** `.harmony/skills/registry.yml`
-- **Local Registry:** `.workspace/skills/registry.yml`
+- **Shared Registry:** `.harmony/capabilities/skills/registry.yml`
+- **Local Registry:** `.harmony/capabilities/skills/registry.yml`
 - **Documentation:** `docs/architecture/workspaces/skills.md`
-- **Skills README:** `.harmony/skills/README.md`
+- **Skills README:** `.harmony/capabilities/skills/README.md`

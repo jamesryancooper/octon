@@ -17,10 +17,10 @@
 .harmony/            <- Shared foundation (generic, domain-agnostic)
     |
     v inherits
-.workspace/          <- Project-specific (progress, missions, domain context)
+.harmony/            <- Single root (all content organized by cognitive function)
 ```
 
-Local `.workspace/` directories inherit from `.harmony/` and can override where needed.
+All content now lives under `.harmony/`, organized by cognitive function.
 
 ## Override Priority
 
@@ -28,14 +28,14 @@ When resolving a resource, agents check local first, then shared:
 
 | Resource | Search Order |
 |----------|--------------|
-| Assistants | `.workspace/assistants/` → `.harmony/assistants/` |
-| Templates | `.workspace/templates/` → `.harmony/templates/` |
-| Workflows | `.workspace/workflows/` → `.harmony/workflows/` |
-| Skills | `.workspace/skills/` → `.harmony/skills/` |
-| Commands | `.workspace/commands/` → `.harmony/commands/` |
-| Prompts | `.workspace/prompts/` → `.harmony/prompts/` |
-| Checklists | `.workspace/checklists/` → `.harmony/checklists/` |
-| Context | `.workspace/context/` → `.harmony/context/` |
+| Assistants | `.harmony/agency/assistants/` |
+| Templates | `.harmony/scaffolding/templates/` |
+| Workflows | `.harmony/orchestration/workflows/` |
+| Skills | `.harmony/capabilities/skills/` |
+| Commands | `.harmony/capabilities/commands/` |
+| Prompts | `.harmony/scaffolding/prompts/` |
+| Checklists | `.harmony/quality/` |
+| Context | `.harmony/cognition/context/` |
 
 ## Structure
 
@@ -86,7 +86,7 @@ When resolving a resource, agents check local first, then shared:
 └── examples/           <- Reference patterns
 ```
 
-## What Lives Here vs. `.workspace/`
+## What Lives Here
 
 ### In `.harmony/` (Shared)
 
@@ -98,7 +98,7 @@ When resolving a resource, agents check local first, then shared:
 - Base quality checklists
 - Skills framework and generic skills
 
-### In `.workspace/` (Project-Specific)
+### Project-Specific Content
 
 - `START.md`, `scope.md`, `conventions.md`, `catalog.md`
 - `progress/` (session continuity)
@@ -110,9 +110,9 @@ When resolving a resource, agents check local first, then shared:
 
 ## Skills Registry Pattern
 
-`.harmony/skills/registry.yml` defines skill capabilities without project-specific paths.
+`.harmony/capabilities/skills/registry.yml` defines skill capabilities without project-specific paths.
 
-`.workspace/skills/registry.yml` extends the harmony registry and adds:
+`.harmony/capabilities/skills/registry.yml` defines skill capabilities and adds:
 - Project-specific input/output mappings
 - Project-specific skills
 - Project-specific pipelines
@@ -121,26 +121,26 @@ When resolving a resource, agents check local first, then shared:
 
 ### Skills
 
-Harness directories (`.claude/`, `.cursor/`, `.codex/`) symlink to `.harmony/skills/` for shared skills:
+Harness directories (`.claude/`, `.cursor/`, `.codex/`) symlink to `.harmony/capabilities/skills/` for shared skills:
 
 ```
-.claude/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
-.cursor/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
-.codex/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
+.claude/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
+.cursor/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
+.codex/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
 ```
 
 ### Commands
 
-Harness command directories symlink to `.harmony/commands/` for shared commands:
+Harness command directories symlink to `.harmony/capabilities/commands/` for shared commands:
 
 ```
-.cursor/commands/refactor.md -> ../../.harmony/commands/refactor.md
-.claude/commands/refactor.md -> ../../.harmony/commands/refactor.md
+.cursor/commands/refactor.md -> ../../.harmony/capabilities/commands/refactor.md
+.claude/commands/refactor.md -> ../../.harmony/capabilities/commands/refactor.md
 ```
 
 **Note:** Codex CLI does not support project-level custom commands. Codex users have two options:
-1. Manually copy commands from `.harmony/commands/` to `~/.codex/prompts/`
-2. Invoke the workflow directly: "Execute `.harmony/workflows/refactor/00-overview.md`"
+1. Manually copy commands from `.harmony/capabilities/commands/` to `~/.codex/prompts/`
+2. Invoke the workflow directly: "Execute `.harmony/orchestration/workflows/refactor/00-overview.md`"
 
 ## Adopting in Other Repos
 
@@ -153,9 +153,9 @@ To use this workspace infrastructure in another repository:
 cp -r /path/to/harmony/.harmony /path/to/your-repo/
 
 # 2. Create a root workspace from template
-cp -r .harmony/templates/workspace .workspace
+cp -r .harmony/scaffolding/templates/workspace .workspace
 
-# 3. Customize .workspace/scope.md and .workspace/conventions.md
+# 3. Customize .harmony/scope.md and .harmony/conventions.md
 ```
 
 ### What's Included
@@ -173,10 +173,10 @@ cp -r .harmony/templates/workspace .workspace
 
 ### Next Steps
 
-1. Edit `.workspace/scope.md` to define your repo's boundaries
-2. Edit `.workspace/conventions.md` for your style rules
-3. Add repo-specific context to `.workspace/context/`
-4. Create domain workspaces as needed: `docs/.workspace/`, `packages/foo/.workspace/`
+1. Edit `.harmony/scope.md` to define your repo's boundaries
+2. Edit `.harmony/conventions.md` for your style rules
+3. Add repo-specific context to `.harmony/cognition/context/`
+4. Create domain workspaces as needed: `docs/.harmony/`, `packages/foo/.harmony/`
 
 For detailed documentation, see `docs/architecture/workspaces/shared-foundation.md`.
 

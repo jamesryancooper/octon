@@ -206,8 +206,8 @@ Since projects live at workspace level, findings flow directly to their destinat
 The `.workspace/agent-autonomy-guard.globs` file contains patterns that autonomous agents should exclude:
 
 ```text
-.workspace/.scratchpad/**
-.workspace/projects/**
+.harmony/ideation/scratchpad/**
+.harmony/ideation/projects/**
 ```
 
 Tools that scan, index, or retrieve content should respect these patterns during autonomous operation. Human-directed sessions may override by explicitly referencing specific files.
@@ -220,5 +220,5 @@ Tools that scan, index, or retrieve content should respect these patterns during
 - [Scratchpad](./scratchpad.md) — Ephemeral content and idea funnel
 - [Projects](./projects.md) — Human-led explorations
 - [Taxonomy](./taxonomy.md) — Command and workflow types
-- `.workspace/.scratchpad/README.md` — Scratchpad details
-- `.workspace/projects/README.md` — Projects details
+- `.harmony/ideation/scratchpad/README.md` — Scratchpad details
+- `.harmony/ideation/projects/README.md` — Projects details

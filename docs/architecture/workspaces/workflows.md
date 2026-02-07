@@ -1,13 +1,13 @@
 ---
 title: Workspace Workflows
-description: Workspace-scoped multi-step procedures defined in .workspace/workflows/.
+description: Workspace-scoped multi-step procedures defined in .harmony/orchestration/workflows/.
 ---
 
 # Workspace Workflows
 
-Workspace workflows are **workspace-scoped multi-step procedures** defined in `.workspace/workflows/`. They operate on artifacts in the workspace's parent directory.
+Workspace workflows are **workspace-scoped multi-step procedures** defined in `.harmony/orchestration/workflows/`. They operate on artifacts in the workspace's parent directory.
 
-> **Not FlowKit flows:** `packages/workflows/<flowId>/` contains **FlowKit flow assets** (config + manifest + prompts) executed by FlowKit + the LangGraph runtime. `.workspace/workflows/**` contains **procedures** an agent follows. The seam is `/run-flow`, which delegates to `.workspace/workflows/flowkit/run-flow/*` and runs `@packages/workflows/<flowId>/config.flow.json`.
+> **Not FlowKit flows:** `packages/workflows/<flowId>/` contains **FlowKit flow assets** (config + manifest + prompts) executed by FlowKit + the LangGraph runtime. `.harmony/orchestration/workflows/**` contains **procedures** an agent follows. The seam is `/run-flow`, which delegates to `.harmony/orchestration/workflows/flowkit/run-flow/*` and runs `@packages/workflows/<flowId>/config.flow.json`.
 
 ---
 
@@ -29,7 +29,7 @@ Workspace workflows are designed to be **portable across all AI harnesses**—Cu
        │              │              │              │
        ▼              ▼              ▼              ▼
 ┌────────────────────────────────────────────────────────────┐
-│              .workspace/workflows/<name>/                  │
+│              .harmony/orchestration/workflows/<name>/                  │
 │                                                            │
 │   Universal workflow with portable steps that work         │
 │   regardless of which harness invokes them                 │
@@ -40,7 +40,7 @@ Workspace workflows are designed to be **portable across all AI harnesses**—Cu
 
 | Principle | Description |
 |-----------|-------------|
-| **Workflows are the source of truth** | All execution logic lives in `.workspace/workflows/` |
+| **Workflows are the source of truth** | All execution logic lives in `.harmony/orchestration/workflows/` |
 | **Harness entry points are thin wrappers** | `.cursor/commands/`, `.claude/commands/`, etc. only provide syntax and delegation |
 | **No harness-specific logic in workflows** | Workflows should work identically regardless of invoking harness |
 | **Workspace is portable** | Copy a `.workspace/` to any repo, and it works with any harness |
@@ -50,7 +50,7 @@ Workspace workflows are designed to be **portable across all AI harnesses**—Cu
 **1. Create the workflow (source of truth):**
 
 ```text
-.workspace/workflows/<category>/<name>/
+.harmony/orchestration/workflows/<category>/<name>/
 ├── 00-overview.md     # Purpose, prereqs, steps, references
 ├── 01-step-one.md     # First step (if multi-step)
 ├── 02-step-two.md     # Second step
@@ -69,7 +69,7 @@ For Cursor:
 
 Brief description.
 
-See `.workspace/workflows/<category>/<name>/00-overview.md` for full description and steps.
+See `.harmony/orchestration/workflows/<category>/<name>/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -79,13 +79,13 @@ See `.workspace/workflows/<category>/<name>/00-overview.md` for full description
 
 ## Implementation
 
-Execute the workflow in `.workspace/workflows/<category>/<name>/`.
+Execute the workflow in `.harmony/orchestration/workflows/<category>/<name>/`.
 
 Start with `00-overview.md` and follow each step in sequence.
 
 ## References
 
-- **Workflow:** `.workspace/workflows/<category>/<name>/`
+- **Workflow:** `.harmony/orchestration/workflows/<category>/<name>/`
 ```
 
 For other harnesses, create equivalent wrappers in their respective directories (e.g., `.claude/commands/`, `.codex/commands/`).
@@ -93,7 +93,7 @@ For other harnesses, create equivalent wrappers in their respective directories 
 ### Example: Create Project Workflow
 
 **Workflow (source of truth):**
-`.workspace/workflows/projects/create-project.md`
+`.harmony/orchestration/workflows/projects/create-project.md`
 
 **Cursor wrapper:**
 `.cursor/commands/research.md` → Points to workflow
@@ -111,7 +111,7 @@ Workspace workflows can be invoked in multiple ways:
 
 | Method | Trigger | Example |
 |--------|---------|---------|
-| **Direct** | Agent references the workflow | Agent reads `.workspace/workflows/publish-to-docs/00-overview.md` |
+| **Direct** | Agent references the workflow | Agent reads `.harmony/orchestration/workflows/publish-to-docs/00-overview.md` |
 | **Wrapped (Cursor)** | User types `/command` in Cursor | `/create-workspace` via `.cursor/commands/` |
 | **Wrapped (Claude Code)** | User types `/command` in Claude Code | `/create-workspace` via `.claude/commands/` |
 | **Wrapped (Codex)** | User invokes command in Codex | Via `.codex/commands/` |
@@ -126,7 +126,7 @@ When wrapped by a harness-specific command, the workflow gains that harness's in
 Simple workflows can be single files. Complex workflows use subdirectories with numbered step files:
 
 ```text
-.workspace/workflows/my-workflow/
+.harmony/orchestration/workflows/my-workflow/
 ├── 00-overview.md
 ├── 01-first-step.md
 ├── 02-second-step.md
@@ -152,7 +152,7 @@ Workflow overview files (`00-overview.md`) require YAML frontmatter:
 | `description` | Yes | Brief summary (max 160 characters) |
 | `access` | Yes | `human` (has Cursor command wrapper) or `agent` (agent-only) |
 
-> This frontmatter contract applies to `.workspace/workflows/**` only. FlowKit canonical prompts under `packages/workflows/**` intentionally keep frontmatter minimal; wiring and semantics live in `config.flow.json` and `manifest.yaml`.
+> This frontmatter contract applies to `.harmony/orchestration/workflows/**` only. FlowKit canonical prompts under `packages/workflows/**` intentionally keep frontmatter minimal; wiring and semantics live in `config.flow.json` and `manifest.yaml`.
 
 ---
 
@@ -162,9 +162,9 @@ The workspace management commands demonstrate the **Cursor Command → Workflow*
 
 | Cursor Command | Delegates To | Purpose |
 |----------------|--------------|---------|
-| `/create-workspace` | `.workspace/workflows/workspace/create-workspace/` | Scaffold a new `.workspace` directory |
-| `/update-workspace` | `.workspace/workflows/workspace/update-workspace/` | Align with canonical definition |
-| `/evaluate-workspace` | `.workspace/workflows/workspace/evaluate-workspace/` | Assess token efficiency |
+| `/create-workspace` | `.harmony/orchestration/workflows/workspace/create-workspace/` | Scaffold a new `.workspace` directory |
+| `/update-workspace` | `.harmony/orchestration/workflows/workspace/update-workspace/` | Align with canonical definition |
+| `/evaluate-workspace` | `.harmony/orchestration/workflows/workspace/evaluate-workspace/` | Assess token efficiency |
 
 Each workflow subdirectory contains numbered step files for the agent to follow sequentially.
 
@@ -173,8 +173,8 @@ Each workflow subdirectory contains numbered step files for the agent to follow 
 | Layer | Location | Purpose |
 |-------|----------|---------|
 | **Entry points** | `.<harness>/commands/*.md` | Harness-specific wrappers (Cursor, Claude Code, Codex, etc.) |
-| **Implementation** | `.workspace/workflows/<category>/<name>/` | Multi-step procedure the agent executes (source of truth) |
-| **Templates** | `.workspace/templates/` | Boilerplate for scaffolding |
+| **Implementation** | `.harmony/orchestration/workflows/<category>/<name>/` | Multi-step procedure the agent executes (source of truth) |
+| **Templates** | `.harmony/scaffolding/templates/` | Boilerplate for scaffolding |
 
 ### Usage Examples
 

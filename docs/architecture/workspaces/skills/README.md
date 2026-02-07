@@ -5,7 +5,7 @@ description: Capability-driven workspace skills system with two-tier architectur
 
 # Workspace Skills
 
-Skills are **composable capability units** defined by the [agentskills.io](https://agentskills.io) specification. In Harmony, they use a **two-tier hierarchical architecture**: portable, shared skill definitions live in `.harmony/skills/`, while workspace-specific I/O and execution configuration live in `.workspace/skills/`.
+Skills are **composable capability units** defined by the [agentskills.io](https://agentskills.io) specification. In Harmony, they use a **two-tier hierarchical architecture**: portable, shared skill definitions live in `.harmony/capabilities/skills/`, while workspace-specific I/O and execution configuration live in `.harmony/capabilities/skills/`.
 
 Skills declare their **capabilities** (what they can do) and **skill sets** (capability bundles), which determine their documentation requirements and discovery patterns.
 
@@ -54,8 +54,8 @@ repo/                          ← Root workspace
 
 - Workspaces can write **down** into descendant workspaces
 - Workspaces cannot write **up** into ancestors or **sideways** into siblings
-- Deliverables go to `.workspace/{{category}}/` (final destination)
-- Execution state goes to `.workspace/skills/runs/{{skill-id}}/{{run-id}}/`
+- Deliverables go to `.harmony/{{category}}/` (final destination)
+- Execution state goes to `.harmony/capabilities/skills/runs/{{skill-id}}/{{run-id}}/`
 
 See [Architecture](./architecture.md) for the complete model.
 
@@ -119,17 +119,17 @@ See [Creation](./creation.md) for the full workflow.
 
 | Location | Purpose |
 |----------|---------|
-| `.harmony/skills/` | Shared skill definitions (portable) |
-| `.harmony/skills/manifest.yml` | Skill index with capabilities |
-| `.harmony/skills/registry.yml` | Extended metadata + skill set definitions |
-| `.harmony/skills/_template/` | Scaffolding for new skills |
-| `.harmony/skills/scripts/validate-skills.sh` | Capability validation script |
-| `.workspace/skills/` | Workspace-specific I/O configuration |
-| `.workspace/skills/manifest.yml` | Workspace-specific skill index |
-| `.workspace/skills/registry.yml` | Workspace I/O mappings |
-| `.workspace/skills/runs/{{skill-id}}/` | Execution state (checkpoints) |
-| `.workspace/skills/logs/{{skill-id}}/` | Skill-specific logs |
-| `.workspace/{{category}}/` | Deliverables (prompts, drafts, etc.) |
+| `.harmony/capabilities/skills/` | Shared skill definitions (portable) |
+| `.harmony/capabilities/skills/manifest.yml` | Skill index with capabilities |
+| `.harmony/capabilities/skills/registry.yml` | Extended metadata + skill set definitions |
+| `.harmony/capabilities/skills/_template/` | Scaffolding for new skills |
+| `.harmony/capabilities/skills/scripts/validate-skills.sh` | Capability validation script |
+| `.harmony/capabilities/skills/` | Workspace-specific I/O configuration |
+| `.harmony/capabilities/skills/manifest.yml` | Workspace-specific skill index |
+| `.harmony/capabilities/skills/registry.yml` | Workspace I/O mappings |
+| `.harmony/capabilities/skills/runs/{{skill-id}}/` | Execution state (checkpoints) |
+| `.harmony/capabilities/skills/logs/{{skill-id}}/` | Skill-specific logs |
+| `.harmony/{{category}}/` | Deliverables (prompts, drafts, etc.) |
 
 ---
 
@@ -142,9 +142,9 @@ See [Creation](./creation.md) for the full workflow.
 
 ### Internal Resources
 
-- `.harmony/skills/refactor/` — Example skill with `[executor, guardian]` skill sets
-- `.harmony/skills/refine-prompt/` — Example skill with `[executor, collaborator]` skill sets
-- `.harmony/skills/_template/` — Skill template with capability guidance
+- `.harmony/capabilities/skills/refactor/` — Example skill with `[executor, guardian]` skill sets
+- `.harmony/capabilities/skills/refine-prompt/` — Example skill with `[executor, collaborator]` skill sets
+- `.harmony/capabilities/skills/_template/` — Skill template with capability guidance
 
 ### Related Documentation
 
