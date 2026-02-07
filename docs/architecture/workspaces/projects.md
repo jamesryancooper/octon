@@ -17,7 +17,7 @@ A project is a **scaled-down workspace** for human-led exploration:
 |---------------------|----------------------------|
 | `scope.md` | `project.md` (Goal, Scope, Questions) |
 | `continuity/log.md` | `log.md` (Session notes) |
-| `context/decisions.md` | Findings Summary in `project.md` |
+| `cognition/context/decisions.md` | Findings Summary in `project.md` |
 | `continuity/tasks.json` | Key Questions in `project.md` |
 
 Projects provide structure for investigations that:
@@ -53,15 +53,15 @@ Projects and missions serve different purposes:
 Projects sit in a pipeline from raw ideas to executed work:
 
 ```
-.scratchpad/ideas/      Quick captures (most ephemeral)
+ideation/scratchpad/ideas/      Quick captures (most ephemeral)
         ↓
-.scratchpad/brainstorm/ Structured exploration (filter stage)
+ideation/scratchpad/brainstorm/ Structured exploration (filter stage)
         ↓
-projects/               Committed research (produces artifacts)
+ideation/projects/              Committed research (produces artifacts)
         ↓
-missions/               Committed execution (ships deliverables)
+orchestration/missions/         Committed execution (ships deliverables)
         ↓
-context/                Permanent workspace knowledge
+cognition/context/              Permanent workspace knowledge
 ```
 
 Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `context/` directly or spawn `missions/`.
@@ -129,7 +129,7 @@ The `registry.md` tracks all projects in three tables:
 
 | Project | Goal | Completed | Outcomes |
 |---------|------|-----------|----------|
-| api-design | Design v2 API structure | 2025-01-05 | context/decisions.md, mission created |
+| api-design | Design v2 API structure | 2025-01-05 | cognition/context/decisions.md, mission created |
 ```
 
 ---
@@ -170,9 +170,9 @@ last_activity: YYYY-MM-DD
 ## Outputs
 
 When this research matures, findings should go to:
-- [ ] `context/decisions.md` — Design decisions made
-- [ ] `context/lessons.md` — Anti-patterns discovered
-- [ ] `context/glossary.md` — New terminology defined
+- [ ] `cognition/context/decisions.md` — Design decisions made
+- [ ] `cognition/context/lessons.md` — Anti-patterns discovered
+- [ ] `cognition/context/glossary.md` — New terminology defined
 - [ ] Create mission — If actionable work identified
 
 ## Status
@@ -341,10 +341,10 @@ Projects should consume workspace context as research inputs:
 
 | Resource | How It Helps |
 |----------|--------------|
-| `context/glossary.md` | Understand domain terminology |
-| `context/decisions.md` | Know existing decisions to build on |
-| `context/lessons.md` | Avoid known anti-patterns |
-| `context/constraints.md` | Respect non-negotiable boundaries |
+| `cognition/context/glossary.md` | Understand domain terminology |
+| `cognition/context/decisions.md` | Know existing decisions to build on |
+| `cognition/context/lessons.md` | Avoid known anti-patterns |
+| `cognition/context/constraints.md` | Respect non-negotiable boundaries |
 
 ---
 
@@ -376,11 +376,11 @@ When work needs to pause:
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `context/decisions.md` |
-| Anti-patterns discovered | `context/lessons.md` |
-| New terminology | `context/glossary.md` |
-| Actionable work identified | Create mission in `missions/` |
-| Finalized constraints | `context/constraints.md` |
+| Design decisions | `cognition/context/decisions.md` |
+| Anti-patterns discovered | `cognition/context/lessons.md` |
+| New terminology | `cognition/context/glossary.md` |
+| Actionable work identified | Create mission in `orchestration/missions/` |
+| Finalized constraints | `cognition/context/constraints.md` |
 
 ---
 
@@ -424,8 +424,8 @@ Evaluate authentication library options for the new user service.
 3. What are the security tradeoffs?
 
 ## Outputs
-- [x] `context/decisions.md` — Library selection
-- [ ] `context/lessons.md` — Security pitfalls found
+- [x] `cognition/context/decisions.md` — Library selection
+- [ ] `cognition/context/lessons.md` — Security pitfalls found
 - [ ] Create mission — Implementation work
 
 ## Findings Summary

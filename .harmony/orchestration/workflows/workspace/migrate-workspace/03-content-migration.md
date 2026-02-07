@@ -10,7 +10,7 @@ Transform content to meet current conventions.
 
 2. **Compress agent-facing content**
    - Target token budgets per `docs/architecture/workspaces/README.md#token-budget-guidelines`
-   - Move explanatory prose to `.scratchpad/`
+   - Move explanatory prose to `ideation/scratchpad/`
    - Convert paragraphs to lists where possible
 
 3. **Add missing frontmatter**

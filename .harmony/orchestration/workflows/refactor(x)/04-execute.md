@@ -55,7 +55,7 @@ Make all planned changes systematically, tracking progress against the manifest.
    - None
    ```
 
-   For `context/decisions.md` (if applicable):
+   For `cognition/context/decisions.md` (if applicable):
    ```markdown
    | D0XX | [Topic] naming | `.scratchpad/` over `.scratch/` | [rationale] | YYYY-MM-DD |
    ```

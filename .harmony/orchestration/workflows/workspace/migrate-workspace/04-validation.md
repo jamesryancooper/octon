@@ -26,7 +26,7 @@ Verify the migrated workspace is functional.
 |---------|---------|
 | **Migration Summary** | Files moved, transformed, created |
 | **Preserved Content** | Custom content retained with new locations |
-| **Archived Content** | Deprecated content moved to `.scratchpad/archive/` |
+| **Archived Content** | Deprecated content moved to `ideation/scratchpad/archive/` |
 | **Validation Status** | Pass/fail with details |
 | **Post-Migration Notes** | Any manual follow-up needed |
 

@@ -7,7 +7,7 @@ Classify each piece of content:
 | Classification | Destination |
 |----------------|-------------|
 | Agent-facing | Stays in `.harmony/` |
-| Human-facing | Moves to `.scratchpad/` |
+| Human-facing | Moves to `ideation/scratchpad/` |
 
 ## Token Budget Check
 

@@ -29,7 +29,7 @@ Record the completed refactor in continuity artifacts and formally close the ref
    - None
    ```
 
-3. If the refactor represents a decision, update `context/decisions.md` (**APPEND ONLY**):
+3. If the refactor represents a decision, update `cognition/context/decisions.md` (**APPEND ONLY**):
    ```markdown
    | D0XX | [Topic] naming | `new-name` over `old-name` | [rationale] | YYYY-MM-DD |
    ```

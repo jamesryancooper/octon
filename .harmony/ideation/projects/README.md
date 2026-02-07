@@ -30,15 +30,15 @@ Projects are **human-led explorations** that produce artifacts feeding the main 
 Projects sit in a pipeline from raw ideas to executed work:
 
 ```
-.scratchpad/ideas/      Quick captures (most ephemeral)
+ideation/scratchpad/ideas/      Quick captures (most ephemeral)
         ↓
-.scratchpad/brainstorm/ Structured exploration (filter stage)
+ideation/scratchpad/brainstorm/ Structured exploration (filter stage)
         ↓
-projects/               Committed research (produces artifacts)
+ideation/projects/              Committed research (produces artifacts)
         ↓
-missions/               Committed execution (ships deliverables)
+orchestration/missions/         Committed execution (ships deliverables)
         ↓
-context/                Permanent workspace knowledge
+cognition/context/              Permanent workspace knowledge
 ```
 
 Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `context/` directly or spawn `missions/`.
@@ -150,13 +150,13 @@ When findings are ready:
 4. **Move registry entry** from **Active** to **Completed**
 5. **Note outcomes** — what was published and where
 
-Unlike the old scratchpad model, there's no separate "promotion" step. Projects live in the workspace, so findings flow directly to `context/decisions.md`, `context/lessons.md`, etc.
+Unlike the old scratchpad model, there's no separate "promotion" step. Projects live in the workspace, so findings flow directly to `cognition/context/decisions.md`, `cognition/context/lessons.md`, etc.
 
 ---
 
 ## See Also
 
-- [`missions/`](../missions/README.md) — Convergent execution workstreams
-- [`.scratchpad/brainstorm/`](../.scratchpad/brainstorm/README.md) — Pre-project exploration
-- [`context/`](../context/) — Where findings get published
+- [`orchestration/missions/`](../../orchestration/missions/README.md) — Convergent execution workstreams
+- [`ideation/scratchpad/brainstorm/`](../scratchpad/brainstorm/README.md) — Pre-project exploration
+- [`cognition/context/`](../../cognition/context/) — Where findings get published
 - [`docs/architecture/workspaces/projects.md`](../../docs/architecture/workspaces/projects.md) — Full architecture documentation

@@ -5,7 +5,7 @@ description: Human-led thinking, exploration, and the ideas-to-projects funnel.
 
 # Workspace Scratchpad
 
-The `.scratchpad/` directory is a **persistent, human-led space** for thinking, exploration, and early-stage idea development. Unlike the main workspace which is agent-facing, `.scratchpad/` requires explicit human direction for agent collaboration.
+The `ideation/scratchpad/` directory is a **persistent, human-led space** for thinking, exploration, and early-stage idea development. Unlike the main workspace which is agent-facing, `ideation/scratchpad/` requires explicit human direction for agent collaboration.
 
 ---
 
@@ -30,7 +30,7 @@ The scratchpad serves needs that don't fit in agent-facing directories:
 The scratchpad is the **entry point** for a pipeline that filters ideas into committed work:
 
 ```
-.scratchpad/                    .harmony/
+ideation/scratchpad/             .harmony/
 ┌─────────────────────┐        ┌─────────────────────┐
 │ ideas/              │        │ projects/           │
 │ (quick captures)    │───────▶│ (committed research)│
@@ -57,7 +57,7 @@ The scratchpad is the **entry point** for a pipeline that filters ideas into com
 ## Directory Structure
 
 ```text
-.scratchpad/
+ideation/scratchpad/
 ├── README.md       # Purpose and rules
 ├── inbox/          # Temporary staging for imports
 ├── archive/        # Deprecated content
@@ -80,7 +80,7 @@ The scratchpad is the **entry point** for a pipeline that filters ideas into com
 flowchart TD
     subgraph autonomous [Autonomous Mode]
         A[Agent working autonomously]
-        B[".scratchpad/ is invisible"]
+        B["ideation/scratchpad/ is invisible"]
     end
 
     subgraph directed [Human-Directed Mode]
@@ -95,21 +95,21 @@ flowchart TD
 
 | Mode | Agent Behavior |
 |------|----------------|
-| **Autonomous** | MUST NOT scan, read, or write to `.scratchpad/**` |
+| **Autonomous** | MUST NOT scan, read, or write to `ideation/scratchpad/**` |
 | **Human-directed** | MAY access specific files when human explicitly points to them |
 
 ### Valid Collaboration
 
 ```text
-Human: "Review .scratchpad/brainstorm/new-feature.md and help clarify"
+Human: "Review ideation/scratchpad/brainstorm/new-feature.md and help clarify"
 Agent: [Reads specific file, assists as directed]
 ```
 
 ### Invalid Autonomous Action
 
 ```text
-Agent: "I found relevant notes in .scratchpad/..."
-→ VIOLATION: Agent scanned .scratchpad/ without human direction
+Agent: "I found relevant notes in ideation/scratchpad/..."
+→ VIOLATION: Agent scanned ideation/scratchpad/ without human direction
 ```
 
 ---
@@ -249,7 +249,7 @@ graph TB
             missions[missions/]
         end
 
-        subgraph human_led [Human-Led: .scratchpad/]
+        subgraph human_led [Human-Led: ideation/scratchpad/]
             brainstorm[brainstorm/]
             ideas[ideas/]
             inbox[inbox/]
@@ -269,7 +269,7 @@ graph TB
 | `projects/` | Human-led (explicit direction) | Until completed |
 | `missions/` | Agent-accessible | Until archived |
 | `context/` | Agent-accessible | Permanent |
-| `.scratchpad/*` | Human-led only | Varies |
+| `ideation/scratchpad/*` | Human-led only | Varies |
 
 ---
 

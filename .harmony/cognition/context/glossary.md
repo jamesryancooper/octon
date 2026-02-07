@@ -20,8 +20,8 @@ Terms used consistently throughout workspace documentation. Use these terms exac
 | Workspace workflow | Multi-step procedure in `.harmony/orchestration/workflows/`. |
 | Prompt | Task template in `.harmony/scaffolding/prompts/` requiring judgment. |
 | Agent-ignored | Dot-prefixed directories that agents MUST NOT access autonomously. |
-| Human-led | Directories (`projects/`, `.scratchpad/`) agents may access only when human explicitly directs to specific files. |
-| Scratchpad | Human-led zone (`.scratchpad/`) for ephemeral content and the early-stage idea funnel. Subdirectories: `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`. |
+| Human-led | Directories (`ideation/projects/`, `ideation/scratchpad/`) agents may access only when human explicitly directs to specific files. |
+| Scratchpad | Human-led zone (`ideation/scratchpad/`) for ephemeral content and the early-stage idea funnel. Subdirectories: `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`. |
 | Project | Human-led exploration in `projects/` that produces workspace artifacts. |
-| Brainstorm | Single-file structured exploration in `.scratchpad/brainstorm/` — filter stage between ideas and projects. |
+| Brainstorm | Single-file structured exploration in `ideation/scratchpad/brainstorm/` -- filter stage between ideas and projects. |
 | The Funnel | Pipeline from ideas to committed work: `ideas/` → `brainstorm/` → `projects/` → `missions/` → `context/`. |

@@ -36,9 +36,9 @@ last_activity: YYYY-MM-DD
 
 When this research matures, findings should go to:
 
-- [ ] `context/decisions.md` — Design decisions made
-- [ ] `context/lessons.md` — Anti-patterns discovered
-- [ ] `context/glossary.md` — New terminology defined
+- [ ] `cognition/context/decisions.md` — Design decisions made
+- [ ] `cognition/context/lessons.md` — Anti-patterns discovered
+- [ ] `cognition/context/glossary.md` — New terminology defined
 - [ ] Create mission — If actionable work identified
 - [ ] Other: [specify]
 

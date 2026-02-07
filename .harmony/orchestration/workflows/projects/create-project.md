@@ -76,9 +76,9 @@ projects/<slug>/
 Projects sit in a pipeline from ideas to executed work:
 
 ```
-.scratchpad/ideas/      → Quick captures (most die here)
+ideation/scratchpad/ideas/      → Quick captures (most die here)
         ↓
-.scratchpad/brainstorm/ → Structured exploration (filter stage)
+ideation/scratchpad/brainstorm/ → Structured exploration (filter stage)
         ↓
 projects/               → Committed research (produces artifacts)
         ↓
@@ -98,4 +98,4 @@ context/                → Permanent knowledge
 
 - [Projects](../../../docs/architecture/workspaces/projects.md) — Full documentation
 - [Registry](../../projects/registry.md) — Project tracking
-- [Brainstorm](../../.scratchpad/brainstorm/README.md) — Upstream exploration
+- [Brainstorm](../../ideation/scratchpad/brainstorm/README.md) — Upstream exploration

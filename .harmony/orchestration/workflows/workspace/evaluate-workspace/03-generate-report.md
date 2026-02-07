@@ -10,7 +10,7 @@ Produce report with these sections:
 | **Content Issues** | Staleness, bloat, gaps, scope drift |
 | **Keep** | Elements to retain (with justification) |
 | **Recommended cuts/merges** | Elements that could be removed or consolidated |
-| **Human-facing content** | Content that should move to `.scratchpad/` |
+| **Human-facing content** | Content that should move to `ideation/scratchpad/` |
 | **Minimal structure** | Proposed lean structure |
 | **Gaps** | Missing essential elements |
 | **Recommendations** | Prioritized action items |

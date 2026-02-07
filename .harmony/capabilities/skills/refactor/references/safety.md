@@ -72,7 +72,7 @@ continuity_patterns:
   - "**/continuity/log.md"
   - "**/continuity/*.md"
   - "**/decisions/*.md"
-  - "**/context/decisions.md"
+  - "**/cognition/context/decisions.md"
   - "**/CHANGELOG.md"
   - "**/HISTORY.md"
   - "**/.history/**"

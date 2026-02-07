@@ -57,12 +57,12 @@ const CRITICAL_PATHS = [
   "packages/kits/flowkit/src/index.ts",
   "packages/kits/flowkit/src/types.ts",
 
-  // Workspace workflow
-  ".workspace/workflows/flowkit/run-flow/00-overview.md",
-  ".workspace/workflows/flowkit/run-flow/01-validate-input.md",
-  ".workspace/workflows/flowkit/run-flow/02-parse-config.md",
-  ".workspace/workflows/flowkit/run-flow/03-execute-flow.md",
-  ".workspace/workflows/flowkit/run-flow/04-report-results.md",
+  // Harmony workflow
+  ".harmony/orchestration/workflows/flowkit/run-flow/00-overview.md",
+  ".harmony/orchestration/workflows/flowkit/run-flow/01-validate-input.md",
+  ".harmony/orchestration/workflows/flowkit/run-flow/02-parse-config.md",
+  ".harmony/orchestration/workflows/flowkit/run-flow/03-execute-flow.md",
+  ".harmony/orchestration/workflows/flowkit/run-flow/04-report-results.md",
 
   // Cursor command
   ".cursor/commands/run-flow.md",

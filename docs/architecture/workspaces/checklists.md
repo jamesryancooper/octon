@@ -77,10 +77,10 @@ Steps to complete before ending a session, context reset, or handoff.
 ## Conditional Steps
 
 ### If a decision was made
-- [ ] Add to `context/decisions.md`
+- [ ] Add to `cognition/context/decisions.md`
 
 ### If something failed
-- [ ] Add to `context/lessons.md`
+- [ ] Add to `cognition/context/lessons.md`
 ```
 
 ### Purpose

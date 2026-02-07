@@ -254,7 +254,7 @@ Transform audit results into an actionable change manifest.
 
    ### Phase 4: Continuity Artifacts (APPEND ONLY)
    - [ ] `continuity/log.md` — Add entry (DO NOT MODIFY EXISTING)
-   - [ ] `context/decisions.md` — Add entry if applicable
+   - [ ] `cognition/context/decisions.md` — Add entry if applicable
    ```
 
 2. **Identify continuity artifacts:**
@@ -263,7 +263,7 @@ Transform audit results into an actionable change manifest.
    - `**/continuity/log.md`
    - `**/continuity/*.md`
    - `**/decisions/*.md`
-   - `**/context/decisions.md`
+   - `**/cognition/context/decisions.md`
    - `**/CHANGELOG.md`
    - `**/ADR-*.md`, `**/adr-*.md`
 

@@ -16,8 +16,8 @@ Read all existing files in the target `.workspace` and create a migration plan.
 |-------------|-----------------|
 | `README.md` at root | Keep or move to `docs/` |
 | `agents/` directory | Flatten to `prompts/` |
-| Verbose agent content | Compress, move rationale to `.scratchpad/` |
-| Missing `progress/` | Create with current state |
+| Verbose agent content | Compress, move rationale to `ideation/scratchpad/` |
+| Missing `continuity/` | Create with current state |
 | Missing `access` frontmatter | Add to commands/workflows/prompts |
 
 ## Output

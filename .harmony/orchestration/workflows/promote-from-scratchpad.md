@@ -1,12 +1,12 @@
 ---
 title: Promote from Scratch
-description: Publish distilled insights from .scratchpad/ to agent-facing artifacts.
+description: Publish distilled insights from ideation/scratchpad/ to agent-facing artifacts.
 access: human
 ---
 
 # Promote from Scratch
 
-When thinking in `.scratchpad/` matures into actionable knowledge, use this workflow to promote insights to agent-facing locations.
+When thinking in `ideation/scratchpad/` matures into actionable knowledge, use this workflow to promote insights to agent-facing locations.
 
 ---
 
@@ -14,11 +14,11 @@ When thinking in `.scratchpad/` matures into actionable knowledge, use this work
 
 | Trigger | What Happened | Action |
 |---------|---------------|--------|
-| **Decision made** | You've resolved a question or chosen a direction | Add to `context/decisions.md` |
-| **Constraint discovered** | You've identified a non-negotiable requirement | Add to `context/constraints.md` |
-| **Pattern identified** | You've found a reusable approach | Add to `context/lessons.md` or create workflow |
-| **Term clarified** | You've defined domain vocabulary | Add to `context/glossary.md` |
-| **Next step identified** | You know the immediate action to take | Add to `progress/next.md` |
+| **Decision made** | You've resolved a question or chosen a direction | Add to `cognition/context/decisions.md` |
+| **Constraint discovered** | You've identified a non-negotiable requirement | Add to `cognition/context/constraints.md` |
+| **Pattern identified** | You've found a reusable approach | Add to `cognition/context/lessons.md` or create workflow |
+| **Term clarified** | You've defined domain vocabulary | Add to `cognition/context/glossary.md` |
+| **Next step identified** | You know the immediate action to take | Add to `continuity/next.md` |
 
 ---
 
@@ -26,12 +26,12 @@ When thinking in `.scratchpad/` matures into actionable knowledge, use this work
 
 | Content Type | Destination | Format |
 |--------------|-------------|--------|
-| Finalized decisions + rationale | `context/decisions.md` | Table row or section |
-| Non-negotiable constraints | `context/constraints.md` | Table row or section |
-| Domain terminology | `context/glossary.md` | Table row |
-| Lessons learned, anti-patterns | `context/lessons.md` | Entry with context |
-| Immediate next actions | `progress/next.md` | Actionable list |
-| Reusable procedures | `workflows/` or `commands/` | New file |
+| Finalized decisions + rationale | `cognition/context/decisions.md` | Table row or section |
+| Non-negotiable constraints | `cognition/context/constraints.md` | Table row or section |
+| Domain terminology | `cognition/context/glossary.md` | Table row |
+| Lessons learned, anti-patterns | `cognition/context/lessons.md` | Entry with context |
+| Immediate next actions | `continuity/next.md` | Actionable list |
+| Reusable procedures | `orchestration/workflows/` or `capabilities/commands/` | New file |
 
 ---
 
@@ -39,7 +39,7 @@ When thinking in `.scratchpad/` matures into actionable knowledge, use this work
 
 ### 1. Identify Mature Content
 
-Review `.scratchpad/` for content that is:
+Review `ideation/scratchpad/` for content that is:
 
 - Validated (not speculation)
 - Actionable (agents can use it)
@@ -68,7 +68,7 @@ touch .harmony/continuity/next.md
 
 Follow the format conventions of the destination file:
 
-**For `context/decisions.md`:**
+**For `cognition/context/decisions.md`:**
 
 ```markdown
 | ID | Decision | Choice | Rationale | Date |
@@ -76,7 +76,7 @@ Follow the format conventions of the destination file:
 | D00X | [Topic] | [Choice] | [Why] | YYYY-MM-DD |
 ```
 
-**For `context/constraints.md`:**
+**For `cognition/context/constraints.md`:**
 
 ```markdown
 | Constraint | Implication | Reason |
@@ -84,7 +84,7 @@ Follow the format conventions of the destination file:
 | [Rule] | [What it means] | [Why it exists] |
 ```
 
-**For `context/glossary.md`:**
+**For `cognition/context/glossary.md`:**
 
 ```markdown
 | Term | Definition |
@@ -92,7 +92,7 @@ Follow the format conventions of the destination file:
 | [Term] | [Meaning in this context] |
 ```
 
-**For `progress/next.md`:**
+**For `continuity/next.md`:**
 
 ```markdown
 ## Next Actions
@@ -103,7 +103,7 @@ Follow the format conventions of the destination file:
 
 ### 5. Update Scratch Status (Optional)
 
-Mark promoted content in `.scratchpad/` to avoid re-promoting:
+Mark promoted content in `ideation/scratchpad/` to avoid re-promoting:
 
 ```markdown
 ## Ideas
@@ -117,9 +117,9 @@ Or move to a "promoted" section within the scratch file.
 
 ## Example Scenario
 
-**Situation:** Human explored authentication approaches in `.scratchpad/research.md`
+**Situation:** Human explored authentication approaches in `ideation/scratchpad/research.md`
 
-**Before (in `.scratchpad/research.md`):**
+**Before (in `ideation/scratchpad/research.md`):**
 
 ```markdown
 ## Auth Options
@@ -133,7 +133,7 @@ Maybe we should also consider...
 [more exploration]
 ```
 
-**After promotion (in `context/decisions.md`):**
+**After promotion (in `cognition/context/decisions.md`):**
 
 ```markdown
 | ID | Decision | Choice | Rationale | Date |
@@ -163,5 +163,5 @@ An agent may help:
 
 ## See Also
 
-- [`.harmony/ideation/scratchpad/README.md`](../.scratchpad/README.md) — Human-led zone (includes inbox, archive, projects)
+- [`.harmony/ideation/scratchpad/README.md`](../ideation/scratchpad/README.md) — Human-led zone (includes inbox, archive, projects)
 - [`.harmony/START.md`](../START.md) — Visibility rules and routing

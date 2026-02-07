@@ -34,13 +34,13 @@ The `context/` directory contains **background knowledge** that agents need to w
 | Token compaction strategies | ✅ Yes |
 | Available tools reference | ✅ Yes |
 | How-to instructions | ❌ No (use prompts/workflows) |
-| Full decision rationale | ❌ No (use `docs/decisions/` or `.scratchpad/`) |
+| Full decision rationale | ❌ No (use `docs/decisions/` or `ideation/scratchpad/`) |
 
 ---
 
 ## `decisions.md`
 
-Agent-readable summaries of key decisions that constrain work. Full ADRs with extended rationale can go in `docs/decisions/` or `.scratchpad/` for drafts.
+Agent-readable summaries of key decisions that constrain work. Full ADRs with extended rationale can go in `docs/decisions/` or `ideation/scratchpad/` for drafts.
 
 ### Decisions Format
 
@@ -223,7 +223,7 @@ Reference of available tools and capabilities for agents working in this workspa
 
 ## Token Budget
 
-Context files should be **minimal**. Only include information an agent needs to act correctly. Extended explanations can go in `docs/` or `.scratchpad/`.
+Context files should be **minimal**. Only include information an agent needs to act correctly. Extended explanations can go in `docs/` or `ideation/scratchpad/`.
 
 See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table.
 

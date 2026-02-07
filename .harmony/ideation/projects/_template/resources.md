@@ -22,10 +22,10 @@ Consult these for background knowledge:
 
 | Resource | Why It's Relevant |
 |----------|-------------------|
-| `context/glossary.md` | Domain terminology definitions |
-| `context/decisions.md` | Existing decisions to build on or challenge |
-| `context/lessons.md` | Anti-patterns and failures to avoid |
-| `context/constraints.md` | Non-negotiable boundaries |
+| `cognition/context/glossary.md` | Domain terminology definitions |
+| `cognition/context/decisions.md` | Existing decisions to build on or challenge |
+| `cognition/context/lessons.md` | Anti-patterns and failures to avoid |
+| `cognition/context/constraints.md` | Non-negotiable boundaries |
 
 ---
 

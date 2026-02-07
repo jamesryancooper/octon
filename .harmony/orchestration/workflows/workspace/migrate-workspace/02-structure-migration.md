@@ -5,31 +5,31 @@ Apply structural changes to align with current conventions.
 ## Actions
 
 1. Create missing required directories:
-   - `progress/` (if missing)
-   - `checklists/` (if missing)
+   - `continuity/` (if missing)
+   - `quality/` (if missing)
    - `projects/` (if needed)
 
-2. Create `.scratchpad/` with subdirectories if needed:
-   - `.scratchpad/inbox/` — temporary staging
-   - `.scratchpad/archive/` — deprecated content
-   - `.scratchpad/brainstorm/` — ideas under exploration
-   - `.scratchpad/ideas/` — quick captures
-   - `.scratchpad/drafts/` — work in progress
+2. Create `ideation/scratchpad/` with subdirectories if needed:
+   - `ideation/scratchpad/inbox/` — temporary staging
+   - `ideation/scratchpad/archive/` — deprecated content
+   - `ideation/scratchpad/brainstorm/` — ideas under exploration
+   - `ideation/scratchpad/ideas/` — quick captures
+   - `ideation/scratchpad/drafts/` — work in progress
 
 3. Move files to new locations:
 
 | Source | Destination |
 |--------|-------------|
 | `agents/*.md` | `prompts/*.md` (flatten) |
-| Explanatory content | `.scratchpad/` |
-| Deprecated content | `.scratchpad/archive/` |
-| Research projects in `.scratchpad/projects/` | `projects/` |
+| Explanatory content | `ideation/scratchpad/` |
+| Deprecated content | `ideation/scratchpad/archive/` |
+| Research projects in `ideation/projects/` | `projects/` |
 
-4. Do NOT pre-create empty `.scratchpad/` subdirectories; create only when needed
+4. Do NOT pre-create empty `ideation/scratchpad/` subdirectories; create only when needed
 
 ## Verification
 
 - Required files exist: `START.md`, `scope.md`, `conventions.md`
-- Required dirs exist: `progress/`, `checklists/`
-- No agent-facing files reference `.scratchpad/` content
+- Required dirs exist: `continuity/`, `quality/`
+- No agent-facing files reference `ideation/scratchpad/` content
 - Projects directory exists at workspace level if research projects are present

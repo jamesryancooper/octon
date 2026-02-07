@@ -19,7 +19,7 @@ description: Quality criteria and completion checklist for workspace tasks.
 
 - [ ] Under token budget
 - [ ] Actionable (agent can act on it immediately)
-- [ ] No explanatory padding ("why" belongs in `.scratchpad/` or `docs/`)
+- [ ] No explanatory padding ("why" belongs in `ideation/scratchpad/` or `docs/`)
 - [ ] Uses lists over prose
 
 ### For Prompts/Workflows
@@ -36,4 +36,4 @@ description: Quality criteria and completion checklist for workspace tasks.
 | **Premature completion** | Run through this checklist before marking done |
 | **Scope creep** | Re-read `scope.md` if task expands |
 | **Broken continuity** | Always update `continuity/log.md` before session end |
-| **Token bloat** | Ask "does an agent need this to act?" If no, cut it or move to `.scratchpad/` |
+| **Token bloat** | Ask "does an agent need this to act?" If no, cut it or move to `ideation/scratchpad/` |

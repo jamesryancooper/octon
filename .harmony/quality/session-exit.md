@@ -33,18 +33,18 @@ Complete before ending a session, context reset, or handoff.
 
 ### If a decision was made
 
-- [ ] Add to `context/decisions.md`
-- [ ] Optionally create full ADR in `docs/decisions/` or `.scratchpad/`
+- [ ] Add to `cognition/context/decisions.md`
+- [ ] Optionally create full ADR in `docs/decisions/` or `ideation/scratchpad/`
 
 ### If something failed
 
-- [ ] Add to `context/lessons.md`
+- [ ] Add to `cognition/context/lessons.md`
 - [ ] Note in `continuity/log.md`
 
 ### If new patterns discovered
 
 - [ ] Consider adding to `conventions.md`
-- [ ] Or add to `context/lessons.md` as anti-pattern
+- [ ] Or add to `cognition/context/lessons.md` as anti-pattern
 
 ## Session Summary Template
 

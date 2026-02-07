@@ -30,7 +30,7 @@ See `catalog.md#command-vs-prompt-decision` for the canonical decision logic, fl
 ## Output (what to produce)
 ```
 
-### Human-Facing Files (in `.scratchpad/` or `docs/`)
+### Human-Facing Files (in `ideation/scratchpad/` or `docs/`)
 
 - Full prose explanations welcome
 - Include rationale and history
@@ -40,7 +40,7 @@ See `catalog.md#command-vs-prompt-decision` for the canonical decision logic, fl
 
 | Do | Don't |
 |----|-------|
-| Use imperative verbs | Explain why (save for `.scratchpad/` or `docs/`) |
+| Use imperative verbs | Explain why (save for `ideation/scratchpad/` or `docs/`) |
 | Use lists over prose | Write paragraphs |
 | Be specific and concrete | Use vague language |
 | Include examples when non-obvious | Over-document obvious patterns |
@@ -112,7 +112,7 @@ Continuity artifacts are files that preserve historical context across sessions.
 | File | Purpose | Rule |
 |------|---------|------|
 | `continuity/log.md` | Session history | Append new entries; never modify past entries |
-| `context/decisions.md` | Decision summary | Append new decisions; never update old references |
+| `cognition/context/decisions.md` | Decision summary | Append new decisions; never update old references |
 | `decisions/*.md` | Full ADRs | Append addendums; never modify accepted content |
 
 ### Mutability Frontmatter

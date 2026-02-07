@@ -227,7 +227,7 @@ In Harmony workspaces, each type of knowledge has a designated home:
 | Conventions | `conventions.md` | Linter rules |
 | Available commands | `catalog.md` | — |
 | Task state | `continuity/tasks.json` | `continuity/log.md` entries |
-| Decisions | `context/decisions.md` | ADR references |
+| Decisions | `cognition/context/decisions.md` | ADR references |
 | Skills | `SKILL.md` | Manifest entries |
 
 ## Enforcement Mechanisms
