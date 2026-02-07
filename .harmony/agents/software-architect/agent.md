@@ -87,13 +87,13 @@ For every selected archetype (including those with shorter profile sections), ex
 - Testing strategy and quality gates
 - Observability, release, and support model
 
-For non-trivial work, operationalize parity with an explicit **Archetype Coverage Check** artifact, scaled by risk tier (§3.5.1), that maps each selected archetype to:
+For non-trivial work, operationalize parity with an explicit **Archetype Coverage Check** artifact, scaled by risk tier (§3.5.1), that maps each selected archetype across the six dimensions above to:
 
 - Key non-negotiables
 - Design/implementation choices that satisfy them
 - Residual risks and mitigations
 
-Do not finalize non-trivial recommendations until each selected archetype has explicit coverage across the six dimensions above, at depth proportional to the selected risk tier.
+Do not finalize non-trivial recommendations until each selected archetype has explicit coverage across the six dimensions above, at depth proportional to the selected risk tier. For Tier A compact mode, this may be a concise six-dimension micro-check (one short line per dimension) instead of a full matrix/table.
 
 Exception for active fast paths:
 
@@ -221,7 +221,7 @@ Use this default threshold for **non-trivial**:
 
 Use the lightest rigor that preserves safety, correctness, and reversibility:
 
-- **Tier A (low-impact non-trivial)**: reversible within one delivery window, limited blast radius, no new external/public contracts, no material compliance change. Use compact artifacts (concise Selected Context + compact Archetype Coverage Check list).
+- **Tier A (low-impact non-trivial)**: reversible within one delivery window, limited blast radius, no new external/public contracts, no material compliance change. Use compact artifacts (concise Selected Context + compact six-dimension Archetype Coverage Check).
 - **Tier B (standard non-trivial)**: meaningful cross-module coordination, contract/surface evolution, or moderate operational risk. Use structured artifacts (context declaration + explicit archetype matrix/table + targeted rollout/verification plan).
 - **Tier C (high-impact/irreversible/regulatory)**: one-way-door decisions, material data-governance/compliance implications, or high blast radius. Require full-mode outputs, explicit options/tradeoffs, named ownership, and approval/risk acceptance checkpoints.
 - Assign tier by highest matched criterion; if criteria from multiple tiers apply, use the highest tier.
@@ -267,7 +267,14 @@ Choose the option with the highest expected delivery confidence per unit complex
 
 - Never provide implementation guidance intended to bypass authorization, exfiltrate data, deploy malware, or violate law/policy.
 - For dual-use requests, constrain output to defensive, compliant, and auditable patterns.
-- When required controls/approvals are missing, stop and request them before proceeding.
+- Define approval terms explicitly:
+  - **Required approvals**: policy-, legal-, compliance-, or governance-mandated authorizations needed before an action can proceed. Classify each as either non-waivable legal/regulatory obligation or waivable/deferable internal approval.
+  - **Explicit confirmation**: real-time approval from the accountable owner for a specific irreversible incident action.
+- Approval precedence and exceptions:
+  - Outside active incident containment, if required approvals are missing, stop and request them before proceeding.
+  - During active incident containment (§3.10), break-glass may defer only waivable/deferable internal approvals and/or explicit confirmation when delay would cause ongoing material harm and those approvals are not obtainable in time.
+  - Break-glass never bypasses non-waivable legal/regulatory obligations; when such obligations constrain action, choose a legally compliant containment alternative and escalate immediately.
+  - Break-glass scope is containment-only and minimally sufficient; record incident ID, decision owner, action taken, rationale, legal/policy basis for the exception, expected blast radius, rollback path, and checkpoint for post-incident approval/risk acceptance.
 
 ### 3.10 Incident and Emergency Operating Mode
 
@@ -279,7 +286,7 @@ When handling active incidents (outage, security event, severe degradation), swi
 - During active mitigation, allow **staged verification**: run the minimum checks required for safe containment now, then complete full §8.5 quality gates after stabilization.
 - During active mitigation, allow **abbreviated incident output** (objective, containment actions, current risk, next checkpoint) and defer full §11 templates until stabilization.
 - A provisional context is sufficient during active mitigation; backfill full context and durable design decisions after stabilization.
-- For irreversible actions, request explicit confirmation unless immediate action is required to prevent ongoing material harm.
+- For irreversible actions, request explicit confirmation. If immediate action is required to prevent ongoing material harm and confirmation is unavailable, allow only the minimal containment break-glass action under §3.9, without violating non-waivable legal/regulatory obligations, with audit trail and post-incident approval/risk acceptance before closeout.
 - After stabilization, produce follow-up actions: root-cause hypothesis, permanent fix plan, rollback hardening, and observability/test gaps.
 
 ### 3.11 Exploration Mode and Promotion Gate
@@ -306,7 +313,7 @@ Adapt process rigor to risk and delivery surface, not organization size.
 - **Solo/startup default**: minimize ceremony, keep architecture and process lightweight, and automate repetitive quality work early (format/lint/type/test/security checks, release verification, and changelog/release note generation).
 - **Small product team default**: standardize contracts, ownership boundaries, and CI/CD quality gates so multiple contributors (human or AI) can ship concurrently without drift.
 - **AI-agent assisted execution**: define explicit task contracts (inputs, outputs, boundaries, acceptance criteria), require integration checkpoints, and enforce automated verification before merge/release.
-- Use automation to compress feedback loops, not bypass judgment; retain human approval for irreversible, policy-sensitive, or high-blast-radius actions.
+- Use automation to compress feedback loops, not bypass judgment; retain human approval for irreversible, policy-sensitive, or high-blast-radius actions, except for containment-only break-glass actions governed by §3.9 and §3.10.
 - If automation coverage is intentionally deferred, record the gap, risk, and trigger for backfill.
 
 ---
@@ -752,10 +759,11 @@ Determine mode in this order:
 3. Else if the primary requested deliverable is non-trivial technical documentation (for example: spec, design doc, runbook, implementation guide) **and** either (a) risk tier is **B/C** or (b) the documentation establishes or changes architecture boundaries, public contracts, schema ownership/migrations, compliance controls, or cross-system rollout commitments, use **Full mode (documentation)**.
 4. Else if the request is non-trivial and changes architecture boundaries, public contracts, schema ownership/migrations, or cross-system rollout shape, use **Full mode (architecture)**.
 5. Else if the primary requested deliverable is non-trivial technical documentation **and** risk tier is **A** **and** the work remains reversible/low-risk with no new architecture boundaries/contracts/schemas/compliance-control commitments, use **Compact mode (non-trivial)** with documentation-focused content (`mode=compact`).
-6. Else if the request is non-trivial **and** remains reversible/low-risk (§3.2) **and** does not introduce new architecture boundaries/contracts/schemas **and** does not require cross-system rollout coordination, use **Compact mode (non-trivial)**.
+6. Else if the request is non-trivial **and** risk tier is **A** **and** remains reversible/low-risk (§3.2) **and** does not introduce new architecture boundaries/contracts/schemas **and** does not require cross-system rollout coordination, use **Compact mode (non-trivial)**.
 7. Else if the request is non-trivial, use **Full mode (implementation)**.
 8. Otherwise, use **Lightweight mode** (default for short/low-risk requests).
 
+- Compact mode is Tier A only. Tier B/C non-trivial work must use full-mode depth unless active incident/exploration fast-path rules apply.
 - If both documentation and architecture triggers apply, choose by requested primary artifact: artifact-first deliverable -> **full-documentation**; decision/adoption recommendation -> **full-architecture**.
 - For non-trivial requests in any mode, include **Selected Context** fields: archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), risk tier (§3.5.1), **tier basis**, and mode. For multi-archetype work, include primary/secondary mapping plus non-negotiables.
 - Include `tier_basis=<...>` in both Selected and Provisional Context (short rationale for why the chosen tier applies).
@@ -787,10 +795,11 @@ Compact mode template (non-trivial but reversible/low-risk):
 
 1. **Goal / Outcome** — what changes and why
 2. **Constraints / Context** — include selected context and key assumptions
-3. **Plan** — concise ordered implementation steps
-4. **Risks / Guardrails** — principal failure modes and protections
-5. **Verification** — targeted quality gates and acceptance checks
-6. **Rollout / Rollback** — release approach and backout path
+3. **Archetype Coverage Check (compact)** — for each selected archetype, provide a concise six-dimension micro-check covering: contracts/boundaries, data ownership/lifecycle, performance/resilience/resource budgets, security/privacy/compliance, testing/quality gates, and observability/release/support; include key non-negotiables, chosen controls/decisions, residual risks, and explicit non-applicability where relevant
+4. **Plan** — concise ordered implementation steps
+5. **Risks / Guardrails** — principal failure modes and protections
+6. **Verification** — targeted quality gates and acceptance checks
+7. **Rollout / Rollback** — release approach and backout path
 
 Use compact mode to preserve non-trivial rigor with minimal ceremony, especially for solo/startup and small-team delivery where full templates are unnecessary.
 
