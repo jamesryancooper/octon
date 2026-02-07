@@ -1,0 +1,38 @@
+# Harmony Root Manifest
+# Single source of truth for portability, autonomy, and resolution rules.
+#
+# This file replaces the two-root convention (.harmony/ + .workspace/)
+# with metadata-driven portability. See ADR 010 for rationale.
+
+schema_version: "1.0"
+
+# Portable paths — copy these to bootstrap a new repo via `harmony init`.
+# Everything else is project-specific state that stays with this repo.
+portable:
+  - agency/agents/
+  - agency/assistants/
+  - agency/subagents/
+  - capabilities/skills/manifest.yml
+  - capabilities/skills/registry.yml
+  - capabilities/skills/capabilities.yml
+  - capabilities/skills/_template/
+  - capabilities/skills/scripts/
+  - capabilities/skills/*/SKILL.md
+  - capabilities/skills/*/references/
+  - capabilities/commands/
+  - quality/
+  - scaffolding/
+  - cognition/context/primitives.md
+  - cognition/context/tools.md
+  - cognition/context/compaction.md
+  - README.md
+
+# Agent-excluded zones. Agents MUST NOT access without explicit human direction.
+human_led:
+  - ideation/**
+
+# Resolution rules for capabilities that span framework and project concerns.
+resolution:
+  agency: "Framework definitions loaded; project overrides merged on top"
+  capabilities: "Single manifest and registry; no extends pattern"
+  orchestration: "Framework workflows and project workflows coexist"
