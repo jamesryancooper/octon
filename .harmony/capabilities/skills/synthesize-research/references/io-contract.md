@@ -4,8 +4,8 @@
 #
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Parameters: .harmony/skills/registry.yml
-#   - Output paths: .workspace/skills/registry.yml
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -18,8 +18,8 @@ Extended input/output documentation for the synthesize-research skill.
 > **Authoritative Sources:**
 >
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Parameters: `.harmony/skills/registry.yml`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Parameters: `.harmony/capabilities/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Input Folder Structure
 
@@ -33,7 +33,7 @@ resources/synthesize-research/topic/
 └── project.md        # Project context (optional)
 ```
 
-> **Note:** All `.workspace/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern.
+> **Note:** All `.harmony/capabilities/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern.
 
 ### Special Files
 
@@ -104,7 +104,7 @@ ended_at: 2025-01-12T10:44:12Z
 inputs:
   - resources/synthesize-research/api-design/
 outputs:
-  - .workspace/drafts/api-design-synthesis.md
+  - .harmony/output/drafts/api-design-synthesis.md
 tools_used:
   - filesystem.read
   - filesystem.write

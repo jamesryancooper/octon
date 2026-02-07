@@ -35,7 +35,7 @@ Use the **Agent Harness** for reliable multi-session execution:
 This ensures progress is tracked across context windows and each session knows where to resume.
 
 **Directory Structure**:
-- Central ARE prompts: `.workspace/workflows/are/` (this directory)
+- Central ARE prompts: `.harmony/orchestration/workflows/are/` (this directory)
 - Runtime artifacts: `<target-directory>/.workspace/.are/` (created per doc set)
 
 ### For Human Users

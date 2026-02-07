@@ -8,7 +8,7 @@ description: Copy workspace template structure to target directory.
 Copy the template directory structure to the target:
 
 ```text
-.workspace/templates/workspace/    →    <target>/.workspace/
+.harmony/scaffolding/templates/workspace/    →    <target>/.workspace/
 ├── START.md                            ├── START.md
 ├── scope.md                            ├── scope.md
 ├── conventions.md                      ├── conventions.md
@@ -22,7 +22,7 @@ Copy the template directory structure to the target:
 ## Idempotency
 
 **Check:** Are templates already copied?
-- [ ] Directory `<target>/.workspace/` exists
+- [ ] Directory `<target>/.harmony/` exists
 - [ ] Core files present (START.md, scope.md, conventions.md)
 
 **If Already Complete:**

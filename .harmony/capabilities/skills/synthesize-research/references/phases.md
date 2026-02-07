@@ -24,7 +24,7 @@ behavior:
         - "List open questions and gaps"
     - name: "Output"
       steps:
-        - "Write synthesis to .workspace/drafts/{{topic}}-synthesis.md"
+        - "Write synthesis to .harmony/output/drafts/{{topic}}-synthesis.md"
         - "Write run log to logs/runs/{{timestamp}}-synthesize-research.md"
   goals:
     - "Consolidate dispersed research into a single coherent document"
@@ -129,7 +129,7 @@ Write the synthesis document.
 Produce final artifacts.
 
 1. **Write synthesis document**
-   - Path: `.workspace/drafts/{{topic}}-synthesis.md`
+   - Path: `.harmony/output/drafts/{{topic}}-synthesis.md`
    - Use standard output format (see io-contract.md)
    - Include all sections: summary, themes, contradictions, questions, sources
 

@@ -9,7 +9,7 @@ Safety policies and behavioral constraints for the create-skill skill.
 
 > **Authoritative Sources:**
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Tool Policy
 
@@ -19,7 +19,7 @@ Allowed tools defined in SKILL.md `allowed-tools`:
 - `Read` — Read template and registry files
 - `Glob` — Pattern matching for file discovery
 - `Grep` — Content search for uniqueness checks
-- `Write(.harmony/skills/*)` — Create new skill directory and files
+- `Write(.harmony/capabilities/skills/*)` — Create new skill directory and files
 - `Write(runs/*)` — Write execution state (checkpoint and summary) for session recovery
 - `Write(logs/*)` — Write execution logs
 - `Bash(mkdir)` — Create directories
@@ -34,13 +34,13 @@ The skill may write to:
 
 | Path | Operations | Purpose |
 |------|------------|---------|
-| `.harmony/skills/{{new-skill}}/` | Create files | New skill directory |
-| `.harmony/skills/manifest.yml` | Append entry | Register skill |
-| `.harmony/skills/registry.yml` | Append entry | Add metadata |
-| `.workspace/catalog.md` | Append row | Add to catalog table |
-| `.workspace/skills/runs/create-skill/` | Create files | Execution state (session recovery) |
-| `.workspace/skills/logs/create-skill/` | Create/update files | Run logs and indexes |
-| `.workspace/skills/logs/index.yml` | Update | Top-level log index |
+| `.harmony/capabilities/skills/{{new-skill}}/` | Create files | New skill directory |
+| `.harmony/capabilities/skills/manifest.yml` | Append entry | Register skill |
+| `.harmony/capabilities/skills/registry.yml` | Append entry | Add metadata |
+| `.harmony/catalog.md` | Append row | Add to catalog table |
+| `.harmony/capabilities/skills/runs/create-skill/` | Create files | Execution state (session recovery) |
+| `.harmony/capabilities/skills/logs/create-skill/` | Create/update files | Run logs and indexes |
+| `.harmony/capabilities/skills/logs/index.yml` | Update | Top-level log index |
 
 ### Protected Paths
 
@@ -57,7 +57,7 @@ The skill must NOT:
 **Critical:** Before creating any files, verify:
 
 1. No entry in `manifest.yml` with matching `id`
-2. No directory `.harmony/skills/{{skill-name}}/` exists
+2. No directory `.harmony/capabilities/skills/{{skill-name}}/` exists
 3. If either exists, STOP and ask user
 
 ### Conflict Resolution
@@ -122,19 +122,19 @@ If rollback needed after completion:
 
 1. Delete skill directory:
    ```bash
-   rm -rf .harmony/skills/{{skill-name}}/
+   rm -rf .harmony/capabilities/skills/{{skill-name}}/
    ```
 
 2. Remove manifest entry:
-   - Edit `.harmony/skills/manifest.yml`
+   - Edit `.harmony/capabilities/skills/manifest.yml`
    - Remove entry with `id: {{skill-name}}`
 
 3. Remove registry entry:
-   - Edit `.harmony/skills/registry.yml`
+   - Edit `.harmony/capabilities/skills/registry.yml`
    - Remove entry with key `{{skill-name}}`
 
 4. Remove catalog entry:
-   - Edit `.workspace/catalog.md`
+   - Edit `.harmony/catalog.md`
    - Remove row for skill
 
 5. Delete symlinks:
@@ -146,8 +146,8 @@ If rollback needed after completion:
 
 6. (Optional) Delete execution state and logs:
    ```bash
-   rm -rf .workspace/skills/runs/create-skill/{{run-id}}/
-   rm .workspace/skills/logs/create-skill/{{run-id}}.md
+   rm -rf .harmony/capabilities/skills/runs/create-skill/{{run-id}}/
+   rm .harmony/capabilities/skills/logs/create-skill/{{run-id}}.md
    ```
 
 ## Input Validation

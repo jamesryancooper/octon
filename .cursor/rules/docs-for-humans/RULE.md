@@ -2,7 +2,7 @@
 description: Clear, accurate, human-readable technical documentation
 globs:
   - docs/**
-  - .workspace/.human/**
+  - .harmony/.human/**
 alwaysApply: false
 ---
 

@@ -6,7 +6,7 @@ Classify each piece of content:
 
 | Classification | Destination |
 |----------------|-------------|
-| Agent-facing | Stays in `.workspace/` |
+| Agent-facing | Stays in `.harmony/` |
 | Human-facing | Moves to `.scratchpad/` |
 
 ## Token Budget Check

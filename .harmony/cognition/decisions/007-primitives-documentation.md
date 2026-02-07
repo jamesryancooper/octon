@@ -32,13 +32,13 @@ New users and agents had to piece together this understanding from multiple sour
 
 ## Decision
 
-Create `.harmony/context/primitives.md` as the central reference for all Harmony primitives.
+Create `.harmony/cognition/context/primitives.md` as the central reference for all Harmony primitives.
 
 ### Decisions Made
 
 | ID | Decision | Choice |
 |----|----------|--------|
-| D025 | Primitives documentation | Central reference in `.harmony/context/primitives.md` |
+| D025 | Primitives documentation | Central reference in `.harmony/cognition/context/primitives.md` |
 | D026 | Seven primitives | Skills, Commands, Workflows, Assistants, Checklists, Prompts, Templates |
 
 ## Structure
@@ -68,7 +68,7 @@ The document includes:
 
 ## Related
 
-- `.harmony/context/primitives.md` - The reference document
+- `.harmony/cognition/context/primitives.md` - The reference document
 - `.harmony/README.md` - Structure overview (references primitives.md)
-- `.harmony/skills/registry.yml` - Skills registry
-- `.harmony/assistants/registry.yml` - Assistants registry
+- `.harmony/capabilities/skills/registry.yml` - Skills registry
+- `.harmony/agency/assistants/registry.yml` - Assistants registry

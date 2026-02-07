@@ -80,14 +80,14 @@ Workspaces follow a **two-layer inheritance model**:
 
 | Resource | Search Order |
 |----------|--------------|
-| Assistants | `.workspace/assistants/` → `.harmony/assistants/` |
-| Templates | `.workspace/templates/` → `.harmony/templates/` |
-| Workflows | `.workspace/workflows/` → `.harmony/workflows/` |
-| Skills | `.workspace/skills/` → `.harmony/skills/` |
-| Commands | `.workspace/commands/` → `.harmony/commands/` |
-| Prompts | `.workspace/prompts/` → `.harmony/prompts/` |
-| Checklists | `.workspace/checklists/` → `.harmony/checklists/` |
-| Context | `.workspace/context/` → `.harmony/context/` |
+| Assistants | `.harmony/agency/assistants/` → `.harmony/agency/assistants/` |
+| Templates | `.harmony/scaffolding/templates/` → `.harmony/scaffolding/templates/` |
+| Workflows | `.harmony/orchestration/workflows/` → `.harmony/orchestration/workflows/` |
+| Skills | `.harmony/capabilities/skills/` → `.harmony/capabilities/skills/` |
+| Commands | `.harmony/capabilities/commands/` → `.harmony/capabilities/commands/` |
+| Prompts | `.harmony/scaffolding/prompts/` → `.harmony/scaffolding/prompts/` |
+| Checklists | `.harmony/quality/` → `.harmony/quality/` |
+| Context | `.harmony/cognition/context/` → `.harmony/cognition/context/` |
 
 ---
 
@@ -129,7 +129,7 @@ Ask: **"Would this be useful in a different project without modification?"**
 
 Skills use a split pattern where **capability** lives in `.harmony/` but **configuration** lives in `.workspace/`.
 
-### Shared (`.harmony/skills/registry.yml`)
+### Shared (`.harmony/capabilities/skills/registry.yml`)
 
 ```yaml
 skills:
@@ -142,10 +142,10 @@ skills:
     # No paths here - those are project-specific
 ```
 
-### Local (`.workspace/skills/registry.yml`)
+### Local (`.harmony/capabilities/skills/registry.yml`)
 
 ```yaml
-extends: "../../.harmony/skills/registry.yml"
+extends: "../../.harmony/capabilities/skills/registry.yml"
 
 skill_mappings:
   synthesize-research:
@@ -164,9 +164,9 @@ This separation means the skill logic is reusable, but each project defines wher
 Harness directories (`.claude/`, `.cursor/`, `.codex/`) integrate with `.harmony/` via symlinks:
 
 ```
-.claude/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
-.cursor/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
-.codex/skills/synthesize-research  -> ../../.harmony/skills/synthesize-research
+.claude/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
+.cursor/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
+.codex/skills/synthesize-research  -> ../../.harmony/capabilities/skills/synthesize-research
 ```
 
 ### Why Symlinks?
@@ -183,8 +183,8 @@ Harness commands in `.<harness>/commands/` are thin wrappers that delegate to `.
 
 | Command | Delegates To |
 |---------|--------------|
-| `/create-workspace` | `.harmony/workflows/workspace/create-workspace/` |
-| `/synthesize-research` | `.harmony/skills/synthesize-research/` |
+| `/create-workspace` | `.harmony/orchestration/workflows/workspace/create-workspace/` |
+| `/synthesize-research` | `.harmony/capabilities/skills/synthesize-research/` |
 
 ---
 
@@ -194,10 +194,10 @@ Add to `.harmony/` when you have:
 
 | Situation | Action |
 |-----------|--------|
-| A new generic assistant | Add to `.harmony/assistants/` |
-| A new workspace template variant | Add to `.harmony/templates/` |
-| A new skill that's project-agnostic | Add to `.harmony/skills/` |
-| A workflow that applies to any workspace | Add to `.harmony/workflows/` |
+| A new generic assistant | Add to `.harmony/agency/assistants/` |
+| A new workspace template variant | Add to `.harmony/scaffolding/templates/` |
+| A new skill that's project-agnostic | Add to `.harmony/capabilities/skills/` |
+| A workflow that applies to any workspace | Add to `.harmony/orchestration/workflows/` |
 
 **Do not add project-specific content to `.harmony/`.** That defeats the purpose of the shared layer.
 
@@ -217,7 +217,7 @@ The `.harmony/` directory is designed to be **copied to other repositories** to 
 2. **Create a root `.workspace/`** for repo-wide operations:
    ```bash
    # Use the create-workspace workflow or copy from template
-   cp -r .harmony/templates/workspace .workspace
+   cp -r .harmony/scaffolding/templates/workspace .workspace
    ```
 
 3. **Configure harness entry points** (optional):
@@ -235,7 +235,7 @@ The `.harmony/` directory is designed to be **copied to other repositories** to 
    ```bash
    # Example for synthesize-research
    mkdir -p .cursor/skills
-   ln -s ../../.harmony/skills/synthesize-research .cursor/skills/synthesize-research
+   ln -s ../../.harmony/capabilities/skills/synthesize-research .cursor/skills/synthesize-research
    ```
 
 ### What You Get
@@ -253,9 +253,9 @@ The `.harmony/` directory is designed to be **copied to other repositories** to 
 
 After copying, you can:
 
-- **Add repo-specific assistants** to `.harmony/assistants/`
-- **Create custom templates** in `.harmony/templates/`
-- **Add new skills** to `.harmony/skills/`
+- **Add repo-specific assistants** to `.harmony/agency/assistants/`
+- **Create custom templates** in `.harmony/scaffolding/templates/`
+- **Add new skills** to `.harmony/capabilities/skills/`
 - **Override in `.workspace/`** — local always wins over shared
 
 ### Keeping Up to Date

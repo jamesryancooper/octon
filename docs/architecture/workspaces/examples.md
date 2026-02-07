@@ -1,16 +1,16 @@
 ---
 title: Workspace Examples
-description: Reference patterns stored in .workspace/examples/ for study and learning
+description: Reference patterns stored in .harmony/scaffolding/examples/ for study and learning
 ---
 
 # Workspace Examples
 
-Examples are **reference patterns** stored in `.workspace/examples/`. They demonstrate correct implementation of workspace concepts.
+Examples are **reference patterns** stored in `.harmony/scaffolding/examples/`. They demonstrate correct implementation of workspace concepts.
 
 ## Location
 
 ```text
-.workspace/examples/
+.harmony/scaffolding/examples/
 └── create-workspace-flow.md    # Example of workflow execution
 ```
 
@@ -57,12 +57,12 @@ Examples demonstrate *how things should look*. Templates are *starting points fo
 
 ## Note on Scoped Workspace Examples
 
-Complete workspace structure examples (for documentation areas, Node.js/TypeScript packages, etc.) have been moved to **scoped templates** in `.workspace/templates/`:
+Complete workspace structure examples (for documentation areas, Node.js/TypeScript packages, etc.) have been moved to **scoped templates** in `.harmony/scaffolding/templates/`:
 
 | Former Example | Now Template |
 |----------------|--------------|
-| `workspace-docs/` | `.workspace/templates/workspace-docs/` |
-| `workspace-node-ts/` | `.workspace/templates/workspace-node-ts/` |
+| `workspace-docs/` | `.harmony/scaffolding/templates/workspace-docs/` |
+| `workspace-node-ts/` | `.harmony/scaffolding/templates/workspace-node-ts/` |
 
 Scoped templates are more useful than static examples because they:
 

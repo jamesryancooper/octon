@@ -1,6 +1,6 @@
 # Prompts
 
-Generic prompts live in `.harmony/prompts/`.
+Generic prompts live in `.harmony/scaffolding/prompts/`.
 
 Project-specific prompts can be added here.
 

@@ -10,7 +10,7 @@ The `progress/` directory maintains **session-to-session continuity**. It's how 
 ## Location
 
 ```text
-.workspace/progress/
+.harmony/continuity/
 ├── log.md        # Append-only session log
 ├── tasks.json    # Structured task list with goal and status
 └── entities.json # Entity state tracking (optional)

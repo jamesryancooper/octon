@@ -4,8 +4,8 @@
 #
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Parameters: .harmony/skills/registry.yml
-#   - Output paths: .workspace/skills/registry.yml
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -18,8 +18,8 @@ Extended input/output documentation for the refactor skill.
 > **Authoritative Sources:**
 >
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Parameters: `.harmony/skills/registry.yml`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Parameters: `.harmony/capabilities/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Parameters
 
@@ -32,7 +32,7 @@ Extended input/output documentation for the refactor skill.
 
 ## Output Structure
 
-All execution state artifacts are written to `.workspace/skills/runs/refactor/{{refactor-id}}/` for session recovery:
+All execution state artifacts are written to `.harmony/capabilities/skills/runs/refactor/{{refactor-id}}/` for session recovery:
 
 ```
 runs/refactor/{{refactor-id}}/
@@ -83,7 +83,7 @@ phases:
     progress:
       total_items: 13
       completed_items: 7
-      current_item: ".harmony/workflows/example.md"
+      current_item: ".harmony/orchestration/workflows/example.md"
   5_verify:
     status: pending
   6_document:
@@ -92,7 +92,7 @@ phases:
 resume:
   phase: 4
   instruction: "Continue from item 8 in change-manifest.md"
-  last_completed: ".workspace/START.md"
+  last_completed: ".harmony/START.md"
 
 parameters:
   dry_run: false
@@ -102,7 +102,7 @@ parameters:
 
 ## Log Structure
 
-Logs are written to `.workspace/skills/logs/refactor/`:
+Logs are written to `.harmony/capabilities/skills/logs/refactor/`:
 
 ```
 logs/refactor/

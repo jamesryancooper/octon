@@ -14,7 +14,7 @@ description: Add new skill entry to manifest.yml and registry.yml following agen
 
 ### 1. Add entry to `manifest.yml` (Tier 1 Discovery)
 
-Add to `.harmony/skills/manifest.yml` under `skills:` array:
+Add to `.harmony/capabilities/skills/manifest.yml` under `skills:` array:
 
 ```yaml
 skills:
@@ -33,7 +33,7 @@ skills:
 
 ### 2. Add entry to `registry.yml` (Extended Metadata)
 
-Add to `.harmony/skills/registry.yml` under `skills:` map:
+Add to `.harmony/capabilities/skills/registry.yml` under `skills:` map:
 
 ```yaml
 skills:
@@ -49,7 +49,7 @@ skills:
         - filesystem.write.outputs
       context:
         - type: directory_exists
-          path: ".workspace/"
+          path: ".harmony/"
           description: "Requires a workspace directory"
     depends_on: []
 ```

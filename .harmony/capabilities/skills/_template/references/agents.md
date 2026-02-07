@@ -118,7 +118,7 @@ Sub-agents spawned by skills must use one of these agent types:
 **Restrictions:**
 
 - Sub-agents inherit parent's workspace scope limits
-- Sub-agents cannot write outside `.workspace/skills/` unless parent has explicit permission
+- Sub-agents cannot write outside `.harmony/capabilities/skills/` unless parent has explicit permission
 - Sub-agents cannot spawn their own sub-agents (max depth = 1)
 - Sub-agents share the parent's token budget allocation
 

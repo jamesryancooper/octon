@@ -129,14 +129,14 @@ After successful verification:
    ```text
    If backup exists and update successful:
      Ask user: Keep backup? [y/N]
-     If no: Remove .workspace/.backup/<workflow-id>-<timestamp>/
+     If no: Remove .harmony/.backup/<workflow-id>-<timestamp>/
    ```
 
 2. **Clean up checkpoints:**
    ```text
    Move checkpoint files to archive:
-     .workspace/progress/checkpoints/update-workflow/<workflow-id>/
-     -> .workspace/progress/checkpoints/.archive/update-workflow/<workflow-id>-<timestamp>/
+     .harmony/continuity/checkpoints/update-workflow/<workflow-id>/
+     -> .harmony/continuity/checkpoints/.archive/update-workflow/<workflow-id>-<timestamp>/
    ```
 
 ## Output

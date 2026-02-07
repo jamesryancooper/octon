@@ -1,7 +1,7 @@
 ---
 description: Compendious, error-free AI-facing documentation
 globs:
-  - ".workspace/[!.]*/**"
+  - ".harmony/[!.]*/**"
   - ".harmony/[!.]*/**"
 alwaysApply: false
 ---

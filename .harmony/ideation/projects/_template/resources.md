@@ -48,7 +48,7 @@ Composable capabilities with defined I/O contracts.
 
 ### Skill Outputs
 
-Skills write to `.workspace/skills/outputs/`:
+Skills write to `.harmony/capabilities/skills/outputs/`:
 
 | Output Location | Content |
 |-----------------|---------|

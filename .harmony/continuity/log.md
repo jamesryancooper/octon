@@ -37,7 +37,7 @@ mutability: append-only
 
 **Completed:**
 
-- Ran `evaluate-workspace.md` prompt against `.workspace/`
+- Ran `evaluate-workspace.md` prompt against `.harmony/`
 - Removed redundant failure modes from `START.md` (duplicated in `complete.md`)
 - Moved terminology definitions from `conventions.md` to `.humans/README.md`
 - Corrected progress log to reflect actual state
@@ -65,16 +65,16 @@ mutability: append-only
 
 - Created `.harmony/` directory with shared infrastructure
 - Moved generic components: assistants, templates, workflows, commands, context, checklists, prompts, skills, examples
-- Updated symlinks in `.claude/`, `.codex/`, `.cursor/` to point to `.harmony/skills/`
+- Updated symlinks in `.claude/`, `.codex/`, `.cursor/` to point to `.harmony/capabilities/skills/`
 - Updated all 12 `.cursor/commands/*.md` files to reference `.harmony/`
 - Updated `.cursor/rules/*.md` files with new paths and globs
-- Implemented split registries: `.harmony/skills/registry.yml` (definitions) + `.workspace/skills/registry.yml` (mappings)
-- Added inheritance section to `.workspace/START.md`
-- Created stub READMEs in `.workspace/` for override points and discoverability
+- Implemented split registries: `.harmony/capabilities/skills/registry.yml` (definitions) + `.harmony/capabilities/skills/registry.yml` (mappings)
+- Added inheritance section to `.harmony/START.md`
+- Created stub READMEs in `.harmony/` for override points and discoverability
 - Updated `docs/architecture/workspaces/README.md` with two-layer architecture
-- Updated `CLAUDE.md` to reference both `.harmony/` and `.workspace/` skills
-- Created `.workspace/decisions/` directory for full ADRs
-- Documented decision as ADR-001 in `.workspace/decisions/001-harmony-shared-foundation.md`
+- Updated `CLAUDE.md` to reference both `.harmony/` and `.harmony/` skills
+- Created `.harmony/cognition/decisions/` directory for full ADRs
+- Documented decision as ADR-001 in `.harmony/cognition/decisions/001-harmony-shared-foundation.md`
 
 **Next:**
 
@@ -99,7 +99,7 @@ mutability: append-only
   - `scratchpad.md` — Updated with subdirectory structure
   - `context.md` — Fixed old references
   - `missions.md` — Clarified mission-specific archive
-- Updated `.workspace/` files:
+- Updated `.harmony/` files:
   - `START.md` — Updated structure and visibility rules
   - `context/glossary.md` — Consolidated terminology
   - `context/constraints.md` — Single human-led zone rule
@@ -115,7 +115,7 @@ mutability: append-only
   - Templates (conventions.md, done.md)
   - Removed obsolete `.humans/` directory from templates
 - Created physical structure:
-  - `.workspace/.scratchpad/inbox/` and `.workspace/.scratchpad/archive/`
+  - `.harmony/ideation/scratchpad/inbox/` and `.harmony/ideation/scratchpad/archive/`
   - Moved content from old directories
   - Removed empty old directories
 - Created ADR-002: Consolidated .scratchpad/ Human-Led Zone
@@ -142,15 +142,15 @@ mutability: append-only
 
 **Completed:**
 
-- Renamed `.workspace/.scratch/` directory to `.workspace/.scratchpad/`
-- Renamed `.workspace/workflows/scratch/` to `.workspace/workflows/scratchpad/`
-- Renamed `.harmony/workflows/promote-from-scratch.md` to `promote-from-scratchpad.md`
+- Renamed `.harmony/ideation/scratchpad/` directory to `.harmony/ideation/scratchpad/`
+- Renamed `.harmony/orchestration/workflows/scratch/` to `.harmony/orchestration/workflows/scratchpad/`
+- Renamed `.harmony/orchestration/workflows/promote-from-scratch.md` to `promote-from-scratchpad.md`
 - Renamed `docs/architecture/workspaces/scratch.md` to `scratchpad.md`
 - Renamed ADR file to `002-consolidated-scratchpad-zone.md`
 - Updated all references across ~50 files:
   - `.cursor/commands/` and `.cursor/rules/`
   - `.harmony/` checklists, workflows, templates, skills, prompts
-  - `.workspace/` context, conventions, catalog, START.md
+  - `.harmony/` context, conventions, catalog, START.md
   - `docs/architecture/workspaces/`
 
 **Decisions made:**
@@ -211,11 +211,11 @@ mutability: append-only
 
 **Completed:**
 
-- Elevated `projects/` from `.scratchpad/projects/` to `.workspace/projects/`
+- Elevated `projects/` from `.scratchpad/projects/` to `.harmony/ideation/projects/`
   - Created `README.md` with comprehensive documentation
   - Created `registry.md` for project tracking
   - Created `_template/` with project templates
-  - Created `.workspace/workflows/projects/create-project.md`
+  - Created `.harmony/orchestration/workflows/projects/create-project.md`
 - Introduced `.scratchpad/brainstorm/` as filter stage between ideas and projects
   - Created `README.md` with template for single-file explorations
   - Brainstorms use frontmatter status: `exploring | graduated | killed | parked`
@@ -226,9 +226,9 @@ mutability: append-only
   - `missions/` → Committed execution
   - `context/` → Permanent knowledge
 - Updated all documentation across multiple directories:
-  - `.workspace/` files: START.md, catalog.md, agent-autonomy-guard.globs, context/glossary.md
-  - `.workspace/.scratchpad/` files: README.md, ideas/README.md, inbox/README.md
-  - `.workspace/skills/registry.yml` — Updated input paths
+  - `.harmony/` files: START.md, catalog.md, agent-autonomy-guard.globs, context/glossary.md
+  - `.harmony/ideation/scratchpad/` files: README.md, ideas/README.md, inbox/README.md
+  - `.harmony/capabilities/skills/registry.yml` — Updated input paths
   - `docs/architecture/workspaces/` — README.md, scratchpad.md, projects.md, dot-files.md, workflows.md, taxonomy.md, skills.md
   - `.harmony/` — prompts/research/*.md, skills/synthesize-research/*.md, workflows, templates
   - `.cursor/commands/` — research.md, use-skill.md, synthesize-research.md
@@ -261,7 +261,7 @@ Projects have significant structure (registry, templates, lifecycle) and frequen
 
 **Completed:**
 
-- Created `.harmony/workflows/refactor/` with 6-step verified workflow:
+- Created `.harmony/orchestration/workflows/refactor/` with 6-step verified workflow:
   - `01-define-scope.md` — Capture patterns and search variations
   - `02-audit.md` — Exhaustive search for ALL references
   - `03-plan.md` — Create manifest of all changes
@@ -272,7 +272,7 @@ Projects have significant structure (registry, templates, lifecycle) and frequen
   - Progress logs, decisions, ADRs are append-only during refactors
   - Historical accuracy preserved over naming consistency
 - Created universal command pattern for cross-harness commands:
-  - `.harmony/commands/refactor.md` — Source of truth
+  - `.harmony/capabilities/commands/refactor.md` — Source of truth
   - `.cursor/commands/refactor.md` → symlink to `.harmony/`
   - `.claude/commands/refactor.md` → symlink to `.harmony/`
 - Updated `.harmony/README.md` with command symlink documentation
@@ -311,7 +311,7 @@ Refactors frequently left orphaned references because there was no verification 
   - `decisions/002-consolidated-scratchpad-zone.md` — Added mutability property
   - `decisions/003-projects-elevation-and-funnel.md` — Added mutability property
   - `decisions/004-refactor-workflow.md` — Added mutability property
-- Added "Continuity Artifacts" section to `.workspace/conventions.md`:
+- Added "Continuity Artifacts" section to `.harmony/conventions.md`:
   - Protected files table listing all append-only files
   - Mutability frontmatter example and documentation
   - "What append-only means" table (allowed vs not allowed)
@@ -346,24 +346,24 @@ The `mutability` frontmatter property provides a machine-readable signal that ag
 - Reviewed workflow architecture against 8 quality dimensions (efficiency, scalability, performance, reliability, maintainability, adaptability, usability, robustness)
 - Identified 6 gaps: idempotency, cross-workflow dependencies, conditional branching, checkpoints, versioning, parallel steps
 - Created workflow meta-architecture system:
-  - `.harmony/workflows/_template/` (4 files) — Canonical templates with gap fix fields
-  - `.harmony/workflows/workflows/create-workflow/` (9 files) — Scaffold new workflows
-  - `.harmony/workflows/workflows/evaluate-workflow/` (6 files) — Assess workflow quality
-  - `.harmony/workflows/workflows/update-workflow/` (6 files) — Update existing workflows
-  - `.harmony/context/workflow-gaps.md` — Gap remediation guide
-  - `.harmony/context/workflow-quality.md` — Quality criteria and grading rubric
+  - `.harmony/orchestration/workflows/_template/` (4 files) — Canonical templates with gap fix fields
+  - `.harmony/orchestration/workflows/workflows/create-workflow/` (9 files) — Scaffold new workflows
+  - `.harmony/orchestration/workflows/workflows/evaluate-workflow/` (6 files) — Assess workflow quality
+  - `.harmony/orchestration/workflows/workflows/update-workflow/` (6 files) — Update existing workflows
+  - `.harmony/cognition/context/workflow-gaps.md` — Gap remediation guide
+  - `.harmony/cognition/context/workflow-quality.md` — Quality criteria and grading rubric
 - Created trigger commands with harness symlinks:
-  - `.harmony/commands/create-workflow.md` → `/create-workflow`
-  - `.harmony/commands/evaluate-workflow.md` → `/evaluate-workflow`
-  - `.harmony/commands/update-workflow.md` → `/update-workflow`
+  - `.harmony/capabilities/commands/create-workflow.md` → `/create-workflow`
+  - `.harmony/capabilities/commands/evaluate-workflow.md` → `/evaluate-workflow`
+  - `.harmony/capabilities/commands/update-workflow.md` → `/update-workflow`
   - Symlinks in `.cursor/commands/` and `.claude/commands/`
 - Applied gap fixes to existing workflows:
-  - `.harmony/workflows/refactor/` — Overview frontmatter + idempotency in steps 01, 06
-  - `.harmony/workflows/skills/create-skill/` — All 6 steps updated (v1.2.0)
-  - `.harmony/workflows/workspace/create-workspace/` — All 7 steps updated (v1.2.0)
-  - `.harmony/workflows/missions/complete-mission/` — Overview frontmatter
-  - `.harmony/workflows/workspace/update-workspace/` — Overview frontmatter
-- Updated `.workspace/catalog.md` with new workflows and commands
+  - `.harmony/orchestration/workflows/refactor/` — Overview frontmatter + idempotency in steps 01, 06
+  - `.harmony/orchestration/workflows/skills/create-skill/` — All 6 steps updated (v1.2.0)
+  - `.harmony/orchestration/workflows/workspace/create-workspace/` — All 7 steps updated (v1.2.0)
+  - `.harmony/orchestration/workflows/missions/complete-mission/` — Overview frontmatter
+  - `.harmony/orchestration/workflows/workspace/update-workspace/` — Overview frontmatter
+- Updated `.harmony/catalog.md` with new workflows and commands
 - Created ADR-005: Workflow Meta-Architecture and Gap Remediation
 
 **Decisions made:**
@@ -394,7 +394,7 @@ The workflow architecture prioritizes reliability and maintainability, which is 
 **Completed:**
 
 - Explored differences between skills, commands, and workflows
-- Created `.harmony/context/primitives.md` documenting all 7 Harmony primitives:
+- Created `.harmony/cognition/context/primitives.md` documenting all 7 Harmony primitives:
   - Skills — Composable capabilities with I/O contracts
   - Commands — Lightweight entry points
   - Workflows — Multi-step procedures with checkpoints
@@ -410,7 +410,7 @@ The workflow architecture prioritizes reliability and maintainability, which is 
 
 **Decisions made:**
 
-- D025: Primitives documentation — Central reference in `.harmony/context/primitives.md`
+- D025: Primitives documentation — Central reference in `.harmony/cognition/context/primitives.md`
 - D026: Seven primitives — Skills, Commands, Workflows, Assistants, Checklists, Prompts, Templates
 
 **Rationale:**
@@ -475,8 +475,8 @@ The seven primitives were documented across various files but lacked a central r
 **Completed:**
 
 - Created manifest.yml files for tier-1 discovery (~50 tokens/skill):
-  - `.harmony/skills/manifest.yml` — Shared skills index
-  - `.workspace/skills/manifest.yml` — Workspace-specific skills
+  - `.harmony/capabilities/skills/manifest.yml` — Shared skills index
+  - `.harmony/capabilities/skills/manifest.yml` — Workspace-specific skills
 - Created validate-skills.sh with 21 automated checks:
   - Manifest/registry sync validation
   - Token budget enforcement (SKILL.md < 5000, manifest < 100 tokens)
@@ -522,7 +522,7 @@ The seven primitives were documented across various files but lacked a central r
 
 **Completed:**
 
-- Created `.harmony/skills/prompt-refiner/` with 10-phase pipeline (v2.1.1):
+- Created `.harmony/capabilities/skills/prompt-refiner/` with 10-phase pipeline (v2.1.1):
   - Phase 1: Context Analysis — Scan repo, identify scope, load constraints
   - Phase 2: Intent Extraction — Parse intent, expand scope, correct errors
   - Phase 3: Persona Assignment — Assign role, expertise level, style
@@ -534,13 +534,13 @@ The seven primitives were documented across various files but lacked a central r
   - Phase 9: Intent Confirmation — Summarize and confirm with user
   - Phase 10: Output — Save refined prompt, optionally execute
 - Created harness symlinks for cross-CLI access:
-  - `.claude/skills/prompt-refiner` → `../../.harmony/skills/prompt-refiner`
-  - `.cursor/skills/prompt-refiner` → `../../.harmony/skills/prompt-refiner`
-  - `.codex/skills/prompt-refiner` → `../../.harmony/skills/prompt-refiner`
-- Updated `.harmony/skills/registry.yml` with prompt-refiner entry
-- Updated `.workspace/catalog.md` with skill in catalog table
+  - `.claude/skills/prompt-refiner` → `../../.harmony/capabilities/skills/prompt-refiner`
+  - `.cursor/skills/prompt-refiner` → `../../.harmony/capabilities/skills/prompt-refiner`
+  - `.codex/skills/prompt-refiner` → `../../.harmony/capabilities/skills/prompt-refiner`
+- Updated `.harmony/capabilities/skills/registry.yml` with prompt-refiner entry
+- Updated `.harmony/catalog.md` with skill in catalog table
 - Created ADR-006: Prompt Refiner Skill
-- Updated `.workspace/context/decisions.md` with D021-D024
+- Updated `.harmony/cognition/context/decisions.md` with D021-D024
 
 **Decisions made:**
 

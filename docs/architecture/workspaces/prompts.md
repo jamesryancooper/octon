@@ -1,16 +1,16 @@
 ---
 title: Workspace Prompts
-description: Reusable task templates stored in .workspace/prompts/
+description: Reusable task templates stored in .harmony/scaffolding/prompts/
 ---
 
 # Workspace Prompts
 
-Prompts are **reusable task templates** stored in `.workspace/prompts/`. They guide agents through context-dependent tasks that require judgment or parameterization.
+Prompts are **reusable task templates** stored in `.harmony/scaffolding/prompts/`. They guide agents through context-dependent tasks that require judgment or parameterization.
 
 ## Location
 
 ```text
-.workspace/prompts/
+.harmony/scaffolding/prompts/
 ├── audit-content.md
 ├── improve-clarity.md
 └── verify-completeness.md
@@ -20,7 +20,7 @@ Prompts are **reusable task templates** stored in `.workspace/prompts/`. They gu
 
 ## Prompts vs Commands
 
-See `.workspace/catalog.md#command-vs-prompt-decision` for the decision logic.
+See `.harmony/catalog.md#command-vs-prompt-decision` for the decision logic.
 
 ---
 

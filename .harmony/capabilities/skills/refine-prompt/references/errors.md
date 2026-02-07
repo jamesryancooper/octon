@@ -3,7 +3,7 @@
 # Documents error conditions, recovery procedures, and troubleshooting.
 #
 # Error codes follow the standard format defined in:
-# .workspace/skills/logs/FORMAT.md
+# .harmony/capabilities/skills/logs/FORMAT.md
 errors:
   - code: "E001"
     condition: "Empty or whitespace-only prompt input"
@@ -50,7 +50,7 @@ errors:
   - code: "E030"
     condition: "Workspace directory not found"
     severity: fatal
-    message: "Workspace directory not found: .workspace/"
+    message: "Workspace directory not found: .harmony/"
     action: "Initialize workspace or run from correct directory"
 
   - code: "E040"
@@ -185,7 +185,7 @@ When the skill cannot complete execution:
 
 ### Before Reporting a Bug
 
-- [ ] Verified workspace exists (`.workspace/` directory)
+- [ ] Verified workspace exists (`.harmony/` directory)
 - [ ] Confirmed input is not empty
 - [ ] Checked input file path (if using file input)
 - [ ] Reviewed error code and tried suggested action
@@ -203,6 +203,6 @@ When the skill cannot complete execution:
 
 ## See Also
 
-- [Run Log Format](../../../.workspace/skills/logs/FORMAT.md) — Structured logging specification
+- [Run Log Format](../../../.harmony/capabilities/skills/logs/FORMAT.md) — Structured logging specification
 - [Safety Reference](./safety.md) — Behavioral boundaries
 - [Validation Reference](./validation.md) — Acceptance criteria

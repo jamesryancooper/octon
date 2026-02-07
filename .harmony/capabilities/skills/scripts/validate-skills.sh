@@ -70,7 +70,7 @@ HARMONY_DIR="$(dirname "$SKILLS_DIR")"
 REPO_ROOT="$(dirname "$HARMONY_DIR")"
 MANIFEST="$SKILLS_DIR/manifest.yml"
 REGISTRY="$SKILLS_DIR/registry.yml"
-WORKSPACE_REGISTRY="$REPO_ROOT/.workspace/skills/registry.yml"
+WORKSPACE_REGISTRY="$REPO_ROOT/.harmony/capabilities/skills/registry.yml"
 
 # Configuration
 STRICT_MODE=false
@@ -469,12 +469,12 @@ get_workspace_output_paths() {
 }
 
 # Validate that a path is within workspace scope
-# Note: Paths starting with ../../ are allowed for deliverables that go to .workspace/{category}/
+# Note: Paths starting with ../../ are allowed for deliverables that go to .harmony/output/{category}/
 validate_path_scope() {
     local path="$1"
     local workspace_root="$2"
     
-    # Allow ../ paths for deliverables going to .workspace/{category}/
+    # Allow ../ paths for deliverables going to .harmony/output/{category}/
     # These are intentional - deliverables go to final destination outside skills/
     if [[ "$path" == ../../* ]]; then
         # This is expected for deliverables like ../../drafts/ or ../../prompts/
@@ -508,7 +508,7 @@ validate_skill_io_scope() {
     while IFS= read -r output_path; do
         if [[ -n "$output_path" ]]; then
             local validation_result
-            validation_result=$(validate_path_scope "$output_path" "$REPO_ROOT/.workspace/skills/")
+            validation_result=$(validate_path_scope "$output_path" "$REPO_ROOT/.harmony/capabilities/skills/")
             if [[ -n "$validation_result" ]]; then
                 log_error "Skill '$skill_id': $validation_result"
                 ((issues++)) || true
@@ -1925,7 +1925,7 @@ validate_skill() {
     
     # Check 12: No outputs in shared registry (should be in workspace registry only)
     if check_shared_registry_outputs "$skill_id"; then
-        log_error "Outputs found in shared registry (should be in .workspace/skills/registry.yml only)"
+        log_error "Outputs found in shared registry (should be in .harmony/capabilities/skills/registry.yml only)"
     else
         log_success "No outputs in shared registry"
     fi
@@ -1936,7 +1936,7 @@ validate_skill() {
             log_warning "MISSING I/O MAPPINGS: Skill '$skill_id' has no workspace I/O configuration"
             log_info "  Skills without workspace mappings will use default output paths only."
             log_info "  To configure custom I/O paths, add an entry to:"
-            log_info "    .workspace/skills/registry.yml → skill_mappings.$skill_id"
+            log_info "    .harmony/capabilities/skills/registry.yml → skill_mappings.$skill_id"
             log_info "  See docs/architecture/workspaces/skills/discovery.md#workspace-registry"
             if [[ "$FIX_MODE" == "true" ]]; then
                 scaffold_workspace_mapping "$skill_id"
@@ -1968,7 +1968,7 @@ validate_skill() {
         while IFS= read -r output_path; do
             if [[ -n "$output_path" ]]; then
                 local validation_result
-                validation_result=$(validate_path_scope "$output_path" "$REPO_ROOT/.workspace/skills/")
+                validation_result=$(validate_path_scope "$output_path" "$REPO_ROOT/.harmony/capabilities/skills/")
                 if [[ -n "$validation_result" ]]; then
                     log_error "Output path scope violation: $validation_result"
                     ((scope_issues++)) || true
@@ -2025,7 +2025,7 @@ validate_skill() {
         log_success "Version OK: $current_version"
     else
         log_warning "Version review: $version_result"
-        log_info "  Update version in .harmony/skills/registry.yml when making changes"
+        log_info "  Update version in .harmony/capabilities/skills/registry.yml when making changes"
     fi
 
     # Check 21: Line count validation (per agentskills.io spec)

@@ -2,11 +2,11 @@
 examples:
   - input: "add caching to the api"
     invocation: "/refine-prompt 'add caching to the api'"
-    output: ".workspace/prompts/20250114-120000-refined.md"
+    output: ".harmony/scaffolding/prompts/20250114-120000-refined.md"
     description: "Context-aware refinement with persona, anti-patterns, and self-critique"
   - input: "refactor the auth module"
     invocation: "/refine-prompt 'refactor the auth module' --context_depth=deep"
-    output: ".workspace/prompts/20250114-120100-refined.md"
+    output: ".harmony/scaffolding/prompts/20250114-120100-refined.md"
     description: "Deep analysis refactoring with comprehensive risk assessment"
 ---
 

@@ -138,7 +138,7 @@ Workflow skills require formal validation in `validation.md`:
 - Quality checklist for final output
 - Error conditions and expected handling
 
-See [validation.md template](./../../../.harmony/skills/_template/references/validation.md) for the standard format.
+See [validation.md template](./../../../.harmony/capabilities/skills/_template/references/validation.md) for the standard format.
 ```
 
 ---
@@ -176,7 +176,7 @@ See [Reference Artifacts](./reference-artifacts.md#validation-expectations-by-ar
 
 ---
 
-### File: `.harmony/skills/README.md`
+### File: `.harmony/capabilities/skills/README.md`
 
 **Location:** In "Archetype Selection Matrix" (around line 74)
 
@@ -194,7 +194,7 @@ See [Reference Artifacts](./reference-artifacts.md#validation-expectations-by-ar
 
 ---
 
-### File: `.harmony/skills/_template/SKILL.md`
+### File: `.harmony/capabilities/skills/_template/SKILL.md`
 
 **Location:** After the "Workflow Archetype" section (end of References section)
 
@@ -266,7 +266,7 @@ After implementation, verify:
 - [ ] Line count (`<200 lines`) is de-emphasized or qualified
 - [ ] Validation expectations section exists in `reference-artifacts.md`
 - [ ] `creation.md` mentions validation expectations per archetype
-- [ ] `.harmony/skills/README.md` selection matrix uses new phrasing
+- [ ] `.harmony/capabilities/skills/README.md` selection matrix uses new phrasing
 - [ ] `_template/SKILL.md` includes validation guidance
 
 ---

@@ -15,7 +15,7 @@ Use the `/create-skill` command to create new skills that follow the agentskills
 /create-skill <skill-name>
 ```
 
-This invokes the `create-skill` skill defined in `.harmony/skills/create-skill/`.
+This invokes the `create-skill` skill defined in `.harmony/capabilities/skills/create-skill/`.
 
 ---
 
@@ -106,7 +106,7 @@ The `create-skill` skill executes these phases:
 | Phase | Purpose |
 |-------|---------|
 | **Validate Name** | Check format (kebab-case), action-oriented naming, uniqueness |
-| **Copy Template** | Copy `_template/` to `.harmony/skills/<skill-name>/` |
+| **Copy Template** | Copy `_template/` to `.harmony/capabilities/skills/<skill-name>/` |
 | **Initialize** | Update placeholders with skill name, display name, description |
 | **Update Manifest** | Add entry to `manifest.yml` (Tier 1 discovery) |
 | **Update Registry** | Add entry to `registry.yml` (extended metadata) |
@@ -120,7 +120,7 @@ The `create-skill` skill executes these phases:
 A new skill directory following the agentskills.io spec:
 
 ```markdown
-.harmony/skills/<skill-name>/
+.harmony/capabilities/skills/<skill-name>/
 ├── SKILL.md              # Core definition (<500 lines)
 ├── references/           # Progressive disclosure
 │   ├── behaviors.md
@@ -132,9 +132,9 @@ A new skill directory following the agentskills.io spec:
 └── assets/               # Static resources (optional)
 
 # Plus symlinks in harness folders:
-.claude/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
-.cursor/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
-.codex/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
+.claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
+.cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
+.codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
 ```
 
 ---
@@ -193,7 +193,7 @@ See [Reference Artifacts](./reference-artifacts.md) for detailed guidance on eac
 
 ### 3. Update Shared Manifest
 
-Add the skill to `.harmony/skills/manifest.yml` for Tier 1 discovery:
+Add the skill to `.harmony/capabilities/skills/manifest.yml` for Tier 1 discovery:
 
 ```yaml
 skills:
@@ -212,7 +212,7 @@ skills:
 
 ### 4. Update Shared Registry
 
-Add extended metadata to `.harmony/skills/registry.yml`:
+Add extended metadata to `.harmony/capabilities/skills/registry.yml`:
 
 ```yaml
 skills:
@@ -232,7 +232,7 @@ skills:
 
 ### 5. Add Workspace Mappings
 
-If the skill needs workspace-specific I/O paths, add them to `.workspace/skills/registry.yml`:
+If the skill needs workspace-specific I/O paths, add them to `.harmony/capabilities/skills/registry.yml`:
 
 ```yaml
 skill_mappings:
@@ -250,7 +250,7 @@ skill_mappings:
         description: "Skill output document"
 ```
 
-**Note:** All `.workspace/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#workspace-skills-directory-structure) for details.
+**Note:** All `.harmony/capabilities/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#workspace-skills-directory-structure) for details.
 
 **Placeholder Syntax:** Use `{{snake_case}}` for path placeholders (e.g., `{{timestamp}}`, `{{project}}`). See [Placeholder Resolution](./execution.md#placeholder-resolution) for details.
 
@@ -260,12 +260,12 @@ Run the setup script or create symlinks manually:
 
 ```bash
 # Using setup script
-.harmony/skills/scripts/setup-harness-links.sh
+.harmony/capabilities/skills/scripts/setup-harness-links.sh
 
 # Or manually
-ln -s ../../.harmony/skills/your-skill-name .claude/skills/your-skill-name
-ln -s ../../.harmony/skills/your-skill-name .cursor/skills/your-skill-name
-ln -s ../../.harmony/skills/your-skill-name .codex/skills/your-skill-name
+ln -s ../../.harmony/capabilities/skills/your-skill-name .claude/skills/your-skill-name
+ln -s ../../.harmony/capabilities/skills/your-skill-name .cursor/skills/your-skill-name
+ln -s ../../.harmony/capabilities/skills/your-skill-name .codex/skills/your-skill-name
 ```
 
 ### 7. Test

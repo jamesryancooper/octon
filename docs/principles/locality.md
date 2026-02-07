@@ -107,11 +107,11 @@ packages/billing/
 **Use inheritance for shared defaults:**
 
 ```yaml
-# .harmony/templates/workspace/conventions.md (shared)
+# .harmony/scaffolding/templates/workspace/conventions.md (shared)
 - Use TypeScript strict mode
 - Format with Prettier
 
-# packages/billing/.workspace/conventions.md (local override)
+# packages/billing/.harmony/conventions.md (local override)
 - Use TypeScript strict mode
 - Format with Prettier
 - Additional: All money values use Decimal.js  # Domain-specific
@@ -131,12 +131,12 @@ When entering a directory:
 
 ```yaml
 # Good: Domain-specific skill configuration
-# packages/auth/.workspace/skills/registry.yml
+# packages/auth/.harmony/capabilities/skills/registry.yml
 skills:
   - id: security-audit
     input_paths:
       - ./src/**/*.ts  # Only auth code
-    output_path: ./.workspace/skills/outputs/
+    output_path: ./.harmony/capabilities/skills/outputs/
 ```
 
 ### ❌ Don't
@@ -168,12 +168,12 @@ import { sharedContext } from '../../../.harmony/context';
 
 ```
 # Bad: Same content copied everywhere
-packages/auth/.workspace/conventions.md      # Copy of shared
-packages/billing/.workspace/conventions.md   # Copy of shared
-packages/web/.workspace/conventions.md       # Copy of shared
+packages/auth/.harmony/conventions.md      # Copy of shared
+packages/billing/.harmony/conventions.md   # Copy of shared
+packages/web/.harmony/conventions.md       # Copy of shared
 
 # Good: Inherit shared, override only what's different
-packages/auth/.workspace/conventions.md      # "Extends shared, plus: ..."
+packages/auth/.harmony/conventions.md      # "Extends shared, plus: ..."
 ```
 
 ## Implementation Patterns
@@ -200,11 +200,11 @@ Local context composes with shared context:
 ```yaml
 # Effective context for packages/auth/
 sources:
-  - .harmony/context/tools.md           # Shared tools knowledge
-  - .harmony/context/compaction.md      # Shared compaction rules
-  - .workspace/context/decisions.md     # Root decisions
-  - packages/auth/.workspace/context/decisions.md  # Auth decisions (overrides)
-  - packages/auth/.workspace/context/glossary.md   # Auth-specific terms
+  - .harmony/cognition/context/tools.md           # Shared tools knowledge
+  - .harmony/cognition/context/compaction.md      # Shared compaction rules
+  - .harmony/cognition/context/decisions.md     # Root decisions
+  - packages/auth/.harmony/cognition/context/decisions.md  # Auth decisions (overrides)
+  - packages/auth/.harmony/cognition/context/glossary.md   # Auth-specific terms
 ```
 
 ### Progress Isolation
@@ -212,11 +212,11 @@ sources:
 Each workspace tracks its own progress:
 
 ```
-packages/auth/.workspace/progress/
+packages/auth/.harmony/continuity/
 ├── log.md         # Auth-specific session log
 └── tasks.json     # Auth-specific task list
 
-packages/billing/.workspace/progress/
+packages/billing/.harmony/continuity/
 ├── log.md         # Billing-specific session log
 └── tasks.json     # Billing-specific task list
 ```
@@ -228,7 +228,7 @@ This enables parallel workstreams without pollution.
 Missions inherit locality principles:
 
 ```
-.workspace/missions/
+.harmony/orchestration/missions/
 └── add-mfa/
     ├── brief.md       # Mission scope
     ├── progress/

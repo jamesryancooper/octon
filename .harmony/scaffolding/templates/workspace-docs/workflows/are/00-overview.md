@@ -37,7 +37,7 @@ The harness ensures reliable progress across context windows by:
 - Committing progress for clean handoffs
 
 **Directory Structure**:
-- **Central ARE prompts**: `.workspace/workflows/are/` (methodology files - this directory)
+- **Central ARE prompts**: `.harmony/orchestration/workflows/are/` (methodology files - this directory)
 - **Runtime artifacts**: `<target-dir>/.workspace/.are/` (created per documentation set)
 
 ---

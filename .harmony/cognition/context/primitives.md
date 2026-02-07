@@ -52,9 +52,9 @@ The primitives form a hierarchical multi-agent system:
 
 ## Agents
 
-**Location:** `.harmony/agents/<agent-name>/agent.md`
+**Location:** `.harmony/agency/agents/<agent-name>/agent.md`
 
-**Registry:** `.harmony/agents/registry.yml`
+**Registry:** `.harmony/agency/agents/registry.yml`
 
 **Purpose:** Autonomous supervisors that orchestrate complex work, command missions, and delegate to assistants.
 
@@ -167,7 +167,7 @@ states:
 
 ## Skills
 
-**Location:** `.harmony/skills/<skill-id>/SKILL.md`
+**Location:** `.harmony/capabilities/skills/<skill-id>/SKILL.md`
 
 **Purpose:** Reusable, composable capabilities with explicit input/output contracts.
 
@@ -176,7 +176,7 @@ states:
 - Full `SKILL.md` specification with inputs, outputs, dependencies
 - Invoked via `/command`, `use skill: <id>`, or natural language triggers
 - Stateless and portable (symlinked to harness directories)
-- Writes only to `.workspace/skills/outputs/**` and `logs/**`
+- Writes only to `.harmony/capabilities/skills/outputs/**` and `logs/**`
 - Can be chained into pipelines via registry
 
 ### When to Use
@@ -193,13 +193,13 @@ states:
 
 ### Template
 
-See `.harmony/skills/_template/SKILL.md`
+See `.harmony/capabilities/skills/_template/SKILL.md`
 
 ---
 
 ## Commands
 
-**Location:** `.harmony/commands/<command>.md`
+**Location:** `.harmony/capabilities/commands/<command>.md`
 
 **Purpose:** Lightweight entry points—often gateways to workflows or simple operations.
 
@@ -219,7 +219,7 @@ See `.harmony/skills/_template/SKILL.md`
 
 ### Examples
 
-- `/refactor` → delegates to `.harmony/workflows/refactor/`
+- `/refactor` → delegates to `.harmony/orchestration/workflows/refactor/`
 - `/recover` → error recovery procedures
 - `/validate-frontmatter` → check markdown metadata
 
@@ -229,7 +229,7 @@ See `.harmony/skills/_template/SKILL.md`
 
 > **Deprecated:** Workflows are consolidated into Skills. Use Skills for single-session procedural work and Missions for durable multi-session orchestration.
 
-**Former Location:** `.harmony/workflows/<workflow-name>/`
+**Former Location:** `.harmony/orchestration/workflows/<workflow-name>/`
 
 **Migration Path:**
 
@@ -253,9 +253,9 @@ See `docs/architecture/workspaces/skills/` for migration guidance.
 
 ## Assistants
 
-**Location:** `.harmony/assistants/<assistant-name>/assistant.md`
+**Location:** `.harmony/agency/assistants/<assistant-name>/assistant.md`
 
-**Registry:** `.harmony/assistants/registry.yml`
+**Registry:** `.harmony/agency/assistants/registry.yml`
 
 **Purpose:** Specialized subagents that perform focused tasks for agents or humans within the multi-agent hierarchy.
 
@@ -314,7 +314,7 @@ See `docs/architecture/workspaces/skills/` for migration guidance.
 
 ## Checklists
 
-**Location:** `.harmony/checklists/<checklist>.md`
+**Location:** `.harmony/quality/<checklist>.md`
 
 **Purpose:** Quality gates and verification criteria for specific checkpoints.
 
@@ -361,7 +361,7 @@ See `docs/architecture/workspaces/skills/` for migration guidance.
 
 ## Prompts
 
-**Location:** `.harmony/prompts/<prompt>.md` or `.harmony/prompts/<category>/<prompt>.md`
+**Location:** `.harmony/scaffolding/prompts/<prompt>.md` or `.harmony/scaffolding/prompts/<category>/<prompt>.md`
 
 **Purpose:** Task templates with structured context, instructions, and expected output.
 
@@ -412,7 +412,7 @@ access: human
 
 ## Templates
 
-**Location:** `.harmony/templates/<template-name>/`
+**Location:** `.harmony/scaffolding/templates/<template-name>/`
 
 **Purpose:** Scaffolding for creating new structures (workspaces, projects, etc.).
 
@@ -564,13 +564,13 @@ Registry supports `pipelines` section for skill composition without manual orche
 
 | Primitive | Registry | Template | Documentation |
 |-----------|----------|----------|---------------|
-| Agents | `.harmony/agents/registry.yml` | `.harmony/agents/_template/` | `docs/architecture/workspaces/agents.md` |
+| Agents | `.harmony/agency/agents/registry.yml` | `.harmony/agency/agents/_template/` | `docs/architecture/workspaces/agents.md` |
 | Missions | `.harmony/missions/registry.yml` | `.harmony/missions/_template/` | `docs/architecture/workspaces/missions.md` |
-| Skills | `.harmony/skills/registry.yml` | `.harmony/skills/_template/` | `docs/architecture/workspaces/skills/` |
-| Assistants | `.harmony/assistants/registry.yml` | `.harmony/assistants/_template/` | `docs/architecture/workspaces/assistants.md` |
+| Skills | `.harmony/capabilities/skills/registry.yml` | `.harmony/capabilities/skills/_template/` | `docs/architecture/workspaces/skills/` |
+| Assistants | `.harmony/agency/assistants/registry.yml` | `.harmony/agency/assistants/_template/` | `docs/architecture/workspaces/assistants.md` |
 | Commands | — | — | `docs/architecture/workspaces/commands.md` |
 | Checklists | — | — | `docs/architecture/workspaces/checklists.md` |
 | Prompts | — | — | `docs/architecture/workspaces/prompts.md` |
-| Templates | — | `.harmony/templates/` | `docs/architecture/workspaces/templates.md` |
+| Templates | — | `.harmony/scaffolding/templates/` | `docs/architecture/workspaces/templates.md` |
 
 > **Note:** Workflows are deprecated. See Skills and Missions.

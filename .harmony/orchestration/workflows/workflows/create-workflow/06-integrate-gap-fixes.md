@@ -44,7 +44,7 @@ In `00-overview.md` frontmatter:
 ```yaml
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 ```
 
 ### 6.4 Add Idempotency Sections

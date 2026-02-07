@@ -49,7 +49,7 @@ The verb-noun pattern follows agentskills.io convention and reads more naturally
 ### Progressive Disclosure Structure
 
 ```
-.harmony/skills/<skill-name>/
+.harmony/capabilities/skills/<skill-name>/
 ├── SKILL.md              # Core instructions (<500 lines, ~5000 tokens)
 ├── references/           # Detailed documentation
 │   ├── behaviors.md      # Phase-by-phase execution
@@ -105,5 +105,5 @@ repo/                              ← Root workspace (scope: repo/**)
 
 - [agentskills.io/specification](https://agentskills.io/specification) - Format specification
 - `docs/architecture/workspaces/skills/` - Split documentation
-- `.harmony/skills/_template/` - Updated skill template
-- `.harmony/workflows/skills/create-skill/` - Updated workflow (v2.0.0)
+- `.harmony/capabilities/skills/_template/` - Updated skill template
+- `.harmony/orchestration/workflows/skills/create-skill/` - Updated workflow (v2.0.0)

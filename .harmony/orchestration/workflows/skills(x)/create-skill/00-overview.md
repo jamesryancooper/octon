@@ -6,13 +6,13 @@ version: "2.0.0"
 depends_on: []
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 deprecated: true
-deprecated_by: ".harmony/skills/create-skill/"
+deprecated_by: ".harmony/capabilities/skills/create-skill/"
 ---
 
-> **DEPRECATED:** This workflow has been migrated to `.harmony/skills/create-skill/`.
+> **DEPRECATED:** This workflow has been migrated to `.harmony/capabilities/skills/create-skill/`.
 > Use `/create-skill` instead.
 
 # Create Skill
@@ -88,9 +88,9 @@ skills/<skill-name>/
 └── assets/               # Static resources (optional)
 
 # Plus symlinks in harness folders:
-.claude/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
-.cursor/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
-.codex/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
+.claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
+.cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
+.codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
 ```
 
 ## Next Steps After Creation
@@ -140,6 +140,6 @@ This workflow creates skills that comply with [agentskills.io/specification](htt
 
 - **Spec:** [agentskills.io/specification](https://agentskills.io/specification)
 - **Documentation:** `docs/architecture/workspaces/skills.md`
-- **Example:** `.harmony/skills/refine-prompt/`
-- **Template:** `.harmony/skills/_template/`
-- **Registry:** `.harmony/skills/registry.yml`
+- **Example:** `.harmony/capabilities/skills/refine-prompt/`
+- **Template:** `.harmony/capabilities/skills/_template/`
+- **Registry:** `.harmony/capabilities/skills/registry.yml`

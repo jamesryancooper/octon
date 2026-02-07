@@ -1,6 +1,6 @@
 # Workflows
 
-Generic workflows live in `.harmony/workflows/`.
+Generic workflows live in `.harmony/orchestration/workflows/`.
 
 Project-specific workflows live here.
 

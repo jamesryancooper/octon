@@ -18,7 +18,7 @@ description: Boot sequence and orientation for documentation workspaces.
 
 - Index: `README.md`
 - Structure: See directory layout for topic organization
-- Templates: Check parent `.workspace/templates/` if available
+- Templates: Check parent `.harmony/scaffolding/templates/` if available
 
 ## Visibility & Autonomy Rules
 

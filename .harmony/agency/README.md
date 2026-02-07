@@ -1,6 +1,6 @@
 # Workspace Agents
 
-This workspace inherits agent definitions from `.harmony/agents/`.
+This workspace inherits agent definitions from `.harmony/agency/agents/`.
 
 ## Inherited Agents
 
@@ -10,7 +10,7 @@ This workspace inherits agent definitions from `.harmony/agents/`.
 | builder | Implementation | Code generation, skill execution, testing |
 | verifier | Quality assurance | Validation, review, checklist verification |
 
-See `.harmony/agents/registry.yml` for the full list.
+See `.harmony/agency/agents/registry.yml` for the full list.
 
 ## Workspace-Specific Agents
 
@@ -22,9 +22,9 @@ Add project-specific agents here to:
 
 ## Creating a Workspace Agent
 
-1. Copy `.harmony/agents/_template/` to `.workspace/agents/<name>/`
+1. Copy `.harmony/agency/agents/_template/` to `.harmony/agency/agents/<name>/`
 2. Update `agent.md` with role, capabilities, and delegation rules
-3. Register in `.workspace/agents/registry.yml`
+3. Register in `.harmony/agency/agents/registry.yml`
 
 ## Relationship to Assistants
 
@@ -41,4 +41,4 @@ ASSISTANT (@reviewer, @refactor, @docs)
 SKILL (refactor, synthesize, create-workspace)
 ```
 
-See `.harmony/agents/README.md` for full agent documentation.
+See `.harmony/agency/agents/README.md` for full agent documentation.

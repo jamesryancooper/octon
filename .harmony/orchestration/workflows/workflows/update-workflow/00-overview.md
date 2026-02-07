@@ -8,7 +8,7 @@ depends_on:
     condition: "optional but recommended to run first"
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 ---
 
@@ -26,8 +26,8 @@ Modify an existing workflow to add gap remediation features, new steps, or impro
 
 **Examples:**
 ```text
-/update-workflow .harmony/workflows/refactor/
-/update-workflow .workspace/workflows/my-workflow/ --gaps-only
+/update-workflow .harmony/orchestration/workflows/refactor/
+/update-workflow .harmony/orchestration/workflows/my-workflow/ --gaps-only
 ```
 
 ## Target
@@ -80,6 +80,6 @@ Update Workflow is NOT complete until:
 
 ## References
 
-- **Evaluate first:** `.harmony/workflows/workflows/evaluate-workflow/`
-- **Gap guide:** `.harmony/context/workflow-gaps.md`
-- **Quality criteria:** `.harmony/context/workflow-quality.md`
+- **Evaluate first:** `.harmony/orchestration/workflows/workflows/evaluate-workflow/`
+- **Gap guide:** `.harmony/cognition/context/workflow-gaps.md`
+- **Quality criteria:** `.harmony/cognition/context/workflow-quality.md`

@@ -26,7 +26,7 @@ A `.workspace` directory is a **localized agent harness** that drives the creati
 
 ## Frontmatter Requirements
 
-All markdown files in `.workspace/` require YAML frontmatter. See the table below for field requirements by file type.
+All markdown files in `.harmony/` require YAML frontmatter. See the table below for field requirements by file type.
 
 ### Required Fields by File Type
 
@@ -54,7 +54,7 @@ All markdown files in `.workspace/` require YAML frontmatter. See the table belo
 | `human` | Has Cursor command wrapper in `.cursor/commands/` | Humans frequently trigger directly |
 | `agent` | Agent-only; no IDE integration | Only used as sub-procedures |
 
-See `.workspace/catalog.md#ide-integration-decision` for detailed decision guidance.
+See `.harmony/catalog.md#ide-integration-decision` for detailed decision guidance.
 
 ---
 
@@ -62,9 +62,9 @@ See `.workspace/catalog.md#ide-integration-decision` for detailed decision guida
 
 This rule provides context when working with `.workspace` files.
 
-**Decision guidance:** See `.workspace/catalog.md#decision-guidance`
+**Decision guidance:** See `.harmony/catalog.md#decision-guidance`
 
-**This workspace's operations:** See `.workspace/catalog.md`
+**This workspace's operations:** See `.harmony/catalog.md`
 
 ---
 
@@ -80,13 +80,13 @@ See `docs/architecture/workspaces/README.md` for the full structure reference, i
 
 | Template | Path | Use For |
 |----------|------|---------|
-| Base workspace | `.harmony/templates/workspace/` | All workspaces inherit from this |
-| Docs workspace | `.harmony/templates/workspace-docs/` | Documentation areas |
-| Node.js/TS workspace | `.harmony/templates/workspace-node-ts/` | TypeScript packages |
-| Cursor command | `.workspace/templates/cursor-command.md` | Cursor command wrappers (local) |
-| Document | `.workspace/templates/document.md` | General documents (local) |
+| Base workspace | `.harmony/scaffolding/templates/workspace/` | All workspaces inherit from this |
+| Docs workspace | `.harmony/scaffolding/templates/workspace-docs/` | Documentation areas |
+| Node.js/TS workspace | `.harmony/scaffolding/templates/workspace-node-ts/` | TypeScript packages |
+| Cursor command | `.harmony/scaffolding/templates/cursor-command.md` | Cursor command wrappers (local) |
+| Document | `.harmony/scaffolding/templates/document.md` | General documents (local) |
 
-> **Note:** Base templates live in `.harmony/` (shared). Project-specific templates stay in `.workspace/`.
+> **Note:** Base templates live in `.harmony/` (shared). Project-specific templates stay in `.harmony/scaffolding/templates/`.
 
 ---
 

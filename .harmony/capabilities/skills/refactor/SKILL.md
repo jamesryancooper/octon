@@ -47,13 +47,13 @@ Use this skill when:
 
 ## Parameters
 
-Parameters are defined in `.harmony/skills/registry.yml` (single source of truth).
+Parameters are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth).
 
 This skill accepts one required parameter (`scope`) and optional parameters for file types, dry-run mode, and exclusions.
 
 ## Output Location
 
-Output paths are defined in `.workspace/skills/registry.yml` (single source of truth).
+Output paths are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth).
 
 Outputs are written to:
 - `runs/refactor/{{refactor-id}}/` — Execution state (checkpoint, manifests, reports) for session recovery

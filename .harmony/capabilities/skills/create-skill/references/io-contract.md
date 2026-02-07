@@ -2,8 +2,8 @@
 # I/O Contract Documentation
 # AUTHORITATIVE SOURCES:
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Parameters: .harmony/skills/registry.yml
-#   - Output paths: .workspace/skills/registry.yml
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 ---
 
 # I/O Contract Reference
@@ -12,8 +12,8 @@ Input/output specifications for the create-skill skill.
 
 > **Authoritative Sources:**
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Parameters: `.harmony/skills/registry.yml`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Parameters: `.harmony/capabilities/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Parameters
 
@@ -28,7 +28,7 @@ Input/output specifications for the create-skill skill.
 ### Created Skill Directory
 
 ```
-.harmony/skills/{{skill-name}}/
+.harmony/capabilities/skills/{{skill-name}}/
 ├── SKILL.md
 ├── references/
 │   ├── behaviors.md
@@ -43,7 +43,7 @@ Input/output specifications for the create-skill skill.
 ### Continuity Artifacts
 
 ```
-.workspace/skills/runs/create-skill/{{run-id}}/
+.harmony/capabilities/skills/runs/create-skill/{{run-id}}/
 ├── checkpoint.yml     # Execution state (source of truth for resume)
 └── summary.md         # Creation summary
 ```
@@ -53,15 +53,15 @@ Where `{{run-id}}` = `{{timestamp}}-{{skill-name}}` (e.g., `2026-01-20-analyze-c
 ### Symlinks
 
 ```
-.claude/skills/{{skill-name}} -> ../../.harmony/skills/{{skill-name}}
-.cursor/skills/{{skill-name}} -> ../../.harmony/skills/{{skill-name}}
-.codex/skills/{{skill-name}} -> ../../.harmony/skills/{{skill-name}}
+.claude/skills/{{skill-name}} -> ../../.harmony/capabilities/skills/{{skill-name}}
+.cursor/skills/{{skill-name}} -> ../../.harmony/capabilities/skills/{{skill-name}}
+.codex/skills/{{skill-name}} -> ../../.harmony/capabilities/skills/{{skill-name}}
 ```
 
 ### Log Structure
 
 ```
-.workspace/skills/logs/
+.harmony/capabilities/skills/logs/
 ├── index.yml                          # Top-level index (update with new run)
 └── create-skill/
     ├── index.yml                      # Skill-level index (all skills created)
@@ -171,7 +171,7 @@ Tool requirements defined in SKILL.md `allowed-tools`:
 | `Read` | Read manifest, registry, template files |
 | `Glob` | Find existing skills for uniqueness check |
 | `Grep` | Search for existing skill entries |
-| `Write(.harmony/skills/*)` | Create skill directory and files |
+| `Write(.harmony/capabilities/skills/*)` | Create skill directory and files |
 | `Write(runs/*)` | Write execution state (session recovery) |
 | `Write(logs/*)` | Write execution log |
 | `Bash(mkdir)` | Create directories |

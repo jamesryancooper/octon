@@ -408,9 +408,9 @@ Workspaces are designed to be **portable across all AI harnesses**—Cursor, Cla
 ┌────────────────────────────────────────────────────────────┐
 │                    TWO-LAYER RESOLUTION                    │
 ├────────────────────────────────────────────────────────────┤
-│  .workspace/workflows/<name>/  (local, project-specific)   │
+│  .harmony/orchestration/workflows/<name>/  (local, project-specific)   │
 │              ↓ falls back to                               │
-│  .harmony/workflows/<name>/    (shared, generic)           │
+│  .harmony/orchestration/workflows/<name>/    (shared, generic)           │
 └────────────────────────────────────────────────────────────┘
 ```
 
@@ -443,14 +443,14 @@ Harness-specific commands wrap workflows for integration. Generic workflows live
 
 | Command | Delegates To | Layer |
 |---------|--------------|-------|
-| `/create-workspace` | `.harmony/workflows/workspace/create-workspace/` | Shared |
-| `/update-workspace` | `.harmony/workflows/workspace/update-workspace/` | Shared |
-| `/evaluate-workspace` | `.harmony/workflows/workspace/evaluate-workspace/` | Shared |
-| `/migrate-workspace` | `.harmony/workflows/workspace/migrate-workspace/` | Shared |
-| `/bootstrap` | `.harmony/prompts/bootstrap-session.md` | Shared |
-| `/synthesize-research` | `.harmony/skills/synthesize-research/` | Shared |
-| `/research` | `.workspace/workflows/projects/create-project.md` | Local |
-| `/run-flow` | `.workspace/workflows/flowkit/run-flow/` | Local |
+| `/create-workspace` | `.harmony/orchestration/workflows/workspace/create-workspace/` | Shared |
+| `/update-workspace` | `.harmony/orchestration/workflows/workspace/update-workspace/` | Shared |
+| `/evaluate-workspace` | `.harmony/orchestration/workflows/workspace/evaluate-workspace/` | Shared |
+| `/migrate-workspace` | `.harmony/orchestration/workflows/workspace/migrate-workspace/` | Shared |
+| `/bootstrap` | `.harmony/scaffolding/prompts/bootstrap-session.md` | Shared |
+| `/synthesize-research` | `.harmony/capabilities/skills/synthesize-research/` | Shared |
+| `/research` | `.harmony/orchestration/workflows/projects/create-project.md` | Local |
+| `/run-flow` | `.harmony/orchestration/workflows/flowkit/run-flow/` | Local |
 
 These commands live in `.<harness>/commands/` (e.g., `.cursor/commands/`, `.claude/commands/`) and are thin wrappers that delegate to the workflows.
 

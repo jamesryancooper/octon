@@ -11,13 +11,13 @@ A scoped workspace template for **documentation areas** (API docs, guides, refer
 
 ## Inheritance
 
-This template **extends** the base workspace template at `.workspace/templates/workspace/`.
+This template **extends** the base workspace template at `.harmony/scaffolding/templates/workspace/`.
 
 ### Resolution Order
 
 When creating a workspace using this template:
 
-1. Copy all files from `.workspace/templates/workspace/` (base)
+1. Copy all files from `.harmony/scaffolding/templates/workspace/` (base)
 2. Overlay files from this directory (scope-specific overrides)
 3. Copy `workflows/are/` for document improvement workflows
 
@@ -34,7 +34,7 @@ When creating a workspace using this template:
 
 ### Files Inherited from Base
 
-All other files come from `.workspace/templates/workspace/`:
+All other files come from `.harmony/scaffolding/templates/workspace/`:
 
 - `catalog.md`
 - `context/` (decisions, lessons, glossary, dependencies, constraints)

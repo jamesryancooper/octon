@@ -4,8 +4,8 @@
 #
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Parameters: .harmony/skills/registry.yml
-#   - Output paths: .workspace/skills/registry.yml
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -20,8 +20,8 @@ Input/output specifications for the skill-name skill.
 > **Authoritative Sources:**
 >
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Parameters: `.harmony/skills/registry.yml`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Parameters: `.harmony/capabilities/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Inputs
 
@@ -34,15 +34,15 @@ Parameter definitions are in `registry.yml` (single source of truth). Summary:
 
 ## Outputs
 
-Output definitions are in `.workspace/skills/registry.yml` (single source of truth).
+Output definitions are in `.harmony/capabilities/skills/registry.yml` (single source of truth).
 
-> **Note:** All `.workspace/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern: `configs/`, `resources/`, `runs/`, `logs/`.
+> **Note:** All `.harmony/capabilities/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern: `configs/`, `resources/`, `runs/`, `logs/`.
 
 Summary:
 
 ### {{Primary Output}} (Deliverable)
 
-- **Path:** `.workspace/{{category}}/{{timestamp}}-{{name}}.md`
+- **Path:** `.harmony/output/{{category}}/{{timestamp}}-{{name}}.md`
 - **Format:** Markdown
 - **Content:** {{Description of output content}}
 
@@ -65,7 +65,7 @@ ended_at: 2025-01-15T10:32:15Z
 inputs:
   - {{input_path_or_value}}
 outputs:
-  - .workspace/{{category}}/{{timestamp}}-{{name}}.md
+  - .harmony/output/{{category}}/{{timestamp}}-{{name}}.md
 tools_used:
   - filesystem.read
   - filesystem.glob

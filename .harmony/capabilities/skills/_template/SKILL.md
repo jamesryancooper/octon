@@ -10,7 +10,7 @@ metadata:
   author: "{{author_name}}"
   created: "{{created_date}}"
   updated: "{{updated_date}}"
-  # Note: version is defined in .harmony/skills/registry.yml, not here
+  # Note: version is defined in .harmony/capabilities/skills/registry.yml, not here
 # Capability Model
 # Skills declare skill_sets (bundles) and individual capabilities.
 # Resolved capabilities determine which reference files are needed.
@@ -70,21 +70,21 @@ Use this skill when:
 
 ## Parameters
 
-Parameters are defined in `.harmony/skills/registry.yml` (single source of truth).
+Parameters are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth).
 
 This skill accepts {{parameters_summary}}.
 
 ## Output Location
 
-Output paths are defined in `.workspace/skills/registry.yml` (single source of truth).
+Output paths are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth).
 
-All operational categories in `.workspace/skills/` follow the `{{category}}/{{skill-id}}/` pattern:
+All operational categories in `.harmony/capabilities/skills/` follow the `{{category}}/{{skill-id}}/` pattern:
 
-- **Deliverables:** `.workspace/{{category}}/` (e.g., `.workspace/prompts/`, `.workspace/drafts/`)
-- **Configs:** `.workspace/skills/configs/{{skill-id}}/` (per-skill configuration overrides)
-- **Resources:** `.workspace/skills/resources/{{skill-id}}/` (per-skill input materials)
-- **Continuity Artifacts:** `.workspace/skills/runs/{{skill-id}}/{{run-id}}/` (for stateful/resumable skills)
-- **Execution Logs:** `.workspace/skills/logs/{{skill-id}}/{{run-id}}.md`
+- **Deliverables:** `.harmony/output/{{category}}/` (e.g., `.harmony/scaffolding/prompts/`, `.harmony/output/drafts/`)
+- **Configs:** `.harmony/capabilities/skills/configs/{{skill-id}}/` (per-skill configuration overrides)
+- **Resources:** `.harmony/capabilities/skills/resources/{{skill-id}}/` (per-skill input materials)
+- **Continuity Artifacts:** `.harmony/capabilities/skills/runs/{{skill-id}}/{{run-id}}/` (for stateful/resumable skills)
+- **Execution Logs:** `.harmony/capabilities/skills/logs/{{skill-id}}/{{run-id}}.md`
 
 ## Boundaries
 

@@ -170,7 +170,7 @@ Use `ideas/` for:
 ## Relationship to Workspace
 
 ```
-.workspace/
+.harmony/
 ├── projects/        # Graduated from brainstorm/
 ├── missions/        # Execution workstreams
 ├── context/         # Permanent knowledge
@@ -199,6 +199,6 @@ Projects have graduated from scratchpad to workspace-level because they frequent
 
 ## See Also
 
-- [`.workspace/START.md`](../START.md) — Boot sequence with visibility rules
-- [`.workspace/projects/`](../projects/README.md) — Graduated exploration space
+- [`.harmony/START.md`](../START.md) — Boot sequence with visibility rules
+- [`.harmony/ideation/projects/`](../projects/README.md) — Graduated exploration space
 - [`docs/architecture/workspaces/scratchpad.md`](../../../docs/architecture/workspaces/scratchpad.md) — Full architecture documentation

@@ -27,7 +27,7 @@ Validate YAML frontmatter in all markdown files in the target directory.
 
 ### Workspace Commands and Workflow Overviews
 
-Files in `.workspace/commands/` and `.workspace/workflows/**/00-overview.md` also require:
+Files in `.harmony/capabilities/commands/` and `.harmony/orchestration/workflows/**/00-overview.md` also require:
 
 - `access` — Must be `human` (has Cursor command wrapper) or `agent` (agent-only)
 

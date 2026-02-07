@@ -12,7 +12,7 @@ description: Add skill to catalog.md skills table.
 
 ## Actions
 
-Update `.workspace/catalog.md` Skills section table:
+Update `.harmony/catalog.md` Skills section table:
 
 ```markdown
 ## Skills

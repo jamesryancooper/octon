@@ -11,8 +11,8 @@
 #
 # Authoritative Sources:
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Parameters: .harmony/skills/registry.yml
-#   - Output paths: .workspace/skills/registry.yml
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 
 set -e
 
@@ -21,7 +21,7 @@ SKILLS_DIR="$(dirname "$SCRIPT_DIR")"
 HARMONY_DIR="$(dirname "$SKILLS_DIR")"
 REPO_ROOT="$(dirname "$HARMONY_DIR")"
 REGISTRY="$SKILLS_DIR/registry.yml"
-WORKSPACE_REGISTRY="$REPO_ROOT/.workspace/skills/registry.yml"
+WORKSPACE_REGISTRY="$REPO_ROOT/.harmony/capabilities/skills/registry.yml"
 
 # Colors for output
 RED='\033[0;31m'
@@ -85,8 +85,8 @@ generate_io_contract_header() {
 #
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter \`allowed-tools\`
-#   - Parameters: .harmony/skills/registry.yml
-#   - Output paths: .workspace/skills/registry.yml
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Current allowed-tools: $allowed_tools
 #
@@ -111,7 +111,7 @@ title: Safety Reference
 description: Safety policies and constraints for the $skill_name skill.
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter \`allowed-tools\`
-#   - Output paths: .workspace/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Current allowed-tools: $allowed_tools
 #

@@ -33,7 +33,7 @@ version: "1.0.0"           # Semantic versioning
 depends_on: []              # Cross-workflow dependencies
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []          # Steps safe to run in parallel
 ---
 ```
@@ -60,7 +60,7 @@ Every workflow must end with a verification step that:
 
 ## See Also
 
-- **Create workflow:** `.harmony/workflows/workflows/create-workflow/`
-- **Evaluate workflow:** `.harmony/workflows/workflows/evaluate-workflow/`
-- **Gap fixes guide:** `.harmony/context/workflow-gaps.md`
-- **Quality criteria:** `.harmony/context/workflow-quality.md`
+- **Create workflow:** `.harmony/orchestration/workflows/workflows/create-workflow/`
+- **Evaluate workflow:** `.harmony/orchestration/workflows/workflows/evaluate-workflow/`
+- **Gap fixes guide:** `.harmony/cognition/context/workflow-gaps.md`
+- **Quality criteria:** `.harmony/cognition/context/workflow-quality.md`

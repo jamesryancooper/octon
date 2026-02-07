@@ -1,1 +1,1 @@
-../../.harmony/commands/refactor.md
+../../.harmony/capabilities/commands/refactor.md

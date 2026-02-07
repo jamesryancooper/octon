@@ -101,7 +101,7 @@ FlowKit is intentionally implemented as a **layered integration** so each concer
 ```mermaid
 flowchart LR
   Cursor["Cursor: /run-flow"] --> CursorCmd[".cursor/commands/run-flow.md"]
-  CursorCmd --> WorkspaceWF[".workspace/workflows/flowkit/run-flow/*"]
+  CursorCmd --> WorkspaceWF[".harmony/orchestration/workflows/flowkit/run-flow/*"]
   WorkspaceWF --> Pnpm["pnpm flowkit:run <config.flow.json>"]
   Pnpm --> RootScript["package.json: flowkit:run"]
   RootScript --> KitsScript["packages/kits/package.json: flowkit:run-config"]
@@ -121,7 +121,7 @@ flowchart LR
 | Entry point | Where | Use when |
 |---|---|---|
 | `/run-flow @<config.flow.json>` | `.cursor/commands/run-flow.md` | Running from Cursor chat with a guided procedure |
-| Workflow procedure | `.workspace/workflows/flowkit/run-flow/*` | Following the canonical “how to run a flow” steps manually |
+| Workflow procedure | `.harmony/orchestration/workflows/flowkit/run-flow/*` | Following the canonical “how to run a flow” steps manually |
 | `pnpm flowkit:run <config.flow.json>` | `package.json` | Running from terminal/CI using the repo script |
 | `flowkit run <config.flow.json>` | `packages/kits/package.json` bin | Running via installed kit binaries (same underlying CLI) |
 | `createHttpFlowRunner().run({ config, params? })` | `packages/kits/flowkit/src/index.ts` | Running flows from apps/agents with optional runtime `params` |
@@ -132,7 +132,7 @@ flowchart LR
 | Layer | Canonical owner | Files (examples) |
 |---|---|---|
 | Cursor entrypoint | `.cursor/commands` | `.cursor/commands/run-flow.md` |
-| Workspace harness | `.workspace/workflows` | `.workspace/workflows/flowkit/run-flow/*` |
+| Workspace harness | `.harmony/orchestration/workflows` | `.harmony/orchestration/workflows/flowkit/run-flow/*` |
 | Package semantics + CLI | `packages/kits/flowkit` | `packages/kits/flowkit/src/cli.ts`, `packages/kits/flowkit/src/index.ts` |
 | Flow assets | `packages/workflows` | `packages/workflows/<flowId>/config.flow.json`, `manifest.yaml`, `00-overview.md`, `NN-<step>.md` |
 | Runtime execution | `agents/runner/runtime` | `agents/runner/runtime/server.py`, `agents/runner/runtime/**/graph_factory.py` |
@@ -140,12 +140,12 @@ flowchart LR
 
 #### Workspace vs Package
 
-- `.workspace/workflows/flowkit/run-flow/*` documents the *procedure* for running `pnpm flowkit:run`.
+- `.harmony/orchestration/workflows/flowkit/run-flow/*` documents the *procedure* for running `pnpm flowkit:run`.
 - The FlowKit CLI is the source of truth for `.flow.json` semantics and validation (`packages/kits/flowkit/src/cli.ts` → `validateFlowConfig`).
 
 #### Locality vs Repo-Wide
 
-- The root `.workspace` is a **repo-wide harness** (see `.workspace/scope.md`), so FlowKit run procedures belong there.
+- The root `.workspace` is a **repo-wide harness** (see `.harmony/scope.md`), so FlowKit run procedures belong there.
 - Domain workspaces can add *references* for discoverability, but should **delegate** to the same canonical workflow rather than forking the logic.
 
 ### 2.1 Placement in Harmony
@@ -589,7 +589,7 @@ Each FlowKit concern has exactly one owner to prevent drift and duplication:
 | Responsibility | Owner | Notes |
 |----------------|-------|-------|
 | IDE trigger (`/run-flow`) | `.cursor/commands` | Thin wrapper; delegates to workflow |
-| Procedural workflow steps | `.workspace/workflows/flowkit/` | Describes *procedure*, not *semantics* |
+| Procedural workflow steps | `.harmony/orchestration/workflows/flowkit/` | Describes *procedure*, not *semantics* |
 | `.flow.json` schema + validation | `packages/kits/flowkit` | See `cli.ts` → `validateFlowConfig` |
 | CLI flags and output format | `packages/kits/flowkit` | Produces deterministic JSON |
 | Runner lifecycle (autostart/health) | `packages/kits/flowkit` | Uses `/healthz` and optional python autostart |

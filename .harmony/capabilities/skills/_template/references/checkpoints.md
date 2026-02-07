@@ -11,7 +11,7 @@
 #
 checkpoints:
   strategy: phase                    # phase | step | time-based
-  storage: ".workspace/skills/runs/{{skill-id}}/{{run-id}}/"
+  storage: ".harmony/capabilities/skills/runs/{{skill-id}}/{{run-id}}/"
   retention: session                 # session | permanent
 
   schema:
@@ -134,7 +134,7 @@ Execution is interrupted during Phase 4 (Execute) after completing 7 of 13 file 
 ### Checkpoint State at Interruption
 
 ```yaml
-# .workspace/skills/runs/refactor/2026-01-22-scratch-to-scratchpad/checkpoint.yml
+# .harmony/capabilities/skills/runs/refactor/2026-01-22-scratch-to-scratchpad/checkpoint.yml
 skill: refactor
 version: "1.0.0"
 status: in_progress
@@ -163,7 +163,7 @@ phases:
     progress:
       total_items: 13
       completed_items: 7
-      current_item: ".harmony/workflows/example.md"
+      current_item: ".harmony/orchestration/workflows/example.md"
   5_verify:
     status: pending
   6_document:
@@ -172,7 +172,7 @@ phases:
 resume:
   phase: 4
   instruction: "Continue from item 8 in change-manifest.md"
-  last_completed: ".workspace/context/tools.md"
+  last_completed: ".harmony/cognition/context/tools.md"
 ```
 
 ### Recovery Flow
@@ -200,7 +200,7 @@ When user invokes `/refactor .scratch/ → .scratchpad/` again:
 │  4. ON RESUME                                                   │
 │     - Read change-manifest.md                                   │
 │     - Skip items 1-7 (already completed)                        │
-│     - Continue from item 8: .harmony/workflows/example.md       │
+│     - Continue from item 8: .harmony/orchestration/workflows/example.md       │
 │     - Mark items complete as they finish                        │
 │     - Update checkpoint.progress.completed_items incrementally  │
 │                                                                  │

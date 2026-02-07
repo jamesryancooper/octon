@@ -1,6 +1,6 @@
 ---
 title: Workspace Checklists
-description: Quality gates stored in .workspace/checklists/ including definition of done
+description: Quality gates stored in .harmony/quality/ including definition of done
 ---
 
 # Workspace Checklists
@@ -10,7 +10,7 @@ The `checklists/` directory contains **quality gates** that agents verify before
 ## Location
 
 ```text
-.workspace/checklists/
+.harmony/quality/
 ├── complete.md          # Definition of done (required)
 ├── session-exit.md  # Session completion steps (recommended)
 ├── review.md        # Pre-review checklist (optional)

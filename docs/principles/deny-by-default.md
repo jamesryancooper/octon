@@ -61,7 +61,7 @@ Harmony skills operate under a three-tier permission model:
 
 | Tier | Description | Example |
 |------|-------------|---------|
-| Allowed | Explicitly permitted actions | Write to `.workspace/skills/outputs/` |
+| Allowed | Explicitly permitted actions | Write to `.harmony/capabilities/skills/outputs/` |
 | Requires Approval | Permitted with human confirmation | Modify source files |
 | Denied | Never permitted | Delete files, access secrets, network calls |
 
@@ -70,12 +70,12 @@ Harmony skills operate under a three-tier permission model:
 **Define explicit output paths:**
 
 ```yaml
-# .workspace/skills/registry.yml
+# .harmony/capabilities/skills/registry.yml
 skills:
   - id: code-analyzer
     outputs:
       allowed:
-        - .workspace/skills/outputs/code-analyzer/**
+        - .harmony/capabilities/skills/outputs/code-analyzer/**
       requires_approval:
         - src/**/*.ts  # Can suggest edits, human approves
       denied:
@@ -187,7 +187,7 @@ outputs:
 # Good: Specific, minimal permissions
 outputs:
   allowed:
-    - .workspace/skills/outputs/this-skill/**
+    - .harmony/capabilities/skills/outputs/this-skill/**
 ```
 
 **Don't trust agent-provided paths:**
@@ -251,7 +251,7 @@ permissions:
       - src/**/*.ts
       - docs/**/*.md
     write:
-      - .workspace/skills/outputs/{{skill_id}}/**
+      - .harmony/capabilities/skills/outputs/{{skill_id}}/**
     deny:
       - .env*
       - secrets/**

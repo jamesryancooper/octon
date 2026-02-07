@@ -8,8 +8,8 @@ description: Compare workflow against requirements and identify needed changes.
 ## Input
 
 - Audit results from Step 1
-- Gap requirements from `.harmony/context/workflow-gaps.md`
-- Quality requirements from `.harmony/context/workflow-quality.md`
+- Gap requirements from `.harmony/cognition/context/workflow-gaps.md`
+- Quality requirements from `.harmony/cognition/context/workflow-quality.md`
 
 ## Purpose
 
@@ -68,7 +68,7 @@ Systematically identify all gaps between current state and requirements.
 6. **Check harness integration gaps (if access: human):**
    ```text
    If access is "human":
-     - [ ] Command file exists in .harmony/commands/ or .workspace/commands/
+     - [ ] Command file exists in .harmony/capabilities/commands/ or .harmony/capabilities/commands/
      - [ ] Symlink exists in .cursor/commands/ (if directory exists)
      - [ ] Symlink exists in .claude/commands/ (if directory exists)
      - [ ] Symlinks resolve correctly (not broken)

@@ -6,7 +6,7 @@ version: "1.0.0"
 depends_on: []
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps:
   - group: "assessment"
     steps: ["02-assess-structure", "03-assess-gap-coverage"]
@@ -25,8 +25,8 @@ Assess an existing workflow for structure compliance, gap coverage, and content 
 
 **Examples:**
 ```text
-/evaluate-workflow .harmony/workflows/refactor/
-/evaluate-workflow .workspace/workflows/custom-deploy/
+/evaluate-workflow .harmony/orchestration/workflows/refactor/
+/evaluate-workflow .harmony/orchestration/workflows/custom-deploy/
 ```
 
 ## Target
@@ -72,6 +72,6 @@ Assessment report with:
 
 ## References
 
-- **Quality criteria:** `.harmony/context/workflow-quality.md`
-- **Gap checklist:** `.harmony/context/workflow-gaps.md`
-- **Update workflow:** `.harmony/workflows/workflows/update-workflow/` (to fix issues)
+- **Quality criteria:** `.harmony/cognition/context/workflow-quality.md`
+- **Gap checklist:** `.harmony/cognition/context/workflow-gaps.md`
+- **Update workflow:** `.harmony/orchestration/workflows/workflows/update-workflow/` (to fix issues)

@@ -3,7 +3,7 @@ title: Safety Reference
 description: Safety policies and behavioral constraints for the refine-prompt skill.
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Output paths: .workspace/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -15,7 +15,7 @@ Safety policies and behavioral constraints for the refine-prompt skill.
 
 > **Authoritative Sources:**
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Tool Policy
 
@@ -31,8 +31,8 @@ This skill requires read access to codebase files, glob for pattern matching, gr
 
 The skill may only write to:
 
-- `.workspace/prompts/**` — Refined prompts (deliverables)
-- `.workspace/skills/logs/**` — Execution logs
+- `.harmony/scaffolding/prompts/**` — Refined prompts (deliverables)
+- `.harmony/capabilities/skills/logs/**` — Execution logs
 
 ### Destructive Actions
 

@@ -128,9 +128,9 @@ outputs/{{category}}/{{timestamp}}-result.md
 
 ## Related
 
-- `.harmony/skills/manifest.yml` - Tier 1 discovery index
-- `.harmony/skills/registry.yml` - Tier 2 extended metadata
-- `.harmony/skills/scripts/validate-skills.sh` - Validation tooling
+- `.harmony/capabilities/skills/manifest.yml` - Tier 1 discovery index
+- `.harmony/capabilities/skills/registry.yml` - Tier 2 extended metadata
+- `.harmony/capabilities/skills/scripts/validate-skills.sh` - Validation tooling
 - `docs/principles/` - Principle definitions
 - `docs/architecture/workspaces/skills/specification.md` - Extensions documentation
 - `infra/ci/pr.yml` - CI integration

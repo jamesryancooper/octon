@@ -6,7 +6,7 @@ version: "1.1.0"
 depends_on: []
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 ---
 
@@ -18,7 +18,7 @@ For incremental alignment of workspaces that are already structurally correct, u
 
 ## Target
 
-Existing `.workspace/` directory using older conventions.
+Existing `.harmony/` directory using older conventions.
 
 ## Prerequisites
 
@@ -27,8 +27,8 @@ Existing `.workspace/` directory using older conventions.
 
 ## Failure Conditions
 
-- Target `.workspace/` does not exist → STOP, suggest `/create-workspace` instead
-- Target path is not a `.workspace/` directory → STOP, report error
+- Target `.harmony/` does not exist → STOP, suggest `/create-workspace` instead
+- Target path is not a `.harmony/` directory → STOP, report error
 - Workspace already uses current conventions → STOP, suggest `/update-workspace` instead
 
 ## Steps
@@ -48,5 +48,5 @@ Existing `.workspace/` directory using older conventions.
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Templates:** `.workspace/templates/workspace/` (for new structure)
+- **Templates:** `.harmony/scaffolding/templates/workspace/` (for new structure)
 

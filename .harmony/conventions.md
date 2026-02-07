@@ -81,7 +81,7 @@ See `[reference]` for full details.
 | `Workflow:` | Delegating to a workspace workflow (multi-step) |
 | `Prompt:` | Delegating to a workspace prompt (template) |
 
-**Template:** `.workspace/templates/cursor-command.md`
+**Template:** `.harmony/scaffolding/templates/cursor-command.md`
 
 ## Progress Log Format
 
@@ -149,4 +149,4 @@ When renaming or moving paths, **do not** update historical references:
 
 - **Decision:** D014 (Continuity artifact immutability)
 - **ADR:** [ADR-004](decisions/004-refactor-workflow.md)
-- **Workflow:** `.harmony/workflows/refactor/`
+- **Workflow:** `.harmony/orchestration/workflows/refactor/`

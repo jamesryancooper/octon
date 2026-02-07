@@ -3,7 +3,7 @@ description: Consistent, unambiguous terminology definitions
 globs:
   - "docs/**/*.md"
   - "**/README.md"
-  - ".workspace/**/*.md"
+  - ".harmony/**/*.md"
   - ".harmony/**/*.md"
   - "**/GLOSSARY.md"
 alwaysApply: false

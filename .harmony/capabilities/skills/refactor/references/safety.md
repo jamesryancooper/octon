@@ -3,7 +3,7 @@ title: Safety Reference
 description: Safety policies and behavioral constraints for the refactor skill.
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Output paths: .workspace/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -15,7 +15,7 @@ Safety policies and behavioral constraints for the refactor skill.
 
 > **Authoritative Sources:**
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Tool Policy
 
@@ -38,8 +38,8 @@ This skill requires:
 
 The skill may only write to:
 
-- `.workspace/skills/runs/refactor/**` — Execution state (session recovery)
-- `.workspace/skills/logs/refactor/**` — Execution logs
+- `.harmony/capabilities/skills/runs/refactor/**` — Execution state (session recovery)
+- `.harmony/capabilities/skills/logs/refactor/**` — Execution logs
 
 ### Source Code Modifications
 
@@ -99,7 +99,7 @@ Historical records should reflect what was true at the time. Future readers shou
 During Phase 3 (Plan):
 
 1. Check each file against `continuity_patterns`
-2. Check against `.workspace/context/continuity.md` if it exists
+2. Check against `.harmony/cognition/context/continuity.md` if it exists
 3. If match found:
    - Mark file as `continuity: true` in manifest
    - Add to "Continuity Artifacts (APPEND ONLY)" section

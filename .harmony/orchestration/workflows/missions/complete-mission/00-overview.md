@@ -8,7 +8,7 @@ depends_on:
     condition: "Mission must exist"
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 ---
 

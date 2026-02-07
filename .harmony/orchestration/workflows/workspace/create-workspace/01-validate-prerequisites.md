@@ -7,8 +7,8 @@ description: Confirm template directory exists before workspace creation.
 
 ## Actions
 
-1. Confirm `.workspace/templates/workspace/` exists
-2. If missing, report error: **"Template directory not found at `.workspace/templates/workspace/`. Create templates first."**
+1. Confirm `.harmony/scaffolding/templates/workspace/` exists
+2. If missing, report error: **"Template directory not found at `.harmony/scaffolding/templates/workspace/`. Create templates first."**
 3. If exists, proceed to next step
 
 ## Idempotency

@@ -92,32 +92,32 @@ Consolidate all human-led content into a **single `.scratchpad/` directory** wit
 
 ### Workspace Updated
 
-- `.workspace/START.md` — Updated structure and visibility rules
-- `.workspace/context/glossary.md` — Consolidated terminology
-- `.workspace/context/constraints.md` — Updated for single human-led zone
-- `.workspace/context/lessons.md` — Updated references
-- `.workspace/context/decisions.md` — Added D003, D005, D008; superseded D006
-- `.workspace/conventions.md` — Updated references
-- `.workspace/catalog.md` — Updated archive reference
-- `.workspace/missions/README.md` — Clarified mission archive path
-- `.workspace/.scratchpad/README.md` — Updated for consolidated structure
+- `.harmony/START.md` — Updated structure and visibility rules
+- `.harmony/cognition/context/glossary.md` — Consolidated terminology
+- `.harmony/cognition/context/constraints.md` — Updated for single human-led zone
+- `.harmony/cognition/context/lessons.md` — Updated references
+- `.harmony/cognition/context/decisions.md` — Added D003, D005, D008; superseded D006
+- `.harmony/conventions.md` — Updated references
+- `.harmony/catalog.md` — Updated archive reference
+- `.harmony/orchestration/missions/README.md` — Clarified mission archive path
+- `.harmony/ideation/scratchpad/README.md` — Updated for consolidated structure
 
 ### Shared Foundation Updated
 
-- `.harmony/checklists/complete.md` — Updated references
-- `.harmony/checklists/session-exit.md` — Updated references
-- `.harmony/workflows/promote-from-scratchpad.md` — Updated references
-- `.harmony/workflows/workspace/evaluate-workspace/*` — Updated references
-- `.harmony/workflows/workspace/update-workspace/*` — Updated references
-- `.harmony/workflows/workspace/migrate-workspace/*` — Rewritten for new structure
-- `.harmony/templates/workspace/conventions.md` — Updated references
-- `.harmony/templates/workspace/checklists/done.md` — Updated references
-- Removed `.harmony/templates/workspace-docs/workflows/.humans/` directory
+- `.harmony/quality/complete.md` — Updated references
+- `.harmony/quality/session-exit.md` — Updated references
+- `.harmony/orchestration/workflows/promote-from-scratchpad.md` — Updated references
+- `.harmony/orchestration/workflows/workspace/evaluate-workspace/*` — Updated references
+- `.harmony/orchestration/workflows/workspace/update-workspace/*` — Updated references
+- `.harmony/orchestration/workflows/workspace/migrate-workspace/*` — Rewritten for new structure
+- `.harmony/scaffolding/templates/workspace/conventions.md` — Updated references
+- `.harmony/scaffolding/templates/workspace/checklists/done.md` — Updated references
+- Removed `.harmony/scaffolding/templates/workspace-docs/workflows/.humans/` directory
 
 ### Physical Structure
 
-- Created `.workspace/.scratchpad/inbox/`
-- Created `.workspace/.scratchpad/archive/`
+- Created `.harmony/ideation/scratchpad/inbox/`
+- Created `.harmony/ideation/scratchpad/archive/`
 - Moved content from old directories
 - Removed empty `.workspace/.inbox/`, `.workspace/.archive/`, `.workspace/.humans/`
 

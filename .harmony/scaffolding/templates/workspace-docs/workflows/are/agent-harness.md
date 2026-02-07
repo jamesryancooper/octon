@@ -60,7 +60,7 @@ Makes incremental progress:
 
 ARE Loop uses a **two-location pattern**:
 
-1. **Central ARE prompts** (read-only methodology): `.workspace/workflows/are/`
+1. **Central ARE prompts** (read-only methodology): `.harmony/orchestration/workflows/are/`
 2. **Runtime artifacts** (per-doc-set): `<target-docs>/.workspace/.are/`
 
 ```
@@ -105,7 +105,7 @@ ARE Loop uses a **two-location pattern**:
 | `concept-context.md` | **Guidelines, terminology, constraints** | After init, before analysis | Every analyze phase |
 | `concept-aligned-prompt.md` | Tailored evaluation prompt | After context gathering | Every analyze phase |
 
-**Central prompts** (in `.workspace/workflows/are/`):
+**Central prompts** (in `.harmony/orchestration/workflows/are/`):
 
 | File | Purpose |
 |------|---------|
@@ -270,7 +270,7 @@ Create `<TARGET_DOC_DIR>/.workspace/.are/are-config.json` with:
   "tier": "<ARE_TIER>",
   "scope": "<DOC_SCOPE>",
   "targetDirectory": "<TARGET_DOC_DIR>",
-  "arePromptsPath": ".workspace/workflows/are",
+  "arePromptsPath": ".harmony/orchestration/workflows/are",
   "initialized": "<ISO_TIMESTAMP>",
   "documents": ["<path1>", "<path2>", ...]
 }
@@ -407,7 +407,7 @@ Create `<TARGET_DOC_DIR>/.workspace/.are/are-session-log.md`:
 
 ### Next Session Should
 - Generate concept-aligned prompt using concept-context.md
-- Run document set analysis (use .workspace/workflows/are/are-document-sets.md)
+- Run document set analysis (use .harmony/orchestration/workflows/are/are-document-sets.md)
 - Begin analyzing highest-priority document
 ```
 
@@ -445,7 +445,7 @@ You are continuing an ARE Loop documentation improvement workflow.
 ## Key Paths
 
 - **Runtime artifacts**: `<TARGET_DOC_DIR>/.workspace/.are/`
-- **Central ARE prompts**: `.workspace/workflows/are/`
+- **Central ARE prompts**: `.harmony/orchestration/workflows/are/`
 
 ## Session Protocol
 
@@ -539,7 +539,7 @@ At END of every session:
 ## Phase Execution
 
 > **Note**: Runtime artifacts are in `<TARGET_DOC_DIR>/.workspace/.are/`.
-> Central prompts are in `.workspace/workflows/are/`.
+> Central prompts are in `.harmony/orchestration/workflows/are/`.
 
 ### Executing Analyze Phase
 

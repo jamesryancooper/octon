@@ -2,11 +2,11 @@
 examples:
   - input: "{{example input}}"
     invocation: "/skill-name '{{example input}}'"
-    output: ".workspace/{{category}}/{{timestamp}}-{{name}}.md"
+    output: ".harmony/output/{{category}}/{{timestamp}}-{{name}}.md"
     description: "{{What this example demonstrates}}"
   - input: "{{another example}}"
     invocation: "/skill-name '{{another example}}' --option={{value}}"
-    output: ".workspace/{{category}}/{{timestamp}}-{{name}}.md"
+    output: ".harmony/output/{{category}}/{{timestamp}}-{{name}}.md"
     description: "{{What this example demonstrates}}"
 ---
 

@@ -26,7 +26,7 @@ Additionally, the refactor command needed to be available across all agent harne
 
 ### 1. Create Verified Refactor Workflow
 
-Implement a 6-step workflow in `.harmony/workflows/refactor/` with mandatory verification:
+Implement a 6-step workflow in `.harmony/orchestration/workflows/refactor/` with mandatory verification:
 
 ```
 01-define-scope.md   → Capture patterns and search variations
@@ -54,12 +54,12 @@ Historical accuracy is more important than current naming consistency.
 
 ### 3. Universal Command Pattern
 
-Create commands in `.harmony/commands/` and symlink from harness directories:
+Create commands in `.harmony/capabilities/commands/` and symlink from harness directories:
 
 ```
-.harmony/commands/refactor.md           ← Source of truth
-.cursor/commands/refactor.md  → ../../.harmony/commands/refactor.md
-.claude/commands/refactor.md  → ../../.harmony/commands/refactor.md
+.harmony/capabilities/commands/refactor.md           ← Source of truth
+.cursor/commands/refactor.md  → ../../.harmony/capabilities/commands/refactor.md
+.claude/commands/refactor.md  → ../../.harmony/capabilities/commands/refactor.md
 ```
 
 Use cross-compatible frontmatter for Claude Code and Codex:
@@ -85,7 +85,7 @@ Historical records serve as a timeline of decisions and changes. If we update ol
 
 ### Why Universal Commands
 
-Following the skills pattern (`.harmony/skills/` with symlinks), commands can be defined once and used across all harnesses. This reduces duplication and ensures consistency.
+Following the skills pattern (`.harmony/capabilities/skills/` with symlinks), commands can be defined once and used across all harnesses. This reduces duplication and ensures consistency.
 
 ## Consequences
 
@@ -105,14 +105,14 @@ Following the skills pattern (`.harmony/skills/` with symlinks), commands can be
 
 ### Created
 
-- `.harmony/workflows/refactor/00-overview.md` — Workflow overview
-- `.harmony/workflows/refactor/01-define-scope.md` — Pattern definition step
-- `.harmony/workflows/refactor/02-audit.md` — Exhaustive search step
-- `.harmony/workflows/refactor/03-plan.md` — Change manifest step
-- `.harmony/workflows/refactor/04-execute.md` — Systematic execution step
-- `.harmony/workflows/refactor/05-verify.md` — Mandatory verification step
-- `.harmony/workflows/refactor/06-document.md` — Documentation step
-- `.harmony/commands/refactor.md` — Universal command definition
+- `.harmony/orchestration/workflows/refactor/00-overview.md` — Workflow overview
+- `.harmony/orchestration/workflows/refactor/01-define-scope.md` — Pattern definition step
+- `.harmony/orchestration/workflows/refactor/02-audit.md` — Exhaustive search step
+- `.harmony/orchestration/workflows/refactor/03-plan.md` — Change manifest step
+- `.harmony/orchestration/workflows/refactor/04-execute.md` — Systematic execution step
+- `.harmony/orchestration/workflows/refactor/05-verify.md` — Mandatory verification step
+- `.harmony/orchestration/workflows/refactor/06-document.md` — Documentation step
+- `.harmony/capabilities/commands/refactor.md` — Universal command definition
 - `.claude/commands/refactor.md` — Symlink to universal command
 - `.cursor/commands/refactor.md` — Symlink to universal command (replaced file)
 
@@ -156,7 +156,7 @@ mutability: append-only
 
 ### 2. Conventions Documentation
 
-Added "Continuity Artifacts" section to `.workspace/conventions.md`:
+Added "Continuity Artifacts" section to `.harmony/conventions.md`:
 
 - Protected files table listing all append-only files
 - Mutability frontmatter example and documentation

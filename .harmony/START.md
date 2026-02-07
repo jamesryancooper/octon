@@ -1,9 +1,9 @@
 ---
 title: Start Here
-description: Boot sequence and orientation for the root .workspace harness.
+description: Boot sequence and orientation for the root .harmony harness.
 ---
 
-# .workspace: Start Here
+# .harmony: Start Here
 
 ## Inheritance
 
@@ -11,23 +11,23 @@ This workspace extends `.harmony/` for shared infrastructure.
 
 | Component | Local (Project-Specific) | Shared (in `.harmony/`) |
 |-----------|--------------------------|-------------------------|
-| Assistants | `.workspace/assistants/` | `.harmony/assistants/` |
-| Templates | `.workspace/templates/` | `.harmony/templates/` |
-| Workflows | `.workspace/workflows/` | `.harmony/workflows/` |
-| Skills | `.workspace/skills/` | `.harmony/skills/` |
-| Commands | `.workspace/commands/` | `.harmony/commands/` |
-| Prompts | `.workspace/prompts/` | `.harmony/prompts/` |
-| Context | `.workspace/context/` | `.harmony/context/` |
-| Checklists | `.workspace/checklists/` | `.harmony/checklists/` |
+| Assistants | `.harmony/agency/assistants/` | `.harmony/agency/assistants/` |
+| Templates | `.harmony/scaffolding/templates/` | `.harmony/scaffolding/templates/` |
+| Workflows | `.harmony/orchestration/workflows/` | `.harmony/orchestration/workflows/` |
+| Skills | `.harmony/capabilities/skills/` | `.harmony/capabilities/skills/` |
+| Commands | `.harmony/capabilities/commands/` | `.harmony/capabilities/commands/` |
+| Prompts | `.harmony/scaffolding/prompts/` | `.harmony/scaffolding/prompts/` |
+| Context | `.harmony/cognition/context/` | `.harmony/cognition/context/` |
+| Checklists | `.harmony/quality/` | `.harmony/quality/` |
 
-**Resolution:** Local overrides shared. Check `.workspace/` first, then `.harmony/`.
+**Resolution:** All resources now live under `.harmony/`.
 
 ---
 
 ## Structure
 
 ```text
-.workspace/
+.harmony/
 ├── START.md        ← You are here
 ├── scope.md        ← Boundaries
 ├── conventions.md  ← Style rules

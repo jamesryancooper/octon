@@ -435,7 +435,7 @@ function onErrorHook(error, context) {
 {{skill-3}} (sink)
      │
      │ Input:  { synthesis: "...", themes: [...] }
-     │ Output: Final report written to .workspace/reports/
+     │ Output: Final report written to .harmony/output/reports/
 ```
 
 **Invocation:**

@@ -1,15 +1,15 @@
 ---
 title: Workspace Commands
-description: Workspace-scoped atomic operations defined in .workspace/commands/.
+description: Workspace-scoped atomic operations defined in .harmony/capabilities/commands/.
 ---
 
 # Workspace Commands
 
-Workspace commands are **workspace-scoped atomic operations** defined in `.workspace/commands/`. They are deterministic, self-contained procedures that operate on artifacts in the workspace's parent directory.
+Workspace commands are **workspace-scoped atomic operations** defined in `.harmony/capabilities/commands/`. They are deterministic, self-contained procedures that operate on artifacts in the workspace's parent directory.
 
 ## Commands vs Prompts
 
-See `.workspace/catalog.md#command-vs-prompt-decision` for the decision logic.
+See `.harmony/catalog.md#command-vs-prompt-decision` for the decision logic.
 
 ---
 
@@ -19,7 +19,7 @@ Workspace commands can be invoked in multiple ways:
 
 | Method | Trigger | Example |
 |--------|---------|---------|
-| **Direct** | Agent references the command file | Agent reads `.workspace/commands/validate-frontmatter.md` |
+| **Direct** | Agent references the command file | Agent reads `.harmony/capabilities/commands/validate-frontmatter.md` |
 | **Wrapped (Cursor)** | User types `/command` in Cursor | Via `.cursor/commands/` wrapper |
 | **Wrapped (Claude Code)** | User types `/command` in Claude Code | Via `.claude/commands/` wrapper |
 | **Wrapped (Any Harness)** | Harness-specific entry point | Via `.<harness>/commands/` wrapper |
@@ -46,9 +46,9 @@ Workspace command files require YAML frontmatter with the following fields:
 
 A workspace command for validating YAML frontmatter in markdown files.
 
-> **Note:** This example is illustrative. See the actual implementation in `.workspace/commands/validate-frontmatter.md` for the full specification.
+> **Note:** This example is illustrative. See the actual implementation in `.harmony/capabilities/commands/validate-frontmatter.md` for the full specification.
 
-**Location:** `.workspace/commands/validate-frontmatter.md`
+**Location:** `.harmony/capabilities/commands/validate-frontmatter.md`
 
 ```markdown
 ---
@@ -79,7 +79,7 @@ List of files with validation status:
 
 An agent working in the workspace can reference the command directly:
 
-> "Validate frontmatter using `.workspace/commands/validate-frontmatter.md`"
+> "Validate frontmatter using `.harmony/capabilities/commands/validate-frontmatter.md`"
 
 ### Wrapped Invocation
 
@@ -92,7 +92,7 @@ To enable `/validate-frontmatter` in any harness, create a thin wrapper:
 
 Validate YAML frontmatter in markdown files.
 
-See `.workspace/commands/validate-frontmatter.md` for full implementation.
+See `.harmony/capabilities/commands/validate-frontmatter.md` for full implementation.
 
 ## Usage
 
@@ -102,7 +102,7 @@ See `.workspace/commands/validate-frontmatter.md` for full implementation.
 
 ## Implementation
 
-Execute `.workspace/commands/validate-frontmatter.md` in the target directory's workspace.
+Execute `.harmony/capabilities/commands/validate-frontmatter.md` in the target directory's workspace.
 ```
 
 > **Note:** The same wrapper pattern works for any harness. Create equivalent files in `.cursor/commands/`, `.claude/commands/`, `.codex/commands/`, etc.

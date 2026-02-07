@@ -46,7 +46,7 @@ Examples:
 
 ## Implementation
 
-Execute the workflow in `.harmony/workflows/refactor/`.
+Execute the workflow in `.harmony/orchestration/workflows/refactor/`.
 
 Start with `00-overview.md`, then follow each step in sequence.
 
@@ -63,6 +63,6 @@ Historical accuracy is more important than current naming consistency.
 
 ## References
 
-- **Workflow:** `.harmony/workflows/refactor/`
-- **Checklist:** `.harmony/checklists/complete.md`
-- **Conventions:** `.workspace/conventions.md`
+- **Workflow:** `.harmony/orchestration/workflows/refactor/`
+- **Checklist:** `.harmony/quality/complete.md`
+- **Conventions:** `.harmony/conventions.md`

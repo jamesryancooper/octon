@@ -20,13 +20,13 @@ Create the workflow directory structure and populate with template files.
 1. **Create workflow directory:**
    ```bash
    mkdir -p <target-path>
-   # e.g., mkdir -p .harmony/workflows/ci-cd/deploy-staging/
+   # e.g., mkdir -p .harmony/orchestration/workflows/ci-cd/deploy-staging/
    ```
 
 2. **Copy template files:**
    ```text
    For each file in template:
-     Copy .harmony/workflows/_template/<file> to <target-path>/<file>
+     Copy .harmony/orchestration/workflows/_template/<file> to <target-path>/<file>
    ```
 
 3. **Rename step files:**
@@ -85,7 +85,7 @@ Create the workflow directory structure and populate with template files.
 ## Error Messages
 
 - Cannot create directory: "Failed to create directory '<path>'. Check permissions."
-- Template not found: "Template file '<file>' not found in .harmony/workflows/_template/"
+- Template not found: "Template file '<file>' not found in .harmony/orchestration/workflows/_template/"
 - Write failed: "Failed to write '<file>'. Check disk space and permissions."
 
 ## Output

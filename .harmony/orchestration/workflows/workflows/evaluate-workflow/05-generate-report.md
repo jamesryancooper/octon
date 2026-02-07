@@ -106,7 +106,7 @@ Compile all assessment results into a comprehensive report with overall grade an
 6. **Output report:**
    ```text
    Display report to user
-   Optionally save to file: .workspace/progress/assessments/<workflow-id>.md
+   Optionally save to file: .harmony/continuity/assessments/<workflow-id>.md
    ```
 
 ## Idempotency
@@ -134,7 +134,7 @@ Compile all assessment results into a comprehensive report with overall grade an
 ## Report Delivery Options
 
 - **Console:** Display formatted markdown
-- **File:** Save to `.workspace/progress/assessments/<workflow-id>-<date>.md`
+- **File:** Save to `.harmony/continuity/assessments/<workflow-id>-<date>.md`
 - **Both:** Display and save
 
 ## Output

@@ -59,7 +59,7 @@ Agents are **autonomous AI supervisors** that perceive their environment, reason
 
 Agents perceive their environment by:
 
-- Reading workspace state (`.workspace/progress/`, `missions/`)
+- Reading workspace state (`.harmony/continuity/`, `missions/`)
 - Analyzing codebase structure and patterns
 - Understanding current mission goals and constraints
 - Monitoring assistant outputs and task completion
@@ -103,7 +103,7 @@ Agents orchestrate by:
 ## Directory Structure
 
 ```text
-.harmony/agents/
+.harmony/agency/agents/
 ├── README.md              # This file
 ├── registry.yml           # Agent index and configuration
 ├── _template/             # Template for new agents
@@ -115,7 +115,7 @@ Agents orchestrate by:
 └── verifier/
     └── agent.md           # Verifier agent spec
 
-.workspace/agents/
+.harmony/agency/agents/
 ├── README.md              # Workspace-specific agents
 └── registry.yml           # Extends shared registry
 ```
@@ -277,8 +277,8 @@ Agent commanding mission:
 
 | Location | Scope | Purpose |
 |----------|-------|---------|
-| `.harmony/agents/` | Shared across workspaces | Portable agent definitions |
-| `.workspace/agents/` | Workspace-specific | Override or extend shared agents |
+| `.harmony/agency/agents/` | Shared across workspaces | Portable agent definitions |
+| `.harmony/agency/agents/` | Workspace-specific | Override or extend shared agents |
 
 Workspace agents can:
 
@@ -290,5 +290,5 @@ Workspace agents can:
 
 - [Assistants](../assistants/README.md) — Focused specialists
 - [Skills](../skills/README.md) — Composable capabilities
-- [Missions](../../.workspace/missions/README.md) — Durable orchestration
+- [Missions](../../.harmony/orchestration/missions/README.md) — Durable orchestration
 - `docs/architecture/workspaces/agents.md` — Full agent documentation

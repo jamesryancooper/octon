@@ -4,8 +4,8 @@
 #
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Parameters: .harmony/skills/registry.yml
-#   - Output paths: .workspace/skills/registry.yml
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -18,8 +18,8 @@ Extended input/output documentation for the refine-prompt skill.
 > **Authoritative Sources:**
 >
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Parameters: `.harmony/skills/registry.yml`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Parameters: `.harmony/capabilities/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Context Depth Levels
 

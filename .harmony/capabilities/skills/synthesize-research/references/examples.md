@@ -2,11 +2,11 @@
 examples:
   - input: "resources/synthesize-research/projects/auth-patterns/"
     invocation: "/synthesize-research resources/synthesize-research/projects/auth-patterns/"
-    output: ".workspace/drafts/auth-patterns-synthesis.md"
+    output: ".harmony/output/drafts/auth-patterns-synthesis.md"
     description: "Synthesize authentication pattern research"
   - input: "resources/synthesize-research/api-design/"
     invocation: "/synthesize-research resources/synthesize-research/api-design/"
-    output: ".workspace/drafts/api-design-synthesis.md"
+    output: ".harmony/output/drafts/api-design-synthesis.md"
     description: "Consolidate API design research notes"
 ---
 
@@ -38,7 +38,7 @@ projects/auth-patterns/
 
 ### Expected Output
 
-**Path:** `.workspace/drafts/auth-patterns-synthesis.md`
+**Path:** `.harmony/output/drafts/auth-patterns-synthesis.md`
 
 ```markdown
 # Research Synthesis: auth-patterns
@@ -147,7 +147,7 @@ resources/synthesize-research/api-design/
 
 ### Expected Output
 
-**Path:** `.workspace/drafts/api-design-synthesis.md`
+**Path:** `.harmony/output/drafts/api-design-synthesis.md`
 
 ```markdown
 # Research Synthesis: api-design
@@ -242,7 +242,7 @@ resources/synthesize-research/quick-notes/
 
 ### Expected Output
 
-**Path:** `.workspace/drafts/quick-notes-synthesis.md`
+**Path:** `.harmony/output/drafts/quick-notes-synthesis.md`
 
 ```markdown
 # Research Synthesis: quick-notes

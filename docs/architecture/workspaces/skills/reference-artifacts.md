@@ -333,7 +333,7 @@ capabilities: []
 ## File Organization
 
 ```
-.harmony/skills/<skill-id>/
+.harmony/capabilities/skills/<skill-id>/
 ├── SKILL.md                 # Core instructions (always present)
 ├── assets/                  # Images, diagrams (optional)
 ├── scripts/                 # Helper scripts (optional)
@@ -356,7 +356,7 @@ capabilities: []
 
 ```bash
 # Validate capability-to-reference matching
-.harmony/skills/scripts/validate-skills.sh my-skill
+.harmony/capabilities/skills/scripts/validate-skills.sh my-skill
 ```
 
 Validation warns if:
@@ -371,4 +371,4 @@ Validation warns if:
 - [Skill Sets](./skill-sets.md) — Pre-defined capability bundles
 - [Declaration](./declaration.md) — How to declare capabilities
 - [Validation](./validation.md) — Validation rules
-- [Template](../../.harmony/skills/_template/) — Reference file templates
+- [Template](../../.harmony/capabilities/skills/_template/) — Reference file templates

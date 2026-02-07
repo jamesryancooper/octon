@@ -22,9 +22,9 @@ safety:
     # Allowed tools defined in SKILL.md frontmatter (allowed-tools)
   file_policy:
     write_scope:                   # Paths where writing is allowed
-      - ".workspace/{{category}}/**"     # Deliverables (final destination)
-      - ".workspace/skills/runs/**"      # Execution state (session recovery)
-      - ".workspace/skills/logs/**"      # Logs (always allowed)
+      - ".harmony/output/{{category}}/**"     # Deliverables (final destination)
+      - ".harmony/capabilities/skills/runs/**"      # Execution state (session recovery)
+      - ".harmony/capabilities/skills/logs/**"      # Logs (always allowed)
       # Custom paths as defined in registry I/O mapping
       # Must be within workspace's hierarchical scope
     scope_authority:               # Hierarchical scope rules
@@ -43,7 +43,7 @@ Safety policies and constraints for the skill-name skill.
 > **Authoritative Sources:**
 >
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Tool Policy
 
@@ -61,9 +61,9 @@ The skill may only write to designated output locations:
 
 | Tier        | Path                                      | Purpose              |
 |-------------|-------------------------------------------|----------------------|
-| **Tier 1**  | `.workspace/{{category}}/**`              | Deliverables         |
-| **Tier 1**  | `.workspace/skills/runs/{{skill-id}}/**`  | Execution state (session recovery) |
-| **Tier 1**  | `.workspace/skills/logs/**`               | Execution logs       |
+| **Tier 1**  | `.harmony/output/{{category}}/**`              | Deliverables         |
+| **Tier 1**  | `.harmony/capabilities/skills/runs/{{skill-id}}/**`  | Execution state (session recovery) |
+| **Tier 1**  | `.harmony/capabilities/skills/logs/**`               | Execution logs       |
 
 ### Scope Authority
 

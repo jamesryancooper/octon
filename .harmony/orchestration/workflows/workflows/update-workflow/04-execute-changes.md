@@ -19,7 +19,7 @@ Apply all planned changes systematically, tracking progress for resumability.
 1. **Create backup (optional but recommended):**
    ```text
    If backup enabled:
-     Copy workflow directory to .workspace/.backup/<workflow-id>-<timestamp>/
+     Copy workflow directory to .harmony/.backup/<workflow-id>-<timestamp>/
    ```
 
 2. **Process changes in order:**
@@ -180,7 +180,7 @@ If workflow has `access: human` and command file exists, ensure harness symlinks
 
 1. **Check for existing command file:**
    ```bash
-   ls .harmony/commands/<workflow-id>.md 2>/dev/null || ls .workspace/commands/<workflow-id>.md 2>/dev/null
+   ls .harmony/capabilities/commands/<workflow-id>.md 2>/dev/null || ls .harmony/capabilities/commands/<workflow-id>.md 2>/dev/null
    ```
 
 2. **Check for existing symlinks:**
@@ -192,12 +192,12 @@ If workflow has `access: human` and command file exists, ensure harness symlinks
 3. **Create missing symlinks:**
    ```bash
    # For shared workflows (in .harmony/):
-   cd .cursor/commands/ && ln -s ../../.harmony/commands/<workflow-id>.md <workflow-id>.md
-   cd .claude/commands/ && ln -s ../../.harmony/commands/<workflow-id>.md <workflow-id>.md
+   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
+   cd .claude/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
 
-   # For local workflows (in .workspace/):
-   cd .cursor/commands/ && ln -s ../../.workspace/commands/<workflow-id>.md <workflow-id>.md
-   cd .claude/commands/ && ln -s ../../.workspace/commands/<workflow-id>.md <workflow-id>.md
+   # For local workflows (in .harmony/):
+   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
+   cd .claude/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
    ```
 
 4. **If access changed from agent to human:**

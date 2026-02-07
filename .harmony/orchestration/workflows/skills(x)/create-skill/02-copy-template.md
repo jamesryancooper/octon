@@ -29,9 +29,9 @@ description: Copy skill template to new skill directory with spec-compliant stru
    - skills/<skill-name>/assets/
 
 5. Create symlinks in harness folders:
-   - .claude/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
-   - .cursor/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
-   - .codex/skills/<skill-name> -> ../../.harmony/skills/<skill-name>
+   - .claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
+   - .cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
+   - .codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
 ```
 
 ## Directory Structure

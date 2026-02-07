@@ -15,7 +15,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │  SKILL CREATION CHECKLIST                                                   │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  1. SKILL DEFINITION (.harmony/skills/<skill-id>/)                          │
+│  1. SKILL DEFINITION (.harmony/capabilities/skills/<skill-id>/)                          │
 │     □ Copy _template/ to <skill-id>/                                        │
 │     □ Edit SKILL.md:                                                        │
 │       - Set `name:` to match directory name (kebab-case)                    │
@@ -24,7 +24,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - Replace all {{placeholders}} with actual content                    │
 │     □ Set `skill_sets:` and `capabilities:` (determines ref files)          │
 │                                                                             │
-│  2. SHARED MANIFEST (.harmony/skills/manifest.yml)                          │
+│  2. SHARED MANIFEST (.harmony/capabilities/skills/manifest.yml)                          │
 │     □ Add skill entry under `skills:`:                                      │
 │       - id: <skill-id>           # Must match directory and SKILL.md name   │
 │       - display_name: <Title Case>  # e.g., "Synthesize Research"           │
@@ -36,7 +36,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - skill_sets: [executor, guardian]  # Capability bundles              │
 │       - capabilities: [resumable]         # Additional capabilities         │
 │                                                                             │
-│  3. SHARED REGISTRY (.harmony/skills/registry.yml)                          │
+│  3. SHARED REGISTRY (.harmony/capabilities/skills/registry.yml)                          │
 │     □ Add skill entry under `skills:`:                                      │
 │       - version: "1.0.0"                                                    │
 │       - commands: [/<skill-id>]                                             │
@@ -44,7 +44,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - requires.context: [{type, path, description}]                       │
 │       - depends_on: []                                                      │
 │                                                                             │
-│  4. WORKSPACE REGISTRY (.workspace/skills/registry.yml)                     │
+│  4. WORKSPACE REGISTRY (.harmony/capabilities/skills/registry.yml)                     │
 │     □ Add I/O mapping under `skill_mappings:`:                              │
 │       - inputs: [{path, kind, required, description}]                       │
 │       - outputs: [{name, path, kind, format, determinism, description}]     │
@@ -107,14 +107,14 @@ The template includes guidance for choosing capabilities. See [reference-artifac
 
 ```bash
 # Copy template
-cp -r .harmony/skills/_template .harmony/skills/<skill-id>
+cp -r .harmony/capabilities/skills/_template .harmony/capabilities/skills/<skill-id>
 
 # Edit files (use your editor)
 # Then validate
-.harmony/skills/scripts/validate-skills.sh <skill-id>
+.harmony/capabilities/skills/scripts/validate-skills.sh <skill-id>
 
 # Use --fix to see scaffolding suggestions for missing entries
-.harmony/skills/scripts/validate-skills.sh <skill-id> --fix
+.harmony/capabilities/skills/scripts/validate-skills.sh <skill-id> --fix
 ```
 
 ---
@@ -138,19 +138,19 @@ use skill: synthesize-research
 ## Directory Structure
 
 ```text
-.harmony/skills/                    # Shared skill definitions
+.harmony/capabilities/skills/                    # Shared skill definitions
 ├── manifest.yml                    # Tier 1 discovery index
 ├── registry.yml                    # Extended metadata (version, commands, parameters)
 ├── _template/                      # Scaffolding for new skills
 └── <skill-id>/SKILL.md             # Core instructions (<500 lines)
 
-.workspace/skills/                  # Workspace-specific configuration
+.harmony/capabilities/skills/                  # Workspace-specific configuration
 ├── manifest.yml                    # Workspace-specific skills (extends shared)
 ├── registry.yml                    # I/O paths (single source of truth)
 ├── runs/                           # Execution state (checkpoints, manifests) for session recovery
 └── logs/                           # Execution logs
 
-.workspace/                          # Deliverables (final products)
+.harmony/output/                        # Deliverables (final products)
 ├── prompts/                        # Refined prompts
 ├── drafts/                         # Synthesis documents
 └── reports/                        # Analysis reports
@@ -164,7 +164,7 @@ use skill: synthesize-research
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │  TIER 1: SHARED FOUNDATION (.harmony/skills/)                       │   │
+│   │  TIER 1: SHARED FOUNDATION (.harmony/capabilities/skills/)                       │   │
 │   │  ─────────────────────────────────────────────────────────────────  │   │
 │   │  Portable skill definitions — logic, behaviors, instructions        │   │
 │   │                                                                     │   │
@@ -184,7 +184,7 @@ use skill: synthesize-research
 │                                    │ I/O paths defined in                   │
 │                                    ▼                                        │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │  TIER 2: WORKSPACE CONFIG (.workspace/skills/)                      │   │
+│   │  TIER 2: WORKSPACE CONFIG (.harmony/capabilities/skills/)                      │   │
 │   │  ─────────────────────────────────────────────────────────────────  │   │
 │   │  Workspace-specific I/O — paths, outputs, logs                      │   │
 │   │                                                                     │   │
@@ -202,7 +202,7 @@ use skill: synthesize-research
 │   │  .claude/skills/  .cursor/skills/  .codex/skills/                   │   │
 │   │       ▲                ▲                 ▲                          │   │
 │   │       └────────────────┴─────────────────┘                          │   │
-│   │                   Symlinks to .harmony/skills/                      │   │
+│   │                   Symlinks to .harmony/capabilities/skills/                      │   │
 │   └─────────────────────────────────────────────────────────────────────┘   │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -230,9 +230,9 @@ DATA FLOW:
 | `name`, `description`                            | SKILL.md frontmatter                     |
 | `skill_sets`, `capabilities`                     | SKILL.md frontmatter + manifest.yml      |
 | `allowed-tools` (tool permissions)               | SKILL.md frontmatter (**authoritative**) |
-| `summary`, `triggers`, `tags`                    | `.harmony/skills/manifest.yml`           |
-| `version`, `commands`, `parameters`, `depends_on`| `.harmony/skills/registry.yml`           |
-| Input/output paths                               | `.workspace/skills/registry.yml`         |
+| `summary`, `triggers`, `tags`                    | `.harmony/capabilities/skills/manifest.yml`           |
+| `version`, `commands`, `parameters`, `depends_on`| `.harmony/capabilities/skills/registry.yml`           |
+| Input/output paths                               | `.harmony/capabilities/skills/registry.yml`         |
 
 **Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived via the mapping function in `validate-skills.sh`. See [specification.md](../../docs/architecture/workspaces/skills/specification.md) for details.
 
@@ -252,8 +252,8 @@ Without tiktoken, word count approximation is used (±20% variance). CI environm
 2. Update `SKILL.md` frontmatter (`name` must match directory, set `allowed-tools`)
 3. Replace all `{{placeholder}}` values with actual content
 4. Add entry to `manifest.yml` (id, display_name, path, summary, triggers)
-5. Add entry to `.harmony/skills/registry.yml` (version, commands, parameters)
-6. Add entry to `.workspace/skills/registry.yml` (inputs, outputs)
+5. Add entry to `.harmony/capabilities/skills/registry.yml` (version, commands, parameters)
+6. Add entry to `.harmony/capabilities/skills/registry.yml` (inputs, outputs)
 7. Run `./scripts/validate-skills.sh {{skill_id}}` to verify consistency
 
 **Validation Options:**
@@ -267,7 +267,7 @@ Without tiktoken, word count approximation is used (±20% variance). CI environm
 
 ## Host Adapter Symlinks
 
-Skills are exposed to different AI agents (Claude, Cursor, Codex) via symlinks from their respective skills directories to the shared `.harmony/skills/` definitions. This allows multiple agents to share the same canonical skill definitions.
+Skills are exposed to different AI agents (Claude, Cursor, Codex) via symlinks from their respective skills directories to the shared `.harmony/capabilities/skills/` definitions. This allows multiple agents to share the same canonical skill definitions.
 
 ### Why Symlinks
 
@@ -287,7 +287,7 @@ Symlinks allow all agents to share the same skill definition without duplication
 ./scripts/setup-harness-links.sh
 ```
 
-This creates symlinks for all skills in `.harmony/skills/` to each agent's skills directory.
+This creates symlinks for all skills in `.harmony/capabilities/skills/` to each agent's skills directory.
 
 **Manual setup:**
 
@@ -296,9 +296,9 @@ This creates symlinks for all skills in `.harmony/skills/` to each agent's skill
 mkdir -p .claude/skills .cursor/skills .codex/skills
 
 # Link a specific skill
-ln -s ../../.harmony/skills/refine-prompt .claude/skills/refine-prompt
-ln -s ../../.harmony/skills/refine-prompt .cursor/skills/refine-prompt
-ln -s ../../.harmony/skills/refine-prompt .codex/skills/refine-prompt
+ln -s ../../.harmony/capabilities/skills/refine-prompt .claude/skills/refine-prompt
+ln -s ../../.harmony/capabilities/skills/refine-prompt .cursor/skills/refine-prompt
+ln -s ../../.harmony/capabilities/skills/refine-prompt .codex/skills/refine-prompt
 ```
 
 **Link a single skill:**
@@ -314,7 +314,7 @@ ln -s ../../.harmony/skills/refine-prompt .codex/skills/refine-prompt
 | Symlinks not working  | Ensure your filesystem supports symlinks (Windows may need admin)|
 | Agent can't find skill| Run `setup-harness-links.sh` to recreate links                   |
 | Wrong skill version   | Delete the symlink and recreate it                               |
-| Permission denied     | Check file permissions on `.harmony/skills/`                     |
+| Permission denied     | Check file permissions on `.harmony/capabilities/skills/`                     |
 
 ### Verification
 
@@ -330,7 +330,7 @@ ls -la .codex/skills/
 
 Harmony extends the [agentskills.io specification](https://agentskills.io/specification) with additional fields for discovery, routing, and lifecycle management. The base spec requires only `name` and `description` in SKILL.md frontmatter.
 
-### Manifest Extensions (`.harmony/skills/manifest.yml`)
+### Manifest Extensions (`.harmony/capabilities/skills/manifest.yml`)
 
 | Field | Purpose | Example |
 |-------|---------|---------|
@@ -339,14 +339,14 @@ Harmony extends the [agentskills.io specification](https://agentskills.io/specif
 | `tags` | Filtering and grouping labels | `[research, synthesis]` |
 | `triggers` | Natural language phrases for intent matching | `["synthesize my research"]` |
 
-### Registry Extensions (`.harmony/skills/registry.yml`)
+### Registry Extensions (`.harmony/capabilities/skills/registry.yml`)
 
 | Field | Purpose | Example |
 |-------|---------|---------|
 | `version` | Semantic version string | `"1.0.0"` |
 | `commands` | Slash commands that invoke the skill | `[/synthesize-research]` |
 | `parameters` | Input parameters with types and defaults | See schema below |
-| `requires.context` | Context conditions for activation | `[{type: directory_exists, path: ".workspace/"}]` |
+| `requires.context` | Context conditions for activation | `[{type: directory_exists, path: ".harmony/"}]` |
 | `depends_on` | Other skills this skill requires | `[]` |
 
 **Parameter Schema:**

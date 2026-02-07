@@ -16,7 +16,7 @@ Report to user:
 ```markdown
 ## Skill Created: <skill-name>
 
-**Location:** `.harmony/skills/<skill-name>/`
+**Location:** `.harmony/capabilities/skills/<skill-name>/`
 
 ### Files Created
 
@@ -35,7 +35,7 @@ Report to user:
 - `assets/` — For static resources
 
 **Registry updated:** `skills/registry.yml`
-**Catalog updated:** `.workspace/catalog.md`
+**Catalog updated:** `.harmony/catalog.md`
 
 ### Next Steps
 
@@ -96,8 +96,8 @@ This skill follows [agentskills.io/specification](https://agentskills.io/specifi
 ### Documentation
 
 - **Spec:** [agentskills.io/specification](https://agentskills.io/specification)
-- **Example skill:** `.harmony/skills/refine-prompt/`
-- **Template:** `.harmony/skills/_template/`
+- **Example skill:** `.harmony/capabilities/skills/refine-prompt/`
+- **Template:** `.harmony/capabilities/skills/_template/`
 ```
 
 ## Verification

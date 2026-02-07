@@ -2,7 +2,7 @@
 
 Quick-start a new agent session in a workspace.
 
-See `.harmony/prompts/bootstrap-session.md` for full details.
+See `.harmony/scaffolding/prompts/bootstrap-session.md` for full details.
 
 ## Usage
 
@@ -18,10 +18,10 @@ Or for the current directory:
 
 ## Implementation
 
-Execute `.harmony/prompts/bootstrap-session.md` in the target directory. Locates the nearest `.workspace/` and runs the boot sequence.
+Execute `.harmony/scaffolding/prompts/bootstrap-session.md` in the target directory. Locates the nearest `.harmony/` and runs the boot sequence.
 
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/prompts.md`
-- **Prompt:** `.harmony/prompts/bootstrap-session.md`
+- **Prompt:** `.harmony/scaffolding/prompts/bootstrap-session.md`
 

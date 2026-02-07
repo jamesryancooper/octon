@@ -5,7 +5,7 @@ behavior:
       steps:
         - "Analyze repository structure and tech stack"
         - "Identify scope: files and modules the prompt likely touches"
-        - "Load project constraints from .workspace/context/constraints.md"
+        - "Load project constraints from .harmony/cognition/context/constraints.md"
         - "Find existing patterns relevant to the request"
     - name: "Intent Extraction"
       steps:
@@ -57,7 +57,7 @@ behavior:
     - name: "Output"
       steps:
         - "Structure refined prompt with all context"
-        - "Save to .workspace/prompts/{{timestamp}}-refined.md"
+        - "Save to .harmony/scaffolding/prompts/{{timestamp}}-refined.md"
         - "Log execution to logs/runs/"
         - "Optionally execute the refined prompt"
   goals:
@@ -93,7 +93,7 @@ Before refining, understand the codebase:
    - Note related files that may need updates
 
 3. **Load constraints**
-   - Read `.workspace/context/constraints.md` if present
+   - Read `.harmony/cognition/context/constraints.md` if present
    - Check for project-specific rules (testing requirements, style guides)
    - Note any "always" or "never" rules that apply
 
@@ -304,7 +304,7 @@ Produce the final refined prompt:
    - End with negative constraints and success criteria
 
 2. **Save artifacts**
-   - Write to `.workspace/prompts/{{timestamp}}-refined.md`
+   - Write to `.harmony/scaffolding/prompts/{{timestamp}}-refined.md`
    - Log to `logs/runs/{{timestamp}}-refine-prompt.md`
 
 3. **Execute (optional)**

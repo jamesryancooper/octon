@@ -3,7 +3,7 @@ title: Safety Reference
 description: Security boundaries and behavioral constraints for the synthesize-research skill.
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Output paths: .workspace/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -16,7 +16,7 @@ Security boundaries and behavioral constraints for the synthesize-research skill
 > **Authoritative Sources:**
 >
 > - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Output paths: `.workspace/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
 
 ## Tool Policy
 
@@ -34,8 +34,8 @@ The skill may only write to designated output locations:
 
 | Tier | Path | Purpose |
 |------|------|---------|
-| **Tier 1** | `.workspace/drafts/**` | Synthesis documents (deliverables) |
-| **Tier 1** | `.workspace/skills/logs/**` | Execution logs |
+| **Tier 1** | `.harmony/output/drafts/**` | Synthesis documents (deliverables) |
+| **Tier 1** | `.harmony/capabilities/skills/logs/**` | Execution logs |
 
 ### Scope Authority
 
@@ -64,7 +64,7 @@ The skill must never:
 - Preserve the nuance of original research
 - State assumptions explicitly
 - Mark uncertain findings with appropriate confidence level
-- Write only to .workspace/drafts/ and logs/ directories
+- Write only to .harmony/output/drafts/ and logs/ directories
 
 ### Must Never
 

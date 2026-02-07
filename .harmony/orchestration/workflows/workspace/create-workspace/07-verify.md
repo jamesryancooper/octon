@@ -13,7 +13,7 @@ description: Confirm workspace creation and provide next steps.
 
 ## Verification Checklist
 
-- [ ] `.workspace/` directory exists at target
+- [ ] `.harmony/` directory exists at target
 - [ ] All required files present (START.md, scope.md, conventions.md)
 - [ ] No placeholder patterns remain
 - [ ] progress/ directory initialized

@@ -8,7 +8,7 @@ depends_on:
     condition: "optional but recommended to run first"
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 ---
 
@@ -20,7 +20,7 @@ For read-only assessment, use `/evaluate-workspace` instead.
 
 ## Target
 
-Existing `.workspace/` directory.
+Existing `.harmony/` directory.
 
 ## Prerequisites
 
@@ -29,8 +29,8 @@ Existing `.workspace/` directory.
 
 ## Failure Conditions
 
-- Target `.workspace/` does not exist → STOP, suggest `/create-workspace` instead
-- Target path is not a `.workspace/` directory → STOP, report error
+- Target `.harmony/` does not exist → STOP, suggest `/create-workspace` instead
+- Target path is not a `.harmony/` directory → STOP, report error
 
 ## Steps
 
@@ -50,4 +50,4 @@ Existing `.workspace/` directory.
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Templates:** `.workspace/templates/workspace/` (for missing required files)
+- **Templates:** `.harmony/scaffolding/templates/workspace/` (for missing required files)

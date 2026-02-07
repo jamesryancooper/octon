@@ -19,7 +19,7 @@ Make the new workflow discoverable by updating relevant indexes and catalogs.
 
 ### 7.1 Update Catalog (if .workspace exists)
 
-If `.workspace/catalog.md` exists:
+If `.harmony/catalog.md` exists:
 
 1. **Find the Workflows section:**
    ```text
@@ -39,7 +39,7 @@ If the workflow is in a domain subdirectory:
 
 1. **Check for domain README:**
    ```text
-   Look for .harmony/workflows/<domain>/README.md
+   Look for .harmony/orchestration/workflows/<domain>/README.md
    ```
 
 2. **Add workflow to domain index:**
@@ -53,8 +53,8 @@ If workflow has `access: human`, create command wrappers:
 
 1. **Create command file:**
    ```text
-   Location: .harmony/commands/<workflow-id>.md
-   Or: .workspace/commands/<workflow-id>.md (for local workflows)
+   Location: .harmony/capabilities/commands/<workflow-id>.md
+   Or: .harmony/capabilities/commands/<workflow-id>.md (for local workflows)
    ```
 
 2. **Command content:**
@@ -98,12 +98,12 @@ If workflow has `access: human`, create symlinks in all harness command director
 2. **Create symlinks in each harness:**
    ```bash
    # For shared workflows (in .harmony/):
-   cd .cursor/commands/ && ln -s ../../.harmony/commands/<workflow-id>.md <workflow-id>.md
-   cd .claude/commands/ && ln -s ../../.harmony/commands/<workflow-id>.md <workflow-id>.md
+   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
+   cd .claude/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
 
-   # For local workflows (in .workspace/):
-   cd .cursor/commands/ && ln -s ../../.workspace/commands/<workflow-id>.md <workflow-id>.md
-   cd .claude/commands/ && ln -s ../../.workspace/commands/<workflow-id>.md <workflow-id>.md
+   # For local workflows (in .harmony/):
+   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
+   cd .claude/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
    ```
 
 3. **Verify symlinks resolve:**
@@ -135,9 +135,9 @@ If workflow has `access: human`, create symlinks in all harness command director
 
 | Reference | Location | Required? | Status |
 |-----------|----------|-----------|--------|
-| Catalog entry | `.workspace/catalog.md` | If file exists | |
-| Command file | `.harmony/commands/` | If access: human | |
-| Domain README | `.harmony/workflows/<domain>/README.md` | If file exists | |
+| Catalog entry | `.harmony/catalog.md` | If file exists | |
+| Command file | `.harmony/capabilities/commands/` | If access: human | |
+| Domain README | `.harmony/orchestration/workflows/<domain>/README.md` | If file exists | |
 | Harness symlinks | `.cursor/commands/`, `.claude/commands/` | If access: human | |
 
 ## Error Messages

@@ -61,7 +61,7 @@ If the destination file doesn't exist, create it:
 
 ```bash
 # Example: create next.md if missing
-touch .workspace/progress/next.md
+touch .harmony/continuity/next.md
 ```
 
 ### 4. Add Distilled Content
@@ -163,5 +163,5 @@ An agent may help:
 
 ## See Also
 
-- [`.workspace/.scratchpad/README.md`](../.scratchpad/README.md) — Human-led zone (includes inbox, archive, projects)
-- [`.workspace/START.md`](../START.md) — Visibility rules and routing
+- [`.harmony/ideation/scratchpad/README.md`](../.scratchpad/README.md) — Human-led zone (includes inbox, archive, projects)
+- [`.harmony/START.md`](../START.md) — Visibility rules and routing

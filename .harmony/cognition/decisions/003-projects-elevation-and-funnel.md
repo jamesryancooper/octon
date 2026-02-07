@@ -26,7 +26,7 @@ Projects were previously located in `.scratchpad/projects/`. This created fricti
 
 ### 1. Elevate `projects/` to Workspace Level
 
-Move `projects/` from `.scratchpad/projects/` to `.workspace/projects/`:
+Move `projects/` from `.scratchpad/projects/` to `.harmony/ideation/projects/`:
 
 ```text
 .workspace/
@@ -116,23 +116,23 @@ Brainstorms are lightweight exploration, not committed research:
 
 ### Created
 
-- `.workspace/projects/README.md` — Projects overview with funnel
-- `.workspace/projects/registry.md` — Project tracking
-- `.workspace/projects/_template/*` — Project templates
-- `.workspace/.scratchpad/brainstorm/README.md` — Brainstorm template
-- `.workspace/workflows/projects/create-project.md` — Project creation workflow
+- `.harmony/ideation/projects/README.md` — Projects overview with funnel
+- `.harmony/ideation/projects/registry.md` — Project tracking
+- `.harmony/ideation/projects/_template/*` — Project templates
+- `.harmony/ideation/scratchpad/brainstorm/README.md` — Brainstorm template
+- `.harmony/orchestration/workflows/projects/create-project.md` — Project creation workflow
 
 ### Updated
 
-- `.workspace/START.md` — Added projects, funnel, updated visibility rules
-- `.workspace/catalog.md` — Changed workflow reference
-- `.workspace/context/glossary.md` — Added Project, Brainstorm, The Funnel terms
+- `.harmony/START.md` — Added projects, funnel, updated visibility rules
+- `.harmony/catalog.md` — Changed workflow reference
+- `.harmony/cognition/context/glossary.md` — Added Project, Brainstorm, The Funnel terms
 - `.workspace/agent-autonomy-guard.globs` — Added projects pattern
-- `.workspace/.scratchpad/README.md` — Removed projects, added brainstorm, added funnel
-- `.workspace/.scratchpad/ideas/README.md` — Updated graduation paths
-- `.workspace/.scratchpad/inbox/README.md` — Updated destination references
-- `.workspace/skills/registry.yml` — Updated input paths
-- `.workspace/workflows/README.md` — Updated workflow references
+- `.harmony/ideation/scratchpad/README.md` — Removed projects, added brainstorm, added funnel
+- `.harmony/ideation/scratchpad/ideas/README.md` — Updated graduation paths
+- `.harmony/ideation/scratchpad/inbox/README.md` — Updated destination references
+- `.harmony/capabilities/skills/registry.yml` — Updated input paths
+- `.harmony/orchestration/workflows/README.md` — Updated workflow references
 
 ### Documentation Updated
 
@@ -148,13 +148,13 @@ Brainstorms are lightweight exploration, not committed research:
 ### Shared Foundation Updated
 
 - `.harmony/README.md` — Removed promote-from-scratchpad reference
-- `.harmony/prompts/research/README.md` — Updated paths
-- `.harmony/prompts/research/synthesize-findings.md` — Updated paths
-- `.harmony/prompts/research/prepare-promotion.md` — Updated paths
-- `.harmony/skills/synthesize-research/README.md` — Updated examples
-- `.harmony/skills/synthesize-research/SKILL.md` — Updated paths
-- `.harmony/templates/workspace/progress/next.md` — Updated description
-- `.harmony/workflows/workspace/migrate-workspace/02-structure-migration.md` — Added migration step
+- `.harmony/scaffolding/prompts/research/README.md` — Updated paths
+- `.harmony/scaffolding/prompts/research/synthesize-findings.md` — Updated paths
+- `.harmony/scaffolding/prompts/research/prepare-promotion.md` — Updated paths
+- `.harmony/capabilities/skills/synthesize-research/README.md` — Updated examples
+- `.harmony/capabilities/skills/synthesize-research/SKILL.md` — Updated paths
+- `.harmony/scaffolding/templates/workspace/progress/next.md` — Updated description
+- `.harmony/orchestration/workflows/workspace/migrate-workspace/02-structure-migration.md` — Added migration step
 
 ### Commands Updated
 
@@ -164,8 +164,8 @@ Brainstorms are lightweight exploration, not committed research:
 
 ### Removed
 
-- `.workspace/.scratchpad/projects/` — Moved to `.workspace/projects/`
-- `.workspace/workflows/scratchpad/` — Replaced with `.workspace/workflows/projects/`
+- `.harmony/ideation/scratchpad/projects/` — Moved to `.harmony/ideation/projects/`
+- `.harmony/orchestration/workflows/scratchpad/` — Replaced with `.harmony/orchestration/workflows/projects/`
 - Promote-from-scratchpad workflow concept — Replaced by direct publishing
 
 ## Related Decisions

@@ -6,7 +6,7 @@ version: "1.1.0"
 depends_on: []
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 ---
 
@@ -68,5 +68,5 @@ Historical accuracy is more important than current naming consistency in these f
 
 ## References
 
-- **Checklist:** `.harmony/checklists/complete.md`
-- **Progress log format:** `.workspace/conventions.md#progress-log-format`
+- **Checklist:** `.harmony/quality/complete.md`
+- **Progress log format:** `.harmony/conventions.md#progress-log-format`

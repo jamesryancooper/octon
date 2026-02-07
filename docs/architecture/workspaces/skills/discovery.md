@@ -21,14 +21,14 @@ Skills use a **three-file, two-location model** for progressive disclosure:
 
 | Location | Manifest | Registry |
 |----------|----------|----------|
-| `.harmony/skills/` | Shared skill index | Shared extended metadata |
-| `.workspace/skills/` | Workspace-specific skills | I/O mappings, pipelines |
+| `.harmony/capabilities/skills/` | Shared skill index | Shared extended metadata |
+| `.harmony/capabilities/skills/` | Workspace-specific skills | I/O mappings, pipelines |
 
 Agents read shared files first, then workspace files. Workspace entries extend or override shared definitions.
 
 ---
 
-## Shared Manifest (`.harmony/skills/manifest.yml`)
+## Shared Manifest (`.harmony/capabilities/skills/manifest.yml`)
 
 Compact index for agent routing—contains only what's needed to match user intent:
 
@@ -156,9 +156,9 @@ See [Capabilities](./capabilities.md) and [Skill Sets](./skill-sets.md) for the 
 
 ---
 
-## Shared Registry (`.harmony/skills/registry.yml`)
+## Shared Registry (`.harmony/capabilities/skills/registry.yml`)
 
-Extended metadata loaded after a skill is matched—contains routing rules, commands, parameters, and requirements. Input/output paths are defined in `.workspace/skills/registry.yml` (single source of truth for I/O).
+Extended metadata loaded after a skill is matched—contains routing rules, commands, parameters, and requirements. Input/output paths are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth for I/O).
 
 ```yaml
 # Skills Registry (Extended Metadata)
@@ -207,7 +207,7 @@ skills:
 | `requires.context` | No | Context conditions for skill activation |
 | `depends_on` | No | Other skills this skill requires |
 
-> **Note:** Input/output paths are defined in `.workspace/skills/registry.yml`, not here. This keeps portable skill logic separate from workspace-specific I/O configuration.
+> **Note:** Input/output paths are defined in `.harmony/capabilities/skills/registry.yml`, not here. This keeps portable skill logic separate from workspace-specific I/O configuration.
 
 > **Tool Permissions:** Tool permissions are **not** defined in registry.yml. They are defined in SKILL.md frontmatter via `allowed-tools` (single source of truth). The internal format is derived via the mapping function in `validate-skills.sh`.
 
@@ -237,14 +237,14 @@ requires:
 
 ---
 
-## Workspace Manifest (`.workspace/skills/manifest.yml`)
+## Workspace Manifest (`.harmony/capabilities/skills/manifest.yml`)
 
 Extends the shared manifest with workspace-specific skills:
 
 ```yaml
 # Skills Manifest (Project-Specific)
 schema_version: "1.2"
-extends: "../../.harmony/skills/manifest.yml"
+extends: "../../.harmony/capabilities/skills/manifest.yml"
 default: null
 
 # Project-specific skills
@@ -263,14 +263,14 @@ skills: []
 
 ---
 
-## Workspace Registry (`.workspace/skills/registry.yml`)
+## Workspace Registry (`.harmony/capabilities/skills/registry.yml`)
 
 Extends the shared registry with workspace-specific I/O mappings and pipelines:
 
 ```yaml
 # Skills Registry (Workspace-Specific)
 schema_version: "1.2"
-extends: "../../.harmony/skills/registry.yml"
+extends: "../../.harmony/capabilities/skills/registry.yml"
 default: null
 
 # Workspace-specific I/O mappings for inherited skills
@@ -328,7 +328,7 @@ skill_mappings:
         description: "Refined prompt output"
 ```
 
-> **Note:** All `.workspace/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#workspace-skills-directory-structure) for details.
+> **Note:** All `.harmony/capabilities/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#workspace-skills-directory-structure) for details.
 
 ### I/O Schema
 
@@ -363,19 +363,19 @@ Deliverables go directly to their final destination with tiered permissions:
 
 | Tier | Scope | Example Path | Use Case |
 |------|-------|--------------|----------|
-| **Tier 1** | `.workspace/{{category}}/` | `.workspace/prompts/refined.md` | Standard deliverables |
+| **Tier 1** | `.harmony/{{category}}/` | `.harmony/scaffolding/prompts/refined.md` | Standard deliverables |
 | **Tier 2** | `.workspace/**` | `.workspace/custom/exports/data.json` | Custom workspace locations |
 | **Tier 3** | `<workspace-root>/**` | `src/generated/api-client.ts` | Project source locations |
 
 ```yaml
 # Deliverables - final destination
-.workspace/prompts/{{timestamp}}-refined.md
-.workspace/drafts/{{topic}}-synthesis.md
+.harmony/scaffolding/prompts/{{timestamp}}-refined.md
+.harmony/output/drafts/{{topic}}-synthesis.md
 ```
 
 #### Operational Artifacts
 
-Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.workspace/skills/`:
+Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/skills/`:
 
 | Category | Path Pattern | Purpose |
 |----------|--------------|---------|
@@ -396,7 +396,7 @@ skill_mappings:
       - path: "projects/{{project}}/"
         type: folder
     outputs:
-      - path: "projects/{{project}}/synthesis.md"   # .workspace/projects/...
+      - path: "projects/{{project}}/synthesis.md"   # .harmony/ideation/projects/...
         type: markdown
 
   # Tier 3: Workspace root
@@ -425,7 +425,7 @@ Output paths must fall within the workspace's hierarchical scope:
 #### Valid Paths
 
 ```yaml
-# In repo/.workspace/skills/registry.yml (scope: repo/**)
+# In repo/.harmony/capabilities/skills/registry.yml (scope: repo/**)
 skill_mappings:
   scaffold-all:
     outputs:
@@ -438,7 +438,7 @@ skill_mappings:
 #### Invalid Paths
 
 ```yaml
-# In docs/.workspace/skills/registry.yml (scope: docs/**)
+# In docs/.harmony/capabilities/skills/registry.yml (scope: docs/**)
 skill_mappings:
   generate-guide:
     outputs:
@@ -446,7 +446,7 @@ skill_mappings:
       - path: "../README.md"                      # ✗ REJECTED: ancestor (repo)
       - path: "../packages/kits/README.md"        # ✗ REJECTED: sibling path
 
-# In flowkit/.workspace/skills/registry.yml (scope: flowkit/**)
+# In flowkit/.harmony/capabilities/skills/registry.yml (scope: flowkit/**)
 skill_mappings:
   generate-types:
     outputs:
@@ -483,8 +483,8 @@ pipelines:
 
 When a user invokes a skill, the system:
 
-1. Read `.harmony/skills/manifest.yml` for shared skill index
-2. Read `.workspace/skills/manifest.yml` for workspace-specific skills
+1. Read `.harmony/capabilities/skills/manifest.yml` for shared skill index
+2. Read `.harmony/capabilities/skills/manifest.yml` for workspace-specific skills
 3. If explicit command (`/skill-name`), route directly
 4. If `use skill: <name>` pattern, route directly
 5. Otherwise, match against triggers in manifest

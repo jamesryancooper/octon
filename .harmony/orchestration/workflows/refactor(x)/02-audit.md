@@ -20,8 +20,8 @@ Exhaustively search for ALL references to the old pattern before making any chan
    ## Audit Results
 
    ### Pattern: `old-name`
-   - `.workspace/START.md` (3 matches)
-   - `.harmony/workflows/example.md` (1 match)
+   - `.harmony/START.md` (3 matches)
+   - `.harmony/orchestration/workflows/example.md` (1 match)
    - `docs/architecture/overview.md` (2 matches)
 
    ### Pattern: `/old-name/`
@@ -46,8 +46,8 @@ Exhaustively search for ALL references to the old pattern before making any chan
 
    | File | Match Count | Patterns Found |
    |------|-------------|----------------|
-   | `.workspace/START.md` | 4 | `old-name`, `/old-name/` |
-   | `.harmony/workflows/example.md` | 1 | `old-name` |
+   | `.harmony/START.md` | 4 | `old-name`, `/old-name/` |
+   | `.harmony/orchestration/workflows/example.md` | 1 | `old-name` |
    | `package.json` | 1 | `"old-name"` |
 
    **Total files:** 3

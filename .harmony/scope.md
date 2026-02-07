@@ -38,18 +38,18 @@ This workspace contains:
 | Content Type | Location | Example |
 |--------------|----------|---------|
 | **Shared (in `.harmony/`)** | | |
-| Workspace templates | `.harmony/templates/` | `workspace/`, `workspace-docs/` |
-| Generic assistants | `.harmony/assistants/` | `reviewer/`, `refactor/`, `docs/` |
-| Workspace management workflows | `.harmony/workflows/workspace/` | `create-workspace`, `migrate-workspace` |
-| Mission management workflows | `.harmony/workflows/missions/` | `create-mission`, `complete-mission` |
-| Generic skills | `.harmony/skills/` | `synthesize-research/` |
-| **Repo-wide (in `.workspace/`)** | | |
-| Repository-wide tool workflows | `.workspace/workflows/<tool>/` | `flowkit/run-flow` |
-| Repo-level missions | `.workspace/missions/` | `auth-overhaul/`, `billing-v2/` |
-| Repo-wide context | `.workspace/context/` | `decisions.md`, `lessons.md` |
+| Workspace templates | `.harmony/scaffolding/templates/` | `workspace/`, `workspace-docs/` |
+| Generic assistants | `.harmony/agency/assistants/` | `reviewer/`, `refactor/`, `docs/` |
+| Workspace management workflows | `.harmony/orchestration/workflows/workspace/` | `create-workspace`, `migrate-workspace` |
+| Mission management workflows | `.harmony/orchestration/workflows/missions/` | `create-mission`, `complete-mission` |
+| Generic skills | `.harmony/capabilities/skills/` | `synthesize-research/` |
+| **Repo-wide (in `.harmony/`)** | | |
+| Repository-wide tool workflows | `.harmony/orchestration/workflows/<tool>/` | `flowkit/run-flow` |
+| Repo-level missions | `.harmony/orchestration/missions/` | `auth-overhaul/`, `billing-v2/` |
+| Repo-wide context | `.harmony/cognition/context/` | `decisions.md`, `lessons.md` |
 | **Domain-specific** | | |
-| Domain workflows | Domain's `.workspace/workflows/` | `docs/api/.workspace/workflows/` |
-| Domain conventions | Domain's `.workspace/conventions.md` | Package-specific style rules |
+| Domain workflows | Domain's `.harmony/orchestration/workflows/` | `docs/api/.harmony/orchestration/workflows/` |
+| Domain conventions | Domain's `.harmony/conventions.md` | Package-specific style rules |
 | **Harness entry points** | | |
 | Cursor command wrappers | `.cursor/commands/` | `create-workspace.md`, `run-flow.md` |
 | Global Cursor commands | `~/.cursor/commands/` | Git utilities, personal workflows |
@@ -72,6 +72,6 @@ This workspace contains:
 | Area | Relationship |
 |------|--------------|
 | `.harmony/` | Shared foundation — templates, assistants, workflows, skills |
-| `.harmony/templates/` | Workspace scaffolding (base and scoped variants) |
+| `.harmony/scaffolding/templates/` | Workspace scaffolding (base and scoped variants) |
 | `.cursor/` | IDE-specific agent configuration (complementary) |
 | `docs/architecture/workspaces/` | Canonical documentation for workspace pattern |

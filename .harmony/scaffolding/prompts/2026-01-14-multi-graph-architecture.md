@@ -94,7 +94,7 @@ harmony/
 Source files declare graph nodes via YAML front matter:
 
 ```markdown
-<!-- apps/api/.workspace/context/decisions/API-001.md -->
+<!-- apps/api/.harmony/cognition/context/decisions/API-001.md -->
 ---
 # Graph Identity (required for graph inclusion)
 graph:

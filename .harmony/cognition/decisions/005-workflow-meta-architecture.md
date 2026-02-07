@@ -13,7 +13,7 @@ Accepted
 
 ## Context
 
-The existing workflow architecture in `.harmony/workflows/` was reviewed against eight quality dimensions: efficiency, scalability, performance, reliability, maintainability, adaptability, usability, and robustness.
+The existing workflow architecture in `.harmony/orchestration/workflows/` was reviewed against eight quality dimensions: efficiency, scalability, performance, reliability, maintainability, adaptability, usability, and robustness.
 
 While the architecture had strong foundations (mandatory verification gates, audit-before-execute pattern, append-only continuity, step-per-file organization), six gaps were identified:
 
@@ -41,7 +41,7 @@ version: "1.0.0"           # Semantic versioning
 depends_on: []              # Cross-workflow dependencies
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []          # Steps safe to run in parallel
 ---
 ```
@@ -60,7 +60,7 @@ All step files now include:
 
 ### 3. Meta-Workflow System
 
-Created `.harmony/workflows/workflows/` containing:
+Created `.harmony/orchestration/workflows/workflows/` containing:
 
 - **create-workflow/** (8 steps) — Scaffold new workflows with gap fixes integrated
 - **evaluate-workflow/** (5 steps) — Assess workflow quality and gap coverage
@@ -68,10 +68,10 @@ Created `.harmony/workflows/workflows/` containing:
 
 ### 4. Supporting Infrastructure
 
-- `.harmony/workflows/_template/` — Canonical templates with gap fix fields
-- `.harmony/context/workflow-gaps.md` — Gap remediation guide
-- `.harmony/context/workflow-quality.md` — Quality criteria and grading rubric
-- `.harmony/commands/` — Trigger commands (`create-workflow`, `evaluate-workflow`, `update-workflow`)
+- `.harmony/orchestration/workflows/_template/` — Canonical templates with gap fix fields
+- `.harmony/cognition/context/workflow-gaps.md` — Gap remediation guide
+- `.harmony/cognition/context/workflow-quality.md` — Quality criteria and grading rubric
+- `.harmony/capabilities/commands/` — Trigger commands (`create-workflow`, `evaluate-workflow`, `update-workflow`)
 - Harness symlinks in `.cursor/commands/` and `.claude/commands/`
 
 ### 5. Harness Integration
@@ -79,8 +79,8 @@ Created `.harmony/workflows/workflows/` containing:
 Commands with `access: human` require symlinks in harness directories:
 
 ```bash
-.cursor/commands/<cmd>.md -> ../../.harmony/commands/<cmd>.md
-.claude/commands/<cmd>.md -> ../../.harmony/commands/<cmd>.md
+.cursor/commands/<cmd>.md -> ../../.harmony/capabilities/commands/<cmd>.md
+.claude/commands/<cmd>.md -> ../../.harmony/capabilities/commands/<cmd>.md
 ```
 
 This is documented in `create-workflow/07-update-references.md` and `update-workflow/04-execute-changes.md`.
@@ -103,7 +103,7 @@ This is documented in `create-workflow/07-update-references.md` and `update-work
 
 ### Neutral
 
-- Checkpoint files will accumulate in `.workspace/progress/checkpoints/` (can be periodically cleaned)
+- Checkpoint files will accumulate in `.harmony/continuity/checkpoints/` (can be periodically cleaned)
 
 ## Decisions Made
 
@@ -116,8 +116,8 @@ This is documented in `create-workflow/07-update-references.md` and `update-work
 
 ## References
 
-- Gap remediation guide: `.harmony/context/workflow-gaps.md`
-- Quality criteria: `.harmony/context/workflow-quality.md`
-- Create workflow: `.harmony/workflows/workflows/create-workflow/`
-- Evaluate workflow: `.harmony/workflows/workflows/evaluate-workflow/`
-- Update workflow: `.harmony/workflows/workflows/update-workflow/`
+- Gap remediation guide: `.harmony/cognition/context/workflow-gaps.md`
+- Quality criteria: `.harmony/cognition/context/workflow-quality.md`
+- Create workflow: `.harmony/orchestration/workflows/workflows/create-workflow/`
+- Evaluate workflow: `.harmony/orchestration/workflows/workflows/evaluate-workflow/`
+- Update workflow: `.harmony/orchestration/workflows/workflows/update-workflow/`

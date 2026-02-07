@@ -64,7 +64,7 @@
 - [ ] Look at adding a decisions directory into the workspace for managing decision traces. Reference: <https://foundationcapital.com/context-graphs-ais-trillion-dollar-opportunity/>, <https://cloudedjudgement.substack.com/p/clouded-judgement-121225-long-live>,
 - [ ] Implemented a scratchpad within the main workspace harness. Ensure that it is implemented into the other local workspace harnesses.
 - [ ] Implement workspace harnesses where we are not replicating artifacts across the framework (i.e. local workspaces that are in child directories of the the repository). An inheritance pattern should be used to ensure that the workspace harnesses are consistent, up to date, and avoid drift or duplication.
-- [ ] Implement a universal agent + assistant standard in the framework (.workspace/.scratchpad/archive/universal-agent-assistant-standard-draft.md). This standard should be used to define the agents and assistants in the framework.
+- [ ] Implement a universal agent + assistant standard in the framework (.harmony/ideation/scratchpad/archive/universal-agent-assistant-standard-draft.md). This standard should be used to define the agents and assistants in the framework.
 
 ## 6) Knowledge (RAG, graphs, context/memory)
 
@@ -154,7 +154,7 @@ flowchart TB
 - [x] Ensure skills documentation aligns with our latest implementation and best practices. See: @migrate-refactor-workflow-to-skills.md and @workflows-vs-skills-analysis.md
 - [x] Since we have implemented pattern-triggered complex files, should we roll the atomic skills into the complex skills and just introduce complexity to skills as needed? Decision: Keep the two-tier system.
 - [ ] Implement the Progressive Complexity Architecture proposal (@progressive-complexity-proposal.md also in the claude code tab).
-- [x] Implement capabilities.yml in the `.harmony/skills/capabilities.yml` file for fast skill capability lookup.
+- [x] Implement capabilities.yml in the `.harmony/capabilities/skills/capabilities.yml` file for fast skill capability lookup.
 
 ## Workflows
 
@@ -169,7 +169,7 @@ flowchart TB
 ## Workspaces
 
 - [ ] Create a workspaceKit for creating and managing workspaces.
-- [ ] Determine where we implement the workspace resolution algorithm that was documented in @docs/architecture/workspaces/skills/architecture.md. In the @.harmony/skills/scripts directory?
+- [ ] Determine where we implement the workspace resolution algorithm that was documented in @docs/architecture/workspaces/skills/architecture.md. In the @.harmony/capabilities/skills/scripts directory?
 
 ## Principles
 
@@ -190,7 +190,7 @@ flowchart TB
 
 ## Completed
 
-- [x] Update the create-skill workflow to create skills that align with the agent skills spec. Use `.harmony/skills/refine-prompt` as an example. Progressive disclosure is important. Also, include the following instructions for naming skills:
+- [x] Update the create-skill workflow to create skills that align with the agent skills spec. Use `.harmony/capabilities/skills/refine-prompt` as an example. Progressive disclosure is important. Also, include the following instructions for naming skills:
      When naming agent skills, use clear, consistent, action-oriented names (like verbs or gerunds, e.g., generate-report, process-payment),
     incorporate keywords for searchability, keep them concise, use hyphens/lowercase for technical systems, and group related skills for better
     organization, reflecting their function and making them easy to find and use by both humans and AI.

@@ -14,7 +14,7 @@ metadata:
   updated: "2026-01-23"
 skill_sets: [executor]
 capabilities: [self-validating]
-allowed-tools: Read Glob Grep Write(.harmony/skills/*) Write(runs/*) Write(logs/*) Bash(mkdir) Bash(ln) Bash(cp)
+allowed-tools: Read Glob Grep Write(.harmony/capabilities/skills/*) Write(runs/*) Write(logs/*) Bash(mkdir) Bash(ln) Bash(cp)
 ---
 
 # Create Skill
@@ -47,16 +47,16 @@ Use this skill when:
 
 ## Parameters
 
-Parameters are defined in `.harmony/skills/registry.yml` (single source of truth).
+Parameters are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth).
 
 This skill accepts one required parameter (`skill_name`) and optional parameters for description and archetype.
 
 ## Output Location
 
-Output paths are defined in `.workspace/skills/registry.yml` (single source of truth).
+Output paths are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth).
 
 Outputs are written to:
-- `.harmony/skills/{{skill-name}}/` — The new skill directory (deliverable)
+- `.harmony/capabilities/skills/{{skill-name}}/` — The new skill directory (deliverable)
 - `runs/create-skill/{{run-id}}/` — Execution state (checkpoint and summary) for session recovery
 - `logs/create-skill/` — Execution logs with index
 
@@ -93,7 +93,7 @@ After Phase 5, verify:
 ## Boundaries
 
 - Never overwrite existing skills without explicit confirmation
-- Write only to designated paths (`.harmony/skills/`, outputs, logs)
+- Write only to designated paths (`.harmony/capabilities/skills/`, outputs, logs)
 - Always validate name format before any file operations
 - Always check uniqueness before proceeding
 

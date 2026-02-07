@@ -30,21 +30,21 @@ Validation complete. Proceeding to Phase 2.
 ```
 Creating skill directory structure...
 
-Created: .harmony/skills/analyze-codebase/
-Created: .harmony/skills/analyze-codebase/SKILL.md
-Created: .harmony/skills/analyze-codebase/references/
-Created: .harmony/skills/analyze-codebase/references/behaviors.md
-Created: .harmony/skills/analyze-codebase/references/io-contract.md
-Created: .harmony/skills/analyze-codebase/references/safety.md
-Created: .harmony/skills/analyze-codebase/references/examples.md
-Created: .harmony/skills/analyze-codebase/references/validation.md
-Created: .harmony/skills/analyze-codebase/scripts/
-Created: .harmony/skills/analyze-codebase/assets/
+Created: .harmony/capabilities/skills/analyze-codebase/
+Created: .harmony/capabilities/skills/analyze-codebase/SKILL.md
+Created: .harmony/capabilities/skills/analyze-codebase/references/
+Created: .harmony/capabilities/skills/analyze-codebase/references/behaviors.md
+Created: .harmony/capabilities/skills/analyze-codebase/references/io-contract.md
+Created: .harmony/capabilities/skills/analyze-codebase/references/safety.md
+Created: .harmony/capabilities/skills/analyze-codebase/references/examples.md
+Created: .harmony/capabilities/skills/analyze-codebase/references/validation.md
+Created: .harmony/capabilities/skills/analyze-codebase/scripts/
+Created: .harmony/capabilities/skills/analyze-codebase/assets/
 
 Creating symlinks...
-Created: .claude/skills/analyze-codebase -> ../../.harmony/skills/analyze-codebase
-Created: .cursor/skills/analyze-codebase -> ../../.harmony/skills/analyze-codebase
-Created: .codex/skills/analyze-codebase -> ../../.harmony/skills/analyze-codebase
+Created: .claude/skills/analyze-codebase -> ../../.harmony/capabilities/skills/analyze-codebase
+Created: .cursor/skills/analyze-codebase -> ../../.harmony/capabilities/skills/analyze-codebase
+Created: .codex/skills/analyze-codebase -> ../../.harmony/capabilities/skills/analyze-codebase
 ```
 
 ### Phase 3: Initialize
@@ -72,7 +72,7 @@ Updating registry files...
 ```
 Updating catalog...
 
-- Added row to .workspace/catalog.md
+- Added row to .harmony/catalog.md
 ```
 
 ### Phase 6: Report Success
@@ -80,7 +80,7 @@ Updating catalog...
 ```
 ## Skill Created: analyze-codebase
 
-**Location:** `.harmony/skills/analyze-codebase/`
+**Location:** `.harmony/capabilities/skills/analyze-codebase/`
 
 ### Files Created
 - SKILL.md (core definition)
@@ -288,7 +288,7 @@ Phase 6: Report Success
 Minimal structure created:
 
 ```
-.harmony/skills/format-json/
+.harmony/capabilities/skills/format-json/
 ├── SKILL.md
 ├── scripts/
 └── assets/
@@ -332,7 +332,7 @@ Created skill directory. Done!
 
 **Wrong:**
 ```
-Skill created at .harmony/skills/my-skill/
+Skill created at .harmony/capabilities/skills/my-skill/
 ```
 
 **Why it's wrong:** Symlinks in harness folders are required for multi-agent compatibility.

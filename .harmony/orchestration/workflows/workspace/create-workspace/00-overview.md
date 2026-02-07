@@ -6,7 +6,7 @@ version: "1.2.0"
 depends_on: []
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps:
   - group: "validation"
     steps: ["01-validate-prerequisites", "02-validate-target"]
@@ -19,17 +19,17 @@ Scaffold a new `.workspace` directory in a target location, customized to the di
 
 ## Target
 
-Parent directory where `.workspace/` will be created.
+Parent directory where `.harmony/` will be created.
 
 ## Prerequisites
 
 - Exactly one parent directory reference provided
-- `.workspace/templates/workspace/` exists
+- `.harmony/scaffolding/templates/workspace/` exists
 
 ## Failure Conditions
 
 - Target directory does not exist → STOP, report error
-- `.workspace/` already exists in target → STOP, suggest `/update-workspace` instead
+- `.harmony/` already exists in target → STOP, suggest `/update-workspace` instead
 - Templates directory missing → STOP, report error
 
 ## Steps
@@ -53,4 +53,4 @@ Parent directory where `.workspace/` will be created.
 ## References
 
 - **Canonical:** `docs/architecture/workspaces/README.md`
-- **Templates:** `.workspace/templates/workspace/`
+- **Templates:** `.harmony/scaffolding/templates/workspace/`

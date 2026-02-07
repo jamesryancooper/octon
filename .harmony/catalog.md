@@ -47,7 +47,7 @@ Composable capabilities in `skills/`:
 | Skill | Commands | Description |
 |-------|----------|-------------|
 | [synthesize-research](./skills/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
-| [prompt-refiner](../.harmony/skills/prompt-refiner/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
+| [prompt-refiner](../.harmony/capabilities/skills/prompt-refiner/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
 
 **Invocation:** Use `/command` in chat or `use skill: skill-id` for explicit selection.
 
@@ -67,9 +67,9 @@ Atomic operations in `commands/`:
 |---------|--------|-------------|
 | [recover.md](./commands/recover.md) | human | Recovery procedures for common agent failure modes |
 | [validate-frontmatter.md](./commands/validate-frontmatter.md) | human | Validate YAML frontmatter in markdown files |
-| [create-workflow.md](../.harmony/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
-| [evaluate-workflow.md](../.harmony/commands/evaluate-workflow.md) | human | Assess a workflow against quality criteria |
-| [update-workflow.md](../.harmony/commands/update-workflow.md) | human | Modify an existing workflow to fix gaps |
+| [create-workflow.md](../.harmony/capabilities/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
+| [evaluate-workflow.md](../.harmony/capabilities/commands/evaluate-workflow.md) | human | Assess a workflow against quality criteria |
+| [update-workflow.md](../.harmony/capabilities/commands/update-workflow.md) | human | Modify an existing workflow to fix gaps |
 
 ---
 
@@ -103,9 +103,9 @@ Multi-step procedures in `workflows/`:
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [create-workflow](../.harmony/workflows/workflows/create-workflow/00-overview.md) | human | Scaffold a new workflow with gap remediation features |
-| [evaluate-workflow](../.harmony/workflows/workflows/evaluate-workflow/00-overview.md) | human | Assess workflow quality and gap coverage |
-| [update-workflow](../.harmony/workflows/workflows/update-workflow/00-overview.md) | human | Add gap fixes to existing workflows |
+| [create-workflow](../.harmony/orchestration/workflows/workflows/create-workflow/00-overview.md) | human | Scaffold a new workflow with gap remediation features |
+| [evaluate-workflow](../.harmony/orchestration/workflows/workflows/evaluate-workflow/00-overview.md) | human | Assess workflow quality and gap coverage |
+| [update-workflow](../.harmony/orchestration/workflows/workflows/update-workflow/00-overview.md) | human | Add gap fixes to existing workflows |
 
 ### FlowKit (Repo-Wide Tool Integration)
 
@@ -133,7 +133,7 @@ Task templates in `prompts/`:
 
 This section contains the canonical decision logic for workspace operations. Other documentation references these sections.
 
-> **Note:** If you're creating a FlowKit flow (runnable via `pnpm flowkit:run` / `flowkit run` and backed by `config.flow.json` + `manifest.yaml`), put it in `packages/workflows/<flowId>/`. `.workspace/workflows/**` is for procedural runbooks (including `/run-flow`), not flow assets.
+> **Note:** If you're creating a FlowKit flow (runnable via `pnpm flowkit:run` / `flowkit run` and backed by `config.flow.json` + `manifest.yaml`), put it in `packages/workflows/<flowId>/`. `.harmony/orchestration/workflows/**` is for procedural runbooks (including `/run-flow`), not flow assets.
 
 ### Artifact Type Decision {#artifact-type-decision}
 
@@ -143,16 +143,16 @@ When creating a new artifact, use this flowchart:
 Is this triggered by a user typing /something in Cursor chat?
 ├── YES → Create a Cursor Command (.cursor/commands/)
 │   └── Is the procedure complex (3+ steps)?
-│       ├── YES → Also create a Workflow (.workspace/workflows/)
+│       ├── YES → Also create a Workflow (.harmony/orchestration/workflows/)
 │       └── NO → Is it a single atomic action?
-│           ├── YES → Also create a Command (.workspace/commands/)
+│           ├── YES → Also create a Command (.harmony/capabilities/commands/)
 │           └── NO → Procedure fits in Cursor command file
 └── NO → Is this something an agent uses?
     ├── YES → Does it require context/judgment?
-    │   ├── YES → Create a Prompt (.workspace/prompts/)
+    │   ├── YES → Create a Prompt (.harmony/scaffolding/prompts/)
     │   └── NO → Is it atomic (single action)?
-    │       ├── YES → Create a Command (.workspace/commands/)
-    │       └── NO → Create a Workflow (.workspace/workflows/)
+    │       ├── YES → Create a Command (.harmony/capabilities/commands/)
+    │       └── NO → Create a Workflow (.harmony/orchestration/workflows/)
     └── NO → Maybe it's a Checklist (quality gate)
 ```
 
@@ -302,7 +302,7 @@ Each workspace template contains:
 |--------|-------------|
 | [init.sh](./init.sh) | Health check: verifies required files/directories exist |
 
-**Usage:** Run `./init.sh` from the `.workspace/` directory to verify structure integrity.
+**Usage:** Run `./init.sh` from the `.harmony/` directory to verify structure integrity.
 
 ---
 

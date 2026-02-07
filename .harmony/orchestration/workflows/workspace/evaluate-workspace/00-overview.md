@@ -6,7 +6,7 @@ version: "1.1.0"
 depends_on: []
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 ---
 
@@ -18,7 +18,7 @@ To apply fixes after evaluation, use `/update-workspace`.
 
 ## Target
 
-Existing `.workspace/` directory.
+Existing `.harmony/` directory.
 
 ## Prerequisites
 
@@ -27,8 +27,8 @@ Existing `.workspace/` directory.
 
 ## Failure Conditions
 
-- Target `.workspace/` does not exist → STOP, suggest `/create-workspace` instead
-- Target path is not a `.workspace/` directory → STOP, report error
+- Target `.harmony/` does not exist → STOP, suggest `/create-workspace` instead
+- Target path is not a `.harmony/` directory → STOP, report error
 
 ## Steps
 

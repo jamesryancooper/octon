@@ -15,8 +15,8 @@ Transform the audit results into an actionable change manifest. Every change sho
    - [ ] Move file `old/location.md` → `new/location.md`
 
    ### Text Changes (by file)
-   - [ ] `.workspace/START.md` (4 occurrences)
-   - [ ] `.harmony/workflows/example.md` (1 occurrence)
+   - [ ] `.harmony/START.md` (4 occurrences)
+   - [ ] `.harmony/orchestration/workflows/example.md` (1 occurrence)
    - [ ] `.cursor/commands/command.md` (1 occurrence)
    - [ ] `package.json` (1 occurrence)
    ```
@@ -56,14 +56,14 @@ A prioritized, trackable change manifest:
 **Total changes:** 47
 
 ### Phase 1: Physical Changes
-- [ ] Rename `.workspace/.scratch/` → `.workspace/.scratchpad/`
+- [ ] Rename `.harmony/ideation/scratchpad/` → `.harmony/ideation/scratchpad/`
 
 ### Phase 2: Config Files
 - [ ] `package.json` (1 change)
 
 ### Phase 3: Documentation & Code
-- [ ] `.workspace/START.md` (4 changes)
-- [ ] `.harmony/workflows/promote-from-scratch.md` (rename + 3 changes)
+- [ ] `.harmony/START.md` (4 changes)
+- [ ] `.harmony/orchestration/workflows/promote-from-scratch.md` (rename + 3 changes)
 - [ ] [... remaining files ...]
 
 ### Phase 4: Continuity Artifacts (APPEND ONLY)

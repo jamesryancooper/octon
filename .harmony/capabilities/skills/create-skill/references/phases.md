@@ -9,7 +9,7 @@ behavior:
         - "Verify uniqueness against manifest.yml"
     - name: "Copy Template"
       steps:
-        - "Create directory .harmony/skills/{{skill-name}}/"
+        - "Create directory .harmony/capabilities/skills/{{skill-name}}/"
         - "Copy SKILL.md from _template/"
         - "Copy references/ directory from _template/"
         - "Create empty scripts/ and assets/ directories"
@@ -25,7 +25,7 @@ behavior:
         - "Add entry to registry.yml under skills map"
     - name: "Update Catalog"
       steps:
-        - "Add row to .workspace/catalog.md skills table"
+        - "Add row to .harmony/catalog.md skills table"
     - name: "Report Success"
       steps:
         - "Display creation summary"
@@ -74,7 +74,7 @@ Verify the skill name meets all requirements before any file operations.
 
 3. **Uniqueness Check (Blocking)**
 
-   - Read `.harmony/skills/manifest.yml`
+   - Read `.harmony/capabilities/skills/manifest.yml`
    - Check `skills[].id` for existing match
    - If exists, STOP and report
 
@@ -107,14 +107,14 @@ Create the skill directory structure from template.
 1. **Create Directory**
 
    ```bash
-   mkdir -p .harmony/skills/{{skill-name}}/references
-   mkdir -p .harmony/skills/{{skill-name}}/scripts
-   mkdir -p .harmony/skills/{{skill-name}}/assets
+   mkdir -p .harmony/capabilities/skills/{{skill-name}}/references
+   mkdir -p .harmony/capabilities/skills/{{skill-name}}/scripts
+   mkdir -p .harmony/capabilities/skills/{{skill-name}}/assets
    ```
 
 2. **Copy Core Files**
 
-   - `.harmony/skills/_template/SKILL.md` → `.harmony/skills/{{skill-name}}/SKILL.md`
+   - `.harmony/capabilities/skills/_template/SKILL.md` → `.harmony/capabilities/skills/{{skill-name}}/SKILL.md`
 
 3. **Copy Reference Files**
 
@@ -127,14 +127,14 @@ Create the skill directory structure from template.
 4. **Create Symlinks in Harness Folders**
 
    ```bash
-   ln -s ../../.harmony/skills/{{skill-name}} .claude/skills/{{skill-name}}
-   ln -s ../../.harmony/skills/{{skill-name}} .cursor/skills/{{skill-name}}
-   ln -s ../../.harmony/skills/{{skill-name}} .codex/skills/{{skill-name}}
+   ln -s ../../.harmony/capabilities/skills/{{skill-name}} .claude/skills/{{skill-name}}
+   ln -s ../../.harmony/capabilities/skills/{{skill-name}} .cursor/skills/{{skill-name}}
+   ln -s ../../.harmony/capabilities/skills/{{skill-name}} .codex/skills/{{skill-name}}
    ```
 
 ### Verification
 
-- Directory `.harmony/skills/{{skill-name}}/` exists
+- Directory `.harmony/capabilities/skills/{{skill-name}}/` exists
 - File `SKILL.md` exists
 - All 5 reference files exist
 - Symlinks exist and resolve correctly
@@ -237,7 +237,7 @@ Add entries to manifest and registry files.
      requires:
        context:
          - type: directory_exists
-           path: ".workspace/"
+           path: ".harmony/"
            description: "Requires a workspace directory"
      depends_on: []
    ```
@@ -315,7 +315,7 @@ Communicate completion and next steps.
    ```markdown
    ## Skill Created: {{skill-name}}
 
-   **Location:** `.harmony/skills/{{skill-name}}/`
+   **Location:** `.harmony/capabilities/skills/{{skill-name}}/`
 
    ### Files Created
    - SKILL.md (core definition)
@@ -369,12 +369,12 @@ Communicate completion and next steps.
 
    ## Files Created
 
-   - .harmony/skills/{{skill-name}}/SKILL.md
-   - .harmony/skills/{{skill-name}}/references/behaviors.md
-   - .harmony/skills/{{skill-name}}/references/io-contract.md
-   - .harmony/skills/{{skill-name}}/references/safety.md
-   - .harmony/skills/{{skill-name}}/references/examples.md
-   - .harmony/skills/{{skill-name}}/references/validation.md
+   - .harmony/capabilities/skills/{{skill-name}}/SKILL.md
+   - .harmony/capabilities/skills/{{skill-name}}/references/behaviors.md
+   - .harmony/capabilities/skills/{{skill-name}}/references/io-contract.md
+   - .harmony/capabilities/skills/{{skill-name}}/references/safety.md
+   - .harmony/capabilities/skills/{{skill-name}}/references/examples.md
+   - .harmony/capabilities/skills/{{skill-name}}/references/validation.md
    ```
 
 4. **Update Log Indexes**

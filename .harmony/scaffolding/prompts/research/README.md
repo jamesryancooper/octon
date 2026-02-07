@@ -17,7 +17,7 @@ Prompts for human-led research projects in `projects/`.
 These prompts are designed for human-directed use within research projects. Point the agent to a prompt when you need structured help:
 
 ```text
-Human: "Use .harmony/prompts/research/synthesize-findings.md to consolidate
+Human: "Use .harmony/scaffolding/prompts/research/synthesize-findings.md to consolidate
         my notes in projects/auth-patterns/"
 ```
 

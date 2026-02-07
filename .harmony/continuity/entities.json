@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "description": "Tracks state of specific artifacts being actively worked on",
   "entities": {
-    ".workspace/": {
+    ".harmony/": {
       "type": "directory",
       "status": "stable",
       "last_modified": "2025-12-18",

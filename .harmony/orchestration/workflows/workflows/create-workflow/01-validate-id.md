@@ -8,8 +8,8 @@ description: Check workflow ID format and uniqueness.
 ## Input
 
 - `workflow-id`: The proposed workflow identifier
-- `target-location`: `.harmony/workflows/<domain>/` or `.workspace/workflows/` (with `--local`)
-- `domain`: Optional subdirectory under `.harmony/workflows/`
+- `target-location`: `.harmony/orchestration/workflows/<domain>/` or `.harmony/orchestration/workflows/` (with `--local`)
+- `domain`: Optional subdirectory under `.harmony/orchestration/workflows/`
 
 ## Purpose
 
@@ -28,9 +28,9 @@ Ensure the workflow ID is valid and doesn't conflict with existing workflows bef
 2. **Determine target path:**
    ```text
    If --local flag:
-     target = .workspace/workflows/<workflow-id>/
+     target = .harmony/orchestration/workflows/<workflow-id>/
    Else if --domain specified:
-     target = .harmony/workflows/<domain>/<workflow-id>/
+     target = .harmony/orchestration/workflows/<domain>/<workflow-id>/
    Else:
      Prompt user for domain or use "general"
    ```
@@ -52,7 +52,7 @@ Ensure the workflow ID is valid and doesn't conflict with existing workflows bef
 ## Idempotency
 
 **Check:** Does checkpoint state exist for this workflow creation?
-- [ ] `.workspace/progress/checkpoints/create-workflow/<workflow-id>/state.json` exists
+- [ ] `.harmony/continuity/checkpoints/create-workflow/<workflow-id>/state.json` exists
 - [ ] State shows step 1 completed
 
 **If Already Complete:**

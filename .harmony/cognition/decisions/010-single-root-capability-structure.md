@@ -62,7 +62,7 @@ Key design choices:
 - Portability requires tooling (a `harmony init` script) instead of simple directory copy
 - ~339 files moved and ~3,895 path references updated
 - External repos that adopted `.harmony/` by copying will need migration guidance
-- Deeper paths for some items (e.g., `.harmony/capabilities/skills/` vs `.harmony/skills/`)
+- Deeper paths for some items (e.g., `.harmony/capabilities/skills/` vs `.harmony/capabilities/skills/`)
 
 ## Implementation
 

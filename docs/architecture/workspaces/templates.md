@@ -1,16 +1,16 @@
 ---
 title: Workspace Templates
-description: Boilerplate files for creating new content stored in .workspace/templates/
+description: Boilerplate files for creating new content stored in .harmony/scaffolding/templates/
 ---
 
 # Workspace Templates
 
-Templates are **boilerplate files** stored in `.workspace/templates/`. They provide starting points for creating new content within the workspace's domain.
+Templates are **boilerplate files** stored in `.harmony/scaffolding/templates/`. They provide starting points for creating new content within the workspace's domain.
 
 ## Location
 
 ```text
-.workspace/templates/
+.harmony/scaffolding/templates/
 ├── cursor-command.md       # Template for Cursor commands
 ├── document.md             # Template for new documents
 ├── workspace/              # Base workspace template
@@ -74,7 +74,7 @@ The `manifest.json` file defines:
 3. Overlay files listed in `overrides` from the scoped template
 4. Copy additional directories and files from `additions`
 
-A JSON schema is available at `.workspace/templates/manifest.schema.json`.
+A JSON schema is available at `.harmony/scaffolding/templates/manifest.schema.json`.
 
 ---
 
@@ -122,7 +122,7 @@ See each template's `MANIFEST.md` for human-readable details or `manifest.json` 
 
 ## Using Templates
 
-Templates are typically used by workflows (e.g., `/create-workspace` copies from `.workspace/templates/workspace/`).
+Templates are typically used by workflows (e.g., `/create-workspace` copies from `.harmony/scaffolding/templates/workspace/`).
 
 ### With Scoped Templates
 
@@ -145,8 +145,8 @@ Templates are typically used by workflows (e.g., `/create-workspace` copies from
 
 | Type | Purpose | Location |
 |------|---------|----------|
-| **Template** | Starting point to copy and customize | `.workspace/templates/` |
-| **Example** | Reference to study and learn from | `.workspace/examples/` |
+| **Template** | Starting point to copy and customize | `.harmony/scaffolding/templates/` |
+| **Example** | Reference to study and learn from | `.harmony/scaffolding/examples/` |
 
 Templates are *scaffolds*. Examples are *references*.
 

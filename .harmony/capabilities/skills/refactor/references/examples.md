@@ -35,7 +35,7 @@ Worked examples demonstrating the refactor skill.
 **File types:** md, yml, yaml, json, ts
 
 **Physical changes:**
-- [ ] Rename directory `.workspace/.scratch/` → `.workspace/.scratchpad/`
+- [ ] Rename directory `.harmony/ideation/scratchpad/` → `.harmony/ideation/scratchpad/`
 
 **Exclusions:** node_modules, .git, dist
 ```
@@ -46,8 +46,8 @@ Worked examples demonstrating the refactor skill.
 ## Audit Results
 
 ### Pattern: `.scratch`
-- `.workspace/START.md` (3 matches)
-- `.harmony/workflows/promote-from-scratch.md` (5 matches)
+- `.harmony/START.md` (3 matches)
+- `.harmony/orchestration/workflows/promote-from-scratch.md` (5 matches)
 - `docs/architecture/overview.md` (2 matches)
 
 ### Pattern: `/.scratch/`
@@ -60,8 +60,8 @@ Worked examples demonstrating the refactor skill.
 
 | File | Match Count | Patterns Found |
 |------|-------------|----------------|
-| `.workspace/START.md` | 3 | `.scratch`, `/.scratch/` |
-| `.harmony/workflows/promote-from-scratch.md` | 5 | `.scratch` |
+| `.harmony/START.md` | 3 | `.scratch`, `/.scratch/` |
+| `.harmony/orchestration/workflows/promote-from-scratch.md` | 5 | `.scratch` |
 | `docs/architecture/overview.md` | 2 | `.scratch` |
 | `CLAUDE.md` | 1 | `/.scratch/` |
 | `package.json` | 1 | `".scratch"` |
@@ -70,7 +70,7 @@ Worked examples demonstrating the refactor skill.
 **Total matches:** 12
 
 **Physical artifacts:**
-- Directory: `.workspace/.scratch/`
+- Directory: `.harmony/ideation/scratchpad/`
 ```
 
 ### Phase 3: Plan
@@ -83,19 +83,19 @@ Worked examples demonstrating the refactor skill.
 **Total changes:** 12
 
 ### Phase 1: Physical Changes (do first)
-- [ ] Rename `.workspace/.scratch/` → `.workspace/.scratchpad/`
+- [ ] Rename `.harmony/ideation/scratchpad/` → `.harmony/ideation/scratchpad/`
 
 ### Phase 2: Config Files
 - [ ] `package.json` (1 change)
 
 ### Phase 3: Documentation & Code
-- [ ] `.workspace/START.md` (3 changes)
-- [ ] `.harmony/workflows/promote-from-scratch.md` (5 changes)
+- [ ] `.harmony/START.md` (3 changes)
+- [ ] `.harmony/orchestration/workflows/promote-from-scratch.md` (5 changes)
 - [ ] `docs/architecture/overview.md` (2 changes)
 - [ ] `CLAUDE.md` (1 change)
 
 ### Phase 4: Continuity Artifacts (APPEND ONLY)
-- [ ] `.workspace/progress/log.md` — Add entry documenting this refactor
+- [ ] `.harmony/continuity/log.md` — Add entry documenting this refactor
 ```
 
 ### Phase 4: Execute
@@ -104,19 +104,19 @@ Worked examples demonstrating the refactor skill.
 ## Execution Log
 
 ### Physical Changes
-- [x] 14:32:01 Renamed `.workspace/.scratch/` → `.workspace/.scratchpad/`
+- [x] 14:32:01 Renamed `.harmony/ideation/scratchpad/` → `.harmony/ideation/scratchpad/`
 
 ### Config Files
 - [x] 14:32:05 Updated `package.json` (1 replacement)
 
 ### Documentation & Code
-- [x] 14:32:08 Updated `.workspace/START.md` (3 replacements)
-- [x] 14:32:12 Updated `.harmony/workflows/promote-from-scratch.md` (5 replacements)
+- [x] 14:32:08 Updated `.harmony/START.md` (3 replacements)
+- [x] 14:32:12 Updated `.harmony/orchestration/workflows/promote-from-scratch.md` (5 replacements)
 - [x] 14:32:15 Updated `docs/architecture/overview.md` (2 replacements)
 - [x] 14:32:18 Updated `CLAUDE.md` (1 replacement)
 
 ### Continuity Artifacts
-- [x] 14:32:22 Appended entry to `.workspace/progress/log.md`
+- [x] 14:32:22 Appended entry to `.harmony/continuity/log.md`
 ```
 
 ### Phase 5: Verify
@@ -158,7 +158,7 @@ Worked examples demonstrating the refactor skill.
 refactor: rename `.scratch/` to `.scratchpad/`
 
 - Updated 12 references across 6 files
-- Renamed directory `.workspace/.scratch/` → `.workspace/.scratchpad/`
+- Renamed directory `.harmony/ideation/scratchpad/` → `.harmony/ideation/scratchpad/`
 - Verification: all audit searches return zero results
 ```
 ```
@@ -281,7 +281,7 @@ Phases 1-4 complete normally. Phase 5 verification runs:
 **VERIFICATION:** FAILED
 
 **Remaining References:**
-- `.harmony/templates/example.md:15` — contains `old-name`
+- `.harmony/scaffolding/templates/example.md:15` — contains `old-name`
 - `tests/fixtures/data.json:42` — contains `old-name`
 ```
 
@@ -291,7 +291,7 @@ Phases 1-4 complete normally. Phase 5 verification runs:
 ## Execution Log (Continuation)
 
 ### Discovered Items
-- [x] 14:45:01 Updated `.harmony/templates/example.md` (1 replacement)
+- [x] 14:45:01 Updated `.harmony/scaffolding/templates/example.md` (1 replacement)
 - [x] 14:45:05 Updated `tests/fixtures/data.json` (1 replacement)
 
 Note: These files were not in original audit. Added during verification loop.
@@ -335,7 +335,7 @@ Found existing refactor in progress:
   Status: in_progress
   Phase: 4 (Execute)
   Progress: 7/13 items complete
-  Last completed: .workspace/START.md
+  Last completed: .harmony/START.md
 
 Resume from Phase 4? [Y/n]
 ```
@@ -354,16 +354,16 @@ Resuming refactor from Phase 4, item 8...
 ### Previously Completed (items 1-7)
 - [x] Physical changes
 - [x] package.json
-- [x] .workspace/START.md
+- [x] .harmony/START.md
 - [x] ... (4 more files)
 
 ### Resumed Execution (items 8-13)
 - [x] 15:20:01 Updated `docs/architecture/overview.md`
 - [x] 15:20:05 Updated `CLAUDE.md`
-- [x] 15:20:08 Updated `.harmony/workflows/promote.md`
+- [x] 15:20:08 Updated `.harmony/orchestration/workflows/promote.md`
 - [x] 15:20:11 Updated `tests/fixtures/config.yml`
-- [x] 15:20:14 Updated `.workspace/context/conventions.md`
-- [x] 15:20:18 Appended to `.workspace/progress/log.md`
+- [x] 15:20:14 Updated `.harmony/cognition/context/conventions.md`
+- [x] 15:20:18 Appended to `.harmony/continuity/log.md`
 
 All items complete. Proceeding to Phase 5 (Verify)...
 ```

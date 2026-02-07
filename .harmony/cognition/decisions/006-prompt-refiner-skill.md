@@ -29,7 +29,7 @@ Additionally, prompts executed without codebase context often miss existing patt
 
 ### 1. Create Prompt Refiner Skill
 
-Implement a 10-phase refinement pipeline in `.harmony/skills/prompt-refiner/`:
+Implement a 10-phase refinement pipeline in `.harmony/capabilities/skills/prompt-refiner/`:
 
 ```
 Phase 1:  Context Analysis      → Scan repo, identify scope, load constraints
@@ -88,10 +88,10 @@ Phase 10: Output                → Save refined prompt, optionally execute
 Following the skills architecture, the skill is defined once and symlinked:
 
 ```
-.harmony/skills/prompt-refiner/SKILL.md   ← Source of truth
-.claude/skills/prompt-refiner  → ../../.harmony/skills/prompt-refiner
-.cursor/skills/prompt-refiner  → ../../.harmony/skills/prompt-refiner
-.codex/skills/prompt-refiner   → ../../.harmony/skills/prompt-refiner
+.harmony/capabilities/skills/prompt-refiner/SKILL.md   ← Source of truth
+.claude/skills/prompt-refiner  → ../../.harmony/capabilities/skills/prompt-refiner
+.cursor/skills/prompt-refiner  → ../../.harmony/capabilities/skills/prompt-refiner
+.codex/skills/prompt-refiner   → ../../.harmony/capabilities/skills/prompt-refiner
 ```
 
 ## Rationale
@@ -164,19 +164,19 @@ The most common cause of wasted AI effort is misunderstanding intent. Confirming
 
 ### Created
 
-- `.harmony/skills/prompt-refiner/SKILL.md` — Full skill definition (v2.1.1)
-- `.harmony/skills/prompt-refiner/templates/` — Template directory (empty)
-- `.harmony/skills/prompt-refiner/reference/` — Reference directory (empty)
-- `.harmony/skills/prompt-refiner/scripts/` — Scripts directory (empty)
+- `.harmony/capabilities/skills/prompt-refiner/SKILL.md` — Full skill definition (v2.1.1)
+- `.harmony/capabilities/skills/prompt-refiner/templates/` — Template directory (empty)
+- `.harmony/capabilities/skills/prompt-refiner/reference/` — Reference directory (empty)
+- `.harmony/capabilities/skills/prompt-refiner/scripts/` — Scripts directory (empty)
 - `.claude/skills/prompt-refiner` — Symlink to skill
 - `.cursor/skills/prompt-refiner` — Symlink to skill
 - `.codex/skills/prompt-refiner` — Symlink to skill
 
 ### Updated
 
-- `.harmony/skills/registry.yml` — Added prompt-refiner entry
-- `.workspace/catalog.md` — Added skill to catalog table
-- `.workspace/context/decisions.md` — Added D021-D024 entries
+- `.harmony/capabilities/skills/registry.yml` — Added prompt-refiner entry
+- `.harmony/catalog.md` — Added skill to catalog table
+- `.harmony/cognition/context/decisions.md` — Added D021-D024 entries
 
 ## Related Decisions
 

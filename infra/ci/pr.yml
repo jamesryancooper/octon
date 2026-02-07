@@ -77,12 +77,12 @@ jobs:
         run: pip install tiktoken
 
       - name: Validate skills (manifest, registry, SKILL.md consistency)
-        run: .harmony/skills/scripts/validate-skills.sh --strict
+        run: .harmony/capabilities/skills/scripts/validate-skills.sh --strict
 
       - name: Check documentation examples match implementation
         run: |
           # Verify that SKILL.md name fields match directory names
-          for skill_dir in .harmony/skills/*/; do
+          for skill_dir in .harmony/capabilities/skills/*/; do
             skill_name=$(basename "$skill_dir")
             if [[ "$skill_name" == "_template" ]] || [[ "$skill_name" == "scripts" ]]; then
               continue

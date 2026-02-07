@@ -13,7 +13,7 @@ Quick-start a new agent session in a `.workspace`-enabled directory.
 ## Instructions
 
 1. **Locate workspace**
-   - Check for `.workspace/` in current directory
+   - Check for `.harmony/` in current directory
    - If not found, check parent directories
    - If none exists, suggest `/create-workspace`
 

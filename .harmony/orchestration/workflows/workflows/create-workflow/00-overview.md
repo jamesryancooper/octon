@@ -6,7 +6,7 @@ version: "1.0.0"
 depends_on: []
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps:
   - group: "requirements-gathering"
     steps: ["02-analyze-requirements", "03-select-template"]
@@ -34,14 +34,14 @@ Scaffold a new workflow directory with numbered step files, incorporating all ga
 
 ## Target
 
-- `.harmony/workflows/<domain>/<workflow-id>/` for shared workflows
-- `.workspace/workflows/<workflow-id>/` for project-specific workflows (with `--local`)
+- `.harmony/orchestration/workflows/<domain>/<workflow-id>/` for shared workflows
+- `.harmony/orchestration/workflows/<workflow-id>/` for project-specific workflows (with `--local`)
 
 ## Prerequisites
 
 - Workflow ID must be lowercase with hyphens (e.g., `code-review`)
 - No existing workflow with the same ID in target location
-- Template directory exists at `.harmony/workflows/_template/`
+- Template directory exists at `.harmony/orchestration/workflows/_template/`
 
 ## Failure Conditions
 
@@ -73,7 +73,7 @@ Create Workflow is NOT complete until:
 ## Output
 
 ```text
-.harmony/workflows/<domain>/<workflow-id>/
+.harmony/orchestration/workflows/<domain>/<workflow-id>/
 ├── 00-overview.md       # Complete with frontmatter + gap fields
 ├── 01-<step-name>.md    # First step with idempotency section
 ├── 02-<step-name>.md    # Second step
@@ -89,7 +89,7 @@ Create Workflow is NOT complete until:
 
 ## References
 
-- **Template:** `.harmony/workflows/_template/`
-- **Gap fixes guide:** `.harmony/context/workflow-gaps.md`
-- **Quality criteria:** `.harmony/context/workflow-quality.md`
-- **Existing examples:** `.harmony/workflows/refactor/`, `.harmony/workflows/skills/create-skill/`
+- **Template:** `.harmony/orchestration/workflows/_template/`
+- **Gap fixes guide:** `.harmony/cognition/context/workflow-gaps.md`
+- **Quality criteria:** `.harmony/cognition/context/workflow-quality.md`
+- **Existing examples:** `.harmony/orchestration/workflows/refactor/`, `.harmony/orchestration/workflows/skills/create-skill/`

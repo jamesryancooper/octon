@@ -63,26 +63,26 @@ Introduce a **two-layer architecture** with a shared `.harmony/` foundation:
 
 To separate skill definitions from project-specific configuration:
 
-- **`.harmony/skills/registry.yml`**: Skill definitions (id, name, commands, triggers) without paths
-- **`.workspace/skills/registry.yml`**: Project-specific input/output mappings, extends harmony registry
+- **`.harmony/capabilities/skills/registry.yml`**: Skill definitions (id, name, commands, triggers) without paths
+- **`.harmony/capabilities/skills/registry.yml`**: Project-specific input/output mappings, extends harmony registry
 
 ## Harness Integration
 
-Symlinks updated to point to `.harmony/skills/`:
+Symlinks updated to point to `.harmony/capabilities/skills/`:
 
 ```
-.claude/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
-.codex/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
-.cursor/skills/synthesize-research -> ../../.harmony/skills/synthesize-research
+.claude/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
+.codex/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
+.cursor/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
 ```
 
 Cursor commands updated to reference `.harmony/` for shared workflows:
 
 | Command | Delegates To |
 |---------|--------------|
-| `/create-workspace` | `.harmony/workflows/workspace/create-workspace/` |
-| `/bootstrap` | `.harmony/prompts/bootstrap-session.md` |
-| `/synthesize-research` | `.harmony/skills/synthesize-research/` |
+| `/create-workspace` | `.harmony/orchestration/workflows/workspace/create-workspace/` |
+| `/bootstrap` | `.harmony/scaffolding/prompts/bootstrap-session.md` |
+| `/synthesize-research` | `.harmony/capabilities/skills/synthesize-research/` |
 
 ## Consequences
 
@@ -101,9 +101,9 @@ Cursor commands updated to reference `.harmony/` for shared workflows:
 
 ## Files Changed
 
-- `CLAUDE.md` - Updated to reference `.harmony/skills/`
+- `CLAUDE.md` - Updated to reference `.harmony/capabilities/skills/`
 - `.cursor/commands/*.md` (12 files) - Updated paths
 - `.cursor/rules/*.md` (3 files) - Updated globs and template paths
-- `.workspace/START.md` - Added inheritance section
+- `.harmony/START.md` - Added inheritance section
 - `docs/architecture/workspaces/README.md` - Added two-layer architecture docs
-- `.harmony/skills/scripts/setup-harness-links.sh` - Updated to check both locations
+- `.harmony/capabilities/skills/scripts/setup-harness-links.sh` - Updated to check both locations

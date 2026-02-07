@@ -16,9 +16,9 @@ Terms used consistently throughout workspace documentation. Use these terms exac
 | Cold start | First session without prior context from `progress/`. |
 | Token budget | Maximum tokens for agent-facing content (~2,000 target, ~5,000 max). |
 | Cursor command | User entry point in `.cursor/commands/`, triggered by `/command-name`. |
-| Workspace command | Atomic operation in `.workspace/commands/`. |
-| Workspace workflow | Multi-step procedure in `.workspace/workflows/`. |
-| Prompt | Task template in `.workspace/prompts/` requiring judgment. |
+| Workspace command | Atomic operation in `.harmony/capabilities/commands/`. |
+| Workspace workflow | Multi-step procedure in `.harmony/orchestration/workflows/`. |
+| Prompt | Task template in `.harmony/scaffolding/prompts/` requiring judgment. |
 | Agent-ignored | Dot-prefixed directories that agents MUST NOT access autonomously. |
 | Human-led | Directories (`projects/`, `.scratchpad/`) agents may access only when human explicitly directs to specific files. |
 | Scratchpad | Human-led zone (`.scratchpad/`) for ephemeral content and the early-stage idea funnel. Subdirectories: `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`. |

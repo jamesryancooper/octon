@@ -33,7 +33,7 @@ Select the appropriate template variant based on workflow characteristics.
 
 3. **Select template:**
    ```text
-   All workflows use base template: .harmony/workflows/_template/
+   All workflows use base template: .harmony/orchestration/workflows/_template/
 
    Customize based on pattern:
    - Assessment: Emphasize read-only, report generation
@@ -74,7 +74,7 @@ Select the appropriate template variant based on workflow characteristics.
 
 ```json
 {
-  "base_template": ".harmony/workflows/_template/",
+  "base_template": ".harmony/orchestration/workflows/_template/",
   "complexity": "standard",
   "pattern": "transformation",
   "parallel_groups": [

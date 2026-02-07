@@ -302,5 +302,5 @@ graph TB
 - [Dot-Prefixed Directories](./dot-files.md) — Autonomy rules for human-led directories
 - [README.md](./README.md) — Canonical workspace structure
 - [Missions](./missions.md) — Agent-facing sub-projects
-- `.workspace/.scratchpad/README.md` — In-workspace documentation
-- `.workspace/.scratchpad/brainstorm/README.md` — Brainstorm template
+- `.harmony/ideation/scratchpad/README.md` — In-workspace documentation
+- `.harmony/ideation/scratchpad/brainstorm/README.md` — Brainstorm template

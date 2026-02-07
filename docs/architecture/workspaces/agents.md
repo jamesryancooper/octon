@@ -225,7 +225,7 @@ Agents command missions by:
 ## Directory Structure
 
 ```text
-.harmony/agents/                # Shared agent definitions
+.harmony/agency/agents/                # Shared agent definitions
 ├── README.md                   # Overview and quick reference
 ├── registry.yml                # Agent index and capabilities
 ├── _template/                  # Template for new agents
@@ -237,7 +237,7 @@ Agents command missions by:
 └── verifier/
     └── agent.md                # Verifier specification
 
-.workspace/agents/              # Workspace-specific agents
+.harmony/agency/agents/              # Workspace-specific agents
 ├── README.md                   # Workspace agent extensions
 ├── registry.yml                # Extends shared registry
 └── <custom-agent>/             # Project-specific agents
@@ -374,7 +374,7 @@ Agents **command** missions. A mission is a durable, multi-session orchestration
 
 ```yaml
 # Mission assigned to planner agent
-# .workspace/missions/auth-migration/mission.yml
+# .harmony/orchestration/missions/auth-migration/mission.yml
 
 name: auth-migration
 goal: "Migrate from session-based to JWT authentication"
@@ -472,8 +472,8 @@ Agents **delegate** to assistants when focused, specialized work is needed.
 
 | Location | Scope | Purpose |
 |----------|-------|---------|
-| `.harmony/agents/` | Shared across workspaces | Portable agent definitions |
-| `.workspace/agents/` | Workspace-specific | Override or extend shared agents |
+| `.harmony/agency/agents/` | Shared across workspaces | Portable agent definitions |
+| `.harmony/agency/agents/` | Workspace-specific | Override or extend shared agents |
 
 **Workspace agents can:**
 
@@ -509,5 +509,5 @@ Is the work...
 - [Missions](./missions.md) — Durable orchestration units commanded by agents
 - [Skills](./skills/README.md) — Composable capabilities used by agents and assistants
 - [Taxonomy](./taxonomy.md) — Classification of all workspace artifacts
-- `.harmony/agents/` — Shared agent definitions
-- `.harmony/context/primitives.md` — All Harmony primitives
+- `.harmony/agency/agents/` — Shared agent definitions
+- `.harmony/cognition/context/primitives.md` — All Harmony primitives

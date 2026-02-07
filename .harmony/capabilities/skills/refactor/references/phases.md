@@ -164,8 +164,8 @@ Exhaustively search for ALL references before making changes.
    ## Audit Results
 
    ### Pattern: `old-name`
-   - `.workspace/START.md` (3 matches)
-   - `.harmony/workflows/example.md` (1 match)
+   - `.harmony/START.md` (3 matches)
+   - `.harmony/orchestration/workflows/example.md` (1 match)
 
    ### Pattern: `/old-name/`
    - `.cursor/commands/command.md` (1 match)
@@ -185,8 +185,8 @@ Exhaustively search for ALL references before making changes.
 
    | File | Match Count | Patterns Found |
    |------|-------------|----------------|
-   | `.workspace/START.md` | 4 | `old-name`, `/old-name/` |
-   | `.harmony/workflows/example.md` | 1 | `old-name` |
+   | `.harmony/START.md` | 4 | `old-name`, `/old-name/` |
+   | `.harmony/orchestration/workflows/example.md` | 1 | `old-name` |
 
    **Total files:** 3
    **Total matches:** 6
@@ -243,14 +243,14 @@ Transform audit results into an actionable change manifest.
    **Total changes:** 47
 
    ### Phase 1: Physical Changes (do first)
-   - [ ] Rename `.workspace/.scratch/` → `.workspace/.scratchpad/`
+   - [ ] Rename `.workspace/.scratch/` → `.harmony/ideation/scratchpad/`
 
    ### Phase 2: Config Files
    - [ ] `package.json` (1 change)
 
    ### Phase 3: Documentation & Code
-   - [ ] `.workspace/START.md` (4 changes)
-   - [ ] `.harmony/workflows/example.md` (3 changes)
+   - [ ] `.harmony/START.md` (4 changes)
+   - [ ] `.harmony/orchestration/workflows/example.md` (3 changes)
 
    ### Phase 4: Continuity Artifacts (APPEND ONLY)
    - [ ] `progress/log.md` — Add entry (DO NOT MODIFY EXISTING)
@@ -332,7 +332,7 @@ Make all planned changes systematically.
    **Session focus:** Refactor `.scratch/` to `.scratchpad/`
 
    **Completed:**
-   - Renamed `.workspace/.scratch/` to `.workspace/.scratchpad/`
+   - Renamed `.workspace/.scratch/` to `.harmony/ideation/scratchpad/`
    - Updated 47 references across 12 files
    - Verification: PASSED
 
@@ -373,7 +373,7 @@ phases:
     progress:
       total_items: 13
       completed_items: 7
-      current_item: ".harmony/workflows/example.md"
+      current_item: ".harmony/orchestration/workflows/example.md"
 ```
 
 ---
@@ -522,7 +522,7 @@ Record the completed refactor and formally close.
    refactor: rename `.scratch/` to `.scratchpad/`
 
    - Updated 47 references across 12 files
-   - Renamed directory `.workspace/.scratch/` → `.workspace/.scratchpad/`
+   - Renamed directory `.workspace/.scratch/` → `.harmony/ideation/scratchpad/`
    - Verification: all audit searches return zero results
    ```
 

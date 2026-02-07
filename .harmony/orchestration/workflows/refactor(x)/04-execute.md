@@ -9,7 +9,7 @@ Make all planned changes systematically, tracking progress against the manifest.
 1. Execute Phase 1 (Physical Changes):
    ```bash
    # Rename directories
-   mv .workspace/.scratch .workspace/.scratchpad
+   mv .harmony/ideation/scratchpad .harmony/ideation/scratchpadpad
 
    # Move files
    mv old/path/file.md new/path/file.md
@@ -44,7 +44,7 @@ Make all planned changes systematically, tracking progress against the manifest.
    **Session focus:** Refactor `.scratch/` to `.scratchpad/`
 
    **Completed:**
-   - Renamed `.workspace/.scratch/` to `.workspace/.scratchpad/`
+   - Renamed `.harmony/ideation/scratchpad/` to `.harmony/ideation/scratchpad/`
    - Updated 47 references across 12 files
    - [list key files changed]
 

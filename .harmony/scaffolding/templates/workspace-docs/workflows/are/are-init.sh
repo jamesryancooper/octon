@@ -9,7 +9,7 @@
 # the documentation set you want to improve (e.g., docs/harmony/ai/methodology/).
 #
 # Generated artifacts will be placed in: <target-directory>/.workspace/.are/
-# ARE prompts are located centrally in: .workspace/workflows/are/
+# ARE prompts are located centrally in: .harmony/orchestration/workflows/are/
 
 set -e
 
@@ -138,7 +138,7 @@ TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 # This helps agents find the central ARE prompts
 REPO_ROOT="$(git -C "$TARGET_DIR" rev-parse --show-toplevel 2>/dev/null)" || REPO_ROOT=""
 if [ -n "$REPO_ROOT" ]; then
-    ARE_PROMPTS_PATH=".workspace/workflows/are"
+    ARE_PROMPTS_PATH=".harmony/orchestration/workflows/are"
 else
     ARE_PROMPTS_PATH="$SCRIPT_DIR"
 fi

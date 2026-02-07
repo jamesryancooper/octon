@@ -50,8 +50,8 @@ Triggers are matched against the `triggers` field in the manifest.
 When a user invokes a skill, the system follows these steps:
 
 1. **Resolve workspace** — Determine active workspace (see below)
-2. **Read shared manifest** — Load `.harmony/skills/manifest.yml` for skill index
-3. **Read workspace manifest** — Load active workspace's `.workspace/skills/manifest.yml`
+2. **Read shared manifest** — Load `.harmony/capabilities/skills/manifest.yml` for skill index
+3. **Read workspace manifest** — Load active workspace's `.harmony/capabilities/skills/manifest.yml`
 4. **Check explicit command** — If `/skill-name`, route directly
 5. **Check explicit pattern** — If `use skill: <name>`, route directly
 6. **Match triggers** — Compare input against registered triggers in manifest
@@ -147,10 +147,10 @@ Without an explicit flag, the workspace is determined automatically:
 
 | Aspect               | How Workspace Context Applies                                                         |
 |----------------------|---------------------------------------------------------------------------------------|
-| **Registry loading** | Loads the active workspace's `.workspace/skills/registry.yml`                         |
+| **Registry loading** | Loads the active workspace's `.harmony/capabilities/skills/registry.yml`                         |
 | **Output paths**     | Validates paths against workspace's hierarchical scope                                |
 | **Write permissions**| Can write down (descendants), not up (ancestors), or sideways (siblings)              |
-| **Run logs**         | Written to active workspace's `.workspace/skills/logs/{{skill-id}}/{{run-id}}.md`     |
+| **Run logs**         | Written to active workspace's `.harmony/capabilities/skills/logs/{{skill-id}}/{{run-id}}.md`     |
 
 See [Workspace Resolution](./workspace-resolution.md) for the complete resolution algorithm.
 
@@ -198,13 +198,13 @@ Agent: [Matches "refine my prompt" trigger → routes to refine-prompt skill]
 
 Skills are discovered from manifest files (Tier 1):
 
-- `.harmony/skills/manifest.yml` — Shared skill index
-- `.workspace/skills/manifest.yml` — Workspace-specific skills
+- `.harmony/capabilities/skills/manifest.yml` — Shared skill index
+- `.harmony/capabilities/skills/manifest.yml` — Workspace-specific skills
 
 Extended metadata is loaded from registry files after matching:
 
-- `.harmony/skills/registry.yml` — Commands, requires, depends_on
-- `.workspace/skills/registry.yml` — I/O mappings, pipelines
+- `.harmony/capabilities/skills/registry.yml` — Commands, requires, depends_on
+- `.harmony/capabilities/skills/registry.yml` — I/O mappings, pipelines
 
 ### Skill Information
 

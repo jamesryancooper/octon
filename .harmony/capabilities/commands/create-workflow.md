@@ -29,12 +29,12 @@ Scaffold a new workflow directory with numbered step files, incorporating all ga
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `workflow-id` | Kebab-case workflow identifier (e.g., `code-review`) | Required |
-| `--domain` | Subdirectory under `.harmony/workflows/` | Prompts user |
-| `--local` | Create in `.workspace/workflows/` instead of `.harmony/` | false |
+| `--domain` | Subdirectory under `.harmony/orchestration/workflows/` | Prompts user |
+| `--local` | Create in `.harmony/orchestration/workflows/` instead of `.harmony/` | false |
 
 ## Implementation
 
-Execute the workflow in `.harmony/workflows/workflows/create-workflow/`.
+Execute the workflow in `.harmony/orchestration/workflows/workflows/create-workflow/`.
 
 Start with `00-overview.md`, then follow each step in sequence:
 
@@ -58,13 +58,13 @@ New workflow directory with:
 ## Key Features
 
 - **Gap-Aware:** All generated workflows include gap remediation features
-- **Template-Based:** Uses `.harmony/workflows/_template/` for consistency
+- **Template-Based:** Uses `.harmony/orchestration/workflows/_template/` for consistency
 - **Guided:** Prompts for requirements if not provided
 - **Verified:** Final step validates structure and content
 
 ## References
 
-- **Workflow:** `.harmony/workflows/workflows/create-workflow/`
-- **Template:** `.harmony/workflows/_template/`
-- **Gap Guide:** `.harmony/context/workflow-gaps.md`
-- **Quality Criteria:** `.harmony/context/workflow-quality.md`
+- **Workflow:** `.harmony/orchestration/workflows/workflows/create-workflow/`
+- **Template:** `.harmony/orchestration/workflows/_template/`
+- **Gap Guide:** `.harmony/cognition/context/workflow-gaps.md`
+- **Quality Criteria:** `.harmony/cognition/context/workflow-quality.md`

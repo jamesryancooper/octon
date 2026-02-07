@@ -1,7 +1,7 @@
 # Harmony Root Manifest
 # Single source of truth for portability, autonomy, and resolution rules.
 #
-# This file replaces the two-root convention (.harmony/ + .workspace/)
+# This file replaces the two-root convention (.harmony/ + .harmony/)
 # with metadata-driven portability. See ADR 010 for rationale.
 
 schema_version: "1.0"

@@ -161,13 +161,13 @@ Add checkpoint configuration to frontmatter:
 ```yaml
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 ```
 
 Checkpoint storage structure:
 
 ```
-.workspace/progress/checkpoints/
+.harmony/continuity/checkpoints/
 ├── <workflow-id>/
 │   ├── state.json           # Current step, branch, variables
 │   ├── 01-step.complete     # Marker per completed step
@@ -185,7 +185,7 @@ State schema:
   "branch": "parallel",
   "variables": {
     "workflow_id": "my-workflow",
-    "target_path": ".harmony/workflows/my-workflow/"
+    "target_path": ".harmony/orchestration/workflows/my-workflow/"
   },
   "completed_steps": ["01-validate", "02-analyze"]
 }
@@ -319,7 +319,7 @@ version: "1.0.0"
 depends_on: []
 checkpoints:
   enabled: true
-  storage: ".workspace/progress/checkpoints/"
+  storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 ---
 ```

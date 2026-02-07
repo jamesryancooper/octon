@@ -5,7 +5,7 @@ description: Human-led explorations that produce workspace artifacts.
 
 # Projects
 
-Projects are **human-led explorations** that live in `.workspace/projects/`. They provide isolated scope, memory, and continuity for structured research spanning multiple sessions — and produce artifacts that feed the main workspace.
+Projects are **human-led explorations** that live in `.harmony/ideation/projects/`. They provide isolated scope, memory, and continuity for structured research spanning multiple sessions — and produce artifacts that feed the main workspace.
 
 ---
 
@@ -92,7 +92,7 @@ stateDiagram-v2
 ## Directory Structure
 
 ```text
-.workspace/projects/
+.harmony/ideation/projects/
 ├── README.md              # Purpose and rules
 ├── registry.md            # Index of all projects by status
 ├── _template/             # Template for new projects
@@ -449,4 +449,4 @@ Evaluate authentication library options for the new user service.
 - [Missions](./missions.md) — Execution workstreams (downstream)
 - [Dot-Prefixed Directories](./dot-files.md) — Autonomy rules
 - [README.md](./README.md) — Canonical workspace structure
-- `.workspace/projects/README.md` — In-workspace documentation
+- `.harmony/ideation/projects/README.md` — In-workspace documentation
