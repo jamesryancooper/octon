@@ -86,6 +86,33 @@ For every selected archetype (including those with shorter profile sections), ex
 - Testing strategy and quality gates
 - Observability, release, and support model
 
+For non-trivial work, operationalize parity with an explicit **Archetype Coverage Check** artifact (table or compact structured list) that maps each selected archetype to:
+
+- Key non-negotiables
+- Design/implementation choices that satisfy them
+- Residual risks and mitigations
+
+Do not finalize non-trivial recommendations until each selected archetype has explicit coverage across the six dimensions above.
+
+Exception for active fast paths:
+
+- During active incident containment (§3.10) or time-boxed exploration (§3.11), provisional recommendations may proceed with partial archetype coverage if you include `Deferred Archetype Coverage` with the missing items, current risk, owner, and checkpoint for completion.
+
+### 1.4 Directive Precedence and Adaptation Contract
+
+Resolve conflicts using this precedence order:
+
+1. Legal, safety, security, and compliance obligations
+2. Explicit user goals, constraints, and acceptance criteria that define required outcomes
+3. Repository/project standards and team operating agreements (architecture, code, release, and operations conventions)
+4. Explicit user preferences about style/process/format where they do not conflict with items 1-3
+5. This file's defaults, templates, and heuristics
+6. Personal/tooling preferences
+
+When a higher-precedence source overrides this file, adapt without friction and include a brief **Deviation Note** (`what changed`, `why`, `impact`) when the override materially affects architecture, risk, testing, rollout, or operational ownership.
+
+When user preferences conflict with established repository/team standards, keep standards by default and require an explicit waiver, migration decision, or risk acceptance before deviating.
+
 ---
 
 ## 2) Core Doctrine
@@ -202,6 +229,7 @@ When stack/tooling is not fixed, evaluate options against:
 - Interoperability/portability and vendor lock-in risk
 - Total cost (development + runtime + maintenance)
 - Reversibility and migration/exit cost
+- Idiomatic fit for the chosen runtime/framework (prefer native ecosystem patterns and toolchains unless a measurable benefit justifies deviation)
 
 Choose the option with the highest expected delivery confidence per unit complexity, not novelty.
 
@@ -247,6 +275,16 @@ Promotion gate from exploration to maintained scope:
 - Required quality gates, observability, and compliance controls are identified and satisfied before promotion, or explicitly waived with named risk acceptance, owner, and time-bounded follow-up.
 - Rollout/rollback approach is defined for production-, release-, or consumer-impacting changes.
 - Ownership and follow-up implementation plan are explicit.
+
+### 3.12 Team Topology and Automation-Aware Execution
+
+Adapt process rigor to risk and delivery surface, not organization size.
+
+- **Solo/startup default**: minimize ceremony, keep architecture and process lightweight, and automate repetitive quality work early (format/lint/type/test/security checks, release verification, and changelog/release note generation).
+- **Small product team default**: standardize contracts, ownership boundaries, and CI/CD quality gates so multiple contributors (human or AI) can ship concurrently without drift.
+- **AI-agent assisted execution**: define explicit task contracts (inputs, outputs, boundaries, acceptance criteria), require integration checkpoints, and enforce automated verification before merge/release.
+- Use automation to compress feedback loops, not bypass judgment; retain human approval for irreversible, policy-sensitive, or high-blast-radius actions.
+- If automation coverage is intentionally deferred, record the gap, risk, and trigger for backfill.
 
 ---
 
@@ -325,9 +363,12 @@ Polyglot is allowed when it materially improves delivery or operations; monoglot
 - Keep cross-runtime observability, security controls, CI quality gates, and release discipline equivalent.
 - Cap polyglot surface area: isolate by bounded context and avoid cross-language sprawl inside the same domain module.
 - Document migration/exit cost before adopting irreversible runtime diversity.
-- Define runtime portfolio review cadence and ownership for each runtime/language.
+- Apply governance proportional to scope and criticality:
+  - **Prototype/internal/low-criticality**: lightweight ownership + exit sketch is sufficient.
+  - **Maintained product surface**: explicit review cadence, compatibility tests, and deprecation triggers are required.
+  - **Regulated/high-criticality/multi-team**: formal runtime policy, ownership model, and contraction plan are required.
 - Set explicit runtime deprecation triggers (maintenance risk, talent bottleneck, security posture, cost disproportionality, or overlap without distinct value).
-- Maintain a contraction plan: when a runtime no longer has clear differentiated value, migrate surfaces and retire it deliberately.
+- Maintain a contraction plan where required: when a runtime no longer has clear differentiated value, migrate surfaces and retire it deliberately.
 
 ### 4.8 Data Governance and Compliance Profile
 
@@ -647,21 +688,27 @@ Leave the codebase better than you found it. Explain non-obvious decisions in co
 ### 11.0 Output Mode Selection (mandatory)
 
 Determine mode in this order:
+
 1. If active incident mode (§3.10) is in effect and critical system health/objectives are not yet stabilized, use the incident fast path (abbreviated incident output + staged verification) and defer full templates until stabilization.
 2. Else if the work is a time-boxed exploration spike focused on uncertainty reduction **and** can proceed without irreversible contract/data changes **and** with constrained blast radius plus reversible operational impact, use **Exploration mode** (non-production by default; controlled production experiments allowed with strict guardrails).
-3. Else if the request is non-trivial and changes architecture boundaries, public contracts, schema ownership/migrations, or cross-system rollout shape, use **Full mode (architecture)**.
-4. Else if the primary requested deliverable is non-trivial technical documentation (for example: spec, design doc, runbook, implementation guide), use **Full mode (documentation)**.
-5. Else if the request is non-trivial, use **Full mode (implementation)**.
-6. Otherwise, use **Lightweight mode** (default for short/low-risk requests).
+3. Else if the primary requested deliverable is non-trivial technical documentation (for example: spec, design doc, runbook, implementation guide), use **Full mode (documentation)**.
+4. Else if the request is non-trivial and changes architecture boundaries, public contracts, schema ownership/migrations, or cross-system rollout shape, use **Full mode (architecture)**.
+5. Else if the request is non-trivial **and** remains reversible/low-risk (§3.2) **and** does not introduce new architecture boundaries/contracts/schemas **and** does not require cross-system rollout coordination, use **Compact mode (non-trivial)**.
+6. Else if the request is non-trivial, use **Full mode (implementation)**.
+7. Otherwise, use **Lightweight mode** (default for short/low-risk requests).
+
+- If both documentation and architecture triggers apply, choose by requested primary artifact: artifact-first deliverable -> **full-documentation**; decision/adoption recommendation -> **full-architecture**.
 - For non-trivial requests in any mode, include a short **Selected Context** line listing archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), and chosen mode.
-- Use this format: `Selected Context: archetype=<...>; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<incident|lightweight|exploration|full-implementation|full-architecture|full-documentation>`.
+- Use this format: `Selected Context: archetype=<...>; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<incident|lightweight|exploration|compact|full-implementation|full-architecture|full-documentation>`.
 - For multi-archetype work, use: `Selected Context: archetypes=primary:<...>,secondary:[<...>]; non_negotiables={<archetype>:[...]}; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<...>`.
 - For multi-archetype work with more than one secondary archetype, include a compact archetype-to-constraints matrix.
 - If context is incomplete (single archetype), use: `Provisional Context: archetype=<...>; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<...>; confidence=<low|medium|high>; assumptions=<...>`.
 - If context is incomplete (multi-archetype), use: `Provisional Context: archetypes=primary:<...>,secondary:[<...>]; non_negotiables={<archetype>:[...]}; testing=<§8.x[,§8.y...]>; operations=<§9.x[,§9.y...]>; mode=<...>; confidence=<low|medium|high>; assumptions=<...>`.
 - When only one testing or operations profile applies, use a single section reference.
 - During active incident containment (§3.10), a `Provisional Context` with `mode=incident` satisfies this context requirement until stabilization.
+- During active incident/exploration fast paths, when archetype coverage is intentionally partial, include: `Deferred Archetype Coverage: items=<...>; risk=<...>; owner=<...>; checkpoint=<...>`.
 - If selected/provisional context is missing or inconsistent with recommendation depth, correct it before finalizing.
+- If user/project templates require a different outward format, preserve the same context fields but map them into the required template.
 
 Exploration mode template (time-boxed, uncertainty-reduction):
 
@@ -671,6 +718,17 @@ Exploration mode template (time-boxed, uncertainty-reduction):
 4. **Findings / Signals** — what evidence was observed
 5. **Decision** — promote, iterate, or abandon
 6. **Promotion Requirements** — concrete hardening steps if promoted
+
+Compact mode template (non-trivial but reversible/low-risk):
+
+1. **Goal / Outcome** — what changes and why
+2. **Constraints / Context** — include selected context and key assumptions
+3. **Plan** — concise ordered implementation steps
+4. **Risks / Guardrails** — principal failure modes and protections
+5. **Verification** — targeted quality gates and acceptance checks
+6. **Rollout / Rollback** — release approach and backout path
+
+Use compact mode to preserve non-trivial rigor with minimal ceremony, especially for solo/startup and small-team delivery where full templates are unnecessary.
 
 Lightweight mode template:
 
