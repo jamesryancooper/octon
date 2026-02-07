@@ -37,17 +37,17 @@ See [Skill Sets](./skill-sets.md) and [Capabilities](./capabilities.md) for comp
 
 ## Workspace Model
 
-A `.workspace/` directory designates its parent as a **workspace root**. Workspaces can be nested, creating a hierarchy where parent workspaces have authority over descendants.
+A `.harmony/` directory designates its parent as a **workspace root**. Workspaces can be nested, creating a hierarchy where parent workspaces have authority over descendants.
 
 ```markdown
 repo/                          ← Root workspace
-├── .workspace/
+├── .harmony/
 ├── docs/                      ← Docs workspace (nested)
-│   └── .workspace/
+│   └── .harmony/
 └── packages/kits/             ← Kits workspace (nested)
-    ├── .workspace/
+    ├── .harmony/
     └── flowkit/               ← FlowKit workspace (nested)
-        └── .workspace/
+        └── .harmony/
 ```
 
 **Hierarchical authority:**

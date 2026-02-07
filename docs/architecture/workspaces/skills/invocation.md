@@ -114,8 +114,8 @@ Skills execute within a workspace context that determines their scope and permis
 | Priority |         Method          |                  Example                         |
 |----------|-------------------------|--------------------------------------------------|
 |    1     | Explicit `--workspace`  | `/skill --workspace=path/to/ws "input"`          |
-|    2     | Input path              | Nearest `.workspace/` ancestor of input files    |
-|    3     | Current directory       | Nearest `.workspace/` ancestor of CWD            |
+|    2     | Input path              | Nearest `.harmony/` ancestor of input files    |
+|    3     | Current directory       | Nearest `.harmony/` ancestor of CWD            |
 
 ### Workspace Flag
 
@@ -136,11 +136,11 @@ Without an explicit flag, the workspace is determined automatically:
 ```bash
 # CWD: /repo/packages/kits/flowkit/src/
 /refine-prompt "add caching"
-# → Resolves to flowkit workspace (nearest .workspace/ from CWD)
+# → Resolves to flowkit workspace (nearest .harmony/ from CWD)
 
 # Input-based resolution
 /synthesize-research packages/kits/flowkit/notes/
-# → Resolves to flowkit workspace (nearest .workspace/ from input path)
+# → Resolves to flowkit workspace (nearest .harmony/ from input path)
 ```
 
 ### Workspace Context Affects

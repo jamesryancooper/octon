@@ -43,7 +43,7 @@ Workspace workflows are designed to be **portable across all AI harnesses**—Cu
 | **Workflows are the source of truth** | All execution logic lives in `.harmony/orchestration/workflows/` |
 | **Harness entry points are thin wrappers** | `.cursor/commands/`, `.claude/commands/`, etc. only provide syntax and delegation |
 | **No harness-specific logic in workflows** | Workflows should work identically regardless of invoking harness |
-| **Workspace is portable** | Copy a `.workspace/` to any repo, and it works with any harness |
+| **Workspace is portable** | Copy a `.harmony/` to any repo, and it works with any harness |
 
 ### Implementing the Pattern
 
@@ -162,7 +162,7 @@ The workspace management commands demonstrate the **Cursor Command → Workflow*
 
 | Cursor Command | Delegates To | Purpose |
 |----------------|--------------|---------|
-| `/create-workspace` | `.harmony/orchestration/workflows/workspace/create-workspace/` | Scaffold a new `.workspace` directory |
+| `/create-workspace` | `.harmony/orchestration/workflows/workspace/create-workspace/` | Scaffold a new `.harmony` directory |
 | `/update-workspace` | `.harmony/orchestration/workflows/workspace/update-workspace/` | Align with canonical definition |
 | `/evaluate-workspace` | `.harmony/orchestration/workflows/workspace/evaluate-workspace/` | Assess token efficiency |
 
@@ -187,25 +187,25 @@ Each workflow subdirectory contains numbered step files for the agent to follow 
 **Update an existing workspace:**
 
 ```text
-/update-workspace @path/to/.workspace
+/update-workspace @path/to/.harmony
 ```
 
 Or for the root workspace:
 
 ```text
-/update-workspace @.workspace
+/update-workspace @.harmony
 ```
 
 **Evaluate a workspace (read-only):**
 
 ```text
-/evaluate-workspace @.workspace
+/evaluate-workspace @.harmony
 ```
 
 Or for a nested workspace:
 
 ```text
-/evaluate-workspace @docs/my-feature/.workspace
+/evaluate-workspace @docs/my-feature/.harmony
 ```
 
 > **Note:** Workspace management uses the **Harness Entry Point → Workflow** pattern. The workflow is the source of truth; harness-specific commands (`.cursor/commands/`, `.claude/commands/`, etc.) are thin wrappers that provide IDE integration.

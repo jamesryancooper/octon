@@ -12,8 +12,8 @@ When a skill is invoked, the system must determine which workspace context to us
 ```markdown
 RESOLVE_WORKSPACE(cwd, input_paths, explicit_workspace):
   1. If explicit_workspace provided → use it
-  2. Else if input_paths provided → find nearest .workspace/ ancestor of first input
-  3. Else → find nearest .workspace/ ancestor of cwd
+  2. Else if input_paths provided → find nearest .harmony/ ancestor of first input
+  3. Else → find nearest .harmony/ ancestor of cwd
   4. If none found → error: "No workspace context"
 ```
 
@@ -22,18 +22,18 @@ RESOLVE_WORKSPACE(cwd, input_paths, explicit_workspace):
 | Priority | Method | Description |
 |----------|--------|-------------|
 | 1 | Explicit flag | `--workspace=path/to/ws` overrides all |
-| 2 | Input path | Nearest `.workspace/` ancestor of input files |
-| 3 | Current directory | Nearest `.workspace/` ancestor of CWD |
+| 2 | Input path | Nearest `.harmony/` ancestor of input files |
+| 3 | Current directory | Nearest `.harmony/` ancestor of CWD |
 
 ## Finding the Nearest Workspace
 
-Walk up from the starting directory until a `.workspace/` is found:
+Walk up from the starting directory until a `.harmony/` is found:
 
 ```markdown
 Starting: /repo/packages/kits/flowkit/src/
-         ↑ check for .workspace/ → not found
+         ↑ check for .harmony/ → not found
          /repo/packages/kits/flowkit/
-         ↑ check for .workspace/ → FOUND
+         ↑ check for .harmony/ → FOUND
 
 Active workspace: flowkit
 Workspace root: /repo/packages/kits/flowkit/
@@ -77,8 +77,8 @@ Agent harnesses should:
 
 ## No Workspace Found
 
-If no `.workspace/` is found walking up from the starting point:
+If no `.harmony/` is found walking up from the starting point:
 
 - **Error state** — Skills requiring workspace context cannot execute
 - **Fallback** — Some read-only operations may proceed without workspace context
-- **User action** — Create a `.workspace/` directory or specify `--workspace` explicitly
+- **User action** — Create a `.harmony/` directory or specify `--workspace` explicitly

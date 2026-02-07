@@ -5,12 +5,12 @@ description: Shell scripts for workspace health checks and automation.
 
 # Workspace Scripts
 
-Scripts are **shell utilities** stored at the `.workspace/` root level. They provide automation for workspace maintenance tasks that are better suited to shell execution than agent procedures.
+Scripts are **shell utilities** stored at the `.harmony/` root level. They provide automation for workspace maintenance tasks that are better suited to shell execution than agent procedures.
 
 ## Location
 
 ```text
-.workspace/
+.harmony/
 └── init.sh    # Health check script
 ```
 
@@ -29,14 +29,14 @@ The primary workspace script. Verifies that required files and directories exist
 ### Usage
 
 ```bash
-cd .workspace
+cd .harmony
 ./init.sh
 ```
 
 ### Output
 
 ```text
-=== .workspace Health Check ===
+=== .harmony Health Check ===
 ✓ START.md
 ✓ scope.md
 ✓ conventions.md
@@ -80,7 +80,7 @@ Scripts are for **quick validation**. Workflows are for **agent-driven procedure
 
 ## Script Conventions
 
-1. **Location** — Scripts live at `.workspace/` root, not in subdirectories
+1. **Location** — Scripts live at `.harmony/` root, not in subdirectories
 2. **Naming** — Use descriptive names: `init.sh`, `validate.sh`
 3. **Shebang** — Always include `#!/bin/bash`
 4. **Exit on error** — Include `set -e` for fail-fast behavior

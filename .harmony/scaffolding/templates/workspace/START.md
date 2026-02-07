@@ -3,7 +3,7 @@ title: Start Here
 description: Boot sequence and orientation for this workspace
 ---
 
-# .workspace: Start Here
+# .harmony: Start Here
 
 ## Prerequisites
 
@@ -12,23 +12,32 @@ description: Boot sequence and orientation for this workspace
 ## Structure
 
 ```text
-.workspace/
+.harmony/
 ├── START.md        ← You are here
 ├── scope.md        ← Boundaries
 ├── conventions.md  ← Style rules
 ├── catalog.md      ← Available operations
 │
-├── prompts/        ← Task templates (add as needed)
-├── workflows/      ← Multi-step procedures (add as needed)
-├── commands/       ← Atomic operations (add as needed)
-├── context/        ← Decisions, lessons, glossary
-├── progress/       ← log.md, tasks.json, entities.json
-├── checklists/     ← complete.md, session-exit.md
+├── cognition/
+│   └── context/    ← Decisions, lessons, glossary
+├── continuity/     ← log.md, tasks.json, entities.json
+├── quality/        ← complete.md, session-exit.md
 │
-└── .scratchpad/       ← Human-led zone (HUMAN-LED ONLY)
-    ├── inbox/          ← Temporary staging
-    ├── archive/        ← Deprecated content
-    └── projects/       ← Research projects
+├── orchestration/
+│   ├── workflows/  ← Multi-step procedures (add as needed)
+│   └── missions/   ← Time-bounded sub-projects (add as needed)
+│
+├── capabilities/
+│   └── commands/   ← Atomic operations (add as needed)
+│
+├── scaffolding/
+│   └── prompts/    ← Task templates (add as needed)
+│
+└── ideation/
+    ├── scratchpad/    ← Human-led zone (HUMAN-LED ONLY)
+    │   ├── inbox/     ← Temporary staging
+    │   └── archive/   ← Deprecated content
+    └── projects/      ← Research projects
 ```
 
 ## Boot Sequence
@@ -36,25 +45,25 @@ description: Boot sequence and orientation for this workspace
 1. **Read `scope.md`** → Know boundaries
 2. **Read `conventions.md`** → Know style rules
 3. **Scan `catalog.md`** → Know available operations
-4. **Read `progress/log.md`** → Know what's been done
-5. **Read `progress/tasks.json`** → Know current priorities and goal
+4. **Read `continuity/log.md`** → Know what's been done
+5. **Read `continuity/tasks.json`** → Know current priorities and goal
 6. **Begin** highest-priority unblocked task
-7. **Before finishing:** Complete `checklists/session-exit.md`, verify against `checklists/complete.md`
+7. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
 
 ## Visibility & Autonomy Rules
 
 | Directory | Autonomy | Description |
 |-----------|----------|-------------|
-| `.scratchpad/` | **Human-led only** | Human-led zone (thinking, staging, archives) |
+| `ideation/scratchpad/` | **Human-led only** | Human-led zone (thinking, staging, archives) |
 
-Subdirectories: `inbox/` (staging), `archive/` (deprecated), `projects/` (research).
+Subdirectories: `inbox/` (staging), `archive/` (deprecated).
 
 **Human-led:** Access ONLY when human explicitly directs to specific files.
 
 ## When Stuck
 
-- Check `progress/tasks.json` for blocked items
-- Check `context/lessons.md` for anti-patterns to avoid
-- Check `context/decisions.md` for relevant past decisions
+- Check `continuity/tasks.json` for blocked items
+- Check `cognition/context/lessons.md` for anti-patterns to avoid
+- Check `cognition/context/decisions.md` for relevant past decisions
 - Review parent workspace for patterns
-- Document blocker in `progress/log.md` and stop
+- Document blocker in `continuity/log.md` and stop

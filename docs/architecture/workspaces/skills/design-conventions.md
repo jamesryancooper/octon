@@ -692,12 +692,12 @@ Deliverables go directly to their **final destination** in `.harmony/{{category}
 
 #### Custom Destinations
 
-Skills can write deliverables to custom locations beyond the standard categories. The `.workspace/` directory designates its **parent directory** as the workspace root (see [Architecture](./architecture.md#workspace-definition)), enabling three tiers of output locations:
+Skills can write deliverables to custom locations beyond the standard categories. The `.harmony/` directory designates its **parent directory** as the workspace root (see [Architecture](./architecture.md#workspace-definition)), enabling three tiers of output locations:
 
 | Tier | Scope | Example Path | Use Case |
 |------|-------|--------------|----------|
 | **Tier 1** | `.harmony/{{category}}/` | `.harmony/scaffolding/prompts/refined.md` | Standard deliverables |
-| **Tier 2** | `.workspace/**` | `.workspace/custom/exports/data.json` | Custom workspace locations |
+| **Tier 2** | `.harmony/**` | `.harmony/custom/exports/data.json` | Custom workspace locations |
 | **Tier 3** | `<workspace-root>/**` | `src/generated/api-client.ts` | Project source locations |
 
 **Declaring custom destinations in `registry.yml`:**
@@ -711,10 +711,10 @@ skills:
         type: deliverable
       
       # Tier 2: Custom workspace location
-      - path: ".workspace/exports/{{client-name}}.json"
+      - path: ".harmony/exports/{{client-name}}.json"
         type: deliverable
-      
-      # Tier 3: Workspace root (parent of .workspace/)
+
+      # Tier 3: Workspace root (parent of .harmony/)
       - path: "src/generated/{{client-name}}-client.ts"
         type: deliverable
 ```

@@ -1,27 +1,27 @@
 ---
-title: Dot-Prefixed Directories
-description: The human-led zone within a .workspace, with autonomy rules.
+title: Human-Led Directories
+description: The human-led zone within .harmony/, with autonomy rules.
 ---
 
-# Dot-Prefixed Directories
+# Human-Led Directories
 
-Directories within `.workspace/` that start with a dot (`.`) are **off-limits to autonomous agents**. They exist for human use, with human-led collaboration when explicitly directed.
+The `ideation/` directory within `.harmony/` is **off-limits to autonomous agents**. It exists for human use, with human-led collaboration when explicitly directed.
 
 ## The Rule
 
-| Prefix | Meaning |
-|--------|---------|
-| No dot | Agent reads and acts on this content |
-| Dot (`.`) | Agent does not access autonomously |
+| Directory | Meaning |
+| --------- | ------- |
+| Most `.harmony/` directories | Agent reads and acts on this content |
+| `ideation/` | Agent does not access autonomously |
 
-## Human-Led Directories
+## Ideation Subdirectories
 
-Two directory types require explicit human direction:
+Two directory types within `ideation/` require explicit human direction:
 
 | Directory | Purpose | Autonomy Level |
-|-----------|---------|----------------|
-| `projects/` | Human-led explorations that produce artifacts | Human-led (no dot prefix, but requires direction) |
-| `.scratchpad/` | Ephemeral content and early-stage idea funnel | Human-led only |
+| --------- | ------- | -------------- |
+| `ideation/projects/` | Human-led explorations that produce artifacts | Human-led |
+| `ideation/scratchpad/` | Ephemeral content and early-stage idea funnel | Human-led only |
 
 ### Why Projects Are Human-Led
 
@@ -35,7 +35,7 @@ Agents MAY assist with human-led content when ALL of these are true:
 2. Human requests a concrete action (e.g., "summarize this", "add X")
 3. Agent's work stays within the referenced files
 
-**During autonomous operation:** Treat `projects/` and `.scratchpad/` as if they do not exist.
+**During autonomous operation:** Treat `ideation/projects/` and `ideation/scratchpad/` as if they do not exist.
 
 ---
 
@@ -44,23 +44,23 @@ Agents MAY assist with human-led content when ALL of these are true:
 Ideas flow from ephemeral scratchpad to committed work:
 
 ```
-.scratchpad/ideas/      → Quick captures (most die here)
+ideation/scratchpad/ideas/      → Quick captures (most die here)
         ↓
-.scratchpad/brainstorm/ → Structured exploration (filter stage)
+ideation/scratchpad/brainstorm/ → Structured exploration (filter stage)
         ↓
-projects/               → Committed research (produces artifacts)
+ideation/projects/              → Committed research (produces artifacts)
         ↓
-missions/               → Committed execution
+orchestration/missions/         → Committed execution
         ↓
-context/                → Permanent knowledge
+cognition/context/              → Permanent knowledge
 ```
 
 ---
 
-## `.scratchpad/` Structure
+## `ideation/scratchpad/` Structure
 
 ```text
-.scratchpad/
+ideation/scratchpad/
 ├── README.md       # Purpose, rules
 ├── inbox/          # Temporary staging for imports
 ├── archive/        # Deprecated content
@@ -123,7 +123,7 @@ context/                → Permanent knowledge
 
 | Mode | Behavior |
 |------|----------|
-| Autonomous | MUST NOT scan, read, or write to `projects/` or `.scratchpad/**` |
+| Autonomous | MUST NOT scan, read, or write to `ideation/projects/` or `ideation/scratchpad/**` |
 | Human-directed | MAY read/edit specific files when human explicitly points to them |
 
 ---
@@ -134,10 +134,10 @@ When project findings are ready:
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `context/decisions.md` |
-| Anti-patterns | `context/lessons.md` |
-| New terminology | `context/glossary.md` |
-| Actionable work | Create mission in `missions/` |
+| Design decisions | `cognition/context/decisions.md` |
+| Anti-patterns | `cognition/context/lessons.md` |
+| New terminology | `cognition/context/glossary.md` |
+| Actionable work | Create mission in `orchestration/missions/` |
 
 Since projects live at workspace level, findings flow directly to their destinations without a separate "promotion" step.
 
@@ -147,7 +147,7 @@ Since projects live at workspace level, findings flow directly to their destinat
 
 ## Why This Convention
 
-1. **Simplicity** — One rule: "don't access `.scratchpad/` or `projects/` autonomously"
+1. **Simplicity** — One rule: "don't access `ideation/` autonomously"
 2. **Token efficiency** — Agents don't waste context on human-led content
 3. **Clear boundaries** — Human-led directories are clearly identified
 4. **Human needs met** — Exploration and ephemeral content have their place
@@ -160,33 +160,33 @@ Since projects live at workspace level, findings flow directly to their destinat
 ### Scenario: External Import via Inbox
 
 ```text
-1. Human imports research PDF → .scratchpad/inbox/research-paper.pdf
-2. Human: "Summarize .scratchpad/inbox/research-paper.pdf"
+1. Human imports research PDF → ideation/scratchpad/inbox/research-paper.pdf
+2. Human: "Summarize ideation/scratchpad/inbox/research-paper.pdf"
 3. Agent reads specific file, provides summary
 4. Human extracts key insights
 5. Human moves content to docs/research/paper-summary.md
-6. Human deletes original from .scratchpad/inbox/
+6. Human deletes original from ideation/scratchpad/inbox/
 ```
 
 ### Scenario: Collaborative Research in Projects
 
 ```text
-1. Human explores authentication options in projects/auth-options/
-2. Human: "Review projects/auth-options/project.md and help organize findings"
+1. Human explores authentication options in ideation/projects/auth-options/
+2. Human: "Review ideation/projects/auth-options/project.md and help organize findings"
 3. Agent reads specific file, proposes organization
 4. Human refines, makes decision
-5. Human updates context/decisions.md directly
+5. Human updates cognition/context/decisions.md directly
 6. Human marks project completed in registry
 ```
 
 ### Scenario: Brainstorm to Project
 
 ```text
-1. Human captures idea in .scratchpad/ideas/new-feature.md
-2. Human moves to .scratchpad/brainstorm/new-feature.md for exploration
-3. Human: "Help me think through the key questions in .scratchpad/brainstorm/new-feature.md"
+1. Human captures idea in ideation/scratchpad/ideas/new-feature.md
+2. Human moves to ideation/scratchpad/brainstorm/new-feature.md for exploration
+3. Human: "Help me think through the key questions in ideation/scratchpad/brainstorm/new-feature.md"
 4. Agent assists with specific file
-5. If idea graduates, human creates projects/new-feature/
+5. If idea graduates, human creates ideation/projects/new-feature/
 6. Brainstorm file archived or deleted
 ```
 
@@ -194,7 +194,7 @@ Since projects live at workspace level, findings flow directly to their destinat
 
 ```text
 1. Workflow becomes outdated
-2. Human moves to .scratchpad/archive/2024-01-15-old-workflow.md
+2. Human moves to ideation/scratchpad/archive/2024-01-15-old-workflow.md
 3. Agent never sees it during autonomous operation
 4. Human can still reference it when needed
 ```
@@ -203,7 +203,7 @@ Since projects live at workspace level, findings flow directly to their destinat
 
 ## Tooling Enforcement
 
-The `.workspace/agent-autonomy-guard.globs` file contains patterns that autonomous agents should exclude:
+The `harmony.yml` file declares patterns that autonomous agents should exclude via the `human_led` section:
 
 ```text
 .harmony/ideation/scratchpad/**

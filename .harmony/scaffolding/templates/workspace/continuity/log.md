@@ -6,7 +6,7 @@
 
 **Completed:**
 
-- Created `.workspace/` structure
+- Created `.harmony/` structure
 - Analyzed directory: {{DIRECTORY_TYPE}}
 - Configured scope: {{BRIEF_SCOPE}}
 

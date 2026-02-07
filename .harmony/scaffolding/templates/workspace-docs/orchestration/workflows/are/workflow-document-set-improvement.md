@@ -111,9 +111,9 @@ If aligning with reference docs, gather them now:
 1. Read all reference documents completely
 2. Extract key principles, terminology, structure patterns
 3. Note any recent changes that triggered this alignment
-4. Create `.workspace/.are/alignment-reference.md` summarizing what target docs should align TO
+4. Create `.harmony/.are/alignment-reference.md` summarizing what target docs should align TO
 
-**Template for `.workspace/.are/alignment-reference.md`**:
+**Template for `.harmony/.are/alignment-reference.md`**:
 
 ```markdown
 # Alignment Reference Summary
@@ -212,7 +212,7 @@ Before analyzing documents, gather context about what `<CONCEPT>` means in THIS 
 1. Search the codebase for existing guidelines, policies, and standards related to `<CONCEPT>`
 2. Identify reference materials and exemplar documents
 3. Document terminology, constraints, and scope boundaries
-4. Create `.workspace/.are/concept-context.md` with the gathered information
+4. Create `.harmony/.are/concept-context.md` with the gathered information
 
 **Information to Gather**:
 
@@ -239,7 +239,7 @@ ls -la docs/*policy* docs/*standard* docs/*guideline* 2>/dev/null
 
 #### 1.2.3: Document Concept Context
 
-Create `.workspace/.are/concept-context.md`:
+Create `.harmony/.are/concept-context.md`:
 
 ```markdown
 # Concept Context: <CONCEPT>
@@ -329,7 +329,7 @@ Before proceeding, verify:
 - [ ] Canonical terminology documented
 - [ ] Scope boundaries defined
 - [ ] At least 1 success criterion defined
-- [ ] Concept context file created at `.workspace/.are/concept-context.md`
+- [ ] Concept context file created at `.harmony/.are/concept-context.md`
 
 ---
 
@@ -339,8 +339,8 @@ Before proceeding, verify:
 
 **Instructions for AI Agent**:
 
-1. Read the concept context from `.workspace/.are/concept-context.md`
-2. **If aligning**: Read the alignment reference from `.workspace/.are/alignment-reference.md`
+1. Read the concept context from `.harmony/.are/concept-context.md`
+2. **If aligning**: Read the alignment reference from `.harmony/.are/alignment-reference.md`
 3. Read the meta-prompt at `./concept-aligned-are-loop.meta.md`
 4. Generate a concept-aligned ARE Loop prompt that incorporates:
    - The terminology from concept context
@@ -354,7 +354,7 @@ Before proceeding, verify:
 
 ```
 Using the meta-prompt in concept-aligned-are-loop.meta.md and the concept context 
-in .workspace/.are/concept-context.md, generate a concept-aligned ARE Loop prompt for:
+in .harmony/.are/concept-context.md, generate a concept-aligned ARE Loop prompt for:
 
 - Concept: <CONCEPT>
 - Documentation Scope: <DOC_SCOPE>
@@ -373,7 +373,7 @@ Output only the generated prompt, which I will use to evaluate each document.
 
 ```
 Using the meta-prompt in concept-aligned-are-loop.meta.md, the concept context 
-in .workspace/.are/concept-context.md, AND the alignment reference in .workspace/.are/alignment-reference.md,
+in .harmony/.are/concept-context.md, AND the alignment reference in .harmony/.are/alignment-reference.md,
 generate a concept-aligned ARE Loop prompt for:
 
 - Concept: <CONCEPT>
@@ -792,11 +792,11 @@ Run set-level stress tests:
 
 ### Step 5.2: Archive Artifacts
 
-All artifacts are stored during the workflow in `<TARGET_DOC_DIR>/.workspace/.are/`:
+All artifacts are stored during the workflow in `<TARGET_DOC_DIR>/.harmony/.are/`:
 
 ```
 <TARGET_DOC_DIR>/
-└── .workspace/
+└── .harmony/
     └── .are/
         ├── are-config.json               # Workflow configuration
         ├── are-progress.json             # Progress tracking
@@ -821,7 +821,7 @@ All artifacts are stored during the workflow in `<TARGET_DOC_DIR>/.workspace/.ar
 - Both support onboarding and maintaining consistency
 
 **Archiving completed runs**: After completing an ARE Loop run, you may want to move the
-`.workspace/.are/` directory to a dated archive location or keep it in place for reference.
+`.harmony/.are/` directory to a dated archive location or keep it in place for reference.
 
 ---
 
@@ -869,7 +869,7 @@ All artifacts are stored during the workflow in `<TARGET_DOC_DIR>/.workspace/.ar
 
 ### Alignment Reference Checklist (if aligning)
 
-Before proceeding past Phase 0, ensure `.workspace/.are/alignment-reference.md` contains:
+Before proceeding past Phase 0, ensure `.harmony/.are/alignment-reference.md` contains:
 
 - [ ] Purpose of reference documented
 - [ ] Key principles extracted with implications
@@ -880,7 +880,7 @@ Before proceeding past Phase 0, ensure `.workspace/.are/alignment-reference.md` 
 
 ### Concept Context Checklist
 
-Before proceeding past Phase 1, ensure `.workspace/.are/concept-context.md` contains:
+Before proceeding past Phase 1, ensure `.harmony/.are/concept-context.md` contains:
 
 - [ ] Definition of concept in organizational context
 - [ ] Located guidelines/policies (or confirmed none exist)

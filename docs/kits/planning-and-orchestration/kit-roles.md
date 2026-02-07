@@ -130,7 +130,7 @@ Under `packages/workflows/<flowId>/`, add:
 - Flow config: `config.flow.json` — registers the flow with FlowKit tooling.
 - Canonical prompt: `00-overview.md` — describes the flow mission/process.
 - Workflow manifest: `manifest.yaml` — graph structure; node ids, dependencies, prompt paths, meta, etc.
-- Step prompts: `NN-<step>.md` — numbered step-specific prompts (like `.workspace` workflows).
+- Step prompts: `NN-<step>.md` — numbered step-specific prompts (like `.harmony` workflows).
 
 Reusable action prompts can be placed under `packages/prompts/**`.
 

@@ -29,18 +29,18 @@ When creating a workspace using this template:
 | `START.md` | Docs-specific boot sequence (overrides base) |
 | `scope.md` | Docs-specific scope template (overrides base) |
 | `conventions.md` | Docs-specific conventions (overrides base) |
-| `checklists/complete.md` | Docs-specific definition of done (overrides base) |
-| `workflows/are/` | Analyze-Refine-Evaluate workflows for document improvement |
+| `quality/done.md` | Docs-specific definition of done (overrides base) |
+| `orchestration/workflows/are/` | Analyze-Refine-Evaluate workflows for document improvement |
 
 ### Files Inherited from Base
 
 All other files come from `.harmony/scaffolding/templates/workspace/`:
 
 - `catalog.md`
-- `context/` (decisions, lessons, glossary, dependencies, constraints)
-- `progress/` (log.md, tasks.json, entities.json)
-- `checklists/session-exit.md`
-- `commands/`, `prompts/`, `templates/`, `examples/` (README placeholders)
+- `cognition/context/` (decisions, lessons, glossary, dependencies, constraints)
+- `continuity/` (log.md, tasks.json, entities.json)
+- `quality/session-exit.md`
+- `capabilities/commands/`, `scaffolding/prompts/`, `scaffolding/templates/`, `scaffolding/examples/` (README placeholders)
 
 ## Usage
 

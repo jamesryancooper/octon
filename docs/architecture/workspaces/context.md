@@ -89,7 +89,7 @@ Anti-patterns and failures to avoid. Prevents agents from repeating past mistake
 
 - MUST include actionable "Do Instead" for anti-patterns
 - SHOULD add entries when failures occur
-- MAY reference related tasks or sessions in `progress/log.md`
+- MAY reference related tasks or sessions in `continuity/log.md`
 
 ---
 
@@ -104,7 +104,7 @@ Domain-specific terms and their definitions.
 
 | Term | Definition |
 |------|------------|
-| Harness | The `.workspace` support structure |
+| Harness | The `.harmony` support structure |
 | Boot sequence | Steps to orient and begin work |
 | Cold start | First session without prior context |
 ```

@@ -30,7 +30,7 @@ Missions let you run parallel workstreams within the same workspace without poll
 | Time-bounded initiative (weeks) | Yes | — |
 | Delegatable unit of work | Yes | — |
 | Single task, completes in one session | No | Use workspace `tasks.json` |
-| Different codebase area | No | Create nested `.workspace` |
+| Different codebase area | No | Create nested `.harmony` |
 
 **Decision heuristic:** If you need isolated progress tracking for a bounded effort, create a mission.
 
@@ -174,7 +174,7 @@ graph TB
 
 | Level | File | Scope |
 |-------|------|-------|
-| **Workspace** | `progress/tasks.json` | Cross-cutting tasks, not mission-specific |
+| **Workspace** | `continuity/tasks.json` | Cross-cutting tasks, not mission-specific |
 | **Mission** | `missions/<slug>/tasks.json` | Tasks for this specific initiative |
 
 Missions have their own progress tracking. When a mission completes, its final state is preserved in the archive.

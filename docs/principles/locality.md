@@ -14,7 +14,7 @@ status: Active
 Locality is an information architecture principle: knowledge, configuration, and guidance should be placed as close as possible to where they're used. Rather than centralizing everything in one location, distribute context to the domains, features, and workspaces where it applies.
 
 This principle shapes Harmony's workspace architecture:
-- Domain-specific `.workspace/` directories contain domain-specific guidance
+- Domain-specific `.harmony/` directories contain domain-specific guidance
 - Skills live near the code they operate on
 - Configuration inherits from parent to child, not scattered globally
 - Agents load only the context relevant to their current location
@@ -50,16 +50,20 @@ Agents working in a specific domain load ~2,000 tokens of relevant context inste
 
 ## In Practice
 
-### The Two-Layer Architecture
+### The Single-Root Architecture
 
-Harmony implements locality through two layers:
+Harmony implements locality through a single `.harmony/` directory organized by capability:
 
-| Layer | Location | Scope | Content |
-|-------|----------|-------|---------|
-| Shared | `.harmony/` | All workspaces | Generic infrastructure, templates, shared skills |
-| Local | `.workspace/` | Current domain | Project-specific context, progress, domain workflows |
+| Category | Path | Content |
+| -------- | ---- | ------- |
+| Cognition | `cognition/context/` | Decisions, lessons, glossary, dependencies |
+| Continuity | `continuity/` | Progress log, tasks, entities |
+| Quality | `quality/` | Completion checklists, session-exit |
+| Orchestration | `orchestration/` | Workflows, missions |
+| Capabilities | `capabilities/` | Skills, commands |
+| Scaffolding | `scaffolding/` | Templates, prompts, examples |
 
-Resolution rule: **Local overrides shared.** Agents check `.workspace/` first, then fall back to `.harmony/`.
+Portability is declared via `harmony.yml` metadata — it specifies which paths are reusable framework assets vs. project-specific state.
 
 ### Hierarchical Workspace Model
 
@@ -67,14 +71,13 @@ Workspaces can nest at any level of the repository:
 
 ```
 repo/
-├── .harmony/              # Shared foundation
-├── .workspace/            # Root workspace
+├── .harmony/              # Root workspace
 ├── packages/
 │   └── auth/
-│       └── .workspace/    # Auth-specific workspace
+│       └── .harmony/      # Auth-specific workspace
 └── apps/
     └── web/
-        └── .workspace/    # Web app workspace
+        └── .harmony/      # Web app workspace
 ```
 
 ### Scope Authority
@@ -93,12 +96,12 @@ Locality includes boundaries. Workspaces follow strict scope rules:
 
 ```
 packages/billing/
-├── .workspace/
+├── .harmony/
 │   ├── START.md           # Billing-specific orientation
 │   ├── conventions.md     # Billing coding standards
-│   ├── checklists/
+│   ├── quality/
 │   │   └── payment-flow.md  # Billing-specific checklist
-│   └── context/
+│   └── cognition/context/
 │       └── glossary.md    # Billing terminology
 └── src/
     └── ...
@@ -122,7 +125,7 @@ packages/billing/
 ```markdown
 <!-- Agent behavior -->
 When entering a directory:
-1. Check if .workspace/ exists
+1. Check if .harmony/ exists
 2. If yes, read START.md for orientation
 3. If no, use nearest ancestor workspace
 ```
@@ -145,12 +148,12 @@ skills:
 
 ```
 # Bad: Everything in root
-.workspace/
+.harmony/
 ├── auth-conventions.md
 ├── billing-conventions.md
 ├── web-conventions.md
-├── auth-checklists/
-├── billing-checklists/
+├── auth-quality/
+├── billing-quality/
 └── ...
 ```
 
@@ -158,10 +161,10 @@ skills:
 
 ```typescript
 // Bad: Cross-workspace access
-import { billingContext } from '../../billing/.workspace/context';
+import { billingContext } from '../../billing/.harmony/cognition/context';
 
 // Good: Request through proper channels or shared foundation
-import { sharedContext } from '../../../.harmony/context';
+import { sharedContext } from '../../../.harmony/cognition/context';
 ```
 
 **Don't duplicate shared content in every workspace:**
@@ -186,11 +189,10 @@ Agents discover workspaces using nearest-ancestor resolution (like git finding `
 Current: /repo/packages/auth/src/handlers/login.ts
 
 Resolution chain:
-1. /repo/packages/auth/src/handlers/.workspace/ → not found
-2. /repo/packages/auth/src/.workspace/ → not found
-3. /repo/packages/auth/.workspace/ → FOUND, use this
-4. (fallback) /repo/.workspace/
-5. (fallback) /repo/.harmony/
+1. /repo/packages/auth/src/handlers/.harmony/ → not found
+2. /repo/packages/auth/src/.harmony/ → not found
+3. /repo/packages/auth/.harmony/ → FOUND, use this
+4. (fallback) /repo/.harmony/
 ```
 
 ### Context Composition
@@ -268,7 +270,7 @@ Use the decision heuristic:
 The primary failure mode of violating locality is **global soup** — all context mixed together, forcing agents to load everything to find anything.
 
 Signs of global soup:
-- Single massive `.workspace/` at root with all domain content
+- Single massive `.harmony/` at root with all domain content
 - Agents loading 50,000+ tokens of context
 - Domain-specific rules buried in generic files
 - "Which conventions apply here?" confusion

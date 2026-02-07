@@ -67,7 +67,7 @@ This document clarifies the distinctions between workspace artifact types: **com
 
 **Location:** `.<harness>/commands/*.md` (e.g., `.cursor/commands/`, `.claude/commands/`, `.codex/commands/`)
 
-Thin wrappers that provide harness-specific invocation for workspace commands or workflows. The actual implementation logic lives in `.workspace/`.
+Thin wrappers that provide harness-specific invocation for workspace commands or workflows. The actual implementation logic lives in `.harmony/`.
 
 ### Design Principle: Universal Harness-Agnostic Pattern
 

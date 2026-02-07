@@ -5,7 +5,7 @@ description: Manifest and registry formats for skill discovery and routing.
 
 # Skill Discovery
 
-Skills use a **three-file, two-location model** for progressive disclosure:
+Skills use a **three-file model** for progressive disclosure:
 
 **Three files** optimize for token efficiency:
 
@@ -17,14 +17,7 @@ Skills use a **three-file, two-location model** for progressive disclosure:
 
 > **Token Budget Note:** The [agentskills.io specification](https://agentskills.io/specification) recommends ~100 tokens for discovery metadata. Harmony's multi-file model splits this: ~50 tokens for manifest (always loaded) + ~50 tokens for registry (loaded after match). Capability schema is loaded separately for validation. SKILL.md frontmatter (name + description) should stay under ~100 tokens per the spec.
 
-**Two locations** separate shared definitions from workspace-specific configuration:
-
-| Location | Manifest | Registry |
-|----------|----------|----------|
-| `.harmony/capabilities/skills/` | Shared skill index | Shared extended metadata |
-| `.harmony/capabilities/skills/` | Workspace-specific skills | I/O mappings, pipelines |
-
-Agents read shared files first, then workspace files. Workspace entries extend or override shared definitions.
+All three files live in a **single location**: `.harmony/capabilities/skills/`.
 
 ---
 
@@ -181,7 +174,7 @@ skills:
     requires:
       context:
         - type: directory_exists
-          path: ".workspace/"
+          path: ".harmony/"
           description: "Requires a workspace directory"
     depends_on: []
 ```
@@ -207,7 +200,7 @@ skills:
 | `requires.context` | No | Context conditions for skill activation |
 | `depends_on` | No | Other skills this skill requires |
 
-> **Note:** Input/output paths are defined in `.harmony/capabilities/skills/registry.yml`, not here. This keeps portable skill logic separate from workspace-specific I/O configuration.
+> **Note:** Input/output paths are defined in `.harmony/capabilities/skills/registry.yml` under `skill_mappings`.
 
 > **Tool Permissions:** Tool permissions are **not** defined in registry.yml. They are defined in SKILL.md frontmatter via `allowed-tools` (single source of truth). The internal format is derived via the mapping function in `validate-skills.sh`.
 
@@ -219,7 +212,7 @@ Skills can declare context conditions that must be met before activation:
 requires:
   context:
     - type: directory_exists
-      path: ".workspace/"
+      path: ".harmony/"
       description: "Requires a workspace directory"
     - type: files_match
       glob: "**/*.md"
@@ -237,83 +230,25 @@ requires:
 
 ---
 
-## Workspace Manifest (`.harmony/capabilities/skills/manifest.yml`)
+## Skill Mappings
 
-Extends the shared manifest with workspace-specific skills:
-
-```yaml
-# Skills Manifest (Project-Specific)
-schema_version: "1.2"
-extends: "../../.harmony/capabilities/skills/manifest.yml"
-default: null
-
-# Project-specific skills
-skills: []
-```
-
-### Workspace Manifest Fields
-
-| Field | Required | Description |
-|-------|----------|-------------|
-| `extends` | Yes | Path to shared manifest to inherit from |
-| `default` | No | Default skill for this workspace (overrides shared manifest's `default`) |
-| `skills` | No | Workspace-local skill entries (same format as shared) |
-
-> **Note:** Setting `default: null` in the workspace manifest explicitly disables any default inherited from the shared manifest.
-
----
-
-## Workspace Registry (`.harmony/capabilities/skills/registry.yml`)
-
-Extends the shared registry with workspace-specific I/O mappings and pipelines:
+I/O paths are defined in `registry.yml` under each skill's entry:
 
 ```yaml
-# Skills Registry (Workspace-Specific)
-schema_version: "1.2"
-extends: "../../.harmony/capabilities/skills/registry.yml"
-default: null
-
-# Workspace-specific I/O mappings for inherited skills
 skill_mappings:
   synthesize-research:
     inputs:
-      - path: "projects/{{project}}/"
+      - path: "resources/synthesize-research/"
         kind: directory
         required: true
-        description: "Project folder containing research notes"
+        description: "Research notes and source materials"
     outputs:
-      - path: "../../drafts/{{topic}}-synthesis.md"
+      - path: ".harmony/output/drafts/{{topic}}-synthesis.md"
         kind: file
         format: markdown
         determinism: stable
         description: "Synthesized research findings document"
 
-# Extended metadata for workspace-specific skills
-skills: {}
-
-# Workspace-specific pipelines
-pipelines:
-  - id: research-synthesis
-    name: Research Synthesis Pipeline
-    steps:
-      - synthesize-research
-```
-
-### Workspace Registry Fields
-
-| Field | Required | Description |
-|-------|----------|-------------|
-| `extends` | Yes | Path to shared registry to inherit from |
-| `skill_mappings` | No | I/O path overrides for inherited skills |
-| `skills` | No | Extended metadata for workspace-local skills |
-| `pipelines` | No | Multi-skill workflow definitions |
-
-### Skill Mappings
-
-Override I/O paths for inherited skills without modifying the shared definition:
-
-```yaml
-skill_mappings:
   refine-prompt:
     inputs:
       - path: "resources/refine-prompt/prompts/"
@@ -321,7 +256,7 @@ skill_mappings:
         required: false
         description: "Optional prompt source folder"
     outputs:
-      - path: "../../prompts/{{timestamp}}-refined.md"
+      - path: ".harmony/scaffolding/prompts/{{timestamp}}-refined.md"
         kind: file
         format: markdown
         determinism: stable
@@ -364,7 +299,7 @@ Deliverables go directly to their final destination with tiered permissions:
 | Tier | Scope | Example Path | Use Case |
 |------|-------|--------------|----------|
 | **Tier 1** | `.harmony/{{category}}/` | `.harmony/scaffolding/prompts/refined.md` | Standard deliverables |
-| **Tier 2** | `.workspace/**` | `.workspace/custom/exports/data.json` | Custom workspace locations |
+| **Tier 2** | `.harmony/**` | `.harmony/output/exports/data.json` | Custom workspace locations |
 | **Tier 3** | `<workspace-root>/**` | `src/generated/api-client.ts` | Project source locations |
 
 ```yaml
@@ -390,7 +325,7 @@ Declare custom deliverable paths in the registry:
 
 ```yaml
 skill_mappings:
-  # Tier 2: Within .workspace/
+  # Tier 2: Within .harmony/
   synthesize-research:
     inputs:
       - path: "projects/{{project}}/"
@@ -483,9 +418,8 @@ pipelines:
 
 When a user invokes a skill, the system:
 
-1. Read `.harmony/capabilities/skills/manifest.yml` for shared skill index
-2. Read `.harmony/capabilities/skills/manifest.yml` for workspace-specific skills
-3. If explicit command (`/skill-name`), route directly
+1. Read `.harmony/capabilities/skills/manifest.yml` for skill index
+2. If explicit command (`/skill-name`), route directly
 4. If `use skill: <name>` pattern, route directly
 5. Otherwise, match against triggers in manifest
 6. If ambiguous, use `ambiguity_resolution` setting from registry (default: ask)

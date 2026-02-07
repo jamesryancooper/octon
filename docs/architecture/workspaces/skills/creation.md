@@ -223,7 +223,7 @@ skills:
     requires:
       context:
         - type: directory_exists
-          path: ".workspace/"
+          path: ".harmony/"
           description: "Requires a workspace directory"
     depends_on: []
 ```

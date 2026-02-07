@@ -92,7 +92,7 @@ FlowKit does **not** re‑spec the workflow; it executes what the canonical prom
 FlowKit is intentionally implemented as a **layered integration** so each concern has a single owner:
 
 - **Cursor** owns the IDE entrypoint (`/run-flow`) and delegates immediately.
-- **`.workspace`** owns the *procedure* for running a flow (human/agent workflow), not flow semantics.
+- **`.harmony`** owns the *procedure* for running a flow (human/agent workflow), not flow semantics.
 - **`packages/kits/flowkit`** owns the canonical TypeScript implementation: `.flow.json` validation, CLI UX, HTTP runner client, run records.
 - **`agents/runner/runtime`** owns the Python runtime: `/healthz`, `/flows/run`, flow dispatch, and concrete LangGraph graphs.
 
@@ -145,7 +145,7 @@ flowchart LR
 
 #### Locality vs Repo-Wide
 
-- The root `.workspace` is a **repo-wide harness** (see `.harmony/scope.md`), so FlowKit run procedures belong there.
+- The root `.harmony` is a **repo-wide harness** (see `.harmony/scope.md`), so FlowKit run procedures belong there.
 - Domain workspaces can add *references* for discoverability, but should **delegate** to the same canonical workflow rather than forking the logic.
 
 ### 2.1 Placement in Harmony
@@ -269,7 +269,7 @@ On the flow assets side, FlowKit expects each flow to follow a standardized layo
 - Flow config: `config.flow.json`
 - Workflow manifest: `manifest.yaml`
 - Canonical prompt: `00-overview.md`
-- Step prompts: `01-<step>.md`, `02-<step>.md`, ... (numbered like `.workspace` workflows)
+- Step prompts: `01-<step>.md`, `02-<step>.md`, ... (numbered like `.harmony` workflows)
 
 Example:
 
@@ -474,7 +474,7 @@ To add a new Harmony‑aligned flow:
      - `config.flow.json` — registration config
      - `manifest.yaml` — workflow definition
      - `00-overview.md` — canonical prompt (flow-level spec)
-     - `NN-<step>.md` — step-specific prompts (numbered like `.workspace` workflows)
+     - `NN-<step>.md` — step-specific prompts (numbered like `.harmony` workflows)
 2. **Write the canonical prompt**
    - In `packages/workflows/<flowId>/00-overview.md`, describe role, mission, scope, objectives, process, outputs, constraints, and stop instruction.
    - Keep frontmatter minimal (just `title` + `description`). Wiring, classification, and entrypoints live in `config.flow.json`.

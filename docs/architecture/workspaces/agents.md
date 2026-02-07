@@ -468,7 +468,7 @@ Agents **delegate** to assistants when focused, specialized work is needed.
 
 ---
 
-## Tiered Model (`.harmony/` vs `.workspace/`)
+## Tiered Model (`.harmony/` vs workspace-specific)
 
 | Location | Scope | Purpose |
 |----------|-------|---------|

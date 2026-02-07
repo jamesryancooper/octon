@@ -11,21 +11,21 @@ This document describes the architectural design of the skills system, including
 
 ## Workspace Definition
 
-A `.workspace/` directory designates its **parent directory** as a workspace root. Workspaces can be nested at any level, creating a hierarchy.
+A `.harmony/` directory designates its **parent directory** as a workspace root. Workspaces can be nested at any level, creating a hierarchy.
 
 ```markdown
 repo/                              ← Root workspace (scope: repo/**)
-├── .workspace/
+├── .harmony/
 ├── src/
 ├── docs/                          ← Docs workspace (scope: docs/**)
-│   ├── .workspace/
+│   ├── .harmony/
 │   └── guides/
 └── packages/
     └── kits/                      ← Kits workspace (scope: kits/**)
-        ├── .workspace/
+        ├── .harmony/
         ├── shared/
         └── flowkit/               ← FlowKit workspace (scope: flowkit/**)
-            ├── .workspace/
+            ├── .harmony/
             └── src/
 ```
 
@@ -33,7 +33,7 @@ repo/                              ← Root workspace (scope: repo/**)
 
 ## Hierarchical Scope
 
-Each workspace's scope includes its parent directory and **all descendants**, including directories that contain their own `.workspace/`.
+Each workspace's scope includes its parent directory and **all descendants**, including directories that contain their own `.harmony/`.
 
 ### Scope Authority Rules
 
@@ -63,26 +63,19 @@ Each workspace's scope includes its parent directory and **all descendants**, in
 
 ---
 
-## Skill Definition Tiers
+## Skill Directory Layout
 
 ```markdown
 ┌─────────────────────────────────────────────────────────────────┐
-│  .harmony/capabilities/skills/              Shared Foundation                │
+│  .harmony/capabilities/skills/          Single Location                   │
 │  ├── manifest.yml              Tier 1 discovery index           │
-│  ├── registry.yml              Extended metadata for routing    │
+│  ├── registry.yml              Extended metadata + I/O mappings │
+│  ├── capabilities.yml          Capability schema                │
 │  ├── _template/                Scaffolding for new skills       │
-│  ├── refine-prompt/            Shared skill definition          │
+│  ├── refine-prompt/            Skill definition                 │
 │  │   ├── SKILL.md              Core instructions (<500 lines)   │
 │  │   └── references/           Progressive disclosure content   │
-│  └── synthesize-research/                                      │
-└─────────────────────────────────────────────────────────────────┘
-                                 │
-                                 │ I/O paths defined in
-                                 ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  .harmony/capabilities/skills/            Workspace I/O                    │
-│  ├── manifest.yml              Workspace skill index            │
-│  ├── registry.yml              I/O mappings (scope-validated)   │
+│  ├── synthesize-research/                                      │
 │  ├── configs/                  Per-skill configuration          │
 │  ├── resources/                Per-skill input resources        │
 │  ├── runs/                     Execution state (checkpoints)    │
@@ -99,9 +92,9 @@ Each workspace's scope includes its parent directory and **all descendants**, in
 
 ---
 
-## Shared Foundation (`.harmony/capabilities/skills/`)
+## Skill Contents (`.harmony/capabilities/skills/`)
 
-Portable skill definitions that work across workspaces:
+Skill definitions, metadata, and operational artifacts all live in a single location:
 
 | Content                    | Purpose                                                  |
 |----------------------------|----------------------------------------------------------|
@@ -162,10 +155,6 @@ skills:
     version: "2.1.1"
     commands:
       - /refine-prompt
-    requires:
-      context:
-        - type: directory_exists
-          path: ".workspace/"
     depends_on: []
 ```
 
@@ -173,7 +162,7 @@ skills:
 
 ### Loading Sequence
 
-1. **Discovery** — Agent reads `manifest.yml` (shared, then workspace) for skill index
+1. **Discovery** — Agent reads `manifest.yml` for skill index
 2. **Matching** — Agent matches user task to skill summaries or triggers
 3. **Validation** — Agent reads matched skill's entry from `registry.yml` for commands/requires
 4. **Activation** — User confirms or agent proceeds; agent loads full `SKILL.md`
@@ -183,14 +172,12 @@ This approach keeps initial context minimal (~50 tokens per skill) while providi
 
 ---
 
-## Workspace I/O (`.harmony/capabilities/skills/`)
+## Operational Artifacts
 
-Workspace-specific configuration and outputs. All categories follow the `{{category}}/{{skill-id}}/` pattern:
+All operational categories follow the `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/skills/`:
 
 | Content | Purpose |
 |---------|---------|
-| `manifest.yml` | Workspace skill index (extends shared manifest; see merge rules below) |
-| `registry.yml` | Extends shared registry, adds I/O path mappings |
 | `configs/{{skill-id}}/` | Per-skill configuration overrides |
 | `resources/{{skill-id}}/` | Per-skill input resources (notes, docs, data) |
 | `runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
@@ -198,26 +185,13 @@ Workspace-specific configuration and outputs. All categories follow the `{{categ
 | `logs/{{skill-id}}/index.yml` | Skill-level run metadata |
 | `logs/{{skill-id}}/{{run-id}}.md` | Execution audit logs |
 
-> **Bounded top-level:** The top level has 6 fixed entries regardless of skill count: `manifest.yml`, `registry.yml`, `configs/`, `resources/`, `runs/`, `logs/`.
+> **Bounded top-level:** The top level has fixed entries regardless of skill count: `manifest.yml`, `registry.yml`, `capabilities.yml`, `configs/`, `resources/`, `runs/`, `logs/`.
 
-> **Terminology Note:** The `runs/` directory stores **execution state** for session recovery (checkpoints, manifests). This is distinct from **workspace continuity files** (progress logs, ADRs, decisions) which preserve project history. See [Design Conventions](./design-conventions.md#continuity-artifact-detection) for continuity file handling.
-
-### Manifest Merge Rules
-
-Workspace manifests **extend** shared manifests with these rules:
-
-| Scenario | Behavior |
-|----------|----------|
-| New skill (id not in shared) | Added to skill list |
-| Same id as shared skill | Workspace definition **replaces** shared definition entirely |
-| Workspace sets `default:` | Overrides shared manifest's default |
-| Trigger conflicts | Workspace triggers take precedence |
-
-**Key principle:** Workspace definitions override (not merge with) shared definitions when IDs match. This enables workspace-specific customization without complex merge logic.
+> **Terminology Note:** The `runs/` directory stores **execution state** for session recovery (checkpoints, manifests). This is distinct from **workspace continuity files** (`continuity/log.md`, ADRs, decisions) which preserve project history. See [Design Conventions](./design-conventions.md#continuity-artifact-detection) for continuity file handling.
 
 ### Output Paths
 
-Output paths are declared in `registry.yml` and validated against the workspace's hierarchical scope.
+Output paths are declared in `registry.yml` under each skill's `io:` section and validated against the workspace's hierarchical scope.
 
 | Path Type | Example | Purpose |
 |-----------|---------|---------|
@@ -243,7 +217,7 @@ Deliverables go directly to their final destination with tiered permissions:
 | Tier | Scope | Example Path | Use Case |
 |------|-------|--------------|----------|
 | **Tier 1** | `.harmony/{{category}}/` | `.harmony/scaffolding/prompts/refined.md` | Standard deliverables |
-| **Tier 2** | `.workspace/**` | `.workspace/custom/exports/data.json` | Custom workspace locations |
+| **Tier 2** | `.harmony/**` | `.harmony/output/exports/data.json` | Custom workspace locations |
 | **Tier 3** | `<workspace-root>/**` | `src/generated/api-client.ts` | Project source locations |
 
 **Scope validation:** All paths are validated against the workspace's hierarchical scope—skills can write **down** into descendant workspaces but never **up** to ancestors or **sideways** to siblings.
@@ -423,9 +397,8 @@ Tags enable filtering ("show me all validators") without affecting capabilities.
 
 | Layer | Contains | Does NOT Contain |
 |-------|----------|------------------|
-| Shared (`.harmony/`) | Skill logic, behaviors, constraints | Workspace paths, local config |
-| Workspace (`.workspace/`) | I/O paths, outputs, logs | Skill logic |
-| Host Adapters | Symlinks only | Any actual content |
+| Skills (`.harmony/capabilities/skills/`) | Definitions, I/O paths, configs, outputs, logs | Host-specific invocation |
+| Host Adapters (`.claude/`, `.cursor/`, etc.) | Symlinks only | Any actual content |
 
 ### Portability
 

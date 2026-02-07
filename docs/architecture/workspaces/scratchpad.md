@@ -30,7 +30,7 @@ The scratchpad serves needs that don't fit in agent-facing directories:
 The scratchpad is the **entry point** for a pipeline that filters ideas into committed work:
 
 ```
-.scratchpad/                    .workspace/
+.scratchpad/                    .harmony/
 ┌─────────────────────┐        ┌─────────────────────┐
 │ ideas/              │        │ projects/           │
 │ (quick captures)    │───────▶│ (committed research)│
@@ -241,7 +241,7 @@ Snippets, quotes, code fragments for reference.
 
 ```mermaid
 graph TB
-    subgraph workspace [.workspace/]
+    subgraph workspace [.harmony/]
         subgraph agent_facing [Agent-Facing]
             projects[projects/]
             context[context/]

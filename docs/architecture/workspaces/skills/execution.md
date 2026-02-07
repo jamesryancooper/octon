@@ -86,7 +86,7 @@ Skills may only write to paths defined in their registry I/O mappings, validated
 | Tier | Scope | Purpose |
 |------|-------|---------|
 | **Tier 1** | `.harmony/{{category}}/` | Standard deliverables (final destination) |
-| **Tier 2** | `.workspace/**` | Custom workspace locations (must declare) |
+| **Tier 2** | `.harmony/**` | Custom workspace locations (must declare) |
 | **Tier 3** | `<workspace-root>/**` | Project source locations (must declare) |
 
 **Operational Artifacts (`.harmony/capabilities/skills/`):**
@@ -187,7 +187,7 @@ All operational categories follow the `{{category}}/{{skill-id}}/` pattern:
 
 ```yaml
 outputs:
-  # Tier 2: Within .workspace/
+  # Tier 2: Within .harmony/
   - path: "projects/{{project}}/synthesis.md"
 
   # Tier 3: Workspace root (within scope)

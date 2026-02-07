@@ -71,7 +71,7 @@ Flow assets follow a standardized naming convention under `packages/workflows/<f
 - `config.flow.json` — Registration config (FlowKit entrypoint/discovery)
 - `manifest.yaml` — Workflow definition (step graph + flow-specific config)
 - `00-overview.md` — Canonical prompt (flow-level spec)
-- `NN-<step>.md` — Step-specific prompts (numbered like `.workspace` workflows)
+- `NN-<step>.md` — Step-specific prompts (numbered like `.harmony` workflows)
 
 Current flows:
 
