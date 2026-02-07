@@ -19,7 +19,7 @@ When creating a workspace using this template:
 
 1. Copy all files from `.harmony/scaffolding/templates/harmony/` (base)
 2. Overlay files from this directory (scope-specific overrides)
-3. Copy `workflows/are/` for document improvement workflows
+3. Copy `orchestration/workflows/are/` for document improvement workflows
 
 ### Files in This Template
 
