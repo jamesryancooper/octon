@@ -30,13 +30,13 @@ Use the **Agent Harness** for reliable multi-session execution:
 
 1. **Initialize**: Run `./are-init.sh <target-directory>` or use the initializer prompt in [agent-harness.md](./agent-harness.md)
 2. **Each Session**: Follow the Session Protocol in [agent-harness.md](./agent-harness.md)
-3. **Track Progress**: Update `<target-directory>/.workspace/.are/are-progress.json` after each phase
+3. **Track Progress**: Update `<target-directory>/.harmony/.are/are-progress.json` after each phase
 
 This ensures progress is tracked across context windows and each session knows where to resume.
 
 **Directory Structure**:
 - Central ARE prompts: `.harmony/orchestration/workflows/are/` (this directory)
-- Runtime artifacts: `<target-directory>/.workspace/.are/` (created per doc set)
+- Runtime artifacts: `<target-directory>/.harmony/.are/` (created per doc set)
 
 ### For Human Users
 
@@ -105,19 +105,19 @@ Based on [Anthropic's research on long-running agents](https://www.anthropic.com
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                        EVERY SESSION FLOW                                │
-│  (Runtime artifacts in <target-dir>/.workspace/.are/)                   │
+│  (Runtime artifacts in <target-dir>/.harmony/.are/)                   │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
 │  START OF SESSION (Required)                                            │
 │  1. pwd                                     → Confirm directory         │
-│  2. cat .workspace/.are/are-progress.json   → Understand state          │
-│  3. cat .workspace/.are/are-session-log.md  → Read last session notes   │
+│  2. cat .harmony/.are/are-progress.json   → Understand state          │
+│  3. cat .harmony/.are/are-session-log.md  → Read last session notes   │
 │  4. git log --oneline -5                    → Verify clean state        │
 │  5. Identify current task                   → What to work on           │
 │                                                                         │
 │  DURING SESSION                                                         │
 │  6. Execute ONE task              → One phase of one document           │
-│  7. Create artifacts              → Save to .workspace/.are/artifacts/  │
+│  7. Create artifacts              → Save to .harmony/.are/artifacts/  │
 │  8. Verify completion             → Use verification checklist          │
 │                                                                         │
 │  END OF SESSION (Required)                                              │

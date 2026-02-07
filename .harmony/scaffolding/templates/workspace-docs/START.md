@@ -3,16 +3,16 @@ title: Start Here
 description: Boot sequence and orientation for documentation workspaces.
 ---
 
-# .workspace: Start Here
+# .harmony: Start Here
 
 ## Boot Sequence
 
 1. **Read `scope.md`** → Know boundaries
 2. **Read `conventions.md`** → Know style rules
-3. **Read `progress/log.md`** → Know what's been done
-4. **Read `progress/tasks.json`** → Know current priorities
+3. **Read `continuity/log.md`** → Know what's been done
+4. **Read `continuity/tasks.json`** → Know current priorities
 5. **Begin** highest-priority unblocked task
-6. **Before finishing:** Update `progress/log.md`, verify against `checklists/complete.md`
+6. **Before finishing:** Update `continuity/log.md`, verify against `quality/complete.md`
 
 ## Key Files
 
@@ -24,7 +24,7 @@ description: Boot sequence and orientation for documentation workspaces.
 
 | Directory | Autonomy | Description |
 |-----------|----------|-------------|
-| `.scratchpad/` | **Human-led only** | Human-led zone (thinking, staging, archives) |
+| `ideation/scratchpad/` | **Human-led only** | Human-led zone (thinking, staging, archives) |
 
 Subdirectories: `inbox/` (staging), `archive/` (deprecated), `projects/` (research).
 
@@ -34,5 +34,5 @@ Subdirectories: `inbox/` (staging), `archive/` (deprecated), `projects/` (resear
 
 - Check existing docs for format patterns
 - Review `conventions.md` for structure templates
-- If topic unclear, document the ambiguity in `progress/log.md`
+- If topic unclear, document the ambiguity in `continuity/log.md`
 

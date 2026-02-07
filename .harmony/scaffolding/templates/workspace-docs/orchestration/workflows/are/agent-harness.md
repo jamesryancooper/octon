@@ -61,11 +61,11 @@ Makes incremental progress:
 ARE Loop uses a **two-location pattern**:
 
 1. **Central ARE prompts** (read-only methodology): `.harmony/orchestration/workflows/are/`
-2. **Runtime artifacts** (per-doc-set): `<target-docs>/.workspace/.are/`
+2. **Runtime artifacts** (per-doc-set): `<target-docs>/.harmony/.are/`
 
 ```
 <project>/
-├── .workspace/
+├── .harmony/
 │   └── workflows/
 │       └── are/                          # ← CENTRAL: ARE methodology prompts
 │           ├── 00-are-overview.md
@@ -77,7 +77,7 @@ ARE Loop uses a **two-location pattern**:
 └── <target-docs>/                        # ← The docs you're improving
     ├── doc1.md
     ├── doc2.md
-    └── .workspace/
+    └── .harmony/
         └── .are/                         # ← RUNTIME: Progress & artifacts
             ├── are-config.json           # Configuration (concept, tier, scope, alignment)
             ├── are-progress.json         # Machine-readable progress (DO NOT DELETE)
@@ -94,7 +94,7 @@ ARE Loop uses a **two-location pattern**:
 
 ### Key Files Explained
 
-**Runtime artifacts** (in `<target-docs>/.workspace/.are/`):
+**Runtime artifacts** (in `<target-docs>/.harmony/.are/`):
 
 | File | Purpose | When Created | Who Reads It |
 |------|---------|--------------|--------------|
@@ -234,7 +234,7 @@ You are initializing an ARE Loop documentation improvement workflow.
 ## Your Task
 
 Set up the tracking infrastructure for improving a documentation set. You will:
-1. Create the `.workspace/.are/` directory structure in the target docs directory
+1. Create the `.harmony/.are/` directory structure in the target docs directory
 2. **Gather concept context** (guidelines, terminology, constraints)
 3. Analyze the documentation scope and create the task list
 4. Generate the initial `are-progress.json` with all documents
@@ -256,13 +256,13 @@ Set up the tracking infrastructure for improving a documentation set. You will:
 
 ### Step 1: Create Directory Structure
 ```bash
-# Create .workspace/.are/ in the target documentation directory
-mkdir -p <TARGET_DOC_DIR>/.workspace/.are/artifacts
+# Create .harmony/.are/ in the target documentation directory
+mkdir -p <TARGET_DOC_DIR>/.harmony/.are/artifacts
 ```
 
 ### Step 2: Create are-config.json
 
-Create `<TARGET_DOC_DIR>/.workspace/.are/are-config.json` with:
+Create `<TARGET_DOC_DIR>/.harmony/.are/are-config.json` with:
 
 ```json
 {
@@ -290,7 +290,7 @@ ls -la docs/*policy* docs/*standard* docs/*guideline* 2>/dev/null
 
 #### 3b: Create concept-context.md
 
-Create `<TARGET_DOC_DIR>/.workspace/.are/concept-context.md` with gathered information:
+Create `<TARGET_DOC_DIR>/.harmony/.are/concept-context.md` with gathered information:
 
 ```markdown
 # Concept Context: <CONCEPT>
@@ -369,14 +369,14 @@ For each document in scope:
 
 ### Step 5: Create are-progress.json
 
-Create `<TARGET_DOC_DIR>/.workspace/.are/are-progress.json`.
+Create `<TARGET_DOC_DIR>/.harmony/.are/are-progress.json`.
 Initialize with ALL documents set to "pending" status.
 Set `setAnalysis.status` to "pending".
 Set `conceptContext.status` to "completed".
 
 ### Step 6: Create are-session-log.md
 
-Create `<TARGET_DOC_DIR>/.workspace/.are/are-session-log.md`:
+Create `<TARGET_DOC_DIR>/.harmony/.are/are-session-log.md`:
 
 ```markdown
 # ARE Loop Session Log
@@ -395,7 +395,7 @@ Create `<TARGET_DOC_DIR>/.workspace/.are/are-session-log.md`:
 **Duration**: <time>
 
 ### Actions
-- Created .workspace/.are/ directory structure
+- Created .harmony/.are/ directory structure
 - Gathered concept context (guidelines, terminology, constraints)
 - Inventoried <n> documents
 - Initialized progress tracking
@@ -414,7 +414,7 @@ Create `<TARGET_DOC_DIR>/.workspace/.are/are-session-log.md`:
 ### Step 7: Git Commit
 
 ```bash
-git add <TARGET_DOC_DIR>/.workspace/
+git add <TARGET_DOC_DIR>/.harmony/
 git commit -m "ARE Loop: Initialize tracking for <DOC_SCOPE> (<CONCEPT>)"
 ```
 
@@ -427,7 +427,7 @@ After completing initialization, report:
 3. Suggested priority order
 4. Estimated total effort based on tier
 5. What the next session should do first
-6. Path to ARE progress files: `<TARGET_DOC_DIR>/.workspace/.are/`
+6. Path to ARE progress files: `<TARGET_DOC_DIR>/.harmony/.are/`
 
 ```
 
@@ -444,7 +444,7 @@ You are continuing an ARE Loop documentation improvement workflow.
 
 ## Key Paths
 
-- **Runtime artifacts**: `<TARGET_DOC_DIR>/.workspace/.are/`
+- **Runtime artifacts**: `<TARGET_DOC_DIR>/.harmony/.are/`
 - **Central ARE prompts**: `.harmony/orchestration/workflows/are/`
 
 ## Session Protocol
@@ -461,7 +461,7 @@ Confirm you're in the correct project directory.
 ### Step 2: Read Progress State (Required)
 
 ```bash
-cat <TARGET_DOC_DIR>/.workspace/.are/are-progress.json
+cat <TARGET_DOC_DIR>/.harmony/.are/are-progress.json
 ```
 
 Parse this to understand:
@@ -473,7 +473,7 @@ Parse this to understand:
 ### Step 3: Read Session Log (Required)
 
 ```bash
-cat <TARGET_DOC_DIR>/.workspace/.are/are-session-log.md
+cat <TARGET_DOC_DIR>/.harmony/.are/are-session-log.md
 ```
 
 Read the most recent session entry to understand:
@@ -538,18 +538,18 @@ At END of every session:
 
 ## Phase Execution
 
-> **Note**: Runtime artifacts are in `<TARGET_DOC_DIR>/.workspace/.are/`.
+> **Note**: Runtime artifacts are in `<TARGET_DOC_DIR>/.harmony/.are/`.
 > Central prompts are in `.harmony/orchestration/workflows/are/`.
 
 ### Executing Analyze Phase
 
-1. **Read alignment reference** from `.workspace/.are/alignment-reference.md` (if exists)
-2. **Read concept context** from `.workspace/.are/concept-context.md` (terminology, constraints, success criteria)
-3. **Read concept-aligned prompt** from `.workspace/.are/concept-aligned-prompt.md`
+1. **Read alignment reference** from `.harmony/.are/alignment-reference.md` (if exists)
+2. **Read concept context** from `.harmony/.are/concept-context.md` (terminology, constraints, success criteria)
+3. **Read concept-aligned prompt** from `.harmony/.are/concept-aligned-prompt.md`
 4. Read the document completely
 5. Apply concept-aligned AND alignment-aware analysis
 6. Use [01-are-analyze-single-doc.md](./01-are-analyze-single-doc.md) for standard analysis
-7. Create `.workspace/.are/artifacts/<doc-id>-cycle<n>-analysis.md`
+7. Create `.harmony/.are/artifacts/<doc-id>-cycle<n>-analysis.md`
 8. Update are-progress.json: set analyze.status = "completed"
 9. Commit: "ARE Loop: Complete Analyze for <doc> (Cycle <n>)"
 
@@ -572,7 +572,7 @@ At END of every session:
 1. Read the analysis artifact
 2. Use [03-are-refine.md](./03-are-refine.md)
 3. Make changes to the document
-4. Create `.workspace/.are/artifacts/<doc-id>-cycle<n>-changes.md`
+4. Create `.harmony/.are/artifacts/<doc-id>-cycle<n>-changes.md`
 5. Update are-progress.json: set refine.status = "completed"
 6. Commit: "ARE Loop: Complete Refine for <doc> (Cycle <n>)"
 
@@ -581,7 +581,7 @@ At END of every session:
 1. Re-read the modified document
 2. Use [04-are-evaluate.md](./04-are-evaluate.md)
 3. Run applicable stress tests from [05-are-stress-tests.md](./05-are-stress-tests.md)
-4. Create `.workspace/.are/artifacts/<doc-id>-cycle<n>-evaluation.md`
+4. Create `.harmony/.are/artifacts/<doc-id>-cycle<n>-evaluation.md`
 5. Record decision (standardize/continue/pivot/archive)
 6. Update are-progress.json: set evaluate.status = "completed", set decision
 7. Commit: "ARE Loop: Complete Evaluate for <doc> (Cycle <n>) - <decision>"
@@ -652,11 +652,11 @@ Before marking ANY phase as "completed":
 
 ### Analyze Phase Verification
 
-- [ ] **Alignment reference was consulted** (if `.workspace/.are/alignment-reference.md` exists)
-- [ ] **Concept context was consulted** (`.workspace/.are/concept-context.md`)
-- [ ] **Concept-aligned prompt was used** (`.workspace/.are/concept-aligned-prompt.md`)
+- [ ] **Alignment reference was consulted** (if `.harmony/.are/alignment-reference.md` exists)
+- [ ] **Concept context was consulted** (`.harmony/.are/concept-context.md`)
+- [ ] **Concept-aligned prompt was used** (`.harmony/.are/concept-aligned-prompt.md`)
 - [ ] Document was read completely
-- [ ] Gap analysis artifact exists at `.workspace/.are/artifacts/<doc>-analysis.md`
+- [ ] Gap analysis artifact exists at `.harmony/.are/artifacts/<doc>-analysis.md`
 - [ ] Gaps reference concept terminology and constraints
 - [ ] **Alignment gaps documented** (if aligning) - where doc diverges from reference
 - [ ] At least 3 gaps identified (or explicit note that doc is already excellent)
@@ -667,7 +667,7 @@ Before marking ANY phase as "completed":
 
 - [ ] Analysis artifact was read
 - [ ] Changes were actually made to the document
-- [ ] Changes artifact exists at `.workspace/.are/artifacts/<doc>-changes.md`
+- [ ] Changes artifact exists at `.harmony/.are/artifacts/<doc>-changes.md`
 - [ ] Changes address the gaps identified in analysis
 - [ ] Quick validation passed (links work, no obvious errors)
 
@@ -678,7 +678,7 @@ Before marking ANY phase as "completed":
 - [ ] At least 1 stress test executed (all tiers)
 - [ ] Decision recorded (standardize/continue/pivot/archive)
 - [ ] If continuing, next cycle scope defined
-- [ ] Evaluation artifact exists at `.workspace/.are/artifacts/<doc>-evaluation.md`
+- [ ] Evaluation artifact exists at `.harmony/.are/artifacts/<doc>-evaluation.md`
 
 ```
 
@@ -690,19 +690,19 @@ Before marking ANY phase as "completed":
 
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                        EVERY SESSION FLOW                                │
-│  (Runtime artifacts in <TARGET_DOC_DIR>/.workspace/.are/)               │
+│  (Runtime artifacts in <TARGET_DOC_DIR>/.harmony/.are/)               │
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                         │
 │  START OF SESSION                                                       │
 │  1. pwd                                     → Confirm directory         │
-│  2. cat .workspace/.are/are-progress.json   → Understand state          │
-│  3. cat .workspace/.are/are-session-log.md  → Read last session notes   │
+│  2. cat .harmony/.are/are-progress.json   → Understand state          │
+│  3. cat .harmony/.are/are-session-log.md  → Read last session notes   │
 │  4. git log --oneline -5                    → Verify clean state        │
 │  5. Identify current task                   → What to work on           │
 │                                                                         │
 │  DURING SESSION                                                         │
 │  6. Execute ONE task              → One phase of one document           │
-│  7. Create artifacts              → Save to .workspace/.are/artifacts/  │
+│  7. Create artifacts              → Save to .harmony/.are/artifacts/  │
 │  8. Verify completion             → Use verification checklist          │
 │                                                                         │
 │  END OF SESSION                                                         │

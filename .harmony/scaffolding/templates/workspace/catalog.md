@@ -9,7 +9,7 @@ Available operations in this workspace.
 
 ## Commands
 
-Atomic operations in `commands/`:
+Atomic operations in `capabilities/commands/`:
 
 | Command | Access | Description |
 |---------|--------|-------------|
@@ -17,7 +17,7 @@ Atomic operations in `commands/`:
 
 ## Workflows
 
-Multi-step procedures in `workflows/`:
+Multi-step procedures in `orchestration/workflows/`:
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
@@ -25,7 +25,7 @@ Multi-step procedures in `workflows/`:
 
 ### Repo-Wide Workflows
 
-The root `.workspace` provides shared workflows available to all workspaces:
+The root `.harmony` provides shared workflows available to all workspaces:
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
@@ -35,7 +35,7 @@ The root `.workspace` provides shared workflows available to all workspaces:
 
 ## Prompts
 
-Task templates in `prompts/`:
+Task templates in `scaffolding/prompts/`:
 
 | Prompt | Access | Description |
 |--------|--------|-------------|
@@ -43,15 +43,15 @@ Task templates in `prompts/`:
 
 ## Context
 
-Background knowledge in `context/`:
+Background knowledge in `cognition/context/`:
 
 | File | Description |
 |------|-------------|
-| [decisions.md](./context/decisions.md) | Agent-readable decision summaries. |
-| [lessons.md](./context/lessons.md) | Anti-patterns and failures to avoid. |
-| [glossary.md](./context/glossary.md) | Domain-specific terminology. |
-| [dependencies.md](./context/dependencies.md) | External systems and references. |
-| [constraints.md](./context/constraints.md) | Technical and business rules. |
+| [decisions.md](./cognition/context/decisions.md) | Agent-readable decision summaries. |
+| [lessons.md](./cognition/context/lessons.md) | Anti-patterns and failures to avoid. |
+| [glossary.md](./cognition/context/glossary.md) | Domain-specific terminology. |
+| [dependencies.md](./cognition/context/dependencies.md) | External systems and references. |
+| [constraints.md](./cognition/context/constraints.md) | Technical and business rules. |
 
 ## Access Key
 

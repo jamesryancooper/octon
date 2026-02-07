@@ -28,17 +28,17 @@ When creating a workspace using this template:
 | `START.md` | Node.js/TS-specific boot sequence (overrides base) |
 | `scope.md` | Package-specific scope template (overrides base) |
 | `conventions.md` | TypeScript/React conventions (overrides base) |
-| `checklists/complete.md` | Code-specific definition of done (overrides base) |
+| `quality/done.md` | Code-specific definition of done (overrides base) |
 
 ### Files Inherited from Base
 
 All other files come from `.harmony/scaffolding/templates/workspace/`:
 
 - `catalog.md`
-- `context/` (decisions, lessons, glossary, dependencies, constraints)
-- `progress/` (log.md, tasks.json, entities.json)
-- `checklists/session-exit.md`
-- `commands/`, `prompts/`, `workflows/`, `templates/`, `examples/` (README placeholders)
+- `cognition/context/` (decisions, lessons, glossary, dependencies, constraints)
+- `continuity/` (log.md, tasks.json, entities.json)
+- `quality/session-exit.md`
+- `capabilities/commands/`, `scaffolding/prompts/`, `orchestration/workflows/`, `scaffolding/templates/`, `scaffolding/examples/` (README placeholders)
 
 ## Usage
 

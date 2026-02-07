@@ -22,7 +22,7 @@
 
 | Do | Don't |
 |----|-------|
-| Use imperative verbs | Explain why (save for `.scratchpad/` or `docs/`) |
+| Use imperative verbs | Explain why (save for `ideation/scratchpad/` or `docs/`) |
 | Use lists over prose | Write paragraphs |
 | Be specific and concrete | Use vague language |
 

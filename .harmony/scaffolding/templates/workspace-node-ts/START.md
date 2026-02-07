@@ -3,7 +3,7 @@ title: Start Here
 description: Boot sequence and orientation for Node.js/TypeScript workspaces.
 ---
 
-# .workspace: Start Here
+# .harmony: Start Here
 
 ## Prerequisites
 
@@ -15,10 +15,10 @@ pnpm install
 
 1. **Read `scope.md`** → Know boundaries
 2. **Read `conventions.md`** → Know style rules
-3. **Read `progress/log.md`** → Know what's been done
-4. **Read `progress/tasks.json`** → Know current priorities
+3. **Read `continuity/log.md`** → Know what's been done
+4. **Read `continuity/tasks.json`** → Know current priorities
 5. **Begin** highest-priority unblocked task
-6. **Before finishing:** Update `progress/log.md`, verify against `checklists/complete.md`
+6. **Before finishing:** Update `continuity/log.md`, verify against `quality/complete.md`
 
 ## Key Files
 
@@ -31,7 +31,7 @@ pnpm install
 
 | Directory | Autonomy | Description |
 |-----------|----------|-------------|
-| `.scratchpad/` | **Human-led only** | Human-led zone (thinking, staging, archives) |
+| `ideation/scratchpad/` | **Human-led only** | Human-led zone (thinking, staging, archives) |
 
 Subdirectories: `inbox/` (staging), `archive/` (deprecated), `projects/` (research).
 

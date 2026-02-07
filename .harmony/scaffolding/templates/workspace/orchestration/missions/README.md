@@ -15,7 +15,7 @@ Missions are **time-bounded sub-projects** within a workspace. They provide isol
 | Time-bounded initiative | Yes | — |
 | Delegatable unit of work | Yes | — |
 | Single task, one session | No | Use workspace `tasks.json` |
-| Different codebase area | No | Create nested `.workspace` |
+| Different codebase area | No | Create nested `.harmony` |
 
 ## Active Missions
 

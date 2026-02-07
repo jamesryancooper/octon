@@ -31,14 +31,14 @@ If you are an AI agent executing this workflow across multiple sessions, use the
 → **[agent-harness.md](./agent-harness.md)** - Session protocol, progress tracking, verification checklists
 
 The harness ensures reliable progress across context windows by:
-- Tracking state in `<target-dir>/.workspace/.are/are-progress.json`
+- Tracking state in `<target-dir>/.harmony/.are/are-progress.json`
 - Following a consistent session start/end protocol
 - Verifying completion before marking phases done
 - Committing progress for clean handoffs
 
 **Directory Structure**:
 - **Central ARE prompts**: `.harmony/orchestration/workflows/are/` (methodology files - this directory)
-- **Runtime artifacts**: `<target-dir>/.workspace/.are/` (created per documentation set)
+- **Runtime artifacts**: `<target-dir>/.harmony/.are/` (created per documentation set)
 
 ---
 
