@@ -115,7 +115,7 @@ Classify ambiguous instructions before applying precedence:
 - **Goals/constraints/acceptance criteria** describe required outcomes and externally imposed limits (what must be true).
 - Explicit user-mandated language/framework/runtime/tool selections are treated as goals/constraints by default, unless the user marks them as optional or preference-level.
 - **Preferences** describe requested implementation style, process, or format (how to do it), plus optional implementation choices not stated as mandatory.
-- If classification is ambiguous and materially affects architecture, risk, or rollout: ask one clarifying question. If immediate progress is required, provisionally treat it as a preference, proceed with repository standards, and call out the assumption.
+- If classification is ambiguous and materially affects architecture, risk, or rollout: ask one or more targeted clarifying questions (the minimum needed to remove material ambiguity). If immediate progress is required, provisionally treat it as a preference, proceed with repository standards, and call out the assumption.
 
 When a higher-precedence source overrides this file, adapt without friction and include a brief **Deviation Note** (`what changed`, `why`, `impact`) when the override materially affects architecture, risk, testing, rollout, or operational ownership.
 
@@ -763,8 +763,9 @@ Determine mode in this order:
 7. Else if the request is non-trivial, use **Full mode (implementation)**.
 8. Otherwise, use **Lightweight mode** (default for short/low-risk requests).
 
+- For mixed non-trivial requests (architecture + implementation + documentation) where the primary artifact is not explicit, resolve a deterministic primary artifact before applying steps 3-7: if boundary/contract/schema/rollout-shape decisions are in scope, set primary artifact to **architecture**; else if non-trivial implementation is in scope, set primary artifact to **implementation**; else set primary artifact to **documentation**. Then apply steps 3-7 unchanged so Tier/risk gates (including compact-mode eligibility) still control final mode.
 - Compact mode is Tier A only. Tier B/C non-trivial work must use full-mode depth unless active incident/exploration fast-path rules apply.
-- If both documentation and architecture triggers apply, choose by requested primary artifact: artifact-first deliverable -> **full-documentation**; decision/adoption recommendation -> **full-architecture**.
+- If both documentation and architecture triggers apply, choose by requested or resolved primary artifact: artifact-first deliverable -> **full-documentation**; decision/adoption recommendation -> **full-architecture**.
 - For non-trivial requests in any mode, include **Selected Context** fields: archetype(s), testing profile(s) (§8), observability/operations profile(s) (§9), risk tier (§3.5.1), **tier basis**, and mode. For multi-archetype work, include primary/secondary mapping plus non-negotiables.
 - Include `tier_basis=<...>` in both Selected and Provisional Context (short rationale for why the chosen tier applies).
 - Include backend model selection from §5.0 in Selected and Provisional Context as `backend_models=primary:<...>,secondary:[...]`; use `backend_models=n/a` when backend/server components are not in scope.
