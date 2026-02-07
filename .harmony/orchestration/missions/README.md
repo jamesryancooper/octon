@@ -15,7 +15,7 @@ Missions are **time-bounded sub-projects** within a workspace. They provide isol
 | Time-bounded initiative (weeks) | Yes | — |
 | Delegatable unit of work | Yes | — |
 | Single task, completes in one session | No | Use workspace `tasks.json` |
-| Different codebase area | No | Create nested `.workspace` |
+| Different codebase area | No | Create nested `.harmony` |
 
 ## Active Missions
 
@@ -54,7 +54,7 @@ missions/<slug>/
 
 ## Relationship to Workspace Progress
 
-- **Workspace `progress/`**: Cross-cutting session log, workspace-level tasks
+- **Workspace `continuity/`**: Cross-cutting session log, workspace-level tasks
 - **Mission `tasks.json`**: Isolated tasks for this specific initiative
 - **Mission `log.md`**: Isolated progress for this specific initiative
 

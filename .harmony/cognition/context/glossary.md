@@ -11,9 +11,9 @@ Terms used consistently throughout workspace documentation. Use these terms exac
 
 | Term | Definition |
 |------|------------|
-| Harness | The `.workspace` support structure that guides agent work. |
+| Harness | The `.harmony` support structure that guides agent work. |
 | Boot sequence | Steps to orient and begin work (defined in `START.md`). |
-| Cold start | First session without prior context from `progress/`. |
+| Cold start | First session without prior context from `continuity/`. |
 | Token budget | Maximum tokens for agent-facing content (~2,000 target, ~5,000 max). |
 | Cursor command | User entry point in `.cursor/commands/`, triggered by `/command-name`. |
 | Workspace command | Atomic operation in `.harmony/capabilities/commands/`. |
@@ -22,6 +22,6 @@ Terms used consistently throughout workspace documentation. Use these terms exac
 | Agent-ignored | Dot-prefixed directories that agents MUST NOT access autonomously. |
 | Human-led | Directories (`ideation/projects/`, `ideation/scratchpad/`) agents may access only when human explicitly directs to specific files. |
 | Scratchpad | Human-led zone (`ideation/scratchpad/`) for ephemeral content and the early-stage idea funnel. Subdirectories: `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`. |
-| Project | Human-led exploration in `projects/` that produces workspace artifacts. |
+| Project | Human-led exploration in `ideation/projects/` that produces workspace artifacts. |
 | Brainstorm | Single-file structured exploration in `ideation/scratchpad/brainstorm/` -- filter stage between ideas and projects. |
-| The Funnel | Pipeline from ideas to committed work: `ideas/` → `brainstorm/` → `projects/` → `missions/` → `context/`. |
+| The Funnel | Pipeline from ideas to committed work: `ideation/scratchpad/ideas/` → `ideation/scratchpad/brainstorm/` → `ideation/projects/` → `orchestration/missions/` → `cognition/context/`. |

@@ -41,16 +41,16 @@ cd .harmony
 ✓ scope.md
 ✓ conventions.md
 ✓ catalog.md
-✓ progress/
-✓ checklists/
-✓ prompts/
-✓ workflows/
-✓ commands/
-✓ context/
+✓ continuity/
+✓ quality/
+✓ scaffolding/prompts/
+✓ orchestration/workflows/
+✓ capabilities/commands/
+✓ cognition/context/
 
 Standard directories:
-✓ templates/
-○ examples/ (not created)
+✓ scaffolding/templates/
+○ scaffolding/examples/ (not created)
 
 === Ready ===
 ```

@@ -233,7 +233,7 @@ Missions inherit locality principles:
 .harmony/orchestration/missions/
 └── add-mfa/
     ├── brief.md       # Mission scope
-    ├── progress/
+    ├── continuity/
     │   ├── log.md     # Mission-specific log
     │   └── tasks.json # Mission-specific tasks
     └── context/       # Mission-specific context

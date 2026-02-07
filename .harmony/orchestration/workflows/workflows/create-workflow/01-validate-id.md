@@ -39,7 +39,7 @@ Ensure the workflow ID is valid and doesn't conflict with existing workflows bef
    ```text
    List directories in target location
    Check for existing <workflow-id>/ directory
-   Also check alternate location (if checking .harmony, also check .workspace)
+   Verify no existing directory with same ID
    ```
 
 4. **Report result:**

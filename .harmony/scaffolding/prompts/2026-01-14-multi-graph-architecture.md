@@ -22,16 +22,16 @@ Harmony uses a **two-layer inheritance model** for AI agent coordination:
                        │ inherits from
                        ▼
 ┌─────────────────────────────────────────────────────────┐
-│  .workspace/  (Project-Specific Harness)                │
-│  ├── context/        Decisions, constraints, glossary   │
-│  ├── progress/       tasks.json, log.md, entities.json  │
-│  ├── missions/       Time-bounded sub-projects          │
+│  .harmony/  (Project-Specific Harness)                  │
+│  ├── cognition/context/  Decisions, constraints, glossary│
+│  ├── continuity/     tasks.json, log.md, entities.json  │
+│  ├── orchestration/missions/  Time-bounded sub-projects │
 │  ├── graph/          ← Knowledge graph lives here       │
-│  └── skills/         Project-specific skill mappings    │
+│  └── capabilities/skills/  Project-specific skill mappings│
 └─────────────────────────────────────────────────────────┘
 ```
 
-**Resolution rule:** Local (`.workspace/`) overrides shared (`.harmony/`).
+**Resolution rule:** Local workspace (`.harmony/`) overrides shared foundation (`.harmony/` root).
 
 ### Where Graphs Fit
 
@@ -40,8 +40,8 @@ Graphs follow the same inheritance pattern:
 | Layer | Graph Role |
 |-------|------------|
 | `.harmony/graph/` | Shared schema, types, rebuild skill |
-| `.workspace/graph/` | Root-level graph + subgraph registry |
-| `apps/*/.workspace/graph/` | Domain-specific graphs |
+| `.harmony/graph/` | Root-level graph + subgraph registry |
+| `apps/*/.harmony/graph/` | Domain-specific graphs |
 
 ---
 
@@ -54,7 +54,7 @@ harmony/
 │       ├── schema.json          # Shared node/edge JSON Schema
 │       └── types.ts             # Shared TypeScript types
 │
-├── .workspace/                  # Root workspace
+├── .harmony/                    # Root workspace (graph portion)
 │   └── graph/
 │       ├── graph.json           # Root graph (decisions, repo-wide entities)
 │       ├── manifest.json        # Source file hashes for staleness
@@ -62,8 +62,8 @@ harmony/
 │
 ├── apps/
 │   ├── api/
-│   │   └── .workspace/
-│   │       ├── context/
+│   │   └── .harmony/
+│   │       ├── cognition/context/
 │   │       │   └── decisions/
 │   │       │       └── API-001.md   # ← Front matter declares node
 │   │       └── graph/
@@ -71,7 +71,7 @@ harmony/
 │   │           └── manifest.json
 │   │
 │   └── web/
-│       └── .workspace/
+│       └── .harmony/
 │           └── graph/
 │               ├── graph.json       # Web-scoped graph
 │               └── manifest.json
@@ -146,7 +146,7 @@ Examples:
 
 ## 4. Graph JSON Structure
 
-### Local Graph (`apps/api/.workspace/graph/graph.json`)
+### Local Graph (`apps/api/.harmony/graph/graph.json`)
 
 ```json
 {
@@ -167,7 +167,7 @@ Examples:
         "tags": ["architecture", "api"]
       },
       "meta": {
-        "source": "context/decisions/API-001.md",
+        "source": "cognition/context/decisions/API-001.md",
         "created": "2026-01-10",
         "modified": "2026-01-14"
       }
@@ -179,7 +179,7 @@ Examples:
         "status": "in_progress"
       },
       "meta": {
-        "source": "progress/tasks.json"
+        "source": "continuity/tasks.json"
       }
     }
   },
@@ -193,7 +193,7 @@ Examples:
 }
 ```
 
-### Root Graph with Subgraph Registry (`.workspace/graph/graph.json`)
+### Root Graph with Subgraph Registry (`.harmony/graph/graph.json`)
 
 ```json
 {
@@ -213,30 +213,30 @@ Examples:
         "status": "accepted"
       },
       "meta": {
-        "source": "context/decisions.md"
+        "source": "cognition/context/decisions.md"
       }
     }
   },
   "edges": [],
   "subgraphs": [
-    { "workspace": "api", "path": "apps/api/.workspace/graph/graph.json" },
-    { "workspace": "web", "path": "apps/web/.workspace/graph/graph.json" },
-    { "workspace": "flowkit", "path": "packages/flowkit/.workspace/graph/graph.json" }
+    { "workspace": "api", "path": "apps/api/.harmony/graph/graph.json" },
+    { "workspace": "web", "path": "apps/web/.harmony/graph/graph.json" },
+    { "workspace": "flowkit", "path": "packages/flowkit/.harmony/graph/graph.json" }
   ]
 }
 ```
 
-### Manifest for Staleness Detection (`.workspace/graph/manifest.json`)
+### Manifest for Staleness Detection (`.harmony/graph/manifest.json`)
 
 ```json
 {
   "generated_at": "2026-01-14T10:30:00Z",
   "sources": {
-    "context/decisions.md": {
+    "cognition/context/decisions.md": {
       "hash": "a1b2c3d4e5f6",
       "mtime": "2026-01-14T09:00:00Z"
     },
-    "progress/tasks.json": {
+    "continuity/tasks.json": {
       "hash": "b2c3d4e5f6a1",
       "mtime": "2026-01-14T10:15:00Z"
     }
@@ -325,15 +325,15 @@ export interface QueryPattern {
 
 ```bash
 # Rebuild single workspace graph from front matter
-pnpm harmony graph:rebuild .workspace
-pnpm harmony graph:rebuild apps/api/.workspace
+pnpm harmony graph:rebuild .harmony
+pnpm harmony graph:rebuild apps/api/.harmony
 
 # Rebuild all graphs in monorepo
 pnpm harmony graph:rebuild-all
 
 # Check if graph is stale (fast, uses manifest hashes)
 pnpm harmony graph:status
-pnpm harmony graph:status apps/api/.workspace
+pnpm harmony graph:status apps/api/.harmony
 
 # Validate all cross-references resolve
 pnpm harmony graph:validate
@@ -481,7 +481,7 @@ if pnpm harmony graph:status --quiet; then
 else
   echo "Rebuilding stale graph..."
   pnpm harmony graph:rebuild-all
-  git add .workspace/graph/ apps/*/.workspace/graph/
+  git add .harmony/graph/ apps/*/.harmony/graph/
 fi
 ```
 
@@ -492,15 +492,15 @@ fi
 | Component | Location | Purpose |
 |-----------|----------|---------|
 | Shared schema | `.harmony/graph/` | Types, JSON Schema |
-| Root graph | `.workspace/graph/` | Repo-wide nodes + subgraph index |
-| Domain graphs | `apps/*/.workspace/graph/` | Domain-specific nodes |
+| Root graph | `.harmony/graph/` | Repo-wide nodes + subgraph index |
+| Domain graphs | `apps/*/.harmony/graph/` | Domain-specific nodes |
 | Infrastructure | `packages/kit-graph/` | Query engine, CLI, rebuild |
 | Source of truth | YAML front matter in `.md` files | Nodes declared inline |
 | Derived cache | `graph.json` per workspace | Fast load, queryable |
 
 **Key Principles:**
 1. **Locality** — Graphs live where content lives
-2. **Inheritance** — Follows `.harmony/` → `.workspace/` pattern
+2. **Inheritance** — Follows root `.harmony/` → domain `.harmony/` pattern
 3. **Derived, not authoritative** — Front matter is source; graph is cache
 4. **Federated** — Each workspace owns its graph; root indexes all
 5. **Optional** — Enhances workspace pattern without replacing it

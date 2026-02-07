@@ -147,14 +147,14 @@ cp -r .harmony/scaffolding/templates/harmony .harmony
 
 | Directory | Purpose |
 |-----------|---------|
-| `templates/` | Workspace scaffolding (base + variants) |
-| `assistants/` | Generic specialists (reviewer, refactor, docs) |
-| `workflows/` | Workspace management + mission lifecycle |
-| `skills/` | Composable capabilities with defined I/O |
-| `commands/` | Atomic operations |
-| `prompts/` | Task templates |
-| `checklists/` | Quality gates |
-| `context/` | Tool usage, compaction guides |
+| `scaffolding/templates/` | Workspace scaffolding (base + variants) |
+| `agency/assistants/` | Generic specialists (reviewer, refactor, docs) |
+| `orchestration/workflows/` | Workspace management + mission lifecycle |
+| `capabilities/skills/` | Composable capabilities with defined I/O |
+| `capabilities/commands/` | Atomic operations |
+| `scaffolding/prompts/` | Task templates |
+| `quality/` | Quality gates |
+| `cognition/context/` | Tool usage, compaction guides |
 
 ### Next Steps
 

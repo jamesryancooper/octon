@@ -147,8 +147,8 @@ target_completion: null
 ```mermaid
 graph TB
     subgraph workspace [Workspace - The Project]
-        progress[progress/]
-        context[context/]
+        continuity[continuity/]
+        context[cognition/context/]
         
         subgraph missions [missions/]
             m1[auth-overhaul/]

@@ -4,7 +4,7 @@
 #
 # Usage: ./setup-harness-links.sh [skill-id]
 #   If skill-id is provided, only creates links for that skill
-#   If no argument, creates links for all skills from both locations
+#   If no argument, creates links for all discovered skills
 
 set -e
 
@@ -12,9 +12,8 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
-# Skills directories (checked in order)
-HARMONY_SKILLS_DIR="$PROJECT_ROOT/.harmony/skills"
-WORKSPACE_SKILLS_DIR="$PROJECT_ROOT/.harmony/capabilities/skills"
+# Skills directory
+SKILLS_DIR="$PROJECT_ROOT/.harmony/capabilities/skills"
 
 # Harness folders to create symlinks in
 HARNESSES=(".claude/skills" ".cursor/skills" ".codex/skills")
@@ -33,19 +32,12 @@ is_excluded() {
     return 1
 }
 
-# Function to find skill location (.harmony or .workspace)
+# Function to find skill location
 find_skill_location() {
     local skill_id="$1"
 
-    # Check .harmony/skills first
-    if [[ -d "$HARMONY_SKILLS_DIR/$skill_id" ]] && [[ -f "$HARMONY_SKILLS_DIR/$skill_id/SKILL.md" ]]; then
-        echo "harmony"
-        return 0
-    fi
-
-    # Check capabilities/skills second
-    if [[ -d "$WORKSPACE_SKILLS_DIR/$skill_id" ]] && [[ -f "$WORKSPACE_SKILLS_DIR/$skill_id/SKILL.md" ]]; then
-        echo "workspace"
+    if [[ -d "$SKILLS_DIR/$skill_id" ]] && [[ -f "$SKILLS_DIR/$skill_id/SKILL.md" ]]; then
+        echo "skills"
         return 0
     fi
 
@@ -59,17 +51,11 @@ create_skill_link() {
 
     # Find skill location
     location=$(find_skill_location "$skill_id") || {
-        echo "Error: Skill '$skill_id' not found in .harmony/capabilities/skills/ or .harmony/capabilities/skills/" >&2
+        echo "Error: Skill '$skill_id' not found in .harmony/capabilities/skills/" >&2
         return 1
     }
 
-    # Set paths based on location
-    local target
-    if [[ "$location" == "harmony" ]]; then
-        target="../../.harmony/capabilities/skills/$skill_id"
-    else
-        target="../../.harmony/capabilities/skills/$skill_id"
-    fi
+    local target="../../.harmony/capabilities/skills/$skill_id"
 
     for harness in "${HARNESSES[@]}"; do
         harness_dir="$PROJECT_ROOT/$harness"
@@ -130,8 +116,7 @@ discover_skills() {
 # Main logic
 echo "Setting up harness skill symlinks..."
 echo "Project root: $PROJECT_ROOT"
-echo "Harmony skills: $HARMONY_SKILLS_DIR"
-echo "Workspace skills: $WORKSPACE_SKILLS_DIR"
+echo "Skills: $SKILLS_DIR"
 echo ""
 
 if [[ -n "$1" ]]; then
@@ -143,31 +128,11 @@ else
     echo "Discovering skills from .harmony/capabilities/skills/..."
     echo ""
 
-    # Collect unique skill IDs from both locations
-    declare -A seen_skills
-
-    # Harmony skills (primary)
     echo "=== .harmony/capabilities/skills/ ==="
-    for skill_id in $(discover_skills "$HARMONY_SKILLS_DIR" "harmony"); do
-        if [[ -z "${seen_skills[$skill_id]}" ]]; then
-            seen_skills[$skill_id]=1
-            echo "Skill: $skill_id (harmony)"
-            create_skill_link "$skill_id" || true
-            echo ""
-        fi
-    done
-
-    # Workspace skills (secondary, only if not already in harmony)
-    echo "=== .harmony/capabilities/skills/ ==="
-    for skill_id in $(discover_skills "$WORKSPACE_SKILLS_DIR" "workspace"); do
-        if [[ -z "${seen_skills[$skill_id]}" ]]; then
-            seen_skills[$skill_id]=1
-            echo "Skill: $skill_id (workspace)"
-            create_skill_link "$skill_id" || true
-            echo ""
-        else
-            echo "Skill: $skill_id (skipped, already linked from harmony)"
-        fi
+    for skill_id in $(discover_skills "$SKILLS_DIR" "skills"); do
+        echo "Skill: $skill_id"
+        create_skill_link "$skill_id" || true
+        echo ""
     done
 fi
 

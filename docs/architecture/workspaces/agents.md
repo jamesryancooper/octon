@@ -121,7 +121,7 @@ graph TB
 
 Agents perceive their environment by:
 
-- **Reading workspace state** — `progress/`, `missions/`, `context/`
+- **Reading workspace state** — `continuity/`, `orchestration/missions/`, `cognition/context/`
 - **Analyzing codebase** — Structure, patterns, conventions
 - **Understanding goals** — Mission objectives, success criteria
 - **Monitoring progress** — Task completion, blockers, risks

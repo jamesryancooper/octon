@@ -243,10 +243,10 @@ Snippets, quotes, code fragments for reference.
 graph TB
     subgraph workspace [.harmony/]
         subgraph agent_facing [Agent-Facing]
-            projects[projects/]
-            context[context/]
-            progress[progress/]
-            missions[missions/]
+            projects[ideation/projects/]
+            context[cognition/context/]
+            progress[continuity/]
+            missions[orchestration/missions/]
         end
 
         subgraph human_led [Human-Led: ideation/scratchpad/]

@@ -1,6 +1,6 @@
 # Step 1: Assess Files
 
-Read the target `.workspace` files. Compare structure against `docs/architecture/workspaces/README.md` canonical definition.
+Read the target `.harmony` files. Compare structure against `docs/architecture/workspaces/README.md` canonical definition.
 
 ## Structure Check
 
@@ -9,8 +9,8 @@ Verify presence of required and optional components:
 | Category | Items | Status |
 |----------|-------|--------|
 | **Required files** | `START.md`, `scope.md`, `conventions.md` | ✅/❌ |
-| **Required dirs** | `progress/`, `checklists/` | ✅/❌ |
-| **Optional dirs** | `prompts/`, `workflows/`, `commands/`, `context/`, `templates/`, `examples/` | Present? |
+| **Required dirs** | `continuity/`, `quality/` | ✅/❌ |
+| **Optional dirs** | `scaffolding/prompts/`, `orchestration/workflows/`, `capabilities/commands/`, `cognition/context/`, `scaffolding/templates/`, `scaffolding/examples/` | Present? |
 
 ## File Assessment Criteria
 

@@ -8,7 +8,7 @@ access: human
 
 ## Context
 
-Quick-start a new agent session in a `.workspace`-enabled directory.
+Quick-start a new agent session in a `.harmony`-enabled directory.
 
 ## Instructions
 
