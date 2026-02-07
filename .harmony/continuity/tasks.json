@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1",
-  "goal": "Define and maintain the .workspace harness pattern for agent-assisted development",
+  "goal": "Define and maintain the .harmony harness pattern for agent-assisted development",
   "tasks": [
     {
       "id": "setup-structure",
-      "description": "Set up refined .workspace directory structure",
+      "description": "Set up refined .harmony directory structure",
       "status": "completed",
       "completed_at": "2025-12-10"
     },

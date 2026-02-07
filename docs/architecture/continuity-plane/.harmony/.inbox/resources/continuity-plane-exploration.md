@@ -24,7 +24,7 @@ You MUST read and internalize:
   - `README.md`
   - `three-planes-integration.md`
   - `README.md`
-- **Sources list** (treat as “research inputs”): `docs/ai/architecture/continuity-plane/.workspace/.inbox/resources.md`
+- **Sources list** (treat as "research inputs"): `docs/architecture/continuity-plane/.harmony/.inbox/resources.md`
 
 Optional (if provided by the caller):
 
