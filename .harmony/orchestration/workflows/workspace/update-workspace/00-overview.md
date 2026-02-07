@@ -1,6 +1,6 @@
 ---
 title: Update Workspace
-description: Align an existing .workspace directory with the canonical definition.
+description: Align an existing .harmony directory with the canonical definition.
 access: human
 version: "1.1.0"
 depends_on:
@@ -14,7 +14,7 @@ parallel_steps: []
 
 # Update Workspace: Overview
 
-Align an existing `.workspace` directory with the canonical workspace definition. This is a **mutating operation** that audits structure and applies fixes.
+Align an existing `.harmony` directory with the canonical workspace definition. This is a **mutating operation** that audits structure and applies fixes.
 
 For read-only assessment, use `/evaluate-workspace` instead.
 
@@ -24,8 +24,8 @@ Existing `.harmony/` directory.
 
 ## Prerequisites
 
-- Exactly one `.workspace` directory reference provided
-- Target `.workspace` directory MUST exist
+- Exactly one `.harmony` directory reference provided
+- Target `.harmony` directory MUST exist
 
 ## Failure Conditions
 

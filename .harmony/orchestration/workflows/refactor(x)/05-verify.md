@@ -88,7 +88,7 @@ These must be explicitly listed and justified:
 
 | File | Reason |
 |------|--------|
-| `progress/log.md:45` | Historical entry from 2025-01-13 |
+| `continuity/log.md:45` | Historical entry from 2025-01-13 |
 | `decisions/001-*.md:23` | ADR documents the original name |
 ```
 

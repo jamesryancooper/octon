@@ -5,7 +5,7 @@ description: Quality gates stored in .harmony/quality/ including definition of d
 
 # Workspace Checklists
 
-The `checklists/` directory contains **quality gates** that agents verify before completing work.
+The `quality/` directory contains **quality gates** that agents verify before completing work.
 
 ## Location
 
@@ -21,7 +21,7 @@ The `checklists/` directory contains **quality gates** that agents verify before
 
 ## `complete.md` (Required)
 
-Every workspace MUST have a `checklists/complete.md` that defines completion criteria.
+Every workspace MUST have a `quality/complete.md` that defines completion criteria.
 
 ### Structure
 
@@ -33,8 +33,8 @@ Every workspace MUST have a `checklists/complete.md` that defines completion cri
 - [ ] Output matches task requirements
 - [ ] Stayed within `scope.md` boundaries
 - [ ] Follows `conventions.md` style rules
-- [ ] Updated `progress/log.md` with session summary
-- [ ] Updated `progress/tasks.json` status
+- [ ] Updated `continuity/log.md` with session summary
+- [ ] Updated `continuity/tasks.json` status
 
 ## Quality Criteria
 
@@ -69,9 +69,9 @@ Steps to complete before ending a session, context reset, or handoff.
 
 ## Required Steps
 
-- [ ] Update `progress/log.md` with session summary
-- [ ] Update `progress/tasks.json` status
-- [ ] Update `progress/entities.json` if applicable
+- [ ] Update `continuity/log.md` with session summary
+- [ ] Update `continuity/tasks.json` status
+- [ ] Update `continuity/entities.json` if applicable
 - [ ] Document in-flight state if mid-task
 
 ## Conditional Steps
@@ -97,7 +97,7 @@ Session exit ensures **continuity** across context resets. Without it, the next 
 Checklists are referenced in the boot sequence:
 
 ```markdown
-7. Before finishing: Complete `checklists/session-exit.md`, verify against `checklists/complete.md`
+7. Before finishing: Complete `quality/session-exit.md`, verify against `quality/complete.md`
 ```
 
 Agents MUST NOT mark tasks complete without verifying all applicable checklist items.
@@ -124,7 +124,7 @@ Include a table of common failures and their prevention:
 |---------|------------|
 | Premature completion | Run through this checklist |
 | Scope creep | Re-read `scope.md` if task expands |
-| Broken continuity | Always update `progress/log.md` |
+| Broken continuity | Always update `continuity/log.md` |
 ```
 
 ---

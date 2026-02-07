@@ -225,7 +225,7 @@ Reference of available tools and capabilities for agents working in this workspa
 
 Context files should be **minimal**. Only include information an agent needs to act correctly. Extended explanations can go in `docs/` or `.scratchpad/`.
 
-See `.cursor/rules/workspace/RULE.md` for the authoritative token budget table.
+See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table.
 
 ---
 

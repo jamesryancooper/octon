@@ -16,9 +16,9 @@ A project is a **scaled-down workspace** for human-led exploration:
 | Workspace Component | Project Equivalent |
 |---------------------|----------------------------|
 | `scope.md` | `project.md` (Goal, Scope, Questions) |
-| `progress/log.md` | `log.md` (Session notes) |
+| `continuity/log.md` | `log.md` (Session notes) |
 | `context/decisions.md` | Findings Summary in `project.md` |
-| `progress/tasks.json` | Key Questions in `project.md` |
+| `continuity/tasks.json` | Key Questions in `project.md` |
 
 Projects provide structure for investigations that:
 

@@ -23,14 +23,14 @@
 
 ## Before ending a long session
 
-1. Update `progress/log.md` with summary
+1. Update `continuity/log.md` with summary
 2. Commit pending changes with descriptive message
 3. Note decisions/rationale for future context
 4. Update `tasks.json` status
 
 ## Note-taking pattern
 
-For complex work, maintain notes in `progress/log.md`:
+For complex work, maintain notes in `continuity/log.md`:
 
 ```markdown
 **Decisions:**

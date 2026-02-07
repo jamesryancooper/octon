@@ -59,14 +59,14 @@ drwxr-xr-x  __tests__/
 ## 4. Agent Creates Structure
 
 ```text
-packages/ui-kit/.workspace/
+packages/ui-kit/.harmony/
 ├── START.md
 ├── scope.md
 ├── conventions.md
-├── progress/
+├── continuity/
 │   ├── log.md
 │   └── tasks.json
-└── checklists/
+└── quality/
     └── complete.md
 ```
 
@@ -74,7 +74,7 @@ packages/ui-kit/.workspace/
 
 ## 5. Agent Shows Customizations
 
-> **Agent:** Created `.workspace/` with these customizations:
+> **Agent:** Created `.harmony/` with these customizations:
 >
 > | File | Customization |
 > |------|---------------|

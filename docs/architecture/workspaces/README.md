@@ -535,7 +535,7 @@ See [workflows.md](./workflows.md) for the full implementation pattern.
 
 ### Cursor
 
-The `.cursor/rules/workspace/RULE.md` provides context when editing `.harmony/` files. It:
+The `.cursor/rules/harmony/RULE.md` provides context when editing `.harmony/` files. It:
 
 - Triggers on glob pattern `**/.harmony/**`
 - Points agents to canonical references
@@ -563,7 +563,7 @@ These commands live in `.<harness>/commands/` (e.g., `.cursor/commands/`, `.clau
 
 ## Token Budget Guidelines
 
-See `.cursor/rules/workspace/RULE.md` for the authoritative token budget table that agents use when working with workspace files.
+See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table that agents use when working with workspace files.
 
 **Summary:** Target ~2,000 tokens total, ~300 per file, ~200 for START.md. A compact harness leaves maximum context window for actual work.
 

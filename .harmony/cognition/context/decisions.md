@@ -28,14 +28,14 @@ Key decisions that constrain or guide work in this workspace. For full rationale
 | D003 | Human-led zones | `.scratchpad/` and `projects/` directories | Human-led content in designated zones; agents MUST NOT access autonomously | 2026-01-14 |
 | D004 | Boot sequence | 7-step process | Ensures consistent orientation | 2025-12-18 |
 | D005 | Human-led collaboration | `.scratchpad/` and `projects/` | Human-led collaboration allowed when explicitly directed; autonomous access forbidden | 2026-01-14 |
-| D007 | Shared foundation | `.harmony/` for generic, `.workspace/` for local | Generic components shared; local overrides shared; check local first | 2026-01-13 |
+| D007 | Shared foundation | Single .harmony/ root organized by capability | Everything under .harmony/; organized by cognitive function | 2026-01-13 |
 | D008 | Consolidated scratchpad | `.scratchpad/` with subdirectories | `inbox/`, `archive/`, `ideas/`, `brainstorm/` are subdirectories of `.scratchpad/` | 2026-01-14 |
 | D009 | Human-led zone naming | `.scratchpad/` over `.scratch/` | Explicit, self-documenting name preferred over shorter abbreviation | 2026-01-13 |
 | D010 | Projects location | Workspace level (`projects/`) | Projects live at workspace level, not in `.scratchpad/`; direct artifact flow to `context/` | 2026-01-14 |
 | D011 | Brainstorm stage | Single-file exploration in `.scratchpad/brainstorm/` | Filter stage between ideas and projects; most ideas die here | 2026-01-14 |
 | D012 | The Funnel | ideas → brainstorm → projects → missions → context | Clear pipeline from raw ideas to permanent knowledge | 2026-01-14 |
 | D013 | Refactor verification | Mandatory verification gate | Refactors cannot be declared complete until all audit searches return zero | 2026-01-14 |
-| D014 | Continuity artifact immutability | Append-only during refactors | Historical records (`progress/log.md`, `decisions/*.md`) must not be modified, only appended | 2026-01-14 |
+| D014 | Continuity artifact immutability | Append-only during refactors | Historical records (`continuity/log.md`, `decisions/*.md`) must not be modified, only appended | 2026-01-14 |
 | D015 | Universal commands | Symlink from harness to `.harmony/capabilities/commands/` | Commands defined once in `.harmony/`, symlinked to `.cursor/`, `.claude/` | 2026-01-14 |
 | D016 | Mutability frontmatter | `mutability: append-only` property | Files with this property must not have existing content modified; check before editing | 2026-01-14 |
 | D017 | Workflow versioning | Semantic versioning in frontmatter | Increment version when modifying workflows; use Version History section | 2026-01-14 |
@@ -52,7 +52,7 @@ Key decisions that constrain or guide work in this workspace. For full rationale
 | D028 | Progressive disclosure | Three-tier: SKILL.md + references/ + assets/ | Keep SKILL.md under 500 lines; details in references/ | 2026-01-15 |
 | D029 | Reference file structure | behaviors.md, io-contract.md, safety.md, examples.md, validation.md | Standard files for all skills; machine-parseable YAML frontmatter | 2026-01-15 |
 | D030 | Hierarchical workspace authority | DOWN only, not UP or SIDEWAYS | Workspaces can write to descendants; cannot write to ancestors or siblings | 2026-01-15 |
-| D031 | Output permission tiers | Tier 1 (outputs/), Tier 2 (.workspace/**), Tier 3 (root/**) | Tier 1 always allowed; Tier 2/3 require declaration and scope validation | 2026-01-15 |
+| D031 | Output permission tiers | Tier 1 (outputs/), Tier 2 (.harmony/**), Tier 3 (root/**) | Tier 1 always allowed; Tier 2/3 require declaration and scope validation | 2026-01-15 |
 | D032 | Documentation split | Monolithic skills.md → 10 focused documents | Each document under 300 lines; single responsibility | 2026-01-15 |
 | D033 | Four-tier progressive disclosure | manifest → registry → SKILL.md → references | Load in tiers; ~50 tokens at discovery, <5000 at activation | 2026-01-17 |
 | D034 | Manifest as Tier 1 discovery | Centralized index in manifest.yml | Read manifest.yml first for skill routing; ~50 tokens per skill | 2026-01-17 |

@@ -1104,8 +1104,8 @@ scaffold_registry_entry() {
     requires:
       context:
         - type: directory_exists
-          path: \".workspace/\"
-          description: \"Requires a workspace directory\"
+          path: \".harmony/\"
+          description: \"Requires a .harmony directory\"
     depends_on: []
     # TODO: Configure parameters based on SKILL.md
     # allowed-tools in SKILL.md: ${allowed_tools:-none specified}"

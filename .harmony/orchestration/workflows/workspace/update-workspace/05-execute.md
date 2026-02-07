@@ -5,7 +5,7 @@ After user approval:
 1. Create missing structure
 2. Move/rename files as proposed
 3. Update content as needed
-4. Update `progress/log.md` with changes made
+4. Update `continuity/log.md` with changes made
 
 ## Output format
 

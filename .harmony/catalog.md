@@ -11,62 +11,62 @@ Available operations and decision guidance in this workspace.
 
 ## Assistants
 
-Focused specialists in `assistants/`:
+Focused specialists in `agency/assistants/`:
 
 | Assistant | Aliases | Description |
 |-----------|---------|-------------|
-| [reviewer](./assistants/reviewer/assistant.md) | `@review`, `@rev` | Code review: quality, style, correctness, security |
-| [refactor](./assistants/refactor/assistant.md) | `@refactor`, `@ref` | Code restructuring: extract, rename, simplify |
-| [docs](./assistants/docs/assistant.md) | `@docs`, `@doc` | Documentation: clarity, completeness, accuracy |
+| [reviewer](./agency/assistants/reviewer/assistant.md) | `@review`, `@rev` | Code review: quality, style, correctness, security |
+| [refactor](./agency/assistants/refactor/assistant.md) | `@refactor`, `@ref` | Code restructuring: extract, rename, simplify |
+| [docs](./agency/assistants/docs/assistant.md) | `@docs`, `@doc` | Documentation: clarity, completeness, accuracy |
 
 **Invocation:** Type `@name task` in chat or let agents delegate subtasks.
 
-See `assistants/registry.yml` for the full @mention mapping.
+See `agency/assistants/registry.yml` for the full @mention mapping.
 
 ---
 
 ## Missions
 
-Time-bounded sub-projects in `missions/`:
+Time-bounded sub-projects in `orchestration/missions/`:
 
 | Status | Count | Description |
 |--------|-------|-------------|
 | Active | See `registry.yml` | Currently in progress |
-| Archived | See `missions/.archive/` | Completed or cancelled |
+| Archived | See `orchestration/missions/.archive/` | Completed or cancelled |
 
 **Lifecycle:** Created → Active → Completed → Archived
 
-See `missions/README.md` for when to create a mission.
+See `orchestration/missions/README.md` for when to create a mission.
 
 ---
 
 ## Skills
 
-Composable capabilities in `skills/`:
+Composable capabilities in `capabilities/skills/`:
 
 | Skill | Commands | Description |
 |-------|----------|-------------|
-| [synthesize-research](./skills/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
+| [synthesize-research](./capabilities/skills/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
 | [prompt-refiner](../.harmony/capabilities/skills/prompt-refiner/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
 
 **Invocation:** Use `/command` in chat or `use skill: skill-id` for explicit selection.
 
-**Pipelines:** Skills chain via inputs/outputs. See `skills/registry.yml` for pipelines.
+**Pipelines:** Skills chain via inputs/outputs. See `capabilities/skills/registry.yml` for pipelines.
 
-**Progressive disclosure:** Read `skills/registry.yml` first, load SKILL.md only when needed.
+**Progressive disclosure:** Read `capabilities/skills/registry.yml` first, load SKILL.md only when needed.
 
-See `skills/README.md` for creating and using skills.
+See `capabilities/skills/README.md` for creating and using skills.
 
 ---
 
 ## Commands
 
-Atomic operations in `commands/`:
+Atomic operations in `capabilities/commands/`:
 
 | Command | Access | Description |
 |---------|--------|-------------|
-| [recover.md](./commands/recover.md) | human | Recovery procedures for common agent failure modes |
-| [validate-frontmatter.md](./commands/validate-frontmatter.md) | human | Validate YAML frontmatter in markdown files |
+| [recover.md](./capabilities/commands/recover.md) | human | Recovery procedures for common agent failure modes |
+| [validate-frontmatter.md](./capabilities/commands/validate-frontmatter.md) | human | Validate YAML frontmatter in markdown files |
 | [create-workflow.md](../.harmony/capabilities/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
 | [evaluate-workflow.md](../.harmony/capabilities/commands/evaluate-workflow.md) | human | Assess a workflow against quality criteria |
 | [update-workflow.md](../.harmony/capabilities/commands/update-workflow.md) | human | Modify an existing workflow to fix gaps |
@@ -75,29 +75,29 @@ Atomic operations in `commands/`:
 
 ## Workflows
 
-Multi-step procedures in `workflows/`:
+Multi-step procedures in `orchestration/workflows/`:
 
 ### Workspace Management
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [create-workspace](./workflows/workspace/create-workspace/00-overview.md) | human | Scaffold a new `.workspace` directory |
-| [evaluate-workspace](./workflows/workspace/evaluate-workspace/00-overview.md) | human | Evaluate token efficiency and effectiveness |
-| [migrate-workspace](./workflows/workspace/migrate-workspace/00-overview.md) | human | Upgrade older workspace to current conventions |
-| [update-workspace](./workflows/workspace/update-workspace/00-overview.md) | human | Align with canonical definition |
+| [create-workspace](./orchestration/workflows/workspace/create-workspace/00-overview.md) | human | Scaffold a new `.harmony` directory |
+| [evaluate-workspace](./orchestration/workflows/workspace/evaluate-workspace/00-overview.md) | human | Evaluate token efficiency and effectiveness |
+| [migrate-workspace](./orchestration/workflows/workspace/migrate-workspace/00-overview.md) | human | Upgrade older workspace to current conventions |
+| [update-workspace](./orchestration/workflows/workspace/update-workspace/00-overview.md) | human | Align with canonical definition |
 
 ### Projects
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [create-project](./workflows/projects/create-project.md) | human | Scaffold a new project in `projects/` |
+| [create-project](./orchestration/workflows/projects/create-project.md) | human | Scaffold a new project in `projects/` |
 
 ### Missions
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [create-mission](./workflows/missions/create-mission/00-overview.md) | human | Scaffold a new mission from template |
-| [complete-mission](./workflows/missions/complete-mission/00-overview.md) | human | Archive a completed mission |
+| [create-mission](./orchestration/workflows/missions/create-mission/00-overview.md) | human | Scaffold a new mission from template |
+| [complete-mission](./orchestration/workflows/missions/complete-mission/00-overview.md) | human | Archive a completed mission |
 
 ### Workflow Management
 
@@ -113,17 +113,17 @@ Multi-step procedures in `workflows/`:
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [run-flow](./workflows/flowkit/run-flow/00-overview.md) | human | Execute a FlowKit LangGraph flow from `@packages/workflows/<flowId>/config.flow.json` |
+| [run-flow](./orchestration/workflows/flowkit/run-flow/00-overview.md) | human | Execute a FlowKit LangGraph flow from `@packages/workflows/<flowId>/config.flow.json` |
 
 ---
 
 ## Prompts
 
-Task templates in `prompts/`:
+Task templates in `scaffolding/prompts/`:
 
 | Prompt | Access | Description |
 |--------|--------|-------------|
-| [bootstrap-session.md](./prompts/bootstrap-session.md) | human | Quick-start a new agent session in a workspace. |
+| [bootstrap-session.md](./scaffolding/prompts/bootstrap-session.md) | human | Quick-start a new agent session in a workspace. |
 
 > **Note:** Prompts are task templates that require context or judgment. Use `/evaluate-workspace` for health assessment.
 
@@ -240,55 +240,55 @@ Will humans frequently trigger this directly?
 
 ## Context
 
-Background knowledge in `context/`:
+Background knowledge in `cognition/context/`:
 
 | File | Description |
 |------|-------------|
-| [decisions.md](./context/decisions.md) | Agent-readable decision summaries. |
-| [lessons.md](./context/lessons.md) | Anti-patterns and failures to avoid. |
-| [glossary.md](./context/glossary.md) | Domain-specific terminology. |
-| [dependencies.md](./context/dependencies.md) | External systems and references. |
-| [constraints.md](./context/constraints.md) | Technical and business rules. |
-| [compaction.md](./context/compaction.md) | Token compaction strategies. |
-| [tools.md](./context/tools.md) | Available tools reference. |
+| [decisions.md](./cognition/context/decisions.md) | Agent-readable decision summaries. |
+| [lessons.md](./cognition/context/lessons.md) | Anti-patterns and failures to avoid. |
+| [glossary.md](./cognition/context/glossary.md) | Domain-specific terminology. |
+| [dependencies.md](./cognition/context/dependencies.md) | External systems and references. |
+| [constraints.md](./cognition/context/constraints.md) | Technical and business rules. |
+| [compaction.md](./cognition/context/compaction.md) | Token compaction strategies. |
+| [tools.md](./cognition/context/tools.md) | Available tools reference. |
 
 ---
 
 ## Checklists
 
-Quality gates in `checklists/`:
+Quality gates in `quality/`:
 
 | File | Description |
 |------|-------------|
-| [complete.md](./checklists/complete.md) | Definition of done for tasks |
-| [session-exit.md](./checklists/session-exit.md) | Steps before ending a session |
+| [complete.md](./quality/complete.md) | Definition of done for tasks |
+| [session-exit.md](./quality/session-exit.md) | Steps before ending a session |
 
 ---
 
 ## Progress Artifacts
 
-Session continuity in `progress/`:
+Session continuity in `continuity/`:
 
 | File | Description |
 |------|-------------|
-| [log.md](./progress/log.md) | Append-only session history |
-| [tasks.json](./progress/tasks.json) | Structured task list with goal |
-| [entities.json](./progress/entities.json) | Entity state tracking |
-| [next.md](./progress/next.md) | Immediate actionable steps (promoted from `.scratchpad/`) |
+| [log.md](./continuity/log.md) | Append-only session history |
+| [tasks.json](./continuity/tasks.json) | Structured task list with goal |
+| [entities.json](./continuity/entities.json) | Entity state tracking |
+| [next.md](./continuity/next.md) | Immediate actionable steps (promoted from `ideation/scratchpad/`) |
 
 ---
 
 ## Templates
 
-Boilerplate in `templates/`:
+Boilerplate in `scaffolding/templates/`:
 
 | Template | Description |
 |----------|-------------|
-| [cursor-command.md](./templates/cursor-command.md) | Template for Cursor command wrappers |
-| [document.md](./templates/document.md) | Template for general documents |
-| [harmony/](./templates/harmony/) | Base .harmony/ template (all workspaces inherit from this) |
-| [harmony-docs/](./templates/harmony-docs/) | Scoped template for documentation areas (extends base) |
-| [harmony-node-ts/](./templates/harmony-node-ts/) | Scoped template for Node.js/TypeScript packages (extends base) |
+| [cursor-command.md](./scaffolding/templates/cursor-command.md) | Template for Cursor command wrappers |
+| [document.md](./scaffolding/templates/document.md) | Template for general documents |
+| [harmony/](./scaffolding/templates/harmony/) | Base .harmony/ template (all workspaces inherit from this) |
+| [harmony-docs/](./scaffolding/templates/harmony-docs/) | Scoped template for documentation areas (extends base) |
+| [harmony-node-ts/](./scaffolding/templates/harmony-node-ts/) | Scoped template for Node.js/TypeScript packages (extends base) |
 
 Each workspace template contains:
 - `manifest.json` — Machine-readable structure for `/create-workspace`

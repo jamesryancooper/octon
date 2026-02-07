@@ -37,7 +37,7 @@ Make all planned changes systematically, tracking progress against the manifest.
    - Do NOT modify existing content
    - Add new entry at the appropriate location:
 
-   For `progress/log.md`:
+   For `continuity/log.md`:
    ```markdown
    ## YYYY-MM-DD
 

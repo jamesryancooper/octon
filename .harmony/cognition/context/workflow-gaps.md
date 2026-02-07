@@ -72,7 +72,7 @@ Add `depends_on` array to overview frontmatter:
 ```yaml
 depends_on:
   - workflow: workspace/create-workspace
-    condition: "target .workspace/ must exist"
+    condition: "target .harmony/ must exist"
   - workflow: skills/create-skill
     condition: "optional, only if workflow uses skills"
 ```

@@ -1,11 +1,11 @@
 ---
 title: Workspace Progress Tracking
-description: Session continuity via progress/log.md, tasks.json, and entities.json
+description: Session continuity via continuity/log.md, tasks.json, and entities.json
 ---
 
 # Workspace Progress Tracking
 
-The `progress/` directory maintains **session-to-session continuity**. It's how agents "remember" what happened in previous sessions.
+The `continuity/` directory maintains **session-to-session continuity**. It's how agents "remember" what happened in previous sessions.
 
 ## Location
 
@@ -154,8 +154,8 @@ The `goal` field captures **intent** that spans multiple sessions. This helps ag
 
 In `START.md`, the boot sequence includes:
 
-1. Read `progress/log.md` → Know what's been done
-2. Read `progress/tasks.json` → Know current priorities and goal
+1. Read `continuity/log.md` → Know what's been done
+2. Read `continuity/tasks.json` → Know current priorities and goal
 3. Begin highest-priority unblocked task
 
 This ensures agents pick up where previous sessions left off.

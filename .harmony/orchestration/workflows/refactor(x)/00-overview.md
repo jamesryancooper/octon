@@ -52,7 +52,7 @@ This workflow enforces a **audit → plan → execute → verify** cycle that pr
 
 ## Continuity Artifact Rule
 
-Files like `progress/log.md`, `decisions/*.md`, and similar historical records are **append-only** during refactors:
+Files like `continuity/log.md`, `decisions/*.md`, and similar historical records are **append-only** during refactors:
 
 - **Do:** Add new entries documenting the refactor
 - **Don't:** Modify existing entries to reflect new names/paths

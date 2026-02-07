@@ -21,12 +21,12 @@ Check token budgets per `docs/architecture/workspaces/README.md#token-budget-gui
 
 ## Progress Review
 
-Review `progress/log.md` for:
+Review `continuity/log.md` for:
 - Staleness (>30 days since last update)
 - Completeness (proper session format)
 - Continuity (clear thread across sessions)
 
-Review `progress/tasks.json` for:
+Review `continuity/tasks.json` for:
 - Schema compliance
 - Blocked task resolution
 - Task rot (old pending tasks)

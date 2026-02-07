@@ -21,7 +21,7 @@ Rules that limit what can be done. Agents MUST respect these constraints.
 
 | Constraint | Rule | Rationale |
 |------------|------|-----------|
-| Required files | `START.md`, `scope.md`, `conventions.md`, `progress/`, `checklists/` | Minimum viable workspace. |
+| Required files | `START.md`, `scope.md`, `conventions.md`, `continuity/`, `quality/` | Minimum viable workspace. |
 | Human-led zone | Agents MUST NOT autonomously access `.scratchpad/**` | Single human-led space for all non-agent content. |
 | Human-led collaboration | `.scratchpad/` accessible only under explicit human direction | Enables collaboration without autonomous scanning. |
 | Single task in progress | Only one task can have `in_progress` status | Prevents context fragmentation. |
@@ -30,6 +30,6 @@ Rules that limit what can be done. Agents MUST respect these constraints.
 
 | Constraint | Rule | Rationale |
 |------------|------|-----------|
-| Progress updates | MUST update `progress/log.md` before session end | Ensures continuity. |
-| Checklist verification | MUST verify against `checklists/complete.md` before completing tasks | Prevents premature completion. |
+| Progress updates | MUST update `continuity/log.md` before session end | Ensures continuity. |
+| Checklist verification | MUST verify against `quality/complete.md` before completing tasks | Prevents premature completion. |
 

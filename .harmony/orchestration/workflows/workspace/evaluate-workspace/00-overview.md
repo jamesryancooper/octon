@@ -1,6 +1,6 @@
 ---
 title: Evaluate Workspace
-description: Evaluate a .workspace directory for token efficiency and effectiveness.
+description: Evaluate a .harmony directory for token efficiency and effectiveness.
 access: human
 version: "1.1.0"
 depends_on: []
@@ -12,7 +12,7 @@ parallel_steps: []
 
 # Evaluate Workspace: Overview
 
-Evaluate a `.workspace` directory for token efficiency and agent effectiveness. This is a **read-only assessment** that produces a report only.
+Evaluate a `.harmony` directory for token efficiency and agent effectiveness. This is a **read-only assessment** that produces a report only.
 
 To apply fixes after evaluation, use `/update-workspace`.
 
@@ -22,8 +22,8 @@ Existing `.harmony/` directory.
 
 ## Prerequisites
 
-- Exactly one `.workspace` directory reference provided
-- Target `.workspace` directory MUST exist
+- Exactly one `.harmony` directory reference provided
+- Target `.harmony` directory MUST exist
 
 ## Failure Conditions
 

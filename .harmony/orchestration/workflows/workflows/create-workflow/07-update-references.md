@@ -17,7 +17,7 @@ Make the new workflow discoverable by updating relevant indexes and catalogs.
 
 ## Actions
 
-### 7.1 Update Catalog (if .workspace exists)
+### 7.1 Update Catalog (if .harmony exists)
 
 If `.harmony/catalog.md` exists:
 

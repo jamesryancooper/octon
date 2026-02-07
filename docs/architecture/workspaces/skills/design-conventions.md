@@ -618,8 +618,8 @@ Choice:
 
 ```yaml
 continuity_patterns:
-  - "**/progress/log.md"
-  - "**/progress/*.md"
+  - "**/continuity/log.md"
+  - "**/continuity/*.md"
   - "**/decisions/*.md"
   - "**/context/decisions.md"
   - "**/CHANGELOG.md"

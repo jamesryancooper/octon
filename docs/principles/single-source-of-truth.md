@@ -226,7 +226,7 @@ In Harmony workspaces, each type of knowledge has a designated home:
 | Scope boundaries | `scope.md` | — |
 | Conventions | `conventions.md` | Linter rules |
 | Available commands | `catalog.md` | — |
-| Task state | `progress/tasks.json` | `progress/log.md` entries |
+| Task state | `continuity/tasks.json` | `continuity/log.md` entries |
 | Decisions | `context/decisions.md` | ADR references |
 | Skills | `SKILL.md` | Manifest entries |
 

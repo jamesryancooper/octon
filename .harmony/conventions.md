@@ -1,6 +1,6 @@
 ---
 title: Conventions
-description: Style and formatting rules for the root .workspace harness.
+description: Style and formatting rules for the root .harmony harness.
 ---
 
 # Conventions
@@ -101,7 +101,7 @@ See `[reference]` for full details.
 - [if any]
 ```
 
-**Immutability rule:** Past entries in `progress/log.md` are immutable. New sessions append new entries; existing entries are never modified. This preserves historical accuracy across refactors and renames.
+**Immutability rule:** Past entries in `continuity/log.md` are immutable. New sessions append new entries; existing entries are never modified. This preserves historical accuracy across refactors and renames.
 
 ## Continuity Artifacts
 
@@ -111,7 +111,7 @@ Continuity artifacts are files that preserve historical context across sessions.
 
 | File | Purpose | Rule |
 |------|---------|------|
-| `progress/log.md` | Session history | Append new entries; never modify past entries |
+| `continuity/log.md` | Session history | Append new entries; never modify past entries |
 | `context/decisions.md` | Decision summary | Append new decisions; never update old references |
 | `decisions/*.md` | Full ADRs | Append addendums; never modify accepted content |
 

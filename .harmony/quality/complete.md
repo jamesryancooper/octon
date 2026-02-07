@@ -10,8 +10,8 @@ description: Quality criteria and completion checklist for workspace tasks.
 - [ ] Output matches task requirements
 - [ ] Stayed within `scope.md` boundaries
 - [ ] Follows `conventions.md` style rules
-- [ ] Updated `progress/log.md` with session summary
-- [ ] Updated `progress/tasks.json` status
+- [ ] Updated `continuity/log.md` with session summary
+- [ ] Updated `continuity/tasks.json` status
 
 ## Quality Criteria
 
@@ -35,5 +35,5 @@ description: Quality criteria and completion checklist for workspace tasks.
 |---------|------------|
 | **Premature completion** | Run through this checklist before marking done |
 | **Scope creep** | Re-read `scope.md` if task expands |
-| **Broken continuity** | Always update `progress/log.md` before session end |
+| **Broken continuity** | Always update `continuity/log.md` before session end |
 | **Token bloat** | Ask "does an agent need this to act?" If no, cut it or move to `.scratchpad/` |

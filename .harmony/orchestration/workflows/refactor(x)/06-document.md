@@ -10,7 +10,7 @@ Record the completed refactor in continuity artifacts and formally close the ref
    - Step 5 must show PASSED status
    - If not, return to Step 4
 
-2. Update `progress/log.md` (**APPEND ONLY**):
+2. Update `continuity/log.md` (**APPEND ONLY**):
    ```markdown
    ## YYYY-MM-DD
 

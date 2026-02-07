@@ -1,13 +1,13 @@
 ---
-description: Context for creating, updating, or evaluating .workspace directories
+description: Context for creating, updating, or evaluating .harmony directories
 globs:
-  - "**/.workspace/**"
+  - "**/.harmony/**"
 alwaysApply: false
 ---
 
 # Workspace
 
-A `.workspace` directory is a **localized agent harness** that drives the creation of artifacts in its parent directory—code, docs, configs, or any deliverables.
+A `.harmony` directory is a **localized agent harness** that drives the creation of artifacts in its parent directory—code, docs, configs, or any deliverables.
 
 ---
 
@@ -36,7 +36,7 @@ All markdown files in `.harmony/` require YAML frontmatter. See the table below 
 | Commands (`commands/*.md`) | ✅ | ✅ | ✅ |
 | Workflow overviews (`workflows/**/00-overview.md`) | ✅ | ✅ | ✅ |
 | Prompts (`prompts/*.md`) | ✅ | ✅ | ✅ |
-| Checklists (`checklists/*.md`) | ✅ | ✅ | — |
+| Checklists (`quality/*.md`) | ✅ | ✅ | — |
 | Context files (`context/*.md`) | ✅ | ✅ | — |
 
 ### Field Specifications
@@ -60,7 +60,7 @@ See `.harmony/catalog.md#ide-integration-decision` for detailed decision guidanc
 
 ## When This Rule Applies
 
-This rule provides context when working with `.workspace` files.
+This rule provides context when working with `.harmony` files.
 
 **Decision guidance:** See `.harmony/catalog.md#decision-guidance`
 
@@ -104,19 +104,19 @@ See `docs/architecture/workspaces/README.md` for the full structure reference, i
 | Directory | Autonomy Level | Description |
 |-----------|----------------|-------------|
 | `.humans/` | **Never access** | Agents MUST NOT read, write, or reference |
-| `.scratchpad/` | **Human-led only** | Agents access ONLY when human explicitly directs to specific files |
+| `ideation/scratchpad/` | **Human-led only** | Agents access ONLY when human explicitly directs to specific files |
 | `.inbox/` | **Human-led only** | Agents access ONLY when human explicitly directs to specific files |
 | `.archive/` | **Never access** | Agents MUST NOT read, write, or reference |
 
 ### Human-Led Collaboration
 
-For `.scratchpad/` and `.inbox/`, agents MAY assist when ALL of these are true:
+For `ideation/scratchpad/` and `.inbox/`, agents MAY assist when ALL of these are true:
 
-1. Human explicitly references a specific file (e.g., "look at `.scratchpad/ideas/auth.md`")
+1. Human explicitly references a specific file (e.g., "look at `ideation/scratchpad/ideas/auth.md`")
 2. Human requests a concrete action (e.g., "summarize this", "add X")
 3. Agent's work stays within the referenced files
 
-**During autonomous operation:** Treat `.scratchpad/` and `.inbox/` as if they do not exist. No scanning, no retrieval, no "helpful" edits.
+**During autonomous operation:** Treat `ideation/scratchpad/` and `.inbox/` as if they do not exist. No scanning, no retrieval, no "helpful" edits.
 
 See `docs/architecture/workspaces/dot-files.md` for full documentation.
 
@@ -158,5 +158,5 @@ For operational instructions when editing workspace files, see the workspace's o
 
 - Following conventions in `conventions.md`
 - Staying within scope defined in `scope.md`
-- Updating `progress/log.md` when making changes
-- Verifying against `checklists/complete.md` before completing work
+- Updating `continuity/log.md` when making changes
+- Verifying against `quality/complete.md` before completing work

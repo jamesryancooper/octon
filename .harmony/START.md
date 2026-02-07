@@ -33,26 +33,34 @@ This workspace extends `.harmony/` for shared infrastructure.
 ├── conventions.md  ← Style rules
 ├── catalog.md      ← Available operations
 │
-├── assistants/     ← Focused specialists (@mention invocation)
-├── missions/       ← Time-bounded sub-projects (agent-accessible)
-├── projects/       ← Human-led explorations (produces artifacts)
+├── agency/
+│   └── assistants/     ← Focused specialists (@mention invocation)
 │
-├── prompts/        ← Task templates
-├── workflows/      ← Multi-step procedures
-├── commands/       ← Atomic operations
-├── context/        ← Decisions, lessons, glossary
+├── capabilities/
+│   ├── skills/         ← Composable capabilities
+│   └── commands/       ← Atomic operations
 │
-├── progress/       ← log.md, tasks.json, entities.json
-├── checklists/     ← complete.md, session-exit.md
-├── templates/      ← Boilerplate for new content
-├── examples/       ← Reference patterns
+├── cognition/
+│   └── context/        ← Decisions, lessons, glossary
 │
-└── .scratchpad/    ← Human-led zone (IGNORE)
-    ├── inbox/      ← Temporary staging
-    ├── archive/    ← Deprecated content
-    ├── brainstorm/ ← Ideas under exploration
-    ├── ideas/      ← Quick captures
-    └── ...
+├── continuity/         ← log.md, tasks.json, entities.json
+│
+├── orchestration/
+│   ├── workflows/      ← Multi-step procedures
+│   └── missions/       ← Time-bounded sub-projects
+│
+├── scaffolding/
+│   ├── templates/      ← Boilerplate for new content
+│   ├── prompts/        ← Task templates
+│   └── examples/       ← Reference patterns
+│
+├── quality/            ← complete.md, session-exit.md
+│
+├── ideation/           ← Human-led zone (IGNORE)
+│   ├── scratchpad/     ← Temporary staging (inbox/, archive/, etc.)
+│   └── projects/       ← Committed research
+│
+└── output/             ← Reports, drafts, artifacts
 ```
 
 ## Boot Sequence
@@ -60,11 +68,11 @@ This workspace extends `.harmony/` for shared infrastructure.
 1. **Read `scope.md`** → Know boundaries
 2. **Read `conventions.md`** → Know style rules
 3. **Scan `catalog.md`** → Know available operations and assistants
-4. **Read `progress/log.md`** → Know what's been done
-5. **Read `progress/tasks.json`** → Know current priorities
-6. **Check `missions/registry.yml`** → Know active missions (if any)
+4. **Read `continuity/log.md`** → Know what's been done
+5. **Read `continuity/tasks.json`** → Know current priorities
+6. **Check `orchestration/missions/registry.yml`** → Know active missions (if any)
 7. **Begin** highest-priority unblocked task
-8. **Before finishing:** Complete `checklists/session-exit.md`, verify against `checklists/complete.md`
+8. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
 
 ## Assistants
 
@@ -80,16 +88,16 @@ See `assistants/registry.yml` for full list and `catalog.md` for details.
 
 Two directories are **human-led**. Agents MUST NOT access them autonomously.
 
-| Directory | Purpose | Autonomy |
-|-----------|---------|----------|
-| `projects/` | Human-led explorations | **Human-led only** |
-| `.scratchpad/` | Ephemeral content and idea funnel | **Human-led only** |
+| Directory              | Purpose                          | Autonomy           |
+|------------------------|----------------------------------|--------------------|
+| `ideation/projects/`   | Human-led explorations           | **Human-led only** |
+| `ideation/scratchpad/` | Ephemeral content and idea funnel | **Human-led only** |
 
-**Scratchpad subdirectories:** `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`.
+**Scratchpad subdirectories (`ideation/scratchpad/`):** `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`.
 
 ### Human-Led Collaboration
 
-Agents MAY access `projects/` or `.scratchpad/` ONLY when:
+Agents MAY access `ideation/projects/` or `ideation/scratchpad/` ONLY when:
 
 1. Human explicitly points to specific file(s)
 2. Human requests a concrete change
@@ -104,15 +112,15 @@ Agents MAY access `projects/` or `.scratchpad/` ONLY when:
 Ideas flow from ephemeral scratchpad to committed work:
 
 ```
-.scratchpad/ideas/      → Quick captures (most die here)
+ideation/scratchpad/ideas/      → Quick captures (most die here)
         ↓
-.scratchpad/brainstorm/ → Structured exploration (filter stage)
+ideation/scratchpad/brainstorm/ → Structured exploration (filter stage)
         ↓
-projects/               → Committed research (produces artifacts)
+ideation/projects/              → Committed research (produces artifacts)
         ↓
-missions/               → Committed execution
+orchestration/missions/         → Committed execution
         ↓
-context/                → Permanent knowledge
+cognition/context/              → Permanent knowledge
 ```
 
 ---
@@ -121,16 +129,16 @@ context/                → Permanent knowledge
 
 | Content | Destination | Lifecycle |
 |---------|-------------|-----------|
-| External imports, raw drops | `.scratchpad/inbox/` | Temporary → triage → move out |
-| Quick ideas | `.scratchpad/ideas/` | May graduate or die |
-| Ideas worth exploring | `.scratchpad/brainstorm/` | Graduate to projects or kill |
-| Committed research | `projects/<slug>/` | Until findings published |
-| Deprecated content | `.scratchpad/archive/` | Permanent reference |
-| Finalized decisions | `context/decisions.md` | Permanent |
-| Constraints, non-negotiables | `context/constraints.md` | Permanent |
-| Next actions | `progress/next.md` | Active |
-| Domain terminology | `context/glossary.md` | Reference |
-| Lessons learned | `context/lessons.md` | Reference |
+| External imports, raw drops | `ideation/scratchpad/inbox/` | Temporary → triage → move out |
+| Quick ideas | `ideation/scratchpad/ideas/` | May graduate or die |
+| Ideas worth exploring | `ideation/scratchpad/brainstorm/` | Graduate to projects or kill |
+| Committed research | `ideation/projects/<slug>/` | Until findings published |
+| Deprecated content | `ideation/scratchpad/archive/` | Permanent reference |
+| Finalized decisions | `cognition/context/decisions.md` | Permanent |
+| Constraints, non-negotiables | `cognition/context/constraints.md` | Permanent |
+| Next actions | `continuity/next.md` | Active |
+| Domain terminology | `cognition/context/glossary.md` | Reference |
+| Lessons learned | `cognition/context/lessons.md` | Reference |
 
 **Publishing findings:** Project findings flow directly to `context/` files without a separate promotion step.
 
@@ -138,8 +146,8 @@ context/                → Permanent knowledge
 
 ## When Stuck
 
-- Check `progress/tasks.json` for blocked items and their blockers
-- Check `context/lessons.md` for anti-patterns to avoid
-- Check `context/decisions.md` for relevant past decisions
-- Review `prompts/` for relevant task templates
-- If truly blocked, document the blocker in `progress/log.md` and stop
+- Check `continuity/tasks.json` for blocked items and their blockers
+- Check `cognition/context/lessons.md` for anti-patterns to avoid
+- Check `cognition/context/decisions.md` for relevant past decisions
+- Review `scaffolding/prompts/` for relevant task templates
+- If truly blocked, document the blocker in `continuity/log.md` and stop

@@ -35,7 +35,7 @@ After comprehensive analysis of the skills system (production-ready, agentskills
 | Path | Files Present | Apparent Purpose | Maturity |
 |------|---------------|------------------|----------|
 | `.harmony/orchestration/workflows/_template/` | 00-overview.md, 01-step.md, NN-verify.md, README.md | Scaffolding template | Draft |
-| `.harmony/orchestration/workflows/workspace/create-workspace/` | 00-overview.md + 6 step files | Scaffold new .workspace directory | Draft/Functional |
+| `.harmony/orchestration/workflows/workspace/create-workspace/` | 00-overview.md + 6 step files | Scaffold new .harmony directory | Draft/Functional |
 | `.harmony/orchestration/workflows/workspace/update-workspace/` | 00-overview.md + 5 step files | Align workspace with canonical definition | Draft/Functional |
 | `.harmony/orchestration/workflows/workspace/evaluate-workspace/` | 00-overview.md + 3 step files | Assess token efficiency | Draft/Functional |
 | `.harmony/orchestration/workflows/workspace/migrate-workspace/` | 00-overview.md + 4 step files | Migrate workspace structure | Draft |

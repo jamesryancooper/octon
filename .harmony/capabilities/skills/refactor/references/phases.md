@@ -253,15 +253,15 @@ Transform audit results into an actionable change manifest.
    - [ ] `.harmony/orchestration/workflows/example.md` (3 changes)
 
    ### Phase 4: Continuity Artifacts (APPEND ONLY)
-   - [ ] `progress/log.md` — Add entry (DO NOT MODIFY EXISTING)
+   - [ ] `continuity/log.md` — Add entry (DO NOT MODIFY EXISTING)
    - [ ] `context/decisions.md` — Add entry if applicable
    ```
 
 2. **Identify continuity artifacts:**
 
    Check files against continuity patterns:
-   - `**/progress/log.md`
-   - `**/progress/*.md`
+   - `**/continuity/log.md`
+   - `**/continuity/*.md`
    - `**/decisions/*.md`
    - `**/context/decisions.md`
    - `**/CHANGELOG.md`
@@ -325,7 +325,7 @@ Make all planned changes systematically.
 
    **CRITICAL: Do NOT modify existing content**
 
-   For `progress/log.md`:
+   For `continuity/log.md`:
    ```markdown
    ## YYYY-MM-DD
 
@@ -456,7 +456,7 @@ These must be explicitly listed and justified:
 
 | File | Reason |
 |------|--------|
-| `progress/log.md:45` | Historical entry from 2025-01-13 |
+| `continuity/log.md:45` | Historical entry from 2025-01-13 |
 | `decisions/ADR-001.md:23` | ADR documents the original name |
 ```
 
@@ -504,7 +504,7 @@ Record the completed refactor and formally close.
 
 1. **Update continuity artifacts (APPEND ONLY):**
 
-   For `progress/log.md`:
+   For `continuity/log.md`:
    ```markdown
    ## YYYY-MM-DD
 

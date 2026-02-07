@@ -9,24 +9,24 @@ Complete before ending a session, context reset, or handoff.
 
 ## Required Steps
 
-- [ ] **Update `progress/log.md`** with session summary
+- [ ] **Update `continuity/log.md`** with session summary
   - Date header
   - Session focus
   - What was completed
   - What's next
   - Any blockers
 
-- [ ] **Update `progress/tasks.json`** status
+- [ ] **Update `continuity/tasks.json`** status
   - Mark completed tasks as `completed` with `completed_at`
   - Mark incomplete work as `in_progress` or `blocked`
   - Add any new tasks discovered
 
-- [ ] **Update `progress/entities.json`** if applicable
+- [ ] **Update `continuity/entities.json`** if applicable
   - Record state of any artifacts being actively modified
   - Note in-flight changes that aren't committed
 
 - [ ] **Document in-flight state**
-  - If mid-task, describe current position in `progress/log.md`
+  - If mid-task, describe current position in `continuity/log.md`
   - Include any uncommitted reasoning or partial work
 
 ## Conditional Steps
@@ -39,7 +39,7 @@ Complete before ending a session, context reset, or handoff.
 ### If something failed
 
 - [ ] Add to `context/lessons.md`
-- [ ] Note in `progress/log.md`
+- [ ] Note in `continuity/log.md`
 
 ### If new patterns discovered
 
@@ -48,7 +48,7 @@ Complete before ending a session, context reset, or handoff.
 
 ## Session Summary Template
 
-Use this format in `progress/log.md`:
+Use this format in `continuity/log.md`:
 
 ```markdown
 ## YYYY-MM-DD
