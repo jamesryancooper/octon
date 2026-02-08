@@ -110,7 +110,7 @@ The primitives form a hierarchical multi-agent system:
 
 ## Missions
 
-**Location:** `.harmony/missions/<mission-id>/mission.yml`
+**Location:** `.harmony/orchestration/missions/<mission-id>/mission.yml`
 
 **Purpose:** Durable, multi-session orchestration units with formal state machines, commanded by agents.
 
@@ -565,7 +565,7 @@ Registry supports `pipelines` section for skill composition without manual orche
 | Primitive | Registry | Template | Documentation |
 |-----------|----------|----------|---------------|
 | Agents | `.harmony/agency/agents/registry.yml` | `.harmony/agency/agents/_template/` | `docs/architecture/workspaces/agents.md` |
-| Missions | `.harmony/missions/registry.yml` | `.harmony/missions/_template/` | `docs/architecture/workspaces/missions.md` |
+| Missions | `.harmony/orchestration/missions/registry.yml` | `.harmony/orchestration/missions/_template/` | `docs/architecture/workspaces/missions.md` |
 | Skills | `.harmony/capabilities/skills/registry.yml` | `.harmony/capabilities/skills/_template/` | `docs/architecture/workspaces/skills/` |
 | Assistants | `.harmony/agency/assistants/registry.yml` | `.harmony/agency/assistants/_template/` | `docs/architecture/workspaces/assistants.md` |
 | Commands | — | — | `docs/architecture/workspaces/commands.md` |

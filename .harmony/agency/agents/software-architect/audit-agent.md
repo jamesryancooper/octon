@@ -1,6 +1,6 @@
 # Audit Agent
 
-Review ONLY [agent.md](.harmony/agency/agents/software-architect/agent.md)
+Review ONLY [agent.md](./agent.md)
 
 Goal: find all remaining MATERIAL issues that reduce flexibility/adaptability or create directive tension.
 

@@ -96,6 +96,6 @@ context/                → Permanent knowledge
 
 ## Related
 
-- [Projects](../../../docs/architecture/workspaces/projects.md) — Full documentation
-- [Registry](../../projects/registry.md) — Project tracking
-- [Brainstorm](../../ideation/scratchpad/brainstorm/README.md) — Upstream exploration
+- [Projects](../../../../docs/architecture/workspaces/projects.md) — Full documentation
+- [Registry](../../../ideation/projects/registry.md) — Project tracking
+- [Brainstorm](../../../ideation/scratchpad/brainstorm/README.md) — Upstream exploration

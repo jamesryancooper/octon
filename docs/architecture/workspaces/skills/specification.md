@@ -121,7 +121,7 @@ This implementation extends the base specification with:
 
 | Extension | Purpose |
 |-----------|---------|
-| Two-tier architecture | Separate shared skills from workspace I/O |
+| Progressive disclosure | Layered skill discovery (manifest → registry → SKILL.md → references/) |
 | Manifest and registry files | Centralized routing metadata for multiple skills |
 | `display_name` field | Human-readable skill name for UI display |
 | Reference file schemas | Standardized YAML frontmatter for machine parsing |
@@ -129,20 +129,23 @@ This implementation extends the base specification with:
 | Pipelines | Compose multiple skills in sequence |
 | Run logging | Auditable execution history |
 
-### Two-Tier Architecture
+### Progressive Disclosure
 
-**Why:** The agentskills.io spec defines skills as self-contained directories. However, in multi-workspace repositories, the same skill may be used with different I/O paths in different contexts. Separating skill logic from workspace-specific configuration enables:
+**Why:** The agentskills.io spec defines skills as self-contained directories. Harmony extends this with a layered discovery model so agents load only what they need, minimizing token overhead:
 
-- **Portability** — Skills can be shared across repositories without modification
-- **Context-specific I/O** — Each workspace defines its own input/output paths
-- **No duplication** — Skill logic lives in one place (`.harmony/capabilities/skills/`)
+- **Minimal discovery** — `manifest.yml` provides skill index without loading full definitions
+- **On-demand detail** — `registry.yml` adds I/O mappings and extended metadata
+- **Full instructions** — `SKILL.md` loaded only when a skill is activated
+- **Deep reference** — `references/` loaded only when specific guidance is needed
 
 **Implementation:**
 
-| Tier | Location | Contains |
-|------|----------|----------|
-| **Shared** | `.harmony/capabilities/skills/` | Skill definitions, behavior, instructions |
-| **Workspace** | `.harmony/capabilities/skills/` | I/O mappings, outputs, logs |
+| Layer | File | Contains |
+|-------|------|----------|
+| **Tier 1** | `manifest.yml` | Skill index (id, name, summary, triggers) |
+| **Tier 2** | `registry.yml` | Extended metadata, I/O mappings, pipelines |
+| **Tier 3** | `SKILL.md` | Full skill definition, behavior, instructions |
+| **Tier 4** | `references/` | Phase details, safety, validation, examples |
 
 See [Architecture](./architecture.md) for details.
 

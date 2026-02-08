@@ -21,7 +21,7 @@ Composable capabilities in `skills/`:
 
 | Skill | Commands | Description |
 |-------|----------|-------------|
-| [<skill-id>](./skills/<skill-id>/skill.md) | `/<skill-id>` | [TODO: Description] |
+| [<skill-id>](./skills/<skill-id>/SKILL.md) | `/<skill-id>` | [TODO: Description] |
 ```
 
 If the table only has the placeholder row ("*No skills defined yet*"), replace it with the new skill entry.
@@ -29,7 +29,7 @@ If the table only has the placeholder row ("*No skills defined yet*"), replace i
 ## Verification
 
 - Skills table in `catalog.md` includes new skill
-- Link to `skill.md` is correct
+- Link to `SKILL.md` is correct
 - Command matches registry
 
 ## Idempotency

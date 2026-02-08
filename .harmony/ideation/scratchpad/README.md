@@ -30,15 +30,15 @@ This directory consolidates all **human-led content** — a space where humans c
 Ideas flow from raw captures to committed work:
 
 ```
-.scratchpad/                    .workspace/
+.scratchpad/                    .harmony/
 ┌─────────────────────┐        ┌─────────────────────┐
-│ ideas/              │        │ projects/           │
+│ ideas/              │        │ ideation/projects/  │
 │ (quick captures)    │───────▶│ (committed research)│
 │         ↓           │        │         ↓           │
-│ brainstorm/         │────┘   │ missions/           │
-│ (explore before     │        │ (committed execution)│
+│ brainstorm/         │────┘   │ orchestration/      │
+│ (explore before     │        │   missions/         │
 │  committing)        │        │         ↓           │
-└─────────────────────┘        │ context/            │
+└─────────────────────┘        │ cognition/context/  │
                                │ (permanent knowledge)│
                                └─────────────────────┘
 ```
@@ -171,14 +171,17 @@ Use `ideas/` for:
 
 ```
 .harmony/
-├── projects/        # Graduated from brainstorm/
-├── missions/        # Execution workstreams
-├── context/         # Permanent knowledge
-├── progress/        # Session tracking
-└── .scratchpad/     # Human-led zone (you are here)
-    ├── brainstorm/  # Pre-project exploration
-    ├── ideas/       # Raw captures
-    └── ...
+├── ideation/
+│   ├── projects/        # Graduated from brainstorm/
+│   └── scratchpad/      # Human-led zone (you are here)
+│       ├── brainstorm/  # Pre-project exploration
+│       ├── ideas/       # Raw captures
+│       └── ...
+├── orchestration/
+│   └── missions/        # Execution workstreams
+├── cognition/
+│   └── context/         # Permanent knowledge
+└── continuity/          # Session tracking
 ```
 
 Projects have graduated from scratchpad to workspace-level because they frequently produce artifacts that feed the main workspace. The scratchpad now focuses on truly ephemeral content and the early-stage funnel (`ideas/` → `brainstorm/`).

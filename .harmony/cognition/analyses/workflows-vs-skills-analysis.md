@@ -601,7 +601,7 @@ The original analysis evaluated single-session procedural tasks. Additional requ
 │  • First-class human approval gates                            │
 │  • Interfaces with FlowKit runtime                              │
 │                                                                 │
-│  Location: .harmony/missions/                                   │
+│  Location: .harmony/orchestration/missions/                      │
 │  Format: mission.yml (state machine) + mission.md (docs)        │
 │                                                                 │
 │                      │ invokes                                  │
@@ -639,7 +639,7 @@ The original analysis evaluated single-session procedural tasks. Additional requ
 Missions orchestrate skills as execution units:
 
 ```yaml
-# .harmony/missions/auth-migration/mission.yml
+# .harmony/orchestration/missions/auth-migration/mission.yml
 name: auth-migration
 goal: "Migrate from session-based to JWT authentication"
 runtime: flowkit
@@ -716,7 +716,7 @@ Transform the draft `missions/` concept into the orchestration layer:
 
 | Current State | Target State |
 |---------------|--------------|
-| `.harmony/orchestration/workflows/missions/` (draft) | `.harmony/missions/` (production) |
+| `.harmony/orchestration/workflows/missions/` (draft) | `.harmony/orchestration/missions/` (production) |
 | Prose-based steps | YAML state machine |
 | No runtime | FlowKit integration |
 | No durability | Checkpoint/resume semantics |
@@ -817,7 +817,7 @@ Missions delegate execution to FlowKit:
 | Primitive | Purpose | Location |
 |-----------|---------|----------|
 | **Skills** | Single-session composable capabilities | `.harmony/capabilities/skills/` |
-| **Missions** | Durable multi-session orchestration | `.harmony/missions/` |
+| **Missions** | Durable multi-session orchestration | `.harmony/orchestration/missions/` |
 | ~~Workflows~~ | **Deprecated** - consolidated into skills | ~~`.harmony/orchestration/workflows/`~~ |
 
 ### Decision Heuristic (Revised)
@@ -871,7 +871,7 @@ Is your task...
 | `docs/architecture/workspaces/missions.md` | **Create** - Mission primitive docs |
 | `docs/architecture/workspaces/missions/schema.md` | **Create** - mission.yml schema |
 | `docs/architecture/workspaces/missions/flowkit-integration.md` | **Create** - FlowKit integration |
-| `.harmony/missions/_template/` | **Create** - Mission template |
+| `.harmony/orchestration/missions/_template/` | **Create** - Mission template |
 | `CLAUDE.md` | Update with two-layer model |
 
 ---

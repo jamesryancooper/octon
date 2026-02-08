@@ -243,7 +243,7 @@ Transform audit results into an actionable change manifest.
    **Total changes:** 47
 
    ### Phase 1: Physical Changes (do first)
-   - [ ] Rename `.workspace/.scratch/` → `.harmony/ideation/scratchpad/`
+   - [ ] Rename `.harmony/ideation/.scratch/` → `.harmony/ideation/scratchpad/`
 
    ### Phase 2: Config Files
    - [ ] `package.json` (1 change)
@@ -301,7 +301,7 @@ Make all planned changes systematically.
 1. **Execute physical changes first:**
 
    ```bash
-   mv .workspace/.scratch .workspace/.scratchpad
+   mv .harmony/ideation/.scratch .harmony/ideation/scratchpad
    ```
 
    - Mark each item complete immediately after
@@ -332,7 +332,7 @@ Make all planned changes systematically.
    **Session focus:** Refactor `.scratch/` to `.scratchpad/`
 
    **Completed:**
-   - Renamed `.workspace/.scratch/` to `.harmony/ideation/scratchpad/`
+   - Renamed `.harmony/ideation/.scratch/` to `.harmony/ideation/scratchpad/`
    - Updated 47 references across 12 files
    - Verification: PASSED
 
@@ -522,7 +522,7 @@ Record the completed refactor and formally close.
    refactor: rename `.scratch/` to `.scratchpad/`
 
    - Updated 47 references across 12 files
-   - Renamed directory `.workspace/.scratch/` → `.harmony/ideation/scratchpad/`
+   - Renamed directory `.harmony/ideation/.scratch/` → `.harmony/ideation/scratchpad/`
    - Verification: all audit searches return zero results
    ```
 

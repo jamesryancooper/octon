@@ -16,7 +16,7 @@ description: Confirm workspace creation and provide next steps.
 - [ ] `.harmony/` directory exists at target
 - [ ] All required files present (START.md, scope.md, conventions.md)
 - [ ] No placeholder patterns remain
-- [ ] progress/ directory initialized
+- [ ] continuity/ directory initialized
 
 ## Idempotency
 

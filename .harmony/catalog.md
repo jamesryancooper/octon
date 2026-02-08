@@ -67,9 +67,9 @@ Atomic operations in `capabilities/commands/`:
 |---------|--------|-------------|
 | [recover.md](./capabilities/commands/recover.md) | human | Recovery procedures for common agent failure modes |
 | [validate-frontmatter.md](./capabilities/commands/validate-frontmatter.md) | human | Validate YAML frontmatter in markdown files |
-| [create-workflow.md](../.harmony/capabilities/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
-| [evaluate-workflow.md](../.harmony/capabilities/commands/evaluate-workflow.md) | human | Assess a workflow against quality criteria |
-| [update-workflow.md](../.harmony/capabilities/commands/update-workflow.md) | human | Modify an existing workflow to fix gaps |
+| [create-workflow.md](./capabilities/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
+| [evaluate-workflow.md](./capabilities/commands/evaluate-workflow.md) | human | Assess a workflow against quality criteria |
+| [update-workflow.md](./capabilities/commands/update-workflow.md) | human | Modify an existing workflow to fix gaps |
 
 ---
 
@@ -103,9 +103,9 @@ Multi-step procedures in `orchestration/workflows/`:
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [create-workflow](../.harmony/orchestration/workflows/workflows/create-workflow/00-overview.md) | human | Scaffold a new workflow with gap remediation features |
-| [evaluate-workflow](../.harmony/orchestration/workflows/workflows/evaluate-workflow/00-overview.md) | human | Assess workflow quality and gap coverage |
-| [update-workflow](../.harmony/orchestration/workflows/workflows/update-workflow/00-overview.md) | human | Add gap fixes to existing workflows |
+| [create-workflow](./orchestration/workflows/workflows/create-workflow/00-overview.md) | human | Scaffold a new workflow with gap remediation features |
+| [evaluate-workflow](./orchestration/workflows/workflows/evaluate-workflow/00-overview.md) | human | Assess workflow quality and gap coverage |
+| [update-workflow](./orchestration/workflows/workflows/update-workflow/00-overview.md) | human | Add gap fixes to existing workflows |
 
 ### FlowKit (Repo-Wide Tool Integration)
 

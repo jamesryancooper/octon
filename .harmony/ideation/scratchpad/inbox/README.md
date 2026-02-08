@@ -25,9 +25,9 @@ This directory is a **temporary holding area** for external artifacts that need 
 | Content Type | Where It Goes |
 |--------------|---------------|
 | Ideas worth exploring | `.scratchpad/brainstorm/` |
-| Committed research | `.workspace/projects/` |
-| Finalized decisions | `.workspace/context/decisions.md` |
-| Active documentation | Parent directory (outside `.workspace/`) |
+| Committed research | `ideation/projects/` |
+| Finalized decisions | `cognition/context/decisions.md` |
+| Active documentation | Parent directory (outside `.harmony/`) |
 | Deprecated content | `.scratchpad/archive/` |
 
 ---
@@ -92,7 +92,7 @@ Scenario: Human imports a research PDF
 4. Human reviews, extracts key insights
 5. Human moves relevant content to:
    - docs/research/paper-summary.md (canonical doc)
-   - .workspace/context/decisions.md (if decisions made)
+   - cognition/context/decisions.md (if decisions made)
 6. Human deletes or archives original from .inbox/
 ```
 
@@ -111,7 +111,7 @@ Scenario: Human imports a research PDF
 
 ## See Also
 
-- [`.workspace/.scratchpad/README.md`](../README.md) — Scratchpad overview and funnel
-- [`.workspace/.scratchpad/brainstorm/README.md`](../brainstorm/README.md) — Idea exploration
-- [`.workspace/projects/README.md`](../../projects/README.md) — Committed research
-- [`.workspace/START.md`](../../START.md) — Boot sequence with visibility rules
+- [`.harmony/ideation/scratchpad/README.md`](../README.md) — Scratchpad overview and funnel
+- [`.harmony/ideation/scratchpad/brainstorm/README.md`](../brainstorm/README.md) — Idea exploration
+- [`.harmony/ideation/projects/README.md`](../../projects/README.md) — Committed research
+- [`.harmony/START.md`](../../../START.md) — Boot sequence with visibility rules

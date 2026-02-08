@@ -1,11 +1,11 @@
 ---
 title: Workspace Skills
-description: Capability-driven workspace skills system with two-tier architecture (shared definitions + workspace-specific I/O).
+description: Capability-driven workspace skills system with progressive disclosure (manifest → registry → SKILL.md → references/).
 ---
 
 # Workspace Skills
 
-Skills are **composable capability units** defined by the [agentskills.io](https://agentskills.io) specification. In Harmony, they use a **two-tier hierarchical architecture**: portable, shared skill definitions live in `.harmony/capabilities/skills/`, while workspace-specific I/O and execution configuration live in `.harmony/capabilities/skills/`.
+Skills are **composable capability units** defined by the [agentskills.io](https://agentskills.io) specification. In Harmony, they use a **progressive disclosure architecture**: all skill artifacts live in `.harmony/capabilities/skills/`, with layered discovery from compact metadata (manifest) through full definitions (SKILL.md) to deep reference material (references/).
 
 Skills declare their **capabilities** (what they can do) and **skill sets** (capability bundles), which determine their documentation requirements and discovery patterns.
 
@@ -119,14 +119,14 @@ See [Creation](./creation.md) for the full workflow.
 
 | Location | Purpose |
 |----------|---------|
-| `.harmony/capabilities/skills/` | Shared skill definitions (portable) |
-| `.harmony/capabilities/skills/manifest.yml` | Skill index with capabilities |
-| `.harmony/capabilities/skills/registry.yml` | Extended metadata + skill set definitions |
+| `.harmony/capabilities/skills/` | Skill definitions and operational state |
+| `.harmony/capabilities/skills/manifest.yml` | Skill index with capabilities (Tier 1 discovery) |
+| `.harmony/capabilities/skills/capabilities.yml` | Skill sets, valid capabilities, refs |
+| `.harmony/capabilities/skills/registry.yml` | Extended metadata, I/O mappings, pipelines (Tier 2) |
+| `.harmony/capabilities/skills/<skill-id>/SKILL.md` | Full skill definition (Tier 3) |
+| `.harmony/capabilities/skills/<skill-id>/references/` | Phase details, safety, validation (Tier 4) |
 | `.harmony/capabilities/skills/_template/` | Scaffolding for new skills |
 | `.harmony/capabilities/skills/scripts/validate-skills.sh` | Capability validation script |
-| `.harmony/capabilities/skills/` | Workspace-specific I/O configuration |
-| `.harmony/capabilities/skills/manifest.yml` | Workspace-specific skill index |
-| `.harmony/capabilities/skills/registry.yml` | Workspace I/O mappings |
 | `.harmony/capabilities/skills/runs/{{skill-id}}/` | Execution state (checkpoints) |
 | `.harmony/capabilities/skills/logs/{{skill-id}}/` | Skill-specific logs |
 | `.harmony/{{category}}/` | Deliverables (prompts, drafts, etc.) |
