@@ -106,6 +106,10 @@ valid_capabilities:
   - stateful            # Persists state across phases
   - resumable           # Can checkpoint and resume
 
+  # Temporal
+  - long-running        # Execution spans extended time (minutes to hours)
+  - scheduled           # Triggered on schedule/timer
+
   # Quality
   - self-validating     # Has formal acceptance criteria
   - error-resilient     # Has recovery procedures
@@ -123,6 +127,9 @@ valid_capabilities:
   - cancellable         # Can be stopped mid-execution
   - external-dependent  # Requires external services (APIs, DBs)
 
+  # Output
+  - external-output     # Produces non-file outputs (URLs, API responses)
+
 # ============================================================================
 # CAPABILITY TO REFERENCE MAPPING
 # Which reference files are expected for each capability.
@@ -136,6 +143,8 @@ capability_refs:
   human-collaborative: [interaction.md]
   stateful: [checkpoints.md]
   resumable: [checkpoints.md]
+  long-running: [execution-model.md]
+  scheduled: [schedule.md]
   self-validating: [validation.md]
   error-resilient: [errors.md]
   composable: [composition.md]
@@ -145,3 +154,4 @@ capability_refs:
   idempotent: [idempotency.md]
   cancellable: [cancellation.md]
   external-dependent: [dependencies.md]
+  external-output: [external-outputs.md]

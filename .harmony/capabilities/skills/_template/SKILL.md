@@ -25,7 +25,8 @@ metadata:
 #   guardian     - Enforces quality/safety (→ self-validating, safety-bounded)
 #
 # Additional Capabilities (beyond skill set bundles):
-#   resumable, error-resilient, idempotent, cancellable, external-dependent
+#   resumable, error-resilient, idempotent, cancellable, external-dependent,
+#   long-running, scheduled, external-output
 #
 # Alignment-First Rule:
 #   Prefer existing skill_sets/capabilities and reference contracts.
@@ -125,6 +126,9 @@ Reference files are included based on your declared **capabilities**. Each capab
 | `idempotent` | [idempotency.md](references/idempotency.md) | Safe retry semantics |
 | `cancellable` | [cancellation.md](references/cancellation.md) | Mid-execution stopping |
 | `external-dependent` | [dependencies.md](references/dependencies.md) | External service requirements |
+| `long-running` | [execution-model.md](references/execution-model.md) | Extended runtime behavior |
+| `scheduled` | [schedule.md](references/schedule.md) | Timer/cron-based triggering |
+| `external-output` | [external-outputs.md](references/external-outputs.md) | URL/API/deployment outputs |
 
 ### Capability Selection Guide
 

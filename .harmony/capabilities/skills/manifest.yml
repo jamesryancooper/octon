@@ -12,7 +12,7 @@
 #   path         - Relative path to skill directory
 #   summary      - One-line description for routing decisions
 #                  Should align with first sentence of SKILL.md description
-#   status       - Lifecycle state: active | deprecated | experimental
+#   status       - Lifecycle state: active | deprecated | experimental | draft
 #   tags         - Freeform labels for filtering/grouping
 #   triggers     - Natural language phrases for intent matching
 #   group        - Skill group for directory organization: quality-gate, synthesis, meta, foundations
@@ -330,7 +330,8 @@ skills:
       - "ship to production"
     skill_sets:
       - executor
-    capabilities: []
+    capabilities:
+      - external-output
 
   - id: vercel
     display_name: Vercel
