@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # validate-skills.sh - Validate skill consistency across manifest, registry, and SKILL.md
 #
 # Usage: ./validate-skills.sh [options] [skill-id]
@@ -62,7 +62,7 @@
 #   Without tiktoken, word count approximation is used (±20% variance).
 #   CI environments should install tiktoken for consistent validation.
 
-set -e
+set -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$(dirname "$SCRIPT_DIR")"
@@ -168,6 +168,45 @@ get_manifest_display_name() {
         found && /display_name:/ {gsub(/.*display_name:\s*/, ""); gsub(/["'"'"']/, ""); gsub(/^[[:space:]]+|[[:space:]]+$/, ""); print; exit}
         found && /^  - id:/ {exit}
     ' "$MANIFEST"
+}
+
+# Get manifest path for a skill (authoritative for grouped directories)
+# Returns path relative to SKILLS_DIR (e.g., "synthesis/refine-prompt/")
+# Falls back to "<skill_id>/" if no manifest path is found.
+get_skill_path() {
+    local skill_id="$1"
+    local skill_path
+    skill_path=$(awk -v id="$skill_id" '
+        $1 == "-" && $2 == "id:" && $3 == id {found=1; next}
+        found && $1 == "path:" {gsub(/["'"'"']/, "", $2); print $2; exit}
+        found && $1 == "-" && $2 == "id:" {exit}
+    ' "$MANIFEST")
+
+    if [[ -n "$skill_path" ]]; then
+        echo "$skill_path"
+    else
+        echo "${skill_id}/"
+    fi
+}
+
+# Get manifest group for a skill. Falls back to first path segment.
+get_skill_group() {
+    local skill_id="$1"
+    local skill_group
+    skill_group=$(awk -v id="$skill_id" '
+        $1 == "-" && $2 == "id:" && $3 == id {found=1; next}
+        found && $1 == "group:" {gsub(/["'"'"']/, "", $2); print $2; exit}
+        found && $1 == "-" && $2 == "id:" {exit}
+    ' "$MANIFEST")
+
+    if [[ -n "$skill_group" ]]; then
+        echo "$skill_group"
+        return
+    fi
+
+    local skill_path
+    skill_path=$(get_skill_path "$skill_id")
+    echo "${skill_path%%/*}"
 }
 
 # Convert skill id (kebab-case) to expected Title Case display_name
@@ -1082,7 +1121,7 @@ check_manifest_registry_sync() {
 # Scaffold a missing registry entry
 scaffold_registry_entry() {
     local skill_id="$1"
-    local skill_dir="$SKILLS_DIR/$skill_id"
+    local skill_dir="$SKILLS_DIR/$(get_skill_path "$skill_id")"
     
     if [[ ! -d "$skill_dir" ]]; then
         log_info "  Cannot scaffold registry entry: skill directory not found"
@@ -1120,7 +1159,7 @@ scaffold_registry_entry() {
 # Scaffold a missing manifest entry
 scaffold_manifest_entry() {
     local skill_id="$1"
-    local skill_dir="$SKILLS_DIR/$skill_id"
+    local skill_dir="$SKILLS_DIR/$(get_skill_path "$skill_id")"
     
     if [[ ! -d "$skill_dir" ]]; then
         log_info "  Cannot scaffold manifest entry: skill directory not found"
@@ -1136,7 +1175,14 @@ scaffold_manifest_entry() {
     # Create display name from id (kebab-case to Title Case)
     local display_name
     display_name=$(echo "$skill_id" | sed 's/-/ /g' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
-    
+
+    # Resolve grouped path prefix from manifest group when available
+    local group
+    group=$(get_skill_group "$skill_id")
+    if [[ -z "$group" ]] || [[ "$group" == "$skill_id" ]]; then
+        group="meta"
+    fi
+
     # Truncate description for summary (first sentence or 80 chars)
     local summary
     summary=$(echo "$description" | cut -d. -f1 | head -c 80)
@@ -1144,7 +1190,7 @@ scaffold_manifest_entry() {
     local scaffold="
   - id: ${skill_id}
     display_name: ${display_name}
-    path: ${skill_id}/
+    path: ${group}/${skill_id}/
     summary: \"${summary}.\"
     status: experimental
     tags:
@@ -1803,7 +1849,7 @@ check_complex_skill_files() {
 
 validate_skill() {
     local skill_id="$1"
-    local skill_dir="$SKILLS_DIR/$skill_id"
+    local skill_dir="$SKILLS_DIR/$(get_skill_path "$skill_id")"
     
     echo ""
     echo "Validating: $skill_id"
