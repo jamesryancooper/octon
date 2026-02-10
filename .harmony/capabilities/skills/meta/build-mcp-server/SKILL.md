@@ -14,6 +14,7 @@ metadata:
   updated: "2026-02-09"
 skill_sets: [executor]
 capabilities: [self-validating]
+# Intentionally broad for scaffolding MCP projects in user-selected workspace paths.
 allowed-tools: Read Glob Grep Edit Write Bash Write(logs/*)
 ---
 

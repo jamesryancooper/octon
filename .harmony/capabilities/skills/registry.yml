@@ -562,6 +562,63 @@ skills:
           determinism: variable
           description: "Top-level log index (cross-skill)"
 
+  deploy-status:
+    version: "1.0.1"
+    commands:
+      - /deploy-status
+    parameters:
+      - name: project
+        type: text
+        required: false
+        description: "Vercel project name; defaults to linked project"
+      - name: deployment
+        type: text
+        required: false
+        description: "Deployment URL or deployment id to inspect"
+      - name: environment
+        type: text
+        required: false
+        default: "production"
+        description: "Deployment target: production or preview"
+      - name: check_url
+        type: boolean
+        required: false
+        default: true
+        description: "Run a URL reachability check when a deployment URL is found"
+    requires:
+      context:
+        - type: command_available
+          command: "vercel"
+          description: "Requires Vercel CLI installed and authenticated"
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: status_report
+          path: "../../output/reports/{{date}}-deploy-status-{{project_slug}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Deployment status report with readiness assessment and follow-ups"
+        - name: run_log
+          path: "logs/deploy-status/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for deployment status checks"
+        - name: log_index
+          path: "logs/deploy-status/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of deploy-status runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
   create-skill:
     version: "1.0.0"
     commands:

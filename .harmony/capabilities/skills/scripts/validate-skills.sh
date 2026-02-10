@@ -66,7 +66,7 @@ set -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$(dirname "$SCRIPT_DIR")"
-HARMONY_DIR="$(dirname "$SKILLS_DIR")"
+HARMONY_DIR="$(dirname "$(dirname "$SKILLS_DIR")")"
 REPO_ROOT="$(dirname "$HARMONY_DIR")"
 MANIFEST="$SKILLS_DIR/manifest.yml"
 REGISTRY="$SKILLS_DIR/registry.yml"
@@ -89,7 +89,7 @@ VALIDATION_TOKEN_BUDGET=800
 
 # Valid skill sets and capabilities
 VALID_SKILL_SETS=("executor" "coordinator" "delegator" "collaborator" "integrator" "specialist" "guardian")
-VALID_CAPABILITIES=("phased" "branching" "parallel" "task-coordinating" "agent-delegating" "human-collaborative" "stateful" "resumable" "self-validating" "error-resilient" "composable" "contract-driven" "domain-specialized" "safety-bounded" "idempotent" "cancellable" "external-dependent")
+VALID_CAPABILITIES=("phased" "branching" "parallel" "task-coordinating" "agent-delegating" "human-collaborative" "stateful" "resumable" "long-running" "scheduled" "self-validating" "error-resilient" "composable" "contract-driven" "domain-specialized" "safety-bounded" "idempotent" "cancellable" "external-dependent" "external-output")
 
 # Aggregate complexity budgets (from reference-artifacts.md Common Profiles section)
 # These are soft limits that trigger warnings, not errors
@@ -164,9 +164,11 @@ get_manifest_display_name() {
     local skill_id="$1"
     # Find the skill entry and extract display_name
     awk -v id="$skill_id" '
-        $0 ~ "- id: "id {found=1; next}
+        $1 == "-" && $2 == "id:" {
+            if (found) {exit}
+            if ($3 == id) {found=1; next}
+        }
         found && /display_name:/ {gsub(/.*display_name:\s*/, ""); gsub(/["'"'"']/, ""); gsub(/^[[:space:]]+|[[:space:]]+$/, ""); print; exit}
-        found && /^  - id:/ {exit}
     ' "$MANIFEST"
 }
 
@@ -243,11 +245,13 @@ get_skill_triggers() {
     local skill_id="$1"
     # Extract triggers array for a skill
     awk -v id="$skill_id" '
-        $0 ~ "- id: "id {found=1; next}
+        $1 == "-" && $2 == "id:" {
+            if (found) {exit}
+            if ($3 == id) {found=1; next}
+        }
         found && /triggers:/ {in_triggers=1; next}
         found && in_triggers && /^      - / {gsub(/^      - ["'"'"']?/, ""); gsub(/["'"'"']$/, ""); print}
         found && in_triggers && /^    [a-z]/ {exit}
-        found && /^  - id:/ {exit}
     ' "$MANIFEST"
 }
 
@@ -800,9 +804,11 @@ get_manifest_entry_tokens() {
     
     # Extract the skill entry from manifest
     awk -v id="$skill_id" '
-        $0 ~ "- id: "id {found=1}
+        $1 == "-" && $2 == "id:" {
+            if (found) {exit}
+            if ($3 == id) {found=1}
+        }
         found {print}
-        found && /^  - id:/ && $0 !~ "- id: "id {exit}
     ' "$MANIFEST" > "$temp_file"
     
     estimate_tokens "$temp_file"
@@ -1066,9 +1072,11 @@ get_skill_description() {
 get_manifest_summary() {
     local skill_id="$1"
     awk -v id="$skill_id" '
-        $0 ~ "- id: "id {found=1; next}
+        $1 == "-" && $2 == "id:" {
+            if (found) {exit}
+            if ($3 == id) {found=1; next}
+        }
         found && /summary:/ {gsub(/.*summary:\s*["'"'"']?/, ""); gsub(/["'"'"']$/, ""); print; exit}
-        found && /^  - id:/ {exit}
     ' "$MANIFEST"
 }
 
@@ -2219,10 +2227,18 @@ else
     echo ""
     echo "Checking for orphaned skill directories..."
     echo "─────────────────────────────"
-    
+
+    # Skip known infrastructure directories and manifest-defined groups.
+    infra_dirs="_template scripts archive configs logs resources runs"
+    group_dirs=""
+    group_dirs=$(awk '/group:/{gsub(/.*group:[[:space:]]*/, ""); gsub(/[[:space:]]*$/, ""); print}' "$MANIFEST" | sort -u)
+
     for dir in "$SKILLS_DIR"/*/; do
         dir_name=$(basename "$dir")
-        if [[ "$dir_name" == "_template" ]] || [[ "$dir_name" == "scripts" ]]; then
+        if echo "$infra_dirs" | grep -qw "$dir_name"; then
+            continue
+        fi
+        if echo "$group_dirs" | grep -qw "$dir_name"; then
             continue
         fi
         if ! grep -q "id: $dir_name" "$MANIFEST"; then

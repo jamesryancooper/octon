@@ -47,7 +47,7 @@ skills:
     display_name: Refine Prompt
     group: synthesis
     path: synthesis/refine-prompt/
-    summary: "Context-aware prompt refinement with persona assignment."
+    summary: "Prompt refinement with codebase context awareness and persona assignment."
     status: active
     tags:
       - prompt
@@ -113,7 +113,7 @@ skills:
     display_name: Audit Migration
     group: quality-gate
     path: quality-gate/audit-migration/
-    summary: "Layered post-migration audit: grep sweeps, cross-reference validation, semantic read-through."
+    summary: "Bounded post-migration audit with grep sweeps and cross-reference validation."
     status: active
     tags:
       - audit
@@ -124,8 +124,6 @@ skills:
       - "audit the migration"
       - "verify migration completeness"
       - "check for stale references"
-      - "post-migration audit"
-      - "find stale paths"
     skill_sets:
       - executor
       - guardian
@@ -136,20 +134,16 @@ skills:
     display_name: Audit UI
     group: quality-gate
     path: quality-gate/audit-ui/
-    summary: "Audit UI files against live external web design guidelines."
+    summary: "Audit UI files against live external design guidelines."
     status: active
     tags:
       - audit
       - ui
       - design
       - accessibility
-      - guidelines
     triggers:
       - "audit the UI"
       - "check UI guidelines"
-      - "review interface design"
-      - "web design audit"
-      - "check design compliance"
       - "review accessibility"
     skill_sets:
       - executor
@@ -333,6 +327,25 @@ skills:
     capabilities:
       - external-output
 
+  - id: deploy-status
+    display_name: Deploy Status
+    group: platforms
+    path: platforms/deploy-status/
+    summary: "Check Vercel deployment readiness."
+    status: draft
+    tags:
+      - deploy
+      - vercel
+      - status
+    triggers:
+      - "check deployment status"
+      - "verify Vercel deployment"
+    skill_sets:
+      - executor
+    capabilities:
+      - external-dependent
+      - external-output
+
   - id: vercel
     display_name: Vercel
     group: platforms
@@ -384,16 +397,11 @@ skills:
     tags:
       - ci
       - debugging
-      - github-actions
-      - testing
       - build
     triggers:
       - "fix CI"
       - "triage CI failure"
-      - "CI is failing"
       - "debug build failure"
-      - "fix the build"
-      - "tests are failing in CI"
     skill_sets:
       - executor
     capabilities:
@@ -425,7 +433,7 @@ skills:
     display_name: Spec to Implementation
     group: synthesis
     path: synthesis/spec-to-implementation/
-    summary: "Transform a product spec into a staged implementation plan with task decomposition."
+    summary: "Transform a product spec into staged implementation tasks with dependency ordering and acceptance criteria."
     status: active
     tags:
       - planning
@@ -449,7 +457,7 @@ skills:
     display_name: Build MCP Server
     group: meta
     path: meta/build-mcp-server/
-    summary: "Scaffold, implement, and validate a Model Context Protocol server."
+    summary: "Scaffold, implement, and validate a Model Context Protocol server with typed tools and guardrails."
     status: active
     tags:
       - mcp

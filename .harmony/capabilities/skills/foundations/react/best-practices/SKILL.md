@@ -2,7 +2,7 @@
 name: react-best-practices
 description: >
   Reference knowledge skill for React and Next.js performance optimization.
-  Provides 40+ rules across 8 categories, prioritized by impact from critical
+  Provides 57 rules across 8 categories, prioritized by impact from critical
   (eliminating waterfalls, reducing bundle size) to incremental (advanced
   patterns). Apply when writing, reviewing, or refactoring React/Next.js code.
 license: MIT
@@ -75,4 +75,4 @@ When this skill is activated:
 
 ## References
 
-- [Rules](references/rules.md) — Full rule set with code examples (40+ rules across 8 categories)
+- [Rules](references/rules.md) — Full rule set with code examples (57 rules across 8 categories)

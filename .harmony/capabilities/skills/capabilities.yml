@@ -85,7 +85,7 @@ skill_group_definitions:
   platforms:
     description: Deployment platform integrations and operations
     path: platforms/
-    members: [vercel, vercel-deploy]
+    members: [vercel, vercel-deploy, deploy-status]
 
 # ============================================================================
 # VALID CAPABILITIES
