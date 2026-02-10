@@ -162,9 +162,9 @@ The harness management commands demonstrate the **Cursor Command → Workflow** 
 
 | Cursor Command | Delegates To | Purpose |
 |----------------|--------------|---------|
-| `/create-harness` | `.harmony/orchestration/workflows/harness/create-harness/` | Scaffold a new `.harmony` directory |
-| `/update-harness` | `.harmony/orchestration/workflows/harness/update-harness/` | Align with canonical definition |
-| `/evaluate-harness` | `.harmony/orchestration/workflows/harness/evaluate-harness/` | Assess token efficiency |
+| `/create-harness` | `.harmony/orchestration/workflows/meta/create-harness/` | Scaffold a new `.harmony` directory |
+| `/update-harness` | `.harmony/orchestration/workflows/meta/update-harness/` | Align with canonical definition |
+| `/evaluate-harness` | `.harmony/orchestration/workflows/meta/evaluate-harness/` | Assess token efficiency |
 
 Each workflow subdirectory contains numbered step files for the agent to follow sequentially.
 

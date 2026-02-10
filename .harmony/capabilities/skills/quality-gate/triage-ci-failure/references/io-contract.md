@@ -1,0 +1,61 @@
+---
+# I/O Contract Documentation
+# AUTHORITATIVE SOURCES (Single Source of Truth):
+#   - Tool permissions: SKILL.md frontmatter `allowed-tools`
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
+---
+
+# I/O Contract Reference
+
+Extended input/output documentation for the triage-ci-failure skill.
+
+> **Authoritative Sources:**
+>
+> - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
+> - Parameters: `.harmony/capabilities/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
+
+## Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --------- | ---- | -------- | ------- | ----------- |
+| `pr` | text | No* | — | PR number or URL with failing CI |
+| `branch` | text | No* | — | Branch name with failing CI |
+| `job` | text | No | — | Target a specific job name |
+| `step` | text | No | — | Target a specific step name |
+
+*One of `pr` or `branch` is required.
+
+## Output Structure
+
+### Primary Output: Triage Report
+
+Written to `.harmony/output/reports/YYYY-MM-DD-ci-triage.md`.
+
+### Execution Log
+
+Written to `.harmony/capabilities/skills/logs/triage-ci-failure/{{run_id}}.md`.
+
+### Log Index
+
+Written to `.harmony/capabilities/skills/logs/triage-ci-failure/index.yml`.
+
+## Dependencies
+
+This skill requires:
+
+- **Read** — Read source files for understanding context
+- **Glob** — Find files referenced in error output
+- **Grep** — Search for related code patterns
+- **Edit** — Apply fixes to source files
+- **Bash(gh)** — GitHub CLI for fetching CI logs
+- **Bash(npm/npx)** — Run local verification checks
+- **Write(../../output/reports/*)** — Write triage report
+- **Write(logs/*)** — Write execution logs
+
+## External Dependencies
+
+- `gh` CLI must be installed and authenticated
+- Node.js/npm for local verification (if project uses Node)
+- Repository must use GitHub Actions (or compatible CI)

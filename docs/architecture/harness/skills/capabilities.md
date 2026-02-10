@@ -68,7 +68,7 @@ Capabilities for robust execution.
 |------------|-------------|----------------|
 | `idempotent` | Safe to retry; same input = same effect | `idempotency.md` |
 | `cancellable` | Can be stopped mid-execution | `cancellation.md` |
-| `external-dependent` | Requires external services | `dependencies.md` |
+| `external-dependent` | Requires external services (e.g., live ruleset fetch via WebFetch). See [Live Ruleset Pattern](design-conventions.md#live-ruleset-pattern-external-dependent) for the full design convention. | `dependencies.md` |
 
 ---
 

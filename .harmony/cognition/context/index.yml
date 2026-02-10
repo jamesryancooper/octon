@@ -1,0 +1,62 @@
+# Context Index
+# Lightweight index of reference material in cognition/context/.
+# Read this to find relevant context without listing the directory.
+#
+# Fields:
+#   id         - File identifier (filename without extension)
+#   path       - Relative path to file
+#   summary    - One-line description
+#   when       - When an agent should read this file
+
+schema_version: "1.0"
+
+files:
+  - id: constraints
+    path: constraints.md
+    summary: Technical and business rules that limit harness operations.
+    when: Before any work — know hard limits.
+
+  - id: decisions
+    path: decisions.md
+    summary: Agent-readable summary of key decisions affecting this harness.
+    when: Before making decisions that might duplicate past choices.
+
+  - id: lessons
+    path: lessons.md
+    summary: Anti-patterns and failures to avoid repeating.
+    when: Before proposing approaches or strategies.
+
+  - id: glossary
+    path: glossary.md
+    summary: Domain-specific terminology for the harness system.
+    when: When encountering or defining domain terms.
+
+  - id: primitives
+    path: primitives.md
+    summary: Core building blocks (skill, workflow, command, etc.) and when to use each.
+    when: When deciding what type of artifact to create.
+
+  - id: dependencies
+    path: dependencies.md
+    summary: External systems and references this harness interacts with.
+    when: When integrating with external resources.
+
+  - id: tools
+    path: tools.md
+    summary: Available tools and selection guidance.
+    when: When unsure which tool to use for a task.
+
+  - id: compaction
+    path: compaction.md
+    summary: Token compaction strategies.
+    when: Approaching context limits or ending long sessions.
+
+  - id: workflow-gaps
+    path: workflow-gaps.md
+    summary: Workflow gap remediation guide (idempotency, dependencies, branching, etc.).
+    when: When creating or evaluating workflows.
+
+  - id: workflow-quality
+    path: workflow-quality.md
+    summary: Grading rubric and quality standards for workflows.
+    when: When evaluating workflow quality.

@@ -125,7 +125,7 @@ Harness command directories symlink to `.harmony/capabilities/commands/` for sha
 
 **Note:** Codex CLI does not support project-level custom commands. Codex users have two options:
 1. Manually copy commands from `.harmony/capabilities/commands/` to `~/.codex/prompts/`
-2. Invoke the workflow directly: "Execute `.harmony/orchestration/workflows/refactor(x)/00-overview.md`"
+2. Invoke the workflow directly: "Execute `.harmony/orchestration/workflows/quality-gate/refactor(x)/00-overview.md`"
 
 ## Adopting in Other Repos
 

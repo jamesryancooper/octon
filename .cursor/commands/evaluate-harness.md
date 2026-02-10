@@ -2,7 +2,7 @@
 
 Evaluate a `.harmony/` directory for token efficiency and agent effectiveness.
 
-See `.harmony/orchestration/workflows/harness/evaluate-harness/00-overview.md` for full description and steps.
+See `.harmony/orchestration/workflows/meta/evaluate-harness/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -18,11 +18,11 @@ Or for a nested harness:
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/workflows/harness/evaluate-harness/`.
+Execute the workflow in `.harmony/orchestration/workflows/meta/evaluate-harness/`.
 
 Start with `00-overview.md`, then follow each step in sequence.
 
 ## References
 
 - **Canonical:** `docs/architecture/harness/README.md`
-- **Workflow:** `.harmony/orchestration/workflows/harness/evaluate-harness/`
+- **Workflow:** `.harmony/orchestration/workflows/meta/evaluate-harness/`

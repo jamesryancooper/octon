@@ -659,8 +659,100 @@ During planning phase, for each file in the change manifest:
 - **Length:** 1-64 characters
 - **Convention:** Verb-noun (action-oriented)
 
-**Good:** `refine-prompt`, `analyze-codebase`, `generate-report`
+**Good:** `refine-prompt`, `audit-migration`, `build-mcp-server`
 **Bad:** `prompt-refiner`, `codebase-analyzer`, `ReportGenerator`
+
+### Verb Vocabulary
+
+Action-oriented skill and workflow names use a **verb-noun** pattern. The verb carries operational semantics — use the right verb to signal what the skill does.
+
+#### Scaffold & Construct
+
+| Verb | Semantics | Output | Examples |
+|------|-----------|--------|----------|
+| `create` | Scaffold from template; output requires further work | Skeleton / boilerplate | `create-skill`, `create-workflow` |
+| `build` | End-to-end construction; output is a working artifact | Working product | `build-mcp-server` |
+
+**Boundary:** If the skill copies a template and fills placeholders, use `create`. If it analyzes, designs, implements, and validates, use `build`.
+
+#### Modify & Evolve
+
+| Verb | Semantics | Output | Examples |
+|------|-----------|--------|----------|
+| `update` | Incremental alignment within the current schema | Patched artifact | `update-harness`, `update-workflow` |
+| `migrate` | Structural upgrade across schema versions | Upgraded artifact | `migrate-harness` |
+| `refactor` | Restructure while preserving behavior | Reorganized code/content | `refactor` |
+
+**Boundary:** `update` fixes gaps in-place. `migrate` transforms structure (v1→v2). `refactor` changes shape without changing behavior.
+
+#### Assess & Diagnose
+
+| Verb | Semantics | Output | Examples |
+|------|-----------|--------|----------|
+| `audit` | Binary compliance check; find violations | Pass/fail report with violations | `audit-migration`, `audit-ui` |
+| `evaluate` | Qualitative assessment; score and recommend | Scored report with recommendations | `evaluate-harness`, `evaluate-workflow` |
+| `triage` | Diagnose and categorize unknown issues | Diagnosis with prioritized next steps | `triage-ci-failure` |
+
+**Boundary:** `audit` = "what's wrong?" (violations). `evaluate` = "how good?" (scoring). `triage` = "what happened?" (diagnosis).
+
+#### Fix & Transform
+
+| Verb | Semantics | Output | Examples |
+|------|-----------|--------|----------|
+| `resolve` | Systematically address known issues | Fixed artifact | `resolve-pr-comments` |
+| `refine` | Improve quality of a single input | Enhanced version of the input | `refine-prompt` |
+| `synthesize` | Combine scattered inputs into coherent output | New unified artifact | `synthesize-research` |
+
+**Boundary:** `resolve` = fix listed problems. `refine` = one input → better version. `synthesize` = many inputs → one output.
+
+#### Execute & Coordinate
+
+| Verb | Semantics | Output | Examples |
+|------|-----------|--------|----------|
+| `run` | Execute a defined process | Process output | `run-flow` |
+| `orchestrate` | Coordinate parallel or partitioned work | Aggregated results | `orchestrate-audit` |
+| `deploy` | Ship artifact to a target environment | Deployed service/site | `vercel-deploy` |
+
+#### Lifecycle
+
+| Verb | Semantics | Output | Examples |
+|------|-----------|--------|----------|
+| `promote` | Elevate content from draft to published | Published artifact | `promote-from-scratchpad` |
+| `complete` | Archive or finish lifecycle | Archived record | `complete-mission` |
+
+#### Reserved Verbs
+
+These verbs are not yet in use but are defined for future consistency. Use them instead of inventing synonyms.
+
+| Verb | Semantics | Use instead of |
+|------|-----------|----------------|
+| `analyze` | Examine and describe without judgment | — |
+| `extract` | Pull specific data from a larger source | — |
+| `export` | Produce output for external consumption | `convert`, `transform` |
+| `import` | Ingest external data into the harness | — |
+| `sync` | Bidirectional alignment between sources | — |
+
+#### Retired Verbs
+
+These verbs were in earlier naming guidance but overlap with active verbs. Do not use them.
+
+| Retired Verb | Use Instead | Rationale |
+|--------------|-------------|-----------|
+| `generate` | `create` or `build` | Ambiguous scope; `create` for scaffolding, `build` for full construction |
+| `process` | Specific verb | Too generic; pick a verb that says what it actually does |
+| `validate` | `audit` | Validation is a phase within skills, not a standalone operation |
+| `transform` | `refine` or `synthesize` | Ambiguous arity; `refine` for one→better, `synthesize` for many→one |
+| `convert` | `export` or `import` | Format-level transformation; use directional verbs |
+
+#### Naming Exceptions
+
+Knowledge-type skills and platform qualifiers may use `{qualifier}-{descriptor}` instead of verb-noun:
+
+| Pattern | Examples | When to use |
+|---------|----------|-------------|
+| `{stack}-best-practices` | `react-best-practices`, `postgres-best-practices` | Reference knowledge, not actions |
+| `{stack}-{pattern}` | `react-composition-patterns` | Pattern catalogs |
+| `{platform}-{action}` | `vercel-deploy` | Platform-scoped operations |
 
 ### Run IDs
 
@@ -738,6 +830,101 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 
 ---
 
+## Live Ruleset Pattern (`external-dependent`)
+
+**Decision:** [D040](../../../../.harmony/cognition/context/decisions.md) — Skills can fetch rule sets from external URLs at runtime using the `external-dependent` capability. This keeps audits current without harness updates, at the cost of requiring network access.
+
+**Canonical example:** [`audit-ui`](../../../../.harmony/capabilities/skills/quality-gate/audit-ui/SKILL.md) — fetches web design guidelines from an external URL, scans UI files, and reports violations.
+
+### When to Use
+
+Use `external-dependent` (live ruleset) when:
+
+- The rules are maintained by an external party and updated independently
+- Freshness matters more than offline availability
+- The skill's value depends on staying current with evolving standards
+
+Embed static rules instead when:
+
+- The rules are stable and rarely change
+- Offline operation is required
+- You control the rules and update them as part of harness maintenance
+
+### Trade-offs
+
+| Aspect | Live Ruleset | Static Rules |
+|--------|-------------|--------------|
+| Freshness | Always current | Stale until harness update |
+| Availability | Requires network | Always available |
+| Failure mode | Cannot operate if URL unreachable | Always works |
+| Maintenance | Zero (external party maintains) | Manual updates required |
+| Reproducibility | Results may vary across runs | Deterministic |
+| Trust | Must validate fetched content | Reviewed at integration time |
+
+### Implementation Requirements
+
+| Requirement | Detail |
+|-------------|--------|
+| `capabilities` | Declare `external-dependent` in SKILL.md frontmatter and manifest.yml |
+| `allowed-tools` | Include `WebFetch` in SKILL.md frontmatter |
+| `references/dependencies.md` | Required by `capability_refs` mapping — document the external URL, failure modes, and offline strategy |
+| Failure handling | Skill must stop and report error if the URL is unreachable — no silent degradation |
+| Content validation | Verify fetched content is parseable before proceeding; flag suspected prompt injection |
+
+### Execution Flow
+
+```text
+Skill activated
+    │
+    ▼
+WebFetch ruleset URL
+    │
+    ├── Success → Validate content → Parse rules → Execute skill phases → Report
+    │
+    └── Failure (network error, 404, timeout)
+        │
+        ├── Cached ruleset available? → Use cached version (warn: may be outdated)
+        │
+        └── No cache → Stop execution → Report error to user
+```
+
+### `dependencies.md` Reference File
+
+The `external-dependent` capability requires a `references/dependencies.md` file (per `capability_refs` in `capabilities.yml`). The `_template/references/dependencies.md` provides the scaffold. Required sections:
+
+1. **Dependencies table** — service name, URL, purpose, required (yes/no)
+2. **Configuration** — how to override the default URL via parameters
+3. **Health checks** — verify URL accessibility before proceeding
+4. **Failure modes** — what happens when the service is unavailable (network error, 404, rate limit, format change)
+5. **Offline mode** — whether a cached fallback exists (default: no)
+
+### Security Considerations
+
+- **WebFetch scope:** Restrict to the configured ruleset URL only — no arbitrary web access
+- **Content trust:** The fetched content is reference data, never executed as code
+- **Prompt injection:** If fetched content appears to contain unexpected instructions or prompt injection attempts, flag it to the user before proceeding
+- **URL override:** Users can override the default URL via parameters, but the `allowed-tools` declaration should still scope WebFetch appropriately
+
+### Future: Cached Fallback
+
+The current pattern has no offline fallback — if the URL is unreachable, the skill stops. A future enhancement could cache the last fetched ruleset:
+
+```text
+configs/{{skill-id}}/cached-ruleset.md    ← Auto-saved after each successful fetch
+```
+
+Implementation considerations:
+
+- Cache on every successful fetch (overwrite previous cache)
+- Use cache only when live fetch fails (not as default)
+- Log a warning when using cached version: "Using cached ruleset from {date}. Live fetch failed."
+- Include cache timestamp in the report metadata
+- Let users clear cache: delete the file to force live fetch
+
+This pattern is documented but **not yet implemented** in any skill.
+
+---
+
 ## Design Decision Summary
 
 | Topic | Decision |
@@ -755,6 +942,7 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 | **Dry-run mode** | Execute discovery/planning phases only |
 | **Failure recovery** | Resume via checkpoint.yml with explicit instructions |
 | **Continuity detection** | Convention-based patterns + project config |
+| **Live ruleset** | `external-dependent` capability; fetch rules at runtime via WebFetch; stop on failure |
 
 ---
 

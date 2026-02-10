@@ -1,44 +1,24 @@
-# Harness Agents
+# Agency
 
-This harness inherits agent definitions from `.harmony/agency/agents/`.
+Agent hierarchy: agents, assistants, subagents, teams.
 
-## Inherited Agents
+## Contents
 
-| Agent | Role | Capabilities |
-|-------|------|--------------|
-| planner | Strategic planning | Goal decomposition, task planning, delegation |
-| builder | Implementation | Code generation, skill execution, testing |
-| verifier | Quality assurance | Validation, review, checklist verification |
+| Subdirectory | Purpose | Index |
+|--------------|---------|-------|
+| `agents/` | Autonomous supervisors (architect, auditor) | — |
+| `assistants/` | Specialist subagents invoked via @mention | `assistants/registry.yml` |
+| `subagents/` | Delegated workers with defined capabilities | `subagents/registry.yml` |
+| `teams/` | Multi-agent team definitions | — |
 
-See `.harmony/agency/agents/registry.yml` for the full list.
+## Interaction Model
 
-## Harness-Specific Agents
+**Referenced.** Look up agents and assistants by name or role. Use `assistants/registry.yml` for @mention resolution. Use `subagents/registry.yml` for delegation routing.
 
-Add project-specific agents here to:
-
-- Override shared agent behavior for this project
-- Add agents specific to this harness's domain
-- Extend shared agents with additional capabilities
-
-## Creating a Harness Agent
-
-1. Copy `.harmony/agency/agents/_template/` to `.harmony/agency/agents/<name>/`
-2. Update `agent.md` with role, capabilities, and delegation rules
-3. Register in `.harmony/agency/agents/registry.yml`
-
-## Relationship to Assistants
-
-Agents are **supervisors** that delegate to assistants (subagents):
+## Hierarchy
 
 ```
-AGENT (Supervisor)
-  │ commands missions
-  │ delegates to assistants
-  ▼
-ASSISTANT (@reviewer, @refactor, @docs)
-  │ uses skills
-  ▼
-SKILL (refactor, synthesize, create-harness)
+AGENT (Supervisor) → delegates to → ASSISTANT (Specialist) → uses → SKILL (Capability)
 ```
 
-See `.harmony/agency/agents/README.md` for full agent documentation.
+See subdirectory READMEs for detail.

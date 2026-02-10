@@ -1,0 +1,58 @@
+---
+# I/O Contract Documentation
+# AUTHORITATIVE SOURCES (Single Source of Truth):
+#   - Tool permissions: SKILL.md frontmatter `allowed-tools`
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
+---
+
+# I/O Contract Reference
+
+Extended input/output documentation for the resolve-pr-comments skill.
+
+> **Authoritative Sources:**
+>
+> - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
+> - Parameters: `.harmony/capabilities/skills/registry.yml`
+> - Output paths: `.harmony/capabilities/skills/registry.yml`
+
+## Parameters
+
+| Parameter | Type | Required | Default | Description |
+| --------- | ---- | -------- | ------- | ----------- |
+| `pr` | text | Yes | — | PR number or full GitHub URL |
+| `reviewer` | text | No | — | Filter to specific reviewer's comments only |
+| `types` | text | No | `all` | Comma-separated comment types to resolve: `bug,design,style,nit,question` |
+
+## Output Structure
+
+### Primary Output: Resolution Report
+
+Written to `.harmony/output/reports/YYYY-MM-DD-pr-comments-resolved.md`.
+
+### Execution Log
+
+Written to `.harmony/capabilities/skills/logs/resolve-pr-comments/{{run_id}}.md`.
+
+### Log Index
+
+Written to `.harmony/capabilities/skills/logs/resolve-pr-comments/index.yml`.
+
+## Dependencies
+
+Tool requirements are defined in SKILL.md `allowed-tools` frontmatter (single source of truth).
+
+This skill requires:
+
+- **Read** — Read source files for context during resolution
+- **Glob** — Find files referenced in comments
+- **Grep** — Search for related code patterns
+- **Edit** — Apply fixes to source files
+- **Bash(gh)** — GitHub CLI for fetching PR data and comments
+- **Write(../../output/reports/*)** — Write resolution report
+- **Write(logs/*)** — Write execution logs
+
+## External Dependencies
+
+- `gh` CLI must be installed and authenticated
+- Repository must be a GitHub repository with push access

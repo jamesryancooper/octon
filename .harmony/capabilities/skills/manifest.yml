@@ -15,6 +15,8 @@
 #   status       - Lifecycle state: active | deprecated | experimental
 #   tags         - Freeform labels for filtering/grouping
 #   triggers     - Natural language phrases for intent matching
+#   group        - Skill group for directory organization: quality-gate, synthesis, meta, foundations
+#                  Resolved via skill_group_definitions in capabilities.yml
 #   skill_sets   - Capability bundles: executor, coordinator, delegator, collaborator, integrator, specialist, guardian
 #   capabilities - Additional capabilities beyond skill set bundles (see registry.yml for valid values)
 
@@ -24,7 +26,8 @@ default: null
 skills:
   - id: synthesize-research
     display_name: Synthesize Research
-    path: synthesize-research/
+    group: synthesis
+    path: synthesis/synthesize-research/
     summary: "Synthesize scattered research notes into coherent findings."
     status: active
     tags:
@@ -42,7 +45,8 @@ skills:
 
   - id: refine-prompt
     display_name: Refine Prompt
-    path: refine-prompt/
+    group: synthesis
+    path: synthesis/refine-prompt/
     summary: "Context-aware prompt refinement with persona assignment."
     status: active
     tags:
@@ -63,7 +67,8 @@ skills:
 
   - id: refactor
     display_name: Refactor
-    path: refactor/
+    group: quality-gate
+    path: quality-gate/refactor/
     summary: "Execute verified codebase refactor with exhaustive audit."
     status: active
     tags:
@@ -85,7 +90,8 @@ skills:
 
   - id: create-skill
     display_name: Create Skill
-    path: create-skill/
+    group: meta
+    path: meta/create-skill/
     summary: "Scaffold a new skill from template with registry entry."
     status: active
     tags:
@@ -105,7 +111,8 @@ skills:
 
   - id: audit-migration
     display_name: Audit Migration
-    path: audit-migration/
+    group: quality-gate
+    path: quality-gate/audit-migration/
     summary: "Layered post-migration audit: grep sweeps, cross-reference validation, semantic read-through."
     status: active
     tags:
@@ -124,3 +131,222 @@ skills:
       - guardian
     capabilities:
       - domain-specialized
+
+  - id: audit-ui
+    display_name: Audit UI
+    group: quality-gate
+    path: quality-gate/audit-ui/
+    summary: "Audit UI files against live external web design guidelines."
+    status: active
+    tags:
+      - audit
+      - ui
+      - design
+      - accessibility
+      - guidelines
+    triggers:
+      - "audit the UI"
+      - "check UI guidelines"
+      - "review interface design"
+      - "web design audit"
+      - "check design compliance"
+      - "review accessibility"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - external-dependent
+
+  - id: react-composition-patterns
+    display_name: React Composition Patterns
+    group: foundations
+    path: foundations/react/composition-patterns/
+    summary: "Apply React composition patterns: compound components, state lifting, explicit variants."
+    status: active
+    tags:
+      - react
+      - patterns
+      - composition
+      - components
+    triggers:
+      - "apply React composition patterns"
+      - "check composition patterns"
+      - "React compound components"
+      - "component composition review"
+    skill_sets:
+      - specialist
+    capabilities: []
+
+  - id: react-best-practices
+    display_name: React Best Practices
+    group: foundations
+    path: foundations/react/best-practices/
+    summary: "Apply 57 React/Next.js performance rules across 8 categories."
+    status: active
+    tags:
+      - react
+      - nextjs
+      - performance
+      - best-practices
+    triggers:
+      - "apply React best practices"
+      - "React performance review"
+      - "check React patterns"
+      - "Next.js best practices"
+    skill_sets:
+      - specialist
+    capabilities: []
+
+  - id: react-native-best-practices
+    display_name: React Native Best Practices
+    group: foundations
+    path: foundations/react-native/best-practices/
+    summary: "Apply 35+ React Native and Expo performance rules across 14 categories."
+    status: active
+    tags:
+      - react-native
+      - expo
+      - mobile
+      - performance
+    triggers:
+      - "apply React Native best practices"
+      - "React Native performance review"
+      - "check React Native patterns"
+      - "Expo best practices"
+    skill_sets:
+      - specialist
+    capabilities: []
+
+  - id: vercel-deploy
+    display_name: Vercel Deploy
+    group: platforms
+    path: platforms/vercel/deploy/
+    summary: "Package and deploy the project to Vercel using the CLI."
+    status: active
+    tags:
+      - deploy
+      - vercel
+      - hosting
+      - production
+    triggers:
+      - "deploy to Vercel"
+      - "Vercel deployment"
+      - "push to Vercel"
+      - "ship to production"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: resolve-pr-comments
+    display_name: Resolve PR Comments
+    group: quality-gate
+    path: quality-gate/resolve-pr-comments/
+    summary: "Systematic resolution of pull request review comments."
+    status: active
+    tags:
+      - pr
+      - review
+      - comments
+      - github
+      - quality
+    triggers:
+      - "resolve PR comments"
+      - "address review comments"
+      - "fix review feedback"
+      - "resolve review"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - external-dependent
+
+  - id: triage-ci-failure
+    display_name: Triage CI Failure
+    group: quality-gate
+    path: quality-gate/triage-ci-failure/
+    summary: "Diagnose and repair CI pipeline failures."
+    status: active
+    tags:
+      - ci
+      - debugging
+      - github-actions
+      - testing
+      - build
+    triggers:
+      - "fix CI"
+      - "triage CI failure"
+      - "CI is failing"
+      - "debug build failure"
+      - "fix the build"
+      - "tests are failing in CI"
+    skill_sets:
+      - executor
+    capabilities:
+      - external-dependent
+
+  - id: postgres-best-practices
+    display_name: Postgres Best Practices
+    group: foundations
+    path: foundations/postgres/best-practices/
+    summary: "Apply 35+ PostgreSQL performance and correctness rules across 7 categories."
+    status: active
+    tags:
+      - postgres
+      - database
+      - sql
+      - performance
+      - best-practices
+    triggers:
+      - "apply Postgres best practices"
+      - "Postgres performance review"
+      - "check database patterns"
+      - "SQL best practices"
+      - "review database code"
+    skill_sets:
+      - specialist
+    capabilities: []
+
+  - id: spec-to-implementation
+    display_name: Spec to Implementation
+    group: synthesis
+    path: synthesis/spec-to-implementation/
+    summary: "Transform a product spec into a staged implementation plan with task decomposition."
+    status: active
+    tags:
+      - planning
+      - decomposition
+      - spec
+      - implementation
+      - architecture
+    triggers:
+      - "turn this spec into tasks"
+      - "create implementation plan"
+      - "decompose this feature"
+      - "break down this spec"
+      - "plan the implementation"
+    skill_sets:
+      - executor
+      - coordinator
+    capabilities:
+      - human-collaborative
+
+  - id: build-mcp-server
+    display_name: Build MCP Server
+    group: meta
+    path: meta/build-mcp-server/
+    summary: "Scaffold, implement, and validate a Model Context Protocol server."
+    status: active
+    tags:
+      - mcp
+      - integration
+      - tools
+      - scaffolding
+    triggers:
+      - "build an MCP server"
+      - "create MCP tools"
+      - "scaffold MCP server"
+      - "make an MCP integration"
+    skill_sets:
+      - executor
+    capabilities:
+      - self-validating

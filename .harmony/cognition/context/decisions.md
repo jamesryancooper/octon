@@ -61,6 +61,9 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 | D037 | display_name extension | Title Case derived from id | Human-readable name; derivable but explicit for clarity | 2026-01-17 |
 | D038 | Placeholder validation | `{{snake_case}}` format enforced | Paths use `{{placeholder}}`; validation catches deprecated formats | 2026-01-17 |
 | D039 | CI integration | skills-validation job in pr.yml | tiktoken for accurate token counting; --strict mode | 2026-01-17 |
+| D040 | Live ruleset pattern | `external-dependent` capability with WebFetch | Skills can fetch rules at runtime from external URLs; stays current without harness updates; requires network; no offline fallback by default | 2026-02-09 |
+| D041 | Platforms skill group | New `platforms/` group parallel to `foundations/` | Deployment platform skills (Vercel, etc.) organized separately from language/framework foundations; both use family pattern (parent SKILL.md + children) | 2026-02-09 |
+| D042 | Reference knowledge skills in manifest | Foundation children with `specialist` skill set appear in manifest.yml with triggers | Unlike scaffolding children (`disable-model-invocation: true`), reference knowledge skills are independently invocable and need manifest triggers for routing | 2026-02-09 |
 
 ## Decision Format
 

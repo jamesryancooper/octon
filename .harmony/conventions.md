@@ -11,6 +11,7 @@ description: Style and formatting rules for the root .harmony harness.
 - Commands: `{verb}-{noun}.md` (e.g., `validate-frontmatter.md`)
 - Prompts: `{action}-{target}.md` (e.g., `audit-content.md`)
 - Workflows: `{verb}-{noun}/` directory (e.g., `create-harness/`)
+- Skills & Workflows: Use verbs from the [Verb Vocabulary](../docs/architecture/harness/skills/design-conventions.md#verb-vocabulary)
 
 ## Command vs Prompt Decision
 
@@ -149,4 +150,4 @@ When renaming or moving paths, **do not** update historical references:
 
 - **Decision:** D014 (Continuity artifact immutability)
 - **ADR:** [ADR-004](cognition/decisions/004-refactor-workflow.md)
-- **Workflow:** `.harmony/orchestration/workflows/refactor(x)/`
+- **Workflow:** `.harmony/orchestration/workflows/quality-gate/refactor(x)/`

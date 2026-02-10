@@ -103,6 +103,15 @@ Reference files should correspond to declared capabilities:
 WARNING: Skill 'my-skill' has 'checkpoints.md' but neither 'stateful' nor 'resumable' capability declared
 ```
 
+### 5. Alignment-First Process Gate
+
+Every new skill implementation must record an alignment decision:
+
+- `aligned` — implemented using existing contracts
+- `extension-proposed` — extension proposal created with synchronized docs/schema/validator updates
+
+**Blocking rule for review:** Do not merge ad hoc contract changes without the extension proposal artifacts.
+
 ---
 
 ## Validation Levels
@@ -113,6 +122,7 @@ WARNING: Skill 'my-skill' has 'checkpoints.md' but neither 'stateful' nor 'resum
 - Unknown skill set name
 - Invalid YAML syntax
 - Missing required fields
+- Contract extension introduced without synchronized schema/docs/validator updates
 
 ### Warnings (Allow Execution)
 

@@ -1,0 +1,42 @@
+# GitHub Actions CI workflow pattern.
+#
+# Replace {{PYTHON_VERSION}} with the project's Python version (e.g., '3.12').
+# This workflow runs the full quality gate on PRs and pushes to main.
+
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  check:
+    name: Lint, Type, and Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '{{PYTHON_VERSION}}'
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Install dependencies
+        run: just sync
+
+      - name: Run CI quality gate
+        shell: bash
+        run: |
+          source .venv/bin/activate
+          just check

@@ -108,7 +108,7 @@ workflows:
     access: human
     depends_on: []
     deprecated: true
-    deprecated_by: ".harmony/capabilities/skills/create-skill/"
+    deprecated_by: ".harmony/capabilities/skills/meta/create-skill/"
 
   create-workflow:
     version: "1.0.0"
@@ -147,6 +147,157 @@ workflows:
     commands: ["/create-project"]
     access: human
     depends_on: []
+
+  python-api-foundation:
+    version: "1.0.0"
+    commands: ["/python-api-foundation"]
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name (lowercase, hyphens)"
+      - name: description
+        type: text
+        required: true
+        description: "One-line project description"
+      - name: python_version
+        type: text
+        required: true
+        default: "python3.12"
+        description: "Python version (e.g., python3.12)"
+      - name: services
+        type: text
+        required: false
+        description: "Infrastructure services: postgres, nats, redis, s3, temporal"
+      - name: skip
+        type: text
+        required: false
+        description: "Comma-separated skill names to skip"
+    access: human
+    depends_on:
+      - skill: scaffold-package
+        condition: "active in foundations/python-api/"
+      - skill: contract-first-api
+        condition: "active in foundations/python-api/"
+      - skill: test-harness
+        condition: "active in foundations/python-api/"
+      - skill: dev-toolchain
+        condition: "active in foundations/python-api/"
+      - skill: infra-manifest
+        condition: "active in foundations/python-api/"
+      - skill: contributor-guide
+        condition: "active in foundations/python-api/"
+    io:
+      inputs:
+        - name: project_arguments
+          path: "{{arguments}}"
+          kind: text
+          format: cli
+          required: true
+          description: "Project name, description, python version, and services"
+      outputs:
+        - name: project_scaffold
+          path: "src/{{package_name}}/"
+          kind: directory
+          format: python-package
+          determinism: unique
+          description: "Complete Python package structure"
+        - name: contracts
+          path: "docs/contracts/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "OpenAPI spec, JSON schemas, and versioning policy"
+        - name: test_suite
+          path: "tests/"
+          kind: directory
+          format: python-tests
+          determinism: unique
+          description: "Three-tier test pyramid"
+        - name: contributor_docs
+          path: "AGENT.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "AI agent orientation document"
+
+  swift-macos-app-foundation:
+    version: "1.0.0"
+    commands: ["/swift-macos-app-foundation"]
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name (PascalCase for modules)"
+      - name: description
+        type: text
+        required: true
+        description: "One-line project description"
+      - name: swift_version
+        type: text
+        required: true
+        default: "5.9"
+        description: "Swift version (e.g., 5.9, 6.0)"
+      - name: macos_target
+        type: text
+        required: true
+        default: "14"
+        description: "macOS deployment target (e.g., 14, 15)"
+      - name: dependencies
+        type: text
+        required: false
+        description: "Dependencies: grdb, yams, argument-parser, async-http-client, swift-graph, ulid"
+      - name: skip
+        type: text
+        required: false
+        description: "Comma-separated skill names to skip"
+    access: human
+    depends_on:
+      - skill: scaffold-package
+        condition: "active in foundations/swift-macos-app/"
+      - skill: data-layer
+        condition: "active in foundations/swift-macos-app/"
+      - skill: daemon-service
+        condition: "active in foundations/swift-macos-app/"
+      - skill: cli-interface
+        condition: "active in foundations/swift-macos-app/"
+      - skill: test-harness
+        condition: "active in foundations/swift-macos-app/"
+      - skill: contributor-guide
+        condition: "active in foundations/swift-macos-app/"
+    io:
+      inputs:
+        - name: project_arguments
+          path: "{{arguments}}"
+          kind: text
+          format: cli
+          required: true
+          description: "Project name, description, swift version, macos target, and dependencies"
+      outputs:
+        - name: package_manifest
+          path: "Package.swift"
+          kind: file
+          format: swift
+          determinism: unique
+          description: "Swift Package Manager manifest"
+        - name: source_tree
+          path: "Sources/{{PROJECT_NAME}}/"
+          kind: directory
+          format: swift-package
+          determinism: unique
+          description: "Complete Swift source module structure"
+        - name: test_suite
+          path: "Tests/{{PROJECT_NAME}}Tests/"
+          kind: directory
+          format: swift-tests
+          determinism: unique
+          description: "XCTest test suites and fixtures"
+        - name: agent_doc
+          path: "CLAUDE.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "AI agent orientation document"
 
   promote-from-scratchpad:
     version: "1.0.0"

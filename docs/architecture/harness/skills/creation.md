@@ -19,6 +19,25 @@ This invokes the `create-skill` skill defined in `.harmony/capabilities/skills/c
 
 ---
 
+## Alignment-First Gate (Mandatory)
+
+Before defining a new skill, run this decision gate:
+
+1. **Align first:** Model behavior with existing `skill_sets`, `capabilities`, reference artifact mappings, and `allowed-tools` vocabulary.
+2. **No ad hoc schema:** Do not invent new capability names, reference file types, or metadata fields during implementation.
+3. **Escalate only by proposal:** If alignment is not possible, stop and prepare a **Spec Extension Proposal** before implementation.
+
+A Spec Extension Proposal must include:
+
+- Why current contracts are insufficient
+- Proposed contract delta
+- Required updates across `capabilities.yml`, docs, templates, and validation
+- Migration impact on existing skills (if any)
+
+See [Alignment Policy](./alignment-policy.md) for policy details.
+
+---
+
 ## Choose Your Capabilities
 
 **Reference files are driven by capabilities.** Before creating a skill, identify what capabilities it needs:
@@ -49,7 +68,16 @@ Add individual capabilities for specific needs beyond skill sets:
 | `cancellable` | Can be stopped mid-execution |
 | `external-dependent` | Requires external services |
 
-### Step 3: Add Reference Files
+### Step 3: Confirm Alignment Decision (Required)
+
+Before creating files, record one of:
+
+- `aligned` — existing contracts are sufficient
+- `extension-proposed` — spec extension proposal created and approved
+
+If neither can be stated with evidence, stop and clarify scope.
+
+### Step 4: Add Reference Files
 
 Each capability maps to a reference file. Add files for your resolved capabilities:
 

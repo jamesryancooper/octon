@@ -172,7 +172,7 @@ Harness commands in `.<harness>/commands/` are thin wrappers that delegate to `.
 
 | Command | Delegates To |
 | ------- | ------------ |
-| `/create-harness` | `.harmony/orchestration/workflows/harness/create-harness/` |
+| `/create-harness` | `.harmony/orchestration/workflows/meta/create-harness/` |
 | `/synthesize-research` | `.harmony/capabilities/skills/synthesize-research/` |
 
 ---

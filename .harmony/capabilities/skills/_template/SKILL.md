@@ -27,6 +27,11 @@ metadata:
 # Additional Capabilities (beyond skill set bundles):
 #   resumable, error-resilient, idempotent, cancellable, external-dependent
 #
+# Alignment-First Rule:
+#   Prefer existing skill_sets/capabilities and reference contracts.
+#   If a requested behavior does not fit, create a spec extension proposal
+#   before adding new contract fields, capability names, or reference types.
+#
 # See: docs/architecture/harness/skills/capabilities.md
 skill_sets: []
 capabilities: []

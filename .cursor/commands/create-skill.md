@@ -2,7 +2,7 @@
 
 Scaffold a new harness skill from template.
 
-See `.harmony/orchestration/workflows/skills(x)/create-skill/00-overview.md` for full description and steps.
+See `.harmony/orchestration/workflows/meta/create-skill(x)/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -24,7 +24,7 @@ See `.harmony/orchestration/workflows/skills(x)/create-skill/00-overview.md` for
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/workflows/skills(x)/create-skill/`.
+Execute the workflow in `.harmony/orchestration/workflows/meta/create-skill(x)/`.
 
 Start with `00-overview.md` and follow each step in sequence:
 
@@ -43,6 +43,6 @@ Start with `00-overview.md` and follow each step in sequence:
 
 ## References
 
-- **Workflow:** `.harmony/orchestration/workflows/skills(x)/create-skill/`
+- **Workflow:** `.harmony/orchestration/workflows/meta/create-skill(x)/`
 - **Template:** `.harmony/capabilities/skills/_template/SKILL.md`
 - **Documentation:** `docs/architecture/harness/skills/README.md`

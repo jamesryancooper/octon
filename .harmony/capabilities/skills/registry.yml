@@ -297,6 +297,205 @@ skills:
           determinism: variable
           description: "Top-level log index (cross-skill)"
 
+  audit-ui:
+    version: "1.0.0"
+    commands:
+      - /audit-ui
+    parameters:
+      - name: target
+        type: folder
+        required: false
+        default: "."
+        description: "Directory containing UI files to audit"
+      - name: ruleset_url
+        type: text
+        required: false
+        default: "https://raw.githubusercontent.com/anthropics/anthropic-cookbook/refs/heads/main/misc/web_interface_guidelines.md"
+        description: "URL of the external design guidelines ruleset"
+      - name: file_types
+        type: text
+        required: false
+        default: "tsx,jsx,html,css,vue,svelte"
+        description: "Comma-separated UI file extensions to scan"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: audit_report
+          path: "../../output/reports/{{date}}-ui-audit.md"
+          kind: file
+          format: markdown
+          determinism: variable
+          description: "UI audit findings with file:line violations and rule references"
+        - name: run_log
+          path: "logs/audit-ui/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this UI audit run"
+        - name: log_index
+          path: "logs/audit-ui/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-ui runs with metadata"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  react-composition-patterns:
+    version: "1.0.0"
+    commands:
+      - /react-composition-patterns
+    parameters:
+      - name: target
+        type: folder
+        required: false
+        default: "."
+        description: "Directory to review for composition patterns"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/react-composition-patterns/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this pattern review"
+        - name: log_index
+          path: "logs/react-composition-patterns/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  react-best-practices:
+    version: "1.0.0"
+    commands:
+      - /react-best-practices
+    parameters:
+      - name: target
+        type: folder
+        required: false
+        default: "."
+        description: "Directory to review against React/Next.js best practices"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/react-best-practices/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this review"
+        - name: log_index
+          path: "logs/react-best-practices/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  react-native-best-practices:
+    version: "1.0.0"
+    commands:
+      - /react-native-best-practices
+    parameters:
+      - name: target
+        type: folder
+        required: false
+        default: "."
+        description: "Directory to review against React Native/Expo best practices"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/react-native-best-practices/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this review"
+        - name: log_index
+          path: "logs/react-native-best-practices/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  vercel-deploy:
+    version: "1.0.0"
+    commands:
+      - /vercel-deploy
+    parameters:
+      - name: environment
+        type: text
+        required: false
+        default: "production"
+        description: "Deployment target: production, preview"
+      - name: project_dir
+        type: folder
+        required: false
+        default: "."
+        description: "Directory containing the project to deploy"
+    requires:
+      context:
+        - type: command_available
+          command: "vercel"
+          description: "Requires Vercel CLI installed and authenticated"
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/vercel-deploy/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log capturing deployment URL and status"
+        - name: log_index
+          path: "logs/vercel-deploy/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all deploy runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
   create-skill:
     version: "1.0.0"
     commands:
@@ -351,6 +550,254 @@ skills:
           format: yaml
           determinism: variable
           description: "Index of all create-skill runs with metadata"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  resolve-pr-comments:
+    version: "1.0.0"
+    commands:
+      - /resolve-pr-comments
+    parameters:
+      - name: pr
+        type: text
+        required: true
+        description: "PR number or full GitHub URL"
+      - name: reviewer
+        type: text
+        required: false
+        description: "Filter to specific reviewer's comments only"
+      - name: types
+        type: text
+        required: false
+        default: "all"
+        description: "Comma-separated comment types to resolve: bug,design,style,nit,question"
+    requires:
+      context:
+        - type: command_available
+          command: "gh"
+          description: "Requires GitHub CLI installed and authenticated"
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: resolution_report
+          path: "../../output/reports/{{date}}-pr-comments-resolved.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Structured resolution report with per-comment status"
+        - name: run_log
+          path: "logs/resolve-pr-comments/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this resolution run"
+        - name: log_index
+          path: "logs/resolve-pr-comments/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all resolve-pr-comments runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  triage-ci-failure:
+    version: "1.0.0"
+    commands:
+      - /triage-ci-failure
+    parameters:
+      - name: pr
+        type: text
+        required: false
+        description: "PR number or URL with failing CI"
+      - name: branch
+        type: text
+        required: false
+        description: "Branch name with failing CI"
+      - name: job
+        type: text
+        required: false
+        description: "Target a specific job name"
+      - name: step
+        type: text
+        required: false
+        description: "Target a specific step name"
+    requires:
+      context:
+        - type: command_available
+          command: "gh"
+          description: "Requires GitHub CLI installed and authenticated"
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: triage_report
+          path: "../../output/reports/{{date}}-ci-triage.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "CI triage report with diagnosis and fix details"
+        - name: run_log
+          path: "logs/triage-ci-failure/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this triage run"
+        - name: log_index
+          path: "logs/triage-ci-failure/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all triage-ci-failure runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  postgres-best-practices:
+    version: "1.0.0"
+    commands:
+      - /postgres-best-practices
+    parameters:
+      - name: target
+        type: folder
+        required: false
+        default: "."
+        description: "Directory to review against PostgreSQL best practices"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/postgres-best-practices/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this review"
+        - name: log_index
+          path: "logs/postgres-best-practices/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  spec-to-implementation:
+    version: "1.0.0"
+    commands:
+      - /spec-to-implementation
+    parameters:
+      - name: spec
+        type: text
+        required: true
+        description: "Path to spec document or inline specification text"
+      - name: scope
+        type: text
+        required: false
+        default: "."
+        description: "Directory to scan for existing code"
+      - name: format
+        type: text
+        required: false
+        default: "markdown"
+        description: "Output format: markdown or yaml"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: implementation_plan
+          path: "../../output/plans/{{date}}-{{feature}}-implementation-plan.md"
+          kind: file
+          format: markdown
+          determinism: stable
+          description: "Staged implementation plan with task decomposition"
+        - name: run_log
+          path: "logs/spec-to-implementation/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this planning run"
+        - name: log_index
+          path: "logs/spec-to-implementation/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all spec-to-implementation runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  build-mcp-server:
+    version: "1.0.0"
+    commands:
+      - /build-mcp-server
+    parameters:
+      - name: name
+        type: text
+        required: true
+        description: "Server name (kebab-case, used for directory and package.json)"
+      - name: tools
+        type: text
+        required: false
+        description: "Comma-separated list of tool names to scaffold"
+      - name: service
+        type: text
+        required: false
+        description: "Description of the service to expose (alternative to tools)"
+      - name: language
+        type: text
+        required: false
+        default: "typescript"
+        description: "Implementation language: typescript or python"
+      - name: output_dir
+        type: folder
+        required: false
+        default: "."
+        description: "Directory where the MCP server project will be created"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: mcp_server_project
+          path: "{{output_dir}}/{{name}}/"
+          kind: directory
+          description: "The created MCP server project directory"
+        - name: run_log
+          path: "logs/build-mcp-server/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this build"
+        - name: log_index
+          path: "logs/build-mcp-server/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all build-mcp-server runs"
         - name: top_log_index
           path: "logs/index.yml"
           kind: file

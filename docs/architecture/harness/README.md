@@ -1,16 +1,16 @@
 ---
 title: The .harmony Directory
-description: Canonical reference for the capability-organized agent harness pattern.
+description: Canonical reference for the domain-organized agent harness pattern.
 ---
 
-# The `.harmony` Directory: A Capability-Organized Agent Harness
+# The `.harmony` Directory: A Domain-Organized Agent Harness
 
 ## Terminology
 
 | Term | Meaning |
 |------|---------|
 | Harness | The `.harmony/` support structure |
-| Capability group | A top-level directory organizing related concerns (e.g., `cognition/`, `orchestration/`) |
+| Domain | A top-level directory organizing related concerns (e.g., `cognition/`, `orchestration/`) |
 | Portable infrastructure | Reusable framework assets declared in `harmony.yml` |
 | Boot sequence | Steps to orient and begin work |
 | Cold start | First session without prior context |
@@ -20,7 +20,7 @@ description: Canonical reference for the capability-organized agent harness patt
 
 ## Single-Root Architecture
 
-Everything lives under a single `.harmony/` directory, organized by **capability**:
+Everything lives under a single `.harmony/` directory, organized by **domain**:
 
 ```
 .harmony/
@@ -100,6 +100,7 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 ├── catalog.md               # Index of commands and workflows
 │
 ├── agency/                  # Agents, assistants, and teams
+│   ├── README.md            # Domain orientation (referenced)
 │   ├── agents/              # Autonomous agent definitions
 │   │   └── <name>/
 │   │       └── agent.md     # Agent definition
@@ -113,7 +114,10 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │   └── teams/               # Team compositions
 │
 ├── orchestration/           # Workflows and missions
+│   ├── README.md            # Domain orientation (routable + referenced)
 │   ├── workflows/           # Multi-step procedures
+│   │   ├── manifest.yml     # Workflow index (Tier 1 discovery)
+│   │   ├── registry.yml     # Extended metadata + parameters
 │   │   └── <workflow-name>/
 │   └── missions/            # Time-bounded sub-projects
 │       ├── registry.yml     # Active/archived index
@@ -124,6 +128,7 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │           └── log.md       # Mission-specific progress
 │
 ├── capabilities/            # Skills, commands, and tools
+│   ├── README.md            # Domain orientation (routable + referenced)
 │   ├── skills/              # Composable capabilities
 │   │   ├── manifest.yml     # Skill index (Tier 1 discovery)
 │   │   ├── capabilities.yml # Skill sets, valid capabilities
@@ -134,10 +139,13 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │   │   │   └── SKILL.md     # Skill definition
 │   │   └── logs/            # Execution logs
 │   ├── commands/            # Atomic operations
+│   │   └── manifest.yml     # Command index
 │   └── tools/               # Tool definitions
 │
 ├── cognition/               # Background knowledge and memory
+│   ├── README.md            # Domain orientation (reference material)
 │   ├── context/             # Domain knowledge
+│   │   ├── index.yml        # Context file index (with "when to read")
 │   │   ├── decisions.md     # Agent-readable decision summaries
 │   │   ├── lessons.md       # Anti-patterns and failures to avoid
 │   │   ├── glossary.md      # Domain-specific terminology
@@ -146,21 +154,25 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │   └── analyses/            # Analysis artifacts
 │
 ├── continuity/              # Session-to-session continuity
+│   ├── README.md            # Domain orientation (state contract)
 │   ├── log.md               # What's been done (append-only)
 │   ├── tasks.json           # Structured task list with goal
 │   ├── next.md              # Immediate actionable steps
 │   └── entities.json        # Entity state tracking (optional)
 │
 ├── quality/                 # Verification and quality gates
+│   ├── README.md            # Domain orientation (state contract)
 │   ├── complete.md          # Definition of done, quality criteria
 │   └── session-exit.md      # Steps before ending a session
 │
 ├── scaffolding/             # Reusable building blocks
+│   ├── README.md            # Domain orientation (referenced)
 │   ├── prompts/             # Reusable task templates
 │   ├── templates/           # Boilerplate for new content
 │   └── examples/            # Reference patterns (minimal, copyable)
 │
 ├── ideation/                # Human-led zone (AGENTS: HUMAN-LED ONLY)
+│   ├── README.md            # Domain orientation (access rules)
 │   ├── scratchpad/          # Thinking, staging, and archives
 │   │   ├── inbox/           # Temporary staging for imports
 │   │   ├── archive/         # Deprecated content
@@ -176,6 +188,7 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │       └── <project-slug>/  # Individual project
 │
 └── output/                  # Generated artifacts
+    ├── README.md            # Domain orientation (write contract)
     ├── reports/             # Analysis reports
     ├── drafts/              # Draft documents
     └── artifacts/           # Other generated output
@@ -235,7 +248,7 @@ resolution:
 
 ## The Flat Structure Philosophy
 
-Everything at the capability-group level is **agent-facing**. The sole exception is `ideation/`, which is **human-led**.
+Everything at the domain level is **agent-facing**. The sole exception is `ideation/`, which is **human-led**.
 
 | Directory | Agent Access |
 |-----------|-------------|
@@ -243,6 +256,60 @@ Everything at the capability-group level is **agent-facing**. The sole exception
 | `ideation/` | Human-led only (declared in `harmony.yml`) |
 
 This single rule eliminates ambiguity. The `ideation/` directory consolidates all human-led content (scratchpad, projects) in one place, and agents know to ignore it during autonomous operation.
+
+---
+
+## Domain Orientation Contract
+
+Every domain has a `README.md` that answers three questions: *What is this? What's in it? How do agents interact with it?* The depth of each README is proportional to the domain's interaction model---routable domains point to their discovery stacks, while simpler domains document their read/write contracts directly.
+
+### Universal README Template
+
+All domain READMEs follow this structure:
+
+```markdown
+# {Domain Name}
+
+{One-line purpose.}
+
+## Contents
+
+{Table: subdirectory/file | purpose | discovery/index file}
+
+## Interaction Model
+
+{How agents interact with this domain.}
+```
+
+Additional sections vary by interaction model:
+
+| Interaction Model | Domains | README Adds |
+|-------------------|---------|-------------|
+| **Routable** | capabilities (skills), orchestration (workflows) | Pointer to `manifest.yml` discovery stack |
+| **Referenced** | agency, capabilities (commands), scaffolding | Inline contents table with index file references |
+| **Reference material** | cognition | "When to Read" guidance per file; `context/index.yml` reference |
+| **State** | continuity, quality, output | Read/write contract (what to read before work, what to update after) |
+| **Human-gated** | ideation | Access restriction rules |
+
+### Discovery Proportionality
+
+Not every domain needs a manifest. Discovery depth is proportional to how agents find and use the domain's contents:
+
+| Pattern | When Used | Examples |
+|---------|-----------|---------|
+| **3-tier progressive disclosure** (manifest → registry → definition) | Routable capabilities with intent matching | Skills, workflows |
+| **Lightweight manifest** (flat YAML index) | Enumerable items accessed by name | Commands |
+| **Lightweight index** (YAML with "when to read" guidance) | Reference files agents selectively load | Cognition context |
+| **Registry** (YAML tracking active items) | Items with lifecycle state | Missions, assistants, subagents |
+| **README table only** | Small, fixed set of files | Quality, continuity, output |
+
+### Machine-Readable Indexes
+
+Two domains have dedicated indexes beyond their README:
+
+- **`capabilities/commands/manifest.yml`** --- Lightweight command index (id, display_name, summary, access, argument_hint). Simpler than skills/workflows manifests: no triggers, no skill sets, no groups. Commands are deterministic and invoked by name, not by intent matching.
+
+- **`cognition/context/index.yml`** --- Context file index with a `when` field per entry, telling agents when each reference file is relevant to their current task. Avoids loading all context files to find the one needed.
 
 ---
 
@@ -333,7 +400,7 @@ Projects (`ideation/projects/`) have a distinct role in the funnel because they 
 
 ### Root-Level Files
 
-The root-level files form an **orientation layer**---the first things an agent reads before diving into capability groups.
+The root-level files form an **orientation layer**---the first things an agent reads before diving into domains.
 
 | File | Purpose |
 |------|---------|
@@ -343,23 +410,25 @@ The root-level files form an **orientation layer**---the first things an agent r
 | `conventions.md` | Style rules, terminology, formatting standards |
 | `catalog.md` | Index of available commands and workflows in this harness |
 
-### Root-Level Directories (Capability Groups)
+### Domains
 
-| Directory | Purpose | Contains |
-|-----------|---------|----------|
-| `agency/` | Agent and assistant definitions | Agents, assistants, subagents, teams |
-| `capabilities/` | Executable capabilities | Skills, commands, tools |
-| `cognition/` | Background knowledge and memory | Context, decisions, analyses |
-| `continuity/` | Session-to-session state | Log, tasks, entities |
-| `ideation/` | Human-led exploration | Scratchpad, projects (human-led only) |
-| `orchestration/` | Coordination and execution | Workflows, missions |
-| `output/` | Generated artifacts | Reports, drafts, artifacts |
-| `quality/` | Verification and quality gates | Completion checklists, session-exit |
-| `scaffolding/` | Reusable building blocks | Templates, prompts, examples |
+Each domain has a `README.md` that provides orientation. The README depth is proportional to how agents interact with that domain (see [Domain Orientation Contract](#domain-orientation-contract)).
+
+| Directory | Purpose | Contains | Interaction Model |
+|-----------|---------|----------|-------------------|
+| `agency/` | Agent and assistant definitions | Agents, assistants, subagents, teams | Referenced |
+| `capabilities/` | Executable capabilities | Skills, commands, tools | Routable + Referenced |
+| `cognition/` | Background knowledge and memory | Context, decisions, analyses | Reference material |
+| `continuity/` | Session-to-session state | Log, tasks, entities | State (read/write contract) |
+| `ideation/` | Human-led exploration | Scratchpad, projects | Human-gated |
+| `orchestration/` | Coordination and execution | Workflows, missions | Routable + Referenced |
+| `output/` | Generated artifacts | Reports, drafts, artifacts | State (write contract) |
+| `quality/` | Verification and quality gates | Completion checklists, session-exit | State (quality gates) |
+| `scaffolding/` | Reusable building blocks | Templates, prompts, examples | Referenced |
 
 ### Mapping from Previous Structure
 
-For reference, here is how the previous flat structure maps to capability groups:
+For reference, here is how the previous flat structure maps to domains:
 
 | Previous Path | Current Path |
 |---------------|--------------|
@@ -392,7 +461,7 @@ For reference, here is how the previous flat structure maps to capability groups
 
 5. **Reduced "One-Shotting"** --- Explicit task lists and incremental workflows guide agents toward smaller, verifiable steps
 
-6. **Capability Grouping** --- Related concerns are co-located under intuitive top-level categories, reducing cognitive overhead
+6. **Domain Organization** --- Related concerns are co-located under intuitive top-level domains, reducing cognitive overhead
 
 7. **Metadata-Driven Portability** --- `harmony.yml` declares what is reusable vs. project-specific, enabling clean bootstrapping without directory duplication
 
@@ -522,7 +591,7 @@ Harnesses are designed to be **portable across all AI harnesses**---Cursor, Clau
 
 | Principle | Description |
 |-----------|-------------|
-| **Single root in `.harmony/`** | All harness infrastructure lives under one directory, organized by capability |
+| **Single root in `.harmony/`** | All harness infrastructure lives under one directory, organized by domain |
 | **`harmony.yml` declares portability** | Metadata specifies which paths are framework assets vs. project-specific |
 | **Harness entry points are thin wrappers** | `.<harness>/commands/` only provides syntax and delegation |
 | **No harness-specific logic in workflows** | Workflows work identically regardless of invoking harness |
@@ -549,10 +618,10 @@ Harness-specific commands wrap workflows for integration. All workflows live in 
 
 | Command | Delegates To |
 |---------|--------------|
-| `/create-harness` | `.harmony/orchestration/workflows/harness/create-harness/` |
-| `/update-harness` | `.harmony/orchestration/workflows/harness/update-harness/` |
-| `/evaluate-harness` | `.harmony/orchestration/workflows/harness/evaluate-harness/` |
-| `/migrate-harness` | `.harmony/orchestration/workflows/harness/migrate-harness/` |
+| `/create-harness` | `.harmony/orchestration/workflows/meta/create-harness/` |
+| `/update-harness` | `.harmony/orchestration/workflows/meta/update-harness/` |
+| `/evaluate-harness` | `.harmony/orchestration/workflows/meta/evaluate-harness/` |
+| `/migrate-harness` | `.harmony/orchestration/workflows/meta/migrate-harness/` |
 | `/bootstrap` | `.harmony/scaffolding/prompts/bootstrap-session.md` |
 | `/synthesize-research` | `.harmony/capabilities/skills/synthesize-research/` |
 | `/research` | `.harmony/orchestration/workflows/projects/create-project.md` |

@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "{{PROJECT_NAME}}"
+version = "0.1.0"
+description = "{{DESCRIPTION}}"
+readme = "docs/README.md"
+requires-python = "{{PYTHON_VERSION}}"
+license = {text = "Proprietary"}
+authors = [{name = "{{PROJECT_NAME}} Team"}]
+dependencies = [
+  "fastapi>=0.115,<0.116",
+  "pydantic>=2.10,<2.11",
+  "pydantic-settings>=2.7,<2.8",
+  "httpx>=0.28,<0.29",
+  "python-dotenv>=1.0,<1.1",
+  "opentelemetry-api>=1.30,<1.31",
+  "opentelemetry-sdk>=1.30,<1.31",
+  "prometheus-client>=0.21,<0.22",
+  # --- Infrastructure dependencies (add based on declared deps) ---
+  # postgres:  "sqlalchemy>=2.0,<2.1", "alembic>=1.14,<1.15", "psycopg[binary]>=3.2,<3.3",
+  # nats:      "nats-py>=2.9,<2.10",
+  # redis:     "redis>=5.2,<5.3",
+  # temporal:  "temporalio>=1.8,<1.9",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<8.4",
+  "pytest-cov>=6.0,<6.1",
+  "ruff>=0.9,<0.10",
+  "mypy>=1.14,<1.15",
+  "jsonschema>=4.23,<4.24",
+  # Add type stubs for declared infrastructure:
+  # redis: "types-redis>=4.6,<4.7",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+{{PACKAGE_NAME}} = ["py.typed"]
+
+[tool.ruff]
+line-length = 100
+target-version = "{{TARGET_VERSION}}"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+  "integration: tests that require docker-compose dependencies",
+]

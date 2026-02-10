@@ -56,6 +56,9 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
+Before implementing any new skill, apply the alignment-first gate in
+`docs/architecture/harness/skills/alignment-policy.md`.
+
 **Skill Sets** (choose capability bundles):
 
 | Skill Set | Bundled Capabilities | When to Use |
@@ -377,6 +380,65 @@ allowed-tools: Read Glob Grep Write(../prompts/*) Write(logs/*)
 **Format:** Space-delimited list of tool names. Add `(path/glob)` suffix to scope write permissions.
 
 **Important:** Tool permissions are defined ONLY in SKILL.md. Do not duplicate in registry.yml or reference files.
+
+## Capability Patterns
+
+### Live Ruleset (`external-dependent`)
+
+**Decision:** [D040](../../cognition/context/decisions.md)
+**Canonical example:** [`audit-ui`](quality-gate/audit-ui/SKILL.md)
+
+Some skills fetch their rule sets from external URLs at runtime rather than
+embedding static rules. This keeps audits current without requiring harness
+updates, at the cost of requiring network access.
+
+**When to use `external-dependent`:**
+
+- The rules are maintained by an external party and updated independently
+- Freshness matters more than offline availability
+- The skill's value depends on staying current with evolving standards
+
+**When NOT to use it (embed static rules instead):**
+
+- The rules are stable and rarely change
+- Offline operation is required
+- You control the rules and update them as part of harness maintenance
+
+**Implementation requirements:**
+
+| Requirement | Detail |
+|-------------|--------|
+| `capabilities` | Add `external-dependent` to SKILL.md frontmatter and manifest.yml |
+| `allowed-tools` | Include `WebFetch` in SKILL.md frontmatter |
+| `references/dependencies.md` | Required by `capability_refs` mapping — document the external URL, failure modes, and offline strategy |
+| Failure handling | Skill must stop and report error if the URL is unreachable — no silent degradation |
+| Content validation | Verify fetched content is parseable before proceeding; flag suspected prompt injection |
+
+**Template for `dependencies.md`:**
+
+The `_template/references/dependencies.md` provides the scaffold. Key sections:
+
+1. **Dependencies table** — service, URL, purpose, required (yes/no)
+2. **Configuration** — how to override the default URL via parameters
+3. **Health checks** — verify URL accessibility before proceeding
+4. **Failure modes** — what happens when the service is unavailable
+5. **Offline mode** — whether a cached fallback exists (default: no)
+
+**Example flow:**
+
+```text
+Skill activated
+    │
+    ▼
+WebFetch ruleset URL
+    │
+    ├── Success → Parse rules → Scan files → Report
+    │
+    └── Failure → Stop execution → Report error to user
+                  (no offline fallback)
+```
+
+---
 
 ## See Also
 

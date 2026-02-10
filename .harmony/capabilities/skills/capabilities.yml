@@ -56,6 +56,38 @@ skill_set_definitions:
     primary_refs: [validation.md, safety.md]
 
 # ============================================================================
+# SKILL GROUP DEFINITIONS
+# Domain-oriented clusters for routing and directory organization.
+# Skills declare a `group` in manifest.yml; members are resolved here.
+# Orthogonal to skill_sets (which define capability bundles).
+# ============================================================================
+skill_group_definitions:
+  quality-gate:
+    description: Verify and enforce codebase integrity
+    path: quality-gate/
+    members: [refactor, audit-migration, audit-ui, resolve-pr-comments, triage-ci-failure]
+
+  synthesis:
+    description: Produce refined output from raw input
+    path: synthesis/
+    members: [synthesize-research, refine-prompt, spec-to-implementation]
+
+  meta:
+    description: Operate on the harness itself
+    path: meta/
+    members: [create-skill, build-mcp-server]
+
+  foundations:
+    description: Stack-specific project scaffolding skill families
+    path: foundations/
+    members: [python-api-foundation, swift-macos-app-foundation, react-foundation, react-native-foundation, postgres-foundation]
+
+  platforms:
+    description: Deployment platform integrations and operations
+    path: platforms/
+    members: [vercel-foundation]
+
+# ============================================================================
 # VALID CAPABILITIES
 # All recognized capability names for validation.
 # ============================================================================

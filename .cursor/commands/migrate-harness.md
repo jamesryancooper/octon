@@ -2,7 +2,7 @@
 
 Upgrade an older harness to current conventions.
 
-See `.harmony/orchestration/workflows/harness/migrate-harness/00-overview.md` for full description and steps.
+See `.harmony/orchestration/workflows/meta/migrate-harness/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -18,11 +18,11 @@ Or for the root harness:
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/workflows/harness/migrate-harness/`.
+Execute the workflow in `.harmony/orchestration/workflows/meta/migrate-harness/`.
 
 Start with `00-overview.md`, then follow each step in sequence.
 
 ## References
 
 - **Canonical:** `docs/architecture/harness/README.md`
-- **Workflow:** `.harmony/orchestration/workflows/harness/migrate-harness/`
+- **Workflow:** `.harmony/orchestration/workflows/meta/migrate-harness/`

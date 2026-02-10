@@ -66,7 +66,7 @@ Every workflow must end with a verification step that:
 
 ## See Also
 
-- **Create workflow:** `.harmony/orchestration/workflows/workflows/create-workflow/`
-- **Evaluate workflow:** `.harmony/orchestration/workflows/workflows/evaluate-workflow/`
+- **Create workflow:** `.harmony/orchestration/workflows/meta/create-workflow/`
+- **Evaluate workflow:** `.harmony/orchestration/workflows/meta/evaluate-workflow/`
 - **Gap fixes guide:** `.harmony/cognition/context/workflow-gaps.md`
 - **Quality criteria:** `.harmony/cognition/context/workflow-quality.md`

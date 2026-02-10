@@ -1,0 +1,52 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+default:
+    @just --list
+
+# Install project and dev dependencies into the active environment.
+sync:
+    test -x .venv/bin/python || uv venv --python {{PYTHON_VERSION}}
+    uv pip install --python .venv/bin/python -e '.[dev]'
+
+# Boot local dependencies for day-to-day development.
+dev: docker-up
+
+docker-up:
+    docker compose -f docker-compose.local.yml up -d
+
+docker-down:
+    docker compose -f docker-compose.local.yml down --remove-orphans
+
+docker-ps:
+    docker compose -f docker-compose.local.yml ps
+
+docker-logs service='temporal' tail='200':
+    docker compose -f docker-compose.local.yml logs {{service}} --tail={{tail}}
+
+# Validate JSON schemas and OpenAPI spec integrity.
+# Add a `python -m json.tool` line for each schema in docs/contracts/.
+validate-schemas:
+    # python -m json.tool docs/contracts/entity-v1.schema.json >/dev/null
+    test -f docs/contracts/openapi-v1.yaml
+    rg -q "openapi: 3.1.0" docs/contracts/openapi-v1.yaml
+    rg -q "/healthz" docs/contracts/openapi-v1.yaml
+    rg -q "/readyz" docs/contracts/openapi-v1.yaml
+
+lint:
+    ruff check .
+    ruff format --check .
+
+fmt:
+    ruff check --fix .
+    ruff format .
+
+type:
+    mypy --ignore-missing-imports src tests
+
+test:
+    pytest -q
+
+check: validate-schemas lint type test
+
+precommit-install:
+    pre-commit install

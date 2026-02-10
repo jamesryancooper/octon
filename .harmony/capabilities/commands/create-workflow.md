@@ -34,7 +34,7 @@ Scaffold a new workflow directory with numbered step files, incorporating all ga
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/workflows/workflows/create-workflow/`.
+Execute the workflow in `.harmony/orchestration/workflows/meta/create-workflow/`.
 
 Start with `00-overview.md`, then follow each step in sequence:
 
@@ -64,7 +64,7 @@ New workflow directory with:
 
 ## References
 
-- **Workflow:** `.harmony/orchestration/workflows/workflows/create-workflow/`
+- **Workflow:** `.harmony/orchestration/workflows/meta/create-workflow/`
 - **Template:** `.harmony/orchestration/workflows/_template/`
 - **Gap Guide:** `.harmony/cognition/context/workflow-gaps.md`
 - **Quality Criteria:** `.harmony/cognition/context/workflow-quality.md`

@@ -1,0 +1,117 @@
+# OpenAPI 3.1.0 skeleton for contract-first API design.
+#
+# Replace {{PROJECT_TITLE}}, {{PROJECT_DESCRIPTION}}, and add your own
+# paths and component schemas.
+
+openapi: 3.1.0
+info:
+  title: "{{PROJECT_TITLE}} API"
+  version: "1.0.0"
+  description: "{{PROJECT_DESCRIPTION}}"
+
+servers:
+  - url: http://localhost:8000
+    description: Local development
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: ops
+    description: Operational probe endpoints
+  - name: resources
+    description: Domain resource endpoints
+
+paths:
+  /healthz:
+    get:
+      operationId: healthz
+      summary: Liveness probe endpoint.
+      tags: [ops]
+      security: []
+      responses:
+        "200":
+          description: Service is alive.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /readyz:
+    get:
+      operationId: readyz
+      summary: Readiness probe endpoint.
+      tags: [ops]
+      security: []
+      responses:
+        "200":
+          description: Service is ready.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReadyResponse"
+        "503":
+          description: Service is not ready.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReadyResponse"
+
+  # --- Add versioned resource paths below ---
+  # /v1/resources:
+  #   post:
+  #     ...
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    HealthResponse:
+      type: object
+      additionalProperties: false
+      required: [status, service, version]
+      properties:
+        status:
+          type: string
+          enum: [ok]
+        service:
+          type: string
+        version:
+          type: string
+
+    ReadyResponse:
+      type: object
+      additionalProperties: false
+      required: [status, checks]
+      properties:
+        status:
+          type: string
+          enum: [ready, not_ready]
+        checks:
+          type: object
+          additionalProperties:
+            type: string
+            enum: [ok, degraded, down]
+
+    ErrorResponse:
+      type: object
+      additionalProperties: false
+      required: [code, message, retryable]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        category:
+          type: string
+          enum: [validation, authn, authz, rate_limit, transient, fatal]
+        retryable:
+          type: boolean
+        details:
+          type: object
+
+    # --- Add domain schemas below ---

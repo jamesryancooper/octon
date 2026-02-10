@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://{{PROJECT_NAME}}.local/schemas/{{ENTITY_NAME}}-v1.schema.json",
+  "title": "{{ENTITY_TITLE}} v1",
+  "description": "{{ENTITY_DESCRIPTION}}",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version identifier."
+    }
+  }
+}

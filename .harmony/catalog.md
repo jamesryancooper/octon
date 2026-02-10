@@ -46,8 +46,13 @@ Composable capabilities in `capabilities/skills/`:
 
 | Skill | Commands | Description |
 |-------|----------|-------------|
-| [synthesize-research](./capabilities/skills/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
-| [refine-prompt](./capabilities/skills/refine-prompt/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
+| [synthesize-research](./capabilities/skills/synthesis/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
+| [refine-prompt](./capabilities/skills/synthesis/refine-prompt/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
+| [audit-ui](./capabilities/skills/quality-gate/audit-ui/SKILL.md) | `/audit-ui` | Audit UI files against live external web design guidelines |
+| [react-composition-patterns](./capabilities/skills/foundations/react/composition-patterns/SKILL.md) | `/react-composition-patterns` | Apply React composition patterns: compound components, state lifting, explicit variants |
+| [react-best-practices](./capabilities/skills/foundations/react/best-practices/SKILL.md) | `/react-best-practices` | Apply 57 React/Next.js performance rules across 8 categories |
+| [react-native-best-practices](./capabilities/skills/foundations/react-native/best-practices/SKILL.md) | `/react-native-best-practices` | Apply 35+ React Native/Expo rules across 14 categories |
+| [vercel-deploy](./capabilities/skills/platforms/vercel/deploy/SKILL.md) | `/vercel-deploy` | Package and deploy the project to Vercel |
 
 **Invocation:** Use `/command` in chat or `use skill: skill-id` for explicit selection.
 
@@ -83,10 +88,10 @@ Multi-step procedures in `orchestration/workflows/`.
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [create-harness](./orchestration/workflows/harness/create-harness/00-overview.md) | human | Scaffold a new `.harmony` directory |
-| [evaluate-harness](./orchestration/workflows/harness/evaluate-harness/00-overview.md) | human | Evaluate token efficiency and effectiveness |
-| [migrate-harness](./orchestration/workflows/harness/migrate-harness/00-overview.md) | human | Upgrade older harness to current conventions |
-| [update-harness](./orchestration/workflows/harness/update-harness/00-overview.md) | human | Align with canonical definition |
+| [create-harness](./orchestration/workflows/meta/create-harness/00-overview.md) | human | Scaffold a new `.harmony` directory |
+| [evaluate-harness](./orchestration/workflows/meta/evaluate-harness/00-overview.md) | human | Evaluate token efficiency and effectiveness |
+| [migrate-harness](./orchestration/workflows/meta/migrate-harness/00-overview.md) | human | Upgrade older harness to current conventions |
+| [update-harness](./orchestration/workflows/meta/update-harness/00-overview.md) | human | Align with canonical definition |
 
 ### Projects
 
@@ -105,9 +110,9 @@ Multi-step procedures in `orchestration/workflows/`.
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [create-workflow](./orchestration/workflows/workflows/create-workflow/00-overview.md) | human | Scaffold a new workflow with gap remediation features |
-| [evaluate-workflow](./orchestration/workflows/workflows/evaluate-workflow/00-overview.md) | human | Assess workflow quality and gap coverage |
-| [update-workflow](./orchestration/workflows/workflows/update-workflow/00-overview.md) | human | Add gap fixes to existing workflows |
+| [create-workflow](./orchestration/workflows/meta/create-workflow/00-overview.md) | human | Scaffold a new workflow with gap remediation features |
+| [evaluate-workflow](./orchestration/workflows/meta/evaluate-workflow/00-overview.md) | human | Assess workflow quality and gap coverage |
+| [update-workflow](./orchestration/workflows/meta/update-workflow/00-overview.md) | human | Add gap fixes to existing workflows |
 
 ### FlowKit (Repo-Wide Tool Integration)
 
@@ -117,17 +122,12 @@ Multi-step procedures in `orchestration/workflows/`.
 |----------|--------|-------------|
 | [run-flow](./orchestration/workflows/flowkit/run-flow/00-overview.md) | human | Execute a FlowKit LangGraph flow from `@packages/workflows/<flowId>/config.flow.json` |
 
-### Audit
+### Quality Gate
 
 | Workflow | Access | Description |
 | -------- | ------ | ----------- |
-| [orchestrate-audit](./orchestration/workflows/audit/orchestrate-audit/WORKFLOW.md) | human | Coordinate parallel audit-migration runs across codebase partitions |
-
-### Refactoring
-
-| Workflow | Access | Description |
-| -------- | ------ | ----------- |
-| [refactor](./orchestration/workflows/refactor(x)/00-overview.md) | human | Execute a verified refactor with exhaustive audit |
+| [orchestrate-audit](./orchestration/workflows/quality-gate/orchestrate-audit/WORKFLOW.md) | human | Coordinate parallel audit-migration runs across codebase partitions |
+| [refactor](./orchestration/workflows/quality-gate/refactor(x)/00-overview.md) | human | Execute a verified refactor with exhaustive audit |
 
 ---
 

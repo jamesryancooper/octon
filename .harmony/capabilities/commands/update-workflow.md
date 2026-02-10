@@ -19,7 +19,7 @@ Modify an existing workflow to add gap remediation features, new steps, or impro
 
 **Examples:**
 ```text
-/update-workflow .harmony/orchestration/workflows/refactor/
+/update-workflow .harmony/orchestration/workflows/quality-gate/refactor(x)/
 /update-workflow .harmony/orchestration/workflows/my-workflow/ --gaps-only
 ```
 
@@ -33,7 +33,7 @@ Modify an existing workflow to add gap remediation features, new steps, or impro
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/workflows/workflows/update-workflow/`.
+Execute the workflow in `.harmony/orchestration/workflows/meta/update-workflow/`.
 
 Steps:
 
@@ -96,7 +96,7 @@ All gap remediation plus:
 
 ## References
 
-- **Workflow:** `.harmony/orchestration/workflows/workflows/update-workflow/`
+- **Workflow:** `.harmony/orchestration/workflows/meta/update-workflow/`
 - **Evaluate First:** `.harmony/capabilities/commands/evaluate-workflow.md`
 - **Gap Guide:** `.harmony/cognition/context/workflow-gaps.md`
 - **Quality Criteria:** `.harmony/cognition/context/workflow-quality.md`

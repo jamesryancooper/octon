@@ -33,6 +33,16 @@ Skills declare their **capabilities** (what they can do) and **skill sets** (cap
 
 See [Skill Sets](./skill-sets.md) and [Capabilities](./capabilities.md) for complete reference.
 
+### Alignment-First Policy
+
+New skills must align to existing Harmony skill contracts first.
+
+- Reuse existing `skill_sets`, `capabilities`, reference mappings, and `allowed-tools` vocabulary.
+- Do not introduce ad hoc schema changes while implementing a skill.
+- If current contracts are insufficient, create a spec extension proposal and update docs/templates/validation together.
+
+See [Alignment Policy](./alignment-policy.md).
+
 ---
 
 ## Harness Model
@@ -83,6 +93,7 @@ Per the [agentskills.io specification](https://agentskills.io/what-are-skills), 
 | [Skill Sets](./skill-sets.md) | Pre-defined capability bundles and common combinations |
 | [Declaration](./declaration.md) | How to declare capabilities, resolution rules |
 | [Validation](./validation.md) | Validation rules for capabilities and references |
+| [Alignment Policy](./alignment-policy.md) | Alignment-first implementation policy and extension process |
 | [Reference Artifacts](./reference-artifacts.md) | Reference files organized by capability |
 | [Skill Format](./skill-format.md) | SKILL.md structure, naming conventions, frontmatter |
 | [Discovery](./discovery.md) | Manifest and registry formats for skill discovery |

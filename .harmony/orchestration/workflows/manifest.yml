@@ -6,14 +6,27 @@
 # Load this FIRST for workflow discovery.
 # After matching, load registry.yml for extended metadata.
 # Then load WORKFLOW.md when a workflow is activated.
+#
+# Fields:
+#   id           - Unique identifier (matches directory name and WORKFLOW.md name)
+#   display_name - Human-readable display name
+#   group        - Workflow group for directory organization
+#                  Resolved via workflow_group_definitions below
+#   domain       - Fine-grained domain classification
+#   path         - Relative path to workflow directory or file
+#   summary      - One-line description for routing decisions
+#   status       - Lifecycle state: active | deprecated | experimental
+#   triggers     - Natural language phrases for intent matching
+#   format       - Optional: "single-file" for .md-only workflows
 
 workflows:
-  # --- Harness Management ---
+  # --- meta: Operate on the harness itself ---
 
   - id: create-harness
     display_name: Create Harness
+    group: meta
     domain: harness
-    path: harness/create-harness/
+    path: meta/create-harness/
     summary: Scaffold a new .harmony/ directory in a target location.
     status: active
     triggers:
@@ -23,8 +36,9 @@ workflows:
 
   - id: evaluate-harness
     display_name: Evaluate Harness
+    group: meta
     domain: harness
-    path: harness/evaluate-harness/
+    path: meta/evaluate-harness/
     summary: Evaluate a .harmony directory for token efficiency and effectiveness.
     status: active
     triggers:
@@ -34,8 +48,9 @@ workflows:
 
   - id: migrate-harness
     display_name: Migrate Harness
+    group: meta
     domain: harness
-    path: harness/migrate-harness/
+    path: meta/migrate-harness/
     summary: Upgrade an older harness to current conventions.
     status: active
     triggers:
@@ -45,8 +60,9 @@ workflows:
 
   - id: update-harness
     display_name: Update Harness
+    group: meta
     domain: harness
-    path: harness/update-harness/
+    path: meta/update-harness/
     summary: Align an existing .harmony directory with the canonical definition.
     status: active
     triggers:
@@ -54,10 +70,116 @@ workflows:
       - "align harness"
       - "fix harness gaps"
 
-  # --- Missions ---
+  - id: create-skill
+    display_name: Create Skill
+    group: meta
+    domain: skills
+    path: meta/create-skill(x)/
+    summary: Scaffold a new skill from template with registry entry.
+    status: deprecated
+    triggers:
+      - "create a skill"
+      - "scaffold skill"
+
+  - id: create-workflow
+    display_name: Create Workflow
+    group: meta
+    domain: workflows
+    path: meta/create-workflow/
+    summary: Scaffold a new workflow with gap-aware structure and verification gates.
+    status: active
+    triggers:
+      - "create a workflow"
+      - "scaffold workflow"
+      - "new workflow"
+
+  - id: evaluate-workflow
+    display_name: Evaluate Workflow
+    group: meta
+    domain: workflows
+    path: meta/evaluate-workflow/
+    summary: Assess an existing workflow against quality criteria and gap coverage.
+    status: active
+    triggers:
+      - "evaluate workflow"
+      - "assess workflow quality"
+      - "grade workflow"
+
+  - id: update-workflow
+    display_name: Update Workflow
+    group: meta
+    domain: workflows
+    path: meta/update-workflow/
+    summary: Modify an existing workflow to add features or fix gaps.
+    status: active
+    triggers:
+      - "update workflow"
+      - "fix workflow gaps"
+      - "improve workflow"
+
+  # --- quality-gate: Verify and enforce codebase integrity ---
+
+  - id: refactor
+    display_name: Refactor
+    group: quality-gate
+    domain: refactor
+    path: quality-gate/refactor(x)/
+    summary: Execute a verified refactor with exhaustive audit and mandatory verification.
+    status: active
+    triggers:
+      - "refactor codebase"
+      - "rename across codebase"
+      - "verified refactor"
+
+  - id: orchestrate-audit
+    display_name: Orchestrate Audit
+    group: quality-gate
+    domain: audit
+    path: quality-gate/orchestrate-audit/
+    summary: Coordinate parallel audit-migration runs across codebase partitions.
+    status: active
+    triggers:
+      - "orchestrate an audit"
+      - "run a partitioned audit"
+      - "parallel audit"
+      - "coordinate audit partitions"
+
+  # --- foundations: Stack-specific project scaffolding ---
+
+  - id: python-api-foundation
+    display_name: Python API Foundation
+    group: foundations
+    domain: foundations
+    path: foundations/python-api-foundation/
+    summary: Orchestrate six foundation skills to scaffold a Python API project.
+    status: active
+    triggers:
+      - "set up a python api project"
+      - "scaffold python api"
+      - "run python foundation"
+      - "python api foundation"
+      - "bootstrap python api"
+
+  - id: swift-macos-app-foundation
+    display_name: Swift macOS App Foundation
+    group: foundations
+    domain: foundations
+    path: foundations/swift-macos-app-foundation/
+    summary: Orchestrate six foundation skills to scaffold a Swift macOS application.
+    status: active
+    triggers:
+      - "set up a swift macos app"
+      - "scaffold swift app"
+      - "run swift foundation"
+      - "swift macos foundation"
+      - "bootstrap swift macos app"
+      - "create swift macos project"
+
+  # --- missions: Mission lifecycle management ---
 
   - id: create-mission
     display_name: Create Mission
+    group: missions
     domain: missions
     path: missions/create-mission/
     summary: Scaffold a new mission from template.
@@ -69,6 +191,7 @@ workflows:
 
   - id: complete-mission
     display_name: Complete Mission
+    group: missions
     domain: missions
     path: missions/complete-mission/
     summary: Archive a completed mission.
@@ -78,84 +201,11 @@ workflows:
       - "archive mission"
       - "finish mission"
 
-  # --- Skills ---
-
-  - id: create-skill
-    display_name: Create Skill
-    domain: skills
-    path: skills(x)/create-skill/
-    summary: Scaffold a new skill from template with registry entry.
-    status: deprecated
-    triggers:
-      - "create a skill"
-      - "scaffold skill"
-
-  # --- Workflows ---
-
-  - id: create-workflow
-    display_name: Create Workflow
-    domain: workflows
-    path: workflows/create-workflow/
-    summary: Scaffold a new workflow with gap-aware structure and verification gates.
-    status: active
-    triggers:
-      - "create a workflow"
-      - "scaffold workflow"
-      - "new workflow"
-
-  - id: evaluate-workflow
-    display_name: Evaluate Workflow
-    domain: workflows
-    path: workflows/evaluate-workflow/
-    summary: Assess an existing workflow against quality criteria and gap coverage.
-    status: active
-    triggers:
-      - "evaluate workflow"
-      - "assess workflow quality"
-      - "grade workflow"
-
-  - id: update-workflow
-    display_name: Update Workflow
-    domain: workflows
-    path: workflows/update-workflow/
-    summary: Modify an existing workflow to add features or fix gaps.
-    status: active
-    triggers:
-      - "update workflow"
-      - "fix workflow gaps"
-      - "improve workflow"
-
-  # --- Refactoring ---
-
-  - id: refactor
-    display_name: Refactor
-    domain: refactor
-    path: refactor(x)/
-    summary: Execute a verified refactor with exhaustive audit and mandatory verification.
-    status: active
-    triggers:
-      - "refactor codebase"
-      - "rename across codebase"
-      - "verified refactor"
-
-  # --- Audit ---
-
-  - id: orchestrate-audit
-    display_name: Orchestrate Audit
-    domain: audit
-    path: audit/orchestrate-audit/
-    summary: Coordinate parallel audit-migration runs across codebase partitions.
-    status: active
-    triggers:
-      - "orchestrate an audit"
-      - "run a partitioned audit"
-      - "parallel audit"
-      - "coordinate audit partitions"
-
-  # --- FlowKit ---
+  # --- flowkit: FlowKit flow execution ---
 
   - id: run-flow
     display_name: Run FlowKit Flow
+    group: flowkit
     domain: flowkit
     path: flowkit/run-flow/
     summary: Execute a FlowKit LangGraph flow from its config file.
@@ -165,10 +215,11 @@ workflows:
       - "execute flowkit"
       - "run langgraph flow"
 
-  # --- Projects ---
+  # --- projects: Project scaffolding ---
 
   - id: create-project
     display_name: Create Project
+    group: projects
     domain: projects
     path: projects/create-project.md
     summary: Scaffold a new project in projects/.
@@ -179,12 +230,13 @@ workflows:
       - "new project"
       - "scaffold project"
 
-  # --- Ideation ---
+  # --- ideation: Scratchpad content promotion ---
 
   - id: promote-from-scratchpad
     display_name: Promote from Scratchpad
+    group: ideation
     domain: ideation
-    path: promote-from-scratchpad.md
+    path: ideation/promote-from-scratchpad.md
     summary: Publish distilled insights from scratchpad to agent-facing artifacts.
     status: active
     format: single-file
@@ -192,3 +244,45 @@ workflows:
       - "promote from scratchpad"
       - "publish scratchpad"
       - "promote insights"
+
+# ============================================================================
+# WORKFLOW GROUP DEFINITIONS
+# Domain-oriented clusters for routing and directory organization.
+# Workflows declare a `group` above; members are resolved here.
+# ============================================================================
+workflow_group_definitions:
+  meta:
+    description: Operate on the harness itself (CRUD for harness components)
+    path: meta/
+    members: [create-harness, evaluate-harness, migrate-harness, update-harness,
+              create-workflow, evaluate-workflow, update-workflow, create-skill]
+
+  quality-gate:
+    description: Verify and enforce codebase integrity
+    path: quality-gate/
+    members: [orchestrate-audit, refactor]
+
+  foundations:
+    description: Stack-specific project scaffolding orchestration
+    path: foundations/
+    members: [python-api-foundation, swift-macos-app-foundation]
+
+  missions:
+    description: Mission lifecycle management
+    path: missions/
+    members: [create-mission, complete-mission]
+
+  flowkit:
+    description: FlowKit flow execution
+    path: flowkit/
+    members: [run-flow]
+
+  projects:
+    description: Project scaffolding
+    path: projects/
+    members: [create-project]
+
+  ideation:
+    description: Scratchpad content promotion
+    path: ideation/
+    members: [promote-from-scratchpad]

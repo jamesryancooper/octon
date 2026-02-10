@@ -40,7 +40,7 @@ This harness contains:
 | **Shared (in `.harmony/`)** | | |
 | Harness templates | `.harmony/scaffolding/templates/` | `harmony/`, `harmony-docs/` |
 | Generic assistants | `.harmony/agency/assistants/` | `reviewer/`, `refactor/`, `docs/` |
-| Harness management workflows | `.harmony/orchestration/workflows/harness/` | `create-harness`, `migrate-harness` |
+| Harness management workflows | `.harmony/orchestration/workflows/meta/` | `create-harness`, `migrate-harness` |
 | Mission management workflows | `.harmony/orchestration/workflows/missions/` | `create-mission`, `complete-mission` |
 | Generic skills | `.harmony/capabilities/skills/` | `synthesize-research/` |
 | **Repo-wide (in `.harmony/`)** | | |

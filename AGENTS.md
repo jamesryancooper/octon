@@ -40,7 +40,7 @@ Read `.harmony/orchestration/workflows/manifest.yml` for workflow discovery.
 - **Manifest:** `.harmony/orchestration/workflows/manifest.yml` (Tier 1 discovery)
 - **Registry:** `.harmony/orchestration/workflows/registry.yml` (extended metadata + parameters)
 - **Workflow Definitions:** `.harmony/orchestration/workflows/<domain>/<workflow-id>/WORKFLOW.md`
-- **Catalog:** `.harmony/orchestration/workflows/harness-README.md`
+- **Catalog:** `.harmony/orchestration/workflows/README.md`
 
 ### Progressive Disclosure
 
@@ -57,17 +57,21 @@ Read `.harmony/orchestration/workflows/manifest.yml` for workflow discovery.
 
 ## Foundation
 
-`.harmony/` is organized by capability:
+`.harmony/` is organized by domain. Each domain has a `README.md` for orientation.
 
 - **Agency:** `.harmony/agency/` (agents, assistants, subagents, teams)
 - **Capabilities:** `.harmony/capabilities/` (skills, commands, tools)
+  - Commands: `.harmony/capabilities/commands/manifest.yml`
 - **Cognition:** `.harmony/cognition/` (context, decisions, analyses)
+  - Context index: `.harmony/cognition/context/index.yml`
 - **Orchestration:** `.harmony/orchestration/` (workflows, missions)
 - **Scaffolding:** `.harmony/scaffolding/` (templates, prompts, examples)
 - **Quality:** `.harmony/quality/` (completion checklists)
 - **Continuity:** `.harmony/continuity/` (progress log, tasks, next steps)
 - **Ideation:** `.harmony/ideation/` (scratchpad, projects — human-led)
 - **Output:** `.harmony/output/` (reports, drafts, artifacts)
+
+For domain-specific orientation, read `{domain}/README.md`.
 
 ## Entry Point
 

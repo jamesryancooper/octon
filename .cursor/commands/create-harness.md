@@ -2,7 +2,7 @@
 
 Scaffold a new `.harmony/` directory in a target location.
 
-See `.harmony/orchestration/workflows/harness/create-harness/00-overview.md` for full description and steps.
+See `.harmony/orchestration/workflows/meta/create-harness/00-overview.md` for full description and steps.
 
 ## Usage
 
@@ -34,12 +34,12 @@ With a scoped template:
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/workflows/harness/create-harness/`.
+Execute the workflow in `.harmony/orchestration/workflows/meta/create-harness/`.
 
 Start with `00-overview.md`, then follow each step in sequence.
 
 ## References
 
 - **Canonical:** `docs/architecture/harness/README.md`
-- **Workflow:** `.harmony/orchestration/workflows/harness/create-harness/`
+- **Workflow:** `.harmony/orchestration/workflows/meta/create-harness/`
 - **Templates:** `.harmony/scaffolding/templates/`
