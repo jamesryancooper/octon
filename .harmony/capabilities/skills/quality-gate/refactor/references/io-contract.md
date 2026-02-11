@@ -7,6 +7,8 @@
 #   - Parameters: .harmony/capabilities/skills/registry.yml
 #   - Output paths: .harmony/capabilities/skills/registry.yml
 #
+# Current allowed-tools: Read Glob Grep Edit Write(_state/runs/*) Write(_state/logs/*) Bash(mv) Bash(mkdir)
+#
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
 ---

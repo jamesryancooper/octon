@@ -1,9 +1,16 @@
 ---
 # I/O Contract Documentation
-# AUTHORITATIVE SOURCES:
+# This file provides extended documentation for human reference.
+#
+# AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Parameters: .harmony/capabilities/skills/registry.yml
 #   - Output paths: .harmony/capabilities/skills/registry.yml
+#
+# Current allowed-tools: Read Glob Grep Write(.harmony/capabilities/skills/*) Write(_state/runs/*) Write(_state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
+#
+# Prose descriptions below are derived from these sources.
+# If discrepancies exist, the authoritative sources are correct.
 ---
 
 # I/O Contract Reference
@@ -29,7 +36,7 @@ Input/output specifications for the create-skill skill.
 ### Created Skill Directory
 
 ```
-.harmony/capabilities/skills/<group>/{{skill-name}}/
+.harmony/capabilities/skills/<group>/{{skill_name}}/
 ├── SKILL.md
 ├── references/
 │   ├── phases.md
@@ -44,19 +51,19 @@ Input/output specifications for the create-skill skill.
 ### Continuity Artifacts
 
 ```
-.harmony/capabilities/skills/_state/runs/create-skill/{{run-id}}/
+.harmony/capabilities/skills/_state/runs/create-skill/{{run_id}}/
 ├── checkpoint.yml     # Execution state (source of truth for resume)
 └── summary.md         # Creation summary
 ```
 
-Where `{{run-id}}` = `{{timestamp}}-{{skill-name}}` (e.g., `2026-01-20-analyze-codebase`)
+Where `{{run_id}}` = `{{timestamp}}-{{skill_name}}` (e.g., `2026-01-20-analyze-codebase`)
 
 ### Symlinks
 
 ```
-.claude/skills/{{skill-name}} -> ../../.harmony/capabilities/skills/<group>/{{skill-name}}
-.cursor/skills/{{skill-name}} -> ../../.harmony/capabilities/skills/<group>/{{skill-name}}
-.codex/skills/{{skill-name}} -> ../../.harmony/capabilities/skills/<group>/{{skill-name}}
+.claude/skills/{{skill_name}} -> ../../.harmony/capabilities/skills/<group>/{{skill_name}}
+.cursor/skills/{{skill_name}} -> ../../.harmony/capabilities/skills/<group>/{{skill_name}}
+.codex/skills/{{skill_name}} -> ../../.harmony/capabilities/skills/<group>/{{skill_name}}
 ```
 
 ### Log Structure
@@ -66,7 +73,7 @@ Where `{{run-id}}` = `{{timestamp}}-{{skill-name}}` (e.g., `2026-01-20-analyze-c
 ├── index.yml                          # Top-level index (update with new run)
 └── create-skill/
     ├── index.yml                      # Skill-level index (all skills created)
-    └── {{run-id}}.md                    # Run log
+    └── {{run_id}}.md                    # Run log
 ```
 
 ## Checkpoint File Schema
@@ -75,8 +82,8 @@ Where `{{run-id}}` = `{{timestamp}}-{{skill-name}}` (e.g., `2026-01-20-analyze-c
 # checkpoint.yml - Source of truth for execution state
 skill: create-skill
 version: "1.0.0"
-run_id: "{{timestamp}}-{{skill-name}}"
-skill_name: "{{skill-name}}"
+run_id: "{{timestamp}}-{{skill_name}}"
+skill_name: "{{skill_name}}"
 
 status: in_progress  # pending | in_progress | completed | failed
 
@@ -97,9 +104,9 @@ phases:
       - references/examples.md
       - references/validation.md
     symlinks_created:
-      - .claude/skills/{{skill-name}}
-      - .cursor/skills/{{skill-name}}
-      - .codex/skills/{{skill-name}}
+      - .claude/skills/{{skill_name}}
+      - .cursor/skills/{{skill_name}}
+      - .codex/skills/{{skill_name}}
   3_initialize:
     status: in_progress
     started_at: "2026-01-20T14:00:10Z"
@@ -115,7 +122,7 @@ resume:
   instruction: "Continue placeholder replacement"
 
 parameters:
-  skill_name: "{{skill-name}}"
+  skill_name: "{{skill_name}}"
   description: null
   skill_sets: ""
   capabilities: ""

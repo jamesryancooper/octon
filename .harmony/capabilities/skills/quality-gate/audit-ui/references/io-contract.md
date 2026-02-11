@@ -1,10 +1,16 @@
 ---
-title: I/O Contract
-description: Input parameters, output format, and interface specification for audit-ui.
+# I/O Contract Documentation
+# This file provides extended documentation for human reference.
+#
 # AUTHORITATIVE SOURCES (Single Source of Truth):
-#   - Parameter definitions: .harmony/capabilities/skills/registry.yml
-#   - Output paths: .harmony/capabilities/skills/registry.yml
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
+#   - Parameters: .harmony/capabilities/skills/registry.yml
+#   - Output paths: .harmony/capabilities/skills/registry.yml
+#
+# Current allowed-tools: Read Glob Grep WebFetch Write(../../output/reports/*) Write(_state/logs/*)
+#
+# Prose descriptions below are derived from these sources.
+# If discrepancies exist, the authoritative sources are correct.
 ---
 
 # I/O Contract

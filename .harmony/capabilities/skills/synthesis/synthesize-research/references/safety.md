@@ -1,9 +1,11 @@
 ---
 title: Safety Reference
-description: Security boundaries and behavioral constraints for the synthesize-research skill.
+description: Safety policies and constraints for the synthesize-research skill.
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .harmony/capabilities/skills/registry.yml
+#
+# Current allowed-tools: Read Glob Write(../../output/drafts/*) Write(_state/logs/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.

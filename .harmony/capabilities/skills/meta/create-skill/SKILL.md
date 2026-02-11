@@ -70,8 +70,8 @@ This skill accepts one required parameter (`skill_name`) and optional parameters
 Output paths are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth).
 
 Outputs are written to:
-- `.harmony/capabilities/skills/<group>/{{skill-name}}/` — The new skill directory (deliverable)
-- `_state/runs/create-skill/{{run-id}}/` — Execution state (checkpoint and summary) for session recovery
+- `.harmony/capabilities/skills/<group>/{{skill_name}}/` — The new skill directory (deliverable)
+- `_state/runs/create-skill/{{run_id}}/` — Execution state (checkpoint and summary) for session recovery
 - `_state/logs/create-skill/` — Execution logs with index
 
 ## Naming Convention

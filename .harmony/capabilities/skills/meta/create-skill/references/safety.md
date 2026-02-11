@@ -1,6 +1,14 @@
 ---
 title: Safety Reference
-description: Safety policies and behavioral constraints for the create-skill skill.
+description: Safety policies and constraints for the create-skill skill.
+# AUTHORITATIVE SOURCES (Single Source of Truth):
+#   - Tool permissions: SKILL.md frontmatter `allowed-tools`
+#   - Output paths: .harmony/capabilities/skills/registry.yml
+#
+# Current allowed-tools: Read Glob Grep Write(.harmony/capabilities/skills/*) Write(_state/runs/*) Write(_state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
+#
+# Prose descriptions below are derived from these sources.
+# If discrepancies exist, the authoritative sources are correct.
 ---
 
 # Safety Reference
@@ -57,7 +65,7 @@ The skill must NOT:
 **Critical:** Before creating any files, verify:
 
 1. No entry in `manifest.yml` with matching `id`
-2. No directory `.harmony/capabilities/skills/{{skill-name}}/` exists
+2. No directory `.harmony/capabilities/skills/{{skill_name}}/` exists
 3. If either exists, STOP and ask user
 
 ### Conflict Resolution
@@ -122,16 +130,16 @@ If rollback needed after completion:
 
 1. Delete skill directory:
    ```bash
-   rm -rf .harmony/capabilities/skills/{{skill-name}}/
+   rm -rf .harmony/capabilities/skills/{{skill_name}}/
    ```
 
 2. Remove manifest entry:
    - Edit `.harmony/capabilities/skills/manifest.yml`
-   - Remove entry with `id: {{skill-name}}`
+   - Remove entry with `id: {{skill_name}}`
 
 3. Remove registry entry:
    - Edit `.harmony/capabilities/skills/registry.yml`
-   - Remove entry with key `{{skill-name}}`
+   - Remove entry with key `{{skill_name}}`
 
 4. Remove catalog entry:
    - Edit `.harmony/catalog.md`
@@ -139,15 +147,15 @@ If rollback needed after completion:
 
 5. Delete symlinks:
    ```bash
-   rm .claude/skills/{{skill-name}}
-   rm .cursor/skills/{{skill-name}}
-   rm .codex/skills/{{skill-name}}
+   rm .claude/skills/{{skill_name}}
+   rm .cursor/skills/{{skill_name}}
+   rm .codex/skills/{{skill_name}}
    ```
 
 6. (Optional) Delete execution state and logs:
    ```bash
-   rm -rf .harmony/capabilities/skills/_state/runs/create-skill/{{run-id}}/
-   rm .harmony/capabilities/skills/_state/logs/create-skill/{{run-id}}.md
+   rm -rf .harmony/capabilities/skills/_state/runs/create-skill/{{run_id}}/
+   rm .harmony/capabilities/skills/_state/logs/create-skill/{{run_id}}.md
    ```
 
 ## Input Validation

@@ -1,9 +1,11 @@
 ---
 title: Safety Reference
-description: Safety policies and behavioral constraints for the refactor skill.
+description: Safety policies and constraints for the refactor skill.
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .harmony/capabilities/skills/registry.yml
+#
+# Current allowed-tools: Read Glob Grep Edit Write(_state/runs/*) Write(_state/logs/*) Bash(mv) Bash(mkdir)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.

@@ -1,6 +1,14 @@
 ---
 title: Safety Reference
-description: Safety policies and behavioral constraints for the resolve-pr-comments skill.
+description: Safety policies and constraints for the resolve-pr-comments skill.
+# AUTHORITATIVE SOURCES (Single Source of Truth):
+#   - Tool permissions: SKILL.md frontmatter `allowed-tools`
+#   - Output paths: .harmony/capabilities/skills/registry.yml
+#
+# Current allowed-tools: Read Glob Grep Edit Bash(gh) Write(../../output/reports/*) Write(_state/logs/*)
+#
+# Prose descriptions below are derived from these sources.
+# If discrepancies exist, the authoritative sources are correct.
 ---
 
 # Safety Reference

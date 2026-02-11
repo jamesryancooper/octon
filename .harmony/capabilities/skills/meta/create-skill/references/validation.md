@@ -18,18 +18,18 @@ Acceptance criteria and validation rules for the create-skill skill.
 
 A skill creation is valid when:
 
-- [ ] Directory `.harmony/capabilities/skills/{{skill-name}}/` exists
+- [ ] Directory `.harmony/capabilities/skills/{{skill_name}}/` exists
 - [ ] `SKILL.md` exists with valid frontmatter
 - [ ] Frontmatter `name` field equals skill name
 - [ ] All 5 reference files exist in `references/`
 - [ ] `scripts/` and `assets/` directories exist
-- [ ] `manifest.yml` contains entry with `id: {{skill-name}}`
-- [ ] `registry.yml` contains entry with key `{{skill-name}}`
+- [ ] `manifest.yml` contains entry with `id: {{skill_name}}`
+- [ ] `registry.yml` contains entry with key `{{skill_name}}`
 - [ ] `catalog.md` contains row for skill
 - [ ] Symlinks exist in `.claude/`, `.cursor/`, `.codex/`
 - [ ] Symlinks resolve to correct target
 - [ ] Alignment decision recorded in checkpoint (`aligned` or `extension-proposed`)
-- [ ] Run log exists at `_state/logs/create-skill/{{run-id}}.md`
+- [ ] Run log exists at `_state/logs/create-skill/{{run_id}}.md`
 - [ ] Log indexes updated (both top-level and skill-level)
 
 ## Name Validation Rules
@@ -66,8 +66,8 @@ After Phase 5, verify:
 
 ```bash
 # All must exist
-ls -la .harmony/capabilities/skills/{{skill-name}}/
-ls -la .harmony/capabilities/skills/{{skill-name}}/references/
+ls -la .harmony/capabilities/skills/{{skill_name}}/
+ls -la .harmony/capabilities/skills/{{skill_name}}/references/
 ```
 
 Expected:
@@ -84,38 +84,38 @@ Expected:
 
 ```bash
 # Check frontmatter name
-grep "^name: {{skill-name}}" .harmony/capabilities/skills/{{skill-name}}/SKILL.md
+grep "^name: {{skill_name}}" .harmony/capabilities/skills/{{skill_name}}/SKILL.md
 ```
 
 ### Registry Entries
 
 ```bash
 # Check manifest
-grep "id: {{skill-name}}" .harmony/capabilities/skills/manifest.yml
+grep "id: {{skill_name}}" .harmony/capabilities/skills/manifest.yml
 
 # Check registry
-grep "^  {{skill-name}}:" .harmony/capabilities/skills/registry.yml
+grep "^  {{skill_name}}:" .harmony/capabilities/skills/registry.yml
 ```
 
 ### Symlinks
 
 ```bash
 # Check symlinks resolve
-readlink .claude/skills/{{skill-name}}
-readlink .cursor/skills/{{skill-name}}
-readlink .codex/skills/{{skill-name}}
+readlink .claude/skills/{{skill_name}}
+readlink .cursor/skills/{{skill_name}}
+readlink .codex/skills/{{skill_name}}
 ```
 
-Expected: `../../.harmony/capabilities/skills/{{skill-name}}`
+Expected: `../../.harmony/capabilities/skills/{{skill_name}}`
 
 ### Log Files
 
 ```bash
 # Check run log exists
-ls .harmony/capabilities/skills/_state/logs/create-skill/{{run-id}}.md
+ls .harmony/capabilities/skills/_state/logs/create-skill/{{run_id}}.md
 
 # Check indexes updated
-grep "{{skill-name}}" .harmony/capabilities/skills/_state/logs/create-skill/index.yml
+grep "{{skill_name}}" .harmony/capabilities/skills/_state/logs/create-skill/index.yml
 ```
 
 ## Validation Script
@@ -123,7 +123,7 @@ grep "{{skill-name}}" .harmony/capabilities/skills/_state/logs/create-skill/inde
 The created skill should pass the validation script:
 
 ```bash
-.harmony/capabilities/skills/scripts/validate-skills.sh {{skill-name}}
+.harmony/capabilities/skills/scripts/validate-skills.sh {{skill_name}}
 ```
 
 Expected output: All checks pass (note: some checks require TODOs to be completed).

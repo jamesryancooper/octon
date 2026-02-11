@@ -10,7 +10,7 @@ behavior:
         - "Run alignment-first gate: aligned or extension-proposed"
     - name: "Copy Template"
       steps:
-        - "Create directory .harmony/capabilities/skills/{{skill-name}}/"
+        - "Create directory .harmony/capabilities/skills/{{skill_name}}/"
         - "Copy SKILL.md from _template/"
         - "Copy references/ directory from _template/"
         - "Create empty scripts/ and assets/ directories"
@@ -111,7 +111,7 @@ phases:
   1_validate:
     status: completed
     completed_at: "{{timestamp}}"
-    skill_name: "{{skill-name}}"
+    skill_name: "{{skill_name}}"
     alignment_decision: "aligned"  # or extension-proposed
     warnings: []  # or naming convention warnings
 ```
@@ -127,34 +127,34 @@ Create the skill directory structure from template.
 1. **Create Directory**
 
    ```bash
-   mkdir -p .harmony/capabilities/skills/{{skill-name}}/references
-   mkdir -p .harmony/capabilities/skills/{{skill-name}}/scripts
-   mkdir -p .harmony/capabilities/skills/{{skill-name}}/assets
+   mkdir -p .harmony/capabilities/skills/{{skill_name}}/references
+   mkdir -p .harmony/capabilities/skills/{{skill_name}}/scripts
+   mkdir -p .harmony/capabilities/skills/{{skill_name}}/assets
    ```
 
 2. **Copy Core Files**
 
-   - `.harmony/capabilities/skills/_template/SKILL.md` → `.harmony/capabilities/skills/{{skill-name}}/SKILL.md`
+   - `.harmony/capabilities/skills/_template/SKILL.md` → `.harmony/capabilities/skills/{{skill_name}}/SKILL.md`
 
 3. **Copy Reference Files**
 
-   - `_template/references/behaviors.md` → `{{skill-name}}/references/behaviors.md`
-   - `_template/references/io-contract.md` → `{{skill-name}}/references/io-contract.md`
-   - `_template/references/safety.md` → `{{skill-name}}/references/safety.md`
-   - `_template/references/examples.md` → `{{skill-name}}/references/examples.md`
-   - `_template/references/validation.md` → `{{skill-name}}/references/validation.md`
+   - `_template/references/behaviors.md` → `{{skill_name}}/references/behaviors.md`
+   - `_template/references/io-contract.md` → `{{skill_name}}/references/io-contract.md`
+   - `_template/references/safety.md` → `{{skill_name}}/references/safety.md`
+   - `_template/references/examples.md` → `{{skill_name}}/references/examples.md`
+   - `_template/references/validation.md` → `{{skill_name}}/references/validation.md`
 
 4. **Create Symlinks in Harness Folders**
 
    ```bash
-   ln -s ../../.harmony/capabilities/skills/{{skill-name}} .claude/skills/{{skill-name}}
-   ln -s ../../.harmony/capabilities/skills/{{skill-name}} .cursor/skills/{{skill-name}}
-   ln -s ../../.harmony/capabilities/skills/{{skill-name}} .codex/skills/{{skill-name}}
+   ln -s ../../.harmony/capabilities/skills/{{skill_name}} .claude/skills/{{skill_name}}
+   ln -s ../../.harmony/capabilities/skills/{{skill_name}} .cursor/skills/{{skill_name}}
+   ln -s ../../.harmony/capabilities/skills/{{skill_name}} .codex/skills/{{skill_name}}
    ```
 
 ### Verification
 
-- Directory `.harmony/capabilities/skills/{{skill-name}}/` exists
+- Directory `.harmony/capabilities/skills/{{skill_name}}/` exists
 - File `SKILL.md` exists
 - All 5 reference files exist
 - Symlinks exist and resolve correctly
@@ -175,9 +175,9 @@ phases:
       - references/examples.md
       - references/validation.md
     symlinks_created:
-      - .claude/skills/{{skill-name}}
-      - .cursor/skills/{{skill-name}}
-      - .codex/skills/{{skill-name}}
+      - .claude/skills/{{skill_name}}
+      - .cursor/skills/{{skill_name}}
+      - .codex/skills/{{skill_name}}
 ```
 
 ---
@@ -191,7 +191,7 @@ Replace placeholders with actual values.
 1. **Update SKILL.md Frontmatter**
 
    ```yaml
-   name: {{skill-name}}
+   name: {{skill_name}}
    metadata:
      created: "{{YYYY-MM-DD}}"
      updated: "{{YYYY-MM-DD}}"
@@ -199,15 +199,15 @@ Replace placeholders with actual values.
 
 2. **Replace Body Placeholders**
 
-   - `{{skill_name}}` → `{{skill-name}}`
+   - `{{skill_name}}` → `{{skill_name}}`
    - `{{skill_display_name}}` → `{{Skill Name}}` (title case)
-   - `/skill-name` → `/{{skill-name}}`
+   - `/skill-name` → `/{{skill_name}}`
    - `_state/logs/skill-name/<run-id>.md` → `_state/logs/<skill-name>/<run-id>.md`
 
 3. **Update Reference Files**
 
-   - Replace `skill-name` with `{{skill-name}}` in all files
-   - Replace `/skill-name` with `/{{skill-name}}`
+   - Replace `skill-name` with `{{skill_name}}` in all files
+   - Replace `/skill-name` with `/{{skill_name}}`
 
 ### Checkpoint Update
 
@@ -231,9 +231,9 @@ Add entries to manifest and registry files.
 1. **Add to manifest.yml**
 
    ```yaml
-   - id: {{skill-name}}
+   - id: {{skill_name}}
      display_name: "{{Skill Name - TODO}}"
-     path: {{skill-name}}/
+     path: {{skill_name}}/
      summary: "[TODO: One-line description for routing]"
      status: active
      tags:
@@ -245,10 +245,10 @@ Add entries to manifest and registry files.
 2. **Add to registry.yml**
 
    ```yaml
-   {{skill-name}}:
+   {{skill_name}}:
      version: "0.1.0"
      commands:
-       - /{{skill-name}}
+       - /{{skill_name}}
      parameters:
        - name: input
          type: text
@@ -307,7 +307,7 @@ Add entry to harness catalog.
 1. **Add row to catalog.md**
 
    ```markdown
-   | [{{skill-name}}](./skills/{{skill-name}}/SKILL.md) | `/{{skill-name}}` | [TODO: Description] |
+   | [{{skill_name}}](./skills/{{skill_name}}/SKILL.md) | `/{{skill_name}}` | [TODO: Description] |
    ```
 
    If table has placeholder row ("*No skills defined yet*"), replace it.
@@ -333,9 +333,9 @@ Communicate completion and next steps.
 1. **Display Summary**
 
    ```markdown
-   ## Skill Created: {{skill-name}}
+   ## Skill Created: {{skill_name}}
 
-   **Location:** `.harmony/capabilities/skills/{{skill-name}}/`
+   **Location:** `.harmony/capabilities/skills/{{skill_name}}/`
 
    ### Files Created
    - SKILL.md (core definition)
@@ -346,9 +346,9 @@ Communicate completion and next steps.
    - references/validation.md
 
    ### Symlinks Created
-   - .claude/skills/{{skill-name}}
-   - .cursor/skills/{{skill-name}}
-   - .codex/skills/{{skill-name}}
+   - .claude/skills/{{skill_name}}
+   - .cursor/skills/{{skill_name}}
+   - .codex/skills/{{skill_name}}
 
    ### Registry Updated
    - manifest.yml: Entry added
@@ -358,20 +358,20 @@ Communicate completion and next steps.
    1. Edit SKILL.md to define description and workflow
    2. Complete TODO items in manifest.yml and registry.yml
    3. Add examples to references/examples.md
-   4. Test with `/{{skill-name}} [input]`
+   4. Test with `/{{skill_name}} [input]`
    ```
 
 2. **Update Checkpoint to Completed**
 
 3. **Write Run Log**
 
-   Write execution log to `_state/logs/create-skill/{{run-id}}.md`:
+   Write execution log to `_state/logs/create-skill/{{run_id}}.md`:
 
    ```markdown
    # Run Log: create-skill
 
-   **Run ID:** {{run-id}}
-   **Skill Created:** {{skill-name}}
+   **Run ID:** {{run_id}}
+   **Skill Created:** {{skill_name}}
    **Status:** completed
    **Started:** {{start-timestamp}}
    **Completed:** {{end-timestamp}}
@@ -389,12 +389,12 @@ Communicate completion and next steps.
 
    ## Files Created
 
-   - .harmony/capabilities/skills/{{skill-name}}/SKILL.md
-   - .harmony/capabilities/skills/{{skill-name}}/references/behaviors.md
-   - .harmony/capabilities/skills/{{skill-name}}/references/io-contract.md
-   - .harmony/capabilities/skills/{{skill-name}}/references/safety.md
-   - .harmony/capabilities/skills/{{skill-name}}/references/examples.md
-   - .harmony/capabilities/skills/{{skill-name}}/references/validation.md
+   - .harmony/capabilities/skills/{{skill_name}}/SKILL.md
+   - .harmony/capabilities/skills/{{skill_name}}/references/behaviors.md
+   - .harmony/capabilities/skills/{{skill_name}}/references/io-contract.md
+   - .harmony/capabilities/skills/{{skill_name}}/references/safety.md
+   - .harmony/capabilities/skills/{{skill_name}}/references/examples.md
+   - .harmony/capabilities/skills/{{skill_name}}/references/validation.md
    ```
 
 4. **Update Log Indexes**
@@ -419,9 +419,9 @@ phases:
 
 On invocation, check for existing checkpoint:
 
-1. Look for `_state/runs/create-skill/*{{skill-name}}*/checkpoint.yml`
+1. Look for `_state/runs/create-skill/*{{skill_name}}*/checkpoint.yml`
 2. If found with `status: completed`:
-   - "Skill '{{skill-name}}' already exists. Create a different skill?"
+   - "Skill '{{skill_name}}' already exists. Create a different skill?"
 3. If found with `status: in_progress`:
    - "Found incomplete scaffold. Resume from Phase {N}? [Y/n]"
 4. If skill directory exists but no checkpoint:

@@ -1,9 +1,16 @@
 ---
 # I/O Contract Documentation
+# This file provides extended documentation for human reference.
+#
 # AUTHORITATIVE SOURCES (Single Source of Truth):
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Parameters: .harmony/capabilities/skills/registry.yml
 #   - Output paths: .harmony/capabilities/skills/registry.yml
+#
+# Current allowed-tools: Read Glob Grep Edit Bash(gh) Bash(npm) Bash(npx) Write(../../output/reports/*) Write(_state/logs/*)
+#
+# Prose descriptions below are derived from these sources.
+# If discrepancies exist, the authoritative sources are correct.
 ---
 
 # I/O Contract Reference

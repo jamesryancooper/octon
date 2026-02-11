@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".harmony/capabilities/skills/_state/runs/create-skill/{{run-id}}/"
+  storage: ".harmony/capabilities/skills/_state/runs/create-skill/{{run_id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ Checkpointing keeps creation safe across interruptions and avoids partial catalo
 
 Resume contract:
 
-- State lives in `.harmony/capabilities/skills/_state/runs/create-skill/{{run-id}}/`.
+- State lives in `.harmony/capabilities/skills/_state/runs/create-skill/{{run_id}}/`.
 - Registry updates are replayed only after validation and scaffold checkpoints are present.
 - Resume re-runs uniqueness checks before any destructive operation.
