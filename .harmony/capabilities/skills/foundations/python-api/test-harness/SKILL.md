@@ -6,8 +6,8 @@ description: >
   test scaffolding. Invoke with the project name and list of infrastructure dependencies.
 skill_sets: [executor]
 capabilities: []
-# Write is intentionally unscoped: scaffolds into user project directories.
-allowed-tools: Read Grep Glob Edit Write Bash(mkdir) Bash(uv)
+# Write scopes are explicit: workspace scaffolding plus skill log output.
+allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_state/logs/*) Bash(mkdir) Bash(uv)
 ---
 
 # Test Harness

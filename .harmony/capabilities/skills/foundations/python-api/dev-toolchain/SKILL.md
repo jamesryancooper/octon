@@ -6,8 +6,8 @@ description: >
   Invoke with the project name and infrastructure dependencies.
 skill_sets: [executor]
 capabilities: []
-# Write is intentionally unscoped: scaffolds into user project directories.
-allowed-tools: Read Grep Glob Edit Write Bash(mkdir) Bash(just) Bash(pre-commit)
+# Write scopes are explicit: workspace scaffolding plus skill log output.
+allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_state/logs/*) Bash(mkdir) Bash(just) Bash(pre-commit)
 ---
 
 # Dev Toolchain

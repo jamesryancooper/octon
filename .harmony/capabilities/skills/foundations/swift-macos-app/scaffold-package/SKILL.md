@@ -6,8 +6,8 @@ description: >
   Invoke with a project name, description, Swift version, platform, and dependencies.
 skill_sets: [executor]
 capabilities: []
-# Write is intentionally unscoped: scaffolds into user project directories.
-allowed-tools: Read Grep Glob Edit Write Bash(mkdir) Bash(swift)
+# Write scopes are explicit: workspace scaffolding plus skill log output.
+allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_state/logs/*) Bash(mkdir) Bash(swift)
 ---
 
 # Scaffold Package

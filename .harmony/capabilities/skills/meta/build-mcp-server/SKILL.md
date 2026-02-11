@@ -14,8 +14,8 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor]
 capabilities: [self-validating]
-# Write is intentionally unscoped: scaffolds into user-specified output_dir. Bash scoped to npm/npx/mkdir/cp/node.
-allowed-tools: Read Glob Grep Edit Write Bash(npm) Bash(npx) Bash(mkdir) Bash(cp) Bash(node) Write(_state/logs/*)
+# Write scopes are explicit: workspace writes plus skill log output. Bash scoped to npm/npx/mkdir/cp/node.
+allowed-tools: Read Glob Grep Edit Write(../../../**) Bash(npm) Bash(npx) Bash(mkdir) Bash(cp) Bash(node) Write(_state/logs/*)
 ---
 
 # Build MCP Server
