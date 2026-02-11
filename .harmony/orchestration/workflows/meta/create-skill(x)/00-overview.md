@@ -67,7 +67,7 @@ Scaffold a new skill following the [agentskills.io](https://agentskills.io) spec
 ## Steps
 
 1. [Validate Name](./01-validate-name.md) — Check format, naming convention, and uniqueness
-2. [Copy Template](./02-copy-template.md) — Copy template to `skills/<skill-name>/`
+2. [Copy Template](./02-copy-template.md) — Copy template to `.harmony/capabilities/skills/<group>/<skill-name>/`
 3. [Initialize Skill](./03-initialize-skill.md) — Update `SKILL.md` with name and placeholders
 4. [Update Registry](./04-update-registry.md) — Add entry to `registry.yml`
 5. [Update Catalog](./05-update-catalog.md) — Add row to skills table in `catalog.md`
@@ -78,10 +78,10 @@ Scaffold a new skill following the [agentskills.io](https://agentskills.io) spec
 A new skill directory following the agentskills.io spec:
 
 ```text
-skills/<skill-name>/
+.harmony/capabilities/skills/<group>/<skill-name>/
 ├── SKILL.md              # Core skill definition (<500 lines)
 ├── references/           # Detailed documentation (progressive disclosure)
-│   ├── behaviors.md      # Phase-by-phase behavior details
+│   ├── phases.md         # Phase-by-phase behavior details
 │   ├── io-contract.md    # Inputs, outputs, dependencies, command-line usage
 │   ├── safety.md         # Tool and file policies
 │   ├── examples.md       # Full usage examples
@@ -90,9 +90,9 @@ skills/<skill-name>/
 └── assets/               # Static resources (optional)
 
 # Plus symlinks in harness folders:
-.claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
-.cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
-.codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
+.claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
+.cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
+.codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
 ```
 
 ## Next Steps After Creation
@@ -104,7 +104,7 @@ skills/<skill-name>/
    - Boundaries and escalation triggers
 
 2. **Edit reference files** to add details:
-   - `references/behaviors.md` — Detailed phase steps
+   - `references/phases.md` — Detailed phase steps
    - `references/io-contract.md` — Input/output schemas, command-line usage
    - `references/safety.md` — Tool and file policies
    - `references/examples.md` — Full examples

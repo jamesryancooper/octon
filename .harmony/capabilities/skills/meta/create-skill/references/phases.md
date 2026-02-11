@@ -10,7 +10,7 @@ behavior:
         - "Run alignment-first gate: aligned or extension-proposed"
     - name: "Copy Template"
       steps:
-        - "Create directory .harmony/capabilities/skills/{{skill_name}}/"
+        - "Create directory .harmony/capabilities/skills/<group>/{{skill_name}}/"
         - "Copy SKILL.md from _template/"
         - "Copy references/ directory from _template/"
         - "Create empty scripts/ and assets/ directories"
@@ -127,34 +127,34 @@ Create the skill directory structure from template.
 1. **Create Directory**
 
    ```bash
-   mkdir -p .harmony/capabilities/skills/{{skill_name}}/references
-   mkdir -p .harmony/capabilities/skills/{{skill_name}}/scripts
-   mkdir -p .harmony/capabilities/skills/{{skill_name}}/assets
+   mkdir -p .harmony/capabilities/skills/<group>/{{skill_name}}/references
+   mkdir -p .harmony/capabilities/skills/<group>/{{skill_name}}/scripts
+   mkdir -p .harmony/capabilities/skills/<group>/{{skill_name}}/assets
    ```
 
 2. **Copy Core Files**
 
-   - `.harmony/capabilities/skills/_template/SKILL.md` → `.harmony/capabilities/skills/{{skill_name}}/SKILL.md`
+   - `.harmony/capabilities/skills/_template/SKILL.md` → `.harmony/capabilities/skills/<group>/{{skill_name}}/SKILL.md`
 
 3. **Copy Reference Files**
 
-   - `_template/references/behaviors.md` → `{{skill_name}}/references/behaviors.md`
-   - `_template/references/io-contract.md` → `{{skill_name}}/references/io-contract.md`
-   - `_template/references/safety.md` → `{{skill_name}}/references/safety.md`
-   - `_template/references/examples.md` → `{{skill_name}}/references/examples.md`
-   - `_template/references/validation.md` → `{{skill_name}}/references/validation.md`
+   - `_template/references/phases.md` → `<group>/{{skill_name}}/references/phases.md`
+   - `_template/references/io-contract.md` → `<group>/{{skill_name}}/references/io-contract.md`
+   - `_template/references/safety.md` → `<group>/{{skill_name}}/references/safety.md`
+   - `_template/references/examples.md` → `<group>/{{skill_name}}/references/examples.md`
+   - `_template/references/validation.md` → `<group>/{{skill_name}}/references/validation.md`
 
 4. **Create Symlinks in Harness Folders**
 
    ```bash
-   ln -s ../../.harmony/capabilities/skills/{{skill_name}} .claude/skills/{{skill_name}}
-   ln -s ../../.harmony/capabilities/skills/{{skill_name}} .cursor/skills/{{skill_name}}
-   ln -s ../../.harmony/capabilities/skills/{{skill_name}} .codex/skills/{{skill_name}}
+   ln -s ../../.harmony/capabilities/skills/<group>/{{skill_name}} .claude/skills/{{skill_name}}
+   ln -s ../../.harmony/capabilities/skills/<group>/{{skill_name}} .cursor/skills/{{skill_name}}
+   ln -s ../../.harmony/capabilities/skills/<group>/{{skill_name}} .codex/skills/{{skill_name}}
    ```
 
 ### Verification
 
-- Directory `.harmony/capabilities/skills/{{skill_name}}/` exists
+- Directory `.harmony/capabilities/skills/<group>/{{skill_name}}/` exists
 - File `SKILL.md` exists
 - All 5 reference files exist
 - Symlinks exist and resolve correctly
@@ -169,7 +169,7 @@ phases:
     completed_at: "{{timestamp}}"
     files_created:
       - SKILL.md
-      - references/behaviors.md
+      - references/phases.md
       - references/io-contract.md
       - references/safety.md
       - references/examples.md
@@ -233,7 +233,7 @@ Add entries to manifest and registry files.
    ```yaml
    - id: {{skill_name}}
      display_name: "{{Skill Name - TODO}}"
-     path: {{skill_name}}/
+     path: <group>/{{skill_name}}/
      summary: "[TODO: One-line description for routing]"
      status: active
      tags:
@@ -246,7 +246,7 @@ Add entries to manifest and registry files.
 
    ```yaml
    {{skill_name}}:
-     version: "0.1.0"
+     version: "1.0.0"
      commands:
        - /{{skill_name}}
      parameters:
@@ -266,7 +266,7 @@ Add entries to manifest and registry files.
 
 | Field | Purpose | Required |
 |-------|---------|----------|
-| `id` | Unique identifier, matches directory | Yes |
+| `id` | Unique identifier, matches SKILL.md `name` and manifest `id` | Yes |
 | `display_name` | Human-readable display name | Yes |
 | `path` | Relative path to skill directory | Yes |
 | `summary` | Brief description for routing | Yes |
@@ -307,7 +307,7 @@ Add entry to harness catalog.
 1. **Add row to catalog.md**
 
    ```markdown
-   | [{{skill_name}}](./skills/{{skill_name}}/SKILL.md) | `/{{skill_name}}` | [TODO: Description] |
+   | [{{skill_name}}](.harmony/capabilities/skills/<group>/{{skill_name}}/SKILL.md) | `/{{skill_name}}` | [TODO: Description] |
    ```
 
    If table has placeholder row ("*No skills defined yet*"), replace it.
@@ -335,11 +335,11 @@ Communicate completion and next steps.
    ```markdown
    ## Skill Created: {{skill_name}}
 
-   **Location:** `.harmony/capabilities/skills/{{skill_name}}/`
+   **Location:** `.harmony/capabilities/skills/<group>/{{skill_name}}/`
 
    ### Files Created
    - SKILL.md (core definition)
-   - references/behaviors.md
+   - references/phases.md
    - references/io-contract.md
    - references/safety.md
    - references/examples.md
@@ -389,12 +389,12 @@ Communicate completion and next steps.
 
    ## Files Created
 
-   - .harmony/capabilities/skills/{{skill_name}}/SKILL.md
-   - .harmony/capabilities/skills/{{skill_name}}/references/behaviors.md
-   - .harmony/capabilities/skills/{{skill_name}}/references/io-contract.md
-   - .harmony/capabilities/skills/{{skill_name}}/references/safety.md
-   - .harmony/capabilities/skills/{{skill_name}}/references/examples.md
-   - .harmony/capabilities/skills/{{skill_name}}/references/validation.md
+   - .harmony/capabilities/skills/<group>/{{skill_name}}/SKILL.md
+   - .harmony/capabilities/skills/<group>/{{skill_name}}/references/phases.md
+   - .harmony/capabilities/skills/<group>/{{skill_name}}/references/io-contract.md
+   - .harmony/capabilities/skills/<group>/{{skill_name}}/references/safety.md
+   - .harmony/capabilities/skills/<group>/{{skill_name}}/references/examples.md
+   - .harmony/capabilities/skills/<group>/{{skill_name}}/references/validation.md
    ```
 
 4. **Update Log Indexes**

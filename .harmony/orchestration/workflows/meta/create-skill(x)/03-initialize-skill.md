@@ -16,7 +16,7 @@ description: Update SKILL.md and reference files with skill name and initial val
 
 ### Update SKILL.md Frontmatter
 
-Replace placeholders in `skills/<skill-name>/SKILL.md`:
+Replace placeholders in `.harmony/capabilities/skills/<group>/<skill-name>/SKILL.md`:
 
 ```yaml
 ---
@@ -27,10 +27,9 @@ license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: "[TODO: Author Name]"
-  version: "0.1.0"
   created: "[current date YYYY-MM-DD]"
   updated: "[current date YYYY-MM-DD]"
-allowed-tools: Read Glob Grep Write(outputs/*) Write(_state/logs/*)
+allowed-tools: Read Glob Grep Write(../{{category}}/*) Write(_state/logs/*)
 ---
 ```
 
@@ -50,7 +49,7 @@ For each file in `references/`:
 - Update any skill-specific paths
 
 **Files to update:**
-- `references/behaviors.md`
+- `references/phases.md`
 - `references/io-contract.md`
 - `references/safety.md`
 - `references/examples.md`

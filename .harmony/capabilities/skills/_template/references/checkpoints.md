@@ -235,7 +235,7 @@ When user invokes `/refactor .scratch/ → .scratchpad/` again:
 ### Implementing Recovery in Your Skill
 
 ```yaml
-# In your skill's behaviors.md, add resumption logic:
+# In your skill's phases.md, add resumption logic:
 resumption:
   detection:
     pattern: "_state/runs/{{skill-id}}/*{{scope-slug}}*/checkpoint.yml"

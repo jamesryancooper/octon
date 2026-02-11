@@ -18,7 +18,7 @@ Report to user:
 ```markdown
 ## Skill Created: <skill-name>
 
-**Location:** `.harmony/capabilities/skills/<skill-name>/`
+**Location:** `.harmony/capabilities/skills/<group>/<skill-name>/`
 
 ### Files Created
 
@@ -26,7 +26,7 @@ Report to user:
 - `SKILL.md` — Main skill definition (ready for customization)
 
 **References (progressive disclosure):**
-- `references/behaviors.md` — Detailed phase behavior
+- `references/phases.md` — Detailed phase behavior
 - `references/io-contract.md` — Inputs, outputs, dependencies, command-line usage
 - `references/safety.md` — Tool and file policies
 - `references/examples.md` — Full usage examples
@@ -36,7 +36,8 @@ Report to user:
 - `scripts/` — For executable code
 - `assets/` — For static resources
 
-**Registry updated:** `skills/registry.yml`
+**Manifest updated:** `.harmony/capabilities/skills/manifest.yml`
+**Registry updated:** `.harmony/capabilities/skills/registry.yml`
 **Catalog updated:** `.harmony/catalog.md`
 
 ### Next Steps
@@ -67,7 +68,7 @@ Edit reference files for progressive disclosure:
 
 | File | Content |
 |------|---------|
-| `references/behaviors.md` | Detailed step-by-step behavior |
+| `references/phases.md` | Detailed step-by-step behavior |
 | `references/io-contract.md` | Input/output schemas, command-line usage |
 | `references/safety.md` | Tool permissions and file policies |
 | `references/examples.md` | Full worked examples |

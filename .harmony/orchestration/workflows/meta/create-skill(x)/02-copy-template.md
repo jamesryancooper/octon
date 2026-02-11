@@ -14,26 +14,26 @@ description: Copy skill template to new skill directory with spec-compliant stru
 ## Actions
 
 ```text
-1. Create directory: skills/<skill-name>/
+1. Create directory: .harmony/capabilities/skills/<group>/<skill-name>/
 
 2. Copy core file:
-   - skills/_template/SKILL.md -> skills/<skill-name>/SKILL.md
+   - .harmony/capabilities/skills/_template/SKILL.md -> .harmony/capabilities/skills/<group>/<skill-name>/SKILL.md
 
 3. Create and copy reference files:
-   - skills/_template/references/behaviors.md -> skills/<skill-name>/references/behaviors.md
-   - skills/_template/references/io-contract.md -> skills/<skill-name>/references/io-contract.md
-   - skills/_template/references/safety.md -> skills/<skill-name>/references/safety.md
-   - skills/_template/references/examples.md -> skills/<skill-name>/references/examples.md
-   - skills/_template/references/validation.md -> skills/<skill-name>/references/validation.md
+   - .harmony/capabilities/skills/_template/references/phases.md -> .harmony/capabilities/skills/<group>/<skill-name>/references/phases.md
+   - .harmony/capabilities/skills/_template/references/io-contract.md -> .harmony/capabilities/skills/<group>/<skill-name>/references/io-contract.md
+   - .harmony/capabilities/skills/_template/references/safety.md -> .harmony/capabilities/skills/<group>/<skill-name>/references/safety.md
+   - .harmony/capabilities/skills/_template/references/examples.md -> .harmony/capabilities/skills/<group>/<skill-name>/references/examples.md
+   - .harmony/capabilities/skills/_template/references/validation.md -> .harmony/capabilities/skills/<group>/<skill-name>/references/validation.md
 
 4. Create empty directories:
-   - skills/<skill-name>/scripts/
-   - skills/<skill-name>/assets/
+   - .harmony/capabilities/skills/<group>/<skill-name>/scripts/
+   - .harmony/capabilities/skills/<group>/<skill-name>/assets/
 
 5. Create symlinks in harness folders:
-   - .claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
-   - .cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
-   - .codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<skill-name>
+   - .claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
+   - .cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
+   - .codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
 ```
 
 ## Directory Structure
@@ -41,10 +41,10 @@ description: Copy skill template to new skill directory with spec-compliant stru
 Creates agentskills.io spec-compliant structure:
 
 ```text
-skills/<skill-name>/
+.harmony/capabilities/skills/<group>/<skill-name>/
 ├── SKILL.md              # Core skill definition
 ├── references/           # Progressive disclosure content
-│   ├── behaviors.md      # Detailed phase behavior
+│   ├── phases.md         # Detailed phase behavior
 │   ├── io-contract.md    # Inputs/outputs/dependencies + CLI usage
 │   ├── safety.md         # Safety policies
 │   ├── examples.md       # Full examples
@@ -55,17 +55,17 @@ skills/<skill-name>/
 
 ## Verification
 
-- Directory `skills/<skill-name>/` exists
-- File `skills/<skill-name>/SKILL.md` exists
-- All reference files exist in `skills/<skill-name>/references/`
+- Directory `.harmony/capabilities/skills/<group>/<skill-name>/` exists
+- File `.harmony/capabilities/skills/<group>/<skill-name>/SKILL.md` exists
+- All reference files exist in `.harmony/capabilities/skills/<group>/<skill-name>/references/`
 - Empty directories created (`scripts/`, `assets/`)
 - Symlinks exist in harness directories
 
 ## Idempotency
 
 **Check:** Is template already copied?
-- [ ] Directory `skills/<skill-name>/` exists
-- [ ] File `skills/<skill-name>/SKILL.md` exists
+- [ ] Directory `.harmony/capabilities/skills/<group>/<skill-name>/` exists
+- [ ] File `.harmony/capabilities/skills/<group>/<skill-name>/SKILL.md` exists
 - [ ] All reference files exist
 - [ ] Symlinks exist in harness directories
 

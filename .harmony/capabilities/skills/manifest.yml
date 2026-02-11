@@ -100,10 +100,9 @@ skills:
       - generator
       - workflow
     triggers:
-      - "create a new skill"
-      - "scaffold a skill"
-      - "generate skill boilerplate"
-      - "add a new skill"
+      - "create a harmony skill"
+      - "scaffold a harmony skill"
+      - "generate skill scaffolding"
     skill_sets:
       - executor
     capabilities:
@@ -121,9 +120,9 @@ skills:
       - verification
       - quality
     triggers:
-      - "audit the migration"
-      - "verify migration completeness"
-      - "check for stale references"
+      - "audit migration mappings"
+      - "migration stale reference audit"
+      - "post migration drift audit"
     skill_sets:
       - executor
       - guardian
@@ -143,9 +142,9 @@ skills:
       - quality
     triggers:
       - "audit subsystem health"
-      - "check subsystem coherence"
-      - "verify config consistency"
-      - "subsystem health check"
+      - "subsystem coherence audit"
+      - "config schema coherence audit"
+      - "run audit-subsystem-health"
     skill_sets:
       - executor
       - guardian
@@ -165,9 +164,9 @@ skills:
       - design
       - accessibility
     triggers:
-      - "audit the UI"
-      - "check UI guidelines"
-      - "review accessibility"
+      - "audit ui guideline compliance"
+      - "run ui accessibility audit"
+      - "evaluate ui against guidelines"
     skill_sets:
       - executor
       - guardian
@@ -186,9 +185,8 @@ skills:
       - api
       - fastapi
     triggers:
-      - "python api foundation"
-      - "set up python api stack"
-      - "python api workflow"
+      - "python-api foundation skill"
+      - "route to python-api parent skill"
     skill_sets:
       - specialist
     capabilities: []
@@ -205,9 +203,8 @@ skills:
       - macos
       - app
     triggers:
-      - "swift macos foundation"
-      - "set up swift macos app"
-      - "swift app workflow"
+      - "swift-macos-app foundation skill"
+      - "route to swift-macos-app parent skill"
     skill_sets:
       - specialist
     capabilities: []
@@ -224,9 +221,8 @@ skills:
       - package
       - fastapi
     triggers:
-      - "scaffold python package"
-      - "create python api project structure"
-      - "python pyproject setup"
+      - "python api package scaffold"
+      - "fastapi pyproject bootstrap"
     skill_sets:
       - specialist
     capabilities:
@@ -244,9 +240,8 @@ skills:
       - pydantic
       - contracts
     triggers:
-      - "generate python api contracts"
-      - "contract first api setup"
-      - "openapi pydantic models"
+      - "python contract-first api generation"
+      - "generate openapi pydantic contracts"
     skill_sets:
       - specialist
     capabilities:
@@ -264,9 +259,8 @@ skills:
       - testing
       - fixtures
     triggers:
-      - "set up python test harness"
-      - "generate pytest fixtures"
-      - "python test scaffolding"
+      - "python pytest harness generation"
+      - "generate python contract test fixtures"
     skill_sets:
       - specialist
     capabilities:
@@ -284,9 +278,8 @@ skills:
       - ruff
       - pre-commit
     triggers:
-      - "set up python dev toolchain"
-      - "configure python linting"
-      - "python pre-commit setup"
+      - "python dev toolchain bootstrap"
+      - "configure ruff mypy pre-commit"
     skill_sets:
       - specialist
     capabilities:
@@ -304,9 +297,8 @@ skills:
       - alembic
       - infrastructure
     triggers:
-      - "generate python infrastructure"
-      - "docker compose for python api"
-      - "alembic migration setup"
+      - "python infra manifest generation"
+      - "generate docker compose and alembic"
     skill_sets:
       - specialist
     capabilities:
@@ -324,9 +316,8 @@ skills:
       - contributing
       - ci
     triggers:
-      - "generate python contributor docs"
-      - "python contributing guide"
-      - "python ci workflow setup"
+      - "python contributor guide generation"
+      - "generate python ci contributor docs"
     skill_sets:
       - specialist
     capabilities:
@@ -344,9 +335,8 @@ skills:
       - package
       - macos
     triggers:
-      - "scaffold swift package"
-      - "create swift macos project"
-      - "swift package setup"
+      - "swift macos package scaffold"
+      - "swift package swiftpm bootstrap"
     skill_sets:
       - specialist
     capabilities:
@@ -364,9 +354,8 @@ skills:
       - sqlite
       - database
     triggers:
-      - "swift data layer setup"
-      - "grdb database actor"
-      - "swift sqlite persistence"
+      - "swift grdb data layer generation"
+      - "generate swift sqlite persistence layer"
     skill_sets:
       - specialist
     capabilities:
@@ -384,9 +373,8 @@ skills:
       - argument-parser
       - commands
     triggers:
-      - "swift cli setup"
-      - "argument parser commands"
-      - "swift command line interface"
+      - "swift argument parser cli generation"
+      - "generate swift command interface"
     skill_sets:
       - specialist
     capabilities:
@@ -404,9 +392,8 @@ skills:
       - launchagent
       - fsevents
     triggers:
-      - "swift daemon service"
-      - "launchagent daemon setup"
-      - "swift background service"
+      - "swift launchagent daemon generation"
+      - "generate swift background daemon service"
     skill_sets:
       - specialist
     capabilities:
@@ -424,9 +411,8 @@ skills:
       - testing
       - fixtures
     triggers:
-      - "swift test harness setup"
-      - "xctest scaffolding"
-      - "swift test fixtures"
+      - "swift xctest harness generation"
+      - "generate swift test fixtures"
     skill_sets:
       - specialist
     capabilities:
@@ -444,9 +430,8 @@ skills:
       - contributing
       - ci
     triggers:
-      - "swift contributor docs"
-      - "swift contributing guide"
-      - "swift ci workflow setup"
+      - "swift contributor guide generation"
+      - "generate swift ci contributor docs"
     skill_sets:
       - specialist
     capabilities:
@@ -464,9 +449,8 @@ skills:
       - nextjs
       - frontend
     triggers:
-      - "react foundation"
-      - "nextjs foundation"
-      - "react workflow guidance"
+      - "react foundation parent skill"
+      - "nextjs react foundation skill"
     skill_sets:
       - specialist
     capabilities: []
@@ -483,9 +467,8 @@ skills:
       - expo
       - mobile
     triggers:
-      - "react native foundation"
-      - "expo foundation"
-      - "react native workflow guidance"
+      - "react-native foundation parent skill"
+      - "expo react-native foundation skill"
     skill_sets:
       - specialist
     capabilities: []
@@ -502,9 +485,8 @@ skills:
       - database
       - sql
     triggers:
-      - "postgres foundation"
-      - "postgres workflow guidance"
-      - "database foundation skill"
+      - "postgres foundation parent skill"
+      - "postgres sql foundation skill"
     skill_sets:
       - specialist
     capabilities: []
@@ -521,10 +503,9 @@ skills:
       - composition
       - components
     triggers:
-      - "apply React composition patterns"
-      - "check composition patterns"
-      - "React compound components"
-      - "component composition review"
+      - "react composition patterns audit"
+      - "react compound component patterns"
+      - "review react component composition"
     skill_sets:
       - specialist
     capabilities: []
@@ -541,10 +522,9 @@ skills:
       - performance
       - best-practices
     triggers:
-      - "apply React best practices"
-      - "React performance review"
-      - "check React patterns"
-      - "Next.js best practices"
+      - "react nextjs best practices audit"
+      - "react performance rules audit"
+      - "nextjs react rules review"
     skill_sets:
       - specialist
     capabilities: []
@@ -561,10 +541,9 @@ skills:
       - mobile
       - performance
     triggers:
-      - "apply React Native best practices"
-      - "React Native performance review"
-      - "check React Native patterns"
-      - "Expo best practices"
+      - "react-native expo best practices audit"
+      - "react-native performance rules audit"
+      - "expo react-native rules review"
     skill_sets:
       - specialist
     capabilities: []
@@ -581,10 +560,9 @@ skills:
       - hosting
       - production
     triggers:
-      - "deploy to Vercel"
-      - "Vercel deployment"
-      - "push to Vercel"
-      - "ship to production"
+      - "deploy project to vercel"
+      - "run vercel production deploy"
+      - "push deployment via vercel cli"
     skill_sets:
       - executor
     capabilities:
@@ -601,8 +579,8 @@ skills:
       - vercel
       - status
     triggers:
-      - "check deployment status"
-      - "verify Vercel deployment"
+      - "check vercel deploy status"
+      - "verify vercel deployment readiness"
     skill_sets:
       - executor
     capabilities:
@@ -621,9 +599,8 @@ skills:
       - deployment
       - hosting
     triggers:
-      - "vercel platform guidance"
-      - "vercel foundation"
-      - "deploy workflow for vercel"
+      - "vercel platform foundation skill"
+      - "vercel deployment platform guidance"
     skill_sets:
       - specialist
     capabilities: []
@@ -683,11 +660,10 @@ skills:
       - performance
       - best-practices
     triggers:
-      - "apply Postgres best practices"
-      - "Postgres performance review"
-      - "check database patterns"
-      - "SQL best practices"
-      - "review database code"
+      - "postgres best practices audit"
+      - "postgres performance rules audit"
+      - "sql postgres rules review"
+      - "review postgres database code"
     skill_sets:
       - specialist
     capabilities: []
@@ -728,10 +704,9 @@ skills:
       - tools
       - scaffolding
     triggers:
-      - "build an MCP server"
-      - "create MCP tools"
-      - "scaffold MCP server"
-      - "make an MCP integration"
+      - "build an mcp server"
+      - "implement mcp tools server"
+      - "create mcp integration server"
     skill_sets:
       - executor
     capabilities:
