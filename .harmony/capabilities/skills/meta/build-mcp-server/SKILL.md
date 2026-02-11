@@ -11,11 +11,11 @@ compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Harmony Framework
   created: "2026-02-09"
-  updated: "2026-02-09"
+  updated: "2026-02-10"
 skill_sets: [executor]
 capabilities: [self-validating]
-# Intentionally broad for scaffolding MCP projects in user-selected workspace paths.
-allowed-tools: Read Glob Grep Edit Write Bash Write(logs/*)
+# Write is intentionally unscoped: scaffolds into user-specified output_dir. Bash scoped to npm/npx/mkdir/cp/node.
+allowed-tools: Read Glob Grep Edit Write Bash(npm) Bash(npx) Bash(mkdir) Bash(cp) Bash(node) Write(logs/*)
 ---
 
 # Build MCP Server

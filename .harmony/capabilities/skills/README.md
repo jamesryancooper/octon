@@ -28,7 +28,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │     □ Add skill entry under `skills:`:                                      │
 │       - id: <skill-id>           # Must match directory and SKILL.md name   │
 │       - display_name: <Title Case>  # e.g., "Synthesize Research"           │
-│       - path: <skill-id>/                                                   │
+│       - path: <group>/<skill-id>/                                           │
 │       - summary: "<one-line description>"                                   │
 │       - status: experimental | active | deprecated                          │
 │       - tags: [<tag1>, <tag2>]                                              │
@@ -36,7 +36,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - skill_sets: [executor, guardian]  # Capability bundles              │
 │       - capabilities: [resumable]         # Additional capabilities         │
 │                                                                             │
-│  3. SHARED REGISTRY (.harmony/capabilities/skills/registry.yml)                          │
+│  3. REGISTRY (.harmony/capabilities/skills/registry.yml)                                 │
 │     □ Add skill entry under `skills:`:                                      │
 │       - version: "1.0.0"                                                    │
 │       - commands: [/<skill-id>]                                             │
@@ -44,8 +44,8 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - requires.context: [{type, path, description}]                       │
 │       - depends_on: []                                                      │
 │                                                                             │
-│  4. HARNESS REGISTRY (.harmony/capabilities/skills/registry.yml)                      │
-│     □ Add I/O mapping under `skill_mappings:`:                              │
+│  4. REGISTRY I/O (.harmony/capabilities/skills/registry.yml)                             │
+│     □ Add skill I/O under `skills.<skill-id>.io`:                           │
 │       - inputs: [{path, kind, required, description}]                       │
 │       - outputs: [{name, path, kind, format, determinism, description}]     │
 │                                                                             │
@@ -141,19 +141,19 @@ use skill: synthesize-research
 ## Directory Structure
 
 ```text
-.harmony/capabilities/skills/                    # Shared skill definitions
+.harmony/capabilities/skills/
 ├── manifest.yml                    # Tier 1 discovery index
-├── registry.yml                    # Extended metadata (version, commands, parameters)
+├── capabilities.yml                # Capability schema & skill set definitions
+├── registry.yml                    # Extended metadata and I/O paths (single source of truth)
 ├── _template/                      # Scaffolding for new skills
-└── <skill-id>/SKILL.md             # Core instructions (<500 lines)
+├── <group>/<skill-id>/SKILL.md     # Core instructions (<500 lines)
+├── runs/                           # Execution state (checkpoints) for session recovery
+├── configs/                        # Per-skill configuration overrides
+├── resources/                      # Per-skill input materials
+├── logs/                           # Execution logs
+└── scripts/                        # Validation and maintenance scripts
 
-.harmony/capabilities/skills/                  # Harness-specific configuration
-├── manifest.yml                    # Harness-specific skills (extends shared)
-├── registry.yml                    # I/O paths (single source of truth)
-├── runs/                           # Execution state (checkpoints, manifests) for session recovery
-└── logs/                           # Execution logs
-
-.harmony/output/                        # Deliverables (final products)
+.harmony/output/                    # Deliverables (final products)
 ├── prompts/                        # Refined prompts
 ├── drafts/                         # Synthesis documents
 └── reports/                        # Analysis reports
@@ -251,12 +251,12 @@ Without tiktoken, word count approximation is used (±20% variance). CI environm
 
 ## Creating a Skill
 
-1. Copy `_template/` to `{{skill_id}}/`
+1. Copy `_template/` to `{{group}}/{{skill_id}}/`
 2. Update `SKILL.md` frontmatter (`name` must match directory, set `allowed-tools`)
 3. Replace all `{{placeholder}}` values with actual content
 4. Add entry to `manifest.yml` (id, display_name, path, summary, triggers)
-5. Add entry to `.harmony/capabilities/skills/registry.yml` (version, commands, parameters)
-6. Add entry to `.harmony/capabilities/skills/registry.yml` (inputs, outputs)
+5. Add entry to `.harmony/capabilities/skills/registry.yml` under `skills.<id>` (version, commands, parameters)
+6. Add I/O mapping to `.harmony/capabilities/skills/registry.yml` under `skills.<id>.io` (inputs, outputs)
 7. Run `./scripts/validate-skills.sh {{skill_id}}` to verify consistency
 
 **Validation Options:**
@@ -267,6 +267,16 @@ Without tiktoken, word count approximation is used (±20% variance). CI environm
 ./scripts/validate-skills.sh --fix        # Scaffold missing entries
 ./scripts/validate-skills.sh --strict     # Treat trigger duplicates as errors
 ```
+
+## Skill Classes
+
+Section requirements depend on skill class:
+
+| Class | Required Sections | Example |
+|-------|-------------------|---------|
+| **Invocable** (has `commands` in registry) | When to Use, Quick Start, Core Workflow, Boundaries, When to Escalate, References | `synthesize-research`, `refactor` |
+| **Foundation context** (`user-invocable: false`) | Stack Assumptions, Child Skills, When Not to Suggest | `python-api`, `swift-macos-app` |
+| **Specialist ruleset** (best-practices, patterns) | Categories, Rules/Patterns, Boundaries | `react-best-practices`, `postgres-best-practices` |
 
 ## Host Adapter Symlinks
 

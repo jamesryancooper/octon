@@ -10,7 +10,7 @@ compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Vercel Engineering (adapted for Harmony Framework)
   created: "2026-02-09"
-  updated: "2026-02-09"
+  updated: "2026-02-10"
 skill_sets: [specialist]
 capabilities: []
 allowed-tools: Read Glob Grep Write(logs/*)

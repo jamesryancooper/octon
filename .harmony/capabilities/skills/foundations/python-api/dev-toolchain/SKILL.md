@@ -1,11 +1,13 @@
 ---
-name: dev-toolchain
+name: python-dev-toolchain
 description: >
   Configure project development tooling: justfile task runner, pre-commit hooks,
   ruff/mypy settings in pyproject.toml, .gitignore, and .env.local.example.
   Invoke with the project name and infrastructure dependencies.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir) Bash(just) Bash(pre-commit)
 ---
 
 # Dev Toolchain

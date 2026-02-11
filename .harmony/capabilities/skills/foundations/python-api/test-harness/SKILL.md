@@ -1,11 +1,13 @@
 ---
-name: test-harness
+name: python-test-harness
 description: >
-  Generate testing infrastructure aligned with the project's contracts and package
+  Generate testing infrastructure aligned with project contracts and package
   structure: conftest fixtures, contract tests, unit test stubs, and integration
   test scaffolding. Invoke with the project name and list of infrastructure dependencies.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir) Bash(uv)
 ---
 
 # Test Harness

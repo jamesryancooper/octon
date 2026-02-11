@@ -80,7 +80,7 @@ skill_group_definitions:
   foundations:
     description: Stack-specific project scaffolding skill families
     path: foundations/
-    members: [python-api, swift-macos-app, react, react-native, postgres, react-composition-patterns, react-best-practices, react-native-best-practices, postgres-best-practices]
+    members: [python-api, python-scaffold-package, python-contract-first-api, python-test-harness, python-dev-toolchain, python-infra-manifest, python-contributor-guide, swift-macos-app, swift-scaffold-package, swift-data-layer, swift-cli-interface, swift-daemon-service, swift-test-harness, swift-contributor-guide, react, react-native, postgres, react-composition-patterns, react-best-practices, react-native-best-practices, postgres-best-practices]
 
   platforms:
     description: Deployment platform integrations and operations
@@ -155,3 +155,15 @@ capability_refs:
   cancellable: [cancellation.md]
   external-dependent: [dependencies.md]
   external-output: [external-outputs.md]
+
+# Reference File Policy:
+#   - REQUIRED references: dictated by skill_sets + capabilities via capability_refs above.
+#     Validator enforces existence of these files.
+#   - OPTIONAL references: skills MAY include additional reference files beyond
+#     what their capabilities require. Common cases:
+#     - io-contract.md: useful for any skill with structured I/O, even without
+#       the `contract-driven` capability
+#     - safety.md: useful for any skill with filesystem access, even without
+#       the `safety-bounded` capability
+#     - examples.md / errors.md: broadly useful across skill types
+#   - Validator treats extra references as informational, not errors.

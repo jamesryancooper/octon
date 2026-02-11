@@ -1,11 +1,13 @@
 ---
-name: cli-interface
+name: swift-cli-interface
 description: >
   Generate a command-line interface using swift-argument-parser with
   subcommands, typed options, shell completions, and help text. Invoke
   with the project name and list of commands/subcommands.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir)
 ---
 
 # CLI Interface

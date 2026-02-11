@@ -1,11 +1,13 @@
 ---
-name: infra-manifest
+name: python-infra-manifest
 description: >
   Generate docker-compose.local.yml for declared infrastructure dependencies
   and alembic setup for database migrations. Invoke with the project name and
   list of services needed (postgres, nats, redis, minio, temporal).
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir) Bash(docker) Bash(alembic)
 ---
 
 # Infrastructure Manifest

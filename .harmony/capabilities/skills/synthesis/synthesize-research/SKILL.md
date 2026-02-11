@@ -11,7 +11,7 @@ compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Harmony Harness
   created: "2025-01-12"
-  updated: "2026-01-23"
+  updated: "2026-02-10"
 skill_sets: [executor]
 capabilities: [domain-specialized]
 allowed-tools: Read Glob Write(../../output/drafts/*) Write(logs/*)

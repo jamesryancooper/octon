@@ -47,12 +47,12 @@ will produce friction rather than value.
 
 | Skill                | Purpose                                                    |
 |----------------------|------------------------------------------------------------|
-| `/scaffold-package`  | Package.swift, source targets, typed config, structured logging, standard modules |
-| `/data-layer`        | SQLite database actor, schema migrations, GRDB record types, query helpers |
-| `/daemon-service`    | Single-writer daemon actor, intent queue, LaunchAgent plist, signal handling |
-| `/cli-interface`     | ArgumentParser commands, subcommands, shell completions    |
-| `/test-harness`      | XCTest suites, test fixtures, CI workflow, schema validation |
-| `/contributor-guide` | CLAUDE.md, CONTRIBUTING.md, architecture overview, PR template, CI config |
+| `/swift-scaffold-package`  | Package.swift, source targets, typed config, structured logging, standard modules |
+| `/swift-data-layer`        | SQLite database actor, schema migrations, GRDB record types, query helpers |
+| `/swift-daemon-service`    | Single-writer daemon actor, intent queue, LaunchAgent plist, signal handling |
+| `/swift-cli-interface`     | ArgumentParser commands, subcommands, shell completions    |
+| `/swift-test-harness`      | XCTest suites, test fixtures, CI workflow, schema validation |
+| `/swift-contributor-guide` | CLAUDE.md, CONTRIBUTING.md, architecture overview, PR template, CI config |
 
 ## Dependency Graph
 
@@ -71,25 +71,25 @@ scaffold-package ──┬── data-layer ────────────
 When a user asks to "set up a Swift macOS app" or similar, suggest
 running the skills in this order:
 
-1. **`/scaffold-package`** — always first. Creates Package.swift, source
+1. **`/swift-scaffold-package`** — always first. Creates Package.swift, source
    targets, module layout, typed config, and structured logging that every
    other skill reads.
 
-2. **`/data-layer`** and **`/daemon-service`** — run in either order (no
+2. **`/swift-data-layer`** and **`/swift-daemon-service`** — run in either order (no
    dependency between them). Both only require scaffold-package. If the
    user has a data model ready, start with data-layer. If they want the
    background service first, start with daemon-service.
 
-3. **`/test-harness`** — after data-layer and daemon-service. It discovers
-   GRDB record types from `/data-layer` and reads actor interfaces from
-   `/daemon-service` to generate integration test scaffolding. Running it
+3. **`/swift-test-harness`** — after data-layer and daemon-service. It discovers
+   GRDB record types from `/swift-data-layer` and reads actor interfaces from
+   `/swift-daemon-service` to generate integration test scaffolding. Running it
    earlier is safe but produces incomplete coverage.
 
-4. **`/cli-interface`** — after scaffold-package at minimum; benefits from
+4. **`/swift-cli-interface`** — after scaffold-package at minimum; benefits from
    running after data-layer (database commands) and daemon-service (watch
    commands). Can run in parallel with test-harness if needed.
 
-5. **`/contributor-guide`** — always last. It reads the outputs of every
+5. **`/swift-contributor-guide`** — always last. It reads the outputs of every
    other skill (module layout, Package.swift targets, database schema, CI
    config) to generate accurate documentation.
 

@@ -1,11 +1,13 @@
 ---
-name: data-layer
+name: swift-data-layer
 description: >
   Generate a SQLite persistence layer using GRDB.swift with actor-based
   concurrency: database actor, schema migrations, record types, and query
   helpers. Invoke with entity names, fields, and relationship definitions.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir)
 ---
 
 # Data Layer

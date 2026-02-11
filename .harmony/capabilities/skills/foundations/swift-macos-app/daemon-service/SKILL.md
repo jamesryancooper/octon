@@ -1,11 +1,13 @@
 ---
-name: daemon-service
+name: swift-daemon-service
 description: >
   Generate a single-writer background daemon with actor isolation, intent
   queue, FSEvents file watcher, LaunchAgent plist, and signal handling.
   Invoke with the project name and watched paths.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir)
 ---
 
 # Daemon Service

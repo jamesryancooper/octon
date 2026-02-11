@@ -44,12 +44,12 @@ more than two rows, these skills will produce friction rather than value.
 
 | Skill                  | Purpose                                              |
 |------------------------|------------------------------------------------------|
-| `/scaffold-package`    | Package structure, pyproject.toml, typed config, logging, health endpoints |
-| `/contract-first-api`  | OpenAPI spec, JSON schemas, Pydantic models, contract tests, fixtures |
-| `/test-harness`        | Three-tier test pyramid, conftest fixtures, integration scaffolding |
-| `/dev-toolchain`       | justfile, pre-commit, ruff/mypy config, .gitignore, .env.local.example |
-| `/infra-manifest`      | docker-compose.local.yml, Alembic migration setup    |
-| `/contributor-guide`   | AGENT.md, CONTRIBUTING.md, PR template, CI workflow   |
+| `/python-scaffold-package`    | Package structure, pyproject.toml, typed config, logging, health endpoints |
+| `/python-contract-first-api`  | OpenAPI spec, JSON schemas, Pydantic models, contract tests, fixtures |
+| `/python-test-harness`        | Three-tier test pyramid, conftest fixtures, integration scaffolding |
+| `/python-dev-toolchain`       | justfile, pre-commit, ruff/mypy config, .gitignore, .env.local.example |
+| `/python-infra-manifest`      | docker-compose.local.yml, Alembic migration setup    |
+| `/python-contributor-guide`   | AGENT.md, CONTRIBUTING.md, PR template, CI workflow   |
 
 ## Dependency Graph
 
@@ -68,26 +68,26 @@ scaffold-package ──┬── contract-first-api ──┐
 When a user asks to "set up a Python API project" or similar, suggest
 running the skills in this order:
 
-1. **`/scaffold-package`** — always first. Creates the package tree,
+1. **`/python-scaffold-package`** — always first. Creates the package tree,
    pyproject.toml, settings, logging, and health endpoints that every
    other skill reads.
 
-2. **`/contract-first-api`** and **`/infra-manifest`** — run in either
+2. **`/python-contract-first-api`** and **`/python-infra-manifest`** — run in either
    order (no dependency between them). Both only require scaffold-package.
    If the user has a domain model ready, start with contracts. If they
    want to get services running first, start with infra.
 
-3. **`/test-harness`** — after contracts and infra. It discovers JSON
-   schemas from `/contract-first-api` and reads connection strings from
-   `/infra-manifest` to generate integration fixtures. Running it earlier
+3. **`/python-test-harness`** — after contracts and infra. It discovers JSON
+   schemas from `/python-contract-first-api` and reads connection strings from
+   `/python-infra-manifest` to generate integration fixtures. Running it earlier
    is safe but produces incomplete coverage.
 
-4. **`/dev-toolchain`** — after scaffold-package at minimum; benefits
+4. **`/python-dev-toolchain`** — after scaffold-package at minimum; benefits
    from running after test-harness (pytest config) and contract-first-api
    (validate-schemas targets). Can run in parallel with test-harness if
    needed.
 
-5. **`/contributor-guide`** — always last. It reads the outputs of every
+5. **`/python-contributor-guide`** — always last. It reads the outputs of every
    other skill (module layout, justfile targets, contracts, CI config)
    to generate accurate documentation.
 

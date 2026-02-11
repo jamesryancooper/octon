@@ -175,6 +175,24 @@ get_manifest_display_name() {
     ' "$MANIFEST"
 }
 
+# Get status for a skill from manifest
+get_manifest_status() {
+    local skill_id="$1"
+    awk -v id="$skill_id" '
+        $1 == "-" && $2 == "id:" {
+            if (found) {exit}
+            if ($3 == id) {found=1; next}
+        }
+        found && /status:/ {
+            gsub(/.*status:[[:space:]]*/, "")
+            gsub(/["'"'"']/, "")
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "")
+            print
+            exit
+        }
+    ' "$MANIFEST"
+}
+
 # Get manifest path for a skill (authoritative for grouped directories)
 # Returns path relative to SKILLS_DIR (e.g., "synthesis/refine-prompt/")
 # Falls back to "<skill_id>/" if no manifest path is found.
@@ -2402,6 +2420,13 @@ validate_skill() {
         local internal_tools
         internal_tools=$(get_skill_tools "$skill_dir")
         log_success "allowed-tools is valid: $internal_tools"
+
+        # Active skills must scope Bash permissions explicitly.
+        local manifest_status
+        manifest_status=$(get_manifest_status "$skill_id")
+        if [[ "$manifest_status" == "active" ]] && get_skill_allowed_tools "$skill_dir" | grep -qx "Bash"; then
+            log_error "Unscoped Bash permission found in active skill. Use Bash(<command>) scopes."
+        fi
     else
         log_error "Invalid allowed-tools: $tool_check_result"
         log_info "  See docs/architecture/harness/skills/specification.md for allowed-tools format"

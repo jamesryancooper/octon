@@ -1,11 +1,13 @@
 ---
-name: scaffold-package
+name: python-scaffold-package
 description: >
   Create an architecture-aligned Python package structure with typed config,
   structured logging, health endpoints, and standard sub-packages. Invoke with
   a project name, description, Python version, and infrastructure dependencies.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir) Bash(uv)
 ---
 
 # Scaffold Package

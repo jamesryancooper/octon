@@ -1,11 +1,13 @@
 ---
-name: test-harness
+name: swift-test-harness
 description: >
   Generate testing infrastructure for a Swift macOS app: XCTest suites,
   in-memory database fixtures, mock actors, CI workflow, and schema
   validation tests. Invoke with the project name and test categories.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir) Bash(swift)
 ---
 
 # Test Harness

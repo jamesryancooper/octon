@@ -1,11 +1,13 @@
 ---
-name: contributor-guide
+name: swift-contributor-guide
 description: >
   Generate project documentation: CLAUDE.md for AI agents, CONTRIBUTING.md
   for developers, architecture overview, PR template, and CI config.
   Invoke with the project name — reads outputs from all other skills.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir)
 ---
 
 # Contributor Guide

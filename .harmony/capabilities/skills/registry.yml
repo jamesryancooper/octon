@@ -370,6 +370,434 @@ skills:
       inputs: []
       outputs: []
 
+  python-scaffold-package:
+    version: "1.0.0"
+    commands:
+      - /python-scaffold-package
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - python-api
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/python-scaffold-package/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/python-scaffold-package/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all python-scaffold-package runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  python-contract-first-api:
+    version: "1.0.0"
+    commands:
+      - /python-contract-first-api
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - python-api
+      - python-scaffold-package
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/python-contract-first-api/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/python-contract-first-api/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all python-contract-first-api runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  python-test-harness:
+    version: "1.0.0"
+    commands:
+      - /python-test-harness
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - python-api
+      - python-scaffold-package
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/python-test-harness/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/python-test-harness/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all python-test-harness runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  python-dev-toolchain:
+    version: "1.0.0"
+    commands:
+      - /python-dev-toolchain
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - python-api
+      - python-scaffold-package
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/python-dev-toolchain/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/python-dev-toolchain/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all python-dev-toolchain runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  python-infra-manifest:
+    version: "1.0.0"
+    commands:
+      - /python-infra-manifest
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - python-api
+      - python-scaffold-package
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/python-infra-manifest/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/python-infra-manifest/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all python-infra-manifest runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  python-contributor-guide:
+    version: "1.0.0"
+    commands:
+      - /python-contributor-guide
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - python-api
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/python-contributor-guide/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/python-contributor-guide/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all python-contributor-guide runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  swift-scaffold-package:
+    version: "1.0.0"
+    commands:
+      - /swift-scaffold-package
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - swift-macos-app
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/swift-scaffold-package/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/swift-scaffold-package/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all swift-scaffold-package runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  swift-data-layer:
+    version: "1.0.0"
+    commands:
+      - /swift-data-layer
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - swift-macos-app
+      - swift-scaffold-package
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/swift-data-layer/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/swift-data-layer/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all swift-data-layer runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  swift-cli-interface:
+    version: "1.0.0"
+    commands:
+      - /swift-cli-interface
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - swift-macos-app
+      - swift-scaffold-package
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/swift-cli-interface/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/swift-cli-interface/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all swift-cli-interface runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  swift-daemon-service:
+    version: "1.0.0"
+    commands:
+      - /swift-daemon-service
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - swift-macos-app
+      - swift-scaffold-package
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/swift-daemon-service/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/swift-daemon-service/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all swift-daemon-service runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  swift-test-harness:
+    version: "1.0.0"
+    commands:
+      - /swift-test-harness
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - swift-macos-app
+      - swift-scaffold-package
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/swift-test-harness/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/swift-test-harness/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all swift-test-harness runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  swift-contributor-guide:
+    version: "1.0.0"
+    commands:
+      - /swift-contributor-guide
+    parameters:
+      - name: project_name
+        type: text
+        required: true
+        description: "Project name for scaffolding"
+    requires:
+      context: []
+    depends_on:
+      - swift-macos-app
+    io:
+      inputs: []
+      outputs:
+        - name: run_log
+          path: "logs/swift-contributor-guide/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log"
+        - name: log_index
+          path: "logs/swift-contributor-guide/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all swift-contributor-guide runs"
+        - name: top_log_index
+          path: "logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
   react:
     version: "1.0.0"
     commands: []
@@ -654,6 +1082,8 @@ skills:
         - name: skill_directory
           path: "{{group}}/{{skill_name}}/"
           kind: directory
+          format: mixed
+          determinism: stable
           description: "The created skill directory (deliverable)"
         - name: scaffold_artifacts
           path: "runs/create-skill/{{run_id}}/"
@@ -908,6 +1338,8 @@ skills:
         - name: mcp_server_project
           path: "{{output_dir}}/{{name}}/"
           kind: directory
+          format: mixed
+          determinism: stable
           description: "The created MCP server project directory"
         - name: run_log
           path: "logs/build-mcp-server/{{run_id}}.md"

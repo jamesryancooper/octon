@@ -1,11 +1,13 @@
 ---
-name: contributor-guide
+name: python-contributor-guide
 description: >
   Generate AGENT.md, CONTRIBUTING.md, PR template, and CI workflow from actual
   project state. Reads existing files to produce accurate contributor documentation.
   Invoke after other foundation skills have established the project structure.
-allowed-tools: Read Grep Glob Bash Write Edit
-disable-model-invocation: true
+skill_sets: [executor]
+capabilities: []
+# Write is intentionally unscoped: scaffolds into user project directories.
+allowed-tools: Read Grep Glob Edit Write Bash(mkdir)
 ---
 
 # Contributor Guide

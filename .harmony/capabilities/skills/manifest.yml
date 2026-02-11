@@ -189,6 +189,234 @@ skills:
       - specialist
     capabilities: []
 
+  - id: python-scaffold-package
+    display_name: Python Scaffold Package
+    group: foundations
+    path: foundations/python-api/scaffold-package/
+    summary: "Scaffold a Python API package with pyproject.toml, typed config, and health endpoints."
+    status: active
+    tags:
+      - python
+      - scaffold
+      - package
+      - fastapi
+    triggers:
+      - "scaffold python package"
+      - "create python api project structure"
+      - "python pyproject setup"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: python-contract-first-api
+    display_name: Python Contract First Api
+    group: foundations
+    path: foundations/python-api/contract-first-api/
+    summary: "Generate OpenAPI spec, Pydantic models, contract tests, and JSON fixtures from a domain description."
+    status: active
+    tags:
+      - python
+      - openapi
+      - pydantic
+      - contracts
+    triggers:
+      - "generate python api contracts"
+      - "contract first api setup"
+      - "openapi pydantic models"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: python-test-harness
+    display_name: Python Test Harness
+    group: foundations
+    path: foundations/python-api/test-harness/
+    summary: "Generate testing infrastructure aligned with contracts and package structure."
+    status: active
+    tags:
+      - python
+      - pytest
+      - testing
+      - fixtures
+    triggers:
+      - "set up python test harness"
+      - "generate pytest fixtures"
+      - "python test scaffolding"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: python-dev-toolchain
+    display_name: Python Dev Toolchain
+    group: foundations
+    path: foundations/python-api/dev-toolchain/
+    summary: "Configure justfile, pre-commit hooks, ruff/mypy, .gitignore, and .env.local.example."
+    status: active
+    tags:
+      - python
+      - tooling
+      - ruff
+      - pre-commit
+    triggers:
+      - "set up python dev toolchain"
+      - "configure python linting"
+      - "python pre-commit setup"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: python-infra-manifest
+    display_name: Python Infra Manifest
+    group: foundations
+    path: foundations/python-api/infra-manifest/
+    summary: "Generate docker-compose.local.yml and Alembic migration setup for declared infrastructure."
+    status: active
+    tags:
+      - python
+      - docker
+      - alembic
+      - infrastructure
+    triggers:
+      - "generate python infrastructure"
+      - "docker compose for python api"
+      - "alembic migration setup"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: python-contributor-guide
+    display_name: Python Contributor Guide
+    group: foundations
+    path: foundations/python-api/contributor-guide/
+    summary: "Generate AGENT.md, CONTRIBUTING.md, PR template, and CI workflow from project state."
+    status: active
+    tags:
+      - python
+      - documentation
+      - contributing
+      - ci
+    triggers:
+      - "generate python contributor docs"
+      - "python contributing guide"
+      - "python ci workflow setup"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: swift-scaffold-package
+    display_name: Swift Scaffold Package
+    group: foundations
+    path: foundations/swift-macos-app/scaffold-package/
+    summary: "Scaffold a Swift macOS package with Package.swift, source targets, typed config, and logging."
+    status: active
+    tags:
+      - swift
+      - scaffold
+      - package
+      - macos
+    triggers:
+      - "scaffold swift package"
+      - "create swift macos project"
+      - "swift package setup"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: swift-data-layer
+    display_name: Swift Data Layer
+    group: foundations
+    path: foundations/swift-macos-app/data-layer/
+    summary: "Generate SQLite persistence layer with GRDB.swift: database actor, migrations, record types."
+    status: active
+    tags:
+      - swift
+      - grdb
+      - sqlite
+      - database
+    triggers:
+      - "swift data layer setup"
+      - "grdb database actor"
+      - "swift sqlite persistence"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: swift-cli-interface
+    display_name: Swift Cli Interface
+    group: foundations
+    path: foundations/swift-macos-app/cli-interface/
+    summary: "Generate CLI with swift-argument-parser: subcommands, typed options, shell completions."
+    status: active
+    tags:
+      - swift
+      - cli
+      - argument-parser
+      - commands
+    triggers:
+      - "swift cli setup"
+      - "argument parser commands"
+      - "swift command line interface"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: swift-daemon-service
+    display_name: Swift Daemon Service
+    group: foundations
+    path: foundations/swift-macos-app/daemon-service/
+    summary: "Generate background daemon with actor isolation, intent queue, FSEvents watcher, LaunchAgent plist."
+    status: active
+    tags:
+      - swift
+      - daemon
+      - launchagent
+      - fsevents
+    triggers:
+      - "swift daemon service"
+      - "launchagent daemon setup"
+      - "swift background service"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: swift-test-harness
+    display_name: Swift Test Harness
+    group: foundations
+    path: foundations/swift-macos-app/test-harness/
+    summary: "Generate XCTest suites, in-memory database fixtures, mock actors, and CI workflow."
+    status: active
+    tags:
+      - swift
+      - xctest
+      - testing
+      - fixtures
+    triggers:
+      - "swift test harness setup"
+      - "xctest scaffolding"
+      - "swift test fixtures"
+    skill_sets:
+      - executor
+    capabilities: []
+
+  - id: swift-contributor-guide
+    display_name: Swift Contributor Guide
+    group: foundations
+    path: foundations/swift-macos-app/contributor-guide/
+    summary: "Generate CLAUDE.md, CONTRIBUTING.md, architecture overview, PR template, and CI config."
+    status: active
+    tags:
+      - swift
+      - documentation
+      - contributing
+      - ci
+    triggers:
+      - "swift contributor docs"
+      - "swift contributing guide"
+      - "swift ci workflow setup"
+    skill_sets:
+      - executor
+    capabilities: []
+
   - id: react
     display_name: React
     group: foundations
