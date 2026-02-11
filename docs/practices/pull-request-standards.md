@@ -1,0 +1,180 @@
+# Pull Requests — Convention and Quality Standards
+
+> A PR is a proposal to change the codebase. It should make the reviewer's job easy: clear intent, minimal scope, obvious correctness, and enough context to evaluate tradeoffs without a meeting.
+
+---
+
+## Principles
+
+1. **One concern per PR.** A PR does one thing well. Feature + refactor + config change = three PRs. If the description needs multiple paragraphs covering unrelated topics, split it.
+2. **Small over large.** Aim for <400 lines of meaningful diff. Large PRs get rubber-stamped, not reviewed. If a feature is too big for one PR, decompose it into a stack of reviewable increments - each one shippable or safely behind a flag.
+3. **Self-review before requesting review.** Read your own diff as if you've never seen the code. Catch formatting drift, accidental inclusions, missing tests, TODO comments, and debug logging before anyone else has to.
+4. **The PR must pass CI.** Never request review on a red build. This includes lint, type checks, tests, and any other quality gates.
+
+---
+
+## Enforcement
+
+- GitHub uses `.github/PULL_REQUEST_TEMPLATE.md` and `.github/PULL_REQUEST_TEMPLATE/kaizen.md` to prompt required structure.
+- CI workflow `.github/workflows/pr-quality.yml` validates section headings and checklist items on every PR update.
+- Configure repository rulesets/branch protection to require the `PR Quality Standards` check before merge so this policy cannot be bypassed.
+
+---
+
+## PR Description Template
+
+Use this structure for every non-trivial PR. For trivial changes (typo fixes, single-line config), a one-line summary is fine.
+
+```markdown
+## What
+<One or two sentences: what this PR does.>
+
+## Why
+<The motivation. What problem does this solve? Link to the ticket/issue.>
+
+## How
+<Brief explanation of the approach. Call out anything non-obvious.
+If alternatives were considered, name them and explain why they were rejected.>
+
+## Tradeoffs
+<What this approach gives up. What risks remain. Any shortcuts taken
+and the plan to address them (with ticket refs for follow-ups).>
+
+## Testing
+<How this was verified. What was tested manually vs. automated.
+Any edge cases specifically covered. Any areas NOT tested and why.>
+
+## Rollout
+<How this ships safely. Feature flag? Gradual rollout? Migration?
+Any special deploy steps or sequencing requirements.
+Omit for changes that need no special rollout consideration.>
+
+## Checklist
+- [ ] Requirements met; edge cases handled
+- [ ] Security reviewed (authz, input validation, secrets)
+- [ ] Tests added or updated
+- [ ] Observability updated (logs, metrics, traces) if needed
+- [ ] No speculative abstractions or unnecessary complexity
+- [ ] Conventions followed; no drift introduced
+- [ ] Non-obvious decisions documented (comments, ADR)
+```
+
+---
+
+## Rules
+
+### Scope and Focus
+
+- Never mix refactoring with behavior changes. Refactor first in a separate PR, then build the feature on the clean foundation. Reviewers can't verify "no behavior change" and "correct new behavior" in the same diff.
+- Never mix dependency updates with code changes. Dep bumps are their own PR.
+- Never mix formatting/whitespace changes with logic changes.
+- If a PR touches more than 3 modules, question whether it should be split.
+
+### Commit Hygiene
+
+- Clean up commit history before review. Squash WIP commits, fixups, and false starts. The commit log should read as a clean narrative (see commits.md).
+- Each commit in the PR should pass CI independently.
+- Commit messages should make sense when read in sequence - a reviewer should be able to understand the PR by reading the commit log alone.
+
+### Context for Reviewers
+
+- Link the ticket/issue. Don't make the reviewer search for context.
+- If the PR introduces a pattern the team hasn't used before, call it out explicitly and explain the reasoning.
+- If there's a visual change, include a screenshot or recording.
+- If there's a performance impact, include before/after measurements.
+- If there's a migration, describe the rollback procedure.
+
+### Review Responsiveness
+
+- Respond to all review comments, even if the response is "done" or "acknowledged."
+- When you disagree with feedback, explain your reasoning - don't just re-request review without addressing the comment.
+- Don't resolve other people's comments. Let the commenter resolve when they're satisfied.
+- Rebase and force-push cleanup, don't merge main into the branch (keeps history clean).
+
+### What Disqualifies a PR
+
+These should be caught in self-review and never reach a reviewer:
+
+- Failing CI
+- Committed secrets, credentials, or `.env` files
+- `console.log` / `print` debugging statements left in
+- Commented-out code without an explanation and a ticket to remove it
+- TODO/FIXME/HACK comments without a linked ticket
+- Unrelated changes mixed in
+
+---
+
+## PR Size Guidelines
+
+| Size | Lines Changed | Expectation |
+|------|--------------|-------------|
+| **XS** | <50 | Typos, config, single-line fixes. One-line description is fine. |
+| **S** | 50-200 | Focused change. Standard template. Quick review. |
+| **M** | 200-400 | Full template required. Should still be one concern. |
+| **L** | 400-800 | Needs justification for why it can't be split. Full template required. |
+| **XL** | 800+ | Almost always should be split. Acceptable only for generated code, migrations, or initial scaffolding. Requires explicit reviewer agreement before submitting. |
+
+---
+
+## Stacked PRs (for large features)
+
+When a feature is too large for a single reviewable PR:
+
+1. **Plan the stack.** Break the feature into increments where each PR is independently shippable or safely inert (behind a flag).
+2. **Number them.** Title format: `feat(payments): add invoice model [1/3]`. Reference the overall ticket and link to the next PR in the stack.
+3. **Each PR stands alone.** Every PR in the stack must pass CI, have its own tests, and be mergeable independently. Never create a PR that "will work once the next one lands."
+4. **Review in order.** Each PR should be reviewable without needing to read the later ones. The reviewer should understand the value of the current PR on its own.
+
+---
+
+## Examples
+
+**Good PR title:**
+
+```text
+feat(auth): add email verification on signup [AUTH-42]
+```
+
+**Good PR description (abbreviated):**
+
+```markdown
+## What
+Adds email verification as a required step after signup. Unverified
+users can log in but are redirected to a verification prompt.
+
+## Why
+Reduces fake/throwaway account creation (currently ~18% of signups).
+Refs: AUTH-42
+
+## How
+Token-based verification via SendGrid. Tokens expire after 24h.
+Considered magic links but rejected - adds URL-signing complexity
+we don't need yet (YAGNI). Can revisit if we add passwordless login.
+
+## Tradeoffs
+- Adds signup friction (mitigated: verification email sends within <2s)
+- SendGrid dependency (acceptable: already used for transactional email)
+- No SMS fallback yet (tracked: AUTH-58)
+
+## Testing
+- Unit tests for token generation, expiry, and validation
+- Integration test for full signup->verify->access flow
+- Manual test: expired token, already-verified re-click, invalid token
+
+## Rollout
+Behind `email_verification_enabled` feature flag. Default off.
+Will enable for 10% of new signups, monitor verification completion
+rate and support tickets for 48h, then ramp to 100%.
+```
+
+**Bad PR title:**
+
+```text
+updates
+```
+
+**Bad PR description:**
+
+```text
+Fixed some stuff. Please review.
+```

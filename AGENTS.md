@@ -76,3 +76,9 @@ For domain-specific orientation, read `{domain}/README.md`.
 ## Entry Point
 
 For full harness orientation, read `.harmony/START.md`.
+
+## Commit Discipline
+
+- Follow `docs/practices/commits.md` for branch naming, Conventional Commit
+  format, and commit quality rules.
+- Use commit messages in the form `<type>(<scope>): <summary>`.

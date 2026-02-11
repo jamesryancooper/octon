@@ -1,46 +1,70 @@
-## Kaizen Autopilot PR
+Policy reference: `docs/practices/pull-request-standards.md`
 
-Purpose: propose small, reversible, evidence‑based improvements with human review.
+## What
 
-### Summary
-- What changed and why (one sentence):
+One or two sentences describing what this PR changes.
 
-### Trigger / Signal
-- Source (job/report/metric):
-- Links (reports, traces, dashboards):
+## Why
 
-### Evidence
-- Primary report/link:
-- Attachments (if any):
+The problem this solves and why it matters. Include ticket/issue links.
 
-### Change Type
-- [ ] docs
-- [ ] dev_hygiene
-- [ ] observability_scaffold
-- [ ] contract_drift
-- [ ] perf_nudge
-- [ ] other (describe):
+## How
 
-### Track
-- [ ] autopilot (trivial/low risk; no runtime semantics change)
-- [ ] copilot (needs owner decision/review; may impact behavior)
+Approach summary, including non-obvious design choices and alternatives rejected.
 
-### Safety & Governance Checklist
-- [ ] No direct pushes to protected branches; PR opened by bot/human
-- [ ] Human reviewer(s) assigned; bots do not self‑approve
-- [ ] AI config pinned (provider/model/version/params) if agents were used
-- [ ] No runtime semantics changed OR behind a feature flag with safe default
-- [ ] Required CI checks pass (lint, types, tests, policy, contracts)
-- [ ] Rollback is trivial (revert PR) and documented below
+## Tradeoffs
 
-### Scope & Impact
-- Touched paths:
-- Slice(s)/owner(s):
+Known compromises, remaining risks, and any follow-up tickets.
 
-### Tests & Observability
-- Tests added/updated:
-- Spans/logs/metrics added (trace IDs, coverage notes):
+## Testing
 
-### Rollback Plan
-- Revert steps:
+How this was verified (automated and manual), including edge cases covered.
 
+## Rollout
+
+Release strategy (flags, migration sequencing, canary/gradual rollout) or `n/a`.
+
+## Risk Rubric
+
+- Risk class: [ ] Trivial [ ] Low [ ] Medium [ ] High
+- Rollback plan:
+- Flags changed (name, owner, expiry, rollout):
+
+## Contracts and Threat Model
+
+- OpenAPI/JSON-Schema changes:
+- Threat model update/link:
+
+## Observability and Performance
+
+- Traces/logs/metrics for changed flows:
+- Representative traces for high risk changes:
+- Performance or bundle impact:
+
+## License and Provenance
+
+- New dependencies and licenses:
+- Generated code/templates provenance notes:
+
+## Kaizen Context
+
+- Trigger or signal source (job/report/metric):
+- Evidence links (reports, dashboards, traces):
+- Change type: [ ] docs [ ] dev_hygiene [ ] observability_scaffold [ ] contract_drift [ ] perf_nudge [ ] other
+- Track: [ ] autopilot [ ] copilot
+- Scope and impacted owners:
+
+## Checklist
+
+- [ ] Requirements met; edge cases handled
+- [ ] Security reviewed (authz, input validation, secrets)
+- [ ] Tests added or updated
+- [ ] Observability updated (logs, metrics, traces) if needed
+- [ ] No speculative abstractions or unnecessary complexity
+- [ ] Conventions followed; no drift introduced
+- [ ] Non-obvious decisions documented (comments, ADR)
+- [ ] Human reviewers assigned; bots do not self-approve
+
+## Screenshots / Notes
+
+Screenshots/recordings for visual changes plus any additional reviewer context.

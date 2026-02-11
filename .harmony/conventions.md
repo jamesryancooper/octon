@@ -47,6 +47,14 @@ See `catalog.md#command-vs-prompt-decision` for the canonical decision logic, fl
 | Include examples when non-obvious | Over-document obvious patterns |
 | End frontmatter `description` with a period | Omit punctuation in descriptions |
 
+## Version Control Standards
+
+- Follow `docs/practices/commits.md` for commit message format, branch naming,
+  and commit discipline.
+- Use Conventional Commits with explicit scope:
+  `<type>(<scope>): <summary>`.
+- Keep commit summaries outcome-focused and <=72 characters.
+
 ## Cursor Command Structure
 
 Cursor commands in `.cursor/commands/` follow this **minimum structure**. Additional sections (e.g., `## Parameters`, `## Available Templates`) are permitted as needed.

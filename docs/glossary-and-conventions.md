@@ -47,8 +47,8 @@ See `docs/methodology/README.md` for Harmony’s five pillars.
 
 ## Branch, Commit, and PR Conventions
 
-- Branches: `feat/<slice>-<short>`, `fix/<slice>-<short>`, `chore/<area>-<short>`.
-- Commits: Conventional Commits preferred (`type(scope): summary`) to aid tooling; keep scopes aligned to slices.
+- Branches and commits: Follow `docs/practices/commits.md` (Conventional
+  Commits, scope discipline, branch naming, and quality rules).
 - PRs: Small, reviewable; include risk level and rollback/flag notes. See `docs/architecture/governance-model.md` for required PR fields.
 
 ## API/HTTP Conventions (summary)

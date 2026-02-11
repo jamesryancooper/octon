@@ -1,0 +1,84 @@
+name: PR Quality Standards
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  validate-pr-template:
+    name: PR Quality Standards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate required sections and checklist
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = (context.payload.pull_request.body || '').trim();
+
+            const requiredHeadings = [
+              "## What",
+              "## Why",
+              "## How",
+              "## Tradeoffs",
+              "## Testing",
+              "## Rollout",
+              "## Risk Rubric",
+              "## Contracts and Threat Model",
+              "## Observability and Performance",
+              "## License and Provenance",
+              "## Checklist"
+            ];
+
+            const requiredChecklist = [
+              "Requirements met; edge cases handled",
+              "Security reviewed (authz, input validation, secrets)",
+              "Tests added or updated",
+              "Observability updated (logs, metrics, traces) if needed",
+              "No speculative abstractions or unnecessary complexity",
+              "Conventions followed; no drift introduced",
+              "Non-obvious decisions documented (comments, ADR)"
+            ];
+
+            const escapeRegExp = (text) =>
+              text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+            const hasHeading = (heading) =>
+              new RegExp(`^${escapeRegExp(heading)}\\s*$`, "mi").test(body);
+
+            const hasChecklistItem = (item) =>
+              new RegExp(`^-\\s*\\[[ xX]\\]\\s*${escapeRegExp(item)}\\s*$`, "mi").test(body);
+
+            if (!body) {
+              core.setFailed(
+                "PR description is empty. Fill out the PR template sections and checklist."
+              );
+              return;
+            }
+
+            const missingHeadings = requiredHeadings.filter((heading) => !hasHeading(heading));
+            const missingChecklist = requiredChecklist.filter((item) => !hasChecklistItem(item));
+
+            if (missingHeadings.length || missingChecklist.length) {
+              const details = [];
+              if (missingHeadings.length) {
+                details.push(`Missing required sections:\n- ${missingHeadings.join("\n- ")}`);
+              }
+              if (missingChecklist.length) {
+                details.push(`Missing checklist items:\n- ${missingChecklist.join("\n- ")}`);
+              }
+              core.setFailed(
+                `PR does not meet repository PR quality standards.\n\n${details.join("\n\n")}`
+              );
+              return;
+            }
+
+            core.info("PR body passes required standards.");
