@@ -64,6 +64,14 @@ harmony ship
 | `onboard skip` | Skip current step | `harmony onboard skip` |
 | `onboard reset` | Start fresh | `harmony onboard reset` |
 
+### Harness Commands
+
+| Command | Description | Example |
+|---------|-------------|---------|
+| `harness install` | Install `.harmony` portable assets into a repo | `harmony harness install --target ../my-service` |
+| `harness update` | Update existing `.harmony` portable assets | `harmony harness update --target ../my-service` |
+| `init` | Alias for `harmony harness install` | `harmony init --target ../my-service` |
+
 ## Risk Tiers
 
 AI automatically assigns risk tiers. You can override with `--tier`.
@@ -141,6 +149,18 @@ harmony onboard approve
 harmony onboard status        # Check progress
 harmony onboard skip          # Skip current step
 harmony onboard reset         # Start over
+```
+
+### Install Harmony harness into another repository
+```bash
+# From the source Harmony repo
+harmony harness install --target ../my-service
+
+# Or explicitly provide source and target
+harmony harness install --source ~/repos/harmony --target ../my-service
+
+# Update portable assets later
+harmony harness update --target ../my-service
 ```
 
 ## Onboarding: How It Works
@@ -491,4 +511,3 @@ if (progress) {
 ## License
 
 Private — part of the Harmony monorepo.
-

@@ -26,9 +26,9 @@ export {
   retryCommand,
   pauseCommand,
   rollbackCommand,
+  harnessCommand,
   helpCommand,
 } from "./commands/index.js";
 
 // CLI runner
 export { run as runCli, parseArgs } from "./cli.js";
-

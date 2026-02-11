@@ -15,6 +15,7 @@ import { retryHelp } from "./retry.js";
 import { pauseHelp } from "./pause.js";
 import { rollbackHelp } from "./rollback.js";
 import { onboardHelp } from "./onboard.js";
+import { harnessHelp } from "./harness.js";
 
 const commands = [
   statusHelp,
@@ -27,12 +28,19 @@ const commands = [
   pauseHelp,
   rollbackHelp,
   onboardHelp,
+  harnessHelp,
 ];
 
 export function helpCommand(commandName?: string): void {
   if (commandName) {
+    const aliasMap: Record<string, string> = {
+      init: "harness",
+    };
+    const normalized = commandName.toLowerCase();
+    const lookup = aliasMap[normalized] ?? normalized;
+
     const cmd = commands.find(
-      (c) => c.command === commandName || c.command === commandName.toLowerCase()
+      (c) => c.command === commandName || c.command === lookup
     );
 
     if (cmd) {
@@ -88,6 +96,11 @@ export function helpCommand(commandName?: string): void {
   console.log(`  ${highlight("onboard")}   ${muted("AI-guided onboarding for new developers")}`);
   console.log("");
 
+  console.log(bold("Harness:"));
+  console.log(`  ${highlight("harness")}   ${muted("Install or update .harmony in this or another repo")}`);
+  console.log(`  ${highlight("init")}      ${muted("Alias for: harmony harness install")}`);
+  console.log("");
+
   console.log(bold("Quick Start:"));
   console.log(`  ${dim("$")} harmony feature "Add user profile endpoint"`);
   console.log(`  ${dim("$")} harmony build`);
@@ -104,4 +117,3 @@ export const mainHelp = {
   usage: "harmony help [command]",
   options: [],
 };
-

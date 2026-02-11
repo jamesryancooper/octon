@@ -17,6 +17,8 @@
  *   retry     - Retry with new guidance
  *   pause     - Pause a running task
  *   rollback  - Rollback production
+ *   harness   - Install/update Harmony harness in a repository
+ *   init      - Alias for "harness install"
  *   help      - Show help
  */
 
@@ -33,6 +35,7 @@ import {
   retryCommand,
   pauseCommand,
   rollbackCommand,
+  harnessCommand,
   onboardCommand,
   helpCommand,
 } from "./commands/index.js";
@@ -195,6 +198,28 @@ async function run(argv: string[] = process.argv): Promise<void> {
         });
         break;
 
+      case "harness":
+        await harnessCommand(args[0], {
+          source: typeof options.source === "string" ? options.source : undefined,
+          target: typeof options.target === "string" ? options.target : undefined,
+          force: options.force === true,
+          dryRun: commonOptions.dryRun,
+          verbose: commonOptions.verbose,
+          skipLinks: options["skip-links"] === true,
+        });
+        break;
+
+      case "init":
+        await harnessCommand("install", {
+          source: typeof options.source === "string" ? options.source : undefined,
+          target: typeof options.target === "string" ? options.target : undefined,
+          force: options.force === true,
+          dryRun: commonOptions.dryRun,
+          verbose: commonOptions.verbose,
+          skipLinks: options["skip-links"] === true,
+        });
+        break;
+
       case "help":
       case "h":
       case "--help":
@@ -236,4 +261,3 @@ if (isEntryPoint) {
 }
 
 export { run, parseArgs };
-

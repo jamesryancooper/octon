@@ -80,6 +80,11 @@ schema_version: "1.0"
 # Portable paths -- copy these to bootstrap a new repo via `harmony init`.
 # Everything else is project-specific state that stays with this repo.
 portable:
+  - START.md
+  - scope.md
+  - conventions.md
+  - catalog.md
+  - README.md
   - agency/manifest.yml
   - agency/agents/
   - agency/assistants/
@@ -89,15 +94,15 @@ portable:
   - capabilities/skills/capabilities.yml
   - capabilities/skills/_template/
   - capabilities/skills/_scripts/
-  - capabilities/skills/*/SKILL.md
-  - capabilities/skills/*/references/
+  - capabilities/skills/**/SKILL.md
+  - capabilities/skills/**/references/
   - capabilities/commands/
+  - orchestration/workflows/
   - quality/
   - scaffolding/
   - cognition/context/primitives.md
   - cognition/context/tools.md
   - cognition/context/compaction.md
-  - README.md
 
 # Agent-excluded zones.
 human_led:
@@ -199,8 +204,11 @@ Use `harmony.yml` portable paths to bootstrap `.harmony/` in a new repository.
 
 1. **Copy portable paths** using the init script or manually:
    ```bash
-   # Preferred: use the init script
-   bash /path/to/harmony/.harmony/init.sh /path/to/target-repo
+   # Preferred: use Harmony CLI
+   harmony harness install --source /path/to/harmony-repo --target /path/to/target-repo
+
+   # Alias (same as harness install)
+   harmony init --source /path/to/harmony-repo --target /path/to/target-repo
 
    # Manual: copy only portable paths
    # (Refer to harmony.yml for the authoritative list)
@@ -208,7 +216,13 @@ Use `harmony.yml` portable paths to bootstrap `.harmony/` in a new repository.
 
 2. **Create a root `harmony.yml`** in the target repo to declare its own portable/state boundaries.
 
-3. **Configure harness entry points** (optional):
+3. **Verify harness structure**:
+   ```bash
+   cd /path/to/target-repo/.harmony
+   bash init.sh
+   ```
+
+4. **Configure harness entry points** (optional):
    ```bash
    # For Claude Code
    mkdir -p .claude/commands
@@ -217,7 +231,7 @@ Use `harmony.yml` portable paths to bootstrap `.harmony/` in a new repository.
    mkdir -p .cursor/commands
    ```
 
-4. **Set up skill symlinks** (if using skills):
+5. **Set up skill symlinks** (if using skills):
    ```bash
    mkdir -p .cursor/skills
    ln -s ../../.harmony/capabilities/skills/synthesize-research .cursor/skills/synthesize-research
@@ -254,8 +268,8 @@ When the source `.harmony/` improves, selectively update portable paths:
 diff -r /path/to/harmony/.harmony/agency .harmony/agency
 diff -r /path/to/harmony/.harmony/scaffolding .harmony/scaffolding
 
-# Or re-run init (preserves project-specific state)
-bash /path/to/harmony/.harmony/init.sh .
+# Or run CLI update (preserves project-specific state)
+harmony harness update --source /path/to/harmony-repo --target .
 ```
 
 ### When to Consider a Package

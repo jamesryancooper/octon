@@ -223,17 +223,29 @@ schema_version: "1.0"
 # Portable paths -- copy these to bootstrap a new repo via `harmony init`.
 # Everything else is project-specific state that stays with this repo.
 portable:
+  - START.md
+  - scope.md
+  - conventions.md
+  - catalog.md
+  - README.md
   - agency/manifest.yml
   - agency/agents/
   - agency/assistants/
   - agency/teams/
   - capabilities/skills/manifest.yml
   - capabilities/skills/registry.yml
+  - capabilities/skills/capabilities.yml
+  - capabilities/skills/_template/
+  - capabilities/skills/_scripts/
+  - capabilities/skills/**/SKILL.md
+  - capabilities/skills/**/references/
   - capabilities/commands/
+  - orchestration/workflows/
   - quality/
   - scaffolding/
   - cognition/context/primitives.md
-  - README.md
+  - cognition/context/tools.md
+  - cognition/context/compaction.md
 
 # Agent-excluded zones. Agents MUST NOT access without explicit human direction.
 human_led:
