@@ -20,10 +20,10 @@ description: Canonical reference for the domain-organized agent harness pattern.
 
 For the finalized agency model, see:
 
-- `docs/architecture/harness/agency.md`
-- `docs/architecture/harness/agency-specification.md`
-- `docs/architecture/harness/agency-architecture.md`
-- `docs/architecture/harness/agency-finalization-plan.md`
+- `docs/architecture/harness/agency/README.md`
+- `docs/architecture/harness/agency/specification.md`
+- `docs/architecture/harness/agency/architecture.md`
+- `docs/architecture/harness/agency/finalization-plan.md`
 
 ---
 
@@ -670,7 +670,7 @@ See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table tha
 - [Taxonomy](./taxonomy.md) --- Harness entry points, harness commands, workflows, and their relationships
 - [Harness Workflows](./workflows.md) --- Multi-step procedures and the Universal Harness-Agnostic Pattern
 - [Harness Commands](./commands.md) --- Harness-scoped atomic operations
-- [Agency](./agency.md) --- Canonical actor taxonomy, contracts, and architecture
+- [Agency](./agency/README.md) --- Canonical actor taxonomy, contracts, and architecture
 - [Missions](./missions.md) --- Time-bounded sub-projects
 - [Skills](./skills.md) --- Composable capabilities with defined I/O
 

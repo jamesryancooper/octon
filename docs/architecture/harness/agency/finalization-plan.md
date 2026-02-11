@@ -22,9 +22,9 @@ Deliver a finalized agency subsystem for `.harmony/agency` that:
 
 Required documentation deliverables (this cycle):
 
-- `docs/architecture/harness/agency-specification.md`
-- `docs/architecture/harness/agency-architecture.md`
-- `docs/architecture/harness/agency-finalization-plan.md`
+- `docs/architecture/harness/agency/specification.md`
+- `docs/architecture/harness/agency/architecture.md`
+- `docs/architecture/harness/agency/finalization-plan.md`
 
 Required implementation deliverables (execution cycles):
 

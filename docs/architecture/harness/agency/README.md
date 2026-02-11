@@ -9,9 +9,9 @@ This is the canonical documentation entrypoint for the `.harmony/agency` subsyst
 
 ## Canonical Set
 
-- `docs/architecture/harness/agency-specification.md`
-- `docs/architecture/harness/agency-architecture.md`
-- `docs/architecture/harness/agency-finalization-plan.md`
+- `docs/architecture/harness/agency/specification.md`
+- `docs/architecture/harness/agency/architecture.md`
+- `docs/architecture/harness/agency/finalization-plan.md`
 
 ## Actor Taxonomy
 
