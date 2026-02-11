@@ -297,6 +297,64 @@ skills:
           determinism: variable
           description: "Top-level log index (cross-skill)"
 
+  audit-subsystem-health:
+    version: "1.0.0"
+    commands:
+      - /audit-subsystem-health
+    parameters:
+      - name: subsystem
+        type: folder
+        required: true
+        description: "Root directory of the subsystem to audit"
+      - name: schema_ref
+        type: file
+        required: false
+        description: "Path to schema file (e.g., capabilities.yml); auto-detected if not set"
+      - name: docs
+        type: folder
+        required: false
+        description: "Companion documentation directory for doc-to-source alignment checks"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: file_types
+        type: text
+        required: false
+        default: "md,yml,yaml,json"
+        description: "Comma-separated file extensions to include in scope"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: health_audit_report
+          path: "../../output/reports/{{date}}-subsystem-health-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Structured findings report with severity tiers and fix batches"
+        - name: run_log
+          path: "_state/logs/audit-subsystem-health/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this audit run"
+        - name: log_index
+          path: "_state/logs/audit-subsystem-health/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-subsystem-health runs with metadata"
+        - name: top_log_index
+          path: "_state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
   audit-ui:
     version: "1.0.1"
     commands:

@@ -130,6 +130,29 @@ skills:
     capabilities:
       - domain-specialized
 
+  - id: audit-subsystem-health
+    display_name: Audit Subsystem Health
+    group: quality-gate
+    path: quality-gate/audit-subsystem-health/
+    summary: "Bounded subsystem coherence audit with config consistency, schema conformance, and semantic quality checks."
+    status: active
+    tags:
+      - audit
+      - subsystem
+      - coherence
+      - quality
+    triggers:
+      - "audit subsystem health"
+      - "check subsystem coherence"
+      - "verify config consistency"
+      - "subsystem health check"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
   - id: audit-ui
     display_name: Audit UI
     group: quality-gate

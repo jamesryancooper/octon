@@ -144,6 +144,19 @@ workflows:
       - "parallel audit"
       - "coordinate audit partitions"
 
+  - id: pre-release-audit
+    display_name: Pre-Release Audit
+    group: quality-gate
+    domain: audit
+    path: quality-gate/pre-release-audit/
+    summary: Chain migration and health audits into a pre-release quality gate.
+    status: active
+    triggers:
+      - "pre-release audit"
+      - "run pre-release gate"
+      - "release readiness check"
+      - "full audit before release"
+
   # --- foundations: Stack-specific project scaffolding ---
 
   - id: python-api-foundation
@@ -260,7 +273,7 @@ workflow_group_definitions:
   quality-gate:
     description: Verify and enforce codebase integrity
     path: quality-gate/
-    members: [orchestrate-audit, refactor]
+    members: [orchestrate-audit, pre-release-audit, refactor]
 
   foundations:
     description: Stack-specific project scaffolding orchestration

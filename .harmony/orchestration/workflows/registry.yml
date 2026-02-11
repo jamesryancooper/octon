@@ -60,6 +60,55 @@ workflows:
           determinism: unique
           description: "Individual partition audit reports"
 
+  pre-release-audit:
+    version: "1.0.0"
+    commands: ["/pre-release-audit"]
+    parameters:
+      - name: subsystem
+        type: folder
+        required: true
+        description: "Root directory of the subsystem to audit"
+      - name: manifest
+        type: file
+        required: false
+        description: "Migration manifest (inline YAML or file path); omit for health-only audit"
+      - name: docs
+        type: folder
+        required: false
+        description: "Companion documentation directory for doc-to-source alignment"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+    access: human
+    depends_on:
+      - skill: audit-subsystem-health
+        condition: "active in skill manifest"
+      - skill: audit-migration
+        condition: "active in skill manifest (required only when manifest parameter is provided)"
+    io:
+      inputs: []
+      outputs:
+        - name: pre_release_report
+          path: "../../output/reports/{{date}}-pre-release-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Consolidated pre-release audit report with go/no-go recommendation"
+        - name: health_audit_report
+          path: "../../output/reports/{{date}}-subsystem-health-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Individual health audit report (produced by audit-subsystem-health)"
+        - name: migration_audit_report
+          path: "../../output/reports/{{date}}-migration-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Individual migration audit report (produced by audit-migration, if manifest provided)"
+
   # --- Skeleton entries (existing workflows, not yet fully migrated) ---
 
   create-harness:
