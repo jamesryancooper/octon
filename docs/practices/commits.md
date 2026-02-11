@@ -12,8 +12,8 @@
 - Run `pnpm install` after pulling changes so Husky installs local hooks.
 - CI: `.github/workflows/commit-and-branch-standards.yml` validates commit
   messages for all commits in a pull request and checks branch naming.
-- Branch protection: require the `Commit and Branch Standards` check before
-  merge.
+- Branch protection on `main`: require both `Commit and Branch Standards` and
+  `PR Quality Standards` checks before merge.
 
 ---
 
