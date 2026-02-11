@@ -4,137 +4,161 @@
 #
 # Usage: ./setup-harness-links.sh [skill-id]
 #   If skill-id is provided, only creates links for that skill
-#   If no argument, creates links for all discovered skills
+#   If no argument, creates links for all manifest-listed skills
 
-set -e
+set -euo pipefail
 
-# Get script directory and project root
+# Resolve canonical locations from this script location.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-
-# Skills directory
-SKILLS_DIR="$PROJECT_ROOT/.harmony/capabilities/skills"
+SKILLS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+MANIFEST="$SKILLS_DIR/manifest.yml"
+# skills/ -> capabilities/ -> .harmony/ -> repo root
+PROJECT_ROOT="$(cd "$SKILLS_DIR/../../.." && pwd)"
 
 # Harness folders to create symlinks in
 HARNESSES=(".claude/skills" ".cursor/skills" ".codex/skills")
 
-# Directories to exclude from skill discovery
-EXCLUDE_DIRS=("_template" "outputs" "_state" "sources" "_scripts")
-
-# Function to check if directory should be excluded
-is_excluded() {
-    local dir="$1"
-    for exclude in "${EXCLUDE_DIRS[@]}"; do
-        if [[ "$dir" == "$exclude" ]]; then
-            return 0
-        fi
-    done
-    return 1
-}
-
-# Function to find skill location
+# Find skill path by id from manifest (returns path relative to SKILLS_DIR)
 find_skill_location() {
     local skill_id="$1"
-
-    if [[ -d "$SKILLS_DIR/$skill_id" ]] && [[ -f "$SKILLS_DIR/$skill_id/SKILL.md" ]]; then
-        echo "skills"
-        return 0
-    fi
-
-    return 1
+    awk -v id="$skill_id" '
+        $1 == "-" && $2 == "id:" {
+            current=$3
+            gsub(/["'"'"']/, "", current)
+            found=(current == id)
+            next
+        }
+        found && $1 == "path:" {
+            path=$2
+            gsub(/["'"'"']/, "", path)
+            print path
+            exit
+        }
+    ' "$MANIFEST"
 }
 
-# Function to create symlink for a single skill
+# List "skill_id skill_path" pairs from manifest
+discover_skills() {
+    awk '
+        $1 == "-" && $2 == "id:" {
+            id=$3
+            gsub(/["'"'"']/, "", id)
+            next
+        }
+        $1 == "path:" {
+            path=$2
+            gsub(/["'"'"']/, "", path)
+            if (id != "") {
+                print id, path
+                id=""
+            }
+        }
+    ' "$MANIFEST"
+}
+
+# Create symlink for a single skill
 create_skill_link() {
     local skill_id="$1"
-    local location
+    local skill_path
+    skill_path="$(find_skill_location "$skill_id")"
 
-    # Find skill location
-    location=$(find_skill_location "$skill_id") || {
-        echo "Error: Skill '$skill_id' not found in .harmony/capabilities/skills/" >&2
+    if [[ -z "$skill_path" ]]; then
+        echo "Error: Skill '$skill_id' not found in manifest" >&2
         return 1
-    }
+    fi
 
-    local target="../../.harmony/capabilities/skills/$skill_id"
+    if [[ ! -f "$SKILLS_DIR/$skill_path/SKILL.md" ]]; then
+        echo "Error: SKILL.md not found at $SKILLS_DIR/$skill_path" >&2
+        return 1
+    fi
+
+    # Links are created in .{harness}/skills/, so two levels up reaches repo root.
+    local target="../../.harmony/capabilities/skills/$skill_path"
 
     for harness in "${HARNESSES[@]}"; do
-        harness_dir="$PROJECT_ROOT/$harness"
-        link_path="$harness_dir/$skill_id"
+        local harness_dir="$PROJECT_ROOT/$harness"
+        local link_path="$harness_dir/$skill_id"
 
-        # Create harness directory if needed
-        mkdir -p "$harness_dir"
+        if ! mkdir -p "$harness_dir" 2>/dev/null; then
+            echo "  [skip] $harness/$skill_id (cannot create harness directory)"
+            continue
+        fi
 
-        # Skip if link already exists and is correct
         if [[ -L "$link_path" ]]; then
+            local existing_target
             existing_target="$(readlink "$link_path")"
             if [[ "$existing_target" == "$target" ]]; then
                 echo "  [skip] $harness/$skill_id (already linked)"
                 continue
-            else
-                echo "  [update] $harness/$skill_id"
-                rm "$link_path"
+            fi
+            echo "  [update] $harness/$skill_id"
+            if ! rm "$link_path" 2>/dev/null; then
+                echo "  [skip] $harness/$skill_id (cannot update existing symlink)"
+                continue
             fi
         elif [[ -e "$link_path" ]]; then
             echo "  [skip] $harness/$skill_id (not a symlink, manual review needed)"
             continue
         fi
 
-        # Create symlink
-        ln -s "$target" "$link_path"
-        echo "  [created] $harness/$skill_id -> $target"
+        if ln -s "$target" "$link_path" 2>/dev/null; then
+            echo "  [created] $harness/$skill_id -> $target"
+        else
+            echo "  [skip] $harness/$skill_id (cannot create symlink)"
+        fi
     done
 }
 
-# Function to discover all skills from a directory
-discover_skills() {
-    local skills_dir="$1"
-    local location_name="$2"
+# Remove broken symlinks from harness folders
+prune_stale_links() {
+    for harness in "${HARNESSES[@]}"; do
+        local harness_dir="$PROJECT_ROOT/$harness"
+        [[ -d "$harness_dir" ]] || continue
 
-    if [[ ! -d "$skills_dir" ]]; then
-        return
-    fi
-
-    for skill_path in "$skills_dir"/*/; do
-        [[ -d "$skill_path" ]] || continue
-
-        skill_id="$(basename "$skill_path")"
-
-        # Skip excluded directories
-        if is_excluded "$skill_id"; then
-            continue
-        fi
-
-        # Skip if no SKILL.md
-        if [[ ! -f "$skill_path/SKILL.md" ]]; then
-            continue
-        fi
-
-        echo "$skill_id"
+        for link in "$harness_dir"/*; do
+            [[ -L "$link" ]] || continue
+            if [[ ! -e "$link" ]]; then
+                echo "  [prune] $(basename "$link") (broken link)"
+                if ! rm "$link" 2>/dev/null; then
+                    echo "  [skip] $(basename "$link") (cannot remove broken link)"
+                fi
+            fi
+        done
     done
 }
 
-# Main logic
+# Main
 echo "Setting up harness skill symlinks..."
 echo "Project root: $PROJECT_ROOT"
-echo "Skills: $SKILLS_DIR"
+echo "Skills dir: $SKILLS_DIR"
+echo "Manifest: $MANIFEST"
 echo ""
 
-if [[ -n "$1" ]]; then
-    # Single skill mode
+if [[ ! -f "$MANIFEST" ]]; then
+    echo "Error: manifest not found: $MANIFEST" >&2
+    exit 1
+fi
+
+if [[ -n "${1:-}" ]]; then
     echo "Creating links for skill: $1"
     create_skill_link "$1"
 else
-    # All skills mode
-    echo "Discovering skills from .harmony/capabilities/skills/..."
+    echo "Discovering skills from manifest..."
     echo ""
 
-    echo "=== .harmony/capabilities/skills/ ==="
-    for skill_id in $(discover_skills "$SKILLS_DIR" "skills"); do
-        echo "Skill: $skill_id"
-        create_skill_link "$skill_id" || true
+    while IFS= read -r row; do
+        local_skill_id="${row%% *}"
+        local_skill_path="${row#* }"
+        [[ -n "$local_skill_id" ]] || continue
+        [[ -n "$local_skill_path" ]] || continue
+        echo "Skill: $local_skill_id ($local_skill_path)"
+        create_skill_link "$local_skill_id" || true
         echo ""
-    done
+    done < <(discover_skills)
 fi
+
+echo "Pruning stale harness links..."
+prune_stale_links
 
 echo "Done."
 echo ""
