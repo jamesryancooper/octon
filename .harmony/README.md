@@ -4,7 +4,7 @@
 
 `.harmony/` provides **reusable infrastructure** for agent harnesses across the repository:
 
-- Generic assistants, workflows, commands, prompts
+- Generic agents, assistants, teams, workflows, commands, prompts
 - Harness templates for scaffolding
 - Skills framework and base skills
 - Quality checklists and context references
@@ -28,7 +28,10 @@ When resolving a resource, agents check local first, then shared:
 
 | Resource | Search Order |
 |----------|--------------|
+| Agency Manifest | `.harmony/agency/manifest.yml` |
+| Agents | `.harmony/agency/agents/` |
 | Assistants | `.harmony/agency/assistants/` |
+| Teams | `.harmony/agency/teams/` |
 | Templates | `.harmony/scaffolding/templates/` |
 | Workflows | `.harmony/orchestration/workflows/` |
 | Skills | `.harmony/capabilities/skills/` |
@@ -44,7 +47,10 @@ When resolving a resource, agents check local first, then shared:
 ├── README.md           <- You are here
 │
 ├── agency/
-│   └── assistants/     <- Generic specialists (@mention invocation)
+│   ├── manifest.yml    <- Actor discovery and routing metadata
+│   ├── agents/         <- Autonomous supervisors
+│   ├── assistants/     <- Generic specialists (@mention invocation)
+│   └── teams/          <- Reusable multi-actor compositions
 │
 ├── capabilities/
 │   ├── skills/         <- Skills framework + generic skills
@@ -75,7 +81,7 @@ When resolving a resource, agents check local first, then shared:
 
 ### In `.harmony/` (Shared)
 
-- Generic assistants (reviewer, refactor, docs)
+- Generic agents, assistants, and team compositions
 - Base templates for harness creation
 - Harness/mission management workflows
 - Generic commands (recover, refactor, validate-frontmatter)
@@ -148,7 +154,9 @@ cp -r .harmony/scaffolding/templates/harmony .harmony
 | Directory | Purpose |
 |-----------|---------|
 | `scaffolding/templates/` | Harness scaffolding (base + variants) |
+| `agency/agents/` | Supervisory actors and delegation policy |
 | `agency/assistants/` | Generic specialists (reviewer, refactor, docs) |
+| `agency/teams/` | Reusable multi-actor compositions |
 | `orchestration/workflows/` | Harness management + mission lifecycle |
 | `capabilities/skills/` | Composable capabilities with defined I/O |
 | `capabilities/commands/` | Atomic operations |

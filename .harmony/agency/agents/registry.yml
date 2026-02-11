@@ -1,0 +1,34 @@
+# Agents Registry
+# Canonical index for agent definitions and delegation policy.
+
+schema_version: "1.0"
+default: architect
+
+agents:
+  - id: architect
+    name: architect
+    path: architect/
+    role: "Principal architect for system design, implementation strategy, and execution governance"
+    capabilities:
+      - architecture-design
+      - implementation-planning
+      - risk-tiering
+      - mission-orchestration
+      - assistant-delegation
+    delegates_to:
+      assistants: [reviewer, refactor, docs]
+    allowed_skills: []
+    allowed_workflows: []
+
+  - id: auditor
+    name: auditor
+    path: auditor/
+    role: "High-rigor audit specialist for material design and quality defects"
+    capabilities:
+      - quality-audit
+      - risk-detection
+      - contradiction-analysis
+    delegates_to:
+      assistants: [reviewer, docs]
+    allowed_skills: []
+    allowed_workflows: []

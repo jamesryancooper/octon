@@ -16,6 +16,15 @@ description: Canonical reference for the domain-organized agent harness pattern.
 | Cold start | First session without prior context |
 | Token budget | Maximum tokens for agent-facing content |
 
+## Agency Subsystem Docs
+
+For the finalized agency model, see:
+
+- `docs/architecture/harness/agency.md`
+- `docs/architecture/harness/agency-specification.md`
+- `docs/architecture/harness/agency-architecture.md`
+- `docs/architecture/harness/agency-finalization-plan.md`
+
 ---
 
 ## Single-Root Architecture
@@ -26,7 +35,7 @@ Everything lives under a single `.harmony/` directory, organized by **domain**:
 .harmony/
     ├── harmony.yml          <- Portability metadata
     │
-    ├── agency/              <- Agents, assistants, subagents, teams
+    ├── agency/              <- Agents, assistants, teams
     ├── capabilities/        <- Skills, commands, tools
     ├── cognition/           <- Context, decisions, analyses
     ├── continuity/          <- Progress log, tasks, next steps
@@ -110,7 +119,6 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │   │   │   └── assistant.md
 │   │   └── <name>/
 │   │       └── assistant.md # Specialist definition
-│   ├── subagents/           # Delegated sub-agents
 │   └── teams/               # Team compositions
 │
 ├── orchestration/           # Workflows and missions
@@ -200,7 +208,7 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 |----------|-------|-------------|
 | **Required** | `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `quality/complete.md`, `scaffolding/prompts/`, `orchestration/workflows/`, `capabilities/commands/`, `cognition/context/` | MUST exist in every harness |
 | **Recommended** | `quality/session-exit.md` | SHOULD exist for session continuity |
-| **Standard** | `scaffolding/templates/`, `scaffolding/examples/`, `agency/assistants/`, `orchestration/missions/`, `ideation/projects/` | Create as needed for the harness's use case |
+| **Standard** | `scaffolding/templates/`, `scaffolding/examples/`, `agency/agents/`, `agency/assistants/`, `agency/teams/`, `orchestration/missions/`, `ideation/projects/` | Create as needed for the harness's use case |
 | **Human-led** | `ideation/projects/`, `ideation/scratchpad/` | Require explicit human direction for agent access |
 
 ---
@@ -215,8 +223,10 @@ schema_version: "1.0"
 # Portable paths -- copy these to bootstrap a new repo via `harmony init`.
 # Everything else is project-specific state that stays with this repo.
 portable:
+  - agency/manifest.yml
   - agency/agents/
   - agency/assistants/
+  - agency/teams/
   - capabilities/skills/manifest.yml
   - capabilities/skills/registry.yml
   - capabilities/commands/
@@ -300,7 +310,7 @@ Not every domain needs a manifest. Discovery depth is proportional to how agents
 | **3-tier progressive disclosure** (manifest → registry → definition) | Routable capabilities with intent matching | Skills, workflows |
 | **Lightweight manifest** (flat YAML index) | Enumerable items accessed by name | Commands |
 | **Lightweight index** (YAML with "when to read" guidance) | Reference files agents selectively load | Cognition context |
-| **Registry** (YAML tracking active items) | Items with lifecycle state | Missions, assistants, subagents |
+| **Registry** (YAML tracking active items) | Items with lifecycle state | Missions, assistants, teams |
 | **README table only** | Small, fixed set of files | Quality, continuity, output |
 
 ### Machine-Readable Indexes
@@ -416,7 +426,7 @@ Each domain has a `README.md` that provides orientation. The README depth is pro
 
 | Directory | Purpose | Contains | Interaction Model |
 |-----------|---------|----------|-------------------|
-| `agency/` | Agent and assistant definitions | Agents, assistants, subagents, teams | Referenced |
+| `agency/` | Actor definitions | Agents, assistants, teams | Referenced |
 | `capabilities/` | Executable capabilities | Skills, commands, tools | Routable + Referenced |
 | `cognition/` | Background knowledge and memory | Context, decisions, analyses | Reference material |
 | `continuity/` | Session-to-session state | Log, tasks, entities | State (read/write contract) |
@@ -432,7 +442,9 @@ For reference, here is how the previous flat structure maps to domains:
 
 | Previous Path | Current Path |
 |---------------|--------------|
+| `agents/` | `agency/agents/` |
 | `assistants/` | `agency/assistants/` |
+| `teams/` | `agency/teams/` |
 | `context/` | `cognition/context/` |
 | `progress/` | `continuity/` |
 | `checklists/` | `quality/` |
@@ -646,7 +658,7 @@ See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table tha
 - [Taxonomy](./taxonomy.md) --- Harness entry points, harness commands, workflows, and their relationships
 - [Harness Workflows](./workflows.md) --- Multi-step procedures and the Universal Harness-Agnostic Pattern
 - [Harness Commands](./commands.md) --- Harness-scoped atomic operations
-- [Assistants](./assistants.md) --- Focused specialists for scoped tasks
+- [Agency](./agency.md) --- Canonical actor taxonomy, contracts, and architecture
 - [Missions](./missions.md) --- Time-bounded sub-projects
 - [Skills](./skills.md) --- Composable capabilities with defined I/O
 

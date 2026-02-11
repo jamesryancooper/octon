@@ -1,0 +1,39 @@
+name: Agency Validation
+
+on:
+  push:
+    paths:
+      - '.harmony/agency/**'
+      - '.harmony/harmony.yml'
+      - '.harmony/START.md'
+      - '.harmony/README.md'
+      - '.harmony/scope.md'
+      - '.harmony/scaffolding/templates/harmony/**'
+  pull_request:
+    paths:
+      - '.harmony/agency/**'
+      - '.harmony/harmony.yml'
+      - '.harmony/START.md'
+      - '.harmony/README.md'
+      - '.harmony/scope.md'
+      - '.harmony/scaffolding/templates/harmony/**'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate agency contracts
+        run: |
+          chmod +x .harmony/agency/_scripts/validate-agency.sh
+          .harmony/agency/_scripts/validate-agency.sh
+
+      - name: Report validation failure
+        if: failure()
+        run: |
+          echo "::error::Agency validation failed. Run '.harmony/agency/_scripts/validate-agency.sh' locally to inspect errors."

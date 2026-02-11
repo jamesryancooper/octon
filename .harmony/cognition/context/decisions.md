@@ -18,6 +18,7 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 - [ADR-007](../decisions/007-primitives-documentation.md) — Central primitives documentation (D025, D026)
 - [ADR-008](../decisions/008-skills-architecture-refactor.md) — Skills architecture refactor and agentskills.io alignment (D027, D028, D029, D030, D031, D032)
 - [ADR-009](../decisions/009-manifest-discovery-and-validation.md) — Manifest-based discovery and validation tooling (D033, D034, D035, D036, D037, D038, D039)
+- [ADR-011](../decisions/011-agency-subsystem-finalization.md) — Agency subsystem finalization and actor taxonomy consolidation (D043)
 
 ## Active Decisions
 
@@ -64,6 +65,7 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 | D040 | Live ruleset pattern | `external-dependent` capability with WebFetch | Skills can fetch rules at runtime from external URLs; stays current without harness updates; requires network; no offline fallback by default | 2026-02-09 |
 | D041 | Platforms skill group | New `platforms/` group parallel to `foundations/` | Deployment platform skills (Vercel, etc.) organized separately from language/framework foundations; both use family pattern (parent SKILL.md + children) | 2026-02-09 |
 | D042 | Reference knowledge skills in manifest | Foundation children with `specialist` skill set appear in manifest.yml with triggers | Unlike scaffolding children (`disable-model-invocation: true`), reference knowledge skills are independently invocable and need manifest triggers for routing | 2026-02-09 |
+| D043 | Agency actor taxonomy | Canonical artifact model is agents + assistants + teams | `subagents/` removed as first-class artifact; routing and validation now use `agency/manifest.yml` and actor registries | 2026-02-11 |
 
 ## Decision Format
 
@@ -88,4 +90,3 @@ Move here when a decision is replaced. Include reference to replacement.
 | ID | Decision | Superseded By | Date |
 |----|----------|---------------|------|
 | D006 | Scratch vs inbox semantics | D008 | 2026-01-13 |
-

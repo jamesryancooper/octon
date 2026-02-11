@@ -1,11 +1,11 @@
 ---
 title: Assistants
-description: Specialized subagents that perform focused tasks for agents or humans.
+description: Focused specialists that perform bounded tasks for agents or humans.
 ---
 
 # Assistants
 
-Assistants are **specialized subagents** within the Harmony multi-agent architecture. They provide focused modularity for complex problems by operating with their own context, skills, and tools to complete scoped tasks.
+Assistants are focused specialists within the Harmony agency model. They provide bounded execution for scoped tasks and can be invoked directly by humans or delegated to by agents.
 
 ## Assistants in the Multi-Agent Hierarchy
 
@@ -13,19 +13,19 @@ Assistants are **specialized subagents** within the Harmony multi-agent architec
 AGENT (Supervisor)
   │ delegates to
   ▼
-ASSISTANT (Specialist Subagent)
+ASSISTANT (Specialist)
   │ uses
   ▼
 SKILL (Capability)
 ```
 
-Assistants serve agents by handling specialized work that benefits from domain focus. They are stateless—inheriting context from the calling agent or human, completing their task, and returning results.
+Assistants serve agents by handling specialized work that benefits from domain focus. They are stateless, inheriting context from the caller and returning structured output.
 
 ## Available Assistants
 
 | Name | Aliases | Description |
 |------|---------|-------------|
-| reviewer | `@review`, `@rev` | Code review: quality, style, correctness |
+| reviewer | `@reviewer`, `@review`, `@rev` | Code review: quality, style, correctness |
 | refactor | `@refactor`, `@ref` | Code restructuring: extract, rename, simplify |
 | docs | `@docs`, `@doc` | Documentation: clarity, completeness, accuracy |
 
@@ -33,7 +33,7 @@ Assistants serve agents by handling specialized work that benefits from domain f
 
 | Characteristic | Agent (Supervisor) | Assistant (Specialist) |
 |----------------|-------------------|------------------------|
-| **Role** | Supervisor | Subagent |
+| **Role** | Supervisor | Specialist |
 | **Autonomy** | High — reasons, plans, decides | Focused — executes assigned tasks |
 | **Lifecycle** | Persistent across sessions | Stateless (inherits context) |
 | **Scope** | Broad — orchestrates complex work | Narrow — scoped operations |
@@ -66,10 +66,10 @@ Agent: "I need a code review for the authentication changes."
 
 ## Registry Format
 
-See `registry.yml` for the @mention mapping configuration.
+See `registry.yml` for the alias and escalation mapping configuration.
 
 ## See Also
 
 - [Agents](../agents/README.md) — Supervisors that delegate to assistants
-- [Skills](../skills/README.md) — Capabilities that assistants use
+- [Skills](../../capabilities/skills/README.md) — Capabilities that assistants use
 - `docs/architecture/harness/assistants.md` — Full assistant documentation

@@ -7,6 +7,8 @@ description: Focused specialists that serve agents or humans for scoped tasks.
 
 Assistants are **focused specialists** that perform scoped, one-off tasks. They can be invoked directly by humans via `@mention` or delegated to by agents.
 
+Use `../manifest.yml` and `registry.yml` to resolve assistant routing metadata.
+
 ## Available Assistants
 
 See `registry.yml` for configured assistants.

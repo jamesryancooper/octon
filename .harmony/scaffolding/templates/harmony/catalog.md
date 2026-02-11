@@ -7,6 +7,17 @@ description: Index of available commands and workflows in this harness.
 
 Available operations in this harness.
 
+## Agency
+
+Actor configuration in `agency/`:
+
+| Artifact | Description |
+|----------|-------------|
+| `agency/manifest.yml` | Actor discovery and routing metadata |
+| `agency/agents/registry.yml` | Supervisor definitions and delegation policy |
+| `agency/assistants/registry.yml` | Assistant aliases and escalation policy |
+| `agency/teams/registry.yml` | Reusable multi-actor compositions |
+
 ## Commands
 
 Atomic operations in `capabilities/commands/`:

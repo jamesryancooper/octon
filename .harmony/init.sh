@@ -29,7 +29,7 @@ done
 # Check key subdirectories
 echo ""
 echo "Key subdirectories:"
-for dir in cognition/context cognition/decisions agency/agents capabilities/skills capabilities/commands orchestration/workflows orchestration/missions scaffolding/templates scaffolding/prompts; do
+for dir in cognition/context cognition/decisions agency/agents agency/assistants agency/teams capabilities/skills capabilities/commands orchestration/workflows orchestration/missions scaffolding/templates scaffolding/prompts; do
   if [ -d "$dir" ]; then
     echo "✓ $dir/"
   else

@@ -1,0 +1,19 @@
+# Agency Manifest (Template)
+
+schema_version: "1.0"
+default_agent: null
+
+routing:
+  assistant_prefix: "@"
+  ambiguity_resolution: "ask"
+  locality: "nearest-registry-wins"
+
+registries:
+  agents: "agents/registry.yml"
+  assistants: "assistants/registry.yml"
+  teams: "teams/registry.yml"
+
+policy:
+  allow_skill_actor_delegation: false
+  mission_owner_types: [agent, human]
+  assistant_mission_ownership: false

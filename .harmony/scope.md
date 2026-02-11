@@ -39,7 +39,9 @@ This harness contains:
 |--------------|----------|---------|
 | **Shared (in `.harmony/`)** | | |
 | Harness templates | `.harmony/scaffolding/templates/` | `harmony/`, `harmony-docs/` |
+| Generic agents | `.harmony/agency/agents/` | `architect/`, `auditor/` |
 | Generic assistants | `.harmony/agency/assistants/` | `reviewer/`, `refactor/`, `docs/` |
+| Team compositions | `.harmony/agency/teams/` | `delivery-core/` |
 | Harness management workflows | `.harmony/orchestration/workflows/meta/` | `create-harness`, `migrate-harness` |
 | Mission management workflows | `.harmony/orchestration/workflows/missions/` | `create-mission`, `complete-mission` |
 | Generic skills | `.harmony/capabilities/skills/` | `synthesize-research/` |
@@ -71,7 +73,7 @@ This harness contains:
 
 | Area | Relationship |
 |------|--------------|
-| `.harmony/` | Shared foundation — templates, assistants, workflows, skills |
+| `.harmony/` | Shared foundation — actors, templates, workflows, skills |
 | `.harmony/scaffolding/templates/` | Harness scaffolding (base and scoped variants) |
 | `.cursor/` | IDE-specific agent configuration (complementary) |
 | `docs/architecture/harness/` | Canonical documentation for harness pattern |

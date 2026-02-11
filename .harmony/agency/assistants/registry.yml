@@ -5,17 +5,26 @@ schema_version: "1.0"
 default: null  # No default assistant for root harness
 
 assistants:
-  - name: reviewer
+  - id: reviewer
+    name: reviewer
     path: reviewer/
-    aliases: ["@review", "@rev"]
+    aliases: ["@reviewer", "@review", "@rev"]
     description: "Code review specialist for quality, style, and correctness."
+    escalates_to: architect
+    allowed_skills: []
 
-  - name: refactor
+  - id: refactor
+    name: refactor
     path: refactor/
     aliases: ["@refactor", "@ref"]
     description: "Refactoring specialist for code improvements."
+    escalates_to: architect
+    allowed_skills: []
 
-  - name: docs
+  - id: docs
+    name: docs
     path: docs/
     aliases: ["@docs", "@doc"]
     description: "Documentation specialist for clarity and completeness."
+    escalates_to: architect
+    allowed_skills: []

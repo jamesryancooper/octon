@@ -212,7 +212,7 @@ See `.harmony/catalog.md#command-vs-prompt-decision` for the canonical decision 
 
 Focused specialists that serve agents or humans for scoped, one-off tasks.
 
-See [assistants.md](./assistants.md) for full details.
+See [agency.md](./agency.md) for canonical actor details.
 
 ### Characteristics
 
@@ -392,7 +392,7 @@ See `.harmony/catalog.md` for complete decision flowcharts and examples.
 - [Harness Commands](./commands.md) — Deterministic atomic operations
 - [Harness Workflows](./workflows.md) — Multi-step procedures
 - [Harness Prompts](./prompts.md) — Context-dependent task templates
-- [Assistants](./assistants.md) — Focused specialists for scoped tasks
+- [Agency](./agency.md) — Canonical actor taxonomy and routing model
 - [Missions](./missions.md) — Time-bounded sub-projects
 - [Checklists](./checklists.md) — Quality gates
 - [README.md](./README.md) — Canonical harness structure reference

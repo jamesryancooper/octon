@@ -31,7 +31,6 @@ The key insight: **organize by what things do, not by where they came from**.
 ├── agency/                  # Actors & identity
 │   ├── agents/              #   Autonomous agents (e.g., software-architect)
 │   ├── assistants/          #   Focused specialists (@mention invocation)
-│   ├── subagents/           #   Delegated sub-agents
 │   └── teams/               #   Multi-agent compositions
 │
 ├── capabilities/            # What can be done
@@ -81,9 +80,10 @@ schema_version: "1.0"
 # Portable paths -- copy these to bootstrap a new repo via `harmony init`.
 # Everything else is project-specific state that stays with this repo.
 portable:
+  - agency/manifest.yml
   - agency/agents/
   - agency/assistants/
-  - agency/subagents/
+  - agency/teams/
   - capabilities/skills/manifest.yml
   - capabilities/skills/registry.yml
   - capabilities/skills/capabilities.yml
@@ -130,7 +130,7 @@ Resources are organized by **capability category**. Each category groups related
 | Category | Path | Contains | Portable? |
 | -------- | ---- | -------- | --------- |
 | **Cognition** | `cognition/` | Context references, decisions, analyses | Partially (reference docs are portable; decisions are project-specific) |
-| **Agency** | `agency/` | Agents, assistants, subagents, teams | Yes (definitions are portable) |
+| **Agency** | `agency/` | Agents, assistants, teams | Yes (definitions are portable) |
 | **Capabilities** | `capabilities/` | Skills, commands, tools | Yes (definitions are portable; logs and outputs are project-specific) |
 | **Orchestration** | `orchestration/` | Workflows, missions | Partially (workflow definitions are portable; missions are project-specific) |
 | **Continuity** | `continuity/` | Progress log, tasks, next steps | No (project-specific state) |
@@ -227,7 +227,7 @@ Use `harmony.yml` portable paths to bootstrap `.harmony/` in a new repository.
 
 | Category | Path | Description |
 | -------- | ---- | ----------- |
-| Agency | `agency/` | Agents, assistants, subagents |
+| Agency | `agency/` | Agents, assistants, teams |
 | Capabilities | `capabilities/` | Skills framework, commands, tools |
 | Scaffolding | `scaffolding/` | Templates, prompts, examples |
 | Quality | `quality/` | Completion checklists |

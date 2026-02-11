@@ -1,0 +1,15 @@
+# Agents Registry (Template)
+
+schema_version: "1.0"
+default: null
+
+agents: []
+# Example:
+#   - id: architect
+#     path: architect/
+#     role: "System design and execution governance"
+#     capabilities: [architecture-design, assistant-delegation]
+#     delegates_to:
+#       assistants: [reviewer, refactor, docs]
+#     allowed_skills: []
+#     allowed_workflows: []

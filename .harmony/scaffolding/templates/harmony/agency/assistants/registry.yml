@@ -6,7 +6,10 @@ default: null  # No default assistant
 
 assistants: []
 # Example:
-#   - name: reviewer
+#   - id: reviewer
+#     name: reviewer
 #     path: reviewer/
-#     aliases: ["@review", "@rev"]
+#     aliases: ["@reviewer", "@review", "@rev"]
 #     description: "Code review specialist for quality, style, and correctness."
+#     escalates_to: architect
+#     allowed_skills: []

@@ -1,0 +1,16 @@
+# Teams Registry
+# Canonical index for reusable multi-actor compositions.
+
+schema_version: "1.0"
+default: delivery-core
+
+teams:
+  - id: delivery-core
+    path: delivery-core/
+    purpose: "Default delivery composition for architecture, implementation, review, and documentation"
+    lead_agent: architect
+    members:
+      agents: [architect, auditor]
+      assistants: [reviewer, refactor, docs]
+    handoff_policy: "architect-plans -> assistants-execute -> auditor-verifies-high-risk-changes"
+    default_workflow: null

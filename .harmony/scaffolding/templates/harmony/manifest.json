@@ -22,7 +22,9 @@
       "standard": [
         "scaffolding/templates",
         "scaffolding/examples",
+        "agency/agents",
         "agency/assistants",
+        "agency/teams",
         "orchestration/missions"
       ]
     }
@@ -32,6 +34,10 @@
     "scope.md": "Boundaries and responsibilities",
     "conventions.md": "Style and formatting rules",
     "catalog.md": "Index of commands and workflows",
+    "agency/manifest.yml": "Agency actor discovery and routing metadata",
+    "agency/agents/registry.yml": "Agent definitions and delegation policy",
+    "agency/agents/README.md": "How to use and create agents",
+    "agency/agents/_template/agent.md": "Template for new agents",
     "continuity/log.md": "Append-only session history",
     "continuity/tasks.json": "Structured task list with goal",
     "continuity/entities.json": "Entity state tracking",
@@ -55,6 +61,9 @@
     "agency/assistants/registry.yml": "Assistant @mention mappings",
     "agency/assistants/README.md": "How to use and create assistants",
     "agency/assistants/_template/assistant.md": "Template for new assistants",
+    "agency/teams/registry.yml": "Team composition index",
+    "agency/teams/README.md": "How to use and create teams",
+    "agency/teams/_template/team.md": "Template for new teams",
     "orchestration/missions/registry.yml": "Active and archived missions index",
     "orchestration/missions/README.md": "How to create and manage missions",
     "orchestration/missions/_template/mission.md": "Mission template",

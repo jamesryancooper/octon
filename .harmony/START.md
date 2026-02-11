@@ -34,7 +34,10 @@ This harness extends `.harmony/` for shared infrastructure.
 ├── catalog.md      ← Available operations
 │
 ├── agency/
-│   └── assistants/     ← Focused specialists (@mention invocation)
+│   ├── manifest.yml    ← Actor registry discovery
+│   ├── agents/         ← Autonomous supervisors
+│   ├── assistants/     ← Focused specialists (@mention invocation)
+│   └── teams/          ← Reusable multi-actor compositions
 │
 ├── capabilities/
 │   ├── skills/         ← Composable capabilities
@@ -82,7 +85,7 @@ Assistants are focused specialists available via `@mention`:
 - `@refactor` / `@ref` — Code restructuring
 - `@docs` / `@doc` — Documentation
 
-See `agency/assistants/registry.yml` for full list and `catalog.md` for details.
+See `agency/manifest.yml` for actor discovery and `catalog.md` for invocation details.
 
 ## Visibility & Autonomy Rules
 

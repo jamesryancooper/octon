@@ -9,9 +9,10 @@ schema_version: "1.0"
 # Portable paths — copy these to bootstrap a new repo via `harmony init`.
 # Everything else is project-specific state that stays with this repo.
 portable:
+  - agency/manifest.yml
   - agency/agents/
   - agency/assistants/
-  - agency/subagents/
+  - agency/teams/
   - capabilities/skills/manifest.yml
   - capabilities/skills/registry.yml
   - capabilities/skills/capabilities.yml

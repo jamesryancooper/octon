@@ -30,6 +30,12 @@ description: Boot sequence and orientation for this harness
 ├── capabilities/
 │   └── commands/   ← Atomic operations (add as needed)
 │
+├── agency/
+│   ├── manifest.yml    ← Actor discovery and routing metadata
+│   ├── agents/         ← Autonomous supervisors
+│   ├── assistants/     ← Focused specialists (@mention invocation)
+│   └── teams/          ← Reusable multi-actor compositions
+│
 ├── scaffolding/
 │   └── prompts/    ← Task templates (add as needed)
 │

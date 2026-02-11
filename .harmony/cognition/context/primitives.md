@@ -7,6 +7,7 @@ This document explains the core building blocks in Harmony and when to use each.
 | Primitive | Purpose | Invocation | State |
 |-----------|---------|------------|-------|
 | **Agent** | Autonomous supervisor that orchestrates work | Assigned to harness/mission | Persistent |
+| **Team** | Reusable multi-actor composition | `use team:`, workflow/agent routing | Stateless configuration |
 | **Mission** | Durable multi-session orchestration | `/start-mission`, agent command | Persistent (state machine) |
 | **Skill** | Composable capability with I/O contract | `/command`, `use skill:`, triggers | Stateless |
 | **Assistant** | Specialist subagent for focused tasks | `@mention`, agent delegation | Stateless |
@@ -76,23 +77,21 @@ The primitives form a hierarchical multi-agent system:
 
 | Role | Purpose |
 |------|---------|
-| Planner | Strategic planning, goal decomposition |
-| Builder | Implementation, code generation |
-| Verifier | Validation, testing, quality assurance |
-| Coordinator | Cross-mission orchestration |
+| Architect | Strategic architecture, planning, and orchestration |
+| Auditor | High-rigor quality and contradiction auditing |
 
 ### Structure
 
 ```yaml
 # registry.yml entry
-- name: planner
-  path: planner/
-  role: "Strategic planning and goal decomposition"
+- id: architect
+  path: architect/
+  role: "System design and execution governance"
   capabilities:
-    - goal_decomposition
-    - task_planning
-    - assistant_delegation
-    - mission_command
+    - architecture-design
+    - assistant-delegation
+  delegates_to:
+    assistants: [reviewer, refactor, docs]
 ```
 
 ```markdown
@@ -564,10 +563,11 @@ Registry supports `pipelines` section for skill composition without manual orche
 
 | Primitive | Registry | Template | Documentation |
 |-----------|----------|----------|---------------|
-| Agents | `.harmony/agency/agents/registry.yml` | `.harmony/agency/agents/_template/` | `docs/architecture/harness/agents.md` |
+| Agents | `.harmony/agency/agents/registry.yml` | `.harmony/agency/agents/_template/` | `docs/architecture/harness/agency.md` |
+| Teams | `.harmony/agency/teams/registry.yml` | `.harmony/agency/teams/_template/` | `docs/architecture/harness/agency-architecture.md` |
 | Missions | `.harmony/orchestration/missions/registry.yml` | `.harmony/orchestration/missions/_template/` | `docs/architecture/harness/missions.md` |
 | Skills | `.harmony/capabilities/skills/registry.yml` | `.harmony/capabilities/skills/_template/` | `docs/architecture/harness/skills/` |
-| Assistants | `.harmony/agency/assistants/registry.yml` | `.harmony/agency/assistants/_template/` | `docs/architecture/harness/assistants.md` |
+| Assistants | `.harmony/agency/assistants/registry.yml` | `.harmony/agency/assistants/_template/` | `docs/architecture/harness/agency.md` |
 | Commands | — | — | `docs/architecture/harness/commands.md` |
 | Checklists | — | — | `docs/architecture/harness/checklists.md` |
 | Prompts | — | — | `docs/architecture/harness/prompts.md` |

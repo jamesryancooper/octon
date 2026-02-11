@@ -1,0 +1,16 @@
+# Teams Registry (Template)
+
+schema_version: "1.0"
+default: null
+
+teams: []
+# Example:
+#   - id: delivery-core
+#     path: delivery-core/
+#     purpose: "Default architecture + implementation + verification composition"
+#     lead_agent: architect
+#     members:
+#       agents: [architect, auditor]
+#       assistants: [reviewer, refactor, docs]
+#     handoff_policy: "architect-plans -> assistants-execute -> auditor-verifies"
+#     default_workflow: null
