@@ -20,6 +20,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$(dirname "$SCRIPT_DIR")"
 HARMONY_DIR="$(dirname "$SKILLS_DIR")"
 REPO_ROOT="$(dirname "$HARMONY_DIR")"
+MANIFEST="$SKILLS_DIR/manifest.yml"
 REGISTRY="$SKILLS_DIR/registry.yml"
 SKILLS_REGISTRY="$REPO_ROOT/.harmony/capabilities/skills/registry.yml"
 
@@ -188,7 +189,8 @@ update_reference_file() {
 # Process a single skill
 process_skill() {
     local skill_id="$1"
-    local skill_dir="$SKILLS_DIR/$skill_id"
+    local skill_path="$2"
+    local skill_dir="$SKILLS_DIR/$skill_path"
     
     echo ""
     echo "Processing: $skill_id"
@@ -231,9 +233,23 @@ process_skill() {
     fi
 }
 
-# Extract skill IDs from manifest
-get_manifest_skills() {
-    grep -E "^\s*- id:" "$SKILLS_DIR/manifest.yml" | sed 's/.*id:\s*//' | tr -d '"' | tr -d "'"
+# Extract "skill_id skill_path" pairs from manifest
+get_manifest_skill_paths() {
+    awk '
+        $1 == "-" && $2 == "id:" {
+            id=$3
+            gsub(/["'"'"']/, "", id)
+            next
+        }
+        $1 == "path:" {
+            path=$2
+            gsub(/["'"'"']/, "", path)
+            if (id != "") {
+                print id, path
+                id=""
+            }
+        }
+    ' "$MANIFEST"
 }
 
 # Main
@@ -244,12 +260,36 @@ echo "Skills directory: $SKILLS_DIR"
 
 if [[ -n "$1" ]]; then
     # Process single skill
-    process_skill "$1"
+    skill_path=$(awk -v id="$1" '
+        $1 == "-" && $2 == "id:" {
+            current=$3
+            gsub(/["'"'"']/, "", current)
+            found=(current == id)
+            next
+        }
+        found && $1 == "path:" {
+            path=$2
+            gsub(/["'"'"']/, "", path)
+            print path
+            exit
+        }
+    ' "$MANIFEST")
+
+    if [[ -z "$skill_path" ]]; then
+        log_error "Skill '$1' not found in manifest"
+        exit 1
+    fi
+
+    process_skill "$1" "$skill_path"
 else
     # Process all skills from manifest
-    for skill_id in $(get_manifest_skills); do
-        process_skill "$skill_id"
-    done
+    while IFS= read -r row; do
+        skill_id="${row%% *}"
+        skill_path="${row#* }"
+        [[ -n "$skill_id" ]] || continue
+        [[ -n "$skill_path" ]] || continue
+        process_skill "$skill_id" "$skill_path"
+    done < <(get_manifest_skill_paths)
 fi
 
 echo ""
