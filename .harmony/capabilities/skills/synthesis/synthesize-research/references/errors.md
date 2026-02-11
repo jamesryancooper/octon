@@ -248,6 +248,6 @@ To avoid errors, ensure input files:
 
 ## See Also
 
-- [Run Log Format](../../../.harmony/capabilities/skills/_state/logs/FORMAT.md) — Structured logging specification
+- [Run Log Format](../../../_state/logs/FORMAT.md) — Structured logging specification
 - [Safety Reference](./safety.md) — Behavioral boundaries
 - [Validation Reference](./validation.md) — Acceptance criteria

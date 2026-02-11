@@ -371,4 +371,4 @@ Validation warns if:
 - [Skill Sets](./skill-sets.md) — Pre-defined capability bundles
 - [Declaration](./declaration.md) — How to declare capabilities
 - [Validation](./validation.md) — Validation rules
-- [Template](../../.harmony/capabilities/skills/_template/) — Reference file templates
+- [Template](../../../../.harmony/capabilities/skills/_template/) — Reference file templates

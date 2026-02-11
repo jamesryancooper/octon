@@ -2,7 +2,7 @@
 
 Complex capabilities with defined I/O contracts and progressive disclosure.
 
-For full documentation, see [docs/architecture/harness/skills/](../../docs/architecture/harness/skills/README.md).
+For full documentation, see [docs/architecture/harness/skills/](../../../docs/architecture/harness/skills/README.md).
 
 ---
 
@@ -71,7 +71,7 @@ Before implementing any new skill, apply the alignment-first gate in
 | `specialist` | domain-specialized | Requires domain expertise |
 | `guardian` | self-validating, safety-bounded | Has quality gates |
 
-> **Design Note:** Capabilities determine documentation needs. Each capability maps to specific reference files. See [capabilities.md](../../docs/architecture/harness/skills/capabilities.md) for the full mapping.
+> **Design Note:** Capabilities determine documentation needs. Each capability maps to specific reference files. See [capabilities.md](../../../docs/architecture/harness/skills/capabilities.md) for the full mapping.
 
 **Capability Selection Guide:**
 
@@ -104,7 +104,7 @@ skill_sets: [executor]
 capabilities: [resumable]
 ```
 
-The template includes guidance for choosing capabilities. See [reference-artifacts.md](../../docs/architecture/harness/skills/reference-artifacts.md) for the complete capability-to-reference mapping.
+The template includes guidance for choosing capabilities. See [reference-artifacts.md](../../../docs/architecture/harness/skills/reference-artifacts.md) for the complete capability-to-reference mapping.
 
 **Quick command to scaffold and validate:**
 
@@ -237,7 +237,7 @@ DATA FLOW:
 | `version`, `commands`, `parameters`, `depends_on`| `.harmony/capabilities/skills/registry.yml`           |
 | Input/output paths                               | `.harmony/capabilities/skills/registry.yml`         |
 
-**Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived via the mapping function in `validate-skills.sh`. See [specification.md](../../docs/architecture/harness/skills/specification.md) for details.
+**Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived via the mapping function in `validate-skills.sh`. See [specification.md](../../../docs/architecture/harness/skills/specification.md) for details.
 
 **Validation:** Run `./_scripts/validate-skills.sh` to verify skill consistency.
 
@@ -452,5 +452,5 @@ WebFetch ruleset URL
 
 ## See Also
 
-- [Full Documentation](../../docs/architecture/harness/skills/README.md) — Complete architecture and reference
+- [Full Documentation](../../../docs/architecture/harness/skills/README.md) — Complete architecture and reference
 - [agentskills.io Specification](https://agentskills.io/specification) — Official spec

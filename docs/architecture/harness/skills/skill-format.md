@@ -26,7 +26,7 @@ Skills use **action-oriented names** following the verb-noun pattern per the [ag
 | Characters | Lowercase letters, numbers, and hyphens only |
 | Hyphens | Must not start/end with hyphen |
 | Consecutive | Must not contain consecutive hyphens (`--`) |
-| Directory match | **Must match the parent directory name exactly** |
+| Directory match | **Must match the manifest `id`; grouped directories are allowed** |
 
 ### Valid Examples
 
@@ -60,7 +60,7 @@ description: >
 
 | Field | Constraints | Purpose |
 |-------|-------------|---------|
-| `name` | 1-64 chars, lowercase + hyphens, **must match directory name** | Identifies the skill |
+| `name` | 1-64 chars, lowercase + hyphens, **must match manifest `id`** | Identifies the skill |
 | `description` | 1-1024 chars | What it does and when to use it (helps agents match tasks) |
 
 ---
@@ -130,11 +130,11 @@ The Markdown body follows the frontmatter and contains skill instructions. Per t
 - [Conditions]
 
 ## References
-- [Phases](references/phases.md)
-- [I/O contract](references/io-contract.md)
-- [Safety policies](references/safety.md)
-- [Examples](references/examples.md)
-- [Validation](references/validation.md)
+- `references/phases.md`
+- `references/io-contract.md`
+- `references/safety.md`
+- `references/examples.md`
+- `references/validation.md`
 ```
 
 ---
