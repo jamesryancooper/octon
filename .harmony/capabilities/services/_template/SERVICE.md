@@ -10,6 +10,10 @@ metadata:
   updated: "YYYY-MM-DD"
 input_schema: schema/input.schema.json
 output_schema: schema/output.schema.json
+rules: rules/
+fixtures: fixtures/
+compatibility_profile: compatibility.yml
+generation_manifest: impl/generated.manifest.json
 stateful: false
 deterministic: true
 dependencies:
@@ -27,7 +31,7 @@ idempotency:
   required: false
   key_from: []
 impl:
-  entrypoint: "impl/{{service-id}}.sh"
+  entrypoint: null  # optional; implementation may be generated from contract
   timeout_ms: 30000
   health_check: null
 dry_run: true
@@ -37,3 +41,4 @@ allowed-tools: Read Glob Grep
 # {{service-id}}
 
 Document runtime contract, behavioral guarantees, and failure semantics.
+Contract artifacts are authoritative; implementations are derived.

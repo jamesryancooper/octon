@@ -116,6 +116,11 @@ main() {
     "$SERVICES_DIR/conventions/run-records.md"
     "$SERVICES_DIR/conventions/observability.md"
     "$SERVICES_DIR/conventions/idempotency.md"
+    "$SERVICES_DIR/conventions/rich-contracts.md"
+    "$SERVICES_DIR/conventions/declarative-rules.md"
+    "$SERVICES_DIR/conventions/fixtures.md"
+    "$SERVICES_DIR/conventions/validation-tiers.md"
+    "$SERVICES_DIR/conventions/implementation-generation.md"
   )
   for f in "${conventions[@]}"; do
     [[ -f "$f" ]] || log_error "Missing convention doc: $f"

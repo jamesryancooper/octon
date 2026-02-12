@@ -114,6 +114,36 @@ Each agent is composed of four primary building blocks:
   - Evals (EvalKit/TestKit scenarios) attached to its behavior.
   - Observability profile (required spans/metrics/logging).
 
+### 2.3 Harness Interpretation as a Complementary Runtime
+
+This architecture document defines how product and platform agents are designed, packaged, and consumed in the runtime plane. Harmony now also treats the `.harmony/` harness itself as an **agent-interpreted runtime surface** under the agent-as-runtime model.
+
+The two models are complementary, not competing:
+
+- **This document (agent architecture):**
+  - Defines long-lived agent capabilities, runtime wiring, governance bundles, and consumer-facing interfaces.
+  - Focuses on reusable product and Kaizen agents exposed through `packages/agents` and runtime services.
+- **Agent-as-runtime model (`agent-as-runtime.md`):**
+  - Defines how declarative harness content (schemas, rules, fixtures, conventions) is interpreted for governance and validation.
+  - Focuses on portable harness execution semantics with deterministic Tier 1 validation and fixture-calibrated Tier 2 evaluation.
+
+Boundary clarification:
+
+- Harness interpretation does not replace platform runtime services in `platform/runtimes/**`.
+- Platform runtime execution does not replace harness contract interpretation responsibilities.
+
+Shared invariants across both models:
+
+- Contract-first interfaces.
+- Fail-closed governance.
+- Provenance and observability evidence.
+- Risk-tiered HITL controls.
+
+For harness-specific semantics, caveats, and controls, treat these as normative companions to this document:
+
+- `docs/architecture/agent-as-runtime.md`
+- `docs/architecture/agent-runtime-caveats.md`
+
 ## 3. Target Repo Structure for Agents
 
 ### 3.1 High‑Level Layout

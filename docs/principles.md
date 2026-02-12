@@ -80,6 +80,10 @@ These defaults are now normative unless a documented waiver applies:
 - Incident postmortem SLA: publish within `48 hours` of incident mitigation.
 - Mutating APIs and kit calls: `idempotency_key` is mandatory.
 - Observability evidence: changed flows must emit OTel spans + structured logs and include a representative `trace_id` in PR evidence.
+- Contract drift threshold: generated implementations are valid only when all required fixtures pass.
+- Validation cache policy: content-hash keyed; invalidate immediately on relevant file change.
+- Tier 1 validator compliance: required input/output fields and exit-code semantics (`0/1/2/3`) must be preserved.
+- Reproducibility minimum: generated implementation manifests must include pinned provenance metadata (contract/rule/fixture hashes, agent/model identifiers, prompt hash, tool surface, timestamp).
 
 ## Anti-Principles (What We Explicitly Avoid)
 

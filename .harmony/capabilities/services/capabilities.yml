@@ -27,6 +27,11 @@ base_conventions:
   run_records: conventions/run-records.md
   observability: conventions/observability.md
   idempotency: conventions/idempotency.md
+  rich_contracts: conventions/rich-contracts.md
+  declarative_rules: conventions/declarative-rules.md
+  fixtures: conventions/fixtures.md
+  validation_tiers: conventions/validation-tiers.md
+  implementation_generation: conventions/implementation-generation.md
 
 policy:
   valid_enforcement_modes: [block, warn, off]
