@@ -409,4 +409,4 @@ Fix: Add checkpoints for all material changes.
 - [Direction Pillar](../pillars/direction.md) — Validated decisions
 - [Deny by Default](./deny-by-default.md) — Permission elevation
 - [Agentic Principles](../principles.md#agentic-principles) — Full agent governance model
-- [No Silent Apply](./agentic/no-silent-apply.md) — Plan-diff-explain-test loop
+- [No Silent Apply](./no-silent-apply.md) — Plan-diff-explain-test loop

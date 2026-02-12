@@ -316,5 +316,5 @@ Prevention:
 
 - [Trust Pillar](../pillars/trust.md) — Confidence through recoverability
 - [Velocity Pillar](../pillars/velocity.md) — Speed enabled by safe rollback
-- [Flags by Default](./core/flags-by-default.md) — Feature flags for reversibility
-- [Small Diffs](./core/small-diffs.md) — Smaller changes, easier rollback
+- [Flags by Default](./flags-by-default.md) — Feature flags for reversibility
+- [Small Diffs, Trunk-based](./small-diffs-trunk-based.md) — Smaller changes, easier rollback

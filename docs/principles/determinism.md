@@ -1,11 +1,11 @@
 ---
-title: Determinism
+title: Governed Determinism
 description: Same inputs produce same outputs. Pin versions, control randomness, and ensure reproducible behavior.
 pillar: Trust, Insight
 status: Active
 ---
 
-# Determinism
+# Governed Determinism
 
 > Same inputs produce same outputs. Pin versions, control randomness, and ensure reproducible behavior.
 
@@ -384,4 +384,4 @@ Prevention:
 - [Trust Pillar](../pillars/trust.md) — Governed determinism for predictable behavior
 - [Insight Pillar](../pillars/insight.md) — Learning requires reproducibility
 - [Agentic Principles](../principles.md#agentic-principles) — Determinism & provenance for AI
-- [EvalKit](../kits/eval-kit.md) — Deterministic AI evaluation
+- [EvalKit](../kits/README.md) — Deterministic AI evaluation

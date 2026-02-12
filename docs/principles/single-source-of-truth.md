@@ -100,7 +100,7 @@ function createUser(input: unknown): User {
 
 ```markdown
 <!-- Good: Reference the source -->
-For API details, see the [OpenAPI specification](../openapi.yaml).
+For API details, see the [API Design Guidelines](../api-design-guidelines.md).
 
 <!-- Bad: Copy that will drift -->
 ## API Details
@@ -187,7 +187,7 @@ pnpm build             # Fails if types don't match
 Architecture decisions are defined in ADRs, referenced elsewhere:
 
 ```markdown
-<!-- Source: docs/adr/0001-use-postgresql.md -->
+<!-- Source: docs/specs/speckit/adr-0001.md -->
 # ADR-0001: Use PostgreSQL for primary data store
 
 ## Decision
@@ -202,7 +202,7 @@ We will use PostgreSQL as our primary database.
 ```markdown
 <!-- Reference: docs/architecture/data-layer.md -->
 We use PostgreSQL as our primary data store
-(see [ADR-0001](../adr/0001-use-postgresql.md) for rationale).
+(see [ADR-0001](../specs/speckit/adr-0001.md) for rationale).
 ```
 
 ### Configuration Hierarchy
@@ -308,5 +308,5 @@ Prevention:
 
 - [Continuity Pillar](../pillars/continuity.md) — Durable knowledge capture
 - [Trust Pillar](../pillars/trust.md) — Predictable behavior through consistency
-- [Contract-first Principle](./core/contract-first.md) — API contracts as source
-- [Documentation is Code](./core/documentation-is-code.md) — Generating docs from source
+- [Contract-first Principle](./contract-first.md) — API contracts as source
+- [Documentation is Code](./documentation-is-code.md) — Generating docs from source

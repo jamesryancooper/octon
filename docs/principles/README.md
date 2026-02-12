@@ -1,13 +1,13 @@
 ---
 title: Harmony Principles
-description: Core principles that guide decision-making in the Harmony framework, translating the Six Pillars into day-to-day engineering choices.
+description: Operational principles that translate Harmony’s pillars into concrete day-to-day decisions, quality outcomes, and governance checks.
 ---
 
 # Harmony Principles
 
-Principles are the operational translation layer between philosophy and practice. They answer the question: *"Given our pillars and purpose, how should I make this specific decision?"*
+Principles are Harmony’s operational translation layer between philosophy and execution: they define how decisions should be made so the pillars remain intact under real delivery pressure.
 
-```
+```text
 Convivial Purpose (WHY)
         ↓
    Six Pillars (WHAT)
@@ -19,100 +19,108 @@ Convivial Purpose (WHY)
       Kits (WITH)
 ```
 
-## Core Principles Index
+## Audit Snapshot (2026-02-11)
 
-| Principle | Summary | Primary Pillar |
-|-----------|---------|----------------|
-| [Progressive Disclosure](./progressive-disclosure.md) | Load information in layers, from summary to detail | Focus |
-| [Simplicity Over Complexity](./simplicity-over-complexity.md) | Default to the smallest viable solution | Focus, Velocity |
-| [Single Source of Truth](./single-source-of-truth.md) | One authoritative location for each type of knowledge | Continuity, Trust |
-| [Locality](./locality.md) | Context lives close to where it's needed | Focus, Continuity |
-| [Reversibility](./reversibility.md) | Every change should be undoable | Trust, Velocity |
-| [Deny by Default](./deny-by-default.md) | No permissions until explicitly granted | Trust |
-| [Determinism](./determinism.md) | Same inputs produce same outputs | Trust, Insight |
-| [HITL Checkpoints](./hitl-checkpoints.md) | AI drives within bounds; humans govern material decisions | Trust, Direction |
+- `docs/principles.md` listed 12 core + 5 agentic principles, while `docs/principles/README.md` indexed only 8 guides.
+- Only 3 canonical principles had matching detailed guides (`determinism`, `reversibility`, `hitl-checkpoints`).
+- Methodology guarantees (small-batch trunk flow, observability, idempotency, fail-closed governance, no-silent-apply) were not fully represented in the principles index.
+- Trust terminology drift existed (`Determinism` vs `Governed Determinism` phrasing).
+
+This index now reflects the reconciled production set.
+
+## Principle Index
+
+| Category | Principle | Summary | Pillars | Guide |
+|---|---|---|---|---|
+| Foundational | Progressive Disclosure | Layer context from concise to deep to preserve focus. | Focus, Insight | [Guide](./progressive-disclosure.md) |
+| Foundational | Simplicity Over Complexity | Prefer minimal viable solutions; add complexity only with evidence. | Focus, Velocity | [Guide](./simplicity-over-complexity.md) |
+| Foundational | Single Source of Truth | Keep each core fact/contract authoritative in one place. | Continuity, Trust | [Guide](./single-source-of-truth.md) |
+| Foundational | Locality | Keep context and ownership near the work surface. | Focus, Continuity | [Guide](./locality.md) |
+| Foundational | Deny by Default | Deny dangerous actions unless explicitly permitted. | Trust | [Guide](./deny-by-default.md) |
+| Core | Monolith-first Modulith | Start modular monolith-first; split only with measured evidence. | Focus, Velocity | [Guide](./monolith-first-modulith.md) |
+| Core | Contract-first | Define and govern API/data contracts before implementation. | Direction, Trust | [Guide](./contract-first.md) |
+| Core | Small Diffs, Trunk-based | Merge small, single-purpose changes continuously. | Velocity, Trust | [Guide](./small-diffs-trunk-based.md) |
+| Core | Flags by Default | Separate deploy from release with server-side flags and cleanup discipline. | Velocity, Trust | [Guide](./flags-by-default.md) |
+| Core | Governed Determinism | Make runtime and AI behavior reproducible through pinning and variance controls. | Trust, Insight | [Guide](./determinism.md) |
+| Core | Observability as a Contract | Require traces/logs/metrics as part of change completeness. | Continuity, Trust, Insight | [Guide](./observability-as-a-contract.md) |
+| Core | Security and Privacy Baseline | Enforce least-privilege, redaction, and fail-closed defaults by policy. | Trust | [Guide](./security-and-privacy-baseline.md) |
+| Core | Accessibility Baseline | Treat accessibility verification as a release gate, not polish work. | Direction, Trust | [Guide](./accessibility-baseline.md) |
+| Core | Documentation is Code | Version specs, ADRs, and runbooks with the same rigor as implementation. | Direction, Continuity | [Guide](./documentation-is-code.md) |
+| Core | Reversibility | Ensure every material change has a tested rollback path. | Trust, Velocity | [Guide](./reversibility.md) |
+| Core | Ownership and Boundaries | Encode slice ownership and architecture boundaries in tooling and review. | Focus, Continuity, Trust | [Guide](./ownership-and-boundaries.md) |
+| Core | Learn Continuously | Convert incidents and outcomes into small evidence-backed improvements. | Insight, Continuity | [Guide](./learn-continuously.md) |
+| Agentic | No Silent Apply | Agents produce proposals; humans authorize material side-effects. | Trust, Direction | [Guide](./no-silent-apply.md) |
+| Agentic | Determinism and Provenance | Persist model/prompt/run metadata for reproducibility and auditability. | Trust, Insight, Continuity | [Guide](./determinism-and-provenance.md) |
+| Agentic | Idempotency | Make mutating operations safe under retries and partial failures. | Trust, Velocity | [Guide](./idempotency.md) |
+| Agentic | Guardrails | Apply policy/eval/security gates fail-closed across agent loops. | Trust | [Guide](./guardrails.md) |
+| Agentic | HITL Checkpoints | Use risk-tiered human checkpoints at consequential decisions. | Direction, Trust | [Guide](./hitl-checkpoints.md) |
 
 ## Relationship to Pillars
 
-Each principle implements one or more of the [Six Pillars](../pillars/README.md):
+| Pillar | Principles |
+|---|---|
+| Direction through Validated Discovery | Contract-first; Accessibility Baseline; Documentation is Code; No Silent Apply; HITL Checkpoints |
+| Focus through Absorbed Complexity | Progressive Disclosure; Simplicity Over Complexity; Locality; Monolith-first Modulith; Ownership and Boundaries |
+| Velocity through Agentic Automation | Simplicity Over Complexity; Monolith-first Modulith; Small Diffs, Trunk-based; Flags by Default; Reversibility; Idempotency |
+| Trust through Governed Determinism | Single Source of Truth; Deny by Default; Contract-first; Small Diffs, Trunk-based; Flags by Default; Governed Determinism; Observability as a Contract; Security and Privacy Baseline; Accessibility Baseline; Reversibility; Ownership and Boundaries; No Silent Apply; Determinism and Provenance; Idempotency; Guardrails; HITL Checkpoints |
+| Continuity through Institutional Memory | Single Source of Truth; Locality; Observability as a Contract; Documentation is Code; Ownership and Boundaries; Learn Continuously; Determinism and Provenance |
+| Insight through Structured Learning | Progressive Disclosure; Governed Determinism; Observability as a Contract; Learn Continuously; Determinism and Provenance |
 
-### PLAN Phase Principles
+## Quality Attributes Coverage Matrix
 
-- **Progressive Disclosure** → Focus (absorbed complexity)
-- **Simplicity Over Complexity** → Focus (cognitive bandwidth)
-- **Locality** → Focus (scoped context reduces noise)
-- **HITL Checkpoints** → Direction (risk-tiered governance keeps work aligned)
+Legend: `V` velocity, `M` maintainability, `Sc` scalability, `R` reliability, `Sec` security, `Si` simplicity.
 
-### SHIP Phase Principles
+| Principle | V | M | Sc | R | Sec | Si | How the quality attribute is promoted |
+|---|---|---|---|---|---|---|---|
+| Progressive Disclosure | ✓ | ✓ |  |  |  | ✓ | Reduces cognitive load and review latency by presenting only the needed layer first. |
+| Simplicity Over Complexity | ✓ | ✓ |  | ✓ |  | ✓ | Shrinks moving parts and failure surface area. |
+| Single Source of Truth |  | ✓ |  | ✓ | ✓ | ✓ | Eliminates drift between implementations, docs, and contracts. |
+| Locality | ✓ | ✓ | ✓ |  |  | ✓ | Keeps changes and understanding bounded by slice/context scope. |
+| Deny by Default |  |  |  | ✓ | ✓ | ✓ | Prevents unsafe execution paths unless explicitly approved. |
+| Monolith-first Modulith | ✓ | ✓ | ✓ | ✓ |  | ✓ | Delays distributed complexity while preserving clean seams for future scale. |
+| Contract-first |  | ✓ | ✓ | ✓ | ✓ |  | Makes integration behavior explicit and testable before code lands. |
+| Small Diffs, Trunk-based | ✓ | ✓ |  | ✓ |  | ✓ | Maintains short feedback loops and low-risk rollback units. |
+| Flags by Default | ✓ |  | ✓ | ✓ | ✓ | ✓ | Supports progressive delivery and instant disablement without redeploys. |
+| Governed Determinism |  | ✓ |  | ✓ | ✓ |  | Stabilizes outputs and incident diagnosis across runs and environments. |
+| Observability as a Contract | ✓ | ✓ | ✓ | ✓ | ✓ |  | Makes behavior diagnosable and policy-verifiable in production. |
+| Security and Privacy Baseline |  | ✓ |  | ✓ | ✓ |  | Enforces redaction, least privilege, and fail-closed security controls. |
+| Accessibility Baseline |  | ✓ |  | ✓ |  | ✓ | Prevents inaccessible regressions through defined tests and gates. |
+| Documentation is Code | ✓ | ✓ |  | ✓ |  |  | Preserves intent and operational context with versioned change history. |
+| Reversibility | ✓ | ✓ |  | ✓ | ✓ |  | Keeps delivery safe through tested rollback and expand/contract migration paths. |
+| Ownership and Boundaries | ✓ | ✓ | ✓ | ✓ | ✓ |  | Prevents architectural drift and reduces cross-team coupling risk. |
+| Learn Continuously | ✓ | ✓ | ✓ | ✓ |  |  | Converts outcomes into measurable improvements and tighter defaults. |
+| No Silent Apply |  | ✓ |  | ✓ | ✓ |  | Keeps high-risk side effects under explicit human authorization. |
+| Determinism and Provenance |  | ✓ |  | ✓ | ✓ |  | Creates auditable AI run lineage for reproducible debugging and compliance. |
+| Idempotency | ✓ |  | ✓ | ✓ | ✓ |  | Makes retries safe and reduces duplicate side effects under failure conditions. |
+| Guardrails |  | ✓ |  | ✓ | ✓ | ✓ | Centralizes policy gates and blocks unsafe execution automatically. |
+| HITL Checkpoints | ✓ |  |  | ✓ | ✓ |  | Applies risk-tiered approvals only where consequences are material. |
 
-- **Single Source of Truth** → Trust (predictable behavior)
-- **Simplicity Over Complexity** → Velocity (fewer moving parts)
-- **Reversibility** → Trust (recoverable mistakes) + Velocity (ship fast, roll back safely)
-- **Deny by Default** → Trust (bounded agents, enforced security)
-- **Determinism** → Trust (predictable, reproducible behavior)
-- **HITL Checkpoints** → Trust (risk-tiered oversight on material changes)
+Coverage assessment: no quality attribute is under-served; all six are represented by multiple principles.
 
-### LEARN Phase Principles
+## Methodology Guarantee Alignment
 
-- **Single Source of Truth** → Continuity (durable knowledge)
-- **Progressive Disclosure** → Insight (efficient learning)
-- **Locality** → Continuity (discoverable, domain-specific knowledge)
-- **Determinism** → Insight (reproducible conditions enable learning)
+| Methodology guarantee (`docs/methodology/README.md`) | Backing principles | Alignment status |
+|---|---|---|
+| Spec-first changes (one-pager + ADR + micro-STRIDE) | Contract-first; Documentation is Code; HITL Checkpoints | Covered |
+| No silent apply (Plan → Diff → Explain → Test) | No Silent Apply; HITL Checkpoints; Guardrails | Covered |
+| Deterministic AI config + drift controls | Governed Determinism; Determinism and Provenance | Covered |
+| Observability required (`trace_id` evidence) | Observability as a Contract | Covered |
+| Idempotency + rollback + flags | Idempotency; Reversibility; Flags by Default | Covered |
+| Fail-closed governance | Guardrails; Deny by Default; Security and Privacy Baseline | Covered |
+| Local-first privacy-first handling | Security and Privacy Baseline; Deny by Default | Covered |
+| Cost and efficiency guardrails | Learn Continuously; Guardrails; Small Diffs, Trunk-based | Covered |
+| Supply-chain provenance and attestation | Determinism and Provenance; Security and Privacy Baseline | Covered |
+| Small-batch policy | Small Diffs, Trunk-based; Reversibility | Covered |
+| Waiver discipline (time-boxed exceptions) | Guardrails; HITL Checkpoints | Covered |
 
-## How to Use Principles
+Principles with weaker direct methodology operationalization:
 
-### In Design Documents
-
-Reference principles when justifying decisions:
-
-> *"We chose a monolith over microservices per [Simplicity Over Complexity](./simplicity-over-complexity.md) — we don't yet have evidence that we need distributed coordination."*
-
-### In Code Reviews
-
-Cite principles when requesting changes:
-
-> *"This duplicates the schema definition. Per [Single Source of Truth](./single-source-of-truth.md), we should generate types from the OpenAPI spec."*
-
-### In Architecture Decisions
-
-Use principles as evaluation criteria:
-
-| Option | Progressive Disclosure | Simplicity | Single Source |
-|--------|----------------------|------------|---------------|
-| A | ✓ | ✓ | ✗ |
-| B | ✓ | ✗ | ✓ |
-
-## Principle Categories
-
-### Core Principles
-
-Foundational principles that apply to all engineering decisions. See [`principles.md`](../principles.md) for the complete list including:
-
-- Monolith-first modulith
-- Contract-first
-- Small diffs, trunk-based
-- Determinism
-- Reversibility
-
-### Agentic Principles
-
-Principles specific to AI-assisted development:
-
-- No silent apply
-- Determinism & provenance
-- HITL checkpoints (risk-tiered oversight)
-
-### Anti-Principles
-
-Patterns we explicitly avoid:
-
-- Early microservices
-- Long-lived branches
-- Flaky tests
+- `Locality` and `Progressive Disclosure` are operationalized primarily through harness/docs structure and planning artifacts, not explicit CI gates in methodology text.
 
 ## Related Documentation
 
-- [Six Pillars](../pillars/README.md) — The structural framework principles implement
-- [Principles (full list)](../principles.md) — Complete principles reference
-- [Methodology](../methodology/README.md) — Operational procedures
-- [Harness Architecture](../architecture/harness/README.md) — How principles manifest in harness design
+- [Principles reference](../principles.md)
+- [Six Pillars](../pillars/README.md)
+- [Methodology](../methodology/README.md)
+- [Trust pillar](../pillars/trust.md)
+- [Governance model](../architecture/governance-model.md)

@@ -1,102 +1,103 @@
 ---
 title: Harmony Principles
-description: Concise, actionable principles that codify Harmony’s defaults — pillars, core/agentic principles, anti‑principles, and guardrails that guide everyday decisions.
+description: Production principles that translate Harmony’s pillars into concrete engineering decisions, thresholds, and governance defaults.
 ---
 
 # Harmony Principles
 
-Status: Draft stub (confirm team‑specific thresholds and examples)
-
-## Two‑Dev Scope
-
-Default to the smallest viable process, design, and tooling that enforces the principles without burden. Prefer repo‑wide defaults, lightweight reviews, and short‑lived branches; escalate ceremony only for High‑risk changes.
-
-## Pillars Alignment
-
-This document codifies how Harmony's [six pillars](./pillars/README.md) translate into day‑to‑day decisions. The pillars are organized in three phases (PLAN → SHIP → LEARN) forming a complete feedback loop. For deeper operational mapping and examples across the lifecycle, see `docs/methodology/README.md`.
+Status: Active (Production)
+Last updated: 2026-02-11
 
 ## Purpose
 
-- Provide a compact, quotable set of principles that guide design and delivery.
-- Connect day‑to‑day decisions to the six pillars and governance model.
-- Keep choices simple, deterministic, testable, and reversible.
+Harmony principles are the decision layer between pillars and methodology. They define how day-to-day technical choices preserve the six pillars while optimizing for velocity, maintainability, scalability, reliability, security, and simplicity.
 
-## The Six Pillars (non‑negotiable)
+## Two-Dev Scope
 
-### PLAN Phase
+Default to the smallest viable process, design, and tooling that preserves quality and governance. Escalate ceremony only for higher-risk changes.
 
-1. **[Direction through Validated Discovery](./pillars/direction.md)** — Build the right thing because every feature is validated before investment. No code without a validated spec.
-2. **[Focus through Absorbed Complexity](./pillars/focus.md)** — Build features, not infrastructure — Harmony handles the rest. Use kits, respect boundaries.
+## Pillars Alignment
 
-### SHIP Phase
+This document codifies how Harmony’s [Six Pillars](./pillars/README.md) translate into operating behavior. Pillars are the *what*; principles are the *how*; methodology is the *when*.
 
-3. **[Velocity through Agentic Automation](./pillars/velocity.md)** — Ship fast because AI automation removes bottlenecks and multiplies output. Speed serves purpose, not metrics.
-4. **[Trust through Governed Determinism](./pillars/trust.md)** — Ship confidently because behavior is predictable, agents are bounded, security is enforced, and mistakes are reversible.
+## Principle Catalog
 
-### LEARN Phase
+### Foundational Principles
 
-5. **[Continuity through Institutional Memory](./pillars/continuity.md)** — Knowledge persists because decisions, traces, and context are captured durably. Write ADRs, document decisions.
-6. **[Insight through Structured Learning](./pillars/insight.md)** — Improve continuously because every outcome teaches us something. Run evals, conduct postmortems, update from feedback.
+These principles already have mature guides and remain active because they directly support methodology behavior (especially context and decision quality).
 
-## Core Principles
+| Principle | One-sentence definition | Pillar mapping | Quality attributes promoted |
+|---|---|---|---|
+| Progressive Disclosure | Present information in layers so most work can proceed from concise context before drilling deeper. | Focus, Insight | Velocity, Maintainability, Simplicity |
+| Simplicity Over Complexity | Choose the smallest viable solution and add complexity only when evidence demands it. | Focus, Velocity | Velocity, Maintainability, Reliability, Simplicity |
+| Single Source of Truth | Keep each important fact, contract, and decision authoritative in exactly one place. | Continuity, Trust | Maintainability, Reliability, Security, Simplicity |
+| Locality | Keep context, ownership, and artifacts close to where they are used and maintained. | Focus, Continuity | Velocity, Maintainability, Scalability, Simplicity |
+| Deny by Default | Default all permissions and dangerous actions to denied unless explicitly authorized. | Trust | Security, Reliability, Simplicity |
 
-- Monolith‑first modulith: organize by vertical feature slices; keep domain pure; adapters implement ports.
-- Contract‑first: define OpenAPI/JSON Schema up front; run Pact + Schemathesis in CI; avoid breaking changes.
-- Small diffs, trunk‑based: short‑lived branches, tiny PRs, preview deploys, fast review.
-- Flags by default: decouple deploy from release; default OFF; fail‑closed on resolution errors; clean up stale flags.
-- Determinism: pin versions and AI configs; require idempotency keys for mutating operations; avoid non‑deterministic IO in tests.
-- Observability as a contract: structured logs, distributed traces, and metrics with PR/build/trace correlation in the Knowledge Plane.
-- Security & privacy baseline: least privilege; secrets via VaultKit only; GuardKit redaction at write boundaries; no PII/PHI in logs/traces.
-- Accessibility baseline: run automated a11y checks in CI; treat failures as evaluation/policy violations.
-- Documentation is code: spec‑first one‑pagers; ADRs for significant decisions; link artifacts in KP.
-- Reversibility: expand/contract migrations; feature kill‑switches; rehearsed rollback.
-- Ownership & boundaries: CODEOWNERS per slice; enforce import/architecture rules in CI.
-- Learn continuously: blameless postmortems; Kaizen proposes tiny, evidence‑based improvements.
+### Core Delivery Principles
 
-## Agentic Principles (kit-layer alignment)
+These principles define Harmony’s baseline engineering and delivery behavior.
 
-- No silent apply: standard loop is Plan → Diff → Explain → Test; humans approve material changes.
-- Determinism & provenance: pin provider/model/version; low temperature; record prompt hashes and parameters; capture run/trace IDs.
-- Idempotency: all mutating kit calls accept and honor `idempotency_key`.
-- Guardrails: agents respect policy and boundaries; produce evidence (plans, diffs, tests, reports) for review.
-- HITL checkpoints: bots can open PRs; they never self‑approve or push to protected branches.
+| Principle | One-sentence definition | Pillar mapping | Quality attributes promoted |
+|---|---|---|---|
+| Monolith-first Modulith | Start with a modular monolith organized by vertical slices and split only when measured constraints require it. | Focus, Velocity | Maintainability, Scalability, Reliability, Simplicity |
+| Contract-first | Define OpenAPI/JSON Schema contracts before implementation and enforce compatibility in CI. | Direction, Trust | Maintainability, Scalability, Reliability, Security |
+| Small Diffs, Trunk-based | Integrate tiny, single-purpose changes on short-lived branches to sustain high deployment cadence. | Velocity, Trust | Velocity, Maintainability, Reliability, Simplicity |
+| Flags by Default | Decouple deployment from release with server-evaluated flags, default-off for risky behavior, and explicit cleanup. | Velocity, Trust | Velocity, Reliability, Security, Simplicity |
+| Governed Determinism | Pin versions and control variance so repeated inputs produce predictable outcomes across code, tests, and AI runs. | Trust, Insight | Reliability, Maintainability, Security |
+| Observability as a Contract | Treat traces, logs, and metrics as required outputs of changed behavior, not optional instrumentation. | Continuity, Trust, Insight | Reliability, Maintainability, Security, Scalability |
+| Security and Privacy Baseline | Apply least privilege, fail-closed defaults, secret hygiene, and PII/PHI redaction on every path by default. | Trust | Security, Reliability, Maintainability |
+| Accessibility Baseline | Ship inclusive UX by enforcing automated and manual accessibility checks as release gates. | Direction, Trust | Reliability, Maintainability, Simplicity |
+| Documentation is Code | Keep specs, ADRs, and operational notes versioned with changes so intent and decisions remain auditable. | Direction, Continuity | Maintainability, Reliability, Velocity |
+| Reversibility | Design code, schema, and rollout paths so changes can be safely rolled back quickly. | Trust, Velocity | Reliability, Velocity, Maintainability, Security |
+| Ownership and Boundaries | Make ownership explicit per slice and enforce architectural boundaries in code review and CI. | Focus, Continuity, Trust | Maintainability, Scalability, Reliability, Security |
+| Learn Continuously | Use postmortems, evals, and Kaizen loops to turn outcomes into small, evidence-backed improvements. | Insight, Continuity | Velocity, Maintainability, Reliability, Scalability |
 
-## Anti‑Principles (what we avoid)
+### Agentic Principles
 
-- Early microservices or choreography that increases complexity without clear, measured need.
-- Long‑lived branches, big‑bang PRs, or merges without green gates.
-- Flaky tests and unbounded retries; non‑deterministic builds.
-- Leaking secrets/PII into logs/traces or external services.
-- Heavy/long‑running logic at the Edge; keep correctness paths on server runtimes.
-- Implicit cross‑slice coupling and “reach‑in” imports across boundaries.
+These principles govern AI autonomy inside human-owned direction and risk boundaries.
 
-## Defaults and Guardrails
+| Principle | One-sentence definition | Pillar mapping | Quality attributes promoted |
+|---|---|---|---|
+| No Silent Apply | Agents propose plans, diffs, and tests; humans gate material side effects. | Trust, Direction | Security, Reliability, Maintainability |
+| Determinism and Provenance | Record model/prompt/runtime provenance so AI-assisted outputs are reproducible and auditable. | Trust, Insight, Continuity | Reliability, Security, Maintainability |
+| Idempotency | All mutating operations must safely handle retries using explicit idempotency keys. | Trust, Velocity | Reliability, Scalability, Security |
+| Guardrails | Enforce policy, permission, and evidence checks fail-closed at runtime and in CI. | Trust | Security, Reliability, Maintainability |
+| HITL Checkpoints | Apply risk-tiered human approvals at meaningful decision boundaries, not uniformly everywhere. | Direction, Trust | Security, Reliability, Velocity |
 
-- Release posture: manual promote to production; instant rollback by re‑promote prior preview.
-- Risk rubric: scale reviewers/tests by risk; two‑person rule for high‑risk (auth/payments/core flows).
-- Waivers: time‑boxed, documented, and auditable with follow‑ups.
-- Coverage & budgets: set thresholds per repo/slice; treat regressions as policy failures unless waived.
-- API behavior: stable error envelope; pagination strategy is repo‑wide; timeouts and bounded retries.
+## Concrete Threshold Defaults
 
-## How To Use These
+These defaults are now normative unless a documented waiver applies:
 
-- Reference in PR templates and design notes; cite specific principles when making trade‑offs.
-- When a principle conflicts, favor the six pillars and governance safety.
-- If you need an exception, file a short waiver per governance and set an expiry.
+- Branch lifetime: `<= 1 working day`.
+- PR size: `<= 400 changed lines` (adds + deletes; generated/lock files excluded).
+- One PR, one concern: no mixed refactor + feature + migration in a single diff.
+- First human review response: `<= 4 working hours` for active PRs.
+- AI deterministic settings: `temperature <= 0.3` for code/spec changes; higher values require explicit PR justification.
+- Waiver duration: `<= 7 days` or until merge (whichever is sooner).
+- Flag hygiene: each flag must have owner + expiry and be removed within `<= 2 release cycles` after GA.
+- Rollback-first rule: if safe fix-forward is not possible within `15 minutes`, execute rollback.
+- Incident postmortem SLA: publish within `48 hours` of incident mitigation.
+- Mutating APIs and kit calls: `idempotency_key` is mandatory.
+- Observability evidence: changed flows must emit OTel spans + structured logs and include a representative `trace_id` in PR evidence.
+
+## Anti-Principles (What We Explicitly Avoid)
+
+- Early microservices/choreography without measured need.
+- Long-lived branches and big-bang PRs.
+- Flaky tests, unbounded retries, and non-deterministic builds.
+- Secret or PII/PHI leakage to logs, traces, or third-party tooling.
+- Heavy correctness-critical logic at the Edge when server runtimes are required.
+- Implicit cross-slice coupling and reach-in imports.
 
 ## Related Docs
 
-- **Pillars documentation: `pillars/README.md`**
-- Methodology overview: `docs/methodology/README.md`
-- Architecture overview: `docs/architecture/overview.md`
-- Governance model: `docs/architecture/governance-model.md`
-- Runtime policy: `docs/architecture/runtime-policy.md`
-- Observability requirements: `docs/architecture/observability-requirements.md`
-- Knowledge Plane: `docs/architecture/knowledge-plane.md`
-- API guidelines: `docs/api-design-guidelines.md`
-- ADR policy: `docs/adr-policy.md`
-- Implementation guide: `docs/methodology/implementation-guide.md`
-- Layers model: `docs/methodology/layers.md`
-- Improve layer: `docs/methodology/improve-layer.md`
-- Slices vs layers: `docs/architecture/slices-vs-layers.md`
-- Repository blueprint: `docs/architecture/repository-blueprint.md`
+- `docs/pillars/README.md`
+- `docs/principles/README.md`
+- `docs/methodology/README.md`
+- `docs/architecture/governance-model.md`
+- `docs/architecture/runtime-policy.md`
+- `docs/architecture/observability-requirements.md`
+- `docs/architecture/knowledge-plane.md`
+- `docs/api-design-guidelines.md`
+- `docs/adr-policy.md`
