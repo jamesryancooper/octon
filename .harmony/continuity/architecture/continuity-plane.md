@@ -79,6 +79,6 @@ This contract is authoritative. Continuity artifacts must be represented through
 ## Related Docs
 
 - `.harmony/continuity/architecture/three-planes-integration.md`
-- `.harmony/cognition/architecture/knowledge-plane/knowledge-plane.md`
-- `docs/architecture/content-plane/README.md`
+- `.harmony/cognition/knowledge-plane/knowledge-plane.md`
+- `.harmony/cognition/architecture/content-plane/README.md`
 - `.harmony/START.md`

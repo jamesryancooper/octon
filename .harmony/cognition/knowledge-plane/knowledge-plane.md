@@ -5,7 +5,7 @@ description: Unified, queryable engineering knowledge linking specs, contracts, 
 
 # Knowledge Plane: Linking Specifications, Contracts, Tests, Traces, and SBOM
 
-Related docs: [Content Plane](/docs/architecture/content-plane/README.md), [Continuity Plane](/.harmony/continuity/architecture/continuity-plane.md), [Three Planes Integration](/.harmony/continuity/architecture/three-planes-integration.md), [monorepo polyglot (normative)](../monorepo-polyglot.md), [runtime architecture](/docs/architecture/runtime-architecture.md), [tooling integration](../tooling-integration.md), [observability requirements](../observability-requirements.md), [governance model](../governance-model.md), [contracts registry](../contracts-registry.md)
+Related docs: [Content Plane](/.harmony/cognition/architecture/content-plane/README.md), [Continuity Plane](/.harmony/continuity/architecture/continuity-plane.md), [Three Planes Integration](/.harmony/continuity/architecture/three-planes-integration.md), [monorepo polyglot (normative)](../architecture/monorepo-polyglot.md), [runtime architecture](/.harmony/cognition/architecture/runtime-architecture.md), [tooling integration](../architecture/tooling-integration.md), [observability requirements](../architecture/observability-requirements.md), [governance model](../architecture/governance-model.md), [contracts registry](../architecture/contracts-registry.md)
 
 The Knowledge Plane is the unified, queryable body of **system knowledge**—specifications, contracts, code artifacts, tests, build outputs, runtime telemetry, and compliance. It provides traceability from requirements to runtime signals so that both developers and AI agents can reason about **what the system is** and **how it behaves**.
 

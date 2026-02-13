@@ -200,7 +200,7 @@ We will use PostgreSQL as our primary database.
 ```
 
 ```markdown
-<!-- Reference: docs/architecture/data-layer.md -->
+<!-- Reference: .harmony/cognition/architecture/overview.md -->
 We use PostgreSQL as our primary data store
 (see [ADR-0001](../specs/speckit/adr-0001.md) for rationale).
 ```

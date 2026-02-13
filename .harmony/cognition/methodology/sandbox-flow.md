@@ -16,7 +16,7 @@ It is a focused, narrative view that stitches together the lifecycle and tooling
   - `reliability-and-ops.md` (SLOs, error budgets, incidents, and rollback policy).
 - Architecture:
   - `architecture/overview.md` (HSP, modular monolith, and Evolution Path).
-  - `architecture/nextjs-astro-vercel.md` (Next.js/Astro/Vercel profile, previews, flags, and promotion).
+  - `.harmony/scaffolding/examples/stack-profiles/nextjs-astro-vercel.md` (non-normative Next.js/Astro/Vercel profile example for previews, flags, and promotion).
   - `architecture/tooling-integration.md` (CI as control plane, planes and flows).
   - `architecture/observability-requirements.md` (trace/log/metric baselines).
   - `architecture/runtime-architecture.md` and `architecture/runtime-policy.md` (platform runtime behavior and runtime flags).
@@ -154,7 +154,7 @@ See `ci-cd-quality-gates.md` for full details. From a sandbox perspective:
 ### H — Deploy: Promote and Roll Back
 
 - **Promotion**:
-  - Production is updated via **manual promote** (e.g., `vercel promote <preview-url>`), not auto‑deploy, as described in `nextjs-astro-vercel.md`.
+  - Production is updated via **manual promote** (e.g., `vercel promote <preview-url>`), not auto‑deploy, as described in `.harmony/scaffolding/examples/stack-profiles/nextjs-astro-vercel.md`.
 - **Flags and rollout**:
   - New behavior remains behind flags; initial production state mirrors the preview’s safe configuration (usually flags OFF or limited cohort).
   - Progressive rollout (internal → small % → majority) is managed via flags and runtime configuration.

@@ -1,11 +1,11 @@
 ---
 title: Architecture Suggested Resources
-description: Curated external references that complement `docs/architecture`, with brief annotations and cross-references.
+description: Curated external references that complement `.harmony/cognition/architecture`, with brief annotations and cross-references.
 ---
 
 # Architecture Suggested Resources
 
-Use this page to curate external references that deepen or complement topics covered in `docs/architecture`. Keep entries short, annotated, and directly actionable.
+Use this page to curate external references that deepen or complement topics covered in `.harmony/cognition/architecture`. Keep entries short, annotated, and directly actionable.
 
 ## Harmony Polyglot Monorepo (Internal Canonical Blueprint)
 
@@ -20,7 +20,7 @@ Use this page to curate external references that deepen or complement topics cov
 - Tags: monorepo-polyglot, contracts-registry, ts-python, turbo, pnpm, uv
 - Level: Intermediate
 - Last reviewed: 2025-11-18
-- Related docs: [overview](./overview.md), [repository blueprint](./repository-blueprint.md), [monorepo layout](./monorepo-layout.md), [contracts registry](./contracts-registry.md), [python runtime workspace](./python-runtime-workspace.md)
+- Related docs: [overview](./overview.md), [repository blueprint](./repository-blueprint.md), [monorepo layout](./monorepo-layout.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/examples/stack-profiles/python-runtime-workspace.md)
 
 ## How to Contribute
 
@@ -300,7 +300,7 @@ Use this page to curate external references that deepen or complement topics cov
 - Tags: nextjs, server-actions, controllers
 - Level: Intermediate
 - Last reviewed: 2025-11-12
-- Related docs: [implementation profile](./nextjs-astro-vercel.md)
+- Related docs: [implementation profile example](/.harmony/scaffolding/examples/stack-profiles/nextjs-astro-vercel.md)
 
 **Partial Prerendering (PPR)** (Docs) — Next.js 15, 2024+
 
@@ -311,7 +311,7 @@ Use this page to curate external references that deepen or complement topics cov
 - Tags: nextjs, ppr, streaming
 - Level: Intermediate
 - Last reviewed: 2025-11-12
-- Related docs: [implementation profile](./nextjs-astro-vercel.md)
+- Related docs: [implementation profile example](/.harmony/scaffolding/examples/stack-profiles/nextjs-astro-vercel.md)
 
 **Next.js 15 Release Notes (Caching Changes)** (Post) — Next.js, 2024
 
@@ -322,7 +322,7 @@ Use this page to curate external references that deepen or complement topics cov
 - Tags: nextjs, caching, runtime
 - Level: Intro
 - Last reviewed: 2025-11-12
-- Related docs: [implementation profile](./nextjs-astro-vercel.md)
+- Related docs: [implementation profile example](/.harmony/scaffolding/examples/stack-profiles/nextjs-astro-vercel.md)
 
 **Promoting Deployments** (Docs) — Vercel, 2024+
 

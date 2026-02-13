@@ -11,7 +11,7 @@ Harmony separates concerns into three planes while keeping explicit integration 
 
 | Plane | Core Question | Primary Surface |
 |---|---|---|
-| Content Plane | What do we publish? | `docs/architecture/content-plane/` and related product content artifacts |
+| Content Plane | What do we publish? | `.harmony/cognition/architecture/content-plane/` and related product content artifacts |
 | Continuity Plane | What happened and what is next? | `.harmony/continuity/{log.md,tasks.json,entities.json,next.md}` |
 | Knowledge Plane | What is the system and how is it implemented? | specs/contracts/code/tests/telemetry links and architecture records |
 
@@ -67,6 +67,6 @@ Knowledge updates / implementation changes
 ## Related Docs
 
 - `.harmony/continuity/architecture/continuity-plane.md`
-- `.harmony/cognition/architecture/knowledge-plane/knowledge-plane.md`
-- `docs/architecture/content-plane/README.md`
+- `.harmony/cognition/knowledge-plane/knowledge-plane.md`
+- `.harmony/cognition/architecture/content-plane/README.md`
 - `.harmony/START.md`

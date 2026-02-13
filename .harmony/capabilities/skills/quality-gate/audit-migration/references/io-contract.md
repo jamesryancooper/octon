@@ -33,7 +33,7 @@ Extended input/output documentation for the audit-migration skill.
 | `structure_spec` | file | No | — | Path to documented directory structure for structure diff layer |
 | `template_dir` | folder | No | — | Path to template directory for template smoke test layer |
 | `partition` | text | No | — | Partition label for parallel orchestration (e.g., "docs-architecture") |
-| `file_filter` | text | No | — | Glob pattern to narrow scope within `scope` directory (e.g., "docs/architecture/**") |
+| `file_filter` | text | No | — | Glob pattern to narrow scope within `scope` directory (e.g., ".harmony/cognition/architecture/**") |
 
 ## Migration Manifest Schema
 
@@ -139,7 +139,7 @@ The report header includes additional metadata:
 
 ```markdown
 **Partition:** docs-architecture
-**File Filter:** docs/architecture/**
+**File Filter:** .harmony/cognition/architecture/**
 **Partition Mode:** Yes
 **Partition Coverage:** 45 files (of 280 total in scope)
 ```
@@ -247,8 +247,8 @@ No external dependencies required.
 ### With Partition (for parallel orchestration)
 
 ```text
-# Audit only docs/architecture/ files
-/audit-migration manifest="..." partition="docs-architecture" file_filter="docs/architecture/**"
+# Audit only .harmony/cognition/architecture/ files
+/audit-migration manifest="..." partition="docs-architecture" file_filter=".harmony/cognition/architecture/**"
 
 # Audit only agency files
 /audit-migration manifest="..." partition="agency-files" file_filter=".harmony/agency/**"

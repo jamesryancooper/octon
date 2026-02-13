@@ -86,7 +86,7 @@ Terminology used in the audit-migration skill.
 | ---- | ---------- |
 | **Partition** | A labeled slice of the audit scope, defined by a glob pattern, that allows the audit to be executed in parallel across disjoint file sets |
 | **Partition mode** | The skill's operating mode when `partition` and `file_filter` parameters are set — narrows scope, adjusts validation, and produces partition-labeled output |
-| **File filter** | A glob pattern (e.g., `docs/architecture/**`) that narrows the scope manifest to only matching files within the `scope` directory |
+| **File filter** | A glob pattern (e.g., `.harmony/cognition/architecture/**`) that narrows the scope manifest to only matching files within the `scope` directory |
 | **Partition-scoped coverage** | Coverage proof that accounts only for files within the partition — does not claim to cover the full codebase |
 | **Partition report** | An audit report produced in partition mode, with partition metadata in the header and a filename that includes the partition label |
 | **Global self-challenge** | A cross-partition self-challenge that checks for issues spanning partition boundaries — performed by the orchestration workflow at merge time, not by individual partition runs |

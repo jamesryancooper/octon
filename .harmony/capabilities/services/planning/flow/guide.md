@@ -47,7 +47,7 @@ Each **node** represents a single actionable step in the flow:
 
 Flow uses a **typed state object** per flow. For the architecture assessment, this includes:
 
-- `workspace_root` (repo root used for resolving prompts/paths) and `docs_path` (manifest-provided root such as `docs/architecture`).
+- `workspace_root` (repo root used for resolving prompts/paths) and `docs_path` (manifest-provided root such as `.harmony/cognition/architecture`).
 - Manifest-driven configuration (`expected_files`, `expected_cross_refs`, `thresholds`) that scopes inventory, cross-link checks, and scoring.
 - `inventory` (files, headings, terms, roles, invariants, links).
 - `terminology_map` and `decision_map`.
@@ -153,7 +153,7 @@ flowchart LR
 - **Docs:** This guide lives under `.harmony/capabilities/services/planning/flow/guide.md`.
 - **Purpose:** it is the orchestration layer that makes Harmony's architecture/methodology/AI Services Platform guidance executable.
 - **Dependencies:**
-  - Harmony Architecture (`docs/architecture/**`) — defines the target system and constraints.
+  - Harmony Architecture (`.harmony/cognition/architecture/**`) — defines the target system and constraints.
   - Harmony Methodology (`.harmony/cognition/methodology/**`) — defines how work should flow (Spec‑First, Agentic Agile/BMAD, etc.).
   - Harmony Services (`.harmony/capabilities/services/**`) — describes the services Flow coordinates during execution.
 
@@ -223,7 +223,7 @@ Flow is designed to:
   - Explicit stop conditions (for example, `declare_no_update`).
   - Strong constraints from Architecture/Methodology docs.
 - Keep flows **aligned with AI Services Platform and architecture**:
-  - Flows for architecture align with `docs/architecture` scope and constraints.
+  - Flows for architecture align with `.harmony/cognition/architecture` scope and constraints.
   - Flows for planning/orchestration respect Methodology/Plan guidance.
 
 ---
@@ -298,7 +298,7 @@ The architecture assessment flow graph construction:
 6. **Execution**: The graph is compiled and invoked with the initial state, producing a final state with `alignment_report` or a no-update declaration driven by manifest thresholds.
 
 **Node implementations**:
-- `inventory_node`: Uses `parsing.py` utilities to walk `docs/architecture`, parse Markdown files, extract headings/terms/roles/processes/invariants/controls/links, and populate `state.inventory`.
+- `inventory_node`: Uses `parsing.py` utilities to walk `.harmony/cognition/architecture`, parse Markdown files, extract headings/terms/roles/processes/invariants/controls/links, and populate `state.inventory`.
 - `analyze_node`: Builds terminology and decision maps from the inventory using `analysis.py` utilities.
 - `map_node`: Normalizes terminology and decision representations (currently a pass-through; future enhancements can add semantic normalization).
 - `detect_issues_node`: Runs conflict, duplication, ambiguity, gap, and cross-link detection, populating `state.issue_register`.

@@ -7,7 +7,7 @@ description: Harmony’s 12-Factor, monolith-first, Hexagonal architecture and T
 
 This document expands the architecture and repo structure sections from the Harmony Methodology. Use it as a high-level, practical guide to the Harmony Structural Paradigm (HSP) — the modular monolith layout, ports/adapters boundaries, and how feature flags and the thin control plane fit into the stack.
 
-The **normative source of truth** for architectural decisions lives under `docs/architecture/` (for example, `overview.md`, `monorepo-layout.md`, `repository-blueprint.md`, `nextjs-astro-vercel.md`, `runtime-architecture.md`, and `contracts-registry.md`). This Methodology page summarizes those decisions and links to them; it SHOULD NOT introduce conflicting rules.
+The **normative source of truth** for architectural decisions lives under `.harmony/cognition/architecture/` (for example, `overview.md`, `monorepo-layout.md`, `repository-blueprint.md`, `runtime-architecture.md`, and `contracts-registry.md`). Stack-specific implementation profiles live under `.harmony/scaffolding/examples/stack-profiles/` and are non-normative examples.
 
 ## Structural Basics
 
@@ -24,7 +24,7 @@ The **normative source of truth** for architectural decisions lives under `docs/
 
 ## Framework Strategy (Next.js, Astro, Vercel, Python)
 
-Framework usage and defaults are defined in `docs/architecture/nextjs-astro-vercel.md`. This repo applies that profile as follows:
+Canonical framework constraints come from `.harmony/cognition/architecture/*`. A concrete stack profile example is available at `.harmony/scaffolding/examples/stack-profiles/nextjs-astro-vercel.md`. This repo applies that example profile as follows:
 
 - **Next.js (App Router, React 19)**:
   - `apps/ai-console` is the canonical example: use Server Components and Server Actions as **thin controllers** that orchestrate flows and delegate to `packages/<feature>/domain` or to platform runtimes via contracts (for example, `runtime-flows` clients from `contracts/ts`).
@@ -40,7 +40,7 @@ For day‑to‑day work: treat Next.js and Astro apps as **thin edges** over sli
 
 ## Feature Flags and Thin Control Plane
 
-Harmony’s **feature flag strategy** is defined in `architecture/runtime-policy.md` and `architecture/nextjs-astro-vercel.md`. This repo applies that strategy with a thin flag client in `packages/config` and platform‑level configuration under `platform/runtimes/config/**` (canonical in `repository-blueprint.md` and `runtime-architecture.md`):
+Harmony’s **feature flag strategy** is defined in `architecture/runtime-policy.md` and illustrated in `.harmony/scaffolding/examples/stack-profiles/nextjs-astro-vercel.md`. This repo applies that strategy with a thin flag client in `packages/config` and platform-level configuration under `platform/runtimes/config/**` (canonical in `repository-blueprint.md` and `runtime-architecture.md`):
 
 - **Flag contract in TypeScript**:
   - `packages/config/src/flags.ts` exposes a `FlagProvider` contract plus helpers like `isFlagEnabled()` and `listFlags()`.
@@ -54,7 +54,7 @@ Harmony’s **feature flag strategy** is defined in `architecture/runtime-policy
 - **Python agents and platform runtime**:
   - For flows executed by the **platform runtime service** (`platform/runtimes/flow-runtime/**`), evaluate flags in the TypeScript control plane and pass decisions into runtime requests (for example, as part of the `runtime-flows` payload or caller metadata), instead of re‑implementing flag resolution in Python. This keeps cross‑language behavior deterministic and auditable.
 - **Caching and Next.js 16 semantics**:
-  - Dynamic data (including flag‑dependent paths) should default to `no-store`; opt into caching explicitly with stable keys and tests, aligning with the Next.js 16 behavior described in `nextjs-astro-vercel.md`.
+  - Dynamic data (including flag-dependent paths) should default to `no-store`; opt into caching explicitly with stable keys and tests, aligning with the Next.js 16 behavior shown in the stack profile example.
   - Fix hydration issues before turning on aggressive caching or Partial Prerendering (PPR); treat caching as an optimization backed by observability, not a correctness mechanism.
 
 For more detailed runtime flag policy, see `architecture/runtime-policy.md` (“Feature Flag Strategy” and “Runtime Policy for Platform Flows”).

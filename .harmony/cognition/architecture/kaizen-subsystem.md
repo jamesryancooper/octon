@@ -5,7 +5,7 @@ description: Cross-cutting, fail-closed agentic improvement loop that proposes s
 
 # Kaizen Subsystem (Technical)
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [tooling integration](./tooling-integration.md), [governance model](./governance-model.md), [knowledge plane](./knowledge-plane.md), [contracts registry](./contracts-registry.md)
+Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [tooling integration](./tooling-integration.md), [governance model](./governance-model.md), [knowledge plane](../knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md)
 
 This document specifies the Kaizen subsystem: an agentic, fail-closed improvement loop that proposes and validates small, incremental changes via dry‑run pull requests before any merge to main.
 

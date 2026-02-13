@@ -43,7 +43,7 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 
 ## Related Docs
 
-- Runtime policy: `docs/architecture/runtime-policy.md`
+- Runtime policy: `.harmony/cognition/architecture/runtime-policy.md`
 - Governance model: `.harmony/cognition/architecture/governance-model.md`
 - Methodology overview: `.harmony/cognition/methodology/README.md`
 - Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`

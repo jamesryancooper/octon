@@ -167,7 +167,7 @@ When `partition` is provided, additional configuration steps apply after scope e
 
    ```text
    1. Start with full scope manifest (N files)
-   2. Apply file_filter glob pattern (e.g., "docs/architecture/**")
+   2. Apply file_filter glob pattern (e.g., ".harmony/cognition/architecture/**")
    3. Keep only files matching the filter
    4. Record: "Partition '{partition}': M files (filtered from N total)"
    ```
@@ -310,7 +310,7 @@ Verify that paths referenced in key operational files actually resolve on disk.
 
    For a reference in `.harmony/START.md`:
    - `cognition/context/decisions.md` → `.harmony/cognition/context/decisions.md`
-   - `../docs/architecture/` → `docs/architecture/`
+   - `../.harmony/cognition/architecture/` → `.harmony/cognition/architecture/`
 
 4. **Check whether each path exists:**
 

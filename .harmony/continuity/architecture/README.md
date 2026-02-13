@@ -36,6 +36,6 @@ Continuity is represented by four canonical files:
 
 ## Related Docs
 
-- `.harmony/cognition/architecture/knowledge-plane/knowledge-plane.md`
-- `docs/architecture/content-plane/README.md`
+- `.harmony/cognition/knowledge-plane/knowledge-plane.md`
+- `.harmony/cognition/architecture/content-plane/README.md`
 - `.harmony/START.md`

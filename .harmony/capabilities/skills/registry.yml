@@ -254,7 +254,7 @@ skills:
       - name: file_filter
         type: text
         required: false
-        description: "Glob pattern to narrow scope within scope directory (e.g., 'docs/architecture/**')"
+        description: "Glob pattern to narrow scope within scope directory (e.g., '.harmony/cognition/architecture/**')"
     requires:
       context: []
     depends_on: []

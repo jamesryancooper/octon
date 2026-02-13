@@ -11,7 +11,8 @@ Use this guide together with:
 
 - `.harmony/capabilities/services/planning/README.md`
 - `.harmony/capabilities/services/planning/{spec,plan,agent,flow}/guide.md`
-- `docs/architecture/{overview,monorepo-layout,repository-blueprint,agent-roles,knowledge-plane/knowledge-plane}.md`
+- `.harmony/cognition/architecture/{overview,monorepo-layout,repository-blueprint,agent-roles}.md`
+- `.harmony/cognition/knowledge-plane/knowledge-plane.md`
 
 When any earlier docs conflict with this page, **this page wins**.
 

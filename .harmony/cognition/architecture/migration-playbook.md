@@ -7,7 +7,7 @@ description: Phased adoption path to HSP with monorepo layout, contracts, observ
 
 This playbook provides a concise, phased path to adopt the Harmony Structural Paradigm (HSP) as a modular monolith with vertical slices, contract-first interfaces, a thin control plane, and manual promote/instant rollback. It aligns with existing guidance and remains provider‑agnostic.
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [governance model](./governance-model.md), [runtime policy](/docs/architecture/runtime-policy.md), [observability requirements](./observability-requirements.md), [tooling integration](./tooling-integration.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](./knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md), [python runtime workspace](/docs/architecture/python-runtime-workspace.md)
+Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [governance model](./governance-model.md), [runtime policy](/.harmony/cognition/architecture/runtime-policy.md), [observability requirements](./observability-requirements.md), [tooling integration](./tooling-integration.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/examples/stack-profiles/python-runtime-workspace.md)
 
 ## Scope & Assumptions
 
@@ -42,7 +42,7 @@ Checklist
   - Enforce redaction baseline (no PII/PHI in logs/spans).
 - Accessibility baseline
   - Enable automated accessibility checks for any user‑facing surfaces; start with CI linting/scans and add targeted tests for critical flows. Treat violations as policy/evaluation failures.
-  - Optional: use `docs/architecture/a11ykit.md` to centralize CI accessibility checks and surface results as policy/evaluation gates with Knowledge Plane provenance.
+  - Optional: use `.harmony/cognition/architecture/a11ykit.md` to centralize CI accessibility checks and surface results as policy/evaluation gates with Knowledge Plane provenance.
 - Feature flags
   - Register a server‑side flags provider. Default new flags OFF; fail‑closed on resolution errors.
   - Guard risky/new paths behind flags; add a kill switch for any new integration.
@@ -198,9 +198,9 @@ Day 5
 
 - Monorepo Layout: `.harmony/cognition/architecture/monorepo-layout.md`
 - Repository Blueprint: `.harmony/cognition/architecture/repository-blueprint.md`
-- Runtime Policy: `docs/architecture/runtime-policy.md`
+- Runtime Policy: `.harmony/cognition/architecture/runtime-policy.md`
 - Observability Requirements: `.harmony/cognition/architecture/observability-requirements.md`
 - Tooling Integration: `.harmony/cognition/architecture/tooling-integration.md`
 - Governance Model: `.harmony/cognition/architecture/governance-model.md`
 - Kaizen Subsystem: `.harmony/cognition/architecture/kaizen-subsystem.md`
-- Knowledge Plane: `.harmony/cognition/architecture/knowledge-plane/knowledge-plane.md`
+- Knowledge Plane: `.harmony/cognition/knowledge-plane/knowledge-plane.md`
