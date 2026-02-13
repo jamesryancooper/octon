@@ -38,6 +38,21 @@ Reverting to a previous deployment. In Vercel: `vercel promote <previous-url>`. 
 ### Feature Flag (Flag)
 A toggle that controls whether a feature is active. New features ship OFF by default, then are enabled gradually.
 
+### Slice
+A vertical feature module with explicit ports/adapters boundaries. Runtime code is organized by slices, not n-tier layers.
+
+### Layer
+Cross-cutting governance or control-plane concern (for example, quality gates, observability, Kaizen). Layers span slices.
+
+### Thin Control Plane
+The guardrail layer that includes flags, policy gates, contracts, and observability checks.
+
+### Knowledge Plane (KP)
+The unified, queryable engineering knowledge surface that links specs, code, tests, traces, and decisions.
+
+### Improve Layer (Kaizen/Autopilot)
+Autonomous, bounded hygiene and improvement loop that proposes small reversible changes with human approval gates.
+
 ---
 
 ## Roles
@@ -220,6 +235,6 @@ When human docs reference "engines," they mean these underlying Kits:
 
 ## See Also
 
-- [START-HERE.md](./START-HERE.md) — Entry point for human developers
-- [Full Methodology](methodology/README.md) — Complete AI-facing documentation
-- [Kit Documentation](kits/README.md) — Detailed Kit specifications
+- [Start Here](../../agency/practices/start-here.md) — Entry point for human developers
+- [Conventions](../../conventions.md) — Repository naming and formatting rules
+- [Methodology](../methodology/README.md) — Complete methodology documentation

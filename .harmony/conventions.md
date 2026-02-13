@@ -55,6 +55,32 @@ See `catalog.md#command-vs-prompt-decision` for the canonical decision logic, fl
   `<type>(<scope>): <summary>`.
 - Keep commit summaries outcome-focused and <=72 characters.
 
+## Repository Naming Conventions
+
+- Packages and slices: `packages/<slice-name>/...` (kebab-case).
+- Feature flags: `feature.<slice>.<capability>` (default OFF, fail-closed).
+- Kill switches: `kill.<area>.<toggle>`.
+- Environment variables: `SCREAMING_SNAKE_CASE`.
+- Identifiers: prefer ULID/UUIDv7 over sequential IDs for external-facing entities.
+- Error codes: `ERR_<AREA>_<CONDITION>` with a stable machine code and human-readable message.
+
+## API and Contract Conventions
+
+- Design contract-first with OpenAPI/JSON Schema.
+- Use noun-based resources and verb-based actions when needed
+  (for example, `/orders`, `/orders/{id}/cancel`).
+- Require `Idempotency-Key` on mutating endpoints where retries are possible.
+- Use a consistent error envelope shape:
+  `{ "error": { "code": "...", "message": "...", "details": ... } }`.
+
+## Documentation Metadata Conventions
+
+- Markdown documents should include frontmatter with at least:
+  - `title`
+  - `description`
+- Use relative links where possible for intra-repo references.
+- Prefer Mermaid for non-trivial architecture and flow diagrams.
+
 ## Cursor Command Structure
 
 Cursor commands in `.cursor/commands/` follow this **minimum structure**. Additional sections (e.g., `## Parameters`, `## Available Templates`) are permitted as needed.
