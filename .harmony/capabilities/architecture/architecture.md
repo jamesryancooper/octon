@@ -262,7 +262,7 @@ VALIDATE_PATH(declared_path, harness_root):
 ### Invalid Path Examples
 
 ```yaml
-# In docs/.harmony/capabilities/skills/registry.yml (scope: docs/**)
+# In apps/docs-site/.harmony/capabilities/skills/registry.yml (scope: apps/docs-site/**)
 skills:
   generate-guide:
     io:

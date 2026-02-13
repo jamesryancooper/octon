@@ -169,7 +169,7 @@ cp -r .harmony/scaffolding/templates/harmony .harmony
 1. Edit `.harmony/scope.md` to define your repo's boundaries
 2. Edit `.harmony/conventions.md` for your style rules
 3. Add repo-specific context to `.harmony/cognition/context/`
-4. Create domain harnesses as needed: `docs/.harmony/`, `packages/foo/.harmony/`
+4. Create domain harnesses as needed: `apps/foo/.harmony/`, `packages/foo/.harmony/`
 
 For detailed documentation, see `.harmony/cognition/architecture/shared-foundation.md`.
 

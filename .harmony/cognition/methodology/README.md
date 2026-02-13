@@ -71,7 +71,7 @@ Together these pillars create a self‑reinforcing system: Direction ensures we 
 
 ## Kit Architecture and Stage Mapping
 
-Harmony's kit layer provides the building blocks that implement Harmony's gates and flows. For a concise mapping from Harmony's principles to specific kits, see "Harmony Alignment" in docs/services/README.md#harmony-alignment. In practice, use FlagKit for feature gating and progressive delivery, ObservaKit for telemetry, EvalKit/PolicyKit/GuardKit for gates, and PatchKit for PRs.
+Harmony's kit layer provides the building blocks that implement Harmony's gates and flows. For a concise mapping from Harmony's principles to specific kits, see "Harmony Alignment" in `.harmony/capabilities/services/platform-overview.md#harmony-alignment`. In practice, use FlagKit for feature gating and progressive delivery, ObservaKit for telemetry, EvalKit/PolicyKit/GuardKit for gates, and PatchKit for PRs.
 
 ### Stage‑to‑Kit Map (operational)
 
@@ -106,9 +106,9 @@ To keep responsibilities crisp and repeatable:
   - **PromptKit**: defines **context slots and schemas** in templates (e.g., how retrieved documents, policies, or prior runs are embedded in prompts) and validates those inputs before rendering.
   - **ObservaKit + EvalKit + DatasetKit**: observe and evaluate retrieval behavior and answer grounding; PromptKit does not construct indexes or decide which documents to retrieve.
 
-This mirrors the mental model used in docs/services/README.md and the kit architecture docs: PromptKit is the **PromptOps kit at the template/contract layer**, while LLMOps and ContextOps concerns are implemented by a **composition of other kits** rather than being folded into PromptKit itself.
+This mirrors the mental model used in `.harmony/capabilities/services/platform-overview.md` and the kit architecture docs: PromptKit is the **PromptOps kit at the template/contract layer**, while LLMOps and ContextOps concerns are implemented by a **composition of other kits** rather than being folded into PromptKit itself.
 
-In practice, PlanKit, FlowKit, AgentKit, and the shared LangGraph runtime align as follows (see also `docs/services/planning/service-roles.md`):
+In practice, PlanKit, FlowKit, AgentKit, and the shared LangGraph runtime align as follows (see also `.harmony/capabilities/services/planning/service-roles.md`):
 
 - SpecKit validates specs.
 - PlanKit turns specs into governed plans (`plan.json`).

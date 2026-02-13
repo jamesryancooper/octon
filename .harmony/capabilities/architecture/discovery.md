@@ -382,7 +382,7 @@ skills:
 #### Invalid Paths
 
 ```yaml
-# In docs/.harmony/capabilities/skills/registry.yml (scope: docs/**)
+# In apps/docs-site/.harmony/capabilities/skills/registry.yml (scope: apps/docs-site/**)
 skills:
   generate-guide:
     io:

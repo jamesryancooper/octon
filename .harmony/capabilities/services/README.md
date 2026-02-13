@@ -18,6 +18,9 @@ Domain capabilities with typed contracts for invocation-driven composite behavio
 | `_template/` | Service scaffold template |
 | `_scripts/validate-services.sh` | Structural and contract validator |
 | `_state/` | Service logs and run state |
+| `docs-services-migration.md` | Coverage summary for mirrored `docs/services` migration |
+| `platform-overview.md` | Integrated platform overview formerly documented at `docs/services/README.md` |
+| `architecture/`, `authoring/`, `delivery/`, `governance/`, `interfaces/`, `modeling/`, `operations/`, `planning/`, `quality/`, `retrieval/` | Migrated domain-grouped service documentation stubs |
 
 ## Interface Types
 

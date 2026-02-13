@@ -229,4 +229,4 @@ When documenting kits in `docs/services`, include these data points where applic
 - Harmony Alignment bullets mapping to spec‑first, auditability, security baselines, and modular CI/CD
 - Minimal Interfaces (functions/config shapes) and FAQs
 
-See `docs/services/knowledge-and-retrieval/indexkit/guide.md` for a good exemplar that follows this pattern.
+See `.harmony/capabilities/services/retrieval/index/guide.md` for a good exemplar that follows this pattern.

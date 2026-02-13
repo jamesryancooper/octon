@@ -14,8 +14,8 @@ services:
       orchestrates: []
       integratesWith: [prompt, flow]
     contracts:
-      input: guard/schema/input.schema.json
-      output: guard/schema/output.schema.json
+      input: governance/guard/schema/input.schema.json
+      output: governance/guard/schema/output.schema.json
     observability:
       service_name: harmony.service.guard
       required_spans: [service.guard.check, service.guard.sanitize]
@@ -26,7 +26,7 @@ services:
       required: false
       key_from: [contentHash, checkType]
     impl:
-      entrypoint: guard/impl/guard.sh
+      entrypoint: governance/guard/impl/guard.sh
 
   prompt:
     version: "0.1.0"
@@ -41,8 +41,8 @@ services:
       orchestrates: []
       integratesWith: [guard, flow]
     contracts:
-      input: prompt/schema/input.schema.json
-      output: prompt/schema/output.schema.json
+      input: modeling/prompt/schema/input.schema.json
+      output: modeling/prompt/schema/output.schema.json
     observability:
       service_name: harmony.service.prompt
       required_spans: [service.prompt.compile]
@@ -53,7 +53,7 @@ services:
       required: false
       key_from: [promptId, variablesHash, variantId]
     impl:
-      entrypoint: prompt/impl/LIBRARY.md
+      entrypoint: modeling/prompt/impl/LIBRARY.md
 
   cost:
     version: "0.1.0"
@@ -68,8 +68,8 @@ services:
       orchestrates: []
       integratesWith: [flow, prompt]
     contracts:
-      input: cost/schema/input.schema.json
-      output: cost/schema/output.schema.json
+      input: operations/cost/schema/input.schema.json
+      output: operations/cost/schema/output.schema.json
     observability:
       service_name: harmony.service.cost
       required_spans: [service.cost.estimate, service.cost.record]
@@ -80,7 +80,7 @@ services:
       required: true
       key_from: [model, inputTokens, outputTokens, workflowType]
     impl:
-      entrypoint: cost/impl/cost.sh
+      entrypoint: operations/cost/impl/cost.sh
 
   flow:
     version: "0.1.0"
@@ -95,8 +95,8 @@ services:
       orchestrates: [prompt, guard, cost]
       integratesWith: []
     contracts:
-      input: flow/schema/input.schema.json
-      output: flow/schema/output.schema.json
+      input: planning/flow/schema/input.schema.json
+      output: planning/flow/schema/output.schema.json
     observability:
       service_name: harmony.service.flow
       required_spans: [service.flow.run]
@@ -107,4 +107,4 @@ services:
       required: true
       key_from: [flowName, canonicalPromptPath, workflowManifestPath]
     impl:
-      entrypoint: flow/impl/flow-client.sh
+      entrypoint: planning/flow/impl/flow-client.sh

@@ -36,5 +36,5 @@ A `.flow.json` configuration file provided via `@` reference.
 
 ## References
 
-- **Canonical:** `docs/services/planning/flow/guide.md`
+- **Canonical:** `.harmony/capabilities/services/planning/flow/guide.md`
 

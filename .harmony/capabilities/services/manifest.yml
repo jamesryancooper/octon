@@ -3,7 +3,7 @@ schema_version: "1.0"
 services:
   - id: guard
     display_name: Guard
-    path: guard/
+    path: governance/guard/
     summary: "Content protection: injection, hallucination, secrets/PII detection."
     status: active
     interface_type: shell
@@ -13,7 +13,7 @@ services:
 
   - id: prompt
     display_name: Prompt
-    path: prompt/
+    path: modeling/prompt/
     summary: "Template rendering, token counting, variant selection."
     status: active
     interface_type: library
@@ -23,7 +23,7 @@ services:
 
   - id: cost
     display_name: Cost
-    path: cost/
+    path: operations/cost/
     summary: "Budget tracking, cost estimation, usage monitoring."
     status: active
     interface_type: shell
@@ -33,7 +33,7 @@ services:
 
   - id: flow
     display_name: Flow
-    path: flow/
+    path: planning/flow/
     summary: "HTTP client to LangGraph server for workflow orchestration."
     status: active
     interface_type: mcp
