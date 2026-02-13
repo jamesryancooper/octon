@@ -7,7 +7,7 @@
 # - Skill manages parallel execution
 # - Skill has complex dependency relationships between sub-tasks
 #
-# See: docs/architecture/harness/skills/reference-artifacts.md#orchestrationmd
+# See: .harmony/capabilities/architecture/reference-artifacts.md#orchestrationmd
 #
 orchestration:
   pattern: sequential                # sequential | parallel | dag

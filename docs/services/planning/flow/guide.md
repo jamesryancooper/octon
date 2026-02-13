@@ -154,7 +154,7 @@ flowchart LR
 - **Purpose:** it is the orchestration layer that makes Harmony's architecture/methodology/AI Services Platform guidance executable.
 - **Dependencies:**
   - Harmony Architecture (`docs/architecture/**`) — defines the target system and constraints.
-  - Harmony Methodology (`docs/methodology/**`) — defines how work should flow (Spec‑First, Agentic Agile/BMAD, etc.).
+  - Harmony Methodology (`.harmony/cognition/methodology/**`) — defines how work should flow (Spec‑First, Agentic Agile/BMAD, etc.).
   - Harmony Services (`docs/services/**`) — describes the services Flow coordinates during execution.
 
 ### 2.2 Plan vs Agent vs Flow vs the LangGraph runtime

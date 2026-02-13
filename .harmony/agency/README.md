@@ -6,6 +6,8 @@ Canonical actor model for the Harmony harness.
 
 | Type | Purpose | Index |
 |------|---------|-------|
+| `architecture/` | Agency subsystem architecture and specification docs | `architecture/README.md` |
+| `practices/` | Human-agent operating practices and commit/PR standards | `practices/README.md` |
 | `agents/` | Autonomous supervisors (planning, orchestration, mission ownership) | `agents/registry.yml` |
 | `assistants/` | Focused specialists invoked by `@mention` or delegation | `assistants/registry.yml` |
 | `teams/` | Reusable multi-actor compositions with handoff policy | `teams/registry.yml` |

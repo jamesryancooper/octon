@@ -5,7 +5,7 @@ description: Safety policies and constraints for the create-skill skill.
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .harmony/capabilities/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Write(.harmony/capabilities/skills/*) Write(_state/runs/*) Write(_state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
+# Current allowed-tools: Read Glob Grep Write(/.harmony/capabilities/skills/*) Write(_state/runs/*) Write(_state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -27,7 +27,7 @@ Allowed tools defined in SKILL.md `allowed-tools`:
 - `Read` — Read template and registry files
 - `Glob` — Pattern matching for file discovery
 - `Grep` — Content search for uniqueness checks
-- `Write(.harmony/capabilities/skills/*)` — Create new skill directory and files
+- `Write(/.harmony/capabilities/skills/*)` — Create new skill directory and files
 - `Write(_state/runs/*)` — Write execution state (checkpoint and summary) for session recovery
 - `Write(_state/logs/*)` — Write execution logs
 - `Bash(mkdir)` — Create directories

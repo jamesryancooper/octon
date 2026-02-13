@@ -96,6 +96,6 @@ context/                → Permanent knowledge
 
 ## Related
 
-- [Projects](../../../../docs/architecture/harness/projects.md) — Full documentation
+- [Projects](/.harmony/ideation/architecture/projects.md) — Full documentation
 - [Registry](../../../ideation/projects/registry.md) — Project tracking
 - [Brainstorm](../../../ideation/scratchpad/brainstorm/README.md) — Upstream exploration

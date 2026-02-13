@@ -10,8 +10,8 @@ Rich contracts are the minimum declarative surface required for reliable agent i
 
 Related docs:
 
-- `docs/architecture/agent-as-runtime.md`
-- `docs/architecture/agent-runtime-caveats.md`
+- `.harmony/cognition/architecture/agent-as-runtime.md`
+- `.harmony/cognition/architecture/agent-runtime-caveats.md`
 - `conventions/declarative-rules.md`
 - `conventions/fixtures.md`
 - `conventions/implementation-generation.md`

@@ -51,7 +51,7 @@ With a schema reference:
 With companion docs:
 
 ```
-/audit-subsystem-health subsystem=".harmony/capabilities/skills" docs="docs/architecture/harness/skills"
+/audit-subsystem-health subsystem=".harmony/capabilities/skills" docs=".harmony/cognition/architecture/skills"
 ```
 
 ## Core Workflow

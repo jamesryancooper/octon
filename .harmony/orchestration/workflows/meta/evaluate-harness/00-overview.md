@@ -45,4 +45,4 @@ Existing `.harmony/` directory.
 
 ## References
 
-- **Canonical:** `docs/architecture/harness/README.md`
+- **Canonical:** `.harmony/cognition/architecture/README.md`

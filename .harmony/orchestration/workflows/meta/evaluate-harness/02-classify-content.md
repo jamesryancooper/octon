@@ -11,7 +11,7 @@ Classify each piece of content:
 
 ## Token Budget Check
 
-Check token budgets per `docs/architecture/harness/README.md#token-budget-guidelines`:
+Check token budgets per `.harmony/cognition/architecture/README.md#token-budget-guidelines`:
 
 | Scope | Target | Max |
 |-------|--------|-----|

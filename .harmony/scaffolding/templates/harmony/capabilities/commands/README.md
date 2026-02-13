@@ -2,5 +2,5 @@
 
 Atomic operations for this harness. Create files here following the naming convention `{verb}-{noun}.md`.
 
-See `docs/architecture/harness/commands.md` for format and examples.
+See `.harmony/capabilities/architecture/commands.md` for format and examples.
 

@@ -12,6 +12,7 @@ The root `.harmony/` is the **repo-wide agent harness** for repository-wide oper
 This harness contains:
 
 - Repository-wide decisions, lessons, and constraints
+- Repository-wide principles, methodology, and architecture guidance
 - Progress tracking for repo-level work
 - Mission tracking for time-bounded sub-projects
 - Domain-specific workflows (e.g., FlowKit integration)
@@ -21,6 +22,7 @@ This harness contains:
 ## In Scope
 
 - Repository-wide context (decisions, lessons, glossary, constraints)
+- Repository-wide architecture, principles, and methodology docs
 - Repo-level progress tracking and session continuity
 - Repository-wide workflows (e.g., FlowKit execution)
 - Managing missions (time-bounded sub-projects)
@@ -76,4 +78,4 @@ This harness contains:
 | `.harmony/` | Shared foundation — actors, templates, workflows, skills |
 | `.harmony/scaffolding/templates/` | Harness scaffolding (base and scoped variants) |
 | `.cursor/` | IDE-specific agent configuration (complementary) |
-| `docs/architecture/harness/` | Canonical documentation for harness pattern |
+| `.harmony/cognition/architecture/` | Canonical documentation for harness pattern |

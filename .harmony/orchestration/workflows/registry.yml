@@ -197,6 +197,42 @@ workflows:
     access: human
     depends_on: []
 
+  add-api-endpoint:
+    version: "1.0.0"
+    commands: ["/add-api-endpoint"]
+    access: human
+    depends_on: []
+
+  add-ui-feature:
+    version: "1.0.0"
+    commands: ["/add-ui-feature"]
+    access: human
+    depends_on: []
+
+  fix-a-bug:
+    version: "1.0.0"
+    commands: ["/fix-a-bug"]
+    access: human
+    depends_on: []
+
+  handle-security-issue:
+    version: "1.0.0"
+    commands: ["/handle-security-issue"]
+    access: human
+    depends_on: []
+
+  onboard-new-developer:
+    version: "1.0.0"
+    commands: ["/onboard-new-developer"]
+    access: human
+    depends_on: []
+
+  run-data-migration:
+    version: "1.0.0"
+    commands: ["/run-data-migration"]
+    access: human
+    depends_on: []
+
   python-api-foundation:
     version: "1.0.0"
     commands: ["/python-api-foundation"]

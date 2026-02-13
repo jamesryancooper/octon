@@ -42,13 +42,13 @@ Chain `audit-migration` and `audit-subsystem-health` into a comprehensive pre-re
 ## Usage
 
 ```text
-/pre-release-audit subsystem=".harmony/capabilities/skills" docs="docs/architecture/harness/skills"
+/pre-release-audit subsystem=".harmony/capabilities/skills" docs=".harmony/cognition/architecture/skills"
 ```
 
 With a migration manifest (runs both audits):
 
 ```text
-/pre-release-audit subsystem=".harmony/capabilities/skills" manifest=".harmony/migrations/restructure.yml" docs="docs/architecture/harness/skills"
+/pre-release-audit subsystem=".harmony/capabilities/skills" manifest=".harmony/migrations/restructure.yml" docs=".harmony/cognition/architecture/skills"
 ```
 
 **Examples:**
@@ -58,7 +58,7 @@ With a migration manifest (runs both audits):
 /pre-release-audit subsystem=".harmony/capabilities/skills"
 
 # Full audit with migration + health + docs
-/pre-release-audit subsystem=".harmony/capabilities/skills" manifest="..." docs="docs/architecture/harness/skills"
+/pre-release-audit subsystem=".harmony/capabilities/skills" manifest="..." docs=".harmony/cognition/architecture/skills"
 
 # With severity filter
 /pre-release-audit subsystem=".harmony/capabilities/skills" severity_threshold="high"

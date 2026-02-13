@@ -1,6 +1,6 @@
 # Step 3: Assess Token Efficiency
 
-For agent-facing files (non-dot-prefixed), estimate tokens (words × 1.3) against budgets per `docs/architecture/harness/README.md#token-budget-guidelines`.
+For agent-facing files (non-dot-prefixed), estimate tokens (words × 1.3) against budgets per `.harmony/cognition/architecture/README.md#token-budget-guidelines`.
 
 ## Flag files that
 

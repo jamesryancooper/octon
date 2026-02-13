@@ -156,7 +156,7 @@ migration:
 ### Invocation with Structure Diff
 
 ```
-/audit-migration manifest="..." structure_spec="docs/architecture/harness/skills/README.md"
+/audit-migration manifest="..." structure_spec=".harmony/capabilities/architecture/README.md"
 ```
 
 ### Structure Diff Output

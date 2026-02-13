@@ -21,5 +21,5 @@ Add these based on harness needs:
 | `compaction.md` | Harnesses with long sessions or complex multi-step work |
 | `tools.md` | Harnesses where agents use specialized tools or need tool selection guidance |
 
-See `docs/architecture/harness/context.md` for format and examples.
+See `.harmony/cognition/architecture/context.md` for format and examples.
 

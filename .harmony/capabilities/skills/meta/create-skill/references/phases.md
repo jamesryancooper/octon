@@ -307,7 +307,7 @@ Add entry to harness catalog.
 1. **Add row to catalog.md**
 
    ```markdown
-   | [{{skill_name}}](.harmony/capabilities/skills/<group>/{{skill_name}}/SKILL.md) | `/{{skill_name}}` | [TODO: Description] |
+   | [{{skill_name}}](/.harmony/capabilities/skills/<group>/{{skill_name}}/SKILL.md) | `/{{skill_name}}` | [TODO: Description] |
    ```
 
    If table has placeholder row ("*No skills defined yet*"), replace it.

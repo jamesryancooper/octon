@@ -37,33 +37,47 @@ This harness extends `.harmony/` for shared infrastructure.
 │
 ├── agency/
 │   ├── manifest.yml    ← Actor registry discovery
+│   ├── architecture/   ← Agency subsystem specification
+│   ├── practices/      ← Collaboration and delivery practices
 │   ├── agents/         ← Autonomous supervisors
 │   ├── assistants/     ← Focused specialists (@mention invocation)
 │   └── teams/          ← Reusable multi-actor compositions
 │
 ├── capabilities/
+│   ├── architecture/   ← Capabilities subsystem specification
 │   ├── skills/         ← Composable capabilities
 │   ├── commands/       ← Atomic operations
 │   ├── tools/          ← Tool packs and custom tools
 │   └── services/       ← Typed domain capabilities
 │
 ├── cognition/
-│   └── context/        ← Decisions, lessons, glossary
+│   ├── architecture/   ← Cross-cutting harness and methodology architecture
+│   ├── principles/     ← Canonical principles, pillars, and purpose
+│   ├── methodology/    ← AI-native development methodology
+│   ├── context/        ← Shared reference material and repo context
+│   ├── decisions/      ← Architecture Decision Records
+│   └── analyses/       ← Analytical working artifacts
 │
-├── continuity/         ← log.md, tasks.json, entities.json
+├── continuity/         ← log.md, tasks.json, entities.json, next.md
+│   └── architecture/   ← Continuity subsystem specification
 │
 ├── orchestration/
+│   ├── architecture/   ← Orchestration subsystem specification
 │   ├── workflows/      ← Multi-step procedures
 │   └── missions/       ← Time-bounded sub-projects
 │
 ├── scaffolding/
+│   ├── architecture/   ← Scaffolding subsystem specification
+│   ├── patterns/       ← Reusable design/policy patterns
 │   ├── templates/      ← Boilerplate for new content
 │   ├── prompts/        ← Task templates
 │   └── examples/       ← Reference patterns
 │
-├── quality/            ← complete.md, session-exit.md
+├── quality/            ← complete.md, session-exit.md + standards
+│   └── architecture/   ← Quality subsystem specification
 │
 ├── ideation/           ← Human-led zone (IGNORE)
+│   ├── architecture/   ← Ideation subsystem specification
 │   ├── scratchpad/     ← Temporary staging (inbox/, archive/, etc.)
 │   └── projects/       ← Committed research
 │
@@ -74,12 +88,13 @@ This harness extends `.harmony/` for shared infrastructure.
 
 1. **Read `scope.md`** → Know boundaries
 2. **Read `conventions.md`** → Know style rules
-3. **Scan `catalog.md`** → Know available operations and assistants
-4. **Read `continuity/log.md`** → Know what's been done
-5. **Read `continuity/tasks.json`** → Know current priorities
-6. **Check `orchestration/missions/registry.yml`** → Know active missions (if any)
-7. **Begin** highest-priority unblocked task
-8. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
+3. **Read `cognition/principles/principles.md`** → Know operating principles
+4. **Scan `catalog.md`** → Know available operations and assistants
+5. **Read `continuity/log.md`** → Know what's been done
+6. **Read `continuity/tasks.json`** → Know current priorities
+7. **Check `orchestration/missions/registry.yml`** → Know active missions (if any)
+8. **Begin** highest-priority unblocked task
+9. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
 
 ## Assistants
 
@@ -144,7 +159,8 @@ cognition/context/              → Permanent knowledge
 | Finalized decisions | `cognition/context/decisions.md` | Permanent |
 | Constraints, non-negotiables | `cognition/context/constraints.md` | Permanent |
 | Next actions | `continuity/next.md` | Active |
-| Domain terminology | `cognition/context/glossary.md` | Reference |
+| Harness terminology | `cognition/context/glossary.md` | Reference |
+| Repo-wide terminology | `cognition/context/glossary-repo.md` | Reference |
 | Lessons learned | `cognition/context/lessons.md` | Reference |
 
 **Publishing findings:** Project findings flow directly to `cognition/context/` files without a separate promotion step.

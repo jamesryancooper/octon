@@ -14,7 +14,7 @@
 # If this file exceeds 100 lines AND domain-specific content (patterns, algorithms, rationale)
 # exceeds 30 lines, extract that content to a `<domain>.md` file.
 #
-# See: docs/architecture/harness/skills/reference-artifacts.md#domain-file-extraction-heuristics
+# See: .harmony/capabilities/architecture/reference-artifacts.md#domain-file-extraction-heuristics
 #
 safety:
   tool_policy:

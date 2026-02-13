@@ -6,6 +6,7 @@ Workflows and missions that coordinate multi-step work.
 
 | Subdirectory | Purpose | Discovery |
 |--------------|---------|-----------|
+| `architecture/` | Orchestration subsystem specification docs | `architecture/README.md` |
 | `workflows/` | Multi-step procedures with numbered steps | `workflows/manifest.yml` |
 | `missions/` | Time-bounded sub-projects with isolated state | `missions/registry.yml` |
 

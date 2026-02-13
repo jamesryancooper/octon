@@ -2,5 +2,5 @@
 
 Boilerplate files for creating new content within this harness's domain.
 
-See `docs/architecture/harness/templates.md` for guidelines.
+See `.harmony/scaffolding/architecture/templates.md` for guidelines.
 

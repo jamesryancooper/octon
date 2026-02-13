@@ -18,7 +18,7 @@ External systems, APIs, or packages this harness interacts with.
 
 | Reference | Purpose | Location |
 |-----------|---------|----------|
-| Canonical Harness Docs | Authoritative harness definition | `docs/architecture/harness/` |
+| Canonical Harness Docs | Authoritative harness definition | `.harmony/cognition/architecture/` |
 | Harness Templates | Boilerplate for new harnesses | `.harmony/scaffolding/templates/harmony/` |
 | Cursor Commands | IDE integration entry points | `.cursor/commands/` |
 | Cursor Rules | Agent context triggers | `.cursor/rules/` |

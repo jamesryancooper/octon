@@ -171,8 +171,8 @@ cp -r .harmony/scaffolding/templates/harmony .harmony
 3. Add repo-specific context to `.harmony/cognition/context/`
 4. Create domain harnesses as needed: `docs/.harmony/`, `packages/foo/.harmony/`
 
-For detailed documentation, see `docs/architecture/harness/shared-foundation.md`.
+For detailed documentation, see `.harmony/cognition/architecture/shared-foundation.md`.
 
 ### When to Consider a Package
 
-If you have 5+ repositories using this pattern, frequent updates, or need semantic versioning, consider converting `.harmony/` to a published package. See `docs/architecture/harness/shared-foundation.md#when-to-consider-a-package` for guidance.
+If you have 5+ repositories using this pattern, frequent updates, or need semantic versioning, consider converting `.harmony/` to a published package. See `.harmony/cognition/architecture/shared-foundation.md#when-to-consider-a-package` for guidance.

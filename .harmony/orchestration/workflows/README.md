@@ -13,3 +13,4 @@ All workflows live in `.harmony/orchestration/workflows/`, organized by group.
 - `flowkit/` — FlowKit LangGraph integration
 - `projects/` — Project creation
 - `ideation/` — Scratchpad content promotion
+- `tasks/` — Guided operational playbooks (single-file workflows)

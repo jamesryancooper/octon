@@ -139,7 +139,7 @@ Advanced knobs
 - Auditability & transparency via reproducible artifacts/snapshots
 - Security & reliability: ASVS/SSDF controls, error‑budget policy
 - Modular flow: tiny PRs, previews, flags
-- See `docs/methodology/README.md`
+- See `.harmony/cognition/methodology/README.md`
 
 ## Why Teams Choose {{component-name}}
 

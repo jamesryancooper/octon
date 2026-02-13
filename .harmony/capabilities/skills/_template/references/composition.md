@@ -7,7 +7,7 @@
 # - Skill has defined input/output compatibility with other skills
 # - Skill provides integration hooks for customization
 #
-# See: docs/architecture/harness/skills/reference-artifacts.md#compositionmd
+# See: .harmony/capabilities/architecture/reference-artifacts.md#compositionmd
 #
 composition:
   role: transformer                  # source | transformer | sink

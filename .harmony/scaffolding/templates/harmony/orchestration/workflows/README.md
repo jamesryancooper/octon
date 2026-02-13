@@ -10,5 +10,5 @@ my-workflow/
 └── 03-final-step.md
 ```
 
-See `docs/architecture/harness/workflows.md` for format and examples.
+See `.harmony/orchestration/architecture/workflows.md` for format and examples.
 

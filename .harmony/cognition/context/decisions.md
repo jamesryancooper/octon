@@ -53,12 +53,12 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 | D028 | Progressive disclosure | Three-tier: SKILL.md + references/ + assets/ | Keep SKILL.md under 500 lines; details in references/ | 2026-01-15 |
 | D029 | Reference file structure | phases.md, io-contract.md, safety.md, examples.md, validation.md | Standard files for all skills; machine-parseable YAML frontmatter | 2026-01-15 |
 | D030 | Hierarchical harness authority | DOWN only, not UP or SIDEWAYS | Harnesses can write to descendants; cannot write to ancestors or siblings | 2026-01-15 |
-| D031 | Output permission tiers | Tier 1 (outputs/), Tier 2 (.harmony/**), Tier 3 (root/**) | Tier 1 always allowed; Tier 2/3 require declaration and scope validation | 2026-01-15 |
+| D031 | Output permission tiers | Tier 1 (outputs/), Tier 2 (/.harmony/**), Tier 3 (root/**) | Tier 1 always allowed; Tier 2/3 require declaration and scope validation | 2026-01-15 |
 | D032 | Documentation split | Monolithic skills.md → 10 focused documents | Each document under 300 lines; single responsibility | 2026-01-15 |
 | D033 | Four-tier progressive disclosure | manifest → registry → SKILL.md → references | Load in tiers; ~50 tokens at discovery, <5000 at activation | 2026-01-17 |
 | D034 | Manifest as Tier 1 discovery | Centralized index in manifest.yml | Read manifest.yml first for skill routing; ~50 tokens per skill | 2026-01-17 |
 | D035 | Validation tooling | validate-skills.sh with 21 checks | Run validation before commits; CI enforces in pr.yml | 2026-01-17 |
-| D036 | Principles documentation | Formal docs/principles/ directory | 8 principles documented; reference when designing new features | 2026-01-17 |
+| D036 | Principles documentation | Formal .harmony/cognition/principles/ directory | 8 principles documented; reference when designing new features | 2026-01-17 |
 | D037 | display_name extension | Title Case derived from id | Human-readable name; derivable but explicit for clarity | 2026-01-17 |
 | D038 | Placeholder validation | `{{snake_case}}` format enforced | Paths use `{{placeholder}}`; validation catches deprecated formats | 2026-01-17 |
 | D039 | CI integration | skills-validation job in pr.yml | tiktoken for accurate token counting; --strict mode | 2026-01-17 |

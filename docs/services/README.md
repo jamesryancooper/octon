@@ -183,7 +183,7 @@ These invariants apply to every service and workflow so the Platform operates as
 
 ## Harmony Alignment
 
-Harmony is an AI-native, human-governed methodology for solo builders — lean in ceremony and rich in capability. It pairs spec-led intent capture, context-efficient planning, autonomous AI execution loops, and risk-tiered human governance while staying stack-, host-, and environment-agnostic. Harmony aligns with OWASP ASVS, NIST SSDF, and STRIDE, and adopts architectural principles from 12‑Factor, Monolith‑First, and Hexagonal—so you can ship fast, ship safe, and ship with confidence. For the full methodology and lifecycle overview, see docs/methodology/README.md.
+Harmony is an AI-native, human-governed methodology for solo builders — lean in ceremony and rich in capability. It pairs spec-led intent capture, context-efficient planning, autonomous AI execution loops, and risk-tiered human governance while staying stack-, host-, and environment-agnostic. Harmony aligns with OWASP ASVS, NIST SSDF, and STRIDE, and adopts architectural principles from 12‑Factor, Monolith‑First, and Hexagonal—so you can ship fast, ship safe, and ship with confidence. For the full methodology and lifecycle overview, see .harmony/cognition/methodology/README.md.
 
 This platform maps directly to Harmony. Use the services as ready‑to‑run building blocks with AI‑driven quality, security, and reliability built in.
 

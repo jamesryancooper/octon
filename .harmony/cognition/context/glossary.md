@@ -7,7 +7,7 @@ description: Domain-specific terminology for the harness system.
 
 Terms used consistently throughout harness documentation. Use these terms exactly as defined.
 
-> **See also:** `docs/GLOSSARY.md` for repo-wide terminology including task status values, workflow states, and roles.
+> **See also:** `.harmony/cognition/context/glossary-repo.md` for repo-wide terminology including task status values, workflow states, and roles.
 
 | Term | Definition |
 |------|------------|

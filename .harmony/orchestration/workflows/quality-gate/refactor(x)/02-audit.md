@@ -22,7 +22,7 @@ Exhaustively search for ALL references to the old pattern before making any chan
    ### Pattern: `old-name`
    - `.harmony/START.md` (3 matches)
    - `.harmony/orchestration/workflows/example.md` (1 match)
-   - `docs/architecture/overview.md` (2 matches)
+   - `.harmony/cognition/architecture/overview.md` (2 matches)
 
    ### Pattern: `/old-name/`
    - `.cursor/commands/command.md` (1 match)

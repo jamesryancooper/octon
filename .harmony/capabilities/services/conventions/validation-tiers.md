@@ -10,8 +10,8 @@ Services use a two-tier validation model: deterministic structural validation (T
 
 Related docs:
 
-- `docs/architecture/agent-as-runtime.md`
-- `docs/architecture/agent-runtime-caveats.md`
+- `.harmony/cognition/architecture/agent-as-runtime.md`
+- `.harmony/cognition/architecture/agent-runtime-caveats.md`
 - `conventions/declarative-rules.md`
 - `conventions/fixtures.md`
 - `conventions/run-records.md`

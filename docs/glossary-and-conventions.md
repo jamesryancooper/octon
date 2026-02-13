@@ -20,7 +20,7 @@ Status: Draft stub (fill in project specifics)
 - Quality through Determinism: Stable identifiers, error code formats, and commit/PR conventions make outcomes consistent and machine‑checkable.
 - Guided Agentic Autonomy: Consistent vocabulary enables agents to generate correct diffs and references; humans remain final approvers.
 
-See `docs/methodology/README.md` for Harmony’s five pillars.
+See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 
 ## Purpose
 
@@ -30,11 +30,11 @@ See `docs/methodology/README.md` for Harmony’s five pillars.
 ## Key Terms (Harmony)
 
 - Pillars: Speed with Safety; Simplicity over Complexity; Quality through Determinism; Guided Agentic Autonomy.
-- Slice: A vertical feature module with ports/adapters boundaries. See `docs/architecture/slices-vs-layers.md`.
+- Slice: A vertical feature module with ports/adapters boundaries. See `.harmony/cognition/architecture/slices-vs-layers.md`.
 - Layer: Cross‑cutting governance/control plane concerns (quality gates, observability, kaizen). Not a runtime call layer.
-- Thin Control Plane: Flags, policy gates, contracts, observability guardrails. See `docs/architecture/overview.md`.
-- Knowledge Plane (KP): Unified, queryable engineering knowledge. See `docs/architecture/knowledge-plane.md`.
-- Kaizen/Improve Layer: Autonomous hygiene PRs with HITL. See `docs/methodology/improve-layer.md`.
+- Thin Control Plane: Flags, policy gates, contracts, observability guardrails. See `.harmony/cognition/architecture/overview.md`.
+- Knowledge Plane (KP): Unified, queryable engineering knowledge. See `.harmony/cognition/architecture/knowledge-plane/knowledge-plane.md`.
+- Kaizen/Improve Layer: Autonomous hygiene PRs with HITL. See `.harmony/cognition/methodology/reliability-and-ops.md`.
 
 ## Naming Conventions
 
@@ -47,9 +47,9 @@ See `docs/methodology/README.md` for Harmony’s five pillars.
 
 ## Branch, Commit, and PR Conventions
 
-- Branches and commits: Follow `docs/practices/commits.md` (Conventional
+- Branches and commits: Follow `.harmony/agency/practices/commits.md` (Conventional
   Commits, scope discipline, branch naming, and quality rules).
-- PRs: Small, reviewable; include risk level and rollback/flag notes. See `docs/architecture/governance-model.md` for required PR fields.
+- PRs: Small, reviewable; include risk level and rollback/flag notes. See `.harmony/cognition/architecture/governance-model.md` for required PR fields.
 
 ## API/HTTP Conventions (summary)
 
@@ -67,12 +67,12 @@ See `docs/methodology/README.md` for Harmony’s five pillars.
 
 ## Related Docs
 
-- Architecture overview: `docs/architecture/overview.md`
-- Slices vs layers: `docs/architecture/slices-vs-layers.md`
-- Knowledge Plane: `docs/architecture/knowledge-plane.md`
-- Governance model: `docs/architecture/governance-model.md`
-- Repository blueprint: `docs/architecture/repository-blueprint.md`
-- Methodology overview: `docs/methodology/README.md`
-- Implementation guide: `docs/methodology/implementation-guide.md`
-- Layers model: `docs/methodology/layers.md`
-- Improve layer: `docs/methodology/improve-layer.md`
+- Architecture overview: `.harmony/cognition/architecture/overview.md`
+- Slices vs layers: `.harmony/cognition/architecture/slices-vs-layers.md`
+- Knowledge Plane: `.harmony/cognition/architecture/knowledge-plane/knowledge-plane.md`
+- Governance model: `.harmony/cognition/architecture/governance-model.md`
+- Repository blueprint: `.harmony/cognition/architecture/repository-blueprint.md`
+- Methodology overview: `.harmony/cognition/methodology/README.md`
+- Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`
+- Layers model: `.harmony/cognition/architecture/layers.md`
+- Improve layer: `.harmony/cognition/methodology/reliability-and-ops.md`

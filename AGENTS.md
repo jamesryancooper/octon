@@ -21,7 +21,7 @@ orientation.
 - **Agency:** `.harmony/agency/` (agents, assistants, teams)
 - **Capabilities:** `.harmony/capabilities/` (skills, commands, tools)
   - Commands: `.harmony/capabilities/commands/manifest.yml`
-- **Cognition:** `.harmony/cognition/` (context, decisions, analyses)
+- **Cognition:** `.harmony/cognition/` (architecture, principles, methodology, context, decisions, analyses)
   - Context index: `.harmony/cognition/context/index.yml`
 - **Orchestration:** `.harmony/orchestration/` (workflows, missions)
 - **Scaffolding:** `.harmony/scaffolding/` (templates, prompts, examples)
@@ -72,6 +72,6 @@ Read `.harmony/orchestration/workflows/manifest.yml` for workflow discovery.
 
 ## Commit Discipline
 
-- Follow `docs/practices/commits.md` for branch naming, Conventional Commit
+- Follow `.harmony/agency/practices/commits.md` for branch naming, Conventional Commit
   format, and commit quality rules.
 - Use commit messages in the form `<type>(<scope>): <summary>`.

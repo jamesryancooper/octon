@@ -7,7 +7,7 @@
 # - Skill delegates specialized tasks to other agents
 # - Skill coordinates multiple agents working together
 #
-# See: docs/architecture/harness/skills/reference-artifacts.md#agentsmd
+# See: .harmony/capabilities/architecture/reference-artifacts.md#agentsmd
 #
 agents:
   pattern: delegate                  # spawn | delegate | coordinate

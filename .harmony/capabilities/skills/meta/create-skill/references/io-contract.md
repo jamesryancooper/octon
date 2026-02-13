@@ -7,7 +7,7 @@
 #   - Parameters: .harmony/capabilities/skills/registry.yml
 #   - Output paths: .harmony/capabilities/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Write(.harmony/capabilities/skills/*) Write(_state/runs/*) Write(_state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
+# Current allowed-tools: Read Glob Grep Write(/.harmony/capabilities/skills/*) Write(_state/runs/*) Write(_state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -180,7 +180,7 @@ Tool requirements defined in SKILL.md `allowed-tools`:
 | `Read` | Read manifest, registry, template files |
 | `Glob` | Find existing skills for uniqueness check |
 | `Grep` | Search for existing skill entries |
-| `Write(.harmony/capabilities/skills/*)` | Create skill directory and files |
+| `Write(/.harmony/capabilities/skills/*)` | Create skill directory and files |
 | `Write(_state/runs/*)` | Write execution state (session recovery) |
 | `Write(_state/logs/*)` | Write execution log |
 | `Bash(mkdir)` | Create directories |

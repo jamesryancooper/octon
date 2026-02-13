@@ -238,7 +238,7 @@ No external dependencies required.
 /audit-migration manifest="..." scope="docs/"
 
 # Enable structure diff layer
-/audit-migration manifest="..." structure_spec="docs/architecture/harness/README.md"
+/audit-migration manifest="..." structure_spec=".harmony/cognition/architecture/README.md"
 
 # Enable template smoke test layer
 /audit-migration manifest="..." template_dir=".harmony/scaffolding/templates/"

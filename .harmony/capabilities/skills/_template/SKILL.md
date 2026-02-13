@@ -33,7 +33,7 @@ metadata:
 #   If a requested behavior does not fit, create a spec extension proposal
 #   before adding new contract fields, capability names, or reference types.
 #
-# See: docs/architecture/harness/skills/capabilities.md
+# See: .harmony/capabilities/architecture/capabilities.md
 skill_sets: []
 capabilities: []
 # Tool Permissions (Single Source of Truth)
@@ -41,7 +41,7 @@ capabilities: []
 # Example: Read Glob Grep Write(../prompts/*) Write(_state/logs/*)
 #          └─ Read-only ─┘     └─ Scoped writes ────────┘
 # Pack reference example: pack:read-only Write(_state/logs/*)
-# See: docs/architecture/harness/skills/specification.md#tool-permissions-single-source-of-truth
+# See: .harmony/capabilities/architecture/specification.md#tool-permissions-single-source-of-truth
 # Tool reference: Read, Glob, Grep, Write(path/*), WebFetch, Shell, Task
 #
 # Output Types:
@@ -178,4 +178,4 @@ capabilities: [idempotent]
 2. Delete reference files you don't need (based on resolved capabilities)
 3. Update remaining reference files with skill-specific content
 
-See [Reference Artifacts](../../../../docs/architecture/harness/skills/reference-artifacts.md) for the complete capability-to-reference mapping.
+See [Reference Artifacts](/.harmony/capabilities/architecture/reference-artifacts.md) for the complete capability-to-reference mapping.

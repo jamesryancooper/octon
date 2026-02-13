@@ -11,7 +11,7 @@ description: Style and formatting rules for the root .harmony harness.
 - Commands: `{verb}-{noun}.md` (e.g., `validate-frontmatter.md`)
 - Prompts: `{action}-{target}.md` (e.g., `audit-content.md`)
 - Workflows: `{verb}-{noun}/` directory (e.g., `create-harness/`)
-- Skills & Workflows: Use verbs from the [Verb Vocabulary](../docs/architecture/harness/skills/design-conventions.md#verb-vocabulary)
+- Skills & Workflows: Use verbs from the [Verb Vocabulary](/.harmony/capabilities/architecture/design-conventions.md#verb-vocabulary)
 
 ## Command vs Prompt Decision
 
@@ -49,7 +49,7 @@ See `catalog.md#command-vs-prompt-decision` for the canonical decision logic, fl
 
 ## Version Control Standards
 
-- Follow `docs/practices/commits.md` for commit message format, branch naming,
+- Follow `.harmony/agency/practices/commits.md` for commit message format, branch naming,
   and commit discipline.
 - Use Conventional Commits with explicit scope:
   `<type>(<scope>): <summary>`.

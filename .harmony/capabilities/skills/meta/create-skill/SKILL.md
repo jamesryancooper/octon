@@ -14,7 +14,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor]
 capabilities: [self-validating]
-allowed-tools: Read Glob Grep Write(.harmony/capabilities/skills/*) Write(_state/runs/*) Write(_state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
+allowed-tools: Read Glob Grep Write(/.harmony/capabilities/skills/*) Write(_state/runs/*) Write(_state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
 ---
 
 # Create Skill
@@ -83,7 +83,7 @@ Outputs are written to:
 | verb-noun | `refine-prompt`, `build-mcp-server` | `prompt-refiner`, `report-generator` |
 | verb-object | `audit-migration`, `resolve-pr-comments` | `codebase-analyzer`, `payment-processor` |
 
-**Verb vocabulary:** See [Verb Vocabulary](../../../../../docs/architecture/harness/skills/design-conventions.md#verb-vocabulary) for the full list with semantic definitions, boundaries, and retired verbs.
+**Verb vocabulary:** See [Verb Vocabulary](/.harmony/capabilities/architecture/design-conventions.md#verb-vocabulary) for the full list with semantic definitions, boundaries, and retired verbs.
 
 **Key distinctions:**
 - `create` (scaffold from template) vs `build` (end-to-end construction)

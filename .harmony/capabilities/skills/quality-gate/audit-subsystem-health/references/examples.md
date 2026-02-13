@@ -12,7 +12,7 @@ description: Full audit examples for the audit-subsystem-health skill.
 ### Invocation
 
 ```text
-/audit-subsystem-health subsystem=".harmony/capabilities/skills" docs="docs/architecture/harness/skills"
+/audit-subsystem-health subsystem=".harmony/capabilities/skills" docs=".harmony/cognition/architecture/skills"
 ```
 
 ### Phase 1: Configure
@@ -20,7 +20,7 @@ description: Full audit examples for the audit-subsystem-health skill.
 ```
 Subsystem: .harmony/capabilities/skills
 Schema reference: .harmony/capabilities/skills/capabilities.yml (auto-detected)
-Companion docs: docs/architecture/harness/skills (19 files)
+Companion docs: .harmony/cognition/architecture/skills (19 files)
 
 Config files discovered:
   - manifest.yml (32 entries)
@@ -65,7 +65,7 @@ Coverage: 32/32 entries validated, 7 schema dimensions checked per entry
 Running semantic quality checks...
 
 MEDIUM: Trigger overlap — "scaffold a skill" matches both create-skill and python-scaffold-package
-MEDIUM: Doc drift — docs/architecture/harness/skills/architecture.md describes "flat directory layout" but skills use group-based nesting
+MEDIUM: Doc drift — .harmony/capabilities/architecture/architecture.md describes "flat directory layout" but skills use group-based nesting
 LOW: deploy-status — display_name "Deploy Status" doesn't capitalize correctly (expected "Deploy Status" ✓ — actually OK)
 LOW: Missing _state/logs/react/ directory (no log outputs declared, so informational only)
 CLEAN: 28 entries pass all semantic checks

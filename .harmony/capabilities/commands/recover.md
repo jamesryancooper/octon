@@ -35,4 +35,4 @@ access: human
 
 ## References
 
-- **Canonical:** `docs/architecture/harness/commands.md`
+- **Canonical:** `.harmony/capabilities/architecture/commands.md`

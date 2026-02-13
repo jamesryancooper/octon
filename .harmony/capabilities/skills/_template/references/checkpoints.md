@@ -7,7 +7,7 @@
 # - Skill produces intermediate outputs that must persist
 # - Skill needs audit trail of phase transitions
 #
-# See: docs/architecture/harness/skills/reference-artifacts.md#checkpointsmd
+# See: .harmony/capabilities/architecture/reference-artifacts.md#checkpointsmd
 #
 checkpoints:
   strategy: phase                    # phase | step | time-based

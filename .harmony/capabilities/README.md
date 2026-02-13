@@ -21,6 +21,7 @@ Invocation │   Tools           │   Services             │
 
 | Subdirectory | Model | Purpose | Discovery |
 |---|---|---|---|
+| `architecture/` | Documentation | Capabilities subsystem architecture and contracts | `architecture/README.md` |
 | `commands/` | Instruction-driven, atomic | Deterministic one-shot operations | `commands/manifest.yml` |
 | `skills/` | Instruction-driven, composite | Multi-step workflows with references and contracts | `skills/manifest.yml` |
 | `tools/` | Invocation-driven, atomic | Tool packs and custom tool definitions | `tools/manifest.yml` |

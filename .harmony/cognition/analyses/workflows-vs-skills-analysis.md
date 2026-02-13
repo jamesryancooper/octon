@@ -515,10 +515,10 @@ A refactor is NOT complete until Phase 5 (Verify) passes with zero remaining ref
 
 | File | Change Type | Description |
 |------|-------------|-------------|
-| `docs/architecture/harness/skills/comparison.md` | Update | Remove "workflows" from comparison table; note consolidation |
+| `.harmony/capabilities/architecture/comparison.md` | Update | Remove "workflows" from comparison table; note consolidation |
 | `docs/architecture/workspaces/workflows.md` | Deprecate | Add deprecation notice, point to skills |
-| `docs/architecture/harness/skills/README.md` | Update | Add "workflow skills" archetype section |
-| `docs/architecture/harness/skills/archetypes.md` | Create | Document different skill archetypes (transform, workflow, etc.) |
+| `.harmony/capabilities/architecture/README.md` | Update | Add "workflow skills" archetype section |
+| `.harmony/capabilities/architecture/archetypes.md` | Create | Document different skill archetypes (transform, workflow, etc.) |
 | `.harmony/capabilities/skills/manifest.yml` | Update | Add new skills as they're migrated |
 | `.harmony/capabilities/skills/registry.yml` | Update | Add new skill metadata |
 | `CLAUDE.md` | Update | Remove workflow references, simplify skill discovery |
@@ -557,7 +557,7 @@ The key insight is that skills are not just "composable I/O operations" - they a
 - `.harmony/capabilities/skills/synthesis/refine-prompt/SKILL.md` - Example multi-phase skill
 - `.harmony/capabilities/skills/synthesis/refine-prompt/references/phases.md` - Detailed phase documentation
 - `.harmony/orchestration/workflows/refactor/` - Example workflow (candidate for migration)
-- `docs/architecture/harness/skills/` - Skills documentation
+- `.harmony/capabilities/architecture/` - Skills documentation
 - `docs/architecture/workspaces/workflows.md` - Workflows documentation
 
 ---
@@ -866,7 +866,7 @@ Is your task...
 
 | File | Change |
 |------|--------|
-| `docs/architecture/harness/skills/comparison.md` | Add missions comparison |
+| `.harmony/capabilities/architecture/comparison.md` | Add missions comparison |
 | `docs/architecture/workspaces/workflows.md` | Deprecation notice → point to skills |
 | `docs/architecture/workspaces/missions.md` | **Create** - Mission primitive docs |
 | `docs/architecture/workspaces/missions/schema.md` | **Create** - mission.yml schema |

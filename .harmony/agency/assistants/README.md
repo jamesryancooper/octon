@@ -72,4 +72,4 @@ See `registry.yml` for the alias and escalation mapping configuration.
 
 - [Agents](../agents/README.md) — Supervisors that delegate to assistants
 - [Skills](../../capabilities/skills/README.md) — Capabilities that assistants use
-- `docs/architecture/harness/assistants.md` — Full assistant documentation
+- `.harmony/agency/architecture/assistants.md` — Full assistant documentation

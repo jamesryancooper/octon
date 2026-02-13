@@ -47,6 +47,6 @@ Existing `.harmony/` directory using older conventions.
 
 ## References
 
-- **Canonical:** `docs/architecture/harness/README.md`
+- **Canonical:** `.harmony/cognition/architecture/README.md`
 - **Templates:** `.harmony/scaffolding/templates/harmony/` (for new structure)
 

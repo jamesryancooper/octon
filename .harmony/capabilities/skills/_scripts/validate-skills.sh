@@ -50,7 +50,7 @@
 #   - stateful/resumable → checkpoints.md
 #   - self-validating → validation.md
 #   - safety-bounded → safety.md
-#   See: docs/architecture/harness/skills/capabilities.md
+#   See: .harmony/capabilities/architecture/capabilities.md
 #
 # Tool Permission Model:
 #   - allowed-tools in SKILL.md frontmatter is the SINGLE SOURCE OF TRUTH
@@ -1469,7 +1469,7 @@ validate_reference_token_budgets() {
 #   - Enterprise Complex: ~26000 tokens (4-6 reference files)
 #   - Domain Expert: ~32000 tokens (5-8 reference files, domain knowledge extensive)
 #
-# See: docs/architecture/harness/skills/reference-artifacts.md#complexity-budget
+# See: .harmony/capabilities/architecture/reference-artifacts.md#complexity-budget
 
 # Calculate aggregate token count for all reference files in a skill
 calculate_aggregate_reference_tokens() {
@@ -1560,7 +1560,7 @@ validate_aggregate_complexity() {
     elif [[ $aggregate_tokens -le $AGGREGATE_ENTERPRISE_BUDGET ]]; then
         log_warning "Aggregate reference tokens approaching complexity ceiling (~$aggregate_tokens > $AGGREGATE_STANDARD_BUDGET tokens)"
         log_info "  Consider: consolidate redundant content, extract shared domain knowledge"
-        log_info "  See: docs/architecture/harness/skills/reference-artifacts.md#reducing-complexity"
+        log_info "  See: .harmony/capabilities/architecture/reference-artifacts.md#reducing-complexity"
     elif [[ $aggregate_tokens -le $AGGREGATE_DOMAIN_BUDGET ]]; then
         if [[ "$is_domain_skill" == "true" ]]; then
             log_success "Domain Expert skill within extended budget (~$aggregate_tokens tokens, $ref_count files)"
@@ -2422,7 +2422,7 @@ validate_capability_heuristics() {
         log_warning "Minimal skill may benefit from capability declarations:"
         echo -e "$suggestions"
         log_info "  Add skill_sets and capabilities to manifest.yml and SKILL.md"
-        log_info "  See: docs/architecture/harness/skills/capabilities.md"
+        log_info "  See: .harmony/capabilities/architecture/capabilities.md"
         return 1
     fi
 
@@ -2720,7 +2720,7 @@ validate_skill() {
             log_info "  Skills without I/O mappings will use default output paths only."
             log_info "  To configure custom I/O paths, add an entry to:"
             log_info "    .harmony/capabilities/skills/registry.yml → skills.$skill_id.io"
-            log_info "  See docs/architecture/harness/skills/discovery.md#shared-registry"
+            log_info "  See .harmony/capabilities/architecture/discovery.md#shared-registry"
             if [[ "$FIX_MODE" == "true" ]]; then
                 scaffold_io_mapping "$skill_id"
             fi
@@ -2752,7 +2752,7 @@ validate_skill() {
         fi
     else
         log_error "Invalid allowed-tools: $tool_check_result"
-        log_info "  See docs/architecture/harness/skills/specification.md for allowed-tools format"
+        log_info "  See .harmony/capabilities/architecture/specification.md for allowed-tools format"
     fi
 
     # Check 15: allowed-services in SKILL.md resolves to services manifest entries

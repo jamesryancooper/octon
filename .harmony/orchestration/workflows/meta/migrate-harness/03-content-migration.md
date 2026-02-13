@@ -9,7 +9,7 @@ Transform content to meet current conventions.
    - Update cross-references between files
 
 2. **Compress agent-facing content**
-   - Target token budgets per `docs/architecture/harness/README.md#token-budget-guidelines`
+   - Target token budgets per `.harmony/cognition/architecture/README.md#token-budget-guidelines`
    - Move explanatory prose to `ideation/scratchpad/`
    - Convert paragraphs to lists where possible
 

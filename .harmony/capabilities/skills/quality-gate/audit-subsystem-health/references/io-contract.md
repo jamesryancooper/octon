@@ -168,7 +168,7 @@ No external dependencies required.
 ### With Companion Docs
 
 ```text
-/audit-subsystem-health subsystem=".harmony/capabilities/skills" docs="docs/architecture/harness/skills"
+/audit-subsystem-health subsystem=".harmony/capabilities/skills" docs=".harmony/cognition/architecture/skills"
 ```
 
 ### With Options

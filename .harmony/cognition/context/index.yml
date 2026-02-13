@@ -31,6 +31,26 @@ files:
     summary: Domain-specific terminology for the harness system.
     when: When encountering or defining domain terms.
 
+  - id: glossary-repo
+    path: glossary-repo.md
+    summary: Repository-wide glossary and conventions.
+    when: When working with repository-level terms or status vocabulary.
+
+  - id: risk-tiers
+    path: risk-tiers.md
+    summary: Risk-tier model and control expectations.
+    when: When selecting rigor level, approvals, and quality gates.
+
+  - id: metrics-scorecard
+    path: metrics-scorecard.md
+    summary: Metric definitions and scorecard expectations.
+    when: When evaluating health, progress, or delivery quality.
+
+  - id: cost-management
+    path: cost-management.md
+    summary: Cost governance and efficiency guidance.
+    when: When making tradeoffs that affect spend or efficiency.
+
   - id: primitives
     path: primitives.md
     summary: Core building blocks (skill, workflow, command, etc.) and when to use each.

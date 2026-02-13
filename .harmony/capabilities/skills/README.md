@@ -2,7 +2,7 @@
 
 Complex capabilities with defined I/O contracts and progressive disclosure.
 
-For full documentation, see [docs/architecture/harness/skills/](../../../docs/architecture/harness/skills/README.md).
+For full documentation, see [.harmony/capabilities/architecture/](/.harmony/capabilities/architecture/README.md).
 
 ---
 
@@ -15,7 +15,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │  SKILL CREATION CHECKLIST                                                   │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  1. SKILL DEFINITION (.harmony/capabilities/skills/<skill-id>/)                          │
+│  1. SKILL DEFINITION (/.harmony/capabilities/skills/<skill-id>/)                          │
 │     □ Copy _template/ to <skill-id>/                                        │
 │     □ Edit SKILL.md:                                                        │
 │       - Set `name:` to match directory name (kebab-case)                    │
@@ -24,7 +24,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - Replace all {{placeholders}} with actual content                    │
 │     □ Set `skill_sets:` and `capabilities:` (determines ref files)          │
 │                                                                             │
-│  2. SHARED MANIFEST (.harmony/capabilities/skills/manifest.yml)                          │
+│  2. SHARED MANIFEST (/.harmony/capabilities/skills/manifest.yml)                          │
 │     □ Add skill entry under `skills:`:                                      │
 │       - id: <skill-id>           # Must match directory and SKILL.md name   │
 │       - display_name: <Title Case>  # e.g., "Synthesize Research"           │
@@ -36,7 +36,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - skill_sets: [executor, guardian]  # Capability bundles              │
 │       - capabilities: [resumable]         # Additional capabilities         │
 │                                                                             │
-│  3. REGISTRY (.harmony/capabilities/skills/registry.yml)                                 │
+│  3. REGISTRY (/.harmony/capabilities/skills/registry.yml)                                 │
 │     □ Add skill entry under `skills:`:                                      │
 │       - version: "1.0.0"                                                    │
 │       - commands: [/<skill-id>]                                             │
@@ -44,7 +44,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - requires.context: [{type, path, description}]                       │
 │       - depends_on: []                                                      │
 │                                                                             │
-│  4. REGISTRY I/O (.harmony/capabilities/skills/registry.yml)                             │
+│  4. REGISTRY I/O (/.harmony/capabilities/skills/registry.yml)                             │
 │     □ Add skill I/O under `skills.<skill-id>.io`:                           │
 │       - inputs: [{path, kind, required, description}]                       │
 │       - outputs: [{name, path, kind, format, determinism, description}]     │
@@ -57,7 +57,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 ```
 
 Before implementing any new skill, apply the alignment-first gate in
-`docs/architecture/harness/skills/alignment-policy.md`.
+`.harmony/capabilities/architecture/alignment-policy.md`.
 
 **Skill Sets** (choose capability bundles):
 
@@ -71,7 +71,7 @@ Before implementing any new skill, apply the alignment-first gate in
 | `specialist` | domain-specialized | Requires domain expertise |
 | `guardian` | self-validating, safety-bounded | Has quality gates |
 
-> **Design Note:** Capabilities determine documentation needs. Each capability maps to specific reference files. See [capabilities.md](../../../docs/architecture/harness/skills/capabilities.md) for the full mapping.
+> **Design Note:** Capabilities determine documentation needs. Each capability maps to specific reference files. See [capabilities.md](/.harmony/capabilities/architecture/capabilities.md) for the full mapping.
 
 **Capability Selection Guide:**
 
@@ -104,7 +104,7 @@ skill_sets: [executor]
 capabilities: [resumable]
 ```
 
-The template includes guidance for choosing capabilities. See [reference-artifacts.md](../../../docs/architecture/harness/skills/reference-artifacts.md) for the complete capability-to-reference mapping.
+The template includes guidance for choosing capabilities. See [reference-artifacts.md](/.harmony/capabilities/architecture/reference-artifacts.md) for the complete capability-to-reference mapping.
 
 **Quick command to scaffold and validate:**
 
@@ -167,7 +167,7 @@ use skill: synthesize-research
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │  TIER 1: SHARED FOUNDATION (.harmony/capabilities/skills/)                       │   │
+│   │  TIER 1: SHARED FOUNDATION (/.harmony/capabilities/skills/)                       │   │
 │   │  ─────────────────────────────────────────────────────────────────  │   │
 │   │  Portable skill definitions — logic, behaviors, instructions        │   │
 │   │                                                                     │   │
@@ -187,7 +187,7 @@ use skill: synthesize-research
 │                                    │ I/O paths defined in                   │
 │                                    ▼                                        │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │  TIER 2: HARNESS CONFIG (.harmony/capabilities/skills/)                        │   │
+│   │  TIER 2: HARNESS CONFIG (/.harmony/capabilities/skills/)                        │   │
 │   │  ─────────────────────────────────────────────────────────────────  │   │
 │   │  Harness-specific I/O — paths, outputs, logs                        │   │
 │   │                                                                     │   │
@@ -237,7 +237,7 @@ DATA FLOW:
 | `version`, `commands`, `parameters`, `depends_on`| `.harmony/capabilities/skills/registry.yml`           |
 | Input/output paths                               | `.harmony/capabilities/skills/registry.yml`         |
 
-**Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived via the mapping function in `validate-skills.sh`. See [specification.md](../../../docs/architecture/harness/skills/specification.md) for details.
+**Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived via the mapping function in `validate-skills.sh`. See [specification.md](/.harmony/capabilities/architecture/specification.md) for details.
 
 **Validation:** Run `./_scripts/validate-skills.sh` to verify skill consistency.
 
@@ -452,5 +452,5 @@ WebFetch ruleset URL
 
 ## See Also
 
-- [Full Documentation](../../../docs/architecture/harness/skills/README.md) — Complete architecture and reference
+- [Full Documentation](/.harmony/capabilities/architecture/README.md) — Complete architecture and reference
 - [agentskills.io Specification](https://agentskills.io/specification) — Official spec

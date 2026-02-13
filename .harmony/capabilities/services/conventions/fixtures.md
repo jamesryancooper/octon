@@ -10,7 +10,7 @@ Fixtures anchor expected behavior for semantic evaluation and implementation val
 
 Related docs:
 
-- `docs/architecture/agent-as-runtime.md`
+- `.harmony/cognition/architecture/agent-as-runtime.md`
 - `conventions/rich-contracts.md`
 - `conventions/validation-tiers.md`
 - `conventions/implementation-generation.md`

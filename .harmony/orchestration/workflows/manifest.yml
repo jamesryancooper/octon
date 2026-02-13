@@ -258,6 +258,86 @@ workflows:
       - "publish scratchpad"
       - "promote insights"
 
+  # --- tasks: Guided operational playbooks ---
+
+  - id: add-api-endpoint
+    display_name: Add API Endpoint
+    group: tasks
+    domain: tasks
+    path: tasks/add-api-endpoint.md
+    summary: Guided workflow for adding a new API endpoint with spec, build, and review checkpoints.
+    status: active
+    format: single-file
+    triggers:
+      - "add api endpoint"
+      - "new api route"
+      - "build endpoint"
+
+  - id: add-ui-feature
+    display_name: Add UI Feature
+    group: tasks
+    domain: tasks
+    path: tasks/add-ui-feature.md
+    summary: Guided workflow for shipping a UI feature with preview and review gates.
+    status: active
+    format: single-file
+    triggers:
+      - "add ui feature"
+      - "build ui"
+      - "new frontend feature"
+
+  - id: fix-a-bug
+    display_name: Fix a Bug
+    group: tasks
+    domain: tasks
+    path: tasks/fix-a-bug.md
+    summary: Guided bug-fix workflow from issue intake through verification.
+    status: active
+    format: single-file
+    triggers:
+      - "fix a bug"
+      - "debug issue"
+      - "resolve defect"
+
+  - id: handle-security-issue
+    display_name: Handle Security Issue
+    group: tasks
+    domain: tasks
+    path: tasks/handle-security-issue.md
+    summary: Guided security response workflow for vulnerability investigation and remediation.
+    status: active
+    format: single-file
+    triggers:
+      - "handle security issue"
+      - "security vulnerability"
+      - "security remediation"
+
+  - id: onboard-new-developer
+    display_name: Onboard New Developer
+    group: tasks
+    domain: tasks
+    path: tasks/onboard-new-developer.md
+    summary: Guided onboarding workflow for new developers joining Harmony.
+    status: active
+    format: single-file
+    triggers:
+      - "onboard new developer"
+      - "developer onboarding"
+      - "new team member setup"
+
+  - id: run-data-migration
+    display_name: Run Data Migration
+    group: tasks
+    domain: tasks
+    path: tasks/run-data-migration.md
+    summary: Guided workflow for planning and executing data migrations safely.
+    status: active
+    format: single-file
+    triggers:
+      - "run data migration"
+      - "database migration"
+      - "schema migration"
+
 # ============================================================================
 # WORKFLOW GROUP DEFINITIONS
 # Domain-oriented clusters for routing and directory organization.
@@ -299,3 +379,9 @@ workflow_group_definitions:
     description: Scratchpad content promotion
     path: ideation/
     members: [promote-from-scratchpad]
+
+  tasks:
+    description: Guided operational task playbooks
+    path: tasks/
+    members: [add-api-endpoint, add-ui-feature, fix-a-bug, handle-security-issue,
+              onboard-new-developer, run-data-migration]

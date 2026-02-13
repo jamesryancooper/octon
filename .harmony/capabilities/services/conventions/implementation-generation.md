@@ -10,8 +10,8 @@ Native implementations can be generated from rich contracts when deterministic r
 
 Related docs:
 
-- `docs/architecture/agent-as-runtime.md`
-- `docs/architecture/agent-runtime-caveats.md`
+- `.harmony/cognition/architecture/agent-as-runtime.md`
+- `.harmony/cognition/architecture/agent-runtime-caveats.md`
 - `conventions/rich-contracts.md`
 - `conventions/fixtures.md`
 - `conventions/validation-tiers.md`
