@@ -53,7 +53,9 @@ The primitives form a hierarchical multi-agent system:
 
 ## Agents
 
-**Location:** `.harmony/agency/agents/<agent-name>/agent.md`
+**Location:** `.harmony/agency/agents/<agent-name>/AGENT.md` + `.harmony/agency/agents/<agent-name>/SOUL.md`
+
+**Cross-agent overlays:** `.harmony/agency/CONSTITUTION.md`, `.harmony/agency/DELEGATION.md`, `.harmony/agency/MEMORY.md`
 
 **Registry:** `.harmony/agency/agents/registry.yml`
 
@@ -95,14 +97,24 @@ The primitives form a hierarchical multi-agent system:
 ```
 
 ```markdown
-# agent.md sections
+# AGENT.md sections
+- Contract Scope
 - Role
 - Capabilities
-- Operating Principles
 - Delegation Rules
-- Mission Command
-- Context Management
+- Mission Ownership
 - Escalation
+- Output Contract
+```
+
+```markdown
+# SOUL.md sections
+- Contract Scope
+- Philosophy
+- Core Truths
+- Boundaries
+- Ambiguity Stance
+- Collaboration Style
 ```
 
 ---

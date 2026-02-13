@@ -32,6 +32,9 @@ This is the canonical documentation entrypoint for the `.harmony/agency` subsyst
 ## Source-of-Truth Files
 
 - `.harmony/agency/manifest.yml`
+- `.harmony/agency/CONSTITUTION.md`
+- `.harmony/agency/DELEGATION.md`
+- `.harmony/agency/MEMORY.md`
 - `.harmony/agency/agents/registry.yml`
 - `.harmony/agency/assistants/registry.yml`
 - `.harmony/agency/teams/registry.yml`

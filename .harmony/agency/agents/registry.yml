@@ -8,6 +8,8 @@ agents:
   - id: architect
     name: architect
     path: architect/
+    contract: AGENT.md
+    soul: SOUL.md
     role: "Principal architect for system design, implementation strategy, and execution governance"
     capabilities:
       - architecture-design
@@ -23,6 +25,8 @@ agents:
   - id: auditor
     name: auditor
     path: auditor/
+    contract: AGENT.md
+    soul: SOUL.md
     role: "High-rigor audit specialist for material design and quality defects"
     capabilities:
       - quality-audit

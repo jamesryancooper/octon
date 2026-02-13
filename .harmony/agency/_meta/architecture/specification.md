@@ -1,6 +1,10 @@
 ---
 title: Agency Subsystem Specification
 description: Canonical specification for actors, invocation, contracts, and boundaries in .harmony/agency.
+spec_refs:
+  - HARMONY-SPEC-101
+  - HARMONY-SPEC-004
+  - HARMONY-SPEC-006
 ---
 
 # Agency Subsystem Specification
@@ -143,11 +147,17 @@ Not allowed by default:
 ```text
 .harmony/agency/
 ├── README.md
+├── CONSTITUTION.md
+├── DELEGATION.md
+├── MEMORY.md
 ├── manifest.yml
 ├── agents/
 │   ├── registry.yml
-│   ├── _scaffold/template/agent.md
-│   └── <id>/agent.md
+│   ├── _scaffold/template/AGENT.md
+│   ├── _scaffold/template/SOUL.md
+│   └── <id>/
+│       ├── AGENT.md
+│       └── SOUL.md
 ├── assistants/
 │   ├── registry.yml
 │   ├── _scaffold/template/assistant.md
@@ -178,12 +188,26 @@ registries:
   teams: "teams/registry.yml"
 ```
 
+### Cross-Agent Governance Contracts
+
+Required root contracts:
+
+- `CONSTITUTION.md`: non-negotiable policy, conscience rubric, and red lines.
+- `DELEGATION.md`: delegation authority, handoff protocol, and escalation.
+- `MEMORY.md`: memory classes, retention policy, and privacy boundaries.
+
+Precedence:
+
+`AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> `agents/<id>/AGENT.md` -> `agents/<id>/SOUL.md`
+
 ### `agents/registry.yml`
 
 Minimum fields:
 
 - `id`
 - `path`
+- `contract` (default `AGENT.md`)
+- `soul` (default `SOUL.md`)
 - `role`
 - `capabilities`
 - `delegates_to.assistants`
@@ -215,7 +239,7 @@ Minimum fields:
 
 ## Actor Document Contracts
 
-### Agent Document (`agent.md`)
+### Agent Execution Contract (`AGENT.md`)
 
 Must define:
 
@@ -226,6 +250,17 @@ Must define:
 - escalation rules,
 - quality/security boundaries,
 - output contract.
+
+### Agent Identity Contract (`SOUL.md`)
+
+Must define:
+
+- philosophy,
+- identity and values,
+- communication posture,
+- ambiguity handling stance,
+- hard behavioral boundaries,
+- explicit cross-reference to `AGENT.md`.
 
 ### Assistant Document (`assistant.md`)
 
@@ -316,8 +351,13 @@ Automated checks should enforce:
 
 - schema shape and required fields for all registries,
 - cross-reference integrity (`path` targets exist),
+- required root contracts (`CONSTITUTION.md`, `DELEGATION.md`, `MEMORY.md`),
+- `CONSTITUTION.md` includes `Conscience` with `Decision Rubric` and `Red Lines`,
+- required `AGENT.md` + `SOUL.md` for every agent path,
+- required `Philosophy` section for every `SOUL.md`,
 - alias uniqueness,
 - actor id uniqueness,
+- capitalization rule (`AGENT.md`, not `agent.md`),
 - no `subagents/` references after deprecation window,
 - policy constraints for skill delegation from actors.
 

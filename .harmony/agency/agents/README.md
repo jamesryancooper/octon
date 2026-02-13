@@ -17,13 +17,33 @@ Agents are persistent supervisors in the agency subsystem.
 
 ## Discovery
 
-Use `registry.yml` for actor routing metadata and `agent.md` for behavioral contracts.
+Use `registry.yml` for actor routing metadata, `AGENT.md` for execution contracts, and `SOUL.md` for identity contracts.
+
+## Contract Layers
+
+Each agent directory uses a two-file contract split:
+
+| File | Responsibility |
+|---|---|
+| `AGENT.md` | Operational policy: scope, delegation, escalation, output contract |
+| `SOUL.md` | Identity policy: values, tone, boundaries in ambiguous situations |
+
+Cross-agent overlays at `agency/` root:
+
+- `CONSTITUTION.md`
+- `DELEGATION.md`
+- `MEMORY.md`
+
+Precedence: root `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> agent `AGENT.md` -> agent `SOUL.md`.
 
 ## Layout
 
 ```text
 agents/
 ├── registry.yml
-├── _scaffold/template/agent.md
-└── <id>/agent.md
+├── _scaffold/template/AGENT.md
+├── _scaffold/template/SOUL.md
+└── <id>/
+    ├── AGENT.md
+    └── SOUL.md
 ```

@@ -5,10 +5,27 @@
 Adopt the default agent persona defined by the harness:
 
 - **Default agent:** `architect` (per `.harmony/agency/manifest.yml`)
-- **Contract:** `.harmony/agency/agents/architect/agent.md`
+- **Constitution:** `.harmony/agency/CONSTITUTION.md`
+- **Delegation policy:** `.harmony/agency/DELEGATION.md`
+- **Memory policy:** `.harmony/agency/MEMORY.md`
+- **Execution contract:** `.harmony/agency/agents/architect/AGENT.md`
+- **Identity contract:** `.harmony/agency/agents/architect/SOUL.md`
 - **All agents:** `.harmony/agency/agents/registry.yml`
 
 Read and follow your agent contract before beginning work.
+
+## Contract Layers
+
+Contract responsibilities are intentionally split to prevent drift:
+
+1. `AGENTS.md` (root): repository-wide routing, safety, and operational conventions.
+2. `CONSTITUTION.md` (cross-agent): non-negotiable governance, conscience rubric, and red lines.
+3. `DELEGATION.md` (cross-agent): delegation authority, handoff protocol, and escalation triggers.
+4. `MEMORY.md` (cross-agent): memory classes, retention rules, and privacy boundaries.
+5. `AGENT.md` (per agent): execution policy, orchestration rules, and task contract.
+6. `SOUL.md` (per agent): identity, interpersonal stance, and ambiguity behavior.
+
+Precedence for conflicts: `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> `AGENT.md` -> `SOUL.md`.
 
 ## Harness Orientation
 

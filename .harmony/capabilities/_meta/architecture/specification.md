@@ -1,6 +1,10 @@
 ---
 title: Specification Compliance
 description: Conformance to agentskills.io specification, extensions, and validation.
+spec_refs:
+  - HARMONY-SPEC-201
+  - HARMONY-SPEC-003
+  - HARMONY-SPEC-004
 ---
 
 # Specification Compliance

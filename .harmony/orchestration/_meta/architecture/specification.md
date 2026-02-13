@@ -1,6 +1,10 @@
 ---
 title: Specification Compliance
 description: Conformance to the Agent Workflow Specification, extensions, and validation.
+spec_refs:
+  - HARMONY-SPEC-301
+  - HARMONY-SPEC-003
+  - HARMONY-SPEC-006
 ---
 
 # Specification Compliance

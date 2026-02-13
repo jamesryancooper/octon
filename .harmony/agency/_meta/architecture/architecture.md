@@ -106,12 +106,18 @@ graph TD
 | Layer | Concern | Primary Artifacts |
 |---|---|---|
 | L1 | Actor identity and routing | `agency/manifest.yml`, actor registries |
-| L2 | Actor behavior contracts | `agent.md`, `assistant.md`, `team.md` |
-| L3 | Capability execution | skills and workflows |
-| L4 | Durable progress/state | missions, continuity, cognition |
-| L5 | Verification/governance | quality gates, audits, CI validation |
+| L2 | Cross-agent governance contracts | `CONSTITUTION.md`, `DELEGATION.md`, `MEMORY.md` |
+| L3 | Actor behavior contracts | `AGENT.md`, `SOUL.md`, `assistant.md`, `team.md` |
+| L4 | Capability execution | skills and workflows |
+| L5 | Durable progress/state | missions, continuity, cognition |
+| L6 | Verification/governance | quality gates, audits, CI validation |
 
 ## Key Contracts and Boundaries
+
+### Boundary 0: Governance Precedence
+
+- Cross-agent governance (`CONSTITUTION.md`, `DELEGATION.md`, `MEMORY.md`) constrains all per-agent behavior.
+- Per-agent contracts can specialize behavior but cannot override governance red lines.
 
 ### Boundary 1: Orchestration vs Capability
 

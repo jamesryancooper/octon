@@ -35,6 +35,18 @@ The terms are related but operate at different levels:
 
 **Short rule:** The **Framework** is the "system design"; the **Universal Localized Harness** is that design instantiated in a specific repository so humans and agents can run it.
 
+## Canonical Specification
+
+The cross-subsystem canonical contract is:
+
+- `/.harmony/cognition/_meta/architecture/specification.md`
+
+Use subsystem specs for expanded contract details:
+
+- `/.harmony/agency/_meta/architecture/specification.md`
+- `/.harmony/capabilities/_meta/architecture/specification.md`
+- `/.harmony/orchestration/_meta/architecture/specification.md`
+
 ## Agency Subsystem Docs
 
 For the finalized agency model, see:
@@ -133,9 +145,13 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │
 ├── agency/                  # Agents, assistants, and teams
 │   ├── README.md            # Domain orientation (referenced)
+│   ├── CONSTITUTION.md      # Cross-agent governance and red lines
+│   ├── DELEGATION.md        # Cross-agent delegation contract
+│   ├── MEMORY.md            # Cross-agent memory and retention contract
 │   ├── agents/              # Autonomous agent definitions
 │   │   └── <name>/
-│   │       └── agent.md     # Agent definition
+│   │       ├── AGENT.md     # Agent execution contract
+│   │       └── SOUL.md      # Agent identity contract
 │   ├── assistants/          # Focused specialists (serve agents/humans)
 │   │   ├── registry.yml     # @mention mappings
 │   │   ├── _scaffold/template/

@@ -7,6 +7,18 @@ description: Index of available commands, workflows, and decision guidance.
 
 Available operations and decision guidance in this harness.
 
+## Canonical Specification
+
+The canonical cross-subsystem spec is:
+
+- [`.harmony/cognition/_meta/architecture/specification.md`](./cognition/_meta/architecture/specification.md)
+
+Subsystem expansion specs:
+
+- [`.harmony/agency/_meta/architecture/specification.md`](./agency/_meta/architecture/specification.md)
+- [`.harmony/capabilities/_meta/architecture/specification.md`](./capabilities/_meta/architecture/specification.md)
+- [`.harmony/orchestration/_meta/architecture/specification.md`](./orchestration/_meta/architecture/specification.md)
+
 ---
 
 ## Assistants

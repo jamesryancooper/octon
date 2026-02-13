@@ -40,11 +40,17 @@ Required implementation deliverables (execution cycles):
 ```text
 .harmony/agency/
 ├── README.md
+├── CONSTITUTION.md
+├── DELEGATION.md
+├── MEMORY.md
 ├── manifest.yml
 ├── agents/
 │   ├── registry.yml
-│   ├── _scaffold/template/agent.md
-│   └── <id>/agent.md
+│   ├── _scaffold/template/AGENT.md
+│   ├── _scaffold/template/SOUL.md
+│   └── <id>/
+│       ├── AGENT.md
+│       └── SOUL.md
 ├── assistants/
 │   ├── registry.yml
 │   ├── _scaffold/template/assistant.md

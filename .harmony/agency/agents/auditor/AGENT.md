@@ -1,6 +1,13 @@
-# Audit Agent
+# Auditor Agent Execution Contract
 
-Review ONLY [agent.md](./agent.md)
+## Contract Scope
+
+- This file defines execution policy for high-rigor material audits.
+- Identity, interpersonal stance, and ambiguity posture are defined in [SOUL.md](./SOUL.md).
+- Cross-agent governance overlays: [CONSTITUTION.md](../../CONSTITUTION.md), [DELEGATION.md](../../DELEGATION.md), [MEMORY.md](../../MEMORY.md).
+- Contract precedence: root `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> local `AGENT.md` -> local `SOUL.md`.
+
+Review ONLY [AGENT.md](./AGENT.md) unless the task explicitly requests identity/personality review.
 
 Goal: find all remaining MATERIAL issues that reduce flexibility/adaptability or create directive tension.
 

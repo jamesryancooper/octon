@@ -47,6 +47,28 @@ See `catalog.md#command-vs-prompt-decision` for the canonical decision logic, fl
 | Include examples when non-obvious | Over-document obvious patterns |
 | End frontmatter `description` with a period | Omit punctuation in descriptions |
 
+## Visual Communication Standards
+
+Use visuals to reduce ambiguity and improve comprehension, not for decoration.
+
+### When to Use Visuals
+
+- Use **tables** for comparisons, tradeoffs, precedence, and contract boundaries.
+- Use **Mermaid diagrams** for non-trivial flows, orchestration, state transitions, or branching logic.
+- Prefer plain lists/prose when the structure is simple and unambiguous.
+
+### Anti-Drift Rules
+
+- Every visual must have a functional purpose (decision clarity, flow clarity, or scope clarity).
+- Do not add decorative visuals, stylistic ornamentation, or duplicate a structure already clear in prose.
+- Prefer the smallest visual that communicates the model.
+
+### Maintenance Rules
+
+- Keep visuals source-of-truth adjacent to the policy they represent.
+- Update visuals in the same change that modifies the underlying behavior/contract.
+- If a visual and prose diverge, align the visual immediately or remove it.
+
 ## Version Control Standards
 
 - Follow `.harmony/agency/practices/commits.md` for commit message format, branch naming,

@@ -9,6 +9,9 @@ MANIFEST="$AGENCY_DIR/manifest.yml"
 AGENTS_REG="$AGENCY_DIR/agents/registry.yml"
 ASSISTANTS_REG="$AGENCY_DIR/assistants/registry.yml"
 TEAMS_REG="$AGENCY_DIR/teams/registry.yml"
+CONSTITUTION_FILE="$AGENCY_DIR/CONSTITUTION.md"
+DELEGATION_FILE="$AGENCY_DIR/DELEGATION.md"
+MEMORY_FILE="$AGENCY_DIR/MEMORY.md"
 
 errors=0
 warnings=0
@@ -110,6 +113,212 @@ check_registry_paths() {
 
   if [[ $pair_count -eq 0 ]]; then
     warn "$kind registry has no id/path entries"
+  fi
+}
+
+check_agent_filename_capitalization() {
+  local legacy_files
+  legacy_files="$(find "$AGENCY_DIR/agents" -type f -name 'agent.md' | sort || true)"
+
+  if [[ -n "$legacy_files" ]]; then
+    while IFS= read -r file; do
+      [[ -z "$file" ]] && continue
+      fail "legacy lowercase agent contract filename detected: ${file#$ROOT_DIR/}"
+    done <<< "$legacy_files"
+  else
+    pass "agent contract filenames are capitalized (AGENT.md)"
+  fi
+}
+
+check_agent_contract_layers() {
+  local pair_count=0
+  while IFS='|' read -r id relpath; do
+    [[ -z "$id" || -z "$relpath" ]] && continue
+    relpath="${relpath%/}"
+    pair_count=$((pair_count + 1))
+
+    local agent_dir="$AGENCY_DIR/agents/$relpath"
+    local agent_file="$agent_dir/AGENT.md"
+    local soul_file="$agent_dir/SOUL.md"
+
+    if [[ ! -f "$agent_file" ]]; then
+      fail "agent '$id' missing AGENT.md: $agent_file"
+      continue
+    fi
+
+    if [[ ! -f "$soul_file" ]]; then
+      fail "agent '$id' missing SOUL.md: $soul_file"
+      continue
+    fi
+
+    if ! grep -q '^## Contract Scope' "$agent_file"; then
+      fail "agent '$id' AGENT.md missing '## Contract Scope' section"
+    fi
+
+    if ! grep -q '^## Contract Scope' "$soul_file"; then
+      fail "agent '$id' SOUL.md missing '## Contract Scope' section"
+    fi
+
+    if ! grep -q '^## Philosophy' "$soul_file"; then
+      fail "agent '$id' SOUL.md missing '## Philosophy' section"
+    fi
+
+    if ! grep -q '\./SOUL\.md' "$agent_file"; then
+      fail "agent '$id' AGENT.md must reference ./SOUL.md"
+    fi
+
+    if ! grep -q '\./AGENT\.md' "$soul_file"; then
+      fail "agent '$id' SOUL.md must reference ./AGENT.md"
+    fi
+
+    if ! grep -q 'CONSTITUTION\.md' "$agent_file"; then
+      fail "agent '$id' AGENT.md must reference CONSTITUTION.md"
+    fi
+
+    if ! grep -q 'DELEGATION\.md' "$agent_file"; then
+      fail "agent '$id' AGENT.md must reference DELEGATION.md"
+    fi
+
+    if ! grep -q 'MEMORY\.md' "$agent_file"; then
+      fail "agent '$id' AGENT.md must reference MEMORY.md"
+    fi
+
+    if ! grep -q 'CONSTITUTION\.md' "$soul_file"; then
+      fail "agent '$id' SOUL.md must reference CONSTITUTION.md"
+    fi
+
+    if ! grep -q 'DELEGATION\.md' "$soul_file"; then
+      fail "agent '$id' SOUL.md must reference DELEGATION.md"
+    fi
+
+    if ! grep -q 'MEMORY\.md' "$soul_file"; then
+      fail "agent '$id' SOUL.md must reference MEMORY.md"
+    fi
+
+    pass "agents/$id contract layering validated (AGENT.md + SOUL.md)"
+  done < <(extract_id_path_pairs "$AGENTS_REG")
+
+  if [[ $pair_count -eq 0 ]]; then
+    warn "agents registry has no id/path entries for contract layering checks"
+  fi
+}
+
+check_cross_agent_contracts() {
+  if ! grep -q '^## Contract Scope' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing '## Contract Scope' section"
+  fi
+  if ! grep -q '^## Authority and Precedence' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing '## Authority and Precedence' section"
+  fi
+  if ! grep -q '^## Non-Negotiables' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing '## Non-Negotiables' section"
+  fi
+  if ! grep -q '^## Conscience' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing '## Conscience' section"
+  fi
+  if ! grep -q '^### Decision Rubric' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing '### Decision Rubric' section"
+  fi
+  if ! grep -q '^### Red Lines' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing '### Red Lines' section"
+  fi
+
+  if ! grep -q '^## Contract Scope' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing '## Contract Scope' section"
+  fi
+  if ! grep -q '^## Delegation Packet Requirements' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing '## Delegation Packet Requirements' section"
+  fi
+  if ! grep -q '^## Authority Boundaries' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing '## Authority Boundaries' section"
+  fi
+  if ! grep -q '^## Escalation Triggers' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing '## Escalation Triggers' section"
+  fi
+
+  if ! grep -q '^## Contract Scope' "$MEMORY_FILE"; then
+    fail "MEMORY.md missing '## Contract Scope' section"
+  fi
+  if ! grep -q '^## Memory Classes' "$MEMORY_FILE"; then
+    fail "MEMORY.md missing '## Memory Classes' section"
+  fi
+  if ! grep -q '^## Retention and Placement' "$MEMORY_FILE"; then
+    fail "MEMORY.md missing '## Retention and Placement' section"
+  fi
+  if ! grep -q '^## Privacy and Safety Constraints' "$MEMORY_FILE"; then
+    fail "MEMORY.md missing '## Privacy and Safety Constraints' section"
+  fi
+
+  pass "cross-agent contracts validated (CONSTITUTION.md + DELEGATION.md + MEMORY.md)"
+}
+
+check_agent_registry_contract_fields() {
+  local row_count=0
+  while IFS='|' read -r id contract soul; do
+    [[ -z "$id" ]] && continue
+    row_count=$((row_count + 1))
+
+    if [[ -z "$contract" ]]; then
+      fail "agents registry entry '$id' missing required field: contract"
+      continue
+    fi
+
+    if [[ -z "$soul" ]]; then
+      fail "agents registry entry '$id' missing required field: soul"
+      continue
+    fi
+
+    if [[ "$contract" != "AGENT.md" ]]; then
+      fail "agents registry entry '$id' contract must be AGENT.md (found: $contract)"
+    fi
+
+    if [[ "$soul" != "SOUL.md" ]]; then
+      fail "agents registry entry '$id' soul must be SOUL.md (found: $soul)"
+    fi
+
+    pass "agents/$id registry contract fields validated"
+  done < <(
+    awk '
+      /^[[:space:]]*-[[:space:]]+id:[[:space:]]*/ {
+        if (in_block == 1) {
+          print id "|" contract "|" soul
+        }
+        in_block=1
+        id=$2
+        sub(/^id:/, "", id)
+        gsub(/"/, "", id)
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", id)
+        if (id == "") {
+          id=$3
+          gsub(/"/, "", id)
+          gsub(/^[[:space:]]+|[[:space:]]+$/, "", id)
+        }
+        contract=""
+        soul=""
+        next
+      }
+      in_block == 1 && /^[[:space:]]*contract:[[:space:]]*/ {
+        contract=$2
+        gsub(/"/, "", contract)
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", contract)
+        next
+      }
+      in_block == 1 && /^[[:space:]]*soul:[[:space:]]*/ {
+        soul=$2
+        gsub(/"/, "", soul)
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", soul)
+        next
+      }
+      END {
+        if (in_block == 1) {
+          print id "|" contract "|" soul
+        }
+      }
+    ' "$AGENTS_REG"
+  )
+
+  if [[ $row_count -eq 0 ]]; then
+    warn "agents registry has no entries for contract field validation"
   fi
 }
 
@@ -222,16 +431,23 @@ main() {
   require_file "$AGENTS_REG"
   require_file "$ASSISTANTS_REG"
   require_file "$TEAMS_REG"
+  require_file "$CONSTITUTION_FILE"
+  require_file "$DELEGATION_FILE"
+  require_file "$MEMORY_FILE"
 
   check_manifest_links
+  check_cross_agent_contracts
 
   check_unique_ids "$AGENTS_REG" "agents registry"
   check_unique_ids "$ASSISTANTS_REG" "assistants registry"
   check_unique_ids "$TEAMS_REG" "teams registry"
 
-  check_registry_paths "$AGENTS_REG" "agents" "agent.md"
+  check_registry_paths "$AGENTS_REG" "agents" "AGENT.md"
   check_registry_paths "$ASSISTANTS_REG" "assistants" "assistant.md"
   check_registry_paths "$TEAMS_REG" "teams" "team.md"
+  check_agent_registry_contract_fields
+  check_agent_filename_capitalization
+  check_agent_contract_layers
 
   check_assistant_aliases
   check_deprecations

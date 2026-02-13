@@ -26,6 +26,20 @@ This harness extends `.harmony/` for shared infrastructure.
 
 ---
 
+## Canonical Specification
+
+The cross-subsystem canonical contract for this harness is:
+
+- `cognition/_meta/architecture/specification.md`
+
+Subsystem expansion specs:
+
+- `agency/_meta/architecture/specification.md`
+- `capabilities/_meta/architecture/specification.md`
+- `orchestration/_meta/architecture/specification.md`
+
+---
+
 ## Structure
 
 ```text
@@ -104,13 +118,14 @@ Within these namespaces, standard subpaths are:
 
 1. **Read `scope.md`** → Know boundaries
 2. **Read `conventions.md`** → Know style rules
-3. **Read `cognition/principles/principles.md`** → Know operating principles
-4. **Scan `catalog.md`** → Know available operations and assistants
-5. **Read `continuity/log.md`** → Know what's been done
-6. **Read `continuity/tasks.json`** → Know current priorities
-7. **Check `orchestration/missions/registry.yml`** → Know active missions (if any)
-8. **Begin** highest-priority unblocked task
-9. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
+3. **Read `cognition/_meta/architecture/specification.md`** → Know canonical harness rules
+4. **Read `cognition/principles/README.md`** → Know operating principles
+5. **Scan `catalog.md`** → Know available operations and assistants
+6. **Read `continuity/log.md`** → Know what's been done
+7. **Read `continuity/tasks.json`** → Know current priorities
+8. **Check `orchestration/missions/registry.yml`** → Know active missions (if any)
+9. **Begin** highest-priority unblocked task
+10. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
 
 ## Assistants
 

@@ -9,6 +9,18 @@
 - Skills framework and base skills
 - Quality checklists and context references
 
+## Canonical Specification
+
+The cross-subsystem canonical contract for this harness is:
+
+- `/.harmony/cognition/_meta/architecture/specification.md`
+
+Subsystem expansion specs:
+
+- `/.harmony/agency/_meta/architecture/specification.md`
+- `/.harmony/capabilities/_meta/architecture/specification.md`
+- `/.harmony/orchestration/_meta/architecture/specification.md`
+
 **Portability:** This directory is designed to be copied to other repositories. See [Adopting in Other Repos](#adopting-in-other-repos) below.
 
 ## Inheritance Model
