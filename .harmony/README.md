@@ -75,6 +75,7 @@ When resolving a resource, agents check local first, then shared:
 ├── ideation/           <- Human-led zone (scratchpad/, projects/)
 │
 └── output/             <- Reports, drafts, artifacts
+    └── _meta/architecture/ <- Output subsystem specification
 ```
 
 ## What Lives Here

@@ -5,7 +5,7 @@ description: >
   structured logging, health endpoints, and standard sub-packages. Invoke with
   a project name, description, Python version, and infrastructure dependencies.
 skill_sets: [specialist]
-capabilities: [phased]
+capabilities: [phased, external-dependent]
 # Write scopes are explicit: workspace scaffolding plus skill log output.
 allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_ops/state/logs/*) Bash(mkdir) Bash(uv)
 ---

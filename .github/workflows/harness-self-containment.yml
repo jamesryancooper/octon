@@ -1,0 +1,41 @@
+name: Harness Self-Containment Validation
+
+on:
+  push:
+    paths:
+      - '.harmony/**'
+      - '.github/workflows/harness-self-containment.yml'
+  pull_request:
+    paths:
+      - '.harmony/**'
+      - '.github/workflows/harness-self-containment.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate harness structure contract
+        run: |
+          chmod +x .harmony/quality/_ops/scripts/validate-harness-structure.sh
+          .harmony/quality/_ops/scripts/validate-harness-structure.sh
+
+      - name: Validate workflow manifest and dependency profiles
+        run: |
+          chmod +x .harmony/orchestration/workflows/_ops/scripts/validate-workflows.sh
+          .harmony/orchestration/workflows/_ops/scripts/validate-workflows.sh
+
+      - name: Validate services independence
+        run: |
+          chmod +x .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh
+          .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh
+
+      - name: Report validation failure
+        if: failure()
+        run: |
+          echo "::error::Harness self-containment validation failed. Run the _ops validation scripts locally to inspect errors."

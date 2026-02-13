@@ -14,6 +14,7 @@
 #                  Resolved via workflow_group_definitions below
 #   domain       - Fine-grained domain classification
 #   path         - Relative path to workflow directory or file
+#   execution_profile - Runtime dependency profile: core | external-dependent
 #   summary      - One-line description for routing decisions
 #   status       - Lifecycle state: active | deprecated | experimental
 #   triggers     - Natural language phrases for intent matching
@@ -176,7 +177,8 @@ workflows:
     display_name: Python API Foundation
     group: foundations
     domain: foundations
-    path: foundations/python-api-foundation/
+    path: foundations/python-api/
+    execution_profile: external-dependent
     summary: Orchestrate six foundation skills to scaffold a Python API project.
     status: active
     triggers:
@@ -190,7 +192,8 @@ workflows:
     display_name: Swift macOS App Foundation
     group: foundations
     domain: foundations
-    path: foundations/swift-macos-app-foundation/
+    path: foundations/swift-macos-app/
+    execution_profile: external-dependent
     summary: Orchestrate six foundation skills to scaffold a Swift macOS application.
     status: active
     triggers:
@@ -234,6 +237,7 @@ workflows:
     group: flowkit
     domain: flowkit
     path: flowkit/run-flow/
+    execution_profile: external-dependent
     summary: Execute a FlowKit LangGraph flow from its config file.
     status: active
     triggers:

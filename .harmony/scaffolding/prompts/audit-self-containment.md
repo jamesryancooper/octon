@@ -18,20 +18,20 @@ Harness integrity auditor — structural analyst that enforces harness boundary 
 
 | Subsystem | Path | Expected Internals |
 |---|---|---|
-| Agency | `agency/` | `manifest.yml`, `architecture/`, `agents/`, `assistants/`, `teams/` |
-| Capabilities | `capabilities/` | `architecture/`, `skills/`, `commands/`, `tools/`, `services/` |
-| Cognition | `cognition/` | `architecture/`, `principles/`, `methodology/`, `context/`, `decisions/`, `analyses/` |
-| Orchestration | `orchestration/` | `architecture/`, `workflows/`, `missions/` |
-| Scaffolding | `scaffolding/` | `architecture/`, `patterns/`, `templates/`, `prompts/`, `examples/` |
-| Quality | `quality/` | `architecture/`, checklists |
-| Continuity | `continuity/` | `architecture/`, `log.md`, `tasks.json`, `entities.json`, `next.md` |
-| Ideation | `ideation/` | `architecture/`, `scratchpad/`, `projects/` |
+| Agency | `agency/` | `manifest.yml`, `_meta/architecture/`, `agents/`, `assistants/`, `teams/` |
+| Capabilities | `capabilities/` | `_meta/architecture/`, `skills/`, `commands/`, `tools/`, `services/` |
+| Cognition | `cognition/` | `_meta/architecture/`, `principles/`, `methodology/`, `context/`, `decisions/`, `analyses/` |
+| Orchestration | `orchestration/` | `_meta/architecture/`, `workflows/`, `missions/` |
+| Scaffolding | `scaffolding/` | `_meta/architecture/`, `patterns/`, `templates/`, `prompts/`, `examples/` |
+| Quality | `quality/` | `_meta/architecture/`, checklists |
+| Continuity | `continuity/` | `_meta/architecture/`, `log.md`, `tasks.json`, `entities.json`, `next.md` |
+| Ideation | `ideation/` | `_meta/architecture/`, `scratchpad/`, `projects/` |
 | Output | `output/` | Reports, drafts, artifacts |
 
 Each subsystem MUST satisfy three properties:
 
-1. **Structurally complete** — Has `README.md` for orientation and `architecture/` for specification
-2. **Harness-native** — Uses only harness-internal discovery patterns (`manifest.yml` → `registry.yml` → concrete files), references only `.harmony/`-relative paths, follows harness conventions
+1. **Structurally complete** — Has `README.md` for orientation and `_meta/architecture/` for specification
+2. **Harness-native** — Uses only harness-internal discovery patterns (`manifest.yml` → `registry.yml` → concrete files), references only `.harmony/`-relative paths, follows harness conventions and the underscore-prefixed namespace convention (`_meta/`, `_ops/`, `_scaffold/`)
 3. **Self-contained** — No references to external packages, no runtime binary dependencies beyond host-provided prerequisites (agent runtime, model, minimal tool adapter)
 
 ## Instructions

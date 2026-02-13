@@ -28,10 +28,10 @@ jobs:
 
       - name: Validate skills
         run: |
-          chmod +x .harmony/capabilities/skills/scripts/validate-skills.sh
-          .harmony/capabilities/skills/scripts/validate-skills.sh --strict
+          chmod +x .harmony/capabilities/skills/_ops/scripts/validate-skills.sh
+          .harmony/capabilities/skills/_ops/scripts/validate-skills.sh --strict
 
       - name: Report validation results
         if: failure()
         run: |
-          echo "::error::Skills validation failed. Run '.harmony/capabilities/skills/scripts/validate-skills.sh' locally to see details."
+          echo "::error::Skills validation failed. Run '.harmony/capabilities/skills/_ops/scripts/validate-skills.sh' locally to see details."

@@ -5,7 +5,7 @@ description: >
   in-memory database fixtures, mock actors, CI workflow, and schema
   validation tests. Invoke with the project name and test categories.
 skill_sets: [specialist]
-capabilities: [phased]
+capabilities: [phased, external-dependent]
 # Write scopes are explicit: workspace scaffolding plus skill log output.
 allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_ops/state/logs/*) Bash(mkdir) Bash(swift)
 ---

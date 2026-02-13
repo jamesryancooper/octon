@@ -4,6 +4,15 @@ All workflows live in `.harmony/orchestration/workflows/`, organized by group.
 
 **Discovery:** Read `manifest.yml` for workflow index (Tier 1). After matching, read `registry.yml` for extended metadata (Tier 2). Then load `WORKFLOW.md` when a workflow is activated.
 
+## Execution Profiles
+
+Workflow entries may declare `execution_profile` in `manifest.yml`:
+
+- `core` (default): only harness-minimal runtime assumptions.
+- `external-dependent`: may require external binaries or project-root I/O outside `.harmony/`.
+
+Use `.harmony/orchestration/workflows/_ops/scripts/validate-workflows.sh` to validate profile boundaries and manifest path parity.
+
 ## Composition Boundaries
 
 Workflows are one part of the composition model:

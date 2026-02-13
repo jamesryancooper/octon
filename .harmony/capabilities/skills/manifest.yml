@@ -250,6 +250,7 @@ skills:
       - specialist
     capabilities:
       - phased
+      - external-dependent
 
   - id: python-contract-first-api
     display_name: Python Contract First Api
@@ -288,6 +289,7 @@ skills:
       - specialist
     capabilities:
       - phased
+      - external-dependent
 
   - id: python-dev-toolchain
     display_name: Python Dev Toolchain
@@ -307,6 +309,7 @@ skills:
       - specialist
     capabilities:
       - phased
+      - external-dependent
 
   - id: python-infra-manifest
     display_name: Python Infra Manifest
@@ -326,6 +329,7 @@ skills:
       - specialist
     capabilities:
       - phased
+      - external-dependent
 
   - id: python-contributor-guide
     display_name: Python Contributor Guide
@@ -364,6 +368,7 @@ skills:
       - specialist
     capabilities:
       - phased
+      - external-dependent
 
   - id: swift-data-layer
     display_name: Swift Data Layer
@@ -440,6 +445,7 @@ skills:
       - specialist
     capabilities:
       - phased
+      - external-dependent
 
   - id: swift-contributor-guide
     display_name: Swift Contributor Guide
@@ -589,6 +595,7 @@ skills:
     skill_sets:
       - executor
     capabilities:
+      - external-dependent
       - external-output
 
   - id: deploy-status
@@ -733,4 +740,5 @@ skills:
     skill_sets:
       - executor
     capabilities:
+      - external-dependent
       - self-validating

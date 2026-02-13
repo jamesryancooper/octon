@@ -82,6 +82,16 @@ allowed-tools: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
 
 **Wildcard patterns:** `Write(path/*)` scopes write access to a specific directory.
 
+### External Dependency Boundary
+
+For active skills, non-minimal Bash scopes (anything beyond `mkdir`, `cp`, `mv`,
+`ln`) must be accompanied by an explicit capability declaration:
+
+- `external-dependent` for external runtime/toolchain dependencies
+- `external-output` for external system side effects (deployments, remote state)
+
+This keeps dependency assumptions explicit and auditable in manifest metadata.
+
 ### Mapping Function
 
 The validation script includes a mapping function to convert `allowed-tools` to internal format:

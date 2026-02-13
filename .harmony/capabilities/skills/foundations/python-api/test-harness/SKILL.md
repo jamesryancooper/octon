@@ -5,7 +5,7 @@ description: >
   structure: conftest fixtures, contract tests, unit test stubs, and integration
   test scaffolding. Invoke with the project name and list of infrastructure dependencies.
 skill_sets: [specialist]
-capabilities: [phased]
+capabilities: [phased, external-dependent]
 # Write scopes are explicit: workspace scaffolding plus skill log output.
 allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_ops/state/logs/*) Bash(mkdir) Bash(uv)
 ---

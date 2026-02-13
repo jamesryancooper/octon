@@ -82,6 +82,7 @@ This harness extends `.harmony/` for shared infrastructure.
 │   └── projects/       ← Committed research
 │
 └── output/             ← Reports, drafts, artifacts
+    └── _meta/architecture/   ← Output subsystem specification
 ```
 
 ## Naming Convention

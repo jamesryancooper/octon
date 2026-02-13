@@ -13,7 +13,7 @@ metadata:
   created: "2026-02-09"
   updated: "2026-02-10"
 skill_sets: [executor]
-capabilities: [self-validating]
+capabilities: [external-dependent, self-validating]
 # Write scopes are explicit: workspace writes plus skill log output. Bash scoped to npm/npx/mkdir/cp/node.
 allowed-tools: Read Glob Grep Edit Write(../../../**) Bash(npm) Bash(npx) Bash(mkdir) Bash(cp) Bash(node) Write(_ops/state/logs/*)
 ---

@@ -11,7 +11,7 @@ metadata:
   created: "2026-02-09"
   updated: "2026-02-09"
 skill_sets: [executor]
-capabilities: [external-output]
+capabilities: [external-dependent, external-output]
 allowed-tools: Read Glob Bash(vercel *) Bash(npm pack*) Write(_ops/state/logs/*)
 ---
 

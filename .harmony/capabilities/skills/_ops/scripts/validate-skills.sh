@@ -835,6 +835,45 @@ get_skill_allowed_tools() {
     fi
 }
 
+# Returns 0 when any Bash permission exceeds harness-minimal file operations.
+has_non_minimal_bash_permissions() {
+    local skill_dir="$1"
+    local allowed
+
+    while IFS= read -r allowed; do
+        [[ -z "$allowed" ]] && continue
+        if [[ "$allowed" == "Bash" ]]; then
+            return 0
+        fi
+        if [[ "$allowed" =~ ^Bash\((.*)\)$ ]]; then
+            local command_scope="${BASH_REMATCH[1]}"
+            case "$command_scope" in
+                mkdir|cp|mv|ln)
+                    ;;
+                *)
+                    return 0
+                    ;;
+            esac
+        fi
+    done < <(get_skill_allowed_tools "$skill_dir")
+
+    return 1
+}
+
+# Returns 0 when manifest capabilities explicitly acknowledge external dependencies.
+declares_external_dependency_capability() {
+    local skill_id="$1"
+    local capability
+    while IFS= read -r capability; do
+        case "$capability" in
+            external-dependent|external-output)
+                return 0
+                ;;
+        esac
+    done < <(get_manifest_skill_array "$skill_id" "capabilities")
+    return 1
+}
+
 # Split allowed-services value by spaces.
 split_allowed_services() {
     local raw="$1"
@@ -2749,6 +2788,15 @@ validate_skill() {
         fi
         if [[ "$manifest_status" == "active" ]] && grep -qx "Write" < <(get_skill_allowed_tools "$skill_dir"); then
             log_error "Unscoped Write permission found in active skill. Use Write(<path>/*) scopes."
+        fi
+
+        # Active skills with external binary/toolchain usage must declare explicit capability.
+        if [[ "$manifest_status" == "active" ]] && has_non_minimal_bash_permissions "$skill_dir"; then
+            if declares_external_dependency_capability "$skill_id"; then
+                log_success "External dependency capability declared for non-minimal Bash permissions"
+            else
+                log_error "Active skill uses non-minimal Bash permissions but does not declare external-dependent/external-output capability"
+            fi
         fi
     else
         log_error "Invalid allowed-tools: $tool_check_result"

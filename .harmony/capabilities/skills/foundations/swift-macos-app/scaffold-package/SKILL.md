@@ -5,7 +5,7 @@ description: >
   source targets, typed configuration, structured logging, and standard modules.
   Invoke with a project name, description, Swift version, platform, and dependencies.
 skill_sets: [specialist]
-capabilities: [phased]
+capabilities: [phased, external-dependent]
 # Write scopes are explicit: workspace scaffolding plus skill log output.
 allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_ops/state/logs/*) Bash(mkdir) Bash(swift)
 ---

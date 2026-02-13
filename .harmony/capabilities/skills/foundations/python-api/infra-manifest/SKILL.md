@@ -5,7 +5,7 @@ description: >
   and alembic setup for database migrations. Invoke with the project name and
   list of services needed (postgres, nats, redis, minio, temporal).
 skill_sets: [specialist]
-capabilities: [phased]
+capabilities: [phased, external-dependent]
 # Write scopes are explicit: workspace scaffolding plus skill log output.
 allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_ops/state/logs/*) Bash(mkdir) Bash(docker) Bash(alembic)
 ---
