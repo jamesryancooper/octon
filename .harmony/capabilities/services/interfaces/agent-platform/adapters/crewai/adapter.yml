@@ -1,0 +1,22 @@
+id: crewai
+provider: CrewAI
+adapter_version: "0.1.0"
+adapter_schema_version: "1.0.0"
+interop_contract_version: "1.0.0"
+status: active
+mode: complement
+supports:
+  session_policy: supported
+  context_budget: supported
+  pruning: degraded
+  memory_flush: supported
+  routing: supported
+  presence: supported
+degradation_policy:
+  unsupported_critical: fail-closed
+  evidence_required: true
+artifacts:
+  mapping: mapping.md
+  compatibility: compatibility.yml
+  capabilities_fixture: fixtures/capabilities.json
+  session_policy_fixture: fixtures/session-policy.json

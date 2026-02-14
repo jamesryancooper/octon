@@ -1,0 +1,38 @@
+{
+  "interop_contract_version": "1.0.0",
+  "policy_id": "openclaw-default",
+  "scope_class": "session",
+  "reset_class": "soft",
+  "send_class": "append",
+  "context_budget": {
+    "max_units": 200000,
+    "used_units": 50000,
+    "warning_threshold_percent": 80,
+    "flush_threshold_percent": 90,
+    "unit": "tokens"
+  },
+  "pruning_class": "conservative",
+  "memory": {
+    "flush_before_compaction": true,
+    "fail_closed_on_flush_failure": true
+  },
+  "routing": {
+    "precedence": [
+      "human-safety",
+      "governance-policy",
+      "agent-policy",
+      "adapter-execution"
+    ]
+  },
+  "presence": {
+    "heartbeat_seconds": 20,
+    "evidence_fields": [
+      "run_id",
+      "session_id",
+      "heartbeat_at",
+      "mode",
+      "active_capabilities",
+      "degraded_capabilities"
+    ]
+  }
+}

@@ -40,3 +40,13 @@ services:
     tags: [workflow, orchestration, langgraph]
     category: flow
     stateful: false
+
+  - id: agent-platform
+    display_name: Agent Platform
+    path: interfaces/agent-platform/
+    summary: "Native-first interop service for session policy, context budgets, compaction policy, and adapter capability negotiation."
+    status: active
+    interface_type: shell
+    tags: [interop, native-first, governance]
+    category: agent-platform
+    stateful: false

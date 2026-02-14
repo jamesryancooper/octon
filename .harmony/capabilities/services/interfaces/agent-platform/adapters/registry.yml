@@ -1,0 +1,24 @@
+schema_version: "1.0"
+
+adapters:
+  - id: openclaw
+    provider: OpenCLAW
+    path: openclaw/
+    status: active
+    adapter_version: "0.1.0"
+    adapter_schema_version: "1.0.0"
+    interop_contract_version: "1.0.0"
+    aliases: [open-claw]
+    capabilities_profile: openclaw/fixtures/capabilities.json
+    session_policy_profile: openclaw/fixtures/session-policy.json
+
+  - id: crewai
+    provider: CrewAI
+    path: crewai/
+    status: active
+    adapter_version: "0.1.0"
+    adapter_schema_version: "1.0.0"
+    interop_contract_version: "1.0.0"
+    aliases: [crew-ai]
+    capabilities_profile: crewai/fixtures/capabilities.json
+    session_policy_profile: crewai/fixtures/session-policy.json

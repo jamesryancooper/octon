@@ -10,6 +10,7 @@ description: Quality criteria and completion checklist for harness tasks.
 - [ ] Output matches task requirements
 - [ ] Stayed within `scope.md` boundaries
 - [ ] Follows `conventions.md` style rules
+- [ ] Native-first rule preserved (core behavior works with zero adapters)
 - [ ] Updated `continuity/log.md` with session summary
 - [ ] Updated `continuity/tasks.json` status
 
@@ -28,6 +29,15 @@ description: Quality criteria and completion checklist for harness tasks.
 - [ ] Numbered instructions
 - [ ] Defined output/deliverable
 - [ ] Tested with at least one execution
+
+### For Agent Platform Interop Changes
+
+- [ ] Core contracts/schemas remain provider-agnostic
+- [ ] Provider-specific terms exist only in adapter paths
+- [ ] `validate-service-independence.sh --mode platform-core` passes
+- [ ] `validate-service-independence.sh --mode conformance` passes (when adapters are in scope)
+- [ ] `validate-service-independence.sh --mode degradation` passes
+- [ ] Native commands (`context-budget`, `validate-session-policy`) run without adapters
 
 ## Common Failure Modes
 

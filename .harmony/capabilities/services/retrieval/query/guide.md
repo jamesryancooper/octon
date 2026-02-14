@@ -171,17 +171,21 @@ Config sketch
 ```
 
 Router hint
+
 - Set `router.mode: "auto"` to route long/global questions to `hierarchical`/`kg_global`, otherwise fall back to your flat/hybrid route.
 
 ## Pilot Plan & Gates
 
 Objective
+
 - Quantify gains from new routes/engines (hierarchical, kg_global, learned sparse, PLAID/SPLATE, memory, unified ANN) in answer accuracy, citation correctness, recall@k, latency, and cost.
 
 Dataset slice
+
 - Use the same 5–10% snapshot as Index pilots. Split eval into global/long vs local/pointed queries.
 
 A/B routes (besides baseline hybrid)
+
 - `route: hierarchical` vs flat hybrid.
 - `route: kg_global` vs flat hybrid on global questions.
 - `use: ["sparse_learned","dense"]` vs `use: ["keyword","dense"]`.
@@ -212,6 +216,7 @@ Toggle examples
 ```
 
 Acceptance gates (suggested)
+
 - Hierarchical: +5–10 pts Recall@20 on long/global queries; +3–5% absolute answer accuracy; ≤10% latency increase.
 - KG: +10% absolute answer accuracy on global questions; equal or better citation correctness.
 - Learned sparse: ≥ baseline Recall@20/MRR at BM25‑like latency (±10%).
@@ -220,6 +225,7 @@ Acceptance gates (suggested)
 - Unified ANN: no >2% recall/MRR regression; document ops simplification.
 
 Ops & observability
+
 - Log route, knobs, corpus hash, and latency/token usage to Observe. Use Eval to compute Recall@k/MRR/answer accuracy.
 
 ## Ephemeral Index Adapters (in‑memory, off‑disk)

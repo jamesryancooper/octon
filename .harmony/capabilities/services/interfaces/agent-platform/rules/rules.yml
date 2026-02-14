@@ -1,0 +1,13 @@
+rules:
+  - id: native-first-required
+    description: Core interop behavior must not require an adapter.
+    severity: critical
+  - id: provider-terms-adapter-only
+    description: Named provider terms may appear only in adapter paths.
+    severity: critical
+  - id: session-policy-required
+    description: Session policy must be validated before execution.
+    severity: high
+  - id: flush-before-compaction
+    description: At >=90% budget or on explicit compaction request, flush is mandatory.
+    severity: critical

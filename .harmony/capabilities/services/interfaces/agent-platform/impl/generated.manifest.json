@@ -1,0 +1,12 @@
+{
+  "service": "agent-platform",
+  "version": "0.1.0",
+  "generated": false,
+  "scripts": [
+    "context-budget.sh",
+    "validate-session-policy.sh",
+    "negotiate-capabilities.sh",
+    "memory-flush-evidence.sh"
+  ],
+  "notes": "Implementation scripts are maintained manually."
+}

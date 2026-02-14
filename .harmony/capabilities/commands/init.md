@@ -2,7 +2,7 @@
 title: Initialize Project
 description: Generate project-level bootstrap files from .harmony templates.
 access: human
-argument-hint: "[@project-root] [--force] [--no-claude-alias] [--with-boot-files]"
+argument-hint: "[@project-root] [--force] [--no-claude-alias] [--with-boot-files] [--with-agent-platform-adapters] [--agent-platform-adapters <csv>]"
 ---
 
 # Initialize Project `/init`
@@ -16,6 +16,8 @@ Initialize project-level files after dropping `.harmony/` into a repository.
 /init @path/to/project-root
 /init @path/to/project-root --force
 /init @path/to/project-root --with-boot-files
+/init @path/to/project-root --with-agent-platform-adapters
+/init @path/to/project-root --with-agent-platform-adapters --agent-platform-adapters openclaw,crewai
 ```
 
 ## Parameters
@@ -27,13 +29,15 @@ Initialize project-level files after dropping `.harmony/` into a repository.
 | `--dry-run` | No | Show actions without writing files. |
 | `--no-claude-alias` | No | Skip creating/verifying `CLAUDE.md -> AGENTS.md` alias. |
 | `--with-boot-files` | No | Also generate `BOOT.md` and `BOOTSTRAP.md` from templates. |
+| `--with-agent-platform-adapters` | No | Opt in to adapter bootstrap config generation (`enabled.yml`). |
+| `--agent-platform-adapters` | No | Comma-separated adapter IDs to enable (default: `openclaw`). |
 
 ## Implementation
 
 Run:
 
 ```bash
-.harmony/scaffolding/_ops/scripts/init-project.sh [--repo-root <path>] [--force] [--dry-run] [--no-claude-alias] [--with-boot-files]
+.harmony/scaffolding/_ops/scripts/init-project.sh [--repo-root <path>] [--force] [--dry-run] [--no-claude-alias] [--with-boot-files] [--with-agent-platform-adapters] [--agent-platform-adapters <csv>]
 ```
 
 Behavior:
@@ -41,13 +45,15 @@ Behavior:
 1. Render `AGENTS.md` from `.harmony/scaffolding/templates/AGENTS.md`.
 2. Use `.harmony/agency/manifest.yml` `default_agent` for contract paths.
 3. Optionally render `BOOT.md` and `BOOTSTRAP.md` for BOOT compatibility.
-4. Create `CLAUDE.md -> AGENTS.md` symlink when safe.
-5. Preserve existing files unless `--force` is supplied.
+4. Optionally generate adapter bootstrap config at `.harmony/capabilities/services/interfaces/agent-platform/adapters/enabled.yml` (opt-in only).
+5. Create `CLAUDE.md -> AGENTS.md` symlink when safe.
+6. Preserve existing files unless `--force` is supplied.
 
 ## Output
 
 - `AGENTS.md` (generated or skipped)
 - `BOOT.md` and `BOOTSTRAP.md` (optional; generated or skipped)
+- `.harmony/capabilities/services/interfaces/agent-platform/adapters/enabled.yml` (optional; generated or skipped)
 - `CLAUDE.md` symlink to `AGENTS.md` (created, verified, or skipped)
 - Summary of actions/warnings
 

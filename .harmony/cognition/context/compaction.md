@@ -1,44 +1,41 @@
+---
+title: Compaction Strategy
+description: Canonical compaction thresholds, flush sequence, and fail-closed behavior.
+---
+
 # Compaction Strategy
 
-## When to compact
+## Trigger Thresholds
 
-- Approaching context limits
-- Before ending a long session
-- After completing a major milestone
+- Warning threshold: context budget usage `>= 80%`.
+- Mandatory flush threshold: context budget usage `>= 90%`.
+- Mandatory flush also applies on any explicit compaction request.
 
-## Preserve
+## Mandatory Flush Sequence
 
-- Architectural decisions made
-- Unresolved bugs/issues
-- Current task state and blockers
-- File paths touched
-- Key learnings
+1. Classify session artifacts by memory class.
+2. Redact sensitive values.
+3. Persist durable summary only.
+4. Emit memory flush evidence artifact.
 
-## Discard
+Evidence output:
 
-- Raw tool outputs (already processed)
-- Intermediate debugging steps
-- Superseded plans
-- Verbose error messages (keep summary)
+- `.harmony/output/reports/<date>-memory-flush-evidence.md`
 
-## Before ending a long session
+## Fail-Closed Rule
 
-1. Update `continuity/log.md` with summary
-2. Commit pending changes with descriptive message
-3. Note decisions/rationale for future context
-4. Update `tasks.json` status
+- If mandatory flush fails, compaction is blocked.
+- Continue only with explicit HITL waiver and waiver evidence.
 
-## Note-taking pattern
+## Preserve During Compaction
 
-For complex work, maintain notes in `continuity/log.md`:
+- Approved architectural decisions.
+- Unresolved blockers and incident context.
+- Current task status and next actions.
+- Files touched and relevant contract/schema versions.
 
-```markdown
-**Decisions:**
-- Chose X over Y because [reason]
+## Discard During Compaction
 
-**Files touched:**
-- path/to/file.ts — [what changed]
-
-**Open questions:**
-- [question for next session]
-```
+- Raw command output already summarized elsewhere.
+- Superseded plans replaced by accepted decisions.
+- Repetitive intermediate debugging traces.

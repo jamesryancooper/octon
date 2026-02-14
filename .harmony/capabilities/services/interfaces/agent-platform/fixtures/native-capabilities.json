@@ -1,0 +1,13 @@
+{
+  "interop_contract_version": "1.0.0",
+  "mode": "native",
+  "generated_at": "2026-02-14T00:00:00Z",
+  "capabilities": {
+    "session_policy": { "state": "supported", "via": "native", "evidence_required": true },
+    "context_budget": { "state": "supported", "via": "native", "evidence_required": true },
+    "pruning": { "state": "supported", "via": "native", "evidence_required": true },
+    "memory_flush": { "state": "supported", "via": "native", "evidence_required": true },
+    "routing": { "state": "supported", "via": "native", "evidence_required": true },
+    "presence": { "state": "supported", "via": "native", "evidence_required": true }
+  }
+}

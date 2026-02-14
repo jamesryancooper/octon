@@ -39,6 +39,21 @@ description: Cross-agent memory classes, retention boundaries, and privacy contr
 - Do not rewrite historical append-only records outside allowed policies.
 - Record assumptions when memory is incomplete or uncertain.
 
+## Compaction and Flush Policy
+
+- Context usage warning threshold: `>= 80%`.
+- Mandatory memory flush threshold: `>= 90%` or explicit compaction request.
+- Required flush sequence:
+  - classify session artifacts,
+  - redact sensitive values,
+  - persist durable summary only,
+  - emit flush evidence artifact.
+- Flush evidence artifact path:
+  - `.harmony/output/reports/<date>-memory-flush-evidence.md`.
+- Flush failure behavior:
+  - default is fail-closed (block compaction),
+  - only continue with explicit HITL waiver and waiver evidence.
+
 ## Forgetting and Redaction
 
 - Remove or avoid retaining stale task-specific implementation fragments.

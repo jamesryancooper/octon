@@ -9,6 +9,13 @@ Complete before ending a session, context reset, or handoff.
 
 ## Required Steps
 
+- [ ] **Run native-first interop checks** (when interop files changed)
+  - `bash .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh --mode services-core`
+  - `bash .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh --mode platform-core`
+  - `bash .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh --mode adapters` (if adapters changed)
+  - `bash .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh --mode conformance` (if adapters changed)
+  - `bash .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh --mode degradation` (if compaction/adapter behavior changed)
+
 - [ ] **Update `continuity/log.md`** with session summary
   - Date header
   - Session focus
@@ -35,6 +42,12 @@ Complete before ending a session, context reset, or handoff.
 
 - [ ] Add to `cognition/context/decisions.md`
 - [ ] Optionally create full ADR in `docs/decisions/` or `ideation/scratchpad/`
+
+### If compaction policy changed or was exercised
+
+- [ ] Verify memory flush threshold behavior (80% warning, 90% mandatory flush)
+- [ ] Ensure flush evidence report exists in `.harmony/output/reports/`
+- [ ] If flush failed, verify HITL waiver evidence before proceeding
 
 ### If something failed
 
@@ -74,4 +87,3 @@ Use this format in `continuity/log.md`:
 **Lessons:**
 - [if any failures worth noting]
 ```
-

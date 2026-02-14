@@ -1,0 +1,11 @@
+compatibility:
+  interop_contract: "1.x"
+  adapter_schema: "1.x"
+  runtime_requirements:
+    minimum_runtime: "0.70"
+  required_tools: [read, glob, grep, bash]
+  optional_tools: [node]
+  conformance:
+    capability_matrix_validation: true
+    fallback_behavior_validation: true
+    evidence_hook_validation: true

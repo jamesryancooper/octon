@@ -71,6 +71,11 @@ files:
     summary: Token compaction strategies.
     when: Approaching context limits or ending long sessions.
 
+  - id: agent-platform-interop
+    path: agent-platform-interop.md
+    summary: Native-first interop semantics and ownership boundaries for optional platform adapters.
+    when: When implementing session policy, context budgeting, compaction policy, routing, or adapter boundaries.
+
   - id: workflow-gaps
     path: workflow-gaps.md
     summary: Workflow gap remediation guide (idempotency, dependencies, branching, etc.).

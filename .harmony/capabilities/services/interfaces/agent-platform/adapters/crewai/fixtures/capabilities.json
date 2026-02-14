@@ -1,0 +1,14 @@
+{
+  "interop_contract_version": "1.0.0",
+  "mode": "adapter",
+  "adapter_id": "crewai",
+  "generated_at": "2026-02-14T00:00:00Z",
+  "capabilities": {
+    "session_policy": { "state": "supported", "via": "adapter", "evidence_required": true },
+    "context_budget": { "state": "supported", "via": "adapter", "evidence_required": true },
+    "pruning": { "state": "degraded", "via": "adapter", "evidence_required": true, "notes": "Degrades aggressive pruning to conservative semantics." },
+    "memory_flush": { "state": "supported", "via": "adapter", "evidence_required": true },
+    "routing": { "state": "supported", "via": "adapter", "evidence_required": true },
+    "presence": { "state": "supported", "via": "adapter", "evidence_required": true }
+  }
+}

@@ -18,7 +18,7 @@ commands:
     path: init.md
     summary: Generate project-level bootstrap files from .harmony templates.
     access: human
-    argument_hint: "[@project-root] [--force] [--no-claude-alias] [--with-boot-files]"
+    argument_hint: "[@project-root] [--force] [--no-claude-alias] [--with-boot-files] [--with-agent-platform-adapters] [--agent-platform-adapters <csv>]"
 
   - id: recover
     display_name: Recover from Errors
@@ -31,6 +31,27 @@ commands:
     path: validate-frontmatter.md
     summary: Validate YAML frontmatter in markdown files.
     access: human
+
+  - id: context-budget
+    display_name: Context Budget
+    path: context-budget.md
+    summary: Emit deterministic native context budget state and threshold classification.
+    access: human
+    argument_hint: "--limit <int> --used <int> [--unit tokens|characters] [--report <path>]"
+
+  - id: validate-session-policy
+    display_name: Validate Session Policy
+    path: validate-session-policy.md
+    summary: Validate a session policy JSON file against native interop semantics.
+    access: human
+    argument_hint: "--file <path-to-session-policy-json>"
+
+  - id: validate-platform-interop
+    display_name: Validate Platform Interop
+    path: validate-platform-interop.md
+    summary: Run native-first interop checks across core independence, adapter conformance, and degradation behavior.
+    access: human
+    argument_hint: "[--mode all|services-core|platform-core|adapters|conformance|degradation]"
 
   - id: create-workflow
     display_name: Create Workflow

@@ -5,6 +5,7 @@ service_categories:
   - prompt
   - cost
   - flow
+  - agent-platform
 
 valid_interface_types:
   - shell

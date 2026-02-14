@@ -1,0 +1,16 @@
+errors:
+  - code: ERR_AGENT_PLATFORM_POLICY_INVALID
+    message: Session policy failed validation.
+    category: validation
+  - code: ERR_AGENT_PLATFORM_BUDGET_INVALID
+    message: Context budget input is invalid.
+    category: validation
+  - code: ERR_AGENT_PLATFORM_FLUSH_REQUIRED
+    message: Memory flush is required before compaction.
+    category: policy
+  - code: ERR_AGENT_PLATFORM_FLUSH_FAILED
+    message: Mandatory flush failed and no waiver was provided.
+    category: policy
+  - code: ERR_AGENT_PLATFORM_PROVIDER_TERM_LEAK
+    message: Provider-specific term leaked outside adapter paths.
+    category: independence

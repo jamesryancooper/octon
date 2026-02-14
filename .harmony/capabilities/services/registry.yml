@@ -132,3 +132,36 @@ services:
       key_from: [flowName, canonicalPromptPath, workflowManifestPath]
     impl:
       entrypoint: planning/flow/impl/flow-client.sh
+
+  agent-platform:
+    version: "0.1.0"
+    commands: [context-budget, validate-session-policy, negotiate-capabilities, memory-flush-evidence]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: context-budget, validate-session-policy, or negotiate-capabilities."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [flow, cost]
+    contracts:
+      input: interfaces/agent-platform/schema/input.schema.json
+      output: interfaces/agent-platform/schema/output.schema.json
+      rules: interfaces/agent-platform/rules/rules.yml
+      fixtures: interfaces/agent-platform/fixtures/
+      invariants: interfaces/agent-platform/contracts/invariants.md
+      errors: interfaces/agent-platform/contracts/errors.yml
+      compatibility: interfaces/agent-platform/compatibility.yml
+      generation_manifest: interfaces/agent-platform/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.agent-platform
+      required_spans: [service.agent-platform.context-budget, service.agent-platform.validate-session-policy, service.agent-platform.negotiate-capabilities, service.agent-platform.memory-flush-evidence]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [sessionId, policyId, budgetSnapshotHash]
+    impl:
+      entrypoint: interfaces/agent-platform/impl/context-budget.sh

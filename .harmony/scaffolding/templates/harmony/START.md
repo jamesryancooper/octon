@@ -48,7 +48,7 @@ description: Boot sequence and orientation for this harness
 
 ## Boot Sequence
 
-0. **If `AGENTS.md` is missing at repo root:** run `/init` (or `.harmony/scaffolding/_ops/scripts/init-project.sh`) first; add `--with-boot-files` if `BOOT.md` and `BOOTSTRAP.md` compatibility files are needed
+0. **If `AGENTS.md` is missing at repo root:** run `/init` (or `.harmony/scaffolding/_ops/scripts/init-project.sh`) first; add `--with-boot-files` if `BOOT.md` and `BOOTSTRAP.md` compatibility files are needed; add `--with-agent-platform-adapters` for opt-in adapter bootstrap config
 1. **Read `scope.md`** → Know boundaries
 2. **Read `conventions.md`** → Know style rules
 3. **Scan `catalog.md`** → Know available operations
