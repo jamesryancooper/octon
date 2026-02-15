@@ -41,8 +41,8 @@ Kits: The tools AI uses under the hood. You don't call them directly.
 | Check on AI progress        | `harmony status`                              |
 | Build current task          | `harmony build`                               |
 | Review AI's work            | Review PR + AI summary                        |
-| Ship to production          | `harmony ship` or `vercel promote <url>`      |
-| Rollback a problem          | `harmony rollback` or `vercel promote <prev>` |
+| Ship to production          | `harmony ship` or your deployment promote command |
+| Rollback a problem          | `harmony rollback` or your deployment rollback command |
 | Handle an incident          | See [INCIDENTS.md](../../orchestration/incidents.md)            |
 | Understand something        | `harmony explain "why did we..."`             |
 | Retry with guidance         | `harmony retry --constraint "try X instead"`  |
@@ -131,7 +131,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 | **Tier** | Risk level (T1 = tiny, T3 = high-risk). Determines how much you review. |
 | **Preview** | A deployed version of your PR for testing before production. |
 | **Promote** | Move a preview to production. |
-| **Rollback** | Revert to a previous deployment. Instant with `vercel promote`. |
+| **Rollback** | Revert to a previous deployment using your platform rollback flow. |
 | **Flag** | Feature flag. New features ship OFF by default, then get enabled gradually. |
 | **Kit** | Tools AI uses under the hood. You can use kit CLIs directly for debugging. |
 

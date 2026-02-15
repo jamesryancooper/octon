@@ -272,7 +272,7 @@ Apply only the profile(s) matching the selected archetype.
 - **Client validation is UX, not security** — always validate server-side.
 - **URLs are public API**: human-readable, bookmarkable, stable. Route guards for authn/authz — redirect, don't render-then-hide.
 - **Rendering strategy**: SSR for SEO/first-paint-critical, SSG for static content, CSR for authenticated app experiences, hybrid for most real apps.
-- **Type safety**: prefer TypeScript for maintained code. Avoid `any` except at boundaries with runtime validation. Generate types from schemas where possible.
+- **Type safety**: prefer strong typing for maintained code (language-native or generated). Avoid untyped escape hatches except at system boundaries with runtime validation. Generate types/interfaces from schemas where possible.
 - **Accessibility is non-optional**: semantic HTML, keyboard navigation, WCAG AA contrast, screen reader testing for critical flows.
 - **Forms**: preserve user input across failures — never clear on error.
 

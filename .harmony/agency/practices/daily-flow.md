@@ -160,8 +160,8 @@ harmony ship
 # Ship a specific task by ID
 harmony ship <task-id>
 
-# Or use Vercel directly
-vercel promote <preview-url>
+# Or use your deployment platform directly
+<deploy-cli> promote <preview-url>
 ```
 
 **Remember:** Features ship behind flags by default. After shipping:
@@ -310,7 +310,7 @@ harmony explain <task-id> "why did you use this approach?"
 
 ```bash
 harmony pause
-harmony retry --model claude-opus
+harmony retry --model <alternate-model>
 ```
 
 ---

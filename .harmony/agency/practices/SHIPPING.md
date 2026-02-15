@@ -37,8 +37,8 @@ This guide covers how to ship features to production safely. Harmony uses **prev
 |--------------|---------|
 | See what's ready to ship | `harmony ship --list` |
 | Ship a specific feature | `harmony ship <feature-name>` |
-| Promote preview to prod | `vercel promote <preview-url>` |
-| Rollback immediately | `vercel promote <previous-url>` |
+| Promote preview to prod | `harmony ship <feature-name>` or `<deploy-cli> promote <preview-url>` |
+| Rollback immediately | `harmony rollback` or `<deploy-cli> rollback <deployment-id>` |
 | Check production status | `harmony status --production` |
 | Enable a feature flag | `harmony flag enable <flag-name>` |
 | Disable a feature flag | `harmony flag disable <flag-name>` |
@@ -67,7 +67,7 @@ After merge, your code deploys to the trunk preview automatically.
 # Get the trunk preview URL
 harmony preview trunk
 
-# Or check Vercel dashboard
+# Or check your deployment platform dashboard
 ```
 
 **Quick verification:**
@@ -81,8 +81,8 @@ harmony preview trunk
 # Via Harmony
 harmony ship <feature-name>
 
-# Or directly via Vercel
-vercel promote <trunk-preview-url>
+# Or directly via your deployment platform
+<deploy-cli> promote <trunk-preview-url>
 ```
 
 **What happens:**
@@ -123,16 +123,16 @@ If something goes wrong after promotion:
 
 ```bash
 # Immediate rollback
-vercel promote <previous-deployment-url>
+<deploy-cli> rollback <previous-deployment-id>
 ```
 
-This takes ~30 seconds. The previous deployment becomes active.
+Treat rollback as urgent. Execute it first, then investigate root cause.
 
 ### Where to Find the Previous URL
 
 ```bash
 # List recent deployments
-vercel ls
+<deploy-cli> list-deployments
 
 # Or via Harmony
 harmony deployments --recent 5
@@ -167,13 +167,12 @@ Rollback immediately if you see:
 
 Every T2/T3 feature ships with a flag. The flag determines who sees the feature.
 
-```typescript
-// In code (AI handles this)
-if (await isEnabled('feature.user-profiles')) {
-  // New feature code
-} else {
-  // Old behavior or nothing
-}
+```text
+# Pseudocode (AI handles language-specific implementation)
+if feature_flag_enabled("feature.user-profiles"):
+  run new behavior
+else:
+  run existing behavior
 ```
 
 ### Flag Naming Convention
@@ -225,7 +224,7 @@ harmony flag remove feature.user-profiles
 
 ```
 1. PR merged → Trunk preview updated
-2. harmony ship feature-name (or vercel promote)
+2. harmony ship feature-name (or your platform promote command)
 3. Feature in production, flag OFF
 4. harmony flag enable feature-name --scope internal
 5. Test manually
@@ -239,7 +238,7 @@ harmony flag remove feature.user-profiles
 
 ```
 1. PR merged → Trunk preview updated
-2. vercel promote <preview-url>
+2. <deploy-cli> promote <preview-url>
 3. Feature in production, flag OFF
 4. harmony flag enable feature-name --scope internal
 5. Find a bug during internal testing
@@ -254,7 +253,7 @@ harmony flag remove feature.user-profiles
 1. Feature in production, flag ON
 2. Error spike detected
 3. Option A: harmony flag disable feature-name  ← If feature-specific
-4. Option B: vercel promote <previous-url>  ← If broader issue
+4. Option B: <deploy-cli> rollback <previous-deployment-id>  ← If broader issue
 5. Investigate
 6. Fix and re-ship
 ```
@@ -362,8 +361,8 @@ AI monitors these metrics and will alert you:
 ### Promotion Failed
 
 ```bash
-# Check Vercel status
-vercel ls --failed
+# Check deployment platform status
+<deploy-cli> list-deployments --failed
 
 # Check what went wrong
 harmony investigate "promotion failed"
@@ -394,14 +393,14 @@ Common causes:
 ### Rollback Not Working
 
 ```bash
-# Get the exact previous URL
-vercel ls
+# Get recent deployments
+<deploy-cli> list-deployments
 
-# Force promote with confirmation
-vercel promote <url> --yes
+# Execute rollback directly if needed
+<deploy-cli> rollback <previous-deployment-id>
 ```
 
-If Vercel is having issues, disable feature flags as a faster alternative.
+If your deployment platform is having issues, disable feature flags first.
 
 ---
 

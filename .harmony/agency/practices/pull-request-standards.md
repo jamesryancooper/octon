@@ -15,10 +15,14 @@
 
 ## Enforcement
 
-- GitHub uses `.github/PULL_REQUEST_TEMPLATE.md` and `.github/PULL_REQUEST_TEMPLATE/kaizen.md` to prompt required structure.
-- CI workflow `.github/workflows/pr-quality.yml` validates section headings and checklist items on every PR update.
-- CI workflow `.github/workflows/commit-and-branch-standards.yml` enforces branch naming and Conventional Commit checks.
-- Branch protection on `main` must require both `PR Quality Standards` and `Commit and Branch Standards` checks before merge so policy gates cannot be bypassed.
+This practice is platform-agnostic. Repositories can enforce it with any source
+control provider and CI system.
+
+- Use PR templates (or equivalent automation) to prompt required structure.
+- Validate required PR sections and checklist items on every PR update.
+- Enforce branch naming and commit-message conventions with automated checks.
+- Protect trunk so required PR quality and commit/branch checks must pass before
+  merge.
 
 ---
 
