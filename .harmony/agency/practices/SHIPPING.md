@@ -429,6 +429,6 @@ If Vercel is having issues, disable feature flags as a faster alternative.
 
 For detailed deployment configuration and advanced topics:
 
-- **Architecture**: [Architecture Overview](../../cognition/architecture/overview.md)
+- **Architecture**: [Architecture Overview](../../cognition/_meta/architecture/overview.md)
 - **CI/CD Gates**: [CI/CD Quality Gates](../../cognition/methodology/ci-cd-quality-gates.md)
 - **Sandbox Flow**: [Sandbox Flow](../../cognition/methodology/sandbox-flow.md)

@@ -136,7 +136,7 @@ Start with `00-overview.md` and follow each step in sequence.
 
 Harness-specific atomic operations that operate on artifacts in the harness's parent directory.
 
-See [commands.md](./commands.md) for full details and examples.
+See [commands.md](../../../capabilities/_meta/architecture/commands.md) for full details and examples.
 
 ### Characteristics
 
@@ -160,7 +160,7 @@ See [commands.md](./commands.md) for full details and examples.
 
 Multi-step procedures that operate on artifacts in the harness's parent directory. Workflows are the **source of truth** for complex operations.
 
-See [workflows.md](./workflows.md) for full details, including the Universal Harness-Agnostic Pattern.
+See [workflows.md](../../../orchestration/_meta/architecture/workflows.md) for full details, including the Universal Harness-Agnostic Pattern.
 
 ### Characteristics
 
@@ -185,7 +185,7 @@ See [workflows.md](./workflows.md) for full details, including the Universal Har
 
 Task templates that guide agents through context-dependent work requiring judgment or parameterization.
 
-See [prompts.md](./prompts.md) for full details.
+See [prompts.md](../../../scaffolding/_meta/architecture/prompts.md) for full details.
 
 ### Characteristics
 
@@ -212,7 +212,7 @@ See `.harmony/catalog.md#command-vs-prompt-decision` for the canonical decision 
 
 Focused specialists that serve agents or humans for scoped, one-off tasks.
 
-See [Agency](./agency/README.md) for canonical actor details.
+See [Agency](../../../agency/README.md) for canonical actor details.
 
 ### Characteristics
 
@@ -244,7 +244,7 @@ See [Agency](./agency/README.md) for canonical actor details.
 
 Time-bounded sub-projects with isolated progress tracking.
 
-See [missions.md](./missions.md) for full details.
+See [missions.md](../../../orchestration/_meta/architecture/missions.md) for full details.
 
 ### Characteristics
 
@@ -284,7 +284,7 @@ stateDiagram-v2
 
 Composable capability units with defined inputs, outputs, and behavior.
 
-See [skills.md](./skills.md) for full details.
+See [skills.md](../../../capabilities/skills/README.md) for full details.
 
 ### Characteristics
 
@@ -389,10 +389,10 @@ See `.harmony/catalog.md` for complete decision flowcharts and examples.
 
 ## See Also
 
-- [Harness Commands](./commands.md) — Deterministic atomic operations
-- [Harness Workflows](./workflows.md) — Multi-step procedures
-- [Harness Prompts](./prompts.md) — Context-dependent task templates
-- [Agency](./agency/README.md) — Canonical actor taxonomy and routing model
-- [Missions](./missions.md) — Time-bounded sub-projects
-- [Checklists](./checklists.md) — Quality gates
+- [Harness Commands](../../../capabilities/commands/manifest.yml) — Deterministic atomic operations
+- [Harness Workflows](../../../orchestration/workflows/README.md) — Multi-step procedures
+- [Harness Prompts](../../../scaffolding/prompts/README.md) — Context-dependent task templates
+- [Agency](../../.../../../agency/README.md) — Canonical actor taxonomy and routing model
+- [Missions](../../../orchestration/missions/README.md) — Time-bounded sub-projects
+- [Checklists](../../../quality/_meta/architecture/checklists.md) — Quality gates
 - [README.md](./README.md) — Canonical harness structure reference

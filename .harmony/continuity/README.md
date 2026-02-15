@@ -6,7 +6,7 @@ Session state and progress tracking.
 
 | File | Purpose | Mutability |
 |------|---------|------------|
-| `architecture/README.md` | Continuity subsystem specification docs | reference |
+| `_meta/architecture/README.md` | Continuity subsystem specification docs | reference |
 | `log.md` | Append-only session history | append-only |
 | `tasks.json` | Structured task list with goal | read-write |
 | `entities.json` | Entity state tracking | read-write |

@@ -118,7 +118,7 @@ Use `{action}-{target}.md`:
 
 ## See Also
 
-- [Commands](./commands.md) — Deterministic atomic operations
-- [Workflows](./workflows.md) — Multi-step procedures
-- [Taxonomy](./taxonomy.md) — Full classification of artifact types
+- [Commands](../../../capabilities/_meta/architecture/commands.md) — Deterministic atomic operations
+- [Workflows](../../../orchestration/_meta/architecture/workflows.md) — Multi-step procedures
+- [Taxonomy](../../../cognition/_meta/architecture/taxonomy.md) — Full classification of artifact types
 - [README.md](./README.md) — Canonical harness structure

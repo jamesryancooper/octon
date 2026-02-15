@@ -232,4 +232,4 @@ See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table.
 ## See Also
 
 - [README.md](./README.md) — Canonical harness structure
-- [Conventions](./conventions.md) — Style rules (different from context)
+- [Conventions](../../../conventions.md) — Style rules (different from context)

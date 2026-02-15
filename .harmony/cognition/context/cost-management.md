@@ -140,6 +140,6 @@ Model pricing in the system is updated when providers announce changes. Check th
 
 ## Related
 
-- [Risk Tiers](./RISK-TIERS.md) — How tiers affect model selection
-- [AI Guardrails](./AI-GUARDRAILS.md) — How AI operations are controlled
+- [Risk Tiers](./risk-tiers.md) — How tiers affect model selection
+- [AI Guardrails](../principles/guardrails.md) — How AI operations are controlled
 

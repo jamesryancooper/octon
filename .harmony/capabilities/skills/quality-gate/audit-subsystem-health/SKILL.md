@@ -126,5 +126,6 @@ For detailed documentation:
 - [I/O contract](references/io-contract.md) — Inputs, outputs, parameter schema
 - [Safety policies](references/safety.md) — Read-only policy, scope enforcement
 - [Validation](references/validation.md) — Acceptance criteria for complete audits
+- [Alignment contract](references/alignment-contract.md) — Drift contract for architecture-skill synchronization
 - [Examples](references/examples.md) — Full audit examples
 - [Glossary](references/glossary.md) — Subsystem audit terminology

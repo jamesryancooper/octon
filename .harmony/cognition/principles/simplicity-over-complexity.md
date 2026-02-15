@@ -255,4 +255,4 @@ Document the justification in an ADR.
 - [Focus Pillar](../pillars/focus.md) — Absorbed complexity principle
 - [Velocity Pillar](../pillars/velocity.md) — Speed through simplicity
 - [Monolith-first Modulith](./monolith-first-modulith.md) — Architecture application
-- [Anti-Principles](../principles.md#anti-principles-what-we-explicitly-avoid) — Complexity patterns to avoid
+- [Anti-Principles](./README.md#anti-principles-what-we-explicitly-avoid) — Complexity patterns to avoid

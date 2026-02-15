@@ -26,7 +26,7 @@ The Runtime Content Layer extends the **Content Plane** specifically. It does no
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-See [Three Planes Integration](../../../continuity/architecture/three-planes-integration.md) for complete architecture overview.
+See [Three Planes Integration](../../../../continuity/_meta/architecture/three-planes-integration.md) for complete architecture overview.
 
 ---
 
@@ -37,7 +37,7 @@ See [Three Planes Integration](../../../continuity/architecture/three-planes-int
 | Term | Plane | Definition |
 |------|-------|------------|
 | **Canonical Content** | Content | Content stored in `content/` as the authoritative source of truth. Git-tracked, schema-validated, and compiled into the Harmony Content Graph (HCG). |
-| **Continuity Artifacts** | [Continuity](../../../continuity/architecture/continuity-plane.md) | Content stored in `.continuity/` with special lifecycle rules (append-only logs, immutable decisions, session-scoped handoffs). Owned by Continuity Plane. |
+| **Continuity Artifacts** | [Continuity](../../../../continuity/_meta/architecture/continuity-plane.md) | Content stored in `.continuity/` with special lifecycle rules (append-only logs, immutable decisions, session-scoped handoffs). Owned by Continuity Plane. |
 | **Runtime Content** | Content (extension) | Dynamic data that overlays canonical content at request time. May include live overrides, personalization, time-sensitive updates, or data fetched from external systems. |
 
 ### Content roots summary
@@ -47,7 +47,7 @@ HCP treats the following as **content roots** (indexing content from multiple pl
 | Root | Plane | Type | Description |
 |------|-------|------|-------------|
 | `content/` | Content | Canonical content | Public, internal, and agent-facing content organized by surface |
-| `.continuity/` | [Continuity](../../../continuity/architecture/continuity-plane.md) | Continuity artifacts | Backlog, plans, handoffs, progress events, decisions—with lifecycle rules |
+| `.continuity/` | [Continuity](../../../../continuity/_meta/architecture/continuity-plane.md) | Continuity artifacts | Backlog, plans, handoffs, progress events, decisions—with lifecycle rules |
 | `.harmony/content/` | Content | Compiled artifacts | SQLite indexes, JSON exports, dependency graphs (generated, not source) |
 
 ### The distinction

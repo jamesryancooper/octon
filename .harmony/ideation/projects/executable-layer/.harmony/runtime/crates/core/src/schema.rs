@@ -10,7 +10,10 @@ pub struct SchemaStore {
 
 impl SchemaStore {
     pub fn load(harmony_dir: &Path) -> Result<Self> {
-        let schema_path = harmony_dir.join("spec").join("service-manifest-v1.schema.json");
+        let schema_path = harmony_dir
+            .join("runtime")
+            .join("spec")
+            .join("service-manifest-v1.schema.json");
         let bytes = std::fs::read(&schema_path).map_err(|e| {
             KernelError::new(
                 ErrorCode::Internal,

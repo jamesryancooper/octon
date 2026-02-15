@@ -200,6 +200,6 @@ Progressive disclosure may be skipped when:
 
 ## Related Documentation
 
-- [Harness Architecture](../_meta/architecture/harness/README.md) — Progressive disclosure in harness design
-- [Skills Specification](../_meta/architecture/harness/skills/specification.md) — Four-tier skill structure
+- [Harness Architecture](../_meta/architecture/README.md) — Progressive disclosure in harness design
+- [Skills Specification](../../capabilities/_meta/architecture/specification.md) — Four-tier skill structure
 - [Focus Pillar](../pillars/focus.md) — The pillar this principle implements

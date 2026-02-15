@@ -65,7 +65,7 @@ skill_group_definitions:
   quality-gate:
     description: Verify and enforce codebase integrity
     path: quality-gate/
-    members: [refactor, audit-migration, audit-subsystem-health, audit-ui, resolve-pr-comments, triage-ci-failure]
+    members: [refactor, audit-migration, audit-subsystem-health, audit-cross-subsystem-coherence, audit-freshness-and-supersession, audit-ui, resolve-pr-comments, triage-ci-failure]
 
   synthesis:
     description: Produce refined output from raw input

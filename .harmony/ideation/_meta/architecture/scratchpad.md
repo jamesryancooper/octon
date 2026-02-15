@@ -299,8 +299,8 @@ graph TB
 ## See Also
 
 - [Projects](./projects.md) — Committed research (downstream from brainstorm)
-- [Dot-Prefixed Directories](./dot-files.md) — Autonomy rules for human-led directories
+- [Dot-Prefixed Directories](../../../cognition/_meta/architecture/dot-files.md) — Autonomy rules for human-led directories
 - [README.md](./README.md) — Canonical harness structure
-- [Missions](./missions.md) — Agent-facing sub-projects
+- [Missions](../../../orchestration/_meta/architecture/missions.md) — Agent-facing sub-projects
 - `.harmony/ideation/scratchpad/README.md` — In-harness documentation
 - `.harmony/ideation/scratchpad/brainstorm/README.md` — Brainstorm template

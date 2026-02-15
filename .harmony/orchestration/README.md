@@ -4,11 +4,13 @@ Workflows and missions that coordinate multi-step work.
 
 ## Contents
 
-| Subdirectory | Purpose | Discovery |
-|--------------|---------|-----------|
-| `architecture/` | Orchestration subsystem specification docs | `architecture/README.md` |
+| Path | Purpose | Discovery |
+|------|---------|-----------|
+| `_meta/architecture/` | Orchestration subsystem specification docs | `_meta/architecture/README.md` |
 | `workflows/` | Multi-step procedures with numbered steps | `workflows/manifest.yml` |
 | `missions/` | Time-bounded sub-projects with isolated state | `missions/registry.yml` |
+| `incidents.md` | Canonical incident response playbook | `incidents.md` |
+| `incident-response.md` | Compatibility redirect for legacy incident-response references | `incident-response.md` |
 
 ## Interaction Model
 

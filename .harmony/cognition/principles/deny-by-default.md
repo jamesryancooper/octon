@@ -392,5 +392,5 @@ Prevention:
 
 - [Trust Pillar](../pillars/trust.md) — Bounded agents, enforced security
 - [HITL Checkpoints](./hitl-checkpoints.md) — Human approval for elevated actions
-- [Skills Specification](../_meta/architecture/harness/skills/specification.md) — Permission model details
-- [Agentic Principles](../principles.md#agentic-principles) — Full agent governance model
+- [Skills Specification](../../capabilities/_meta/architecture/specification.md) — Permission model details
+- [Agentic Principles](./README.md#agentic-principles) — Full agent governance model

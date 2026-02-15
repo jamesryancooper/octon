@@ -152,6 +152,52 @@ skills:
       - domain-specialized
       - self-validating
 
+  - id: audit-cross-subsystem-coherence
+    display_name: Audit Cross Subsystem Coherence
+    group: quality-gate
+    path: quality-gate/audit-cross-subsystem-coherence/
+    summary: "Bounded cross-subsystem coherence audit that validates alignment across .harmony subsystem manifests, registries, architecture docs, and quality gates."
+    status: active
+    tags:
+      - audit
+      - subsystem
+      - coherence
+      - architecture
+    triggers:
+      - "audit cross subsystem coherence"
+      - "cross subsystem contract audit"
+      - "harmony subsystem alignment audit"
+      - "run audit-cross-subsystem-coherence"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: audit-freshness-and-supersession
+    display_name: Audit Freshness And Supersession
+    group: quality-gate
+    path: quality-gate/audit-freshness-and-supersession/
+    summary: "Bounded staleness audit that checks freshness and supersession integrity for .harmony operational artifacts."
+    status: active
+    tags:
+      - audit
+      - freshness
+      - supersession
+      - governance
+    triggers:
+      - "audit freshness and supersession"
+      - "staleness and supersession audit"
+      - "harmony artifact freshness audit"
+      - "run audit-freshness-and-supersession"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
   - id: audit-documentation-standards
     display_name: Audit Documentation Standards
     group: quality-gate

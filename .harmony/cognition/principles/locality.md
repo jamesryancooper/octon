@@ -282,7 +282,7 @@ Prevention:
 
 ## Related Documentation
 
-- [Harness Architecture](../_meta/architecture/harness/README.md) — Full harness specification
+- [Harness Architecture](../_meta/architecture/README.md) — Full harness specification
 - [Focus Pillar](../pillars/focus.md) — Cognitive bandwidth through locality
 - [Continuity Pillar](../pillars/continuity.md) — Durable, discoverable knowledge
-- [Skills Architecture](../_meta/architecture/harness/skills/architecture.md) — Locality in skill design
+- [Skills Architecture](../../capabilities/_meta/architecture/architecture.md) — Locality in skill design

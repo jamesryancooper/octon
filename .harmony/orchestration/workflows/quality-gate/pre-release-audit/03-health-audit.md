@@ -9,11 +9,11 @@ description: "Run audit-subsystem-health against the target subsystem."
 ## Input
 
 - Execution plan from step 1
-- Subsystem path, docs path, severity threshold (from parameters)
+- Subsystem path, docs path, severity threshold
 
 ## Purpose
 
-Run the `audit-subsystem-health` skill to check subsystem coherence — config consistency, schema conformance, and semantic quality. This step always runs.
+Run `audit-subsystem-health` to verify subsystem coherence (config consistency, schema conformance, semantic quality). This step always runs.
 
 ## Actions
 
@@ -31,13 +31,12 @@ Run the `audit-subsystem-health` skill to check subsystem coherence — config c
 
 2. **Wait for completion:**
 
-   The skill produces its own report at `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md`
+   The skill writes `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md`.
 
 3. **Capture results summary:**
 
-   Read the health audit report and extract:
-   - Total findings count
-   - Severity breakdown (CRITICAL, HIGH, MEDIUM, LOW)
+   - Total findings
+   - Severity breakdown
    - Layer breakdown (config consistency, schema conformance, semantic quality)
 
 4. **Record outcome:**
@@ -53,8 +52,8 @@ Run the `audit-subsystem-health` skill to check subsystem coherence — config c
 If `audit-subsystem-health` fails:
 
 - Record the error with details
-- If migration audit also failed (step 2): STOP, both audits failed
-- If migration audit succeeded: continue to merge with migration-only results
+- Continue to step 4 (cross-subsystem audit)
+- Note failure for merge/recommendation
 
 ```markdown
 Health audit: FAILED
@@ -63,21 +62,20 @@ Error: {{error_message}}
 
 ## Idempotency
 
-**Check:** Health audit report already exists for today's date.
+**Check:** Health report already exists for today's date.
 
 - [ ] `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md` exists
 
 **If Already Complete:**
 
-- Skip invocation, use existing report
-- Re-run if subsystem content has changed
+- Reuse existing report
+- Re-run if subsystem content changed
 
 **Marker:** `checkpoints/pre-release-audit/03-health-audit.complete`
 
 ## Error Messages
 
-- Skill failed: "HEALTH_AUDIT_FAILED: audit-subsystem-health exited with errors — {{details}}"
-- Both failed: "BOTH_AUDITS_FAILED: Neither audit skill completed — cannot produce pre-release report"
+- Skill failed: `HEALTH_AUDIT_FAILED: audit-subsystem-health exited with errors — {{details}}`
 
 ## Output
 
@@ -86,5 +84,5 @@ Error: {{error_message}}
 
 ## Proceed When
 
-- [ ] Health audit completed successfully, OR
-- [ ] Health audit failed but migration audit succeeded (partial results)
+- [ ] Health audit completed, OR
+- [ ] Health audit failed and failure is documented

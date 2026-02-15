@@ -235,7 +235,7 @@ Build `ServiceRegistry { by_key: HashMap<ServiceKey, ServiceDescriptor> }`
 
 `core/schema.rs`:
 
-* load `.harmony/spec/service-manifest-v1.schema.json` (defined in [spec-bundle.md §1.3](spec-bundle.md))
+* load `.harmony/runtime/spec/service-manifest-v1.schema.json` (defined in [spec-bundle.md §1.3](spec-bundle.md))
 * compile once per process using `jsonschema` crate
 * validate every `service.json`
 * return a structured error listing validation problems
@@ -273,7 +273,7 @@ pub enum PolicyDecision {
 
 `core/trace.rs` + `core/jsonlines.rs`:
 
-* open `state/traces/<trace_id>.ndjson` for append
+* open `.harmony/runtime/_ops/state/traces/<trace_id>.ndjson` for append
 * write JSON objects one per line
 * events: request_received, policy_decision, invoke_start, invoke_end, error
 
@@ -346,7 +346,7 @@ struct Inner {
 }
 
 impl KvStore {
-    /// Opens (or creates) a KV store at `state_dir` (e.g. `.harmony/state/kv/`).
+    /// Opens (or creates) a KV store at `state_dir` (e.g. `.harmony/runtime/_ops/state/kv/`).
     /// Stores data in `store.json` as a JSON object: { "key": "value", ... }.
     pub fn open(state_dir: PathBuf) -> io::Result<Self> {
         fs::create_dir_all(&state_dir)?;
@@ -532,7 +532,13 @@ Construction:
 
 ```rust
 let repo_root = harmony_dir.parent().unwrap().to_path_buf();
-let kv = KvStore::open(harmony_dir.join("state").join("kv"))?;
+let kv = KvStore::open(
+    harmony_dir
+        .join("runtime")
+        .join("_ops")
+        .join("state")
+        .join("kv"),
+)?;
 let fs = ScopedFs::new(repo_root.clone())?;
 let grants = GrantSet::new(/* capabilities from policy engine */);
 ```
@@ -616,7 +622,7 @@ pub struct WasmHost {
 }
 ```
 
-Configure `wasmtime::Engine` with caching pointed at `.harmony/state/wasmtime-cache/`.
+Configure `wasmtime::Engine` with caching pointed at `.harmony/runtime/_ops/state/wasmtime-cache/`.
 
 ### 14.3 Linker wiring + instantiation + calling `invoke`
 

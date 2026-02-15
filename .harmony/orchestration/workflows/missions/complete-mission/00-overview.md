@@ -64,4 +64,4 @@ missions/.archive/<slug>/
 ## Related
 
 - [Create Mission](../create-mission/00-overview.md) — Scaffold a new mission
-- [Missions README](../../missions/README.md) — Overview of missions
+- [Missions README](../../../missions/README.md) — Overview of missions

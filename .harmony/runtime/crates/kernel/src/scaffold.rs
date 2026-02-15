@@ -161,12 +161,20 @@ pub fn service_build(harmony_dir: &Path, category: &str, name: &str) -> anyhow::
         .join(category)
         .join(name);
     let rust_dir = service_dir.join("rust");
+    let build_target_dir = harmony_dir
+        .join("capabilities")
+        .join("services")
+        .join("_ops")
+        .join("state")
+        .join("build")
+        .join(format!("{category}-{name}-target"));
 
     // Run cargo-component.
     let status = std::process::Command::new("cargo")
         .arg("component")
         .arg("build")
         .arg("--release")
+        .env("CARGO_TARGET_DIR", &build_target_dir)
         .current_dir(&rust_dir)
         .status()
         .with_context(|| "failed to run 'cargo component build --release' (is cargo-component installed?)")?;
@@ -175,8 +183,8 @@ pub fn service_build(harmony_dir: &Path, category: &str, name: &str) -> anyhow::
         anyhow::bail!("cargo component build failed");
     }
 
-    // Find the newest .wasm artifact under target/.
-    let target_dir = rust_dir.join("target");
+    // Find the newest .wasm artifact under the configured CARGO_TARGET_DIR.
+    let target_dir = build_target_dir;
     let mut newest: Option<(std::time::SystemTime, PathBuf)> = None;
     for entry in WalkDir::new(&target_dir)
         .follow_links(false)
@@ -196,7 +204,9 @@ pub fn service_build(harmony_dir: &Path, category: &str, name: &str) -> anyhow::
         }
     }
 
-    let (_, wasm_path) = newest.ok_or_else(|| anyhow::anyhow!("no .wasm artifact found under target/") )?;
+    let (_, wasm_path) = newest.ok_or_else(|| {
+        anyhow::anyhow!("no .wasm artifact found under {}", target_dir.display())
+    })?;
 
     let wasm_bytes = std::fs::read(&wasm_path)
         .with_context(|| format!("read wasm artifact {}", wasm_path.display()))?;

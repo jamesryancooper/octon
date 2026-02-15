@@ -7,7 +7,7 @@ description: Comprehensive AI-facing documentation for Harmony's three-tier risk
 
 This document provides the complete specification for Harmony's risk tier system. It is designed for AI agents to use when classifying changes, generating specs, and applying appropriate rigor.
 
-For the human-facing summary, see [../RISK-TIERS.md](../RISK-TIERS.md).
+For the human-facing summary, see [../context/risk-tiers.md](../context/risk-tiers.md).
 
 ---
 

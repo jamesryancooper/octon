@@ -23,9 +23,9 @@
 
 **Continuity through Institutional Memory**:
 
-- `.continuity/` artifacts are owned by the [Continuity Plane](../../../continuity/architecture/continuity-plane.md) but indexed by Content Plane build pipeline.
+- `.continuity/` artifacts are owned by the [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) but indexed by Content Plane build pipeline.
 - Provenance captured in envelopes; decisions become queryable documents across planes.
-- See [Three Planes Integration](../../../continuity/architecture/three-planes-integration.md) for cross-plane relationships.
+- See [Three Planes Integration](../../../../continuity/_meta/architecture/three-planes-integration.md) for cross-plane relationships.
 
 **Insight through Structured Learning**:
 

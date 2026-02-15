@@ -63,4 +63,4 @@ missions/<slug>/
 ## Related
 
 - [Complete Mission](../complete-mission/00-overview.md) — Archive a completed mission
-- [Missions README](../../missions/README.md) — Overview of missions
+- [Missions README](../../../missions/README.md) — Overview of missions

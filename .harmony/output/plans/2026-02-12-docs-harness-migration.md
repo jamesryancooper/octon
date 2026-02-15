@@ -296,16 +296,16 @@ Capability-specific reference material.
 
 **From `docs/` root:**
 
-- `KITS.md` → `.harmony/capabilities/services/kits-reference.md`
+- `KITS.md` → `.harmony/capabilities/services/_meta/docs/kits-reference.md`
 - `AI-GUARDRAILS.md` → `.harmony/capabilities/services/guard/guardrails-guide.md`
 
 **From `docs/services/` (core guides only):**
 
-- `agent-guide.md` → `.harmony/capabilities/services/agent-guide.md`
-- `developer-overview.md` → `.harmony/capabilities/services/developer-overview.md`
-- `comms-guide.md` → `.harmony/capabilities/services/comms-guide.md`
-- `mcp-guide.md` → `.harmony/capabilities/services/mcp-guide.md`
-- `appendices.md` → `.harmony/capabilities/services/appendices.md`
+- `agent-guide.md` → `.harmony/capabilities/services/_meta/docs/agent-guide.md`
+- `developer-overview.md` → `.harmony/capabilities/services/_meta/docs/developer-overview.md`
+- `comms-guide.md` → `.harmony/capabilities/services/_meta/docs/comms-guide.md`
+- `mcp-guide.md` → `.harmony/capabilities/services/_meta/docs/mcp-guide.md`
+- `appendices.md` → `.harmony/capabilities/services/_meta/docs/appendices.md`
 
 ---
 

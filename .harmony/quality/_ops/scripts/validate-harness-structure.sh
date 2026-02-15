@@ -68,6 +68,66 @@ check_subsystem_baseline() {
   require_file "$root/_meta/architecture/README.md"
 }
 
+check_runtime_baseline() {
+  local root="$HARMONY_DIR/runtime"
+
+  require_dir "$root"
+  require_file "$root/README.md"
+  check_readme_orientation "$root/README.md"
+  require_file "$root/run"
+  require_file "$root/run.cmd"
+
+  require_dir "$root/_meta"
+  require_file "$root/_meta/evidence/README.md"
+  require_dir "$root/_ops"
+  require_dir "$root/_ops/bin"
+  require_dir "$root/_ops/state"
+
+  require_dir "$root/config"
+  require_dir "$root/crates"
+  require_dir "$root/spec"
+  require_dir "$root/wit"
+}
+
+check_meta_namespace_layout() {
+  local meta_dir rel child name top_files child_count
+
+  while IFS= read -r meta_dir; do
+    rel="${meta_dir#$ROOT_DIR/}"
+    top_files="$(find "$meta_dir" -mindepth 1 -maxdepth 1 -type f)"
+    if [[ -n "$top_files" ]]; then
+      fail "_meta directory contains loose files (must use namespaced subdirs): $rel"
+    else
+      pass "_meta directory has no loose files: $rel"
+    fi
+
+    child_count=0
+    while IFS= read -r child; do
+      [[ -z "$child" ]] && continue
+      child_count=$((child_count + 1))
+      name="$(basename "$child")"
+      case "$name" in
+        architecture|docs|evidence)
+          pass "_meta namespace allowed: ${child#$ROOT_DIR/}"
+          ;;
+        *)
+          fail "_meta namespace not allowed (${name}); expected one of architecture|docs|evidence: ${child#$ROOT_DIR/}"
+          ;;
+      esac
+
+      if [[ ! -f "$child/README.md" ]]; then
+        fail "missing namespace index: ${child#$ROOT_DIR/}/README.md"
+      else
+        pass "namespace index present: ${child#$ROOT_DIR/}/README.md"
+      fi
+    done < <(find "$meta_dir" -mindepth 1 -maxdepth 1 -type d | sort)
+
+    if [[ $child_count -eq 0 ]]; then
+      warn "_meta directory has no namespaced subdirectories: $rel"
+    fi
+  done < <(find "$HARMONY_DIR" -type d -name "_meta" | sort)
+}
+
 check_discovery_contracts() {
   require_file "$HARMONY_DIR/agency/manifest.yml"
   require_file "$HARMONY_DIR/agency/agents/registry.yml"
@@ -125,6 +185,19 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/output/artifacts"
 }
 
+check_alignment_guardrail() {
+  local script="$SCRIPT_DIR/validate-audit-subsystem-health-alignment.sh"
+  if [[ ! -f "$script" ]]; then
+    fail "missing alignment validator script: ${script#$ROOT_DIR/}"
+    return
+  fi
+  if bash "$script" --static-only; then
+    pass "audit-subsystem-health alignment guardrail (static) passed"
+  else
+    fail "audit-subsystem-health alignment guardrail (static) failed"
+  fi
+}
+
 main() {
   echo "== Harness Structure Validation =="
 
@@ -135,8 +208,11 @@ main() {
     check_subsystem_baseline "$subsystem"
   done
 
+  check_runtime_baseline
+  check_meta_namespace_layout
   check_discovery_contracts
   check_expected_internals
+  check_alignment_guardrail
 
   echo
   echo "Validation summary: errors=$errors warnings=$warnings"

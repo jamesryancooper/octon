@@ -19,12 +19,18 @@ Below is the **implementation architecture** for a portable, stack-agnostic, OS-
   runtime/
     run                 # POSIX sh launcher
     run.cmd             # Windows launcher
-    bin/
-      harmony-macos-arm64
-      harmony-macos-x64
-      harmony-linux-arm64
-      harmony-linux-x64
-      harmony-windows-x64.exe
+    _ops/
+      bin/
+        harmony-macos-arm64
+        harmony-macos-x64
+        harmony-linux-arm64
+        harmony-linux-x64
+        harmony-windows-x64.exe
+      state/
+        wasmtime-cache/
+        traces/
+        kv/
+        indexes/
     config/
       wasmtime-cache.toml
     README.md
@@ -46,18 +52,13 @@ Below is the **implementation architecture** for a portable, stack-agnostic, OS-
           service.wasm
           service.json
 
-  state/
-    wasmtime-cache/
-    traces/
-    kv/
-    indexes/
 ```
 
 ### Design notes
 
 - **`.harmony/runtime/`** contains the executable runtime and its launchers.
 - **`.harmony/capabilities/services/<category>/<service>/`** is the unit of deployment for a service: one folder per service, containing its WASM artifact + runtime manifest (`service.json` — format defined in [spec-bundle.md §1](spec-bundle.md)).
-- **`.harmony/state/`** is runtime state (caches, traces, indexes). Keep it **gitignored** and **non-portable**.
+- **`.harmony/runtime/_ops/state/`** is runtime state (caches, traces, indexes). Keep it **gitignored** and **non-portable**.
 
 ---
 
@@ -75,7 +76,7 @@ Portability is metadata-driven, not structural. The following classifications be
 
 ### Non-portable (project-local state)
 
-- `.harmony/state/**` (caches, traces, indexes, KV backing store)
+- `.harmony/runtime/_ops/state/**` (caches, traces, indexes, KV backing store)
 - `.harmony/continuity/**` (progress, tasks, session state)
 - Repo-specific missions, decisions, and analyses
 
@@ -91,7 +92,7 @@ Responsibilities:
 
 - resolve the harness directory
 - detect OS/arch (`uname`)
-- choose the matching binary under `runtime/bin/`
+- choose the matching binary under `runtime/_ops/bin/`
 - `exec` that binary with forwarded args
 
 ### `.harmony/runtime/run.cmd` (Windows `cmd`)
@@ -100,7 +101,7 @@ Responsibilities:
 
 - resolve harness directory
 - detect the *actual* OS architecture robustly using `PROCESSOR_ARCHITECTURE` and `PROCESSOR_ARCHITEW6432` (important for WOW64 cases) ([SS64][1])
-- launch `runtime/bin/harmony-windows-x64.exe` (and optionally arm64 in the future)
+- launch `runtime/_ops/bin/harmony-windows-x64.exe` (and optionally arm64 in the future)
 
 Both launchers assume only the OS-native command runner exists (`sh` on Unix, `cmd` on Windows) — no Python, Node, or other runtime dependencies.
 
@@ -108,13 +109,13 @@ Both launchers assume only the OS-native command runner exists (`sh` on Unix, `c
 
 ## 4) Kernel (native binary) responsibilities
 
-The kernel binary (the thing in `runtime/bin/`) acts as the **agent runtime host**. Its logical modules and data flow are defined in [spec-bundle.md §5](spec-bundle.md). At a high level, the kernel provides:
+The kernel binary (the thing in `runtime/_ops/bin/`) acts as the **agent runtime host**. Its logical modules and data flow are defined in [spec-bundle.md §5](spec-bundle.md). At a high level, the kernel provides:
 
 1. **Harness root resolution** — "nearest `.harmony/` ancestor wins" for nested scopes
 2. **Service discovery** — scans `capabilities/services/**/service.json`, builds in-memory registry, optionally caches a snapshot (see §8)
 3. **Service execution host** — loads `service.wasm`, instantiates via Wasmtime with WASI + host APIs
 4. **Capability enforcement** — deny-by-default, two-gate model (see §6)
-5. **Observability** — structured traces to `.harmony/state/traces/*.ndjson`
+5. **Observability** — structured traces to `.harmony/runtime/_ops/state/traces/*.ndjson`
 
 ### Architectural constraints
 
@@ -202,7 +203,7 @@ Recommended command set:
 
 Configure Wasmtime to write its compilation cache under:
 
-- `.harmony/state/wasmtime-cache/`
+- `.harmony/runtime/_ops/state/wasmtime-cache/`
 
 Wasmtime supports caching compiled artifacts to speed subsequent runs (configure via a cache config file such as TOML). ([docs.wasmtime.dev][2])
 
@@ -210,13 +211,13 @@ Disk-cached compilation artifacts give repeated single-shot invocations near-war
 
 ### Registry snapshot cache
 
-The kernel may optionally write a registry snapshot to `.harmony/state/registry-cache.json` after scanning `capabilities/services/**/service.json`. On subsequent invocations, this snapshot accelerates service discovery by avoiding a full filesystem scan when the snapshot is fresh.
+The kernel may optionally write a registry snapshot to `.harmony/runtime/_ops/state/registry-cache.json` after scanning `capabilities/services/**/service.json`. On subsequent invocations, this snapshot accelerates service discovery by avoiding a full filesystem scan when the snapshot is fresh.
 
 ### Harness runtime state
 
-- `.harmony/state/kv/` for service-backed state
-- `.harmony/state/indexes/` for search/vector/etc. indexes
-- `.harmony/state/traces/` for NDJSON traces
+- `.harmony/runtime/_ops/state/kv/` for service-backed state
+- `.harmony/runtime/_ops/state/indexes/` for search/vector/etc. indexes
+- `.harmony/runtime/_ops/state/traces/` for NDJSON traces
 
 All state directories are gitignored and non-portable.
 
@@ -239,7 +240,7 @@ This keeps cold-start scanning lightweight while preserving deep metadata when n
 - [ ] `run` (POSIX sh launcher)
 - [ ] `run.cmd` (Windows cmd launcher)
 - [ ] Per-OS/arch kernel binaries (`harmony-{os}-{arch}`)
-- [ ] Wasmtime cache config pointing to `.harmony/state/wasmtime-cache/`
+- [ ] Wasmtime cache config pointing to `.harmony/runtime/_ops/state/wasmtime-cache/`
 
 ### B) Kernel
 
@@ -249,7 +250,7 @@ This keeps cold-start scanning lightweight while preserving deep metadata when n
 - [ ] Capability/policy engine (two-gate enforcement)
 - [ ] Filesystem sandboxing (scoped to repo root)
 - [ ] NDJSON stdio session mode (`serve-stdio`)
-- [ ] Tracing output to `.harmony/state/traces/*.ndjson`
+- [ ] Tracing output to `.harmony/runtime/_ops/state/traces/*.ndjson`
 
 ### C) Service authoring
 

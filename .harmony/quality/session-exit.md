@@ -49,6 +49,12 @@ Complete before ending a session, context reset, or handoff.
 - [ ] Ensure flush evidence report exists in `.harmony/output/reports/`
 - [ ] If flush failed, verify HITL waiver evidence before proceeding
 
+### If `.harmony` architecture surfaces changed
+
+- [ ] Run `bash .harmony/quality/_ops/scripts/validate-harness-structure.sh`
+- [ ] Run `bash .harmony/quality/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
+- [ ] If validator reports drift, update `audit-subsystem-health` skill artifacts before exit
+
 ### If something failed
 
 - [ ] Add to `cognition/context/lessons.md`

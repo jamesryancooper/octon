@@ -60,34 +60,57 @@ When resolving a resource, agents check local first, then shared:
 │
 ├── agency/
 │   ├── manifest.yml    <- Actor discovery and routing metadata
+│   ├── _meta/architecture/ <- Agency subsystem specification
 │   ├── agents/         <- Autonomous supervisors
 │   ├── assistants/     <- Generic specialists (@mention invocation)
 │   └── teams/          <- Reusable multi-actor compositions
 │
 ├── capabilities/
+│   ├── _meta/architecture/ <- Capabilities subsystem specification
 │   ├── skills/         <- Skills framework + generic skills
-│   └── commands/       <- Generic atomic operations
+│   ├── commands/       <- Generic atomic operations
+│   ├── tools/          <- Tool packs and custom tools
+│   └── services/       <- Typed domain capabilities (+ services/_meta/docs/)
 │
 ├── cognition/
-│   └── context/        <- Generic reference material (tools, compaction)
+│   ├── _meta/architecture/ <- Cross-cutting harness architecture
+│   ├── principles/     <- Canonical principles and guardrails
+│   ├── methodology/    <- AI-native development methodology
+│   ├── context/        <- Generic reference material (tools, compaction)
+│   ├── decisions/      <- Architecture Decision Records
+│   └── analyses/       <- Analytical artifacts
 │
-├── continuity/         <- Session log, tasks, entities
+├── continuity/         <- Session log, tasks, entities, next steps
+│   └── _meta/architecture/ <- Continuity subsystem specification
 │
 ├── orchestration/
+│   ├── _meta/architecture/ <- Orchestration subsystem specification
 │   ├── workflows/      <- Multi-step procedures (harness, missions, skills)
 │   └── missions/       <- Time-bounded sub-projects
 │
 ├── scaffolding/
+│   ├── _meta/architecture/ <- Scaffolding subsystem specification
 │   ├── templates/      <- Harness scaffolding (harmony/, harmony-docs/, harmony-node-ts/)
 │   ├── prompts/        <- Task templates
 │   └── examples/       <- Reference patterns
 │
-├── quality/            <- Quality gates (done.md, session-exit.md)
+├── quality/            <- Quality gates (complete.md, session-exit.md)
+│   └── _meta/architecture/ <- Quality subsystem specification
 │
 ├── ideation/           <- Human-led zone (scratchpad/, projects/)
+│   └── _meta/architecture/ <- Ideation subsystem specification
 │
-└── output/             <- Reports, drafts, artifacts
-    └── _meta/architecture/ <- Output subsystem specification
+├── output/             <- Reports, drafts, artifacts
+│   └── _meta/architecture/ <- Output subsystem specification
+│
+└── runtime/            <- Executable runtime layer (kernel, launchers, specs)
+    ├── _meta/evidence/ <- Runtime verification and audit evidence
+    ├── _ops/bin/       <- Runtime-local prebuilt binaries
+    ├── _ops/state/     <- Runtime-local mutable state
+    ├── config/         <- Runtime policy and cache configuration
+    ├── crates/         <- Runtime implementation crates
+    ├── spec/           <- Runtime schema/protocol specifications
+    └── wit/            <- Canonical runtime WIT contracts
 ```
 
 ## What Lives Here

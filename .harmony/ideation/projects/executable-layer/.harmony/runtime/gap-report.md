@@ -20,7 +20,7 @@ Status: **Deferred**.
 ## TraceWriter
 
 - A functional `TraceWriter` exists at `.harmony/runtime/crates/core/src/trace.rs`.
-- It writes NDJSON trace events to `.harmony/state/traces/<trace_id>.ndjson`.
+- It writes NDJSON trace events to `.harmony/runtime/_ops/state/traces/<trace_id>.ndjson`.
 - The stdio server creates a trace writer per invocation when possible (`kernel/src/stdio.rs`).
 
 Limitations:
@@ -65,4 +65,3 @@ Status: **Implemented with a known limitation**.
 - The runtime loader does **not** require or enforce these files.
 
 Status: **Deferred for runtime enforcement** (treated as harness metadata in v1).
-

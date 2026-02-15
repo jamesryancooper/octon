@@ -137,7 +137,7 @@ workflows:
     group: quality-gate
     domain: audit
     path: quality-gate/orchestrate-audit/
-    summary: Coordinate parallel audit-migration runs across codebase partitions.
+    summary: Coordinate partitioned migration audits with optional cross-subsystem and freshness global stages.
     status: active
     triggers:
       - "orchestrate an audit"
@@ -150,7 +150,7 @@ workflows:
     group: quality-gate
     domain: audit
     path: quality-gate/pre-release-audit/
-    summary: Chain migration and health audits into a pre-release quality gate.
+    summary: Chain migration, health, cross-subsystem, and freshness audits into a pre-release quality gate.
     status: active
     triggers:
       - "pre-release audit"

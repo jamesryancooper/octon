@@ -214,6 +214,6 @@ Or for a nested harness:
 
 ## See Also
 
-- [Taxonomy](./taxonomy.md) — Harness entry points, harness commands, workflows, and their relationships
-- [Harness Commands](./commands.md) — Harness-scoped atomic operations
+- [Taxonomy](../../../cognition/_meta/architecture/taxonomy.md) — Harness entry points, harness commands, workflows, and their relationships
+- [Harness Commands](../../../capabilities/_meta/architecture/commands.md) — Harness-scoped atomic operations
 - [README.md](./README.md) — Canonical harness structure reference

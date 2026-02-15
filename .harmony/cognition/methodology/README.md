@@ -25,19 +25,19 @@ Harmony unifies speed, safety, and simplicity so a solo builder can ship high-qu
 
 ### The Six Pillars
 
-Harmony's pillars are organized in three phases forming a complete feedback loop. For the complete pillar specifications, see [`../pillars/README.md`](../principles/pillars/README.md).
+Harmony's pillars are organized in three phases forming a complete feedback loop. For the complete pillar specifications, see [`../pillars/README.md`](../pillars/README.md).
 
 **PLAN Phase:**
-1. **[Direction through Validated Discovery](../principles/pillars/direction.md)** — Build the right thing because every feature is validated before investment.
-2. **[Focus through Absorbed Complexity](../principles/pillars/focus.md)** — Build features, not infrastructure — Harmony handles the rest.
+1. **[Direction through Validated Discovery](../pillars/direction.md)** — Build the right thing because every feature is validated before investment.
+2. **[Focus through Absorbed Complexity](../pillars/focus.md)** — Build features, not infrastructure — Harmony handles the rest.
 
 **SHIP Phase:**
-3. **[Velocity through Agentic Automation](../principles/pillars/velocity.md)** — Ship fast because AI automation removes bottlenecks and multiplies output.
-4. **[Trust through Governed Determinism](../principles/pillars/trust.md)** — Ship confidently because behavior is predictable, agents are bounded, security is enforced, and mistakes are reversible.
+3. **[Velocity through Agentic Automation](../pillars/velocity.md)** — Ship fast because AI automation removes bottlenecks and multiplies output.
+4. **[Trust through Governed Determinism](../pillars/trust.md)** — Ship confidently because behavior is predictable, agents are bounded, security is enforced, and mistakes are reversible.
 
 **LEARN Phase:**
-5. **[Continuity through Institutional Memory](../principles/pillars/continuity.md)** — Knowledge persists because decisions, traces, and context are captured durably.
-6. **[Insight through Structured Learning](../principles/pillars/insight.md)** — Improve continuously because every outcome teaches us something.
+5. **[Continuity through Institutional Memory](../pillars/continuity.md)** — Knowledge persists because decisions, traces, and context are captured durably.
+6. **[Insight through Structured Learning](../pillars/insight.md)** — Improve continuously because every outcome teaches us something.
 
 Together these pillars create a self‑reinforcing system: Direction ensures we build the right thing, Focus gives us bandwidth to build it, Velocity and Trust let us ship fast and safely, Continuity preserves what we learned, and Insight feeds back to Direction for the next cycle.
 
@@ -45,12 +45,12 @@ Together these pillars create a self‑reinforcing system: Direction ensures we 
 
 | Phase | Pillar | Developer Question | Key Practice |
 |-------|--------|-------------------|--------------|
-| PLAN | [Direction](../principles/pillars/direction.md) | "What are we building?" | Spec-first validation |
-| PLAN | [Focus](../principles/pillars/focus.md) | "How do we think about it?" | Kits absorb complexity |
-| SHIP | [Velocity](../principles/pillars/velocity.md) | "How do we deliver fast?" | Agentic automation |
-| SHIP | [Trust](../principles/pillars/trust.md) | "How do we deliver safely?" | Governed determinism |
-| LEARN | [Continuity](../principles/pillars/continuity.md) | "How do we remember?" | ADRs, traces, ObservaKit |
-| LEARN | [Insight](../principles/pillars/insight.md) | "How do we improve?" | Postmortems, EvalKit |
+| PLAN | [Direction](../pillars/direction.md) | "What are we building?" | Spec-first validation |
+| PLAN | [Focus](../pillars/focus.md) | "How do we think about it?" | Kits absorb complexity |
+| SHIP | [Velocity](../pillars/velocity.md) | "How do we deliver fast?" | Agentic automation |
+| SHIP | [Trust](../pillars/trust.md) | "How do we deliver safely?" | Governed determinism |
+| LEARN | [Continuity](../pillars/continuity.md) | "How do we remember?" | ADRs, traces, ObservaKit |
+| LEARN | [Insight](../pillars/insight.md) | "How do we improve?" | Postmortems, EvalKit |
 
 > Terminology note: “SpecKit” (`speckit`) wraps GitHub’s Spec Kit. Mentions of the upstream tool use “GitHub’s Spec Kit” explicitly. PlanKit implements its planning kernel via BMAD; this adapter is transparent to methodology consumers.
 
@@ -71,7 +71,7 @@ Together these pillars create a self‑reinforcing system: Direction ensures we 
 
 ## Kit Architecture and Stage Mapping
 
-Harmony's kit layer provides the building blocks that implement Harmony's gates and flows. For a concise mapping from Harmony's principles to specific kits, see "Harmony Alignment" in `.harmony/capabilities/services/platform-overview.md#harmony-alignment`. In practice, use FlagKit for feature gating and progressive delivery, ObservaKit for telemetry, EvalKit/PolicyKit/GuardKit for gates, and PatchKit for PRs.
+Harmony's kit layer provides the building blocks that implement Harmony's gates and flows. For a concise mapping from Harmony's principles to specific kits, see "Harmony Alignment" in `.harmony/capabilities/services/_meta/docs/platform-overview.md#harmony-alignment`. In practice, use FlagKit for feature gating and progressive delivery, ObservaKit for telemetry, EvalKit/PolicyKit/GuardKit for gates, and PatchKit for PRs.
 
 ### Stage‑to‑Kit Map (operational)
 
@@ -106,7 +106,7 @@ To keep responsibilities crisp and repeatable:
   - **PromptKit**: defines **context slots and schemas** in templates (e.g., how retrieved documents, policies, or prior runs are embedded in prompts) and validates those inputs before rendering.
   - **ObservaKit + EvalKit + DatasetKit**: observe and evaluate retrieval behavior and answer grounding; PromptKit does not construct indexes or decide which documents to retrieve.
 
-This mirrors the mental model used in `.harmony/capabilities/services/platform-overview.md` and the kit architecture docs: PromptKit is the **PromptOps kit at the template/contract layer**, while LLMOps and ContextOps concerns are implemented by a **composition of other kits** rather than being folded into PromptKit itself.
+This mirrors the mental model used in `.harmony/capabilities/services/_meta/docs/platform-overview.md` and the kit architecture docs: PromptKit is the **PromptOps kit at the template/contract layer**, while LLMOps and ContextOps concerns are implemented by a **composition of other kits** rather than being folded into PromptKit itself.
 
 In practice, PlanKit, FlowKit, AgentKit, and the shared LangGraph runtime align as follows (see also `.harmony/capabilities/services/planning/service-roles.md`):
 
@@ -521,7 +521,7 @@ See `security-baseline.md` for full control mappings, STRIDE guidance, header/se
 
 Harmony borrows heavily from Google SRE: SLIs/SLOs, error budgets, and blameless postmortems drive how we respond to incidents and tune guardrails over time.
 
-**Insight → Direction:** Postmortems are where the [LEARN phase](../principles/pillars/insight.md) feeds back to [PLAN](../principles/pillars/direction.md). Each postmortem should answer: *"What should we have validated in the spec that we didn't?"* Action items flow into future spec criteria, closing the feedback loop.
+**Insight → Direction:** Postmortems are where the [LEARN phase](../pillars/insight.md) feeds back to [PLAN](../pillars/direction.md). Each postmortem should answer: *"What should we have validated in the spec that we didn't?"* Action items flow into future spec criteria, closing the feedback loop.
 
 See `reliability-and-ops.md` for detailed SLI/SLO guidance, error budget policy, on-call expectations, and the full postmortem template and severity table.
 

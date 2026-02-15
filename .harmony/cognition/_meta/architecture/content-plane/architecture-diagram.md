@@ -40,7 +40,7 @@ flowchart TB
   KP -->|"spec MOTIVATED_BY"| CnP
 ```
 
-See [Three Planes Integration](../../../continuity/architecture/three-planes-integration.md) for complete cross-plane architecture.
+See [Three Planes Integration](../../../../continuity/_meta/architecture/three-planes-integration.md) for complete cross-plane architecture.
 
 ---
 

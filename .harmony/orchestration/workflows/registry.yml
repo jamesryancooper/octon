@@ -19,13 +19,27 @@ workflows:
   # --- Fully specified (spec-compliant) ---
 
   orchestrate-audit:
-    version: "1.0.0"
+    version: "1.1.0"
     commands: ["/orchestrate-audit"]
     parameters:
       - name: manifest
         type: file
         required: true
         description: "Migration manifest (inline YAML or file path)"
+      - name: scope
+        type: folder
+        required: false
+        default: "."
+        description: "Root directory to partition and audit"
+      - name: docs
+        type: folder
+        required: false
+        description: "Companion documentation directory for optional global coherence checks"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
       - name: strategy
         type: text
         required: false
@@ -39,10 +53,29 @@ workflows:
         type: text
         required: false
         description: "Number of partitions (for auto strategy)"
+      - name: run_cross_subsystem
+        type: boolean
+        required: false
+        default: true
+        description: "Run cross-subsystem coherence audit stage"
+      - name: run_freshness
+        type: boolean
+        required: false
+        default: true
+        description: "Run freshness and supersession audit stage"
+      - name: max_age_days
+        type: text
+        required: false
+        default: "30"
+        description: "Freshness threshold in days for stale artifact detection"
     access: human
     depends_on:
       - skill: audit-migration
         condition: "active in skill manifest"
+      - skill: audit-cross-subsystem-coherence
+        condition: "active in skill manifest (required when run_cross_subsystem parameter is true)"
+      - skill: audit-freshness-and-supersession
+        condition: "active in skill manifest (required when run_freshness parameter is true)"
     io:
       inputs:
         - name: migration_manifest
@@ -57,16 +90,28 @@ workflows:
           kind: file
           format: markdown
           determinism: unique
-          description: "Consolidated audit report across all partitions"
+          description: "Consolidated report with partitioned migration findings and optional global-stage outcomes"
         - name: partition_reports
           path: "../../output/reports/{{date}}-migration-audit-{{partition}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Individual partition audit reports"
+        - name: cross_subsystem_audit_report
+          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Individual cross-subsystem coherence audit report (produced if enabled)"
+        - name: freshness_audit_report
+          path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Individual freshness and supersession audit report (produced if enabled)"
 
   pre-release-audit:
-    version: "1.0.0"
+    version: "1.1.0"
     commands: ["/pre-release-audit"]
     parameters:
       - name: subsystem
@@ -86,12 +131,31 @@ workflows:
         required: false
         default: "all"
         description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: run_cross_subsystem
+        type: boolean
+        required: false
+        default: true
+        description: "Run cross-subsystem coherence audit stage"
+      - name: run_freshness
+        type: boolean
+        required: false
+        default: true
+        description: "Run freshness and supersession audit stage"
+      - name: max_age_days
+        type: text
+        required: false
+        default: "30"
+        description: "Freshness threshold in days for stale artifact detection"
     access: human
     depends_on:
       - skill: audit-subsystem-health
         condition: "active in skill manifest"
       - skill: audit-migration
         condition: "active in skill manifest (required only when manifest parameter is provided)"
+      - skill: audit-cross-subsystem-coherence
+        condition: "active in skill manifest (required when run_cross_subsystem parameter is true)"
+      - skill: audit-freshness-and-supersession
+        condition: "active in skill manifest (required when run_freshness parameter is true)"
     io:
       inputs: []
       outputs:
@@ -113,6 +177,18 @@ workflows:
           format: markdown
           determinism: unique
           description: "Individual migration audit report (produced by audit-migration, if manifest provided)"
+        - name: cross_subsystem_audit_report
+          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)"
+        - name: freshness_audit_report
+          path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)"
 
   documentation-quality-gate:
     version: "1.0.0"

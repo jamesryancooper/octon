@@ -298,7 +298,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-subsystem-health:
-    version: "1.0.0"
+    version: "1.0.1"
     commands:
       - /audit-subsystem-health
     parameters:
@@ -348,6 +348,118 @@ skills:
           format: yaml
           determinism: variable
           description: "Index of all audit-subsystem-health runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  audit-cross-subsystem-coherence:
+    version: "1.0.0"
+    commands:
+      - /audit-cross-subsystem-coherence
+    parameters:
+      - name: scope
+        type: folder
+        required: false
+        default: ".harmony"
+        description: "Root directory to audit for cross-subsystem coherence"
+      - name: subsystems
+        type: text
+        required: false
+        default: "agency,capabilities,cognition,orchestration,quality,continuity,runtime"
+        description: "Comma-separated subsystem list to include"
+      - name: docs
+        type: folder
+        required: false
+        default: ".harmony/cognition/_meta/architecture"
+        description: "Companion architecture docs root for cross-reference checks"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: coherence_audit_report
+          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Cross-subsystem coherence findings report with severity tiers and fix batches"
+        - name: run_log
+          path: "_ops/state/logs/audit-cross-subsystem-coherence/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-cross-subsystem-coherence/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-cross-subsystem-coherence runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  audit-freshness-and-supersession:
+    version: "1.0.0"
+    commands:
+      - /audit-freshness-and-supersession
+    parameters:
+      - name: scope
+        type: folder
+        required: false
+        default: ".harmony"
+        description: "Root directory to audit for staleness and supersession integrity"
+      - name: artifact_globs
+        type: text
+        required: false
+        default: "cognition/context/**/*.md,cognition/decisions/**/*.md,output/plans/**/*.md,output/reports/**/*.md"
+        description: "Comma-separated globs selecting artifact families"
+      - name: max_age_days
+        type: text
+        required: false
+        default: "30"
+        description: "Maximum artifact age before stale classification"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: freshness_audit_report
+          path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Freshness and supersession findings report with severity tiers and fix batches"
+        - name: run_log
+          path: "_ops/state/logs/audit-freshness-and-supersession/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-freshness-and-supersession/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-freshness-and-supersession runs with metadata"
         - name: top_log_index
           path: "_ops/state/logs/index.yml"
           kind: file
@@ -980,7 +1092,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   react-best-practices:
-    version: "1.0.0"
+    version: "1.0.1"
     commands:
       - /react-best-practices
     parameters:

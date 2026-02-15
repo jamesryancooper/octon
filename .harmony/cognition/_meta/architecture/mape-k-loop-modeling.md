@@ -5,7 +5,7 @@ description: Application of the MAPE-K model with HITL checkpoints to drive safe
 
 # MAPE-K Loop Modeling (Technical)
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [agent roles](./agent-roles.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/examples/stack-profiles/python-runtime-workspace.md)
+Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [agent roles](./agent-roles.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/examples/stack-profiles/python-runtime-workspace.md)
 
 This document specifies how Harmony applies the MAPE-K model with Human-in-the-Loop (HITL) checkpoints to continuously improve the system while maintaining safety and alignment with governance policies.
 

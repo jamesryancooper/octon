@@ -43,7 +43,7 @@ Kits: The tools AI uses under the hood. You don't call them directly.
 | Review AI's work            | Review PR + AI summary                        |
 | Ship to production          | `harmony ship` or `vercel promote <url>`      |
 | Rollback a problem          | `harmony rollback` or `vercel promote <prev>` |
-| Handle an incident          | See [INCIDENTS.md](./INCIDENTS.md)            |
+| Handle an incident          | See [INCIDENTS.md](../../orchestration/incidents.md)            |
 | Understand something        | `harmony explain "why did we..."`             |
 | Retry with guidance         | `harmony retry --constraint "try X instead"`  |
 | Pause AI work               | `harmony pause`                               |
@@ -64,7 +64,7 @@ AI auto-assigns a risk tier to every change. Higher tiers require more human att
 
 **Rule of thumb:** If AI says T1, you can trust the summary. T2 deserves a quick read. T3 needs your full attention.
 
-→ See [RISK-TIERS.md](./RISK-TIERS.md) for details.
+→ See [RISK-TIERS.md](../../cognition/context/risk-tiers.md) for details.
 
 ---
 
@@ -100,10 +100,10 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 |-----|----------|------|----------------|
 | 1 | This doc (START-HERE) | 5 min | Mental model, first commands |
 | 1 | [DAILY-FLOW.md](./DAILY-FLOW.md) | 5 min | Daily rhythm |
-| 2 | [RISK-TIERS.md](./RISK-TIERS.md) | 5 min | When to pay close attention |
+| 2 | [RISK-TIERS.md](../../cognition/context/risk-tiers.md) | 5 min | When to pay close attention |
 | 3 | [SHIPPING.md](./SHIPPING.md) | 5 min | How to release and rollback |
-| 5 | [TASKS/fix-a-bug.md](./TASKS/fix-a-bug.md) | 5 min | Do your first guided task |
-| 7 | [INCIDENTS.md](./INCIDENTS.md) | 5 min | What to do if production breaks |
+| 5 | [TASKS/fix-a-bug.md](../../orchestration/workflows/tasks/fix-a-bug.md) | 5 min | Do your first guided task |
+| 7 | [INCIDENTS.md](../../orchestration/incidents.md) | 5 min | What to do if production breaks |
 
 **Total reading for Week 1: ~30 minutes**
 
@@ -117,7 +117,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 | Want a different approach | `harmony retry --constraint "try X instead"` |
 | Need to pause AI work | `harmony pause` — Stops without discarding progress |
 | CI gates fail | AI auto-fixes most; you approve the fix PR |
-| Production incident | `harmony rollback` then [INCIDENTS.md](./INCIDENTS.md) |
+| Production incident | `harmony rollback` then [INCIDENTS.md](../../orchestration/incidents.md) |
 | Not sure what's happening | `harmony status` — Shows current state |
 | Need command help | `harmony help <command>` — Shows options and examples |
 
@@ -135,8 +135,8 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 | **Flag** | Feature flag. New features ship OFF by default, then get enabled gradually. |
 | **Kit** | Tools AI uses under the hood. You can use kit CLIs directly for debugging. |
 
-→ See [../shared/GLOSSARY.md](../shared/GLOSSARY.md) for complete glossary.
-→ See [KITS.md](./KITS.md) for kit CLI quick reference.
+→ See [../../cognition/context/glossary.md](../../cognition/context/glossary.md) for complete glossary.
+→ See [KITS.md](../../../packages/kits/README.md) for kit CLI quick reference.
 
 ---
 
@@ -167,10 +167,10 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 ## Where to Go Next
 
 1. **Ready to start?** → [DAILY-FLOW.md](./DAILY-FLOW.md)
-2. **Want to understand risk?** → [RISK-TIERS.md](./RISK-TIERS.md)
+2. **Want to understand risk?** → [RISK-TIERS.md](../../cognition/context/risk-tiers.md)
 3. **Need to ship something?** → [SHIPPING.md](./SHIPPING.md)
-4. **Production is down?** → [INCIDENTS.md](./INCIDENTS.md)
-5. **Want the full details?** → [methodology/README.md](methodology/README.md) (AI-facing docs)
+4. **Production is down?** → [INCIDENTS.md](../../orchestration/incidents.md)
+5. **Want the full details?** → [cognition/methodology/README.md](../../cognition/methodology/README.md) (AI-facing docs)
 
 ---
 
@@ -179,13 +179,12 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 The simple docs you're reading are the human-facing layer. For full details on methodology, architecture, kits, and policies, see:
 
 - **CLI Reference**: `packages/harmony-cli/README.md` — Full command docs, options, integration points
-- **Kit CLIs**: [KITS.md](./KITS.md) — Quick reference for using kit CLIs directly
+- **Kit CLIs**: [KITS.md](../../../packages/kits/README.md) — Quick reference for using kit CLIs directly
 - **Kit Technical Docs**: `/packages/kits/README.md` — Full kit documentation
 - **Prompt Library**: `packages/prompts/README.md` — Canonical prompts with schemas and validation
-- **Full Methodology**: [methodology/README.md](methodology/README.md)
-- **Architecture**: [architecture/overview.md](architecture/overview.md)
-- **Kit Documentation**: [kits/README.md](kits/README.md)
-- **Security Policies**: [methodology/security-baseline.md](methodology/security-baseline.md)
+- **Full Methodology**: [cognition/methodology/README.md](../../cognition/methodology/README.md)
+- **Architecture**: [cognition architecture overview](../../cognition/_meta/architecture/overview.md)
+- **Kit Documentation**: [packages/kits/README.md](../../../packages/kits/README.md)
+- **Security Policies**: [cognition/methodology/security-baseline.md](../../cognition/methodology/security-baseline.md)
 
 These docs are detailed and comprehensive—designed for AI agents to consume. You don't need to read them unless you want to understand how things work under the hood.
-

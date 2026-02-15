@@ -163,5 +163,5 @@ An agent may help:
 
 ## See Also
 
-- [`.harmony/ideation/scratchpad/README.md`](../ideation/scratchpad/README.md) — Human-led zone (includes inbox, archive, projects)
-- [`.harmony/START.md`](../START.md) — Visibility rules and routing
+- [`.harmony/ideation/scratchpad/README.md`](../../../ideation/scratchpad/README.md) — Human-led zone (includes inbox, archive, projects)
+- [`.harmony/START.md`](../../../START.md) — Visibility rules and routing

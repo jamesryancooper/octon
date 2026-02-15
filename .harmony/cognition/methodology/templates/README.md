@@ -109,4 +109,4 @@ if (!validation.valid) {
 - [Risk Tiers Overview](../risk-tiers.md)
 - [Auto-Tier Assignment](../auto-tier-assignment.md)
 - [Spec-First Planning](../spec-first-planning.md)
-- [Human-Facing Risk Tiers](../../RISK-TIERS.md)
+- [Human-Facing Risk Tiers](../../context/risk-tiers.md)

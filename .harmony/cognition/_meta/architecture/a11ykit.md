@@ -36,4 +36,4 @@ Purpose: Provide a thin, centralized way to run accessibility checks in CI and s
 - Does not replace manual/assistive‑tech testing for critical UX flows.
 - Does not alter the architecture’s quality pillar; it implements it.
 
-Related docs: [observability requirements](./observability-requirements.md) (accessibility baseline), [governance model](./governance-model.md) (gates/waivers), [migration playbook](./migration-playbook.md) (adoption), [tooling integration](./tooling-integration.md) (gates), [knowledge plane](../knowledge-plane/knowledge-plane.md) (provenance).
+Related docs: [observability requirements](./observability-requirements.md) (accessibility baseline), [governance model](./governance-model.md) (gates/waivers), [migration playbook](./migration-playbook.md) (adoption), [tooling integration](./tooling-integration.md) (gates), [knowledge plane](../../knowledge-plane/knowledge-plane.md) (provenance).

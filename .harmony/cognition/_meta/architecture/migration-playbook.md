@@ -7,7 +7,7 @@ description: Phased adoption path to HSP with monorepo layout, contracts, observ
 
 This playbook provides a concise, phased path to adopt the Harmony Structural Paradigm (HSP) as a modular monolith with vertical slices, contract-first interfaces, a thin control plane, and manual promote/instant rollback. It aligns with existing guidance and remains provider‑agnostic.
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [governance model](./governance-model.md), [runtime policy](/.harmony/cognition/_meta/architecture/runtime-policy.md), [observability requirements](./observability-requirements.md), [tooling integration](./tooling-integration.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/examples/stack-profiles/python-runtime-workspace.md)
+Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [governance model](./governance-model.md), [runtime policy](/.harmony/cognition/_meta/architecture/runtime-policy.md), [observability requirements](./observability-requirements.md), [tooling integration](./tooling-integration.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/examples/stack-profiles/python-runtime-workspace.md)
 
 ## Scope & Assumptions
 

@@ -28,7 +28,7 @@ description: Backward-looking baseline of existing platform/provider coupling be
 
 | Path | Evidence | Classification Reason |
 |---|---|---|
-| `.harmony/capabilities/services/platform-overview.md` | Reference-stack sections include platform examples (for example Vercel/OpenAI). | This file is descriptive ecosystem overview content, not a core interop contract. |
+| `.harmony/capabilities/services/_meta/docs/platform-overview.md` | Reference-stack sections include platform examples (for example Vercel/OpenAI). | This file is descriptive ecosystem overview content, not a core interop contract. |
 | `.harmony/capabilities/services/delivery/**` | Deployment guidance uses platform examples and operational commands. | Delivery integration docs are expected to mention concrete providers. |
 | `.harmony/cognition/context/dependencies.md` | External docs links for harness tooling. | Dependency catalog intentionally references external systems. |
 

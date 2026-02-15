@@ -7,7 +7,7 @@ date: 2025-11-21
 
 # Repo layout for new engineers
 
-Related docs: [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [layers](./layers.md), [migration playbook](./migration-playbook.md), [composite services](../../capabilities/services/composite-services.md)
+Related docs: [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [layers](./layers.md), [migration playbook](./migration-playbook.md), [composite services](../../../capabilities/services/_meta/docs/composite-services.md)
 
 This repo follows a simple rule:
 

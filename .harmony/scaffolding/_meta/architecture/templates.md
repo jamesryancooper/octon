@@ -174,5 +174,5 @@ Templates are *scaffolds*. Examples are *references*.
 ## See Also
 
 - [Examples](./examples.md) — Reference patterns
-- [Workflows](./workflows.md) — Procedures that use templates
+- [Workflows](../../../orchestration/_meta/architecture/workflows.md) — Procedures that use templates
 - [README.md](./README.md) — Canonical harness structure

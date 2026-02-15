@@ -11,7 +11,7 @@ The v1 contracts cover:
 5. Kernel module architecture (conceptual, language-agnostic)
 6. Capability identifiers (v1 baseline)
 
-These files are intended to live under `.harmony/spec/` (or wherever you prefer).
+These files are intended to live under `.harmony/runtime/spec/` (or wherever you prefer).
 
 > **See also:**
 >
@@ -99,7 +99,7 @@ These files are intended to live under `.harmony/spec/` (or wherever you prefer)
 
   "docs": {
     "summary": "Local key/value storage for Harmony runtime state.",
-    "help": "Use for durable state under .harmony/state/kv/. Keys are strings; values are UTF-8 strings in v1."
+    "help": "Use for durable state under .harmony/runtime/_ops/state/kv/. Keys are strings; values are UTF-8 strings in v1."
   }
 }
 ```
@@ -118,7 +118,7 @@ These files are intended to live under `.harmony/spec/` (or wherever you prefer)
 
 ## 1.3 JSON Schema for `service.json`
 
-Create `.harmony/spec/service-manifest-v1.schema.json`:
+Create `.harmony/runtime/spec/service-manifest-v1.schema.json`:
 
 ```json
 {
@@ -281,7 +281,7 @@ services:
       writes: human_if_outside_scope
     depends_on: []
     io:
-      state_dir: .harmony/state/kv
+      state_dir: .harmony/runtime/_ops/state/kv
     notes:
       - "Values are UTF-8 strings in v1."
       - "Keys are case-sensitive."
@@ -309,7 +309,7 @@ Rules:
 
 # 4) NDJSON stdio protocol spec (v1)
 
-Create `.harmony/spec/stdio-protocol-v1.md` with these normative rules:
+Create `.harmony/runtime/spec/stdio-protocol-v1.md` with these normative rules:
 
 ## 4.1 Transport
 
@@ -465,7 +465,7 @@ This section defines the **logical modules** and their responsibilities. It is l
    * Wraps Wasmtime
    * Responsibilities:
 
-     * cache compiled artifacts (use `.harmony/state/wasmtime-cache/`)
+     * cache compiled artifacts (use `.harmony/runtime/_ops/state/wasmtime-cache/`)
      * instantiate component with WASI + host imports
      * enforce timeouts / memory limits / fuel (if you choose)
      * map traps to `SERVICE_TRAP`
@@ -493,7 +493,7 @@ This section defines the **logical modules** and their responsibilities. It is l
 
 8. **TraceWriter**
 
-   * Appends NDJSON events to `.harmony/state/traces/<trace_id>.ndjson`
+   * Appends NDJSON events to `.harmony/runtime/_ops/state/traces/<trace_id>.ndjson`
    * Events to record:
 
      * request received
@@ -527,7 +527,7 @@ This section defines the **logical modules** and their responsibilities. It is l
 # 6) Concrete “spec bundle” file list to add
 
 ```text
-.harmony/spec/
+.harmony/runtime/spec/
   service-manifest-v1.schema.json
   stdio-protocol-v1.md
   policy-v1.md                 # (optional) capability strings + defaults

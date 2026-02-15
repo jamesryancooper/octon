@@ -39,6 +39,12 @@ description: Quality criteria and completion checklist for harness tasks.
 - [ ] `validate-service-independence.sh --mode degradation` passes
 - [ ] Native commands (`context-budget`, `validate-session-policy`) run without adapters
 
+### For .harmony Architecture Changes
+
+- [ ] `bash .harmony/quality/_ops/scripts/validate-harness-structure.sh` passes
+- [ ] `bash .harmony/quality/_ops/scripts/validate-audit-subsystem-health-alignment.sh` passes
+- [ ] `pre-release-audit` workflow executed (or explicit rationale recorded for not running it)
+
 ## Common Failure Modes
 
 | Failure | Prevention |

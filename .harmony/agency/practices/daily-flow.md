@@ -121,7 +121,7 @@ AI analyzes the alert, proposes a fix, and shows you the risk level. Approve the
 ```bash
 harmony incident start
 ```
-See [INCIDENTS.md](./INCIDENTS.md) for full process. Rollback first, investigate second.
+See [INCIDENTS.md](../../orchestration/incidents.md) for full process. Rollback first, investigate second.
 
 **Urgent Bug:**
 ```bash
@@ -343,9 +343,9 @@ Compare to pre-AI approach where each of these would be 2-4 hours of work.
 ## Next Steps
 
 - **Need to ship something?** → [SHIPPING.md](./SHIPPING.md)
-- **Production issue?** → [INCIDENTS.md](./INCIDENTS.md)
-- **Want to understand risk tiers?** → [RISK-TIERS.md](./RISK-TIERS.md)
-- **Specific task?** → Check [TASKS/](./TASKS/) directory
+- **Production issue?** → [INCIDENTS.md](../../orchestration/incidents.md)
+- **Want to understand risk tiers?** → [RISK-TIERS.md](../../cognition/context/risk-tiers.md)
+- **Specific task?** → Check [TASKS/](../../orchestration/workflows/tasks/) directory
 
 ---
 
@@ -354,7 +354,6 @@ Compare to pre-AI approach where each of these would be 2-4 hours of work.
 For deep dives into the methodology, see the AI-facing docs:
 
 - **CLI Reference**: `packages/harmony-cli/README.md` — Full command reference, options, and integration points
-- **CI/CD Details**: [methodology/ci-cd-quality-gates.md](methodology/ci-cd-quality-gates.md)
-- **Flow & WIP Policy**: [methodology/flow-and-wip-policy.md](methodology/flow-and-wip-policy.md)
-- **Reliability & Ops**: [methodology/reliability-and-ops.md](methodology/reliability-and-ops.md)
-
+- **CI/CD Details**: [cognition/methodology/ci-cd-quality-gates.md](../../cognition/methodology/ci-cd-quality-gates.md)
+- **Flow & WIP Policy**: [cognition/methodology/flow-and-wip-policy.md](../../cognition/methodology/flow-and-wip-policy.md)
+- **Reliability & Ops**: [cognition/methodology/reliability-and-ops.md](../../cognition/methodology/reliability-and-ops.md)

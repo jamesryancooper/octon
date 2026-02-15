@@ -7,7 +7,7 @@ description: Non‑normative examples mapping common features to Harmony lifecyc
 
 These examples show how representative features map to the Harmony lifecycle (Spec → Plan → Implement → Verify → Ship → Operate → Learn) and how AI‑Toolkit kits interact. They are illustrative only and do not alter architectural decisions. All examples assume the canonical **polyglot monorepo** layout from `monorepo-polyglot.md` (vertical slices under `packages/<feature>`, control-plane kits under `packages/kits/*`, contracts in the root `contracts/` registry, and Python agents under `agents/*` using generated clients from `contracts/py`). See the Migration Playbook, Governance Model, Runtime Policy, and Tooling Integration for authoritative guidance.
 
-Related docs: [overview](./overview.md), [migration playbook](./migration-playbook.md), [governance model](./governance-model.md), [runtime policy](./runtime-policy.md), [tooling integration](./tooling-integration.md), [knowledge plane](../knowledge-plane/knowledge-plane.md).
+Related docs: [overview](./overview.md), [migration playbook](./migration-playbook.md), [governance model](./governance-model.md), [runtime policy](./runtime-policy.md), [tooling integration](./tooling-integration.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md).
 
 ## User‑Facing Feature Units
 

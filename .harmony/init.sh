@@ -18,7 +18,7 @@ done
 # Check capability directories
 echo ""
 echo "Capability directories:"
-for dir in cognition agency capabilities orchestration continuity ideation quality scaffolding output; do
+for dir in cognition agency capabilities orchestration continuity ideation quality scaffolding output runtime; do
   if [ -d "$dir" ]; then
     echo "✓ $dir/"
   else

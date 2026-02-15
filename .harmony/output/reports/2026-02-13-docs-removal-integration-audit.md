@@ -27,7 +27,7 @@ All removed `docs/services/**` markdown files were integrated under:
 Mapping rule:
 
 - `docs/services/<path>.md` -> `.harmony/capabilities/services/<path>.md`
-- `docs/services/README.md` -> `.harmony/capabilities/services/platform-overview.md`
+- `docs/services/README.md` -> `.harmony/capabilities/services/_meta/docs/platform-overview.md`
 
 Validation result:
 

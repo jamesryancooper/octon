@@ -159,6 +159,6 @@ See [Creation](./creation.md) for the full workflow.
 
 ### Related Documentation
 
-- [Agency](../agency/README.md) — Canonical actor taxonomy and assistant role
-- [Workflows](../workflows.md) — Multi-step procedures
-- [Taxonomy](../taxonomy.md) — Artifact type classification
+- [Agency](../../../agency/README.md) — Canonical actor taxonomy and assistant role
+- [Workflows](../../../orchestration/README.md) — Multi-step procedures
+- [Taxonomy](../../../cognition/_meta/architecture/taxonomy.md) — Artifact type classification

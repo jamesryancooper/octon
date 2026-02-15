@@ -273,7 +273,7 @@ The "envelope + blocks" approach is the explicit resolution of v2/v3 convergence
 
 ### Continuity Plane Integration
 
-> **Note**: `.continuity/` is the storage location for the **Continuity Plane** — one of Harmony's three architectural planes. See [Continuity Plane](../../../continuity/architecture/continuity-plane.md) for full specification.
+> **Note**: `.continuity/` is the storage location for the **Continuity Plane** — one of Harmony's three architectural planes. See [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) for full specification.
 
 HCP MUST treat `.continuity/` as a **first-class content root**, even though it is owned by the Continuity Plane. The Content Plane's build pipeline validates and indexes Continuity artifacts alongside canonical content.
 
@@ -313,7 +313,7 @@ ADRs may appear in two locations with different purposes:
 
 The **Continuity Plane owns decisions** (rationale, context, alternatives). Content Plane may publish ADRs as internal documentation, but the authoritative record lives in `.continuity/decisions/`. The Knowledge Plane indexes ADR effects (links to contracts, modules) for impact analysis.
 
-See [Three Planes Integration](../../../continuity/architecture/three-planes-integration.md) for complete boundary definitions.
+See [Three Planes Integration](../../../../continuity/_meta/architecture/three-planes-integration.md) for complete boundary definitions.
 
 ---
 
@@ -652,7 +652,7 @@ WHERE d.type IN ('adr','decision')
 ```
 
 **4) Find Knowledge Plane modules affected by a decision**:
-(Cross-plane join; see [Three Planes Integration](../../../continuity/architecture/three-planes-integration.md))
+(Cross-plane join; see [Three Planes Integration](../../../../continuity/_meta/architecture/three-planes-integration.md))
 
 ```sql
 SELECT cpr.dst_id as module_path, d.title as decision_title
@@ -675,7 +675,7 @@ WHERE cpr.src_plane = 'continuity'
 
 ### Agent coordination roles (Continuity Plane-aligned)
 
-HCP SHOULD assume four roles aligned with the [Continuity Plane](../../../continuity/architecture/continuity-plane.md) agent coordination model:
+HCP SHOULD assume four roles aligned with the [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) agent coordination model:
 
 | Role | Content Plane Responsibilities | Continuity Plane Responsibilities |
 |------|-------------------------------|-----------------------------------|
@@ -684,7 +684,7 @@ HCP SHOULD assume four roles aligned with the [Continuity Plane](../../../contin
 | **Archivist** | Updates internal docs | Maintains `.continuity/` decisions and handoffs |
 | **Verifier** | Runs validation, confirms acceptance criteria | Records verification evidence |
 
-Continuity artifacts and templates exist under `.continuity/` and MUST be validated alongside Content Plane artifacts. See [Continuity Plane](../../../continuity/architecture/continuity-plane.md) for session lifecycle and handoff protocols.
+Continuity artifacts and templates exist under `.continuity/` and MUST be validated alongside Content Plane artifacts. See [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) for session lifecycle and handoff protocols.
 
 ### Leasing (advisory locks)
 

@@ -104,3 +104,5 @@ After skill execution, verify:
 7. Log exists at `_ops/state/logs/audit-subsystem-health/{{run_id}}.md`
 8. Log index updated at `_ops/state/logs/audit-subsystem-health/index.yml`
 9. No source files were modified (read-only guarantee)
+10. Alignment validator passes when architecture surfaces changed:
+    - `bash .harmony/quality/_ops/scripts/validate-audit-subsystem-health-alignment.sh`

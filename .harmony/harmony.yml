@@ -32,8 +32,15 @@ portable:
   - capabilities/services/registry.runtime.yml
   - capabilities/services/interfaces/kv/
   - orchestration/workflows/
-  - runtime/
-  - spec/
+  - runtime/run
+  - runtime/run.cmd
+  - runtime/README.md
+  - runtime/config/
+  - runtime/crates/
+  - runtime/wit/
+  - runtime/spec/
+  - runtime/_ops/bin/
+  - runtime/_meta/evidence/README.md
   - quality/
   - scaffolding/
   - cognition/context/primitives.md

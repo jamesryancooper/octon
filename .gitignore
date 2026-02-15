@@ -77,6 +77,10 @@ logs/
 runs/
 
 # Harmony runtime state (local/cache/traces)
+.harmony/runtime/_ops/state/
+.harmony/runtime/_ops/state/**
+
+# Legacy runtime state location (deprecated)
 .harmony/state/
 .harmony/state/**
 
@@ -134,6 +138,12 @@ pip-wheel-metadata/
 .fleet/
 
 # Rust build artifacts (Harmony runtime + wasm services)
+.harmony/runtime/_ops/state/build/
+.harmony/runtime/_ops/state/build/**
+.harmony/capabilities/services/_ops/state/build/
+.harmony/capabilities/services/_ops/state/build/**
+
+# Legacy Rust build artifact locations (deprecated)
 .harmony/runtime/crates/target/
 .harmony/capabilities/services/**/rust/target/
 

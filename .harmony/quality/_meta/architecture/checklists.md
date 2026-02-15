@@ -139,5 +139,5 @@ Include a table of common failures and their prevention:
 
 ## See Also
 
-- [Progress](./progress.md) — Session continuity tracking
+- [Progress](../../../continuity/_meta/architecture/progress.md) — Session continuity tracking
 - [README.md](./README.md) — Canonical harness structure

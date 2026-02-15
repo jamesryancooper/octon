@@ -408,5 +408,5 @@ Fix: Add checkpoints for all material changes.
 - [Trust Pillar](../pillars/trust.md) — Bounded agents, human oversight
 - [Direction Pillar](../pillars/direction.md) — Validated decisions
 - [Deny by Default](./deny-by-default.md) — Permission elevation
-- [Agentic Principles](../principles.md#agentic-principles) — Full agent governance model
+- [Agentic Principles](./README.md#agentic-principles) — Full agent governance model
 - [No Silent Apply](./no-silent-apply.md) — Plan-diff-explain-test loop

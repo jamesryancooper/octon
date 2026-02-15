@@ -28,4 +28,4 @@ When build-time-only delivery is insufficient (e.g., content must update without
 
 - Building a full CMS product (WYSIWYG, workflow engine, scheduling, RBAC, hosted DB sync).
 - Real-time collaborative editing as a dependency (CRDT/Google-Docs-style). We mitigate instead via file granularity + leasing + orchestration.
-- Runtime content mutation/authoring APIs as a default (unless boundary conditions are crossed—see [runtime-content-layer.md](./runtime-content-layer.md and [boundary-conditions.md](./boundary-conditions.md) for escalation paths).
+- Runtime content mutation/authoring APIs as a default (unless boundary conditions are crossed—see [runtime-content-layer.md](./runtime-content-layer.md) and [boundary-conditions.md](./boundary-conditions.md) for escalation paths).

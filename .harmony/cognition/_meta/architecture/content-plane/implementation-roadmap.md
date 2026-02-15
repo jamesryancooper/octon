@@ -73,7 +73,7 @@ The roadmap is optimized for a solo developer/tiny team building the minimum via
 
 ## Phase 7: Runtime Write Layer (as needed)
 
-**Deliverables (only if boundary conditions demand—see [runtime-content-layer.md](./runtime-content-layer.md and [boundary-conditions.md](./boundary-conditions.md))**:
+**Deliverables (only if boundary conditions demand—see [runtime-content-layer.md](./runtime-content-layer.md) and [boundary-conditions.md](./boundary-conditions.md))**:
 
 - **Tier 2/3 server DB**: Set up Postgres/Supabase/PlanetScale.
 - Schema migration to sync HCG schema to server DB.

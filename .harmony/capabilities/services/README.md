@@ -25,7 +25,8 @@ Production services in this harness are self-contained and must not require or r
 | `_ops/scripts/validate-services.sh` | Structural and contract validator |
 | `_ops/scripts/validate-service-independence.sh` | Independence validator (forbidden external package references) |
 | `_ops/state/` | Service logs and run state |
-| `composite-services.md` | Canonical definition of harness-only composite service composition |
+| `_meta/docs/` | Non-structural support docs (platform, integration guides, migration notes) |
+| `_meta/docs/composite-services.md` | Canonical definition of harness-only composite service composition |
 
 ## Interface Types
 

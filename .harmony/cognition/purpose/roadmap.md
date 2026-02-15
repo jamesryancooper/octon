@@ -291,5 +291,5 @@ The purpose documentation and operationalization is complete when:
 - [`../pillars/README.md`](../pillars/README.md) — The six pillars grounded in Convivial Purpose
 - [`./convivial-purpose.md`](./convivial-purpose.md) — Full synthesis and operationalization spec
 - [`./resonant-computing-design-stack.md`](./resonant-computing-design-stack.md) — Foundational RCDS framework
-- [`../methodology/README.md`](../../methodology/README.md) — Methodology implementation
+- [`../methodology/README.md`](../methodology/README.md) — Methodology implementation
 

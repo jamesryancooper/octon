@@ -3,4 +3,4 @@
 
 [cache]
 enabled = true
-directory = ".harmony/state/wasmtime-cache"
+directory = ".harmony/runtime/_ops/state/wasmtime-cache"

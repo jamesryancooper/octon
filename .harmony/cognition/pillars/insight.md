@@ -216,6 +216,6 @@ This loop is Insight in action: systematic learning from AI behavior.
 - [Continuity through Institutional Memory](./continuity.md) — Phase partner
 - [Direction through Validated Discovery](./direction.md) — Feedback loop destination
 - [Pillars Overview](./README.md) — All six pillars
-- [EvalKit Documentation](../kits/evalkit/README.md) — AI evaluation
-- [Postmortem Policy](../methodology/postmortem-policy.md) — Incident learning
+- [EvalKit Documentation](../../../packages/kits/README.md) — AI evaluation
+- [Postmortem Policy](../methodology/reliability-and-ops.md) — Incident learning
 - [Convivial Purpose](../purpose/convivial-purpose.md) — The "why" this pillar serves

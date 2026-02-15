@@ -48,7 +48,7 @@ If this file conflicts with `/.harmony/scope.md` or `/.harmony/conventions.md`, 
 
 ### HARMONY-SPEC-001: Domain-Organized Harness Root
 
-The root harness MUST remain domain-organized under `/.harmony/` with explicit top-level domains (`agency`, `capabilities`, `cognition`, `continuity`, `orchestration`, `quality`, `scaffolding`, `ideation`, `output`).
+The root harness MUST remain domain-organized under `/.harmony/` with explicit top-level domains (`agency`, `capabilities`, `cognition`, `continuity`, `orchestration`, `quality`, `scaffolding`, `ideation`, `output`, `runtime`).
 
 Expands in:
 

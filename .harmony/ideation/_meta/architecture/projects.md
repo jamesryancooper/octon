@@ -446,7 +446,7 @@ Evaluate authentication library options for the new user service.
 ## See Also
 
 - [Scratchpad](./scratchpad.md) — Ideas and brainstorm (upstream)
-- [Missions](./missions.md) — Execution workstreams (downstream)
-- [Dot-Prefixed Directories](./dot-files.md) — Autonomy rules
+- [Missions](../../../orchestration/_meta/architecture/missions.md) — Execution workstreams (downstream)
+- [Dot-Prefixed Directories](../../../cognition/_meta/architecture/dot-files.md) — Autonomy rules
 - [README.md](./README.md) — Canonical harness structure
 - `.harmony/ideation/projects/README.md` — In-harness documentation

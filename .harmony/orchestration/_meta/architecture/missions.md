@@ -316,7 +316,7 @@ planner (with @reviewer for code review)
 ## See Also
 
 - [README.md](./README.md) — Canonical harness structure
-- [Research Projects](./projects.md) — Human-led investigations (compare to missions)
-- [Agency](./agency/README.md) — Actor taxonomy and assistant role definitions
-- [Progress](./progress.md) — Session continuity tracking
-- [Taxonomy](./taxonomy.md) — Artifact type classification
+- [Research Projects](../../../ideation/_meta/architecture/projects.md) — Human-led investigations (compare to missions)
+- [Agency](../../../agency/README.md) — Actor taxonomy and assistant role definitions
+- [Progress](../../../continuity/_meta/architecture/progress.md) — Session continuity tracking
+- [Taxonomy](../../../cognition/_meta/architecture/taxonomy.md) — Artifact type classification

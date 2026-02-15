@@ -132,10 +132,10 @@ Invocation-driven composite capabilities with typed I/O contracts in `capabiliti
 
 | Service | Interface | Category | Description |
 |---|---|---|---|
-| [guard](./capabilities/services/guard/SERVICE.md) | `shell` | guard | Content safety checks and sanitization |
-| [prompt](./capabilities/services/prompt/SERVICE.md) | `library` | prompt | Prompt rendering/token contracts |
-| [cost](./capabilities/services/cost/SERVICE.md) | `shell` | cost | Budget estimation and usage tracking |
-| [flow](./capabilities/services/flow/SERVICE.md) | `mcp` | flow | LangGraph-compatible flow execution |
+| [guard](./capabilities/services/governance/guard/guide.md) | `shell` | guard | Content safety checks and sanitization |
+| [prompt](./capabilities/services/modeling/prompt/guide.md) | `library` | prompt | Prompt rendering/token contracts |
+| [cost](./capabilities/services/operations/cost/guide.md) | `shell` | cost | Budget estimation and usage tracking |
+| [flow](./capabilities/services/planning/flow/guide.md) | `mcp` | flow | LangGraph-compatible flow execution |
 
 ### Usage Example
 
@@ -195,7 +195,7 @@ Multi-step procedures in `orchestration/workflows/`.
 | Workflow | Access | Description |
 | -------- | ------ | ----------- |
 | [orchestrate-audit](./orchestration/workflows/quality-gate/orchestrate-audit/WORKFLOW.md) | human | Coordinate parallel audit-migration runs across codebase partitions |
-| [refactor](./orchestration/workflows/quality-gate/refactor(x)/00-overview.md) | human | Execute a verified refactor with exhaustive audit |
+| [refactor](<./orchestration/workflows/quality-gate/refactor(x)/00-overview.md>) | human | Execute a verified refactor with exhaustive audit |
 
 ---
 

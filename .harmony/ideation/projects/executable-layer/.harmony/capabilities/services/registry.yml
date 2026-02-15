@@ -8,7 +8,7 @@ services:
       writes: human_if_outside_scope
     depends_on: []
     io:
-      state_dir: .harmony/state/kv
+      state_dir: .harmony/runtime/_ops/state/kv
     notes:
       - "Values are UTF-8 strings in v1."
       - "Keys are case-sensitive."

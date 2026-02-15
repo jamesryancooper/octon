@@ -319,6 +319,6 @@ The portable-paths approach works well for most cases. Consider converting to a 
 ## Related Documentation
 
 - [README.md](./README.md) -- Main harness documentation
-- [Skills](./skills.md) -- Composable capabilities with defined I/O
-- [Workflows](./workflows.md) -- Multi-step procedures
+- [Skills](../../../capabilities/skills/README.md) -- Composable capabilities with defined I/O
+- [Workflows](../../../orchestration/_meta/architecture/workflows.md) -- Multi-step procedures
 - [Taxonomy](./taxonomy.md) -- Harness entry points, commands, workflows relationships

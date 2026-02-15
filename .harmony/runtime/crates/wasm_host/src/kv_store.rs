@@ -18,7 +18,7 @@ struct Inner {
 }
 
 impl KvStore {
-    /// Opens (or creates) a KV store at `state_dir` (e.g. `.harmony/state/kv/`).
+    /// Opens (or creates) a KV store at `state_dir` (e.g. `.harmony/runtime/_ops/state/kv/`).
     /// Stores data in `store.json` as a JSON object: { "key": "value", ... }.
     pub fn open(state_dir: PathBuf) -> io::Result<Self> {
         fs::create_dir_all(&state_dir)?;

@@ -39,7 +39,7 @@ impl ConfigLoader {
             .ok_or_else(|| KernelError::new(ErrorCode::Internal, ".harmony has no parent directory"))?
             .to_path_buf();
 
-        let state_dir = harmony_dir.join("state");
+        let state_dir = harmony_dir.join("runtime").join("_ops").join("state");
 
         let policy_path = Self::resolve_policy_path(&harmony_dir)?;
         let policy = if let Some(path) = policy_path {

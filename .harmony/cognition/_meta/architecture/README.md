@@ -234,11 +234,17 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │       ├── _scaffold/template/       # New project template
 │       └── <project-slug>/  # Individual project
 │
-└── output/                  # Generated artifacts
-    ├── README.md            # Domain orientation (write contract)
-    ├── reports/             # Analysis reports
-    ├── drafts/              # Draft documents
-    └── artifacts/           # Other generated output
+├── output/                  # Generated artifacts
+│   ├── README.md            # Domain orientation (write contract)
+│   ├── reports/             # Analysis reports
+│   ├── drafts/              # Draft documents
+│   └── artifacts/           # Other generated output
+│
+└── runtime/                 # Executable runtime layer (kernel + launchers)
+    ├── _ops/state/          # Runtime-local mutable state
+    ├── crates/              # Runtime implementation crates
+    ├── config/              # Runtime policy and cache config
+    └── spec/                # Runtime contract/schema bundle
 ```
 
 ### Structure Categorization
@@ -247,7 +253,7 @@ The full tree above is the **canonical superset**. In practice, harness profiles
 
 | Profile | Baseline | Notes |
 |---------|----------|-------|
-| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `quality/`, `scaffolding/prompts/`, `orchestration/workflows/`, `capabilities/commands/`, `cognition/context/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
+| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `quality/`, `scaffolding/prompts/`, `orchestration/workflows/`, `capabilities/commands/`, `cognition/context/`, `runtime/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
 | **Descendant harness (localized)** | `START.md`, `scope.md`, plus at least one active subsystem (`cognition/`, `capabilities/`, `orchestration/`, `continuity/`, or `quality/`) | Descendants are intentionally minimal. They include only subsystems needed for that subtree |
 
 | Subsystem | Root Harness | Descendant Harness |

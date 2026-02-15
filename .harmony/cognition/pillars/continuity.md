@@ -183,6 +183,6 @@ related_specs: [spec references]
 - [Insight through Structured Learning](./insight.md) — Phase partner
 - [Trust through Governed Determinism](./trust.md) — Enabled by Continuity
 - [Pillars Overview](./README.md) — All six pillars
-- [ADR Policy](../adr-policy.md) — ADR guidelines
+- [ADR Policy](../context/decisions.md) — ADR guidelines
 - [Architecture: Observability Requirements](../_meta/architecture/observability-requirements.md) — Trace requirements
 - [Convivial Purpose](../purpose/convivial-purpose.md) — The "why" this pillar serves

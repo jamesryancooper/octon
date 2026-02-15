@@ -114,6 +114,6 @@
   "integrity": {},
   "docs": {
     "summary": "Local key/value storage for Harmony runtime state.",
-    "help": "Use for durable state under .harmony/state/kv/. Keys are strings; values are UTF-8 strings in v1."
+    "help": "Use for durable state under .harmony/runtime/_ops/state/kv/. Keys are strings; values are UTF-8 strings in v1."
   }
 }

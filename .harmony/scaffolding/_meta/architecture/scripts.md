@@ -94,4 +94,4 @@ Scripts are for **quick validation**. Workflows are for **agent-driven procedure
 ## See Also
 
 - [README.md](./README.md) — Canonical harness structure
-- [Checklists](./checklists.md) — Quality gates (agent-facing alternative to validation scripts)
+- [Checklists](../../../quality/_meta/architecture/checklists.md) — Quality gates (agent-facing alternative to validation scripts)

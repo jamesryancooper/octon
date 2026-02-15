@@ -33,9 +33,9 @@ The Content Plane is one of three architectural planes in Harmony:
 ```
 
 **Related Planes:**
-- [Continuity Plane](../../../continuity/architecture/continuity-plane.md) — Process knowledge (decisions, handoffs)
-- [Knowledge Plane](../../../cognition/knowledge-plane/knowledge-plane.md) — System knowledge (specs, code, tests)
-- [Three Planes Integration](../../../continuity/architecture/three-planes-integration.md) — Cross-plane architecture
+- [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) — Process knowledge (decisions, handoffs)
+- [Knowledge Plane](../../../knowledge-plane/knowledge-plane.md) — System knowledge (specs, code, tests)
+- [Three Planes Integration](../../../../continuity/_meta/architecture/three-planes-integration.md) — Cross-plane architecture
 
 ---
 
@@ -83,10 +83,10 @@ The Content Plane is one of three architectural planes in Harmony:
 | Type | Location | Plane | Description |
 |------|----------|-------|-------------|
 | **Canonical Content** | `content/` | Content Plane | Source of truth: public, internal, and agent-facing content |
-| **Continuity Artifacts** | `.continuity/` | [Continuity Plane](../../../continuity/architecture/continuity-plane.md) | Backlog, plans, handoffs, decisions with lifecycle rules |
+| **Continuity Artifacts** | `.continuity/` | [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) | Backlog, plans, handoffs, decisions with lifecycle rules |
 | **Runtime Content** | Server DB (optional) | Content Plane (runtime) | Live overrides, personalization, session state |
 
-> **Note**: Continuity artifacts (`.continuity/`) are managed by the Continuity Plane with specialized lifecycle rules. See [Continuity Plane](../../../continuity/architecture/continuity-plane.md) for details on decision records, handoffs, and progress tracking.
+> **Note**: Continuity artifacts (`.continuity/`) are managed by the Continuity Plane with specialized lifecycle rules. See [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) for details on decision records, handoffs, and progress tracking.
 
 ## Sources & Influences (non-normative)
 

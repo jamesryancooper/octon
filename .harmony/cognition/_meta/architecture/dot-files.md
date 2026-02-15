@@ -217,8 +217,8 @@ Tools that scan, index, or retrieve content should respect these patterns during
 ## See Also
 
 - [README.md](./README.md) — Canonical harness structure reference
-- [Scratchpad](./scratchpad.md) — Ephemeral content and idea funnel
-- [Projects](./projects.md) — Human-led explorations
+- [Scratchpad](../../../ideation/_meta/architecture/scratchpad.md) — Ephemeral content and idea funnel
+- [Projects](../../../ideation/_meta/architecture/projects.md) — Human-led explorations
 - [Taxonomy](./taxonomy.md) — Command and workflow types
 - `.harmony/ideation/scratchpad/README.md` — Scratchpad details
 - `.harmony/ideation/projects/README.md` — Projects details

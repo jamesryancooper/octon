@@ -210,7 +210,7 @@ directly from the DB instead of local artifacts. See [Query](../query/guide.md) 
 
 ## Harmony Alignment
 
-Index reinforces the Harmony methodology, as detailed in [the methodology overview](../../../methodology/README.md):
+Index reinforces the Harmony methodology, as detailed in [the methodology overview](../../../../cognition/methodology/README.md):
 
 - **Spec-first, Contract-driven:** Schemas and artifact formats emphasize contract fidelity and drift detection.
 - **Auditability & Transparency:** Versionable artifacts and manifests meet Harmony's SRE, compliance, and ASVS guardrails.

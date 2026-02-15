@@ -95,8 +95,16 @@ Subsystem expansion specs:
 │   ├── scratchpad/     ← Temporary staging (inbox/, archive/, etc.)
 │   └── projects/       ← Committed research
 │
-└── output/             ← Reports, drafts, artifacts
-    └── _meta/architecture/   ← Output subsystem specification
+├── output/             ← Reports, drafts, artifacts
+│   └── _meta/architecture/   ← Output subsystem specification
+│
+└── runtime/            ← Executable runtime layer (kernel + launchers)
+    ├── _meta/evidence/ ← Runtime verification artifacts and audit evidence
+    ├── _ops/bin/       ← Runtime-local prebuilt binaries
+    ├── _ops/state/     ← Runtime-local mutable state (traces, kv, caches)
+    ├── crates/         ← Runtime implementation crates
+    ├── config/         ← Runtime policy and cache config
+    └── spec/           ← Runtime contract/schema bundle
 ```
 
 ## Naming Convention
@@ -107,9 +115,11 @@ Use plain directory names for structural units (domains, subsystems, components)
 - `_ops/` — operational assets such as scripts and mutable state.
 - `_scaffold/` — templates and scaffolding material.
 
-Within these namespaces, standard subpaths are:
+Within these namespaces, common subpaths are:
 
 - `_meta/architecture/`
+- `_meta/docs/`
+- `_meta/evidence/`
 - `_ops/scripts/`
 - `_ops/state/`
 - `_scaffold/template/`

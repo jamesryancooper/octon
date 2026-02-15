@@ -26,7 +26,7 @@ Harness commands can be invoked in multiple ways:
 
 When wrapped by a harness entry point, the command gains that harness's integration features.
 
-> **Universal Harness-Agnostic Pattern:** Harness commands are the source of truth. Harness entry points (`.cursor/commands/`, `.claude/commands/`, etc.) are thin wrappers. See [workflows.md](./workflows.md) for the full pattern.
+> **Universal Harness-Agnostic Pattern:** Harness commands are the source of truth. Harness entry points (`.cursor/commands/`, `.claude/commands/`, etc.) are thin wrappers. See [workflows.md](../../../orchestration/_meta/architecture/workflows.md) for the full pattern.
 
 ---
 
@@ -123,7 +123,7 @@ Execute `.harmony/capabilities/commands/validate-frontmatter.md` in the target d
 
 ## See Also
 
-- [Prompts](./prompts.md) — Context-dependent task templates
-- [Workflows](./workflows.md) — Multi-step procedures
-- [Taxonomy](./taxonomy.md) — Full classification of artifact types
+- [Prompts](../../../scaffolding/_meta/architecture/prompts.md) — Context-dependent task templates
+- [Workflows](../../../orchestration/_meta/architecture/workflows.md) — Multi-step procedures
+- [Taxonomy](../../../cognition/_meta/architecture/taxonomy.md) — Full classification of artifact types
 - [README.md](./README.md) — Canonical harness structure reference

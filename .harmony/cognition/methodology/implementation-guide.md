@@ -104,7 +104,7 @@ flowchart LR
 
   - In: intent/idea (issue), constraints.
   - Out: `docs/specs/<feature>/spec.md` and related GitHub’s Spec Kit docs; ADR is created in the next stage by PlanKit. (ASVS/SSDF per OWASP/NIST.) ([GitHub][7])
-- **Commands & hooks**: `speckit init …` to author; `speckit validate …` to ensure structure; `speckit render …` to publish. See `.harmony/capabilities/services/platform-overview.md` (SpecKit + PlanKit sections) and `.harmony/capabilities/services/planning/spec/guide.md` for wrapper details and contracts.
+- **Commands & hooks**: `speckit init …` to author; `speckit validate …` to ensure structure; `speckit render …` to publish. See `.harmony/capabilities/services/_meta/docs/platform-overview.md` (SpecKit + PlanKit sections) and `.harmony/capabilities/services/planning/spec/guide.md` for wrapper details and contracts.
 - **Human checkpoint**: Driver & Navigator confirm problem, scope, non‑functionals (two passes if solo).
 - **Integrations**: Open an ObservaKit trace at spec start and persist the `trace_id` for downstream linkage.
 - **Gate**: **S‑1** passes when SpecKit validation succeeds and required fields are present.
@@ -360,7 +360,7 @@ speckit render --path docs/specs/oauth-billing --publish
 plankit plan --spec docs/specs/oauth-billing/spec.md --out plan.json
 ```
 
-See `.harmony/capabilities/services/platform-overview.md` (SpecKit + PlanKit sections) for wrapper details.
+See `.harmony/capabilities/services/_meta/docs/platform-overview.md` (SpecKit + PlanKit sections) for wrapper details.
 
 ### 5.4a Contracts Registry & Kit Metadata (normative)
 

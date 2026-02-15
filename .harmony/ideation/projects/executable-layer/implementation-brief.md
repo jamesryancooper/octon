@@ -44,12 +44,12 @@ Build the following, in this order:
 3. **Core types**: RootResolver, ConfigLoader, ServiceDiscovery, PolicyEngine (per `spec-bundle.md` §5)
 4. **Host APIs**: log, clock, kv, fs — with GrantSet enforcement on every call
 5. **ScopedFs**: sandboxed filesystem with path traversal prevention, symlink escape prevention, and atomic writes
-6. **WasmHost**: Wasmtime integration with compilation caching under `.harmony/state/wasmtime-cache/`
+6. **WasmHost**: Wasmtime integration with compilation caching under `.harmony/runtime/_ops/state/wasmtime-cache/`
 7. **Invoker**: input validation → Wasm call → output validation pipeline
 8. **NDJSON stdio server** (`serve-stdio`): hello handshake, request/response, events, cancellation
 9. **CLI commands**: `info`, `services list`, `tool`, `validate`, `serve-stdio`, `service new`, `service build`
 10. **Bootstrap scripts**: `run` (POSIX sh) and `run.cmd` (Windows) at `.harmony/runtime/`
-11. **JSON Schema file** at `.harmony/spec/service-manifest-v1.schema.json`
+11. **JSON Schema file** at `.harmony/runtime/spec/service-manifest-v1.schema.json`
 12. **Reference KV service** at `.harmony/capabilities/services/interfaces/kv/` — fully buildable with `cargo component build`
 
 ### What NOT to do

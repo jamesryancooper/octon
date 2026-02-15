@@ -90,7 +90,7 @@ Exploratory local prompts may skip full records, but production-impacting output
 ## Related Documentation
 
 - `.harmony/cognition/methodology/README.md`
-- `.harmony/capabilities/services/platform-overview.md`
+- `.harmony/capabilities/services/_meta/docs/platform-overview.md`
 - `.harmony/cognition/principles/pillars/trust.md`
 - `.harmony/cognition/principles/pillars/insight.md`
 - `.harmony/cognition/principles/pillars/continuity.md`
