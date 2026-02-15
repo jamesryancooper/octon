@@ -111,12 +111,12 @@ Add branch notation to Steps section:
 ```markdown
 ## Steps
 
-1. [Validate prerequisites](./01-validate.md)
-2. [Analyze context](./02-analyze.md)
+1. [Validate ID](../../orchestration/workflows/meta/create-workflow/01-validate-id.md)
+2. [Analyze requirements](../../orchestration/workflows/meta/create-workflow/02-analyze-requirements.md)
 3. **Branch:**
-   - If complex workflow: [Design parallel structure](./03a-design-parallel.md)
-   - If simple workflow: [Design linear structure](./03b-design-linear.md)
-4. [Generate files](./04-generate.md) _(branches merge here)_
+   - If complex workflow: [Select template](../../orchestration/workflows/meta/create-workflow/03-select-template.md)
+   - If simple workflow: [Generate structure](../../orchestration/workflows/meta/create-workflow/04-generate-structure.md)
+4. [Customize steps](../../orchestration/workflows/meta/create-workflow/05-customize-steps.md) _(branches merge here)_
 ```
 
 And in step files:

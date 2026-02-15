@@ -381,20 +381,20 @@ workflows:
       - name: skip
         type: text
         required: false
-        description: "Comma-separated skill names to skip"
+        description: "Comma-separated skill IDs to skip"
     access: human
     depends_on:
-      - skill: scaffold-package
+      - skill: python-scaffold-package
         condition: "active in foundations/python-api/"
-      - skill: contract-first-api
+      - skill: python-contract-first-api
         condition: "active in foundations/python-api/"
-      - skill: test-harness
+      - skill: python-test-harness
         condition: "active in foundations/python-api/"
-      - skill: dev-toolchain
+      - skill: python-dev-toolchain
         condition: "active in foundations/python-api/"
-      - skill: infra-manifest
+      - skill: python-infra-manifest
         condition: "active in foundations/python-api/"
-      - skill: contributor-guide
+      - skill: python-contributor-guide
         condition: "active in foundations/python-api/"
     io:
       inputs:
@@ -459,20 +459,20 @@ workflows:
       - name: skip
         type: text
         required: false
-        description: "Comma-separated skill names to skip"
+        description: "Comma-separated skill IDs to skip"
     access: human
     depends_on:
-      - skill: scaffold-package
+      - skill: swift-scaffold-package
         condition: "active in foundations/swift-macos-app/"
-      - skill: data-layer
+      - skill: swift-data-layer
         condition: "active in foundations/swift-macos-app/"
-      - skill: daemon-service
+      - skill: swift-daemon-service
         condition: "active in foundations/swift-macos-app/"
-      - skill: cli-interface
+      - skill: swift-cli-interface
         condition: "active in foundations/swift-macos-app/"
-      - skill: test-harness
+      - skill: swift-test-harness
         condition: "active in foundations/swift-macos-app/"
-      - skill: contributor-guide
+      - skill: swift-contributor-guide
         condition: "active in foundations/swift-macos-app/"
     io:
       inputs:

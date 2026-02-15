@@ -26,7 +26,7 @@ Modify an existing workflow to add gap remediation features, new steps, or impro
 
 **Examples:**
 ```text
-/update-workflow .harmony/orchestration/workflows/quality-gate/refactor(x)/
+/update-workflow .harmony/orchestration/workflows/quality-gate/refactor/
 /update-workflow .harmony/orchestration/workflows/my-workflow/ --gaps-only
 ```
 

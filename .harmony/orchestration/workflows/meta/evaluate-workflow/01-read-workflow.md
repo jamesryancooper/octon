@@ -79,7 +79,7 @@ Load all workflow files and parse their structure for subsequent assessment step
 
 ```json
 {
-  "path": ".harmony/orchestration/workflows/quality-gate/refactor(x)/",
+  "path": ".harmony/orchestration/workflows/quality-gate/refactor/",
   "workflow_id": "refactor",
   "overview": {
     "frontmatter": {

@@ -181,11 +181,11 @@ services:
       - name: index.snapshot
         type: text
         required: true
-        description: "Snapshot path or ID containing keyword/graph/chunk artifacts."
+        description: "External snapshot path or ID containing keyword/graph/chunk artifacts."
     dependencies:
       requires: []
       orchestrates: []
-      integratesWith: [index]
+      integratesWith: []
     contracts:
       input: retrieval/query/schema/input.schema.json
       output: retrieval/query/schema/output.schema.json

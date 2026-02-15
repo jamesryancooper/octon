@@ -195,7 +195,7 @@ Multi-step procedures in `orchestration/workflows/`.
 | Workflow | Access | Description |
 | -------- | ------ | ----------- |
 | [orchestrate-audit](./orchestration/workflows/quality-gate/orchestrate-audit/WORKFLOW.md) | human | Coordinate parallel audit-migration runs across codebase partitions |
-| [refactor](<./orchestration/workflows/quality-gate/refactor(x)/00-overview.md>) | human | Execute a verified refactor with exhaustive audit |
+| [refactor](<./orchestration/workflows/quality-gate/refactor/00-overview.md>) | human | Execute a verified refactor with exhaustive audit |
 
 ---
 

@@ -87,7 +87,7 @@ Understand the current state of the workflow before planning modifications.
 ```json
 {
   "workflow_id": "refactor",
-  "path": ".harmony/orchestration/workflows/quality-gate/refactor(x)/",
+  "path": ".harmony/orchestration/workflows/quality-gate/refactor/",
   "audited_at": "2025-01-14T10:00:00Z",
   "current_version": "1.0.0",
   "structure": {

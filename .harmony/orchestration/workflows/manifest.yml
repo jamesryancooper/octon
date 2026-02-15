@@ -75,7 +75,7 @@ workflows:
     display_name: Create Skill
     group: meta
     domain: skills
-    path: meta/create-skill(x)/
+    path: meta/create-skill/
     summary: Scaffold a new skill from template with registry entry.
     status: deprecated
     triggers:
@@ -124,12 +124,12 @@ workflows:
     display_name: Refactor
     group: quality-gate
     domain: refactor
-    path: quality-gate/refactor(x)/
+    path: quality-gate/refactor/
     summary: Execute a verified refactor with exhaustive audit and mandatory verification.
     status: active
     triggers:
       - "refactor codebase"
-      - "rename across codebase"
+      - "workflow rename across codebase"
       - "verified refactor"
 
   - id: orchestrate-audit

@@ -100,7 +100,7 @@ function createUser(input: unknown): User {
 
 ```markdown
 <!-- Good: Reference the source -->
-For API details, see the [API Design Guidelines](../api-design-guidelines.md).
+For API details, see the [API Design Guidelines](../../scaffolding/patterns/api-design-guidelines.md).
 
 <!-- Bad: Copy that will drift -->
 ## API Details
@@ -202,7 +202,7 @@ We will use PostgreSQL as our primary database.
 ```markdown
 <!-- Reference: .harmony/cognition/_meta/architecture/overview.md -->
 We use PostgreSQL as our primary data store
-(see [ADR-0001](../specs/speckit/adr-0001.md) for rationale).
+(see [ADR-0001](../../../docs/specs/speckit/adr-0001.md) for rationale).
 ```
 
 ### Configuration Hierarchy

@@ -92,4 +92,4 @@ Create Workflow is NOT complete until:
 - **Template:** `.harmony/orchestration/workflows/_scaffold/template/`
 - **Gap fixes guide:** `.harmony/cognition/context/workflow-gaps.md`
 - **Quality criteria:** `.harmony/cognition/context/workflow-quality.md`
-- **Existing examples:** `.harmony/orchestration/workflows/quality-gate/refactor(x)/`, `.harmony/orchestration/workflows/meta/create-skill(x)/`
+- **Existing examples:** `.harmony/orchestration/workflows/quality-gate/refactor/`, `.harmony/orchestration/workflows/meta/create-skill/`
