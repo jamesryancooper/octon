@@ -1,0 +1,13 @@
+format_version: services-manifest-v1
+services:
+  - id: agent-platform/kv
+    name: kv
+    category: agent-platform
+    summary: Local key/value storage.
+    triggers:
+      - "state"
+      - "memory"
+      - "kv"
+    runtime:
+      type: wasm
+      path: agent-platform/kv/service.json
