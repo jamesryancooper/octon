@@ -1,0 +1,1 @@
+{"command":"generate","plan":{"goal":"release","steps":[{"id":"prepare"},{"id":"test","depends_on":["prepare"]},{"id":"package","depends_on":["test"]},{"id":"deploy","depends_on":["package"]}],"order":["prepare","test","package","deploy"]},"failedSteps":["test"],"allowDescendants":true,"maxAlternatives":2}

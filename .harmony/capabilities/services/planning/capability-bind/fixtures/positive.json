@@ -1,0 +1,1 @@
+{"command":"bind","plan":{"goal":"ship","steps":[{"id":"prepare","requires":["flow"]},{"id":"publish","requires":["flow","artifacts"]}],"requiredCapabilities":["flow","artifacts"]},"availableCapabilities":{"flow":"native","artifacts":"adapter","logs":"unsupported"}}

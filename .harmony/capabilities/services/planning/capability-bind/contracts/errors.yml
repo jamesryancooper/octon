@@ -1,0 +1,27 @@
+version: "1.0.0"
+errors:
+  - code: InputValidationError
+    category: structural
+    exit_code: 5
+    retryable: false
+    operator_action: "Fix payload to match schema/input.schema.json."
+  - code: UnsupportedCommandError
+    category: structural
+    exit_code: 5
+    retryable: false
+    operator_action: "Use 'bind' or 'validate'."
+  - code: MissingPlanError
+    category: dependency
+    exit_code: 5
+    retryable: false
+    operator_action: "Provide planPath or inline plan."
+  - code: CapabilityBindingError
+    category: runtime
+    exit_code: 4
+    retryable: false
+    operator_action: "Resolve missing required capabilities or switch to compatible plan mode."
+  - code: CapabilityRuntimeError
+    category: runtime
+    exit_code: 4
+    retryable: false
+    operator_action: "Review capability catalog and fallback strategy."

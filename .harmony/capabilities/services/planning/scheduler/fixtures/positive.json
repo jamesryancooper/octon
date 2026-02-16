@@ -1,0 +1,1 @@
+{"command":"schedule","maxParallel":2,"plan":{"goal":"ship","steps":[{"id":"root","duration":2},{"id":"build","depends_on":["root"],"duration":3},{"id":"test","depends_on":["build"],"duration":1},{"id":"release","depends_on":["build"],"duration":1},{"id":"notify","depends_on":["test","release"],"duration":1}]}}

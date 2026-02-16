@@ -1,0 +1,2 @@
+- `SchedulerInputError` requires `command`, a readable `plan` or `planPath`, and a valid step graph.
+- `SchedulerRuntimeError` often indicates a cycle in `depends_on`.

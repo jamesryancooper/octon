@@ -1,0 +1,46 @@
+version: "1.0.0"
+rules:
+  - id: scheduler.schema.input
+    description: Input schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/input.schema.json
+    target:
+      kind: file
+      selector: schema/input.schema.json
+    action:
+      mode: block
+      code: INPUT_SCHEMA_MISSING
+      message: Missing scheduler input schema.
+
+  - id: scheduler.schema.output
+    description: Output schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/output.schema.json
+    target:
+      kind: file
+      selector: schema/output.schema.json
+    action:
+      mode: block
+      code: OUTPUT_SCHEMA_MISSING
+      message: Missing scheduler output schema.
+
+  - id: scheduler.output.keys
+    description: Scheduler output must include command, result, and status.
+    category: semantic
+    severity: high
+    condition:
+      type: output_has_keys
+      keys: [status, command, result]
+    target:
+      kind: output
+      selector: $.result
+    action:
+      mode: block
+      code: SCHEDULER_OUTPUT_INVALID
+      message: Scheduler output missing required fields.

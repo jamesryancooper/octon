@@ -1,0 +1,12 @@
+version: "1.0.0"
+errors:
+  - code: ReplanInputError
+    category: structural
+    exit_code: 5
+    retryable: false
+    operator_action: "Fix payload or plan source to match schema/input.schema.json."
+  - code: ReplanRuntimeError
+    category: runtime
+    exit_code: 4
+    retryable: false
+    operator_action: "Review blocked steps and dependency graph, then rerun replan."

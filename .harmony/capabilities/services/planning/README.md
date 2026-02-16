@@ -30,6 +30,11 @@ Execution responsibilities are defined in:
 - [Spec](./spec/guide.md)
 - [Plan](./plan/guide.md)
 - [Playbook](./playbook/guide.md)
+- [Critic](./critic/guide.md)
+- [Replan](./replan/guide.md)
+- [Scheduler](./scheduler/guide.md)
+- [Capability Bind](./capability-bind/guide.md)
+- [Contingency](./contingency/guide.md)
 
 ### End-to-end pipeline (Spec → Plan → Execution)
 

@@ -1,0 +1,12 @@
+{
+  "contract_version": "0.1.0",
+  "contract_hash": "sha256:scheduler-core",
+  "fixture_set_hash": "sha256:scheduler-fixtures-v1",
+  "rule_set_hash": "sha256:scheduler-rules-v1",
+  "agent_id": "architect",
+  "agent_version": "2026-02-16",
+  "model_id": "gpt-5",
+  "prompt_hash": "sha256:scheduler",
+  "tool_surface_version": "1",
+  "generated_at": "2026-02-16T00:00:00Z"
+}

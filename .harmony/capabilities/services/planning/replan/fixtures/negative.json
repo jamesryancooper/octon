@@ -1,0 +1,1 @@
+{"command":"replan","plan":{"goal":"Invalid","steps":[{"id":"a","depends_on":["b"]}]}}

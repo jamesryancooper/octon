@@ -1,0 +1,1 @@
+{"command":"replan","plan":{"goal":"Dependency pruning","steps":[{"id":"a"},{"id":"b","depends_on":["a"]},{"id":"c","depends_on":["b"]},{"id":"d","depends_on":["a"]}],"order":["a","b","d","c"]},"blockedSteps":["b"],"allowMissingDependencies":true}

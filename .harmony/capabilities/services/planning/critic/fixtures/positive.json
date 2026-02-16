@@ -1,0 +1,1 @@
+{"command":"validate","plan":{"goal":"Refresh docs","steps":[{"id":"root"},{"id":"branch","depends_on":["root"]}]}}

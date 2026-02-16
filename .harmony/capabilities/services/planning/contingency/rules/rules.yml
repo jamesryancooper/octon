@@ -1,0 +1,46 @@
+version: "1.0.0"
+rules:
+  - id: contingency.schema.input
+    description: Input schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/input.schema.json
+    target:
+      kind: file
+      selector: schema/input.schema.json
+    action:
+      mode: block
+      code: INPUT_SCHEMA_MISSING
+      message: Missing contingency input schema.
+
+  - id: contingency.schema.output
+    description: Output schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/output.schema.json
+    target:
+      kind: file
+      selector: schema/output.schema.json
+    action:
+      mode: block
+      message: Missing contingency output schema.
+      code: OUTPUT_SCHEMA_MISSING
+
+  - id: contingency.output.keys
+    description: Contingency output must include result key families.
+    category: semantic
+    severity: high
+    condition:
+      type: output_has_keys
+      keys: [status, command, result]
+    target:
+      kind: output
+      selector: $.result
+    action:
+      mode: block
+      code: CONTINGENCY_OUTPUT_INVALID
+      message: Contingency output missing required fields.

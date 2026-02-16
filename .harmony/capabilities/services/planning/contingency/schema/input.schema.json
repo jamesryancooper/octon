@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/planning-contingency/input.schema.json",
+  "title": "PlanningContingencyInput",
+  "type": "object",
+  "required": ["command"],
+  "properties": {
+    "command": {
+      "type": "string",
+      "enum": ["generate", "validate"]
+    },
+    "planPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "failedSteps": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "default": []
+    },
+    "allowDescendants": {
+      "type": "boolean",
+      "default": true
+    },
+    "maxAlternatives": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 3
+    },
+    "strict": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "allOf": [
+    {
+      "anyOf": [
+        { "required": ["plan"] },
+        { "required": ["planPath"] }
+      ]
+    }
+  ],
+  "additionalProperties": false
+}

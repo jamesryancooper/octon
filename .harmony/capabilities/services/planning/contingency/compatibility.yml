@@ -1,0 +1,8 @@
+version: "1.0.0"
+compatibility:
+  required_tools: [read, glob, grep, bash]
+  optional_tools: [jq]
+  minimum_behavior:
+    deterministic_tier1: true
+    fixture_calibration: true
+    fail_closed_policy: true

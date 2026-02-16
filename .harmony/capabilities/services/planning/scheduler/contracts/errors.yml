@@ -1,0 +1,12 @@
+version: "1.0.0"
+errors:
+  - code: SchedulerInputError
+    category: structural
+    exit_code: 5
+    retryable: false
+    operator_action: "Fix scheduler payload to include command, and a valid plan with step dependencies."
+  - code: SchedulerRuntimeError
+    category: runtime
+    exit_code: 4
+    retryable: false
+    operator_action: "Resolve dependency cycles and retry scheduling."

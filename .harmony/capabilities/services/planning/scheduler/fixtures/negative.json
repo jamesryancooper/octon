@@ -1,0 +1,1 @@
+{"command":"schedule","plan":{"goal":"broken","steps":[{"id":"a","depends_on":["b"]}]}}

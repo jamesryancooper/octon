@@ -1,0 +1,1 @@
+{"command":"validate","plan":{"goal":"ship","steps":[{"id":"noop"}],"availableCapabilities":{"flow":"native","artifacts":"native"}}}

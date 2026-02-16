@@ -30,7 +30,7 @@ Gate:
 
 ### Phase 1: Scaffold New Planning Services
 
-Status: `pending`
+Status: `completed`
 
 Deliverables:
 - `planning/critic/{SERVICE.md,compatibility.yml,contracts/,fixture/,guide.md,impl/,references/,rules/,schema/,README?}`
@@ -47,7 +47,7 @@ bash .harmony/capabilities/services/_ops/scripts/validate-services.sh
 
 ### Phase 2: Implement Service Logic (MVP Native)
 
-Status: `pending`
+Status: `completed`
 
 Deliverables:
 - `critic/impl/critic.sh` with deterministic `validate` and `score` modes
@@ -64,7 +64,7 @@ bash .harmony/capabilities/services/planning/_ops/scripts/validate-planning-fixt
 
 ### Phase 3: Register Services in Shared Service Indices
 
-Status: `pending`
+Status: `completed`
 
 Deliverables:
 - `.harmony/capabilities/services/manifest.yml` entries for five services
@@ -80,7 +80,7 @@ bash .harmony/capabilities/services/_ops/scripts/validate-services.sh
 
 ### Phase 4: Expand Planning Fixture Harness
 
-Status: `pending`
+Status: `completed`
 
 Deliverables:
 - `.harmony/capabilities/services/planning/_ops/scripts/validate-planning-fixtures.sh` extended
@@ -95,7 +95,7 @@ bash .harmony/capabilities/services/planning/_ops/scripts/validate-planning-fixt
 
 ### Phase 5: Final Hardening and Documentation
 
-Status: `pending`
+Status: `completed`
 
 Deliverables:
 - Updated `validator` and `registry` references are deterministic and executable.
@@ -115,3 +115,5 @@ bash .harmony/capabilities/services/_ops/scripts/validate-service-independence.s
 - 2026-02-16: Plan created and scope finalized.
 - 2026-02-16: Additional planning service additions approved for immediate implementation.
 - 2026-02-16: Scaffolding pass started.
+- 2026-02-16: Validation gates completed for planning fixtures and new service registrations.
+- 2026-02-16: Full planning service migration finalized and checker script bugfixes resolved.

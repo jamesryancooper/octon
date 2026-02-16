@@ -71,6 +71,56 @@ services:
     category: playbook
     stateful: false
 
+  - id: critic
+    display_name: Critic
+    path: planning/critic/
+    summary: "Deterministic planning graph quality and risk scoring."
+    status: active
+    interface_type: shell
+    tags: [planning, dependency, graph]
+    category: planning
+    stateful: false
+
+  - id: replan
+    display_name: Replan
+    path: planning/replan/
+    summary: "Deterministic replanning transforms for blocked or failed steps."
+    status: active
+    interface_type: shell
+    tags: [planning, recovery, scheduling]
+    category: planning
+    stateful: false
+
+  - id: scheduler
+    display_name: Scheduler
+    path: planning/scheduler/
+    summary: "Deterministic planning scheduler with dependency-aware ordering."
+    status: active
+    interface_type: shell
+    tags: [planning, dag, scheduler]
+    category: planning
+    stateful: false
+
+  - id: capability-bind
+    display_name: Capability Bind
+    path: planning/capability-bind/
+    summary: "Deterministic capability matching for plan execution requirements."
+    status: active
+    interface_type: shell
+    tags: [planning, capability, adapter]
+    category: planning
+    stateful: false
+
+  - id: contingency
+    display_name: Contingency
+    path: planning/contingency/
+    summary: "Deterministic generation of fallback plans for failed paths."
+    status: active
+    interface_type: shell
+    tags: [planning, fallback, recovery]
+    category: planning
+    stateful: false
+
   - id: agent
     display_name: Agent
     path: execution/agent/

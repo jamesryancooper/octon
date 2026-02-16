@@ -1,0 +1,4 @@
+{
+  "command":"invalid",
+  "plan":{"goal":"noop","steps":[{"id":"single"}]}
+}

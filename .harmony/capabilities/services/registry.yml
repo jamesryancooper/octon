@@ -236,6 +236,231 @@ services:
     impl:
       entrypoint: planning/playbook/impl/playbook.sh
 
+  critic:
+    version: "0.1.0"
+    commands: [validate, score]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: validate or score."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: strict
+        type: boolean
+        required: false
+        description: "Fail closed for all critical issues."
+      - name: riskTolerance
+        type: text
+        required: false
+        description: "Risk profile: low, medium, or high."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [scheduler, capability-bind]
+    contracts:
+      input: planning/critic/schema/input.schema.json
+      output: planning/critic/schema/output.schema.json
+      rules: planning/critic/rules/rules.yml
+      fixtures: planning/critic/fixtures/
+      invariants: planning/critic/contracts/invariants.md
+      errors: planning/critic/contracts/errors.yml
+      compatibility: planning/critic/compatibility.yml
+      generation_manifest: planning/critic/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.planning.critic
+      required_spans: [service.planning.critic.validate, service.planning.critic.score]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [command, planPath, riskTolerance, strict]
+    impl:
+      entrypoint: planning/critic/impl/critic.sh
+
+  replan:
+    version: "0.1.0"
+    commands: [replan]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: replan."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: blockedSteps
+        type: array
+        required: false
+        description: "Step IDs to remove from execution."
+      - name: allowMissingDependencies
+        type: boolean
+        required: false
+        description: "Allow replan output with dependencies removed."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [contingency, scheduler]
+    contracts:
+      input: planning/replan/schema/input.schema.json
+      output: planning/replan/schema/output.schema.json
+      rules: planning/replan/rules/rules.yml
+      fixtures: planning/replan/fixtures/
+      invariants: planning/replan/contracts/invariants.md
+      errors: planning/replan/contracts/errors.yml
+      compatibility: planning/replan/compatibility.yml
+      generation_manifest: planning/replan/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.planning.replan
+      required_spans: [service.planning.replan.replan]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [planPath, blockedSteps]
+    impl:
+      entrypoint: planning/replan/impl/replan.sh
+
+  scheduler:
+    version: "0.1.0"
+    commands: [schedule]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: schedule."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: maxParallel
+        type: number
+        required: false
+        description: "Maximum parallelism per scheduling stage."
+      - name: prefer
+        type: text
+        required: false
+        description: "compact or throughput scheduling policy."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [critic]
+    contracts:
+      input: planning/scheduler/schema/input.schema.json
+      output: planning/scheduler/schema/output.schema.json
+      rules: planning/scheduler/rules/rules.yml
+      fixtures: planning/scheduler/fixtures/
+      invariants: planning/scheduler/contracts/invariants.md
+      errors: planning/scheduler/contracts/errors.yml
+      compatibility: planning/scheduler/compatibility.yml
+      generation_manifest: planning/scheduler/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.scheduler
+      required_spans: [service.scheduler.schedule]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [planPath, maxParallel, prefer]
+    impl:
+      entrypoint: planning/scheduler/impl/scheduler.sh
+
+  capability-bind:
+    version: "0.1.0"
+    commands: [bind, validate]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: bind or validate."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: strategy
+        type: text
+        required: false
+        description: "prefer-native, prefer-adapter, or prefer-available."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [plan, scheduler]
+    contracts:
+      input: planning/capability-bind/schema/input.schema.json
+      output: planning/capability-bind/schema/output.schema.json
+      rules: planning/capability-bind/rules/rules.yml
+      fixtures: planning/capability-bind/fixtures/
+      invariants: planning/capability-bind/contracts/invariants.md
+      errors: planning/capability-bind/contracts/errors.yml
+      compatibility: planning/capability-bind/compatibility.yml
+      generation_manifest: planning/capability-bind/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.planning.capability-bind
+      required_spans: [service.planning.capability-bind.bind, service.planning.capability-bind.validate]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [planPath, command, strategy]
+    impl:
+      entrypoint: planning/capability-bind/impl/capability-bind.sh
+
+  contingency:
+    version: "0.1.0"
+    commands: [generate, validate]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: generate or validate."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: failedSteps
+        type: array
+        required: false
+        description: "List of failed or blocked step IDs."
+      - name: allowDescendants
+        type: boolean
+        required: false
+        description: "Also remove transitive descendants of failed steps."
+      - name: maxAlternatives
+        type: number
+        required: false
+        description: "Maximum number of alternatives to return."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [critic, replan]
+    contracts:
+      input: planning/contingency/schema/input.schema.json
+      output: planning/contingency/schema/output.schema.json
+      rules: planning/contingency/rules/rules.yml
+      fixtures: planning/contingency/fixtures/
+      invariants: planning/contingency/contracts/invariants.md
+      errors: planning/contingency/contracts/errors.yml
+      compatibility: planning/contingency/compatibility.yml
+      generation_manifest: planning/contingency/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.planning.contingency
+      required_spans: [service.planning.contingency.generate, service.planning.contingency.validate]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [planPath, failedSteps]
+    impl:
+      entrypoint: planning/contingency/impl/contingency.sh
+
   agent:
     version: "0.1.0"
     commands: [execute, resume]

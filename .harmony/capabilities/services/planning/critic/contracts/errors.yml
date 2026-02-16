@@ -1,0 +1,12 @@
+version: "1.0.0"
+errors:
+  - code: CriticInputError
+    category: structural
+    exit_code: 5
+    retryable: false
+    operator_action: "Fix payload to match schema/input.schema.json."
+  - code: CriticRuntimeError
+    category: runtime
+    exit_code: 4
+    retryable: false
+    operator_action: "Repair plan defects and rerun with validate."
