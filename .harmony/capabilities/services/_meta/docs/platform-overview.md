@@ -48,9 +48,9 @@ Services are **control‑plane capabilities** that live under `.harmony/capabili
 For Flow and Agent specifically:
 
 - **Flow (service contract interface):**
-  - `.harmony/capabilities/services/planning/flow/` exposes typed input/output contracts and runtime semantics to launch flows (for example, via a Python runner, HTTP, or subprocess).
+  - `.harmony/capabilities/services/execution/flow/` exposes typed input/output contracts and runtime semantics to launch flows (native WASM by default, optional HTTP adapter when configured).
   - Flow integrates with other services in TS (Spec, Plan, Agent) at the type level.
-- **Shared Python LangGraph runtime:**
+- **Optional LangGraph adapter runtime:**
   - Lives outside `apps/*` under `agents/runner/runtime/` and is treated as a shared runtime implementation behind Flow, not the service itself.
   - It consumes prompts and workflow YAML and exposes a small HTTP API/CLI (for example, `/flows/run`) that the Flow service calls.
 - **Agent (plan‑driven agents on top of Flow):**
@@ -61,7 +61,7 @@ For Flow and Agent specifically:
 This keeps the monorepo aligned with the Architecture blueprint:
 
 - Architecture: services = control‑plane capabilities under `.harmony/capabilities/services`; the LangGraph runtime is infrastructure under `agents/runner/runtime/**`.
-- Methodology: services = concrete tools used to implement the Spec → Plan → Flow → Run lifecycle; see also `.harmony/capabilities/services/planning/service-roles.md` for canonical roles.
+- Methodology: services = concrete tools used to implement the Spec → Plan → Flow → Run lifecycle; see also `.harmony/capabilities/services/execution/service-roles.md` for canonical roles.
 
 ### Next.js 15+/16 & React 19 Integration (Guidance)
 
@@ -275,7 +275,7 @@ This table standardizes each core service's purpose, lifecycle coverage, schemas
 | --- | --- | --- | --- | --- | --- | --- |
 | Spec | Produce spec one‑pager + ADR | spec | `.harmony/capabilities/services/planning/spec/schema/input.schema.json` | `docs/specs/*.md`, `docs/specs/adr-*.md` | `service.spec.specify` | Policy preflight (ASVS/SSDF), Observe trace open |
 | Plan | Produce plan (BMAD) from spec | plan | `.harmony/capabilities/services/planning/plan/schema/input.schema.json` | `plan.json` | `service.plan.plan` | Policy ruleset selected; dry‑run OK |
-| Agent | Execute plan (produce artifacts only) | implement | `.harmony/capabilities/services/planning/agent/schema/input.schema.json` | Proposed diffs, tests, notes under `runs/**` | `service.agent.execute` | Guard redaction; idempotency required on mutating ops |
+| Agent | Execute plan (produce artifacts only) | implement | `.harmony/capabilities/services/execution/agent/schema/input.schema.json` | Proposed diffs, tests, notes under `runs/**` | `service.agent.execute` | Guard redaction; idempotency required on mutating ops |
 | Tool | Deterministic action wrappers (Git/HTTP/Shell) | implement | `.harmony/capabilities/services/operations/tool/schema/input.schema.json` | Structured logs, proposed changes | `service.tool.call.<action>` | Guard + Cache; fail closed on secret/redaction errors |
 | Eval | Verify structure/grounding/style | verify | `.harmony/capabilities/services/quality/eval/schema/input.schema.json` | `runs/eval/*.json` | `service.eval.verify` | Thresholds enforced; fail‑closed on miss |
 | Policy | Evaluate policy rulesets (ASVS/SSDF/STRIDE) | spec·plan·verify·ship | `.harmony/capabilities/services/governance/policy/schema/input.schema.json` | `runs/policy/*.json` | `service.policy.check` | Fail‑closed by default (`policy.failClosed = true`) |

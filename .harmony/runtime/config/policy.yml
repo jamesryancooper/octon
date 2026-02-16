@@ -22,9 +22,9 @@ services:
       - storage.local
       - log.write
 
-  # planning/flow defaults to native-harmony execution. We grant net.http so
+  # execution/flow defaults to native-harmony execution. We grant net.http so
   # langgraph-http remains available as an opt-in adapter path.
-  planning/flow:
+  execution/flow:
     allow:
       - log.write
       - fs.read

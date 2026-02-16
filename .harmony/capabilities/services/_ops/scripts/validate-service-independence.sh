@@ -196,7 +196,8 @@ run_services_core_checks() {
   scan_pattern "$SERVICES_DIR/governance/guard" "packages/kits|@harmony/" "forbidden external package references"
   scan_pattern "$SERVICES_DIR/modeling/prompt" "packages/kits|@harmony/" "forbidden external package references"
   scan_pattern "$SERVICES_DIR/operations/cost" "packages/kits|@harmony/" "forbidden external package references"
-  scan_pattern "$SERVICES_DIR/planning/flow" "packages/kits|@harmony/" "forbidden external package references"
+  scan_pattern "$SERVICES_DIR/execution/flow" "packages/kits|@harmony/" "forbidden external package references"
+  scan_pattern "$SERVICES_DIR/execution/agent" "packages/kits|@harmony/" "forbidden external package references"
   scan_pattern "$SERVICES_DIR/interfaces/agent-platform" "packages/kits|@harmony/" "forbidden external package references"
   scan_pattern "$SERVICES_DIR/retrieval/query" "packages/kits|@harmony/" "forbidden external package references"
 }

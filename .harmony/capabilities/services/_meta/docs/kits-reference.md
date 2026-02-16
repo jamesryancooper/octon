@@ -9,7 +9,7 @@ This is the harness-native quick reference for the production services under `.h
 | `guard` | `governance/guard/` | `check`, `sanitize` |
 | `prompt` | `modeling/prompt/` | `compile` |
 | `cost` | `operations/cost/` | `estimate`, `record` |
-| `flow` | `planning/flow/` | `run` |
+| `flow` | `execution/flow/` | `run` |
 
 ## Common CLI Usage
 
@@ -37,7 +37,7 @@ echo '{"operation":"estimate","workflowType":"code-from-plan","tier":"T2"}' | \
 
 ```bash
 echo '{"config":{"flowName":"architecture_assessment","canonicalPromptPath":"packages/workflows/architecture_assessment/00-overview.md","workflowManifestPath":"packages/workflows/architecture_assessment/manifest.yaml"},"dryRun":true}' | \
-  .harmony/capabilities/services/planning/flow/impl/flow-client.sh
+  .harmony/capabilities/services/execution/flow/impl/flow-client.sh
 ```
 
 ## Validation

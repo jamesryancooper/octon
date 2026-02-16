@@ -5,13 +5,14 @@ This document is the **canonical reference** for how Harmony's planning and orch
 - **Plan** (planning)
 - **Agent** (agents that run plans)
 - **Flow** (flow orchestration)
-- The native **Harmony flow runtime** under `.harmony/capabilities/services/planning/flow/**`
+- The native **Harmony flow runtime** under `.harmony/capabilities/services/execution/flow/**`
 - Optional external runtime adapters (for example LangGraph HTTP)
 
 Use this guide together with:
 
 - `.harmony/capabilities/services/planning/README.md`
-- `.harmony/capabilities/services/planning/{spec,plan,agent,flow}/guide.md`
+- `.harmony/capabilities/services/planning/{spec,plan,playbook}/guide.md`
+- `.harmony/capabilities/services/execution/{agent,flow}/guide.md`
 - `.harmony/cognition/_meta/architecture/{overview,monorepo-layout,repository-blueprint,agent-roles}.md`
 - `.harmony/cognition/knowledge-plane/knowledge-plane.md`
 
@@ -21,7 +22,7 @@ When any earlier docs conflict with this page, **this page wins**.
 
 The following rules are normative and supersede legacy runtime assumptions:
 
-1. Core Planning services (`spec`, `plan`, `agent`, `playbook`, `flow`) must run without Python as a required dependency.
+1. Core Planning+Execution services (`spec`, `plan`, `playbook`, `agent`, `flow`) must run without Python as a required dependency.
 2. Flow defaults to native harness execution.
 3. External runtimes (including LangGraph) are adapter integrations and remain optional.
 4. Provider/runtime-specific terms are restricted to adapter paths.
@@ -34,7 +35,7 @@ The following rules are normative and supersede legacy runtime assumptions:
 ### 1.1 Flow (Harness Runtime Service)
 
 - Flow is the **flow orchestration service**.
-- In the harness runtime (`.harmony/capabilities/services/planning/flow/**` + runtime clients), it defines:
+- In the harness runtime (`.harmony/capabilities/services/execution/flow/**` + runtime clients), it defines:
   - `FlowConfig`, `FlowRunner`, `FlowRunResult` (generic flow contracts).
   - A native runtime execution path with deterministic contracts.
 - Flow is **runtime-agnostic**:
@@ -86,7 +87,7 @@ In Harmony:
 - Flow provides the **contracts and runner client**:
   - `FlowConfig`, `FlowRunner`, `FlowRunResult`.
   - HTTP runner (`createHttpFlowRunner`) and CLI (`service:run` pattern).
-- The native runtime under `.harmony/capabilities/services/planning/flow/**` provides the default concrete implementation.
+- The native runtime under `.harmony/capabilities/services/execution/flow/**` provides the default concrete implementation.
 - Optional adapters (for example LangGraph HTTP) can provide external execution backends.
 
 **Key point:** Flow does not require LangGraph or Python to operate.
@@ -108,9 +109,9 @@ Agent:
 
 ### 2.3 Runtimes
 
-The native runtime under `.harmony/capabilities/services/planning/flow/**`:
+The native runtime under `.harmony/capabilities/services/execution/flow/**`:
 
-- Is required for core Planning behavior.
+- Is required for core execution behavior.
 - Runs under harness constraints with no Python requirement.
 - Owns canonical contract behavior for flow execution.
 
@@ -153,7 +154,7 @@ These are **Flow artifacts**; they are independent of the runtime implementation
 
 ### Step 2a — Add native flow runtime implementation (required)
 
-Implement flow execution under `.harmony/capabilities/services/planning/flow/**` with native contracts and deterministic behavior.
+Implement flow execution under `.harmony/capabilities/services/execution/flow/**` with native contracts and deterministic behavior.
 
 ### Step 2b — Add optional LangGraph adapter implementation under `agents/runner/runtime`
 
@@ -215,7 +216,7 @@ To keep responsibilities clean:
 
 ### 4.2 Where agents live physically
 
-- Keep native runtime behavior in Planning Flow service contracts.
+- Keep native runtime behavior in Execution Flow service contracts.
 - Agent logic is split as follows:
   - The **core agent logic** (state machines, plan execution, hooks, etc.) lives in the Agent service and related harness service contracts/orchestrators that always call Flow.
   - The **`agents/` directory** is reserved for small, **deployable agent or flow-oriented services/processes** that embody particular agent behaviors in production (review, assess, triage, etc.). These can integrate optional external adapters when needed.
@@ -361,7 +362,7 @@ For **running a plan as an agent (Agent)**:
 
 ## 7. LangGraph Studio and `langgraph.json`
 
-LangGraph Studio is an optional adapter debugging surface. It is not required for core Planning execution.
+LangGraph Studio is an optional adapter debugging surface. It is not required for core native execution.
 
 LangGraph Studio can attach directly to the optional LangGraph adapter runtime so you can explore nodes, edges, and state mutation. In this repo:
 
@@ -398,10 +399,10 @@ Studio is a **debugging and visualization tool** that attaches to the same graph
 
 ## 8. Summary and guidance
 
-- **Keep** native flow runtime in `.harmony/capabilities/services/planning/flow/**` as the default core runtime.
+- **Keep** native flow runtime in `.harmony/capabilities/services/execution/flow/**` as the default core runtime.
 - **Add new flows** by:
   - Creating a new flow directory under `packages/workflows/<flowId>/` with flow config, canonical prompt, and workflow manifest.
-  - Implementing native flow behavior under Planning flow runtime contracts.
+  - Implementing native flow behavior under Execution flow runtime contracts.
   - Optionally implementing external adapters (for example LangGraph) under adapter boundaries.
 - **Create new agents** by:
   - Implementing Agent configurations to consume plans and orchestrate flows.

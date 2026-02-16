@@ -30,7 +30,7 @@ This keeps Spec semantics authoritative (from GitHub’s Spec Kit), makes BMAD u
 
 - **Upgrade safety.** BMAD v6 is active and evolving; encapsulating BMAD behind PlanKit shields calling sites from workflow/param churn. ([GitHub][3])
 - **Spec‑first integrity.** We rely on GitHub’s Spec Kit instead of re‑implementing it; SpecKit adds validation, structure, and publishing only.
-- **Harmony alignment.** Clean handoff: `SpecKit → PlanKit → FlowKit → AgentKit/TestKit/PolicyKit`, matching the Methodology and AI‑Toolkit READMEs and the canonical kit roles described in `.harmony/capabilities/services/planning/service-roles.md`.
+- **Harmony alignment.** Clean handoff: `SpecKit → PlanKit → FlowKit → AgentKit/TestKit/PolicyKit`, matching the Methodology and AI‑Toolkit READMEs and the canonical kit roles described in `.harmony/capabilities/services/execution/service-roles.md`.
 
 **Integration surface.**
 

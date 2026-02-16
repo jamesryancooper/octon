@@ -60,6 +60,6 @@ Adopt a native-first architecture for Planning services with these rules:
 ## Implementation Notes
 
 - Add runtime HTTP capability with deny-by-default policy gating.
-- Convert `planning/flow` to Rust/WASM service shape for native execution.
-- Introduce optional runtime adapter registry under `planning/flow/adapters/`.
+- Convert `execution/flow` to Rust/WASM service shape for native execution.
+- Introduce optional runtime adapter registry under `execution/flow/adapters/`.
 - Remove Python-required defaults from `packages/workflows/*/config.flow.json`.

@@ -230,7 +230,7 @@ Legacy "engine" wording in historical notes maps to Composite Services:
 |--------|---------|
 | Spec Engine | `planning/spec` |
 | Plan Engine | `planning/plan` |
-| Work Engine | `planning/agent` + `planning/flow` + `operations/tool` |
+| Work Engine | `execution/agent` + `execution/flow` + `operations/tool` |
 | Context Engine | `retrieval/*` |
 | Governance Engine | `governance/*` + `quality/*` |
 | Release Engine | `delivery/*` |

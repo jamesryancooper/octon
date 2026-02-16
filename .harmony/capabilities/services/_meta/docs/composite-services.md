@@ -62,7 +62,7 @@ Related composition primitives:
 - PlanEngine -> planning composites:
   - `planning/spec`, `planning/plan`, `planning/playbook`
 - WorkEngine -> execution composites:
-  - `planning/agent`, `planning/flow`, `operations/tool`
+  - `execution/agent`, `execution/flow`, `operations/tool`
 - ContextEngine -> retrieval composites:
   - `retrieval/ingest`, `retrieval/index`, `retrieval/parse`,
     `retrieval/query`, `retrieval/search`

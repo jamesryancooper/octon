@@ -44,7 +44,7 @@ Rule of thumb:
 - Anything you **import** across those planes (shared domain logic, kits, prompt suites) lives under `packages/*`; cross‑language contracts live under `contracts/`.
 - The LangGraph-based **platform flow runtime implementation** that executes FlowKit flows and AgentKit agents lives under `platform/runtimes/flow-runtime/**` and is treated as runtime infrastructure behind the FlowKit and AgentKit kit boundaries.
 
-This keeps runtime concerns (processes and deployables) clearly separated from shared knowledge and logic (libraries and kits) and aligns the monorepo layout with the Harmony Structural Paradigm. For more on how PlanKit, AgentKit, FlowKit, and the shared LangGraph runtime work together, see `.harmony/capabilities/services/planning/service-roles.md`.
+This keeps runtime concerns (processes and deployables) clearly separated from shared knowledge and logic (libraries and kits) and aligns the monorepo layout with the Harmony Structural Paradigm. For more on how PlanKit, AgentKit, FlowKit, and the shared LangGraph runtime work together, see `.harmony/capabilities/services/execution/service-roles.md`.
 
 ### Control Plane vs Runtimes (Polyglot Split)
 

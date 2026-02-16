@@ -135,7 +135,7 @@ Invocation-driven composite capabilities with typed I/O contracts in `capabiliti
 | [guard](./capabilities/services/governance/guard/guide.md) | `shell` | guard | Content safety checks and sanitization |
 | [prompt](./capabilities/services/modeling/prompt/guide.md) | `library` | prompt | Prompt rendering/token contracts |
 | [cost](./capabilities/services/operations/cost/guide.md) | `shell` | cost | Budget estimation and usage tracking |
-| [flow](./capabilities/services/planning/flow/guide.md) | `mcp` | flow | LangGraph-compatible flow execution |
+| [flow](./capabilities/services/execution/flow/guide.md) | `mcp` | flow | Native-first flow execution with optional LangGraph adapter |
 
 ### Usage Example
 

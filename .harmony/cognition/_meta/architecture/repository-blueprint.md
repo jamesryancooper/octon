@@ -143,7 +143,7 @@ The **platform flow runtime service** is a separate **runtime-plane service** un
 - Exposes a single, contract-first HTTP API surface (for example, `/flows/run`, `/flows/start`) used by FlowKit, AgentKit, apps, agents, and Kaizen (see `runtime-architecture.md`).
 - Provides internal LangGraph Studio entrypoints via `langgraph.json` and related files; these are engine surfaces used by the runtime, not public APIs for apps or agents.
 
-This keeps a clear distinction between things you **run** at the root control plane (`apps/*`, `agents/*`) and things you **run in the runtime plane** (`platform/runtimes/*-runtime/`), as well as the libraries and knowledge you **import** (`packages/*`, including `packages/prompts`). For conceptual roles and responsibilities of PlanKit, AgentKit, FlowKit, and the platform runtime, see `.harmony/capabilities/services/planning/service-roles.md` and `runtime-architecture.md`.
+This keeps a clear distinction between things you **run** at the root control plane (`apps/*`, `agents/*`) and things you **run in the runtime plane** (`platform/runtimes/*-runtime/`), as well as the libraries and knowledge you **import** (`packages/*`, including `packages/prompts`). For conceptual roles and responsibilities of PlanKit, AgentKit, FlowKit, and the platform runtime, see `.harmony/capabilities/services/execution/service-roles.md` and `runtime-architecture.md`.
 
 ## Contracts Registry: `contracts/`
 

@@ -347,7 +347,7 @@ Use this guide when you're deciding *where* a multi-step workflow belongs:
 - If it must be runnable/auditable as a system (CLI/CI/runtime/Studio) → `packages/workflows/<flowId>/`
 - If it’s primarily guidance/UX (“how we do this here”, optionally wrapped as a Cursor command) → `.harmony/orchestration/workflows/**`
 
-See `.harmony/capabilities/services/planning/flow/guide.md` for the ownership map and entrypoints.
+See `.harmony/capabilities/services/execution/flow/guide.md` for the ownership map and entrypoints.
 
 ---
 

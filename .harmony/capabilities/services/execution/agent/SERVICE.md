@@ -1,7 +1,7 @@
 ---
 name: agent
 description: >
-  Native planning agent execution service that runs canonical plans with checkpoint,
+  Native execution-domain agent service that runs canonical plans with checkpoint,
   resume, and human-in-the-loop control points.
 interface_type: shell
 version: "0.1.0"

@@ -16,8 +16,8 @@ services:
       log_events: true
       trace_inputs: redacted
       trace_outputs: redacted
-  planning/flow:
-    owner: agency/planning
+  execution/flow:
+    owner: agency/execution
     risk_tier: medium
     approvals:
       invoke: none

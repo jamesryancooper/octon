@@ -108,7 +108,7 @@ To keep responsibilities crisp and repeatable:
 
 This mirrors the mental model used in `.harmony/capabilities/services/_meta/docs/platform-overview.md` and the kit architecture docs: PromptKit is the **PromptOps kit at the template/contract layer**, while LLMOps and ContextOps concerns are implemented by a **composition of other kits** rather than being folded into PromptKit itself.
 
-In practice, PlanKit, FlowKit, AgentKit, and the shared LangGraph runtime align as follows (see also `.harmony/capabilities/services/planning/service-roles.md`):
+In practice, PlanKit, FlowKit, AgentKit, and the shared LangGraph runtime align as follows (see also `.harmony/capabilities/services/execution/service-roles.md`):
 
 - SpecKit validates specs.
 - PlanKit turns specs into governed plans (`plan.json`).

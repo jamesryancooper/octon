@@ -24,7 +24,7 @@ Spec/Plan → Plan (plan.json) → Agent(policy, budget)
 - **Agent shells:** wrap steps that need reasoning; everything else is direct service calls/flows.
 - **No hidden state:** persist context via artifacts and Agent checkpoints; include `run_id` in every call.
 
-For canonical responsibilities and runtime boundaries, see also `.harmony/capabilities/services/planning/service-roles.md`.
+For canonical responsibilities and runtime boundaries, see also `.harmony/capabilities/services/execution/service-roles.md`.
 
 ---
 

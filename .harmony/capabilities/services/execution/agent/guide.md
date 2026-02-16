@@ -27,7 +27,7 @@ identifiers, and explicit human-in-the-loop (HITL) gates.
 ## Example (execute)
 
 ```bash
-cat <<'JSON' | .harmony/capabilities/services/planning/agent/impl/agent.sh
+cat <<'JSON' | .harmony/capabilities/services/execution/agent/impl/agent.sh
 {"planPath":"plan.json","resume":false,"memoize":true}
 JSON
 ```
@@ -35,7 +35,7 @@ JSON
 ## Example (resume with approval)
 
 ```bash
-cat <<'JSON' | .harmony/capabilities/services/planning/agent/impl/agent.sh
+cat <<'JSON' | .harmony/capabilities/services/execution/agent/impl/agent.sh
 {"planPath":"plan.json","runId":"run-123","resume":true,"hitl":{"approved":true}}
 JSON
 ```

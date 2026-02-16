@@ -2,7 +2,7 @@
 
 Date: 2026-02-16  
 Owner: architect  
-Scope: `.harmony/capabilities/services/planning/**` + required runtime/platform updates
+Scope: `.harmony/capabilities/services/{planning,execution}/**` + required runtime/platform updates
 
 ## Rules
 
@@ -21,11 +21,11 @@ Status: `completed`
 Deliverables:
 - `/.harmony/cognition/decisions/013-planning-services-native-first-no-python.md`
 - `/.harmony/capabilities/services/planning/README.md` (native-first update)
-- `/.harmony/capabilities/services/planning/service-roles.md` (native-first update)
+- `/.harmony/capabilities/services/execution/service-roles.md` (native-first update)
 
 Gate:
 - ADR created and ready for review.
-- Planning docs explicitly state:
+  - Planning/execution docs explicitly state:
   - native harness execution is mandatory
   - external runtime adapters are optional
   - Python is not required in core paths
@@ -36,7 +36,7 @@ Status: `completed`
 Deliverables:
 - `/.harmony/capabilities/services/planning/spec/{SERVICE.md,schema/,rules/,fixtures/,contracts/,compatibility.yml,impl/generated.manifest.json}`
 - `/.harmony/capabilities/services/planning/plan/{SERVICE.md,schema/,rules/,fixtures/,contracts/,compatibility.yml,impl/generated.manifest.json}`
-- `/.harmony/capabilities/services/planning/agent/{SERVICE.md,schema/,rules/,fixtures/,contracts/,compatibility.yml,impl/generated.manifest.json}`
+- `/.harmony/capabilities/services/execution/agent/{SERVICE.md,schema/,rules/,fixtures/,contracts/,compatibility.yml,impl/generated.manifest.json}`
 - `/.harmony/capabilities/services/planning/playbook/{SERVICE.md,schema/,rules/,fixtures/,contracts/,compatibility.yml,impl/generated.manifest.json}`
 - `/.harmony/capabilities/services/{manifest.yml,registry.yml,capabilities.yml}` updated
 
@@ -67,16 +67,16 @@ cargo run -p harmony_kernel -- validate
 
 Status: `completed`  
 Deliverables:
-- `/.harmony/capabilities/services/planning/flow/rust/**`
-- `/.harmony/capabilities/services/planning/flow/service.json`
-- `/.harmony/capabilities/services/planning/flow/service.wasm`
+- `/.harmony/capabilities/services/execution/flow/rust/**`
+- `/.harmony/capabilities/services/execution/flow/service.json`
+- `/.harmony/capabilities/services/execution/flow/service.wasm`
 - `/.harmony/capabilities/services/{manifest.runtime.yml,registry.runtime.yml}` updated
 
 Gate commands:
 
 ```bash
 cd .harmony/runtime/crates
-cargo run -p harmony_kernel -- service build planning flow
+cargo run -p harmony_kernel -- service build execution flow
 cargo run -p harmony_kernel -- validate
 ```
 
@@ -95,10 +95,10 @@ Gate:
 
 Status: `completed`  
 Deliverables:
-- `/.harmony/capabilities/services/planning/flow/adapters/registry.yml`
-- `/.harmony/capabilities/services/planning/flow/adapters/native-harmony/**`
-- `/.harmony/capabilities/services/planning/flow/adapters/langgraph-http/**`
-- `/.harmony/capabilities/services/planning/flow/impl/validate-adapters.sh`
+- `/.harmony/capabilities/services/execution/flow/adapters/registry.yml`
+- `/.harmony/capabilities/services/execution/flow/adapters/native-harmony/**`
+- `/.harmony/capabilities/services/execution/flow/adapters/langgraph-http/**`
+- `/.harmony/capabilities/services/execution/flow/impl/validate-adapters.sh`
 
 Gate:
 - `native-harmony` is default.
@@ -115,7 +115,7 @@ Gate command:
 
 ```bash
 rg -n "pythonCommand|agents\\.runner\\.runtime\\.server|\\.venv/bin/python" \
-  packages/workflows .harmony/capabilities/services/planning
+  packages/workflows .harmony/capabilities/services/planning .harmony/capabilities/services/execution
 ```
 
 Expected result:
@@ -155,7 +155,7 @@ Gate:
 
 Status: `completed`  
 Deliverables:
-- `/.harmony/capabilities/services/planning/agent/impl/**`
+- `/.harmony/capabilities/services/execution/agent/impl/**`
 - checkpoint/resume/HITL support
 - command/docs alignment
 
@@ -175,9 +175,10 @@ cargo run -p harmony_kernel -- validate
 - 2026-02-16: Added ADR-013 and updated Planning domain docs for native-first no-Python core policy.
 - 2026-02-16: Completed Phase 1 scaffolding and registration for spec/plan/playbook/agent; validate-services gate passed.
 - 2026-02-16: Completed Phase 2 by adding capability-gated runtime HTTP host import/implementation with deny-by-default tests; runtime gate commands passed.
-- 2026-02-16: Completed Phase 3 by converting `planning/flow` to a Rust/WASM runtime service, adding `service.json` and building `service.wasm`; runtime tier discovery updated and validated.
+- 2026-02-16: Completed Phase 3 by converting `execution/flow` to a Rust/WASM runtime service, adding `service.json` and building `service.wasm`; runtime tier discovery updated and validated.
 - 2026-02-16: Completed Phase 4 by implementing native-harmony flow execution defaults with deterministic run ids/run records and validating both workflow configs through the kernel.
 - 2026-02-16: Completed Phase 5 by adding flow adapter registry (`native-harmony` default + optional `langgraph-http`) and adapter validation script with passing gate.
 - 2026-02-16: Completed Phase 6 by removing Python-required defaults from workflow configs and resolving all policy grep matches in Planning core paths.
 - 2026-02-16: Completed Phases 7-10 by implementing native `spec`, `playbook`, `plan`, and `agent` services (including DAG validation and checkpoint/resume/HITL) and adding deterministic fixture validation script.
 - 2026-02-16: Final hardening gates passed: `validate-services`, `validate-service-independence --mode all`, `cargo test --workspace`, and `harmony validate`.
+- 2026-02-16: Migrated `agent` and `flow` services from Planning to Execution domain with updated manifests, runtime policy entries, docs, and fixture validation split (`validate-planning-fixtures` + `validate-execution-fixtures`).

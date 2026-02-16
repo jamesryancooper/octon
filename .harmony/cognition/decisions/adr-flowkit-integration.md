@@ -96,7 +96,7 @@ Current flows:
 
 ### Documentation
 
-- Added responsibility matrix to `.harmony/capabilities/services/planning/flow/guide.md`
+- Added responsibility matrix to `.harmony/capabilities/services/execution/flow/guide.md`
 
 ## Definition of Done
 
@@ -108,7 +108,7 @@ Current flows:
 
 ## Related
 
-- [FlowKit Guide](/.harmony/capabilities/services/planning/flow/guide.md)
+- [FlowKit Guide](/.harmony/capabilities/services/execution/flow/guide.md)
 - [Workspace Scope](/.harmony/scope.md)
 - [Contracts OpenAPI](/packages/contracts/openapi.yaml)
 

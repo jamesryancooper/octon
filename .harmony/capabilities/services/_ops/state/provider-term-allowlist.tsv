@@ -1,6 +1,6 @@
 # path_regex<TAB>term<TAB>owner<TAB>expires_on<TAB>note
 ^\.harmony/capabilities/services/manifest\.yml$	langgraph	@platform	2026-05-31	Flow service tag still reflects legacy runtime coupling.
-^\.harmony/capabilities/services/planning/flow/SERVICE\.md$	langgraph	@platform	2026-05-31	Flow service description still names implementation runtime.
-^\.harmony/capabilities/services/planning/service-roles\.md$	langgraph	@platform	2026-06-30	Transitional architecture doc pending adapter-neutral rewrite.
+^\.harmony/capabilities/services/execution/flow/SERVICE\.md$	langgraph	@platform	2026-05-31	Flow service description still names implementation runtime.
+^\.harmony/capabilities/services/execution/service-roles\.md$	langgraph	@platform	2026-06-30	Transitional architecture doc pending adapter-neutral rewrite.
 ^\.harmony/capabilities/services/operations/cost/schema/output\.schema\.json$	openai	@ops-cost	2026-06-30	Provider enum remains until pricing model abstraction is added.
 ^\.harmony/capabilities/services/operations/cost/schema/output\.schema\.json$	anthropic	@ops-cost	2026-06-30	Provider enum remains until pricing model abstraction is added.

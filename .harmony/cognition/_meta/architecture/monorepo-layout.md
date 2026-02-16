@@ -127,7 +127,7 @@ Prompt libraries (for example `packages/prompts`) are treated as **knowledge-pla
 
 Agents under `agents/` are **control-plane runtime processes**, not shared libraries: they are invoked by FlowKit, CI, or other callers (for example, via CLI or a Python module entrypoint) and may themselves import kits and prompt libraries from `packages/*`. They plan, analyze, and orchestrate work, and when they need to execute flows/graphs they call the shared **platform flow runtime service** under `platform/runtimes/flow-runtime/**` using generated clients and the runtime contracts in `contracts/`, rather than embedding or owning their own general-purpose runtime. The platform runtime is a separate runtime-plane service under `platform/runtimes/*-runtime/`, not an agent; it consumes configuration from `platform/runtimes/config/` and executes flows on behalf of all callers.
 
-See also `.harmony/capabilities/services/planning/service-roles.md` for how PlanKit, AgentKit, FlowKit, and the LangGraph runtime map onto these physical locations.
+See also `.harmony/capabilities/services/execution/service-roles.md` for how PlanKit, AgentKit, FlowKit, and the LangGraph runtime map onto these physical locations.
 
 ## CI Pipeline
 

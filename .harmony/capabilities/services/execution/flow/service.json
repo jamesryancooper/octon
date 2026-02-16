@@ -6,7 +6,7 @@
     "fs.write",
     "net.http"
   ],
-  "category": "planning",
+  "category": "execution",
   "docs": {
     "help": "Use for deterministic native flow execution and optional external flow runtime forwarding.",
     "summary": "Native-first flow runtime service with optional LangGraph HTTP adapter."
@@ -14,7 +14,7 @@
   "entry": "service.wasm",
   "format_version": "service-manifest-v1",
   "integrity": {
-    "wasm_sha256": "6df7f713e31885950ff6e503819b39347e03072bc01d139c9a129ed44e4752c9"
+    "wasm_sha256": "2bb6ff2698fe79c7a7e08c2685b5f6daf0b22d7784cddffd0687c3d1b9065aa8"
   },
   "limits": {
     "max_concurrency": 4,

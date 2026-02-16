@@ -1,6 +1,6 @@
 # Flow — Harness-Native Flow Execution Service
 
-Flow is the planning execution bridge. It validates typed flow run requests,
+Flow is the execution service bridge. It validates typed flow run requests,
 executes workflow manifests natively in the Harmony runtime by default, writes
 deterministic run records, and optionally forwards to an external LangGraph
 HTTP runtime when explicitly configured.

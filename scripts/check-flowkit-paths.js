@@ -68,7 +68,7 @@ const CRITICAL_PATHS = [
   ".cursor/commands/run-flow.md",
 
   // Docs
-  "docs/services/planning/flow/guide.md",
+  ".harmony/capabilities/services/execution/flow/guide.md",
 
   // OpenAPI contract
   "packages/contracts/openapi.yaml",
@@ -202,4 +202,3 @@ function main() {
 }
 
 main();
-

@@ -7,12 +7,10 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 SPEC_IMPL="$ROOT_DIR/spec/impl/spec.sh"
 PLAYBOOK_IMPL="$ROOT_DIR/playbook/impl/playbook.sh"
 PLAN_IMPL="$ROOT_DIR/plan/impl/plan.sh"
-AGENT_IMPL="$ROOT_DIR/agent/impl/agent.sh"
 
 SPEC_FIXTURES="$ROOT_DIR/spec/fixtures"
 PLAYBOOK_FIXTURES="$ROOT_DIR/playbook/fixtures"
 PLAN_FIXTURES="$ROOT_DIR/plan/fixtures"
-AGENT_FIXTURES="$ROOT_DIR/agent/fixtures"
 
 errors=0
 
@@ -109,24 +107,6 @@ main() {
   run_expected_failure "plan-negative" "$PLAN_FIXTURES/negative.json" "$PLAN_IMPL" 4 || true
   check_deterministic "plan-positive" "$PLAN_FIXTURES/positive.json" "$PLAN_IMPL" || true
 
-  # Phase 10 - Agent
-  run_success "agent-positive" "$AGENT_FIXTURES/positive.json" "$AGENT_IMPL" '.status == "success" and (.runId | type == "string") and (.result.mode == "execute")' >/dev/null || true
-  run_success "agent-edge" "$AGENT_FIXTURES/edge.json" "$AGENT_IMPL" '.status == "partial" and (.checkpoint.state == "awaiting_human")' >/dev/null || true
-  run_expected_failure "agent-negative" "$AGENT_FIXTURES/negative.json" "$AGENT_IMPL" 5 || true
-
-  # Explicit resume/HITL gate.
-  resume_payload='{"planPath":"plan.json","runId":"run-123","resume":true,"hitl":{"approved":true}}'
-  if ! resume_out="$(printf '%s' "$resume_payload" | "$AGENT_IMPL")"; then
-    log_error "agent-resume gate failed"
-  elif ! jq -e '.status == "success" and .checkpoint.state == "resumed"' >/dev/null 2>&1 <<<"$resume_out"; then
-    log_error "agent-resume output did not reach resumed state"
-  else
-    log_ok "agent resume gate"
-  fi
-
-  # Determinism for positive execute fixture.
-  check_deterministic "agent-positive" "$AGENT_FIXTURES/positive.json" "$AGENT_IMPL" || true
-
   if (( errors > 0 )); then
     echo "Planning fixture validation failed: $errors error(s)." >&2
     exit 1
@@ -135,7 +115,6 @@ main() {
   log_ok "spec fixtures"
   log_ok "playbook fixtures"
   log_ok "plan fixtures"
-  log_ok "agent fixtures"
   echo "Planning fixture validation passed."
 }
 

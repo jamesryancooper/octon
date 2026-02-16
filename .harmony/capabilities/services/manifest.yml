@@ -33,11 +33,11 @@ services:
 
   - id: flow
     display_name: Flow
-    path: planning/flow/
+    path: execution/flow/
     summary: "Harness-native flow execution orchestrator with native runtime default and optional external adapters."
     status: active
     interface_type: mcp
-    tags: [workflow, orchestration, native-runtime]
+    tags: [execution, workflow, orchestration, native-runtime]
     category: flow
     stateful: false
 
@@ -73,11 +73,11 @@ services:
 
   - id: agent
     display_name: Agent
-    path: planning/agent/
+    path: execution/agent/
     summary: "Native plan-driven agent execution service with checkpoint and resume semantics."
     status: active
     interface_type: shell
-    tags: [planning, agent, execution]
+    tags: [execution, agent, orchestration]
     category: agent
     stateful: true
 

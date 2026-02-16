@@ -113,14 +113,14 @@ services:
       orchestrates: [prompt, guard, cost]
       integratesWith: []
     contracts:
-      input: planning/flow/schema/input.schema.json
-      output: planning/flow/schema/output.schema.json
-      rules: planning/flow/rules/rules.yml
-      fixtures: planning/flow/fixtures/
-      invariants: planning/flow/contracts/invariants.md
-      errors: planning/flow/contracts/errors.yml
-      compatibility: planning/flow/compatibility.yml
-      generation_manifest: planning/flow/impl/generated.manifest.json
+      input: execution/flow/schema/input.schema.json
+      output: execution/flow/schema/output.schema.json
+      rules: execution/flow/rules/rules.yml
+      fixtures: execution/flow/fixtures/
+      invariants: execution/flow/contracts/invariants.md
+      errors: execution/flow/contracts/errors.yml
+      compatibility: execution/flow/compatibility.yml
+      generation_manifest: execution/flow/impl/generated.manifest.json
     observability:
       service_name: harmony.service.flow
       required_spans: [service.flow.run]
@@ -131,7 +131,7 @@ services:
       required: true
       key_from: [flowName, canonicalPromptPath, workflowManifestPath]
     impl:
-      entrypoint: planning/flow/service.wasm
+      entrypoint: execution/flow/service.wasm
 
   spec:
     version: "0.1.0"
@@ -253,14 +253,14 @@ services:
       orchestrates: [flow]
       integratesWith: [plan, cost]
     contracts:
-      input: planning/agent/schema/input.schema.json
-      output: planning/agent/schema/output.schema.json
-      rules: planning/agent/rules/rules.yml
-      fixtures: planning/agent/fixtures/
-      invariants: planning/agent/contracts/invariants.md
-      errors: planning/agent/contracts/errors.yml
-      compatibility: planning/agent/compatibility.yml
-      generation_manifest: planning/agent/impl/generated.manifest.json
+      input: execution/agent/schema/input.schema.json
+      output: execution/agent/schema/output.schema.json
+      rules: execution/agent/rules/rules.yml
+      fixtures: execution/agent/fixtures/
+      invariants: execution/agent/contracts/invariants.md
+      errors: execution/agent/contracts/errors.yml
+      compatibility: execution/agent/compatibility.yml
+      generation_manifest: execution/agent/impl/generated.manifest.json
     observability:
       service_name: harmony.service.agent
       required_spans: [service.agent.execute, service.agent.resume]
@@ -271,7 +271,7 @@ services:
       required: true
       key_from: [runId, planHash]
     impl:
-      entrypoint: planning/agent/impl/agent.sh
+      entrypoint: execution/agent/impl/agent.sh
 
   agent-platform:
     version: "0.1.0"

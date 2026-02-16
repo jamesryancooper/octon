@@ -42,7 +42,7 @@ The root `.harmony` provides shared workflows available to all harnesses:
 |----------|--------|-------------|
 | [run-flow](/.harmony/orchestration/workflows/flowkit/run-flow/00-overview.md) | human | Execute FlowKit LangGraph flows via `/run-flow @packages/workflows/<flowId>/config.flow.json` |
 
-> **Tip:** Use `/run-flow` from any harness to run repo-wide FlowKit flows. See [FlowKit Guide](/.harmony/capabilities/services/planning/flow/guide.md) for details.
+> **Tip:** Use `/run-flow` from any harness to run repo-wide FlowKit flows. See [FlowKit Guide](/.harmony/capabilities/services/execution/flow/guide.md) for details.
 
 ## Prompts
 
