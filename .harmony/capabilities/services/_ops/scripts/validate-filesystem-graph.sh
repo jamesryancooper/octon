@@ -33,6 +33,10 @@ required_files=(
   "$SERVICE_DIR/rules/rules.yml"
   "$SERVICE_DIR/contracts/invariants.md"
   "$SERVICE_DIR/contracts/errors.yml"
+  "$SERVICE_DIR/contracts/slo-budgets.tsv"
+  "$SERVICE_DIR/fixtures/benchmark-profile.tsv"
+  "$HARMONY_DIR/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh"
+  "$HARMONY_DIR/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh"
 )
 
 for f in "${required_files[@]}"; do
@@ -97,6 +101,14 @@ fi
 if ! bash "$HARMONY_DIR/capabilities/services/_ops/scripts/test-filesystem-graph-determinism.sh" >/dev/null 2>&1; then
   echo "ERROR: filesystem-graph determinism regression"
   errors=$((errors + 1))
+fi
+
+# Optional SLO gate (enabled when FILESYSTEM_GRAPH_VALIDATE_SLO=1).
+if [[ "${FILESYSTEM_GRAPH_VALIDATE_SLO:-0}" == "1" ]]; then
+  if ! bash "$HARMONY_DIR/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh" --profile ci >/dev/null 2>&1; then
+    echo "ERROR: filesystem-graph SLO regression"
+    errors=$((errors + 1))
+  fi
 fi
 
 if [[ "$errors" -gt 0 ]]; then

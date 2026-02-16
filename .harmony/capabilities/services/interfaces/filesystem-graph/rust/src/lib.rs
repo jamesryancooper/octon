@@ -12,6 +12,7 @@ pub struct Service;
 const CONTRACT_VERSION: &str = "1.0.0";
 const DEFAULT_STATE_DIR: &str = ".harmony/runtime/_ops/state/snapshots";
 const RUNTIME_STATE_ROOT: &str = ".harmony/runtime/_ops/state";
+const SERVICES_BUILD_STATE_ROOT: &str = ".harmony/capabilities/services/_ops/state/build";
 const HASH_CACHE_FILE: &str = "hash-cache.jsonl";
 const SEARCH_INDEX_FILE: &str = "search-index.jsonl";
 
@@ -75,31 +76,112 @@ struct SnapshotData {
 
 impl bindings::Guest for Service {
     fn invoke(op: String, input_json: String) -> String {
-        let input: Value = match serde_json::from_str::<Value>(&input_json) {
-            Ok(v) if v.is_object() => v,
-            Ok(_) => {
-                return error_json(
+        let started_ms = monotonic_now_ms();
+        let input_bytes = input_json.len() as u64;
+
+        let (out, status, error_code) = match serde_json::from_str::<Value>(&input_json) {
+            Ok(v) if v.is_object() => match handle_op(&op, &v) {
+                Ok(value) => match serde_json::to_string(&value) {
+                    Ok(encoded) => (encoded, "ok", None),
+                    Err(_) => (
+                        error_json(
+                            "ERR_FILESYSTEM_GRAPH_INTERNAL",
+                            "Failed to serialize service output.",
+                        ),
+                        "error",
+                        Some("ERR_FILESYSTEM_GRAPH_INTERNAL".to_string()),
+                    ),
+                },
+                Err(e) => (error_json(e.code, &e.message), "error", Some(e.code.to_string())),
+            },
+            Ok(_) => (
+                error_json(
                     "ERR_FILESYSTEM_GRAPH_INPUT_INVALID",
                     "Input must be a JSON object.",
-                )
-            }
-            Err(e) => {
-                return error_json(
+                ),
+                "error",
+                Some("ERR_FILESYSTEM_GRAPH_INPUT_INVALID".to_string()),
+            ),
+            Err(e) => (
+                error_json(
                     "ERR_FILESYSTEM_GRAPH_INPUT_INVALID",
                     &format!("Invalid JSON input: {e}"),
-                )
-            }
+                ),
+                "error",
+                Some("ERR_FILESYSTEM_GRAPH_INPUT_INVALID".to_string()),
+            ),
         };
 
-        match handle_op(&op, &input) {
-            Ok(v) => serde_json::to_string(&v).unwrap_or_else(|_| {
-                error_json(
-                    "ERR_FILESYSTEM_GRAPH_INTERNAL",
-                    "Failed to serialize service output.",
-                )
-            }),
-            Err(e) => error_json(e.code, &e.message),
-        }
+        emit_runtime_metric(
+            &op,
+            status,
+            error_code.as_deref(),
+            started_ms,
+            monotonic_now_ms(),
+            input_bytes,
+            out.len() as u64,
+        );
+
+        out
+    }
+}
+
+fn emit_runtime_metric(
+    op: &str,
+    status: &str,
+    error_code: Option<&str>,
+    started_ms: u64,
+    ended_ms: u64,
+    input_bytes: u64,
+    output_bytes: u64,
+) {
+    let duration_ms = ended_ms.saturating_sub(started_ms);
+    let slo_ms = op_latency_budget_ms(op);
+    let slo_status = if duration_ms <= slo_ms { "ok" } else { "violation" };
+    let level = if status != "ok" {
+        "error"
+    } else if slo_status == "violation" {
+        "warn"
+    } else {
+        "info"
+    };
+
+    let metric = json!({
+        "event": "filesystem_graph.metric",
+        "service": "filesystem-graph",
+        "contract_version": CONTRACT_VERSION,
+        "op": op,
+        "status": status,
+        "error_code": error_code,
+        "duration_ms": duration_ms,
+        "slo_ms": slo_ms,
+        "slo_status": slo_status,
+        "input_bytes": input_bytes,
+        "output_bytes": output_bytes,
+        "ended_at": epoch_ms_to_rfc3339(ended_ms)
+    });
+
+    runtime_log(level, &metric.to_string());
+}
+
+fn op_latency_budget_ms(op: &str) -> u64 {
+    match op {
+        "snapshot.build" => 6_000,
+        "snapshot.diff" => 1_200,
+        "discover.start" => 1_500,
+        "fs.search" => 1_200,
+        "kg.traverse" => 800,
+        "discover.expand" => 800,
+        "discover.explain" => 800,
+        "fs.list" => 500,
+        "fs.read" => 500,
+        "fs.stat" => 300,
+        "snapshot.get-current" => 400,
+        "kg.get-node" => 400,
+        "kg.neighbors" => 600,
+        "kg.resolve-to-file" => 400,
+        "discover.resolve" => 400,
+        _ => 2_000,
     }
 }
 
@@ -1500,14 +1582,26 @@ fn should_skip(path: &str, state_dir: &str) -> bool {
         return false;
     }
 
-    if path == RUNTIME_STATE_ROOT || path.starts_with(&format!("{RUNTIME_STATE_ROOT}/")) {
+    let normalized = path.trim_start_matches("./");
+    if normalized == "." || normalized.is_empty() {
+        return false;
+    }
+
+    if normalized == RUNTIME_STATE_ROOT || normalized.starts_with(&format!("{RUNTIME_STATE_ROOT}/")) {
         return true;
     }
 
-    path == ".git"
-        || path.starts_with(".git/")
-        || path == state_dir
-        || path.starts_with(&format!("{state_dir}/"))
+    if normalized == SERVICES_BUILD_STATE_ROOT
+        || normalized.starts_with(&format!("{SERVICES_BUILD_STATE_ROOT}/"))
+        || normalized.contains("/_ops/state/build/")
+    {
+        return true;
+    }
+
+    normalized == ".git"
+        || normalized.starts_with(".git/")
+        || normalized == state_dir
+        || normalized.starts_with(&format!("{state_dir}/"))
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {
@@ -1625,8 +1719,32 @@ fn to_hex_lower(bytes: &[u8]) -> String {
     out
 }
 
+fn runtime_log(level: &str, message: &str) {
+    #[cfg(target_arch = "wasm32")]
+    bindings::log::write(level, message);
+
+    #[cfg(not(target_arch = "wasm32"))]
+    let _ = (level, message);
+}
+
+fn monotonic_now_ms() -> u64 {
+    #[cfg(target_arch = "wasm32")]
+    {
+        bindings::clock::now_ms()
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        use std::time::{SystemTime, UNIX_EPOCH};
+        let now = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap_or_default();
+        now.as_millis() as u64
+    }
+}
+
 fn now_rfc3339() -> String {
-    let ms = bindings::clock::now_ms();
+    let ms = monotonic_now_ms();
     epoch_ms_to_rfc3339(ms)
 }
 
@@ -1684,6 +1802,40 @@ fn error_json(code: &str, message: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::{BTreeMap, BTreeSet, VecDeque};
+
+    #[derive(Clone)]
+    struct TestRng {
+        state: u64,
+    }
+
+    impl TestRng {
+        fn new(seed: u64) -> Self {
+            Self {
+                state: seed.wrapping_add(0x9e3779b97f4a7c15),
+            }
+        }
+
+        fn next_u32(&mut self) -> u32 {
+            self.state = self
+                .state
+                .wrapping_mul(6364136223846793005)
+                .wrapping_add(1);
+            (self.state >> 32) as u32
+        }
+
+        fn next_bool(&mut self) -> bool {
+            self.next_u32() & 1 == 1
+        }
+
+        fn next_usize(&mut self, max_exclusive: usize) -> usize {
+            if max_exclusive == 0 {
+                0
+            } else {
+                (self.next_u32() as usize) % max_exclusive
+            }
+        }
+    }
 
     #[test]
     fn normalize_relative_path_accepts_clean_paths() {
@@ -1768,6 +1920,10 @@ mod tests {
         assert!(should_skip(".harmony/runtime/_ops/state/traces/x.ndjson", DEFAULT_STATE_DIR));
         assert!(should_skip(".harmony/runtime/_ops/state/build/x", DEFAULT_STATE_DIR));
         assert!(should_skip(".harmony/runtime/_ops/state/snapshots/snap-abc", DEFAULT_STATE_DIR));
+        assert!(should_skip(
+            ".harmony/capabilities/services/_ops/state/build/target/debug/file.o",
+            DEFAULT_STATE_DIR
+        ));
         assert!(should_skip(".git/config", DEFAULT_STATE_DIR));
         assert!(!should_skip(".harmony/cognition/context/index.yml", DEFAULT_STATE_DIR));
     }
@@ -1779,6 +1935,212 @@ mod tests {
         assert!(terms.contains("md"));
         assert!(!terms.contains("a"));
         assert!(!terms.contains("b"));
+    }
+
+    #[test]
+    fn snapshot_diff_property_holds_under_randomized_inputs() {
+        let universe: Vec<String> = (0..48).map(|i| format!("file-{i:02}.txt")).collect();
+
+        for seed in 0..96u64 {
+            let mut rng = TestRng::new(seed);
+            let mut base = BTreeMap::new();
+            let mut head = BTreeMap::new();
+
+            for path in &universe {
+                let in_base = rng.next_bool();
+                let in_head = rng.next_bool();
+
+                if in_base {
+                    base.insert(path.clone(), format!("{:08x}", rng.next_u32()));
+                }
+
+                if in_head {
+                    let sha = if in_base && rng.next_bool() {
+                        base.get(path).cloned().unwrap_or_else(|| format!("{:08x}", rng.next_u32()))
+                    } else {
+                        format!("{:08x}", rng.next_u32())
+                    };
+                    head.insert(path.clone(), sha);
+                }
+            }
+
+            let (added, removed, changed) = compute_snapshot_diff(&base, &head);
+
+            let added_paths: BTreeSet<String> = added
+                .iter()
+                .filter_map(|v| v.get("path").and_then(Value::as_str).map(str::to_string))
+                .collect();
+            let removed_paths: BTreeSet<String> = removed
+                .iter()
+                .filter_map(|v| v.get("path").and_then(Value::as_str).map(str::to_string))
+                .collect();
+            let changed_paths: BTreeSet<String> = changed
+                .iter()
+                .filter_map(|v| v.get("path").and_then(Value::as_str).map(str::to_string))
+                .collect();
+
+            assert!(added_paths.is_disjoint(&removed_paths));
+            assert!(added_paths.is_disjoint(&changed_paths));
+            assert!(removed_paths.is_disjoint(&changed_paths));
+
+            for path in &universe {
+                let in_base = base.get(path);
+                let in_head = head.get(path);
+
+                match (in_base, in_head) {
+                    (None, Some(_)) => assert!(added_paths.contains(path)),
+                    (Some(_), None) => assert!(removed_paths.contains(path)),
+                    (Some(base_sha), Some(head_sha)) if base_sha != head_sha => {
+                        assert!(changed_paths.contains(path))
+                    }
+                    _ => {
+                        assert!(!added_paths.contains(path));
+                        assert!(!removed_paths.contains(path));
+                        assert!(!changed_paths.contains(path));
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn traverse_edges_matches_reference_bfs_under_randomized_graphs() {
+        fn reference_traverse(
+            start: &str,
+            depth: usize,
+            edge_type_filter: &str,
+            edges: &[EdgeRecord],
+        ) -> (
+            BTreeSet<String>,
+            BTreeSet<(String, String, String)>,
+        ) {
+            let mut queue: VecDeque<(String, usize)> = VecDeque::new();
+            let mut visited = BTreeSet::new();
+            let mut traversed = BTreeSet::new();
+
+            queue.push_back((start.to_string(), 0));
+            visited.insert(start.to_string());
+
+            while let Some((current, d)) = queue.pop_front() {
+                if d >= depth {
+                    continue;
+                }
+
+                for edge in edges {
+                    if edge.src != current {
+                        continue;
+                    }
+                    if !edge_type_filter.is_empty() && edge.edge_type != edge_type_filter {
+                        continue;
+                    }
+                    traversed.insert((edge.src.clone(), edge.dst.clone(), edge.edge_type.clone()));
+                    if visited.insert(edge.dst.clone()) {
+                        queue.push_back((edge.dst.clone(), d + 1));
+                    }
+                }
+            }
+
+            (visited, traversed)
+        }
+
+        for seed in 0..64u64 {
+            let mut rng = TestRng::new(seed.wrapping_add(7));
+            let node_count = 10usize;
+            let node_ids: Vec<String> = (0..node_count).map(|i| format!("n{i}")).collect();
+            let mut edges = Vec::new();
+
+            for src_idx in 0..node_count {
+                for dst_idx in 0..node_count {
+                    if src_idx == dst_idx {
+                        continue;
+                    }
+                    if rng.next_usize(4) != 0 {
+                        continue;
+                    }
+                    edges.push(EdgeRecord {
+                        src: node_ids[src_idx].clone(),
+                        dst: node_ids[dst_idx].clone(),
+                        edge_type: if rng.next_bool() {
+                            "CONTAINS".to_string()
+                        } else {
+                            "REF".to_string()
+                        },
+                    });
+                }
+            }
+
+            let start = &node_ids[rng.next_usize(node_ids.len())];
+            let depth = rng.next_usize(5);
+            let edge_filter = if rng.next_bool() { "CONTAINS" } else { "" };
+
+            let (visited_a, traversed_a) = traverse_edges(start, depth, edge_filter, &edges);
+            let (visited_b, traversed_b) = reference_traverse(start, depth, edge_filter, &edges);
+
+            assert_eq!(visited_a, visited_b);
+            assert_eq!(traversed_a, traversed_b);
+        }
+    }
+
+    #[test]
+    fn tokenize_terms_fuzz_preserves_token_constraints() {
+        let alphabet = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_/.:()[]{} \t\n";
+        let mut rng = TestRng::new(42);
+
+        for _ in 0..256 {
+            let len = 1 + rng.next_usize(160);
+            let mut sample = String::new();
+            for _ in 0..len {
+                let idx = rng.next_usize(alphabet.len());
+                sample.push(alphabet[idx] as char);
+            }
+
+            let terms = tokenize_terms(&sample);
+            for term in terms {
+                assert!(term.len() >= 2);
+                assert!(term.chars().all(|c| c.is_ascii_lowercase() || c.is_ascii_digit()));
+            }
+        }
+    }
+
+    #[test]
+    fn parse_jsonl_fuzz_returns_error_or_value_without_panicking() {
+        let mut rng = TestRng::new(1234);
+        let chars = b"{}[]\":,abcdefghijklmnopqrstuvwxyz0123456789 \n";
+
+        for _ in 0..256 {
+            let len = 1 + rng.next_usize(256);
+            let mut sample = String::new();
+            for _ in 0..len {
+                sample.push(chars[rng.next_usize(chars.len())] as char);
+            }
+
+            let _ = parse_jsonl::<Value>(&sample);
+        }
+    }
+
+    #[test]
+    fn latency_budget_is_defined_for_all_public_ops() {
+        let ops = [
+            "fs.list",
+            "fs.read",
+            "fs.stat",
+            "fs.search",
+            "snapshot.build",
+            "snapshot.diff",
+            "snapshot.get-current",
+            "kg.get-node",
+            "kg.neighbors",
+            "kg.traverse",
+            "kg.resolve-to-file",
+            "discover.start",
+            "discover.expand",
+            "discover.explain",
+            "discover.resolve",
+        ];
+
+        for op in ops {
+            assert!(op_latency_budget_ms(op) > 0);
+        }
     }
 }
 

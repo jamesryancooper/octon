@@ -17,6 +17,16 @@ knowledge-graph traversal, and progressive discovery.
 - `rules/rules.yml` - policy and contract checks.
 - `contracts/invariants.md` - non-negotiable invariants.
 - `contracts/errors.yml` - typed error semantics.
+- `contracts/slo-budgets.tsv` - per-operation latency/error SLO budgets.
 - `service.json` / `service.wasm` - runtime-native service package.
 - `rust/` - Rust/WASM implementation.
 - `impl/generated.manifest.json` - implementation generation metadata.
+
+## Operational Gates
+
+- Determinism regression:
+  - `.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-determinism.sh`
+- Benchmark fixture generation:
+  - `.harmony/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh`
+- Latency/error SLO gate:
+  - `.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh`

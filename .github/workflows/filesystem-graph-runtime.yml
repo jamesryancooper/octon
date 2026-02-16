@@ -9,6 +9,8 @@ on:
       - '.harmony/runtime/**'
       - '.harmony/capabilities/services/_ops/scripts/validate-filesystem-graph.sh'
       - '.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-determinism.sh'
+      - '.harmony/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh'
       - '.github/workflows/filesystem-graph-runtime.yml'
   pull_request:
     paths:
@@ -18,6 +20,8 @@ on:
       - '.harmony/runtime/**'
       - '.harmony/capabilities/services/_ops/scripts/validate-filesystem-graph.sh'
       - '.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-determinism.sh'
+      - '.harmony/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh'
       - '.github/workflows/filesystem-graph-runtime.yml'
 
 permissions:
@@ -64,3 +68,9 @@ jobs:
         run: |
           chmod +x .harmony/capabilities/services/_ops/scripts/test-filesystem-graph-determinism.sh
           .harmony/capabilities/services/_ops/scripts/test-filesystem-graph-determinism.sh
+
+      - name: SLO regression gate
+        run: |
+          chmod +x .harmony/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh
+          chmod +x .harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh
+          .harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh --profile ci

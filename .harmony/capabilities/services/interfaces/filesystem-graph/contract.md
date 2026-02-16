@@ -22,3 +22,9 @@ All operations must emit output conforming to:
 - `schema/output.schema.json`
 - `schema/node.schema.json` (where node payloads are returned)
 - `schema/edge.schema.json` (where edge payloads are returned)
+
+## Observability
+
+- Service emits structured `filesystem_graph.metric` log events per op.
+- Events include op name, status, duration, byte sizes, and SLO status.
+- CI validates SLO budgets in `contracts/slo-budgets.tsv`.
