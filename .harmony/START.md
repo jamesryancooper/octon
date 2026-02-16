@@ -138,6 +138,18 @@ Within these namespaces, common subpaths are:
 9. **Begin** highest-priority unblocked task
 10. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
 
+## Runtime Quick Start
+
+From repo root:
+
+```bash
+.harmony/runtime/run --help
+.harmony/runtime/run studio
+```
+
+Use `studio` when you want a visual workflow graph + inspector + safe staged
+edit/apply flow.
+
 ## Assistants
 
 Assistants are focused specialists available via `@mention`:

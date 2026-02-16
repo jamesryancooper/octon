@@ -38,3 +38,24 @@ harmony studio
 
 When invoked as `studio`, the launcher forces source mode so the command works
 even if bundled prebuilt kernel binaries are older than the workspace code.
+
+## Studio Scope
+
+`harmony_studio` provides:
+
+- workflow index and validation visibility
+- dependency graph canvas (pan/zoom/select)
+- workflow detail inspector from parsed `WORKFLOW.md` frontmatter
+- staged edit buffer with patch preview export
+- guarded apply with rollback and apply audit artifacts
+
+## Studio Artifacts
+
+Studio writes reports under:
+
+- `.harmony/output/reports/*-studio-patch-preview.diff`
+- `.harmony/output/reports/*-studio-apply-audit.md`
+
+Operational build state uses runtime-local storage:
+
+- `.harmony/runtime/_ops/state/build/runtime-crates-target/`

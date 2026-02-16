@@ -128,3 +128,25 @@ Expected:
 
 - Response for `c1` acknowledging cancellation (implementation choice).
 - Final response for `long` with `error.code = "CANCELLED"`.
+
+## 10) Studio command discoverability and help
+
+Command:
+
+```bash
+.harmony/runtime/run --help
+```
+
+Expected:
+
+- command list includes `studio`
+
+Then:
+
+```bash
+.harmony/runtime/run studio --help
+```
+
+Expected:
+
+- help includes `Launch Harmony Studio desktop UI`

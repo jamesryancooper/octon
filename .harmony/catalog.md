@@ -95,6 +95,7 @@ Atomic operations in `capabilities/commands/`:
 | Command | Access | Description |
 |---------|--------|-------------|
 | [init.md](./capabilities/commands/init.md) | human | Initialize project-level bootstrap files (`AGENTS.md`, `CLAUDE.md` alias, optional `BOOT*.md`) |
+| [studio.md](./capabilities/commands/studio.md) | human | Launch Harmony Studio for workflow graph design, inspection, and safe staged edits |
 | [recover.md](./capabilities/commands/recover.md) | human | Recovery procedures for common agent failure modes |
 | [validate-frontmatter.md](./capabilities/commands/validate-frontmatter.md) | human | Validate YAML frontmatter in markdown files |
 | [create-workflow.md](./capabilities/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
