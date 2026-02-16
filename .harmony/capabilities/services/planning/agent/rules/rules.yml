@@ -1,0 +1,46 @@
+version: "1.0.0"
+rules:
+  - id: agent.schema.input
+    description: Input schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/input.schema.json
+    target:
+      kind: file
+      selector: schema/input.schema.json
+    action:
+      mode: block
+      code: INPUT_SCHEMA_MISSING
+      message: Missing agent input schema.
+
+  - id: agent.schema.output
+    description: Output schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/output.schema.json
+    target:
+      kind: file
+      selector: schema/output.schema.json
+    action:
+      mode: block
+      code: OUTPUT_SCHEMA_MISSING
+      message: Missing agent output schema.
+
+  - id: agent.output.keys
+    description: Agent output must include status, runId, and result.
+    category: semantic
+    severity: high
+    condition:
+      type: output_has_keys
+      keys: [status, runId, result]
+    target:
+      kind: output
+      selector: $.runId
+    action:
+      mode: block
+      code: AGENT_OUTPUT_INVALID
+      message: Agent output missing required fields.

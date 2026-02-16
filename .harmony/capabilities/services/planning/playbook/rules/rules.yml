@@ -1,0 +1,46 @@
+version: "1.0.0"
+rules:
+  - id: playbook.schema.input
+    description: Input schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/input.schema.json
+    target:
+      kind: file
+      selector: schema/input.schema.json
+    action:
+      mode: block
+      code: INPUT_SCHEMA_MISSING
+      message: Missing playbook input schema.
+
+  - id: playbook.schema.output
+    description: Output schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/output.schema.json
+    target:
+      kind: file
+      selector: schema/output.schema.json
+    action:
+      mode: block
+      code: OUTPUT_SCHEMA_MISSING
+      message: Missing playbook output schema.
+
+  - id: playbook.output.keys
+    description: Playbook output must include status and playbook object.
+    category: semantic
+    severity: high
+    condition:
+      type: output_has_keys
+      keys: [status, playbook]
+    target:
+      kind: output
+      selector: $.playbook
+    action:
+      mode: block
+      code: PLAYBOOK_OUTPUT_INVALID
+      message: Playbook output missing required fields.

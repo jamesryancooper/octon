@@ -1,0 +1,46 @@
+version: "1.0.0"
+rules:
+  - id: spec.schema.input
+    description: Input schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/input.schema.json
+    target:
+      kind: file
+      selector: schema/input.schema.json
+    action:
+      mode: block
+      code: INPUT_SCHEMA_MISSING
+      message: Missing spec input schema.
+
+  - id: spec.schema.output
+    description: Output schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/output.schema.json
+    target:
+      kind: file
+      selector: schema/output.schema.json
+    action:
+      mode: block
+      code: OUTPUT_SCHEMA_MISSING
+      message: Missing spec output schema.
+
+  - id: spec.output.keys
+    description: Spec output must include status, command, and result.
+    category: semantic
+    severity: high
+    condition:
+      type: output_has_keys
+      keys: [status, command, result]
+    target:
+      kind: output
+      selector: $.status
+    action:
+      mode: block
+      code: SPEC_OUTPUT_INVALID
+      message: Spec output missing required fields.

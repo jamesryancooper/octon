@@ -1,0 +1,1 @@
+{"goal":"Refresh architecture docs","steps":[{"id":"inventory"},{"id":"update","depends_on":["inventory"]}]}

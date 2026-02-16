@@ -1,0 +1,46 @@
+version: "1.0.0"
+rules:
+  - id: plan.schema.input
+    description: Input schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/input.schema.json
+    target:
+      kind: file
+      selector: schema/input.schema.json
+    action:
+      mode: block
+      code: INPUT_SCHEMA_MISSING
+      message: Missing plan input schema.
+
+  - id: plan.schema.output
+    description: Output schema must exist.
+    category: structural
+    severity: critical
+    condition:
+      type: file_exists
+      path: schema/output.schema.json
+    target:
+      kind: file
+      selector: schema/output.schema.json
+    action:
+      mode: block
+      code: OUTPUT_SCHEMA_MISSING
+      message: Missing plan output schema.
+
+  - id: plan.output.keys
+    description: Plan output must include status and plan object.
+    category: semantic
+    severity: high
+    condition:
+      type: output_has_keys
+      keys: [status, plan]
+    target:
+      kind: output
+      selector: $.plan
+    action:
+      mode: block
+      code: PLAN_OUTPUT_INVALID
+      message: Plan output missing required fields.

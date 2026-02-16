@@ -131,7 +131,147 @@ services:
       required: true
       key_from: [flowName, canonicalPromptPath, workflowManifestPath]
     impl:
-      entrypoint: planning/flow/impl/flow-client.sh
+      entrypoint: planning/flow/service.wasm
+
+  spec:
+    version: "0.1.0"
+    commands: [init, validate, render, diagram]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: init, validate, render, or diagram."
+      - name: targetPath
+        type: text
+        required: false
+        description: "Target path for spec operations."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [plan]
+    contracts:
+      input: planning/spec/schema/input.schema.json
+      output: planning/spec/schema/output.schema.json
+      rules: planning/spec/rules/rules.yml
+      fixtures: planning/spec/fixtures/
+      invariants: planning/spec/contracts/invariants.md
+      errors: planning/spec/contracts/errors.yml
+      compatibility: planning/spec/compatibility.yml
+      generation_manifest: planning/spec/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.spec
+      required_spans: [service.spec.init, service.spec.validate, service.spec.render, service.spec.diagram]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [command, targetPath]
+    impl:
+      entrypoint: planning/spec/impl/spec.sh
+
+  plan:
+    version: "0.1.0"
+    commands: [plan]
+    parameters:
+      - name: goal
+        type: text
+        required: true
+        description: "Primary planning goal."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [spec, playbook, flow]
+    contracts:
+      input: planning/plan/schema/input.schema.json
+      output: planning/plan/schema/output.schema.json
+      rules: planning/plan/rules/rules.yml
+      fixtures: planning/plan/fixtures/
+      invariants: planning/plan/contracts/invariants.md
+      errors: planning/plan/contracts/errors.yml
+      compatibility: planning/plan/compatibility.yml
+      generation_manifest: planning/plan/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.plan
+      required_spans: [service.plan.plan]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [goalHash, constraintsHash]
+    impl:
+      entrypoint: planning/plan/impl/plan.sh
+
+  playbook:
+    version: "0.1.0"
+    commands: [expand, validate]
+    parameters:
+      - name: playbookPath
+        type: text
+        required: true
+        description: "Path to playbook template."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [plan]
+    contracts:
+      input: planning/playbook/schema/input.schema.json
+      output: planning/playbook/schema/output.schema.json
+      rules: planning/playbook/rules/rules.yml
+      fixtures: planning/playbook/fixtures/
+      invariants: planning/playbook/contracts/invariants.md
+      errors: planning/playbook/contracts/errors.yml
+      compatibility: planning/playbook/compatibility.yml
+      generation_manifest: planning/playbook/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.playbook
+      required_spans: [service.playbook.expand, service.playbook.validate]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [playbookPath, paramsHash]
+    impl:
+      entrypoint: planning/playbook/impl/playbook.sh
+
+  agent:
+    version: "0.1.0"
+    commands: [execute, resume]
+    parameters:
+      - name: planPath
+        type: text
+        required: true
+        description: "Path to canonical plan.json."
+      - name: runId
+        type: text
+        required: false
+        description: "Existing run identifier for resume mode."
+    dependencies:
+      requires: []
+      orchestrates: [flow]
+      integratesWith: [plan, cost]
+    contracts:
+      input: planning/agent/schema/input.schema.json
+      output: planning/agent/schema/output.schema.json
+      rules: planning/agent/rules/rules.yml
+      fixtures: planning/agent/fixtures/
+      invariants: planning/agent/contracts/invariants.md
+      errors: planning/agent/contracts/errors.yml
+      compatibility: planning/agent/compatibility.yml
+      generation_manifest: planning/agent/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.agent
+      required_spans: [service.agent.execute, service.agent.resume]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [runId, planHash]
+    impl:
+      entrypoint: planning/agent/impl/agent.sh
 
   agent-platform:
     version: "0.1.0"

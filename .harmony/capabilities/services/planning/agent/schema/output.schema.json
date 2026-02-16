@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/agent/output.schema.json",
+  "title": "AgentServiceOutput",
+  "type": "object",
+  "required": ["status", "runId", "result"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "partial", "error"]
+    },
+    "runId": { "type": "string" },
+    "result": { "type": "object", "additionalProperties": true },
+    "artifacts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

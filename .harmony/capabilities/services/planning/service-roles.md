@@ -1,11 +1,12 @@
-# Service Roles — Plan, Agent, Flow, and the LangGraph Runtime
+# Service Roles — Plan, Agent, Flow, Native Runtime, and Optional Adapters
 
 This document is the **canonical reference** for how Harmony's planning and orchestration stack fits together:
 
 - **Plan** (planning)
 - **Agent** (agents that run plans)
 - **Flow** (flow orchestration)
-- The shared **LangGraph runtime** under `agents/runner/runtime/**`
+- The native **Harmony flow runtime** under `.harmony/capabilities/services/planning/flow/**`
+- Optional external runtime adapters (for example LangGraph HTTP)
 
 Use this guide together with:
 
@@ -16,33 +17,38 @@ Use this guide together with:
 
 When any earlier docs conflict with this page, **this page wins**.
 
+## 0. Normative Update (2026-02-16)
+
+The following rules are normative and supersede legacy runtime assumptions:
+
+1. Core Planning services (`spec`, `plan`, `agent`, `playbook`, `flow`) must run without Python as a required dependency.
+2. Flow defaults to native harness execution.
+3. External runtimes (including LangGraph) are adapter integrations and remain optional.
+4. Provider/runtime-specific terms are restricted to adapter paths.
+5. Any references below to Python as a default runtime are historical unless explicitly marked as adapter-only guidance.
+
 ---
 
 ## 1. High-level roles
 
-### 1.1 Flow (TypeScript service)
+### 1.1 Flow (Harness Runtime Service)
 
 - Flow is the **flow orchestration service**.
 - In the harness runtime (`.harmony/capabilities/services/planning/flow/**` + runtime clients), it defines:
   - `FlowConfig`, `FlowRunner`, `FlowRunResult` (generic flow contracts).
-  - `createHttpFlowRunner` and a CLI that:
-    - Reads `*.flow.json` configs.
-    - Starts or connects to a runner service (`agents.runner.runtime.server` by default).
-    - Sends a `/flows/run` HTTP request with prompt path, manifest path, and entrypoint.
-- Flow itself is **runtime-agnostic**:
-  - It assumes *"there is some runner that can execute flows"*.
-  - In this repo, that runner is implemented with LangGraph in Python under `agents/runner/runtime/**`.
+  - A native runtime execution path with deterministic contracts.
+- Flow is **runtime-agnostic**:
+  - Native runtime is required and default.
+  - External runtimes are optional adapter integrations.
 
-### 1.2 LangGraph runtime (Python)
+### 1.2 External LangGraph Runtime Adapter (Optional)
 
-- Lives under `agents/runner/runtime/**`.
+- Adapter implementation can live under `agents/runner/runtime/**`.
 - Responsibilities:
   - Build concrete LangGraph graphs from workflow manifests (for example `assessment/graph.py`, `graph_factory.py`, `state.py`, etc.).
-  - Provide a **runner service** (`server.py`) that exposes `/flows/run` and dispatches to specific flows (for example `"architecture_assessment"`).
+  - Optionally provide an adapter runner service (`server.py`) that exposes `/flows/run` and dispatches to specific flows (for example `"architecture_assessment"`).
   - Provide **Studio entrypoints** (for example `assessment/studio_entry.py`) that expose `graph` for `langgraph.json` and LangGraph Studio.
-- Conceptually, this is **infrastructure**:
-  - It is the concrete "Flow runtime" implementation, built on LangGraph.
-  - It is **shared by all flows and agents**; there is only one runtime in this monorepo.
+- Conceptually, this is **external adapter infrastructure** and not core runtime ownership.
 
 ### 1.3 Agent
 
@@ -51,10 +57,9 @@ When any earlier docs conflict with this page, **this page wins**.
   - **Run Plan plans** as durable, stateful agent graphs (with retries, resume, checkpoints, human-in-the-loop).
   - Delegate runtime gates to Policy/Eval/Test/Compliance.
   - Produce artifacts and keep a durable state store (SQLite by default) via LangGraph checkpointers.
-- Agent **inherits Flow's LangGraph runtime**:
+- Agent uses Flow's execution interfaces:
   - It does **not** own a separate runtime.
-  - It uses the same Flow → LangGraph pipeline as any other Flow client.
-  - It sits **above Flow**, wiring Plan plans to Flow flows and using LangGraph's durability/checkpointing.
+  - It sits **above Flow**, wiring Plan plans to Flow flows through native runtime or optional adapters.
 
 ### 1.4 Plan
 
@@ -71,22 +76,20 @@ When any earlier docs conflict with this page, **this page wins**.
 
 ## 2. Flows vs agents vs runtimes
 
-### 2.1 Flows (Flow + LangGraph)
+### 2.1 Flows (Flow + Runtime Adapters)
 
 In Harmony:
 
 - A **flow** is a single, structured workflow:
-  - Canonical prompt + YAML workflow manifest + LangGraph graph + HTTP handler.
+  - Canonical prompt + YAML workflow manifest + execution graph + handler.
   - Example: "Architecture Assessment Flow".
 - Flow provides the **contracts and runner client**:
   - `FlowConfig`, `FlowRunner`, `FlowRunResult`.
   - HTTP runner (`createHttpFlowRunner`) and CLI (`service:run` pattern).
-- The LangGraph runtime under `agents/runner/runtime/**` provides the **concrete implementation**:
-  - A `StateGraph` per flow.
-  - Nodes that implement the steps from the manifest.
-  - `/flows/run` handler that executes the graph given a `FlowConfig`.
+- The native runtime under `.harmony/capabilities/services/planning/flow/**` provides the default concrete implementation.
+- Optional adapters (for example LangGraph HTTP) can provide external execution backends.
 
-**Key point:** Flow itself does not "own" LangGraph or Python; it simply **talks to the runtime** over HTTP.
+**Key point:** Flow does not require LangGraph or Python to operate.
 
 ### 2.2 Agents (Agent)
 
@@ -99,29 +102,40 @@ An **agent** is a higher-level actor that:
 Agent:
 
 - Uses Plan's `plan.json` as source of truth.
-- Chooses Flow flows per plan step and calls Flow (which calls `/flows/run` on the runtime).
+- Chooses Flow flows per plan step and calls Flow.
 - Interprets results and updates durable agent state via LangGraph checkpointing.
 - Delegates gates and evidence to Policy, Eval, Test, Compliance, Observe, etc.
 
-### 2.3 Runtimes (`agents/runner/runtime/**`)
+### 2.3 Runtimes
 
-The **LangGraph runtime** under `agents/runner/runtime/**`:
+The native runtime under `.harmony/capabilities/services/planning/flow/**`:
 
-- Hosts *all* graphs used by Flow flows and Agent agents.
-- Exposes **one** HTTP API (`/flows/run`) to any Flow client.
-- Provides LangGraph Studio entrypoints via `langgraph.json` → `studio_entry.py`.
+- Is required for core Planning behavior.
+- Runs under harness constraints with no Python requirement.
+- Owns canonical contract behavior for flow execution.
+
+Optional external runtime adapters (for example `agents/runner/runtime/**`):
+
+- Are explicitly configured via adapter contracts.
+- Can expose `/flows/run` and Studio entrypoints where needed.
+- Must not redefine canonical Flow semantics.
 
 **Important invariants:**
 
-- There is **one shared LangGraph runtime** in this monorepo.
-- Agents do **not** spawn their own runtimes.
-- New flows extend the shared runtime; new agents call into it via Flow.
+- Native runtime support is mandatory.
+- External runtime adapters are optional.
+- Agents do not spawn per-agent runtimes.
 
 ---
 
 ## 3. Adding new flows
 
-Right now we have one primary flow: `architecture_assessment`, implemented under `agents/runner/runtime/assessment/**`. Additional flows (for example `security_assessment`, `refactoring_advisor`) follow this pattern.
+Right now we have one primary flow: `architecture_assessment`.
+
+This section includes both paths:
+
+1. Native runtime implementation path (default, required).
+2. Optional LangGraph adapter path (opt-in).
 
 ### Step 1 — Define flow assets (Flow-level artifacts)
 
@@ -137,7 +151,11 @@ Reusable action prompts can be placed under `packages/prompts/**`.
 
 These are **Flow artifacts**; they are independent of the runtime implementation.
 
-### Step 2 — Add Python graph implementation under `agents/runner/runtime`
+### Step 2a — Add native flow runtime implementation (required)
+
+Implement flow execution under `.harmony/capabilities/services/planning/flow/**` with native contracts and deterministic behavior.
+
+### Step 2b — Add optional LangGraph adapter implementation under `agents/runner/runtime`
 
 Create a new package-like subdirectory, mirroring `assessment`:
 
@@ -150,7 +168,7 @@ Create a new package-like subdirectory, mirroring `assessment`:
 
 This keeps each flow's LangGraph graph, state, and nodes **together** under the shared runtime.
 
-### Step 3 — Wire it into the HTTP runner (`server.py`)
+### Step 3 — Wire optional adapter runtime into HTTP runner (`server.py`)
 
 In `agents/runner/runtime/server.py`, extend `FLOW_HANDLERS`:
 
@@ -162,13 +180,14 @@ In `agents/runner/runtime/server.py`, extend `FLOW_HANDLERS`:
 
 This is the **API surface** the Flow HTTP runner uses (`/flows/run`).
 
-### Step 4 — Register it for Flow CLI and LangGraph Studio
+### Step 4 — Register optional adapter for Flow and LangGraph Studio
 
 For Flow CLI:
 
 - Add a `*.flow.json` config pointing to:
   - `canonicalPromptPath`, `workflowManifestPath`, `workflowEntrypoint`.
-  - `runtime.url` and `runtime.autoStart.pythonCommand` (pointing to `agents/runner/runtime/.venv/bin/python` and module `agents.runner.runtime.server`).
+  - optional external adapter `runtime.url` and adapter metadata.
+  - avoid Python-specific defaults in core configs.
 
 For LangGraph Studio:
 
@@ -176,7 +195,7 @@ For LangGraph Studio:
   - `"path": "agents.runner.runtime.<flow_name>.studio_entry:graph"`.
 - This lets you inspect the new graph in Studio while Flow and Agent use the same runtime in normal operation.
 
-**Net effect:** all LangGraph graphs (for flows) live under the **single shared runtime** in `agents/runner/runtime`, with one HTTP API (`/flows/run`) serving all named flows.
+**Net effect:** native flow runtime remains default and mandatory; optional LangGraph runtime can be added via adapter contracts where needed.
 
 ---
 
@@ -186,8 +205,8 @@ To keep responsibilities clean:
 
 ### 4.1 Mental model — flows vs agents
 
-- A **flow** (Flow + LangGraph) is a single, structured workflow:
-  - Canonical prompt + YAML manifest + LangGraph graph + HTTP handler.
+- A **flow** (Flow + runtime adapter) is a single, structured workflow:
+  - Canonical prompt + YAML manifest + execution graph + handler.
   - Example: "Architecture Assessment Flow".
 - An **agent** (Agent) is a higher-level actor that:
   - Consumes a plan from Plan (`plan.json`).
@@ -196,10 +215,10 @@ To keep responsibilities clean:
 
 ### 4.2 Where agents live physically
 
-- Keep the **shared runtime** (LangGraph + HTTP server) in `agents/runner/runtime`.
+- Keep native runtime behavior in Planning Flow service contracts.
 - Agent logic is split as follows:
   - The **core agent logic** (state machines, plan execution, hooks, etc.) lives in the Agent service and related harness service contracts/orchestrators that always call Flow.
-  - The **`agents/` directory** is reserved for small, **deployable agent or flow-oriented services/processes** that embody particular agent behaviors in production (review, assess, triage, etc.), all of which **reuse** the same shared LangGraph runtime in `agents/runner/runtime`.
+  - The **`agents/` directory** is reserved for small, **deployable agent or flow-oriented services/processes** that embody particular agent behaviors in production (review, assess, triage, etc.). These can integrate optional external adapters when needed.
 
 Services under `agents/<agent-name>/<agent-behavior-name>/` should remain **thin hosts** that:
 
@@ -241,7 +260,7 @@ This section is the canonical summary of responsibilities; other docs (AI Servic
   - The HTTP runner client (`createHttpFlowRunner`).
   - A CLI that:
     - Loads `*.flow.json`.
-    - Starts/stops the runner (`agents.runner.runtime.server`).
+    - Selects the configured adapter runtime endpoint and issues a typed run request.
     - Calls `/flows/run` with correct payloads.
 - Know how to:
   - Map a single "flow run" → HTTP call → runtime → result.
@@ -319,11 +338,12 @@ For **development of a new capability**:
 
 For **running a flow directly (Flow)**:
 
-1. Developer runs a Flow service command (for example `pnpm run-flow path/to/flow.flow.json`).
+1. Developer runs a Flow service command.
 2. Flow CLI:
-   - Starts/contacts `agents.runner.runtime.server`.
+   - Uses native runtime by default.
+   - Optionally contacts an external adapter runtime.
    - Calls `/flows/run` with `flowName`, prompt path, manifest path, etc.
-3. The runtime uses LangGraph to execute the graph and returns a result.
+3. The selected runtime executes the graph and returns a result.
 
 For **running a plan as an agent (Agent)**:
 
@@ -332,8 +352,8 @@ For **running a plan as an agent (Agent)**:
    - Loads the plan.
    - Chooses which Flow flows to call (and in what order) given the plan.
    - For each step or sub-flow:
-     - Calls Flow (HTTP runner) → LangGraph runtime.
-   - Uses LangGraph checkpointing to maintain resilient state across runs.
+     - Calls Flow execution interface.
+   - Uses configured checkpointing to maintain resilient state across runs.
    - Pauses for human approval or edits when required; then resumes.
 3. LangGraph Studio can be used at any time to inspect the underlying graphs that Agent is driving.
 
@@ -341,7 +361,9 @@ For **running a plan as an agent (Agent)**:
 
 ## 7. LangGraph Studio and `langgraph.json`
 
-LangGraph Studio can attach directly to the shared LangGraph runtime so you can explore every node, edge, and state mutation. In this repo:
+LangGraph Studio is an optional adapter debugging surface. It is not required for core Planning execution.
+
+LangGraph Studio can attach directly to the optional LangGraph adapter runtime so you can explore nodes, edges, and state mutation. In this repo:
 
 - `agents/runner/runtime/assessment/studio_entry.py` exports the compiled graph as `graph`.
 - `langgraph.json` at the repo root registers the `architecture_assessment` graph (and any others you add) for the LangGraph CLI.
@@ -376,18 +398,18 @@ Studio is a **debugging and visualization tool** that attaches to the same graph
 
 ## 8. Summary and guidance
 
-- **Keep** the LangGraph runtime in `agents/runner/runtime` as the **shared Flow runtime** for the monorepo.
+- **Keep** native flow runtime in `.harmony/capabilities/services/planning/flow/**` as the default core runtime.
 - **Add new flows** by:
   - Creating a new flow directory under `packages/workflows/<flowId>/` with flow config, canonical prompt, and workflow manifest.
-  - Implementing new LangGraph graphs under `agents/runner/runtime/<flow_name>/`.
-  - Wiring handlers in `server.py` and registering the graph in `langgraph.json`.
+  - Implementing native flow behavior under Planning flow runtime contracts.
+  - Optionally implementing external adapters (for example LangGraph) under adapter boundaries.
 - **Create new agents** by:
   - Implementing Agent configurations to consume plans and orchestrate flows.
   - Optionally adding thin hosts under `agents/<agent-name>/<agent-behavior-name>/` when you need dedicated agent processes.
-  - Always reusing the single LangGraph runtime via Flow, rather than spawning per-agent runtimes.
+  - Always reusing Flow interfaces, not spawning per-agent runtimes.
 - **Secure and observe the runner and hosts** by:
   - Treating `/flows/run` as an internal control-plane API: restrict access to trusted callers (for example, Flow, Agent hosts, CI) and validate any file paths or identifiers it receives.
-  - Instrumenting the Python runtime and any `agents/<agent-name>/<agent-behavior-name>/` hosts with Observe + OpenTelemetry so flow and agent runs emit consistent traces/logs/metrics.
+  - Instrumenting native runtime and optional adapter runtimes with Observe + OpenTelemetry so flow and agent runs emit consistent traces/logs/metrics.
   - Avoiding logging sensitive content or raw secrets; rely on Guard and redaction rules at service and host boundaries.
 
-This model keeps Plan, Flow, LangGraph, and Agent cleanly separated but tightly integrated, with `agents/runner/runtime` as the central, shared execution engine for all flows and agents in the monorepo and `agents/<agent-name>/<agent-behavior-name>/` reserved for thin, deployable agent or flow-oriented hosts.
+This model keeps Plan, Flow, optional adapters, and Agent cleanly separated but tightly integrated, with native runtime as the portable baseline and external runtimes as optional interoperability layers.

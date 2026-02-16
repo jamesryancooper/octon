@@ -2,6 +2,18 @@
 
 Decide *what* to do and *how* to run it.
 
+## Native-First Portability Policy (Normative)
+
+The Planning domain is stack-agnostic and OS-agnostic by default.
+Core service behavior must run within Harmony harness constraints without requiring Python.
+
+Policy rules:
+
+1. `spec`, `plan`, `agent`, `playbook`, and `flow` are core Planning services and must have native harness execution paths.
+2. External runtimes (including LangGraph) are optional adapter integrations.
+3. Flow runtime default is native harness execution; adapter runtime usage is opt-in.
+4. Core contracts must not embed provider- or runtime-specific terms.
+
 This domain covers the path from **validated specs** to **executable flows and agents**:
 
 - **Spec**: turn product/architecture intent into validated specs.
@@ -10,7 +22,7 @@ This domain covers the path from **validated specs** to **executable flows and a
 - **Flow**: define and run flows over prompts/manifests via a shared runtime.
 - **Playbook**: plan templates for common workflows (consumed by the Plan service).
 
-For a detailed description of how these services and the shared LangGraph runtime fit together, see:
+For a detailed description of how these services, the native flow runtime, and optional external adapters fit together, see:
 
 - `./service-roles.md` — canonical roles of Plan, Agent, Flow, and the LangGraph runtime.
 
@@ -35,9 +47,10 @@ At a high level:
    - Manages retries/resume, long-term run identity, and HITL checkpoints.
 4. **Flow**:
    - Defines `FlowConfig`/`FlowRunner`/`FlowRunResult`.
-   - Calls the shared LangGraph runtime's `/flows/run` endpoint for each configured flow.
-5. The **LangGraph runtime** under `agents/runner/runtime/**`:
-   - Builds and executes LangGraph graphs for each flow based on prompts and workflow manifests.
-   - Exposes Studio entrypoints via `langgraph.json` so you can debug the same graphs Agent and Flow use.
+   - Runs natively inside Harmony by default.
+   - May optionally call an external runtime adapter (for example LangGraph HTTP).
+5. Optional external runtimes (for example LangGraph under `agents/runner/runtime/**`) can be attached via adapters:
+   - Adapter integrations do not redefine core Planning contracts.
+   - Adapter integrations remain optional and removable without breaking native mode.
 
 This keeps **planning**, **agents**, **flows**, and the **runtime** cleanly separated but tightly integrated.
