@@ -21,3 +21,20 @@ Executable runtime layer for harness-native service invocation.
 - Keep runtime structural assets under `config/`, `crates/`, `spec/`, and `wit/`.
 - Keep mutable operational data under `_ops/state/`.
 - Keep audit/verification documents under `_meta/evidence/`.
+
+## Studio Launch
+
+Use the runtime CLI to open the desktop workflow studio:
+
+```bash
+.harmony/runtime/run studio
+```
+
+or, if `harmony` is already on PATH:
+
+```bash
+harmony studio
+```
+
+When invoked as `studio`, the launcher forces source mode so the command works
+even if bundled prebuilt kernel binaries are older than the workspace code.

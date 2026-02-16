@@ -7,12 +7,17 @@ use harmony_core::errors::{ErrorCode, KernelError};
 use harmony_core::tiers::validate_runtime_discovery_tiers;
 use harmony_core::trace::TraceWriter;
 use harmony_wasm_host::policy::GrantSet;
+use std::process::Command as ProcessCommand;
 use std::sync::Arc;
 
 use crate::context::KernelContext;
 
 #[derive(Parser)]
-#[command(name = "harmony", version, about = "Harmony executable runtime layer (v1)")]
+#[command(
+    name = "harmony",
+    version,
+    about = "Harmony executable runtime layer (v1)"
+)]
 struct Cli {
     #[command(subcommand)]
     cmd: Command,
@@ -45,6 +50,9 @@ enum Command {
 
     /// Run the NDJSON stdio server.
     ServeStdio,
+
+    /// Launch Harmony Studio desktop UI.
+    Studio,
 
     /// Guest service scaffolding.
     Service {
@@ -82,6 +90,7 @@ fn main() -> anyhow::Result<()> {
         Command::Tool { service, op, json } => cmd_tool(&service, &op, json.as_deref()),
         Command::Validate => cmd_validate(),
         Command::ServeStdio => cmd_serve_stdio(),
+        Command::Studio => cmd_studio(),
         Command::Service { cmd } => cmd_service(cmd),
     }
 }
@@ -147,8 +156,9 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
     let grants = GrantSet::new(caps);
 
     let input: serde_json::Value = match input_json {
-        Some(s) => serde_json::from_str(s)
-            .map_err(|e| KernelError::new(ErrorCode::MalformedJson, format!("invalid --json: {e}")))?,
+        Some(s) => serde_json::from_str(s).map_err(|e| {
+            KernelError::new(ErrorCode::MalformedJson, format!("invalid --json: {e}"))
+        })?,
         None => serde_json::json!({}),
     };
 
@@ -166,12 +176,45 @@ fn cmd_serve_stdio() -> anyhow::Result<()> {
     stdio::serve_stdio(ctx)
 }
 
+fn cmd_studio() -> anyhow::Result<()> {
+    let harmony_dir = harmony_core::root::RootResolver::resolve()?;
+    let runtime_dir = harmony_dir.join("runtime");
+    let manifest_path = runtime_dir.join("crates").join("Cargo.toml");
+    let target_dir = runtime_dir
+        .join("_ops")
+        .join("state")
+        .join("build")
+        .join("runtime-crates-target");
+
+    std::fs::create_dir_all(&target_dir)?;
+
+    let status = ProcessCommand::new("cargo")
+        .arg("run")
+        .arg("--manifest-path")
+        .arg(&manifest_path)
+        .arg("-p")
+        .arg("harmony_studio")
+        .arg("--bin")
+        .arg("harmony-studio")
+        .current_dir(&harmony_dir)
+        .env("CARGO_TARGET_DIR", target_dir)
+        .status()?;
+
+    if !status.success() {
+        anyhow::bail!("harmony studio exited with status {}", status);
+    }
+
+    Ok(())
+}
+
 fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
     let harmony_dir = harmony_core::root::RootResolver::resolve()?;
     match cmd {
         ServiceCmd::New { category, name } => {
             scaffold::service_new(&harmony_dir, &category, &name)?;
-            println!("created service scaffold at .harmony/capabilities/services/{category}/{name}");
+            println!(
+                "created service scaffold at .harmony/capabilities/services/{category}/{name}"
+            );
         }
         ServiceCmd::Build { target, name } => {
             let (category, name) = parse_category_name(&target, name.as_deref())?;
@@ -201,4 +244,37 @@ fn parse_category_name(target: &str, name: Option<&str>) -> anyhow::Result<(Stri
     }
 
     Ok((target.to_string(), name.to_string()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{Cli, Command};
+    use clap::{CommandFactory, Parser};
+
+    #[test]
+    fn cli_parses_studio_subcommand() {
+        let cli = Cli::try_parse_from(["harmony", "studio"])
+            .expect("studio subcommand should parse successfully");
+        assert!(
+            matches!(cli.cmd, Command::Studio),
+            "parsed command should be Studio"
+        );
+    }
+
+    #[test]
+    fn cli_help_lists_studio_command() {
+        let mut cmd = Cli::command();
+        let mut help = Vec::new();
+        cmd.write_long_help(&mut help)
+            .expect("long help should render");
+        let help = String::from_utf8(help).expect("help should be valid utf-8");
+        assert!(
+            help.contains("studio"),
+            "help output should contain studio command"
+        );
+        assert!(
+            help.contains("Launch Harmony Studio desktop UI"),
+            "help output should include studio description"
+        );
+    }
 }

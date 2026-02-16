@@ -20,6 +20,13 @@ commands:
     access: human
     argument_hint: "[@project-root] [--force] [--no-claude-alias] [--with-boot-files] [--with-agent-platform-adapters] [--agent-platform-adapters <csv>]"
 
+  - id: studio
+    display_name: Launch Studio
+    path: studio.md
+    summary: Launch Harmony Studio for workflow graph design, inspection, and safe staged edits.
+    access: human
+    argument_hint: "[--root <project-root>]"
+
   - id: recover
     display_name: Recover from Errors
     path: recover.md
