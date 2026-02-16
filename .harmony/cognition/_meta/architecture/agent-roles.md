@@ -5,7 +5,7 @@ description: Contracts, constraints, and provenance for Planner, Builder, and Ve
 
 # Agent Roles (Technical): Planner, Builder, Verifier
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [MAPE-K modeling](./mape-k-loop-modeling.md), [kaizen subsystem](./kaizen-subsystem.md), [governance model](./governance-model.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/examples/stack-profiles/python-runtime-workspace.md), [planning service roles](../../../capabilities/services/execution/service-roles.md)
+Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [MAPE-K modeling](./mape-k-loop-modeling.md), [kaizen subsystem](./kaizen-subsystem.md), [governance model](./governance-model.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/examples/stack-profiles/python-runtime-workspace.md), [execution service roles](../../../capabilities/services/execution/service-roles.md)
 
 This document specifies the technical contracts, governance constraints, and provenance requirements for the three Harmony agents that drive continuous improvement within the MAPE-K loop: Planner, Builder, and Verifier. It should be read together with the planning and orchestration role mapping for `PlanKit`, `AgentKit`, `FlowKit`, and the platform runtime service in `../../../capabilities/services/execution/service-roles.md`, and with the polyglot monorepo blueprint (`monorepo-polyglot.md`) that defines where TS kits and Python runtimes live. For the canonical runtime model, see `runtime-architecture.md`.
 

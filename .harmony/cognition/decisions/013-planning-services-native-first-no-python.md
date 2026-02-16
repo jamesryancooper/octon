@@ -1,18 +1,18 @@
 ---
-title: "ADR-013: Planning Services Native-First, No-Python Core Runtime"
-description: Establish native harness execution as mandatory for Planning services and treat external runtimes as optional adapters.
+title: "ADR-013: Planning+Execution Services Native-First, No-Python Core Runtime"
+description: Establish native harness execution as mandatory for core Planning and Execution services and treat external runtimes as optional adapters.
 status: accepted
 date: 2026-02-16
 ---
 
-# ADR-013: Planning Services Native-First, No-Python Core Runtime
+# ADR-013: Planning+Execution Services Native-First, No-Python Core Runtime
 
 ## Context
 
-Planning services are currently documented with strong coupling to a Python-based runtime path.
+Planning and execution services are currently documented with strong coupling to a Python-based runtime path.
 That coupling weakens Harmony's portability goals across host stacks and operating systems.
 
-Harmony requires a planning stack that:
+Harmony requires a planning/execution stack that:
 
 1. Runs inside harness constraints with no required external runtime process.
 2. Preserves provider/runtime interoperability without locking core behavior to one stack.
@@ -20,9 +20,9 @@ Harmony requires a planning stack that:
 
 ## Decision
 
-Adopt a native-first architecture for Planning services with these rules:
+Adopt a native-first architecture for Planning and Execution services with these rules:
 
-1. Core Planning services (`spec`, `plan`, `agent`, `playbook`, `flow`) must run without Python.
+1. Core Planning and Execution services (`spec`, `plan`, `playbook`, `agent`, `flow`) must run without Python.
 2. `flow` must provide a native harness execution path as the default.
 3. External runtime integrations (including LangGraph) are optional adapters only.
 4. Core contracts remain provider/runtime-agnostic.
@@ -33,13 +33,13 @@ Adopt a native-first architecture for Planning services with these rules:
 - Preserves stack and OS portability.
 - Reduces operational coupling and setup burden.
 - Improves long-term reversibility by isolating external integrations.
-- Keeps Harmony as the source of truth for planning semantics.
+- Keeps Harmony as the source of truth for planning and execution semantics.
 
 ## Consequences
 
 ### Positive
 
-- Planning flows can execute in constrained environments.
+- Execution flows can execute in constrained environments.
 - External runtime integrations remain possible without dominating core contracts.
 - Adapter boundaries become explicit and testable.
 

@@ -1,4 +1,4 @@
-# Planning Services Execution Checklist (Ordered, Gate-Driven)
+# Planning+Execution Services Checklist (Ordered, Gate-Driven)
 
 Date: 2026-02-16  
 Owner: architect  
@@ -9,7 +9,7 @@ Scope: `.harmony/capabilities/services/{planning,execution}/**` + required runti
 1. Execute phases strictly in numeric order.
 2. Do not start phase `N+1` until phase `N` gate passes.
 3. If a phase gate fails, resolve failures in the same phase.
-4. Core Planning services must remain tech-stack-agnostic and OS-agnostic.
+4. Core Planning+Execution services must remain tech-stack-agnostic and OS-agnostic.
 5. Python is not allowed as a required runtime dependency for core Planning services.
 6. External runtimes (including LangGraph) are optional adapters only.
 
