@@ -94,6 +94,7 @@ jobs:
           chmod +x .harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
           FIXTURE_ROOT=".harmony/output/.tmp/filesystem-interfaces-bench/cross-os-fixture"
           STATE_DIR=".harmony/runtime/_ops/state/snapshots-cross-os"
+          rm -rf "$FIXTURE_ROOT"
           .harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh \
             --profile ci \
             --fixture-root "$FIXTURE_ROOT" >/dev/null

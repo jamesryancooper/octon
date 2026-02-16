@@ -14,6 +14,8 @@ usage() {
   cat <<USAGE
 Usage: $0 [--profile ci|standard] [--fixture-root <repo-relative-path>]
 
+Rebuilds fixture_root from scratch (existing contents are removed).
+
 Outputs key=value lines:
   fixture_root
   fixture_path
@@ -86,7 +88,18 @@ if [[ "$fixture_root" = /* || "$fixture_root" == *".."* ]]; then
   exit 1
 fi
 
+if [[ "$fixture_root" == "." || "$fixture_root" == "./" ]]; then
+  echo "ERROR: fixture root cannot be the repository root" >&2
+  exit 1
+fi
+
 fixture_path="$REPO_ROOT/$fixture_root"
+if [[ "$fixture_path" == "$REPO_ROOT" || "$fixture_path" == "/" ]]; then
+  echo "ERROR: refusing to reset unsafe fixture path: $fixture_path" >&2
+  exit 1
+fi
+
+rm -rf "$fixture_path"
 mkdir -p "$fixture_path"
 
 topics=(auth billing graph runtime snapshot policy discovery interop ownership provenance)
