@@ -1,16 +1,53 @@
 #!/usr/bin/env bash
-# snapshot-build.sh - deterministic filesystem snapshot artifact builder.
+# snapshot-build.sh - runtime wrapper for snapshot.build.
 
 set -o pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HARMONY_DIR="$(cd "$SCRIPT_DIR/../../../../.." && pwd)"
+REPO_ROOT="$(cd "$HARMONY_DIR/.." && pwd)"
+RUNTIME_RUN="$HARMONY_DIR/runtime/run"
 
 if ! command -v jq >/dev/null 2>&1; then
   echo '{"ok":false,"error":{"code":"ERR_FILESYSTEM_GRAPH_INPUT_INVALID","message":"jq is required."}}'
   exit 5
 fi
 
+if [[ ! -x "$RUNTIME_RUN" ]]; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_INTERNAL" --arg message "Runtime launcher not found: $RUNTIME_RUN" '{ok:false,error:{code:$code,message:$message}}'
+  exit 4
+fi
+
 root="."
 state_dir=".harmony/runtime/_ops/state/snapshots"
 set_current="true"
+
+to_repo_relative() {
+  local value="$1"
+  if [[ -z "$value" || "$value" != /* ]]; then
+    echo "$value"
+    return 0
+  fi
+
+  local abs="$value"
+  if [[ -d "$value" ]]; then
+    abs="$(cd "$value" && pwd)"
+  fi
+
+  if [[ "$abs" == "$REPO_ROOT" ]]; then
+    echo "."
+    return 0
+  fi
+
+  case "$abs" in
+    "$REPO_ROOT"/*)
+      echo "${abs#"$REPO_ROOT/"}"
+      return 0
+      ;;
+  esac
+
+  return 1
+}
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -27,165 +64,38 @@ while [[ $# -gt 0 ]]; do
       shift 2
       ;;
     *)
-      echo "{\"ok\":false,\"error\":{\"code\":\"ERR_FILESYSTEM_GRAPH_INPUT_INVALID\",\"message\":\"Unknown argument: $1\"}}"
+      jq -cn --arg code "ERR_FILESYSTEM_GRAPH_INPUT_INVALID" --arg message "Unknown argument: $1" '{ok:false,error:{code:$code,message:$message}}'
       exit 5
       ;;
   esac
 done
 
-if [[ ! -d "$root" ]]; then
-  echo "{\"ok\":false,\"error\":{\"code\":\"ERR_FILESYSTEM_GRAPH_PATH_INVALID\",\"message\":\"Root path not found: $root\"}}"
+if [[ "$set_current" != "true" && "$set_current" != "false" ]]; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_INPUT_INVALID" --arg message "--set-current must be true or false." '{ok:false,error:{code:$code,message:$message}}'
+  exit 5
+fi
+
+if ! root="$(to_repo_relative "$root")"; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_PATH_INVALID" --arg message "--root must be inside repository root." '{ok:false,error:{code:$code,message:$message}}'
   exit 4
 fi
 
-root_abs="$(cd "$root" && pwd)"
-mkdir -p "$state_dir"
-state_abs="$(cd "$state_dir" && pwd)"
-
-if command -v mktemp >/dev/null 2>&1; then
-  tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/harmony-fsgraph-build.XXXXXX")"
-else
-  tmp_dir="/tmp/harmony-fsgraph-build.$$"
-  mkdir -p "$tmp_dir"
-fi
-
-cleanup() {
-  rm -rf "$tmp_dir"
-}
-trap cleanup EXIT
-
-file_list="$tmp_dir/file-list.txt"
-seed_tsv="$tmp_dir/seed.tsv"
-files_jsonl="$tmp_dir/files.jsonl"
-nodes_jsonl="$tmp_dir/nodes.jsonl"
-edges_jsonl="$tmp_dir/edges.jsonl"
-dirs_txt="$tmp_dir/dirs.txt"
-
-: > "$seed_tsv"
-: > "$files_jsonl"
-: > "$nodes_jsonl"
-: > "$edges_jsonl"
-: > "$dirs_txt"
-
-skip_snapshots="$root_abs/.harmony/runtime/_ops/state/snapshots"
-
-find "$root_abs" \
-  \( -path "$root_abs/.git" -o -path "$skip_snapshots" -o -path "$state_abs" \) -prune -o \
-  -type f -print | LC_ALL=C sort > "$file_list"
-
-if [[ ! -s "$file_list" ]]; then
-  echo '{"ok":false,"error":{"code":"ERR_FILESYSTEM_GRAPH_NOT_FOUND","message":"No files discovered for snapshot."}}'
+if ! state_dir="$(to_repo_relative "$state_dir")"; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_PATH_INVALID" --arg message "--state-dir must be inside repository root." '{ok:false,error:{code:$code,message:$message}}'
   exit 4
 fi
 
-stat_mtime() {
-  local f="$1"
-  if stat -f %m "$f" >/dev/null 2>&1; then
-    stat -f %m "$f"
-  else
-    stat -c %Y "$f"
-  fi
-}
+input_json="$(jq -cn --arg root "$root" --arg state_dir "$state_dir" --argjson set_current "$set_current" '{root:$root,state_dir:$state_dir,set_current:$set_current}')"
 
-while IFS= read -r abs_file; do
-  rel="${abs_file#$root_abs/}"
-  sha="$(shasum -a 256 "$abs_file" | awk '{print $1}')"
-  size="$(wc -c < "$abs_file" | tr -d ' ')"
-  mtime="$(stat_mtime "$abs_file")"
-
-  printf '%s\t%s\t%s\t%s\n' "$rel" "$sha" "$size" "$mtime" >> "$seed_tsv"
-
-  jq -cn \
-    --arg path "$rel" \
-    --arg sha256 "$sha" \
-    --argjson size_bytes "$size" \
-    --argjson modified_epoch "$mtime" \
-    '{path:$path,sha256:$sha256,size_bytes:$size_bytes,modified_epoch:$modified_epoch}' >> "$files_jsonl"
-
-  jq -cn \
-    --arg node_id "file:$rel" \
-    --arg path "$rel" \
-    --arg sha256 "$sha" \
-    '{node_id:$node_id,type:"file",path:$path,sha256:$sha256}' >> "$nodes_jsonl"
-
-  dir_path="$(dirname "$rel")"
-  printf '%s\n' "$dir_path" >> "$dirs_txt"
-
-  jq -cn \
-    --arg src "dir:$dir_path" \
-    --arg dst "file:$rel" \
-    '{src:$src,dst:$dst,type:"CONTAINS"}' >> "$edges_jsonl"
-
-done < "$file_list"
-
-while IFS= read -r dir_path; do
-  d="$dir_path"
-  while true; do
-    printf '%s\n' "$d" >> "$dirs_txt"
-    [[ "$d" == "." ]] && break
-    d="$(dirname "$d")"
-  done
-done < <(awk -F'\t' '{print $1}' "$seed_tsv" | xargs -n1 dirname 2>/dev/null || true)
-
-LC_ALL=C sort -u "$dirs_txt" > "$tmp_dir/dirs-unique.txt"
-
-while IFS= read -r dir_path; do
-  [[ -z "$dir_path" ]] && continue
-  jq -cn \
-    --arg node_id "dir:$dir_path" \
-    --arg path "$dir_path" \
-    '{node_id:$node_id,type:"dir",path:$path}' >> "$nodes_jsonl"
-
-  if [[ "$dir_path" != "." ]]; then
-    parent="$(dirname "$dir_path")"
-    jq -cn \
-      --arg src "dir:$parent" \
-      --arg dst "dir:$dir_path" \
-      '{src:$src,dst:$dst,type:"CONTAINS"}' >> "$edges_jsonl"
-  fi
-done < "$tmp_dir/dirs-unique.txt"
-
-LC_ALL=C sort -u "$files_jsonl" -o "$files_jsonl"
-LC_ALL=C sort -u "$nodes_jsonl" -o "$nodes_jsonl"
-LC_ALL=C sort -u "$edges_jsonl" -o "$edges_jsonl"
-LC_ALL=C sort -u "$seed_tsv" -o "$seed_tsv"
-
-fingerprint="$(shasum -a 256 "$seed_tsv" | awk '{print $1}')"
-snapshot_id="snap-${fingerprint:0:16}"
-snapshot_dir="$state_abs/$snapshot_id"
-
-mkdir -p "$snapshot_dir"
-cp "$files_jsonl" "$snapshot_dir/files.jsonl"
-cp "$nodes_jsonl" "$snapshot_dir/nodes.jsonl"
-cp "$edges_jsonl" "$snapshot_dir/edges.jsonl"
-
-file_count="$(wc -l < "$files_jsonl" | tr -d ' ')"
-node_count="$(wc -l < "$nodes_jsonl" | tr -d ' ')"
-edge_count="$(wc -l < "$edges_jsonl" | tr -d ' ')"
-
-manifest_path="$snapshot_dir/manifest.json"
-created_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
-
-jq -cn \
-  --arg snapshot_id "$snapshot_id" \
-  --arg root "$root_abs" \
-  --arg input_fingerprint "$fingerprint" \
-  --arg created_at "$created_at" \
-  --argjson files "$file_count" \
-  --argjson nodes "$node_count" \
-  --argjson edges "$edge_count" \
-  '{snapshot_id:$snapshot_id,root:$root,input_fingerprint:$input_fingerprint,created_at:$created_at,counts:{files:$files,nodes:$nodes,edges:$edges}}' > "$manifest_path"
-
-if [[ "$set_current" == "true" ]]; then
-  printf '%s\n' "$snapshot_id" > "$state_abs/current"
+if ! raw_out="$($RUNTIME_RUN tool interfaces/filesystem-graph snapshot.build --json "$input_json" 2>&1)"; then
+  msg="$(echo "$raw_out" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g')"
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_OPERATION_FAILED" --arg message "$msg" '{ok:false,error:{code:$code,message:$message}}'
+  exit 4
 fi
 
-jq -cn \
-  --arg snapshot_id "$snapshot_id" \
-  --arg snapshot_dir "$snapshot_dir" \
-  --arg manifest "$manifest_path" \
-  --argjson files "$file_count" \
-  --argjson nodes "$node_count" \
-  --argjson edges "$edge_count" \
-  --arg set_current "$set_current" \
-  '{ok:true,snapshot_id:$snapshot_id,snapshot_dir:$snapshot_dir,manifest:$manifest,counts:{files:$files,nodes:$nodes,edges:$edges},set_current:($set_current=="true")}'
+if ! jq -e . >/dev/null 2>&1 <<<"$raw_out"; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_INTERNAL" --arg message "Runtime returned non-JSON output." '{ok:false,error:{code:$code,message:$message}}'
+  exit 4
+fi
+
+jq -c . <<<"$raw_out"

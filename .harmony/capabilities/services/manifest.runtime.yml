@@ -1,5 +1,17 @@
 format_version: services-manifest-v1
 services:
+  - id: interfaces/filesystem-graph
+    name: filesystem-graph
+    category: interfaces
+    summary: Filesystem operations, deterministic snapshots, and graph discovery.
+    triggers:
+      - filesystem
+      - graph
+      - discovery
+      - snapshot
+    runtime:
+      type: wasm
+      path: interfaces/filesystem-graph/service.json
   - id: interfaces/kv
     name: kv
     category: interfaces

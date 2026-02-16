@@ -1,16 +1,53 @@
 #!/usr/bin/env bash
-# snapshot-diff.sh - compare two filesystem-graph snapshots.
+# snapshot-diff.sh - runtime wrapper for snapshot.diff.
 
 set -o pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+HARMONY_DIR="$(cd "$SCRIPT_DIR/../../../../.." && pwd)"
+REPO_ROOT="$(cd "$HARMONY_DIR/.." && pwd)"
+RUNTIME_RUN="$HARMONY_DIR/runtime/run"
 
 if ! command -v jq >/dev/null 2>&1; then
   echo '{"ok":false,"error":{"code":"ERR_FILESYSTEM_GRAPH_INPUT_INVALID","message":"jq is required."}}'
   exit 5
 fi
 
+if [[ ! -x "$RUNTIME_RUN" ]]; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_INTERNAL" --arg message "Runtime launcher not found: $RUNTIME_RUN" '{ok:false,error:{code:$code,message:$message}}'
+  exit 4
+fi
+
 base=""
 head=""
 state_dir=".harmony/runtime/_ops/state/snapshots"
+
+to_repo_relative() {
+  local value="$1"
+  if [[ -z "$value" || "$value" != /* ]]; then
+    echo "$value"
+    return 0
+  fi
+
+  local abs="$value"
+  if [[ -d "$value" ]]; then
+    abs="$(cd "$value" && pwd)"
+  fi
+
+  if [[ "$abs" == "$REPO_ROOT" ]]; then
+    echo "."
+    return 0
+  fi
+
+  case "$abs" in
+    "$REPO_ROOT"/*)
+      echo "${abs#"$REPO_ROOT/"}"
+      return 0
+      ;;
+  esac
+
+  return 1
+}
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -27,90 +64,43 @@ while [[ $# -gt 0 ]]; do
       shift 2
       ;;
     *)
-      echo "{\"ok\":false,\"error\":{\"code\":\"ERR_FILESYSTEM_GRAPH_INPUT_INVALID\",\"message\":\"Unknown argument: $1\"}}"
+      jq -cn --arg code "ERR_FILESYSTEM_GRAPH_INPUT_INVALID" --arg message "Unknown argument: $1" '{ok:false,error:{code:$code,message:$message}}'
       exit 5
       ;;
   esac
 done
 
 if [[ -z "$base" || -z "$head" ]]; then
-  echo '{"ok":false,"error":{"code":"ERR_FILESYSTEM_GRAPH_INPUT_INVALID","message":"Both --base and --head are required."}}'
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_INPUT_INVALID" --arg message "Both --base and --head are required." '{ok:false,error:{code:$code,message:$message}}'
   exit 5
 fi
 
-state_abs="$(cd "$state_dir" && pwd)"
-
-resolve_snapshot_dir() {
-  local value="$1"
-  if [[ -d "$value" ]]; then
-    cd "$value" && pwd
-    return 0
-  fi
-  if [[ -d "$state_abs/$value" ]]; then
-    cd "$state_abs/$value" && pwd
-    return 0
-  fi
-  return 1
-}
-
-if ! base_dir="$(resolve_snapshot_dir "$base")"; then
-  echo "{\"ok\":false,\"error\":{\"code\":\"ERR_FILESYSTEM_GRAPH_NOT_FOUND\",\"message\":\"Base snapshot not found: $base\"}}"
+if ! state_dir="$(to_repo_relative "$state_dir")"; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_PATH_INVALID" --arg message "--state-dir must be inside repository root." '{ok:false,error:{code:$code,message:$message}}'
   exit 4
 fi
 
-if ! head_dir="$(resolve_snapshot_dir "$head")"; then
-  echo "{\"ok\":false,\"error\":{\"code\":\"ERR_FILESYSTEM_GRAPH_NOT_FOUND\",\"message\":\"Head snapshot not found: $head\"}}"
+if ! base="$(to_repo_relative "$base")"; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_PATH_INVALID" --arg message "--base absolute paths must be inside repository root." '{ok:false,error:{code:$code,message:$message}}'
   exit 4
 fi
 
-base_files="$base_dir/files.jsonl"
-head_files="$head_dir/files.jsonl"
-
-if [[ ! -f "$base_files" || ! -f "$head_files" ]]; then
-  echo '{"ok":false,"error":{"code":"ERR_FILESYSTEM_GRAPH_SNAPSHOT_INVALID","message":"files.jsonl missing in one or both snapshots."}}'
+if ! head="$(to_repo_relative "$head")"; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_PATH_INVALID" --arg message "--head absolute paths must be inside repository root." '{ok:false,error:{code:$code,message:$message}}'
   exit 4
 fi
 
-tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/harmony-fsgraph-diff.XXXXXX")"
-trap 'rm -rf "$tmp_dir"' EXIT
+input_json="$(jq -cn --arg base "$base" --arg head "$head" --arg state_dir "$state_dir" '{base:$base,head:$head,state_dir:$state_dir}')"
 
-base_tsv="$tmp_dir/base.tsv"
-head_tsv="$tmp_dir/head.tsv"
-diff_tsv="$tmp_dir/diff.tsv"
+if ! raw_out="$($RUNTIME_RUN tool interfaces/filesystem-graph snapshot.diff --json "$input_json" 2>&1)"; then
+  msg="$(echo "$raw_out" | tr '\n' ' ' | sed 's/[[:space:]]\+/ /g')"
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_OPERATION_FAILED" --arg message "$msg" '{ok:false,error:{code:$code,message:$message}}'
+  exit 4
+fi
 
-jq -r '[.path,.sha256] | @tsv' "$base_files" | LC_ALL=C sort -u > "$base_tsv"
-jq -r '[.path,.sha256] | @tsv' "$head_files" | LC_ALL=C sort -u > "$head_tsv"
+if ! jq -e . >/dev/null 2>&1 <<<"$raw_out"; then
+  jq -cn --arg code "ERR_FILESYSTEM_GRAPH_INTERNAL" --arg message "Runtime returned non-JSON output." '{ok:false,error:{code:$code,message:$message}}'
+  exit 4
+fi
 
-awk -F'\t' '
-  NR==FNR { base[$1]=$2; next }
-  { head[$1]=$2 }
-  END {
-    for (k in head) {
-      if (!(k in base)) {
-        print "added\t" k "\t" head[k]
-      } else if (base[k] != head[k]) {
-        print "changed\t" k "\t" base[k] "\t" head[k]
-      }
-    }
-    for (k in base) {
-      if (!(k in head)) {
-        print "removed\t" k "\t" base[k]
-      }
-    }
-  }
-' "$base_tsv" "$head_tsv" | LC_ALL=C sort > "$diff_tsv"
-
-details_json="$(jq -Rn '
-  [inputs | select(length > 0) | split("\t")] as $rows |
-  {
-    added:   [ $rows[] | select(.[0] == "added")   | {path: .[1], sha256: .[2]} ],
-    removed: [ $rows[] | select(.[0] == "removed") | {path: .[1], sha256: .[2]} ],
-    changed: [ $rows[] | select(.[0] == "changed") | {path: .[1], base_sha256: .[2], head_sha256: .[3]} ]
-  }
-' < "$diff_tsv")"
-
-jq -cn \
-  --arg base "$(basename "$base_dir")" \
-  --arg head "$(basename "$head_dir")" \
-  --argjson details "$details_json" \
-  '{ok:true,base_snapshot:$base,head_snapshot:$head,summary:{added:($details.added|length),removed:($details.removed|length),changed:($details.changed|length)},details:$details}'
+jq -c . <<<"$raw_out"

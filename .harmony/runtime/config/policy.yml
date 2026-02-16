@@ -16,6 +16,13 @@ categories:
       - log.write
 
 services:
+  interfaces/filesystem-graph:
+    allow:
+      - clock.read
+      - fs.read
+      - fs.write
+      - log.write
+
   # Allow the reference KV service to use local storage.
   interfaces/kv:
     allow:
