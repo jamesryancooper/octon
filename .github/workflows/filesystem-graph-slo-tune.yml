@@ -72,8 +72,8 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: perf(filesystem-graph): tune slo budgets from ci history
-          title: perf(filesystem-graph): tune slo budgets from ci history
+          commit-message: "perf(filesystem-graph): tune slo budgets from ci history"
+          title: "perf(filesystem-graph): tune slo budgets from ci history"
           body: |
             Automated SLO budget tightening from recent CI history window.
 
@@ -86,3 +86,74 @@ jobs:
           delete-branch: true
           add-paths: |
             .harmony/capabilities/services/interfaces/filesystem-graph/contracts/slo-budgets.tsv
+
+  notify-on-failure:
+    name: notify-on-failure
+    runs-on: ubuntu-latest
+    needs: tune
+    if: ${{ always() && needs.tune.result == 'failure' }}
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Upsert GitHub issue alert
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = "filesystem-graph SLO tuning workflow failure detected";
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const body = [
+              "filesystem-graph SLO tuning workflow failed.",
+              "",
+              `- workflow: ${context.workflow}`,
+              `- run: ${runUrl}`,
+              `- event: ${context.eventName}`,
+              `- ref: ${context.ref}`,
+              `- sha: ${context.sha}`,
+              `- actor: ${context.actor}`
+            ].join("\n");
+
+            const query = `repo:${owner}/${repo} is:issue is:open in:title \"${title}\"`;
+            const search = await github.rest.search.issuesAndPullRequests({ q: query, per_page: 10 });
+            const existing = search.data.items.find((item) => item.title === title);
+
+            if (existing) {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: existing.number,
+                body: `Another failure detected.\n\n${body}`
+              });
+            } else {
+              await github.rest.issues.create({ owner, repo, title, body });
+            }
+
+      - name: Send Slack alert (optional)
+        if: ${{ secrets.FILESYSTEM_GRAPH_SLO_ALERT_WEBHOOK != '' }}
+        uses: actions/github-script@v7
+        env:
+          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_GRAPH_SLO_ALERT_WEBHOOK }}
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const text = [
+              ":rotating_light: filesystem-graph SLO tuning workflow failed",
+              `workflow: ${context.workflow}`,
+              `event: ${context.eventName}`,
+              `ref: ${context.ref}`,
+              `sha: ${context.sha.substring(0, 12)}`,
+              `run: ${runUrl}`
+            ].join("\n");
+
+            const response = await fetch(process.env.ALERT_WEBHOOK, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ text })
+            });
+
+            if (!response.ok) {
+              const body = await response.text();
+              throw new Error(`Slack webhook failed: ${response.status} ${body}`);
+            }

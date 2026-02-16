@@ -42,3 +42,8 @@ knowledge-graph traversal, and progressive discovery.
 - `snapshot.build` enforces default caps for `max_files`, `max_total_bytes`, and `max_op_ms`.
 - `discover.start` enforces bounded `content_scan_limit` and `max_op_ms`.
 - Corrupt snapshot artifacts fail with actionable rebuild remediation guidance.
+
+## Failure Alerting
+
+- Runtime and SLO tuning workflow failures upsert a GitHub issue with run metadata.
+- Optional Slack delivery is enabled when repository secret `FILESYSTEM_GRAPH_SLO_ALERT_WEBHOOK` is configured.
