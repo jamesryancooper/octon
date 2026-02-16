@@ -1,0 +1,23 @@
+schema_version: "1.0"
+default_adapter: native-harmony
+
+adapters:
+  - id: native-harmony
+    provider: Harmony
+    path: native-harmony/
+    status: active
+    adapter_version: "1.0.0"
+    adapter_schema_version: "1.0.0"
+    interop_contract_version: "1.0.0"
+    aliases: [native, harness]
+    capabilities_profile: native-harmony/fixtures/capabilities.json
+
+  - id: langgraph-http
+    provider: LangGraph
+    path: langgraph-http/
+    status: active
+    adapter_version: "1.0.0"
+    adapter_schema_version: "1.0.0"
+    interop_contract_version: "1.0.0"
+    aliases: [langgraph, http-service]
+    capabilities_profile: langgraph-http/fixtures/capabilities.json

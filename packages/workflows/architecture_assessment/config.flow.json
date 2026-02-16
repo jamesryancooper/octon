@@ -10,21 +10,23 @@
   "workflowManifestPath": "packages/workflows/architecture_assessment/manifest.yaml",
   "workflowEntrypoint": "architecture-inventory",
   "runtime": {
-    "type": "http-service",
-    "url": "http://127.0.0.1:8410",
-    "autoStart": {
-      "pythonCommand": "agents/runner/runtime/.venv/bin/python",
-      "module": "agents.runner.runtime.server",
-      "host": "127.0.0.1",
-      "port": 8410,
-      "readyTimeoutSeconds": 60
-    },
-    "timeoutSeconds": 1800
+    "type": "native-harmony",
+    "adapter": "native-harmony",
+    "timeoutSeconds": 1800,
+    "optionalAdapters": {
+      "langgraph-http": {
+        "type": "http-service",
+        "url": "http://127.0.0.1:8410",
+        "timeoutSeconds": 1800
+      }
+    }
   },
   "policyProfile": "architecture-assessment-default",
-  "requiredGates": ["policykit", "evalkit-basic"],
+  "requiredGates": [
+    "policykit",
+    "evalkit-basic"
+  ],
   "observability": {
     "spanPrefix": "harmony.flow.architecture_assessment"
   }
 }
-

@@ -1,0 +1,10 @@
+id: langgraph-http
+provider: LangGraph
+runtime_mode: external-http
+interop_contract_version: "1.0.0"
+default: false
+requires_capabilities:
+  - log.write
+  - fs.read
+  - fs.write
+  - net.http

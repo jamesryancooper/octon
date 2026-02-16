@@ -16,3 +16,20 @@ services:
       log_events: true
       trace_inputs: redacted
       trace_outputs: redacted
+  planning/flow:
+    owner: agency/planning
+    risk_tier: medium
+    approvals:
+      invoke: none
+      writes: human_if_outside_scope
+    depends_on:
+      - interfaces/kv
+    io:
+      state_dir: .harmony/runtime/_ops/state/runs/flow
+    notes:
+      - Native-harmony adapter is the default execution path.
+      - LangGraph HTTP integration is opt-in via adapter/runtime config.
+    observability:
+      log_events: true
+      trace_inputs: redacted
+      trace_outputs: redacted

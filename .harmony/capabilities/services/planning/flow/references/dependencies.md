@@ -1,28 +1,32 @@
 # Flow Dependencies
 
-Primary dependency is a LangGraph-compatible HTTP runtime endpoint.
+Flow defaults to native Harmony runtime execution and only requires core host
+capabilities (`fs.read`, `fs.write`, `log.write`).
 
-## Required Runtime
+## Native Path (Default)
 
-- `FLOW_SERVICE_URL` (optional override)
-  - default: `http://127.0.0.1:8410/flows/run`
-- `FLOW_SERVICE_TIMEOUT_SECONDS` (optional)
-  - default: `30`
+- Runtime component: `planning/flow/service.wasm`
+- No Python runtime dependency
+- Deterministic run record persistence under:
+  - `.harmony/runtime/_ops/state/runs/flow/`
 
-## Expected Endpoint Contract
+## Optional External Path
 
-`POST /flows/run` request body:
+When adapter `langgraph-http` is selected, Flow additionally uses `net.http` and
+calls a LangGraph-compatible endpoint.
 
-- `runId`
-- `flowName`
-- `canonicalPromptPath`
-- `workflowManifestPath`
-- `workspaceRoot`
-- `params` (object)
-- optional `workflowEntrypoint`
+Expected endpoint contract:
 
-Expected response (minimum):
-
-- `result` (any JSON)
-- optional `artifacts` (array)
-- optional `runId` / `runtimeRunId`
+- `POST /flows/run`
+- Request keys:
+  - `runId`
+  - `flowName`
+  - `canonicalPromptPath`
+  - `workflowManifestPath`
+  - `workspaceRoot`
+  - `params`
+  - optional `workflowEntrypoint`
+- Response keys (minimum):
+  - `result`
+  - optional `artifacts`
+  - optional `runId` / `runtimeRunId`

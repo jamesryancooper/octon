@@ -10,16 +10,16 @@
   "workflowManifestPath": "packages/workflows/docs_glossary/manifest.yaml",
   "workflowEntrypoint": "docs-glossary-collect",
   "runtime": {
-    "type": "http-service",
-    "url": "http://127.0.0.1:8410",
-    "autoStart": {
-      "pythonCommand": "agents/runner/runtime/.venv/bin/python",
-      "module": "agents.runner.runtime.server",
-      "host": "127.0.0.1",
-      "port": 8410,
-      "readyTimeoutSeconds": 60
-    },
-    "timeoutSeconds": 600
+    "type": "native-harmony",
+    "adapter": "native-harmony",
+    "timeoutSeconds": 600,
+    "optionalAdapters": {
+      "langgraph-http": {
+        "type": "http-service",
+        "url": "http://127.0.0.1:8410",
+        "timeoutSeconds": 600
+      }
+    }
   },
   "policyProfile": "glossary-default",
   "requiredGates": [],
@@ -27,4 +27,3 @@
     "spanPrefix": "harmony.flow.docs_glossary"
   }
 }
-

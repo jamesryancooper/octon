@@ -1,35 +1,42 @@
 # Flow — Harness-Native Flow Execution Service
 
-Flow forwards typed run requests to a runtime endpoint and normalizes responses for orchestration.
+Flow is the planning execution bridge. It validates typed flow run requests,
+executes workflow manifests natively in the Harmony runtime by default, writes
+deterministic run records, and optionally forwards to an external LangGraph
+HTTP runtime when explicitly configured.
 
 ## Purpose
 
-- Accept a typed flow run request.
-- Validate required flow config fields.
-- Optionally run in dry-run mode without network side effects.
-- Forward live calls to a configured HTTP runtime endpoint.
+- Accept typed flow run requests.
+- Validate required config fields and workflow artifacts.
+- Execute via native adapter (`native-harmony`) by default.
+- Optionally call an external runtime (`langgraph-http`) through `/flows/run`.
+- Emit deterministic run ids and run records for traceability.
 
-## Inputs and Outputs
+## Runtime Artifacts
 
+- Runtime manifest: `service.json`
+- Runtime component: `service.wasm`
+- Rust source: `rust/`
 - Input schema: `schema/input.schema.json`
 - Output schema: `schema/output.schema.json`
+
+## Adapters
+
+- Registry: `adapters/registry.yml`
+- Native adapter: `adapters/native-harmony/`
+- Optional external adapter: `adapters/langgraph-http/`
+- Contract validator: `impl/validate-adapters.sh`
+
+## Native-First Policy
+
+- Core flow execution does not depend on Python.
+- Native adapter is default and is deterministic for identical inputs.
+- External runtime use is optional and capability-gated (`net.http`).
 
 ## Operation
 
 - `run`
-
-## Policy
-
-- Rules: `workflow-exists`, `workflow-valid`, `runner-available`
-- Enforcement: `block`
-- Fail-closed: `true`
-
-## Runtime
-
-- Entrypoint: `impl/flow-client.sh`
-- Runtime env vars:
-  - `FLOW_SERVICE_URL` (default `http://127.0.0.1:8410/flows/run`)
-  - `FLOW_SERVICE_TIMEOUT_SECONDS` (default `30`)
 
 ## Contract Artifacts
 

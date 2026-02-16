@@ -1,14 +1,14 @@
 ---
 name: flow
 description: >
-  Workflow execution service that forwards typed run requests to a LangGraph-compatible
-  HTTP endpoint and normalizes responses.
+  Workflow execution service with a native Harmony runtime default and optional
+  LangGraph HTTP adapter path.
 interface_type: mcp
-version: "0.1.0"
+version: "1.0.0"
 metadata:
   author: "harmony"
   created: "2026-02-12"
-  updated: "2026-02-13"
+  updated: "2026-02-16"
 input_schema: schema/input.schema.json
 output_schema: schema/output.schema.json
 rules: rules/
@@ -19,7 +19,7 @@ contracts:
 compatibility_profile: compatibility.yml
 generation_manifest: impl/generated.manifest.json
 stateful: false
-deterministic: false
+deterministic: true
 dependencies:
   requires: []
   orchestrates: [prompt, guard, cost]
@@ -35,13 +35,19 @@ idempotency:
   required: true
   key_from: [flowName, canonicalPromptPath, workflowManifestPath]
 impl:
-  entrypoint: "impl/flow-client.sh"
-  timeout_ms: 30000
+  entrypoint: "service.wasm"
+  timeout_ms: 120000
   health_check: null
+adapters:
+  registry: adapters/registry.yml
+  validator: impl/validate-adapters.sh
 dry_run: true
-allowed-tools: WebFetch Read Glob Grep
+allowed-tools: Read Glob Grep
 ---
 
 # Flow Service
 
-MCP-oriented service wrapper around an HTTP runner contract (LangGraph-compatible `/flows/run`).
+Native-first runtime service that validates manifest/prompt inputs, executes
+workflow steps deterministically, writes stable run records, and optionally
+forwards to an external LangGraph-compatible `/flows/run` endpoint when the
+`langgraph-http` adapter is selected.

@@ -1,0 +1,7 @@
+version: "1.0.0"
+compatibility:
+  flow_contract: ">=1.0.0 <2.0.0"
+  runtime_manifest: "service-manifest-v1"
+  notes:
+    - Requires explicit runtime endpoint URL.
+    - Outbound network capability (`net.http`) must be granted by policy.

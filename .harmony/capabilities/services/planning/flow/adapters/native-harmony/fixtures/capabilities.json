@@ -1,0 +1,11 @@
+{
+  "mode": "adapter",
+  "adapter_id": "native-harmony",
+  "interop_contract_version": "1.0.0",
+  "capabilities": {
+    "deterministic_run_id": { "state": "supported", "via": "adapter" },
+    "native_execution": { "state": "supported", "via": "adapter" },
+    "checkpoint_resume": { "state": "degraded", "via": "adapter" },
+    "http_runtime_bridge": { "state": "optional", "via": "adapter" }
+  }
+}
