@@ -1,0 +1,89 @@
+name: Codex PR Review
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read
+
+concurrency:
+  group: codex-pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  codex-review:
+    name: Run Codex Review
+    if: >-
+      ${{
+        !github.event.pull_request.draft &&
+        github.event.pull_request.head.repo.fork == false &&
+        secrets.OPENAI_API_KEY != ''
+      }}
+    runs-on: ubuntu-latest
+    outputs:
+      final_message: ${{ steps.run_codex.outputs.final-message }}
+    steps:
+      - name: Checkout PR merge commit
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+
+      - name: Pre-fetch base and head refs for this PR
+        run: |
+          git fetch --no-tags origin \
+            ${{ github.event.pull_request.base.ref }} \
+            +refs/pull/${{ github.event.pull_request.number }}/head
+
+      - name: Run Codex review
+        id: run_codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt: |
+            You are reviewing PR #${{ github.event.pull_request.number }} in ${{ github.repository }}.
+            Review ONLY changes introduced by this PR.
+
+            Base SHA: ${{ github.event.pull_request.base.sha }}
+            Head SHA: ${{ github.event.pull_request.head.sha }}
+
+            Prioritize:
+            - correctness defects and regressions
+            - security risks (authz, validation, secrets handling)
+            - data/schema/contract compatibility risk
+            - missing or weak tests for risky behavior changes
+
+            Avoid style-only nits unless they hide a bug.
+
+            Use this PR context:
+            Title: ${{ github.event.pull_request.title }}
+            Body:
+            ${{ github.event.pull_request.body }}
+
+  post-codex-review:
+    name: Post Codex Review
+    runs-on: ubuntu-latest
+    needs:
+      - codex-review
+    if: needs.codex-review.result == 'success' && needs.codex-review.outputs.final_message != ''
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Post comment to PR
+        uses: actions/github-script@v7
+        env:
+          CODEX_FINAL_MESSAGE: ${{ needs.codex-review.outputs.final_message }}
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: process.env.CODEX_FINAL_MESSAGE,
+            });

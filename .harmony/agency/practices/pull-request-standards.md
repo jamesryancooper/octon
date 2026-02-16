@@ -23,46 +23,26 @@ control provider and CI system.
 - Enforce branch naming and commit-message conventions with automated checks.
 - Protect trunk so required PR quality and commit/branch checks must pass before
   merge.
+- Unresolved review conversations block merge.
+- AI review gate:
+  `.github/workflows/codex-pr-review.yml` (required status check:
+  `Codex PR Review / Run Codex Review`; requires `OPENAI_API_KEY` secret).
 
 ---
 
 ## PR Description Template
 
-Use this structure for every non-trivial PR. For trivial changes (typo fixes, single-line config), a one-line summary is fine.
+Use `.github/PULL_REQUEST_TEMPLATE.md` as the canonical PR template for all
+non-trivial PRs. For trivial changes (typo fixes, single-line config), a one-line
+summary is acceptable.
 
-```markdown
-## What
-<One or two sentences: what this PR does.>
-
-## Why
-<The motivation. What problem does this solve? Link to the ticket/issue.>
-
-## How
-<Brief explanation of the approach. Call out anything non-obvious.
-If alternatives were considered, name them and explain why they were rejected.>
-
-## Tradeoffs
-<What this approach gives up. What risks remain. Any shortcuts taken
-and the plan to address them (with ticket refs for follow-ups).>
-
-## Testing
-<How this was verified. What was tested manually vs. automated.
-Any edge cases specifically covered. Any areas NOT tested and why.>
-
-## Rollout
-<How this ships safely. Feature flag? Gradual rollout? Migration?
-Any special deploy steps or sequencing requirements.
-Omit for changes that need no special rollout consideration.>
-
-## Checklist
-- [ ] Requirements met; edge cases handled
-- [ ] Security reviewed (authz, input validation, secrets)
-- [ ] Tests added or updated
-- [ ] Observability updated (logs, metrics, traces) if needed
-- [ ] No speculative abstractions or unnecessary complexity
-- [ ] Conventions followed; no drift introduced
-- [ ] Non-obvious decisions documented (comments, ADR)
-```
+- This standards document defines policy and review expectations.
+- The template defines the PR body structure and prompts.
+- Scoped templates under `.github/PULL_REQUEST_TEMPLATE/` may add context
+  sections, but must preserve all canonical headings and checklist items through
+  `## Checklist`.
+- CI validation in `.github/workflows/pr-quality.yml` enforces canonical template
+  structure against PR bodies.
 
 ---
 

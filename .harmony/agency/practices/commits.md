@@ -12,6 +12,14 @@ This practice is tool-agnostic. Repositories can enforce it using any local
 and CI mechanism (native Git hooks, hook frameworks, custom scripts, or
 pipeline checks).
 
+Canonical enforcement in this repository:
+
+- Local commit gate: `.husky/commit-msg` (normalizes via
+  `scripts/normalize-commit-msg.js`, then runs `commitlint`)
+- Commit message rules: `commitlint.config.cjs`
+- PR-time branch and commit checks:
+  `.github/workflows/commit-and-branch-standards.yml`
+
 For a message to pass enforcement, it must satisfy this contract:
 
 - Header format: `<type>(<scope>): <summary>`

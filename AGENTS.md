@@ -92,3 +92,10 @@ Read `.harmony/orchestration/workflows/manifest.yml` for workflow discovery.
 - Follow `.harmony/agency/practices/commits.md` for branch naming, Conventional Commit
   format, and commit quality rules.
 - Use commit messages in the form `<type>(<scope>): <summary>`.
+
+## Pull Request Discipline
+
+- Follow `.harmony/agency/practices/pull-request-standards.md` for PR scope,
+  description quality, and reviewer expectations.
+- Use `.github/PULL_REQUEST_TEMPLATE.md` (or a scoped template under
+  `.github/PULL_REQUEST_TEMPLATE/`) when opening PRs.
