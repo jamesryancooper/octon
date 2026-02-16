@@ -11,6 +11,7 @@ on:
       - '.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-determinism.sh'
       - '.harmony/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh'
       - '.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh'
+      - '.harmony/capabilities/services/_ops/scripts/tune-filesystem-graph-slo-budgets.sh'
       - '.github/workflows/filesystem-graph-runtime.yml'
   pull_request:
     paths:
@@ -22,6 +23,7 @@ on:
       - '.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-determinism.sh'
       - '.harmony/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh'
       - '.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh'
+      - '.harmony/capabilities/services/_ops/scripts/tune-filesystem-graph-slo-budgets.sh'
       - '.github/workflows/filesystem-graph-runtime.yml'
 
 permissions:
@@ -71,6 +73,25 @@ jobs:
 
       - name: SLO regression gate
         run: |
+          mkdir -p "$RUNNER_TEMP/filesystem-graph-slo"
           chmod +x .harmony/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh
           chmod +x .harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh
-          .harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh --profile ci
+          .harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh \
+            --profile ci \
+            --no-report \
+            --raw-out "$RUNNER_TEMP/filesystem-graph-slo/filesystem-graph-slo.raw.tsv" \
+            --summary-out "$RUNNER_TEMP/filesystem-graph-slo/filesystem-graph-slo.summary.tsv"
+
+      - name: Upload SLO summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: filesystem-graph-slo-summary
+          path: ${{ runner.temp }}/filesystem-graph-slo/filesystem-graph-slo.summary.tsv
+          retention-days: 30
+
+      - name: Upload SLO raw metrics artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: filesystem-graph-slo-raw
+          path: ${{ runner.temp }}/filesystem-graph-slo/filesystem-graph-slo.raw.tsv
+          retention-days: 14

@@ -9,3 +9,4 @@
 7. Provider-specific terms are disallowed in core filesystem-graph files.
 8. Runtime metrics are emitted per operation with latency and status fields.
 9. Per-operation latency and error budgets are enforced by CI SLO gates.
+10. Automated SLO tuning can tighten budgets from CI history but must not loosen them.

@@ -1,0 +1,88 @@
+name: filesystem-graph-slo-tune
+
+on:
+  workflow_dispatch:
+    inputs:
+      window_runs:
+        description: Number of recent successful runtime runs to use.
+        required: false
+        default: "20"
+      min_runs:
+        description: Minimum historical samples required per operation.
+        required: false
+        default: "6"
+      headroom_percent:
+        description: Headroom percentage over observed p95.
+        required: false
+        default: "25"
+      max_tighten_percent:
+        description: Maximum one-pass budget tightening percentage.
+        required: false
+        default: "70"
+  schedule:
+    - cron: "23 6 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
+jobs:
+  tune:
+    runs-on: ubuntu-latest
+    env:
+      WINDOW_RUNS: ${{ github.event.inputs.window_runs || '20' }}
+      MIN_RUNS: ${{ github.event.inputs.min_runs || '6' }}
+      HEADROOM_PERCENT: ${{ github.event.inputs.headroom_percent || '25' }}
+      MAX_TIGHTEN_PERCENT: ${{ github.event.inputs.max_tighten_percent || '70' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download SLO history artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          chmod +x .harmony/capabilities/services/_ops/scripts/download-filesystem-graph-slo-history.sh
+          HISTORY_DIR="$RUNNER_TEMP/filesystem-graph-slo-history"
+          mkdir -p "$HISTORY_DIR"
+          .harmony/capabilities/services/_ops/scripts/download-filesystem-graph-slo-history.sh \
+            --repo "$GITHUB_REPOSITORY" \
+            --workflow filesystem-graph-runtime.yml \
+            --artifact-name filesystem-graph-slo-summary \
+            --limit "$WINDOW_RUNS" \
+            --out-dir "$HISTORY_DIR"
+          echo "HISTORY_DIR=$HISTORY_DIR" >> "$GITHUB_ENV"
+
+      - name: Tune SLO budgets from history window
+        run: |
+          chmod +x .harmony/capabilities/services/_ops/scripts/tune-filesystem-graph-slo-budgets.sh
+          .harmony/capabilities/services/_ops/scripts/tune-filesystem-graph-slo-budgets.sh \
+            --history-dir "$HISTORY_DIR" \
+            --budgets-file .harmony/capabilities/services/interfaces/filesystem-graph/contracts/slo-budgets.tsv \
+            --min-runs "$MIN_RUNS" \
+            --headroom-percent "$HEADROOM_PERCENT" \
+            --max-tighten-percent "$MAX_TIGHTEN_PERCENT"
+
+      - name: Validate tuned budgets
+        run: |
+          .harmony/runtime/run service build interfaces/filesystem-graph
+          FILESYSTEM_GRAPH_VALIDATE_SLO=1 bash .harmony/capabilities/services/_ops/scripts/validate-filesystem-graph.sh
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: perf(filesystem-graph): tune slo budgets from ci history
+          title: perf(filesystem-graph): tune slo budgets from ci history
+          body: |
+            Automated SLO budget tightening from recent CI history window.
+
+            Inputs:
+            - window_runs: `${{ env.WINDOW_RUNS }}`
+            - min_runs: `${{ env.MIN_RUNS }}`
+            - headroom_percent: `${{ env.HEADROOM_PERCENT }}`
+            - max_tighten_percent: `${{ env.MAX_TIGHTEN_PERCENT }}`
+          branch: codex/filesystem-graph-slo-tune
+          delete-branch: true
+          add-paths: |
+            .harmony/capabilities/services/interfaces/filesystem-graph/contracts/slo-budgets.tsv

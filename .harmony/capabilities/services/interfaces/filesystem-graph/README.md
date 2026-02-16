@@ -30,3 +30,7 @@ knowledge-graph traversal, and progressive discovery.
   - `.harmony/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh`
 - Latency/error SLO gate:
   - `.harmony/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh`
+- CI-history budget tuning:
+  - `.harmony/capabilities/services/_ops/scripts/download-filesystem-graph-slo-history.sh`
+  - `.harmony/capabilities/services/_ops/scripts/tune-filesystem-graph-slo-budgets.sh`
+  - `.github/workflows/filesystem-graph-slo-tune.yml`

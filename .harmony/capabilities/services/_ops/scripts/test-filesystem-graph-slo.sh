@@ -13,10 +13,13 @@ state_dir=".harmony/runtime/_ops/state/snapshots"
 samples_override=""
 fixture_root=""
 report_path=""
+raw_out_path=""
+summary_out_path=""
+emit_report="1"
 
 usage() {
   cat <<USAGE
-Usage: $0 [--profile ci|standard] [--samples <n>] [--state-dir <relative-path>] [--fixture-root <relative-path>] [--report <path>]
+Usage: $0 [--profile ci|standard] [--samples <n>] [--state-dir <relative-path>] [--fixture-root <relative-path>] [--report <path>] [--raw-out <path>] [--summary-out <path>] [--no-report]
 USAGE
 }
 
@@ -41,6 +44,18 @@ while [[ $# -gt 0 ]]; do
     --report)
       report_path="${2:-}"
       shift 2
+      ;;
+    --raw-out)
+      raw_out_path="${2:-}"
+      shift 2
+      ;;
+    --summary-out)
+      summary_out_path="${2:-}"
+      shift 2
+      ;;
+    --no-report)
+      emit_report="0"
+      shift 1
       ;;
     --help|-h)
       usage
@@ -101,7 +116,18 @@ mkdir -p "$tmp_dir"
 raw_tsv="$tmp_dir/filesystem-graph-slo-${timestamp}.raw.tsv"
 summary_tsv="$tmp_dir/filesystem-graph-slo-${timestamp}.summary.tsv"
 
-if [[ -z "$report_path" ]]; then
+if [[ -n "$raw_out_path" ]]; then
+  raw_tsv="$raw_out_path"
+fi
+
+if [[ -n "$summary_out_path" ]]; then
+  summary_tsv="$summary_out_path"
+fi
+
+mkdir -p "$(dirname "$raw_tsv")"
+mkdir -p "$(dirname "$summary_tsv")"
+
+if [[ -z "$report_path" && "$emit_report" == "1" ]]; then
   report_path="$HARMONY_DIR/output/reports/$(date +%F)-filesystem-graph-slo-report.md"
 fi
 
@@ -272,26 +298,36 @@ while IFS=$'\t' read -r op budget_samples budget_p95_ms max_error_rate; do
     "$op" "$sample_count" "$p95_ms" "$budget_p95_ms" "$error_rate" "$max_error_rate" "$status" >> "$summary_tsv"
 done < "$SLO_BUDGETS"
 
-mkdir -p "$(dirname "$report_path")"
-{
-  echo "# Filesystem-Graph SLO Report"
-  echo
-  echo "- profile: \`$profile\`"
-  echo "- fixture_root: \`$fixture_root\`"
-  echo "- snapshot_id: \`$snapshot_id\`"
-  echo "- raw_metrics: \`$raw_tsv\`"
-  echo "- summary_metrics: \`$summary_tsv\`"
-  echo
-  echo "| op | samples | p95 (ms) | p95 budget (ms) | error rate | max error rate | status |"
-  echo "| --- | --- | --- | --- | --- | --- | --- |"
-  awk -F'\t' 'NR>1 {printf "| `%s` | %s | %s | %s | %s | %s | %s |\n", $1, $2, $3, $4, $5, $6, $7}' "$summary_tsv"
-} > "$report_path"
+if [[ "$emit_report" == "1" ]]; then
+  mkdir -p "$(dirname "$report_path")"
+  {
+    echo "# Filesystem-Graph SLO Report"
+    echo
+    echo "- profile: \`$profile\`"
+    echo "- fixture_root: \`$fixture_root\`"
+    echo "- snapshot_id: \`$snapshot_id\`"
+    echo "- raw_metrics: \`$raw_tsv\`"
+    echo "- summary_metrics: \`$summary_tsv\`"
+    echo
+    echo "| op | samples | p95 (ms) | p95 budget (ms) | error rate | max error rate | status |"
+    echo "| --- | --- | --- | --- | --- | --- | --- |"
+    awk -F'\t' 'NR>1 {printf "| `%s` | %s | %s | %s | %s | %s | %s |\n", $1, $2, $3, $4, $5, $6, $7}' "$summary_tsv"
+  } > "$report_path"
+fi
 
 if [[ "$violations" -gt 0 ]]; then
   echo "filesystem-graph SLO failed: $violations violating op(s) out of $ops_checked"
-  echo "report: $report_path"
+  if [[ "$emit_report" == "1" ]]; then
+    echo "report: $report_path"
+  fi
+  echo "raw_metrics: $raw_tsv"
+  echo "summary_metrics: $summary_tsv"
   exit 1
 fi
 
 echo "filesystem-graph SLO passed: $ops_checked op(s)"
-echo "report: $report_path"
+if [[ "$emit_report" == "1" ]]; then
+  echo "report: $report_path"
+fi
+echo "raw_metrics: $raw_tsv"
+echo "summary_metrics: $summary_tsv"

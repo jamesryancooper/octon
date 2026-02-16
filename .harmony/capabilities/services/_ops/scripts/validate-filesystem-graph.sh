@@ -36,7 +36,9 @@ required_files=(
   "$SERVICE_DIR/contracts/slo-budgets.tsv"
   "$SERVICE_DIR/fixtures/benchmark-profile.tsv"
   "$HARMONY_DIR/capabilities/services/_ops/scripts/build-filesystem-graph-benchmark-fixture.sh"
+  "$HARMONY_DIR/capabilities/services/_ops/scripts/download-filesystem-graph-slo-history.sh"
   "$HARMONY_DIR/capabilities/services/_ops/scripts/test-filesystem-graph-slo.sh"
+  "$HARMONY_DIR/capabilities/services/_ops/scripts/tune-filesystem-graph-slo-budgets.sh"
 )
 
 for f in "${required_files[@]}"; do
