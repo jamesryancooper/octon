@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/filesystem-interfaces/snapshot-manifest.v2.json",
+  "title": "FilesystemGraphSnapshotManifest",
+  "type": "object",
+  "required": ["snapshot_format_version", "snapshot_id", "root", "input_fingerprint", "counts", "created_at"],
+  "additionalProperties": false,
+  "properties": {
+    "snapshot_format_version": { "type": "integer", "minimum": 1 },
+    "snapshot_id": { "type": "string", "pattern": "^snap-[a-f0-9]{8,64}$" },
+    "root": { "type": "string", "minLength": 1 },
+    "input_fingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "counts": {
+      "type": "object",
+      "required": ["files", "nodes", "edges"],
+      "additionalProperties": false,
+      "properties": {
+        "files": { "type": "integer", "minimum": 0 },
+        "nodes": { "type": "integer", "minimum": 0 },
+        "edges": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

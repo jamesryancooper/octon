@@ -79,6 +79,8 @@ runs/
 # Harmony runtime state (local/cache/traces)
 .harmony/runtime/_ops/state/
 .harmony/runtime/_ops/state/**
+!.harmony/runtime/_ops/state/
+!.harmony/runtime/_ops/state/.gitkeep
 
 # Legacy runtime state location (deprecated)
 .harmony/state/

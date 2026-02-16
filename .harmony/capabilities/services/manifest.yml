@@ -60,3 +60,33 @@ services:
     tags: [retrieval, hybrid, citations, evidence]
     category: retrieval
     stateful: false
+
+  - id: filesystem-snapshot
+    display_name: Filesystem Snapshot
+    path: interfaces/filesystem-snapshot/
+    summary: "Writer plane for deterministic snapshot lifecycle and bounded filesystem operations."
+    status: active
+    interface_type: library
+    tags: [filesystem, snapshot, deterministic, writer]
+    category: interfaces
+    stateful: true
+
+  - id: filesystem-discovery
+    display_name: Filesystem Discovery
+    path: interfaces/filesystem-discovery/
+    summary: "Query plane for graph traversal and progressive discovery over snapshots."
+    status: active
+    interface_type: library
+    tags: [graph, discovery, traversal, provenance]
+    category: interfaces
+    stateful: true
+
+  - id: filesystem-watch
+    display_name: Filesystem Watch
+    path: interfaces/filesystem-watch/
+    summary: "OS-agnostic polling watcher hints for filesystem change detection."
+    status: active
+    interface_type: library
+    tags: [watch, polling, filesystem, change-detection]
+    category: interfaces
+    stateful: true

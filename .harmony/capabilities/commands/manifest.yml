@@ -74,6 +74,55 @@ commands:
     access: human
     argument_hint: "--file <path-to-query-json>"
 
+  - id: snapshot-build
+    display_name: Snapshot Build
+    path: snapshot-build.md
+    summary: Build deterministic snapshot artifacts via filesystem-snapshot.
+    access: human
+    argument_hint: "[--root <path>] [--state-dir <path>] [--set-current true|false]"
+
+  - id: snapshot-diff
+    display_name: Snapshot Diff
+    path: snapshot-diff.md
+    summary: Compare two filesystem-snapshot artifacts.
+    access: human
+    argument_hint: "--base <snapshot-id|path> --head <snapshot-id|path> [--state-dir <path>]"
+
+  - id: discover-start
+    display_name: Discover Start
+    path: discover-start.md
+    summary: Start progressive discovery via filesystem-discovery.
+    access: human
+    argument_hint: "--query <text> [--limit <n>]"
+
+  - id: discover-expand
+    display_name: Discover Expand
+    path: discover-expand.md
+    summary: Expand discovery frontier via filesystem-discovery graph traversal.
+    access: human
+    argument_hint: "--node-ids '<json-array>' [--limit <n>]"
+
+  - id: discover-explain
+    display_name: Discover Explain
+    path: discover-explain.md
+    summary: Explain candidate relevance/provenance via filesystem-discovery.
+    access: human
+    argument_hint: "--query <text> --candidate-node-ids '<json-array>'"
+
+  - id: discover-resolve
+    display_name: Discover Resolve
+    path: discover-resolve.md
+    summary: Resolve a discovered node back to file path via filesystem-discovery.
+    access: human
+    argument_hint: "--node-id <node-id>"
+
+  - id: watch-poll
+    display_name: Watch Poll
+    path: watch-poll.md
+    summary: Run filesystem-watch polling change detection for the current workspace.
+    access: human
+    argument_hint: "[--root <path>] [--state-key <key>] [--max-events <n>] [--max-files <n>]"
+
   - id: create-workflow
     display_name: Create Workflow
     path: create-workflow.md

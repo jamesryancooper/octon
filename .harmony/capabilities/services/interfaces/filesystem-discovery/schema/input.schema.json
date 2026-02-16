@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/filesystem-discovery/input.v1.json",
+  "title": "FilesystemDiscoveryInput",
+  "type": "object",
+  "required": [
+    "command",
+    "payload"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "command": {
+      "type": "string",
+      "enum": [
+        "kg.get-node",
+        "kg.neighbors",
+        "kg.traverse",
+        "kg.resolve-to-file",
+        "discover.start",
+        "discover.expand",
+        "discover.explain",
+        "discover.resolve"
+      ]
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^snap-[a-f0-9]{8,64}$"
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

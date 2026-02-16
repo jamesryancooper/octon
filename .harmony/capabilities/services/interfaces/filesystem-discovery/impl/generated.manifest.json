@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-02-16T00:00:00Z",
+  "service": "filesystem-discovery",
+  "runtime_package": {
+    "manifest": "service.json",
+    "artifact": "service.wasm",
+    "implementation": "rust/src/lib.rs"
+  },
+  "notes": "Runtime package split: discovery/query plane manifest for direct filesystem-discovery invocation."
+}

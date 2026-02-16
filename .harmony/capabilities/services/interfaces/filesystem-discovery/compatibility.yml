@@ -1,0 +1,8 @@
+version: "1.0.0"
+compatibility:
+  required_tools: [read, glob]
+  optional_tools: [grep, rg]
+  minimum_behavior:
+    fail_closed_policy: true
+    progressive_discovery: true
+    provenance_required: true

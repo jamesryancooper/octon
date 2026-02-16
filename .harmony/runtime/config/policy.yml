@@ -16,6 +16,26 @@ categories:
       - log.write
 
 services:
+  interfaces/filesystem-snapshot:
+    allow:
+      - clock.read
+      - fs.read
+      - fs.write
+      - log.write
+
+  interfaces/filesystem-discovery:
+    allow:
+      - clock.read
+      - fs.read
+      - log.write
+
+  interfaces/filesystem-watch:
+    allow:
+      - clock.read
+      - fs.read
+      - fs.write
+      - log.write
+
   # Allow the reference KV service to use local storage.
   interfaces/kv:
     allow:

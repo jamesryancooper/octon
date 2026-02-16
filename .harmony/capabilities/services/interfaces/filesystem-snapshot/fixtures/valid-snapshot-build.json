@@ -1,0 +1,13 @@
+{
+  "input": {
+    "command": "snapshot.build",
+    "payload": {
+      "root": ".",
+      "set_current": true
+    }
+  },
+  "expected": {
+    "ok": true,
+    "command": "snapshot.build"
+  }
+}

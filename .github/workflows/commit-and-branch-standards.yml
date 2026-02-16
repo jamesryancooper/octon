@@ -78,8 +78,9 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           git show "${BASE_SHA}:commitlint.config.cjs" > /tmp/commitlint.config.cjs
-          pnpm dlx @commitlint/cli@19.8.1 \
-            --config /tmp/commitlint.config.cjs \
-            --from "$BASE_SHA" \
-            --to "$HEAD_SHA" \
-            --verbose
+          pnpm dlx --package @commitlint/cli@19.8.1 --package @commitlint/config-conventional@19.8.1 \
+            sh -c 'NODE_PATH="$(dirname "$(command -v commitlint)")/.." commitlint \
+              --config /tmp/commitlint.config.cjs \
+              --from "$BASE_SHA" \
+              --to "$HEAD_SHA" \
+              --verbose'

@@ -1,0 +1,13 @@
+rules:
+  - id: native-first-required
+    description: Core behavior must run with no external adapter.
+    severity: critical
+  - id: files-source-of-truth
+    description: Filesystem remains canonical source; snapshot is derived.
+    severity: critical
+  - id: fail-closed-invalid-snapshot
+    description: Missing or invalid snapshot state must block snapshot-dependent operations.
+    severity: critical
+  - id: bounded-writer-operations
+    description: Snapshot and filesystem operations must enforce file/byte/time limits.
+    severity: high

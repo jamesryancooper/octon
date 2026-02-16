@@ -76,6 +76,11 @@ files:
     summary: Native-first interop semantics and ownership boundaries for optional platform adapters.
     when: When implementing session policy, context budgeting, compaction policy, routing, or adapter boundaries.
 
+  - id: filesystem-interfaces-interop
+    path: filesystem-interfaces-interop.md
+    summary: Native-first semantics for filesystem operations, derived graph traversal, and progressive discovery.
+    when: When implementing snapshot artifacts, filesystem interface contracts, or discovery operations.
+
   - id: workflow-gaps
     path: workflow-gaps.md
     summary: Workflow gap remediation guide (idempotency, dependencies, branching, etc.).

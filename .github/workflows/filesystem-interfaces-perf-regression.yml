@@ -1,0 +1,69 @@
+name: filesystem-interfaces-perf-regression
+
+on:
+  push:
+    paths:
+      - '.harmony/capabilities/services/interfaces/filesystem-snapshot/**'
+      - '.harmony/capabilities/services/interfaces/filesystem-discovery/**'
+      - '.harmony/capabilities/services/interfaces/filesystem-watch/**'
+      - '.harmony/runtime/**'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
+      - '.harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+      - '.github/workflows/filesystem-interfaces-perf-regression.yml'
+  pull_request:
+    paths:
+      - '.harmony/capabilities/services/interfaces/filesystem-snapshot/**'
+      - '.harmony/capabilities/services/interfaces/filesystem-discovery/**'
+      - '.harmony/capabilities/services/interfaces/filesystem-watch/**'
+      - '.harmony/runtime/**'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
+      - '.harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+      - '.github/workflows/filesystem-interfaces-perf-regression.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  perf-regression:
+    name: perf-regression
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-component
+        run: |
+          cargo install --locked cargo-component
+
+      - name: Build split filesystem wasm services from source
+        run: |
+          .harmony/runtime/run service build interfaces/filesystem-snapshot
+          .harmony/runtime/run service build interfaces/filesystem-discovery
+          .harmony/runtime/run service build interfaces/filesystem-watch
+
+      - name: Run cold/warm perf regression gate
+        run: |
+          mkdir -p "$RUNNER_TEMP/filesystem-interfaces-perf"
+          chmod +x .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh
+          .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh \
+            --profile ci \
+            --no-report \
+            --raw-out "$RUNNER_TEMP/filesystem-interfaces-perf/filesystem-interfaces-perf.raw.tsv" \
+            --summary-out "$RUNNER_TEMP/filesystem-interfaces-perf/filesystem-interfaces-perf.summary.tsv"
+
+      - name: Upload perf summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: filesystem-interfaces-perf-summary
+          path: ${{ runner.temp }}/filesystem-interfaces-perf/filesystem-interfaces-perf.summary.tsv
+          retention-days: 30
+
+      - name: Upload perf raw artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: filesystem-interfaces-perf-raw
+          path: ${{ runner.temp }}/filesystem-interfaces-perf/filesystem-interfaces-perf.raw.tsv
+          retention-days: 14

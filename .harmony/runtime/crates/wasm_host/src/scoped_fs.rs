@@ -1,6 +1,6 @@
 use std::{
     fs,
-    io,
+    io::{self, Read, Seek, SeekFrom},
     path::{Component, Path, PathBuf},
 };
 
@@ -48,6 +48,60 @@ impl ScopedFs {
         }
 
         atomic_write_file(&joined, data)
+    }
+
+    pub fn read_range(&self, user_path: &str, offset: u64, max_bytes: u64) -> io::Result<Vec<u8>> {
+        let rel = sanitize_relative(user_path)?;
+        let joined = self.root.join(&rel);
+
+        let target = canonicalize_existing(&joined)?;
+        ensure_under_root(&self.root, &target)?;
+        ensure_no_symlink_components_existing(&self.root, &rel)?;
+
+        let md = fs::symlink_metadata(&target)?;
+        if md.file_type().is_symlink() || !md.is_file() {
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "path is not a regular file",
+            ));
+        }
+
+        let mut file = fs::File::open(&target)?;
+        file.seek(SeekFrom::Start(offset))?;
+
+        let mut out = Vec::new();
+        let mut limited = file.take(max_bytes);
+        limited.read_to_end(&mut out)?;
+        Ok(out)
+    }
+
+    pub fn create_file_exclusive(&self, user_path: &str, data: &[u8]) -> io::Result<bool> {
+        let rel = sanitize_relative(user_path)?;
+        let joined = self.root.join(&rel);
+
+        let parent_rel = rel.parent().ok_or_else(|| io_err("path has no parent"))?;
+        create_dir_all_checked(&self.root, parent_rel)?;
+        ensure_no_symlink_components_existing(&self.root, &rel)?;
+
+        if joined.exists() {
+            return Ok(false);
+        }
+
+        let mut opts = fs::OpenOptions::new();
+        opts.write(true).create_new(true);
+        let mut file = match opts.open(&joined) {
+            Ok(file) => file,
+            Err(e) if e.kind() == io::ErrorKind::AlreadyExists => return Ok(false),
+            Err(e) => return Err(e),
+        };
+
+        use std::io::Write;
+        file.write_all(data)?;
+        file.sync_all()?;
+        if let Some(parent) = joined.parent() {
+            fsync_dir_best_effort(parent);
+        }
+        Ok(true)
     }
 
     pub fn read_text(&self, user_path: &str, max_bytes: usize) -> io::Result<String> {
@@ -152,6 +206,48 @@ impl ScopedFs {
     pub fn mkdirp(&self, user_path: &str) -> io::Result<()> {
         let rel = sanitize_relative(user_path)?;
         create_dir_all_checked(&self.root, &rel)
+    }
+
+    pub fn rename(&self, from_path: &str, to_path: &str) -> io::Result<()> {
+        let from_rel = sanitize_relative(from_path)?;
+        let to_rel = sanitize_relative(to_path)?;
+
+        ensure_no_symlink_components_existing(&self.root, &from_rel)?;
+        ensure_no_symlink_components_existing(&self.root, &to_rel)?;
+
+        let from_joined = self.root.join(&from_rel);
+        let to_joined = self.root.join(&to_rel);
+
+        if !from_joined.exists() {
+            return Err(io::Error::new(
+                io::ErrorKind::NotFound,
+                "source path does not exist",
+            ));
+        }
+        if to_joined.exists() {
+            return Err(io::Error::new(
+                io::ErrorKind::AlreadyExists,
+                "destination path already exists",
+            ));
+        }
+
+        let from_canon = canonicalize_existing(&from_joined)?;
+        ensure_under_root(&self.root, &from_canon)?;
+
+        let to_parent = to_rel.parent().ok_or_else(|| io_err("destination has no parent"))?;
+        create_dir_all_checked(&self.root, to_parent)?;
+        let to_parent_joined = self.root.join(to_parent);
+        let to_parent_canon = canonicalize_existing(&to_parent_joined)?;
+        ensure_under_root(&self.root, &to_parent_canon)?;
+
+        fs::rename(&from_joined, &to_joined)?;
+        if let Some(from_parent) = from_joined.parent() {
+            fsync_dir_best_effort(from_parent);
+        }
+        if let Some(to_parent) = to_joined.parent() {
+            fsync_dir_best_effort(to_parent);
+        }
+        Ok(())
     }
 
     pub fn remove_file(&self, user_path: &str) -> io::Result<()> {

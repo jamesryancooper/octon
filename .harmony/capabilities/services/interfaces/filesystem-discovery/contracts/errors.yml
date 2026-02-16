@@ -1,0 +1,28 @@
+errors:
+  - code: ERR_FILESYSTEM_INTERFACES_INPUT_INVALID
+    message: Input payload failed validation.
+    category: validation
+  - code: ERR_FILESYSTEM_INTERFACES_PATH_INVALID
+    message: Path is invalid or outside allowed workspace scope.
+    category: policy
+  - code: ERR_FILESYSTEM_INTERFACES_NOT_FOUND
+    message: Requested file, node, or snapshot was not found.
+    category: not-found
+  - code: ERR_FILESYSTEM_INTERFACES_LIMIT_EXCEEDED
+    message: Operation exceeded configured safety limits (time, files, or bytes).
+    category: resource
+  - code: ERR_FILESYSTEM_INTERFACES_SNAPSHOT_INVALID
+    message: Snapshot artifacts are missing or malformed.
+    category: integrity
+  - code: ERR_FILESYSTEM_INTERFACES_FORMAT_UNSUPPORTED
+    message: Snapshot artifact format is unsupported by this runtime version.
+    category: compatibility
+  - code: ERR_FILESYSTEM_INTERFACES_LOCKED
+    message: Snapshot build lock is held by another in-progress writer.
+    category: resource
+  - code: ERR_FILESYSTEM_INTERFACES_OPERATION_UNSUPPORTED
+    message: Operation is not supported by the service contract.
+    category: validation
+  - code: ERR_FILESYSTEM_INTERFACES_INTERNAL
+    message: Internal execution failure.
+    category: internal

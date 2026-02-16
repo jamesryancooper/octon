@@ -16,6 +16,9 @@ Complete before ending a session, context reset, or handoff.
   - `bash .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh --mode conformance` (if adapters changed)
   - `bash .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh --mode degradation` (if compaction/adapter behavior changed)
 
+- [ ] **Run filesystem interface validation** (when filesystem interface files changed)
+  - `bash .harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh`
+
 - [ ] **Update `continuity/log.md`** with session summary
   - Date header
   - Session focus

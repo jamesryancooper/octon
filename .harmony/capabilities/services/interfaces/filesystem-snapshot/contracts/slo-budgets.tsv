@@ -1,0 +1,16 @@
+# op	samples	p95_budget_ms	max_error_rate
+fs.list	6	125	0.00
+fs.read	6	166	0.00
+fs.stat	6	117	0.00
+fs.search	6	500	0.00
+snapshot.build	6	1500	0.00
+snapshot.diff	6	400	0.00
+snapshot.get-current	6	120	0.00
+kg.get-node	6	120	0.00
+kg.neighbors	6	200	0.00
+kg.traverse	6	300	0.00
+kg.resolve-to-file	6	141	0.00
+discover.start	6	500	0.00
+discover.expand	6	250	0.00
+discover.explain	6	250	0.00
+discover.resolve	6	260	0.00

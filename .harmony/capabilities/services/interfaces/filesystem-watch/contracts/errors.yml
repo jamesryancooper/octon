@@ -1,0 +1,10 @@
+errors:
+  - code: ERR_FILESYSTEM_WATCH_INPUT_INVALID
+    message: Input payload failed validation.
+    category: validation
+  - code: ERR_FILESYSTEM_WATCH_LIMIT_EXCEEDED
+    message: Operation exceeded configured watch limits.
+    category: resource
+  - code: ERR_FILESYSTEM_WATCH_INTERNAL
+    message: Internal execution failure.
+    category: internal

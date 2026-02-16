@@ -1,0 +1,8 @@
+version: "1.0.0"
+compatibility:
+  required_tools: [read, glob]
+  optional_tools: [grep, rg]
+  minimum_behavior:
+    os_agnostic_polling: true
+    deterministic_event_order: true
+    fail_closed_policy: true

@@ -34,7 +34,9 @@ case "$OS" in
 esac
 
 if [ -n "${BIN:-}" ] && [ -x "$BIN" ]; then
-  exec "$BIN" "$@"
+  if [ "${HARMONY_RUNTIME_PREFER_SOURCE:-0}" != "1" ]; then
+    exec "$BIN" "$@"
+  fi
 fi
 
 # Development fallback: run from source.

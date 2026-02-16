@@ -1,5 +1,41 @@
 format_version: services-manifest-v1
 services:
+  - id: interfaces/filesystem-snapshot
+    name: filesystem-snapshot
+    category: interfaces
+    summary: Writer plane for filesystem operations and deterministic snapshots.
+    triggers:
+      - filesystem
+      - snapshot
+      - deterministic
+      - writer
+    runtime:
+      type: wasm
+      path: interfaces/filesystem-snapshot/service.json
+  - id: interfaces/filesystem-discovery
+    name: filesystem-discovery
+    category: interfaces
+    summary: Query plane for graph traversal and progressive discovery.
+    triggers:
+      - graph
+      - discovery
+      - provenance
+      - query
+    runtime:
+      type: wasm
+      path: interfaces/filesystem-discovery/service.json
+  - id: interfaces/filesystem-watch
+    name: filesystem-watch
+    category: interfaces
+    summary: OS-agnostic polling watcher hints for filesystem change detection.
+    triggers:
+      - watcher
+      - filesystem
+      - poll
+      - change-detection
+    runtime:
+      type: wasm
+      path: interfaces/filesystem-watch/service.json
   - id: interfaces/kv
     name: kv
     category: interfaces

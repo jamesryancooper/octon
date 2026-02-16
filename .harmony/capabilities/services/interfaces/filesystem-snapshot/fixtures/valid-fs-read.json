@@ -1,0 +1,13 @@
+{
+  "input": {
+    "command": "fs.read",
+    "payload": {
+      "path": "AGENTS.md",
+      "max_bytes": 512
+    }
+  },
+  "expected": {
+    "ok": true,
+    "command": "fs.read"
+  }
+}

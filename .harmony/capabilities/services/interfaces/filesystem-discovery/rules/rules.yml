@@ -1,0 +1,13 @@
+rules:
+  - id: native-first-required
+    description: Core behavior must run with no external adapter.
+    severity: critical
+  - id: fail-closed-invalid-snapshot
+    description: Missing or invalid snapshot state must block graph/discovery operations.
+    severity: critical
+  - id: provenance-required
+    description: Discovery outputs must include actionable provenance fields.
+    severity: high
+  - id: bounded-query-operations
+    description: Graph/discovery operations must enforce bounded scan/time behavior.
+    severity: high

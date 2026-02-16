@@ -1,0 +1,4 @@
+# op	cold_samples	warm_samples	cold_p95_ms	warm_p95_ms	max_regression_pct
+snapshot.build	3	5	1600	1200	30
+discover.start	3	8	600	420	30
+kg.traverse	3	8	360	260	30

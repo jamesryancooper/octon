@@ -1,0 +1,327 @@
+name: filesystem-interfaces-runtime
+
+on:
+  push:
+    paths:
+      - '.harmony/capabilities/services/interfaces/filesystem-snapshot/**'
+      - '.harmony/capabilities/services/interfaces/filesystem-discovery/**'
+      - '.harmony/capabilities/services/interfaces/filesystem-watch/**'
+      - '.harmony/capabilities/services/manifest.runtime.yml'
+      - '.harmony/capabilities/services/registry.runtime.yml'
+      - '.harmony/runtime/**'
+      - '.harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
+      - '.harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
+      - '.harmony/capabilities/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
+      - '.github/workflows/filesystem-interfaces-runtime.yml'
+  pull_request:
+    paths:
+      - '.harmony/capabilities/services/interfaces/filesystem-snapshot/**'
+      - '.harmony/capabilities/services/interfaces/filesystem-discovery/**'
+      - '.harmony/capabilities/services/interfaces/filesystem-watch/**'
+      - '.harmony/capabilities/services/manifest.runtime.yml'
+      - '.harmony/capabilities/services/registry.runtime.yml'
+      - '.harmony/runtime/**'
+      - '.harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
+      - '.harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
+      - '.harmony/capabilities/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
+      - '.github/workflows/filesystem-interfaces-runtime.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: validate-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            publish_slo_artifacts: true
+          - os: macos-latest
+            publish_slo_artifacts: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install cargo-component
+        run: |
+          cargo install --locked cargo-component
+
+      - name: Build split filesystem wasm services from source
+        run: |
+          .harmony/runtime/run service build interfaces/filesystem-snapshot
+          .harmony/runtime/run service build interfaces/filesystem-discovery
+          .harmony/runtime/run service build interfaces/filesystem-watch
+
+      - name: Unit tests (filesystem-snapshot Rust crate)
+        working-directory: .harmony/capabilities/services/interfaces/filesystem-snapshot/rust
+        run: |
+          cargo test --quiet
+
+      - name: Unit tests (filesystem-discovery Rust crate)
+        working-directory: .harmony/capabilities/services/interfaces/filesystem-discovery/rust
+        run: |
+          cargo test --quiet
+
+      - name: Unit tests (filesystem-watch Rust crate)
+        working-directory: .harmony/capabilities/services/interfaces/filesystem-watch/rust
+        run: |
+          cargo test --quiet
+
+      - name: Validate runtime registry and wasm package
+        run: |
+          .harmony/runtime/run validate
+
+      - name: Validate filesystem interface services
+        run: |
+          chmod +x .harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh
+          .harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh
+
+      - name: Determinism regression
+        run: |
+          chmod +x .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
+          .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
+
+      - name: Build cross-OS fixture snapshot id
+        run: |
+          chmod +x .harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
+          FIXTURE_ROOT=".harmony/output/.tmp/filesystem-interfaces-bench/cross-os-fixture"
+          STATE_DIR=".harmony/runtime/_ops/state/snapshots-cross-os"
+          rm -rf "$FIXTURE_ROOT"
+          .harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh \
+            --profile ci \
+            --fixture-root "$FIXTURE_ROOT" >/dev/null
+          SNAP_INPUT="$(printf '{"root":"%s","state_dir":"%s","set_current":false}' "$FIXTURE_ROOT" "$STATE_DIR")"
+          SNAP_OUT="$(.harmony/runtime/run tool interfaces/filesystem-snapshot snapshot.build --json "$SNAP_INPUT")"
+          SNAP_ID="$(printf '%s' "$SNAP_OUT" | tr -d '\n' | sed -nE 's/.*"snapshot_id"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p')"
+          if [[ -z "$SNAP_ID" ]]; then
+            echo "ERROR: failed to extract snapshot_id from fixture snapshot output"
+            echo "$SNAP_OUT"
+            exit 1
+          fi
+          printf '%s\n' "$SNAP_ID" > "$RUNNER_TEMP/filesystem-interfaces-snapshot-id-${{ matrix.os }}.txt"
+
+      - name: Upload cross-OS snapshot id
+        uses: actions/upload-artifact@v4
+        with:
+          name: filesystem-interfaces-snapshot-id-${{ matrix.os }}
+          path: ${{ runner.temp }}/filesystem-interfaces-snapshot-id-${{ matrix.os }}.txt
+          retention-days: 7
+
+      - name: SLO regression gate
+        run: |
+          mkdir -p "$RUNNER_TEMP/filesystem-interfaces-slo"
+          chmod +x .harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
+          chmod +x .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-slo.sh
+          .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-slo.sh \
+            --profile ci \
+            --no-report \
+            --raw-out "$RUNNER_TEMP/filesystem-interfaces-slo/filesystem-interfaces-slo.raw.tsv" \
+            --summary-out "$RUNNER_TEMP/filesystem-interfaces-slo/filesystem-interfaces-slo.summary.tsv"
+
+      - name: Upload SLO summary artifact
+        if: ${{ matrix.publish_slo_artifacts }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: filesystem-interfaces-slo-summary
+          path: ${{ runner.temp }}/filesystem-interfaces-slo/filesystem-interfaces-slo.summary.tsv
+          retention-days: 30
+
+      - name: Upload SLO raw metrics artifact
+        if: ${{ matrix.publish_slo_artifacts }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: filesystem-interfaces-slo-raw
+          path: ${{ runner.temp }}/filesystem-interfaces-slo/filesystem-interfaces-slo.raw.tsv
+          retention-days: 14
+
+  cross-os-determinism:
+    name: cross-os-determinism
+    runs-on: ubuntu-latest
+    needs: validate
+    if: ${{ needs.validate.result == 'success' }}
+    steps:
+      - name: Download snapshot id artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: filesystem-interfaces-snapshot-id-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/filesystem-interfaces-snapshot-ids
+
+      - name: Assert equal snapshot id across OS
+        run: |
+          SNAPSHOT_DIR="${RUNNER_TEMP}/filesystem-interfaces-snapshot-ids"
+          mapfile -t files < <(find "$SNAPSHOT_DIR" -type f -name 'filesystem-interfaces-snapshot-id-*.txt' | sort)
+          if [[ "${#files[@]}" -lt 2 ]]; then
+            echo "ERROR: expected snapshot id artifacts from at least 2 OS runners"
+            ls -R "$SNAPSHOT_DIR" || true
+            exit 1
+          fi
+          mapfile -t unique_ids < <(cat "${files[@]}" | sed '/^$/d' | sort -u)
+          if [[ "${#unique_ids[@]}" -ne 1 ]]; then
+            echo "ERROR: cross-OS deterministic snapshot id mismatch"
+            for f in "${files[@]}"; do
+              echo "--- $f ---"
+              cat "$f"
+            done
+            exit 1
+          fi
+          echo "cross-os-snapshot-id=${unique_ids[0]}"
+
+  notify-on-failure:
+    name: notify-on-failure
+    runs-on: ubuntu-latest
+    needs: [validate, cross-os-determinism]
+    if: ${{ always() && (needs.validate.result == 'failure' || needs.cross-os-determinism.result == 'failure') }}
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Upsert GitHub issue alert
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = "filesystem-interfaces runtime regression detected";
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const cooldownMs = 6 * 60 * 60 * 1000;
+            const body = [
+              "<!-- filesystem-interfaces-runtime-alert -->",
+              "filesystem-interfaces runtime workflow failed.",
+              "",
+              `- workflow: ${context.workflow}`,
+              `- run: ${runUrl}`,
+              `- event: ${context.eventName}`,
+              `- ref: ${context.ref}`,
+              `- sha: ${context.sha}`,
+              `- actor: ${context.actor}`
+            ].join("\n");
+
+            const query = `repo:${owner}/${repo} is:issue is:open in:title \"${title}\"`;
+            const search = await github.rest.search.issuesAndPullRequests({ q: query, per_page: 10 });
+            const existing = search.data.items.find((item) => item.title === title);
+
+            if (existing) {
+              const updatedAt = new Date(existing.updated_at).getTime();
+              if (Date.now() - updatedAt >= cooldownMs) {
+                await github.rest.issues.createComment({
+                  owner,
+                  repo,
+                  issue_number: existing.number,
+                  body: `Another failure detected.\n\n${body}`
+                });
+              }
+            } else {
+              await github.rest.issues.create({ owner, repo, title, body });
+            }
+
+      - name: Send Slack alert (optional)
+        if: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK != '' }}
+        uses: actions/github-script@v7
+        env:
+          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const text = [
+              ":rotating_light: filesystem-interfaces runtime workflow failed",
+              `workflow: ${context.workflow}`,
+              `event: ${context.eventName}`,
+              `ref: ${context.ref}`,
+              `sha: ${context.sha.substring(0, 12)}`,
+              `run: ${runUrl}`
+            ].join("\n");
+
+            const response = await fetch(process.env.ALERT_WEBHOOK, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ text })
+            });
+
+            if (!response.ok) {
+              const body = await response.text();
+              throw new Error(`Slack webhook failed: ${response.status} ${body}`);
+            }
+
+  resolve-alert-on-success:
+    name: resolve-alert-on-success
+    runs-on: ubuntu-latest
+    needs: [validate, cross-os-determinism]
+    if: ${{ always() && github.event_name != 'pull_request' && needs.validate.result == 'success' && needs.cross-os-determinism.result == 'success' }}
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Close open GitHub issue alert on recovery
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = "filesystem-interfaces runtime regression detected";
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const query = `repo:${owner}/${repo} is:issue is:open in:title \"${title}\"`;
+            const search = await github.rest.search.issuesAndPullRequests({ q: query, per_page: 10 });
+            const existing = search.data.items.find((item) => item.title === title);
+            if (!existing) return;
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: existing.number,
+              body: [
+                "<!-- filesystem-interfaces-runtime-alert -->",
+                "Recovery detected: filesystem-interfaces runtime workflow is healthy.",
+                "",
+                `- workflow: ${context.workflow}`,
+                `- run: ${runUrl}`,
+                `- sha: ${context.sha}`
+              ].join("\n")
+            });
+
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: existing.number,
+              state: "closed"
+            });
+
+      - name: Send Slack recovery notification (optional)
+        if: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK != '' }}
+        uses: actions/github-script@v7
+        env:
+          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const text = [
+              ":white_check_mark: filesystem-interfaces runtime workflow recovered",
+              `workflow: ${context.workflow}`,
+              `ref: ${context.ref}`,
+              `sha: ${context.sha.substring(0, 12)}`,
+              `run: ${runUrl}`
+            ].join("\n");
+
+            const response = await fetch(process.env.ALERT_WEBHOOK, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ text })
+            });
+
+            if (!response.ok) {
+              const body = await response.text();
+              throw new Error(`Slack webhook failed: ${response.status} ${body}`);
+            }

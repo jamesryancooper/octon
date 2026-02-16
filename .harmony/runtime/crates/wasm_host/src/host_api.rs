@@ -44,6 +44,19 @@ impl fs::Host for HostState {
         Ok(self.fs.read_bytes(&path)?)
     }
 
+    fn read_range(
+        &mut self,
+        path: String,
+        offset: u64,
+        max_bytes: u64,
+    ) -> wasmtime::Result<Vec<u8>> {
+        self.grants.require("fs.read")?;
+        if max_bytes > 4 * 1024 * 1024 {
+            return Err(anyhow::anyhow!("INVALID_INPUT: read-range max-bytes too large").into());
+        }
+        Ok(self.fs.read_range(&path, offset, max_bytes)?)
+    }
+
     fn write(&mut self, path: String, data: Vec<u8>) -> wasmtime::Result<()> {
         self.grants.require("fs.write")?;
         if data.len() > 4 * 1024 * 1024 {
@@ -51,6 +64,14 @@ impl fs::Host for HostState {
         }
         self.fs.write_bytes_atomic(&path, &data)?;
         Ok(())
+    }
+
+    fn create_file_exclusive(&mut self, path: String, data: Vec<u8>) -> wasmtime::Result<bool> {
+        self.grants.require("fs.write")?;
+        if data.len() > 1024 * 1024 {
+            return Err(anyhow::anyhow!("INVALID_INPUT: create-file-exclusive payload too large").into());
+        }
+        Ok(self.fs.create_file_exclusive(&path, &data)?)
     }
 
     fn read_text(&mut self, path: String) -> wasmtime::Result<String> {
@@ -82,6 +103,12 @@ impl fs::Host for HostState {
     fn mkdirp(&mut self, path: String) -> wasmtime::Result<()> {
         self.grants.require("fs.write")?;
         self.fs.mkdirp(&path)?;
+        Ok(())
+    }
+
+    fn rename(&mut self, from_path: String, to_path: String) -> wasmtime::Result<()> {
+        self.grants.require("fs.write")?;
+        self.fs.rename(&from_path, &to_path)?;
         Ok(())
     }
 

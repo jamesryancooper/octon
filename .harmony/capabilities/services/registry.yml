@@ -206,3 +206,133 @@ services:
       key_from: [queryHash, snapshotId, strategyHash]
     impl:
       entrypoint: retrieval/query/impl/query.sh
+
+  filesystem-snapshot:
+    version: "0.1.0"
+    commands:
+      [fs.list, fs.read, fs.stat, fs.search, snapshot.build, snapshot.diff, snapshot.get-current]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Filesystem-snapshot operation command."
+      - name: snapshot_id
+        type: text
+        required: false
+        description: "Optional snapshot id (defaults to active snapshot pointer)."
+      - name: payload
+        type: object
+        required: true
+        description: "Operation payload."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [filesystem-discovery, query, agent-platform]
+    contracts:
+      input: interfaces/filesystem-snapshot/schema/input.schema.json
+      output: interfaces/filesystem-snapshot/schema/output.schema.json
+      rules: interfaces/filesystem-snapshot/rules/rules.yml
+      fixtures: interfaces/filesystem-snapshot/fixtures/
+      invariants: interfaces/filesystem-snapshot/contracts/invariants.md
+      errors: interfaces/filesystem-snapshot/contracts/errors.yml
+      compatibility: interfaces/filesystem-snapshot/compatibility.yml
+      generation_manifest: interfaces/filesystem-snapshot/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.filesystem-snapshot
+      required_spans: [service.filesystem-snapshot.fs, service.filesystem-snapshot.snapshot]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [command, snapshotId, payloadHash]
+    impl:
+      entrypoint: runtime/run tool interfaces/filesystem-snapshot
+
+  filesystem-discovery:
+    version: "0.1.0"
+    commands:
+      [
+        kg.get-node,
+        kg.neighbors,
+        kg.traverse,
+        kg.resolve-to-file,
+        discover.start,
+        discover.expand,
+        discover.explain,
+        discover.resolve
+      ]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Filesystem-discovery operation command."
+      - name: snapshot_id
+        type: text
+        required: false
+        description: "Optional snapshot id (defaults to active snapshot pointer)."
+      - name: payload
+        type: object
+        required: true
+        description: "Operation payload."
+    dependencies:
+      requires: [filesystem-snapshot]
+      orchestrates: []
+      integratesWith: [query, agent-platform]
+    contracts:
+      input: interfaces/filesystem-discovery/schema/input.schema.json
+      output: interfaces/filesystem-discovery/schema/output.schema.json
+      rules: interfaces/filesystem-discovery/rules/rules.yml
+      fixtures: interfaces/filesystem-discovery/fixtures/
+      invariants: interfaces/filesystem-discovery/contracts/invariants.md
+      errors: interfaces/filesystem-discovery/contracts/errors.yml
+      compatibility: interfaces/filesystem-discovery/compatibility.yml
+      generation_manifest: interfaces/filesystem-discovery/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.filesystem-discovery
+      required_spans: [service.filesystem-discovery.kg, service.filesystem-discovery.discover]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [command, snapshotId, payloadHash]
+    impl:
+      entrypoint: runtime/run tool interfaces/filesystem-discovery
+
+  filesystem-watch:
+    version: "0.1.0"
+    commands: [watch.poll]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Filesystem-watch operation command."
+      - name: payload
+        type: object
+        required: true
+        description: "Operation payload."
+    dependencies:
+      requires: [filesystem-snapshot]
+      orchestrates: []
+      integratesWith: [filesystem-discovery]
+    contracts:
+      input: interfaces/filesystem-watch/schema/input.schema.json
+      output: interfaces/filesystem-watch/schema/output.schema.json
+      rules: interfaces/filesystem-watch/rules/rules.yml
+      fixtures: interfaces/filesystem-watch/fixtures/
+      invariants: interfaces/filesystem-watch/contracts/invariants.md
+      errors: interfaces/filesystem-watch/contracts/errors.yml
+      compatibility: interfaces/filesystem-watch/compatibility.yml
+      generation_manifest: interfaces/filesystem-watch/impl/generated.manifest.json
+    observability:
+      service_name: harmony.service.filesystem-watch
+      required_spans: [service.filesystem-watch.poll]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [root, stateKey, payloadHash]
+    impl:
+      entrypoint: runtime/run tool interfaces/filesystem-watch

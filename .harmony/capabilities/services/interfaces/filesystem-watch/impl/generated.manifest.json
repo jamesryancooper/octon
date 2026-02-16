@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-02-16T00:00:00Z",
+  "service": "filesystem-watch",
+  "runtime_package": {
+    "manifest": "service.json",
+    "artifact": "service.wasm",
+    "implementation": "rust/src/lib.rs"
+  },
+  "notes": "Runtime-native watcher hints via bounded polling and local state cursoring."
+}

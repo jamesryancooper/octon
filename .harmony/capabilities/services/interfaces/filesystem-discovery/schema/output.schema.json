@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/schemas/filesystem-discovery/output.v1.json",
+  "title": "FilesystemDiscoveryOutput",
+  "type": "object",
+  "required": [
+    "ok",
+    "filesystem_interfaces_contract_version",
+    "command",
+    "result"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ok": {
+      "type": "boolean"
+    },
+    "filesystem_interfaces_contract_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "command": {
+      "type": "string"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^snap-[a-f0-9]{8,64}$"
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "valid watch.poll payload",
+  "input": {
+    "command": "watch.poll",
+    "payload": {
+      "root": ".",
+      "state_key": "filesystem-watch:default",
+      "max_events": 200,
+      "max_files": 50000,
+      "state_dir": ".harmony/runtime/_ops/state/watch"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+rules:
+  - id: native-first-required
+    description: Core behavior must run with no external adapter.
+    severity: critical
+  - id: bounded-watch-scan
+    description: Watch scans must enforce maximum file and event limits.
+    severity: high
+  - id: fail-closed-invalid-input
+    description: Invalid input and malformed state must fail closed.
+    severity: critical
