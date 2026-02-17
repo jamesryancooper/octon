@@ -9,6 +9,64 @@
 - Skills framework and base skills
 - Quality checklists and context references
 
+## One-Page Overview
+
+Harmony is an **AI-native, human-governed engineering harness**. It is not the
+product code itself; it is the operating layer around the codebase that makes
+planning, delivery, governance, and learning consistent and repeatable.
+
+### What Harmony Is
+
+Harmony combines:
+
+- A methodology (PLAN -> SHIP -> LEARN)
+- A contract system for agent behavior and delegation
+- A portable harness that can be reused across repositories
+
+Its role is to define how work happens, who can act, what tools are allowed,
+and what quality/safety gates must be met before work is considered complete.
+
+### What Harmony Does
+
+Harmony gives a solo builder or small team a structured control plane for
+software delivery by:
+
+- Standardizing execution through agents, assistants, workflows, and skills
+- Enforcing safety via deny-by-default permissions and risk-tiered HITL checks
+- Preventing unsafe autonomy with no-silent-apply for material side effects
+- Preserving continuity through append-only logs, decisions, and next-step artifacts
+- Requiring quality gates before handoff or completion
+- Enabling portability so the same operating model can be copied to new repos
+
+### How Harmony Works
+
+Harmony is organized by function:
+
+- `agency/`: actor model, delegation, and contracts
+- `capabilities/`: commands, skills, tools, services
+- `orchestration/`: workflows and missions for multi-step execution
+- `cognition/`: principles, methodology, and architecture contracts
+- `continuity/`: operational memory across sessions
+- `quality/`: definition-of-done and session-exit gates
+- `runtime/`: executable runtime and studio tooling
+- `output/`: generated artifacts and reports
+
+Discovery follows progressive disclosure:
+
+1. `manifest.yml` for indexing and routing
+2. `registry.yml` for extended metadata
+3. Full definitions (`SKILL.md`, workflow docs, contracts) when needed
+
+Governance is explicit:
+
+- Human approval is required for consequential side effects
+- Agent autonomy is bounded by contract precedence and policy
+- Human-led zones (for example, `ideation/`) are excluded unless explicitly scoped
+
+In short: Harmony is a governed acceleration system. AI increases speed and
+leverage; contracts, quality gates, and checkpoints preserve trust,
+traceability, and reversibility.
+
 ## Canonical Specification
 
 The cross-subsystem canonical contract for this harness is:
@@ -140,6 +198,7 @@ When resolving a resource, agents check local first, then shared:
 `.harmony/capabilities/skills/registry.yml` defines skill capabilities without project-specific paths.
 
 `.harmony/capabilities/skills/registry.yml` defines skill capabilities and adds:
+
 - Project-specific input/output mappings
 - Project-specific skills
 - Project-specific pipelines
@@ -166,6 +225,7 @@ Harness command directories symlink to `.harmony/capabilities/commands/` for sha
 ```
 
 **Note:** Codex CLI does not support project-level custom commands. Codex users have two options:
+
 1. Manually copy commands from `.harmony/capabilities/commands/` to `~/.codex/prompts/`
 2. Run script implementations directly (for example: `.harmony/scaffolding/_ops/scripts/init-project.sh`)
 
@@ -179,7 +239,7 @@ To use this harness infrastructure in another repository:
 # 1. Copy .harmony/ to your repo
 cp -r /path/to/harmony/.harmony /path/to/your-repo/
 
-# 2. Initialize project-level bootstrap files (AGENTS.md + CLAUDE.md alias)
+# 2. Initialize project-level bootstrap files (AGENTS.md, CLAUDE.md alias, alignment-check shim)
 .harmony/scaffolding/_ops/scripts/init-project.sh
 
 # Optional: also generate BOOT compatibility files

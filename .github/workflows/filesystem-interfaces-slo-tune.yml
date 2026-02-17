@@ -91,7 +91,7 @@ jobs:
             - min_runs: `${{ env.MIN_RUNS }}`
             - headroom_percent: `${{ env.HEADROOM_PERCENT }}`
             - max_tighten_percent: `${{ env.MAX_TIGHTEN_PERCENT }}`
-          branch: codex/filesystem-interfaces-slo-tune
+          branch: perf/filesystem-interfaces-slo-tune
           delete-branch: true
           add-paths: |
             .harmony/capabilities/services/interfaces/filesystem-snapshot/contracts/slo-budgets.tsv
