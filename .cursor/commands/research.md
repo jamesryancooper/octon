@@ -48,5 +48,5 @@ Use `/research` when you're ready to commit to a structured exploration that wil
 
 - **Registry:** `.harmony/ideation/projects/registry.md`
 - **Template:** `.harmony/ideation/projects/_template/`
-- **Documentation:** `docs/architecture/harness/projects.md`
+- **Documentation:** `.harmony/ideation/projects/README.md`
 - **Brainstorm (upstream):** `.harmony/ideation/scratchpad/brainstorm/`

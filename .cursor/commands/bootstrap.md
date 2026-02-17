@@ -22,6 +22,6 @@ Execute `.harmony/scaffolding/prompts/bootstrap-session.md` in the target direct
 
 ## References
 
-- **Canonical:** `docs/architecture/harness/prompts.md`
+- **Canonical:** `.harmony/scaffolding/_meta/architecture/prompts.md`
 - **Prompt:** `.harmony/scaffolding/prompts/bootstrap-session.md`
 

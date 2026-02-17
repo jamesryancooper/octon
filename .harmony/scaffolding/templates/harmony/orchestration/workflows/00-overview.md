@@ -24,11 +24,10 @@ access: [human|agent]
 
 ## Steps
 
-1. [Step name](./01-step-name.md)
-2. [Step name](./02-step-name.md)
-3. [Step name](./03-step-name.md)
+1. `01-step.md` - [Step name]
+2. `NN-step-name.md` - [Optional additional steps]
+3. `NN-verify.md` - [Verification step]
 
 ## References
 
 - **Canonical:** `[path to canonical docs]`
-

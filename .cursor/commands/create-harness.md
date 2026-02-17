@@ -40,6 +40,6 @@ Start with `00-overview.md`, then follow each step in sequence.
 
 ## References
 
-- **Canonical:** `docs/architecture/harness/README.md`
+- **Canonical:** `.harmony/START.md`
 - **Workflow:** `.harmony/orchestration/workflows/meta/create-harness/`
 - **Templates:** `.harmony/scaffolding/templates/`

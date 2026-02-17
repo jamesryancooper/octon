@@ -353,7 +353,7 @@ Compare to pre-AI approach where each of these would be 2-4 hours of work.
 
 For deep dives into the methodology, see the AI-facing docs:
 
-- **CLI Reference**: `packages/harmony-cli/README.md` — Full command reference, options, and integration points
+- **CLI Reference**: `.harmony/catalog.md` — Full command reference, options, and integration points
 - **CI/CD Details**: [cognition/methodology/ci-cd-quality-gates.md](../../cognition/methodology/ci-cd-quality-gates.md)
 - **Flow & WIP Policy**: [cognition/methodology/flow-and-wip-policy.md](../../cognition/methodology/flow-and-wip-policy.md)
 - **Reliability & Ops**: [cognition/methodology/reliability-and-ops.md](../../cognition/methodology/reliability-and-ops.md)

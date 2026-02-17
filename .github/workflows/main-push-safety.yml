@@ -17,33 +17,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quick-checks:
-    name: Lint, Typecheck, Test
+  harness-checks:
+    name: Harness Structural Checks
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.20.0
+      - name: Validate harness structure
+        run: |
+          chmod +x .harmony/quality/_ops/scripts/validate-harness-structure.sh
+          .harmony/quality/_ops/scripts/validate-harness-structure.sh
 
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: pnpm
+      - name: Validate workflows
+        run: |
+          chmod +x .harmony/orchestration/workflows/_ops/scripts/validate-workflows.sh
+          .harmony/orchestration/workflows/_ops/scripts/validate-workflows.sh
 
-      - name: Install deps
-        run: pnpm install --frozen-lockfile
+      - name: Validate skills
+        run: |
+          chmod +x .harmony/capabilities/skills/_ops/scripts/validate-skills.sh
+          .harmony/capabilities/skills/_ops/scripts/validate-skills.sh --strict
 
-      - name: Lint
-        run: pnpm lint
+      - name: Validate service independence
+        run: |
+          chmod +x .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh
+          .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh
 
-      - name: Typecheck
-        run: pnpm typecheck
-
-      - name: Test
-        run: pnpm test
+      - name: Validate agency contracts
+        run: |
+          chmod +x .harmony/agency/_ops/scripts/validate-agency.sh
+          .harmony/agency/_ops/scripts/validate-agency.sh

@@ -32,7 +32,7 @@ When editing `**/ARCHITECTURE.md`, `docs/specs/**/*.md`, or other architectural 
    - You MUST NOT document patterns that contradict an `Accepted` ADR without proposing an update to that ADR.
 
 3. **Reference ADRs where appropriate.** When documentation describes a decision covered by an ADR, you SHOULD link to it:
-   - "See [ADR-0008](./adr-ui-shadcn.md) for the rationale behind this choice."
+   - "See `ADR-0008` (or the relevant ADR in the same spec directory) for the rationale behind this choice."
 
 4. **Flag outdated ADRs.** If documentation reflects a reality that differs from a recorded ADR:
    - Either update the documentation to match the ADR, or

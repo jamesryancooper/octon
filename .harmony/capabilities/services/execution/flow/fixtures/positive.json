@@ -4,8 +4,8 @@
   "request": {
     "config": {
       "flowName": "architecture_assessment",
-      "canonicalPromptPath": "packages/workflows/architecture_assessment/00-overview.md",
-      "workflowManifestPath": "packages/workflows/architecture_assessment/manifest.yaml"
+      "canonicalPromptPath": "flow-assets/architecture_assessment/00-overview.md",
+      "workflowManifestPath": "flow-assets/architecture_assessment/manifest.yaml"
     },
     "dryRun": true
   },

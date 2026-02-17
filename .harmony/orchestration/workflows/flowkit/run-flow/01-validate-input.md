@@ -25,7 +25,7 @@ description: Confirm exactly one .flow.json reference was provided.
 
 ## Output
 
-Resolved path relative to repo root (e.g., `packages/workflows/architecture_assessment/config.flow.json`)
+Resolved path relative to repo root (e.g., `flow-assets/architecture_assessment/config.flow.json`)
 
 ## Next
 

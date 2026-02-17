@@ -59,5 +59,5 @@ Skills can also be invoked via:
 ## References
 
 - **Registry:** `.harmony/capabilities/skills/registry.yml`
-- **Documentation:** `docs/architecture/harness/skills/README.md`
+- **Documentation:** `.harmony/capabilities/skills/README.md`
 - **Skills README:** `.harmony/capabilities/skills/README.md`

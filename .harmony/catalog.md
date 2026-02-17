@@ -185,18 +185,18 @@ Multi-step procedures in `orchestration/workflows/`.
 
 ### FlowKit (Repo-Wide Tool Integration)
 
-> **Note:** FlowKit workflows are **repo-wide tool integrations**, not harness-management operations. They orchestrate the canonical FlowKit CLI (`pnpm flowkit:run`) and runtime (`agents/runner/runtime`) without duplicating implementation logic. The workflow steps describe *procedure*, not *semantics*—those live in `packages/kits/flowkit` and `agents/runner/runtime/`. Flow assets live in `packages/workflows/<flowId>/`.
+> **Note:** FlowKit workflows are **repo-wide tool integrations**, not harness-management operations. They orchestrate the canonical FlowKit runner and optional runtime adapter without duplicating implementation logic. The workflow steps describe *procedure*, not *semantics*—those live in flow asset config/manifest and runtime adapters. Flow assets live in `<flow-assets>/<flowId>/`.
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [run-flow](./orchestration/workflows/flowkit/run-flow/00-overview.md) | human | Execute a FlowKit LangGraph flow from `@packages/workflows/<flowId>/config.flow.json` |
+| [run-flow](./orchestration/workflows/flowkit/run-flow/00-overview.md) | human | Execute a FlowKit LangGraph flow from `@path/to/config.flow.json` |
 
 ### Quality Gate
 
 | Workflow | Access | Description |
 | -------- | ------ | ----------- |
 | [orchestrate-audit](./orchestration/workflows/quality-gate/orchestrate-audit/WORKFLOW.md) | human | Coordinate parallel audit-migration runs across codebase partitions |
-| [refactor](<./orchestration/workflows/quality-gate/refactor/00-overview.md>) | human | Execute a verified refactor with exhaustive audit |
+| [refactor](./orchestration/workflows/quality-gate/refactor/00-overview.md) | human | Execute a verified refactor with exhaustive audit |
 
 ---
 
@@ -216,7 +216,7 @@ Task templates in `scaffolding/prompts/`:
 
 This section contains the canonical decision logic for harness operations. Other documentation references these sections.
 
-> **Note:** If you're creating a FlowKit flow (runnable via `pnpm flowkit:run` / `flowkit run` and backed by `config.flow.json` + `manifest.yaml`), put it in `packages/workflows/<flowId>/`. `.harmony/orchestration/workflows/**` is for procedural runbooks (including `/run-flow`), not flow assets.
+> **Note:** If you're creating a FlowKit flow (runnable via `flowkit run` and backed by `config.flow.json` + `manifest.yaml`), put it in `<flow-assets>/<flowId>/`. `.harmony/orchestration/workflows/**` is for procedural runbooks (including `/run-flow`), not flow assets.
 
 ### Which Subsystem? {#which-subsystem}
 

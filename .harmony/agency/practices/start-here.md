@@ -48,7 +48,7 @@ Kits: The tools AI uses under the hood. You don't call them directly.
 | Retry with guidance         | `harmony retry --constraint "try X instead"`  |
 | Pause AI work               | `harmony pause`                               |
 
-→ **CLI Documentation**: See `packages/harmony-cli/README.md` for full command reference.
+→ **CLI Documentation**: See `.harmony/catalog.md` for full command reference.
 
 ---
 
@@ -136,7 +136,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 | **Kit** | Tools AI uses under the hood. You can use kit CLIs directly for debugging. |
 
 → See [../../cognition/context/glossary.md](../../cognition/context/glossary.md) for complete glossary.
-→ See [KITS.md](../../../packages/kits/README.md) for kit CLI quick reference.
+→ See [Kits Reference](/.harmony/capabilities/services/_meta/docs/kits-reference.md) for kit CLI quick reference.
 
 ---
 
@@ -178,13 +178,13 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 
 The simple docs you're reading are the human-facing layer. For full details on methodology, architecture, kits, and policies, see:
 
-- **CLI Reference**: `packages/harmony-cli/README.md` — Full command docs, options, integration points
-- **Kit CLIs**: [KITS.md](../../../packages/kits/README.md) — Quick reference for using kit CLIs directly
-- **Kit Technical Docs**: `/packages/kits/README.md` — Full kit documentation
-- **Prompt Library**: `packages/prompts/README.md` — Canonical prompts with schemas and validation
+- **CLI Reference**: `.harmony/catalog.md` — Full command docs, options, integration points
+- **Kit CLIs**: [Kits Reference](/.harmony/capabilities/services/_meta/docs/kits-reference.md) — Quick reference for using kit CLIs directly
+- **Kit Technical Docs**: `/.harmony/capabilities/services/_meta/docs/kits-reference.md` — Full kit documentation
+- **Prompt Library**: `.harmony/scaffolding/prompts/README.md` — Canonical prompts with schemas and validation
 - **Full Methodology**: [cognition/methodology/README.md](../../cognition/methodology/README.md)
 - **Architecture**: [cognition architecture overview](../../cognition/_meta/architecture/overview.md)
-- **Kit Documentation**: [packages/kits/README.md](../../../packages/kits/README.md)
+- **Kit Documentation**: [Kits Reference](/.harmony/capabilities/services/_meta/docs/kits-reference.md)
 - **Security Policies**: [cognition/methodology/security-baseline.md](../../cognition/methodology/security-baseline.md)
 
 These docs are detailed and comprehensive—designed for AI agents to consume. You don't need to read them unless you want to understand how things work under the hood.

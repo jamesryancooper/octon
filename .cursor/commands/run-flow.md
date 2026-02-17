@@ -7,7 +7,7 @@ See `.harmony/orchestration/workflows/flowkit/run-flow/00-overview.md` for full 
 ## Usage
 
 ```text
-/run-flow @packages/workflows/<flowId>/config.flow.json
+/run-flow @path/to/config.flow.json
 ```
 
 ## Implementation

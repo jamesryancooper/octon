@@ -110,5 +110,5 @@ Current flows:
 
 - [FlowKit Guide](/.harmony/capabilities/services/execution/flow/guide.md)
 - [Workspace Scope](/.harmony/scope.md)
-- [Contracts OpenAPI](/packages/contracts/openapi.yaml)
+- [Contracts OpenAPI](/.harmony/capabilities/services/execution/flow/service.json)
 

@@ -13,7 +13,7 @@ See `.harmony/orchestration/workflows/meta/evaluate-harness/00-overview.md` for 
 Or for a nested harness:
 
 ```text
-/evaluate-harness @docs/my-feature/.harmony
+/evaluate-harness @path/to/.harmony
 ```
 
 ## Implementation
@@ -24,5 +24,5 @@ Start with `00-overview.md`, then follow each step in sequence.
 
 ## References
 
-- **Canonical:** `docs/architecture/harness/README.md`
+- **Canonical:** `.harmony/START.md`
 - **Workflow:** `.harmony/orchestration/workflows/meta/evaluate-harness/`

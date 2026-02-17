@@ -45,4 +45,4 @@ See `.harmony/capabilities/skills/synthesize-research/SKILL.md` for full details
 - **Skill:** `.harmony/capabilities/skills/synthesize-research/SKILL.md`
 - **Shared Registry:** `.harmony/capabilities/skills/registry.yml`
 - **Local Registry:** `.harmony/capabilities/skills/registry.yml` (for input/output mappings)
-- **Documentation:** `docs/architecture/harness/skills/README.md`
+- **Documentation:** `.harmony/capabilities/skills/README.md`

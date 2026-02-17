@@ -306,8 +306,8 @@ if (result.warnings?.length) {
 
 - [Harmony Principles](../principles/README.md) — The five pillars
 - [Methodology Overview](./README.md) — Full methodology description
-- [Kit Base README](../../../packages/kits/kit-base/README.md) — Validation utilities
-- [Kits README](../../../packages/kits/README.md) — Kit architecture overview
+- [Kits Reference](/.harmony/capabilities/services/_meta/docs/kits-reference.md) — Validation utilities and service entrypoints
+- [Kits README](/.harmony/capabilities/services/_meta/docs/kits-reference.md) — Kit architecture overview
 
 ## Changelog
 
@@ -323,4 +323,3 @@ if (result.warnings?.length) {
 
 ### Schema v1.0.0
 - Initial schema release
-

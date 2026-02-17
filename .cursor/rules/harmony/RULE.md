@@ -15,12 +15,12 @@ A `.harmony` directory is a **localized agent harness** that drives the creation
 
 | Topic | Canonical Source |
 |-------|------------------|
-| **Harness structure** | `docs/architecture/harness/README.md` |
-| **Artifact taxonomy** | `docs/architecture/harness/taxonomy.md` |
-| **Commands** | `docs/architecture/harness/commands.md` |
-| **Workflows** | `docs/architecture/harness/workflows.md` |
-| **Prompts** | `docs/architecture/harness/prompts.md` |
-| **Scripts** | `docs/architecture/harness/scripts.md` |
+| **Harness structure** | `.harmony/START.md` |
+| **Artifact taxonomy** | `.harmony/cognition/_meta/architecture/taxonomy.md` |
+| **Commands** | `.harmony/capabilities/_meta/architecture/commands.md` |
+| **Workflows** | `.harmony/orchestration/_meta/architecture/workflows.md` |
+| **Prompts** | `.harmony/scaffolding/_meta/architecture/prompts.md` |
+| **Scripts** | `.harmony/capabilities/services/README.md` |
 
 ---
 
@@ -70,7 +70,7 @@ This rule provides context when working with `.harmony` files.
 
 ## Canonical Structure
 
-See `docs/architecture/harness/README.md` for the full structure reference, including:
+See `.harmony/START.md` for the full structure reference, including:
 
 - Required files and directories
 - Agent-ignored (dot-prefixed) directories
@@ -118,7 +118,7 @@ For `ideation/scratchpad/` and `.inbox/`, agents MAY assist when ALL of these ar
 
 **During autonomous operation:** Treat `ideation/scratchpad/` and `.inbox/` as if they do not exist. No scanning, no retrieval, no "helpful" edits.
 
-See `docs/architecture/harness/dot-files.md` for full documentation.
+See `.harmony/START.md` for full documentation.
 
 ---
 

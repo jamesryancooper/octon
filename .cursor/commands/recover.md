@@ -16,5 +16,5 @@ Display `.harmony/capabilities/commands/recover.md` as a reference. Agent select
 
 ## References
 
-- **Canonical:** `docs/architecture/harness/commands.md`
+- **Canonical:** `.harmony/capabilities/_meta/architecture/commands.md`
 - **Command:** `.harmony/capabilities/commands/recover.md`

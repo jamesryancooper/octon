@@ -384,4 +384,4 @@ Prevention:
 - [Trust Pillar](../pillars/trust.md) — Governed determinism for predictable behavior
 - [Insight Pillar](../pillars/insight.md) — Learning requires reproducibility
 - [Agentic Principles](./README.md#agentic-principles) — Determinism & provenance for AI
-- [EvalKit](../../../packages/kits/README.md) — Deterministic AI evaluation
+- [EvalKit](/.harmony/capabilities/services/_meta/docs/kits-reference.md) — Deterministic AI evaluation

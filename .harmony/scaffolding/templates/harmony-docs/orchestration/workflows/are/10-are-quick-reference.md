@@ -7,7 +7,7 @@ version: 2.6.0
 status: active
 lastReviewed: 2025-12-11
 related:
-  - ./00-are-overview.md
+  - ./00-overview.md
 tags:
   - documentation
   - methodology
@@ -132,7 +132,7 @@ tags:
 
 | Phase | Prompt |
 |-------|--------|
-| Start here | [00-are-overview.md](./00-are-overview.md) |
+| Start here | [00-overview.md](./00-overview.md) |
 | Analyze | [01-are-analyze-single-doc.md](./01-are-analyze-single-doc.md) |
 | Audits | [02-are-analyze-audits.md](./02-are-analyze-audits.md) |
 | Refine | [03-are-refine.md](./03-are-refine.md) |

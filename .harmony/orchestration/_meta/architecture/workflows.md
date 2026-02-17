@@ -7,7 +7,7 @@ description: Harness-scoped multi-step procedures defined in .harmony/orchestrat
 
 Harness workflows are **harness-scoped multi-step procedures** defined in `.harmony/orchestration/workflows/`. They operate on artifacts in the harness's parent directory.
 
-> **Not FlowKit flows:** `packages/workflows/<flowId>/` contains **FlowKit flow assets** (config + manifest + prompts) executed by FlowKit + the LangGraph runtime. `.harmony/orchestration/workflows/**` contains **procedures** an agent follows. The seam is `/run-flow`, which delegates to `.harmony/orchestration/workflows/flowkit/run-flow/*` and runs `@packages/workflows/<flowId>/config.flow.json`.
+> **Not FlowKit flows:** `<flow-assets>/<flowId>/` contains **FlowKit flow assets** (config + manifest + prompts) executed by FlowKit + the LangGraph runtime. `.harmony/orchestration/workflows/**` contains **procedures** an agent follows. The seam is `/run-flow`, which delegates to `.harmony/orchestration/workflows/flowkit/run-flow/*` and runs `@path/to/config.flow.json`.
 
 ---
 
@@ -152,7 +152,7 @@ Workflow overview files (`00-overview.md`) require YAML frontmatter:
 | `description` | Yes | Brief summary (max 160 characters) |
 | `access` | Yes | `human` (has Cursor command wrapper) or `agent` (agent-only) |
 
-> This frontmatter contract applies to `.harmony/orchestration/workflows/**` only. FlowKit canonical prompts under `packages/workflows/**` intentionally keep frontmatter minimal; wiring and semantics live in `config.flow.json` and `manifest.yaml`.
+> This frontmatter contract applies to `.harmony/orchestration/workflows/**` only. FlowKit canonical prompts under `<flow-assets>/**` intentionally keep frontmatter minimal; wiring and semantics live in `config.flow.json` and `manifest.yaml`.
 
 ---
 

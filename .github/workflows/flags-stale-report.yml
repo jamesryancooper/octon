@@ -1,4 +1,4 @@
-name: Flags Stale Report
+name: Harness Reference Drift Report
 
 on:
   schedule:
@@ -16,16 +16,46 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Generate flags stale report
+      - name: Generate reference drift report
         run: |
-          node scripts/flags-stale-report.js | tee flags-stale-console.md
+          set -euo pipefail
+          patterns='docs/architecture/harness/|scripts/smoke-check\\.sh|scripts/flags-stale-report\\.js|commitlint\\.config\\.cjs|@packages/workflows|packages/workflows/<flowId>'
 
-      - name: Create or update issue when stale/missing
+          rg -n --hidden -S "${patterns}" \
+            .harmony .cursor .claude .codex .github AGENTS.md CLAUDE.md CODEOWNERS \
+            --glob '!**/ideation/**' \
+            --glob '!**/output/**' \
+            --glob '!**/_scaffold/**' \
+            --glob '!**/scaffolding/templates/**' \
+            --glob '!**/orchestration/workflows/meta/**' \
+            --glob '!**/capabilities/skills/meta/**' \
+            > reference-drift.txt || true
+
+          total="$(wc -l < reference-drift.txt | tr -d ' ')"
+          cat > flags-stale-report.json <<JSON
+          {
+            "missingCount": ${total},
+            "staleCount": 0,
+            "warnCount": 0
+          }
+          JSON
+
+          {
+            echo "# Harness Reference Drift Report"
+            echo
+            echo "- Timestamp: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            echo "- Legacy references found: ${total}"
+            echo
+            if [ "${total}" -gt 0 ]; then
+              echo "## Matches"
+              echo
+              sed -n '1,200p' reference-drift.txt
+            else
+              echo "No reference drift found."
+            fi
+          } > flags-stale-summary.md
+
+      - name: Create or update issue when drift exists
         if: always()
         uses: actions/github-script@v7
         with:
@@ -35,10 +65,10 @@ jobs:
             const report = JSON.parse(fs.readFileSync('flags-stale-report.json','utf8'));
             const body = fs.readFileSync('flags-stale-summary.md','utf8');
             if ((report.missingCount + report.staleCount + report.warnCount) === 0) {
-              core.info('No stale or missing metadata found.');
+              core.info('No reference drift found.');
               return;
             }
-            const title = 'Stale Flags Report';
+            const title = 'Harness Reference Drift Report';
             const { data: issues } = await github.rest.search.issuesAndPullRequests({
               q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${title}" state:open`
             });
@@ -56,8 +86,6 @@ jobs:
                 repo: context.repo.repo,
                 title,
                 body,
-                labels: ['maintenance','flags']
+                labels: ['maintenance','docs']
               });
             }
-
-

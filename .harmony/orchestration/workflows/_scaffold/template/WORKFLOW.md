@@ -3,10 +3,7 @@ name: "[workflow-id]"
 description: "[Brief summary of what this workflow does and when to use it. Max 1024 characters.]"
 steps:
   - id: "[step-id]"
-    file: 01-step-name.md
-    description: "[Brief step description]"
-  - id: "[step-id]"
-    file: 02-step-name.md
+    file: 01-step.md
     description: "[Brief step description]"
   - id: verify
     file: NN-verify.md
@@ -53,10 +50,8 @@ parallel_steps: []
 
 ## Steps
 
-1. [Step name](./01-step-name.md) - [Brief description]
-2. [Step name](./02-step-name.md) - [Brief description]
-3. [Step name](./03-step-name.md) - [Brief description]
-...
+1. [Step name](./01-step.md) - [Brief description]
+2. `NN-<step-name>.md` - [Optional additional step files, if needed]
 N. [Verify](./NN-verify.md) - Validate workflow executed successfully
 
 ## Verification Gate

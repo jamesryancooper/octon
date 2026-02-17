@@ -10,7 +10,7 @@ description: Read and validate the .flow.json configuration file.
 1. Read the JSON config file
 2. Validate the config against the FlowKit schema
 
-> **Source of Truth:** The canonical `.flow.json` schema and validation logic lives in `packages/kits/flowkit/src/cli.ts` (see `validateFlowConfig`). This workflow step describes the *procedure*, not the schema.
+> **Source of Truth:** The canonical `.flow.json` contract lives in `/.harmony/capabilities/services/execution/flow/schema/input.schema.json` and `/.harmony/capabilities/services/execution/flow/service.json`. This workflow step describes the *procedure*, not the schema.
 
 ## Key Fields (reference only)
 
@@ -23,7 +23,7 @@ The FlowKit CLI validates these fields automatically:
 - `workflowEntrypoint` — Entry point node ID
 - `runtime` — Execution binding (type, url, autoStart)
 
-See `packages/kits/flowkit/schema/flowkit.inputs.v1.json` for the full schema.
+See `/.harmony/capabilities/services/execution/flow/schema/input.schema.json` for the full schema.
 
 ## Failure Handling
 

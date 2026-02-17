@@ -7,7 +7,7 @@ version: 2.7.0
 status: active
 lastReviewed: 2025-12-11
 related:
-  - ./00-are-overview.md
+  - ./00-overview.md
   - ./agent-harness.md
 tags:
   - documentation
@@ -40,7 +40,7 @@ This ensures progress is tracked across context windows and each session knows w
 
 ### For Human Users
 
-1. **Start here**: [00-are-overview.md](./00-are-overview.md) - Select your tier and understand the methodology
+1. **Start here**: [00-overview.md](./00-overview.md) - Select your tier and understand the methodology
 2. **Run the loop**: Analyze → Refine → Evaluate using the phase prompts below
 3. **Reference as needed**: Templates, tooling, and best practices
 
@@ -70,7 +70,7 @@ This orchestrates the full process:
 
 | # | File | Purpose |
 |---|------|---------|
-| 00 | [are-overview.md](./00-are-overview.md) | Entry point, tier selection, Harmony alignment |
+| 00 | [are-overview.md](./00-overview.md) | Entry point, tier selection, Harmony alignment |
 | 01 | [are-analyze-single-doc.md](./01-are-analyze-single-doc.md) | Analyze phase for individual documents |
 | 02 | [are-analyze-audits.md](./02-are-analyze-audits.md) | Optional deep-dive audits (claims, processes, anti-patterns) |
 | 03 | [are-refine.md](./03-are-refine.md) | Refine phase (prioritize → ideate → implement → validate) |
@@ -211,4 +211,4 @@ The agent harness solves this with:
 
 ---
 
-*This file serves as the index for the ARE Loop methodology. For AI agents, start with [agent-harness.md](./agent-harness.md). For humans, start with [00-are-overview.md](./00-are-overview.md).*
+*This file serves as the index for the ARE Loop methodology. For AI agents, start with [agent-harness.md](./agent-harness.md). For humans, start with [00-overview.md](./00-overview.md).*

@@ -187,7 +187,7 @@ pnpm build             # Fails if types don't match
 Architecture decisions are defined in ADRs, referenced elsewhere:
 
 ```markdown
-<!-- Source: docs/specs/speckit/adr-0001.md -->
+<!-- Source: /.harmony/cognition/decisions/adr-flowkit-integration.md -->
 # ADR-0001: Use PostgreSQL for primary data store
 
 ## Decision
@@ -202,7 +202,7 @@ We will use PostgreSQL as our primary database.
 ```markdown
 <!-- Reference: .harmony/cognition/_meta/architecture/overview.md -->
 We use PostgreSQL as our primary data store
-(see [ADR-0001](../../../docs/specs/speckit/adr-0001.md) for rationale).
+(see [ADR-0001](/.harmony/cognition/decisions/adr-flowkit-integration.md) for rationale).
 ```
 
 ### Configuration Hierarchy

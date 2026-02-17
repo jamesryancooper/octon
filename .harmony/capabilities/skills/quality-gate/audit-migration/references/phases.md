@@ -302,7 +302,7 @@ Verify that paths referenced in key operational files actually resolve on disk.
    | Format              | Regex Pattern     | Example                                     |
    | ------------------- | ----------------- | -------------------------------------------- |
    | Backtick paths      | `` `path/to/file` `` | `` `cognition/context/decisions.md` ``    |
-   | Markdown links      | `[text](path)`    | `[decisions](cognition/decisions/)`          |
+   | Markdown links      | `label + target`  | `decisions -> cognition/decisions/`          |
    | YAML path values    | `path: "value"`   | `path: "_ops/state/resources/synthesize-research/"`     |
    | Relative references | `./path` or `../path` | `../capabilities/commands/`              |
 

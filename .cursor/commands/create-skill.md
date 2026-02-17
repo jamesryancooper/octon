@@ -45,4 +45,4 @@ Start with `00-overview.md` and follow each step in sequence:
 
 - **Workflow:** `.harmony/orchestration/workflows/meta/create-skill(x)/`
 - **Template:** `.harmony/capabilities/skills/_template/SKILL.md`
-- **Documentation:** `docs/architecture/harness/skills/README.md`
+- **Documentation:** `.harmony/capabilities/skills/README.md`

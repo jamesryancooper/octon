@@ -1,14 +1,14 @@
-# Set repository ownership and review responsibilities.
+# Set repository ownership and review responsibilities for harness-native areas.
 
-# apps
-/apps/web/      @you @teammate
-/apps/api/      @you @teammate
+# Primary harness content
+/.harmony/       @you @teammate
 
-# domain & contracts need both eyes
-/packages/domain/    @you @teammate
-/packages/contracts/ @you @teammate
+# Integration surfaces
+/.github/        @you
+/.cursor/        @you
+/.claude/        @you
+/.codex/         @you
 
-# infra & otel
-/infra/ci/      @you
-/infra/otel/    @teammate
-
+# Root contracts
+/AGENTS.md       @you
+/CLAUDE.md       @you

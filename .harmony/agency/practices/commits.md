@@ -14,11 +14,13 @@ pipeline checks).
 
 Canonical enforcement in this repository:
 
-- Local commit gate: `.husky/commit-msg` (normalizes via
-  `scripts/normalize-commit-msg.js`, then runs `commitlint`)
-- Commit message rules: `commitlint.config.cjs`
 - PR-time branch and commit checks:
   `.github/workflows/commit-and-branch-standards.yml`
+- Main-branch safety checks:
+  `.github/workflows/main-push-safety.yml`
+
+If you want local pre-commit enforcement, mirror the same contract in your
+editor or local Git hooks.
 
 For a message to pass enforcement, it must satisfy this contract:
 

@@ -36,7 +36,7 @@ echo '{"operation":"estimate","workflowType":"code-from-plan","tier":"T2"}' | \
 ### Flow
 
 ```bash
-echo '{"config":{"flowName":"architecture_assessment","canonicalPromptPath":"packages/workflows/architecture_assessment/00-overview.md","workflowManifestPath":"packages/workflows/architecture_assessment/manifest.yaml"},"dryRun":true}' | \
+echo '{"config":{"flowName":"architecture_assessment","canonicalPromptPath":"flow-assets/architecture_assessment/00-overview.md","workflowManifestPath":"flow-assets/architecture_assessment/manifest.yaml"},"dryRun":true}' | \
   .harmony/capabilities/services/execution/flow/impl/flow-client.sh
 ```
 

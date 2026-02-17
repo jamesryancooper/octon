@@ -3,7 +3,7 @@
   "description": "Missing required config fields fails validation.",
   "request": {
     "config": {
-      "canonicalPromptPath": "packages/workflows/architecture_assessment/00-overview.md"
+      "canonicalPromptPath": "flow-assets/architecture_assessment/00-overview.md"
     }
   },
   "expect": {

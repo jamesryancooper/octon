@@ -11,7 +11,7 @@ status: [proposed | accepted | deprecated | superseded]
 
 [proposed | accepted | deprecated | superseded]
 
-If superseded, link to replacement: [ADR-YYY](./YYY-replacement.md)
+If superseded, link to replacement: `ADR-YYY (./YYY-replacement.md)`
 
 ## Context
 

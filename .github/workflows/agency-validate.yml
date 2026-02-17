@@ -30,10 +30,10 @@ jobs:
 
       - name: Validate agency contracts
         run: |
-          chmod +x .harmony/agency/_scripts/validate-agency.sh
-          .harmony/agency/_scripts/validate-agency.sh
+          chmod +x .harmony/agency/_ops/scripts/validate-agency.sh
+          .harmony/agency/_ops/scripts/validate-agency.sh
 
       - name: Report validation failure
         if: failure()
         run: |
-          echo "::error::Agency validation failed. Run '.harmony/agency/_scripts/validate-agency.sh' locally to inspect errors."
+          echo "::error::Agency validation failed. Run '.harmony/agency/_ops/scripts/validate-agency.sh' locally to inspect errors."

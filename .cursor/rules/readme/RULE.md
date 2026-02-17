@@ -28,7 +28,7 @@ If any required item above is missing or unclear, you MUST ask **up to 3** targe
 3. You MUST include a **Quick Start** section with copy-pasteable commands to install, build, and run.
 4. Code examples MUST be **minimal and runnable**. You MUST NOT include placeholder code that won't execute.
 5. If the package has **prerequisites** (runtime versions, env vars, peer dependencies), you MUST list them before Quick Start.
-6. You MUST NOT duplicate documentation that lives elsewhere; instead, link to it (e.g., "See [ARCHITECTURE.md](./ARCHITECTURE.md) for design details").
+6. You MUST NOT duplicate documentation that lives elsewhere; instead, link to it (e.g., "See `ARCHITECTURE.md` for design details").
 7. Tables SHOULD be used for structured information (commands, env vars, endpoints, status).
 8. You MUST keep the README **under 500 lines** for packages; link to separate docs for deep dives.
 9. If the package exposes a **CLI**, you MUST include a commands table or usage examples.

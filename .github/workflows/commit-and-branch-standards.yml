@@ -27,31 +27,17 @@ jobs:
           BRANCH_NAME: ${{ github.head_ref }}
         run: |
           set -euo pipefail
-          node - <<'NODE'
-          const branchName = process.env.BRANCH_NAME || "";
-          const config = require("./commitlint.config.cjs");
-          const typeEnumRule = config?.rules?.["type-enum"];
-          const allowedTypes = Array.isArray(typeEnumRule) ? typeEnumRule[2] : null;
+          allowed_types='feat fix refactor perf test docs chore ci revert'
+          type_pattern='feat|fix|refactor|perf|test|docs|chore|ci|revert'
+          pattern="^(${type_pattern})/([A-Za-z0-9]+-[0-9]+-)?[a-z0-9]+(-[a-z0-9]+)*$"
 
-          if (!Array.isArray(allowedTypes) || allowedTypes.length === 0) {
-            console.error("Unable to read allowed commit types from commitlint.config.cjs");
-            process.exit(1);
-          }
-
-          const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-          const typePattern = allowedTypes.map(escapeRegex).join("|");
-          const pattern = new RegExp(
-            `^(?:${typePattern})\\/(?:[A-Za-z0-9]+-[0-9]+-)?[a-z0-9]+(?:-[a-z0-9]+)*$`
-          );
-
-          if (!pattern.test(branchName)) {
-            console.error(`Invalid branch name: ${branchName}`);
-            console.error("Expected: <type>/<ticket-id>-<short-description>");
-            console.error("Short description must be lowercase and hyphen-separated");
-            console.error(`Allowed types: ${allowedTypes.join(", ")}`);
-            process.exit(1);
-          }
-          NODE
+          if ! [[ "${BRANCH_NAME}" =~ ${pattern} ]]; then
+            echo "Invalid branch name: ${BRANCH_NAME}"
+            echo "Expected: <type>/<ticket-id>-<short-description>"
+            echo "Short description must be lowercase and hyphen-separated"
+            echo "Allowed types: ${allowed_types}"
+            exit 1
+          fi
 
   validate-commit-messages:
     name: Validate commit messages
@@ -62,26 +48,52 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.20.0
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: pnpm
-
       - name: Lint commit messages in PR
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          git show "${BASE_SHA}:commitlint.config.cjs" > /tmp/commitlint.config.cjs
-          pnpm dlx --package @commitlint/cli@19.8.1 --package @commitlint/config-conventional@19.8.1 \
-            sh -c 'NODE_PATH="$(dirname "$(command -v commitlint)")/.." commitlint \
-              --config /tmp/commitlint.config.cjs \
-              --from "$BASE_SHA" \
-              --to "$HEAD_SHA" \
-              --verbose'
+          set -euo pipefail
+
+          type_pattern='feat|fix|refactor|perf|test|docs|chore|ci|revert'
+          header_pattern="^(${type_pattern})\\(([a-z0-9][a-z0-9-]*)\\): (.+)$"
+
+          commits="$(git rev-list --no-merges "${BASE_SHA}..${HEAD_SHA}")"
+          if [ -z "${commits}" ]; then
+            echo "No commits to validate in range ${BASE_SHA}..${HEAD_SHA}."
+            exit 0
+          fi
+
+          failures=0
+          for sha in ${commits}; do
+            header="$(git log -n1 --format=%s "${sha}")"
+            echo "Validating ${sha}: ${header}"
+
+            if [ "${#header}" -gt 72 ]; then
+              echo "::error::${sha} header exceeds 72 characters."
+              failures=$((failures + 1))
+              continue
+            fi
+
+            if ! [[ "${header}" =~ ${header_pattern} ]]; then
+              echo "::error::${sha} header must match <type>(<scope>): <summary>."
+              failures=$((failures + 1))
+              continue
+            fi
+
+            summary="${BASH_REMATCH[3]}"
+            if [[ "${summary}" =~ [A-Z] ]]; then
+              echo "::error::${sha} summary must be lowercase."
+              failures=$((failures + 1))
+            fi
+
+            if [[ "${summary}" == *"." ]]; then
+              echo "::error::${sha} summary must not end with a period."
+              failures=$((failures + 1))
+            fi
+          done
+
+          if [ "${failures}" -ne 0 ]; then
+            echo "::error::Commit message validation failed with ${failures} issue(s)."
+            exit 1
+          fi
