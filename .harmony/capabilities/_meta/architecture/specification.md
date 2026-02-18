@@ -350,7 +350,7 @@ Validate a skill manually:
 - [ ] `summary` is present for routing
 - [ ] `triggers` are defined (if using natural language activation)
 - [ ] Skill entry exists in `.harmony/capabilities/skills/registry.yml` (extended metadata)
-- [ ] `version` is defined in shared registry (not in SKILL.md)
+- [ ] `version` is defined in `.harmony/capabilities/skills/registry.yml` (not in SKILL.md)
 - [ ] `commands` includes at least one slash command
 - [ ] `allowed-tools` in SKILL.md lists all required tools (single source of truth)
 - [ ] All tools in `allowed-tools` are recognized (can be mapped to internal format)

@@ -239,7 +239,7 @@ skills:
       - "natural language trigger 2"
 ```
 
-### 4. Update Shared Registry
+### 4. Update Skills Registry
 
 Add extended metadata to `.harmony/capabilities/skills/registry.yml`:
 

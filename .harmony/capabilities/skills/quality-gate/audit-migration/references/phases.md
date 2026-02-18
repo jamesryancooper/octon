@@ -380,7 +380,7 @@ Read key operational files end-to-end to identify conceptual staleness that grep
    | Defunct resolution rules                   | "Look in .workspace/ first, then fall back to .harmony/"      |
    | Stale model descriptions                  | "The flat structure organizes files by..."                    |
    | Outdated terminology                      | "Two-tier architecture" when it's now "progressive disclosure" |
-   | Orphaned references to removed concepts   | "See the shared registry for..." when there's only one registry |
+   | Orphaned references to removed concepts   | "See the shared registry for..." when the canonical source is the skills registry |
    | Incorrect counts or lists                 | "5 directories" when there are now 9                          |
 
 3. **Record conceptual findings:**

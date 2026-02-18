@@ -152,7 +152,7 @@ See [Capabilities](./capabilities.md) and [Skill Sets](./skill-sets.md) for the 
 
 ---
 
-## Shared Registry (`.harmony/capabilities/skills/registry.yml`)
+## Skills Registry (`.harmony/capabilities/skills/registry.yml`)
 
 Extended metadata loaded after a skill is matched—contains routing rules, commands, parameters, and requirements. Input/output paths are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth for I/O).
 

@@ -64,8 +64,8 @@ The `validate-skills.sh` script checks:
 7. No requires.tools in io-contract.md (drift prevention)
 8. No allowed tools in safety.md (drift prevention)
 9-11. No duplicated tables in SKILL.md/io-contract.md/safety.md
-12. No outputs in shared registry (should be in workspace)
-13. I/O mappings exist in workspace registry
+12. No deprecated top-level outputs in skills registry (use `skills.<id>.io.outputs`)
+13. I/O mappings exist in skills registry
 14. allowed-tools in SKILL.md is valid (single source of truth)
 15. Output paths within workspace scope
 16. Token budgets respected

@@ -24,7 +24,7 @@
 #   9. No duplicated parameter/tool tables in SKILL.md
 #   10. No duplicated parameter/tool tables in io-contract.md
 #   11. No duplicated tool tables in safety.md body
-#   12. No outputs in shared registry (should be in skills registry)
+#   12. No deprecated top-level outputs in registry.yml (use skills.<id>.io.outputs)
 #   13. Skill has I/O mappings in skills registry
 #   14. allowed-tools in SKILL.md is present and valid (single source of truth)
 #   15. allowed-services in SKILL.md resolves to services manifest entries
@@ -1048,14 +1048,18 @@ check_table_drift() {
     return 0  # No drift detected
 }
 
-# Check if shared registry has outputs for a skill (drift issue - outputs should be in skills registry)
-check_shared_registry_outputs() {
+# Check if a skill declares deprecated top-level outputs in registry.yml.
+# Valid output declarations live under skills.<id>.io.outputs.
+check_deprecated_top_level_outputs() {
     local skill_id="$1"
-    # Check if the skill section in shared registry has an outputs: key
+    # Check only for skills.<id>.outputs (top-level in skill block).
+    # Do NOT match skills.<id>.io.outputs.
     awk -v skill="$skill_id" '
-        $0 ~ "^  "skill":" {found=1; next}
-        found && /^  [a-z]/ && $0 !~ "^  "skill":" {exit}
-        found && /^\s*outputs:/ {print "found"; exit}
+        /^skills:/ {in_skills=1; next}
+        in_skills && /^[a-z0-9_-]+:/ && $0 !~ /^skills:/ {exit}
+        in_skills && $0 ~ "^  "skill":" {in_skill=1; next}
+        in_skill && /^  [a-z0-9][a-z0-9-]*:/ && $0 !~ "^  "skill":" {exit}
+        in_skill && /^    outputs:/ {print "found"; exit}
     ' "$REGISTRY" | grep -q "found"
 }
 
@@ -2745,11 +2749,11 @@ validate_skill() {
         log_success "No duplicated tables in safety.md"
     fi
     
-    # Check 12: No outputs in shared registry (should be in skills registry only)
-    if check_shared_registry_outputs "$skill_id"; then
-        log_error "Outputs found in shared registry (should be in .harmony/capabilities/skills/registry.yml only)"
+    # Check 12: No deprecated top-level outputs in registry.yml
+    if check_deprecated_top_level_outputs "$skill_id"; then
+        log_error "Deprecated outputs field found at skills.$skill_id.outputs (use skills.$skill_id.io.outputs)"
     else
-        log_success "No outputs in shared registry"
+        log_success "No deprecated top-level outputs in registry.yml"
     fi
     
     # Check 13: Skill has I/O mappings in skills registry
@@ -2759,7 +2763,7 @@ validate_skill() {
             log_info "  Skills without I/O mappings will use default output paths only."
             log_info "  To configure custom I/O paths, add an entry to:"
             log_info "    .harmony/capabilities/skills/registry.yml → skills.$skill_id.io"
-            log_info "  See .harmony/capabilities/_meta/architecture/discovery.md#shared-registry"
+            log_info "  See .harmony/capabilities/_meta/architecture/discovery.md#skills-registry"
             if [[ "$FIX_MODE" == "true" ]]; then
                 scaffold_io_mapping "$skill_id"
             fi
@@ -2923,8 +2927,12 @@ echo "Skills Validation"
 echo "================================"
 echo "Skills directory: $SKILLS_DIR"
 echo "Manifest: $MANIFEST"
-echo "Shared registry: $REGISTRY"
-echo "Skills registry: $SKILLS_REGISTRY"
+echo "Registry: $REGISTRY"
+if [[ "$REGISTRY" == "$SKILLS_REGISTRY" ]]; then
+    echo "Skills registry: $SKILLS_REGISTRY (single-registry mode)"
+else
+    echo "Skills registry: $SKILLS_REGISTRY"
+fi
 
 if [[ ! -f "$MANIFEST" ]]; then
     log_error "Manifest file not found: $MANIFEST"

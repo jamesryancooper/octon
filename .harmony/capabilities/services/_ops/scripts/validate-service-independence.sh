@@ -25,6 +25,11 @@ declare -a allowlist_term=()
 declare -a allowlist_owner=()
 declare -a allowlist_expires=()
 
+HAS_RG=false
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=true
+fi
+
 usage() {
   cat <<USAGE
 Usage: $0 [--mode all|services-core|platform-core|adapters|conformance|degradation]
@@ -51,6 +56,62 @@ log_warning() {
 
 log_success() {
   echo -e "${GREEN}✓${NC} $1"
+}
+
+search_regex() {
+  local pattern="$1"
+  shift
+
+  if [[ "$HAS_RG" == "true" ]]; then
+    rg -n "$pattern" "$@" || true
+    return 0
+  fi
+
+  local target
+  for target in "$@"; do
+    if [[ -d "$target" ]]; then
+      grep -R -n -E -- "$pattern" "$target" 2>/dev/null || true
+    else
+      grep -n -E -- "$pattern" "$target" 2>/dev/null || true
+    fi
+  done
+}
+
+search_regex_quiet() {
+  local pattern="$1"
+  shift
+
+  if [[ "$HAS_RG" == "true" ]]; then
+    rg -n "$pattern" "$@" >/dev/null 2>&1
+    return $?
+  fi
+
+  local target
+  for target in "$@"; do
+    if [[ -d "$target" ]]; then
+      if grep -R -n -E -- "$pattern" "$target" >/dev/null 2>&1; then
+        return 0
+      fi
+    else
+      if grep -n -E -- "$pattern" "$target" >/dev/null 2>&1; then
+        return 0
+      fi
+    fi
+  done
+
+  return 1
+}
+
+search_fixed_icase() {
+  local term="$1"
+  shift
+
+  if [[ "$HAS_RG" == "true" ]]; then
+    rg -n -i -F "$term" "$@" || true
+    return 0
+  fi
+
+  grep -n -i -F -- "$term" "$@" 2>/dev/null || true
 }
 
 to_repo_relative() {
@@ -120,7 +181,7 @@ scan_pattern() {
     return
   fi
 
-  hits="$(rg -n "$pattern" "$target" || true)"
+  hits="$(search_regex "$pattern" "$target")"
   if [[ -n "$hits" ]]; then
     log_error "Found $description in $target"
     echo "$hits"
@@ -253,7 +314,7 @@ run_platform_core_checks() {
   local term
   for term in "${terms[@]}"; do
     local hits
-    hits="$(rg -n -i -F "$term" "${targets[@]}" || true)"
+    hits="$(search_fixed_icase "$term" "${targets[@]}")"
 
     if [[ -z "$hits" ]]; then
       continue
@@ -321,8 +382,8 @@ run_adapters_checks() {
     fi
 
     if [[ -f "$base/adapter.yml" ]]; then
-      rg -n "^id:[[:space:]]*$id$" "$base/adapter.yml" >/dev/null 2>&1 || log_error "Adapter id mismatch in $base/adapter.yml"
-      rg -n '^interop_contract_version:[[:space:]]*"?1\.0\.0"?$' "$base/adapter.yml" >/dev/null 2>&1 || log_error "interop_contract_version must be 1.0.0 in $base/adapter.yml"
+      search_regex_quiet "^id:[[:space:]]*$id$" "$base/adapter.yml" || log_error "Adapter id mismatch in $base/adapter.yml"
+      search_regex_quiet '^interop_contract_version:[[:space:]]*"?1\.0\.0"?$' "$base/adapter.yml" || log_error "interop_contract_version must be 1.0.0 in $base/adapter.yml"
     fi
 
     if [[ -f "$base/adapter.yml" && -f "$base/mapping.md" && -f "$base/compatibility.yml" ]]; then
@@ -449,10 +510,10 @@ NODE
       log_success "Session-policy conformance passed for adapter '$id'"
     fi
 
-    rg -n '^[[:space:]]*unsupported_critical:[[:space:]]*fail-closed$' "$adapter_file" >/dev/null 2>&1 || log_error "Fallback behavior must be fail-closed in $adapter_file"
-    rg -n '^[[:space:]]*evidence_required:[[:space:]]*true$' "$adapter_file" >/dev/null 2>&1 || log_error "Evidence hook must be required in $adapter_file"
-    rg -n '^[[:space:]]*interop_contract:[[:space:]]*"1\.x"$' "$compatibility_file" >/dev/null 2>&1 || log_error "Compatibility range must pin interop_contract 1.x in $compatibility_file"
-    rg -n '^[[:space:]]*adapter_schema:[[:space:]]*"1\.x"$' "$compatibility_file" >/dev/null 2>&1 || log_error "Compatibility range must pin adapter_schema 1.x in $compatibility_file"
+    search_regex_quiet '^[[:space:]]*unsupported_critical:[[:space:]]*fail-closed$' "$adapter_file" || log_error "Fallback behavior must be fail-closed in $adapter_file"
+    search_regex_quiet '^[[:space:]]*evidence_required:[[:space:]]*true$' "$adapter_file" || log_error "Evidence hook must be required in $adapter_file"
+    search_regex_quiet '^[[:space:]]*interop_contract:[[:space:]]*"1\.x"$' "$compatibility_file" || log_error "Compatibility range must pin interop_contract 1.x in $compatibility_file"
+    search_regex_quiet '^[[:space:]]*adapter_schema:[[:space:]]*"1\.x"$' "$compatibility_file" || log_error "Compatibility range must pin adapter_schema 1.x in $compatibility_file"
   done
 }
 
@@ -498,7 +559,7 @@ run_degradation_checks() {
   if "$flush_script" --session-id "degradation-blocked" --limit 1000 --used 950 --compaction-requested true --flush-ok false --output "$blocked_report" >/dev/null 2>&1; then
     log_error "Permission-denied critical action should fail closed without waiver"
   else
-    if rg -n 'Compaction decision:[[:space:]]*fail-closed' "$blocked_report" >/dev/null 2>&1; then
+    if search_regex_quiet 'Compaction decision:[[:space:]]*fail-closed' "$blocked_report"; then
       log_success "Permission-denied critical action fails closed with evidence"
     else
       log_error "Fail-closed decision evidence missing for permission-denied critical action"
@@ -506,7 +567,7 @@ run_degradation_checks() {
   fi
 
   if "$flush_script" --session-id "degradation-waived" --limit 1000 --used 950 --compaction-requested true --flush-ok false --waiver-id "WAIVER-001" --output "$waiver_report" >/dev/null 2>&1; then
-    if rg -n 'Compaction decision:[[:space:]]*allow-with-waiver' "$waiver_report" >/dev/null 2>&1; then
+    if search_regex_quiet 'Compaction decision:[[:space:]]*allow-with-waiver' "$waiver_report"; then
       log_success "Waived critical-action path records explicit waiver evidence"
     else
       log_error "Waiver evidence missing in waived critical-action path"
