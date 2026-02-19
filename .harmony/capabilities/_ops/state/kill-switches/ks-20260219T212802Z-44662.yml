@@ -1,0 +1,11 @@
+{
+  "id": "ks-20260219T212802Z-44662",
+  "scope": "service:guard",
+  "state": "cleared",
+  "owner": "agent-a",
+  "reason": "ACP circuit breaker tripped for run debug-breaker",
+  "created": "2026-02-19",
+  "expires": "2026-02-19",
+  "incident_id": "debug-breaker",
+  "cleared_at": "2026-02-19"
+}

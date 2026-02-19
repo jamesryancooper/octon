@@ -1,0 +1,11 @@
+{
+  "id": "ks-20260219T213905Z-59679",
+  "scope": "service:guard",
+  "state": "cleared",
+  "owner": "agent-a",
+  "reason": "ACP circuit breaker tripped for run runtime-acp-breaker-15908-58599",
+  "created": "2026-02-19",
+  "expires": "2026-02-19",
+  "incident_id": "runtime-acp-breaker-15908-58599",
+  "cleared_at": "2026-02-19"
+}
