@@ -12,6 +12,7 @@ TAXONOMY_FILE="$CAPABILITIES_DIR/_ops/policy/acp-operation-classes.md"
 ENFORCER_FILE="$CAPABILITIES_DIR/services/_ops/scripts/enforce-deny-by-default.sh"
 AGENT_FILE="$CAPABILITIES_DIR/services/execution/agent/impl/agent.sh"
 RECEIPT_WRITER="$CAPABILITIES_DIR/_ops/scripts/policy-receipt-write.sh"
+BREAKER_ACTIONS_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-circuit-breaker-actions.sh"
 
 FAIL_COUNT=0
 
@@ -23,7 +24,7 @@ fail() {
 
 check_required_files() {
   local file
-  for file in "$POLICY_FILE" "$TAXONOMY_FILE" "$ENFORCER_FILE" "$AGENT_FILE" "$RECEIPT_WRITER"; do
+  for file in "$POLICY_FILE" "$TAXONOMY_FILE" "$ENFORCER_FILE" "$AGENT_FILE" "$RECEIPT_WRITER" "$BREAKER_ACTIONS_SCRIPT"; do
     [[ -f "$file" ]] || fail "missing required file: $file"
   done
 }
@@ -136,6 +137,24 @@ check_tracked_temp_artifacts() {
   fi
 }
 
+check_shared_breaker_action_wiring() {
+  if ! rg -n 'policy-circuit-breaker-actions\.sh' "$AGENT_FILE" >/dev/null; then
+    fail "agent runtime does not reference shared circuit breaker actions helper"
+  fi
+  if ! rg -n 'policy-circuit-breaker-actions\.sh' "$ENFORCER_FILE" >/dev/null; then
+    fail "service runtime enforcer does not reference shared circuit breaker actions helper"
+  fi
+}
+
+check_quorum_independence_defaults() {
+  if ! rg -n 'HARMONY_ALLOW_INPROCESS_ATTESTATIONS:-false' "$AGENT_FILE" >/dev/null; then
+    fail "agent attestation flow missing explicit synthetic-attestation compatibility guard"
+  fi
+  if ! rg -n 'verifier\.attestation\.json|recovery\.attestation\.json' "$AGENT_FILE" >/dev/null; then
+    fail "agent attestation flow is not sourcing external verifier/recovery artifacts"
+  fi
+}
+
 main() {
   check_required_files
   check_hitl_doc_removed
@@ -145,6 +164,8 @@ main() {
   check_receipt_writer_append_only
   check_active_surface_legacy_terms
   check_tracked_temp_artifacts
+  check_shared_breaker_action_wiring
+  check_quorum_independence_defaults
 
   if (( FAIL_COUNT > 0 )); then
     echo "RA+ACP migration regression checks failed ($FAIL_COUNT)." >&2

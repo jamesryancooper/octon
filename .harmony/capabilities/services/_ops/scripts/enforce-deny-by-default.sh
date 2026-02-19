@@ -145,7 +145,9 @@ harmony_acp_gate_enforce() {
 
   local phase operation_class run_id profile actor_id actor_type break_glass keep_tmp
   local target_json evidence_json attestations_json counters_json budgets_json signals_json reversibility_json
-  local request_builder acp_eval receipt_writer tmp_dir request_file decision_file decision_output rc request_rc
+  local request_builder acp_eval receipt_writer breaker_actions_script
+  local tmp_dir request_file decision_file decision_output rc request_rc
+  local continuity_run_dir rollback_dir decision_kind
 
   phase="${HARMONY_OPERATION_PHASE:-stage}"
   if ! harmony_acp_should_gate_phase "$phase"; then
@@ -165,16 +167,22 @@ harmony_acp_gate_enforce() {
   break_glass="${HARMONY_BREAK_GLASS:-false}"
   keep_tmp="${HARMONY_ACP_KEEP_TMP:-false}"
 
-  target_json="${HARMONY_ACP_TARGET_JSON:-{}}"
+  target_json="${HARMONY_ACP_TARGET_JSON:-}"
+  [[ -n "$target_json" ]] || target_json='{}'
   if [[ "$target_json" == "{}" && -n "${HARMONY_TARGET_BRANCH:-}" ]]; then
     target_json="$(jq -cn --arg branch "$HARMONY_TARGET_BRANCH" '{branch:$branch}')"
   fi
 
-  evidence_json="${HARMONY_ACP_EVIDENCE_JSON:-[]}"
-  attestations_json="${HARMONY_ACP_ATTESTATIONS_JSON:-[]}"
-  counters_json="${HARMONY_ACP_COUNTERS_JSON:-{}}"
-  budgets_json="${HARMONY_ACP_BUDGETS_JSON:-{}}"
-  signals_json="${HARMONY_ACP_SIGNALS_JSON:-[]}"
+  evidence_json="${HARMONY_ACP_EVIDENCE_JSON:-}"
+  [[ -n "$evidence_json" ]] || evidence_json='[]'
+  attestations_json="${HARMONY_ACP_ATTESTATIONS_JSON:-}"
+  [[ -n "$attestations_json" ]] || attestations_json='[]'
+  counters_json="${HARMONY_ACP_COUNTERS_JSON:-}"
+  [[ -n "$counters_json" ]] || counters_json='{}'
+  budgets_json="${HARMONY_ACP_BUDGETS_JSON:-}"
+  [[ -n "$budgets_json" ]] || budgets_json='{}'
+  signals_json="${HARMONY_ACP_SIGNALS_JSON:-}"
+  [[ -n "$signals_json" ]] || signals_json='[]'
   reversibility_json="${HARMONY_ACP_REVERSIBILITY_JSON:-}"
   if [[ -z "$reversibility_json" ]]; then
     local default_primitive default_recovery_window
@@ -204,6 +212,7 @@ harmony_acp_gate_enforce() {
   request_builder="$harmony_root/capabilities/_ops/scripts/policy-acp-request.sh"
   acp_eval="$harmony_root/capabilities/_ops/scripts/policy-acp-eval.sh"
   receipt_writer="$harmony_root/capabilities/_ops/scripts/policy-receipt-write.sh"
+  breaker_actions_script="$harmony_root/capabilities/_ops/scripts/policy-circuit-breaker-actions.sh"
 
   if [[ ! -x "$request_builder" || ! -x "$acp_eval" ]]; then
     echo "[acp] missing ACP helper scripts under .harmony/capabilities/_ops/scripts" >&2
@@ -256,6 +265,20 @@ harmony_acp_gate_enforce() {
   fi
 
   harmony_acp_emit_receipt "$receipt_writer" "$policy_file" "$request_file" "$decision_file"
+  decision_kind="$(jq -r '.decision // "DENY"' "$decision_file" 2>/dev/null || echo "DENY")"
+
+  continuity_run_dir="$harmony_root/continuity/runs/$run_id"
+  rollback_dir="$continuity_run_dir/rollback"
+  mkdir -p "$continuity_run_dir"
+  if [[ -x "$breaker_actions_script" ]]; then
+    "$breaker_actions_script" run \
+      --run-id "$run_id" \
+      --decision "$decision_file" \
+      --request "$request_file" \
+      --rollback-dir "$rollback_dir" \
+      --scope "service:$service_id" \
+      --owner "$actor_id" >/dev/null 2>&1 || true
+  fi
 
   if [[ "$keep_tmp" != "true" ]]; then
     rm -f "$request_file" "$decision_file" >/dev/null 2>&1 || true
@@ -267,8 +290,6 @@ harmony_acp_gate_enforce() {
       return 0
       ;;
     13)
-      local decision_kind
-      decision_kind="$(jq -r '.decision // "DENY"' "$decision_file" 2>/dev/null)"
       echo "[acp][$decision_kind] promotion blocked for operation '$operation_class' phase '$phase'" >&2
       return 13
       ;;

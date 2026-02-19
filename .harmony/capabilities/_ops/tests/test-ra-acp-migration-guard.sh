@@ -68,6 +68,7 @@ create_fixture_repo() {
     ".harmony/capabilities/_ops/policy/deny-by-default.v2.yml"
     ".harmony/capabilities/_ops/policy/acp-operation-classes.md"
     ".harmony/capabilities/_ops/scripts/policy-receipt-write.sh"
+    ".harmony/capabilities/_ops/scripts/policy-circuit-breaker-actions.sh"
     ".harmony/capabilities/services/_ops/scripts/enforce-deny-by-default.sh"
     ".harmony/capabilities/services/execution/agent/impl/agent.sh"
   )

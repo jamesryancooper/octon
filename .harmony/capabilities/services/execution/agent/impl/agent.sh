@@ -20,8 +20,8 @@ BUDGET_METER=".harmony/capabilities/_ops/scripts/policy-budget-meter.sh"
 ACP_REQUEST_BUILDER=".harmony/capabilities/_ops/scripts/policy-acp-request.sh"
 ACP_EVAL=".harmony/capabilities/_ops/scripts/policy-acp-eval.sh"
 RECEIPT_WRITER=".harmony/capabilities/_ops/scripts/policy-receipt-write.sh"
-KILL_SWITCH_SCRIPT=".harmony/capabilities/_ops/scripts/policy-kill-switch.sh"
 REVERSIBLE_PRIMITIVES_SCRIPT=".harmony/capabilities/_ops/scripts/policy-reversible-primitives.sh"
+BREAKER_ACTIONS_SCRIPT=".harmony/capabilities/_ops/scripts/policy-circuit-breaker-actions.sh"
 AGENT_POLICY_LAST_DENY_JSON='{}'
 AGENT_POLICY_ATTEMPTS=0
 
@@ -278,66 +278,143 @@ build_attestations_json() {
   local run_id="$1"
   local plan_hash="$2"
   local evidence_hash="$3"
+  local attestations_dir="$4"
   local proposer="${HARMONY_AGENT_ID:-agent-local}"
-  local verifier="${HARMONY_VERIFIER_AGENT_ID:-agent-verifier}"
-  local recovery="${HARMONY_RECOVERY_AGENT_ID:-agent-recovery}"
-  local disable_quorum="${HARMONY_DISABLE_QUORUM:-false}"
-  local disagree="${HARMONY_QUORUM_DISAGREE:-false}"
-
   local now
   now="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
-  local proposer_sig verifier_sig recovery_sig
+  local proposer_sig proposer_json
   proposer_sig="$(hash_text "proposer|$proposer|$plan_hash|$evidence_hash|$run_id")"
-  verifier_sig="$(hash_text "verifier|$verifier|$plan_hash|$evidence_hash|$run_id")"
-  recovery_sig="$(hash_text "recovery|$recovery|$plan_hash|$evidence_hash|$run_id")"
+  proposer_json="$(jq -cn \
+    --arg now "$now" \
+    --arg actor "$proposer" \
+    --arg plan_hash "$plan_hash" \
+    --arg evidence_hash "$evidence_hash" \
+    --arg signature "$proposer_sig" \
+    '{role:"proposer",actor_id:$actor,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$signature}')"
 
-  if [[ "$disable_quorum" == "true" ]]; then
-    jq -n \
-      --arg now "$now" \
-      --arg role "proposer" \
-      --arg actor "$proposer" \
-      --arg plan_hash "$plan_hash" \
-      --arg evidence_hash "$evidence_hash" \
-      --arg sig "$proposer_sig" \
-      '[{role:$role,actor_id:$actor,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$sig}]'
-    return
-  fi
+  # Legacy compatibility path for controlled simulations.
+  if [[ "${HARMONY_ALLOW_INPROCESS_ATTESTATIONS:-false}" == "true" || "${HARMONY_DISABLE_QUORUM:-false}" == "true" || "${HARMONY_QUORUM_DISAGREE:-false}" == "true" ]]; then
+    local verifier recovery verifier_sig recovery_sig
+    verifier="${HARMONY_VERIFIER_AGENT_ID:-agent-verifier}"
+    recovery="${HARMONY_RECOVERY_AGENT_ID:-agent-recovery}"
+    verifier_sig="$(hash_text "verifier|$verifier|$plan_hash|$evidence_hash|$run_id")"
+    recovery_sig="$(hash_text "recovery|$recovery|$plan_hash|$evidence_hash|$run_id")"
 
-  if [[ "$disagree" == "true" ]]; then
-    jq -n \
+    if [[ "${HARMONY_DISABLE_QUORUM:-false}" == "true" ]]; then
+      jq -cn --argjson proposer "$proposer_json" '[ $proposer ]'
+      return
+    fi
+
+    if [[ "${HARMONY_QUORUM_DISAGREE:-false}" == "true" ]]; then
+      jq -cn \
+        --argjson proposer "$proposer_json" \
+        --arg now "$now" \
+        --arg verifier "$verifier" \
+        --arg recovery "$recovery" \
+        --arg plan_hash "$plan_hash" \
+        --arg evidence_hash "$evidence_hash" \
+        --arg verifier_sig "$verifier_sig" \
+        --arg recovery_sig "$recovery_sig" \
+        '[
+          $proposer,
+          {role:"verifier",actor_id:$verifier,timestamp:$now,plan_hash:$plan_hash,evidence_hash:"mismatch",signature:$verifier_sig},
+          {role:"recovery",actor_id:$recovery,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$recovery_sig}
+        ]'
+      return
+    fi
+
+    jq -cn \
+      --argjson proposer "$proposer_json" \
       --arg now "$now" \
-      --arg proposer "$proposer" \
       --arg verifier "$verifier" \
       --arg recovery "$recovery" \
       --arg plan_hash "$plan_hash" \
       --arg evidence_hash "$evidence_hash" \
-      --arg proposer_sig "$proposer_sig" \
       --arg verifier_sig "$verifier_sig" \
       --arg recovery_sig "$recovery_sig" \
       '[
-        {role:"proposer",actor_id:$proposer,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$proposer_sig},
-        {role:"verifier",actor_id:$verifier,timestamp:$now,plan_hash:$plan_hash,evidence_hash:"mismatch",signature:$verifier_sig},
+        $proposer,
+        {role:"verifier",actor_id:$verifier,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$verifier_sig},
         {role:"recovery",actor_id:$recovery,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$recovery_sig}
       ]'
     return
   fi
 
-  jq -n \
+  local external_json
+  external_json='[]'
+
+  local inline_attestations
+  inline_attestations="${HARMONY_ATTESTATIONS_JSON:-[]}"
+  if jq -e . >/dev/null 2>&1 <<<"$inline_attestations"; then
+    local normalized_inline
+    normalized_inline="$(jq -c 'if type=="array" then . elif type=="object" then [.] else [] end' <<<"$inline_attestations" 2>/dev/null || echo '[]')"
+    external_json="$(jq -cn --argjson base "$external_json" --argjson next "$normalized_inline" '$base + $next')"
+  fi
+
+  local -a source_files=()
+  local file
+  for file in \
+    "$attestations_dir/verifier.attestation.json" \
+    "$attestations_dir/recovery.attestation.json" \
+    "$attestations_dir/observer.attestation.json"; do
+    [[ -f "$file" ]] && source_files+=("$file")
+  done
+
+  if [[ -n "${HARMONY_ATTESTATION_FILES:-}" ]]; then
+    local -a raw_files=()
+    IFS=',' read -r -a raw_files <<<"${HARMONY_ATTESTATION_FILES:-}"
+    for file in "${raw_files[@]}"; do
+      file="${file#"${file%%[![:space:]]*}"}"
+      file="${file%"${file##*[![:space:]]}"}"
+      [[ -n "$file" ]] && source_files+=("$file")
+    done
+  fi
+
+  local source
+  for source in "${source_files[@]}"; do
+    [[ -f "$source" ]] || continue
+    local raw normalized
+    raw="$(cat "$source" 2>/dev/null || true)"
+    [[ -n "$raw" ]] || continue
+    normalized="$(jq -c 'if type=="array" then . elif type=="object" then [.] else [] end' <<<"$raw" 2>/dev/null || echo '[]')"
+    external_json="$(jq -cn --argjson base "$external_json" --argjson next "$normalized" '$base + $next')"
+  done
+
+  jq -cn \
+    --argjson proposer "$proposer_json" \
+    --argjson external "$external_json" \
     --arg now "$now" \
-    --arg proposer "$proposer" \
-    --arg verifier "$verifier" \
-    --arg recovery "$recovery" \
     --arg plan_hash "$plan_hash" \
     --arg evidence_hash "$evidence_hash" \
-    --arg proposer_sig "$proposer_sig" \
-    --arg verifier_sig "$verifier_sig" \
-    --arg recovery_sig "$recovery_sig" \
-    '[
-      {role:"proposer",actor_id:$proposer,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$proposer_sig},
-      {role:"verifier",actor_id:$verifier,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$verifier_sig},
-      {role:"recovery",actor_id:$recovery,timestamp:$now,plan_hash:$plan_hash,evidence_hash:$evidence_hash,signature:$recovery_sig}
-    ]'
+    '([ $proposer ] + $external)
+    | map({
+        role: (.role // ""),
+        actor_id: (.actor_id // ""),
+        timestamp: (.timestamp // $now),
+        plan_hash: (.plan_hash // $plan_hash),
+        evidence_hash: (.evidence_hash // $evidence_hash),
+        signature: (.signature // "")
+      })
+    | map(select((.role == "proposer" or .role == "verifier" or .role == "recovery" or .role == "observer") and (.actor_id|length > 0)))
+    | reduce .[] as $item ({seen:{},ordered:[]};
+        if .seen[$item.role] then
+          .
+        else
+          .seen[$item.role] = true | .ordered += [$item]
+        end
+      )
+    | .ordered
+    | reduce .[] as $item ({actors:[],ordered:[]};
+        if $item.role == "observer" then
+          .ordered += [$item]
+        elif (.actors | index($item.actor_id)) then
+          .
+        else
+          .actors += [$item.actor_id] | .ordered += [$item]
+        end
+      )
+    | .ordered'
 }
 
 emit_acp_receipt() {
@@ -349,63 +426,23 @@ emit_acp_receipt() {
   "$RECEIPT_WRITER" --policy "$POLICY_FILE" --request "$request_file" --decision "$decision_file" >/dev/null 2>&1 || true
 }
 
-trip_kill_switch_for_incident() {
-  local run_id="$1"
-  if [[ ! -x "$KILL_SWITCH_SCRIPT" ]]; then
-    return 0
-  fi
-  "$KILL_SWITCH_SCRIPT" set \
-    --scope "service:agent" \
-    --owner "${HARMONY_AGENT_ID:-agent-local}" \
-    --reason "ACP circuit breaker tripped for run $run_id" \
-    --incident-id "$run_id" \
-    --ttl-seconds 3600 >/dev/null 2>&1 || true
-}
-
 handle_circuit_trip() {
   local run_id="$1"
   local decision_file="$2"
   local request_file="$3"
   local rollback_dir="$4"
 
-  if ! jq -e '.reason_codes[]? | select(. == "ACP_CIRCUIT_BREAKER_TRIPPED")' "$decision_file" >/dev/null 2>&1; then
+  if [[ ! -x "$BREAKER_ACTIONS_SCRIPT" ]]; then
     return 0
   fi
 
-  local actions_json
-  actions_json="$(jq -c '.requirements.breaker_actions // []' "$decision_file" 2>/dev/null || echo '[]')"
-  if [[ "$actions_json" == "[]" ]]; then
-    # Backward-compatible fallback for older decisions that did not include actions.
-    actions_json='["auto_rollback_and_trip_killswitch"]'
-  fi
-
-  mkdir -p "$rollback_dir"
-  printf '%s\n' "breaker-actions=$actions_json" > "$rollback_dir/rollback-attempt.txt"
-
-  if jq -e '.[] | select(. == "stop_and_stage_only")' <<<"$actions_json" >/dev/null 2>&1 \
-    && ! jq -e '.[] | select(. == "auto_rollback_and_trip_killswitch")' <<<"$actions_json" >/dev/null 2>&1; then
-    printf '%s\n' "stage-only action: rollback and kill-switch not requested" >> "$rollback_dir/rollback-attempt.txt"
-    return 0
-  fi
-
-  local rollback_handle
-  rollback_handle="$(jq -r '.reversibility.rollback_handle // empty' "$request_file")"
-
-  if [[ -n "$rollback_handle" ]]; then
-    printf '%s\n' "rollback-handle=$rollback_handle" >> "$rollback_dir/rollback-attempt.txt"
-  fi
-
-  if [[ "${HARMONY_ENABLE_AUTO_ROLLBACK:-false}" == "true" && "$rollback_handle" == git:revert:* ]]; then
-    local commit
-    commit="${rollback_handle#git:revert:}"
-    git revert --no-edit "$commit" >> "$rollback_dir/rollback-attempt.txt" 2>&1 || true
-  else
-    printf '%s\n' "auto-rollback skipped (enable with HARMONY_ENABLE_AUTO_ROLLBACK=true)" >> "$rollback_dir/rollback-attempt.txt"
-  fi
-
-  if jq -e '.[] | select(. == "auto_rollback_and_trip_killswitch")' <<<"$actions_json" >/dev/null 2>&1; then
-    trip_kill_switch_for_incident "$run_id"
-  fi
+  "$BREAKER_ACTIONS_SCRIPT" run \
+    --run-id "$run_id" \
+    --decision "$decision_file" \
+    --request "$request_file" \
+    --rollback-dir "$rollback_dir" \
+    --scope "service:agent" \
+    --owner "${HARMONY_AGENT_ID:-agent-local}" >/dev/null 2>&1 || true
 }
 
 if ! command -v jq >/dev/null 2>&1; then
@@ -535,7 +572,7 @@ else
   plan_hash="$(hash_text "$plan_path")"
 fi
 evidence_hash="$(hash_text "$evidence_json")"
-attestations_json="$(build_attestations_json "$run_id" "$plan_hash" "$evidence_hash")"
+attestations_json="$(build_attestations_json "$run_id" "$plan_hash" "$evidence_hash" "$attestations_dir")"
 printf '%s\n' "$attestations_json" | jq -S . > "$attestations_dir/attestations.json"
 
 counters_file="$continuity_run_dir/counters.json"

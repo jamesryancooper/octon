@@ -9,6 +9,7 @@ SERVICES_ROOT="$CAPABILITIES_DIR/services"
 SERVICES_MANIFEST="$SERVICES_ROOT/manifest.yml"
 POLICY_V2_FILE="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.yml"
 ENFORCER_SCRIPT="$SERVICES_ROOT/_ops/scripts/enforce-deny-by-default.sh"
+AGENT_ENTRYPOINT="$SERVICES_ROOT/execution/agent/impl/agent.sh"
 
 if [[ ! -f "$ENFORCER_SCRIPT" ]]; then
   echo "Missing runtime enforcer script: $ENFORCER_SCRIPT" >&2
@@ -17,6 +18,11 @@ fi
 
 if [[ ! -f "$SERVICES_MANIFEST" ]]; then
   echo "Missing services manifest: $SERVICES_MANIFEST" >&2
+  exit 1
+fi
+
+if [[ ! -f "$AGENT_ENTRYPOINT" ]]; then
+  echo "Missing agent entrypoint: $AGENT_ENTRYPOINT" >&2
   exit 1
 fi
 
@@ -301,11 +307,123 @@ run_acp_gate_tests() {
     "
 }
 
+run_acp_breaker_action_tests() {
+  local guard_entrypoint="$SERVICES_ROOT/governance/guard/impl/guard.sh"
+  local breaker_run_id="runtime-acp-breaker-${RANDOM:-0}-$$"
+  local ks_dir
+  ks_dir="$(kill_switch_state_dir)"
+
+  assert_failure_contains \
+    "acp breaker blocks wrapper promotion and keeps staged output" \
+    "promotion blocked" \
+    bash -euo pipefail -c "
+      source '$ENFORCER_SCRIPT'
+      target_json=\"\$(jq -cn '{branch:\"feature/runtime-breaker\"}')\"
+      evidence_json=\"\$(jq -cn '[{type:\"diff\",ref:\"artifact://diff\",sha256:\"hash-diff\"},{type:\"tests\",ref:\"artifact://tests\",sha256:\"hash-tests\"}]')\"
+      signals_json=\"\$(jq -cn '[\"ci.failed\"]')\"
+      HARMONY_AGENT_ID=agent-a \\
+      HARMONY_AGENT_IDS='agent-a' \\
+      HARMONY_RISK_TIER=low \\
+      HARMONY_POLICY_PROFILE=refactor \\
+      HARMONY_OPERATION_CLASS=git.merge \\
+      HARMONY_OPERATION_PHASE=promote \\
+      HARMONY_RUN_ID='$breaker_run_id' \\
+      HARMONY_ACP_TARGET_JSON=\"\$target_json\" \\
+      HARMONY_ACP_EVIDENCE_JSON=\"\$evidence_json\" \\
+      HARMONY_ACP_SIGNALS_JSON=\"\$signals_json\" \\
+      harmony_enforce_service_policy 'guard' '$guard_entrypoint'
+    "
+
+  assert_success \
+    "acp breaker writes rollback action artifact in wrapper path" \
+    bash -euo pipefail -c "
+      rollback_log='.harmony/continuity/runs/$breaker_run_id/rollback/rollback-attempt.txt'
+      [[ -f \"\$rollback_log\" ]]
+      grep -F 'breaker-actions=' \"\$rollback_log\" >/dev/null
+    "
+
+  assert_success \
+    "acp breaker trips kill-switch in wrapper path" \
+    bash -euo pipefail -c "
+      ks_dir='$ks_dir'
+      run_id='$breaker_run_id'
+      ks_file=''
+      for file in \"\$ks_dir\"/*.yml \"\$ks_dir\"/*.yaml \"\$ks_dir\"/*.json; do
+        [[ -e \"\$file\" ]] || continue
+        incident=\"\$(jq -r '.incident_id // empty' \"\$file\" 2>/dev/null || true)\"
+        state=\"\$(jq -r '.state // empty' \"\$file\" 2>/dev/null || true)\"
+        if [[ \"\$incident\" == \"\$run_id\" && \"\$state\" == 'active' ]]; then
+          ks_file=\"\$file\"
+          break
+        fi
+      done
+      [[ -n \"\$ks_file\" ]]
+      rm -f \"\$ks_file\"
+    "
+}
+
+run_agent_quorum_independence_tests() {
+  local run_stage_only="runtime-agent-quorum-stage-${RANDOM:-0}-$$"
+  local run_allow="runtime-agent-quorum-allow-${RANDOM:-0}-$$"
+
+  assert_success \
+    "agent ACP-2 promote degrades to stage-only without independent attestations" \
+    bash -euo pipefail -c "
+      payload=\"\$(jq -cn --arg run_id '$run_stage_only' --arg plan '.harmony/cognition/principles/autonomous-control-points.md' '
+        {
+          mode:\"execute\",
+          runId:\$run_id,
+          planPath:\$plan,
+          dryRun:false,
+          operationClass:\"git.merge\",
+          phase:\"promote\",
+          profile:\"operate\",
+          target:{branch:\"main\"}
+        }')\"
+      output=\"\$(printf '%s' \"\$payload\" | HARMONY_AGENT_ID='agent-proposer' '$AGENT_ENTRYPOINT')\"
+      [[ \"\$(jq -r '.result.decision' <<<\"\$output\")\" == 'STAGE_ONLY' ]]
+      printf '%s\n' \"\$output\" | grep -F 'ACP_QUORUM_MISSING' >/dev/null
+    "
+
+  assert_success \
+    "agent ACP-2 promote allows with external verifier and recovery attestations" \
+    bash -euo pipefail -c "
+      attestation_dir='.harmony/continuity/runs/$run_allow/attestations'
+      mkdir -p \"\$attestation_dir\"
+      jq -n '{
+        role:\"verifier\",
+        actor_id:\"agent-verifier\",
+        signature:\"sig-verifier\"
+      }' > \"\$attestation_dir/verifier.attestation.json\"
+      jq -n '{
+        role:\"recovery\",
+        actor_id:\"agent-recovery\",
+        signature:\"sig-recovery\"
+      }' > \"\$attestation_dir/recovery.attestation.json\"
+
+      payload=\"\$(jq -cn --arg run_id '$run_allow' --arg plan '.harmony/cognition/principles/autonomous-control-points.md' '
+        {
+          mode:\"execute\",
+          runId:\$run_id,
+          planPath:\$plan,
+          dryRun:false,
+          operationClass:\"git.merge\",
+          phase:\"promote\",
+          profile:\"operate\",
+          target:{branch:\"main\"}
+        }')\"
+      output=\"\$(printf '%s' \"\$payload\" | HARMONY_AGENT_ID='agent-proposer' '$AGENT_ENTRYPOINT')\"
+      [[ \"\$(jq -r '.result.decision' <<<\"\$output\")\" == 'ALLOW' ]]
+    "
+}
+
 main() {
   run_split_parser_regression_test
   run_active_shell_enforcement_smoke_test
   run_agent_only_required_deny_tests
   run_acp_gate_tests
+  run_acp_breaker_action_tests
+  run_agent_quorum_independence_tests
 
   echo ""
   echo "Runtime deny-by-default tests complete: $pass_count passed, $fail_count failed"
