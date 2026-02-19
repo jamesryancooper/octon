@@ -13,6 +13,8 @@ status: Active
 
 Harmony treats small-batch delivery as policy, not preference. Changes should be narrowly scoped and merged quickly into trunk.
 
+For material side-effects, "merge quickly" never means bypassing ACP stage/promote sequencing. Fast integration is valid only when required ACP evidence and receipts are present.
+
 Default thresholds:
 
 - Branch lifetime `<= 1 working day`
@@ -75,6 +77,7 @@ if branch_age_days > 1:
 - `Reversibility` depends on small rollback units.
 - `Flags by Default` enables shipping incomplete work safely.
 - `Autonomous Control Points` stay lightweight when diffs are small and reversible.
+- `No Silent Apply` requires evidence/receipt visibility for durable side-effects.
 
 ## Anti-Pattern: Big-bang PR
 
@@ -84,9 +87,19 @@ Large, mixed-concern PRs stall reviews, hide risk, and create painful rollback c
 
 Allow larger diffs only for mechanical codemods or generated-file updates, and isolate them from behavioral changes.
 
+Even for small diffs, material side-effects must follow stage -> ACP gate -> promote with receipt emission.
+
+## Arbitration
+
+If this principle conflicts with another, apply
+[Arbitration & Precedence](./README.md#arbitration--precedence).
+Fast trunk flow cannot bypass stage/promote for material side effects.
+
 ## Related Documentation
 
 - `.harmony/cognition/methodology/README.md`
 - `.harmony/cognition/methodology/flow-and-wip-policy.md`
+- `.harmony/cognition/principles/autonomous-control-points.md`
+- `.harmony/cognition/principles/no-silent-apply.md`
 - `.harmony/cognition/principles/pillars/velocity.md`
 - `.harmony/cognition/principles/pillars/trust.md`

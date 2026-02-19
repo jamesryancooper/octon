@@ -27,6 +27,19 @@ The standard loop becomes:
 
 **Intent → Boundaries → Plan/Diff/Test → Stage → ACP Gate (policy+quorum) → Promote → Attest → Report**
 
+## SSOT: Governance Gates
+
+ACPs are Harmony's single normative specification for **promotion** and **contraction**
+gating into durable state.
+
+Boundary split:
+
+- **Deny by Default** answers: "May this actor attempt this capability?"
+- **ACP** answers: "May this staged change be promoted now?"
+
+`No Silent Apply` is satisfied by ACP receipts, evidence references, and rollback
+handles. This does not require standing human approvals.
+
 ## Why It Matters
 
 ### Trust: Autonomous, Reversible, Provable
@@ -119,6 +132,17 @@ Quorum is policy-defined (e.g., 2-of-3 for ACP-2, 3-of-3 for ACP-3).
 
 If quorum cannot be reached, the system falls back to **stage-only** and notifies humans.
 
+## Ownership Attestation
+
+For boundary exceptions or owner-scoped systems, policy may require an **Owner
+Attestation** as a quorum input.
+
+- Owner attestation is evidence supplied by the boundary owner as defined in
+  [Ownership and Boundaries](./ownership-and-boundaries.md).
+- It may satisfy a required attestation role but does not replace ACP policy
+  evaluation.
+- Promotion authority remains ACP policy gate + required quorum.
+
 ## Budgets and Circuit Breakers
 
 To prevent runaway autonomy, ACPs enforce:
@@ -128,6 +152,17 @@ To prevent runaway autonomy, ACPs enforce:
 - **Circuit breakers:** if runtime signals degrade, auto-rollback and trip kill-switches
 
 Budgets are attached to the run and enforced continuously, not just at promotion time.
+
+## Telemetry Profile Mapping
+
+ACP promotion receipts must record a telemetry profile for ACP-1+:
+
+- **ACP-1:** default `minimal` or `sampled`, depending on budget envelope.
+- **ACP-2:** default `full` on promote; `sampled` may be used during stage under
+  budget/circuit constraints.
+- **ACP-3:** default `full` plus additional recovery and breaker signals.
+
+Profile deviations require a policy-approved waiver recorded in the receipt.
 
 ## Receipts and Continuous Oversight
 
@@ -158,8 +193,16 @@ Humans “pop in” by reviewing receipts and digests, not by approving every st
 - Ship changes without a receipt and rollback plan.
 - Expand scope silently (more access, broader writes) without policy evaluation.
 
+## Arbitration
+
+If this principle conflicts with another, apply
+[Arbitration & Precedence](./README.md#arbitration--precedence).
+ACP remains the final promotion/contraction authority for durable state changes.
+
 ## Related Documentation
 
 - [Deny by Default](./deny-by-default.md)
+- [Observability as a Contract](./observability-as-a-contract.md)
+- [Ownership and Boundaries](./ownership-and-boundaries.md)
 - [Trust Pillar](../pillars/trust.md)
 - [Direction Pillar](../pillars/direction.md)

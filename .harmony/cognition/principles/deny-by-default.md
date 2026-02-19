@@ -22,7 +22,6 @@ This principle applies to:
 - network access
 - service capability grants
 - exception handling and temporary elevation
-- **promotion** of staged changes into durable state (through ACPs)
 
 Deny-by-default is the foundation that makes **autonomous operation safe**: agents
 can run without constant supervision because their authority is explicit, scoped,
@@ -148,21 +147,20 @@ Examples:
 
 Profiles reduce day-to-day friction without weakening deny-by-default.
 
-## How Deny-by-Default Works with ACPs
+## Boundary with ACPs
 
-Deny-by-default answers: **“May this actor attempt this capability?”**  
-ACPs answer: **“May this change be promoted to durable state?”**
+Deny-by-default answers: **“May this actor attempt this capability?”**
 
-A change that is allowed by capability policy can still be blocked (or forced
-to stage-only) by ACP policy if it is:
+ACP answers: **“May this staged change be promoted to durable state?”**
 
-- irreversible (or missing a rollback handle),
-- missing required evidence,
-- beyond budget,
-- missing required quorum attestation, or
-- impacted by a kill-switch / circuit breaker.
+Promotion criteria are defined in ACP, not in this document.
+See: [Autonomous Control Points](./autonomous-control-points.md).
 
-This keeps the system agent-native and autonomous while preserving trust.
+## Arbitration
+
+If this principle conflicts with another, apply
+[Arbitration & Precedence](./README.md#arbitration--precedence).
+This principle governs capability attempts; ACP governs promotion.
 
 ## Development Speed Guidance
 

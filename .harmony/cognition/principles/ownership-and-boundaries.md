@@ -11,7 +11,33 @@ status: Active
 
 ## What This Means
 
-Harmony requires explicit ownership for code surfaces and enforceable module boundaries. Ownership clarifies who decides and who reviews. Boundaries prevent accidental coupling and reduce regression spread.
+Harmony requires explicit ownership for code surfaces and enforceable module boundaries. Ownership clarifies who attests, who decides, and who reviews. Boundaries prevent accidental coupling and reduce regression spread.
+
+Owner identity should be explicit in repository governance metadata (for example `CODEOWNERS`, service owner records, or designated owning teams).
+
+## Owner Attestation
+
+For boundary exceptions, "owner" means the accountable owner of the impacted
+boundary surface (for example a codeowner, service owner, or designated owning
+team).
+
+Owner attestation asserts:
+
+- boundary exception reason and requested scope
+- exception TTL (time-bound validity)
+- rollback plan reference for the affected boundary
+
+Attestation is recorded as a typed evidence item in receipts and must be
+hash-bound to the staged artifacts so policy can verify integrity.
+
+Owner attestation is input to ACP quorum when policy requires it; it is not a
+separate gating mechanism.
+
+## Arbitration
+
+If this principle conflicts with another, apply
+[Arbitration & Precedence](./README.md#arbitration--precedence).
+Owner attestation is a quorum input and never a standalone promotion gate.
 
 ## Why It Matters
 
@@ -67,6 +93,7 @@ from billing._private.retries import force_retry_all
 - `Monolith-first ModuLith` depends on strong internal boundaries.
 - `Contract-first` defines stable interfaces across slices.
 - `Small Diffs, Trunk-based` works better with local ownership.
+- `Autonomous Control Points` governs promotion authority; ownership contributes required attestations when policy demands it.
 
 ## Anti-Pattern: Boundary Erosion
 
@@ -74,12 +101,17 @@ Repeated reach-in imports and unclear ownership create fragile coupling that blo
 
 ## Exceptions
 
-Boundary exceptions require explicit owner approval and a follow-up task to restore the boundary.
+Boundary exceptions may require owner attestation and a follow-up task to
+restore the boundary.
+
+Promotion authority remains ACP policy gate + required quorum.
 
 ## Related Documentation
 
 - `.harmony/cognition/_meta/architecture/repository-blueprint.md`
 - `.harmony/cognition/_meta/architecture/governance-model.md`
+- `.harmony/cognition/principles/autonomous-control-points.md`
+- `.harmony/cognition/principles/deny-by-default.md`
 - `.harmony/cognition/principles/pillars/focus.md`
 - `.harmony/cognition/principles/pillars/continuity.md`
 - `.harmony/cognition/principles/pillars/trust.md`

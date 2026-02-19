@@ -11,7 +11,19 @@ status: Active
 
 ## What This Means
 
-Guardrails combine policy checks, evaluation thresholds, and security controls at design, CI, and runtime boundaries. If required evidence is missing, the default outcome is block, not proceed.
+Guardrails combine policy checks, evaluation thresholds, and security controls at design, CI, and runtime boundaries. They enforce shared policy engines fail-closed; they do not define a separate promotion gate model.
+
+## Where Enforcement Lives
+
+- Capability attempts are enforced by [Deny by Default](./deny-by-default.md).
+- Promotion/contraction to durable state is enforced by [Autonomous Control Points](./autonomous-control-points.md).
+- Guardrails integrate these controls across design, CI, and runtime and block on missing required evidence.
+
+## Arbitration
+
+If this principle conflicts with another, apply
+[Arbitration & Precedence](./README.md#arbitration--precedence).
+Guardrails enforce fail-closed behavior through ACP and deny-by-default policies.
 
 ## Why It Matters
 
@@ -66,6 +78,7 @@ if engineer_says_ok:
 - `Deny by Default` is the permission model foundation.
 - `Autonomous Control Points` governs stage/promote/finalize authorization through policy.
 - `Security and Privacy Baseline` defines non-waivable controls.
+- `Harmony Principles` defines tie-break precedence for conflicts: [Arbitration & Precedence](./README.md#arbitration--precedence).
 
 ## Anti-Pattern: Governance Theater
 

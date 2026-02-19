@@ -6,7 +6,7 @@ description: Canonical principles index and thresholds that translate Harmony pi
 # Harmony Principles
 
 Status: Active (Production)
-Last updated: 2026-02-17
+Last updated: 2026-02-19
 
 Principles are Harmony's operational translation layer between philosophy and execution.
 
@@ -27,6 +27,36 @@ Convivial Purpose (WHY)
 Harmony principles are the decision layer between pillars and methodology. They define how day-to-day technical choices preserve the six pillars while optimizing for velocity, maintainability, scalability, reliability, security, and simplicity.
 
 For small teams, default to the smallest viable process, design, and tooling that preserves quality and governance. Escalate ceremony only for higher-risk changes.
+
+## Arbitration & Precedence
+
+Arbitration exists to resolve principle tensions without weakening RA/ACP governance.
+
+Hierarchy:
+
+- **Assurance > Productivity > Integration**
+
+Rules:
+
+1. For durable state changes, **ACP policy decisions are the final promotion authority**.
+2. **Assurance principles override delivery-speed principles** when they conflict.
+3. Within Assurance, precedence is: `Deny by Default` + `Security and Privacy Baseline` + `Guardrails` + `Reversibility`.
+4. `No Silent Apply` is satisfied by **receipts/evidence/rollback handles**, not default human approval.
+5. Owner approval is a **required attestation input** for boundary exceptions and never replaces risk-tier quorum where quorum is required.
+6. Determinism is default; **bounded variance** is allowed only under explicit policy with full provenance in receipts.
+7. Observability requirements must fit **budget/circuit envelopes** via approved telemetry profiles; any relaxation requires a receipt.
+8. Trunk speed does not bypass **stage -> ACP gate -> promote** sequencing for material side effects.
+9. Every arbitration outcome must be recorded in **append-only audit trails** and included in oversight digests.
+
+Worked examples:
+
+- Example A (`Small Diffs, Trunk-based` vs ACP): if a change is ready to merge quickly but has material side effects, it must still pass stage -> ACP gate -> promote before durable apply.
+- Example B (`Observability as a Contract` vs budgets): if `full` telemetry breaches budget/circuit policy, use approved `sampled` profile and record the waiver in the receipt.
+
+Recording requirement:
+
+- When arbitration is applied, write an append-only decision record (for example ADR under `.harmony/cognition/decisions/`).
+- Include arbitration rationale and affected rule IDs in run receipts/digests (for example `.harmony/continuity/runs/*/receipt.json` note fields).
 
 ## Principle Index
 
@@ -50,7 +80,7 @@ For small teams, default to the smallest viable process, design, and tooling tha
 | Core | Reversibility | Ensure every material change has a tested rollback path. | Trust, Velocity | [Guide](./reversibility.md) |
 | Core | Ownership and Boundaries | Encode ownership and architecture boundaries in tooling and review. | Focus, Continuity, Trust | [Guide](./ownership-and-boundaries.md) |
 | Core | Learn Continuously | Convert incidents and outcomes into small evidence-backed improvements. | Insight, Continuity | [Guide](./learn-continuously.md) |
-| Agentic | No Silent Apply | Agents produce proposals; humans authorize material side-effects. | Trust, Direction | [Guide](./no-silent-apply.md) |
+| Agentic | No Silent Apply | Agents produce proposals; durable side-effects require ACP evidence and receipts. | Trust, Direction | [Guide](./no-silent-apply.md) |
 | Agentic | Determinism and Provenance | Persist model/prompt/run metadata for reproducibility and auditability. | Trust, Insight, Continuity | [Guide](./determinism-and-provenance.md) |
 | Agentic | Idempotency | Make mutating operations safe under retries and partial failures. | Trust, Velocity | [Guide](./idempotency.md) |
 | Agentic | Guardrails | Apply policy/eval/security gates fail-closed across agent loops. | Trust | [Guide](./guardrails.md) |
@@ -64,7 +94,7 @@ These defaults are normative unless a documented waiver applies:
 - PR size: `<= 400 changed lines` (adds + deletes; generated/lock files excluded).
 - One PR, one concern: no mixed refactor + feature + migration in a single diff.
 - First human review response: `<= 4 working hours` for active PRs.
-- AI deterministic settings: `temperature <= 0.3` for code/spec changes; higher values require explicit PR justification.
+- AI deterministic settings: deterministic mode by default for code/spec changes; higher variance requires explicit policy/receipt justification.
 - Waiver duration: `<= 7 days` or until merge (whichever is sooner).
 - Flag hygiene: each flag must have owner + expiry and be removed within `<= 2 release cycles` after GA.
 - Rollback-first rule: if safe fix-forward is not possible within `15 minutes`, execute rollback.

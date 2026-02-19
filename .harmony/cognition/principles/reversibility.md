@@ -48,6 +48,31 @@ Reversibility is implemented through the expand/contract pattern:
 
 This ensures there's always a working state to return to.
 
+### Stage, Promote, Finalize
+
+Reversibility under RA/ACP uses explicit phases:
+
+1. **Stage**: apply changes in reversible form (branch/overlay/canary/tombstone) that can be discarded safely.
+2. **Promote**: move staged changes to durable state only after ACP gate pass (policy + evidence + rollback validation + quorum where applicable).
+3. **Finalize**: irreversible cleanup (for example hard delete) remains blocked by default and is separate from routine promotion.
+
+For destructive-adjacent operations, use soft destruction with a declared recovery window before any finalize step.
+
+## Scope Boundary with ACP
+
+Promotion and contraction authority is defined in
+[Autonomous Control Points](./autonomous-control-points.md).
+
+This document defines design guidance for reversible primitives, rollback paths,
+and recovery windows. Human escalation occurs only when ACP policy triggers it
+(for example threshold breach, unresolved disagreement, or break-glass policy).
+
+## Arbitration
+
+If this principle conflicts with another, apply
+[Arbitration & Precedence](./README.md#arbitration--precedence).
+This principle defines reversible design patterns; ACP defines durable-state authority.
+
 ## In Practice
 
 ### Deployment Reversibility
@@ -293,8 +318,9 @@ Some changes are inherently difficult to reverse:
 
 For these cases:
 1. Extend the expand phase
-2. Require explicit sign-off before contraction
-3. Document the point of no return
+2. Require explicit ACP contraction gate pass (policy + evidence + rollback validation + quorum where applicable)
+3. Use soft-destruction defaults with declared recovery windows before finalization
+4. Document the point of no return
 
 ## Anti-Pattern: Big Bang Release
 
@@ -318,3 +344,4 @@ Prevention:
 - [Velocity Pillar](../pillars/velocity.md) — Speed enabled by safe rollback
 - [Flags by Default](./flags-by-default.md) — Feature flags for reversibility
 - [Small Diffs, Trunk-based](./small-diffs-trunk-based.md) — Smaller changes, easier rollback
+- [Autonomous Control Points](./autonomous-control-points.md) — Stage/promote governance and exception escalation policy

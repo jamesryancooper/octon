@@ -1,24 +1,24 @@
 ---
 title: Governed Determinism
-description: Same inputs produce same outputs. Pin versions, control randomness, and ensure reproducible behavior.
+description: Deterministic-by-default behavior with bounded, policy-approved variance and full provenance for reproducibility.
 pillar: Trust, Insight
 status: Active
 ---
 
 # Governed Determinism
 
-> Same inputs produce same outputs. Pin versions, control randomness, and ensure reproducible behavior.
+> Deterministic by default. When variance is needed, keep it bounded, policy-approved, and fully recorded for reproducibility.
 
 ## What This Means
 
-Determinism is a reliability principle: given the same inputs, a system should produce the same outputs. This enables:
+Determinism is a reliability principle: by default, the same inputs should produce the same outputs. Harmony also allows policy-approved bounded variance for long autonomous runs and recovery strategies, provided that variance mode and parameters are declared and recorded. This enables:
 
 - **Reproducibility**: Bugs can be recreated and verified as fixed
 - **Testability**: Tests are reliable, not flaky
 - **Debugging**: Behavior can be traced and understood
 - **Auditability**: Past decisions can be reviewed and explained
 
-In AI-assisted development, determinism is especially critical because LLMs are inherently probabilistic. Harmony manages this through explicit configuration, pinning, and provenance tracking.
+In AI-assisted development, determinism is especially critical because LLMs are inherently probabilistic. Harmony manages this through explicit configuration, pinning, bounded variance controls, and provenance tracking.
 
 ## Why It Matters
 
@@ -60,7 +60,7 @@ Harmony addresses these through explicit controls and provenance tracking.
 | Dependencies | Pin versions | Lock files, exact versions |
 | Configuration | Version and hash | Config files in source control |
 | AI Models | Pin provider/model/version | Explicit config, not "latest" |
-| AI Parameters | Low temperature, fixed seed | Documented settings |
+| AI Parameters | Deterministic default + bounded variance mode | Documented settings + policy receipt reference |
 | Randomness | Seeded generators | Explicit seed management |
 | Time | Inject time | Avoid `Date.now()` in logic |
 | External Services | Mock or record | Deterministic test doubles |
@@ -95,9 +95,13 @@ model:
   version: "20250514"        # Explicit version, not "latest"
   
 parameters:
-  temperature: 0.0           # Maximum determinism
+  mode: deterministic         # Default mode
+  temperature: 0.0            # Default deterministic setting
   max_tokens: 4096
   # seed: 42                 # If supported by provider
+  # variance_mode: bounded_exploration  # Policy-approved only
+  # variance_seed: 42                  # Required when variance_mode is set
+  # acp_receipt_id: "rcpt-..."         # Required when variance_mode is set
 ```
 
 **Track provenance for AI outputs:**
@@ -115,9 +119,12 @@ interface AIInvocation {
   model: string;
   model_version: string;
   parameters: {
+    mode: 'deterministic' | 'bounded_variance';
     temperature: number;
     max_tokens: number;
+    seed?: number;
   };
+  acp_receipt_id?: string; // Required when mode = bounded_variance
   
   // Output provenance
   output_hash: string;
@@ -129,6 +136,7 @@ const result = await llm.complete(prompt, {
   temperature: 0,
   onComplete: (response) => {
     audit.log({
+      mode: 'deterministic',
       prompt_hash: hash(prompt),
       model: 'claude-sonnet-4-20250514',
       output_hash: hash(response),
@@ -207,7 +215,7 @@ model:
   name: claude-sonnet  # Which version? Will change!
   
 parameters:
-  temperature: 0.7     # Non-deterministic
+  temperature: 0.7     # Unbounded variance with no policy declaration
 ```
 
 **Don't rely on implicit ordering:**
@@ -349,7 +357,15 @@ ENV GIT_SHA=${GIT_SHA}
 | Deny by Default | Predictable permission decisions |
 | Autonomous Control Points | Policy gates evaluate deterministic diffs before promotion |
 
-## Acceptable Non-Determinism
+## Policy-Bounded Variance and Acceptable Non-Determinism
+
+Harmony permits bounded variance only when policy allows it and the run is fully traceable in receipts.
+
+For bounded variance in autonomous runs:
+1. Declare mode as `bounded_variance` before execution
+2. Record variance parameters (for example `temperature`, `seed`, sampling controls)
+3. Attach the ACP receipt reference for the policy decision
+4. Keep variance bounded to the approved range and time window
 
 Some non-determinism is acceptable when:
 
@@ -379,9 +395,16 @@ Prevention:
 - Use idempotency keys
 - Track full provenance for AI calls
 
+## Arbitration
+
+If this principle conflicts with another, apply
+[Arbitration & Precedence](./README.md#arbitration--precedence).
+Determinism is default; bounded variance requires explicit policy and receipt provenance.
+
 ## Related Documentation
 
 - [Trust Pillar](../pillars/trust.md) — Governed determinism for predictable behavior
 - [Insight Pillar](../pillars/insight.md) — Learning requires reproducibility
 - [Agentic Principles](./README.md#agentic-principles) — Determinism & provenance for AI
+- [Autonomous Control Points](./autonomous-control-points.md) — Policy gates and receipts for bounded variance
 - [EvalKit](/.harmony/capabilities/services/_meta/docs/kits-reference.md) — Deterministic AI evaluation
