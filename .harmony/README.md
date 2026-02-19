@@ -32,7 +32,8 @@ Harmony gives a solo builder or small team a structured control plane for
 software delivery by:
 
 - Standardizing execution through agents, assistants, workflows, and skills
-- Enforcing safety via deny-by-default permissions and risk-tiered HITL checks
+- Enforcing safety via an agent-native deny-by-default control plane (shared
+  policy engine, scoped permissions, and CI/runtime parity gates)
 - Preventing unsafe autonomy with no-silent-apply for material side effects
 - Preserving continuity through append-only logs, decisions, and next-step artifacts
 - Requiring assurance gates before handoff or completion
@@ -54,7 +55,7 @@ external service.
 Harmony is organized by function:
 
 - `agency/`: actor model, delegation, and contracts
-- `capabilities/`: commands, skills, tools, services
+- `capabilities/`: commands, skills, tools, services, and shared policy ops (`_ops/`)
 - `orchestration/`: workflows and missions for multi-step execution
 - `cognition/`: principles, methodology, and architecture contracts
 - `continuity/`: operational memory across sessions
@@ -70,7 +71,8 @@ Discovery follows progressive disclosure:
 
 Governance is explicit:
 
-- Human approval is required for consequential side effects
+- Consequential side effects are governed by deny-by-default policy, risk tiers,
+  and explicit checkpoints (human review where policy requires it)
 - Agent autonomy is bounded by contract precedence and policy
 - Human-led zones (for example, `ideation/`) are excluded unless explicitly scoped
 
@@ -136,6 +138,7 @@ When resolving a resource, agents check local first, then shared:
 │
 ├── capabilities/
 │   ├── _meta/architecture/ <- Capabilities subsystem specification
+│   ├── _ops/           <- Agent-native deny-by-default control plane assets
 │   ├── skills/         <- Skills framework + generic skills
 │   ├── commands/       <- Generic atomic operations
 │   ├── tools/          <- Tool packs and custom tools
@@ -270,6 +273,7 @@ If your tool supports harness commands, run `/init` instead of invoking the scri
 | `agency/assistants/` | Generic specialists (reviewer, refactor, docs) |
 | `agency/teams/` | Reusable multi-actor compositions |
 | `orchestration/workflows/` | Harness management + mission lifecycle |
+| `capabilities/_ops/` | Agent-native deny-by-default control plane (policy, grants, kill-switches, validation) |
 | `capabilities/skills/` | Composable capabilities with defined I/O |
 | `capabilities/commands/` | Atomic operations |
 | `scaffolding/prompts/` | Task templates |
