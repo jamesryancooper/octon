@@ -9,6 +9,7 @@
 #   --strict              Enable strict contract checks and treat trigger duplicates as errors
 #   --strict-display-name Treat display_name convention violations as errors
 #   --fix                 Auto-fix issues where possible (scaffold missing entries)
+#   --profile             Validation profile: strict (default) or dev-fast
 #   --help                Show this help message
 #
 # Checks:
@@ -74,11 +75,18 @@ REGISTRY="$SKILLS_DIR/registry.yml"
 SKILLS_REGISTRY="$REPO_ROOT/.harmony/capabilities/skills/registry.yml"
 TOOLS_MANIFEST="$REPO_ROOT/.harmony/capabilities/tools/manifest.yml"
 SERVICES_MANIFEST="$REPO_ROOT/.harmony/capabilities/services/manifest.yml"
+EXCEPTIONS_FILE="$REPO_ROOT/.harmony/capabilities/_ops/state/deny-by-default-exceptions.yml"
+AGENT_ONLY_POLICY_FILE="$REPO_ROOT/.harmony/capabilities/_ops/policy/agent-only-governance.yml"
+AGENT_ONLY_VALIDATOR="$REPO_ROOT/.harmony/capabilities/_ops/scripts/validate-agent-only-governance.sh"
+POLICY_V2_FILE="$REPO_ROOT/.harmony/capabilities/_ops/policy/deny-by-default.v2.yml"
+POLICY_RUNNER="$REPO_ROOT/.harmony/capabilities/_ops/scripts/run-harmony-policy.sh"
+TODAY="$(date +%F)"
 
 # Configuration
 STRICT_MODE=false
 STRICT_DISPLAY_NAME=false
 FIX_MODE=false
+VALIDATION_PROFILE="${HARMONY_VALIDATION_PROFILE:-strict}"
 SKILL_MD_TOKEN_BUDGET=5000
 SKILL_MD_LINE_BUDGET=500
 MANIFEST_ENTRY_TOKEN_BUDGET=150
@@ -135,6 +143,18 @@ while [[ "$1" == --* ]]; do
             FIX_MODE=true
             shift
             ;;
+        --profile)
+            if [[ -z "$2" ]]; then
+                echo "Missing value for --profile (expected strict|dev-fast)"
+                exit 1
+            fi
+            VALIDATION_PROFILE="$2"
+            shift 2
+            ;;
+        --profile=*)
+            VALIDATION_PROFILE="${1#--profile=}"
+            shift
+            ;;
         --help)
             show_help
             ;;
@@ -144,6 +164,11 @@ while [[ "$1" == --* ]]; do
             ;;
     esac
 done
+
+if [[ "$VALIDATION_PROFILE" != "strict" ]] && [[ "$VALIDATION_PROFILE" != "dev-fast" ]]; then
+    echo "Invalid profile '$VALIDATION_PROFILE' (expected strict|dev-fast)"
+    exit 1
+fi
 
 log_error() {
     echo -e "${RED}ERROR:${NC} $1"
@@ -174,6 +199,164 @@ contains() {
         fi
     done
     return 1
+}
+
+trim_value() {
+    local value="$1"
+    value="${value#\"}"
+    value="${value%\"}"
+    value="${value#\'}"
+    value="${value%\'}"
+    echo "$value" | xargs
+}
+
+is_valid_date() {
+    local value="$1"
+    [[ "$value" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]
+}
+
+get_exception_expiry() {
+    local expected_scope="$1"
+    local expected_target="$2"
+    local expected_rule="$3"
+
+    [[ -f "$EXCEPTIONS_FILE" ]] || return 0
+
+    local in_exceptions=false
+    local scope=""
+    local target=""
+    local rule=""
+    local expires=""
+    local line trimmed value
+
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        trimmed="$(echo "$line" | sed 's/^[[:space:]]*//')"
+        [[ -z "$trimmed" || "$trimmed" == \#* ]] && continue
+
+        if [[ "$trimmed" == "exceptions:" ]]; then
+            in_exceptions=true
+            continue
+        fi
+
+        if [[ "$in_exceptions" != true ]]; then
+            continue
+        fi
+
+        if [[ "$trimmed" == "- id:"* ]]; then
+            if [[ "$scope" == "$expected_scope" && "$target" == "$expected_target" && "$rule" == "$expected_rule" ]]; then
+                echo "$expires"
+                return 0
+            fi
+            scope=""
+            target=""
+            rule=""
+            expires=""
+            continue
+        fi
+
+        if [[ "$trimmed" == scope:* ]]; then
+            value="${trimmed#scope:}"
+            scope="$(trim_value "$value")"
+        elif [[ "$trimmed" == target:* ]]; then
+            value="${trimmed#target:}"
+            target="$(trim_value "$value")"
+        elif [[ "$trimmed" == rule:* ]]; then
+            value="${trimmed#rule:}"
+            rule="$(trim_value "$value")"
+        elif [[ "$trimmed" == expires:* ]]; then
+            value="${trimmed#expires:}"
+            expires="$(trim_value "$value")"
+        fi
+    done < "$EXCEPTIONS_FILE"
+
+    if [[ "$scope" == "$expected_scope" && "$target" == "$expected_target" && "$rule" == "$expected_rule" ]]; then
+        echo "$expires"
+    fi
+}
+
+require_active_exception() {
+    local scope="$1"
+    local target="$2"
+    local rule="$3"
+    local reason="$4"
+
+    local expires
+    expires="$(get_exception_expiry "$scope" "$target" "$rule")"
+
+    if [[ -z "$expires" ]]; then
+        log_error "$reason requires active exception lease (${scope}/${target}/${rule}) in $EXCEPTIONS_FILE"
+        return 1
+    fi
+
+    if ! is_valid_date "$expires"; then
+        log_error "Exception lease has invalid expiry format for (${scope}/${target}/${rule}): $expires"
+        return 1
+    fi
+
+    if [[ "$expires" < "$TODAY" ]]; then
+        log_error "Exception lease expired for (${scope}/${target}/${rule}) on $expires"
+        return 1
+    fi
+
+    log_success "Exception lease active for (${scope}/${target}/${rule}) until $expires"
+    return 0
+}
+
+extract_policy_field() {
+    local json="$1"
+    local path="$2"
+
+    if command -v jq >/dev/null 2>&1; then
+        jq -r "$path // empty" <<<"$json" 2>/dev/null || true
+        return
+    fi
+
+    echo ""
+}
+
+validate_skill_policy_with_engine() {
+    local skill_id="$1"
+    local skill_dir="$2"
+
+    if [[ ! -x "$POLICY_RUNNER" || ! -f "$POLICY_V2_FILE" ]]; then
+        log_error "Policy runner unavailable for skill '$skill_id': $POLICY_RUNNER"
+        return 1
+    fi
+
+    local output rc=0
+    output="$(
+        "$POLICY_RUNNER" preflight \
+            --kind skill \
+            --id "$skill_id" \
+            --manifest "$MANIFEST" \
+            --artifact "$skill_dir/SKILL.md" \
+            --policy "$POLICY_V2_FILE" \
+            --exceptions "$EXCEPTIONS_FILE" 2>&1
+    )" || rc=$?
+
+    case "$rc" in
+        0)
+            log_success "deny-by-default preflight passed for skill '$skill_id'"
+            return 0
+            ;;
+        13)
+            local code message hint
+            code="$(extract_policy_field "$output" '.deny.code')"
+            message="$(extract_policy_field "$output" '.deny.message')"
+            hint="$(extract_policy_field "$output" '.deny.remediation_hint')"
+            [[ -n "$code" ]] || code="DDB025_RUNTIME_DECISION_ENGINE_ERROR"
+            [[ -n "$message" ]] || message="Policy preflight denied."
+            log_error "Skill '$skill_id' failed deny-by-default preflight [$code]: $message"
+            if [[ -n "$hint" ]]; then
+                log_info "  remediation: $hint"
+            fi
+            return 1
+            ;;
+        *)
+            log_error "Policy engine preflight failed for '$skill_id': $output"
+            return 1
+            ;;
+    esac
 }
 
 # Extract skill IDs from manifest
@@ -791,14 +974,14 @@ split_allowed_tools() {
     for ((i=0; i<${#raw}; i++)); do
         ch="${raw:i:1}"
 
-        case "$ch" in
-            "(")
-                ((depth++))
+            case "$ch" in
+                "(")
+                depth=$((depth + 1))
                 token+="$ch"
                 ;;
-            ")")
+                ")")
                 if [[ $depth -gt 0 ]]; then
-                    ((depth--))
+                    depth=$((depth - 1))
                 fi
                 token+="$ch"
                 ;;
@@ -854,6 +1037,24 @@ has_non_minimal_bash_permissions() {
                     return 0
                     ;;
             esac
+        fi
+    done < <(get_skill_allowed_tools "$skill_dir")
+
+    return 1
+}
+
+# Returns 0 when any Write(...) scope is broad (contains **), 1 otherwise.
+skill_has_broad_write_scope() {
+    local skill_dir="$1"
+    local allowed
+
+    while IFS= read -r allowed; do
+        [[ -z "$allowed" ]] && continue
+        if [[ "$allowed" =~ ^Write\((.*)\)$ ]]; then
+            local write_scope="${BASH_REMATCH[1]}"
+            if [[ "$write_scope" == *"**"* ]]; then
+                return 0
+            fi
         fi
     done < <(get_skill_allowed_tools "$skill_dir")
 
@@ -2784,15 +2985,10 @@ validate_skill() {
         internal_tools=$(get_skill_tools "$skill_dir")
         log_success "allowed-tools is valid: $internal_tools"
 
-        # Active skills must scope Bash permissions explicitly.
         local manifest_status
         manifest_status=$(get_manifest_status "$skill_id")
-        if [[ "$manifest_status" == "active" ]] && grep -qx "Bash" < <(get_skill_allowed_tools "$skill_dir"); then
-            log_error "Unscoped Bash permission found in active skill. Use Bash(<command>) scopes."
-        fi
-        if [[ "$manifest_status" == "active" ]] && grep -qx "Write" < <(get_skill_allowed_tools "$skill_dir"); then
-            log_error "Unscoped Write permission found in active skill. Use Write(<path>/*) scopes."
-        fi
+
+        validate_skill_policy_with_engine "$skill_id" "$skill_dir" || true
 
         # Active skills with external binary/toolchain usage must declare explicit capability.
         if [[ "$manifest_status" == "active" ]] && has_non_minimal_bash_permissions "$skill_dir"; then
@@ -2850,75 +3046,79 @@ validate_skill() {
         fi
     fi
     
-    # Check 17: Token budget validation
-    validate_token_budgets "$skill_id" "$skill_dir" || true
+    if [[ "$VALIDATION_PROFILE" == "strict" ]]; then
+        # Check 17: Token budget validation
+        validate_token_budgets "$skill_id" "$skill_dir" || true
 
-    # Check 18: Description/summary alignment
-    local alignment_status=0
-    check_description_summary_alignment "$skill_id" "$skill_dir" >/dev/null 2>&1 || alignment_status=$?
+        # Check 18: Description/summary alignment
+        local alignment_status=0
+        check_description_summary_alignment "$skill_id" "$skill_dir" >/dev/null 2>&1 || alignment_status=$?
 
-    if [[ $alignment_status -eq 0 ]]; then
-        log_success "Description/summary alignment OK"
-    else
-        log_warning "Description/summary may need review (see SKILL.md description vs manifest summary)"
-    fi
-
-    # Check 18: Reference file content validation (io-contract.md, examples.md)
-    local ref_content_status=0
-    validate_reference_content "$skill_id" "$skill_dir" >/dev/null 2>&1 || ref_content_status=$?
-
-    if [[ $ref_content_status -eq 0 ]]; then
-        log_success "Reference file content aligns with registry"
-    else
-        log_warning "Reference content may need review (see io-contract.md vs registry.yml)"
-    fi
-
-    # Check 19: Placeholder format validation in registry paths
-    if [[ -f "$SKILLS_REGISTRY" ]]; then
-        local placeholder_issues=0
-        validate_skill_placeholders "$skill_id" || placeholder_issues=$?
-        check_deprecated_placeholder_formats "$skill_id" || ((placeholder_issues++)) || true
-
-        if [[ $placeholder_issues -eq 0 ]]; then
-            log_success "Placeholder formats valid ({{snake_case}})"
+        if [[ $alignment_status -eq 0 ]]; then
+            log_success "Description/summary alignment OK"
+        else
+            log_warning "Description/summary may need review (see SKILL.md description vs manifest summary)"
         fi
-    fi
 
-    # Check 20: Version staleness check
-    local version_result version_status=0
-    version_result=$(check_version_staleness "$skill_id" "$skill_dir" 2>&1) || version_status=$?
+        # Check 18: Reference file content validation (io-contract.md, examples.md)
+        local ref_content_status=0
+        validate_reference_content "$skill_id" "$skill_dir" >/dev/null 2>&1 || ref_content_status=$?
 
-    if [[ $version_status -eq 0 ]]; then
-        local current_version
-        current_version=$(get_registry_version "$skill_id")
-        log_success "Version OK: $current_version"
+        if [[ $ref_content_status -eq 0 ]]; then
+            log_success "Reference file content aligns with registry"
+        else
+            log_warning "Reference content may need review (see io-contract.md vs registry.yml)"
+        fi
+
+        # Check 19: Placeholder format validation in registry paths
+        if [[ -f "$SKILLS_REGISTRY" ]]; then
+            local placeholder_issues=0
+            validate_skill_placeholders "$skill_id" || placeholder_issues=$?
+            check_deprecated_placeholder_formats "$skill_id" || ((placeholder_issues++)) || true
+
+            if [[ $placeholder_issues -eq 0 ]]; then
+                log_success "Placeholder formats valid ({{snake_case}})"
+            fi
+        fi
+
+        # Check 20: Version staleness check
+        local version_result version_status=0
+        version_result=$(check_version_staleness "$skill_id" "$skill_dir" 2>&1) || version_status=$?
+
+        if [[ $version_status -eq 0 ]]; then
+            local current_version
+            current_version=$(get_registry_version "$skill_id")
+            log_success "Version OK: $current_version"
+        else
+            log_warning "Version review: $version_result"
+            log_info "  Update version in .harmony/capabilities/skills/registry.yml when making changes"
+        fi
+
+        # Check 21: Line count validation (per agentskills.io spec)
+        local line_count
+        line_count=$(get_skill_line_count "$skill_dir")
+
+        if [[ $line_count -gt $SKILL_MD_LINE_BUDGET ]]; then
+            log_warning "SKILL.md exceeds line budget ($line_count > $SKILL_MD_LINE_BUDGET lines)"
+            log_info "  Per agentskills.io spec, move detailed content to references/"
+        else
+            log_success "SKILL.md within line budget ($line_count lines)"
+        fi
+
+        # Check 22: Reference file token budgets
+        validate_reference_token_budgets "$skill_id" "$skill_dir" || true
+
+        # Check 23: Aggregate complexity budget (total reference file tokens)
+        validate_aggregate_complexity "$skill_id" "$skill_dir" || true
+
+        # Check 24: Complex skill pattern-triggered files
+        check_complex_skill_files "$skill_id" "$skill_dir" || true
+
+        # Check 25: Capability heuristics (for minimal skills)
+        validate_capability_heuristics "$skill_id" "$skill_dir" || true
     else
-        log_warning "Version review: $version_result"
-        log_info "  Update version in .harmony/capabilities/skills/registry.yml when making changes"
+        log_info "dev-fast profile: skipped deep documentation/token checks"
     fi
-
-    # Check 21: Line count validation (per agentskills.io spec)
-    local line_count
-    line_count=$(get_skill_line_count "$skill_dir")
-
-    if [[ $line_count -gt $SKILL_MD_LINE_BUDGET ]]; then
-        log_warning "SKILL.md exceeds line budget ($line_count > $SKILL_MD_LINE_BUDGET lines)"
-        log_info "  Per agentskills.io spec, move detailed content to references/"
-    else
-        log_success "SKILL.md within line budget ($line_count lines)"
-    fi
-
-    # Check 22: Reference file token budgets
-    validate_reference_token_budgets "$skill_id" "$skill_dir" || true
-
-    # Check 23: Aggregate complexity budget (total reference file tokens)
-    validate_aggregate_complexity "$skill_id" "$skill_dir" || true
-
-    # Check 24: Complex skill pattern-triggered files
-    check_complex_skill_files "$skill_id" "$skill_dir" || true
-
-    # Check 25: Capability heuristics (for minimal skills)
-    validate_capability_heuristics "$skill_id" "$skill_dir" || true
 }
 
 # Main
@@ -2928,6 +3128,7 @@ echo "================================"
 echo "Skills directory: $SKILLS_DIR"
 echo "Manifest: $MANIFEST"
 echo "Registry: $REGISTRY"
+echo "Validation profile: $VALIDATION_PROFILE"
 if [[ "$REGISTRY" == "$SKILLS_REGISTRY" ]]; then
     echo "Skills registry: $SKILLS_REGISTRY (single-registry mode)"
 else
@@ -2948,13 +3149,37 @@ if [[ ! -f "$SKILLS_REGISTRY" ]]; then
     log_warning "Skills registry not found (I/O validation will be skipped)"
 fi
 
-# Report token counting method
-if [[ "$TIKTOKEN_AVAILABLE" == "true" ]]; then
-    echo "Token counting: tiktoken (accurate)"
+if [[ ! -f "$EXCEPTIONS_FILE" ]]; then
+    log_warning "Deny-by-default exceptions file not found: $EXCEPTIONS_FILE"
+fi
+
+if [[ -x "$AGENT_ONLY_VALIDATOR" ]]; then
+    if ! "$AGENT_ONLY_VALIDATOR" "$AGENT_ONLY_POLICY_FILE" >/dev/null 2>&1; then
+        if [[ "$VALIDATION_PROFILE" == "strict" ]]; then
+            log_error "Agent-only governance policy validation failed: $AGENT_ONLY_POLICY_FILE"
+        else
+            log_warning "Agent-only governance policy validation failed: $AGENT_ONLY_POLICY_FILE"
+        fi
+    else
+        log_success "Agent-only governance policy validated"
+    fi
+elif [[ "$VALIDATION_PROFILE" == "strict" ]]; then
+    log_error "Missing agent-only governance validator: $AGENT_ONLY_VALIDATOR"
 else
-    echo "Token counting: word count approximation (±20% variance)"
-    log_info "  For accurate token validation, install: pip install tiktoken"
-    log_info "  Recommended for CI environments."
+    log_warning "Missing agent-only governance validator: $AGENT_ONLY_VALIDATOR"
+fi
+
+# Report token counting method
+if [[ "$VALIDATION_PROFILE" == "strict" ]]; then
+    if [[ "$TIKTOKEN_AVAILABLE" == "true" ]]; then
+        echo "Token counting: tiktoken (accurate)"
+    else
+        echo "Token counting: word count approximation (±20% variance)"
+        log_info "  For accurate token validation, install: pip install tiktoken"
+        log_info "  Recommended for CI environments."
+    fi
+else
+    echo "Token counting: skipped (dev-fast profile)"
 fi
 
 # Report fix mode
@@ -2983,38 +3208,54 @@ else
         validate_skill "$skill_id" </dev/null
     done
     
-    # Check for orphaned directories (directories not in manifest)
-    echo ""
-    echo "Checking for orphaned skill directories..."
-    echo "─────────────────────────────"
+    if [[ "$VALIDATION_PROFILE" == "strict" ]]; then
+        # Check for orphaned directories (directories not in manifest)
+        echo ""
+        echo "Checking for orphaned skill directories..."
+        echo "─────────────────────────────"
 
-    # Skip known infrastructure directories and manifest-defined groups.
-    # Include legacy names for backward compatibility during migration windows.
-    infra_dirs="_scaffold _ops archive _template _scripts _state"
-    group_dirs=""
-    group_dirs=$(awk '/group:/{gsub(/.*group:[[:space:]]*/, ""); gsub(/[[:space:]]*$/, ""); print}' "$MANIFEST" | sort -u)
+        # Skip known infrastructure directories and manifest-defined groups.
+        # Include legacy names for backward compatibility during migration windows.
+        infra_dirs="_scaffold _ops archive _template _scripts _state"
+        group_dirs=""
+        group_dirs=$(awk '/group:/{gsub(/.*group:[[:space:]]*/, ""); gsub(/[[:space:]]*$/, ""); print}' "$MANIFEST" | sort -u)
 
-    for dir in "$SKILLS_DIR"/*/; do
-        dir_name=$(basename "$dir")
-        if echo "$infra_dirs" | grep -qw "$dir_name"; then
-            continue
+        for dir in "$SKILLS_DIR"/*/; do
+            dir_name=$(basename "$dir")
+            if echo "$infra_dirs" | grep -qw "$dir_name"; then
+                continue
+            fi
+            if echo "$group_dirs" | grep -qw "$dir_name"; then
+                continue
+            fi
+            if ! grep -q "id: $dir_name" "$MANIFEST"; then
+                log_warning "Directory '$dir_name' exists but not listed in manifest"
+            fi
+        done
+
+        # Check for trigger overlap between skills
+        echo ""
+        echo "Checking for trigger overlaps..."
+        echo "─────────────────────────────"
+        check_trigger_overlaps
+
+        # Cross-reference validation (manifest ↔ registry)
+        check_manifest_registry_sync
+    else
+        log_info "dev-fast profile: skipped global manifest drift checks (orphan dirs/triggers/cross-ref)"
+    fi
+fi
+
+if [[ $errors -eq 0 ]]; then
+    policy_compiler="$SKILLS_DIR/_ops/scripts/compile-deny-by-default-policy.sh"
+    if [[ -x "$policy_compiler" ]]; then
+        catalog_path="$("$policy_compiler" 2>/dev/null)"
+        if [[ -n "$catalog_path" ]]; then
+            log_success "Compiled deny-by-default skill policy catalog: $catalog_path"
+        else
+            log_warning "Failed to compile deny-by-default skill policy catalog"
         fi
-        if echo "$group_dirs" | grep -qw "$dir_name"; then
-            continue
-        fi
-        if ! grep -q "id: $dir_name" "$MANIFEST"; then
-            log_warning "Directory '$dir_name' exists but not listed in manifest"
-        fi
-    done
-    
-    # Check for trigger overlap between skills
-    echo ""
-    echo "Checking for trigger overlaps..."
-    echo "─────────────────────────────"
-    check_trigger_overlaps
-    
-    # Cross-reference validation (manifest ↔ registry)
-    check_manifest_registry_sync
+    fi
 fi
 
 # Summary

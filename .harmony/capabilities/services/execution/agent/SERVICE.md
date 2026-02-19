@@ -1,14 +1,14 @@
 ---
 name: agent
 description: >
-  Native execution-domain agent service that runs canonical plans with checkpoint,
-  resume, and human-in-the-loop control points.
+  Native execution-domain agent service that runs canonical plans with checkpoint
+  and resume control points.
 interface_type: shell
 version: "0.1.0"
 metadata:
   author: "harmony"
   created: "2026-02-16"
-  updated: "2026-02-16"
+  updated: "2026-02-19"
 input_schema: schema/input.schema.json
 output_schema: schema/output.schema.json
 rules: rules/
@@ -28,7 +28,7 @@ observability:
   service_name: "harmony.service.agent"
   required_spans: ["service.agent.execute", "service.agent.resume"]
 policy:
-  rules: [agent-plan-required, agent-checkpoint-required]
+  rules: [agent-plan-required, agent-checkpoint-required, deny-by-default-preflight-loop]
   enforcement: block
   fail_closed: true
 idempotency:
@@ -39,9 +39,15 @@ impl:
   timeout_ms: 30000
   health_check: null
 dry_run: true
-allowed-tools: Read Glob Grep Bash
+allowed-tools: Read Glob Grep Bash(bash)
 ---
 
 # Agent Service
 
 Executes plan contracts with resumable run semantics.
+
+Agent-native deny-by-default support:
+
+- preflight grant evaluation before execution
+- low-risk auto-remediation with bounded retry (`HARMONY_DDB_REMEDIATE_MAX_ATTEMPTS`)
+- profile-aware grant path (`HARMONY_POLICY_PROFILE`)

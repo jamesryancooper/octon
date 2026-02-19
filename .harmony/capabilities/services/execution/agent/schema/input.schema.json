@@ -9,16 +9,7 @@
     "runId": { "type": "string" },
     "resume": { "type": "boolean" },
     "memoize": { "type": "boolean" },
-    "dryRun": { "type": "boolean" },
-    "hitl": {
-      "type": "object",
-      "properties": {
-        "required": { "type": "boolean" },
-        "approved": { "type": "boolean" },
-        "reason": { "type": "string" }
-      },
-      "additionalProperties": true
-    }
+    "dryRun": { "type": "boolean" }
   },
   "additionalProperties": false
 }

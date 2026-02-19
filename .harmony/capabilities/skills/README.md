@@ -292,7 +292,15 @@ Without tiktoken, word count approximation is used (±20% variance). CI environm
 ./_ops/scripts/validate-skills.sh my-skill     # Validate specific skill
 ./_ops/scripts/validate-skills.sh --fix        # Scaffold missing entries
 ./_ops/scripts/validate-skills.sh --strict     # Treat trigger duplicates as errors
+./_ops/scripts/validate-skills.sh --profile dev-fast my-skill
+../_ops/scripts/validate-deny-by-default.sh --changed --profile dev-fast
+./_ops/scripts/compile-deny-by-default-policy.sh
+.harmony/capabilities/_ops/scripts/policy-profile-resolve.sh docs
 ```
+
+Deny-by-default checks for scoped `allowed-tools` run through the shared
+`harmony-policy` preflight engine with fail-closed behavior when the engine
+is unavailable.
 
 ## Skill Classes
 
@@ -416,6 +424,13 @@ allowed-tools: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
 **Format:** Space-delimited list of tool names. Add `(path/glob)` suffix to scope write permissions.
 
 **Important:** Tool permissions are defined ONLY in SKILL.md. Do not duplicate in registry.yml or reference files.
+
+### Deny-by-Default Guardrails
+
+- Active skills must use scoped permissions (`Bash(<command>)`, `Write(<path>/*)`).
+- Active skills cannot use bare `Bash`, `Shell`, or bare `Write`.
+- Active skills using broad write scopes (`Write(...**)`) must have an active lease in `.harmony/capabilities/_ops/state/deny-by-default-exceptions.yml`.
+- Policy catalogs are generated via `./_ops/scripts/compile-deny-by-default-policy.sh` for CI/runtime review.
 
 ## Capability Patterns
 

@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/capabilities/deny-by-default.v2.schema.json",
+  "title": "Harmony Deny-by-Default Policy v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "mode",
+    "defaults",
+    "exceptions",
+    "grants",
+    "agent_only",
+    "kill_switch",
+    "profiles",
+    "observability"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "shadow",
+        "soft-enforce",
+        "hard-enforce"
+      ]
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fail_closed",
+        "deny_unknown_tokens",
+        "deny_unscoped_bash",
+        "deny_unscoped_write"
+      ],
+      "properties": {
+        "fail_closed": { "type": "boolean" },
+        "deny_unknown_tokens": { "type": "boolean" },
+        "deny_unscoped_bash": { "type": "boolean" },
+        "deny_unscoped_write": { "type": "boolean" }
+      }
+    },
+    "exceptions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_file",
+        "require_owner",
+        "require_reason",
+        "require_created",
+        "require_expires",
+        "max_lease_days"
+      ],
+      "properties": {
+        "state_file": { "type": "string", "minLength": 1 },
+        "require_owner": { "type": "boolean" },
+        "require_reason": { "type": "boolean" },
+        "require_created": { "type": "boolean" },
+        "require_expires": { "type": "boolean" },
+        "max_lease_days": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "grants": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_dir",
+        "default_ttl_seconds",
+        "max_ttl_seconds_by_tier",
+        "allow_auto_grant_low",
+        "allow_auto_grant_medium",
+        "allow_auto_grant_high",
+        "require_provenance"
+      ],
+      "properties": {
+        "state_dir": { "type": "string", "minLength": 1 },
+        "default_ttl_seconds": { "type": "integer", "minimum": 1 },
+        "max_ttl_seconds_by_tier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["low", "medium", "high"],
+          "properties": {
+            "low": { "type": "integer", "minimum": 1 },
+            "medium": { "type": "integer", "minimum": 1 },
+            "high": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "allow_auto_grant_low": { "type": "boolean" },
+        "allow_auto_grant_medium": { "type": "boolean" },
+        "allow_auto_grant_high": { "type": "boolean" },
+        "require_provenance": { "type": "boolean" }
+      }
+    },
+    "agent_only": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "risk_tiers"],
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "risk_tiers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["low", "medium", "high"],
+          "properties": {
+            "low": { "$ref": "#/$defs/riskTier" },
+            "medium": { "$ref": "#/$defs/riskTier" },
+            "high": { "$ref": "#/$defs/riskTier" }
+          }
+        }
+      }
+    },
+    "kill_switch": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_dir",
+        "fail_closed"
+      ],
+      "properties": {
+        "state_dir": { "type": "string", "minLength": 1 },
+        "fail_closed": { "type": "boolean" }
+      }
+    },
+    "profiles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["refactor", "scaffold", "tests", "docs", "release-readiness"],
+      "properties": {
+        "refactor": { "$ref": "#/$defs/profile" },
+        "scaffold": { "$ref": "#/$defs/profile" },
+        "tests": { "$ref": "#/$defs/profile" },
+        "docs": { "$ref": "#/$defs/profile" },
+        "release-readiness": { "$ref": "#/$defs/profile" }
+      }
+    },
+    "observability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_log_path",
+        "friction_slo"
+      ],
+      "properties": {
+        "decision_log_path": { "type": "string", "minLength": 1 },
+        "friction_slo": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "false_deny_rate_max",
+            "median_deny_to_unblock_seconds_max",
+            "auto_remediation_success_rate_min"
+          ],
+          "properties": {
+            "false_deny_rate_max": { "type": "number", "minimum": 0, "maximum": 1 },
+            "median_deny_to_unblock_seconds_max": { "type": "integer", "minimum": 1 },
+            "auto_remediation_success_rate_min": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "riskTier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "min_distinct_agents",
+        "require_review",
+        "require_quorum_token",
+        "require_rollback_plan"
+      ],
+      "properties": {
+        "min_distinct_agents": { "type": "integer", "minimum": 1 },
+        "require_review": { "type": "boolean" },
+        "require_quorum_token": { "type": "boolean" },
+        "require_rollback_plan": { "type": "boolean" }
+      }
+    },
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "description",
+        "auto_grant_tier",
+        "tool_bundle",
+        "write_scope_bundle",
+        "service_allowlist",
+        "deny_rules"
+      ],
+      "properties": {
+        "description": { "type": "string", "minLength": 1 },
+        "auto_grant_tier": { "type": "string", "enum": ["none", "low", "medium"] },
+        "tool_bundle": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "write_scope_bundle": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "service_allowlist": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "uniqueItems": true
+        },
+        "deny_rules": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^DDB[0-9]{3}_[A-Z0-9_]+$" },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

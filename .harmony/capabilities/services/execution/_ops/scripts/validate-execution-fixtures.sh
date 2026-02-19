@@ -26,7 +26,7 @@ run_success() {
   local impl="$3"
   local assert_filter="$4"
 
-  if ! out="$(cat "$fixture" | "$impl")"; then
+  if ! out="$(cat "$fixture" | bash "$impl")"; then
     log_error "$name fixture failed: $fixture"
     return 1
   fi
@@ -47,7 +47,7 @@ run_expected_failure() {
   local expected_exit="$4"
 
   set +e
-  out="$(cat "$fixture" | "$impl" 2>/dev/null)"
+  out="$(cat "$fixture" | bash "$impl" 2>/dev/null)"
   rc=$?
   set -e
 
@@ -69,8 +69,8 @@ check_deterministic() {
   local fixture="$2"
   local impl="$3"
 
-  out_a="$(cat "$fixture" | "$impl" | jq -S .)"
-  out_b="$(cat "$fixture" | "$impl" | jq -S .)"
+  out_a="$(cat "$fixture" | bash "$impl" | jq -S .)"
+  out_b="$(cat "$fixture" | bash "$impl" | jq -S .)"
 
   if [[ "$out_a" != "$out_b" ]]; then
     log_error "$name output is not deterministic for fixture $fixture"
@@ -88,11 +88,11 @@ main() {
 
   # Agent fixtures and deterministic behavior.
   run_success "agent-positive" "$AGENT_FIXTURES/positive.json" "$AGENT_IMPL" '.status == "success" and (.runId | type == "string") and (.result.mode == "execute")' >/dev/null || true
-  run_success "agent-edge" "$AGENT_FIXTURES/edge.json" "$AGENT_IMPL" '.status == "partial" and (.checkpoint.state == "awaiting_human")' >/dev/null || true
+  run_success "agent-edge" "$AGENT_FIXTURES/edge.json" "$AGENT_IMPL" '.status == "partial" and (.checkpoint.state == "checkpointed")' >/dev/null || true
   run_expected_failure "agent-negative" "$AGENT_FIXTURES/negative.json" "$AGENT_IMPL" 5 || true
 
-  resume_payload='{"planPath":"plan.json","runId":"run-123","resume":true,"hitl":{"approved":true}}'
-  if ! resume_out="$(printf '%s' "$resume_payload" | "$AGENT_IMPL")"; then
+  resume_payload='{"planPath":"plan.json","runId":"run-123","resume":true}'
+  if ! resume_out="$(printf '%s' "$resume_payload" | bash "$AGENT_IMPL")"; then
     log_error "agent-resume gate failed"
   elif ! jq -e '.status == "success" and .checkpoint.state == "resumed"' >/dev/null 2>&1 <<<"$resume_out"; then
     log_error "agent-resume output did not reach resumed state"
