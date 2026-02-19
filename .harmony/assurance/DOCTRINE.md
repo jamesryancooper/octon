@@ -17,7 +17,7 @@ Assurance is the subsystem that binds:
 
 This aligns with Harmony's priority lens:
 
-`Trust > Speed of development > Ease of use`
+`Assurance > Productivity > Integration`
 
 ## Domain Relationships
 
@@ -44,3 +44,15 @@ Quality is a dimension.
 Governance is a mechanism.  
 Trust is an outcome.  
 Assurance is the system that binds them.
+
+## Umbrella Contract
+
+Assurance applies umbrella rollups while preserving attribute-level source of
+truth:
+
+- **Assurance umbrella**: confidence, safety, correctness, explainability
+- **Productivity umbrella**: throughput, low friction, bounded autonomy
+- **Integration umbrella**: cross-repo/environment/tool compatibility
+
+Rollups are used for deterministic ordering and reporting. Attribute-level
+scores and evidence remain canonical for scoring and gates.

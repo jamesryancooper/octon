@@ -36,7 +36,7 @@ A declared deviation record in `/Users/jamesryancooper/Projects/harmony/.harmony
 - value delta: `old_value`, `new_value`
 - rationale: `reason_category`, `reason`
 - governance links: `adr`, `changelog_version`
-- charter alignment: explicit acknowledgement when lowering top-priority Charter outcomes (Trust-first guardrail)
+- charter alignment: explicit acknowledgement when lowering top-priority Charter outcomes (Assurance-first guardrail)
 - ownership and accountability: `owner`, `approved_by`, `created_at`
 - lifecycle: `temporary`, `expires_at` (or `permanent_justification`)
 - supporting evidence pointers

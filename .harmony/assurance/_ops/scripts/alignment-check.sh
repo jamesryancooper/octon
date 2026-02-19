@@ -108,9 +108,9 @@ run_services() {
 }
 
 run_weights() {
-  local out_dir="$HARMONY_DIR/output/.tmp/assurance-weight-alignment"
+  local out_dir="$HARMONY_DIR/output/.tmp/assurance-engine-alignment"
   run_step \
-    "Compute weighted assurance scorecard" \
+    "Compute assurance engine scorecard" \
     bash "$HARMONY_DIR/assurance/_ops/scripts/compute-assurance-score.sh" \
       --weights "$HARMONY_DIR/assurance/standards/weights/weights.yml" \
       --scores "$HARMONY_DIR/assurance/standards/scores/scores.yml" \
@@ -123,7 +123,7 @@ run_weights() {
       --out-dir "$out_dir"
 
   run_step \
-    "Run weighted assurance gate" \
+    "Run assurance engine gate" \
     bash "$HARMONY_DIR/assurance/_ops/scripts/assurance-gate.sh" \
       --scorecard "$out_dir/scorecard.yml" \
       --weights "$HARMONY_DIR/assurance/standards/weights/weights.yml" \

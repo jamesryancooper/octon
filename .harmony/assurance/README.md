@@ -35,11 +35,21 @@ The local resolver and gate tooling is the authoritative assurance engine:
 5. `_ops/scripts/assurance-gate.sh` enforces gates and drift checks.
 6. Outputs and evidence are written under `../output/assurance/`.
 
+Active umbrella chain:
+
+`Assurance > Productivity > Integration`
+
+Breaking-change note:
+
+The legacy chain (`Trust > Speed of development > Ease of use > Portability >
+Interoperability`) is no longer supported.
+
 ## Contents
 
 | Path | Purpose |
 |---|---|
-| `CHARTER.md` | Charter-level policy intent and priority chain |
+| `CHARTER.md` | Charter-level policy intent and umbrella priority chain |
+| `CHANGELOG.md` | Assurance subsystem release and breaking-change notes |
 | `DOCTRINE.md` | Assurance rationale, scope, and subsystem relationships |
 | `complete.md` | Definition of done checklist |
 | `session-exit.md` | Session exit checklist |

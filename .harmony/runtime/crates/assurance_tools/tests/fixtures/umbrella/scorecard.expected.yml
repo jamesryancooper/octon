@@ -1,0 +1,31 @@
+meta:
+  tool: compute-assurance-score
+context:
+  profile: test-profile
+  run_mode: ci
+  maturity: beta
+  repo: audit-test-repo
+charter:
+  priority_chain:
+    - id: assurance
+      name: Assurance
+    - id: productivity
+      name: Productivity
+    - id: integration
+      name: Integration
+drivers:
+  top_backlog:
+    - subsystem: testsub
+      attribute: security
+      umbrella: assurance
+      umbrella_rank: 1
+regressions:
+  hard: []
+  soft: []
+umbrellas:
+  - id: assurance
+    rank: 1
+  - id: productivity
+    rank: 2
+  - id: integration
+    rank: 3

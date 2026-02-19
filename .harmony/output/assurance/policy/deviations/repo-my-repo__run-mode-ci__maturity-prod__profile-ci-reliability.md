@@ -10,6 +10,6 @@
 
 ## Deviations
 
-| Subsystem | Class | Attribute | Outcome | Rank | Charter Deviation | Old | New | Declared | Permitted | Expired | ADR | Changelog | Evidence | Issues |
+| Subsystem | Class | Attribute | Umbrella | Rank | Assurance-First Deviation | Old | New | Declared | Permitted | Expired | ADR | Changelog | Evidence | Issues |
 |---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|
 | `n/a` | `n/a` | `n/a` | `n/a` | 0 | false | 0 | 0 | false | true | false | false | false | none | none |

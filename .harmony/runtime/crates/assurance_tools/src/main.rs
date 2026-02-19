@@ -23,7 +23,10 @@ enum Command {
 
 #[derive(Args, Debug)]
 struct ScoreArgs {
-    #[arg(long, default_value = ".harmony/assurance/standards/weights/weights.yml")]
+    #[arg(
+        long,
+        default_value = ".harmony/assurance/standards/weights/weights.yml"
+    )]
     weights: PathBuf,
 
     #[arg(long, default_value = ".harmony/assurance/standards/scores/scores.yml")]
@@ -32,10 +35,16 @@ struct ScoreArgs {
     #[arg(long, default_value = ".harmony/assurance/CHARTER.md")]
     charter: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/standards/weights/inputs/context.yml")]
+    #[arg(
+        long,
+        default_value = ".harmony/assurance/standards/weights/inputs/context.yml"
+    )]
     context: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/governance/subsystem-classes.yml")]
+    #[arg(
+        long,
+        default_value = ".harmony/assurance/governance/subsystem-classes.yml"
+    )]
     subsystem_classes: PathBuf,
 
     #[arg(long, default_value = ".harmony/assurance/governance/overrides.yml")]
@@ -80,7 +89,10 @@ struct GateArgs {
     #[arg(long)]
     scorecard: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/standards/weights/weights.yml")]
+    #[arg(
+        long,
+        default_value = ".harmony/assurance/standards/weights/weights.yml"
+    )]
     weights: PathBuf,
 
     #[arg(long, default_value = ".harmony/assurance/standards/scores/scores.yml")]
@@ -89,7 +101,10 @@ struct GateArgs {
     #[arg(long, default_value = ".harmony/assurance/CHARTER.md")]
     charter: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/governance/subsystem-classes.yml")]
+    #[arg(
+        long,
+        default_value = ".harmony/assurance/governance/subsystem-classes.yml"
+    )]
     subsystem_classes: PathBuf,
 
     #[arg(long, default_value = ".harmony/assurance/governance/overrides.yml")]
@@ -202,7 +217,7 @@ struct CharterSpec {
     tie_break_rule: String,
     tradeoff_rules: Vec<String>,
     required_references: HashMap<String, String>,
-    attribute_outcome_map: HashMap<String, String>,
+    attribute_umbrella_map: HashMap<String, String>,
     priority_rank: HashMap<String, i64>,
 }
 
@@ -210,6 +225,14 @@ struct CharterSpec {
 struct CharterDoc {
     priority_chain: Vec<String>,
     tradeoff_rules: Vec<String>,
+}
+
+#[derive(Clone, Debug, Default)]
+struct UmbrellaAccumulator {
+    weighted_sum: f64,
+    weight_total: f64,
+    sample_count: i64,
+    critical_floor: Option<f64>,
 }
 
 fn main() {
@@ -317,6 +340,7 @@ fn run_score(args: ScoreArgs) -> Result<()> {
     let mut hard_regressions: Vec<Value> = Vec::new();
     let mut soft_regressions: Vec<Value> = Vec::new();
     let mut policy_deviations: Vec<Value> = Vec::new();
+    let mut umbrella_rollup_acc: HashMap<String, UmbrellaAccumulator> = HashMap::new();
 
     let mut subsystem_names: Vec<String> = normalized_scores.keys().cloned().collect();
     subsystem_names.sort();
@@ -402,6 +426,25 @@ fn run_score(args: ScoreArgs) -> Result<()> {
             let impact = delta.map(|d| round3(d * weight as f64));
             let gap = round3((target - measured).max(0.0));
             let priority = round3(gap * weight as f64);
+            let umbrella = charter_spec
+                .attribute_umbrella_map
+                .get(attr)
+                .cloned()
+                .unwrap_or_else(|| "unmapped".to_string());
+            let umbrella_rank = charter_spec
+                .priority_rank
+                .get(&umbrella)
+                .copied()
+                .unwrap_or(i64::MAX);
+
+            let entry = umbrella_rollup_acc.entry(umbrella.clone()).or_default();
+            entry.weighted_sum += measured * weight as f64;
+            entry.weight_total += weight as f64;
+            entry.sample_count += 1;
+            if umbrella == "assurance" && is_assurance_critical(attr) {
+                entry.critical_floor =
+                    Some(entry.critical_floor.map_or(measured, |v| v.min(measured)));
+            }
 
             let criteria = rec.criteria.clone();
             let evidence = rec.evidence.clone();
@@ -420,6 +463,11 @@ fn run_score(args: ScoreArgs) -> Result<()> {
             );
             attr_map.insert("delta".to_string(), opt_num(delta));
             attr_map.insert("impact".to_string(), opt_num(impact));
+            attr_map.insert("umbrella".to_string(), Value::String(umbrella.clone()));
+            attr_map.insert(
+                "umbrella_rank".to_string(),
+                Value::Number(Number::from(umbrella_rank)),
+            );
             attr_map.insert("criteria".to_string(), opt_string(criteria.clone()));
             attr_map.insert(
                 "evidence".to_string(),
@@ -429,16 +477,6 @@ fn run_score(args: ScoreArgs) -> Result<()> {
             attrs_out.insert(attr.clone(), Value::Object(attr_map));
 
             backlog_drivers.push(Value::Object({
-                let charter_outcome = charter_spec
-                    .attribute_outcome_map
-                    .get(attr)
-                    .cloned()
-                    .unwrap_or_else(|| "unmapped".to_string());
-                let charter_rank = charter_spec
-                    .priority_rank
-                    .get(&charter_outcome)
-                    .copied()
-                    .unwrap_or(i64::MAX);
                 let mut m = Map::new();
                 m.insert("subsystem".to_string(), Value::String(subsystem.clone()));
                 m.insert("attribute".to_string(), Value::String(attr.clone()));
@@ -447,13 +485,10 @@ fn run_score(args: ScoreArgs) -> Result<()> {
                 m.insert("target".to_string(), num(round3(target)));
                 m.insert("gap".to_string(), num(gap));
                 m.insert("priority".to_string(), num(priority));
+                m.insert("umbrella".to_string(), Value::String(umbrella.clone()));
                 m.insert(
-                    "charter_outcome".to_string(),
-                    Value::String(charter_outcome),
-                );
-                m.insert(
-                    "charter_rank".to_string(),
-                    Value::Number(Number::from(charter_rank)),
+                    "umbrella_rank".to_string(),
+                    Value::Number(Number::from(umbrella_rank)),
                 );
                 m.insert(
                     "evidence".to_string(),
@@ -484,6 +519,11 @@ fn run_score(args: ScoreArgs) -> Result<()> {
                     m.insert("delta".to_string(), num(delta_val));
                     m.insert("impact".to_string(), num(impact_val));
                     m.insert("abs_impact".to_string(), num(impact_val.abs()));
+                    m.insert("umbrella".to_string(), Value::String(umbrella.clone()));
+                    m.insert(
+                        "umbrella_rank".to_string(),
+                        Value::Number(Number::from(umbrella_rank)),
+                    );
                     m
                 }));
 
@@ -491,6 +531,8 @@ fn run_score(args: ScoreArgs) -> Result<()> {
                     hard_regressions.push(regression_rec(
                         &subsystem,
                         attr,
+                        &umbrella,
+                        umbrella_rank,
                         weight,
                         delta_val,
                         impact_val,
@@ -500,6 +542,8 @@ fn run_score(args: ScoreArgs) -> Result<()> {
                     hard_regressions.push(regression_rec(
                         &subsystem,
                         attr,
+                        &umbrella,
+                        umbrella_rank,
                         weight,
                         delta_val,
                         impact_val,
@@ -509,6 +553,8 @@ fn run_score(args: ScoreArgs) -> Result<()> {
                     soft_regressions.push(regression_rec(
                         &subsystem,
                         attr,
+                        &umbrella,
+                        umbrella_rank,
                         weight,
                         delta_val,
                         impact_val,
@@ -564,10 +610,11 @@ fn run_score(args: ScoreArgs) -> Result<()> {
     } else {
         subsystem_scores.iter().sum::<f64>() / subsystem_scores.len() as f64
     };
+    let umbrella_rollups = compute_umbrella_rollups(&charter_spec, &umbrella_rollup_acc);
 
     backlog_drivers.sort_by(|a, b| {
         cmp_num(b.get("priority"), a.get("priority"))
-            .then_with(|| cmp_num(a.get("charter_rank"), b.get("charter_rank")))
+            .then_with(|| cmp_num(a.get("umbrella_rank"), b.get("umbrella_rank")))
             .then_with(|| cmp_num(b.get("weight"), a.get("weight")))
     });
     let top_backlog: Vec<Value> = backlog_drivers
@@ -579,6 +626,7 @@ fn run_score(args: ScoreArgs) -> Result<()> {
 
     regression_drivers.sort_by(|a, b| {
         cmp_num(b.get("abs_impact"), a.get("abs_impact"))
+            .then_with(|| cmp_num(a.get("umbrella_rank"), b.get("umbrella_rank")))
             .then_with(|| cmp_num(b.get("weight"), a.get("weight")))
     });
     let top_regressions: Vec<Value> = regression_drivers
@@ -737,6 +785,10 @@ fn run_score(args: ScoreArgs) -> Result<()> {
             );
             m
         }),
+    );
+    scorecard.insert(
+        "umbrellas".to_string(),
+        Value::Array(umbrella_rollups.clone()),
     );
     scorecard.insert(
         "subsystems".to_string(),
@@ -908,7 +960,7 @@ fn run_score(args: ScoreArgs) -> Result<()> {
     println!("effective weights: {}", effective_weights_yml.display());
     println!("regressions: {}", regressions_md.display());
     println!("effective matrix: {}", effective_md_path.display());
-    println!("weighted results: {}", results_md_path.display());
+    println!("assurance results: {}", results_md_path.display());
     println!("policy deviations: {}", deviations_md_path.display());
 
     Ok(())
@@ -1030,6 +1082,9 @@ fn run_gate(args: GateArgs) -> Result<()> {
             if weight < 1 {
                 continue;
             }
+            let umbrella = value_string(rec.get("umbrella")).unwrap_or_default();
+            let umbrella_rank = value_i64(rec.get("umbrella_rank"));
+            let assurance_priority = umbrella_rank == 1;
 
             let criteria = value_string(rec.get("criteria"));
             let evidence = value_string_array(rec.get("evidence"));
@@ -1107,6 +1162,44 @@ fn run_gate(args: GateArgs) -> Result<()> {
                 }
             }
 
+            if assurance_priority && weight == 3 {
+                if !has_criteria {
+                    findings.push(if matches!(mode.as_str(), "release" | "prod-runtime") {
+                        Finding::hard(
+                            "missing-criteria-assurance-priority",
+                            subsystem,
+                            attribute,
+                            "Assurance-priority attribute (w=3) requires acceptance criteria in release/prod-runtime modes.",
+                        )
+                    } else {
+                        Finding::warn(
+                            "missing-criteria-assurance-priority",
+                            subsystem,
+                            attribute,
+                            "Assurance-priority attribute (w=3) should define acceptance criteria.",
+                        )
+                    });
+                }
+
+                if !has_evidence {
+                    findings.push(if matches!(mode.as_str(), "release" | "prod-runtime") {
+                        Finding::hard(
+                            "missing-evidence-assurance-priority",
+                            subsystem,
+                            attribute,
+                            "Assurance-priority attribute (w=3) requires evidence in release/prod-runtime modes.",
+                        )
+                    } else {
+                        Finding::warn(
+                            "missing-evidence-assurance-priority",
+                            subsystem,
+                            attribute,
+                            "Assurance-priority attribute (w=3) should include evidence pointers.",
+                        )
+                    });
+                }
+            }
+
             let delta = rec.get("delta").map(|v| value_f64(Some(v))).unwrap_or(0.0);
             if rec.get("delta").is_some() {
                 if weight >= 5 && delta <= -0.5 {
@@ -1154,6 +1247,15 @@ fn run_gate(args: GateArgs) -> Result<()> {
                             "Regression delta={delta} exceeds warning threshold for weight 4+."
                         ),
                     ));
+                } else if assurance_priority && weight == 3 && delta <= -0.5 {
+                    findings.push(Finding::warn(
+                        "regression-assurance-priority-w3",
+                        subsystem,
+                        attribute,
+                        &format!(
+                            "Assurance-priority regression delta={delta} exceeds warning threshold for umbrella rank 1 (w=3)."
+                        ),
+                    ));
                 }
             }
 
@@ -1168,13 +1270,20 @@ fn run_gate(args: GateArgs) -> Result<()> {
                 ));
             }
 
-            if rec.get("delta").is_some() && delta < 0.0 && weight >= 4 && !has_evidence {
+            if rec.get("delta").is_some()
+                && delta < 0.0
+                && (weight >= 4 || (assurance_priority && weight == 3))
+                && !has_evidence
+            {
                 findings.push(classified(
                     &mode,
                     "missing-evidence-regression-high-weight",
                     subsystem,
                     attribute,
-                    "High-weight regression requires evidence pointer(s).",
+                    &format!(
+                        "High-priority regression requires evidence pointer(s) (umbrella='{}', rank={}).",
+                        umbrella, umbrella_rank
+                    ),
                 ));
             }
         }
@@ -1709,18 +1818,18 @@ fn parse_charter_spec(weights: &Value, attribute_ids: &[String]) -> Result<Chart
         bail!("weights.yml charter.required_references must be provided");
     }
 
-    let outcome_map_raw = as_object(charter.get("attribute_outcome_map"))
+    let umbrella_map_raw = as_object(charter.get("attribute_umbrella_map"))
         .cloned()
-        .ok_or_else(|| anyhow!("weights.yml charter.attribute_outcome_map is required"))?;
-    let mut attribute_outcome_map: HashMap<String, String> = HashMap::new();
+        .ok_or_else(|| anyhow!("weights.yml charter.attribute_umbrella_map is required"))?;
+    let mut attribute_umbrella_map: HashMap<String, String> = HashMap::new();
     for attr in attribute_ids {
-        let outcome = trim_opt(value_string(outcome_map_raw.get(attr))).ok_or_else(|| {
-            anyhow!("charter.attribute_outcome_map missing mapping for attribute '{attr}'")
+        let umbrella = trim_opt(value_string(umbrella_map_raw.get(attr))).ok_or_else(|| {
+            anyhow!("charter.attribute_umbrella_map missing mapping for attribute '{attr}'")
         })?;
-        if !priority_rank.contains_key(&outcome) {
-            bail!("charter.attribute_outcome_map.{attr} references unknown outcome '{outcome}'");
+        if !priority_rank.contains_key(&umbrella) {
+            bail!("charter.attribute_umbrella_map.{attr} references unknown umbrella '{umbrella}'");
         }
-        attribute_outcome_map.insert(attr.clone(), outcome);
+        attribute_umbrella_map.insert(attr.clone(), umbrella);
     }
 
     Ok(CharterSpec {
@@ -1730,7 +1839,7 @@ fn parse_charter_spec(weights: &Value, attribute_ids: &[String]) -> Result<Chart
         tie_break_rule,
         tradeoff_rules,
         required_references,
-        attribute_outcome_map,
+        attribute_umbrella_map,
         priority_rank,
     })
 }
@@ -1867,11 +1976,11 @@ fn validate_charter_alignment(
     }
 
     for attr in attribute_ids {
-        if !spec.attribute_outcome_map.contains_key(attr) {
+        if !spec.attribute_umbrella_map.contains_key(attr) {
             issues.push((
-                "charter-outcome-map-missing".to_string(),
+                "charter-umbrella-map-missing".to_string(),
                 "weights".to_string(),
-                format!("charter.attribute_outcome_map is missing '{attr}'."),
+                format!("charter.attribute_umbrella_map is missing '{attr}'."),
             ));
         }
     }
@@ -2393,14 +2502,14 @@ fn compute_policy_deviations_for_subsystem(
         if old_value == new_value {
             continue;
         }
-        let charter_outcome = charter_spec
-            .and_then(|c| c.attribute_outcome_map.get(&attr))
+        let umbrella = charter_spec
+            .and_then(|c| c.attribute_umbrella_map.get(&attr))
             .cloned();
-        let charter_rank = charter_outcome
+        let umbrella_rank = umbrella
             .as_ref()
             .and_then(|o| charter_spec.and_then(|c| c.priority_rank.get(o)))
             .copied();
-        let charter_priority_deviation = matches!(charter_rank, Some(1)) && new_value < old_value;
+        let umbrella_priority_deviation = matches!(umbrella_rank, Some(1)) && new_value < old_value;
 
         let decl = find_matching_override_decl(
             &override_registry.declarations,
@@ -2510,22 +2619,22 @@ fn compute_policy_deviations_for_subsystem(
             );
             m.insert("attribute".to_string(), Value::String(attr.clone()));
             m.insert(
-                "charter_outcome".to_string(),
-                charter_outcome
+                "umbrella".to_string(),
+                umbrella
                     .as_ref()
                     .cloned()
                     .map(Value::String)
                     .unwrap_or(Value::Null),
             );
             m.insert(
-                "charter_rank".to_string(),
-                charter_rank
+                "umbrella_rank".to_string(),
+                umbrella_rank
                     .map(|r| Value::Number(Number::from(r)))
                     .unwrap_or(Value::Null),
             );
             m.insert(
-                "charter_priority_deviation".to_string(),
-                Value::Bool(charter_priority_deviation),
+                "umbrella_priority_deviation".to_string(),
+                Value::Bool(umbrella_priority_deviation),
             );
             m.insert(
                 "old_value".to_string(),
@@ -2722,17 +2831,17 @@ fn apply_deviation_findings(
             .get("missing_expiry_without_permanent")
             .and_then(|v| v.as_bool())
             .unwrap_or(false);
-        let charter_priority_deviation = dev
-            .get("charter_priority_deviation")
+        let umbrella_priority_deviation = dev
+            .get("umbrella_priority_deviation")
             .and_then(|v| v.as_bool())
             .unwrap_or(false);
 
-        if charter_priority_deviation && (!declared || !adr_present) {
+        if umbrella_priority_deviation && (!declared || !adr_present) {
             findings.push(Finding::warn(
-                "charter-priority-deviation-unjustified",
+                "umbrella-priority-deviation-unjustified",
                 &subsystem,
                 &attribute,
-                "Repo override reduces a top-priority charter outcome without explicit declaration + ADR.",
+                "Repo override reduces a top-priority umbrella without explicit declaration + ADR.",
             ));
         }
 
@@ -3005,8 +3114,8 @@ fn detect_tie_break_resolutions(items: &[Value]) -> Vec<Value> {
         if !is_priority_tie(winner, loser) {
             continue;
         }
-        let winner_rank = value_i64(winner.get("charter_rank"));
-        let loser_rank = value_i64(loser.get("charter_rank"));
+        let winner_rank = value_i64(winner.get("umbrella_rank"));
+        let loser_rank = value_i64(loser.get("umbrella_rank"));
         if winner_rank <= 0 || loser_rank <= 0 {
             continue;
         }
@@ -3034,15 +3143,12 @@ fn detect_tie_break_resolutions(items: &[Value]) -> Vec<Value> {
                     )),
                 );
                 m.insert(
-                    "winner_outcome".to_string(),
-                    winner
-                        .get("charter_outcome")
-                        .cloned()
-                        .unwrap_or(Value::Null),
+                    "winner_umbrella".to_string(),
+                    winner.get("umbrella").cloned().unwrap_or(Value::Null),
                 );
                 m.insert(
-                    "loser_outcome".to_string(),
-                    loser.get("charter_outcome").cloned().unwrap_or(Value::Null),
+                    "loser_umbrella".to_string(),
+                    loser.get("umbrella").cloned().unwrap_or(Value::Null),
                 );
                 m.insert(
                     "explanation".to_string(),
@@ -3079,28 +3185,28 @@ fn apply_top_driver_tie_break_findings(
         if !is_priority_tie(prev, curr) {
             continue;
         }
-        let prev_rank = value_i64(prev.get("charter_rank"));
-        let curr_rank = value_i64(curr.get("charter_rank"));
+        let prev_rank = value_i64(prev.get("umbrella_rank"));
+        let curr_rank = value_i64(curr.get("umbrella_rank"));
         if prev_rank <= 0 || curr_rank <= 0 {
             findings.push(Finding::warn(
-                "top-driver-charter-rank-missing",
+                "top-driver-umbrella-rank-missing",
                 "policy",
                 "charter",
-                "Top driver tie has missing charter rank metadata.",
+                "Top driver tie has missing umbrella rank metadata.",
             ));
             continue;
         }
         if prev_rank > curr_rank {
-            let prev_outcome = value_string(prev.get("charter_outcome")).unwrap_or_default();
-            let curr_outcome = value_string(curr.get("charter_outcome")).unwrap_or_default();
-            let prev_name = charter_outcome_name(charter_spec, &prev_outcome);
-            let curr_name = charter_outcome_name(charter_spec, &curr_outcome);
+            let prev_umbrella = value_string(prev.get("umbrella")).unwrap_or_default();
+            let curr_umbrella = value_string(curr.get("umbrella")).unwrap_or_default();
+            let prev_name = umbrella_name(charter_spec, &prev_umbrella);
+            let curr_name = umbrella_name(charter_spec, &curr_umbrella);
             findings.push(Finding::warn(
-                "top-driver-charter-tie-break-violated",
+                "top-driver-umbrella-tie-break-violated",
                 "policy",
                 "charter",
                 &format!(
-                    "Top-driver tie-break violated: '{}' (rank {}) appears before '{}' (rank {}).",
+                    "Top-driver tie-break violated: umbrella '{}' (rank {}) appears before '{}' (rank {}).",
                     prev_name, prev_rank, curr_name, curr_rank
                 ),
             ));
@@ -3108,13 +3214,94 @@ fn apply_top_driver_tie_break_findings(
     }
 }
 
-fn charter_outcome_name(charter_spec: &CharterSpec, outcome_id: &str) -> String {
+fn umbrella_name(charter_spec: &CharterSpec, umbrella_id: &str) -> String {
     charter_spec
         .priority_chain
         .iter()
-        .find(|p| p.id == outcome_id)
+        .find(|p| p.id == umbrella_id)
         .map(|p| p.name.clone())
-        .unwrap_or_else(|| outcome_id.to_string())
+        .unwrap_or_else(|| umbrella_id.to_string())
+}
+
+fn is_assurance_critical(attribute_id: &str) -> bool {
+    matches!(
+        attribute_id,
+        "security"
+            | "safety"
+            | "reliability"
+            | "recoverability"
+            | "dependability"
+            | "functional_suitability"
+    )
+}
+
+fn compute_umbrella_rollups(
+    charter_spec: &CharterSpec,
+    accumulators: &HashMap<String, UmbrellaAccumulator>,
+) -> Vec<Value> {
+    charter_spec
+        .priority_chain
+        .iter()
+        .map(|umbrella| {
+            let acc = accumulators.get(&umbrella.id).cloned().unwrap_or_default();
+            let weighted_mean = if acc.weight_total > 0.0 {
+                round6(acc.weighted_sum / acc.weight_total)
+            } else {
+                0.0
+            };
+            let critical_floor = if umbrella.id == "assurance" {
+                Some(round6(acc.critical_floor.unwrap_or(weighted_mean)))
+            } else {
+                None
+            };
+            let score = if umbrella.id == "assurance" {
+                let floor = critical_floor.unwrap_or(weighted_mean);
+                round6((weighted_mean * 0.7) + (floor * 0.3))
+            } else {
+                weighted_mean
+            };
+
+            Value::Object({
+                let mut m = Map::new();
+                m.insert("id".to_string(), Value::String(umbrella.id.clone()));
+                m.insert("name".to_string(), Value::String(umbrella.name.clone()));
+                m.insert(
+                    "rank".to_string(),
+                    Value::Number(Number::from(
+                        charter_spec
+                            .priority_rank
+                            .get(&umbrella.id)
+                            .copied()
+                            .unwrap_or(i64::MAX),
+                    )),
+                );
+                m.insert("weighted_mean".to_string(), num(weighted_mean));
+                m.insert(
+                    "critical_floor".to_string(),
+                    critical_floor.map(num).unwrap_or(Value::Null),
+                );
+                m.insert("score".to_string(), num(score));
+                m.insert(
+                    "score_percent".to_string(),
+                    num(round2((score / 5.0) * 100.0)),
+                );
+                m.insert(
+                    "sample_count".to_string(),
+                    Value::Number(Number::from(acc.sample_count)),
+                );
+                m.insert("weight_total".to_string(), num(round3(acc.weight_total)));
+                m.insert(
+                    "formula".to_string(),
+                    Value::String(if umbrella.id == "assurance" {
+                        "0.7*weighted_mean + 0.3*critical_floor".to_string()
+                    } else {
+                        "weighted_mean".to_string()
+                    }),
+                );
+                m
+            })
+        })
+        .collect()
 }
 
 fn render_scorecard_md(scorecard: &Value) -> Result<String> {
@@ -3131,9 +3318,10 @@ fn render_scorecard_md(scorecard: &Value) -> Result<String> {
         .cloned()
         .unwrap_or_default();
     let top_drivers = value_array(scorecard.get("drivers").and_then(|d| d.get("top_backlog")));
+    let umbrella_rollups = value_array(scorecard.get("umbrellas"));
 
     let mut lines: Vec<String> = vec![
-        "# Quality Weight Scorecard".to_string(),
+        "# Assurance Engine Scorecard".to_string(),
         "".to_string(),
         format!(
             "- Generated: `{}`",
@@ -3175,11 +3363,40 @@ fn render_scorecard_md(scorecard: &Value) -> Result<String> {
                 .unwrap_or(false)
         ),
         "".to_string(),
+        "## Umbrella Rollups".to_string(),
+        "".to_string(),
+        "| Umbrella | Rank | Score | Weighted Mean | Critical Floor | Samples |".to_string(),
+        "|---|---:|---:|---:|---:|---:|".to_string(),
+    ];
+
+    if umbrella_rollups.is_empty() {
+        lines.push("| `n/a` | 0 | 0 | 0 | 0 | 0 |".to_string());
+    } else {
+        for item in &umbrella_rollups {
+            lines.push(format!(
+                "| `{}` | {} | `{:.2}%` | {} | {} | {} |",
+                value_string(item.get("name"))
+                    .or_else(|| value_string(item.get("id")))
+                    .unwrap_or_default(),
+                value_i64(item.get("rank")),
+                value_f64(item.get("score_percent")),
+                value_f64(item.get("weighted_mean")),
+                item.get("critical_floor")
+                    .and_then(|v| v.as_f64())
+                    .map(|v| format!("{v:.3}"))
+                    .unwrap_or_else(|| "n/a".to_string()),
+                value_i64(item.get("sample_count")),
+            ));
+        }
+    }
+
+    lines.extend(vec![
+        "".to_string(),
         "## Subsystem Scores".to_string(),
         "".to_string(),
         "| Subsystem | Score |".to_string(),
         "|---|---:|".to_string(),
-    ];
+    ]);
 
     for (name, rec) in sorted_object_iter(&subsystems) {
         let pct = value_f64(rec.get("score_percent"));
@@ -3189,17 +3406,22 @@ fn render_scorecard_md(scorecard: &Value) -> Result<String> {
     lines.push("".to_string());
     lines.push("## Top Backlog Drivers".to_string());
     lines.push("".to_string());
-    lines.push("| Subsystem | Attribute | Weight | Score | Target | Gap | Priority |".to_string());
-    lines.push("|---|---|---:|---:|---:|---:|---:|".to_string());
+    lines.push(
+        "| Subsystem | Attribute | Umbrella | Rank | Weight | Score | Target | Gap | Priority |"
+            .to_string(),
+    );
+    lines.push("|---|---|---|---:|---:|---:|---:|---:|---:|".to_string());
 
     if top_drivers.is_empty() {
-        lines.push("| `n/a` | `n/a` | 0 | 0 | 0 | 0 | 0 |".to_string());
+        lines.push("| `n/a` | `n/a` | `n/a` | 0 | 0 | 0 | 0 | 0 | 0 |".to_string());
     } else {
         for driver in top_drivers.iter().take(20) {
             lines.push(format!(
-                "| `{}` | `{}` | {} | {} | {} | {} | {} |",
+                "| `{}` | `{}` | `{}` | {} | {} | {} | {} | {} | {} |",
                 value_string(driver.get("subsystem")).unwrap_or_default(),
                 value_string(driver.get("attribute")).unwrap_or_default(),
+                value_string(driver.get("umbrella")).unwrap_or_default(),
+                value_i64(driver.get("umbrella_rank")),
                 value_i64(driver.get("weight")),
                 value_f64(driver.get("measured")),
                 value_f64(driver.get("target")),
@@ -3217,7 +3439,7 @@ fn render_regressions_md(scorecard: &Value) -> Result<String> {
     let soft = value_array(scorecard.get("regressions").and_then(|r| r.get("soft")));
 
     let mut lines: Vec<String> = vec![
-        "# Quality Regression Summary".to_string(),
+        "# Assurance Regression Summary".to_string(),
         "".to_string(),
         format!("- Hard regressions: `{}`", hard.len()),
         format!("- Soft regressions: `{}`", soft.len()),
@@ -3240,14 +3462,18 @@ fn append_regression_section(lines: &mut Vec<String>, title: &str, items: &[Valu
         return;
     }
 
-    lines.push("| Subsystem | Attribute | Weight | Delta | Impact | Rule |".to_string());
-    lines.push("|---|---|---:|---:|---:|---|".to_string());
+    lines.push(
+        "| Subsystem | Attribute | Umbrella | Rank | Weight | Delta | Impact | Rule |".to_string(),
+    );
+    lines.push("|---|---|---|---:|---:|---:|---:|---|".to_string());
 
     for item in items {
         lines.push(format!(
-            "| `{}` | `{}` | {} | {} | {} | `{}` |",
+            "| `{}` | `{}` | `{}` | {} | {} | {} | {} | `{}` |",
             value_string(item.get("subsystem")).unwrap_or_default(),
             value_string(item.get("attribute")).unwrap_or_default(),
+            value_string(item.get("umbrella")).unwrap_or_default(),
+            value_i64(item.get("umbrella_rank")),
             value_i64(item.get("weight")),
             value_f64(item.get("delta")),
             value_f64(item.get("impact")),
@@ -3284,7 +3510,7 @@ fn render_effective_md(
         "".to_string(),
         format!("- Charter: `{}`", charter_spec.reference_path),
         format!(
-            "- Priority chain: `{}`",
+            "- Umbrella chain: `{}`",
             charter_spec
                 .priority_chain
                 .iter()
@@ -3312,11 +3538,11 @@ fn render_effective_md(
         );
     } else {
         lines.push(
-            "Priority ties were resolved using the charter chain (higher-ranked outcomes win)."
+            "Priority ties were resolved using the umbrella chain (higher-ranked umbrellas win)."
                 .to_string(),
         );
         lines.push("".to_string());
-        lines.push("| Priority | Winner | Loser | Winner Outcome | Loser Outcome |".to_string());
+        lines.push("| Priority | Winner | Loser | Winner Umbrella | Loser Umbrella |".to_string());
         lines.push("|---:|---|---|---|---|".to_string());
         for item in tie_break_resolutions.iter().take(10) {
             lines.push(format!(
@@ -3324,8 +3550,8 @@ fn render_effective_md(
                 value_f64(item.get("priority")),
                 value_string(item.get("winner")).unwrap_or_default(),
                 value_string(item.get("loser")).unwrap_or_default(),
-                value_string(item.get("winner_outcome")).unwrap_or_default(),
-                value_string(item.get("loser_outcome")).unwrap_or_default(),
+                value_string(item.get("winner_umbrella")).unwrap_or_default(),
+                value_string(item.get("loser_umbrella")).unwrap_or_default(),
             ));
         }
     }
@@ -3395,13 +3621,14 @@ fn render_results_md(scorecard: &Value) -> Result<String> {
     let subsystems = as_object(scorecard.get("subsystems"))
         .cloned()
         .unwrap_or_default();
+    let umbrella_rollups = value_array(scorecard.get("umbrellas"));
     let top = value_array(scorecard.get("drivers").and_then(|d| d.get("top_backlog")));
     let charter_priorities = value_array(charter.get("priority_chain"));
     let tradeoff_rules = value_string_array(charter.get("tradeoff_rules"));
     let tie_breaks = value_array(charter.get("tie_break_resolutions"));
 
     let mut lines = vec![
-        "# Weighted Quality Results".to_string(),
+        "# Assurance Engine Results".to_string(),
         "".to_string(),
         format!(
             "- Profile: `{}`",
@@ -3435,7 +3662,7 @@ fn render_results_md(scorecard: &Value) -> Result<String> {
             value_string(charter.get("version")).unwrap_or_else(|| "n/a".to_string())
         ),
         format!(
-            "- Priority chain: `{}`",
+            "- Umbrella chain: `{}`",
             if charter_priorities.is_empty() {
                 "n/a".to_string()
             } else {
@@ -3471,11 +3698,11 @@ fn render_results_md(scorecard: &Value) -> Result<String> {
         "".to_string(),
     ]);
     if tie_breaks.is_empty() {
-        lines.push("No equal-priority conflicts required charter tie-breaks.".to_string());
+        lines.push("No equal-priority conflicts required umbrella tie-breaks.".to_string());
     } else {
-        lines.push("Equal-priority conflicts were resolved by charter chain order.".to_string());
+        lines.push("Equal-priority conflicts were resolved by umbrella chain order.".to_string());
         lines.push("".to_string());
-        lines.push("| Priority | Winner | Loser | Winner Outcome | Loser Outcome |".to_string());
+        lines.push("| Priority | Winner | Loser | Winner Umbrella | Loser Umbrella |".to_string());
         lines.push("|---:|---|---|---|---|".to_string());
         for item in tie_breaks.iter().take(10) {
             lines.push(format!(
@@ -3483,11 +3710,42 @@ fn render_results_md(scorecard: &Value) -> Result<String> {
                 value_f64(item.get("priority")),
                 value_string(item.get("winner")).unwrap_or_default(),
                 value_string(item.get("loser")).unwrap_or_default(),
-                value_string(item.get("winner_outcome")).unwrap_or_default(),
-                value_string(item.get("loser_outcome")).unwrap_or_default(),
+                value_string(item.get("winner_umbrella")).unwrap_or_default(),
+                value_string(item.get("loser_umbrella")).unwrap_or_default(),
             ));
         }
     }
+
+    lines.extend(vec![
+        "".to_string(),
+        "## Umbrella Rollups".to_string(),
+        "".to_string(),
+        "| Umbrella | Rank | Score | Weighted Mean | Critical Floor | Samples | Formula |"
+            .to_string(),
+        "|---|---:|---:|---:|---:|---:|---|".to_string(),
+    ]);
+    if umbrella_rollups.is_empty() {
+        lines.push("| `n/a` | 0 | 0 | 0 | 0 | 0 | n/a |".to_string());
+    } else {
+        for item in umbrella_rollups {
+            lines.push(format!(
+                "| `{}` | {} | `{:.2}%` | {} | {} | {} | `{}` |",
+                value_string(item.get("name"))
+                    .or_else(|| value_string(item.get("id")))
+                    .unwrap_or_default(),
+                value_i64(item.get("rank")),
+                value_f64(item.get("score_percent")),
+                value_f64(item.get("weighted_mean")),
+                item.get("critical_floor")
+                    .and_then(|v| v.as_f64())
+                    .map(|v| format!("{v:.3}"))
+                    .unwrap_or_else(|| "n/a".to_string()),
+                value_i64(item.get("sample_count")),
+                value_string(item.get("formula")).unwrap_or_default(),
+            ));
+        }
+    }
+
     lines.extend(vec![
         "".to_string(),
         "## Subsystem Totals".to_string(),
@@ -3513,7 +3771,7 @@ fn render_results_md(scorecard: &Value) -> Result<String> {
     );
     lines.push("".to_string());
     lines.push(
-        "| Subsystem | Attribute | Outcome | Rank | Weight | Current | Target | Gap | Priority | Evidence | Suggested Action |"
+        "| Subsystem | Attribute | Umbrella | Rank | Weight | Current | Target | Gap | Priority | Evidence | Suggested Action |"
             .to_string(),
     );
     lines.push("|---|---|---|---:|---:|---:|---:|---:|---:|---|---|".to_string());
@@ -3533,8 +3791,8 @@ fn render_results_md(scorecard: &Value) -> Result<String> {
                 "| `{}` | `{}` | `{}` | {} | {} | {} | {} | {} | {} | {} | {} |",
                 value_string(item.get("subsystem")).unwrap_or_default(),
                 value_string(item.get("attribute")).unwrap_or_default(),
-                value_string(item.get("charter_outcome")).unwrap_or_default(),
-                value_i64(item.get("charter_rank")),
+                value_string(item.get("umbrella")).unwrap_or_default(),
+                value_i64(item.get("umbrella_rank")),
                 value_i64(item.get("weight")),
                 value_f64(item.get("measured")),
                 value_f64(item.get("target")),
@@ -3595,7 +3853,7 @@ fn render_deviations_md(scorecard: &Value) -> Result<String> {
         "".to_string(),
         "## Deviations".to_string(),
         "".to_string(),
-        "| Subsystem | Class | Attribute | Outcome | Rank | Charter Deviation | Old | New | Declared | Permitted | Expired | ADR | Changelog | Evidence | Issues |".to_string(),
+        "| Subsystem | Class | Attribute | Umbrella | Rank | Assurance-First Deviation | Old | New | Declared | Permitted | Expired | ADR | Changelog | Evidence | Issues |".to_string(),
         "|---|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|---|".to_string(),
     ];
 
@@ -3626,9 +3884,9 @@ fn render_deviations_md(scorecard: &Value) -> Result<String> {
             value_string(item.get("subsystem")).unwrap_or_default(),
             value_string(item.get("subsystem_class")).unwrap_or_default(),
             value_string(item.get("attribute")).unwrap_or_default(),
-            value_string(item.get("charter_outcome")).unwrap_or_default(),
-            value_i64(item.get("charter_rank")),
-            item.get("charter_priority_deviation")
+            value_string(item.get("umbrella")).unwrap_or_default(),
+            value_i64(item.get("umbrella_rank")),
+            item.get("umbrella_priority_deviation")
                 .and_then(|v| v.as_bool())
                 .unwrap_or(false),
             value_i64(item.get("old_value")),
@@ -3686,7 +3944,7 @@ fn render_gate_summary(
         .collect();
 
     let mut lines = vec![
-        "# Weighted Quality Gate Summary".to_string(),
+        "# Assurance Engine Gate Summary".to_string(),
         "".to_string(),
         format!("- Status: `{status}`"),
         format!("- Mode: `{mode}`"),
@@ -3729,6 +3987,8 @@ fn append_finding_section(lines: &mut Vec<String>, title: &str, findings: &[&Fin
 fn regression_rec(
     subsystem: &str,
     attribute: &str,
+    umbrella: &str,
+    umbrella_rank: i64,
     weight: i64,
     delta: f64,
     impact: f64,
@@ -3743,6 +4003,11 @@ fn regression_rec(
         m.insert(
             "attribute".to_string(),
             Value::String(attribute.to_string()),
+        );
+        m.insert("umbrella".to_string(), Value::String(umbrella.to_string()));
+        m.insert(
+            "umbrella_rank".to_string(),
+            Value::Number(Number::from(umbrella_rank)),
         );
         m.insert("weight".to_string(), Value::Number(Number::from(weight)));
         m.insert("delta".to_string(), num(round3(delta)));
@@ -4222,4 +4487,381 @@ fn civil_from_days(days_since_epoch: i64) -> (i32, u32, u32) {
     let m = mp + if mp < 10 { 3 } else { -9 };
     let year = y + if m <= 2 { 1 } else { 0 };
     (year as i32, m as u32, d as u32)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+    use std::fs;
+    use std::path::{Path, PathBuf};
+    use std::sync::Mutex;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    static GATE_TEST_CWD_LOCK: Mutex<()> = Mutex::new(());
+
+    fn repo_root() -> PathBuf {
+        let manifest_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        manifest_dir
+            .parent()
+            .and_then(Path::parent)
+            .and_then(Path::parent)
+            .and_then(Path::parent)
+            .expect("assurance_tools should be under .harmony/runtime/crates/")
+            .to_path_buf()
+    }
+
+    fn temp_dir(prefix: &str) -> PathBuf {
+        let nanos = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!(
+            "harmony-assurance-tools-{prefix}-{}-{nanos}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&path).expect("failed to create temp dir");
+        path
+    }
+
+    fn write_yaml_value(path: &Path, value: &Value) {
+        let text = serde_yaml::to_string(value).expect("failed to serialize yaml");
+        fs::write(path, text).expect("failed to write yaml fixture");
+    }
+
+    fn sample_scorecard(
+        run_mode: &str,
+        maturity: &str,
+        criteria: Option<&str>,
+        evidence: &[&str],
+        delta: Option<f64>,
+    ) -> Value {
+        json!({
+            "context": {
+                "profile": "ci-reliability",
+                "run_mode": run_mode,
+                "maturity": maturity,
+                "repo": "audit-test-repo"
+            },
+            "subsystems": {
+                "testsub": {
+                    "attributes": {
+                        "security": {
+                            "weight": 3,
+                            "measured": 4.0,
+                            "target": 5.0,
+                            "umbrella": "assurance",
+                            "umbrella_rank": 1,
+                            "criteria": criteria,
+                            "evidence": evidence,
+                            "delta": delta
+                        }
+                    },
+                    "conflicts": []
+                }
+            }
+        })
+    }
+
+    fn base_gate_paths() -> (PathBuf, PathBuf, PathBuf, PathBuf, PathBuf) {
+        let root = repo_root();
+        (
+            root.join(".harmony/assurance/standards/weights/weights.yml"),
+            root.join(".harmony/assurance/standards/scores/scores.yml"),
+            root.join(".harmony/assurance/CHARTER.md"),
+            root.join(".harmony/assurance/governance/subsystem-classes.yml"),
+            root.join(".harmony/assurance/governance/overrides.yml"),
+        )
+    }
+
+    fn run_gate_from_repo_root(args: GateArgs) -> Result<()> {
+        let _guard = GATE_TEST_CWD_LOCK
+            .lock()
+            .map_err(|_| anyhow!("failed to acquire test cwd lock"))?;
+        let original = std::env::current_dir()?;
+        std::env::set_current_dir(repo_root())?;
+        let outcome = run_gate(args);
+        std::env::set_current_dir(original)?;
+        outcome
+    }
+
+    #[test]
+    fn parse_charter_spec_requires_attribute_umbrella_map() {
+        let weights = json!({
+            "charter": {
+                "ref": ".harmony/assurance/CHARTER.md",
+                "version": "2.0.0",
+                "priority_chain": [
+                    {"id": "assurance", "name": "Assurance"}
+                ],
+                "tie_break_rule": "When tied, prefer higher umbrella rank.",
+                "tradeoff_rules": ["Assurance is non-negotiable."],
+                "required_references": {"charter": ".harmony/assurance/CHARTER.md"}
+            }
+        });
+
+        let err = parse_charter_spec(&weights, &["security".to_string()])
+            .expect_err("missing map must fail")
+            .to_string();
+        assert!(err.contains("attribute_umbrella_map"));
+    }
+
+    #[test]
+    fn parse_charter_spec_requires_full_attribute_coverage() {
+        let weights = json!({
+            "charter": {
+                "ref": ".harmony/assurance/CHARTER.md",
+                "version": "2.0.0",
+                "priority_chain": [
+                    {"id": "assurance", "name": "Assurance"},
+                    {"id": "productivity", "name": "Productivity"},
+                    {"id": "integration", "name": "Integration"}
+                ],
+                "tie_break_rule": "When tied, prefer higher umbrella rank.",
+                "tradeoff_rules": ["Assurance is non-negotiable."],
+                "required_references": {"charter": ".harmony/assurance/CHARTER.md"},
+                "attribute_umbrella_map": {
+                    "security": "assurance"
+                }
+            }
+        });
+
+        let attrs = vec!["security".to_string(), "safety".to_string()];
+        let err = parse_charter_spec(&weights, &attrs)
+            .expect_err("missing mapping for safety must fail")
+            .to_string();
+        assert!(err.contains("missing mapping for attribute 'safety'"));
+    }
+
+    #[test]
+    fn compute_umbrella_rollups_uses_assurance_hybrid_formula() {
+        let priority_chain = vec![
+            CharterPriority {
+                id: "assurance".to_string(),
+                name: "Assurance".to_string(),
+            },
+            CharterPriority {
+                id: "productivity".to_string(),
+                name: "Productivity".to_string(),
+            },
+            CharterPriority {
+                id: "integration".to_string(),
+                name: "Integration".to_string(),
+            },
+        ];
+        let mut priority_rank = HashMap::new();
+        priority_rank.insert("assurance".to_string(), 1);
+        priority_rank.insert("productivity".to_string(), 2);
+        priority_rank.insert("integration".to_string(), 3);
+
+        let spec = CharterSpec {
+            reference_path: ".harmony/assurance/CHARTER.md".to_string(),
+            version: Some("2.0.0".to_string()),
+            priority_chain,
+            tie_break_rule: "When tied, prefer higher umbrella rank.".to_string(),
+            tradeoff_rules: vec!["Assurance is non-negotiable.".to_string()],
+            required_references: HashMap::new(),
+            attribute_umbrella_map: HashMap::new(),
+            priority_rank,
+        };
+
+        let mut acc = HashMap::new();
+        acc.insert(
+            "assurance".to_string(),
+            UmbrellaAccumulator {
+                weighted_sum: 40.0,
+                weight_total: 10.0,
+                sample_count: 5,
+                critical_floor: Some(2.0),
+            },
+        );
+        acc.insert(
+            "productivity".to_string(),
+            UmbrellaAccumulator {
+                weighted_sum: 30.0,
+                weight_total: 10.0,
+                sample_count: 4,
+                critical_floor: None,
+            },
+        );
+
+        let rollups = compute_umbrella_rollups(&spec, &acc);
+        let assurance = rollups
+            .iter()
+            .find(|r| value_string(r.get("id")).as_deref() == Some("assurance"))
+            .expect("assurance rollup missing");
+        let productivity = rollups
+            .iter()
+            .find(|r| value_string(r.get("id")).as_deref() == Some("productivity"))
+            .expect("productivity rollup missing");
+
+        let assurance_score = value_f64(assurance.get("score"));
+        let productivity_score = value_f64(productivity.get("score"));
+        assert!((assurance_score - 3.4).abs() < 0.000_001);
+        assert!((productivity_score - 3.0).abs() < 0.000_001);
+        assert_eq!(
+            value_string(assurance.get("formula")).unwrap_or_default(),
+            "0.7*weighted_mean + 0.3*critical_floor"
+        );
+    }
+
+    #[test]
+    fn top_driver_sort_prefers_assurance_when_priority_ties() {
+        let mut drivers = vec![
+            json!({
+                "subsystem": "a",
+                "attribute": "deployability",
+                "priority": 10.0,
+                "umbrella": "productivity",
+                "umbrella_rank": 2,
+                "weight": 5
+            }),
+            json!({
+                "subsystem": "b",
+                "attribute": "security",
+                "priority": 10.0,
+                "umbrella": "assurance",
+                "umbrella_rank": 1,
+                "weight": 4
+            }),
+        ];
+
+        drivers.sort_by(|a, b| {
+            cmp_num(b.get("priority"), a.get("priority"))
+                .then_with(|| cmp_num(a.get("umbrella_rank"), b.get("umbrella_rank")))
+                .then_with(|| cmp_num(b.get("weight"), a.get("weight")))
+        });
+
+        assert_eq!(
+            value_string(drivers[0].get("umbrella")).unwrap_or_default(),
+            "assurance"
+        );
+
+        let ties = detect_tie_break_resolutions(&drivers);
+        assert_eq!(ties.len(), 1);
+        assert_eq!(
+            value_string(ties[0].get("winner_umbrella")).unwrap_or_default(),
+            "assurance"
+        );
+        assert_eq!(
+            value_string(ties[0].get("loser_umbrella")).unwrap_or_default(),
+            "productivity"
+        );
+    }
+
+    #[test]
+    fn gate_assurance_rank_three_warns_in_ci() -> Result<()> {
+        let temp = temp_dir("gate-ci");
+        let scorecard_path = temp.join("scorecard.yml");
+        let summary_path = temp.join("gate-summary.md");
+        write_yaml_value(
+            &scorecard_path,
+            &sample_scorecard("ci", "beta", None, &[], None),
+        );
+
+        let (weights, scores, charter, subsystem_classes, overrides) = base_gate_paths();
+        let args = GateArgs {
+            scorecard: scorecard_path,
+            weights: weights.clone(),
+            scores: scores.clone(),
+            charter: charter.clone(),
+            subsystem_classes,
+            overrides,
+            baseline_weights: Some(weights),
+            baseline_scores: Some(scores),
+            baseline_charter: Some(charter),
+            mode: Some("ci".to_string()),
+            summary_out: Some(summary_path.clone()),
+            strict_warnings: false,
+        };
+
+        run_gate_from_repo_root(args)?;
+        let summary = fs::read_to_string(summary_path)?;
+        assert!(summary.contains("Status: `WARN`"));
+        assert!(summary.contains("missing-criteria-assurance-priority"));
+        assert!(summary.contains("missing-evidence-assurance-priority"));
+
+        let _ = fs::remove_dir_all(temp);
+        Ok(())
+    }
+
+    #[test]
+    fn gate_assurance_rank_three_fails_in_release() -> Result<()> {
+        let temp = temp_dir("gate-release");
+        let scorecard_path = temp.join("scorecard.yml");
+        let summary_path = temp.join("gate-summary.md");
+        write_yaml_value(
+            &scorecard_path,
+            &sample_scorecard("release", "prod", None, &[], None),
+        );
+
+        let (weights, scores, charter, subsystem_classes, overrides) = base_gate_paths();
+        let args = GateArgs {
+            scorecard: scorecard_path,
+            weights: weights.clone(),
+            scores: scores.clone(),
+            charter: charter.clone(),
+            subsystem_classes,
+            overrides,
+            baseline_weights: Some(weights),
+            baseline_scores: Some(scores),
+            baseline_charter: Some(charter),
+            mode: Some("release".to_string()),
+            summary_out: Some(summary_path.clone()),
+            strict_warnings: false,
+        };
+
+        let err = run_gate_from_repo_root(args)
+            .expect_err("release mode should fail for missing controls");
+        assert!(err.to_string().contains("gate failed"));
+
+        let summary = fs::read_to_string(summary_path)?;
+        assert!(summary.contains("Status: `FAIL`"));
+        assert!(summary.contains("missing-criteria-assurance-priority"));
+        assert!(summary.contains("missing-evidence-assurance-priority"));
+
+        let _ = fs::remove_dir_all(temp);
+        Ok(())
+    }
+
+    #[test]
+    fn gate_assurance_rank_three_regression_warns() -> Result<()> {
+        let temp = temp_dir("gate-regression");
+        let scorecard_path = temp.join("scorecard.yml");
+        let summary_path = temp.join("gate-summary.md");
+        write_yaml_value(
+            &scorecard_path,
+            &sample_scorecard(
+                "ci",
+                "beta",
+                Some("Security posture remains bounded and auditable."),
+                &["evidence/link.md"],
+                Some(-0.6),
+            ),
+        );
+
+        let (weights, scores, charter, subsystem_classes, overrides) = base_gate_paths();
+        let args = GateArgs {
+            scorecard: scorecard_path,
+            weights: weights.clone(),
+            scores: scores.clone(),
+            charter: charter.clone(),
+            subsystem_classes,
+            overrides,
+            baseline_weights: Some(weights),
+            baseline_scores: Some(scores),
+            baseline_charter: Some(charter),
+            mode: Some("ci".to_string()),
+            summary_out: Some(summary_path.clone()),
+            strict_warnings: false,
+        };
+
+        run_gate_from_repo_root(args)?;
+        let summary = fs::read_to_string(summary_path)?;
+        assert!(summary.contains("Status: `WARN`"));
+        assert!(summary.contains("regression-assurance-priority-w3"));
+
+        let _ = fs::remove_dir_all(temp);
+        Ok(())
+    }
 }

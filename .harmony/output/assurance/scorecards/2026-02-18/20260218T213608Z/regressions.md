@@ -1,4 +1,4 @@
-# Quality Regression Summary
+# Assurance Regression Summary
 
 - Hard regressions: `0`
 - Soft regressions: `0`

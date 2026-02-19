@@ -8,25 +8,24 @@
 ## Charter Metadata
 
 - Charter: `.harmony/assurance/CHARTER.md`
-- Priority chain: `Trust > Speed of development > Ease of use > Portability > Interoperability`
-- Tie-break rule: When weighted priority ties, prioritize items mapped to higher charter outcomes in chain order.
+- Umbrella chain: `Assurance > Productivity > Integration`
+- Tie-break rule: When weighted priority ties, prioritize items mapped to higher umbrellas in chain order.
 
 ## Trade-off Rules
 
-- Trust is non-negotiable.
-- Speed is optimized inside trust constraints.
-- Ease of use is protected by progressive disclosure.
-- Portability is preserved by contracts and isolation.
-- Interoperability is allowed only with versioning + security + tests.
+- Assurance is non-negotiable.
+- Productivity is optimized inside assurance constraints.
+- Integration requires explicit contracts, security controls, and tests.
+- Attribute-level scoring remains the source of truth.
+- Umbrella rollups must not hide critical assurance weaknesses.
 
 ## Conflict Resolution
 
-Priority ties were resolved using the charter chain (higher-ranked outcomes win).
+Priority ties were resolved using the umbrella chain (higher-ranked umbrellas win).
 
-| Priority | Winner | Loser | Winner Outcome | Loser Outcome |
+| Priority | Winner | Loser | Winner Umbrella | Loser Umbrella |
 |---:|---|---|---|---|
-| 10 | `scaffolding:observability` | `ideation:maintainability` | `trust` | `speed_of_development` |
-| 10 | `ideation:maintainability` | `assurance:operability` | `speed_of_development` | `ease_of_use` |
+| 10 | `scaffolding:observability` | `assurance:operability` | `assurance` | `productivity` |
 
 ## Matrix
 

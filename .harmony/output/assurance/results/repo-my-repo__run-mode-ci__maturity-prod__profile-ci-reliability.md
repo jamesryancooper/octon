@@ -1,4 +1,4 @@
-# Weighted Quality Results
+# Assurance Engine Results
 
 - Profile: `ci-reliability`
 - Repo: `my-repo`
@@ -9,25 +9,33 @@
 ## Charter Metadata
 
 - Charter: `.harmony/assurance/CHARTER.md`
-- Version: `1.0.0`
-- Priority chain: `Trust (trust) > Speed of development (speed_of_development) > Ease of use (ease_of_use) > Portability (portability) > Interoperability (interoperability)`
-- Tie-break rule: When weighted priority ties, prioritize items mapped to higher charter outcomes in chain order.
+- Version: `2.0.0`
+- Umbrella chain: `Assurance (assurance) > Productivity (productivity) > Integration (integration)`
+- Tie-break rule: When weighted priority ties, prioritize items mapped to higher umbrellas in chain order.
 
 ## Trade-off Rules
 
-- Trust is non-negotiable.
-- Speed is optimized inside trust constraints.
-- Ease of use is protected by progressive disclosure.
-- Portability is preserved by contracts and isolation.
-- Interoperability is allowed only with versioning + security + tests.
+- Assurance is non-negotiable.
+- Productivity is optimized inside assurance constraints.
+- Integration requires explicit contracts, security controls, and tests.
+- Attribute-level scoring remains the source of truth.
+- Umbrella rollups must not hide critical assurance weaknesses.
 
 ## Conflict Resolution
 
-Equal-priority conflicts were resolved by charter chain order.
+Equal-priority conflicts were resolved by umbrella chain order.
 
-| Priority | Winner | Loser | Winner Outcome | Loser Outcome |
+| Priority | Winner | Loser | Winner Umbrella | Loser Umbrella |
 |---:|---|---|---|---|
-| 10 | `scaffolding:observability` | `agency:deployability` | `trust` | `speed_of_development` |
+| 10 | `scaffolding:observability` | `agency:deployability` | `assurance` | `productivity` |
+
+## Umbrella Rollups
+
+| Umbrella | Rank | Score | Weighted Mean | Critical Floor | Samples | Formula |
+|---|---:|---:|---:|---:|---:|---|
+| `Assurance` | 1 | `82.63%` | 4.1875 | 4.000 | 100 | `0.7*weighted_mean + 0.3*critical_floor` |
+| `Productivity` | 2 | `67.56%` | 3.378182 | n/a | 140 | `weighted_mean` |
+| `Integration` | 3 | `84.50%` | 4.225 | n/a | 30 | `weighted_mean` |
 
 ## Subsystem Totals
 
@@ -48,28 +56,28 @@ Equal-priority conflicts were resolved by charter chain order.
 
 Prioritization formula: `effective_weight × max(0, target_score - current_score)`
 
-| Subsystem | Attribute | Outcome | Rank | Weight | Current | Target | Gap | Priority | Evidence | Suggested Action |
+| Subsystem | Attribute | Umbrella | Rank | Weight | Current | Target | Gap | Priority | Evidence | Suggested Action |
 |---|---|---|---:|---:|---:|---:|---:|---:|---|---|
-| `agency` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `agency` | `observability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
-| `assurance` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `assurance` | `observability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
-| `capabilities` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `capabilities` | `observability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
-| `cognition` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `cognition` | `observability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
-| `continuity` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `ideation` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `ideation` | `observability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
-| `orchestration` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `orchestration` | `observability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
-| `output` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `output` | `observability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
-| `scaffolding` | `availability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
-| `scaffolding` | `observability` | `trust` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
-| `agency` | `deployability` | `speed_of_development` | 2 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/_meta/architecture/runtime-policy.md, .github/workflows/runtime-binaries.yml | Raise 'deployability' from 3 to target 5. |
-| `assurance` | `deployability` | `speed_of_development` | 2 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/_meta/architecture/runtime-policy.md, .github/workflows/runtime-binaries.yml | Raise 'deployability' from 3 to target 5. |
-| `capabilities` | `deployability` | `speed_of_development` | 2 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/_meta/architecture/runtime-policy.md, .github/workflows/runtime-binaries.yml | Raise 'deployability' from 3 to target 5. |
+| `agency` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `agency` | `observability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
+| `assurance` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `assurance` | `observability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
+| `capabilities` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `capabilities` | `observability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
+| `cognition` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `cognition` | `observability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
+| `continuity` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `ideation` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `ideation` | `observability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
+| `orchestration` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `orchestration` | `observability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
+| `output` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `output` | `observability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
+| `scaffolding` | `availability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/methodology/risk-tiers.md | Raise 'availability' from 3 to target 5. |
+| `scaffolding` | `observability` | `assurance` | 1 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/principles/observability-as-a-contract.md, .harmony/cognition/_meta/architecture/observability-requirements.md | Raise 'observability' from 3 to target 5. |
+| `agency` | `deployability` | `productivity` | 2 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/_meta/architecture/runtime-policy.md, .github/workflows/runtime-binaries.yml | Raise 'deployability' from 3 to target 5. |
+| `assurance` | `operability` | `productivity` | 2 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/methodology/reliability-and-ops.md, .harmony/cognition/_meta/architecture/runtime-policy.md | Raise 'operability' from 3 to target 5. |
+| `assurance` | `deployability` | `productivity` | 2 | 5 | 3 | 5 | 2 | 10 | .harmony/cognition/_meta/architecture/runtime-policy.md, .github/workflows/runtime-binaries.yml | Raise 'deployability' from 3 to target 5. |
 
 ## Regressions
 

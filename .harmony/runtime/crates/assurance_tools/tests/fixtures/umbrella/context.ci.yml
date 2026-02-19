@@ -1,0 +1,8 @@
+context:
+  profile: test-profile
+  run_mode: ci
+  maturity: beta
+  repo: audit-test-repo
+
+comparison:
+  baseline_scorecard: ""

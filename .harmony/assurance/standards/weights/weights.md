@@ -9,11 +9,16 @@ Harmony's authoritative local engine for assurance governance.
 
 - Canonical charter: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/CHARTER.md`
 - Machine contract: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/weights/weights.yml` -> `charter`
+- Active umbrella chain: `Assurance > Productivity > Integration`
 - The resolver and gate validate:
   - charter priority chain alignment,
   - trade-off rule alignment,
   - required charter references,
+  - `attribute_umbrella_map` coverage for all canonical attributes,
   - charter-driven tie-break behavior in top-driver output.
+
+Attribute-level scores remain source of truth. Umbrellas are derived rollups for
+ordering and reporting.
 
 ## Core Rule
 

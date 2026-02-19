@@ -1,128 +1,107 @@
 # Assurance Charter
 
 **Purpose**
-Harmony is a governed development harness that accelerates software delivery **without sacrificing trust**. It standardizes how work is proposed, executed, verified, and recorded across repositories—so teams can move quickly, safely, and repeatably.
+Harmony is a governed development harness that accelerates software delivery
+without sacrificing assurance. It standardizes how work is proposed, executed,
+verified, and recorded across repositories so teams can move quickly, safely,
+and repeatably.
 
 **Scope**
-This charter defines Harmony’s assurance priorities and the rules Harmony uses to make trade-offs. It applies to Harmony’s subsystems (`agency/`, `capabilities/`, `orchestration/`, `cognition/`, `continuity/`, `assurance/`, `runtime/`, `scaffolding/`, `output/`, `ideation/`) and to any repo adopting Harmony.
+This charter defines Harmony's assurance priorities and the rules Harmony uses
+to make trade-offs. It applies to Harmony's subsystems (`agency/`,
+`capabilities/`, `orchestration/`, `cognition/`, `continuity/`, `assurance/`,
+`runtime/`, `scaffolding/`, `output/`, `ideation/`) and to any repo adopting
+Harmony.
 
 ---
 
 ## 1) Primary focus and priority chain
 
-Harmony optimizes for five outcomes, in this order:
+Harmony optimizes for three umbrella outcomes, in this order:
 
-1. **Trust**
-2. **Speed of development**
-3. **Ease of use**
-4. **Portability**
-5. **Interoperability**
+1. **Assurance**
+2. **Productivity**
+3. **Integration**
 
 This order is the default tiebreaker when assurance goals conflict.
 
 ---
 
-## 2) What “good” means for Harmony
+## 2) What "good" means for Harmony
 
-### A. Trust (highest priority)
+### A. Assurance (highest priority)
 
-**Definition:** Users and teams can rely on Harmony’s actions and outcomes as **correct, safe, policy-compliant, and explainable**.
+**Definition:** Outcomes are correct, safe, policy-compliant, and explainable.
 
-**Trust is primarily driven by:**
+**Assurance umbrellas these primary attributes:**
 
-* **Security:** least privilege, secret hygiene, integrity of artifacts and execution
-* **Safety:** bounded side effects, approvals for irreversible actions
-* **Auditability:** reconstruct who/what/why/when; provenance and decision trails
-* **Reliability:** consistent correct outcomes over time
-* **Robustness:** graceful handling of invalid inputs and partial failures
-* **Recoverability/Resilience:** rollback/restore, reversible operations, DR-minded state
-* **Observability:** visibility into execution and decisions; “no mystery actions”
-* **Functional suitability/Correctness:** does what it claims, according to contracts
+* **Dependability**
+* **Security**
+* **Safety**
+* **Reliability**
+* **Availability**
+* **Robustness**
+* **Recoverability**
+* **Auditability**
+* **Observability**
+* **Functional suitability**
 
-**Trust principle:** *No silent authority.* Every action is attributable, bounded, and explainable.
-
----
-
-### B. Speed of development
-
-**Definition:** Harmony reduces cycle time from intent → verified change → recorded outcome.
-
-**Speed is primarily driven by:**
-
-* **Simplicity:** low cognitive overhead; few moving parts
-* **Evolvability/Modifiability:** cheap changes; stable, versioned contracts
-* **Maintainability:** low long-term friction; avoid harness debt
-* **Testability:** fast verification loops; deterministic checks
-* **Deployability/Installability:** quick setup; safe upgrades/rollback
-* **Observability:** faster debugging and iteration
-* **Configurability (bounded):** variation through config, not forks
-
-**Speed principle:** *Optimize the loop.* Shorten feedback cycles and make success paths effortless.
+**Assurance principle:** *No silent authority.* Every action is attributable,
+bounded, and explainable.
 
 ---
 
-### C. Ease of use
+### B. Productivity
 
-**Definition:** Harmony is learnable, predictable, and efficient for both developers and operators.
+**Definition:** Delivery throughput is maximized with low friction and bounded
+autonomy.
 
-**Ease of use is primarily driven by:**
+**Productivity umbrellas these primary attributes:**
 
-* **Usability:** clear workflows, good defaults, minimal friction
-* **Simplicity:** understandable mental model; progressive disclosure
-* **Consistency/Predictability:** uniform behavior across repos and modes
-* **Operability:** easy to run, troubleshoot, and support
-* **Accessibility:** inclusive docs and interfaces
+* **Autonomy**
+* **Performance**
+* **Scalability**
+* **Simplicity**
+* **Evolvability**
+* **Maintainability**
+* **Completeness**
+* **Operability**
+* **Testability**
+* **Deployability**
+* **Usability**
+* **Accessibility**
+* **Configurability**
+* **Sustainability**
 
-**Ease-of-use principle:** *Friction is earned.* Add friction only to preserve trust and safety.
-
----
-
-### D. Portability
-
-**Definition:** Harmony is a drop-in harness that works across repos and environments without forks.
-
-**Portability is primarily driven by:**
-
-* **Portability:** OS/toolchain neutrality, minimal assumptions
-* **Compatibility/Co-existence:** plays well with existing repo tooling
-* **Configurability:** environment differences handled via config
-* **Simplicity:** fewer platform-specific behaviors
-
-**Portability principle:** *Stable contracts, minimal dependencies.* Avoid vendor and platform lock-in.
+**Productivity principle:** *Optimize the loop inside assurance boundaries.*
 
 ---
 
-### E. Interoperability
+### C. Integration
 
-**Definition:** Harmony integrates safely and consistently with diverse tools and systems.
+**Definition:** Harmony works across repos, environments, and tools through
+stable contracts.
 
-**Interoperability is primarily driven by:**
+**Integration umbrellas these primary attributes:**
 
-* **Interoperability:** clear interfaces and exchange formats
-* **Compatibility:** versioning/deprecation discipline
-* **Security:** safe integration surface; least privilege
-* **Evolvability:** non-breaking evolution of contracts
-* **Testability:** contract/integration tests
-* **Observability:** traceability across boundaries
+* **Portability**
+* **Interoperability**
+* **Compatibility**
 
-**Interoperability principle:** *Integrate selectively.* Only adopt integrations that preserve trust and maintainable evolution.
+**Integration principle:** *Integrate through explicit versioned interfaces.*
 
 ---
 
 ## 3) Autonomy policy (bounded autonomy)
 
-**Autonomy is a first-class capability that supports:**
+Autonomy is a first-class **Productivity** attribute and is valid only when
+bounded by Assurance controls:
 
-* **Speed of development** (reduces manual steps; compresses workflows)
-* **Ease of use** (reduces effort; improves experience)
-
-**Autonomy rule:** Autonomy is permitted only when bounded by trust controls:
-
-* **Policy boundaries** (deny-by-default; scoped permissions)
-* **Approval gates** for side effects (especially irreversible actions)
-* **Full audit trail** of intent, plan, actions, and outputs
-* **Observability** sufficient to explain “what happened”
-* **Recoverability** (undo/rollback) for actions that mutate state
+* deny-by-default policy boundaries
+* approval gates for material side effects
+* full audit trail of intent, plan, actions, and outputs
+* observability sufficient to explain what happened
+* recoverability for state-changing actions
 
 **Autonomy levels (suggested):**
 
@@ -133,7 +112,8 @@ This order is the default tiebreaker when assurance goals conflict.
 * **A4 Semi-autonomous:** chains workflows with approvals at checkpoints
 * **A5 Autonomous:** end-to-end within strict policies + continuous audit
 
-Default stance: **increase autonomy with maturity**, not at the expense of trust.
+Default stance: increase autonomy with maturity, never at the expense of
+Assurance.
 
 ---
 
@@ -141,22 +121,22 @@ Default stance: **increase autonomy with maturity**, not at the expense of trust
 
 When assurance goals conflict, apply these rules:
 
-1. **Trust is non-negotiable.**
+1. **Assurance is non-negotiable.**
    If an optimization reduces explainability, reversibility, or policy compliance, it is rejected or gated.
 
-2. **Speed is optimized inside trust constraints.**
+2. **Productivity is optimized inside assurance constraints.**
    Favor automation, templates, and autonomy that remain bounded, auditable, and reversible.
 
-3. **Ease of use is protected by progressive disclosure.**
-   Keep the default path simple; surface complexity only when needed.
+3. **Integration requires explicit contracts, security controls, and tests.**
+   Every integration must be versioned, least-privileged, and contract-tested.
 
-4. **Portability is preserved by contracts and isolation.**
-   Prefer stable interfaces, minimal dependencies, and environment-agnostic behaviors.
+4. **Attribute-level scoring remains the source of truth.**
+   Umbrella scores are rollups for ordering and reporting, not substitutes for attribute evidence.
 
-5. **Interoperability is allowed only with versioning + security + tests.**
-   Every integration must be contract-tested, least-privileged, and evolvable.
+5. **Umbrella rollups must not hide critical assurance weaknesses.**
+   Critical assurance attributes can constrain rollup interpretation and gate outcomes.
 
-If two top priorities conflict (e.g., Security vs Usability), Harmony requires:
+If top-priority attributes conflict, Harmony requires:
 
 * an explicit boundary decision (ADR),
 * mitigations (break-glass, sampling, progressive disclosure),
@@ -170,8 +150,9 @@ If two top priorities conflict (e.g., Security vs Usability), Harmony requires:
 
 * **Weights are policy:** versioned, reviewed, ADR-backed
 * **Scores are measurement:** updated frequently with evidence pointers
-* Gates enforce that **weight changes cannot be “nudged” silently**
-* Development planning must reference the **effective weights** for the current context
+* Gates enforce that weight changes cannot be nudged silently
+* Development planning must reference effective weights for the current context
+* Umbrella ordering is deterministic: `Assurance > Productivity > Integration`
 
 ---
 
@@ -179,9 +160,10 @@ If two top priorities conflict (e.g., Security vs Usability), Harmony requires:
 
 * We will not maximize performance at the cost of **untracked authority**.
 * We will not accept autonomy that cannot be **explained, bounded, and undone**.
-* We will not add portability-breaking platform assumptions without an explicit decision.
+* We will not add integration-breaking platform assumptions without an explicit decision.
 * We will not accumulate “profile sprawl” that makes the model unmaintainable.
-* We will not create integrations that broaden attack surface without controls and tests.
+* We will not create integrations that broaden attack surface without controls,
+  tests, and version discipline.
 
 ---
 
@@ -189,9 +171,9 @@ If two top priorities conflict (e.g., Security vs Usability), Harmony requires:
 
 When proposing changes to Harmony or adopting it in a repo:
 
-* Which of the five focus outcomes does this improve?
+* Which umbrella outcome does this improve (**Assurance**, **Productivity**, **Integration**)?
 * Which outcome does it worsen (if any), and why is that acceptable?
-* What is the impact on **Trust** (auditability, safety, security, recoverability)?
+* What is the impact on **Assurance** (auditability, safety, security, recoverability, correctness)?
 * What evidence/gates prove the claim?
 * If this introduces a new behavior, how is it versioned, observed, and rolled back?
 * Does this increase autonomy? If yes, what autonomy level and what guardrails?

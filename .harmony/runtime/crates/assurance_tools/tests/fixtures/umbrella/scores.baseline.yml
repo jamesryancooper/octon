@@ -1,0 +1,30 @@
+defaults:
+  attributes:
+    security:
+      score: 4
+      target_score: 5
+      acceptance_criteria: Security controls are validated.
+      evidence:
+        - tests/security.md
+    deployability:
+      score: 3
+      target_score: 5
+      acceptance_criteria: Deploy pipeline is reproducible.
+      evidence:
+        - ops/deploy.md
+    portability:
+      score: 5
+      target_score: 5
+      acceptance_criteria: Runs in supported environments.
+      evidence:
+        - ops/portability.md
+
+subsystems:
+  testsub:
+    attributes:
+      security:
+        score: 4
+      deployability:
+        score: 3
+      portability:
+        score: 5

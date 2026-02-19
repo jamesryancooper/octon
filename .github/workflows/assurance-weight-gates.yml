@@ -1,4 +1,4 @@
-name: Assurance Weight Gates
+name: Assurance Engine Gates
 
 on:
   pull_request:
@@ -80,10 +80,11 @@ jobs:
             echo "BASE_CHARTER=$BASE_CHARTER" >> "$GITHUB_ENV"
           fi
 
-      - name: Compute weighted assurance scorecard
+      - name: Compute assurance engine scorecard
         run: |
-          OUT_DIR="$RUNNER_TEMP/assurance-weight-scorecard"
+          OUT_DIR="$RUNNER_TEMP/assurance-engine-scorecard"
           cargo build --quiet --manifest-path .harmony/runtime/crates/Cargo.toml -p harmony_assurance_tools
+          cargo test --quiet --manifest-path .harmony/runtime/crates/Cargo.toml -p harmony_assurance_tools
           .harmony/assurance/_ops/scripts/compute-assurance-score.sh \
             --weights .harmony/assurance/standards/weights/weights.yml \
             --scores .harmony/assurance/standards/scores/scores.yml \
@@ -96,7 +97,7 @@ jobs:
             --out-dir "$OUT_DIR"
           echo "OUT_DIR=$OUT_DIR" >> "$GITHUB_ENV"
 
-      - name: Run weighted assurance gate
+      - name: Run assurance engine gate
         shell: bash
         run: |
           set -euo pipefail
@@ -124,10 +125,10 @@ jobs:
 
           .harmony/assurance/_ops/scripts/assurance-gate.sh "${args[@]}"
 
-      - name: Upload scorecard artifacts
+      - name: Upload assurance artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: assurance-weight-scorecard
+          name: assurance-engine-scorecard
           path: |
             ${{ env.OUT_DIR }}/scorecard.yml
             ${{ env.OUT_DIR }}/scorecard.md
