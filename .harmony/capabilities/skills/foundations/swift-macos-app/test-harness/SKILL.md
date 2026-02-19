@@ -134,7 +134,7 @@ jsonschema>=4.0
 
 ### Step 7: CI workflow
 
-Create `.github/workflows/ci.yml`:
+Create `ci.yml` in `.github/workflows/`:
 
 ```yaml
 name: CI

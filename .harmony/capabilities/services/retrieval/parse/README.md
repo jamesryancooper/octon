@@ -69,8 +69,8 @@ Directory layout:
 │   └── parse/
 │       └── cli.py
 ├── schema/
-│   ├── parse.inputs.v1.json
-│   └── parse.outputs.v1.json
+│   ├── input.schema.json
+│   └── output.schema.json
 └── runs/              # gitignored artifacts
 ```
 

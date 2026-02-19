@@ -14,7 +14,7 @@ Replace placeholders based on analysis and user input. Wildcards (`*`) indicate 
 | `scope.md` | `{{TARGET_NAME}}`, `{{SCOPE_DESCRIPTION}}`, `{{IN_SCOPE_*}}`, `{{OUT_OF_SCOPE_*}}`, `{{LOCAL_DECISION_*}}`, `{{ESCALATE_DECISION_*}}`, `{{ADJACENT_AREAS}}` |
 | `conventions.md` | `{{NAMING_CONVENTION}}` (kebab-case, PascalCase, snake_case based on detected patterns) |
 | `START.md` | `{{PREREQUISITES}}` (dependencies, env vars, build steps) |
-| `quality/complete.md` | `{{CUSTOM_QUALITY_CHECK_*}}` (enable/disable based on detected tooling) |
+| `assurance/complete.md` | `{{CUSTOM_QUALITY_CHECK_*}}` (enable/disable based on detected tooling) |
 | `continuity/tasks.json` | `{{DATE}}`, `{{FIRST_TASK_ID}}`, `{{FIRST_TASK_DESCRIPTION}}` |
 | `continuity/log.md` | `{{DATE}}`, `{{DIRECTORY_TYPE}}`, `{{BRIEF_SCOPE}}`, `{{KEY_FINDING_*}}`, `{{FIRST_TASK}}` |
 

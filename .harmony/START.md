@@ -20,7 +20,7 @@ This harness extends `.harmony/` for shared infrastructure.
 | Services | `.harmony/capabilities/services/` | `.harmony/capabilities/services/` |
 | Prompts | `.harmony/scaffolding/prompts/` | `.harmony/scaffolding/prompts/` |
 | Context | `.harmony/cognition/context/` | `.harmony/cognition/context/` |
-| Checklists | `.harmony/quality/` | `.harmony/quality/` |
+| Checklists | `.harmony/assurance/` | `.harmony/assurance/` |
 
 **Resolution:** All resources now live under `.harmony/`.
 
@@ -87,8 +87,8 @@ Subsystem expansion specs:
 │   ├── prompts/        ← Task templates
 │   └── examples/       ← Reference patterns
 │
-├── quality/            ← complete.md, session-exit.md + standards
-│   └── _meta/architecture/   ← Quality subsystem specification
+├── assurance/            ← complete.md, session-exit.md + standards
+│   └── _meta/architecture/   ← Assurance subsystem specification
 │
 ├── ideation/           ← Human-led zone (IGNORE)
 │   ├── _meta/architecture/   ← Ideation subsystem specification
@@ -136,7 +136,7 @@ Within these namespaces, common subpaths are:
 7. **Read `continuity/tasks.json`** → Know current priorities
 8. **Check `orchestration/missions/registry.yml`** → Know active missions (if any)
 9. **Begin** highest-priority unblocked task
-10. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
+10. **Before finishing:** Complete `assurance/session-exit.md`, verify against `assurance/complete.md`
 
 ## Runtime Quick Start
 

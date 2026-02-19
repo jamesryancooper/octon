@@ -326,7 +326,7 @@ See `.harmony/capabilities/_meta/architecture/` for migration guidance.
 
 ## Checklists
 
-**Location:** `.harmony/quality/<checklist>.md`
+**Location:** `.harmony/assurance/<checklist>.md`
 
 **Purpose:** Quality gates and verification criteria for specific checkpoints.
 
@@ -582,7 +582,7 @@ Registry supports `pipelines` section for skill composition without manual orche
 | Skills | `.harmony/capabilities/skills/registry.yml` | `.harmony/capabilities/skills/_scaffold/template/` | `.harmony/capabilities/_meta/architecture/` |
 | Assistants | `.harmony/agency/assistants/registry.yml` | `.harmony/agency/assistants/_scaffold/template/` | `.harmony/agency/_meta/architecture/README.md` |
 | Commands | — | — | `.harmony/capabilities/_meta/architecture/commands.md` |
-| Checklists | — | — | `.harmony/quality/_meta/architecture/checklists.md` |
+| Checklists | — | — | `.harmony/assurance/_meta/architecture/checklists.md` |
 | Prompts | — | — | `.harmony/scaffolding/_meta/architecture/prompts.md` |
 | Templates | — | `.harmony/scaffolding/templates/` | `.harmony/scaffolding/_meta/architecture/templates.md` |
 

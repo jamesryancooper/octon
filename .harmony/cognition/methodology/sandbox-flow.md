@@ -134,7 +134,7 @@ See `ci-cd-quality-gates.md` for full details. From a sandbox perspective:
   - Contract tests (Pact, Schemathesis) which may target:
     - Local/test instances.
     - Preview environments for HTTP surfaces when configured.
-  - Static analysis, SBOM, secrets scanning, and other quality/security gates.
+  - Static analysis, SBOM, secrets scanning, and other assurance/security gates.
   - Optional: performance smoke and bundle budgets.
 - **Observability gates**:
   - Jobs like `otel_coverage` and `contracts_drift` verify that changed flows:

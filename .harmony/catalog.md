@@ -350,12 +350,12 @@ Background knowledge in `cognition/context/`:
 
 ## Checklists
 
-Quality gates in `quality/`:
+Quality gates in `assurance/`:
 
 | File | Description |
 |------|-------------|
-| [complete.md](./quality/complete.md) | Definition of done for tasks |
-| [session-exit.md](./quality/session-exit.md) | Steps before ending a session |
+| [complete.md](./assurance/complete.md) | Definition of done for tasks |
+| [session-exit.md](./assurance/session-exit.md) | Steps before ending a session |
 
 ---
 

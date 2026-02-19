@@ -48,7 +48,7 @@ If this file conflicts with `/.harmony/scope.md` or `/.harmony/conventions.md`, 
 
 ### HARMONY-SPEC-001: Domain-Organized Harness Root
 
-The root harness MUST remain domain-organized under `/.harmony/` with explicit top-level domains (`agency`, `capabilities`, `cognition`, `continuity`, `orchestration`, `quality`, `scaffolding`, `ideation`, `output`, `runtime`).
+The root harness MUST remain domain-organized under `/.harmony/` with explicit top-level domains (`agency`, `capabilities`, `cognition`, `continuity`, `orchestration`, `assurance`, `scaffolding`, `ideation`, `output`, `runtime`).
 
 Expands in:
 
@@ -115,17 +115,17 @@ Expands in:
 
 - [Conventions](/.harmony/conventions.md)
 - [Continuity README](/.harmony/continuity/README.md)
-- [Session Exit Checklist](/.harmony/quality/session-exit.md)
+- [Session Exit Checklist](/.harmony/assurance/session-exit.md)
 
-### HARMONY-SPEC-008: Completion and Exit Quality Gates
+### HARMONY-SPEC-008: Completion and Exit Assurance Gates
 
 Tasks MUST satisfy definition-of-done and session-exit gates before completion or handoff.
 
 Expands in:
 
-- [Quality README](/.harmony/quality/README.md)
-- [Definition of Done](/.harmony/quality/complete.md)
-- [Session Exit Checklist](/.harmony/quality/session-exit.md)
+- [Assurance README](/.harmony/assurance/README.md)
+- [Definition of Done](/.harmony/assurance/complete.md)
+- [Session Exit Checklist](/.harmony/assurance/session-exit.md)
 
 ### HARMONY-SPEC-009: Human-Led Ideation Boundaries
 
@@ -219,16 +219,16 @@ Expands in:
 - [Continuity Architecture README](/.harmony/continuity/_meta/architecture/README.md)
 - [Continuity README](/.harmony/continuity/README.md)
 
-### HARMONY-SPEC-601: Quality Contract Boundary
+### HARMONY-SPEC-601: Assurance Contract Boundary
 
-`/.harmony/quality/**` MUST preserve completion and exit contracts as enforceable quality gates.
-The Quality Governance Engine (QGE) is the authoritative local engine for
-weighted quality policy resolution, scoring, and gating in this boundary.
+`/.harmony/assurance/**` MUST preserve completion and exit contracts as enforceable assurance gates.
+The Assurance Engine is the authoritative local engine for
+weighted assurance policy resolution, scoring, and gating in this boundary.
 
 Expands in:
 
-- [Quality Architecture README](/.harmony/quality/_meta/architecture/README.md)
-- [Quality README](/.harmony/quality/README.md)
+- [Assurance Architecture README](/.harmony/assurance/_meta/architecture/README.md)
+- [Assurance README](/.harmony/assurance/README.md)
 
 ### HARMONY-SPEC-701: Ideation Contract Boundary
 
@@ -257,7 +257,7 @@ Expands in:
 | Orchestration | `/.harmony/orchestration/_meta/architecture/specification.md` |
 | Cognition (cross-cutting) | `/.harmony/cognition/_meta/architecture/specification.md` (this file) |
 | Continuity | `/.harmony/continuity/_meta/architecture/README.md` |
-| Quality | `/.harmony/quality/_meta/architecture/README.md` |
+| Assurance | `/.harmony/assurance/_meta/architecture/README.md` |
 | Ideation | `/.harmony/ideation/_meta/architecture/README.md` |
 | Output | `/.harmony/output/_meta/architecture/README.md` |
 

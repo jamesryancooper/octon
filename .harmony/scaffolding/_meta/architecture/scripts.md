@@ -43,7 +43,7 @@ cd .harmony
 ✓ conventions.md
 ✓ catalog.md
 ✓ continuity/
-✓ quality/
+✓ assurance/
 ✓ scaffolding/prompts/
 ✓ orchestration/workflows/
 ✓ capabilities/commands/
@@ -94,4 +94,4 @@ Scripts are for **quick validation**. Workflows are for **agent-driven procedure
 ## See Also
 
 - [README.md](./README.md) — Canonical harness structure
-- [Checklists](../../../quality/_meta/architecture/checklists.md) — Quality gates (agent-facing alternative to validation scripts)
+- [Checklists](../../../assurance/_meta/architecture/checklists.md) — Quality gates (agent-facing alternative to validation scripts)

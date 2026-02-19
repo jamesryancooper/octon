@@ -313,7 +313,7 @@ Must define:
 
 ### Agency <-> Quality
 
-- Any actor-mediated change is subject to quality gates (`quality/complete.md`, checks, tests, audits).
+- Any actor-mediated change is subject to quality gates (`assurance/complete.md`, checks, tests, audits).
 - High-risk delegated work requires explicit verification before mission completion.
 
 ## Invariants

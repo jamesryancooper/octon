@@ -6,7 +6,7 @@ Apply structural changes to align with current conventions.
 
 1. Create missing required directories:
    - `continuity/` (if missing)
-   - `quality/` (if missing)
+   - `assurance/` (if missing)
    - `projects/` (if needed)
 
 2. Create `ideation/scratchpad/` with subdirectories if needed:
@@ -30,6 +30,6 @@ Apply structural changes to align with current conventions.
 ## Verification
 
 - Required files exist: `START.md`, `scope.md`, `conventions.md`
-- Required dirs exist: `continuity/`, `quality/`
+- Required dirs exist: `continuity/`, `assurance/`
 - No agent-facing files reference `ideation/scratchpad/` content
 - Projects directory exists at harness level if research projects are present

@@ -2389,8 +2389,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "harmony_assurance_tools"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "hex",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha2",
+]
+
+[[package]]
 name = "harmony_core"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -2409,7 +2422,7 @@ dependencies = [
 
 [[package]]
 name = "harmony_kernel"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -2425,21 +2438,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "harmony_quality_tools"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "hex",
- "serde",
- "serde_json",
- "serde_yaml",
- "sha2",
-]
-
-[[package]]
 name = "harmony_studio"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "serde",
@@ -2451,7 +2451,7 @@ dependencies = [
 
 [[package]]
 name = "harmony_wasm_host"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "glob",

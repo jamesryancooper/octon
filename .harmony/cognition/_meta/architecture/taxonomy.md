@@ -337,7 +337,7 @@ See `.harmony/catalog.md` for complete decision flowcharts and examples.
 | Prompts | `.harmony/scaffolding/prompts/*.md` | Task templates | No |
 | Assistants | `.harmony/agency/assistants/<name>/` | Focused specialists | Via @mention |
 | Missions | `.harmony/orchestration/missions/<slug>/` | Sub-projects | No |
-| Checklists | `.harmony/quality/*.md` | Quality gates | No |
+| Checklists | `.harmony/assurance/*.md` | Quality gates | No |
 
 ### Harness Entry Point Directories
 
@@ -357,5 +357,5 @@ See `.harmony/catalog.md` for complete decision flowcharts and examples.
 - [Harness Prompts](../../../scaffolding/prompts/README.md) — Context-dependent task templates
 - [Agency](../../../agency/README.md) — Canonical actor taxonomy and routing model
 - [Missions](../../../orchestration/missions/README.md) — Time-bounded sub-projects
-- [Checklists](../../../quality/_meta/architecture/checklists.md) — Quality gates
+- [Checklists](../../../assurance/_meta/architecture/checklists.md) — Quality gates
 - [README.md](./README.md) — Canonical harness structure reference

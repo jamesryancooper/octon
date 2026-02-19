@@ -49,7 +49,7 @@ The key insight: **organize by what things do, not by where they came from**.
 │   ├── tasks.json           #   Current task priorities
 │   └── next.md              #   Planned next steps
 │
-├── quality/                 # Verification
+├── assurance/                 # Verification
 │   ├── done.md              #   Completion checklist
 │   └── session-exit.md      #   End-of-session gate
 │
@@ -90,9 +90,9 @@ A descendant harness does not need every subsystem. Baseline:
 
 - `START.md`
 - `scope.md`
-- At least one active subsystem (`cognition/`, `capabilities/`, `orchestration/`, `continuity/`, or `quality/`)
+- At least one active subsystem (`cognition/`, `capabilities/`, `orchestration/`, `continuity/`, or `assurance/`)
 
-Add only what the local area needs (for example `continuity/` for multi-session work, `quality/` for local gates, `conventions.md` for local style deltas).
+Add only what the local area needs (for example `continuity/` for multi-session work, `assurance/` for local gates, `conventions.md` for local style deltas).
 
 ---
 
@@ -126,7 +126,7 @@ portable:
   - capabilities/skills/**/references/
   - capabilities/commands/
   - orchestration/workflows/
-  - quality/
+  - assurance/
   - scaffolding/
   - cognition/context/primitives.md
   - cognition/context/tools.md
@@ -167,7 +167,7 @@ Resources are organized by **capability category**. Each category groups related
 | **Capabilities** | `capabilities/` | Skills, commands, tools | Yes (definitions are portable; logs and outputs are project-specific) |
 | **Orchestration** | `orchestration/` | Workflows, missions | Partially (workflow definitions are portable; missions are project-specific) |
 | **Continuity** | `continuity/` | Progress log, tasks, next steps | No (project-specific state) |
-| **Quality** | `quality/` | Completion checklists, session gates | Yes |
+| **Quality** | `assurance/` | Completion checklists, session gates | Yes |
 | **Scaffolding** | `scaffolding/` | Templates, prompts, examples | Yes |
 | **Ideation** | `ideation/` | Scratchpad, projects (human-led) | No (project-specific, human-led) |
 | **Output** | `output/` | Reports, drafts, artifacts | No (project-specific artifacts) |
@@ -272,7 +272,7 @@ Use `harmony.yml` portable paths to bootstrap `.harmony/` in a new repository.
 | Agency | `agency/` | Agents, assistants, teams |
 | Capabilities | `capabilities/` | Skills framework, commands, tools |
 | Scaffolding | `scaffolding/` | Templates, prompts, examples |
-| Quality | `quality/` | Completion checklists |
+| Quality | `assurance/` | Completion checklists |
 | Cognition (partial) | `cognition/context/` | Reference material (tools, compaction) |
 
 ### Customization

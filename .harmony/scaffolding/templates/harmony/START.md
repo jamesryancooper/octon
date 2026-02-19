@@ -21,7 +21,7 @@ description: Boot sequence and orientation for this harness
 ├── cognition/
 │   └── context/    ← Decisions, lessons, glossary
 ├── continuity/     ← log.md, tasks.json, entities.json
-├── quality/        ← complete.md, session-exit.md
+├── assurance/        ← complete.md, session-exit.md
 │
 ├── orchestration/
 │   ├── workflows/  ← Multi-step procedures (add as needed)
@@ -55,7 +55,7 @@ description: Boot sequence and orientation for this harness
 4. **Read `continuity/log.md`** → Know what's been done
 5. **Read `continuity/tasks.json`** → Know current priorities and goal
 6. **Begin** highest-priority unblocked task
-7. **Before finishing:** Complete `quality/session-exit.md`, verify against `quality/complete.md`
+7. **Before finishing:** Complete `assurance/session-exit.md`, verify against `assurance/complete.md`
 
 ## Visibility & Autonomy Rules
 

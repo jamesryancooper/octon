@@ -35,7 +35,7 @@ Consolidate into a single `.harmony/` root organized by capability category. Han
 ├── orchestration/       # Workflows, Missions
 ├── continuity/          # Progress, State
 ├── ideation/            # Human-Led Zones
-├── quality/             # Verification Gates
+├── assurance/             # Verification Gates
 ├── scaffolding/         # Templates, Prompts, Examples
 └── output/              # Reports, Drafts, Artifacts
 ```
@@ -45,7 +45,7 @@ Key design choices:
 - **Portability as metadata:** `harmony.yml` declares portable paths explicitly, replacing the implicit two-root convention
 - **Autonomy as metadata:** Human-led zones declared in `harmony.yml` instead of separate `.globs` file
 - **Single registry:** Skills manifest and registry merged into one (no `extends` pattern)
-- **Flat where possible:** `continuity/` and `quality/` contain files directly, no unnecessary subdirectories
+- **Flat where possible:** `continuity/` and `assurance/` contain files directly, no unnecessary subdirectories
 
 ## Consequences
 

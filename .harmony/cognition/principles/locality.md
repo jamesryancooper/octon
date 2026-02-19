@@ -58,7 +58,7 @@ Harmony implements locality through a single `.harmony/` directory organized by 
 | -------- | ---- | ------- |
 | Cognition | `cognition/context/` | Decisions, lessons, glossary, dependencies |
 | Continuity | `continuity/` | Progress log, tasks, entities |
-| Quality | `quality/` | Completion checklists, session-exit |
+| Quality | `assurance/` | Completion checklists, session-exit |
 | Orchestration | `orchestration/` | Workflows, missions |
 | Capabilities | `capabilities/` | Skills, commands |
 | Scaffolding | `scaffolding/` | Templates, prompts, examples |
@@ -99,7 +99,7 @@ packages/billing/
 ├── .harmony/
 │   ├── START.md           # Billing-specific orientation
 │   ├── conventions.md     # Billing coding standards
-│   ├── quality/
+│   ├── assurance/
 │   │   └── payment-flow.md  # Billing-specific checklist
 │   └── cognition/context/
 │       └── glossary.md    # Billing terminology
@@ -152,8 +152,8 @@ skills:
 ├── auth-conventions.md
 ├── billing-conventions.md
 ├── web-conventions.md
-├── auth-quality/
-├── billing-quality/
+├── auth-assurance/
+├── billing-assurance/
 └── ...
 ```
 

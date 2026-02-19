@@ -298,7 +298,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-subsystem-health:
-    version: "1.0.2"
+    version: "1.0.3"
     commands:
       - /audit-subsystem-health
     parameters:

@@ -27,9 +27,9 @@ Changes in any of the following paths must trigger an alignment check:
 - `.harmony/cognition/principles/`
 - `.harmony/*/_meta/architecture/`
 - `.harmony/orchestration/workflows/quality-gate/pre-release-audit/`
-- `.harmony/quality/_ops/scripts/validate-harness-structure.sh`
-- `.harmony/quality/complete.md`
-- `.harmony/quality/session-exit.md`
+- `.harmony/assurance/_ops/scripts/validate-harness-structure.sh`
+- `.harmony/assurance/complete.md`
+- `.harmony/assurance/session-exit.md`
 
 ## Required Skill Artifacts
 
@@ -52,10 +52,10 @@ If skill behavior/check logic changes (for example updates to `SKILL.md` or `ref
 
 Automated enforcement lives in:
 
-- `.harmony/quality/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
+- `.harmony/assurance/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
 
 Expected invocation points:
 
-- Standalone: `bash .harmony/quality/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
-- Structural gate (static checks): `bash .harmony/quality/_ops/scripts/validate-harness-structure.sh`
+- Standalone: `bash .harmony/assurance/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
+- Structural gate (static checks): `bash .harmony/assurance/_ops/scripts/validate-harness-structure.sh`
 - Pre-release gate verification (drift checks): pre-release audit workflow verify step

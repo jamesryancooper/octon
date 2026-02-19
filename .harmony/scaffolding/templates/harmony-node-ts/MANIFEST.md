@@ -28,7 +28,7 @@ When creating a harness using this template:
 | `START.md` | Node.js/TS-specific boot sequence (overrides base) |
 | `scope.md` | Package-specific scope template (overrides base) |
 | `conventions.md` | TypeScript/React conventions (overrides base) |
-| `quality/done.md` | Code-specific definition of done (overrides base) |
+| `assurance/complete.md` | Code-specific definition of done (overrides base) |
 
 ### Files Inherited from Base
 
@@ -37,7 +37,7 @@ All other files come from `.harmony/scaffolding/templates/harmony/`:
 - `catalog.md`
 - `cognition/context/` (decisions, lessons, glossary, dependencies, constraints)
 - `continuity/` (log.md, tasks.json, entities.json)
-- `quality/session-exit.md`
+- `assurance/session-exit.md`
 - `capabilities/commands/`, `scaffolding/prompts/`, `orchestration/workflows/`, `scaffolding/templates/`, `scaffolding/examples/` (README placeholders)
 
 ## Usage

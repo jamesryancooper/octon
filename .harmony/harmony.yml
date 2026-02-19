@@ -41,7 +41,7 @@ portable:
   - runtime/spec/
   - runtime/_ops/bin/
   - runtime/_meta/evidence/README.md
-  - quality/
+  - assurance/
   - scaffolding/
   - cognition/context/primitives.md
   - cognition/context/tools.md

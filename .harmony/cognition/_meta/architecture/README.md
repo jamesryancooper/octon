@@ -77,7 +77,7 @@ Canonical root-harness structure:
     ├── ideation/            <- Scratchpad, projects (human-led)
     ├── orchestration/       <- Workflows, missions
     ├── output/              <- Reports, drafts, artifacts
-    ├── quality/             <- Completion checklists
+    ├── assurance/             <- Completion checklists
     └── scaffolding/         <- Templates, prompts, examples
 ```
 
@@ -207,7 +207,7 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │   ├── next.md              # Immediate actionable steps
 │   └── entities.json        # Entity state tracking (optional)
 │
-├── quality/                 # Verification and quality gates
+├── assurance/                 # Verification and quality gates
 │   ├── README.md            # Domain orientation (state contract)
 │   ├── complete.md          # Definition of done, quality criteria
 │   └── session-exit.md      # Steps before ending a session
@@ -253,14 +253,14 @@ The full tree above is the **canonical superset**. In practice, harness profiles
 
 | Profile | Baseline | Notes |
 |---------|----------|-------|
-| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `quality/`, `scaffolding/prompts/`, `orchestration/workflows/`, `capabilities/commands/`, `cognition/context/`, `runtime/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
-| **Descendant harness (localized)** | `START.md`, `scope.md`, plus at least one active subsystem (`cognition/`, `capabilities/`, `orchestration/`, `continuity/`, or `quality/`) | Descendants are intentionally minimal. They include only subsystems needed for that subtree |
+| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `assurance/`, `scaffolding/prompts/`, `orchestration/workflows/`, `capabilities/commands/`, `cognition/context/`, `runtime/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
+| **Descendant harness (localized)** | `START.md`, `scope.md`, plus at least one active subsystem (`cognition/`, `capabilities/`, `orchestration/`, `continuity/`, or `assurance/`) | Descendants are intentionally minimal. They include only subsystems needed for that subtree |
 
 | Subsystem | Root Harness | Descendant Harness |
 |-----------|--------------|--------------------|
 | `conventions.md`, `catalog.md` | Recommended baseline | Optional (add when local rules or local command discovery diverges) |
 | `continuity/` | Recommended baseline | Optional (add for multi-session localized work) |
-| `quality/` | Recommended baseline | Optional (add when local completion gates are needed) |
+| `assurance/` | Recommended baseline | Optional (add when local completion gates are needed) |
 | `agency/`, `scaffolding/`, `ideation/`, `output/` | Common at root | Optional and usually omitted unless clearly local-useful |
 
 ---
@@ -293,7 +293,7 @@ portable:
   - capabilities/skills/**/references/
   - capabilities/commands/
   - orchestration/workflows/
-  - quality/
+  - assurance/
   - scaffolding/
   - cognition/context/primitives.md
   - cognition/context/tools.md
@@ -326,7 +326,7 @@ Everything at the domain level is **agent-facing**. The sole exception is `ideat
 
 | Directory | Agent Access |
 |-----------|-------------|
-| `agency/`, `capabilities/`, `cognition/`, `continuity/`, `orchestration/`, `output/`, `quality/`, `scaffolding/` | Agent reads and writes freely |
+| `agency/`, `capabilities/`, `cognition/`, `continuity/`, `orchestration/`, `output/`, `assurance/`, `scaffolding/` | Agent reads and writes freely |
 | `ideation/` | Human-led only (declared in `harmony.yml`) |
 
 This single rule eliminates ambiguity. The `ideation/` directory consolidates all human-led content (scratchpad, projects) in one place, and agents know to ignore it during autonomous operation.
@@ -497,7 +497,7 @@ Each domain has a `README.md` that provides orientation. The README depth is pro
 | `ideation/` | Human-led exploration | Scratchpad, projects | Human-gated |
 | `orchestration/` | Coordination and execution | Workflows, missions | Routable + Referenced |
 | `output/` | Generated artifacts | Reports, drafts, artifacts | State (write contract) |
-| `quality/` | Verification and quality gates | Completion checklists, session-exit | State (quality gates) |
+| `assurance/` | Verification and quality gates | Completion checklists, session-exit | State (quality gates) |
 | `scaffolding/` | Reusable building blocks | Templates, prompts, examples | Referenced |
 
 ### Mapping from Previous Structure
@@ -511,7 +511,7 @@ For reference, here is how the previous flat structure maps to domains:
 | `teams/` | `agency/teams/` |
 | `context/` | `cognition/context/` |
 | `progress/` | `continuity/` |
-| `checklists/` | `quality/` |
+| `checklists/` | `assurance/` |
 | `workflows/` | `orchestration/workflows/` |
 | `missions/` | `orchestration/missions/` |
 | `commands/` | `capabilities/commands/` |
@@ -576,7 +576,7 @@ Not every directory needs a `.harmony`. Use this guide to decide.
 | **Scoped context** | Agent loads only relevant context, not the entire repo |
 | **Continuity** | `continuity/log.md` + `tasks.json` survive context resets |
 | **Explicit boundaries** | `scope.md` prevents scope creep; agent knows when to stop |
-| **Quality gates** | `quality/complete.md` checklist prevents premature completion |
+| **Quality gates** | `assurance/complete.md` checklist prevents premature completion |
 | **Separation** | Agent-facing vs human-led is explicit (`ideation/` directory) |
 
 ### Risks to watch
@@ -630,7 +630,7 @@ repo-root/
         ├── scope.md
         ├── cognition/context/   <- Auth-specific context
         ├── continuity/          <- Auth-specific progress
-        └── quality/             <- Auth-specific checklists
+        └── assurance/             <- Auth-specific checklists
 ```
 
 Agents encountering a nested `.harmony/` should use it as their primary harness for that area. The root `.harmony/` provides fallback infrastructure for anything not overridden locally.
@@ -719,7 +719,7 @@ Harness-specific commands wrap workflows for integration. All workflows live in 
 | `/evaluate-harness` | `.harmony/orchestration/workflows/meta/evaluate-harness/` |
 | `/migrate-harness` | `.harmony/orchestration/workflows/meta/migrate-harness/` |
 | `/bootstrap` | `.harmony/scaffolding/prompts/bootstrap-session.md` |
-| `/synthesize-research` | `.harmony/capabilities/skills/synthesize-research/` |
+| `/synthesize-research` | `.harmony/capabilities/skills/synthesis/synthesize-research/` |
 | `/research` | `.harmony/orchestration/workflows/projects/create-project.md` |
 
 These commands live in `.<harness>/commands/` (e.g., `.cursor/commands/`, `.claude/commands/`) and are thin wrappers that delegate to `.harmony/` paths.
@@ -754,5 +754,5 @@ See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table tha
 - [Examples](/.harmony/scaffolding/_meta/architecture/examples.md) --- Reference patterns
 - [Progress](/.harmony/continuity/_meta/architecture/progress.md) --- Session continuity tracking
 - [Context](./context.md) --- Background knowledge
-- [Checklists](/.harmony/quality/_meta/architecture/checklists.md) --- Quality gates
+- [Checklists](/.harmony/assurance/_meta/architecture/checklists.md) --- Quality gates
 - [Scripts](/.harmony/scaffolding/_meta/architecture/scripts.md) --- Shell utilities for harness maintenance

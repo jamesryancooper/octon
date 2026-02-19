@@ -104,8 +104,8 @@ Consolidate all human-led content into a **single `.scratchpad/` directory** wit
 
 ### Shared Foundation Updated
 
-- `.harmony/quality/complete.md` — Updated references
-- `.harmony/quality/session-exit.md` — Updated references
+- `.harmony/assurance/complete.md` — Updated references
+- `.harmony/assurance/session-exit.md` — Updated references
 - `.harmony/orchestration/workflows/promote-from-scratchpad.md` — Updated references
 - `.harmony/orchestration/workflows/workspace/evaluate-workspace/*` — Updated references
 - `.harmony/orchestration/workflows/workspace/update-workspace/*` — Updated references

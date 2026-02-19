@@ -13,8 +13,8 @@ Without an explicit autonomy attribute, trade-offs between autonomous throughput
 
 Add `autonomy` to the canonical weighted/scored quality attribute set and include it in policy and measurement sources:
 
-- Policy weights in `/Users/jamesryancooper/Projects/harmony/.harmony/quality/weights/weights.yml`
-- Measurement scores in `/Users/jamesryancooper/Projects/harmony/.harmony/quality/scores/scores.yml`
+- Policy weights in `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/weights/weights.yml`
+- Measurement scores in `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/scores/scores.yml`
 
 Use a bounded-autonomy posture:
 

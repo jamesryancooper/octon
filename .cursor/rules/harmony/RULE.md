@@ -36,7 +36,7 @@ All markdown files in `.harmony/` require YAML frontmatter. See the table below 
 | Commands (`capabilities/commands/*.md`) | ✅ | ✅ | ✅ |
 | Workflow overviews (`orchestration/workflows/**/00-overview.md`) | ✅ | ✅ | ✅ |
 | Prompts (`scaffolding/prompts/*.md`) | ✅ | ✅ | ✅ |
-| Checklists (`quality/*.md`) | ✅ | ✅ | — |
+| Checklists (`assurance/*.md`) | ✅ | ✅ | — |
 | Context files (`cognition/context/*.md`) | ✅ | ✅ | — |
 
 ### Field Specifications
@@ -159,4 +159,4 @@ For operational instructions when editing harness files, see the harness's own `
 - Following conventions in `conventions.md`
 - Staying within scope defined in `scope.md`
 - Updating `continuity/log.md` when making changes
-- Verifying against `quality/complete.md` before completing work
+- Verifying against `assurance/complete.md` before completing work

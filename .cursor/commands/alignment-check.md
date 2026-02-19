@@ -19,4 +19,4 @@ Execute `.harmony/capabilities/commands/alignment-check.md`.
 ## References
 
 - **Command:** `.harmony/capabilities/commands/alignment-check.md`
-- **Runner Script:** `.harmony/quality/_ops/scripts/alignment-check.sh`
+- **Runner Script:** `.harmony/assurance/_ops/scripts/alignment-check.sh`

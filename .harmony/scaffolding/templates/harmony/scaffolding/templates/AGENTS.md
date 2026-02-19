@@ -42,7 +42,7 @@ orientation.
   - Context index: `.harmony/cognition/context/index.yml`
 - **Orchestration:** `.harmony/orchestration/` (workflows, missions)
 - **Scaffolding:** `.harmony/scaffolding/` (templates, prompts, examples)
-- **Quality:** `.harmony/quality/` (completion checklists)
+- **Assurance:** `.harmony/assurance/` (completion checklists)
 - **Continuity:** `.harmony/continuity/` (progress log, tasks, next steps)
 - **Ideation:** `.harmony/ideation/` (scratchpad, projects — human-led)
 - **Output:** `.harmony/output/` (reports, drafts, artifacts)

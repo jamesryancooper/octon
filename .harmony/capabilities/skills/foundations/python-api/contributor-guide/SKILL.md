@@ -106,7 +106,7 @@ Use the template in [references/pr-template-pattern.md](references/pr-template-p
 Sections: What, Why (with `Refs:` line), How, Tradeoffs, Testing
 (with `just check` checkbox), Rollout/Rollback, Checklist.
 
-### Step 4: `.github/workflows/ci.yml`
+### Step 4: CI workflow (`ci.yml` in `.github/workflows/`)
 
 Use the template in [references/ci-workflow-pattern.yml](references/ci-workflow-pattern.yml).
 

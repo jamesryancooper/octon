@@ -232,7 +232,7 @@ Legacy "engine" wording in historical notes maps to Composite Services:
 | Plan Engine | `planning/plan` |
 | Work Engine | `execution/agent` + `execution/flow` + `operations/tool` |
 | Context Engine | `retrieval/*` |
-| Governance Engine | `governance/*` + `quality/*` |
+| Governance Engine | `governance/*` + `assurance/*` |
 | Release Engine | `delivery/*` |
 | Kaizen Engine | quality-gate and improvement workflows across service domains |
 

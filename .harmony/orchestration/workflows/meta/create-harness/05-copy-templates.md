@@ -15,7 +15,7 @@ Copy the template directory structure to the target:
 ├── continuity/                         ├── continuity/
 │   ├── log.md                          │   ├── log.md
 │   └── tasks.json                      │   └── tasks.json
-└── quality/                            └── quality/
+└── assurance/                            └── assurance/
     └── done.md                                 └── done.md
 ```
 

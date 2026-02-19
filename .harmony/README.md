@@ -7,7 +7,7 @@
 - Generic agents, assistants, teams, workflows, commands, prompts
 - Harness templates for scaffolding
 - Skills framework and base skills
-- Quality checklists and context references
+- Assurance checklists and context references
 
 ## One-Page Overview
 
@@ -24,7 +24,7 @@ Harmony combines:
 - A portable harness that can be reused across repositories
 
 Its role is to define how work happens, who can act, what tools are allowed,
-and what quality/safety gates must be met before work is considered complete.
+and what assurance/safety gates must be met before work is considered complete.
 
 ### What Harmony Does
 
@@ -35,15 +35,15 @@ software delivery by:
 - Enforcing safety via deny-by-default permissions and risk-tiered HITL checks
 - Preventing unsafe autonomy with no-silent-apply for material side effects
 - Preserving continuity through append-only logs, decisions, and next-step artifacts
-- Requiring quality gates before handoff or completion
+- Requiring assurance gates before handoff or completion
 - Enabling portability so the same operating model can be copied to new repos
 
-### Quality Governance Engine (QGE)
+### Assurance Engine
 
-Harmony quality weighting, scoring, and policy deviation enforcement is run by
-the **Quality Governance Engine (QGE)**.
+Harmony assurance weighting, scoring, and policy deviation enforcement is run by
+the **Assurance Engine**.
 
-QGE is implemented as an **authoritative local engine**: policy and
+The Assurance Engine is implemented as an **authoritative local engine**: policy and
 measurement files live in-repo, resolution and gate logic run locally or in CI,
 and generated evidence artifacts are written back to the repo workspace. This
 keeps governance deterministic, auditable, portable, and independent of an
@@ -58,7 +58,7 @@ Harmony is organized by function:
 - `orchestration/`: workflows and missions for multi-step execution
 - `cognition/`: principles, methodology, and architecture contracts
 - `continuity/`: operational memory across sessions
-- `quality/`: definition-of-done and session-exit gates
+- `assurance/`: definition-of-done and session-exit gates
 - `runtime/`: executable runtime and studio tooling
 - `output/`: generated artifacts and reports
 
@@ -75,7 +75,7 @@ Governance is explicit:
 - Human-led zones (for example, `ideation/`) are excluded unless explicitly scoped
 
 In short: Harmony is a governed acceleration system. AI increases speed and
-leverage; contracts, quality gates, and checkpoints preserve trust,
+leverage; contracts, assurance gates, and checkpoints preserve trust,
 traceability, and reversibility.
 
 ## Canonical Specification
@@ -118,7 +118,7 @@ When resolving a resource, agents check local first, then shared:
 | Skills | `.harmony/capabilities/skills/` |
 | Commands | `.harmony/capabilities/commands/` |
 | Prompts | `.harmony/scaffolding/prompts/` |
-| Checklists | `.harmony/quality/` |
+| Checklists | `.harmony/assurance/` |
 | Context | `.harmony/cognition/context/` |
 
 ## Structure
@@ -163,8 +163,8 @@ When resolving a resource, agents check local first, then shared:
 │   ├── prompts/        <- Task templates
 │   └── examples/       <- Reference patterns
 │
-├── quality/            <- Quality gates (complete.md, session-exit.md)
-│   └── _meta/architecture/ <- Quality subsystem specification
+├── assurance/            <- Assurance gates (complete.md, session-exit.md)
+│   └── _meta/architecture/ <- Assurance subsystem specification
 │
 ├── ideation/           <- Human-led zone (scratchpad/, projects/)
 │   └── _meta/architecture/ <- Ideation subsystem specification
@@ -191,7 +191,7 @@ When resolving a resource, agents check local first, then shared:
 - Harness/mission management workflows
 - Generic commands (recover, refactor, validate-frontmatter)
 - Tool usage and compaction guides
-- Base quality checklists
+- Base assurance checklists
 - Skills framework and generic skills
 
 ### Project-Specific Content
@@ -273,7 +273,7 @@ If your tool supports harness commands, run `/init` instead of invoking the scri
 | `capabilities/skills/` | Composable capabilities with defined I/O |
 | `capabilities/commands/` | Atomic operations |
 | `scaffolding/prompts/` | Task templates |
-| `quality/` | Quality gates |
+| `assurance/` | Assurance gates |
 | `cognition/context/` | Tool usage, compaction guides |
 
 ### Next Steps
