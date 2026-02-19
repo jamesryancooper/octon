@@ -99,26 +99,38 @@ check_receipt_writer_append_only() {
   fi
 }
 
-check_human_gate_language() {
-  local -a critical_docs=(
-    "$CAPABILITIES_DIR/services/_meta/docs/platform-overview.md"
-    "$REPO_ROOT/.harmony/cognition/_meta/architecture/governance-model.md"
-    "$REPO_ROOT/.harmony/cognition/context/glossary-repo.md"
-    "$CAPABILITIES_DIR/services/execution/service-roles.md"
-    "$REPO_ROOT/.harmony/cognition/methodology/README.md"
-    "$REPO_ROOT/.harmony/capabilities/_meta/architecture/declaration.md"
-    "$REPO_ROOT/.harmony/capabilities/_meta/architecture/design-conventions.md"
-    "$REPO_ROOT/.harmony/capabilities/_meta/architecture/skill-sets.md"
-    "$REPO_ROOT/.harmony/capabilities/skills/_scaffold/template/SKILL.md"
-    "$REPO_ROOT/.harmony/continuity/_meta/architecture/three-planes-integration.md"
-  )
-  local doc
-  for doc in "${critical_docs[@]}"; do
-    [[ -f "$doc" ]] || continue
-    if rg -n -i 'human checkpoint|human approval|HITL' "$doc" >/dev/null; then
-      fail "stale human-gate language remains in $doc"
-    fi
-  done
+check_active_surface_legacy_terms() {
+  local hits sample
+
+  hits="$(rg -n -i --hidden \
+    --glob '!.harmony/output/**' \
+    --glob '!.harmony/ideation/**' \
+    --glob '!.harmony/capabilities/_ops/scripts/validate-ra-acp-migration.sh' \
+    'human checkpoint|human approval|\bHITL\b|hitl-checkpoints' \
+    "$REPO_ROOT/.harmony" || true)"
+
+  if [[ -n "$hits" ]]; then
+    sample="$(printf '%s\n' "$hits" | head -n 10 | tr '\n' '; ')"
+    fail "stale legacy HITL language remains on active .harmony surfaces: $sample"
+  fi
+}
+
+check_tracked_temp_artifacts() {
+  local tracked
+
+  if ! command -v git >/dev/null 2>&1; then
+    fail "git is required to validate tracked temp artifacts"
+    return
+  fi
+
+  tracked="$(git -C "$REPO_ROOT" ls-files \
+    '.harmony/output/reports/.tmp' \
+    '.harmony/capabilities/_ops/state/.tmp' \
+    2>/dev/null || true)"
+
+  if [[ -n "$tracked" ]]; then
+    fail "tracked temp artifacts detected (expected untracked-only): $(printf '%s\n' "$tracked" | head -n 10 | tr '\n' ',')"
+  fi
 }
 
 main() {
@@ -128,7 +140,8 @@ main() {
   check_taxonomy_alignment
   check_wrapper_defaults_mapped
   check_receipt_writer_append_only
-  check_human_gate_language
+  check_active_surface_legacy_terms
+  check_tracked_temp_artifacts
 
   if (( FAIL_COUNT > 0 )); then
     echo "RA+ACP migration regression checks failed ($FAIL_COUNT)." >&2

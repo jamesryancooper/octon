@@ -1,3 +1,0 @@
-synthesize-research	input	_state/resources/synthesize-research/projects/{{project}}/	.harmony/capabilities/skills/_state/resources/synthesize-research/projects/
-refine-prompt	input	_state/resources/refine-prompt/prompts/	.harmony/capabilities/skills/_state/resources/refine-prompt/prompts/
-audit-migration	input	_state/configs/audit-migration/{{manifest_file}}	.harmony/capabilities/skills/_state/configs/audit-migration/

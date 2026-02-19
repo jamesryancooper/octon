@@ -16,6 +16,8 @@ tmp/
 temp/
 *.pid
 *.pid.lock
+.harmony/output/reports/.tmp/
+.harmony/capabilities/_ops/state/.tmp/
 
 # Logs directory
 logs/

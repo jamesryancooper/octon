@@ -1,6 +1,0 @@
-.harmony/capabilities/skills/README.md
-.harmony/capabilities/skills/_state/logs/FORMAT.md
-.harmony/capabilities/skills/synthesis/refine-prompt/references/errors.md
-.harmony/capabilities/skills/synthesis/synthesize-research/references/errors.md
-docs/architecture/harness/skills/reference-artifacts.md
-docs/architecture/harness/skills/skill-format.md
