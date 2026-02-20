@@ -31,7 +31,7 @@ cat >"$request_stage" <<'JSON'
   "actor": {"id": "agent.test", "type": "agent"},
   "profile": "refactor",
   "phase": "promote",
-  "operation": {"class": "git.commit", "target": {}, "targets": [], "resources": []},
+  "operation": {"class": "git.commit", "target": {"material_side_effect": true, "telemetry_profile": "minimal"}, "targets": [], "resources": []},
   "break_glass": false,
   "reversibility": {
     "reversible": true,
@@ -51,7 +51,9 @@ cat >"$request_stage" <<'JSON'
     "repo.max_commits": 1,
     "time.max_seconds": 30
   },
-  "circuit_signals": []
+  "circuit_signals": [],
+  "intent": "docs-gate-test",
+  "boundaries": "docs-gate-test"
 }
 JSON
 
@@ -74,7 +76,7 @@ cat >"$request_deny" <<'JSON'
   "actor": {"id": "agent.test", "type": "agent"},
   "profile": "operate",
   "phase": "promote",
-  "operation": {"class": "git.merge", "target": {"branch": "main"}, "targets": [], "resources": []},
+  "operation": {"class": "git.merge", "target": {"branch": "main", "material_side_effect": true, "telemetry_profile": "full"}, "targets": [], "resources": []},
   "break_glass": false,
   "reversibility": {
     "reversible": true,
@@ -100,7 +102,9 @@ cat >"$request_deny" <<'JSON'
   },
   "circuit_signals": [],
   "plan_hash": "plan-hash-1",
-  "evidence_hash": "evidence-hash-1"
+  "evidence_hash": "evidence-hash-1",
+  "intent": "docs-gate-test",
+  "boundaries": "docs-gate-test"
 }
 JSON
 

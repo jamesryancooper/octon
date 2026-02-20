@@ -55,6 +55,11 @@ policy engine.
 | `ACP_RECOVERY_WINDOW_MISSING` | Recovery TTL/window required for destructive-adjacent action. | Set `recovery_window` (or rely on policy default when allowed). |
 | `ACP_EVIDENCE_MISSING` | Required evidence bundle entries are missing. | Attach required evidence refs + hashes (diff/tests/plan/etc.). |
 | `ACP_DOCS_EVIDENCE_MISSING` | Required docs-gate evidence (`docs.spec`, `docs.adr`, `docs.runbook`) is missing for promote evaluation. | Attach docs evidence refs/hashes or keep action staged. |
+| `ACP_MATERIAL_SIDE_EFFECT_INVALID` | Materiality trigger fields are invalid or conflicting. | Normalize aliases to canonical `material_side_effect` with boolean-compatible values. |
+| `ACP_TELEMETRY_PROFILE_MISSING` | ACP telemetry profile is required for this promote action but was missing. | Provide `telemetry_profile` (`minimal`/`sampled`/`full`) per ACP mapping. |
+| `ACP_TELEMETRY_PROFILE_INVALID` | Receipt/request telemetry profile does not match ACP-allowed values. | Use an allowed telemetry profile for the effective ACP level. |
+| `ACP_FLAG_METADATA_EVIDENCE_MISSING` | Flag-changing promotion is missing `flags.metadata` evidence. | Attach validated flag metadata evidence before promote. |
+| `ACP_FLAG_METADATA_INVALID` | Flag metadata validity marker is missing/false for flag-changing promotion. | Run flag metadata validator and set `flag_metadata_valid=true` only on pass. |
 | `ACP_EVIDENCE_INVALID` | Evidence present but malformed or hash mismatch. | Regenerate evidence artifact and ensure canonical hash binding. |
 | `ACP_ATTESTATION_FIELD_MISSING` | One or more required attestation fields were absent/blank. | Include all policy-required attestation fields before retrying quorum checks. |
 | `ACP_ATTESTATION_INVALID` | Attestation payload format was invalid (unsupported required field, invalid timestamp, or malformed record). | Regenerate attestations with schema-compliant field values. |

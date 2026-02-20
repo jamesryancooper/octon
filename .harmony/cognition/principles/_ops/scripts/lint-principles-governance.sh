@@ -68,6 +68,52 @@ check_human_approval_runtime_dependency() {
   fi
 }
 
+check_arbitration_ssot_drift() {
+  local arbitration_doc="$PRINCIPLES_DIR/arbitration-and-precedence.md"
+  local duplicate
+
+  duplicate="$(rg -n '^##[[:space:]]+Arbitration and Precedence' "$PRINCIPLES_DIR" --glob '*.md' --glob '!**/arbitration-and-precedence.md' || true)"
+  if [[ -n "$duplicate" ]]; then
+    echo "[arbitration-drift] duplicate 'Arbitration and Precedence' section outside SSOT:"
+    printf '%s\n' "$duplicate"
+    failures+=1
+  fi
+
+  if [[ ! -f "$arbitration_doc" ]]; then
+    echo "[arbitration-drift] missing arbitration SSOT: $arbitration_doc"
+    failures+=1
+  fi
+}
+
+check_waiver_exception_ssot_links() {
+  local file
+  local references_pattern='waivers-and-exceptions\.md'
+  local terms_pattern='\bwaiver(s)?\b|\bexception(s)?\b'
+  local -a required=(
+    "$PRINCIPLES_DIR/accessibility-baseline.md"
+    "$PRINCIPLES_DIR/guardrails.md"
+    "$PRINCIPLES_DIR/security-and-privacy-baseline.md"
+    "$PRINCIPLES_DIR/small-diffs-trunk-based.md"
+    "$PRINCIPLES_DIR/deny-by-default.md"
+    "$PRINCIPLES_DIR/autonomous-control-points.md"
+  )
+
+  for file in "${required[@]}"; do
+    if [[ ! -f "$file" ]]; then
+      echo "[waiver-exception-ssot] missing required principle file: $file"
+      failures+=1
+      continue
+    fi
+    if ! rg -q -i "$terms_pattern" "$file"; then
+      continue
+    fi
+    if ! rg -q "$references_pattern" "$file"; then
+      echo "[waiver-exception-ssot] $file uses waiver/exception language without SSOT reference"
+      failures+=1
+    fi
+  done
+}
+
 check_canonical_matrix_links() {
   local file count
   local -a required=(
@@ -162,6 +208,8 @@ check_risk_mapping_reference
 check_forbidden_terms
 check_pr_only_runtime_gating
 check_human_approval_runtime_dependency
+check_arbitration_ssot_drift
+check_waiver_exception_ssot_links
 
 if [[ "$failures" -gt 0 ]]; then
   echo "Principles governance lint failed with $failures issue(s)."

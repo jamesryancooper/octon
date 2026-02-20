@@ -30,12 +30,14 @@ deny-by-default policy for capability attempts.
 
 - Promotion/contraction mechanics: [Autonomous Control Points](./autonomous-control-points.md)
 - Capability attempt authorization: [Deny by Default](./deny-by-default.md)
+- Waiver/exception taxonomy: [Waivers and Exceptions](./_meta/waivers-and-exceptions.md)
 
 ## Arbitration
 
 If this principle conflicts with another, apply
 [Arbitration and Precedence](./arbitration-and-precedence.md).
-Guardrails enforce fail-closed behavior through ACP and deny-by-default policies.
+This section is informational only; normative arbitration rules live only in the
+arbitration SSOT.
 
 ## Why It Matters
 
@@ -98,7 +100,9 @@ Policies that only warn but never block create a false sense of safety and erode
 
 ## Exceptions
 
-Temporary waivers require explicit owner, reason, scope, and expiry (`<= 7 days` or merge). Non-waivable controls remain blocked.
+Waivers must follow canonical taxonomy and validation in
+[Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+Non-waivable controls remain blocked.
 
 ## Related Documentation
 

@@ -22,6 +22,8 @@ This applies to:
 - **Business rules**: Defined in one place, enforced everywhere
 
 For artifact timing semantics ("required before ACP promotion"), the canonical source is [Documentation is Code](./documentation-is-code.md).
+For cross-principle conflict precedence, the canonical source is
+[Arbitration and Precedence](./arbitration-and-precedence.md).
 
 ## Why It Matters
 
@@ -281,6 +283,8 @@ rules: {
 | Simplicity Over Complexity | SSOT reduces the complexity of keeping things in sync |
 
 ## Exceptions
+
+Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 
 Manual duplication may be acceptable when:
 

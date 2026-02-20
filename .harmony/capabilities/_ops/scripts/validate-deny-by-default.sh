@@ -16,6 +16,9 @@ POLICY_RUNNER="$CAPABILITIES_DIR/_ops/scripts/run-harmony-policy.sh"
 POLICY_V2_FILE="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.yml"
 POLICY_V2_SCHEMA="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.schema.json"
 POLICY_REASON_CODES="$CAPABILITIES_DIR/_ops/policy/reason-codes.md"
+FLAGS_METADATA_FILE="$CAPABILITIES_DIR/_ops/policy/flags.metadata.json"
+FLAGS_METADATA_SCHEMA="$CAPABILITIES_DIR/_ops/policy/flags.metadata.schema.json"
+FLAGS_METADATA_VALIDATOR="$CAPABILITIES_DIR/_ops/scripts/validate-flag-metadata.sh"
 PROFILE_RESOLVER="$CAPABILITIES_DIR/_ops/scripts/policy-profile-resolve.sh"
 GRANT_BROKER="$CAPABILITIES_DIR/_ops/scripts/policy-grant-broker.sh"
 KILL_SWITCH_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-kill-switch.sh"
@@ -272,6 +275,33 @@ run_policy_contract_validation() {
   return 0
 }
 
+run_flag_metadata_validation() {
+  if [[ ! -x "$FLAGS_METADATA_VALIDATOR" ]]; then
+    echo "Missing flag metadata validator: $FLAGS_METADATA_VALIDATOR" >&2
+    return 1
+  fi
+  if [[ ! -f "$FLAGS_METADATA_FILE" || ! -f "$FLAGS_METADATA_SCHEMA" ]]; then
+    echo "Missing flag metadata contract files." >&2
+    return 1
+  fi
+
+  local output rc=0
+  output="$(
+    "$FLAGS_METADATA_VALIDATOR" \
+      --policy "$POLICY_V2_FILE" \
+      --metadata "$FLAGS_METADATA_FILE" \
+      --schema "$FLAGS_METADATA_SCHEMA" 2>&1
+  )" || rc=$?
+  if [[ $rc -ne 0 ]]; then
+    echo "Flag metadata validation failed:" >&2
+    echo "$output" >&2
+    return $rc
+  fi
+
+  echo "Flag metadata contract validated"
+  return 0
+}
+
 run_ra_acp_migration_guard() {
   if [[ "$PROFILE" != "strict" ]]; then
     return 0
@@ -342,6 +372,9 @@ main() {
   echo "Deny-by-default validation profile: $PROFILE"
 
   if ! run_policy_contract_validation; then
+    exit 1
+  fi
+  if ! run_flag_metadata_validation; then
     exit 1
   fi
   if ! run_ra_acp_migration_guard; then

@@ -13,7 +13,20 @@ status: Active
 
 Risky or user-visible behavior should be wrapped in server-evaluated flags so deploys remain reversible and progressive rollout is possible.
 
-Flag hygiene is required: each flag has an owner, expiry, and cleanup within two release cycles after general availability.
+Flag hygiene is enforced by canonical contract and validator:
+`flag_id`, `owner`, `created`, `expires`, `cleanup_by`, `default`, `description`,
+`risk`, and `links` are required for each flag.
+
+Canonical sources:
+- [Flag Metadata Contract](./_meta/flag-metadata-contract.md)
+- `.harmony/capabilities/_ops/policy/flags.metadata.json`
+- `.harmony/capabilities/_ops/scripts/validate-flag-metadata.sh`
+
+Validator execution is required in local and CI governance checks via
+`.harmony/capabilities/_ops/scripts/validate-deny-by-default.sh`.
+
+ACP promotion for operations that modify flags must include `flags.metadata`
+evidence and valid metadata checks, or fail closed per policy.
 
 ## Why It Matters
 
@@ -79,6 +92,8 @@ if flags.enabled("legacy_cleanup_never"):
 Flags left in place after rollout create dead branches, confusion, and inconsistent runtime behavior.
 
 ## Exceptions
+
+Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 
 Skip flags for internal refactors with no behavior change and no user impact.
 

@@ -11,9 +11,12 @@ status: Active
 
 ## What This Means
 
-Observability is not optional instrumentation added later. Every meaningful behavior change must include telemetry that is traceable and sufficient for diagnosis, receipts, and rollback decisions.
+Observability is not optional instrumentation added later. Every
+`material_side_effect` must include telemetry that is traceable and sufficient
+for diagnosis, receipts, and rollback decisions.
 
-Harmony uses risk-tiered telemetry profiles (`minimal`, `sampled`, `full`) mapped to ACP level, side-effect profile, and run budgets.
+Harmony uses risk-tiered telemetry profiles (`minimal`, `sampled`, `full`)
+mapped to ACP level, side-effect profile, and run budgets.
 
 Receipt evidence must include at least one representative `trace_id` for changed flows.
 If a PR exists, PR evidence is an optional projection that links back to receipt artifacts.
@@ -50,8 +53,9 @@ Learning loops depend on measurable outcomes, not anecdotes.
 | `full` | Complete spans, structured logs, key metrics, and rollback signals |
 
 Default risk tier to ACP mapping is policy-canonical (`acp.risk_tier_mapping`).
-Telemetry profile expectations by ACP level are defined in the RA/ACP promotion
-inputs matrix.
+Telemetry profile requirements by ACP level are canonical in
+[RA/ACP Promotion Inputs Matrix](./_meta/ra-acp-promotion-inputs-matrix.md#telemetry-profile-gate-canonical)
+and enforced in policy at `acp.telemetry_gate`.
 
 Non-negotiable minimum signals (must never be dropped):
 - representative `trace_id`
@@ -115,8 +119,9 @@ service.submit(order_id)  # No span, no metric, no trace linkage
 
 - Promotion/contraction and budget envelopes: [Autonomous Control Points](./autonomous-control-points.md)
 - Capability attempt authorization: [Deny by Default](./deny-by-default.md)
-- Risk tier mapping and promotion evidence minimums: [RA/ACP Promotion Inputs Matrix](./_meta/ra-acp-promotion-inputs-matrix.md)
+- Risk tier mapping and promotion evidence minimums: RA/ACP Promotion Inputs Matrix (canonical)
 - Shared terminology: [RA/ACP Glossary](./_meta/ra-acp-glossary.md)
+- Waiver/exception taxonomy: [Waivers and Exceptions](./_meta/waivers-and-exceptions.md)
 
 ## Anti-Pattern: Blind Shipping
 

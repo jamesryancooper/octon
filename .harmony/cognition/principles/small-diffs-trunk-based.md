@@ -25,6 +25,8 @@ Thresholds apply per promotable slice (receipt-linked unit), not mission wall-cl
 Promotable-slice semantics are defined in [Documentation is Code](./documentation-is-code.md#promotable-slice-definition).
 For non-PR promote paths, the same small-slice guidance applies to receipt-linked
 promotions and decomposition planning.
+Canonical decomposition workflow is defined in
+[Promotable Slice Decomposition](./_meta/promotable-slice-decomposition.md).
 
 ## Why It Matters
 
@@ -103,6 +105,8 @@ Even for small diffs, material side-effects must follow stage -> ACP gate -> pro
 Stage-only flows may exceed default thresholds only with a bounded waiver that is
 receipted, reason-coded, time-boxed, and backed by a decomposition plan for
 promotion slices.
+Waiver semantics are canonical in
+[Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 
 ## Arbitration
 

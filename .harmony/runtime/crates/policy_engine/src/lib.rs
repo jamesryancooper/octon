@@ -28,11 +28,15 @@ pub struct PolicyV2 {
     pub mode: String,
     pub defaults: PolicyDefaults,
     pub exceptions: ExceptionsConfig,
+    #[serde(default)]
+    pub governance_overrides: GovernanceOverridesConfig,
     pub grants: GrantsConfig,
     pub agent_only: AgentOnlyConfig,
     pub kill_switch: KillSwitchConfig,
     pub profiles: HashMap<String, ProfileConfig>,
     pub observability: ObservabilityConfig,
+    #[serde(default)]
+    pub flags_metadata: FlagsMetadataConfig,
     #[serde(default)]
     pub acp: AcpConfig,
     #[serde(default)]
@@ -65,6 +69,26 @@ pub struct ExceptionsConfig {
     pub require_created: bool,
     pub require_expires: bool,
     pub max_lease_days: i64,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct GovernanceOverridesConfig {
+    #[serde(default)]
+    pub waivers: Option<GovernanceOverrideType>,
+    #[serde(default)]
+    pub exceptions: Option<GovernanceOverrideType>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct GovernanceOverrideType {
+    #[serde(default)]
+    pub state_file: String,
+    #[serde(default)]
+    pub required_fields: Vec<String>,
+    #[serde(default)]
+    pub max_duration_days: i64,
+    #[serde(default)]
+    pub require_receipt: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -128,6 +152,16 @@ pub struct ObservabilityConfig {
     pub friction_slo: FrictionSlo,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct FlagsMetadataConfig {
+    #[serde(default)]
+    pub contract_file: String,
+    #[serde(default)]
+    pub schema_file: String,
+    #[serde(default)]
+    pub required_fields: Vec<String>,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct FrictionSlo {
     pub false_deny_rate_max: f64,
@@ -143,6 +177,12 @@ pub struct AcpConfig {
     pub risk_tier_mapping: HashMap<String, String>,
     #[serde(default)]
     pub docs_gate: Option<AcpDocsGateConfig>,
+    #[serde(default)]
+    pub materiality: Option<AcpMaterialityConfig>,
+    #[serde(default)]
+    pub telemetry_gate: Option<AcpTelemetryGateConfig>,
+    #[serde(default)]
+    pub flag_metadata_gate: Option<AcpFlagMetadataGateConfig>,
     #[serde(default)]
     pub profile_defaults: HashMap<String, AcpProfileDefault>,
     #[serde(default)]
@@ -198,6 +238,84 @@ pub struct AcpDocsGateConfig {
     pub reason_code: Option<String>,
     #[serde(default)]
     pub missing_action_by_acp: HashMap<String, String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpMaterialityConfig {
+    #[serde(default)]
+    pub predicate_name: String,
+    #[serde(default)]
+    pub aliases: Vec<String>,
+    #[serde(default)]
+    pub target_fields: AcpMaterialityTargetFields,
+    #[serde(default)]
+    pub enforce_on_phase: Vec<String>,
+    #[serde(default)]
+    pub default_for_phase: AcpMaterialityDefaults,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpMaterialityTargetFields {
+    #[serde(default)]
+    pub canonical: String,
+    #[serde(default)]
+    pub aliases: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpMaterialityDefaults {
+    #[serde(default)]
+    pub promote: bool,
+    #[serde(default)]
+    pub finalize: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpTelemetryGateConfig {
+    #[serde(default)]
+    pub enforce_on_phase: Vec<String>,
+    #[serde(default = "default_acp_level_one")]
+    pub required_for_acp_at_or_above: String,
+    #[serde(default)]
+    pub target_field: String,
+    #[serde(default)]
+    pub allowed_by_acp: HashMap<String, Vec<String>>,
+    #[serde(default)]
+    pub reason_codes: AcpTelemetryReasonCodes,
+    #[serde(default)]
+    pub missing_action_by_acp: HashMap<String, String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpTelemetryReasonCodes {
+    #[serde(default)]
+    pub missing: String,
+    #[serde(default)]
+    pub invalid: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpFlagMetadataGateConfig {
+    #[serde(default)]
+    pub enforce_on_phase: Vec<String>,
+    #[serde(default)]
+    pub required_when_target_flags: Vec<String>,
+    #[serde(default)]
+    pub metadata_valid_field: String,
+    #[serde(default)]
+    pub evidence_type: String,
+    #[serde(default)]
+    pub reason_codes: AcpFlagMetadataReasonCodes,
+    #[serde(default)]
+    pub missing_action_by_acp: HashMap<String, String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpFlagMetadataReasonCodes {
+    #[serde(default)]
+    pub missing_evidence: String,
+    #[serde(default)]
+    pub invalid: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -585,6 +703,31 @@ fn default_owner_attestation_role() -> String {
 
 fn default_phase_promote() -> String {
     "promote".to_string()
+}
+
+fn default_materiality_config() -> AcpMaterialityConfig {
+    AcpMaterialityConfig {
+        predicate_name: "material_side_effect".to_string(),
+        aliases: vec![
+            "material side-effect".to_string(),
+            "meaningful behavior change".to_string(),
+            "durable effect".to_string(),
+            "promotion".to_string(),
+        ],
+        target_fields: AcpMaterialityTargetFields {
+            canonical: "material_side_effect".to_string(),
+            aliases: vec![
+                "meaningful_behavior_change".to_string(),
+                "durable_effect".to_string(),
+                "promotion".to_string(),
+            ],
+        },
+        enforce_on_phase: vec!["promote".to_string(), "finalize".to_string()],
+        default_for_phase: AcpMaterialityDefaults {
+            promote: true,
+            finalize: true,
+        },
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1145,11 +1288,42 @@ fn evaluate_acp_internal(
         &mut reason_codes,
         &mut reason_seen,
     );
+    let material_side_effect = resolve_material_side_effect(
+        policy,
+        &request.operation.target,
+        &phase,
+        &mut reason_codes,
+        &mut reason_seen,
+        &mut notes,
+    );
     let docs_gate_action = validate_docs_gate(
         policy,
         request,
         &phase,
         &effective_acp,
+        material_side_effect,
+        &mut requirements,
+        &mut reason_codes,
+        &mut reason_seen,
+        &mut notes,
+    );
+    let telemetry_gate_action = validate_telemetry_gate(
+        policy,
+        request,
+        &phase,
+        &effective_acp,
+        material_side_effect,
+        &mut requirements,
+        &mut reason_codes,
+        &mut reason_seen,
+        &mut notes,
+    );
+    let flag_gate_action = validate_flag_metadata_gate(
+        policy,
+        request,
+        &phase,
+        &effective_acp,
+        material_side_effect,
         &mut requirements,
         &mut reason_codes,
         &mut reason_seen,
@@ -1186,6 +1360,24 @@ fn evaluate_acp_internal(
     let mut force_escalate = false;
 
     if let Some(action) = docs_gate_action {
+        match action {
+            AcpDecisionKind::Deny => hard_deny = true,
+            AcpDecisionKind::Escalate => force_escalate = true,
+            AcpDecisionKind::StageOnly => force_stage_only = true,
+            AcpDecisionKind::Allow => {}
+        }
+    }
+
+    if let Some(action) = telemetry_gate_action {
+        match action {
+            AcpDecisionKind::Deny => hard_deny = true,
+            AcpDecisionKind::Escalate => force_escalate = true,
+            AcpDecisionKind::StageOnly => force_stage_only = true,
+            AcpDecisionKind::Allow => {}
+        }
+    }
+
+    if let Some(action) = flag_gate_action {
         match action {
             AcpDecisionKind::Deny => hard_deny = true,
             AcpDecisionKind::Escalate => force_escalate = true,
@@ -1398,16 +1590,24 @@ fn value_to_string(value: &Value) -> Option<String> {
     value.as_str().map(|text| text.to_string())
 }
 
-fn target_flag_is_truthy(value: Option<&Value>) -> bool {
+fn value_to_bool(value: &Value) -> Option<bool> {
     match value {
-        Some(Value::Bool(flag)) => *flag,
-        Some(Value::Number(number)) => number.as_u64().is_some_and(|raw| raw > 0),
-        Some(Value::String(text)) => {
+        Value::Bool(flag) => Some(*flag),
+        Value::Number(number) => number.as_i64().map(|raw| raw != 0),
+        Value::String(text) => {
             let normalized = text.trim().to_ascii_lowercase();
-            matches!(normalized.as_str(), "1" | "true" | "yes" | "on")
+            match normalized.as_str() {
+                "1" | "true" | "yes" | "on" => Some(true),
+                "0" | "false" | "no" | "off" => Some(false),
+                _ => None,
+            }
         }
-        _ => false,
+        _ => None,
     }
+}
+
+fn target_flag_is_truthy(value: Option<&Value>) -> bool {
+    value.and_then(value_to_bool).unwrap_or(false)
 }
 
 fn target_u64(value: Option<&Value>) -> Option<u64> {
@@ -1558,11 +1758,115 @@ fn validate_evidence(
     }
 }
 
+fn resolve_material_side_effect(
+    policy: &PolicyV2,
+    target: &HashMap<String, Value>,
+    phase: &str,
+    reason_codes: &mut Vec<String>,
+    reason_seen: &mut HashSet<String>,
+    notes: &mut Vec<String>,
+) -> bool {
+    let config = policy
+        .acp
+        .materiality
+        .clone()
+        .unwrap_or_else(default_materiality_config);
+    let canonical = if config.target_fields.canonical.trim().is_empty() {
+        "material_side_effect"
+    } else {
+        config.target_fields.canonical.trim()
+    };
+
+    let enforce_on: Vec<String> = if config.enforce_on_phase.is_empty() {
+        vec!["promote".to_string(), "finalize".to_string()]
+    } else {
+        config
+            .enforce_on_phase
+            .iter()
+            .map(|entry| entry.trim().to_ascii_lowercase())
+            .collect()
+    };
+    if !enforce_on.iter().any(|candidate| candidate == phase) {
+        return true;
+    }
+
+    let mut fields = vec![canonical.to_string()];
+    fields.extend(config.target_fields.aliases.iter().cloned());
+
+    let mut detected: Vec<(String, bool)> = Vec::new();
+    for field in fields {
+        if let Some(value) = target.get(&field) {
+            if let Some(parsed) = value_to_bool(value) {
+                detected.push((field.clone(), parsed));
+                continue;
+            }
+            push_reason(
+                reason_codes,
+                reason_seen,
+                "ACP_MATERIAL_SIDE_EFFECT_INVALID",
+            );
+            notes.push(format!(
+                "materiality field '{field}' must be boolean-compatible for predicate '{canonical}'"
+            ));
+            return true;
+        }
+    }
+
+    if detected.is_empty() {
+        return match phase {
+            "promote" => config.default_for_phase.promote,
+            "finalize" => config.default_for_phase.finalize,
+            _ => true,
+        };
+    }
+
+    let first = detected[0].1;
+    let conflict = detected.iter().any(|(_, value)| *value != first);
+    if conflict {
+        push_reason(
+            reason_codes,
+            reason_seen,
+            "ACP_MATERIAL_SIDE_EFFECT_INVALID",
+        );
+        notes.push(format!(
+            "conflicting materiality aliases detected for predicate '{canonical}'"
+        ));
+        return true;
+    }
+
+    if detected[0].0 != canonical {
+        notes.push(format!(
+            "materiality alias '{}' normalized to canonical predicate '{}'",
+            detected[0].0, canonical
+        ));
+    }
+
+    first
+}
+
+fn gate_action_for_acp(
+    missing_action_by_acp: &HashMap<String, String>,
+    effective_acp: &str,
+    fallback: AcpDecisionKind,
+) -> AcpDecisionKind {
+    let action = missing_action_by_acp
+        .get(&effective_acp.to_ascii_uppercase())
+        .or_else(|| missing_action_by_acp.get("default"))
+        .map(|value| parse_acp_decision(value))
+        .unwrap_or(fallback);
+
+    match action {
+        AcpDecisionKind::Allow => AcpDecisionKind::StageOnly,
+        other => other,
+    }
+}
+
 fn validate_docs_gate(
     policy: &PolicyV2,
     request: &AcpRequest,
     phase: &str,
     effective_acp: &str,
+    material_side_effect: bool,
     requirements: &mut AcpMissingRequirements,
     reason_codes: &mut Vec<String>,
     reason_seen: &mut HashSet<String>,
@@ -1571,6 +1875,9 @@ fn validate_docs_gate(
     let Some(config) = policy.acp.docs_gate.as_ref() else {
         return None;
     };
+    if !material_side_effect {
+        return None;
+    }
 
     let enforce_on: Vec<String> = if config.enforce_on_phase.is_empty() {
         vec!["promote".to_string()]
@@ -1610,7 +1917,11 @@ fn validate_docs_gate(
     }
 
     for entry in &missing {
-        if !requirements.missing_evidence.iter().any(|item| item == entry) {
+        if !requirements
+            .missing_evidence
+            .iter()
+            .any(|item| item == entry)
+        {
             requirements.missing_evidence.push(entry.clone());
         }
     }
@@ -1630,17 +1941,231 @@ fn validate_docs_gate(
         missing.join(",")
     ));
 
-    let action = config
-        .missing_action_by_acp
-        .get(&effective_acp.to_ascii_uppercase())
-        .or_else(|| config.missing_action_by_acp.get("default"))
-        .map(|value| parse_acp_decision(value))
-        .unwrap_or(AcpDecisionKind::StageOnly);
+    Some(gate_action_for_acp(
+        &config.missing_action_by_acp,
+        effective_acp,
+        AcpDecisionKind::StageOnly,
+    ))
+}
 
-    Some(match action {
-        AcpDecisionKind::Allow => AcpDecisionKind::StageOnly,
-        other => other,
-    })
+fn validate_telemetry_gate(
+    policy: &PolicyV2,
+    request: &AcpRequest,
+    phase: &str,
+    effective_acp: &str,
+    material_side_effect: bool,
+    requirements: &mut AcpMissingRequirements,
+    reason_codes: &mut Vec<String>,
+    reason_seen: &mut HashSet<String>,
+    notes: &mut Vec<String>,
+) -> Option<AcpDecisionKind> {
+    let Some(config) = policy.acp.telemetry_gate.as_ref() else {
+        return None;
+    };
+    if !material_side_effect {
+        return None;
+    }
+
+    let enforce_on: Vec<String> = if config.enforce_on_phase.is_empty() {
+        vec!["promote".to_string()]
+    } else {
+        config
+            .enforce_on_phase
+            .iter()
+            .map(|entry| entry.trim().to_ascii_lowercase())
+            .collect()
+    };
+    if !enforce_on.iter().any(|candidate| candidate == phase) {
+        return None;
+    }
+
+    if acp_level_rank(effective_acp) < acp_level_rank(&config.required_for_acp_at_or_above) {
+        return None;
+    }
+
+    let target_field = if config.target_field.trim().is_empty() {
+        "telemetry_profile"
+    } else {
+        config.target_field.trim()
+    };
+    let telemetry_profile = request
+        .operation
+        .target
+        .get(target_field)
+        .and_then(value_to_string)
+        .map(|value| value.trim().to_ascii_lowercase())
+        .filter(|value| !value.is_empty());
+    let missing_reason = if config.reason_codes.missing.trim().is_empty() {
+        "ACP_TELEMETRY_PROFILE_MISSING"
+    } else {
+        config.reason_codes.missing.as_str()
+    };
+    let invalid_reason = if config.reason_codes.invalid.trim().is_empty() {
+        "ACP_TELEMETRY_PROFILE_INVALID"
+    } else {
+        config.reason_codes.invalid.as_str()
+    };
+
+    let Some(profile_value) = telemetry_profile else {
+        if !requirements
+            .missing_evidence
+            .iter()
+            .any(|item| item == target_field)
+        {
+            requirements.missing_evidence.push(target_field.to_string());
+        }
+        push_reason(reason_codes, reason_seen, missing_reason);
+        notes.push(format!(
+            "telemetry profile field '{target_field}' missing for ACP '{effective_acp}'"
+        ));
+        return Some(gate_action_for_acp(
+            &config.missing_action_by_acp,
+            effective_acp,
+            AcpDecisionKind::StageOnly,
+        ));
+    };
+
+    let allowed_profiles = config
+        .allowed_by_acp
+        .get(&effective_acp.to_ascii_uppercase())
+        .or_else(|| config.allowed_by_acp.get("default"))
+        .cloned()
+        .unwrap_or_default();
+    let is_allowed = allowed_profiles
+        .iter()
+        .map(|value| value.trim().to_ascii_lowercase())
+        .any(|value| value == profile_value);
+    if is_allowed {
+        return None;
+    }
+
+    push_reason(reason_codes, reason_seen, invalid_reason);
+    notes.push(format!(
+        "telemetry profile '{profile_value}' is not allowed for ACP '{effective_acp}'"
+    ));
+    Some(gate_action_for_acp(
+        &config.missing_action_by_acp,
+        effective_acp,
+        AcpDecisionKind::Deny,
+    ))
+}
+
+fn validate_flag_metadata_gate(
+    policy: &PolicyV2,
+    request: &AcpRequest,
+    phase: &str,
+    effective_acp: &str,
+    material_side_effect: bool,
+    requirements: &mut AcpMissingRequirements,
+    reason_codes: &mut Vec<String>,
+    reason_seen: &mut HashSet<String>,
+    notes: &mut Vec<String>,
+) -> Option<AcpDecisionKind> {
+    let Some(config) = policy.acp.flag_metadata_gate.as_ref() else {
+        return None;
+    };
+    if !material_side_effect {
+        return None;
+    }
+
+    let enforce_on: Vec<String> = if config.enforce_on_phase.is_empty() {
+        vec!["promote".to_string()]
+    } else {
+        config
+            .enforce_on_phase
+            .iter()
+            .map(|entry| entry.trim().to_ascii_lowercase())
+            .collect()
+    };
+    if !enforce_on.iter().any(|candidate| candidate == phase) {
+        return None;
+    }
+
+    let required_when_target_flags: Vec<String> = if config.required_when_target_flags.is_empty() {
+        vec![
+            "has_flags".to_string(),
+            "modifies_flags".to_string(),
+            "flag_change".to_string(),
+        ]
+    } else {
+        config.required_when_target_flags.clone()
+    };
+    let triggered = required_when_target_flags
+        .iter()
+        .any(|flag| target_flag_is_truthy(request.operation.target.get(flag)));
+    if !triggered {
+        return None;
+    }
+
+    let evidence_type = if config.evidence_type.trim().is_empty() {
+        "flags.metadata"
+    } else {
+        config.evidence_type.trim()
+    };
+    let has_metadata_evidence = request
+        .evidence
+        .iter()
+        .any(|entry| entry.r#type == evidence_type);
+    let missing_reason = if config.reason_codes.missing_evidence.trim().is_empty() {
+        "ACP_FLAG_METADATA_EVIDENCE_MISSING"
+    } else {
+        config.reason_codes.missing_evidence.as_str()
+    };
+    let invalid_reason = if config.reason_codes.invalid.trim().is_empty() {
+        "ACP_FLAG_METADATA_INVALID"
+    } else {
+        config.reason_codes.invalid.as_str()
+    };
+
+    if !has_metadata_evidence {
+        if !requirements
+            .missing_evidence
+            .iter()
+            .any(|item| item == evidence_type)
+        {
+            requirements
+                .missing_evidence
+                .push(evidence_type.to_string());
+        }
+        push_reason(reason_codes, reason_seen, missing_reason);
+        notes.push(format!(
+            "flag metadata evidence '{evidence_type}' missing for ACP '{effective_acp}'"
+        ));
+        return Some(gate_action_for_acp(
+            &config.missing_action_by_acp,
+            effective_acp,
+            AcpDecisionKind::StageOnly,
+        ));
+    }
+
+    let metadata_field = if config.metadata_valid_field.trim().is_empty() {
+        "flag_metadata_valid"
+    } else {
+        config.metadata_valid_field.trim()
+    };
+    let metadata_valid = target_flag_is_truthy(request.operation.target.get(metadata_field));
+    if metadata_valid {
+        return None;
+    }
+
+    if !requirements
+        .missing_evidence
+        .iter()
+        .any(|item| item == metadata_field)
+    {
+        requirements
+            .missing_evidence
+            .push(metadata_field.to_string());
+    }
+    push_reason(reason_codes, reason_seen, invalid_reason);
+    notes.push(format!(
+        "flag metadata validity field '{metadata_field}' missing/false for ACP '{effective_acp}'"
+    ));
+    Some(gate_action_for_acp(
+        &config.missing_action_by_acp,
+        effective_acp,
+        AcpDecisionKind::Deny,
+    ))
 }
 
 fn validate_quorum(
@@ -1687,7 +2212,8 @@ fn validate_quorum(
     }
 
     for (index, entry) in request.attestations.iter().enumerate() {
-        if !policy.attestations.roles.is_empty() && !policy.attestations.roles.contains_key(&entry.role)
+        if !policy.attestations.roles.is_empty()
+            && !policy.attestations.roles.contains_key(&entry.role)
         {
             invalid_attestation = true;
             role_mismatch = true;
@@ -1881,9 +2407,13 @@ fn validate_owner_attestation(
     let retry_max_attempts = config.retry.max_attempts.max(1);
     let retry_attempt =
         target_u64(request.operation.target.get("owner_attestation_retry")).unwrap_or(0);
-    let elapsed_seconds =
-        target_u64(request.operation.target.get("owner_attestation_elapsed_seconds"))
-            .unwrap_or(0);
+    let elapsed_seconds = target_u64(
+        request
+            .operation
+            .target
+            .get("owner_attestation_elapsed_seconds"),
+    )
+    .unwrap_or(0);
     let exhausted = retry_attempt >= retry_max_attempts || elapsed_seconds >= timeout_seconds;
 
     requirements.owner_attestation = Some(OwnerAttestationRequirement {
@@ -2333,6 +2863,51 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
             );
         }
 
+        for (name, override_type) in [
+            ("waivers", policy.governance_overrides.waivers.as_ref()),
+            (
+                "exceptions",
+                policy.governance_overrides.exceptions.as_ref(),
+            ),
+        ] {
+            let Some(override_cfg) = override_type else {
+                semantic_errors.push(format!(
+                    "governance_overrides.{name} must be configured in policy"
+                ));
+                continue;
+            };
+            if !override_cfg
+                .state_file
+                .starts_with(".harmony/capabilities/_ops/state/")
+            {
+                semantic_errors.push(format!(
+                    "governance_overrides.{name}.state_file must remain under .harmony/capabilities/_ops/state/"
+                ));
+            }
+            if override_cfg.required_fields.is_empty() {
+                semantic_errors.push(format!(
+                    "governance_overrides.{name}.required_fields must be non-empty"
+                ));
+            }
+            if !override_cfg.require_receipt {
+                semantic_errors.push(format!(
+                    "governance_overrides.{name}.require_receipt must be true"
+                ));
+            }
+        }
+
+        if policy.flags_metadata.contract_file.trim().is_empty() {
+            semantic_errors.push("flags_metadata.contract_file must be configured".to_string());
+        }
+        if policy.flags_metadata.schema_file.trim().is_empty() {
+            semantic_errors.push("flags_metadata.schema_file must be configured".to_string());
+        }
+        if policy.flags_metadata.required_fields.is_empty() {
+            semantic_errors.push(
+                "flags_metadata.required_fields must declare required metadata fields".to_string(),
+            );
+        }
+
         if policy.grants.max_ttl_seconds_by_tier.low < policy.grants.max_ttl_seconds_by_tier.medium
             || policy.grants.max_ttl_seconds_by_tier.medium
                 < policy.grants.max_ttl_seconds_by_tier.high
@@ -2393,8 +2968,7 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
         }
         if acp_level_rank(&high_level) > acp_level_rank("ACP-3") {
             semantic_errors.push(
-                "acp.risk_tier_mapping.high must not exceed ACP-3 for routine autonomy"
-                    .to_string(),
+                "acp.risk_tier_mapping.high must not exceed ACP-3 for routine autonomy".to_string(),
             );
         }
         for (tier, level) in &policy.acp.risk_tier_mapping {
@@ -2420,10 +2994,72 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
             }
             if let Some(code) = docs_gate.reason_code.as_deref() {
                 if !code.starts_with("ACP_") {
-                    semantic_errors.push(
-                        "acp.docs_gate.reason_code must start with ACP_".to_string(),
-                    );
+                    semantic_errors
+                        .push("acp.docs_gate.reason_code must start with ACP_".to_string());
                 }
+            }
+        }
+
+        if let Some(materiality) = &policy.acp.materiality {
+            if materiality.predicate_name != "material_side_effect" {
+                semantic_errors.push(
+                    "acp.materiality.predicate_name must be material_side_effect".to_string(),
+                );
+            }
+            if materiality.target_fields.canonical != "material_side_effect" {
+                semantic_errors.push(
+                    "acp.materiality.target_fields.canonical must be material_side_effect"
+                        .to_string(),
+                );
+            }
+            if materiality.enforce_on_phase.is_empty() {
+                semantic_errors.push(
+                    "acp.materiality.enforce_on_phase must declare at least one phase".to_string(),
+                );
+            }
+        }
+
+        if let Some(telemetry_gate) = &policy.acp.telemetry_gate {
+            if telemetry_gate.target_field.trim().is_empty() {
+                semantic_errors
+                    .push("acp.telemetry_gate.target_field must be non-empty".to_string());
+            }
+            if telemetry_gate.allowed_by_acp.is_empty() {
+                semantic_errors
+                    .push("acp.telemetry_gate.allowed_by_acp must be non-empty".to_string());
+            }
+            if !telemetry_gate.reason_codes.missing.starts_with("ACP_") {
+                semantic_errors.push(
+                    "acp.telemetry_gate.reason_codes.missing must start with ACP_".to_string(),
+                );
+            }
+            if !telemetry_gate.reason_codes.invalid.starts_with("ACP_") {
+                semantic_errors.push(
+                    "acp.telemetry_gate.reason_codes.invalid must start with ACP_".to_string(),
+                );
+            }
+        }
+
+        if let Some(flag_gate) = &policy.acp.flag_metadata_gate {
+            if flag_gate.evidence_type.trim().is_empty() {
+                semantic_errors
+                    .push("acp.flag_metadata_gate.evidence_type must be non-empty".to_string());
+            }
+            if flag_gate.metadata_valid_field.trim().is_empty() {
+                semantic_errors.push(
+                    "acp.flag_metadata_gate.metadata_valid_field must be non-empty".to_string(),
+                );
+            }
+            if !flag_gate.reason_codes.missing_evidence.starts_with("ACP_") {
+                semantic_errors.push(
+                    "acp.flag_metadata_gate.reason_codes.missing_evidence must start with ACP_"
+                        .to_string(),
+                );
+            }
+            if !flag_gate.reason_codes.invalid.starts_with("ACP_") {
+                semantic_errors.push(
+                    "acp.flag_metadata_gate.reason_codes.invalid must start with ACP_".to_string(),
+                );
             }
         }
 
@@ -2457,6 +3093,40 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
                     }
                 }
             }
+
+            if let Some(docs_gate) = &policy.acp.docs_gate {
+                if let Some(code) = docs_gate.reason_code.as_deref() {
+                    if !code.trim().is_empty() && !known_codes.contains(code) {
+                        semantic_errors.push(format!(
+                            "acp.docs_gate.reason_code references unknown reason code '{code}'"
+                        ));
+                    }
+                }
+            }
+            if let Some(telemetry_gate) = &policy.acp.telemetry_gate {
+                for code in [
+                    telemetry_gate.reason_codes.missing.as_str(),
+                    telemetry_gate.reason_codes.invalid.as_str(),
+                ] {
+                    if !code.trim().is_empty() && !known_codes.contains(code) {
+                        semantic_errors.push(format!(
+                            "acp.telemetry_gate references unknown reason code '{code}'"
+                        ));
+                    }
+                }
+            }
+            if let Some(flag_gate) = &policy.acp.flag_metadata_gate {
+                for code in [
+                    flag_gate.reason_codes.missing_evidence.as_str(),
+                    flag_gate.reason_codes.invalid.as_str(),
+                ] {
+                    if !code.trim().is_empty() && !known_codes.contains(code) {
+                        semantic_errors.push(format!(
+                            "acp.flag_metadata_gate references unknown reason code '{code}'"
+                        ));
+                    }
+                }
+            }
         }
     }
 
@@ -2470,12 +3140,8 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
 }
 
 pub fn validate_receipt(request: &ReceiptValidateRequest) -> Result<ReceiptValidateReport> {
-    let policy = load_policy(&request.policy_path).with_context(|| {
-        format!(
-            "failed to load policy {}",
-            request.policy_path.display()
-        )
-    })?;
+    let policy = load_policy(&request.policy_path)
+        .with_context(|| format!("failed to load policy {}", request.policy_path.display()))?;
 
     let mut errors = Vec::new();
     let mut warnings = Vec::new();
@@ -2487,11 +3153,7 @@ pub fn validate_receipt(request: &ReceiptValidateRequest) -> Result<ReceiptValid
             "receipt file missing: {}",
             request.receipt_path.display()
         ));
-        push_reason(
-            &mut reason_codes,
-            &mut reason_seen,
-            "ACP_RECEIPT_REQUIRED",
-        );
+        push_reason(&mut reason_codes, &mut reason_seen, "ACP_RECEIPT_REQUIRED");
         return Ok(ReceiptValidateReport {
             valid: false,
             reason_codes,
@@ -2507,11 +3169,7 @@ pub fn validate_receipt(request: &ReceiptValidateRequest) -> Result<ReceiptValid
                 "failed to parse receipt {}: {err}",
                 request.receipt_path.display()
             ));
-            push_reason(
-                &mut reason_codes,
-                &mut reason_seen,
-                "ACP_RECEIPT_INVALID",
-            );
+            push_reason(&mut reason_codes, &mut reason_seen, "ACP_RECEIPT_INVALID");
             return Ok(ReceiptValidateReport {
                 valid: false,
                 reason_codes,
@@ -2538,7 +3196,11 @@ pub fn validate_receipt(request: &ReceiptValidateRequest) -> Result<ReceiptValid
         .to_string();
     if !decision.is_empty()
         && !policy.receipts.emit_on.is_empty()
-        && !policy.receipts.emit_on.iter().any(|expected| expected == &decision)
+        && !policy
+            .receipts
+            .emit_on
+            .iter()
+            .any(|expected| expected == &decision)
     {
         errors.push(format!(
             "receipt decision '{decision}' is not in policy receipts.emit_on"
@@ -2564,12 +3226,173 @@ pub fn validate_receipt(request: &ReceiptValidateRequest) -> Result<ReceiptValid
         warnings.push("receipt missing effective_acp; ACP threshold check skipped".to_string());
     }
 
+    let phase = receipt
+        .get("phase")
+        .and_then(Value::as_str)
+        .unwrap_or_default()
+        .trim()
+        .to_ascii_lowercase();
+    let receipt_target: HashMap<String, Value> = receipt
+        .pointer("/operation/target")
+        .and_then(Value::as_object)
+        .cloned()
+        .unwrap_or_default()
+        .into_iter()
+        .collect();
+    let material_side_effect = resolve_material_side_effect(
+        &policy,
+        &receipt_target,
+        &phase,
+        &mut reason_codes,
+        &mut reason_seen,
+        &mut warnings,
+    );
+
+    if let Some(config) = policy.acp.telemetry_gate.as_ref() {
+        let enforce_on: Vec<String> = if config.enforce_on_phase.is_empty() {
+            vec!["promote".to_string()]
+        } else {
+            config
+                .enforce_on_phase
+                .iter()
+                .map(|entry| entry.trim().to_ascii_lowercase())
+                .collect()
+        };
+        if material_side_effect
+            && enforce_on.iter().any(|candidate| candidate == &phase)
+            && !effective_acp.is_empty()
+            && acp_level_rank(&effective_acp)
+                >= acp_level_rank(&config.required_for_acp_at_or_above)
+        {
+            let target_field = if config.target_field.trim().is_empty() {
+                "telemetry_profile"
+            } else {
+                config.target_field.trim()
+            };
+            let telemetry_profile = receipt
+                .get(target_field)
+                .or_else(|| receipt.pointer(&format!("/operation/target/{target_field}")))
+                .and_then(Value::as_str)
+                .map(|value| value.trim().to_ascii_lowercase())
+                .filter(|value| !value.is_empty());
+            let missing_reason = if config.reason_codes.missing.trim().is_empty() {
+                "ACP_TELEMETRY_PROFILE_MISSING"
+            } else {
+                config.reason_codes.missing.as_str()
+            };
+            let invalid_reason = if config.reason_codes.invalid.trim().is_empty() {
+                "ACP_TELEMETRY_PROFILE_INVALID"
+            } else {
+                config.reason_codes.invalid.as_str()
+            };
+
+            if let Some(profile_value) = telemetry_profile {
+                let allowed_profiles = config
+                    .allowed_by_acp
+                    .get(&effective_acp.to_ascii_uppercase())
+                    .or_else(|| config.allowed_by_acp.get("default"))
+                    .cloned()
+                    .unwrap_or_default();
+                let is_allowed = allowed_profiles
+                    .iter()
+                    .map(|value| value.trim().to_ascii_lowercase())
+                    .any(|value| value == profile_value);
+                if !is_allowed {
+                    errors.push(format!(
+                        "receipt telemetry profile '{profile_value}' is not allowed for ACP '{effective_acp}'"
+                    ));
+                    push_reason(&mut reason_codes, &mut reason_seen, invalid_reason);
+                }
+            } else {
+                errors.push(format!(
+                    "receipt missing telemetry profile field '{target_field}' for ACP '{effective_acp}'"
+                ));
+                push_reason(&mut reason_codes, &mut reason_seen, missing_reason);
+            }
+        }
+    }
+
+    if let Some(config) = policy.acp.flag_metadata_gate.as_ref() {
+        let enforce_on: Vec<String> = if config.enforce_on_phase.is_empty() {
+            vec!["promote".to_string()]
+        } else {
+            config
+                .enforce_on_phase
+                .iter()
+                .map(|entry| entry.trim().to_ascii_lowercase())
+                .collect()
+        };
+        let trigger_fields: Vec<String> = if config.required_when_target_flags.is_empty() {
+            vec![
+                "has_flags".to_string(),
+                "modifies_flags".to_string(),
+                "flag_change".to_string(),
+            ]
+        } else {
+            config.required_when_target_flags.clone()
+        };
+        let triggered = trigger_fields
+            .iter()
+            .any(|field| target_flag_is_truthy(receipt_target.get(field)));
+        if material_side_effect
+            && enforce_on.iter().any(|candidate| candidate == &phase)
+            && triggered
+        {
+            let evidence_type = if config.evidence_type.trim().is_empty() {
+                "flags.metadata"
+            } else {
+                config.evidence_type.trim()
+            };
+            let has_flag_metadata_evidence = receipt
+                .get("evidence")
+                .and_then(Value::as_array)
+                .is_some_and(|entries| {
+                    entries.iter().any(|entry| {
+                        entry
+                            .get("type")
+                            .and_then(Value::as_str)
+                            .is_some_and(|value| value == evidence_type)
+                    })
+                });
+            let missing_reason = if config.reason_codes.missing_evidence.trim().is_empty() {
+                "ACP_FLAG_METADATA_EVIDENCE_MISSING"
+            } else {
+                config.reason_codes.missing_evidence.as_str()
+            };
+            let invalid_reason = if config.reason_codes.invalid.trim().is_empty() {
+                "ACP_FLAG_METADATA_INVALID"
+            } else {
+                config.reason_codes.invalid.as_str()
+            };
+
+            if !has_flag_metadata_evidence {
+                errors.push(format!(
+                    "receipt missing required flag metadata evidence type '{evidence_type}'"
+                ));
+                push_reason(&mut reason_codes, &mut reason_seen, missing_reason);
+            }
+
+            let metadata_field = if config.metadata_valid_field.trim().is_empty() {
+                "flag_metadata_valid"
+            } else {
+                config.metadata_valid_field.trim()
+            };
+            let metadata_valid = receipt
+                .get(metadata_field)
+                .and_then(value_to_bool)
+                .or_else(|| receipt_target.get(metadata_field).and_then(value_to_bool))
+                .unwrap_or(false);
+            if !metadata_valid {
+                errors.push(format!(
+                    "receipt metadata validity field '{metadata_field}' must be true when flags change"
+                ));
+                push_reason(&mut reason_codes, &mut reason_seen, invalid_reason);
+            }
+        }
+    }
+
     if !errors.is_empty() {
-        push_reason(
-            &mut reason_codes,
-            &mut reason_seen,
-            "ACP_RECEIPT_INVALID",
-        );
+        push_reason(&mut reason_codes, &mut reason_seen, "ACP_RECEIPT_INVALID");
     }
 
     Ok(ReceiptValidateReport {

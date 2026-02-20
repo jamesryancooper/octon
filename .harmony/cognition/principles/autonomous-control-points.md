@@ -52,8 +52,9 @@ handles. This does not require standing human authorizations.
 - Promotion and contraction semantics: this document.
 - Capability attempt authorization: [Deny by Default](./deny-by-default.md).
 - Replay and provenance semantics: [Determinism and Provenance](./determinism-and-provenance.md).
-- Promotion input minimums and receipt requirements: [RA/ACP Promotion Inputs Matrix](./_meta/ra-acp-promotion-inputs-matrix.md).
+- Promotion input minimums and receipt requirements: RA/ACP Promotion Inputs Matrix (canonical).
 - Shared terminology: [RA/ACP Glossary](./_meta/ra-acp-glossary.md).
+- Waiver/exception taxonomy: [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 - Conflict precedence: [Arbitration and Precedence](./arbitration-and-precedence.md).
 
 ## Why It Matters
@@ -114,6 +115,9 @@ Outcomes:
 - **STAGE_ONLY:** keep change staged; emit receipt; notify humans if configured
 - **DENY:** block action; emit denial with reason codes
 - **ESCALATE:** request human intervention (rare; only when policy requires)
+
+Evidence and receipt enforcement triggers are keyed on canonical predicate
+`material_side_effect` (see [RA/ACP Glossary](./_meta/ra-acp-glossary.md)).
 
 Docs-gate evidence is consumed by ACP runtime evaluation on promote. Missing
 required documentation evidence returns fail-closed `STAGE_ONLY`/`DENY` with
@@ -195,14 +199,12 @@ Budgets are attached to the run and enforced continuously, not just at promotion
 
 ## Telemetry Profile Mapping
 
-ACP promotion receipts must record a telemetry profile for ACP-1+:
+ACP promotion telemetry profile requirements are canonical in
+[RA/ACP Promotion Inputs Matrix](./_meta/ra-acp-promotion-inputs-matrix.md#telemetry-profile-gate-canonical)
+and enforced by policy (`acp.telemetry_gate`) at promote-time.
 
-- **ACP-1:** default `minimal` or `sampled`, depending on budget envelope.
-- **ACP-2:** default `full` on promote; `sampled` may be used during stage under
-  budget/circuit constraints.
-- **ACP-3:** default `full` plus additional recovery and breaker signals.
-
-Profile deviations require a policy-approved waiver recorded in the receipt.
+Profile deviations must use the canonical waiver taxonomy:
+[Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 
 ## Receipts and Continuous Oversight
 
@@ -237,14 +239,8 @@ Humans “pop in” by reviewing receipts and digests, not by approving every st
 
 If this principle conflicts with another, apply
 [Arbitration and Precedence](./arbitration-and-precedence.md).
-ACP remains the final promotion/contraction authority for durable state changes.
-
-## Arbitration and Precedence
-
-- Capability-attempt questions are resolved only by deny-by-default policy outputs.
-- Durable promotion/contraction questions are resolved only by ACP gate outcomes.
-- If cross-principle language disagrees and no explicit mapping exists, fail closed
-  to `STAGE_ONLY` or `DENY` with reason-coded receipt.
+This section is informational only; normative arbitration rules live only in the
+arbitration SSOT.
 
 ## Related Principles
 

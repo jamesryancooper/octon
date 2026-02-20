@@ -40,7 +40,7 @@ read_policy_paths() {
 render_digest() {
   local receipt_path="$1"
   local output_path="$2"
-  local run_id timestamp decision effective_acp operation_class phase reason_codes rollback_handle recovery_window
+  local run_id timestamp decision effective_acp operation_class phase reason_codes rollback_handle recovery_window telemetry_profile material_side_effect
 
   run_id="$(jq -r '.run_id // ""' "$receipt_path")"
   timestamp="$(jq -r '.timestamp // ""' "$receipt_path")"
@@ -51,6 +51,8 @@ render_digest() {
   reason_codes="$(jq -r '(.reason_codes // []) | join(",")' "$receipt_path")"
   rollback_handle="$(jq -r '.rollback_handle // ""' "$receipt_path")"
   recovery_window="$(jq -r '.recovery_window // ""' "$receipt_path")"
+  telemetry_profile="$(jq -r '.telemetry_profile // ""' "$receipt_path")"
+  material_side_effect="$(jq -r '.material_side_effect // ""' "$receipt_path")"
 
   {
     echo "# ACP Decision Digest"
@@ -62,6 +64,8 @@ render_digest() {
     echo "- Operation Class: \`$operation_class\`"
     echo "- Phase: \`$phase\`"
     echo "- Reason Codes: \`$reason_codes\`"
+    echo "- Material Side Effect: \`$material_side_effect\`"
+    echo "- Telemetry Profile: \`$telemetry_profile\`"
     echo "- Rollback Handle: \`$rollback_handle\`"
     echo "- Recovery Window: \`$recovery_window\`"
   } > "$output_path"
@@ -128,11 +132,20 @@ main() {
       boundaries: ($req[0].boundaries // null),
       operation: ($req[0].operation // {}),
       phase: ($req[0].phase // ""),
+      material_side_effect: (
+        $req[0].operation.target.material_side_effect //
+        $req[0].operation.target.meaningful_behavior_change //
+        $req[0].operation.target.durable_effect //
+        $req[0].operation.target.promotion //
+        null
+      ),
+      telemetry_profile: ($req[0].operation.target.telemetry_profile // null),
       effective_acp: ($dec[0].effective_acp // "ACP-0"),
       decision: ($dec[0].decision // "DENY"),
       reason_codes: ($dec[0].reason_codes // []),
       evidence: ($req[0].evidence // []),
       attestations: ($req[0].attestations // []),
+      flag_metadata_valid: ($req[0].operation.target.flag_metadata_valid // null),
       reversibility: ($req[0].reversibility // {}),
       rollback_handle: ($req[0].reversibility.rollback_handle // null),
       recovery_window: ($req[0].reversibility.recovery_window // null),

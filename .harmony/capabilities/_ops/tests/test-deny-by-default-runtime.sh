@@ -273,6 +273,7 @@ run_acp_gate_tests() {
       HARMONY_OPERATION_CLASS=git.commit \\
       HARMONY_OPERATION_PHASE=promote \\
       HARMONY_RUN_ID='$receipt_run_id' \\
+      HARMONY_ACP_TARGET_JSON='{\"material_side_effect\":true,\"telemetry_profile\":\"minimal\"}' \\
       harmony_enforce_service_policy 'guard' '$guard_entrypoint'
     "
 
@@ -392,7 +393,7 @@ run_fs_soft_delete_scope_mapping_tests() {
       run_id: $run_id,
       actor: {id: "agent-a", type: "agent"},
       profile: "operate",
-      operation: {class: "fs.soft_delete", target: {scope: "local"}, targets: [], resources: []},
+      operation: {class: "fs.soft_delete", target: {scope: "local", material_side_effect: false, telemetry_profile: "minimal"}, targets: [], resources: []},
       phase: "promote",
       break_glass: false,
       reversibility: {
@@ -418,7 +419,7 @@ run_fs_soft_delete_scope_mapping_tests() {
       run_id: $run_id,
       actor: {id: "agent-a", type: "agent"},
       profile: "operate",
-      operation: {class: "fs.soft_delete", target: {scope: "broad"}, targets: [], resources: []},
+      operation: {class: "fs.soft_delete", target: {scope: "broad", material_side_effect: false, telemetry_profile: "full"}, targets: [], resources: []},
       phase: "promote",
       break_glass: false,
       reversibility: {
@@ -476,7 +477,7 @@ run_direct_acp_enforce_emit_receipt_tests() {
     run_id: "placeholder-run-id",
     actor: {id: "agent-a", type: "agent"},
     profile: "refactor",
-    operation: {class: "git.commit", target: {}, targets: [], resources: []},
+    operation: {class: "git.commit", target: {material_side_effect: false, telemetry_profile: "minimal"}, targets: [], resources: []},
     phase: "promote",
     break_glass: false,
     reversibility: {
@@ -707,7 +708,7 @@ run_agent_quorum_independence_tests() {
           operationClass:\"git.merge\",
           phase:\"promote\",
           profile:\"operate\",
-          target:{branch:\"main\"}
+          target:{branch:\"main\",material_side_effect:false,telemetry_profile:\"full\"}
         }')\"
       output=\"\$(printf '%s' \"\$payload\" | HARMONY_AGENT_ID='agent-proposer' '$AGENT_ENTRYPOINT')\"
       [[ \"\$(jq -r '.result.decision' <<<\"\$output\")\" == 'STAGE_ONLY' ]]
@@ -739,7 +740,7 @@ run_agent_quorum_independence_tests() {
           operationClass:\"git.merge\",
           phase:\"promote\",
           profile:\"operate\",
-          target:{branch:\"main\"}
+          target:{branch:\"main\",material_side_effect:false,telemetry_profile:\"full\"}
         }')\"
       output=\"\$(printf '%s' \"\$payload\" | HARMONY_AGENT_ID='agent-proposer' '$AGENT_ENTRYPOINT')\"
       [[ \"\$(jq -r '.result.decision' <<<\"\$output\")\" == 'ALLOW' ]]

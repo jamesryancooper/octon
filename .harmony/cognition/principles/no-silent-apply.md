@@ -11,7 +11,9 @@ status: Active
 
 ## What This Means
 
-This principle defines an outcome: material side-effects must never be silent. Durable changes require evidence and receipts that make the decision auditable and reversible.
+This principle defines an outcome: canonical trigger `material_side_effect`
+must never be silent. Durable changes require evidence and receipts that make
+the decision auditable and reversible.
 
 ## Mechanism
 
@@ -45,7 +47,8 @@ These always-visible fields are the minimum progressive-disclosure surface for p
 
 If this principle conflicts with another, apply
 [Arbitration and Precedence](./arbitration-and-precedence.md).
-No-silent-apply is fulfilled by receipts/evidence/rollback handles, not default human authorization.
+This section is informational only; normative arbitration rules live only in the
+arbitration SSOT.
 
 ## Why It Matters
 
@@ -89,6 +92,8 @@ ACP policy gating ensures proposed execution stays within intent and risk postur
 When agents can apply changes silently, teams lose accountability and incident diagnosis becomes difficult.
 
 ## Exceptions
+
+Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 
 Read-only automation (analysis, reporting, lint suggestions) can run without promotion gates if no durable side-effects occur.
 

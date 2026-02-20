@@ -13,6 +13,9 @@ ENFORCER_FILE="$CAPABILITIES_DIR/services/_ops/scripts/enforce-deny-by-default.s
 AGENT_FILE="$CAPABILITIES_DIR/services/execution/agent/impl/agent.sh"
 RECEIPT_WRITER="$CAPABILITIES_DIR/_ops/scripts/policy-receipt-write.sh"
 BREAKER_ACTIONS_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-circuit-breaker-actions.sh"
+FLAGS_METADATA_FILE="$CAPABILITIES_DIR/_ops/policy/flags.metadata.json"
+FLAGS_METADATA_SCHEMA="$CAPABILITIES_DIR/_ops/policy/flags.metadata.schema.json"
+FLAGS_METADATA_VALIDATOR="$CAPABILITIES_DIR/_ops/scripts/validate-flag-metadata.sh"
 
 FAIL_COUNT=0
 
@@ -24,7 +27,7 @@ fail() {
 
 check_required_files() {
   local file
-  for file in "$POLICY_FILE" "$TAXONOMY_FILE" "$ENFORCER_FILE" "$AGENT_FILE" "$RECEIPT_WRITER" "$BREAKER_ACTIONS_SCRIPT"; do
+  for file in "$POLICY_FILE" "$TAXONOMY_FILE" "$ENFORCER_FILE" "$AGENT_FILE" "$RECEIPT_WRITER" "$BREAKER_ACTIONS_SCRIPT" "$FLAGS_METADATA_FILE" "$FLAGS_METADATA_SCHEMA" "$FLAGS_METADATA_VALIDATOR"; do
     [[ -f "$file" ]] || fail "missing required file: $file"
   done
 }
@@ -38,7 +41,7 @@ check_hitl_doc_removed() {
 
 check_policy_sections() {
   local section
-  for section in acp reversibility budgets quorum attestations circuit_breakers receipts; do
+  for section in governance_overrides flags_metadata acp reversibility budgets quorum attestations circuit_breakers receipts; do
     if ! rg -n "^${section}:" "$POLICY_FILE" >/dev/null; then
       fail "policy missing top-level section '${section}'"
     fi

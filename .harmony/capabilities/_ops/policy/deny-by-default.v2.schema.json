@@ -9,11 +9,13 @@
     "mode",
     "defaults",
     "exceptions",
+    "governance_overrides",
     "grants",
     "agent_only",
     "kill_switch",
     "profiles",
     "observability",
+    "flags_metadata",
     "acp",
     "reversibility",
     "budgets",
@@ -92,6 +94,9 @@
           "minimum": 1
         }
       }
+    },
+    "governance_overrides": {
+      "$ref": "#/$defs/governanceOverrides"
     },
     "grants": {
       "type": "object",
@@ -270,6 +275,9 @@
         }
       }
     },
+    "flags_metadata": {
+      "$ref": "#/$defs/flagsMetadataContract"
+    },
     "acp": {
       "$ref": "#/$defs/acp"
     },
@@ -439,6 +447,15 @@
         "docs_gate": {
           "$ref": "#/$defs/acpDocsGate"
         },
+        "materiality": {
+          "$ref": "#/$defs/acpMateriality"
+        },
+        "telemetry_gate": {
+          "$ref": "#/$defs/acpTelemetryGate"
+        },
+        "flag_metadata_gate": {
+          "$ref": "#/$defs/acpFlagMetadataGate"
+        },
         "profile_defaults": {
           "type": "object",
           "additionalProperties": {
@@ -591,6 +608,313 @@
           "propertyNames": {
             "pattern": "^ACP-[0-4]$"
           }
+        }
+      }
+    },
+    "acpMateriality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "predicate_name",
+        "aliases",
+        "target_fields",
+        "enforce_on_phase",
+        "default_for_phase"
+      ],
+      "properties": {
+        "predicate_name": {
+          "type": "string",
+          "const": "material_side_effect"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "target_fields": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "canonical",
+            "aliases"
+          ],
+          "properties": {
+            "canonical": {
+              "type": "string",
+              "const": "material_side_effect"
+            },
+            "aliases": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "enforce_on_phase": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "stage",
+              "promote",
+              "finalize"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "default_for_phase": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "promote",
+            "finalize"
+          ],
+          "properties": {
+            "promote": {
+              "type": "boolean"
+            },
+            "finalize": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "acpTelemetryGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enforce_on_phase",
+        "required_for_acp_at_or_above",
+        "target_field",
+        "allowed_by_acp",
+        "reason_codes",
+        "missing_action_by_acp"
+      ],
+      "properties": {
+        "enforce_on_phase": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "stage",
+              "promote",
+              "finalize"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "required_for_acp_at_or_above": {
+          "$ref": "#/$defs/acpLevel"
+        },
+        "target_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allowed_by_acp": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {
+            "pattern": "^ACP-[0-4]$"
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "minimal",
+                "sampled",
+                "full"
+              ]
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "reason_codes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "missing",
+            "invalid"
+          ],
+          "properties": {
+            "missing": {
+              "type": "string",
+              "pattern": "^ACP_[A-Z0-9_]+$"
+            },
+            "invalid": {
+              "type": "string",
+              "pattern": "^ACP_[A-Z0-9_]+$"
+            }
+          }
+        },
+        "missing_action_by_acp": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/acpDecision"
+          },
+          "minProperties": 1,
+          "propertyNames": {
+            "pattern": "^ACP-[0-4]$"
+          }
+        }
+      }
+    },
+    "acpFlagMetadataGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enforce_on_phase",
+        "required_when_target_flags",
+        "metadata_valid_field",
+        "evidence_type",
+        "reason_codes",
+        "missing_action_by_acp"
+      ],
+      "properties": {
+        "enforce_on_phase": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "stage",
+              "promote",
+              "finalize"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "required_when_target_flags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "metadata_valid_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason_codes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "missing_evidence",
+            "invalid"
+          ],
+          "properties": {
+            "missing_evidence": {
+              "type": "string",
+              "pattern": "^ACP_[A-Z0-9_]+$"
+            },
+            "invalid": {
+              "type": "string",
+              "pattern": "^ACP_[A-Z0-9_]+$"
+            }
+          }
+        },
+        "missing_action_by_acp": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/acpDecision"
+          },
+          "minProperties": 1,
+          "propertyNames": {
+            "pattern": "^ACP-[0-4]$"
+          }
+        }
+      }
+    },
+    "governanceOverrides": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "waivers",
+        "exceptions"
+      ],
+      "properties": {
+        "waivers": {
+          "$ref": "#/$defs/governanceOverrideType"
+        },
+        "exceptions": {
+          "$ref": "#/$defs/governanceOverrideType"
+        }
+      }
+    },
+    "governanceOverrideType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_file",
+        "required_fields",
+        "max_duration_days",
+        "require_receipt"
+      ],
+      "properties": {
+        "state_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "max_duration_days": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "require_receipt": {
+          "type": "boolean"
+        }
+      }
+    },
+    "flagsMetadataContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contract_file",
+        "schema_file",
+        "required_fields"
+      ],
+      "properties": {
+        "contract_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
         }
       }
     },

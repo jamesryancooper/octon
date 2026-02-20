@@ -111,16 +111,10 @@ No permissive fallback is allowed.
 
 ## Exception Protocol (Time-Boxed Elevation)
 
-Temporary elevation is allowed only when all fields are present:
-
-- `id`
-- `scope` (`skill` or `service` or `agent`)
-- `target`
-- `rule`
-- `owner`
-- `reason`
-- `created`
-- `expires`
+Exception semantics are canonical in
+[Waivers and Exceptions](./_meta/waivers-and-exceptions.md):
+`exception` means capability elevation under deny-by-default, and must be
+policy-bound, time-boxed, reason-coded, and receipt-linked.
 
 Exception leases must be stored in a tracked policy file, validated in CI, and
 rejected when expired. Permanent broad permissions are not allowed.
@@ -162,19 +156,14 @@ See: [Autonomous Control Points](./autonomous-control-points.md).
 - Promotion/contraction mechanics (SSOT): [Autonomous Control Points](./autonomous-control-points.md).
 - Promotion inputs and receipt requirements (SSOT): [RA/ACP Promotion Inputs Matrix](./_meta/ra-acp-promotion-inputs-matrix.md).
 - Shared terminology: [RA/ACP Glossary](./_meta/ra-acp-glossary.md).
+- Waiver/exception taxonomy (SSOT): [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 
 ## Arbitration
 
 If this principle conflicts with another, apply
 [Arbitration and Precedence](./arbitration-and-precedence.md).
-This principle governs capability attempts; ACP governs promotion.
-
-## Arbitration and Precedence
-
-- Capability-attempt questions are resolved only by deny-by-default outputs.
-- Durable promotion/contraction decisions are delegated to ACP outcomes only.
-- Receipt-linked evidence is canonical; PR artifacts are optional projections when a PR exists.
-- Cross-principle disagreement without explicit mapping fails closed (`STAGE_ONLY` or `DENY`).
+This section is informational only; normative arbitration rules live only in the
+arbitration SSOT.
 
 ## Development Speed Guidance
 

@@ -171,7 +171,7 @@ USAGE
   set -e
   printf '%s\n' "$decision_output"
 
-  local tmp_decision="" receipt_output="" receipt_rc=0
+  local tmp_decision="" receipt_output="" receipt_rc=0 receipt_validate_rc=0 receipt_validate_output="" receipt_validate_path=""
   if [[ "$emit_receipt" == "true" ]]; then
     if [[ -z "$effective_request_path" ]]; then
       echo "--emit-receipt requires --request <path>" >&2
@@ -207,6 +207,24 @@ USAGE
     set -e
     if [[ "$receipt_rc" -ne 0 ]]; then
       echo "failed to emit ACP receipt: $receipt_output" >&2
+      rm -f "$tmp_request" "$tmp_decision"
+      [[ "$rc" -eq 0 ]] && return 13
+      return "$rc"
+    fi
+
+    receipt_validate_path="$(jq -r '.latest_receipt // .receipt // empty' <<<"$receipt_output" 2>/dev/null || true)"
+    if [[ -z "$receipt_validate_path" || ! -f "$receipt_validate_path" ]]; then
+      echo "receipt writer did not return a valid receipt path for validation" >&2
+      rm -f "$tmp_request" "$tmp_decision"
+      [[ "$rc" -eq 0 ]] && return 13
+      return "$rc"
+    fi
+    set +e
+    receipt_validate_output="$("$bin" receipt-validate --policy "$policy_path" --receipt "$receipt_validate_path" 2>&1)"
+    receipt_validate_rc=$?
+    set -e
+    if [[ "$receipt_validate_rc" -ne 0 ]]; then
+      echo "failed ACP receipt validation: $receipt_validate_output" >&2
       rm -f "$tmp_request" "$tmp_decision"
       [[ "$rc" -eq 0 ]] && return 13
       return "$rc"

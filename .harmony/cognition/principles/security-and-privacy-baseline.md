@@ -81,6 +81,8 @@ Treating security controls as optional for speed creates hidden risk that later 
 ## Exceptions
 
 No exceptions for secret exposure or unredacted PII/PHI. Temporary exceptions for low-risk controls require explicit waiver scope/timebox.
+Waiver/exception semantics are canonical in
+[Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 Waivers must be policy-bound, receipted, and never used to bypass non-waivable controls.
 
 ## Related Documentation

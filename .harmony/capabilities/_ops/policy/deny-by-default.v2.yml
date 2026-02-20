@@ -12,6 +12,17 @@ exceptions:
   require_created: true
   require_expires: true
   max_lease_days: 120
+governance_overrides:
+  waivers:
+    state_file: ".harmony/capabilities/_ops/state/governance-waivers.json"
+    required_fields: [id, owner, reason_code, scope, target, created, expires, evidence_refs, receipt_required, risk_tier, acp]
+    max_duration_days: 7
+    require_receipt: true
+  exceptions:
+    state_file: ".harmony/capabilities/_ops/state/deny-by-default-exceptions.yml"
+    required_fields: [id, owner, reason_code, scope, target, created, expires, evidence_refs, receipt_required, risk_tier, acp]
+    max_duration_days: 120
+    require_receipt: true
 grants:
   state_dir: ".harmony/capabilities/_ops/state/grants"
   default_ttl_seconds: 3600
@@ -86,6 +97,10 @@ observability:
     false_deny_rate_max: 0.005
     median_deny_to_unblock_seconds_max: 60
     auto_remediation_success_rate_min: 0.90
+flags_metadata:
+  contract_file: ".harmony/capabilities/_ops/policy/flags.metadata.json"
+  schema_file: ".harmony/capabilities/_ops/policy/flags.metadata.schema.json"
+  required_fields: [flag_id, owner, created, expires, cleanup_by, default, description, risk, links]
 acp:
   levels:
     - id: ACP-0
@@ -111,6 +126,46 @@ acp:
     enforce_on_phase: [promote]
     evidence_types: [docs.spec, docs.adr, docs.runbook]
     reason_code: ACP_DOCS_EVIDENCE_MISSING
+    missing_action_by_acp:
+      ACP-1: STAGE_ONLY
+      ACP-2: DENY
+      ACP-3: DENY
+      ACP-4: DENY
+  materiality:
+    predicate_name: material_side_effect
+    aliases: [material side-effect, meaningful behavior change, durable effect, promotion]
+    target_fields:
+      canonical: material_side_effect
+      aliases: [meaningful_behavior_change, durable_effect, promotion]
+    enforce_on_phase: [promote, finalize]
+    default_for_phase:
+      promote: true
+      finalize: true
+  telemetry_gate:
+    enforce_on_phase: [promote]
+    required_for_acp_at_or_above: ACP-1
+    target_field: telemetry_profile
+    allowed_by_acp:
+      ACP-1: [minimal, sampled, full]
+      ACP-2: [full]
+      ACP-3: [full]
+      ACP-4: [full]
+    reason_codes:
+      missing: ACP_TELEMETRY_PROFILE_MISSING
+      invalid: ACP_TELEMETRY_PROFILE_INVALID
+    missing_action_by_acp:
+      ACP-1: STAGE_ONLY
+      ACP-2: DENY
+      ACP-3: DENY
+      ACP-4: DENY
+  flag_metadata_gate:
+    enforce_on_phase: [promote]
+    required_when_target_flags: [has_flags, modifies_flags, flag_change]
+    metadata_valid_field: flag_metadata_valid
+    evidence_type: flags.metadata
+    reason_codes:
+      missing_evidence: ACP_FLAG_METADATA_EVIDENCE_MISSING
+      invalid: ACP_FLAG_METADATA_INVALID
     missing_action_by_acp:
       ACP-1: STAGE_ONLY
       ACP-2: DENY

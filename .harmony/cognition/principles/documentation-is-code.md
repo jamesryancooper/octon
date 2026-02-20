@@ -16,7 +16,7 @@ Specs, ADRs, contracts, and runbooks are first-class engineering artifacts.
 They are versioned, reviewed, and traceable like source code.
 
 Harmony requires spec-first planning and decision capture for material changes.
-For material side-effects, required specs/ADRs/runbooks must exist in the same
+For canonical trigger `material_side_effect`, required specs/ADRs/runbooks must exist in the same
 promotable slice before ACP promotion to durable state. Docs may be authored
 during the run, but cannot be missing at promote time for that promoted slice.
 
@@ -131,6 +131,7 @@ present and linked to the same promoted scope.
 - Promotion authority and receipt semantics: [Autonomous Control Points](./autonomous-control-points.md)
 - Contract completeness for promoted slices: [Contract-first](./contract-first.md)
 - Slice-size thresholds and flow policy: [Small Diffs, Trunk-based](./small-diffs-trunk-based.md)
+- Decomposition pattern for large governance work: [Promotable Slice Decomposition](./_meta/promotable-slice-decomposition.md)
 
 ## Relationship to Other Principles
 
@@ -145,6 +146,8 @@ When critical context stays in chat or memory, teams repeat mistakes and slow
 as complexity grows.
 
 ## Exceptions
+
+Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 
 Very small typo or formatting fixes may skip ADR updates, but not behavior,
 contract, schema, or risk changes.

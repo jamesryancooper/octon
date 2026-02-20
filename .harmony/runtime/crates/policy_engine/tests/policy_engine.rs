@@ -1,14 +1,17 @@
 use policy_engine::{
-    doctor, evaluate_acp_enforce, evaluate_enforce, evaluate_grant, evaluate_preflight, AcpActor,
-    AcpAttestation, AcpDecisionKind, AcpEvidence, AcpOperation, AcpRequest,
-    AcpReversibilityProof, DoctorRequest, EnforceRequest, GrantEvalRequest, PreflightRequest,
-    ReceiptValidateRequest, ScopeKind, validate_receipt,
+    doctor, evaluate_acp_enforce, evaluate_enforce, evaluate_grant, evaluate_preflight,
+    validate_receipt, AcpActor, AcpAttestation, AcpDecisionKind, AcpEvidence, AcpOperation,
+    AcpRequest, AcpReversibilityProof, DoctorRequest, EnforceRequest, GrantEvalRequest,
+    PreflightRequest, ReceiptValidateRequest, ScopeKind,
 };
 use serde_json::{json, Value};
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{SystemTime, UNIX_EPOCH};
+
+static TEMP_POLICY_COUNTER: AtomicU64 = AtomicU64::new(0);
 
 fn fixture_path(name: &str) -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
@@ -481,8 +484,10 @@ fn receipt_validate_enforces_required_fields() {
             "profile":"operate",
             "intent":"test",
             "boundaries":"test",
-            "operation":{"class":"git.commit"},
+            "operation":{"class":"git.commit","target":{"material_side_effect":true,"telemetry_profile":"minimal"}},
             "phase":"promote",
+            "material_side_effect":true,
+            "telemetry_profile":"minimal",
             "effective_acp":"ACP-1",
             "decision":"ALLOW",
             "reason_codes":[],
@@ -515,6 +520,106 @@ fn receipt_validate_enforces_required_fields() {
 }
 
 #[test]
+fn receipt_validate_fails_when_telemetry_profile_missing_for_acp1_promote() {
+    let root = repo_root();
+    let unique = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("system time should be after unix epoch")
+        .as_nanos();
+    let receipt_path = std::env::temp_dir().join(format!(
+        "policy-engine-receipt-telemetry-missing-{unique}.json"
+    ));
+
+    fs::write(
+        &receipt_path,
+        serde_json::to_vec(&json!({
+            "run_id":"run-telemetry-missing",
+            "timestamp":"2026-02-19T00:00:00Z",
+            "actor":{"id":"agent.a","type":"agent"},
+            "profile":"operate",
+            "intent":"test",
+            "boundaries":"test",
+            "operation":{"class":"git.commit","target":{"material_side_effect":true}},
+            "phase":"promote",
+            "material_side_effect":true,
+            "effective_acp":"ACP-1",
+            "decision":"ALLOW",
+            "reason_codes":[],
+            "evidence":[{"type":"diff","ref":"a","sha256":"h"}],
+            "attestations":[],
+            "rollback_handle":"git:revert:abc",
+            "recovery_window":"P30D",
+            "budgets":{},
+            "counters":{}
+        }))
+        .expect("serialize receipt"),
+    )
+    .expect("write temp receipt");
+
+    let request = ReceiptValidateRequest {
+        policy_path: root.join(".harmony/capabilities/_ops/policy/deny-by-default.v2.yml"),
+        receipt_path: receipt_path.clone(),
+    };
+    let report = validate_receipt(&request).expect("receipt validate should run");
+    assert!(!report.valid);
+    assert!(report
+        .reason_codes
+        .contains(&"ACP_TELEMETRY_PROFILE_MISSING".to_string()));
+
+    let _ = fs::remove_file(receipt_path);
+}
+
+#[test]
+fn receipt_validate_fails_when_flag_metadata_invalid_for_flag_change() {
+    let root = repo_root();
+    let unique = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("system time should be after unix epoch")
+        .as_nanos();
+    let receipt_path =
+        std::env::temp_dir().join(format!("policy-engine-receipt-flag-metadata-{unique}.json"));
+
+    fs::write(
+        &receipt_path,
+        serde_json::to_vec(&json!({
+            "run_id":"run-flag-metadata-invalid",
+            "timestamp":"2026-02-19T00:00:00Z",
+            "actor":{"id":"agent.a","type":"agent"},
+            "profile":"operate",
+            "intent":"test",
+            "boundaries":"test",
+            "operation":{"class":"git.commit","target":{"material_side_effect":true,"telemetry_profile":"minimal","has_flags":true,"flag_metadata_valid":false}},
+            "phase":"promote",
+            "material_side_effect":true,
+            "telemetry_profile":"minimal",
+            "effective_acp":"ACP-1",
+            "decision":"ALLOW",
+            "reason_codes":[],
+            "evidence":[{"type":"diff","ref":"a","sha256":"h"},{"type":"flags.metadata","ref":"flags","sha256":"f"}],
+            "attestations":[],
+            "rollback_handle":"git:revert:abc",
+            "recovery_window":"P30D",
+            "budgets":{},
+            "counters":{}
+        }))
+        .expect("serialize receipt"),
+    )
+    .expect("write temp receipt");
+
+    let request = ReceiptValidateRequest {
+        policy_path: root.join(".harmony/capabilities/_ops/policy/deny-by-default.v2.yml"),
+        receipt_path: receipt_path.clone(),
+    };
+    let report = validate_receipt(&request).expect("receipt validate should run");
+    assert!(!report.valid);
+    assert!(report
+        .reason_codes
+        .contains(&"ACP_FLAG_METADATA_INVALID".to_string()));
+
+    let _ = fs::remove_file(receipt_path);
+}
+
+#[test]
 fn doctor_validates_repo_policy_contract() {
     let root = repo_root();
     let request = DoctorRequest {
@@ -536,7 +641,8 @@ fn temp_policy_path(prefix: &str) -> PathBuf {
         .duration_since(UNIX_EPOCH)
         .expect("clock should be monotonic")
         .as_nanos();
-    std::env::temp_dir().join(format!("harmony-policy-{prefix}-{nanos}.yml"))
+    let counter = TEMP_POLICY_COUNTER.fetch_add(1, Ordering::Relaxed);
+    std::env::temp_dir().join(format!("harmony-policy-{prefix}-{nanos}-{counter}.yml"))
 }
 
 fn fixture_policy_with_replacement(from: &str, to: &str) -> PathBuf {
@@ -590,10 +696,10 @@ fn acp2_complete_request() -> AcpRequest {
 fn acp3_complete_request() -> AcpRequest {
     let mut request = acp_request_base("fs.soft_delete");
     request.profile = "operate".to_string();
-    request
-        .operation
-        .target
-        .insert("path".to_string(), json!(".harmony/output/old-artifact.txt"));
+    request.operation.target.insert(
+        "path".to_string(),
+        json!(".harmony/output/old-artifact.txt"),
+    );
     request.reversibility = Some(AcpReversibilityProof {
         reversible: true,
         primitive: Some("fs.move_to_trash".to_string()),
@@ -702,8 +808,10 @@ fn acp_breaker_rollback_and_trip_killswitch_denies() {
 
 #[test]
 fn acp_breaker_invalid_action_fails_closed() {
-    let policy_path =
-        fixture_policy_with_replacement("action: stop_and_stage_only", "action: unsupported_action");
+    let policy_path = fixture_policy_with_replacement(
+        "action: stop_and_stage_only",
+        "action: unsupported_action",
+    );
     let mut request = acp_request_base("git.commit");
     request.profile = "refactor".to_string();
     request.counters = HashMap::from([
@@ -851,10 +959,10 @@ fn acp_owner_attestation_exhausted_escalates_when_configured() {
         .operation
         .target
         .insert("owner_attestation_retry".to_string(), json!(3));
-    request.operation.target.insert(
-        "owner_attestation_elapsed_seconds".to_string(),
-        json!(1200),
-    );
+    request
+        .operation
+        .target
+        .insert("owner_attestation_elapsed_seconds".to_string(), json!(1200));
 
     let decision = evaluate_acp_enforce(&fixture_path("policy.yml"), &request)
         .expect("acp enforce should evaluate");

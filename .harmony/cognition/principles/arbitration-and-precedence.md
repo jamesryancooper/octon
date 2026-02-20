@@ -1,6 +1,6 @@
 ---
 title: Arbitration and Precedence
-description: Conflict-resolution rules for principles so RA/ACP governance remains deterministic, fail-closed, and auditable.
+description: Single normative conflict-resolution contract for RA/ACP governance.
 pillar: Trust, Direction
 status: Active
 ---
@@ -9,31 +9,24 @@ status: Active
 
 > Resolve principle conflicts with deterministic, policy-bound tie-break rules.
 
-## Rules
+## Normative Rules (SSOT)
 
-1. Capability attempt questions are resolved only by Deny-by-Default policy outputs.
-2. Durable promotion/contraction questions are resolved only by ACP gate outcomes.
-3. Receipt-required evidence is canonical; PR evidence is a derived projection when a PR exists.
-4. `apply` for durable state is interpreted as `promote` unless explicitly read-only or stage-only.
-5. Owner attestation is never a standalone gate; missing attestation defaults to bounded `STAGE_ONLY` with reason code.
-6. Risk tier to ACP mapping must come from one policy table (`acp.risk_tier_mapping`) referenced by ACP and observability docs.
-7. Cross-principle disagreement without explicit mapping fails closed (`STAGE_ONLY` or `DENY`).
-8. Waivers are valid only if time-boxed, reason-coded, append-only, and receipt-linked.
-9. ACP-4 is blocked-by-default and out-of-band for routine autonomous runs.
-10. Principle reference-integrity failures must fail governance lint before merge.
+1. Capability-attempt authority is deny-by-default policy output only.
+2. Durable promotion/contraction/finalize authority is ACP gate output only.
+3. `apply` for durable state is interpreted as `promote` unless explicitly stage-only/read-only.
+4. Owner attestation is quorum input only; it is never standalone promotion authority.
+5. Waiver/exception behavior must use the canonical taxonomy in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md); unmapped overrides fail closed.
+6. Governance-trigger evidence/receipt enforcement is keyed off canonical predicate `material_side_effect` (aliases must normalize to this predicate).
+7. If principles disagree and no explicit mapping exists, fail closed with reason-coded `STAGE_ONLY` or `DENY`.
+8. Non-normative guidance cannot weaken fail-closed controls in policy.
+9. Normative arbitration text must remain in this document only; other principles may include informational summaries and links.
+10. Broken/missing canonical references in principles must fail governance lint before merge.
 
-## How to Use This Rule
+## Application Order
 
-- Identify the conflicting principles and classify whether the conflict is about capability attempts, durable promotion, or supporting controls.
-- Apply the rules above in order; higher-order rules win.
-- Record the outcome in append-only receipts/digests and include reason codes.
-
-## When Conflicts Arise
-
-1. If the question is "can the actor attempt this operation?", use deny-by-default.
-2. If the question is "can this staged change become durable now?", use ACP.
-3. If supporting principles disagree and no explicit mapping exists, fail closed.
-4. If uncertainty remains, emit reason-coded `STAGE_ONLY`/`DENY` and receipts.
+1. Determine whether the question is capability-attempt, durable promotion/contraction/finalize, or supporting governance semantics.
+2. Apply the corresponding authority rule above.
+3. If unresolved, apply fail-closed behavior and emit reason-coded receipts.
 
 ## Related Documentation
 
@@ -41,3 +34,4 @@ status: Active
 - [Deny by Default](./deny-by-default.md)
 - [Guardrails](./guardrails.md)
 - [No Silent Apply](./no-silent-apply.md)
+- [Waivers and Exceptions](./_meta/waivers-and-exceptions.md)

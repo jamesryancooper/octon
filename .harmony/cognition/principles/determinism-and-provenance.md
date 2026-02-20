@@ -27,6 +27,10 @@ For any materially relevant run, record:
 - decision identity (ACP decision outcome: `ALLOW`, `STAGE_ONLY`, `DENY`, `ESCALATE`)
 - evidence identity (trace/eval IDs, evidence bundle refs, receipt ID, rollback handle ref where applicable)
 
+Governance-trigger semantics for evidence/receipt enforcement are keyed on
+canonical predicate `material_side_effect` (see
+[RA/ACP Glossary](./_meta/ra-acp-glossary.md)).
+
 Bounded variance is valid only when policy-approved and receipted. Deterministic mode remains the default.
 
 ## Normative Boundary Matrix
@@ -122,6 +126,8 @@ result = client.generate(prompt, model="latest")
 Without provenance, failures are non-reproducible and compliance review becomes guesswork.
 
 ## Exceptions
+
+Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
 
 Exploratory local prompts may skip full records, but production-impacting outputs may not.
 
