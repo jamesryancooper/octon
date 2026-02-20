@@ -9,8 +9,8 @@ on:
       - '.harmony/assurance/governance/scores/**'
       - '.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh'
       - '.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh'
-      - '.harmony/runtime/crates/assurance_tools/**'
-      - '.harmony/runtime/crates/Cargo.toml'
+      - '.harmony/engine/runtime/crates/assurance_tools/**'
+      - '.harmony/engine/runtime/crates/Cargo.toml'
       - '.github/workflows/assurance-weight-gates.yml'
   push:
     branches:
@@ -22,8 +22,8 @@ on:
       - '.harmony/assurance/governance/scores/**'
       - '.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh'
       - '.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh'
-      - '.harmony/runtime/crates/assurance_tools/**'
-      - '.harmony/runtime/crates/Cargo.toml'
+      - '.harmony/engine/runtime/crates/assurance_tools/**'
+      - '.harmony/engine/runtime/crates/Cargo.toml'
       - '.github/workflows/assurance-weight-gates.yml'
   workflow_dispatch:
 
@@ -83,8 +83,8 @@ jobs:
       - name: Compute assurance engine scorecard
         run: |
           OUT_DIR="$RUNNER_TEMP/assurance-engine-scorecard"
-          cargo build --quiet --manifest-path .harmony/runtime/crates/Cargo.toml -p harmony_assurance_tools
-          cargo test --quiet --manifest-path .harmony/runtime/crates/Cargo.toml -p harmony_assurance_tools
+          cargo build --quiet --manifest-path .harmony/engine/runtime/crates/Cargo.toml -p harmony_assurance_tools
+          cargo test --quiet --manifest-path .harmony/engine/runtime/crates/Cargo.toml -p harmony_assurance_tools
           .harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh \
             --weights .harmony/assurance/governance/weights/weights.yml \
             --scores .harmony/assurance/governance/scores/scores.yml \

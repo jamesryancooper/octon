@@ -16,4 +16,4 @@
 
 - Produces deterministic `runId` derived from stable request fields.
 - Emits `result.steps[]` from manifest-declared step ids.
-- Persists run record to `.harmony/runtime/_ops/state/runs/flow/<runId>.json`.
+- Persists run record to `.harmony/engine/_ops/state/runs/flow/<runId>.json`.

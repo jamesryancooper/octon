@@ -4,14 +4,15 @@
 set -o pipefail
 
 HARMONY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../" && pwd)"
-RUNTIME_RUN="$HARMONY_DIR/runtime/run"
+RUNTIME_RUN="$HARMONY_DIR/engine/runtime/run"
+export HARMONY_RUNTIME_PREFER_SOURCE="${HARMONY_RUNTIME_PREFER_SOURCE:-1}"
 FIXTURE_BUILDER="$HARMONY_DIR/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh"
 DEFAULT_BASELINE_FILE="$HARMONY_DIR/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv"
 
 profile="ci"
 baseline_file="$DEFAULT_BASELINE_FILE"
 fixture_root=""
-state_root=".harmony/runtime/_ops/state/snapshots-perf"
+state_root=".harmony/engine/_ops/state/snapshots-perf"
 raw_out_path=""
 summary_out_path=""
 report_path=""

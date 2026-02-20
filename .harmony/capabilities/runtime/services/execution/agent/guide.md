@@ -6,8 +6,8 @@ identifiers, and resumable execution checkpoints.
 ## Responsibilities
 
 - Execute plan runs in native harness mode.
-- Persist checkpoints under `.harmony/runtime/_ops/state/agent/checkpoints/`.
-- Persist run records under `.harmony/runtime/_ops/state/agent/runs/`.
+- Persist checkpoints under `.harmony/engine/_ops/state/agent/checkpoints/`.
+- Persist run records under `.harmony/engine/_ops/state/agent/runs/`.
 - Support `resume=true` with checkpoint restoration.
 
 ## Core Guarantees

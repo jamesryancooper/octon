@@ -5,8 +5,12 @@ set -o pipefail
 
 HARMONY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../" && pwd)"
 REPO_ROOT="$(cd "$HARMONY_DIR/.." && pwd)"
-RUNTIME_RUN="$HARMONY_DIR/runtime/run"
-STATE_DIR=".harmony/runtime/_ops/state/snapshots"
+RUNTIME_RUN="$HARMONY_DIR/engine/runtime/run"
+export HARMONY_RUNTIME_PREFER_SOURCE="${HARMONY_RUNTIME_PREFER_SOURCE:-1}"
+STATE_DIR=".harmony/engine/_ops/state/snapshots"
+SNAPSHOT_ROOT=".harmony/capabilities/runtime/services/interfaces"
+TARGET_NODE="file:.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/SERVICE.md"
+TARGET_DIR_NODE="dir:.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot"
 HAS_RG=false
 
 if command -v rg >/dev/null 2>&1; then
@@ -69,7 +73,7 @@ run_op() {
   "$RUNTIME_RUN" tool "$service" "$op" --json "$payload"
 }
 
-BUILD_OUT="$(run_op snapshot.build '{"root":".","state_dir":".harmony/runtime/_ops/state/snapshots","set_current":true}')"
+BUILD_OUT="$(run_op snapshot.build '{"root":".harmony/capabilities/runtime/services/interfaces","state_dir":".harmony/engine/_ops/state/snapshots","set_current":true}')"
 assert_contains "$BUILD_OUT" '"snapshot_id"[[:space:]]*:[[:space:]]*"snap-[a-f0-9]{8,64}"' "snapshot.build missing valid snapshot_id"
 SNAPSHOT_ID="$(extract_json_string_field "$BUILD_OUT" "snapshot_id")"
 if [[ -z "$SNAPSHOT_ID" ]]; then
@@ -84,23 +88,23 @@ assert_contains "$DIFF_OUT" '"added"[[:space:]]*:[[:space:]]*0' "snapshot.diff e
 assert_contains "$DIFF_OUT" '"removed"[[:space:]]*:[[:space:]]*0' "snapshot.diff expected removed=0 for same snapshot"
 assert_contains "$DIFF_OUT" '"changed"[[:space:]]*:[[:space:]]*0' "snapshot.diff expected changed=0 for same snapshot"
 
-GET_NODE_IN="$(printf '{"snapshot_id":"%s","node_id":"file:.harmony/START.md","state_dir":"%s"}' "$SNAPSHOT_ID" "$STATE_DIR")"
+GET_NODE_IN="$(printf '{"snapshot_id":"%s","node_id":"%s","state_dir":"%s"}' "$SNAPSHOT_ID" "$TARGET_NODE" "$STATE_DIR")"
 GET_NODE_OUT="$(run_op kg.get-node "$GET_NODE_IN")"
-assert_contains "$GET_NODE_OUT" '"node_id"[[:space:]]*:[[:space:]]*"file:.harmony/START.md"' "kg.get-node missing expected node"
+assert_contains "$GET_NODE_OUT" '"node_id"[[:space:]]*:[[:space:]]*"file:.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/SERVICE.md"' "kg.get-node missing expected node"
 
 DISCOVER_START_IN="$(printf '{"snapshot_id":"%s","query":"harmony","limit":6,"content_scan_limit":80,"max_op_ms":5000,"state_dir":"%s"}' "$SNAPSHOT_ID" "$STATE_DIR")"
 DISCOVER_START_OUT="$(run_op discover.start "$DISCOVER_START_IN")"
 assert_contains "$DISCOVER_START_OUT" '"frontier_node_ids"[[:space:]]*:' "discover.start missing frontier results"
 
-DISCOVER_EXPAND_IN="$(printf '{"snapshot_id":"%s","node_ids":["dir:.harmony"],"limit":64,"state_dir":"%s"}' "$SNAPSHOT_ID" "$STATE_DIR")"
+DISCOVER_EXPAND_IN="$(printf '{"snapshot_id":"%s","node_ids":["%s"],"limit":64,"state_dir":"%s"}' "$SNAPSHOT_ID" "$TARGET_DIR_NODE" "$STATE_DIR")"
 DISCOVER_EXPAND_OUT="$(run_op discover.expand "$DISCOVER_EXPAND_IN")"
 assert_contains "$DISCOVER_EXPAND_OUT" '"next_node_ids"[[:space:]]*:' "discover.expand missing next_node_ids"
 
-DISCOVER_EXPLAIN_IN="$(printf '{"snapshot_id":"%s","candidate_node_ids":["file:.harmony/START.md"],"query":"harmony","state_dir":"%s"}' "$SNAPSHOT_ID" "$STATE_DIR")"
+DISCOVER_EXPLAIN_IN="$(printf '{"snapshot_id":"%s","candidate_node_ids":["%s"],"query":"harmony","state_dir":"%s"}' "$SNAPSHOT_ID" "$TARGET_NODE" "$STATE_DIR")"
 DISCOVER_EXPLAIN_OUT="$(run_op discover.explain "$DISCOVER_EXPLAIN_IN")"
 assert_contains "$DISCOVER_EXPLAIN_OUT" '"input_fingerprint"[[:space:]]*:' "discover.explain missing provenance.input_fingerprint"
 
-DISCOVER_RESOLVE_IN="$(printf '{"snapshot_id":"%s","node_id":"file:.harmony/START.md","state_dir":"%s"}' "$SNAPSHOT_ID" "$STATE_DIR")"
+DISCOVER_RESOLVE_IN="$(printf '{"snapshot_id":"%s","node_id":"%s","state_dir":"%s"}' "$SNAPSHOT_ID" "$TARGET_NODE" "$STATE_DIR")"
 DISCOVER_RESOLVE_OUT="$(run_op discover.resolve "$DISCOVER_RESOLVE_IN")"
 assert_contains "$DISCOVER_RESOLVE_OUT" '"exists"[[:space:]]*:[[:space:]]*(true|false)' "discover.resolve missing exists flag"
 
@@ -136,7 +140,7 @@ assert_contains "$BADFMT_OUT" '"code"[[:space:]]*:[[:space:]]*"ERR_FILESYSTEM_IN
 
 NOW_MS="$(($(date +%s) * 1000))"
 printf 'created_ms=%s\ncreated_at=%s\n' "$NOW_MS" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$LOCK_FILE"
-LOCKED_OUT="$(run_op snapshot.build '{"root":".","state_dir":".harmony/runtime/_ops/state/snapshots","set_current":false}')"
+LOCKED_OUT="$(run_op snapshot.build '{"root":".harmony/capabilities/runtime/services/interfaces","state_dir":".harmony/engine/_ops/state/snapshots","set_current":false}')"
 assert_contains "$LOCKED_OUT" '"code"[[:space:]]*:[[:space:]]*"ERR_FILESYSTEM_INTERFACES_LOCKED"' "pre-existing build lock should return ERR_FILESYSTEM_INTERFACES_LOCKED"
 rm -f "$LOCK_FILE"
 
@@ -144,7 +148,7 @@ mkdir -p "$STAGING_DIR"
 printf 'staging-junk\n' > "$STAGING_DIR/junk.txt"
 mkdir -p "$INCOMPLETE_DIR"
 printf 'started_at=%s\n' "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$INCOMPLETE_DIR/.building"
-CLEANUP_OUT="$(run_op snapshot.build '{"root":".","state_dir":".harmony/runtime/_ops/state/snapshots","set_current":false}')"
+CLEANUP_OUT="$(run_op snapshot.build '{"root":".harmony/capabilities/runtime/services/interfaces","state_dir":".harmony/engine/_ops/state/snapshots","set_current":false}')"
 assert_contains "$CLEANUP_OUT" '"ok"[[:space:]]*:[[:space:]]*true' "snapshot.build should succeed while cleaning stale transients"
 if [[ -d "$STAGING_DIR" ]]; then
   echo "ERROR: stale staging directory was not cleaned: $STAGING_DIR"
@@ -155,10 +159,10 @@ if [[ -d "$INCOMPLETE_DIR" ]]; then
   exit 1
 fi
 
-LIMIT_OUT="$(run_op snapshot.build '{"root":".","state_dir":".harmony/runtime/_ops/state/snapshots","set_current":false,"max_files":1}')"
+LIMIT_OUT="$(run_op snapshot.build '{"root":".harmony/capabilities/runtime/services/interfaces","state_dir":".harmony/engine/_ops/state/snapshots","set_current":false,"max_files":1}')"
 assert_contains "$LIMIT_OUT" '"code"[[:space:]]*:[[:space:]]*"ERR_FILESYSTEM_INTERFACES_LIMIT_EXCEEDED"' "snapshot.build max_files cap should trigger ERR_FILESYSTEM_INTERFACES_LIMIT_EXCEEDED"
 
-WATCH_OUT="$(run_op watch.poll '{"root":".","state_key":"filesystem-watch:integration","max_events":30,"max_files":50000}')"
+WATCH_OUT="$(run_op watch.poll '{"root":".harmony/capabilities/runtime/services/interfaces","state_key":"filesystem-watch:integration","max_events":30,"max_files":100000}')"
 assert_contains "$WATCH_OUT" '"cursor"[[:space:]]*:[[:space:]]*"watch-[a-f0-9]{16}"' "watch.poll missing deterministic cursor"
 assert_contains "$WATCH_OUT" '"summary"[[:space:]]*:' "watch.poll missing summary payload"
 

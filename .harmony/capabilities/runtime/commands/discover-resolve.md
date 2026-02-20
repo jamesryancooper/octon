@@ -10,6 +10,6 @@ argument-hint: "--node-id <node-id>"
 Run `discover.resolve` through the filesystem-discovery query plane.
 
 ```bash
-.harmony/runtime/run tool interfaces/filesystem-discovery discover.resolve --json \
+.harmony/engine/runtime/run tool interfaces/filesystem-discovery discover.resolve --json \
   '{"node_id":"file:.harmony/START.md"}'
 ```

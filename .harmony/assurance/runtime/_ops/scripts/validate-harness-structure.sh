@@ -68,25 +68,43 @@ check_subsystem_baseline() {
   require_file "$root/_meta/architecture/README.md"
 }
 
-check_runtime_baseline() {
-  local root="$HARMONY_DIR/runtime"
+check_engine_baseline() {
+  local root="$HARMONY_DIR/engine"
 
   require_dir "$root"
   require_file "$root/README.md"
   check_readme_orientation "$root/README.md"
-  require_file "$root/run"
-  require_file "$root/run.cmd"
+
+  require_dir "$root/runtime"
+  require_file "$root/runtime/README.md"
+  check_readme_orientation "$root/runtime/README.md"
+  require_file "$root/runtime/run"
+  require_file "$root/runtime/run.cmd"
+  require_dir "$root/runtime/config"
+  require_dir "$root/runtime/crates"
+  require_dir "$root/runtime/spec"
+  require_dir "$root/runtime/wit"
 
   require_dir "$root/_meta"
+  require_file "$root/_meta/architecture/README.md"
   require_file "$root/_meta/evidence/README.md"
   require_dir "$root/_ops"
   require_dir "$root/_ops/bin"
   require_dir "$root/_ops/state"
 
-  require_dir "$root/config"
-  require_dir "$root/crates"
-  require_dir "$root/spec"
-  require_dir "$root/wit"
+  require_dir "$root/governance"
+  require_file "$root/governance/README.md"
+  check_readme_orientation "$root/governance/README.md"
+  require_file "$root/governance/protocol-versioning.md"
+  require_file "$root/governance/compatibility-policy.md"
+  require_file "$root/governance/release-gates.md"
+
+  require_dir "$root/practices"
+  require_file "$root/practices/README.md"
+  check_readme_orientation "$root/practices/README.md"
+  require_file "$root/practices/release-runbook.md"
+  require_file "$root/practices/incident-operations.md"
+  require_file "$root/practices/local-dev-validation.md"
 }
 
 check_meta_namespace_layout() {
@@ -312,6 +330,23 @@ check_deprecated_scaffolding_paths() {
   done
 }
 
+check_deprecated_engine_paths() {
+  local deprecated
+  deprecated=(
+    "$HARMONY_DIR/runtime"
+  )
+
+  local path rel
+  for path in "${deprecated[@]}"; do
+    rel="${path#$ROOT_DIR/}"
+    if [[ -e "$path" ]]; then
+      fail "deprecated engine path exists: $rel"
+    else
+      pass "deprecated engine path removed: $rel"
+    fi
+  done
+}
+
 check_alignment_guardrail() {
   local script="$SCRIPT_DIR/validate-audit-subsystem-health-alignment.sh"
   if [[ ! -f "$script" ]]; then
@@ -335,10 +370,11 @@ main() {
     check_subsystem_baseline "$subsystem"
   done
 
-  check_runtime_baseline
+  check_engine_baseline
   check_meta_namespace_layout
   check_discovery_contracts
   check_expected_internals
+  check_deprecated_engine_paths
   check_deprecated_orchestration_paths
   check_deprecated_capabilities_paths
   check_deprecated_assurance_paths

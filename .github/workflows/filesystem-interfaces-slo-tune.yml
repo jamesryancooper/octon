@@ -73,9 +73,9 @@ jobs:
 
       - name: Validate tuned budgets
         run: |
-          .harmony/runtime/run service build interfaces/filesystem-snapshot
-          .harmony/runtime/run service build interfaces/filesystem-discovery
-          .harmony/runtime/run service build interfaces/filesystem-watch
+          .harmony/engine/runtime/run service build interfaces/filesystem-snapshot
+          .harmony/engine/runtime/run service build interfaces/filesystem-discovery
+          .harmony/engine/runtime/run service build interfaces/filesystem-watch
           FILESYSTEM_INTERFACES_VALIDATE_SLO=1 bash .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
 
       - name: Create pull request

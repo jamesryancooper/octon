@@ -39,6 +39,7 @@ Subsystem expansion specs:
 - `agency/_meta/architecture/specification.md`
 - `capabilities/_meta/architecture/specification.md`
 - `orchestration/_meta/architecture/specification.md`
+- `engine/_meta/architecture/README.md`
 
 ---
 
@@ -111,13 +112,18 @@ Subsystem expansion specs:
 ├── output/             ← Reports, drafts, artifacts
 │   └── _meta/architecture/   ← Output subsystem specification
 │
-└── runtime/            ← Executable runtime layer (kernel + launchers)
-    ├── _meta/evidence/ ← Runtime verification artifacts and audit evidence
-    ├── _ops/bin/       ← Runtime-local prebuilt binaries
-    ├── _ops/state/     ← Runtime-local mutable state (traces, kv, caches)
-    ├── crates/         ← Runtime implementation crates
-    ├── config/         ← Runtime policy and cache config
-    └── spec/           ← Runtime contract/schema bundle
+└── engine/             ← Executable engine domain
+    ├── runtime/        ← Executable runtime layer (kernel + launchers)
+    │   ├── run         ← POSIX launcher
+    │   ├── run.cmd     ← Windows launcher
+    │   ├── crates/     ← Runtime implementation crates
+    │   ├── config/     ← Runtime policy and cache config
+    │   ├── spec/       ← Runtime contract/schema bundle
+    │   └── wit/        ← Canonical runtime WIT contracts
+    ├── governance/     ← Normative runtime contracts/policies
+    ├── practices/      ← Engine operating standards/runbooks
+    ├── _ops/           ← Runtime-local prebuilt binaries and mutable state
+    └── _meta/          ← Architecture and verification evidence
 ```
 
 ## Naming Convention
@@ -156,8 +162,8 @@ Within these namespaces, common subpaths are:
 From repo root:
 
 ```bash
-.harmony/runtime/run --help
-.harmony/runtime/run studio
+.harmony/engine/runtime/run --help
+.harmony/engine/runtime/run studio
 ```
 
 Use `studio` when you want a visual workflow graph + inspector + safe staged

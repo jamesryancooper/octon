@@ -8,6 +8,13 @@
 - Mission operation standards and lifecycle discipline.
 - Operator guidance that is not itself a runtime contract.
 
+## Standards
+
+- `workflow-authoring-standards.md` - required structure and quality rules for
+  workflow authoring.
+- `mission-lifecycle-standards.md` - operating discipline for mission creation,
+  execution, completion, and archiving.
+
 ## Boundary
 
 Practice guidance belongs here.

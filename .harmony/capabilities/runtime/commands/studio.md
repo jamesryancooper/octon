@@ -27,13 +27,13 @@ Open the Harmony Studio desktop app from a project containing `.harmony/`.
 From project root:
 
 ```bash
-.harmony/runtime/run studio
+.harmony/engine/runtime/run studio
 ```
 
 or, from inside `.harmony/`:
 
 ```bash
-./runtime/run studio
+./engine/runtime/run studio
 ```
 
 When `studio` is invoked, the launcher uses source mode to avoid stale prebuilt binary drift.
@@ -46,6 +46,6 @@ When `studio` is invoked, the launcher uses source mode to avoid stale prebuilt 
 
 ## References
 
-- **Runtime launcher:** `.harmony/runtime/run`
-- **Kernel studio command:** `.harmony/runtime/crates/kernel/src/main.rs`
-- **Studio crate:** `.harmony/runtime/crates/studio/`
+- **Runtime launcher:** `.harmony/engine/runtime/run`
+- **Kernel studio command:** `.harmony/engine/runtime/crates/kernel/src/main.rs`
+- **Studio crate:** `.harmony/engine/runtime/crates/studio/`

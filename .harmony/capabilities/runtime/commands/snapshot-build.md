@@ -20,6 +20,6 @@ Build deterministic snapshot artifacts via the filesystem-snapshot writer plane.
 ## Implementation
 
 ```bash
-.harmony/runtime/run tool interfaces/filesystem-snapshot snapshot.build --json \
-  '{"root":".","state_dir":".harmony/runtime/_ops/state/snapshots","set_current":true}'
+.harmony/engine/runtime/run tool interfaces/filesystem-snapshot snapshot.build --json \
+  '{"root":".","state_dir":".harmony/engine/_ops/state/snapshots","set_current":true}'
 ```

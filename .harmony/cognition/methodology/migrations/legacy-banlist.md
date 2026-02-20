@@ -42,6 +42,10 @@ Each entry should be specific enough to avoid false positives.
 - `scaffolding/prompts/README.md` - legacy root scaffolding prompts path - removed by migration `2026-02-20-scaffolding-bounded-surfaces`
 - `scaffolding/examples/create-harness-flow.md` - legacy root scaffolding examples path - removed by migration `2026-02-20-scaffolding-bounded-surfaces`
 - `scaffolding/patterns/api-design-guidelines.md` - legacy root scaffolding governance pattern path - removed by migration `2026-02-20-scaffolding-bounded-surfaces`
+- `runtime/run` - legacy top-level runtime launcher entrypoint - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `runtime/run.cmd` - legacy top-level runtime Windows launcher entrypoint - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `runtime/config/policy.yml` - legacy top-level runtime config path - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `runtime/crates/Cargo.toml` - legacy top-level runtime workspace manifest path - removed by migration `2026-02-20-engine-bounded-surfaces`
 
 ## Banned Paths
 
@@ -78,7 +82,16 @@ Each entry should be specific enough to avoid false positives.
 - `/.harmony/scaffolding/prompts/` - replaced by `/.harmony/scaffolding/practices/prompts/` - removed by migration `2026-02-20-scaffolding-bounded-surfaces`
 - `/.harmony/scaffolding/examples/` - replaced by `/.harmony/scaffolding/practices/examples/` - removed by migration `2026-02-20-scaffolding-bounded-surfaces`
 - `/.harmony/scaffolding/patterns/` - replaced by `/.harmony/scaffolding/governance/patterns/` - removed by migration `2026-02-20-scaffolding-bounded-surfaces`
+- `/.harmony/runtime/` - replaced by `/.harmony/engine/runtime/` plus `/.harmony/engine/governance/` and `/.harmony/engine/practices/` - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `/.harmony/runtime/run` - replaced by `/.harmony/engine/runtime/run` - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `/.harmony/runtime/run.cmd` - replaced by `/.harmony/engine/runtime/run.cmd` - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `/.harmony/runtime/config/` - replaced by `/.harmony/engine/runtime/config/` - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `/.harmony/runtime/crates/` - replaced by `/.harmony/engine/runtime/crates/` - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `/.harmony/runtime/spec/` - replaced by `/.harmony/engine/runtime/spec/` - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `/.harmony/runtime/wit/` - replaced by `/.harmony/engine/runtime/wit/` - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `/.harmony/runtime/_ops/` - replaced by `/.harmony/engine/_ops/` - removed by migration `2026-02-20-engine-bounded-surfaces`
+- `/.harmony/runtime/_meta/` - replaced by `/.harmony/engine/_meta/` - removed by migration `2026-02-20-engine-bounded-surfaces`
 
 ## Banned Config Keys or Env Vars
 
-- `(none currently)` - no legacy config or env keys removed in migrations `2026-02-20-agency-bounded-surfaces`, `2026-02-20-orchestration-bounded-surfaces`, `2026-02-20-capabilities-bounded-surfaces`, `2026-02-20-assurance-bounded-surfaces`, or `2026-02-20-scaffolding-bounded-surfaces`
+- `(none currently)` - no legacy config or env keys removed in migrations `2026-02-20-agency-bounded-surfaces`, `2026-02-20-orchestration-bounded-surfaces`, `2026-02-20-capabilities-bounded-surfaces`, `2026-02-20-assurance-bounded-surfaces`, `2026-02-20-scaffolding-bounded-surfaces`, or `2026-02-20-engine-bounded-surfaces`

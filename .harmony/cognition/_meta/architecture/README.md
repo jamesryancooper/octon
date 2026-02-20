@@ -46,6 +46,7 @@ Use subsystem specs for expanded contract details:
 - `/.harmony/agency/_meta/architecture/specification.md`
 - `/.harmony/capabilities/_meta/architecture/specification.md`
 - `/.harmony/orchestration/_meta/architecture/specification.md`
+- `/.harmony/engine/_meta/architecture/README.md`
 
 Cross-subsystem structure contract:
 
@@ -252,11 +253,12 @@ Agents struggle when they "arrive with no memory of what came before." A `.harmo
 │   ├── drafts/              # Draft documents
 │   └── artifacts/           # Other generated output
 │
-└── runtime/                 # Executable runtime layer (kernel + launchers)
+└── engine/                  # Executable engine domain
+    ├── runtime/             # Runtime implementation + launchers
+    ├── governance/          # Normative runtime contracts
+    ├── practices/           # Engine operating standards
     ├── _ops/state/          # Runtime-local mutable state
-    ├── crates/              # Runtime implementation crates
-    ├── config/              # Runtime policy and cache config
-    └── spec/                # Runtime contract/schema bundle
+    └── _meta/evidence/      # Runtime verification and audit evidence
 ```
 
 ### Structure Categorization
@@ -265,7 +267,7 @@ The full tree above is the **canonical superset**. In practice, harness profiles
 
 | Profile | Baseline | Notes |
 |---------|----------|-------|
-| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `assurance/`, `scaffolding/practices/prompts/`, `orchestration/runtime/workflows/`, `orchestration/governance/`, `orchestration/practices/`, `capabilities/runtime/commands/`, `cognition/context/`, `runtime/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
+| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `assurance/`, `scaffolding/practices/prompts/`, `orchestration/runtime/workflows/`, `orchestration/governance/`, `orchestration/practices/`, `capabilities/runtime/commands/`, `cognition/context/`, `engine/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
 | **Descendant harness (localized)** | `START.md`, `scope.md`, plus at least one active subsystem (`cognition/`, `capabilities/`, `orchestration/`, `continuity/`, or `assurance/`) | Descendants are intentionally minimal. They include only subsystems needed for that subtree |
 
 | Subsystem | Root Harness | Descendant Harness |

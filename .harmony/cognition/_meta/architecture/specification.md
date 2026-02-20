@@ -48,7 +48,7 @@ If this file conflicts with `/.harmony/scope.md` or `/.harmony/conventions.md`, 
 
 ### HARMONY-SPEC-001: Domain-Organized Harness Root
 
-The root harness MUST remain domain-organized under `/.harmony/` with explicit top-level domains (`agency`, `capabilities`, `cognition`, `continuity`, `orchestration`, `assurance`, `scaffolding`, `ideation`, `output`, `runtime`).
+The root harness MUST remain domain-organized under `/.harmony/` with explicit top-level domains (`agency`, `capabilities`, `cognition`, `continuity`, `orchestration`, `assurance`, `scaffolding`, `engine`, `ideation`, `output`).
 
 Expands in:
 
@@ -191,6 +191,10 @@ Subsystems with executable actors or runtime-routing artifacts SHOULD separate:
 - governance contracts,
 - operating practices.
 
+This separation SHOULD be adopted only when all three concern classes are
+materially present and independently owned in the subsystem; domains that
+naturally have fewer concern classes SHOULD NOT be force-fit.
+
 When adopted, each concern MUST have one canonical surface and legacy parallel surfaces MUST be removed by clean-break migration.
 
 Expands in:
@@ -200,6 +204,7 @@ Expands in:
 - [Capabilities Specification](/.harmony/capabilities/_meta/architecture/specification.md)
 - [Orchestration Subsystem Specification](/.harmony/orchestration/_meta/architecture/specification.md)
 - [Assurance README](/.harmony/assurance/README.md)
+- [Engine README](/.harmony/engine/README.md)
 
 ### HARMONY-SPEC-101: Agency Contract Boundary
 
@@ -227,6 +232,17 @@ Expands in:
 
 - [Orchestration Specification](/.harmony/orchestration/_meta/architecture/specification.md)
 - [Orchestration README](/.harmony/orchestration/README.md)
+
+### HARMONY-SPEC-401: Engine Contract Boundary
+
+`/.harmony/engine/**` MUST preserve bounded engine surfaces (`runtime/`,
+`governance/`, `practices/`) with executable authority restricted to
+`engine/runtime/`.
+
+Expands in:
+
+- [Engine README](/.harmony/engine/README.md)
+- [Engine Architecture Contract](/.harmony/engine/_meta/architecture/README.md)
 
 ### HARMONY-SPEC-501: Continuity Contract Boundary
 
@@ -275,6 +291,7 @@ Expands in:
 | Agency | `/.harmony/agency/_meta/architecture/specification.md` |
 | Capabilities | `/.harmony/capabilities/_meta/architecture/specification.md` |
 | Orchestration | `/.harmony/orchestration/_meta/architecture/specification.md` |
+| Engine | `/.harmony/engine/_meta/architecture/README.md` |
 | Cognition (cross-cutting) | `/.harmony/cognition/_meta/architecture/specification.md` (this file) |
 | Continuity | `/.harmony/continuity/_meta/architecture/README.md` |
 | Assurance | `/.harmony/assurance/_meta/architecture/README.md` |

@@ -19,6 +19,8 @@ Read in this order:
 2. `runtime/workflows/registry.yml` for workflow metadata and dependencies (Tier 2)
 3. `runtime/missions/registry.yml` for active mission registry
 4. `governance/incidents.md` for incident response governance
+5. `practices/workflow-authoring-standards.md` and
+   `practices/mission-lifecycle-standards.md` for operating discipline
 
 ## Interaction Model
 

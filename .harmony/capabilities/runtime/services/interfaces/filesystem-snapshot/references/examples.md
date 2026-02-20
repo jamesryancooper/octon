@@ -3,13 +3,13 @@
 ## Build and select the active snapshot
 
 ```bash
-bash .harmony/runtime/run tool interfaces/filesystem-snapshot snapshot.build \
+bash .harmony/engine/runtime/run tool interfaces/filesystem-snapshot snapshot.build \
   --json '{"root":".","set_current":true}'
 ```
 
 ## Read a bounded file slice
 
 ```bash
-bash .harmony/runtime/run tool interfaces/filesystem-snapshot fs.read \
+bash .harmony/engine/runtime/run tool interfaces/filesystem-snapshot fs.read \
   --json '{"path":"AGENTS.md","max_bytes":512}'
 ```

@@ -53,6 +53,7 @@ orientation.
 - **Continuity:** `.harmony/continuity/` (progress log, tasks, next steps)
 - **Ideation:** `.harmony/ideation/` (scratchpad, projects — human-led)
 - **Output:** `.harmony/output/` (reports, drafts, artifacts)
+- **Engine:** `.harmony/engine/` (runtime authority, governance contracts, operating practices)
 
 ## Skills
 

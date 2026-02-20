@@ -6,13 +6,13 @@ on:
       - '.harmony/capabilities/_ops/**'
       - '.harmony/capabilities/runtime/services/**'
       - '.harmony/capabilities/runtime/skills/**'
-      - '.harmony/runtime/crates/policy_engine/**'
+      - '.harmony/engine/runtime/crates/policy_engine/**'
   push:
     paths:
       - '.harmony/capabilities/_ops/**'
       - '.harmony/capabilities/runtime/services/**'
       - '.harmony/capabilities/runtime/skills/**'
-      - '.harmony/runtime/crates/policy_engine/**'
+      - '.harmony/engine/runtime/crates/policy_engine/**'
 
 permissions:
   contents: read

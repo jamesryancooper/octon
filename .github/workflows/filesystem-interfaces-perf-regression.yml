@@ -6,7 +6,7 @@ on:
       - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
       - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
       - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
-      - '.harmony/runtime/**'
+      - '.harmony/engine/**'
       - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
       - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
       - '.github/workflows/filesystem-interfaces-perf-regression.yml'
@@ -15,7 +15,7 @@ on:
       - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
       - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
       - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
-      - '.harmony/runtime/**'
+      - '.harmony/engine/**'
       - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
       - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
       - '.github/workflows/filesystem-interfaces-perf-regression.yml'
@@ -40,9 +40,9 @@ jobs:
 
       - name: Build split filesystem wasm services from source
         run: |
-          .harmony/runtime/run service build interfaces/filesystem-snapshot
-          .harmony/runtime/run service build interfaces/filesystem-discovery
-          .harmony/runtime/run service build interfaces/filesystem-watch
+          .harmony/engine/runtime/run service build interfaces/filesystem-snapshot
+          .harmony/engine/runtime/run service build interfaces/filesystem-discovery
+          .harmony/engine/runtime/run service build interfaces/filesystem-watch
 
       - name: Run cold/warm perf regression gate
         run: |

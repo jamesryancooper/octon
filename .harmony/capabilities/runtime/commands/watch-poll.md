@@ -19,6 +19,6 @@ Run `watch.poll` through the filesystem-watch service.
 ## Implementation
 
 ```bash
-.harmony/runtime/run tool interfaces/filesystem-watch watch.poll --json \
+.harmony/engine/runtime/run tool interfaces/filesystem-watch watch.poll --json \
   '{"root":".","state_key":"filesystem-watch:default","max_events":200,"max_files":50000}'
 ```

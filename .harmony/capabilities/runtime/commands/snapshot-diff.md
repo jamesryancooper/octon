@@ -18,6 +18,6 @@ Compare two snapshots and emit added/removed/changed paths.
 ## Implementation
 
 ```bash
-.harmony/runtime/run tool interfaces/filesystem-snapshot snapshot.diff --json \
-  '{"base":"snap-aaaa","head":"snap-bbbb","state_dir":".harmony/runtime/_ops/state/snapshots"}'
+.harmony/engine/runtime/run tool interfaces/filesystem-snapshot snapshot.diff --json \
+  '{"base":"snap-aaaa","head":"snap-bbbb","state_dir":".harmony/engine/_ops/state/snapshots"}'
 ```

@@ -11,7 +11,7 @@ source "$SCRIPT_DIR/../../../_ops/scripts/enforce-deny-by-default.sh"
 harmony_enforce_service_policy "agent" "$0" "$@"
 
 
-STATE_ROOT=".harmony/runtime/_ops/state/agent"
+STATE_ROOT=".harmony/engine/_ops/state/agent"
 CHECKPOINT_DIR="$STATE_ROOT/checkpoints"
 RUNS_DIR="$STATE_ROOT/runs"
 CONTINUITY_RUNS_DIR=".harmony/continuity/runs"

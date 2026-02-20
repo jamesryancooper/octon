@@ -612,7 +612,7 @@ services:
       required: true
       key_from: [command, snapshotId, payloadHash]
     impl:
-      entrypoint: runtime/run tool interfaces/filesystem-snapshot
+      entrypoint: engine/runtime/run tool interfaces/filesystem-snapshot
 
   filesystem-discovery:
     version: "0.1.0"
@@ -663,7 +663,7 @@ services:
       required: true
       key_from: [command, snapshotId, payloadHash]
     impl:
-      entrypoint: runtime/run tool interfaces/filesystem-discovery
+      entrypoint: engine/runtime/run tool interfaces/filesystem-discovery
 
   filesystem-watch:
     version: "0.1.0"
@@ -700,4 +700,4 @@ services:
       required: true
       key_from: [root, stateKey, payloadHash]
     impl:
-      entrypoint: runtime/run tool interfaces/filesystem-watch
+      entrypoint: engine/runtime/run tool interfaces/filesystem-watch

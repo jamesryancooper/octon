@@ -7,7 +7,7 @@ mod bindings;
 use bindings::Guest;
 
 const DEFAULT_HTTP_TIMEOUT_MS: u64 = 30_000;
-const FLOW_RUNS_DIR: &str = ".harmony/runtime/_ops/state/runs/flow";
+const FLOW_RUNS_DIR: &str = ".harmony/engine/_ops/state/runs/flow";
 const FLOW_ADAPTER_NATIVE: &str = "native-harmony";
 const FLOW_ADAPTER_LANGGRAPH_HTTP: &str = "langgraph-http";
 

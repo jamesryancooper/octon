@@ -37,4 +37,4 @@ The same order applies to scorecard computation and gate enforcement.
 
 - Local/CI computation: `.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh`
 - Local/CI gating: `.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh`
-- Runtime tool: `.harmony/runtime/crates/assurance_tools/src/main.rs`
+- Runtime tool: `.harmony/engine/runtime/crates/assurance_tools/src/main.rs`

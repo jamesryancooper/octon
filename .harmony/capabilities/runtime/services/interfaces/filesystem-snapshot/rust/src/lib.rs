@@ -14,8 +14,8 @@ const CONTRACT_VERSION: &str = "1.0.0";
 const SNAPSHOT_FORMAT_VERSION: u64 = 2;
 const SNAPSHOT_MIN_SUPPORTED_FORMAT_VERSION: u64 = 1;
 const SNAPSHOT_MAX_SUPPORTED_FORMAT_VERSION: u64 = SNAPSHOT_FORMAT_VERSION;
-const DEFAULT_STATE_DIR: &str = ".harmony/runtime/_ops/state/snapshots";
-const RUNTIME_STATE_ROOT: &str = ".harmony/runtime/_ops/state";
+const DEFAULT_STATE_DIR: &str = ".harmony/engine/_ops/state/snapshots";
+const RUNTIME_STATE_ROOT: &str = ".harmony/engine/_ops/state";
 const SERVICES_BUILD_STATE_ROOT: &str = ".harmony/capabilities/runtime/services/_ops/state/build";
 const HASH_CACHE_FILE: &str = "hash-cache.jsonl";
 const SEARCH_INDEX_FILE: &str = "search-index.jsonl";
@@ -2782,15 +2782,15 @@ mod tests {
     #[test]
     fn should_skip_runtime_state_paths() {
         assert!(should_skip(
-            ".harmony/runtime/_ops/state/traces/x.ndjson",
+            ".harmony/engine/_ops/state/traces/x.ndjson",
             DEFAULT_STATE_DIR
         ));
         assert!(should_skip(
-            ".harmony/runtime/_ops/state/build/x",
+            ".harmony/engine/_ops/state/build/x",
             DEFAULT_STATE_DIR
         ));
         assert!(should_skip(
-            ".harmony/runtime/_ops/state/snapshots/snap-abc",
+            ".harmony/engine/_ops/state/snapshots/snap-abc",
             DEFAULT_STATE_DIR
         ));
         assert!(should_skip(

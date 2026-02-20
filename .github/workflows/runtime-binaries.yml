@@ -35,7 +35,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build harmony runtime (release)
-        working-directory: .harmony/runtime/crates
+        working-directory: .harmony/engine/runtime/crates
         run: cargo build -p harmony_kernel --release
 
       - name: Package runtime binary
@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
           mkdir -p dist
           cp \
-            ".harmony/runtime/crates/target/release/${{ matrix.source_binary }}" \
+            ".harmony/engine/runtime/crates/target/release/${{ matrix.source_binary }}" \
             "dist/${{ matrix.target_binary }}"
 
       - name: Upload runtime artifact

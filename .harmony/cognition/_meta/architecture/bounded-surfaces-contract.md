@@ -82,6 +82,35 @@ Scaffolding applies the same contract:
 Legacy root-level scaffolding surfaces (`templates/`, `prompts/`, `examples/`,
 `patterns/`, `_ops/scripts/`) are removed as part of the clean-break migration.
 
+## Engine Application (Sixth Migration)
+
+Engine applies the same contract:
+
+- runtime artifacts: `/.harmony/engine/runtime/`
+- governance contracts: `/.harmony/engine/governance/`
+- operating standards: `/.harmony/engine/practices/`
+
+Legacy top-level runtime domain path (`/.harmony/runtime/`) is removed as part
+of the clean-break migration.
+
+## Applicability Boundary (Current State)
+
+As of 2026-02-20, the remaining top-level domains are intentionally **not**
+migrated to `runtime/governance/practices` because they do not naturally carry
+all three concern classes:
+
+- `/.harmony/cognition/`: governance (`principles/`) and practices
+  (`methodology/`) exist, but no executable runtime artifact class for this
+  domain.
+- `/.harmony/continuity/`: state-tracking domain; no distinct runtime/governance
+  split.
+- `/.harmony/ideation/`: human-led workspace; no runtime/governance/practices
+  triad.
+- `/.harmony/output/`: artifact sink; no runtime/governance/practices triad.
+
+Rule: apply bounded surfaces only when all three surfaces are materially
+present and independently owned; otherwise do not force-fit the domain.
+
 ## Benefits
 
 | Benefit | Why It Matters |

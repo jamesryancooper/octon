@@ -13,7 +13,9 @@ COMMANDS_DIR="$HARMONY_DIR/capabilities/runtime/commands"
 SERVICES_MANIFEST="$HARMONY_DIR/capabilities/runtime/services/manifest.yml"
 SERVICES_REGISTRY="$HARMONY_DIR/capabilities/runtime/services/registry.yml"
 CONTEXT_INDEX="$HARMONY_DIR/cognition/context/index.yml"
-RUNTIME_RUN="$HARMONY_DIR/runtime/run"
+RUNTIME_RUN="$HARMONY_DIR/engine/runtime/run"
+export HARMONY_RUNTIME_PREFER_SOURCE="${HARMONY_RUNTIME_PREFER_SOURCE:-1}"
+SMOKE_ROOT=".harmony/capabilities/runtime/services/interfaces"
 
 errors=0
 validate_slo="${FILESYSTEM_INTERFACES_VALIDATE_SLO:-0}"
@@ -116,17 +118,17 @@ for cmd_id in snapshot-build snapshot-diff discover-start discover-expand discov
   fi
 done
 
-if ! has_file_match "entrypoint:[[:space:]]+runtime/run tool interfaces/filesystem-snapshot" "$SERVICES_REGISTRY"; then
+if ! has_file_match "entrypoint:[[:space:]]+engine/runtime/run tool interfaces/filesystem-snapshot" "$SERVICES_REGISTRY"; then
   echo "ERROR: services registry entrypoint is not runtime-direct for filesystem-snapshot"
   errors=$((errors + 1))
 fi
 
-if ! has_file_match "entrypoint:[[:space:]]+runtime/run tool interfaces/filesystem-discovery" "$SERVICES_REGISTRY"; then
+if ! has_file_match "entrypoint:[[:space:]]+engine/runtime/run tool interfaces/filesystem-discovery" "$SERVICES_REGISTRY"; then
   echo "ERROR: services registry entrypoint is not runtime-direct for filesystem-discovery"
   errors=$((errors + 1))
 fi
 
-if ! has_file_match "entrypoint:[[:space:]]+runtime/run tool interfaces/filesystem-watch" "$SERVICES_REGISTRY"; then
+if ! has_file_match "entrypoint:[[:space:]]+engine/runtime/run tool interfaces/filesystem-watch" "$SERVICES_REGISTRY"; then
   echo "ERROR: services registry entrypoint is not runtime-direct for filesystem-watch"
   errors=$((errors + 1))
 fi
@@ -144,7 +146,7 @@ runtime_command_docs=(
 for mapped in "${runtime_command_docs[@]}"; do
   cmd_doc="${mapped%%|*}"
   runtime_service="${mapped##*|}"
-  if ! has_file_match "runtime/run tool ${runtime_service}" "$cmd_doc"; then
+  if ! has_file_match "engine/runtime/run tool ${runtime_service}" "$cmd_doc"; then
     echo "ERROR: command doc is not runtime-direct for ${runtime_service}: $cmd_doc"
     errors=$((errors + 1))
   fi
@@ -160,7 +162,8 @@ if ! has_file_match "id: filesystem-interfaces-interop" "$CONTEXT_INDEX"; then
 fi
 
 # Smoke test snapshot build + current pointer via writer-plane service.
-SMOKE_OUT="$("$RUNTIME_RUN" tool interfaces/filesystem-snapshot snapshot.build --json '{"root":".","set_current":true}')"
+SMOKE_PAYLOAD="$(printf '{"root":"%s","set_current":true}' "$SMOKE_ROOT")"
+SMOKE_OUT="$("$RUNTIME_RUN" tool interfaces/filesystem-snapshot snapshot.build --json "$SMOKE_PAYLOAD")"
 if ! has_payload_match '"ok"[[:space:]]*:[[:space:]]*true' "$SMOKE_OUT" || \
    ! has_payload_match '"snapshot_id"[[:space:]]*:[[:space:]]*"snap-[^"]+"' "$SMOKE_OUT"; then
   echo "ERROR: snapshot-build smoke test failed"
@@ -175,7 +178,8 @@ if ! has_payload_match '"frontier_node_ids"[[:space:]]*:' "$DISCOVER_OUT"; then
 fi
 
 # Smoke test watch polling service invocation.
-WATCH_OUT="$("$RUNTIME_RUN" tool interfaces/filesystem-watch watch.poll --json '{"root":".","state_key":"filesystem-watch:validate","max_events":25,"max_files":50000}')"
+WATCH_PAYLOAD="$(printf '{"root":"%s","state_key":"filesystem-watch:validate","max_events":25,"max_files":100000}' "$SMOKE_ROOT")"
+WATCH_OUT="$("$RUNTIME_RUN" tool interfaces/filesystem-watch watch.poll --json "$WATCH_PAYLOAD")"
 if ! has_payload_match '"cursor"[[:space:]]*:[[:space:]]*"watch-[a-f0-9]{16}"' "$WATCH_OUT"; then
   echo "ERROR: watch-poll smoke test failed"
   errors=$((errors + 1))

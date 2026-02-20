@@ -48,3 +48,4 @@ Every migration must include:
 - `2026-02-20-capabilities-bounded-surfaces/plan.md`
 - `2026-02-20-assurance-bounded-surfaces/plan.md`
 - `2026-02-20-scaffolding-bounded-surfaces/plan.md`
+- `2026-02-20-engine-bounded-surfaces/plan.md`

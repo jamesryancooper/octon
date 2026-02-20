@@ -36,15 +36,19 @@ portable:
   - orchestration/runtime/workflows/
   - orchestration/governance/
   - orchestration/practices/
-  - runtime/run
-  - runtime/run.cmd
-  - runtime/README.md
-  - runtime/config/
-  - runtime/crates/
-  - runtime/wit/
-  - runtime/spec/
-  - runtime/_ops/bin/
-  - runtime/_meta/evidence/README.md
+  - engine/README.md
+  - engine/runtime/run
+  - engine/runtime/run.cmd
+  - engine/runtime/README.md
+  - engine/runtime/config/
+  - engine/runtime/crates/
+  - engine/runtime/wit/
+  - engine/runtime/spec/
+  - engine/governance/
+  - engine/practices/
+  - engine/_ops/bin/
+  - engine/_meta/architecture/README.md
+  - engine/_meta/evidence/README.md
   - assurance/
   - scaffolding/
   - cognition/context/primitives.md
@@ -59,4 +63,5 @@ human_led:
 resolution:
   agency: "Framework definitions loaded; project overrides merged on top"
   capabilities: "Single manifest and registry; no extends pattern"
+  engine: "Executable runtime authority under engine/runtime with governance and practices surfaces"
   orchestration: "Framework workflows and project workflows coexist"

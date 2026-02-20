@@ -5,8 +5,9 @@ set -o pipefail
 
 HARMONY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../" && pwd)"
 REPO_ROOT="$(cd "$HARMONY_DIR/.." && pwd)"
-RUNTIME_RUN="$HARMONY_DIR/runtime/run"
-STATE_DIR=".harmony/runtime/_ops/state/snapshots"
+RUNTIME_RUN="$HARMONY_DIR/engine/runtime/run"
+export HARMONY_RUNTIME_PREFER_SOURCE="${HARMONY_RUNTIME_PREFER_SOURCE:-1}"
+STATE_DIR=".harmony/engine/_ops/state/snapshots"
 HAS_RG=false
 
 if command -v rg >/dev/null 2>&1; then
@@ -55,7 +56,7 @@ if [[ ! -x "$RUNTIME_RUN" ]]; then
 fi
 
 build_snapshot() {
-  "$RUNTIME_RUN" tool interfaces/filesystem-snapshot snapshot.build --json '{"root":".","state_dir":".harmony/runtime/_ops/state/snapshots","set_current":false}'
+  "$RUNTIME_RUN" tool interfaces/filesystem-snapshot snapshot.build --json '{"root":".harmony/capabilities/runtime/services/interfaces","state_dir":".harmony/engine/_ops/state/snapshots","set_current":false}'
 }
 
 extract_json_string_field() {
@@ -108,9 +109,9 @@ if [[ ! -f "$FILES_JSONL" ]]; then
   exit 1
 fi
 
-if has_file_match "\"path\":\"\\.harmony/runtime/_ops/state/" "$FILES_JSONL"; then
+if has_file_match "\"path\":\"\\.harmony/engine/_ops/state/" "$FILES_JSONL"; then
   echo "ERROR: runtime state paths leaked into snapshot artifact"
-  print_file_matches "\"path\":\"\\.harmony/runtime/_ops/state/" "$FILES_JSONL"
+  print_file_matches "\"path\":\"\\.harmony/engine/_ops/state/" "$FILES_JSONL"
   exit 1
 fi
 

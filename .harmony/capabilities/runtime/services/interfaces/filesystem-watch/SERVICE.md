@@ -38,7 +38,7 @@ idempotency:
   required: true
   key_from: [root, stateKey, payloadHash]
 impl:
-  entrypoint: "runtime/run tool interfaces/filesystem-watch"
+  entrypoint: "engine/runtime/run tool interfaces/filesystem-watch"
   timeout_ms: 60000
   health_check: null
 dry_run: true

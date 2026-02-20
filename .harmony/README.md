@@ -60,7 +60,7 @@ Harmony is organized by function:
 - `cognition/`: principles, methodology, and architecture contracts
 - `continuity/`: operational memory across sessions
 - `assurance/`: definition-of-done and session-exit gates
-- `runtime/`: executable runtime and studio tooling
+- `engine/`: executable runtime authority, governance contracts, and operating practices
 - `output/`: generated artifacts and reports
 
 Discovery follows progressive disclosure:
@@ -90,6 +90,7 @@ Subsystem expansion specs:
 
 - `/.harmony/agency/_meta/architecture/specification.md`
 - `/.harmony/capabilities/_meta/architecture/specification.md`
+- `/.harmony/engine/_meta/architecture/README.md`
 - `/.harmony/orchestration/_meta/architecture/specification.md`
 
 **Portability:** This directory is designed to be copied to other repositories. See [Adopting in Other Repos](#adopting-in-other-repos) below.
@@ -184,14 +185,18 @@ When resolving a resource, agents check local first, then shared:
 ├── output/             <- Reports, drafts, artifacts
 │   └── _meta/architecture/ <- Output subsystem specification
 │
-└── runtime/            <- Executable runtime layer (kernel, launchers, specs)
-    ├── _meta/evidence/ <- Runtime verification and audit evidence
-    ├── _ops/bin/       <- Runtime-local prebuilt binaries
-    ├── _ops/state/     <- Runtime-local mutable state
-    ├── config/         <- Runtime policy and cache configuration
-    ├── crates/         <- Runtime implementation crates
-    ├── spec/           <- Runtime schema/protocol specifications
-    └── wit/            <- Canonical runtime WIT contracts
+└── engine/             <- Executable engine domain
+    ├── runtime/        <- Executable runtime layer (kernel, launchers, specs)
+    │   ├── run         <- POSIX launcher
+    │   ├── run.cmd     <- Windows launcher
+    │   ├── config/     <- Runtime policy and cache configuration
+    │   ├── crates/     <- Runtime implementation crates
+    │   ├── spec/       <- Runtime schema/protocol specifications
+    │   └── wit/        <- Canonical runtime WIT contracts
+    ├── governance/     <- Normative runtime contracts and release policy
+    ├── practices/      <- Engine operating standards and runbooks
+    ├── _ops/           <- Runtime-local prebuilt binaries and mutable state
+    └── _meta/          <- Architecture and evidence
 ```
 
 ## What Lives Here

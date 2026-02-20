@@ -56,4 +56,4 @@ Later layers override earlier layers for the same attribute.
 - Measurement scores: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/governance/scores/scores.yml`
 - Resolver entrypoint: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh`
 - Gate entrypoint: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh`
-- Rust implementation: `/Users/jamesryancooper/Projects/harmony/.harmony/runtime/crates/assurance_tools/src/main.rs`
+- Rust implementation: `/Users/jamesryancooper/Projects/harmony/.harmony/engine/runtime/crates/assurance_tools/src/main.rs`

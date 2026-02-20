@@ -8,7 +8,7 @@ capabilities (`fs.read`, `fs.write`, `log.write`).
 - Runtime component: `execution/flow/service.wasm`
 - No Python runtime dependency
 - Deterministic run record persistence under:
-  - `.harmony/runtime/_ops/state/runs/flow/`
+  - `.harmony/engine/_ops/state/runs/flow/`
 
 ## Optional External Path
 
