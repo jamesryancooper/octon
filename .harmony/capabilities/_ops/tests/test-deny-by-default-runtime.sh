@@ -307,6 +307,55 @@ run_acp_gate_tests() {
     "
 }
 
+run_service_wrapper_budget_metering_tests() {
+  local guard_entrypoint="$SERVICES_ROOT/governance/guard/impl/guard.sh"
+  local budget_run_id="runtime-acp-budget-${RANDOM:-0}-$$"
+
+  assert_failure_contains \
+    "service wrapper auto-meters counters when caller omits them" \
+    "promotion blocked" \
+    bash -euo pipefail -c "
+      source '$ENFORCER_SCRIPT'
+      target_file='.harmony/cognition/principles/README.md'
+      backup_file=\"\$(mktemp \"\${TMPDIR:-/tmp}/acp-budget-meter.XXXXXX\")\"
+      cleanup() {
+        cp \"\$backup_file\" \"\$target_file\"
+        rm -f \"\$backup_file\"
+      }
+      trap cleanup EXIT
+      cp \"\$target_file\" \"\$backup_file\"
+
+      i=1
+      while [[ \$i -le 1800 ]]; do
+        printf 'budget metering regression line %04d\n' \"\$i\" >> \"\$target_file\"
+        i=\$((i + 1))
+      done
+
+      evidence_json=\"\$(jq -cn '[{type:\"diff\",ref:\"artifact://diff\",sha256:\"hash-diff\"}]')\"
+      HARMONY_AGENT_ID=agent-a \\
+      HARMONY_AGENT_IDS='agent-a' \\
+      HARMONY_RISK_TIER=low \\
+      HARMONY_POLICY_PROFILE=refactor \\
+      HARMONY_OPERATION_CLASS=service.execute \\
+      HARMONY_OPERATION_PHASE=promote \\
+      HARMONY_RUN_ID='$budget_run_id' \\
+      HARMONY_ACP_EVIDENCE_JSON=\"\$evidence_json\" \\
+      HARMONY_ACP_COUNTERS_JSON='' \\
+      harmony_enforce_service_policy 'guard' '$guard_entrypoint'
+    "
+
+  assert_success \
+    "service wrapper budget metering emits ACP_BUDGET_EXCEEDED with measured counters" \
+    bash -euo pipefail -c "
+      receipt='.harmony/continuity/runs/$budget_run_id/receipt.latest.json'
+      [[ -f \"\$receipt\" ]]
+      jq -e '.reason_codes | index(\"ACP_BUDGET_EXCEEDED\") != null' \"\$receipt\" >/dev/null
+      jq -e '.decision == \"STAGE_ONLY\" or .decision == \"DENY\"' \"\$receipt\" >/dev/null
+      jq -e '.counters[\"repo.max_loc_delta\"] > 1500' \"\$receipt\" >/dev/null
+      jq -e '.counters[\"repo.git_diff_unknown\"] == 0' \"\$receipt\" >/dev/null
+    "
+}
+
 run_acp_breaker_action_tests() {
   local guard_entrypoint="$SERVICES_ROOT/governance/guard/impl/guard.sh"
   local breaker_run_id="runtime-acp-breaker-${RANDOM:-0}-$$"
@@ -422,6 +471,7 @@ main() {
   run_active_shell_enforcement_smoke_test
   run_agent_only_required_deny_tests
   run_acp_gate_tests
+  run_service_wrapper_budget_metering_tests
   run_acp_breaker_action_tests
   run_agent_quorum_independence_tests
 

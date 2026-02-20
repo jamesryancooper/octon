@@ -3,6 +3,79 @@
 
 set -o pipefail
 
+HARMONY_ENFORCER_START_TS="${HARMONY_ENFORCER_START_TS:-$(date +%s)}"
+
+harmony_acp_collect_git_diff_counters() {
+  local repo_root="$1"
+  local files_touched=0
+  local loc_delta=0
+  local adds deletes path
+
+  if command -v git >/dev/null 2>&1 && git -C "$repo_root" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    while IFS=$'\t' read -r adds deletes path; do
+      [[ -n "${path:-}" ]] || continue
+      [[ "$adds" == "-" ]] && adds=0
+      [[ "$deletes" == "-" ]] && deletes=0
+      [[ "$adds" =~ ^[0-9]+$ ]] || adds=0
+      [[ "$deletes" =~ ^[0-9]+$ ]] || deletes=0
+      files_touched=$((files_touched + 1))
+      loc_delta=$((loc_delta + adds + deletes))
+    done < <(git -C "$repo_root" diff --numstat 2>/dev/null || true)
+
+    jq -cn \
+      --argjson files_touched "$files_touched" \
+      --argjson loc_delta "$loc_delta" \
+      '{
+        "repo.files_touched": $files_touched,
+        "repo.max_files_touched": $files_touched,
+        "repo.loc_delta": $loc_delta,
+        "repo.max_loc_delta": $loc_delta,
+        "repo.git_diff_unknown": 0
+      }'
+    return 0
+  fi
+
+  jq -cn '{
+    "repo.files_touched": 0,
+    "repo.max_files_touched": 0,
+    "repo.loc_delta": 0,
+    "repo.max_loc_delta": 0,
+    "repo.git_diff_unknown": 1
+  }'
+}
+
+harmony_acp_default_counters_json() {
+  local repo_root="$1"
+  local now start elapsed command_count git_diff_json
+
+  now="$(date +%s)"
+  start="${HARMONY_ENFORCER_START_TS:-$now}"
+  if [[ ! "$start" =~ ^[0-9]+$ ]]; then
+    start="$now"
+  fi
+  elapsed=$((now - start))
+  if (( elapsed < 0 )); then
+    elapsed=0
+  fi
+
+  command_count="${HARMONY_COMMAND_COUNT:-1}"
+  if [[ ! "$command_count" =~ ^[0-9]+$ ]]; then
+    command_count=1
+  fi
+
+  git_diff_json="$(harmony_acp_collect_git_diff_counters "$repo_root")"
+  jq -cn \
+    --argjson git "$git_diff_json" \
+    --argjson command_count "$command_count" \
+    --argjson elapsed "$elapsed" \
+    '$git + {
+      "commands.count": $command_count,
+      "time.elapsed_seconds": $elapsed,
+      "time.max_seconds": $elapsed,
+      "repo.max_commits": 0
+    }'
+}
+
 harmony_ddb_split_allowed_tools() {
   local raw="$1"
   local token=""
@@ -148,6 +221,7 @@ harmony_acp_gate_enforce() {
   local request_builder acp_eval receipt_writer breaker_actions_script
   local tmp_dir request_file decision_file decision_output rc request_rc
   local continuity_run_dir rollback_dir decision_kind
+  local repo_root
 
   phase="${HARMONY_OPERATION_PHASE:-stage}"
   if ! harmony_acp_should_gate_phase "$phase"; then
@@ -178,7 +252,10 @@ harmony_acp_gate_enforce() {
   attestations_json="${HARMONY_ACP_ATTESTATIONS_JSON:-}"
   [[ -n "$attestations_json" ]] || attestations_json='[]'
   counters_json="${HARMONY_ACP_COUNTERS_JSON:-}"
-  [[ -n "$counters_json" ]] || counters_json='{}'
+  if [[ -z "$counters_json" || "$counters_json" == "{}" || "$counters_json" == "null" ]]; then
+    repo_root="$(cd "$harmony_root/.." && pwd)"
+    counters_json="$(harmony_acp_default_counters_json "$repo_root")"
+  fi
   budgets_json="${HARMONY_ACP_BUDGETS_JSON:-}"
   [[ -n "$budgets_json" ]] || budgets_json='{}'
   signals_json="${HARMONY_ACP_SIGNALS_JSON:-}"

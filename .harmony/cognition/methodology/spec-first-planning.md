@@ -26,6 +26,7 @@ Harmony uses a **three-tier risk classification** to right-size specs and review
 → See [risk-tiers.md](./risk-tiers.md) for full tier criteria.
 → See [auto-tier-assignment.md](./auto-tier-assignment.md) for classification algorithm.
 → See [templates/](./templates/) for spec templates.
+→ Governance model: [Autonomous Control Points](../principles/autonomous-control-points.md), [Deny by Default](../principles/deny-by-default.md), [Arbitration & Precedence](../principles/README.md#arbitration--precedence).
 
 ### Tier Selection Flow
 
@@ -34,8 +35,8 @@ Harmony uses a **three-tier risk classification** to right-size specs and review
 2. AI classifies → T2 (new API endpoint)
 3. AI loads spec-tier2.yaml template
 4. AI fills template completely
-5. Human reviews summary (T2 = 15-20 min)
-6. AI builds when approved
+5. Human optionally reviews summary (T2 = 15-20 min)
+6. AI proceeds via stage -> evidence -> ACP gate
 ```
 
 ---
@@ -67,29 +68,25 @@ AI automatically:
 **T3 (Elevated):** AI generates full spec in ~5 minutes
 - Complete problem/solution, full STRIDE, data classification, migration plan, staged rollout
 
-### Step 3: Human Review (Tier-Appropriate)
+### Step 3: Evidence + ACP Gate (Tier-Appropriate)
 
-**T1:** Skim 1-paragraph summary (30 sec), approve if looks right
+**T1:** Build evidence pack and run ACP-1 gate
+- Intent, diff, tests, rollback handle, counters
 
-**T2:** Review spec summary (2-5 min)
-- Does solution match intent?
-- Any scope concerns?
-- Threat summary reasonable?
+**T2:** Build evidence pack and run ACP-2 gate
+- Includes verifier quorum and rollback proof
+- If quorum is missing, ACP returns `STAGE_ONLY`
 
-**T3:** Full spec review (10-15 min) - **must approve before AI builds**
-- Requirements captured correctly?
-- Threat model comprehensive?
-- Mitigations appropriate?
-- Rollback plan viable?
+**T3:** Build full evidence pack and run ACP-3 gate
+- Full STRIDE and critical-path tests
+- Verifier + recovery attestations bound to plan/evidence hashes
+- Escalate to humans only on policy thresholds or unresolved disagreements
 
-```bash
-# T3 only: explicitly approve spec before build
-harmony approve-spec <id>
-```
+**Human-on-the-loop option:** review digest/receipt artifacts before or after promotion; this is oversight, not a standing runtime dependency.
 
 ### Step 4: AI Builds
 
-After ACP gate (explicit for T3, implicit for T1/T2):
+After stage -> evidence -> ACP gate:
 
 1. AI generates **plan** and **checklist**
 2. AI proposes **code diffs** with tests
@@ -97,13 +94,13 @@ After ACP gate (explicit for T3, implicit for T1/T2):
 4. AI creates **PR** with tier-appropriate summary
 5. AI runs **CI gates** for the tier
 
-### Step 5: Human Reviews PR (Tier-Appropriate)
+### Step 5: Oversight Reviews PR (Tier-Appropriate)
 
-**T1:** Verify CI green, approve (1 min)
+**T1:** Optional quick digest check (1 min)
 
-**T2:** Spot-check code, verify tests cover key paths (5-10 min)
+**T2:** Optional spot-check + verify receipt evidence (5-10 min)
 
-**T3:** Thorough review + Navigator review + security check (15-20 min)
+**T3:** Recommended thorough oversight + watch window (15-20 min)
 
 ### Step 6: Ship
 

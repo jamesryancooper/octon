@@ -105,13 +105,27 @@ case_baseline_passes() {
   run_guard_in_fixture "$fixture_root"
 }
 
-case_detects_legacy_terms() {
+case_detects_affirmative_legacy_terms() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
 
   mkdir -p "$fixture_root/.harmony/cognition/principles"
   cat > "$fixture_root/.harmony/cognition/principles/deny-by-default.md" <<'EOF'
-Legacy governance required ACP checkpoints and explicit human approval at runtime.
+Legacy governance required human approval at runtime.
+All production promotions must be approved before release.
+EOF
+
+  run_guard_in_fixture "$fixture_root"
+}
+
+case_allows_explicit_negation_terms() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+
+  mkdir -p "$fixture_root/.harmony/cognition/principles"
+  cat > "$fixture_root/.harmony/cognition/principles/autonomous-control-points.md" <<'EOF'
+Promotion does not require standing human approval.
+Agents promote through ACP evidence and quorum rules.
 EOF
 
   run_guard_in_fixture "$fixture_root"
@@ -139,7 +153,11 @@ main() {
   assert_failure_contains \
     "ra-acp migration guard rejects legacy HITL language" \
     "stale legacy HITL language remains on active .harmony surfaces" \
-    case_detects_legacy_terms
+    case_detects_affirmative_legacy_terms
+
+  assert_success \
+    "ra-acp migration guard allows explicit negation language" \
+    case_allows_explicit_negation_terms
 
   assert_failure_contains \
     "ra-acp migration guard rejects tracked temp artifacts" \

@@ -224,7 +224,7 @@ harmony tier-up <pr-number> --reason "touches user sessions"
    - Check for obvious security issues
 
 4. **Second reviewer (Navigator)** required for T3
-   - Both devs must approve
+   - ACP-3 quorum requires proposer/verifier/recovery attestations
    - Security-focused review
 
 **Stage 3: Post-Deploy Watch**

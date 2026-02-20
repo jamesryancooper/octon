@@ -587,17 +587,17 @@ bump_down:
   t3_to_t2:
     allowed: true
     requires_justification: true
-    approval_required: true  # Navigator must approve
+    approval_required: true  # Navigator/verifier attestation required by policy
     
     valid_reasons:
       - "File in auth/ but not auth logic"
       - "Migration is additive-only with no data changes"
       - "Security config update is defensive improvement"
       
-	  t3_to_t1:
-	    allowed: true
-	    requires_justification: true
-	    approval_required: true  # Navigator approval (security checklist)
+		  t3_to_t1:
+		    allowed: true
+		    requires_justification: true
+		    approval_required: true  # Navigator/verifier attestation (security checklist)
     
     valid_reasons:
       - "Documentation in security directory"

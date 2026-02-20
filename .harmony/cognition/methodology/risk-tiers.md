@@ -15,13 +15,15 @@ For the human-facing summary, see [../context/risk-tiers.md](../context/risk-tie
 
 Every change in Harmony is classified into one of three risk tiers:
 
-| Tier | Name | Human Time | AI Rigor | Approval Flow |
-|------|------|------------|----------|---------------|
-| **T1** | Trivial | 2-3 min | Standard gates | Auto-mergeable with ACP gate |
-| **T2** | Standard | 15-20 min | Standard + threat analysis + preview | Single human review pass |
-| **T3** | Elevated | 30-60 min | Full analysis + staged approval | Navigator pass + security sign-off |
+| Tier | Name | Human Time | AI Rigor | Governance Flow |
+|------|------|------------|----------|-----------------|
+| **T1** | Trivial | 2-3 min | Standard gates | Stage -> evidence -> ACP-1 gate -> promote/stage-only -> receipt |
+| **T2** | Standard | 15-20 min | Standard + threat analysis + preview | Stage -> evidence -> ACP-2 gate (+ quorum) -> promote/stage-only -> receipt |
+| **T3** | Elevated | 30-60 min | Full analysis + staged safety checks | Stage -> evidence -> ACP-3 gate (+ quorum) -> promote/stage-only -> receipt |
 
-**Key Principle:** AI applies appropriate rigor at every tier. The difference is how much human attention each tier requires.
+**Key Principle:** AI applies appropriate rigor at every tier. The difference is ACP strength (evidence, quorum, budgets, reversibility), while humans remain on-the-loop for escalation and optional post-run oversight.
+
+Governance references: [Autonomous Control Points](../principles/autonomous-control-points.md), [Deny by Default](../principles/deny-by-default.md), [Arbitration & Precedence](../principles/README.md#arbitration--precedence).
 
 ---
 
@@ -737,31 +739,29 @@ slo_implications:
     - name: "<SLI>"
       definition: "<definition>"
 
-# ACP Gates
-approval_checkpoints:
-  spec_approval:
-    required: true
-    approvers: [owner, navigator]
-    criteria:
-      - "Spec captures requirements correctly"
-      - "Threat model covers obvious risks"
-      - "Mitigations are appropriate"
-      
-  pr_approval:
-    required: true
-    approvers: [owner, navigator]
-    criteria:
-      - "Implementation matches spec"
-      - "Security mitigations implemented"
-      - "Tests cover critical paths"
-      
-  promotion_approval:
-    required: true
-    approvers: [owner]
-    criteria:
-      - "Preview testing complete"
-      - "Rollback plan verified"
-      - "Watch window scheduled"
+# ACP Promotion Contract
+acp_flow:
+  sequence:
+    - stage
+    - gather_evidence
+    - acp_gate
+    - promote_or_stage_only
+    - receipt_and_digest
+  escalation:
+    when:
+      - quorum_unresolved
+      - risk_threshold_crossed
+      - policy_requires_human_input
+  human_oversight:
+    mode: on_the_loop
+    required_for_routine_promotion: false
+
+t3_requirements:
+  acp: ACP-3
+  evidence_required: [plan, diff, tests, ci, rollback_proof]
+  quorum_required: quorum.acp3
+  enforce_budgets: true
+  require_receipt: true
 ```
 
 ### T3 Gates (AI Enforces)
@@ -789,58 +789,25 @@ approval_checkpoints:
 | Navigator review | ✅ | Independent review pass (time-separated if solo) |
 | Security review | ✅ | Explicit sign-off |
 
-### T3 Human Touchpoints
+### T3 Oversight Touchpoints (Human-on-the-Loop)
 
-**Stage 1: Spec Approval (before build)**
+**Stage 1: Stage + Evidence**
 
-1. **Read full spec** (10-15 minutes)
-   - Requirements captured correctly?
-   - Scope appropriate?
-   - Alternatives considered?
-   
-2. **Review threat model** (5-10 minutes)
-   - STRIDE coverage complete?
-   - Mitigations appropriate?
-   - Tests planned for threats?
-   
-3. **Approve spec** (Driver + Navigator passes)
-   ```bash
-   harmony approve-spec <id>
-   ```
+1. **AI stages and assembles evidence** (plan, diff, tests, rollback proof).
+2. **Verifier + recovery attestations are collected** for ACP-3 quorum.
+3. **ACP gate evaluates promotion** and returns `ALLOW` or `STAGE_ONLY`.
 
-**Stage 2: PR Review (after build)**
+**Stage 2: Promote or Stage-Only**
 
-1. **Review implementation** (10-15 minutes)
-   - Matches spec?
-   - Security mitigations present?
-   - Code quality acceptable?
-   
-2. **Review tests** (5 minutes)
-   - Critical paths covered?
-   - Security tests present?
-   - Golden tests for critical behavior?
-   
-3. **Test on preview** (5-10 minutes)
-   - Feature works correctly?
-   - Edge cases handled?
-   - No obvious security issues?
-   
-4. **Navigator approval** (independent pass)
-   - Security-focused review
-   - Verify threat mitigations
+1. **Promote only on ACP `ALLOW`**.
+2. **On missing quorum/disagreement**, remain stage-only and emit escalation artifact.
 
-**Stage 3: Post-Promotion Watch**
+**Stage 3: Optional Oversight + Watch**
 
-1. **Monitor metrics** (30 minutes)
-   - Error rates stable?
-   - Latency within budget?
-   - No SLO burn?
-   
-2. **Be ready to rollback**
-   - Flag disable prepared
-   - Prior preview URL noted
+1. **Review receipt/digest** (optional, recommended for T3).
+2. **Monitor watch window** and execute rollback if circuit breakers trip.
 
-**Total: 30-60 minutes** (spread across stages)
+**Total on-loop time: 30-60 minutes** (primarily post-gate oversight).
 
 ### T3 AI Summary Format
 

@@ -13,14 +13,15 @@ This document provides the full reference for Harmony's CI/CD gates, organized b
 
 Harmony uses a **three-tier risk classification** that determines which CI gates run for each PR.
 
-| Tier | Label | Gates | Human Review |
-|------|-------|-------|--------------|
-| **T1** | `tier:1` | Basic (lint, type, unit, secrets) | Minimal |
-| **T2** | `tier:2` | Standard (+ security scans, preview, contracts) | Summary review |
-| **T3** | `tier:3` | Full (+ STRIDE review, navigator pass, security) | Thorough review |
+| Tier | Label | Gates | Oversight Mode |
+|------|-------|-------|---------------|
+| **T1** | `tier:1` | Basic (lint, type, unit, secrets) | Optional receipt/digest review |
+| **T2** | `tier:2` | Standard (+ security scans, preview, contracts) | On-loop summary review; escalate only on thresholds |
+| **T3** | `tier:3` | Full (+ STRIDE review, quorum attestations, security checks) | On-loop oversight + watch window |
 
 → See [risk-tiers.md](./risk-tiers.md) for tier classification criteria.
 → See [auto-tier-assignment.md](./auto-tier-assignment.md) for how AI assigns tiers.
+→ Governance model: [Autonomous Control Points](../principles/autonomous-control-points.md), [Deny by Default](../principles/deny-by-default.md), [Arbitration & Precedence](../principles/README.md#arbitration--precedence).
 
 Solo-first note: **Owner** and **Navigator** are roles. When you’re solo, you perform both as distinct passes (ideally time-separated); when you have collaborators, they can be separate people.
 
@@ -84,7 +85,7 @@ flowchart TB
 - Contract tests
 - Feature flags
 
-**Human touchpoint:** Skim AI summary (30 sec), verify CI green, approve.
+**Oversight touchpoint:** Skim AI summary and receipt digest (30 sec). Promotion still depends on ACP outcome, not standing approval.
 
 ### T2 Gates (Standard)
 
@@ -102,7 +103,7 @@ flowchart TB
 | Observability | Check spans/logs | ✅ | Changed flows only |
 | Feature flag | Verify present | ✅ | Default OFF |
 
-**Human touchpoint:** Review spec summary (2-5 min), spot-check PR (5-10 min), approve.
+**Oversight touchpoint:** Review summary + receipt digest (2-5 min). Escalate only when policy thresholds are crossed or quorum is unresolved.
 
 ### T3 Gates (Elevated)
 
@@ -110,23 +111,21 @@ flowchart TB
 
 | Gate | Tool | Blocking | Notes |
 |------|------|----------|-------|
-| Spec approval | ACP gate | ✅ | **Before AI builds** |
-| Full STRIDE | Human-reviewed | ✅ | Complete threat model |
+| ACP preflight | ACP gate | ✅ | Stage + evidence contract before promote |
+| Full STRIDE | Automated + verifier attestation | ✅ | Complete threat model |
 | Golden tests | EvalKit/TestKit | ✅ | Critical paths |
 | Integration tests | Full suite | ✅ | If applicable |
 | Provenance | GitHub attestation | ✅ | For releases |
-| Navigator review | Independent review pass | ✅ | Required |
-| Security review | Navigator | ✅ | Explicit sign-off |
+| Verifier attestation | Independent agent/service | ✅ | Required for ACP-3 quorum |
+| Recovery attestation | Independent agent/service | ✅ | Rollback path proven |
 | ADR | Updated | ✅ | Architecture decision |
 | Watch window | Post-promote | ✅ | 30 minutes |
 
-**Human touchpoint:** 
-1. Review full spec before build (10-15 min)
-2. Review threat model (5-10 min)
-3. Approve spec for build
-4. Review PR + code (10-15 min)
-5. Navigator security review
-6. Post-promote watch (30 min)
+**Human-on-the-loop oversight:** 
+1. Review evidence summary before/after promote (optional, recommended for T3)
+2. Inspect receipts/digest and escalation artifacts when ACP returns `STAGE_ONLY`
+3. Participate only when policy escalation thresholds are crossed
+4. Run post-promote watch window (30 min)
 
 ---
 
@@ -155,11 +154,11 @@ flowchart TB
 
 ### T3 Required
 
-- [ ] **Spec approval**: Owner + Navigator before build (time-separated if solo)
+- [ ] **ACP preflight**: Stage + evidence package present before promote
 - [ ] **Full STRIDE**: Complete threat model reviewed
 - [ ] **Golden tests**: Critical paths covered
-- [ ] **Navigator review**: Security-focused
-- [ ] **Security sign-off**: Explicit approval
+- [ ] **Verifier attestation**: Independent attestation for ACP-3 quorum
+- [ ] **Recovery attestation**: Rollback proof attestation for ACP-3 quorum
 - [ ] **ADR**: Created or updated
 - [ ] **Watch window**: 30 min post-promote scheduled
 

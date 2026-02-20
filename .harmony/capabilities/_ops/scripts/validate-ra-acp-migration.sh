@@ -101,10 +101,12 @@ check_receipt_writer_append_only() {
 }
 
 check_active_surface_legacy_terms() {
-  local hits pattern sample
-  pattern='human checkpoint|human approval|\bHITL\b|hitl-checkpoints|ACP checkpoints?|ACP approval|approval checkpoint|approve at defined checkpoints|risk-tiered checkpoints|human review and approval gate|ACP gate gates'
+  local hits raw_hits pattern negation_pattern sample
+  # Guard only against affirmative legacy semantics that require human approval at runtime.
+  pattern='require[sd]?[^[:cntrl:]\n]{0,80}human approval|require[sd]?[^[:cntrl:]\n]{0,80}human checkpoint|must[^[:cntrl:]\n]{0,80}be approved[^[:cntrl:]\n]{0,40}by[^[:cntrl:]\n]{0,20}human|await[^[:cntrl:]\n]{0,80}human approval|human[^[:cntrl:]\n]{0,40}must[^[:cntrl:]\n]{0,20}approve|block[^[:cntrl:]\n]{0,80}until[^[:cntrl:]\n]{0,40}approved[^[:cntrl:]\n]{0,40}by[^[:cntrl:]\n]{0,20}human|HITL[^[:cntrl:]\n]{0,40}checkpoint[^[:cntrl:]\n]{0,40}(required|mandatory|must)|(required|mandatory|must)[^[:cntrl:]\n]{0,40}HITL[^[:cntrl:]\n]{0,40}checkpoint|approve at defined checkpoints|human review and approval gate'
+  negation_pattern='does not require[^[:cntrl:]\n]{0,80}human approval|not[^[:cntrl:]\n]{0,40}human approval|no[^[:cntrl:]\n]{0,40}human[^[:cntrl:]\n]{0,20}approval|without[^[:cntrl:]\n]{0,40}human approval|not[^[:cntrl:]\n]{0,40}human checkpoint|not[^[:cntrl:]\n]{0,40}HITL[^[:cntrl:]\n]{0,40}checkpoint'
 
-  hits="$(
+  raw_hits="$(
     rg -n -i --hidden \
       --glob '!**/.harmony/output/**' \
       --glob '!**/.harmony/ideation/**' \
@@ -115,6 +117,8 @@ check_active_surface_legacy_terms() {
       "$pattern" \
       "$REPO_ROOT/.harmony" 2>/dev/null || true
   )"
+
+  hits="$(printf '%s\n' "$raw_hits" | rg -i -v "$negation_pattern" || true)"
 
   if [[ -n "$hits" ]]; then
     sample="$(printf '%s\n' "$hits" | head -n 10 | tr '\n' '; ')"
