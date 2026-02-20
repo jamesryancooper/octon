@@ -27,6 +27,12 @@ Contract responsibilities are intentionally split to prevent drift:
 
 Precedence for conflicts: `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> `AGENT.md` -> `SOUL.md`.
 
+## Immutable Charter
+
+- Treat `.harmony/cognition/principles/principles.md` as an immutable constitutional artifact.
+- Agents MUST NOT modify `.harmony/cognition/principles/principles.md`.
+- If standards must evolve, create a versioned successor (`principles-vYYYY-MM-DD.md`) and record an ADR; do not edit the immutable charter.
+
 ## Harness Orientation
 
 This repository uses a `.harmony/` harness. For full boot sequence and

@@ -28,6 +28,24 @@ Harmony principles are the decision layer between pillars and methodology. They 
 
 For small teams, default to the smallest viable process, design, and tooling that preserves quality and governance. Escalate ceremony only for higher-risk changes.
 
+## Constitutional Charter (Immutable)
+
+- Canonical charter: [Engineering Principles & Standards (Authoritative)](./principles.md)
+- Classification: immutable constitutional artifact (`mutability: immutable`, `agent_editable: false`, `risk_tier: critical`)
+- Agent rule: agents MUST NOT modify `principles.md`
+- Evolution model: create a versioned successor (`principles-vYYYY-MM-DD.md`) plus ADR; do not edit `principles.md`
+
+## Charter-to-Guide Mapping
+
+| Charter area | Operational guide SSOTs |
+|---|---|
+| SSOT and documentation discipline | [Single Source of Truth](./single-source-of-truth.md), [Documentation is Code](./documentation-is-code.md), [Progressive Disclosure](./progressive-disclosure.md) |
+| Boundaries and contracts | [Ownership and Boundaries](./ownership-and-boundaries.md), [Contract-first](./contract-first.md) |
+| Simplicity and complexity control | [Simplicity Over Complexity](./simplicity-over-complexity.md), [Monolith-first Modulith](./monolith-first-modulith.md) |
+| Quality and operational readiness | [Observability as a Contract](./observability-as-a-contract.md), [Reversibility](./reversibility.md), [Small Diffs, Trunk-based](./small-diffs-trunk-based.md) |
+| Security and privacy | [Security and Privacy Baseline](./security-and-privacy-baseline.md), [Deny by Default](./deny-by-default.md), [Guardrails](./guardrails.md) |
+| Exceptions and governance | [Arbitration and Precedence](./arbitration-and-precedence.md), [Autonomous Control Points](./autonomous-control-points.md), [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) |
+
 ## Normative SSOT Map
 
 Use one canonical source per governance topic to prevent drift:
