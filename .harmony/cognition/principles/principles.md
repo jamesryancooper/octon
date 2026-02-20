@@ -27,14 +27,25 @@ applies_to:
 
 ---
 
+## 0A) Scope and Terms (SSOT for This Document)
+
+- **Subsystem:** A service, library/module, or bounded feature area with a distinct owner.
+- **Public surface:** Any API, schema, event, config, CLI, interface, or contract consumed outside its owning subsystem.
+- **Boundary:** The seam between subsystems/layers; crossings happen only via declared public surfaces.
+- **SSOT hub:** The canonical entry document for a subsystem/domain.
+- **Significant change:** A change that alters a public surface/boundary, persistent data model, dependency framework baseline, configuration surface, or introduces a reusable abstraction.
+
+---
+
 ## 0) Non-Negotiables (Always True)
 
-1. **Clear scope & boundaries** exist for every subsystem and major capability.
+1. **Clear scope, owner, boundaries, and public surface** exist for every subsystem and major capability.
 2. **Single Source of Truth (SSOT)** exists for requirements, contracts, and operational reality.
-3. **No silent complexity growth**: complexity must be justified, measured, and budgeted.
-4. **Operationally shippable**: debuggable, observable, safe to roll out, safe to roll back.
-5. **Security by default**: least privilege, safe dependency practices, sensitive data guarded.
-6. **Consistency over novelty**: we prefer the established patterns of this codebase.
+3. **Significant changes are explicit**: intent, affected boundaries/public surfaces, and complexity impact are documented.
+4. **No silent complexity growth**: complexity must be justified, measured, and budgeted.
+5. **Operationally shippable**: debuggable, observable, safe to roll out, safe to roll back.
+6. **Security by default**: least privilege, safe dependency practices, sensitive data guarded.
+7. **Consistency over novelty**: we prefer the established patterns of this codebase.
 
 ---
 
@@ -73,6 +84,7 @@ When principles conflict, choose the earliest applicable rule:
 **Proof**
 
 - Every doc has an owner, last-reviewed date, and canonical links.
+- Each subsystem SSOT hub is reachable from the repository primary entry point (root README or docs index).
 
 ### P2 - Explicit Boundaries & Contracts
 
@@ -82,6 +94,7 @@ When principles conflict, choose the earliest applicable rule:
 
 - Define boundaries using **modules, packages, service interfaces, or APIs**.
 - Treat boundaries as contracts: inputs/outputs, invariants, failure modes.
+- Cross boundaries only through declared public surfaces; no internal reach-in/backdoor imports.
 - Enforce boundaries with tooling/tests where possible (dependency rules, lint rules, compile-time checks).
 
 **Don't**
@@ -253,7 +266,15 @@ When principles conflict, choose the earliest applicable rule:
 
 ### Rules
 
+- Every subsystem/domain has one canonical SSOT hub.
+- SSOT hubs include, at minimum:
+  - Scope (what is in/out)
+  - Public surface links (API/schema/event/config/CLI/interface contracts)
+  - Change guide (where behavior changes are made, key invariants/tests, rollout/rollback notes)
+  - Operations links (dashboards/alerts/logs/runbooks) where applicable
+  - Owner and last-reviewed date
 - **Every doc declares**: owner, scope, intended audience, and canonical links.
+- Non-hub docs link back to the canonical SSOT hub.
 - **No duplicate truths**: if a fact has a single canonical place, others link to it.
 - **Docs must be searchable and skimmable**: headings, bullets, short sections.
 - **Docs freshness**: hubs and runbooks must be reviewed at least quarterly (or after major changes).
@@ -265,7 +286,7 @@ When principles conflict, choose the earliest applicable rule:
 ### Boundaries
 
 - Each subsystem states: **responsibilities, non-responsibilities, public surface, invariants**.
-- Cross-boundary calls require explicit interfaces/contracts.
+- Cross-boundary calls require explicit interfaces/contracts and use only declared public surfaces.
 
 ### Dependencies
 
@@ -275,6 +296,7 @@ When principles conflict, choose the earliest applicable rule:
 
 ### Configuration
 
+- **Configuration is public surface**: every config key has an owner, default, documented meaning, and retirement trigger when temporary.
 - **Configuration budget**: every config key has an owner, default, and sunset policy.
 - Prefer **convention over configuration**.
 - Avoid "configuration drift": config changes must be versioned and tested.
@@ -287,6 +309,7 @@ When principles conflict, choose the earliest applicable rule:
 - Avoid hidden control flow (magic reflection, excessive metaprogramming) unless it clearly reduces complexity overall.
 - One obvious way to do common tasks: follow established project conventions.
 - Refactors are welcome when they reduce complexity and improve integrity.
+- Avoid mixed refactor + behavior-change PRs unless the risk tradeoff is explicitly justified.
 
 ---
 
@@ -302,6 +325,7 @@ When principles conflict, choose the earliest applicable rule:
 
 ### ADR required when:
 
+- Making a significant change that is hard to undo
 - Introducing/changing a boundary, public API, or persistent data model
 - Adding significant dependencies or frameworks
 - Adding new major configuration surfaces
@@ -314,17 +338,31 @@ When principles conflict, choose the earliest applicable rule:
 
 **Rule:** If the change is hard to undo, it needs a decision record.
 
+### ADR minimum fields
+
+- Context
+- Decision
+- Alternatives considered
+- Consequences
+- Owner
+- Date
+- Review-by (or revisit trigger)
+- Links
+
 ---
 
 ## 8) Definition of Done (PR Gate)
 
 A change is "done" only if:
 
+- Scope is tight and unrelated churn is avoided.
 - Scope and boundaries are explicit
 - Tests match risk and pass reliably
 - Docs SSOT hub updated (or intentionally unchanged with justification)
 - Observability/operability impact addressed (logs/metrics/runbooks as needed)
+- Critical subsystem runbooks are linked from the SSOT hub.
 - Complexity impact explained (what got simpler / what got more complex)
+- Performance-motivated changes include a measurement method and before/after evidence when practical.
 - Rollback or mitigation is clear for risky changes
 
 ---
