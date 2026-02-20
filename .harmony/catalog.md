@@ -354,8 +354,8 @@ Quality gates in `assurance/`:
 
 | File | Description |
 |------|-------------|
-| [complete.md](./assurance/complete.md) | Definition of done for tasks |
-| [session-exit.md](./assurance/session-exit.md) | Steps before ending a session |
+| [complete.md](./assurance/practices/complete.md) | Definition of done for tasks |
+| [session-exit.md](./assurance/practices/session-exit.md) | Steps before ending a session |
 
 ---
 

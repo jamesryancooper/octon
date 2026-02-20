@@ -115,7 +115,7 @@ Expands in:
 
 - [Conventions](/.harmony/conventions.md)
 - [Continuity README](/.harmony/continuity/README.md)
-- [Session Exit Checklist](/.harmony/assurance/session-exit.md)
+- [Session Exit Checklist](/.harmony/assurance/practices/session-exit.md)
 
 ### HARMONY-SPEC-008: Completion and Exit Assurance Gates
 
@@ -124,8 +124,8 @@ Tasks MUST satisfy definition-of-done and session-exit gates before completion o
 Expands in:
 
 - [Assurance README](/.harmony/assurance/README.md)
-- [Definition of Done](/.harmony/assurance/complete.md)
-- [Session Exit Checklist](/.harmony/assurance/session-exit.md)
+- [Definition of Done](/.harmony/assurance/practices/complete.md)
+- [Session Exit Checklist](/.harmony/assurance/practices/session-exit.md)
 
 ### HARMONY-SPEC-009: Human-Led Ideation Boundaries
 
@@ -197,7 +197,9 @@ Expands in:
 
 - [Bounded Surfaces Contract](/.harmony/cognition/_meta/architecture/bounded-surfaces-contract.md)
 - [Agency Subsystem Specification](/.harmony/agency/_meta/architecture/specification.md)
+- [Capabilities Specification](/.harmony/capabilities/_meta/architecture/specification.md)
 - [Orchestration Subsystem Specification](/.harmony/orchestration/_meta/architecture/specification.md)
+- [Assurance README](/.harmony/assurance/README.md)
 
 ### HARMONY-SPEC-101: Agency Contract Boundary
 
@@ -237,7 +239,9 @@ Expands in:
 
 ### HARMONY-SPEC-601: Assurance Contract Boundary
 
-`/.harmony/assurance/**` MUST preserve completion and exit contracts as enforceable assurance gates.
+`/.harmony/assurance/**` MUST preserve bounded assurance surfaces
+(`runtime/`, `governance/`, `practices/`) and completion/exit contracts as
+enforceable assurance gates.
 The Assurance Engine is the authoritative local engine for
 weighted assurance policy resolution, scoring, and gating in this boundary.
 

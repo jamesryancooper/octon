@@ -1,14 +1,14 @@
 # Harmony Policy Weights
 
-Policy-only weights for assurance trade-offs. Measurement scores live in `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/scores/scores.yml`.
+Policy-only weights for assurance trade-offs. Measurement scores live in `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/governance/scores/scores.yml`.
 
 This policy is resolved and enforced by the **Assurance Engine**,
 Harmony's authoritative local engine for assurance governance.
 
 ## Charter Contract
 
-- Canonical charter: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/CHARTER.md`
-- Machine contract: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/weights/weights.yml` -> `charter`
+- Canonical charter: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/governance/CHARTER.md`
+- Machine contract: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/governance/weights/weights.yml` -> `charter`
 - Active umbrella chain: `Assurance > Productivity > Integration`
 - The resolver and gate validate:
   - charter priority chain alignment,
@@ -45,15 +45,15 @@ Later layers override earlier layers for the same attribute.
 
 ## Governance
 
-- Weight changes require a version bump in `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/weights/weights.yml`.
+- Weight changes require a version bump in `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/governance/weights/weights.yml`.
 - Weight changes require a changelog entry with rationale and ADR reference.
-- Score changes do not require ADR/version by default and should be tracked in `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/scores/scores.yml`.
+- Score changes do not require ADR/version by default and should be tracked in `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/governance/scores/scores.yml`.
 - Profile sprawl is constrained via guardrails (`max_active_profiles_per_repo`, naming regex, and deprecation rules).
 
 ## Source Files
 
-- Policy weights: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/weights/weights.yml`
-- Measurement scores: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/standards/scores/scores.yml`
-- Resolver entrypoint: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/_ops/scripts/compute-assurance-score.sh`
-- Gate entrypoint: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/_ops/scripts/assurance-gate.sh`
+- Policy weights: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/governance/weights/weights.yml`
+- Measurement scores: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/governance/scores/scores.yml`
+- Resolver entrypoint: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh`
+- Gate entrypoint: `/Users/jamesryancooper/Projects/harmony/.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh`
 - Rust implementation: `/Users/jamesryancooper/Projects/harmony/.harmony/runtime/crates/assurance_tools/src/main.rs`

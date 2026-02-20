@@ -105,4 +105,4 @@ After skill execution, verify:
 8. Log index updated at `_ops/state/logs/audit-subsystem-health/index.yml`
 9. No source files were modified (read-only guarantee)
 10. Alignment validator passes when architecture surfaces changed:
-    - `bash .harmony/assurance/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
+    - `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh`

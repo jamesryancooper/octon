@@ -29,7 +29,7 @@ When creating a harness using this template:
 | `START.md` | Docs-specific boot sequence (overrides base) |
 | `scope.md` | Docs-specific scope template (overrides base) |
 | `conventions.md` | Docs-specific conventions (overrides base) |
-| `assurance/complete.md` | Docs-specific definition of done (overrides base) |
+| `assurance/practices/complete.md` | Docs-specific definition of done (overrides base) |
 | `orchestration/runtime/workflows/are/` | Analyze-Refine-Evaluate workflows for document improvement |
 
 ### Files Inherited from Base
@@ -39,7 +39,7 @@ All other files come from `.harmony/scaffolding/templates/harmony/`:
 - `catalog.md`
 - `cognition/context/` (decisions, lessons, glossary, dependencies, constraints)
 - `continuity/` (log.md, tasks.json, entities.json)
-- `assurance/session-exit.md`
+- `assurance/practices/session-exit.md`
 - `capabilities/runtime/commands/`, `scaffolding/prompts/`, `scaffolding/templates/`, `scaffolding/examples/` (README placeholders)
 
 ## Usage

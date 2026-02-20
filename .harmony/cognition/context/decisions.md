@@ -22,6 +22,7 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 - [ADR-021](../decisions/021-bounded-surfaces-contract-and-agency-migration.md) — Bounded surfaces contract and agency clean-break migration (D045)
 - [ADR-022](../decisions/022-orchestration-bounded-surfaces-clean-break-migration.md) — Orchestration bounded surfaces clean-break migration (D046)
 - [ADR-023](../decisions/023-capabilities-bounded-surfaces-clean-break-migration.md) — Capabilities bounded surfaces clean-break migration (D047)
+- [ADR-024](../decisions/024-assurance-bounded-surfaces-clean-break-migration.md) — Assurance bounded surfaces clean-break migration (D048)
 
 ## Active Decisions
 
@@ -73,6 +74,7 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 | D045 | Bounded surface separation | Separate runtime artifacts, governance contracts, and operating practices where materially applicable | First rollout is clean-break migration of agency to `actors/`, `governance/`, and `practices/` with CI enforcement of legacy-path removal | 2026-02-20 |
 | D046 | Orchestration bounded surfaces | Apply bounded surfaces to orchestration using canonical `runtime/`, `governance/`, and `practices/` surfaces | Legacy orchestration root paths are removed and CI validators enforce no reintroduction | 2026-02-20 |
 | D047 | Capabilities bounded surfaces | Apply bounded surfaces to capabilities using canonical `runtime/`, `governance/`, and `practices/` surfaces | Legacy capabilities root runtime/policy paths are removed and CI validators enforce no reintroduction | 2026-02-20 |
+| D048 | Assurance bounded surfaces | Apply bounded surfaces to assurance using canonical `runtime/`, `governance/`, and `practices/` surfaces | Legacy assurance root governance/checklist/standards/runtime paths are removed and CI validators enforce no reintroduction | 2026-02-20 |
 
 ## Decision Format
 

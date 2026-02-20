@@ -18,7 +18,7 @@ pnpm install
 3. **Read `continuity/log.md`** → Know what's been done
 4. **Read `continuity/tasks.json`** → Know current priorities
 5. **Begin** highest-priority unblocked task
-6. **Before finishing:** Update `continuity/log.md`, verify against `assurance/complete.md`
+6. **Before finishing:** Update `continuity/log.md`, verify against `assurance/practices/complete.md`
 
 ## Key Files
 

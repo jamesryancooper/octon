@@ -13,7 +13,7 @@ selection_defaults:
   fallback_profile: test-profile
 
 charter:
-  ref: .harmony/assurance/CHARTER.md
+  ref: .harmony/assurance/governance/CHARTER.md
   version: "2.0.0"
   priority_chain:
     - id: assurance
@@ -26,7 +26,7 @@ charter:
   tradeoff_rules:
     - Assurance is non-negotiable.
   required_references:
-    charter: .harmony/assurance/CHARTER.md
+    charter: .harmony/assurance/governance/CHARTER.md
   attribute_umbrella_map:
     security: assurance
     deployability: productivity

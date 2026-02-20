@@ -25,19 +25,19 @@ enum Command {
 struct ScoreArgs {
     #[arg(
         long,
-        default_value = ".harmony/assurance/standards/weights/weights.yml"
+        default_value = ".harmony/assurance/governance/weights/weights.yml"
     )]
     weights: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/standards/scores/scores.yml")]
+    #[arg(long, default_value = ".harmony/assurance/governance/scores/scores.yml")]
     scores: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/CHARTER.md")]
+    #[arg(long, default_value = ".harmony/assurance/governance/CHARTER.md")]
     charter: PathBuf,
 
     #[arg(
         long,
-        default_value = ".harmony/assurance/standards/weights/inputs/context.yml"
+        default_value = ".harmony/assurance/governance/weights/inputs/context.yml"
     )]
     context: PathBuf,
 
@@ -80,7 +80,7 @@ struct ScoreArgs {
     #[arg(long, default_value = ".harmony/output/assurance/policy/deviations")]
     deviations_dir: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/_ops/state")]
+    #[arg(long, default_value = ".harmony/assurance/runtime/_ops/state")]
     lock_dir: PathBuf,
 }
 
@@ -91,14 +91,14 @@ struct GateArgs {
 
     #[arg(
         long,
-        default_value = ".harmony/assurance/standards/weights/weights.yml"
+        default_value = ".harmony/assurance/governance/weights/weights.yml"
     )]
     weights: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/standards/scores/scores.yml")]
+    #[arg(long, default_value = ".harmony/assurance/governance/scores/scores.yml")]
     scores: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/CHARTER.md")]
+    #[arg(long, default_value = ".harmony/assurance/governance/CHARTER.md")]
     charter: PathBuf,
 
     #[arg(
@@ -4566,9 +4566,9 @@ mod tests {
     fn base_gate_paths() -> (PathBuf, PathBuf, PathBuf, PathBuf, PathBuf) {
         let root = repo_root();
         (
-            root.join(".harmony/assurance/standards/weights/weights.yml"),
-            root.join(".harmony/assurance/standards/scores/scores.yml"),
-            root.join(".harmony/assurance/CHARTER.md"),
+            root.join(".harmony/assurance/governance/weights/weights.yml"),
+            root.join(".harmony/assurance/governance/scores/scores.yml"),
+            root.join(".harmony/assurance/governance/CHARTER.md"),
             root.join(".harmony/assurance/governance/subsystem-classes.yml"),
             root.join(".harmony/assurance/governance/overrides.yml"),
         )
@@ -4589,14 +4589,14 @@ mod tests {
     fn parse_charter_spec_requires_attribute_umbrella_map() {
         let weights = json!({
             "charter": {
-                "ref": ".harmony/assurance/CHARTER.md",
+                "ref": ".harmony/assurance/governance/CHARTER.md",
                 "version": "2.0.0",
                 "priority_chain": [
                     {"id": "assurance", "name": "Assurance"}
                 ],
                 "tie_break_rule": "When tied, prefer higher umbrella rank.",
                 "tradeoff_rules": ["Assurance is non-negotiable."],
-                "required_references": {"charter": ".harmony/assurance/CHARTER.md"}
+                "required_references": {"charter": ".harmony/assurance/governance/CHARTER.md"}
             }
         });
 
@@ -4610,7 +4610,7 @@ mod tests {
     fn parse_charter_spec_requires_full_attribute_coverage() {
         let weights = json!({
             "charter": {
-                "ref": ".harmony/assurance/CHARTER.md",
+                "ref": ".harmony/assurance/governance/CHARTER.md",
                 "version": "2.0.0",
                 "priority_chain": [
                     {"id": "assurance", "name": "Assurance"},
@@ -4619,7 +4619,7 @@ mod tests {
                 ],
                 "tie_break_rule": "When tied, prefer higher umbrella rank.",
                 "tradeoff_rules": ["Assurance is non-negotiable."],
-                "required_references": {"charter": ".harmony/assurance/CHARTER.md"},
+                "required_references": {"charter": ".harmony/assurance/governance/CHARTER.md"},
                 "attribute_umbrella_map": {
                     "security": "assurance"
                 }
@@ -4655,7 +4655,7 @@ mod tests {
         priority_rank.insert("integration".to_string(), 3);
 
         let spec = CharterSpec {
-            reference_path: ".harmony/assurance/CHARTER.md".to_string(),
+            reference_path: ".harmony/assurance/governance/CHARTER.md".to_string(),
             version: Some("2.0.0".to_string()),
             priority_chain,
             tie_break_rule: "When tied, prefer higher umbrella rank.".to_string(),

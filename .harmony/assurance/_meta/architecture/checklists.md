@@ -16,17 +16,18 @@ Applicability by harness type:
 
 ```text
 .harmony/assurance/
-├── complete.md          # Definition of done (required)
-├── session-exit.md  # Session completion steps (recommended)
-├── review.md        # Pre-review checklist (optional)
-└── deploy.md        # Pre-deployment checklist (optional)
+└── practices/
+    ├── complete.md      # Definition of done (required)
+    ├── session-exit.md  # Session completion steps (recommended)
+    ├── review.md        # Pre-review checklist (optional)
+    └── deploy.md        # Pre-deployment checklist (optional)
 ```
 
 ---
 
-## `complete.md` (Required When `assurance/` Exists)
+## `practices/complete.md` (Required When `assurance/` Exists)
 
-If a harness includes the `assurance/` subsystem, it MUST define `assurance/complete.md` with completion criteria.
+If a harness includes the `assurance/` subsystem, it MUST define `assurance/practices/complete.md` with completion criteria.
 
 - Root harness: should always include this file.
 - Descendant harness: include this file only when the descendant defines local assurance gates.
@@ -66,7 +67,7 @@ If a harness includes the `assurance/` subsystem, it MUST define `assurance/comp
 
 ---
 
-## `session-exit.md` (Recommended)
+## `practices/session-exit.md` (Recommended)
 
 Steps to complete before ending a session, context reset, or handoff.
 
@@ -105,7 +106,7 @@ Session exit ensures **continuity** across context resets. Without it, the next 
 Checklists are referenced in the boot sequence:
 
 ```markdown
-7. Before finishing: Complete `assurance/session-exit.md`, verify against `assurance/complete.md`
+7. Before finishing: Complete `assurance/practices/session-exit.md`, verify against `assurance/practices/complete.md`
 ```
 
 Agents MUST NOT mark tasks complete without verifying all applicable checklist items.

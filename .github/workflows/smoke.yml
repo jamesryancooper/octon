@@ -22,9 +22,9 @@ jobs:
           set +e
           {
             echo "Running harness smoke checks..."
-            chmod +x .harmony/assurance/_ops/scripts/validate-harness-structure.sh
+            chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
             chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
-            .harmony/assurance/_ops/scripts/validate-harness-structure.sh
+            .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
             .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
           } > smoke-summary.txt 2>&1
           status=$?

@@ -64,5 +64,5 @@ Historical accuracy is more important than current naming consistency.
 ## References
 
 - **Workflow:** `.harmony/orchestration/runtime/workflows/quality-gate/refactor/`
-- **Checklist:** `.harmony/assurance/complete.md`
+- **Checklist:** `.harmony/assurance/practices/complete.md`
 - **Conventions:** `.harmony/conventions.md`

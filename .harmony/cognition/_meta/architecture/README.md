@@ -592,7 +592,7 @@ Not every directory needs a `.harmony`. Use this guide to decide.
 | **Scoped context** | Agent loads only relevant context, not the entire repo |
 | **Continuity** | `continuity/log.md` + `tasks.json` survive context resets |
 | **Explicit boundaries** | `scope.md` prevents scope creep; agent knows when to stop |
-| **Quality gates** | `assurance/complete.md` checklist prevents premature completion |
+| **Quality gates** | `assurance/practices/complete.md` checklist prevents premature completion |
 | **Separation** | Agent-facing vs human-led is explicit (`ideation/` directory) |
 
 ### Risks to watch

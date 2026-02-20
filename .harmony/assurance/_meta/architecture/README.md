@@ -1,6 +1,7 @@
 # Assurance Architecture
 
-This directory contains architecture documentation for assurance standards and completion enforcement.
+This directory contains architecture documentation for assurance bounded
+surfaces and completion enforcement.
 
 ## Files
 

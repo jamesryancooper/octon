@@ -39,14 +39,14 @@ Templates are **boilerplate files** stored in `.harmony/scaffolding/templates/`.
 │   ├── START.md            # Overrides base
 │   ├── scope.md            # Overrides base
 │   ├── conventions.md      # Overrides base
-│   ├── assurance/complete.md     # Overrides base
+│   ├── assurance/practices/complete.md     # Overrides base
 │   └── orchestration/runtime/workflows/are/  # Docs-specific workflows
 └── harmony-node-ts/        # Scoped template for Node.js/TypeScript
     ├── MANIFEST.md         # Inheritance metadata
     ├── START.md            # Overrides base
     ├── scope.md            # Overrides base
     ├── conventions.md      # Overrides base
-    └── assurance/complete.md     # Overrides base
+    └── assurance/practices/complete.md     # Overrides base
 ```
 
 ---

@@ -32,4 +32,4 @@ Rules that limit what can be done. Agents MUST respect these constraints.
 | Constraint | Rule | Rationale |
 |------------|------|-----------|
 | Progress updates | MUST update `continuity/log.md` before session end | Ensures continuity. |
-| Checklist verification | MUST verify against `assurance/complete.md` before completing tasks | Prevents premature completion. |
+| Checklist verification | MUST verify against `assurance/practices/complete.md` before completing tasks | Prevents premature completion. |

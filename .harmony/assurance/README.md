@@ -15,24 +15,36 @@ The Assurance subsystem defines and enforces:
 Quality remains a measured dimension. Assurance is the system that governs and
 proves legitimacy.
 
+## Bounded Surfaces
+
+Assurance follows bounded surfaces with three canonical authorities:
+
+- `runtime/` - executable assurance engine entrypoints and trust artifact
+  runtime surfaces.
+- `governance/` - normative assurance contracts, policy weights/scores, and
+  override governance.
+- `practices/` - operating checklists and assurance standards for human/agent
+  execution discipline.
+
 ## Enforcement Engine
 
 The local resolver and gate tooling is the authoritative assurance engine:
 
-- policy source: `standards/weights/weights.yml`
-- measurement source: `standards/scores/scores.yml`
+- policy source: `governance/weights/weights.yml`
+- measurement source: `governance/scores/scores.yml`
 - governance controls: `governance/*`
 - execution entrypoints:
-  `_ops/scripts/compute-assurance-score.sh` and `_ops/scripts/assurance-gate.sh`
+  `runtime/_ops/scripts/compute-assurance-score.sh` and
+  `runtime/_ops/scripts/assurance-gate.sh`
 - generated evidence: `.harmony/output/assurance/`
 
 ## Charter-Driven Flow
 
-1. `CHARTER.md` defines priority and trade-off intent.
-2. `standards/weights/weights.yml` defines policy weights.
-3. `standards/scores/scores.yml` defines measured subsystem scores.
-4. `_ops/scripts/compute-assurance-score.sh` resolves effective policy.
-5. `_ops/scripts/assurance-gate.sh` enforces gates and drift checks.
+1. `governance/CHARTER.md` defines priority and trade-off intent.
+2. `governance/weights/weights.yml` defines policy weights.
+3. `governance/scores/scores.yml` defines measured subsystem scores.
+4. `runtime/_ops/scripts/compute-assurance-score.sh` resolves effective policy.
+5. `runtime/_ops/scripts/assurance-gate.sh` enforces gates and drift checks.
 6. Outputs and evidence are written under `../output/assurance/`.
 
 Active umbrella chain:
@@ -48,24 +60,19 @@ Interoperability`) is no longer supported.
 
 | Path | Purpose |
 |---|---|
-| `CHARTER.md` | Charter-level policy intent and umbrella priority chain |
-| `CHANGELOG.md` | Assurance subsystem release and breaking-change notes |
-| `DOCTRINE.md` | Assurance rationale, scope, and subsystem relationships |
-| `complete.md` | Definition of done checklist |
-| `session-exit.md` | Session exit checklist |
-| `standards/` | Standards and score/weight sources of truth |
-| `governance/` | Precedence and override governance contracts |
+| `runtime/` | Runtime assurance execution surfaces and trust artifacts |
+| `runtime/_ops/scripts/` | Assurance engine and alignment validator entrypoints |
+| `runtime/trust/` | Attestations, evidence, and audit artifact surfaces |
+| `governance/` | Charter, doctrine, changelog, precedence, and override contracts |
+| `governance/weights/` | Policy weights and context contract |
+| `governance/scores/` | Measured score inputs and evidence mapping |
 | `governance/precedence.md` | Canonical precedence and merge-order contract |
-| `trust/` | Attestations, evidence, and audit folders |
-| `_ops/scripts/alignment-check.sh` | Profile-based alignment checks |
-| `_ops/scripts/validate-harness-structure.sh` | Harness structure and discovery checks |
-| `_ops/scripts/validate-audit-subsystem-health-alignment.sh` | Drift guardrail for audit-subsystem-health |
-| `_ops/scripts/validate-commit-pr-alignment.sh` | Drift guardrail for commit/PR governance |
-| `_ops/scripts/compute-assurance-score.sh` | Effective-weight and scorecard computation |
-| `_ops/scripts/assurance-gate.sh` | Gate decision and warning/fail enforcement |
+| `practices/` | Completion/exit gates and operating standards |
+| `practices/complete.md` | Definition of done checklist |
+| `practices/session-exit.md` | Session exit checklist |
 
 ## Contract
 
-- Read `complete.md` before marking work complete.
-- Read `session-exit.md` before ending session or handoff.
+- Read `practices/complete.md` before marking work complete.
+- Read `practices/session-exit.md` before ending session or handoff.
 - Treat Assurance artifacts as contract surfaces, not optional guidance.

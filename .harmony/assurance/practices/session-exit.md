@@ -54,20 +54,20 @@ Complete before ending a session, context reset, or handoff.
 
 ### If `.harmony` architecture surfaces changed
 
-- [ ] Run `bash .harmony/assurance/_ops/scripts/validate-harness-structure.sh`
-- [ ] Run `bash .harmony/assurance/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
-- [ ] Run `bash .harmony/assurance/_ops/scripts/alignment-check.sh --profile harness`
+- [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
+- [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
+- [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness`
 - [ ] If validator reports drift, update `audit-subsystem-health` skill artifacts before exit
 
 ### If commit/PR governance artifacts changed
 
-- [ ] Run `bash .harmony/assurance/_ops/scripts/alignment-check.sh --profile commit-pr`
+- [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile commit-pr`
 - [ ] If validator reports drift, update standards/template/workflow files to restore alignment
 
 ### If assurance weight artifacts changed
 
-- [ ] Run `bash .harmony/assurance/_ops/scripts/compute-assurance-score.sh --weights .harmony/assurance/standards/weights/weights.yml --scores .harmony/assurance/standards/scores/scores.yml`
-- [ ] Run `bash .harmony/assurance/_ops/scripts/assurance-gate.sh --scorecard <generated-scorecard.yml> --weights .harmony/assurance/standards/weights/weights.yml --scores .harmony/assurance/standards/scores/scores.yml`
+- [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh --weights .harmony/assurance/governance/weights/weights.yml --scores .harmony/assurance/governance/scores/scores.yml`
+- [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/assurance-gate.sh --scorecard <generated-scorecard.yml> --weights .harmony/assurance/governance/weights/weights.yml --scores .harmony/assurance/governance/scores/scores.yml`
 - [ ] Verify `.harmony/output/assurance/effective/<context>.md` and `.harmony/output/assurance/results/<context>.md` were generated
 - [ ] Attach scorecard path and gate outcome in `continuity/log.md`
 

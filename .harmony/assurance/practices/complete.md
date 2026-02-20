@@ -48,19 +48,19 @@ description: Assurance criteria and completion checklist for harness tasks.
 
 ### For .harmony Architecture Changes
 
-- [ ] `bash .harmony/assurance/_ops/scripts/validate-harness-structure.sh` passes
-- [ ] `bash .harmony/assurance/_ops/scripts/validate-audit-subsystem-health-alignment.sh` passes
-- [ ] `bash .harmony/assurance/_ops/scripts/alignment-check.sh --profile harness` passes
+- [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh` passes
+- [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh` passes
+- [ ] `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness` passes
 - [ ] `pre-release-audit` workflow executed (or explicit rationale recorded for not running it)
 
 ### For Commit/PR Standards Changes
 
-- [ ] `bash .harmony/assurance/_ops/scripts/alignment-check.sh --profile commit-pr` passes
+- [ ] `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile commit-pr` passes
 
 ### For Assurance Weight Governance Changes
 
-- [ ] `bash .harmony/assurance/_ops/scripts/compute-assurance-score.sh --weights .harmony/assurance/standards/weights/weights.yml --scores .harmony/assurance/standards/scores/scores.yml` runs successfully
-- [ ] `bash .harmony/assurance/_ops/scripts/assurance-gate.sh --scorecard <generated-scorecard.yml> --weights .harmony/assurance/standards/weights/weights.yml --scores .harmony/assurance/standards/scores/scores.yml` passes (or warning rationale is recorded)
+- [ ] `bash .harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh --weights .harmony/assurance/governance/weights/weights.yml --scores .harmony/assurance/governance/scores/scores.yml` runs successfully
+- [ ] `bash .harmony/assurance/runtime/_ops/scripts/assurance-gate.sh --scorecard <generated-scorecard.yml> --weights .harmony/assurance/governance/weights/weights.yml --scores .harmony/assurance/governance/scores/scores.yml` passes (or warning rationale is recorded)
 - [ ] Resolver generated `.harmony/output/assurance/effective/<context>.md` and `.harmony/output/assurance/results/<context>.md`
 
 ## Common Failure Modes

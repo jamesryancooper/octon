@@ -3,12 +3,12 @@ name: Assurance Engine Gates
 on:
   pull_request:
     paths:
-      - '.harmony/assurance/CHARTER.md'
-      - '.harmony/assurance/standards/weights/**'
+      - '.harmony/assurance/governance/CHARTER.md'
+      - '.harmony/assurance/governance/weights/**'
       - '.harmony/assurance/governance/**'
-      - '.harmony/assurance/standards/scores/**'
-      - '.harmony/assurance/_ops/scripts/compute-assurance-score.sh'
-      - '.harmony/assurance/_ops/scripts/assurance-gate.sh'
+      - '.harmony/assurance/governance/scores/**'
+      - '.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh'
+      - '.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh'
       - '.harmony/runtime/crates/assurance_tools/**'
       - '.harmony/runtime/crates/Cargo.toml'
       - '.github/workflows/assurance-weight-gates.yml'
@@ -16,12 +16,12 @@ on:
     branches:
       - main
     paths:
-      - '.harmony/assurance/CHARTER.md'
-      - '.harmony/assurance/standards/weights/**'
+      - '.harmony/assurance/governance/CHARTER.md'
+      - '.harmony/assurance/governance/weights/**'
       - '.harmony/assurance/governance/**'
-      - '.harmony/assurance/standards/scores/**'
-      - '.harmony/assurance/_ops/scripts/compute-assurance-score.sh'
-      - '.harmony/assurance/_ops/scripts/assurance-gate.sh'
+      - '.harmony/assurance/governance/scores/**'
+      - '.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh'
+      - '.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh'
       - '.harmony/runtime/crates/assurance_tools/**'
       - '.harmony/runtime/crates/Cargo.toml'
       - '.github/workflows/assurance-weight-gates.yml'
@@ -62,21 +62,21 @@ jobs:
             exit 0
           fi
 
-          if git cat-file -e "$BASE_SHA:.harmony/assurance/standards/weights/weights.yml" 2>/dev/null; then
+          if git cat-file -e "$BASE_SHA:.harmony/assurance/governance/weights/weights.yml" 2>/dev/null; then
             BASE_WEIGHTS="$RUNNER_TEMP/base-weights.yml"
-            git show "$BASE_SHA:.harmony/assurance/standards/weights/weights.yml" > "$BASE_WEIGHTS"
+            git show "$BASE_SHA:.harmony/assurance/governance/weights/weights.yml" > "$BASE_WEIGHTS"
             echo "BASE_WEIGHTS=$BASE_WEIGHTS" >> "$GITHUB_ENV"
           fi
 
-          if git cat-file -e "$BASE_SHA:.harmony/assurance/standards/scores/scores.yml" 2>/dev/null; then
+          if git cat-file -e "$BASE_SHA:.harmony/assurance/governance/scores/scores.yml" 2>/dev/null; then
             BASE_SCORES="$RUNNER_TEMP/base-scores.yml"
-            git show "$BASE_SHA:.harmony/assurance/standards/scores/scores.yml" > "$BASE_SCORES"
+            git show "$BASE_SHA:.harmony/assurance/governance/scores/scores.yml" > "$BASE_SCORES"
             echo "BASE_SCORES=$BASE_SCORES" >> "$GITHUB_ENV"
           fi
 
-          if git cat-file -e "$BASE_SHA:.harmony/assurance/CHARTER.md" 2>/dev/null; then
+          if git cat-file -e "$BASE_SHA:.harmony/assurance/governance/CHARTER.md" 2>/dev/null; then
             BASE_CHARTER="$RUNNER_TEMP/base-charter.md"
-            git show "$BASE_SHA:.harmony/assurance/CHARTER.md" > "$BASE_CHARTER"
+            git show "$BASE_SHA:.harmony/assurance/governance/CHARTER.md" > "$BASE_CHARTER"
             echo "BASE_CHARTER=$BASE_CHARTER" >> "$GITHUB_ENV"
           fi
 
@@ -85,11 +85,11 @@ jobs:
           OUT_DIR="$RUNNER_TEMP/assurance-engine-scorecard"
           cargo build --quiet --manifest-path .harmony/runtime/crates/Cargo.toml -p harmony_assurance_tools
           cargo test --quiet --manifest-path .harmony/runtime/crates/Cargo.toml -p harmony_assurance_tools
-          .harmony/assurance/_ops/scripts/compute-assurance-score.sh \
-            --weights .harmony/assurance/standards/weights/weights.yml \
-            --scores .harmony/assurance/standards/scores/scores.yml \
-            --charter .harmony/assurance/CHARTER.md \
-            --context .harmony/assurance/standards/weights/inputs/context.yml \
+          .harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh \
+            --weights .harmony/assurance/governance/weights/weights.yml \
+            --scores .harmony/assurance/governance/scores/scores.yml \
+            --charter .harmony/assurance/governance/CHARTER.md \
+            --context .harmony/assurance/governance/weights/inputs/context.yml \
             --profile ci-reliability \
             --run-mode ci \
             --maturity beta \
@@ -103,9 +103,9 @@ jobs:
           set -euo pipefail
           args=(
             --scorecard "$OUT_DIR/scorecard.yml"
-            --weights .harmony/assurance/standards/weights/weights.yml
-            --scores .harmony/assurance/standards/scores/scores.yml
-            --charter .harmony/assurance/CHARTER.md
+            --weights .harmony/assurance/governance/weights/weights.yml
+            --scores .harmony/assurance/governance/scores/scores.yml
+            --charter .harmony/assurance/governance/CHARTER.md
             --mode ci
             --summary-out "$OUT_DIR/gate-summary.md"
           )
@@ -123,7 +123,7 @@ jobs:
             args+=(--strict-warnings)
           fi
 
-          .harmony/assurance/_ops/scripts/assurance-gate.sh "${args[@]}"
+          .harmony/assurance/runtime/_ops/scripts/assurance-gate.sh "${args[@]}"
 
       - name: Upload assurance artifacts
         uses: actions/upload-artifact@v4

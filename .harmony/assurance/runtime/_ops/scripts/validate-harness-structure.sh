@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
+ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 HARMONY_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$HARMONY_DIR/.." && pwd)"
 
@@ -150,6 +150,14 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/orchestration/runtime/workflows/registry.yml"
   require_file "$HARMONY_DIR/orchestration/runtime/missions/registry.yml"
   require_file "$HARMONY_DIR/orchestration/governance/incidents.md"
+
+  require_file "$HARMONY_DIR/assurance/governance/CHARTER.md"
+  require_file "$HARMONY_DIR/assurance/governance/weights/weights.yml"
+  require_file "$HARMONY_DIR/assurance/governance/scores/scores.yml"
+  require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/compute-assurance-score.sh"
+  require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/assurance-gate.sh"
+  require_file "$HARMONY_DIR/assurance/practices/complete.md"
+  require_file "$HARMONY_DIR/assurance/practices/session-exit.md"
 }
 
 check_expected_internals() {
@@ -179,13 +187,20 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/orchestration/governance"
   require_dir "$HARMONY_DIR/orchestration/practices"
 
+  require_dir "$HARMONY_DIR/assurance/runtime"
+  require_dir "$HARMONY_DIR/assurance/runtime/_ops"
+  require_dir "$HARMONY_DIR/assurance/runtime/trust"
+  require_dir "$HARMONY_DIR/assurance/governance"
+  require_dir "$HARMONY_DIR/assurance/practices"
+  require_dir "$HARMONY_DIR/assurance/practices/standards"
+
   require_dir "$HARMONY_DIR/scaffolding/patterns"
   require_dir "$HARMONY_DIR/scaffolding/templates"
   require_dir "$HARMONY_DIR/scaffolding/prompts"
   require_dir "$HARMONY_DIR/scaffolding/examples"
 
-  require_file "$HARMONY_DIR/assurance/complete.md"
-  require_file "$HARMONY_DIR/assurance/session-exit.md"
+  require_file "$HARMONY_DIR/assurance/practices/complete.md"
+  require_file "$HARMONY_DIR/assurance/practices/session-exit.md"
 
   require_file "$HARMONY_DIR/continuity/log.md"
   require_file "$HARMONY_DIR/continuity/tasks.json"
@@ -241,6 +256,31 @@ check_deprecated_orchestration_paths() {
   done
 }
 
+check_deprecated_assurance_paths() {
+  local deprecated
+  deprecated=(
+    "$HARMONY_DIR/assurance/CHARTER.md"
+    "$HARMONY_DIR/assurance/DOCTRINE.md"
+    "$HARMONY_DIR/assurance/CHANGELOG.md"
+    "$HARMONY_DIR/assurance/complete.md"
+    "$HARMONY_DIR/assurance/session-exit.md"
+    "$HARMONY_DIR/assurance/standards"
+    "$HARMONY_DIR/assurance/trust"
+    "$HARMONY_DIR/assurance/_ops/scripts"
+    "$HARMONY_DIR/assurance/_ops/state"
+  )
+
+  local path rel
+  for path in "${deprecated[@]}"; do
+    rel="${path#$ROOT_DIR/}"
+    if [[ -e "$path" ]]; then
+      fail "deprecated assurance path exists: $rel"
+    else
+      pass "deprecated assurance path removed: $rel"
+    fi
+  done
+}
+
 check_alignment_guardrail() {
   local script="$SCRIPT_DIR/validate-audit-subsystem-health-alignment.sh"
   if [[ ! -f "$script" ]]; then
@@ -270,6 +310,7 @@ main() {
   check_expected_internals
   check_deprecated_orchestration_paths
   check_deprecated_capabilities_paths
+  check_deprecated_assurance_paths
   check_alignment_guardrail
 
   echo

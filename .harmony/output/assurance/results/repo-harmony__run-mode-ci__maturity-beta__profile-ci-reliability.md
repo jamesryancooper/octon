@@ -8,7 +8,7 @@
 
 ## Charter Metadata
 
-- Charter: `.harmony/assurance/CHARTER.md`
+- Charter: `.harmony/assurance/governance/CHARTER.md`
 - Version: `2.0.0`
 - Umbrella chain: `Assurance (assurance) > Productivity (productivity) > Integration (integration)`
 - Tie-break rule: When weighted priority ties, prioritize items mapped to higher umbrellas in chain order.

@@ -148,7 +148,7 @@ Within these namespaces, common subpaths are:
 7. **Read `continuity/tasks.json`** → Know current priorities
 8. **Check `orchestration/runtime/missions/registry.yml`** → Know active missions (if any)
 9. **Begin** highest-priority unblocked task
-10. **Before finishing:** Complete `assurance/session-exit.md`, verify against `assurance/complete.md`
+10. **Before finishing:** Complete `assurance/practices/session-exit.md`, verify against `assurance/practices/complete.md`
 
 ## Runtime Quick Start
 

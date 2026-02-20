@@ -28,13 +28,13 @@ The same order applies to scorecard computation and gate enforcement.
 
 ## Sources of Truth
 
-- Policy weights: `.harmony/assurance/standards/weights/weights.yml`
+- Policy weights: `.harmony/assurance/governance/weights/weights.yml`
 - Override declarations: `.harmony/assurance/governance/overrides.yml`
 - Override governance: `.harmony/assurance/governance/SUBSYSTEM_OVERRIDE_POLICY.md`
 - Subsystem classes: `.harmony/assurance/governance/subsystem-classes.yml`
 
 ## Enforcement Surfaces
 
-- Local/CI computation: `.harmony/assurance/_ops/scripts/compute-assurance-score.sh`
-- Local/CI gating: `.harmony/assurance/_ops/scripts/assurance-gate.sh`
+- Local/CI computation: `.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh`
+- Local/CI gating: `.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh`
 - Runtime tool: `.harmony/runtime/crates/assurance_tools/src/main.rs`

@@ -2,8 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-QUALITY_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
-HARMONY_DIR="$(cd -- "$QUALITY_DIR/.." && pwd)"
+ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
+HARMONY_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$HARMONY_DIR/.." && pwd)"
 
 ALIGNMENT_CONTRACT="$HARMONY_DIR/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/alignment-contract.md"
@@ -178,8 +178,8 @@ check_drift_alignment() {
     '^\.harmony/cognition/principles/'
     '^\.harmony/[^/]+/_meta/architecture/'
     '^\.harmony/orchestration/runtime/workflows/quality-gate/pre-release-audit/'
-    '^\.harmony/assurance/(complete\.md|session-exit\.md)$'
-    '^\.harmony/assurance/_ops/scripts/validate-harness-structure\.sh$'
+    '^\.harmony/assurance/practices/(complete\.md|session-exit\.md)$'
+    '^\.harmony/assurance/runtime/_ops/scripts/validate-harness-structure\.sh$'
   )
   local update_regexes=(
     '^\.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/'

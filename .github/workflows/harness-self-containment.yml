@@ -22,8 +22,8 @@ jobs:
 
       - name: Validate harness structure contract
         run: |
-          chmod +x .harmony/assurance/_ops/scripts/validate-harness-structure.sh
-          .harmony/assurance/_ops/scripts/validate-harness-structure.sh
+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
 
       - name: Validate workflow manifest and dependency profiles
         run: |

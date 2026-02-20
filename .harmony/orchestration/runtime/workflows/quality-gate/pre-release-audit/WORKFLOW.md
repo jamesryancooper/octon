@@ -72,7 +72,7 @@ A harness subsystem and related architecture artifacts, audited for migration in
 - `audit-cross-subsystem-coherence` skill is active (required when `run_cross_subsystem=true`)
 - `audit-freshness-and-supersession` skill is active (required when `run_freshness=true`)
 - Target subsystem directory exists
-- Alignment validator exists: `.harmony/assurance/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
+- Alignment validator exists: `.harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
 
 ## Failure Conditions
 

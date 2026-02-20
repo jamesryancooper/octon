@@ -32,7 +32,7 @@ defaults:
       acceptance_criteria: "Determinism and validation checks must pass for changed surfaces."
       evidence:
         - .github/workflows/main-push-safety.yml
-        - .harmony/assurance/_ops/scripts/alignment-check.sh
+        - .harmony/assurance/runtime/_ops/scripts/alignment-check.sh
     availability:
       score: 3
       target_score: 5
@@ -117,7 +117,7 @@ defaults:
       acceptance_criteria: "Changed behavior satisfies declared requirements and contracts."
       evidence:
         - .harmony/cognition/principles/contract-first.md
-        - .harmony/assurance/_ops/scripts/validate-harness-structure.sh
+        - .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
     completeness:
       score: 4
       target_score: 5
@@ -144,7 +144,7 @@ defaults:
       target_score: 5
       acceptance_criteria: "Changed behavior is covered by deterministic tests."
       evidence:
-        - .harmony/assurance/standards/testing-strategy.md
+        - .harmony/assurance/practices/standards/testing-strategy.md
         - .github/workflows/filesystem-interfaces-runtime.yml
     auditability:
       score: 4

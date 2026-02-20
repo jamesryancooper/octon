@@ -33,13 +33,13 @@ Run repeatable alignment checks by profile.
 Run:
 
 ```bash
-bash .harmony/assurance/_ops/scripts/alignment-check.sh --profile <aspect[,aspect...]> [--dry-run]
+bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile <aspect[,aspect...]> [--dry-run]
 ```
 
 List profiles:
 
 ```bash
-bash .harmony/assurance/_ops/scripts/alignment-check.sh --list-profiles
+bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --list-profiles
 ```
 
 ## Output
@@ -49,6 +49,6 @@ bash .harmony/assurance/_ops/scripts/alignment-check.sh --list-profiles
 
 ## References
 
-- **Runner:** `.harmony/assurance/_ops/scripts/alignment-check.sh`
-- **Commit/PR validator:** `.harmony/assurance/_ops/scripts/validate-commit-pr-alignment.sh`
+- **Runner:** `.harmony/assurance/runtime/_ops/scripts/alignment-check.sh`
+- **Commit/PR validator:** `.harmony/assurance/runtime/_ops/scripts/validate-commit-pr-alignment.sh`
 - **Quality baseline:** `.harmony/assurance/README.md`

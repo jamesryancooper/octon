@@ -58,6 +58,19 @@ Capabilities applies the same contract:
 
 Legacy root-level capability runtime and governance paths (`commands/`, `skills/`, `tools/`, `services/`, `_ops/policy/`) are removed as part of the clean-break migration.
 
+## Assurance Application (Fourth Migration)
+
+Assurance applies the same contract:
+
+- runtime artifacts: `/.harmony/assurance/runtime/`
+- governance contracts: `/.harmony/assurance/governance/`
+- operating standards: `/.harmony/assurance/practices/`
+
+Legacy root-level assurance contracts and runtime surfaces (`CHARTER.md`,
+`DOCTRINE.md`, `CHANGELOG.md`, `complete.md`, `session-exit.md`,
+`standards/`, `trust/`, `_ops/scripts/`, `_ops/state/`) are removed as part
+of the clean-break migration.
+
 ## Benefits
 
 | Benefit | Why It Matters |

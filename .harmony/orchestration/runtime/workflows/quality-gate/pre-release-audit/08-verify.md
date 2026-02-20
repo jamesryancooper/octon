@@ -23,7 +23,7 @@ description: Validate workflow executed successfully.
 - [ ] Coverage summary accounts for all completed audit dimensions
 - [ ] Individual audit reports are linked and accessible
 - [ ] Alignment validator passes:
-  - `bash .harmony/assurance/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
+  - `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
 
 ## Actions
 
@@ -31,7 +31,7 @@ description: Validate workflow executed successfully.
 2. Run alignment validator:
 
    ```bash
-   bash .harmony/assurance/_ops/scripts/validate-audit-subsystem-health-alignment.sh
+   bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh
    ```
 
 3. Document verification results:

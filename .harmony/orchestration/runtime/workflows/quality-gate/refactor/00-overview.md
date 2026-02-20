@@ -68,5 +68,5 @@ Historical accuracy is more important than current naming consistency in these f
 
 ## References
 
-- **Checklist:** `.harmony/assurance/complete.md`
+- **Checklist:** `.harmony/assurance/practices/complete.md`
 - **Progress log format:** `.harmony/conventions.md#progress-log-format`

@@ -2,8 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-QUALITY_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
-HARMONY_DIR="$(cd -- "$QUALITY_DIR/.." && pwd)"
+ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
+HARMONY_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$HARMONY_DIR/.." && pwd)"
 
 COMMITS_DOC="$HARMONY_DIR/agency/practices/commits.md"

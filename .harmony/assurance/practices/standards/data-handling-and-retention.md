@@ -41,7 +41,7 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 
 ## Related Docs
 
-- Security baseline: `.harmony/assurance/standards/security-and-privacy.md`
+- Security baseline: `.harmony/assurance/practices/standards/security-and-privacy.md`
 - Knowledge Plane: `.harmony/cognition/knowledge-plane/knowledge-plane.md`
 - Methodology overview: `.harmony/cognition/methodology/README.md`
 - Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`

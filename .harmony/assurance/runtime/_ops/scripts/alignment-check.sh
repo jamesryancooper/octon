@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
+ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 HARMONY_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 
 PROFILE_CSV=""
@@ -111,11 +111,11 @@ run_weights() {
   local out_dir="$HARMONY_DIR/output/.tmp/assurance-engine-alignment"
   run_step \
     "Compute assurance engine scorecard" \
-    bash "$HARMONY_DIR/assurance/_ops/scripts/compute-assurance-score.sh" \
-      --weights "$HARMONY_DIR/assurance/standards/weights/weights.yml" \
-      --scores "$HARMONY_DIR/assurance/standards/scores/scores.yml" \
-      --charter "$HARMONY_DIR/assurance/CHARTER.md" \
-      --context "$HARMONY_DIR/assurance/standards/weights/inputs/context.yml" \
+    bash "$HARMONY_DIR/assurance/runtime/_ops/scripts/compute-assurance-score.sh" \
+      --weights "$HARMONY_DIR/assurance/governance/weights/weights.yml" \
+      --scores "$HARMONY_DIR/assurance/governance/scores/scores.yml" \
+      --charter "$HARMONY_DIR/assurance/governance/CHARTER.md" \
+      --context "$HARMONY_DIR/assurance/governance/weights/inputs/context.yml" \
       --profile ci-reliability \
       --run-mode ci \
       --maturity beta \
@@ -124,14 +124,14 @@ run_weights() {
 
   run_step \
     "Run assurance engine gate" \
-    bash "$HARMONY_DIR/assurance/_ops/scripts/assurance-gate.sh" \
+    bash "$HARMONY_DIR/assurance/runtime/_ops/scripts/assurance-gate.sh" \
       --scorecard "$out_dir/scorecard.yml" \
-      --weights "$HARMONY_DIR/assurance/standards/weights/weights.yml" \
-      --scores "$HARMONY_DIR/assurance/standards/scores/scores.yml" \
-      --charter "$HARMONY_DIR/assurance/CHARTER.md" \
-      --baseline-weights "$HARMONY_DIR/assurance/standards/weights/weights.yml" \
-      --baseline-scores "$HARMONY_DIR/assurance/standards/scores/scores.yml" \
-      --baseline-charter "$HARMONY_DIR/assurance/CHARTER.md" \
+      --weights "$HARMONY_DIR/assurance/governance/weights/weights.yml" \
+      --scores "$HARMONY_DIR/assurance/governance/scores/scores.yml" \
+      --charter "$HARMONY_DIR/assurance/governance/CHARTER.md" \
+      --baseline-weights "$HARMONY_DIR/assurance/governance/weights/weights.yml" \
+      --baseline-scores "$HARMONY_DIR/assurance/governance/scores/scores.yml" \
+      --baseline-charter "$HARMONY_DIR/assurance/governance/CHARTER.md" \
       --mode ci \
       --summary-out "$out_dir/gate-summary.md"
 }
