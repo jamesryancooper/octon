@@ -186,11 +186,13 @@ Need examples? → Read references/ (on demand)
 | Single Source of Truth | Each tier references the same source, not duplicates at different detail levels |
 | Documentation is Code | Tier structure is enforced, not aspirational |
 
-## Enforcement
+## Implementation Guidance
 
 - **Skill validation**: Manifests must include `id`, `display_name`, `summary`, and `triggers` (SSOT: [skills manifest](../../capabilities/skills/manifest.yml))
 - **Token budgets**: SKILL.md files should target <5000 tokens
-- **Harness linting**: START.md required for harness directories
+- **Harness linting**: Harness directories should include `START.md`
+
+Token budgets and `START.md` presence are guidance defaults, not universal ACP gates; subsystem-specific enforcement may vary.
 
 ## Exceptions
 

@@ -14,7 +14,6 @@ status: Active
 Harmony treats small-batch delivery as default guidance for flow and review quality. Changes should be narrowly scoped and merged quickly into trunk.
 
 For material side-effects, fast merges are encouraged only after ACP promote requirements (evidence + receipts) are satisfied. "Merge quickly" never bypasses ACP stage/promote sequencing.
-Git merge is a delivery mechanic; durable-state authority remains the ACP promote decision.
 
 Default thresholds (review-quality guidance, not ACP hard gates):
 
@@ -90,6 +89,7 @@ if branch_age_days > 1:
 
 ## Canonical References
 
+- For authority boundaries, see [Arbitration and Precedence](./arbitration-and-precedence.md) (SSOT): ACP governs promote/finalize authority and Deny by Default governs capability-attempt authority.
 - Promotion/contraction mechanics: [Autonomous Control Points](./autonomous-control-points.md)
 - Capability attempt authorization: [Deny by Default](./deny-by-default.md)
 
@@ -103,11 +103,9 @@ Allow larger diffs only for mechanical codemods or generated-file updates, and i
 
 Even for small diffs, material side-effects must follow stage -> ACP gate -> promote with receipt emission.
 
-Stage-only flows may exceed default thresholds only with a bounded waiver that is
-receipted, reason-coded, time-boxed, and backed by a decomposition plan for
-promotion slices.
-Waiver semantics are canonical in
-[Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+Stage-only flows may exceed these advisory thresholds when decomposition and risk
+rationale are documented and promoted slices remain small.
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT).
 
 ## Arbitration
 

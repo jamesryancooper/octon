@@ -21,20 +21,9 @@ Enforcement lives in [Autonomous Control Points](./autonomous-control-points.md)
 ACP is the single normative source for promotion/finalize mechanics (including `contraction` alias), quorum behavior, and receipt schema rules.
 No-silent-apply adds an outcome contract only; it does not define separate gate outcomes or approval workflows.
 Operational mechanism is ACP gate evaluation plus receipt emission.
+Receipt minimum fields and completeness levels are defined in the RA/ACP promotion inputs matrix (SSOT).
 
 Capability attempts still follow [Deny by Default](./deny-by-default.md).
-
-## Minimum Always-Visible Fields
-
-No-silent-apply requires that every promoted change exposes, at minimum:
-
-- receipt identifier and ACP decision metadata
-- evidence bundle references
-- rollback handle reference
-- intent/boundary summary for the promoted scope
-
-Canonical receipt field definitions and completeness requirements live in `autonomous-control-points.md`.
-These always-visible fields are the minimum progressive-disclosure surface for post-run audit and rollback decisions.
 
 ## Canonical References
 
@@ -90,7 +79,7 @@ When agents can apply changes silently, teams lose accountability and incident d
 
 ## Exceptions
 
-Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT).
 
 Read-only automation (analysis, reporting, lint suggestions) can run without promotion gates if no durable side-effects occur.
 

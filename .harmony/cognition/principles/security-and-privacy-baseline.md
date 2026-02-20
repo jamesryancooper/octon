@@ -16,6 +16,12 @@ Every change must preserve least-privilege access, secret hygiene, explicit inpu
 Security and privacy requirements are mandatory release criteria.
 Least privilege and fail-closed behavior are non-waivable controls.
 
+Non-waivable control classes:
+1. fail-closed authorization checks for privileged actions
+2. least-privilege default capability posture
+3. receipt emission and auditability for durable `material_side_effect` decisions
+4. explicit break-glass controls for irreversible ACP-4 operations
+
 ## Why It Matters
 
 ### Pillar Alignment: Trust through Governed Determinism
@@ -80,9 +86,9 @@ Treating security controls as optional for speed creates hidden risk that later 
 
 ## Exceptions
 
-No exceptions for secret exposure or unredacted PII/PHI. Temporary exceptions for low-risk controls require explicit waiver scope/timebox.
-Waiver/exception semantics are canonical in
-[Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+No exceptions for secret exposure or unredacted PII/PHI.
+Temporary exceptions for low-risk controls must exclude the non-waivable classes above.
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT).
 Waivers must be policy-bound, receipted, and never used to bypass non-waivable controls.
 
 ## Related Documentation

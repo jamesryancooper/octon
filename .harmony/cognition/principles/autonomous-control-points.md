@@ -13,18 +13,14 @@ status: Active
 
 Autonomous Control Points (ACPs) are Harmony’s primary mechanism for governing consequential side effects.
 
-## Historical Note (Non-Normative)
-
-ACP replaced legacy manual runtime checkpoints. Historical migration context is retained here only to explain the shift to machine-enforced governance.
-
-Under **Reversible Autonomy with Human-on-the-Loop Oversight**:
+Under reversible autonomy:
 
 - Agents may execute long runs without requiring humans to guide or authorize.
 - Material changes are governed by **policy gates**: reversibility requirements,
   evidence requirements, budgets, kill-switches, and (for high-risk ops) a
   **multi-agent quorum**.
-- Humans are “on the loop”: they can pop in, audit, and roll back changes, but
-  the run does not halt waiting for approval unless policy requires escalation.
+- Humans review by exception and post-run receipts; runs do not halt waiting for
+  default runtime approvals.
 
 The standard loop becomes:
 
@@ -43,8 +39,7 @@ This includes the canonical semantics for:
 
 Boundary split:
 
-- **Deny by Default** answers: "May this actor attempt this capability?"
-- **ACP** answers: "May this staged change be promoted now?"
+- For authority boundaries, see [Arbitration and Precedence](./arbitration-and-precedence.md) (SSOT): ACP governs promote/finalize authority and Deny by Default governs capability-attempt authority.
 
 `No Silent Apply` is satisfied by ACP receipts, evidence references, and rollback
 handles. This does not require standing human authorizations.
@@ -172,10 +167,9 @@ If quorum cannot be reached, the system falls back to **stage-only** and notifie
 For boundary exceptions or owner-scoped systems, policy may require an owner
 attestation as a quorum input.
 
-Machine-attestable owner signal sources are policy-defined:
-- `CODEOWNERS`
-- ownership registry records
-- boundaries manifests
+Owner signal precedence is defined in
+[Ownership and Boundaries](./ownership-and-boundaries.md) and enforced by
+policy.
 
 Deterministic fallback behavior:
 - owner attestation is never standalone promotion authority
@@ -240,6 +234,10 @@ Humans “pop in” by reviewing receipts and digests, not by approving every st
 ## Arbitration
 
 See [Arbitration and Precedence](./arbitration-and-precedence.md) (SSOT) for conflict resolution.
+
+## Historical Note (Non-Normative)
+
+Earlier Harmony drafts described human-gated runtime approvals. RA/ACP supersedes that model with machine-enforced policy gates and optional post-run review.
 
 ## Related Principles
 

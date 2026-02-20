@@ -93,7 +93,7 @@ Flags left in place after rollout create dead branches, confusion, and inconsist
 
 ## Exceptions
 
-Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT).
 
 Skip flags for internal refactors with no behavior change and no user impact.
 

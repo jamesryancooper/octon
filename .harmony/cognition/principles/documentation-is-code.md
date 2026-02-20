@@ -147,7 +147,7 @@ as complexity grows.
 
 ## Exceptions
 
-Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT).
 
 Very small typo or formatting fixes may skip ADR updates, but not behavior,
 contract, schema, or risk changes.

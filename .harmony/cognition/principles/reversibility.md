@@ -7,11 +7,13 @@ status: Active
 
 # Reversibility
 
-> Routine autonomous changes should be undoable. Design systems so mistakes are recoverable, not catastrophic.
+> For routine autonomous operations (ACP-1 through ACP-3), changes MUST be reversible or recoverable with a rollback handle.
 
 ## What This Means
 
 Reversibility is a risk management principle: design routine autonomous changes so they can be rolled back safely. This includes code deployments, database migrations, feature releases, and configuration changes.
+
+For routine autonomous operations (ACP-1 through ACP-3), promoted changes MUST include a recoverable rollback path and rollback handle. ACP-4 remains break-glass only and is blocked by default in normal runs.
 
 Reversibility is not just about having a rollback button — it's about designing changes so that rollback is:
 - **Safe**: Rolling back doesn't cause data loss or corruption

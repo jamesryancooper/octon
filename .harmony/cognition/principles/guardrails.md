@@ -16,9 +16,9 @@ This is an umbrella principle: enforcement mechanics are delegated to canonical 
 
 ## Where Enforcement Lives
 
-- Capability attempts are enforced by [Deny by Default](./deny-by-default.md).
-- Promotion/contraction to durable state is enforced by [Autonomous Control Points](./autonomous-control-points.md).
-- Guardrails integrate these controls across design, CI, and runtime and block on missing required evidence.
+- Guardrails integrate capability-attempt and promote/finalize controls from SSOT governance documents across design, CI, and runtime.
+- For authority boundaries, see [Arbitration and Precedence](./arbitration-and-precedence.md) (SSOT): ACP governs promote/finalize authority and Deny by Default governs capability-attempt authority.
+- Guardrails block on missing evidence only when that evidence is required by configured policy/validator checks.
 - Guardrails do not define independent gate levels, quorum rules, or receipt schemas.
 
 ## Mechanism
@@ -97,8 +97,7 @@ Policies that only warn but never block create a false sense of safety and erode
 
 ## Exceptions
 
-Waivers must follow canonical taxonomy and validation in
-[Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT).
 Non-waivable controls remain blocked.
 
 ## Related Documentation

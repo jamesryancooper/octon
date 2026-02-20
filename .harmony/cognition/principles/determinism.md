@@ -27,6 +27,7 @@ Canonical provenance schema pointer:
 
 Deterministic replay is required for ACP promote decisions and associated receipts.
 Bounded variance is allowed only inside policy-declared envelopes for long autonomous runs, with declared mode/parameters and receipt linkage.
+For `material_side_effect` runs and ACP promotion decisions, provenance fields defined in [Determinism and Provenance](./determinism-and-provenance.md) MUST be recorded; exploratory local drafts MAY use reduced provenance.
 
 ## Normative Boundary Matrix
 

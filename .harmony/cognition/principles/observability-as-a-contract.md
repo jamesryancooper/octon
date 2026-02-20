@@ -58,8 +58,7 @@ If a non-default profile is used, the change receipt must include:
 - policy/receipt reference
 
 This is a policy record, not a standing manual approval gate.
-Observability requirements are enforced via ACP gate decisions and receipts:
-see [Autonomous Control Points](./autonomous-control-points.md).
+For authority boundaries, see [Arbitration and Precedence](./arbitration-and-precedence.md) (SSOT): ACP governs promote/finalize authority and Deny by Default governs capability-attempt authority.
 Profile downgrades must be policy-bound and receipted; ad-hoc approval is not sufficient.
 
 ### ✅ Do

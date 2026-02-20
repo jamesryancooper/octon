@@ -18,6 +18,7 @@ Portability and Independence define three non-negotiable defaults for Harmony:
 3. **OS-agnostic core behavior:** Core service behavior and contracts remain valid across operating systems, with OS-specific details confined to optional implementation paths.
 
 This does not prohibit adapters or platform-specific optimizations. It requires that those remain optional and never redefine core behavior.
+Ownership and boundary attestations remain deterministic and portable by treating `.harmony/` ownership declarations as authoritative; repo-native and external metadata are optional projections (see [Ownership and Boundaries](./ownership-and-boundaries.md)).
 
 ## Why It Matters
 

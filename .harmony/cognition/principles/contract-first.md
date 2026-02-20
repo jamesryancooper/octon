@@ -11,7 +11,7 @@ status: Active
 
 ## What This Means
 
-APIs, events, and structured payloads must be defined in OpenAPI/JSON Schema and validated before ACP promotion to durable state. Generated types and contract tests then become the default integration path.
+External/shared interfaces and ACP-2/ACP-3 promotion-relevant payloads must be defined in OpenAPI/JSON Schema and validated before ACP promotion to durable state. For ACP-1 internal-only slices, lighter typed contracts are acceptable when explicit, versioned, and included in the promoted slice. Generated types and contract tests remain the default integration path for shared interfaces.
 
 Contract-first keeps teams and agents aligned on expected behavior and reduces integration ambiguity.
 
@@ -102,7 +102,7 @@ When implementations change before contracts, generated clients drift, compatibi
 
 ## Exceptions
 
-Skip full schema formalization only for short-lived exploratory spikes that never ship to production. Convert to contract-first before merge.
+Exploratory stage-only spikes may use provisional contracts. ACP-1 internal-only changes may use lighter typed contracts; shared/external interfaces and ACP-2/ACP-3 promotion paths must use formal schemas before durable promotion.
 
 ## Related Documentation
 

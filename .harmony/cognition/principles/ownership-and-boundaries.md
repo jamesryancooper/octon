@@ -27,10 +27,10 @@ Owner attestation asserts:
 - exception TTL (time-bound validity)
 - rollback plan reference for the affected boundary
 
-Machine-attestable owner signal sources (canonical):
-- `CODEOWNERS`
-- ownership registry under `.harmony/`
-- boundaries manifests
+Deterministic owner-signal precedence (canonical):
+1. ownership registry declarations under `.harmony/` (authoritative, portable)
+2. repository-native metadata (for example `CODEOWNERS`) as optional projection
+3. external systems as non-authoritative hints
 
 Owner attestation is policy-scoped:
 
@@ -49,6 +49,9 @@ If required attestation is missing, runtime behavior is deterministic and bounde
 - exhausted window: policy may return `ESCALATE` with
   `ACP_OWNER_ATTESTATION_TIMEOUT`
 - no indefinite waiting and no standalone human gate
+
+This precedence ensures deterministic behavior even when optional metadata
+sources are unavailable.
 
 ## Arbitration
 

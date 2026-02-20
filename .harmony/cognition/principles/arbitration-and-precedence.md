@@ -11,21 +11,22 @@ status: Active
 
 ## Normative Rules (SSOT)
 
-1. Capability-attempt authority is deny-by-default policy output only.
-2. Durable promotion/finalize authority is ACP gate output only.
-3. `apply` for durable state is interpreted as `promote` unless explicitly stage-only/read-only.
-4. Owner attestation is quorum input only; it is never standalone promotion authority.
-5. Term collisions are resolved by [RA/ACP Glossary](./_meta/ra-acp-glossary.md) definitions.
-6. Evidence-minima collisions are resolved by [RA/ACP Promotion Inputs Matrix](./_meta/ra-acp-promotion-inputs-matrix.md).
-7. Non-normative guidance/examples cannot weaken fail-closed controls in policy.
-8. If principles disagree and no explicit mapping exists, fail closed with reason-coded `STAGE_ONLY` or `DENY`.
-9. Normative arbitration text remains in this document only; other principles must link out instead of restating arbitration rules.
+1. Determine decision class first: capability-attempt, durable promotion/finalize, or supporting governance semantics.
+2. Capability-attempt authority is deny-by-default policy output only.
+3. Durable promotion/finalize authority is ACP gate output only.
+4. `apply` for durable state is interpreted as `promote` unless explicitly stage-only/read-only.
+5. Owner attestation is quorum input only; it is never standalone promotion authority.
+6. Term collisions are resolved by [RA/ACP Glossary](./_meta/ra-acp-glossary.md) definitions.
+7. Evidence-minima collisions are resolved by [RA/ACP Promotion Inputs Matrix](./_meta/ra-acp-promotion-inputs-matrix.md).
+8. Non-normative guidance/examples cannot weaken fail-closed controls in policy.
+9. If principles disagree and no explicit mapping exists, fail closed with reason-coded `STAGE_ONLY` or `DENY`.
+10. Human intervention is exception-driven only (quorum unresolved, risk threshold crossed, or policy-triggered escalation).
 
 ## Application Order
 
-1. Determine whether the question is capability-attempt, durable promotion/finalize (including `contraction` alias), or supporting governance semantics.
-2. Apply the corresponding authority rule above.
-3. If unresolved, apply fail-closed behavior and emit reason-coded receipts.
+1. Classify the decision.
+2. Apply the single authority source for that class.
+3. If unresolved, fail closed and emit a reason-coded receipt.
 
 ## Related Documentation
 

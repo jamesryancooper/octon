@@ -11,7 +11,7 @@ status: Active
 
 ## What This Means
 
-Every AI-assisted artifact should carry run metadata: provider, model/version, prompt hash, key parameters, and trace/eval IDs. Deterministic defaults reduce variance; provenance makes remaining variance auditable.
+For ACP promotion-relevant outputs and any `material_side_effect` runs, artifacts MUST carry run metadata: provider, model/version, prompt hash, key parameters, and trace/eval IDs. Exploratory local drafts MAY use reduced records. Deterministic defaults reduce variance; provenance makes remaining variance auditable.
 
 This document is Harmony's single normative source for replay and reproducibility semantics across deterministic execution, idempotent retries, and ACP receipts.
 
@@ -26,6 +26,8 @@ For any materially relevant run, record:
 - execution identity (run ID, operation ID, step ID, actor/profile, deterministic or bounded variance mode)
 - decision identity (ACP decision outcome: `ALLOW`, `STAGE_ONLY`, `DENY`, `ESCALATE`)
 - evidence identity (trace/eval IDs, evidence bundle refs, receipt ID, rollback handle ref where applicable)
+
+For `material_side_effect` runs and ACP promotion decisions, these fields are required.
 
 Governance-trigger semantics for evidence/receipt enforcement are keyed on
 canonical predicate `material_side_effect` (see
@@ -114,7 +116,7 @@ Without provenance, failures are non-reproducible and compliance review becomes 
 
 ## Exceptions
 
-Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT).
 
 Exploratory local prompts may skip full records, but production-impacting outputs may not.
 

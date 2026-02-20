@@ -21,6 +21,8 @@ This applies to:
 - **Documentation**: Code comments generate API docs, not the reverse
 - **Business rules**: Defined in one place, enforced everywhere
 
+Normative facts are declared once authoritatively; local copies are projections/derivations that must link to the source and must not restate norms.
+
 For artifact timing semantics ("required before ACP promotion"), the canonical source is [Documentation is Code](./documentation-is-code.md).
 For cross-principle conflict precedence, the canonical source is
 [Arbitration and Precedence](./arbitration-and-precedence.md).
@@ -284,7 +286,7 @@ rules: {
 
 ## Exceptions
 
-Waiver/exception semantics are canonical in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md).
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT).
 
 Manual duplication may be acceptable when:
 

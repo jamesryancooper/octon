@@ -12,6 +12,7 @@ status: Active
 ## What This Means
 
 Locality is an information architecture principle: knowledge, configuration, and guidance should be placed as close as possible to where they're used. Rather than centralizing everything in one location, distribute context to the domains, features, and harnesses where it applies.
+Normative facts are declared once authoritatively; local copies are projections/derivations that must link to the source and must not restate norms.
 
 This principle shapes Harmony's harness architecture:
 - Domain-specific `.harmony/` directories contain domain-specific guidance

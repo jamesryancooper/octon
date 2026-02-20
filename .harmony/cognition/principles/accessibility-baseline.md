@@ -12,7 +12,7 @@ status: Active
 ## What This Means
 
 User-facing flows must satisfy baseline accessibility expectations (semantic structure, keyboard operability, visible focus, and accessible names). CI should include automated checks.
-Promotion behavior is policy-bound: where validators are configured, failures block promotion; otherwise missing accessibility evidence remains stage-only and receipted until remediated or waived per policy (see `.harmony/cognition/methodology/ci-cd-quality-gates.md`).
+Where accessibility validators are configured as ACP evidence, failures block promotion. Where they are not configured as gating evidence, failures must remain visible in stage artifacts and receipts until remediated or explicitly waived (see `.harmony/cognition/methodology/ci-cd-quality-gates.md`).
 
 ## Why It Matters
 
@@ -83,9 +83,7 @@ Treating accessibility as “later cleanup” creates compounding remediation co
 ## Exceptions
 
 Temporary exceptions are allowed only for non-user-facing prototypes and must not ship to production.
-Any waiver/exception must follow canonical taxonomy and validation in
-[Waivers and Exceptions](./_meta/waivers-and-exceptions.md); ad-hoc approvals
-are invalid.
+Waiver and exception semantics are defined in [Waivers and Exceptions](./_meta/waivers-and-exceptions.md) (SSOT); ad-hoc approvals are invalid.
 
 ## Related Documentation
 
