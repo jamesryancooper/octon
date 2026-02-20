@@ -67,7 +67,7 @@ if (!validation.valid) {
 | `migration` | - | - | ✅ |
 | `rollout` | - | ✅ | ✅ |
 | `observability` | - | ✅ | ✅ |
-| `approval_checkpoints` | - | - | ✅ |
+| `oversight_touchpoints` | - | - | ✅ |
 | `adr` | - | - | ✅ |
 
 ## Validation Rules
@@ -92,9 +92,9 @@ if (!validation.valid) {
 - `tier` must be `3`
 - `navigator` must be specified
 - `threat_model.stride` must have all categories
-- `approval_checkpoints` must be present
+- `oversight_touchpoints` must be present
 - `adr.required` must be `true`
-- Spec must be approved before build proceeds
+- Promotion/readiness decisions flow through ACP evidence + quorum
 
 ## Human Review Requirements
 

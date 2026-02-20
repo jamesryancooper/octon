@@ -788,8 +788,8 @@ t3_requirements:
 | Feature flag | ✅ | Required |
 | Observability check | ✅ | Full coverage |
 | Golden tests | ✅ | Critical paths |
-| Navigator review | ✅ | Independent review pass (time-separated if solo) |
-| Security review | ✅ | Explicit sign-off |
+| Verifier/recovery attestations | ✅ | Independent attestation quorum (agent/service roles) |
+| Security evidence review | ✅ | STRIDE + control evidence attached to ACP artifacts |
 
 ### T3 Oversight Touchpoints (Human-on-the-Loop)
 
@@ -888,8 +888,8 @@ t3_requirements:
 | Feature flag | ❌ | ✅ | ✅ |
 | Observability | ❌ | ✅ | ✅ |
 | Golden tests | ❌ | ❌ | ✅ |
-| Navigator review | ❌ | ❌ | ✅ |
-| Security review | ❌ | ❌ | ✅ |
+| Verifier/recovery attestations | ❌ | ❌ | ✅ |
+| Security evidence review | ❌ | ❌ | ✅ |
 | Watch window | ❌ | ❌ | ✅ |
 
 ### Human Time Comparison
@@ -901,7 +901,7 @@ t3_requirements:
 | Review threat model | N/A | 1 min | 5-10 min |
 | Review PR | 1 min | 5-10 min | 10-15 min |
 | Test preview | N/A | Optional | Required |
-| Approve | Click | Click | Multi-stage |
+| Promotion decision | ACP-1 outcome | ACP-2 outcome | ACP-3 outcome (+ quorum) |
 | Watch window | N/A | N/A | 30 min |
 | **Total** | **2-3 min** | **15-20 min** | **30-60 min** |
 
@@ -939,10 +939,10 @@ Requires justification. AI should resist bumping down except:
 tier_bump_down:
   command: "harmony tier-down <id> --reason '<reason>'"
   requires_justification: true
-  requires_approval:
+  requires_escalation_review:
     from_t2_to_t1: false
-    from_t3_to_t2: true  # Navigator approval (review pass)
-    from_t3_to_t1: true  # Navigator approval (security checklist)
+    from_t3_to_t2: true  # Escalation artifact + verifier review
+    from_t3_to_t1: true  # Escalation artifact + security evidence review
 ```
 
 ---
@@ -954,14 +954,14 @@ tier_bump_down:
 1. AI determines tier based on intent/files
 2. AI selects appropriate spec template
 3. AI fills spec completely
-4. Human reviews per tier requirements
+4. Optional on-loop oversight review of receipt/digest artifacts
 
 ### CI/CD Pipeline
 
 1. PR receives tier label automatically
 2. CI runs tier-appropriate gates
 3. Gate failures block merge
-4. Tier-specific approval requirements enforced
+4. Tier-specific ACP/quorum/escalation requirements enforced
 
 ### Documentation
 

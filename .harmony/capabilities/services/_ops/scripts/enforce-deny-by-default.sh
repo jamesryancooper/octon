@@ -46,7 +46,7 @@ harmony_acp_collect_git_diff_counters() {
 
 harmony_acp_default_counters_json() {
   local repo_root="$1"
-  local now start elapsed command_count git_diff_json
+  local now start elapsed command_count net_calls git_diff_json
 
   now="$(date +%s)"
   start="${HARMONY_ENFORCER_START_TS:-$now}"
@@ -64,13 +64,20 @@ harmony_acp_default_counters_json() {
   fi
   command_count=$((command_count + 1))
 
+  net_calls="${HARMONY_NET_CALLS:-0}"
+  if [[ ! "$net_calls" =~ ^[0-9]+$ ]]; then
+    net_calls=0
+  fi
+
   git_diff_json="$(harmony_acp_collect_git_diff_counters "$repo_root")"
   jq -cn \
     --argjson git "$git_diff_json" \
     --argjson command_count "$command_count" \
+    --argjson net_calls "$net_calls" \
     --argjson elapsed "$elapsed" \
     '$git + {
       "commands.count": $command_count,
+      "net.calls": $net_calls,
       "time.elapsed_seconds": $elapsed,
       "time.max_seconds": $elapsed,
       "repo.max_commits": 0
@@ -199,6 +206,28 @@ harmony_acp_should_gate_phase() {
   esac
 }
 
+harmony_acp_phase_valid() {
+  local phase="${1:-}"
+  case "$phase" in
+    stage|promote|finalize) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+harmony_acp_is_mutating_operation_class() {
+  local operation_class="${1:-}"
+  local normalized="${operation_class,,}"
+
+  case "$normalized" in
+    observe.*|read.*|query.*|audit.*|verify.*|inspect.*|report.*|status.*)
+      return 1
+      ;;
+    *)
+      return 0
+      ;;
+  esac
+}
+
 harmony_acp_emit_receipt() {
   local receipt_writer="$1"
   local policy_file="$2"
@@ -218,13 +247,39 @@ harmony_acp_gate_enforce() {
   local policy_file="$3"
 
   local phase operation_class run_id profile actor_id actor_type break_glass keep_tmp
+  local phase_raw phase_reason phase_note
   local target_json evidence_json attestations_json counters_json budgets_json signals_json reversibility_json
   local request_builder acp_eval receipt_writer breaker_actions_script
   local tmp_dir request_file decision_file decision_output rc request_rc
   local continuity_run_dir rollback_dir decision_kind
   local repo_root
 
-  phase="${HARMONY_OPERATION_PHASE:-stage}"
+  operation_class="${HARMONY_OPERATION_CLASS:-service.execute}"
+  phase_raw="${HARMONY_OPERATION_PHASE-}"
+  phase_reason=""
+  phase_note=""
+
+  if [[ -n "${HARMONY_OPERATION_PHASE+x}" && -n "${phase_raw//[[:space:]]/}" ]]; then
+    phase="$(printf '%s' "$phase_raw" | tr '[:upper:]' '[:lower:]')"
+    if ! harmony_acp_phase_valid "$phase"; then
+      if harmony_acp_is_mutating_operation_class "$operation_class"; then
+        phase="promote"
+        phase_reason="ACP_PHASE_INVALID"
+        phase_note="operation.phase must be one of stage|promote|finalize for mutating operation classes"
+      else
+        phase="stage"
+      fi
+    fi
+  else
+    if harmony_acp_is_mutating_operation_class "$operation_class"; then
+      phase="promote"
+      phase_reason="ACP_PHASE_REQUIRED"
+      phase_note="operation.phase must be explicit for mutating operation classes"
+    else
+      phase="stage"
+    fi
+  fi
+
   if ! harmony_acp_should_gate_phase "$phase"; then
     return 0
   fi
@@ -234,7 +289,6 @@ harmony_acp_gate_enforce() {
     return 13
   fi
 
-  operation_class="${HARMONY_OPERATION_CLASS:-service.execute}"
   run_id="${HARMONY_RUN_ID:-run-$(date -u +"%Y%m%dT%H%M%SZ")-$$}"
   profile="${HARMONY_POLICY_PROFILE:-refactor}"
   actor_id="${HARMONY_AGENT_ID:-agent-local}"
@@ -340,6 +394,21 @@ harmony_acp_gate_enforce() {
       --arg effective_acp "ACP-0" \
       --arg msg "$decision_output" \
       '{allow:false,decision:$decision,effective_acp:$effective_acp,reason_codes:["DDB025_RUNTIME_DECISION_ENGINE_ERROR"],notes:[$msg],requirements:{}}' > "$decision_file"
+  fi
+
+  if [[ -n "$phase_reason" ]]; then
+    local phase_tmp_file
+    phase_tmp_file="${decision_file}.phase"
+    jq -c \
+      --arg reason "$phase_reason" \
+      --arg note "$phase_note" \
+      '.allow = false
+       | .decision = "STAGE_ONLY"
+       | .reason_codes = ((.reason_codes // []) + [$reason, "ACP_STAGE_ONLY_REQUIRED"] | unique)
+       | .notes = ((.notes // []) + [$note])' \
+      "$decision_file" > "$phase_tmp_file"
+    mv "$phase_tmp_file" "$decision_file"
+    rc=13
   fi
 
   harmony_acp_emit_receipt "$receipt_writer" "$policy_file" "$request_file" "$decision_file"

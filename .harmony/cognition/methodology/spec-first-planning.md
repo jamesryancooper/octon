@@ -140,7 +140,7 @@ For T3, AI also handles:
 ### Human Responsibilities
 
 **All Tiers:**
-- Review final PR if team policy requires explicit confirmation
+- Review final PR digest/receipt when policy escalation is raised
 - Make on-the-loop go/no-go call only on policy escalation or unresolved disagreement
 
 **T2:**
@@ -148,9 +148,9 @@ For T3, AI also handles:
 - Spot-check implementation
 
 **T3:**
-- Review full spec when team policy requires pre-promotion verification
+- Review full spec and ACP evidence bundle for discretionary escalation
 - Review full PR as part of post-run optional oversight
-- Navigator security review for discretionary escalation
+- Security evidence review when ACP returns `STAGE_ONLY`/`ESCALATE`
 - Post-promotion watch
 
 ### AI IDE Integration
@@ -278,13 +278,13 @@ threat_model:
           tests: ["state_mismatch_returns_403"]
     # ... full STRIDE for each category
 
-approval_checkpoints:
-  spec_approval:
-    required: false # policy-governed and optional for human on-the-loop
-    approvers: [owner, navigator]
-  pr_approval:
-    required: false # policy-governed and optional for human on-the-loop
-    approvers: [owner, navigator]
+oversight_touchpoints:
+  spec_review:
+    required: false # optional human-on-the-loop unless policy escalation is raised
+    reviewers: [owner, verifier]
+  receipt_review:
+    required: false # optional human-on-the-loop unless policy escalation is raised
+    reviewers: [owner, verifier]
 ```
 
 → Full template: [templates/spec-tier3.yaml](./templates/spec-tier3.yaml)

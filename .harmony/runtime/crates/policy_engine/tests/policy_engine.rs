@@ -235,6 +235,9 @@ fn acp2_stage_only_when_quorum_missing() {
         .contains(&"ACP_QUORUM_MISSING".to_string()));
     assert!(decision
         .reason_codes
+        .contains(&"ACP_PROTECTED_TARGET".to_string()));
+    assert!(decision
+        .reason_codes
         .contains(&"ACP_STAGE_ONLY_REQUIRED".to_string()));
 }
 
@@ -279,6 +282,9 @@ fn acp2_allow_with_quorum_and_rollback_proof() {
         .expect("acp enforce should evaluate");
     assert!(matches!(decision.decision, AcpDecisionKind::Allow));
     assert!(decision.allow);
+    assert!(decision
+        .reason_codes
+        .contains(&"ACP_PROTECTED_TARGET".to_string()));
 }
 
 #[test]
@@ -485,4 +491,245 @@ fn doctor_validates_repo_policy_contract() {
         "doctor reported invalid: schema={:?} semantic={:?}",
         report.schema_errors, report.semantic_errors
     );
+}
+
+fn temp_policy_path(prefix: &str) -> PathBuf {
+    let nanos = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .expect("clock should be monotonic")
+        .as_nanos();
+    std::env::temp_dir().join(format!("harmony-policy-{prefix}-{nanos}.yml"))
+}
+
+fn fixture_policy_with_replacement(from: &str, to: &str) -> PathBuf {
+    let policy_path = fixture_path("policy.yml");
+    let policy_text = fs::read_to_string(&policy_path).expect("fixture policy should exist");
+    let replaced = policy_text.replacen(from, to, 1);
+    let output = temp_policy_path("fixture");
+    fs::write(&output, replaced).expect("temp policy write should succeed");
+    output
+}
+
+fn acp2_complete_request() -> AcpRequest {
+    let mut request = acp_request_base("git.merge");
+    request.profile = "operate".to_string();
+    request
+        .operation
+        .target
+        .insert("branch".to_string(), json!("main"));
+    request.reversibility = Some(AcpReversibilityProof {
+        reversible: true,
+        primitive: Some("git.revert_merge".to_string()),
+        rollback_handle: Some("git:revert:merge123".to_string()),
+        recovery_window: Some("P30D".to_string()),
+        rollback_proof: Some("artifacts/rollback.log".to_string()),
+    });
+    request.attestations = vec![
+        AcpAttestation {
+            role: "proposer".to_string(),
+            actor_id: "agent.a".to_string(),
+            timestamp: Some("2026-02-19T00:00:00Z".to_string()),
+            plan_hash: Some("plan-hash-1".to_string()),
+            evidence_hash: Some("evidence-hash-1".to_string()),
+            signature: Some("sig-a".to_string()),
+        },
+        AcpAttestation {
+            role: "verifier".to_string(),
+            actor_id: "agent.b".to_string(),
+            timestamp: Some("2026-02-19T00:01:00Z".to_string()),
+            plan_hash: Some("plan-hash-1".to_string()),
+            evidence_hash: Some("evidence-hash-1".to_string()),
+            signature: Some("sig-b".to_string()),
+        },
+    ];
+    request.counters = HashMap::from([
+        ("repo.max_files_touched".to_string(), 20.0),
+        ("repo.max_loc_delta".to_string(), 600.0),
+    ]);
+    request
+}
+
+fn acp3_complete_request() -> AcpRequest {
+    let mut request = acp_request_base("fs.soft_delete");
+    request.profile = "operate".to_string();
+    request
+        .operation
+        .target
+        .insert("path".to_string(), json!(".harmony/output/old-artifact.txt"));
+    request.reversibility = Some(AcpReversibilityProof {
+        reversible: true,
+        primitive: Some("fs.move_to_trash".to_string()),
+        rollback_handle: Some("fs:trash:run-1".to_string()),
+        recovery_window: Some("P7D".to_string()),
+        rollback_proof: Some("artifacts/rollback.log".to_string()),
+    });
+    request.attestations = vec![
+        AcpAttestation {
+            role: "proposer".to_string(),
+            actor_id: "agent.a".to_string(),
+            timestamp: Some("2026-02-19T00:00:00Z".to_string()),
+            plan_hash: Some("plan-hash-1".to_string()),
+            evidence_hash: Some("evidence-hash-1".to_string()),
+            signature: Some("sig-a".to_string()),
+        },
+        AcpAttestation {
+            role: "verifier".to_string(),
+            actor_id: "agent.b".to_string(),
+            timestamp: Some("2026-02-19T00:01:00Z".to_string()),
+            plan_hash: Some("plan-hash-1".to_string()),
+            evidence_hash: Some("evidence-hash-1".to_string()),
+            signature: Some("sig-b".to_string()),
+        },
+        AcpAttestation {
+            role: "recovery".to_string(),
+            actor_id: "agent.c".to_string(),
+            timestamp: Some("2026-02-19T00:02:00Z".to_string()),
+            plan_hash: Some("plan-hash-1".to_string()),
+            evidence_hash: Some("evidence-hash-1".to_string()),
+            signature: Some("sig-c".to_string()),
+        },
+    ];
+    request.counters = HashMap::from([("fs.max_paths_deleted".to_string(), 2.0)]);
+    request
+}
+
+fn omit_attestation_field(attestation: &mut AcpAttestation, field: &str) {
+    match field {
+        "role" => attestation.role = String::new(),
+        "actor_id" => attestation.actor_id = String::new(),
+        "timestamp" => attestation.timestamp = None,
+        "plan_hash" => attestation.plan_hash = None,
+        "evidence_hash" => attestation.evidence_hash = None,
+        "signature" => attestation.signature = None,
+        _ => {}
+    }
+}
+
+#[test]
+fn acp_breaker_halt_and_notify_escalates() {
+    let policy_path =
+        fixture_policy_with_replacement("action: stop_and_stage_only", "action: halt_and_notify");
+    let mut request = acp_request_base("git.commit");
+    request.profile = "refactor".to_string();
+    request.counters = HashMap::from([
+        ("repo.max_files_touched".to_string(), 4.0),
+        ("repo.max_loc_delta".to_string(), 120.0),
+    ]);
+    request.circuit_signals = vec!["tests.failed".to_string()];
+
+    let decision =
+        evaluate_acp_enforce(&policy_path, &request).expect("acp enforce should evaluate");
+    assert!(matches!(decision.decision, AcpDecisionKind::Escalate));
+    assert!(decision
+        .reason_codes
+        .contains(&"ACP_CIRCUIT_BREAKER_TRIPPED".to_string()));
+    fs::remove_file(policy_path).expect("temp policy cleanup");
+}
+
+#[test]
+fn acp_breaker_rollback_and_trip_killswitch_denies() {
+    let policy_path = fixture_policy_with_replacement(
+        "action: auto_rollback_and_trip_killswitch",
+        "action: rollback_and_trip_killswitch",
+    );
+    let mut request = acp_request_base("git.merge");
+    request.profile = "operate".to_string();
+    request
+        .operation
+        .target
+        .insert("branch".to_string(), json!("main"));
+    request.circuit_signals = vec!["ci.failed".to_string()];
+    request.counters = HashMap::from([
+        ("repo.max_files_touched".to_string(), 20.0),
+        ("repo.max_loc_delta".to_string(), 600.0),
+    ]);
+
+    let decision =
+        evaluate_acp_enforce(&policy_path, &request).expect("acp enforce should evaluate");
+    assert!(matches!(decision.decision, AcpDecisionKind::Deny));
+    assert!(decision
+        .reason_codes
+        .contains(&"ACP_CIRCUIT_BREAKER_TRIPPED".to_string()));
+    fs::remove_file(policy_path).expect("temp policy cleanup");
+}
+
+#[test]
+fn acp_breaker_invalid_action_fails_closed() {
+    let policy_path =
+        fixture_policy_with_replacement("action: stop_and_stage_only", "action: unsupported_action");
+    let mut request = acp_request_base("git.commit");
+    request.profile = "refactor".to_string();
+    request.counters = HashMap::from([
+        ("repo.max_files_touched".to_string(), 4.0),
+        ("repo.max_loc_delta".to_string(), 120.0),
+    ]);
+    request.circuit_signals = vec!["tests.failed".to_string()];
+
+    let decision =
+        evaluate_acp_enforce(&policy_path, &request).expect("acp enforce should evaluate");
+    assert!(matches!(decision.decision, AcpDecisionKind::Deny));
+    assert!(decision
+        .reason_codes
+        .contains(&"ACP_CIRCUIT_BREAKER_INVALID_ACTION".to_string()));
+    fs::remove_file(policy_path).expect("temp policy cleanup");
+}
+
+#[test]
+fn acp2_missing_required_attestation_fields_stage_only() {
+    let required_fields = [
+        "role",
+        "actor_id",
+        "timestamp",
+        "plan_hash",
+        "evidence_hash",
+        "signature",
+    ];
+
+    for field in required_fields {
+        let mut request = acp2_complete_request();
+        omit_attestation_field(&mut request.attestations[0], field);
+        let decision = evaluate_acp_enforce(&fixture_path("policy.yml"), &request)
+            .expect("acp enforce should evaluate");
+        assert!(
+            matches!(
+                decision.decision,
+                AcpDecisionKind::StageOnly | AcpDecisionKind::Deny
+            ),
+            "expected stage-only/deny for missing field {field}, got {:?}",
+            decision.decision
+        );
+        assert!(decision
+            .reason_codes
+            .contains(&"ACP_ATTESTATION_FIELD_MISSING".to_string()));
+    }
+}
+
+#[test]
+fn acp3_missing_required_attestation_fields_stage_only() {
+    let required_fields = [
+        "role",
+        "actor_id",
+        "timestamp",
+        "plan_hash",
+        "evidence_hash",
+        "signature",
+    ];
+
+    for field in required_fields {
+        let mut request = acp3_complete_request();
+        omit_attestation_field(&mut request.attestations[0], field);
+        let decision = evaluate_acp_enforce(&fixture_path("policy.yml"), &request)
+            .expect("acp enforce should evaluate");
+        assert!(
+            matches!(
+                decision.decision,
+                AcpDecisionKind::StageOnly | AcpDecisionKind::Deny
+            ),
+            "expected stage-only/deny for missing field {field}, got {:?}",
+            decision.decision
+        );
+        assert!(decision
+            .reason_codes
+            .contains(&"ACP_ATTESTATION_FIELD_MISSING".to_string()));
+    }
 }

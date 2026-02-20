@@ -990,6 +990,10 @@ fn evaluate_acp_internal(
         });
     };
 
+    if rule_targets_protected_scope(rule.r#match.target.as_ref()) {
+        push_reason(&mut reason_codes, &mut reason_seen, "ACP_PROTECTED_TARGET");
+    }
+
     let effective_acp = rule.require.acp.clone();
     let profile_cfg = policy
         .acp
@@ -1110,18 +1114,39 @@ fn evaluate_acp_internal(
             "Circuit breaker trigger fired with actions: {}",
             breaker_actions.join(",")
         ));
-        if breaker_actions
-            .iter()
-            .any(|action| action == "auto_rollback_and_trip_killswitch")
-        {
+        let mut invalid_breaker_actions = Vec::new();
+        for action in &breaker_actions {
+            match action.as_str() {
+                "auto_rollback_and_trip_killswitch" | "rollback_and_trip_killswitch" => {
+                    hard_deny = true;
+                }
+                "halt_and_notify" => {
+                    force_escalate = true;
+                }
+                "stop_and_stage_only" => {
+                    force_stage_only = true;
+                }
+                unknown if unknown.starts_with("invalid_action:") => {
+                    invalid_breaker_actions
+                        .push(unknown.trim_start_matches("invalid_action:").to_string());
+                }
+                unknown => {
+                    invalid_breaker_actions.push(unknown.to_string());
+                }
+            }
+        }
+
+        if !invalid_breaker_actions.is_empty() {
             hard_deny = true;
-        } else if breaker_actions
-            .iter()
-            .any(|action| action == "deny_and_escalate")
-        {
-            force_escalate = true;
-        } else {
-            force_stage_only = true;
+            push_reason(
+                &mut reason_codes,
+                &mut reason_seen,
+                "ACP_CIRCUIT_BREAKER_INVALID_ACTION",
+            );
+            notes.push(format!(
+                "Unsupported circuit breaker action(s): {}",
+                invalid_breaker_actions.join(",")
+            ));
         }
     }
 
@@ -1433,6 +1458,70 @@ fn validate_quorum(
         return;
     };
 
+    let required_fields: Vec<&str> = if policy.attestations.required_fields.is_empty() {
+        vec!["role", "actor_id", "signature"]
+    } else {
+        policy
+            .attestations
+            .required_fields
+            .iter()
+            .map(String::as_str)
+            .collect()
+    };
+    let mut missing_required_field = false;
+    let mut invalid_attestation = false;
+    let mut role_mismatch = false;
+
+    for field in &required_fields {
+        if !is_known_attestation_required_field(field) {
+            invalid_attestation = true;
+            requirements
+                .missing_attestations
+                .push(format!("required_field:{field}"));
+        }
+    }
+
+    for (index, entry) in request.attestations.iter().enumerate() {
+        if !policy.attestations.roles.is_empty() && !policy.attestations.roles.contains_key(&entry.role)
+        {
+            invalid_attestation = true;
+            role_mismatch = true;
+            requirements
+                .missing_attestations
+                .push(format!("attestation[{index}].role_unknown"));
+        }
+
+        for field in &required_fields {
+            if !is_known_attestation_required_field(field) {
+                continue;
+            }
+            let value = attestation_field_value(entry, field);
+            let is_missing = value.map_or(true, |candidate| candidate.trim().is_empty());
+            if is_missing {
+                missing_required_field = true;
+                requirements
+                    .missing_attestations
+                    .push(format!("attestation[{index}].{field}"));
+                continue;
+            }
+            if *field == "timestamp" && !attestation_timestamp_valid(value.unwrap_or_default()) {
+                invalid_attestation = true;
+                requirements
+                    .missing_attestations
+                    .push(format!("attestation[{index}].timestamp_format"));
+            }
+        }
+    }
+
+    if missing_required_field {
+        push_reason(reason_codes, reason_seen, "ACP_ATTESTATION_FIELD_MISSING");
+        push_reason(reason_codes, reason_seen, "ACP_QUORUM_MISSING");
+    }
+    if invalid_attestation {
+        push_reason(reason_codes, reason_seen, "ACP_ATTESTATION_INVALID");
+        push_reason(reason_codes, reason_seen, "ACP_QUORUM_INVALID");
+    }
+
     let signatures = request
         .attestations
         .iter()
@@ -1458,8 +1547,13 @@ fn validate_quorum(
                     .is_some_and(|sig| !sig.trim().is_empty())
         });
         if !has_role {
+            role_mismatch = true;
             requirements.missing_attestations.push(role.clone());
         }
+    }
+
+    if role_mismatch {
+        push_reason(reason_codes, reason_seen, "ACP_ATTESTATION_ROLE_MISMATCH");
     }
 
     if !requirements.missing_attestations.is_empty() {
@@ -1578,11 +1672,13 @@ fn evaluate_circuit_breaker_actions(
             continue;
         }
 
-        let action = if trigger.action.trim().is_empty() {
-            "stop_and_stage_only".to_string()
+        let raw_action = if trigger.action.trim().is_empty() {
+            "stop_and_stage_only"
         } else {
-            trigger.action.trim().to_string()
+            trigger.action.trim()
         };
+        let action = normalize_breaker_action(raw_action)
+            .unwrap_or_else(|| format!("invalid_action:{raw_action}"));
 
         if seen.insert(action.clone()) {
             actions.push(action);
@@ -1590,6 +1686,78 @@ fn evaluate_circuit_breaker_actions(
     }
 
     actions
+}
+
+fn normalize_breaker_action(action: &str) -> Option<String> {
+    let normalized = action.trim().to_ascii_lowercase();
+    match normalized.as_str() {
+        "" | "stop_and_stage_only" => Some("stop_and_stage_only".to_string()),
+        "auto_rollback_and_trip_killswitch" => {
+            Some("auto_rollback_and_trip_killswitch".to_string())
+        }
+        "rollback_and_trip_killswitch" => Some("rollback_and_trip_killswitch".to_string()),
+        "halt_and_notify" | "deny_and_escalate" => Some("halt_and_notify".to_string()),
+        _ => None,
+    }
+}
+
+fn is_known_attestation_required_field(field: &str) -> bool {
+    matches!(
+        field.trim(),
+        "role" | "actor_id" | "timestamp" | "plan_hash" | "evidence_hash" | "signature"
+    )
+}
+
+fn attestation_field_value<'a>(entry: &'a AcpAttestation, field: &str) -> Option<&'a str> {
+    match field.trim() {
+        "role" => Some(entry.role.as_str()),
+        "actor_id" => Some(entry.actor_id.as_str()),
+        "timestamp" => entry.timestamp.as_deref(),
+        "plan_hash" => entry.plan_hash.as_deref(),
+        "evidence_hash" => entry.evidence_hash.as_deref(),
+        "signature" => entry.signature.as_deref(),
+        _ => None,
+    }
+}
+
+fn attestation_timestamp_valid(value: &str) -> bool {
+    let timestamp = value.trim();
+    if timestamp.is_empty() {
+        return false;
+    }
+    timestamp.contains('T') && (timestamp.ends_with('Z') || timestamp.contains('+'))
+}
+
+fn rule_targets_protected_scope(target: Option<&HashMap<String, Value>>) -> bool {
+    let Some(target) = target else {
+        return false;
+    };
+
+    target.iter().any(|(key, expected)| {
+        let key_normalized = key.trim().to_ascii_lowercase();
+        if !matches!(
+            key_normalized.as_str(),
+            "branch" | "branches" | "environment" | "path" | "service" | "resource" | "target"
+        ) {
+            return false;
+        }
+        value_contains_protected_scope_markers(expected)
+    })
+}
+
+fn value_contains_protected_scope_markers(value: &Value) -> bool {
+    match value {
+        Value::String(raw) => {
+            let normalized = raw.trim().to_ascii_lowercase();
+            matches!(
+                normalized.as_str(),
+                "main" | "master" | "prod" | "production" | "release" | "stable" | "protected"
+            ) || normalized.contains("protected")
+        }
+        Value::Array(items) => items.iter().any(value_contains_protected_scope_markers),
+        Value::Object(map) => map.values().any(value_contains_protected_scope_markers),
+        _ => false,
+    }
 }
 
 pub fn evaluate_grant(request: &GrantEvalRequest) -> Result<GrantEvalResult> {

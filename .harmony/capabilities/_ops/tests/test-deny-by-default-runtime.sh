@@ -10,6 +10,7 @@ SERVICES_MANIFEST="$SERVICES_ROOT/manifest.yml"
 POLICY_V2_FILE="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.yml"
 ENFORCER_SCRIPT="$SERVICES_ROOT/_ops/scripts/enforce-deny-by-default.sh"
 AGENT_ENTRYPOINT="$SERVICES_ROOT/execution/agent/impl/agent.sh"
+BREAKER_ACTIONS_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-circuit-breaker-actions.sh"
 
 if [[ ! -f "$ENFORCER_SCRIPT" ]]; then
   echo "Missing runtime enforcer script: $ENFORCER_SCRIPT" >&2
@@ -159,6 +160,7 @@ run_active_shell_enforcement_smoke_test() {
       "active shell $service_id passes runtime policy preflight" \
       bash -euo pipefail -c "
         source '$ENFORCER_SCRIPT'
+        HARMONY_OPERATION_PHASE=stage \
         harmony_enforce_service_policy '$service_id' '$entrypoint_abs'
       "
   done < <(active_shell_rows)
@@ -239,6 +241,7 @@ EOF
 run_acp_gate_tests() {
   local guard_entrypoint="$SERVICES_ROOT/governance/guard/impl/guard.sh"
   local receipt_run_id="runtime-acp-receipt-${RANDOM:-0}-$$"
+  local phase_missing_run_id="runtime-acp-phase-missing-${RANDOM:-0}-$$"
 
   assert_success \
     "acp stage phase allows execution" \
@@ -264,6 +267,32 @@ run_acp_gate_tests() {
       HARMONY_OPERATION_PHASE=promote \\
       HARMONY_RUN_ID='$receipt_run_id' \\
       harmony_enforce_service_policy 'guard' '$guard_entrypoint'
+    "
+
+  assert_failure_contains \
+    "acp missing phase fails closed for mutating operation classes" \
+    "promotion blocked" \
+    bash -euo pipefail -c "
+      source '$ENFORCER_SCRIPT'
+      evidence_json=\"\$(jq -cn '[{type:\"diff\",ref:\"artifact://diff\",sha256:\"hash-diff\"},{type:\"tests\",ref:\"artifact://tests\",sha256:\"hash-tests\"}]')\"
+      unset HARMONY_OPERATION_PHASE
+      HARMONY_AGENT_ID=agent-a \\
+      HARMONY_AGENT_IDS='agent-a' \\
+      HARMONY_RISK_TIER=low \\
+      HARMONY_POLICY_PROFILE=refactor \\
+      HARMONY_OPERATION_CLASS=git.merge \\
+      HARMONY_RUN_ID='$phase_missing_run_id' \\
+      HARMONY_ACP_EVIDENCE_JSON=\"\$evidence_json\" \\
+      harmony_enforce_service_policy 'guard' '$guard_entrypoint'
+    "
+
+  assert_success \
+    "acp missing phase decision includes ACP_PHASE_REQUIRED reason code" \
+    bash -euo pipefail -c "
+      receipt='.harmony/continuity/runs/$phase_missing_run_id/receipt.latest.json'
+      [[ -f \"\$receipt\" ]]
+      jq -e '.reason_codes | index(\"ACP_PHASE_REQUIRED\") != null' \"\$receipt\" >/dev/null
+      jq -e '.decision == \"STAGE_ONLY\"' \"\$receipt\" >/dev/null
     "
 
   assert_success \
@@ -353,6 +382,7 @@ run_service_wrapper_budget_metering_tests() {
       jq -e '.decision == \"STAGE_ONLY\" or .decision == \"DENY\"' \"\$receipt\" >/dev/null
       jq -e '.counters[\"repo.max_loc_delta\"] > 1500' \"\$receipt\" >/dev/null
       jq -e '.counters[\"repo.git_diff_unknown\"] == 0' \"\$receipt\" >/dev/null
+      jq -e '.counters[\"net.calls\"] == 0' \"\$receipt\" >/dev/null
     "
 }
 
@@ -409,6 +439,65 @@ run_acp_breaker_action_tests() {
       [[ -n \"\$ks_file\" ]]
       rm -f \"\$ks_file\"
     "
+}
+
+run_breaker_action_runner_token_tests() {
+  local run_id="runtime-breaker-actions-${RANDOM:-0}-$$"
+  local tmp_dir
+  tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/breaker-actions.XXXXXX")"
+  local decision_file="$tmp_dir/decision.json"
+  local request_file="$tmp_dir/request.json"
+  local rollback_dir="$tmp_dir/rollback"
+  local null_kill_script="$tmp_dir/no-kill-switch.sh"
+
+  cat > "$null_kill_script" <<'EOF'
+#!/usr/bin/env bash
+exit 0
+EOF
+  chmod +x "$null_kill_script"
+
+  cat > "$request_file" <<'EOF'
+{"reversibility":{"rollback_handle":"git:revert:123"}}
+EOF
+
+  jq -n '{reason_codes:["ACP_CIRCUIT_BREAKER_TRIPPED"],requirements:{breaker_actions:["stop_and_stage_only"]}}' > "$decision_file"
+  local output rc
+  rc=0
+  output="$("$BREAKER_ACTIONS_SCRIPT" run --run-id "$run_id" --decision "$decision_file" --request "$request_file" --rollback-dir "$rollback_dir/stop" --kill-switch-script "$null_kill_script" 2>&1)" || rc=$?
+  if [[ "$rc" -eq 0 ]] && jq -e '.tripped == true and .rollback == false and .kill_switch == false and .notify == false' <<<"$output" >/dev/null; then
+    test_pass "breaker action runner handles stop_and_stage_only token"
+  else
+    test_fail "breaker action runner handles stop_and_stage_only token" "$output"
+  fi
+
+  jq -n '{reason_codes:["ACP_CIRCUIT_BREAKER_TRIPPED"],requirements:{breaker_actions:["halt_and_notify"]}}' > "$decision_file"
+  rc=0
+  output="$("$BREAKER_ACTIONS_SCRIPT" run --run-id "$run_id" --decision "$decision_file" --request "$request_file" --rollback-dir "$rollback_dir/notify" --kill-switch-script "$null_kill_script" 2>&1)" || rc=$?
+  if [[ "$rc" -eq 0 ]] && jq -e '.tripped == true and .rollback == false and .kill_switch == false and .notify == true' <<<"$output" >/dev/null; then
+    test_pass "breaker action runner handles halt_and_notify token"
+  else
+    test_fail "breaker action runner handles halt_and_notify token" "$output"
+  fi
+
+  jq -n '{reason_codes:["ACP_CIRCUIT_BREAKER_TRIPPED"],requirements:{breaker_actions:["rollback_and_trip_killswitch"]}}' > "$decision_file"
+  rc=0
+  output="$("$BREAKER_ACTIONS_SCRIPT" run --run-id "$run_id" --decision "$decision_file" --request "$request_file" --rollback-dir "$rollback_dir/rollback" --kill-switch-script "$null_kill_script" 2>&1)" || rc=$?
+  if [[ "$rc" -eq 0 ]] && jq -e '.tripped == true and .rollback == true and .kill_switch == true and .notify == false' <<<"$output" >/dev/null; then
+    test_pass "breaker action runner handles rollback_and_trip_killswitch token"
+  else
+    test_fail "breaker action runner handles rollback_and_trip_killswitch token" "$output"
+  fi
+
+  jq -n '{reason_codes:["ACP_CIRCUIT_BREAKER_TRIPPED"],requirements:{breaker_actions:["unsupported_token"]}}' > "$decision_file"
+  rc=0
+  output="$("$BREAKER_ACTIONS_SCRIPT" run --run-id "$run_id" --decision "$decision_file" --request "$request_file" --rollback-dir "$rollback_dir/invalid" --kill-switch-script "$null_kill_script" 2>&1)" || rc=$?
+  if [[ "$rc" -ne 0 ]] && [[ "$output" == *"unsupported_action"* ]]; then
+    test_pass "breaker action runner rejects unsupported action tokens"
+  else
+    test_fail "breaker action runner rejects unsupported action tokens" "$output"
+  fi
+
+  rm -rf "$tmp_dir"
 }
 
 run_agent_quorum_independence_tests() {
@@ -473,6 +562,7 @@ main() {
   run_acp_gate_tests
   run_service_wrapper_budget_metering_tests
   run_acp_breaker_action_tests
+  run_breaker_action_runner_token_tests
   run_agent_quorum_independence_tests
 
   echo ""

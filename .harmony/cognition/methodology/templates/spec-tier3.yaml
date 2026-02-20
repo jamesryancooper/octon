@@ -7,8 +7,8 @@
 # - PII/PHI/sensitive data
 # - Any change AI flags as high-risk
 #
-# AI agents: Fill this template completely. Human reviews full spec (30-60 min).
-# Spec must be approved BEFORE AI builds.
+# AI agents: Fill this template completely. Human oversight is on-the-loop and policy-triggered.
+# Promotion authority is ACP outcome + evidence/quorum, not standing human approval.
 # ==============================================================================
 
 # Schema version for template validation
@@ -672,18 +672,18 @@ slo_implications:
 # ------------------------------------------------------------------------------
 # ACP Gates
 # ------------------------------------------------------------------------------
-approval_checkpoints:
-  spec_approval:
-    required: true
-    approvers:
+oversight_touchpoints:
+  spec_review:
+    required: false
+    reviewers:
       - role: owner
         name: ""
-        approved: false
-        approved_at: ""
+        reviewed: false
+        reviewed_at: ""
       - role: navigator
         name: ""
-        approved: false
-        approved_at: ""
+        reviewed: false
+        reviewed_at: ""
     criteria:
       - "Spec captures requirements correctly"
       - "Threat model covers obvious risks"
@@ -694,20 +694,20 @@ approval_checkpoints:
     concerns: []
     # Any concerns raised during review
     
-    blocked_until: ""
-    # If blocked, what's needed?
+    escalation_note: ""
+    # If escalation is raised, capture required follow-up.
   
-  pr_approval:
-    required: true
-    approvers:
+  pr_review:
+    required: false
+    reviewers:
       - role: owner
         name: ""
-        approved: false
-        approved_at: ""
+        reviewed: false
+        reviewed_at: ""
       - role: navigator
         name: ""
-        approved: false
-        approved_at: ""
+        reviewed: false
+        reviewed_at: ""
         security_review: true
         # Navigator does security-focused review
     criteria:
@@ -718,13 +718,13 @@ approval_checkpoints:
     
     concerns: []
   
-  promotion_approval:
-    required: true
-    approver:
+  promotion_readiness_review:
+    required: false
+    reviewer:
       role: owner
       name: ""
-      approved: false
-      approved_at: ""
+      reviewed: false
+      reviewed_at: ""
     criteria:
       - "Preview testing complete"
       - "Rollback plan verified"
@@ -751,8 +751,8 @@ _metadata:
   stride_automated: false
   # STRIDE is human-reviewed for T3
   
-  human_review_required_before_build: true
-  # Spec must be approved before AI builds
+  human_review_required_before_build: false
+  # Human oversight is optional unless policy escalation thresholds are crossed.
 
 # ==============================================================================
 # ADR LINK (required for T3)

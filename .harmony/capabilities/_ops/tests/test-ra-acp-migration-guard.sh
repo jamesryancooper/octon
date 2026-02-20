@@ -118,6 +118,18 @@ EOF
   run_guard_in_fixture "$fixture_root"
 }
 
+case_detects_pre_promote_human_approval_language() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+
+  mkdir -p "$fixture_root/.harmony/cognition/methodology"
+  cat > "$fixture_root/.harmony/cognition/methodology/gates.md" <<'EOF'
+Builds must approve before promote by human checkpoint required policy.
+EOF
+
+  run_guard_in_fixture "$fixture_root"
+}
+
 case_allows_explicit_negation_terms() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
@@ -154,6 +166,11 @@ main() {
     "ra-acp migration guard rejects legacy HITL language" \
     "stale legacy HITL language remains on active .harmony surfaces" \
     case_detects_affirmative_legacy_terms
+
+  assert_failure_contains \
+    "ra-acp migration guard rejects mandatory pre-promote human approval language" \
+    "stale legacy HITL language remains on active .harmony surfaces" \
+    case_detects_pre_promote_human_approval_language
 
   assert_success \
     "ra-acp migration guard allows explicit negation language" \

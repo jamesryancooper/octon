@@ -113,19 +113,45 @@ cmd_run() {
   local rollback_log="$rollback_dir/rollback-attempt.txt"
   printf '%s\n' "breaker-actions=$actions_json" > "$rollback_log"
 
-  local should_rollback should_killswitch
+  local invalid_actions
+  invalid_actions="$(jq -r '.[] | select(
+    . != "stop_and_stage_only" and
+    . != "auto_rollback_and_trip_killswitch" and
+    . != "rollback_and_trip_killswitch" and
+    . != "halt_and_notify" and
+    . != "deny_and_escalate" and
+    . != "auto_rollback" and
+    . != "trip_killswitch"
+  )' <<<"$actions_json" 2>/dev/null || true)"
+  if [[ -n "$invalid_actions" ]]; then
+    printf '%s\n' "unsupported circuit breaker action(s): $(tr '\n' ',' <<<"$invalid_actions" | sed 's/,$//')" >> "$rollback_log"
+    jq -n --argjson actions "$actions_json" --arg invalid "$invalid_actions" \
+      '{tripped:true,actions:$actions,rollback:false,kill_switch:false,notify:false,error:"unsupported_action",invalid_actions:($invalid | split("\n") | map(select(length > 0)))}'
+    return 13
+  fi
+
+  local should_rollback should_killswitch should_notify
   should_rollback="false"
   should_killswitch="false"
-  if jq -e '.[] | select(. == "auto_rollback_and_trip_killswitch" or . == "auto_rollback")' <<<"$actions_json" >/dev/null 2>&1; then
+  should_notify="false"
+
+  if jq -e '.[] | select(. == "auto_rollback_and_trip_killswitch" or . == "rollback_and_trip_killswitch" or . == "auto_rollback")' <<<"$actions_json" >/dev/null 2>&1; then
     should_rollback="true"
   fi
-  if jq -e '.[] | select(. == "auto_rollback_and_trip_killswitch" or . == "trip_killswitch")' <<<"$actions_json" >/dev/null 2>&1; then
+  if jq -e '.[] | select(. == "auto_rollback_and_trip_killswitch" or . == "rollback_and_trip_killswitch" or . == "trip_killswitch")' <<<"$actions_json" >/dev/null 2>&1; then
     should_killswitch="true"
+  fi
+  if jq -e '.[] | select(. == "halt_and_notify" or . == "deny_and_escalate")' <<<"$actions_json" >/dev/null 2>&1; then
+    should_notify="true"
   fi
 
   if [[ "$should_rollback" == "false" && "$should_killswitch" == "false" ]]; then
     printf '%s\n' "stage-only action: rollback and kill-switch not requested" >> "$rollback_log"
-    jq -n --argjson actions "$actions_json" '{tripped:true,actions:$actions,rollback:false,kill_switch:false}'
+    if [[ "$should_notify" == "true" ]]; then
+      printf '%s\n' "notify-only action requested; escalation artifact recorded" >> "$rollback_log"
+    fi
+    jq -n --argjson actions "$actions_json" --argjson notify "$should_notify" \
+      '{tripped:true,actions:$actions,rollback:false,kill_switch:false,notify:$notify}'
     return 0
   fi
 
@@ -137,8 +163,12 @@ cmd_run() {
     trip_kill_switch "$kill_switch_script" "$run_id" "$scope" "$owner" "$rollback_log"
   fi
 
-  jq -n --argjson actions "$actions_json" --argjson rollback "$should_rollback" --argjson kill_switch "$should_killswitch" \
-    '{tripped:true,actions:$actions,rollback:$rollback,kill_switch:$kill_switch}'
+  if [[ "$should_notify" == "true" ]]; then
+    printf '%s\n' "notify action requested; escalation artifact recorded" >> "$rollback_log"
+  fi
+
+  jq -n --argjson actions "$actions_json" --argjson rollback "$should_rollback" --argjson kill_switch "$should_killswitch" --argjson notify "$should_notify" \
+    '{tripped:true,actions:$actions,rollback:$rollback,kill_switch:$kill_switch,notify:$notify}'
 }
 
 main() {

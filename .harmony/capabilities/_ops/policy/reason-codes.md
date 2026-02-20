@@ -46,6 +46,8 @@ policy engine.
 | `ACP_RULE_NO_MATCH` | No ACP rule matched the operation class/target/phase. | Add a policy rule for the operation class or normalize wrapper taxonomy. |
 | `ACP_PROFILE_CEILING_EXCEEDED` | Active profile ACP ceiling is below required ACP. | Use a higher profile, or split action into lower-risk reversible operations. |
 | `ACP_PROTECTED_TARGET` | Target is protected and requires elevated ACP requirements. | Provide required evidence and quorum, or route through staged promotion. |
+| `ACP_PHASE_REQUIRED` | `operation.phase` was omitted for a mutating operation class. | Set explicit phase (`stage`, `promote`, `finalize`) before invoking ACP enforcement. |
+| `ACP_PHASE_INVALID` | `operation.phase` had an unsupported value for ACP enforcement. | Use only supported phase values (`stage`, `promote`, `finalize`). |
 | `ACP_IRREVERSIBLE_BLOCKED` | Irreversible primitive is blocked outside break-glass posture. | Use reversible primitive or enable audited, time-boxed break-glass posture. |
 | `ACP_REVERSIBILITY_REQUIRED` | Required reversible primitive details were missing. | Provide `reversibility` metadata with approved primitive and rollback handle. |
 | `ACP_ROLLBACK_HANDLE_MISSING` | Rollback handle required for promotion was absent. | Attach rollback handle (`git revert`, restore manifest, deployment rollback id). |
@@ -53,11 +55,15 @@ policy engine.
 | `ACP_RECOVERY_WINDOW_MISSING` | Recovery TTL/window required for destructive-adjacent action. | Set `recovery_window` (or rely on policy default when allowed). |
 | `ACP_EVIDENCE_MISSING` | Required evidence bundle entries are missing. | Attach required evidence refs + hashes (diff/tests/plan/etc.). |
 | `ACP_EVIDENCE_INVALID` | Evidence present but malformed or hash mismatch. | Regenerate evidence artifact and ensure canonical hash binding. |
+| `ACP_ATTESTATION_FIELD_MISSING` | One or more required attestation fields were absent/blank. | Include all policy-required attestation fields before retrying quorum checks. |
+| `ACP_ATTESTATION_INVALID` | Attestation payload format was invalid (unsupported required field, invalid timestamp, or malformed record). | Regenerate attestations with schema-compliant field values. |
+| `ACP_ATTESTATION_ROLE_MISMATCH` | Attestation roles did not satisfy required role constraints. | Supply attestations from required roles (`proposer`, `verifier`, `recovery`) as policy requires. |
 | `ACP_QUORUM_MISSING` | Required quorum roles/signatures were missing. | Gather required attestations and resubmit gate request. |
 | `ACP_QUORUM_INVALID` | Attestations do not bind to shared plan/evidence hashes. | Re-issue attestations for the same plan/evidence identity. |
 | `ACP_BUDGET_SET_MISSING` | Required budget set is missing or unknown. | Fix budget set reference in policy or request payload. |
 | `ACP_BUDGET_EXCEEDED` | Runtime counters exceeded configured budget thresholds. | Reduce scope, split into smaller promotions, or request temporary exception. |
 | `ACP_CIRCUIT_BREAKER_TRIPPED` | Circuit breaker trigger fired for this operation. | Investigate trigger, rollback when possible, and rerun after remediation. |
+| `ACP_CIRCUIT_BREAKER_INVALID_ACTION` | Circuit breaker configuration referenced unsupported action token(s). | Correct action tokens in policy/schema and rerun policy doctor/enforcement. |
 | `ACP_KILLSWITCH_ACTIVE` | Kill-switch blocks ACP promotion/finalization. | Clear or expire kill-switch only after safety checks. |
 | `ACP_RECEIPT_REQUIRED` | Receipt emission required for this decision but missing. | Fix receipt writer/config and retry promotion gate. |
 | `ACP_RECEIPT_INVALID` | Receipt exists but missing required fields/hash consistency. | Regenerate receipt with required fields and bound hashes. |

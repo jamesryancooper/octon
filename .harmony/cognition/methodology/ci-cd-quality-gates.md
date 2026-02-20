@@ -56,8 +56,8 @@ flowchart TB
   T3 --> T3a[All T2 gates]
   T3a --> T3b[STRIDE review]
   T3b --> T3c[Golden tests]
-  T3c --> T3d[Navigator review pass]
-  T3d --> T3e[Security review]
+  T3c --> T3d[Verifier + recovery attestations]
+  T3d --> T3e[Security evidence package]
   T3e --> M3[Merge allowed + Watch window]
 ```
 
@@ -198,8 +198,8 @@ Bumping down requires justification:
 | From → To | Allowed | Requires |
 |-----------|---------|----------|
 | T2 → T1 | Yes | Justification in PR |
-| T3 → T2 | Yes | Navigator approval (review pass) |
-| T3 → T1 | Yes | Navigator approval (security checklist) |
+| T3 → T2 | Yes | Escalation artifact + verifier review |
+| T3 → T1 | Yes | Escalation artifact + security evidence review |
 
 ```bash
 harmony tier-down <pr-number> --reason "config file in auth/ but no auth logic"
@@ -246,8 +246,8 @@ These gates cannot be waived under any circumstances:
 - Missing rollback plan (T2+)
 - Missing feature flag (T2+)
 - Active SLO freeze
-- T3 navigator review pass
-- T3 spec approval
+- Missing ACP-3 quorum evidence
+- Missing ACP receipt/digest artifacts
 
 ### Waiver Lifecycle
 
