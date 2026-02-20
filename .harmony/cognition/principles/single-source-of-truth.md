@@ -21,6 +21,8 @@ This applies to:
 - **Documentation**: Code comments generate API docs, not the reverse
 - **Business rules**: Defined in one place, enforced everywhere
 
+For artifact timing semantics ("required before ACP promotion"), the canonical source is [Documentation is Code](./documentation-is-code.md).
+
 ## Why It Matters
 
 ### Pillar Alignment: Continuity through Institutional Memory

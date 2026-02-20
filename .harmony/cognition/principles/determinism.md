@@ -20,6 +20,9 @@ Determinism is a reliability principle: by default, the same inputs should produ
 
 In AI-assisted development, determinism is especially critical because LLMs are inherently probabilistic. Harmony manages this through explicit configuration, pinning, bounded variance controls, and provenance tracking.
 
+This document defines determinism posture (default deterministic behavior with bounded policy variance).
+Canonical replay/provenance field requirements are defined in [Determinism and Provenance](./determinism-and-provenance.md).
+
 ## Why It Matters
 
 ### Pillar Alignment: Trust through Governed Determinism

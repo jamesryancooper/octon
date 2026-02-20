@@ -82,6 +82,7 @@ Treating accessibility as “later cleanup” creates compounding remediation co
 ## Exceptions
 
 Temporary exceptions are allowed only for non-user-facing prototypes and must not ship to production.
+Any waiver must be policy-bound, time-boxed, and receipted; ad-hoc approvals are invalid.
 
 ## Related Documentation
 

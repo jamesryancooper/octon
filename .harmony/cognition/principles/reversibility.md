@@ -1,17 +1,17 @@
 ---
 title: Reversibility
-description: Every change should be undoable. Design systems so mistakes are recoverable, not catastrophic.
+description: Routine autonomous changes must be undoable. Design systems so mistakes are recoverable, not catastrophic.
 pillar: Trust, Velocity
 status: Active
 ---
 
 # Reversibility
 
-> Every change should be undoable. Design systems so mistakes are recoverable, not catastrophic.
+> Routine autonomous changes should be undoable. Design systems so mistakes are recoverable, not catastrophic.
 
 ## What This Means
 
-Reversibility is a risk management principle: design every change so it can be rolled back safely. This includes code deployments, database migrations, feature releases, and configuration changes.
+Reversibility is a risk management principle: design routine autonomous changes so they can be rolled back safely. This includes code deployments, database migrations, feature releases, and configuration changes.
 
 Reversibility is not just about having a rollback button — it's about designing changes so that rollback is:
 - **Safe**: Rolling back doesn't cause data loss or corruption
@@ -66,6 +66,14 @@ Promotion and contraction authority is defined in
 This document defines design guidance for reversible primitives, rollback paths,
 and recovery windows. Human escalation occurs only when ACP policy triggers it
 (for example threshold breach, unresolved disagreement, or break-glass policy).
+
+Routine autonomy scope is ACP-1 through ACP-3. ACP-4 operations are break-glass,
+blocked by default, explicitly audited, and out-of-band from normal autonomous runs.
+
+## Canonical References
+
+- Promotion/contraction mechanics: [Autonomous Control Points](./autonomous-control-points.md)
+- Capability attempt authorization: [Deny by Default](./deny-by-default.md)
 
 ## Arbitration
 

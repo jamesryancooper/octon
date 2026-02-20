@@ -19,6 +19,8 @@ In Harmony, this principle applies at multiple levels:
 - **AI context**: Optimize token usage by loading only what's needed for the current task
 - **Documentation**: Structure content so readers can stop at the depth they need
 
+Progressive disclosure does not defer required governance artifacts past promotion time: for material side-effects, required docs must be complete before ACP promotion (see [Documentation is Code](./documentation-is-code.md)).
+
 ## Why It Matters
 
 ### Pillar Alignment: Focus through Absorbed Complexity

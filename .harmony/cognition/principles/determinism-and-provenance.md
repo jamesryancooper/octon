@@ -13,6 +13,19 @@ status: Active
 
 Every AI-assisted artifact should carry run metadata: provider, model/version, prompt hash, key parameters, and trace/eval IDs. Deterministic defaults reduce variance; provenance makes remaining variance auditable.
 
+This document is Harmony's single normative source for replay and reproducibility semantics across deterministic execution, idempotent retries, and ACP receipts.
+
+## SSOT: Replay and Reproducibility Contract
+
+For any materially relevant run, record:
+
+- input identity (prompt/version hash, context hash, plan or diff hash)
+- execution identity (run ID, operation ID, step ID, actor/profile, deterministic or bounded variance mode)
+- decision identity (ACP decision outcome: `ALLOW`, `STAGE_ONLY`, `DENY`, `ESCALATE`)
+- evidence identity (trace/eval IDs, evidence bundle refs, receipt ID, rollback handle ref where applicable)
+
+Bounded variance is valid only when policy-approved and receipted. Deterministic mode remains the default.
+
 ## Why It Matters
 
 ### Pillar Alignment: Trust through Governed Determinism
@@ -76,7 +89,7 @@ result = client.generate(prompt, model="latest")
 ## Relationship to Other Principles
 
 - `Governed Determinism` controls runtime variance.
-- `No Silent Apply` pairs provenance with approval decisions.
+- `Autonomous Control Points` defines policy decisions; this principle defines the provenance fields required to reproduce those decisions.
 - `Observability as a Contract` links run metadata to traces.
 
 ## Anti-Pattern: Opaque AI Execution
@@ -89,6 +102,9 @@ Exploratory local prompts may skip full records, but production-impacting output
 
 ## Related Documentation
 
+- `.harmony/cognition/principles/autonomous-control-points.md`
+- `.harmony/cognition/principles/idempotency.md`
+- `.harmony/cognition/principles/determinism.md`
 - `.harmony/cognition/methodology/README.md`
 - `.harmony/capabilities/services/_meta/docs/platform-overview.md`
 - `.harmony/cognition/principles/pillars/trust.md`

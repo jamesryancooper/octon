@@ -14,6 +14,7 @@ status: Active
 Every change must preserve least-privilege access, secret hygiene, explicit input validation, and data minimization. PII/PHI is redacted at log/write boundaries and secrets never leave trusted secret stores.
 
 Security and privacy requirements are mandatory release criteria.
+Least privilege and fail-closed behavior are non-waivable controls.
 
 ## Why It Matters
 
@@ -80,6 +81,7 @@ Treating security controls as optional for speed creates hidden risk that later 
 ## Exceptions
 
 No exceptions for secret exposure or unredacted PII/PHI. Temporary exceptions for low-risk controls require explicit waiver scope/timebox.
+Waivers must be policy-bound, receipted, and never used to bypass non-waivable controls.
 
 ## Related Documentation
 

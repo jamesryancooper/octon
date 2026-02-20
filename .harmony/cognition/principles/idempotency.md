@@ -11,7 +11,13 @@ status: Active
 
 ## What This Means
 
-All mutating endpoints and kit calls must accept an `idempotency_key` and return the same canonical result when replayed. This is required for reliable retries, agent restarts, and network-failure recovery.
+Externally retriable mutating interfaces (APIs, jobs, webhooks, and kit calls) must accept an `idempotency_key` and return the same canonical result when replayed. This is required for reliable retries, agent restarts, and network-failure recovery.
+
+## Equivalent Replay Keys
+
+For internal mutation transitions, an equivalent stable replay identifier is allowed when `idempotency_key` is not the native interface field.
+Accepted examples: `operation_id`, `receipt_id`, or `run_id + step_id`.
+Replay-key semantics must remain reproducible and auditable per [Determinism and Provenance](./determinism-and-provenance.md).
 
 ## Why It Matters
 

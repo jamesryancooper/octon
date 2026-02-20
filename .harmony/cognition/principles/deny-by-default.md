@@ -156,6 +156,11 @@ ACP answers: **“May this staged change be promoted to durable state?”**
 Promotion criteria are defined in ACP, not in this document.
 See: [Autonomous Control Points](./autonomous-control-points.md).
 
+## Canonical References
+
+- Capability attempt authorization (SSOT): this document.
+- Promotion/contraction mechanics (SSOT): [Autonomous Control Points](./autonomous-control-points.md).
+
 ## Arbitration
 
 If this principle conflicts with another, apply

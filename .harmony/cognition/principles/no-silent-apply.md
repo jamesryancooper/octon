@@ -16,6 +16,7 @@ This principle defines an outcome: material side-effects must never be silent. D
 ## Mechanism
 
 Enforcement lives in [Autonomous Control Points](./autonomous-control-points.md). This document intentionally stays narrow to avoid duplicating ACP gate semantics.
+ACP is the single normative source for promotion/contraction mechanics, quorum behavior, and receipt schema rules.
 
 Capability attempts still follow [Deny by Default](./deny-by-default.md).
 
@@ -30,11 +31,16 @@ No-silent-apply requires that every promoted change exposes, at minimum:
 
 Canonical receipt field definitions and completeness requirements live in `autonomous-control-points.md`.
 
+## Canonical References
+
+- Promotion/contraction mechanics: [Autonomous Control Points](./autonomous-control-points.md)
+- Capability attempt authorization: [Deny by Default](./deny-by-default.md)
+
 ## Arbitration
 
 If this principle conflicts with another, apply
 [Arbitration & Precedence](./README.md#arbitration--precedence).
-No-silent-apply is fulfilled by receipts/evidence/rollback handles, not default human approval.
+No-silent-apply is fulfilled by receipts/evidence/rollback handles, not default human authorization.
 
 ## Why It Matters
 
@@ -63,7 +69,7 @@ ACP policy gating ensures proposed execution stays within intent and risk postur
 ### ❌ Don't
 
 - Don’t mutate durable state without ACP policy evaluation.
-- Don’t treat human approval as the default runtime gate.
+- Don’t treat human authorization as the default runtime gate.
 - Don’t ship side-effects without evidence and receipts.
 
 ## Relationship to Other Principles

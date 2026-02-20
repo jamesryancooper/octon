@@ -16,6 +16,9 @@ Specs, ADRs, contracts, and runbooks are first-class engineering artifacts.
 They are versioned, reviewed, and traceable like source code.
 
 Harmony requires spec-first planning and decision capture for material changes.
+For material side-effects, required specs/ADRs/runbooks must exist in the same
+changeset before ACP promotion to durable state. Docs may be authored during the
+run, but cannot be missing at promote time.
 
 ## Why It Matters
 
@@ -80,6 +83,12 @@ apply_hotfix_without_runbook = True
   `.harmony/capabilities/services/authoring/doc/guide.md`
 - Enforcement:
   `/audit-documentation-standards` or `/documentation-quality-gate`
+
+## Promotion-Time Artifact Completeness (SSOT)
+
+This document is the canonical source for documentation artifact timing:
+required governance artifacts must be complete before ACP promotion, not before
+any staged work begins.
 
 ## Relationship to Other Principles
 

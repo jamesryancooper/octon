@@ -55,7 +55,8 @@ If a non-default profile is used, the change receipt must include:
 - reason code (for example budget or circuit-breaker constraint)
 - policy/receipt reference
 
-This is a policy record, not a standing human approval checkpoint.
+This is a policy record, not a standing manual authorization checkpoint.
+Profile downgrades must be policy-bound and receipted; ad-hoc approval is not sufficient.
 
 ### ✅ Do
 
@@ -98,6 +99,11 @@ service.submit(order_id)  # No span, no metric, no trace linkage
 - `Learn Continuously` uses telemetry for root-cause and trend analysis.
 - `Guardrails` can fail closed on missing evidence.
 - `Autonomous Control Points` defines risk tiers, budgets, and receipt requirements for promote decisions.
+
+## Canonical References
+
+- Promotion/contraction and budget envelopes: [Autonomous Control Points](./autonomous-control-points.md)
+- Capability attempt authorization: [Deny by Default](./deny-by-default.md)
 
 ## Anti-Pattern: Blind Shipping
 

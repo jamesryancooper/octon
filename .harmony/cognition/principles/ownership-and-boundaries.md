@@ -32,6 +32,8 @@ hash-bound to the staged artifacts so policy can verify integrity.
 
 Owner attestation is input to ACP quorum when policy requires it; it is not a
 separate gating mechanism.
+If required attestation is missing at policy timeout, default to
+`STAGE_ONLY + ESCALATE` (per ACP policy), never silent allow.
 
 ## Arbitration
 
@@ -94,6 +96,11 @@ from billing._private.retries import force_retry_all
 - `Contract-first` defines stable interfaces across slices.
 - `Small Diffs, Trunk-based` works better with local ownership.
 - `Autonomous Control Points` governs promotion authority; ownership contributes required attestations when policy demands it.
+
+## Canonical References
+
+- Promotion/contraction and quorum mechanics: [Autonomous Control Points](./autonomous-control-points.md)
+- Capability attempt authorization: [Deny by Default](./deny-by-default.md)
 
 ## Anti-Pattern: Boundary Erosion
 

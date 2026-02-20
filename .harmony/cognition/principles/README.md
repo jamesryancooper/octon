@@ -30,23 +30,41 @@ For small teams, default to the smallest viable process, design, and tooling tha
 
 ## Arbitration & Precedence
 
-Arbitration exists to resolve principle tensions without weakening RA/ACP governance.
+### Tie-break Rules
+
+Arbitration resolves principle tensions without weakening RA/ACP governance.
 
 Hierarchy:
 
 - **Assurance > Productivity > Integration**
 
+Routine autonomy scope:
+
+- ACP-1 through ACP-3 are routine autonomous operation levels.
+- ACP-4 is break-glass only, blocked by default, and out-of-band from normal runs.
+
+Canonical SSOTs:
+
+- Promotion/contraction semantics: [Autonomous Control Points](./autonomous-control-points.md)
+- Capability attempt semantics: [Deny by Default](./deny-by-default.md)
+- Replay/provenance semantics: [Determinism and Provenance](./determinism-and-provenance.md)
+
 Rules:
 
-1. For durable state changes, **ACP policy decisions are the final promotion authority**.
-2. **Assurance principles override delivery-speed principles** when they conflict.
-3. Within Assurance, precedence is: `Deny by Default` + `Security and Privacy Baseline` + `Guardrails` + `Reversibility`.
-4. `No Silent Apply` is satisfied by **receipts/evidence/rollback handles**, not default human approval.
-5. Owner approval is a **required attestation input** for boundary exceptions and never replaces risk-tier quorum where quorum is required.
-6. Determinism is default; **bounded variance** is allowed only under explicit policy with full provenance in receipts.
-7. Observability requirements must fit **budget/circuit envelopes** via approved telemetry profiles; any relaxation requires a receipt.
-8. Trunk speed does not bypass **stage -> ACP gate -> promote** sequencing for material side effects.
-9. Every arbitration outcome must be recorded in **append-only audit trails** and included in oversight digests.
+1. For durable state changes, ACP policy decisions are the final promotion authority.
+2. Assurance principles override delivery-speed principles when they conflict.
+3. Within Assurance, prioritize `Deny by Default` + `Security and Privacy Baseline` + `Guardrails` + `Autonomous Control Points` + `Reversibility` over convenience.
+4. `No Silent Apply` is satisfied by receipts/evidence/rollback handles, not standing human authorization.
+5. Owner attestation is a required quorum input for boundary exceptions and never replaces required risk-tier quorum.
+6. Determinism is default; bounded variance is allowed only under explicit policy with full provenance in receipts.
+7. Observability requirements must fit budget/circuit envelopes via approved telemetry profiles; any relaxation requires a receipt.
+8. Trunk speed does not bypass stage -> ACP gate -> promote sequencing for material side effects.
+9. Every material arbitration outcome must be recorded in append-only audit trails and referenced in receipts/digests.
+
+Vocabulary normalization:
+
+- Prefer `ACP decision outcome` over `approval`.
+- Prefer `policy gate pass` over `sign-off` unless explicitly describing ACP-4 break-glass escalation.
 
 Worked examples:
 
@@ -93,7 +111,7 @@ These defaults are normative unless a documented waiver applies:
 - Branch lifetime: `<= 1 working day`.
 - PR size: `<= 400 changed lines` (adds + deletes; generated/lock files excluded).
 - One PR, one concern: no mixed refactor + feature + migration in a single diff.
-- First human review response: `<= 4 working hours` for active PRs.
+- When human review is configured, first response target: `<= 4 working hours` for active PRs.
 - AI deterministic settings: deterministic mode by default for code/spec changes; higher variance requires explicit policy/receipt justification.
 - Waiver duration: `<= 7 days` or until merge (whichever is sooner).
 - Flag hygiene: each flag must have owner + expiry and be removed within `<= 2 release cycles` after GA.

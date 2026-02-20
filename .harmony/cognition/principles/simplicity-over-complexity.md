@@ -20,6 +20,10 @@ This is not minimalism for its own sake. It's a recognition that:
 - Premature abstraction often creates the wrong abstraction
 - You can always add complexity later; removing it is harder
 
+Simplicity never waives assurance controls. Deny-by-default, ACP gates,
+receipts, and required safety evidence are mandatory constraints, not optional
+complexity.
+
 ## Why It Matters
 
 ### Pillar Alignment: Focus through Absorbed Complexity

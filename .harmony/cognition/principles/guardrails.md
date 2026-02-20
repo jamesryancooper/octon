@@ -19,6 +19,11 @@ Guardrails combine policy checks, evaluation thresholds, and security controls a
 - Promotion/contraction to durable state is enforced by [Autonomous Control Points](./autonomous-control-points.md).
 - Guardrails integrate these controls across design, CI, and runtime and block on missing required evidence.
 
+## Canonical References
+
+- Promotion/contraction mechanics: [Autonomous Control Points](./autonomous-control-points.md)
+- Capability attempt authorization: [Deny by Default](./deny-by-default.md)
+
 ## Arbitration
 
 If this principle conflicts with another, apply

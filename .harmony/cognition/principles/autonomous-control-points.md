@@ -32,13 +32,26 @@ The standard loop becomes:
 ACPs are Harmony's single normative specification for **promotion** and **contraction**
 gating into durable state.
 
+This includes the canonical semantics for:
+
+- stage/promote/contraction decision outcomes
+- evidence, quorum, and rollback requirements
+- budget and circuit-breaker enforcement
+- receipt requirements and disclosure completeness levels
+
 Boundary split:
 
 - **Deny by Default** answers: "May this actor attempt this capability?"
 - **ACP** answers: "May this staged change be promoted now?"
 
 `No Silent Apply` is satisfied by ACP receipts, evidence references, and rollback
-handles. This does not require standing human approvals.
+handles. This does not require standing human authorizations.
+
+## Canonical References
+
+- Promotion and contraction semantics: this document.
+- Capability attempt authorization: [Deny by Default](./deny-by-default.md).
+- Replay and provenance semantics: [Determinism and Provenance](./determinism-and-provenance.md).
 
 ## Why It Matters
 
@@ -86,7 +99,7 @@ An ACP gate is a policy evaluation that answers:
 Outcomes:
 
 - **ALLOW (promote):** promote change and emit receipt
-- **STAGE-ONLY:** keep change staged; emit receipt; notify humans if configured
+- **STAGE_ONLY:** keep change staged; emit receipt; notify humans if configured
 - **DENY:** block action; emit denial with reason codes
 - **ESCALATE:** request human intervention (rare; only when policy requires)
 
@@ -142,6 +155,8 @@ Attestation** as a quorum input.
 - It may satisfy a required attestation role but does not replace ACP policy
   evaluation.
 - Promotion authority remains ACP policy gate + required quorum.
+- If required owner attestation is missing at policy timeout, decision defaults to
+  **STAGE_ONLY + ESCALATE**.
 
 ## Budgets and Circuit Breakers
 

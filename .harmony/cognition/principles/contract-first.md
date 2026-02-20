@@ -11,9 +11,16 @@ status: Active
 
 ## What This Means
 
-APIs, events, and structured payloads must be defined in OpenAPI/JSON Schema before implementation starts. Generated types and contract tests then become the default integration path.
+APIs, events, and structured payloads must be defined in OpenAPI/JSON Schema and validated before ACP promotion to durable state. Generated types and contract tests then become the default integration path.
 
 Contract-first keeps teams and agents aligned on expected behavior and reduces integration ambiguity.
+
+## Stage vs Promote
+
+Stage-only exploratory work may use provisional contracts while iterating on shape and constraints.
+Before any durable promotion, contracts must be finalized, validated, and included in the promoted changeset.
+Promotion authority remains the ACP gate: see [Autonomous Control Points](./autonomous-control-points.md).
+Artifact timing semantics are defined in [Documentation is Code](./documentation-is-code.md).
 
 ## Why It Matters
 

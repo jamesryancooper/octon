@@ -21,6 +21,9 @@ Default thresholds:
 - PR size `<= 400 changed lines` (excluding generated/lock files)
 - One concern per PR
 
+Thresholds apply per promotable slice. Long autonomous runs may contain multiple
+staged slices; each promoted slice should remain small and single-purpose.
+
 ## Why It Matters
 
 ### Pillar Alignment: Velocity through Agentic Automation
@@ -79,6 +82,11 @@ if branch_age_days > 1:
 - `Autonomous Control Points` stay lightweight when diffs are small and reversible.
 - `No Silent Apply` requires evidence/receipt visibility for durable side-effects.
 
+## Canonical References
+
+- Promotion/contraction mechanics: [Autonomous Control Points](./autonomous-control-points.md)
+- Capability attempt authorization: [Deny by Default](./deny-by-default.md)
+
 ## Anti-Pattern: Big-bang PR
 
 Large, mixed-concern PRs stall reviews, hide risk, and create painful rollback choices.
@@ -88,6 +96,10 @@ Large, mixed-concern PRs stall reviews, hide risk, and create painful rollback c
 Allow larger diffs only for mechanical codemods or generated-file updates, and isolate them from behavioral changes.
 
 Even for small diffs, material side-effects must follow stage -> ACP gate -> promote with receipt emission.
+
+Stage-only flows may exceed default thresholds only with a bounded waiver that is
+receipted, reason-coded, time-boxed, and backed by a decomposition plan for
+promotion slices.
 
 ## Arbitration
 
