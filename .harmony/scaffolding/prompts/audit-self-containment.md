@@ -58,7 +58,7 @@ For each of the nine subsystems, perform these verification layers in order.
 ### Layer 3: Self-Containment Audit
 
 1. For services: verify no service references external kit implementations (per `_ops/scripts/validate-service-independence.sh` logic)
-2. For skills: verify each skill's `references/`, `scripts/`, and `_ops/state/` directories resolve within `.harmony/capabilities/skills/`
+2. For skills: verify each skill's `references/`, `scripts/`, and `_ops/state/` directories resolve within `.harmony/capabilities/runtime/skills/`
 3. For workflows: verify step files (`01-*.md`, `02-*.md`) reference only harness-internal paths and tools
 4. Verify no subsystem requires importing or installing external dependencies to function
 5. Confirm dependency boundaries: only host-provided prerequisites (agent runtime, model, `read`/`glob`/`grep`/`bash` tools) are assumed

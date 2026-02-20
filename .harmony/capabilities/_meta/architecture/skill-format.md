@@ -89,7 +89,7 @@ allowed-tools: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
 | `metadata` | Key-value mapping | Author, dates, custom fields |
 | `allowed-tools` | Space-delimited list | Pre-approved tools (experimental) |
 
-> **Note:** The authoritative `version` is defined in `.harmony/capabilities/skills/registry.yml`, not in SKILL.md metadata. This prevents version drift between files. See [Specification](./specification.md#manifest-and-registry-files) for the single source of truth principle.
+> **Note:** The authoritative `version` is defined in `.harmony/capabilities/runtime/skills/registry.yml`, not in SKILL.md metadata. This prevents version drift between files. See [Specification](./specification.md#manifest-and-registry-files) for the single source of truth principle.
 
 ---
 

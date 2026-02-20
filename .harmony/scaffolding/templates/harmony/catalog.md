@@ -21,7 +21,7 @@ Actor configuration in `agency/`:
 
 ## Commands
 
-Atomic operations in `capabilities/commands/`:
+Atomic operations in `capabilities/runtime/commands/`:
 
 | Command | Access | Description |
 |---------|--------|-------------|

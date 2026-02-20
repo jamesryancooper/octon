@@ -9,7 +9,7 @@ checkpoints:
   storage: ".harmony/continuity/checkpoints/"
 parallel_steps: []
 deprecated: true
-deprecated_by: ".harmony/capabilities/skills/meta/create-skill/"
+deprecated_by: ".harmony/capabilities/runtime/skills/meta/create-skill/"
 ---
 
 > **DEPRECATED:** This workflow is superseded by the `create-skill` skill.
@@ -67,7 +67,7 @@ Scaffold a new skill following the [agentskills.io](https://agentskills.io) spec
 ## Steps
 
 1. [Validate Name](./01-validate-name.md) — Check format, naming convention, and uniqueness
-2. [Copy Template](./02-copy-template.md) — Copy template to `.harmony/capabilities/skills/<group>/<skill-name>/`
+2. [Copy Template](./02-copy-template.md) — Copy template to `.harmony/capabilities/runtime/skills/<group>/<skill-name>/`
 3. [Initialize Skill](./03-initialize-skill.md) — Update `SKILL.md` with name and placeholders
 4. [Update Registry](./04-update-registry.md) — Add entry to `registry.yml`
 5. [Update Catalog](./05-update-catalog.md) — Add row to skills table in `catalog.md`
@@ -78,7 +78,7 @@ Scaffold a new skill following the [agentskills.io](https://agentskills.io) spec
 A new skill directory following the agentskills.io spec:
 
 ```text
-.harmony/capabilities/skills/<group>/<skill-name>/
+.harmony/capabilities/runtime/skills/<group>/<skill-name>/
 ├── SKILL.md              # Core skill definition (<500 lines)
 ├── references/           # Detailed documentation (progressive disclosure)
 │   ├── phases.md         # Phase-by-phase behavior details
@@ -90,9 +90,9 @@ A new skill directory following the agentskills.io spec:
 └── assets/               # Static resources (optional)
 
 # Plus symlinks in harness folders:
-.claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
-.cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
-.codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
+.claude/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
+.cursor/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
+.codex/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
 ```
 
 ## Next Steps After Creation
@@ -142,6 +142,6 @@ This workflow creates skills that comply with [agentskills.io/specification](htt
 
 - **Spec:** [agentskills.io/specification](https://agentskills.io/specification)
 - **Documentation:** `.harmony/capabilities/_meta/architecture/README.md`
-- **Example:** `.harmony/capabilities/skills/synthesis/refine-prompt/`
-- **Template:** `.harmony/capabilities/skills/_scaffold/template/`
-- **Registry:** `.harmony/capabilities/skills/registry.yml`
+- **Example:** `.harmony/capabilities/runtime/skills/synthesis/refine-prompt/`
+- **Template:** `.harmony/capabilities/runtime/skills/_scaffold/template/`
+- **Registry:** `.harmony/capabilities/runtime/skills/registry.yml`

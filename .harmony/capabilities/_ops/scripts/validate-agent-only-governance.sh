@@ -6,7 +6,7 @@ set -o pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
-POLICY_FILE="${1:-$CAPABILITIES_DIR/_ops/policy/agent-only-governance.yml}"
+POLICY_FILE="${1:-$CAPABILITIES_DIR/governance/policy/agent-only-governance.yml}"
 
 errors=0
 

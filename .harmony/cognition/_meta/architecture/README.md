@@ -265,7 +265,7 @@ The full tree above is the **canonical superset**. In practice, harness profiles
 
 | Profile | Baseline | Notes |
 |---------|----------|-------|
-| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `assurance/`, `scaffolding/prompts/`, `orchestration/runtime/workflows/`, `orchestration/governance/`, `orchestration/practices/`, `capabilities/commands/`, `cognition/context/`, `runtime/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
+| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `assurance/`, `scaffolding/prompts/`, `orchestration/runtime/workflows/`, `orchestration/governance/`, `orchestration/practices/`, `capabilities/runtime/commands/`, `cognition/context/`, `runtime/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
 | **Descendant harness (localized)** | `START.md`, `scope.md`, plus at least one active subsystem (`cognition/`, `capabilities/`, `orchestration/`, `continuity/`, or `assurance/`) | Descendants are intentionally minimal. They include only subsystems needed for that subtree |
 
 | Subsystem | Root Harness | Descendant Harness |
@@ -298,14 +298,14 @@ portable:
   - agency/actors/assistants/
   - agency/actors/teams/
   - agency/practices/
-  - capabilities/skills/manifest.yml
-  - capabilities/skills/registry.yml
-  - capabilities/skills/capabilities.yml
-  - capabilities/skills/_scaffold/template/
-  - capabilities/skills/_ops/scripts/
-  - capabilities/skills/**/SKILL.md
-  - capabilities/skills/**/references/
-  - capabilities/commands/
+  - capabilities/runtime/skills/manifest.yml
+  - capabilities/runtime/skills/registry.yml
+  - capabilities/runtime/skills/capabilities.yml
+  - capabilities/runtime/skills/_scaffold/template/
+  - capabilities/runtime/skills/_ops/scripts/
+  - capabilities/runtime/skills/**/SKILL.md
+  - capabilities/runtime/skills/**/references/
+  - capabilities/runtime/commands/
   - orchestration/runtime/workflows/
   - orchestration/governance/
   - orchestration/practices/
@@ -397,7 +397,7 @@ Not every domain needs a manifest. Discovery depth is proportional to how agents
 
 Two domains have dedicated indexes beyond their README:
 
-- **`capabilities/commands/manifest.yml`** --- Lightweight command index (id, display_name, summary, access, argument_hint). Simpler than skills/workflows manifests: no triggers, no skill sets, no groups. Commands are deterministic and invoked by name, not by intent matching.
+- **`capabilities/runtime/commands/manifest.yml`** --- Lightweight command index (id, display_name, summary, access, argument_hint). Simpler than skills/workflows manifests: no triggers, no skill sets, no groups. Commands are deterministic and invoked by name, not by intent matching.
 
 - **`cognition/context/index.yml`** --- Context file index with a `when` field per entry, telling agents when each reference file is relevant to their current task. Avoids loading all context files to find the one needed.
 
@@ -530,8 +530,8 @@ For reference, here is how the previous flat structure maps to domains:
 | `checklists/` | `assurance/` |
 | `workflows/` | `orchestration/runtime/workflows/` |
 | `missions/` | `orchestration/runtime/missions/` |
-| `commands/` | `capabilities/commands/` |
-| `skills/` | `capabilities/skills/` |
+| `commands/` | `capabilities/runtime/commands/` |
+| `skills/` | `capabilities/runtime/skills/` |
 | `prompts/` | `scaffolding/prompts/` |
 | `templates/` | `scaffolding/templates/` |
 | `examples/` | `scaffolding/examples/` |
@@ -735,7 +735,7 @@ Harness-specific commands wrap workflows for integration. All workflows live in 
 | `/evaluate-harness` | `.harmony/orchestration/runtime/workflows/meta/evaluate-harness/` |
 | `/migrate-harness` | `.harmony/orchestration/runtime/workflows/meta/migrate-harness/` |
 | `/bootstrap` | `.harmony/scaffolding/prompts/bootstrap-session.md` |
-| `/synthesize-research` | `.harmony/capabilities/skills/synthesis/synthesize-research/` |
+| `/synthesize-research` | `.harmony/capabilities/runtime/skills/synthesis/synthesize-research/` |
 | `/research` | `.harmony/orchestration/runtime/workflows/projects/create-project.md` |
 
 These commands live in `.<harness>/commands/` (e.g., `.cursor/commands/`, `.claude/commands/`) and are thin wrappers that delegate to `.harmony/` paths.

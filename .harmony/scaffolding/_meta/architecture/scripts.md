@@ -46,7 +46,7 @@ cd .harmony
 ✓ assurance/
 ✓ scaffolding/prompts/
 ✓ orchestration/runtime/workflows/
-✓ capabilities/commands/
+✓ capabilities/runtime/commands/
 ✓ cognition/context/
 
 Standard directories:

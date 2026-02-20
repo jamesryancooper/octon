@@ -184,7 +184,7 @@ Without standardized evidence, semantic decisions are not explainable or reviewa
 
 ### Required Evidence
 
-- Run record artifacts aligned to `.harmony/capabilities/services/conventions/run-records.md`.
+- Run record artifacts aligned to `.harmony/capabilities/practices/services-conventions/run-records.md`.
 - Trace correlation from PR to run record to CI check.
 
 ### Residual Risk

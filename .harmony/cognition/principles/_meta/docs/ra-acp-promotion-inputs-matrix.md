@@ -7,7 +7,7 @@ status: Active
 # RA/ACP Promotion Inputs Matrix
 
 Canonical source for ACP promotion input minimums.  
-Policy source of truth: `.harmony/capabilities/_ops/policy/deny-by-default.v2.yml` (`acp`, `reversibility`, `budgets`, `quorum`, `attestations`, `receipts`).
+Policy source of truth: `.harmony/capabilities/governance/policy/deny-by-default.v2.yml` (`acp`, `reversibility`, `budgets`, `quorum`, `attestations`, `receipts`).
 Terminology source: [RA/ACP Glossary](./ra-acp-glossary.md).
 
 ## Enforcement Boundary
@@ -19,7 +19,7 @@ Terminology source: [RA/ACP Glossary](./ra-acp-glossary.md).
 ## Risk Tier Mapping (Canonical)
 
 Risk tier to ACP mapping is defined only in policy:  
-`.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#acp.risk_tier_mapping`
+`.harmony/capabilities/governance/policy/deny-by-default.v2.yml#acp.risk_tier_mapping`
 
 | Risk tier | ACP level |
 |---|---|
@@ -45,12 +45,12 @@ Promotion-time governance checks in this matrix are keyed by canonical predicate
 - Canonical predicate name: `material_side_effect`
 - Canonical aliases: `material side-effect`, `meaningful behavior change`,
   `durable effect`, `promotion` (when used as governance trigger)
-- Policy source: `.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#acp.materiality`
+- Policy source: `.harmony/capabilities/governance/policy/deny-by-default.v2.yml#acp.materiality`
 
 ## Telemetry Profile Gate (Canonical)
 
 Telemetry profile enforcement is policy-driven and evaluated at ACP promote gate:
-`.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#acp.telemetry_gate`
+`.harmony/capabilities/governance/policy/deny-by-default.v2.yml#acp.telemetry_gate`
 
 | ACP | Required telemetry profile(s) | Additional evidence requirement | Receipt fields |
 |---|---|---|---|
@@ -68,7 +68,7 @@ Failure behavior is fail-closed with reason codes:
 When operation target signals flag changes, ACP promotion requires
 `flags.metadata` evidence and a valid metadata contract result.
 Policy source:
-`.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#acp.flag_metadata_gate`.
+`.harmony/capabilities/governance/policy/deny-by-default.v2.yml#acp.flag_metadata_gate`.
 
 Failure behavior is fail-closed with reason codes:
 `ACP_FLAG_METADATA_EVIDENCE_MISSING` or `ACP_FLAG_METADATA_INVALID`.
@@ -92,9 +92,9 @@ Owner attestation behavior is policy-defined at `attestations.owner_attestation`
 
 Waiver/exception taxonomy is canonical at:
 - Principles SSOT: [Waivers and Exceptions](./waivers-and-exceptions.md)
-- Policy contract: `.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#governance_overrides`
+- Policy contract: `.harmony/capabilities/governance/policy/deny-by-default.v2.yml#governance_overrides`
 
 ## Provenance Schema Pointer
 
 Required receipt/provenance fields for promote decisions:  
-`.harmony/capabilities/_ops/policy/acp-provenance-fields.schema.json`
+`.harmony/capabilities/governance/policy/acp-provenance-fields.schema.json`

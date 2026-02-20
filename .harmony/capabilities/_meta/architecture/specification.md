@@ -131,7 +131,7 @@ get_internal_tools_from_skill() {
 Run the validation script to verify `allowed-tools` is present and valid:
 
 ```bash
-.harmony/capabilities/skills/_ops/scripts/validate-skills.sh
+.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh
 ```
 
 The script checks that:
@@ -197,13 +197,13 @@ See [Architecture](./architecture.md) for details.
 |----------|-----------------|-------------------|
 | `name`, `description` | SKILL.md frontmatter | — |
 | `allowed-tools` (tool permissions) | SKILL.md frontmatter | registry.yml (derived via mapping function) |
-| `summary`, `triggers`, `tags`, `display_name` | `.harmony/capabilities/skills/manifest.yml` | SKILL.md |
-| `version`, `commands`, `parameters`, `depends_on` | `.harmony/capabilities/skills/registry.yml` | SKILL.md, io-contract.md |
-| **Input/output paths** | **`.harmony/capabilities/skills/registry.yml`** | SKILL.md (summary only), io-contract.md (summary only) |
+| `summary`, `triggers`, `tags`, `display_name` | `.harmony/capabilities/runtime/skills/manifest.yml` | SKILL.md |
+| `version`, `commands`, `parameters`, `depends_on` | `.harmony/capabilities/runtime/skills/registry.yml` | SKILL.md, io-contract.md |
+| **Input/output paths** | **`.harmony/capabilities/runtime/skills/registry.yml`** | SKILL.md (summary only), io-contract.md (summary only) |
 
 **Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived on-demand using the mapping function in `validate-skills.sh`. See [Tool Permissions](#tool-permissions-single-source-of-truth) above.
 
-**Validation:** Run `.harmony/capabilities/skills/_ops/scripts/validate-skills.sh` to detect issues.
+**Validation:** Run `.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh` to detect issues.
 
 See [Discovery](./discovery.md) for details.
 
@@ -294,16 +294,16 @@ The Harmony validation script provides additional checks:
 
 ```bash
 # Validate all skills
-.harmony/capabilities/skills/_ops/scripts/validate-skills.sh
+.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh
 
 # Validate specific skill
-.harmony/capabilities/skills/_ops/scripts/validate-skills.sh my-skill
+.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh my-skill
 
 # Auto-scaffold missing entries
-.harmony/capabilities/skills/_ops/scripts/validate-skills.sh --fix
+.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --fix
 
 # Strict mode (treat trigger duplicates as errors)
-.harmony/capabilities/skills/_ops/scripts/validate-skills.sh --strict
+.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict
 ```
 
 **Token Validation:** For accurate token budget validation, install tiktoken:
@@ -344,23 +344,23 @@ Validate a skill manually:
 
 #### Manifest and Registry
 
-- [ ] Skill is listed in `.harmony/capabilities/skills/manifest.yml` (Tier 1 discovery)
+- [ ] Skill is listed in `.harmony/capabilities/runtime/skills/manifest.yml` (Tier 1 discovery)
 - [ ] `id` matches directory name and SKILL.md `name`
 - [ ] `display_name` is present (human-readable name)
 - [ ] `summary` is present for routing
 - [ ] `triggers` are defined (if using natural language activation)
-- [ ] Skill entry exists in `.harmony/capabilities/skills/registry.yml` (extended metadata)
-- [ ] `version` is defined in `.harmony/capabilities/skills/registry.yml` (not in SKILL.md)
+- [ ] Skill entry exists in `.harmony/capabilities/runtime/skills/registry.yml` (extended metadata)
+- [ ] `version` is defined in `.harmony/capabilities/runtime/skills/registry.yml` (not in SKILL.md)
 - [ ] `commands` includes at least one slash command
 - [ ] `allowed-tools` in SKILL.md lists all required tools (single source of truth)
 - [ ] All tools in `allowed-tools` are recognized (can be mapped to internal format)
-- [ ] I/O mappings exist in `.harmony/capabilities/skills/registry.yml`
+- [ ] I/O mappings exist in `.harmony/capabilities/runtime/skills/registry.yml`
 
 #### Execution
 
 - [ ] Skill produces output in designated location (deliverables to `.harmony/{{category}}/`, execution state to `_ops/state/runs/{{skill-id}}/`)
 - [ ] Skill creates run log in `_ops/state/logs/{{skill-id}}/{{run-id}}.md`
-- [ ] Output matches format defined in `.harmony/capabilities/skills/registry.yml`
+- [ ] Output matches format defined in `.harmony/capabilities/runtime/skills/registry.yml`
 - [ ] All acceptance criteria are met
 
 ---

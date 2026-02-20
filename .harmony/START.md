@@ -16,10 +16,10 @@ This harness extends `.harmony/` for shared infrastructure.
 | Teams | `.harmony/agency/actors/teams/` | `.harmony/agency/actors/teams/` |
 | Templates | `.harmony/scaffolding/templates/` | `.harmony/scaffolding/templates/` |
 | Workflows | `.harmony/orchestration/runtime/workflows/` | `.harmony/orchestration/runtime/workflows/` |
-| Skills | `.harmony/capabilities/skills/` | `.harmony/capabilities/skills/` |
-| Commands | `.harmony/capabilities/commands/` | `.harmony/capabilities/commands/` |
-| Tools | `.harmony/capabilities/tools/` | `.harmony/capabilities/tools/` |
-| Services | `.harmony/capabilities/services/` | `.harmony/capabilities/services/` |
+| Skills | `.harmony/capabilities/runtime/skills/` | `.harmony/capabilities/runtime/skills/` |
+| Commands | `.harmony/capabilities/runtime/commands/` | `.harmony/capabilities/runtime/commands/` |
+| Tools | `.harmony/capabilities/runtime/tools/` | `.harmony/capabilities/runtime/tools/` |
+| Services | `.harmony/capabilities/runtime/services/` | `.harmony/capabilities/runtime/services/` |
 | Prompts | `.harmony/scaffolding/prompts/` | `.harmony/scaffolding/prompts/` |
 | Context | `.harmony/cognition/context/` | `.harmony/cognition/context/` |
 | Checklists | `.harmony/assurance/` | `.harmony/assurance/` |
@@ -64,10 +64,14 @@ Subsystem expansion specs:
 │
 ├── capabilities/
 │   ├── _meta/architecture/   ← Capabilities subsystem specification
-│   ├── skills/         ← Composable capabilities
-│   ├── commands/       ← Atomic operations
-│   ├── tools/          ← Tool packs and custom tools
-│   └── services/       ← Typed domain capabilities
+│   ├── runtime/        ← Runtime capability artifacts
+│   │   ├── commands/   ← Atomic instruction-driven operations
+│   │   ├── skills/     ← Composite instruction-driven capabilities
+│   │   ├── tools/      ← Atomic invocation-driven tool packs
+│   │   └── services/   ← Composite invocation-driven domain capabilities
+│   ├── governance/     ← Capabilities policy contracts
+│   ├── practices/      ← Capabilities operating standards
+│   └── _ops/           ← Validation scripts and operational state
 │
 ├── cognition/
 │   ├── _meta/architecture/   ← Cross-cutting harness and methodology architecture

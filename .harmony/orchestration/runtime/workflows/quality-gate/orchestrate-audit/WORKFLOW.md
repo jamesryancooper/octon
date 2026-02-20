@@ -129,8 +129,8 @@ Orchestrate Audit is NOT complete until:
 
 ## References
 
-- **Migration Skill:** `.harmony/capabilities/skills/quality-gate/audit-migration/SKILL.md`
-- **Cross-Subsystem Skill:** `.harmony/capabilities/skills/quality-gate/audit-cross-subsystem-coherence/SKILL.md`
-- **Freshness Skill:** `.harmony/capabilities/skills/quality-gate/audit-freshness-and-supersession/SKILL.md`
-- **Registry:** `.harmony/capabilities/skills/registry.yml`
+- **Migration Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-migration/SKILL.md`
+- **Cross-Subsystem Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-cross-subsystem-coherence/SKILL.md`
+- **Freshness Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-freshness-and-supersession/SKILL.md`
+- **Registry:** `.harmony/capabilities/runtime/skills/registry.yml`
 - **Workflow template:** `.harmony/orchestration/runtime/workflows/_scaffold/template/`

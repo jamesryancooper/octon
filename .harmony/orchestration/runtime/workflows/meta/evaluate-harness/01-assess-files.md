@@ -10,7 +10,7 @@ Verify presence of required and optional components:
 |----------|-------|--------|
 | **Required files** | `START.md`, `scope.md`, `conventions.md` | ✅/❌ |
 | **Required dirs** | `continuity/`, `assurance/` | ✅/❌ |
-| **Optional dirs** | `scaffolding/prompts/`, `orchestration/runtime/workflows/`, `capabilities/commands/`, `cognition/context/`, `scaffolding/templates/`, `scaffolding/examples/` | Present? |
+| **Optional dirs** | `scaffolding/prompts/`, `orchestration/runtime/workflows/`, `capabilities/runtime/commands/`, `cognition/context/`, `scaffolding/templates/`, `scaffolding/examples/` | Present? |
 
 ## File Assessment Criteria
 

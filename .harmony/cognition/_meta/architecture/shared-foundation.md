@@ -122,14 +122,14 @@ portable:
   - agency/actors/assistants/
   - agency/actors/teams/
   - agency/practices/
-  - capabilities/skills/manifest.yml
-  - capabilities/skills/registry.yml
-  - capabilities/skills/capabilities.yml
-  - capabilities/skills/_scaffold/template/
-  - capabilities/skills/_ops/scripts/
-  - capabilities/skills/**/SKILL.md
-  - capabilities/skills/**/references/
-  - capabilities/commands/
+  - capabilities/runtime/skills/manifest.yml
+  - capabilities/runtime/skills/registry.yml
+  - capabilities/runtime/skills/capabilities.yml
+  - capabilities/runtime/skills/_scaffold/template/
+  - capabilities/runtime/skills/_ops/scripts/
+  - capabilities/runtime/skills/**/SKILL.md
+  - capabilities/runtime/skills/**/references/
+  - capabilities/runtime/commands/
   - orchestration/runtime/workflows/
   - assurance/
   - scaffolding/
@@ -191,9 +191,9 @@ Ask: **"Should this travel to a new repository?"**
 Harness directories (`.claude/`, `.cursor/`, `.codex/`) integrate with `.harmony/` via symlinks:
 
 ```
-.claude/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
-.cursor/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
-.codex/skills/synthesize-research  -> ../../.harmony/capabilities/skills/synthesize-research
+.claude/skills/synthesize-research -> ../../.harmony/capabilities/runtime/skills/synthesize-research
+.cursor/skills/synthesize-research -> ../../.harmony/capabilities/runtime/skills/synthesize-research
+.codex/skills/synthesize-research  -> ../../.harmony/capabilities/runtime/skills/synthesize-research
 ```
 
 ### Why Symlinks?
@@ -211,7 +211,7 @@ Harness commands in `.<harness>/commands/` are thin wrappers that delegate to `.
 | Command | Delegates To |
 | ------- | ------------ |
 | `/create-harness` | `.harmony/orchestration/runtime/workflows/meta/create-harness/` |
-| `/synthesize-research` | `.harmony/capabilities/skills/synthesize-research/` |
+| `/synthesize-research` | `.harmony/capabilities/runtime/skills/synthesize-research/` |
 
 ---
 
@@ -223,7 +223,7 @@ Add to `.harmony/` when you have:
 | --------- | ------ |
 | A new agent or assistant | Add to `.harmony/agency/actors/` |
 | A new harness template variant | Add to `.harmony/scaffolding/templates/` |
-| A new skill that other projects could use | Add to `.harmony/capabilities/skills/` and mark its definition paths as `portable:` |
+| A new skill that other projects could use | Add to `.harmony/capabilities/runtime/skills/` and mark its definition paths as `portable:` |
 | A workflow that applies to any harness | Add to `.harmony/orchestration/runtime/workflows/` |
 | Project-specific state (progress, missions) | Add under the relevant category; do **not** mark as `portable:` |
 
@@ -267,7 +267,7 @@ Use `harmony.yml` portable paths to bootstrap `.harmony/` in a new repository.
 5. **Set up skill symlinks** (if using skills):
    ```bash
    mkdir -p .cursor/skills
-   ln -s ../../.harmony/capabilities/skills/synthesize-research .cursor/skills/synthesize-research
+   ln -s ../../.harmony/capabilities/runtime/skills/synthesize-research .cursor/skills/synthesize-research
    ```
 
 ### What You Get
@@ -286,7 +286,7 @@ After bootstrapping, you can:
 
 - **Add repo-specific agents** to `.harmony/agency/actors/agents/`
 - **Create custom templates** in `.harmony/scaffolding/templates/`
-- **Add new skills** to `.harmony/capabilities/skills/`
+- **Add new skills** to `.harmony/capabilities/runtime/skills/`
 - **Record project decisions** in `.harmony/cognition/decisions/`
 - **Track progress** in `.harmony/continuity/`
 
@@ -324,6 +324,6 @@ The portable-paths approach works well for most cases. Consider converting to a 
 ## Related Documentation
 
 - [README.md](./README.md) -- Main harness documentation
-- [Skills](../../../capabilities/skills/README.md) -- Composable capabilities with defined I/O
+- [Skills](../../../capabilities/runtime/skills/README.md) -- Composable capabilities with defined I/O
 - [Workflows](../../../orchestration/_meta/architecture/workflows.md) -- Multi-step procedures
 - [Taxonomy](./taxonomy.md) -- Harness entry points, commands, workflows relationships

@@ -16,7 +16,7 @@ For ACP promotion-relevant outputs and any `material_side_effect` runs, artifact
 This document is Harmony's single normative source for replay and reproducibility semantics across deterministic execution, idempotent retries, and ACP receipts.
 
 Canonical provenance schema pointer:
-`.harmony/capabilities/_ops/policy/acp-provenance-fields.schema.json`.
+`.harmony/capabilities/governance/policy/acp-provenance-fields.schema.json`.
 
 ## SSOT: Replay and Reproducibility Contract
 
@@ -126,7 +126,7 @@ Exploratory local prompts may skip full records, but production-impacting output
 - `.harmony/cognition/principles/idempotency.md`
 - `.harmony/cognition/principles/determinism.md`
 - `.harmony/cognition/methodology/README.md`
-- `.harmony/capabilities/services/_meta/docs/platform-overview.md`
+- `.harmony/capabilities/runtime/services/_meta/docs/platform-overview.md`
 - `.harmony/cognition/pillars/trust.md`
 - `.harmony/cognition/pillars/insight.md`
 - `.harmony/cognition/pillars/continuity.md`

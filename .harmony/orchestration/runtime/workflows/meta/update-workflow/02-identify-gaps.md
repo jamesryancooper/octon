@@ -68,7 +68,7 @@ Systematically identify all gaps between current state and requirements.
 6. **Check harness integration gaps (if access: human):**
    ```text
    If access is "human":
-     - [ ] Command file exists in .harmony/capabilities/commands/ or .harmony/capabilities/commands/
+     - [ ] Command file exists in .harmony/capabilities/runtime/commands/ or .harmony/capabilities/runtime/commands/
      - [ ] Symlink exists in .cursor/commands/ (if directory exists)
      - [ ] Symlink exists in .claude/commands/ (if directory exists)
      - [ ] Symlinks resolve correctly (not broken)

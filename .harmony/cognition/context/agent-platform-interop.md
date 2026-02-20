@@ -124,10 +124,10 @@ Required evidence fields:
   - Location: `.harmony/cognition/context/agent-platform-interop.md`
   - Scope: governance semantics and boundaries
 2. `adapter_schema_version`
-  - Location: `.harmony/capabilities/services/interfaces/agent-platform/schema/*.json`
+  - Location: `.harmony/capabilities/runtime/services/interfaces/agent-platform/schema/*.json`
   - Scope: machine-readable interop schema
 3. `adapter_version`
-  - Location: `.harmony/capabilities/services/interfaces/agent-platform/adapters/<id>/adapter.yml`
+  - Location: `.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/<id>/adapter.yml`
   - Scope: provider adapter implementation release
 
 ## Required Evidence Artifacts

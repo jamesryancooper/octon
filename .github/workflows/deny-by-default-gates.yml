@@ -4,14 +4,14 @@ on:
   pull_request:
     paths:
       - '.harmony/capabilities/_ops/**'
-      - '.harmony/capabilities/services/**'
-      - '.harmony/capabilities/skills/**'
+      - '.harmony/capabilities/runtime/services/**'
+      - '.harmony/capabilities/runtime/skills/**'
       - '.harmony/runtime/crates/policy_engine/**'
   push:
     paths:
       - '.harmony/capabilities/_ops/**'
-      - '.harmony/capabilities/services/**'
-      - '.harmony/capabilities/skills/**'
+      - '.harmony/capabilities/runtime/services/**'
+      - '.harmony/capabilities/runtime/skills/**'
       - '.harmony/runtime/crates/policy_engine/**'
 
 permissions:

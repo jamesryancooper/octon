@@ -4,7 +4,7 @@ This is the canonical guidance for docs-as-code in Harmony. Use it with:
 
 - Policy: `.harmony/cognition/principles/documentation-is-code.md`
 - Template bundle: `.harmony/scaffolding/templates/docs/documentation-standards/`
-- Operational tooling: `.harmony/capabilities/services/authoring/doc/guide.md`
+- Operational tooling: `.harmony/capabilities/runtime/services/authoring/doc/guide.md`
 - Enforcement gate: `audit-documentation-standards` skill and
   `documentation-quality-gate` workflow
 

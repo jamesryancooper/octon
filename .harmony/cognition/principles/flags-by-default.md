@@ -19,7 +19,7 @@ Flag hygiene is enforced by canonical contract and validator:
 
 Canonical sources:
 - [Flag Metadata Contract](./_meta/docs/flag-metadata-contract.md)
-- `.harmony/capabilities/_ops/policy/flags.metadata.json`
+- `.harmony/capabilities/governance/policy/flags.metadata.json`
 - `.harmony/capabilities/_ops/scripts/validate-flag-metadata.sh`
 
 Validator execution is required in local and CI governance checks via

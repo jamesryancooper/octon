@@ -11,7 +11,7 @@ This policy standardizes how new skills are implemented in Harmony.
 
 Implement skills by aligning to existing contracts first.
 
-- Reuse existing `skill_sets`, `capabilities`, and capability-to-reference mappings in `.harmony/capabilities/skills/capabilities.yml`.
+- Reuse existing `skill_sets`, `capabilities`, and capability-to-reference mappings in `.harmony/capabilities/runtime/skills/capabilities.yml`.
 - Use existing `allowed-tools` vocabulary from the specification (`Read`, `Write(...)`, `Glob`, `Grep`, `WebFetch`, `Shell`, `Task`).
 - Keep metadata in current sources of truth (`SKILL.md`, `manifest.yml`, `registry.yml`).
 
@@ -37,6 +37,6 @@ If these artifacts are missing, do not extend the spec.
 
 This policy is enforced in:
 
-- `create-skill` skill flow (`.harmony/capabilities/skills/meta/create-skill/`)
+- `create-skill` skill flow (`.harmony/capabilities/runtime/skills/meta/create-skill/`)
 - Skills creation docs (`.harmony/capabilities/_meta/architecture/creation.md`)
 - Skills validation docs (`.harmony/capabilities/_meta/architecture/validation.md`)

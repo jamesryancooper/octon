@@ -71,5 +71,5 @@ See `registry.yml` for the alias and escalation mapping configuration.
 ## See Also
 
 - [Agents](../agents/README.md) — Supervisors that delegate to assistants
-- [Skills](../../capabilities/skills/README.md) — Capabilities that assistants use
+- [Skills](../../capabilities/runtime/skills/README.md) — Capabilities that assistants use
 - `.harmony/agency/_meta/architecture/assistants.md` — Full assistant documentation

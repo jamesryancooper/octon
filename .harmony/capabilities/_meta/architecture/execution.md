@@ -89,7 +89,7 @@ Skills may only write to paths defined in their registry I/O mappings, validated
 | **Tier 2** | `.harmony/**` | Custom harness locations (must declare) |
 | **Tier 3** | `<harness-root>/**` | Project source locations (must declare) |
 
-**Operational Artifacts (`.harmony/capabilities/skills/`):**
+**Operational Artifacts (`.harmony/capabilities/runtime/skills/`):**
 
 | Category | Path Pattern | Read/Write |
 |----------|--------------|------------|
@@ -98,7 +98,7 @@ Skills may only write to paths defined in their registry I/O mappings, validated
 | `_ops/state/runs/` | `_ops/state/runs/{{skill-id}}/{{run-id}}/` | Read/Write (skills) |
 | `_ops/state/logs/` | `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Read/Write (skills) |
 
-> **Note:** All `.harmony/capabilities/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. Skills typically read from `_ops/state/configs/` and `_ops/state/resources/`, and write to `_ops/state/runs/` and `_ops/state/logs/`.
+> **Note:** All `.harmony/capabilities/runtime/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. Skills typically read from `_ops/state/configs/` and `_ops/state/resources/`, and write to `_ops/state/runs/` and `_ops/state/logs/`.
 
 ### Hierarchical Scope Enforcement
 
@@ -171,7 +171,7 @@ Output paths are defined in the skill's registry I/O mapping. Skills produce two
 | Drafts | `.harmony/output/drafts/{{timestamp}}-{{name}}.md` |
 | Reports | `.harmony/output/reports/{{timestamp}}-{{name}}.md` |
 
-**Operational Artifacts (`.harmony/capabilities/skills/`):**
+**Operational Artifacts (`.harmony/capabilities/runtime/skills/`):**
 
 All operational categories follow the `{{category}}/{{skill-id}}/` pattern:
 

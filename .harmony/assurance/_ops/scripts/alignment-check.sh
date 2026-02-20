@@ -90,21 +90,21 @@ run_workflows() {
 run_skills() {
   run_step \
     "Validate skill contracts (strict)" \
-    bash "$HARMONY_DIR/capabilities/skills/_ops/scripts/validate-skills.sh" --strict
+    bash "$HARMONY_DIR/capabilities/runtime/skills/_ops/scripts/validate-skills.sh" --strict
 }
 
 run_services() {
   run_step \
     "Validate service contracts" \
-    bash "$HARMONY_DIR/capabilities/services/_ops/scripts/validate-services.sh"
+    bash "$HARMONY_DIR/capabilities/runtime/services/_ops/scripts/validate-services.sh"
 
   run_step \
     "Validate service independence boundaries" \
-    bash "$HARMONY_DIR/capabilities/services/_ops/scripts/validate-service-independence.sh" --mode all
+    bash "$HARMONY_DIR/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh" --mode all
 
   run_step \
     "Validate filesystem interface contracts" \
-    bash "$HARMONY_DIR/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh"
+    bash "$HARMONY_DIR/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh"
 }
 
 run_weights() {

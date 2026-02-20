@@ -161,7 +161,7 @@ graph TD
 
 | Subsystem | Agency Interaction | Primary Constraint |
 |---|---|---|
-| `capabilities/skills` | Agents/assistants invoke capabilities | Respect skill `allowed-tools` and I/O contracts |
+| `capabilities/runtime/skills` | Agents/assistants invoke capabilities | Respect skill `allowed-tools` and I/O contracts |
 | `orchestration/runtime/workflows` | Agents run procedures; workflows can target actors | Keep orchestration in workflows, not skills |
 | `orchestration/runtime/missions` | Agents own lifecycle; assistants contribute via delegation | Single owner at a time |
 | `cognition/` | Agents read/write decisions/lessons/context | Maintain append-only history rules |

@@ -113,7 +113,7 @@ Documentation-based archetypes are the right fit for AI-native skills because:
 - Tags don't change documentation requirements
 - Example showing tags in manifest.yml
 
-### File: `.harmony/capabilities/skills/README.md`
+### File: `.harmony/capabilities/runtime/skills/README.md`
 
 **Location:** After the "Skill Archetypes" table.
 
@@ -231,7 +231,7 @@ After implementation, verify:
 - [ ] `architecture.md` explains why documentation-based archetypes fit AI-native systems
 - [ ] `reference-artifacts.md` has brief philosophy section linking to architecture.md
 - [ ] `discovery.md` documents semantic tags vs archetypes distinction
-- [ ] `.harmony/capabilities/skills/README.md` mentions tags for semantic categories
+- [ ] `.harmony/capabilities/runtime/skills/README.md` mentions tags for semantic categories
 - [ ] No documentation suggests creating new archetypes for execution characteristics
 - [ ] Examples show tags like `validator`, `transformer`, `generator` in manifest.yml
 

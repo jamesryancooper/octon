@@ -36,9 +36,9 @@ Both `exception` and `waiver` records require:
 ## Enforcement Contract
 
 - Policy contract source:
-  `.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#governance_overrides`
+  `.harmony/capabilities/governance/policy/deny-by-default.v2.yml#governance_overrides`
 - Schema source:
-  `.harmony/capabilities/_ops/policy/deny-by-default.v2.schema.json#/$defs/governanceOverrides`
+  `.harmony/capabilities/governance/policy/deny-by-default.v2.schema.json#/$defs/governanceOverrides`
 - Governance lint source:
   `.harmony/cognition/principles/_ops/scripts/lint-principles-governance.sh`
 

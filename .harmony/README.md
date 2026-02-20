@@ -117,8 +117,8 @@ When resolving a resource, agents check local first, then shared:
 | Teams | `.harmony/agency/actors/teams/` |
 | Templates | `.harmony/scaffolding/templates/` |
 | Workflows | `.harmony/orchestration/runtime/workflows/` |
-| Skills | `.harmony/capabilities/skills/` |
-| Commands | `.harmony/capabilities/commands/` |
+| Skills | `.harmony/capabilities/runtime/skills/` |
+| Commands | `.harmony/capabilities/runtime/commands/` |
 | Prompts | `.harmony/scaffolding/prompts/` |
 | Checklists | `.harmony/assurance/` |
 | Context | `.harmony/cognition/context/` |
@@ -216,9 +216,9 @@ When resolving a resource, agents check local first, then shared:
 
 ## Skills Registry Pattern
 
-`.harmony/capabilities/skills/registry.yml` defines skill capabilities without project-specific paths.
+`.harmony/capabilities/runtime/skills/registry.yml` defines skill capabilities without project-specific paths.
 
-`.harmony/capabilities/skills/registry.yml` defines skill capabilities and adds:
+`.harmony/capabilities/runtime/skills/registry.yml` defines skill capabilities and adds:
 
 - Project-specific input/output mappings
 - Project-specific skills
@@ -228,26 +228,26 @@ When resolving a resource, agents check local first, then shared:
 
 ### Skills
 
-Harness directories (`.claude/`, `.cursor/`, `.codex/`) symlink to `.harmony/capabilities/skills/` for shared skills:
+Harness directories (`.claude/`, `.cursor/`, `.codex/`) symlink to `.harmony/capabilities/runtime/skills/` for shared skills:
 
 ```
-.claude/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
-.cursor/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
-.codex/skills/synthesize-research -> ../../.harmony/capabilities/skills/synthesize-research
+.claude/skills/synthesize-research -> ../../.harmony/capabilities/runtime/skills/synthesize-research
+.cursor/skills/synthesize-research -> ../../.harmony/capabilities/runtime/skills/synthesize-research
+.codex/skills/synthesize-research -> ../../.harmony/capabilities/runtime/skills/synthesize-research
 ```
 
 ### Commands
 
-Harness command directories symlink to `.harmony/capabilities/commands/` for shared commands:
+Harness command directories symlink to `.harmony/capabilities/runtime/commands/` for shared commands:
 
 ```
-.cursor/commands/refactor.md -> ../../.harmony/capabilities/commands/refactor.md
-.claude/commands/refactor.md -> ../../.harmony/capabilities/commands/refactor.md
+.cursor/commands/refactor.md -> ../../.harmony/capabilities/runtime/commands/refactor.md
+.claude/commands/refactor.md -> ../../.harmony/capabilities/runtime/commands/refactor.md
 ```
 
 **Note:** Codex CLI does not support project-level custom commands. Codex users have two options:
 
-1. Manually copy commands from `.harmony/capabilities/commands/` to `~/.codex/prompts/`
+1. Manually copy commands from `.harmony/capabilities/runtime/commands/` to `~/.codex/prompts/`
 2. Run script implementations directly (for example: `.harmony/scaffolding/_ops/scripts/init-project.sh`)
 
 ## Adopting in Other Repos
@@ -285,8 +285,8 @@ If your tool supports harness commands, run `/init` instead of invoking the scri
 | `orchestration/governance/` | Incident governance contracts |
 | `orchestration/practices/` | Orchestration operating standards |
 | `capabilities/_ops/` | Agent-native deny-by-default control plane (policy, grants, kill-switches, validation) |
-| `capabilities/skills/` | Composable capabilities with defined I/O |
-| `capabilities/commands/` | Atomic operations |
+| `capabilities/runtime/skills/` | Composable capabilities with defined I/O |
+| `capabilities/runtime/commands/` | Atomic operations |
 | `scaffolding/prompts/` | Task templates |
 | `assurance/` | Assurance gates |
 | `cognition/context/` | Tool usage, compaction guides |

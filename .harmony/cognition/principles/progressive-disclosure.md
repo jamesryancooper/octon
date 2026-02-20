@@ -62,7 +62,7 @@ Harmony's skill system implements progressive disclosure through four tiers:
 **Structure manifests for fast scanning:**
 
 ```yaml
-# .harmony/capabilities/skills/manifest.yml
+# .harmony/capabilities/runtime/skills/manifest.yml
 skills:
   - id: synthesize-research
     name: Synthesize Research
@@ -188,7 +188,7 @@ Need examples? → Read references/ (on demand)
 
 ## Implementation Guidance
 
-- **Skill validation**: Manifests must include `id`, `display_name`, `summary`, and `triggers` (SSOT: [skills manifest](../../capabilities/skills/manifest.yml))
+- **Skill validation**: Manifests must include `id`, `display_name`, `summary`, and `triggers` (SSOT: [skills manifest](../../capabilities/runtime/skills/manifest.yml))
 - **Token budgets**: SKILL.md files should target <5000 tokens
 - **Harness linting**: Harness directories should include `START.md`
 

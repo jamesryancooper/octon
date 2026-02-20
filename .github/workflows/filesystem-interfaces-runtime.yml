@@ -3,33 +3,33 @@ name: filesystem-interfaces-runtime
 on:
   push:
     paths:
-      - '.harmony/capabilities/services/interfaces/filesystem-snapshot/**'
-      - '.harmony/capabilities/services/interfaces/filesystem-discovery/**'
-      - '.harmony/capabilities/services/interfaces/filesystem-watch/**'
-      - '.harmony/capabilities/services/manifest.runtime.yml'
-      - '.harmony/capabilities/services/registry.runtime.yml'
+      - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+      - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+      - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
+      - '.harmony/capabilities/runtime/services/manifest.runtime.yml'
+      - '.harmony/capabilities/runtime/services/registry.runtime.yml'
       - '.harmony/runtime/**'
-      - '.harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh'
-      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
-      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
-      - '.harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
-      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
-      - '.harmony/capabilities/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
       - '.github/workflows/filesystem-interfaces-runtime.yml'
   pull_request:
     paths:
-      - '.harmony/capabilities/services/interfaces/filesystem-snapshot/**'
-      - '.harmony/capabilities/services/interfaces/filesystem-discovery/**'
-      - '.harmony/capabilities/services/interfaces/filesystem-watch/**'
-      - '.harmony/capabilities/services/manifest.runtime.yml'
-      - '.harmony/capabilities/services/registry.runtime.yml'
+      - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+      - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+      - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
+      - '.harmony/capabilities/runtime/services/manifest.runtime.yml'
+      - '.harmony/capabilities/runtime/services/registry.runtime.yml'
       - '.harmony/runtime/**'
-      - '.harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh'
-      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
-      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
-      - '.harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
-      - '.harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
-      - '.harmony/capabilities/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
+      - '.harmony/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
       - '.github/workflows/filesystem-interfaces-runtime.yml'
 
 permissions:
@@ -65,17 +65,17 @@ jobs:
           .harmony/runtime/run service build interfaces/filesystem-watch
 
       - name: Unit tests (filesystem-snapshot Rust crate)
-        working-directory: .harmony/capabilities/services/interfaces/filesystem-snapshot/rust
+        working-directory: .harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/rust
         run: |
           cargo test --quiet
 
       - name: Unit tests (filesystem-discovery Rust crate)
-        working-directory: .harmony/capabilities/services/interfaces/filesystem-discovery/rust
+        working-directory: .harmony/capabilities/runtime/services/interfaces/filesystem-discovery/rust
         run: |
           cargo test --quiet
 
       - name: Unit tests (filesystem-watch Rust crate)
-        working-directory: .harmony/capabilities/services/interfaces/filesystem-watch/rust
+        working-directory: .harmony/capabilities/runtime/services/interfaces/filesystem-watch/rust
         run: |
           cargo test --quiet
 
@@ -85,21 +85,21 @@ jobs:
 
       - name: Validate filesystem interface services
         run: |
-          chmod +x .harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh
-          .harmony/capabilities/services/_ops/scripts/validate-filesystem-interfaces.sh
+          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+          .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
 
       - name: Determinism regression
         run: |
-          chmod +x .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
-          .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
+          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
+          .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
 
       - name: Build cross-OS fixture snapshot id
         run: |
-          chmod +x .harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
+          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
           FIXTURE_ROOT=".harmony/output/.tmp/filesystem-interfaces-bench/cross-os-fixture"
           STATE_DIR=".harmony/runtime/_ops/state/snapshots-cross-os"
           rm -rf "$FIXTURE_ROOT"
-          .harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh \
+          .harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh \
             --profile ci \
             --fixture-root "$FIXTURE_ROOT" >/dev/null
           SNAP_INPUT="$(printf '{"root":"%s","state_dir":"%s","set_current":false}' "$FIXTURE_ROOT" "$STATE_DIR")"
@@ -122,9 +122,9 @@ jobs:
       - name: SLO regression gate
         run: |
           mkdir -p "$RUNNER_TEMP/filesystem-interfaces-slo"
-          chmod +x .harmony/capabilities/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
-          chmod +x .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-slo.sh
-          .harmony/capabilities/services/_ops/scripts/test-filesystem-interfaces-slo.sh \
+          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
+          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh
+          .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh \
             --profile ci \
             --no-report \
             --raw-out "$RUNNER_TEMP/filesystem-interfaces-slo/filesystem-interfaces-slo.raw.tsv" \

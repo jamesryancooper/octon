@@ -70,8 +70,8 @@ AGENTS_OUT="$REPO_ROOT/AGENTS.md"
 CLAUDE_OUT="$REPO_ROOT/CLAUDE.md"
 BOOT_OUT="$REPO_ROOT/BOOT.md"
 BOOTSTRAP_OUT="$REPO_ROOT/BOOTSTRAP.md"
-ADAPTER_REGISTRY="$REPO_ROOT/.harmony/capabilities/services/interfaces/agent-platform/adapters/registry.yml"
-ADAPTER_ENABLED_OUT="$REPO_ROOT/.harmony/capabilities/services/interfaces/agent-platform/adapters/enabled.yml"
+ADAPTER_REGISTRY="$REPO_ROOT/.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/registry.yml"
+ADAPTER_ENABLED_OUT="$REPO_ROOT/.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/enabled.yml"
 
 if [[ ! -d "$REPO_ROOT/.harmony" ]]; then
   echo "[ERROR] No .harmony directory found in repo root: $REPO_ROOT" >&2

@@ -5,7 +5,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-DEFAULT_POLICY="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.yml"
+DEFAULT_POLICY="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
 
 usage() {
   cat <<'USAGE'

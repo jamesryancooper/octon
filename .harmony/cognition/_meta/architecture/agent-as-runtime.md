@@ -242,7 +242,7 @@ Required generation provenance manifest (`impl/generated.manifest.json`):
 
 All semantic runs should emit run records aligned with the harness run-record conventions in:
 
-- `.harmony/capabilities/services/conventions/run-records.md`
+- `.harmony/capabilities/practices/services-conventions/run-records.md`
 
 Minimum evidence expectations:
 

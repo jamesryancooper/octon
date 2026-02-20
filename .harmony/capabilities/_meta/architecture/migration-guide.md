@@ -52,8 +52,8 @@ Map the complex archetype to skill sets based on the skill's behavior:
 Rename the legacy phase reference file to `references/phases.md`:
 
 ```bash
-mv .harmony/capabilities/skills/my-skill/references/<legacy-phases-file> \
-   .harmony/capabilities/skills/my-skill/references/phases.md
+mv .harmony/capabilities/runtime/skills/my-skill/references/<legacy-phases-file> \
+   .harmony/capabilities/runtime/skills/my-skill/references/phases.md
 ```
 
 ### Reference Files to Keep
@@ -235,7 +235,7 @@ capabilities: [resumable]
 ### 7. Run Validation
 
 ```bash
-.harmony/capabilities/skills/_ops/scripts/validate-skills.sh my-skill
+.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh my-skill
 ```
 
 Fix any warnings about missing or extra reference files.

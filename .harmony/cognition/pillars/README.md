@@ -230,4 +230,4 @@ Velocity scored lowest on convivial alignment because speed alone can enable shi
 - [Convivial Purpose](../purpose/convivial-purpose.md) — The *why* beneath the pillars
 - [Resonant Computing Design Stack](../purpose/resonant-computing-design-stack.md) — The four-layer framework
 - [Methodology Overview](../methodology/README.md) — Operational implementation of the pillars
-- [Kit Documentation](/.harmony/capabilities/services/_meta/docs/kits-reference.md) — Tools that implement the pillars
+- [Kit Documentation](/.harmony/capabilities/runtime/services/_meta/docs/kits-reference.md) — Tools that implement the pillars

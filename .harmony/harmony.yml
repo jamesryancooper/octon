@@ -20,19 +20,19 @@ portable:
   - agency/actors/assistants/
   - agency/actors/teams/
   - agency/practices/
-  - capabilities/skills/manifest.yml
-  - capabilities/skills/registry.yml
-  - capabilities/skills/capabilities.yml
-  - capabilities/skills/_scaffold/template/
-  - capabilities/skills/_ops/scripts/
-  - capabilities/skills/**/SKILL.md
-  - capabilities/skills/**/references/
-  - capabilities/commands/
-  - capabilities/services/manifest.yml
-  - capabilities/services/registry.yml
-  - capabilities/services/manifest.runtime.yml
-  - capabilities/services/registry.runtime.yml
-  - capabilities/services/interfaces/kv/
+  - capabilities/runtime/skills/manifest.yml
+  - capabilities/runtime/skills/registry.yml
+  - capabilities/runtime/skills/capabilities.yml
+  - capabilities/runtime/skills/_scaffold/template/
+  - capabilities/runtime/skills/_ops/scripts/
+  - capabilities/runtime/skills/**/SKILL.md
+  - capabilities/runtime/skills/**/references/
+  - capabilities/runtime/commands/
+  - capabilities/runtime/services/manifest.yml
+  - capabilities/runtime/services/registry.yml
+  - capabilities/runtime/services/manifest.runtime.yml
+  - capabilities/runtime/services/registry.runtime.yml
+  - capabilities/runtime/services/interfaces/kv/
   - orchestration/runtime/workflows/
   - orchestration/governance/
   - orchestration/practices/

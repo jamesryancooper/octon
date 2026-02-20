@@ -8,10 +8,10 @@ use serde::Serialize;
 use std::fs;
 use std::path::PathBuf;
 
-const DEFAULT_POLICY_PATH: &str = ".harmony/capabilities/_ops/policy/deny-by-default.v2.yml";
+const DEFAULT_POLICY_PATH: &str = ".harmony/capabilities/governance/policy/deny-by-default.v2.yml";
 const DEFAULT_SCHEMA_PATH: &str =
-    ".harmony/capabilities/_ops/policy/deny-by-default.v2.schema.json";
-const DEFAULT_REASON_CODES_PATH: &str = ".harmony/capabilities/_ops/policy/reason-codes.md";
+    ".harmony/capabilities/governance/policy/deny-by-default.v2.schema.json";
+const DEFAULT_REASON_CODES_PATH: &str = ".harmony/capabilities/governance/policy/reason-codes.md";
 
 #[derive(Parser, Debug)]
 #[command(name = "harmony-policy")]

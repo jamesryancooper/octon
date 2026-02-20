@@ -1,8 +1,18 @@
 # Capabilities
 
-Capability subsystems for agent behavior and invocation contracts.
+Capability subsystem for command/skill/tool/service execution contracts and policy governance.
 
-## Taxonomy
+## Bounded Surfaces
+
+| Surface | Purpose | Canonical location |
+|---|---|---|
+| Runtime | Executable capability artifacts and discovery metadata | `runtime/` |
+| Governance | Normative policy contracts and schemas | `governance/` |
+| Practices | Operating standards and authoring conventions | `practices/` |
+| Architecture reference | Non-structural specification and design docs | `_meta/architecture/` |
+| Operations | Validation scripts and mutable operational state | `_ops/` |
+
+## Runtime Taxonomy
 
 ```text
                 Atomic                    Composite
@@ -17,28 +27,15 @@ Invocation │   Tools           │   Services             │
            └───────────────────┴────────────────────────┘
 ```
 
-## Contents
+Runtime discovery surfaces:
 
-| Subdirectory | Model | Purpose | Discovery |
-|---|---|---|---|
-| `_meta/architecture/` | Documentation | Capabilities subsystem architecture and contracts | `_meta/architecture/README.md` |
-| `_ops/` | Shared policy ops | Cross-lane deny-by-default exception leases, agent-only policy, and validation entrypoints | `_ops/README.md` |
-| `commands/` | Instruction-driven, atomic | Deterministic one-shot operations | `commands/manifest.yml` |
-| `skills/` | Instruction-driven, composite | Multi-step workflows with references and contracts | `skills/manifest.yml` |
-| `tools/` | Invocation-driven, atomic | Tool packs and custom tool definitions | `tools/manifest.yml` |
-| `services/` | Invocation-driven, composite | Domain capabilities with typed I/O contracts | `services/manifest.yml` |
+- `runtime/commands/manifest.yml`
+- `runtime/skills/manifest.yml`
+- `runtime/tools/manifest.yml`
+- `runtime/services/manifest.yml`
 
-## Interaction Model
+## Policy Notes
 
-- **Commands:** agent reads one command file and executes it deterministically.
-- **Skills:** agent follows `SKILL.md` and resolved references.
-- **Tools:** agent invokes a tool and consumes its immediate result.
-- **Services:** agent invokes a typed domain capability behind a stable interface.
-
-## Compatibility Notes
-
-- Existing `allowed-tools` declarations remain valid.
-- `allowed-tools` now supports `pack:<id>` expansion through `tools/manifest.yml`.
-- Skills may optionally declare `allowed-services` with IDs from `services/manifest.yml`.
-- Deny-by-default uses a shared policy engine (`harmony-policy`) for runtime and
-  validation parity, driven by `.harmony/capabilities/_ops/policy/deny-by-default.v2.yml`.
+- Deny-by-default policy SSOT: `governance/policy/deny-by-default.v2.yml`.
+- `allowed-tools` supports `pack:<id>` expansion via `runtime/tools/manifest.yml`.
+- Skills may declare `allowed-services` using IDs from `runtime/services/manifest.yml`.

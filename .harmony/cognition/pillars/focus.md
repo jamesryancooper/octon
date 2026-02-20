@@ -148,6 +148,6 @@ Focus serves Convivial Purpose: convivial tools must be understandable. Absorbed
 - [Direction through Validated Discovery](./direction.md) — Phase partner
 - [Velocity through Agentic Automation](./velocity.md) — Enabled by Focus
 - [Pillars Overview](./README.md) — All six pillars
-- [Kit Documentation](/.harmony/capabilities/services/_meta/docs/kits-reference.md) — Tools that absorb complexity
+- [Kit Documentation](/.harmony/capabilities/runtime/services/_meta/docs/kits-reference.md) — Tools that absorb complexity
 - [Architecture Overview](../_meta/architecture/overview.md) — Hexagonal boundaries
 - [Convivial Purpose](../purpose/convivial-purpose.md) — The "why" this pillar serves

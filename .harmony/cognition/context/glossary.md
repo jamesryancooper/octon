@@ -16,7 +16,7 @@ Terms used consistently throughout harness documentation. Use these terms exactl
 | Cold start | First session without prior context from `continuity/`. |
 | Token budget | Maximum tokens for agent-facing content (~2,000 target, ~5,000 max). |
 | Cursor command | User entry point in `.cursor/commands/`, triggered by `/command-name`. |
-| Harness command | Atomic operation in `.harmony/capabilities/commands/`. |
+| Harness command | Atomic operation in `.harmony/capabilities/runtime/commands/`. |
 | Harness workflow | Multi-step procedure in `.harmony/orchestration/runtime/workflows/`. |
 | Prompt | Task template in `.harmony/scaffolding/prompts/` requiring judgment. |
 | Agent-ignored | Dot-prefixed directories that agents MUST NOT access autonomously. |

@@ -18,7 +18,7 @@ Report to user:
 ```markdown
 ## Skill Created: <skill-name>
 
-**Location:** `.harmony/capabilities/skills/<group>/<skill-name>/`
+**Location:** `.harmony/capabilities/runtime/skills/<group>/<skill-name>/`
 
 ### Files Created
 
@@ -36,8 +36,8 @@ Report to user:
 - `scripts/` — For executable code
 - `assets/` — For static resources
 
-**Manifest updated:** `.harmony/capabilities/skills/manifest.yml`
-**Registry updated:** `.harmony/capabilities/skills/registry.yml`
+**Manifest updated:** `.harmony/capabilities/runtime/skills/manifest.yml`
+**Registry updated:** `.harmony/capabilities/runtime/skills/registry.yml`
 **Catalog updated:** `.harmony/catalog.md`
 
 ### Next Steps
@@ -99,8 +99,8 @@ This skill follows [agentskills.io/specification](https://agentskills.io/specifi
 ### Documentation
 
 - **Spec:** [agentskills.io/specification](https://agentskills.io/specification)
-- **Example skill:** `.harmony/capabilities/skills/synthesis/refine-prompt/`
-- **Template:** `.harmony/capabilities/skills/_scaffold/template/`
+- **Example skill:** `.harmony/capabilities/runtime/skills/synthesis/refine-prompt/`
+- **Template:** `.harmony/capabilities/runtime/skills/_scaffold/template/`
 ```
 
 ## Verification

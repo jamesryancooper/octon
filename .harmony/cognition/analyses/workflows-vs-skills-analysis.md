@@ -184,7 +184,7 @@ After comprehensive analysis of the skills system (production-ready, agentskills
 **How it works in practice:**
 
 ```yaml
-# In .harmony/capabilities/skills/registry.yml
+# In .harmony/capabilities/runtime/skills/registry.yml
 skills:
   refactor-skill:
     outputs:
@@ -498,10 +498,10 @@ A refactor is NOT complete until Phase 5 (Verify) passes with zero remaining ref
 
 ### 6.5 Action Items
 
-1. **Create `refactor` skill** - Migrate `.harmony/orchestration/runtime/workflows/refactor/` to `.harmony/capabilities/skills/refactor/`
+1. **Create `refactor` skill** - Migrate `.harmony/orchestration/runtime/workflows/refactor/` to `.harmony/capabilities/runtime/skills/refactor/`
 2. **Create `create-workspace` skill** - Migrate workspace scaffolding workflow
 3. **Update `create-skill` workflow** to be a skill itself (meta but consistent)
-4. **Deprecate `.harmony/orchestration/runtime/workflows/`** - Move templates to `.harmony/capabilities/skills/_scaffold/template/`
+4. **Deprecate `.harmony/orchestration/runtime/workflows/`** - Move templates to `.harmony/capabilities/runtime/skills/_scaffold/template/`
 5. **Update documentation** - Revise comparison.md to reflect consolidation
 6. **Add skill archetype guidance** - Document "workflow skills" pattern in skills docs
 
@@ -517,8 +517,8 @@ A refactor is NOT complete until Phase 5 (Verify) passes with zero remaining ref
 | `docs/architecture/workspaces/workflows.md` | Deprecate | Add deprecation notice, point to skills |
 | `.harmony/capabilities/_meta/architecture/README.md` | Update | Add "workflow skills" archetype section |
 | `.harmony/capabilities/_meta/architecture/archetypes.md` | Create | Document different skill archetypes (transform, workflow, etc.) |
-| `.harmony/capabilities/skills/manifest.yml` | Update | Add new skills as they're migrated |
-| `.harmony/capabilities/skills/registry.yml` | Update | Add new skill metadata |
+| `.harmony/capabilities/runtime/skills/manifest.yml` | Update | Add new skills as they're migrated |
+| `.harmony/capabilities/runtime/skills/registry.yml` | Update | Add new skill metadata |
 | `CLAUDE.md` | Update | Remove workflow references, simplify skill discovery |
 
 ---
@@ -550,10 +550,10 @@ The key insight is that skills are not just "composable I/O operations" - they a
 
 ## References
 
-- `.harmony/capabilities/skills/manifest.yml` - Current skill definitions
-- `.harmony/capabilities/skills/registry.yml` - Extended skill metadata
-- `.harmony/capabilities/skills/synthesis/refine-prompt/SKILL.md` - Example multi-phase skill
-- `.harmony/capabilities/skills/synthesis/refine-prompt/references/phases.md` - Detailed phase documentation
+- `.harmony/capabilities/runtime/skills/manifest.yml` - Current skill definitions
+- `.harmony/capabilities/runtime/skills/registry.yml` - Extended skill metadata
+- `.harmony/capabilities/runtime/skills/synthesis/refine-prompt/SKILL.md` - Example multi-phase skill
+- `.harmony/capabilities/runtime/skills/synthesis/refine-prompt/references/phases.md` - Detailed phase documentation
 - `.harmony/orchestration/runtime/workflows/refactor/` - Example workflow (candidate for migration)
 - `.harmony/capabilities/_meta/architecture/` - Skills documentation
 - `docs/architecture/workspaces/workflows.md` - Workflows documentation
@@ -614,7 +614,7 @@ The original analysis evaluated single-session procedural tasks. Additional requ
 │  • agentskills.io compliant                                     │
 │  • Harness-agnostic (Claude Code, Cursor, Codex)               │
 │                                                                 │
-│  Location: .harmony/capabilities/skills/                                     │
+│  Location: .harmony/capabilities/runtime/skills/                                     │
 │  Format: SKILL.md + references/                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -691,11 +691,11 @@ Migrate single-session procedural content to skills:
 
 | Current Location | Migrate To | Rationale |
 |------------------|------------|-----------|
-| `.harmony/orchestration/runtime/workflows/refactor/` | `.harmony/capabilities/skills/refactor/` | Single-session, clear phases |
-| `.harmony/orchestration/runtime/workflows/workspace/create-workspace/` | `.harmony/capabilities/skills/create-workspace/` | Single-session scaffolding |
-| `.harmony/orchestration/runtime/workflows/workspace/update-workspace/` | `.harmony/capabilities/skills/update-workspace/` | Single-session update |
-| `.harmony/orchestration/runtime/workflows/workspace/evaluate-workspace/` | `.harmony/capabilities/skills/evaluate-workspace/` | Single-session analysis |
-| `.harmony/orchestration/runtime/workflows/skills/create-skill/` | `.harmony/capabilities/skills/create-skill/` | Single-session scaffolding |
+| `.harmony/orchestration/runtime/workflows/refactor/` | `.harmony/capabilities/runtime/skills/refactor/` | Single-session, clear phases |
+| `.harmony/orchestration/runtime/workflows/workspace/create-workspace/` | `.harmony/capabilities/runtime/skills/create-workspace/` | Single-session scaffolding |
+| `.harmony/orchestration/runtime/workflows/workspace/update-workspace/` | `.harmony/capabilities/runtime/skills/update-workspace/` | Single-session update |
+| `.harmony/orchestration/runtime/workflows/workspace/evaluate-workspace/` | `.harmony/capabilities/runtime/skills/evaluate-workspace/` | Single-session analysis |
+| `.harmony/orchestration/runtime/workflows/skills/create-skill/` | `.harmony/capabilities/runtime/skills/create-skill/` | Single-session scaffolding |
 
 ### Phase 2: Deprecate Workflow Meta-Content
 
@@ -706,7 +706,7 @@ These become unnecessary after consolidation:
 | `.harmony/orchestration/runtime/workflows/workflows/create-workflow/` | No longer creating workflows |
 | `.harmony/orchestration/runtime/workflows/workflows/update-workflow/` | No longer maintaining workflows |
 | `.harmony/orchestration/runtime/workflows/workflows/evaluate-workflow/` | No longer evaluating workflows |
-| `.harmony/orchestration/runtime/workflows/_scaffold/template/` | Move to `.harmony/capabilities/skills/_scaffold/template/` |
+| `.harmony/orchestration/runtime/workflows/_scaffold/template/` | Move to `.harmony/capabilities/runtime/skills/_scaffold/template/` |
 
 ### Phase 3: Evolve Missions into Durable Orchestration
 
@@ -814,7 +814,7 @@ Missions delegate execution to FlowKit:
 
 | Primitive | Purpose | Location |
 |-----------|---------|----------|
-| **Skills** | Single-session composable capabilities | `.harmony/capabilities/skills/` |
+| **Skills** | Single-session composable capabilities | `.harmony/capabilities/runtime/skills/` |
 | **Missions** | Durable multi-session orchestration | `.harmony/orchestration/runtime/missions/` |
 | ~~Workflows~~ | **Deprecated** - consolidated into skills | ~~`.harmony/orchestration/runtime/workflows/`~~ |
 

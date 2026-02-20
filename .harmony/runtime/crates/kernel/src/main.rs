@@ -45,7 +45,7 @@ enum Command {
         json: Option<String>,
     },
 
-    /// Validate services under .harmony/capabilities/services.
+    /// Validate services under .harmony/capabilities/runtime/services.
     Validate,
 
     /// Run the NDJSON stdio server.
@@ -213,7 +213,7 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
         ServiceCmd::New { category, name } => {
             scaffold::service_new(&harmony_dir, &category, &name)?;
             println!(
-                "created service scaffold at .harmony/capabilities/services/{category}/{name}"
+                "created service scaffold at .harmony/capabilities/runtime/services/{category}/{name}"
             );
         }
         ServiceCmd::Build { target, name } => {

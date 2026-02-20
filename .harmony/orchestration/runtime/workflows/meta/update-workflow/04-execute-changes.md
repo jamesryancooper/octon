@@ -180,7 +180,7 @@ If workflow has `access: human` and command file exists, ensure harness symlinks
 
 1. **Check for existing command file:**
    ```bash
-   ls .harmony/capabilities/commands/<workflow-id>.md 2>/dev/null || ls .harmony/capabilities/commands/<workflow-id>.md 2>/dev/null
+   ls .harmony/capabilities/runtime/commands/<workflow-id>.md 2>/dev/null || ls .harmony/capabilities/runtime/commands/<workflow-id>.md 2>/dev/null
    ```
 
 2. **Check for existing symlinks:**
@@ -192,12 +192,12 @@ If workflow has `access: human` and command file exists, ensure harness symlinks
 3. **Create missing symlinks:**
    ```bash
    # For shared workflows (in .harmony/):
-   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
-   cd .claude/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
+   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/runtime/commands/<workflow-id>.md <workflow-id>.md
+   cd .claude/commands/ && ln -s ../../.harmony/capabilities/runtime/commands/<workflow-id>.md <workflow-id>.md
 
    # For local workflows (in .harmony/):
-   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
-   cd .claude/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
+   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/runtime/commands/<workflow-id>.md <workflow-id>.md
+   cd .claude/commands/ && ln -s ../../.harmony/capabilities/runtime/commands/<workflow-id>.md <workflow-id>.md
    ```
 
 4. **If access changed from agent to human:**

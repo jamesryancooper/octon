@@ -21,6 +21,7 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 - [ADR-011](../decisions/011-agency-subsystem-finalization.md) — Agency subsystem finalization and actor taxonomy consolidation (D043)
 - [ADR-021](../decisions/021-bounded-surfaces-contract-and-agency-migration.md) — Bounded surfaces contract and agency clean-break migration (D045)
 - [ADR-022](../decisions/022-orchestration-bounded-surfaces-clean-break-migration.md) — Orchestration bounded surfaces clean-break migration (D046)
+- [ADR-023](../decisions/023-capabilities-bounded-surfaces-clean-break-migration.md) — Capabilities bounded surfaces clean-break migration (D047)
 
 ## Active Decisions
 
@@ -39,13 +40,13 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 | D012 | The Funnel | ideas → brainstorm → projects → missions → context | Clear pipeline from raw ideas to permanent knowledge | 2026-01-14 |
 | D013 | Refactor verification | Mandatory verification gate | Refactors cannot be declared complete until all audit searches return zero | 2026-01-14 |
 | D014 | Continuity artifact immutability | Append-only during refactors | Historical records (`continuity/log.md`, `decisions/*.md`) must not be modified, only appended | 2026-01-14 |
-| D015 | Universal commands | Symlink from harness to `.harmony/capabilities/commands/` | Commands defined once in `.harmony/`, symlinked to `.cursor/`, `.claude/` | 2026-01-14 |
+| D015 | Universal commands | Symlink from harness to `.harmony/capabilities/runtime/commands/` | Commands defined once in `.harmony/`, symlinked to `.cursor/`, `.claude/` | 2026-01-14 |
 | D016 | Mutability frontmatter | `mutability: append-only` property | Files with this property must not have existing content modified; check before editing | 2026-01-14 |
 | D017 | Workflow versioning | Semantic versioning in frontmatter | Increment version when modifying workflows; use Version History section | 2026-01-14 |
 | D018 | Step idempotency | Required `## Idempotency` section | All workflow step files must include idempotency checks with Check, If Already Complete, Marker | 2026-01-14 |
 | D019 | Harness symlinks | Required for `access: human` commands | Commands must be symlinked to all harness directories (`.cursor/`, `.claude/`) | 2026-01-14 |
 | D020 | Meta-workflows | `workflows/workflows/` directory | Workflows for creating, evaluating, and updating workflows live in dedicated domain | 2026-01-14 |
-| D021 | Prompt refiner skill | 10-phase pipeline in `.harmony/capabilities/skills/prompt-refiner/` | Use `/refine-prompt` before complex tasks; refines intent, adds context, validates feasibility | 2026-01-14 |
+| D021 | Prompt refiner skill | 10-phase pipeline in `.harmony/capabilities/runtime/skills/prompt-refiner/` | Use `/refine-prompt` before complex tasks; refines intent, adds context, validates feasibility | 2026-01-14 |
 | D022 | Persona assignment | Explicit role/expertise in refined prompts | Refined prompts include Execution Persona section with role, level, perspective, style | 2026-01-14 |
 | D023 | Negative constraints | Anti-patterns and forbidden approaches | Refined prompts include "What NOT To Do" section; prevents common mistakes and scope creep | 2026-01-14 |
 | D024 | Intent confirmation | User confirms before execution | Refined prompts summarize understanding and request confirmation; skip with `--skip_confirmation` | 2026-01-14 |
@@ -71,6 +72,7 @@ Key decisions that constrain or guide work in this harness. For full rationale, 
 | D044 | Immutable engineering charter | `.harmony/cognition/principles/principles.md` is immutable (`mutability: immutable`, `agent_editable: false`) | Agents must not modify the charter; policy evolution requires a versioned successor plus ADR | 2026-02-20 |
 | D045 | Bounded surface separation | Separate runtime artifacts, governance contracts, and operating practices where materially applicable | First rollout is clean-break migration of agency to `actors/`, `governance/`, and `practices/` with CI enforcement of legacy-path removal | 2026-02-20 |
 | D046 | Orchestration bounded surfaces | Apply bounded surfaces to orchestration using canonical `runtime/`, `governance/`, and `practices/` surfaces | Legacy orchestration root paths are removed and CI validators enforce no reintroduction | 2026-02-20 |
+| D047 | Capabilities bounded surfaces | Apply bounded surfaces to capabilities using canonical `runtime/`, `governance/`, and `practices/` surfaces | Legacy capabilities root runtime/policy paths are removed and CI validators enforce no reintroduction | 2026-02-20 |
 
 ## Decision Format
 

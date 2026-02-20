@@ -30,7 +30,7 @@ This keeps Spec semantics authoritative (from GitHub’s Spec Kit), makes BMAD u
 
 - **Upgrade safety.** BMAD v6 is active and evolving; encapsulating BMAD behind PlanKit shields calling sites from workflow/param churn. ([GitHub][3])
 - **Spec‑first integrity.** We rely on GitHub’s Spec Kit instead of re‑implementing it; SpecKit adds validation, structure, and publishing only.
-- **Harmony alignment.** Clean handoff: `SpecKit → PlanKit → FlowKit → AgentKit/TestKit/PolicyKit`, matching the Methodology and AI‑Toolkit READMEs and the canonical kit roles described in `.harmony/capabilities/services/execution/service-roles.md`.
+- **Harmony alignment.** Clean handoff: `SpecKit → PlanKit → FlowKit → AgentKit/TestKit/PolicyKit`, matching the Methodology and AI‑Toolkit READMEs and the canonical kit roles described in `.harmony/capabilities/runtime/services/execution/service-roles.md`.
 
 **Integration surface.**
 
@@ -104,7 +104,7 @@ flowchart LR
 
   - In: intent/idea (issue), constraints.
   - Out: `docs/specs/<feature>/spec.md` and related GitHub’s Spec Kit docs; ADR is created in the next stage by PlanKit. (ASVS/SSDF per OWASP/NIST.) ([GitHub][7])
-- **Commands & hooks**: `speckit init …` to author; `speckit validate …` to ensure structure; `speckit render …` to publish. See `.harmony/capabilities/services/_meta/docs/platform-overview.md` (SpecKit + PlanKit sections) and `.harmony/capabilities/services/planning/spec/guide.md` for wrapper details and contracts.
+- **Commands & hooks**: `speckit init …` to author; `speckit validate …` to ensure structure; `speckit render …` to publish. See `.harmony/capabilities/runtime/services/_meta/docs/platform-overview.md` (SpecKit + PlanKit sections) and `.harmony/capabilities/runtime/services/planning/spec/guide.md` for wrapper details and contracts.
 - **ACP gate**: Driver & Navigator confirm problem, scope, non‑functionals (two passes if solo).
 - **Integrations**: Open an ObservaKit trace at spec start and persist the `trace_id` for downstream linkage.
 - **Gate**: **S‑1** passes when SpecKit validation succeeds and required fields are present.
@@ -360,7 +360,7 @@ speckit render --path docs/specs/oauth-billing --publish
 plankit plan --spec docs/specs/oauth-billing/spec.md --out plan.json
 ```
 
-See `.harmony/capabilities/services/_meta/docs/platform-overview.md` (SpecKit + PlanKit sections) for wrapper details.
+See `.harmony/capabilities/runtime/services/_meta/docs/platform-overview.md` (SpecKit + PlanKit sections) for wrapper details.
 
 ### 5.4a Contracts Registry & Kit Metadata (normative)
 

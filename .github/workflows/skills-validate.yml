@@ -3,10 +3,10 @@ name: Skills Validation
 on:
   push:
     paths:
-      - '.harmony/capabilities/skills/**'
+      - '.harmony/capabilities/runtime/skills/**'
   pull_request:
     paths:
-      - '.harmony/capabilities/skills/**'
+      - '.harmony/capabilities/runtime/skills/**'
 
 permissions:
   contents: read
@@ -31,10 +31,10 @@ jobs:
 
       - name: Validate skills
         run: |
-          chmod +x .harmony/capabilities/skills/_ops/scripts/validate-skills.sh
-          .harmony/capabilities/skills/_ops/scripts/validate-skills.sh --strict
+          chmod +x .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh
+          .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict
 
       - name: Report validation results
         if: failure()
         run: |
-          echo "::error::Skills validation failed. Run '.harmony/capabilities/skills/_ops/scripts/validate-skills.sh' locally to see details."
+          echo "::error::Skills validation failed. Run '.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh' locally to see details."

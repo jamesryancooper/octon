@@ -67,7 +67,7 @@ Each harness's scope includes its parent directory and **all descendants**, incl
 
 ```markdown
 ┌─────────────────────────────────────────────────────────────────┐
-│  .harmony/capabilities/skills/          Single Location                   │
+│  .harmony/capabilities/runtime/skills/          Single Location                   │
 │  ├── manifest.yml              Tier 1 discovery index           │
 │  ├── registry.yml              Extended metadata + I/O mappings │
 │  ├── capabilities.yml          Capability schema                │
@@ -92,7 +92,7 @@ Each harness's scope includes its parent directory and **all descendants**, incl
 
 ---
 
-## Skill Contents (`.harmony/capabilities/skills/`)
+## Skill Contents (`.harmony/capabilities/runtime/skills/`)
 
 Skill definitions, metadata, and operational artifacts all live in a single location:
 
@@ -174,7 +174,7 @@ This approach keeps initial context minimal (~50 tokens per skill) while providi
 
 ## Operational Artifacts
 
-All operational categories follow the `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/skills/`:
+All operational categories follow the `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/runtime/skills/`:
 
 | Content | Purpose |
 |---------|---------|
@@ -226,7 +226,7 @@ Deliverables go directly to their final destination with tiered permissions:
 
 ### Operational Artifacts
 
-Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/skills/`:
+Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/runtime/skills/`:
 
 | Category | Path Pattern | Purpose |
 |----------|--------------|---------|
@@ -262,7 +262,7 @@ VALIDATE_PATH(declared_path, harness_root):
 ### Invalid Path Examples
 
 ```yaml
-# In apps/docs-site/.harmony/capabilities/skills/registry.yml (scope: apps/docs-site/**)
+# In apps/docs-site/.harmony/capabilities/runtime/skills/registry.yml (scope: apps/docs-site/**)
 skills:
   generate-guide:
     io:
@@ -279,9 +279,9 @@ skills:
 Symlinks expose shared skills to different agent hosts:
 
 ```bash
-.claude/skills/refine-prompt -> ../../.harmony/capabilities/skills/synthesis/refine-prompt
-.cursor/skills/refine-prompt -> ../../.harmony/capabilities/skills/synthesis/refine-prompt
-.codex/skills/refine-prompt  -> ../../.harmony/capabilities/skills/synthesis/refine-prompt
+.claude/skills/refine-prompt -> ../../.harmony/capabilities/runtime/skills/synthesis/refine-prompt
+.cursor/skills/refine-prompt -> ../../.harmony/capabilities/runtime/skills/synthesis/refine-prompt
+.codex/skills/refine-prompt  -> ../../.harmony/capabilities/runtime/skills/synthesis/refine-prompt
 ```
 
 **Why symlinks?** Agent products discover skills in their own directories (`.claude/skills/`, `.cursor/skills/`, etc.). Symlinks allow multiple agents to share the same canonical skill definition while maintaining expected directory structures.
@@ -292,10 +292,10 @@ Symlinks expose shared skills to different agent hosts:
 
 ```bash
 # Create symlinks for all skills
-.harmony/capabilities/skills/_ops/scripts/setup-harness-links.sh
+.harmony/capabilities/runtime/skills/_ops/scripts/setup-harness-links.sh
 
 # Create symlinks for a specific skill
-.harmony/capabilities/skills/_ops/scripts/setup-harness-links.sh refine-prompt
+.harmony/capabilities/runtime/skills/_ops/scripts/setup-harness-links.sh refine-prompt
 ```
 
 **Manual:**
@@ -305,9 +305,9 @@ Symlinks expose shared skills to different agent hosts:
 mkdir -p .claude/skills .cursor/skills .codex/skills
 
 # Link a skill to all harnesses
-ln -s ../../.harmony/capabilities/skills/synthesis/refine-prompt .claude/skills/refine-prompt
-ln -s ../../.harmony/capabilities/skills/synthesis/refine-prompt .cursor/skills/refine-prompt
-ln -s ../../.harmony/capabilities/skills/synthesis/refine-prompt .codex/skills/refine-prompt
+ln -s ../../.harmony/capabilities/runtime/skills/synthesis/refine-prompt .claude/skills/refine-prompt
+ln -s ../../.harmony/capabilities/runtime/skills/synthesis/refine-prompt .cursor/skills/refine-prompt
+ln -s ../../.harmony/capabilities/runtime/skills/synthesis/refine-prompt .codex/skills/refine-prompt
 ```
 
 ### Verification
@@ -326,7 +326,7 @@ ls -la .codex/skills/
 | Symlinks not working on Windows | Enable Developer Mode or run as Administrator |
 | Agent can't find skill | Run `setup-harness-links.sh` to recreate links |
 | Broken symlinks after moving files | Delete and recreate symlinks |
-| Permission errors | Check filesystem permissions on `.harmony/capabilities/skills/` |
+| Permission errors | Check filesystem permissions on `.harmony/capabilities/runtime/skills/` |
 
 ---
 
@@ -398,12 +398,12 @@ Tags enable filtering ("show me all validators") without affecting capabilities.
 
 | Layer | Contains | Does NOT Contain |
 |-------|----------|------------------|
-| Skills (`.harmony/capabilities/skills/`) | Definitions, I/O paths, configs, outputs, logs | Host-specific invocation |
+| Skills (`.harmony/capabilities/runtime/skills/`) | Definitions, I/O paths, configs, outputs, logs | Host-specific invocation |
 | Host Adapters (`.claude/`, `.cursor/`, etc.) | Symlinks only | Any actual content |
 
 ### Portability
 
-Skills in `.harmony/capabilities/skills/` can be:
+Skills in `.harmony/capabilities/runtime/skills/` can be:
 
 - Copied to other repositories
 - Shared via git submodules

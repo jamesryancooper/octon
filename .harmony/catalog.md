@@ -66,48 +66,48 @@ See `orchestration/runtime/missions/README.md` for when to create a mission.
 
 ## Skills
 
-Composable capabilities in `capabilities/skills/`:
+Composable capabilities in `capabilities/runtime/skills/`:
 
 | Skill | Commands | Description |
 |-------|----------|-------------|
-| [synthesize-research](./capabilities/skills/synthesis/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
-| [refine-prompt](./capabilities/skills/synthesis/refine-prompt/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
-| [audit-ui](./capabilities/skills/quality-gate/audit-ui/SKILL.md) | `/audit-ui` | Audit UI files against live external web design guidelines |
-| [react-composition-patterns](./capabilities/skills/foundations/react/composition-patterns/SKILL.md) | `/react-composition-patterns` | Apply React composition patterns: compound components, state lifting, explicit variants |
-| [react-best-practices](./capabilities/skills/foundations/react/best-practices/SKILL.md) | `/react-best-practices` | Apply 57 React/Next.js performance rules across 8 categories |
-| [react-native-best-practices](./capabilities/skills/foundations/react-native/best-practices/SKILL.md) | `/react-native-best-practices` | Apply 35+ React Native/Expo rules across 14 categories |
-| [vercel-deploy](./capabilities/skills/platforms/vercel/deploy/SKILL.md) | `/vercel-deploy` | Package and deploy the project to Vercel |
+| [synthesize-research](./capabilities/runtime/skills/synthesis/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
+| [refine-prompt](./capabilities/runtime/skills/synthesis/refine-prompt/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
+| [audit-ui](./capabilities/runtime/skills/quality-gate/audit-ui/SKILL.md) | `/audit-ui` | Audit UI files against live external web design guidelines |
+| [react-composition-patterns](./capabilities/runtime/skills/foundations/react/composition-patterns/SKILL.md) | `/react-composition-patterns` | Apply React composition patterns: compound components, state lifting, explicit variants |
+| [react-best-practices](./capabilities/runtime/skills/foundations/react/best-practices/SKILL.md) | `/react-best-practices` | Apply 57 React/Next.js performance rules across 8 categories |
+| [react-native-best-practices](./capabilities/runtime/skills/foundations/react-native/best-practices/SKILL.md) | `/react-native-best-practices` | Apply 35+ React Native/Expo rules across 14 categories |
+| [vercel-deploy](./capabilities/runtime/skills/platforms/vercel/deploy/SKILL.md) | `/vercel-deploy` | Package and deploy the project to Vercel |
 
 **Invocation:** Use `/command` in chat or `use skill: skill-id` for explicit selection.
 
-**Pipelines:** Skills chain via inputs/outputs. See `capabilities/skills/registry.yml` for pipelines.
+**Pipelines:** Skills chain via inputs/outputs. See `capabilities/runtime/skills/registry.yml` for pipelines.
 
-**Progressive disclosure:** Read `capabilities/skills/registry.yml` first, load SKILL.md only when needed.
+**Progressive disclosure:** Read `capabilities/runtime/skills/registry.yml` first, load SKILL.md only when needed.
 
-See `capabilities/skills/README.md` for creating and using skills.
+See `capabilities/runtime/skills/README.md` for creating and using skills.
 
 ---
 
 ## Commands
 
-Atomic operations in `capabilities/commands/`:
+Atomic operations in `capabilities/runtime/commands/`:
 
 | Command | Access | Description |
 |---------|--------|-------------|
-| [init.md](./capabilities/commands/init.md) | human | Initialize project-level bootstrap files (`AGENTS.md`, `CLAUDE.md` alias, `alignment-check` shim, optional `BOOT*.md`) |
-| [studio.md](./capabilities/commands/studio.md) | human | Launch Harmony Studio for workflow graph design, inspection, and safe staged edits |
-| [recover.md](./capabilities/commands/recover.md) | human | Recovery procedures for common agent failure modes |
-| [alignment-check.md](./capabilities/commands/alignment-check.md) | human | Run profile-based alignment checks across harness aspects |
-| [validate-frontmatter.md](./capabilities/commands/validate-frontmatter.md) | human | Validate YAML frontmatter in markdown files |
-| [create-workflow.md](./capabilities/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
-| [evaluate-workflow.md](./capabilities/commands/evaluate-workflow.md) | human | Assess a workflow against quality criteria |
-| [update-workflow.md](./capabilities/commands/update-workflow.md) | human | Modify an existing workflow to fix gaps |
+| [init.md](./capabilities/runtime/commands/init.md) | human | Initialize project-level bootstrap files (`AGENTS.md`, `CLAUDE.md` alias, `alignment-check` shim, optional `BOOT*.md`) |
+| [studio.md](./capabilities/runtime/commands/studio.md) | human | Launch Harmony Studio for workflow graph design, inspection, and safe staged edits |
+| [recover.md](./capabilities/runtime/commands/recover.md) | human | Recovery procedures for common agent failure modes |
+| [alignment-check.md](./capabilities/runtime/commands/alignment-check.md) | human | Run profile-based alignment checks across harness aspects |
+| [validate-frontmatter.md](./capabilities/runtime/commands/validate-frontmatter.md) | human | Validate YAML frontmatter in markdown files |
+| [create-workflow.md](./capabilities/runtime/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
+| [evaluate-workflow.md](./capabilities/runtime/commands/evaluate-workflow.md) | human | Assess a workflow against quality criteria |
+| [update-workflow.md](./capabilities/runtime/commands/update-workflow.md) | human | Modify an existing workflow to fix gaps |
 
 ---
 
 ## Tools
 
-Invocation-driven atomic tool capability in `capabilities/tools/`.
+Invocation-driven atomic tool capability in `capabilities/runtime/tools/`.
 
 ### Packs
 
@@ -130,14 +130,14 @@ allowed-tools: pack:read-only Write(_ops/state/logs/*)
 
 ## Services
 
-Invocation-driven composite capabilities with typed I/O contracts in `capabilities/services/`.
+Invocation-driven composite capabilities with typed I/O contracts in `capabilities/runtime/services/`.
 
 | Service | Interface | Category | Description |
 |---|---|---|---|
-| [guard](./capabilities/services/governance/guard/guide.md) | `shell` | guard | Content safety checks and sanitization |
-| [prompt](./capabilities/services/modeling/prompt/guide.md) | `library` | prompt | Prompt rendering/token contracts |
-| [cost](./capabilities/services/operations/cost/guide.md) | `shell` | cost | Budget estimation and usage tracking |
-| [flow](./capabilities/services/execution/flow/guide.md) | `mcp` | flow | Native-first flow execution with optional LangGraph adapter |
+| [guard](./capabilities/runtime/services/governance/guard/guide.md) | `shell` | guard | Content safety checks and sanitization |
+| [prompt](./capabilities/runtime/services/modeling/prompt/guide.md) | `library` | prompt | Prompt rendering/token contracts |
+| [cost](./capabilities/runtime/services/operations/cost/guide.md) | `shell` | cost | Budget estimation and usage tracking |
+| [flow](./capabilities/runtime/services/execution/flow/guide.md) | `mcp` | flow | Native-first flow execution with optional LangGraph adapter |
 
 ### Usage Example
 

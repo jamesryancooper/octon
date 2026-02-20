@@ -5,7 +5,7 @@ description: Capability-driven harness skills system with progressive disclosure
 
 # Harness Skills
 
-Skills are **composable capability units** defined by the [agentskills.io](https://agentskills.io) specification. In Harmony, they use a **progressive disclosure architecture**: all skill artifacts live in `.harmony/capabilities/skills/`, with layered discovery from compact metadata (manifest) through full definitions (SKILL.md) to deep reference material (references/).
+Skills are **composable capability units** defined by the [agentskills.io](https://agentskills.io) specification. In Harmony, they use a **progressive disclosure architecture**: all skill artifacts live in `.harmony/capabilities/runtime/skills/`, with layered discovery from compact metadata (manifest) through full definitions (SKILL.md) to deep reference material (references/).
 
 Skills declare their **capabilities** (what they can do) and **skill sets** (capability bundles), which determine their documentation requirements and discovery patterns.
 
@@ -65,7 +65,7 @@ repo/                          ← Root harness
 - Harnesses can write **down** into descendant harnesses
 - Harnesses cannot write **up** into ancestors or **sideways** into siblings
 - Deliverables go to `.harmony/{{category}}/` (final destination)
-- Execution state goes to `.harmony/capabilities/skills/_ops/state/runs/{{skill-id}}/{{run-id}}/`
+- Execution state goes to `.harmony/capabilities/runtime/skills/_ops/state/runs/{{skill-id}}/{{run-id}}/`
 
 See [Architecture](./architecture.md) for the complete model.
 
@@ -130,16 +130,16 @@ See [Creation](./creation.md) for the full workflow.
 
 | Location | Purpose |
 |----------|---------|
-| `.harmony/capabilities/skills/` | Skill definitions and operational state |
-| `.harmony/capabilities/skills/manifest.yml` | Skill index with capabilities (Tier 1 discovery) |
-| `.harmony/capabilities/skills/capabilities.yml` | Skill sets, valid capabilities, refs |
-| `.harmony/capabilities/skills/registry.yml` | Extended metadata, I/O mappings, pipelines (Tier 2) |
-| `.harmony/capabilities/skills/<skill-id>/SKILL.md` | Full skill definition (Tier 3) |
-| `.harmony/capabilities/skills/<skill-id>/references/` | Phase details, safety, validation (Tier 4) |
-| `.harmony/capabilities/skills/_scaffold/template/` | Scaffolding for new skills |
-| `.harmony/capabilities/skills/_ops/scripts/validate-skills.sh` | Capability validation script |
-| `.harmony/capabilities/skills/_ops/state/runs/{{skill-id}}/` | Execution state (checkpoints) |
-| `.harmony/capabilities/skills/_ops/state/logs/{{skill-id}}/` | Skill-specific logs |
+| `.harmony/capabilities/runtime/skills/` | Skill definitions and operational state |
+| `.harmony/capabilities/runtime/skills/manifest.yml` | Skill index with capabilities (Tier 1 discovery) |
+| `.harmony/capabilities/runtime/skills/capabilities.yml` | Skill sets, valid capabilities, refs |
+| `.harmony/capabilities/runtime/skills/registry.yml` | Extended metadata, I/O mappings, pipelines (Tier 2) |
+| `.harmony/capabilities/runtime/skills/<skill-id>/SKILL.md` | Full skill definition (Tier 3) |
+| `.harmony/capabilities/runtime/skills/<skill-id>/references/` | Phase details, safety, validation (Tier 4) |
+| `.harmony/capabilities/runtime/skills/_scaffold/template/` | Scaffolding for new skills |
+| `.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh` | Capability validation script |
+| `.harmony/capabilities/runtime/skills/_ops/state/runs/{{skill-id}}/` | Execution state (checkpoints) |
+| `.harmony/capabilities/runtime/skills/_ops/state/logs/{{skill-id}}/` | Skill-specific logs |
 | `.harmony/{{category}}/` | Deliverables (prompts, drafts, etc.) |
 
 ---
@@ -153,9 +153,9 @@ See [Creation](./creation.md) for the full workflow.
 
 ### Internal Resources
 
-- `.harmony/capabilities/skills/quality-gate/refactor/` — Example skill with `[executor, guardian]` skill sets
-- `.harmony/capabilities/skills/synthesis/refine-prompt/` — Example skill with `[executor, collaborator]` skill sets
-- `.harmony/capabilities/skills/_scaffold/template/` — Skill template with capability guidance
+- `.harmony/capabilities/runtime/skills/quality-gate/refactor/` — Example skill with `[executor, guardian]` skill sets
+- `.harmony/capabilities/runtime/skills/synthesis/refine-prompt/` — Example skill with `[executor, collaborator]` skill sets
+- `.harmony/capabilities/runtime/skills/_scaffold/template/` — Skill template with capability guidance
 
 ### Related Documentation
 

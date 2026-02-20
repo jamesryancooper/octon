@@ -5,7 +5,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-PROFILE_DIR="$CAPABILITIES_DIR/_ops/policy/profiles"
+PROFILE_DIR="$CAPABILITIES_DIR/governance/policy/profiles"
 GRANT_BROKER="$CAPABILITIES_DIR/_ops/scripts/policy-grant-broker.sh"
 
 usage() {

@@ -31,7 +31,7 @@ When thinking in `ideation/scratchpad/` matures into actionable knowledge, use t
 | Domain terminology | `cognition/context/glossary.md` | Table row |
 | Lessons learned, anti-patterns | `cognition/context/lessons.md` | Entry with context |
 | Immediate next actions | `continuity/next.md` | Actionable list |
-| Reusable procedures | `orchestration/runtime/workflows/` or `capabilities/commands/` | New file |
+| Reusable procedures | `orchestration/runtime/workflows/` or `capabilities/runtime/commands/` | New file |
 
 ---
 

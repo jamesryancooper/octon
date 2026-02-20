@@ -21,7 +21,7 @@ Composable capabilities in `skills/`:
 
 | Skill | Commands | Description |
 |-------|----------|-------------|
-| [<skill-id>](/.harmony/capabilities/skills/<group>/<skill-id>/SKILL.md) | `/<skill-id>` | [TODO: Description] |
+| [<skill-id>](/.harmony/capabilities/runtime/skills/<group>/<skill-id>/SKILL.md) | `/<skill-id>` | [TODO: Description] |
 ```
 
 If the table only has the placeholder row ("*No skills defined yet*"), replace it with the new skill entry.

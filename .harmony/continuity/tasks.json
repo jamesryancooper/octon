@@ -16,7 +16,7 @@
     },
     {
       "id": "create-context-commands",
-      "description": "Create cognition/context/ and capabilities/commands/ with tools.md, compaction.md, recover.md",
+      "description": "Create cognition/context/ and capabilities/runtime/commands/ with tools.md, compaction.md, recover.md",
       "status": "completed",
       "completed_at": "2025-12-10"
     },

@@ -16,7 +16,7 @@ description: Update SKILL.md and reference files with skill name and initial val
 
 ### Update SKILL.md Frontmatter
 
-Replace placeholders in `.harmony/capabilities/skills/<group>/<skill-name>/SKILL.md`:
+Replace placeholders in `.harmony/capabilities/runtime/skills/<group>/<skill-name>/SKILL.md`:
 
 ```yaml
 ---

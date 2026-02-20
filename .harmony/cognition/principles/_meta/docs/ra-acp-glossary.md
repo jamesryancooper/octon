@@ -29,7 +29,7 @@ Use these terms consistently across principles, policy, receipts, and validators
 
 - `risk tier`: policy-level risk classification (`low`, `medium`, `high`) used for capability and ACP defaults.
 - `ACP level`: promotion-control level (`ACP-0`..`ACP-4`) with escalating requirements.
-- canonical mapping source: `.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#acp.risk_tier_mapping`.
+- canonical mapping source: `.harmony/capabilities/governance/policy/deny-by-default.v2.yml#acp.risk_tier_mapping`.
 
 ## Evidence and Audit Terms
 

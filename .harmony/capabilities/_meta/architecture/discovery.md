@@ -17,11 +17,11 @@ Skills use a **three-file model** for progressive disclosure:
 
 > **Token Budget Note:** The [agentskills.io specification](https://agentskills.io/specification) recommends ~100 tokens for discovery metadata. Harmony's multi-file model splits this: ~50 tokens for manifest (always loaded) + ~50 tokens for registry (loaded after match). Capability schema is loaded separately for validation. SKILL.md frontmatter (name + description) should stay under ~100 tokens per the spec.
 
-All three files live in a **single location**: `.harmony/capabilities/skills/`.
+All three files live in a **single location**: `.harmony/capabilities/runtime/skills/`.
 
 ---
 
-## Shared Manifest (`.harmony/capabilities/skills/manifest.yml`)
+## Shared Manifest (`.harmony/capabilities/runtime/skills/manifest.yml`)
 
 Compact index for agent routing—contains only what's needed to match user intent:
 
@@ -152,9 +152,9 @@ See [Capabilities](./capabilities.md) and [Skill Sets](./skill-sets.md) for the 
 
 ---
 
-## Skills Registry (`.harmony/capabilities/skills/registry.yml`)
+## Skills Registry (`.harmony/capabilities/runtime/skills/registry.yml`)
 
-Extended metadata loaded after a skill is matched—contains routing rules, commands, parameters, and requirements. Input/output paths are defined in `.harmony/capabilities/skills/registry.yml` (single source of truth for I/O).
+Extended metadata loaded after a skill is matched—contains routing rules, commands, parameters, and requirements. Input/output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` (single source of truth for I/O).
 
 ```yaml
 # Skills Registry (Extended Metadata)
@@ -203,7 +203,7 @@ skills:
 | `requires.context` | No | Context conditions for skill activation |
 | `depends_on` | No | Other skills this skill requires |
 
-> **Note:** Input/output paths are defined in `.harmony/capabilities/skills/registry.yml` under `skills.<id>.io`.
+> **Note:** Input/output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` under `skills.<id>.io`.
 
 > **Tool Permissions:** Tool permissions are **not** defined in registry.yml. They are defined in SKILL.md frontmatter via `allowed-tools` (single source of truth). The internal format is derived via the mapping function in `validate-skills.sh`.
 
@@ -268,7 +268,7 @@ skills:
           description: "Refined prompt output"
 ```
 
-> **Note:** All `.harmony/capabilities/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#harness-skills-directory-structure) for details.
+> **Note:** All `.harmony/capabilities/runtime/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#harness-skills-directory-structure) for details.
 
 ### I/O Schema
 
@@ -315,7 +315,7 @@ Deliverables go directly to their final destination with tiered permissions:
 
 #### Operational Artifacts
 
-Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/skills/`:
+Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern within `.harmony/capabilities/runtime/skills/`:
 
 | Category | Path Pattern | Purpose |
 |----------|--------------|---------|
@@ -368,7 +368,7 @@ Output paths must fall within the harness's hierarchical scope:
 #### Valid Paths
 
 ```yaml
-# In repo/.harmony/capabilities/skills/registry.yml (scope: repo/**)
+# In repo/.harmony/capabilities/runtime/skills/registry.yml (scope: repo/**)
 skills:
   scaffold-all:
     io:
@@ -382,7 +382,7 @@ skills:
 #### Invalid Paths
 
 ```yaml
-# In apps/docs-site/.harmony/capabilities/skills/registry.yml (scope: apps/docs-site/**)
+# In apps/docs-site/.harmony/capabilities/runtime/skills/registry.yml (scope: apps/docs-site/**)
 skills:
   generate-guide:
     io:
@@ -391,7 +391,7 @@ skills:
         - path: "../README.md"                      # ✗ REJECTED: ancestor (repo)
         - path: "../packages/kits/README.md"        # ✗ REJECTED: sibling path
 
-# In flowkit/.harmony/capabilities/skills/registry.yml (scope: flowkit/**)
+# In flowkit/.harmony/capabilities/runtime/skills/registry.yml (scope: flowkit/**)
 skills:
   generate-types:
     io:
@@ -429,7 +429,7 @@ pipelines:
 
 When a user invokes a skill, the system:
 
-1. Read `.harmony/capabilities/skills/manifest.yml` for skill index
+1. Read `.harmony/capabilities/runtime/skills/manifest.yml` for skill index
 2. If explicit command (`/skill-name`), route directly
 4. If `use skill: <name>` pattern, route directly
 5. Otherwise, match against triggers in manifest

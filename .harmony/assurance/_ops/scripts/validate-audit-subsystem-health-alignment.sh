@@ -6,12 +6,12 @@ QUALITY_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
 HARMONY_DIR="$(cd -- "$QUALITY_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$HARMONY_DIR/.." && pwd)"
 
-ALIGNMENT_CONTRACT="$HARMONY_DIR/capabilities/skills/quality-gate/audit-subsystem-health/references/alignment-contract.md"
-SKILL_FILE="$HARMONY_DIR/capabilities/skills/quality-gate/audit-subsystem-health/SKILL.md"
-PHASES_FILE="$HARMONY_DIR/capabilities/skills/quality-gate/audit-subsystem-health/references/phases.md"
-VALIDATION_FILE="$HARMONY_DIR/capabilities/skills/quality-gate/audit-subsystem-health/references/validation.md"
-IO_CONTRACT_FILE="$HARMONY_DIR/capabilities/skills/quality-gate/audit-subsystem-health/references/io-contract.md"
-REGISTRY_FILE="$HARMONY_DIR/capabilities/skills/registry.yml"
+ALIGNMENT_CONTRACT="$HARMONY_DIR/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/alignment-contract.md"
+SKILL_FILE="$HARMONY_DIR/capabilities/runtime/skills/quality-gate/audit-subsystem-health/SKILL.md"
+PHASES_FILE="$HARMONY_DIR/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/phases.md"
+VALIDATION_FILE="$HARMONY_DIR/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/validation.md"
+IO_CONTRACT_FILE="$HARMONY_DIR/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/io-contract.md"
+REGISTRY_FILE="$HARMONY_DIR/capabilities/runtime/skills/registry.yml"
 
 errors=0
 warnings=0
@@ -96,7 +96,7 @@ extract_skill_version_from_file() {
 
 extract_skill_version_from_ref() {
   local ref="$1"
-  git -C "$ROOT_DIR" show "${ref}:.harmony/capabilities/skills/registry.yml" 2>/dev/null | extract_skill_version_from_stream || true
+  git -C "$ROOT_DIR" show "${ref}:.harmony/capabilities/runtime/skills/registry.yml" 2>/dev/null | extract_skill_version_from_stream || true
 }
 
 regex_matches_any() {
@@ -182,12 +182,12 @@ check_drift_alignment() {
     '^\.harmony/assurance/_ops/scripts/validate-harness-structure\.sh$'
   )
   local update_regexes=(
-    '^\.harmony/capabilities/skills/quality-gate/audit-subsystem-health/'
-    '^\.harmony/capabilities/skills/registry\.yml$'
+    '^\.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/'
+    '^\.harmony/capabilities/runtime/skills/registry\.yml$'
   )
   local logic_regexes=(
-    '^\.harmony/capabilities/skills/quality-gate/audit-subsystem-health/SKILL\.md$'
-    '^\.harmony/capabilities/skills/quality-gate/audit-subsystem-health/references/.*\.md$'
+    '^\.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/SKILL\.md$'
+    '^\.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/.*\.md$'
   )
 
   local watched_changed=0

@@ -23,7 +23,7 @@ In AI-assisted development, determinism is especially critical because LLMs are 
 This document defines determinism posture (default deterministic behavior with bounded policy variance).
 Canonical replay/provenance field requirements are defined in [Determinism and Provenance](./determinism-and-provenance.md).
 Canonical provenance schema pointer:
-`.harmony/capabilities/_ops/policy/acp-provenance-fields.schema.json`.
+`.harmony/capabilities/governance/policy/acp-provenance-fields.schema.json`.
 
 Deterministic replay is required for ACP promote decisions and associated receipts.
 Bounded variance is allowed only inside policy-declared envelopes for long autonomous runs, with declared mode/parameters and receipt linkage.
@@ -437,4 +437,4 @@ See [Arbitration and Precedence](./arbitration-and-precedence.md) (SSOT) for con
 - [Insight Pillar](../pillars/insight.md) — Learning requires reproducibility
 - [Agentic Principles](./README.md#agentic-principles) — Determinism & provenance for AI
 - [Autonomous Control Points](./autonomous-control-points.md) — Policy gates and receipts for bounded variance
-- [EvalKit](../../capabilities/services/_meta/docs/kits-reference.md) — Deterministic AI evaluation
+- [EvalKit](../../capabilities/runtime/services/_meta/docs/kits-reference.md) — Deterministic AI evaluation

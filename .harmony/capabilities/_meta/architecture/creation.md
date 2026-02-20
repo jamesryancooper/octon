@@ -15,7 +15,7 @@ Use the `/create-skill` command to create new skills that follow the agentskills
 /create-skill <skill-name>
 ```
 
-This invokes the `create-skill` skill defined in `.harmony/capabilities/skills/meta/create-skill/`.
+This invokes the `create-skill` skill defined in `.harmony/capabilities/runtime/skills/meta/create-skill/`.
 
 ---
 
@@ -134,7 +134,7 @@ The `create-skill` skill executes these phases:
 | Phase | Purpose |
 |-------|---------|
 | **Validate Name** | Check format (kebab-case), action-oriented naming, uniqueness |
-| **Copy Template** | Copy `_scaffold/template/` to `.harmony/capabilities/skills/<group>/<skill-name>/` |
+| **Copy Template** | Copy `_scaffold/template/` to `.harmony/capabilities/runtime/skills/<group>/<skill-name>/` |
 | **Initialize** | Update placeholders with skill name, display name, description |
 | **Update Manifest** | Add entry to `manifest.yml` (Tier 1 discovery) |
 | **Update Registry** | Add entry to `registry.yml` (extended metadata) |
@@ -148,7 +148,7 @@ The `create-skill` skill executes these phases:
 A new skill directory following the agentskills.io spec:
 
 ```markdown
-.harmony/capabilities/skills/<group>/<skill-name>/
+.harmony/capabilities/runtime/skills/<group>/<skill-name>/
 ├── SKILL.md              # Core definition (<500 lines)
 ├── references/           # Progressive disclosure
 │   ├── phases.md
@@ -160,9 +160,9 @@ A new skill directory following the agentskills.io spec:
 └── assets/               # Static resources (optional)
 
 # Plus symlinks in harness folders:
-.claude/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
-.cursor/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
-.codex/skills/<skill-name> -> ../../.harmony/capabilities/skills/<group>/<skill-name>
+.claude/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
+.cursor/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
+.codex/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
 ```
 
 ---
@@ -221,7 +221,7 @@ See [Reference Artifacts](./reference-artifacts.md) for detailed guidance on eac
 
 ### 3. Update Shared Manifest
 
-Add the skill to `.harmony/capabilities/skills/manifest.yml` for Tier 1 discovery:
+Add the skill to `.harmony/capabilities/runtime/skills/manifest.yml` for Tier 1 discovery:
 
 ```yaml
 skills:
@@ -241,7 +241,7 @@ skills:
 
 ### 4. Update Skills Registry
 
-Add extended metadata to `.harmony/capabilities/skills/registry.yml`:
+Add extended metadata to `.harmony/capabilities/runtime/skills/registry.yml`:
 
 ```yaml
 skills:
@@ -261,7 +261,7 @@ skills:
 
 ### 5. Add Harness Mappings
 
-If the skill needs harness-specific I/O paths, add them to `.harmony/capabilities/skills/registry.yml`:
+If the skill needs harness-specific I/O paths, add them to `.harmony/capabilities/runtime/skills/registry.yml`:
 
 ```yaml
 skills:
@@ -280,7 +280,7 @@ skills:
           description: "Skill output document"
 ```
 
-**Note:** All `.harmony/capabilities/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#harness-skills-directory-structure) for details.
+**Note:** All `.harmony/capabilities/runtime/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. See [Design Conventions](./design-conventions.md#harness-skills-directory-structure) for details.
 
 **Placeholder Syntax:** Use `{{snake_case}}` for path placeholders (e.g., `{{timestamp}}`, `{{project}}`). See [Placeholder Resolution](./execution.md#placeholder-resolution) for details.
 
@@ -290,12 +290,12 @@ Run the setup script or create symlinks manually:
 
 ```bash
 # Using setup script
-.harmony/capabilities/skills/_ops/scripts/setup-harness-links.sh
+.harmony/capabilities/runtime/skills/_ops/scripts/setup-harness-links.sh
 
 # Or manually
-ln -s ../../.harmony/capabilities/skills/quality-gate/your-skill-name .claude/skills/your-skill-name
-ln -s ../../.harmony/capabilities/skills/quality-gate/your-skill-name .cursor/skills/your-skill-name
-ln -s ../../.harmony/capabilities/skills/quality-gate/your-skill-name .codex/skills/your-skill-name
+ln -s ../../.harmony/capabilities/runtime/skills/quality-gate/your-skill-name .claude/skills/your-skill-name
+ln -s ../../.harmony/capabilities/runtime/skills/quality-gate/your-skill-name .cursor/skills/your-skill-name
+ln -s ../../.harmony/capabilities/runtime/skills/quality-gate/your-skill-name .codex/skills/your-skill-name
 ```
 
 ### 7. Test

@@ -38,7 +38,7 @@ All other files come from `.harmony/scaffolding/templates/harmony/`:
 - `cognition/context/` (decisions, lessons, glossary, dependencies, constraints)
 - `continuity/` (log.md, tasks.json, entities.json)
 - `assurance/session-exit.md`
-- `capabilities/commands/`, `scaffolding/prompts/`, `orchestration/runtime/workflows/`, `scaffolding/templates/`, `scaffolding/examples/` (README placeholders)
+- `capabilities/runtime/commands/`, `scaffolding/prompts/`, `orchestration/runtime/workflows/`, `scaffolding/templates/`, `scaffolding/examples/` (README placeholders)
 
 ## Usage
 

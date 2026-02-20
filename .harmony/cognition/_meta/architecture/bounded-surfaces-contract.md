@@ -48,6 +48,16 @@ Orchestration applies the same contract:
 
 Legacy root-level runtime and governance paths (`workflows/`, `missions/`, root incident docs) are removed as part of the clean-break migration.
 
+## Capabilities Application (Third Migration)
+
+Capabilities applies the same contract:
+
+- runtime artifacts: `/.harmony/capabilities/runtime/`
+- governance contracts: `/.harmony/capabilities/governance/`
+- operating standards: `/.harmony/capabilities/practices/`
+
+Legacy root-level capability runtime and governance paths (`commands/`, `skills/`, `tools/`, `services/`, `_ops/policy/`) are removed as part of the clean-break migration.
+
 ## Benefits
 
 | Benefit | Why It Matters |

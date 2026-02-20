@@ -16,7 +16,7 @@
         "quality",
         "scaffolding/prompts",
         "orchestration/runtime/workflows",
-        "capabilities/commands",
+        "capabilities/runtime/commands",
         "cognition/context"
       ],
       "standard": [
@@ -54,7 +54,7 @@
     "scaffolding/prompts/README.md": "Placeholder for prompts",
     "orchestration/runtime/workflows/README.md": "Placeholder for workflows",
     "orchestration/runtime/workflows/00-overview.md": "Workflow overview template",
-    "capabilities/commands/README.md": "Placeholder for commands",
+    "capabilities/runtime/commands/README.md": "Placeholder for commands",
     "cognition/context/README.md": "Context directory overview",
     "cognition/context/decisions.md": "Agent-readable decision summaries",
     "cognition/context/lessons.md": "Anti-patterns and failures to avoid",

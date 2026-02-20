@@ -46,7 +46,7 @@ defaults:
       acceptance_criteria: "Invalid inputs and partial failures are handled without unsafe collapse."
       evidence:
         - .harmony/cognition/_meta/architecture/runtime-policy.md
-        - .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh
+        - .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
     recoverability:
       score: 4
       target_score: 5
@@ -180,7 +180,7 @@ defaults:
       acceptance_criteria: "External integration contracts remain stable and validated."
       evidence:
         - .harmony/cognition/context/agent-platform-interop.md
-        - .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh
+        - .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
     compatibility:
       score: 3
       target_score: 4

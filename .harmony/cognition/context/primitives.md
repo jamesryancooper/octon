@@ -179,7 +179,7 @@ states:
 
 ## Skills
 
-**Location:** `.harmony/capabilities/skills/<skill-id>/SKILL.md`
+**Location:** `.harmony/capabilities/runtime/skills/<skill-id>/SKILL.md`
 
 **Purpose:** Reusable, composable capabilities with explicit input/output contracts.
 
@@ -188,7 +188,7 @@ states:
 - Full `SKILL.md` specification with inputs, outputs, dependencies
 - Invoked via `/command`, `use skill: <id>`, or natural language triggers
 - Stateless and portable (symlinked to harness directories)
-- Writes only to `.harmony/capabilities/skills/outputs/**` and `_ops/state/logs/**`
+- Writes only to `.harmony/capabilities/runtime/skills/outputs/**` and `_ops/state/logs/**`
 - Can be chained into pipelines via registry
 
 ### When to Use
@@ -205,13 +205,13 @@ states:
 
 ### Template
 
-See `.harmony/capabilities/skills/_scaffold/template/SKILL.md`
+See `.harmony/capabilities/runtime/skills/_scaffold/template/SKILL.md`
 
 ---
 
 ## Commands
 
-**Location:** `.harmony/capabilities/commands/<command>.md`
+**Location:** `.harmony/capabilities/runtime/commands/<command>.md`
 
 **Purpose:** Lightweight entry points—often gateways to workflows or simple operations.
 
@@ -580,7 +580,7 @@ Registry supports `pipelines` section for skill composition without manual orche
 | Agents | `.harmony/agency/actors/agents/registry.yml` | `.harmony/agency/actors/agents/_scaffold/template/` | `.harmony/agency/_meta/architecture/README.md` |
 | Teams | `.harmony/agency/actors/teams/registry.yml` | `.harmony/agency/actors/teams/_scaffold/template/` | `.harmony/agency/_meta/architecture/architecture.md` |
 | Missions | `.harmony/orchestration/runtime/missions/registry.yml` | `.harmony/orchestration/runtime/missions/_scaffold/template/` | `.harmony/orchestration/_meta/architecture/missions.md` |
-| Skills | `.harmony/capabilities/skills/registry.yml` | `.harmony/capabilities/skills/_scaffold/template/` | `.harmony/capabilities/_meta/architecture/` |
+| Skills | `.harmony/capabilities/runtime/skills/registry.yml` | `.harmony/capabilities/runtime/skills/_scaffold/template/` | `.harmony/capabilities/_meta/architecture/` |
 | Assistants | `.harmony/agency/actors/assistants/registry.yml` | `.harmony/agency/actors/assistants/_scaffold/template/` | `.harmony/agency/_meta/architecture/README.md` |
 | Commands | — | — | `.harmony/capabilities/_meta/architecture/commands.md` |
 | Checklists | — | — | `.harmony/assurance/_meta/architecture/checklists.md` |

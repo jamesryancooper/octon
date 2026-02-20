@@ -62,8 +62,8 @@ Status: **Implemented with a known limitation**.
 ## Service tier metadata YAML
 
 - Runtime tier files are now implemented at:
-  - `.harmony/capabilities/services/manifest.runtime.yml`
-  - `.harmony/capabilities/services/registry.runtime.yml`
+  - `.harmony/capabilities/runtime/services/manifest.runtime.yml`
+  - `.harmony/capabilities/runtime/services/registry.runtime.yml`
 - `harmony validate` enforces:
   - `format_version` values (`services-manifest-v1`, `services-registry-v1`)
   - ID consistency between Tier 1 and Tier 2

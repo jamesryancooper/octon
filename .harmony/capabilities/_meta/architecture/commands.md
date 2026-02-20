@@ -1,11 +1,11 @@
 ---
 title: Harness Commands
-description: Harness-scoped atomic operations defined in .harmony/capabilities/commands/.
+description: Harness-scoped atomic operations defined in .harmony/capabilities/runtime/commands/.
 ---
 
 # Harness Commands
 
-Harness commands are **harness-scoped atomic operations** defined in `.harmony/capabilities/commands/`. They are deterministic, self-contained procedures that operate on artifacts in the harness's parent directory.
+Harness commands are **harness-scoped atomic operations** defined in `.harmony/capabilities/runtime/commands/`. They are deterministic, self-contained procedures that operate on artifacts in the harness's parent directory.
 
 ## Commands vs Prompts
 
@@ -19,7 +19,7 @@ Harness commands can be invoked in multiple ways:
 
 | Method | Trigger | Example |
 |--------|---------|---------|
-| **Direct** | Agent references the command file | Agent reads `.harmony/capabilities/commands/validate-frontmatter.md` |
+| **Direct** | Agent references the command file | Agent reads `.harmony/capabilities/runtime/commands/validate-frontmatter.md` |
 | **Wrapped (Cursor)** | User types `/command` in Cursor | Via `.cursor/commands/` wrapper |
 | **Wrapped (Claude Code)** | User types `/command` in Claude Code | Via `.claude/commands/` wrapper |
 | **Wrapped (Any Harness)** | Harness-specific entry point | Via `.<harness>/commands/` wrapper |
@@ -46,9 +46,9 @@ Harness command files require YAML frontmatter with the following fields:
 
 A harness command for validating YAML frontmatter in markdown files.
 
-> **Note:** This example is illustrative. See the actual implementation in `.harmony/capabilities/commands/validate-frontmatter.md` for the full specification.
+> **Note:** This example is illustrative. See the actual implementation in `.harmony/capabilities/runtime/commands/validate-frontmatter.md` for the full specification.
 
-**Location:** `.harmony/capabilities/commands/validate-frontmatter.md`
+**Location:** `.harmony/capabilities/runtime/commands/validate-frontmatter.md`
 
 ```markdown
 ---
@@ -79,7 +79,7 @@ List of files with validation status:
 
 An agent working in the harness can reference the command directly:
 
-> "Validate frontmatter using `.harmony/capabilities/commands/validate-frontmatter.md`"
+> "Validate frontmatter using `.harmony/capabilities/runtime/commands/validate-frontmatter.md`"
 
 ### Wrapped Invocation
 
@@ -92,7 +92,7 @@ To enable `/validate-frontmatter` in any harness, create a thin wrapper:
 
 Validate YAML frontmatter in markdown files.
 
-See `.harmony/capabilities/commands/validate-frontmatter.md` for full implementation.
+See `.harmony/capabilities/runtime/commands/validate-frontmatter.md` for full implementation.
 
 ## Usage
 
@@ -102,7 +102,7 @@ See `.harmony/capabilities/commands/validate-frontmatter.md` for full implementa
 
 ## Implementation
 
-Execute `.harmony/capabilities/commands/validate-frontmatter.md` in the target directory's harness.
+Execute `.harmony/capabilities/runtime/commands/validate-frontmatter.md` in the target directory's harness.
 ```
 
 > **Note:** The same wrapper pattern works for any harness. Create equivalent files in `.cursor/commands/`, `.claude/commands/`, `.codex/commands/`, etc.

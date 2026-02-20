@@ -53,8 +53,8 @@ If workflow has `access: human`, create command wrappers:
 
 1. **Create command file:**
    ```text
-   Location: .harmony/capabilities/commands/<workflow-id>.md
-   Or: .harmony/capabilities/commands/<workflow-id>.md (for local workflows)
+   Location: .harmony/capabilities/runtime/commands/<workflow-id>.md
+   Or: .harmony/capabilities/runtime/commands/<workflow-id>.md (for local workflows)
    ```
 
 2. **Command content:**
@@ -98,12 +98,12 @@ If workflow has `access: human`, create symlinks in all harness command director
 2. **Create symlinks in each harness:**
    ```bash
    # For shared workflows (in .harmony/):
-   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
-   cd .claude/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
+   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/runtime/commands/<workflow-id>.md <workflow-id>.md
+   cd .claude/commands/ && ln -s ../../.harmony/capabilities/runtime/commands/<workflow-id>.md <workflow-id>.md
 
    # For local workflows (in .harmony/):
-   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
-   cd .claude/commands/ && ln -s ../../.harmony/capabilities/commands/<workflow-id>.md <workflow-id>.md
+   cd .cursor/commands/ && ln -s ../../.harmony/capabilities/runtime/commands/<workflow-id>.md <workflow-id>.md
+   cd .claude/commands/ && ln -s ../../.harmony/capabilities/runtime/commands/<workflow-id>.md <workflow-id>.md
    ```
 
 3. **Verify symlinks resolve:**
@@ -136,7 +136,7 @@ If workflow has `access: human`, create symlinks in all harness command director
 | Reference | Location | Required? | Status |
 |-----------|----------|-----------|--------|
 | Catalog entry | `.harmony/catalog.md` | If file exists | |
-| Command file | `.harmony/capabilities/commands/` | If access: human | |
+| Command file | `.harmony/capabilities/runtime/commands/` | If access: human | |
 | Domain README | `.harmony/orchestration/runtime/workflows/<domain>/README.md` | If file exists | |
 | Harness symlinks | `.cursor/commands/`, `.claude/commands/` | If access: human | |
 

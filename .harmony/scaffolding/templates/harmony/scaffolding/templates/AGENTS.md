@@ -37,7 +37,7 @@ orientation.
 
 - **Agency:** `.harmony/agency/` (actors, governance, practices)
 - **Capabilities:** `.harmony/capabilities/` (skills, commands, tools)
-  - Commands: `.harmony/capabilities/commands/manifest.yml`
+  - Commands: `.harmony/capabilities/runtime/commands/manifest.yml`
 - **Cognition:** `.harmony/cognition/` (architecture, principles, methodology, context, decisions, analyses)
   - Context index: `.harmony/cognition/context/index.yml`
 - **Orchestration:** `.harmony/orchestration/` (workflows, missions)
@@ -49,7 +49,7 @@ orientation.
 
 ## Skills
 
-Read `.harmony/capabilities/skills/manifest.yml` for skill discovery.
+Read `.harmony/capabilities/runtime/skills/manifest.yml` for skill discovery.
 
 ### Skill Discovery
 
@@ -68,7 +68,7 @@ Read `.harmony/capabilities/skills/manifest.yml` for skill discovery.
 ### Safety
 
 - Follow `deny-by-default` tool policy
-- Log every execution to `capabilities/skills/_ops/state/logs/`
+- Log every execution to `capabilities/runtime/skills/_ops/state/logs/`
 
 ## Workflows
 

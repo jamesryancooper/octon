@@ -50,8 +50,8 @@ Triggers are matched against the `triggers` field in the manifest.
 When a user invokes a skill, the system follows these steps:
 
 1. **Resolve harness** — Determine active harness (see below)
-2. **Read shared manifest** — Load `.harmony/capabilities/skills/manifest.yml` for skill index
-3. **Read harness manifest** — Load active harness's `.harmony/capabilities/skills/manifest.yml`
+2. **Read shared manifest** — Load `.harmony/capabilities/runtime/skills/manifest.yml` for skill index
+3. **Read harness manifest** — Load active harness's `.harmony/capabilities/runtime/skills/manifest.yml`
 4. **Check explicit command** — If `/skill-name`, route directly
 5. **Check explicit pattern** — If `use skill: <name>`, route directly
 6. **Match triggers** — Compare input against registered triggers in manifest
@@ -147,10 +147,10 @@ Without an explicit flag, the harness is determined automatically:
 
 | Aspect               | How Harness Context Applies                                                         |
 |----------------------|---------------------------------------------------------------------------------------|
-| **Registry loading** | Loads the active harness's `.harmony/capabilities/skills/registry.yml`                         |
+| **Registry loading** | Loads the active harness's `.harmony/capabilities/runtime/skills/registry.yml`                         |
 | **Output paths**     | Validates paths against harness's hierarchical scope                                |
 | **Write permissions**| Can write down (descendants), not up (ancestors), or sideways (siblings)              |
-| **Run logs**         | Written to active harness's `.harmony/capabilities/skills/_ops/state/logs/{{skill-id}}/{{run-id}}.md`     |
+| **Run logs**         | Written to active harness's `.harmony/capabilities/runtime/skills/_ops/state/logs/{{skill-id}}/{{run-id}}.md`     |
 
 See [Harness Resolution](./harness-resolution.md) for the complete resolution algorithm.
 
@@ -198,13 +198,13 @@ Agent: [Matches "refine my prompt" trigger → routes to refine-prompt skill]
 
 Skills are discovered from manifest files (Tier 1):
 
-- `.harmony/capabilities/skills/manifest.yml` — Shared skill index
-- `.harmony/capabilities/skills/manifest.yml` — Harness-specific skills
+- `.harmony/capabilities/runtime/skills/manifest.yml` — Shared skill index
+- `.harmony/capabilities/runtime/skills/manifest.yml` — Harness-specific skills
 
 Extended metadata is loaded from registry files after matching:
 
-- `.harmony/capabilities/skills/registry.yml` — Commands, requires, depends_on
-- `.harmony/capabilities/skills/registry.yml` — I/O mappings, pipelines
+- `.harmony/capabilities/runtime/skills/registry.yml` — Commands, requires, depends_on
+- `.harmony/capabilities/runtime/skills/registry.yml` — I/O mappings, pipelines
 
 ### Skill Information
 

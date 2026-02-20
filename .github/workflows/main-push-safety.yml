@@ -40,13 +40,13 @@ jobs:
 
       - name: Validate skills
         run: |
-          chmod +x .harmony/capabilities/skills/_ops/scripts/validate-skills.sh
-          .harmony/capabilities/skills/_ops/scripts/validate-skills.sh --strict
+          chmod +x .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh
+          .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict
 
       - name: Validate service independence
         run: |
-          chmod +x .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh
-          .harmony/capabilities/services/_ops/scripts/validate-service-independence.sh
+          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+          .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
 
       - name: Validate deny-by-default (strict)
         run: |

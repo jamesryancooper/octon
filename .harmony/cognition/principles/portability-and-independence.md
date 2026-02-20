@@ -86,7 +86,7 @@ interfaces/agent-platform/adapters/<provider>/
 Portability and Independence are operationalized through:
 
 - `.harmony/assurance/_ops/scripts/validate-harness-structure.sh`
-- `.harmony/capabilities/services/_ops/scripts/validate-service-independence.sh`
+- `.harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh`
 - `.harmony/assurance/_ops/scripts/alignment-check.sh` (`--profile harness` / `--profile services`)
 - Optional CI projection: `.github/workflows/harness-self-containment.yml`
 
@@ -103,5 +103,5 @@ Portability and Independence are operationalized through:
 
 - `.harmony/cognition/_meta/architecture/specification.md`
 - `.harmony/cognition/methodology/README.md`
-- `.harmony/capabilities/services/README.md`
+- `.harmony/capabilities/runtime/services/README.md`
 - `.harmony/cognition/context/agent-platform-interop.md`

@@ -281,7 +281,7 @@ workflows:
     access: human
     depends_on: []
     deprecated: true
-    deprecated_by: ".harmony/capabilities/skills/meta/create-skill/"
+    deprecated_by: ".harmony/capabilities/runtime/skills/meta/create-skill/"
 
   create-workflow:
     version: "1.0.0"

@@ -7,7 +7,7 @@ date: 2025-11-21
 
 # Repo layout for new engineers
 
-Related docs: [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [layers](./layers.md), [migration playbook](./migration-playbook.md), [composite services](../../../capabilities/services/_meta/docs/composite-services.md)
+Related docs: [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [layers](./layers.md), [migration playbook](./migration-playbook.md), [composite services](../../../capabilities/runtime/services/_meta/docs/composite-services.md)
 
 This repo follows a simple rule:
 
@@ -76,7 +76,7 @@ Everything under `packages/` is **import-only**. The main categories:
 
 Think: “Sharp tools / primitives.”
 
-#### `.harmony/capabilities/services/`
+#### `.harmony/capabilities/runtime/services/`
 
 - Harness-level **composite capability definitions**:
   - domain-grouped services under `planning/`, `retrieval/`, `governance/`, `delivery/`, etc.
@@ -154,7 +154,7 @@ For a TypeScript app:
 ```text
 User → apps/ai-console
      → packages/agents (factory builds a console agent)
-     → .harmony/capabilities/services (composite service contracts)
+     → .harmony/capabilities/runtime/services (composite service contracts)
      → packages/kits (PlanKit, FlowKit, EvalKit, ...)
      → contracts/ts client
      → platform/runtimes/flow-runtime/** (executes flows)
@@ -169,7 +169,7 @@ Scheduler/Event → agents/planner (Python process)
                 → flows, tools, DBs, etc.
 ```
 
-In both cases, **only** `apps/*`, `agents/*`, and `platform/runtimes/*-runtime/**` are actual processes. Everything else in `packages/*` and `contracts/*` is imported, with composition definitions in `.harmony/capabilities/services/**`.
+In both cases, **only** `apps/*`, `agents/*`, and `platform/runtimes/*-runtime/**` are actual processes. Everything else in `packages/*` and `contracts/*` is imported, with composition definitions in `.harmony/capabilities/runtime/services/**`.
 
 ---
 

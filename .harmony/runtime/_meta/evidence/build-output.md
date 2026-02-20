@@ -10,10 +10,10 @@ $ cargo check --workspace
 Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.35s
 ```
 
-## `cargo component check` (from `.harmony/capabilities/services/interfaces/kv/rust/`)
+## `cargo component check` (from `.harmony/capabilities/runtime/services/interfaces/kv/rust/`)
 
 ```bash
-$ cd .harmony/capabilities/services/interfaces/kv/rust
+$ cd .harmony/capabilities/runtime/services/interfaces/kv/rust
 $ cargo component check
 Generating bindings for harmony-kv-service (src/bindings.rs)
 Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.02s

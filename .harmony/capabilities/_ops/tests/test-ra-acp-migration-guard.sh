@@ -65,12 +65,15 @@ create_fixture_repo() {
 
   local -a required_files=(
     ".harmony/capabilities/_ops/scripts/validate-ra-acp-migration.sh"
-    ".harmony/capabilities/_ops/policy/deny-by-default.v2.yml"
-    ".harmony/capabilities/_ops/policy/acp-operation-classes.md"
+    ".harmony/capabilities/governance/policy/deny-by-default.v2.yml"
+    ".harmony/capabilities/governance/policy/acp-operation-classes.md"
+    ".harmony/capabilities/governance/policy/flags.metadata.json"
+    ".harmony/capabilities/governance/policy/flags.metadata.schema.json"
     ".harmony/capabilities/_ops/scripts/policy-receipt-write.sh"
     ".harmony/capabilities/_ops/scripts/policy-circuit-breaker-actions.sh"
-    ".harmony/capabilities/services/_ops/scripts/enforce-deny-by-default.sh"
-    ".harmony/capabilities/services/execution/agent/impl/agent.sh"
+    ".harmony/capabilities/_ops/scripts/validate-flag-metadata.sh"
+    ".harmony/capabilities/runtime/services/_ops/scripts/enforce-deny-by-default.sh"
+    ".harmony/capabilities/runtime/services/execution/agent/impl/agent.sh"
   )
 
   local rel

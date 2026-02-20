@@ -21,7 +21,7 @@ Templates are **boilerplate files** stored in `.harmony/scaffolding/templates/`.
 │   ├── scope.md
 │   ├── conventions.md
 │   ├── catalog.md
-│   ├── capabilities/commands/
+│   ├── capabilities/runtime/commands/
 │   ├── orchestration/runtime/workflows/
 │   ├── scaffolding/prompts/
 │   ├── cognition/context/

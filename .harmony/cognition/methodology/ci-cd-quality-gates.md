@@ -317,4 +317,4 @@ jobs:
 - [Spec Templates](./templates/README.md)
 - [Human-Facing Risk Tiers](../context/risk-tiers.md)
 
-Reference: Use the PatchKit PR Template (canonical) in `.harmony/capabilities/services/delivery/patch/guide.md` to standardize PR bodies, determinism/provenance notes, and tier information.
+Reference: Use the PatchKit PR Template (canonical) in `.harmony/capabilities/runtime/services/delivery/patch/guide.md` to standardize PR bodies, determinism/provenance notes, and tier information.

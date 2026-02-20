@@ -46,7 +46,7 @@ This harness contains:
 | Team compositions | `.harmony/agency/actors/teams/` | `delivery-core/` |
 | Harness management workflows | `.harmony/orchestration/runtime/workflows/meta/` | `create-harness`, `migrate-harness` |
 | Mission management workflows | `.harmony/orchestration/runtime/workflows/missions/` | `create-mission`, `complete-mission` |
-| Generic skills | `.harmony/capabilities/skills/` | `synthesize-research/` |
+| Generic skills | `.harmony/capabilities/runtime/skills/` | `synthesize-research/` |
 | **Repo-wide (in `.harmony/`)** | | |
 | Repository-wide tool workflows | `.harmony/orchestration/runtime/workflows/<tool>/` | _None currently_ |
 | Repo-level missions | `.harmony/orchestration/runtime/missions/` | `auth-overhaul/`, `billing-v2/` |

@@ -8,8 +8,8 @@ status: Active
 
 Flag metadata is canonical at:
 
-- data file: `.harmony/capabilities/_ops/policy/flags.metadata.json`
-- schema: `.harmony/capabilities/_ops/policy/flags.metadata.schema.json`
+- data file: `.harmony/capabilities/governance/policy/flags.metadata.json`
+- schema: `.harmony/capabilities/governance/policy/flags.metadata.schema.json`
 - validator: `.harmony/capabilities/_ops/scripts/validate-flag-metadata.sh`
 
 ## Required Fields

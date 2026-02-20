@@ -85,6 +85,6 @@ Documentation Quality Gate is NOT complete until:
 
 ## References
 
-- **Skill:** `.harmony/capabilities/skills/quality-gate/audit-documentation-standards/SKILL.md`
+- **Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-documentation-standards/SKILL.md`
 - **Policy:** `.harmony/cognition/principles/documentation-is-code.md`
 - **Guidance:** `.harmony/scaffolding/templates/documentation-standards.md`

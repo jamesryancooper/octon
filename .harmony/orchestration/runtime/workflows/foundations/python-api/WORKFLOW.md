@@ -146,6 +146,6 @@ Python API Foundation is NOT complete until:
 
 ## References
 
-- **Foundation skill:** `.harmony/capabilities/skills/foundations/python-api/SKILL.md`
-- **Child skills:** `.harmony/capabilities/skills/foundations/python-api/*/SKILL.md`
+- **Foundation skill:** `.harmony/capabilities/runtime/skills/foundations/python-api/SKILL.md`
+- **Child skills:** `.harmony/capabilities/runtime/skills/foundations/python-api/*/SKILL.md`
 - **Workflow template:** `.harmony/orchestration/runtime/workflows/_scaffold/template/`

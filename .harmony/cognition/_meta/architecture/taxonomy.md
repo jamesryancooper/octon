@@ -14,10 +14,10 @@ This document clarifies the distinctions between harness artifact types: **comma
 | Type | Location | Nature | When to Use |
 |------|----------|--------|-------------|
 | **Harness Entry Point** | `.<harness>/commands/` | Thin wrapper | Harness-specific invocation (Cursor, Claude Code, Codex) |
-| **Harness Command** | `.harmony/capabilities/commands/` | Deterministic procedure | Atomic, repeatable operation |
+| **Harness Command** | `.harmony/capabilities/runtime/commands/` | Deterministic procedure | Atomic, repeatable operation |
 | **Harness Workflow** | `.harmony/orchestration/runtime/workflows/` | Multi-step procedure (source of truth) | Complex, sequential operation |
 | **Harness Prompt** | `.harmony/scaffolding/prompts/` | Task template | Context-dependent, requires judgment |
-| **Harness Skill** | `.harmony/capabilities/skills/` | Composable capability | Defined I/O, pipelines, auditability |
+| **Harness Skill** | `.harmony/capabilities/runtime/skills/` | Composable capability | Defined I/O, pipelines, auditability |
 | **Assistant** | `.harmony/agency/actors/assistants/` | Focused specialist | Scoped, delegatable tasks |
 | **Mission** | `.harmony/orchestration/runtime/missions/` | Sub-project | Isolated, time-bounded work |
 
@@ -46,7 +46,7 @@ This document clarifies the distinctions between harness artifact types: **comma
 | Term | Location | Triggered By | Scope |
 |------|----------|--------------|-------|
 | **Harness Entry Point** | `.<harness>/commands/` | User typing `/command` in any AI harness | Repository-wide, harness-specific |
-| **Harness Command** | `.harmony/capabilities/commands/` | Harness delegation or direct agent reference | Harness-specific, atomic |
+| **Harness Command** | `.harmony/capabilities/runtime/commands/` | Harness delegation or direct agent reference | Harness-specific, atomic |
 | **Harness Workflow** | `.harmony/orchestration/runtime/workflows/` | Harness delegation or direct agent reference | Harness-specific, multi-step |
 | **Harness Prompt** | `.harmony/scaffolding/prompts/` | Direct agent reference | Harness-specific, template |
 
@@ -92,7 +92,7 @@ Thin wrappers that provide harness-specific invocation for harness commands or w
 - **Harness-specific integration** — Autocomplete, slash commands, etc.
 - **Repository-wide scope** — Available everywhere in the repo
 - **User-initiated** — Triggered by typing `/command` in chat
-- **No business logic** — All logic lives in `.harmony/orchestration/runtime/workflows/` or `.harmony/capabilities/commands/`
+- **No business logic** — All logic lives in `.harmony/orchestration/runtime/workflows/` or `.harmony/capabilities/runtime/commands/`
 
 ### Entry Point Template
 
@@ -130,7 +130,7 @@ Start with `00-overview.md` and follow each step in sequence.
 
 ## Harness Commands
 
-**Location:** `.harmony/capabilities/commands/*.md`
+**Location:** `.harmony/capabilities/runtime/commands/*.md`
 
 Harness-specific atomic operations that operate on artifacts in the harness's parent directory.
 
@@ -278,11 +278,11 @@ stateDiagram-v2
 
 ## Skills
 
-**Location:** `.harmony/capabilities/skills/<id>/skill.md`
+**Location:** `.harmony/capabilities/runtime/skills/<id>/skill.md`
 
 Composable capability units with defined inputs, outputs, and behavior.
 
-See [skills.md](../../../capabilities/skills/README.md) for full details.
+See [skills.md](../../../capabilities/runtime/skills/README.md) for full details.
 
 ### Characteristics
 
@@ -332,7 +332,7 @@ See `.harmony/catalog.md` for complete decision flowcharts and examples.
 | Type | Location | Scope | Harness Integration |
 |------|----------|-------|---------------------|
 | Harness Entry Points | `.<harness>/commands/*.md` | Repository-wide | Yes (harness-specific) |
-| Harness Commands | `.harmony/capabilities/commands/*.md` | This harness only | No (unless wrapped) |
+| Harness Commands | `.harmony/capabilities/runtime/commands/*.md` | This harness only | No (unless wrapped) |
 | Harness Workflows | `.harmony/orchestration/runtime/workflows/*.md` | This harness only | No (unless wrapped) |
 | Prompts | `.harmony/scaffolding/prompts/*.md` | Task templates | No |
 | Assistants | `.harmony/agency/actors/assistants/<name>/` | Focused specialists | Via @mention |
@@ -352,7 +352,7 @@ See `.harmony/catalog.md` for complete decision flowcharts and examples.
 
 ## See Also
 
-- [Harness Commands](../../../capabilities/commands/manifest.yml) — Deterministic atomic operations
+- [Harness Commands](../../../capabilities/runtime/commands/manifest.yml) — Deterministic atomic operations
 - [Harness Workflows](../../../orchestration/runtime/workflows/README.md) — Multi-step procedures
 - [Harness Prompts](../../../scaffolding/prompts/README.md) — Context-dependent task templates
 - [Agency](../../../agency/README.md) — Canonical actor taxonomy and routing model

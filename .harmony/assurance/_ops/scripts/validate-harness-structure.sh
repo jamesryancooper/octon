@@ -137,12 +137,14 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/agency/governance/DELEGATION.md"
   require_file "$HARMONY_DIR/agency/governance/MEMORY.md"
 
-  require_file "$HARMONY_DIR/capabilities/commands/manifest.yml"
-  require_file "$HARMONY_DIR/capabilities/skills/manifest.yml"
-  require_file "$HARMONY_DIR/capabilities/services/manifest.yml"
-  require_file "$HARMONY_DIR/capabilities/services/manifest.runtime.yml"
-  require_file "$HARMONY_DIR/capabilities/services/registry.runtime.yml"
-  require_file "$HARMONY_DIR/capabilities/tools/manifest.yml"
+  require_file "$HARMONY_DIR/capabilities/runtime/commands/manifest.yml"
+  require_file "$HARMONY_DIR/capabilities/runtime/skills/manifest.yml"
+  require_file "$HARMONY_DIR/capabilities/runtime/services/manifest.yml"
+  require_file "$HARMONY_DIR/capabilities/runtime/services/manifest.runtime.yml"
+  require_file "$HARMONY_DIR/capabilities/runtime/services/registry.runtime.yml"
+  require_file "$HARMONY_DIR/capabilities/runtime/tools/manifest.yml"
+  require_file "$HARMONY_DIR/capabilities/governance/policy/deny-by-default.v2.yml"
+  require_file "$HARMONY_DIR/capabilities/practices/README.md"
 
   require_file "$HARMONY_DIR/orchestration/runtime/workflows/manifest.yml"
   require_file "$HARMONY_DIR/orchestration/runtime/workflows/registry.yml"
@@ -157,10 +159,13 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/agency/actors/teams"
   require_dir "$HARMONY_DIR/agency/governance"
 
-  require_dir "$HARMONY_DIR/capabilities/skills"
-  require_dir "$HARMONY_DIR/capabilities/commands"
-  require_dir "$HARMONY_DIR/capabilities/tools"
-  require_dir "$HARMONY_DIR/capabilities/services"
+  require_dir "$HARMONY_DIR/capabilities/runtime"
+  require_dir "$HARMONY_DIR/capabilities/runtime/skills"
+  require_dir "$HARMONY_DIR/capabilities/runtime/commands"
+  require_dir "$HARMONY_DIR/capabilities/runtime/tools"
+  require_dir "$HARMONY_DIR/capabilities/runtime/services"
+  require_dir "$HARMONY_DIR/capabilities/governance"
+  require_dir "$HARMONY_DIR/capabilities/practices"
 
   require_dir "$HARMONY_DIR/cognition/principles"
   require_dir "$HARMONY_DIR/cognition/methodology"
@@ -193,6 +198,27 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/output/reports"
   require_dir "$HARMONY_DIR/output/drafts"
   require_dir "$HARMONY_DIR/output/artifacts"
+}
+
+check_deprecated_capabilities_paths() {
+  local deprecated
+  deprecated=(
+    "$HARMONY_DIR/capabilities/commands"
+    "$HARMONY_DIR/capabilities/skills"
+    "$HARMONY_DIR/capabilities/tools"
+    "$HARMONY_DIR/capabilities/services"
+    "$HARMONY_DIR/capabilities/_ops/policy"
+  )
+
+  local path rel
+  for path in "${deprecated[@]}"; do
+    rel="${path#$ROOT_DIR/}"
+    if [[ -e "$path" ]]; then
+      fail "deprecated capabilities path exists: $rel"
+    else
+      pass "deprecated capabilities path removed: $rel"
+    fi
+  done
 }
 
 check_deprecated_orchestration_paths() {
@@ -243,6 +269,7 @@ main() {
   check_discovery_contracts
   check_expected_internals
   check_deprecated_orchestration_paths
+  check_deprecated_capabilities_paths
   check_alignment_guardrail
 
   echo

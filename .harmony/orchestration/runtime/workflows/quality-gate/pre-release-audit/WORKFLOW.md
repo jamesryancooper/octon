@@ -46,19 +46,19 @@ Chain migration and coherence audits into a comprehensive pre-release quality ga
 ## Usage
 
 ```text
-/pre-release-audit subsystem=".harmony/capabilities/skills" docs=".harmony/cognition/_meta/architecture/skills"
+/pre-release-audit subsystem=".harmony/capabilities/runtime/skills" docs=".harmony/cognition/_meta/architecture/skills"
 ```
 
 With migration manifest:
 
 ```text
-/pre-release-audit subsystem=".harmony/capabilities/skills" manifest=".harmony/migrations/restructure.yml" docs=".harmony/cognition/_meta/architecture/skills"
+/pre-release-audit subsystem=".harmony/capabilities/runtime/skills" manifest=".harmony/migrations/restructure.yml" docs=".harmony/cognition/_meta/architecture/skills"
 ```
 
 With explicit stage controls:
 
 ```text
-/pre-release-audit subsystem=".harmony/capabilities/skills" run_cross_subsystem="true" run_freshness="true" max_age_days="30"
+/pre-release-audit subsystem=".harmony/capabilities/runtime/skills" run_cross_subsystem="true" run_freshness="true" max_age_days="30"
 ```
 
 ## Target
@@ -113,8 +113,8 @@ Pre-Release Audit is NOT complete until:
 
 ## References
 
-- **Migration Skill:** `.harmony/capabilities/skills/quality-gate/audit-migration/SKILL.md`
-- **Health Skill:** `.harmony/capabilities/skills/quality-gate/audit-subsystem-health/SKILL.md`
-- **Cross-Subsystem Skill:** `.harmony/capabilities/skills/quality-gate/audit-cross-subsystem-coherence/SKILL.md`
-- **Freshness Skill:** `.harmony/capabilities/skills/quality-gate/audit-freshness-and-supersession/SKILL.md`
+- **Migration Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-migration/SKILL.md`
+- **Health Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/SKILL.md`
+- **Cross-Subsystem Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-cross-subsystem-coherence/SKILL.md`
+- **Freshness Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-freshness-and-supersession/SKILL.md`
 - **Orchestrate Audit:** `.harmony/orchestration/runtime/workflows/quality-gate/orchestrate-audit/`

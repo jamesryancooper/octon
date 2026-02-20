@@ -17,7 +17,7 @@ Use `.harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 
 Workflows are one part of the composition model:
 
-- **Composite Skill** (`.harmony/capabilities/skills/composite-skills.md`):
+- **Composite Skill** (`.harmony/capabilities/runtime/skills/composite-skills.md`):
   reusable skill bundle with a stable command and contract.
 - **Workflow** (this directory):
   ordered procedural execution with staged checkpoints.

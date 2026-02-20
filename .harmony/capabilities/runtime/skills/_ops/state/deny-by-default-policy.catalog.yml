@@ -1,0 +1,458 @@
+schema_version: "1.0"
+generated_at: "2026-02-20T18:22:56Z"
+source_manifest: "/Users/jamesryancooper/Projects/harmony/.harmony/capabilities/runtime/skills/manifest.yml"
+skills:
+  - id: "synthesize-research"
+    path: "synthesis/synthesize-research/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Write(../../output/drafts/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "refine-prompt"
+    path: "synthesis/refine-prompt/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../scaffolding/prompts/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "refactor"
+    path: "quality-gate/refactor/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Edit"
+      - "Write(_ops/state/runs/*)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mv)"
+      - "Bash(mkdir)"
+    allowed_services:
+  - id: "create-skill"
+    path: "meta/create-skill/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(/.harmony/capabilities/runtime/skills/*)"
+      - "Write(_ops/state/runs/*)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+      - "Bash(ln)"
+      - "Bash(cp)"
+    allowed_services:
+  - id: "audit-migration"
+    path: "quality-gate/audit-migration/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-subsystem-health"
+    path: "quality-gate/audit-subsystem-health/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-cross-subsystem-coherence"
+    path: "quality-gate/audit-cross-subsystem-coherence/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-freshness-and-supersession"
+    path: "quality-gate/audit-freshness-and-supersession/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-documentation-standards"
+    path: "quality-gate/audit-documentation-standards/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-ui"
+    path: "quality-gate/audit-ui/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "WebFetch"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "python-api"
+    path: "foundations/python-api/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+    allowed_services:
+  - id: "swift-macos-app"
+    path: "foundations/swift-macos-app/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+    allowed_services:
+  - id: "python-scaffold-package"
+    path: "foundations/python-api/scaffold-package/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+      - "Bash(uv)"
+    allowed_services:
+  - id: "python-contract-first-api"
+    path: "foundations/python-api/contract-first-api/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+    allowed_services:
+  - id: "python-test-harness"
+    path: "foundations/python-api/test-harness/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+      - "Bash(uv)"
+    allowed_services:
+  - id: "python-dev-toolchain"
+    path: "foundations/python-api/dev-toolchain/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+      - "Bash(just)"
+      - "Bash(pre-commit)"
+    allowed_services:
+  - id: "python-infra-manifest"
+    path: "foundations/python-api/infra-manifest/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+      - "Bash(docker)"
+      - "Bash(alembic)"
+    allowed_services:
+  - id: "python-contributor-guide"
+    path: "foundations/python-api/contributor-guide/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+    allowed_services:
+  - id: "swift-scaffold-package"
+    path: "foundations/swift-macos-app/scaffold-package/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+      - "Bash(swift)"
+    allowed_services:
+  - id: "swift-data-layer"
+    path: "foundations/swift-macos-app/data-layer/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+    allowed_services:
+  - id: "swift-cli-interface"
+    path: "foundations/swift-macos-app/cli-interface/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+    allowed_services:
+  - id: "swift-daemon-service"
+    path: "foundations/swift-macos-app/daemon-service/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+    allowed_services:
+  - id: "swift-test-harness"
+    path: "foundations/swift-macos-app/test-harness/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+      - "Bash(swift)"
+    allowed_services:
+  - id: "swift-contributor-guide"
+    path: "foundations/swift-macos-app/contributor-guide/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Write(_ops/state/logs/*)"
+      - "Bash(mkdir)"
+    allowed_services:
+  - id: "react"
+    path: "foundations/react/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+    allowed_services:
+  - id: "react-native"
+    path: "foundations/react-native/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+    allowed_services:
+  - id: "postgres"
+    path: "foundations/postgres/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+    allowed_services:
+  - id: "react-composition-patterns"
+    path: "foundations/react/composition-patterns/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "react-best-practices"
+    path: "foundations/react/best-practices/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "react-native-best-practices"
+    path: "foundations/react-native/best-practices/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "vercel-deploy"
+    path: "platforms/vercel/deploy/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Bash(vercel *)"
+      - "Bash(npm pack*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "deploy-status"
+    path: "platforms/deploy-status/"
+    status: "draft"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Bash(vercel *)"
+      - "WebFetch"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "vercel"
+    path: "platforms/vercel/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Grep"
+      - "Glob"
+    allowed_services:
+  - id: "resolve-pr-comments"
+    path: "quality-gate/resolve-pr-comments/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Edit"
+      - "Bash(gh)"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "triage-ci-failure"
+    path: "quality-gate/triage-ci-failure/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Edit"
+      - "Bash(gh)"
+      - "Bash(npm)"
+      - "Bash(npx)"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "postgres-best-practices"
+    path: "foundations/postgres/best-practices/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "spec-to-implementation"
+    path: "synthesis/spec-to-implementation/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/plans/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "build-mcp-server"
+    path: "meta/build-mcp-server/"
+    status: "active"
+    broad_write_scope: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Edit"
+      - "Write(../../../**)"
+      - "Bash(npm)"
+      - "Bash(npx)"
+      - "Bash(mkdir)"
+      - "Bash(cp)"
+      - "Bash(node)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:

@@ -112,7 +112,7 @@ Generate the consolidated report that combines partitioned migration findings wi
 
 5. **Write execution log** for the orchestration run:
 
-   Log to `.harmony/capabilities/skills/_ops/state/logs/audit-migration/{{run_id}}-consolidated.md`.
+   Log to `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-migration/{{run_id}}-consolidated.md`.
 
 6. **Preserve individual partition reports:**
 
@@ -140,7 +140,7 @@ Generate the consolidated report that combines partitioned migration findings wi
 ## Output
 
 - Consolidated report at `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md`
-- Execution log at `.harmony/capabilities/skills/_ops/state/logs/audit-migration/{{run_id}}-consolidated.md`
+- Execution log at `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-migration/{{run_id}}-consolidated.md`
 
 ## Proceed When
 

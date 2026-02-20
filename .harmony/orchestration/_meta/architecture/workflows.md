@@ -7,7 +7,7 @@ description: Harness-scoped multi-step procedures defined in .harmony/orchestrat
 
 Harness workflows are **harness-scoped multi-step procedures** defined in `.harmony/orchestration/runtime/workflows/`. They operate on artifacts in the harness's parent directory.
 
-> **Not runtime service contracts:** `.harmony/orchestration/runtime/workflows/**` contains **agent procedures**. Typed runtime service contracts live under `.harmony/capabilities/services/**` and are invoked through the runtime CLI.
+> **Not runtime service contracts:** `.harmony/orchestration/runtime/workflows/**` contains **agent procedures**. Typed runtime service contracts live under `.harmony/capabilities/runtime/services/**` and are invoked through the runtime CLI.
 
 ---
 

@@ -5,7 +5,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-POLICY_FILE="${HARMONY_DDB_POLICY_FILE:-$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.yml}"
+POLICY_FILE="${HARMONY_DDB_POLICY_FILE:-$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml}"
 STATE_FILE="$CAPABILITIES_DIR/_ops/state/rollout-mode.state"
 
 usage() {

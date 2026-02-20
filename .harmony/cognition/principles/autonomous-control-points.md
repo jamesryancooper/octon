@@ -93,7 +93,7 @@ ACP-4 exists to make irreversibility explicit and difficult.
 ## Risk Tier Mapping Authority
 
 Risk tier to ACP mapping is policy-canonical and must not be re-declared here:
-`.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#acp.risk_tier_mapping`
+`.harmony/capabilities/governance/policy/deny-by-default.v2.yml#acp.risk_tier_mapping`
 
 Operational references:
 - RA/ACP Promotion Inputs Matrix (`risk-tier-mapping-canonical` section)

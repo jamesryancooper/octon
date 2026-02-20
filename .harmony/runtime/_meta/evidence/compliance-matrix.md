@@ -36,5 +36,5 @@
 | 30 | ScopedFs security: prevent symlink escape (§Security checklist) | `.harmony/runtime/crates/wasm_host/src/scoped_fs.rs:L278-L296` (`ensure_no_symlink_components_existing`) + checks in read/write paths | Done |
 | 31 | ScopedFs security: writes MUST be atomic (§Security checklist) | `.harmony/runtime/crates/wasm_host/src/scoped_fs.rs:L366-L392` (`atomic_write_file`) | Done |
 | 32 | ScopedFs security: `fs.read` and `fs.write` separated (§Security checklist) | `.harmony/runtime/crates/wasm_host/src/host_api.rs:L43-L83` | Done |
-| 33 | Tier 1 discovery manifest uses `services-manifest-v1` and valid runtime references (§2) | `.harmony/capabilities/services/manifest.runtime.yml` + `.harmony/runtime/crates/core/src/tiers.rs:validate_runtime_discovery_tiers` | Done |
-| 34 | Tier 2 registry uses `services-registry-v1` and service IDs aligned with Tier 1 (§3) | `.harmony/capabilities/services/registry.runtime.yml` + `.harmony/runtime/crates/core/src/tiers.rs:validate_runtime_discovery_tiers` | Done |
+| 33 | Tier 1 discovery manifest uses `services-manifest-v1` and valid runtime references (§2) | `.harmony/capabilities/runtime/services/manifest.runtime.yml` + `.harmony/runtime/crates/core/src/tiers.rs:validate_runtime_discovery_tiers` | Done |
+| 34 | Tier 2 registry uses `services-registry-v1` and service IDs aligned with Tier 1 (§3) | `.harmony/capabilities/runtime/services/registry.runtime.yml` + `.harmony/runtime/crates/core/src/tiers.rs:validate_runtime_discovery_tiers` | Done |

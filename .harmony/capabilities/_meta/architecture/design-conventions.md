@@ -18,7 +18,7 @@ This document defines cross-cutting design decisions that apply to all skills, p
 ### Target Structure
 
 ```markdown
-.harmony/capabilities/skills/
+.harmony/capabilities/runtime/skills/
 ├── manifest.yml              # Harness skill index (extends .harmony)
 ├── registry.yml              # Harness I/O mappings
 ├── _ops/state/configs/                  # Per-skill configuration overrides
@@ -51,8 +51,8 @@ All operational categories follow the `{{category}}/{{skill-id}}/` pattern:
 
 | Directory | Organization | Primary Purpose |
 |-----------|--------------|-----------------|
-| `.harmony/capabilities/skills/` | Skill-first | **Authoring** — work on one skill at a time |
-| `.harmony/capabilities/skills/` | Artifact-first | **Operations** — debug, clean up, monitor across skills |
+| `.harmony/capabilities/runtime/skills/` | Skill-first | **Authoring** — work on one skill at a time |
+| `.harmony/capabilities/runtime/skills/` | Artifact-first | **Operations** — debug, clean up, monitor across skills |
 
 This intentional difference optimizes each directory for its primary use case.
 
@@ -100,7 +100,7 @@ Skills typically read from `_ops/state/configs/` and `_ops/state/resources/`, an
 ### Directory Structure
 
 ```markdown
-.harmony/capabilities/skills/_ops/state/logs/
+.harmony/capabilities/runtime/skills/_ops/state/logs/
 ├── index.yml                          # Top-level: recent runs across ALL skills
 ├── refactor/
 │   ├── index.yml                      # Skill-level: ALL refactor runs with metadata
@@ -197,7 +197,7 @@ scopes_completed:
 ### Directory Structure
 
 ```markdown
-.harmony/capabilities/skills/_ops/state/runs/refactor/2026-01-19-rename-scratch/
+.harmony/capabilities/runtime/skills/_ops/state/runs/refactor/2026-01-19-rename-scratch/
 ├── checkpoint.yml        # Execution state (source of truth for resume)
 ├── scope.md              # Phase 1 output
 ├── audit-manifest.md     # Phase 2 output
@@ -403,10 +403,10 @@ These thresholds are based on practical constraints of agent sessions and human 
 1. **Start with defaults** — Use the values in the table above
 2. **Run a few skills** — Observe where escalation triggers feel premature or too late
 3. **Adjust incrementally** — Change one threshold at a time, by 25-50%
-4. **Document your settings** — Override in `.harmony/capabilities/skills/_ops/state/configs/defaults.yml`:
+4. **Document your settings** — Override in `.harmony/capabilities/runtime/skills/_ops/state/configs/defaults.yml`:
 
 ```yaml
-# .harmony/capabilities/skills/_ops/state/configs/defaults.yml
+# .harmony/capabilities/runtime/skills/_ops/state/configs/defaults.yml
 scope_limits:
   files_to_modify: 75      # Raised: monorepo with small files
   match_count: 150         # Lowered: limited test coverage
@@ -815,7 +815,7 @@ skills:
 
 **Permission requirements:** Tier 3 paths (harness root locations) require explicit declaration in `registry.yml`. Skills should document why project-level writes are necessary.
 
-#### Operational Artifacts (`.harmony/capabilities/skills/`)
+#### Operational Artifacts (`.harmony/capabilities/runtime/skills/`)
 
 Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 
@@ -834,7 +834,7 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 
 **Decision:** [D040](/.harmony/cognition/context/decisions.md) — Skills can fetch rule sets from external URLs at runtime using the `external-dependent` capability. This keeps audits current without harness updates, at the cost of requiring network access.
 
-**Canonical example:** [`audit-ui`](/.harmony/capabilities/skills/quality-gate/audit-ui/SKILL.md) — fetches web design guidelines from an external URL, scans UI files, and reports violations.
+**Canonical example:** [`audit-ui`](/.harmony/capabilities/runtime/skills/quality-gate/audit-ui/SKILL.md) — fetches web design guidelines from an external URL, scans UI files, and reports violations.
 
 ### When to Use
 

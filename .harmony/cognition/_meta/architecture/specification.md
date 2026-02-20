@@ -75,7 +75,7 @@ Routable capabilities MUST use progressive disclosure:
 
 Expands in:
 
-- [Skills Manifest](/.harmony/capabilities/skills/manifest.yml)
+- [Skills Manifest](/.harmony/capabilities/runtime/skills/manifest.yml)
 - [Workflows Manifest](/.harmony/orchestration/runtime/workflows/manifest.yml)
 - [Progressive Disclosure Principle](/.harmony/cognition/principles/progressive-disclosure.md)
 
@@ -87,7 +87,7 @@ Expands in:
 
 - [Deny by Default](/.harmony/cognition/principles/deny-by-default.md)
 - [Guardrails](/.harmony/cognition/principles/guardrails.md)
-- [Capabilities Tools Manifest](/.harmony/capabilities/tools/manifest.yml)
+- [Capabilities Tools Manifest](/.harmony/capabilities/runtime/tools/manifest.yml)
 
 ### HARMONY-SPEC-005: No Silent Apply for Material Side Effects
 
@@ -163,7 +163,7 @@ Optional compatibility outputs (when explicitly requested):
 
 Expands in:
 
-- [Init Command](/.harmony/capabilities/commands/init.md)
+- [Init Command](/.harmony/capabilities/runtime/commands/init.md)
 - [Init Script](/.harmony/scaffolding/_ops/scripts/init-project.sh)
 - [Templates Architecture](/.harmony/scaffolding/_meta/architecture/templates.md)
 
@@ -181,7 +181,7 @@ Expands in:
 
 - [Portability and Independence Principle](/.harmony/cognition/principles/portability-and-independence.md)
 - [Harmony Methodology](/.harmony/cognition/methodology/README.md)
-- [Services README](/.harmony/capabilities/services/README.md)
+- [Services README](/.harmony/capabilities/runtime/services/README.md)
 
 ### HARMONY-SPEC-013: Bounded Surface Separation
 

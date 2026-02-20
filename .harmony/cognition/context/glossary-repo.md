@@ -220,7 +220,7 @@ A specific AI model version locked for consistency. Prevents unexpected behavior
 ## Composite Service
 
 A harness-only composition concept that defines higher-level capabilities by
-orchestrating multiple services under `.harmony/capabilities/services/`.
+orchestrating multiple services under `.harmony/capabilities/runtime/services/`.
 Composite Services are declarative contracts and orchestration metadata, not a
 runtime package layer.
 
@@ -241,7 +241,7 @@ Legacy "engine" wording in historical notes maps to Composite Services:
 ## Composite Skill
 
 A harness-only composition concept that defines reusable capability bundles in
-`.harmony/capabilities/skills/`.
+`.harmony/capabilities/runtime/skills/`.
 
 Composite Skills orchestrate multiple skills under a stable skill contract.
 They differ from workflows (procedural sequences) and teams (actor handoffs).

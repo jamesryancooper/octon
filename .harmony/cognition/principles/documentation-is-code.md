@@ -80,7 +80,7 @@ apply_hotfix_without_runbook = True
 - Template bundle:
   `.harmony/scaffolding/templates/docs/documentation-standards/`
 - Operational service guide:
-  `.harmony/capabilities/services/authoring/doc/guide.md`
+  `.harmony/capabilities/runtime/services/authoring/doc/guide.md`
 - Enforcement:
   `/audit-documentation-standards` or `/documentation-quality-gate`
 - Promotion input minimums and receipt field requirements:
@@ -108,12 +108,12 @@ Current enforcement assets:
 - workflow command: `/documentation-quality-gate`
   (`.harmony/orchestration/runtime/workflows/quality-gate/documentation-quality-gate/WORKFLOW.md`)
 - audit command: `/audit-documentation-standards`
-  (`.harmony/capabilities/skills/quality-gate/audit-documentation-standards/SKILL.md`)
+  (`.harmony/capabilities/runtime/skills/quality-gate/audit-documentation-standards/SKILL.md`)
 
 Live enforcement binding:
 
 - ACP promotion evaluation consumes docs-gate evidence from policy at
-  `.harmony/capabilities/_ops/policy/deny-by-default.v2.yml#acp.docs_gate`.
+  `.harmony/capabilities/governance/policy/deny-by-default.v2.yml#acp.docs_gate`.
 - Missing docs-gate evidence produces reason-coded `STAGE_ONLY` or `DENY`
   outcomes (policy-mapped by ACP level) and emits receipts.
 - CI must run governance lint and docs promotion fail-closed contract tests
@@ -158,6 +158,6 @@ contract, schema, or risk changes.
 - `.harmony/scaffolding/patterns/adr-policy.md`
 - `.harmony/scaffolding/templates/documentation-standards.md`
 - `.harmony/orchestration/runtime/workflows/quality-gate/documentation-quality-gate/WORKFLOW.md`
-- `.harmony/capabilities/skills/quality-gate/audit-documentation-standards/SKILL.md`
+- `.harmony/capabilities/runtime/skills/quality-gate/audit-documentation-standards/SKILL.md`
 - `.harmony/cognition/pillars/direction.md`
 - `.harmony/cognition/pillars/continuity.md`

@@ -7,14 +7,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
 
-POLICY_FILE="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.yml"
-TAXONOMY_FILE="$CAPABILITIES_DIR/_ops/policy/acp-operation-classes.md"
-ENFORCER_FILE="$CAPABILITIES_DIR/services/_ops/scripts/enforce-deny-by-default.sh"
-AGENT_FILE="$CAPABILITIES_DIR/services/execution/agent/impl/agent.sh"
+POLICY_FILE="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
+TAXONOMY_FILE="$CAPABILITIES_DIR/governance/policy/acp-operation-classes.md"
+ENFORCER_FILE="$CAPABILITIES_DIR/runtime/services/_ops/scripts/enforce-deny-by-default.sh"
+AGENT_FILE="$CAPABILITIES_DIR/runtime/services/execution/agent/impl/agent.sh"
 RECEIPT_WRITER="$CAPABILITIES_DIR/_ops/scripts/policy-receipt-write.sh"
 BREAKER_ACTIONS_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-circuit-breaker-actions.sh"
-FLAGS_METADATA_FILE="$CAPABILITIES_DIR/_ops/policy/flags.metadata.json"
-FLAGS_METADATA_SCHEMA="$CAPABILITIES_DIR/_ops/policy/flags.metadata.schema.json"
+FLAGS_METADATA_FILE="$CAPABILITIES_DIR/governance/policy/flags.metadata.json"
+FLAGS_METADATA_SCHEMA="$CAPABILITIES_DIR/governance/policy/flags.metadata.schema.json"
 FLAGS_METADATA_VALIDATOR="$CAPABILITIES_DIR/_ops/scripts/validate-flag-metadata.sh"
 
 FAIL_COUNT=0
@@ -118,6 +118,8 @@ check_active_surface_legacy_terms() {
       --glob '!**/.harmony/continuity/runs/**' \
       --glob '!**/.harmony/capabilities/_ops/state/**' \
       --glob '!**/.harmony/capabilities/_ops/tests/**' \
+      --glob '!**/.harmony/cognition/principles/_ops/scripts/lint-principles-governance.sh' \
+      --glob '!**/.harmony/cognition/principles/_ops/scripts/test-principles-governance-lint-fixtures.sh' \
       --glob '!**/validate-ra-acp-migration.sh' \
       "$pattern" \
       "$REPO_ROOT/.harmony" 2>/dev/null || true

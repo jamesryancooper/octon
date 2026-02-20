@@ -28,7 +28,7 @@ jobs:
             --glob '!**/_scaffold/**' \
             --glob '!**/scaffolding/templates/**' \
             --glob '!**/orchestration/runtime/workflows/meta/**' \
-            --glob '!**/capabilities/skills/meta/**' \
+            --glob '!**/capabilities/runtime/skills/meta/**' \
             > reference-drift.txt || true
 
           total="$(wc -l < reference-drift.txt | tr -d ' ')"

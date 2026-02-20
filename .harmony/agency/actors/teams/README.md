@@ -13,7 +13,7 @@ A team is a composition artifact, not a separate runtime actor class.
 
 Teams coordinate actor handoffs. They complement, but do not replace:
 
-- **Composite Skills** (`.harmony/capabilities/skills/composite-skills.md`):
+- **Composite Skills** (`.harmony/capabilities/runtime/skills/composite-skills.md`):
   reusable capability bundles.
 - **Workflows** (`.harmony/orchestration/runtime/workflows/`):
   ordered procedural execution plans.

@@ -135,12 +135,12 @@ When entering a directory:
 
 ```yaml
 # Good: Domain-specific skill configuration
-# packages/auth/.harmony/capabilities/skills/registry.yml
+# packages/auth/.harmony/capabilities/runtime/skills/registry.yml
 skills:
   - id: security-audit
     input_paths:
       - ./src/**/*.ts  # Only auth code
-    output_path: ./.harmony/capabilities/skills/outputs/
+    output_path: ./.harmony/capabilities/runtime/skills/outputs/
 ```
 
 ### ❌ Don't

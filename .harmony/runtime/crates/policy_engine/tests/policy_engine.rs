@@ -503,7 +503,7 @@ fn receipt_validate_enforces_required_fields() {
     .expect("write temp receipt");
 
     let valid_request = ReceiptValidateRequest {
-        policy_path: root.join(".harmony/capabilities/_ops/policy/deny-by-default.v2.yml"),
+        policy_path: root.join(".harmony/capabilities/governance/policy/deny-by-default.v2.yml"),
         receipt_path: receipt_path.clone(),
     };
     let valid_report = validate_receipt(&valid_request).expect("receipt validate should run");
@@ -557,7 +557,7 @@ fn receipt_validate_fails_when_telemetry_profile_missing_for_acp1_promote() {
     .expect("write temp receipt");
 
     let request = ReceiptValidateRequest {
-        policy_path: root.join(".harmony/capabilities/_ops/policy/deny-by-default.v2.yml"),
+        policy_path: root.join(".harmony/capabilities/governance/policy/deny-by-default.v2.yml"),
         receipt_path: receipt_path.clone(),
     };
     let report = validate_receipt(&request).expect("receipt validate should run");
@@ -607,7 +607,7 @@ fn receipt_validate_fails_when_flag_metadata_invalid_for_flag_change() {
     .expect("write temp receipt");
 
     let request = ReceiptValidateRequest {
-        policy_path: root.join(".harmony/capabilities/_ops/policy/deny-by-default.v2.yml"),
+        policy_path: root.join(".harmony/capabilities/governance/policy/deny-by-default.v2.yml"),
         receipt_path: receipt_path.clone(),
     };
     let report = validate_receipt(&request).expect("receipt validate should run");
@@ -623,9 +623,9 @@ fn receipt_validate_fails_when_flag_metadata_invalid_for_flag_change() {
 fn doctor_validates_repo_policy_contract() {
     let root = repo_root();
     let request = DoctorRequest {
-        policy_path: root.join(".harmony/capabilities/_ops/policy/deny-by-default.v2.yml"),
-        schema_path: root.join(".harmony/capabilities/_ops/policy/deny-by-default.v2.schema.json"),
-        reason_codes_path: Some(root.join(".harmony/capabilities/_ops/policy/reason-codes.md")),
+        policy_path: root.join(".harmony/capabilities/governance/policy/deny-by-default.v2.yml"),
+        schema_path: root.join(".harmony/capabilities/governance/policy/deny-by-default.v2.schema.json"),
+        reason_codes_path: Some(root.join(".harmony/capabilities/governance/policy/reason-codes.md")),
     };
 
     let report = doctor(&request).expect("doctor should run");

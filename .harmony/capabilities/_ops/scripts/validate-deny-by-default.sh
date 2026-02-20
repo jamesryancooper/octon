@@ -7,17 +7,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
 
-SERVICES_MANIFEST="$CAPABILITIES_DIR/services/manifest.yml"
-SKILLS_MANIFEST="$CAPABILITIES_DIR/skills/manifest.yml"
-SERVICES_VALIDATOR="$CAPABILITIES_DIR/services/_ops/scripts/validate-services.sh"
-SKILLS_VALIDATOR="$CAPABILITIES_DIR/skills/_ops/scripts/validate-skills.sh"
+SERVICES_MANIFEST="$CAPABILITIES_DIR/runtime/services/manifest.yml"
+SKILLS_MANIFEST="$CAPABILITIES_DIR/runtime/skills/manifest.yml"
+SERVICES_VALIDATOR="$CAPABILITIES_DIR/runtime/services/_ops/scripts/validate-services.sh"
+SKILLS_VALIDATOR="$CAPABILITIES_DIR/runtime/skills/_ops/scripts/validate-skills.sh"
 RUNTIME_TEST_SCRIPT="$CAPABILITIES_DIR/_ops/tests/test-deny-by-default-runtime.sh"
 POLICY_RUNNER="$CAPABILITIES_DIR/_ops/scripts/run-harmony-policy.sh"
-POLICY_V2_FILE="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.yml"
-POLICY_V2_SCHEMA="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.schema.json"
-POLICY_REASON_CODES="$CAPABILITIES_DIR/_ops/policy/reason-codes.md"
-FLAGS_METADATA_FILE="$CAPABILITIES_DIR/_ops/policy/flags.metadata.json"
-FLAGS_METADATA_SCHEMA="$CAPABILITIES_DIR/_ops/policy/flags.metadata.schema.json"
+POLICY_V2_FILE="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
+POLICY_V2_SCHEMA="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.schema.json"
+POLICY_REASON_CODES="$CAPABILITIES_DIR/governance/policy/reason-codes.md"
+FLAGS_METADATA_FILE="$CAPABILITIES_DIR/governance/policy/flags.metadata.json"
+FLAGS_METADATA_SCHEMA="$CAPABILITIES_DIR/governance/policy/flags.metadata.schema.json"
 FLAGS_METADATA_VALIDATOR="$CAPABILITIES_DIR/_ops/scripts/validate-flag-metadata.sh"
 PROFILE_RESOLVER="$CAPABILITIES_DIR/_ops/scripts/policy-profile-resolve.sh"
 GRANT_BROKER="$CAPABILITIES_DIR/_ops/scripts/policy-grant-broker.sh"
@@ -169,10 +169,10 @@ collect_changed_targets() {
   while IFS= read -r changed_file; do
     [[ -z "$changed_file" ]] && continue
 
-    if [[ "$changed_file" == .harmony/capabilities/services/* ]]; then
+    if [[ "$changed_file" == .harmony/capabilities/runtime/services/* ]]; then
       local service_path
       service_path="$(echo "$changed_file" | awk -F/ '
-        $1==".harmony" && $2=="capabilities" && $3=="services" && $4 !~ /^_/ && $5 !~ /^_/ {print $4 "/" $5}
+        $1==".harmony" && $2=="capabilities" && $3=="runtime" && $4=="services" && $5 !~ /^_/ && $6 !~ /^_/ {print $5 "/" $6}
       ')"
       if [[ -n "$service_path" ]]; then
         local service_id
@@ -185,10 +185,10 @@ collect_changed_targets() {
       fi
     fi
 
-    if [[ "$changed_file" == .harmony/capabilities/skills/* ]]; then
+    if [[ "$changed_file" == .harmony/capabilities/runtime/skills/* ]]; then
       local skill_path
       skill_path="$(echo "$changed_file" | awk -F/ '
-        $1==".harmony" && $2=="capabilities" && $3=="skills" && $4 !~ /^_/ && $5 !~ /^_/ {print $4 "/" $5}
+        $1==".harmony" && $2=="capabilities" && $3=="runtime" && $4=="skills" && $5 !~ /^_/ && $6 !~ /^_/ {print $5 "/" $6}
       ')"
       if [[ -n "$skill_path" ]]; then
         local skill_id
@@ -203,10 +203,10 @@ collect_changed_targets() {
 
     case "$changed_file" in
       .harmony/capabilities/_ops/state/deny-by-default-exceptions.yml|\
-      .harmony/capabilities/_ops/policy/agent-only-governance.yml|\
+      .harmony/capabilities/governance/policy/agent-only-governance.yml|\
       .harmony/capabilities/_ops/scripts/*|\
-      .harmony/capabilities/services/_ops/scripts/*|\
-      .harmony/capabilities/skills/_ops/scripts/*)
+      .harmony/capabilities/runtime/services/_ops/scripts/*|\
+      .harmony/capabilities/runtime/skills/_ops/scripts/*)
         GLOBAL_POLICY_CHANGE=true
         ;;
     esac

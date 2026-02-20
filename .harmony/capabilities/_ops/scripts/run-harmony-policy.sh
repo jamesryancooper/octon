@@ -9,7 +9,7 @@ REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
 RUNTIME_CRATES_DIR="$REPO_ROOT/.harmony/runtime/crates"
 DEFAULT_BIN="$RUNTIME_CRATES_DIR/../_ops/state/build/runtime-crates-target/debug/harmony-policy"
 ROLLOUT_STATE_FILE="$CAPABILITIES_DIR/_ops/state/rollout-mode.state"
-DEFAULT_POLICY="$CAPABILITIES_DIR/_ops/policy/deny-by-default.v2.yml"
+DEFAULT_POLICY="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
 RECEIPT_WRITER="$CAPABILITIES_DIR/_ops/scripts/policy-receipt-write.sh"
 
 binary_is_stale() {
