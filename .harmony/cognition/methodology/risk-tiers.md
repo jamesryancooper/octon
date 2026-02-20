@@ -170,8 +170,10 @@ verification:
    
 2. **Verify CI green** (10 seconds)
    - All gates pass
-   
-3. **Approve PR** (click)
+
+3. **Optional on-the-loop check** (if required by team policy)
+   - Verify run receipts and ACP outcome
+   - Confirm no unresolved escalation before promotion
 
 **Total: 2-3 minutes**
 
@@ -185,7 +187,7 @@ verification:
 **Tests**: <Existing tests pass | N new tests added>
 **Files**: <N files, M lines changed>
 
-**Action needed**: Approve PR
+**Action needed**: Verify ACP/CI outcome and evidence bundle
 ```
 
 ---
@@ -846,13 +848,13 @@ t3_requirements:
 **Watch window**: 30 minutes
 
 ### ACP gates
-- [ ] Spec approved by owner
-- [ ] Spec approved by navigator
-- [ ] PR approved by owner
-- [ ] PR approved by navigator (security review)
-- [ ] Promotion watch scheduled
+- [ ] Spec evidence assembled (plan/diff/tests/rollback)
+- [ ] Verifier/recovery quorum evidence captured
+- [ ] ACP gate decision and receipt recorded
+- [ ] Rollback handle and recovery window documented
+- [ ] Promotion watch scheduled if ACP policy requests it
 
-**Action needed**: Review full spec, approve before build proceeds
+**Action needed**: Review full spec/evidence as needed; promote only if ACP gate allows and team policy allows on-loop escalation.
 
 [View full spec →] [View threat model →] [View migration plan →]
 ```

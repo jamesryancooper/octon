@@ -58,10 +58,11 @@ harmony_acp_default_counters_json() {
     elapsed=0
   fi
 
-  command_count="${HARMONY_COMMAND_COUNT:-1}"
+  command_count="${HARMONY_COMMAND_COUNT:-0}"
   if [[ ! "$command_count" =~ ^[0-9]+$ ]]; then
-    command_count=1
+    command_count=0
   fi
+  command_count=$((command_count + 1))
 
   git_diff_json="$(harmony_acp_collect_git_diff_counters "$repo_root")"
   jq -cn \

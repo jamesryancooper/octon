@@ -140,17 +140,17 @@ For T3, AI also handles:
 ### Human Responsibilities
 
 **All Tiers:**
-- Approve final PR
-- Make go/no-go decision
+- Review final PR if team policy requires explicit confirmation
+- Make on-the-loop go/no-go call only on policy escalation or unresolved disagreement
 
 **T2:**
 - Review spec summary
 - Spot-check implementation
 
 **T3:**
-- Review full spec before build
-- Review full PR
-- Navigator security review
+- Review full spec when team policy requires pre-promotion verification
+- Review full PR as part of post-run optional oversight
+- Navigator security review for discretionary escalation
 - Post-promotion watch
 
 ### AI IDE Integration
@@ -160,7 +160,7 @@ When using an AI IDE:
 ```
 1. Paste spec summary → AI generates plan and checklist
 2. AI proposes diffs with tests and contracts
-3. Human pauses for review at each stage
+3. Human optional pause points for on-the-loop review when configured by policy
 4. AI config pinned and recorded in PR
 5. Threat model prompt generates security test cases
 ```
@@ -280,10 +280,10 @@ threat_model:
 
 approval_checkpoints:
   spec_approval:
-    required: true
+    required: false # policy-governed and optional for human on-the-loop
     approvers: [owner, navigator]
   pr_approval:
-    required: true
+    required: false # policy-governed and optional for human on-the-loop
     approvers: [owner, navigator]
 ```
 

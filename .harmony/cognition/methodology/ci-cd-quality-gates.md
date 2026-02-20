@@ -87,6 +87,8 @@ flowchart TB
 
 **Oversight touchpoint:** Skim AI summary and receipt digest (30 sec). Promotion still depends on ACP outcome, not standing approval.
 
+**Governance note:** human confirmation is on-the-loop only; CI and ACP decisions are the canonical runtime gates for promotion.
+
 ### T2 Gates (Standard)
 
 **Required for T2 PRs (includes all T1 gates plus):**

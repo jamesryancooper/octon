@@ -124,7 +124,7 @@ case_allows_explicit_negation_terms() {
 
   mkdir -p "$fixture_root/.harmony/cognition/principles"
   cat > "$fixture_root/.harmony/cognition/principles/autonomous-control-points.md" <<'EOF'
-Promotion does not require standing human approval.
+Promotion does not require standing human approvals.
 Agents promote through ACP evidence and quorum rules.
 EOF
 
