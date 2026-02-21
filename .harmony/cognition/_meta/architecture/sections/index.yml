@@ -1,0 +1,24 @@
+# Architecture Sections Index
+# Targeted machine-discovery map for heavyweight architecture surfaces.
+
+schema_version: "1.0"
+files:
+  - id: structure-and-discovery
+    path: 01-structure-and-discovery.md
+    summary: Harness topology, discovery contracts, and orientation.
+    when: Start here when changing structure or discovery surfaces.
+
+  - id: contracts-and-boundaries
+    path: 02-contracts-and-boundaries.md
+    summary: Bounded-surface contracts, governance, and policy constraints.
+    when: When changing domain boundaries or authority contracts.
+
+  - id: runtime-and-observability
+    path: 03-runtime-and-observability.md
+    summary: Runtime interaction, traceability, and observability contracts.
+    when: When changing runtime behavior, diagnostics, or telemetry.
+
+  - id: integrations-and-operations
+    path: 04-integrations-and-operations.md
+    summary: Tooling integrations, operating workflows, and lifecycle controls.
+    when: When changing CI/CD, enforcement, or ecosystem integration.

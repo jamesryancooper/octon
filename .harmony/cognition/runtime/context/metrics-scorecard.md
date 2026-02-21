@@ -1,55 +1,73 @@
 ---
 title: Harmony Scorecard and Metrics
-description: Minimal scorecard for flow, reliability, quality, observability, security, and hygiene — how we measure and improve.
+description: Operational scorecard contract for flow, reliability, quality, observability, security, and documentation hygiene.
 ---
 
 # Harmony Scorecard and Metrics
 
-Status: Draft stub (establish thresholds and owners)
+Status: Active contract
 
-## Two‑Dev Scope
+## Purpose
 
-- Track a small set of metrics only (DORA 4 + 2–3 SLO indicators). Avoid dashboards that require ongoing curation.
-- Automation: generate a weekly digest from CI/PR timestamps and ObservaKit; no manual data entry.
-- Review: ≤ 15 minutes weekly; select one improvement with an owner and due date.
-- Thresholds: start pragmatic; tighten only when signal is stable and actions are sustainable.
+Define the minimum operational scorecard that keeps Harmony delivery fast,
+safe, and continuously improvable without introducing dashboard sprawl.
 
-## Pillars Alignment
+## Operating Contract
 
-- Speed with Safety: Track DORA and release health to enable frequent yet safe deploys; freeze risky changes when budgets burn.
-- Simplicity over Complexity: A minimal, high‑signal scorecard avoids analysis paralysis and focuses improvements.
-- Quality through Determinism: Deterministic sources (CI artifacts, ObservaKit, KP) ensure metrics are reproducible and auditable.
-- Guided Agentic Autonomy: Improve layer agents compile the weekly digest; humans select and own actions.
-- Evolvable Modularity: Metrics and scorecards are defined over stable contracts and flows, so you can swap tools, vendors, or runtimes without losing historical comparability.
+- Cadence: weekly digest generated every Monday.
+- Review: weekly 15-minute review; select 1-2 actions with explicit owners.
+- Sources: CI artifacts, ObservaKit telemetry, and Knowledge Plane traces.
+- Data handling: deterministic aggregation only; no manual edits in score data.
 
-See `.harmony/cognition/practices/methodology/README.md` for Harmony’s five pillars.
+## Ownership
 
-## Categories (initial)
+| Metric Area | Owner | Backup | Review Cadence |
+|---|---|---|---|
+| Flow (DORA) | `architect` | `implementer` | Weekly |
+| Reliability (SLO burn) | `verifier` | `architect` | Weekly |
+| Quality (tests/contracts) | `implementer` | `verifier` | Weekly |
+| Observability (trace coverage) | `verifier` | `architect` | Weekly |
+| Security (critical exposure) | `architect` | `verifier` | Weekly |
+| Hygiene (docs/waivers) | `architect` | `implementer` | Weekly |
 
-- Flow: DORA (lead time, deployment frequency, change failure rate, MTTR).
-- Reliability: SLO burn for key journeys (p95 latency, error rate).
-- Quality: test coverage deltas, contract drift, flake count.
-- Observability: span/log coverage baselines and KP correlation health.
-- Security: critical vulns open time, secret scan violations.
-- Hygiene: docs coverage, stale flag age, waiver count/age.
+## Scorecard Thresholds
 
-## Computation & Sources
+| Category | Metric | Target (Green) | Warning (Yellow) | Breach (Red) |
+|---|---|---|---|---|
+| Flow | Lead time (p75) | <= 3 days | > 3 and <= 7 days | > 7 days |
+| Flow | Deploy frequency | >= 3/week | 1-2/week | < 1/week |
+| Flow | Change failure rate | <= 15% | > 15% and <= 25% | > 25% |
+| Flow | MTTR | <= 4 hours | > 4 and <= 24 hours | > 24 hours |
+| Reliability | Error budget burn (7d) | <= 50% | > 50% and <= 100% | > 100% |
+| Reliability | p95 latency SLO miss | <= 1% requests | > 1% and <= 3% | > 3% |
+| Quality | Contract drift findings | 0 | 1 | >= 2 |
+| Quality | Test flake rate | <= 2% | > 2% and <= 5% | > 5% |
+| Observability | Requests with trace_id | >= 98% | >= 95% and < 98% | < 95% |
+| Observability | KP correlation coverage | >= 95% | >= 90% and < 95% | < 90% |
+| Security | Open critical vulns > 7d | 0 | 1 | >= 2 |
+| Hygiene | Expired waivers | 0 | 1 | >= 2 |
 
-- CI artifacts, ObservaKit, Kaizen reports, and KP materialized views.
-- Weekly digest from Improve layer; red/yellow/green per category.
+## Required Actions by Severity
 
-## Usage
+- Green: keep current trajectory; no forced remediation.
+- Yellow: create an action item with owner and target date in the same week.
+- Red: freeze non-critical changes in affected area until mitigation plan exists.
 
-- Review weekly; select 1–2 improvements for Kaizen/owners.
-- Waivers require explicit expiration and follow‑ups.
+## Evidence and Traceability
 
-## Related Docs
+Weekly digest MUST include:
+
+- metric snapshots and status color per category,
+- trend deltas vs previous week,
+- selected remediation actions with owners and due dates,
+- links to source evidence artifacts and trace IDs.
+
+## Related Contracts
 
 - Methodology overview: `.harmony/cognition/practices/methodology/README.md`
-- Implementation guide: `.harmony/cognition/practices/methodology/implementation-guide.md`
-- Layers model: `.harmony/cognition/practices/methodology/layers.md`
-- Improve layer: `.harmony/cognition/practices/methodology/improve-layer.md`
-- Knowledge Plane: `.harmony/cognition/_meta/architecture/knowledge-plane/knowledge-plane.md`
-- Governance: `.harmony/cognition/_meta/architecture/governance-model.md`
-- Architecture overview: `.harmony/cognition/_meta/architecture/overview.md`
+- Tooling and metrics: `.harmony/cognition/practices/methodology/tooling-and-metrics.md`
+- Reliability and ops: `.harmony/cognition/practices/methodology/reliability-and-ops.md`
+- Risk tiers: `.harmony/cognition/practices/methodology/risk-tiers.md`
+- Knowledge Plane: `.harmony/cognition/runtime/knowledge-plane/knowledge-plane.md`
 - Observability requirements: `.harmony/cognition/_meta/architecture/observability-requirements.md`
+- Governance model: `.harmony/cognition/_meta/architecture/governance-model.md`

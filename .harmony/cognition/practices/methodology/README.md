@@ -7,6 +7,11 @@ description: Principled, AI-native methodology for solo builders — lean in cer
 
 Harmony is an AI-native, human-governed development methodology for solo builders.
 
+## Machine Discovery
+
+- `index.yml` - canonical methodology discovery index.
+- `sections/index.yml` - targeted section index for token-efficient partial reads.
+
 Harmony empowers solo developers across experience levels to ship high-quality software with speed, safety, and confidence. It combines spec-led intent capture, context-efficient planning, autonomous AI execution loops, and risk-tiered ACP governance within a principled, progressively adoptable framework.
 
 Harmony is lean in ceremony and rich in capability: context-efficient artifacts, progressive disclosure, and fast feedback loops — without imposing vendor lock-in or stack prescription.

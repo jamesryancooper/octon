@@ -5,6 +5,11 @@ description: Canonical reference for the domain-organized agent harness pattern.
 
 # The `.harmony` Directory: A Domain-Organized Agent Harness
 
+## Machine Discovery
+
+- `index.yml` - canonical architecture discovery index for this surface.
+- `sections/index.yml` - targeted section index for token-efficient partial reads.
+
 ## Terminology
 
 | Term | Meaning |

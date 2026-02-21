@@ -152,3 +152,13 @@ Move here when a decision is replaced. Include reference to replacement.
 | ID | Decision | Choice | Constraint | Date |
 |----|----------|--------|------------|------|
 | D055 | ADR discovery and evidence surface | Keep ADRs as canonical single files, add `runtime/decisions/index.yml` for discovery, and add optional decision evidence bundles under `output/reports/decisions/<NNN>-<slug>/` | Active docs/contracts/validators must resolve ADR discovery through the decisions index and enforce decision bundle file contracts when decision evidence bundles are present | 2026-02-21 |
+
+### 2026-02-21 (continued VI)
+
+- [ADR-034](../decisions/034-planning-services-native-first-no-python.md) — Planning+Execution services native-first, no-Python core runtime (D056)
+- [ADR-035](../decisions/035-cognition-discovery-and-governance-hardening.md) — Cognition discovery and governance hardening (D057)
+
+| ID | Decision | Choice | Constraint | Date |
+|----|----------|--------|------------|------|
+| D056 | ADR numeric identity normalization | Renumber planning-services native-first ADR from `013` to `034` so each ADR numeric prefix is unique in runtime decisions | Decision indexes, ADR filenames, and validators must enforce unique numeric ADR identity and id/path numeric alignment | 2026-02-21 |
+| D057 | Cognition discovery and governance hardening | Adopt machine-readable governance/practices indexes, section-level heavy-doc indexes, stronger cognition drift watchers, and operational scorecard contract | Cognition discovery must resolve via indexes (`governance/index.yml`, `practices/index.yml`, methodology/architecture section indexes); validators fail closed on index/path/decision-identity drift | 2026-02-21 |

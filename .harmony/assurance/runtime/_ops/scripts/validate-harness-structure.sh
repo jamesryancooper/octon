@@ -42,6 +42,51 @@ require_dir() {
   fi
 }
 
+extract_index_paths() {
+  local index_file="$1"
+  awk '
+    /^[[:space:]]+path:[[:space:]]*/ {
+      line=$0
+      sub(/^[[:space:]]+path:[[:space:]]*/, "", line)
+      sub(/[[:space:]]+#.*/, "", line)
+      gsub(/^"/, "", line)
+      gsub(/"$/, "", line)
+      if (length(line) > 0) print line
+    }
+  ' "$index_file"
+}
+
+check_index_path_contract() {
+  local index_file="$1"
+  local base_dir="$2"
+  local label="$3"
+  local path
+  local found=0
+
+  require_file "$index_file"
+  if [[ ! -f "$index_file" ]]; then
+    return
+  fi
+
+  while IFS= read -r path; do
+    [[ -z "$path" ]] && continue
+    found=1
+    if [[ "$path" == /* ]]; then
+      fail "$label index path must be relative (not absolute): ${index_file#$ROOT_DIR/} -> $path"
+      continue
+    fi
+    if [[ -e "$base_dir/$path" ]]; then
+      pass "$label index path resolves: ${index_file#$ROOT_DIR/} -> $path"
+    else
+      fail "$label index path missing target: ${index_file#$ROOT_DIR/} -> $path"
+    fi
+  done < <(extract_index_paths "$index_file")
+
+  if [[ $found -eq 0 ]]; then
+    warn "$label index has no path entries: ${index_file#$ROOT_DIR/}"
+  fi
+}
+
 extract_domain_profile() {
   local domain="$1"
   awk -v domain="$domain" '
@@ -244,6 +289,12 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/cognition/runtime/context/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/decisions/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/migrations/index.yml"
+  require_file "$HARMONY_DIR/cognition/governance/index.yml"
+  require_file "$HARMONY_DIR/cognition/practices/index.yml"
+  require_file "$HARMONY_DIR/cognition/practices/methodology/index.yml"
+  require_file "$HARMONY_DIR/cognition/practices/methodology/sections/index.yml"
+  require_file "$HARMONY_DIR/cognition/_meta/architecture/index.yml"
+  require_file "$HARMONY_DIR/cognition/_meta/architecture/sections/index.yml"
   require_file "$HARMONY_DIR/cognition/governance/principles/principles.md"
   require_file "$HARMONY_DIR/cognition/practices/methodology/README.md"
   require_file "$HARMONY_DIR/cognition/_ops/principles/scripts/lint-principles-governance.sh"
@@ -340,17 +391,127 @@ check_expected_internals() {
 
 check_cognition_decision_record_surface() {
   local runtime_dir="$HARMONY_DIR/cognition/runtime/decisions"
+  local index_file="$runtime_dir/index.yml"
+  local adr_count
+  local index_entry_count
+  local duplicate_filename_numbers
+  local duplicate_index_ids
+  local duplicate_index_numbers
+  local file
+  local id path id_num path_num path_base
+  local matched=0
 
   require_dir "$runtime_dir"
   require_file "$runtime_dir/README.md"
-  require_file "$runtime_dir/index.yml"
+  require_file "$index_file"
 
-  local adr_count
   adr_count="$(find "$runtime_dir" -mindepth 1 -maxdepth 1 -type f -name '[0-9][0-9][0-9]-*.md' | wc -l | tr -d ' ')"
   if [[ "$adr_count" == "0" ]]; then
     warn "no ADR files found under cognition/runtime/decisions/"
+    return
   else
     pass "found ${adr_count} ADR files under cognition/runtime/decisions/"
+  fi
+
+  duplicate_filename_numbers="$(
+    find "$runtime_dir" -mindepth 1 -maxdepth 1 -type f -name '[0-9][0-9][0-9]-*.md' \
+      -exec basename {} \; |
+      sed -E 's/^([0-9]{3})-.*/\1/' |
+      sort | uniq -d || true
+  )"
+  if [[ -n "$duplicate_filename_numbers" ]]; then
+    fail "duplicate ADR numeric prefixes on disk: $(echo "$duplicate_filename_numbers" | paste -sd ', ' -)"
+  else
+    pass "ADR numeric prefixes are unique on disk"
+  fi
+
+  duplicate_index_ids="$(
+    awk '
+      /^[[:space:]]+- id:[[:space:]]*/ {
+        line=$0
+        sub(/^[[:space:]]+- id:[[:space:]]*/, "", line)
+        gsub(/"/, "", line)
+        print line
+      }
+    ' "$index_file" | sort | uniq -d || true
+  )"
+  if [[ -n "$duplicate_index_ids" ]]; then
+    fail "duplicate decision ids in decisions index: $(echo "$duplicate_index_ids" | paste -sd ', ' -)"
+  else
+    pass "decision ids are unique in decisions index"
+  fi
+
+  duplicate_index_numbers="$(
+    awk '
+      /^[[:space:]]+- id:[[:space:]]*/ {
+        line=$0
+        sub(/^[[:space:]]+- id:[[:space:]]*/, "", line)
+        gsub(/"/, "", line)
+        sub(/-.*/, "", line)
+        print line
+      }
+    ' "$index_file" | sort | uniq -d || true
+  )"
+  if [[ -n "$duplicate_index_numbers" ]]; then
+    fail "duplicate decision numeric prefixes in decisions index: $(echo "$duplicate_index_numbers" | paste -sd ', ' -)"
+  else
+    pass "decision numeric prefixes are unique in decisions index"
+  fi
+
+  while IFS=$'\t' read -r id path; do
+    [[ -z "$id" || -z "$path" ]] && continue
+    matched=1
+    id_num="${id%%-*}"
+    path_base="$(basename "$path")"
+    path_num="${path_base%%-*}"
+
+    if [[ ! -f "$runtime_dir/$path" ]]; then
+      fail "decisions index path missing on disk: ${index_file#$ROOT_DIR/} -> $path"
+      continue
+    fi
+    pass "decisions index path exists: ${index_file#$ROOT_DIR/} -> $path"
+
+    if [[ "$id_num" != "$path_num" ]]; then
+      fail "decisions index id/path numeric mismatch: id=$id path=$path"
+    else
+      pass "decisions index id/path numeric prefix aligned: $id"
+    fi
+  done < <(
+    awk '
+      /^[[:space:]]+- id:[[:space:]]*/ {
+        id=$0
+        sub(/^[[:space:]]+- id:[[:space:]]*/, "", id)
+        gsub(/"/, "", id)
+      }
+      /^[[:space:]]+path:[[:space:]]*/ {
+        path=$0
+        sub(/^[[:space:]]+path:[[:space:]]*/, "", path)
+        gsub(/"/, "", path)
+        print id "\t" path
+      }
+    ' "$index_file"
+  )
+
+  if [[ $matched -eq 0 ]]; then
+    fail "decisions index has no id/path records: ${index_file#$ROOT_DIR/}"
+  fi
+
+  for file in "$runtime_dir"/[0-9][0-9][0-9]-*.md; do
+    [[ -e "$file" ]] || continue
+    if grep -qE "^[[:space:]]+path:[[:space:]]*\"?$(basename "$file")\"?$" "$index_file"; then
+      pass "ADR file covered by decisions index: ${file#$ROOT_DIR/}"
+    else
+      fail "ADR file missing from decisions index: ${file#$ROOT_DIR/}"
+    fi
+  done
+
+  index_entry_count="$(
+    awk '/^[[:space:]]+- id:[[:space:]]*/ {count++} END {print count+0}' "$index_file"
+  )"
+  if [[ "$index_entry_count" != "$adr_count" ]]; then
+    fail "decisions index/file count mismatch: index=${index_entry_count} files=${adr_count}"
+  else
+    pass "decisions index/file count aligned (${adr_count})"
   fi
 }
 
@@ -548,6 +709,117 @@ check_output_decision_evidence_surface() {
       fi
     fi
   done
+}
+
+check_cognition_discovery_indexes() {
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/runtime/context/index.yml" \
+    "$HARMONY_DIR/cognition/runtime/context" \
+    "cognition runtime context"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/governance/index.yml" \
+    "$HARMONY_DIR/cognition/governance" \
+    "cognition governance"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/practices/index.yml" \
+    "$HARMONY_DIR/cognition/practices" \
+    "cognition practices"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/practices/methodology/index.yml" \
+    "$HARMONY_DIR/cognition/practices/methodology" \
+    "cognition methodology"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/practices/methodology/sections/index.yml" \
+    "$HARMONY_DIR/cognition/practices/methodology/sections" \
+    "cognition methodology sections"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/_meta/architecture/index.yml" \
+    "$HARMONY_DIR/cognition/_meta/architecture" \
+    "cognition architecture"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/_meta/architecture/sections/index.yml" \
+    "$HARMONY_DIR/cognition/_meta/architecture/sections" \
+    "cognition architecture sections"
+}
+
+check_cognition_migration_index_cross_references() {
+  local index_file="$HARMONY_DIR/cognition/runtime/migrations/index.yml"
+  local index_dir="$HARMONY_DIR/cognition/runtime/migrations"
+  local id path adr evidence
+  local seen=0
+
+  require_file "$index_file"
+  if [[ ! -f "$index_file" ]]; then
+    return
+  fi
+
+  while IFS=$'\t' read -r id path adr evidence; do
+    [[ -z "$id" ]] && continue
+    seen=1
+
+    if [[ -z "$path" || -z "$adr" || -z "$evidence" ]]; then
+      fail "migration index record missing required fields (path/adr/evidence): $id"
+      continue
+    fi
+
+    if [[ ! -f "$index_dir/$path" ]]; then
+      fail "migration index path missing on disk: ${index_file#$ROOT_DIR/} -> $path"
+    else
+      pass "migration index path exists: ${index_file#$ROOT_DIR/} -> $path"
+    fi
+
+    if [[ "$path" =~ /plan\.md$ ]]; then
+      pass "migration index path uses plan.md contract: $id"
+    else
+      fail "migration index path must point to plan.md: $id -> $path"
+    fi
+
+    if [[ ! -f "$index_dir/$adr" ]]; then
+      fail "migration index adr reference missing on disk: ${index_file#$ROOT_DIR/} -> $adr"
+    else
+      pass "migration index adr reference exists: ${index_file#$ROOT_DIR/} -> $adr"
+    fi
+
+    if [[ ! -f "$index_dir/$evidence" ]]; then
+      fail "migration index evidence reference missing on disk: ${index_file#$ROOT_DIR/} -> $evidence"
+    else
+      pass "migration index evidence reference exists: ${index_file#$ROOT_DIR/} -> $evidence"
+    fi
+  done < <(
+    awk '
+      /^[[:space:]]+- id:[[:space:]]*/ {
+        id=$0
+        sub(/^[[:space:]]+- id:[[:space:]]*/, "", id)
+        gsub(/"/, "", id)
+      }
+      /^[[:space:]]+path:[[:space:]]*/ {
+        path=$0
+        sub(/^[[:space:]]+path:[[:space:]]*/, "", path)
+        gsub(/"/, "", path)
+      }
+      /^[[:space:]]+adr:[[:space:]]*/ {
+        adr=$0
+        sub(/^[[:space:]]+adr:[[:space:]]*/, "", adr)
+        gsub(/"/, "", adr)
+      }
+      /^[[:space:]]+evidence:[[:space:]]*/ {
+        evidence=$0
+        sub(/^[[:space:]]+evidence:[[:space:]]*/, "", evidence)
+        gsub(/"/, "", evidence)
+        print id "\t" path "\t" adr "\t" evidence
+      }
+    ' "$index_file"
+  )
+
+  if [[ $seen -eq 0 ]]; then
+    warn "no records found in migration index: ${index_file#$ROOT_DIR/}"
+  fi
 }
 
 check_profile_shape_bounded_surfaces() {
@@ -839,6 +1111,8 @@ main() {
   check_expected_internals
   check_cognition_decision_record_surface
   check_cognition_migration_record_surface
+  check_cognition_discovery_indexes
+  check_cognition_migration_index_cross_references
   check_output_decision_evidence_surface
   check_output_migration_evidence_surface
   check_domain_profile_shapes

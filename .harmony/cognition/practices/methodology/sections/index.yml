@@ -1,0 +1,24 @@
+# Methodology Sections Index
+# Targeted machine-discovery map for heavyweight methodology surfaces.
+
+schema_version: "1.0"
+files:
+  - id: foundations
+    path: 01-foundations.md
+    summary: Core objectives, pillars, and system guarantees.
+    when: Start here for strategy and guardrail framing.
+
+  - id: operations
+    path: 02-operations.md
+    summary: Lifecycle, cadence, flow, and role model operations.
+    when: When shaping day-to-day execution behavior.
+
+  - id: quality-and-control
+    path: 03-quality-and-control.md
+    summary: Release, CI/CD, testing, reliability, and risk controls.
+    when: When adjusting quality gates or production-readiness policy.
+
+  - id: adoption-and-improvement
+    path: 04-adoption-and-improvement.md
+    summary: Metrics, improvement loops, and adoption sequencing.
+    when: When planning rollouts or iterative process hardening.

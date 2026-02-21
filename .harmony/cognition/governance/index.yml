@@ -1,0 +1,34 @@
+# Cognition Governance Index
+# Machine-readable discovery index for governance contracts.
+
+schema_version: "1.0"
+files:
+  - id: governance-overview
+    path: README.md
+    summary: Governance surface orientation and ownership boundaries.
+    when: First entrypoint for policy and contract discovery.
+
+  - id: domain-profiles
+    path: domain-profiles.yml
+    summary: Canonical top-level domain profile mappings.
+    when: When validating bounded-surface profile contracts.
+
+  - id: principles-overview
+    path: principles/README.md
+    summary: Principles surface orientation and navigation.
+    when: Before opening specific principle artifacts.
+
+  - id: principles-charter
+    path: principles/principles.md
+    summary: Immutable constitutional charter for cognition governance.
+    when: Before any policy interpretation or principle enforcement changes.
+
+  - id: pillars-overview
+    path: pillars/README.md
+    summary: Pillar model orientation and lifecycle framing.
+    when: When reasoning about strategic framework alignment.
+
+  - id: purpose-overview
+    path: purpose/README.md
+    summary: Purpose surface orientation and long-horizon intent.
+    when: When framing direction or intent-level decisions.

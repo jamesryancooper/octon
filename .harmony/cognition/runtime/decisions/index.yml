@@ -29,8 +29,6 @@ records:
     path: 012-agent-platform-interop-native-first.md
   - id: 013-filesystem-interfaces-native-first
     path: 013-filesystem-interfaces-native-first.md
-  - id: 013-planning-services-native-first-no-python
-    path: 013-planning-services-native-first-no-python.md
   - id: 014-two-file-weight-governance-model
     path: 014-two-file-weight-governance-model.md
   - id: 015-autonomy-quality-attribute
@@ -71,3 +69,7 @@ records:
     path: 032-migration-evidence-bundle-format.md
   - id: 033-adr-discovery-and-evidence-surface
     path: 033-adr-discovery-and-evidence-surface.md
+  - id: 034-planning-services-native-first-no-python
+    path: 034-planning-services-native-first-no-python.md
+  - id: 035-cognition-discovery-and-governance-hardening
+    path: 035-cognition-discovery-and-governance-hardening.md

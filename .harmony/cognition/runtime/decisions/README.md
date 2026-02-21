@@ -18,6 +18,8 @@ This directory is the canonical runtime surface for full ADR artifacts.
 
 - Each ADR record MUST live in:
   - `/.harmony/cognition/runtime/decisions/<NNN>-<slug>.md`
+- ADR numeric prefixes (`<NNN>`) MUST be unique across decision files and
+  index entries.
 - Machine discovery MUST resolve through:
   - `/.harmony/cognition/runtime/decisions/index.yml`
 - Human-oriented summary and active decision table remain in:

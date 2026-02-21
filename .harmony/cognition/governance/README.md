@@ -2,6 +2,10 @@
 
 Normative cognition contracts that define policy, principles, and intent.
 
+## Canonical Index
+
+- `index.yml` - machine-readable discovery index for governance surfaces.
+
 ## Surfaces
 
 - `principles/` - enforceable engineering and agent governance principles.

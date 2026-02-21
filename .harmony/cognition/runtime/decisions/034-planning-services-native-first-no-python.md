@@ -1,11 +1,11 @@
 ---
-title: "ADR-013: Planning+Execution Services Native-First, No-Python Core Runtime"
+title: "ADR-034: Planning+Execution Services Native-First, No-Python Core Runtime"
 description: Establish native harness execution as mandatory for core Planning and Execution services and treat external runtimes as optional adapters.
 status: accepted
 date: 2026-02-16
 ---
 
-# ADR-013: Planning+Execution Services Native-First, No-Python Core Runtime
+# ADR-034: Planning+Execution Services Native-First, No-Python Core Runtime
 
 ## Context
 

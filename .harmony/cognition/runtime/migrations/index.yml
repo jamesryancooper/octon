@@ -62,3 +62,8 @@ records:
     path: 2026-02-21-migration-evidence-bundle-format/plan.md
     adr: ../decisions/032-migration-evidence-bundle-format.md
     evidence: ../../../output/reports/migrations/2026-02-21-migration-evidence-bundle-format/evidence.md
+
+  - id: 2026-02-21-cognition-discovery-and-governance-hardening
+    path: 2026-02-21-cognition-discovery-and-governance-hardening/plan.md
+    adr: ../decisions/035-cognition-discovery-and-governance-hardening.md
+    evidence: ../../../output/reports/migrations/2026-02-21-cognition-discovery-and-governance-hardening/evidence.md

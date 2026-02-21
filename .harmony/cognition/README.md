@@ -8,10 +8,10 @@ governance contracts, and operating methodology remain explicit.
 | Surface | Purpose | Canonical Index |
 |---|---|---|
 | `runtime/` | Authoritative cognition artifacts (`context/`, `decisions/`, `analyses/`, `knowledge-plane/`, `migrations/`) | `runtime/context/index.yml`, `runtime/decisions/index.yml`, `runtime/migrations/index.yml` |
-| `governance/` | Normative principles, pillars, and purpose contracts | `governance/principles/principles.md` |
-| `practices/` | Operating methodology and execution standards | `practices/methodology/README.md` |
+| `governance/` | Normative principles, pillars, and purpose contracts | `governance/index.yml` |
+| `practices/` | Operating methodology and execution standards | `practices/index.yml`, `practices/methodology/index.yml` |
 | `_ops/` | Mutable scripts/state for cognition guardrails | `_ops/README.md` |
-| `_meta/` | Non-structural architecture/reference docs | `_meta/architecture/README.md` |
+| `_meta/` | Non-structural architecture/reference docs | `_meta/architecture/index.yml` |
 
 ## Interaction Model
 

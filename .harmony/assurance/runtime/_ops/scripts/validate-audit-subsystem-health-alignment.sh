@@ -175,10 +175,11 @@ check_drift_alignment() {
   local watched_regexes=(
     '^\.harmony/(START\.md|README\.md|harmony\.yml|catalog\.md)$'
     '^\.harmony/cognition/_meta/architecture/'
-    '^\.harmony/cognition/governance/principles/'
+    '^\.harmony/cognition/governance/'
+    '^\.harmony/cognition/practices/'
+    '^\.harmony/cognition/runtime/context/'
     '^\.harmony/cognition/runtime/migrations/'
     '^\.harmony/cognition/runtime/decisions/'
-    '^\.harmony/cognition/practices/methodology/migrations/'
     '^\.harmony/output/reports/decisions/'
     '^\.harmony/[^/]+/_meta/architecture/'
     '^\.harmony/orchestration/runtime/workflows/audit/pre-release-audit/'

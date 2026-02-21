@@ -1,0 +1,34 @@
+# Cognition Methodology Index
+# Machine-readable discovery index for methodology artifacts.
+
+schema_version: "1.0"
+files:
+  - id: methodology-overview
+    path: README.md
+    summary: Comprehensive methodology narrative and guardrails.
+    when: When orienting to full methodology posture.
+
+  - id: implementation-guide
+    path: implementation-guide.md
+    summary: Concrete implementation guidance and rollout details.
+    when: During implementation and migration execution planning.
+
+  - id: architecture-and-repo-structure
+    path: architecture-and-repo-structure.md
+    summary: Repository shape and architecture operating expectations.
+    when: When changing topology or structure contracts.
+
+  - id: tooling-and-metrics
+    path: tooling-and-metrics.md
+    summary: Tooling posture and metrics instrumentation guidance.
+    when: When changing observability, quality, or scorecard tooling.
+
+  - id: migration-governance
+    path: migrations/README.md
+    summary: Clean-break migration doctrine and policy references.
+    when: Before planning or executing migration work.
+
+  - id: methodology-sections-index
+    path: sections/index.yml
+    summary: Targeted section map for heavyweight methodology docs.
+    when: For partial reads and token-efficient retrieval.

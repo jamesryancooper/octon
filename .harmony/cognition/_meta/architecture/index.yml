@@ -1,0 +1,34 @@
+# Cognition Architecture Index
+# Machine-readable discovery index for architecture reference surfaces.
+
+schema_version: "1.0"
+files:
+  - id: architecture-overview
+    path: README.md
+    summary: Canonical architecture reference and structure contracts.
+    when: First entrypoint for harness architecture interpretation.
+
+  - id: specification
+    path: specification.md
+    summary: Canonical architecture specification and contract definitions.
+    when: When validating or changing architecture contracts.
+
+  - id: bounded-surfaces-contract
+    path: bounded-surfaces-contract.md
+    summary: Cross-domain bounded-surface contract and migration posture.
+    when: When evaluating topology and domain ownership changes.
+
+  - id: observability-requirements
+    path: observability-requirements.md
+    summary: Observability policy and correlation expectations.
+    when: When changing telemetry or operational diagnostics contracts.
+
+  - id: architecture-resources
+    path: resources.md
+    summary: Curated architecture reference corpus.
+    when: When researching external patterns and design references.
+
+  - id: architecture-sections-index
+    path: sections/index.yml
+    summary: Targeted section map for heavyweight architecture docs.
+    when: For partial reads and token-efficient architecture lookup.
