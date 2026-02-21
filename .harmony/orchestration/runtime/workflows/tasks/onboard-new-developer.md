@@ -171,5 +171,5 @@ After onboarding, a developer should:
 
 - [START-HERE.md](/.harmony/agency/practices/start-here.md) - The reference doc developers use daily
 - [DAILY-FLOW.md](/.harmony/agency/practices/daily-flow.md) - How a typical day looks
-- [RISK-TIERS.md](/.harmony/cognition/context/risk-tiers.md) - Understanding T1/T2/T3
+- [RISK-TIERS.md](/.harmony/cognition/runtime/context/risk-tiers.md) - Understanding T1/T2/T3
 - [fix-a-bug.md](./fix-a-bug.md) - Detailed bug fix workflow

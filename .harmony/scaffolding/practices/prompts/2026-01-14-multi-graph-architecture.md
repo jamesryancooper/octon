@@ -16,14 +16,14 @@ Harmony uses a **two-layer inheritance model** for AI agent coordination:
 │  ├── capabilities/runtime/skills/       Shared skill definitions           │
 │  ├── orchestration/runtime/workflows/   Workspace management workflows     │
 │  ├── scaffolding/runtime/templates/     Workspace scaffolding              │
-│  ├── agency/actors/assistants/         Generic specialists (@reviewer)    │
-│  └── cognition/context/         Shared tools, compaction guides    │
+│  ├── agency/runtime/assistants/         Generic specialists (@reviewer)    │
+│  └── cognition/runtime/context/         Shared tools, compaction guides    │
 └──────────────────────┬──────────────────────────────────┘
                        │ inherits from
                        ▼
 ┌─────────────────────────────────────────────────────────┐
 │  .harmony/  (Project-Specific Harness)                  │
-│  ├── cognition/context/  Decisions, constraints, glossary│
+│  ├── cognition/runtime/context/  Decisions, constraints, glossary│
 │  ├── continuity/     tasks.json, log.md, entities.json  │
 │  ├── orchestration/runtime/missions/  Time-bounded sub-projects │
 │  ├── graph/          ← Knowledge graph lives here       │
@@ -63,7 +63,7 @@ harmony/
 ├── apps/
 │   ├── api/
 │   │   └── .harmony/
-│   │       ├── cognition/context/
+│   │       ├── cognition/runtime/context/
 │   │       │   └── decisions/
 │   │       │       └── API-001.md   # ← Front matter declares node
 │   │       └── graph/
@@ -94,7 +94,7 @@ harmony/
 Source files declare graph nodes via YAML front matter:
 
 ```markdown
-<!-- apps/api/.harmony/cognition/context/decisions/API-001.md -->
+<!-- apps/api/.harmony/cognition/runtime/context/decisions/API-001.md -->
 ---
 # Graph Identity (required for graph inclusion)
 graph:
@@ -167,7 +167,7 @@ Examples:
         "tags": ["architecture", "api"]
       },
       "meta": {
-        "source": "cognition/context/decisions/API-001.md",
+        "source": "cognition/runtime/context/decisions/API-001.md",
         "created": "2026-01-10",
         "modified": "2026-01-14"
       }
@@ -213,7 +213,7 @@ Examples:
         "status": "accepted"
       },
       "meta": {
-        "source": "cognition/context/decisions.md"
+        "source": "cognition/runtime/context/decisions.md"
       }
     }
   },
@@ -232,7 +232,7 @@ Examples:
 {
   "generated_at": "2026-01-14T10:30:00Z",
   "sources": {
-    "cognition/context/decisions.md": {
+    "cognition/runtime/context/decisions.md": {
       "hash": "a1b2c3d4e5f6",
       "mtime": "2026-01-14T09:00:00Z"
     },

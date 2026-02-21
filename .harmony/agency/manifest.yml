@@ -10,9 +10,9 @@ routing:
   locality: "nearest-registry-wins"
 
 registries:
-  agents: "actors/agents/registry.yml"
-  assistants: "actors/assistants/registry.yml"
-  teams: "actors/teams/registry.yml"
+  agents: "runtime/agents/registry.yml"
+  assistants: "runtime/assistants/registry.yml"
+  teams: "runtime/teams/registry.yml"
 
 policy:
   allow_skill_actor_delegation: false

@@ -57,7 +57,7 @@ This registry tracks active, paused, and completed projects.
 ### Completing Research
 
 1. Summarize findings in `project.md`
-2. Publish findings directly to `cognition/context/` files
+2. Publish findings directly to `cognition/runtime/context/` files
 3. Spawn missions if actionable work was identified
 4. Move entry from **Active** to **Completed**
 5. Note outcomes (where findings went)

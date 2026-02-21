@@ -137,7 +137,7 @@ See also `.harmony/capabilities/runtime/services/execution/service-roles.md` for
 For guidance on how runtime-plane directories (`apps/*`, `agents/*`, `platform/runtimes/*-runtime/**`) map to container boundaries and sandbox environments, see:
 
 - `containerization-profile.md` — Containerization conventions and CI integration.
-- `../methodology/sandbox-flow.md` — Canonical sandbox flow using previews, flags, CI gates, and observability.
+- `../../practices/methodology/sandbox-flow.md` — Canonical sandbox flow using previews, flags, CI gates, and observability.
 
 ## Documentation
 

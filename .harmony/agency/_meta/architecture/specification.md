@@ -152,7 +152,7 @@ Not allowed by default:
 │   ├── DELEGATION.md
 │   └── MEMORY.md
 ├── manifest.yml
-├── actors/
+├── runtime/
 │   ├── agents/
 │   │   ├── registry.yml
 │   │   ├── _scaffold/template/AGENT.md
@@ -187,9 +187,9 @@ routing:
   assistant_prefix: "@"
   ambiguity_resolution: "ask"
 registries:
-  agents: "actors/agents/registry.yml"
-  assistants: "actors/assistants/registry.yml"
-  teams: "actors/teams/registry.yml"
+  agents: "runtime/agents/registry.yml"
+  assistants: "runtime/assistants/registry.yml"
+  teams: "runtime/teams/registry.yml"
 ```
 
 ### Cross-Agent Governance Contracts
@@ -202,9 +202,9 @@ Required governance contracts:
 
 Precedence:
 
-`AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> `actors/agents/<id>/AGENT.md` -> `actors/agents/<id>/SOUL.md`
+`AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> `runtime/agents/<id>/AGENT.md` -> `runtime/agents/<id>/SOUL.md`
 
-### `actors/agents/registry.yml`
+### `runtime/agents/registry.yml`
 
 Minimum fields:
 
@@ -218,7 +218,7 @@ Minimum fields:
 - `allowed_skills` (optional allowlist)
 - `allowed_workflows` (optional allowlist)
 
-### `actors/assistants/registry.yml`
+### `runtime/assistants/registry.yml`
 
 Minimum fields:
 
@@ -229,7 +229,7 @@ Minimum fields:
 - `escalates_to`
 - `allowed_skills` (optional allowlist)
 
-### `actors/teams/registry.yml`
+### `runtime/teams/registry.yml`
 
 Minimum fields:
 
@@ -347,7 +347,7 @@ No compatibility window is allowed for agency artifact boundaries.
 During migration and after merge:
 
 - Legacy locations (`agents/`, `assistants/`, `teams/`, root governance files, `subagents/`) must not be present as active contract surfaces.
-- New definitions must be authored only under `actors/agents/`, `actors/assistants/`, and `actors/teams/`.
+- New definitions must be authored only under `runtime/agents/`, `runtime/assistants/`, and `runtime/teams/`.
 
 ## Validation Requirements
 

@@ -206,7 +206,7 @@ workflows:
       - name: policy_doc
         type: file
         required: false
-        default: ".harmony/cognition/principles/documentation-is-code.md"
+        default: ".harmony/cognition/governance/principles/documentation-is-code.md"
         description: "Canonical docs-as-code policy document"
       - name: severity_threshold
         type: text

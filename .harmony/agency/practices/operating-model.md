@@ -22,7 +22,7 @@ Status: Draft stub (confirm roles and cadence)
 - Guided Agentic Autonomy: Agents can suggest plans and diffs; humans approve changes and waivers. High‑risk changes require two‑person rule.
 - Evolvable Modularity: Clear ownership boundaries and slice-aligned roles make it easy to evolve responsibilities, tools, and runtimes without large‑scale reorgs or rewrites.
 
-See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
+See `.harmony/cognition/practices/methodology/README.md` for Harmony’s five pillars.
 
 ## Roles (suggested)
 
@@ -51,8 +51,8 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 
 - Governance model: `.harmony/cognition/_meta/architecture/governance-model.md`
 - Runtime policy: `.harmony/cognition/_meta/architecture/runtime-policy.md`
-- Methodology overview: `.harmony/cognition/methodology/README.md`
-- Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`
-- Layers model: `.harmony/cognition/methodology/layers.md`
-- Improve layer: `.harmony/cognition/methodology/improve-layer.md`
+- Methodology overview: `.harmony/cognition/practices/methodology/README.md`
+- Implementation guide: `.harmony/cognition/practices/methodology/implementation-guide.md`
+- Layers model: `.harmony/cognition/practices/methodology/layers.md`
+- Improve layer: `.harmony/cognition/practices/methodology/improve-layer.md`
 - Architecture overview: `.harmony/cognition/_meta/architecture/overview.md`

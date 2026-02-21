@@ -21,7 +21,7 @@ Validate all required paths and build an execution plan for the audit step.
 
 1. Resolve defaults when optional values are not provided:
    - `template_root` -> `.harmony/scaffolding/runtime/templates/docs/documentation-standards`
-   - `policy_doc` -> `.harmony/cognition/principles/documentation-is-code.md`
+   - `policy_doc` -> `.harmony/cognition/governance/principles/documentation-is-code.md`
    - `severity_threshold` -> `all`
 2. Validate paths exist.
 3. Verify `audit-documentation-standards` is active in the skill manifest.

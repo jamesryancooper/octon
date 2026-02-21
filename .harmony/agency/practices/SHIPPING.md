@@ -429,5 +429,5 @@ If your deployment platform is having issues, disable feature flags first.
 For detailed deployment configuration and advanced topics:
 
 - **Architecture**: [Architecture Overview](../../cognition/_meta/architecture/overview.md)
-- **CI/CD Gates**: [CI/CD Quality Gates](../../cognition/methodology/ci-cd-quality-gates.md)
-- **Sandbox Flow**: [Sandbox Flow](../../cognition/methodology/sandbox-flow.md)
+- **CI/CD Gates**: [CI/CD Quality Gates](../../cognition/practices/methodology/ci-cd-quality-gates.md)
+- **Sandbox Flow**: [Sandbox Flow](../../cognition/practices/methodology/sandbox-flow.md)

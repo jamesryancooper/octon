@@ -168,7 +168,7 @@ This will require:
 Continue as T2? [Y/n]
 ```
 
-See [RISK-TIERS.md](/.harmony/cognition/context/risk-tiers.md) for what T2 involves.
+See [RISK-TIERS.md](/.harmony/cognition/runtime/context/risk-tiers.md) for what T2 involves.
 
 ### You Disagree with AI's Fix
 

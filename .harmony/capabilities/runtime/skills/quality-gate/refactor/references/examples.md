@@ -362,7 +362,7 @@ Resuming refactor from Phase 4, item 8...
 - [x] 15:20:05 Updated `CLAUDE.md`
 - [x] 15:20:08 Updated `.harmony/orchestration/runtime/workflows/promote.md`
 - [x] 15:20:11 Updated `tests/fixtures/config.yml`
-- [x] 15:20:14 Updated `.harmony/cognition/context/conventions.md`
+- [x] 15:20:14 Updated `.harmony/cognition/runtime/context/conventions.md`
 - [x] 15:20:18 Appended to `.harmony/continuity/log.md`
 
 All items complete. Proceeding to Phase 5 (Verify)...

@@ -10,7 +10,7 @@
 - **Harmony alignment:** Implements the `Documentation is Code` principle with
   auditable, policy-aligned doc updates.
 - **Canonical inputs:**
-  - `.harmony/cognition/principles/documentation-is-code.md`
+  - `.harmony/cognition/governance/principles/documentation-is-code.md`
   - `.harmony/scaffolding/runtime/templates/documentation-standards.md`
   - `.harmony/scaffolding/runtime/templates/docs/documentation-standards/`
 - **Integrates with:**
@@ -53,7 +53,7 @@
 ```json
 {
   "docs_root": "docs",
-  "policy_doc": ".harmony/cognition/principles/documentation-is-code.md",
+  "policy_doc": ".harmony/cognition/governance/principles/documentation-is-code.md",
   "template_root": ".harmony/scaffolding/runtime/templates/docs/documentation-standards"
 }
 ```

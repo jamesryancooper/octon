@@ -172,7 +172,7 @@ phases:
 resume:
   phase: 4
   instruction: "Continue from item 8 in change-manifest.md"
-  last_completed: ".harmony/cognition/context/tools.md"
+  last_completed: ".harmony/cognition/runtime/context/tools.md"
 ```
 
 ### Recovery Flow

@@ -14,7 +14,7 @@ Use this guide together with:
 - `.harmony/capabilities/runtime/services/planning/{spec,plan,playbook}/guide.md`
 - `.harmony/capabilities/runtime/services/execution/{agent,flow}/guide.md`
 - `.harmony/cognition/_meta/architecture/{overview,monorepo-layout,repository-blueprint,agent-roles}.md`
-- `.harmony/cognition/knowledge-plane/knowledge-plane.md`
+- `.harmony/cognition/runtime/knowledge-plane/knowledge-plane.md`
 
 When any earlier docs conflict with this page, **this page wins**.
 

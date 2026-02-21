@@ -26,7 +26,7 @@ This directory is a **temporary holding area** for external artifacts that need 
 |--------------|---------------|
 | Ideas worth exploring | `.scratchpad/brainstorm/` |
 | Committed research | `ideation/projects/` |
-| Finalized decisions | `cognition/context/decisions.md` |
+| Finalized decisions | `cognition/runtime/context/decisions.md` |
 | Active documentation | Parent directory (outside `.harmony/`) |
 | Deprecated content | `.scratchpad/archive/` |
 
@@ -92,7 +92,7 @@ Scenario: Human imports a research PDF
 4. Human reviews, extracts key insights
 5. Human moves relevant content to:
    - docs/research/paper-summary.md (canonical doc)
-   - cognition/context/decisions.md (if decisions made)
+   - cognition/runtime/context/decisions.md (if decisions made)
 6. Human deletes or archives original from .inbox/
 ```
 

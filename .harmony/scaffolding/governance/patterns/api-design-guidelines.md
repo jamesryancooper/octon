@@ -21,7 +21,7 @@ Status: Draft stub (confirm defaults and envelopes)
 - Quality through Determinism: OpenAPI/JSON Schema validated in CI, plus Pact and Schemathesis, prevent drift and enforce backwards compatibility.
 - Guided Agentic Autonomy: Machine‑checkable contracts allow agents to propose diffs and generate tests; humans approve. Pin AI configs and link ObservaKit traces for agent‑assisted changes.
 
-See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
+See `.harmony/cognition/practices/methodology/README.md` for Harmony’s five pillars.
 
 ## Principles
 
@@ -45,9 +45,9 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 
 - Contracts/examples: `packages/contracts/`
 - Governance gates: `.harmony/cognition/_meta/architecture/governance-model.md`
-- Methodology overview: `.harmony/cognition/methodology/README.md`
-- Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`
-- Layers model: `.harmony/cognition/methodology/layers.md`
-- Improve layer: `.harmony/cognition/methodology/improve-layer.md`
+- Methodology overview: `.harmony/cognition/practices/methodology/README.md`
+- Implementation guide: `.harmony/cognition/practices/methodology/implementation-guide.md`
+- Layers model: `.harmony/cognition/practices/methodology/layers.md`
+- Improve layer: `.harmony/cognition/practices/methodology/improve-layer.md`
 - Architecture overview: `.harmony/cognition/_meta/architecture/overview.md`
 - Tooling integration: `.harmony/cognition/_meta/architecture/tooling-integration.md`

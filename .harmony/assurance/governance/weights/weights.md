@@ -38,9 +38,9 @@ Later layers override earlier layers for the same attribute.
   - `3`: bounded autonomy for low-risk/read-only tasks; material effects remain ACP-gated.
   - `5`: autonomous low/medium-risk execution is reliable, deterministic, and policy-bounded with clear ACP gates.
 - Evidence examples:
-  - `/Users/jamesryancooper/Projects/harmony/.harmony/cognition/principles/no-silent-apply.md`
-  - `/Users/jamesryancooper/Projects/harmony/.harmony/cognition/principles/autonomous-control-points.md`
-  - `/Users/jamesryancooper/Projects/harmony/.harmony/cognition/principles/deny-by-default.md`
+  - `/Users/jamesryancooper/Projects/harmony/.harmony/cognition/governance/principles/no-silent-apply.md`
+  - `/Users/jamesryancooper/Projects/harmony/.harmony/cognition/governance/principles/autonomous-control-points.md`
+  - `/Users/jamesryancooper/Projects/harmony/.harmony/cognition/governance/principles/deny-by-default.md`
   - `/Users/jamesryancooper/Projects/harmony/.harmony/cognition/_meta/architecture/runtime-policy.md`
 
 ## Governance

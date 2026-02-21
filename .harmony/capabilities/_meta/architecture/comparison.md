@@ -82,7 +82,7 @@ Skills add structure and overhead. Avoid them when simpler primitives suffice:
 
 ## Full Primitives Reference
 
-For the complete list of all 7 Harmony primitives (including Commands, Checklists, and Templates), see `.harmony/cognition/context/primitives.md`.
+For the complete list of all 7 Harmony primitives (including Commands, Checklists, and Templates), see `.harmony/cognition/runtime/context/primitives.md`.
 
 ---
 
@@ -118,4 +118,4 @@ See [Capabilities](./capabilities.md) and [Skill Sets](./skill-sets.md) for the 
 - [Skill Sets](./skill-sets.md) — Pre-defined capability bundles
 - [Specification](./specification.md) — Spec compliance and validation
 - [Architecture](./architecture.md) — Skills architecture
-- `.harmony/cognition/context/primitives.md` — All Harmony primitives
+- `.harmony/cognition/runtime/context/primitives.md` — All Harmony primitives

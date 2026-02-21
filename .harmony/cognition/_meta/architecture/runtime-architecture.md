@@ -15,7 +15,7 @@ The Harmony platform exposes a **shared, platform-level runtime service** that e
 
 This runtime is a **runtime-plane service**, not a role-specific agent. It focuses on **execution** (scheduling, running, checkpointing, and observing flows) while control-plane agents and kits remain responsible for planning, policy, and governance.
 
-Related docs: [overview](./overview.md), [monorepo polyglot](./monorepo-polyglot.md), [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [runtime policy](./runtime-policy.md), [tooling integration](./tooling-integration.md), [observability requirements](./observability-requirements.md), [agent roles](./agent-roles.md), [MAPE-K modeling](./mape-k-loop-modeling.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md), [governance model](./governance-model.md), [resources](./resources.md).
+Related docs: [overview](./overview.md), [monorepo polyglot](./monorepo-polyglot.md), [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [runtime policy](./runtime-policy.md), [tooling integration](./tooling-integration.md), [observability requirements](./observability-requirements.md), [agent roles](./agent-roles.md), [MAPE-K modeling](./mape-k-loop-modeling.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../../runtime/knowledge-plane/knowledge-plane.md), [governance model](./governance-model.md), [resources](./resources.md).
 
 ## Audience and Scope
 
@@ -395,7 +395,7 @@ These extensions should preserve:
 - Structural overview: [overview](./overview.md), [layers](./layers.md), [slices vs layers](./slices-vs-layers.md), [comparative landscape](./comparative-landscape.md).
 - Monorepo architecture and layout: [monorepo polyglot](./monorepo-polyglot.md), [monorepo layout](./monorepo-layout.md), [repository blueprint](./repository-blueprint.md), [migration playbook](./migration-playbook.md).
 - Runtime-related policy and tooling: [runtime policy](./runtime-policy.md), [tooling integration](./tooling-integration.md), [observability requirements](./observability-requirements.md), [resources](./resources.md).
-- Agents, Kaizen, and governance: [agent architecture](./agent-architecture.md), [agent roles](./agent-roles.md), [MAPE-K modeling](./mape-k-loop-modeling.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md), [governance model](./governance-model.md).
+- Agents, Kaizen, and governance: [agent architecture](./agent-architecture.md), [agent roles](./agent-roles.md), [MAPE-K modeling](./mape-k-loop-modeling.md), [kaizen subsystem](./kaizen-subsystem.md), [knowledge plane](../../runtime/knowledge-plane/knowledge-plane.md), [governance model](./governance-model.md).
 - Contracts and data: [contracts registry](./contracts-registry.md), `packages/kits/*`, `contracts/openapi/*`, `contracts/schemas/*`, `contracts/ts/*`, `contracts/py/*`.
 
 

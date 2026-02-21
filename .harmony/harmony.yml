@@ -16,9 +16,9 @@ portable:
   - README.md
   - agency/manifest.yml
   - agency/governance/
-  - agency/actors/agents/
-  - agency/actors/assistants/
-  - agency/actors/teams/
+  - agency/runtime/agents/
+  - agency/runtime/assistants/
+  - agency/runtime/teams/
   - agency/practices/
   - capabilities/runtime/skills/manifest.yml
   - capabilities/runtime/skills/registry.yml
@@ -51,9 +51,9 @@ portable:
   - engine/_meta/evidence/README.md
   - assurance/
   - scaffolding/
-  - cognition/context/primitives.md
-  - cognition/context/tools.md
-  - cognition/context/compaction.md
+  - cognition/runtime/context/primitives.md
+  - cognition/runtime/context/tools.md
+  - cognition/runtime/context/compaction.md
 
 # Agent-excluded zones. Agents MUST NOT access without explicit human direction.
 human_led:

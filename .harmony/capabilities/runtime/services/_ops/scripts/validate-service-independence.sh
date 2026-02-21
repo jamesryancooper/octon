@@ -286,8 +286,8 @@ run_platform_core_checks() {
   fi
 
   local targets=(
-    "$HARMONY_DIR/cognition/context/agent-platform-interop.md"
-    "$HARMONY_DIR/cognition/decisions/012-agent-platform-interop-native-first.md"
+    "$HARMONY_DIR/cognition/runtime/context/agent-platform-interop.md"
+    "$HARMONY_DIR/cognition/runtime/decisions/012-agent-platform-interop-native-first.md"
     "$HARMONY_DIR/capabilities/runtime/commands/context-budget.md"
     "$HARMONY_DIR/capabilities/runtime/commands/validate-session-policy.md"
     "$HARMONY_DIR/capabilities/runtime/commands/validate-platform-interop.md"

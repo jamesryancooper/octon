@@ -537,7 +537,7 @@ run_service_wrapper_budget_metering_tests() {
     "promotion blocked" \
     bash -euo pipefail -c "
       source '$ENFORCER_SCRIPT'
-      target_file='.harmony/cognition/principles/README.md'
+      target_file='.harmony/cognition/governance/principles/README.md'
       backup_file=\"\$(mktemp \"\${TMPDIR:-/tmp}/acp-budget-meter.XXXXXX\")\"
       cleanup() {
         cp \"\$backup_file\" \"\$target_file\"
@@ -699,7 +699,7 @@ run_agent_quorum_independence_tests() {
   assert_success \
     "agent ACP-2 promote degrades to stage-only without independent attestations" \
     bash -euo pipefail -c "
-      payload=\"\$(jq -cn --arg run_id '$run_stage_only' --arg plan '.harmony/cognition/principles/autonomous-control-points.md' '
+      payload=\"\$(jq -cn --arg run_id '$run_stage_only' --arg plan '.harmony/cognition/governance/principles/autonomous-control-points.md' '
         {
           mode:\"execute\",
           runId:\$run_id,
@@ -731,7 +731,7 @@ run_agent_quorum_independence_tests() {
         signature:\"sig-recovery\"
       }' > \"\$attestation_dir/recovery.attestation.json\"
 
-      payload=\"\$(jq -cn --arg run_id '$run_allow' --arg plan '.harmony/cognition/principles/autonomous-control-points.md' '
+      payload=\"\$(jq -cn --arg run_id '$run_allow' --arg plan '.harmony/cognition/governance/principles/autonomous-control-points.md' '
         {
           mode:\"execute\",
           runId:\$run_id,

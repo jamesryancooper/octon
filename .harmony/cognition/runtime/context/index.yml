@@ -1,0 +1,92 @@
+# Context Index
+# Lightweight index of reference material in cognition/runtime/context/.
+# Read this to find relevant context without listing the directory.
+#
+# Fields:
+#   id         - File identifier (filename without extension)
+#   path       - Relative path to file
+#   summary    - One-line description
+#   when       - When an agent should read this file
+
+schema_version: "1.0"
+
+files:
+  - id: constraints
+    path: constraints.md
+    summary: Technical and business rules that limit harness operations.
+    when: Before any work — know hard limits.
+
+  - id: decisions
+    path: decisions.md
+    summary: Agent-readable summary of key decisions affecting this harness.
+    when: Before making decisions that might duplicate past choices.
+
+  - id: lessons
+    path: lessons.md
+    summary: Anti-patterns and failures to avoid repeating.
+    when: Before proposing approaches or strategies.
+
+  - id: glossary
+    path: glossary.md
+    summary: Domain-specific terminology for the harness system.
+    when: When encountering or defining domain terms.
+
+  - id: glossary-repo
+    path: glossary-repo.md
+    summary: Repository-wide glossary and conventions.
+    when: When working with repository-level terms or status vocabulary.
+
+  - id: risk-tiers
+    path: risk-tiers.md
+    summary: Risk-tier model and control expectations.
+    when: When selecting rigor level, approvals, and quality gates.
+
+  - id: metrics-scorecard
+    path: metrics-scorecard.md
+    summary: Metric definitions and scorecard expectations.
+    when: When evaluating health, progress, or delivery quality.
+
+  - id: cost-management
+    path: cost-management.md
+    summary: Cost governance and efficiency guidance.
+    when: When making tradeoffs that affect spend or efficiency.
+
+  - id: primitives
+    path: primitives.md
+    summary: Core building blocks (skill, workflow, command, etc.) and when to use each.
+    when: When deciding what type of artifact to create.
+
+  - id: dependencies
+    path: dependencies.md
+    summary: External systems and references this harness interacts with.
+    when: When integrating with external resources.
+
+  - id: tools
+    path: tools.md
+    summary: Available tools and selection guidance.
+    when: When unsure which tool to use for a task.
+
+  - id: compaction
+    path: compaction.md
+    summary: Token compaction strategies.
+    when: Approaching context limits or ending long sessions.
+
+  - id: agent-platform-interop
+    path: agent-platform-interop.md
+    summary: Native-first interop semantics and ownership boundaries for optional platform adapters.
+    when: When implementing session policy, context budgeting, compaction policy, routing, or adapter boundaries.
+
+  - id: filesystem-interfaces-interop
+    path: filesystem-interfaces-interop.md
+    summary: Native-first semantics for filesystem operations, derived graph traversal, and progressive discovery.
+    when: When implementing snapshot artifacts, filesystem interface contracts, or discovery operations.
+
+  - id: workflow-gaps
+    path: workflow-gaps.md
+    summary: Workflow gap remediation guide (idempotency, dependencies, branching, etc.).
+    when: When creating or evaluating workflows.
+
+  - id: workflow-quality
+    path: workflow-quality.md
+    summary: Grading rubric and quality standards for workflows.
+    when: When evaluating workflow quality.

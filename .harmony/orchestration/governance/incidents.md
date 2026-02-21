@@ -438,6 +438,6 @@ AI monitors these automatically:
 
 For detailed incident response procedures and SRE practices:
 
-- **Reliability & Ops**: [cognition/methodology/reliability-and-ops.md](../cognition/methodology/reliability-and-ops.md)
-- **Security Baseline**: [cognition/methodology/security-baseline.md](../cognition/methodology/security-baseline.md)
-- **Postmortem Template**: [cognition/methodology/reliability-and-ops.md#blameless-postmortem-template](../cognition/methodology/reliability-and-ops.md#blameless-postmortem-template)
+- **Reliability & Ops**: [cognition/practices/methodology/reliability-and-ops.md](../cognition/practices/methodology/reliability-and-ops.md)
+- **Security Baseline**: [cognition/practices/methodology/security-baseline.md](../cognition/practices/methodology/security-baseline.md)
+- **Postmortem Template**: [cognition/practices/methodology/reliability-and-ops.md#blameless-postmortem-template](../cognition/practices/methodology/reliability-and-ops.md#blameless-postmortem-template)

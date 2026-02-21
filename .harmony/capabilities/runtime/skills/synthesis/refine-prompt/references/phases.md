@@ -5,7 +5,7 @@ behavior:
       steps:
         - "Analyze repository structure and tech stack"
         - "Identify scope: files and modules the prompt likely touches"
-        - "Load project constraints from .harmony/cognition/context/constraints.md"
+        - "Load project constraints from .harmony/cognition/runtime/context/constraints.md"
         - "Find existing patterns relevant to the request"
     - name: "Intent Extraction"
       steps:
@@ -93,7 +93,7 @@ Before refining, understand the codebase:
    - Note related files that may need updates
 
 3. **Load constraints**
-   - Read `.harmony/cognition/context/constraints.md` if present
+   - Read `.harmony/cognition/runtime/context/constraints.md` if present
    - Check for project-specific rules (testing requirements, style guides)
    - Note any "always" or "never" rules that apply
 

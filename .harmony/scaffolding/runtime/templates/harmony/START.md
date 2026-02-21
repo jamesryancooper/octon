@@ -77,7 +77,7 @@ Subdirectories: `inbox/` (staging), `archive/` (deprecated).
 ## When Stuck
 
 - Check `continuity/tasks.json` for blocked items
-- Check `cognition/context/lessons.md` for anti-patterns to avoid
-- Check `cognition/context/decisions.md` for relevant past decisions
+- Check `cognition/runtime/context/lessons.md` for anti-patterns to avoid
+- Check `cognition/runtime/context/decisions.md` for relevant past decisions
 - Review parent harness for patterns
 - Document blocker in `continuity/log.md` and stop

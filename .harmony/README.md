@@ -113,16 +113,16 @@ When resolving a resource, agents check local first, then shared:
 | Resource | Search Order |
 |----------|--------------|
 | Agency Manifest | `.harmony/agency/manifest.yml` |
-| Agents | `.harmony/agency/actors/agents/` |
-| Assistants | `.harmony/agency/actors/assistants/` |
-| Teams | `.harmony/agency/actors/teams/` |
+| Agents | `.harmony/agency/runtime/agents/` |
+| Assistants | `.harmony/agency/runtime/assistants/` |
+| Teams | `.harmony/agency/runtime/teams/` |
 | Templates | `.harmony/scaffolding/runtime/templates/` |
 | Workflows | `.harmony/orchestration/runtime/workflows/` |
 | Skills | `.harmony/capabilities/runtime/skills/` |
 | Commands | `.harmony/capabilities/runtime/commands/` |
 | Prompts | `.harmony/scaffolding/practices/prompts/` |
 | Checklists | `.harmony/assurance/` |
-| Context | `.harmony/cognition/context/` |
+| Context | `.harmony/cognition/runtime/context/` |
 
 ## Structure
 
@@ -216,7 +216,7 @@ When resolving a resource, agents check local first, then shared:
 - `START.md`, `scope.md`, `conventions.md`, `catalog.md`
 - `continuity/` (session log, tasks, entities)
 - `orchestration/runtime/missions/` instances (time-bounded sub-projects)
-- Domain-specific context (`cognition/context/` — decisions, lessons, glossary, constraints)
+- Domain-specific context (`cognition/runtime/context/` — decisions, lessons, glossary, constraints)
 - Domain-specific workflows (e.g., flowkit)
 - Skills outputs and logs (always local)
 - `ideation/scratchpad/` (human-led zone with inbox/, archive/, etc.)
@@ -284,9 +284,9 @@ If your tool supports harness commands, run `/init` instead of invoking the scri
 |-----------|---------|
 | `scaffolding/runtime/templates/` | Harness scaffolding (base + variants) |
 | `agency/governance/` | Cross-agent contracts and precedence overlays |
-| `agency/actors/agents/` | Supervisory actors and delegation policy |
-| `agency/actors/assistants/` | Generic specialists (reviewer, refactor, docs) |
-| `agency/actors/teams/` | Reusable multi-actor compositions |
+| `agency/runtime/agents/` | Supervisory actors and delegation policy |
+| `agency/runtime/assistants/` | Generic specialists (reviewer, refactor, docs) |
+| `agency/runtime/teams/` | Reusable multi-actor compositions |
 | `agency/practices/` | Human-agent operating standards and delivery discipline |
 | `orchestration/runtime/workflows/` | Harness management + mission lifecycle |
 | `orchestration/governance/` | Incident governance contracts |
@@ -296,13 +296,13 @@ If your tool supports harness commands, run `/init` instead of invoking the scri
 | `capabilities/runtime/commands/` | Atomic operations |
 | `scaffolding/practices/prompts/` | Task templates |
 | `assurance/` | Assurance gates |
-| `cognition/context/` | Tool usage, compaction guides |
+| `cognition/runtime/context/` | Tool usage, compaction guides |
 
 ### Next Steps
 
 1. Edit `.harmony/scope.md` to define your repo's boundaries
 2. Edit `.harmony/conventions.md` for your style rules
-3. Add repo-specific context to `.harmony/cognition/context/`
+3. Add repo-specific context to `.harmony/cognition/runtime/context/`
 4. Create scoped harnesses as needed: `domains/foo/.harmony/`, `services/foo/.harmony/`
 
 For detailed documentation, see `.harmony/cognition/_meta/architecture/shared-foundation.md`.

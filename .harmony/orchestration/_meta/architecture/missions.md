@@ -148,7 +148,7 @@ target_completion: null
 graph TB
     subgraph harness [Harness - The Project]
         continuity[continuity/]
-        context[cognition/context/]
+        context[cognition/runtime/context/]
         
         subgraph missions [missions/]
             m1[auth-overhaul/]

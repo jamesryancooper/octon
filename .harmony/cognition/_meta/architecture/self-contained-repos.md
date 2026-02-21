@@ -13,7 +13,7 @@ It complements:
 - `architecture/monorepo-layout.md` and `architecture/repository-blueprint.md` (canonical layout and boundaries).
 - `architecture/monorepo-polyglot.md` (TS + Python modular monolith with Turborepo and uv).
 - `architecture/runtime-architecture.md` and `architecture/runtime-policy.md` (platform runtimes).
-- `../methodology/implementation-guide.md` and `../methodology/migration-playbook.md`.
+- `../../practices/methodology/implementation-guide.md` and `../../practices/methodology/migration-playbook.md`.
 
 The goal is to preserve HSP’s **monolith‑first, modular monolith** strategy while making the path to **Self‑Contained Systems (SCS)**, BFFs, or cells predictable when needed.
 

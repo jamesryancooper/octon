@@ -20,7 +20,7 @@ This reduces semantic ambiguity and makes contract enforcement deterministic for
 
 For subsystems that define executable actors or runtime-routing artifacts:
 
-1. Runtime artifacts MUST live under a dedicated runtime surface (for example `actors/` or `runtime/`).
+1. Runtime artifacts MUST live under a dedicated `runtime/` surface.
 2. Governance contracts MUST live under `governance/` and remain the only normative policy source for that subsystem.
 3. Operating standards MUST live under `practices/`.
 4. `_meta/` MUST remain non-structural architecture/reference documentation only.
@@ -32,7 +32,7 @@ For subsystems that define executable actors or runtime-routing artifacts:
 
 Agency is the first subsystem applying this contract:
 
-- runtime artifacts: `/.harmony/agency/actors/`
+- runtime artifacts: `/.harmony/agency/runtime/`
 - governance contracts: `/.harmony/agency/governance/`
 - operating standards: `/.harmony/agency/practices/`
 
@@ -93,15 +93,41 @@ Engine applies the same contract:
 Legacy top-level runtime domain path (`/.harmony/runtime/`) is removed as part
 of the clean-break migration.
 
+## Cognition Application (Seventh Migration)
+
+Cognition applies the same contract:
+
+- runtime artifacts: `/.harmony/cognition/runtime/`
+- governance contracts: `/.harmony/cognition/governance/`
+- operating standards: `/.harmony/cognition/practices/`
+
+Legacy root-level cognition surfaces (`context/`, `decisions/`, `analyses/`,
+`knowledge-plane/`, `principles/`, `pillars/`, `purpose/`, `methodology/`) are
+removed as part of the clean-break migration.
+
+## Domain Profile Registry
+
+Top-level domain profile classification is governed by:
+
+- `/.harmony/cognition/governance/domain-profiles.yml`
+
+Profiles are explicit and validator-enforced:
+
+- `bounded-surfaces`: domain must expose `runtime/`, `governance/`, and
+  `practices/`.
+- `state-tracking`: domain is continuity/state storage, not a bounded-surface
+  triad.
+- `human-led`: domain is explicitly human-led and must not be force-fit into
+  autonomous runtime/governance/practices surfaces.
+- `artifact-sink`: domain is an output sink and must not be force-fit into
+  runtime/governance/practices surfaces.
+
 ## Applicability Boundary (Current State)
 
-As of 2026-02-20, the remaining top-level domains are intentionally **not**
+As of 2026-02-21, the remaining top-level domains are intentionally **not**
 migrated to `runtime/governance/practices` because they do not naturally carry
 all three concern classes:
 
-- `/.harmony/cognition/`: governance (`principles/`) and practices
-  (`methodology/`) exist, but no executable runtime artifact class for this
-  domain.
 - `/.harmony/continuity/`: state-tracking domain; no distinct runtime/governance
   split.
 - `/.harmony/ideation/`: human-led workspace; no runtime/governance/practices

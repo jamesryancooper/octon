@@ -21,7 +21,7 @@ Workflows are one part of the composition model:
   reusable skill bundle with a stable command and contract.
 - **Workflow** (this directory):
   ordered procedural execution with staged checkpoints.
-- **Team** (`.harmony/agency/actors/teams/`):
+- **Team** (`.harmony/agency/runtime/teams/`):
   actor topology and handoff policy.
 
 Use workflows when execution order and checkpoint structure are primary.

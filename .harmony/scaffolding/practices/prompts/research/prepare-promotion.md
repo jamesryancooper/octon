@@ -30,17 +30,17 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 
 3. **Prepare content for each destination**
 
-   **For `cognition/context/decisions.md`:**
+   **For `cognition/runtime/context/decisions.md`:**
    - Extract decision statements with rationale
    - Format as: Decision → Rationale → Date → Source
    - Keep concise; link to project for details
 
-   **For `cognition/context/lessons.md`:**
+   **For `cognition/runtime/context/lessons.md`:**
    - Extract anti-patterns and pitfalls discovered
    - Format as: What to avoid → Why → What to do instead
    - Focus on actionable guidance
 
-   **For `cognition/context/glossary.md`:**
+   **For `cognition/runtime/context/glossary.md`:**
    - Extract new terminology defined during research
    - Format as: Term → Definition → Context
    - Ensure consistency with existing glossary
@@ -77,7 +77,7 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 
 ### Publication Plan
 
-#### → cognition/context/decisions.md
+#### → cognition/runtime/context/decisions.md
 
 **Content to add:**
 
@@ -93,7 +93,7 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 **Source:** Project: [project-slug]
 ```
 
-#### → cognition/context/lessons.md
+#### → cognition/runtime/context/lessons.md
 
 **Content to add:**
 
@@ -109,7 +109,7 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 **Source:** Project: [project-slug]
 ```
 
-#### → cognition/context/glossary.md
+#### → cognition/runtime/context/glossary.md
 
 **Terms to add:**
 

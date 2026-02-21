@@ -22,7 +22,7 @@ Status: Draft stub (set team thresholds)
 - Guided Agentic Autonomy: Agents can propose tests and golden checks; humans approve. Pin AI configs and capture ObservaKit traces for agent‑assisted changes.
 - Evolvable Modularity: Stable contracts and slice‑aligned test suites make it safe to swap databases, services, models, and providers behind tests without breaking consumers.
 
-See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
+See `.harmony/cognition/practices/methodology/README.md` for Harmony’s five pillars.
 
 ## Goals
 
@@ -64,9 +64,9 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 - Governance gates: `.harmony/cognition/_meta/architecture/governance-model.md`
 - Monorepo layout (tests): `.harmony/cognition/_meta/architecture/monorepo-layout.md`
 - Tooling integration: `.harmony/cognition/_meta/architecture/tooling-integration.md`
-- Methodology overview: `.harmony/cognition/methodology/README.md`
-- Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`
-- Layers model: `.harmony/cognition/methodology/layers.md`
-- Improve layer: `.harmony/cognition/methodology/improve-layer.md`
+- Methodology overview: `.harmony/cognition/practices/methodology/README.md`
+- Implementation guide: `.harmony/cognition/practices/methodology/implementation-guide.md`
+- Layers model: `.harmony/cognition/practices/methodology/layers.md`
+- Improve layer: `.harmony/cognition/practices/methodology/improve-layer.md`
 - Architecture overview: `.harmony/cognition/_meta/architecture/overview.md`
 - Observability requirements: `.harmony/cognition/_meta/architecture/observability-requirements.md`

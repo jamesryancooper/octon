@@ -18,9 +18,9 @@ Complete before ending a session, context reset, or handoff.
 
 ### If a decision was made
 
-- [ ] Add to `cognition/context/decisions.md`
+- [ ] Add to `cognition/runtime/context/decisions.md`
 
 ### If something failed
 
-- [ ] Add to `cognition/context/lessons.md`
+- [ ] Add to `cognition/runtime/context/lessons.md`
 

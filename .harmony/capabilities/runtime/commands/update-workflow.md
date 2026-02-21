@@ -98,5 +98,5 @@ All gap remediation plus:
 
 - **Workflow:** `.harmony/orchestration/runtime/workflows/meta/update-workflow/`
 - **Evaluate First:** `.harmony/capabilities/runtime/commands/evaluate-workflow.md`
-- **Gap Guide:** `.harmony/cognition/context/workflow-gaps.md`
-- **Quality Criteria:** `.harmony/cognition/context/workflow-quality.md`
+- **Gap Guide:** `.harmony/cognition/runtime/context/workflow-gaps.md`
+- **Quality Criteria:** `.harmony/cognition/runtime/context/workflow-quality.md`

@@ -21,7 +21,7 @@ Status: Draft stub (capture product domain choices)
 - Quality through Determinism: Explicit invariants and contracts (DTOs/schemas) make behavior testable and reproducible across adapters.
 - Guided Agentic Autonomy: Agents can scaffold ports/adapters from contracts; humans verify invariants and approve domain changes.
 
-See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
+See `.harmony/cognition/practices/methodology/README.md` for Harmony’s five pillars.
 
 ## Scope
 
@@ -43,8 +43,8 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 - Comparative landscape: `.harmony/cognition/_meta/architecture/comparative-landscape.md`
 - Repository blueprint: `.harmony/cognition/_meta/architecture/repository-blueprint.md`
 - Overview: `.harmony/cognition/_meta/architecture/overview.md`
-- Methodology overview: `.harmony/cognition/methodology/README.md`
-- Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`
-- Layers model: `.harmony/cognition/methodology/layers.md`
-- Improve layer: `.harmony/cognition/methodology/improve-layer.md`
+- Methodology overview: `.harmony/cognition/practices/methodology/README.md`
+- Implementation guide: `.harmony/cognition/practices/methodology/implementation-guide.md`
+- Layers model: `.harmony/cognition/practices/methodology/layers.md`
+- Improve layer: `.harmony/cognition/practices/methodology/improve-layer.md`
 - Slices vs layers: `.harmony/cognition/_meta/architecture/slices-vs-layers.md`

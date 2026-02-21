@@ -5,7 +5,7 @@ description: Canonical contracts/ layout and workflows for OpenAPI/JSON Schema a
 
 # Contracts Registry (`contracts/`)
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [repository blueprint](./repository-blueprint.md), [monorepo layout](./monorepo-layout.md), [tooling integration](./tooling-integration.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md)
+Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [repository blueprint](./repository-blueprint.md), [monorepo layout](./monorepo-layout.md), [tooling integration](./tooling-integration.md), [knowledge plane](../../runtime/knowledge-plane/knowledge-plane.md)
 
 The `contracts/` directory is the **canonical contracts registry** for Harmony’s polyglot monorepo. It is the single source of truth for cross-slice and cross-language interfaces, powering generated clients for both TypeScript (control plane and apps) and Python (agents and runtimes).
 

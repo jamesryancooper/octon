@@ -7,7 +7,7 @@ description: How planes and kits integrate via contracts and CI control-plane ga
 
 This document specifies how Harmony’s engineering toolchain integrates across planes (control, data, knowledge, and development), the contracts between tools, expected data flows, and operational guarantees. It serves as a reference for implementing, extending, and troubleshooting integrations.
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [runtime architecture](./runtime-architecture.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md), [observability requirements](./observability-requirements.md), [runtime policy](./runtime-policy.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/practices/examples/stack-profiles/python-runtime-workspace.md)
+Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [overview](./overview.md), [runtime architecture](./runtime-architecture.md), [knowledge plane](../../runtime/knowledge-plane/knowledge-plane.md), [observability requirements](./observability-requirements.md), [runtime policy](./runtime-policy.md), [contracts registry](./contracts-registry.md), [python runtime workspace example](/.harmony/scaffolding/practices/examples/stack-profiles/python-runtime-workspace.md)
 
 ## Scope and Goals
 

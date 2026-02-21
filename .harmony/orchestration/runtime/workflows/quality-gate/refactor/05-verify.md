@@ -51,7 +51,7 @@ If ANY search returns results:
    ```markdown
    ## Remaining References Found
 
-   - `.harmony/cognition/context/old-file.md:15` — contains `old-name`
+   - `.harmony/cognition/runtime/context/old-file.md:15` — contains `old-name`
    - `docs/guide.md:42` — contains `/old-name/`
    ```
 3. **Return to Step 4** (Execute) to address remaining items

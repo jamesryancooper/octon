@@ -13,7 +13,7 @@ The Content Plane is one of three architectural planes in Harmony:
 |-------|---------------|-----------|
 | **Content Plane** (this document) | "What do we publish?" | Docs, entities, pages, prompts |
 | [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) | "What did we decide?" | Decisions, handoffs, progress, backlogs |
-| [Knowledge Plane](../../../knowledge-plane/knowledge-plane.md) | "What is the system?" | Specs, contracts, code, tests, traces |
+| [Knowledge Plane](../../../runtime/knowledge-plane/knowledge-plane.md) | "What is the system?" | Specs, contracts, code, tests, traces |
 
 See [Three Planes Integration](../../../../continuity/_meta/architecture/three-planes-integration.md) for cross-plane architecture.
 

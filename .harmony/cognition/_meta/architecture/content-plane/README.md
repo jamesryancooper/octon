@@ -34,7 +34,7 @@ The Content Plane is one of three architectural planes in Harmony:
 
 **Related Planes:**
 - [Continuity Plane](../../../../continuity/_meta/architecture/continuity-plane.md) — Process knowledge (decisions, handoffs)
-- [Knowledge Plane](../../../knowledge-plane/knowledge-plane.md) — System knowledge (specs, code, tests)
+- [Knowledge Plane](../../../runtime/knowledge-plane/knowledge-plane.md) — System knowledge (specs, code, tests)
 - [Three Planes Integration](../../../../continuity/_meta/architecture/three-planes-integration.md) — Cross-plane architecture
 
 ---

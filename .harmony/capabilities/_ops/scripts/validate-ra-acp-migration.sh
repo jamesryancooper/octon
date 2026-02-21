@@ -33,7 +33,7 @@ check_required_files() {
 }
 
 check_hitl_doc_removed() {
-  local old_doc="$REPO_ROOT/.harmony/cognition/principles/hitl-checkpoints.md"
+  local old_doc="$REPO_ROOT/.harmony/cognition/governance/principles/hitl-checkpoints.md"
   if [[ -f "$old_doc" ]]; then
     fail "legacy hitl-checkpoints.md still exists"
   fi
@@ -118,8 +118,8 @@ check_active_surface_legacy_terms() {
       --glob '!**/.harmony/continuity/runs/**' \
       --glob '!**/.harmony/capabilities/_ops/state/**' \
       --glob '!**/.harmony/capabilities/_ops/tests/**' \
-      --glob '!**/.harmony/cognition/principles/_ops/scripts/lint-principles-governance.sh' \
-      --glob '!**/.harmony/cognition/principles/_ops/scripts/test-principles-governance-lint-fixtures.sh' \
+      --glob '!**/.harmony/cognition/_ops/principles/scripts/lint-principles-governance.sh' \
+      --glob '!**/.harmony/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures.sh' \
       --glob '!**/validate-ra-acp-migration.sh' \
       "$pattern" \
       "$REPO_ROOT/.harmony" 2>/dev/null || true

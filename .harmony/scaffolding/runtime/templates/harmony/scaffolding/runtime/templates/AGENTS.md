@@ -10,7 +10,7 @@ Adopt the default agent persona defined by the harness:
 - **Memory policy:** `.harmony/agency/governance/MEMORY.md`
 - **Execution contract:** `{{DEFAULT_AGENT_EXECUTION_CONTRACT}}`
 - **Identity contract:** `{{DEFAULT_AGENT_IDENTITY_CONTRACT}}`
-- **All agents:** `.harmony/agency/actors/agents/registry.yml`
+- **All agents:** `.harmony/agency/runtime/agents/registry.yml`
 
 Read and follow your agent contract before beginning work.
 
@@ -35,11 +35,11 @@ structure, read `.harmony/START.md`.
 `.harmony/` is organized by domain. Each domain has a `README.md` for
 orientation.
 
-- **Agency:** `.harmony/agency/` (actors, governance, practices)
+- **Agency:** `.harmony/agency/` (runtime, governance, practices)
 - **Capabilities:** `.harmony/capabilities/` (skills, commands, tools)
   - Commands: `.harmony/capabilities/runtime/commands/manifest.yml`
 - **Cognition:** `.harmony/cognition/` (architecture, principles, methodology, context, decisions, analyses)
-  - Context index: `.harmony/cognition/context/index.yml`
+  - Context index: `.harmony/cognition/runtime/context/index.yml`
 - **Orchestration:** `.harmony/orchestration/` (workflows, missions)
 - **Scaffolding:** `.harmony/scaffolding/` (runtime, governance, practices)
 - **Assurance:** `.harmony/assurance/` (runtime, governance, practices)

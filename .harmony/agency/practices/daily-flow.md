@@ -344,7 +344,7 @@ Compare to pre-AI approach where each of these would be 2-4 hours of work.
 
 - **Need to ship something?** → [SHIPPING.md](./SHIPPING.md)
 - **Production issue?** → [INCIDENTS.md](../../orchestration/governance/incidents.md)
-- **Want to understand risk tiers?** → [RISK-TIERS.md](../../cognition/context/risk-tiers.md)
+- **Want to understand risk tiers?** → [RISK-TIERS.md](../../cognition/runtime/context/risk-tiers.md)
 - **Specific task?** → Check [TASKS/](../../orchestration/runtime/workflows/tasks/) directory
 
 ---
@@ -354,6 +354,6 @@ Compare to pre-AI approach where each of these would be 2-4 hours of work.
 For deep dives into the methodology, see the AI-facing docs:
 
 - **CLI Reference**: `.harmony/catalog.md` — Full command reference, options, and integration points
-- **CI/CD Details**: [cognition/methodology/ci-cd-quality-gates.md](../../cognition/methodology/ci-cd-quality-gates.md)
-- **Flow & WIP Policy**: [cognition/methodology/flow-and-wip-policy.md](../../cognition/methodology/flow-and-wip-policy.md)
-- **Reliability & Ops**: [cognition/methodology/reliability-and-ops.md](../../cognition/methodology/reliability-and-ops.md)
+- **CI/CD Details**: [cognition/practices/methodology/ci-cd-quality-gates.md](../../cognition/practices/methodology/ci-cd-quality-gates.md)
+- **Flow & WIP Policy**: [cognition/practices/methodology/flow-and-wip-policy.md](../../cognition/practices/methodology/flow-and-wip-policy.md)
+- **Reliability & Ops**: [cognition/practices/methodology/reliability-and-ops.md](../../cognition/practices/methodology/reliability-and-ops.md)

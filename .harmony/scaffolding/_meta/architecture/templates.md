@@ -25,7 +25,7 @@ Templates are **boilerplate files** stored in `.harmony/scaffolding/runtime/temp
 │   ├── orchestration/runtime/workflows/
 │   ├── scaffolding/practices/prompts/
 │   ├── scaffolding/governance/patterns/
-│   ├── cognition/context/
+│   ├── cognition/runtime/context/
 │   ├── continuity/
 │   ├── assurance/
 │   ├── scaffolding/runtime/templates/

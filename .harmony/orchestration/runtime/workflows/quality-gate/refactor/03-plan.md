@@ -68,7 +68,7 @@ A prioritized, trackable change manifest:
 
 ### Phase 4: Continuity Artifacts (APPEND ONLY)
 - [ ] `continuity/log.md` — Add refactor entry
-- [ ] `cognition/context/decisions.md` — Add decision entry if applicable
+- [ ] `cognition/runtime/context/decisions.md` — Add decision entry if applicable
 ```
 
 ## Idempotency

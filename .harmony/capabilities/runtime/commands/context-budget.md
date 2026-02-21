@@ -57,4 +57,4 @@ JSON with canonical fields:
 ## References
 
 - **Service:** `.harmony/capabilities/runtime/services/interfaces/agent-platform/`
-- **Contract:** `.harmony/cognition/context/agent-platform-interop.md`
+- **Contract:** `.harmony/cognition/runtime/context/agent-platform-interop.md`

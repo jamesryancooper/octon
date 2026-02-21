@@ -43,7 +43,7 @@ Complete before ending a session, context reset, or handoff.
 
 ### If a decision was made
 
-- [ ] Add to `cognition/context/decisions.md`
+- [ ] Add to `cognition/runtime/context/decisions.md`
 - [ ] Optionally create full ADR in `docs/decisions/` or `ideation/scratchpad/`
 
 ### If compaction policy changed or was exercised
@@ -73,13 +73,13 @@ Complete before ending a session, context reset, or handoff.
 
 ### If something failed
 
-- [ ] Add to `cognition/context/lessons.md`
+- [ ] Add to `cognition/runtime/context/lessons.md`
 - [ ] Note in `continuity/log.md`
 
 ### If new patterns discovered
 
 - [ ] Consider adding to `conventions.md`
-- [ ] Or add to `cognition/context/lessons.md` as anti-pattern
+- [ ] Or add to `cognition/runtime/context/lessons.md` as anti-pattern
 
 ## Session Summary Template
 

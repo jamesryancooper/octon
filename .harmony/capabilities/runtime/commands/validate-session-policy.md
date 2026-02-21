@@ -52,4 +52,4 @@ Validation semantics include:
 ## References
 
 - **Schema:** `.harmony/capabilities/runtime/services/interfaces/agent-platform/schema/session-policy.schema.json`
-- **Contract:** `.harmony/cognition/context/agent-platform-interop.md`
+- **Contract:** `.harmony/cognition/runtime/context/agent-platform-interop.md`

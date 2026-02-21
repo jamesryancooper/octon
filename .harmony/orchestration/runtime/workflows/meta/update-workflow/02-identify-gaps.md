@@ -8,8 +8,8 @@ description: Compare workflow against requirements and identify needed changes.
 ## Input
 
 - Audit results from Step 1
-- Gap requirements from `.harmony/cognition/context/workflow-gaps.md`
-- Quality requirements from `.harmony/cognition/context/workflow-quality.md`
+- Gap requirements from `.harmony/cognition/runtime/context/workflow-gaps.md`
+- Quality requirements from `.harmony/cognition/runtime/context/workflow-quality.md`
 
 ## Purpose
 

@@ -50,7 +50,7 @@ migration:
       file_types: "md,yml,yaml,json"
 
     - old: "context/"
-      new: "cognition/context/"
+      new: "cognition/runtime/context/"
 
     - old: "commands/"
       new: "capabilities/runtime/commands/"
@@ -59,7 +59,7 @@ migration:
     # Exact files
     - "continuity/log.md"
     # Directories (recursive)
-    - "cognition/decisions/"
+    - "cognition/runtime/decisions/"
     - ".history/"
     # Glob patterns
     - "*.archive/*"

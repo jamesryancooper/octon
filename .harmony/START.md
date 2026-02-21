@@ -11,9 +11,9 @@ This harness extends `.harmony/` for shared infrastructure.
 
 | Component | Local (Project-Specific) | Shared (in `.harmony/`) |
 |-----------|--------------------------|-------------------------|
-| Agents | `.harmony/agency/actors/agents/` | `.harmony/agency/actors/agents/` |
-| Assistants | `.harmony/agency/actors/assistants/` | `.harmony/agency/actors/assistants/` |
-| Teams | `.harmony/agency/actors/teams/` | `.harmony/agency/actors/teams/` |
+| Agents | `.harmony/agency/runtime/agents/` | `.harmony/agency/runtime/agents/` |
+| Assistants | `.harmony/agency/runtime/assistants/` | `.harmony/agency/runtime/assistants/` |
+| Teams | `.harmony/agency/runtime/teams/` | `.harmony/agency/runtime/teams/` |
 | Templates | `.harmony/scaffolding/runtime/templates/` | `.harmony/scaffolding/runtime/templates/` |
 | Workflows | `.harmony/orchestration/runtime/workflows/` | `.harmony/orchestration/runtime/workflows/` |
 | Skills | `.harmony/capabilities/runtime/skills/` | `.harmony/capabilities/runtime/skills/` |
@@ -21,7 +21,7 @@ This harness extends `.harmony/` for shared infrastructure.
 | Tools | `.harmony/capabilities/runtime/tools/` | `.harmony/capabilities/runtime/tools/` |
 | Services | `.harmony/capabilities/runtime/services/` | `.harmony/capabilities/runtime/services/` |
 | Prompts | `.harmony/scaffolding/practices/prompts/` | `.harmony/scaffolding/practices/prompts/` |
-| Context | `.harmony/cognition/context/` | `.harmony/cognition/context/` |
+| Context | `.harmony/cognition/runtime/context/` | `.harmony/cognition/runtime/context/` |
 | Checklists | `.harmony/assurance/` | `.harmony/assurance/` |
 
 **Resolution:** All resources now live under `.harmony/`.
@@ -149,7 +149,7 @@ Within these namespaces, common subpaths are:
 1. **Read `scope.md`** → Know boundaries
 2. **Read `conventions.md`** → Know style rules
 3. **Read `cognition/_meta/architecture/specification.md`** → Know canonical harness rules
-4. **Read `cognition/principles/README.md`** → Know operating principles
+4. **Read `cognition/governance/principles/README.md`** → Know operating principles
 5. **Scan `catalog.md`** → Know available operations and assistants
 6. **Read `continuity/log.md`** → Know what's been done
 7. **Read `continuity/tasks.json`** → Know current priorities
@@ -215,7 +215,7 @@ ideation/projects/              → Committed research (produces artifacts)
         ↓
 orchestration/runtime/missions/         → Committed execution
         ↓
-cognition/context/              → Permanent knowledge
+cognition/runtime/context/              → Permanent knowledge
 ```
 
 ---
@@ -229,21 +229,21 @@ cognition/context/              → Permanent knowledge
 | Ideas worth exploring | `ideation/scratchpad/brainstorm/` | Graduate to projects or kill |
 | Committed research | `ideation/projects/<slug>/` | Until findings published |
 | Deprecated content | `ideation/scratchpad/archive/` | Permanent reference |
-| Finalized decisions | `cognition/context/decisions.md` | Permanent |
-| Constraints, non-negotiables | `cognition/context/constraints.md` | Permanent |
+| Finalized decisions | `cognition/runtime/context/decisions.md` | Permanent |
+| Constraints, non-negotiables | `cognition/runtime/context/constraints.md` | Permanent |
 | Next actions | `continuity/next.md` | Active |
-| Harness terminology | `cognition/context/glossary.md` | Reference |
-| Repo-wide terminology | `cognition/context/glossary-repo.md` | Reference |
-| Lessons learned | `cognition/context/lessons.md` | Reference |
+| Harness terminology | `cognition/runtime/context/glossary.md` | Reference |
+| Repo-wide terminology | `cognition/runtime/context/glossary-repo.md` | Reference |
+| Lessons learned | `cognition/runtime/context/lessons.md` | Reference |
 
-**Publishing findings:** Project findings flow directly to `cognition/context/` files without a separate promotion step.
+**Publishing findings:** Project findings flow directly to `cognition/runtime/context/` files without a separate promotion step.
 
 ---
 
 ## When Stuck
 
 - Check `continuity/tasks.json` for blocked items and their blockers
-- Check `cognition/context/lessons.md` for anti-patterns to avoid
-- Check `cognition/context/decisions.md` for relevant past decisions
+- Check `cognition/runtime/context/lessons.md` for anti-patterns to avoid
+- Check `cognition/runtime/context/decisions.md` for relevant past decisions
 - Review `scaffolding/practices/prompts/` for relevant task templates
 - If truly blocked, document the blocker in `continuity/log.md` and stop

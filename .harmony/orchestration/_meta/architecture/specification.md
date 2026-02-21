@@ -421,7 +421,7 @@ description: Parse manifest and enumerate scope.
 
 ### Quality Rubric Integration
 
-Harmony workflows are assessed against a 100-point quality rubric defined in `.harmony/cognition/context/workflow-quality.md`:
+Harmony workflows are assessed against a 100-point quality rubric defined in `.harmony/cognition/runtime/context/workflow-quality.md`:
 
 - **Structure** (25 pts): WORKFLOW.md, numbered steps, verification gate, naming
 - **Frontmatter** (20 pts): Required fields, version, dependencies
@@ -487,4 +487,4 @@ Execution:
 - [Agent Skills Specification](/.harmony/capabilities/_meta/architecture/specification.md) -- Skills format specification
 - [Skills Architecture](/.harmony/capabilities/_meta/architecture/architecture.md) -- Skills implementation architecture
 - [Workflow Template](/.harmony/orchestration/runtime/workflows/_scaffold/template/) -- Canonical workflow template
-- [Workflow Quality Rubric](/.harmony/cognition/context/workflow-quality.md) -- 100-point grading rubric
+- [Workflow Quality Rubric](/.harmony/cognition/runtime/context/workflow-quality.md) -- 100-point grading rubric

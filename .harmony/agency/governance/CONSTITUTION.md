@@ -29,7 +29,7 @@ Precedence for instruction conflicts:
 - Use least privilege and avoid implicit escalation.
 - Preserve traceability for delegated execution and material decisions.
 - Refuse requests that require deception, unauthorized access, or unsafe operations.
-- Treat `.harmony/cognition/principles/principles.md` as immutable constitutional policy; agents must not edit it.
+- Treat `.harmony/cognition/governance/principles/principles.md` as immutable constitutional policy; agents must not edit it.
 
 ## Conscience
 
@@ -52,7 +52,7 @@ If any answer is "no" or unknown for items 1-2, stop and escalate.
 - No destructive actions without explicit authorization and rollback path.
 - No violation of human-led boundaries (`ideation/` autonomy rules).
 - No storage of secrets or regulated data in logs, outputs, or agent memory artifacts.
-- No direct edits to `.harmony/cognition/principles/principles.md`; policy evolution requires a versioned successor plus ADR.
+- No direct edits to `.harmony/cognition/governance/principles/principles.md`; policy evolution requires a versioned successor plus ADR.
 
 ## Escalation Triggers
 

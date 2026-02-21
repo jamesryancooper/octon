@@ -35,7 +35,7 @@ When creating a harness using this template:
 All other files come from `.harmony/scaffolding/runtime/templates/harmony/`:
 
 - `catalog.md`
-- `cognition/context/` (decisions, lessons, glossary, dependencies, constraints)
+- `cognition/runtime/context/` (decisions, lessons, glossary, dependencies, constraints)
 - `continuity/` (log.md, tasks.json, entities.json)
 - `assurance/practices/session-exit.md`
 - `capabilities/runtime/commands/`, `scaffolding/governance/patterns/`, `scaffolding/practices/prompts/`, `orchestration/runtime/workflows/`, `scaffolding/runtime/templates/`, `scaffolding/practices/examples/` (README placeholders)

@@ -66,5 +66,5 @@ New workflow directory with:
 
 - **Workflow:** `.harmony/orchestration/runtime/workflows/meta/create-workflow/`
 - **Template:** `.harmony/orchestration/runtime/workflows/_scaffold/template/`
-- **Gap Guide:** `.harmony/cognition/context/workflow-gaps.md`
-- **Quality Criteria:** `.harmony/cognition/context/workflow-quality.md`
+- **Gap Guide:** `.harmony/cognition/runtime/context/workflow-gaps.md`
+- **Quality Criteria:** `.harmony/cognition/runtime/context/workflow-quality.md`

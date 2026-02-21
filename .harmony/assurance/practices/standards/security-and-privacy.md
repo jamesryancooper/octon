@@ -22,7 +22,7 @@ Status: Draft stub (align with product/regulatory needs)
 - Guided Agentic Autonomy: GuardKit performs default redaction; agents may propose policy/test updates but humans approve and own risk decisions.
 - Evolvable Modularity: Clear security contracts and adapter boundaries let you change providers (IDP, storage, scanners) or hosting without weakening controls or rewriting the core model.
 
-See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
+See `.harmony/cognition/practices/methodology/README.md` for Harmony’s five pillars.
 
 ## Objectives
 
@@ -59,8 +59,8 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 - Governance model: `.harmony/cognition/_meta/architecture/governance-model.md`
 - Runtime policy: `.harmony/cognition/_meta/architecture/runtime-policy.md`
 - Observability requirements: `.harmony/cognition/_meta/architecture/observability-requirements.md`
-- Knowledge Plane: `.harmony/cognition/knowledge-plane/knowledge-plane.md`
-- Methodology overview: `.harmony/cognition/methodology/README.md`
-- Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`
-- Layers model: `.harmony/cognition/methodology/layers.md`
-- Improve layer: `.harmony/cognition/methodology/improve-layer.md`
+- Knowledge Plane: `.harmony/cognition/runtime/knowledge-plane/knowledge-plane.md`
+- Methodology overview: `.harmony/cognition/practices/methodology/README.md`
+- Implementation guide: `.harmony/cognition/practices/methodology/implementation-guide.md`
+- Layers model: `.harmony/cognition/practices/methodology/layers.md`
+- Improve layer: `.harmony/cognition/practices/methodology/improve-layer.md`

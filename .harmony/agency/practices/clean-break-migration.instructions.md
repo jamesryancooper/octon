@@ -30,12 +30,12 @@ You are working in a repository where migrations are clean-break by default.
 ## Required Outputs (MUST)
 
 - Create or update a migration plan from `/.harmony/scaffolding/runtime/templates/migrations/template.clean-break-migration.md`
-- Update `/.harmony/cognition/methodology/migrations/legacy-banlist.md`
+- Update `/.harmony/cognition/practices/methodology/migrations/legacy-banlist.md`
 - Provide verification evidence (test output, logs, receipts)
 
 ## If an Exception Is Required
 
 Stop and produce an exception request aligned with:
 
-- `/.harmony/cognition/methodology/migrations/exceptions.md`
+- `/.harmony/cognition/practices/methodology/migrations/exceptions.md`
 

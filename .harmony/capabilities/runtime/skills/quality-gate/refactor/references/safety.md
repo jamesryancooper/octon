@@ -74,7 +74,7 @@ continuity_patterns:
   - "**/continuity/log.md"
   - "**/continuity/*.md"
   - "**/decisions/*.md"
-  - "**/cognition/context/decisions.md"
+  - "**/cognition/runtime/context/decisions.md"
   - "**/CHANGELOG.md"
   - "**/HISTORY.md"
   - "**/.history/**"
@@ -101,7 +101,7 @@ Historical records should reflect what was true at the time. Future readers shou
 During Phase 3 (Plan):
 
 1. Check each file against `continuity_patterns`
-2. Check against `.harmony/cognition/context/continuity.md` if it exists
+2. Check against `.harmony/cognition/runtime/context/continuity.md` if it exists
 3. If match found:
    - Mark file as `continuity: true` in manifest
    - Add to "Continuity Artifacts (APPEND ONLY)" section

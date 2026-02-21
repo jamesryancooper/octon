@@ -67,6 +67,6 @@ Knowledge updates / implementation changes
 ## Related Docs
 
 - `.harmony/continuity/_meta/architecture/continuity-plane.md`
-- `.harmony/cognition/knowledge-plane/knowledge-plane.md`
+- `.harmony/cognition/runtime/knowledge-plane/knowledge-plane.md`
 - `.harmony/cognition/_meta/architecture/content-plane/README.md`
 - `.harmony/START.md`

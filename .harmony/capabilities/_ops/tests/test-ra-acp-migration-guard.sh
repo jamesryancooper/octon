@@ -112,8 +112,8 @@ case_detects_affirmative_legacy_terms() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
 
-  mkdir -p "$fixture_root/.harmony/cognition/principles"
-  cat > "$fixture_root/.harmony/cognition/principles/deny-by-default.md" <<'EOF'
+  mkdir -p "$fixture_root/.harmony/cognition/governance/principles"
+  cat > "$fixture_root/.harmony/cognition/governance/principles/deny-by-default.md" <<'EOF'
 Legacy governance required human approval at runtime.
 All production promotions must be approved before release.
 EOF
@@ -125,8 +125,8 @@ case_detects_pre_promote_human_approval_language() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
 
-  mkdir -p "$fixture_root/.harmony/cognition/methodology"
-  cat > "$fixture_root/.harmony/cognition/methodology/gates.md" <<'EOF'
+  mkdir -p "$fixture_root/.harmony/cognition/practices/methodology"
+  cat > "$fixture_root/.harmony/cognition/practices/methodology/gates.md" <<'EOF'
 Builds must approve before promote by human checkpoint required policy.
 EOF
 
@@ -137,8 +137,8 @@ case_allows_explicit_negation_terms() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
 
-  mkdir -p "$fixture_root/.harmony/cognition/principles"
-  cat > "$fixture_root/.harmony/cognition/principles/autonomous-control-points.md" <<'EOF'
+  mkdir -p "$fixture_root/.harmony/cognition/governance/principles"
+  cat > "$fixture_root/.harmony/cognition/governance/principles/autonomous-control-points.md" <<'EOF'
 Promotion does not require standing human approvals.
 Agents promote through ACP evidence and quorum rules.
 EOF

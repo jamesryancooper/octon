@@ -97,7 +97,7 @@ Advanced configuration example:
 - Spec-first and contract-driven
 - Auditable, versioned documentation updates
 - Risk-aware rollout and rollback readiness
-- See `.harmony/cognition/methodology/README.md`
+- See `.harmony/cognition/practices/methodology/README.md`
 
 ## Minimal Interface Examples
 

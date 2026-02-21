@@ -621,7 +621,7 @@ continuity_patterns:
   - "**/continuity/log.md"
   - "**/continuity/*.md"
   - "**/decisions/*.md"
-  - "**/cognition/context/decisions.md"
+  - "**/cognition/runtime/context/decisions.md"
   - "**/CHANGELOG.md"
   - "**/HISTORY.md"
   - "**/.history/**"
@@ -634,7 +634,7 @@ continuity_patterns:
 During planning phase, for each file in the change manifest:
 
 1. Check against `continuity_patterns` (default list above)
-2. Check against `.harmony/cognition/context/continuity.md` if it exists
+2. Check against `.harmony/cognition/runtime/context/continuity.md` if it exists
 3. If match found:
    - Mark file as `continuity: true` in manifest
    - Add to "Continuity Artifacts (APPEND ONLY)" section
@@ -779,7 +779,7 @@ Deliverables go directly to their **final destination** in `.harmony/{{category}
 | `prompts` | Refined prompts | `.harmony/scaffolding/practices/prompts/` |
 | `drafts` | Document drafts | `.harmony/output/drafts/` |
 | `reports` | Analysis reports | `.harmony/output/reports/` |
-| `analyses` | Code/data analyses | `.harmony/cognition/analyses/` |
+| `analyses` | Code/data analyses | `.harmony/cognition/runtime/analyses/` |
 | `scaffolds` | Generated scaffolds | Target directory |
 
 #### Custom Destinations
@@ -832,7 +832,7 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 
 ## Live Ruleset Pattern (`external-dependent`)
 
-**Decision:** [D040](/.harmony/cognition/context/decisions.md) — Skills can fetch rule sets from external URLs at runtime using the `external-dependent` capability. This keeps audits current without harness updates, at the cost of requiring network access.
+**Decision:** [D040](/.harmony/cognition/runtime/context/decisions.md) — Skills can fetch rule sets from external URLs at runtime using the `external-dependent` capability. This keeps audits current without harness updates, at the cost of requiring network access.
 
 **Canonical example:** [`audit-ui`](/.harmony/capabilities/runtime/skills/quality-gate/audit-ui/SKILL.md) — fetches web design guidelines from an external URL, scans UI files, and reports violations.
 

@@ -21,7 +21,7 @@ Status: Draft stub (adopt templates and numbering)
 - Quality through Determinism: Require provenance (PR/build/trace IDs) and consistent numbering so decisions are auditable and reproducible across environments.
 - Guided Agentic Autonomy: Allow agents to draft ADR summaries and diffs, but require ACP gate. Record pinned AI configuration and link ObservaKit traces for runs that influenced the ADR.
 
-See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
+See `.harmony/cognition/practices/methodology/README.md` for Harmony’s five pillars.
 
 ## When to write an ADR
 
@@ -46,9 +46,9 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 
 - Knowledge Plane: `.harmony/cognition/_meta/architecture/knowledge-plane/knowledge-plane.md`
 - Governance model: `.harmony/cognition/_meta/architecture/governance-model.md`
-- Methodology overview: `.harmony/cognition/methodology/README.md`
-- Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`
-- Layers model: `.harmony/cognition/methodology/layers.md`
-- Improve layer: `.harmony/cognition/methodology/improve-layer.md`
+- Methodology overview: `.harmony/cognition/practices/methodology/README.md`
+- Implementation guide: `.harmony/cognition/practices/methodology/implementation-guide.md`
+- Layers model: `.harmony/cognition/practices/methodology/layers.md`
+- Improve layer: `.harmony/cognition/practices/methodology/improve-layer.md`
 - Architecture overview: `.harmony/cognition/_meta/architecture/overview.md`
 - Repository blueprint: `.harmony/cognition/_meta/architecture/repository-blueprint.md`

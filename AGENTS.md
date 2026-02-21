@@ -8,9 +8,9 @@ Adopt the default agent persona defined by the harness:
 - **Constitution:** `.harmony/agency/governance/CONSTITUTION.md`
 - **Delegation policy:** `.harmony/agency/governance/DELEGATION.md`
 - **Memory policy:** `.harmony/agency/governance/MEMORY.md`
-- **Execution contract:** `.harmony/agency/actors/agents/architect/AGENT.md`
-- **Identity contract:** `.harmony/agency/actors/agents/architect/SOUL.md`
-- **All agents:** `.harmony/agency/actors/agents/registry.yml`
+- **Execution contract:** `.harmony/agency/runtime/agents/architect/AGENT.md`
+- **Identity contract:** `.harmony/agency/runtime/agents/architect/SOUL.md`
+- **All agents:** `.harmony/agency/runtime/agents/registry.yml`
 
 Read and follow your agent contract before beginning work.
 
@@ -29,8 +29,8 @@ Precedence for conflicts: `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` ->
 
 ## Immutable Charter
 
-- Treat `.harmony/cognition/principles/principles.md` as an immutable constitutional artifact.
-- Agents MUST NOT modify `.harmony/cognition/principles/principles.md`.
+- Treat `.harmony/cognition/governance/principles/principles.md` as an immutable constitutional artifact.
+- Agents MUST NOT modify `.harmony/cognition/governance/principles/principles.md`.
 - If standards must evolve, create a versioned successor (`principles-vYYYY-MM-DD.md`) and record an ADR; do not edit the immutable charter.
 
 ## Harness Orientation
@@ -41,12 +41,12 @@ structure, read `.harmony/START.md`.
 `.harmony/` is organized by domain. Each domain has a `README.md` for
 orientation.
 
-- **Agency:** `.harmony/agency/` (actors, governance, practices)
+- **Agency:** `.harmony/agency/` (runtime, governance, practices)
 - **Capabilities:** `.harmony/capabilities/` (runtime, governance, practices)
   - Commands: `.harmony/capabilities/runtime/commands/manifest.yml`
   - Skills: `.harmony/capabilities/runtime/skills/manifest.yml`
-- **Cognition:** `.harmony/cognition/` (architecture, principles, methodology, context, decisions, analyses)
-  - Context index: `.harmony/cognition/context/index.yml`
+- **Cognition:** `.harmony/cognition/` (runtime, governance, practices)
+  - Context index: `.harmony/cognition/runtime/context/index.yml`
 - **Orchestration:** `.harmony/orchestration/` (workflows, missions)
 - **Scaffolding:** `.harmony/scaffolding/` (runtime, governance, practices)
 - **Assurance:** `.harmony/assurance/` (runtime, governance, practices)

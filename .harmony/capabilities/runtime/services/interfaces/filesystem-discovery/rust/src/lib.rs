@@ -2799,7 +2799,7 @@ mod tests {
         ));
         assert!(should_skip(".git/config", DEFAULT_STATE_DIR));
         assert!(!should_skip(
-            ".harmony/cognition/context/index.yml",
+            ".harmony/cognition/runtime/context/index.yml",
             DEFAULT_STATE_DIR
         ));
     }

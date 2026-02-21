@@ -14,7 +14,7 @@ description: Example invocations for audit-documentation-standards.
 ## Audit with explicit canonical paths
 
 ```text
-/audit-documentation-standards docs_root="docs" template_root=".harmony/scaffolding/runtime/templates/docs/documentation-standards" policy_doc=".harmony/cognition/principles/documentation-is-code.md"
+/audit-documentation-standards docs_root="docs" template_root=".harmony/scaffolding/runtime/templates/docs/documentation-standards" policy_doc=".harmony/cognition/governance/principles/documentation-is-code.md"
 ```
 
 ## High-severity filter

@@ -19,31 +19,45 @@ Subsystem expansion specs:
 - [`.harmony/capabilities/_meta/architecture/specification.md`](./capabilities/_meta/architecture/specification.md)
 - [`.harmony/orchestration/_meta/architecture/specification.md`](./orchestration/_meta/architecture/specification.md)
 
+## Domain Profiles
+
+Top-level domain shape is classified by profile (rather than naming
+conventions):
+
+- `bounded-surfaces` (`runtime/`, `governance/`, `practices/`)
+- `state-tracking`
+- `human-led`
+- `artifact-sink`
+
+Canonical registry:
+
+- [`.harmony/cognition/governance/domain-profiles.yml`](./cognition/governance/domain-profiles.yml)
+
 ---
 
 ## Assistants
 
-Focused specialists in `agency/actors/assistants/`:
+Focused specialists in `agency/runtime/assistants/`:
 
 | Assistant | Aliases | Description |
 |-----------|---------|-------------|
-| [reviewer](./agency/actors/assistants/reviewer/assistant.md) | `@reviewer`, `@review`, `@rev` | Code review: quality, style, correctness, security |
-| [refactor](./agency/actors/assistants/refactor/assistant.md) | `@refactor`, `@ref` | Code restructuring: extract, rename, simplify |
-| [docs](./agency/actors/assistants/docs/assistant.md) | `@docs`, `@doc` | Documentation: clarity, completeness, accuracy |
+| [reviewer](./agency/runtime/assistants/reviewer/assistant.md) | `@reviewer`, `@review`, `@rev` | Code review: quality, style, correctness, security |
+| [refactor](./agency/runtime/assistants/refactor/assistant.md) | `@refactor`, `@ref` | Code restructuring: extract, rename, simplify |
+| [docs](./agency/runtime/assistants/docs/assistant.md) | `@docs`, `@doc` | Documentation: clarity, completeness, accuracy |
 
 **Invocation:** Type `@name task` in chat or let agents delegate subtasks.
 
-See `agency/manifest.yml` for actor discovery and `agency/actors/assistants/registry.yml` for alias mappings.
+See `agency/manifest.yml` for actor discovery and `agency/runtime/assistants/registry.yml` for alias mappings.
 
 ---
 
 ## Teams
 
-Reusable multi-actor compositions in `agency/actors/teams/`:
+Reusable multi-actor compositions in `agency/runtime/teams/`:
 
 | Team | Lead | Members | Description |
 |------|------|---------|-------------|
-| [delivery-core](./agency/actors/teams/delivery-core/team.md) | `architect` | `architect`, `auditor`, `reviewer`, `refactor`, `docs` | Default end-to-end delivery composition with verification handoffs |
+| [delivery-core](./agency/runtime/teams/delivery-core/team.md) | `architect` | `architect`, `auditor`, `reviewer`, `refactor`, `docs` | Default end-to-end delivery composition with verification handoffs |
 
 **Invocation:** `use team: <id>` (if supported by caller) or by explicit agent/workflow routing.
 
@@ -334,17 +348,17 @@ Will humans frequently trigger this directly?
 
 ## Context
 
-Background knowledge in `cognition/context/`:
+Background knowledge in `cognition/runtime/context/`:
 
 | File | Description |
 |------|-------------|
-| [decisions.md](./cognition/context/decisions.md) | Agent-readable decision summaries. |
-| [lessons.md](./cognition/context/lessons.md) | Anti-patterns and failures to avoid. |
-| [glossary.md](./cognition/context/glossary.md) | Domain-specific terminology. |
-| [dependencies.md](./cognition/context/dependencies.md) | External systems and references. |
-| [constraints.md](./cognition/context/constraints.md) | Technical and business rules. |
-| [compaction.md](./cognition/context/compaction.md) | Token compaction strategies. |
-| [tools.md](./cognition/context/tools.md) | Available tools reference. |
+| [decisions.md](./cognition/runtime/context/decisions.md) | Agent-readable decision summaries. |
+| [lessons.md](./cognition/runtime/context/lessons.md) | Anti-patterns and failures to avoid. |
+| [glossary.md](./cognition/runtime/context/glossary.md) | Domain-specific terminology. |
+| [dependencies.md](./cognition/runtime/context/dependencies.md) | External systems and references. |
+| [constraints.md](./cognition/runtime/context/constraints.md) | Technical and business rules. |
+| [compaction.md](./cognition/runtime/context/compaction.md) | Token compaction strategies. |
+| [tools.md](./cognition/runtime/context/tools.md) | Available tools reference. |
 
 ---
 

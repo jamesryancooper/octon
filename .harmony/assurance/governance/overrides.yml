@@ -16,7 +16,7 @@ deviations:
     new_value: 4
     reason_category: "performance"
     reason: "Reduce high-volume trace retention overhead while preserving forensic minimums."
-    adr: ".harmony/cognition/decisions/022-runtime-auditability-sampling-policy.md"
+    adr: ".harmony/cognition/runtime/decisions/022-runtime-auditability-sampling-policy.md"
     changelog_version: "2.4.0"
     owner: "payments-runtime-owner"
     created_at: "2026-02-18"
@@ -39,7 +39,7 @@ deviations:
     new_value: 5
     reason_category: "developer-experience"
     reason: "Prioritize onboarding ergonomics during template migration pilot."
-    adr: ".harmony/cognition/decisions/041-scaffolding-onboarding-pilot.md"
+    adr: ".harmony/cognition/runtime/decisions/041-scaffolding-onboarding-pilot.md"
     changelog_version: "1.9.0"
     owner: "docs-scaffolding-owner"
     created_at: "2026-02-18"

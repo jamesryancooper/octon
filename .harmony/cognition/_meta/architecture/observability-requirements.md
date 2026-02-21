@@ -6,7 +6,7 @@ description: Structured logs, distributed tracing, correlation to the Knowledge 
 
 # Observability Requirements: Spans, Logs, Trace Linking, and Redaction
 
-Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [runtime architecture](/.harmony/cognition/_meta/architecture/runtime-architecture.md), [runtime policy](/.harmony/cognition/_meta/architecture/runtime-policy.md), [knowledge plane](../../knowledge-plane/knowledge-plane.md), [tooling integration](./tooling-integration.md), [python runtime workspace example](/.harmony/scaffolding/practices/examples/stack-profiles/python-runtime-workspace.md)
+Related docs: [monorepo polyglot (normative)](./monorepo-polyglot.md), [runtime architecture](/.harmony/cognition/_meta/architecture/runtime-architecture.md), [runtime policy](/.harmony/cognition/_meta/architecture/runtime-policy.md), [knowledge plane](../../runtime/knowledge-plane/knowledge-plane.md), [tooling integration](./tooling-integration.md), [python runtime workspace example](/.harmony/scaffolding/practices/examples/stack-profiles/python-runtime-workspace.md)
 
 To fulfill our pillar of **Speed with Safety**, we need deep insight into system behavior at runtime without compromising privacy or security. Observability is the practice of instrumenting the system so that we can understand its internal states from its outputs (logs, metrics, traces). Our observability plan is comprehensive: we require structured **logging**, **distributed tracing** across components, correlation of those traces to knowledge in the Knowledge Plane, and careful **redaction** of sensitive data to protect user privacy and comply with regulations. This section lays out the observability requirements and how they tie into HSP.
 

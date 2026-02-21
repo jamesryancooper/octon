@@ -16,9 +16,9 @@ It is intentionally **implementation‑agnostic**: concrete Dockerfiles and `doc
 Related docs:
 
 - Methodology:
-  - `../methodology/implementation-guide.md`
-  - `../methodology/testing-strategy.md`
-  - `../methodology/sandbox-flow.md`
+  - `../../practices/methodology/implementation-guide.md`
+  - `../../practices/methodology/testing-strategy.md`
+  - `../../practices/methodology/sandbox-flow.md`
 - Architecture:
   - `./overview.md`
   - `./monorepo-layout.md`

@@ -35,9 +35,9 @@ This is the canonical documentation entrypoint for the `.harmony/agency` subsyst
 - `.harmony/agency/governance/CONSTITUTION.md`
 - `.harmony/agency/governance/DELEGATION.md`
 - `.harmony/agency/governance/MEMORY.md`
-- `.harmony/agency/actors/agents/registry.yml`
-- `.harmony/agency/actors/assistants/registry.yml`
-- `.harmony/agency/actors/teams/registry.yml`
+- `.harmony/agency/runtime/agents/registry.yml`
+- `.harmony/agency/runtime/assistants/registry.yml`
+- `.harmony/agency/runtime/teams/registry.yml`
 
 ## Legacy Compatibility
 

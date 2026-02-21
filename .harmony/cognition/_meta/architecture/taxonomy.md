@@ -18,7 +18,7 @@ This document clarifies the distinctions between harness artifact types: **comma
 | **Harness Workflow** | `.harmony/orchestration/runtime/workflows/` | Multi-step procedure (source of truth) | Complex, sequential operation |
 | **Harness Prompt** | `.harmony/scaffolding/practices/prompts/` | Task template | Context-dependent, requires judgment |
 | **Harness Skill** | `.harmony/capabilities/runtime/skills/` | Composable capability | Defined I/O, pipelines, auditability |
-| **Assistant** | `.harmony/agency/actors/assistants/` | Focused specialist | Scoped, delegatable tasks |
+| **Assistant** | `.harmony/agency/runtime/assistants/` | Focused specialist | Scoped, delegatable tasks |
 | **Mission** | `.harmony/orchestration/runtime/missions/` | Sub-project | Isolated, time-bounded work |
 
 ---
@@ -206,7 +206,7 @@ See `.harmony/catalog.md#command-vs-prompt-decision` for the canonical decision 
 
 ## Assistants
 
-**Location:** `.harmony/agency/actors/assistants/<name>/assistant.md`
+**Location:** `.harmony/agency/runtime/assistants/<name>/assistant.md`
 
 Focused specialists that serve agents or humans for scoped, one-off tasks.
 
@@ -335,7 +335,7 @@ See `.harmony/catalog.md` for complete decision flowcharts and examples.
 | Harness Commands | `.harmony/capabilities/runtime/commands/*.md` | This harness only | No (unless wrapped) |
 | Harness Workflows | `.harmony/orchestration/runtime/workflows/*.md` | This harness only | No (unless wrapped) |
 | Prompts | `.harmony/scaffolding/practices/prompts/*.md` | Task templates | No |
-| Assistants | `.harmony/agency/actors/assistants/<name>/` | Focused specialists | Via @mention |
+| Assistants | `.harmony/agency/runtime/assistants/<name>/` | Focused specialists | Via @mention |
 | Missions | `.harmony/orchestration/runtime/missions/<slug>/` | Sub-projects | No |
 | Checklists | `.harmony/assurance/*.md` | Quality gates | No |
 

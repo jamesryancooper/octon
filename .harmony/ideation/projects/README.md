@@ -38,10 +38,10 @@ ideation/projects/              Committed research (produces artifacts)
         ↓
 orchestration/missions/         Committed execution (ships deliverables)
         ↓
-cognition/context/              Permanent workspace knowledge
+cognition/runtime/context/              Permanent workspace knowledge
 ```
 
-Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `cognition/context/` directly or spawn `orchestration/missions/`.
+Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `cognition/runtime/context/` directly or spawn `orchestration/missions/`.
 
 ---
 
@@ -145,12 +145,12 @@ When a brainstorm graduates:
 When findings are ready:
 
 1. **Summarize findings** in `project.md` Findings Summary section
-2. **Publish to workspace** — update relevant `cognition/context/` files directly
+2. **Publish to workspace** — update relevant `cognition/runtime/context/` files directly
 3. **Spawn missions** if actionable work was identified
 4. **Move registry entry** from **Active** to **Completed**
 5. **Note outcomes** — what was published and where
 
-Unlike the old scratchpad model, there's no separate "promotion" step. Projects live in the workspace, so findings flow directly to `cognition/context/decisions.md`, `cognition/context/lessons.md`, etc.
+Unlike the old scratchpad model, there's no separate "promotion" step. Projects live in the workspace, so findings flow directly to `cognition/runtime/context/decisions.md`, `cognition/runtime/context/lessons.md`, etc.
 
 ---
 
@@ -158,5 +158,5 @@ Unlike the old scratchpad model, there's no separate "promotion" step. Projects 
 
 - [`orchestration/missions/`](../../orchestration/missions/README.md) — Convergent execution workstreams
 - [`ideation/scratchpad/brainstorm/`](../scratchpad/brainstorm/README.md) — Pre-project exploration
-- [`cognition/context/`](../../cognition/context/) — Where findings get published
+- [`cognition/runtime/context/`](../../cognition/runtime/context/) — Where findings get published
 - [`docs/architecture/workspaces/projects.md`](../../docs/architecture/workspaces/projects.md) — Full architecture documentation

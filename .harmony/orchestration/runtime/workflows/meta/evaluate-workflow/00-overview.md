@@ -72,6 +72,6 @@ Assessment report with:
 
 ## References
 
-- **Quality criteria:** `.harmony/cognition/context/workflow-quality.md`
-- **Gap checklist:** `.harmony/cognition/context/workflow-gaps.md`
+- **Quality criteria:** `.harmony/cognition/runtime/context/workflow-quality.md`
+- **Gap checklist:** `.harmony/cognition/runtime/context/workflow-gaps.md`
 - **Update workflow:** `.harmony/orchestration/runtime/workflows/meta/update-workflow/` (to fix issues)

@@ -52,7 +52,7 @@ ideation/projects/              → Committed research (produces artifacts)
         ↓
 orchestration/runtime/missions/         → Committed execution
         ↓
-cognition/context/              → Permanent knowledge
+cognition/runtime/context/              → Permanent knowledge
 ```
 
 ---
@@ -134,9 +134,9 @@ When project findings are ready:
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `cognition/context/decisions.md` |
-| Anti-patterns | `cognition/context/lessons.md` |
-| New terminology | `cognition/context/glossary.md` |
+| Design decisions | `cognition/runtime/context/decisions.md` |
+| Anti-patterns | `cognition/runtime/context/lessons.md` |
+| New terminology | `cognition/runtime/context/glossary.md` |
 | Actionable work | Create mission in `orchestration/runtime/missions/` |
 
 Since projects live at harness level, findings flow directly to their destinations without a separate "promotion" step.
@@ -175,7 +175,7 @@ Since projects live at harness level, findings flow directly to their destinatio
 2. Human: "Review ideation/projects/auth-options/project.md and help organize findings"
 3. Agent reads specific file, proposes organization
 4. Human refines, makes decision
-5. Human updates cognition/context/decisions.md directly
+5. Human updates cognition/runtime/context/decisions.md directly
 6. Human marks project completed in registry
 ```
 

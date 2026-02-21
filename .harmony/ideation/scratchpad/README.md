@@ -38,7 +38,7 @@ Ideas flow from raw captures to committed work:
 │ brainstorm/         │────┘   │ orchestration/      │
 │ (explore before     │        │   missions/         │
 │  committing)        │        │         ↓           │
-└─────────────────────┘        │ cognition/context/  │
+└─────────────────────┘        │ cognition/runtime/context/  │
                                │ (permanent knowledge)│
                                └─────────────────────┘
 ```

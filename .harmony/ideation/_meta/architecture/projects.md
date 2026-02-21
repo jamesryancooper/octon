@@ -17,7 +17,7 @@ A project is a **scaled-down harness** for human-led exploration:
 |---------------------|----------------------------|
 | `scope.md` | `project.md` (Goal, Scope, Questions) |
 | `continuity/log.md` | `log.md` (Session notes) |
-| `cognition/context/decisions.md` | Findings Summary in `project.md` |
+| `cognition/runtime/context/decisions.md` | Findings Summary in `project.md` |
 | `continuity/tasks.json` | Key Questions in `project.md` |
 
 Projects provide structure for investigations that:
@@ -61,7 +61,7 @@ ideation/projects/              Committed research (produces artifacts)
         ↓
 orchestration/missions/         Committed execution (ships deliverables)
         ↓
-cognition/context/              Permanent harness knowledge
+cognition/runtime/context/              Permanent harness knowledge
 ```
 
 Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `context/` directly or spawn `missions/`.
@@ -129,7 +129,7 @@ The `registry.md` tracks all projects in three tables:
 
 | Project | Goal | Completed | Outcomes |
 |---------|------|-----------|----------|
-| api-design | Design v2 API structure | 2025-01-05 | cognition/context/decisions.md, mission created |
+| api-design | Design v2 API structure | 2025-01-05 | cognition/runtime/context/decisions.md, mission created |
 ```
 
 ---
@@ -170,9 +170,9 @@ last_activity: YYYY-MM-DD
 ## Outputs
 
 When this research matures, findings should go to:
-- [ ] `cognition/context/decisions.md` — Design decisions made
-- [ ] `cognition/context/lessons.md` — Anti-patterns discovered
-- [ ] `cognition/context/glossary.md` — New terminology defined
+- [ ] `cognition/runtime/context/decisions.md` — Design decisions made
+- [ ] `cognition/runtime/context/lessons.md` — Anti-patterns discovered
+- [ ] `cognition/runtime/context/glossary.md` — New terminology defined
 - [ ] Create mission — If actionable work identified
 
 ## Status
@@ -341,10 +341,10 @@ Projects should consume harness context as research inputs:
 
 | Resource | How It Helps |
 |----------|--------------|
-| `cognition/context/glossary.md` | Understand domain terminology |
-| `cognition/context/decisions.md` | Know existing decisions to build on |
-| `cognition/context/lessons.md` | Avoid known anti-patterns |
-| `cognition/context/constraints.md` | Respect non-negotiable boundaries |
+| `cognition/runtime/context/glossary.md` | Understand domain terminology |
+| `cognition/runtime/context/decisions.md` | Know existing decisions to build on |
+| `cognition/runtime/context/lessons.md` | Avoid known anti-patterns |
+| `cognition/runtime/context/constraints.md` | Respect non-negotiable boundaries |
 
 ---
 
@@ -376,11 +376,11 @@ When work needs to pause:
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `cognition/context/decisions.md` |
-| Anti-patterns discovered | `cognition/context/lessons.md` |
-| New terminology | `cognition/context/glossary.md` |
+| Design decisions | `cognition/runtime/context/decisions.md` |
+| Anti-patterns discovered | `cognition/runtime/context/lessons.md` |
+| New terminology | `cognition/runtime/context/glossary.md` |
 | Actionable work identified | Create mission in `orchestration/missions/` |
-| Finalized constraints | `cognition/context/constraints.md` |
+| Finalized constraints | `cognition/runtime/context/constraints.md` |
 
 ---
 
@@ -424,8 +424,8 @@ Evaluate authentication library options for the new user service.
 3. What are the security tradeoffs?
 
 ## Outputs
-- [x] `cognition/context/decisions.md` — Library selection
-- [ ] `cognition/context/lessons.md` — Security pitfalls found
+- [x] `cognition/runtime/context/decisions.md` — Library selection
+- [ ] `cognition/runtime/context/lessons.md` — Security pitfalls found
 - [ ] Create mission — Implementation work
 
 ## Findings Summary

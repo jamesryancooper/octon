@@ -244,7 +244,7 @@ graph TB
     subgraph harness_root [.harmony/]
         subgraph agent_facing [Agent-Facing]
             projects[ideation/projects/]
-            context[cognition/context/]
+            context[cognition/runtime/context/]
             progress[continuity/]
             missions[orchestration/missions/]
         end

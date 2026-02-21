@@ -21,7 +21,7 @@ Status: Draft stub (fill policy durations and owners)
 - Quality through Determinism: Deterministic policies, auditable backups, and tested erasure/restore procedures ensure reproducible outcomes.
 - Guided Agentic Autonomy: Agents may propose classification mappings or retention updates, but ACP gate is required; GuardKit redaction defaults apply to logs/traces.
 
-See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
+See `.harmony/cognition/practices/methodology/README.md` for Harmony’s five pillars.
 
 ## Classification and Locations
 
@@ -42,11 +42,11 @@ See `.harmony/cognition/methodology/README.md` for Harmony’s five pillars.
 ## Related Docs
 
 - Security baseline: `.harmony/assurance/practices/standards/security-and-privacy.md`
-- Knowledge Plane: `.harmony/cognition/knowledge-plane/knowledge-plane.md`
-- Methodology overview: `.harmony/cognition/methodology/README.md`
-- Implementation guide: `.harmony/cognition/methodology/implementation-guide.md`
-- Layers model: `.harmony/cognition/methodology/layers.md`
-- Improve layer: `.harmony/cognition/methodology/improve-layer.md`
+- Knowledge Plane: `.harmony/cognition/runtime/knowledge-plane/knowledge-plane.md`
+- Methodology overview: `.harmony/cognition/practices/methodology/README.md`
+- Implementation guide: `.harmony/cognition/practices/methodology/implementation-guide.md`
+- Layers model: `.harmony/cognition/practices/methodology/layers.md`
+- Improve layer: `.harmony/cognition/practices/methodology/improve-layer.md`
 - Architecture overview: `.harmony/cognition/_meta/architecture/overview.md`
 - Runtime policy: `.harmony/cognition/_meta/architecture/runtime-policy.md`
 - Governance model: `.harmony/cognition/_meta/architecture/governance-model.md`

@@ -81,5 +81,5 @@ Update Workflow is NOT complete until:
 ## References
 
 - **Evaluate first:** `.harmony/orchestration/runtime/workflows/meta/evaluate-workflow/`
-- **Gap guide:** `.harmony/cognition/context/workflow-gaps.md`
-- **Quality criteria:** `.harmony/cognition/context/workflow-quality.md`
+- **Gap guide:** `.harmony/cognition/runtime/context/workflow-gaps.md`
+- **Quality criteria:** `.harmony/cognition/runtime/context/workflow-quality.md`

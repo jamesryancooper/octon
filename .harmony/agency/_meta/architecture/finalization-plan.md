@@ -29,9 +29,9 @@ Required documentation deliverables (this cycle):
 Required implementation deliverables (execution cycles):
 
 - `.harmony/agency/manifest.yml`
-- `.harmony/agency/actors/agents/registry.yml` (normalized)
-- `.harmony/agency/actors/assistants/registry.yml` (normalized)
-- `.harmony/agency/actors/teams/registry.yml` + team template/spec files
+- `.harmony/agency/runtime/agents/registry.yml` (normalized)
+- `.harmony/agency/runtime/assistants/registry.yml` (normalized)
+- `.harmony/agency/runtime/teams/registry.yml` + team template/spec files
 - migration/deprecation treatment for `.harmony/agency/subagents/`
 - validation scripts and CI checks for agency contracts
 
@@ -45,7 +45,7 @@ Required implementation deliverables (execution cycles):
 │   ├── DELEGATION.md
 │   └── MEMORY.md
 ├── manifest.yml
-├── actors/
+├── runtime/
 │   ├── agents/
 │   │   ├── registry.yml
 │   │   ├── _scaffold/template/AGENT.md
@@ -95,9 +95,9 @@ Goals:
 Tasks:
 
 1. Add `.harmony/agency/manifest.yml`.
-2. Normalize `actors/agents/registry.yml` fields.
-3. Normalize `actors/assistants/registry.yml` fields.
-4. Add `actors/teams/registry.yml` schema and template.
+2. Normalize `runtime/agents/registry.yml` fields.
+3. Normalize `runtime/assistants/registry.yml` fields.
+4. Add `runtime/teams/registry.yml` schema and template.
 5. Define schema validation rules (YAML shape + referential integrity).
 
 Exit criteria:

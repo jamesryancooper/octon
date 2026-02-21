@@ -3,15 +3,15 @@ name: Principles Governance Lint
 on:
   pull_request:
     paths:
-      - '.harmony/cognition/principles/**/*.md'
-      - '.harmony/cognition/principles/_ops/scripts/*.sh'
+      - '.harmony/cognition/governance/principles/**/*.md'
+      - '.harmony/cognition/_ops/principles/scripts/*.sh'
       - '.github/workflows/principles-governance-lint.yml'
   push:
     branches:
       - main
     paths:
-      - '.harmony/cognition/principles/**/*.md'
-      - '.harmony/cognition/principles/_ops/scripts/*.sh'
+      - '.harmony/cognition/governance/principles/**/*.md'
+      - '.harmony/cognition/_ops/principles/scripts/*.sh'
       - '.github/workflows/principles-governance-lint.yml'
 
 permissions:
@@ -26,10 +26,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Governance lint
-        run: bash .harmony/cognition/principles/_ops/scripts/lint-principles-governance.sh
+        run: bash .harmony/cognition/_ops/principles/scripts/lint-principles-governance.sh
 
       - name: Governance lint fixture tests
-        run: bash .harmony/cognition/principles/_ops/scripts/test-principles-governance-lint-fixtures.sh
+        run: bash .harmony/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures.sh
 
       - name: Docs promotion fail-closed contract test
-        run: bash .harmony/cognition/principles/_ops/scripts/test-docs-promotion-fail-closed.sh
+        run: bash .harmony/cognition/_ops/principles/scripts/test-docs-promotion-fail-closed.sh

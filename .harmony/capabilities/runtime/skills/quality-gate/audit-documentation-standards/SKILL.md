@@ -39,7 +39,7 @@ Use this skill when:
 With explicit guidance paths:
 
 ```text
-/audit-documentation-standards docs_root="docs" template_root=".harmony/scaffolding/runtime/templates/docs/documentation-standards" policy_doc=".harmony/cognition/principles/documentation-is-code.md"
+/audit-documentation-standards docs_root="docs" template_root=".harmony/scaffolding/runtime/templates/docs/documentation-standards" policy_doc=".harmony/cognition/governance/principles/documentation-is-code.md"
 ```
 
 ## Core Workflow

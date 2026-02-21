@@ -77,7 +77,7 @@ Expands in:
 
 - [Skills Manifest](/.harmony/capabilities/runtime/skills/manifest.yml)
 - [Workflows Manifest](/.harmony/orchestration/runtime/workflows/manifest.yml)
-- [Progressive Disclosure Principle](/.harmony/cognition/principles/progressive-disclosure.md)
+- [Progressive Disclosure Principle](/.harmony/cognition/governance/principles/progressive-disclosure.md)
 
 ### HARMONY-SPEC-004: Deny-by-Default Permissions
 
@@ -85,8 +85,8 @@ Agent access MUST be allowlist-based and fail-closed for tools, file writes, and
 
 Expands in:
 
-- [Deny by Default](/.harmony/cognition/principles/deny-by-default.md)
-- [Guardrails](/.harmony/cognition/principles/guardrails.md)
+- [Deny by Default](/.harmony/cognition/governance/principles/deny-by-default.md)
+- [Guardrails](/.harmony/cognition/governance/principles/guardrails.md)
 - [Capabilities Tools Manifest](/.harmony/capabilities/runtime/tools/manifest.yml)
 
 ### HARMONY-SPEC-005: No Silent Apply for Material Side Effects
@@ -95,8 +95,8 @@ Material side effects (edits, merges, deploys, runtime mutations) MUST require e
 
 Expands in:
 
-- [No Silent Apply](/.harmony/cognition/principles/no-silent-apply.md)
-- [Autonomous Control Points](/.harmony/cognition/principles/autonomous-control-points.md)
+- [No Silent Apply](/.harmony/cognition/governance/principles/no-silent-apply.md)
+- [Autonomous Control Points](/.harmony/cognition/governance/principles/autonomous-control-points.md)
 
 ### HARMONY-SPEC-006: Risk-Tiered Human Governance
 
@@ -104,8 +104,8 @@ Control intensity MUST scale with risk tier. Low-risk read-only automation MAY r
 
 Expands in:
 
-- [Autonomous Control Points](/.harmony/cognition/principles/autonomous-control-points.md)
-- [Harmony Methodology](/.harmony/cognition/methodology/README.md)
+- [Autonomous Control Points](/.harmony/cognition/governance/principles/autonomous-control-points.md)
+- [Harmony Methodology](/.harmony/cognition/practices/methodology/README.md)
 
 ### HARMONY-SPEC-007: Continuity Artifact Integrity
 
@@ -143,8 +143,8 @@ Behavioral, contract, policy, or operational changes SHOULD update corresponding
 
 Expands in:
 
-- [Documentation is Code](/.harmony/cognition/principles/documentation-is-code.md)
-- [Contract-first](/.harmony/cognition/principles/contract-first.md)
+- [Documentation is Code](/.harmony/cognition/governance/principles/documentation-is-code.md)
+- [Contract-first](/.harmony/cognition/governance/principles/contract-first.md)
 
 ### HARMONY-SPEC-011: Project Bootstrap Initialization
 
@@ -179,8 +179,8 @@ Provider/runtime/OS-specific implementation details MAY exist only as optional a
 
 Expands in:
 
-- [Portability and Independence Principle](/.harmony/cognition/principles/portability-and-independence.md)
-- [Harmony Methodology](/.harmony/cognition/methodology/README.md)
+- [Portability and Independence Principle](/.harmony/cognition/governance/principles/portability-and-independence.md)
+- [Harmony Methodology](/.harmony/cognition/practices/methodology/README.md)
 - [Services README](/.harmony/capabilities/runtime/services/README.md)
 
 ### HARMONY-SPEC-013: Bounded Surface Separation
@@ -203,6 +203,7 @@ Expands in:
 - [Agency Subsystem Specification](/.harmony/agency/_meta/architecture/specification.md)
 - [Capabilities Specification](/.harmony/capabilities/_meta/architecture/specification.md)
 - [Orchestration Subsystem Specification](/.harmony/orchestration/_meta/architecture/specification.md)
+- [Cognition README](/.harmony/cognition/README.md)
 - [Assurance README](/.harmony/assurance/README.md)
 - [Engine README](/.harmony/engine/README.md)
 
@@ -243,6 +244,19 @@ Expands in:
 
 - [Engine README](/.harmony/engine/README.md)
 - [Engine Architecture Contract](/.harmony/engine/_meta/architecture/README.md)
+
+### HARMONY-SPEC-451: Cognition Contract Boundary
+
+`/.harmony/cognition/**` MUST preserve bounded cognition surfaces
+(`runtime/`, `governance/`, `practices/`) and keep cognition operational
+scripts and state in `cognition/_ops/`.
+
+Expands in:
+
+- [Cognition README](/.harmony/cognition/README.md)
+- [Cognition Architecture Contract](/.harmony/cognition/_meta/architecture/README.md)
+- [Engineering Principles & Standards](/.harmony/cognition/governance/principles/principles.md)
+- [Cognition Methodology](/.harmony/cognition/practices/methodology/README.md)
 
 ### HARMONY-SPEC-501: Continuity Contract Boundary
 

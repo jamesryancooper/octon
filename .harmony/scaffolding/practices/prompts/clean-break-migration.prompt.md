@@ -24,6 +24,6 @@ Required actions:
 
 If preserving behavior is desired, reimplement it explicitly under the new system. Do not bridge.
 
-If you believe a clean-break is infeasible, produce an exception request with a hard removal deadline per `/.harmony/cognition/methodology/migrations/exceptions.md`.
+If you believe a clean-break is infeasible, produce an exception request with a hard removal deadline per `/.harmony/cognition/practices/methodology/migrations/exceptions.md`.
 ```
 

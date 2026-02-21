@@ -55,7 +55,7 @@ Related composition primitives:
 - Workflows:
   - `.harmony/orchestration/runtime/workflows/README.md`
 - Teams:
-  - `.harmony/agency/actors/teams/README.md`
+  - `.harmony/agency/runtime/teams/README.md`
 
 ## Legacy Mapping (Engine -> Composite Service)
 

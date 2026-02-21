@@ -118,9 +118,9 @@ portable:
   - README.md
   - agency/manifest.yml
   - agency/governance/
-  - agency/actors/agents/
-  - agency/actors/assistants/
-  - agency/actors/teams/
+  - agency/runtime/agents/
+  - agency/runtime/assistants/
+  - agency/runtime/teams/
   - agency/practices/
   - capabilities/runtime/skills/manifest.yml
   - capabilities/runtime/skills/registry.yml
@@ -133,9 +133,9 @@ portable:
   - orchestration/runtime/workflows/
   - assurance/
   - scaffolding/
-  - cognition/context/primitives.md
-  - cognition/context/tools.md
-  - cognition/context/compaction.md
+  - cognition/runtime/context/primitives.md
+  - cognition/runtime/context/tools.md
+  - cognition/runtime/context/compaction.md
 
 # Agent-excluded zones.
 human_led:
@@ -221,7 +221,7 @@ Add to `.harmony/` when you have:
 
 | Situation | Action |
 | --------- | ------ |
-| A new agent or assistant | Add to `.harmony/agency/actors/` |
+| A new agent or assistant | Add to `.harmony/agency/runtime/` |
 | A new harness template variant | Add to `.harmony/scaffolding/runtime/templates/` |
 | A new skill that other projects could use | Add to `.harmony/capabilities/runtime/skills/` and mark its definition paths as `portable:` |
 | A workflow that applies to any harness | Add to `.harmony/orchestration/runtime/workflows/` |
@@ -278,16 +278,16 @@ Use `harmony.yml` portable paths to bootstrap `.harmony/` in a new repository.
 | Capabilities | `capabilities/` | Skills framework, commands, tools |
 | Scaffolding | `scaffolding/` | runtime, governance, practices |
 | Quality | `assurance/` | Completion checklists |
-| Cognition (partial) | `cognition/context/` | Reference material (tools, compaction) |
+| Cognition (partial) | `cognition/runtime/context/` | Reference material (tools, compaction) |
 
 ### Customization
 
 After bootstrapping, you can:
 
-- **Add repo-specific agents** to `.harmony/agency/actors/agents/`
+- **Add repo-specific agents** to `.harmony/agency/runtime/agents/`
 - **Create custom templates** in `.harmony/scaffolding/runtime/templates/`
 - **Add new skills** to `.harmony/capabilities/runtime/skills/`
-- **Record project decisions** in `.harmony/cognition/decisions/`
+- **Record project decisions** in `.harmony/cognition/runtime/decisions/`
 - **Track progress** in `.harmony/continuity/`
 
 Mark any new reusable content as `portable:` in `harmony.yml` so it propagates to future repositories.

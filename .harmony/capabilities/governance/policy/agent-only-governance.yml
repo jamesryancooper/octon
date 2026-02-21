@@ -26,4 +26,4 @@ agent_only:
     default_state: "active"
   rollback:
     on_guard_violation: "halt-and-rollback"
-    rollback_plan_ref: ".harmony/cognition/principles/reversibility.md"
+    rollback_plan_ref: ".harmony/cognition/governance/principles/reversibility.md"

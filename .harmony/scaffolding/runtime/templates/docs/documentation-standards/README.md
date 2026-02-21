@@ -5,7 +5,7 @@ components, and operational changes.
 
 For canonical policy and usage guidance, see:
 
-- `.harmony/cognition/principles/documentation-is-code.md`
+- `.harmony/cognition/governance/principles/documentation-is-code.md`
 - `.harmony/scaffolding/runtime/templates/documentation-standards.md`
 
 ## Included Stubs

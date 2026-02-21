@@ -165,5 +165,5 @@ This ensures agents pick up where previous sessions left off.
 ## See Also
 
 - [Checklists](../../../assurance/_meta/architecture/checklists.md) — Assurance gates before completion
-- [Decisions](../../../cognition/context/decisions.md) and [Lessons](../../../cognition/context/lessons.md) — Continuity context and historical learning
+- [Decisions](../../../cognition/runtime/context/decisions.md) and [Lessons](../../../cognition/runtime/context/lessons.md) — Continuity context and historical learning
 - [README.md](./README.md) — Canonical harness structure

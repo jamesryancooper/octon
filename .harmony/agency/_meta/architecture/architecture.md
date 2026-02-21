@@ -105,7 +105,7 @@ graph TD
 
 | Layer | Concern | Primary Artifacts |
 |---|---|---|
-| L1 | Actor identity and routing | `agency/manifest.yml`, `actors/*/registry.yml` |
+| L1 | Actor identity and routing | `agency/manifest.yml`, `runtime/*/registry.yml` |
 | L2 | Cross-agent governance contracts | `governance/CONSTITUTION.md`, `governance/DELEGATION.md`, `governance/MEMORY.md` |
 | L3 | Actor behavior contracts | `AGENT.md`, `SOUL.md`, `assistant.md`, `team.md` |
 | L4 | Capability execution | skills and workflows |

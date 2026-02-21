@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 HARMONY_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$HARMONY_DIR/.." && pwd)"
+DOMAIN_PROFILES_FILE="$HARMONY_DIR/cognition/governance/domain-profiles.yml"
 
 errors=0
 warnings=0
@@ -39,6 +40,50 @@ require_dir() {
   else
     pass "found directory: ${dir#$ROOT_DIR/}"
   fi
+}
+
+extract_domain_profile() {
+  local domain="$1"
+  awk -v domain="$domain" '
+    /^domains:[[:space:]]*$/ { in_domains=1; next }
+    in_domains == 1 {
+      if ($0 ~ /^[^[:space:]]/) {
+        in_domains=0
+      }
+      if ($0 ~ "^[[:space:]]+" domain ":[[:space:]]*[a-z0-9-]+[[:space:]]*$") {
+        line=$0
+        sub("^[[:space:]]+" domain ":[[:space:]]*", "", line)
+        gsub(/[[:space:]]+$/, "", line)
+        print line
+        found=1
+        exit
+      }
+    }
+    END {
+      if (!found) exit 1
+    }
+  ' "$DOMAIN_PROFILES_FILE"
+}
+
+expected_domain_profile() {
+  local domain="$1"
+  case "$domain" in
+    agency|capabilities|cognition|orchestration|scaffolding|assurance|engine)
+      echo "bounded-surfaces"
+      ;;
+    continuity)
+      echo "state-tracking"
+      ;;
+    ideation)
+      echo "human-led"
+      ;;
+    output)
+      echo "artifact-sink"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
 }
 
 check_readme_orientation() {
@@ -128,6 +173,13 @@ check_meta_namespace_layout() {
         architecture|docs|evidence)
           pass "_meta namespace allowed: ${child#$ROOT_DIR/}"
           ;;
+        principles)
+          if [[ "$rel" == ".harmony/cognition/_meta" ]]; then
+            pass "_meta namespace allowed: ${child#$ROOT_DIR/}"
+          else
+            fail "_meta namespace not allowed (${name}); expected one of architecture|docs|evidence: ${child#$ROOT_DIR/}"
+          fi
+          ;;
         *)
           fail "_meta namespace not allowed (${name}); expected one of architecture|docs|evidence: ${child#$ROOT_DIR/}"
           ;;
@@ -146,11 +198,36 @@ check_meta_namespace_layout() {
   done < <(find "$HARMONY_DIR" -type d -name "_meta" | sort)
 }
 
+check_domain_profile_registry() {
+  require_file "$DOMAIN_PROFILES_FILE"
+
+  local domains
+  domains=(agency capabilities cognition orchestration scaffolding assurance engine continuity ideation output)
+
+  local domain expected actual
+  for domain in "${domains[@]}"; do
+    expected="$(expected_domain_profile "$domain")"
+    actual="$(extract_domain_profile "$domain" || true)"
+
+    if [[ -z "$actual" ]]; then
+      fail "domain profile missing for '$domain' in ${DOMAIN_PROFILES_FILE#$ROOT_DIR/}"
+      continue
+    fi
+
+    if [[ "$actual" != "$expected" ]]; then
+      fail "domain profile mismatch for '$domain': expected '$expected', found '$actual'"
+      continue
+    fi
+
+    pass "domain profile mapping validated: $domain -> $actual"
+  done
+}
+
 check_discovery_contracts() {
   require_file "$HARMONY_DIR/agency/manifest.yml"
-  require_file "$HARMONY_DIR/agency/actors/agents/registry.yml"
-  require_file "$HARMONY_DIR/agency/actors/assistants/registry.yml"
-  require_file "$HARMONY_DIR/agency/actors/teams/registry.yml"
+  require_file "$HARMONY_DIR/agency/runtime/agents/registry.yml"
+  require_file "$HARMONY_DIR/agency/runtime/assistants/registry.yml"
+  require_file "$HARMONY_DIR/agency/runtime/teams/registry.yml"
   require_file "$HARMONY_DIR/agency/governance/CONSTITUTION.md"
   require_file "$HARMONY_DIR/agency/governance/DELEGATION.md"
   require_file "$HARMONY_DIR/agency/governance/MEMORY.md"
@@ -163,6 +240,11 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/capabilities/runtime/tools/manifest.yml"
   require_file "$HARMONY_DIR/capabilities/governance/policy/deny-by-default.v2.yml"
   require_file "$HARMONY_DIR/capabilities/practices/README.md"
+
+  require_file "$HARMONY_DIR/cognition/runtime/context/index.yml"
+  require_file "$HARMONY_DIR/cognition/governance/principles/principles.md"
+  require_file "$HARMONY_DIR/cognition/practices/methodology/README.md"
+  require_file "$HARMONY_DIR/cognition/_ops/principles/scripts/lint-principles-governance.sh"
 
   require_file "$HARMONY_DIR/orchestration/runtime/workflows/manifest.yml"
   require_file "$HARMONY_DIR/orchestration/runtime/workflows/registry.yml"
@@ -184,10 +266,9 @@ check_discovery_contracts() {
 }
 
 check_expected_internals() {
-  require_dir "$HARMONY_DIR/agency/actors"
-  require_dir "$HARMONY_DIR/agency/actors/agents"
-  require_dir "$HARMONY_DIR/agency/actors/assistants"
-  require_dir "$HARMONY_DIR/agency/actors/teams"
+  require_dir "$HARMONY_DIR/agency/runtime/agents"
+  require_dir "$HARMONY_DIR/agency/runtime/assistants"
+  require_dir "$HARMONY_DIR/agency/runtime/teams"
   require_dir "$HARMONY_DIR/agency/governance"
 
   require_dir "$HARMONY_DIR/capabilities/runtime"
@@ -198,11 +279,20 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/capabilities/governance"
   require_dir "$HARMONY_DIR/capabilities/practices"
 
-  require_dir "$HARMONY_DIR/cognition/principles"
-  require_dir "$HARMONY_DIR/cognition/methodology"
-  require_dir "$HARMONY_DIR/cognition/context"
-  require_dir "$HARMONY_DIR/cognition/decisions"
-  require_dir "$HARMONY_DIR/cognition/analyses"
+  require_dir "$HARMONY_DIR/cognition/runtime"
+  require_dir "$HARMONY_DIR/cognition/runtime/context"
+  require_dir "$HARMONY_DIR/cognition/runtime/decisions"
+  require_dir "$HARMONY_DIR/cognition/runtime/analyses"
+  require_dir "$HARMONY_DIR/cognition/runtime/knowledge-plane"
+  require_dir "$HARMONY_DIR/cognition/governance"
+  require_dir "$HARMONY_DIR/cognition/governance/principles"
+  require_dir "$HARMONY_DIR/cognition/governance/pillars"
+  require_dir "$HARMONY_DIR/cognition/governance/purpose"
+  require_dir "$HARMONY_DIR/cognition/practices"
+  require_dir "$HARMONY_DIR/cognition/practices/methodology"
+  require_dir "$HARMONY_DIR/cognition/_ops"
+  require_dir "$HARMONY_DIR/cognition/_ops/principles"
+  require_dir "$HARMONY_DIR/cognition/_ops/principles/scripts"
 
   require_dir "$HARMONY_DIR/orchestration/runtime/workflows"
   require_dir "$HARMONY_DIR/orchestration/runtime/missions"
@@ -241,6 +331,134 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/output/reports"
   require_dir "$HARMONY_DIR/output/drafts"
   require_dir "$HARMONY_DIR/output/artifacts"
+}
+
+check_profile_shape_bounded_surfaces() {
+  local domain="$1"
+  local root="$HARMONY_DIR/$domain"
+
+  require_dir "$root/runtime"
+  require_dir "$root/governance"
+  require_dir "$root/practices"
+  require_file "$root/runtime/README.md"
+  require_file "$root/governance/README.md"
+  require_file "$root/practices/README.md"
+}
+
+check_profile_shape_state_tracking() {
+  local domain="$1"
+  local root="$HARMONY_DIR/$domain"
+
+  require_file "$root/log.md"
+  require_file "$root/tasks.json"
+  require_file "$root/entities.json"
+  require_file "$root/next.md"
+
+  local forbidden
+  forbidden=(runtime governance practices)
+  local dir
+  for dir in "${forbidden[@]}"; do
+    if [[ -e "$root/$dir" ]]; then
+      fail "state-tracking domain '$domain' must not define '$dir/' surface"
+    else
+      pass "state-tracking domain '$domain' does not define '$dir/' surface"
+    fi
+  done
+}
+
+check_profile_shape_human_led() {
+  local domain="$1"
+  local root="$HARMONY_DIR/$domain"
+
+  require_dir "$root/scratchpad"
+  require_dir "$root/projects"
+
+  local forbidden
+  forbidden=(runtime governance practices)
+  local dir
+  for dir in "${forbidden[@]}"; do
+    if [[ -e "$root/$dir" ]]; then
+      fail "human-led domain '$domain' must not define '$dir/' surface"
+    else
+      pass "human-led domain '$domain' does not define '$dir/' surface"
+    fi
+  done
+}
+
+check_profile_shape_artifact_sink() {
+  local domain="$1"
+  local root="$HARMONY_DIR/$domain"
+
+  require_dir "$root/reports"
+  require_dir "$root/drafts"
+  require_dir "$root/artifacts"
+
+  local forbidden
+  forbidden=(runtime governance practices)
+  local dir
+  for dir in "${forbidden[@]}"; do
+    if [[ -e "$root/$dir" ]]; then
+      fail "artifact-sink domain '$domain' must not define '$dir/' surface"
+    else
+      pass "artifact-sink domain '$domain' does not define '$dir/' surface"
+    fi
+  done
+}
+
+check_domain_profile_shapes() {
+  local domains
+  domains=(agency capabilities cognition orchestration scaffolding assurance engine continuity ideation output)
+
+  local domain profile
+  for domain in "${domains[@]}"; do
+    profile="$(extract_domain_profile "$domain" || true)"
+    if [[ -z "$profile" ]]; then
+      fail "cannot validate profile shape for '$domain': missing profile mapping"
+      continue
+    fi
+
+    case "$profile" in
+      bounded-surfaces)
+        check_profile_shape_bounded_surfaces "$domain"
+        ;;
+      state-tracking)
+        check_profile_shape_state_tracking "$domain"
+        ;;
+      human-led)
+        check_profile_shape_human_led "$domain"
+        ;;
+      artifact-sink)
+        check_profile_shape_artifact_sink "$domain"
+        ;;
+      *)
+        fail "unsupported domain profile '$profile' for '$domain'"
+        ;;
+    esac
+  done
+}
+
+check_deprecated_agency_paths() {
+  local deprecated
+  deprecated=(
+    "$HARMONY_DIR/agency/actors"
+    "$HARMONY_DIR/agency/agents"
+    "$HARMONY_DIR/agency/assistants"
+    "$HARMONY_DIR/agency/teams"
+    "$HARMONY_DIR/agency/subagents"
+    "$HARMONY_DIR/agency/CONSTITUTION.md"
+    "$HARMONY_DIR/agency/DELEGATION.md"
+    "$HARMONY_DIR/agency/MEMORY.md"
+  )
+
+  local path rel
+  for path in "${deprecated[@]}"; do
+    rel="${path#$ROOT_DIR/}"
+    if [[ -e "$path" ]]; then
+      fail "deprecated agency path exists: $rel"
+    else
+      pass "deprecated agency path removed: $rel"
+    fi
+  done
 }
 
 check_deprecated_capabilities_paths() {
@@ -347,6 +565,33 @@ check_deprecated_engine_paths() {
   done
 }
 
+check_deprecated_cognition_paths() {
+  local deprecated
+  deprecated=(
+    "$HARMONY_DIR/cognition/principles"
+    "$HARMONY_DIR/cognition/pillars"
+    "$HARMONY_DIR/cognition/purpose"
+    "$HARMONY_DIR/cognition/methodology"
+    "$HARMONY_DIR/cognition/context"
+    "$HARMONY_DIR/cognition/decisions"
+    "$HARMONY_DIR/cognition/analyses"
+    "$HARMONY_DIR/cognition/knowledge-plane"
+    "$HARMONY_DIR/cognition/principles/_ops"
+    "$HARMONY_DIR/cognition/principles/_meta"
+    "$HARMONY_DIR/cognition/governance/principles/_meta/docs"
+  )
+
+  local path rel
+  for path in "${deprecated[@]}"; do
+    rel="${path#$ROOT_DIR/}"
+    if [[ -e "$path" ]]; then
+      fail "deprecated cognition path exists: $rel"
+    else
+      pass "deprecated cognition path removed: $rel"
+    fi
+  done
+}
+
 check_alignment_guardrail() {
   local script="$SCRIPT_DIR/validate-audit-subsystem-health-alignment.sh"
   if [[ ! -f "$script" ]]; then
@@ -372,9 +617,13 @@ main() {
 
   check_engine_baseline
   check_meta_namespace_layout
+  check_domain_profile_registry
   check_discovery_contracts
   check_expected_internals
+  check_domain_profile_shapes
+  check_deprecated_agency_paths
   check_deprecated_engine_paths
+  check_deprecated_cognition_paths
   check_deprecated_orchestration_paths
   check_deprecated_capabilities_paths
   check_deprecated_assurance_paths

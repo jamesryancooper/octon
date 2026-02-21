@@ -21,7 +21,7 @@ migration:
       new: ".scratchpad"
   exclusions:
     - "continuity/log.md"
-    - "cognition/decisions/"
+    - "cognition/runtime/decisions/"
   scope: ".harmony/"
 ```
 
@@ -55,7 +55,7 @@ migration:
       new: ".harmony/"
     # Capability-organized renames
     - old: "context/"
-      new: "cognition/context/"
+      new: "cognition/runtime/context/"
     - old: "commands/"
       new: "capabilities/runtime/commands/"
     - old: "progress/"
@@ -67,7 +67,7 @@ migration:
     - old: "missions/"
       new: "orchestration/runtime/missions/"
     - old: "assistants/"
-      new: "agency/actors/assistants/"
+      new: "agency/runtime/assistants/"
     - old: "templates/"
       new: "scaffolding/runtime/templates/"
     - old: "prompts/"
@@ -80,7 +80,7 @@ migration:
   exclusions:
     # Append-only historical records
     - "continuity/log.md"
-    - "cognition/decisions/"
+    - "cognition/runtime/decisions/"
     # Historical/archived content
     - ".history/"
     - ".specstory/"
@@ -108,7 +108,7 @@ The audit revealed distinct classes of staleness, each caught by different layer
 
 | Class | Layer That Caught It | Example |
 |-------|---------------------|---------|
-| Direct old→new name references | Grep Sweep | `.workspace/context/` instead of `.harmony/cognition/context/` |
+| Direct old→new name references | Grep Sweep | `.workspace/context/` instead of `.harmony/cognition/runtime/context/` |
 | Broken cross-references | Cross-Reference Audit | `catalog.md` linking to `skills.md` when it became `skills/README.md` |
 | Conceptual staleness | Semantic Read-Through | "Two-tier architecture" description when model changed to "progressive disclosure" |
 | Incomplete on-disk renames | Cross-Reference Audit | `_ops/state/resources/research-synthesizer/` not renamed to `_ops/state/resources/synthesize-research/` |

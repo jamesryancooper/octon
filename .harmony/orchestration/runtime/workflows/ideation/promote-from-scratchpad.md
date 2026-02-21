@@ -14,10 +14,10 @@ When thinking in `ideation/scratchpad/` matures into actionable knowledge, use t
 
 | Trigger | What Happened | Action |
 |---------|---------------|--------|
-| **Decision made** | You've resolved a question or chosen a direction | Add to `cognition/context/decisions.md` |
-| **Constraint discovered** | You've identified a non-negotiable requirement | Add to `cognition/context/constraints.md` |
-| **Pattern identified** | You've found a reusable approach | Add to `cognition/context/lessons.md` or create workflow |
-| **Term clarified** | You've defined domain vocabulary | Add to `cognition/context/glossary.md` |
+| **Decision made** | You've resolved a question or chosen a direction | Add to `cognition/runtime/context/decisions.md` |
+| **Constraint discovered** | You've identified a non-negotiable requirement | Add to `cognition/runtime/context/constraints.md` |
+| **Pattern identified** | You've found a reusable approach | Add to `cognition/runtime/context/lessons.md` or create workflow |
+| **Term clarified** | You've defined domain vocabulary | Add to `cognition/runtime/context/glossary.md` |
 | **Next step identified** | You know the immediate action to take | Add to `continuity/next.md` |
 
 ---
@@ -26,10 +26,10 @@ When thinking in `ideation/scratchpad/` matures into actionable knowledge, use t
 
 | Content Type | Destination | Format |
 |--------------|-------------|--------|
-| Finalized decisions + rationale | `cognition/context/decisions.md` | Table row or section |
-| Non-negotiable constraints | `cognition/context/constraints.md` | Table row or section |
-| Domain terminology | `cognition/context/glossary.md` | Table row |
-| Lessons learned, anti-patterns | `cognition/context/lessons.md` | Entry with context |
+| Finalized decisions + rationale | `cognition/runtime/context/decisions.md` | Table row or section |
+| Non-negotiable constraints | `cognition/runtime/context/constraints.md` | Table row or section |
+| Domain terminology | `cognition/runtime/context/glossary.md` | Table row |
+| Lessons learned, anti-patterns | `cognition/runtime/context/lessons.md` | Entry with context |
 | Immediate next actions | `continuity/next.md` | Actionable list |
 | Reusable procedures | `orchestration/runtime/workflows/` or `capabilities/runtime/commands/` | New file |
 
@@ -68,7 +68,7 @@ touch .harmony/continuity/next.md
 
 Follow the format conventions of the destination file:
 
-**For `cognition/context/decisions.md`:**
+**For `cognition/runtime/context/decisions.md`:**
 
 ```markdown
 | ID | Decision | Choice | Rationale | Date |
@@ -76,7 +76,7 @@ Follow the format conventions of the destination file:
 | D00X | [Topic] | [Choice] | [Why] | YYYY-MM-DD |
 ```
 
-**For `cognition/context/constraints.md`:**
+**For `cognition/runtime/context/constraints.md`:**
 
 ```markdown
 | Constraint | Implication | Reason |
@@ -84,7 +84,7 @@ Follow the format conventions of the destination file:
 | [Rule] | [What it means] | [Why it exists] |
 ```
 
-**For `cognition/context/glossary.md`:**
+**For `cognition/runtime/context/glossary.md`:**
 
 ```markdown
 | Term | Definition |
@@ -133,7 +133,7 @@ Maybe we should also consider...
 [more exploration]
 ```
 
-**After promotion (in `cognition/context/decisions.md`):**
+**After promotion (in `cognition/runtime/context/decisions.md`):**
 
 ```markdown
 | ID | Decision | Choice | Rationale | Date |

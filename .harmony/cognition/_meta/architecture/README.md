@@ -109,7 +109,7 @@ Rather than maintaining a single, monolithic set of agent instructions at the re
 
 1. **Scoped Context Reduces Noise**
 
-When an agent starts working in `.harmony/cognition/methodology/`, it can immediately find relevant context in `.harmony/` without searching the entire repository. This is critical because:
+When an agent starts working in `.harmony/cognition/practices/methodology/`, it can immediately find relevant context in `.harmony/` without searching the entire repository. This is critical because:
 
 - Agents have limited context windows
 - Irrelevant context dilutes attention
@@ -267,7 +267,7 @@ The full tree above is the **canonical superset**. In practice, harness profiles
 
 | Profile | Baseline | Notes |
 |---------|----------|-------|
-| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `assurance/`, `scaffolding/practices/prompts/`, `orchestration/runtime/workflows/`, `orchestration/governance/`, `orchestration/practices/`, `capabilities/runtime/commands/`, `cognition/context/`, `engine/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
+| **Root harness (repo-wide)** | `harmony.yml`, `START.md`, `scope.md`, `conventions.md`, `catalog.md`, `continuity/`, `assurance/`, `scaffolding/practices/prompts/`, `orchestration/runtime/workflows/`, `orchestration/governance/`, `orchestration/practices/`, `capabilities/runtime/commands/`, `cognition/runtime/context/`, `engine/` | Root is the primary coordination harness and is expected to carry full governance/state coverage |
 | **Descendant harness (localized)** | `START.md`, `scope.md`, plus at least one active subsystem (`cognition/`, `capabilities/`, `orchestration/`, `continuity/`, or `assurance/`) | Descendants are intentionally minimal. They include only subsystems needed for that subtree |
 
 | Subsystem | Root Harness | Descendant Harness |
@@ -296,9 +296,9 @@ portable:
   - README.md
   - agency/manifest.yml
   - agency/governance/
-  - agency/actors/agents/
-  - agency/actors/assistants/
-  - agency/actors/teams/
+  - agency/runtime/agents/
+  - agency/runtime/assistants/
+  - agency/runtime/teams/
   - agency/practices/
   - capabilities/runtime/skills/manifest.yml
   - capabilities/runtime/skills/registry.yml
@@ -313,9 +313,9 @@ portable:
   - orchestration/practices/
   - assurance/
   - scaffolding/
-  - cognition/context/primitives.md
-  - cognition/context/tools.md
-  - cognition/context/compaction.md
+  - cognition/runtime/context/primitives.md
+  - cognition/runtime/context/tools.md
+  - cognition/runtime/context/compaction.md
 
 # Agent-excluded zones. Agents MUST NOT access without explicit human direction.
 human_led:
@@ -401,7 +401,7 @@ Two domains have dedicated indexes beyond their README:
 
 - **`capabilities/runtime/commands/manifest.yml`** --- Lightweight command index (id, display_name, summary, access, argument_hint). Simpler than skills/workflows manifests: no triggers, no skill sets, no groups. Commands are deterministic and invoked by name, not by intent matching.
 
-- **`cognition/context/index.yml`** --- Context file index with a `when` field per entry, telling agents when each reference file is relevant to their current task. Avoids loading all context files to find the one needed.
+- **`cognition/runtime/context/index.yml`** --- Context file index with a `when` field per entry, telling agents when each reference file is relevant to their current task. Avoids loading all context files to find the one needed.
 
 ---
 
@@ -446,7 +446,7 @@ ideation/projects/              -> Committed research (produces artifacts)
         |
 orchestration/runtime/missions/         -> Committed execution
         |
-cognition/context/              -> Permanent knowledge
+cognition/runtime/context/              -> Permanent knowledge
 ```
 
 #### Human-Led Collaboration
@@ -475,13 +475,13 @@ Agent: "I noticed some relevant notes in ideation/scratchpad/ that might help...
 
 #### Projects and the Funnel
 
-Projects (`ideation/projects/`) have a distinct role in the funnel because they frequently produce artifacts that feed the main harness. Projects are still human-led (require explicit direction) but findings flow directly to `cognition/context/` without a separate promotion step.
+Projects (`ideation/projects/`) have a distinct role in the funnel because they frequently produce artifacts that feed the main harness. Projects are still human-led (require explicit direction) but findings flow directly to `cognition/runtime/context/` without a separate promotion step.
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `cognition/context/decisions.md` |
-| Anti-patterns | `cognition/context/lessons.md` |
-| New terminology | `cognition/context/glossary.md` |
+| Design decisions | `cognition/runtime/context/decisions.md` |
+| Anti-patterns | `cognition/runtime/context/lessons.md` |
+| New terminology | `cognition/runtime/context/glossary.md` |
 | Actionable work | Create mission in `orchestration/runtime/missions/` |
 
 **Rule:** Summarize and distill findings; don't copy project notes verbatim.
@@ -524,10 +524,10 @@ For reference, here is how the previous flat structure maps to domains:
 
 | Previous Path | Current Path |
 |---------------|--------------|
-| `agents/` | `agency/actors/agents/` |
-| `assistants/` | `agency/actors/assistants/` |
-| `teams/` | `agency/actors/teams/` |
-| `context/` | `cognition/context/` |
+| `agents/` | `agency/runtime/agents/` |
+| `assistants/` | `agency/runtime/assistants/` |
+| `teams/` | `agency/runtime/teams/` |
+| `context/` | `cognition/runtime/context/` |
 | `progress/` | `continuity/` |
 | `checklists/` | `assurance/` |
 | `workflows/` | `orchestration/runtime/workflows/` |
@@ -647,7 +647,7 @@ repo-root/
     └── .harmony/                <- Nested harness (area-specific)
         ├── START.md
         ├── scope.md
-        ├── cognition/context/   <- Auth-specific context
+        ├── cognition/runtime/context/   <- Auth-specific context
         ├── continuity/          <- Auth-specific progress
         └── assurance/             <- Auth-specific checklists
 ```

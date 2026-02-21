@@ -95,8 +95,8 @@ if [[ -z "$DEFAULT_AGENT" || "$DEFAULT_AGENT" == "null" ]]; then
   DEFAULT_AGENT="architect"
 fi
 
-DEFAULT_AGENT_EXECUTION_CONTRACT=".harmony/agency/actors/agents/${DEFAULT_AGENT}/AGENT.md"
-DEFAULT_AGENT_IDENTITY_CONTRACT=".harmony/agency/actors/agents/${DEFAULT_AGENT}/SOUL.md"
+DEFAULT_AGENT_EXECUTION_CONTRACT=".harmony/agency/runtime/agents/${DEFAULT_AGENT}/AGENT.md"
+DEFAULT_AGENT_IDENTITY_CONTRACT=".harmony/agency/runtime/agents/${DEFAULT_AGENT}/SOUL.md"
 
 if [[ ! -f "$REPO_ROOT/$DEFAULT_AGENT_EXECUTION_CONTRACT" ]]; then
   echo "[WARN] Missing execution contract for default agent: $DEFAULT_AGENT_EXECUTION_CONTRACT"
