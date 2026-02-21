@@ -17,5 +17,9 @@ contract as other subsystems.
   `output/reports/migrations/<YYYY-MM-DD>-<slug>/` and include
   `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, and
   `inventory.md`.
+- Decision evidence bundles (optional) belong under
+  `output/reports/decisions/<NNN>-<slug>/` and, when present, include
+  `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, and
+  `inventory.md`.
 - Architecture metadata for this subsystem lives under
   `output/_meta/architecture/`.

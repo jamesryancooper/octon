@@ -242,6 +242,7 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/capabilities/practices/README.md"
 
   require_file "$HARMONY_DIR/cognition/runtime/context/index.yml"
+  require_file "$HARMONY_DIR/cognition/runtime/decisions/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/migrations/index.yml"
   require_file "$HARMONY_DIR/cognition/governance/principles/principles.md"
   require_file "$HARMONY_DIR/cognition/practices/methodology/README.md"
@@ -331,9 +332,26 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/ideation/projects"
 
   require_dir "$HARMONY_DIR/output/reports"
+  require_dir "$HARMONY_DIR/output/reports/decisions"
   require_dir "$HARMONY_DIR/output/reports/migrations"
   require_dir "$HARMONY_DIR/output/drafts"
   require_dir "$HARMONY_DIR/output/artifacts"
+}
+
+check_cognition_decision_record_surface() {
+  local runtime_dir="$HARMONY_DIR/cognition/runtime/decisions"
+
+  require_dir "$runtime_dir"
+  require_file "$runtime_dir/README.md"
+  require_file "$runtime_dir/index.yml"
+
+  local adr_count
+  adr_count="$(find "$runtime_dir" -mindepth 1 -maxdepth 1 -type f -name '[0-9][0-9][0-9]-*.md' | wc -l | tr -d ' ')"
+  if [[ "$adr_count" == "0" ]]; then
+    warn "no ADR files found under cognition/runtime/decisions/"
+  else
+    pass "found ${adr_count} ADR files under cognition/runtime/decisions/"
+  fi
 }
 
 check_cognition_migration_record_surface() {
@@ -444,6 +462,89 @@ check_output_migration_evidence_surface() {
         pass "bundle metadata inventory pointer valid: $rel/bundle.yml"
       else
         fail "bundle metadata inventory pointer must be inventory.md: $rel/bundle.yml"
+      fi
+    fi
+  done
+}
+
+check_output_decision_evidence_surface() {
+  local decisions_reports_dir="$HARMONY_DIR/output/reports/decisions"
+  local flat_decision_evidence
+  local bundle_dirs
+  local required_files
+  local bundle required rel bundle_name
+
+  required_files=(bundle.yml evidence.md commands.md validation.md inventory.md)
+
+  require_dir "$decisions_reports_dir"
+  require_file "$decisions_reports_dir/README.md"
+
+  mapfile -t flat_decision_evidence < <(
+    find "$decisions_reports_dir" -mindepth 1 -maxdepth 1 -type f | sort |
+      grep -E '/[0-9]{3}-.*\.md$' || true
+  )
+  if [[ ${#flat_decision_evidence[@]} -gt 0 ]]; then
+    fail "flat decision evidence files are forbidden; use bundle directories under output/reports/decisions/"
+  else
+    pass "no flat decision evidence files under output/reports/decisions/"
+  fi
+
+  mapfile -t bundle_dirs < <(
+    find "$decisions_reports_dir" -mindepth 1 -maxdepth 1 -type d -name '[0-9][0-9][0-9]-*' | sort
+  )
+  if [[ ${#bundle_dirs[@]} -eq 0 ]]; then
+    pass "no decision evidence bundles present (optional surface)"
+    return
+  fi
+  pass "found ${#bundle_dirs[@]} decision evidence bundle directories"
+
+  for bundle in "${bundle_dirs[@]}"; do
+    rel="${bundle#$ROOT_DIR/}"
+    bundle_name="$(basename "$bundle")"
+
+    for required in "${required_files[@]}"; do
+      if [[ ! -f "$bundle/$required" ]]; then
+        fail "decision evidence bundle missing required file (${required}): $rel"
+      else
+        pass "decision evidence bundle file present (${required}): $rel"
+      fi
+    done
+
+    if [[ -f "$bundle/bundle.yml" ]]; then
+      if grep -Eq '^kind:[[:space:]]*"?decision-evidence-bundle"?$' "$bundle/bundle.yml"; then
+        pass "decision bundle metadata kind valid: $rel/bundle.yml"
+      else
+        fail "decision bundle metadata missing/invalid kind (decision-evidence-bundle): $rel/bundle.yml"
+      fi
+
+      if grep -Eq "^id:[[:space:]]*\"?${bundle_name}\"?$" "$bundle/bundle.yml"; then
+        pass "decision bundle metadata id matches directory: $rel/bundle.yml"
+      else
+        fail "decision bundle metadata id must match directory name (${bundle_name}): $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^evidence:[[:space:]]*"?evidence\.md"?$' "$bundle/bundle.yml"; then
+        pass "decision bundle metadata evidence pointer valid: $rel/bundle.yml"
+      else
+        fail "decision bundle metadata evidence pointer must be evidence.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^commands:[[:space:]]*"?commands\.md"?$' "$bundle/bundle.yml"; then
+        pass "decision bundle metadata commands pointer valid: $rel/bundle.yml"
+      else
+        fail "decision bundle metadata commands pointer must be commands.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^validation:[[:space:]]*"?validation\.md"?$' "$bundle/bundle.yml"; then
+        pass "decision bundle metadata validation pointer valid: $rel/bundle.yml"
+      else
+        fail "decision bundle metadata validation pointer must be validation.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^inventory:[[:space:]]*"?inventory\.md"?$' "$bundle/bundle.yml"; then
+        pass "decision bundle metadata inventory pointer valid: $rel/bundle.yml"
+      else
+        fail "decision bundle metadata inventory pointer must be inventory.md: $rel/bundle.yml"
       fi
     fi
   done
@@ -736,7 +837,9 @@ main() {
   check_domain_profile_registry
   check_discovery_contracts
   check_expected_internals
+  check_cognition_decision_record_surface
   check_cognition_migration_record_surface
+  check_output_decision_evidence_surface
   check_output_migration_evidence_surface
   check_domain_profile_shapes
   check_deprecated_agency_paths

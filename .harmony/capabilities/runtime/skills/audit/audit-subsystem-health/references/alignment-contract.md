@@ -31,7 +31,9 @@ Changes in any of the following paths must trigger an alignment check:
 - `.harmony/assurance/practices/complete.md`
 - `.harmony/assurance/practices/session-exit.md`
 - `.harmony/cognition/runtime/migrations/`
+- `.harmony/cognition/runtime/decisions/`
 - `.harmony/cognition/practices/methodology/migrations/`
+- `.harmony/output/reports/decisions/`
 
 ## Required Skill Artifacts
 

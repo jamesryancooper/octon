@@ -144,3 +144,11 @@ Move here when a decision is replaced. Include reference to replacement.
 | ID | Decision | Choice | Constraint | Date |
 |----|----------|--------|------------|------|
 | D054 | Migration evidence bundle canonical format | Replace flat migration evidence files with bundle directories containing `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, and `inventory.md` under `output/reports/migrations/<YYYY-MM-DD>-<slug>/` | Active docs/contracts/validators must enforce bundle directories and required bundle files; flat `*-evidence.md` forms in `output/reports/migrations/` are deprecated and blocked by validation guardrails | 2026-02-21 |
+
+### 2026-02-21 (continued V)
+
+- [ADR-033](../decisions/033-adr-discovery-and-evidence-surface.md) — ADR discovery and evidence surface (D055)
+
+| ID | Decision | Choice | Constraint | Date |
+|----|----------|--------|------------|------|
+| D055 | ADR discovery and evidence surface | Keep ADRs as canonical single files, add `runtime/decisions/index.yml` for discovery, and add optional decision evidence bundles under `output/reports/decisions/<NNN>-<slug>/` | Active docs/contracts/validators must resolve ADR discovery through the decisions index and enforce decision bundle file contracts when decision evidence bundles are present | 2026-02-21 |
