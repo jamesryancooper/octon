@@ -234,7 +234,7 @@ Legacy "engine" wording in historical notes maps to Composite Services:
 | Context Engine | `retrieval/*` |
 | Governance Engine | `governance/*` + `assurance/*` |
 | Release Engine | `delivery/*` |
-| Kaizen Engine | quality-gate and improvement workflows across service domains |
+| Kaizen Engine | audit, remediation, and refactor workflows across service domains |
 
 ---
 

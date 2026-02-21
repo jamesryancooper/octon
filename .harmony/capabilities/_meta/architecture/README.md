@@ -153,7 +153,7 @@ See [Creation](./creation.md) for the full workflow.
 
 ### Internal Resources
 
-- `.harmony/capabilities/runtime/skills/quality-gate/refactor/` — Example skill with `[executor, guardian]` skill sets
+- `.harmony/capabilities/runtime/skills/refactor/refactor/` — Example skill with `[executor, guardian]` skill sets
 - `.harmony/capabilities/runtime/skills/synthesis/refine-prompt/` — Example skill with `[executor, collaborator]` skill sets
 - `.harmony/capabilities/runtime/skills/_scaffold/template/` — Skill template with capability guidance
 

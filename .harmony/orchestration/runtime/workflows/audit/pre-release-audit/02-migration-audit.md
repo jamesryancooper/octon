@@ -1,7 +1,7 @@
 ---
 name: migration-audit
 title: "Run Migration Audit"
-description: "Run audit-migration if a migration manifest was provided."
+description: "Run orchestrate-audit in migration-only mode if a migration manifest was provided."
 ---
 
 # Step 2: Run Migration Audit
@@ -13,7 +13,7 @@ description: "Run audit-migration if a migration manifest was provided."
 
 ## Purpose
 
-Run the `audit-migration` skill to check for post-migration reference integrity. This step is **skipped** if no migration manifest was provided.
+Run `orchestrate-audit` in migration-only mode to check post-migration reference integrity using the same partitioned orchestration path used elsewhere. This step is **skipped** if no migration manifest was provided.
 
 ## Actions
 
@@ -28,34 +28,34 @@ Proceed immediately to step 3.
 
 ### If Running
 
-1. **Invoke audit-migration:**
+1. **Invoke orchestrate-audit (migration-only mode):**
 
    ```text
-   /audit-migration manifest="{{manifest}}" scope="{{subsystem}}" severity_threshold="{{severity_threshold}}"
+   /orchestrate-audit manifest="{{manifest}}" scope="{{subsystem}}" severity_threshold="{{severity_threshold}}" run_cross_subsystem="false" run_freshness="false"
    ```
 
 2. **Wait for completion:**
 
-   The skill produces its own report at `.harmony/output/reports/YYYY-MM-DD-migration-audit.md`
+   The workflow produces its migration report at `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md`
 
 3. **Capture results summary:**
 
    Read the migration audit report and extract:
    - Total findings count
    - Severity breakdown (CRITICAL, HIGH, MEDIUM, LOW)
-   - Layer breakdown (grep sweep, cross-ref, semantic)
+   - Partition coverage summary (successful partitions, failed partitions)
 
 4. **Record outcome:**
 
    ```markdown
    Migration audit: COMPLETED
-   Report: .harmony/output/reports/{{date}}-migration-audit.md
+   Report: .harmony/output/reports/{{date}}-migration-audit-consolidated.md
    Findings: {{total}} ({{critical}} CRITICAL, {{high}} HIGH, {{medium}} MEDIUM, {{low}} LOW)
    ```
 
 ### If Failed
 
-If `audit-migration` fails:
+If `orchestrate-audit` fails:
 
 - Record the error with details
 - Continue to step 3 (health audit runs independently)
@@ -71,7 +71,7 @@ Note: Health audit will proceed independently
 
 **Check:** Migration audit report already exists for today's date.
 
-- [ ] `.harmony/output/reports/YYYY-MM-DD-migration-audit.md` exists
+- [ ] `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md` exists
 
 **If Already Complete:**
 
@@ -82,8 +82,8 @@ Note: Health audit will proceed independently
 
 ## Error Messages
 
-- Skill failed: "MIGRATION_AUDIT_FAILED: audit-migration exited with errors — {{details}}"
-- Manifest invalid: "MANIFEST_INVALID: audit-migration rejected the manifest — {{validation_error}}"
+- Workflow failed: "MIGRATION_AUDIT_FAILED: orchestrate-audit migration stage exited with errors — {{details}}"
+- Manifest invalid: "MANIFEST_INVALID: orchestrate-audit rejected the manifest — {{validation_error}}"
 
 ## Output
 

@@ -26,7 +26,7 @@ Changes in any of the following paths must trigger an alignment check:
 - `.harmony/cognition/_meta/architecture/`
 - `.harmony/cognition/governance/principles/`
 - `.harmony/*/_meta/architecture/`
-- `.harmony/orchestration/runtime/workflows/quality-gate/pre-release-audit/`
+- `.harmony/orchestration/runtime/workflows/audit/pre-release-audit/`
 - `.harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
 - `.harmony/assurance/practices/complete.md`
 - `.harmony/assurance/practices/session-exit.md`
@@ -35,11 +35,11 @@ Changes in any of the following paths must trigger an alignment check:
 
 When watched surfaces change, review and update one or more of:
 
-- `.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/SKILL.md`
-- `.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/phases.md`
-- `.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/validation.md`
-- `.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/io-contract.md`
-- `.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/references/alignment-contract.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-subsystem-health/SKILL.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-subsystem-health/references/phases.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-subsystem-health/references/validation.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-subsystem-health/references/io-contract.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-subsystem-health/references/alignment-contract.md`
 - `.harmony/capabilities/runtime/skills/registry.yml` (`audit-subsystem-health` entry)
 
 ## Versioning Rule

@@ -1,5 +1,5 @@
 schema_version: "1.0"
-generated_at: "2026-02-20T18:22:56Z"
+generated_at: "2026-02-21T18:11:25Z"
 source_manifest: "/Users/jamesryancooper/Projects/harmony/.harmony/capabilities/runtime/skills/manifest.yml"
 skills:
   - id: "synthesize-research"
@@ -24,7 +24,7 @@ skills:
       - "Write(_ops/state/logs/*)"
     allowed_services:
   - id: "refactor"
-    path: "quality-gate/refactor/"
+    path: "refactor/refactor/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -53,7 +53,7 @@ skills:
       - "Bash(cp)"
     allowed_services:
   - id: "audit-migration"
-    path: "quality-gate/audit-migration/"
+    path: "audit/audit-migration/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -64,7 +64,7 @@ skills:
       - "Write(_ops/state/logs/*)"
     allowed_services:
   - id: "audit-subsystem-health"
-    path: "quality-gate/audit-subsystem-health/"
+    path: "audit/audit-subsystem-health/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -75,7 +75,7 @@ skills:
       - "Write(_ops/state/logs/*)"
     allowed_services:
   - id: "audit-cross-subsystem-coherence"
-    path: "quality-gate/audit-cross-subsystem-coherence/"
+    path: "audit/audit-cross-subsystem-coherence/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -86,7 +86,7 @@ skills:
       - "Write(_ops/state/logs/*)"
     allowed_services:
   - id: "audit-freshness-and-supersession"
-    path: "quality-gate/audit-freshness-and-supersession/"
+    path: "audit/audit-freshness-and-supersession/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -97,7 +97,7 @@ skills:
       - "Write(_ops/state/logs/*)"
     allowed_services:
   - id: "audit-documentation-standards"
-    path: "quality-gate/audit-documentation-standards/"
+    path: "audit/audit-documentation-standards/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -108,7 +108,7 @@ skills:
       - "Write(_ops/state/logs/*)"
     allowed_services:
   - id: "audit-ui"
-    path: "quality-gate/audit-ui/"
+    path: "audit/audit-ui/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -391,7 +391,7 @@ skills:
       - "Glob"
     allowed_services:
   - id: "resolve-pr-comments"
-    path: "quality-gate/resolve-pr-comments/"
+    path: "remediation/resolve-pr-comments/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -404,7 +404,7 @@ skills:
       - "Write(_ops/state/logs/*)"
     allowed_services:
   - id: "triage-ci-failure"
-    path: "quality-gate/triage-ci-failure/"
+    path: "remediation/triage-ci-failure/"
     status: "active"
     broad_write_scope: false
     allowed_tools:

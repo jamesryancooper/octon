@@ -85,7 +85,7 @@ When `partition` and `file_filter` are provided, the skill runs in partition mod
 
 When `partition` is not set, the skill operates identically to its non-partitioned behavior. Partition mode is backward compatible.
 
-See the companion workflow `orchestrate-audit` at `.harmony/orchestration/runtime/workflows/quality-gate/orchestrate-audit/` for coordinated parallel execution.
+See the companion workflow `orchestrate-audit` at `.harmony/orchestration/runtime/workflows/audit/orchestrate-audit/` for coordinated parallel execution.
 
 ## Parameters
 

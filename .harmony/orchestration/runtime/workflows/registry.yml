@@ -111,7 +111,7 @@ workflows:
           description: "Individual freshness and supersession audit report (produced if enabled)"
 
   pre-release-audit:
-    version: "1.1.0"
+    version: "1.2.0"
     commands: ["/pre-release-audit"]
     parameters:
       - name: subsystem
@@ -150,8 +150,8 @@ workflows:
     depends_on:
       - skill: audit-subsystem-health
         condition: "active in skill manifest"
-      - skill: audit-migration
-        condition: "active in skill manifest (required only when manifest parameter is provided)"
+      - workflow: orchestrate-audit
+        condition: "active in workflow manifest (required only when manifest parameter is provided)"
       - skill: audit-cross-subsystem-coherence
         condition: "active in skill manifest (required when run_cross_subsystem parameter is true)"
       - skill: audit-freshness-and-supersession
@@ -172,11 +172,11 @@ workflows:
           determinism: unique
           description: "Individual health audit report (produced by audit-subsystem-health)"
         - name: migration_audit_report
-          path: "../../output/reports/{{date}}-migration-audit.md"
+          path: "../../output/reports/{{date}}-migration-audit-consolidated.md"
           kind: file
           format: markdown
           determinism: unique
-          description: "Individual migration audit report (produced by audit-migration, if manifest provided)"
+          description: "Consolidated migration audit report (produced by orchestrate-audit in migration-only mode, if manifest provided)"
         - name: cross_subsystem_audit_report
           path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file

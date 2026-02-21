@@ -31,7 +31,8 @@ Teams may standardize which workflows and composite skills are used.
 ## Workflow Groups
 
 - `meta/` — Harness management (create, evaluate, migrate, update) and meta-workflows (create, evaluate, update workflow/skill)
-- `quality-gate/` — Codebase integrity and release gates (refactor, orchestrate-audit, pre-release-audit, documentation-quality-gate)
+- `audit/` — Audit orchestration and release gates (orchestrate-audit, pre-release-audit, documentation-quality-gate)
+- `refactor/` — Verified structural refactor orchestration (refactor)
 - `foundations/` — Stack-specific project scaffolding (python-api, swift-macos-app)
 - `missions/` — Mission lifecycle (create, complete)
 - `projects/` — Project creation

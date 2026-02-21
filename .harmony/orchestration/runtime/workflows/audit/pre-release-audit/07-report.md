@@ -51,7 +51,7 @@ Produce a consolidated pre-release report with a release recommendation, merged 
 
    | Audit Stage | Status | Findings |
    |-------------|--------|----------|
-   | Migration (reference integrity) | {{completed|skipped|failed}} | {{count}} |
+   | Migration (orchestrated reference integrity) | {{completed|skipped|failed}} | {{count}} |
    | Health (subsystem coherence) | {{completed|failed}} | {{count}} |
    | Cross-subsystem coherence | {{completed|skipped|failed}} | {{count}} |
    | Freshness and supersession | {{completed|skipped|failed}} | {{count}} |
@@ -105,7 +105,7 @@ Produce a consolidated pre-release report with a release recommendation, merged 
    ## Audit Methodology
 
    This report was produced by `pre-release-audit`, which orchestrates:
-   1. `audit-migration`
+   1. `orchestrate-audit` (migration-only mode: `run_cross_subsystem=false`, `run_freshness=false`)
    2. `audit-subsystem-health`
    3. `audit-cross-subsystem-coherence`
    4. `audit-freshness-and-supersession`

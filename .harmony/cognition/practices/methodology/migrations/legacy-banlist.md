@@ -55,6 +55,10 @@ Each entry should be specific enough to avoid false positives.
 - `cognition/methodology/README.md` - legacy root cognition methodology path - removed by migration `2026-02-20-cognition-bounded-surfaces`
 - `cognition/principles/_ops/scripts/lint-principles-governance.sh` - legacy principles-local ops script path - removed by migration `2026-02-20-cognition-bounded-surfaces`
 - `cognition/principles/_meta/docs/ra-acp-glossary.md` - legacy principles-local meta docs path - removed by migration `2026-02-20-cognition-bounded-surfaces`
+- `capabilities/runtime/skills/quality-gate/` - deprecated quality-gate skill domain path - removed by migration `2026-02-21-quality-gate-domain-split`
+- `orchestration/runtime/workflows/quality-gate/` - deprecated quality-gate workflow domain path - removed by migration `2026-02-21-quality-gate-domain-split`
+- `group: quality-gate` - deprecated quality-gate taxonomy group key - removed by migration `2026-02-21-quality-gate-domain-split`
+- `path: quality-gate/` - deprecated quality-gate runtime path prefix - removed by migration `2026-02-21-quality-gate-domain-split`
 
 ## Banned Paths
 
@@ -114,7 +118,9 @@ Each entry should be specific enough to avoid false positives.
 - `/.harmony/cognition/methodology/` - replaced by `/.harmony/cognition/practices/methodology/` - removed by migration `2026-02-20-cognition-bounded-surfaces`
 - `/.harmony/cognition/principles/_ops/` - replaced by `/.harmony/cognition/_ops/principles/` - removed by migration `2026-02-20-cognition-bounded-surfaces`
 - `/.harmony/cognition/principles/_meta/docs/` - replaced by `/.harmony/cognition/_meta/principles/` - removed by migration `2026-02-20-cognition-bounded-surfaces`
+- `/.harmony/capabilities/runtime/skills/quality-gate/` - replaced by focused runtime domains `/.harmony/capabilities/runtime/skills/audit/`, `/.harmony/capabilities/runtime/skills/remediation/`, and `/.harmony/capabilities/runtime/skills/refactor/` - removed by migration `2026-02-21-quality-gate-domain-split`
+- `/.harmony/orchestration/runtime/workflows/quality-gate/` - replaced by focused runtime domains `/.harmony/orchestration/runtime/workflows/audit/` and `/.harmony/orchestration/runtime/workflows/refactor/` - removed by migration `2026-02-21-quality-gate-domain-split`
 
 ## Banned Config Keys or Env Vars
 
-- `(none currently)` - no legacy config or env keys removed in migrations `2026-02-20-agency-bounded-surfaces`, `2026-02-21-agency-actors-to-runtime`, `2026-02-20-orchestration-bounded-surfaces`, `2026-02-20-capabilities-bounded-surfaces`, `2026-02-20-assurance-bounded-surfaces`, `2026-02-20-scaffolding-bounded-surfaces`, `2026-02-20-engine-bounded-surfaces`, or `2026-02-20-cognition-bounded-surfaces`
+- `(none currently)` - no legacy config or env keys removed in migrations `2026-02-20-agency-bounded-surfaces`, `2026-02-21-agency-actors-to-runtime`, `2026-02-20-orchestration-bounded-surfaces`, `2026-02-20-capabilities-bounded-surfaces`, `2026-02-20-assurance-bounded-surfaces`, `2026-02-20-scaffolding-bounded-surfaces`, `2026-02-20-engine-bounded-surfaces`, `2026-02-20-cognition-bounded-surfaces`, or `2026-02-21-quality-gate-domain-split`

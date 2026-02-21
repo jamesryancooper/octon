@@ -118,13 +118,13 @@ workflows:
       - "fix workflow gaps"
       - "improve workflow"
 
-  # --- quality-gate: Verify and enforce codebase integrity ---
+  # --- audit/refactor: Verify integrity and execute structural refactors ---
 
   - id: refactor
     display_name: Refactor
-    group: quality-gate
+    group: refactor
     domain: refactor
-    path: quality-gate/refactor/
+    path: refactor/refactor/
     summary: Execute a verified refactor with exhaustive audit and mandatory verification.
     status: active
     triggers:
@@ -134,9 +134,9 @@ workflows:
 
   - id: orchestrate-audit
     display_name: Orchestrate Audit
-    group: quality-gate
+    group: audit
     domain: audit
-    path: quality-gate/orchestrate-audit/
+    path: audit/orchestrate-audit/
     summary: Coordinate partitioned migration audits with optional cross-subsystem and freshness global stages.
     status: active
     triggers:
@@ -147,10 +147,10 @@ workflows:
 
   - id: pre-release-audit
     display_name: Pre-Release Audit
-    group: quality-gate
+    group: audit
     domain: audit
-    path: quality-gate/pre-release-audit/
-    summary: Chain migration, health, cross-subsystem, and freshness audits into a pre-release quality gate.
+    path: audit/pre-release-audit/
+    summary: Chain orchestrated migration, health, cross-subsystem, and freshness audits into a pre-release quality gate.
     status: active
     triggers:
       - "pre-release audit"
@@ -160,9 +160,9 @@ workflows:
 
   - id: documentation-quality-gate
     display_name: Documentation Quality Gate
-    group: quality-gate
+    group: audit
     domain: audit
-    path: quality-gate/documentation-quality-gate/
+    path: audit/documentation-quality-gate/
     summary: Run docs-as-code standards enforcement and emit a release gate recommendation.
     status: active
     triggers:
@@ -352,10 +352,15 @@ workflow_group_definitions:
     members: [create-harness, evaluate-harness, migrate-harness, update-harness,
               create-workflow, evaluate-workflow, update-workflow, create-skill]
 
-  quality-gate:
-    description: Verify and enforce codebase integrity
-    path: quality-gate/
-    members: [documentation-quality-gate, orchestrate-audit, pre-release-audit, refactor]
+  audit:
+    description: Audit orchestration and release gates
+    path: audit/
+    members: [documentation-quality-gate, orchestrate-audit, pre-release-audit]
+
+  refactor:
+    description: Verified structural refactor orchestration
+    path: refactor/
+    members: [refactor]
 
   foundations:
     description: Stack-specific project scaffolding orchestration

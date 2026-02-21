@@ -208,4 +208,4 @@ When renaming or moving paths, **do not** update historical references:
 
 - **Decision:** D014 (Continuity artifact immutability)
 - **ADR:** [ADR-004](cognition/runtime/decisions/004-refactor-workflow.md)
-- **Workflow:** `.harmony/orchestration/runtime/workflows/quality-gate/refactor/`
+- **Workflow:** `.harmony/orchestration/runtime/workflows/refactor/refactor/`

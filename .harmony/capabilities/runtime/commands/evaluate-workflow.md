@@ -17,7 +17,7 @@ Assess an existing workflow for structure compliance, gap coverage, and content 
 
 **Examples:**
 ```text
-/evaluate-workflow .harmony/orchestration/runtime/workflows/quality-gate/refactor/
+/evaluate-workflow .harmony/orchestration/runtime/workflows/refactor/refactor/
 /evaluate-workflow .harmony/orchestration/runtime/workflows/my-workflow/
 ```
 

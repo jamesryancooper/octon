@@ -58,8 +58,8 @@ Icon?
 .fleet/
 
 # Rust build artifacts (Harmony runtime + wasm services)
-.harmony/engine/_ops/state/build/
-.harmony/engine/_ops/state/build/**
+.harmony/engine/runtime/_ops/state/build/
+.harmony/engine/runtime/_ops/state/build/**
 .harmony/capabilities/runtime/services/_ops/state/build/
 .harmony/capabilities/runtime/services/_ops/state/build/**
 

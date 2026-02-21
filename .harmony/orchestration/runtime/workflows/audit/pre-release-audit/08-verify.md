@@ -14,6 +14,7 @@ description: Validate workflow executed successfully.
 
 - [ ] Health audit completed (or failure documented)
 - [ ] If migration manifest was provided: migration audit ran (or failure documented)
+- [ ] If migration manifest was provided: migration report exists at `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md` (or failure documented)
 - [ ] If `run_cross_subsystem=true`: cross-subsystem audit ran (or failure documented)
 - [ ] If `run_freshness=true`: freshness audit ran (or failure documented)
 - [ ] Consolidated report exists at `.harmony/output/reports/YYYY-MM-DD-pre-release-audit.md`
@@ -43,6 +44,7 @@ description: Validate workflow executed successfully.
    |-----------|--------|--------|
    | Health audit | {{result}} | PASS/FAIL |
    | Migration audit (if applicable) | {{result}} | PASS/FAIL/N-A |
+   | Migration consolidated report path (if applicable) | {{result}} | PASS/FAIL/N-A |
    | Cross-subsystem audit (if enabled) | {{result}} | PASS/FAIL/N-A |
    | Freshness audit (if enabled) | {{result}} | PASS/FAIL/N-A |
    | Consolidated report exists | {{result}} | PASS/FAIL |

@@ -50,3 +50,5 @@ Every migration must include:
 - `2026-02-20-scaffolding-bounded-surfaces/plan.md`
 - `2026-02-20-engine-bounded-surfaces/plan.md`
 - `2026-02-20-cognition-bounded-surfaces/plan.md`
+- `2026-02-21-agency-actors-to-runtime/plan.md`
+- `2026-02-21-quality-gate-domain-split/plan.md`

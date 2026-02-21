@@ -1,16 +1,17 @@
 ---
 name: pre-release-audit
 description: >
-  Chain migration integrity, subsystem health, cross-subsystem coherence, and
-  freshness/supersession audits into a comprehensive pre-release quality gate.
+  Chain orchestrated migration integrity, subsystem health, cross-subsystem
+  coherence, and freshness/supersession audits into a comprehensive pre-release
+  quality gate.
   Produces a consolidated readiness report with a go/no-go recommendation.
 steps:
   - id: configure
     file: 01-configure.md
-    description: Parse parameters and determine which audit skills to run.
+    description: Parse parameters and determine which audit stages to run.
   - id: migration-audit
     file: 02-migration-audit.md
-    description: Run audit-migration if migration manifest provided.
+    description: Run orchestrate-audit (migration-only mode) if manifest provided.
   - id: health-audit
     file: 03-health-audit.md
     description: Run audit-subsystem-health against target subsystem.
@@ -31,7 +32,7 @@ steps:
     description: Validate workflow executed successfully.
 # --- Harmony extensions ---
 access: human
-version: "1.1.0"
+version: "1.2.0"
 depends_on: []
 checkpoints:
   enabled: true
@@ -41,7 +42,7 @@ parallel_steps: []
 
 # Pre-Release Audit: Overview
 
-Chain migration and coherence audits into a comprehensive pre-release quality gate.
+Chain orchestrated migration and coherence audits into a comprehensive pre-release quality gate.
 
 ## Usage
 
@@ -68,7 +69,8 @@ A harness subsystem and related architecture artifacts, audited for migration in
 ## Prerequisites
 
 - `audit-subsystem-health` skill is active
-- `audit-migration` skill is active (required only if `manifest` is provided)
+- `orchestrate-audit` workflow is active (required only if `manifest` is provided)
+- `audit-migration` skill is active (required transitively by `orchestrate-audit` when `manifest` is provided)
 - `audit-cross-subsystem-coherence` skill is active (required when `run_cross_subsystem=true`)
 - `audit-freshness-and-supersession` skill is active (required when `run_freshness=true`)
 - Target subsystem directory exists
@@ -84,7 +86,7 @@ A harness subsystem and related architecture artifacts, audited for migration in
 ## Steps
 
 1. [Configure](./01-configure.md) - Parse parameters and build execution plan
-2. [Migration Audit](./02-migration-audit.md) - Run audit-migration if manifest provided
+2. [Migration Audit](./02-migration-audit.md) - Run orchestrate-audit (migration-only mode) if manifest provided
 3. [Health Audit](./03-health-audit.md) - Run audit-subsystem-health
 4. [Cross-Subsystem Audit](./04-cross-subsystem-audit.md) - Run audit-cross-subsystem-coherence unless disabled
 5. [Freshness Audit](./05-freshness-audit.md) - Run audit-freshness-and-supersession unless disabled
@@ -107,14 +109,15 @@ Pre-Release Audit is NOT complete until:
 
 | Version | Date | Changes |
 | ------- | ---- | ------- |
+| 1.2.0 | 2026-02-21 | Clean-break migration stage to orchestrate-audit (migration-only mode) to remove overlap with parallel migration orchestration |
 | 1.1.0 | 2026-02-15 | Added cross-subsystem and freshness audit stages with stage controls |
 | 1.0.1 | 2026-02-15 | Added mandatory alignment validator gate for architecture drift |
 | 1.0.0 | 2026-02-10 | Initial version |
 
 ## References
 
-- **Migration Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-migration/SKILL.md`
-- **Health Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-subsystem-health/SKILL.md`
-- **Cross-Subsystem Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-cross-subsystem-coherence/SKILL.md`
-- **Freshness Skill:** `.harmony/capabilities/runtime/skills/quality-gate/audit-freshness-and-supersession/SKILL.md`
-- **Orchestrate Audit:** `.harmony/orchestration/runtime/workflows/quality-gate/orchestrate-audit/`
+- **Migration Orchestrator:** `.harmony/orchestration/runtime/workflows/audit/orchestrate-audit/`
+- **Migration Skill (transitive dependency):** `.harmony/capabilities/runtime/skills/audit/audit-migration/SKILL.md`
+- **Health Skill:** `.harmony/capabilities/runtime/skills/audit/audit-subsystem-health/SKILL.md`
+- **Cross-Subsystem Skill:** `.harmony/capabilities/runtime/skills/audit/audit-cross-subsystem-coherence/SKILL.md`
+- **Freshness Skill:** `.harmony/capabilities/runtime/skills/audit/audit-freshness-and-supersession/SKILL.md`

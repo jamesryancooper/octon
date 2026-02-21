@@ -189,6 +189,22 @@ log_info() {
     echo "  $1"
 }
 
+check_deprecated_paths() {
+    local deprecated path rel
+    deprecated=(
+        "$SKILLS_DIR/quality-gate"
+    )
+
+    for path in "${deprecated[@]}"; do
+        rel="${path#$REPO_ROOT/}"
+        if [[ -e "$path" ]]; then
+            log_error "Deprecated skills path exists: $rel"
+        else
+            log_success "Deprecated skills path removed: $rel"
+        fi
+    done
+}
+
 # Returns 0 when the first argument exists in the remaining arguments.
 contains() {
     local value="$1"
@@ -3242,6 +3258,9 @@ else
 
         # Cross-reference validation (manifest ↔ registry)
         check_manifest_registry_sync
+
+        # Legacy path regression guard
+        check_deprecated_paths
     else
         log_info "dev-fast profile: skipped global manifest drift checks (orphan dirs/triggers/cross-ref)"
     fi

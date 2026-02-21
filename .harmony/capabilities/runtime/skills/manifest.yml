@@ -15,7 +15,7 @@
 #   status       - Lifecycle state: active | deprecated | experimental | draft
 #   tags         - Freeform labels for filtering/grouping
 #   triggers     - Natural language phrases for intent matching
-#   group        - Skill group for directory organization: quality-gate, synthesis, meta, foundations
+#   group        - Skill group for directory organization: audit, remediation, refactor, synthesis, meta, foundations
 #                  Resolved via skill_group_definitions in capabilities.yml
 #   skill_sets   - Capability bundles: executor, coordinator, delegator, collaborator, integrator, specialist, guardian
 #   capabilities - Additional capabilities beyond skill set bundles (see registry.yml for valid values)
@@ -67,8 +67,8 @@ skills:
 
   - id: refactor
     display_name: Refactor
-    group: quality-gate
-    path: quality-gate/refactor/
+    group: refactor
+    path: refactor/refactor/
     summary: "Execute verified codebase refactor with exhaustive audit."
     status: active
     tags:
@@ -110,8 +110,8 @@ skills:
 
   - id: audit-migration
     display_name: Audit Migration
-    group: quality-gate
-    path: quality-gate/audit-migration/
+    group: audit
+    path: audit/audit-migration/
     summary: "Bounded post-migration audit with grep sweeps and cross-reference validation."
     status: active
     tags:
@@ -131,8 +131,8 @@ skills:
 
   - id: audit-subsystem-health
     display_name: Audit Subsystem Health
-    group: quality-gate
-    path: quality-gate/audit-subsystem-health/
+    group: audit
+    path: audit/audit-subsystem-health/
     summary: "Bounded subsystem coherence audit with config consistency, schema conformance, and semantic quality checks."
     status: active
     tags:
@@ -154,8 +154,8 @@ skills:
 
   - id: audit-cross-subsystem-coherence
     display_name: Audit Cross Subsystem Coherence
-    group: quality-gate
-    path: quality-gate/audit-cross-subsystem-coherence/
+    group: audit
+    path: audit/audit-cross-subsystem-coherence/
     summary: "Bounded cross-subsystem coherence audit that validates alignment across .harmony subsystem manifests, registries, architecture docs, and quality gates."
     status: active
     tags:
@@ -177,8 +177,8 @@ skills:
 
   - id: audit-freshness-and-supersession
     display_name: Audit Freshness And Supersession
-    group: quality-gate
-    path: quality-gate/audit-freshness-and-supersession/
+    group: audit
+    path: audit/audit-freshness-and-supersession/
     summary: "Bounded staleness audit that checks freshness and supersession integrity for .harmony operational artifacts."
     status: active
     tags:
@@ -200,8 +200,8 @@ skills:
 
   - id: audit-documentation-standards
     display_name: Audit Documentation Standards
-    group: quality-gate
-    path: quality-gate/audit-documentation-standards/
+    group: audit
+    path: audit/audit-documentation-standards/
     summary: "Bounded docs-as-code audit against Harmony policy and template standards."
     status: active
     tags:
@@ -223,8 +223,8 @@ skills:
 
   - id: audit-ui
     display_name: Audit UI
-    group: quality-gate
-    path: quality-gate/audit-ui/
+    group: audit
+    path: audit/audit-ui/
     summary: "Audit UI files against live external design guidelines."
     status: active
     tags:
@@ -683,8 +683,8 @@ skills:
 
   - id: resolve-pr-comments
     display_name: Resolve PR Comments
-    group: quality-gate
-    path: quality-gate/resolve-pr-comments/
+    group: remediation
+    path: remediation/resolve-pr-comments/
     summary: "Systematic resolution of pull request review comments."
     status: active
     tags:
@@ -706,8 +706,8 @@ skills:
 
   - id: triage-ci-failure
     display_name: Triage CI Failure
-    group: quality-gate
-    path: quality-gate/triage-ci-failure/
+    group: remediation
+    path: remediation/triage-ci-failure/
     summary: "Diagnose and repair CI pipeline failures."
     status: active
     tags:

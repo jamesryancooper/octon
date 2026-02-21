@@ -834,7 +834,7 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 
 **Decision:** [D040](/.harmony/cognition/runtime/context/decisions.md) — Skills can fetch rule sets from external URLs at runtime using the `external-dependent` capability. This keeps audits current without harness updates, at the cost of requiring network access.
 
-**Canonical example:** [`audit-ui`](/.harmony/capabilities/runtime/skills/quality-gate/audit-ui/SKILL.md) — fetches web design guidelines from an external URL, scans UI files, and reports violations.
+**Canonical example:** [`audit-ui`](/.harmony/capabilities/runtime/skills/audit/audit-ui/SKILL.md) — fetches web design guidelines from an external URL, scans UI files, and reports violations.
 
 ### When to Use
 

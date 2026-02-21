@@ -62,10 +62,20 @@ skill_set_definitions:
 # Orthogonal to skill_sets (which define capability bundles).
 # ============================================================================
 skill_group_definitions:
-  quality-gate:
-    description: Verify and enforce codebase integrity
-    path: quality-gate/
-    members: [refactor, audit-migration, audit-subsystem-health, audit-cross-subsystem-coherence, audit-freshness-and-supersession, audit-ui, resolve-pr-comments, triage-ci-failure]
+  audit:
+    description: Audit and verify codebase and harness integrity
+    path: audit/
+    members: [audit-migration, audit-subsystem-health, audit-cross-subsystem-coherence, audit-freshness-and-supersession, audit-documentation-standards, audit-ui]
+
+  remediation:
+    description: Resolve review and CI quality issues
+    path: remediation/
+    members: [resolve-pr-comments, triage-ci-failure]
+
+  refactor:
+    description: Execute verified structural codebase refactors
+    path: refactor/
+    members: [refactor]
 
   synthesis:
     description: Produce refined output from raw input

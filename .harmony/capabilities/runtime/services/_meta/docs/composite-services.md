@@ -73,7 +73,7 @@ Related composition primitives:
   - `delivery/patch`, `delivery/release`, `delivery/flag`,
     `delivery/notify`
 - KaizenEngine -> orchestration-level improvement loops:
-  - quality-gate and improvement workflows that compose planning,
+  - audit, remediation, and refactor workflows that compose planning,
     governance, quality, and delivery services
 
 ## Authoring Rules

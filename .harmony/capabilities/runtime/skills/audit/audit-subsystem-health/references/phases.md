@@ -169,8 +169,8 @@ Verify that config files agree with each other and with definition files on disk
      id: "audit-migration"
      manifest:
        display_name: "Audit Migration"
-       group: "quality-gate"
-       path: "quality-gate/audit-migration/"
+       group: "audit"
+       path: "audit/audit-migration/"
        summary: "Bounded post-migration audit..."
        status: "active"
        skill_sets: [executor, guardian]

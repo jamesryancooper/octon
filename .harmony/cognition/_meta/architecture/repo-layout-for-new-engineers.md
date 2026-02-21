@@ -141,7 +141,7 @@ Think: “Single source of truth for service boundaries between TypeScript and P
   - Kaizen evaluators and codemods
   - Kaizen agents (often consuming composite services + kits)
 - Typically combines:
-  - quality-gate and improvement workflows in `.harmony/orchestration/runtime/workflows/**`
+  - audit, remediation, and refactor workflows in `.harmony/orchestration/runtime/workflows/**`
   - `packages/agents` factories
   - Runtime roots in `apps/*` or `agents/*` to actually run Kaizen work
 

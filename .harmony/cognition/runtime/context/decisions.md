@@ -112,3 +112,11 @@ Move here when a decision is replaced. Include reference to replacement.
 | ID | Decision | Choice | Constraint | Date |
 |----|----------|--------|------------|------|
 | D050 | Agency runtime surface canonicalization | Replace `agency/actors/` with `agency/runtime/` as the only runtime surface | Active docs/contracts/validators must resolve agency runtime artifacts through `agency/runtime/*`; `agency/actors` is deprecated and blocked by validation gates | 2026-02-21 |
+
+### 2026-02-21 (continued)
+
+- [ADR-029](../decisions/029-quality-gate-domain-split-clean-break-migration.md) — Quality-gate domain split clean-break migration (D051)
+
+| ID | Decision | Choice | Constraint | Date |
+|----|----------|--------|------------|------|
+| D051 | Quality-gate domain split | Replace monolithic `quality-gate/` runtime domains with focused `audit/`, `remediation/`, and `refactor/` domains | Active docs/contracts/validators must resolve these capabilities and workflows through new domain paths only; legacy `quality-gate` path/group authority is deprecated and blocked by validation gates | 2026-02-21 |

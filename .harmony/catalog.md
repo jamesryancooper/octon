@@ -86,7 +86,7 @@ Composable capabilities in `capabilities/runtime/skills/`:
 |-------|----------|-------------|
 | [synthesize-research](./capabilities/runtime/skills/synthesis/synthesize-research/SKILL.md) | `/synthesize-research` | Synthesize scattered research notes into coherent findings |
 | [refine-prompt](./capabilities/runtime/skills/synthesis/refine-prompt/SKILL.md) | `/refine-prompt` | Context-aware prompt refinement: analyze repo, inject references, decompose tasks, validate feasibility |
-| [audit-ui](./capabilities/runtime/skills/quality-gate/audit-ui/SKILL.md) | `/audit-ui` | Audit UI files against live external web design guidelines |
+| [audit-ui](./capabilities/runtime/skills/audit/audit-ui/SKILL.md) | `/audit-ui` | Audit UI files against live external web design guidelines |
 | [react-composition-patterns](./capabilities/runtime/skills/foundations/react/composition-patterns/SKILL.md) | `/react-composition-patterns` | Apply React composition patterns: compound components, state lifting, explicit variants |
 | [react-best-practices](./capabilities/runtime/skills/foundations/react/best-practices/SKILL.md) | `/react-best-practices` | Apply 57 React/Next.js performance rules across 8 categories |
 | [react-native-best-practices](./capabilities/runtime/skills/foundations/react-native/best-practices/SKILL.md) | `/react-native-best-practices` | Apply 35+ React Native/Expo rules across 14 categories |
@@ -202,8 +202,8 @@ Multi-step procedures in `orchestration/runtime/workflows/`.
 
 | Workflow | Access | Description |
 | -------- | ------ | ----------- |
-| [orchestrate-audit](./orchestration/runtime/workflows/quality-gate/orchestrate-audit/WORKFLOW.md) | human | Coordinate parallel audit-migration runs across codebase partitions |
-| [refactor](./orchestration/runtime/workflows/quality-gate/refactor/00-overview.md) | human | Execute a verified refactor with exhaustive audit |
+| [orchestrate-audit](./orchestration/runtime/workflows/audit/orchestrate-audit/WORKFLOW.md) | human | Coordinate parallel audit-migration runs across codebase partitions |
+| [refactor](./orchestration/runtime/workflows/refactor/refactor/00-overview.md) | human | Execute a verified refactor with exhaustive audit |
 
 ---
 

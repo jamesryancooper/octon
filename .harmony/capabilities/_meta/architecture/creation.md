@@ -227,8 +227,8 @@ Add the skill to `.harmony/capabilities/runtime/skills/manifest.yml` for Tier 1 
 skills:
   - id: your-skill-name
     display_name: Your Skill Name
-    group: quality-gate
-    path: quality-gate/your-skill-name/
+    group: audit
+    path: audit/your-skill-name/
     summary: "One-line description of what the skill does."
     status: active
     tags:
@@ -293,9 +293,9 @@ Run the setup script or create symlinks manually:
 .harmony/capabilities/runtime/skills/_ops/scripts/setup-harness-links.sh
 
 # Or manually
-ln -s ../../.harmony/capabilities/runtime/skills/quality-gate/your-skill-name .claude/skills/your-skill-name
-ln -s ../../.harmony/capabilities/runtime/skills/quality-gate/your-skill-name .cursor/skills/your-skill-name
-ln -s ../../.harmony/capabilities/runtime/skills/quality-gate/your-skill-name .codex/skills/your-skill-name
+ln -s ../../.harmony/capabilities/runtime/skills/audit/your-skill-name .claude/skills/your-skill-name
+ln -s ../../.harmony/capabilities/runtime/skills/audit/your-skill-name .cursor/skills/your-skill-name
+ln -s ../../.harmony/capabilities/runtime/skills/audit/your-skill-name .codex/skills/your-skill-name
 ```
 
 ### 7. Test

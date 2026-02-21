@@ -106,9 +106,9 @@ For ACP promotion, missing required governance artifacts MUST fail closed:
 Current enforcement assets:
 
 - workflow command: `/documentation-quality-gate`
-  (`.harmony/orchestration/runtime/workflows/quality-gate/documentation-quality-gate/WORKFLOW.md`)
+  (`.harmony/orchestration/runtime/workflows/audit/documentation-quality-gate/WORKFLOW.md`)
 - audit command: `/audit-documentation-standards`
-  (`.harmony/capabilities/runtime/skills/quality-gate/audit-documentation-standards/SKILL.md`)
+  (`.harmony/capabilities/runtime/skills/audit/audit-documentation-standards/SKILL.md`)
 
 Live enforcement binding:
 
@@ -157,7 +157,7 @@ contract, schema, or risk changes.
 - `.harmony/cognition/practices/methodology/spec-first-planning.md`
 - `.harmony/scaffolding/governance/patterns/adr-policy.md`
 - `.harmony/scaffolding/runtime/templates/documentation-standards.md`
-- `.harmony/orchestration/runtime/workflows/quality-gate/documentation-quality-gate/WORKFLOW.md`
-- `.harmony/capabilities/runtime/skills/quality-gate/audit-documentation-standards/SKILL.md`
+- `.harmony/orchestration/runtime/workflows/audit/documentation-quality-gate/WORKFLOW.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-documentation-standards/SKILL.md`
 - `.harmony/cognition/governance/pillars/direction.md`
 - `.harmony/cognition/governance/pillars/continuity.md`

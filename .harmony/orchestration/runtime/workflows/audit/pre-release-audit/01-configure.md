@@ -1,7 +1,7 @@
 ---
 name: configure
 title: "Configure Pre-Release Audit"
-description: "Parse parameters and determine which audit skills to run."
+description: "Parse parameters and determine which audit stages to run."
 ---
 
 # Step 1: Configure Pre-Release Audit
@@ -12,7 +12,7 @@ description: "Parse parameters and determine which audit skills to run."
 
 ## Purpose
 
-Validate parameters and build a deterministic execution plan for migration, subsystem-health, cross-subsystem coherence, and freshness/supersession audits.
+Validate parameters and build a deterministic execution plan for orchestrated migration, subsystem-health, cross-subsystem coherence, and freshness/supersession audits.
 
 ## Actions
 
@@ -39,13 +39,15 @@ Validate parameters and build a deterministic execution plan for migration, subs
    | `manifest` provided | Run | Run | Run unless disabled | Run unless disabled |
    | `manifest` omitted | Skip | Run | Run unless disabled | Run unless disabled |
 
-4. **Verify required skill availability:**
+4. **Verify required stage dependencies:**
 
    - `audit-subsystem-health` must be `active`
-   - If `manifest` provided, `audit-migration` must be `active`
+   - If `manifest` provided:
+     - `orchestrate-audit` workflow must be `active`
+     - `audit-migration` must be `active` (required transitively by `orchestrate-audit`)
    - If `run_cross_subsystem=true`, `audit-cross-subsystem-coherence` must be `active`
    - If `run_freshness=true`, `audit-freshness-and-supersession` must be `active`
-   - Missing required skill -> STOP with `SKILL_NOT_AVAILABLE`
+   - Missing required dependency -> STOP with `DEPENDENCY_NOT_AVAILABLE`
 
 5. **Record execution plan:**
 
@@ -75,7 +77,7 @@ Validate parameters and build a deterministic execution plan for migration, subs
 ## Error Messages
 
 - Missing subsystem: `SUBSYSTEM_NOT_FOUND: The directory '{{path}}' does not exist`
-- Skill unavailable: `SKILL_NOT_AVAILABLE: {{skill-id}} is not active in the skill manifest`
+- Dependency unavailable: `DEPENDENCY_NOT_AVAILABLE: {{dependency-id}} is not active in the required registry`
 - Invalid manifest path: `MANIFEST_NOT_FOUND: The migration manifest '{{path}}' does not exist`
 
 ## Output
