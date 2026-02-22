@@ -60,6 +60,7 @@ check_index_path_contract() {
   local index_file="$1"
   local base_dir="$2"
   local label="$3"
+  local allow_empty="${4:-false}"
   local path
   local found=0
 
@@ -83,7 +84,11 @@ check_index_path_contract() {
   done < <(extract_index_paths "$index_file")
 
   if [[ $found -eq 0 ]]; then
-    warn "$label index has no path entries: ${index_file#$ROOT_DIR/}"
+    if [[ "$allow_empty" == "true" ]]; then
+      pass "$label index has no path entries (allowed): ${index_file#$ROOT_DIR/}"
+    else
+      warn "$label index has no path entries: ${index_file#$ROOT_DIR/}"
+    fi
   fi
 }
 
@@ -382,6 +387,7 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/cognition/runtime/context/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/decisions/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/migrations/index.yml"
+  require_file "$HARMONY_DIR/cognition/runtime/audits/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/analyses/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/knowledge/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/knowledge/graph/index.yml"
@@ -412,6 +418,7 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/cognition/practices/operations/index.yml"
   require_file "$HARMONY_DIR/cognition/practices/methodology/index.yml"
   require_file "$HARMONY_DIR/cognition/practices/methodology/migrations/index.yml"
+  require_file "$HARMONY_DIR/cognition/practices/methodology/audits/index.yml"
   require_file "$HARMONY_DIR/cognition/practices/methodology/templates/index.yml"
   require_file "$HARMONY_DIR/cognition/practices/methodology/README.index.yml"
   require_file "$HARMONY_DIR/cognition/practices/methodology/implementation-guide.index.yml"
@@ -441,10 +448,13 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/assurance/governance/scores/scores.yml"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/compute-assurance-score.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/assurance-gate.sh"
+  require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh"
   require_file "$HARMONY_DIR/assurance/practices/complete.md"
   require_file "$HARMONY_DIR/assurance/practices/session-exit.md"
+  require_file "$HARMONY_DIR/output/reports/audits/README.md"
 
   require_file "$HARMONY_DIR/scaffolding/runtime/templates/manifest.schema.json"
+  require_file "$HARMONY_DIR/scaffolding/runtime/templates/audits/template.bounded-audit.md"
   require_file "$HARMONY_DIR/scaffolding/runtime/_ops/scripts/init-project.sh"
   require_file "$HARMONY_DIR/scaffolding/governance/patterns/README.md"
   require_file "$HARMONY_DIR/scaffolding/practices/README.md"
@@ -467,6 +477,7 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/cognition/runtime"
   require_dir "$HARMONY_DIR/cognition/runtime/context"
   require_dir "$HARMONY_DIR/cognition/runtime/migrations"
+  require_dir "$HARMONY_DIR/cognition/runtime/audits"
   require_dir "$HARMONY_DIR/cognition/runtime/decisions"
   require_dir "$HARMONY_DIR/cognition/runtime/analyses"
   require_dir "$HARMONY_DIR/cognition/runtime/knowledge"
@@ -490,6 +501,7 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/cognition/practices/operations"
   require_dir "$HARMONY_DIR/cognition/practices/methodology"
   require_dir "$HARMONY_DIR/cognition/practices/methodology/migrations"
+  require_dir "$HARMONY_DIR/cognition/practices/methodology/audits"
   require_dir "$HARMONY_DIR/cognition/practices/methodology/templates"
   require_dir "$HARMONY_DIR/cognition/_meta/architecture"
   require_dir "$HARMONY_DIR/cognition/_meta/architecture/artifact-surface"
@@ -524,6 +536,7 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/scaffolding/runtime/_ops"
   require_dir "$HARMONY_DIR/scaffolding/runtime/_ops/scripts"
   require_dir "$HARMONY_DIR/scaffolding/runtime/templates"
+  require_dir "$HARMONY_DIR/scaffolding/runtime/templates/audits"
   require_dir "$HARMONY_DIR/scaffolding/governance"
   require_dir "$HARMONY_DIR/scaffolding/governance/patterns"
   require_dir "$HARMONY_DIR/scaffolding/practices"
@@ -547,6 +560,7 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/output/reports"
   require_dir "$HARMONY_DIR/output/reports/decisions"
   require_dir "$HARMONY_DIR/output/reports/migrations"
+  require_dir "$HARMONY_DIR/output/reports/audits"
   require_dir "$HARMONY_DIR/output/drafts"
   require_dir "$HARMONY_DIR/output/artifacts"
 }
@@ -694,6 +708,32 @@ check_cognition_migration_record_surface() {
   fi
 }
 
+check_cognition_audit_record_surface() {
+  local policy_dir="$HARMONY_DIR/cognition/practices/methodology/audits"
+  local runtime_dir="$HARMONY_DIR/cognition/runtime/audits"
+
+  require_dir "$policy_dir"
+  require_file "$policy_dir/README.md"
+  require_file "$policy_dir/index.yml"
+  require_file "$policy_dir/doctrine.md"
+  require_file "$policy_dir/invariants.md"
+  require_file "$policy_dir/exceptions.md"
+  require_file "$policy_dir/ci-gates.md"
+  require_file "$policy_dir/findings-contract.md"
+
+  require_dir "$runtime_dir"
+  require_file "$runtime_dir/README.md"
+  require_file "$runtime_dir/index.yml"
+
+  local legacy_records
+  legacy_records="$(find "$policy_dir" -mindepth 1 -maxdepth 1 -type d -name '20*-*' | sort || true)"
+  if [[ -n "$legacy_records" ]]; then
+    fail "dated audit records must not exist under practices surface: ${policy_dir#$ROOT_DIR/}"
+  else
+    pass "dated audit records isolated to runtime surface"
+  fi
+}
+
 check_output_migration_evidence_surface() {
   local reports_root="$HARMONY_DIR/output/reports"
   local migration_reports_dir="$reports_root/migrations"
@@ -785,6 +825,107 @@ check_output_migration_evidence_surface() {
         pass "bundle metadata inventory pointer valid: $rel/bundle.yml"
       else
         fail "bundle metadata inventory pointer must be inventory.md: $rel/bundle.yml"
+      fi
+    fi
+  done
+}
+
+check_output_audit_evidence_surface() {
+  local audits_reports_dir="$HARMONY_DIR/output/reports/audits"
+  local flat_audit_evidence
+  local bundle_dirs
+  local required_files
+  local bundle required rel bundle_name
+
+  required_files=(bundle.yml findings.yml coverage.yml convergence.yml evidence.md commands.md validation.md inventory.md)
+
+  require_dir "$audits_reports_dir"
+  require_file "$audits_reports_dir/README.md"
+
+  mapfile -t flat_audit_evidence < <(
+    find "$audits_reports_dir" -mindepth 1 -maxdepth 1 -type f | sort |
+      grep -E '/[0-9]{4}-[0-9]{2}-[0-9]{2}-.*\.md$' || true
+  )
+  if [[ ${#flat_audit_evidence[@]} -gt 0 ]]; then
+    fail "flat bounded-audit evidence files are forbidden; use bundle directories under output/reports/audits/"
+  else
+    pass "no flat bounded-audit evidence files under output/reports/audits/"
+  fi
+
+  mapfile -t bundle_dirs < <(
+    find "$audits_reports_dir" -mindepth 1 -maxdepth 1 -type d -name '20*-*' | sort
+  )
+  if [[ ${#bundle_dirs[@]} -eq 0 ]]; then
+    pass "no bounded-audit evidence bundles present (optional surface)"
+    return
+  fi
+  pass "found ${#bundle_dirs[@]} bounded-audit evidence bundle directories"
+
+  for bundle in "${bundle_dirs[@]}"; do
+    rel="${bundle#$ROOT_DIR/}"
+    bundle_name="$(basename "$bundle")"
+
+    for required in "${required_files[@]}"; do
+      if [[ ! -f "$bundle/$required" ]]; then
+        fail "bounded-audit evidence bundle missing required file (${required}): $rel"
+      else
+        pass "bounded-audit evidence bundle file present (${required}): $rel"
+      fi
+    done
+
+    if [[ -f "$bundle/bundle.yml" ]]; then
+      if grep -Eq '^kind:[[:space:]]*"?audit-evidence-bundle"?$' "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata kind valid: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata missing/invalid kind (audit-evidence-bundle): $rel/bundle.yml"
+      fi
+
+      if grep -Eq "^id:[[:space:]]*\"?${bundle_name}\"?$" "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata id matches directory: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata id must match directory name (${bundle_name}): $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^findings:[[:space:]]*"?findings\.yml"?$' "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata findings pointer valid: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata findings pointer must be findings.yml: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^coverage:[[:space:]]*"?coverage\.yml"?$' "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata coverage pointer valid: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata coverage pointer must be coverage.yml: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^convergence:[[:space:]]*"?convergence\.yml"?$' "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata convergence pointer valid: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata convergence pointer must be convergence.yml: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^evidence:[[:space:]]*"?evidence\.md"?$' "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata evidence pointer valid: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata evidence pointer must be evidence.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^commands:[[:space:]]*"?commands\.md"?$' "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata commands pointer valid: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata commands pointer must be commands.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^validation:[[:space:]]*"?validation\.md"?$' "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata validation pointer valid: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata validation pointer must be validation.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^inventory:[[:space:]]*"?inventory\.md"?$' "$bundle/bundle.yml"; then
+        pass "bounded-audit bundle metadata inventory pointer valid: $rel/bundle.yml"
+      else
+        fail "bounded-audit bundle metadata inventory pointer must be inventory.md: $rel/bundle.yml"
       fi
     fi
   done
@@ -888,6 +1029,12 @@ check_cognition_discovery_indexes() {
     "$HARMONY_DIR/cognition/runtime/context/index.yml" \
     "$HARMONY_DIR/cognition/runtime/context" \
     "cognition runtime context"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/runtime/audits/index.yml" \
+    "$HARMONY_DIR/cognition/runtime/audits" \
+    "cognition runtime audits" \
+    true
 
   check_index_path_contract \
     "$HARMONY_DIR/cognition/runtime/analyses/index.yml" \
@@ -998,6 +1145,11 @@ check_cognition_discovery_indexes() {
     "$HARMONY_DIR/cognition/practices/methodology/migrations/index.yml" \
     "$HARMONY_DIR/cognition/practices/methodology/migrations" \
     "cognition methodology migrations"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/practices/methodology/audits/index.yml" \
+    "$HARMONY_DIR/cognition/practices/methodology/audits" \
+    "cognition methodology audits"
 
   check_index_path_contract \
     "$HARMONY_DIR/cognition/practices/methodology/templates/index.yml" \
@@ -1116,6 +1268,69 @@ check_cognition_migration_index_cross_references() {
 
   if [[ $seen -eq 0 ]]; then
     warn "no records found in migration index: ${index_file#$ROOT_DIR/}"
+  fi
+}
+
+check_cognition_audit_index_cross_references() {
+  local index_file="$HARMONY_DIR/cognition/runtime/audits/index.yml"
+  local index_dir="$HARMONY_DIR/cognition/runtime/audits"
+  local id path evidence
+  local seen=0
+
+  require_file "$index_file"
+  if [[ ! -f "$index_file" ]]; then
+    return
+  fi
+
+  while IFS=$'\t' read -r id path evidence; do
+    [[ -z "$id" ]] && continue
+    seen=1
+
+    if [[ -z "$path" || -z "$evidence" ]]; then
+      fail "audit index record missing required fields (path/evidence): $id"
+      continue
+    fi
+
+    if [[ ! -f "$index_dir/$path" ]]; then
+      fail "audit index path missing on disk: ${index_file#$ROOT_DIR/} -> $path"
+    else
+      pass "audit index path exists: ${index_file#$ROOT_DIR/} -> $path"
+    fi
+
+    if [[ "$path" =~ /plan\.md$ ]]; then
+      pass "audit index path uses plan.md contract: $id"
+    else
+      fail "audit index path must point to plan.md: $id -> $path"
+    fi
+
+    if [[ ! -f "$index_dir/$evidence" ]]; then
+      fail "audit index evidence reference missing on disk: ${index_file#$ROOT_DIR/} -> $evidence"
+    else
+      pass "audit index evidence reference exists: ${index_file#$ROOT_DIR/} -> $evidence"
+    fi
+  done < <(
+    awk '
+      /^[[:space:]]+- id:[[:space:]]*/ {
+        id=$0
+        sub(/^[[:space:]]+- id:[[:space:]]*/, "", id)
+        gsub(/"/, "", id)
+      }
+      /^[[:space:]]+path:[[:space:]]*/ {
+        path=$0
+        sub(/^[[:space:]]+path:[[:space:]]*/, "", path)
+        gsub(/"/, "", path)
+      }
+      /^[[:space:]]+evidence:[[:space:]]*/ {
+        evidence=$0
+        sub(/^[[:space:]]+evidence:[[:space:]]*/, "", evidence)
+        gsub(/"/, "", evidence)
+        print id "\t" path "\t" evidence
+      }
+    ' "$index_file"
+  )
+
+  if [[ $seen -eq 0 ]]; then
+    pass "no records found in audit index: ${index_file#$ROOT_DIR/} (allowed)"
   fi
 }
 
@@ -1427,6 +1642,19 @@ check_alignment_guardrail() {
   fi
 }
 
+check_audit_convergence_guardrail() {
+  local script="$SCRIPT_DIR/validate-audit-convergence-contract.sh"
+  if [[ ! -f "$script" ]]; then
+    fail "missing bounded-audit convergence validator script: ${script#$ROOT_DIR/}"
+    return
+  fi
+  if bash "$script"; then
+    pass "bounded-audit convergence contract guardrail passed"
+  else
+    fail "bounded-audit convergence contract guardrail failed"
+  fi
+}
+
 main() {
   echo "== Harness Structure Validation =="
 
@@ -1444,11 +1672,14 @@ main() {
   check_expected_internals
   check_cognition_decision_record_surface
   check_cognition_migration_record_surface
+  check_cognition_audit_record_surface
   check_cognition_discovery_indexes
   check_cognition_generated_runtime_artifacts
   check_cognition_migration_index_cross_references
+  check_cognition_audit_index_cross_references
   check_output_decision_evidence_surface
   check_output_migration_evidence_surface
+  check_output_audit_evidence_surface
   check_domain_profile_shapes
   check_deprecated_agency_paths
   check_deprecated_engine_paths
@@ -1459,6 +1690,7 @@ main() {
   check_deprecated_assurance_paths
   check_deprecated_scaffolding_paths
   check_alignment_guardrail
+  check_audit_convergence_guardrail
 
   echo
   echo "Validation summary: errors=$errors warnings=$warnings"

@@ -13,6 +13,7 @@ Harmony is an AI-native, human-governed development methodology for solo builder
 - `README.index.yml` - sidecar section index for methodology overview headings.
 - `implementation-guide.index.yml` - sidecar section index for implementation guide headings.
 - `migrations/index.yml` - machine-readable migration governance doctrine index.
+- `audits/index.yml` - machine-readable bounded audit governance doctrine index.
 - `templates/index.yml` - machine-readable risk-tiered spec template index.
 
 Harmony empowers solo developers across experience levels to ship high-quality software with speed, safety, and confidence. It combines spec-led intent capture, context-efficient planning, autonomous AI execution loops, and risk-tiered ACP governance within a principled, progressively adoptable framework.
@@ -182,6 +183,7 @@ Use these companion documents when you need deeper operational detail:
 - `adoption-plan-30-60-90.md` — 30/60/90 adoption plan and quick-start cadence.
 - `sandbox-flow.md` — Canonical end-to-end sandbox flow using previews, flags, CI gates, and observability before production rollout.
 - `migrations/README.md` — Clean-break migration policy, invariants, exceptions, CI gates, and legacy banlist governance.
+- `audits/README.md` — Bounded audit policy, invariants, convergence controls, CI gates, and stable findings contract.
 
 ---
 

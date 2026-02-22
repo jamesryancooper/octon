@@ -1,26 +1,25 @@
 ---
 name: orchestrate-audit
 description: >
-  Coordinate parallel partition-scoped audit-migration runs across codebase
-  partitions, merge findings with deduplication, perform global cross-partition
-  validation, and optionally run cross-subsystem and freshness audits before
-  issuing a consolidated recommendation.
+  Coordinate bounded multi-pass audits across partitioned scope, merge with stable
+  finding IDs and coverage accounting, and emit a deterministic evidence bundle
+  with explicit done-gate and convergence metadata.
 steps:
   - id: configure
     file: 01-configure.md
-    description: Parse parameters, validate manifest, and build execution plan.
+    description: Parse parameters, validate bounded-audit contract, and build execution plan.
   - id: partition
     file: 02-partition.md
-    description: Divide scope into disjoint slices.
+    description: Divide scope into disjoint slices with full coverage accounting.
   - id: dispatch
     file: 03-dispatch.md
-    description: Launch parallel audit-migration runs.
+    description: Launch partition x pass audit matrix with deterministic receipts.
   - id: merge
     file: 04-merge.md
-    description: Collect partition reports and deduplicate.
+    description: Normalize, deduplicate, and assign stable finding IDs.
   - id: challenge
     file: 05-challenge.md
-    description: Global self-challenge across partitions.
+    description: Run global self-consistency and cross-partition challenge checks.
   - id: cross-subsystem-audit
     file: 06-cross-subsystem-audit.md
     description: Run audit-cross-subsystem-coherence unless explicitly disabled.
@@ -29,13 +28,13 @@ steps:
     description: Run audit-freshness-and-supersession unless explicitly disabled.
   - id: report
     file: 08-report.md
-    description: Generate consolidated report.
+    description: Generate consolidated report plus bounded-audit evidence bundle.
   - id: verify
     file: 09-verify.md
-    description: Validate workflow executed successfully.
+    description: Validate workflow and done-gate outcomes.
 # --- Harmony extensions ---
 access: human
-version: "1.1.0"
+version: "2.0.0"
 depends_on: []
 checkpoints:
   enabled: true
@@ -48,42 +47,29 @@ parallel_steps:
 
 # Orchestrate Audit: Overview
 
-Coordinate parallel partition-scoped `audit-migration` runs and merge results into a consolidated report, with optional whole-harness `audit-cross-subsystem-coherence` and `audit-freshness-and-supersession` stages.
+Coordinate bounded multi-pass `audit-migration` runs and merge results into a deterministic, machine-checkable audit bundle.
 
 ## Usage
 
 ```text
-orchestrate-audit manifest="..." strategy="by-directory"
+/orchestrate-audit manifest="..." strategy="by-directory"
 ```
 
-**Examples:**
+Post-remediation convergence check:
 
 ```text
-# Partition by top-level directories (default)
-orchestrate-audit manifest=".harmony/migrations/restructure.yml" strategy="by-directory"
-
-# Partition by file type
-orchestrate-audit manifest="..." strategy="by-type"
-
-# Partition by manual concern groupings
-orchestrate-audit manifest="..." strategy="by-concern" concern_map="..."
-
-# Auto-partition into N equal slices
-orchestrate-audit manifest="..." strategy="auto" partition_count="6"
-
-# Include optional global stages explicitly
-orchestrate-audit manifest="..." run_cross_subsystem="true" run_freshness="true" max_age_days="30"
+/orchestrate-audit manifest="..." post_remediation="true" convergence_k="3" seed_list="11,23,37"
 ```
 
 ## Target
 
-A migration scope that must be audited across many files, partitioned for parallel execution, with optional whole-harness coherence/freshness validation before a consolidated recommendation.
+A migration scope that must be audited with deterministic coverage accounting, stable finding IDs, and explicit done-gate evaluation.
 
 ## Prerequisites
 
-- `audit-migration` skill is active in the skill registry
+- `audit-migration` skill is active
 - Migration manifest is available (inline YAML or file path)
-- Task tool is available for parallel agent dispatch
+- Task tool is available for parallel dispatch (sequential fallback allowed)
 - `audit-cross-subsystem-coherence` skill is active when `run_cross_subsystem=true`
 - `audit-freshness-and-supersession` skill is active when `run_freshness=true`
 
@@ -92,45 +78,51 @@ A migration scope that must be audited across many files, partitioned for parall
 - Invalid migration manifest -> STOP, report validation error
 - Zero files in scope after exclusions -> STOP, nothing to audit
 - Partition strategy produces zero partitions -> STOP, check strategy and scope
-- Task tool unavailable -> FALLBACK, run partitions sequentially
-- All partition audits fail -> STOP, report aggregated partition failures
+- All partition/pass jobs fail -> STOP, report aggregated failures
+- Coverage accounting cannot prove full scope -> FAIL done-gate
 
 ## Steps
 
-1. [Configure](./01-configure.md) - Parse parameters and enumerate full scope
-2. [Partition](./02-partition.md) - Divide scope into disjoint slices
-3. [Dispatch](./03-dispatch.md) - Launch parallel audit-migration runs
-4. [Merge](./04-merge.md) - Collect partition reports and deduplicate
-5. [Challenge](./05-challenge.md) - Global self-challenge across partitions
-6. [Cross-Subsystem Audit](./06-cross-subsystem-audit.md) - Run audit-cross-subsystem-coherence unless disabled
-7. [Freshness Audit](./07-freshness-audit.md) - Run audit-freshness-and-supersession unless disabled
-8. [Report](./08-report.md) - Generate consolidated report
-9. [Verify](./09-verify.md) - Validate workflow executed successfully
+1. [Configure](./01-configure.md)
+2. [Partition](./02-partition.md)
+3. [Dispatch](./03-dispatch.md)
+4. [Merge](./04-merge.md)
+5. [Challenge](./05-challenge.md)
+6. [Cross-Subsystem Audit](./06-cross-subsystem-audit.md)
+7. [Freshness Audit](./07-freshness-audit.md)
+8. [Report](./08-report.md)
+9. [Verify](./09-verify.md)
 
 ## Verification Gate
 
-Orchestrate Audit is NOT complete until:
+Workflow verification must prove:
 
-- [ ] All partition reports exist at expected paths (or failures are documented)
-- [ ] Consolidated report exists at `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md`
-- [ ] Global self-challenge completed with all 5 checks documented
-- [ ] Deduplication applied (no duplicate `file:line` entries)
-- [ ] Coverage proof accounts for all files in full scope (including failed-partition impact)
-- [ ] If `run_cross_subsystem=true`, cross-subsystem report exists or failure is documented
-- [ ] If `run_freshness=true`, freshness report exists or failure is documented
-- [ ] Verification step passes
+- [ ] Coverage accounting has zero unaccounted files
+- [ ] Findings are deduplicated with stable IDs and acceptance criteria
+- [ ] Determinism receipt is present (`commit_sha`, `scope_hash`, `prompt_hash`, seed/fingerprint policy, findings hash)
+- [ ] Audit bundle exists at `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
+- [ ] Done-gate expression is evaluated and recorded
+- [ ] If `post_remediation=true`, convergence K-run result is stable and empty at/above threshold
+
+## Outputs
+
+- Legacy report (backward-compatible):
+  - `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md`
+- Authoritative bounded-audit bundle:
+  - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 
 ## Version History
 
 | Version | Date | Changes |
 | ------- | ---- | ------- |
-| 1.1.0 | 2026-02-15 | Added optional cross-subsystem and freshness stages with stage controls |
+| 2.0.0 | 2026-02-22 | Added bounded-audit bundle contract, stable finding IDs, coverage ledger, and convergence metadata |
+| 1.1.0 | 2026-02-15 | Added optional cross-subsystem and freshness stages |
 | 1.0.0 | 2026-02-08 | Initial version |
 
 ## References
 
-- **Migration Skill:** `.harmony/capabilities/runtime/skills/audit/audit-migration/SKILL.md`
-- **Cross-Subsystem Skill:** `.harmony/capabilities/runtime/skills/audit/audit-cross-subsystem-coherence/SKILL.md`
-- **Freshness Skill:** `.harmony/capabilities/runtime/skills/audit/audit-freshness-and-supersession/SKILL.md`
-- **Registry:** `.harmony/capabilities/runtime/skills/registry.yml`
-- **Workflow template:** `.harmony/orchestration/runtime/workflows/_scaffold/template/`
+- `.harmony/cognition/practices/methodology/audits/README.md`
+- `.harmony/cognition/practices/methodology/audits/findings-contract.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-migration/SKILL.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-cross-subsystem-coherence/SKILL.md`
+- `.harmony/capabilities/runtime/skills/audit/audit-freshness-and-supersession/SKILL.md`

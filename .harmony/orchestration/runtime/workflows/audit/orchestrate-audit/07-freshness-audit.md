@@ -32,7 +32,7 @@ Proceed to step 8.
 1. **Invoke audit-freshness-and-supersession:**
 
    ```text
-   /audit-freshness-and-supersession scope=".harmony" max_age_days="{{max_age_days}}" severity_threshold="{{severity_threshold}}"
+   /audit-freshness-and-supersession scope=".harmony" max_age_days="{{max_age_days}}" severity_threshold="{{severity_threshold}}" post_remediation="{{post_remediation}}" convergence_k="{{convergence_k}}" seed_list="{{seed_list}}"
    ```
 
 2. **Wait for completion:**

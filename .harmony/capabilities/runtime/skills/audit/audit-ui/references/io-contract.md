@@ -15,23 +15,25 @@
 
 # I/O Contract
 
-Formal input/output specification for the audit-ui skill.
+Formal input/output specification for the `audit-ui` skill.
 
-> **Authoritative Source:** Parameter definitions and output paths live in
-> `.harmony/capabilities/runtime/skills/registry.yml`. This document provides
-> supplementary context for the interface.
+> **Authoritative Source:** Parameter definitions and output paths live in `.harmony/capabilities/runtime/skills/registry.yml`.
 
 ## Parameters
 
 | Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
+| --------- | ---- | -------- | ------- | ----------- |
 | `target` | folder | No | `.` | Directory containing UI files to audit |
 | `ruleset_url` | text | No | (see below) | URL of the external design guidelines ruleset |
 | `file_types` | text | No | `tsx,jsx,html,css,vue,svelte` | Comma-separated UI file extensions to scan |
+| `severity_threshold` | text | No | `all` | Minimum severity to report: `critical`, `high`, `medium`, `low`, `all` |
+| `post_remediation` | boolean | No | `false` | Enables strict done-gate behavior for convergence verification |
+| `convergence_k` | text | No | `3` | Number of controlled reruns used for convergence validation |
+| `seed_list` | text | No | deterministic defaults | Comma-separated seed list for run-to-run consistency checks |
 
 ### Default Ruleset URL
 
-```
+```text
 https://raw.githubusercontent.com/anthropics/anthropic-cookbook/refs/heads/main/misc/web_interface_guidelines.md
 ```
 
@@ -39,64 +41,24 @@ https://raw.githubusercontent.com/anthropics/anthropic-cookbook/refs/heads/main/
 
 This skill has no persistent input resources. It operates on:
 
-1. **Live code** in the `target` directory (read via Read/Glob/Grep)
-2. **External ruleset** fetched at runtime (via WebFetch)
+1. Live code in the `target` directory (read via Read/Glob/Grep)
+2. External ruleset fetched at runtime (via WebFetch)
 
 ## Outputs
 
-### Audit Report
+- `.harmony/output/reports/YYYY-MM-DD-ui-audit.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/bundle.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/findings.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/coverage.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/convergence.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/evidence.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/commands.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/validation.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/inventory.md`
+- `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-ui/{run_id}.md`
+- `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-ui/index.yml`
 
-- **Path:** `.harmony/output/reports/YYYY-MM-DD-ui-audit.md`
-- **Format:** Markdown
-- **Determinism:** Variable (depends on codebase state and ruleset version)
+## Determinism Notes
 
-#### Report Schema
-
-```markdown
-# UI Audit Report — YYYY-MM-DD
-
-## Executive Summary
-- Files scanned: {count}
-- Violations found: {count} (CRITICAL: {n}, HIGH: {n}, MEDIUM: {n}, LOW: {n})
-- Rules applied: {count} from {category_count} categories
-- Ruleset source: {url}
-- Fetch timestamp: {timestamp}
-
-## Findings
-
-### CRITICAL
-- `src/components/Button.tsx:42` — **[a11y-focus-visible]** Missing visible focus indicator on interactive element. Add `focus-visible` outline or ring style.
-
-### HIGH
-...
-
-### MEDIUM
-...
-
-### LOW
-...
-
-## Clean Files
-Files scanned with no violations:
-- src/components/Header.tsx
-- src/components/Footer.tsx
-- ...
-
-## Ruleset Metadata
-- Source: {url}
-- Fetched: {timestamp}
-- Rules parsed: {count}
-- Categories: {list}
-```
-
-### Execution Log
-
-- **Path:** `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-ui/{run_id}.md`
-- **Format:** Markdown
-- **Determinism:** Unique
-
-### Log Index
-
-- **Path:** `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-ui/index.yml`
-- **Format:** YAML
-- **Determinism:** Variable (appended each run)
+- `audit_report` determinism is variable because the external ruleset may change over time.
+- Bundle convergence metadata must always record ruleset URL, fetch timestamp, and seed/fingerprint policy to explain any run variance.

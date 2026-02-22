@@ -1,7 +1,7 @@
 ---
 name: configure
 title: "Configure Documentation Audit"
-description: "Parse parameters and validate canonical paths before execution."
+description: "Parse parameters and build bounded execution plan with deterministic controls."
 ---
 
 # Step 1: Configure Documentation Audit
@@ -11,11 +11,14 @@ description: "Parse parameters and validate canonical paths before execution."
 - `docs_root` (required)
 - `template_root` (optional)
 - `policy_doc` (optional)
-- `severity_threshold` (optional)
+- `severity_threshold` (optional, default `all`)
+- `post_remediation` (optional, default `false`)
+- `convergence_k` (optional, default `3`)
+- `seed_list` (optional)
 
 ## Purpose
 
-Validate all required paths and build an execution plan for the audit step.
+Validate all required paths and build a bounded execution plan with explicit done-gate semantics.
 
 ## Actions
 
@@ -23,17 +26,20 @@ Validate all required paths and build an execution plan for the audit step.
    - `template_root` -> `.harmony/scaffolding/runtime/templates/docs/documentation-standards`
    - `policy_doc` -> `.harmony/cognition/governance/principles/documentation-is-code.md`
    - `severity_threshold` -> `all`
-2. Validate paths exist.
+2. Validate required paths exist.
 3. Verify `audit-documentation-standards` is active in the skill manifest.
-4. Record execution inputs for downstream steps.
+4. Record deterministic controls (`post_remediation`, `convergence_k`, seed policy) for downstream reporting.
+5. Persist bounded execution plan.
 
 ## Output
 
 - Validated execution plan
 - Resolved paths and thresholds
+- Recorded deterministic controls
 
 ## Proceed When
 
 - [ ] Required paths exist
 - [ ] Skill availability confirmed
+- [ ] Deterministic controls are recorded
 - [ ] Execution plan recorded

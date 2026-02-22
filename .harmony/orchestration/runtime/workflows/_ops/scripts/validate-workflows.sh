@@ -215,6 +215,151 @@ check_deprecated_paths() {
   done
 }
 
+extract_registry_workflow_block() {
+  local workflow_id="$1"
+  awk -v key="$workflow_id" '
+    $0 ~ "^  " key ":" {in_block=1; print; next}
+    in_block && $0 ~ "^  [A-Za-z0-9._-]+:" && $0 !~ "^    " {exit}
+    in_block {print}
+  ' "$REGISTRY"
+}
+
+check_bounded_audit_parameter_forwarding() {
+  local files
+  files=(
+    "$WORKFLOWS_DIR/audit/pre-release-audit/02-migration-audit.md"
+    "$WORKFLOWS_DIR/audit/pre-release-audit/03-health-audit.md"
+    "$WORKFLOWS_DIR/audit/pre-release-audit/04-cross-subsystem-audit.md"
+    "$WORKFLOWS_DIR/audit/pre-release-audit/05-freshness-audit.md"
+    "$WORKFLOWS_DIR/audit/orchestrate-audit/06-cross-subsystem-audit.md"
+    "$WORKFLOWS_DIR/audit/orchestrate-audit/07-freshness-audit.md"
+  )
+
+  local file rel
+  for file in "${files[@]}"; do
+    rel="${file#$ROOT_DIR/}"
+
+    if [[ ! -f "$file" ]]; then
+      fail "missing bounded-audit forwarding file: $rel"
+      continue
+    fi
+
+    if rg -Fq 'post_remediation="{{post_remediation}}"' "$file"; then
+      pass "bounded-audit forwarding includes post_remediation: $rel"
+    else
+      fail "bounded-audit forwarding missing post_remediation: $rel"
+    fi
+
+    if rg -Fq 'convergence_k="{{convergence_k}}"' "$file"; then
+      pass "bounded-audit forwarding includes convergence_k: $rel"
+    else
+      fail "bounded-audit forwarding missing convergence_k: $rel"
+    fi
+
+    if rg -Fq 'seed_list="{{seed_list}}"' "$file"; then
+      pass "bounded-audit forwarding includes seed_list: $rel"
+    else
+      fail "bounded-audit forwarding missing seed_list: $rel"
+    fi
+  done
+}
+
+check_bounded_audit_contracts() {
+  local audit_workflows
+  audit_workflows=(orchestrate-audit pre-release-audit documentation-audit)
+
+  local workflow_id rel_path workflow_dir workflow_file block
+  for workflow_id in "${audit_workflows[@]}"; do
+    rel_path="${WORKFLOW_PATHS[$workflow_id]:-}"
+    if [[ -z "$rel_path" ]]; then
+      fail "bounded-audit workflow missing in manifest index: $workflow_id"
+      continue
+    fi
+
+    workflow_dir="$WORKFLOWS_DIR/$rel_path"
+    workflow_file="$workflow_dir/WORKFLOW.md"
+
+    if [[ ! -f "$workflow_file" ]]; then
+      fail "bounded-audit workflow missing WORKFLOW.md: ${workflow_file#$ROOT_DIR/}"
+      continue
+    fi
+
+    if rg -q "done-gate" "$workflow_file"; then
+      pass "bounded-audit workflow defines done-gate semantics: ${workflow_file#$ROOT_DIR/}"
+    else
+      fail "bounded-audit workflow missing done-gate semantics: ${workflow_file#$ROOT_DIR/}"
+    fi
+
+    if rg -q "post_remediation" "$workflow_dir" -g "*.md"; then
+      pass "bounded-audit workflow references post_remediation: ${workflow_dir#$ROOT_DIR/}"
+    else
+      fail "bounded-audit workflow missing post_remediation references: ${workflow_dir#$ROOT_DIR/}"
+    fi
+
+    if rg -q "convergence_k" "$workflow_dir" -g "*.md"; then
+      pass "bounded-audit workflow references convergence_k: ${workflow_dir#$ROOT_DIR/}"
+    else
+      fail "bounded-audit workflow missing convergence_k references: ${workflow_dir#$ROOT_DIR/}"
+    fi
+
+    if rg -q "seed_list" "$workflow_dir" -g "*.md"; then
+      pass "bounded-audit workflow references seed_list: ${workflow_dir#$ROOT_DIR/}"
+    else
+      fail "bounded-audit workflow missing seed_list references: ${workflow_dir#$ROOT_DIR/}"
+    fi
+
+    if rg -q "findings\\.yml" "$workflow_dir" -g "*.md"; then
+      pass "bounded-audit workflow references findings.yml: ${workflow_dir#$ROOT_DIR/}"
+    else
+      fail "bounded-audit workflow missing findings.yml reference: ${workflow_dir#$ROOT_DIR/}"
+    fi
+
+    if rg -q "coverage\\.yml" "$workflow_dir" -g "*.md"; then
+      pass "bounded-audit workflow references coverage.yml: ${workflow_dir#$ROOT_DIR/}"
+    else
+      fail "bounded-audit workflow missing coverage.yml reference: ${workflow_dir#$ROOT_DIR/}"
+    fi
+
+    if rg -q "convergence\\.yml" "$workflow_dir" -g "*.md"; then
+      pass "bounded-audit workflow references convergence.yml: ${workflow_dir#$ROOT_DIR/}"
+    else
+      fail "bounded-audit workflow missing convergence.yml reference: ${workflow_dir#$ROOT_DIR/}"
+    fi
+
+    block="$(extract_registry_workflow_block "$workflow_id")"
+    if [[ -z "$block" ]]; then
+      fail "bounded-audit workflow missing registry block: $workflow_id"
+      continue
+    fi
+
+    if printf '%s\n' "$block" | rg -q "name:[[:space:]]+post_remediation"; then
+      pass "registry bounded-audit parameter present (post_remediation): $workflow_id"
+    else
+      fail "registry bounded-audit parameter missing (post_remediation): $workflow_id"
+    fi
+
+    if printf '%s\n' "$block" | rg -q "name:[[:space:]]+convergence_k"; then
+      pass "registry bounded-audit parameter present (convergence_k): $workflow_id"
+    else
+      fail "registry bounded-audit parameter missing (convergence_k): $workflow_id"
+    fi
+
+    if printf '%s\n' "$block" | rg -q "name:[[:space:]]+seed_list"; then
+      pass "registry bounded-audit parameter present (seed_list): $workflow_id"
+    else
+      fail "registry bounded-audit parameter missing (seed_list): $workflow_id"
+    fi
+
+    if printf '%s\n' "$block" | rg -q "output/reports/audits/"; then
+      pass "registry bounded-audit output path present: $workflow_id"
+    else
+      fail "registry bounded-audit output path missing: $workflow_id"
+    fi
+  done
+
+  check_bounded_audit_parameter_forwarding
+}
+
 main() {
   echo "== Workflow Validation =="
 
@@ -225,6 +370,7 @@ main() {
   check_manifest_paths_exist
   check_dependency_profiles_against_steps
   check_dependency_profiles_against_registry_io
+  check_bounded_audit_contracts
   check_deprecated_paths
 
   echo

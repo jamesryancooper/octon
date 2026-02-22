@@ -221,7 +221,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-migration:
-    version: "1.1.0"
+    version: "2.0.0"
     commands:
       - /audit-migration
     parameters:
@@ -255,6 +255,20 @@ skills:
         type: text
         required: false
         description: "Glob pattern to narrow scope within scope directory (e.g., '.harmony/cognition/_meta/architecture/**')"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
     depends_on: []
@@ -278,6 +292,12 @@ skills:
           format: markdown
           determinism: unique
           description: "Partition-scoped findings report (when partition parameter is set)"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
           path: "_ops/state/logs/audit-migration/{{run_id}}.md"
           kind: file
@@ -298,7 +318,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-subsystem-health:
-    version: "1.0.12"
+    version: "2.0.0"
     commands:
       - /audit-subsystem-health
     parameters:
@@ -324,6 +344,20 @@ skills:
         required: false
         default: "md,yml,yaml,json"
         description: "Comma-separated file extensions to include in scope"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
     depends_on: []
@@ -336,6 +370,12 @@ skills:
           format: markdown
           determinism: unique
           description: "Structured findings report with severity tiers and fix batches"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
           path: "_ops/state/logs/audit-subsystem-health/{{run_id}}.md"
           kind: file
@@ -356,7 +396,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-cross-subsystem-coherence:
-    version: "1.0.0"
+    version: "2.0.0"
     commands:
       - /audit-cross-subsystem-coherence
     parameters:
@@ -380,6 +420,20 @@ skills:
         required: false
         default: "all"
         description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
     depends_on: []
@@ -392,6 +446,12 @@ skills:
           format: markdown
           determinism: unique
           description: "Cross-subsystem coherence findings report with severity tiers and fix batches"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
           path: "_ops/state/logs/audit-cross-subsystem-coherence/{{run_id}}.md"
           kind: file
@@ -412,7 +472,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-freshness-and-supersession:
-    version: "1.0.0"
+    version: "2.0.0"
     commands:
       - /audit-freshness-and-supersession
     parameters:
@@ -436,6 +496,20 @@ skills:
         required: false
         default: "all"
         description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
     depends_on: []
@@ -448,6 +522,12 @@ skills:
           format: markdown
           determinism: unique
           description: "Freshness and supersession findings report with severity tiers and fix batches"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
           path: "_ops/state/logs/audit-freshness-and-supersession/{{run_id}}.md"
           kind: file
@@ -468,7 +548,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-documentation-standards:
-    version: "1.0.0"
+    version: "2.0.0"
     commands:
       - /audit-documentation-standards
     parameters:
@@ -491,6 +571,20 @@ skills:
         required: false
         default: "all"
         description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
     depends_on: []
@@ -503,6 +597,12 @@ skills:
           format: markdown
           determinism: unique
           description: "Structured docs standards findings report with severity tiers and fix batches"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
           path: "_ops/state/logs/audit-documentation-standards/{{run_id}}.md"
           kind: file
@@ -523,7 +623,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-domain-architecture:
-    version: "1.1.0"
+    version: "2.0.0"
     commands:
       - /audit-domain-architecture
     parameters:
@@ -551,6 +651,20 @@ skills:
         required: false
         default: ".harmony/cognition/governance/domain-profiles.yml"
         description: "Domain profile registry used as baseline for prospective mode"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
     depends_on: []
@@ -563,6 +677,12 @@ skills:
           format: markdown
           determinism: unique
           description: "Independent architecture critique report with evidence-backed findings and recommendations"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
           path: "_ops/state/logs/audit-domain-architecture/{{run_id}}.md"
           kind: file
@@ -583,7 +703,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-ui:
-    version: "1.0.1"
+    version: "2.0.0"
     commands:
       - /audit-ui
     parameters:
@@ -602,6 +722,25 @@ skills:
         required: false
         default: "tsx,jsx,html,css,vue,svelte"
         description: "Comma-separated UI file extensions to scan"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
     depends_on: []
@@ -614,6 +753,12 @@ skills:
           format: markdown
           determinism: variable
           description: "UI audit findings with file:line violations and rule references"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
           path: "_ops/state/logs/audit-ui/{{run_id}}.md"
           kind: file

@@ -8,15 +8,26 @@ description: Input/output contract for audit-freshness-and-supersession.
 ## Parameters
 
 | Parameter | Type | Required | Default | Description |
-|-----------|------|----------|---------|-------------|
+| --------- | ---- | -------- | ------- | ----------- |
 | `scope` | folder | No | `.harmony` | Root directory to audit |
 | `artifact_globs` | text | No | `cognition/runtime/context/**/*.md,cognition/runtime/decisions/**/*.md,output/plans/**/*.md,output/reports/**/*.md` | Comma-separated globs of artifact families |
 | `max_age_days` | text | No | `30` | Maximum artifact age before stale classification |
 | `severity_threshold` | text | No | `all` | Minimum severity to report: `critical`, `high`, `medium`, `low`, `all` |
+| `post_remediation` | boolean | No | `false` | Enables strict done-gate behavior for convergence verification |
+| `convergence_k` | text | No | `3` | Number of controlled reruns used for convergence validation |
+| `seed_list` | text | No | deterministic defaults | Comma-separated seed list for run-to-run consistency checks |
 
 ## Outputs
 
 - `.harmony/output/reports/YYYY-MM-DD-freshness-and-supersession-audit.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/bundle.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/findings.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/coverage.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/convergence.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/evidence.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/commands.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/validation.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/inventory.md`
 - `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-freshness-and-supersession/{{run_id}}.md`
 - `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-freshness-and-supersession/index.yml`
 - `.harmony/capabilities/runtime/skills/_ops/state/logs/index.yml`

@@ -31,7 +31,7 @@ Proceed immediately to step 3.
 1. **Invoke orchestrate-audit (migration-only mode):**
 
    ```text
-   /orchestrate-audit manifest="{{manifest}}" scope="{{subsystem}}" severity_threshold="{{severity_threshold}}" run_cross_subsystem="false" run_freshness="false"
+   /orchestrate-audit manifest="{{manifest}}" scope="{{subsystem}}" severity_threshold="{{severity_threshold}}" run_cross_subsystem="false" run_freshness="false" post_remediation="{{post_remediation}}" convergence_k="{{convergence_k}}" seed_list="{{seed_list}}"
    ```
 
 2. **Wait for completion:**

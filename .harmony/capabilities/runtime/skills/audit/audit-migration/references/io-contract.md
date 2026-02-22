@@ -34,6 +34,9 @@ Extended input/output documentation for the audit-migration skill.
 | `template_dir` | folder | No | — | Path to template directory for template smoke test layer |
 | `partition` | text | No | — | Partition label for parallel orchestration (e.g., "docs-architecture") |
 | `file_filter` | text | No | — | Glob pattern to narrow scope within `scope` directory (e.g., ".harmony/cognition/_meta/architecture/**") |
+| `post_remediation` | boolean | No | `false` | Enables strict done-gate behavior for convergence verification |
+| `convergence_k` | text | No | `3` | Number of controlled reruns used for convergence validation |
+| `seed_list` | text | No | deterministic defaults | Comma-separated seed list for run-to-run consistency checks |
 
 ## Migration Manifest Schema
 
@@ -200,6 +203,19 @@ runs:
     report: ../../output/reports/2026-02-08-migration-audit.md
     log: 2026-02-08-capability-restructure.md
 ```
+
+### Authoritative Bundle (Orchestrated Mode)
+
+When called through `orchestrate-audit`, output is also materialized into:
+
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/bundle.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/findings.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/coverage.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/convergence.yml`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/evidence.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/commands.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/validation.md`
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/inventory.md`
 
 ## Dependencies
 

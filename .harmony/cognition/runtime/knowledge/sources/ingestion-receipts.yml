@@ -24,7 +24,7 @@ receipts:
     status: "success"
 
   - id: "evidence-map-materialization"
-    source: "runtime/migrations/index.yml"
+    source: "runtime/migrations/index.yml,runtime/audits/index.yml"
     source_type: "internal-generator"
     artifact: "../evidence/index.yml"
     ingested_at: "2026-02-22"

@@ -1,24 +1,25 @@
 ---
 name: documentation-audit
 description: >
-  Run documentation standards enforcement before release by invoking
-  audit-documentation-standards, then generate a release audit recommendation.
+  Run bounded documentation standards enforcement by invoking
+  audit-documentation-standards, then emit a deterministic bundle with stable
+  finding identity, coverage accounting, and explicit done-gate evaluation.
 steps:
   - id: configure
     file: 01-configure.md
-    description: Parse parameters and validate canonical paths.
+    description: Parse parameters and build bounded execution plan.
   - id: run-standards-audit
     file: 02-run-standards-audit.md
-    description: Execute audit-documentation-standards.
+    description: Execute audit-documentation-standards in bounded mode.
   - id: report
     file: 03-report.md
-    description: Produce consolidated gate report with recommendation.
+    description: Generate recommendation report and bounded evidence bundle.
   - id: verify
     file: 04-verify.md
-    description: Validate workflow executed successfully.
+    description: Validate workflow artifacts and mode-specific done-gate outcomes.
 # --- Harmony extensions ---
 access: human
-version: "2.0.0"
+version: "3.0.0"
 depends_on: []
 checkpoints:
   enabled: true
@@ -28,8 +29,7 @@ parallel_steps: []
 
 # Documentation Audit: Overview
 
-Run a release-readiness documentation audit for a docs root using Harmony's
-canonical docs-as-code standards.
+Run a bounded release-readiness documentation audit for a docs root using Harmony canonical docs-as-code standards.
 
 ## Usage
 
@@ -37,16 +37,15 @@ canonical docs-as-code standards.
 /documentation-audit docs_root="docs"
 ```
 
-With explicit canonical paths:
+With bounded convergence controls:
 
 ```text
-/documentation-audit docs_root="docs" template_root=".harmony/scaffolding/runtime/templates/docs/documentation-standards" policy_doc=".harmony/cognition/governance/principles/documentation-is-code.md"
+/documentation-audit docs_root="docs" post_remediation="true" convergence_k="3" seed_list="11,23,37"
 ```
 
 ## Target
 
-A documentation tree (for example `docs/`) that must be validated for
-spec/ADR/guide/runbook/contract completeness and structure before release.
+A documentation tree (for example `docs/`) that must be validated for spec/ADR/guide/runbook/contract completeness and structure before release.
 
 ## Prerequisites
 
@@ -59,28 +58,31 @@ spec/ADR/guide/runbook/contract completeness and structure before release.
 - Missing docs root -> STOP, report `DOCS_ROOT_NOT_FOUND`
 - Missing canonical guidance path -> STOP, report `CANONICAL_PATH_NOT_FOUND`
 - Audit skill unavailable -> STOP, report `SKILL_NOT_AVAILABLE`
+- Coverage accounting leaves unaccounted files -> FAIL done-gate
 
 ## Steps
 
-1. [Configure](./01-configure.md) - Parse parameters and validate paths
-2. [Run Standards Audit](./02-run-standards-audit.md) - Execute the audit skill
-3. [Report](./03-report.md) - Emit documentation audit recommendation report
-4. [Verify](./04-verify.md) - Validate completion gate
+1. [Configure](./01-configure.md) - Parse parameters and deterministic controls
+2. [Run Standards Audit](./02-run-standards-audit.md) - Execute bounded documentation audit skill
+3. [Report](./03-report.md) - Emit recommendation report plus bounded evidence bundle
+4. [Verify](./04-verify.md) - Validate completion gate by mode
 
 ## Verification Gate
 
-Documentation Audit is NOT complete until:
+Documentation audit is complete only when:
 
 - [ ] Documentation standards audit report exists
-- [ ] Gate report exists with recommendation and rationale
-- [ ] Severity summary is included
-- [ ] Coverage proof is included
-- [ ] Verification step passes
+- [ ] Documentation audit recommendation report exists
+- [ ] Bounded bundle exists at `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
+- [ ] Findings are deduplicated with stable IDs and acceptance criteria
+- [ ] Coverage and convergence metadata are recorded
+- [ ] Done-gate rationale is explicit
 
 ## Version History
 
 | Version | Date | Changes |
 | ------- | ---- | ------- |
+| 3.0.0 | 2026-02-22 | Clean-break migration to bounded workflow contract with done-gate and convergence controls |
 | 2.0.0 | 2026-02-21 | Clean-break rename from `documentation-quality-gate` to `documentation-audit` |
 | 1.0.0 | 2026-02-13 | Initial version |
 

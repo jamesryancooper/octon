@@ -77,6 +77,10 @@ run_harness() {
   run_step \
     "Validate audit-subsystem-health drift alignment" \
     bash "$SCRIPT_DIR/validate-audit-subsystem-health-alignment.sh"
+
+  run_step \
+    "Validate bounded-audit convergence contract" \
+    bash "$SCRIPT_DIR/validate-audit-convergence-contract.sh"
 }
 
 run_agency() {

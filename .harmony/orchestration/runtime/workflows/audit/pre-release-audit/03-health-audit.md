@@ -20,13 +20,13 @@ Run `audit-subsystem-health` to verify subsystem coherence (config consistency, 
 1. **Invoke audit-subsystem-health:**
 
    ```text
-   /audit-subsystem-health subsystem="{{subsystem}}" severity_threshold="{{severity_threshold}}"
+   /audit-subsystem-health subsystem="{{subsystem}}" severity_threshold="{{severity_threshold}}" post_remediation="{{post_remediation}}" convergence_k="{{convergence_k}}" seed_list="{{seed_list}}"
    ```
 
    If `docs` parameter was provided:
 
    ```text
-   /audit-subsystem-health subsystem="{{subsystem}}" docs="{{docs}}" severity_threshold="{{severity_threshold}}"
+   /audit-subsystem-health subsystem="{{subsystem}}" docs="{{docs}}" severity_threshold="{{severity_threshold}}" post_remediation="{{post_remediation}}" convergence_k="{{convergence_k}}" seed_list="{{seed_list}}"
    ```
 
 2. **Wait for completion:**

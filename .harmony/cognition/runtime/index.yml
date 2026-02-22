@@ -23,6 +23,11 @@ files:
     summary: Canonical discovery index for migration plan records.
     when: When discovering clean-break migration execution records.
 
+  - id: runtime-audits-index
+    path: audits/index.yml
+    summary: Canonical discovery index for bounded audit execution records.
+    when: When discovering runtime audit plans and convergence records.
+
   - id: runtime-analyses-index
     path: analyses/index.yml
     summary: Discovery index for runtime analysis artifacts.

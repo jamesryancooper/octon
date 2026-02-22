@@ -93,6 +93,16 @@ files:
     summary: Machine-readable discovery index for migration governance doctrine artifacts.
     when: For targeted migration policy lookup without full-doc scans.
 
+  - id: audit-governance
+    path: audits/README.md
+    summary: Bounded audit doctrine and evidence contract references.
+    when: Before planning or executing bounded audit work.
+
+  - id: audit-governance-index
+    path: audits/index.yml
+    summary: Machine-readable discovery index for bounded audit governance artifacts.
+    when: For targeted audit policy lookup without full-doc scans.
+
   - id: spec-templates-overview
     path: templates/README.md
     summary: Risk-tiered spec template surface and usage guidance.

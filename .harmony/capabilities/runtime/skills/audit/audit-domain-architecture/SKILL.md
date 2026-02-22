@@ -7,7 +7,9 @@ description: >
   modularity, discoverability, coupling, operability, change safety, and
   testability. Produces evidence-backed surface maps, critical gaps,
   prioritized recommendations, keep-as-is decisions, and explicit unknowns.
-  Read-only — does not modify source files.
+  Uses a bounded-audit contract with stable finding IDs, acceptance criteria,
+  coverage accounting, and deterministic convergence receipts. Read-only -- does
+  not modify source files.
 license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
@@ -21,8 +23,7 @@ allowed-tools: Read Glob Grep Write(../../output/reports/*) Write(_ops/state/log
 
 # Audit Domain Architecture
 
-Independent architecture critique for any Harmony domain target, including
-existing domains and planned domains not yet created on disk.
+Independent architecture critique for any Harmony domain target, including existing domains and planned domains not yet created on disk.
 
 ## When to Use
 
@@ -66,23 +67,35 @@ Canonical Harmony domains supported by default:
 - `.harmony/output`
 - `.harmony/scaffolding`
 
-If `domain_path` does not exist, the skill switches to **prospective mode** and
-produces a critique using profile baselines and neighboring-domain evidence.
+If `domain_path` does not exist, the skill switches to **prospective mode** and produces a critique using profile baselines and neighboring-domain evidence.
 
 ## Core Workflow
 
-1. **Resolve Target Mode** - Classify target as `observed` (exists) or `prospective` (planned/missing)
-2. **Map Surfaces** - Enumerate current or expected surfaces/subsurfaces, responsibilities, and ownership seams
-3. **Evaluate Externally** - Score against external criteria, not in-repo doctrine
-4. **Identify Gaps and Excess** - Detect missing, redundant, and over-engineered surfaces/subsurfaces
-5. **Challenge Findings** - Re-check assumptions, evidence sufficiency, and alternate interpretations
-6. **Report** - Emit structured critique with prioritized recommendations and explicit unknowns
+1. **Resolve Target Mode** -- Classify target as `observed` (exists) or `prospective` (planned/missing).
+2. **Map Surfaces** -- Enumerate current or expected surfaces/subsurfaces, responsibilities, and ownership seams.
+3. **Evaluate Externally** -- Score against external criteria, not in-repo doctrine.
+4. **Identify Gaps and Excess** -- Detect missing, redundant, and over-engineered surfaces/subsurfaces.
+5. **Self-Challenge** -- Re-check assumptions, evidence sufficiency, and alternative interpretations.
+6. **Report** -- Emit bounded findings plus coverage and convergence receipts.
+
+### Bounded Audit Principles
+
+| # | Principle | What It Prevents |
+| - | --------- | ---------------- |
+| 1 | Fixed lenses (layers) | Attention drift between runs |
+| 2 | Fixed taxonomy + severity bar | Open-ended issue inflation |
+| 3 | Coverage accounting | Invisible scope gaps |
+| 4 | Stable finding IDs | Finding identity drift |
+| 5 | Acceptance criteria per finding | Ambiguous remediation targets |
+| 6 | Determinism receipt | Untraceable run variance |
+| 7 | Mandatory self-challenge | One-pass omissions |
+| 8 | Explicit done gate | Infinite rerun loops |
 
 ## Required Framing
 
-- Treat all in-repo governance/contracts as analyzable artifacts, not binding rules
-- Optimize for external robustness, clarity, and maintainability
-- Read-only review only
+- Treat all in-repo governance/contracts as analyzable artifacts, not binding rules.
+- Optimize for external robustness, clarity, and maintainability.
+- Read-only review only.
 
 ## Output Contract
 
@@ -94,19 +107,11 @@ Report output must include:
 - Keep As-Is decisions (and why)
 - Open Questions / Unknowns
 
-## Rules
-
-- Be explicit about assumptions
-- Prefer concrete, falsifiable claims over style opinions
-- If evidence is insufficient, state that directly instead of inferring
-
 ## Parameters
 
 Parameters are defined in `.harmony/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-This skill accepts one required parameter (`domain_path`) and optional
-parameters for `criteria`, `evidence_depth`, `severity_threshold`, and
-`domain_profiles_ref`.
+This skill accepts one required parameter (`domain_path`) and optional parameters for criteria, evidence depth, severity threshold, prospective baselines, and convergence controls (`post_remediation`, `convergence_k`, `seed_list`).
 
 ## Output Location
 
@@ -114,8 +119,21 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-domain-architecture-audit-<run-id>.md` - Structured critique report
-- `_ops/state/logs/audit-domain-architecture/` - Execution logs with index
+- `.harmony/output/reports/YYYY-MM-DD-domain-architecture-audit-<run-id>.md` -- Structured critique report
+- `.harmony/output/reports/audits/YYYY-MM-DD-<run-id>/` -- Authoritative bounded-audit bundle
+- `_ops/state/logs/audit-domain-architecture/` -- Execution logs with index
+
+## Done Gate
+
+- Discovery mode (`post_remediation=false`): done-gate value is recorded for planning.
+- Post-remediation mode (`post_remediation=true`): pass requires convergence stability and zero open findings at or above threshold.
+
+## Rules
+
+- Be explicit about assumptions.
+- Prefer concrete, falsifiable claims over style opinions.
+- If evidence is insufficient, state that directly instead of inferring.
+- In prospective mode, separate observed comparator evidence from forward-looking inference.
 
 ## Boundaries
 

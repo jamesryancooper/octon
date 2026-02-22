@@ -1,0 +1,13 @@
+schema_version: "1.0"
+run_id: "2026-02-22-audit-contract-bootstrap"
+commit_sha: "9446324c9dacfd11211ff90aa69058a0cece4831"
+scope_hash: "sha256:bootstrap-scope-v1"
+prompt_hash: "sha256:bootstrap-prompt-v1"
+params_hash: "sha256:bootstrap-params-v1"
+findings_hash: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+seed_unsupported: true
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true

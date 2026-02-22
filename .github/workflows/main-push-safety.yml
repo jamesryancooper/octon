@@ -33,6 +33,11 @@ jobs:
           chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
           .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
 
+      - name: Validate bounded-audit convergence contract
+        run: |
+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
+          .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
+
       - name: Validate workflows
         run: |
           chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh

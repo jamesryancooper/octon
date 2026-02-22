@@ -1,7 +1,7 @@
 ---
 name: run-standards-audit
 title: "Run Documentation Standards Audit"
-description: "Execute audit-documentation-standards and capture findings summary."
+description: "Execute audit-documentation-standards in bounded mode and capture findings/coverage inputs."
 ---
 
 # Step 2: Run Documentation Standards Audit
@@ -12,29 +12,31 @@ description: "Execute audit-documentation-standards and capture findings summary
 
 ## Purpose
 
-Run the audit skill and collect severity and coverage results for gate
-decisioning.
+Run the audit skill and collect findings, coverage, and convergence inputs for recommendation and done-gate evaluation.
 
 ## Actions
 
 1. Invoke:
 
 ```text
-/audit-documentation-standards docs_root="{{docs_root}}" template_root="{{template_root}}" policy_doc="{{policy_doc}}" severity_threshold="{{severity_threshold}}"
+/audit-documentation-standards docs_root="{{docs_root}}" template_root="{{template_root}}" policy_doc="{{policy_doc}}" severity_threshold="{{severity_threshold}}" post_remediation="{{post_remediation}}" convergence_k="{{convergence_k}}" seed_list="{{seed_list}}"
 ```
 
 2. Wait for report generation.
-3. Read report summary:
+3. Read report summary and capture:
    - findings by severity
-   - coverage summary
-   - recommended remediation batches
+   - coverage accounting status
+   - remediation batch summary
+   - determinism receipt fragments (seed/fingerprint policy if present)
 
 ## Output
 
 - `.harmony/output/reports/YYYY-MM-DD-documentation-standards-audit.md`
-- Findings summary for step 3
+- Findings/coverage/convergence summary for step 3
 
 ## Proceed When
 
 - [ ] Audit report exists
 - [ ] Findings summary extracted
+- [ ] Coverage summary extracted
+- [ ] Determinism inputs extracted

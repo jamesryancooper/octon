@@ -686,12 +686,14 @@ generate_evidence_index() {
   local target
   local raw
   local migrations_index
+  local audits_index
   local records
 
   target="$RUNTIME_DIR/evidence/index.yml"
   raw="$(mktemp "$TMP_ROOT/evidence.XXXX")"
   records="$(mktemp "$TMP_ROOT/evidence-records.XXXX")"
   migrations_index="$(resolve_cognition_source "runtime/migrations/index.yml")"
+  audits_index="$(resolve_cognition_source "runtime/audits/index.yml")"
 
   : > "$records"
 
@@ -699,6 +701,13 @@ generate_evidence_index() {
     [[ -z "$migration_id" ]] && continue
     printf '%s\tmigration\t../../../output/reports/migrations/%s/evidence.md\t../migrations/index.yml\n' "$migration_id" "$migration_id" >> "$records"
   done < <(extract_migration_records "$migrations_index")
+
+  if [[ -f "$audits_index" ]]; then
+    while IFS=$'\t' read -r audit_id _audit_path; do
+      [[ -z "$audit_id" ]] && continue
+      printf '%s\taudit\t../../../output/reports/audits/%s/evidence.md\t../audits/index.yml\n' "$audit_id" "$audit_id" >> "$records"
+    done < <(extract_index_id_path "$audits_index")
+  fi
 
   if [[ -d "$OUTPUT_DIR/reports/decisions" ]]; then
     while IFS= read -r bundle_dir; do
@@ -732,6 +741,11 @@ files:
     path: ../../../output/reports/migrations/README.md
     summary: Migration evidence bundle contract and required files.
     when: Before creating or validating migration evidence bundles.
+
+  - id: audit-evidence-contract
+    path: ../../../output/reports/audits/README.md
+    summary: Bounded audit evidence bundle contract and required files.
+    when: Before creating or validating audit evidence bundles.
 
 records:
 HEADER
@@ -899,6 +913,7 @@ generate_knowledge_nodes() {
   local projection_file
   local decisions_index
   local migrations_index
+  local audits_index
   local evidence_index
   local digests_index
   local actions_ledger
@@ -910,6 +925,7 @@ generate_knowledge_nodes() {
   projection_file="$(resolve_cognition_source "runtime/projections/materialized/cognition-runtime-surface-map.latest.yml")"
   decisions_index="$(resolve_cognition_source "runtime/decisions/index.yml")"
   migrations_index="$(resolve_cognition_source "runtime/migrations/index.yml")"
+  audits_index="$(resolve_cognition_source "runtime/audits/index.yml")"
   evidence_index="$(resolve_cognition_source "runtime/evidence/index.yml")"
   digests_index="$(resolve_cognition_source "runtime/evaluations/digests/index.yml")"
   actions_ledger="$(resolve_cognition_source "runtime/evaluations/actions/open-actions.yml")"
@@ -932,6 +948,13 @@ generate_knowledge_nodes() {
     [[ -z "$migration_id" ]] && continue
     printf 'migration:%s\tmigration-record\t%s\t../../migrations/%s\n' "$migration_id" "$migration_id" "$migration_path" >> "$records"
   done < <(extract_migration_records "$migrations_index")
+
+  if [[ -f "$audits_index" ]]; then
+    while IFS=$'\t' read -r audit_id audit_path; do
+      [[ -z "$audit_id" ]] && continue
+      printf 'audit:%s\taudit-record\t%s\t../../audits/%s\n' "$audit_id" "$audit_id" "$audit_path" >> "$records"
+    done < <(extract_index_id_path "$audits_index")
+  fi
 
   while IFS=$'\t' read -r evidence_id evidence_kind evidence_path _source_record; do
     [[ -z "$evidence_id" ]] && continue
@@ -978,6 +1001,7 @@ generate_knowledge_edges() {
   local records
   local projection_file
   local migrations_index
+  local audits_index
   local evidence_index
   local actions_ledger
 
@@ -987,6 +1011,7 @@ generate_knowledge_edges() {
 
   projection_file="$(resolve_cognition_source "runtime/projections/materialized/cognition-runtime-surface-map.latest.yml")"
   migrations_index="$(resolve_cognition_source "runtime/migrations/index.yml")"
+  audits_index="$(resolve_cognition_source "runtime/audits/index.yml")"
   evidence_index="$(resolve_cognition_source "runtime/evidence/index.yml")"
   actions_ledger="$(resolve_cognition_source "runtime/evaluations/actions/open-actions.yml")"
 
@@ -1006,6 +1031,13 @@ generate_knowledge_edges() {
     printf 'migration:%s->adr:%s\treferences-adr\tmigration:%s\tadr:%s\t../../migrations/%s\n' "$migration_id" "$adr_id" "$migration_id" "$adr_id" "$migration_path" >> "$records"
     printf 'migration:%s->evidence:%s\thas-evidence\tmigration:%s\tevidence:%s\t%s\n' "$migration_id" "$migration_id" "$migration_id" "$migration_id" "$evidence_path" >> "$records"
   done < <(extract_migration_records "$migrations_index")
+
+  if [[ -f "$audits_index" ]]; then
+    while IFS=$'\t' read -r audit_id audit_path; do
+      [[ -z "$audit_id" ]] && continue
+      printf 'audit:%s->evidence:%s\thas-evidence\taudit:%s\tevidence:%s\t../../audits/%s\n' "$audit_id" "$audit_id" "$audit_id" "$audit_id" "$audit_path" >> "$records"
+    done < <(extract_index_id_path "$audits_index")
+  fi
 
   while IFS=$'\t' read -r evidence_id evidence_kind evidence_path _source; do
     [[ -z "$evidence_id" ]] && continue
@@ -1080,7 +1112,7 @@ receipts:
     status: "success"
 
   - id: "evidence-map-materialization"
-    source: "runtime/migrations/index.yml"
+    source: "runtime/migrations/index.yml,runtime/audits/index.yml"
     source_type: "internal-generator"
     artifact: "../evidence/index.yml"
     ingested_at: "__UPDATED__"

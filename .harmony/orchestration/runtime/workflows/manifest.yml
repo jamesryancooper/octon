@@ -163,7 +163,7 @@ workflows:
     group: audit
     domain: audit
     path: audit/documentation-audit/
-    summary: Run docs-as-code standards enforcement and emit a release audit recommendation.
+    summary: Run bounded docs-as-code standards enforcement with deterministic bundle evidence and done-gate outcomes.
     status: active
     triggers:
       - "documentation audit"

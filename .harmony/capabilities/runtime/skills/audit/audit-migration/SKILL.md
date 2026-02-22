@@ -5,15 +5,15 @@ description: >
   integrity after directory restructuring, renames, or reorganizations.
   Applies three mandatory verification layers (grep sweeps, cross-reference
   validation, semantic read-through) with lens isolation, a mandatory
-  self-challenge phase, and idempotency guarantees. Produces a structured
-  findings report with coverage proof, severity tiers, and recommended fix
-  batches. Read-only — does not modify source files.
+  self-challenge phase, idempotency guarantees, and stable finding identity.
+  Produces structured findings with coverage proof, acceptance criteria, and
+  deterministic run receipts. Read-only — does not modify source files.
 license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Harmony Framework
   created: "2026-02-08"
-  updated: "2026-02-10"
+  updated: "2026-02-22"
 skill_sets: [executor, guardian]
 capabilities: [domain-specialized]
 allowed-tools: Read Glob Grep Write(../../output/reports/*) Write(_ops/state/logs/*)
@@ -55,7 +55,7 @@ Or with a manifest file:
 
 ### Bounded Audit Principles
 
-This skill follows seven principles for audit stability and reproducibility:
+This skill follows eight principles for audit stability and reproducibility:
 
 | #   | Principle                      | What It Prevents                 |
 | --- | ------------------------------ | -------------------------------- |
@@ -65,7 +65,8 @@ This skill follows seven principles for audit stability and reproducibility:
 | 4   | Enumerated search patterns     | Search strategy variance         |
 | 5   | Coverage manifest with proof   | Invisible gaps                   |
 | 6   | Idempotency guarantee          | Session-to-session variance      |
-| 7   | Lens isolation                 | Cross-lens bias                  |
+| 7   | Stable finding identity        | Finding re-key drift             |
+| 8   | Lens isolation                 | Cross-lens bias                  |
 
 ### Optional Layers
 
@@ -91,7 +92,7 @@ See the companion workflow `orchestrate-audit` at `.harmony/orchestration/runtim
 
 Parameters are defined in `.harmony/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-This skill accepts one required parameter (`manifest`) describing the migration mappings and exclusions, plus optional parameters for scope, severity threshold, structure spec path, template directory, partition label, and file filter pattern.
+This skill accepts one required parameter (`manifest`) describing the migration mappings and exclusions, plus optional bounded-audit controls (scope, threshold, partition controls, and convergence controls) defined in the registry.
 
 ## Output Location
 
@@ -101,6 +102,7 @@ Outputs are written to:
 
 - `.harmony/output/reports/YYYY-MM-DD-migration-audit.md` — Findings report (unified mode)
 - `.harmony/output/reports/YYYY-MM-DD-migration-audit-{partition}.md` — Findings report (partition mode)
+- `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/` — Authoritative bounded-audit bundle (when orchestrated)
 - `_ops/state/logs/audit-migration/` — Execution logs with index
 
 ## Severity Classification
@@ -122,6 +124,8 @@ Outputs are written to:
 - **Lens isolation:** Complete each layer fully before starting the next — never interleave
 - **Idempotency:** Same manifest + same codebase must produce substantially the same findings
 - **Coverage proof:** Report must include what was checked and found clean, not just findings
+- **Stable IDs:** Findings should be emitted with deterministic IDs and acceptance criteria in orchestrated mode
+- **Determinism receipt:** Runs should record seed/fingerprint policy and findings hash
 - **Partition scope:** When in partition mode, all layers operate within the filtered file set only
 
 ## When to Escalate

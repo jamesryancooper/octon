@@ -19,7 +19,7 @@ workflows:
   # --- Fully specified (spec-compliant) ---
 
   orchestrate-audit:
-    version: "1.1.0"
+    version: "2.0.0"
     commands: ["/orchestrate-audit"]
     parameters:
       - name: manifest
@@ -68,6 +68,20 @@ workflows:
         required: false
         default: "30"
         description: "Freshness threshold in days for stale artifact detection"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification after remediation"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for multi-pass consistency checks"
     access: human
     depends_on:
       - skill: audit-migration
@@ -109,9 +123,15 @@ workflows:
           format: markdown
           determinism: unique
           description: "Individual freshness and supersession audit report (produced if enabled)"
+        - name: bounded_audit_bundle
+          path: "../../output/reports/audits/{{date}}-{{slug}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit evidence bundle with findings, coverage, and convergence artifacts"
 
   pre-release-audit:
-    version: "1.2.0"
+    version: "2.1.0"
     commands: ["/pre-release-audit"]
     parameters:
       - name: subsystem
@@ -146,6 +166,20 @@ workflows:
         required: false
         default: "30"
         description: "Freshness threshold in days for stale artifact detection"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate enforcement for remediation verification"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for multi-run consistency checks"
     access: human
     depends_on:
       - skill: audit-subsystem-health
@@ -189,9 +223,15 @@ workflows:
           format: markdown
           determinism: unique
           description: "Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)"
+        - name: pre_release_audit_bundle
+          path: "../../output/reports/audits/{{date}}-{{slug}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle for release recommendation and done-gate evidence"
 
   documentation-audit:
-    version: "2.0.0"
+    version: "3.0.0"
     commands: ["/documentation-audit"]
     parameters:
       - name: docs_root
@@ -213,6 +253,20 @@ workflows:
         required: false
         default: "all"
         description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate enforcement for remediation verification"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for multi-run consistency checks"
     access: human
     depends_on:
       - skill: audit-documentation-standards
@@ -232,6 +286,12 @@ workflows:
           format: markdown
           determinism: unique
           description: "Input audit report produced by audit-documentation-standards"
+        - name: documentation_audit_bundle
+          path: "../../output/reports/audits/{{date}}-{{slug}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle for documentation recommendation and done-gate evidence"
 
   # --- Skeleton entries (existing workflows, not yet fully migrated) ---
 

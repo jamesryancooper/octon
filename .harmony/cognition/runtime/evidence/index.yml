@@ -18,6 +18,11 @@ files:
     summary: Migration evidence bundle contract and required files.
     when: Before creating or validating migration evidence bundles.
 
+  - id: audit-evidence-contract
+    path: ../../../output/reports/audits/README.md
+    summary: Bounded audit evidence bundle contract and required files.
+    when: Before creating or validating audit evidence bundles.
+
 records:
   - id: 2026-02-20-agency-bounded-surfaces
     kind: migration
@@ -93,4 +98,9 @@ records:
     kind: migration
     path: ../../../output/reports/migrations/2026-02-22-artifact-surface-clean-break-rename/evidence.md
     source_record: ../migrations/index.yml
+
+  - id: 2026-02-22-audit-contract-bootstrap
+    kind: audit
+    path: ../../../output/reports/audits/2026-02-22-audit-contract-bootstrap/evidence.md
+    source_record: ../audits/index.yml
 

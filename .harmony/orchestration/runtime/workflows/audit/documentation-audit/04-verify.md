@@ -1,7 +1,7 @@
 ---
 name: verify
 title: Verify Completion
-description: Validate workflow executed successfully.
+description: Validate documentation bounded-audit contract and mode-specific done-gate outcomes.
 ---
 
 # Step 4: Verify Completion
@@ -10,17 +10,25 @@ description: Validate workflow executed successfully.
 
 - [ ] Documentation standards audit report exists
 - [ ] Documentation audit report exists
-- [ ] Recommendation is present and justified
-- [ ] Severity summary is present
-- [ ] Coverage proof is present
+- [ ] Documentation bounded-audit bundle exists
+- [ ] Findings are deduplicated with stable IDs
+- [ ] Findings include acceptance criteria
+- [ ] Coverage metadata exists and is internally consistent
+- [ ] Convergence metadata exists
+- [ ] Done-gate expression is recorded
+
+## Outcome Rules
+
+- Discovery mode (`post_remediation=false`): pass if contract artifacts are valid and recommendation rationale is explicit.
+- Post-remediation mode (`post_remediation=true`): fail unless done-gate is true.
 
 ## Actions
 
 1. Evaluate each checklist item.
-2. Mark workflow as complete only if all items pass.
-3. If any item fails, return to the step that produced missing output.
+2. Mark workflow complete only if outcome rules pass for the selected mode.
+3. If any item fails, return to the producing step and repair artifacts.
 
 ## Workflow Complete When
 
-- [ ] All verification criteria pass
-- [ ] Results documented
+- [ ] Verification checklist passes for selected mode
+- [ ] Result documented with rationale

@@ -39,6 +39,7 @@ The output report must include:
 - [ ] Severity distribution table
 - [ ] Findings from each executed layer
 - [ ] Each finding has: file path, line number, description, severity
+- [ ] Each finding has stable ID and acceptance criteria in orchestrated mode
 - [ ] Recommended fix batches (grouped by priority)
 - [ ] Files confirmed clean (proves coverage, not just findings)
 - [ ] Exclusion zones listed with rationale
@@ -81,6 +82,7 @@ Additional partition-specific criteria:
 | ---- | -------------- |
 | No silent failures | If a layer encounters an error, it's reported (not swallowed) |
 | No false classification | Findings in operational files are never classified below HIGH |
+| Stable identity | Duplicate IDs or ID drift are rejected |
 | No duplicates | Same file:line does not appear twice in the report |
 | Batches are actionable | Each fix batch can be applied independently |
 
@@ -89,6 +91,7 @@ Additional partition-specific criteria:
 The same manifest + same codebase must produce substantially the same findings:
 
 - [ ] Report includes idempotency metadata: manifest hash, file count, timestamp
+- [ ] Determinism receipt includes seed/fingerprint policy (or explicit unsupported markers)
 - [ ] No findings depend on execution order within a layer
 - [ ] No findings depend on which agent session runs the audit
 - [ ] Self-challenge phase checks for findings that might vary between runs
@@ -125,10 +128,13 @@ After skill execution, verify:
 3. Self-challenge phase executed with all 4 checks documented
 4. Report includes coverage proof section (files confirmed clean)
 5. Report includes idempotency metadata (manifest hash, file count, timestamp)
-6. Each layer completed fully before the next began (lens isolation)
-7. Log exists at `_ops/state/logs/audit-migration/{{run_id}}.md`
-8. Log index updated at `_ops/state/logs/audit-migration/index.yml`
-9. No source files were modified (read-only guarantee)
-10. If partition mode: report filename includes partition name
-11. If partition mode: report metadata includes partition, file_filter, partition_mode
-12. If partition mode: self-challenge notes partial scope with deferred-merge note
+6. Done-gate expression is recorded when running in post-remediation mode
+7. Convergence metadata is recorded when `convergence_k > 1`
+8. Bundle files exist in orchestrated mode (`findings.yml`, `coverage.yml`, `convergence.yml`)
+9. Each layer completed fully before the next began (lens isolation)
+10. Log exists at `_ops/state/logs/audit-migration/{{run_id}}.md`
+11. Log index updated at `_ops/state/logs/audit-migration/index.yml`
+12. No source files were modified (read-only guarantee)
+13. If partition mode: report filename includes partition name
+14. If partition mode: report metadata includes partition, file_filter, partition_mode
+15. If partition mode: self-challenge notes partial scope with deferred-merge note

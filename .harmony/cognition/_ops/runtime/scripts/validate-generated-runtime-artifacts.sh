@@ -172,6 +172,7 @@ main() {
 
   check_sorted_and_unique "$COGNITION_DIR/runtime/decisions/index.yml" "runtime decision index"
   check_sorted_and_unique "$COGNITION_DIR/runtime/migrations/index.yml" "runtime migration index" false
+  check_sorted_and_unique "$COGNITION_DIR/runtime/audits/index.yml" "runtime audit index" false
   check_sorted_and_unique "$COGNITION_DIR/runtime/evaluations/actions/open-actions.yml" "evaluation open-action ledger"
   check_decisions_summary_contract
   check_evaluation_digest_freshness

@@ -9,7 +9,7 @@ Acceptance criteria that define a complete, valid UI audit.
 
 ## Acceptance Criteria
 
-A UI audit execution is valid when ALL of these conditions are met:
+A UI audit execution is valid when all conditions are met.
 
 ### Ruleset
 
@@ -21,36 +21,44 @@ A UI audit execution is valid when ALL of these conditions are met:
 
 - [ ] All UI files matching `file_types` within `target` were discovered
 - [ ] Scope size was checked against threshold (500 files)
-- [ ] Scope manifest was built listing all files to be scanned
+- [ ] Coverage manifest was built listing scanned/excluded files
 
 ### Scanning
 
-- [ ] Every file in scope was read and checked against applicable rules
+- [ ] Every file in scope was checked against applicable rules
 - [ ] Each violation includes file path, line number, rule reference, severity, and description
 - [ ] Clean files (no violations) were tracked separately
 
-### Report
+### Findings Contract
 
-- [ ] Report includes executive summary with file count, violation count by severity, and rule count
-- [ ] Findings are organized by severity tier (CRITICAL, HIGH, MEDIUM, LOW)
-- [ ] Each finding includes `file:line` format location
-- [ ] Clean files are listed (coverage proof)
-- [ ] Ruleset metadata is included (source URL, fetch timestamp, rule count)
+- [ ] Bundle-mode findings use stable IDs
+- [ ] Every finding has acceptance criteria
+- [ ] No duplicate IDs are present
 
-### Logging
+### Convergence Contract
 
+- [ ] Determinism receipt fields are recorded (commit/prompt/params/findings hash)
+- [ ] Seed and fingerprint policy is recorded
+- [ ] Done-gate expression fields are recorded
+
+### Report and Logging
+
+- [ ] Report includes executive summary and severity breakdown
+- [ ] Coverage proof includes clean files and exclusions
 - [ ] Execution log was written to `_ops/state/logs/audit-ui/{run_id}.md`
 - [ ] Log index was updated at `_ops/state/logs/audit-ui/index.yml`
-- [ ] Top-level log index was updated at `_ops/state/logs/index.yml`
+
+## Mode Rules
+
+- Discovery mode (`post_remediation=false`): pass when bundle contract is valid and done-gate value is recorded.
+- Post-remediation mode (`post_remediation=true`): pass only when convergence is stable and no open findings remain at or above threshold.
 
 ## Validation Failures
 
-If any acceptance criterion is not met:
-
 | Missing | Action |
-|---------|--------|
-| Ruleset fetch failed | Abort — cannot audit without rules |
-| No files in scope | Report immediately with empty scope note |
-| Scanning incomplete | Mark report as partial, list unscanned files |
-| Report missing sections | Complete the report before logging |
+| ------- | ------ |
+| Ruleset fetch failed | Abort -- cannot audit without rules |
+| No files in scope | Report immediately with empty-scope note |
+| Scanning incomplete | Mark report partial and list unscanned files |
+| Bundle contract missing fields | Fail verification and list missing fields |
 | Log not written | Write log before declaring completion |

@@ -32,13 +32,13 @@ Proceed to step 7.
 1. **Invoke audit-cross-subsystem-coherence:**
 
    ```text
-   /audit-cross-subsystem-coherence scope=".harmony" severity_threshold="{{severity_threshold}}"
+   /audit-cross-subsystem-coherence scope=".harmony" severity_threshold="{{severity_threshold}}" post_remediation="{{post_remediation}}" convergence_k="{{convergence_k}}" seed_list="{{seed_list}}"
    ```
 
    If `docs` parameter was provided:
 
    ```text
-   /audit-cross-subsystem-coherence scope=".harmony" docs="{{docs}}" severity_threshold="{{severity_threshold}}"
+   /audit-cross-subsystem-coherence scope=".harmony" docs="{{docs}}" severity_threshold="{{severity_threshold}}" post_remediation="{{post_remediation}}" convergence_k="{{convergence_k}}" seed_list="{{seed_list}}"
    ```
 
 2. **Wait for completion:**
