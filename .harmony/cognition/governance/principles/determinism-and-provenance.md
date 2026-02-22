@@ -31,7 +31,7 @@ For `material_side_effect` runs and ACP promotion decisions, these fields are re
 
 Governance-trigger semantics for evidence/receipt enforcement are keyed on
 canonical predicate `material_side_effect` (see
-[RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md)).
+[RA/ACP Glossary](../controls/ra-acp-glossary.md)).
 
 Bounded variance is valid only when policy-approved and receipted. Deterministic mode remains the default.
 
@@ -39,7 +39,7 @@ Bounded variance is valid only when policy-approved and receipted. Deterministic
 
 This document is normative for required provenance and replay fields only.
 Runtime posture is defined in [Governed Determinism](./determinism.md), gate outcomes in [Autonomous Control Points](./autonomous-control-points.md), and capability authority in [Deny by Default](./deny-by-default.md).
-Terminology for apply/promote/finalize (including `contraction` alias) and approval/attestation/quorum is defined in [RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md).
+Terminology for apply/promote/finalize (including `contraction` alias) and approval/attestation/quorum is defined in [RA/ACP Glossary](../controls/ra-acp-glossary.md).
 
 - Receipt/gate mechanics are defined in [Autonomous Control Points](./autonomous-control-points.md).
 - Runtime variance posture is defined in [Governed Determinism](./determinism.md).
@@ -116,7 +116,7 @@ Without provenance, failures are non-reproducible and compliance review becomes 
 
 ## Exceptions
 
-Waiver and exception semantics are defined in [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md) (SSOT).
+Waiver and exception semantics are defined in [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md) (SSOT).
 
 Exploratory local prompts may skip full records, but production-impacting outputs may not.
 

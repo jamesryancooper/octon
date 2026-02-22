@@ -1,0 +1,49 @@
+# Cognition Runtime Index
+# Machine-readable discovery index for cognition runtime surfaces.
+
+schema_version: "1.0"
+files:
+  - id: runtime-overview
+    path: README.md
+    summary: Runtime surface orientation and ownership boundaries.
+    when: First entrypoint for runtime artifact discovery.
+
+  - id: runtime-context-index
+    path: context/index.yml
+    summary: Context reference index with when-to-read guidance.
+    when: Before loading cognition runtime context files.
+
+  - id: runtime-decisions-index
+    path: decisions/index.yml
+    summary: Canonical discovery index for append-only ADR records.
+    when: When discovering full architecture decision records.
+
+  - id: runtime-migrations-index
+    path: migrations/index.yml
+    summary: Canonical discovery index for migration plan records.
+    when: When discovering clean-break migration execution records.
+
+  - id: runtime-analyses-index
+    path: analyses/index.yml
+    summary: Discovery index for runtime analysis artifacts.
+    when: When locating in-depth analytical outputs.
+
+  - id: runtime-knowledge-plane-index
+    path: knowledge-plane/index.yml
+    summary: Discovery index for runtime knowledge-plane contracts and guides.
+    when: When tracing knowledge-plane architecture, scope, and operating contracts.
+
+  - id: runtime-evidence-index
+    path: evidence/index.yml
+    summary: Evidence map linking runtime records to output evidence bundles.
+    when: When resolving evidence receipts for migrations and decisions.
+
+  - id: runtime-evaluations-index
+    path: evaluations/index.yml
+    summary: Discovery index for periodic scorecard and evaluation artifacts.
+    when: When reviewing weekly scorecard digests and follow-up actions.
+
+  - id: runtime-projections-index
+    path: projections/index.yml
+    summary: Discovery index for derived runtime read models and projections.
+    when: When querying synthesized runtime views across canonical surfaces.

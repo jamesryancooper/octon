@@ -93,8 +93,8 @@ def handle_event(evt: dict):
 
 ## Canonical References
 
-- Promotion inputs and receipt requirements: [RA/ACP Promotion Inputs Matrix](../../_meta/principles/ra-acp-promotion-inputs-matrix.md)
-- Shared terminology: [RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md)
+- Promotion inputs and receipt requirements: [RA/ACP Promotion Inputs Matrix](../controls/ra-acp-promotion-inputs-matrix.md)
+- Shared terminology: [RA/ACP Glossary](../controls/ra-acp-glossary.md)
 
 ## Anti-Pattern: Code-first Drift
 

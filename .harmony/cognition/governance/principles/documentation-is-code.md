@@ -84,9 +84,9 @@ apply_hotfix_without_runbook = True
 - Enforcement:
   `/audit-documentation-standards` or `/documentation-audit`
 - Promotion input minimums and receipt field requirements:
-  [RA/ACP Promotion Inputs Matrix](../../_meta/principles/ra-acp-promotion-inputs-matrix.md)
+  [RA/ACP Promotion Inputs Matrix](../controls/ra-acp-promotion-inputs-matrix.md)
 - Shared terminology:
-  [RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md)
+  [RA/ACP Glossary](../controls/ra-acp-glossary.md)
 
 ## Promotion-Time Artifact Completeness (SSOT)
 
@@ -131,7 +131,7 @@ present and linked to the same promoted scope.
 - Promotion authority and receipt semantics: [Autonomous Control Points](./autonomous-control-points.md)
 - Contract completeness for promoted slices: [Contract-first](./contract-first.md)
 - Slice-size thresholds and flow policy: [Small Diffs, Trunk-based](./small-diffs-trunk-based.md)
-- Decomposition pattern for large governance work: [Promotable Slice Decomposition](../../_meta/principles/promotable-slice-decomposition.md)
+- Decomposition pattern for large governance work: [Promotable Slice Decomposition](../controls/promotable-slice-decomposition.md)
 
 ## Relationship to Other Principles
 
@@ -147,7 +147,7 @@ as complexity grows.
 
 ## Exceptions
 
-Waiver and exception semantics are defined in [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md) (SSOT).
+Waiver and exception semantics are defined in [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md) (SSOT).
 
 Very small typo or formatting fixes may skip ADR updates, but not behavior,
 contract, schema, or risk changes.

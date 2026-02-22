@@ -377,11 +377,27 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/capabilities/governance/policy/deny-by-default.v2.yml"
   require_file "$HARMONY_DIR/capabilities/practices/README.md"
 
+  require_file "$HARMONY_DIR/cognition/runtime/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/context/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/decisions/index.yml"
   require_file "$HARMONY_DIR/cognition/runtime/migrations/index.yml"
+  require_file "$HARMONY_DIR/cognition/runtime/analyses/index.yml"
+  require_file "$HARMONY_DIR/cognition/runtime/knowledge-plane/index.yml"
+  require_file "$HARMONY_DIR/cognition/runtime/evidence/index.yml"
+  require_file "$HARMONY_DIR/cognition/runtime/evaluations/index.yml"
+  require_file "$HARMONY_DIR/cognition/runtime/projections/index.yml"
   require_file "$HARMONY_DIR/cognition/governance/index.yml"
+  require_file "$HARMONY_DIR/cognition/governance/controls/README.md"
+  require_file "$HARMONY_DIR/cognition/governance/controls/index.yml"
+  require_file "$HARMONY_DIR/cognition/governance/controls/ra-acp-glossary.md"
+  require_file "$HARMONY_DIR/cognition/governance/controls/ra-acp-promotion-inputs-matrix.md"
+  require_file "$HARMONY_DIR/cognition/governance/controls/flag-metadata-contract.md"
+  require_file "$HARMONY_DIR/cognition/governance/controls/promotable-slice-decomposition.md"
+  require_file "$HARMONY_DIR/cognition/governance/exceptions/README.md"
+  require_file "$HARMONY_DIR/cognition/governance/exceptions/waivers-and-exceptions.md"
   require_file "$HARMONY_DIR/cognition/practices/index.yml"
+  require_file "$HARMONY_DIR/cognition/practices/operations/README.md"
+  require_file "$HARMONY_DIR/cognition/practices/operations/index.yml"
   require_file "$HARMONY_DIR/cognition/practices/methodology/index.yml"
   require_file "$HARMONY_DIR/cognition/practices/methodology/README.index.yml"
   require_file "$HARMONY_DIR/cognition/practices/methodology/implementation-guide.index.yml"
@@ -431,11 +447,17 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/cognition/runtime/decisions"
   require_dir "$HARMONY_DIR/cognition/runtime/analyses"
   require_dir "$HARMONY_DIR/cognition/runtime/knowledge-plane"
+  require_dir "$HARMONY_DIR/cognition/runtime/evidence"
+  require_dir "$HARMONY_DIR/cognition/runtime/evaluations"
+  require_dir "$HARMONY_DIR/cognition/runtime/projections"
   require_dir "$HARMONY_DIR/cognition/governance"
+  require_dir "$HARMONY_DIR/cognition/governance/controls"
+  require_dir "$HARMONY_DIR/cognition/governance/exceptions"
   require_dir "$HARMONY_DIR/cognition/governance/principles"
   require_dir "$HARMONY_DIR/cognition/governance/pillars"
   require_dir "$HARMONY_DIR/cognition/governance/purpose"
   require_dir "$HARMONY_DIR/cognition/practices"
+  require_dir "$HARMONY_DIR/cognition/practices/operations"
   require_dir "$HARMONY_DIR/cognition/practices/methodology"
   require_dir "$HARMONY_DIR/cognition/_ops"
   require_dir "$HARMONY_DIR/cognition/_ops/principles"
@@ -806,9 +828,39 @@ check_output_decision_evidence_surface() {
 
 check_cognition_discovery_indexes() {
   check_index_path_contract \
+    "$HARMONY_DIR/cognition/runtime/index.yml" \
+    "$HARMONY_DIR/cognition/runtime" \
+    "cognition runtime"
+
+  check_index_path_contract \
     "$HARMONY_DIR/cognition/runtime/context/index.yml" \
     "$HARMONY_DIR/cognition/runtime/context" \
     "cognition runtime context"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/runtime/analyses/index.yml" \
+    "$HARMONY_DIR/cognition/runtime/analyses" \
+    "cognition runtime analyses"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/runtime/knowledge-plane/index.yml" \
+    "$HARMONY_DIR/cognition/runtime/knowledge-plane" \
+    "cognition runtime knowledge-plane"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/runtime/evidence/index.yml" \
+    "$HARMONY_DIR/cognition/runtime/evidence" \
+    "cognition runtime evidence"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/runtime/evaluations/index.yml" \
+    "$HARMONY_DIR/cognition/runtime/evaluations" \
+    "cognition runtime evaluations"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/runtime/projections/index.yml" \
+    "$HARMONY_DIR/cognition/runtime/projections" \
+    "cognition runtime projections"
 
   check_index_path_contract \
     "$HARMONY_DIR/cognition/governance/index.yml" \
@@ -816,9 +868,19 @@ check_cognition_discovery_indexes() {
     "cognition governance"
 
   check_index_path_contract \
+    "$HARMONY_DIR/cognition/governance/controls/index.yml" \
+    "$HARMONY_DIR/cognition/governance/controls" \
+    "cognition governance controls"
+
+  check_index_path_contract \
     "$HARMONY_DIR/cognition/practices/index.yml" \
     "$HARMONY_DIR/cognition/practices" \
     "cognition practices"
+
+  check_index_path_contract \
+    "$HARMONY_DIR/cognition/practices/operations/index.yml" \
+    "$HARMONY_DIR/cognition/practices/operations" \
+    "cognition practices operations"
 
   check_index_path_contract \
     "$HARMONY_DIR/cognition/practices/methodology/index.yml" \
@@ -1171,6 +1233,10 @@ check_deprecated_cognition_paths() {
     "$HARMONY_DIR/cognition/principles/_ops"
     "$HARMONY_DIR/cognition/principles/_meta"
     "$HARMONY_DIR/cognition/governance/principles/_meta/docs"
+    "$HARMONY_DIR/cognition/_meta/principles/ra-acp-glossary.md"
+    "$HARMONY_DIR/cognition/_meta/principles/ra-acp-promotion-inputs-matrix.md"
+    "$HARMONY_DIR/cognition/_meta/principles/flag-metadata-contract.md"
+    "$HARMONY_DIR/cognition/_meta/principles/promotable-slice-decomposition.md"
   )
 
   local path rel

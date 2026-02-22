@@ -30,7 +30,7 @@ deny-by-default policy for capability attempts.
 
 - Promotion/contraction mechanics: [Autonomous Control Points](./autonomous-control-points.md)
 - Capability attempt authorization: [Deny by Default](./deny-by-default.md)
-- Waiver/exception taxonomy: [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md)
+- Waiver/exception taxonomy: [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md)
 
 ## Arbitration
 
@@ -97,7 +97,7 @@ Policies that only warn but never block create a false sense of safety and erode
 
 ## Exceptions
 
-Waiver and exception semantics are defined in [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md) (SSOT).
+Waiver and exception semantics are defined in [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md) (SSOT).
 Non-waivable controls remain blocked.
 
 ## Related Documentation

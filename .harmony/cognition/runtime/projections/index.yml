@@ -1,0 +1,9 @@
+# Runtime Projections Index
+# Machine-readable discovery index for derived runtime projection artifacts.
+
+schema_version: "1.0"
+files:
+  - id: projections-overview
+    path: README.md
+    summary: Runtime projections surface orientation and ownership boundaries.
+    when: First entrypoint for derived read-model discovery.

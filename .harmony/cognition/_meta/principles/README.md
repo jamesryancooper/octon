@@ -4,18 +4,29 @@ Non-structural support documentation for the principles subsystem.
 
 ## Purpose
 
-- Keep supporting governance/reference material out of structural roots.
-- Preserve `principles/` root for canonical principle contracts.
+- Keep non-normative support and compatibility pointers out of structural governance roots.
+- Preserve governance surfaces (`principles/`, `controls/`, `exceptions/`) for canonical policy contracts.
 
 ## Contents
 
 | File | Purpose |
 |---|---|
-| `flag-metadata-contract.md` | Canonical flag metadata requirements used by principles. |
-| `promotable-slice-decomposition.md` | Decomposition guidance for promotable slices and small-batch changes. |
-| `ra-acp-glossary.md` | Shared RA/ACP terminology and definitions. |
-| `ra-acp-promotion-inputs-matrix.md` | Canonical promotion input and evidence matrix. |
-| `waivers-and-exceptions.md` | Waiver and exception taxonomy for principle governance. |
+| `waivers-and-exceptions.md` | Legacy pointer to the canonical governance exception contract. |
+
+## Canonical Governance Controls
+
+RA/ACP governance control contracts now live in:
+
+- `.harmony/cognition/governance/controls/ra-acp-glossary.md`
+- `.harmony/cognition/governance/controls/ra-acp-promotion-inputs-matrix.md`
+- `.harmony/cognition/governance/controls/flag-metadata-contract.md`
+- `.harmony/cognition/governance/controls/promotable-slice-decomposition.md`
+
+## Canonical Governance Exception Contract
+
+Waiver and exception taxonomy now lives in:
+
+- `.harmony/cognition/governance/exceptions/waivers-and-exceptions.md`
 
 ## Structural Boundary
 

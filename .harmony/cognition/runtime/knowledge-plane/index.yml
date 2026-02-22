@@ -1,0 +1,9 @@
+# Runtime Knowledge Plane Index
+# Canonical discovery index for cognition runtime knowledge-plane contracts.
+
+schema_version: "1.0"
+files:
+  - id: knowledge-plane-contract
+    path: knowledge-plane.md
+    summary: Unified contract for knowledge-plane scope, graph model, and integration posture.
+    when: When designing traceability, evidence correlation, or knowledge-plane integrations.

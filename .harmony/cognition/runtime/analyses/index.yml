@@ -1,0 +1,9 @@
+# Runtime Analyses Index
+# Canonical discovery index for cognition runtime analyses.
+
+schema_version: "1.0"
+files:
+  - id: workflows-vs-skills-analysis
+    path: workflows-vs-skills-analysis.md
+    summary: Comparative analysis of workflow and skill usage boundaries.
+    when: When evaluating workflow-vs-skill architecture tradeoffs.

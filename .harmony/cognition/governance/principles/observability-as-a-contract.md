@@ -48,7 +48,7 @@ Learning loops depend on measurable outcomes, not anecdotes.
 
 Default risk tier to ACP mapping is policy-canonical (`acp.risk_tier_mapping`).
 Minimum telemetry requirements by ACP level are canonical in
-[RA/ACP Promotion Inputs Matrix](../../_meta/principles/ra-acp-promotion-inputs-matrix.md#telemetry-profile-gate-canonical)
+[RA/ACP Promotion Inputs Matrix](../controls/ra-acp-promotion-inputs-matrix.md#telemetry-profile-gate-canonical)
 and enforced in policy at `acp.telemetry_gate`.
 This document requires telemetry to remain traceable and receipt-linked; profile-level minima, reason codes, and fail-closed outcomes are matrix/policy SSOT behavior.
 
@@ -108,8 +108,8 @@ service.submit(order_id)  # No span, no metric, no trace linkage
 - Promotion/contraction and budget envelopes: [Autonomous Control Points](./autonomous-control-points.md)
 - Capability attempt authorization: [Deny by Default](./deny-by-default.md)
 - Risk tier mapping and promotion evidence minimums: RA/ACP Promotion Inputs Matrix (canonical)
-- Shared terminology: [RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md)
-- Waiver/exception taxonomy: [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md)
+- Shared terminology: [RA/ACP Glossary](../controls/ra-acp-glossary.md)
+- Waiver/exception taxonomy: [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md)
 
 ## Anti-Pattern: Blind Shipping
 

@@ -1,0 +1,29 @@
+# Cognition Operations Index
+# Machine-readable discovery index for cognition operations runbooks.
+
+schema_version: "1.0"
+files:
+  - id: operations-overview
+    path: README.md
+    summary: Operations surface orientation and runbook scope.
+    when: First entrypoint for cognition maintenance runbooks.
+
+  - id: weekly-evaluations-runbook
+    path: weekly-evaluations.md
+    summary: Procedure for producing and reviewing weekly scorecard evaluations.
+    when: During weekly scorecard digest generation and review.
+
+  - id: index-hygiene-runbook
+    path: index-hygiene.md
+    summary: Procedure for maintaining discovery index integrity.
+    when: When adding, moving, or removing indexed cognition artifacts.
+
+  - id: governance-lint-triage-runbook
+    path: governance-lint-triage.md
+    summary: Procedure for triaging principles governance lint failures.
+    when: When principles governance lint or related guardrails fail.
+
+  - id: evidence-map-maintenance-runbook
+    path: evidence-map-maintenance.md
+    summary: Procedure for maintaining runtime evidence map coverage and correctness.
+    when: When migration or decision evidence records change.

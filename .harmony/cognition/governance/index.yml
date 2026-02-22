@@ -23,6 +23,26 @@ files:
     summary: Immutable constitutional charter for cognition governance.
     when: Before any policy interpretation or principle enforcement changes.
 
+  - id: controls-overview
+    path: controls/README.md
+    summary: Governance controls surface orientation and contract boundaries.
+    when: Before applying RA/ACP control contracts or terminology SSOTs.
+
+  - id: controls-index
+    path: controls/index.yml
+    summary: Machine-readable discovery index for governance controls.
+    when: For targeted lookup of RA/ACP controls without full-doc scans.
+
+  - id: governance-exceptions-overview
+    path: exceptions/README.md
+    summary: Governance exception surface orientation and scope.
+    when: Before applying or interpreting waiver/exception semantics.
+
+  - id: governance-waivers-and-exceptions
+    path: exceptions/waivers-and-exceptions.md
+    summary: Canonical waiver and exception taxonomy and required fields.
+    when: When defining, validating, or linting governance override records.
+
   - id: pillars-overview
     path: pillars/README.md
     summary: Pillar model orientation and lifecycle framing.

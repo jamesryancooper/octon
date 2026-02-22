@@ -18,7 +18,7 @@ Flag hygiene is enforced by canonical contract and validator:
 `risk`, and `links` are required for each flag.
 
 Canonical sources:
-- [Flag Metadata Contract](../../_meta/principles/flag-metadata-contract.md)
+- [Flag Metadata Contract](../controls/flag-metadata-contract.md)
 - `.harmony/capabilities/governance/policy/flags.metadata.json`
 - `.harmony/capabilities/_ops/scripts/validate-flag-metadata.sh`
 
@@ -93,7 +93,7 @@ Flags left in place after rollout create dead branches, confusion, and inconsist
 
 ## Exceptions
 
-Waiver and exception semantics are defined in [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md) (SSOT).
+Waiver and exception semantics are defined in [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md) (SSOT).
 
 Skip flags for internal refactors with no behavior change and no user impact.
 

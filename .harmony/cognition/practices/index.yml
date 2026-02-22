@@ -17,3 +17,13 @@ files:
     path: methodology/index.yml
     summary: Machine-discoverable map of methodology files.
     when: For targeted methodology lookup without full-doc scans.
+
+  - id: operations-overview
+    path: operations/README.md
+    summary: Operations runbook surface for cognition maintenance tasks.
+    when: Before executing recurring cognition maintenance procedures.
+
+  - id: operations-index
+    path: operations/index.yml
+    summary: Machine-discoverable map of cognition operations runbooks.
+    when: For targeted operations runbook lookup without full-doc scans.

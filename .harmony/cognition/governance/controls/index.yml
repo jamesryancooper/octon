@@ -1,0 +1,29 @@
+# Governance Controls Index
+# Machine-readable discovery index for cognition governance controls.
+
+schema_version: "1.0"
+files:
+  - id: controls-overview
+    path: README.md
+    summary: Governance controls surface orientation and ownership boundaries.
+    when: First entrypoint for RA/ACP control contract discovery.
+
+  - id: ra-acp-glossary
+    path: ra-acp-glossary.md
+    summary: Canonical terminology for reversible autonomy governance.
+    when: When interpreting apply/promote/finalize, attestation, quorum, or receipt semantics.
+
+  - id: ra-acp-promotion-inputs-matrix
+    path: ra-acp-promotion-inputs-matrix.md
+    summary: Canonical promotion input minima and receipt requirements by ACP level.
+    when: When evaluating evidence bundles, ACP outcomes, and receipt completeness.
+
+  - id: flag-metadata-contract
+    path: flag-metadata-contract.md
+    summary: Canonical feature-flag metadata requirements for ACP promotion evidence.
+    when: When changes involve feature flags or flag-governed release controls.
+
+  - id: promotable-slice-decomposition
+    path: promotable-slice-decomposition.md
+    summary: Canonical decomposition pattern for promotable governance-complete slices.
+    when: When splitting large work into ACP-promotable units.

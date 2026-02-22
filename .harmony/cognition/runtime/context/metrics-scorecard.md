@@ -15,6 +15,7 @@ safe, and continuously improvable without introducing dashboard sprawl.
 ## Operating Contract
 
 - Cadence: weekly digest generated every Monday.
+- Digest location: `/.harmony/cognition/runtime/evaluations/` and registered in `/.harmony/cognition/runtime/evaluations/index.yml`.
 - Review: weekly 15-minute review; select 1-2 actions with explicit owners.
 - Sources: CI artifacts, ObservaKit telemetry, and Knowledge Plane traces.
 - Data handling: deterministic aggregation only; no manual edits in score data.
@@ -65,9 +66,11 @@ Weekly digest MUST include:
 ## Related Contracts
 
 - Methodology overview: `.harmony/cognition/practices/methodology/README.md`
+- Operations runbooks: `.harmony/cognition/practices/operations/index.yml`
 - Tooling and metrics: `.harmony/cognition/practices/methodology/tooling-and-metrics.md`
 - Reliability and ops: `.harmony/cognition/practices/methodology/reliability-and-ops.md`
 - Risk tiers: `.harmony/cognition/practices/methodology/risk-tiers.md`
 - Knowledge Plane: `.harmony/cognition/runtime/knowledge-plane/knowledge-plane.md`
+- Runtime evaluations surface: `.harmony/cognition/runtime/evaluations/README.md`
 - Observability requirements: `.harmony/cognition/_meta/architecture/observability-requirements.md`
 - Governance model: `.harmony/cognition/_meta/architecture/governance-model.md`

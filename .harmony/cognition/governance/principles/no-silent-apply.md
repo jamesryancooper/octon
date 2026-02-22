@@ -29,8 +29,8 @@ Capability attempts still follow [Deny by Default](./deny-by-default.md).
 
 - Promotion/contraction mechanics: [Autonomous Control Points](./autonomous-control-points.md)
 - Capability attempt authorization: [Deny by Default](./deny-by-default.md)
-- Promotion evidence and receipt minimums: [RA/ACP Promotion Inputs Matrix](../../_meta/principles/ra-acp-promotion-inputs-matrix.md)
-- Shared terminology: [RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md)
+- Promotion evidence and receipt minimums: [RA/ACP Promotion Inputs Matrix](../controls/ra-acp-promotion-inputs-matrix.md)
+- Shared terminology: [RA/ACP Glossary](../controls/ra-acp-glossary.md)
 
 ## Arbitration
 
@@ -79,7 +79,7 @@ When agents can apply changes silently, teams lose accountability and incident d
 
 ## Exceptions
 
-Waiver and exception semantics are defined in [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md) (SSOT).
+Waiver and exception semantics are defined in [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md) (SSOT).
 
 Read-only automation (analysis, reporting, lint suggestions) can run without promotion gates if no durable side-effects occur.
 

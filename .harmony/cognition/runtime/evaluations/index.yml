@@ -1,0 +1,9 @@
+# Runtime Evaluations Index
+# Canonical discovery index for cognition runtime evaluations.
+
+schema_version: "1.0"
+files:
+  - id: evaluations-overview
+    path: README.md
+    summary: Runtime evaluation surface orientation and scorecard linkage.
+    when: First entrypoint for weekly digest and evaluation record discovery.

@@ -88,7 +88,7 @@ Treating security controls as optional for speed creates hidden risk that later 
 
 No exceptions for secret exposure or unredacted PII/PHI.
 Temporary exceptions for low-risk controls must exclude the non-waivable classes above.
-Waiver and exception semantics are defined in [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md) (SSOT).
+Waiver and exception semantics are defined in [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md) (SSOT).
 Waivers must be policy-bound, receipted, and never used to bypass non-waivable controls.
 
 ## Related Documentation

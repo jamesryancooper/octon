@@ -50,8 +50,8 @@ handles. This does not require standing human authorizations.
 - Capability attempt authorization: [Deny by Default](./deny-by-default.md).
 - Replay and provenance semantics: [Determinism and Provenance](./determinism-and-provenance.md).
 - Promotion input minimums and receipt requirements: RA/ACP Promotion Inputs Matrix (canonical).
-- Shared terminology: [RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md).
-- Waiver/exception taxonomy: [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md).
+- Shared terminology: [RA/ACP Glossary](../controls/ra-acp-glossary.md).
+- Waiver/exception taxonomy: [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md).
 - Conflict precedence: [Arbitration and Precedence](./arbitration-and-precedence.md).
 
 ## Why It Matters
@@ -114,7 +114,7 @@ Outcomes:
 - **ESCALATE:** request human intervention (rare; only when policy requires)
 
 Evidence and receipt enforcement triggers are keyed on canonical predicate
-`material_side_effect` (see [RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md)).
+`material_side_effect` (see [RA/ACP Glossary](../controls/ra-acp-glossary.md)).
 
 Docs-gate evidence is consumed by ACP runtime evaluation on promote. Missing
 required documentation evidence returns fail-closed `STAGE_ONLY`/`DENY` with
@@ -196,11 +196,11 @@ Budgets are attached to the run and enforced continuously, not just at promotion
 ## Telemetry Profile Mapping
 
 ACP promotion telemetry profile requirements are canonical in
-[RA/ACP Promotion Inputs Matrix](../../_meta/principles/ra-acp-promotion-inputs-matrix.md#telemetry-profile-gate-canonical)
+[RA/ACP Promotion Inputs Matrix](../controls/ra-acp-promotion-inputs-matrix.md#telemetry-profile-gate-canonical)
 and enforced by policy (`acp.telemetry_gate`) at promote-time.
 
 Profile deviations must use the canonical waiver taxonomy:
-[Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md).
+[Waivers and Exceptions](../exceptions/waivers-and-exceptions.md).
 
 ## Receipts and Continuous Oversight
 

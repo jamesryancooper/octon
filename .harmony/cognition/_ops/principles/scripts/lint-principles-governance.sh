@@ -29,7 +29,7 @@ sha256_file() {
 
 check_immutable_principles_charter() {
   local charter="$PRINCIPLES_DIR/principles.md"
-  local expected_hash="7eb1b63e66f0b9d09321931d948cf6c1110abb49ba8aeb7a3b7ee4bb5a64c98e"
+  local expected_hash="b2d61746507843b74575189a71e47c680f1109f79973d13a4344fa248ac69647"
   local actual_hash=""
 
   if [[ ! -f "$charter" ]]; then
@@ -209,7 +209,7 @@ check_arbitration_pointer_standardization() {
 }
 
 check_contraction_finalize_glossary() {
-  local glossary=".harmony/cognition/_meta/principles/ra-acp-glossary.md"
+  local glossary=".harmony/cognition/governance/controls/ra-acp-glossary.md"
 
   if [[ ! -f "$glossary" ]]; then
     echo "[glossary-contraction] missing glossary: $glossary"

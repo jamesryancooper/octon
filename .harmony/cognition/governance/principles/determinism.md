@@ -39,7 +39,7 @@ For `material_side_effect` runs and ACP promotion decisions, provenance fields d
 | Capability-attempt authorization | [Deny by Default](./deny-by-default.md) |
 
 Shared terms for apply/promote/finalize and approval/attestation/quorum are
-defined in [RA/ACP Glossary](../../_meta/principles/ra-acp-glossary.md).
+defined in [RA/ACP Glossary](../controls/ra-acp-glossary.md).
 
 ## Why It Matters
 

@@ -7,9 +7,9 @@ governance contracts, and operating methodology remain explicit.
 
 | Surface | Purpose | Canonical Index |
 |---|---|---|
-| `runtime/` | Authoritative cognition artifacts (`context/`, `decisions/`, `analyses/`, `knowledge-plane/`, `migrations/`) | `runtime/context/index.yml`, `runtime/decisions/index.yml`, `runtime/migrations/index.yml` |
-| `governance/` | Normative principles, pillars, and purpose contracts | `governance/index.yml` |
-| `practices/` | Operating methodology and execution standards | `practices/index.yml`, `practices/methodology/index.yml` |
+| `runtime/` | Authoritative cognition artifacts (`context/`, `decisions/`, `analyses/`, `knowledge-plane/`, `migrations/`, `evidence/`, `evaluations/`, `projections/`) | `runtime/index.yml` |
+| `governance/` | Normative principles, controls, pillars, purpose, and exception contracts | `governance/index.yml` |
+| `practices/` | Operating methodology and execution runbooks | `practices/index.yml`, `practices/methodology/index.yml`, `practices/operations/index.yml` |
 | `_ops/` | Mutable scripts/state for cognition guardrails | `_ops/README.md` |
 | `_meta/` | Non-structural architecture/reference docs | `_meta/architecture/index.yml` |
 
@@ -28,8 +28,11 @@ as normative policy constraints.
 | `runtime/context/glossary.md` | When encountering harness-specific terms |
 | `runtime/context/glossary-repo.md` | When encountering repo-wide terms |
 | `runtime/context/primitives.md` | When deciding what type of artifact to create |
+| `runtime/index.yml` | When discovering runtime surfaces and their canonical indexes |
 | `runtime/decisions/index.yml` | When discovering canonical ADR records |
 | `runtime/migrations/index.yml` | When discovering canonical migration plan records |
+| `runtime/evidence/index.yml` | When resolving evidence bundles linked to runtime records |
+| `runtime/evaluations/index.yml` | When reviewing periodic scorecard digests and evaluation history |
 
 ### Mutability
 

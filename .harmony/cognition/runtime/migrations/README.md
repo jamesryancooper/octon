@@ -13,6 +13,8 @@ This directory is the canonical runtime surface for migration execution records.
 - Keep migration policy/doctrine in `/.harmony/cognition/practices/methodology/migrations/`.
 - Keep generated migration evidence bundles in
   `/.harmony/output/reports/migrations/<YYYY-MM-DD>-<slug>/`.
+- Keep runtime evidence discovery in:
+  - `/.harmony/cognition/runtime/evidence/index.yml`.
 
 ## Contract
 

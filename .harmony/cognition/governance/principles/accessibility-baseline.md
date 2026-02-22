@@ -83,7 +83,7 @@ Treating accessibility as “later cleanup” creates compounding remediation co
 ## Exceptions
 
 Temporary exceptions are allowed only for non-user-facing prototypes and must not ship to production.
-Waiver and exception semantics are defined in [Waivers and Exceptions](../../_meta/principles/waivers-and-exceptions.md) (SSOT); ad-hoc approvals are invalid.
+Waiver and exception semantics are defined in [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md) (SSOT); ad-hoc approvals are invalid.
 
 ## Related Documentation
 

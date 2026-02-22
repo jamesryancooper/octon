@@ -30,6 +30,8 @@ This directory is the canonical runtime surface for full ADR artifacts.
 When decision-specific verification evidence is needed, store it in:
 
 - `/.harmony/output/reports/decisions/<NNN>-<slug>/`
+- runtime evidence map:
+  - `/.harmony/cognition/runtime/evidence/index.yml`
 
 Bundle contract (when present):
 

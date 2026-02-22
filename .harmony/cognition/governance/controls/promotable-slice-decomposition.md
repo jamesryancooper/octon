@@ -42,4 +42,4 @@ If a slice exceeds default small-diff guidance, use a receipted waiver only when
 - waiver is time-boxed, reason-coded, and owner-bound
 - non-waivable controls remain enforced
 
-Waiver taxonomy is canonical at [Waivers and Exceptions](./waivers-and-exceptions.md).
+Waiver taxonomy is canonical at [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md).

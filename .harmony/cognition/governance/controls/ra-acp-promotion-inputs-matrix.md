@@ -91,7 +91,7 @@ Owner attestation behavior is policy-defined at `attestations.owner_attestation`
 ## Waivers and Exceptions (Canonical)
 
 Waiver/exception taxonomy is canonical at:
-- Principles SSOT: [Waivers and Exceptions](./waivers-and-exceptions.md)
+- Principles SSOT: [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md)
 - Policy contract: `.harmony/capabilities/governance/policy/deny-by-default.v2.yml#governance_overrides`
 
 ## Provenance Schema Pointer
