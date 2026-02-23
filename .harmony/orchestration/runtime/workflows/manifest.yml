@@ -158,6 +158,58 @@ workflows:
       - "release readiness check"
       - "full audit before release"
 
+  - id: change-risk-audit
+    display_name: Change Risk Audit
+    group: audit
+    domain: audit
+    path: audit/change-risk-audit/
+    summary: Orchestrate layered integrity, migration, contract, quality, operational, coherence, and freshness audits into one bounded change-risk gate.
+    status: active
+    triggers:
+      - "change risk audit"
+      - "run change risk workflow"
+      - "audit change risk"
+      - "change impact risk gate"
+
+  - id: continuous-audit
+    display_name: Continuous Audit
+    group: audit
+    domain: audit
+    path: audit/continuous-audit/
+    summary: Orchestrate recurring layered subsystem health, observability, operational, contract, quality, security, governance, coherence, and freshness audits into one bounded continuous-risk gate.
+    status: active
+    triggers:
+      - "continuous audit"
+      - "run continuous audit workflow"
+      - "continuous risk audit"
+      - "ongoing audit workflow"
+
+  - id: post-incident-audit
+    display_name: Post-Incident Audit
+    group: audit
+    domain: audit
+    path: audit/post-incident-audit/
+    summary: Orchestrate layered post-incident audits for response, observability, security, governance, and recurrence-risk closure.
+    status: active
+    triggers:
+      - "post incident audit"
+      - "post-incident audit"
+      - "incident closure audit"
+      - "incident remediation audit workflow"
+
+  - id: release-readiness-audit
+    display_name: Release Readiness Audit Workflow
+    group: audit
+    domain: audit
+    path: audit/release-readiness-audit/
+    summary: Orchestrate layered release, operational, API, test, observability, security, and data-governance audits into one bounded release gate.
+    status: active
+    triggers:
+      - "release readiness audit workflow"
+      - "run release readiness workflow"
+      - "layered release readiness audit"
+      - "orchestrate release readiness audits"
+
   - id: documentation-audit
     display_name: Documentation Audit
     group: audit
@@ -355,7 +407,7 @@ workflow_group_definitions:
   audit:
     description: Audit orchestration and release gates
     path: audit/
-    members: [documentation-audit, orchestrate-audit, pre-release-audit]
+    members: [documentation-audit, orchestrate-audit, pre-release-audit, change-risk-audit, continuous-audit, post-incident-audit, release-readiness-audit]
 
   refactor:
     description: Verified structural refactor orchestration

@@ -231,8 +231,39 @@ check_bounded_audit_parameter_forwarding() {
     "$WORKFLOWS_DIR/audit/pre-release-audit/03-health-audit.md"
     "$WORKFLOWS_DIR/audit/pre-release-audit/04-cross-subsystem-audit.md"
     "$WORKFLOWS_DIR/audit/pre-release-audit/05-freshness-audit.md"
+    "$WORKFLOWS_DIR/audit/change-risk-audit/02-subsystem-health-audit.md"
+    "$WORKFLOWS_DIR/audit/change-risk-audit/03-migration-impact-audit.md"
+    "$WORKFLOWS_DIR/audit/change-risk-audit/04-api-contract-audit.md"
+    "$WORKFLOWS_DIR/audit/change-risk-audit/05-test-quality-audit.md"
+    "$WORKFLOWS_DIR/audit/change-risk-audit/06-operational-readiness-audit.md"
+    "$WORKFLOWS_DIR/audit/change-risk-audit/07-cross-subsystem-audit.md"
+    "$WORKFLOWS_DIR/audit/change-risk-audit/08-freshness-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/02-subsystem-health-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/03-observability-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/04-operational-readiness-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/05-api-contract-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/06-test-quality-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/07-security-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/08-data-governance-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/09-cross-subsystem-audit.md"
+    "$WORKFLOWS_DIR/audit/continuous-audit/10-freshness-audit.md"
+    "$WORKFLOWS_DIR/audit/post-incident-audit/02-operational-readiness-audit.md"
+    "$WORKFLOWS_DIR/audit/post-incident-audit/03-observability-audit.md"
+    "$WORKFLOWS_DIR/audit/post-incident-audit/04-security-audit.md"
+    "$WORKFLOWS_DIR/audit/post-incident-audit/05-data-governance-audit.md"
+    "$WORKFLOWS_DIR/audit/post-incident-audit/06-api-contract-audit.md"
+    "$WORKFLOWS_DIR/audit/post-incident-audit/07-test-quality-audit.md"
+    "$WORKFLOWS_DIR/audit/post-incident-audit/08-cross-subsystem-audit.md"
+    "$WORKFLOWS_DIR/audit/post-incident-audit/09-freshness-audit.md"
     "$WORKFLOWS_DIR/audit/orchestrate-audit/06-cross-subsystem-audit.md"
     "$WORKFLOWS_DIR/audit/orchestrate-audit/07-freshness-audit.md"
+    "$WORKFLOWS_DIR/audit/release-readiness-audit/02-release-core-audit.md"
+    "$WORKFLOWS_DIR/audit/release-readiness-audit/03-operational-readiness-audit.md"
+    "$WORKFLOWS_DIR/audit/release-readiness-audit/04-api-contract-audit.md"
+    "$WORKFLOWS_DIR/audit/release-readiness-audit/05-test-quality-audit.md"
+    "$WORKFLOWS_DIR/audit/release-readiness-audit/06-observability-audit.md"
+    "$WORKFLOWS_DIR/audit/release-readiness-audit/07-security-audit.md"
+    "$WORKFLOWS_DIR/audit/release-readiness-audit/08-data-governance-audit.md"
   )
 
   local file rel
@@ -266,7 +297,7 @@ check_bounded_audit_parameter_forwarding() {
 
 check_bounded_audit_contracts() {
   local audit_workflows
-  audit_workflows=(orchestrate-audit pre-release-audit documentation-audit)
+  audit_workflows=(orchestrate-audit pre-release-audit change-risk-audit continuous-audit post-incident-audit release-readiness-audit documentation-audit)
 
   local workflow_id rel_path workflow_dir workflow_file block
   for workflow_id in "${audit_workflows[@]}"; do

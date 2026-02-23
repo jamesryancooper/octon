@@ -702,6 +702,701 @@ skills:
           determinism: variable
           description: "Top-level log index (cross-skill)"
 
+  audit-observability-coverage:
+    version: "2.0.0"
+    commands:
+      - /audit-observability-coverage
+    parameters:
+      - name: scope
+        type: folder
+        required: true
+        description: "Root directory containing service surfaces and observability artifacts to audit"
+      - name: observability_contract_ref
+        type: file
+        required: false
+        default: ".harmony/cognition/_meta/architecture/observability-requirements.md"
+        description: "Optional observability contract reference used for expected signal and policy checks"
+      - name: service_manifest_glob
+        type: text
+        required: false
+        default: "**/SERVICE.md"
+        description: "Glob pattern used to discover service manifests in scope"
+      - name: slo_artifacts_glob
+        type: text
+        required: false
+        default: "**/slo*.yml,**/slo*.yaml,**/slo*.md,**/contracts/slo-budgets.tsv"
+        description: "Comma-separated globs selecting SLO and error-budget artifacts"
+      - name: alert_artifacts_glob
+        type: text
+        required: false
+        default: "**/*alert*.yml,**/*alert*.yaml,**/*burn-rate*.yml,**/*burn-rate*.yaml"
+        description: "Comma-separated globs selecting alert policy artifacts"
+      - name: runbook_artifacts_glob
+        type: text
+        required: false
+        default: "**/runbook.md,**/*runbook*.md,**/operations/**/guide.md"
+        description: "Comma-separated globs selecting operational runbook artifacts"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: observability_coverage_audit_report
+          path: "../../../output/reports/{{date}}-observability-coverage-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Observability coverage findings report with telemetry, SLO, alert, and runbook readiness gaps"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
+        - name: run_log
+          path: "_ops/state/logs/audit-observability-coverage/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this observability coverage audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-observability-coverage/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-observability-coverage runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  audit-security-compliance:
+    version: "2.0.0"
+    commands:
+      - /audit-security-compliance
+    parameters:
+      - name: scope
+        type: folder
+        required: true
+        description: "Root directory containing security and compliance artifacts to audit"
+      - name: policy_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/assurance/practices/standards/security-and-privacy.md"
+        description: "Primary security-policy baseline reference used for policy intent checks"
+      - name: control_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/cognition/practices/methodology/security-baseline.md"
+        description: "Control baseline reference used for control and gate coverage checks"
+      - name: policy_artifacts_glob
+        type: text
+        required: false
+        default: "**/assurance/practices/standards/*.md,**/cognition/governance/principles/security-and-privacy-baseline.md"
+        description: "Comma-separated globs selecting policy and principle artifacts"
+      - name: secrets_artifacts_glob
+        type: text
+        required: false
+        default: "**/services/governance/guard/**,**/services/governance/vault/**"
+        description: "Comma-separated globs selecting secrets and sensitive-data safeguard artifacts"
+      - name: access_control_artifacts_glob
+        type: text
+        required: false
+        default: "**/services/governance/policy/**,**/policies/**/*.yml,**/policies/**/*.yaml"
+        description: "Comma-separated globs selecting authorization and policy-enforcement artifacts"
+      - name: dependency_artifacts_glob
+        type: text
+        required: false
+        default: "**/*sbom*.json,**/*sbom*.md,**/*syft*.json,**/knowledge-plane/**"
+        description: "Comma-separated globs selecting dependency and supply-chain evidence artifacts"
+      - name: evidence_artifacts_glob
+        type: text
+        required: false
+        default: "**/engine/_meta/evidence/*.md,**/continuity/runs/**/evidence/**"
+        description: "Comma-separated globs selecting compliance evidence and run receipts"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: security_compliance_audit_report
+          path: "../../../output/reports/{{date}}-security-compliance-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Security and compliance findings report with policy, control, secrets, and evidence readiness gaps"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
+        - name: run_log
+          path: "_ops/state/logs/audit-security-compliance/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this security and compliance audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-security-compliance/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-security-compliance runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  audit-data-governance:
+    version: "2.0.0"
+    commands:
+      - /audit-data-governance
+    parameters:
+      - name: scope
+        type: folder
+        required: true
+        description: "Root directory containing data-governance artifacts to audit"
+      - name: classification_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/assurance/practices/standards/data-handling-and-retention.md"
+        description: "Primary data-classification and retention baseline reference"
+      - name: privacy_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/assurance/practices/standards/security-and-privacy.md"
+        description: "Primary privacy and sensitive-data safeguards baseline reference"
+      - name: classification_artifacts_glob
+        type: text
+        required: false
+        default: "**/assurance/practices/standards/data-handling-and-retention.md,**/assurance/practices/standards/security-and-privacy.md"
+        description: "Comma-separated globs selecting data classification and handling artifacts"
+      - name: retention_artifacts_glob
+        type: text
+        required: false
+        default: "**/assurance/practices/standards/data-handling-and-retention.md,**/agency/governance/MEMORY.md,**/continuity/_meta/architecture/runs-retention.md"
+        description: "Comma-separated globs selecting retention and deletion policy artifacts"
+      - name: lineage_artifacts_glob
+        type: text
+        required: false
+        default: "**/cognition/runtime/knowledge/knowledge.md,**/cognition/_meta/architecture/contracts-registry.md"
+        description: "Comma-separated globs selecting lineage, provenance, and contract-traceability artifacts"
+      - name: privacy_artifacts_glob
+        type: text
+        required: false
+        default: "**/assurance/practices/standards/security-and-privacy.md,**/services/governance/guard/**"
+        description: "Comma-separated globs selecting privacy and sensitive-data safeguard artifacts"
+      - name: contract_artifacts_glob
+        type: text
+        required: false
+        default: "**/_meta/architecture/contracts-registry.md,**/services/**/SERVICE.md"
+        description: "Comma-separated globs selecting data-contract and interface metadata artifacts"
+      - name: evidence_artifacts_glob
+        type: text
+        required: false
+        default: "**/cognition/practices/methodology/spec-first-planning.md,**/services/_meta/docs/platform-overview.md,**/continuity/runs/**/evidence/**"
+        description: "Comma-separated globs selecting governance evidence and run-receipt artifacts"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: data_governance_audit_report
+          path: "../../../output/reports/{{date}}-data-governance-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Data-governance findings report with classification, retention, lineage, privacy, and evidence readiness gaps"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
+        - name: run_log
+          path: "_ops/state/logs/audit-data-governance/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this data-governance audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-data-governance/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-data-governance runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  audit-test-quality:
+    version: "2.0.0"
+    commands:
+      - /audit-test-quality
+    parameters:
+      - name: scope
+        type: folder
+        required: true
+        description: "Root directory containing test-quality artifacts to audit"
+      - name: testing_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/assurance/practices/standards/testing-strategy.md"
+        description: "Primary testing-strategy baseline reference"
+      - name: quality_gate_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/cognition/practices/methodology/ci-cd-quality-gates.md"
+        description: "Primary quality-gate and release-readiness baseline reference"
+      - name: strategy_artifacts_glob
+        type: text
+        required: false
+        default: "**/assurance/practices/standards/testing-strategy.md,**/*test-plan*.md,**/*testing-strategy*.md"
+        description: "Comma-separated globs selecting strategy and policy artifacts"
+      - name: test_surface_artifacts_glob
+        type: text
+        required: false
+        default: "**/tests/**,**/*test*.py,**/*test*.rs,**/*spec*.md,**/fixtures/**"
+        description: "Comma-separated globs selecting executable and documented test surfaces"
+      - name: contract_integration_artifacts_glob
+        type: text
+        required: false
+        default: "**/contracts/**,**/compatibility.yml,**/SERVICE.md,**/*integration*.md"
+        description: "Comma-separated globs selecting contract and integration assurance artifacts"
+      - name: reliability_artifacts_glob
+        type: text
+        required: false
+        default: "**/*determinism*.md,**/*flake*.md,**/*retry*.md,**/.github/workflows/**"
+        description: "Comma-separated globs selecting determinism and flake-control artifacts"
+      - name: evidence_artifacts_glob
+        type: text
+        required: false
+        default: "**/continuity/runs/**/evidence/**,**/output/reports/**quality**"
+        description: "Comma-separated globs selecting quality evidence and run-receipt artifacts"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enables strict done-gate behavior for convergence verification"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used for convergence validation"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated seed list for run-to-run consistency checks"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: test_quality_audit_report
+          path: "../../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Structured test-quality findings report"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
+        - name: run_log
+          path: "_ops/state/logs/audit-test-quality/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this test-quality audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-test-quality/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-test-quality runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  audit-operational-readiness:
+    version: "2.0.0"
+    commands:
+      - /audit-operational-readiness
+    parameters:
+      - name: scope
+        type: folder
+        required: true
+        description: "Root directory containing operational-readiness artifacts to audit"
+      - name: operations_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/cognition/practices/methodology/reliability-and-ops.md"
+        description: "Primary reliability and operations readiness baseline reference"
+      - name: incident_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/engine/practices/incident-operations.md"
+        description: "Primary incident-response and escalation baseline reference"
+      - name: ownership_artifacts_glob
+        type: text
+        required: false
+        default: "**/services/**/SERVICE.md,**/*ownership*.md,**/*owner*.md,**/registry.yml"
+        description: "Comma-separated globs selecting service ownership and accountability artifacts"
+      - name: runbook_artifacts_glob
+        type: text
+        required: false
+        default: "**/*runbook*.md,**/planning/spec/runbook.md,**/engine/practices/release-runbook.md"
+        description: "Comma-separated globs selecting operational runbook and procedures artifacts"
+      - name: incident_artifacts_glob
+        type: text
+        required: false
+        default: "**/*incident*.md,**/*on-call*.md,**/*oncall*.md,**/*pager*.md,**/engine/practices/incident-operations.md"
+        description: "Comma-separated globs selecting incident-response and escalation artifacts"
+      - name: slo_capacity_artifacts_glob
+        type: text
+        required: false
+        default: "**/contracts/slo-budgets.tsv,**/*slo*.md,**/*capacity*.md,**/*reliability*.md"
+        description: "Comma-separated globs selecting reliability objective and capacity artifacts"
+      - name: evidence_artifacts_glob
+        type: text
+        required: false
+        default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+        description: "Comma-separated globs selecting operational evidence and run-receipt artifacts"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enables strict done-gate behavior for convergence verification"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used for convergence validation"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated seed list for run-to-run consistency checks"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: operational_readiness_audit_report
+          path: "../../../output/reports/{{date}}-operational-readiness-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Structured operational-readiness findings report"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
+        - name: run_log
+          path: "_ops/state/logs/audit-operational-readiness/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this operational-readiness audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-operational-readiness/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-operational-readiness runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  release-readiness-audit:
+    version: "2.0.0"
+    commands:
+      - /release-readiness-audit
+    parameters:
+      - name: scope
+        type: folder
+        required: true
+        description: "Root directory containing release-readiness artifacts to audit"
+      - name: release_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/cognition/practices/methodology/ci-cd-quality-gates.md"
+        description: "Primary release-policy and quality-gate baseline reference"
+      - name: operations_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/engine/practices/incident-operations.md"
+        description: "Primary operations and incident-response readiness baseline reference"
+      - name: release_policy_artifacts_glob
+        type: text
+        required: false
+        default: "**/cognition/practices/methodology/ci-cd-quality-gates.md,**/*release*.md,**/*launch*.md"
+        description: "Comma-separated globs selecting release policy and criteria artifacts"
+      - name: change_control_artifacts_glob
+        type: text
+        required: false
+        default: "**/*change-control*.md,**/*approval*.md,**/orchestration/practices/mission-lifecycle-standards.md"
+        description: "Comma-separated globs selecting change-control and approval artifacts"
+      - name: deployment_artifacts_glob
+        type: text
+        required: false
+        default: "**/.github/workflows/**,**/services/**/SERVICE.md,**/compatibility.yml"
+        description: "Comma-separated globs selecting deployment and compatibility safeguard artifacts"
+      - name: rollback_artifacts_glob
+        type: text
+        required: false
+        default: "**/*rollback*.md,**/*contingency*.md,**/engine/practices/incident-operations.md"
+        description: "Comma-separated globs selecting rollback and contingency artifacts"
+      - name: evidence_artifacts_glob
+        type: text
+        required: false
+        default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+        description: "Comma-separated globs selecting release evidence and run-receipt artifacts"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enables strict done-gate behavior for convergence verification"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used for convergence validation"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated seed list for run-to-run consistency checks"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: release_readiness_audit_report
+          path: "../../../output/reports/{{date}}-release-readiness-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Structured release-readiness findings report"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
+        - name: run_log
+          path: "_ops/state/logs/release-readiness-audit/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this release-readiness audit run"
+        - name: log_index
+          path: "_ops/state/logs/release-readiness-audit/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all release-readiness-audit runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  audit-api-contract:
+    version: "2.0.0"
+    commands:
+      - /audit-api-contract
+    parameters:
+      - name: scope
+        type: folder
+        required: true
+        description: "Root directory containing API-contract artifacts to audit"
+      - name: contract_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/cognition/governance/principles/contract-first.md"
+        description: "Primary contract-first baseline reference"
+      - name: api_design_baseline_ref
+        type: file
+        required: false
+        default: ".harmony/scaffolding/governance/patterns/api-design-guidelines.md"
+        description: "Primary API-design governance baseline reference"
+      - name: spec_artifacts_glob
+        type: text
+        required: false
+        default: "**/contracts/**,**/contract.md,**/openapi*.yaml,**/openapi*.yml,**/schema/**/*.json"
+        description: "Comma-separated globs selecting API specifications and contract schema artifacts"
+      - name: implementation_artifacts_glob
+        type: text
+        required: false
+        default: "**/service.json,**/SERVICE.md,**/impl/**,**/rust/src/**,**/adapters/**"
+        description: "Comma-separated globs selecting implementation artifacts mapped to contracts"
+      - name: compatibility_artifacts_glob
+        type: text
+        required: false
+        default: "**/compatibility.yml,**/contracts/invariants.md,**/contracts/errors.yml,**/references/examples.md"
+        description: "Comma-separated globs selecting compatibility and invariants artifacts"
+      - name: versioning_artifacts_glob
+        type: text
+        required: false
+        default: "**/engine/governance/protocol-versioning.md,**/*version*.md,**/*deprecation*.md,**/contracts-registry.md"
+        description: "Comma-separated globs selecting versioning and deprecation artifacts"
+      - name: evidence_artifacts_glob
+        type: text
+        required: false
+        default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+        description: "Comma-separated globs selecting API governance evidence and run-receipt artifacts"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enables strict done-gate behavior for convergence verification"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used for convergence validation"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated seed list for run-to-run consistency checks"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: api_contract_audit_report
+          path: "../../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Structured API-contract findings report"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
+        - name: run_log
+          path: "_ops/state/logs/audit-api-contract/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this API-contract audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-api-contract/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-api-contract runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
   audit-ui:
     version: "2.0.0"
     commands:

@@ -1,5 +1,5 @@
 schema_version: "1.0"
-generated_at: "2026-02-22T17:43:48Z"
+generated_at: "2026-02-23T03:55:36Z"
 source_manifest: "/Users/jamesryancooper/Projects/harmony/.harmony/capabilities/runtime/skills/manifest.yml"
 skills:
   - id: "synthesize-research"
@@ -109,6 +109,83 @@ skills:
     allowed_services:
   - id: "audit-domain-architecture"
     path: "audit/audit-domain-architecture/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-observability-coverage"
+    path: "audit/audit-observability-coverage/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-security-compliance"
+    path: "audit/audit-security-compliance/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-data-governance"
+    path: "audit/audit-data-governance/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-test-quality"
+    path: "audit/audit-test-quality/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-operational-readiness"
+    path: "audit/audit-operational-readiness/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "release-readiness-audit"
+    path: "audit/release-readiness-audit/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-api-contract"
+    path: "audit/audit-api-contract/"
     status: "active"
     broad_write_scope: false
     allowed_tools:

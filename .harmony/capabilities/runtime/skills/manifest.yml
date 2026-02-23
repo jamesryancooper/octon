@@ -244,6 +244,167 @@ skills:
       - domain-specialized
       - self-validating
 
+  - id: audit-observability-coverage
+    display_name: Audit Observability Coverage
+    group: audit
+    path: audit/audit-observability-coverage/
+    summary: "Bounded observability coverage audit that verifies telemetry contracts, SLO and alert coverage, and runbook/dashboard readiness."
+    status: active
+    tags:
+      - audit
+      - observability
+      - telemetry
+      - reliability
+    triggers:
+      - "audit observability coverage"
+      - "telemetry coverage audit"
+      - "slo and alert coverage audit"
+      - "run audit-observability-coverage"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: audit-security-compliance
+    display_name: Audit Security Compliance
+    group: audit
+    path: audit/audit-security-compliance/
+    summary: "Bounded security and compliance audit that verifies policy-control coverage, secrets and access safeguards, and evidence readiness."
+    status: active
+    tags:
+      - audit
+      - security
+      - compliance
+      - governance
+    triggers:
+      - "audit security compliance"
+      - "security controls audit"
+      - "compliance evidence audit"
+      - "run audit-security-compliance"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: audit-data-governance
+    display_name: Audit Data Governance
+    group: audit
+    path: audit/audit-data-governance/
+    summary: "Bounded data governance audit that verifies classification, retention, lineage, privacy safeguards, and evidence readiness."
+    status: active
+    tags:
+      - audit
+      - data-governance
+      - privacy
+      - compliance
+    triggers:
+      - "audit data governance"
+      - "data governance audit"
+      - "data retention and lineage audit"
+      - "run audit-data-governance"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: audit-test-quality
+    display_name: Audit Test Quality
+    group: audit
+    path: audit/audit-test-quality/
+    summary: "Bounded test quality audit that verifies strategy coverage, contract/integration assurance, determinism controls, and evidence readiness."
+    status: active
+    tags:
+      - audit
+      - test-quality
+      - reliability
+      - quality-gates
+    triggers:
+      - "audit test quality"
+      - "test quality audit"
+      - "testing strategy and reliability audit"
+      - "run audit-test-quality"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: audit-operational-readiness
+    display_name: Audit Operational Readiness
+    group: audit
+    path: audit/audit-operational-readiness/
+    summary: "Bounded operational-readiness audit that verifies ownership/reliability objectives, runbook and incident preparedness, resilience safeguards, and evidence readiness."
+    status: active
+    tags:
+      - audit
+      - operational-readiness
+      - reliability
+      - incident-response
+    triggers:
+      - "audit operational readiness"
+      - "operational readiness audit"
+      - "service operability audit"
+      - "run audit-operational-readiness"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: release-readiness-audit
+    display_name: Release Readiness Audit
+    group: audit
+    path: audit/release-readiness-audit/
+    summary: "Bounded release-readiness audit that verifies release criteria, deployment/rollback safeguards, operational readiness, and gate evidence."
+    status: active
+    tags:
+      - audit
+      - release-readiness
+      - operations
+      - quality-gates
+    triggers:
+      - "release readiness audit"
+      - "audit release readiness"
+      - "pre-release operational gate audit"
+      - "run release-readiness-audit"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
+  - id: audit-api-contract
+    display_name: Audit Api Contract
+    group: audit
+    path: audit/audit-api-contract/
+    summary: "Bounded API-contract audit that verifies contract coverage, implementation conformance, compatibility/versioning safeguards, and evidence readiness."
+    status: active
+    tags:
+      - audit
+      - api-contract
+      - interfaces
+      - compatibility
+    triggers:
+      - "audit api contract"
+      - "api contract audit"
+      - "contract conformance audit"
+      - "run audit-api-contract"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
   - id: audit-ui
     display_name: Audit UI
     group: audit
