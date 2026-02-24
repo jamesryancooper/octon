@@ -15,3 +15,5 @@ Normative governance contracts for waiver and exception semantics.
 ## Canonical Contract
 
 - `waivers-and-exceptions.md` - canonical taxonomy and required fields.
+- `principles-charter-overrides.md` - append-only override ledger for direct
+  edits to `principles.md` under explicit human authorization.

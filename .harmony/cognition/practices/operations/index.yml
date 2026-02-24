@@ -23,6 +23,11 @@ files:
     summary: Procedure for triaging principles governance lint failures.
     when: When principles governance lint or related guardrails fail.
 
+  - id: principles-charter-overrides-audit-runbook
+    path: principles-charter-overrides-audit.md
+    summary: Procedure for recurring audits of principles charter override records.
+    when: On monthly cadence and after any direct principles charter edit.
+
   - id: evidence-map-maintenance-runbook
     path: evidence-map-maintenance.md
     summary: Procedure for maintaining runtime evidence map coverage and correctness.

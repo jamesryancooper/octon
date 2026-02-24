@@ -8,6 +8,11 @@ files:
     summary: Canonical governance lint for principles invariants.
     when: When principles docs or related governance scripts change.
 
+  - id: principles-charter-overrides-audit
+    path: scripts/audit-principles-charter-overrides.sh
+    summary: Validates completeness and freshness of principles charter override records.
+    when: On periodic audit cadence and after direct charter edits.
+
   - id: principles-reference-lint
     path: scripts/reference-lint.sh
     summary: Link and anchor lint for principles documentation.
@@ -22,4 +27,3 @@ files:
     path: scripts/test-docs-promotion-fail-closed.sh
     summary: Contract tests for docs evidence promotion fail-closed policy behavior.
     when: When policy gate behavior or docs-evidence requirements change.
-

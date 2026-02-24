@@ -12,3 +12,8 @@ files:
     path: waivers-and-exceptions.md
     summary: Canonical taxonomy and required fields for governance overrides.
     when: When defining, validating, or reviewing waiver/exception records.
+
+  - id: principles-charter-overrides
+    path: principles-charter-overrides.md
+    summary: Append-only override ledger for direct charter edits under explicit human authorization.
+    when: When principles charter edits are made, audited, or reviewed for change-control compliance.

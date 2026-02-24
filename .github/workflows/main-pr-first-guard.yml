@@ -1,0 +1,131 @@
+name: Main PR-First Guard
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  enforce-pr-first:
+    name: Enforce PR-first main updates
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - id: pr_guard
+        name: Enforce PR-first or break-glass footer
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const core = require('@actions/core');
+            const { owner, repo } = context.repo;
+            const sha = context.sha;
+            const message = context.payload.head_commit?.message || '';
+
+            const result = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner,
+              repo,
+              commit_sha: sha
+            });
+
+            const merged = result.data.filter((pr) => Boolean(pr.merged_at));
+            if (merged.length > 0) {
+              core.info(`Main update is associated with merged PR #${merged[0].number}.`);
+              core.setOutput('mode', 'pr');
+              return;
+            }
+
+            const match = message.match(/BREAK-GLASS:\s*(OVR-\d{4}-\d{2}-\d{2}-\d{3})/i);
+            if (!match) {
+              core.setFailed(
+                'Direct pushes to main are blocked unless the commit message includes ' +
+                'BREAK-GLASS: OVR-YYYY-MM-DD-NNN'
+              );
+              return;
+            }
+
+            const overrideId = match[1].toUpperCase();
+            core.warning(`Break-glass direct push detected (${overrideId}).`);
+            core.setOutput('mode', 'break_glass');
+            core.setOutput('override_id', overrideId);
+
+      - id: changed
+        name: Detect charter and ledger file changes
+        run: |
+          set -euo pipefail
+
+          before="${{ github.event.before }}"
+          if [[ "$before" == "0000000000000000000000000000000000000000" ]]; then
+            before="$(git rev-list --max-parents=0 HEAD | tail -n1)"
+          fi
+
+          charter_path=".harmony/cognition/governance/principles/principles.md"
+          ledger_path=".harmony/cognition/governance/exceptions/principles-charter-overrides.md"
+
+          charter_changed=false
+          ledger_changed=false
+
+          if git diff --name-only "$before" "${{ github.sha }}" -- "$charter_path" | grep -q .; then
+            charter_changed=true
+          fi
+
+          if git diff --name-only "$before" "${{ github.sha }}" -- "$ledger_path" | grep -q .; then
+            ledger_changed=true
+          fi
+
+          echo "charter_changed=${charter_changed}" >> "$GITHUB_OUTPUT"
+          echo "ledger_changed=${ledger_changed}" >> "$GITHUB_OUTPUT"
+
+      - name: Enforce break-glass ledger linkage for charter edits
+        if: steps.pr_guard.outputs.mode == 'break_glass' && steps.changed.outputs.charter_changed == 'true'
+        run: |
+          set -euo pipefail
+
+          ledger=".harmony/cognition/governance/exceptions/principles-charter-overrides.md"
+          override_id="${{ steps.pr_guard.outputs.override_id }}"
+
+          if [[ "${{ steps.changed.outputs.ledger_changed }}" != "true" ]]; then
+            echo "[main-pr-first] charter changed in break-glass push without ledger update."
+            exit 1
+          fi
+
+          start="$(grep -nE "^### ${override_id}$" "$ledger" | tail -n1 | cut -d: -f1 || true)"
+          if [[ -z "$start" ]]; then
+            echo "[main-pr-first] override id ${override_id} not found in ledger."
+            exit 1
+          fi
+
+          end="$(awk -v start="$start" '
+            NR > start && /^### OVR-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{3}$/ {
+              print NR - 1
+              found = 1
+              exit
+            }
+            END {
+              if (!found) {
+                print NR
+              }
+            }
+          ' "$ledger")"
+
+          block="$(sed -n "${start},${end}p" "$ledger")"
+          if ! printf '%s\n' "$block" | grep -Eq '^- break_glass:[[:space:]]*true$'; then
+            echo "[main-pr-first] override record ${override_id} must declare break_glass: true."
+            exit 1
+          fi
+
+      - name: Run governance lint and override audit for charter break-glass edits
+        if: steps.pr_guard.outputs.mode == 'break_glass' && steps.changed.outputs.charter_changed == 'true'
+        env:
+          LINT_BASE_REF: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          bash .harmony/cognition/_ops/principles/scripts/lint-principles-governance.sh
+          bash .harmony/cognition/_ops/principles/scripts/audit-principles-charter-overrides.sh

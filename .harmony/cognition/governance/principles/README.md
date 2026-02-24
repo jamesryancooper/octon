@@ -39,6 +39,8 @@ For small teams, default to the smallest robust solution that meets constraints 
 - Agent rule: agents MUST NOT modify `principles.md` without explicit human override instructions
 - Evolution model: default to versioned successor (`principles-vYYYY-MM-DD.md`) plus ADR; direct edits to `principles.md` require explicit human override + override evidence
 - Major framing-shift rule: require an explicit human override block in `principles.md` with rationale, responsible owner, review date, override scope, review/agreement evidence, and intentional non-automated exception log linkage.
+- Direct-edit evidence ledger: `../exceptions/principles-charter-overrides.md`
+  must receive an append-only record for each override edit.
 - Active framing: `agent-first`, `system-governed`, and `complexity calibration` language is defined in `principles.md`.
 
 ## Charter-to-Guide Mapping

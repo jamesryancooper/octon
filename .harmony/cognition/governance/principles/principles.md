@@ -94,6 +94,11 @@ applies_to:
   - intentional, non-automated exception log reference
 - Automation may propose framing changes but must not approve or apply major
   framing-shift overrides.
+- Every direct edit under override must append a record in
+  `../exceptions/principles-charter-overrides.md`.
+- Protected branch default: merge through PR. Direct `main` pushes are
+  break-glass only and must carry a `BREAK-GLASS: OVR-YYYY-MM-DD-NNN`
+  commit-footer reference that matches the override ledger.
 - Keep principles discovery surfaces synchronized with the active framing:
   `README.md`, `index.yml`, and linked ADR records.
 
@@ -446,6 +451,8 @@ recorded in this charter that includes:
 4. **Override scope** (exact boundaries of the shift)
 5. **Review-and-agreement evidence** (who reviewed and agreed)
 6. **Intentional, non-automated exception log linkage**
+7. **Override ledger id** in
+   `../exceptions/principles-charter-overrides.md`
 
 ---
 

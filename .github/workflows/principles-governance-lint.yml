@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - '.harmony/cognition/governance/principles/**/*.md'
+      - '.harmony/cognition/governance/exceptions/**/*.md'
       - '.harmony/cognition/_ops/principles/scripts/*.sh'
       - '.github/workflows/principles-governance-lint.yml'
   push:
@@ -11,6 +12,7 @@ on:
       - main
     paths:
       - '.harmony/cognition/governance/principles/**/*.md'
+      - '.harmony/cognition/governance/exceptions/**/*.md'
       - '.harmony/cognition/_ops/principles/scripts/*.sh'
       - '.github/workflows/principles-governance-lint.yml'
 
@@ -26,9 +28,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Governance lint
+        env:
+          LINT_BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: bash .harmony/cognition/_ops/principles/scripts/lint-principles-governance.sh
 
       - name: Governance lint fixture tests
+        env:
+          LINT_BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: bash .harmony/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures.sh
 
       - name: Docs promotion fail-closed contract test

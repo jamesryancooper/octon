@@ -53,6 +53,11 @@ files:
     summary: Canonical waiver and exception taxonomy and required fields.
     when: When defining, validating, or linting governance override records.
 
+  - id: governance-principles-charter-overrides
+    path: exceptions/principles-charter-overrides.md
+    summary: Append-only override ledger for direct principles charter edits.
+    when: When verifying human-override authorization evidence for principles.md changes.
+
   - id: pillars-overview
     path: pillars/README.md
     summary: Pillar model orientation and lifecycle framing.

@@ -6,6 +6,7 @@ cd "$ROOT_DIR"
 
 PRINCIPLES_DIR="${PRINCIPLES_DIR_OVERRIDE:-.harmony/cognition/governance/principles}"
 REFERENCE_LINT="${REFERENCE_LINT_OVERRIDE:-.harmony/cognition/_ops/principles/scripts/reference-lint.sh}"
+OVERRIDE_LEDGER="${PRINCIPLES_OVERRIDE_LEDGER_OVERRIDE:-.harmony/cognition/governance/exceptions/principles-charter-overrides.md}"
 
 declare -i failures=0
 
@@ -14,8 +15,71 @@ if [[ ! -d "$PRINCIPLES_DIR" ]]; then
   exit 1
 fi
 
+file_changed_in_active_scope() {
+  local target="$1"
+  local base_ref="${LINT_BASE_REF:-}"
+
+  if ! command -v git >/dev/null 2>&1; then
+    return 1
+  fi
+
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    return 1
+  fi
+
+  if git diff --name-only -- "$target" | rg -q '.'; then
+    return 0
+  fi
+
+  if git diff --cached --name-only -- "$target" | rg -q '.'; then
+    return 0
+  fi
+
+  if git ls-files --others --exclude-standard -- "$target" | rg -q '.'; then
+    return 0
+  fi
+
+  if [[ -n "$base_ref" ]] && git rev-parse -q --verify "${base_ref}^{commit}" >/dev/null 2>&1; then
+    if git diff --name-only "${base_ref}"...HEAD -- "$target" | rg -q '.'; then
+      return 0
+    fi
+  elif git rev-parse -q --verify HEAD~1 >/dev/null 2>&1; then
+    if git diff --name-only HEAD~1..HEAD -- "$target" | rg -q '.'; then
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
+extract_latest_override_record_block() {
+  local ledger="$1"
+  local start end
+
+  start="$(rg -n '^### OVR-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{3}$' "$ledger" | tail -n1 | cut -d: -f1 || true)"
+  if [[ -z "$start" ]]; then
+    return 1
+  fi
+
+  end="$(awk -v start="$start" '
+    NR > start && /^### OVR-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{3}$/ {
+      print NR - 1
+      found = 1
+      exit
+    }
+    END {
+      if (!found) {
+        print NR
+      }
+    }
+  ' "$ledger")"
+
+  sed -n "${start},${end}p" "$ledger"
+}
+
 check_principles_charter_change_control() {
   local charter="$PRINCIPLES_DIR/principles.md"
+  local override_ledger="$OVERRIDE_LEDGER"
   local field=""
   local -a required_fields=(
     'rationale'
@@ -25,6 +89,20 @@ check_principles_charter_change_control() {
     'review-and-agreement evidence'
     'intentional, non-automated exception'
   )
+  local -a ledger_required_fields=(
+    'date'
+    'rationale'
+    'responsible_owner'
+    'review_date'
+    'override_scope'
+    'review_and_agreement_evidence'
+    'exception_log_ref'
+    'authorized_by'
+    'authorization_source'
+    'break_glass'
+    'status'
+  )
+  local latest_record=""
 
   if [[ ! -f "$charter" ]]; then
     echo "[charter-policy] missing charter: $charter"
@@ -81,6 +159,63 @@ check_principles_charter_change_control() {
 
   if ! rg -q -i 'must not approve or apply major' "$charter"; then
     echo "[charter-policy] charter must prevent automation from approving/applying major framing-shift overrides."
+    failures+=1
+  fi
+
+  if ! rg -q 'principles-charter-overrides\.md' "$charter"; then
+    echo "[charter-policy] charter must reference the principles charter override ledger."
+    failures+=1
+  fi
+
+  if [[ ! -f "$override_ledger" ]]; then
+    echo "[charter-policy] missing override ledger: $override_ledger"
+    failures+=1
+    return
+  fi
+
+  if ! rg -q '^## Record Format \(Required Fields\)' "$override_ledger"; then
+    echo "[charter-policy] override ledger must define a 'Record Format (Required Fields)' section."
+    failures+=1
+  fi
+
+  if ! rg -q '^## Records \(Append-Only\)' "$override_ledger"; then
+    echo "[charter-policy] override ledger must define a 'Records (Append-Only)' section."
+    failures+=1
+  fi
+
+  if file_changed_in_active_scope "$charter"; then
+    if ! file_changed_in_active_scope "$override_ledger"; then
+      echo "[charter-policy] charter changed without corresponding append-only override ledger update."
+      failures+=1
+    fi
+  fi
+
+  latest_record="$(extract_latest_override_record_block "$override_ledger" || true)"
+  if [[ -z "$latest_record" ]]; then
+    echo "[charter-policy] override ledger must contain at least one override record heading (### OVR-YYYY-MM-DD-NNN)."
+    failures+=1
+    return
+  fi
+
+  if ! printf '%s\n' "$latest_record" | head -n1 | rg -q '^### OVR-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{3}$'; then
+    echo "[charter-policy] latest override ledger record must use id format OVR-YYYY-MM-DD-NNN."
+    failures+=1
+  fi
+
+  for field in "${ledger_required_fields[@]}"; do
+    if ! printf '%s\n' "$latest_record" | rg -q "^- ${field}:[[:space:]]*[^[:space:]].*$"; then
+      echo "[charter-policy] latest override ledger record missing required field: $field"
+      failures+=1
+    fi
+  done
+
+  if ! printf '%s\n' "$latest_record" | rg -q '^- break_glass:[[:space:]]*(true|false)$'; then
+    echo "[charter-policy] override ledger break_glass must be true or false."
+    failures+=1
+  fi
+
+  if ! printf '%s\n' "$latest_record" | rg -q '^- status:[[:space:]]*(active|closed|retired)$'; then
+    echo "[charter-policy] override ledger status must be active, closed, or retired."
     failures+=1
   fi
 }

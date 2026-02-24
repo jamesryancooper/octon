@@ -33,6 +33,29 @@ Both `exception` and `waiver` records require:
 - `risk_tier`
 - `acp`
 
+## Principles Charter Override Records
+
+Direct edits to
+`/.harmony/cognition/governance/principles/principles.md` under
+`change_policy: human-override-only` require an append-only record in:
+
+- `.harmony/cognition/governance/exceptions/principles-charter-overrides.md`
+
+Required override fields:
+
+- `id` (`OVR-YYYY-MM-DD-NNN`)
+- `date`
+- `rationale`
+- `responsible_owner`
+- `review_date`
+- `override_scope`
+- `review_and_agreement_evidence`
+- `exception_log_ref`
+- `authorized_by`
+- `authorization_source`
+- `break_glass`
+- `status`
+
 ## Enforcement Contract
 
 - Policy contract source:

@@ -32,9 +32,12 @@ For `principles.md` policy failures:
    override instruction.
 2. Verify `change_policy: human-override-only` and required override evidence
    fields are present in the charter.
-3. If edits were not explicitly authorized, restore charter content or migrate
+3. Verify an append-only record was added to
+   `/.harmony/cognition/governance/exceptions/principles-charter-overrides.md`
+   and includes all required fields.
+4. If edits were not explicitly authorized, restore charter content or migrate
    the change to a versioned successor + ADR.
-4. Never bypass governance lint validation.
+5. Never bypass governance lint validation.
 
 ## Exit Criteria
 

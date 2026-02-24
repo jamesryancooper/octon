@@ -41,6 +41,8 @@ Precedence for conflicts: `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` ->
 - Agents MUST NOT modify `.harmony/cognition/governance/principles/principles.md` unless explicit human override instructions authorize the change.
 - Default evolution path remains: create a versioned successor (`principles-vYYYY-MM-DD.md`) and record an ADR.
 - For direct charter edits and major framing shifts under override, record rationale, responsible owner, review date, override scope, review/agreement evidence, and intentional non-automated exception linkage.
+- Every direct charter edit under override MUST append a record to `.harmony/cognition/governance/exceptions/principles-charter-overrides.md`.
+- `main` updates MUST be PR-first; direct pushes are break-glass only and require commit footer `BREAK-GLASS: OVR-YYYY-MM-DD-NNN` aligned to the override ledger.
 
 ## Harness Orientation
 

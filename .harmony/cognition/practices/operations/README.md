@@ -17,5 +17,6 @@ Operational runbooks for maintaining cognition contracts and discovery hygiene.
 - `weekly-evaluations.md`
 - `index-hygiene.md`
 - `governance-lint-triage.md`
+- `principles-charter-overrides-audit.md`
 - `evidence-map-maintenance.md`
 - `generated-artifacts.md`
