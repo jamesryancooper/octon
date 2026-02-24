@@ -14,66 +14,73 @@ if [[ ! -d "$PRINCIPLES_DIR" ]]; then
   exit 1
 fi
 
-sha256_file() {
-  local file="$1"
-  if command -v shasum >/dev/null 2>&1; then
-    shasum -a 256 "$file" | awk '{print $1}'
-    return
-  fi
-  if command -v sha256sum >/dev/null 2>&1; then
-    sha256sum "$file" | awk '{print $1}'
-    return
-  fi
-  return 1
-}
-
-check_immutable_principles_charter() {
+check_principles_charter_change_control() {
   local charter="$PRINCIPLES_DIR/principles.md"
-  local expected_hash="b2d61746507843b74575189a71e47c680f1109f79973d13a4344fa248ac69647"
-  local actual_hash=""
+  local field=""
+  local -a required_fields=(
+    'rationale'
+    'responsible owner'
+    'review date'
+    'override scope'
+    'review-and-agreement evidence'
+    'intentional, non-automated exception'
+  )
 
   if [[ ! -f "$charter" ]]; then
-    echo "[immutable-charter] missing immutable charter: $charter"
+    echo "[charter-policy] missing charter: $charter"
     failures+=1
     return
   fi
 
   if ! rg -q -i '^status:[[:space:]]*binding$' "$charter"; then
-    echo "[immutable-charter] charter must declare 'status: Binding'."
+    echo "[charter-policy] charter must declare 'status: Binding'."
     failures+=1
   fi
 
   if ! rg -q '^mutability:[[:space:]]*immutable$' "$charter"; then
-    echo "[immutable-charter] charter must declare 'mutability: immutable'."
+    echo "[charter-policy] charter must declare 'mutability: immutable'."
     failures+=1
   fi
 
   if ! rg -q '^agent_editable:[[:space:]]*false$' "$charter"; then
-    echo "[immutable-charter] charter must declare 'agent_editable: false'."
+    echo "[charter-policy] charter must declare 'agent_editable: false'."
     failures+=1
   fi
 
   if ! rg -q '^risk_tier:[[:space:]]*critical$' "$charter"; then
-    echo "[immutable-charter] charter must declare 'risk_tier: critical'."
+    echo "[charter-policy] charter must declare 'risk_tier: critical'."
     failures+=1
   fi
 
-  if ! rg -q '^change_policy:[[:space:]]*supersede-only$' "$charter"; then
-    echo "[immutable-charter] charter must declare 'change_policy: supersede-only'."
+  if ! rg -q '^change_policy:[[:space:]]*human-override-only$' "$charter"; then
+    echo "[charter-policy] charter must declare 'change_policy: human-override-only'."
     failures+=1
   fi
 
-  if ! actual_hash="$(sha256_file "$charter")"; then
-    echo "[immutable-charter] unable to compute sha256 for $charter"
+  if ! rg -q '^## 0C\) Charter Evolution Contract' "$charter"; then
+    echo "[charter-policy] charter must define '0C) Charter Evolution Contract'."
     failures+=1
-    return
   fi
 
-  if [[ "$actual_hash" != "$expected_hash" ]]; then
-    echo "[immutable-charter] checksum mismatch for $charter"
-    echo "[immutable-charter] expected: $expected_hash"
-    echo "[immutable-charter] actual:   $actual_hash"
-    echo "[immutable-charter] charter is immutable; create a versioned successor plus ADR instead of editing it."
+  if ! rg -q -i 'explicit human override' "$charter"; then
+    echo "[charter-policy] charter must require explicit human override for governed edits."
+    failures+=1
+  fi
+
+  for field in "${required_fields[@]}"; do
+    if ! rg -q -i "$field" "$charter"; then
+      echo "[charter-policy] charter missing required override field: $field"
+      failures+=1
+    fi
+  done
+
+  if ! rg -q -i 'Automation may propose framing changes' "$charter"; then
+    echo "[charter-policy] charter must define automation limits for major framing-shift overrides."
+    failures+=1
+  fi
+
+  if ! rg -q -i 'must not approve or apply major' "$charter"; then
+    echo "[charter-policy] charter must prevent automation from approving/applying major framing-shift overrides."
     failures+=1
   fi
 }
@@ -356,7 +363,7 @@ check_waiver_exception_ssot_links
 check_stale_migration_phrasing
 check_arbitration_pointer_standardization
 check_contraction_finalize_glossary
-check_immutable_principles_charter
+check_principles_charter_change_control
 
 if [[ "$failures" -gt 0 ]]; then
   echo "Principles governance lint failed with $failures issue(s)."

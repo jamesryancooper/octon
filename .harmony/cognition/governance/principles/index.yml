@@ -10,13 +10,8 @@ files:
 
   - id: principles-charter
     path: principles.md
-    summary: Immutable constitutional charter for engineering principles and standards.
-    when: Before interpreting or evolving principle-level policy.
-
-  - id: principles-charter-successor-v2026-02-24
-    path: principles-v2026-02-24.md
-    summary: Active successor charter with agent-first, system-governed, and complexity calibration framing.
-    when: When applying current active framing and migration-aligned principle terminology.
+    summary: Human-override-controlled constitutional charter for engineering principles and standards.
+    when: Before interpreting policy and when validating explicit human override charter updates.
 
   - id: principles-roadmap
     path: roadmap.md

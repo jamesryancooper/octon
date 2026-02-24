@@ -20,19 +20,21 @@ Resolve governance lint failures deterministically without bypassing constitutio
    - reference/link drift,
    - glossary or matrix linkage drift,
    - forbidden language/policy drift,
-   - immutable charter checksum mismatch.
+   - charter change-control policy mismatch.
 3. Apply fixes in canonical surfaces only.
 4. Re-run governance lint and structure validator.
 
-## Immutable Charter Rule
+## Charter Change-Control Rule
 
-For `principles.md` checksum failures:
+For `principles.md` policy failures:
 
-1. Confirm whether charter content changed intentionally.
-2. If intentional and approved, update expected checksum in
-   `/.harmony/cognition/_ops/principles/scripts/lint-principles-governance.sh`.
-3. If unintentional, restore charter content to the approved baseline.
-4. Never bypass checksum validation.
+1. Confirm whether direct charter edits were explicitly authorized by a human
+   override instruction.
+2. Verify `change_policy: human-override-only` and required override evidence
+   fields are present in the charter.
+3. If edits were not explicitly authorized, restore charter content or migrate
+   the change to a versioned successor + ADR.
+4. Never bypass governance lint validation.
 
 ## Exit Criteria
 

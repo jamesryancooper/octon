@@ -1,20 +1,21 @@
 # ADR 040: Principles Charter Successor v2026-02-24
 
 - Date: 2026-02-24
-- Status: Accepted
+- Status: Superseded by ADR 042
 - Deciders: Harmony maintainers
 - Supersedes: `020-principles-charter-successor-v2026-02-20`
+- Superseded-by:
+  - `042-principles-charter-human-override-direct-edit-policy`
 - Related:
   - `/.harmony/cognition/governance/principles/principles.md`
-  - `/.harmony/cognition/governance/principles/principles-v2026-02-24.md`
   - `/.harmony/cognition/governance/principles/README.md`
   - `/.harmony/cognition/governance/principles/index.yml`
 
 ## Context
 
-`/.harmony/cognition/governance/principles/principles.md` is immutable by policy
-and cannot be edited directly. Harmony needs active framing alignment for three
-canonical requirements:
+At the time of this ADR, `/.harmony/cognition/governance/principles/principles.md`
+was treated as immutable by policy and not directly editable. Harmony needed
+active framing alignment for three canonical requirements:
 
 1. agent-first purpose for cross-project standardization,
 2. managed complexity through complexity calibration and complexity fitness,
@@ -27,9 +28,9 @@ supersession.
 
 ## Decision
 
-Adopt a new versioned successor charter at:
+Adopt a new versioned successor charter at (now retired by ADR 042):
 
-- `/.harmony/cognition/governance/principles/principles-v2026-02-24.md`
+- Retired successor artifact for this ADR (removed after ADR 042).
 
 This successor defines active canonical framing while preserving immutable
 charter policy:
@@ -45,13 +46,13 @@ charter policy:
    `complexity_calibration`.
 
 Also update principles discovery surfaces (`README.md` and `index.yml`) to
-reference both immutable charter and active successor path.
+reference both immutable charter and the successor path (historical).
 
 ## Consequences
 
 ### Benefits
 
-- Preserves immutable-charter guarantees while enabling active framing updates.
+- Preserved then-current immutable-charter guarantees while enabling active framing updates.
 - Restores discoverable, path-correct successor governance for current work.
 - Provides a deterministic baseline for downstream migration waves.
 
@@ -67,3 +68,9 @@ reference both immutable charter and active successor path.
 2. Migrate contract, methodology, assurance, capabilities, and scaffolding
    surfaces to canonical framing.
 3. Add regression checks to prevent deprecated framing reintroduction.
+
+## Status Update (2026-02-24)
+
+- ADR 042 supersedes this ADR's active policy posture.
+- The successor artifact path is retained in this record as historical context
+  and is no longer an active governance discovery target.

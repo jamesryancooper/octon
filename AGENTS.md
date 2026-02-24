@@ -35,11 +35,12 @@ Precedence for conflicts: `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` ->
 - Humans retain `policy authorship`, `exceptions` handling, and `escalation authority`.
 - For design and implementation choices, favor `minimal sufficient complexity` and the `smallest robust solution that meets constraints`.
 
-## Immutable Charter
+## Charter Change Control
 
-- Treat `.harmony/cognition/governance/principles/principles.md` as an immutable constitutional artifact.
-- Agents MUST NOT modify `.harmony/cognition/governance/principles/principles.md`.
-- If standards must evolve, create a versioned successor (`principles-vYYYY-MM-DD.md`) and record an ADR; do not edit the immutable charter.
+- Treat `.harmony/cognition/governance/principles/principles.md` as a constitutional charter with strict change control.
+- Agents MUST NOT modify `.harmony/cognition/governance/principles/principles.md` unless explicit human override instructions authorize the change.
+- Default evolution path remains: create a versioned successor (`principles-vYYYY-MM-DD.md`) and record an ADR.
+- For direct charter edits and major framing shifts under override, record rationale, responsible owner, review date, override scope, review/agreement evidence, and intentional non-automated exception linkage.
 
 ## Harness Orientation
 

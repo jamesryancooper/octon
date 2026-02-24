@@ -73,7 +73,7 @@ Reject both:
 
 ## Related Documentation
 
-- [Engineering Principles & Standards (Successor v2026-02-24)](./principles-v2026-02-24.md)
+- [Engineering Principles & Standards (Authoritative)](./principles.md)
 - [Monolith-first Modulith](./monolith-first-modulith.md)
 - [Reversibility](./reversibility.md)
 - [Arbitration and Precedence](./arbitration-and-precedence.md)

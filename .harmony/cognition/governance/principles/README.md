@@ -32,14 +32,14 @@ Harmony principles are the decision layer between pillars and methodology. They 
 
 For small teams, default to the smallest robust solution that meets constraints for process, design, and tooling while preserving quality and governance. Escalate ceremony only for higher-risk changes.
 
-## Constitutional Charter (Immutable)
+## Constitutional Charter (Human-Override Controlled)
 
 - Canonical charter: [Engineering Principles & Standards (Authoritative)](./principles.md)
-- Active successor charter: [Engineering Principles & Standards (Successor v2026-02-24)](./principles-v2026-02-24.md)
-- Classification: immutable constitutional artifact (`mutability: immutable`, `agent_editable: false`, `risk_tier: critical`)
-- Agent rule: agents MUST NOT modify `principles.md`
-- Evolution model: create a versioned successor (`principles-vYYYY-MM-DD.md`) plus ADR; do not edit `principles.md`
-- Active framing: `agent-first`, `system-governed`, and `complexity calibration` language is defined in the successor charter.
+- Classification: constitutional artifact (`mutability: immutable`, `agent_editable: false`, `risk_tier: critical`, `change_policy: human-override-only`)
+- Agent rule: agents MUST NOT modify `principles.md` without explicit human override instructions
+- Evolution model: default to versioned successor (`principles-vYYYY-MM-DD.md`) plus ADR; direct edits to `principles.md` require explicit human override + override evidence
+- Major framing-shift rule: require an explicit human override block in `principles.md` with rationale, responsible owner, review date, override scope, review/agreement evidence, and intentional non-automated exception log linkage.
+- Active framing: `agent-first`, `system-governed`, and `complexity calibration` language is defined in `principles.md`.
 
 ## Charter-to-Guide Mapping
 

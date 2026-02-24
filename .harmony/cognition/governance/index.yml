@@ -25,8 +25,8 @@ files:
 
   - id: principles-charter
     path: principles/principles.md
-    summary: Immutable constitutional charter for cognition governance.
-    when: Before any policy interpretation or principle enforcement changes.
+    summary: Human-override-controlled constitutional charter for cognition governance.
+    when: Before policy interpretation and when validating explicit human override charter changes.
 
   - id: controls-overview
     path: controls/README.md

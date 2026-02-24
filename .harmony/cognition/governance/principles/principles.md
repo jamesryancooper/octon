@@ -2,10 +2,10 @@
 title: Engineering Principles & Standards (Authoritative)
 description: Binding engineering standards aligned to agent-first, system-governed, complexity-calibrated operation.
 status: Binding
-mutability: mutable
-agent_editable: true
+mutability: immutable
+agent_editable: false
 risk_tier: critical
-change_policy: update-only
+change_policy: human-override-only
 owner: "@you"
 last_reviewed: 2026-02-24
 applies_to:
@@ -20,10 +20,12 @@ applies_to:
 
 **Status:** Binding
 **Applies to:** Architecture, code, documentation, configuration, delivery practices
-**Goal:** High-integrity delivery with **minimal sufficient complexity**, strong auditability, and durable cross-project consistency for agent operation.
+**Canonical goal:** Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
+**Operational goal:** High-integrity delivery with **minimal sufficient complexity**, strong auditability, and durable cross-project consistency for agent operation.
 
-> This authoritative charter is now mutable and update-only by governance policy.
-> Changes must preserve traceability and constitutional coherence.
+> This authoritative charter is immutable by default and may be changed only
+> through explicit human override under `change_policy: human-override-only`.
+> All overrides must preserve traceability and constitutional coherence.
 
 ---
 
@@ -41,11 +43,11 @@ applies_to:
 
 1. **Agent-first purpose**: Harmony standardizes how agents operate across projects through shared contracts, workflows, capabilities, safety controls, and auditability.
 2. **System-governed model**: governance is encoded in contracts, policies, workflows, and enforcement checks that run by default.
-3. **Human governance role**: humans remain policy authors, oversight operators, and escalation authority.
+3. **Human governance role**: humans remain policy authors, exception handlers, and escalation authority.
 4. **Complexity calibration**: complexity must be justified by risk, scale, safety, performance, or compliance; reject under-engineering and over-engineering.
 5. **Complexity fitness**: complexity must be proportional, intentional, and maintainable.
 6. **Single Source of Truth (SSOT)** exists for requirements, contracts, and operational reality.
-7. **Operationally shippable**: debuggable, observable, safe to roll out, safe to roll back.
+7. **Deterministic and operationally shippable**: deterministic where required, debuggable, observable, safe to roll out, safe to roll back.
 8. **Security by default**: least privilege, safe dependency practices, sensitive data guarded.
 9. **Consistency over novelty**: prefer established patterns of this codebase.
 
@@ -70,6 +72,30 @@ applies_to:
 - Favor **minimal sufficient complexity** over simplicity-only framing.
 - Favor the **smallest robust solution that meets constraints**.
 - Use **Complexity Calibration** and **Complexity Fitness** as standard evaluation language.
+
+### 0B.4 Delivery Defaults
+
+- Delivery defaults prioritize deterministic behavior, observable operations, and reversible change.
+
+---
+
+## 0C) Charter Evolution Contract (Supersession + Sync)
+
+- This charter is authoritative and immutable by default.
+- Clarifications and non-breaking refinements require explicit human override and
+  must preserve canonical framing coherence.
+- For major framing shifts, require an explicit human override documented
+  directly in this charter with:
+  - rationale
+  - responsible owner
+  - review date
+  - override scope
+  - review-and-agreement evidence
+  - intentional, non-automated exception log reference
+- Automation may propose framing changes but must not approve or apply major
+  framing-shift overrides.
+- Keep principles discovery surfaces synchronized with the active framing:
+  `README.md`, `index.yml`, and linked ADR records.
 
 ---
 
@@ -375,6 +401,9 @@ When principles conflict, choose the earliest applicable rule:
 - Date
 - Review-by (or revisit trigger)
 - Links
+- For major framing-shift overrides, include: override scope, responsible owner,
+  review date, review/agreement evidence, and intentional non-automated
+  exception log linkage.
 
 ---
 
@@ -406,6 +435,18 @@ Exceptions are allowed only if they include:
 
 No timebox = no exception.
 
+### Additional Requirement for Major Framing Shifts
+
+A major framing-shift exception is valid only with an explicit human override
+recorded in this charter that includes:
+
+1. **Rationale** (why framing must shift)
+2. **Responsible owner** (accountable human)
+3. **Review date** (revalidation checkpoint)
+4. **Override scope** (exact boundaries of the shift)
+5. **Review-and-agreement evidence** (who reviewed and agreed)
+6. **Intentional, non-automated exception log linkage**
+
 ---
 
 ## 10) Enforcement (How We Adhere Strictly)
@@ -436,3 +477,4 @@ No timebox = no exception.
 - **If it's hard to undo, write it down (ADR).**
 - **If we can't operate it, we don't ship it.**
 - **Exceptions require a timebox and an exit plan.**
+- **Major framing shifts require explicit human override and non-automated exception logging.**

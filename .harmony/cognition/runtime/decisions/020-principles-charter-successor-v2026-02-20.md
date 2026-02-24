@@ -1,15 +1,17 @@
 # ADR 020: Engineering Principles Charter Successor v2026-02-20
 
 - Date: 2026-02-20
-- Status: accepted
+- Status: Superseded by ADR 042
 - Owner: @you
 - Review-by: 2026-08-20
+- Superseded-by:
+  - `042-principles-charter-human-override-direct-edit-policy`
 
 ## Context
 
-The canonical engineering charter at
-`.harmony/cognition/principles/principles.md` is intentionally immutable and
-enforced by governance lint and contract policy.
+At the time of this ADR, the canonical engineering charter at
+`.harmony/cognition/principles/principles.md` was treated as intentionally
+immutable and enforced by governance lint and contract policy.
 
 A comparison against an expanded standards draft identified useful additions
 that improve precision and enforceability but are not explicitly present in the
@@ -31,12 +33,12 @@ Create versioned successor
 `.harmony/cognition/principles/principles-v2026-02-20.md` that preserves the
 current charter baseline and adds the identified governance improvements.
 
-Do not modify the immutable charter in place.
+Under then-active policy, do not modify the immutable charter in place.
 
 ## Alternatives Considered
 
 1. Edit `principles.md` directly.
-   - Rejected: violates immutable charter policy and governance lint.
+   - Rejected under then-active policy: violated immutable-charter governance lint.
 2. Leave charter unchanged and capture additions only in discussion notes.
    - Rejected: loses enforceability and discoverability in the principles SSOT.
 3. Add only an ADR without a successor charter file.
@@ -65,3 +67,9 @@ Do not modify the immutable charter in place.
   `.harmony/cognition/principles/principles-v2026-02-20.md`
 - Principles index:
   `.harmony/cognition/principles/README.md`
+
+## Status Update (2026-02-24)
+
+- ADR 042 supersedes this ADR's active policy posture.
+- Paths in this ADR reflect a pre-governance-split layout and are retained as
+  historical context only.

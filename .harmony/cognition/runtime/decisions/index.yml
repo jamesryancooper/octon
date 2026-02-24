@@ -83,3 +83,7 @@ records:
     path: 039-clean-break-governance-cutover-contract.md
   - id: 040-principles-charter-successor-v2026-02-24
     path: 040-principles-charter-successor-v2026-02-24.md
+  - id: 041-principles-major-framing-human-override-contract
+    path: 041-principles-major-framing-human-override-contract.md
+  - id: 042-principles-charter-human-override-direct-edit-policy
+    path: 042-principles-charter-human-override-direct-edit-policy.md
