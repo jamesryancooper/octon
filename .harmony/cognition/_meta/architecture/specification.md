@@ -207,6 +207,23 @@ Expands in:
 - [Assurance README](/.harmony/assurance/README.md)
 - [Engine README](/.harmony/engine/README.md)
 
+### HARMONY-SPEC-014: Runtime vs `_ops/` Surface Semantics
+
+For domains that use both `runtime/` and `_ops/` surfaces:
+
+- `runtime/` MUST remain the canonical surface for executable/discoverable
+  runtime artifacts and runtime contracts.
+- `_ops/` MUST contain operational scripts and mutable state used to validate,
+  enforce, or support runtime behavior.
+- `_ops/` MUST NOT become a parallel canonical runtime artifact surface.
+- Normative policy contracts MUST remain in `governance/`; `_ops/` MAY contain
+  operational policy state consumed by enforcement tooling.
+
+Expands in:
+
+- [Runtime vs Ops Surface Contract](/.harmony/cognition/_meta/architecture/runtime-vs-ops-contract.md)
+- [Start Here](/.harmony/START.md)
+
 ### HARMONY-SPEC-101: Agency Contract Boundary
 
 `/.harmony/agency/**` MUST define actor taxonomy, invocation model, and delegation boundaries as an explicit contract.

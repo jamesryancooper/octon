@@ -27,6 +27,8 @@ For subsystems that define executable actors or runtime-routing artifacts:
 5. A subsystem MUST NOT keep dual active locations for the same contract class (no old and new paths in parallel).
 6. Discovery metadata (manifest/registry) MUST resolve only to canonical surfaces.
 7. CI validation MUST fail when deprecated legacy paths reappear.
+8. `runtime/` vs `_ops/` artifact placement MUST follow the
+   [Runtime vs Ops Surface Contract](./runtime-vs-ops-contract.md).
 
 ## Agency Application (First Migration)
 

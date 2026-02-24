@@ -59,6 +59,7 @@ Use subsystem specs for expanded contract details:
 Cross-subsystem structure contract:
 
 - `/.harmony/cognition/_meta/architecture/bounded-surfaces-contract.md`
+- `/.harmony/cognition/_meta/architecture/runtime-vs-ops-contract.md`
 - `/.harmony/cognition/_meta/architecture/discovery-index-model.md`
 
 ## Agency Subsystem Docs

@@ -213,6 +213,13 @@ When resolving a resource, agents check local first, then shared:
     └── _meta/          <- Architecture and evidence
 ```
 
+## Runtime vs `_ops/` SSOT
+
+The canonical cross-domain contract for classifying artifacts between
+`runtime/` and `_ops/` is:
+
+- `/.harmony/cognition/_meta/architecture/runtime-vs-ops-contract.md`
+
 ## What Lives Here
 
 ### In `.harmony/` (Shared)

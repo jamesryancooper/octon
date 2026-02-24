@@ -136,6 +136,9 @@ Use plain directory names for structural units (domains, subsystems, components)
 - `_ops/` — operational assets such as scripts and mutable state.
 - `_scaffold/` — templates and scaffolding material.
 
+Canonical SSOT for `runtime/` vs `_ops/` semantics:
+`cognition/_meta/architecture/runtime-vs-ops-contract.md`.
+
 Within these namespaces, common subpaths are:
 
 - `_meta/architecture/`

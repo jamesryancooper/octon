@@ -18,6 +18,11 @@ files:
     summary: Cross-domain bounded-surface contract and migration posture.
     when: When evaluating topology and domain ownership changes.
 
+  - id: runtime-vs-ops-contract
+    path: runtime-vs-ops-contract.md
+    summary: Canonical cross-domain rules for runtime and _ops artifact placement.
+    when: When deciding whether an artifact belongs in runtime or _ops.
+
   - id: observability-requirements
     path: observability-requirements.md
     summary: Observability policy and correlation expectations.
