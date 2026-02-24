@@ -176,6 +176,12 @@ pub struct AcpConfig {
     #[serde(default)]
     pub risk_tier_mapping: HashMap<String, String>,
     #[serde(default)]
+    pub operating_modes: HashMap<String, AcpOperatingMode>,
+    #[serde(default)]
+    pub evidence_contracts: HashMap<String, AcpEvidenceContract>,
+    #[serde(default)]
+    pub profile_mode_map: HashMap<String, String>,
+    #[serde(default)]
     pub docs_gate: Option<AcpDocsGateConfig>,
     #[serde(default)]
     pub materiality: Option<AcpMaterialityConfig>,
@@ -196,6 +202,24 @@ pub struct AcpLevelDefinition {
     pub id: String,
     pub name: String,
     pub description: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpOperatingMode {
+    #[serde(default = "default_acp_level_zero")]
+    pub acp_ceiling: String,
+    #[serde(default)]
+    pub required_evidence_contract: String,
+    #[serde(default)]
+    pub escalation_path: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct AcpEvidenceContract {
+    #[serde(default)]
+    pub required_evidence: Vec<String>,
+    #[serde(default)]
+    pub remediation: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -683,6 +707,10 @@ pub struct AcpDecision {
     pub effective_acp: String,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub reason_codes: Vec<String>,
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub remediation: String,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub remediation_steps: Vec<String>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub notes: Vec<String>,
     #[serde(default)]
@@ -1139,6 +1167,8 @@ fn evaluate_acp_internal(
 
     if operation_class.is_empty() {
         push_reason(&mut reason_codes, &mut reason_seen, "ACP_RULE_NO_MATCH");
+        let (remediation, remediation_steps) =
+            build_acp_remediation(&AcpDecisionKind::Deny, &reason_codes);
         return Ok(AcpDecision {
             allow: false,
             decision: AcpDecisionKind::Deny,
@@ -1147,6 +1177,8 @@ fn evaluate_acp_internal(
                 .clone()
                 .unwrap_or_else(default_acp_level_zero),
             reason_codes,
+            remediation,
+            remediation_steps,
             notes: vec!["operation.class missing from ACP request".to_string()],
             requirements,
         });
@@ -1164,6 +1196,8 @@ fn evaluate_acp_internal(
     }
     if is_kill_switch_active(policy, &scope_keys, &today)? {
         push_reason(&mut reason_codes, &mut reason_seen, "ACP_KILLSWITCH_ACTIVE");
+        let (remediation, remediation_steps) =
+            build_acp_remediation(&AcpDecisionKind::Deny, &reason_codes);
         return Ok(AcpDecision {
             allow: false,
             decision: AcpDecisionKind::Deny,
@@ -1172,6 +1206,8 @@ fn evaluate_acp_internal(
                 .clone()
                 .unwrap_or_else(default_acp_level_zero),
             reason_codes,
+            remediation,
+            remediation_steps,
             notes: vec!["Kill-switch active for ACP scope".to_string()],
             requirements,
         });
@@ -1181,6 +1217,8 @@ fn evaluate_acp_internal(
         find_matching_acp_rule(policy, operation_class, &phase, &request.operation.target)
     else {
         push_reason(&mut reason_codes, &mut reason_seen, "ACP_RULE_NO_MATCH");
+        let (remediation, remediation_steps) =
+            build_acp_remediation(&AcpDecisionKind::Deny, &reason_codes);
         return Ok(AcpDecision {
             allow: false,
             decision: AcpDecisionKind::Deny,
@@ -1189,6 +1227,8 @@ fn evaluate_acp_internal(
                 .clone()
                 .unwrap_or_else(default_acp_level_zero),
             reason_codes,
+            remediation,
+            remediation_steps,
             notes: vec![format!(
                 "No ACP rule matched class='{operation_class}' phase='{phase}'"
             )],
@@ -1479,11 +1519,20 @@ fn evaluate_acp_internal(
         );
     }
 
+    if matches!(final_decision, AcpDecisionKind::Allow) && reason_codes.is_empty() {
+        push_reason(&mut reason_codes, &mut reason_seen, "ACP_ALLOW_POLICY_PASS");
+    }
+
+    let (remediation, remediation_steps) =
+        build_acp_remediation(&final_decision, &reason_codes);
+
     Ok(AcpDecision {
         allow: matches!(final_decision, AcpDecisionKind::Allow),
         decision: final_decision,
         effective_acp,
         reason_codes,
+        remediation,
+        remediation_steps,
         notes,
         requirements,
     })
@@ -1508,6 +1557,112 @@ fn parse_acp_decision(value: &str) -> AcpDecisionKind {
         "ESCALATE" => AcpDecisionKind::Escalate,
         _ => AcpDecisionKind::Deny,
     }
+}
+
+fn default_remediation_for_decision(decision: &AcpDecisionKind) -> &'static str {
+    match decision {
+        AcpDecisionKind::Allow => {
+            "All required ACP controls passed. Preserve evidence artifacts for promotion traceability."
+        }
+        AcpDecisionKind::StageOnly => {
+            "Promotion is blocked in stage-only mode until missing controls are remediated."
+        }
+        AcpDecisionKind::Deny => {
+            "Policy denied this operation. Resolve failing controls or reduce scope before retry."
+        }
+        AcpDecisionKind::Escalate => {
+            "Escalation is required. Route the run through the declared escalation path with full evidence."
+        }
+    }
+}
+
+fn remediation_for_reason_code(code: &str) -> String {
+    match code {
+        "ACP_ALLOW_POLICY_PASS" => {
+            "No additional remediation required beyond retaining the receipt and evidence bundle."
+                .to_string()
+        }
+        "ACP_RULE_NO_MATCH" => {
+            "Add or normalize an ACP rule for this operation class, phase, and target.".to_string()
+        }
+        "ACP_PROFILE_CEILING_EXCEEDED" => {
+            "Use a higher operating mode/profile or split the action into lower-risk reversible steps."
+                .to_string()
+        }
+        "ACP_PROTECTED_TARGET" => {
+            "Attach elevated evidence and quorum artifacts required for protected targets."
+                .to_string()
+        }
+        "ACP_DOCS_EVIDENCE_MISSING" => {
+            "Attach docs.spec, docs.adr, and docs.runbook evidence before promote.".to_string()
+        }
+        "ACP_EVIDENCE_MISSING" | "ACP_EVIDENCE_INVALID" => {
+            "Regenerate and attach complete, hash-bound evidence artifacts for this gate."
+                .to_string()
+        }
+        "ACP_REVERSIBILITY_REQUIRED" | "ACP_ROLLBACK_HANDLE_MISSING" | "ACP_ROLLBACK_PROOF_MISSING"
+        | "ACP_RECOVERY_WINDOW_MISSING" => {
+            "Provide full reversibility metadata: primitive, rollback handle, proof, and recovery window."
+                .to_string()
+        }
+        "ACP_QUORUM_MISSING" | "ACP_QUORUM_INVALID" | "ACP_ATTESTATION_FIELD_MISSING"
+        | "ACP_ATTESTATION_INVALID" | "ACP_ATTESTATION_ROLE_MISMATCH"
+        | "ACP_OWNER_ATTESTATION_MISSING" | "ACP_OWNER_ATTESTATION_TIMEOUT" => {
+            "Collect required attestations and quorum evidence bound to the same plan/evidence hashes."
+                .to_string()
+        }
+        "ACP_TELEMETRY_PROFILE_MISSING" | "ACP_TELEMETRY_PROFILE_INVALID" => {
+            "Set an ACP-allowed telemetry_profile and rerun receipt validation.".to_string()
+        }
+        "ACP_FLAG_METADATA_EVIDENCE_MISSING" | "ACP_FLAG_METADATA_INVALID" => {
+            "Attach validated flag metadata evidence and set flag_metadata_valid=true only on pass."
+                .to_string()
+        }
+        "ACP_BUDGET_SET_MISSING" | "ACP_BUDGET_EXCEEDED" => {
+            "Reduce promotion scope or update budget policy with explicit approval.".to_string()
+        }
+        "ACP_CIRCUIT_BREAKER_TRIPPED" | "ACP_CIRCUIT_BREAKER_INVALID_ACTION" => {
+            "Investigate breaker trigger/action, remediate, and rerun ACP enforcement.".to_string()
+        }
+        "ACP_KILLSWITCH_ACTIVE" => {
+            "Resolve active kill-switch conditions before attempting promotion or finalize."
+                .to_string()
+        }
+        "ACP_STAGE_ONLY_REQUIRED" => {
+            "Keep execution staged and satisfy all missing requirements before promote.".to_string()
+        }
+        "ACP_ESCALATE_POLICY" => {
+            "Escalate this run with receipt and digest evidence to the designated owner path."
+                .to_string()
+        }
+        "RA_BREAK_GLASS_REQUIRED" => {
+            "Use a reversible path or provide explicit break-glass evidence for ACP-4 actions."
+                .to_string()
+        }
+        _ => format!("Resolve {code} using the policy reason-code catalog and rerun ACP evaluation."),
+    }
+}
+
+fn build_acp_remediation(
+    decision: &AcpDecisionKind,
+    reason_codes: &[String],
+) -> (String, Vec<String>) {
+    let fallback = default_remediation_for_decision(decision).to_string();
+    if reason_codes.is_empty() {
+        return (fallback.clone(), vec![fallback]);
+    }
+
+    let remediation_steps: Vec<String> = reason_codes
+        .iter()
+        .map(|code| remediation_for_reason_code(code))
+        .collect();
+
+    let summary = remediation_steps
+        .first()
+        .cloned()
+        .unwrap_or_else(|| fallback.clone());
+
+    (summary, remediation_steps)
 }
 
 fn acp_level_rank(level: &str) -> usize {
@@ -2979,6 +3134,108 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
             }
         }
 
+        let expected_modes = ["observe", "iterate", "operate", "emergency"];
+        for mode_name in expected_modes {
+            if !policy.acp.operating_modes.contains_key(mode_name) {
+                semantic_errors.push(format!(
+                    "acp.operating_modes.{mode_name} must be configured"
+                ));
+            }
+        }
+
+        let mut referenced_evidence_contracts: BTreeSet<String> = BTreeSet::new();
+        for (mode_name, mode) in &policy.acp.operating_modes {
+            if !declared_levels.contains(&mode.acp_ceiling.to_ascii_uppercase()) {
+                semantic_errors.push(format!(
+                    "acp.operating_modes.{mode_name}.acp_ceiling references undeclared ACP level '{}'",
+                    mode.acp_ceiling
+                ));
+            }
+            if mode.required_evidence_contract.trim().is_empty() {
+                semantic_errors.push(format!(
+                    "acp.operating_modes.{mode_name}.required_evidence_contract must be non-empty"
+                ));
+            }
+            if mode.escalation_path.trim().is_empty() {
+                semantic_errors.push(format!(
+                    "acp.operating_modes.{mode_name}.escalation_path must be non-empty"
+                ));
+            }
+
+            let contract_id = mode.required_evidence_contract.trim();
+            if !contract_id.is_empty() {
+                referenced_evidence_contracts.insert(contract_id.to_string());
+                if !policy.acp.evidence_contracts.contains_key(contract_id) {
+                    semantic_errors.push(format!(
+                        "acp.operating_modes.{mode_name}.required_evidence_contract references unknown contract '{contract_id}'"
+                    ));
+                }
+            }
+        }
+
+        for (contract_id, contract) in &policy.acp.evidence_contracts {
+            if contract.required_evidence.is_empty() {
+                semantic_errors.push(format!(
+                    "acp.evidence_contracts.{contract_id}.required_evidence must declare at least one evidence type"
+                ));
+            }
+            if contract.remediation.trim().is_empty() {
+                semantic_errors.push(format!(
+                    "acp.evidence_contracts.{contract_id}.remediation must be non-empty"
+                ));
+            }
+            if !referenced_evidence_contracts.contains(contract_id) {
+                warnings.push(format!(
+                    "acp.evidence_contracts.{contract_id} is not referenced by any operating mode"
+                ));
+            }
+        }
+
+        let mut required_profile_ids: BTreeSet<String> = BTreeSet::new();
+        for profile_id in policy.profiles.keys() {
+            required_profile_ids.insert(profile_id.to_string());
+        }
+        for profile_id in policy.acp.profile_defaults.keys() {
+            required_profile_ids.insert(profile_id.to_string());
+        }
+        for profile_id in &required_profile_ids {
+            let Some(mode_name) = policy.acp.profile_mode_map.get(profile_id) else {
+                semantic_errors.push(format!(
+                    "acp.profile_mode_map.{profile_id} must be configured"
+                ));
+                continue;
+            };
+
+            let Some(mode_cfg) = policy.acp.operating_modes.get(mode_name) else {
+                semantic_errors.push(format!(
+                    "acp.profile_mode_map.{profile_id} references unknown mode '{mode_name}'"
+                ));
+                continue;
+            };
+
+            let Some(profile_default) = policy.acp.profile_defaults.get(profile_id) else {
+                semantic_errors.push(format!(
+                    "acp.profile_defaults.{profile_id} must be configured"
+                ));
+                continue;
+            };
+
+            if profile_default.ceiling != mode_cfg.acp_ceiling {
+                semantic_errors.push(format!(
+                    "profile '{profile_id}' ceiling mismatch: profile_defaults='{}' mode '{}' ceiling='{}'",
+                    profile_default.ceiling, mode_name, mode_cfg.acp_ceiling
+                ));
+            }
+        }
+
+        for profile_id in policy.acp.profile_mode_map.keys() {
+            if !required_profile_ids.contains(profile_id) {
+                warnings.push(format!(
+                    "acp.profile_mode_map.{profile_id} does not correspond to a declared profile or profile_default"
+                ));
+            }
+        }
+
         if let Some(docs_gate) = &policy.acp.docs_gate {
             if docs_gate.evidence_types.is_empty() {
                 semantic_errors.push(
@@ -3189,11 +3446,68 @@ pub fn validate_receipt(request: &ReceiptValidateRequest) -> Result<ReceiptValid
         }
     }
 
+    let receipt_reason_codes: Vec<String> = receipt
+        .get("reason_codes")
+        .and_then(Value::as_array)
+        .map(|values| {
+            values
+                .iter()
+                .filter_map(Value::as_str)
+                .map(ToString::to_string)
+                .collect()
+        })
+        .unwrap_or_default();
+    let reason_details = receipt
+        .get("reason_details")
+        .and_then(Value::as_array)
+        .cloned()
+        .unwrap_or_default();
+    for code in &receipt_reason_codes {
+        let mut found = false;
+        for detail in &reason_details {
+            let detail_code = detail.get("code").and_then(Value::as_str).unwrap_or_default();
+            let detail_remediation = detail
+                .get("remediation")
+                .and_then(Value::as_str)
+                .unwrap_or_default();
+            if detail_code == code {
+                found = true;
+                if detail_remediation.trim().is_empty() {
+                    errors.push(format!(
+                        "reason_details entry for code '{code}' must include non-empty remediation"
+                    ));
+                }
+            }
+        }
+        if !found {
+            errors.push(format!(
+                "reason_details missing remediation entry for reason code '{code}'"
+            ));
+        }
+    }
+
+    if receipt
+        .get("remediation")
+        .and_then(Value::as_str)
+        .unwrap_or_default()
+        .trim()
+        .is_empty()
+    {
+        errors.push("receipt remediation must be non-empty".to_string());
+    }
+
     let decision = receipt
         .get("decision")
         .and_then(Value::as_str)
         .unwrap_or_default()
         .to_string();
+    if matches!(decision.as_str(), "ALLOW" | "STAGE_ONLY" | "DENY")
+        && receipt_reason_codes.is_empty()
+    {
+        errors.push(format!(
+            "receipt decision '{decision}' must include at least one reason code"
+        ));
+    }
     if !decision.is_empty()
         && !policy.receipts.emit_on.is_empty()
         && !policy

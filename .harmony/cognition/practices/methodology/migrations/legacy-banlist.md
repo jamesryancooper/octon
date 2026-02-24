@@ -65,6 +65,7 @@ Each entry should be specific enough to avoid false positives.
 - `orchestration/runtime/workflows/audit/documentation-quality-gate/` - deprecated docs workflow runtime path - removed by migration `2026-02-21-documentation-audit-clean-break-rename`
 - `cognition/practices/methodology/migrations/20` - deprecated migration record prefix under practices surface - removed by migration `2026-02-21-cognition-runtime-migrations-surface-split`
 - `output/reports/migrations/*-evidence.md` - deprecated flat migration evidence filename pattern - removed by migration `2026-02-21-migration-evidence-bundle-format`
+- `onboard-new-developer` - retired onboarding workflow identifier/command token; removed from discoverable routing by migration `2026-02-24-clean-break-governance-cutover`
 
 ## Banned Paths
 
@@ -134,4 +135,4 @@ Each entry should be specific enough to avoid false positives.
 
 ## Banned Config Keys or Env Vars
 
-- `(none currently)` - no legacy config or env keys removed in migrations `2026-02-20-agency-bounded-surfaces`, `2026-02-21-agency-actors-to-runtime`, `2026-02-20-orchestration-bounded-surfaces`, `2026-02-20-capabilities-bounded-surfaces`, `2026-02-20-assurance-bounded-surfaces`, `2026-02-20-scaffolding-bounded-surfaces`, `2026-02-20-engine-bounded-surfaces`, `2026-02-20-cognition-bounded-surfaces`, `2026-02-21-quality-gate-domain-split`, `2026-02-21-documentation-audit-clean-break-rename`, `2026-02-21-cognition-runtime-migrations-surface-split`, `2026-02-21-migration-evidence-bundle-format`, or `2026-02-22-artifact-surface-clean-break-rename`
+- `(none currently)` - no legacy config or env keys removed in migrations `2026-02-20-agency-bounded-surfaces`, `2026-02-21-agency-actors-to-runtime`, `2026-02-20-orchestration-bounded-surfaces`, `2026-02-20-capabilities-bounded-surfaces`, `2026-02-20-assurance-bounded-surfaces`, `2026-02-20-scaffolding-bounded-surfaces`, `2026-02-20-engine-bounded-surfaces`, `2026-02-20-cognition-bounded-surfaces`, `2026-02-21-quality-gate-domain-split`, `2026-02-21-documentation-audit-clean-break-rename`, `2026-02-21-cognition-runtime-migrations-surface-split`, `2026-02-21-migration-evidence-bundle-format`, `2026-02-22-artifact-surface-clean-break-rename`, or `2026-02-24-clean-break-governance-cutover`

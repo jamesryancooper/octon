@@ -43,6 +43,7 @@ policy engine.
 
 | Code | Meaning | Typical Remediation |
 |---|---|---|
+| `ACP_ALLOW_POLICY_PASS` | ACP decision passed with all required controls satisfied. | Preserve receipt and evidence artifacts; continue governed promotion flow. |
 | `ACP_RULE_NO_MATCH` | No ACP rule matched the operation class/target/phase. | Add a policy rule for the operation class or normalize wrapper taxonomy. |
 | `ACP_PROFILE_CEILING_EXCEEDED` | Active profile ACP ceiling is below required ACP. | Use a higher profile, or split action into lower-risk reversible operations. |
 | `ACP_PROTECTED_TARGET` | Target is protected and requires elevated ACP requirements. | Provide required evidence and quorum, or route through staged promotion. |

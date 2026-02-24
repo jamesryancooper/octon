@@ -4,13 +4,18 @@ Read all existing files in the target `.harmony` and create a migration plan.
 
 ## Actions
 
-1. List all files and directories in the harness
-2. Note custom content that MUST be preserved:
+1. Validate harness schema compatibility first:
+   - Read `.harmony/harmony.yml`.
+   - Resolve `schema_version`.
+   - Compare to `versioning.harness.supported_schema_versions`.
+   - If unsupported, STOP and emit deterministic migration instructions from `versioning.harness.deterministic_upgrade_instructions`.
+2. List all files and directories in the harness
+3. Note custom content that MUST be preserved:
    - Custom prompts, workflows, commands
    - Progress history
    - Domain-specific context
 
-3. Identify deprecated patterns:
+4. Identify deprecated patterns:
 
 | Old Pattern | Current Pattern |
 |-------------|-----------------|
@@ -27,4 +32,4 @@ Migration plan listing:
 - Files to transform
 - Files to archive
 - New files to create
-
+- Version-gate status (`supported` or `blocked-with-upgrade-instructions`)

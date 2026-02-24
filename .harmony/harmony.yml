@@ -6,6 +6,18 @@
 
 schema_version: "1.0"
 
+versioning:
+  harness:
+    supported_schema_versions:
+      - "1.0"
+    rejection_mode: "fail-closed"
+    migration_workflow: "orchestration/runtime/workflows/meta/migrate-harness/WORKFLOW.md"
+    migration_overview: "orchestration/runtime/workflows/meta/migrate-harness/00-overview.md"
+    deterministic_upgrade_instructions:
+      - "Run /migrate-harness against the target .harmony root."
+      - "Execute backup-assessment -> structure-migration -> content-migration -> validation in order."
+      - "Re-run .harmony/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh and .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,workflows before promotion."
+
 # Portable paths — copy these to bootstrap a new repo via `harmony init`.
 # Everything else is project-specific state that stays with this repo.
 portable:

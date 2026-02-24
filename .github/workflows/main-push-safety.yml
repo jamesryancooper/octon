@@ -33,6 +33,16 @@ jobs:
           chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
           .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
 
+      - name: Validate harness version compatibility contract
+        run: |
+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh
+          .harmony/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh
+
+      - name: Validate SSOT precedence drift contract
+        run: |
+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh
+          .harmony/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh
+
       - name: Validate bounded-audit convergence contract
         run: |
           chmod +x .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
@@ -62,6 +72,11 @@ jobs:
         run: |
           chmod +x .harmony/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
           .harmony/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
+
+      - name: Validate capability/engine consistency
+        run: |
+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
+          .harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
 
       - name: Validate agency contracts
         run: |

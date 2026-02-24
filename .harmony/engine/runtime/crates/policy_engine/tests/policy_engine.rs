@@ -223,7 +223,11 @@ fn acp1_allow_with_evidence_and_rollback_handle() {
         .expect("acp enforce should evaluate");
     assert!(matches!(decision.decision, AcpDecisionKind::Allow));
     assert!(decision.allow);
-    assert!(decision.reason_codes.is_empty());
+    assert!(decision
+        .reason_codes
+        .contains(&"ACP_ALLOW_POLICY_PASS".to_string()));
+    assert!(!decision.remediation.is_empty());
+    assert!(!decision.remediation_steps.is_empty());
 }
 
 #[test]
@@ -478,6 +482,7 @@ fn receipt_validate_enforces_required_fields() {
     fs::write(
         &receipt_path,
         serde_json::to_vec(&json!({
+            "schema_version":"policy-receipt-v1",
             "run_id":"run-x",
             "timestamp":"2026-02-19T00:00:00Z",
             "actor":{"id":"agent.a","type":"agent"},
@@ -490,7 +495,9 @@ fn receipt_validate_enforces_required_fields() {
             "telemetry_profile":"minimal",
             "effective_acp":"ACP-1",
             "decision":"ALLOW",
-            "reason_codes":[],
+            "reason_codes":["ACP_ALLOW_POLICY_PASS"],
+            "reason_details":[{"code":"ACP_ALLOW_POLICY_PASS","remediation":"No additional remediation required beyond retaining the receipt and evidence bundle."}],
+            "remediation":"No additional remediation required beyond retaining the receipt and evidence bundle.",
             "evidence":[{"type":"diff","ref":"a","sha256":"h"}],
             "attestations":[],
             "rollback_handle":"git:revert:abc",
@@ -533,6 +540,7 @@ fn receipt_validate_fails_when_telemetry_profile_missing_for_acp1_promote() {
     fs::write(
         &receipt_path,
         serde_json::to_vec(&json!({
+            "schema_version":"policy-receipt-v1",
             "run_id":"run-telemetry-missing",
             "timestamp":"2026-02-19T00:00:00Z",
             "actor":{"id":"agent.a","type":"agent"},
@@ -544,7 +552,9 @@ fn receipt_validate_fails_when_telemetry_profile_missing_for_acp1_promote() {
             "material_side_effect":true,
             "effective_acp":"ACP-1",
             "decision":"ALLOW",
-            "reason_codes":[],
+            "reason_codes":["ACP_ALLOW_POLICY_PASS"],
+            "reason_details":[{"code":"ACP_ALLOW_POLICY_PASS","remediation":"No additional remediation required beyond retaining the receipt and evidence bundle."}],
+            "remediation":"No additional remediation required beyond retaining the receipt and evidence bundle.",
             "evidence":[{"type":"diff","ref":"a","sha256":"h"}],
             "attestations":[],
             "rollback_handle":"git:revert:abc",
@@ -582,6 +592,7 @@ fn receipt_validate_fails_when_flag_metadata_invalid_for_flag_change() {
     fs::write(
         &receipt_path,
         serde_json::to_vec(&json!({
+            "schema_version":"policy-receipt-v1",
             "run_id":"run-flag-metadata-invalid",
             "timestamp":"2026-02-19T00:00:00Z",
             "actor":{"id":"agent.a","type":"agent"},
@@ -594,7 +605,9 @@ fn receipt_validate_fails_when_flag_metadata_invalid_for_flag_change() {
             "telemetry_profile":"minimal",
             "effective_acp":"ACP-1",
             "decision":"ALLOW",
-            "reason_codes":[],
+            "reason_codes":["ACP_ALLOW_POLICY_PASS"],
+            "reason_details":[{"code":"ACP_ALLOW_POLICY_PASS","remediation":"No additional remediation required beyond retaining the receipt and evidence bundle."}],
+            "remediation":"No additional remediation required beyond retaining the receipt and evidence bundle.",
             "evidence":[{"type":"diff","ref":"a","sha256":"h"},{"type":"flags.metadata","ref":"flags","sha256":"f"}],
             "attestations":[],
             "rollback_handle":"git:revert:abc",

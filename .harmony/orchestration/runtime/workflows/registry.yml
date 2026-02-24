@@ -977,6 +977,12 @@ workflows:
     access: human
     depends_on: []
 
+  agent-led-happy-path:
+    version: "1.0.0"
+    commands: ["/agent-led-happy-path"]
+    access: human
+    depends_on: []
+
   add-api-endpoint:
     version: "1.0.0"
     commands: ["/add-api-endpoint"]
@@ -998,12 +1004,6 @@ workflows:
   handle-security-issue:
     version: "1.0.0"
     commands: ["/handle-security-issue"]
-    access: human
-    depends_on: []
-
-  onboard-new-developer:
-    version: "1.0.0"
-    commands: ["/onboard-new-developer"]
     access: human
     depends_on: []
 

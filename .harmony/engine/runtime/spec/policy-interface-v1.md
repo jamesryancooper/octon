@@ -42,6 +42,19 @@ Wrapper extension for `acp-enforce`:
 - `--run-id <id>` (requires `--request`)
 - `--digest` (requires `--emit-receipt`)
 
+## Receipt And Digest Contracts
+
+ACP receipt/digest artifacts emitted by wrapper-assisted `acp-enforce`
+evaluations must follow:
+
+- Receipt schema: `engine/runtime/spec/policy-receipt-v1.schema.json`
+- Digest format: `engine/runtime/spec/policy-digest-v1.md`
+
+Decision outputs for `ALLOW`, `STAGE_ONLY`, and `DENY` must include:
+
+- machine-readable `reason_codes`
+- human-readable `remediation` guidance
+
 ## Exit Codes
 
 - `0` - allow/success

@@ -30,6 +30,8 @@ If engine enforcement and capability semantics conflict and no explicit contract
 override exists, Assurance MUST fail closed, emit a policy violation, and
 require ADR-backed contract reconciliation before promotion.
 
+Practices guidance is advisory and MUST NOT override runtime or governance contracts.
+
 ## Resolution Rules
 
 - Missing keys are ignored; only declared keys participate in merge.

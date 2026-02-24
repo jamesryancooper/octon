@@ -1,10 +1,13 @@
 ---
 title: "Task: Onboard a New Developer"
-description: Step-by-step guide to onboarding a new developer with Harmony's guided workflow.
+description: Retired onboarding workflow artifact preserved only for historical reference.
 access: human
 ---
 
 # Task: Onboard a New Developer
+
+> Retired workflow artifact. This path is not discoverable or supported for new runs.
+> Use `agent-led-happy-path.md` as the only canonical onboarding execution path.
 
 ## Overview
 

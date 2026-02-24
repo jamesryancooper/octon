@@ -25,6 +25,7 @@ KILL_SWITCH_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-kill-switch.sh"
 ROLLOUT_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-rollout-mode.sh"
 RA_ACP_MIGRATION_GUARD="$CAPABILITIES_DIR/_ops/scripts/validate-ra-acp-migration.sh"
 RA_ACP_MIGRATION_GUARD_TEST_SCRIPT="$CAPABILITIES_DIR/_ops/tests/test-ra-acp-migration-guard.sh"
+CAPABILITY_ENGINE_CONSISTENCY_VALIDATOR="$REPO_ROOT/.harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh"
 
 PROFILE="${HARMONY_VALIDATION_PROFILE:-dev-fast}"
 MODE="changed"
@@ -338,6 +339,15 @@ run_profile_contract_validation() {
   echo "Deny-by-default profile bundles validated"
 }
 
+run_capability_engine_consistency_validation() {
+  if [[ ! -x "$CAPABILITY_ENGINE_CONSISTENCY_VALIDATOR" ]]; then
+    echo "Missing capability/engine consistency validator: $CAPABILITY_ENGINE_CONSISTENCY_VALIDATOR" >&2
+    return 1
+  fi
+
+  "$CAPABILITY_ENGINE_CONSISTENCY_VALIDATOR"
+}
+
 run_state_hygiene_sweeps() {
   if [[ "$PROFILE" != "strict" ]]; then
     return 0
@@ -384,6 +394,9 @@ main() {
     exit 1
   fi
   if ! run_profile_contract_validation; then
+    exit 1
+  fi
+  if ! run_capability_engine_consistency_validation; then
     exit 1
   fi
   run_state_hygiene_sweeps

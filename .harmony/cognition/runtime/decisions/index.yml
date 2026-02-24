@@ -79,3 +79,5 @@ records:
     path: 037-artifact-surface-clean-break-rename.md
   - id: 038-engine-capabilities-authority-boundary
     path: 038-engine-capabilities-authority-boundary.md
+  - id: 039-clean-break-governance-cutover-contract
+    path: 039-clean-break-governance-cutover-contract.md

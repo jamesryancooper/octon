@@ -366,6 +366,26 @@ Methods (SRE, DORA, Shape Up) define how work flows. Frameworks and standards (A
   2. Before merge: ACP promote decision includes required PR artifacts (risk rubric, license/provenance note, OpenAPI diff, and required attestations).
   3. Before promotion: feature behind a flag, preview e2e smoke green, rollback noted, owner on‑call.
   4. After promote: 30‑minute watch window; check SLO burn‑rate and key SLIs; document in PR thread.
+
+### Canonical ACP Operating Modes (Execution Entrypoint)
+
+All execution runs MUST resolve to one operating mode through
+`/.harmony/capabilities/governance/policy/deny-by-default.v2.yml`:
+`acp.profile_mode_map` -> `acp.operating_modes` -> `acp.evidence_contracts`.
+
+| Run Profile | Operating Mode | ACP Ceiling | Required Evidence Contract | Escalation Path |
+|---|---|---|---|---|
+| `observe` | `observe` | `ACP-0` | `evidence.observe.v1` | `owner-review` |
+| `refactor`, `scaffold`, `tests`, `docs`, `iterate` | `iterate` | `ACP-1` | `evidence.iterate.v1` | `owner-review` |
+| `release-readiness`, `operate` | `operate` | `ACP-3` | `evidence.operate.v1` | `owner-and-verifier-review` |
+| `emergency` | `emergency` | `ACP-4` | `evidence.emergency.v1` | `break-glass-owner-escalation` |
+
+Resolver contract:
+
+- Every profile MUST map to exactly one mode.
+- Every mode MUST declare exactly one ACP ceiling and one required evidence contract.
+- Missing evidence follows mode/rule escalation behavior and fails closed at policy gates.
+
 - Stop‑the‑line triggers (any → block or rollback)
   - Secret exposure, license violation, security regression (ASVS high/critical), SLO burn‑rate breach.
   - Missing rollback path or flag; Preview e2e red; OpenAPI breaking change without consumer sign‑off.

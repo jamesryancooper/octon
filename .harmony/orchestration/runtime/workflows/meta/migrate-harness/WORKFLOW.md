@@ -2,7 +2,8 @@
 name: migrate-harness
 description: >
   Migrate an older harness layout to current conventions while preserving
-  intent, traceability, and recoverability.
+  intent, traceability, and recoverability. Reject unsupported harness schema
+  versions with deterministic migration instructions.
 steps:
   - id: backup-assessment
     file: 01-backup-assessment.md

@@ -315,6 +315,20 @@ workflows:
 
   # --- tasks: Guided operational playbooks ---
 
+  - id: agent-led-happy-path
+    display_name: Agent-Led Happy Path
+    group: tasks
+    domain: tasks
+    path: tasks/agent-led-happy-path.md
+    summary: Canonical onboarding flow for agent-led execution from bootstrap to continuity.
+    status: active
+    format: single-file
+    triggers:
+      - "agent led happy path"
+      - "canonical onboarding path"
+      - "bootstrap execute assure continuity"
+      - "start canonical workflow"
+
   - id: add-api-endpoint
     display_name: Add API Endpoint
     group: tasks
@@ -366,19 +380,6 @@ workflows:
       - "handle security issue"
       - "security vulnerability"
       - "security remediation"
-
-  - id: onboard-new-developer
-    display_name: Onboard New Developer
-    group: tasks
-    domain: tasks
-    path: tasks/onboard-new-developer.md
-    summary: Guided onboarding workflow for new developers joining Harmony.
-    status: active
-    format: single-file
-    triggers:
-      - "onboard new developer"
-      - "developer onboarding"
-      - "new team member setup"
 
   - id: run-data-migration
     display_name: Run Data Migration
@@ -438,5 +439,5 @@ workflow_group_definitions:
   tasks:
     description: Guided operational task playbooks
     path: tasks/
-    members: [add-api-endpoint, add-ui-feature, fix-a-bug, handle-security-issue,
-              onboard-new-developer, run-data-migration]
+    members: [agent-led-happy-path, add-api-endpoint, add-ui-feature, fix-a-bug, handle-security-issue,
+              run-data-migration]

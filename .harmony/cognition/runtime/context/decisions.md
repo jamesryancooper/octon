@@ -53,6 +53,8 @@ Do not edit manually. Update ADR files and `runtime/decisions/index.yml` instead
 | ADR-035 | accepted | 2026-02-21 | ADR-035: Cognition Discovery and Governance Hardening | `../decisions/035-cognition-discovery-and-governance-hardening.md` |
 | ADR-036 | accepted | 2026-02-21 | ADR-036: Cognition Sidecar Section Index Architecture | `../decisions/036-cognition-sidecar-section-index-architecture.md` |
 | ADR-037 | Accepted | 2026-02-22 | ADR 037: Artifact Surface Clean-Break Rename | `../decisions/037-artifact-surface-clean-break-rename.md` |
+| ADR-038 | Accepted | 2026-02-24 | ADR 038: Engine and Capabilities Authority Boundary | `../decisions/038-engine-capabilities-authority-boundary.md` |
+| ADR-039 | Accepted | 2026-02-24 | ADR 039: Clean-Break Governance Cutover Contract | `../decisions/039-clean-break-governance-cutover-contract.md` |
 
 ## Update Procedure
 

@@ -104,3 +104,8 @@ records:
     path: ../../../output/reports/audits/2026-02-22-audit-contract-bootstrap/evidence.md
     source_record: ../audits/index.yml
 
+  - id: 2026-02-24-clean-break-governance-cutover
+    kind: migration
+    path: ../../../output/reports/migrations/2026-02-24-clean-break-governance-cutover/evidence.md
+    source_record: ../migrations/index.yml
+

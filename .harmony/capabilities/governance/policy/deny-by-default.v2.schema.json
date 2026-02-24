@@ -430,6 +430,9 @@
       "required": [
         "levels",
         "risk_tier_mapping",
+        "operating_modes",
+        "evidence_contracts",
+        "profile_mode_map",
         "profile_defaults",
         "rules"
       ],
@@ -443,6 +446,15 @@
         },
         "risk_tier_mapping": {
           "$ref": "#/$defs/riskTierAcpMapping"
+        },
+        "operating_modes": {
+          "$ref": "#/$defs/acpOperatingModes"
+        },
+        "evidence_contracts": {
+          "$ref": "#/$defs/acpEvidenceContracts"
+        },
+        "profile_mode_map": {
+          "$ref": "#/$defs/acpProfileModeMap"
         },
         "docs_gate": {
           "$ref": "#/$defs/acpDocsGate"
@@ -543,6 +555,109 @@
           "type": "boolean"
         }
       }
+    },
+    "acpModeName": {
+      "type": "string",
+      "enum": [
+        "observe",
+        "iterate",
+        "operate",
+        "emergency"
+      ]
+    },
+    "acpOperatingMode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "acp_ceiling",
+        "required_evidence_contract",
+        "escalation_path"
+      ],
+      "properties": {
+        "acp_ceiling": {
+          "$ref": "#/$defs/acpLevel"
+        },
+        "required_evidence_contract": {
+          "type": "string",
+          "minLength": 1
+        },
+        "escalation_path": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "acpOperatingModes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observe",
+        "iterate",
+        "operate",
+        "emergency"
+      ],
+      "properties": {
+        "observe": {
+          "$ref": "#/$defs/acpOperatingMode"
+        },
+        "iterate": {
+          "$ref": "#/$defs/acpOperatingMode"
+        },
+        "operate": {
+          "$ref": "#/$defs/acpOperatingMode"
+        },
+        "emergency": {
+          "$ref": "#/$defs/acpOperatingMode"
+        }
+      }
+    },
+    "acpEvidenceContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_evidence",
+        "remediation"
+      ],
+      "properties": {
+        "required_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "remediation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "acpEvidenceContracts": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/acpEvidenceContract"
+      }
+    },
+    "acpProfileModeMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/acpModeName"
+      },
+      "required": [
+        "refactor",
+        "scaffold",
+        "tests",
+        "docs",
+        "release-readiness",
+        "observe",
+        "iterate",
+        "operate",
+        "emergency"
+      ]
     },
     "riskTierAcpMapping": {
       "type": "object",

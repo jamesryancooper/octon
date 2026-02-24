@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/engine/runtime/spec/policy-receipt-v1.schema.json",
+  "title": "Harmony ACP Policy Receipt v1",
+  "description": "Canonical machine-readable schema for ACP decision receipts emitted by engine/runtime/policy flows.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "run_id",
+    "timestamp",
+    "decision",
+    "effective_acp",
+    "reason_codes",
+    "reason_details",
+    "remediation"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "policy-receipt-v1"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "ALLOW",
+        "STAGE_ONLY",
+        "DENY",
+        "ESCALATE"
+      ]
+    },
+    "effective_acp": {
+      "type": "string",
+      "pattern": "^ACP-[0-4]$"
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reason_details": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "remediation"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "remediation": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "remediation": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

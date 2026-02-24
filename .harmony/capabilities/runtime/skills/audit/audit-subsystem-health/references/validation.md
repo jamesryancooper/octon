@@ -74,3 +74,7 @@ After skill execution, verify:
    `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
 10. Contract governance validator is run when contract metadata or `_ops` boundaries change:
     `bash .harmony/assurance/runtime/_ops/scripts/validate-contract-governance.sh`
+11. Harness version compatibility validator is run when portability/version contracts change:
+    `bash .harmony/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh`
+12. SSOT precedence drift validator is run when runtime/governance/practices authority contracts change:
+    `bash .harmony/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh`

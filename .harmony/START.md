@@ -148,19 +148,34 @@ Within these namespaces, common subpaths are:
 - `_ops/state/`
 - `_scaffold/template/`
 
-## Boot Sequence
+## Canonical Agent-Led Path
 
-0. **If `AGENTS.md` is missing at repo root:** run `/init` (or `.harmony/scaffolding/runtime/_ops/scripts/init-project.sh`) first; add `--with-boot-files` if `BOOT.md` and `BOOTSTRAP.md` compatibility files are needed; add `--with-agent-platform-adapters` for opt-in adapter bootstrap config
-1. **Read `scope.md`** → Know boundaries
-2. **Read `conventions.md`** → Know style rules
-3. **Read `cognition/_meta/architecture/specification.md`** → Know canonical harness rules
-4. **Read `cognition/governance/principles/README.md`** → Know operating principles
-5. **Scan `catalog.md`** → Know available operations and assistants
-6. **Read `continuity/log.md`** → Know what's been done
-7. **Read `continuity/tasks.json`** → Know current priorities
-8. **Check `orchestration/runtime/missions/registry.yml`** → Know active missions (if any)
-9. **Begin** highest-priority unblocked task
-10. **Before finishing:** Complete `assurance/practices/session-exit.md`, verify against `assurance/practices/complete.md`
+Use this as the only recommended onboarding path for agent execution.
+
+Canonical workflow:
+
+- `/.harmony/orchestration/runtime/workflows/tasks/agent-led-happy-path.md`
+
+Flow:
+
+1. Bootstrap
+   - If `AGENTS.md` is missing at repo root, run `/init` (or
+     `.harmony/scaffolding/runtime/_ops/scripts/init-project.sh`) first.
+   - Read `scope.md`, `conventions.md`,
+     `cognition/_meta/architecture/specification.md`, and
+     `cognition/governance/principles/README.md`.
+2. Execute
+   - Read `continuity/log.md` and `continuity/tasks.json`.
+   - Execute the highest-priority unblocked task.
+3. Assure
+   - Run `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness`.
+   - Run additional surface-specific validators for changed domains.
+4. Continuity
+   - Update `continuity/log.md` and `continuity/tasks.json`.
+   - Complete `assurance/practices/session-exit.md` and verify
+     `assurance/practices/complete.md`.
+
+Legacy onboarding variants are hard-deprecated for new sessions.
 
 ## Runtime Quick Start
 

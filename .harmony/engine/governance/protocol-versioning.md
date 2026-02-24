@@ -11,3 +11,30 @@ Engine protocol/schema changes MUST use explicit versioning and MUST NOT silentl
 - Runtime validation must reject unsupported protocol versions (fail closed).
 - Engine policy launcher contracts under `engine/runtime/spec/` follow the same
   versioning rule (for example `policy-interface-v1.md`).
+
+## Compatibility Matrix
+
+| Surface | Current | Supported | Unsupported Handling |
+|---|---|---|---|
+| Harness manifest schema (`/.harmony/harmony.yml:schema_version`) | `1.0` | `1.0` only | Reject (fail-closed) and route to deterministic `/migrate-harness` instructions in `/.harmony/harmony.yml` |
+| Engine stdio protocol | `harmony-stdio-v1` | `harmony-stdio-v1` only | Reject handshake with `PROTOCOL_UNSUPPORTED` |
+| Policy command interface | `policy-interface-v1` | `policy-interface-v1` only | Reject command with explicit schema/version violation |
+| Policy receipt schema | `policy-receipt-v1` | `policy-receipt-v1` only | Reject receipt validation and fail policy gate |
+
+## Upgrade Rules
+
+1. Any incompatible version change MUST:
+   - publish a new version identifier,
+   - update the compatibility matrix in this document,
+   - update `/.harmony/harmony.yml` version contract (if harness-facing), and
+   - update `/.harmony/orchestration/runtime/workflows/meta/migrate-harness/` migration instructions.
+2. Promotion MUST be blocked until local and CI validators enforce the new version contract.
+3. Rollback for version cutover follows clean-break migration policy: full revert of the promotion only.
+
+## Deterministic Unsupported-Version Path
+
+When an unsupported version is detected, enforcement MUST:
+
+1. Fail closed without partial compatibility shims.
+2. Emit deterministic migration instructions (workflow + ordered steps).
+3. Require rerunning governed validation gates before promotion.

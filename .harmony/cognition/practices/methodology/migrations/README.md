@@ -29,6 +29,22 @@ A change is a migration when it changes any of the following in a way that can a
 
 All migrations are CLEAN-BREAK unless an exception is approved under `exceptions.md`.
 
+## Migration Contract (Cutover and Rollback)
+
+The following contract is mandatory for all governance-surface migrations:
+
+1. Single cutover event
+   - Migration cutover MUST happen as one promotion event.
+   - Staged validation can happen before cutover, but post-cutover execution MUST use only the new governance path.
+2. No dual-running after cutover
+   - After cutover, old and new governance paths MUST NOT run in parallel.
+   - Runtime routing, policy evaluation, and validation gates MUST NOT retain branch logic that can execute legacy governance behavior.
+3. Full-revert-only rollback
+   - If rollback is required after cutover, rollback MUST be a full revert of the cutover promotion.
+   - Partial rollback, selective fallback toggles, legacy compatibility branches, and mixed old/new runtime operation are prohibited.
+4. Fail-closed on rollback ambiguity
+   - If a full revert cannot be executed deterministically, promotion is not allowed.
+
 ## Required Artifacts
 
 Every migration must include:

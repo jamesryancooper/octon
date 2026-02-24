@@ -122,6 +122,46 @@ acp:
     low: ACP-1
     medium: ACP-2
     high: ACP-3
+  operating_modes:
+    observe:
+      acp_ceiling: ACP-0
+      required_evidence_contract: evidence.observe.v1
+      escalation_path: owner-review
+    iterate:
+      acp_ceiling: ACP-1
+      required_evidence_contract: evidence.iterate.v1
+      escalation_path: owner-review
+    operate:
+      acp_ceiling: ACP-3
+      required_evidence_contract: evidence.operate.v1
+      escalation_path: owner-and-verifier-review
+    emergency:
+      acp_ceiling: ACP-4
+      required_evidence_contract: evidence.emergency.v1
+      escalation_path: break-glass-owner-escalation
+  evidence_contracts:
+    evidence.observe.v1:
+      required_evidence: [intent, boundaries]
+      remediation: "Provide run intent and explicit boundaries before rerunning."
+    evidence.iterate.v1:
+      required_evidence: [diff, tests, docs.spec]
+      remediation: "Attach diff, tests, and spec evidence before promotion."
+    evidence.operate.v1:
+      required_evidence: [diff, tests, ci, docs.spec, docs.adr, docs.runbook]
+      remediation: "Attach complete release evidence bundle and required attestations."
+    evidence.emergency.v1:
+      required_evidence: [incident.id, rollback.plan, owner.attestation]
+      remediation: "Escalate break-glass with incident context, rollback plan, and owner attestation."
+  profile_mode_map:
+    refactor: iterate
+    scaffold: iterate
+    tests: iterate
+    docs: iterate
+    release-readiness: operate
+    observe: observe
+    iterate: iterate
+    operate: operate
+    emergency: emergency
   docs_gate:
     enforce_on_phase: [promote]
     evidence_types: [docs.spec, docs.adr, docs.runbook]
@@ -185,7 +225,7 @@ acp:
       ceiling: ACP-1
       allow_stage_only_fallback: true
     release-readiness:
-      ceiling: ACP-2
+      ceiling: ACP-3
       allow_stage_only_fallback: true
     observe:
       ceiling: ACP-0
@@ -616,6 +656,7 @@ receipts:
     decision_log: .harmony/capabilities/_ops/state/logs/deny-by-default-decisions.jsonl
     acp_decision_log: .harmony/capabilities/_ops/state/logs/acp-decisions.jsonl
   required_fields:
+    - schema_version
     - run_id
     - timestamp
     - actor
@@ -627,6 +668,8 @@ receipts:
     - effective_acp
     - decision
     - reason_codes
+    - reason_details
+    - remediation
     - evidence
     - attestations
     - rollback_handle

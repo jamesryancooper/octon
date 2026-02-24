@@ -4,12 +4,14 @@ This directory contains single-file, human-invoked task workflows migrated from 
 
 ## Workflows
 
+- `agent-led-happy-path.md` (canonical onboarding flow)
 - `add-api-endpoint.md`
 - `add-ui-feature.md`
 - `fix-a-bug.md`
 - `handle-security-issue.md`
-- `onboard-new-developer.md`
 - `run-data-migration.md`
+
+Retired workflow artifacts are kept only for historical traceability and are not discoverable via manifest/registry routing.
 
 ## Discovery
 

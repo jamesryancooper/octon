@@ -71,8 +71,16 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-harness-structure.sh"
 
   run_step \
+    "Validate harness version compatibility contract" \
+    bash "$SCRIPT_DIR/validate-harness-version-contract.sh"
+
+  run_step \
     "Validate contract governance coverage and _ops boundaries" \
     bash "$SCRIPT_DIR/validate-contract-governance.sh"
+
+  run_step \
+    "Validate SSOT precedence drift contract" \
+    bash "$SCRIPT_DIR/validate-ssot-precedence-drift.sh"
 
   run_step \
     "Validate continuity memory contracts" \
@@ -81,6 +89,10 @@ run_harness() {
   run_step \
     "Validate audit-subsystem-health drift alignment" \
     bash "$SCRIPT_DIR/validate-audit-subsystem-health-alignment.sh"
+
+  run_step \
+    "Validate capability/engine consistency contract" \
+    bash "$SCRIPT_DIR/validate-capability-engine-consistency.sh"
 
   run_step \
     "Validate bounded-audit convergence contract" \

@@ -44,6 +44,14 @@ Within harness documentation, precedence is:
 
 If this file conflicts with `/.harmony/scope.md` or `/.harmony/conventions.md`, scope and conventions for this harness take precedence.
 
+## SSOT Precedence Matrix (Runtime, Governance, Practices)
+
+| Authority ID | Canonical SSOT | Constraint | Conflict Resolution |
+|---|---|---|---|
+| runtime-execution | `/.harmony/engine/runtime/**` | `/.harmony/capabilities/runtime/**` defines capability semantics only; it MUST NOT override engine enforcement. | Fail closed and require ADR-backed contract reconciliation before promotion. |
+| governance-policy | `/.harmony/*/governance/**` | Governance contracts are normative policy authority for their domain and MUST NOT be superseded by practices guidance. | Fail closed and escalate through governance owners plus ADR update. |
+| operating-practices | `/.harmony/*/practices/**` | Practices are implementation guidance and MUST NOT override runtime or governance contracts. | Record drift violation and block promotion until guidance aligns with authority contracts. |
+
 ## Canonical Rules
 
 ### HARMONY-SPEC-001: Domain-Organized Harness Root

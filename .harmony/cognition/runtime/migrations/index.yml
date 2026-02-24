@@ -77,3 +77,8 @@ records:
     path: 2026-02-22-artifact-surface-clean-break-rename/plan.md
     adr: ../decisions/037-artifact-surface-clean-break-rename.md
     evidence: ../../../output/reports/migrations/2026-02-22-artifact-surface-clean-break-rename/evidence.md
+
+  - id: 2026-02-24-clean-break-governance-cutover
+    path: 2026-02-24-clean-break-governance-cutover/plan.md
+    adr: ../decisions/039-clean-break-governance-cutover-contract.md
+    evidence: ../../../output/reports/migrations/2026-02-24-clean-break-governance-cutover/evidence.md

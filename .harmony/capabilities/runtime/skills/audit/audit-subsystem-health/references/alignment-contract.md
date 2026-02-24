@@ -41,6 +41,10 @@ Changes in any of the following paths must trigger an alignment check:
 - `.harmony/cognition/runtime/migrations/`
 - `.harmony/cognition/runtime/decisions/`
 - `.harmony/output/reports/decisions/`
+- `.harmony/engine/governance/protocol-versioning.md`
+- `.harmony/orchestration/runtime/workflows/meta/migrate-harness/`
+- `.harmony/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh`
+- `.harmony/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh`
 
 ## Required Skill Artifacts
 

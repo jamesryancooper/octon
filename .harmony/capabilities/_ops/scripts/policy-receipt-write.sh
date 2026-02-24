@@ -40,7 +40,8 @@ read_policy_paths() {
 render_digest() {
   local receipt_path="$1"
   local output_path="$2"
-  local run_id timestamp decision effective_acp operation_class phase reason_codes rollback_handle recovery_window telemetry_profile material_side_effect
+  local run_id timestamp decision effective_acp operation_class phase reason_codes rollback_handle recovery_window telemetry_profile material_side_effect remediation
+  local reason_details
 
   run_id="$(jq -r '.run_id // ""' "$receipt_path")"
   timestamp="$(jq -r '.timestamp // ""' "$receipt_path")"
@@ -53,10 +54,13 @@ render_digest() {
   recovery_window="$(jq -r '.recovery_window // ""' "$receipt_path")"
   telemetry_profile="$(jq -r '.telemetry_profile // ""' "$receipt_path")"
   material_side_effect="$(jq -r '.material_side_effect // ""' "$receipt_path")"
+  remediation="$(jq -r '.remediation // ""' "$receipt_path")"
+  reason_details="$(jq -r '(.reason_details // [])[]? | "- `" + (.code // "") + "`: " + (.remediation // "")' "$receipt_path")"
 
   {
-    echo "# ACP Decision Digest"
+    echo "# ACP Decision Digest (v1)"
     echo
+    echo "- Digest Format: \`policy-digest-v1\`"
     echo "- Run ID: \`$run_id\`"
     echo "- Timestamp: \`$timestamp\`"
     echo "- Decision: \`$decision\`"
@@ -68,6 +72,14 @@ render_digest() {
     echo "- Telemetry Profile: \`$telemetry_profile\`"
     echo "- Rollback Handle: \`$rollback_handle\`"
     echo "- Recovery Window: \`$recovery_window\`"
+    echo "- Remediation Summary: $remediation"
+    echo
+    echo "## Reason Detail"
+    if [[ -n "$reason_details" ]]; then
+      printf '%s\n' "$reason_details"
+    else
+      echo "- none"
+    fi
   } > "$output_path"
 }
 
@@ -124,6 +136,7 @@ main() {
     --slurpfile req "$request_file" \
     --slurpfile dec "$decision_file" '
     {
+      schema_version: "policy-receipt-v1",
       run_id: ($req[0].run_id),
       timestamp: $timestamp,
       actor: ($req[0].actor // {}),
@@ -143,6 +156,34 @@ main() {
       effective_acp: ($dec[0].effective_acp // "ACP-0"),
       decision: ($dec[0].decision // "DENY"),
       reason_codes: ($dec[0].reason_codes // []),
+      remediation: (
+        if (($dec[0].remediation // "") | tostring | length) > 0
+        then ($dec[0].remediation | tostring)
+        else "Review policy decision reason codes and rerun ACP evaluation."
+        end
+      ),
+      remediation_steps: ($dec[0].remediation_steps // []),
+      reason_details: (
+        ($dec[0].reason_codes // []) as $codes |
+        ($dec[0].remediation_steps // []) as $steps |
+        [
+          range(0; ($codes | length)) as $i |
+          {
+            code: $codes[$i],
+            remediation: (
+              if (($steps | length) > $i) and (($steps[$i] // "") | tostring | length) > 0
+              then ($steps[$i] | tostring)
+              else (
+                if (($dec[0].remediation // "") | tostring | length) > 0
+                then ($dec[0].remediation | tostring)
+                else "Review policy decision reason codes and rerun ACP evaluation."
+                end
+              )
+              end
+            )
+          }
+        ]
+      ),
       evidence: ($req[0].evidence // []),
       attestations: ($req[0].attestations // []),
       flag_metadata_valid: ($req[0].operation.target.flag_metadata_valid // null),
