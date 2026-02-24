@@ -55,11 +55,11 @@ Subsystem expansion specs:
 ├── agency/
 │   ├── manifest.yml    ← Actor registry discovery
 │   ├── _meta/architecture/   ← Agency subsystem specification
-│   ├── governance/     ← Cross-agent contracts (constitution, delegation, memory)
-│   ├── actors/         ← Runtime actor artifacts
+│   ├── runtime/        ← Runtime actor artifacts
 │   │   ├── agents/     ← Autonomous supervisors
 │   │   ├── assistants/ ← Focused specialists (@mention invocation)
 │   │   └── teams/      ← Reusable multi-actor compositions
+│   ├── governance/     ← Cross-agent contracts (constitution, delegation, memory)
 │   ├── practices/      ← Collaboration and delivery practices
 │   └── _ops/           ← Validation scripts and operational checks
 │
@@ -76,11 +76,10 @@ Subsystem expansion specs:
 │
 ├── cognition/
 │   ├── _meta/architecture/   ← Cross-cutting harness and methodology architecture
-│   ├── principles/     ← Canonical principles, pillars, and purpose
-│   ├── methodology/    ← AI-native development methodology
-│   ├── context/        ← Shared reference material and repo context
-│   ├── decisions/      ← Architecture Decision Records
-│   └── analyses/       ← Analytical working artifacts
+│   ├── runtime/        ← Cognition runtime artifacts (context, decisions, analyses)
+│   ├── governance/     ← Principles, controls, pillars, and exception contracts
+│   ├── practices/      ← Methodology and cognition operations guidance
+│   └── _ops/           ← Mutable cognition scripts/state for guardrails
 │
 ├── continuity/         ← log.md, tasks.json, entities.json, next.md
 │   └── _meta/architecture/   ← Continuity subsystem specification
@@ -101,8 +100,11 @@ Subsystem expansion specs:
 │   ├── governance/     ← Reusable design and policy patterns
 │   └── practices/      ← Task prompts and reference examples
 │
-├── assurance/            ← complete.md, session-exit.md + standards
-│   └── _meta/architecture/   ← Assurance subsystem specification
+├── assurance/           ← Assurance domain
+│   ├── _meta/architecture/   ← Assurance subsystem specification
+│   ├── runtime/         ← Runtime assurance artifacts and validators
+│   ├── governance/      ← Weighted policy contracts and score controls
+│   └── practices/       ← Session-exit and completion standards
 │
 ├── ideation/           ← Human-led zone (IGNORE)
 │   ├── _meta/architecture/   ← Ideation subsystem specification

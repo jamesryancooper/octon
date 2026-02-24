@@ -244,6 +244,150 @@ check_readme_orientation() {
   pass "README orientation present: $rel"
 }
 
+extract_structure_tree_entries() {
+  local doc="$1"
+  awk '
+    BEGIN {
+      in_structure = 0
+      in_code = 0
+      found_structure = 0
+      found_code = 0
+    }
+
+    /^##[[:space:]]+Structure[[:space:]]*$/ {
+      in_structure = 1
+      found_structure = 1
+      next
+    }
+
+    in_structure == 1 && in_code == 0 && /^```/ {
+      in_code = 1
+      found_code = 1
+      next
+    }
+
+    in_code == 1 && /^```/ {
+      exit
+    }
+
+    in_code == 0 {
+      next
+    }
+
+    {
+      line = $0
+      sub(/[[:space:]]*(<-|←).*/, "", line)
+      sub(/[[:space:]]+$/, "", line)
+      if (line ~ /^[[:space:]]*$/) {
+        next
+      }
+
+      if (line ~ /^\.harmony\/?$/) {
+        stack[0] = ".harmony"
+        print "dir\t.harmony\t" NR
+        next
+      }
+
+      if (line ~ /(├──|└──)/) {
+        split(line, parts, /├──|└──/)
+        prefix = parts[1]
+        node = parts[2]
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", node)
+        if (node == "") {
+          print "error\tempty-node\t" NR
+          next
+        }
+
+        tmp = prefix
+        gsub(/│/, " ", tmp)
+        depth = int(length(tmp) / 4)
+        parent = stack[depth]
+        if (parent == "") {
+          print "error\tmissing-parent\t" NR
+          next
+        }
+
+        is_dir = (node ~ /\/$/)
+        clean = node
+        sub(/\/$/, "", clean)
+        full = parent "/" clean
+        if (is_dir) {
+          stack[depth + 1] = full
+          print "dir\t" full "\t" NR
+        } else {
+          print "file\t" full "\t" NR
+        }
+      }
+    }
+
+    END {
+      if (found_structure == 0) {
+        print "error\tmissing-structure-section\t0"
+      } else if (found_code == 0) {
+        print "error\tmissing-structure-codeblock\t0"
+      }
+    }
+  ' "$doc"
+}
+
+check_structure_tree_contract() {
+  local doc="$1"
+  local rel="${doc#$ROOT_DIR/}"
+  local kind path lineno
+  local entries=0
+
+  require_file "$doc"
+  if [[ ! -f "$doc" ]]; then
+    return
+  fi
+
+  while IFS=$'\t' read -r kind path lineno; do
+    [[ -z "$kind" ]] && continue
+    entries=$((entries + 1))
+
+    if [[ "$kind" == "error" ]]; then
+      fail "structure tree parse error in ${rel} (line ${lineno}): ${path}"
+      continue
+    fi
+
+    if [[ "$path" != .harmony* ]]; then
+      fail "structure tree path must stay inside .harmony in ${rel} (line ${lineno}): ${path}"
+      continue
+    fi
+
+    if [[ "$kind" == "dir" ]]; then
+      if [[ -d "$ROOT_DIR/$path" ]]; then
+        pass "structure tree directory exists (${rel}:${lineno}): ${path}/"
+      else
+        fail "structure tree directory missing (${rel}:${lineno}): ${path}/"
+      fi
+      continue
+    fi
+
+    if [[ "$kind" == "file" ]]; then
+      if [[ -f "$ROOT_DIR/$path" ]]; then
+        pass "structure tree file exists (${rel}:${lineno}): ${path}"
+      else
+        fail "structure tree file missing (${rel}:${lineno}): ${path}"
+      fi
+      continue
+    fi
+
+    fail "structure tree produced unknown entry kind in ${rel} (line ${lineno}): ${kind}"
+  done < <(extract_structure_tree_entries "$doc")
+
+  if [[ $entries -eq 0 ]]; then
+    fail "structure tree has no entries: ${rel}"
+  else
+    pass "structure tree parsed (${entries} entries): ${rel}"
+  fi
+}
+
+check_structure_docs_contract() {
+  check_structure_tree_contract "$HARMONY_DIR/README.md"
+  check_structure_tree_contract "$HARMONY_DIR/START.md"
+}
+
 check_subsystem_baseline() {
   local subsystem="$1"
   local root="$HARMONY_DIR/$subsystem"
@@ -1670,6 +1814,7 @@ main() {
   check_domain_profile_registry
   check_discovery_contracts
   check_expected_internals
+  check_structure_docs_contract
   check_cognition_decision_record_surface
   check_cognition_migration_record_surface
   check_cognition_audit_record_surface

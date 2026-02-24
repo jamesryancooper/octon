@@ -142,29 +142,31 @@ When resolving a resource, agents check local first, then shared:
 ├── agency/
 │   ├── manifest.yml    <- Actor discovery and routing metadata
 │   ├── _meta/architecture/ <- Agency subsystem specification
-│   ├── governance/     <- Cross-agent contracts (constitution, delegation, memory)
-│   ├── actors/         <- Runtime actor artifacts
+│   ├── runtime/        <- Runtime actor artifacts
 │   │   ├── agents/     <- Autonomous supervisors
 │   │   ├── assistants/ <- Generic specialists (@mention invocation)
 │   │   └── teams/      <- Reusable multi-actor compositions
+│   ├── governance/     <- Cross-agent contracts (constitution, delegation, memory)
 │   ├── practices/      <- Human-agent operating practices
 │   └── _ops/           <- Validation scripts and operational checks
 │
 ├── capabilities/
 │   ├── _meta/architecture/ <- Capabilities subsystem specification
-│   ├── _ops/           <- Agent-native deny-by-default control plane assets
-│   ├── skills/         <- Skills framework + generic skills
-│   ├── commands/       <- Generic atomic operations
-│   ├── tools/          <- Tool packs and custom tools
-│   └── services/       <- Typed domain capabilities (+ services/_meta/docs/)
+│   ├── runtime/        <- Runtime capability artifacts
+│   │   ├── commands/   <- Atomic instruction-driven operations
+│   │   ├── skills/     <- Composite instruction-driven capabilities
+│   │   ├── tools/      <- Atomic invocation-driven tool packs
+│   │   └── services/   <- Composite invocation-driven domain capabilities
+│   ├── governance/     <- Capability policy contracts and schemas
+│   ├── practices/      <- Capability authoring and operating standards
+│   └── _ops/           <- Agent-native deny-by-default control plane assets
 │
 ├── cognition/
 │   ├── _meta/architecture/ <- Cross-cutting harness architecture
-│   ├── principles/     <- Canonical principles and guardrails
-│   ├── methodology/    <- AI-native development methodology
-│   ├── context/        <- Generic reference material (tools, compaction)
-│   ├── decisions/      <- Architecture Decision Records
-│   └── analyses/       <- Analytical artifacts
+│   ├── runtime/        <- Cognition runtime artifacts (context, decisions, analyses)
+│   ├── governance/     <- Principles, controls, pillars, and exception contracts
+│   ├── practices/      <- Methodology and cognition operations guidance
+│   └── _ops/           <- Mutable cognition scripts/state for guardrails
 │
 ├── continuity/         <- Session log, tasks, entities, next steps
 │   └── _meta/architecture/ <- Continuity subsystem specification
@@ -185,8 +187,11 @@ When resolving a resource, agents check local first, then shared:
 │   ├── governance/     <- Reusable design and policy patterns
 │   └── practices/      <- Task templates and reference examples
 │
-├── assurance/            <- Assurance gates (complete.md, session-exit.md)
-│   └── _meta/architecture/ <- Assurance subsystem specification
+├── assurance/           <- Assurance domain
+│   ├── _meta/architecture/ <- Assurance subsystem specification
+│   ├── runtime/         <- Runtime assurance artifacts and validators
+│   ├── governance/      <- Weighted policy contracts and score controls
+│   └── practices/       <- Session-exit and completion standards
 │
 ├── ideation/           <- Human-led zone (scratchpad/, projects/)
 │   └── _meta/architecture/ <- Ideation subsystem specification
