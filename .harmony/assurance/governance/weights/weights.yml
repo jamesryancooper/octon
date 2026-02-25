@@ -1,5 +1,5 @@
 meta:
-  version: "2.1.0"
+  version: "2.2.0"
   updated_at: "2026-02-25"
   owner: "harmony-platform"
   status: "active"
@@ -8,7 +8,7 @@ meta:
 
 charter:
   ref: ".harmony/assurance/governance/CHARTER.md"
-  version: "2.1.0"
+  version: "2.2.0"
   priority_chain:
     - id: assurance
       name: Assurance
@@ -302,6 +302,12 @@ guardrails:
     min_release_cycles_before_removal: 2
 
 changelog:
+  - date: "2026-02-25"
+    version: "2.2.0"
+    change: "Aligned assurance charter and score governance for intent-layer closed-loop alignment controls."
+    rationale: "Intent-layer controls require explicit assurance criteria and charter wording updates, with governed policy metadata versioned together."
+    adr: ".harmony/cognition/runtime/decisions/045-capability-map-and-alignment-drift-gates.md"
+    charter_ref: ".harmony/assurance/governance/CHARTER.md"
   - date: "2026-02-24"
     version: "2.1.0"
     change: "Renamed legacy managed-complexity attribute id to complexity_calibration and aligned policy weights to managed-complexity framing."

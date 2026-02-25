@@ -16,6 +16,11 @@ errors=0
 
 declare -A ENGINE_TOOL_TOKENS=()
 declare -A ENGINE_INTERFACE_COMMANDS=()
+HAS_RG=0
+
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=1
+fi
 
 fail() {
   echo "[ERROR] $1"
@@ -24,6 +29,39 @@ fail() {
 
 pass() {
   echo "[OK] $1"
+}
+
+matches_file_regex() {
+  local pattern="$1"
+  local file="$2"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
+}
+
+list_capability_runner_commands() {
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -No '"\$POLICY_RUNNER"[[:space:]]+[a-z-]+' "$CAPABILITIES_OPS_DIR" --glob '*.sh' \
+      | awk '{print $NF}' \
+      | sort -u
+  else
+    grep -RhoE --include='*.sh' '"\$POLICY_RUNNER"[[:space:]]+[a-z-]+' "$CAPABILITIES_OPS_DIR" \
+      | awk '{print $NF}' \
+      | sort -u
+  fi
+}
+
+search_engine_internal_refs() {
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -n --no-heading -e 'runtime-crates-target/debug/harmony-policy|engine/runtime/crates/policy_engine' \
+      "$CAPABILITIES_OPS_DIR" \
+      --glob '*.sh' || true
+  else
+    grep -RInE --include='*.sh' 'runtime-crates-target/debug/harmony-policy|engine/runtime/crates/policy_engine' \
+      "$CAPABILITIES_OPS_DIR" || true
+  fi
 }
 
 load_engine_tool_tokens() {
@@ -136,7 +174,7 @@ check_interface_spec_matches_cli() {
   local command variant
   for command in "${!ENGINE_INTERFACE_COMMANDS[@]}"; do
     variant="$(to_cli_variant "$command")"
-    if rg -q "^[[:space:]]*${variant}\\(" "$ENGINE_POLICY_CLI"; then
+    if matches_file_regex "^[[:space:]]*${variant}\\(" "$ENGINE_POLICY_CLI"; then
       :
     else
       fail "engine interface command '$command' missing CLI variant '$variant' in ${ENGINE_POLICY_CLI#$ROOT_DIR/}"
@@ -158,11 +196,7 @@ check_capability_interface_usage() {
     if [[ -z "${ENGINE_INTERFACE_COMMANDS[$command]:-}" ]]; then
       fail "capability script command '$command' is not declared in engine policy interface spec"
     fi
-  done < <(
-    rg -No '"\$POLICY_RUNNER"[[:space:]]+[a-z-]+' "$CAPABILITIES_OPS_DIR" --glob '*.sh' \
-      | awk '{print $NF}' \
-      | sort -u
-  )
+  done < <(list_capability_runner_commands)
 
   if [[ "$used" -eq 0 ]]; then
     fail "no capability policy runner command usage found under ${CAPABILITIES_OPS_DIR#$ROOT_DIR/}"
@@ -173,9 +207,7 @@ check_capability_interface_usage() {
 
 check_no_engine_internal_runner_references() {
   local hits
-  hits="$(rg -n --no-heading -e 'runtime-crates-target/debug/harmony-policy|engine/runtime/crates/policy_engine' \
-    "$CAPABILITIES_OPS_DIR" \
-    --glob '*.sh' || true)"
+  hits="$(search_engine_internal_refs)"
   if [[ -n "$hits" ]]; then
     fail "capability scripts reference engine implementation internals instead of engine/runtime/policy launcher"
     printf '%s\n' "$hits"
