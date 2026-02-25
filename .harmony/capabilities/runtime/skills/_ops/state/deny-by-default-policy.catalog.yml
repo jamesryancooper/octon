@@ -1,6 +1,6 @@
 schema_version: "1.0"
-generated_at: "2026-02-23T03:55:36Z"
-source_manifest: "/Users/jamesryancooper/Projects/harmony/.harmony/capabilities/runtime/skills/manifest.yml"
+generated_at: "2026-02-25T01:28:32Z"
+source_manifest: "/Users/jamesryancooper/.codex/worktrees/531f/harmony/.harmony/capabilities/runtime/skills/manifest.yml"
 skills:
   - id: "synthesize-research"
     path: "synthesis/synthesize-research/"

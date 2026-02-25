@@ -5,6 +5,7 @@ paths:
   receipt_writer: ".harmony/capabilities/_ops/scripts/policy-receipt-write.sh"
   rollout_mode_state: ".harmony/capabilities/_ops/state/rollout-mode.state"
   intent_contract: ".harmony/engine/runtime/spec/intent-contract-v1.schema.json"
+  instruction_layer_manifest_schema: ".harmony/engine/runtime/spec/instruction-layer-manifest-v1.schema.json"
 
 exit_codes:
   allow: 0
@@ -15,6 +16,7 @@ wrapper:
   acp_enforce:
     supports_emit_receipt: true
     validates_receipt: true
+    material_runs_require_manifest: true
 
 enforcement:
   intent_binding:

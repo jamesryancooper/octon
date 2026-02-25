@@ -74,6 +74,7 @@ BOOTSTRAP_OUT="$REPO_ROOT/BOOTSTRAP.md"
 ALIGNMENT_CHECK_OUT="$REPO_ROOT/alignment-check"
 ADAPTER_REGISTRY="$REPO_ROOT/.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/registry.yml"
 ADAPTER_ENABLED_OUT="$REPO_ROOT/.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/enabled.yml"
+CONTEXT_POLICY_FILE="$HARMONY_DIR/capabilities/governance/policy/deny-by-default.v2.yml"
 
 if [[ ! -d "$REPO_ROOT/.harmony" ]]; then
   echo "[ERROR] No .harmony directory found in repo root: $REPO_ROOT" >&2
@@ -114,6 +115,87 @@ render_template() {
     "$TEMPLATE_FILE"
 }
 
+read_context_gate_max_value() {
+  local key="$1"
+  awk -v key="$key" '
+    $1 == key ":" {
+      print $2
+      exit
+    }
+  ' "$CONTEXT_POLICY_FILE"
+}
+
+read_context_gate_allowed_sections() {
+  awk '
+    /^[[:space:]]*allowed_sections:[[:space:]]*$/ {in_sections=1; next}
+    in_sections && /^[[:space:]]*limits:[[:space:]]*$/ {in_sections=0}
+    in_sections && /^[[:space:]]*-[[:space:]]*/ {
+      line=$0
+      sub(/^[[:space:]]*-[[:space:]]*/, "", line)
+      gsub(/[[:space:]]+$/, "", line)
+      if (length(line) > 0) print line
+    }
+  ' "$CONTEXT_POLICY_FILE"
+}
+
+validate_generated_agents_file() {
+  local file_path="$1"
+  local max_bytes max_sections bytes section_count heading allowed candidate
+  local -a allowed_sections=()
+  local -a headings=()
+
+  if [[ ! -f "$CONTEXT_POLICY_FILE" ]]; then
+    echo "[ERROR] Missing developer context policy: $CONTEXT_POLICY_FILE" >&2
+    return 1
+  fi
+
+  mapfile -t allowed_sections < <(read_context_gate_allowed_sections)
+  if [[ ${#allowed_sections[@]} -eq 0 ]]; then
+    echo "[ERROR] Policy missing developer_context_gate.allowlist.allowed_sections" >&2
+    return 1
+  fi
+
+  max_bytes="$(read_context_gate_max_value "max_bytes")"
+  max_sections="$(read_context_gate_max_value "max_sections")"
+  if [[ -z "$max_bytes" || ! "$max_bytes" =~ ^[0-9]+$ ]]; then
+    echo "[ERROR] Policy max_bytes missing or invalid: $max_bytes" >&2
+    return 1
+  fi
+  if [[ -z "$max_sections" || ! "$max_sections" =~ ^[0-9]+$ ]]; then
+    echo "[ERROR] Policy max_sections missing or invalid: $max_sections" >&2
+    return 1
+  fi
+
+  bytes="$(wc -c < "$file_path" | tr -d '[:space:]')"
+  if (( bytes > max_bytes )); then
+    echo "[ERROR] Generated AGENTS.md exceeds max_bytes ($bytes > $max_bytes)" >&2
+    return 1
+  fi
+
+  mapfile -t headings < <(awk '/^## / {line=$0; sub(/^## /, "", line); print line}' "$file_path")
+  section_count="${#headings[@]}"
+  if (( section_count > max_sections )); then
+    echo "[ERROR] Generated AGENTS.md exceeds max_sections ($section_count > $max_sections)" >&2
+    return 1
+  fi
+
+  for heading in "${headings[@]}"; do
+    allowed=0
+    for candidate in "${allowed_sections[@]}"; do
+      if [[ "$heading" == "$candidate" ]]; then
+        allowed=1
+        break
+      fi
+    done
+    if [[ "$allowed" -ne 1 ]]; then
+      echo "[ERROR] Generated AGENTS.md contains non-compliant section: $heading" >&2
+      return 1
+    fi
+  done
+
+  return 0
+}
+
 write_from_template() {
   local template_path="$1"
   local output_path="$2"
@@ -147,9 +229,18 @@ write_from_template() {
 }
 
 write_agents() {
+  local tmp_agents=""
   if [[ -f "$AGENTS_OUT" && "$FORCE" -ne 1 ]]; then
     echo "[SKIP] AGENTS.md already exists: $AGENTS_OUT"
     return
+  fi
+
+  tmp_agents="$(mktemp "${TMPDIR:-/tmp}/harmony-init-agents.XXXXXX.md")"
+  render_template > "$tmp_agents"
+  if ! validate_generated_agents_file "$tmp_agents"; then
+    rm -f "$tmp_agents"
+    echo "[ERROR] Refusing to write non-compliant AGENTS.md from template" >&2
+    exit 1
   fi
 
   if [[ "$DRY_RUN" -eq 1 ]]; then
@@ -158,10 +249,11 @@ write_agents() {
     else
       echo "[DRY] Would create AGENTS.md from template: $AGENTS_OUT"
     fi
+    rm -f "$tmp_agents"
     return
   fi
 
-  render_template > "$AGENTS_OUT"
+  mv "$tmp_agents" "$AGENTS_OUT"
   if [[ "$FORCE" -eq 1 ]]; then
     echo "[OK] AGENTS.md overwritten from template: $AGENTS_OUT"
   else

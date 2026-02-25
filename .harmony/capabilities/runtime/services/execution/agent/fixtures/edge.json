@@ -1,1 +1,27 @@
-{"planPath":"plan.json","runId":"run-123","resume":false,"dryRun":true}
+{
+  "id": "agent-edge-context-telemetry",
+  "description": "Dry-run output includes context-acquisition counters and overhead classification.",
+  "request": {
+    "planPath": "plan.json",
+    "runId": "run-123",
+    "resume": false,
+    "dryRun": true
+  },
+  "expect": {
+    "hasKeys": [
+      "status",
+      "runId",
+      "result",
+      "context_acquisition",
+      "context_overhead_ratio"
+    ],
+    "contextAcquisitionRequired": [
+      "file_reads",
+      "search_queries",
+      "commands",
+      "subagent_spawns",
+      "duration_ms"
+    ],
+    "overheadClass": "within-target"
+  }
+}

@@ -13,7 +13,10 @@
     "effective_acp",
     "reason_codes",
     "reason_details",
-    "remediation"
+    "remediation",
+    "instruction_layers",
+    "context_acquisition",
+    "context_overhead_ratio"
   ],
   "properties": {
     "schema_version": {
@@ -114,6 +117,89 @@
         "agent-augmented",
         "human-only"
       ]
+    },
+    "instruction_layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "layer_id",
+          "source",
+          "sha256",
+          "bytes",
+          "visibility"
+        ],
+        "properties": {
+          "layer_id": {
+            "type": "string",
+            "enum": [
+              "provider",
+              "system",
+              "developer",
+              "user"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "visibility": {
+            "type": "string",
+            "enum": [
+              "full",
+              "partial",
+              "none"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "context_acquisition": {
+      "type": "object",
+      "required": [
+        "file_reads",
+        "search_queries",
+        "commands",
+        "subagent_spawns",
+        "duration_ms"
+      ],
+      "properties": {
+        "file_reads": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "search_queries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "commands": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "subagent_spawns": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "context_overhead_ratio": {
+      "type": "number",
+      "minimum": 0
     }
   }
 }

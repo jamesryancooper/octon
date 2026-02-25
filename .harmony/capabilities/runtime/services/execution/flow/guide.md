@@ -33,6 +33,7 @@ HTTP runtime when explicitly configured.
 - Core flow execution does not depend on Python.
 - Native adapter is default and is deterministic for identical inputs.
 - External runtime use is optional and capability-gated (`net.http`).
+- Context-acquisition telemetry fields are mandatory in flow run output.
 
 ## Operation
 
@@ -46,3 +47,14 @@ HTTP runtime when explicitly configured.
 - Fixtures: `fixtures/`
 - Compatibility: `compatibility.yml`
 - Generation provenance: `impl/generated.manifest.json`
+
+## Required Telemetry Output
+
+Flow output must include:
+
+- `context_acquisition.file_reads`
+- `context_acquisition.search_queries`
+- `context_acquisition.commands`
+- `context_acquisition.subagent_spawns`
+- `context_acquisition.duration_ms`
+- `context_overhead_ratio`

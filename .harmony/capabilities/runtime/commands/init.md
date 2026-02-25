@@ -44,11 +44,13 @@ Behavior:
 
 1. Render `AGENTS.md` from `.harmony/scaffolding/runtime/templates/AGENTS.md`.
 2. Use `.harmony/agency/manifest.yml` `default_agent` for contract paths.
-3. Optionally render `BOOT.md` and `BOOTSTRAP.md` for BOOT compatibility.
-4. Render root `alignment-check` shim from `.harmony/scaffolding/runtime/templates/alignment-check`.
-5. Optionally generate adapter bootstrap config at `.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/enabled.yml` (opt-in only).
-6. Create `CLAUDE.md -> AGENTS.md` symlink when safe.
-7. Preserve existing files unless `--force` is supplied.
+3. Enforce developer-context policy limits for generated `AGENTS.md` (`max_bytes`,
+   `max_sections`, and allowed top-level sections) before writing.
+4. Optionally render `BOOT.md` and `BOOTSTRAP.md` for BOOT compatibility.
+5. Render root `alignment-check` shim from `.harmony/scaffolding/runtime/templates/alignment-check`.
+6. Optionally generate adapter bootstrap config at `.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/enabled.yml` (opt-in only).
+7. Create `CLAUDE.md -> AGENTS.md` symlink when safe.
+8. Preserve existing files unless `--force` is supplied.
 
 ## Output
 

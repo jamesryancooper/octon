@@ -28,10 +28,10 @@ steps:
     description: Generate pre-release recommendation and bounded evidence bundle.
   - id: verify
     file: 08-verify.md
-    description: Validate workflow and done-gate outcomes.
+    description: Validate workflow, context-governance evidence, and done-gate outcomes.
 # --- Harmony extensions ---
 access: human
-version: "2.1.0"
+version: "2.2.0"
 depends_on: []
 checkpoints:
   enabled: true
@@ -52,12 +52,16 @@ Pre-release audit is complete only when:
 - [ ] Pre-release bundle exists at `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 - [ ] Findings are deduplicated with stable IDs and acceptance criteria
 - [ ] Coverage and convergence metadata are recorded
+- [ ] Instruction-layer manifest evidence exists for material policy runs
+- [ ] Context-acquisition telemetry fields are present in receipts/digests
+- [ ] Context governance validators pass (`validate-developer-context-policy.sh`, `validate-context-overhead-budget.sh`)
 - [ ] Recommendation and done-gate rationale are explicit
 
 ## Version History
 
 | Version | Date | Changes |
 | ------- | ---- | ------- |
+| 2.2.0 | 2026-02-25 | Added context-governance verification criteria for instruction-layer manifests and context-acquisition telemetry gates |
 | 2.1.0 | 2026-02-22 | Forwarded deterministic controls (`post_remediation`, `convergence_k`, `seed_list`) through all nested audit stages |
 | 2.0.0 | 2026-02-22 | Added bounded-audit bundle and explicit done-gate/convergence metadata |
 | 1.2.0 | 2026-02-21 | Migration stage switched to audit-orchestration-workflow |

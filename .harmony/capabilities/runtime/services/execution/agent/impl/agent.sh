@@ -26,6 +26,46 @@ REVERSIBLE_PRIMITIVES_SCRIPT=".harmony/capabilities/_ops/scripts/policy-reversib
 BREAKER_ACTIONS_SCRIPT=".harmony/capabilities/_ops/scripts/policy-circuit-breaker-actions.sh"
 AGENT_POLICY_LAST_DENY_JSON='{}'
 AGENT_POLICY_ATTEMPTS=0
+AGENT_START_TS="${AGENT_START_TS:-$(date +%s)}"
+
+agent_elapsed_ms() {
+  local now elapsed
+  now="$(date +%s)"
+  elapsed=$(( (now - AGENT_START_TS) * 1000 ))
+  if (( elapsed < 0 )); then
+    elapsed=0
+  fi
+  printf '%s\n' "$elapsed"
+}
+
+agent_default_context_acquisition_json() {
+  local file_reads search_queries commands subagent_spawns duration_ms
+  file_reads="${HARMONY_CONTEXT_FILE_READS:-0}"
+  search_queries="${HARMONY_CONTEXT_SEARCH_QUERIES:-0}"
+  commands="${HARMONY_CONTEXT_COMMANDS:-1}"
+  subagent_spawns="${HARMONY_CONTEXT_SUBAGENT_SPAWNS:-0}"
+  duration_ms="$(agent_elapsed_ms)"
+
+  [[ "$file_reads" =~ ^[0-9]+$ ]] || file_reads=0
+  [[ "$search_queries" =~ ^[0-9]+$ ]] || search_queries=0
+  [[ "$commands" =~ ^[0-9]+$ ]] || commands=0
+  [[ "$subagent_spawns" =~ ^[0-9]+$ ]] || subagent_spawns=0
+  [[ "$duration_ms" =~ ^[0-9]+$ ]] || duration_ms=0
+
+  jq -cn \
+    --argjson file_reads "$file_reads" \
+    --argjson search_queries "$search_queries" \
+    --argjson commands "$commands" \
+    --argjson subagent_spawns "$subagent_spawns" \
+    --argjson duration_ms "$duration_ms" \
+    '{
+      file_reads: $file_reads,
+      search_queries: $search_queries,
+      commands: $commands,
+      subagent_spawns: $subagent_spawns,
+      duration_ms: $duration_ms
+    }'
+}
 
 emit_output() {
   local status="$1"
@@ -33,12 +73,30 @@ emit_output() {
   local result_json="$3"
   local artifacts_json="${4:-}"
   local checkpoint_json="${5:-}"
+  local context_acquisition_json="${6:-}"
+  local context_overhead_ratio="${7:-${HARMONY_CONTEXT_OVERHEAD_RATIO:-0}}"
 
   if [[ -z "$artifacts_json" ]]; then
     artifacts_json='[]'
   fi
   if [[ -z "$checkpoint_json" ]]; then
     checkpoint_json='{}'
+  fi
+  if [[ -z "$context_acquisition_json" ]]; then
+    context_acquisition_json="$(agent_default_context_acquisition_json)"
+  fi
+  if ! jq -e '
+    type == "object" and
+    (.file_reads | type == "number" and . >= 0 and . == floor) and
+    (.search_queries | type == "number" and . >= 0 and . == floor) and
+    (.commands | type == "number" and . >= 0 and . == floor) and
+    (.subagent_spawns | type == "number" and . >= 0 and . == floor) and
+    (.duration_ms | type == "number" and . >= 0 and . == floor)
+  ' >/dev/null 2>&1 <<<"$context_acquisition_json"; then
+    context_acquisition_json="$(agent_default_context_acquisition_json)"
+  fi
+  if ! jq -en --arg ratio "$context_overhead_ratio" '$ratio | tonumber | . >= 0' >/dev/null 2>&1; then
+    context_overhead_ratio="0"
   fi
 
   jq -n \
@@ -47,7 +105,17 @@ emit_output() {
     --argjson result "$result_json" \
     --argjson artifacts "$artifacts_json" \
     --argjson checkpoint "$checkpoint_json" \
-    '{status:$status,runId:$runId,result:$result,artifacts:$artifacts,checkpoint:$checkpoint}'
+    --argjson context_acquisition "$context_acquisition_json" \
+    --arg context_overhead_ratio "$context_overhead_ratio" \
+    '{
+      status:$status,
+      runId:$runId,
+      result:$result,
+      artifacts:$artifacts,
+      checkpoint:$checkpoint,
+      context_acquisition:$context_acquisition,
+      context_overhead_ratio: ($context_overhead_ratio | tonumber)
+    }'
 }
 
 fail_input() {

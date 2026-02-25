@@ -17,3 +17,14 @@ Updated 2026-02-24 for canonical-goal explicitness migration touchpoints.
   materialized to satisfy immutable-charter supersession references.
 - This note links watched architecture/governance drift to the
   audit-subsystem-health artifact set for alignment validation.
+
+Updated 2026-02-25 for context-governance clean-break migration touchpoints.
+
+- Instruction-layer precedence contract and manifest requirements were added to
+  engine governance/runtime specs.
+- Developer-context and context-overhead validators were bound into harness
+  alignment checks and assurance checklists.
+- Runtime telemetry and receipt/provenance schemas now require
+  `instruction_layers`, `context_acquisition`, and `context_overhead_ratio`.
+- This note links the resulting watched architecture/governance drift to the
+  audit-subsystem-health artifact set for alignment validation.

@@ -139,7 +139,7 @@ workflows:
           description: "Authoritative bounded-audit evidence bundle with findings, coverage, and convergence artifacts"
 
   audit-pre-release-workflow:
-    version: "2.1.0"
+    version: "2.2.0"
     commands: ["/audit-pre-release-workflow"]
     parameters:
       - name: subsystem
@@ -236,7 +236,7 @@ workflows:
           kind: directory
           format: mixed
           determinism: unique
-          description: "Authoritative bounded-audit bundle for release recommendation and done-gate evidence"
+          description: "Authoritative bounded-audit bundle for release recommendation, context-governance evidence, and done-gate verification"
 
   audit-change-risk-workflow:
     version: "1.0.0"

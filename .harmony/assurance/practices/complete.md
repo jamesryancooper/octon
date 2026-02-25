@@ -15,6 +15,8 @@ description: Assurance criteria and completion checklist for harness tasks.
 - [ ] Updated `continuity/log.md` with session summary
 - [ ] Updated `continuity/tasks.json` status
 - [ ] `validate-continuity-memory.sh` passes when continuity/memory artifacts changed
+- [ ] `validate-developer-context-policy.sh` passes when developer context policy surfaces change
+- [ ] `validate-context-overhead-budget.sh` passes when runtime telemetry/receipt policy surfaces change
 
 ## Assurance Criteria
 
@@ -53,12 +55,15 @@ description: Assurance criteria and completion checklist for harness tasks.
 - [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh` passes
 - [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-contract-governance.sh` passes
 - [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-continuity-memory.sh` passes
+- [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-developer-context-policy.sh` passes
+- [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-context-overhead-budget.sh` passes
 - [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh` passes
 - [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh` passes
 - [ ] `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness` passes
 - [ ] `bash .harmony/assurance/runtime/_ops/scripts/validate-framing-alignment.sh` passes
 - [ ] `audit-pre-release-workflow` workflow executed (or explicit rationale recorded for not running it)
 - [ ] Contract coverage report exists at `.harmony/output/assurance/results/contract-coverage-latest.md`
+- [ ] Material run evidence includes instruction-layer manifest and context-acquisition telemetry fields
 
 ### For Commit/PR Standards Changes
 

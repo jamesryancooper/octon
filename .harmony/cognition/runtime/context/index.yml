@@ -43,6 +43,14 @@ contracts:
     enforced_by:
       - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
+  - contract_id: HARMONY-SPEC-017
+    path: ../../_meta/architecture/specification.md
+    owner: cognition
+    version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
   - contract_id: ASSURANCE-PRECEDENCE-001
     path: ../../../assurance/governance/precedence.md
     owner: assurance
@@ -56,6 +64,14 @@ contracts:
     path: ../../../engine/governance/README.md
     owner: engine
     version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+  - contract_id: ENGINE-GOV-002
+    path: ../../../engine/governance/instruction-layer-precedence.md
+    owner: engine
+    version: "1.0.0"
     supersedes: []
     enforced_by:
       - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh

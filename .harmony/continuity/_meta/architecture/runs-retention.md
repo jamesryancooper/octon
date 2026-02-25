@@ -26,7 +26,7 @@ It does not redefine task or handoff state ownership.
 
 | Class | Typical Prefixes | Retention | Action |
 |---|---|---|---|
-| `governance_evidence` | `audit*`, `runtime-acp*`, `runtime-agent-quorum-`, `docs-gate-`, `snippet-emit-` | 365 days | Archive |
+| `governance_evidence` | `audit*`, `runtime-acp*`, `runtime-soft-delete-*`, `runtime-agent-quorum-`, `docs-gate-`, `snippet-emit-` | 365 days | Archive |
 | `operational_debug` | `debug-`, `run-` | 30 days | Prune |
 | `scratch` | `tmp-` | 7 days | Prune |
 
@@ -36,6 +36,7 @@ It does not redefine task or handoff state ownership.
 - Top-level non-directory files under `runs/` MUST be listed in `always_keep_files`.
 - Retention policy changes MUST be reviewed as governance-affecting changes.
 - Never store secrets or regulated data in run artifacts.
+- Material ACP runs SHOULD retain instruction-layer manifest and context-acquisition telemetry evidence for the retention window.
 
 ## Enforcement
 

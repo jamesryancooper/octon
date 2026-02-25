@@ -20,6 +20,11 @@ Options:
   --budgets-json <json>           Budgets JSON object
   --counters-json <json>          Counters JSON object
   --signals-json <json>           Circuit signal JSON array
+  --instruction-layers-json <json>
+                                  Instruction-layer manifest JSON array
+  --context-acquisition-json <json>
+                                  Context-acquisition counters JSON object
+  --context-overhead-ratio <num>  Context-overhead ratio as number
   --plan-hash <hash>              Plan hash binding
   --evidence-hash <hash>          Evidence hash binding
   --intent <text>                 Intent summary
@@ -60,6 +65,9 @@ main() {
   local budgets_json='{}'
   local counters_json='{}'
   local signals_json='[]'
+  local instruction_layers_json='[]'
+  local context_acquisition_json='{}'
+  local context_overhead_ratio='0'
   local plan_hash="" evidence_hash="" intent="" boundaries=""
   local break_glass=false
 
@@ -81,6 +89,9 @@ main() {
       --budgets-json) budgets_json="$2"; shift 2 ;;
       --counters-json) counters_json="$2"; shift 2 ;;
       --signals-json) signals_json="$2"; shift 2 ;;
+      --instruction-layers-json) instruction_layers_json="$2"; shift 2 ;;
+      --context-acquisition-json) context_acquisition_json="$2"; shift 2 ;;
+      --context-overhead-ratio) context_overhead_ratio="$2"; shift 2 ;;
       --plan-hash) plan_hash="$2"; shift 2 ;;
       --evidence-hash) evidence_hash="$2"; shift 2 ;;
       --intent) intent="$2"; shift 2 ;;
@@ -106,6 +117,12 @@ main() {
   ensure_json_type "$budgets_json" "object" "--budgets-json"
   ensure_json_type "$counters_json" "object" "--counters-json"
   ensure_json_type "$signals_json" "array" "--signals-json"
+  ensure_json_type "$instruction_layers_json" "array" "--instruction-layers-json"
+  ensure_json_type "$context_acquisition_json" "object" "--context-acquisition-json"
+  if ! jq -en --arg ratio "$context_overhead_ratio" '$ratio | tonumber' >/dev/null 2>&1; then
+    echo "--context-overhead-ratio must be a numeric value" >&2
+    exit 1
+  fi
 
   mkdir -p "$(dirname "$output")"
 
@@ -125,6 +142,9 @@ main() {
     --argjson budgets "$budgets_json" \
     --argjson counters "$counters_json" \
     --argjson signals "$signals_json" \
+    --argjson instruction_layers "$instruction_layers_json" \
+    --argjson context_acquisition "$context_acquisition_json" \
+    --arg context_overhead_ratio "$context_overhead_ratio" \
     --arg plan_hash "$plan_hash" \
     --arg evidence_hash "$evidence_hash" \
     --arg intent "$intent" \
@@ -142,6 +162,9 @@ main() {
       attestations: $attestations,
       budgets: $budgets,
       counters: $counters,
+      instruction_layers: $instruction_layers,
+      context_acquisition: $context_acquisition,
+      context_overhead_ratio: ($context_overhead_ratio | tonumber),
       circuit_signals: $signals,
       plan_hash: (if ($plan_hash|length)==0 then null else $plan_hash end),
       evidence_hash: (if ($evidence_hash|length)==0 then null else $evidence_hash end),

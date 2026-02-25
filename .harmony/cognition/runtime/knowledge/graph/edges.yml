@@ -1,5 +1,5 @@
 schema_version: "1.0"
-updated: "2026-02-24"
+updated: "2026-02-25"
 
 # Edge records are materialized from canonical contracts.
 # Expected fields per entry: id, type, from, to, evidence.
@@ -174,6 +174,16 @@ edges:
     from: "migration:2026-02-24-clean-break-governance-cutover"
     to: "evidence:2026-02-24-clean-break-governance-cutover"
     evidence: "../../../output/reports/migrations/2026-02-24-clean-break-governance-cutover/evidence.md"
+  - id: "migration:2026-02-25-context-governance-clean-break->adr:039-clean-break-governance-cutover-contract"
+    type: "references-adr"
+    from: "migration:2026-02-25-context-governance-clean-break"
+    to: "adr:039-clean-break-governance-cutover-contract"
+    evidence: "../../migrations/2026-02-25-context-governance-clean-break/plan.md"
+  - id: "migration:2026-02-25-context-governance-clean-break->evidence:2026-02-25-context-governance-clean-break"
+    type: "has-evidence"
+    from: "migration:2026-02-25-context-governance-clean-break"
+    to: "evidence:2026-02-25-context-governance-clean-break"
+    evidence: "../../../output/reports/migrations/2026-02-25-context-governance-clean-break/evidence.md"
   - id: "projection:cognition-runtime-surface-map->surface:analyses"
     type: "projects-surface"
     from: "projection:cognition-runtime-surface-map"

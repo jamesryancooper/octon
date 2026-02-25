@@ -84,6 +84,70 @@ harmony_acp_default_counters_json() {
     }'
 }
 
+harmony_acp_default_instruction_layers_json() {
+  jq -cn '[
+    {
+      "layer_id": "provider",
+      "source": "upstream",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "bytes": 0,
+      "visibility": "partial"
+    },
+    {
+      "layer_id": "system",
+      "source": "harmony-system",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "bytes": 0,
+      "visibility": "partial"
+    },
+    {
+      "layer_id": "developer",
+      "source": "AGENTS.md",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "bytes": 0,
+      "visibility": "full"
+    },
+    {
+      "layer_id": "user",
+      "source": "runtime-request",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "bytes": 0,
+      "visibility": "full"
+    }
+  ]'
+}
+
+harmony_acp_default_context_acquisition_json() {
+  local now start elapsed_ms command_count
+
+  now="$(date +%s)"
+  start="${HARMONY_ENFORCER_START_TS:-$now}"
+  if [[ ! "$start" =~ ^[0-9]+$ ]]; then
+    start="$now"
+  fi
+  elapsed_ms=$(( (now - start) * 1000 ))
+  if (( elapsed_ms < 0 )); then
+    elapsed_ms=0
+  fi
+
+  command_count="${HARMONY_COMMAND_COUNT:-0}"
+  if [[ ! "$command_count" =~ ^[0-9]+$ ]]; then
+    command_count=0
+  fi
+  command_count=$((command_count + 1))
+
+  jq -cn \
+    --argjson commands "$command_count" \
+    --argjson duration_ms "$elapsed_ms" \
+    '{
+      file_reads: 0,
+      search_queries: 0,
+      commands: $commands,
+      subagent_spawns: 0,
+      duration_ms: $duration_ms
+    }'
+}
+
 harmony_ddb_split_allowed_tools() {
   local raw="$1"
   local token=""
@@ -249,6 +313,7 @@ harmony_acp_gate_enforce() {
   local phase operation_class run_id profile actor_id actor_type break_glass keep_tmp
   local phase_raw phase_reason phase_note
   local target_json evidence_json attestations_json counters_json budgets_json signals_json reversibility_json
+  local instruction_layers_json context_acquisition_json context_overhead_ratio
   local request_builder acp_eval receipt_writer breaker_actions_script
   local tmp_dir request_file decision_file decision_output rc request_rc
   local continuity_run_dir rollback_dir decision_kind
@@ -347,6 +412,11 @@ harmony_acp_gate_enforce() {
   [[ -n "$budgets_json" ]] || budgets_json='{}'
   signals_json="${HARMONY_ACP_SIGNALS_JSON:-}"
   [[ -n "$signals_json" ]] || signals_json='[]'
+  instruction_layers_json="${HARMONY_ACP_INSTRUCTION_LAYERS_JSON:-}"
+  [[ -n "$instruction_layers_json" ]] || instruction_layers_json="$(harmony_acp_default_instruction_layers_json)"
+  context_acquisition_json="${HARMONY_ACP_CONTEXT_ACQUISITION_JSON:-}"
+  [[ -n "$context_acquisition_json" ]] || context_acquisition_json="$(harmony_acp_default_context_acquisition_json)"
+  context_overhead_ratio="${HARMONY_ACP_CONTEXT_OVERHEAD_RATIO:-0}"
   reversibility_json="${HARMONY_ACP_REVERSIBILITY_JSON:-}"
   if [[ -z "$reversibility_json" ]]; then
     local default_primitive default_recovery_window
@@ -404,6 +474,9 @@ harmony_acp_gate_enforce() {
     --budgets-json "$budgets_json" \
     --counters-json "$counters_json" \
     --signals-json "$signals_json" \
+    --instruction-layers-json "$instruction_layers_json" \
+    --context-acquisition-json "$context_acquisition_json" \
+    --context-overhead-ratio "$context_overhead_ratio" \
     --plan-hash "${HARMONY_PLAN_HASH:-}" \
     --evidence-hash "${HARMONY_EVIDENCE_HASH:-}" \
     --intent "${HARMONY_ACP_INTENT:-runtime-service-enforcement}" \

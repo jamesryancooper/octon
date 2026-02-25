@@ -13,6 +13,15 @@
     }
   },
   "expect": {
-    "hasMetadataFields": ["flowName", "workflowManifestPath", "runnerEndpoint"]
+    "hasMetadataFields": ["flowName", "workflowManifestPath", "runnerEndpoint"],
+    "hasKeys": ["result", "runId", "context_acquisition", "context_overhead_ratio", "metadata"],
+    "contextAcquisitionRequired": [
+      "file_reads",
+      "search_queries",
+      "commands",
+      "subagent_spawns",
+      "duration_ms"
+    ],
+    "overheadClass": "warn-tier"
   }
 }

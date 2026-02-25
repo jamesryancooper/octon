@@ -66,6 +66,13 @@ Each entry should be specific enough to avoid false positives.
 - `cognition/practices/methodology/migrations/20` - deprecated migration record prefix under practices surface - removed by migration `2026-02-21-cognition-runtime-migrations-surface-split`
 - `output/reports/migrations/*-evidence.md` - deprecated flat migration evidence filename pattern - removed by migration `2026-02-21-migration-evidence-bundle-format`
 - `onboard-new-developer` - retired onboarding workflow identifier/command token; removed from discoverable routing by migration `2026-02-24-clean-break-governance-cutover`
+- `operation.target.instruction_layers` - deprecated context-governance clean-break compatibility alias; replaced by top-level `instruction_layers` field in migration `2026-02-25-context-governance-clean-break`
+- `operation.target.context_acquisition` - deprecated context-governance clean-break compatibility alias; replaced by top-level `context_acquisition` field in migration `2026-02-25-context-governance-clean-break`
+- `operation.target.context_overhead_ratio` - deprecated context-governance clean-break compatibility alias; replaced by top-level `context_overhead_ratio` field in migration `2026-02-25-context-governance-clean-break`
+- `latest_receipt // .receipt` - deprecated instruction-layer receipt fallback expression removed in migration `2026-02-25-context-governance-clean-break`
+- `latest_digest // .digest` - deprecated instruction-layer digest fallback expression removed in migration `2026-02-25-context-governance-clean-break`
+- `compatibility_receipt` - deprecated context-governance clean-break compatibility output key removed in migration `2026-02-25-context-governance-clean-break`
+- `compatibility_digest` - deprecated context-governance clean-break compatibility output key removed in migration `2026-02-25-context-governance-clean-break`
 
 ## Banned Paths
 

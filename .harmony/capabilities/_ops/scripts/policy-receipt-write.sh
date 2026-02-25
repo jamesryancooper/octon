@@ -37,12 +37,35 @@ read_policy_paths() {
   printf '%s\n' "$runs_dir" "$receipt_name" "$digest_name" "$acp_log"
 }
 
+require_context_telemetry() {
+  local request_file="$1"
+  jq -e '
+    def is_nonneg_int:
+      (type == "number") and (. >= 0) and (. == floor);
+
+    .instruction_layers as $layers |
+    .context_acquisition as $acq |
+    .context_overhead_ratio as $ratio |
+
+    ($layers | type == "array" and length > 0) and
+    ($acq | type == "object") and
+    (($acq.file_reads? // null) | is_nonneg_int) and
+    (($acq.search_queries? // null) | is_nonneg_int) and
+    (($acq.commands? // null) | is_nonneg_int) and
+    (($acq.subagent_spawns? // null) | is_nonneg_int) and
+    (($acq.duration_ms? // null) | is_nonneg_int) and
+    (($ratio | type == "number") and ($ratio >= 0))
+  ' "$request_file" >/dev/null || {
+    echo "request missing required instruction layer or context-acquisition telemetry fields" >&2
+    exit 1
+  }
+}
+
 render_digest() {
   local receipt_path="$1"
   local output_path="$2"
   local run_id timestamp decision effective_acp operation_class phase reason_codes rollback_handle recovery_window telemetry_profile material_side_effect remediation
-  local intent_ref boundary_id boundary_set_version workflow_mode capability_classification
-  local reason_details
+  local intent_ref boundary_id boundary_set_version workflow_mode capability_classification instruction_layers reason_details
 
   run_id="$(jq -r '.run_id // ""' "$receipt_path")"
   timestamp="$(jq -r '.timestamp // ""' "$receipt_path")"
@@ -61,6 +84,7 @@ render_digest() {
   workflow_mode="$(jq -r '.workflow_mode // ""' "$receipt_path")"
   capability_classification="$(jq -r '.capability_classification // ""' "$receipt_path")"
   remediation="$(jq -r '.remediation // ""' "$receipt_path")"
+  instruction_layers="$(jq -r '(.instruction_layers // []) | map("\(.layer_id):\(.source):\(.visibility):\(.bytes):\(.sha256)") | join(",")' "$receipt_path")"
   reason_details="$(jq -r '(.reason_details // [])[]? | "- `" + (.code // "") + "`: " + (.remediation // "")' "$receipt_path")"
 
   {
@@ -81,6 +105,7 @@ render_digest() {
     echo "- Boundary Set Version: \`$boundary_set_version\`"
     echo "- Workflow Mode: \`$workflow_mode\`"
     echo "- Capability Classification: \`$capability_classification\`"
+    echo "- Instruction Layers: \`$instruction_layers\`"
     echo "- Rollback Handle: \`$rollback_handle\`"
     echo "- Recovery Window: \`$recovery_window\`"
     echo "- Remediation Summary: $remediation"
@@ -113,6 +138,7 @@ main() {
   [[ -f "$request_file" ]] || { echo "Missing request file: $request_file" >&2; exit 1; }
   [[ -f "$decision_file" ]] || { echo "Missing decision file: $decision_file" >&2; exit 1; }
   [[ -f "$policy_file" ]] || { echo "Missing policy file: $policy_file" >&2; exit 1; }
+  require_context_telemetry "$request_file"
 
   local runs_dir receipt_name digest_name decision_log
   mapfile -t _paths < <(read_policy_paths "$policy_file")
@@ -251,6 +277,18 @@ main() {
       recovery_window: ($req[0].reversibility.recovery_window // null),
       budgets: ($req[0].budgets // {}),
       counters: ($req[0].counters // {}),
+      instruction_layers: (
+        $req[0].instruction_layers //
+        []
+      ),
+      context_acquisition: (
+        $req[0].context_acquisition //
+        {}
+      ),
+      context_overhead_ratio: (
+        $req[0].context_overhead_ratio //
+        0
+      ),
       requirements: ($dec[0].requirements // {})
     }' | jq -S . > "$tmp_receipt"
 
@@ -268,13 +306,8 @@ main() {
   mv "$tmp_receipt" "$immutable_receipt_path"
   render_digest "$immutable_receipt_path" "$immutable_digest_path"
 
-  # Backward compatibility path: populate once and preserve immutable history.
-  if [[ ! -f "$receipt_path" ]]; then
-    cp "$immutable_receipt_path" "$receipt_path"
-  fi
-  if [[ ! -f "$digest_path" ]]; then
-    cp "$immutable_digest_path" "$digest_path"
-  fi
+  cp "$immutable_receipt_path" "$receipt_path"
+  cp "$immutable_digest_path" "$digest_path"
 
   cp "$immutable_receipt_path" "$latest_receipt_path"
   cp "$immutable_digest_path" "$latest_digest_path"
@@ -303,9 +336,9 @@ main() {
     --arg digest "$immutable_digest_path" \
     --arg latest_receipt "$latest_receipt_path" \
     --arg latest_digest "$latest_digest_path" \
-    --arg compatibility_receipt "$receipt_path" \
-    --arg compatibility_digest "$digest_path" \
-    '{receipt:$receipt,digest:$digest,latest_receipt:$latest_receipt,latest_digest:$latest_digest,compatibility_receipt:$compatibility_receipt,compatibility_digest:$compatibility_digest}' | jq -c .
+    --arg canonical_receipt "$receipt_path" \
+    --arg canonical_digest "$digest_path" \
+    '{receipt:$receipt,digest:$digest,latest_receipt:$latest_receipt,latest_digest:$latest_digest,canonical_receipt:$canonical_receipt,canonical_digest:$canonical_digest}' | jq -c .
 }
 
 main "$@"

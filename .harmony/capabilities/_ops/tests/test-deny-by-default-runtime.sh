@@ -407,6 +407,14 @@ run_fs_soft_delete_scope_mapping_tests() {
       attestations: [],
       budgets: {},
       counters: {"fs.max_paths_deleted": 1},
+      instruction_layers: [
+        {layer_id: "provider", source: "upstream", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "partial"},
+        {layer_id: "system", source: "harmony-system", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "partial"},
+        {layer_id: "developer", source: "AGENTS.md", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "full"},
+        {layer_id: "user", source: "runtime-test", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "full"}
+      ],
+      context_acquisition: {file_reads: 0, search_queries: 0, commands: 1, subagent_spawns: 0, duration_ms: 1},
+      context_overhead_ratio: 0,
       circuit_signals: [],
       plan_hash: "plan-hash-1",
       evidence_hash: "evidence-hash-1",
@@ -433,6 +441,14 @@ run_fs_soft_delete_scope_mapping_tests() {
       attestations: [],
       budgets: {},
       counters: {"fs.max_paths_deleted": 1},
+      instruction_layers: [
+        {layer_id: "provider", source: "upstream", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "partial"},
+        {layer_id: "system", source: "harmony-system", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "partial"},
+        {layer_id: "developer", source: "AGENTS.md", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "full"},
+        {layer_id: "user", source: "runtime-test", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "full"}
+      ],
+      context_acquisition: {file_reads: 0, search_queries: 0, commands: 1, subagent_spawns: 0, duration_ms: 1},
+      context_overhead_ratio: 0,
       circuit_signals: [],
       plan_hash: "plan-hash-1",
       evidence_hash: "evidence-hash-1",
@@ -496,6 +512,14 @@ run_direct_acp_enforce_emit_receipt_tests() {
       "repo.max_commits": 1,
       "time.max_seconds": 1
     },
+    instruction_layers: [
+      {layer_id: "provider", source: "upstream", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "partial"},
+      {layer_id: "system", source: "harmony-system", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "partial"},
+      {layer_id: "developer", source: "AGENTS.md", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "full"},
+      {layer_id: "user", source: "runtime-test", sha256: "0000000000000000000000000000000000000000000000000000000000000000", bytes: 0, visibility: "full"}
+    ],
+    context_acquisition: {file_reads: 0, search_queries: 0, commands: 1, subagent_spawns: 0, duration_ms: 1},
+    context_overhead_ratio: 0,
     circuit_signals: [],
     plan_hash: "plan-hash-1",
     evidence_hash: "evidence-hash-1",

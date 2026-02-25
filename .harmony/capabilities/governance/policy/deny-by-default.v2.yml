@@ -5,6 +5,32 @@ defaults:
   deny_unknown_tokens: true
   deny_unscoped_bash: true
   deny_unscoped_write: true
+developer_context_gate:
+  mode: hard-enforce
+  allowlist:
+    artifact_paths: [AGENTS.md, CLAUDE.md]
+    allowed_sections:
+      - Behavioral Contract
+      - Harness Orientation
+      - Skills
+      - Workflows
+      - Commit Discipline
+      - Pull Request Discipline
+  limits:
+    max_bytes: 24576
+    max_sections: 12
+context_overhead_gate:
+  mode: hard-enforce
+  thresholds:
+    warn_ratio: 0.20
+    soft_fail_ratio: 0.35
+    hard_fail_ratio: 0.50
+    max_context_files_read: 30
+    max_context_acquisition_ms: 120000
+  required_receipt_fields:
+    - instruction_layers
+    - context_acquisition
+    - context_overhead_ratio
 exceptions:
   state_file: ".harmony/capabilities/_ops/state/deny-by-default-exceptions.yml"
   require_owner: true

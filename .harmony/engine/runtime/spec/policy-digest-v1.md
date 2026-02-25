@@ -26,6 +26,7 @@ Canonical human-readable digest format for ACP decision receipts.
 - Rollback Handle
 - Recovery Window
 - Remediation Summary
+- Instruction Layers (layer id, source, visibility, bytes, hash)
 
 ## Required Detail Section
 
@@ -36,3 +37,6 @@ Canonical human-readable digest format for ACP decision receipts.
 
 The digest is authoritative only when sourced from a receipt that conforms to
 `policy-receipt-v1.schema.json`.
+
+When instruction-layer metadata is emitted for material runs, digest summaries
+MUST align with `instruction-layer-manifest-v1.schema.json`.

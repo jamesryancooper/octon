@@ -15,6 +15,7 @@ identifiers, and resumable execution checkpoints.
 - No Python runtime dependency is required.
 - Missing checkpoints fail closed.
 - Resume transitions are explicit and auditable.
+- Context-acquisition telemetry fields are always emitted in service output.
 
 ## Input and Output Contracts
 
@@ -22,6 +23,17 @@ identifiers, and resumable execution checkpoints.
 - Output schema: `schema/output.schema.json`
 - Invariants: `contracts/invariants.md`
 - Errors: `contracts/errors.yml`
+
+## Required Telemetry Output
+
+Agent output must include:
+
+- `context_acquisition.file_reads`
+- `context_acquisition.search_queries`
+- `context_acquisition.commands`
+- `context_acquisition.subagent_spawns`
+- `context_acquisition.duration_ms`
+- `context_overhead_ratio`
 
 ## Example (execute)
 

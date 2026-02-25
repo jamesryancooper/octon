@@ -4,7 +4,7 @@
   "title": "FlowKitOutputs",
   "description": "Output schema for FlowKit run results",
   "type": "object",
-  "required": ["result", "runId"],
+  "required": ["result", "runId", "context_acquisition", "context_overhead_ratio"],
   "properties": {
     "result": {
       "description": "Flow-specific result payload",
@@ -21,6 +21,24 @@
       "items": {
         "type": "string"
       }
+    },
+    "context_acquisition": {
+      "type": "object",
+      "description": "Context-acquisition counters for this flow execution.",
+      "required": ["file_reads", "search_queries", "commands", "subagent_spawns", "duration_ms"],
+      "properties": {
+        "file_reads": { "type": "integer", "minimum": 0 },
+        "search_queries": { "type": "integer", "minimum": 0 },
+        "commands": { "type": "integer", "minimum": 0 },
+        "subagent_spawns": { "type": "integer", "minimum": 0 },
+        "duration_ms": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "context_overhead_ratio": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Measured context-overhead ratio for this flow run."
     },
     "metadata": {
       "type": "object",
@@ -39,4 +57,3 @@
     }
   }
 }
-

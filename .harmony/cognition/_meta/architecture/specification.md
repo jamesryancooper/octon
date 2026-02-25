@@ -280,6 +280,21 @@ Expands in:
 - [Assurance Precedence Contract](/.harmony/assurance/governance/precedence.md)
 - [Assurance Contract Boundary](/.harmony/assurance/README.md)
 
+### HARMONY-SPEC-017: Instruction-Layer Precedence Contract
+
+Material runs MUST model instruction layers using a deterministic precedence
+order and emit explainable layer manifests for observable/local instruction
+sources.
+
+Developer-layer instruction artifacts MUST be policy-governed and fail closed
+when unapproved sources are supplied in strict mode.
+
+Expands in:
+
+- [Instruction-Layer Precedence Contract](/.harmony/engine/governance/instruction-layer-precedence.md)
+- [Engine Governance](/.harmony/engine/governance/README.md)
+- [Context Index](/.harmony/cognition/runtime/context/index.yml)
+
 ### HARMONY-SPEC-101: Agency Contract Boundary
 
 `/.harmony/agency/**` MUST define actor taxonomy, invocation model, and delegation boundaries as an explicit contract.

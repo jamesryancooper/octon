@@ -97,6 +97,24 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-capability-engine-consistency.sh"
 
   run_step \
+    "Validate developer context policy contract" \
+    bash "$SCRIPT_DIR/validate-developer-context-policy.sh"
+
+  run_step \
+    "Validate context overhead budget contract" \
+    bash "$SCRIPT_DIR/validate-context-overhead-budget.sh"
+
+  run_step \
+    "Validate context-governance clean-break banlist entries" \
+    rg -n "context-governance-clean-break|instruction-layer|context-acquisition" \
+      "$HARMONY_DIR/cognition/practices/methodology/migrations/legacy-banlist.md"
+
+  run_step \
+    "Validate context-governance clean-break CI gate doctrine entries" \
+    rg -n "Context governance clean-break|instruction-layer|context-acquisition|context-overhead" \
+      "$HARMONY_DIR/cognition/practices/methodology/migrations/ci-gates.md"
+
+  run_step \
     "Validate bounded-audit convergence contract" \
     bash "$SCRIPT_DIR/validate-audit-convergence-contract.sh"
 

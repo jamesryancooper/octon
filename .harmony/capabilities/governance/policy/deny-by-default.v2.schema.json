@@ -8,6 +8,8 @@
     "schema_version",
     "mode",
     "defaults",
+    "developer_context_gate",
+    "context_overhead_gate",
     "exceptions",
     "governance_overrides",
     "grants",
@@ -60,6 +62,12 @@
           "type": "boolean"
         }
       }
+    },
+    "developer_context_gate": {
+      "$ref": "#/$defs/developerContextGate"
+    },
+    "context_overhead_gate": {
+      "$ref": "#/$defs/contextOverheadGate"
     },
     "exceptions": {
       "type": "object",
@@ -323,6 +331,132 @@
         },
         "require_rollback_plan": {
           "type": "boolean"
+        }
+      }
+    },
+    "developerContextGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "allowlist",
+        "limits"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "warn-only",
+            "soft-enforce",
+            "hard-enforce"
+          ]
+        },
+        "allowlist": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "artifact_paths",
+            "allowed_sections"
+          ],
+          "properties": {
+            "artifact_paths": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            },
+            "allowed_sections": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uniqueItems": true
+            }
+          }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "max_bytes",
+            "max_sections"
+          ],
+          "properties": {
+            "max_bytes": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "max_sections": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    },
+    "contextOverheadGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "thresholds",
+        "required_receipt_fields"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "warn-only",
+            "soft-enforce",
+            "hard-enforce"
+          ]
+        },
+        "thresholds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "warn_ratio",
+            "soft_fail_ratio",
+            "hard_fail_ratio",
+            "max_context_files_read",
+            "max_context_acquisition_ms"
+          ],
+          "properties": {
+            "warn_ratio": {
+              "type": "number",
+              "minimum": 0
+            },
+            "soft_fail_ratio": {
+              "type": "number",
+              "minimum": 0
+            },
+            "hard_fail_ratio": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max_context_files_read": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max_context_acquisition_ms": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "required_receipt_fields": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
         }
       }
     },

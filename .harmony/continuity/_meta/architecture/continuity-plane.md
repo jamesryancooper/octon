@@ -54,6 +54,9 @@ This contract is authoritative. Continuity artifacts must be represented through
 ### `.harmony/continuity/runs/`
 
 - Append-oriented run evidence artifacts (receipts, digests, policy traces).
+- Material-run evidence includes:
+  - instruction-layer manifests (`instruction-layer-manifest.json`)
+  - receipt telemetry fields (`instruction_layers`, `context_acquisition`, `context_overhead_ratio`)
 - Lifecycle governed by `/.harmony/continuity/runs/retention.json`.
 - Not a source of active task state.
 
@@ -80,6 +83,7 @@ This contract is authoritative. Continuity artifacts must be represented through
 - `entities.json` should reflect ownership and lifecycle before handoff.
 - Continuity JSON artifacts must satisfy canonical schema contracts under `_meta/architecture/schemas/`.
 - Run evidence directories under `runs/` must map to a declared retention class.
+- Post-cutover run evidence should support context-overhead classification (`within-target`, `warn`, `soft-fail`, `hard-fail`).
 
 ## Anti-Patterns
 

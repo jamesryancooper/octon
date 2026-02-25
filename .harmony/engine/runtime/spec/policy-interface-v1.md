@@ -60,6 +60,15 @@ Fail-closed behavior:
 - Autonomous run for non-`agent-ready` classification: deny with reason code
   `MODE_VIOLATION_AUTONOMY_NOT_ALLOWED`
 
+For material ACP runs (`phase=promote|finalize` or explicit material side-effect
+flags), the wrapper executes a single mandatory path:
+
+- ensure `instruction_layers` is present on the request (inject defaults when
+  absent),
+- emit an instruction-layer manifest artifact under
+  `continuity/runs/<run_id>/instruction-layer-manifest.json`,
+- fail closed if manifest emission cannot be completed.
+
 ## Receipt And Digest Contracts
 
 ACP receipt/digest artifacts emitted by wrapper-assisted `acp-enforce`
@@ -67,11 +76,31 @@ evaluations must follow:
 
 - Receipt schema: `engine/runtime/spec/policy-receipt-v1.schema.json`
 - Digest format: `engine/runtime/spec/policy-digest-v1.md`
+- Instruction-layer manifest schema:
+  `engine/runtime/spec/instruction-layer-manifest-v1.schema.json`
 
 Decision outputs for `ALLOW`, `STAGE_ONLY`, and `DENY` must include:
 
 - machine-readable `reason_codes`
 - human-readable `remediation` guidance
+
+## Instruction-Layer Manifest Contract
+
+For material policy evaluations, runtime wrappers MUST emit an instruction-layer
+manifest that conforms to
+`engine/runtime/spec/instruction-layer-manifest-v1.schema.json`.
+
+Minimum required per-layer fields are:
+
+- `layer_id`
+- `source`
+- `sha256`
+- `bytes`
+- `visibility`
+
+Material runs MUST NOT use a compatibility path that omits manifest emission.
+If layer metadata is missing and cannot be deterministically assembled, wrapper
+execution MUST return contract error (`2`) before policy evaluation.
 
 ## Exit Codes
 

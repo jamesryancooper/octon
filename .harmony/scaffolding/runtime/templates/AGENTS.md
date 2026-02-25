@@ -4,6 +4,7 @@
 
 Adopt the default agent persona defined by the harness:
 
+- Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
 - **Default agent:** `{{DEFAULT_AGENT}}` (per `.harmony/agency/manifest.yml`)
 - **Constitution:** `.harmony/agency/governance/CONSTITUTION.md`
 - **Delegation policy:** `.harmony/agency/governance/DELEGATION.md`
@@ -13,27 +14,6 @@ Adopt the default agent persona defined by the harness:
 - **All agents:** `.harmony/agency/runtime/agents/registry.yml`
 
 Read and follow your agent contract before beginning work.
-
-## Contract Layers
-
-Contract responsibilities are intentionally split to prevent drift:
-
-1. `AGENTS.md` (root): repository-wide routing, safety, and operational conventions.
-2. `CONSTITUTION.md` (cross-agent): non-negotiable governance, conscience rubric, and red lines.
-3. `DELEGATION.md` (cross-agent): delegation authority, handoff protocol, and escalation triggers.
-4. `MEMORY.md` (cross-agent): memory classes, retention rules, and privacy boundaries.
-5. `AGENT.md` (per agent): execution policy, orchestration rules, and task contract.
-6. `SOUL.md` (per agent): identity, interpersonal stance, and ambiguity behavior.
-
-Precedence for conflicts: `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> `AGENT.md` -> `SOUL.md`.
-
-## Canonical Framing
-
-- Harmony is `agent-first` and `system-governed`.
-- Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
-- Governance defaults are encoded in contracts, policies, workflows, and enforcement checks that run by default.
-- Humans retain `policy authorship`, `exceptions` handling, and `escalation authority`.
-- For design and implementation choices, favor `minimal sufficient complexity` and the `smallest robust solution that meets constraints`.
 
 ## Harness Orientation
 

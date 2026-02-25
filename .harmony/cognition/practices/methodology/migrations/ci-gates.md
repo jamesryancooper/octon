@@ -30,6 +30,17 @@ Prevent reintroduction of legacy systems after clean-break migrations.
      - `/.harmony/output/reports/migrations/*.md` (date-prefixed evidence file form)
    - CI must fail if any migration evidence bundle directory is missing required files:
      - `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, `inventory.md`
+7. Context governance clean-break enforcement
+   - CI must fail if deprecated compatibility aliases reappear:
+     - `operation.target.instruction_layers`
+     - `operation.target.context_acquisition`
+     - `operation.target.context_overhead_ratio`
+   - CI must fail if policy wrapper logic restores legacy receipt/digest fallback expressions:
+     - `latest_receipt // .receipt`
+     - `latest_digest // .digest`
+   - CI must run harness checks that enforce instruction-layer and context-acquisition gates:
+     - `validate-developer-context-policy.sh`
+     - `validate-context-overhead-budget.sh`
 
 ## Implementation Options (Non-Prescriptive)
 

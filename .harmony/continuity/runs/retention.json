@@ -9,6 +9,7 @@
         "audit",
         "docs-gate-",
         "runtime-acp",
+        "runtime-soft-delete-",
         "runtime-agent-quorum-",
         "snippet-emit-"
       ],

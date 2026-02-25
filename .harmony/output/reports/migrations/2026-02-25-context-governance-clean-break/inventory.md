@@ -1,0 +1,74 @@
+# Inventory
+
+## Added
+
+- `.harmony/assurance/runtime/_ops/scripts/validate-context-overhead-budget.sh`
+- `.harmony/assurance/runtime/_ops/scripts/validate-developer-context-policy.sh`
+- `.harmony/capabilities/runtime/services/interfaces/agent-platform/fixtures/edge.json`
+- `.harmony/cognition/runtime/migrations/2026-02-25-context-governance-clean-break/plan.md`
+- `.harmony/engine/governance/instruction-layer-precedence.md`
+- `.harmony/engine/runtime/spec/instruction-layer-manifest-v1.schema.json`
+- `.harmony/output/reports/2026-02-25-context-governance-clean-break/PATCHPLAN.md`
+- `.harmony/output/reports/2026-02-25-context-governance-integration-task-breakdown.md`
+- `.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/bundle.yml`
+- `.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/commands.md`
+- `.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/evidence.md`
+- `.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/inventory.md`
+- `.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/validation.md`
+
+## Modified
+
+- `.harmony/assurance/practices/complete.md`
+- `.harmony/assurance/practices/session-exit.md`
+- `.harmony/assurance/runtime/_ops/scripts/alignment-check.sh`
+- `.harmony/capabilities/_ops/scripts/policy-acp-request.sh`
+- `.harmony/capabilities/_ops/scripts/policy-receipt-write.sh`
+- `.harmony/capabilities/_ops/tests/test-deny-by-default-runtime.sh`
+- `.harmony/capabilities/governance/policy/acp-provenance-fields.schema.json`
+- `.harmony/capabilities/governance/policy/deny-by-default.v2.schema.json`
+- `.harmony/capabilities/governance/policy/deny-by-default.v2.yml`
+- `.harmony/capabilities/practices/services-conventions/run-records.md`
+- `.harmony/capabilities/runtime/commands/init.md`
+- `.harmony/capabilities/runtime/services/_ops/scripts/enforce-deny-by-default.sh`
+- `.harmony/capabilities/runtime/services/_ops/state/deny-by-default-policy.catalog.yml`
+- `.harmony/capabilities/runtime/services/execution/agent/fixtures/edge.json`
+- `.harmony/capabilities/runtime/services/execution/agent/guide.md`
+- `.harmony/capabilities/runtime/services/execution/agent/impl/agent.sh`
+- `.harmony/capabilities/runtime/services/execution/agent/schema/output.schema.json`
+- `.harmony/capabilities/runtime/services/execution/flow/fixtures/edge.json`
+- `.harmony/capabilities/runtime/services/execution/flow/guide.md`
+- `.harmony/capabilities/runtime/services/execution/flow/impl/flow-client.sh`
+- `.harmony/capabilities/runtime/services/execution/flow/schema/output.schema.json`
+- `.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/contract.md`
+- `.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/contract.md`
+- `.harmony/capabilities/runtime/skills/_ops/state/deny-by-default-policy.catalog.yml`
+- `.harmony/capabilities/runtime/skills/audit/audit-subsystem-health/alignment-notes.md`
+- `.harmony/cognition/_meta/architecture/specification.md`
+- `.harmony/cognition/practices/methodology/migrations/ci-gates.md`
+- `.harmony/cognition/practices/methodology/migrations/legacy-banlist.md`
+- `.harmony/cognition/runtime/context/decisions.md`
+- `.harmony/cognition/runtime/context/index.yml`
+- `.harmony/cognition/runtime/evidence/index.yml`
+- `.harmony/cognition/runtime/knowledge/graph/edges.yml`
+- `.harmony/cognition/runtime/knowledge/graph/nodes.yml`
+- `.harmony/cognition/runtime/migrations/index.yml`
+- `.harmony/continuity/_meta/architecture/continuity-plane.md`
+- `.harmony/continuity/_meta/architecture/runs-retention.md`
+- `.harmony/continuity/runs/retention.json`
+- `.harmony/engine/_meta/evidence/verification-scenarios.md`
+- `.harmony/engine/governance/README.md`
+- `.harmony/engine/runtime/config/policy-interface.yml`
+- `.harmony/engine/runtime/policy`
+- `.harmony/engine/runtime/spec/policy-digest-v1.md`
+- `.harmony/engine/runtime/spec/policy-interface-v1.md`
+- `.harmony/engine/runtime/spec/policy-receipt-v1.schema.json`
+- `.harmony/orchestration/runtime/workflows/audit/audit-pre-release-workflow/08-verify.md`
+- `.harmony/orchestration/runtime/workflows/audit/audit-pre-release-workflow/WORKFLOW.md`
+- `.harmony/orchestration/runtime/workflows/registry.yml`
+- `.harmony/output/assurance/results/contract-coverage-latest.md`
+- `.harmony/scaffolding/runtime/_ops/scripts/init-project.sh`
+- `.harmony/scaffolding/runtime/templates/AGENTS.md`
+
+## Removed
+
+- None

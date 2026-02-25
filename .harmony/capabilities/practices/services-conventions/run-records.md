@@ -21,6 +21,18 @@ Core fields:
 - Replay: optional `outputs`
 - Time: `createdAt`
 
+Required context-governance telemetry:
+
+- `instruction_layers`: array with at least `provider`, `system`, `developer`, `user` layer entries.
+- `context_acquisition.file_reads`: integer `>= 0`
+- `context_acquisition.search_queries`: integer `>= 0`
+- `context_acquisition.commands`: integer `>= 0`
+- `context_acquisition.subagent_spawns`: integer `>= 0`
+- `context_acquisition.duration_ms`: integer `>= 0`
+- `context_overhead_ratio`: number `>= 0`
+
+These fields are required for material runs that emit ACP receipts/digests.
+
 ## Lifecycle
 
 1. Create run context at service entry.
@@ -42,3 +54,10 @@ Sensitive input key patterns include (case-insensitive):
 - `api_key`, `secret`, `password`, `token`, `auth`, `credential`, `private_key`, `access_key`
 
 Matched values must be replaced with `"<REDACTED>"` in persisted records.
+
+## Context Overhead Classification
+
+- `context_overhead_ratio < 0.20`: within target budget
+- `0.20 <= context_overhead_ratio < 0.35`: warning tier
+- `0.35 <= context_overhead_ratio < 0.50`: soft-fail tier
+- `context_overhead_ratio >= 0.50`: hard-fail tier

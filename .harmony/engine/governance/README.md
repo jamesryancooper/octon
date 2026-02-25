@@ -14,6 +14,9 @@ Boundary detail:
 
 - `runtime-capability-authority-boundary.md` is the contract for non-overlapping
   ownership, dependency direction, and deterministic tie-breaker rules.
+- `instruction-layer-precedence.md` is the contract for instruction-layer
+  precedence modeling, developer-layer governance, and manifest/receipt
+  requirements.
 
 Tie-breaker:
 
@@ -28,3 +31,4 @@ Tie-breaker:
 - `compatibility-policy.md`
 - `release-gates.md`
 - `runtime-capability-authority-boundary.md`
+- `instruction-layer-precedence.md`

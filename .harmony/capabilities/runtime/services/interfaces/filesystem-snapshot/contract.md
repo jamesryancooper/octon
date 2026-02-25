@@ -25,3 +25,10 @@ All operations must emit output conforming to:
 
 - Service emits structured `filesystem_interfaces.metric` log events per op.
 - Events include op name, status, duration, byte sizes, and scanned file counts.
+- Events MUST also include context-acquisition counters:
+  - `context_acquisition.file_reads`
+  - `context_acquisition.search_queries`
+  - `context_acquisition.commands`
+  - `context_acquisition.subagent_spawns`
+  - `context_acquisition.duration_ms`
+  - `context_overhead_ratio`

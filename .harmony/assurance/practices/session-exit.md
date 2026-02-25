@@ -61,6 +61,9 @@ Complete before ending a session, context reset, or handoff.
 - [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
 - [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh`
 - [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/validate-framing-alignment.sh`
+- [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/validate-developer-context-policy.sh`
+- [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/validate-context-overhead-budget.sh`
+- [ ] Verify material run evidence includes `instruction-layer-manifest.json` and receipt telemetry fields (`instruction_layers`, `context_acquisition`, `context_overhead_ratio`)
 - [ ] Run `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness`
 - [ ] If validator reports drift, update `audit-subsystem-health` skill artifacts before exit
 
