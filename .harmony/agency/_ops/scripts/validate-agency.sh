@@ -12,6 +12,7 @@ TEAMS_REG="$AGENCY_DIR/runtime/teams/registry.yml"
 CONSTITUTION_FILE="$AGENCY_DIR/governance/CONSTITUTION.md"
 DELEGATION_FILE="$AGENCY_DIR/governance/DELEGATION.md"
 MEMORY_FILE="$AGENCY_DIR/governance/MEMORY.md"
+BOUNDARY_FILE="$AGENCY_DIR/governance/delegation-boundaries-v1.yml"
 
 errors=0
 warnings=0
@@ -250,6 +251,33 @@ check_cross_agent_contracts() {
   fi
 
   pass "cross-agent contracts validated (CONSTITUTION.md + DELEGATION.md + MEMORY.md)"
+}
+
+check_main_branch_deletion_policy() {
+  if grep -q 'No deletion of `main` branch' "$CONSTITUTION_FILE"; then
+    pass "constitution declares non-deletable main branch red line"
+  else
+    fail "CONSTITUTION.md missing non-deletable main branch red line"
+  fi
+
+  if grep -q 'delete protected branch `main`' "$DELEGATION_FILE"; then
+    pass "delegation contract escalates delete-main requests"
+  else
+    fail "DELEGATION.md missing delete-main escalation trigger"
+  fi
+
+  if awk '
+    $0 ~ /boundary_id:[[:space:]]*"DB-005"/ {in_block=1; next}
+    in_block && /^  - boundary_id:/ {in_block=0}
+    in_block && /decision_class:[[:space:]]*"protected-branch-main-deletion"/ {class_ok=1}
+    in_block && /condition:[[:space:]]*"requested action deletes local or remote branch named main"/ {condition_ok=1}
+    in_block && /route:[[:space:]]*"block"/ {route_ok=1}
+    END {exit !(class_ok && condition_ok && route_ok)}
+  ' "$BOUNDARY_FILE"; then
+    pass "delegation boundaries block main-branch deletion requests"
+  else
+    fail "delegation-boundaries-v1.yml missing DB-005 block rule for main-branch deletion"
+  fi
 }
 
 check_agent_registry_contract_fields() {
@@ -518,9 +546,11 @@ main() {
   require_file "$CONSTITUTION_FILE"
   require_file "$DELEGATION_FILE"
   require_file "$MEMORY_FILE"
+  require_file "$BOUNDARY_FILE"
 
   check_manifest_links
   check_cross_agent_contracts
+  check_main_branch_deletion_policy
 
   check_unique_ids "$AGENTS_REG" "agents registry"
   check_unique_ids "$ASSISTANTS_REG" "assistants registry"

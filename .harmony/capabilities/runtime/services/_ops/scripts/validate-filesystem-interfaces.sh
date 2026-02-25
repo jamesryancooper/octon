@@ -47,7 +47,7 @@ has_payload_match() {
     return $?
   fi
 
-  printf '%s\n' "$payload" | grep -Eq -- "$pattern"
+  grep -Eq -- "$pattern" <<<"$payload"
 }
 
 check_file() {
