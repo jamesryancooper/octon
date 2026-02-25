@@ -31,6 +31,55 @@ mutability: append-only
 
 - None
 
+## 2026-02-25 (intent-layer clean-break execution)
+
+**Session focus:** Execute intent-layer migration for machine-readable intent,
+delegation boundaries, capability-map gating, and alignment drift checks.
+
+**Completed:**
+
+- Created execution plan:
+  `.harmony/output/plans/2026-02-25-intent-layer-clean-break-task-breakdown.md`.
+- Added intent contract schema:
+  `.harmony/engine/runtime/spec/intent-contract-v1.schema.json`.
+- Added delegation boundary contract + schema and linked governance docs:
+  `.harmony/agency/governance/delegation-boundaries-v1.yml`,
+  `.harmony/agency/governance/delegation-boundaries-v1.schema.json`,
+  `.harmony/agency/governance/DELEGATION.md`.
+- Added capability-map contract + schema and linked orchestration discovery
+  surfaces:
+  `.harmony/orchestration/governance/capability-map-v1.yml`,
+  `.harmony/orchestration/governance/capability-map-v1.schema.json`,
+  `.harmony/orchestration/runtime/workflows/manifest.yml`,
+  `.harmony/orchestration/runtime/workflows/registry.yml`.
+- Extended policy interface, receipt schema/digest, and receipt writer for
+  `intent_ref`, boundary, and mode provenance fields.
+- Added intent-layer assurance validator and alignment profile:
+  `.harmony/assurance/runtime/_ops/scripts/validate-intent-layer.sh`,
+  `.harmony/assurance/runtime/_ops/scripts/alignment-check.sh`.
+- Recorded ADRs:
+  `044-intent-contract-and-boundary-enforcement`,
+  `045-capability-map-and-alignment-drift-gates`.
+
+**Verification highlights:**
+
+- `validate-intent-layer.sh`: PASS
+- `alignment-check --profile intent-layer`: PASS
+- Baseline `harness` profile retains known drift guardrail failure from
+  `.harmony` surface changes (`audit-subsystem-health` alignment drift check),
+  expected during this migration.
+
+**Next:**
+
+- Run strict deny-by-default validation for updated ACP rules and reason-code
+  wiring.
+- Run full alignment stack and collect cutover evidence.
+- Promote only after assurance gate pass with no hard findings.
+
+**Blockers:**
+
+- None currently; pending full gate convergence checks.
+
 ## 2025-12-10 (session 2)
 
 **Session focus:** Evaluate and refine .workspace structure

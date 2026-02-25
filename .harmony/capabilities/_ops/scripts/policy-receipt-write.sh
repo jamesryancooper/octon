@@ -41,6 +41,7 @@ render_digest() {
   local receipt_path="$1"
   local output_path="$2"
   local run_id timestamp decision effective_acp operation_class phase reason_codes rollback_handle recovery_window telemetry_profile material_side_effect remediation
+  local intent_ref boundary_id boundary_set_version workflow_mode capability_classification
   local reason_details
 
   run_id="$(jq -r '.run_id // ""' "$receipt_path")"
@@ -54,6 +55,11 @@ render_digest() {
   recovery_window="$(jq -r '.recovery_window // ""' "$receipt_path")"
   telemetry_profile="$(jq -r '.telemetry_profile // ""' "$receipt_path")"
   material_side_effect="$(jq -r '.material_side_effect // ""' "$receipt_path")"
+  intent_ref="$(jq -r 'if .intent_ref == null then "" else (.intent_ref.id // "") + "@" + (.intent_ref.version // "") end' "$receipt_path")"
+  boundary_id="$(jq -r '.boundary_id // ""' "$receipt_path")"
+  boundary_set_version="$(jq -r '.boundary_set_version // ""' "$receipt_path")"
+  workflow_mode="$(jq -r '.workflow_mode // ""' "$receipt_path")"
+  capability_classification="$(jq -r '.capability_classification // ""' "$receipt_path")"
   remediation="$(jq -r '.remediation // ""' "$receipt_path")"
   reason_details="$(jq -r '(.reason_details // [])[]? | "- `" + (.code // "") + "`: " + (.remediation // "")' "$receipt_path")"
 
@@ -70,6 +76,11 @@ render_digest() {
     echo "- Reason Codes: \`$reason_codes\`"
     echo "- Material Side Effect: \`$material_side_effect\`"
     echo "- Telemetry Profile: \`$telemetry_profile\`"
+    echo "- Intent Ref: \`$intent_ref\`"
+    echo "- Boundary ID: \`$boundary_id\`"
+    echo "- Boundary Set Version: \`$boundary_set_version\`"
+    echo "- Workflow Mode: \`$workflow_mode\`"
+    echo "- Capability Classification: \`$capability_classification\`"
     echo "- Rollback Handle: \`$rollback_handle\`"
     echo "- Recovery Window: \`$recovery_window\`"
     echo "- Remediation Summary: $remediation"
@@ -142,7 +153,38 @@ main() {
       actor: ($req[0].actor // {}),
       profile: ($req[0].profile // ""),
       intent: ($req[0].intent // null),
+      intent_ref: (
+        if $req[0].intent_ref != null then $req[0].intent_ref
+        elif ($req[0].intent | type == "object") and (($req[0].intent.id // "") | tostring | length) > 0 then
+          {
+            id: ($req[0].intent.id | tostring),
+            version: (($req[0].intent.version // "v0") | tostring)
+          }
+        else null
+        end
+      ),
       boundaries: ($req[0].boundaries // null),
+      boundary_id: (
+        $req[0].boundary_id //
+        $req[0].boundaries.boundary_id //
+        $req[0].boundaries.id //
+        null
+      ),
+      boundary_set_version: (
+        $req[0].boundary_set_version //
+        $req[0].boundaries.version //
+        null
+      ),
+      workflow_mode: (
+        $req[0].workflow_mode //
+        $req[0].operation.target.workflow_mode //
+        null
+      ),
+      capability_classification: (
+        $req[0].capability_classification //
+        $req[0].operation.target.capability_classification //
+        null
+      ),
       operation: ($req[0].operation // {}),
       phase: ($req[0].phase // ""),
       material_side_effect: (

@@ -443,3 +443,16 @@ workflow_group_definitions:
     path: tasks/
     members: [agent-led-happy-path, add-api-endpoint, add-ui-feature, fix-a-bug, handle-security-issue,
               run-data-migration]
+
+# ============================================================================
+# GOVERNANCE LINKAGE
+# Capability map governs whether workflows may run autonomous or require
+# agent-augmented / human-only execution.
+# ============================================================================
+governance:
+  capability_map_ref: "../../governance/capability-map-v1.yml"
+  capability_map_schema_ref: "../../governance/capability-map-v1.schema.json"
+  classification_field: "capability_classification"
+  autonomy_gate:
+    autonomous_execution_requires: "agent-ready"
+    non_ready_modes: ["agent-augmented", "human-only"]

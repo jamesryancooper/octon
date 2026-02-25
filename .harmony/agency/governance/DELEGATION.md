@@ -36,6 +36,19 @@ Every delegated task must specify:
 - Skills do not orchestrate agency actors unless explicitly policy-approved.
 - Teams coordinate compositions but do not bypass agent ownership.
 
+## Machine-Readable Delegation Boundaries
+
+Delegation routing MUST resolve against the machine-readable boundary contract:
+
+- `governance/delegation-boundaries-v1.yml`
+- `governance/delegation-boundaries-v1.schema.json`
+
+Runtime behavior for each decision class is deterministic:
+
+- `allow` - proceed autonomously within delegated scope.
+- `escalate` - route to a human/policy owner before continuation.
+- `block` - deny execution and require explicit scope or authority correction.
+
 ## Handoff and Acceptance
 
 - Delegator remains accountable for final integration and approval.

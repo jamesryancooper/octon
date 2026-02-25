@@ -42,6 +42,24 @@ Wrapper extension for `acp-enforce`:
 - `--run-id <id>` (requires `--request`)
 - `--digest` (requires `--emit-receipt`)
 
+## Intent Binding Contract (v1 Extension)
+
+Autonomous policy evaluation requests MUST provide an intent binding:
+
+- `intent_ref.id`
+- `intent_ref.version`
+
+Canonical contract path:
+
+- `engine/runtime/spec/intent-contract-v1.schema.json`
+
+Fail-closed behavior:
+
+- Missing `intent_ref`: deny with reason code `INTENT_MISSING`
+- Invalid/unknown `intent_ref`: deny with reason code `INTENT_REF_INVALID`
+- Autonomous run for non-`agent-ready` classification: deny with reason code
+  `MODE_VIOLATION_AUTONOMY_NOT_ALLOWED`
+
 ## Receipt And Digest Contracts
 
 ACP receipt/digest artifacts emitted by wrapper-assisted `acp-enforce`

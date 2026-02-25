@@ -75,6 +75,12 @@ autonomy.
 
 **Productivity principle:** *Optimize the loop inside assurance boundaries.*
 
+Autonomous execution is valid only when each run provides:
+
+* a bound `intent_ref` to an approved intent contract version,
+* machine-resolved delegation boundary routing (`allow`, `escalate`, `block`),
+* workflow capability classification (`agent-ready`, `agent-augmented`, `human-only`).
+
 ---
 
 ### C. Integration

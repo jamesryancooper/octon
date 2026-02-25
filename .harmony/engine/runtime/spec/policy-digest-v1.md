@@ -18,6 +18,11 @@ Canonical human-readable digest format for ACP decision receipts.
 - Reason Codes
 - Material Side Effect
 - Telemetry Profile
+- `intent_ref` (Intent Ref)
+- `boundary_id` (Boundary ID)
+- `boundary_set_version` (Boundary Set Version)
+- `workflow_mode` (Workflow Mode)
+- `capability_classification` (Capability Classification)
 - Rollback Handle
 - Recovery Window
 - Remediation Summary

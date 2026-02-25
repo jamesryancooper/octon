@@ -247,6 +247,14 @@ acp:
       enabled: true
       threshold_acp: ACP-2
       channels: [digest]
+  # Intent/Boundary/Mode reason-code contract used by policy interface and
+  # downstream telemetry:
+  # - INTENT_MISSING
+  # - INTENT_REF_INVALID
+  # - BOUNDARY_UNRESOLVED
+  # - BOUNDARY_BLOCKED
+  # - BOUNDARY_ESCALATION_REQUIRED
+  # - MODE_VIOLATION_AUTONOMY_NOT_ALLOWED
   rules:
     - id: acp-repo-commit-nonprotected
       match:
@@ -457,6 +465,10 @@ acp:
       match:
         class: service.execute
         phase: [promote]
+        target:
+          workflow_mode: [autonomous]
+          capability_classification: [agent-ready]
+          boundary_route: [allow]
       require:
         acp: ACP-1
         phase: promote
@@ -469,6 +481,51 @@ acp:
         budget_set: budgets.repo-small
         circuit_breaker_set: circuit_breakers.repo-stage
       on_missing_requirements: STAGE_ONLY
+    - id: acp-service-execute-boundary-escalate
+      match:
+        class: service.execute
+        phase: [promote]
+        target:
+          workflow_mode: [autonomous]
+          capability_classification: [agent-ready]
+          boundary_route: [escalate]
+      require:
+        acp: ACP-2
+        phase: promote
+        reversibility:
+          required: true
+          primitive: git.revert_commit
+          rollback_proof_required: true
+          recovery_window_default: P14D
+        evidence_required: [diff, plan]
+        quorum_required: quorum.acp2
+        budget_set: budgets.repo-small
+        circuit_breaker_set: circuit_breakers.repo-promote
+      on_missing_requirements: ESCALATE
+    - id: acp-service-execute-boundary-block
+      match:
+        class: service.execute
+        phase: [promote]
+        target:
+          workflow_mode: [autonomous]
+          boundary_route: [block]
+      require:
+        acp: ACP-4
+        phase: promote
+        break_glass_required: true
+      on_missing_requirements: DENY
+    - id: acp-service-execute-mode-violation
+      match:
+        class: service.execute
+        phase: [promote]
+        target:
+          workflow_mode: [autonomous]
+          capability_classification: [agent-augmented, human-only]
+      require:
+        acp: ACP-4
+        phase: promote
+        break_glass_required: true
+      on_missing_requirements: DENY
     - id: acp-infra-destroy-soft
       match:
         class: resource.detach
@@ -672,6 +729,11 @@ receipts:
     - remediation
     - evidence
     - attestations
+    - intent_ref
+    - boundary_id
+    - boundary_set_version
+    - workflow_mode
+    - capability_classification
     - rollback_handle
     - recovery_window
     - budgets

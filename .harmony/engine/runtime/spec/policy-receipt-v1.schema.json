@@ -72,6 +72,48 @@
     "remediation": {
       "type": "string",
       "minLength": 1
+    },
+    "intent_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "boundary_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "boundary_set_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_mode": {
+      "type": "string",
+      "enum": [
+        "autonomous",
+        "agent-augmented",
+        "human-only"
+      ]
+    },
+    "capability_classification": {
+      "type": "string",
+      "enum": [
+        "agent-ready",
+        "agent-augmented",
+        "human-only"
+      ]
     }
   }
 }

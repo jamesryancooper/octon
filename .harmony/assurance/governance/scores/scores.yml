@@ -71,11 +71,13 @@ defaults:
     autonomy:
       score: 4
       target_score: 5
-      acceptance_criteria: "Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts."
+      acceptance_criteria: "Autonomous execution remains effective for low/medium-risk work while every autonomous run binds intent_ref, boundary context, and capability classification under ACP gates."
       evidence:
         - .harmony/cognition/governance/principles/no-silent-apply.md
         - .harmony/cognition/governance/principles/autonomous-control-points.md
         - .harmony/cognition/governance/principles/deny-by-default.md
+        - .harmony/engine/runtime/spec/intent-contract-v1.schema.json
+        - .harmony/orchestration/governance/capability-map-v1.yml
     security:
       score: 5
       target_score: 5
@@ -135,10 +137,11 @@ defaults:
     observability:
       score: 3
       target_score: 5
-      acceptance_criteria: "Changed flows emit usable traces/logs/metrics with correlation."
+      acceptance_criteria: "Changed flows emit usable traces/logs/metrics with correlation, including intent/boundary/mode provenance for autonomous decisions."
       evidence:
         - .harmony/cognition/governance/principles/observability-as-a-contract.md
         - .harmony/cognition/_meta/architecture/observability-requirements.md
+        - .harmony/capabilities/_ops/scripts/policy-receipt-write.sh
     testability:
       score: 4
       target_score: 5
@@ -149,10 +152,12 @@ defaults:
     auditability:
       score: 4
       target_score: 5
-      acceptance_criteria: "Traceable evidence exists for decisions and execution."
+      acceptance_criteria: "Traceable evidence exists for decisions and execution, and decision receipts capture intent_ref, boundary_id, workflow_mode, and capability classification."
       evidence:
         - .harmony/cognition/governance/principles/determinism-and-provenance.md
         - .harmony/continuity/log.md
+        - .harmony/engine/runtime/spec/policy-receipt-v1.schema.json
+        - .harmony/assurance/runtime/_ops/scripts/validate-intent-layer.sh
     deployability:
       score: 3
       target_score: 5
