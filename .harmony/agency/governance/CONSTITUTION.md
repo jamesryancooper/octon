@@ -57,6 +57,7 @@ If any answer is "no" or unknown for items 1-2, stop and escalate.
 - No direct edits to `.harmony/cognition/governance/principles/principles.md` without append-only record linkage in `.harmony/cognition/governance/exceptions/principles-charter-overrides.md`.
 - Without explicit override, policy evolution requires a versioned successor plus ADR.
 - No direct push to `main` unless break-glass criteria are met and explicitly recorded.
+- No deletion of `main` branch (local or remote) by delegated agents.
 
 ## Escalation Triggers
 

@@ -1,6 +1,6 @@
 schema_version: "delegation-boundaries-v1"
 boundary_set_id: "agency-delegation-core"
-boundary_set_version: "1.0.0"
+boundary_set_version: "1.1.0"
 owner: "agency-owner"
 approved_by: "harmony-platform"
 review_cadence_days: 30
@@ -33,3 +33,10 @@ boundaries:
     route: "allow"
     severity: "low"
     escalation_target: "none"
+
+  - boundary_id: "DB-005"
+    decision_class: "protected-branch-main-deletion"
+    condition: "requested action deletes local or remote branch named main"
+    route: "block"
+    severity: "high"
+    escalation_target: "policy-author"

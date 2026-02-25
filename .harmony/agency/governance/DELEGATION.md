@@ -62,6 +62,7 @@ Escalate instead of continuing delegation when:
 - task scope conflicts with contract boundaries,
 - authority is unclear or exceeds delegate permissions,
 - high-risk or irreversible action is requested without explicit approval,
+- requested action attempts to delete protected branch `main`,
 - required validation cannot be completed.
 
 ## Anti-Patterns
