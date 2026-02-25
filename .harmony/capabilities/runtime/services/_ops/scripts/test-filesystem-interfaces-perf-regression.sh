@@ -93,6 +93,12 @@ if [[ ! -x "$RUNTIME_RUN" ]]; then
   exit 1
 fi
 
+# In clean CI workspaces, the compiled runtime binary is not present on first run.
+# Prime the build once before timing so sample latencies do not include repeated cargo invocation overhead.
+if [[ ! -x "$RUNTIME_BIN_CANDIDATE" ]]; then
+  "$RUNTIME_RUN" --help >/dev/null 2>&1 || true
+fi
+
 # Prefer a prebuilt runtime binary to avoid cargo invocation overhead during perf sampling.
 # Falls back to the launcher when the binary is unavailable.
 if [[ -x "$RUNTIME_BIN_CANDIDATE" ]]; then
