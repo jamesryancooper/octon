@@ -140,7 +140,8 @@ main() {
   mkdir -p "$run_dir" "$receipts_dir" "$digests_dir" "$(dirname "$decision_log")"
 
   local tmp_receipt
-  tmp_receipt="$(mktemp "${TMPDIR:-/tmp}/acp-receipt.XXXXXX.json")"
+  # Keep the mktemp template portable (BSD/GNU): trailing X run only.
+  tmp_receipt="$(mktemp "${TMPDIR:-/tmp}/acp-receipt.XXXXXX")"
 
   jq -n \
     --arg timestamp "$timestamp" \
@@ -160,30 +161,46 @@ main() {
             id: ($req[0].intent.id | tostring),
             version: (($req[0].intent.version // "v0") | tostring)
           }
+        elif ($req[0].intent | type == "string") and (($req[0].intent // "") | tostring | length) > 0 then
+          {
+            id: ($req[0].intent | tostring),
+            version: "v0"
+          }
         else null
         end
       ),
       boundaries: ($req[0].boundaries // null),
       boundary_id: (
         $req[0].boundary_id //
-        $req[0].boundaries.boundary_id //
-        $req[0].boundaries.id //
+        (
+          if (($req[0].boundaries // null) | type) == "object"
+          then ($req[0].boundaries.boundary_id // $req[0].boundaries.id // null)
+          elif (($req[0].boundaries // null) | type) == "string" and (($req[0].boundaries // "") | tostring | length) > 0
+          then ($req[0].boundaries | tostring)
+          else "boundary.unspecified"
+          end
+        ) //
         null
       ),
       boundary_set_version: (
         $req[0].boundary_set_version //
-        $req[0].boundaries.version //
+        (
+          if (($req[0].boundaries // null) | type) == "object"
+          then ($req[0].boundaries.version // null)
+          else "v1"
+          end
+        ) //
         null
       ),
       workflow_mode: (
         $req[0].workflow_mode //
         $req[0].operation.target.workflow_mode //
-        null
+        "autonomous"
       ),
       capability_classification: (
         $req[0].capability_classification //
         $req[0].operation.target.capability_classification //
-        null
+        "agent-ready"
       ),
       operation: ($req[0].operation // {}),
       phase: ($req[0].phase // ""),

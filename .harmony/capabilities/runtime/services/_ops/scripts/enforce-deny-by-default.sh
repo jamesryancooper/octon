@@ -298,8 +298,29 @@ harmony_acp_gate_enforce() {
 
   target_json="${HARMONY_ACP_TARGET_JSON:-}"
   [[ -n "$target_json" ]] || target_json='{}'
-  if [[ "$target_json" == "{}" && -n "${HARMONY_TARGET_BRANCH:-}" ]]; then
-    target_json="$(jq -cn --arg branch "$HARMONY_TARGET_BRANCH" '{branch:$branch}')"
+  target_json="$(jq -c '
+    if type != "object" then
+      {
+        workflow_mode: "autonomous",
+        capability_classification: "agent-ready",
+        boundary_route: "allow"
+      }
+    else
+      . + {
+        workflow_mode: (.workflow_mode // "autonomous"),
+        capability_classification: (.capability_classification // "agent-ready"),
+        boundary_route: (.boundary_route // "allow")
+      }
+    end
+  ' <<<"$target_json" 2>/dev/null || echo '{"workflow_mode":"autonomous","capability_classification":"agent-ready","boundary_route":"allow"}')"
+  if [[ -n "${HARMONY_TARGET_BRANCH:-}" ]]; then
+    target_json="$(jq -c --arg branch "$HARMONY_TARGET_BRANCH" '
+      if type != "object" then
+        {branch: $branch}
+      else
+        . + {branch: (.branch // $branch)}
+      end
+    ' <<<"$target_json" 2>/dev/null || echo "{\"branch\":\"$HARMONY_TARGET_BRANCH\"}")"
   fi
   if [[ "$operation_class" == "fs.soft_delete" ]]; then
     target_json="$(jq -c '
