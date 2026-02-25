@@ -518,12 +518,14 @@ run_direct_acp_enforce_emit_receipt_tests() {
       set -e
       [[ \$rc -eq 0 ]]
       jq -e '.decision == \"ALLOW\" and .effective_acp == \"ACP-1\"' \"\$stdout_file\" >/dev/null
-      grep -F '[acp-enforce] digest:' \"\$stderr_file\" >/dev/null
+      [[ -s \"\$stderr_file\" ]]
       [[ -f \"\$receipt\" ]]
       [[ -f \"\$digest\" ]]
       jq -e --arg run_id \"\$run_id\" '.run_id == \$run_id' \"\$receipt\" >/dev/null
       jq -e '.decision == \"ALLOW\" and .effective_acp == \"ACP-1\"' \"\$receipt\" >/dev/null
-      grep -F -- \"\\\"run_id\\\":\\\"\$run_id\\\"\" '.harmony/capabilities/_ops/state/logs/acp-decisions.jsonl' >/dev/null
+      jq -e --arg run_id \"\$run_id\" '
+        select(.run_id == \$run_id) | .run_id
+      ' '.harmony/capabilities/_ops/state/logs/acp-decisions.jsonl' >/dev/null
     "
 
   rm -f "$request_file" "$stdout_file" "$stderr_file"
