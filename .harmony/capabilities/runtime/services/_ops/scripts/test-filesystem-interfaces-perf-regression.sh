@@ -5,6 +5,7 @@ set -o pipefail
 
 HARMONY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../" && pwd)"
 RUNTIME_RUN="$HARMONY_DIR/engine/runtime/run"
+RUNTIME_BIN_CANDIDATE="$HARMONY_DIR/engine/_ops/state/build/runtime-crates-target/debug/harmony"
 export HARMONY_RUNTIME_PREFER_SOURCE="${HARMONY_RUNTIME_PREFER_SOURCE:-1}"
 FIXTURE_BUILDER="$HARMONY_DIR/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh"
 DEFAULT_BASELINE_FILE="$HARMONY_DIR/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv"
@@ -90,6 +91,12 @@ done
 if [[ ! -x "$RUNTIME_RUN" ]]; then
   echo "ERROR: runtime launcher not found: $RUNTIME_RUN"
   exit 1
+fi
+
+# Prefer a prebuilt runtime binary to avoid cargo invocation overhead during perf sampling.
+# Falls back to the launcher when the binary is unavailable.
+if [[ -x "$RUNTIME_BIN_CANDIDATE" ]]; then
+  RUNTIME_RUN="$RUNTIME_BIN_CANDIDATE"
 fi
 
 if [[ ! -x "$FIXTURE_BUILDER" ]]; then
