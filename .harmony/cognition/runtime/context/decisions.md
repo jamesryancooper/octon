@@ -35,7 +35,7 @@ Do not edit manually. Update ADR files and `runtime/decisions/index.yml` instead
 | ADR-017 | Accepted | unknown | ADR 017: Assurance Clean-Break Migration | `../decisions/017-assurance-clean-break-migration.md` |
 | ADR-018 | accepted | 2026-02-19 | ADR 018: Assurance Umbrella Chain Migration | `../decisions/018-assurance-umbrella-chain-migration.md` |
 | ADR-019 | accepted | 2026-02-19 | ADR 019: Deny-by-Default Uniform Enforcement and Agent-Only Operation | `../decisions/019-deny-by-default-uniform-enforcement-and-agent-only-operation.md` |
-| ADR-020 | accepted | 2026-02-20 | ADR 020: Engineering Principles Charter Successor v2026-02-20 | `../decisions/020-principles-charter-successor-v2026-02-20.md` |
+| ADR-020 | Superseded by ADR 042 | 2026-02-20 | ADR 020: Engineering Principles Charter Successor v2026-02-20 | `../decisions/020-principles-charter-successor-v2026-02-20.md` |
 | ADR-021 | accepted | 2026-02-20 | ADR-021: Bounded Surfaces Contract and Agency Clean-Break Migration | `../decisions/021-bounded-surfaces-contract-and-agency-migration.md` |
 | ADR-022 | accepted | 2026-02-20 | ADR-022: Orchestration Bounded Surfaces Clean-Break Migration | `../decisions/022-orchestration-bounded-surfaces-clean-break-migration.md` |
 | ADR-023 | accepted | 2026-02-20 | ADR-023: Capabilities Bounded Surfaces Clean-Break Migration | `../decisions/023-capabilities-bounded-surfaces-clean-break-migration.md` |
@@ -55,7 +55,12 @@ Do not edit manually. Update ADR files and `runtime/decisions/index.yml` instead
 | ADR-037 | Accepted | 2026-02-22 | ADR 037: Artifact Surface Clean-Break Rename | `../decisions/037-artifact-surface-clean-break-rename.md` |
 | ADR-038 | Accepted | 2026-02-24 | ADR 038: Engine and Capabilities Authority Boundary | `../decisions/038-engine-capabilities-authority-boundary.md` |
 | ADR-039 | Accepted | 2026-02-24 | ADR 039: Clean-Break Governance Cutover Contract | `../decisions/039-clean-break-governance-cutover-contract.md` |
-| ADR-040 | Accepted | 2026-02-24 | ADR 040: Principles Charter Successor v2026-02-24 | `../decisions/040-principles-charter-successor-v2026-02-24.md` |
+| ADR-040 | Superseded by ADR 042 | 2026-02-24 | ADR 040: Principles Charter Successor v2026-02-24 | `../decisions/040-principles-charter-successor-v2026-02-24.md` |
+| ADR-041 | Superseded by ADR 042 | 2026-02-24 | ADR 041: Principles Major Framing Human Override Contract | `../decisions/041-principles-major-framing-human-override-contract.md` |
+| ADR-042 | Accepted | 2026-02-24 | ADR 042: Principles Charter Human-Override Direct-Edit Policy | `../decisions/042-principles-charter-human-override-direct-edit-policy.md` |
+| ADR-043 | Accepted | 2026-02-24 | ADR 043: Principles Charter Override Enforcement and Audit | `../decisions/043-principles-charter-override-enforcement-and-audit.md` |
+| ADR-044 | Accepted | 2026-02-25 | ADR 044: Intent Contract and Boundary Enforcement | `../decisions/044-intent-contract-and-boundary-enforcement.md` |
+| ADR-045 | Accepted | 2026-02-25 | ADR 045: Capability Map and Alignment Drift Gates | `../decisions/045-capability-map-and-alignment-drift-gates.md` |
 
 ## Update Procedure
 

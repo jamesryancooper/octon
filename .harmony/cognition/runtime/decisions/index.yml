@@ -89,3 +89,7 @@ records:
     path: 042-principles-charter-human-override-direct-edit-policy.md
   - id: 043-principles-charter-override-enforcement-and-audit
     path: 043-principles-charter-override-enforcement-and-audit.md
+  - id: 044-intent-contract-and-boundary-enforcement
+    path: 044-intent-contract-and-boundary-enforcement.md
+  - id: 045-capability-map-and-alignment-drift-gates
+    path: 045-capability-map-and-alignment-drift-gates.md

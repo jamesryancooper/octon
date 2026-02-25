@@ -23,6 +23,16 @@ pass() {
   echo "[OK] $1"
 }
 
+matches_pattern() {
+  local pattern="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
+}
+
 extract_ids() {
   local file="$1"
   awk '
@@ -81,13 +91,13 @@ check_decisions_summary_contract() {
     return
   fi
 
-  if rg -q '^mutability:[[:space:]]*generated$' "$summary"; then
+  if matches_pattern '^mutability:[[:space:]]*generated$' "$summary"; then
     pass "decisions summary mutability contract is generated"
   else
     fail "decisions summary must declare mutability: generated"
   fi
 
-  if rg -q '^generated_from:' "$summary"; then
+  if matches_pattern '^generated_from:' "$summary"; then
     pass "decisions summary generated_from contract present"
   else
     fail "decisions summary missing generated_from contract"

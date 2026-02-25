@@ -16,6 +16,7 @@ ROLLOUT_STATE_REL=".harmony/capabilities/_ops/state/rollout-mode.state"
 ALLOW_EXIT_CODE=0
 DENY_EXIT_CODE=13
 CONTRACT_ERROR_EXIT_CODE=2
+DEFAULT_RECEIPTS_RUNS_DIR=".harmony/continuity/runs"
 
 config_paths_value() {
   local key="$1"
@@ -69,6 +70,50 @@ load_policy_interface_config() {
 }
 
 load_policy_interface_config
+
+policy_receipts_runs_dir() {
+  local policy_path="$1"
+  local runs_dir=""
+  runs_dir="$(awk '/^[[:space:]]*runs_dir:[[:space:]]*/{print $2; exit}' "$policy_path" | tr -d '"'"'"'\''')"
+  [[ -n "$runs_dir" ]] || runs_dir="$DEFAULT_RECEIPTS_RUNS_DIR"
+  printf '%s\n' "$runs_dir"
+}
+
+resolve_receipt_validate_path() {
+  local receipt_output="$1"
+  local policy_path="$2"
+  local request_path="$3"
+
+  local parsed_path=""
+  parsed_path="$(jq -r '.latest_receipt // .receipt // .compatibility_receipt // empty' <<<"$receipt_output" 2>/dev/null || true)"
+  if [[ -n "$parsed_path" && -f "$parsed_path" ]]; then
+    printf '%s\n' "$parsed_path"
+    return 0
+  fi
+
+  local run_id=""
+  run_id="$(jq -r '.run_id // empty' "$request_path" 2>/dev/null || true)"
+  if [[ -z "$run_id" ]]; then
+    return 1
+  fi
+
+  local runs_dir candidate
+  runs_dir="$(policy_receipts_runs_dir "$policy_path")"
+
+  candidate="$runs_dir/$run_id/receipt.latest.json"
+  if [[ -f "$candidate" ]]; then
+    printf '%s\n' "$candidate"
+    return 0
+  fi
+
+  candidate="$runs_dir/$run_id/receipt.json"
+  if [[ -f "$candidate" ]]; then
+    printf '%s\n' "$candidate"
+    return 0
+  fi
+
+  return 1
+}
 
 resolve_from_harmony() {
   local rel="$1"
@@ -293,9 +338,10 @@ USAGE
       return "$rc"
     fi
 
-    receipt_validate_path="$(jq -r '.latest_receipt // .receipt // empty' <<<"$receipt_output" 2>/dev/null || true)"
+    receipt_validate_path="$(resolve_receipt_validate_path "$receipt_output" "$policy_path" "$effective_request_path" || true)"
     if [[ -z "$receipt_validate_path" || ! -f "$receipt_validate_path" ]]; then
       echo "receipt writer did not return a valid receipt path for validation" >&2
+      echo "receipt writer raw output: $receipt_output" >&2
       rm -f "$tmp_request" "$tmp_decision"
       [[ "$rc" -eq "$ALLOW_EXIT_CODE" ]] && return "$DENY_EXIT_CODE"
       return "$rc"

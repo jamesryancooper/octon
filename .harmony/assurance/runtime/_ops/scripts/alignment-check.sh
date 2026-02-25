@@ -31,6 +31,7 @@ Profiles:
   commit-pr   Commit and PR standards alignment checks
   harness     .harmony architecture and drift guardrail checks
   framing     Canonical framing drift checks
+  intent-layer Intent contract, boundary, capability-map, and mode-gate checks
   agency      Agency contract and registry checks
   workflows   Workflow manifest/registry/path contract checks
   skills      Skill contract and drift checks (strict mode)
@@ -110,6 +111,12 @@ run_framing() {
     bash "$SCRIPT_DIR/validate-framing-alignment.sh"
 }
 
+run_intent_layer() {
+  run_step \
+    "Validate intent layer contracts and enforcement wiring" \
+    bash "$SCRIPT_DIR/validate-intent-layer.sh"
+}
+
 run_agency() {
   run_step \
     "Validate agency contracts" \
@@ -177,6 +184,7 @@ run_profile() {
     commit-pr) run_commit_pr ;;
     harness) run_harness ;;
     framing) run_framing ;;
+    intent-layer) run_intent_layer ;;
     agency) run_agency ;;
     workflows) run_workflows ;;
     skills) run_skills ;;
@@ -185,6 +193,7 @@ run_profile() {
     all)
       run_commit_pr
       run_harness
+      run_intent_layer
       run_agency
       run_workflows
       run_skills

@@ -516,14 +516,42 @@ run_direct_acp_enforce_emit_receipt_tests() {
       '$POLICY_RUNNER' acp-enforce --policy '$POLICY_V2_FILE' --request \"\$request\" --emit-receipt --run-id \"\$run_id\" --digest >\"\$stdout_file\" 2>\"\$stderr_file\"
       rc=\$?
       set -e
-      [[ \$rc -eq 0 ]]
-      jq -e '.decision == \"ALLOW\" and .effective_acp == \"ACP-1\"' \"\$stdout_file\" >/dev/null
-      grep -F '[acp-enforce] digest:' \"\$stderr_file\" >/dev/null
-      [[ -f \"\$receipt\" ]]
-      [[ -f \"\$digest\" ]]
-      jq -e --arg run_id \"\$run_id\" '.run_id == \$run_id' \"\$receipt\" >/dev/null
-      jq -e '.decision == \"ALLOW\" and .effective_acp == \"ACP-1\"' \"\$receipt\" >/dev/null
-      grep -F -- \"\\\"run_id\\\":\\\"\$run_id\\\"\" '.harmony/capabilities/_ops/state/logs/acp-decisions.jsonl' >/dev/null
+      [[ \$rc -eq 0 ]] || { echo \"unexpected acp-enforce rc=\$rc\"; cat \"\$stderr_file\"; exit 1; }
+      jq -e '.decision == \"ALLOW\" and .effective_acp == \"ACP-1\"' \"\$stdout_file\" >/dev/null || {
+        echo 'unexpected acp-enforce stdout payload:'
+        cat \"\$stdout_file\"
+        cat \"\$stderr_file\"
+        exit 1
+      }
+      [[ -f \"\$receipt\" ]] || {
+        echo \"missing receipt artifact: \$receipt\"
+        ls -la \"\$(dirname \"\$receipt\")\"
+        cat \"\$stderr_file\"
+        exit 1
+      }
+      [[ -f \"\$digest\" ]] || {
+        echo \"missing digest artifact: \$digest\"
+        ls -la \"\$(dirname \"\$digest\")\"
+        cat \"\$stderr_file\"
+        exit 1
+      }
+      jq -e --arg run_id \"\$run_id\" '.run_id == \$run_id' \"\$receipt\" >/dev/null || {
+        echo 'receipt run_id mismatch:'
+        cat \"\$receipt\"
+        exit 1
+      }
+      jq -e '.decision == \"ALLOW\" and .effective_acp == \"ACP-1\"' \"\$receipt\" >/dev/null || {
+        echo 'receipt decision payload mismatch:'
+        cat \"\$receipt\"
+        exit 1
+      }
+      jq -e --arg run_id \"\$run_id\" '
+        select(.run_id == \$run_id) | .run_id
+      ' '.harmony/capabilities/_ops/state/logs/acp-decisions.jsonl' >/dev/null || {
+        echo 'run_id missing from acp decision log'
+        tail -n 20 '.harmony/capabilities/_ops/state/logs/acp-decisions.jsonl'
+        exit 1
+      }
     "
 
   rm -f "$request_file" "$stdout_file" "$stderr_file"

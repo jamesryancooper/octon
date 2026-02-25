@@ -7,8 +7,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVICE_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 ADAPTERS_DIR="$SERVICE_DIR/adapters"
 REGISTRY_FILE="$ADAPTERS_DIR/registry.yml"
+HAS_RG=0
 
 errors=0
+
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=1
+fi
 
 log_error() {
   echo "ERROR: $1" >&2
@@ -17,6 +22,17 @@ log_error() {
 
 log_ok() {
   echo "✓ $1"
+}
+
+matches_file_regex() {
+  local pattern="$1"
+  local file="$2"
+
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
 }
 
 if [[ ! -f "$REGISTRY_FILE" ]]; then
@@ -56,8 +72,8 @@ for id in "${adapter_ids[@]}"; do
   [[ -f "$capabilities_fixture" ]] || log_error "Missing adapter capabilities fixture: $capabilities_fixture"
 
   if [[ -f "$adapter_file" ]]; then
-    rg -n "^id:[[:space:]]*$id$" "$adapter_file" >/dev/null 2>&1 || log_error "Adapter id mismatch in $adapter_file"
-    rg -n '^interop_contract_version:[[:space:]]*"?1\.0\.0"?$' "$adapter_file" >/dev/null 2>&1 || log_error "interop_contract_version must be 1.0.0 in $adapter_file"
+    matches_file_regex "^id:[[:space:]]*$id$" "$adapter_file" || log_error "Adapter id mismatch in $adapter_file"
+    matches_file_regex '^interop_contract_version:[[:space:]]*"?1\.0\.0"?$' "$adapter_file" || log_error "interop_contract_version must be 1.0.0 in $adapter_file"
   fi
 
   if [[ -f "$capabilities_fixture" ]]; then

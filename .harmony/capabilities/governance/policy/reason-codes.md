@@ -80,6 +80,17 @@ policy engine.
 | `ACP_ESCALATE_POLICY` | Policy requires escalation for unresolved high-risk conditions. | Escalate with digest/receipt and keep artifacts staged. |
 | `RA_BREAK_GLASS_REQUIRED` | ACP-4 request attempted without break-glass posture. | Convert to reversible path or use explicit emergency break-glass mode. |
 
+## Intent-Layer Codes
+
+| Code | Meaning | Typical Remediation |
+|---|---|---|
+| `INTENT_MISSING` | Autonomous request omitted required `intent_ref`. | Bind run to a valid intent contract id/version before policy enforcement. |
+| `INTENT_REF_INVALID` | Referenced intent contract is invalid, unknown, or incompatible. | Use an existing approved intent contract version and rerun. |
+| `BOUNDARY_UNRESOLVED` | Boundary route could not be resolved for decision class/context. | Provide boundary id/set version and decision class fields. |
+| `BOUNDARY_BLOCKED` | Decision matched a boundary route of `block`. | Redesign the action or obtain explicit governance exception. |
+| `BOUNDARY_ESCALATION_REQUIRED` | Decision matched a boundary route of `escalate`. | Escalate to owner/policy authority and wait for approval signal. |
+| `MODE_VIOLATION_AUTONOMY_NOT_ALLOWED` | Autonomous execution attempted for non-`agent-ready` workflow classification. | Re-run in `agent-augmented` or `human-only` mode, or reclassify workflow through governance process. |
+
 ## Deny Payload Shape
 
 ```json

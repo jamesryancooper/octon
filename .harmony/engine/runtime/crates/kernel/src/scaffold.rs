@@ -178,6 +178,24 @@ pub fn service_build(harmony_dir: &Path, category: &str, name: &str) -> anyhow::
         .join("build")
         .join(format!("{category}-{name}-target"));
 
+    // Best-effort prefetch for target-specific crates so offline builds work on cold CI runners.
+    // If the fetch fails (for example, in a fully offline environment), we still proceed with
+    // the offline build and rely on prewarmed caches.
+    let fetch_status = std::process::Command::new("cargo")
+        .arg("fetch")
+        .arg("--locked")
+        .arg("--target")
+        .arg("wasm32-wasip1")
+        .current_dir(&rust_dir)
+        .status();
+    if let Ok(status) = fetch_status {
+        if !status.success() {
+            eprintln!(
+                "warning: cargo fetch --target wasm32-wasip1 failed; continuing with offline build"
+            );
+        }
+    }
+
     // Run cargo-component.
     let status = std::process::Command::new("cargo")
         .arg("component")

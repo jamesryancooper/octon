@@ -28,6 +28,16 @@ pass() {
   echo "[OK] $1"
 }
 
+matches_pattern() {
+  local pattern="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
+}
+
 require_file() {
   local file="$1"
   if [[ ! -f "$file" ]]; then
@@ -196,20 +206,20 @@ validate_convergence_receipt() {
 
   local key
   for key in "${required_keys[@]}"; do
-    if rg -q "^[[:space:]]*${key}:[[:space:]]*" "$convergence_file"; then
+    if matches_pattern "^[[:space:]]*${key}:[[:space:]]*" "$convergence_file"; then
       pass "convergence metadata includes ${key}: ${convergence_file#$ROOT_DIR/}"
     else
       fail "convergence metadata missing ${key}: ${convergence_file#$ROOT_DIR/}"
     fi
   done
 
-  if rg -q "^[[:space:]]*seed:[[:space:]]*" "$convergence_file" || rg -q "^[[:space:]]*seed_unsupported:[[:space:]]*true" "$convergence_file"; then
+  if matches_pattern "^[[:space:]]*seed:[[:space:]]*" "$convergence_file" || matches_pattern "^[[:space:]]*seed_unsupported:[[:space:]]*true" "$convergence_file"; then
     pass "convergence metadata includes seed policy: ${convergence_file#$ROOT_DIR/}"
   else
     fail "convergence metadata missing seed policy: ${convergence_file#$ROOT_DIR/}"
   fi
 
-  if rg -q "^[[:space:]]*system_fingerprint:[[:space:]]*" "$convergence_file" || rg -q "^[[:space:]]*fingerprint_unsupported:[[:space:]]*true" "$convergence_file"; then
+  if matches_pattern "^[[:space:]]*system_fingerprint:[[:space:]]*" "$convergence_file" || matches_pattern "^[[:space:]]*fingerprint_unsupported:[[:space:]]*true" "$convergence_file"; then
     pass "convergence metadata includes fingerprint policy: ${convergence_file#$ROOT_DIR/}"
   else
     fail "convergence metadata missing fingerprint policy: ${convergence_file#$ROOT_DIR/}"
@@ -219,7 +229,7 @@ validate_convergence_receipt() {
   done_gate_keys=(stable union_blocking_findings open_findings_at_or_above_threshold done)
 
   for key in "${done_gate_keys[@]}"; do
-    if rg -q "^[[:space:]]*${key}:[[:space:]]*" "$convergence_file"; then
+    if matches_pattern "^[[:space:]]*${key}:[[:space:]]*" "$convergence_file"; then
       pass "convergence metadata includes done-gate key ${key}: ${convergence_file#$ROOT_DIR/}"
     else
       fail "convergence metadata missing done-gate key ${key}: ${convergence_file#$ROOT_DIR/}"
@@ -272,55 +282,55 @@ validate_bundle_metadata() {
     return
   fi
 
-  if rg -q '^kind:[[:space:]]*"?audit-evidence-bundle"?$' "$bundle_file"; then
+  if matches_pattern '^kind:[[:space:]]*"?audit-evidence-bundle"?$' "$bundle_file"; then
     pass "bundle kind valid: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle kind must be audit-evidence-bundle: ${bundle_file#$ROOT_DIR/}"
   fi
 
-  if rg -q "^id:[[:space:]]*\"?${bundle_name}\"?$" "$bundle_file"; then
+  if matches_pattern "^id:[[:space:]]*\"?${bundle_name}\"?$" "$bundle_file"; then
     pass "bundle id matches directory: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle id must match directory name (${bundle_name}): ${bundle_file#$ROOT_DIR/}"
   fi
 
-  if rg -q '^findings:[[:space:]]*"?findings\.yml"?$' "$bundle_file"; then
+  if matches_pattern '^findings:[[:space:]]*"?findings\.yml"?$' "$bundle_file"; then
     pass "bundle findings pointer valid: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle findings pointer must be findings.yml: ${bundle_file#$ROOT_DIR/}"
   fi
 
-  if rg -q '^coverage:[[:space:]]*"?coverage\.yml"?$' "$bundle_file"; then
+  if matches_pattern '^coverage:[[:space:]]*"?coverage\.yml"?$' "$bundle_file"; then
     pass "bundle coverage pointer valid: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle coverage pointer must be coverage.yml: ${bundle_file#$ROOT_DIR/}"
   fi
 
-  if rg -q '^convergence:[[:space:]]*"?convergence\.yml"?$' "$bundle_file"; then
+  if matches_pattern '^convergence:[[:space:]]*"?convergence\.yml"?$' "$bundle_file"; then
     pass "bundle convergence pointer valid: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle convergence pointer must be convergence.yml: ${bundle_file#$ROOT_DIR/}"
   fi
 
-  if rg -q '^evidence:[[:space:]]*"?evidence\.md"?$' "$bundle_file"; then
+  if matches_pattern '^evidence:[[:space:]]*"?evidence\.md"?$' "$bundle_file"; then
     pass "bundle evidence pointer valid: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle evidence pointer must be evidence.md: ${bundle_file#$ROOT_DIR/}"
   fi
 
-  if rg -q '^commands:[[:space:]]*"?commands\.md"?$' "$bundle_file"; then
+  if matches_pattern '^commands:[[:space:]]*"?commands\.md"?$' "$bundle_file"; then
     pass "bundle commands pointer valid: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle commands pointer must be commands.md: ${bundle_file#$ROOT_DIR/}"
   fi
 
-  if rg -q '^validation:[[:space:]]*"?validation\.md"?$' "$bundle_file"; then
+  if matches_pattern '^validation:[[:space:]]*"?validation\.md"?$' "$bundle_file"; then
     pass "bundle validation pointer valid: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle validation pointer must be validation.md: ${bundle_file#$ROOT_DIR/}"
   fi
 
-  if rg -q '^inventory:[[:space:]]*"?inventory\.md"?$' "$bundle_file"; then
+  if matches_pattern '^inventory:[[:space:]]*"?inventory\.md"?$' "$bundle_file"; then
     pass "bundle inventory pointer valid: ${bundle_file#$ROOT_DIR/}"
   else
     fail "bundle inventory pointer must be inventory.md: ${bundle_file#$ROOT_DIR/}"

@@ -18,11 +18,35 @@ FLAGS_METADATA_SCHEMA="$CAPABILITIES_DIR/governance/policy/flags.metadata.schema
 FLAGS_METADATA_VALIDATOR="$CAPABILITIES_DIR/_ops/scripts/validate-flag-metadata.sh"
 
 FAIL_COUNT=0
+HAS_RG=0
+
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=1
+fi
 
 fail() {
   local msg="$1"
   echo "RA+ACP migration check failed: $msg" >&2
   FAIL_COUNT=$((FAIL_COUNT + 1))
+}
+
+matches_file() {
+  local pattern="$1"
+  local file="$2"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -n -- "$pattern" "$file" >/dev/null
+  else
+    grep -En -- "$pattern" "$file" >/dev/null
+  fi
+}
+
+filter_negations() {
+  local pattern="$1"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -i -v -- "$pattern" || true
+  else
+    grep -Eiv -- "$pattern" || true
+  fi
 }
 
 check_required_files() {
@@ -42,7 +66,7 @@ check_hitl_doc_removed() {
 check_policy_sections() {
   local section
   for section in governance_overrides flags_metadata acp reversibility budgets quorum attestations circuit_breakers receipts; do
-    if ! rg -n "^${section}:" "$POLICY_FILE" >/dev/null; then
+    if ! matches_file "^${section}:" "$POLICY_FILE"; then
       fail "policy missing top-level section '${section}'"
     fi
   done
@@ -98,7 +122,7 @@ check_wrapper_defaults_mapped() {
 }
 
 check_receipt_writer_append_only() {
-  if rg -n '>[[:space:]]*"\$receipt_path"|>[[:space:]]*"\$digest_path"' "$RECEIPT_WRITER" >/dev/null; then
+  if matches_file '>[[:space:]]*"\$receipt_path"|>[[:space:]]*"\$digest_path"' "$RECEIPT_WRITER"; then
     fail "receipt writer overwrites compatibility paths instead of preserving immutable history"
   fi
 }
@@ -112,20 +136,27 @@ check_active_surface_legacy_terms() {
   negation_pattern='does not require[^[:cntrl:]\n]{0,80}human approval|does not require[^[:cntrl:]\n]{0,80}human approvals|do not require[^[:cntrl:]\n]{0,80}human approval|do not require[^[:cntrl:]\n]{0,80}human approvals|not[^[:cntrl:]\n]{0,40}human approval|not[^[:cntrl:]\n]{0,40}human approvals|no[^[:cntrl:]\n]{0,40}human[^[:cntrl:]\n]{0,20}approval|no[^[:cntrl:]\n]{0,40}human[^[:cntrl:]\n]{0,20}approvals|without[^[:cntrl:]\n]{0,40}human approval|without[^[:cntrl:]\n]{0,40}human approvals|not[^[:cntrl:]\n]{0,40}human checkpoint|not[^[:cntrl:]\n]{0,40}HITL[^[:cntrl:]\n]{0,40}checkpoint'
 
   raw_hits="$(
-    rg -n -i --hidden \
-      --glob '!**/.harmony/output/**' \
-      --glob '!**/.harmony/ideation/**' \
-      --glob '!**/.harmony/continuity/runs/**' \
-      --glob '!**/.harmony/capabilities/_ops/state/**' \
-      --glob '!**/.harmony/capabilities/_ops/tests/**' \
-      --glob '!**/.harmony/cognition/_ops/principles/scripts/lint-principles-governance.sh' \
-      --glob '!**/.harmony/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures.sh' \
-      --glob '!**/validate-ra-acp-migration.sh' \
-      "$pattern" \
-      "$REPO_ROOT/.harmony" 2>/dev/null || true
+    if [[ "$HAS_RG" -eq 1 ]]; then
+      rg -n -i --hidden \
+        --glob '!**/.harmony/output/**' \
+        --glob '!**/.harmony/ideation/**' \
+        --glob '!**/.harmony/continuity/runs/**' \
+        --glob '!**/.harmony/capabilities/_ops/state/**' \
+        --glob '!**/.harmony/capabilities/_ops/tests/**' \
+        --glob '!**/.harmony/cognition/_ops/principles/scripts/lint-principles-governance.sh' \
+        --glob '!**/.harmony/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures.sh' \
+        --glob '!**/validate-ra-acp-migration.sh' \
+        "$pattern" \
+        "$REPO_ROOT/.harmony" 2>/dev/null || true
+    else
+      grep -RInEi --binary-files=without-match \
+        "$pattern" \
+        "$REPO_ROOT/.harmony" 2>/dev/null \
+        | grep -Ev '/\.harmony/output/|/\.harmony/ideation/|/\.harmony/continuity/runs/|/\.harmony/capabilities/_ops/state/|/\.harmony/capabilities/_ops/tests/|/\.harmony/cognition/_ops/principles/scripts/lint-principles-governance\.sh|/\.harmony/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures\.sh|/validate-ra-acp-migration\.sh' || true
+    fi
   )"
 
-  hits="$(printf '%s\n' "$raw_hits" | rg -i -v "$negation_pattern" || true)"
+  hits="$(printf '%s\n' "$raw_hits" | filter_negations "$negation_pattern")"
 
   if [[ -n "$hits" ]]; then
     sample="$(printf '%s\n' "$hits" | head -n 10 | tr '\n' '; ')"
@@ -152,19 +183,19 @@ check_tracked_temp_artifacts() {
 }
 
 check_shared_breaker_action_wiring() {
-  if ! rg -n 'policy-circuit-breaker-actions\.sh' "$AGENT_FILE" >/dev/null; then
+  if ! matches_file 'policy-circuit-breaker-actions\.sh' "$AGENT_FILE"; then
     fail "agent runtime does not reference shared circuit breaker actions helper"
   fi
-  if ! rg -n 'policy-circuit-breaker-actions\.sh' "$ENFORCER_FILE" >/dev/null; then
+  if ! matches_file 'policy-circuit-breaker-actions\.sh' "$ENFORCER_FILE"; then
     fail "service runtime enforcer does not reference shared circuit breaker actions helper"
   fi
 }
 
 check_quorum_independence_defaults() {
-  if ! rg -n 'HARMONY_ALLOW_INPROCESS_ATTESTATIONS:-false' "$AGENT_FILE" >/dev/null; then
+  if ! matches_file 'HARMONY_ALLOW_INPROCESS_ATTESTATIONS:-false' "$AGENT_FILE"; then
     fail "agent attestation flow missing explicit synthetic-attestation compatibility guard"
   fi
-  if ! rg -n 'verifier\.attestation\.json|recovery\.attestation\.json' "$AGENT_FILE" >/dev/null; then
+  if ! matches_file 'verifier\.attestation\.json|recovery\.attestation\.json' "$AGENT_FILE"; then
     fail "agent attestation flow is not sourcing external verifier/recovery artifacts"
   fi
 }

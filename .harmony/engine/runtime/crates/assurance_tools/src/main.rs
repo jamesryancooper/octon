@@ -4507,7 +4507,8 @@ mod tests {
             .and_then(Path::parent)
             .and_then(Path::parent)
             .and_then(Path::parent)
-            .expect("assurance_tools should be under .harmony/engine/runtime/crates/")
+            .and_then(Path::parent)
+            .expect("assurance_tools should be under <repo>/.harmony/engine/runtime/crates/")
             .to_path_buf()
     }
 

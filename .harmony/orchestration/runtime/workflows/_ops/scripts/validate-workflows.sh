@@ -14,6 +14,11 @@ warnings=0
 
 declare -A WORKFLOW_PATHS=()
 declare -A WORKFLOW_PROFILES=()
+HAS_RG=0
+
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=1
+fi
 
 fail() {
   echo "[ERROR] $1"
@@ -27,6 +32,53 @@ warn() {
 
 pass() {
   echo "[OK] $1"
+}
+
+matches_file_regex() {
+  local pattern="$1"
+  local file="$2"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
+}
+
+matches_file_fixed() {
+  local token="$1"
+  local file="$2"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -Fq -- "$token" "$file"
+  else
+    grep -Fq -- "$token" "$file"
+  fi
+}
+
+matches_markdown_tree_regex() {
+  local pattern="$1"
+  local target="$2"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    if [[ -d "$target" ]]; then
+      rg -q --glob "*.md" -- "$pattern" "$target"
+    else
+      rg -q -- "$pattern" "$target"
+    fi
+  else
+    if [[ -d "$target" ]]; then
+      grep -RqsE --include='*.md' -- "$pattern" "$target"
+    else
+      grep -Eq -- "$pattern" "$target"
+    fi
+  fi
+}
+
+matches_stdin_regex() {
+  local pattern="$1"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -q -- "$pattern"
+  else
+    grep -Eq -- "$pattern"
+  fi
 }
 
 require_file() {
@@ -154,12 +206,7 @@ workflow_has_external_dependency_markers() {
   local dep_pattern
   dep_pattern='(pnpm[[:space:]]+flowkit:run|pnpm[[:space:]]+install|npm[[:space:]]+install|npx[[:space:]]|pip[[:space:]]+install|uv[[:space:]]+sync|swift[[:space:]]+build|swift[[:space:]]+test|docker(-compose)?|alembic)'
 
-  if [[ -d "$target" ]]; then
-    rg -n "$dep_pattern" "$target" -g "*.md" >/dev/null 2>&1
-    return $?
-  fi
-
-  rg -n "$dep_pattern" "$target" >/dev/null 2>&1
+  matches_markdown_tree_regex "$dep_pattern" "$target"
 }
 
 check_dependency_profiles_against_steps() {
@@ -275,19 +322,19 @@ check_bounded_audit_parameter_forwarding() {
       continue
     fi
 
-    if rg -Fq 'post_remediation="{{post_remediation}}"' "$file"; then
+    if matches_file_fixed 'post_remediation="{{post_remediation}}"' "$file"; then
       pass "bounded-audit forwarding includes post_remediation: $rel"
     else
       fail "bounded-audit forwarding missing post_remediation: $rel"
     fi
 
-    if rg -Fq 'convergence_k="{{convergence_k}}"' "$file"; then
+    if matches_file_fixed 'convergence_k="{{convergence_k}}"' "$file"; then
       pass "bounded-audit forwarding includes convergence_k: $rel"
     else
       fail "bounded-audit forwarding missing convergence_k: $rel"
     fi
 
-    if rg -Fq 'seed_list="{{seed_list}}"' "$file"; then
+    if matches_file_fixed 'seed_list="{{seed_list}}"' "$file"; then
       pass "bounded-audit forwarding includes seed_list: $rel"
     else
       fail "bounded-audit forwarding missing seed_list: $rel"
@@ -315,43 +362,43 @@ check_bounded_audit_contracts() {
       continue
     fi
 
-    if rg -q "done-gate" "$workflow_file"; then
+    if matches_file_regex "done-gate" "$workflow_file"; then
       pass "bounded-audit workflow defines done-gate semantics: ${workflow_file#$ROOT_DIR/}"
     else
       fail "bounded-audit workflow missing done-gate semantics: ${workflow_file#$ROOT_DIR/}"
     fi
 
-    if rg -q "post_remediation" "$workflow_dir" -g "*.md"; then
+    if matches_markdown_tree_regex "post_remediation" "$workflow_dir"; then
       pass "bounded-audit workflow references post_remediation: ${workflow_dir#$ROOT_DIR/}"
     else
       fail "bounded-audit workflow missing post_remediation references: ${workflow_dir#$ROOT_DIR/}"
     fi
 
-    if rg -q "convergence_k" "$workflow_dir" -g "*.md"; then
+    if matches_markdown_tree_regex "convergence_k" "$workflow_dir"; then
       pass "bounded-audit workflow references convergence_k: ${workflow_dir#$ROOT_DIR/}"
     else
       fail "bounded-audit workflow missing convergence_k references: ${workflow_dir#$ROOT_DIR/}"
     fi
 
-    if rg -q "seed_list" "$workflow_dir" -g "*.md"; then
+    if matches_markdown_tree_regex "seed_list" "$workflow_dir"; then
       pass "bounded-audit workflow references seed_list: ${workflow_dir#$ROOT_DIR/}"
     else
       fail "bounded-audit workflow missing seed_list references: ${workflow_dir#$ROOT_DIR/}"
     fi
 
-    if rg -q "findings\\.yml" "$workflow_dir" -g "*.md"; then
+    if matches_markdown_tree_regex "findings\\.yml" "$workflow_dir"; then
       pass "bounded-audit workflow references findings.yml: ${workflow_dir#$ROOT_DIR/}"
     else
       fail "bounded-audit workflow missing findings.yml reference: ${workflow_dir#$ROOT_DIR/}"
     fi
 
-    if rg -q "coverage\\.yml" "$workflow_dir" -g "*.md"; then
+    if matches_markdown_tree_regex "coverage\\.yml" "$workflow_dir"; then
       pass "bounded-audit workflow references coverage.yml: ${workflow_dir#$ROOT_DIR/}"
     else
       fail "bounded-audit workflow missing coverage.yml reference: ${workflow_dir#$ROOT_DIR/}"
     fi
 
-    if rg -q "convergence\\.yml" "$workflow_dir" -g "*.md"; then
+    if matches_markdown_tree_regex "convergence\\.yml" "$workflow_dir"; then
       pass "bounded-audit workflow references convergence.yml: ${workflow_dir#$ROOT_DIR/}"
     else
       fail "bounded-audit workflow missing convergence.yml reference: ${workflow_dir#$ROOT_DIR/}"
@@ -363,25 +410,25 @@ check_bounded_audit_contracts() {
       continue
     fi
 
-    if printf '%s\n' "$block" | rg -q "name:[[:space:]]+post_remediation"; then
+    if printf '%s\n' "$block" | matches_stdin_regex "name:[[:space:]]+post_remediation"; then
       pass "registry bounded-audit parameter present (post_remediation): $workflow_id"
     else
       fail "registry bounded-audit parameter missing (post_remediation): $workflow_id"
     fi
 
-    if printf '%s\n' "$block" | rg -q "name:[[:space:]]+convergence_k"; then
+    if printf '%s\n' "$block" | matches_stdin_regex "name:[[:space:]]+convergence_k"; then
       pass "registry bounded-audit parameter present (convergence_k): $workflow_id"
     else
       fail "registry bounded-audit parameter missing (convergence_k): $workflow_id"
     fi
 
-    if printf '%s\n' "$block" | rg -q "name:[[:space:]]+seed_list"; then
+    if printf '%s\n' "$block" | matches_stdin_regex "name:[[:space:]]+seed_list"; then
       pass "registry bounded-audit parameter present (seed_list): $workflow_id"
     else
       fail "registry bounded-audit parameter missing (seed_list): $workflow_id"
     fi
 
-    if printf '%s\n' "$block" | rg -q "output/reports/audits/"; then
+    if printf '%s\n' "$block" | matches_stdin_regex "output/reports/audits/"; then
       pass "registry bounded-audit output path present: $workflow_id"
     else
       fail "registry bounded-audit output path missing: $workflow_id"

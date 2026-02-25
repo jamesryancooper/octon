@@ -15,6 +15,14 @@ routing:
   explicit_command_required: false
   ambiguity_resolution: "ask"
 
+governance:
+  capability_map_ref: "../../governance/capability-map-v1.yml"
+  capability_map_schema_ref: "../../governance/capability-map-v1.schema.json"
+  classification_source: "workflow-capability-map"
+  autonomy_policy:
+    autonomous_requires_classification: "agent-ready"
+    fallback_modes: ["agent-augmented", "human-only"]
+
 workflows:
   # --- Fully specified (spec-compliant) ---
 

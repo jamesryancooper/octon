@@ -1,0 +1,31 @@
+schema_version: "capability-map-v1"
+map_id: "orchestration-capability-map"
+map_version: "1.0.0"
+owner: "orchestration-owner"
+approved_by: "harmony-platform"
+review_cadence_days: 30
+
+defaults:
+  classification: "agent-augmented"
+  autonomous_allowed: false
+
+workflows:
+  - workflow_id: "agent-led-happy-path"
+    classification: "agent-ready"
+    autonomous_allowed: true
+    required_contracts:
+      - "intent-contract-v1"
+      - "delegation-boundaries-v1"
+      - "policy-receipt-v1"
+
+  - workflow_id: "audit-orchestration-workflow"
+    classification: "agent-augmented"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"
+
+  - workflow_id: "audit-pre-release-workflow"
+    classification: "human-only"
+    autonomous_allowed: false
+    required_contracts:
+      - "delegation-boundaries-v1"

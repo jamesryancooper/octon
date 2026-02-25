@@ -40,7 +40,6 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const core = require('@actions/core');
             const summary = fs.existsSync('smoke-summary.txt') ? fs.readFileSync('smoke-summary.txt','utf8') : 'No summary produced';
             const failed = process.env.SMOKE_FAILED === '1';
             const status = failed ? '❌ Failed' : '✅ Passed';

@@ -50,3 +50,15 @@ services:
       - fs.read
       - fs.write
       - net.http
+
+# Routing metadata mirrored for runtime/operator visibility.
+# Policy enforcement still resolves through capabilities/governance policy.
+decision_routing:
+  boundary_routes: [allow, escalate, block]
+  reason_codes:
+    intent_missing: INTENT_MISSING
+    intent_ref_invalid: INTENT_REF_INVALID
+    boundary_unresolved: BOUNDARY_UNRESOLVED
+    boundary_blocked: BOUNDARY_BLOCKED
+    boundary_escalation_required: BOUNDARY_ESCALATION_REQUIRED
+    mode_violation_autonomy_not_allowed: MODE_VIOLATION_AUTONOMY_NOT_ALLOWED

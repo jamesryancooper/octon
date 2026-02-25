@@ -5,17 +5,33 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../.." && pwd)"
 cd "$ROOT_DIR"
 
 SYNC_SCRIPT=".harmony/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh"
+HAS_RG=0
+
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=1
+fi
 
 if [[ ! -f "$SYNC_SCRIPT" ]]; then
   echo "[fail] missing sync script: $SYNC_SCRIPT"
   exit 1
 fi
 
+matches_pattern() {
+  local pattern="$1"
+  local file="$2"
+
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
+}
+
 assert_contains() {
   local file="$1"
   local pattern="$2"
   local label="$3"
-  if ! rg -q "$pattern" "$file"; then
+  if ! matches_pattern "$pattern" "$file"; then
     echo "[fail] $label"
     echo "file: $file"
     exit 1
@@ -26,7 +42,7 @@ assert_not_contains() {
   local file="$1"
   local pattern="$2"
   local label="$3"
-  if rg -q "$pattern" "$file"; then
+  if matches_pattern "$pattern" "$file"; then
     echo "[fail] $label"
     echo "file: $file"
     exit 1
