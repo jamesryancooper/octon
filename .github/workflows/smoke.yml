@@ -51,3 +51,5 @@ jobs:
               body
             });
             if (failed) core.setFailed('Smoke checks failed');
+
+# shadow validation high impact 2026-03-02
