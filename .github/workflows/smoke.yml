@@ -1,5 +1,6 @@
 name: Harness Smoke Checks
 
+# Shadow validation marker for high-impact autonomy gate testing.
 on:
   schedule:
     - cron: '30 9 * * *' # daily at 09:30 UTC
