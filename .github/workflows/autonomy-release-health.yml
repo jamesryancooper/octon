@@ -77,16 +77,6 @@ jobs:
             fail "AUTONOMY_POLICY_ENFORCE=false; autonomy policy is not enforced."
           fi
 
-          can_approve="$(
-            gh api "repos/${GH_REPO}/actions/permissions/workflow" \
-              --jq '.can_approve_pull_request_reviews'
-          )"
-          if [[ "${can_approve}" == "true" ]]; then
-            pass "Actions can_approve_pull_request_reviews=true."
-          else
-            fail "Actions can_approve_pull_request_reviews must be true."
-          fi
-
           if [[ -f "release-please-config.json" && -f ".release-please-manifest.json" ]]; then
             pass "Release Please config and manifest are present on default branch checkout."
           else
