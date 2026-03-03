@@ -13,6 +13,7 @@ Use this progressive path to get only the depth you need:
 3. **Machine-enforced headings/checklist:** `.github/workflows/pr-quality.yml`
 4. **Related commit/branch contract:** `commits.md` and
    `standards/commit-pr-standards.json`
+5. **GitHub autonomy credential/runbook:** `github-autonomy-runbook.md`
 
 ---
 
@@ -39,6 +40,9 @@ control provider and CI system.
 - AI review gate:
   `.github/workflows/codex-pr-review.yml` (required status check:
   `Codex PR Review / Run Codex Review`; requires `OPENAI_API_KEY` secret).
+- Autonomy lane credential and permissions guidance:
+  `github-autonomy-runbook.md` (`AUTONOMY_PAT`, fine-grained PAT minimum scope,
+  and Checks API limitation notes).
 
 ---
 
