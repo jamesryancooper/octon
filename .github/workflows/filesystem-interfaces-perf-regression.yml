@@ -55,14 +55,14 @@ jobs:
             --summary-out "$RUNNER_TEMP/filesystem-interfaces-perf/filesystem-interfaces-perf.summary.tsv"
 
       - name: Upload perf summary artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: filesystem-interfaces-perf-summary
           path: ${{ runner.temp }}/filesystem-interfaces-perf/filesystem-interfaces-perf.summary.tsv
           retention-days: 30
 
       - name: Upload perf raw artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: filesystem-interfaces-perf-raw
           path: ${{ runner.temp }}/filesystem-interfaces-perf/filesystem-interfaces-perf.raw.tsv

@@ -113,7 +113,7 @@ jobs:
           printf '%s\n' "$SNAP_ID" > "$RUNNER_TEMP/filesystem-interfaces-snapshot-id-${{ matrix.os }}.txt"
 
       - name: Upload cross-OS snapshot id
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: filesystem-interfaces-snapshot-id-${{ matrix.os }}
           path: ${{ runner.temp }}/filesystem-interfaces-snapshot-id-${{ matrix.os }}.txt
@@ -132,7 +132,7 @@ jobs:
 
       - name: Upload SLO summary artifact
         if: ${{ matrix.publish_slo_artifacts }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: filesystem-interfaces-slo-summary
           path: ${{ runner.temp }}/filesystem-interfaces-slo/filesystem-interfaces-slo.summary.tsv
@@ -140,7 +140,7 @@ jobs:
 
       - name: Upload SLO raw metrics artifact
         if: ${{ matrix.publish_slo_artifacts }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: filesystem-interfaces-slo-raw
           path: ${{ runner.temp }}/filesystem-interfaces-slo/filesystem-interfaces-slo.raw.tsv
