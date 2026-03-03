@@ -15,6 +15,8 @@ GitHub autonomy workflows:
 - `.github/workflows/pr-stale-close.yml`
 - `.github/workflows/release-please.yml`
 - `.github/workflows/autonomy-release-health.yml`
+- `.github/workflows/ai-review-gate.yml`
+- `.github/workflows/codex-pr-review.yml` (advisory)
 
 Use this document when setting up or rotating `AUTONOMY_PAT`.
 
@@ -89,6 +91,34 @@ a fine-grained PAT.
 
 ---
 
+## AI Gate Secrets and Variables
+
+Provider-agnostic AI gate workflow:
+
+- Workflow: `.github/workflows/ai-review-gate.yml`
+- Required check target (strict mode): `AI Review Gate / decision`
+- Policy contract:
+  `.harmony/agency/practices/standards/ai-gate-policy.json`
+- Normalized findings schema:
+  `.harmony/agency/practices/standards/ai-gate-findings.schema.json`
+
+Required secrets (strict mode):
+
+- `OPENAI_API_KEY`
+- `ANTHROPIC_API_KEY`
+
+Mode control variable:
+
+- `AI_GATE_ENFORCE=false` -> shadow mode (telemetry only, non-blocking)
+- `AI_GATE_ENFORCE=true` -> strict mode (blocking on decision failures)
+
+Waiver contract:
+
+- Merge waiver requires both labels: `ai-gate:waive` and `accept:human`
+- `ai-gate:blocker` is managed by the gate workflow on blocker findings
+
+---
+
 ## Repository Preconditions
 
 Before expecting autonomous low-risk merges:
@@ -97,8 +127,10 @@ Before expecting autonomous low-risk merges:
 2. Main branch ruleset is active with required checks and PR-first merge.
 3. Actions workflow setting has `can_approve_pull_request_reviews=true`.
 4. `AUTONOMY_PAT` is set as a repository Actions secret.
-5. (Optional) `AUTONOMY_AUTO_CLOSE_ENABLED=true` if stale draft auto-close is desired.
-6. (Optional) `AUTONOMY_ATTENTION_AFTER_HOURS=<n>` to tune attention indicator threshold.
+5. Main control-plane matches
+   `.harmony/agency/practices/standards/github-control-plane-contract.json`.
+6. (Optional) `AUTONOMY_AUTO_CLOSE_ENABLED=true` if stale draft auto-close is desired.
+7. (Optional) `AUTONOMY_ATTENTION_AFTER_HOURS=<n>` to tune attention indicator threshold.
 
 Useful verification commands:
 
@@ -109,6 +141,19 @@ gh variable list | rg '^AUTONOMY_AUTO_CLOSE_ENABLED'
 gh variable list | rg '^AUTONOMY_ATTENTION_AFTER_HOURS'
 gh api repos/<owner>/<repo>/actions/permissions/workflow
 gh api repos/<owner>/<repo>/rulesets
+```
+
+Before strict AI gate cutover:
+
+1. `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` are configured as repository
+   Actions secrets.
+2. `AI_GATE_ENFORCE=true` is set as a repository variable.
+3. `AI Review Gate / decision` is in the required checks list for `main`.
+
+Control-plane baseline capture command:
+
+```bash
+.harmony/agency/_ops/scripts/capture-github-control-plane-snapshot.sh
 ```
 
 For Phase C release acceleration:
@@ -182,6 +227,13 @@ It checks for control-plane drift:
 - `AUTONOMY_PAT` is present.
 - `AUTONOMY_AUTO_MERGE_ENABLED=true`.
 - `AUTONOMY_POLICY_ENFORCE` is effectively `true`.
+- `main` ruleset required checks exactly match
+  `.harmony/agency/practices/standards/github-control-plane-contract.json`.
+- Pull-request rules require review-thread resolution.
+- Repository merge settings remain squash-only and auto-merge compatible.
+- Repository settings preserve `delete_branch_on_merge=true`.
+- Actions workflow permission
+  `can_approve_pull_request_reviews=true` remains enabled.
 - `release-please-config.json` and `.release-please-manifest.json` exist.
 - Latest `Release Please` workflow run is successful.
 - No stale `release-please` branch exists without an open release PR.
@@ -208,11 +260,122 @@ gh api --method DELETE repos/<owner>/<repo>/git/refs/heads/release-please--branc
 
 ---
 
+## AI Review Gate Operations
+
+Workflow:
+
+- `.github/workflows/ai-review-gate.yml`
+- Decision job/check: `AI Review Gate / decision`
+
+Shadow-mode validation:
+
+```bash
+gh variable set AI_GATE_ENFORCE --body false
+gh workflow run ai-review-gate.yml
+gh run list --workflow "AI Review Gate" --limit 10
+```
+
+Strict-mode cutover:
+
+```bash
+gh variable set AI_GATE_ENFORCE --body true
+```
+
+Main ruleset required-check cutover command template:
+
+```bash
+RULESET_ID="<main-ruleset-id>"
+gh api \
+  --method PATCH \
+  "repos/<owner>/<repo>/rulesets/${RULESET_ID}" \
+  --input - <<'JSON'
+{
+  "conditions": {
+    "ref_name": {
+      "include": ["~DEFAULT_BRANCH"],
+      "exclude": []
+    }
+  },
+  "rules": [
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "required_status_checks": [
+          {"context": "AI Review Gate / decision"},
+          {"context": "PR Quality Standards"},
+          {"context": "Validate branch naming"},
+          {"context": "Validate autonomy policy"}
+        ]
+      }
+    }
+  ]
+}
+JSON
+```
+
+Post-cutover verification:
+
+```bash
+gh workflow run autonomy-release-health.yml
+gh run list --workflow "Autonomy Release Health" --limit 5
+```
+
+---
+
 ## Scope Discipline
 
 When broadening PAT permissions, document the reason and workflow dependency in
 the same PR. Prefer the smallest permission set that keeps autonomous merging
 functional.
+
+## Patch Rollback Notes (Revised)
+
+Use this rollback checklist for the Harmony Git/GitHub autonomy patch rollout.
+Apply only the minimum rollback needed for incident containment.
+
+Phase 0 (baseline + guardrails):
+
+- Re-run baseline capture before and after rollback:
+  `.harmony/agency/_ops/scripts/capture-github-control-plane-snapshot.sh`
+- Compare baseline artifacts in `.harmony/output/reports/` to confirm expected
+  control-plane restoration.
+
+Phase 1 (eventual autonomous merge reconciliation):
+
+- Disable autonomous merging immediately with:
+  `gh variable set AUTONOMY_AUTO_MERGE_ENABLED --body false`
+- If needed, manually remove `autonomy:auto-merge` from active PRs and apply
+  `autonomy:no-automerge`.
+
+Phase 3 (label contract convergence):
+
+- Re-sync canonical label catalog:
+  `.harmony/agency/_ops/scripts/sync-github-labels.sh`
+- Validate catalog completeness:
+  `.harmony/agency/_ops/scripts/validate-autonomy-labels.sh`
+
+Phase 4 (local cleanup enforcement outside scripted shipping):
+
+- Uninstall local hooks:
+  `.harmony/agency/_ops/scripts/git-autonomy-hooks-uninstall.sh`
+- Run cleanup manually when needed:
+  `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`
+
+Phase 2 (drift health expansion):
+
+- Re-run health workflow to confirm drift diagnosis:
+  `gh workflow run autonomy-release-health.yml`
+- Restore control-plane settings to contract values and verify drift issue
+  auto-closes on the next healthy cycle.
+
+Phase 5 (provider-agnostic AI gate):
+
+- Shadow-mode rollback (non-blocking): set `AI_GATE_ENFORCE=false`.
+- Strict-mode rollback (merge-blocking disable): remove
+  `AI Review Gate / decision` from required checks in the main ruleset, then
+  set `AI_GATE_ENFORCE=false`.
+- Keep `.github/workflows/codex-pr-review.yml` advisory during rollback.
 
 ## Troubleshooting
 
@@ -226,3 +389,8 @@ functional.
   unless intentionally paused for incident response.
 - `Autonomy Release Health` reports stale release branch drift:
   delete stale `release-please--*` ref after confirming no release PR is open.
+- `AI Review Gate` reports `fail-provider-unavailable` in strict mode:
+  verify `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` are present for Actions.
+- `AI Review Gate` reports blockers in strict mode:
+  fix blockers or apply temporary waiver labels (`ai-gate:waive` +
+  `accept:human`) with explicit human acknowledgement.

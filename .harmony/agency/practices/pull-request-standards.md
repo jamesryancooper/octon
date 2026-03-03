@@ -39,6 +39,7 @@ Human check-ins are exception-based:
 
 - High-impact path changes must carry explicit `accept:human` before merge.
 - `accept:human` is a policy acknowledgement, not a substitute for failing CI.
+- AI-gate waiver requires both `ai-gate:waive` and `accept:human`.
 
 ---
 
@@ -53,9 +54,12 @@ control provider and CI system.
 - Protect trunk so required PR quality and commit/branch checks must pass before
   merge.
 - Unresolved review conversations block merge.
-- AI review gate:
-  `.github/workflows/codex-pr-review.yml` (required status check:
-  `Codex PR Review / Run Codex Review`; requires `OPENAI_API_KEY` secret).
+- AI review gate (provider-agnostic required control):
+  `.github/workflows/ai-review-gate.yml` (required status check:
+  `AI Review Gate / decision`; shadow mode with `AI_GATE_ENFORCE=false`,
+  strict mode with `AI_GATE_ENFORCE=true`).
+- Codex provider review remains advisory:
+  `.github/workflows/codex-pr-review.yml`.
 - Autonomy lane credential and permissions guidance:
   `github-autonomy-runbook.md` (`AUTONOMY_PAT`, fine-grained PAT minimum scope,
   and Checks API limitation notes).

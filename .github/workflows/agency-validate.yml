@@ -33,6 +33,11 @@ jobs:
           chmod +x .harmony/agency/_ops/scripts/validate-agency.sh
           .harmony/agency/_ops/scripts/validate-agency.sh
 
+      - name: Validate autonomy label catalog
+        run: |
+          chmod +x .harmony/agency/_ops/scripts/validate-autonomy-labels.sh
+          .harmony/agency/_ops/scripts/validate-autonomy-labels.sh
+
       - name: Report validation failure
         if: failure()
         run: |

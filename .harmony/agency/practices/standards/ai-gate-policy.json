@@ -1,0 +1,33 @@
+{
+  "version": "2026-03-03",
+  "enforcement": {
+    "variable": "AI_GATE_ENFORCE",
+    "default": false,
+    "require_all_providers_available_when_enforced": true
+  },
+  "waiver": {
+    "required_labels": [
+      "ai-gate:waive",
+      "accept:human"
+    ]
+  },
+  "providers": [
+    {
+      "id": "openai",
+      "required_secret": "OPENAI_API_KEY"
+    },
+    {
+      "id": "anthropic",
+      "required_secret": "ANTHROPIC_API_KEY"
+    }
+  ],
+  "blocking": {
+    "decisions": [
+      "block"
+    ],
+    "severities": [
+      "high",
+      "critical"
+    ]
+  }
+}

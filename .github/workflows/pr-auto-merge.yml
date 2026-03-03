@@ -9,26 +9,100 @@ on:
       - ready_for_review
       - labeled
       - unlabeled
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Optional single PR number to reconcile.
+        required: false
+        type: string
 
 permissions:
   contents: write
   pull-requests: write
 
 jobs:
+  discover-prs:
+    name: discover-prs
+    runs-on: ubuntu-latest
+    outputs:
+      pr_numbers: ${{ steps.discover.outputs.pr_numbers }}
+    env:
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - id: discover
+        name: Discover PRs to reconcile
+        env:
+          GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+          DISPATCH_PR_NUMBER: ${{ github.event.inputs.pr_number || '' }}
+        run: |
+          set -euo pipefail
+
+          pr_numbers='[]'
+
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request_target" ]]; then
+            if [[ "${{ github.event.pull_request.state }}" != "open" ]]; then
+              echo "Skipping fast path discovery: PR is not open."
+              echo "pr_numbers=[]" >> "${GITHUB_OUTPUT}"
+              exit 0
+            fi
+
+            if [[ "${{ github.event.pull_request.base.ref }}" != "main" ]]; then
+              echo "Skipping fast path discovery: PR base is not main."
+              echo "pr_numbers=[]" >> "${GITHUB_OUTPUT}"
+              exit 0
+            fi
+
+            if [[ "${{ github.event.pull_request.head.repo.fork }}" == "true" ]]; then
+              echo "Skipping fast path discovery: fork PRs are ineligible."
+              echo "pr_numbers=[]" >> "${GITHUB_OUTPUT}"
+              exit 0
+            fi
+
+            pr_numbers="[${{ github.event.pull_request.number }}]"
+            echo "Discovered fast-path PR #${{ github.event.pull_request.number }}."
+          elif [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" && -n "${DISPATCH_PR_NUMBER}" ]]; then
+            if [[ ! "${DISPATCH_PR_NUMBER}" =~ ^[0-9]+$ ]]; then
+              echo "Invalid workflow_dispatch input: pr_number must be numeric."
+              exit 1
+            fi
+            pr_numbers="[${DISPATCH_PR_NUMBER}]"
+            echo "Discovered manual PR selection #${DISPATCH_PR_NUMBER}."
+          else
+            pr_numbers="$({
+              gh pr list \
+                --repo "${GH_REPO}" \
+                --state open \
+                --base main \
+                --limit 200 \
+                --json number
+            } | jq -c '[.[].number]')"
+            echo "Discovered $(jq -r 'length' <<<"${pr_numbers}") open PR(s) on main for reconciliation scan."
+          fi
+
+          echo "pr_numbers=${pr_numbers}" >> "${GITHUB_OUTPUT}"
+
   auto-merge:
-    name: auto-merge
+    name: auto-merge-pr-${{ matrix.pr_number }}
+    needs:
+      - discover-prs
+    if: ${{ needs.discover-prs.outputs.pr_numbers != '[]' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        pr_number: ${{ fromJson(needs.discover-prs.outputs.pr_numbers) }}
+    concurrency:
+      group: pr-auto-merge-${{ matrix.pr_number }}
+      cancel-in-progress: false
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    if: >-
-      ${{
-        github.event.pull_request.state == 'open' &&
-        github.event.pull_request.base.ref == 'main' &&
-        !github.event.pull_request.head.repo.fork
-      }}
     env:
       AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || 'false' }}
       GH_REPO: ${{ github.repository }}
-      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_NUMBER: ${{ matrix.pr_number }}
     steps:
       - name: Enable auto-merge for eligible low-risk PRs (race-safe)
         env:
@@ -45,7 +119,7 @@ jobs:
 
           pr_view() {
             gh pr view "${PR_NUMBER}" --repo "${GH_REPO}" \
-              --json state,isDraft,headRefName,baseRefName,headRefOid,labels,autoMergeRequest
+              --json number,state,isDraft,isCrossRepository,headRefName,baseRefName,headRefOid,labels,autoMergeRequest
           }
 
           has_label() {
@@ -65,6 +139,16 @@ jobs:
 
             if [[ "$(jq -r '.isDraft' <<<"${payload}")" == "true" ]]; then
               echo "Skipping: PR is draft${suffix}."
+              exit 0
+            fi
+
+            if [[ "$(jq -r '.isCrossRepository' <<<"${payload}")" == "true" ]]; then
+              echo "Skipping: fork PRs are not eligible${suffix}."
+              exit 0
+            fi
+
+            if [[ "$(jq -r '.baseRefName' <<<"${payload}")" != "main" ]]; then
+              echo "Skipping: PR base is not main${suffix}."
               exit 0
             fi
 
@@ -105,36 +189,40 @@ jobs:
             fi
           }
 
-          # Triage and auto-merge start from the same PR event; wait briefly for labels to settle.
           pr_json=""
-          for _ in {1..18}; do
-            pr_json="$(pr_view)"
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request_target" ]]; then
+            # Triage and auto-merge start from the same PR event; wait briefly for labels to settle.
+            for _ in {1..18}; do
+              pr_json="$(pr_view)"
 
-            if [[ "$(jq -r '.state' <<<"${pr_json}")" != "OPEN" ]]; then
-              echo "Skipping: PR is no longer open."
-              exit 0
-            fi
-
-            has_risk_low=false
-            has_risk_med=false
-            has_risk_high=false
-            has_auto=false
-            has_noauto=false
-
-            has_label "${pr_json}" "risk:low" && has_risk_low=true || true
-            has_label "${pr_json}" "risk:med" && has_risk_med=true || true
-            has_label "${pr_json}" "risk:high" && has_risk_high=true || true
-            has_label "${pr_json}" "autonomy:auto-merge" && has_auto=true || true
-            has_label "${pr_json}" "autonomy:no-automerge" && has_noauto=true || true
-
-            if [[ "${has_risk_low}" == "true" || "${has_risk_med}" == "true" || "${has_risk_high}" == "true" ]]; then
-              if [[ "${has_auto}" == "true" || "${has_noauto}" == "true" ]]; then
-                break
+              if [[ "$(jq -r '.state' <<<"${pr_json}")" != "OPEN" ]]; then
+                echo "Skipping: PR is no longer open."
+                exit 0
               fi
-            fi
 
-            sleep 5
-          done
+              has_risk_low=false
+              has_risk_med=false
+              has_risk_high=false
+              has_auto=false
+              has_noauto=false
+
+              has_label "${pr_json}" "risk:low" && has_risk_low=true || true
+              has_label "${pr_json}" "risk:med" && has_risk_med=true || true
+              has_label "${pr_json}" "risk:high" && has_risk_high=true || true
+              has_label "${pr_json}" "autonomy:auto-merge" && has_auto=true || true
+              has_label "${pr_json}" "autonomy:no-automerge" && has_noauto=true || true
+
+              if [[ "${has_risk_low}" == "true" || "${has_risk_med}" == "true" || "${has_risk_high}" == "true" ]]; then
+                if [[ "${has_auto}" == "true" || "${has_noauto}" == "true" ]]; then
+                  break
+                fi
+              fi
+
+              sleep 5
+            done
+          else
+            pr_json="$(pr_view)"
+          fi
 
           assert_low_risk_automerge_eligible "${pr_json}"
 
