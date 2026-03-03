@@ -8,6 +8,10 @@ REQUEST_AUTOMERGE=1
 ADD_AUTO_LABEL=1
 DRY_RUN=0
 LABELS_CSV=""
+WAIT_FOR_CLOSE=1
+WAIT_TIMEOUT_SECONDS=1800
+RUN_CLEANUP=1
+BACKGROUND_WATCH_TIMEOUT_SECONDS=86400
 
 usage() {
   cat <<'USAGE'
@@ -20,6 +24,9 @@ Options:
   --no-ready             Do not convert draft PR to ready state.
   --no-auto-label        Do not add autonomy:auto-merge.
   --no-automerge         Skip auto-merge request call.
+  --no-wait              Do not block waiting for PR closure.
+  --wait-timeout-seconds Seconds to wait for closure before background watcher (default: 1800).
+  --no-cleanup           Do not run local cleanup after PR closure.
   --dry-run              Print actions without mutating PR state.
 
 Default behavior:
@@ -36,6 +43,10 @@ error() {
 
 info() {
   echo "[INFO] $1"
+}
+
+warn() {
+  echo "[WARN] $1"
 }
 
 require_cmd() {
@@ -71,6 +82,17 @@ while [[ $# -gt 0 ]]; do
     --no-automerge)
       REQUEST_AUTOMERGE=0
       ;;
+    --no-wait)
+      WAIT_FOR_CLOSE=0
+      ;;
+    --wait-timeout-seconds)
+      shift
+      [[ $# -gt 0 ]] || error "--wait-timeout-seconds requires a value"
+      WAIT_TIMEOUT_SECONDS="$1"
+      ;;
+    --no-cleanup)
+      RUN_CLEANUP=0
+      ;;
     --dry-run)
       DRY_RUN=1
       ;;
@@ -87,6 +109,32 @@ done
 
 require_cmd gh
 require_cmd jq
+
+[[ "$WAIT_TIMEOUT_SECONDS" =~ ^[0-9]+$ ]] || error "--wait-timeout-seconds must be a positive integer."
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+CLEANUP_SCRIPT="${SCRIPT_DIR}/git-pr-cleanup.sh"
+
+launch_background_watcher() {
+  local reason="$1"
+  local watcher_log="${TMPDIR:-/tmp}/harmony-pr-cleanup-${PR_NUMBER}.log"
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    echo "[DRY] nohup \"$CLEANUP_SCRIPT\" --watch-pr \"$PR_NUMBER\" --watch-timeout-seconds \"$BACKGROUND_WATCH_TIMEOUT_SECONDS\" >\"$watcher_log\" 2>&1 &"
+    return 0
+  fi
+
+  if [[ ! -x "$CLEANUP_SCRIPT" ]]; then
+    warn "Cleanup script is not executable: $CLEANUP_SCRIPT"
+    return 0
+  fi
+
+  nohup "$CLEANUP_SCRIPT" \
+    --watch-pr "$PR_NUMBER" \
+    --watch-timeout-seconds "$BACKGROUND_WATCH_TIMEOUT_SECONDS" \
+    >"$watcher_log" 2>&1 &
+  info "Started background cleanup watcher (pid=$!, reason=$reason, log=$watcher_log)."
+}
 
 if [[ -z "$PR_NUMBER" ]]; then
   PR_NUMBER="$(gh pr view --json number --jq '.number' 2>/dev/null || true)"
@@ -155,5 +203,38 @@ if [[ "$REQUEST_AUTOMERGE" -eq 1 ]]; then
   fi
 fi
 
-echo "[OK] PR ready for autonomy lane: $PR_URL"
+if [[ "$RUN_CLEANUP" -eq 1 ]]; then
+  if [[ "$REQUEST_AUTOMERGE" -eq 1 && "$WAIT_FOR_CLOSE" -eq 1 ]]; then
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      echo "[DRY] wait for PR closure (timeout=${WAIT_TIMEOUT_SECONDS}s), then run \"$CLEANUP_SCRIPT\" --pr \"$PR_NUMBER\""
+    else
+      info "Waiting for PR #${PR_NUMBER} to close (timeout=${WAIT_TIMEOUT_SECONDS}s)."
+      start_epoch="$(date +%s)"
+      while true; do
+        PR_STATUS_PAYLOAD="$(gh pr view "$PR_NUMBER" --json state,url 2>/dev/null || true)"
+        if [[ -n "$PR_STATUS_PAYLOAD" ]]; then
+          current_state="$(jq -r '.state' <<<"$PR_STATUS_PAYLOAD")"
+          if [[ "$current_state" != "OPEN" ]]; then
+            info "PR #${PR_NUMBER} is now ${current_state}; running local cleanup."
+            [[ -x "$CLEANUP_SCRIPT" ]] || error "Cleanup script is missing or not executable: $CLEANUP_SCRIPT"
+            "$CLEANUP_SCRIPT" --pr "$PR_NUMBER"
+            break
+          fi
+        fi
 
+        now_epoch="$(date +%s)"
+        elapsed="$((now_epoch - start_epoch))"
+        if (( elapsed >= WAIT_TIMEOUT_SECONDS )); then
+          warn "PR #${PR_NUMBER} is still open after ${WAIT_TIMEOUT_SECONDS}s."
+          launch_background_watcher "wait-timeout"
+          break
+        fi
+        sleep 10
+      done
+    fi
+  elif [[ "$REQUEST_AUTOMERGE" -eq 0 ]]; then
+    launch_background_watcher "manual-lane"
+  fi
+fi
+
+echo "[OK] PR ready for autonomy lane: $PR_URL"
