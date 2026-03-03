@@ -12,6 +12,7 @@ GitHub autonomy workflows:
 - `.github/workflows/pr-autonomy-policy.yml`
 - `.github/workflows/pr-auto-merge.yml`
 - `.github/workflows/release-please.yml`
+- `.github/workflows/autonomy-release-health.yml`
 
 Use this document when setting up or rotating `AUTONOMY_PAT`.
 
@@ -28,6 +29,10 @@ Use this document when setting up or rotating `AUTONOMY_PAT`.
 - Workflow wiring (Phase C release acceleration):
   `.github/workflows/release-please.yml`
   - `token: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}`
+- Workflow wiring (Phase D steady-state monitoring):
+  `.github/workflows/autonomy-release-health.yml`
+  - `GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}`
+  - `AUTONOMY_PAT_VALUE: ${{ secrets.AUTONOMY_PAT }}`
 
 If `AUTONOMY_PAT` is not set, workflow falls back to `GITHUB_TOKEN`.
 
@@ -110,6 +115,45 @@ For Phase C release acceleration:
 
 ---
 
+## Phase D Steady-State Monitoring
+
+`Autonomy Release Health` runs daily (UTC) and on manual dispatch:
+
+- Schedule: `23 08 * * *` UTC
+- Workflow: `.github/workflows/autonomy-release-health.yml`
+
+It checks for control-plane drift:
+
+- `AUTONOMY_PAT` is present.
+- `AUTONOMY_AUTO_MERGE_ENABLED=true`.
+- `AUTONOMY_POLICY_ENFORCE` is effectively `true`.
+- Actions workflow setting `can_approve_pull_request_reviews=true`.
+- `release-please-config.json` and `.release-please-manifest.json` exist.
+- Latest `Release Please` workflow run is successful.
+- No stale `release-please` branch exists without an open release PR.
+
+Failure behavior:
+
+- Workflow fails.
+- Issue `[autonomy-health] control-plane drift detected` is opened or updated.
+- When checks return healthy, the open drift issue is auto-closed.
+
+Manual operations:
+
+```bash
+gh workflow run autonomy-release-health.yml
+gh run list --workflow "Autonomy Release Health" --limit 5
+gh run view <run-id> --log
+```
+
+Stale release branch remediation:
+
+```bash
+gh api --method DELETE repos/<owner>/<repo>/git/refs/heads/release-please--branches--main--components--harmony
+```
+
+---
+
 ## Scope Discipline
 
 When broadening PAT permissions, document the reason and workflow dependency in
@@ -123,3 +167,8 @@ functional.
   `AUTONOMY_PAT` is missing `Pull requests: Read and write`.
 - `release-please` fails when applying labels/comments on release PR:
   `AUTONOMY_PAT` is missing `Issues: Read and write`.
+- `Autonomy Release Health` fails with
+  `AUTONOMY_AUTO_MERGE_ENABLED=false`: set repository variable back to `true`
+  unless intentionally paused for incident response.
+- `Autonomy Release Health` reports stale release branch drift:
+  delete stale `release-please--*` ref after confirming no release PR is open.

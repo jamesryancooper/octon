@@ -1,0 +1,259 @@
+name: Autonomy Release Health
+
+on:
+  schedule:
+    - cron: "23 8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+  issues: write
+
+concurrency:
+  group: autonomy-release-health
+  cancel-in-progress: false
+
+jobs:
+  health:
+    name: autonomy-release-health
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+      AUTONOMY_PAT_VALUE: ${{ secrets.AUTONOMY_PAT }}
+      AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || '' }}
+      AUTONOMY_POLICY_ENFORCE: ${{ vars.AUTONOMY_POLICY_ENFORCE || '' }}
+      RELEASE_BRANCH: release-please--branches--main--components--harmony
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - id: checks
+        name: Validate autonomy and release control-plane health
+        run: |
+          set -euo pipefail
+
+          failures=0
+          pass_file="$(mktemp)"
+          fail_file="$(mktemp)"
+
+          pass() {
+            local message="$1"
+            echo "::notice::${message}"
+            printf -- "- PASS: %s\n" "${message}" >> "${pass_file}"
+          }
+
+          fail() {
+            local message="$1"
+            echo "::error::${message}"
+            printf -- "- FAIL: %s\n" "${message}" >> "${fail_file}"
+            failures=$((failures + 1))
+          }
+
+          if [[ -n "${AUTONOMY_PAT_VALUE}" ]]; then
+            pass "AUTONOMY_PAT is configured."
+          else
+            fail "AUTONOMY_PAT is missing."
+          fi
+
+          auto_merge_enabled="$(echo "${AUTONOMY_AUTO_MERGE_ENABLED}" | tr '[:upper:]' '[:lower:]')"
+          if [[ "${auto_merge_enabled}" == "true" ]]; then
+            pass "AUTONOMY_AUTO_MERGE_ENABLED=true."
+          elif [[ "${auto_merge_enabled}" == "false" ]]; then
+            fail "AUTONOMY_AUTO_MERGE_ENABLED=false; autonomous low-risk merge lane is disabled."
+          else
+            fail "AUTONOMY_AUTO_MERGE_ENABLED is unset."
+          fi
+
+          policy_enforce="$(echo "${AUTONOMY_POLICY_ENFORCE}" | tr '[:upper:]' '[:lower:]')"
+          if [[ -z "${policy_enforce}" || "${policy_enforce}" == "true" ]]; then
+            pass "AUTONOMY_POLICY_ENFORCE effective value is true."
+          else
+            fail "AUTONOMY_POLICY_ENFORCE=false; autonomy policy is not enforced."
+          fi
+
+          can_approve="$(
+            gh api "repos/${GH_REPO}/actions/permissions/workflow" \
+              --jq '.can_approve_pull_request_reviews'
+          )"
+          if [[ "${can_approve}" == "true" ]]; then
+            pass "Actions can_approve_pull_request_reviews=true."
+          else
+            fail "Actions can_approve_pull_request_reviews must be true."
+          fi
+
+          if [[ -f "release-please-config.json" && -f ".release-please-manifest.json" ]]; then
+            pass "Release Please config and manifest are present on default branch checkout."
+          else
+            fail "Release Please config files are missing from repository."
+          fi
+
+          release_please_runs="$(
+            gh run list \
+              --workflow "Release Please" \
+              --limit 1 \
+              --json conclusion,status,createdAt,url
+          )"
+          run_count="$(jq 'length' <<< "${release_please_runs}")"
+          if [[ "${run_count}" -eq 0 ]]; then
+            fail "No Release Please workflow runs were found."
+          else
+            latest_conclusion="$(jq -r '.[0].conclusion' <<< "${release_please_runs}")"
+            latest_status="$(jq -r '.[0].status' <<< "${release_please_runs}")"
+            latest_url="$(jq -r '.[0].url' <<< "${release_please_runs}")"
+            if [[ "${latest_status}" == "completed" && "${latest_conclusion}" == "success" ]]; then
+              pass "Latest Release Please run succeeded (${latest_url})."
+            else
+              fail "Latest Release Please run is not successful (${latest_status}/${latest_conclusion}): ${latest_url}"
+            fi
+          fi
+
+          release_pr_count="$(
+            gh pr list \
+              --state open \
+              --head "${RELEASE_BRANCH}" \
+              --json number \
+              --jq 'length'
+          )"
+          branch_exists=false
+          if gh api "repos/${GH_REPO}/branches/${RELEASE_BRANCH}" > /dev/null 2>&1; then
+            branch_exists=true
+          fi
+          if [[ "${branch_exists}" == "true" && "${release_pr_count}" -eq 0 ]]; then
+            fail "Stale release branch '${RELEASE_BRANCH}' exists without an open release PR."
+          else
+            pass "Release branch drift check passed."
+          fi
+
+          summary_file="$(mktemp)"
+          {
+            echo "### Autonomy and Release Health"
+            echo
+            if [[ -s "${fail_file}" ]]; then
+              echo "#### Failures"
+              cat "${fail_file}"
+              echo
+            fi
+            echo "#### Passing checks"
+            cat "${pass_file}"
+          } > "${summary_file}"
+
+          {
+            echo "summary<<EOF"
+            cat "${summary_file}"
+            echo "EOF"
+          } >> "${GITHUB_OUTPUT}"
+
+          if (( failures > 0 )); then
+            echo "status=failure" >> "${GITHUB_OUTPUT}"
+            exit 1
+          fi
+
+          echo "status=success" >> "${GITHUB_OUTPUT}"
+
+      - name: Append summary
+        if: always()
+        run: |
+          printf '%s\n' "${{ steps.checks.outputs.summary }}" >> "${GITHUB_STEP_SUMMARY}"
+
+      - name: Open or update drift issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        env:
+          HEALTH_SUMMARY: ${{ steps.checks.outputs.summary }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = "[autonomy-health] control-plane drift detected";
+            const labelName = "ops:autonomy-health";
+            const summary = process.env.HEALTH_SUMMARY || "Health checks failed.";
+            const runUrl = process.env.RUN_URL;
+
+            try {
+              await github.rest.issues.getLabel({ owner, repo, name: labelName });
+            } catch (error) {
+              if (error.status === 404) {
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: labelName,
+                  color: "B60205",
+                  description: "Autonomy/release control-plane drift alert"
+                });
+              } else {
+                throw error;
+              }
+            }
+
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: "open",
+              labels: labelName,
+              per_page: 100
+            });
+
+            const body = [
+              "Autonomy/release health checks detected control-plane drift.",
+              "",
+              `- Workflow run: ${runUrl}`,
+              "",
+              summary
+            ].join("\n");
+
+            const existing = openIssues.find((issue) => issue.title === title);
+            if (existing) {
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: existing.number,
+                body
+              });
+              core.info(`Updated existing drift issue #${existing.number}.`);
+            } else {
+              const created = await github.rest.issues.create({
+                owner,
+                repo,
+                title,
+                body,
+                labels: [labelName]
+              });
+              core.info(`Created drift issue #${created.data.number}.`);
+            }
+
+      - name: Auto-close drift issue when healthy
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = "[autonomy-health] control-plane drift detected";
+            const labelName = "ops:autonomy-health";
+
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: "open",
+              labels: labelName,
+              per_page: 100
+            });
+
+            const existing = openIssues.find((issue) => issue.title === title);
+            if (!existing) {
+              core.info("No open drift issue to close.");
+              return;
+            }
+
+            await github.rest.issues.update({
+              owner,
+              repo,
+              issue_number: existing.number,
+              state: "closed"
+            });
+            core.info(`Closed drift issue #${existing.number} after healthy run.`);
