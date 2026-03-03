@@ -11,6 +11,15 @@ updates:
       - bot:dependabot
       - type:chore
       - area:github
-      - risk:low
-      - autonomy:no-automerge
     open-pull-requests-limit: 5
+    groups:
+      github-actions-safe:
+        patterns:
+          - "*"
+        update-types:
+          - minor
+          - patch
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major

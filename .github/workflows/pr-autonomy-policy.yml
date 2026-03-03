@@ -40,10 +40,42 @@ jobs:
             const author = pr.user?.login || "";
             const labels = new Set((pr.labels || []).map((l) => l.name));
 
-            const isDependabot = author === "dependabot[bot]" || headRef.startsWith("dependabot/");
+            const isDependabotAuthor = author === "dependabot[bot]";
+            const isDependabot = isDependabotAuthor;
             const isAutorelease = headRef.startsWith("release-please--") || [...labels].some((name) => name.startsWith("autorelease:"));
             const isBotPath = isDependabot || isAutorelease;
             const enforce = String(process.env.AUTONOMY_POLICY_ENFORCE || "").toLowerCase() === "true";
+            const isDependabotGithubActions = isDependabot && headRef.startsWith("dependabot/github_actions/");
+
+            function parseSemverCore(raw) {
+              const match = String(raw || "").trim().match(/^v?(?<major>\d+)(?:\.(?<minor>\d+))?(?:\.(?<patch>\d+))?/i);
+              if (!match || !match.groups) return null;
+              return {
+                major: Number(match.groups.major),
+                minor: Number(match.groups.minor || 0),
+                patch: Number(match.groups.patch || 0)
+              };
+            }
+
+            function classifyDependabotUpdateTypeFromTitle(value) {
+              const rangeMatch = String(value || "").match(/\bfrom\s+([^\s]+)\s+to\s+([^\s]+)/i);
+              if (!rangeMatch) return "unknown";
+              const from = parseSemverCore(rangeMatch[1]);
+              const to = parseSemverCore(rangeMatch[2]);
+              if (!from || !to) return "unknown";
+              if (to.major !== from.major) return "major";
+              if (to.minor !== from.minor) return "minor";
+              if (to.patch !== from.patch) return "patch";
+              return "unknown";
+            }
+
+            const dependabotUpdateType = isDependabot ? classifyDependabotUpdateTypeFromTitle(title) : "n/a";
+            const isDependabotSafeUpdate =
+              isDependabotGithubActions &&
+              (dependabotUpdateType === "minor" || dependabotUpdateType === "patch");
+            const dependabotHumanReviewRequired =
+              isDependabot &&
+              (dependabotUpdateType === "major" || dependabotUpdateType === "unknown");
 
             const errors = [];
 
@@ -168,11 +200,18 @@ jobs:
             ];
 
             const isHighImpact = paths.some((path) => highImpactPaths.some((prefix) => path.startsWith(prefix) || path === prefix));
-            if (isHighImpact && !labels.has("accept:human")) {
+            if (isHighImpact && !labels.has("accept:human") && !isDependabotSafeUpdate) {
               errors.push("High-impact change requires explicit `accept:human` label before merge.");
             }
 
+            if (dependabotHumanReviewRequired && !labels.has("accept:human")) {
+              errors.push("Dependabot major/unknown updates require explicit `accept:human` label before merge.");
+            }
+
             if (errors.length === 0) {
+              if (isDependabotGithubActions) {
+                core.info(`Dependabot github-actions update classified as '${dependabotUpdateType}'.`);
+              }
               core.info(`Autonomy policy passed (${enforce ? "enforced" : "advisory"} mode).`);
               return;
             }

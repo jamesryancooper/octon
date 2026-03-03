@@ -45,6 +45,11 @@ Release lane:
 - `release-please` opens/updates release PRs and release metadata.
 - Runtime binary publishing stays downstream.
 
+Dependency lane (Dependabot):
+
+- `github-actions` patch/minor updates are grouped and auto-merged when checks pass.
+- Major or unclassified version jumps are escalation-only (`accept:human`).
+
 Steady-state health lane:
 
 - `Autonomy Release Health` detects drift, opens/updates a drift issue on
@@ -124,4 +129,3 @@ Treat this doc as the central overview/index. When behavior changes:
 1. Update the detailed canonical docs first (runbooks, standards, templates).
 2. Update this overview to match new reality.
 3. Land changes in the same PR when possible.
-
