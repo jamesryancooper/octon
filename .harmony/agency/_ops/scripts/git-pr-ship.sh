@@ -232,6 +232,8 @@ if [[ "$RUN_CLEANUP" -eq 1 ]]; then
         sleep 10
       done
     fi
+  elif [[ "$REQUEST_AUTOMERGE" -eq 1 && "$WAIT_FOR_CLOSE" -eq 0 ]]; then
+    launch_background_watcher "no-wait"
   elif [[ "$REQUEST_AUTOMERGE" -eq 0 ]]; then
     launch_background_watcher "manual-lane"
   fi
