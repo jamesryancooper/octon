@@ -18,6 +18,24 @@
 - Tag and GitHub Release are created by `release-please`; runtime binaries are
   published by `.github/workflows/runtime-binaries.yml` on the new tag.
 
+## Post-Release
+
+- Verify merged release PR has triggered a successful follow-up
+  `Release Please` run on `main`.
+- Verify new tag and GitHub Release exist.
+- Confirm no stale `release-please--*` branch remains without an open release PR.
+- Run Phase D health workflow after release completion:
+  - `.github/workflows/autonomy-release-health.yml`
+
+Recommended verification commands:
+
+```bash
+gh run list --workflow "Release Please" --limit 3
+gh release list --limit 3
+gh pr list --state open --json number,headRefName,title,url
+gh workflow run autonomy-release-health.yml
+```
+
 ## Credentials
 
 - Release automation uses `AUTONOMY_PAT` when available via
