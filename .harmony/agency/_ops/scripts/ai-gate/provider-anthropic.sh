@@ -25,6 +25,19 @@ require_cmd() {
   command -v "$cmd" >/dev/null 2>&1 || error "Missing required command: $cmd"
 }
 
+search_diff() {
+  local pattern="$1"
+  local output_file="$2"
+
+  if command -v rg >/dev/null 2>&1; then
+    rg -n "${pattern}" "${DIFF_PATH}" >"${output_file}" 2>/dev/null || true
+  else
+    grep -nE "${pattern}" "${DIFF_PATH}" >"${output_file}" 2>/dev/null || true
+  fi
+
+  [[ -s "${output_file}" ]]
+}
+
 add_finding() {
   local id="$1"
   local severity="$2"
@@ -80,8 +93,6 @@ while [[ $# -gt 0 ]]; do
 done
 
 require_cmd jq
-require_cmd rg
-
 [[ -f "${POLICY_PATH}" ]] || error "Policy file not found: ${POLICY_PATH}"
 [[ -f "${SCHEMA_PATH}" ]] || error "Schema file not found: ${SCHEMA_PATH}"
 [[ -f "${DIFF_PATH}" ]] || error "Diff file not found: ${DIFF_PATH}"
@@ -101,7 +112,7 @@ fi
 FINDINGS_JSON='[]'
 
 if [[ "${status}" == "ok" ]]; then
-  if rg -n '^\+.*\b(exec|spawn|system)\s*\(' "${DIFF_PATH}" >/tmp/ai-gate-anthropic-exec.$$ 2>/dev/null; then
+  if search_diff '^\+.*(exec|spawn|system)[[:space:]]*\(' /tmp/ai-gate-anthropic-exec.$$; then
     while IFS=':' read -r line _; do
       add_finding \
         "anthropic-command-exec-${line}" \
@@ -114,7 +125,7 @@ if [[ "${status}" == "ok" ]]; then
     done < /tmp/ai-gate-anthropic-exec.$$
   fi
 
-  if rg -n '^\+.*(OPENAI_API_KEY|ANTHROPIC_API_KEY|SECRET|TOKEN)' "${DIFF_PATH}" >/tmp/ai-gate-anthropic-secrets.$$ 2>/dev/null; then
+  if search_diff '^\+.*(OPENAI_API_KEY|ANTHROPIC_API_KEY|SECRET|TOKEN)' /tmp/ai-gate-anthropic-secrets.$$; then
     while IFS=':' read -r line _; do
       add_finding \
         "anthropic-secret-signal-${line}" \

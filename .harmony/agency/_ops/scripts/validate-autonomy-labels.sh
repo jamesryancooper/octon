@@ -90,7 +90,7 @@ done
 require_cmd awk
 require_cmd sort
 require_cmd uniq
-require_cmd rg
+require_cmd grep
 
 [[ -f "${SYNC_SCRIPT}" ]] || error "Missing catalog source script: ${SYNC_SCRIPT}"
 
@@ -100,13 +100,23 @@ catalog_labels="$({
 
 [[ -n "${catalog_labels}" ]] || error "No labels could be read from ${SYNC_SCRIPT}"
 
-workflow_labels="$({
-  rg -o --no-filename '(type|area|risk|accept|autonomy|bot|ops|ai-gate):[a-z0-9-]+' \
-    "${ROOT_DIR}/.github/workflows" \
-    -g '*.yml' \
-    -g '*.yaml' \
-    2>/dev/null | sort -u
-} || true)"
+if command -v rg >/dev/null 2>&1; then
+  workflow_labels="$({
+    rg -o --no-filename '(type|area|risk|accept|autonomy|bot|ops|ai-gate):[a-z0-9-]+' \
+      "${ROOT_DIR}/.github/workflows" \
+      -g '*.yml' \
+      -g '*.yaml' \
+      2>/dev/null | sort -u
+  } || true)"
+else
+  workflow_labels="$({
+    grep -RhoE '(type|area|risk|accept|autonomy|bot|ops|ai-gate):[a-z0-9-]+' \
+      "${ROOT_DIR}/.github/workflows" \
+      --include='*.yml' \
+      --include='*.yaml' \
+      2>/dev/null | sort -u
+  } || true)"
+fi
 
 if [[ -z "${workflow_labels}" ]]; then
   pass "No workflow labels detected under .github/workflows."
