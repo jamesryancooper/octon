@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/jamesryancooper/harmony/compare/harmony-v0.2.1...harmony-v0.3.0) (2026-03-03)
+
+
+### Features
+
+* **agency:** add local git autonomy helper scripts ([#43](https://github.com/jamesryancooper/harmony/issues/43)) ([9078c3c](https://github.com/jamesryancooper/harmony/commit/9078c3cd88032ab65a1831df4112e614ffe1a1d1))
+
 ## [0.2.1](https://github.com/jamesryancooper/harmony/compare/harmony-v0.2.0...harmony-v0.2.1) (2026-03-03)
 
 
