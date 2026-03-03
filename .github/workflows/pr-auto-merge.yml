@@ -18,7 +18,7 @@ jobs:
   auto-merge:
     name: auto-merge
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     if: >-
       ${{
         github.event.pull_request.state == 'open' &&
@@ -29,13 +29,10 @@ jobs:
       AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || 'false' }}
       GH_REPO: ${{ github.repository }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
-      PR_DRAFT: ${{ github.event.pull_request.draft }}
-      HEAD_REF: ${{ github.event.pull_request.head.ref }}
     steps:
-      - name: Enable auto-merge for eligible low-risk PRs
+      - name: Enable auto-merge for eligible low-risk PRs (race-safe)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
         run: |
           set -euo pipefail
 
@@ -45,47 +42,138 @@ jobs:
             exit 0
           fi
 
-          has_label() {
-            local name="$1"
-            jq -e --arg name "$name" 'index($name) != null' <<<"${PR_LABELS_JSON}" >/dev/null
+          pr_view() {
+            gh pr view "${PR_NUMBER}" --repo "${GH_REPO}" \
+              --json state,isDraft,headRefName,baseRefName,labels,autoMergeRequest,statusCheckRollup
           }
 
-          if [[ "${PR_DRAFT}" == "true" ]]; then
+          has_label() {
+            local payload="$1"
+            local name="$2"
+            jq -e --arg name "$name" 'any(.labels[]?; .name == $name)' <<<"${payload}" >/dev/null
+          }
+
+          required_checks_passed() {
+            local payload="$1"
+            jq -e '
+              def passed($wf; $name):
+                any(.statusCheckRollup[]?;
+                  .__typename == "CheckRun" and
+                  .workflowName == $wf and
+                  .name == $name and
+                  .conclusion == "SUCCESS");
+              passed("PR Quality Standards"; "PR Quality Standards") and
+              passed("Commit and Branch Standards"; "Validate branch naming") and
+              passed("PR Autonomy Policy"; "Validate autonomy policy")
+            ' <<<"${payload}" >/dev/null
+          }
+
+          required_checks_failed() {
+            local payload="$1"
+            jq -e '
+              def failed($wf; $name):
+                any(.statusCheckRollup[]?;
+                  .__typename == "CheckRun" and
+                  .workflowName == $wf and
+                  .name == $name and
+                  (.conclusion == "FAILURE" or .conclusion == "CANCELLED" or .conclusion == "TIMED_OUT" or .conclusion == "ACTION_REQUIRED"));
+              failed("PR Quality Standards"; "PR Quality Standards") or
+              failed("Commit and Branch Standards"; "Validate branch naming") or
+              failed("PR Autonomy Policy"; "Validate autonomy policy")
+            ' <<<"${payload}" >/dev/null
+          }
+
+          # Triage and auto-merge start from the same PR event; wait briefly for labels to settle.
+          pr_json=""
+          for _ in {1..18}; do
+            pr_json="$(pr_view)"
+
+            if [[ "$(jq -r '.state' <<<"${pr_json}")" != "OPEN" ]]; then
+              echo "Skipping: PR is no longer open."
+              exit 0
+            fi
+
+            has_risk_low=false
+            has_risk_med=false
+            has_risk_high=false
+            has_auto=false
+            has_noauto=false
+
+            has_label "${pr_json}" "risk:low" && has_risk_low=true || true
+            has_label "${pr_json}" "risk:med" && has_risk_med=true || true
+            has_label "${pr_json}" "risk:high" && has_risk_high=true || true
+            has_label "${pr_json}" "autonomy:auto-merge" && has_auto=true || true
+            has_label "${pr_json}" "autonomy:no-automerge" && has_noauto=true || true
+
+            if [[ "${has_risk_low}" == "true" || "${has_risk_med}" == "true" || "${has_risk_high}" == "true" ]]; then
+              if [[ "${has_auto}" == "true" || "${has_noauto}" == "true" ]]; then
+                break
+              fi
+            fi
+
+            sleep 5
+          done
+
+          if [[ "$(jq -r '.isDraft' <<<"${pr_json}")" == "true" ]]; then
             echo "Skipping: PR is draft."
             exit 0
           fi
 
-          if [[ "${HEAD_REF}" == exp/* ]]; then
+          head_ref="$(jq -r '.headRefName' <<<"${pr_json}")"
+          if [[ "${head_ref}" == exp/* ]]; then
             echo "Skipping: exp/* branches are non-mergeable."
             exit 0
           fi
 
-          if ! has_label "autonomy:auto-merge"; then
+          if ! has_label "${pr_json}" "autonomy:auto-merge"; then
             echo "Skipping: autonomy:auto-merge label missing."
             exit 0
           fi
 
-          if has_label "autonomy:no-automerge"; then
+          if has_label "${pr_json}" "autonomy:no-automerge"; then
             echo "Skipping: autonomy:no-automerge label present."
             exit 0
           fi
 
-          if ! has_label "risk:low"; then
+          if ! has_label "${pr_json}" "risk:low"; then
             echo "Skipping: risk:low label missing."
             exit 0
           fi
 
-          if has_label "risk:med" || has_label "risk:high"; then
+          if has_label "${pr_json}" "risk:med" || has_label "${pr_json}" "risk:high"; then
             echo "Skipping: non-low risk label present."
             exit 0
           fi
 
-          if has_label "accept:human"; then
+          if has_label "${pr_json}" "accept:human"; then
             echo "Skipping: accept:human label present."
             exit 0
           fi
 
-          pr_json="$(gh pr view "${PR_NUMBER}" --repo "${GH_REPO}" --json autoMergeRequest,state,isDraft)"
+          # Wait for required checks to become green for this PR.
+          for _ in {1..60}; do
+            pr_json="$(pr_view)"
+
+            if required_checks_passed "${pr_json}"; then
+              break
+            fi
+
+            if required_checks_failed "${pr_json}"; then
+              echo "Required checks failed; auto-merge will not be enabled."
+              exit 0
+            fi
+
+            sleep 5
+          done
+
+          if ! required_checks_passed "${pr_json}"; then
+            echo "Required checks did not reach success within wait window."
+            exit 0
+          fi
+
+          # Revalidate autonomy/risk labels on latest state before enabling auto-merge.
+          pr_json="$(pr_view)"
+
           if [[ "$(jq -r '.state' <<<"${pr_json}")" != "OPEN" ]]; then
             echo "Skipping: PR is no longer open."
             exit 0
@@ -93,6 +181,37 @@ jobs:
 
           if [[ "$(jq -r '.isDraft' <<<"${pr_json}")" == "true" ]]; then
             echo "Skipping: PR is draft in latest state."
+            exit 0
+          fi
+
+          head_ref="$(jq -r '.headRefName' <<<"${pr_json}")"
+          if [[ "${head_ref}" == exp/* ]]; then
+            echo "Skipping: exp/* branches are non-mergeable."
+            exit 0
+          fi
+
+          if ! has_label "${pr_json}" "autonomy:auto-merge"; then
+            echo "Skipping: autonomy:auto-merge label missing on latest state."
+            exit 0
+          fi
+
+          if has_label "${pr_json}" "autonomy:no-automerge"; then
+            echo "Skipping: autonomy:no-automerge label present on latest state."
+            exit 0
+          fi
+
+          if ! has_label "${pr_json}" "risk:low"; then
+            echo "Skipping: risk:low label missing on latest state."
+            exit 0
+          fi
+
+          if has_label "${pr_json}" "risk:med" || has_label "${pr_json}" "risk:high"; then
+            echo "Skipping: non-low risk label present on latest state."
+            exit 0
+          fi
+
+          if has_label "${pr_json}" "accept:human"; then
+            echo "Skipping: accept:human label present on latest state."
             exit 0
           fi
 
