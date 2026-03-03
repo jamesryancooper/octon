@@ -44,7 +44,12 @@ jobs:
 
           pr_view() {
             gh pr view "${PR_NUMBER}" --repo "${GH_REPO}" \
-              --json state,isDraft,headRefName,baseRefName,labels,autoMergeRequest,statusCheckRollup
+              --json state,isDraft,headRefName,baseRefName,headRefOid,labels,autoMergeRequest
+          }
+
+          check_runs_json() {
+            local head_sha="$1"
+            gh api "repos/${GH_REPO}/commits/${head_sha}/check-runs"
           }
 
           has_label() {
@@ -56,30 +61,26 @@ jobs:
           required_checks_passed() {
             local payload="$1"
             jq -e '
-              def passed($wf; $name):
-                any(.statusCheckRollup[]?;
-                  .__typename == "CheckRun" and
-                  .workflowName == $wf and
+              def passed($name):
+                any(.check_runs[]?;
                   .name == $name and
-                  .conclusion == "SUCCESS");
-              passed("PR Quality Standards"; "PR Quality Standards") and
-              passed("Commit and Branch Standards"; "Validate branch naming") and
-              passed("PR Autonomy Policy"; "Validate autonomy policy")
+                  .conclusion == "success");
+              passed("PR Quality Standards") and
+              passed("Validate branch naming") and
+              passed("Validate autonomy policy")
             ' <<<"${payload}" >/dev/null
           }
 
           required_checks_failed() {
             local payload="$1"
             jq -e '
-              def failed($wf; $name):
-                any(.statusCheckRollup[]?;
-                  .__typename == "CheckRun" and
-                  .workflowName == $wf and
+              def failed($name):
+                any(.check_runs[]?;
                   .name == $name and
-                  (.conclusion == "FAILURE" or .conclusion == "CANCELLED" or .conclusion == "TIMED_OUT" or .conclusion == "ACTION_REQUIRED"));
-              failed("PR Quality Standards"; "PR Quality Standards") or
-              failed("Commit and Branch Standards"; "Validate branch naming") or
-              failed("PR Autonomy Policy"; "Validate autonomy policy")
+                  (.conclusion == "failure" or .conclusion == "cancelled" or .conclusion == "timed_out" or .conclusion == "action_required"));
+              failed("PR Quality Standards") or
+              failed("Validate branch naming") or
+              failed("Validate autonomy policy")
             ' <<<"${payload}" >/dev/null
           }
 
@@ -151,14 +152,17 @@ jobs:
           fi
 
           # Wait for required checks to become green for this PR.
+          check_json='{"check_runs":[]}'
           for _ in {1..60}; do
             pr_json="$(pr_view)"
+            head_sha="$(jq -r '.headRefOid' <<<"${pr_json}")"
+            check_json="$(check_runs_json "${head_sha}")"
 
-            if required_checks_passed "${pr_json}"; then
+            if required_checks_passed "${check_json}"; then
               break
             fi
 
-            if required_checks_failed "${pr_json}"; then
+            if required_checks_failed "${check_json}"; then
               echo "Required checks failed; auto-merge will not be enabled."
               exit 0
             fi
@@ -166,7 +170,7 @@ jobs:
             sleep 5
           done
 
-          if ! required_checks_passed "${pr_json}"; then
+          if ! required_checks_passed "${check_json}"; then
             echo "Required checks did not reach success within wait window."
             exit 0
           fi
