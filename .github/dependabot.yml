@@ -8,6 +8,7 @@ updates:
       time: "09:00"
       timezone: America/Chicago
     labels:
+      - bot:dependabot
       - type:chore
       - area:github
       - risk:low
