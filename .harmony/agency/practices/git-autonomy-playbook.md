@@ -10,6 +10,8 @@ This playbook covers the local script lane for autonomy-first Git/GitHub flow:
 - `.harmony/agency/_ops/scripts/git-wt-new.sh`
 - `.harmony/agency/_ops/scripts/git-pr-open.sh`
 - `.harmony/agency/_ops/scripts/git-pr-ship.sh`
+- `.harmony/agency/_ops/scripts/git-autonomy-hooks-install.sh`
+- `.harmony/agency/_ops/scripts/git-autonomy-hooks-uninstall.sh`
 - `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`
 - `.harmony/agency/_ops/scripts/sync-github-labels.sh`
 
@@ -26,6 +28,8 @@ permissions, and control-plane drift operations.
 - Repository autonomy variables/secrets are configured:
   - `AUTONOMY_AUTO_MERGE_ENABLED=true`
   - `AUTONOMY_PAT` repository Actions secret
+  - `AI_GATE_ENFORCE` mode matches desired rollout phase
+  - `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` set before strict AI-gate mode
 
 ---
 
@@ -91,7 +95,27 @@ Behavior:
 - Checks out and fast-forwards `main` to `origin/main`.
 - Supports `--watch-pr <number>` to wait for closure, then cleanup.
 
-### 5) Sync required GitHub labels
+### 5) Install non-blocking local cleanup hooks
+
+```bash
+.harmony/agency/_ops/scripts/git-autonomy-hooks-install.sh
+```
+
+Behavior:
+
+- Installs managed `post-merge` and `post-checkout` hooks.
+- Triggers `.harmony/agency/_ops/scripts/git-pr-cleanup.sh --no-sync-main`
+  in the background.
+- Uses lock + throttle controls to avoid duplicate runs.
+- Skips safely when the working tree is dirty.
+
+Uninstall:
+
+```bash
+.harmony/agency/_ops/scripts/git-autonomy-hooks-uninstall.sh
+```
+
+### 6) Sync required GitHub labels
 
 ```bash
 .harmony/agency/_ops/scripts/sync-github-labels.sh
@@ -114,6 +138,8 @@ Behavior:
 4. Mark ready + request merge with `git-pr-ship.sh`.
 5. Let required checks and branch rules enforce final merge safety.
 6. Let cleanup enforcement return local git state to `main` + aligned origin.
+7. Keep cleanup hooks installed to converge branch state after merges that
+   happen outside `.harmony/agency/_ops/scripts/git-pr-ship.sh`.
 
 ### High-impact guarded lane
 
@@ -130,6 +156,8 @@ When touching high-impact paths (for example `.github/` or governance paths):
 
 - Do not bypass required checks or branch rules via local scripts.
 - Keep `main` PR-first; direct push remains break-glass only.
+- Cleanup hooks are non-blocking and must not interrupt local work.
+- Hooks intentionally skip execution when the working tree is dirty.
 - If autonomy behavior regresses:
   1. Set `AUTONOMY_AUTO_MERGE_ENABLED=false`
   2. Keep triage/policy checks active

@@ -1,0 +1,27 @@
+{
+  "version": "2026-03-03",
+  "default_branch": "main",
+  "rulesets": {
+    "main": {
+      "required_checks": [
+        "AI Review Gate / decision",
+        "PR Quality Standards",
+        "Validate branch naming",
+        "Validate autonomy policy"
+      ],
+      "require_review_thread_resolution": true
+    }
+  },
+  "repository_settings": {
+    "allow_auto_merge": true,
+    "allow_squash_merge": true,
+    "allow_merge_commit": false,
+    "allow_rebase_merge": false,
+    "delete_branch_on_merge": true
+  },
+  "actions_permissions": {
+    "workflow": {
+      "can_approve_pull_request_reviews": true
+    }
+  }
+}

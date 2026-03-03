@@ -29,6 +29,7 @@ jobs:
       AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || '' }}
       AUTONOMY_POLICY_ENFORCE: ${{ vars.AUTONOMY_POLICY_ENFORCE || '' }}
       RELEASE_BRANCH: release-please--branches--main--components--harmony
+      CONTROL_PLANE_CONTRACT_PATH: .harmony/agency/practices/standards/github-control-plane-contract.json
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,6 +56,23 @@ jobs:
             failures=$((failures + 1))
           }
 
+          if [[ -f "${CONTROL_PLANE_CONTRACT_PATH}" ]]; then
+            pass "Control-plane contract file exists (${CONTROL_PLANE_CONTRACT_PATH})."
+          else
+            fail "Control-plane contract file is missing (${CONTROL_PLANE_CONTRACT_PATH})."
+          fi
+
+          contract_json="{}"
+          if contract_json="$(jq -c . "${CONTROL_PLANE_CONTRACT_PATH}" 2>/dev/null)"; then
+            pass "Control-plane contract is valid JSON."
+          else
+            fail "Control-plane contract is not valid JSON."
+          fi
+
+          default_branch="$(jq -r '.default_branch // "main"' <<<"${contract_json}" 2>/dev/null || echo "main")"
+          expected_required_checks="$(jq -c '.rulesets.main.required_checks // [] | unique | sort' <<<"${contract_json}" 2>/dev/null || echo '[]')"
+          expected_thread_resolution="$(jq -r '.rulesets.main.require_review_thread_resolution // true' <<<"${contract_json}" 2>/dev/null || echo "true")"
+
           if [[ -n "${AUTONOMY_PAT_VALUE}" ]]; then
             pass "AUTONOMY_PAT is configured."
           else
@@ -77,23 +95,128 @@ jobs:
             fail "AUTONOMY_POLICY_ENFORCE=false; autonomy policy is not enforced."
           fi
 
+          repo_payload=""
+          rulesets_payload=""
+          workflow_permissions_payload=""
+
+          if repo_payload="$(gh api "repos/${GH_REPO}" 2>/dev/null)"; then
+            pass "Fetched repository settings via API."
+          else
+            fail "Unable to fetch repository settings (repos/${GH_REPO})."
+          fi
+
+          if rulesets_payload="$(gh api "repos/${GH_REPO}/rulesets?includes_parents=false" 2>/dev/null)"; then
+            pass "Fetched repository rulesets via API."
+          else
+            fail "Unable to fetch repository rulesets (repos/${GH_REPO}/rulesets)."
+          fi
+
+          if workflow_permissions_payload="$(gh api "repos/${GH_REPO}/actions/permissions/workflow" 2>/dev/null)"; then
+            pass "Fetched workflow permissions via API."
+          else
+            fail "Unable to fetch workflow permissions (repos/${GH_REPO}/actions/permissions/workflow)."
+          fi
+
+          if [[ -n "${repo_payload}" ]]; then
+            for key in allow_auto_merge allow_squash_merge allow_merge_commit allow_rebase_merge delete_branch_on_merge; do
+              expected_value="$(jq -r --arg key "$key" '.repository_settings[$key] // "__unset__"' <<<"${contract_json}")"
+              [[ "${expected_value}" == "__unset__" ]] && continue
+
+              actual_value="$(jq -r --arg key "$key" '.[$key]' <<<"${repo_payload}")"
+              if [[ "${actual_value}" == "${expected_value}" ]]; then
+                pass "Repo setting ${key} matches expected value (${expected_value})."
+              else
+                fail "Repo setting ${key} drift: expected ${expected_value}, got ${actual_value}."
+              fi
+            done
+
+            squash_only_ok="$(jq -r '(.allow_squash_merge == true) and (.allow_merge_commit == false) and (.allow_rebase_merge == false)' <<<"${repo_payload}")"
+            if [[ "${squash_only_ok}" == "true" ]]; then
+              pass "Squash-only merge policy is active."
+            else
+              fail "Squash-only merge policy drift detected."
+            fi
+          fi
+
+          if [[ -n "${workflow_permissions_payload}" ]]; then
+            expected_can_approve="$(jq -r '.actions_permissions.workflow.can_approve_pull_request_reviews // true' <<<"${contract_json}")"
+            actual_can_approve="$(jq -r '.can_approve_pull_request_reviews' <<<"${workflow_permissions_payload}")"
+            if [[ "${actual_can_approve}" == "${expected_can_approve}" ]]; then
+              pass "Actions workflow permission can_approve_pull_request_reviews matches expected (${expected_can_approve})."
+            else
+              fail "Actions workflow permission drift: expected can_approve_pull_request_reviews=${expected_can_approve}, got ${actual_can_approve}."
+            fi
+          fi
+
+          if [[ -n "${rulesets_payload}" ]]; then
+            main_ruleset="$(jq -c --arg branch "${default_branch}" '
+              [
+                .[]?
+                | select(.target == "branch")
+                | select(
+                    ((.conditions.ref_name.include // []) | index("~DEFAULT_BRANCH")) != null
+                    or ((.conditions.ref_name.include // []) | index($branch)) != null
+                    or ((.conditions.ref_name.include // []) | index("refs/heads/" + $branch)) != null
+                  )
+              ]
+              | .[0] // empty
+            ' <<<"${rulesets_payload}")"
+
+            if [[ -z "${main_ruleset}" || "${main_ruleset}" == "null" ]]; then
+              fail "Could not resolve an active branch ruleset for ${default_branch}."
+            else
+              pass "Resolved branch ruleset for ${default_branch}."
+
+              actual_required_checks="$(jq -c '
+                [
+                  .rules[]?
+                  | select(.type == "required_status_checks")
+                  | .parameters.required_status_checks[]?.context
+                ]
+                | unique
+                | sort
+              ' <<<"${main_ruleset}")"
+
+              if jq -e --argjson expected "${expected_required_checks}" --argjson actual "${actual_required_checks}" '$expected == $actual' >/dev/null; then
+                pass "Main ruleset required checks match contract."
+              else
+                fail "Main ruleset required checks drift: expected ${expected_required_checks}, got ${actual_required_checks}."
+              fi
+
+              actual_thread_resolution="$(jq -r '
+                [
+                  .rules[]?
+                  | select(.type == "pull_request")
+                  | .parameters.required_review_thread_resolution // false
+                ]
+                | any
+              ' <<<"${main_ruleset}")"
+
+              if [[ "${actual_thread_resolution}" == "${expected_thread_resolution}" ]]; then
+                pass "Pull-request rule review thread resolution requirement matches contract (${expected_thread_resolution})."
+              else
+                fail "Pull-request rule review thread resolution drift: expected ${expected_thread_resolution}, got ${actual_thread_resolution}."
+              fi
+            fi
+          fi
+
           if [[ -f "release-please-config.json" && -f ".release-please-manifest.json" ]]; then
             pass "Release Please config and manifest are present on default branch checkout."
           else
             fail "Release Please config files are missing from repository."
           fi
 
-          release_please_runs="$(
+          release_please_runs="$({
             gh run list \
               --workflow "Release Please" \
               --branch main \
               --event push \
               --limit 10 \
               --json conclusion,status,createdAt,url
-          )"
-          latest_completed="$(
+          } || echo '[]')"
+          latest_completed="$({
             jq -c '[.[] | select(.status == "completed")] | .[0]' <<< "${release_please_runs}"
-          )"
+          } || echo 'null')"
           if [[ -z "${latest_completed}" || "${latest_completed}" == "null" ]]; then
             fail "No completed Release Please push runs on main were found."
           else
@@ -106,13 +229,13 @@ jobs:
             fi
           fi
 
-          release_pr_count="$(
+          release_pr_count="$({
             gh pr list \
               --state open \
               --head "${RELEASE_BRANCH}" \
               --json number \
               --jq 'length'
-          )"
+          } || echo 0)"
           branch_exists=false
           if gh api "repos/${GH_REPO}/branches/${RELEASE_BRANCH}" > /dev/null 2>&1; then
             branch_exists=true

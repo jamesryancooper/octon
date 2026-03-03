@@ -19,6 +19,7 @@ This workflow covers:
 
 - Local branch/worktree + PR automation scripts
 - GitHub PR triage, policy checks, and autonomous merge behavior
+- Provider-agnostic AI review gating
 - Release PR automation (`release-please`)
 - Daily control-plane drift detection and auto-healing issue handling
 - Branch/repo hygiene expectations for autonomy-first operation
@@ -55,6 +56,15 @@ Steady-state health lane:
 - `Autonomy Release Health` detects drift, opens/updates a drift issue on
   failure, and auto-closes it when healthy.
 
+AI review lane:
+
+- `AI Review Gate` runs provider adapters (OpenAI + Anthropic), normalizes
+  findings, and computes `AI Review Gate / decision`.
+- Shadow mode: `AI_GATE_ENFORCE=false` (decision check passes with telemetry).
+- Strict mode: `AI_GATE_ENFORCE=true` with `AI Review Gate / decision` required
+  in the `main` branch ruleset.
+- Codex-specific review remains advisory and non-blocking.
+
 ---
 
 ## Source of Truth Map
@@ -66,6 +76,8 @@ Use this table to find canonical detail by concern.
 | Commit contract and branch naming | `.harmony/agency/practices/commits.md` |
 | PR quality policy and autonomy flow | `.harmony/agency/practices/pull-request-standards.md` |
 | Machine-enforced commit/PR contract | `.harmony/agency/practices/standards/commit-pr-standards.json` |
+| Merge-critical control-plane contract | `.harmony/agency/practices/standards/github-control-plane-contract.json` |
+| AI gate policy contract | `.harmony/agency/practices/standards/ai-gate-policy.json` |
 | Local Git/operator script lane | `.harmony/agency/practices/git-autonomy-playbook.md` |
 | GitHub token model + autonomy runbook | `.harmony/agency/practices/github-autonomy-runbook.md` |
 | PR body structure contract | `.github/PULL_REQUEST_TEMPLATE.md` |
@@ -83,6 +95,8 @@ Primary autonomy workflows:
 - `.github/workflows/pr-stale-close.yml`
 - `.github/workflows/release-please.yml`
 - `.github/workflows/autonomy-release-health.yml`
+- `.github/workflows/ai-review-gate.yml`
+- `.github/workflows/codex-pr-review.yml` (advisory)
 
 Core guardrails that stay active with this model:
 
@@ -104,6 +118,8 @@ Minimum control-plane expectations:
   fine-grained permissions documented in:
   `.harmony/agency/practices/github-autonomy-runbook.md`.
 - Branch protection/rulesets enforce required checks on `main`.
+- Required AI check is `AI Review Gate / decision` (provider-agnostic).
+- Codex review is advisory and not part of required checks.
 - Squash merge is the canonical merge strategy.
 
 ---
