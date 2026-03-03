@@ -224,5 +224,40 @@ jobs:
             exit 0
           fi
 
-          gh pr merge "${PR_NUMBER}" --repo "${GH_REPO}" --squash --delete-branch --auto
-          echo "Enabled auto-merge for PR #${PR_NUMBER}."
+          merge_output=""
+          if merge_output="$(
+            gh pr merge "${PR_NUMBER}" --repo "${GH_REPO}" --squash --delete-branch --auto 2>&1
+          )"; then
+            echo "${merge_output}"
+            echo "Enabled auto-merge for PR #${PR_NUMBER}."
+            exit 0
+          fi
+
+          echo "${merge_output}"
+
+          if grep -qi "Resource not accessible by integration" <<<"${merge_output}"; then
+            echo "Auto-merge API unavailable for integration token; attempting direct merge fallback."
+
+            direct_merge_output=""
+            if ! direct_merge_output="$(
+              gh api \
+                --method PUT \
+                "repos/${GH_REPO}/pulls/${PR_NUMBER}/merge" \
+                -f merge_method='squash' 2>&1
+            )"; then
+              echo "${direct_merge_output}"
+              exit 1
+            fi
+
+            echo "${direct_merge_output}"
+
+            head_ref_encoded="$(jq -rn --arg ref "${head_ref}" '$ref | @uri')"
+            if ! gh api --method DELETE "repos/${GH_REPO}/git/refs/heads/${head_ref_encoded}" >/dev/null 2>&1; then
+              echo "Note: head branch '${head_ref}' could not be deleted automatically."
+            fi
+
+            echo "Merged PR #${PR_NUMBER} via REST fallback."
+            exit 0
+          fi
+
+          exit 1
