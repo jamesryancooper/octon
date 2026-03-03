@@ -29,6 +29,7 @@ runs/
 
 # Additional local outputs
 out/
+.proposals/
 
 # Harmony runtime state (local/cache/traces)
 .harmony/engine/_ops/state/
