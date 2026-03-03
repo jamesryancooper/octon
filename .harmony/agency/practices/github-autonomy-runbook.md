@@ -127,7 +127,6 @@ It checks for control-plane drift:
 - `AUTONOMY_PAT` is present.
 - `AUTONOMY_AUTO_MERGE_ENABLED=true`.
 - `AUTONOMY_POLICY_ENFORCE` is effectively `true`.
-- Actions workflow setting `can_approve_pull_request_reviews=true`.
 - `release-please-config.json` and `.release-please-manifest.json` exist.
 - Latest `Release Please` workflow run is successful.
 - No stale `release-please` branch exists without an open release PR.
