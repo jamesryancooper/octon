@@ -32,7 +32,8 @@ jobs:
     steps:
       - name: Enable auto-merge for eligible low-risk PRs (race-safe)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
 
