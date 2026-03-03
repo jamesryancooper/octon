@@ -22,9 +22,9 @@ jobs:
     timeout-minutes: 10
     env:
       GH_REPO: ${{ github.repository }}
-      # Use the workflow token for Actions API reads so fine-grained PAT
-      # minimum permissions can keep Actions access disabled.
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Prefer AUTONOMY_PAT for admin-level settings/ruleset reads; fall back
+      # to workflow token when the PAT is unavailable.
+      GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
       AUTONOMY_PAT_VALUE: ${{ secrets.AUTONOMY_PAT }}
       AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || '' }}
       AUTONOMY_POLICY_ENFORCE: ${{ vars.AUTONOMY_POLICY_ENFORCE || '' }}
@@ -149,18 +149,29 @@ jobs:
           fi
 
           if [[ -n "${rulesets_payload}" ]]; then
-            main_ruleset="$(jq -c --arg branch "${default_branch}" '
-              [
-                .[]?
-                | select(.target == "branch")
-                | select(
-                    ((.conditions.ref_name.include // []) | index("~DEFAULT_BRANCH")) != null
-                    or ((.conditions.ref_name.include // []) | index($branch)) != null
-                    or ((.conditions.ref_name.include // []) | index("refs/heads/" + $branch)) != null
-                  )
-              ]
-              | .[0] // empty
-            ' <<<"${rulesets_payload}")"
+            main_ruleset=""
+            mapfile -t branch_ruleset_ids < <(
+              jq -r '.[]? | select(.target == "branch") | .id' <<<"${rulesets_payload}"
+            )
+
+            for ruleset_id in "${branch_ruleset_ids[@]}"; do
+              [[ -n "${ruleset_id}" ]] || continue
+              candidate_ruleset="$(gh api "repos/${GH_REPO}/rulesets/${ruleset_id}" 2>/dev/null || true)"
+              [[ -n "${candidate_ruleset}" ]] || continue
+
+              matches_default_branch="$(jq -r --arg branch "${default_branch}" '
+                (
+                  ((.conditions.ref_name.include // []) | index("~DEFAULT_BRANCH")) != null
+                  or ((.conditions.ref_name.include // []) | index($branch)) != null
+                  or ((.conditions.ref_name.include // []) | index("refs/heads/" + $branch)) != null
+                )
+              ' <<<"${candidate_ruleset}")"
+
+              if [[ "${matches_default_branch}" == "true" ]]; then
+                main_ruleset="${candidate_ruleset}"
+                break
+              fi
+            done
 
             if [[ -z "${main_ruleset}" || "${main_ruleset}" == "null" ]]; then
               fail "Could not resolve an active branch ruleset for ${default_branch}."
