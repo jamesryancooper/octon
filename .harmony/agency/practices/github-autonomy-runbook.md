@@ -115,3 +115,11 @@ For Phase C release acceleration:
 When broadening PAT permissions, document the reason and workflow dependency in
 the same PR. Prefer the smallest permission set that keeps autonomous merging
 functional.
+
+## Troubleshooting
+
+- `release-please` fails with
+  `Resource not accessible by personal access token ... create-a-pull-request`:
+  `AUTONOMY_PAT` is missing `Pull requests: Read and write`.
+- `release-please` fails when applying labels/comments on release PR:
+  `AUTONOMY_PAT` is missing `Issues: Read and write`.
