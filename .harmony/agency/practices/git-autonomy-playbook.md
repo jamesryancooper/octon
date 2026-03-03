@@ -10,6 +10,7 @@ This playbook covers the local script lane for autonomy-first Git/GitHub flow:
 - `.harmony/agency/_ops/scripts/git-wt-new.sh`
 - `.harmony/agency/_ops/scripts/git-pr-open.sh`
 - `.harmony/agency/_ops/scripts/git-pr-ship.sh`
+- `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`
 - `.harmony/agency/_ops/scripts/sync-github-labels.sh`
 
 Use this with [GitHub Autonomy Runbook](./github-autonomy-runbook.md) for token,
@@ -41,6 +42,7 @@ permissions, and control-plane drift operations.
 Behavior:
 
 - Validates branch format against repository branch policy contract.
+- Runs clean-state preflight (prune/sync/closed-branch cleanup) by default.
 - Creates a new worktree in a sibling folder.
 - Creates branch from `main` (or `--base` override).
 
@@ -73,8 +75,23 @@ Behavior:
 - Removes `autonomy:no-automerge` when requesting autonomous lane.
 - Marks draft PR as ready (unless `--no-ready`).
 - Requests squash auto-merge (unless `--no-automerge`).
+- Waits for PR closure (auto lane) and runs local cleanup enforcement.
+- For manual lanes, starts a background cleanup watcher that runs when the PR closes.
 
-### 4) Sync required GitHub labels
+### 4) Enforce local cleanup state on demand
+
+```bash
+.harmony/agency/_ops/scripts/git-pr-cleanup.sh
+```
+
+Behavior:
+
+- Deletes local branches whose latest PR is already closed/merged.
+- Deletes matching origin branches when no open PR references the branch.
+- Checks out and fast-forwards `main` to `origin/main`.
+- Supports `--watch-pr <number>` to wait for closure, then cleanup.
+
+### 5) Sync required GitHub labels
 
 ```bash
 .harmony/agency/_ops/scripts/sync-github-labels.sh
@@ -96,6 +113,7 @@ Behavior:
 3. Open draft PR with `git-pr-open.sh`.
 4. Mark ready + request merge with `git-pr-ship.sh`.
 5. Let required checks and branch rules enforce final merge safety.
+6. Let cleanup enforcement return local git state to `main` + aligned origin.
 
 ### High-impact guarded lane
 
@@ -104,6 +122,7 @@ When touching high-impact paths (for example `.github/` or governance paths):
 1. Add `accept:human` before merge.
 2. Keep PR focused and explicitly document risk/rollback.
 3. Use `git-pr-ship.sh --accept-human` to preserve metadata-level check-in.
+4. Cleanup watcher will run automatically once the PR is eventually closed.
 
 ---
 

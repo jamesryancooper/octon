@@ -1,0 +1,245 @@
+name: PR Clean State Enforcer
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+      - converted_to_draft
+      - edited
+      - labeled
+      - unlabeled
+      - closed
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  enforce-clean-state:
+    name: enforce-clean-state
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ATTENTION_AFTER_HOURS: ${{ vars.AUTONOMY_ATTENTION_AFTER_HOURS || '4' }}
+    steps:
+      - name: Enforce clean-state contracts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const defaultBranch = context.payload.repository?.default_branch || "main";
+            const attentionAfterHours = Number.parseInt(process.env.ATTENTION_AFTER_HOURS || "4", 10);
+
+            const attentionLabel = "autonomy:attention-required";
+            const healthLabel = "ops:autonomy-health";
+            const attentionIssueTitle = "[autonomy-health] open-pr attention required";
+
+            async function ensureLabel(name, color, description) {
+              try {
+                await github.rest.issues.getLabel({ owner, repo, name });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name,
+                  color,
+                  description
+                });
+              }
+            }
+
+            await ensureLabel(attentionLabel, "D93F0B", "PR requires prompt human action to maintain clean-state flow");
+            await ensureLabel(healthLabel, "B60205", "Automation and autonomy health signal");
+
+            const openPulls = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: "open",
+              per_page: 100
+            });
+
+            const openHeadRefs = new Set(
+              openPulls
+                .filter((pr) => pr.head?.repo?.full_name === `${owner}/${repo}`)
+                .map((pr) => pr.head?.ref)
+                .filter(Boolean)
+            );
+
+            const attentionRows = [];
+            let labelsAdded = 0;
+            let labelsRemoved = 0;
+            let deletedHeadRefs = 0;
+
+            const blockedMergeStates = new Set(["blocked", "behind", "dirty", "unknown", "unstable"]);
+
+            for (const pr of openPulls) {
+              const labels = new Set((pr.labels || []).map((label) => label.name));
+              const reasons = [];
+              const ageHours = (Date.now() - Date.parse(pr.updated_at)) / (1000 * 60 * 60);
+
+              if (labels.has("accept:human")) {
+                reasons.push("awaiting human acceptance");
+              }
+              if (labels.has("autonomy:no-automerge")) {
+                reasons.push("autonomy lane disabled");
+              }
+
+              let mergeState = "unknown";
+              try {
+                const detail = await github.rest.pulls.get({
+                  owner,
+                  repo,
+                  pull_number: pr.number
+                });
+                mergeState = String(detail.data.mergeable_state || "unknown").toLowerCase();
+              } catch (error) {
+                core.warning(`Could not read merge state for PR #${pr.number}: ${error.message}`);
+              }
+
+              if (blockedMergeStates.has(mergeState)) {
+                reasons.push(`merge state is '${mergeState}'`);
+              }
+
+              const needsAttention = reasons.length > 0 && ageHours >= attentionAfterHours;
+
+              if (needsAttention) {
+                attentionRows.push({
+                  number: pr.number,
+                  url: pr.html_url,
+                  title: pr.title,
+                  ageHours: Math.floor(ageHours),
+                  reasons
+                });
+                if (!labels.has(attentionLabel)) {
+                  try {
+                    await github.rest.issues.addLabels({
+                      owner,
+                      repo,
+                      issue_number: pr.number,
+                      labels: [attentionLabel]
+                    });
+                    labelsAdded += 1;
+                  } catch (error) {
+                    core.warning(`Could not add ${attentionLabel} to PR #${pr.number}: ${error.message}`);
+                  }
+                }
+              } else if (labels.has(attentionLabel)) {
+                try {
+                  await github.rest.issues.removeLabel({
+                    owner,
+                    repo,
+                    issue_number: pr.number,
+                    name: attentionLabel
+                  });
+                  labelsRemoved += 1;
+                } catch (error) {
+                  core.warning(`Could not remove ${attentionLabel} from PR #${pr.number}: ${error.message}`);
+                }
+              }
+            }
+
+            const closedPulls = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: "closed",
+              sort: "updated",
+              direction: "desc",
+              per_page: 100
+            });
+
+            for (const pr of closedPulls) {
+              const sameRepoHead = pr.head?.repo?.full_name === `${owner}/${repo}`;
+              const headRef = pr.head?.ref || "";
+              if (!sameRepoHead || !headRef) continue;
+              if (headRef === defaultBranch || headRef === "main") continue;
+              if (openHeadRefs.has(headRef)) continue;
+
+              try {
+                await github.rest.git.deleteRef({
+                  owner,
+                  repo,
+                  ref: `heads/${headRef}`
+                });
+                deletedHeadRefs += 1;
+              } catch (error) {
+                if (error.status !== 422 && error.status !== 404) {
+                  core.warning(`Could not delete closed head ref '${headRef}': ${error.message}`);
+                }
+              }
+            }
+
+            const openIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner,
+              repo,
+              state: "open",
+              labels: healthLabel,
+              per_page: 100
+            });
+            const attentionIssue = openIssues.find((issue) => !issue.pull_request && issue.title === attentionIssueTitle);
+
+            if (attentionRows.length > 0) {
+              const lines = [
+                "Clean-state enforcer detected open PRs requiring prompt action.",
+                "",
+                `- Attention threshold: ${attentionAfterHours}h since last update`,
+                `- Generated at: ${new Date().toISOString()}`,
+                "",
+                "| PR | Age (h) | Reasons |",
+                "| --- | ---: | --- |",
+                ...attentionRows.map((row) => `| [#${row.number}](${row.url}) | ${row.ageHours} | ${row.reasons.join("; ")} |`),
+                "",
+                "Action expectations:",
+                "- Resolve manual-lane/blocking conditions promptly (`accept:human`, policy labels, review threads/checks).",
+                "- After merge/close, run local cleanup: `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`.",
+                "- Preferred shipping path: `.harmony/agency/_ops/scripts/git-pr-ship.sh` (includes cleanup watcher)."
+              ];
+              const body = lines.join("\n");
+
+              if (attentionIssue) {
+                await github.rest.issues.update({
+                  owner,
+                  repo,
+                  issue_number: attentionIssue.number,
+                  body
+                });
+              } else {
+                await github.rest.issues.create({
+                  owner,
+                  repo,
+                  title: attentionIssueTitle,
+                  body,
+                  labels: [healthLabel]
+                });
+              }
+            } else if (attentionIssue) {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: attentionIssue.number,
+                body: "Clean-state enforcer is healthy: no open PRs currently require attention."
+              });
+              await github.rest.issues.update({
+                owner,
+                repo,
+                issue_number: attentionIssue.number,
+                state: "closed"
+              });
+            }
+
+            await core.summary
+              .addHeading("PR Clean State Enforcer")
+              .addRaw(`- open PRs scanned: ${openPulls.length}\n`)
+              .addRaw(`- attention PRs: ${attentionRows.length}\n`)
+              .addRaw(`- attention labels added: ${labelsAdded}\n`)
+              .addRaw(`- attention labels removed: ${labelsRemoved}\n`)
+              .addRaw(`- closed head refs deleted: ${deletedHeadRefs}\n`)
+              .write();

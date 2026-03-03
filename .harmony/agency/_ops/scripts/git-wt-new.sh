@@ -8,12 +8,13 @@ TICKET=""
 BRANCH=""
 WORKTREE_PATH=""
 DRY_RUN=0
+RUN_CLEANUP_PREFLIGHT=1
 
 usage() {
   cat <<'USAGE'
 Usage:
-  git-wt-new.sh --type <type> --slug <slug> [--ticket <ABC-123>] [--base <branch>] [--worktree <path>] [--dry-run]
-  git-wt-new.sh --branch <type/slug-or-ticket-slug> [--base <branch>] [--worktree <path>] [--dry-run]
+  git-wt-new.sh --type <type> --slug <slug> [--ticket <ABC-123>] [--base <branch>] [--worktree <path>] [--no-cleanup-preflight] [--dry-run]
+  git-wt-new.sh --branch <type/slug-or-ticket-slug> [--base <branch>] [--worktree <path>] [--no-cleanup-preflight] [--dry-run]
 
 Creates a new git worktree and branch using repository branch naming standards.
 USAGE
@@ -92,6 +93,9 @@ while [[ $# -gt 0 ]]; do
     --dry-run)
       DRY_RUN=1
       ;;
+    --no-cleanup-preflight)
+      RUN_CLEANUP_PREFLIGHT=0
+      ;;
     -h|--help)
       usage
       exit 0
@@ -111,6 +115,21 @@ REPO_ROOT="$(repo_root)"
 
 STANDARDS_FILE="$REPO_ROOT/.harmony/agency/practices/standards/commit-pr-standards.json"
 [[ -f "$STANDARDS_FILE" ]] || error "Missing standards file: $STANDARDS_FILE"
+
+if [[ "$RUN_CLEANUP_PREFLIGHT" -eq 1 ]]; then
+  SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+  CLEANUP_SCRIPT="${SCRIPT_DIR}/git-pr-cleanup.sh"
+  if [[ -x "$CLEANUP_SCRIPT" ]]; then
+    info "Running clean-state preflight before creating new worktree."
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      echo "[DRY] \"$CLEANUP_SCRIPT\" --no-sync-main"
+    else
+      "$CLEANUP_SCRIPT" --no-sync-main
+    fi
+  else
+    info "Skipping clean-state preflight (cleanup script not found)."
+  fi
+fi
 
 ALLOWED_TYPES="$(jq -r '.branch.allowed_types[]' "$STANDARDS_FILE")"
 ALLOWED_TYPES_REGEX="$(jq -r '.branch.allowed_types | join("|")' "$STANDARDS_FILE")"

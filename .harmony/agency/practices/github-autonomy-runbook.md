@@ -11,6 +11,7 @@ GitHub autonomy workflows:
 - `.github/workflows/pr-triage.yml`
 - `.github/workflows/pr-autonomy-policy.yml`
 - `.github/workflows/pr-auto-merge.yml`
+- `.github/workflows/pr-clean-state-enforcer.yml`
 - `.github/workflows/pr-stale-close.yml`
 - `.github/workflows/release-please.yml`
 - `.github/workflows/autonomy-release-health.yml`
@@ -97,6 +98,7 @@ Before expecting autonomous low-risk merges:
 3. Actions workflow setting has `can_approve_pull_request_reviews=true`.
 4. `AUTONOMY_PAT` is set as a repository Actions secret.
 5. (Optional) `AUTONOMY_AUTO_CLOSE_ENABLED=true` if stale draft auto-close is desired.
+6. (Optional) `AUTONOMY_ATTENTION_AFTER_HOURS=<n>` to tune attention indicator threshold.
 
 Useful verification commands:
 
@@ -104,6 +106,7 @@ Useful verification commands:
 gh secret list --app actions | rg '^AUTONOMY_PAT'
 gh variable list | rg '^AUTONOMY_AUTO_MERGE_ENABLED'
 gh variable list | rg '^AUTONOMY_AUTO_CLOSE_ENABLED'
+gh variable list | rg '^AUTONOMY_ATTENTION_AFTER_HOURS'
 gh api repos/<owner>/<repo>/actions/permissions/workflow
 gh api repos/<owner>/<repo>/rulesets
 ```
@@ -115,6 +118,29 @@ For Phase C release acceleration:
    `main`.
 3. `AUTONOMY_PAT` includes `Contents`, `Pull requests`, and `Issues` write
    permissions.
+
+---
+
+## Clean-State Enforcement
+
+`PR Clean State Enforcer` keeps PR/branch state converging to clean:
+
+- Workflow: `.github/workflows/pr-clean-state-enforcer.yml`
+- Triggers: PR events, schedule, and manual dispatch.
+- Default attention threshold: 4 hours since last PR update when blocked/manual.
+
+Remote cleanup behavior:
+
+- Deletes closed PR head refs on origin when no open PR still references the branch.
+- Labels blocked/manual PRs with `autonomy:attention-required`.
+- Opens/updates issue `[autonomy-health] open-pr attention required` when action is needed.
+- Auto-closes the attention issue when queue is healthy.
+
+Local cleanup expectation:
+
+- Use `.harmony/agency/_ops/scripts/git-pr-ship.sh` for shipping; it triggers
+  local cleanup after closure (or starts a watcher for manual lanes).
+- On demand, run `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`.
 
 ---
 

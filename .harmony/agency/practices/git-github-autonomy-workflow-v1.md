@@ -79,6 +79,7 @@ Primary autonomy workflows:
 - `.github/workflows/pr-triage.yml`
 - `.github/workflows/pr-autonomy-policy.yml`
 - `.github/workflows/pr-auto-merge.yml`
+- `.github/workflows/pr-clean-state-enforcer.yml`
 - `.github/workflows/pr-stale-close.yml`
 - `.github/workflows/release-please.yml`
 - `.github/workflows/autonomy-release-health.yml`
@@ -114,6 +115,7 @@ For local flow:
 - `.harmony/agency/_ops/scripts/git-wt-new.sh`
 - `.harmony/agency/_ops/scripts/git-pr-open.sh`
 - `.harmony/agency/_ops/scripts/git-pr-ship.sh`
+- `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`
 - `.harmony/agency/_ops/scripts/sync-github-labels.sh`
 
 For GitHub operations and drift remediation commands, use:
