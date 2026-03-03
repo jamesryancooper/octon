@@ -118,6 +118,32 @@ For Phase C release acceleration:
 
 ---
 
+## Dependabot Autonomy Policy
+
+GitHub Actions dependency updates are split into two lanes:
+
+- Safe lane (autonomous): `semver-patch` and `semver-minor`
+  - Grouped into one weekly Dependabot PR.
+  - Triaged to `risk:low` and `autonomy:auto-merge` when policy is satisfied.
+  - Merged autonomously by `pr-auto-merge.yml`.
+- Escalation lane (human): `semver-major` and unknown version transitions
+  - Not auto-merged.
+  - Require explicit `accept:human` before merge.
+
+Configuration source:
+
+- `.github/dependabot.yml`
+  - Groups patch/minor updates.
+  - Ignores `version-update:semver-major` for `github-actions` so majors do not
+    create recurring PR noise.
+
+Operator note:
+
+- `autonomy:no-automerge` remains a manual override. If a human adds it, the PR
+  stays out of the autonomous lane.
+
+---
+
 ## Phase D Steady-State Monitoring
 
 `Autonomy Release Health` runs daily (UTC) and on manual dispatch:

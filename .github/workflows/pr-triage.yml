@@ -41,6 +41,34 @@ jobs:
             const isReleasePlease =
               headRef.startsWith("release-please--") ||
               [...labels].some((name) => name.startsWith("autorelease:"));
+            const isDependabotGithubActions = isDependabot && headRef.startsWith("dependabot/github_actions/");
+
+            function parseSemverCore(raw) {
+              const match = String(raw || "").trim().match(/^v?(?<major>\d+)(?:\.(?<minor>\d+))?(?:\.(?<patch>\d+))?/i);
+              if (!match || !match.groups) return null;
+              return {
+                major: Number(match.groups.major),
+                minor: Number(match.groups.minor || 0),
+                patch: Number(match.groups.patch || 0)
+              };
+            }
+
+            function classifyDependabotUpdateTypeFromTitle(title) {
+              const rangeMatch = String(title || "").match(/\bfrom\s+([^\s]+)\s+to\s+([^\s]+)/i);
+              if (!rangeMatch) return "unknown";
+              const from = parseSemverCore(rangeMatch[1]);
+              const to = parseSemverCore(rangeMatch[2]);
+              if (!from || !to) return "unknown";
+              if (to.major !== from.major) return "major";
+              if (to.minor !== from.minor) return "minor";
+              if (to.patch !== from.patch) return "patch";
+              return "unknown";
+            }
+
+            const dependabotUpdateType = isDependabot ? classifyDependabotUpdateTypeFromTitle(currentTitle) : "n/a";
+            const isDependabotSafeUpdate =
+              isDependabotGithubActions &&
+              (dependabotUpdateType === "minor" || dependabotUpdateType === "patch");
 
             // Keep this label catalog minimal and aligned to this phase.
             const labelCatalog = {
@@ -185,9 +213,14 @@ jobs:
             const isHighImpact = paths.some((path) => highImpactPathPatterns.some((prefix) => path.startsWith(prefix) || path === prefix));
             const isMediumImpact = !isHighImpact && paths.some((path) => mediumImpactPathPatterns.some((prefix) => path.startsWith(prefix)));
 
-            const desiredRisk = isHighImpact
-              ? "risk:high"
-              : ((isReleasePlease || isMediumImpact) ? "risk:med" : "risk:low");
+            const desiredRisk =
+              isDependabotGithubActions
+                ? (isDependabotSafeUpdate ? "risk:low" : "risk:high")
+                : (
+                    isHighImpact
+                      ? "risk:high"
+                      : ((isReleasePlease || isMediumImpact) ? "risk:med" : "risk:low")
+                  );
 
             const desiredLabels = new Set([desiredType, desiredRisk, ...desiredAreas]);
             if (isDependabot) {
@@ -204,7 +237,8 @@ jobs:
               !headRef.startsWith("exp/") &&
               !isReleasePlease &&
               !labels.has("accept:human") &&
-              !manualNoAuto;
+              !manualNoAuto &&
+              (!isDependabot || isDependabotSafeUpdate);
 
             const desiredAutonomy = isAutoMergeEligible ? "autonomy:auto-merge" : "autonomy:no-automerge";
             desiredLabels.add(desiredAutonomy);
@@ -268,7 +302,11 @@ jobs:
               }
             }
 
-            if (isHighImpact) {
+            if (isDependabotGithubActions) {
+              core.info(`Dependabot github-actions update classified as '${dependabotUpdateType}'.`);
+            }
+
+            if (isHighImpact && !isDependabotSafeUpdate) {
               core.notice("High-impact change detected. Explicit 'accept:human' is required by autonomy policy before merge.");
             }
 
