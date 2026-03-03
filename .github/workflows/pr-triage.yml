@@ -38,6 +38,9 @@ jobs:
             const currentTitle = pr.title || "";
 
             const isDependabot = author === "dependabot[bot]" || headRef.startsWith("dependabot/");
+            const isReleasePlease =
+              headRef.startsWith("release-please--") ||
+              [...labels].some((name) => name.startsWith("autorelease:"));
 
             // Keep this label catalog minimal and aligned to this phase.
             const labelCatalog = {
@@ -124,7 +127,7 @@ jobs:
 
             const branchPrefix = headRef.split("/")[0] || "";
             let desiredType = typeFromPrefix[branchPrefix] || "type:unknown";
-            if (isDependabot) {
+            if (isDependabot || isReleasePlease) {
               desiredType = "type:chore";
             }
 
@@ -197,6 +200,7 @@ jobs:
               !pr.draft &&
               desiredRisk === "risk:low" &&
               !headRef.startsWith("exp/") &&
+              !isReleasePlease &&
               !labels.has("accept:human") &&
               !manualNoAuto;
 

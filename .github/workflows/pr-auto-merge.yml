@@ -74,6 +74,11 @@ jobs:
               exit 0
             fi
 
+            if [[ "${head_ref}" == release-please--* ]]; then
+              echo "Skipping: release-please branches are human-controlled${suffix}."
+              exit 0
+            fi
+
             if ! has_label "${payload}" "autonomy:auto-merge"; then
               echo "Skipping: autonomy:auto-merge label missing${suffix}."
               exit 0

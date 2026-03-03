@@ -11,6 +11,7 @@ GitHub autonomy workflows:
 - `.github/workflows/pr-triage.yml`
 - `.github/workflows/pr-autonomy-policy.yml`
 - `.github/workflows/pr-auto-merge.yml`
+- `.github/workflows/release-please.yml`
 
 Use this document when setting up or rotating `AUTONOMY_PAT`.
 
@@ -24,6 +25,9 @@ Use this document when setting up or rotating `AUTONOMY_PAT`.
 - Workflow wiring (current): `.github/workflows/pr-auto-merge.yml`
   - `GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}`
   - `GITHUB_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}`
+- Workflow wiring (Phase C release acceleration):
+  `.github/workflows/release-please.yml`
+  - `token: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}`
 
 If `AUTONOMY_PAT` is not set, workflow falls back to `GITHUB_TOKEN`.
 
@@ -31,20 +35,30 @@ If `AUTONOMY_PAT` is not set, workflow falls back to `GITHUB_TOKEN`.
 
 ## Minimal Fine-Grained PAT Permissions
 
-For the current autonomy merge flow, the minimal fine-grained PAT permissions
-are:
+For `.github/workflows/pr-auto-merge.yml` alone, the minimal fine-grained PAT
+permissions are:
 
 - `Contents: Read and write`
 - `Pull requests: Read`
 
-Everything else should remain `No access` unless a separate workflow
-explicitly requires more.
+For `.github/workflows/release-please.yml`, the minimal fine-grained PAT
+permissions are:
+
+- `Contents: Read and write`
+- `Pull requests: Read and write`
+- `Issues: Read and write`
+
+If one `AUTONOMY_PAT` is shared across both workflows (recommended), use this
+combined minimum:
+
+- `Contents: Read and write`
+- `Pull requests: Read and write`
+- `Issues: Read and write`
 
 Explicitly keep these at `No access` for this workflow:
 
 - `Actions`
 - `Workflows`
-- `Issues`
 - `Administration`
 
 `Workflows` permission is not required for low-risk autonomous merging.
@@ -85,6 +99,14 @@ gh variable list | rg '^AUTONOMY_AUTO_MERGE_ENABLED'
 gh api repos/<owner>/<repo>/actions/permissions/workflow
 gh api repos/<owner>/<repo>/rulesets
 ```
+
+For Phase C release acceleration:
+
+1. `.github/workflows/release-please.yml` exists on `main`.
+2. `release-please-config.json` and `.release-please-manifest.json` exist on
+   `main`.
+3. `AUTONOMY_PAT` includes `Contents`, `Pull requests`, and `Issues` write
+   permissions.
 
 ---
 

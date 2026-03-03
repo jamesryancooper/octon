@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "9ecda34181acbec66e9484a229e08b6e73f92988",
+  "release-type": "simple",
+  "include-v-in-tag": true,
+  "packages": {
+    ".": {
+      "package-name": "harmony",
+      "changelog-path": "CHANGELOG.md"
+    }
+  }
+}
