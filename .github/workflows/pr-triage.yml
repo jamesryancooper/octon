@@ -37,7 +37,8 @@ jobs:
             const labels = new Set((pr.labels || []).map((l) => l.name));
             const currentTitle = pr.title || "";
 
-            const isDependabot = author === "dependabot[bot]" || headRef.startsWith("dependabot/");
+            const isDependabotAuthor = author === "dependabot[bot]";
+            const isDependabot = isDependabotAuthor;
             const isReleasePlease =
               headRef.startsWith("release-please--") ||
               [...labels].some((name) => name.startsWith("autorelease:"));

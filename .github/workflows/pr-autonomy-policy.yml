@@ -40,7 +40,8 @@ jobs:
             const author = pr.user?.login || "";
             const labels = new Set((pr.labels || []).map((l) => l.name));
 
-            const isDependabot = author === "dependabot[bot]" || headRef.startsWith("dependabot/");
+            const isDependabotAuthor = author === "dependabot[bot]";
+            const isDependabot = isDependabotAuthor;
             const isAutorelease = headRef.startsWith("release-please--") || [...labels].some((name) => name.startsWith("autorelease:"));
             const isBotPath = isDependabot || isAutorelease;
             const enforce = String(process.env.AUTONOMY_POLICY_ENFORCE || "").toLowerCase() === "true";
