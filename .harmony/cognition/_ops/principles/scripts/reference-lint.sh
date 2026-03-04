@@ -13,6 +13,92 @@ if [[ ! -d "$PRINCIPLES_DIR" ]]; then
   exit 1
 fi
 
+if ! command -v rg >/dev/null 2>&1; then
+  rg() {
+    local opt_n=0 opt_i=0 opt_q=0 opt_c=0 opt_v=0 opt_x=0 opt_fixed=0
+    local pattern=""
+    local token=""
+    local -a targets=()
+
+    while (($#)); do
+      token="$1"
+      case "$token" in
+        -n) opt_n=1 ;;
+        -i) opt_i=1 ;;
+        -q) opt_q=1 ;;
+        -c) opt_c=1 ;;
+        -v) opt_v=1 ;;
+        -x) opt_x=1 ;;
+        -F) opt_fixed=1 ;;
+        --glob)
+          shift
+          ;;
+        --glob=*)
+          ;;
+        --hidden|--no-ignore|--multiline|--pcre2)
+          ;;
+        --)
+          shift
+          break
+          ;;
+        -*)
+          ;;
+        *)
+          if [[ -z "$pattern" ]]; then
+            pattern="$token"
+          else
+            targets+=("$token")
+          fi
+          ;;
+      esac
+      shift
+    done
+
+    while (($#)); do
+      targets+=("$1")
+      shift
+    done
+
+    local -a grep_opts=()
+    ((opt_n)) && grep_opts+=("-n")
+    ((opt_i)) && grep_opts+=("-i")
+    ((opt_q)) && grep_opts+=("-q")
+    ((opt_c)) && grep_opts+=("-c")
+    ((opt_v)) && grep_opts+=("-v")
+    ((opt_x)) && grep_opts+=("-x")
+    if ((opt_fixed)); then
+      grep_opts+=("-F")
+    else
+      grep_opts+=("-E")
+    fi
+
+    if [[ -z "$pattern" ]]; then
+      echo "[rg-shim] missing search pattern" >&2
+      return 2
+    fi
+
+    if ((${#targets[@]} == 0)); then
+      grep "${grep_opts[@]}" -- "$pattern"
+      return
+    fi
+
+    local recurse=0
+    local p=""
+    for p in "${targets[@]}"; do
+      if [[ -d "$p" ]]; then
+        recurse=1
+        break
+      fi
+    done
+
+    if ((recurse)); then
+      grep "${grep_opts[@]}" -R -- "$pattern" "${targets[@]}"
+    else
+      grep "${grep_opts[@]}" -- "$pattern" "${targets[@]}"
+    fi
+  }
+fi
+
 slugify() {
   local value="$1"
   value="$(printf '%s' "$value" | tr '[:upper:]' '[:lower:]')"
