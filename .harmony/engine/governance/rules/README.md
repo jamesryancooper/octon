@@ -36,6 +36,53 @@ execution behavior.
 .harmony/engine/governance/rules/_ops/scripts/render-harness-rules.sh approval-prompts
 ```
 
+## Codex Approval Prompt Strategy
+
+This repository intentionally uses declarative rules first and does not create a
+dedicated skill for approval-question-box triggers by default.
+
+- Option A (`execpolicy` command triggers): implemented via
+  `profiles/approval-prompts.yml` and `adapters/codex/approval-prompts.rules`.
+- Option C (repo-scoped sharing): implemented via `manifest.yml` mappings and
+  symlink materialization into `.codex/rules/` and `.cursor/rules/`.
+- Option B (boundary posture): documented baseline below; this remains a runtime
+  posture choice and is not hardcoded in rules.
+
+### Option B Baseline (Recommended Runtime Posture)
+
+Use these Codex defaults unless a workflow needs stricter settings:
+
+- `sandbox_mode = "workspace-write"`
+- `approval_policy = "on-request"`
+
+Rationale: boundary crossings (network, outside-workspace writes, privileged
+operations) continue to trigger approval prompts without bypassing sandbox
+controls.
+
+### Verification Runbook
+
+Run the following from repo root:
+
+```bash
+# 1) Validate manifest and symlink integrity
+.harmony/engine/governance/rules/_ops/scripts/validate-harness-rules.sh --check-links
+
+# 2) Should prompt (destructive filesystem)
+codex execpolicy check --pretty --rules .codex/rules/approval-prompts.rules -- rm -rf build
+
+# 3) Should be forbidden (history rewrite)
+codex execpolicy check --pretty --rules .codex/rules/approval-prompts.rules -- git reset --hard HEAD~1
+
+# 4) Should not match this profile (safe rm variant)
+codex execpolicy check --pretty --rules .codex/rules/approval-prompts.rules -- rm -f file.txt
+```
+
+Expected decisions:
+
+- `rm -rf build` -> `prompt`
+- `git reset --hard HEAD~1` -> `forbidden`
+- `rm -f file.txt` -> no matched rule from `approval-prompts.rules`
+
 ## Boundary
 
 - Canonical policy ownership for runtime-facing execution behavior remains in
