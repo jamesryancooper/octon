@@ -73,7 +73,7 @@ Result:
 Additional validation:
 
 ```bash
-bash .harmony/agency/_ops/scripts/validate-agency.sh
+bash .harmony/agency/_ops/scripts/validate/validate-agency.sh
 ```
 
 Result:

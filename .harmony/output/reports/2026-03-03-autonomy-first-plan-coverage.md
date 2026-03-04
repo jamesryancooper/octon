@@ -74,13 +74,13 @@ Source plan: `.proposals/.git-github-workflow/autonomy-first-patch-plan.md`
 
 ## E) Local/Agent Automation
 
-17. `.harmony/agency/_ops/scripts/git-wt-new.sh`: **covered**
+17. `.harmony/agency/_ops/scripts/git/git-wt-new.sh`: **covered**
 
-18. `.harmony/agency/_ops/scripts/git-pr-open.sh`: **covered**
+18. `.harmony/agency/_ops/scripts/git/git-pr-open.sh`: **covered**
 
-19. `.harmony/agency/_ops/scripts/git-pr-ship.sh`: **covered**
+19. `.harmony/agency/_ops/scripts/git/git-pr-ship.sh`: **covered**
 
-20. `.harmony/agency/_ops/scripts/sync-github-labels.sh`: **covered**
+20. `.harmony/agency/_ops/scripts/github/sync-github-labels.sh`: **covered**
 
 21. `.harmony/agency/practices/git-autonomy-playbook.md`: **covered**
 

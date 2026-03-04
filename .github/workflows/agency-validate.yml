@@ -30,15 +30,15 @@ jobs:
 
       - name: Validate agency contracts
         run: |
-          chmod +x .harmony/agency/_ops/scripts/validate-agency.sh
-          .harmony/agency/_ops/scripts/validate-agency.sh
+          chmod +x .harmony/agency/_ops/scripts/validate/validate-agency.sh
+          .harmony/agency/_ops/scripts/validate/validate-agency.sh
 
       - name: Validate autonomy label catalog
         run: |
-          chmod +x .harmony/agency/_ops/scripts/validate-autonomy-labels.sh
-          .harmony/agency/_ops/scripts/validate-autonomy-labels.sh
+          chmod +x .harmony/agency/_ops/scripts/validate/validate-autonomy-labels.sh
+          .harmony/agency/_ops/scripts/validate/validate-autonomy-labels.sh
 
       - name: Report validation failure
         if: failure()
         run: |
-          echo "::error::Agency validation failed. Run '.harmony/agency/_ops/scripts/validate-agency.sh' locally to inspect errors."
+          echo "::error::Agency validation failed. Run '.harmony/agency/_ops/scripts/validate/validate-agency.sh' locally to inspect errors."

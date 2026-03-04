@@ -2,8 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd -- "${SCRIPT_DIR}/../../../.." && pwd)"
-SYNC_SCRIPT="${SCRIPT_DIR}/sync-github-labels.sh"
+ROOT_DIR="$(cd -- "${SCRIPT_DIR}/../../../../.." && pwd)"
+SYNC_SCRIPT="${SCRIPT_DIR}/../github/sync-github-labels.sh"
 
 CHECK_REMOTE=0
 REPO=""

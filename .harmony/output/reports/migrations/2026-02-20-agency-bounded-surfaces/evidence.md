@@ -15,7 +15,7 @@ description: Verification evidence for the clean-break migration to agency actor
 Command:
 
 ```bash
-rg -n "agency/agents|agency/assistants|agency/teams|agency/CONSTITUTION\.md|agency/DELEGATION\.md|agency/MEMORY\.md|\.harmony/agency/agents|\.harmony/agency/assistants|\.harmony/agency/teams|\.harmony/agency/CONSTITUTION\.md|\.harmony/agency/DELEGATION\.md|\.harmony/agency/MEMORY\.md" AGENTS.md .harmony .github --glob '!.harmony/agency/_ops/scripts/validate-agency.sh' --glob '!.harmony/cognition/methodology/migrations/**' --glob '!.harmony/output/**' --glob '!.harmony/ideation/**' --glob '!.archive/**' --glob '!.harmony/runtime/_ops/state/**' --glob '!.harmony/cognition/decisions/**' --glob '!.harmony/cognition/context/decisions.md' --glob '!.harmony/continuity/log.md'
+rg -n "agency/agents|agency/assistants|agency/teams|agency/CONSTITUTION\.md|agency/DELEGATION\.md|agency/MEMORY\.md|\.harmony/agency/agents|\.harmony/agency/assistants|\.harmony/agency/teams|\.harmony/agency/CONSTITUTION\.md|\.harmony/agency/DELEGATION\.md|\.harmony/agency/MEMORY\.md" AGENTS.md .harmony .github --glob '!.harmony/agency/_ops/scripts/validate/validate-agency.sh' --glob '!.harmony/cognition/methodology/migrations/**' --glob '!.harmony/output/**' --glob '!.harmony/ideation/**' --glob '!.archive/**' --glob '!.harmony/runtime/_ops/state/**' --glob '!.harmony/cognition/decisions/**' --glob '!.harmony/cognition/context/decisions.md' --glob '!.harmony/continuity/log.md'
 ```
 
 Result:
@@ -42,7 +42,7 @@ Result:
 Command:
 
 ```bash
-bash .harmony/agency/_ops/scripts/validate-agency.sh
+bash .harmony/agency/_ops/scripts/validate/validate-agency.sh
 ```
 
 Result:
@@ -54,7 +54,7 @@ Result:
 
 Updated gate surfaces:
 
-- `/.harmony/agency/_ops/scripts/validate-agency.sh`
+- `/.harmony/agency/_ops/scripts/validate/validate-agency.sh`
 - `/.harmony/assurance/_ops/scripts/validate-harness-structure.sh`
 
 Command:

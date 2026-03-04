@@ -92,7 +92,7 @@ description: Clean-break migration plan for replacing `/.harmony/agency/actors/`
 ### C) CI Verification
 
 - [x] CI guardrails updated/added to prevent legacy reintroduction:
-  - `/.harmony/agency/_ops/scripts/validate-agency.sh`
+  - `/.harmony/agency/_ops/scripts/validate/validate-agency.sh`
   - `/.harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
 
 ## 8) Definition of Done
