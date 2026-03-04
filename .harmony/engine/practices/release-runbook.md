@@ -2,13 +2,26 @@
 
 ## Pre-Release
 
-- Validate harness structure.
-- Run engine runtime validation and targeted tests.
-- Confirm migration artifacts and banlist updates for breaking changes.
-- Confirm release automation is healthy:
-  - `.github/workflows/release-please.yml`
-  - `release-please-config.json`
-  - `.release-please-manifest.json`
+1. Verify execution-profile receipt completeness:
+   - `Profile Selection Receipt`
+   - `Implementation Plan`
+   - `Impact Map (code, tests, docs, contracts)`
+   - `Compliance Receipt`
+   - `Exceptions/Escalations`
+2. Verify machine keys are present when applicable:
+   - `change_profile`
+   - `release_state`
+   - `transitional_exception_note` (required for pre-1.0 transitional)
+3. Run required validators:
+   - `bash .harmony/agency/_ops/scripts/validate/validate-agency.sh`
+   - `bash .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh`
+   - `bash .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict`
+   - `bash .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
+   - `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,agency,workflows,skills`
+4. Confirm release automation is healthy:
+   - `.github/workflows/release-please.yml`
+   - `release-please-config.json`
+   - `.release-please-manifest.json`
 
 ## Release
 

@@ -4,6 +4,15 @@
 
 Engine protocol/schema changes MUST use explicit versioning and MUST NOT silently redefine existing versions.
 
+## Governance Linkage
+
+Every protocol-affecting change must carry an execution-profile receipt with:
+
+- `change_profile`
+- `release_state`
+- hard-gate facts
+- `transitional_exception_note` when required
+
 ## Rules
 
 - New incompatible protocol behavior requires a new version identifier.
@@ -29,7 +38,8 @@ Engine protocol/schema changes MUST use explicit versioning and MUST NOT silentl
    - update `/.harmony/harmony.yml` version contract (if harness-facing), and
    - update `/.harmony/orchestration/runtime/workflows/meta/migrate-harness/` migration instructions.
 2. Promotion MUST be blocked until local and CI validators enforce the new version contract.
-3. Rollback for version cutover follows clean-break migration policy: full revert of the promotion only.
+3. Promotion MUST include `Profile Selection Receipt`, `Implementation Plan`, `Impact Map`, `Compliance Receipt`, and `Exceptions/Escalations`.
+4. In pre-1.0 mode, transitional protocol rollout requires a complete `transitional_exception_note`.
 
 ## Deterministic Unsupported-Version Path
 

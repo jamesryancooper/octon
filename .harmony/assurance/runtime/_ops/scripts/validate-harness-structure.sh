@@ -1800,6 +1800,178 @@ check_audit_convergence_guardrail() {
   fi
 }
 
+check_execution_profile_governance_surfaces() {
+  local root_agents="$ROOT_DIR/AGENTS.md"
+  local migrations_readme="$HARMONY_DIR/cognition/practices/methodology/migrations/README.md"
+  local migrations_doctrine="$HARMONY_DIR/cognition/practices/methodology/migrations/doctrine.md"
+  local migrations_invariants="$HARMONY_DIR/cognition/practices/methodology/migrations/invariants.md"
+  local migrations_exceptions="$HARMONY_DIR/cognition/practices/methodology/migrations/exceptions.md"
+  local migrations_ci_gates="$HARMONY_DIR/cognition/practices/methodology/migrations/ci-gates.md"
+  local migration_template="$HARMONY_DIR/scaffolding/runtime/templates/migrations/template.clean-break-migration.md"
+  local migration_instructions="$HARMONY_DIR/agency/practices/clean-break-migration.instructions.md"
+  local migration_prompt="$HARMONY_DIR/scaffolding/practices/prompts/clean-break-migration.prompt.md"
+  local workflows_readme="$HARMONY_DIR/orchestration/runtime/workflows/README.md"
+  local pr_template="$ROOT_DIR/.github/PULL_REQUEST_TEMPLATE.md"
+  local pr_template_kaizen="$ROOT_DIR/.github/PULL_REQUEST_TEMPLATE/kaizen.md"
+  local pr_standards="$HARMONY_DIR/agency/practices/pull-request-standards.md"
+  local compatibility_policy="$HARMONY_DIR/engine/governance/compatibility-policy.md"
+  local protocol_versioning="$HARMONY_DIR/engine/governance/protocol-versioning.md"
+  local release_gates="$HARMONY_DIR/engine/governance/release-gates.md"
+  local release_runbook="$HARMONY_DIR/engine/practices/release-runbook.md"
+  local local_dev_validation="$HARMONY_DIR/engine/practices/local-dev-validation.md"
+
+  require_file "$root_agents"
+  require_file "$migrations_readme"
+  require_file "$migrations_doctrine"
+  require_file "$migrations_invariants"
+  require_file "$migrations_exceptions"
+  require_file "$migrations_ci_gates"
+  require_file "$migration_template"
+  require_file "$migration_instructions"
+  require_file "$migration_prompt"
+  require_file "$workflows_readme"
+  require_file "$pr_template"
+  require_file "$pr_template_kaizen"
+  require_file "$pr_standards"
+  require_file "$compatibility_policy"
+  require_file "$protocol_versioning"
+  require_file "$release_gates"
+  require_file "$release_runbook"
+  require_file "$local_dev_validation"
+
+  if ! grep -Fq 'change_profile' "$migrations_doctrine"; then
+    fail "migration doctrine missing change_profile governance key"
+  fi
+  if ! grep -Fq 'release_state' "$migrations_doctrine"; then
+    fail "migration doctrine missing release_state governance key"
+  fi
+  if ! grep -Fq 'transitional_exception_note' "$migrations_doctrine"; then
+    fail "migration doctrine missing transitional_exception_note governance key"
+  fi
+
+  if ! grep -Fq 'Profile Selection Receipt' "$migrations_readme"; then
+    fail "migration README missing required section: Profile Selection Receipt"
+  fi
+  if ! grep -Fq 'Implementation Plan' "$migrations_readme"; then
+    fail "migration README missing required section: Implementation Plan"
+  fi
+  if ! grep -Fq 'Impact Map (code, tests, docs, contracts)' "$migrations_readme"; then
+    fail "migration README missing required section: Impact Map (code, tests, docs, contracts)"
+  fi
+  if ! grep -Fq 'Compliance Receipt' "$migrations_readme"; then
+    fail "migration README missing required section: Compliance Receipt"
+  fi
+  if ! grep -Fq 'Exceptions/Escalations' "$migrations_readme"; then
+    fail "migration README missing required section: Exceptions/Escalations"
+  fi
+
+  if ! grep -Fq 'Profile Selection Receipt' "$migration_template"; then
+    fail "migration template missing section: Profile Selection Receipt"
+  fi
+  if ! grep -Fq 'Implementation Plan' "$migration_template"; then
+    fail "migration template missing section: Implementation Plan"
+  fi
+  if ! grep -Fq 'Impact Map (code, tests, docs, contracts)' "$migration_template"; then
+    fail "migration template missing section: Impact Map (code, tests, docs, contracts)"
+  fi
+  if ! grep -Fq 'Compliance Receipt' "$migration_template"; then
+    fail "migration template missing section: Compliance Receipt"
+  fi
+  if ! grep -Fq 'Exceptions/Escalations' "$migration_template"; then
+    fail "migration template missing section: Exceptions/Escalations"
+  fi
+  if ! grep -Fq 'change_profile' "$migration_template"; then
+    fail "migration template missing change_profile key"
+  fi
+  if ! grep -Fq 'release_state' "$migration_template"; then
+    fail "migration template missing release_state key"
+  fi
+  if ! grep -Fq 'transitional_exception_note' "$migration_template"; then
+    fail "migration template missing transitional_exception_note key"
+  fi
+
+  if ! grep -Fq 'change_profile' "$migration_instructions"; then
+    fail "agency migration instructions missing change_profile key"
+  fi
+  if ! grep -Fq 'transitional_exception_note' "$migration_instructions"; then
+    fail "agency migration instructions missing transitional_exception_note key"
+  fi
+
+  if ! grep -Fq 'change_profile' "$migration_prompt"; then
+    fail "migration prompt missing change_profile key"
+  fi
+  if ! grep -Fq 'transitional_exception_note' "$migration_prompt"; then
+    fail "migration prompt missing transitional_exception_note key"
+  fi
+
+  if ! grep -Fq '`execution_profile`' "$workflows_readme"; then
+    fail "workflows README missing execution_profile disambiguation"
+  fi
+  if ! grep -Fq '`core`' "$workflows_readme" || ! grep -Fq '`external-dependent`' "$workflows_readme"; then
+    fail "workflows README missing execution_profile allowed values (`core`, `external-dependent`)"
+  fi
+  if ! grep -Fq 'change_profile' "$workflows_readme"; then
+    fail "workflows README missing governance change_profile disambiguation"
+  fi
+
+  if ! grep -Fq 'Profile Selection Receipt' "$pr_template"; then
+    fail "PR template missing section: Profile Selection Receipt"
+  fi
+  if ! grep -Fq 'Implementation Plan' "$pr_template"; then
+    fail "PR template missing section: Implementation Plan"
+  fi
+  if ! grep -Fq 'Impact Map (code, tests, docs, contracts)' "$pr_template"; then
+    fail "PR template missing section: Impact Map (code, tests, docs, contracts)"
+  fi
+  if ! grep -Fq 'Compliance Receipt' "$pr_template"; then
+    fail "PR template missing section: Compliance Receipt"
+  fi
+  if ! grep -Fq 'Exceptions/Escalations' "$pr_template"; then
+    fail "PR template missing section: Exceptions/Escalations"
+  fi
+
+  if ! grep -Fq 'Profile Selection Receipt' "$pr_template_kaizen"; then
+    fail "Kaizen PR template missing section: Profile Selection Receipt"
+  fi
+  if ! grep -Fq 'Implementation Plan' "$pr_template_kaizen"; then
+    fail "Kaizen PR template missing section: Implementation Plan"
+  fi
+  if ! grep -Fq 'Impact Map (code, tests, docs, contracts)' "$pr_template_kaizen"; then
+    fail "Kaizen PR template missing section: Impact Map (code, tests, docs, contracts)"
+  fi
+  if ! grep -Fq 'Compliance Receipt' "$pr_template_kaizen"; then
+    fail "Kaizen PR template missing section: Compliance Receipt"
+  fi
+  if ! grep -Fq 'Exceptions/Escalations' "$pr_template_kaizen"; then
+    fail "Kaizen PR template missing section: Exceptions/Escalations"
+  fi
+
+  if ! grep -Fq 'Profile Selection Receipt' "$pr_standards"; then
+    fail "pull-request-standards missing profile receipt requirement"
+  fi
+  if ! grep -Fq 'change_profile' "$pr_standards"; then
+    fail "pull-request-standards missing change_profile requirement"
+  fi
+
+  if ! grep -Fq 'change_profile' "$compatibility_policy"; then
+    fail "engine compatibility policy missing change_profile governance linkage"
+  fi
+  if ! grep -Fq 'release_state' "$protocol_versioning"; then
+    fail "engine protocol versioning missing release_state governance linkage"
+  fi
+  if ! grep -Fq 'Profile Selection Receipt' "$release_gates"; then
+    fail "engine release gates missing profile receipt gate"
+  fi
+  if ! grep -Fq 'change_profile' "$release_runbook"; then
+    fail "engine release runbook missing change_profile release checklist requirement"
+  fi
+  if ! grep -Fq 'change_profile' "$local_dev_validation"; then
+    fail "engine local-dev validation missing change_profile checks"
+  fi
+
+  pass "execution-profile governance surfaces validated"
+}
+
 main() {
   echo "== Harness Structure Validation =="
 
@@ -1837,6 +2009,7 @@ main() {
   check_deprecated_scaffolding_paths
   check_alignment_guardrail
   check_audit_convergence_guardrail
+  check_execution_profile_governance_surfaces
 
   echo
   echo "Validation summary: errors=$errors warnings=$warnings"

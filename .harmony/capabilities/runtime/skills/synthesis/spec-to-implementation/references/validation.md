@@ -5,52 +5,41 @@ description: Acceptance criteria for the spec-to-implementation skill.
 
 # Validation Reference
 
-## Acceptance Criteria
+## Required Contract Checks
 
-### Requirements Coverage
+1. `Profile Selection Receipt` exists before implementation details.
+2. Exactly one `change_profile` is selected.
+3. `release_state` is derived from semantic version inputs.
+4. Hard-gate fact collection is explicit (downtime, coordination, migration/backfill, rollback, blast radius, compliance).
+5. Pre-1.0 transitional selection includes complete `transitional_exception_note`.
+6. Tie-break ambiguity is escalated (not silently resolved).
 
-| Check | Requirement |
-| ----- | ----------- |
-| Every requirement mapped | Each requirement from spec appears in at least one task |
-| Traceability table complete | Requirements → Tasks mapping is explicit |
-| No orphan tasks | Every task traces back to a requirement |
+## Required Output Sections
 
-### Task Quality
+Plans must include all top-level sections:
 
-| Check | Requirement |
-| ----- | ----------- |
-| Independently deliverable | Each task can produce a testable result |
-| Has acceptance criteria | Derived from spec, not invented |
-| Has complexity estimate | S, M, or L |
-| Has domain assignment | database, api, frontend, infra, etc. |
-| Dependencies explicit | Listed or "none" |
+- `Profile Selection Receipt`
+- `Implementation Plan`
+- `Impact Map (code, tests, docs, contracts)`
+- `Compliance Receipt`
+- `Exceptions/Escalations`
 
-### Plan Completeness
+## Requirements Coverage
 
-- [ ] Executive summary present
-- [ ] Requirements traceability table
-- [ ] Task table with all required fields
-- [ ] Dependency diagram
-- [ ] Milestone definitions
-- [ ] Risk register
-- [ ] Assumptions and open questions
-- [ ] Human review step completed
+- Every requirement from the spec maps to at least one implementation task.
+- Every task maps back to at least one requirement.
+- No orphan tasks and no orphan requirements.
 
-### Quality Gates
+## Task Quality
 
-| Gate | Pass Condition |
-| ---- | -------------- |
-| No untraced requirements | Every spec requirement maps to tasks |
-| No circular dependencies | Dependency graph is acyclic |
-| Milestones are incremental | Each milestone produces working software |
-| Risks have mitigations | Every identified risk has a mitigation strategy |
+- Tasks are independently deliverable and testable.
+- Task dependencies are explicit and acyclic.
+- Risks and mitigations are documented.
 
 ## Verification Checklist
 
-1. Plan exists at `.harmony/output/plans/YYYY-MM-DD-*-implementation-plan.md`
-2. Every spec requirement is covered by at least one task
-3. No circular dependencies in task graph
-4. Each milestone delivers a testable increment
-5. Assumptions are listed explicitly
-6. Plan was presented for human review
-7. Log exists at `_ops/state/logs/spec-to-implementation/{{run_id}}.md`
+1. Plan exists at `.harmony/output/plans/YYYY-MM-DD-*-implementation-plan.md`.
+2. Profile receipt contains `change_profile`, `release_state`, and hard-gate facts.
+3. If `pre-1.0` + `transitional`, exception note contains: `rationale`, `risks`, `owner`, `target_removal_date`.
+4. Required five top-level sections are present.
+5. Log exists at `_ops/state/logs/spec-to-implementation/{{run_id}}.md`.

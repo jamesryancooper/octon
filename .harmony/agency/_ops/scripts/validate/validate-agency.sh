@@ -4,15 +4,19 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 AGENCY_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 ROOT_DIR="$(cd -- "$AGENCY_DIR/.." && pwd)"
+REPO_ROOT="$(cd -- "$ROOT_DIR/.." && pwd)"
 
 MANIFEST="$AGENCY_DIR/manifest.yml"
 AGENTS_REG="$AGENCY_DIR/runtime/agents/registry.yml"
 ASSISTANTS_REG="$AGENCY_DIR/runtime/assistants/registry.yml"
 TEAMS_REG="$AGENCY_DIR/runtime/teams/registry.yml"
+ROOT_AGENTS_FILE="$REPO_ROOT/AGENTS.md"
 CONSTITUTION_FILE="$AGENCY_DIR/governance/CONSTITUTION.md"
 DELEGATION_FILE="$AGENCY_DIR/governance/DELEGATION.md"
 MEMORY_FILE="$AGENCY_DIR/governance/MEMORY.md"
 BOUNDARY_FILE="$AGENCY_DIR/governance/delegation-boundaries-v1.yml"
+ARCHITECT_AGENT_FILE="$AGENCY_DIR/runtime/agents/architect/AGENT.md"
+ARCHITECT_SOUL_FILE="$AGENCY_DIR/runtime/agents/architect/SOUL.md"
 
 errors=0
 warnings=0
@@ -278,6 +282,129 @@ check_main_branch_deletion_policy() {
   else
     fail "delegation-boundaries-v1.yml missing DB-005 block rule for main-branch deletion"
   fi
+}
+
+check_execution_profile_governance_contract() {
+  if [[ ! -f "$ROOT_AGENTS_FILE" ]]; then
+    fail "missing file: $ROOT_AGENTS_FILE"
+  else
+    pass "found file: ${ROOT_AGENTS_FILE#$REPO_ROOT/}"
+  fi
+
+  if ! grep -q '^## Execution Profile Governance (Required)' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing '## Execution Profile Governance (Required)' section"
+  fi
+  if ! grep -Fq 'change_profile' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing change_profile governance key"
+  fi
+  if ! grep -Fq 'release_state' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing release_state governance key"
+  fi
+  if ! grep -Fq 'transitional_exception_note' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing transitional_exception_note governance key"
+  fi
+  if ! grep -Fq 'Profile Selection Receipt' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing required section: Profile Selection Receipt"
+  fi
+  if ! grep -Fq 'Implementation Plan' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing required section: Implementation Plan"
+  fi
+  if ! grep -Fq 'Impact Map (code, tests, docs, contracts)' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing required section: Impact Map (code, tests, docs, contracts)"
+  fi
+  if ! grep -Fq 'Compliance Receipt' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing required section: Compliance Receipt"
+  fi
+  if ! grep -Fq 'Exceptions/Escalations' "$ROOT_AGENTS_FILE"; then
+    fail "AGENTS.md missing required section: Exceptions/Escalations"
+  fi
+
+  if ! grep -q '^## Execution Profile Governance' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing execution profile governance section"
+  fi
+  if ! grep -Fq 'change_profile' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing change_profile rule"
+  fi
+  if ! grep -Fq 'tie-break' "$CONSTITUTION_FILE"; then
+    fail "CONSTITUTION.md missing profile tie-break rule"
+  fi
+
+  if ! grep -Fq 'change_profile' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing change_profile delegation packet requirement"
+  fi
+  if ! grep -Fq 'profile tie-break ambiguity' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing profile tie-break escalation trigger"
+  fi
+  if ! grep -Fq 'Profile Selection Receipt' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing required output section: Profile Selection Receipt"
+  fi
+  if ! grep -Fq 'Impact Map (code, tests, docs, contracts)' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing required output section: Impact Map (code, tests, docs, contracts)"
+  fi
+  if ! grep -Fq 'Compliance Receipt' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing required output section: Compliance Receipt"
+  fi
+  if ! grep -Fq 'Exceptions/Escalations' "$DELEGATION_FILE"; then
+    fail "DELEGATION.md missing required output section: Exceptions/Escalations"
+  fi
+
+  if ! grep -Fq 'change_profile' "$MEMORY_FILE"; then
+    fail "MEMORY.md missing change_profile retention requirement"
+  fi
+  if ! grep -Fq 'release_state' "$MEMORY_FILE"; then
+    fail "MEMORY.md missing release_state retention requirement"
+  fi
+  if ! grep -Fq 'transitional_exception_note' "$MEMORY_FILE"; then
+    fail "MEMORY.md missing transitional_exception_note retention requirement"
+  fi
+
+  if [[ ! -f "$ARCHITECT_AGENT_FILE" ]]; then
+    fail "missing file: $ARCHITECT_AGENT_FILE"
+  else
+    pass "found file: ${ARCHITECT_AGENT_FILE#$ROOT_DIR/}"
+  fi
+  if [[ ! -f "$ARCHITECT_SOUL_FILE" ]]; then
+    fail "missing file: $ARCHITECT_SOUL_FILE"
+  else
+    pass "found file: ${ARCHITECT_SOUL_FILE#$ROOT_DIR/}"
+  fi
+  if ! grep -Fq 'change_profile' "$ARCHITECT_AGENT_FILE"; then
+    fail "architect AGENT.md missing change_profile requirement"
+  fi
+  if ! grep -Fq 'Profile Selection Receipt' "$ARCHITECT_AGENT_FILE"; then
+    fail "architect AGENT.md missing required section: Profile Selection Receipt"
+  fi
+  if ! grep -Fq 'Impact Map (code, tests, docs, contracts)' "$ARCHITECT_AGENT_FILE"; then
+    fail "architect AGENT.md missing required section: Impact Map (code, tests, docs, contracts)"
+  fi
+  if ! grep -Fq 'Compliance Receipt' "$ARCHITECT_AGENT_FILE"; then
+    fail "architect AGENT.md missing required section: Compliance Receipt"
+  fi
+  if ! grep -Fq 'Exceptions/Escalations' "$ARCHITECT_AGENT_FILE"; then
+    fail "architect AGENT.md missing required section: Exceptions/Escalations"
+  fi
+  if ! grep -Fq 'profile-selection tie-break ambiguity' "$ARCHITECT_SOUL_FILE"; then
+    fail "architect SOUL.md missing profile tie-break ambiguity escalation stance"
+  fi
+
+  if ! grep -Fq 'execution-profile-governance' "$AGENTS_REG"; then
+    fail "agents registry missing execution-profile-governance capability flag"
+  fi
+
+  if awk '
+    $0 ~ /boundary_id:[[:space:]]*"DB-006"/ {in_block=1; next}
+    in_block && /^  - boundary_id:/ {in_block=0}
+    in_block && /decision_class:[[:space:]]*"execution-profile-tie-break"/ {class_ok=1}
+    in_block && /condition:/ && /atomic/ && /transitional/ {condition_ok=1}
+    in_block && /route:[[:space:]]*"escalate"/ {route_ok=1}
+    END {exit !(class_ok && condition_ok && route_ok)}
+  ' "$BOUNDARY_FILE"; then
+    pass "delegation boundaries include DB-006 execution-profile tie-break escalation rule"
+  else
+    fail "delegation-boundaries-v1.yml missing DB-006 execution-profile tie-break escalation rule"
+  fi
+
+  pass "execution-profile governance contract validated"
 }
 
 check_agent_registry_contract_fields() {
@@ -551,6 +678,7 @@ main() {
   check_manifest_links
   check_cross_agent_contracts
   check_main_branch_deletion_policy
+  check_execution_profile_governance_contract
 
   check_unique_ids "$AGENTS_REG" "agents registry"
   check_unique_ids "$ASSISTANTS_REG" "assistants registry"

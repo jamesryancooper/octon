@@ -61,6 +61,7 @@ Do not edit manually. Update ADR files and `runtime/decisions/index.yml` instead
 | ADR-043 | Accepted | 2026-02-24 | ADR 043: Principles Charter Override Enforcement and Audit | `../decisions/043-principles-charter-override-enforcement-and-audit.md` |
 | ADR-044 | Accepted | 2026-02-25 | ADR 044: Intent Contract and Boundary Enforcement | `../decisions/044-intent-contract-and-boundary-enforcement.md` |
 | ADR-045 | Accepted | 2026-02-25 | ADR 045: Capability Map and Alignment Drift Gates | `../decisions/045-capability-map-and-alignment-drift-gates.md` |
+| ADR-046 | Accepted | 2026-03-04 | ADR 046: Execution-Profile Governance Cutover Contract | `../decisions/046-execution-profile-governance-cutover-contract.md` |
 
 ## Update Procedure
 

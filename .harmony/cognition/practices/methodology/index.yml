@@ -85,7 +85,7 @@ files:
 
   - id: migration-governance
     path: migrations/README.md
-    summary: Clean-break migration doctrine and policy references.
+    summary: Profile-governed migration doctrine and policy references.
     when: Before planning or executing migration work.
 
   - id: migration-governance-index

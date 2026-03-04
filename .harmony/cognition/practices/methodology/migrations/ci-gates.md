@@ -1,53 +1,52 @@
 ---
-title: CI Gates for Clean-Break Migrations
-description: Required CI controls that prevent reintroduction of legacy systems after clean-break migrations.
+title: CI Gates for Profile-Governed Migrations
+description: Required CI controls that enforce profile selection, receipt completeness, and final-state migration convergence.
 ---
 
-# CI Gates for Clean-Break Migrations
+# CI Gates for Profile-Governed Migrations
 
 ## Purpose
 
-Prevent reintroduction of legacy systems after clean-break migrations.
+Prevent profile-selection drift and incomplete migration governance execution.
 
 ## Required Gates (MUST)
 
-1. Legacy identifier banlist
+1. Profile selection receipt presence
+   - CI must fail when required `Profile Selection Receipt` fields are missing in migration/governance plans.
+2. Release-state and profile consistency
+   - CI must fail when `release_state` and selected `change_profile` violate selection rules.
+   - Pre-1.0 transitional selection without required `transitional_exception_note` must fail.
+3. Required plan sections
+   - CI must fail when required top-level sections are missing:
+     - `Profile Selection Receipt`
+     - `Implementation Plan`
+     - `Impact Map (code, tests, docs, contracts)`
+     - `Compliance Receipt`
+     - `Exceptions/Escalations`
+4. Transitional boundedness
+   - CI must fail when `change_profile=transitional` and any are missing:
+     - phases
+     - phase exit criteria
+     - final decommission/removal date
+5. Legacy identifier banlist
    - CI must fail if banned legacy identifiers or paths reappear.
-   - The banlist must be updated as part of each migration.
-2. Legacy entrypoint removal
-   - CI must fail if legacy commands, APIs, or routes remain registered.
-3. Contract enforcement
-   - CI must fail if schemas or manifests accept legacy keys or legacy enum variants.
-4. No dual-mode logic
-   - CI should detect old or new branching patterns through targeted checks.
-5. Migration record surface split
+6. Migration record surface split
    - CI must fail if dated migration records appear under:
      - `/.harmony/cognition/practices/methodology/migrations/`
    - CI must require runtime migration discovery index at:
      - `/.harmony/cognition/runtime/migrations/index.yml`
-6. Migration evidence bundle contract
+7. Migration evidence bundle contract
    - CI must fail if flat migration evidence files appear at:
      - `/.harmony/output/reports/migrations/*.md` (date-prefixed evidence file form)
    - CI must fail if any migration evidence bundle directory is missing required files:
      - `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, `inventory.md`
-7. Context governance clean-break enforcement
-   - CI must fail if deprecated compatibility aliases reappear:
-     - `operation.target.instruction_layers`
-     - `operation.target.context_acquisition`
-     - `operation.target.context_overhead_ratio`
-   - CI must fail if policy wrapper logic restores legacy receipt/digest fallback expressions:
-     - `latest_receipt // .receipt`
-     - `latest_digest // .digest`
-   - CI must run harness checks that enforce instruction-layer and context-acquisition gates:
-     - `validate-developer-context-policy.sh`
-     - `validate-context-overhead-budget.sh`
 
 ## Implementation Options (Non-Prescriptive)
 
-- Grep-based checks for banned tokens and paths
-- Schema validation tests
-- Registry or manifest validation
-- Compile-time denial lists where applicable
+- Grep-based checks for required headings and keys
+- Schema validation tests for profile receipt fields
+- Registry/template validation for section contracts
+- Contract-aware policy checks in validator scripts
 
 ## Required Repository Artifact
 

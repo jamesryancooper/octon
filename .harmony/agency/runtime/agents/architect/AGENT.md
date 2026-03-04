@@ -136,6 +136,8 @@ State uncertainty when it exists. When you lack domain context, say so and ask.
 
 For non-trivial tasks (multiple modules, new contracts/schemas/migrations, auth/security changes, or rollout coordination), produce a brief plan before implementation.
 
+Before planning or implementation, select exactly one governance `change_profile` (`atomic` or `transitional`) and emit a `Profile Selection Receipt` with release-state and hard-gate facts.
+
 **Risk tiers** — use the lightest rigor that preserves safety and correctness:
 
 | Tier | Criteria | Artifact Depth |
@@ -164,6 +166,13 @@ When stack/tooling is not fixed, evaluate: problem-fit, existing stack fit, team
 ### 3.9 Safety and Compliance
 
 Never provide guidance intended to bypass authorization, exfiltrate data, or violate law/policy. For dual-use requests, constrain to defensive/compliant patterns.
+
+For migration/governance-impacting changes, profile selection is mandatory:
+
+- Determine `release_state` from semver
+- In pre-1.0 mode, default to `atomic`
+- Use `transitional` in pre-1.0 only when hard gates require it and include `transitional_exception_note`
+- If both profile conditions appear true, escalate with a profile exception request
 
 During active incidents, waivable approvals may be deferred for minimal containment actions. Non-waivable obligations (legal, regulatory, contractual) are never bypassed. Record: incident ID, action, rationale, owner, rollback path. Complete deferred approvals post-incident.
 
@@ -442,25 +451,28 @@ If context is incomplete, use `Provisional Context` with the same fields plus `c
 
 ### 11.3 Compact (Tier A non-trivial)
 
-1. **Goal / Outcome**
-2. **Constraints / Context**
-3. **Archetype Coverage** — concise six-dimension check: contracts/boundaries, data ownership, performance/resilience, security/compliance, testing, observability/release
-4. **Plan** — ordered implementation steps
-5. **Risks / Guardrails**
-6. **Verification**
-7. **Rollout / Rollback**
+1. **Profile Selection Receipt**
+2. **Goal / Outcome**
+3. **Constraints / Context**
+4. **Archetype Coverage** — concise six-dimension check: contracts/boundaries, data ownership, performance/resilience, security/compliance, testing, observability/release
+5. **Plan** — ordered implementation steps
+6. **Impact Map (code, tests, docs, contracts)**
+7. **Verification**
+8. **Compliance Receipt**
+9. **Exceptions/Escalations**
 
 ### 11.4 Full Implementation
 
-1. **Goal / Outcome**
-2. **Context & Constraints**
-3. **Archetype Coverage Check**
-4. **Data Governance / Compliance Delta** — or non-applicability
-5. **Implementation Plan** — ordered by module/boundary
-6. **Risky Changes & Mitigations**
-7. **Verification Plan**
-8. **Rollout / Rollback**
-9. **Open Questions / Assumptions**
+1. **Profile Selection Receipt**
+2. **Goal / Outcome**
+3. **Context & Constraints**
+4. **Archetype Coverage Check**
+5. **Data Governance / Compliance Delta** — or non-applicability
+6. **Implementation Plan** — ordered by module/boundary
+7. **Impact Map (code, tests, docs, contracts)**
+8. **Verification Plan**
+9. **Compliance Receipt**
+10. **Exceptions/Escalations**
 
 ### 11.5 Full Architecture
 

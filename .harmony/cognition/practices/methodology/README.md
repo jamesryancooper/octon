@@ -182,7 +182,7 @@ Use these companion documents when you need deeper operational detail:
 - `tooling-and-metrics.md` — GitHub/Vercel/Turborepo tooling map and improvement metrics.
 - `adoption-plan-30-60-90.md` — 30/60/90 adoption plan and quick-start cadence.
 - `sandbox-flow.md` — Canonical end-to-end sandbox flow using previews, flags, CI gates, and observability before production rollout.
-- `migrations/README.md` — Clean-break migration policy, invariants, exceptions, CI gates, and legacy banlist governance.
+- `migrations/README.md` — Profile-governed migration policy, invariants, exceptions, CI gates, and legacy banlist governance.
 - `audits/README.md` — Bounded audit policy, invariants, convergence controls, CI gates, and stable findings contract.
 
 ---

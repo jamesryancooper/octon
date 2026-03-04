@@ -7,28 +7,32 @@ description: Human review checkpoints for spec-to-implementation.
 
 ## Review Checkpoint
 
-The plan must be presented to a human before being considered final.
+The plan must be presented for human review before finalization.
 
-### What to Present
+## What to Present
 
-1. **Executive summary** — 2-3 sentences on scope and approach
-2. **Key decisions** — Architectural choices that affect the plan
-3. **Assumptions** — Listed with `[ASSUMPTION]` tags
-4. **Open questions** — Items that need human input
-5. **Risk highlights** — Top 3 risks with proposed mitigations
+1. `Profile Selection Receipt` summary:
+   - selected `change_profile`
+   - derived `release_state`
+   - hard-gate facts and rationale
+2. `Implementation Plan` summary:
+   - milestones
+   - highest-risk tasks
+   - dependency ordering
+3. `Impact Map (code, tests, docs, contracts)` coverage.
+4. `Compliance Receipt` status.
+5. `Exceptions/Escalations` list.
 
-### Review Outcomes
+## Review Outcomes
 
 | Outcome | Next Step |
-|---------|-----------|
-| Approved | Plan is final; write to output |
-| Revisions requested | Return to appropriate phase with feedback |
-| Questions answered | Incorporate answers, regenerate affected sections |
-| Scope change | Re-parse spec with new constraints |
+| --- | --- |
+| Approved | Finalize and write artifacts |
+| Revisions requested | Return to relevant phase and regenerate |
+| Escalation required | Stop and route exception/escalation request |
 
-### When NOT to Proceed Without Review
+## Must Escalate (Do Not Auto-Resolve)
 
-- Spec has more than 3 ambiguities
-- Plan exceeds 20 tasks
-- Architectural decisions have >2 valid approaches
-- Risk register contains HIGH-impact items
+- profile tie-break ambiguity where both profiles appear required.
+- Pre-1.0 transitional request without complete exception note.
+- Semver source mismatch between `version.txt` and release manifest.

@@ -111,8 +111,28 @@ run_harness() {
 
   run_step \
     "Validate context-governance clean-break CI gate doctrine entries" \
-    rg -n "Context governance clean-break|instruction-layer|context-acquisition|context-overhead" \
+    rg -n "Context governance clean-break|instruction-layer|context-acquisition|context-overhead|Profile Selection Receipt|change_profile|release_state|transitional_exception_note" \
       "$HARMONY_DIR/cognition/practices/methodology/migrations/ci-gates.md"
+
+  run_step \
+    "Validate execution-profile governance doctrine entries" \
+    rg -n "change_profile|release_state|transitional_exception_note|Profile Selection Receipt|Impact Map|Compliance Receipt|Exceptions/Escalations" \
+      "$HARMONY_DIR/cognition/practices/methodology/migrations/README.md" \
+      "$HARMONY_DIR/cognition/practices/methodology/migrations/doctrine.md" \
+      "$HARMONY_DIR/cognition/practices/methodology/migrations/ci-gates.md" \
+      "$HARMONY_DIR/scaffolding/runtime/templates/migrations/template.clean-break-migration.md"
+
+  run_step \
+    "Validate execution-profile governance PR contract entries" \
+    rg -n "Profile Selection Receipt|Implementation Plan|Impact Map \\(code, tests, docs, contracts\\)|Compliance Receipt|Exceptions/Escalations|change_profile" \
+      "$HARMONY_DIR/agency/practices/pull-request-standards.md" \
+      "$HARMONY_DIR/../.github/PULL_REQUEST_TEMPLATE.md" \
+      "$HARMONY_DIR/../.github/PULL_REQUEST_TEMPLATE/kaizen.md"
+
+  run_step \
+    "Validate workflow execution_profile and governance change_profile disambiguation" \
+    rg -n "execution_profile|core\\|external-dependent|change_profile" \
+      "$HARMONY_DIR/orchestration/runtime/workflows/README.md"
 
   run_step \
     "Validate bounded-audit convergence contract" \

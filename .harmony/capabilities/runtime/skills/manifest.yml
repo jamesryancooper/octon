@@ -935,7 +935,7 @@ skills:
     display_name: Spec to Implementation
     group: synthesis
     path: synthesis/spec-to-implementation/
-    summary: "Transform a product spec into staged implementation tasks with dependency ordering and acceptance criteria."
+    summary: "Transform a product spec into staged implementation plans with explicit change-profile receipts and compliance sections."
     status: active
     tags:
       - planning
