@@ -26,6 +26,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - id: filesystem_scope
+        name: Detect filesystem interface runtime impact
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            filesystem_runtime:
+              - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+              - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+              - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
+              - '.harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
+              - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-*.sh'
+              - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+              - '.harmony/capabilities/runtime/services/manifest.yml'
+              - '.harmony/capabilities/runtime/services/registry.yml'
+              - '.harmony/capabilities/runtime/commands/**'
+              - '.harmony/cognition/runtime/context/index.yml'
+              - '.harmony/engine/runtime/**'
+              - '.github/workflows/filesystem-interfaces-runtime.yml'
+              - '.github/workflows/filesystem-interfaces-perf-regression.yml'
+              - '.github/workflows/harness-self-containment.yml'
 
       - name: Validate harness structure contract
         run: |
@@ -48,9 +71,15 @@ jobs:
           .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
 
       - name: Validate filesystem interface runtime wiring
+        if: steps.filesystem_scope.outputs.filesystem_runtime == 'true'
         run: |
           chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
           .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+
+      - name: Skip filesystem interface runtime wiring (no relevant changes)
+        if: steps.filesystem_scope.outputs.filesystem_runtime != 'true'
+        run: |
+          echo "No filesystem runtime-impacting changes detected; skipping filesystem wiring validation step."
 
       - name: Report validation failure
         if: failure()
