@@ -33,11 +33,13 @@ Default PR execution in Harmony is autonomy-first:
 1. Open early as draft.
 2. Let triage apply `type:*`, `area:*`, and `risk:*`.
 3. Move to ready when policy and required checks are green.
-4. Use autonomous squash merge for eligible low-risk PRs.
+4. Use autonomous squash merge for eligible PRs.
 
-Human check-ins are exception-based:
+Human check-ins are exception-based and intentionally narrow:
 
 - High-impact path changes must carry explicit `accept:human` before merge.
+- Dependabot major/unknown version jumps must carry explicit `accept:human`.
+- `autonomy:no-automerge` is a manual opt-out from autonomous merging.
 - `accept:human` is a policy acknowledgement, not a substitute for failing CI.
 - AI-gate waiver requires both `ai-gate:waive` and `accept:human`.
 

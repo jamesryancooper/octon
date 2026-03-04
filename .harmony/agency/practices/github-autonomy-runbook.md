@@ -1,6 +1,6 @@
 ---
 title: GitHub Autonomy Runbook
-description: Operator runbook for PR triage, autonomy policy, and autonomous low-risk merges in GitHub Actions.
+description: Operator runbook for PR triage, autonomy policy, and autonomous merges in GitHub Actions.
 ---
 
 # GitHub Autonomy Runbook
@@ -70,7 +70,7 @@ Explicitly keep these at `No access` for this workflow:
 - `Workflows`
 - `Administration`
 
-`Workflows` permission is not required for low-risk autonomous merging.
+`Workflows` permission is not required for autonomous merging.
 
 ---
 
@@ -121,7 +121,7 @@ Waiver contract:
 
 ## Repository Preconditions
 
-Before expecting autonomous low-risk merges:
+Before expecting autonomous merges:
 
 1. `AUTONOMY_AUTO_MERGE_ENABLED=true` is set as a repository variable.
 2. Main branch ruleset is active with required checks and PR-first merge.
@@ -131,6 +131,14 @@ Before expecting autonomous low-risk merges:
    `.harmony/agency/practices/standards/github-control-plane-contract.json`.
 6. (Optional) `AUTONOMY_AUTO_CLOSE_ENABLED=true` if stale draft auto-close is desired.
 7. (Optional) `AUTONOMY_ATTENTION_AFTER_HOURS=<n>` to tune attention indicator threshold.
+
+Human-review exceptions (default policy):
+
+1. PR carries explicit `accept:human`.
+2. PR carries explicit `autonomy:no-automerge`.
+3. PR head branch matches `exp/*`.
+4. PR touches high-impact governance/control-plane paths (requires `accept:human`).
+5. Dependabot update is `major` or `unknown` semver transition (requires `accept:human`).
 
 Useful verification commands:
 
@@ -195,7 +203,7 @@ GitHub Actions dependency updates are split into two lanes:
 
 - Safe lane (autonomous): `semver-patch` and `semver-minor`
   - Grouped into one weekly Dependabot PR.
-  - Triaged to `risk:low` and `autonomy:auto-merge` when policy is satisfied.
+  - Triaged to `autonomy:auto-merge` when policy is satisfied.
   - Merged autonomously by `pr-auto-merge.yml`.
 - Escalation lane (human): `semver-major` and unknown version transitions
   - Not auto-merged.

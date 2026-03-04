@@ -38,12 +38,15 @@ Default lane (autonomous):
 
 Guarded lane (rare human check-in):
 
-- High-impact changes require `accept:human` before merge.
+- High-impact governance/control-plane changes require `accept:human`.
+- Dependabot major/unknown version jumps require `accept:human`.
+- `autonomy:no-automerge` is a manual opt-out from autonomous merging.
 - Human check-in is metadata-level; enforcement still runs in CI/rulesets.
 
 Release lane:
 
 - `release-please` opens/updates release PRs and release metadata.
+- Release PRs follow the same auto-merge lane unless explicitly routed to human check-in.
 - Runtime binary publishing stays downstream.
 
 Dependency lane (Dependabot):

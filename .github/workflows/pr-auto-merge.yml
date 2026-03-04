@@ -104,7 +104,7 @@ jobs:
       GH_REPO: ${{ github.repository }}
       PR_NUMBER: ${{ matrix.pr_number }}
     steps:
-      - name: Enable auto-merge for eligible low-risk PRs (race-safe)
+      - name: Enable auto-merge for eligible PRs (race-safe)
         env:
           GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
@@ -128,7 +128,7 @@ jobs:
             jq -e --arg name "$name" 'any(.labels[]?; .name == $name)' <<<"${payload}" >/dev/null
           }
 
-          assert_low_risk_automerge_eligible() {
+          assert_automerge_eligible() {
             local payload="$1"
             local suffix="${2:-}"
 
@@ -158,11 +158,6 @@ jobs:
               exit 0
             fi
 
-            if [[ "${head_ref}" == release-please--* ]]; then
-              echo "Skipping: release-please branches are human-controlled${suffix}."
-              exit 0
-            fi
-
             if ! has_label "${payload}" "autonomy:auto-merge"; then
               echo "Skipping: autonomy:auto-merge label missing${suffix}."
               exit 0
@@ -170,16 +165,6 @@ jobs:
 
             if has_label "${payload}" "autonomy:no-automerge"; then
               echo "Skipping: autonomy:no-automerge label present${suffix}."
-              exit 0
-            fi
-
-            if ! has_label "${payload}" "risk:low"; then
-              echo "Skipping: risk:low label missing${suffix}."
-              exit 0
-            fi
-
-            if has_label "${payload}" "risk:med" || has_label "${payload}" "risk:high"; then
-              echo "Skipping: non-low risk label present${suffix}."
               exit 0
             fi
 
@@ -224,11 +209,11 @@ jobs:
             pr_json="$(pr_view)"
           fi
 
-          assert_low_risk_automerge_eligible "${pr_json}"
+          assert_automerge_eligible "${pr_json}"
 
-          # Revalidate autonomy/risk labels on latest state before merge polling.
+          # Revalidate lane labels on latest state before merge polling.
           pr_json="$(pr_view)"
-          assert_low_risk_automerge_eligible "${pr_json}" " on latest state"
+          assert_automerge_eligible "${pr_json}" " on latest state"
 
           if [[ "$(jq -r '.autoMergeRequest != null' <<<"${pr_json}")" == "true" ]]; then
             echo "Auto-merge is already enabled for PR #${PR_NUMBER}."
@@ -242,7 +227,7 @@ jobs:
           merged=false
           for _ in {1..120}; do
             pr_json="$(pr_view)"
-            assert_low_risk_automerge_eligible "${pr_json}" " during merge polling"
+            assert_automerge_eligible "${pr_json}" " during merge polling"
 
             if direct_merge_output="$(
               gh api \

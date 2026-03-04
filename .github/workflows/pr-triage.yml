@@ -70,6 +70,9 @@ jobs:
             const isDependabotSafeUpdate =
               isDependabotGithubActions &&
               (dependabotUpdateType === "minor" || dependabotUpdateType === "patch");
+            const dependabotHumanReviewRequired =
+              isDependabot &&
+              (dependabotUpdateType === "major" || dependabotUpdateType === "unknown");
 
             // Keep this label catalog minimal and aligned to this phase.
             const labelCatalog = {
@@ -228,18 +231,18 @@ jobs:
               desiredLabels.add("bot:dependabot");
             }
 
-            // Phase B autonomy lane:
-            // - Low-risk, non-draft PRs are auto-merge eligible unless explicitly opted out.
-            // - Everything else is labeled out of the autonomous lane.
+            // Default autonomous lane:
+            // - All non-draft PRs are auto-merge eligible unless explicit human
+            //   review is required or a manual no-auto label is present.
             const manualNoAuto = labels.has("autonomy:no-automerge");
+            const highImpactHumanRequired = isHighImpact && !isDependabotSafeUpdate;
+            const requiresHumanReview = highImpactHumanRequired || dependabotHumanReviewRequired;
             const isAutoMergeEligible =
               !pr.draft &&
-              desiredRisk === "risk:low" &&
               !headRef.startsWith("exp/") &&
-              !isReleasePlease &&
               !labels.has("accept:human") &&
               !manualNoAuto &&
-              (!isDependabot || isDependabotSafeUpdate);
+              !requiresHumanReview;
 
             const desiredAutonomy = isAutoMergeEligible ? "autonomy:auto-merge" : "autonomy:no-automerge";
             desiredLabels.add(desiredAutonomy);
@@ -307,8 +310,12 @@ jobs:
               core.info(`Dependabot github-actions update classified as '${dependabotUpdateType}'.`);
             }
 
-            if (isHighImpact && !isDependabotSafeUpdate) {
+            if (highImpactHumanRequired) {
               core.notice("High-impact change detected. Explicit 'accept:human' is required by autonomy policy before merge.");
+            }
+
+            if (dependabotHumanReviewRequired) {
+              core.notice("Dependabot major/unknown update detected. Explicit 'accept:human' is required by autonomy policy before merge.");
             }
 
             if (isAutoMergeEligible) {
