@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.0...harmony-v0.4.1) (2026-03-04)
+
+
+### Bug Fixes
+
+* **workflows:** remove github-script core redeclarations ([#63](https://github.com/jamesryancooper/harmony/issues/63)) ([6574a8d](https://github.com/jamesryancooper/harmony/commit/6574a8d66619ceec5157fe33ff676c9da8ec6480))
+
 ## [0.4.0](https://github.com/jamesryancooper/harmony/compare/harmony-v0.3.0...harmony-v0.4.0) (2026-03-04)
 
 
