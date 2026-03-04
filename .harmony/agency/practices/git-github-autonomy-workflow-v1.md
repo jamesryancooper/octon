@@ -131,11 +131,11 @@ Minimum control-plane expectations:
 
 For local flow:
 
-- `.harmony/agency/_ops/scripts/git-wt-new.sh`
-- `.harmony/agency/_ops/scripts/git-pr-open.sh`
-- `.harmony/agency/_ops/scripts/git-pr-ship.sh`
-- `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`
-- `.harmony/agency/_ops/scripts/sync-github-labels.sh`
+- `.harmony/agency/_ops/scripts/git/git-wt-new.sh`
+- `.harmony/agency/_ops/scripts/git/git-pr-open.sh`
+- `.harmony/agency/_ops/scripts/git/git-pr-ship.sh`
+- `.harmony/agency/_ops/scripts/git/git-pr-cleanup.sh`
+- `.harmony/agency/_ops/scripts/github/sync-github-labels.sh`
 
 For GitHub operations and drift remediation commands, use:
 

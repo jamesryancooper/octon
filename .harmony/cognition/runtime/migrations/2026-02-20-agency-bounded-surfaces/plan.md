@@ -102,7 +102,7 @@ description: Clean-break migration plan for separating agency runtime artifacts,
 ### C) CI Verification
 
 - [x] CI gate scripts updated to prevent legacy reintroduction:
-  - `/.harmony/agency/_ops/scripts/validate-agency.sh`
+  - `/.harmony/agency/_ops/scripts/validate/validate-agency.sh`
   - `/.harmony/assurance/_ops/scripts/validate-harness-structure.sh`
 
 ## 8) Definition of Done

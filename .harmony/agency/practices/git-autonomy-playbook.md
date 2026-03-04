@@ -7,13 +7,13 @@ description: Local operator playbook for autonomy-first Git and GitHub workflow 
 
 This playbook covers the local script lane for autonomy-first Git/GitHub flow:
 
-- `.harmony/agency/_ops/scripts/git-wt-new.sh`
-- `.harmony/agency/_ops/scripts/git-pr-open.sh`
-- `.harmony/agency/_ops/scripts/git-pr-ship.sh`
-- `.harmony/agency/_ops/scripts/git-autonomy-hooks-install.sh`
-- `.harmony/agency/_ops/scripts/git-autonomy-hooks-uninstall.sh`
-- `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`
-- `.harmony/agency/_ops/scripts/sync-github-labels.sh`
+- `.harmony/agency/_ops/scripts/git/git-wt-new.sh`
+- `.harmony/agency/_ops/scripts/git/git-pr-open.sh`
+- `.harmony/agency/_ops/scripts/git/git-pr-ship.sh`
+- `.harmony/agency/_ops/scripts/git/git-autonomy-hooks-install.sh`
+- `.harmony/agency/_ops/scripts/git/git-autonomy-hooks-uninstall.sh`
+- `.harmony/agency/_ops/scripts/git/git-pr-cleanup.sh`
+- `.harmony/agency/_ops/scripts/github/sync-github-labels.sh`
 
 Use this with [GitHub Autonomy Runbook](./github-autonomy-runbook.md) for token,
 permissions, and control-plane drift operations.
@@ -38,7 +38,7 @@ permissions, and control-plane drift operations.
 ### 1) Create a branch + worktree
 
 ```bash
-.harmony/agency/_ops/scripts/git-wt-new.sh \
+.harmony/agency/_ops/scripts/git/git-wt-new.sh \
   --type fix \
   --slug phase-e-local-autonomy-scripts
 ```
@@ -53,7 +53,7 @@ Behavior:
 ### 2) Commit, push, and open a draft PR
 
 ```bash
-.harmony/agency/_ops/scripts/git-pr-open.sh \
+.harmony/agency/_ops/scripts/git/git-pr-open.sh \
   --title "fix(github): tighten autonomy script defaults" \
   --summary "Adds safer defaults for local autonomy helper scripts." \
   --stage-all \
@@ -70,7 +70,7 @@ Behavior:
 ### 3) Label, ready, and request auto-merge
 
 ```bash
-.harmony/agency/_ops/scripts/git-pr-ship.sh --accept-human
+.harmony/agency/_ops/scripts/git/git-pr-ship.sh --accept-human
 ```
 
 Behavior:
@@ -85,7 +85,7 @@ Behavior:
 ### 4) Enforce local cleanup state on demand
 
 ```bash
-.harmony/agency/_ops/scripts/git-pr-cleanup.sh
+.harmony/agency/_ops/scripts/git/git-pr-cleanup.sh
 ```
 
 Behavior:
@@ -98,13 +98,13 @@ Behavior:
 ### 5) Install non-blocking local cleanup hooks
 
 ```bash
-.harmony/agency/_ops/scripts/git-autonomy-hooks-install.sh
+.harmony/agency/_ops/scripts/git/git-autonomy-hooks-install.sh
 ```
 
 Behavior:
 
 - Installs managed `post-merge` and `post-checkout` hooks.
-- Triggers `.harmony/agency/_ops/scripts/git-pr-cleanup.sh --no-sync-main`
+- Triggers `.harmony/agency/_ops/scripts/git/git-pr-cleanup.sh --no-sync-main`
   in the background.
 - Uses lock + throttle controls to avoid duplicate runs.
 - Skips safely when the working tree is dirty.
@@ -112,13 +112,13 @@ Behavior:
 Uninstall:
 
 ```bash
-.harmony/agency/_ops/scripts/git-autonomy-hooks-uninstall.sh
+.harmony/agency/_ops/scripts/git/git-autonomy-hooks-uninstall.sh
 ```
 
 ### 6) Sync required GitHub labels
 
 ```bash
-.harmony/agency/_ops/scripts/sync-github-labels.sh
+.harmony/agency/_ops/scripts/github/sync-github-labels.sh
 ```
 
 Behavior:
@@ -139,7 +139,7 @@ Behavior:
 5. Let required checks and branch rules enforce final merge safety.
 6. Let cleanup enforcement return local git state to `main` + aligned origin.
 7. Keep cleanup hooks installed to converge branch state after merges that
-   happen outside `.harmony/agency/_ops/scripts/git-pr-ship.sh`.
+   happen outside `.harmony/agency/_ops/scripts/git/git-pr-ship.sh`.
 
 ### High-impact guarded lane
 

@@ -161,7 +161,7 @@ Before strict AI gate cutover:
 Control-plane baseline capture command:
 
 ```bash
-.harmony/agency/_ops/scripts/capture-github-control-plane-snapshot.sh
+.harmony/agency/_ops/scripts/github/capture-github-control-plane-snapshot.sh
 ```
 
 For Phase C release acceleration:
@@ -195,9 +195,9 @@ Remote cleanup behavior:
 
 Local cleanup expectation:
 
-- Use `.harmony/agency/_ops/scripts/git-pr-ship.sh` for shipping; it triggers
+- Use `.harmony/agency/_ops/scripts/git/git-pr-ship.sh` for shipping; it triggers
   local cleanup after closure (or starts a watcher for manual lanes).
-- On demand, run `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`.
+- On demand, run `.harmony/agency/_ops/scripts/git/git-pr-cleanup.sh`.
 
 ---
 
@@ -349,7 +349,7 @@ Apply only the minimum rollback needed for incident containment.
 Phase 0 (baseline + guardrails):
 
 - Re-run baseline capture before and after rollback:
-  `.harmony/agency/_ops/scripts/capture-github-control-plane-snapshot.sh`
+  `.harmony/agency/_ops/scripts/github/capture-github-control-plane-snapshot.sh`
 - Compare baseline artifacts in `.harmony/output/reports/` to confirm expected
   control-plane restoration.
 
@@ -363,16 +363,16 @@ Phase 1 (eventual autonomous merge reconciliation):
 Phase 3 (label contract convergence):
 
 - Re-sync canonical label catalog:
-  `.harmony/agency/_ops/scripts/sync-github-labels.sh`
+  `.harmony/agency/_ops/scripts/github/sync-github-labels.sh`
 - Validate catalog completeness:
-  `.harmony/agency/_ops/scripts/validate-autonomy-labels.sh`
+  `.harmony/agency/_ops/scripts/validate/validate-autonomy-labels.sh`
 
 Phase 4 (local cleanup enforcement outside scripted shipping):
 
 - Uninstall local hooks:
-  `.harmony/agency/_ops/scripts/git-autonomy-hooks-uninstall.sh`
+  `.harmony/agency/_ops/scripts/git/git-autonomy-hooks-uninstall.sh`
 - Run cleanup manually when needed:
-  `.harmony/agency/_ops/scripts/git-pr-cleanup.sh`
+  `.harmony/agency/_ops/scripts/git/git-pr-cleanup.sh`
 
 Phase 2 (drift health expansion):
 

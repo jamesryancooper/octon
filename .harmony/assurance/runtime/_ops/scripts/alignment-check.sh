@@ -138,7 +138,7 @@ run_intent_layer() {
 run_agency() {
   run_step \
     "Validate agency contracts" \
-    bash "$HARMONY_DIR/agency/_ops/scripts/validate-agency.sh"
+    bash "$HARMONY_DIR/agency/_ops/scripts/validate/validate-agency.sh"
 }
 
 run_workflows() {

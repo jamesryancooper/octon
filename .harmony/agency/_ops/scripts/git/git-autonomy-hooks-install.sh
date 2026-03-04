@@ -51,7 +51,7 @@ fi
 REPO_ROOT="\$(git rev-parse --show-toplevel 2>/dev/null || true)"
 [[ -n "\${REPO_ROOT}" ]] || exit 0
 
-CLEANUP_SCRIPT="\${REPO_ROOT}/.harmony/agency/_ops/scripts/git-pr-cleanup.sh"
+CLEANUP_SCRIPT="\${REPO_ROOT}/.harmony/agency/_ops/scripts/git/git-pr-cleanup.sh"
 [[ -x "\${CLEANUP_SCRIPT}" ]] || exit 0
 
 if ! git -C "\${REPO_ROOT}" diff --quiet || ! git -C "\${REPO_ROOT}" diff --cached --quiet; then

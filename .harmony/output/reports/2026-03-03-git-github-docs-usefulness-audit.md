@@ -56,7 +56,7 @@ Goal:
 3. Proposed `.github/labeler.yml`:
    - Implemented in `pr-triage.yml` logic (no separate labeler config file).
 4. Proposed `runtime/ops/labels.sync.sh`:
-   - Implemented as `.harmony/agency/_ops/scripts/sync-github-labels.sh`.
+   - Implemented as `.harmony/agency/_ops/scripts/github/sync-github-labels.sh`.
 5. Proposed release token naming:
    - Implemented with `AUTONOMY_PAT` policy/runbook contract.
 6. Proposed PR template structure:

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-AGENCY_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
+AGENCY_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 ROOT_DIR="$(cd -- "$AGENCY_DIR/.." && pwd)"
 
 MANIFEST="$AGENCY_DIR/manifest.yml"
