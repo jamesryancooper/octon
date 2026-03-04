@@ -13,6 +13,11 @@ files:
     summary: Canonical top-level domain profile mappings.
     when: When validating bounded-surface profile contracts.
 
+  - id: profile-taxonomy
+    path: profile-taxonomy.md
+    summary: One-page map of profile keys, values, scope, and canonical owners.
+    when: When disambiguating profile terms across governance, runtime policy, workflows, and validation tooling.
+
   - id: principles-overview
     path: principles/README.md
     summary: Principles surface orientation and navigation.

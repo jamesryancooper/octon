@@ -11,4 +11,4 @@ Project-specific prompts can be added here.
 
 ## Local Prompts
 
-- `clean-break-migration.prompt.md` - Execute clean-break migrations with explicit legacy removal and CI regression prevention.
+- `clean-break-migration.prompt.md` - Execute profile-governed migrations with explicit profile receipts, enforcement controls, and evidence bundle outputs.

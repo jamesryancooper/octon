@@ -4,7 +4,7 @@
 - [Daily Flow](daily-flow.md)
 - [Shipping](SHIPPING.md)
 - [Operating Model](operating-model.md)
-- [Clean-Break Migrations (Agent Instructions)](clean-break-migration.instructions.md)
+- [Profile-Governed Migrations (Agent Instructions)](clean-break-migration.instructions.md)
 - [Commits - Convention and Discipline](commits.md)
 - [Pull Requests - Convention and Quality Standards](pull-request-standards.md)
 - [Harmony Git/GitHub Autonomy Workflow v1](git-github-autonomy-workflow-v1.md)

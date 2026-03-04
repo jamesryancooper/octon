@@ -2378,7 +2378,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   spec-to-implementation:
-    version: "1.0.1"
+    version: "1.0.2"
     commands:
       - /spec-to-implementation
     parameters:
@@ -2396,6 +2396,20 @@ skills:
         required: false
         default: "markdown"
         description: "Output format: markdown or yaml"
+      - name: change_profile
+        type: text
+        required: false
+        default: "atomic"
+        description: "Governance change profile: atomic or transitional"
+      - name: release_state
+        type: text
+        required: false
+        default: "auto"
+        description: "Release state override: auto, pre-1.0, or stable"
+      - name: transitional_exception_note
+        type: text
+        required: false
+        description: "Required in pre-1.0 when change_profile is transitional (rationale, risks, owner, target_removal_date)"
     requires:
       context: []
     depends_on: []
@@ -2407,7 +2421,7 @@ skills:
           kind: file
           format: markdown
           determinism: stable
-          description: "Staged implementation plan with task decomposition"
+          description: "Staged implementation plan with profile selection receipt, impact map, compliance receipt, and escalation sections"
         - name: run_log
           path: "_ops/state/logs/spec-to-implementation/{{run_id}}.md"
           kind: file

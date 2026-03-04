@@ -1,15 +1,18 @@
 ---
-title: Clean-Break Migrations
-description: SSOT policy hub for clean-break migration doctrine, invariants, exceptions, CI gates, and banlist governance.
+title: Change-Profile Migration Governance
+description: SSOT policy hub for profile-based migration governance, selection gates, exceptions, CI enforcement, and legacy banlist controls.
 ---
 
-# Clean-Break Migrations
+# Change-Profile Migration Governance
 
-This directory defines migration policy and governance for how clean-break migrations are designed, executed, and verified in this repository.
+This directory defines migration policy and governance for how migrations are designed, executed, and verified in this repository.
 
 ## Purpose
 
-Establish clean-break migrations by default: no transitional modes, no compatibility shims, and no dual systems unless an explicit exception is approved.
+Establish profile-based migration governance with deterministic selection rules:
+
+- `atomic` profile for single-cutover changes
+- `transitional` profile for staged coexistence when hard gates require it
 
 ## Machine Discovery
 
@@ -27,23 +30,36 @@ A change is a migration when it changes any of the following in a way that can a
 
 ## Default Policy
 
-All migrations are CLEAN-BREAK unless an exception is approved under `exceptions.md`.
+Migrations MUST select exactly one `change_profile` before implementation:
 
-## Migration Contract (Cutover and Rollback)
+- `atomic`
+- `transitional`
 
-The following contract is mandatory for all governance-surface migrations:
+### Pre-1.0 release-state gate
 
-1. Single cutover event
-   - Migration cutover MUST happen as one promotion event.
-   - Staged validation can happen before cutover, but post-cutover execution MUST use only the new governance path.
-2. No dual-running after cutover
-   - After cutover, old and new governance paths MUST NOT run in parallel.
-   - Runtime routing, policy evaluation, and validation gates MUST NOT retain branch logic that can execute legacy governance behavior.
-3. Full-revert-only rollback
-   - If rollback is required after cutover, rollback MUST be a full revert of the cutover promotion.
-   - Partial rollback, selective fallback toggles, legacy compatibility branches, and mixed old/new runtime operation are prohibited.
-4. Fail-closed on rollback ambiguity
-   - If a full revert cannot be executed deterministically, promotion is not allowed.
+- `pre-1.0` mode: semantic version `< 1.0.0` or prerelease (`alpha`, `beta`, `rc`)
+- `stable` mode: semantic version `>= 1.0.0` and not prerelease
+- machine key: `release_state`
+
+In `pre-1.0` mode, `atomic` is default and preferred.
+
+`transitional` in `pre-1.0` is allowed only when hard gates require it and MUST include `transitional_exception_note` with `rationale`, `risks`, `owner`, and `target_removal_date`.
+
+## Selection Contract
+
+Before implementation, every migration MUST:
+
+1. Collect profile facts:
+   - downtime tolerance
+   - external consumer coordination ability
+   - data migration/backfill needs
+   - rollback mechanism
+   - blast radius and uncertainty
+   - compliance/policy constraints
+2. Apply hard gates:
+   - choose `transitional` if any hard gate is true
+   - otherwise choose `atomic`
+3. Escalate when profile tie-break ambiguity exists.
 
 ## Required Artifacts
 
@@ -60,7 +76,17 @@ Every migration must include:
     - `commands.md`
     - `validation.md`
     - `inventory.md`
-- Banlist updates in `legacy-banlist.md` when legacy identifiers, paths, or keys are removed
+- Banlist updates in `legacy-banlist.md` when legacy identifiers, paths, or keys are removed.
+
+## Required Plan Sections
+
+Migration plans and profile-governance implementation plans MUST include:
+
+1. `Profile Selection Receipt`
+2. `Implementation Plan`
+3. `Impact Map (code, tests, docs, contracts)`
+4. `Compliance Receipt`
+5. `Exceptions/Escalations`
 
 ## Companion Documents
 
@@ -72,7 +98,7 @@ Every migration must include:
 
 ## Runtime Migration Records
 
-Canonical migration records and discovery index now live at:
+Canonical migration records and discovery index live at:
 
 - `/.harmony/cognition/runtime/migrations/README.md`
 - `/.harmony/cognition/runtime/migrations/index.yml`

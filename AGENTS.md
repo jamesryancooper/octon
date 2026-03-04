@@ -35,6 +35,81 @@ Precedence for conflicts: `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` ->
 - Humans retain `policy authorship`, `exceptions` handling, and `escalation authority`.
 - For design and implementation choices, favor `minimal sufficient complexity` and the `smallest robust solution that meets constraints`.
 
+## Execution Profile Governance (Required)
+
+Before planning or implementing any update, addition, or refactor:
+
+1. Select exactly one governance `change_profile`:
+   - `atomic`
+   - `transitional`
+2. Emit a `Profile Selection Receipt` before implementation.
+
+### Allowed Profiles and Modes
+
+- Atomic Change Profile:
+  - Clean Break
+  - Big Bang Implementation
+  - Big Bang Rollout
+- Transitional Change Profile:
+  - Phased Implementation
+  - Phased Rollout
+
+### Release-Maturity Gate
+
+1. Determine release state using semantic versioning and record machine key `release_state`.
+2. `pre-1.0` mode: version `< 1.0.0` or prerelease (`alpha`, `beta`, `rc`).
+3. `stable` mode: version `>= 1.0.0` and not prerelease.
+4. In `pre-1.0` mode, `atomic` is default and preferred.
+5. In `pre-1.0` mode, `transitional` is allowed only when hard gates require it and MUST include machine key `transitional_exception_note` containing:
+   - rationale
+   - risks
+   - owner
+   - target removal/decommission date
+6. In `stable` mode, choose profile by normal selection logic (no atomic default bias).
+
+### Profile Selection Method (Mandatory)
+
+Collect facts:
+
+- downtime tolerance
+- external consumer coordination ability
+- data migration/backfill needs
+- rollback mechanism
+- blast radius and uncertainty
+- compliance/policy constraints
+
+Hard gates for `transitional`:
+
+- zero-downtime requirement prevents one-step cutover
+- external consumers cannot migrate in one coordinated release
+- live migration/backfill requires temporary coexistence for correctness
+- operational risk requires progressive exposure and staged validation
+
+If none are true, select `atomic`.
+
+Tie-break rule:
+
+- if both profile conditions appear true, stop and escalate via profile exception request before proceeding.
+
+### Mandatory Output Sections
+
+Plans and implementation receipts for migration/governance-impacting work MUST include:
+
+1. `Profile Selection Receipt`
+2. `Implementation Plan`
+3. `Impact Map (code, tests, docs, contracts)`
+4. `Compliance Receipt`
+5. `Exceptions/Escalations`
+
+### Transitional Requirements
+
+If `change_profile=transitional` is selected:
+
+- define phases and phase exit criteria
+- define final decommission/removal date
+- remove temporary/legacy surfaces at final state
+- include both phase-behavior and final-behavior tests
+
 ## Charter Change Control
 
 - Treat `.harmony/cognition/governance/principles/principles.md` as a constitutional charter with strict change control.

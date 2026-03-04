@@ -1,47 +1,99 @@
 ---
-title: Clean-Break Migration Doctrine
-description: Default migration doctrine requiring single-authority clean-break changes without compatibility layers.
+title: Change-Profile Migration Doctrine
+description: Default migration doctrine requiring explicit profile selection and governed execution gates.
 ---
 
-# Clean-Break Migration Doctrine
+# Change-Profile Migration Doctrine
 
 ## 0) Terms
 
-- Clean-break migration: a migration where the old system is fully removed and the new system is the only active authority at merge time.
-- Compatibility shim: any adapter, translator, or fallback that allows legacy inputs or paths to keep working.
-- Dual-mode: any state where both old and new implementations exist and can be exercised at runtime.
+- `change_profile`: governance profile selected for a change (`atomic` or `transitional`).
+- `release_state`: semantic release mode (`pre-1.0` or `stable`).
+- `transitional_exception_note`: required in `pre-1.0` when `change_profile=transitional`; must include `rationale`, `risks`, `owner`, and `target_removal_date`.
+- Atomic migration: single-cutover migration with one authoritative post-merge path.
+- Transitional migration: phased migration that temporarily allows coexistence to satisfy hard gates.
+- Hard gates: non-negotiable conditions that require transitional execution.
 
 ## 1) Primary Rule
 
-All migrations are clean-break by default.
+All migrations MUST select exactly one profile before implementation:
 
-## 2) Non-Negotiable Constraints (MUST)
+- `atomic`
+- `transitional`
 
-1. Single authority: after merge, there must be exactly one authoritative implementation for the migrated domain or behavior.
-2. No dual execution: the codebase must not contain runtime paths that select between old and new behavior.
-3. No compatibility shims: the codebase must not include adapters, translators, aliasing layers, or silent fallbacks for the legacy system.
-4. No transitional flags: feature flags, env vars, config toggles, or temporary modes used to preserve legacy behavior are prohibited.
-5. Removal is part of the migration: old code, docs, schemas, configs, tests, and call-sites must be removed in the same migration.
-6. No silent behavior preservation: if behavior must remain similar, it must be reimplemented explicitly in the new system, not bridged.
-7. Fail-closed on ambiguity: if migration state is unclear, the system must fail closed with no implicit fallback to legacy.
+No migration may proceed without a `Profile Selection Receipt`.
 
-## 3) Required Verification (MUST)
+## 2) Release-Maturity Gate (MUST)
+
+1. Determine semantic release state.
+2. `pre-1.0`: `< 1.0.0` or prerelease (`alpha`, `beta`, `rc`).
+3. `stable`: `>= 1.0.0` and not prerelease.
+4. In `pre-1.0`, default to `atomic`.
+5. In `pre-1.0`, `transitional` is allowed only when hard gates require it and `transitional_exception_note` is present.
+6. In `stable`, apply normal profile selection logic without `atomic` default bias.
+
+## 3) Selection Method (MUST)
+
+### A) Fact Collection
+
+Collect and record:
+
+- downtime tolerance
+- external consumer coordination ability
+- data migration/backfill needs
+- rollback mechanism
+- blast radius and uncertainty
+- compliance/policy constraints
+
+### B) Hard Gates
+
+Choose `transitional` if any are true:
+
+- zero-downtime requirement prevents one-step cutover
+- external consumers cannot migrate in one coordinated release
+- live migration/backfill requires temporary coexistence for correctness
+- operational risk requires progressive exposure and staged validation
+
+If none are true, choose `atomic`.
+
+### C) Tie-Break
+
+If both profile conditions appear true, stop and escalate with a profile exception request.
+
+## 4) Execution Constraints (MUST)
+
+### Atomic
+
+- one-step implementation and rollout
+- no temporary coexistence surfaces
+- remove obsolete legacy surfaces in same change set
+- rollback path explicit (typically full revert)
+
+### Transitional
+
+- explicit phases
+- phase exit criteria
+- final decommission/removal date
+- final-state cleanup required
+- tests for phase behavior and final behavior
+
+## 5) Required Verification (MUST)
 
 A migration is incomplete unless it proves:
 
-- No remaining references to legacy identifiers or paths (see `ci-gates.md`)
-- No remaining legacy execution paths (tests or routing assertions)
-- Docs and contracts reflect only the new model
-- CI enforces regression prevention so legacy surfaces cannot reappear
+- selected profile and rationale are documented
+- required fields for selected profile are present
+- docs/contracts/tests align with selected profile
+- CI enforces anti-regression for legacy/profile constraints
 
-## 4) Merge Rule (MUST)
+## 6) Merge Rule (MUST)
 
 A migration branch must not merge until:
 
-- The plan definition of done is satisfied
-- CI gates pass
+- required plan sections are complete,
+- profile-specific constraints are satisfied,
+- CI gates pass.
 
-## 5) Exception Policy
+## 7) Exception Policy
 
-Exceptions are rare and controlled. See `exceptions.md`.
-
+Exceptions are controlled. See `exceptions.md`.

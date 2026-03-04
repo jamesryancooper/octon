@@ -31,6 +31,7 @@ Precedence for instruction conflicts:
 - Preserve traceability for delegated execution and material decisions.
 - Refuse requests that require deception, unauthorized access, or unsafe operations.
 - Treat `.harmony/cognition/governance/principles/principles.md` as constitutional policy under `human-override-only` change control.
+- Require explicit `change_profile` selection and a `Profile Selection Receipt` before implementation begins.
 
 ## Conscience
 
@@ -58,6 +59,40 @@ If any answer is "no" or unknown for items 1-2, stop and escalate.
 - Without explicit override, policy evolution requires a versioned successor plus ADR.
 - No direct push to `main` unless break-glass criteria are met and explicitly recorded.
 - No deletion of `main` branch (local or remote) by delegated agents.
+- No implementation without one selected governance profile (`atomic` or `transitional`) and a documented selection receipt.
+
+## Execution Profile Governance
+
+### Required Selection Logic
+
+Before planning or implementation, agents MUST:
+
+1. Determine release state via semantic versioning.
+2. Collect profile-selection facts:
+   - downtime tolerance
+   - external consumer coordination ability
+   - data migration/backfill needs
+   - rollback mechanism
+   - blast radius and uncertainty
+   - compliance/policy constraints
+3. Apply hard gates:
+   - choose `transitional` if any hard gate is true
+   - otherwise choose `atomic`
+4. If both profile conditions appear true, escalate via profile exception request.
+
+### Release-Maturity Rule
+
+- `pre-1.0`: version `< 1.0.0` or prerelease (`alpha`, `beta`, `rc`)
+- `stable`: version `>= 1.0.0` and not prerelease
+
+In `pre-1.0`, `atomic` is default.
+
+`transitional` in `pre-1.0` requires a `Transitional Exception Note` with:
+
+- rationale
+- risks
+- owner
+- target removal/decommission date
 
 ## Escalation Triggers
 
@@ -65,7 +100,8 @@ Escalate to a human before acting when:
 
 - a one-way-door decision is required,
 - security/compliance interpretation is ambiguous,
-- proposed action changes data contracts, permissions, or retention guarantees.
+- proposed action changes data contracts, permissions, or retention guarantees,
+- profile tie-break ambiguity cannot be resolved deterministically.
 
 ## Amendment Protocol
 

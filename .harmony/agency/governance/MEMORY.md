@@ -28,6 +28,14 @@ description: Cross-agent memory classes, retention boundaries, and privacy contr
 - Run evidence memory: persist in continuity run-evidence paths and follow declared retention classes.
 - Sensitive memory: do not persist outside authorized secure systems.
 
+For profile-governed work, run evidence memory MUST include:
+
+- `change_profile`
+- `release_state`
+- profile-selection facts
+- rationale for selected profile
+- `transitional_exception_note` when required
+
 ## Privacy and Safety Constraints
 
 - Never store secrets in logs, reports, or contract files.
@@ -41,6 +49,7 @@ description: Cross-agent memory classes, retention boundaries, and privacy contr
 - Keep updates factual, concise, and attributable.
 - Do not rewrite historical append-only records outside allowed policies.
 - Record assumptions when memory is incomplete or uncertain.
+- For migration/governance work, store a `Profile Selection Receipt` before implementation evidence.
 
 ## Compaction and Flush Policy
 

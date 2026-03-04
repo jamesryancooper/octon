@@ -27,7 +27,9 @@ Every delegated task must specify:
 - scope boundaries and out-of-scope items,
 - constraints (security, compliance, quality, timeline),
 - required artifacts and verification expectations,
-- escalation conditions.
+- escalation conditions,
+- selected governance `change_profile` and rationale,
+- profile facts used for hard-gate selection.
 
 ## Authority Boundaries
 
@@ -54,6 +56,12 @@ Runtime behavior for each decision class is deterministic:
 - Delegator remains accountable for final integration and approval.
 - Delegatee must return structured output aligned with the request contract.
 - Missing evidence, failed checks, or ambiguity must be surfaced explicitly.
+- For migration/governance-impacting work, delegate output MUST include:
+  - `Profile Selection Receipt`
+  - `Implementation Plan`
+  - `Impact Map (code, tests, docs, contracts)`
+  - `Compliance Receipt`
+  - `Exceptions/Escalations`
 
 ## Escalation Triggers
 
@@ -63,7 +71,8 @@ Escalate instead of continuing delegation when:
 - authority is unclear or exceeds delegate permissions,
 - high-risk or irreversible action is requested without explicit approval,
 - requested action attempts to delete protected branch `main`,
-- required validation cannot be completed.
+- required validation cannot be completed,
+- profile tie-break ambiguity exists (both `atomic` and `transitional` conditions appear true).
 
 ## Anti-Patterns
 
@@ -71,3 +80,4 @@ Escalate instead of continuing delegation when:
 - Delegation loops between assistants.
 - Silent scope expansion without confirmation.
 - Treating delegation as accountability transfer.
+- Starting implementation without profile selection and receipt evidence.

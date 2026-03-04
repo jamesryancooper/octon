@@ -3043,6 +3043,9 @@ validate_skill() {
 
     # Check 15c: Manifest and SKILL.md capability declarations are aligned
     validate_manifest_skill_parity "$skill_id" "$skill_dir" || true
+
+    # Check 15d: Execution-profile governance contract for spec-to-implementation
+    validate_spec_to_implementation_profile_contract "$skill_id" "$skill_dir" || true
     
     # Check 16: I/O path scope validation
     if [[ -f "$SKILLS_REGISTRY" ]]; then
@@ -3136,6 +3139,83 @@ validate_skill() {
     else
         log_info "dev-fast profile: skipped deep documentation/token checks"
     fi
+}
+
+validate_spec_to_implementation_profile_contract() {
+    local skill_id="$1"
+    local skill_dir="$2"
+
+    if [[ "$skill_id" != "spec-to-implementation" ]]; then
+        return 0
+    fi
+
+    local skill_md="$skill_dir/SKILL.md"
+    local phases_ref="$skill_dir/references/phases.md"
+    local io_ref="$skill_dir/references/io-contract.md"
+    local validation_ref="$skill_dir/references/validation.md"
+    local interaction_ref="$skill_dir/references/interaction.md"
+
+    local missing=0
+    local file
+    for file in "$skill_md" "$phases_ref" "$io_ref" "$validation_ref" "$interaction_ref"; do
+        if [[ ! -f "$file" ]]; then
+            log_error "spec-to-implementation missing required reference file: ${file#$REPO_ROOT/}"
+            ((missing++)) || true
+        fi
+    done
+    if [[ $missing -gt 0 ]]; then
+        return 1
+    fi
+
+    local key
+    for key in "change_profile" "release_state" "transitional_exception_note"; do
+        if ! grep -Fq "$key" "$skill_md"; then
+            log_error "spec-to-implementation SKILL.md missing governance key: $key"
+        fi
+        if ! grep -Fq "$key" "$phases_ref"; then
+            log_error "spec-to-implementation phases reference missing governance key: $key"
+        fi
+        if ! grep -Fq "$key" "$io_ref"; then
+            log_error "spec-to-implementation io-contract reference missing governance key: $key"
+        fi
+    done
+
+    local section
+    for section in \
+        "Profile Selection Receipt" \
+        "Implementation Plan" \
+        "Impact Map (code, tests, docs, contracts)" \
+        "Compliance Receipt" \
+        "Exceptions/Escalations"; do
+        if ! grep -Fq "$section" "$skill_md"; then
+            log_error "spec-to-implementation SKILL.md missing required output section: $section"
+        fi
+        if ! grep -Fq "$section" "$phases_ref"; then
+            log_error "spec-to-implementation phases reference missing required output section: $section"
+        fi
+        if ! grep -Fq "$section" "$validation_ref"; then
+            log_error "spec-to-implementation validation reference missing required output section: $section"
+        fi
+    done
+
+    if ! grep -Fq 'pre-1.0' "$validation_ref"; then
+        log_error "spec-to-implementation validation reference missing pre-1.0 rule checks"
+    fi
+    if ! grep -Fq 'tie-break' "$interaction_ref"; then
+        log_error "spec-to-implementation interaction reference missing tie-break escalation behavior"
+    fi
+
+    if ! grep -Fq 'change_profile' "$SKILLS_REGISTRY"; then
+        log_error "skills registry missing change_profile parameter for spec-to-implementation"
+    fi
+    if ! grep -Fq 'release_state' "$SKILLS_REGISTRY"; then
+        log_error "skills registry missing release_state parameter for spec-to-implementation"
+    fi
+    if ! grep -Fq 'transitional_exception_note' "$SKILLS_REGISTRY"; then
+        log_error "skills registry missing transitional_exception_note parameter for spec-to-implementation"
+    fi
+
+    log_success "spec-to-implementation execution-profile governance contract validated"
 }
 
 # Main

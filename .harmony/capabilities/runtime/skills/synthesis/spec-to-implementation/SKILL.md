@@ -3,15 +3,13 @@ name: spec-to-implementation
 description: >
   Transform a product specification or design document into a staged
   implementation plan with task decomposition, dependency ordering,
-  and acceptance criteria. Bridges the gap between "what to build" and
-  "how to build it" by producing actionable, sequenced work items that
-  respect architectural boundaries and delivery constraints.
+  acceptance criteria, and profile-governance receipts.
 license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
   author: Harmony Framework
   created: "2026-02-09"
-  updated: "2026-02-10"
+  updated: "2026-03-04"
 skill_sets: [executor, coordinator]
 capabilities: [human-collaborative]
 allowed-tools: Read Glob Grep Write(../../output/plans/*) Write(_ops/state/logs/*)
@@ -27,9 +25,8 @@ Use this skill when:
 
 - You have a PRD, design doc, or feature spec that needs to become work items
 - A feature touches multiple services, layers, or teams
-- You need to sequence work to respect dependencies (DB → API → UI)
-- You want acceptance criteria derived from spec requirements
-- You need to estimate scope and identify risks before starting implementation
+- You need to sequence work to respect dependencies (DB -> API -> UI)
+- You need profile-governed planning output with explicit compliance sections
 
 ## Quick Start
 
@@ -37,10 +34,10 @@ Use this skill when:
 /spec-to-implementation spec="docs/specs/auth-overhaul.md"
 ```
 
-Or with inline spec:
+Or with explicit profile input:
 
 ```
-/spec-to-implementation spec="Add user authentication with email/password and OAuth"
+/spec-to-implementation spec="Add OAuth login" change_profile="atomic"
 ```
 
 ## Core Workflow
@@ -49,36 +46,29 @@ Or with inline spec:
 2. **Map** — Identify affected domains, services, and components in the codebase
 3. **Decompose** — Break down into discrete, independently deliverable tasks
 4. **Sequence** — Order tasks by dependencies, risk, and delivery value
-5. **Plan** — Generate the implementation plan with milestones and acceptance criteria
-6. **Review** — Present plan for ACP gate before proceeding
+5. **Receipt** — Determine release state, select one `change_profile`, and record profile-selection facts
+6. **Plan** — Generate plan with required sections
+7. **Review** — Present plan for human review before finalization
 
-### Decomposition Principles
+## Required Output Sections
 
-| Principle | Application |
-|-----------|------------|
-| Vertical slices | Each task delivers end-to-end value (not "build all models, then all APIs") |
-| Dependency ordering | Data layer before API, API before UI, shared before specific |
-| Risk-first | Uncertain or high-risk items scheduled early for faster feedback |
-| Interface contracts | Define API contracts at boundaries before implementing either side |
-| Incremental delivery | Each milestone produces a working, testable increment |
+Generated plans must contain these top-level sections:
 
-### Task Anatomy
-
-Each task in the plan includes:
-
-- **ID** — Sequential identifier (e.g., `T01`, `T02`)
-- **Title** — Action-oriented description
-- **Domain** — Affected area (e.g., `database`, `api`, `frontend`, `infra`)
-- **Dependencies** — Which tasks must complete first (e.g., `depends: T01, T03`)
-- **Acceptance criteria** — Concrete conditions for "done" (derived from spec)
-- **Risk flags** — Known unknowns or areas needing investigation
-- **Estimated complexity** — S/M/L relative sizing (not time estimates)
+1. `Profile Selection Receipt`
+2. `Implementation Plan`
+3. `Impact Map (code, tests, docs, contracts)`
+4. `Compliance Receipt`
+5. `Exceptions/Escalations`
 
 ## Parameters
 
 Parameters are defined in `.harmony/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-This skill accepts one required parameter (`spec`) pointing to the specification document, plus optional parameters for scope constraints and output format.
+This skill accepts required spec input and optional governance selectors:
+
+- `change_profile` (`atomic` or `transitional`)
+- `release_state` (`auto`, `pre-1.0`, or `stable`)
+- `transitional_exception_note` (required for pre-1.0 transitional)
 
 ## Output Location
 
@@ -86,33 +76,31 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/plans/YYYY-MM-DD-{{feature}}-implementation-plan.md` — Implementation plan
-- `_ops/state/logs/spec-to-implementation/` — Execution logs with index
+- `.harmony/output/plans/YYYY-MM-DD-{{feature}}-implementation-plan.md`
+- `_ops/state/logs/spec-to-implementation/`
 
 ## Boundaries
 
 - Read-only against the codebase — analyze but do not modify source files
 - Do not make architectural decisions unilaterally — present options at review step
 - Do not estimate time or story points — use relative complexity (S/M/L) only
-- If spec is ambiguous, list assumptions explicitly rather than guessing
-- Maximum scope: 30 tasks per plan (split into phases if exceeded)
-- Always present the plan for human review before it's considered final
+- If profile tie-break ambiguity exists, stop and escalate
 
 ## When to Escalate
 
-- Spec has contradictory requirements — flag conflicts, ask for clarification
-- Feature requires technology decisions not covered by the spec — present options
-- Scope exceeds 30 tasks — recommend splitting into phases or milestones
-- Spec references systems or services not visible in the codebase — flag unknowns
+- Spec has contradictory requirements
+- Feature requires technology decisions not covered by the spec
+- Profile tie-break ambiguity exists (`atomic` and `transitional` both appear required)
+- Pre-1.0 transitional is requested without complete exception note
 
 ## References
 
 For detailed documentation:
 
-- [Behavior phases](references/phases.md) — Full phase-by-phase instructions
-- [I/O contract](references/io-contract.md) — Inputs, outputs, plan schema
-- [Safety policies](references/safety.md) — Read-only policy, decision deferral
-- [Validation](references/validation.md) — Acceptance criteria for complete plans
-- [Examples](references/examples.md) — Plan examples from real specs
-- [Orchestration](references/orchestration.md) — Task coordination and dependency management
-- [Interaction](references/interaction.md) — Human review checkpoints
+- [Behavior phases](references/phases.md)
+- [I/O contract](references/io-contract.md)
+- [Safety policies](references/safety.md)
+- [Validation](references/validation.md)
+- [Examples](references/examples.md)
+- [Orchestration](references/orchestration.md)
+- [Interaction](references/interaction.md)

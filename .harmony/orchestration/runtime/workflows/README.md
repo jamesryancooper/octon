@@ -11,6 +11,14 @@ Workflow entries may declare `execution_profile` in `manifest.yml`:
 - `core` (default): only harness-minimal runtime assumptions.
 - `external-dependent`: may require external binaries or project-root I/O outside `.harmony/`.
 
+This field is a workflow runtime dependency classification only.
+It is not the governance migration profile.
+
+Governance migration profile is tracked separately as `change_profile`:
+
+- `atomic`
+- `transitional`
+
 Use `.harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh` to validate profile boundaries and manifest path parity.
 
 ## Composition Boundaries

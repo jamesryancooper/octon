@@ -1,86 +1,106 @@
 ---
-title: Clean-Break Migration Plan Template
-description: Template for planning and verifying clean-break migrations with explicit removal and CI regression controls.
+title: Profile-Governed Migration Plan Template
+description: Template for planning and verifying migration changes under atomic/transitional profile governance with explicit receipt and enforcement controls.
 ---
 
-# Clean-Break Migration Plan (Template)
+# Migration Plan (Template)
 
 Copy this into `/.harmony/cognition/runtime/migrations/<YYYY-MM-DD>-<slug>/plan.md`.
 
-## 1) Summary
+## Profile Selection Receipt
+
+- Date:
+- Version source(s):
+- Current version:
+- Release state (`pre-1.0` or `stable`):
+- `release_state` (`pre-1.0` or `stable`):
+- `change_profile` (`atomic` or `transitional`):
+- Selection facts:
+  - downtime tolerance:
+  - external consumer coordination ability:
+  - data migration/backfill needs:
+  - rollback mechanism:
+  - blast radius and uncertainty:
+  - compliance/policy constraints:
+- Hard-gate outcomes:
+- Tie-break status:
+- Transitional Exception Note (required when `change_profile=transitional` in pre-1.0):
+- `transitional_exception_note` (required when `change_profile=transitional` in pre-1.0):
+  - rationale:
+  - risks:
+  - owner:
+  - target_removal_date:
+
+## Implementation Plan
 
 - Name:
 - Owner:
 - Motivation:
 - Scope:
 
-## 2) What Is Being Removed (Explicit)
+### Atomic Profile Execution
 
-List the legacy SSOT, interfaces, schemas, paths, commands, config keys, and behavior.
+- Clean-break approach:
+- Big-bang implementation steps:
+- Big-bang rollout steps:
 
-## 3) What Is the New SSOT (Explicit)
+### Transitional Profile Execution (if selected)
 
-Define where the new authority lives and what the new interfaces or contracts are.
+- Phases:
+- Phase exit criteria:
+- Final decommission/removal date:
 
-## 4) Clean-Break Constraints (Affirm)
-
-- [ ] No dual-mode execution
-- [ ] No compatibility shims or adapters
-- [ ] No transitional flags
-- [ ] Legacy removed in the same change set
-
-## 5) Removal Plan (MUST Be Concrete)
+## Impact Map (code, tests, docs, contracts)
 
 ### Code
 
-- Delete:
-- Replace call-sites:
-- Remove routing:
-
-### Contracts
-
-- Remove legacy schema or manifest keys:
-- Add or adjust new schema or manifest keys:
-
-### Docs
-
-- Remove legacy docs:
-- Update references:
+- Files changed:
+- Legacy removals:
 
 ### Tests
 
-- Delete legacy tests:
-- Add or adjust tests for new SSOT:
+- Final-state tests:
+- Phase-behavior tests (if transitional):
 
-## 6) Replacement Plan
+### Docs
 
-- New components or files:
-- New entrypoints:
-- New reason codes or enums (if applicable):
+- Updated docs/runbooks:
 
-## 7) Verification (MUST)
+### Contracts
 
-### A) Static Verification
+- Schemas/manifests/contracts changed:
 
-- [ ] No legacy identifiers remain (list searched patterns)
-- [ ] No legacy paths remain
+## Compliance Receipt
 
-### B) Runtime Verification
+- [ ] Exactly one profile selected before implementation
+- [ ] Release-state gate applied
+- [ ] Pre-1.0 atomic default respected (or transitional exception documented)
+- [ ] Hard-gate fact collection recorded
+- [ ] Tie-break rule enforced
+- [ ] Obsolete/legacy surfaces removed at final state
+- [ ] Required validations executed and linked
 
-- [ ] New path exercised end-to-end
-- [ ] Old path is impossible (assertions or removed entrypoints)
+## Exceptions/Escalations
 
-### C) CI Verification
+- Current exceptions:
+- Escalations raised:
+- Risk acceptance owner:
 
-- [ ] CI gates updated or added to prevent legacy reintroduction
+## Verification Evidence
 
-## 8) Definition of Done (MUST)
+### Static Verification
 
-- [ ] Single authority only
-- [ ] Legacy deleted (code, docs, contracts, tests)
-- [ ] All call-sites updated
-- [ ] CI gates pass
-- [ ] Plan links to evidence (logs, test output, receipts)
+- [ ] No prohibited legacy/profile drift patterns remain
+- [ ] Required sections and keys present
+
+### Runtime Verification
+
+- [ ] Selected profile behavior exercised
+- [ ] Final state converges to single intended authority
+
+### CI Verification
+
+- [ ] Profile-governance validation gates pass
 
 Required evidence bundle location:
 
@@ -92,6 +112,8 @@ Required evidence bundle location:
   - `validation.md`
   - `inventory.md`
 
-## 9) Rollback
+## Rollback
 
-Clean-break rollback strategy (for example, revert commits or re-tag). No partial rollback modes.
+- Rollback strategy:
+- Rollback trigger conditions:
+- Rollback evidence references:

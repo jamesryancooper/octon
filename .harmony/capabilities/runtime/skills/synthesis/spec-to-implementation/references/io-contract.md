@@ -1,58 +1,65 @@
 ---
 # I/O Contract Documentation
-# This file provides extended documentation for human reference.
-#
-# AUTHORITATIVE SOURCES (Single Source of Truth):
-#   - Tool permissions: SKILL.md frontmatter `allowed-tools`
-#   - Parameters: .harmony/capabilities/runtime/skills/registry.yml
-#   - Output paths: .harmony/capabilities/runtime/skills/registry.yml
-#
-# Current allowed-tools: Read Glob Grep Write(../../output/plans/*) Write(_ops/state/logs/*)
-#
-# Prose descriptions below are derived from these sources.
-# If discrepancies exist, the authoritative sources are correct.
+# Authoritative sources:
+# - Tool permissions: SKILL.md frontmatter `allowed-tools`
+# - Parameters: .harmony/capabilities/runtime/skills/registry.yml
+# - Output paths: .harmony/capabilities/runtime/skills/registry.yml
 ---
 
 # I/O Contract Reference
 
-Extended input/output documentation for the spec-to-implementation skill.
-
-> **Authoritative Sources:**
->
-> - Tool permissions: `SKILL.md` frontmatter `allowed-tools`
-> - Parameters: `.harmony/capabilities/runtime/skills/registry.yml`
-> - Output paths: `.harmony/capabilities/runtime/skills/registry.yml`
+Extended input/output documentation for the `spec-to-implementation` skill.
 
 ## Parameters
 
 | Parameter | Type | Required | Default | Description |
-| --------- | ---- | -------- | ------- | ----------- |
+| --- | --- | --- | --- | --- |
 | `spec` | text | Yes | — | Path to spec document or inline specification text |
-| `scope` | text | No | `.` | Directory to scan for existing code (limits codebase mapping) |
-| `format` | text | No | `markdown` | Output format: `markdown` or `yaml` |
+| `scope` | text | No | `.` | Directory to scan for existing code and contracts |
+| `format` | text | No | `markdown` | Output format (`markdown` or `yaml`) |
+| `change_profile` | text | No | `auto` | Governance profile (`atomic` or `transitional`) |
+| `release_state` | text | No | `auto` | Semantic release state (`pre-1.0` or `stable`) |
+| `transitional_exception_note` | text | Conditional | — | Required when `release_state=pre-1.0` and `change_profile=transitional`; includes `rationale`, `risks`, `owner`, `target_removal_date` |
 
 ## Output Structure
 
-### Primary Output: Implementation Plan
+### Primary Output
 
-Written to `.harmony/output/plans/YYYY-MM-DD-{{feature}}-implementation-plan.md`.
+Implementation plan written to:
+
+- `.harmony/output/plans/YYYY-MM-DD-{{feature}}-implementation-plan.md`
+
+The plan must include these top-level sections:
+
+1. `Profile Selection Receipt`
+2. `Implementation Plan`
+3. `Impact Map (code, tests, docs, contracts)`
+4. `Compliance Receipt`
+5. `Exceptions/Escalations`
 
 ### Execution Log
 
-Written to `.harmony/capabilities/runtime/skills/_ops/state/logs/spec-to-implementation/{{run_id}}.md`.
+Written to:
+
+- `.harmony/capabilities/runtime/skills/_ops/state/logs/spec-to-implementation/{{run_id}}.md`
 
 ### Log Index
 
-Written to `.harmony/capabilities/runtime/skills/_ops/state/logs/spec-to-implementation/index.yml`.
+Written to:
 
-## Dependencies
+- `.harmony/capabilities/runtime/skills/_ops/state/logs/spec-to-implementation/index.yml`
 
-This skill requires:
+## Governance Keys
 
-- **Read** — Read spec documents and existing codebase
-- **Glob** — Find relevant modules and files
-- **Grep** — Search for existing patterns and integrations
-- **Write(../../output/plans/*)** — Write implementation plan
-- **Write(_ops/state/logs/*)** — Write execution logs
+Machine-readable keys used in receipts and templates:
 
-No external dependencies required. This is a read-only analysis skill.
+- `change_profile`
+- `release_state`
+- `transitional_exception_note`
+
+## Dependency Permissions
+
+- **Read**: spec and existing code/contracts
+- **Glob/Grep**: locate impacted surfaces
+- **Write(../../output/plans/*)**: emit plan artifact
+- **Write(_ops/state/logs/*)**: emit run logs and index

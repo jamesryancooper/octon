@@ -93,3 +93,5 @@ records:
     path: 044-intent-contract-and-boundary-enforcement.md
   - id: 045-capability-map-and-alignment-drift-gates
     path: 045-capability-map-and-alignment-drift-gates.md
+  - id: 046-execution-profile-governance-cutover-contract
+    path: 046-execution-profile-governance-cutover-contract.md

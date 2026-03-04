@@ -5,30 +5,30 @@ schema_version: "1.0"
 files:
   - id: migration-governance-overview
     path: README.md
-    summary: Clean-break migration governance overview and artifact contract.
+    summary: Profile-governed migration overview and artifact contract.
     when: First entrypoint before planning migration work.
 
   - id: migration-doctrine
     path: doctrine.md
-    summary: Core doctrine for clean-break migration posture.
+    summary: Core doctrine for profile-governed migration posture.
     when: When defining migration strategy and policy boundaries.
 
   - id: migration-invariants
     path: invariants.md
-    summary: Required invariants and non-negotiable migration safety rules.
+    summary: Required invariants and non-negotiable profile governance rules.
     when: When validating migration plan completeness.
 
   - id: migration-exceptions
     path: exceptions.md
-    summary: Exception process for bounded transitional accommodations.
+    summary: Exception process for profile tie-break or pre-1.0 transitional usage.
     when: When requesting or evaluating migration exceptions.
 
   - id: migration-ci-gates
     path: ci-gates.md
-    summary: CI gate requirements for migration verification and enforcement.
+    summary: CI gate requirements for profile-governance enforcement.
     when: When implementing or debugging migration validation gates.
 
   - id: migration-legacy-banlist
     path: legacy-banlist.md
     summary: Legacy-path/identifier banlist and reintroduction guardrails.
-    when: When removing old paths and enforcing clean-break completion.
+    when: When removing old paths and enforcing final migration state.

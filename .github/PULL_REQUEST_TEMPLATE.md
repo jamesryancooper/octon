@@ -14,6 +14,44 @@ or `No-Issue: <reason>`.
 
 Approach summary, including non-obvious design choices and alternatives rejected.
 
+## Profile Selection Receipt
+
+Required for governance/migration/refactor work. Use `n/a` only when this PR is purely local and non-governance.
+
+- Semantic version source(s):
+- Release state (`pre-1.0` or `stable`):
+- `change_profile` (`atomic` or `transitional`):
+- Hard-gate facts (downtime, coordination, migration/backfill, rollback, blast radius, compliance):
+- Tie-break status:
+- `transitional_exception_note` (required when `pre-1.0` + `transitional`):
+
+## Implementation Plan
+
+Required for governance/migration/refactor work. Use `n/a` only when no implementation plan is needed.
+
+- Workstreams and scope:
+- Public interfaces/types/contracts affected:
+- Test scenarios:
+- Assumptions/defaults:
+
+## Impact Map (code, tests, docs, contracts)
+
+List impacted code, tests, docs, and contract surfaces.
+
+## Compliance Receipt
+
+- [ ] Selected exactly one execution profile before planning/implementation.
+- [ ] Applied release-maturity gate from semantic version.
+- [ ] Enforced pre-1.0 default (`atomic`) unless hard gates required `transitional`.
+- [ ] Included `transitional_exception_note` when required.
+- [ ] Included tie-break escalation when applicable.
+- [ ] Updated impacted contracts/docs/tests.
+- [ ] Honored charter change-control constraint (no direct principles charter edits without override evidence).
+
+## Exceptions/Escalations
+
+List any exceptions/escalations, owners, and target resolution dates; otherwise write `none`.
+
 ## Tradeoffs
 
 Known compromises, remaining risks, and any follow-up tickets.

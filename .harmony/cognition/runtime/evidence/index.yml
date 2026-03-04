@@ -114,3 +114,8 @@ records:
     path: ../../../output/reports/migrations/2026-02-25-context-governance-clean-break/evidence.md
     source_record: ../migrations/index.yml
 
+  - id: 2026-03-04-execution-profile-governance-cutover
+    kind: migration
+    path: ../../../output/reports/migrations/2026-03-04-execution-profile-governance-cutover/evidence.md
+    source_record: ../migrations/index.yml
+

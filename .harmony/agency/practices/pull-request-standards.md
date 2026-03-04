@@ -81,6 +81,17 @@ summary is acceptable.
   `## Checklist`.
 - CI validation in `.github/workflows/pr-quality.yml` enforces canonical template
   structure against PR bodies.
+- For governance/migration/refactor changes, PR bodies must include the
+  execution-profile governance receipt contract:
+  - `## Profile Selection Receipt`
+  - `## Implementation Plan`
+  - `## Impact Map (code, tests, docs, contracts)`
+  - `## Compliance Receipt`
+  - `## Exceptions/Escalations`
+- Governance receipts must declare machine keys when applicable:
+  - `change_profile`
+  - `release_state`
+  - `transitional_exception_note` (required for `pre-1.0` + `transitional`)
 
 ---
 

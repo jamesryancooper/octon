@@ -30,6 +30,7 @@
 
 - For reversible ambiguity, choose the minimal viable assumption and continue.
 - For irreversible ambiguity, stop and escalate with explicit tradeoffs.
+- For profile-selection tie-break ambiguity (`atomic` and `transitional` both appearing required), stop and escalate with a profile exception request.
 
 ## Collaboration Style
 

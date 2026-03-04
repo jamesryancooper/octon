@@ -1,41 +1,50 @@
 ---
-title: AI Agent Instructions for Clean-Break Migrations
-description: Agent operating rules for executing clean-break migrations without compatibility layers or dual execution paths.
+title: AI Agent Instructions for Profile-Governed Migrations
+description: Agent operating rules for selecting and executing atomic or transitional change profiles under migration governance policy.
 ---
 
-# AI Agent Instructions: Clean-Break Migrations
+# AI Agent Instructions: Profile-Governed Migrations
 
-You are working in a repository where migrations are clean-break by default.
+This file name is retained for continuity. The governing model is now profile-based (`atomic` or `transitional`).
 
 ## Operating Mode
 
 - Treat any interface, contract, or authority change as a migration.
-- Do not preserve legacy behavior via shims, adapters, flags, aliasing, or fallbacks.
+- Select exactly one `change_profile` before implementation.
+- Emit `Profile Selection Receipt` before implementation evidence.
 
 ## Hard Constraints (MUST)
 
-1. Remove legacy implementations entirely.
-2. Ensure exactly one authoritative path remains after changes.
-3. Delete legacy docs, schemas, tests, and call-sites.
-4. Update CI to prevent legacy reintroduction.
+1. Apply semantic release-state gate (`pre-1.0` vs `stable`) and record machine key `release_state`.
+2. In `pre-1.0`, default to `atomic`.
+3. Choose `transitional` only when hard gates require it.
+4. If `transitional` in pre-1.0, include `transitional_exception_note`:
+   - rationale
+   - risks
+   - owner
+   - target removal/decommission date
+5. If profile tie-break ambiguity exists, stop and escalate.
 
 ## Prohibited (MUST NOT)
 
-- Dual execution paths (old versus new)
-- Compatibility shims, adapters, or translators
-- Transitional feature flags or toggles
-- Leaving legacy code in place just in case
-- Silent mapping of old config to new config
+- Starting implementation without one selected profile and receipt.
+- Using `transitional` in pre-1.0 without required exception note.
+- Leaving transitional coexistence in place after final decommission date.
+- Silent fallback between profiles.
 
 ## Required Outputs (MUST)
 
 - Create or update a migration plan from `/.harmony/scaffolding/runtime/templates/migrations/template.clean-break-migration.md`
   at `/.harmony/cognition/runtime/migrations/<YYYY-MM-DD>-<slug>/plan.md`
-- Update `/.harmony/cognition/practices/methodology/migrations/legacy-banlist.md`
-- Provide verification evidence (test output, logs, receipts)
-  in `/.harmony/output/reports/migrations/<YYYY-MM-DD>-<slug>/`
-  with `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`,
-  and `inventory.md`
+- Update `/.harmony/cognition/practices/methodology/migrations/legacy-banlist.md` when legacy surfaces are removed.
+- Provide verification evidence in `/.harmony/output/reports/migrations/<YYYY-MM-DD>-<slug>/`
+  with `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, and `inventory.md`
+- Include required top-level sections:
+  1. `Profile Selection Receipt`
+  2. `Implementation Plan`
+  3. `Impact Map (code, tests, docs, contracts)`
+  4. `Compliance Receipt`
+  5. `Exceptions/Escalations`
 
 ## If an Exception Is Required
 

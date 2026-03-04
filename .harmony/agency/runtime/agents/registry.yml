@@ -17,6 +17,7 @@ agents:
       - risk-tiering
       - mission-orchestration
       - assistant-delegation
+      - execution-profile-governance
     delegates_to:
       assistants: [reviewer, refactor, docs]
     allowed_skills: []
