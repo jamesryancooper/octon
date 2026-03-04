@@ -1,0 +1,38 @@
+# Approval prompt rules for Codex execpolicy.
+# Canonical profile: .harmony/engine/governance/rules/profiles/approval-prompts.yml
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "prompt",
+    justification = "Destructive filesystem deletion requires explicit approval.",
+    match = ["rm -rf build", "rm -rf .cache"],
+    not_match = ["rm -f file.txt"],
+)
+
+prefix_rule(
+    pattern = ["git", "reset", "--hard"],
+    decision = "forbidden",
+    justification = "History-rewrite is blocked; use non-destructive alternatives unless explicitly reconfigured.",
+    match = ["git reset --hard", "git reset --hard HEAD~1"],
+)
+
+prefix_rule(
+    pattern = ["gh", "pr", "merge"],
+    decision = "prompt",
+    justification = "Remote merge actions require explicit approval.",
+    match = ["gh pr merge 123", "gh pr merge 123 --auto"],
+)
+
+prefix_rule(
+    pattern = ["npm", "publish"],
+    decision = "prompt",
+    justification = "Publishing artifacts is an external side effect and requires approval.",
+    match = ["npm publish"],
+)
+
+prefix_rule(
+    pattern = ["docker", "push"],
+    decision = "prompt",
+    justification = "Pushing container images is an external side effect and requires approval.",
+    match = ["docker push ghcr.io/org/app:latest"],
+)

@@ -1,0 +1,5 @@
+id: docs-glossary
+version: "1.0.0"
+status: active
+owner: cognition-docs
+summary: "Preserve terminology consistency against glossary definitions."

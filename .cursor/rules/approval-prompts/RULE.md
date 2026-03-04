@@ -1,0 +1,1 @@
+../../../.harmony/engine/governance/rules/adapters/cursor/approval-prompts/RULE.md

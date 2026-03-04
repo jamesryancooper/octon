@@ -730,7 +730,10 @@ See [workflows.md](/.harmony/orchestration/_meta/architecture/workflows.md) for 
 
 ### Cursor
 
-The `.cursor/rules/harmony/RULE.md` provides context when editing `.harmony/` files. It:
+Canonical harness-rule policy packs live in
+`.harmony/engine/governance/rules/`. The Cursor adapter entry point
+`.cursor/rules/harmony/RULE.md` (symlinked from the canonical rules surface)
+provides context when editing `.harmony/` files. It:
 
 - Triggers on glob pattern `**/.harmony/**`
 - Points agents to canonical references
@@ -757,7 +760,8 @@ These commands live in `.<harness>/commands/` (e.g., `.cursor/commands/`, `.clau
 
 ## Token Budget Guidelines
 
-See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table that agents use when working with harness files.
+See `.harmony/engine/governance/rules/adapters/cursor/harmony/RULE.md` for
+the authoritative token budget table used by Cursor rule adapters.
 
 **Summary:** Target ~2,000 tokens total, ~300 per file, ~200 for START.md. A compact harness leaves maximum context window for actual work.
 

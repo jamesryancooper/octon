@@ -27,6 +27,7 @@ Tie-breaker:
 
 ## Contracts
 
+- `rules/` (cross-harness rules SSOT with harness adapter mappings)
 - `protocol-versioning.md`
 - `compatibility-policy.md`
 - `release-gates.md`

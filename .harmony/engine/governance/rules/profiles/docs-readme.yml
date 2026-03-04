@@ -1,0 +1,5 @@
+id: docs-readme
+version: "1.0.0"
+status: active
+owner: cognition-docs
+summary: "Apply standard README structure and quickstart quality constraints."

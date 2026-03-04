@@ -1,0 +1,5 @@
+id: docs-for-humans
+version: "1.0.0"
+status: active
+owner: cognition-docs
+summary: "Ensure human-facing docs are readable and task-oriented."

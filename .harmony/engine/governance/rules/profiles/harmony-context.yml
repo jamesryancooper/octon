@@ -1,0 +1,5 @@
+id: harmony-context
+version: "1.0.0"
+status: active
+owner: cognition-architecture
+summary: "Inject harness context and frontmatter constraints for .harmony edits."

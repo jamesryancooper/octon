@@ -1,0 +1,28 @@
+id: approval-prompts
+version: "1.0.0"
+status: active
+owner: engine-governance
+summary: "Require explicit approval prompts for high-risk command classes."
+
+intent:
+  objective: "Trigger user approval for destructive, external-side-effect, and sensitive boundary operations."
+  default_posture: "deny-by-default with prompt-before-allow for bounded high-risk operations"
+
+risk_classes:
+  - id: destructive-filesystem
+    examples: ["rm -rf", "find -delete"]
+    default_decision: prompt
+  - id: history-rewrite
+    examples: ["git reset --hard", "git checkout --"]
+    default_decision: forbidden
+  - id: release-and-deploy
+    examples: ["npm publish", "gh pr merge", "docker push"]
+    default_decision: prompt
+  - id: data-egress
+    examples: ["curl -T", "scp", "aws s3 cp"]
+    default_decision: prompt
+
+verification:
+  codex_execpolicy_check_examples:
+    - "codex execpolicy check --pretty --rules .codex/rules/approval-prompts.rules -- rm -rf build"
+    - "codex execpolicy check --pretty --rules .codex/rules/approval-prompts.rules -- gh pr merge 123 --auto"

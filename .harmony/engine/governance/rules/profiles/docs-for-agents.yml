@@ -1,0 +1,5 @@
+id: docs-for-agents
+version: "1.0.0"
+status: active
+owner: cognition-docs
+summary: "Ensure AI-facing docs are compendious and operational."

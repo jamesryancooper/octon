@@ -225,7 +225,8 @@ Reference of available tools and capabilities for agents working in this harness
 
 Context files should be **minimal**. Only include information an agent needs to act correctly. Extended explanations can go in `docs/` or `ideation/scratchpad/`.
 
-See `.cursor/rules/harmony/RULE.md` for the authoritative token budget table.
+See `.harmony/engine/governance/rules/adapters/cursor/harmony/RULE.md` for
+the authoritative token budget table.
 
 ---
 
