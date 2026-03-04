@@ -35,6 +35,10 @@ permissions, and control-plane drift operations.
 
 ## Script Quick Reference
 
+`Branch closeout` means the full lifecycle: stage/commit, push, PR open/update,
+ready/auto-merge request (policy permitting), wait/poll to completion, and
+cleanup.
+
 ### 1) Create a branch + worktree
 
 ```bash
@@ -81,6 +85,17 @@ Behavior:
 - Requests squash auto-merge (unless `--no-automerge`).
 - Waits for PR closure (auto lane) and runs local cleanup enforcement.
 - For manual lanes, starts a background cleanup watcher that runs when the PR closes.
+
+### Thread Closeout Gate (Required)
+
+After any thread turn with file changes, ask:
+
+`Are you ready to closeout this branch?`
+
+- If the answer is "yes", run closeout end-to-end using:
+  1. `git-pr-open.sh`
+  2. `git-pr-ship.sh`
+- If the answer is "no", stop with no closeout mutations.
 
 ### 4) Enforce local cleanup state on demand
 

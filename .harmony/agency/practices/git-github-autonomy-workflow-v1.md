@@ -68,6 +68,13 @@ AI review lane:
   in the `main` branch ruleset.
 - Codex-specific review remains advisory and non-blocking.
 
+Conversation closeout gate:
+
+- For any thread turn that produced file changes, ask:
+  `Are you ready to closeout this branch?`
+- If yes, execute full closeout lifecycle end-to-end.
+- If no, preserve current branch state with no closeout mutations.
+
 ---
 
 ## Source of Truth Map

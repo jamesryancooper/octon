@@ -194,3 +194,15 @@ Read `.harmony/orchestration/runtime/workflows/manifest.yml` for workflow discov
   description quality, and reviewer expectations.
 - Use `.github/PULL_REQUEST_TEMPLATE.md` (or a scoped template under
   `.github/PULL_REQUEST_TEMPLATE/`) when opening PRs.
+
+## Branch Closeout Gate (Required)
+
+- After any conversation turn that results in file changes, the agent MUST ask
+  exactly: `Are you ready to closeout this branch?`
+- This gate is required even when the implementation task itself is complete.
+- If the user answers "yes", run the full Git/GitHub closeout lifecycle:
+  stage, commit, push, open/update PR, request auto-merge (policy permitting),
+  monitor to completion, and run cleanup.
+- If the user answers "no", stop after summarizing the completed work and leave
+  branch state unchanged.
+- Do not ask this question for read-only turns (no file changes).
