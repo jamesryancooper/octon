@@ -171,6 +171,10 @@ For Phase C release acceleration:
    `main`.
 3. `AUTONOMY_PAT` includes `Contents`, `Pull requests`, and `Issues` write
    permissions.
+4. Pre-1.0 cadence is pinned in `release-please-config.json` with
+   `"bump-minor-pre-major": false` and
+   `"bump-patch-for-minor-pre-major": true` so non-breaking `0.x` releases
+   advance by patch by default.
 
 ---
 
@@ -392,6 +396,9 @@ Phase 5 (provider-agnostic AI gate):
   `AUTONOMY_PAT` is missing `Pull requests: Read and write`.
 - `release-please` fails when applying labels/comments on release PR:
   `AUTONOMY_PAT` is missing `Issues: Read and write`.
+- Release tags are advancing too quickly while `<1.0.0`:
+  verify `release-please-config.json` keeps `"bump-minor-pre-major": false`
+  and `"bump-patch-for-minor-pre-major": true`.
 - `Autonomy Release Health` fails with
   `AUTONOMY_AUTO_MERGE_ENABLED=false`: set repository variable back to `true`
   unless intentionally paused for incident response.
