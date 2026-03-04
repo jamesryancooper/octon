@@ -55,9 +55,7 @@ jobs:
         name: Decide whether provider matrix must run
         run: |
           set -euo pipefail
-          if [[ "${{ github.event.action }}" == "labeled" || "${{ github.event.action }}" == "unlabeled" ]]; then
-            echo "provider_trigger=false" >> "${GITHUB_OUTPUT}"
-          elif [[ "${{ steps.filter.outputs.risk }}" == "true" ]]; then
+          if [[ "${{ steps.filter.outputs.risk }}" == "true" ]]; then
             echo "provider_trigger=true" >> "${GITHUB_OUTPUT}"
           else
             echo "provider_trigger=false" >> "${GITHUB_OUTPUT}"
@@ -186,10 +184,13 @@ jobs:
             summary="Provider artifact missing; marked unavailable."
             adapter="fallback"
 
-            if [[ "${PROVIDER_TRIGGER}" != "true" || "${PROVIDER_FINDINGS_RESULT}" == "skipped" ]]; then
+            if [[ "${PROVIDER_TRIGGER}" != "true" ]]; then
               status="ok"
-              summary="Provider execution intentionally skipped for label-only or non-risky changes."
+              summary="Provider execution intentionally skipped for non-risky changes."
               adapter="policy-skip"
+            elif [[ "${PROVIDER_FINDINGS_RESULT}" == "skipped" ]]; then
+              summary="Provider execution expected but skipped; marked unavailable."
+              adapter="expected-provider-skip"
             fi
 
             jq -n \

@@ -19,8 +19,37 @@ has_push_and_pr() {
 
 push_is_scoped() {
   local file="$1"
-  # Require explicit branch or tag scoping when push and PR triggers coexist.
-  rg -q '^[[:space:]]{4}(branches|branches-ignore|tags|tags-ignore):' "$file"
+  # Require explicit branch or tag scoping specifically under `on.push`.
+  awk '
+    BEGIN {
+      in_push = 0
+      scoped = 0
+    }
+
+    # Inline map form: `push: { branches: [main] }`
+    /^[[:space:]]{2}push:[[:space:]]*\{.*(branches|branches-ignore|tags|tags-ignore)[[:space:]]*:/ {
+      scoped = 1
+      next
+    }
+
+    /^[[:space:]]{2}push:[[:space:]]*$/ {
+      in_push = 1
+      next
+    }
+
+    in_push && /^[[:space:]]{2}[A-Za-z0-9_-]+:[[:space:]]*$/ {
+      in_push = 0
+    }
+
+    in_push && /^[[:space:]]{4}(branches|branches-ignore|tags|tags-ignore):/ {
+      scoped = 1
+      next
+    }
+
+    END {
+      exit scoped ? 0 : 1
+    }
+  ' "$file"
 }
 
 has_concurrency() {
