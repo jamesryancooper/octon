@@ -1,0 +1,85 @@
+# Principles Charter Map
+# Machine-readable mapping from charter principle IDs (P1..P10)
+# to operational principle guides.
+
+schema_version: "1.0"
+charter_source: principles.md
+status: active
+
+charter_principles:
+  - id: P1
+    title: SSOT Hubs, Not Doc Sprawl
+    source_heading: "### P1 - SSOT Hubs, Not Doc Sprawl"
+    guides:
+      - single-source-of-truth.md
+      - documentation-is-code.md
+      - progressive-disclosure.md
+
+  - id: P2
+    title: Explicit Boundaries & Contracts
+    source_heading: "### P2 - Explicit Boundaries & Contracts"
+    guides:
+      - ownership-and-boundaries.md
+      - contract-first.md
+
+  - id: P3
+    title: Complexity Calibration
+    source_heading: "### P3 - Complexity Calibration (KISS, YAGNI, and robustness in balance)"
+    guides:
+      - complexity-calibration.md
+      - monolith-first-modulith.md
+
+  - id: P4
+    title: Subtractive Bias
+    source_heading: "### P4 - Subtractive Bias (Reduce Before You Add)"
+    guides:
+      - complexity-calibration.md
+      - small-diffs-trunk-based.md
+
+  - id: P5
+    title: Minimal Additive Change
+    source_heading: "### P5 - Minimal Additive Change (When Justified)"
+    guides:
+      - complexity-calibration.md
+      - contract-first.md
+
+  - id: P6
+    title: Design Integrity & Clean Code
+    source_heading: "### P6 - Design Integrity & Clean Code"
+    guides:
+      - ownership-and-boundaries.md
+      - monolith-first-modulith.md
+      - contract-first.md
+
+  - id: P7
+    title: Quality Engineering is Part of Done
+    source_heading: "### P7 - Quality Engineering is Part of \"Done\""
+    guides:
+      - guardrails.md
+      - observability-as-a-contract.md
+      - accessibility-baseline.md
+
+  - id: P8
+    title: Operability & Observability by Design
+    source_heading: "### P8 - Operability & Observability by Design"
+    guides:
+      - observability-as-a-contract.md
+      - reversibility.md
+      - learn-continuously.md
+
+  - id: P9
+    title: Controlled Change
+    source_heading: "### P9 - Controlled Change (Compatibility + Migration)"
+    guides:
+      - contract-first.md
+      - flags-by-default.md
+      - reversibility.md
+      - small-diffs-trunk-based.md
+
+  - id: P10
+    title: Security & Privacy by Default
+    source_heading: "### P10 - Security & Privacy by Default"
+    guides:
+      - security-and-privacy-baseline.md
+      - deny-by-default.md
+      - guardrails.md

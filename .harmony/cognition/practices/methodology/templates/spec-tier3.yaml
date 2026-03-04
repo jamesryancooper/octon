@@ -156,6 +156,30 @@ scope:
     total_lines: 0
 
 # ------------------------------------------------------------------------------
+# Convivial Impact Assessment
+# ------------------------------------------------------------------------------
+convivial_impact:
+  capability_expansion: ""
+  # What capability is expanded in human terms?
+  # Must describe user benefit beyond engagement or extraction.
+
+  attention_class: peripheral
+  # Options: peripheral | on_demand | active | interruptive
+  # "interruptive" requires explicit justification and user controls.
+
+  extraction_risk: none
+  # Options: none | minimal_local | moderate_shared | high_centralized
+  # "moderate_shared" and "high_centralized" require documented controls.
+
+  manipulation_vectors: []
+  # Enumerate plausible manipulation or coercion vectors.
+  # T3 changes should assume at least one vector unless confidently ruled out.
+
+  mitigations: []
+  # Map each vector/risk to enforceable mitigations.
+  # Connect mitigations to contracts, tests, and observability below.
+
+# ------------------------------------------------------------------------------
 # Data Classification
 # ------------------------------------------------------------------------------
 data_classification:

@@ -7,6 +7,17 @@ cd "$ROOT_DIR"
 PRINCIPLES_DIR="${PRINCIPLES_DIR_OVERRIDE:-.harmony/cognition/governance/principles}"
 REFERENCE_LINT="${REFERENCE_LINT_OVERRIDE:-.harmony/cognition/_ops/principles/scripts/reference-lint.sh}"
 OVERRIDE_LEDGER="${PRINCIPLES_OVERRIDE_LEDGER_OVERRIDE:-.harmony/cognition/governance/exceptions/principles-charter-overrides.md}"
+PRINCIPLES_INDEX="$PRINCIPLES_DIR/index.yml"
+CHARTER_MAP="$PRINCIPLES_DIR/charter-map.yml"
+CONTROLS_DIR=".harmony/cognition/governance/controls"
+CONVIVIAL_CONTROL_MD="$CONTROLS_DIR/convivial-impact-minimums.md"
+CONVIVIAL_CONTROL_YML="$CONTROLS_DIR/convivial-impact-minimums.yml"
+CONTROLS_INDEX="$CONTROLS_DIR/index.yml"
+TIER2_TEMPLATE=".harmony/cognition/practices/methodology/templates/spec-tier2.yaml"
+TIER3_TEMPLATE=".harmony/cognition/practices/methodology/templates/spec-tier3.yaml"
+PR_TEMPLATE=".github/PULL_REQUEST_TEMPLATE.md"
+PR_TEMPLATE_KAIZEN=".github/PULL_REQUEST_TEMPLATE/kaizen.md"
+PRINCIPLES_README="$PRINCIPLES_DIR/README.md"
 
 declare -i failures=0
 
@@ -478,6 +489,251 @@ check_risk_mapping_reference() {
   fi
 }
 
+check_principles_index_contract() {
+  local missing_fields duplicate_ids duplicate_paths
+  local -a indexed_markdown actual_markdown
+
+  if [[ ! -f "$PRINCIPLES_INDEX" ]]; then
+    echo "[index-contract] missing principles index: $PRINCIPLES_INDEX"
+    failures+=1
+    return
+  fi
+
+  missing_fields="$(awk '
+    function trim(v) { gsub(/^[[:space:]]+|[[:space:]]+$/, "", v); return v }
+    function flush_entry() {
+      if (!in_entry) return
+      if (!has_class) print id " missing classification"
+      if (!has_lifecycle) print id " missing lifecycle"
+      if (!has_path) print id " missing path"
+      if (!has_summary) print id " missing summary"
+      if (!has_when) print id " missing when"
+    }
+    /^[[:space:]]*-[[:space:]]id:[[:space:]]*/ {
+      flush_entry()
+      in_entry = 1
+      line = $0
+      sub(/^[[:space:]]*-[[:space:]]id:[[:space:]]*/, "", line)
+      id = trim(line)
+      has_class = has_lifecycle = has_path = has_summary = has_when = 0
+      next
+    }
+    in_entry && /^[[:space:]]+classification:[[:space:]]*/ { has_class = 1; next }
+    in_entry && /^[[:space:]]+lifecycle:[[:space:]]*/ { has_lifecycle = 1; next }
+    in_entry && /^[[:space:]]+path:[[:space:]]*/ { has_path = 1; next }
+    in_entry && /^[[:space:]]+summary:[[:space:]]*/ { has_summary = 1; next }
+    in_entry && /^[[:space:]]+when:[[:space:]]*/ { has_when = 1; next }
+    END { flush_entry() }
+  ' "$PRINCIPLES_INDEX")"
+  if [[ -n "$missing_fields" ]]; then
+    echo "[index-contract] principles index entries missing required fields:"
+    printf '%s\n' "$missing_fields"
+    failures+=1
+  fi
+
+  duplicate_ids="$(awk '/^[[:space:]]*-[[:space:]]id:[[:space:]]*/ { sub(/^[[:space:]]*-[[:space:]]id:[[:space:]]*/, "", $0); print $0 }' "$PRINCIPLES_INDEX" | sort | uniq -d || true)"
+  if [[ -n "$duplicate_ids" ]]; then
+    echo "[index-contract] duplicate principle index ids detected:"
+    printf '%s\n' "$duplicate_ids"
+    failures+=1
+  fi
+
+  duplicate_paths="$(awk '/^[[:space:]]+path:[[:space:]]*/ { sub(/^[[:space:]]+path:[[:space:]]*/, "", $0); print $0 }' "$PRINCIPLES_INDEX" | sort | uniq -d || true)"
+  if [[ -n "$duplicate_paths" ]]; then
+    echo "[index-contract] duplicate principle index paths detected:"
+    printf '%s\n' "$duplicate_paths"
+    failures+=1
+  fi
+
+  mapfile -t indexed_markdown < <(awk '/^[[:space:]]+path:[[:space:]]*/ { sub(/^[[:space:]]+path:[[:space:]]*/, "", $0); if ($0 ~ /\.md$/) print $0 }' "$PRINCIPLES_INDEX" | sort -u)
+  mapfile -t actual_markdown < <(find "$PRINCIPLES_DIR" -maxdepth 1 -type f -name '*.md' -exec basename {} \; | sort)
+
+  local missing_from_index=""
+  local stale_in_index=""
+  local f=""
+  for f in "${actual_markdown[@]}"; do
+    if ! printf '%s\n' "${indexed_markdown[@]}" | rg -qx "$f"; then
+      missing_from_index+="$f"$'\n'
+    fi
+  done
+  for f in "${indexed_markdown[@]}"; do
+    if ! printf '%s\n' "${actual_markdown[@]}" | rg -qx "$f"; then
+      stale_in_index+="$f"$'\n'
+    fi
+  done
+
+  if [[ -n "$missing_from_index" ]]; then
+    echo "[index-coverage] markdown files present in principles dir but not indexed:"
+    printf '%s' "$missing_from_index"
+    failures+=1
+  fi
+
+  if [[ -n "$stale_in_index" ]]; then
+    echo "[index-coverage] indexed markdown paths missing from principles dir:"
+    printf '%s' "$stale_in_index"
+    failures+=1
+  fi
+}
+
+check_superseded_principle_clutter() {
+  local hits
+  hits="$(rg -n -i '^status:[[:space:]]*superseded$' "$PRINCIPLES_DIR" --glob '*.md' || true)"
+  if [[ -n "$hits" ]]; then
+    echo "[superseded-clutter] superseded principle files are not allowed in active principles directory:"
+    printf '%s\n' "$hits"
+    failures+=1
+  fi
+}
+
+check_charter_map_contract() {
+  local id count mapped_guides
+
+  if [[ ! -f "$CHARTER_MAP" ]]; then
+    echo "[charter-map] missing charter map: $CHARTER_MAP"
+    failures+=1
+    return
+  fi
+
+  if ! rg -q '^schema_version:[[:space:]]*"1\.0"$' "$CHARTER_MAP"; then
+    echo "[charter-map] charter map must declare schema_version 1.0."
+    failures+=1
+  fi
+
+  for id in P1 P2 P3 P4 P5 P6 P7 P8 P9 P10; do
+    count="$(rg -c "^[[:space:]]*-[[:space:]]id:[[:space:]]*$id$" "$CHARTER_MAP" || true)"
+    if [[ "$count" -ne 1 ]]; then
+      echo "[charter-map] expected exactly one charter map entry for $id; found $count"
+      failures+=1
+    fi
+  done
+
+  mapped_guides="$(awk '
+    /^[[:space:]]+guides:[[:space:]]*$/ { in_guides = 1; next }
+    in_guides && /^[[:space:]]+-[[:space:]]+[a-z0-9._-]+\.md$/ {
+      line = $0
+      sub(/^[[:space:]]+-[[:space:]]+/, "", line)
+      print line
+      next
+    }
+    in_guides && !/^[[:space:]]+-[[:space:]]+/ { in_guides = 0 }
+  ' "$CHARTER_MAP" | sort -u)"
+  if [[ -z "$mapped_guides" ]]; then
+    echo "[charter-map] charter map must contain at least one mapped guide."
+    failures+=1
+  else
+    while IFS= read -r id; do
+      [[ -z "$id" ]] && continue
+      if [[ ! -f "$PRINCIPLES_DIR/$id" ]]; then
+        echo "[charter-map] mapped guide does not exist: $id"
+        failures+=1
+      fi
+    done <<< "$mapped_guides"
+  fi
+
+  if [[ ! -f "$PRINCIPLES_README" ]]; then
+    echo "[charter-map] missing principles README: $PRINCIPLES_README"
+    failures+=1
+  elif ! rg -q 'charter-map\.yml' "$PRINCIPLES_README"; then
+    echo "[charter-map] principles README must reference charter-map.yml."
+    failures+=1
+  fi
+
+  if ! rg -q 'path:[[:space:]]*charter-map\.yml' "$PRINCIPLES_INDEX"; then
+    echo "[charter-map] principles index must include charter-map.yml entry."
+    failures+=1
+  fi
+}
+
+check_convivial_alignment_contract() {
+  local file
+  local -a templates=("$TIER2_TEMPLATE" "$TIER3_TEMPLATE")
+  local -a pr_templates=("$PR_TEMPLATE" "$PR_TEMPLATE_KAIZEN")
+
+  if [[ ! -f "$CONVIVIAL_CONTROL_MD" ]]; then
+    echo "[convivial-contract] missing control doc: $CONVIVIAL_CONTROL_MD"
+    failures+=1
+  fi
+
+  if [[ ! -f "$CONVIVIAL_CONTROL_YML" ]]; then
+    echo "[convivial-contract] missing control yaml: $CONVIVIAL_CONTROL_YML"
+    failures+=1
+  fi
+
+  if [[ -f "$CONTROLS_INDEX" ]]; then
+    if ! rg -q 'path:[[:space:]]*convivial-impact-minimums\.md' "$CONTROLS_INDEX"; then
+      echo "[convivial-contract] controls index must include convivial-impact-minimums.md."
+      failures+=1
+    fi
+    if ! rg -q 'path:[[:space:]]*convivial-impact-minimums\.yml' "$CONTROLS_INDEX"; then
+      echo "[convivial-contract] controls index must include convivial-impact-minimums.yml."
+      failures+=1
+    fi
+  else
+    echo "[convivial-contract] missing controls index: $CONTROLS_INDEX"
+    failures+=1
+  fi
+
+  for file in "${templates[@]}"; do
+    if [[ ! -f "$file" ]]; then
+      echo "[convivial-contract] missing spec template: $file"
+      failures+=1
+      continue
+    fi
+    if ! rg -q '^convivial_impact:[[:space:]]*$' "$file"; then
+      echo "[convivial-contract] $file must define convivial_impact section."
+      failures+=1
+    fi
+    if ! rg -q '^[[:space:]]+capability_expansion:[[:space:]]*' "$file"; then
+      echo "[convivial-contract] $file must define convivial_impact.capability_expansion."
+      failures+=1
+    fi
+    if ! rg -q '^[[:space:]]+attention_class:[[:space:]]*(peripheral|on_demand|active|interruptive)' "$file"; then
+      echo "[convivial-contract] $file must define convivial_impact.attention_class with valid domain value."
+      failures+=1
+    fi
+    if ! rg -q '^[[:space:]]+extraction_risk:[[:space:]]*(none|minimal_local|moderate_shared|high_centralized)' "$file"; then
+      echo "[convivial-contract] $file must define convivial_impact.extraction_risk with valid domain value."
+      failures+=1
+    fi
+    if ! rg -q '^[[:space:]]+manipulation_vectors:[[:space:]]*' "$file"; then
+      echo "[convivial-contract] $file must define convivial_impact.manipulation_vectors."
+      failures+=1
+    fi
+    if ! rg -q '^[[:space:]]+mitigations:[[:space:]]*' "$file"; then
+      echo "[convivial-contract] $file must define convivial_impact.mitigations."
+      failures+=1
+    fi
+  done
+
+  for file in "${pr_templates[@]}"; do
+    if [[ ! -f "$file" ]]; then
+      echo "[convivial-contract] missing PR template: $file"
+      failures+=1
+      continue
+    fi
+    if ! rg -q '^## Convivial Purpose Check$' "$file"; then
+      echo "[convivial-contract] $file must include Convivial Purpose checklist section."
+      failures+=1
+    fi
+    if ! rg -q 'Feature expands genuine user capability' "$file"; then
+      echo "[convivial-contract] $file missing capability expansion checklist item."
+      failures+=1
+    fi
+    if ! rg -q 'Attention and interruption behavior are justified and user-controllable' "$file"; then
+      echo "[convivial-contract] $file missing attention-control checklist item."
+      failures+=1
+    fi
+    if ! rg -q 'No manipulative patterns or dark-pattern mechanics are introduced' "$file"; then
+      echo "[convivial-contract] $file missing anti-manipulation checklist item."
+      failures+=1
+    fi
+    if ! rg -q 'Data collection/extraction risk is minimal and explicitly justified' "$file"; then
+      echo "[convivial-contract] $file missing extraction-risk checklist item."
+      failures+=1
+    fi
+  done
+}
+
 if [[ ! -x "$REFERENCE_LINT" ]]; then
   echo "[missing-script] reference lint script is missing or not executable: $REFERENCE_LINT"
   failures+=1
@@ -490,6 +746,10 @@ fi
 check_canonical_matrix_links
 check_canonical_glossary_links
 check_risk_mapping_reference
+check_principles_index_contract
+check_superseded_principle_clutter
+check_charter_map_contract
+check_convivial_alignment_contract
 check_forbidden_terms
 check_pr_only_runtime_gating
 check_human_approval_runtime_dependency

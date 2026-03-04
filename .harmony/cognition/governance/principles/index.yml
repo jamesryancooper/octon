@@ -4,136 +4,221 @@
 schema_version: "1.0"
 files:
   - id: principles-overview
+    classification: operational-index
+    lifecycle: active
     path: README.md
     summary: Principles surface orientation, scope, and governance posture.
     when: First entrypoint before opening specific principle contracts.
 
   - id: principles-charter
+    classification: charter
+    lifecycle: active
     path: principles.md
     summary: Human-override-controlled constitutional charter for engineering principles and standards.
     when: Before interpreting policy and when validating explicit human override charter updates.
 
+  - id: principles-charter-map
+    classification: charter-map
+    lifecycle: active
+    path: charter-map.yml
+    summary: Canonical map from charter principles (P1..P10) to operational guides.
+    when: When tracing charter obligations to executable day-to-day principle guidance.
+
   - id: principles-roadmap
+    classification: roadmap
+    lifecycle: active
     path: roadmap.md
     summary: Roadmap for principle evolution and adoption sequencing.
     when: When planning principles-adjacent governance work.
 
   - id: principle-progressive-disclosure
+    classification: guide
+    family: foundational
+    lifecycle: active
     path: progressive-disclosure.md
     summary: Principle for layered context delivery and discovery depth.
     when: When changing documentation and onboarding patterns.
 
   - id: principle-complexity-calibration
+    classification: guide
+    family: foundational
+    lifecycle: active
     path: complexity-calibration.md
     summary: Principle enforcing minimal sufficient complexity through explicit justification and fitness checks.
     when: When evaluating architecture or process complexity tradeoffs.
 
   - id: principle-single-source-of-truth
+    classification: guide
+    family: foundational
+    lifecycle: active
     path: single-source-of-truth.md
     summary: Principle for authoritative ownership of contracts and records.
     when: When resolving duplicate ownership and drift risks.
 
   - id: principle-locality
+    classification: guide
+    family: foundational
+    lifecycle: active
     path: locality.md
     summary: Principle for colocating context, contracts, and ownership.
     when: When deciding artifact placement and boundary design.
 
   - id: principle-arbitration-and-precedence
+    classification: guide
+    family: foundational
+    lifecycle: active
     path: arbitration-and-precedence.md
     summary: Principle conflict-resolution hierarchy and precedence rules.
     when: When governance principles or policies appear to conflict.
 
   - id: principle-deny-by-default
+    classification: guide
+    family: foundational
+    lifecycle: active
     path: deny-by-default.md
     summary: Principle enforcing fail-closed authorization posture.
     when: When designing permissions, policy gates, or exceptions.
 
   - id: principle-portability-and-independence
+    classification: guide
+    family: foundational
+    lifecycle: active
     path: portability-and-independence.md
     summary: Principle for portable, self-contained, environment-agnostic operation.
     when: When introducing platform-specific dependencies or assumptions.
 
   - id: principle-monolith-first-modulith
+    classification: guide
+    family: core
+    lifecycle: active
     path: monolith-first-modulith.md
     summary: Principle for modular monolith-first architecture decisions.
     when: When evaluating service-splitting or distribution tradeoffs.
 
   - id: principle-contract-first
+    classification: guide
+    family: core
+    lifecycle: active
     path: contract-first.md
     summary: Principle requiring contracts to lead implementation decisions.
     when: When designing interfaces, schemas, or API changes.
 
   - id: principle-small-diffs-trunk-based
+    classification: guide
+    family: core
+    lifecycle: active
     path: small-diffs-trunk-based.md
     summary: Principle for small, continuous, trunk-based delivery.
     when: When shaping branch policy and PR sizing constraints.
 
   - id: principle-flags-by-default
+    classification: guide
+    family: core
+    lifecycle: active
     path: flags-by-default.md
     summary: Principle for feature-flagged rollout and reversible delivery.
     when: When planning release sequencing and rollback strategy.
 
   - id: principle-determinism
+    classification: guide
+    family: core
+    lifecycle: active
     path: determinism.md
     summary: Principle for reproducible runtime and AI behavior.
     when: When setting model/runtime variability and replay controls.
 
   - id: principle-observability-as-a-contract
+    classification: guide
+    family: core
+    lifecycle: active
     path: observability-as-a-contract.md
     summary: Principle requiring telemetry evidence as part of correctness.
     when: When defining done criteria and runtime diagnostics.
 
   - id: principle-security-and-privacy-baseline
+    classification: guide
+    family: core
+    lifecycle: active
     path: security-and-privacy-baseline.md
     summary: Principle for least privilege, redaction, and safe handling defaults.
     when: When handling secrets, personal data, or security boundaries.
 
   - id: principle-accessibility-baseline
+    classification: guide
+    family: core
+    lifecycle: active
     path: accessibility-baseline.md
     summary: Principle treating accessibility checks as release gates.
     when: When defining UX quality gates and verification criteria.
 
   - id: principle-documentation-is-code
+    classification: guide
+    family: core
+    lifecycle: active
     path: documentation-is-code.md
     summary: Principle applying engineering rigor to documentation artifacts.
     when: When changing docs contracts, review flows, or generation patterns.
 
   - id: principle-reversibility
+    classification: guide
+    family: core
+    lifecycle: active
     path: reversibility.md
     summary: Principle requiring tested rollback and recovery paths.
     when: When evaluating deployment risk and one-way-door changes.
 
   - id: principle-ownership-and-boundaries
+    classification: guide
+    family: core
+    lifecycle: active
     path: ownership-and-boundaries.md
     summary: Principle for explicit ownership and architecture boundary enforcement.
     when: When changing module boundaries, ownership, or access rules.
 
   - id: principle-learn-continuously
+    classification: guide
+    family: core
+    lifecycle: active
     path: learn-continuously.md
     summary: Principle for structured improvement from outcomes and incidents.
     when: When operating retrospectives, scorecards, and continuous-improvement loops.
 
   - id: principle-no-silent-apply
+    classification: guide
+    family: agentic
+    lifecycle: active
     path: no-silent-apply.md
     summary: Principle requiring explicit governance evidence for durable side effects.
     when: When designing or reviewing autonomous agent behaviors.
 
   - id: principle-determinism-and-provenance
+    classification: guide
+    family: agentic
+    lifecycle: active
     path: determinism-and-provenance.md
     summary: Principle for durable metadata capture and replayability.
     when: When implementing evidence capture and provenance contracts.
 
   - id: principle-idempotency
+    classification: guide
+    family: agentic
+    lifecycle: active
     path: idempotency.md
     summary: Principle for safe retries and duplicate suppression in mutating operations.
     when: When designing APIs, workflows, and mutation handlers.
 
   - id: principle-guardrails
+    classification: guide
+    family: agentic
+    lifecycle: active
     path: guardrails.md
     summary: Principle for fail-closed policy, eval, and security gate enforcement.
     when: When implementing gate orchestration and safety boundaries.
 
   - id: principle-autonomous-control-points
+    classification: guide
+    family: agentic
+    lifecycle: active
     path: autonomous-control-points.md
     summary: Principle defining ACP staging, promotion, and evidence controls.
     when: When designing promotion governance and high-impact decision flows.

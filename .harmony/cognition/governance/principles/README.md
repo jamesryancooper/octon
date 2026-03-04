@@ -6,7 +6,7 @@ description: Canonical principles index and thresholds that translate Harmony pi
 # Harmony Principles
 
 Status: Active (Production)
-Last updated: 2026-02-24
+Last updated: 2026-03-04
 
 Principles are Harmony's operational translation layer between philosophy and execution.
 
@@ -32,6 +32,18 @@ Harmony principles are the decision layer between pillars and methodology. They 
 
 For small teams, default to the smallest robust solution that meets constraints for process, design, and tooling while preserving quality and governance. Escalate ceremony only for higher-risk changes.
 
+## Taxonomy (Charter vs Guides)
+
+The principles surface contains three distinct artifact classes:
+
+- **Charter**: `principles.md` (constitutional, human-override controlled).
+- **Operational guides**: individual principle guides (for day-to-day execution behavior).
+- **Mapping/index contracts**: `charter-map.yml` and `index.yml` (machine-readable traceability and discovery).
+
+Machine-readable mapping from charter principles (`P1..P10`) to operational guides is canonical in:
+
+- [charter-map.yml](./charter-map.yml)
+
 ## Constitutional Charter (Human-Override Controlled)
 
 - Canonical charter: [Engineering Principles & Standards (Authoritative)](./principles.md)
@@ -54,6 +66,7 @@ For small teams, default to the smallest robust solution that meets constraints 
 | Security and privacy | [Security and Privacy Baseline](./security-and-privacy-baseline.md), [Deny by Default](./deny-by-default.md), [Guardrails](./guardrails.md) |
 | Exceptions and governance | [Arbitration and Precedence](./arbitration-and-precedence.md), [Autonomous Control Points](./autonomous-control-points.md), [Waivers and Exceptions](../exceptions/waivers-and-exceptions.md) |
 | RA/ACP control contracts | [RA/ACP Glossary](../controls/ra-acp-glossary.md), [RA/ACP Promotion Inputs Matrix](../controls/ra-acp-promotion-inputs-matrix.md), [Flag Metadata Contract](../controls/flag-metadata-contract.md), [Promotable Slice Decomposition](../controls/promotable-slice-decomposition.md) |
+| Convivial impact contract | [Convivial Impact Minimums](../controls/convivial-impact-minimums.md), [Convivial Impact Minimums (YAML)](../controls/convivial-impact-minimums.yml) |
 
 ## Normative SSOT Map
 
@@ -65,6 +78,7 @@ Use one canonical source per governance topic to prevent drift:
 | Capability attempts and permissions | [Deny by Default](./deny-by-default.md) | fail-closed capability evaluation, scoped grants/exceptions, deterministic permission decisions |
 | Replay/provenance and receipt lineage | [Determinism and Provenance](./determinism-and-provenance.md) | required replay fields, provenance fields, receipt-linked reproducibility |
 | Telemetry contract | [Observability as a Contract](./observability-as-a-contract.md) | telemetry profiles and minimum signals, constrained by ACP budget/circuit policy |
+| Convivial impact minima | [Convivial Impact Minimums](../controls/convivial-impact-minimums.md) | required non-trivial planning/review fields for capability, attention, manipulation, and extraction risks |
 
 ## Arbitration & Precedence
 
@@ -194,7 +208,9 @@ These defaults are normative unless a documented waiver applies:
 
 ## Related Docs
 
+- `.harmony/cognition/governance/principles/charter-map.yml`
 - `.harmony/cognition/governance/principles/arbitration-and-precedence.md`
+- `.harmony/cognition/governance/controls/convivial-impact-minimums.md`
 - `.harmony/cognition/governance/pillars/README.md`
 - `.harmony/cognition/practices/methodology/README.md`
 - `.harmony/cognition/_meta/architecture/governance-model.md`

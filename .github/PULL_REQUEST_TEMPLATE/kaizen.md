@@ -63,6 +63,13 @@ How this was verified (automated and manual), including edge cases covered.
 
 Release strategy (flags, migration sequencing, canary/gradual rollout) or `n/a`.
 
+## Convivial Purpose Check
+
+- [ ] Feature expands genuine user capability (not synthetic engagement).
+- [ ] Attention and interruption behavior are justified and user-controllable.
+- [ ] No manipulative patterns or dark-pattern mechanics are introduced.
+- [ ] Data collection/extraction risk is minimal and explicitly justified.
+
 ## Risk Rubric
 
 - Risk class: [ ] Trivial [ ] Low [ ] Medium [ ] High

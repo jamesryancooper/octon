@@ -1,0 +1,44 @@
+schema_version: "1.0"
+status: active
+
+purpose_anchor: ../purpose/convivial-purpose.md
+
+spec_templates:
+  tier2:
+    path: ../../practices/methodology/templates/spec-tier2.yaml
+    required_fields:
+      - convivial_impact.capability_expansion
+      - convivial_impact.attention_class
+      - convivial_impact.extraction_risk
+      - convivial_impact.manipulation_vectors
+      - convivial_impact.mitigations
+  tier3:
+    path: ../../practices/methodology/templates/spec-tier3.yaml
+    required_fields:
+      - convivial_impact.capability_expansion
+      - convivial_impact.attention_class
+      - convivial_impact.extraction_risk
+      - convivial_impact.manipulation_vectors
+      - convivial_impact.mitigations
+
+value_domains:
+  attention_class:
+    - peripheral
+    - on_demand
+    - active
+    - interruptive
+  extraction_risk:
+    - none
+    - minimal_local
+    - moderate_shared
+    - high_centralized
+
+pull_request_templates:
+  required_paths:
+    - .github/PULL_REQUEST_TEMPLATE.md
+    - .github/PULL_REQUEST_TEMPLATE/kaizen.md
+  required_checks:
+    - expands_genuine_capability
+    - attention_is_user_controllable
+    - no_dark_patterns_or_manipulative_design
+    - data_collection_is_minimal_and_justified

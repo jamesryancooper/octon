@@ -27,6 +27,7 @@ Harmony uses a **three-tier risk classification** to right-size specs and review
 → See [auto-tier-assignment.md](./auto-tier-assignment.md) for classification algorithm.
 → See [templates/](./templates/) for spec templates.
 → Governance model: [Autonomous Control Points](../../governance/principles/autonomous-control-points.md), [Deny by Default](../../governance/principles/deny-by-default.md), [Arbitration & Precedence](../../governance/principles/README.md#arbitration--precedence).
+→ Convivial contract: [Convivial Impact Minimums](../../governance/controls/convivial-impact-minimums.md).
 
 ### Tier Selection Flow
 
@@ -63,10 +64,10 @@ AI automatically:
 - Intent, files, risk assessment, verification plan
 
 **T2 (Standard):** AI generates standard spec in ~2 minutes
-- Problem/solution, scope, contracts, STRIDE-lite, tests, rollout plan
+- Problem/solution, scope, convivial impact, contracts, STRIDE-lite, tests, rollout plan
 
 **T3 (Elevated):** AI generates full spec in ~5 minutes
-- Complete problem/solution, full STRIDE, data classification, migration plan, staged rollout
+- Complete problem/solution, convivial impact, full STRIDE, data classification, migration plan, staged rollout
 
 ### Step 3: Evidence + ACP Gate (Tier-Appropriate)
 
@@ -127,6 +128,7 @@ For ALL tiers, AI handles:
 
 For T2+, AI also handles:
 - STRIDE threat analysis (lite for T2, full for T3)
+- Convivial impact assessment (capability, attention, extraction, manipulation safeguards)
 - Feature flag setup
 - Rollout plan
 - Observability setup
@@ -224,6 +226,15 @@ scope:
     - type: api
       path: "/api/users/:id"
 
+convivial_impact:
+  capability_expansion: "Users can discover and understand peers they interact with."
+  attention_class: on_demand
+  extraction_risk: minimal_local
+  manipulation_vectors:
+    - "Over-emphasis on profile completion pressure"
+  mitigations:
+    - "No nag loops or interruptive prompts in profile view path"
+
 threat_analysis:
   classification: standard
   stride_lite:
@@ -257,6 +268,17 @@ problem:
   impact:
     users_affected: "All new and existing users"
     systems_affected: ["Auth service", "User DB", "Sessions"]
+
+convivial_impact:
+  capability_expansion: "Users can access accounts with lower authentication friction while retaining control."
+  attention_class: on_demand
+  extraction_risk: moderate_shared
+  manipulation_vectors:
+    - "Provider lock-in pressure through OAuth-only nudges"
+    - "Unclear consent on imported profile attributes"
+  mitigations:
+    - "Keep email/password path available and visible"
+    - "Display explicit attribute import notice before account link"
 
 data_classification:
   categories_touched:

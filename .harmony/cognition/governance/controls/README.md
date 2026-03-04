@@ -14,6 +14,8 @@ Canonical governance control contracts that operationalize RA/ACP behavior.
 
 ## Control Contracts
 
+- `convivial-impact-minimums.md`
+- `convivial-impact-minimums.yml`
 - `ra-acp-glossary.md`
 - `ra-acp-promotion-inputs-matrix.md`
 - `flag-metadata-contract.md`

@@ -65,6 +65,7 @@ if (!validation.valid) {
 |-------|-----|-----|-----|
 | `intent` | ✅ | - | - |
 | `problem/solution` | - | ✅ | ✅ |
+| `convivial_impact` | - | ✅ | ✅ |
 | `contracts` | - | ✅ | ✅ |
 | `threat_analysis` | - | Lite | Full |
 | `data_classification` | - | - | ✅ |
@@ -87,6 +88,9 @@ if (!validation.valid) {
 ### T2 Validation
 
 - `tier` must be `2`
+- `convivial_impact.capability_expansion` must be present
+- `convivial_impact.attention_class` must be present
+- `convivial_impact.extraction_risk` must be present
 - `threat_analysis.stride_lite` must be present
 - `rollout.flag.name` must be provided
 - `testing.e2e_smoke.required` must be `true`
@@ -95,6 +99,9 @@ if (!validation.valid) {
 
 - `tier` must be `3`
 - `navigator` must be specified
+- `convivial_impact.capability_expansion` must be present
+- `convivial_impact.attention_class` must be present
+- `convivial_impact.extraction_risk` must be present
 - `threat_model.stride` must have all categories
 - `oversight_touchpoints` must be present
 - `adr.required` must be `true`

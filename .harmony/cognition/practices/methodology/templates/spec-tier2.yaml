@@ -96,6 +96,30 @@ scope:
     # T2: typically 50-300 total lines
 
 # ------------------------------------------------------------------------------
+# Convivial Impact Assessment
+# ------------------------------------------------------------------------------
+convivial_impact:
+  capability_expansion: ""
+  # What new capability does this change create for users?
+  # Focus on genuine utility, not engagement loops.
+
+  attention_class: peripheral
+  # Options: peripheral | on_demand | active | interruptive
+  # Default to the least intrusive viable class.
+
+  extraction_risk: none
+  # Options: none | minimal_local | moderate_shared | high_centralized
+  # Any risk above "none" requires explicit justification and controls.
+
+  manipulation_vectors: []
+  # Known ways this design could manipulate, pressure, or mislead users.
+  # Keep empty only when analysis finds no credible vectors.
+
+  mitigations: []
+  # Concrete safeguards for identified vectors or extraction risks.
+  # Keep aligned to rollout, contract, and observability sections below.
+
+# ------------------------------------------------------------------------------
 # Contracts (if API/data changes)
 # ------------------------------------------------------------------------------
 contracts:
@@ -323,4 +347,3 @@ _review:
     requested: false
     new_tier: null
     reason: ""
-

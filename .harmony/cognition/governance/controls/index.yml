@@ -8,6 +8,16 @@ files:
     summary: Governance controls surface orientation and ownership boundaries.
     when: First entrypoint for RA/ACP control contract discovery.
 
+  - id: convivial-impact-minimums
+    path: convivial-impact-minimums.md
+    summary: Canonical minimum convivial-impact fields and PR checks for non-trivial changes.
+    when: When validating planning templates and review surfaces against Convivial Purpose.
+
+  - id: convivial-impact-minimums-contract
+    path: convivial-impact-minimums.yml
+    summary: Machine-readable contract for required convivial-impact fields and value domains.
+    when: When implementing or validating executable convivial governance checks.
+
   - id: ra-acp-glossary
     path: ra-acp-glossary.md
     summary: Canonical terminology for reversible autonomy governance.

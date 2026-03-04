@@ -25,16 +25,17 @@ trap cleanup EXIT
 assert_lint_fails_with_fixture() {
   local name="$1"
   local body="$2"
+  local status="${3:-Draft}"
   local fixture_file lint_output
 
   fixture_file="$(mktemp "$PRINCIPLES_DIR/.governance-lint-fixture-${name}.XXXX.md")"
   temp_files+=("$fixture_file")
 
-  cat >"$fixture_file" <<EOF
+cat >"$fixture_file" <<EOF
 ---
 title: Governance Lint Fixture ${name}
 description: Temporary fixture for governance lint failure testing.
-status: Draft
+status: ${status}
 ---
 
 # Fixture ${name}
@@ -68,5 +69,12 @@ assert_lint_fails_with_fixture "human-gate" \
 
 assert_lint_fails_with_fixture "hitl-term" \
   "HITL checkpoint policy applies here."
+
+assert_lint_fails_with_fixture "unindexed-principle-file" \
+  "This fixture should fail index coverage checks because it is not in principles index."
+
+assert_lint_fails_with_fixture "superseded-principle-file" \
+  "This fixture should fail superseded clutter checks." \
+  "Superseded"
 
 echo "Principles governance lint fixture tests passed."
