@@ -42,3 +42,17 @@ Every record must include:
 - authorization_source: explicit human override request in active session
 - break_glass: false
 - status: active
+
+### OVR-2026-03-04-001
+
+- date: 2026-03-04
+- rationale: Explicitly encode Convivial constraints in the authoritative charter and bind them to enforceable governance controls.
+- responsible_owner: "@you"
+- review_date: 2026-06-30
+- override_scope: Direct charter clarification adding normative Convivial constraints language and canonical control references.
+- review_and_agreement_evidence: Explicit human override instruction in Codex session on 2026-03-04 ("I am giving you human-override change control to explicitly call out Convivial constraints.").
+- exception_log_ref: OVR-2026-03-04-001 (this append-only record), authorized under ADR-042 (`/.harmony/cognition/runtime/decisions/042-principles-charter-human-override-direct-edit-policy.md`)
+- authorized_by: repository policy author
+- authorization_source: explicit human override request in active session
+- break_glass: false
+- status: active

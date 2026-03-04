@@ -7,7 +7,7 @@ agent_editable: false
 risk_tier: critical
 change_policy: human-override-only
 owner: "@you"
-last_reviewed: 2026-02-24
+last_reviewed: 2026-03-04
 applies_to:
   - Architecture
   - Code
@@ -50,6 +50,7 @@ applies_to:
 7. **Deterministic and operationally shippable**: deterministic where required, debuggable, observable, safe to roll out, safe to roll back.
 8. **Security by default**: least privilege, safe dependency practices, sensitive data guarded.
 9. **Consistency over novelty**: prefer established patterns of this codebase.
+10. **Convivial constraints are enforceable**: non-trivial planning and review must explicitly assess capability expansion, attention/interrupt behavior, extraction risk, and anti-manipulation safeguards.
 
 ---
 
@@ -76,6 +77,12 @@ applies_to:
 ### 0B.4 Delivery Defaults
 
 - Delivery defaults prioritize deterministic behavior, observable operations, and reversible change.
+
+### 0B.5 Convivial Constraints (Normative)
+
+- Convivial constraints are binding for non-trivial change and must be explicit in planning and review artifacts.
+- Canonical minimum requirements are defined in `../controls/convivial-impact-minimums.md` and `../controls/convivial-impact-minimums.yml`.
+- Governance enforcement must validate these constraints across Tier 2/3 planning templates and governed review checklist surfaces by default.
 
 ---
 
