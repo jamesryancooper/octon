@@ -3,7 +3,7 @@
 ## title: Harmony Charter
 description: Foundational charter for Harmony's identity, purpose, operating model, authority, scope, and governance as a portable agent-first filesystem harness.
 status: Active
-version: "1.2.1"
+version: "1.3.0"
 owner: Harmony governance
 review_cadence: Quarterly or per minor release
 effective_date: 2026-03-05
@@ -126,19 +126,27 @@ Harmony is governed by these non-negotiable concepts:
 | `intent contract`             | The machine-readable artifact stored at `/.harmony/cognition/runtime/context/intent.contract.yml`. It is the runtime authority for evaluating scope, binding execution, and validating autonomous material runs.                                                               |
 | `material side effect`        | Any write, delete, permission change, authority-surface change, external integration action, durable state mutation, destructive operation, or irreversible state transition.                                                                                                  |
 | `material run`                | Any autonomous or human-assisted execution that can produce one or more material side effects.                                                                                                                                                                                 |
+| `material autonomy`           | The autonomous subset of material runs whose execution can continue without a fresh human step after the routing outcome is determined.                                                                                                                                        |
 | `material change`             | An approved change set or execution outcome that contains one or more material side effects.                                                                                                                                                                                   |
 | `managed filesystem boundary` | The filesystem root containing `/.harmony/` and its descendant paths, excluding any paths explicitly excluded by policy or marked as human-led zones.                                                                                                                          |
 | `human-led zone`              | A path explicitly designated by policy as requiring human-directed operation. Autonomous material side effects in that path are blocked unless an approved exception says otherwise.                                                                                           |
 | `authority surface`           | Any granted write root, permission, external integration scope, or other bounded capability through which Harmony can cause material side effects.                                                                                                                             |
 | `charter owner`               | The governance authority named in this charter's metadata. If the charter `owner` is a group label rather than an individual, each approval, denial, or escalation response issued under that authority MUST name the acting human delegate in the relevant decision artifact. |
 | `policy owner`                | The accountable human authority for a governed decision in the active workspace or domain. If no narrower owner is explicitly named, the charter owner is the default policy owner.                                                                                            |
+| `applicable policy owner`     | The narrowest explicit policy owner named by the highest-precedence source that governs the decision under Section 6. If multiple explicit owners remain tied after applying Section 6, Harmony fails closed and escalates the ambiguity through the charter owner until one owner is recorded in a decision artifact. |
 | `approved`                    | Explicitly approved by the applicable policy owner.                                                                                                                                                                                                                            |
 | `effective`                   | The latest approved version that has not been revoked, superseded, or suspended.                                                                                                                                                                                               |
 | `valid`                       | Satisfying the required schema and remaining consistent with active policy bounds, scope constraints, and authority surfaces.                                                                                                                                                  |
+| `mutually consistent`         | For the objective brief and intent contract, agreement on objective scope, material constraints, approved authority surfaces, and acceptance context at the level required for material execution.                                                                              |
+| `divergence`                  | A condition where the objective brief and intent contract widen, narrow, omit, or contradict one another on objective scope, material constraints, approved authority surfaces, or acceptance context without same-change approval evidence.                                   |
+| `equivalent assurance entrypoint` | A bootstrap assurance mechanism other than `alignment-check` that has explicit policy-owner approval and produces the minimum bootstrap evidence required by Section 10.                                                                                                 |
 | `fail closed`                 | Block material execution and allow only planning, drafting, inspection, orientation, and other explicitly read-only or setup-safe behavior until the missing requirement is satisfied.                                                                                         |
 | `governance drift`            | Any unapproved divergence between required policy or contract behavior and actual runtime or operator behavior.                                                                                                                                                                |
 | `decision artifact`           | A durable record that captures an approval, exception, routing outcome, escalation, or governing rationale.                                                                                                                                                                    |
 | `continuity artifact`         | A durable record that preserves cross-run context, outcomes, follow-on work, or learned constraints.                                                                                                                                                                           |
+| `measurement record`          | The approved workspace-conventions record for a reporting period that names the measurement owner, evidence artifact, method, thresholds, and required targets for a success signal.                                                                                          |
+| `affected references`         | Charter-controlled cross-references, mirrors, or cited requirement descriptions that would become incorrect, stale, or misleading if a charter change landed without corresponding updates.                                                                                    |
+| `standard assurance gates`    | The minimum review and validation requirements for a charter change: repository-level review requirements that apply to the change, a re-run of the charter audit or equivalent governance review against the updated charter, and any checks needed to prove affected references remain consistent. |
 | `support target`              | A repository, operating system, and toolchain combination that the active workspace claims Harmony can support.                                                                                                                                                                |
 | `reporting period`            | The interval used to assess success signals. By default it is the charter `review_cadence` unless approved workspace conventions declare a narrower measurement interval.                                                                                                      |
 | `workspace target`            | The active delivery or operational target declared for the workspace and reporting period in approved workspace conventions or governing metrics.                                                                                                                              |
@@ -191,13 +199,14 @@ Additional precedence rules:
 - `governance/` is the sole normative policy authority for its domain, subject to higher-precedence rules in the ladder above.
 - Workspace-local artifacts MAY specify local boundaries, standards, support targets, and objectives only within the slots this charter and higher-precedence governance allow.
 - Higher-precedence repository-root or agency governance MAY narrow or strengthen charter requirements for a specific decision, but it MUST NOT be treated as an implicit waiver of charter obligations outside that explicitly governed decision.
+- The `applicable policy owner` for a material decision is the narrowest explicit owner named by the highest-precedence source that governs that decision. If multiple explicit owners remain at the same precedence level and the ladder still does not resolve the ambiguity, Harmony MUST fail closed, treat the charter owner as the escalation owner for the ambiguity, and require a decision artifact naming the resolved owner before material execution resumes.
 - If two sources appear to govern the same material decision and the ladder does not resolve the conflict deterministically, Harmony MUST fail closed and escalate to the applicable policy owner.
 
 ## 7. Accountability Model
 
 The accountability map below is the minimum required and exhaustive set for charter-governed flows named in this document. Each listed flow MUST have an explicit decision owner, execution owner, and escalation owner. Any new charter-governed flow that can approve, deny, widen, suspend, or materially constrain autonomy MUST be added to this map or explicitly delegated by domain governance before execution.
 
-If no narrower policy owner is explicitly named for a flow, the charter owner is the default decision and escalation owner.
+If no narrower policy owner is explicitly named for a flow, the charter owner is the default decision and escalation owner. If owner selection remains ambiguous after applying Section 6, the charter owner is the escalation owner for resolving that ambiguity until a decision artifact records the applicable policy owner.
 
 
 | Flow or decision                                                                              | Decision owner                                                               | Execution owner                                                 | Escalation owner        |
@@ -208,6 +217,9 @@ If no narrower policy owner is explicitly named for a flow, the charter owner is
 | Break-glass and irreversible high-risk actions                                                | Applicable policy owner                                                      | Human or agent executing the approved break-glass action        | Applicable policy owner |
 | Autonomy-mode suspension or reduction for emergency containment                               | Applicable policy owner                                                      | Human or agent performing the approved containment action       | Applicable policy owner |
 | Compliance or legal interpretation when policy cannot decide deterministically                | Applicable policy owner, with any required compliance or legal authority     | Human implementing the resulting decision                       | Applicable policy owner |
+| Objective-contract divergence adjudication and approved reconciliation                        | Applicable policy owner                                                      | Runtime blocks material execution; human or agent applies the approved reconciliation | Applicable policy owner |
+| Bootstrap equivalence approval for an alternative assurance entrypoint                        | Applicable policy owner                                                      | Human or agent establishing bootstrap with the approved equivalent assurance entrypoint | Applicable policy owner |
+| Reporting-period success-signal measurement configuration and target approval                 | Applicable policy owner                                                      | Human or agent maintaining the approved measurement record and reporting artifacts | Applicable policy owner |
 | Charter changes and approved charter exceptions                                               | Charter `owner`                                                              | Human or agent implementing the approved change                 | Charter `owner`         |
 | Routine planning, implementation, verification, and continuity updates within approved bounds | Agents operating within the active objective contract and authority surfaces | Agents                                                          | Applicable policy owner |
 
@@ -222,7 +234,7 @@ Harmony operates as a controlled `PLAN -> SHIP -> LEARN` loop.
 | Stage   | Required outputs                                                                                                     |
 | ------- | -------------------------------------------------------------------------------------------------------------------- |
 | `PLAN`  | Explicit objective, scope, constraints, authority assumptions, and routing prerequisites.                            |
-| `SHIP`  | Bound execution, assurance outcomes, decision artifacts, and rollback or recovery posture for every material change. |
+| `SHIP`  | Bound execution, assurance outcomes, decision artifacts with routing-order evidence, and rollback or recovery posture for every material change. |
 | `LEARN` | Continuity artifacts, outcomes, follow-on work, and objective or policy updates when new constraints are discovered. |
 
 
@@ -234,6 +246,14 @@ For every material run, Harmony MUST:
 4. fail closed if required evidence, validation, or approval is missing,
 5. execute only within the active objective contract and approved authority surfaces,
 6. emit decision, execution, assurance, and continuity evidence sufficient to reconstruct what happened and why.
+
+For every material change, the decision and execution evidence MUST include:
+
+- the routing decision time or sequence marker,
+- the execution-start time or sequence marker for the first material side effect,
+- the rollback or recovery owner,
+- the minimum rollback or recovery steps,
+- the trigger or condition for invoking rollback or recovery.
 
 ## 9. Objective Contract and Boundary Routing
 
@@ -249,16 +269,18 @@ Harmony uses the following objective-contract artifacts:
 Objective-contract rules:
 
 - The objective contract consists of both artifacts together.
+- The objective brief and intent contract are `mutually consistent` only when they agree on objective scope, material constraints, approved authority surfaces, and acceptance context at the level required for material execution.
+- A `divergence` exists when either objective artifact widens, narrows, omits, or contradicts any of those four elements without same-change approval evidence.
 - The active intent contract MUST expose a unique `id` and `version` so material execution can bind `intent_ref.id` and `intent_ref.version` to the approved effective contract.
 - Material runs MUST use the approved and effective intent-contract version.
 - The objective brief and intent contract MUST be updated in the same change whenever the governed objective changes materially.
-- Objective-contract changes MUST record rationale and approval evidence in decision or continuity artifacts.
+- Objective-contract changes MUST record rationale, approving authority, and evidence links in decision or continuity artifacts.
 - If either objective artifact is missing, invalid, unavailable, or not mutually consistent, Harmony MUST fail closed for material execution.
-- If the objective brief and intent contract diverge, Harmony MUST treat the intent contract as the runtime authority for read-only planning only, MUST block material autonomy, and MUST require approved reconciliation evidence before material execution resumes.
+- If the objective brief and intent contract diverge, Harmony MUST treat the intent contract as the runtime authority for read-only planning only, MUST block material autonomy, and MUST require approved reconciliation evidence naming the changed fields, approving authority, effective version, and linked decision artifact before material execution resumes.
 
 Boundary-routing rules:
 
-- Every material run MUST produce exactly one routing outcome of `allow`, `escalate`, or `block` before any material side effect occurs.
+- Every material run MUST produce exactly one routing outcome of `allow`, `escalate`, or `block` before any material side effect occurs, and the decision artifact MUST record a routing decision time or sequence marker that can be compared with the first material side effect.
 - `allow` authorizes execution only within the active objective contract, approved authority surfaces, and current policy bounds.
 - `escalate` requires a policy-owner decision before material execution continues.
 - `block` denies the requested material execution and keeps Harmony fail-closed.
@@ -270,11 +292,13 @@ Boundary-routing rules:
 Before the first autonomous material run in a target filesystem, bootstrap initialization MUST establish the minimum entry artifacts below:
 
 - root-level `AGENTS.md` rendered from Harmony scaffolding templates,
-- `alignment-check` or an equivalent assurance entrypoint required by the active workspace,
+- `alignment-check` or a policy-owner-approved equivalent assurance entrypoint that, at minimum, validates bootstrap completeness, objective-contract presence and consistency, scoped boundary exclusions or human-led zones, and fail-closed behavior when required prerequisites are missing,
 - scoped updates to `.harmony/scope.md` for local boundary exclusions and human-led zones,
 - scoped updates to `.harmony/conventions.md` for local standards, support targets, and compatibility constraints.
 
-Bootstrap MAY create assistant-specific compatibility alias files when a local tool requires them and creation is safe and non-destructive.
+An equivalent assurance entrypoint MUST record its named approver, review date, rationale, and evidence links in a decision artifact before it is treated as valid bootstrap evidence.
+
+Bootstrap MAY create assistant-specific compatibility alias files only when a local tool requires them, the alias does not remove, rename, or weaken canonical governance or runtime artifacts, and the bootstrap decision artifact records why the alias is safe and non-destructive.
 
 Until bootstrap artifacts are present and valid, Harmony MUST remain limited to orientation, planning, drafting, inspection, and other setup-safe behavior, and MUST NOT perform material side effects.
 
@@ -326,11 +350,12 @@ Surface rules:
 - `_meta/` documents MUST NOT be treated as normative authority.
 - `_ops/` content MUST NOT be treated as canonical runtime behavior or normative policy authority.
 - Discovery metadata such as `manifest.yml`, `registry.yml`, and equivalent indexes MUST resolve to canonical runtime surfaces and MUST NOT route canonical runtime behavior through `_ops/`.
+- Discovery metadata conformance MUST be verifiable through an approved validation rule, assurance check, or decision artifact that records the canonical runtime surfaces the metadata resolves to.
 - Root-level framing artifacts in `/.harmony/` provide orientation and local constraints within the slots allowed by this charter; they do not replace governance or runtime contracts.
 
 ## 13. Success Signals
 
-Harmony is successful when the following conditions hold for every material run and each active reporting period unless an approved exception explicitly narrows the scope:
+Harmony is successful when the following conditions hold for every material run and each active reporting period unless an approved exception explicitly narrows the scope. Before a reporting period starts, the applicable policy owner MUST approve a measurement record in approved workspace conventions for each success signal below. Each measurement record MUST name the measurement owner, evidence artifact, measurement method, and any required `workspace target` or `support target`. If a required target, measurement record, or evidence artifact is missing, the affected success signal MUST be treated as a governance gap and MUST NOT be counted as passing.
 
 
 | Success signal          | Observable condition                                                                                                                                   |
@@ -344,8 +369,23 @@ Harmony is successful when the following conditions hold for every material run 
 | Delivery efficiency     | Reported lead time or cycle time meets or improves the active workspace target without increasing unapproved governance drift.                         |
 | Portability             | 100% of declared support targets remain passing under bootstrap and assurance checks for the reporting period.                                         |
 
+Success-signal measurement rules:
+
+- `Objective binding` MUST verify `intent_ref.id` and `intent_ref.version` against the approved effective intent contract and linked approval evidence.
+- `Routing determinism` and `Fail-closed enforcement` MUST compare routing-decision evidence with the first material-side-effect marker or blocked-state evidence for the same material run.
+- `Recovery readiness` MUST verify the rollback or recovery owner, minimum steps, and trigger before execution starts.
+- `Traceability` MUST verify that decision, execution, assurance, and continuity evidence exist and can be linked to the same material run.
+- `Governance stability` MUST compare observed behavior against the approved policy and contract requirements in force for the reporting period and record any drift evidence.
+- `Delivery efficiency` MUST name the approved workspace target and the reporting artifact used to calculate lead time or cycle time.
+- `Portability` MUST name each declared support target and the bootstrap or assurance checks used to determine pass or fail.
+
 
 ## 14. Change Control
+
+For charter change control:
+
+- `affected references` are any charter-controlled cross-references, mirrors, or cited requirement descriptions that would become incorrect, stale, or misleading if the charter change landed without corresponding updates.
+- `standard assurance gates` are the repository-level review and validation requirements that apply to the change, a re-run of the charter audit or equivalent governance review against the updated charter, and any checks needed to prove affected references remain consistent.
 
 Charter changes MUST be approved by the charter `owner` and MUST include:
 
@@ -389,4 +429,3 @@ The references below are explanatory or orienting only. They can help readers un
 - `/.harmony/START.md`
 - `/.harmony/cognition/_meta/architecture/specification.md`
 - `/.harmony/cognition/_meta/architecture/runtime-vs-ops-contract.md`
-
