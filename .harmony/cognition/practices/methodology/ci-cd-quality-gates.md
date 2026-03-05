@@ -222,7 +222,7 @@ Bumping down requires justification:
 |-----------|---------|----------|
 | T2 → T1 | Yes | Justification in PR |
 | T3 → T2 | Yes | Escalation artifact + verifier review |
-| T3 → T1 | Yes | Escalation artifact + security evidence review |
+| T3 → T1 | No | Prohibited direct downgrade; must downgrade to T2 first with escalation evidence, then re-evaluate |
 
 ```bash
 harmony tier-down <pr-number> --reason "config file in auth/ but no auth logic"
