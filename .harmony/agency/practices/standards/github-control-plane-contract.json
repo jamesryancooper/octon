@@ -1,11 +1,11 @@
 {
-  "version": "2026-03-03",
+  "version": "2026-03-05",
   "default_branch": "main",
   "rulesets": {
     "main": {
       "required_checks": [
         "AI Review Gate / decision",
-        "CI Efficiency Guard / enforce-ci-efficiency-policy",
+        "enforce-ci-efficiency-policy",
         "PR Quality Standards",
         "Validate branch naming",
         "Validate autonomy policy"

@@ -315,6 +315,7 @@ gh api \
         "strict_required_status_checks_policy": true,
         "required_status_checks": [
           {"context": "AI Review Gate / decision"},
+          {"context": "enforce-ci-efficiency-policy"},
           {"context": "PR Quality Standards"},
           {"context": "Validate branch naming"},
           {"context": "Validate autonomy policy"}
