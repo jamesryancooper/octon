@@ -33,9 +33,17 @@ Any approved exception must:
 
 1. Be labeled `AUDIT EXCEPTION` in the runtime audit plan.
 2. Declare affected invariant(s) and exact blast radius.
-3. Include a bounded expiry condition (date, commit range, or release tag).
-4. Include compensating controls (for example higher K, stricter coverage sampling, manual dual-review).
-5. Include CI rule that fails once expiry condition is reached.
+3. Include explicit approval provenance:
+   - `approver`
+   - `approved_at` (ISO timestamp)
+   - `rationale`
+   - `reference` (ticket/PR/incident)
+4. Include scope and bounded expiry:
+   - `scope` (artifacts/surfaces covered)
+   - `expiry` (date, commit range, or release tag)
+5. Include compensating controls (for example higher K, stricter coverage sampling, manual dual-review).
+6. Include CI rule that fails once expiry condition is reached.
+7. Be stored in a canonical runtime path under `/.harmony/cognition/runtime/audits/` and referenced by the active audit index entry.
 
 ## Strong Preference
 
