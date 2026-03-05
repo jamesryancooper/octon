@@ -59,3 +59,15 @@ Updated 2026-03-05 for Batch 6 methodology alignment touchpoints.
   profile to avoid over-constraining valid repository variants.
 - This note links watched cognition-practices drift to the
   audit-subsystem-health artifact set for alignment validation.
+
+Updated 2026-03-05 for Batch 7 methodology alignment touchpoints.
+
+- `spec-first-planning.md` now removes provider-specific promotion command
+  examples from the core workflow and links legacy one-pager content to an
+  archive surface.
+- `methodology/index.yml` now includes archive discovery entry for the
+  historical SpecKit one-pager reference.
+- `archive/spec-one-pager-legacy.md` now preserves superseded one-pager content
+  as explicit non-normative historical reference.
+- This note links watched cognition-practices drift to the
+  audit-subsystem-health artifact set for alignment validation.

@@ -131,7 +131,6 @@ After stage -> evidence -> ACP gate:
 
 ```bash
 <platform-cli> promote <candidate-ref>
-# Example: vercel promote <preview-url>
 ```
 
 **T3 only:** 30-minute watch window after promotion.
@@ -340,37 +339,8 @@ oversight_touchpoints:
 
 ## Historical Appendix: SpecKit One-Pager Template (Legacy, Non-Normative)
 
-For reference, the original SpecKit one-pager outline (now superseded by tiered templates):
+The legacy SpecKit one-pager outline is preserved as historical reference in:
 
-### SpecKit spec one‑pager template (outline)
+- [archive/spec-one-pager-legacy.md](./archive/spec-one-pager-legacy.md)
 
-- Title & metadata
-  - Working title, date, owner(s), related issue/PR links.
-  - Risk class (T1/T2/T3) and affected slices/surfaces.
-- Problem and goal
-  - Concise problem statement and “why now”.
-  - Target outcome framed in user and system terms.
-- Scope and appetite
-  - In‑scope vs out‑of‑scope behaviors.
-  - Appetite (for example, 1‑day change, 1‑week mini‑project).
-- Contracts and surfaces
-  - API contracts (OpenAPI/JSON‑Schema paths) and UI surfaces touched.
-  - Data classification for each surface (PII/PHI/SECRET/OTHER_SENSITIVE).
-- Non‑functionals and SLOs
-  - Performance, reliability, and availability targets (SLIs/SLOs).
-  - Cost and latency guardrails if AI or infra‑heavy.
-- Security and compliance
-  - STRIDE threats per surface and mitigations.
-  - Mapped **OWASP ASVS** controls and **NIST SSDF** tasks to be satisfied.
-- Observability and knowledge
-  - Required spans/logs/metrics and dashboards.
-  - How traces/PRs/ADRs will be correlated in the Knowledge Plane.
-- AI usage and determinism (when agents are involved)
-  - Provider/model/version, parameters (temperature/top_p, max_tokens, seed if supported).
-  - Golden tests plan (EvalKit/TestKit) and determinism expectations.
-- Acceptance criteria and tests
-  - User‑visible acceptance criteria.
-  - Test outline: unit, contract, e2e smoke, and AI golden tests where applicable.
-- Rollout, flags, and rollback
-  - Flag names and initial cohorts.
-  - Rollback plan (for example, promote prior preview) and success/failure exit criteria.
+This appendix is non-normative and superseded by the tiered templates linked above.

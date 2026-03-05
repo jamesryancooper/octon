@@ -18,6 +18,11 @@ files:
     summary: Spec-first planning flow and quality requirements.
     when: Before starting implementation for non-trivial work.
 
+  - id: spec-one-pager-legacy-archive
+    path: archive/spec-one-pager-legacy.md
+    summary: Historical non-normative SpecKit one-pager outline.
+    when: Only when referencing superseded planning format history.
+
   - id: prompt-playbook
     path: playbooks/prompts.md
     summary: Reusable AI IDE and terminal prompt patterns.
