@@ -63,6 +63,28 @@ governance:
     # ACP receipt outcomes determine runtime promotion authority; humans retain
     # policy authorship, exceptions, and escalation authority.
 
+  governance_impacting_sections:
+    governance_or_migration_impacting: false
+    # Set true when this change updates governance, migration doctrine, or
+    # contract-authority surfaces.
+    # When true, all subsection refs below are required.
+
+    implementation_plan:
+      required: false
+      ref: ""
+
+    impact_map:
+      required: false
+      ref: ""
+
+    compliance_receipt:
+      required: false
+      ref: ""
+
+    exceptions_escalations:
+      required: false
+      ref: ""
+
 created: ""
 # ISO date: YYYY-MM-DD
 

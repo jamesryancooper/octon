@@ -201,6 +201,19 @@ t3_path_triggers:
     - "vercel.json"
     - "docker-compose*.yml"
     - "Dockerfile*"
+
+  # Governance and methodology contract surfaces
+  governance_patterns:
+    - "AGENTS.md"
+    - ".harmony/agency/governance/**"
+    - ".harmony/capabilities/governance/**"
+    - ".harmony/cognition/governance/**"
+    - ".harmony/orchestration/governance/**"
+    - ".harmony/assurance/governance/**"
+    - ".harmony/engine/governance/**"
+    - ".harmony/cognition/practices/methodology/**"
+    - ".github/PULL_REQUEST_TEMPLATE.md"
+    - ".github/PULL_REQUEST_TEMPLATE/**"
 ```
 
 ### Keyword Triggers
@@ -404,6 +417,12 @@ t1_all_required:
       - "**/*.spec.*"
       - "**/README*"
       - ".github/ISSUE_TEMPLATE/**"
+
+    forbidden_paths:
+      - "AGENTS.md"
+      - ".harmony/**/governance/**"
+      - ".harmony/cognition/practices/methodology/**"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
       - ".github/PULL_REQUEST_TEMPLATE/**"
       
   content_restrictions:
@@ -578,9 +597,9 @@ size_overrides:
   # Size alone doesn't determine tier
   
   large_doc_update:
-    condition: "> 300 lines but only .md files"
-    classification: T1
-    reason: "Documentation doesn't carry risk"
+    condition: "> 300 lines but only non-governance .md files"
+    classification: T2
+    reason: "Large documentation updates require standard review unless a T3 governance trigger matches"
     
   small_auth_change:
     condition: "< 10 lines but in auth/**"
@@ -651,6 +670,12 @@ bump_down:
     allowed: true
     requires_justification: true
     approval_required: true  # Navigator/verifier attestation required by policy
+    requires_override_evidence: true
+    override_evidence_fields:
+      - escalation_artifact_ref
+      - verifier_attestation_ref
+      - security_evidence_ref
+      - approving_owner
     
     valid_reasons:
       - "File in auth/ but not auth logic"
@@ -661,12 +686,18 @@ bump_down:
     allowed: true
     requires_justification: true
     approval_required: true  # Navigator/verifier attestation (security checklist)
+    requires_override_evidence: true
+    override_evidence_fields:
+      - escalation_artifact_ref
+      - verifier_attestation_ref
+      - security_evidence_ref
+      - approving_owner
     
     valid_reasons:
-      - "Documentation in security directory"
+      - "Non-governance documentation in a security/auth directory"
       - "Test file in auth directory"
     
-  command: "harmony tier-down <id> --reason '<reason>'"
+  command: "harmony tier-down <id> --reason '<reason>' --evidence '<path-or-link>'"
 ```
 
 ---

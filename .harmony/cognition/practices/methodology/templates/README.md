@@ -69,6 +69,7 @@ if (!validation.valid) {
 - `title`: Descriptive title
 - `governance.profile_selection.*`: required profile governance fields (`change_profile`, `release_state`, fact set, receipt reference, conditional `transitional_exception_note`)
 - `governance.acp.*`: required ACP target/outcome and receipt reference
+- `governance.governance_impacting_sections.*`: conditional refs for governance/migration-impacting required sections (`implementation_plan`, `impact_map`, `compliance_receipt`, `exceptions_escalations`)
 - `scope`: Files and surfaces affected
 - `_metadata`: AI generation metadata
 - review tracking surface: `_review` for T1/T2 and `oversight_touchpoints` for T3
@@ -110,6 +111,7 @@ if (!validation.valid) {
 - `threat_analysis.stride_lite` must be present
 - `rollout.flag.name` must be provided
 - `testing.e2e_smoke.required` must be `true`
+- If `governance.governance_impacting_sections.governance_or_migration_impacting` is `true`, all governance-impacting section refs must be populated
 
 ### T3 Validation
 
@@ -125,6 +127,7 @@ if (!validation.valid) {
 - `oversight_touchpoints.promotion_readiness_review.required` must be `true`
 - `_metadata.human_review_required_before_build` must be `true`
 - `adr.required` must be `true`
+- If `governance.governance_impacting_sections.governance_or_migration_impacting` is `true`, all governance-impacting section refs must be populated
 - Promotion/readiness decisions flow through ACP evidence + quorum
 
 ## Human Review Requirements

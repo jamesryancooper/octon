@@ -29,11 +29,10 @@ This document defines normative security controls for Harmony without binding to
 3. Core security headers are configured for affected surfaces.
 4. SSRF controls are present for outbound integrations.
 5. Secrets remain in approved secret stores or runtime environment managers (never source or logs).
-6. Static and semantic security scans meet required severities.
+6. Static and semantic security scans meet tiered severity thresholds defined in [ci-cd-quality-gates.md](./ci-cd-quality-gates.md) (`Gates by Tier` and `Gate Checklist`).
 7. SBOM artifacts exist for required build/release surfaces.
 8. License policy checks pass for dependency changes.
-9. Performance budgets for affected paths stay within documented limits.
-10. Bundle budget exceptions include explicit waiver evidence.
+9. Non-security performance and bundle budgets are owned by [performance-and-scalability.md](./performance-and-scalability.md) and [ci-cd-quality-gates.md](./ci-cd-quality-gates.md), not by this security baseline.
 
 ## Secrets, Headers, and Provenance
 

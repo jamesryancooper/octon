@@ -42,9 +42,8 @@ Equivalent workflow surfaces are acceptable if they preserve the same governance
 
 ## CI Health Targets
 
-- Required PR checks: target <=7 minutes on normal paths.
-- Extended scan suites: target <=30 minutes.
-- If either target misses for two consecutive weeks, prioritize cache/job/scope corrections in the next cycle.
+- Numeric CI health targets are canonical in [ci-cd-quality-gates.md#ci-health-objectives](./ci-cd-quality-gates.md#ci-health-objectives).
+- Tracking remains owned here: monitor median and 90th percentile durations and prioritize cache/job/scope corrections when targets miss for two consecutive weeks.
 
 ## Metrics-to-Pillar Mapping
 
