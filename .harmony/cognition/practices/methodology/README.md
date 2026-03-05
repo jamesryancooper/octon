@@ -184,6 +184,9 @@ These guarantees align 1:1 with Harmony’s kit-layer invariants (determinism, t
 Use these companion documents when you need deeper operational detail:
 
 - `spec-first-planning.md` — Spec-first planning workflow, templates, and AI IDE integration.
+- `playbooks/prompts.md` — Reusable prompt library for AI IDE and terminal execution.
+- `playbooks/quick-start.md` — Day-one operational checklist and rollout safety baseline.
+- `examples/oauth-billing.md` — Worked end-to-end example (spec -> implementation -> staged rollout).
 - `flow-and-wip-policy.md` — Board columns, WIP limits, Definitions of Ready/Done/Safe/Small, and risk rubric.
 - `ci-cd-quality-gates.md` — CI/CD pipeline, required checks, and waiver policy.
 - `security-baseline.md` — OWASP ASVS/NIST SSDF alignment, STRIDE per feature, and defenses.
@@ -199,77 +202,22 @@ Use these companion documents when you need deeper operational detail:
 
 ## Harmony's Components
 
-Here’s an explanation of each framework, method, and tool in the **Harmony Methodology** — and *why* it aligns with Harmony’s agent-first, system-governed delivery model. Together, these ensure that every change — human or AI-generated — is **traceable, testable, and reversible**, fulfilling Harmony’s promise of fast, safe, high-confidence shipping.
+Harmony's component inventory is intentionally summarized in this hub.
+Canonical operational details live in dedicated methodology surfaces:
 
-### Frameworks & Standards
+| Component Surface | Canonical Reference |
+| --- | --- |
+| Risk tiers and governance depth | [risk-tiers.md](./risk-tiers.md), [auto-tier-assignment.md](./auto-tier-assignment.md) |
+| CI/CD quality and stop-the-line gates | [ci-cd-quality-gates.md](./ci-cd-quality-gates.md) |
+| Security controls and threat-model posture | [security-baseline.md](./security-baseline.md) |
+| Reliability, SLOs, incident posture | [reliability-and-ops.md](./reliability-and-ops.md) |
+| Performance/scalability budgets and practices | [performance-and-scalability.md](./performance-and-scalability.md) |
+| Architecture and repo boundaries | [architecture-and-repo-structure.md](./architecture-and-repo-structure.md) |
+| Tooling and metrics framework | [tooling-and-metrics.md](./tooling-and-metrics.md) |
+| Spec-first process and templates | [spec-first-planning.md](./spec-first-planning.md), [templates/README.md](./templates/README.md) |
 
-| Item                       | Role                                       | Why it aligns with Harmony                                                                                                                                                                                                                   |
-| -------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **OWASP ASVS v5**          | Application Security Verification Standard | Provides clear, testable security requirements (auth, input validation, crypto, logging) that integrate directly into Harmony’s **spec-first + CI gates** (CodeQL, Semgrep, SBOM). Maps 1-to-1 with Harmony’s “security by default” policy.  |
-| **NIST SSDF (SP 800-218)** | Secure Software Development Framework      | Defines secure development activities (planning, coding, reviewing, releasing) that Harmony automates and embeds into each lifecycle stage. The SSDF “plan-protect-produce-respond” phases align with Harmony’s Spec → CI → Postmortem loop. |
-| **OpenTelemetry (OTel)**   | Observability Standard                     | Harmony mandates OTel for **structured logs, traces, and metrics**, ensuring reliable AI observability and root cause analysis (tied to **ObservaKit** and **BenchKit**).                                                                    |
-
-### Methods & Practices
-
-| Item                        | Role                               | Why it aligns with Harmony                                                                                                                         |
-| --------------------------- | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Google SRE**              | Reliability Engineering discipline | Introduces SLIs, SLOs, and **error budgets**, the backbone of Harmony’s reliability guardrails and postmortems.                                    |
-| **DORA Metrics**            | DevOps performance metrics         | Harmony explicitly targets DORA’s four keys—lead time, deploy frequency, MTTR, and change-fail rate—to measure improvement in automation and flow. |
-| **Trunk-Based Development** | Integration practice               | Core to Harmony’s “flow over ceremony”: small, frequent PRs to a single trunk with instant **preview deploys** and feature flags for safe rollout. |
-| **12-Factor App**           | Cloud-native design principles     | Ensures stateless, portable, and disposable services—Harmony’s **monolith-first stack** (e.g., Turborepo) adheres to this for simplicity and speed.        |
-| **Kanban / Little’s Law**   | Flow optimization principle        | Harmony’s WIP limits (Ready=3, In‑Dev=1, In‑Review=1, Preview=1) derive directly from Little’s Law to maximize throughput and reduce cycle time.                   |
-| **Shape Up**                | Product shaping method             | Used to size “appetites” and cut scope before development—Harmony’s shaping step implements this to define crisp, buildable features.    |
-| **STRIDE**                  | Threat-modeling methodology        | Harmony mandates STRIDE per feature in the spec phase, linking threats → mitigations → tests, enforced by **PolicyKit** and **GuardKit**.          |
-| **Monolith-First**          | Architectural strategy             | Harmony advocates a **modular monolith** (e.g., in Turborepo) before microservices—maximizing speed and minimizing ops overhead for solo developers.       |
-
-### Architectural Patterns
-
-| Item                       | Role                           | Why it aligns with Harmony                                                                                                                                                      |
-| -------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Hexagonal Architecture** | Domain-driven ports & adapters | Core pattern of Harmony: keeps business logic isolated from infrastructure. Enables testability, AI-generated adapters, and contract testing via **Pact** and **Schemathesis**. |
-
-> **Reference implementation.** The platforms below are used in Harmony's reference stack. Substitute equivalents as appropriate.
-
-### Platforms & Platform Controls
-
-| Item       | Role                           | Why it aligns with Harmony                                                                                                                                                |
-| ---------- | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Deployment platform (example)** | Deployment platform            | Implements Harmony’s **safe deploys**: PR previews/staging, feature flags, and fast rollback using platform-native promotion controls. |
-| **GitHub** | Source of truth and guardrails | Provides branch protection, CODEOWNERS, and built-in secret scanning—Harmony integrates all into its CI/CD quality gates.                                                 |
-
-### Build & Repo Tooling
-
-| Item          | Role                | Why it aligns with Harmony                                                                                                                              |
-| ------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Turborepo** | Monorepo build tool | Supports Harmony’s **modular monolith** design: enables incremental builds, shared caching, and parallel CI pipelines for both Python and TypeScript. |
-
-### Security Analysis Tooling
-
-| Item        | Role                       | Why it aligns with Harmony                                                                                                    |
-| ----------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **CodeQL**  | Semantic static analysis   | Integrated into CI for code scanning, enforcing ASVS/NIST controls for code-level vulnerabilities.                            |
-| **Semgrep** | Rule-based static analysis | Fast, rule-driven checks for style and security; Harmony uses it alongside CodeQL for coverage and custom policy enforcement. |
-
-### Testing & Contract Tools
-
-| Item             | Role                       | Why it aligns with Harmony                                                                                                        |
-| ---------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| **Playwright**   | End-to-end testing         | Powers preview smoke tests to validate deployments in non-production targets before promotion.                                       |
-| **Pact**         | Contract testing           | Enforces boundary contracts across adapters (Hexagonal pattern) and aligns with Harmony’s **ports/adapters testing discipline**.  |
-| **Schemathesis** | Property-based API testing | Tests OpenAPI contracts automatically; enforces correctness and prevents drift—Harmony mandates this for APIs with OpenAPI specs. |
-
-### Specifications & Schemas
-
-| Item            | Role                     | Why it aligns with Harmony                                                                                 |
-| --------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| **OpenAPI**     | API description standard | Foundation of Harmony’s **spec-first** model; drives contract testing, diff checks, and schema validation. |
-| **JSON Schema** | Data validation schema   | Used across Harmony kits to validate AI and API payloads, including “golden test” outputs for determinism. |
-
-### Guidance
-
-| Item                                   | Role                       | Why it aligns with Harmony                                                                                                                         |
-| -------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **OWASP Cheat Sheets (CSP/CSRF/SSRF)** | Targeted security guidance | Harmony integrates these directly into the **Spec → Threat Model → Tests** flow; AI IDE prompts reference them by name during implementation. |
+For the reference stack mapping across frameworks, standards, and tools, use
+[tooling-and-metrics.md](./tooling-and-metrics.md) as the canonical deep-dive.
 
 ---
 
@@ -544,7 +492,7 @@ See `ci-cd-quality-gates.md` for the full gate diagram, checklist, and waiver po
   - Kill‑switch documented and verified; rollout plan and owner recorded.
   - Success criteria defined up‑front: p95 latency within budget, 5xx ≤ 0.5%, no SLO burn‑rate breach.
   - Observability in place: representative `trace_id` linked in PR; dashboard links attached.
-  - Rollback rehearsal completed (`vercel promote <known‑good‑preview>`).
+  - Rollback rehearsal completed using a deterministic platform rollback/promotion command.
   - Idempotency validated on toggles; no client‑cached secrets or state drift.
   - Minimum canary window: ≥ 60 minutes of normal traffic before widening.
 
@@ -586,28 +534,9 @@ See `architecture-and-repo-structure.md` for the detailed layout, feature flag i
 
 ## AI IDE Prompt Library
 
-> Use these prompts verbatim in your AI IDE or terminal agent. Keep prompts (suggested filenames) under `/docs/prompts/`. Paste into PRs as evidence.
-
-- **Spec‑to‑code**:
-  *“Given the spec below, propose a minimal design and file‑by‑file diff (TypeScript/Python). Include contract types, tests, and a step‑by‑step plan. Flag any security, privacy, or licensing concerns. Do NOT add new deps without justification.”*
-- **Refactor‑safely**:
-  *“Refactor `<path>` to match the Hexagonal boundary. Preserve public contracts and ensure existing tests pass. Propose additional tests for risky branches.”*
-- **Generate tests from spec**:
-  *“From this Spec + OpenAPI/JSON‑Schema, generate unit + contract tests. Include negative tests derived from STRIDE threats.”*
-- **Schema & contract tests**:
-  *“Validate responses against `<schema>` using AJV/Zod. Add tests that fail on schema drift.”*
-- **Explain diff & risks**:
-  *“Summarize this diff: intent, surface area, security/perf risks, rollback plan, and flags to guard.”*
-- **License‑safe suggestion**:
-  *“Recommend libraries with permissive licenses only (MIT/BSD/Apache). Provide license matrix and bundle impact. Avoid GPL.”*
-- **Threat‑model from spec**:
-  *“Enumerate STRIDE threats for this feature. For each, propose mitigations and tests (unit/contract/e2e).”*
-- **Perf budget enforcement**:
-  *“Check this change against our perf budgets. Identify bundle increases and server latency risks. Suggest reductions.”*
-- **PR risk rubric (summarize & gate)**:
-  *“Classify this PR as T1/T2/T3 using the lightweight rubric. List gating steps met (flag, rollback, preview smoke, Navigator pass + security checklist) and any missing gates.”*
-- **Observability scaffolding**:
-  *“Add OTel spans and structured logs to `<path/function>`. Ensure `trace_id` is logged on errors and key events. Show before/after snippets and a sample trace outline.”*
+The operational prompt catalog is maintained in
+[playbooks/prompts.md](./playbooks/prompts.md). Use that playbook as the
+canonical source for reusable AI IDE/terminal prompts and snippet filenames.
 
 ---
 
@@ -655,97 +584,39 @@ Harmony's canonical operating defaults are captured directly in the core methodo
 
 ## Worked Example — “OAuth login + org billing” (sketch)
 
-**Spec extract (abbrev)**:
-
-- Problem: Add OAuth (Google) login + org billing (Stripe).
-- Contracts: `/api/auth/callback`, `/api/billing/webhook` (OpenAPI).
-- Non‑functionals: p95 auth callback ≤ 600 ms; availability ≥ 99.9%.
-- Security: ASVS V2 (authentication), V3 (session), V4 (access control), V10 (errors/logging). **STRIDE**: spoofing (OAuth state), tampering (webhook sig), info disclosure (PII), DoS (webhook storms), elevation (role mapping). Mitigations: state+nonce, Stripe signature verify, PII minimization, rate limit, RBAC checks.
-
-**Feature story → AI IDE**:
-
-- Context packets: OAuth sequence, Stripe events (`checkout.session.completed`, `invoice.paid`).
-- Agent plan: add adapters (`adapters/oauth-google.ts`, `adapters/stripe.ts`), domain services (`AuthService`, `BillingService`), routes, tests (unit + Pact for webhook), e2e smoke on Preview.
-- Acceptance: user can sign‑in → org created/linked; paid plan toggles flag `billing.active`; webhook retries idempotent.
-
-**PR flow**:
-
-- Tiny PR 1: contracts + stub adapters + tests (failing) → green.
-- Tiny PR 2: OAuth implementation behind `flag.oauth_google`, CSRF/state checks, contract tests pass.
-- Tiny PR 3: Stripe webhook with signature verify + idempotent store; Pact verifies; Playwright smoke passes on Preview.
-- Release: enable `flag.oauth_google` to internal org only → monitor SLO/error rate → widen.
+This example has been moved to
+[examples/oauth-billing.md](./examples/oauth-billing.md) to keep this hub
+compact while preserving end-to-end worked guidance.
 
 ---
 
 ## Prompt Snippets Library
 
-```plaintext
-/docs/prompts/spec-to-code.md
-/docs/prompts/refactor-safely.md
-/docs/prompts/threat-model-from-spec.md
-/docs/prompts/perf-budget-enforcement.md
-/docs/prompts/license-safe-suggestion.md
-```
+Prompt snippet filenames and reusable prompt text are consolidated in
+[playbooks/prompts.md](./playbooks/prompts.md).
 
 ---
 
 ## Extras
 
-**Data migrations & rollback**:
+Operational extras are maintained in dedicated surfaces:
 
-- Forward‑only schema; write‑compat via dual‑write/dual‑read when needed; **feature flag** gates migration usage; keep backfill idempotent; have a `rollback.md` with `vercel promote` to prior deployment.
-
-**Feature flags cleanup cadence**: tag flags by owner & expiry; automate weekly report; remove within 2 cycles.
-
-**AI license‑safety tips**: prefer permissive deps; add **license scan gates**; AI IDE diff review must include license notes (`license-checker`, `pip-licenses`).
-
-**Day‑in‑the‑life (Solo)**:
-
-- **Mon**: Spec/Plan → small PR #1.
-- **Tue**: Tests/contracts; PR #2.
-- **Wed**: Feature + flags; preview smoke.
-- **Thu**: Security scans & perf budgets; PR #3.
-- **Fri**: Enable flag for internal; retro (15m); plan next cycle.
+- Migration and rollback doctrine:
+  [migrations/README.md](./migrations/README.md)
+- Prompt playbook:
+  [playbooks/prompts.md](./playbooks/prompts.md)
+- Worked example:
+  [examples/oauth-billing.md](./examples/oauth-billing.md)
+- Quick-start operational checklist:
+  [playbooks/quick-start.md](./playbooks/quick-start.md)
 
 ---
 
 ## Quick‑Start Page (tomorrow morning)
 
-**Cadence & roles**: 1‑week cycle; switch hats between **Driver** and **Navigator**; async daily check‑ins.
-
-**Complexity Calibration**: Ship the smallest robust solution that meets constraints; avoid new dependencies unless they clearly reduce complexity or satisfy a non-functional requirement.
-
-**Board & WIP**: Backlog → Ready (3) → In‑Dev (1) → In‑Review (1) → Preview (1) → Release → Done → Blocked.
-
-**Spec → Plan → PR flow**:
-
-1. Write **spec one-pager** + **ADR**.
-2. Convert to **feature story** (context + plan + AC).
-3. Use **AI IDE** to propose plan/diffs/tests with risk-tiered ACP gates.
-4. Open tiny PR → **preview deploy** → run e2e smoke → merge if gates pass.
-
-**Required CI checks**: lint/format; strict typing; unit tests; API/contract diff checks; static/security analysis; dependency/license policy checks; secret scanning; SBOM; preview URL evidence; observability evidence for changed flows (`trace_id` linked in PR). Recommended: contract fuzzing and e2e smoke; publish bundle/perf budgets (enforcement risk-tiered).
-
-**SLOs (starter)**: Availability 99.9%; p95 API ≤300 ms warm (≤600 ms incl. cold); p95 TTFB ≤400 ms; 5xx ≤0.5%. **Error budget** gates releases.
-
-**Release behind a flag**: ship with `flag.<feature>=off` → enable for internal → ramp; rollback uses your platform's fastest known-good deploy restoration path.
-
-**How to rollback**: use your deployment platform's deterministic rollback/promotion command and capture the command/evidence in the PR receipt.
-
-**Top 10 security/perf checks**:
-
-1. STRIDE threats covered;
-2. CSRF tokens on mutations;
-3. CSP set;
-4. SSRF outbound allow‑list;
-5. Secrets in env only;
-6. CodeQL/Semgrep clean;
-7. SBOM present;
-8. License policy OK;
-9. p95 latency within budget;
-10. bundle under budget.
-
-**Incident hotline**: page only for **SLO burn** or **customer impact**; **rollback first**, then fix; blameless **postmortem** within 48h.
+The detailed day-one checklist has moved to
+[playbooks/quick-start.md](./playbooks/quick-start.md).
+Use this hub for orientation and the playbook for operational execution steps.
 
 ---
 

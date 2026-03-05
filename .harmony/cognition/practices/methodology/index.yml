@@ -18,6 +18,21 @@ files:
     summary: Spec-first planning flow and quality requirements.
     when: Before starting implementation for non-trivial work.
 
+  - id: prompt-playbook
+    path: playbooks/prompts.md
+    summary: Reusable AI IDE and terminal prompt patterns.
+    when: When preparing agent prompts and prompt evidence for implementation.
+
+  - id: quick-start-playbook
+    path: playbooks/quick-start.md
+    summary: Day-one operational checklist for running methodology defaults.
+    when: When bootstrapping daily cadence, gates, and rollback posture.
+
+  - id: oauth-billing-worked-example
+    path: examples/oauth-billing.md
+    summary: End-to-end worked example from spec to flagged rollout.
+    when: When demonstrating a full risk-tiered implementation flow.
+
   - id: auto-tier-assignment
     path: auto-tier-assignment.md
     summary: Deterministic risk-tier classification rules.
