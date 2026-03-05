@@ -65,7 +65,7 @@ skill_group_definitions:
   audit:
     description: Audit and verify codebase and harness integrity
     path: audit/
-    members: [audit-migration, audit-subsystem-health, audit-cross-subsystem-coherence, audit-freshness-and-supersession, audit-documentation-standards, audit-domain-architecture, audit-observability-coverage, audit-security-compliance, audit-data-governance, audit-test-quality, audit-operational-readiness, audit-release-readiness, audit-api-contract, audit-ui]
+    members: [audit-migration, audit-subsystem-health, audit-cross-subsystem-coherence, audit-freshness-and-supersession, audit-documentation-standards, audit-domain-architecture, audit-charter, audit-observability-coverage, audit-security-compliance, audit-data-governance, audit-test-quality, audit-operational-readiness, audit-release-readiness, audit-api-contract, audit-ui]
 
   remediation:
     description: Resolve review and CI quality issues
@@ -85,7 +85,7 @@ skill_group_definitions:
   synthesis:
     description: Produce refined output from raw input
     path: synthesis/
-    members: [synthesize-research, refine-prompt, spec-to-implementation]
+    members: [synthesize-research, refine-prompt, spec-to-implementation, plan-charter-alignment]
 
   meta:
     description: Operate on the harness itself

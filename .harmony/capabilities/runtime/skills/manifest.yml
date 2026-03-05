@@ -247,6 +247,30 @@ skills:
       - domain-specialized
       - self-validating
 
+  - id: audit-charter
+    display_name: Audit Charter
+    group: audit
+    path: audit/audit-charter/
+    summary: "Closed-book charter audit for internal alignment, enforceability, authority clarity, and standalone governance quality."
+    status: active
+    tags:
+      - audit
+      - charter
+      - governance
+      - documentation
+      - standalone
+    triggers:
+      - "audit this charter"
+      - "review charter quality"
+      - "closed book charter audit"
+      - "evaluate charter coherence"
+      - "charter governance audit"
+    skill_sets:
+      - executor
+      - guardian
+      - specialist
+    capabilities: []
+
   - id: audit-observability-coverage
     display_name: Audit Observability Coverage
     group: audit
@@ -1108,6 +1132,30 @@ skills:
       - coordinator
     capabilities:
       - human-collaborative
+
+  - id: plan-charter-alignment
+    display_name: Plan Charter Alignment
+    group: synthesis
+    path: synthesis/plan-charter-alignment/
+    summary: "Turn charter audit findings into a profile-governed alignment plan with rewrite bundles and acceptance criteria."
+    status: active
+    tags:
+      - planning
+      - charter
+      - governance
+      - remediation
+      - alignment
+    triggers:
+      - "plan charter alignment"
+      - "create charter remediation plan"
+      - "plan charter rewrite"
+      - "turn charter audit into plan"
+      - "charter improvement plan"
+    skill_sets:
+      - executor
+      - collaborator
+    capabilities:
+      - self-validating
 
   - id: build-mcp-server
     display_name: Build MCP Server

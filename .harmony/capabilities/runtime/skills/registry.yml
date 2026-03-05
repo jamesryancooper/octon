@@ -702,6 +702,61 @@ skills:
           determinism: variable
           description: "Top-level log index (cross-skill)"
 
+  audit-charter:
+    version: "1.0.1"
+    commands:
+      - /audit-charter
+    parameters:
+      - name: charter_path
+        type: file
+        required: true
+        description: "Path to the charter markdown file to audit"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: high, medium, low, all"
+      - name: include_rewrites
+        type: boolean
+        required: false
+        default: true
+        description: "Include exact rewrite guidance for material issues"
+      - name: include_scores
+        type: boolean
+        required: false
+        default: true
+        description: "Include final numeric scorecard"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: charter_audit_report
+          path: "../../../output/reports/{{date}}-charter-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Closed-book charter audit with matrices, findings, rewrite pack, and scores"
+        - name: run_log
+          path: "_ops/state/logs/audit-charter/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this charter audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-charter/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-charter runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
   audit-observability-coverage:
     version: "2.0.0"
     commands:
@@ -2786,6 +2841,70 @@ skills:
           format: yaml
           determinism: variable
           description: "Index of all spec-to-implementation runs"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
+  plan-charter-alignment:
+    version: "1.0.0"
+    commands:
+      - /plan-charter-alignment
+    parameters:
+      - name: charter_path
+        type: file
+        required: true
+        description: "Path to the charter file to plan against"
+      - name: findings_source
+        type: file
+        required: true
+        description: "Path to the charter audit report or findings package"
+      - name: target_score
+        type: text
+        required: false
+        default: "95"
+        description: "Desired minimum post-remediation score target"
+      - name: change_profile
+        type: text
+        required: false
+        default: "auto"
+        description: "Governance change profile override: auto, atomic, or transitional"
+      - name: release_state
+        type: text
+        required: false
+        default: "auto"
+        description: "Release state override: auto, pre-1.0, or stable"
+      - name: scope
+        type: text
+        required: false
+        default: "charter-only"
+        description: "Planning scope for remediation"
+    requires:
+      context: []
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: charter_alignment_plan
+          path: "../../../output/plans/{{date}}-charter-alignment-plan-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Profile-governed charter alignment plan with change bundles and validation scenarios"
+        - name: run_log
+          path: "_ops/state/logs/plan-charter-alignment/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this charter alignment planning run"
+        - name: log_index
+          path: "_ops/state/logs/plan-charter-alignment/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all plan-charter-alignment runs"
         - name: top_log_index
           path: "_ops/state/logs/index.yml"
           kind: file
