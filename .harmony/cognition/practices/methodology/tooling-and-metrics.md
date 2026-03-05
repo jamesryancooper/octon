@@ -11,7 +11,7 @@ This document centralizes Harmony’s tooling and metrics guidance. Use it along
 
 - **GitHub Projects**: board columns above; templates for Spec/Story/bug; Insights for cycle time. Protect `main` with **required checks**.
 - **Actions matrix per package**: `turbo run lint test build --filter=...` using remote cache.
-- **Required checks**: the gates configured in `infra/ci/pr.yml` (subset of CI/CD Quality Gates); adopt additional gates incrementally.
+- **Required checks**: the gates configured in `infra/ci/pr.yml` (subset of CI/CD Quality Gates); add additional gates as policy requires.
 - **Vercel**: previews on every PR; **promote** for instant rollback; env & secret management; **feature flags** via Vercel Flags/Toolbar; **cron** for schedules.
 - **Scripts**: `scripts/smoke-check.sh` for quick PR preview smoke checks; `scripts/flags-stale-report.js` for weekly flag hygiene reports.
 
@@ -27,6 +27,12 @@ This document centralizes Harmony’s tooling and metrics guidance. Use it along
   - *What broke gates?*
   - *Which SLI/SLO regressed?*
   - *What 1 guardrail to tighten/loosen?*
+
+### CI Health Targets
+
+- **PR pipeline performance**: keep required PR checks on the <=7 minute target for normal paths.
+- **Nightly heavy scans**: keep full scan suites (security/SBOM/extended smoke) on the <=20-30 minute target.
+- **Action loop**: when CI health targets degrade for two consecutive weeks, prioritize cache, job-splitting, or scope corrections in the next cycle.
 
 ---
 

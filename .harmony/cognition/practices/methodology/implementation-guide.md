@@ -773,11 +773,11 @@ flowchart TD
 
 ---
 
-## 30/60/90 Adoption plan (high‑level)
+## Operational Sequencing (high‑level)
 
-- **30 days**: SpecKit + PlanKit in place; QA/security gates (Spectral, Schemathesis, Gitleaks); Vercel previews; Feature flags SDK.
-- **60 days**: CodeQL/Semgrep; SBOM flow; OTel basic traces; SLOs for top endpoints.
-- **90 days**: Incident process; postmortems; perf budgets; automated promote/rollback guardrails; PolicyKit fail‑closed profiles; ComplianceKit evidence packs.
+- **Baseline operation**: SpecKit + PlanKit in place; QA/security gates (Spectral, Schemathesis, Gitleaks); Vercel previews; feature-flag controls.
+- **Reinforcement**: CodeQL/Semgrep, SBOM flow, OTel baseline traces, and SLOs for top endpoints.
+- **Hardening**: incident process, postmortems, perf budgets, promote/rollback guardrails, fail-closed policy profiles, and compliance evidence packs.
 
 ---
 

@@ -1,325 +1,102 @@
 ---
 title: Methodology-as-Code
-description: Policy for encoding Harmony methodology constraints into machine-readable schemas for sustainable AI agent consumption.
+description: Policy for maintaining Harmony methodology as machine-readable, verifiable repository contracts.
 ---
 
 # Methodology-as-Code
 
-Status: Active (schema v1.2.0, methodology v0.2.0)
+Status: Active (repository version `0.4.1`, pre-1.0 release state)
 
 ## Overview
 
-Harmony uses a **Methodology-as-Code** approach: methodology constraints (pillars, lifecycle stages, ACP requirements, policy rules) are encoded directly into JSON schemas and runtime validation. This enables AI agents to consume methodology as machine-readable contracts while humans read documentation.
+Harmony treats methodology as code by keeping operational guidance anchored to machine-readable discovery indexes, tier templates, and assurance checks that can be verified deterministically.
 
-**Guiding principle:** Schemas are the source of truth. Documentation is derived from or validated against schemas.
+**Guiding principle:** repository contract artifacts are authoritative; narrative docs must stay synchronized with those artifacts.
 
-## Why Methodology-as-Code?
+## Canonical Methodology Contract Surfaces
 
-| Need | How Methodology-as-Code Addresses It |
-|------|--------------------------------------|
-| AI agents need machine-readable contracts | Schemas provide typed, validatable interfaces |
-| Enforcement must be deterministic | Runtime validation rejects non-conforming inputs |
-| Methodology evolution must be safe | Versioned schemas with deprecation windows |
-| Humans and AI need different views | Schemas for machines, docs for humans |
+The methodology contract in this repository is defined by these artifacts:
 
-## Core Principles
+- `index.yml` - canonical discovery index for methodology artifacts.
+- `README.index.yml` - sidecar section index for overview targeting.
+- `implementation-guide.index.yml` - sidecar section index for implementation targeting.
+- `templates/index.yml` - canonical discovery index for tier templates.
+- `templates/spec-tier1.yaml`, `templates/spec-tier2.yaml`, `templates/spec-tier3.yaml` - tiered planning contracts.
+- `migrations/index.yml` and `audits/index.yml` - governance doctrine discovery contracts for migration/audit workflows.
 
-### 1. Schemas Are Authoritative
+When discovery indexes and content diverge, update indexes first, then align all linked docs.
 
-- **JSON schemas** (`packages/kits/kit-base/schema/*.json`) define the canonical structure
-- **Zod schemas** (`packages/kits/kit-base/src/validation.ts`) provide runtime TypeScript validation
-- **Documentation** is derived from schemas and must stay aligned
-- When in conflict, schemas win
+## Version and Release-State Contract
 
-### 2. Layered Methodology Coupling
+- Repository release state is determined from `version.txt`:
+  - `pre-1.0`: `< 1.0.0` or prerelease.
+  - `stable`: `>= 1.0.0` and not prerelease.
+- Current repository version is `0.4.1`, so methodology governance operates in `pre-1.0` mode.
+- Methodology discovery/index files use explicit `schema_version` keys; tier templates use `_schema_version` keys.
+- Any migration/governance-impacting methodology update must preserve profile-governance receipts (`change_profile`, `release_state`, and required sections).
 
-Not all methodology elements require the same coupling strength:
+## Deterministic Validation Expectations
 
-| Layer | Stability | Coupling | Examples |
-|-------|-----------|----------|----------|
-| **Structural** | Very stable | Strong | Pillars, lifecycle stages, risk levels |
-| **Operational** | May evolve | Moderate | Policy rules, thresholds, ruleset versions |
-| **Implementation** | Flexible | Loose | Artifact paths, service names, span names |
+Methodology updates must be validated with deterministic checks:
 
-**Structural methodology** is defined in `methodology-core.v1.json` and rarely changes. Breaking changes require a major version bump.
+1. **Discovery integrity**
+   - Every `path:` entry in methodology indexes resolves to an existing file.
+2. **Reference integrity**
+   - No dangling relative links in methodology markdown.
+3. **Contract alignment**
+   - Assurance checks pass for harness/framing alignment.
 
-**Operational methodology** (policy rules, enforcement modes) can evolve more frequently via minor version bumps.
-
-### 3. Semantic Versioning
-
-Both schemas and methodology follow semver:
-
-| Version Component | When to Bump | Example |
-|-------------------|--------------|---------|
-| **MAJOR** | Breaking changes to structural methodology | Remove a pillar, change lifecycle stage names |
-| **MINOR** | New features, additive changes | Add optional field, new policy rule |
-| **PATCH** | Bug fixes, documentation | Fix typo in description, clarify constraint |
-
-**Schema version:** `1.2.0` (current)
-**Methodology version:** `0.2.0` (current)
-
-### 4. Backward Compatibility
-
-- **N-1 support:** Orchestrators support the current and previous minor version
-- **Deprecation windows:** Fields deprecated in version N can be removed in version N+2
-- **Migration notes:** Every deprecation includes migration instructions
-
-## Version Fields
-
-All kit metadata and run records include explicit version tracking:
-
-```json
-{
-  "schemaVersion": "1.2.0",
-  "methodologyVersion": "0.2.0",
-  "name": "flowkit",
-  "version": "0.1.0"
-}
-```
-
-| Field | Purpose |
-|-------|---------|
-| `schemaVersion` | Kit metadata schema version this document conforms to |
-| `methodologyVersion` | Harmony methodology version this kit aligns with |
-| `version` | Kit's own semantic version |
-
-## Enforcement Modes
-
-Methodology-as-Code supports graceful transitions via enforcement modes:
-
-| Mode | Behavior | Use Case |
-|------|----------|----------|
-| `block` | Fail on validation errors (default) | Production, CI |
-| `warn` | Log warnings but proceed | Development, transitions |
-| `off` | Skip validation entirely | Testing, emergencies |
-
-### Setting Enforcement Mode
-
-**Per-kit metadata:**
-```json
-{
-  "policy": {
-    "enforcement": "block"
-  }
-}
-```
-
-**Runtime override:**
-```typescript
-validateWithEnforcement(schema, data, {
-  enforcementMode: "warn"
-});
-```
-
-**Environment variable:**
-```bash
-HARMONY_ENFORCEMENT_MODE=warn
-```
-
-### Transition Procedure
-
-When evolving methodology:
-
-1. **Week 1-2:** Deploy with `enforcement: "warn"` — log violations, don't block
-2. **Week 3+:** Switch to `enforcement: "block"` — strict enforcement
-3. Update documentation and notify consumers
-
-## Deprecation Policy
-
-### Declaring Deprecations
-
-Add deprecations to kit metadata:
-
-```json
-{
-  "compatibility": {
-    "deprecations": [
-      {
-        "field": "legacy.oldField",
-        "since": "1.1.0",
-        "removeAt": "2.0.0",
-        "migrationNote": "Use newField instead"
-      }
-    ]
-  }
-}
-```
-
-### Deprecation Timeline
-
-| Event | Version | Description |
-|-------|---------|-------------|
-| Deprecation announced | N | Field marked deprecated with `since` |
-| Warning period | N to N+1 | Validation warns on deprecated field usage |
-| Removal | N+2 | Field removed from schema |
-
-### Example Timeline
-
-1. **v1.1.0:** Deprecate `policy.rules` in favor of `policy.rulesetRef`
-2. **v1.2.0:** Warn on `policy.rules` usage, recommend migration
-3. **v2.0.0:** Remove `policy.rules` from schema
-
-## Compatibility Matrix
-
-### Schema Compatibility
-
-| Kit Schema Version | Supported Orchestrator Versions |
-|-------------------|--------------------------------|
-| 1.2.0 | 1.1.0, 1.2.0 |
-| 1.1.0 | 1.0.0, 1.1.0, 1.2.0 |
-| 1.0.0 | 1.0.0, 1.1.0 |
-
-### Methodology Compatibility
-
-| Methodology Version | Kit Schema Versions |
-|--------------------|---------------------|
-| 0.2.0 | 1.1.0+, 1.2.0 |
-| 0.1.0 | 1.0.0, 1.1.0 |
-
-## Breaking Change Procedure
-
-For breaking changes (MAJOR version bump):
-
-1. **Announce:** Document the breaking change and rationale
-2. **Deprecate:** Mark affected fields as deprecated with migration notes
-3. **Warn period:** At least one minor version with `enforcement: "warn"`
-4. **Remove:** Implement breaking change in new major version
-5. **Migrate:** Provide migration script or detailed instructions
-
-### Example: Adding Required Field
-
-**Wrong:** Add required field immediately (breaks existing kits)
-
-**Right:**
-1. v1.1.0: Add optional field with default
-2. v1.2.0: Deprecate absence of field, warn if missing
-3. v2.0.0: Make field required
-
-## CI Validation
-
-The `validate-methodology-alignment.ts` script enforces methodology compliance in CI:
+Canonical assurance invocation:
 
 ```bash
-pnpm --filter @harmony/kit-base validate:methodology
+bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,framing
 ```
 
-### Checks Performed
+## CI Integration Baseline
 
-1. **Schema validation:** All kit metadata validates against current schema
-2. **Version consistency:** All kits use compatible schema/methodology versions
-3. **Deprecation warnings:** Flag usage of deprecated fields
-4. **Structural compliance:** Pillars and lifecycle stages match methodology-core
-
-### CI Integration
+Methodology policy checks should run in CI using existing assurance surfaces rather than ad-hoc package-local validators.
 
 ```yaml
 # .github/workflows/ci.yml
 - name: Validate methodology alignment
-  run: pnpm --filter @harmony/kit-base validate:methodology
-```
-
-## Schema Files
-
-| File | Purpose |
-|------|---------|
-| `kit-metadata.v1.json` | Kit metadata schema (v1.2) |
-| `run-record.v1.json` | Run record schema (v1.1) |
-| `methodology-core.v1.json` | Structural methodology definitions |
-| `methodology-core.data.json` | Methodology data instance |
-
-## Runtime Validation
-
-Kits use Zod schemas for runtime validation:
-
-```typescript
-import {
-  validateWithEnforcement,
-  KitMetadataSchema,
-  CURRENT_SCHEMA_VERSION,
-  CURRENT_METHODOLOGY_VERSION,
-} from "@harmony/kit-base";
-
-// Validate kit metadata
-const result = validateWithEnforcement(KitMetadataSchema, metadata, {
-  enforcementMode: "block",
-  checkDeprecations: true,
-  schemaName: "KitMetadata",
-});
-
-if (!result.success) {
-  console.error("Validation errors:", result.errors);
-}
-
-if (result.warnings?.length) {
-  console.warn("Deprecation warnings:", result.warnings);
-}
+  run: bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,framing
 ```
 
 ## Source of Truth Hierarchy
 
-1. **JSON Schemas** (`packages/kits/kit-base/schema/`)
-   - Canonical definitions
-   - Used by external tools and AI agents
+1. **Governance charter and principles**
+   - `/.harmony/cognition/governance/principles/principles.md`
+2. **Methodology discovery contracts**
+   - `/.harmony/cognition/practices/methodology/index.yml`
+   - `/.harmony/cognition/practices/methodology/*/*.yml` index surfaces
+3. **Tier and workflow contracts**
+   - `/.harmony/cognition/practices/methodology/templates/spec-tier*.yaml`
+   - `/.harmony/cognition/practices/methodology/migrations/*`
+   - `/.harmony/cognition/practices/methodology/audits/*`
+4. **Narrative methodology docs**
+   - `/.harmony/cognition/practices/methodology/*.md`
 
-2. **Zod Schemas** (`packages/kits/kit-base/src/validation.ts`)
-   - Runtime TypeScript validation
-   - Derived from JSON schemas
+## Breaking Change Procedure
 
-3. **Methodology Documentation** (`.harmony/cognition/practices/methodology/`)
-   - Human-readable explanations
-   - Must align with schemas
+For methodology-breaking changes:
 
-4. **Kit Metadata** (`packages/kits/*/metadata/kit.metadata.json`)
-   - Per-kit configuration
-   - Validated against schemas
+1. Update the affected discovery/index contracts first.
+2. Update linked narrative docs in the same change.
+3. Record migration/governance receipts when required by policy.
+4. Run alignment and integrity checks before merge.
+5. If removing artifacts, ensure no downstream references remain.
 
-## Migration Guide
+## Deprecation and Removal Rules
 
-### Updating from Schema v1.1 to v1.2
-
-1. Add version fields to kit metadata:
-   ```json
-   {
-     "schemaVersion": "1.2.0",
-     "methodologyVersion": "0.2.0"
-   }
-   ```
-
-2. Add enforcement mode to policy (if using policy):
-   ```json
-   {
-     "policy": {
-       "enforcement": "block"
-     }
-   }
-   ```
-
-3. Review deprecation warnings and migrate if needed
-
-### Updating from Methodology v0.1 to v0.2
-
-1. Ensure all six pillars are recognized
-2. Use canonical pillar identifiers: `direction`, `focus`, `velocity`, `trust`, `continuity`, `insight`
-3. Update lifecycle stage references if any custom stages were used
+- Deprecate by removing artifact references from discovery indexes first.
+- Relocate durable guidance into surviving canonical artifacts before deletion.
+- Avoid dual-authority states where removed artifacts are still referenced by indexes or overview docs.
 
 ## Related Documents
 
-- [Harmony Principles](../../governance/principles/README.md) — The six pillars
-- [Methodology Overview](./README.md) — Full methodology description
-- [Kits Reference](/.harmony/capabilities/runtime/services/_meta/docs/kits-reference.md) — Validation utilities and service entrypoints
-- [Kits README](/.harmony/capabilities/runtime/services/_meta/docs/kits-reference.md) — Kit architecture overview
-
-## Changelog
-
-### Schema v1.2.0 (Current)
-- Added `schemaVersion` and `methodologyVersion` fields
-- Added enforcement modes to policy configuration
-- Added deprecation tracking to compatibility section
-- Created methodology-core.v1.json for structural methodology
-
-### Schema v1.1.0
-- Made `determinism`, `safety`, and `idempotency` required
-- Added `evolvable_modularity` to pillars enum
-
-### Schema v1.0.0
-- Initial schema release
+- [Methodology Overview](./README.md)
+- [Methodology Index](./index.yml)
+- [Templates Index](./templates/index.yml)
+- [Migration Governance](./migrations/README.md)
+- [Audit Governance](./audits/README.md)
+- [Alignment Check Script](../../../assurance/runtime/_ops/scripts/alignment-check.sh)

@@ -153,6 +153,8 @@ flowchart TB
 - [ ] **Feature flag**: Present and default OFF
 - [ ] **Observability**: Changed flows emit traces/logs
 - [ ] **PR size**: Meets DoSm or has size-override
+- [ ] **Security controls**: CSRF/CSP/SSRF controls verified for changed surfaces
+- [ ] **Latency budgets**: p95 budget checks captured for risky/runtime-facing changes
 
 ### T3 Required
 
@@ -164,7 +166,7 @@ flowchart TB
 - [ ] **ADR**: Created or updated
 - [ ] **Watch window**: 30 min post-promote scheduled
 
-### Optional / Adopt Incrementally
+### Optional Controls (Non-Blocking by Default)
 
 - [ ] **Ruff/Black**: When Python added
 - [ ] **mypy**: When Python added
@@ -172,6 +174,16 @@ flowchart TB
 - [ ] **Perf budgets**: Lighthouse CI (report first)
 - [ ] **SPDX headers**: Add to new files
 - [ ] **Provenance/attestation**: For release artifacts
+- [ ] **Preview smoke helper**: `scripts/smoke-check.sh` run against preview URLs
+- [ ] **Flags hygiene report**: `scripts/flags-stale-report.js` reviewed weekly
+
+---
+
+## CI Health Objectives
+
+- **PR pipeline target**: tier-appropriate required checks should complete in <= 7 minutes for normal PR paths.
+- **Nightly heavy scan target**: full scans (CodeQL/Semgrep/secrets/SBOM and extended smoke) should complete in <= 20-30 minutes.
+- **Tracking**: monitor median and 90th percentile duration; tighten cache, test split, or job scope when targets degrade for two consecutive weeks.
 
 ---
 
