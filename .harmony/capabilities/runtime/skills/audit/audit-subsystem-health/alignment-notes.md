@@ -89,3 +89,14 @@ Updated 2026-03-05 for Batch 9 methodology alignment touchpoints.
   guidance is consistent across methodology contracts.
 - This note links watched cognition-practices drift to the
   audit-subsystem-health artifact set for alignment validation.
+
+Updated 2026-03-05 for tier-downgrade enforcement tooling touchpoints.
+
+- `validate-tier-downgrade-policy.sh` now enforces direct `T3->T1` downgrade
+  prohibition semantics across canonical methodology policy surfaces.
+- `alignment-check.sh` harness profile now runs this validator as part of
+  governance contract checks.
+- `validate-harness-structure.sh` now requires the validator artifact so
+  structural drift cannot silently remove the enforcement surface.
+- This note links watched assurance and methodology drift to the
+  audit-subsystem-health artifact set for alignment validation.

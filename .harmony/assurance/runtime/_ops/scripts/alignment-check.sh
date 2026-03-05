@@ -123,6 +123,10 @@ run_harness() {
       "$HARMONY_DIR/scaffolding/runtime/templates/migrations/template.clean-break-migration.md"
 
   run_step \
+    "Validate tier downgrade governance policy contract" \
+    bash "$SCRIPT_DIR/validate-tier-downgrade-policy.sh"
+
+  run_step \
     "Validate execution-profile governance PR contract entries" \
     rg -n "Profile Selection Receipt|Implementation Plan|Impact Map \\(code, tests, docs, contracts\\)|Compliance Receipt|Exceptions/Escalations|change_profile" \
       "$HARMONY_DIR/agency/practices/pull-request-standards.md" \
