@@ -23,11 +23,9 @@ This document expands the brief flow and WIP guidance in the Harmony Methodology
 
 Harmony uses a **three-tier risk classification** that determines spec detail, gates, and human review requirements.
 
-| Tier | Risk Level | Spec | Gates | Human Time |
-|------|------------|------|-------|------------|
-| **T1** | Trivial | BMAD-lite | Basic CI | 2-3 min |
-| **T2** | Standard | Standard | Full CI + preview | 15-20 min |
-| **T3** | Elevated | Full + STRIDE | Full CI + security review | 30-60 min |
+- `T1` (trivial): fast-path, low-risk work with lightweight spec and basic gates.
+- `T2` (standard): default path with full CI and preview evidence.
+- `T3` (elevated): strict path with expanded security/governance scrutiny.
 
 → See [risk-tiers.md](./risk-tiers.md) for full tier criteria.
 → See [ci-cd-quality-gates.md](./ci-cd-quality-gates.md) for canonical gate matrices and checklists.
@@ -162,21 +160,15 @@ Gate matrix and checklist ownership is canonical in [ci-cd-quality-gates.md](./c
 
 ## Change Types → Tier Mapping
 
-| Change Type | Tier | Key Gates |
-|-------------|------|-----------|
-| Docs/content only | T1 | Lint/typecheck |
-| Typo/comment fixes | T1 | Lint/typecheck |
-| Test additions | T1 | Unit tests pass |
-| UI copy/style (no logic) | T1 | Lint/typecheck |
-| UI logic/components | T2 | Standard + preview smoke |
-| New API endpoints | T2 | Standard + contracts + flag |
-| Refactoring | T2 | Standard + preview smoke |
-| Contract changes | T2 | oasdiff + consumer sign-off |
-| Auth/session changes | T3 | Full + security review |
-| Billing/payment | T3 | Full + security review |
-| Data migrations | T3 | Full + migration plan |
-| Security config (CSP/CORS) | T3 | Full + security review |
-| AI prompt/logic | T2 | Standard + golden tests |
+Representative examples:
+
+- `T1`: docs-only edits, typo/comment fixes, and test-only additions.
+- `T2`: UI logic changes, new API endpoints, refactors, and contract updates.
+- `T3`: auth/session, billing/payment, security configuration, and data migrations.
+
+Canonical tier assignment and hard triggers are owned by
+[auto-tier-assignment.md](./auto-tier-assignment.md); use this section as a
+quick orientation layer, not as normative classifier logic.
 
 **Notes:**
 - AI auto-assigns tiers based on files and intent. See [auto-tier-assignment.md](./auto-tier-assignment.md)

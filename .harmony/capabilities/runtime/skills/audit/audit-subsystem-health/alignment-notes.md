@@ -37,3 +37,14 @@ Updated 2026-03-04 for methodology consolidation touchpoints.
   and phased-adoption language was removed from canonical methodology docs.
 - This note links watched cognition-practices drift to the
   audit-subsystem-health artifact set for alignment validation.
+
+Updated 2026-03-05 for Batch 5 methodology alignment touchpoints.
+
+- Methodology hub sections in
+  `.harmony/cognition/practices/methodology/README.md` were further
+  summarize-and-link compressed to reduce duplicated operational detail.
+- Flow-tier duplication in
+  `.harmony/cognition/practices/methodology/flow-and-wip-policy.md` was
+  reduced to concise examples with canonical classifier references.
+- This note links watched cognition-practices drift to the
+  audit-subsystem-health artifact set for alignment validation.

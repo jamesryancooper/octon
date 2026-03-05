@@ -90,71 +90,20 @@ Together these pillars create a self‑reinforcing system: Direction ensures we 
 
 ## Kit Architecture and Stage Mapping
 
-Harmony's kit layer provides the building blocks that implement Harmony's gates and flows. For a concise mapping from Harmony's principles to specific kits, see "Harmony Alignment" in `.harmony/capabilities/runtime/services/_meta/docs/platform-overview.md#harmony-alignment`. In practice, use FlagKit for feature gating and progressive delivery, ObservaKit for telemetry, EvalKit/PolicyKit/GuardKit for gates, and PatchKit for PRs.
+Harmony's kit layer maps execution stages to reusable capability surfaces.
+This methodology overview keeps only the operating synopsis; canonical kit
+ownership and runtime behavior details live in dedicated capability docs:
 
-### Stage‑to‑Kit Map (operational)
+- Principle-to-kit alignment:
+  `.harmony/capabilities/runtime/services/_meta/docs/platform-overview.md#harmony-alignment`
+- Service responsibilities and boundaries:
+  `.harmony/capabilities/runtime/services/execution/service-roles.md`
+- Determinism/provenance expectations:
+  `ci-cd-quality-gates.md`, `risk-tiers.md`, and `tooling-and-metrics.md`
 
-- Spec → Plan → Flow → Implement → Verify → Ship → Learn
-  - Spec/Shape: SpecKit (`speckit`), PlanKit
-  - Flow orchestration: FlowKit (defines `FlowConfig`/`FlowRunner`/`FlowRunResult` and calls the shared LangGraph runtime under `agents/runner/runtime/**` to instantiate long‑running, stateful flows from plans or canonical prompts)
-  - Implement (agentic): AgentKit (plan‑driven agents built on top of FlowKit and the shared runtime), DevKit, CodeModKit (as needed)
-  - Verify/Govern: EvalKit (structure/hallucination), PolicyKit (ASVS/SSDF policy), GuardKit (redaction), TestKit (unit/contract/e2e), ComplianceKit (evidence)
-  - Ship: PatchKit (PRs), preview/staging promotion surfaces, ReleaseKit (changelog)
-  - Observe/Learn: ObservaKit (OTel traces + logs), BenchKit (perf), Dockit (docs/ADR), ScheduleKit (jobs)
-
-#### LLMOps & ContextOps kit expectations
-
-To keep responsibilities crisp and repeatable:
-
-- **PromptKit (PromptOps, design-time)**
-  - Standardizes **prompt templates, variable schemas, variants, and fixtures**.
-  - Compiles templates (often from `packages/prompts/**`) into canonical prompts with `prompt_hash` and metadata used by ObservaKit/EvalKit/TestKit.
-  - Does **not** own retrieval, logging/metrics, dashboards, or evaluation logic.
-
-- **LLMOps (runtime monitoring, evaluation, governance)**
-  - **ObservaKit**: traces/logs/metrics (including LLM cost/latency) for all model calls.
-  - **EvalKit + DatasetKit**: evaluation suites and golden datasets for prompts/flows (e.g., hallucination, grounding, style), including per-template/variant scores.
-  - **PolicyKit**: fail-closed policy rules (determinism, redaction, safety thresholds) applied to LLM behavior.
-  - **CacheKit**: idempotency and memoization for pure/expensive LLM operations.
-  - **ModelKit / CostKit** (when adopted): model policy, routing, and cost budgets.
-  - **FlowKit / AgentKit / ToolKit**: orchestrate and execute agent flows that *use* prompts compiled by PromptKit.
-  - **UIkit**: provides human-friendly surfaces (playgrounds, dashboards, approver UIs) composed over these kits.
-
-- **ContextOps (RAG pipelines and context design)**
-  - **IngestKit → IndexKit → QueryKit (+ SearchKit)**: ingest, normalize, index, and retrieve content with provenance; define context quality and retrieval behavior.
-  - **PromptKit**: defines **context slots and schemas** in templates (e.g., how retrieved documents, policies, or prior runs are embedded in prompts) and validates those inputs before rendering.
-  - **ObservaKit + EvalKit + DatasetKit**: observe and evaluate retrieval behavior and answer grounding; PromptKit does not construct indexes or decide which documents to retrieve.
-
-This mirrors the mental model used in `.harmony/capabilities/runtime/services/_meta/docs/platform-overview.md` and the kit architecture docs: PromptKit is the **PromptOps kit at the template/contract layer**, while LLMOps and ContextOps concerns are implemented by a **composition of other kits** rather than being folded into PromptKit itself.
-
-In practice, PlanKit, FlowKit, AgentKit, and the shared LangGraph runtime align as follows (see also `.harmony/capabilities/runtime/services/execution/service-roles.md`):
-
-- SpecKit validates specs.
-- PlanKit turns specs into governed plans (`plan.json`).
-- FlowKit turns “run this flow with these prompts/manifests/paths” into HTTP calls to the shared LangGraph runtime.
-- AgentKit consumes `plan.json`, decides which flows to run via FlowKit, and uses the shared runtime’s checkpointing to maintain durable agent state.
-
-Use FlowKit when workflows:
-
-- span multiple kits,
-- must be paused/resumed or inspected, or
-- require explicit, auditable state (maps, issue registers, reports).
-
-### Deterministic Agent Loops & Provenance (kit-layer alignment)
-
-- Standard agent loop: Plan → Diff → Explain → Test (no direct apply). Each step produces an artifact (plan, proposed edits, risk/explain notes, tests) that is reviewable.
-- Pin and record AI configuration whenever agents are used for code or content:
-  - Provider, model and version; temperature/top_p, max_tokens; seed (if supported) and region.
-  - Record the system prompt and inputs (minus secrets) and persist via ObservaKit traces.
-  - Attach the ObservaKit trace URL (and EvalKit run ID when applicable) to the PR description.
-- Require reproducibility:
-  - Add or update AI “golden tests” guarded by JSON‑Schema via EvalKit/TestKit; fail on schema or material output drift.
-  - Prefer low‑variance settings (temperature ≤ 0.3) for deterministic outputs; justify higher variance in PR.
-- License and provenance:
-  - Run GitHub Dependency Review and include a license/provenance note in the PR.
-  - Avoid adding new dependencies unless they materially reduce complexity; prefer permissive licenses (MIT/BSD/Apache).
-
-Prompt templates and variants used in these loops are standardized and compiled by **PromptKit** (template/variable/variant contracts and `prompt_hash`), while **IngestKit/IndexKit/QueryKit/SearchKit** own retrieval behavior for any context injected into those prompts and **ObservaKit/EvalKit/DatasetKit/PolicyKit/CacheKit/ModelKit/CostKit** own LLMOps concerns (telemetry, evaluation, governance, cost, and reliability). This keeps PromptKit focused on **PromptOps at the template/contract layer** and prevents LLMOps or ContextOps responsibilities from leaking into the prompt templating kit.
+At a high level: SpecKit/PlanKit shape intent, FlowKit/AgentKit execute plans
+through governed runtime flows, and EvalKit/PolicyKit/GuardKit/TestKit plus
+ObservaKit enforce safety, evidence, and observability at promotion time.
 
 ---
 
@@ -163,6 +112,7 @@ Prompt templates and variants used in these loops are standardized and compiled 
 Harmony operates as a closed loop with a few non‑negotiable, compounding habits that keep solo development fast, safe, and sustainable:
 
 - Profile-first execution: before implementation, record exactly one `change_profile`, `release_state`, and a `Profile Selection Receipt`.
+- Release-maturity gate: when `release_state` is `pre-1.0`, default `change_profile` to `atomic`; use `transitional` only when hard gates require coexistence and include `transitional_exception_note` (rationale, risks, owner, decommission date).
 - Spec‑first changes: Every material change starts with a one‑pager + ADR and micro‑STRIDE. No spec, no start.
 - No silent apply: Agents produce plans/diffs/tests only. ACP receipt outcomes determine runtime promotion authority; humans retain policy authorship, exceptions, and escalation authority.
 - Deterministic AI: Provider/model/version/params pinned; low variance (temperature ≤ 0.3); prompt hash recorded; golden tests guard drift.
@@ -223,142 +173,23 @@ For the reference stack mapping across frameworks, standards, and tools, use
 
 ## How Harmony’s Components Reinforce Each Other
 
-Methods (SRE, DORA, Shape Up) define how work flows. Frameworks and standards (ASVS, SSDF, STRIDE) define what “safe” means. Tooling and platform controls ensure speed and safety coexist. This alignment makes Harmony AI-native, principled, and safe by default.
-
-### 1) Security and Compliance (Defense‑in‑Depth)
-
-- OWASP ASVS and NIST SSDF establish baseline security and development controls; specs and CI gates map directly to them.
-- STRIDE injects threat modeling at design time (spec‑first), translating risks → mitigations → tests.
-- CodeQL, Semgrep, and OWASP cheat sheets operationalize controls as automated CI checks and developer guidance.
-- Outcome: security and compliance are built in, not bolted on after the fact.
-
-### 2) Speed and Flow (Lean Delivery)
-
-- Trunk‑Based Development, Kanban/Little’s Law, and Shape Up synchronize scope, WIP, and integration cadence.
-  - Shape Up defines appetites and trims scope.
-  - Kanban limits WIP to keep cycle times low.
-  - Trunk‑based flow yields tiny, frequent integrations.
-- Monolith‑First and 12‑Factor keep the architecture lean, reducing coordination and operational overhead.
-- Outcome: delivery is continuous, reversible, and predictable.
-
-### 3) Reliability and Observability (Continuous Feedback)
-
-- Google SRE introduces SLIs/SLOs and error budgets; DORA metrics measure speed versus stability to guide release decisions.
-- OpenTelemetry powers the observability stack (via ObservaKit) for traces, metrics, and structured logs.
-- Deployment and source-control platforms provide controlled governance surfaces that enforce reliability goals.
-- Outcome: reliability is measurable, and feedback loops are fast.
-
-### 4) Architecture and Maintainability
-
-- Hexagonal architecture, Turborepo, OpenAPI, and JSON Schema form Harmony’s structural backbone.
-  - Contracts/schemas define boundaries and expectations.
-  - Pact and Schemathesis ensure adapters remain compatible.
-  - Turborepo enforces modularity and fast iteration.
-- Outcome: systems are deterministic, testable, and easy to evolve—aligned with spec‑first and simplicity‑first rules.
-
-### 5) Testing and Quality Assurance
-
-- Playwright, Pact, and Schemathesis span the testing pyramid (E2E, contract, property‑based layers).
-- Combined with JSON Schema validations and EvalKit, they produce verifiable AI and code outputs.
-- Outcome: agent‑assisted changes are safe, observable, and reversible.
-
-### 6) Agent-First System Governance (Deterministic Agent Loops & Risk-Tiered ACP Governance)
-
-- Deterministic, reviewable agent loops: Plan → Diff → Explain → Test; no silent apply.
-- Pinned AI configuration and low‑variance defaults; golden tests guarded by JSON‑Schema prevent drift.
-- Observability and provenance: OTel traces/logs on runs; PRs include representative `trace_id` and Eval/Policy outcomes.
-- Fail-closed governance: risk-tiered ACP promotion gates enforced; agents cannot approve PRs or push to protected branches; humans retain ultimate authority, oversight, and accountability.
-- Outcome: AI systems autonomously self‑build, self‑heal, and self‑tune within deterministic, observable, and reversible bounds.
-
-### In Short
-
-- Not random best practices: each fills a clear gap (security, flow, observability, architecture) with minimal overlap.
-- Mutual reinforcement: DORA depends on trunk flow; trunk flow depends on safe CI gates (ASVS, SSDF); SLOs depend on observability (OTel).
-- Shared philosophy: prioritize small, deterministic, testable, reversible changes—the core of Harmony.
+Harmony's standards, flow policies, and gates are intentionally composable:
+spec-first direction (`spec-first-planning.md`) feeds risk-tiered governance
+(`risk-tiers.md`, `auto-tier-assignment.md`), which is enforced by CI/CD gates
+(`ci-cd-quality-gates.md`) and closed-loop reliability/metrics feedback
+(`reliability-and-ops.md`, `tooling-and-metrics.md`). Together they preserve
+fast iteration without weakening safety or reversibility.
 
 ---
 
 ## Harmony in Practice
 
-**Goal.** Ship small, quality, safe, and frequent changes with **enterprise‑grade** security, reliability, and performance using **agent-first** workflows with **risk-tiered system governance** and human governance oversight. Humans own policy authorship, exceptions, and escalation authority.
-
-**Guiding principle.** **Complexity Calibration** with **Complexity Fitness**: favor **minimal sufficient complexity** and the **smallest robust solution that meets constraints**. Add complexity only when SLOs, scale, safety, performance, or compliance clearly require it; avoid unnecessary dependencies.
-
-**Methodology**:
-
-- **Complexity Calibration**: choose minimal sufficient process, design, and tooling that meets constraints. Defer advanced patterns until justified by SLOs/scale/safety/performance/compliance. Default to no new dependency unless it materially reduces complexity while preserving robustness.
-- **Spec‑first**: every meaningful change starts with a **Specification one‑pager** + **ADR** capturing problem, scope, API/UI contracts, SLIs/SLOs, **non‑functionals**, and a **micro‑threat model (STRIDE)** mapped to **OWASP ASVS** & **NIST SSDF** tasks.
-- **Context-efficient planning**: Convert the Spec to a context packet (structured intent + agent plan + acceptance criteria). AI agents generate plans/diffs/tests from the Spec within governed bounds; risk-tiered ACP promotion gates enforce reversibility, evidence, quorum, and budgets on material changes.
-- **Flow over ceremony**: **Trunk‑Based Development** (+ short‑lived branches), tiny PRs, gated preview/staging validation per PR, **feature‑flagged** releases with guarded manual promotion; rollbacks use the prior known-good deployment.
-- **Reliability guardrails**: Define **SLIs/SLOs**, manage via **error budgets**, alert on budget burn, run blameless postmortems with action items.
-- **Security by default**: **OWASP ASVS** controls + **NIST SSDF** activities embedded in **CI/CD** quality gates: static analysis (**CodeQL/Semgrep**), dependency & **license** scan, **secret scanning**, SBOM, and contract tests.
-- **Architecture**: **12‑Factor** monolith‑first in a **Turborepo** monorepo with **Hexagonal** boundaries enforced by **contract tests**, and observability via **OpenTelemetry** + structured logs.
-
-**Expected impact (for a solo developer after 30–60 days)**:
-
-- **Lead time**: hours → sub‑day for small changes via trunk flow, preview environments, and tiny PRs. **DORA** research supports doing speed *with* stability.
-- **Change‑fail rate**: drops via feature flags, previews, contract tests, and error‑budget‑driven discipline.
-- **MTTR**: minutes–hours via instant rollback (promote a known‑good preview) and clear runbooks.
-- **SLO attainment**: measurable improvement by alerting on **burn‑rate** and holding code until budget recovers.
-
-### Human-AI Roles & ACP Governance
-
-- Roles
-  - Owner (you): accountable for risk, waivers, and promotion decisions.
-  - Driver (usually you): owns implementation and rollout plan (often the Owner).
-  - Navigator (you, separate pass): owns review, security/license checks, and rollout readiness.
-  - Agents (AI IDE/terminal/harness): drive planning, implementation, and verification within governed bounds; never approve risk or production changes.
-- Two‑pass rule: T3 changes require a Driver pass and a distinct Navigator pass (ideally time-separated) from spec to promotion; with 2 devs, Navigator is the other person.
-
-- Non‑negotiables (AI)
-  - Cannot commit directly to protected branches; cannot approve PRs; cannot handle secrets or long‑lived credentials.
-  - Must produce artifacts (plan, diffs, tests) for human review; no silent apply. Mutations require idempotency keys.
-  - Must operate with pinned provider/model/version and documented parameters (temperature, top_p, max_tokens, seed if supported); runs record a stable prompt hash.
-
-- Non‑negotiables (Humans)
-  - Classify PR risk (T1/T2/T3) and confirm rollback/flag plan.
-  - Verify license/provenance and secret hygiene; check OpenAPI/JSON‑Schema diff where applicable.
-  - Confirm observability for changed flows (trace + structured logs) and attach a representative trace or trace_id in the PR.
-- Required ACP control points (with human-on-the-loop oversight)
-  1. Before implementation: spec one-pager + micro-STRIDE + acceptance criteria staged with ACP preflight evidence.
-  2. Before merge: ACP promote decision includes required PR artifacts (risk rubric, license/provenance note, OpenAPI diff, and required attestations).
-  3. Before promotion: feature behind a flag, preview e2e smoke green, rollback noted, owner on‑call.
-  4. After promote: 30‑minute watch window; check SLO burn‑rate and key SLIs; document in PR thread.
-
-### Canonical ACP Operating Modes (Execution Entrypoint)
-
-All execution runs MUST resolve to one operating mode through
-`/.harmony/capabilities/governance/policy/deny-by-default.v2.yml`:
-`acp.profile_mode_map` -> `acp.operating_modes` -> `acp.evidence_contracts`.
-
-| Run Profile | Operating Mode | ACP Ceiling | Required Evidence Contract | Escalation Path |
-|---|---|---|---|---|
-| `observe` | `observe` | `ACP-0` | `evidence.observe.v1` | `owner-review` |
-| `refactor`, `scaffold`, `tests`, `docs`, `iterate` | `iterate` | `ACP-1` | `evidence.iterate.v1` | `owner-review` |
-| `release-readiness`, `operate` | `operate` | `ACP-3` | `evidence.operate.v1` | `owner-and-verifier-review` |
-| `emergency` | `emergency` | `ACP-4` | `evidence.emergency.v1` | `break-glass-owner-escalation` |
-
-Resolver contract:
-
-- Every profile MUST map to exactly one mode.
-- Every mode MUST declare exactly one ACP ceiling and one required evidence contract.
-- Missing evidence follows mode/rule escalation behavior and fails closed at policy gates.
-
-- Stop‑the‑line triggers (any → block or rollback)
-  - Secret exposure, license violation, security regression (ASVS high/critical), SLO burn‑rate breach.
-  - Missing rollback path or flag; Preview e2e red; OpenAPI breaking change without consumer sign‑off.
-  - Missing observability on changed flows; missing PR risk rubric; AI model/provider/params not pinned when agents were used.
-  - Debt budget exceeded or WIP limits breached for >24h without mitigation (freeze feature work; restore system health first).
-- Decision log
-  - Dockit auto‑prompts an ADR summary on merge; link PR, preview URL, post‑deploy notes, and (when agents were used) AI provider/model/version + parameters and ObservaKit/EvalKit run links.
-
-### ACP Waivers & Exceptions (minimal rules)
-
-- Waivers are exceptional and rare—prefer scope cuts, flags, and staged rollouts.
-- Who can waive: Navigator (T3 requires Navigator security checklist). Agents cannot waive.
-- PR requirements: waiver justification (why safe now), explicit scope/timebox (≤ 7 days or until merge), named owner, and link to a follow‑up issue.
-- Disallowed waivers: secrets/PII exposure, missing rollback/flag, missing observability on changed flows, sustained SLO burn‑rate breaches (see Stop‑the‑line triggers).
-- Expiration & tracking: waivers auto‑expire at merge; reopening requires a new waiver. Add a `waiver` label and review in the weekly retro.
+Harmony in practice is a tight loop:
+`spec-first-planning.md` -> `flow-and-wip-policy.md` ->
+`ci-cd-quality-gates.md` -> `sandbox-flow.md` -> `reliability-and-ops.md`.
+Use those canonical surfaces for operating detail. This hub remains concise
+orientation and cross-linking, while humans retain policy authorship,
+exceptions, and escalation authority under the agency governance contracts.
 
 ---
 
