@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.1...harmony-v0.4.2) (2026-03-05)
+
+
+### Bug Fixes
+
+* **agency:** align required check context naming ([#90](https://github.com/jamesryancooper/harmony/issues/90)) ([5c7dc3e](https://github.com/jamesryancooper/harmony/commit/5c7dc3e1ebf2b32e52113962bfb594aa99ece707))
+
 ## [0.4.1](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.0...harmony-v0.4.1) (2026-03-04)
 
 
