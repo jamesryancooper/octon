@@ -276,7 +276,10 @@ See `spec-first-planning.md` for the full spec one-pager template, feature story
 
 ---
 
-> **Reference implementation.** The branching and release details below use Vercel as the deployment platform. The principles (preview-per-PR, guarded promotion, instant rollback, server-evaluated feature flags) are platform-agnostic.
+> **Reference implementation.** The branching and release details below use a
+> generic preview-and-promotion deployment model. Adapt naming and commands to
+> your platform. The principles (preview-per-PR, guarded promotion, instant
+> rollback, server-evaluated feature flags) remain platform-agnostic.
 
 ## Branching & Release Model
 
@@ -425,21 +428,6 @@ compact while preserving end-to-end worked guidance.
 
 Prompt snippet filenames and reusable prompt text are consolidated in
 [playbooks/prompts.md](./playbooks/prompts.md).
-
----
-
-## Extras
-
-Operational extras are maintained in dedicated surfaces:
-
-- Migration and rollback doctrine:
-  [migrations/README.md](./migrations/README.md)
-- Prompt playbook:
-  [playbooks/prompts.md](./playbooks/prompts.md)
-- Worked example:
-  [examples/oauth-billing.md](./examples/oauth-billing.md)
-- Quick-start operational checklist:
-  [playbooks/quick-start.md](./playbooks/quick-start.md)
 
 ---
 

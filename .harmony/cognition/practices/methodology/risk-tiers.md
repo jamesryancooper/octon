@@ -577,8 +577,13 @@ tier_bump_down:
   requires_justification: true
   requires_escalation_review:
     from_t2_to_t1: false
-    from_t3_to_t2: true  # Escalation artifact + verifier review
-    from_t3_to_t1: true  # Escalation artifact + security evidence review
+    from_t3_to_t2: true  # Escalation artifact + verifier review + override evidence reference
+    from_t3_to_t1: true  # Escalation artifact + security evidence review + override evidence reference
+  required_fields_for_t3_downgrade:
+    - override_artifact_ref
+    - approver
+    - timestamp
+    - rationale
 ```
 
 ---

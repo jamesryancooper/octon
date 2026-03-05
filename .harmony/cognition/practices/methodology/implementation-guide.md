@@ -98,6 +98,10 @@ ACP receipt outcomes determine runtime promotion authority; humans retain policy
 
 ## 4) File tree (minimum surfaces)
 
+This tree is a reference profile, not a rigid repository requirement.
+Equivalent layouts are acceptable when they preserve the same methodology
+surfaces, governance contracts, and gate evidence paths.
+
 ```text
 /docs/specs/<feature>/
 /docs/implementation/<feature>.md

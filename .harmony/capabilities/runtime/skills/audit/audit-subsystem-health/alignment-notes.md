@@ -48,3 +48,14 @@ Updated 2026-03-05 for Batch 5 methodology alignment touchpoints.
   reduced to concise examples with canonical classifier references.
 - This note links watched cognition-practices drift to the
   audit-subsystem-health artifact set for alignment validation.
+
+Updated 2026-03-05 for Batch 6 methodology alignment touchpoints.
+
+- `README.md` received final provider-neutral branching wording and catch-all
+  extras pruning to keep the hub concise and non-vendor-specific.
+- `risk-tiers.md` now requires explicit override evidence references for T3
+  downgrades.
+- `implementation-guide.md` now marks the minimum file tree as a reference
+  profile to avoid over-constraining valid repository variants.
+- This note links watched cognition-practices drift to the
+  audit-subsystem-health artifact set for alignment validation.
