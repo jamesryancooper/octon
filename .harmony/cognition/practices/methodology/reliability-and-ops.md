@@ -25,6 +25,7 @@ Use this policy for reliability governance independent of deployment provider.
   - p95 API latency <= 300ms warm and <= 600ms including cold starts
   - p95 top-route TTFB <= 400ms
   - 5xx error rate <= 0.5%
+- Canonical ownership: these starter SLO defaults are the methodology-wide baseline. Other methodology docs should reference this section instead of repeating numeric thresholds.
 - Error budget burn triggers a freeze on risky merges/promotions until recovery.
 
 ## Release Hygiene Defaults

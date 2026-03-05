@@ -29,7 +29,8 @@ Harmony uses a **three-tier risk classification** that determines spec detail, g
 | **T2** | Standard | Standard | Full CI + preview | 15-20 min |
 | **T3** | Elevated | Full + STRIDE | Full CI + security review | 30-60 min |
 
-→ See [risk-tiers.md](./risk-tiers.md) for full tier criteria and gate matrices.
+→ See [risk-tiers.md](./risk-tiers.md) for full tier criteria.
+→ See [ci-cd-quality-gates.md](./ci-cd-quality-gates.md) for canonical gate matrices and checklists.
 → See [auto-tier-assignment.md](./auto-tier-assignment.md) for classification algorithm.
 
 **Key Principle:** AI assigns tiers automatically. Humans can always bump up (never down without justification).
@@ -150,51 +151,12 @@ Note: Terminology harmonization — we use **DoSafe** for "Definition of Safe" (
 
 ## Tiered Gates Reference
 
-### T1 Gates (Trivial)
+Gate matrix and checklist ownership is canonical in [ci-cd-quality-gates.md](./ci-cd-quality-gates.md). This flow policy summarizes process expectations and links to the normative gate surface.
 
-| Gate | Required | Notes |
-|------|----------|-------|
-| Lint & format | ✅ | ESLint, Prettier |
-| Type check | ✅ | `tsc --noEmit` |
-| Unit tests | ✅ | Existing must pass |
-| Secret scan | ✅ | CI secret scanning |
-| SBOM | ✅ | Syft |
-| Preview deploy | ❌ | Optional |
-| Feature flag | ❌ | Optional |
-
-**Human: Skim summary and receipt digest (2-3 min), escalate only when policy thresholds are crossed**
-
-### T2 Gates (Standard)
-
-| Gate | Required | Notes |
-|------|----------|-------|
-| All T1 gates | ✅ | |
-| CodeQL/Semgrep | ✅ | Security analysis |
-| Contract tests | ✅ | If API changes |
-| OpenAPI diff | ✅ | oasdiff |
-| Dependency scan | ✅ | Dependabot + license |
-| Preview deploy | ✅ | Required |
-| E2E smoke | ✅ | Core flows |
-| STRIDE-lite | ✅ | Automated |
-| Feature flag | ✅ | Required |
-| Observability | ✅ | Spans/logs present |
-
-**Human: Review summary + PR (15-20 min), approve**
-
-### T3 Gates (Elevated)
-
-| Gate | Required | Notes |
-|------|----------|-------|
-| All T2 gates | ✅ | |
-| Full STRIDE | ✅ | Human-reviewed |
-| Golden tests | ✅ | Critical paths |
-| Integration tests | ✅ | If applicable |
-| Provenance | ✅ | For releases |
-| Navigator review | ✅ | Security-focused |
-| Spec approval | ✅ | Before build |
-| Watch window | ✅ | 30 min post-promote |
-
-**Human: Full spec review + PR review + watch (30-60 min total)**
+- Tier gate matrix: [Gates by Tier](./ci-cd-quality-gates.md#gates-by-tier)
+- Complete checklist: [Gate Checklist (Complete Reference)](./ci-cd-quality-gates.md#gate-checklist-complete-reference)
+- Tier bump/down policy: [Tier Override Rules](./ci-cd-quality-gates.md#tier-override-rules)
+- Waiver handling: [Gate Waivers](./ci-cd-quality-gates.md#gate-waivers)
 
 ---
 

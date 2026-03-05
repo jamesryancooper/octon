@@ -19,16 +19,14 @@ Use this policy to define budgets, validate regressions, and keep scaling behavi
 
 ## Default Budgets (Normative)
 
-- p95 API latency: <= 300ms warm, <= 600ms including cold-start effects.
-- p95 route TTFB (top critical route): <= 400ms.
-- 5xx error rate: <= 0.5% during rollout watch windows.
+- Shared starter SLO defaults for availability, API latency, route TTFB, and 5xx error rate are canonical in [reliability-and-ops.md#slis-slos-and-error-budgets](./reliability-and-ops.md#slis-slos-and-error-budgets).
 - Bundle delta budget on critical app surfaces: <= +10% relative to baseline unless waived.
 
 ## CI Pass/Fail Criteria
 
 - T1: no required perf gate unless change touches perf-critical surfaces.
-- T2: fail if p95 latency or bundle delta exceeds budget by >10% in preview/staging checks.
-- T3: fail if budget exceeds threshold at any rollout stage without an approved, timeboxed waiver.
+- T2: fail if preview/staging checks exceed canonical SLO defaults or if bundle delta exceeds budget by >10%.
+- T3: fail if rollout checks exceed canonical SLO defaults or bundle delta budget without an approved, timeboxed waiver.
 
 ## Operational Guidance
 

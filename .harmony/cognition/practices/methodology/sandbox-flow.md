@@ -35,11 +35,7 @@ This document does not redefine gate policy.
 
 ## Baseline Defaults
 
-- Starter SLO defaults:
-  - availability >= 99.9% monthly
-  - p95 API latency <= 300ms warm (<= 600ms incl. cold start)
-  - p95 top-route TTFB <= 400ms
-  - 5xx error rate <= 0.5%
+- Shared starter SLO defaults are canonical in [reliability-and-ops.md#slis-slos-and-error-budgets](./reliability-and-ops.md#slis-slos-and-error-budgets) and apply to sandbox validation.
 - Rollback-first policy: restore previous known-good deployment when SLO threat is detected.
 - Flag discipline: new behavior defaults OFF until sandbox and early-cohort checks pass.
 

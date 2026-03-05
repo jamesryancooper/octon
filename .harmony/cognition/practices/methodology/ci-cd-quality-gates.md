@@ -35,6 +35,8 @@ Harmony uses a **three-tier risk classification** that determines which CI gates
 
 Solo-first note: **Owner** and **Navigator** are roles. When you’re solo, you perform both as distinct passes (ideally time-separated); when you have collaborators, they can be separate people.
 
+Canonical ownership: this document is the SSOT for tier gate matrices and checklists. `Gates by Tier` and `Gate Checklist (Complete Reference)` are the canonical sections; other methodology docs should summarize and link.
+
 ---
 
 ## Pipeline Overview

@@ -71,7 +71,7 @@ if (!validation.valid) {
 - `governance.acp.*`: required ACP target/outcome and receipt reference
 - `scope`: Files and surfaces affected
 - `_metadata`: AI generation metadata
-- `_review`: Human review tracking + ACP receipt check fields
+- review tracking surface: `_review` for T1/T2 and `oversight_touchpoints` for T3
 
 ### Tier-Specific Fields
 
@@ -81,11 +81,13 @@ if (!validation.valid) {
 | `problem/solution` | - | ✅ | ✅ |
 | `convivial_impact` | - | ✅ | ✅ |
 | `contracts` | - | ✅ | ✅ |
-| `threat_analysis` | - | Lite | Full |
+| `threat_analysis` | - | Lite | - |
+| `threat_model` | - | - | Full |
 | `data_classification` | - | - | ✅ |
 | `migration` | - | - | ✅ |
 | `rollout` | - | ✅ | ✅ |
 | `observability` | - | ✅ | ✅ |
+| `_review` | ✅ | ✅ | - |
 | `oversight_touchpoints` | - | - | ✅ |
 | `adr` | - | - | ✅ |
 
