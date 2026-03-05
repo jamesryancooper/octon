@@ -135,7 +135,7 @@ profile_selection_receipt:
     blast_radius_and_uncertainty: ""
     compliance_or_policy_constraints: ""
   transitional_exception_note:
-    required: false
+    required_when: "release_state=pre-1.0 && change_profile=transitional"
     rationale: ""
     risks: ""
     owner: ""

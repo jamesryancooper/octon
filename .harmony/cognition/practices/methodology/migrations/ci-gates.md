@@ -51,8 +51,10 @@ Prevent profile-selection drift and incomplete migration governance execution.
      - `/.harmony/cognition/runtime/migrations/index.yml`
 7. Migration evidence bundle contract
    - CI must fail if flat migration evidence files appear at:
-     - `/.harmony/output/reports/migrations/*.md` (date-prefixed evidence file form)
-   - CI must fail if any migration evidence bundle directory is missing required files:
+     - `/.harmony/output/reports/migrations/<YYYY-MM-DD>-<slug>-evidence.md` (deprecated flat evidence form only)
+   - CI must require date-prefixed migration bundle directories only:
+     - `/.harmony/output/reports/migrations/<YYYY-MM-DD>-<slug>/`
+   - CI must fail if any in-scope migration evidence bundle directory is missing required files:
      - `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, `inventory.md`
 
 ## Implementation Options (Non-Prescriptive)

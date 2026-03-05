@@ -41,7 +41,7 @@ When discovery indexes and content diverge, update indexes first, then align all
 - Repository release state is determined from `version.txt`:
   - `pre-1.0`: `< 1.0.0` or prerelease.
   - `stable`: `>= 1.0.0` and not prerelease.
-- Current repository version is `0.4.1`, so methodology governance operates in `pre-1.0` mode.
+- Determine current release state directly from `version.txt` at validation time; avoid fixed version literals in methodology narratives.
 - Do not hardcode version in downstream methodology docs; read `version.txt` for release-state evaluation.
 - Methodology discovery/index files use explicit `schema_version` keys; tier templates use `_schema_version` keys.
 - Any migration/governance-impacting methodology update must preserve profile-governance receipts (`change_profile`, `release_state`, and required sections).

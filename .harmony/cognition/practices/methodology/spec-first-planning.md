@@ -130,7 +130,8 @@ After stage -> evidence -> ACP gate:
 ### Step 6: Ship
 
 ```bash
-vercel promote <preview-url>
+<platform-cli> promote <candidate-ref>
+# Example: vercel promote <preview-url>
 ```
 
 **T3 only:** 30-minute watch window after promotion.
@@ -337,7 +338,7 @@ oversight_touchpoints:
 
 ---
 
-## Legacy: SpecKit One-Pager Template
+## Historical Appendix: SpecKit One-Pager Template (Legacy, Non-Normative)
 
 For reference, the original SpecKit one-pager outline (now superseded by tiered templates):
 
