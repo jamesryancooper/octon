@@ -570,6 +570,7 @@ tier_bump_up:
 Requires justification. AI should resist bumping down except:
 - Clear misclassification based on file path
 - Human explicitly requests with valid reason
+- Direct T3->T1 downgrades are prohibited; T3 changes may downgrade only to T2 with escalation evidence, then be re-evaluated.
 
 ```yaml
 tier_bump_down:
@@ -578,7 +579,7 @@ tier_bump_down:
   requires_escalation_review:
     from_t2_to_t1: false
     from_t3_to_t2: true  # Escalation artifact + verifier review + override evidence reference
-    from_t3_to_t1: true  # Escalation artifact + security evidence review + override evidence reference
+    from_t3_to_t1: false  # Prohibited direct two-tier downgrade
   required_fields_for_t3_downgrade:
     - override_artifact_ref
     - approver

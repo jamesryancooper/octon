@@ -80,3 +80,12 @@ Updated 2026-03-05 for Batch 8 methodology alignment touchpoints.
   pattern examples instead of a single vendor manifest path.
 - This note links watched cognition-practices drift to the
   audit-subsystem-health artifact set for alignment validation.
+
+Updated 2026-03-05 for Batch 9 methodology alignment touchpoints.
+
+- `auto-tier-assignment.md` now forbids direct `T3 -> T1` downgrades and
+  blocks T3 downgrades on governance/methodology contract surfaces.
+- `risk-tiers.md` now mirrors the same downgrade policy so tier override
+  guidance is consistent across methodology contracts.
+- This note links watched cognition-practices drift to the
+  audit-subsystem-health artifact set for alignment validation.

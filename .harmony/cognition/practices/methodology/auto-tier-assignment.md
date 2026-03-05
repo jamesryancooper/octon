@@ -600,7 +600,7 @@ size_overrides:
   large_doc_update:
     condition: "> 300 lines but only non-governance .md files"
     classification: T2
-    reason: "Large documentation updates require standard review unless a T3 governance trigger matches"
+    reason: "Large documentation updates require standard review unless a T3 governance trigger matches; this rule cannot justify a T3->T1 downgrade"
     
   small_auth_change:
     condition: "< 10 lines but in auth/**"
@@ -672,6 +672,12 @@ bump_down:
     requires_justification: true
     approval_required: true  # Navigator/verifier attestation required by policy
     requires_override_evidence: true
+    prohibited_when_path_matches:
+      - "AGENTS.md"
+      - ".harmony/**/governance/**"
+      - ".harmony/cognition/practices/methodology/**"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+      - ".github/PULL_REQUEST_TEMPLATE/**"
     override_evidence_fields:
       - escalation_artifact_ref
       - verifier_attestation_ref
@@ -684,19 +690,8 @@ bump_down:
       - "Security config update is defensive improvement"
 
   t3_to_t1:
-    allowed: true
-    requires_justification: true
-    approval_required: true  # Navigator/verifier attestation (security checklist)
-    requires_override_evidence: true
-    override_evidence_fields:
-      - escalation_artifact_ref
-      - verifier_attestation_ref
-      - security_evidence_ref
-      - approving_owner
-    
-    valid_reasons:
-      - "Non-governance documentation in a security/auth directory"
-      - "Test file in auth directory"
+    allowed: false
+    reason: "Direct T3->T1 downgrade is not allowed; downgrade to T2 first with override evidence, then re-evaluate"
     
   command: "harmony tier-down <id> --reason '<reason>' --evidence '<path-or-link>'"
 ```
