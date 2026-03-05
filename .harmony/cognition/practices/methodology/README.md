@@ -180,7 +180,6 @@ Use these companion documents when you need deeper operational detail:
 - `performance-and-scalability.md` — Perf budgets, caching, queues, and load testing.
 - `architecture-and-repo-structure.md` — 12-Factor modulith, Hexagonal boundaries, and feature flags.
 - `tooling-and-metrics.md` — GitHub/Vercel/Turborepo tooling map and improvement metrics.
-- `adoption-plan-30-60-90.md` — 30/60/90 adoption plan and quick-start cadence.
 - `sandbox-flow.md` — Canonical end-to-end sandbox flow using previews, flags, CI gates, and observability before production rollout.
 - `migrations/README.md` — Profile-governed migration policy, invariants, exceptions, CI gates, and legacy banlist governance.
 - `audits/README.md` — Bounded audit policy, invariants, convergence controls, CI gates, and stable findings contract.
@@ -609,7 +608,7 @@ See `tooling-and-metrics.md` for a dedicated deep-dive into tooling and metrics.
 
 - **GitHub Projects**: board columns above; templates for Spec/Story/bug; Insights for cycle time. Protect `main` with **required checks**.
 - **Actions matrix per package**: `turbo run lint test build --filter=...` using remote cache.
-- **Required checks**: the gates configured in `infra/ci/pr.yml` (subset of §7); adopt additional gates incrementally.
+- **Required checks**: the gates configured in `infra/ci/pr.yml` (subset of §7); add additional gates as policy requires.
 - **Vercel**: previews on every PR; **promote** for instant rollback; env & secret management; **feature flags** via Vercel Flags/Toolbar; **cron** for schedules.
 - **Scripts**: `scripts/smoke-check.sh` for quick PR preview smoke checks; `scripts/flags-stale-report.js` for weekly flag hygiene reports.
 
@@ -631,14 +630,15 @@ See `tooling-and-metrics.md` for a dedicated deep-dive into tooling and metrics.
 
 ---
 
-## 30/60/90 Adoption Plan
+## Operational Defaults
 
-See `adoption-plan-30-60-90.md` for the full staged adoption plan and quick-start cadence.
+Harmony's canonical operating defaults are captured directly in the core methodology artifacts:
 
-- **Day 1–30 (Foundations)**: set up **board, Spec/ADR, CODEOWNERS, branch protection**, Turbo pipelines, minimal CI (lint, unit, typecheck, preview). Enable **Vercel previews/envs**, **secret scanning**, **Dependabot**.
-- **Day 31–60 (Security/Reliability)**: add **CodeQL, Semgrep, SBOM**, Pact/Schemathesis, Playwright smoke; define **SLOs**, alerts on burn rate; OTel + pino; require **Observability** for changed flows.
-- **Day 61–90 (Perf & Flags)**: set **perf/bundle budgets**, feature flag process, load tests on preview, postmortems template, error‑budget policy in README.
-  - Automate **flags hygiene** with `scripts/flags-stale-report.js`; adopt `scripts/smoke-check.sh` for fast preview validation.
+- Spec-to-PR fast path: `spec-first-planning.md`
+- Baseline CI gates and CI health targets: `ci-cd-quality-gates.md`
+- Starter SLOs, rollback defaults, and incident posture: `reliability-and-ops.md`
+- Tooling execution and metrics targets: `tooling-and-metrics.md`
+- Sandbox rollout and rollback behavior: `sandbox-flow.md`
 
 ---
 

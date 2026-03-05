@@ -28,3 +28,12 @@ Updated 2026-02-25 for context-governance clean-break migration touchpoints.
   `instruction_layers`, `context_acquisition`, and `context_overhead_ratio`.
 - This note links the resulting watched architecture/governance drift to the
   audit-subsystem-health artifact set for alignment validation.
+
+Updated 2026-03-04 for methodology consolidation touchpoints.
+
+- Canonical methodology discovery was tightened by removing phased/advisory
+  artifacts from `.harmony/cognition/practices/methodology/index.yml`.
+- Normative methodology contracts were rewritten to repository-real surfaces,
+  and phased-adoption language was removed from canonical methodology docs.
+- This note links watched cognition-practices drift to the
+  audit-subsystem-health artifact set for alignment validation.

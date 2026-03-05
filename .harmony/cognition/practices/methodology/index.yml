@@ -63,16 +63,6 @@ files:
     summary: Methodology codification approach and maintenance rules.
     when: When evolving methodology artifacts and enforcement patterns.
 
-  - id: tiny-team-assessment
-    path: tiny-team-assessment.md
-    summary: Tiny-team operating assessment and adoption heuristics.
-    when: When calibrating process depth for small teams.
-
-  - id: adoption-plan-30-60-90
-    path: adoption-plan-30-60-90.md
-    summary: Time-phased adoption plan for methodology rollout.
-    when: When planning phased adoption or remediation work.
-
   - id: architecture-and-repo-structure
     path: architecture-and-repo-structure.md
     summary: Repository shape and architecture operating expectations.

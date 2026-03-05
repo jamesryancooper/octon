@@ -41,6 +41,18 @@ When in doubt, this page SHOULD be read together with those documents; it does n
 - This document does NOT define Docker images or compose setups. Those live in the Architecture **Containerization Profile** and infra sandbox recipes.
 - This document does NOT redefine gate semantics or policies; see `ci-cd-quality-gates.md`, `governance-model.md`, and `runtime-policy.md` for normative rules.
 
+## 1.1 Baseline Operational Defaults
+
+Sandbox promotion decisions should use these baseline defaults:
+
+- **Starter SLO defaults**:
+  - Availability >= `99.9%` monthly
+  - p95 API latency <= `300ms` warm (`600ms` including cold starts)
+  - p95 top-route TTFB <= `400ms`
+  - 5xx error rate <= `0.5%`
+- **Canonical rollback path**: `vercel promote <preview-url>` to restore the previous known-good deployment.
+- **Flag discipline**: new behavior stays behind default-off flags until preview and early production cohorts confirm budget compliance.
+
 ---
 
 ## 2. Surfaces and Sandboxes

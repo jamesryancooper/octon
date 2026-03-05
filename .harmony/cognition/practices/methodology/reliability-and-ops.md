@@ -18,6 +18,12 @@ This document is the detailed SRE and operations companion to the Harmony Method
 - **Error budgets**: 43m/month at 99.9%; if burned, freeze feature flags and focus on reliability until recovered. Alert on **burn‑rate** (multi‑window).
 - **Cost guardrails**: publish monthly AI token and infra cost budgets; alert on anomalies (spend or unit‑cost spikes). Treat sustained anomalies like error‑budget burns: freeze risky merges/promotions and resolve before widening rollout.
 
+## Baseline Release Hygiene Defaults
+
+- **Release behind a flag**: ship with `flag.<feature>=off`, validate with internal cohorts, then widen gradually.
+- **Rollback is first response for SLO threat**: promote the previously known-good deployment before fix-forward.
+- **Canonical rollback command**: `vercel promote <deployment-url>`.
+
 ## On-call and Incidents
 
 - **On‑call (solo)**: define your paging window; no 24/7 pages for low‑impact; page only for SLO threats.

@@ -44,6 +44,15 @@ Harmony uses a **three-tier risk classification** to right-size specs and review
 
 ## Spec-First Planning Workflow
 
+### Fast Path: Spec -> Plan -> PR
+
+Use this concise path for day-to-day execution while preserving full governance:
+
+1. Author or update a tier-appropriate spec and ADR notes.
+2. Convert spec outputs into a feature story with acceptance criteria.
+3. Generate implementation diffs/tests in the AI IDE and run tier gates.
+4. Open a small PR, validate preview smoke, and merge only when ACP/CI outcomes are green.
+
 ### Step 1: Initiate Change
 
 ```bash

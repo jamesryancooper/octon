@@ -20,6 +20,21 @@ This document expands the security sections of the Harmony Methodology into a fo
 - **Produce Well‑Secured Software**: code review, fuzz/negative tests, CodeQL/Semgrep, unit/contract/e2e.
 - **Respond to Vulnerabilities**: triage SOP, patch SLAs, postmortems, SBOM updates.
 
+## Baseline Security/Performance Gate Checks
+
+These checks should be explicit in specs, PR evidence, and CI gate reviews:
+
+1. STRIDE threats are documented and mapped to mitigations/tests.
+2. CSRF protections exist for state-changing operations.
+3. CSP and core security headers are configured for affected surfaces.
+4. SSRF controls are present for outbound integrations (allow-list/egress controls).
+5. Secrets remain in environment/secret managers only (never in source or logs).
+6. CodeQL and Semgrep are clean at required severity thresholds.
+7. SBOM artifacts are present for required build/release surfaces.
+8. License policy checks pass for dependency changes.
+9. p95 latency remains within documented budgets for affected paths.
+10. Bundle-size budgets are met, or accepted with documented override evidence.
+
 ## STRIDE and Defenses
 
 **STRIDE per feature** (micro‑threat model in Spec): identify risks → mitigations → tests → checklist items. (Use OWASP cheat sheets for CSP/CSRF/SSRF; for **Next.js** use **next-safe-middleware**. Use **Helmet** only when running a custom Node/Express server. For **Astro**, set security headers at the platform (e.g., Vercel project headers) for SSG; use SSR middleware only when using an SSR adapter.)
@@ -34,7 +49,7 @@ This document expands the security sections of the Harmony Methodology into a fo
 ## Accessibility & Privacy Addendum
 
 - Enable `eslint-plugin-jsx-a11y` for UI surfaces; treat critical a11y violations as policy/eval failures on reviewable surfaces.
-- Use semantic HTML and appropriate ARIA attributes; exercise basic keyboard/screen‑reader checks on critical flows (adopt incrementally).
+- Use semantic HTML and appropriate ARIA attributes; exercise keyboard/screen‑reader checks on critical flows using risk-based prioritization.
 - Never log PII/PHI; rely on **GuardKit** redaction by default and log only stable IDs/non‑sensitive metadata.
 - Enforce CSP and core security headers via platform/middleware (see Next.js guidance); avoid duplicative/conflicting policies.
 - Cookies and sessions follow secure defaults: `HttpOnly`, `Secure`, `SameSite`, and CSRF tokens on mutations.
