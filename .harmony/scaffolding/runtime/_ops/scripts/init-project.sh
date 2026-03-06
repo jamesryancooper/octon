@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 HARMONY_DIR="$(cd -- "$SCRIPT_DIR/../../../.." && pwd)"
 DEFAULT_REPO_ROOT="$(cd -- "$HARMONY_DIR/.." && pwd)"
+DEFAULT_OBJECTIVE_ID="general-purpose"
 
 REPO_ROOT="$DEFAULT_REPO_ROOT"
 FORCE=0
@@ -12,12 +13,19 @@ LINK_CLAUDE=1
 WITH_BOOT_FILES=0
 WITH_AGENT_PLATFORM_ADAPTERS=0
 AGENT_PLATFORM_ADAPTERS=""
+LIST_OBJECTIVES=0
+SELECTED_OBJECTIVE_ID=""
+OBJECTIVE_LABEL=""
+OBJECTIVE_SUMMARY=""
+OBJECTIVE_OWNER=""
+OBJECTIVE_APPROVED_BY=""
+INTENT_ID=""
 
 usage() {
   cat <<'USAGE'
-Usage: init-project.sh [--repo-root <path>] [--force] [--dry-run] [--no-claude-alias] [--with-boot-files] [--with-agent-platform-adapters] [--agent-platform-adapters <csv>]
+Usage: init-project.sh [--repo-root <path>] [--force] [--dry-run] [--list-objectives] [--objective <id>] [--objective-owner <name>] [--objective-approved-by <name>] [--no-claude-alias] [--with-boot-files] [--with-agent-platform-adapters] [--agent-platform-adapters <csv>]
 
-Initializes project-level bootstrap files from .harmony templates.
+Initializes project-level bootstrap files and objective-contract artifacts from .harmony templates.
 USAGE
 }
 
@@ -33,6 +41,24 @@ while [[ $# -gt 0 ]]; do
       ;;
     --dry-run)
       DRY_RUN=1
+      ;;
+    --list-objectives)
+      LIST_OBJECTIVES=1
+      ;;
+    --objective)
+      shift
+      [[ $# -gt 0 ]] || { echo "[ERROR] --objective requires a value" >&2; exit 1; }
+      SELECTED_OBJECTIVE_ID="$1"
+      ;;
+    --objective-owner)
+      shift
+      [[ $# -gt 0 ]] || { echo "[ERROR] --objective-owner requires a value" >&2; exit 1; }
+      OBJECTIVE_OWNER="$1"
+      ;;
+    --objective-approved-by)
+      shift
+      [[ $# -gt 0 ]] || { echo "[ERROR] --objective-approved-by requires a value" >&2; exit 1; }
+      OBJECTIVE_APPROVED_BY="$1"
       ;;
     --no-claude-alias)
       LINK_CLAUDE=0
@@ -66,53 +92,248 @@ TEMPLATE_FILE="$HARMONY_DIR/scaffolding/runtime/templates/AGENTS.md"
 BOOT_TEMPLATE_FILE="$HARMONY_DIR/scaffolding/runtime/templates/BOOT.md"
 BOOTSTRAP_TEMPLATE_FILE="$HARMONY_DIR/scaffolding/runtime/templates/BOOTSTRAP.md"
 ALIGNMENT_CHECK_TEMPLATE_FILE="$HARMONY_DIR/scaffolding/runtime/templates/alignment-check"
+OBJECTIVE_TEMPLATE_ROOT="$HARMONY_DIR/scaffolding/runtime/templates/objectives"
+OBJECTIVE_REGISTRY_FILE="$OBJECTIVE_TEMPLATE_ROOT/registry.txt"
 AGENCY_MANIFEST="$HARMONY_DIR/agency/manifest.yml"
 AGENTS_OUT="$REPO_ROOT/AGENTS.md"
 CLAUDE_OUT="$REPO_ROOT/CLAUDE.md"
 BOOT_OUT="$REPO_ROOT/BOOT.md"
 BOOTSTRAP_OUT="$REPO_ROOT/BOOTSTRAP.md"
 ALIGNMENT_CHECK_OUT="$REPO_ROOT/alignment-check"
+OBJECTIVE_OUT="$REPO_ROOT/OBJECTIVE.md"
+INTENT_CONTRACT_OUT="$REPO_ROOT/.harmony/cognition/runtime/context/intent.contract.yml"
 ADAPTER_REGISTRY="$REPO_ROOT/.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/registry.yml"
 ADAPTER_ENABLED_OUT="$REPO_ROOT/.harmony/capabilities/runtime/services/interfaces/agent-platform/adapters/enabled.yml"
 CONTEXT_POLICY_FILE="$HARMONY_DIR/capabilities/governance/policy/deny-by-default.v2.yml"
+GENERATED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+REPO_NAME="$(basename "$REPO_ROOT")"
 
-if [[ ! -d "$REPO_ROOT/.harmony" ]]; then
-  echo "[ERROR] No .harmony directory found in repo root: $REPO_ROOT" >&2
-  exit 1
-fi
+escape_sed_replacement() {
+  printf '%s' "$1" | sed -e 's/[\\&|]/\\&/g'
+}
 
-if [[ ! -f "$TEMPLATE_FILE" ]]; then
-  echo "[ERROR] Missing AGENTS template: $TEMPLATE_FILE" >&2
-  exit 1
-fi
+objective_registry_lines() {
+  awk -F'|' '
+    /^[[:space:]]*#/ { next }
+    NF < 3 { next }
+    {
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", $1)
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2)
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3)
+      if (length($1) > 0) print $1 "|" $2 "|" $3
+    }
+  ' "$OBJECTIVE_REGISTRY_FILE"
+}
 
-if [[ ! -f "$AGENCY_MANIFEST" ]]; then
-  echo "[ERROR] Missing agency manifest: $AGENCY_MANIFEST" >&2
-  exit 1
-fi
+print_available_objectives() {
+  local objective_id label summary found_default=0
 
-DEFAULT_AGENT="$(awk '/^default_agent:[[:space:]]*/ {print $2; exit}' "$AGENCY_MANIFEST" | tr -d '"')"
-if [[ -z "$DEFAULT_AGENT" || "$DEFAULT_AGENT" == "null" ]]; then
-  DEFAULT_AGENT="architect"
-fi
+  if [[ ! -f "$OBJECTIVE_REGISTRY_FILE" ]]; then
+    echo "[ERROR] Missing objective registry: $OBJECTIVE_REGISTRY_FILE" >&2
+    exit 1
+  fi
 
-DEFAULT_AGENT_EXECUTION_CONTRACT=".harmony/agency/runtime/agents/${DEFAULT_AGENT}/AGENT.md"
-DEFAULT_AGENT_IDENTITY_CONTRACT=".harmony/agency/runtime/agents/${DEFAULT_AGENT}/SOUL.md"
+  echo "Available objectives:"
+  while IFS='|' read -r objective_id label summary; do
+    printf "  - %s: %s\n" "$objective_id" "$label"
+    printf "    %s\n" "$summary"
+    if [[ "$objective_id" == "$DEFAULT_OBJECTIVE_ID" ]]; then
+      found_default=1
+    fi
+  done < <(objective_registry_lines)
 
-if [[ ! -f "$REPO_ROOT/$DEFAULT_AGENT_EXECUTION_CONTRACT" ]]; then
-  echo "[WARN] Missing execution contract for default agent: $DEFAULT_AGENT_EXECUTION_CONTRACT"
-fi
+  if [[ "$found_default" -eq 1 ]]; then
+    echo ""
+    echo "Default objective: $DEFAULT_OBJECTIVE_ID"
+  fi
+}
 
-if [[ ! -f "$REPO_ROOT/$DEFAULT_AGENT_IDENTITY_CONTRACT" ]]; then
-  echo "[WARN] Missing identity contract for default agent: $DEFAULT_AGENT_IDENTITY_CONTRACT"
-fi
+objective_exists() {
+  local requested_id="$1"
+  local objective_id label summary
 
-render_template() {
+  while IFS='|' read -r objective_id label summary; do
+    if [[ "$objective_id" == "$requested_id" ]]; then
+      return 0
+    fi
+  done < <(objective_registry_lines)
+
+  return 1
+}
+
+objective_field() {
+  local requested_id="$1"
+  local field_name="$2"
+  local objective_id label summary
+
+  while IFS='|' read -r objective_id label summary; do
+    if [[ "$objective_id" == "$requested_id" ]]; then
+      case "$field_name" in
+        label)
+          printf '%s\n' "$label"
+          ;;
+        summary)
+          printf '%s\n' "$summary"
+          ;;
+      esac
+      return 0
+    fi
+  done < <(objective_registry_lines)
+
+  return 1
+}
+
+detect_default_actor() {
+  local actor=""
+  actor="$(id -un 2>/dev/null || true)"
+  if [[ -z "$actor" ]]; then
+    actor="$(whoami 2>/dev/null || true)"
+  fi
+  if [[ -z "$actor" ]]; then
+    actor="workspace-owner"
+  fi
+  printf '%s\n' "$actor"
+}
+
+sanitize_repo_slug() {
+  local raw="$1"
+  local slug=""
+  slug="$(printf '%s' "$raw" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-')"
+  slug="${slug#-}"
+  slug="${slug%-}"
+  if [[ -z "$slug" ]]; then
+    slug="workspace"
+  fi
+  printf '%s\n' "$slug"
+}
+
+objective_contract_needs_write() {
+  if [[ "$FORCE" -eq 1 ]]; then
+    return 0
+  fi
+
+  if [[ ! -f "$OBJECTIVE_OUT" || ! -f "$INTENT_CONTRACT_OUT" ]]; then
+    return 0
+  fi
+
+  return 1
+}
+
+prompt_for_objective() {
+  local lines=()
+  local default_index=1
+  local choice=""
+  local objective_id label summary
+  local i
+
+  mapfile -t lines < <(objective_registry_lines)
+  if [[ ${#lines[@]} -eq 0 ]]; then
+    echo "[ERROR] No objectives found in registry: $OBJECTIVE_REGISTRY_FILE" >&2
+    exit 1
+  fi
+
+  echo "Select a Harmony objective for this workspace:"
+  for i in "${!lines[@]}"; do
+    IFS='|' read -r objective_id label summary <<< "${lines[$i]}"
+    if [[ "$objective_id" == "$DEFAULT_OBJECTIVE_ID" ]]; then
+      default_index=$((i + 1))
+    fi
+    printf "  %d) %s\n" "$((i + 1))" "$label"
+    printf "     %s\n" "$summary"
+  done
+  echo ""
+  printf "Enter a number [1-%d] (default %d): " "${#lines[@]}" "$default_index"
+  read -r choice
+
+  if [[ -z "$choice" ]]; then
+    choice="$default_index"
+  fi
+
+  if [[ ! "$choice" =~ ^[0-9]+$ ]] || (( choice < 1 || choice > ${#lines[@]} )); then
+    echo "[ERROR] Invalid objective selection: $choice" >&2
+    exit 1
+  fi
+
+  IFS='|' read -r SELECTED_OBJECTIVE_ID OBJECTIVE_LABEL OBJECTIVE_SUMMARY <<< "${lines[$((choice - 1))]}"
+}
+
+resolve_objective_selection() {
+  local repo_slug=""
+
+  if ! objective_contract_needs_write; then
+    return
+  fi
+
+  if [[ ! -f "$OBJECTIVE_REGISTRY_FILE" ]]; then
+    echo "[ERROR] Missing objective registry: $OBJECTIVE_REGISTRY_FILE" >&2
+    exit 1
+  fi
+
+  if [[ -z "$SELECTED_OBJECTIVE_ID" ]]; then
+    if [[ -t 0 && -t 1 ]]; then
+      prompt_for_objective
+    else
+      SELECTED_OBJECTIVE_ID="$DEFAULT_OBJECTIVE_ID"
+      OBJECTIVE_LABEL="$(objective_field "$SELECTED_OBJECTIVE_ID" "label")"
+      OBJECTIVE_SUMMARY="$(objective_field "$SELECTED_OBJECTIVE_ID" "summary")"
+      echo "[INFO] Non-interactive init defaulted objective to '$SELECTED_OBJECTIVE_ID'. Use --objective or --list-objectives to choose a different common use case."
+    fi
+  fi
+
+  if ! objective_exists "$SELECTED_OBJECTIVE_ID"; then
+    echo "[ERROR] Unknown objective '$SELECTED_OBJECTIVE_ID'. Use --list-objectives to inspect available options." >&2
+    exit 1
+  fi
+
+  if [[ -z "$OBJECTIVE_LABEL" ]]; then
+    OBJECTIVE_LABEL="$(objective_field "$SELECTED_OBJECTIVE_ID" "label")"
+  fi
+  if [[ -z "$OBJECTIVE_SUMMARY" ]]; then
+    OBJECTIVE_SUMMARY="$(objective_field "$SELECTED_OBJECTIVE_ID" "summary")"
+  fi
+
+  repo_slug="$(sanitize_repo_slug "$REPO_NAME")"
+  INTENT_ID="intent://${repo_slug}/${SELECTED_OBJECTIVE_ID}"
+}
+
+render_agents_template() {
+  local escaped_default_agent escaped_execution_contract escaped_identity_contract
+  escaped_default_agent="$(escape_sed_replacement "$DEFAULT_AGENT")"
+  escaped_execution_contract="$(escape_sed_replacement "$DEFAULT_AGENT_EXECUTION_CONTRACT")"
+  escaped_identity_contract="$(escape_sed_replacement "$DEFAULT_AGENT_IDENTITY_CONTRACT")"
+
   sed \
-    -e "s|{{DEFAULT_AGENT}}|$DEFAULT_AGENT|g" \
-    -e "s|{{DEFAULT_AGENT_EXECUTION_CONTRACT}}|$DEFAULT_AGENT_EXECUTION_CONTRACT|g" \
-    -e "s|{{DEFAULT_AGENT_IDENTITY_CONTRACT}}|$DEFAULT_AGENT_IDENTITY_CONTRACT|g" \
+    -e "s|{{DEFAULT_AGENT}}|$escaped_default_agent|g" \
+    -e "s|{{DEFAULT_AGENT_EXECUTION_CONTRACT}}|$escaped_execution_contract|g" \
+    -e "s|{{DEFAULT_AGENT_IDENTITY_CONTRACT}}|$escaped_identity_contract|g" \
     "$TEMPLATE_FILE"
+}
+
+render_objective_template() {
+  local template_path="$1"
+  local escaped_repo_name escaped_objective_id escaped_objective_label
+  local escaped_objective_summary escaped_intent_id escaped_owner escaped_approved_by
+  local escaped_generated_at
+
+  escaped_repo_name="$(escape_sed_replacement "$REPO_NAME")"
+  escaped_objective_id="$(escape_sed_replacement "$SELECTED_OBJECTIVE_ID")"
+  escaped_objective_label="$(escape_sed_replacement "$OBJECTIVE_LABEL")"
+  escaped_objective_summary="$(escape_sed_replacement "$OBJECTIVE_SUMMARY")"
+  escaped_intent_id="$(escape_sed_replacement "$INTENT_ID")"
+  escaped_owner="$(escape_sed_replacement "$OBJECTIVE_OWNER")"
+  escaped_approved_by="$(escape_sed_replacement "$OBJECTIVE_APPROVED_BY")"
+  escaped_generated_at="$(escape_sed_replacement "$GENERATED_AT")"
+
+  sed \
+    -e "s|{{REPO_NAME}}|$escaped_repo_name|g" \
+    -e "s|{{OBJECTIVE_ID}}|$escaped_objective_id|g" \
+    -e "s|{{OBJECTIVE_LABEL}}|$escaped_objective_label|g" \
+    -e "s|{{OBJECTIVE_SUMMARY}}|$escaped_objective_summary|g" \
+    -e "s|{{INTENT_ID}}|$escaped_intent_id|g" \
+    -e "s|{{OBJECTIVE_OWNER}}|$escaped_owner|g" \
+    -e "s|{{OBJECTIVE_APPROVED_BY}}|$escaped_approved_by|g" \
+    -e "s|{{GENERATED_AT}}|$escaped_generated_at|g" \
+    "$template_path"
 }
 
 read_context_gate_max_value() {
@@ -228,6 +449,43 @@ write_from_template() {
   fi
 }
 
+write_objective_file() {
+  local template_path="$1"
+  local output_path="$2"
+  local label="$3"
+  local tmp_output=""
+
+  if [[ ! -f "$template_path" ]]; then
+    echo "[ERROR] Missing ${label} template: $template_path" >&2
+    exit 1
+  fi
+
+  if [[ -f "$output_path" && "$FORCE" -ne 1 ]]; then
+    echo "[SKIP] ${label} already exists: $output_path"
+    return
+  fi
+
+  if [[ "$DRY_RUN" -eq 1 ]]; then
+    if [[ -f "$output_path" ]]; then
+      echo "[DRY] Would overwrite ${label} from template: $output_path"
+    else
+      echo "[DRY] Would create ${label} from template: $output_path"
+    fi
+    return
+  fi
+
+  mkdir -p "$(dirname "$output_path")"
+  tmp_output="$(mktemp "${TMPDIR:-/tmp}/harmony-init-objective.XXXXXX")"
+  render_objective_template "$template_path" > "$tmp_output"
+  mv "$tmp_output" "$output_path"
+
+  if [[ "$FORCE" -eq 1 ]]; then
+    echo "[OK] ${label} overwritten from template: $output_path"
+  else
+    echo "[OK] ${label} created from template: $output_path"
+  fi
+}
+
 write_agents() {
   local tmp_agents=""
   if [[ -f "$AGENTS_OUT" && "$FORCE" -ne 1 ]]; then
@@ -236,7 +494,7 @@ write_agents() {
   fi
 
   tmp_agents="$(mktemp "${TMPDIR:-/tmp}/harmony-init-agents.XXXXXX.md")"
-  render_template > "$tmp_agents"
+  render_agents_template > "$tmp_agents"
   if ! validate_generated_agents_file "$tmp_agents"; then
     rm -f "$tmp_agents"
     echo "[ERROR] Refusing to write non-compliant AGENTS.md from template" >&2
@@ -259,6 +517,24 @@ write_agents() {
   else
     echo "[OK] AGENTS.md created from template: $AGENTS_OUT"
   fi
+}
+
+write_objective_contract() {
+  local objective_brief_template=""
+  local intent_contract_template=""
+
+  if ! objective_contract_needs_write; then
+    echo "[SKIP] Objective contract already exists: $OBJECTIVE_OUT and $INTENT_CONTRACT_OUT"
+    return
+  fi
+
+  resolve_objective_selection
+  objective_brief_template="$OBJECTIVE_TEMPLATE_ROOT/$SELECTED_OBJECTIVE_ID/OBJECTIVE.md"
+  intent_contract_template="$OBJECTIVE_TEMPLATE_ROOT/$SELECTED_OBJECTIVE_ID/intent.contract.yml"
+
+  echo "[INFO] Objective: $OBJECTIVE_LABEL ($SELECTED_OBJECTIVE_ID)"
+  write_objective_file "$objective_brief_template" "$OBJECTIVE_OUT" "OBJECTIVE.md"
+  write_objective_file "$intent_contract_template" "$INTENT_CONTRACT_OUT" "intent.contract.yml"
 }
 
 write_boot_files() {
@@ -427,12 +703,66 @@ write_claude_alias() {
   echo "[OK] Created CLAUDE.md symlink -> AGENTS.md"
 }
 
+if [[ "$LIST_OBJECTIVES" -eq 1 ]]; then
+  print_available_objectives
+  exit 0
+fi
+
+if [[ ! -d "$REPO_ROOT/.harmony" ]]; then
+  echo "[ERROR] No .harmony directory found in repo root: $REPO_ROOT" >&2
+  exit 1
+fi
+
+if [[ ! -f "$TEMPLATE_FILE" ]]; then
+  echo "[ERROR] Missing AGENTS template: $TEMPLATE_FILE" >&2
+  exit 1
+fi
+
+if [[ ! -f "$AGENCY_MANIFEST" ]]; then
+  echo "[ERROR] Missing agency manifest: $AGENCY_MANIFEST" >&2
+  exit 1
+fi
+
+if [[ ! -f "$OBJECTIVE_REGISTRY_FILE" ]]; then
+  echo "[ERROR] Missing objective registry: $OBJECTIVE_REGISTRY_FILE" >&2
+  exit 1
+fi
+
+if [[ -n "$SELECTED_OBJECTIVE_ID" ]] && ! objective_exists "$SELECTED_OBJECTIVE_ID"; then
+  echo "[ERROR] Unknown objective '$SELECTED_OBJECTIVE_ID'. Use --list-objectives to inspect available options." >&2
+  exit 1
+fi
+
+DEFAULT_AGENT="$(awk '/^default_agent:[[:space:]]*/ {print $2; exit}' "$AGENCY_MANIFEST" | tr -d '"')"
+if [[ -z "$DEFAULT_AGENT" || "$DEFAULT_AGENT" == "null" ]]; then
+  DEFAULT_AGENT="architect"
+fi
+
+if [[ -z "$OBJECTIVE_OWNER" ]]; then
+  OBJECTIVE_OWNER="$(detect_default_actor)"
+fi
+if [[ -z "$OBJECTIVE_APPROVED_BY" ]]; then
+  OBJECTIVE_APPROVED_BY="$OBJECTIVE_OWNER"
+fi
+
+DEFAULT_AGENT_EXECUTION_CONTRACT=".harmony/agency/runtime/agents/${DEFAULT_AGENT}/AGENT.md"
+DEFAULT_AGENT_IDENTITY_CONTRACT=".harmony/agency/runtime/agents/${DEFAULT_AGENT}/SOUL.md"
+
+if [[ ! -f "$REPO_ROOT/$DEFAULT_AGENT_EXECUTION_CONTRACT" ]]; then
+  echo "[WARN] Missing execution contract for default agent: $DEFAULT_AGENT_EXECUTION_CONTRACT"
+fi
+
+if [[ ! -f "$REPO_ROOT/$DEFAULT_AGENT_IDENTITY_CONTRACT" ]]; then
+  echo "[WARN] Missing identity contract for default agent: $DEFAULT_AGENT_IDENTITY_CONTRACT"
+fi
+
 echo "== Project Init =="
 echo "Repo root: $REPO_ROOT"
 echo "Default agent: $DEFAULT_AGENT"
 echo ""
 
 write_agents
+write_objective_contract
 write_boot_files
 write_alignment_check_shim
 write_agent_platform_adapter_bootstrap

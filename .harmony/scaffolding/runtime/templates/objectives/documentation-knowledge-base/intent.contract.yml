@@ -1,0 +1,27 @@
+schema_version: "intent-contract-v1"
+intent_id: "{{INTENT_ID}}"
+version: "1.0.0"
+objective_signals:
+  - id: docs-clarity
+    description: "Increase clarity, consistency, and navigability across documentation surfaces."
+  - id: docs-accuracy
+    description: "Keep documentation aligned with current behavior, governance, and operational expectations."
+authorized_actions:
+  - "Create and revise documentation, examples, and supporting references in this workspace."
+  - "Restructure documentation trees, links, and navigation when it improves discoverability."
+  - "Record documentation gaps, audits, and continuity updates needed to keep the knowledge base current."
+hard_boundaries:
+  - boundary_id: docs-only-surface
+    rule: "Do not change runtime behavior, production data, or non-documentation systems unless explicitly approved."
+    on_violation: deny
+  - boundary_id: evidence-before-removal
+    rule: "Do not remove substantial documentation content without reviewable evidence that the removal is correct."
+    on_violation: escalate
+tradeoff_hierarchy:
+  - "Assurance"
+  - "Clarity"
+  - "Correctness"
+  - "Productivity"
+owner: "{{OBJECTIVE_OWNER}}"
+approved_by: "{{OBJECTIVE_APPROVED_BY}}"
+created_at: "{{GENERATED_AT}}"

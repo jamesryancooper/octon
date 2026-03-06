@@ -1,0 +1,27 @@
+schema_version: "intent-contract-v1"
+intent_id: "{{INTENT_ID}}"
+version: "1.0.0"
+objective_signals:
+  - id: explicit-intent
+    description: "Keep the workspace bound to an explicit, reviewable objective contract."
+  - id: governed-progress
+    description: "Move the next meaningful task forward without widening scope beyond approved bounds."
+authorized_actions:
+  - "Plan, implement, document, and maintain workspace-local changes that clearly support the active objective."
+  - "Refine the objective brief and supporting context when the workspace intent becomes clearer."
+  - "Run repo-local verification and continuity updates needed to keep progress safe and attributable."
+hard_boundaries:
+  - boundary_id: workspace-only
+    rule: "Stay within the managed workspace unless an explicit authority surface authorizes external effects."
+    on_violation: deny
+  - boundary_id: irreversible-change-guard
+    rule: "Do not perform destructive or irreversible actions without the required approvals and evidence."
+    on_violation: escalate
+tradeoff_hierarchy:
+  - "Assurance"
+  - "Correctness"
+  - "Clarity"
+  - "Productivity"
+owner: "{{OBJECTIVE_OWNER}}"
+approved_by: "{{OBJECTIVE_APPROVED_BY}}"
+created_at: "{{GENERATED_AT}}"

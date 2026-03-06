@@ -1,0 +1,27 @@
+schema_version: "intent-contract-v1"
+intent_id: "{{INTENT_ID}}"
+version: "1.0.0"
+objective_signals:
+  - id: structure-clarity
+    description: "Improve the navigability and consistency of the managed filesystem."
+  - id: safe-migration
+    description: "Perform cleanup and migration work with clear evidence, bounded scope, and recovery posture."
+authorized_actions:
+  - "Inventory, classify, and report on files and directories inside the managed workspace."
+  - "Create, rename, move, archive, and reorganize files when the change is reviewable and within approved bounds."
+  - "Document migration plans, cleanup rationale, and continuity artifacts for filesystem work."
+hard_boundaries:
+  - boundary_id: managed-tree-only
+    rule: "Do not modify files outside the approved managed directory tree."
+    on_violation: deny
+  - boundary_id: destructive-filesystem-guard
+    rule: "Do not delete or irreversibly overwrite content without explicit approval and a recovery path."
+    on_violation: escalate
+tradeoff_hierarchy:
+  - "Assurance"
+  - "Recoverability"
+  - "Clarity"
+  - "Productivity"
+owner: "{{OBJECTIVE_OWNER}}"
+approved_by: "{{OBJECTIVE_APPROVED_BY}}"
+created_at: "{{GENERATED_AT}}"

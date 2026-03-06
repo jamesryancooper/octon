@@ -10,9 +10,11 @@ Adopt the default agent persona defined by the harness:
 - **Memory policy:** `.harmony/agency/governance/MEMORY.md`
 - **Execution contract:** `{{DEFAULT_AGENT_EXECUTION_CONTRACT}}`
 - **Identity contract:** `{{DEFAULT_AGENT_IDENTITY_CONTRACT}}`
+- **Objective brief:** `OBJECTIVE.md`
+- **Active intent contract:** `.harmony/cognition/runtime/context/intent.contract.yml`
 - **All agents:** `.harmony/agency/runtime/agents/registry.yml`
 
-Read and follow your agent contract before beginning work.
+Read and follow your agent contract and active objective contract before beginning work.
 
 ## Contract Layers
 

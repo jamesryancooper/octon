@@ -57,14 +57,15 @@ Enable reliable agent execution that is deterministic enough to trust, observabl
 
 ## Boot Sequence
 
-0. **If `AGENTS.md` is missing at repo root:** run `/init` (or `.harmony/scaffolding/runtime/_ops/scripts/init-project.sh`) first; add `--with-boot-files` if `BOOT.md` and `BOOTSTRAP.md` compatibility files are needed; add `--with-agent-platform-adapters` for opt-in adapter bootstrap config
-1. **Read `scope.md`** → Know boundaries
-2. **Read `conventions.md`** → Know style rules
-3. **Scan `catalog.md`** → Know available operations
-4. **Read `continuity/log.md`** → Know what's been done
-5. **Read `continuity/tasks.json`** → Know current priorities and goal
-6. **Begin** highest-priority unblocked task
-7. **Before finishing:** Complete `assurance/practices/session-exit.md`, verify against `assurance/practices/complete.md`
+0. **If `AGENTS.md` or `OBJECTIVE.md` is missing at repo root:** run `/init` (or `.harmony/scaffolding/runtime/_ops/scripts/init-project.sh`) first; add `--list-objectives` to inspect common use cases, `--objective <id>` for non-interactive selection, `--with-boot-files` if `BOOT.md` and `BOOTSTRAP.md` compatibility files are needed, and `--with-agent-platform-adapters` for opt-in adapter bootstrap config
+1. **Read `../OBJECTIVE.md`** → Know the active workspace objective
+2. **Read `scope.md`** → Know boundaries
+3. **Read `conventions.md`** → Know style rules
+4. **Scan `catalog.md`** → Know available operations
+5. **Read `continuity/log.md`** → Know what's been done
+6. **Read `continuity/tasks.json`** → Know current priorities and goal
+7. **Begin** highest-priority unblocked task
+8. **Before finishing:** Complete `assurance/practices/session-exit.md`, verify against `assurance/practices/complete.md`
 
 ## Visibility & Autonomy Rules
 
