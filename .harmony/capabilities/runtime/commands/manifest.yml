@@ -15,6 +15,13 @@
 schema_version: "1.0"
 
 commands:
+  - id: audit-skills-system-expansion
+    display_name: Audit Skills System Expansion
+    path: audit-skills-system-expansion.md
+    summary: Invoke the skills-system expansion evaluation prompt through a slash-style command wrapper.
+    access: agent
+    argument_hint: "[subsystem-path] [--compare-scope <csv>] [--material-only true|false]"
+
   - id: alignment-check
     display_name: Alignment Check
     path: alignment-check.md

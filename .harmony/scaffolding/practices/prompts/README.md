@@ -12,3 +12,4 @@ Project-specific prompts can be added here.
 ## Local Prompts
 
 - `clean-break-migration.prompt.md` - Execute profile-governed migrations with explicit profile receipts, enforcement controls, and evidence bundle outputs.
+- `audit-skills-system-expansion.md` - Evaluate whether the skills system needs a new artifact or feature, or only tighter existing contracts and validators.

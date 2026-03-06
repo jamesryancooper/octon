@@ -1,0 +1,1 @@
+../../.harmony/capabilities/runtime/commands/audit-skills-system-expansion.md

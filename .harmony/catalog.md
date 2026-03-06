@@ -112,6 +112,7 @@ Atomic operations in `capabilities/runtime/commands/`:
 | [init.md](./capabilities/runtime/commands/init.md) | human | Initialize project-level bootstrap files (`AGENTS.md`, `CLAUDE.md` alias, `alignment-check` shim, optional `BOOT*.md`) |
 | [studio.md](./capabilities/runtime/commands/studio.md) | human | Launch Harmony Studio for workflow graph design, inspection, and safe staged edits |
 | [recover.md](./capabilities/runtime/commands/recover.md) | human | Recovery procedures for common agent failure modes |
+| [audit-skills-system-expansion.md](./capabilities/runtime/commands/audit-skills-system-expansion.md) | human | Invoke the skills-system expansion evaluation prompt through a slash-style command wrapper |
 | [alignment-check.md](./capabilities/runtime/commands/alignment-check.md) | human | Run profile-based alignment checks across harness aspects |
 | [validate-frontmatter.md](./capabilities/runtime/commands/validate-frontmatter.md) | human | Validate YAML frontmatter in markdown files |
 | [create-workflow.md](./capabilities/runtime/commands/create-workflow.md) | human | Scaffold a new workflow with gap-aware structure |
