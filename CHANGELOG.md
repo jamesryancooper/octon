@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.3](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.2...harmony-v0.4.3) (2026-03-06)
+
+
+### Features
+
+* **capabilities:** add skills expansion audit entrypoints ([#96](https://github.com/jamesryancooper/harmony/issues/96)) ([b6806e3](https://github.com/jamesryancooper/harmony/commit/b6806e304277018e5b4a8ca9ace15c9e194b55cf))
+* **skills:** harden composition and service contracts ([#98](https://github.com/jamesryancooper/harmony/issues/98)) ([f366c0b](https://github.com/jamesryancooper/harmony/commit/f366c0b2fa8fceda0745203950504630f24a3d56))
+
 ## [0.4.2](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.1...harmony-v0.4.2) (2026-03-05)
 
 
