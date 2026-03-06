@@ -54,6 +54,7 @@ capabilities: []
 #   - Continuity Artifacts: Write(_ops/state/runs/*) - for stateful/resumable skills
 allowed-tools: Read Glob Grep Write(../{{category}}/*) Write(_ops/state/logs/*)
 # Allowed service IDs (optional, space-delimited):
+# Must exactly match any `kind: service` refs declared in registry composition.
 # Example: guard cost
 allowed-services:
 ---

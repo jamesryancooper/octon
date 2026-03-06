@@ -179,7 +179,10 @@ skills:
         - type: directory_exists
           path: ".harmony/"
           description: "Requires a harness directory"
-    depends_on: []
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps: []
 ```
 
 > **Tool Permissions:** Tool permissions are defined in SKILL.md frontmatter via `allowed-tools`, not in registry.yml. This is the **single source of truth** for what tools a skill may use. See [Specification](./specification.md#tool-permissions-single-source-of-truth) for details.
@@ -201,7 +204,7 @@ skills:
 | `commands` | Yes | Slash commands that invoke this skill |
 | `parameters` | No | Input parameters the skill accepts |
 | `requires.context` | No | Context conditions for skill activation |
-| `depends_on` | No | Other skills this skill requires |
+| `composition` | No | Skill-local prerequisite or invocation graph |
 
 > **Note:** Input/output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` under `skills.<id>.io`.
 
@@ -408,19 +411,20 @@ Paths are validated at:
 1. **Registry load time** — Warn/error if paths are outside scope
 2. **Execution time** — Block writes that escape hierarchical scope
 
-### Pipelines
+### Composition
 
-Define multi-skill workflows:
+Define skill-local prerequisite or invocation metadata:
 
 ```yaml
-pipelines:
-  - id: full-research
-    name: Full Research Pipeline
-    steps:
-      - gather-sources
-      - synthesize-research
-      - generate-report
-    description: "End-to-end research with synthesis and reporting"
+composition:
+  mode: sequential
+  failure_policy: fail_fast
+  steps:
+    - id: synthesize-research
+      kind: skill
+      ref: synthesize-research
+      role: invoke
+      required: true
 ```
 
 ---

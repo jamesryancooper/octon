@@ -99,7 +99,7 @@ Skill definitions, metadata, and operational artifacts all live in a single loca
 | Content                    | Purpose                                                  |
 |----------------------------|----------------------------------------------------------|
 | `manifest.yml`             | Tier 1 discovery index (id, display_name, summary, triggers) |
-| `registry.yml`             | Extended metadata (commands, requires, depends_on)       |
+| `registry.yml`             | Extended metadata (commands, requires, composition)      |
 | `_scaffold/template/`               | Scaffolding for new skills                               |
 | `<skill-name>/SKILL.md`    | Core skill instructions (required)                       |
 | `<skill-name>/references/` | Detailed documentation (progressive disclosure)          |
@@ -115,7 +115,7 @@ Skills follow a **four-tier disclosure model** for token efficiency, as defined 
 | Tier       | Source              | Content                                      | When Loaded                 | Token Budget   |
 |------------|---------------------|----------------------------------------------|-----------------------------|----------------|
 | **Tier 1** | `manifest.yml`      | `id`, `display_name`, `summary`, `triggers`  | Always (discovery)          | ~50 tokens     |
-| **Tier 2** | `registry.yml`      | `commands`, `requires`, `depends_on`         | After skill matched         | ~50 tokens     |
+| **Tier 2** | `registry.yml`      | `commands`, `requires`, `composition`        | After skill matched         | ~50 tokens     |
 | **Tier 3** | `SKILL.md`          | Full skill instructions                      | When skill activated        | <5000 tokens   |
 | **Tier 4** | `references/`, etc. | Detailed docs, scripts, assets               | When specific detail needed | On demand      |
 
@@ -155,7 +155,10 @@ skills:
     version: "2.1.1"
     commands:
       - /refine-prompt
-    depends_on: []
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps: []
 ```
 
 > **Tool Permissions:** Tool permissions are defined in SKILL.md frontmatter via `allowed-tools`, not in registry.yml. See [Specification](./specification.md#tool-permissions-single-source-of-truth) for details.

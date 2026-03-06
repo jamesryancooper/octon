@@ -3,7 +3,6 @@ name: swift-macos-app
 description: >
   Foundation skill set for Swift macOS applications. Provides context about
   the available skills, their dependencies, and the recommended workflow.
-user-invocable: false
 skill_sets: [specialist]
 capabilities: []
 allowed-tools: Read Grep Glob

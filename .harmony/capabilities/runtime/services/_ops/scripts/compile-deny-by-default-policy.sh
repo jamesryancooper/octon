@@ -5,6 +5,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVICES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+ROOT_DIR="$(cd "$SERVICES_DIR/../../../.." && pwd)"
 MANIFEST="$SERVICES_DIR/manifest.yml"
 DEFAULT_OUT="$SERVICES_DIR/_ops/state/deny-by-default-policy.catalog.yml"
 OUT_PATH="${1:-$DEFAULT_OUT}"
@@ -108,10 +109,12 @@ normalize_generated_at() {
   sed -E 's/^generated_at: "[^"]*"/generated_at: "__GENERATED_AT__"/'
 }
 
+RELATIVE_MANIFEST="${MANIFEST#$ROOT_DIR/}"
+
 {
   echo "schema_version: \"1.0\""
   echo "generated_at: \"__GENERATED_AT__\""
-  echo "source_manifest: \"$MANIFEST\""
+  echo "source_manifest: \"$RELATIVE_MANIFEST\""
   echo "services:"
 
   while IFS=$'\t' read -r service_id service_path service_status interface_type; do

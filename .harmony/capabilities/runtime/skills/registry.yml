@@ -10,14 +10,14 @@
 # Single Source of Truth:
 #   - SKILL.md frontmatter: name, description, allowed-tools (AUTHORITATIVE)
 #   - capabilities.yml: skill_set_definitions, valid_capabilities, capability_refs
-#   - This file: version, commands, parameters, requires, depends_on, io
+#   - This file: version, commands, parameters, requires, composition, io
 #
 # Fields:
 #   version          - Semantic version string
 #   commands         - Slash commands that invoke this skill
 #   parameters       - Input parameters the skill accepts
 #   requires.context - Context conditions for skill activation
-#   depends_on       - Other skills this skill requires
+#   composition      - Optional skill-local composition metadata
 #   io.inputs        - Input paths (supports {{placeholders}})
 #   io.outputs       - Output paths (supports {{placeholders}})
 #
@@ -47,7 +47,7 @@
 # Note: The pattern "use skill: {{id}}" is universal and does not need
 # per-skill configuration. Agents recognize this pattern automatically.
 
-schema_version: "3.0"
+schema_version: "4.0"
 
 # Global routing rules
 routing:
@@ -69,7 +69,6 @@ skills:
         description: "Folder containing research notes (.md files)"
     requires:
       context: []
-    depends_on: []
     io:
       inputs:
         - path: "_ops/state/resources/synthesize-research/projects/{{project}}/"
@@ -132,7 +131,6 @@ skills:
         description: "Skip intent confirmation step"
     requires:
       context: []
-    depends_on: []
     io:
       inputs:
         - path: "_ops/state/resources/refine-prompt/prompts/"
@@ -191,7 +189,6 @@ skills:
         description: "Comma-separated patterns to skip"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -229,6 +226,10 @@ skills:
         type: text
         required: true
         description: "Migration manifest (inline YAML or file path with old→new mappings)"
+      - name: manifest_file
+        type: file
+        required: false
+        description: "Optional manifest file name within _ops/state/configs/audit-migration/"
       - name: scope
         type: text
         required: false
@@ -271,7 +272,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs:
         - path: "_ops/state/configs/audit-migration/{{manifest_file}}"
@@ -360,7 +360,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -436,7 +435,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -512,7 +510,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -587,7 +584,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -667,7 +663,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -728,7 +723,6 @@ skills:
         description: "Include final numeric scorecard"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -812,7 +806,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -912,7 +905,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -1017,7 +1009,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -1117,7 +1108,6 @@ skills:
         description: "Comma-separated seed list for run-to-run consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -1217,7 +1207,6 @@ skills:
         description: "Comma-separated seed list for run-to-run consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -1317,7 +1306,6 @@ skills:
         description: "Comma-separated seed list for run-to-run consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -1417,7 +1405,6 @@ skills:
         description: "Comma-separated seed list for run-to-run consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -1493,7 +1480,6 @@ skills:
         description: "Comma-separated deterministic seeds used for consistency checks"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -1534,7 +1520,6 @@ skills:
     parameters: []
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs: []
@@ -1545,7 +1530,6 @@ skills:
     parameters: []
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs: []
@@ -1561,8 +1545,15 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - python-api
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: python-api
+          kind: skill
+          ref: python-api
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1596,9 +1587,20 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - python-api
-      - python-scaffold-package
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: python-api
+          kind: skill
+          ref: python-api
+          role: prerequisite
+          required: true
+        - id: python-scaffold-package
+          kind: skill
+          ref: python-scaffold-package
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1632,9 +1634,20 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - python-api
-      - python-scaffold-package
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: python-api
+          kind: skill
+          ref: python-api
+          role: prerequisite
+          required: true
+        - id: python-scaffold-package
+          kind: skill
+          ref: python-scaffold-package
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1668,9 +1681,20 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - python-api
-      - python-scaffold-package
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: python-api
+          kind: skill
+          ref: python-api
+          role: prerequisite
+          required: true
+        - id: python-scaffold-package
+          kind: skill
+          ref: python-scaffold-package
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1704,9 +1728,20 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - python-api
-      - python-scaffold-package
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: python-api
+          kind: skill
+          ref: python-api
+          role: prerequisite
+          required: true
+        - id: python-scaffold-package
+          kind: skill
+          ref: python-scaffold-package
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1740,8 +1775,15 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - python-api
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: python-api
+          kind: skill
+          ref: python-api
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1775,8 +1817,15 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - swift-macos-app
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: swift-macos-app
+          kind: skill
+          ref: swift-macos-app
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1810,9 +1859,20 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - swift-macos-app
-      - swift-scaffold-package
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: swift-macos-app
+          kind: skill
+          ref: swift-macos-app
+          role: prerequisite
+          required: true
+        - id: swift-scaffold-package
+          kind: skill
+          ref: swift-scaffold-package
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1846,9 +1906,20 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - swift-macos-app
-      - swift-scaffold-package
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: swift-macos-app
+          kind: skill
+          ref: swift-macos-app
+          role: prerequisite
+          required: true
+        - id: swift-scaffold-package
+          kind: skill
+          ref: swift-scaffold-package
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1882,9 +1953,20 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - swift-macos-app
-      - swift-scaffold-package
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: swift-macos-app
+          kind: skill
+          ref: swift-macos-app
+          role: prerequisite
+          required: true
+        - id: swift-scaffold-package
+          kind: skill
+          ref: swift-scaffold-package
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1918,9 +2000,20 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - swift-macos-app
-      - swift-scaffold-package
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: swift-macos-app
+          kind: skill
+          ref: swift-macos-app
+          role: prerequisite
+          required: true
+        - id: swift-scaffold-package
+          kind: skill
+          ref: swift-scaffold-package
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1954,8 +2047,15 @@ skills:
         description: "Project name for scaffolding"
     requires:
       context: []
-    depends_on:
-      - swift-macos-app
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+        - id: swift-macos-app
+          kind: skill
+          ref: swift-macos-app
+          role: prerequisite
+          required: true
     io:
       inputs: []
       outputs:
@@ -1984,7 +2084,6 @@ skills:
     parameters: []
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs: []
@@ -1995,7 +2094,6 @@ skills:
     parameters: []
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs: []
@@ -2006,7 +2104,6 @@ skills:
     parameters: []
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs: []
@@ -2023,7 +2120,6 @@ skills:
         description: "Directory to review for composition patterns"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2058,7 +2154,6 @@ skills:
         description: "Directory to review against React/Next.js best practices"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2093,7 +2188,6 @@ skills:
         description: "Directory to review against React Native/Expo best practices"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2122,7 +2216,6 @@ skills:
     parameters: []
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs: []
@@ -2147,7 +2240,6 @@ skills:
         - type: command_available
           command: "vercel"
           description: "Requires Vercel CLI installed and authenticated"
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2198,12 +2290,11 @@ skills:
         - type: command_available
           command: "vercel"
           description: "Requires Vercel CLI installed and authenticated"
-    depends_on: []
     io:
       inputs: []
       outputs:
         - name: status_report
-          path: "../../../output/reports/{{date}}-deploy-status-{{project_slug}}.md"
+          path: "../../../output/reports/{{date}}-deploy-status-{{project}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -2251,9 +2342,25 @@ skills:
         - type: command_available
           command: "vercel"
           description: "Requires Vercel CLI installed and authenticated"
-    depends_on:
-      - vercel-deploy
-      - deploy-status
+    composition:
+      mode: sequential
+      failure_policy: fail_fast
+      steps:
+        - id: vercel-deploy
+          kind: skill
+          ref: vercel-deploy
+          role: invoke
+          required: true
+          bindings:
+            environment: parameter.environment
+        - id: deploy-status
+          kind: skill
+          ref: deploy-status
+          role: invoke
+          required: true
+          bindings:
+            deployment: parameter.deployment
+            environment: parameter.environment
     io:
       inputs: []
       outputs:
@@ -2299,7 +2406,6 @@ skills:
         - type: command_available
           command: "gh"
           description: "Requires GitHub CLI installed and authenticated"
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2344,7 +2450,6 @@ skills:
         description: "Focus area (observability, caching, headers)"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2391,7 +2496,6 @@ skills:
         - type: command_available
           command: "curl"
           description: "Requires curl for HTTP smoke checks"
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2444,7 +2548,6 @@ skills:
         - type: command_available
           command: "turbo"
           description: "Requires Turborepo CLI available in execution context"
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2476,6 +2579,10 @@ skills:
         type: text
         required: true
         description: "Skill identifier (kebab-case, 1-64 characters)"
+      - name: group
+        type: text
+        required: true
+        description: "Skill group directory (audit, remediation, operations, refactor, synthesis, meta, foundations, platforms)"
       - name: description
         type: text
         required: false
@@ -2495,7 +2602,6 @@ skills:
         - type: directory_exists
           path: ".harmony/capabilities/runtime/skills/_scaffold/template/"
           description: "Requires skill template directory"
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2553,7 +2659,6 @@ skills:
         - type: command_available
           command: "gh"
           description: "Requires GitHub CLI installed and authenticated"
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2608,7 +2713,6 @@ skills:
         - type: command_available
           command: "gh"
           description: "Requires GitHub CLI installed and authenticated"
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2664,8 +2768,17 @@ skills:
         - type: command_available
           command: "gh"
           description: "Requires GitHub CLI installed and authenticated"
-    depends_on:
-      - triage-ci-failure
+    composition:
+      mode: sequential
+      failure_policy: fail_fast
+      steps:
+        - id: triage-ci-failure
+          kind: skill
+          ref: triage-ci-failure
+          role: invoke
+          required: true
+          bindings:
+            pr: parameter.pr
     io:
       inputs: []
       outputs:
@@ -2720,7 +2833,6 @@ skills:
         description: "Comma-separated evidence references (trace IDs, links, IDs)"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2761,7 +2873,6 @@ skills:
         description: "Directory to review against PostgreSQL best practices"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2819,15 +2930,14 @@ skills:
         description: "Required in pre-1.0 when change_profile is transitional (rationale, risks, owner, target_removal_date)"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
         - name: implementation_plan
-          path: "../../../output/plans/{{date}}-{{feature}}-implementation-plan.md"
+          path: "../../../output/plans/{{date}}-implementation-plan-{{run_id}}.md"
           kind: file
           format: markdown
-          determinism: stable
+          determinism: unique
           description: "Staged implementation plan with profile selection receipt, impact map, compliance receipt, and escalation sections"
         - name: run_log
           path: "_ops/state/logs/spec-to-implementation/{{run_id}}.md"
@@ -2883,7 +2993,6 @@ skills:
         description: "Planning scope for remediation"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2941,7 +3050,6 @@ skills:
         description: "Directory where the MCP server project will be created"
     requires:
       context: []
-    depends_on: []
     io:
       inputs: []
       outputs:
@@ -2969,20 +3077,3 @@ skills:
           format: yaml
           determinism: variable
           description: "Top-level log index (cross-skill)"
-
-# Pipelines
-pipelines:
-  - id: research-synthesis
-    name: Research Synthesis Pipeline
-    description: "Synthesize project findings"
-    use_case: "When you have a project ready for consolidation"
-    steps:
-      - synthesize-research
-    inputs:
-      - path: "_ops/state/resources/synthesize-research/projects/{{project}}/"
-        kind: directory
-    outputs:
-      - path: "../../../output/drafts/{{project}}-synthesis.md"
-        kind: file
-        format: markdown
-    invocation: "/synthesize-research _ops/state/resources/synthesize-research/projects/{{project}}/"

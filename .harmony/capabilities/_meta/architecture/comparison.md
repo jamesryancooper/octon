@@ -15,7 +15,7 @@ This document compares skills to other Harmony primitives to help you choose the
 |--------|-------|-----------|----------|--------|
 | **Purpose** | Complex capability | Focused specialist | Multi-step procedure | Task template |
 | **I/O contract** | Yes (typed paths) | No | No | No |
-| **Composable** | Yes (pipelines) | No | Loosely | No |
+| **Composable** | Yes (composition metadata) | No | Loosely | No |
 | **Logging** | Required | No | No | No |
 | **Invocation** | `/command` or explicit | `@mention` | Reference | Reference |
 

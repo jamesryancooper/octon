@@ -4,8 +4,8 @@ description: >
   Scaffold a new skill from template following the agentskills.io specification.
   Validates skill name format (kebab-case, 1-64 chars), checks uniqueness against
   existing skills, copies template structure, initializes placeholders, and updates
-  manifest and registry entries. Creates symlinks in harness folders for multi-agent
-  compatibility. Supports checkpoint/resume for interrupted sessions.
+  manifest and registry entries with `skill_class`, strict placeholders, and optional
+  composition metadata. Supports checkpoint/resume for interrupted sessions.
 license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
@@ -38,11 +38,11 @@ Use this skill when:
 
 ## Core Workflow
 
-1. **Validate** — Check name format, verify uniqueness, and run alignment-first gate
-2. **Copy Template** — Create directory structure from `_scaffold/template/`, create symlinks
+1. **Validate** — Check name format, verify uniqueness, resolve target `group`, and run alignment-first gate
+2. **Copy Template** — Create directory structure from `_scaffold/template/`
 3. **Initialize** — Replace placeholders with skill name and dates
-4. **Update Registry** — Add entries to manifest.yml and registry.yml
-5. **Update Catalog** — Add row to catalog.md skills table
+4. **Update Registry** — Add entries to manifest.yml and registry.yml, including `skill_class`
+5. **Validate** — Run contract validation and refresh harness links if needed
 6. **Report Success** — Confirm creation and provide next steps
 
 ## Alignment-First Rule
@@ -63,7 +63,7 @@ If `extension-proposed`, do not proceed with ad hoc schema changes. Escalate wit
 
 Parameters are defined in `.harmony/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-This skill accepts one required parameter (`skill_name`) and optional parameters for description, skill_sets, and capabilities.
+This skill accepts required `skill_name` and `group` parameters plus optional parameters for description, skill_sets, and capabilities.
 
 ## Output Location
 
@@ -104,7 +104,7 @@ After Phase 5, verify:
 - SKILL.md frontmatter `name` matches directory name
 - Manifest entry exists with correct `id`
 - Registry entry exists with correct key
-- Symlinks exist in harness folders
+- `skill_class` is present in manifest and placeholders resolve cleanly
 
 ## Boundaries
 
@@ -116,6 +116,7 @@ After Phase 5, verify:
 ## When to Escalate
 
 - Skill with same name already exists — Ask user for confirmation or new name
+- Requested `group` is not one of the canonical skill groups — Report error with valid options
 - Name format validation fails — Report error with corrective guidance
 - Template directory missing — Report error, cannot proceed
 - Registry file malformed — Report error, request manual intervention

@@ -169,7 +169,7 @@ This implementation extends the base specification with:
 | Layer | File | Contains |
 |-------|------|----------|
 | **Tier 1** | `manifest.yml` | Skill index (id, name, summary, triggers) |
-| **Tier 2** | `registry.yml` | Extended metadata, I/O mappings, pipelines |
+| **Tier 2** | `registry.yml` | Extended metadata, I/O mappings, composition |
 | **Tier 3** | `SKILL.md` | Full skill definition, behavior, instructions |
 | **Tier 4** | `references/` | Phase details, safety, validation, examples |
 
@@ -198,7 +198,7 @@ See [Architecture](./architecture.md) for details.
 | `name`, `description` | SKILL.md frontmatter | — |
 | `allowed-tools` (tool permissions) | SKILL.md frontmatter | registry.yml (derived via mapping function) |
 | `summary`, `triggers`, `tags`, `display_name` | `.harmony/capabilities/runtime/skills/manifest.yml` | SKILL.md |
-| `version`, `commands`, `parameters`, `depends_on` | `.harmony/capabilities/runtime/skills/registry.yml` | SKILL.md, io-contract.md |
+| `version`, `commands`, `parameters`, `composition` | `.harmony/capabilities/runtime/skills/registry.yml` | SKILL.md, io-contract.md |
 | **Input/output paths** | **`.harmony/capabilities/runtime/skills/registry.yml`** | SKILL.md (summary only), io-contract.md (summary only) |
 
 **Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived on-demand using the mapping function in `validate-skills.sh`. See [Tool Permissions](#tool-permissions-single-source-of-truth) above.

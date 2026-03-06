@@ -3,7 +3,6 @@ name: postgres
 description: >
   Foundation skill set for PostgreSQL application and schema guidance. Provides
   context about available child skills and when to use them.
-user-invocable: false
 skill_sets: [specialist]
 capabilities: []
 allowed-tools: Read Grep Glob

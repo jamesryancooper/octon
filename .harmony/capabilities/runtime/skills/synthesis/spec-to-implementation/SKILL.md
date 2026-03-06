@@ -76,7 +76,7 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/plans/YYYY-MM-DD-{{feature}}-implementation-plan.md`
+- `.harmony/output/plans/YYYY-MM-DD-implementation-plan-{{run_id}}.md`
 - `_ops/state/logs/spec-to-implementation/`
 
 ## Boundaries

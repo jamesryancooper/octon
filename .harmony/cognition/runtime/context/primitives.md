@@ -16,7 +16,7 @@ This document explains the core building blocks in Harmony and when to use each.
 | **Prompt** | Task template with structured I/O | Copy/paste or direct reference | Stateless |
 | **Template** | Scaffolding for new structures | Copied to target location | N/A |
 
-> **Note:** Workflows are deprecated and consolidated into Skills. See the workflows → skills migration in `.harmony/capabilities/_meta/architecture/`.
+> **Note:** Workflows remain the staged procedural surface; skills remain reusable instruction-driven capability bundles.
 
 ## Execution Capability Surfaces
 
@@ -205,13 +205,13 @@ states:
 - Invoked via `/command`, `use skill: <id>`, or natural language triggers
 - Stateless and portable (symlinked to harness directories)
 - Writes only to `.harmony/capabilities/runtime/skills/outputs/**` and `_ops/state/logs/**`
-- Can be chained into pipelines via registry
+- Can declare reusable child-skill composition metadata in registry
 
 ### When to Use
 
 - Task is reusable across projects or sessions
 - Clear discrete inputs → outputs
-- You want pipeline composition (chain skills together)
+- You want reusable skill composition under one skill contract
 - The capability should be portable to other repositories
 
 ### Examples
@@ -489,7 +489,7 @@ templates/
 | Autonomous orchestration of complex work | **Agent** | Reasons, plans, delegates |
 | Work spanning multiple sessions (days/weeks) | **Mission** | Durable state machine |
 | Complex decision trees (>5 branches) | **Mission** | Formal DSL for branching |
-| Reusable task with clear I/O | **Skill** | Composable, portable, pipelines |
+| Reusable task with clear I/O | **Skill** | Composable, portable, contract-based |
 | Multi-phase single-session procedure | **Skill** | Phases in SKILL.md |
 | Quick interface to complex work | **Command** | Lightweight gateway |
 | Focused, specialized task | **Assistant** | Domain expertise, consistent output |
@@ -583,9 +583,9 @@ Scaffolding copied and customized for the new harness.
 
 ### "Chain prompt refinement → research synthesis"
 
-→ **Skills pipeline**
+→ **Composite skill**
 
-Registry supports `pipelines` section for skill composition without manual orchestration.
+Registry supports skill-local `composition` metadata for reusable child-skill orchestration under one skill contract.
 
 ---
 
@@ -603,4 +603,4 @@ Registry supports `pipelines` section for skill composition without manual orche
 | Prompts | — | — | `.harmony/scaffolding/_meta/architecture/prompts.md` |
 | Templates | — | `.harmony/scaffolding/runtime/templates/` | `.harmony/scaffolding/_meta/architecture/templates.md` |
 
-> **Note:** Workflows are deprecated. See Skills and Missions.
+> **Note:** Workflows remain active for runbooks and staged procedures; use skills for reusable capability bundles.

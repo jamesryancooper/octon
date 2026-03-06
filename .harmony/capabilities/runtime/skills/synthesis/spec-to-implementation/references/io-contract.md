@@ -27,7 +27,7 @@ Extended input/output documentation for the `spec-to-implementation` skill.
 
 Implementation plan written to:
 
-- `.harmony/output/plans/YYYY-MM-DD-{{feature}}-implementation-plan.md`
+- `.harmony/output/plans/YYYY-MM-DD-implementation-plan-{{run_id}}.md`
 
 The plan must include these top-level sections:
 

@@ -46,7 +46,7 @@ In `.harmony/capabilities/runtime/skills/registry.yml`, a Composite Skill SHOULD
 
 1. Declare a stable slash command (for example `/quality-composite`).
 2. Declare explicit parameters and output artifacts.
-3. List required child skills in `depends_on`.
+3. Declare child skill/service steps in `composition.steps` with typed refs and bindings.
 4. Expose deterministic output policy in `io.outputs[].determinism`.
 5. Record execution artifacts in `_ops/state/runs/<skill-id>/<run-id>/` and
    `_ops/state/logs/<skill-id>/<run-id>.md`.
@@ -57,7 +57,7 @@ Composite Skills should execute child capabilities in this order:
 
 1. Validate input contract and policy preconditions.
 2. Resolve child-skill execution plan.
-3. Dispatch child skills (sequential or parallel per policy).
+3. Dispatch child skills/services according to `composition.mode` and declared step order.
 4. Merge child outputs into the Composite Skill output contract.
 5. Run post-merge validation and safety checks.
 6. Persist run state + logs + final deliverables.
@@ -81,6 +81,6 @@ Composite Skills should execute child capabilities in this order:
 ## Governance Rules
 
 - Keep Composite Skills bounded; avoid open-ended orchestration.
-- Prefer explicit `depends_on` lists and explicit output contracts.
+- Prefer explicit `composition` contracts and explicit output contracts.
 - Fail closed when child skill preconditions are unmet.
 - Do not bypass skill-level or service-level policy contracts.

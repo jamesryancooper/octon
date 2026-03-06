@@ -73,6 +73,7 @@ HARMONY_DIR="$(cd "$CAPABILITIES_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$HARMONY_DIR/.." && pwd)"
 MANIFEST="$SKILLS_DIR/manifest.yml"
 REGISTRY="$SKILLS_DIR/registry.yml"
+CAPABILITIES_SCHEMA="$SKILLS_DIR/capabilities.yml"
 SKILLS_REGISTRY="$REPO_ROOT/.harmony/capabilities/runtime/skills/registry.yml"
 TOOLS_MANIFEST="$REPO_ROOT/.harmony/capabilities/runtime/tools/manifest.yml"
 SERVICES_MANIFEST="$REPO_ROOT/.harmony/capabilities/runtime/services/manifest.yml"
@@ -99,9 +100,16 @@ EXAMPLES_TOKEN_BUDGET=3000
 PHASES_TOKEN_BUDGET=6000
 VALIDATION_TOKEN_BUDGET=1500
 
-# Valid skill sets and capabilities
-VALID_SKILL_SETS=("executor" "coordinator" "delegator" "collaborator" "integrator" "specialist" "guardian")
-VALID_CAPABILITIES=("phased" "branching" "parallel" "task-coordinating" "agent-delegating" "human-collaborative" "stateful" "resumable" "long-running" "scheduled" "self-validating" "error-resilient" "composable" "contract-driven" "domain-specialized" "safety-bounded" "idempotent" "cancellable" "external-dependent" "external-output")
+# Schema-backed authority loaded from capabilities.yml
+VALID_SKILL_SETS=()
+VALID_CAPABILITIES=()
+VALID_SKILL_CLASSES=()
+VALID_STANDARD_PLACEHOLDERS=()
+VALID_COMPOSITION_MODES=()
+VALID_COMPOSITION_FAILURE_POLICIES=()
+VALID_COMPOSITION_STEP_KINDS=()
+VALID_COMPOSITION_STEP_ROLES=()
+VALID_COMPOSITION_WHEN_OPERATORS=()
 VALID_MANIFEST_STATUSES=("active" "deprecated" "experimental" "draft")
 VALID_PARAMETER_TYPES=("text" "boolean" "file" "folder")
 VALID_OUTPUT_DETERMINISM=("stable" "variable" "unique")
@@ -216,6 +224,54 @@ contains() {
         fi
     done
     return 1
+}
+
+require_ruby() {
+    if ! command -v ruby >/dev/null 2>&1; then
+        log_error "ruby is required to validate YAML-backed skill contracts"
+        exit 1
+    fi
+}
+
+yaml_hash_keys() {
+    local file="$1"
+    local path="$2"
+    ruby -r yaml -e '
+        data = YAML.load_file(ARGV[0])
+        value = ARGV[1].split(".").reduce(data) { |acc, key| acc.is_a?(Hash) ? acc[key] : nil }
+        if value.is_a?(Hash)
+          value.keys.each { |item| puts item }
+        end
+    ' "$file" "$path"
+}
+
+yaml_list_values() {
+    local file="$1"
+    local path="$2"
+    ruby -r yaml -e '
+        data = YAML.load_file(ARGV[0])
+        value = ARGV[1].split(".").reduce(data) { |acc, key| acc.is_a?(Hash) ? acc[key] : nil }
+        Array(value).each { |item| puts item }
+    ' "$file" "$path"
+}
+
+load_capabilities_authority() {
+    require_ruby
+
+    if [[ ! -f "$CAPABILITIES_SCHEMA" ]]; then
+        log_error "Missing capabilities schema: $CAPABILITIES_SCHEMA"
+        exit 1
+    fi
+
+    mapfile -t VALID_SKILL_SETS < <(yaml_hash_keys "$CAPABILITIES_SCHEMA" "skill_set_definitions")
+    mapfile -t VALID_CAPABILITIES < <(yaml_list_values "$CAPABILITIES_SCHEMA" "valid_capabilities")
+    mapfile -t VALID_SKILL_CLASSES < <(yaml_hash_keys "$CAPABILITIES_SCHEMA" "skill_class_definitions")
+    mapfile -t VALID_STANDARD_PLACEHOLDERS < <(yaml_list_values "$CAPABILITIES_SCHEMA" "standard_placeholders")
+    mapfile -t VALID_COMPOSITION_MODES < <(yaml_list_values "$CAPABILITIES_SCHEMA" "composition_contract.modes")
+    mapfile -t VALID_COMPOSITION_FAILURE_POLICIES < <(yaml_list_values "$CAPABILITIES_SCHEMA" "composition_contract.failure_policies")
+    mapfile -t VALID_COMPOSITION_STEP_KINDS < <(yaml_list_values "$CAPABILITIES_SCHEMA" "composition_contract.step_kinds")
+    mapfile -t VALID_COMPOSITION_STEP_ROLES < <(yaml_list_values "$CAPABILITIES_SCHEMA" "composition_contract.step_roles")
+    mapfile -t VALID_COMPOSITION_WHEN_OPERATORS < <(yaml_list_values "$CAPABILITIES_SCHEMA" "composition_contract.when_operators")
 }
 
 trim_value() {
@@ -412,6 +468,23 @@ get_manifest_status() {
     ' "$MANIFEST"
 }
 
+get_manifest_skill_class() {
+    local skill_id="$1"
+    awk -v id="$skill_id" '
+        $1 == "-" && $2 == "id:" {
+            if (found) {exit}
+            if ($3 == id) {found=1; next}
+        }
+        found && /skill_class:/ {
+            gsub(/.*skill_class:[[:space:]]*/, "")
+            gsub(/["'"'"']/, "")
+            gsub(/^[[:space:]]+|[[:space:]]+$/, "")
+            print
+            exit
+        }
+    ' "$MANIFEST"
+}
+
 # Validate manifest status values in strict mode
 validate_manifest_status_value() {
     local skill_id="$1"
@@ -445,6 +518,39 @@ get_registry_parameter_types() {
             gsub(/^        type:[[:space:]]*/, "")
             gsub(/["'"'"']/, "")
             print
+        }
+    ' "$REGISTRY"
+}
+
+get_registry_parameter_names() {
+    local skill_id="$1"
+    awk -v skill="$skill_id" '
+        /^skills:/ {in_skills=1; next}
+        in_skills && $0 ~ "^  "skill":" {found=1; next}
+        found && /^  [a-z0-9][a-z0-9-]*:/ && $0 !~ "^  "skill":" {exit}
+        found && /parameters:/ {in_params=1; next}
+        found && in_params && /^      - name:/ {
+            gsub(/^      - name:[[:space:]]*/, "")
+            gsub(/["'"'"']/, "")
+            print
+        }
+        found && in_params && /^    [a-z]/ && !/^      / {exit}
+    ' "$REGISTRY"
+}
+
+get_registry_command_count() {
+    local skill_id="$1"
+    awk -v skill="$skill_id" '
+        /^skills:/ {in_skills=1; next}
+        in_skills && $0 ~ "^  "skill":" {found=1; next}
+        found && /^  [a-z0-9][a-z0-9-]*:/ && $0 !~ "^  "skill":" {exit}
+        found && /commands:/ {in_commands=1; next}
+        found && in_commands && /^      - / {count++; next}
+        found && in_commands && /^    [a-z]/ && !/^      / {print count + 0; printed=1; exit}
+        END {
+            if (found && !printed) {
+                print count + 0
+            }
         }
     ' "$REGISTRY"
 }
@@ -1487,6 +1593,9 @@ validate_placeholder_format() {
 validate_skill_placeholders() {
     local skill_id="$1"
     local issues=0
+    local parameter_names=()
+
+    mapfile -t parameter_names < <(get_registry_parameter_names "$skill_id")
 
     if [[ ! -f "$SKILLS_REGISTRY" ]]; then
         return 0
@@ -1516,7 +1625,16 @@ validate_skill_placeholders() {
                     local validation_result
                     validation_result=$(validate_placeholder_format "$placeholder" 2>&1)
                     if [[ $? -ne 0 ]]; then
-                        log_warning "Path '$path': $validation_result"
+                        log_error "Path '$path': $validation_result"
+                        ((issues++)) || true
+                        continue
+                    fi
+
+                    local placeholder_name="${placeholder#\{\{}"
+                    placeholder_name="${placeholder_name%\}\}}"
+                    if ! array_contains "$placeholder_name" "${VALID_STANDARD_PLACEHOLDERS[@]}" \
+                        && ! array_contains "$placeholder_name" "${parameter_names[@]}"; then
+                        log_error "Path '$path': unresolved placeholder '$placeholder' is not a declared parameter or standard placeholder"
                         ((issues++)) || true
                     fi
                 fi
@@ -1545,7 +1663,7 @@ check_deprecated_placeholder_formats() {
         in_skill && in_io && /path:/ && /<[a-z_]+>/ {print; found_dep=1}
         END {exit !found_dep}
     ' "$SKILLS_REGISTRY" 2>/dev/null; then
-        log_warning "Deprecated <placeholder> format found (use {{placeholder}} instead)"
+        log_error "Deprecated <placeholder> format found (use {{placeholder}} instead)"
         return 1
     fi
 
@@ -1559,7 +1677,7 @@ check_deprecated_placeholder_formats() {
         in_skill && in_io && /path:/ && /\{[a-z_]+\}/ && !/\{\{/ {print; found_dep=1}
         END {exit !found_dep}
     ' "$SKILLS_REGISTRY" 2>/dev/null; then
-        log_warning "Single-brace {placeholder} format found (use {{placeholder}} instead)"
+        log_error "Single-brace {placeholder} format found (use {{placeholder}} instead)"
         return 1
     fi
 
@@ -2521,6 +2639,242 @@ validate_manifest_skill_parity() {
     return $issues
 }
 
+validate_skill_class_contract() {
+    local skill_id="$1"
+    local skill_dir="$2"
+    local skill_class
+    skill_class=$(get_manifest_skill_class "$skill_id")
+    local command_count
+    command_count=$(get_registry_command_count "$skill_id")
+
+    if [[ -z "$skill_class" ]]; then
+        log_error "Skill '$skill_id': missing skill_class in manifest.yml"
+        return 1
+    fi
+
+    if ! array_contains "$skill_class" "${VALID_SKILL_CLASSES[@]}"; then
+        log_error "Skill '$skill_id': invalid skill_class '$skill_class' (expected one of: ${VALID_SKILL_CLASSES[*]})"
+        return 1
+    fi
+
+    if grep -qE "^user-invocable:" "$skill_dir/SKILL.md" 2>/dev/null; then
+        log_error "Skill '$skill_id': SKILL.md still declares legacy user-invocable frontmatter"
+        return 1
+    fi
+
+    case "$skill_class" in
+        context)
+            if [[ "${command_count:-0}" -ne 0 ]]; then
+                log_error "Skill '$skill_id': context skills must not declare slash commands"
+                return 1
+            fi
+            ;;
+        invocable|ruleset)
+            if [[ "${command_count:-0}" -eq 0 ]]; then
+                log_error "Skill '$skill_id': $skill_class skills must declare at least one slash command"
+                return 1
+            fi
+            ;;
+    esac
+
+    log_success "skill_class contract is valid: $skill_class"
+    return 0
+}
+
+validate_skill_composition_contract() {
+    local skill_id="$1"
+    local skill_dir="$2"
+    local allowed_services_csv
+    allowed_services_csv=$(get_skill_allowed_services "$skill_dir" | paste -sd',' -)
+    local skill_sets_csv
+    skill_sets_csv=$(get_manifest_skill_array "$skill_id" "skill_sets" | paste -sd',' -)
+
+    local validation_output
+    validation_output="$(
+        ruby -r yaml -e '
+            registry = YAML.load_file(ARGV[0])
+            manifest = YAML.load_file(ARGV[1])
+            services = File.exist?(ARGV[2]) ? YAML.load_file(ARGV[2]) : { "services" => [] }
+            caps = YAML.load_file(ARGV[3])
+            skill_id = ARGV[4]
+            allowed_services = ARGV[5].split(",").reject(&:empty?)
+            skill_sets = ARGV[6].split(",").reject(&:empty?)
+
+            entry = registry.fetch("skills").fetch(skill_id)
+            composition = entry["composition"]
+            exit 0 if composition.nil?
+
+            valid_modes = caps.fetch("composition_contract").fetch("modes")
+            valid_failure_policies = caps.fetch("composition_contract").fetch("failure_policies")
+            valid_step_kinds = caps.fetch("composition_contract").fetch("step_kinds")
+            valid_step_roles = caps.fetch("composition_contract").fetch("step_roles")
+            valid_when_ops = caps.fetch("composition_contract").fetch("when_operators")
+            manifest_skill_ids = manifest.fetch("skills").map { |item| item.fetch("id") }
+            service_ids = services.fetch("services", []).map { |item| item.fetch("id") }
+            parameter_names = Array(entry["parameters"]).map { |item| item.fetch("name") }
+            parent_outputs = Array(entry.dig("io", "outputs")).map { |item| item.fetch("name") }
+
+            errors = []
+            mode = composition["mode"]
+            failure_policy = composition["failure_policy"]
+            steps = Array(composition["steps"])
+
+            errors << "invalid composition.mode '#{mode}'" unless valid_modes.include?(mode)
+            errors << "invalid composition.failure_policy '#{failure_policy}'" unless valid_failure_policies.include?(failure_policy)
+            errors << "composition.steps must not be empty" if steps.empty?
+
+            step_ids = []
+            step_defs = {}
+            service_refs = []
+            invoke_present = false
+
+            steps.each_with_index do |step, index|
+                unless step.is_a?(Hash)
+                    errors << "composition step #{index + 1} must be a mapping"
+                    next
+                end
+
+                step_id = step["id"]
+                kind = step["kind"]
+                ref = step["ref"]
+                role = step["role"]
+                required = step["required"]
+                when_clause = step["when"]
+                bindings = step["bindings"] || {}
+                expose_outputs = step["expose_outputs"] || {}
+
+                errors << "composition step #{index + 1} missing id" if step_id.to_s.empty?
+                errors << "composition step #{step_id || index + 1} has duplicate id" if !step_id.to_s.empty? && step_ids.include?(step_id)
+                errors << "composition step #{step_id || index + 1} invalid kind '#{kind}'" unless valid_step_kinds.include?(kind)
+                errors << "composition step #{step_id || index + 1} invalid role '#{role}'" unless valid_step_roles.include?(role)
+                errors << "composition step #{step_id || index + 1} required must be boolean" unless required == true || required == false
+
+                if kind == "skill" && !manifest_skill_ids.include?(ref)
+                    errors << "composition step #{step_id || index + 1} references unknown skill '#{ref}'"
+                elsif kind == "service"
+                    if !service_ids.include?(ref)
+                        errors << "composition step #{step_id || index + 1} references unknown service '#{ref}'"
+                    end
+                    service_refs << ref
+                end
+
+                if when_clause
+                    if when_clause.is_a?(String)
+                        errors << "composition step #{step_id || index + 1} invalid when '#{when_clause}'" unless when_clause == "always"
+                    elsif when_clause.is_a?(Hash)
+                        operator = when_clause["operator"]
+                        parameter = when_clause["parameter"]
+                        errors << "composition step #{step_id || index + 1} invalid when operator '#{operator}'" unless valid_when_ops.include?(operator)
+                        if operator != "always" && !parameter_names.include?(parameter)
+                            errors << "composition step #{step_id || index + 1} when.parameter '#{parameter}' is not a declared parameter"
+                        end
+                        if operator == "param_equals" && !when_clause.key?("value")
+                            errors << "composition step #{step_id || index + 1} param_equals requires value"
+                        end
+                        if operator == "param_in"
+                            values = when_clause["values"]
+                            errors << "composition step #{step_id || index + 1} param_in requires non-empty values" unless values.is_a?(Array) && !values.empty?
+                        end
+                    else
+                        errors << "composition step #{step_id || index + 1} when must be a string or mapping"
+                    end
+                end
+
+                unless bindings.is_a?(Hash)
+                    errors << "composition step #{step_id || index + 1} bindings must be a mapping"
+                    bindings = {}
+                end
+                bindings.each do |binding_key, binding_value|
+                    unless binding_value.is_a?(String)
+                        errors << "composition step #{step_id || index + 1} binding '#{binding_key}' must be a string"
+                        next
+                    end
+                    if binding_value.start_with?("parameter.")
+                        param_name = binding_value.split(".", 2).last
+                        errors << "composition step #{step_id || index + 1} binding '#{binding_key}' references unknown parameter '#{param_name}'" unless parameter_names.include?(param_name)
+                    elsif binding_value =~ /^step\.([a-z0-9][a-z0-9-]*)\.([a-zA-Z_][a-zA-Z0-9_]*)$/
+                        source_step = Regexp.last_match(1)
+                        output_name = Regexp.last_match(2)
+                        unless step_defs.key?(source_step)
+                            errors << "composition step #{step_id || index + 1} binding '#{binding_key}' references unknown prior step '#{source_step}'"
+                            next
+                        end
+                        output_defs =
+                            case step_defs[source_step][:kind]
+                            when "skill"
+                                Array(registry.fetch("skills").fetch(step_defs[source_step][:ref]).dig("io", "outputs")).map { |item| item.fetch("name") }
+                            else
+                                []
+                            end
+                        errors << "composition step #{step_id || index + 1} binding '#{binding_key}' references unknown output '#{output_name}' from step '#{source_step}'" unless output_defs.include?(output_name)
+                    else
+                        errors << "composition step #{step_id || index + 1} binding '#{binding_key}' has invalid source '#{binding_value}'"
+                    end
+                end
+
+                unless expose_outputs.is_a?(Hash)
+                    errors << "composition step #{step_id || index + 1} expose_outputs must be a mapping"
+                    expose_outputs = {}
+                end
+                expose_outputs.each do |parent_output, source_value|
+                    errors << "composition step #{step_id || index + 1} expose_outputs references unknown parent output '#{parent_output}'" unless parent_outputs.include?(parent_output)
+                    unless source_value.is_a?(String) && source_value =~ /^step\.([a-z0-9][a-z0-9-]*)\.([a-zA-Z_][a-zA-Z0-9_]*)$/
+                        errors << "composition step #{step_id || index + 1} expose_outputs '#{parent_output}' has invalid source '#{source_value}'"
+                        next
+                    end
+                    source_step = Regexp.last_match(1)
+                    output_name = Regexp.last_match(2)
+                    unless step_defs.key?(source_step) || step_id == source_step
+                        errors << "composition step #{step_id || index + 1} expose_outputs '#{parent_output}' references unknown step '#{source_step}'"
+                        next
+                    end
+                    source_ref = (step_defs[source_step] || { kind: kind, ref: ref })
+                    if source_ref[:kind] == "skill"
+                        output_defs = Array(registry.fetch("skills").fetch(source_ref[:ref]).dig("io", "outputs")).map { |item| item.fetch("name") }
+                        errors << "composition step #{step_id || index + 1} expose_outputs '#{parent_output}' references unknown output '#{output_name}' from step '#{source_step}'" unless output_defs.include?(output_name)
+                    end
+                end
+
+                invoke_present ||= role == "invoke"
+                step_ids << step_id if step_id
+                step_defs[step_id] = { kind: kind, ref: ref } if step_id
+            end
+
+            if mode == "parallel" && !skill_sets.include?("coordinator")
+                errors << "parallel composition requires coordinator skill set"
+            end
+            if invoke_present && !skill_sets.include?("integrator")
+                errors << "composition with invoke steps requires integrator skill set"
+            end
+
+            if service_refs.any?
+                if allowed_services.sort != service_refs.uniq.sort
+                    errors << "allowed-services must exactly match composed service refs (declared=#{allowed_services.sort.join(",")} composed=#{service_refs.uniq.sort.join(",")})"
+                end
+            end
+
+            if errors.any?
+                STDERR.puts(errors.join("\n"))
+                exit 1
+            end
+        ' "$REGISTRY" "$MANIFEST" "$SERVICES_MANIFEST" "$CAPABILITIES_SCHEMA" "$skill_id" "$allowed_services_csv" "$skill_sets_csv" 2>&1
+    )"
+    local status=$?
+
+    if [[ $status -ne 0 ]]; then
+        while IFS= read -r line; do
+            [[ -n "$line" ]] && log_error "Skill '$skill_id': $line"
+        done <<< "$validation_output"
+        return 1
+    fi
+
+    if ruby -r yaml -e 'entry = YAML.load_file(ARGV[0]).fetch("skills").fetch(ARGV[1]); exit(entry["composition"] ? 0 : 1)' "$REGISTRY" "$skill_id" >/dev/null 2>&1; then
+        log_success "composition contract is valid"
+    fi
+
+    return 0
+}
+
 # Capability thresholds (for suggesting capabilities)
 CAPABILITY_THRESHOLD_PHASES=3
 CAPABILITY_THRESHOLD_TOKENS=3000
@@ -3041,10 +3395,16 @@ validate_skill() {
     # Check 15b: Declared skill sets and capabilities are valid values
     validate_declared_capabilities "$skill_id" "$skill_dir" || true
 
-    # Check 15c: Manifest and SKILL.md capability declarations are aligned
+    # Check 15c: skill_class contract is valid
+    validate_skill_class_contract "$skill_id" "$skill_dir" || true
+
+    # Check 15d: Manifest and SKILL.md capability declarations are aligned
     validate_manifest_skill_parity "$skill_id" "$skill_dir" || true
 
-    # Check 15d: Execution-profile governance contract for spec-to-implementation
+    # Check 15e: composition contract is valid
+    validate_skill_composition_contract "$skill_id" "$skill_dir" || true
+
+    # Check 15f: Execution-profile governance contract for spec-to-implementation
     validate_spec_to_implementation_profile_contract "$skill_id" "$skill_dir" || true
     
     # Check 16: I/O path scope validation
@@ -3232,6 +3592,8 @@ else
     echo "Skills registry: $SKILLS_REGISTRY"
 fi
 
+load_capabilities_authority
+
 if [[ ! -f "$MANIFEST" ]]; then
     log_error "Manifest file not found: $MANIFEST"
     exit 1
@@ -3311,11 +3673,11 @@ else
         echo "Checking for orphaned skill directories..."
         echo "─────────────────────────────"
 
-        # Skip known infrastructure directories and manifest-defined groups.
+        # Skip known infrastructure directories and schema-defined groups.
         # Include legacy names for backward compatibility during migration windows.
         infra_dirs="_scaffold _ops archive _template _scripts _state"
         group_dirs=""
-        group_dirs=$(awk '/group:/{gsub(/.*group:[[:space:]]*/, ""); gsub(/[[:space:]]*$/, ""); print}' "$MANIFEST" | sort -u)
+        group_dirs=$(yaml_hash_keys "$CAPABILITIES_SCHEMA" "skill_group_definitions" | sort -u)
 
         for dir in "$SKILLS_DIR"/*/; do
             dir_name=$(basename "$dir")
@@ -3338,6 +3700,14 @@ else
 
         # Cross-reference validation (manifest ↔ registry)
         check_manifest_registry_sync
+
+        # Clean-break guardrails for retired registry surfaces
+        if rg -q "^[[:space:]]*depends_on:" "$REGISTRY"; then
+            log_error "Legacy depends_on contract still present in skills registry"
+        fi
+        if rg -q "^pipelines:" "$REGISTRY"; then
+            log_error "Legacy top-level pipelines surface still present in skills registry"
+        fi
 
         # Legacy path regression guard
         check_deprecated_paths

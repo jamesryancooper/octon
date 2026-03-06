@@ -79,7 +79,7 @@ Skill sets are pre-defined **capability bundles** that provide sensible defaults
 - `composition.md`
 - `io-contract.md`
 
-**Use When:** The skill is designed to be composed with other skills in pipelines.
+**Use When:** The skill is designed to be composed with other skills through registry `composition` metadata.
 
 ---
 

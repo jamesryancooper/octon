@@ -60,6 +60,15 @@ struct CommonPolicyArgs {
 
     #[arg(long)]
     exceptions: Option<PathBuf>,
+
+    #[arg(long)]
+    caller_skill_id: Option<String>,
+
+    #[arg(long)]
+    caller_skill_manifest: Option<PathBuf>,
+
+    #[arg(long)]
+    caller_skill_artifact: Option<PathBuf>,
 }
 
 #[derive(Args, Debug)]
@@ -371,6 +380,9 @@ fn to_preflight_request(common: CommonPolicyArgs) -> Result<PreflightRequest, St
         artifact_path: common.artifact,
         policy_path: common.policy,
         exceptions_path: common.exceptions,
+        caller_skill_id: common.caller_skill_id,
+        caller_skill_manifest_path: common.caller_skill_manifest,
+        caller_skill_artifact_path: common.caller_skill_artifact,
     })
 }
 
