@@ -30,6 +30,7 @@ Template bundles live under `runtime/templates/`:
 | `AGENTS.md` | — | Project-level agent bootstrap template rendered by `/init` |
 | `BOOT.md` | — | Optional recurring startup checklist template (`/init --with-boot-files`) |
 | `BOOTSTRAP.md` | — | Optional one-time bootstrap checklist template (`/init --with-boot-files`) |
+| `objectives/` | — | Common objective packs rendered by `/init` into `OBJECTIVE.md` and `intent.contract.yml` |
 | `harmony/` | — | Base harness template |
 | `harmony-docs/` | `harmony/` | Documentation area harness |
 | `harmony-node-ts/` | `harmony/` | Node.js / TypeScript harness |

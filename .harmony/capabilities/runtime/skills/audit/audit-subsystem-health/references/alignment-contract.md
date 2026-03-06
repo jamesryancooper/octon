@@ -9,6 +9,15 @@ description: Drift contract between .harmony architecture surfaces and the audit
 
 Keep `audit-subsystem-health` synchronized with `.harmony` architecture evolution.
 
+Current bootstrap alignment expectation:
+
+- repo-level `/init` now scaffolds both the human-readable objective brief at
+  `/OBJECTIVE.md` and the machine-readable intent contract at
+  `/.harmony/cognition/runtime/context/intent.contract.yml`
+- when watched architecture surfaces change bootstrap or onboarding behavior,
+  this skill's references must continue to reflect that objective-aware init
+  model
+
 This contract defines:
 
 1. Which architecture surfaces are considered drift-sensitive

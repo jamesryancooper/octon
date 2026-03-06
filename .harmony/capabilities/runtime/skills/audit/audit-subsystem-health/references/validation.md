@@ -72,11 +72,14 @@ After skill execution, verify:
 8. No source files were modified (read-only guarantee)
 9. Alignment validator is run when architecture surfaces change:
    `bash .harmony/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh`
-10. Contract governance validator is run when contract metadata or `_ops` boundaries change:
+10. If bootstrap/init behavior changed, the alignment references still reflect
+    repo-level objective contract outputs (`OBJECTIVE.md` and
+    `.harmony/cognition/runtime/context/intent.contract.yml`)
+11. Contract governance validator is run when contract metadata or `_ops` boundaries change:
     `bash .harmony/assurance/runtime/_ops/scripts/validate-contract-governance.sh`
-11. Harness version compatibility validator is run when portability/version contracts change:
+12. Harness version compatibility validator is run when portability/version contracts change:
     `bash .harmony/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh`
-12. SSOT precedence drift validator is run when runtime/governance/practices authority contracts change:
+13. SSOT precedence drift validator is run when runtime/governance/practices authority contracts change:
     `bash .harmony/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh`
-13. Framing alignment validator is run when canonical framing contracts or language surfaces change:
+14. Framing alignment validator is run when canonical framing contracts or language surfaces change:
     `bash .harmony/assurance/runtime/_ops/scripts/validate-framing-alignment.sh`

@@ -1,7 +1,7 @@
 {
   "$schema": "../manifest.schema.json",
   "name": "harmony",
-  "description": "Base .harmony/ template for all harnesses.",
+  "description": "Base .harmony/ template for all harnesses, including init objective packs.",
   "goal_alignment": "Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.",
   "inherits": null,
   "files": {
@@ -70,7 +70,9 @@
     "scaffolding/runtime/templates/AGENTS.md": "Template for project-level AGENTS.md bootstrap file",
     "scaffolding/runtime/templates/BOOT.md": "Template for recurring startup checklist compatibility",
     "scaffolding/runtime/templates/BOOTSTRAP.md": "Template for one-time bootstrap checklist compatibility",
-    "scaffolding/runtime/_ops/scripts/init-project.sh": "Initialize project-level bootstrap files from .harmony templates",
+    "scaffolding/runtime/templates/objectives/README.md": "Common objective packs used by /init to scaffold the workspace objective contract",
+    "scaffolding/runtime/templates/objectives/registry.txt": "Objective catalog used by /init",
+    "scaffolding/runtime/_ops/scripts/init-project.sh": "Initialize project-level bootstrap files and objective-contract artifacts from .harmony templates",
     "scaffolding/practices/examples/README.md": "Placeholder for examples",
     "agency/runtime/assistants/registry.yml": "Assistant @mention mappings",
     "agency/runtime/assistants/README.md": "How to use and create assistants",

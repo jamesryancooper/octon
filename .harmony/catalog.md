@@ -109,7 +109,7 @@ Atomic operations in `capabilities/runtime/commands/`:
 
 | Command | Access | Description |
 |---------|--------|-------------|
-| [init.md](./capabilities/runtime/commands/init.md) | human | Initialize project-level bootstrap files (`AGENTS.md`, `CLAUDE.md` alias, `alignment-check` shim, optional `BOOT*.md`) |
+| [init.md](./capabilities/runtime/commands/init.md) | human | Initialize project-level bootstrap files plus the repo objective contract (`AGENTS.md`, `OBJECTIVE.md`, `intent.contract.yml`, `CLAUDE.md` alias, `alignment-check`, optional `BOOT*.md`) |
 | [studio.md](./capabilities/runtime/commands/studio.md) | human | Launch Harmony Studio for workflow graph design, inspection, and safe staged edits |
 | [recover.md](./capabilities/runtime/commands/recover.md) | human | Recovery procedures for common agent failure modes |
 | [audit-skills-system-expansion.md](./capabilities/runtime/commands/audit-skills-system-expansion.md) | human | Invoke the skills-system expansion evaluation prompt through a slash-style command wrapper |
@@ -416,10 +416,10 @@ Each harness template contains:
 
 | Script | Description |
 |--------|-------------|
-| [scaffolding/runtime/_ops/scripts/init-project.sh](./scaffolding/runtime/_ops/scripts/init-project.sh) | Project bootstrap generator for `AGENTS.md`, `CLAUDE.md` alias, `alignment-check` shim, and optional `BOOT*.md` files |
+| [scaffolding/runtime/_ops/scripts/init-project.sh](./scaffolding/runtime/_ops/scripts/init-project.sh) | Project bootstrap generator for `AGENTS.md`, the repo objective contract, `CLAUDE.md` alias, `alignment-check`, and optional `BOOT*.md` files |
 | [init.sh](./init.sh) | Health check: verifies required files/directories exist |
 
-**Usage:** Run `.harmony/scaffolding/runtime/_ops/scripts/init-project.sh` from repo root (or use `/init`) for project bootstrap. Add `--with-boot-files` to generate `BOOT.md` and `BOOTSTRAP.md`. Run `.harmony/init.sh` from `.harmony/` for harness health checks.
+**Usage:** Run `.harmony/scaffolding/runtime/_ops/scripts/init-project.sh --list-objectives` to inspect common use cases, then run `.harmony/scaffolding/runtime/_ops/scripts/init-project.sh --objective <id>` from repo root (or use `/init`) for project bootstrap. Add `--with-boot-files` to generate `BOOT.md` and `BOOTSTRAP.md`. Run `.harmony/init.sh` from `.harmony/` for harness health checks.
 
 ---
 
