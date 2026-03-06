@@ -13,22 +13,60 @@ permissions:
 
 concurrency:
   group: release-please-main
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   release-please:
     name: release-please
     runs-on: ubuntu-latest
     steps:
-      - name: Create or update release PR / tags
-        id: release
+      - name: Create or update release PR / tags (attempt 1)
+        id: release_attempt_1
+        continue-on-error: true
         uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
+      - name: Pause before retry
+        if: steps.release_attempt_1.outcome == 'failure'
+        run: sleep 8
+
+      - name: Create or update release PR / tags (attempt 2)
+        id: release_attempt_2
+        if: steps.release_attempt_1.outcome == 'failure'
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Resolve release output
+        id: release
+        if: always()
+        run: |
+          set -euo pipefail
+
+          if [[ "${{ steps.release_attempt_1.outcome }}" == "success" ]]; then
+            echo "attempt=1" >> "${GITHUB_OUTPUT}"
+            echo "prs_created=${{ steps.release_attempt_1.outputs.prs_created }}" >> "${GITHUB_OUTPUT}"
+            echo "releases_created=${{ steps.release_attempt_1.outputs.releases_created }}" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          if [[ "${{ steps.release_attempt_2.outcome }}" == "success" ]]; then
+            echo "attempt=2" >> "${GITHUB_OUTPUT}"
+            echo "prs_created=${{ steps.release_attempt_2.outputs.prs_created }}" >> "${GITHUB_OUTPUT}"
+            echo "releases_created=${{ steps.release_attempt_2.outputs.releases_created }}" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          echo "::error::Release Please failed on both attempts."
+          exit 1
+
       - name: Summarize release output
         run: |
+          echo "attempt=${{ steps.release.outputs.attempt }}"
           echo "prs_created=${{ steps.release.outputs.prs_created }}"
           echo "releases_created=${{ steps.release.outputs.releases_created }}"
