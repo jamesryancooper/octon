@@ -43,7 +43,7 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │       - commands: [/<skill-id>]                                             │
 │       - parameters: [{name, type, required, description}]                   │
 │       - requires.context: [{type, path, description}]                       │
-│       - depends_on: []                                                      │
+│       - composition: {mode, failure_policy, steps[]}                        │
 │                                                                             │
 │  4. REGISTRY I/O (/.harmony/capabilities/runtime/skills/registry.yml)                             │
 │     □ Add skill I/O under `skills.<skill-id>.io`:                           │
@@ -56,8 +56,8 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │                                                                             │
 │  6. (OPTIONAL) COMPOSITE SKILL PROFILE                                     │
 │     □ If this skill bundles child skills, read composite-skills.md          │
-│     □ Set skill_sets to include integrator (+ coordinator recommended)      │
-│     □ Declare child skills in registry.yml depends_on                        │
+│     □ Set skill_sets to include integrator (+ coordinator when parallel)    │
+│     □ Declare child steps in registry.yml composition                        │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -96,7 +96,7 @@ Recommended profile for Composite Skills:
 - `skill_sets`: `integrator` (required), `coordinator` (recommended)
 - `capabilities`: add only what execution requires (`parallel`, `resumable`,
   `self-validating`, etc.)
-- `registry.yml`: use explicit `depends_on` child-skill declarations.
+- `registry.yml`: use explicit `composition` metadata for child skill/service steps.
 
 **Capability Selection Guide:**
 
@@ -258,9 +258,11 @@ DATA FLOW:
 |--------------------------------------------------|------------------------------------------|
 | `name`, `description`                            | SKILL.md frontmatter                     |
 | `skill_sets`, `capabilities`                     | SKILL.md frontmatter + manifest.yml      |
+| `skill_class`                                    | `.harmony/capabilities/runtime/skills/manifest.yml` |
 | `allowed-tools` (tool permissions)               | SKILL.md frontmatter (**authoritative**) |
+| `allowed-services`                               | SKILL.md frontmatter (**authoritative**) |
 | `summary`, `triggers`, `tags`                    | `.harmony/capabilities/runtime/skills/manifest.yml`           |
-| `version`, `commands`, `parameters`, `depends_on`| `.harmony/capabilities/runtime/skills/registry.yml`           |
+| `version`, `commands`, `parameters`, `composition`| `.harmony/capabilities/runtime/skills/registry.yml`          |
 | Input/output paths                               | `.harmony/capabilities/runtime/skills/registry.yml`         |
 
 **Tool Permissions:** `allowed-tools` in SKILL.md is the single source of truth. The internal format is derived via the mapping function in `validate-skills.sh`. See [specification.md](/.harmony/capabilities/_meta/architecture/specification.md) for details.
@@ -280,8 +282,8 @@ Without tiktoken, word count approximation is used (±20% variance). CI environm
 1. Copy `_scaffold/template/` to `{{group}}/{{skill_id}}/`
 2. Update `SKILL.md` frontmatter (`name` must match directory, set `allowed-tools`)
 3. Replace all `{{placeholder}}` values with actual content
-4. Add entry to `manifest.yml` (id, display_name, path, summary, triggers)
-5. Add entry to `.harmony/capabilities/runtime/skills/registry.yml` under `skills.<id>` (version, commands, parameters)
+4. Add entry to `manifest.yml` (id, display_name, path, skill_class, summary, triggers)
+5. Add entry to `.harmony/capabilities/runtime/skills/registry.yml` under `skills.<id>` (version, commands, parameters, composition when applicable)
 6. Add I/O mapping to `.harmony/capabilities/runtime/skills/registry.yml` under `skills.<id>.io` (inputs, outputs)
 7. Run `./_ops/scripts/validate-skills.sh {{skill_id}}` to verify consistency
 
@@ -308,9 +310,9 @@ Section requirements depend on skill class:
 
 | Class | Required Sections | Example |
 |-------|-------------------|---------|
-| **Invocable** (has `commands` in registry) | When to Use, Quick Start, Core Workflow, Boundaries, When to Escalate, References | `synthesize-research`, `refactor` |
-| **Foundation context** (`user-invocable: false`) | Stack Assumptions, Child Skills, When Not to Suggest | `python-api`, `swift-macos-app` |
-| **Specialist ruleset** (best-practices, patterns) | Categories, Rules/Patterns, Boundaries | `react-best-practices`, `postgres-best-practices` |
+| **Invocable** (`skill_class: invocable`) | When to Use, Quick Start, Core Workflow, Boundaries, When to Escalate, References | `synthesize-research`, `refactor` |
+| **Foundation context** (`skill_class: context`) | Stack Assumptions, Child Skills, When Not to Suggest | `python-api`, `swift-macos-app` |
+| **Specialist ruleset** (`skill_class: ruleset`) | Categories, Rules/Patterns, Boundaries | `react-best-practices`, `postgres-best-practices` |
 
 ## Host Adapter Symlinks
 
@@ -394,7 +396,7 @@ Harmony extends the [agentskills.io specification](https://agentskills.io/specif
 | `commands` | Slash commands that invoke the skill | `[/synthesize-research]` |
 | `parameters` | Input parameters with types and defaults | See schema below |
 | `requires.context` | Context conditions for activation | `[{type: directory_exists, path: ".harmony/"}]` |
-| `depends_on` | Other skills this skill requires | `[]` |
+| `composition` | Skill-local prerequisite/invocation graph | `{mode: sequential, steps: [...]}` |
 
 **Parameter Schema:**
 

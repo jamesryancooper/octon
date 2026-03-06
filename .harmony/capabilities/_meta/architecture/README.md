@@ -136,7 +136,7 @@ See [Creation](./creation.md) for the full workflow.
 | `.harmony/capabilities/runtime/skills/` | Skill definitions and operational state |
 | `.harmony/capabilities/runtime/skills/manifest.yml` | Skill index with capabilities (Tier 1 discovery) |
 | `.harmony/capabilities/runtime/skills/capabilities.yml` | Skill sets, valid capabilities, refs |
-| `.harmony/capabilities/runtime/skills/registry.yml` | Extended metadata, I/O mappings, pipelines (Tier 2) |
+| `.harmony/capabilities/runtime/skills/registry.yml` | Extended metadata, I/O mappings, composition (Tier 2) |
 | `.harmony/capabilities/runtime/skills/<skill-id>/SKILL.md` | Full skill definition (Tier 3) |
 | `.harmony/capabilities/runtime/skills/<skill-id>/references/` | Phase details, safety, validation (Tier 4) |
 | `.harmony/capabilities/runtime/skills/_scaffold/template/` | Scaffolding for new skills |

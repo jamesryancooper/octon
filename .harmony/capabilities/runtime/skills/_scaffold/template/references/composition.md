@@ -1,9 +1,9 @@
 ---
 # Composition Documentation (Composable Pattern)
-# Add this file when your skill is designed as a building block for pipelines.
+# Add this file when your skill is designed as a building block for registry composition.
 #
 # When to use:
-# - Skill is explicitly designed for multi-skill pipelines
+# - Skill is explicitly designed for multi-skill composition
 # - Skill has defined input/output compatibility with other skills
 # - Skill provides integration hooks for customization
 #
@@ -13,7 +13,7 @@ composition:
   role: transformer                  # source | transformer | sink
 
   # Composable Interface Contract
-  # This defines the "shape" of this skill for pipeline composition
+  # This defines the "shape" of this skill for skill-local composition
   interface:
     # What this skill accepts (input contract)
     input:
@@ -90,7 +90,7 @@ composition:
       signature: "(error, context) => Recovery | Rethrow"
       description: "Custom error handling for pipeline recovery"
 
-  # Example pipelines using this skill
+  # Example compositions using this skill
   pipeline_examples:
     - name: "{{Pipeline Name}}"
       skills: ["{{skill-1}}", "{{skill-2}}", "{{skill-3}}"]
@@ -105,7 +105,7 @@ Building block design for the {{skill-name}} skill.
 
 > **When to Add This File:**
 >
-> - Skill is explicitly designed for multi-skill pipelines
+> - Skill is explicitly designed for multi-skill composition
 > - Skill has defined input/output compatibility with other skills
 > - Skill provides integration hooks for customization
 
@@ -119,7 +119,7 @@ Building block design for the {{skill-name}} skill.
 | **transformer** | Transforms data | Middle | Structured from upstream | Structured for downstream |
 | **sink** | Finalizes output | Last | Structured from upstream | Final deliverable |
 
-This skill acts as a **{{role}}** in pipeline compositions.
+This skill acts as a **{{role}}** in skill compositions.
 
 ## Composable Interface Contract
 
@@ -528,7 +528,7 @@ function adapt_gather_sources_v1_to_v2(v1Output) {
 
 ## Skill-to-Skill Invocation
 
-When one skill needs to invoke another skill directly (not just pipeline composition):
+When one skill needs to invoke another skill directly (not just registry composition):
 
 ### Invocation Protocol
 

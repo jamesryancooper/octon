@@ -2,3 +2,12 @@ skills:
   - id: synthesize-research
     path: synthesis/synthesize-research
     status: active
+  - id: caller-allow
+    path: tests/caller-allow
+    status: active
+  - id: caller-deny
+    path: tests/caller-deny
+    status: active
+  - id: caller-unknown
+    path: tests/caller-unknown
+    status: active

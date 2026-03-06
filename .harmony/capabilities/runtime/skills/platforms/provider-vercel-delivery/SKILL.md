@@ -10,7 +10,7 @@ metadata:
   author: Harmony Framework
   created: "2026-03-05"
   updated: "2026-03-05"
-skill_sets: [executor, specialist, guardian]
+skill_sets: [executor, specialist, guardian, integrator]
 capabilities: [external-dependent, external-output]
 allowed-tools: Read Glob Grep Bash(vercel *) Write(_ops/state/logs/*)
 ---

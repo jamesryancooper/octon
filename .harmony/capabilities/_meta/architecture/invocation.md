@@ -203,8 +203,8 @@ Skills are discovered from manifest files (Tier 1):
 
 Extended metadata is loaded from registry files after matching:
 
-- `.harmony/capabilities/runtime/skills/registry.yml` — Commands, requires, depends_on
-- `.harmony/capabilities/runtime/skills/registry.yml` — I/O mappings, pipelines
+- `.harmony/capabilities/runtime/skills/registry.yml` — Commands, requires, composition
+- `.harmony/capabilities/runtime/skills/registry.yml` — I/O mappings and composition bindings
 
 ### Skill Information
 

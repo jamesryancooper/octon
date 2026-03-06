@@ -28,6 +28,7 @@ Extended input/output documentation for the audit-migration skill.
 | Parameter | Type | Required | Default | Description |
 | --------- | ---- | -------- | ------- | ----------- |
 | `manifest` | text | Yes | — | Migration manifest (inline YAML or file path) |
+| `manifest_file` | file | No | — | Optional manifest file name under `_ops/state/configs/audit-migration/` |
 | `scope` | text | No | `.` | Directory to audit |
 | `severity_threshold` | text | No | `all` | Minimum severity to report: `critical`, `high`, `medium`, `low`, `all` |
 | `structure_spec` | file | No | — | Path to documented directory structure for structure diff layer |

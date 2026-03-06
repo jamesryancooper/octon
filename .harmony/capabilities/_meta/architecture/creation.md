@@ -138,7 +138,7 @@ The `create-skill` skill executes these phases:
 | **Initialize** | Update placeholders with skill name, display name, description |
 | **Update Manifest** | Add entry to `manifest.yml` (Tier 1 discovery) |
 | **Update Registry** | Add entry to `registry.yml` (extended metadata) |
-| **Create Symlinks** | Link skill to host adapter directories (`.claude/`, `.cursor/`, `.codex/`) |
+| **Refresh Links** | Run shared link setup for host adapter directories if needed |
 | **Report** | Confirm success and show next steps |
 
 ---
@@ -157,12 +157,9 @@ A new skill directory following the agentskills.io spec:
 │   ├── examples.md
 │   └── validation.md
 ├── scripts/              # Executable code (optional)
-└── assets/               # Static resources (optional)
+└── [additional files as needed]
 
-# Plus symlinks in harness folders:
-.claude/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
-.cursor/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
-.codex/skills/<skill-name> -> ../../.harmony/capabilities/runtime/skills/<group>/<skill-name>
+# Host adapter links are refreshed via setup-harness-links.sh when needed.
 ```
 
 ---
@@ -254,7 +251,10 @@ skills:
         - type: directory_exists
           path: ".harmony/"
           description: "Requires a harness directory"
-    depends_on: []
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps: []
 ```
 
 > **Note:** Tool permissions are defined in SKILL.md frontmatter via `allowed-tools`, not in registry.yml. See [Specification](./specification.md#tool-permissions-single-source-of-truth) for details.
@@ -284,7 +284,7 @@ skills:
 
 **Placeholder Syntax:** Use `{{snake_case}}` for path placeholders (e.g., `{{timestamp}}`, `{{project}}`). See [Placeholder Resolution](./execution.md#placeholder-resolution) for details.
 
-### 6. Create Symlinks
+### 6. Refresh Links
 
 Run the setup script or create symlinks manually:
 

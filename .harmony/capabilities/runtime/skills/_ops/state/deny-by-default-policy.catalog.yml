@@ -1,6 +1,6 @@
 schema_version: "1.0"
-generated_at: "2026-03-05T03:22:57Z"
-source_manifest: "/Users/jamesryancooper/Projects/harmony/.harmony/capabilities/runtime/skills/manifest.yml"
+generated_at: "2026-03-06T17:15:41Z"
+source_manifest: ".harmony/capabilities/runtime/skills/manifest.yml"
 skills:
   - id: "synthesize-research"
     path: "synthesis/synthesize-research/"
@@ -109,6 +109,17 @@ skills:
     allowed_services:
   - id: "audit-domain-architecture"
     path: "audit/audit-domain-architecture/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-charter"
+    path: "audit/audit-charter/"
     status: "active"
     broad_write_scope: false
     allowed_tools:
@@ -597,6 +608,17 @@ skills:
     allowed_services:
   - id: "spec-to-implementation"
     path: "synthesis/spec-to-implementation/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/plans/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "plan-charter-alignment"
+    path: "synthesis/plan-charter-alignment/"
     status: "active"
     broad_write_scope: false
     allowed_tools:

@@ -12,7 +12,27 @@
 #   - Skill set expansion uses skill_set_definitions
 #   - Reference file requirements use capability_refs
 
-schema_version: "2.0"
+schema_version: "3.0"
+
+# ============================================================================
+# SKILL CLASS DEFINITIONS
+# Tier-1 routing classes used for discovery and authoring expectations.
+# ============================================================================
+skill_class_definitions:
+  invocable:
+    description: Slash-command or trigger-invoked skill with explicit task flow
+    requires_commands: true
+    forbids_user_invocable_flag: true
+
+  context:
+    description: Background context skill that informs routing but is not directly invoked
+    requires_commands: false
+    forbids_user_invocable_flag: true
+
+  ruleset:
+    description: Invocable rules or pattern catalog used for structured review/guidance
+    requires_commands: true
+    forbids_user_invocable_flag: true
 
 # ============================================================================
 # SKILL SET DEFINITIONS
@@ -144,6 +164,46 @@ valid_capabilities:
 
   # Output
   - external-output     # Produces non-file outputs (URLs, API responses)
+
+# ============================================================================
+# STANDARD PLACEHOLDERS
+# Runtime-resolved placeholders allowed in registry I/O paths in addition to
+# declared parameter names.
+# ============================================================================
+standard_placeholders:
+  - timestamp
+  - date
+  - project
+  - topic
+  - name
+  - skill_id
+  - category
+  - run_id
+  - refactor_id
+
+# ============================================================================
+# COMPOSITION CONTRACT DEFINITIONS
+# Allowed enums for skill-local composition metadata in registry.yml.
+# ============================================================================
+composition_contract:
+  modes:
+    - prerequisites
+    - sequential
+    - parallel
+  failure_policies:
+    - fail_fast
+    - continue_optional
+  step_kinds:
+    - skill
+    - service
+  step_roles:
+    - prerequisite
+    - invoke
+  when_operators:
+    - always
+    - param_present
+    - param_equals
+    - param_in
 
 # ============================================================================
 # CAPABILITY TO REFERENCE MAPPING

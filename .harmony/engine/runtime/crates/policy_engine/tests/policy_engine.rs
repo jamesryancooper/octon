@@ -21,7 +21,7 @@ fn fixture_path(name: &str) -> PathBuf {
 }
 
 fn repo_root() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../..")
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../../..")
 }
 
 #[test]
@@ -33,6 +33,9 @@ fn preflight_service_allow_matches_golden() {
         artifact_path: fixture_path("service-allow.SERVICE.md"),
         policy_path: fixture_path("policy.yml"),
         exceptions_path: Some(fixture_path("exceptions.yml")),
+        caller_skill_id: None,
+        caller_skill_manifest_path: None,
+        caller_skill_artifact_path: None,
     };
 
     let decision = evaluate_preflight(&request).expect("preflight should succeed");
@@ -59,6 +62,9 @@ fn preflight_service_denies_unscoped_bash_matches_golden() {
         artifact_path: fixture_path("service-unscoped-bash.SERVICE.md"),
         policy_path: fixture_path("policy.yml"),
         exceptions_path: Some(fixture_path("exceptions.yml")),
+        caller_skill_id: None,
+        caller_skill_manifest_path: None,
+        caller_skill_artifact_path: None,
     };
 
     let decision = evaluate_preflight(&request).expect("preflight should succeed");
@@ -82,6 +88,64 @@ fn preflight_service_denies_unscoped_bash_matches_golden() {
 }
 
 #[test]
+fn preflight_service_allows_declared_caller_skill_service_access() {
+    let request = PreflightRequest {
+        kind: ScopeKind::Service,
+        target_id: "agent".to_string(),
+        manifest_path: fixture_path("services-manifest.yml"),
+        artifact_path: fixture_path("service-allow.SERVICE.md"),
+        policy_path: fixture_path("policy.yml"),
+        exceptions_path: Some(fixture_path("exceptions.yml")),
+        caller_skill_id: Some("caller-allow".to_string()),
+        caller_skill_manifest_path: Some(fixture_path("skills-manifest.yml")),
+        caller_skill_artifact_path: Some(fixture_path("skill-caller-allow.SKILL.md")),
+    };
+
+    let decision = evaluate_preflight(&request).expect("preflight should succeed");
+    assert!(decision.allow);
+}
+
+#[test]
+fn preflight_service_denies_undeclared_caller_skill_service_access() {
+    let request = PreflightRequest {
+        kind: ScopeKind::Service,
+        target_id: "agent".to_string(),
+        manifest_path: fixture_path("services-manifest.yml"),
+        artifact_path: fixture_path("service-allow.SERVICE.md"),
+        policy_path: fixture_path("policy.yml"),
+        exceptions_path: Some(fixture_path("exceptions.yml")),
+        caller_skill_id: Some("caller-deny".to_string()),
+        caller_skill_manifest_path: Some(fixture_path("skills-manifest.yml")),
+        caller_skill_artifact_path: Some(fixture_path("skill-caller-deny.SKILL.md")),
+    };
+
+    let decision = evaluate_preflight(&request).expect("preflight should succeed");
+    assert!(!decision.allow);
+    let deny = decision.deny.expect("deny payload");
+    assert_eq!(deny.code, "DDB030_SKILL_SERVICE_NOT_DECLARED");
+}
+
+#[test]
+fn preflight_skill_denies_unknown_allowed_service() {
+    let request = PreflightRequest {
+        kind: ScopeKind::Skill,
+        target_id: "caller-unknown".to_string(),
+        manifest_path: fixture_path("skills-manifest.yml"),
+        artifact_path: fixture_path("skill-caller-unknown.SKILL.md"),
+        policy_path: fixture_path("policy.yml"),
+        exceptions_path: Some(fixture_path("exceptions.yml")),
+        caller_skill_id: None,
+        caller_skill_manifest_path: None,
+        caller_skill_artifact_path: None,
+    };
+
+    let decision = evaluate_preflight(&request).expect("preflight should succeed");
+    assert!(!decision.allow);
+    let deny = decision.deny.expect("deny payload");
+    assert_eq!(deny.code, "DDB027_UNKNOWN_ALLOWED_SERVICE");
+}
+
+#[test]
 fn enforce_denies_command_outside_bash_scope() {
     let request = EnforceRequest {
         preflight: PreflightRequest {
@@ -91,6 +155,9 @@ fn enforce_denies_command_outside_bash_scope() {
             artifact_path: fixture_path("service-allow.SERVICE.md"),
             policy_path: fixture_path("policy.yml"),
             exceptions_path: Some(fixture_path("exceptions.yml")),
+            caller_skill_id: None,
+            caller_skill_manifest_path: None,
+            caller_skill_artifact_path: None,
         },
         requested_command: Some("bash execution/guard/impl/guard.sh".to_string()),
         risk_tier: "low".to_string(),
@@ -498,6 +565,11 @@ fn receipt_validate_enforces_required_fields() {
             "reason_codes":["ACP_ALLOW_POLICY_PASS"],
             "reason_details":[{"code":"ACP_ALLOW_POLICY_PASS","remediation":"No additional remediation required beyond retaining the receipt and evidence bundle."}],
             "remediation":"No additional remediation required beyond retaining the receipt and evidence bundle.",
+            "intent_ref":"intent://test",
+            "boundary_id":"boundary-test",
+            "boundary_set_version":"1.0.0",
+            "workflow_mode":"iterate",
+            "capability_classification":"skill",
             "evidence":[{"type":"diff","ref":"a","sha256":"h"}],
             "attestations":[],
             "rollback_handle":"git:revert:abc",

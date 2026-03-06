@@ -863,6 +863,9 @@ pub struct PreflightRequest {
     pub artifact_path: PathBuf,
     pub policy_path: PathBuf,
     pub exceptions_path: Option<PathBuf>,
+    pub caller_skill_id: Option<String>,
+    pub caller_skill_manifest_path: Option<PathBuf>,
+    pub caller_skill_artifact_path: Option<PathBuf>,
 }
 
 #[derive(Debug, Clone)]
@@ -945,6 +948,7 @@ struct ArtifactContext {
     status: String,
     interface_type: Option<String>,
     allowed_tools: Vec<String>,
+    allowed_services: Vec<String>,
     fail_closed: Option<String>,
     bash_scopes: Vec<String>,
     has_broad_write: bool,
@@ -1013,6 +1017,14 @@ pub fn split_allowed_tools(raw: &str) -> Vec<String> {
     tokens
 }
 
+pub fn split_allowed_services(raw: &str) -> Vec<String> {
+    raw.split_whitespace()
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .map(ToString::to_string)
+        .collect()
+}
+
 pub fn is_known_tool_token(token: &str) -> bool {
     if ALLOWED_ATOM_TOOLS.contains(&token) {
         return true;
@@ -1045,6 +1057,162 @@ pub fn write_scope_from_token(token: &str) -> Option<String> {
     None
 }
 
+fn infer_services_manifest_from_skills_manifest(path: &Path) -> Option<PathBuf> {
+    let sibling_fixture = path.parent()?.join("services-manifest.yml");
+    if sibling_fixture.exists() {
+        return Some(sibling_fixture);
+    }
+
+    let runtime_dir = path.parent()?.parent()?;
+    Some(runtime_dir.join("services").join("manifest.yml"))
+}
+
+fn partial_caller_skill_context(request: &PreflightRequest) -> bool {
+    request.caller_skill_id.is_some()
+        || request.caller_skill_manifest_path.is_some()
+        || request.caller_skill_artifact_path.is_some()
+}
+
+fn validate_declared_skill_services(
+    request: &PreflightRequest,
+    artifact: &ArtifactContext,
+) -> Option<Decision> {
+    if artifact.allowed_services.is_empty() {
+        return None;
+    }
+
+    let Some(services_manifest_path) = infer_services_manifest_from_skills_manifest(&request.manifest_path) else {
+        return Some(deny(
+            "hard-enforce",
+            "DDB026_ALLOWED_SERVICE_MANIFEST_UNRESOLVABLE",
+            "Could not resolve services manifest for skill allowed-services validation",
+            "skill",
+            &request.target_id,
+            None,
+            None,
+            "Run validation from a standard .harmony runtime layout or supply a resolvable skills manifest path",
+            None,
+        ));
+    };
+
+    let Ok(manifest) = load_yaml::<ServicesManifest>(&services_manifest_path) else {
+        return Some(deny(
+            "hard-enforce",
+            "DDB026_ALLOWED_SERVICE_MANIFEST_UNRESOLVABLE",
+            "Could not load services manifest for skill allowed-services validation",
+            "skill",
+            &request.target_id,
+            None,
+            None,
+            "Ensure .harmony/capabilities/runtime/services/manifest.yml exists and is valid",
+            None,
+        ));
+    };
+
+    let service_ids = manifest
+        .services
+        .into_iter()
+        .map(|service| service.id)
+        .collect::<HashSet<_>>();
+
+    for service_id in &artifact.allowed_services {
+        if !service_ids.contains(service_id) {
+            return Some(deny(
+                "hard-enforce",
+                "DDB027_UNKNOWN_ALLOWED_SERVICE",
+                "Skill declares unknown allowed-services id",
+                "skill",
+                &request.target_id,
+                None,
+                Some(service_id.clone()),
+                "Declare only services that exist in runtime/services/manifest.yml",
+                None,
+            ));
+        }
+    }
+
+    None
+}
+
+fn validate_caller_skill_service_access(request: &PreflightRequest) -> Result<Option<Decision>> {
+    if !matches!(request.kind, ScopeKind::Service) {
+        return Ok(None);
+    }
+
+    if !partial_caller_skill_context(request) {
+        return Ok(None);
+    }
+
+    let (Some(caller_skill_id), Some(caller_manifest_path), Some(caller_artifact_path)) = (
+        request.caller_skill_id.clone(),
+        request.caller_skill_manifest_path.clone(),
+        request.caller_skill_artifact_path.clone(),
+    ) else {
+        return Ok(Some(deny(
+            "hard-enforce",
+            "DDB028_CALLER_SKILL_CONTEXT_INCOMPLETE",
+            "Service authorization request included incomplete caller skill context",
+            "service",
+            &request.target_id,
+            None,
+            None,
+            "Supply caller_skill_id, caller_skill_manifest_path, and caller_skill_artifact_path together",
+            None,
+        )));
+    };
+
+    let caller_request = PreflightRequest {
+        kind: ScopeKind::Skill,
+        target_id: caller_skill_id.clone(),
+        manifest_path: caller_manifest_path,
+        artifact_path: caller_artifact_path,
+        policy_path: request.policy_path.clone(),
+        exceptions_path: request.exceptions_path.clone(),
+        caller_skill_id: None,
+        caller_skill_manifest_path: None,
+        caller_skill_artifact_path: None,
+    };
+
+    let caller_artifact = load_artifact_context(&caller_request)?;
+    if caller_artifact.status != "active" {
+        return Ok(Some(deny(
+            "hard-enforce",
+            "DDB029_CALLER_SKILL_INACTIVE",
+            "Inactive caller skill cannot authorize service access",
+            "service",
+            &request.target_id,
+            None,
+            Some(caller_skill_id),
+            "Use an active caller skill or update manifest status",
+            None,
+        )));
+    }
+
+    if let Some(decision) = validate_declared_skill_services(&caller_request, &caller_artifact) {
+        return Ok(Some(decision));
+    }
+
+    if !caller_artifact
+        .allowed_services
+        .iter()
+        .any(|service_id| service_id == &request.target_id)
+    {
+        return Ok(Some(deny(
+            "hard-enforce",
+            "DDB030_SKILL_SERVICE_NOT_DECLARED",
+            "Caller skill did not declare permission to invoke this service",
+            "service",
+            &request.target_id,
+            None,
+            Some(request.target_id.clone()),
+            "Add the service id to caller SKILL.md allowed-services or remove the service invocation",
+            None,
+        )));
+    }
+
+    Ok(None)
+}
+
 pub fn evaluate_preflight(request: &PreflightRequest) -> Result<Decision> {
     let policy = load_policy(&request.policy_path)
         .with_context(|| format!("failed to load policy {}", request.policy_path.display()))?;
@@ -1066,6 +1234,12 @@ pub fn evaluate_preflight(request: &PreflightRequest) -> Result<Decision> {
             evaluate_skill_preflight(&policy, request, &artifact, &exceptions, &today)
         }
     };
+
+    if decision.allow {
+        if let Some(caller_decision) = validate_caller_skill_service_access(request)? {
+            decision = caller_decision;
+        }
+    }
 
     apply_mode(&policy.mode, &mut decision);
     Ok(decision)
@@ -4021,6 +4195,10 @@ fn evaluate_skill_preflight(
         }
     }
 
+    if let Some(decision) = validate_declared_skill_services(request, artifact) {
+        return decision;
+    }
+
     allow("hard-enforce", vec!["skill-preflight-pass".to_string()])
 }
 
@@ -4376,6 +4554,9 @@ fn load_artifact_context(request: &PreflightRequest) -> Result<ArtifactContext> 
 
     let raw_allowed = extract_key_line_value(&contents, "allowed-tools").unwrap_or_default();
     let allowed_tools = split_allowed_tools(&raw_allowed);
+    let raw_allowed_services =
+        extract_key_line_value(&contents, "allowed-services").unwrap_or_default();
+    let allowed_services = split_allowed_services(&raw_allowed_services);
     let bash_scopes = allowed_tools
         .iter()
         .filter_map(|token| bash_scope_from_token(token))
@@ -4406,6 +4587,7 @@ fn load_artifact_context(request: &PreflightRequest) -> Result<ArtifactContext> 
                 status: entry.status,
                 interface_type: entry.interface_type,
                 allowed_tools,
+                allowed_services,
                 fail_closed,
                 bash_scopes,
                 has_broad_write,
@@ -4429,6 +4611,7 @@ fn load_artifact_context(request: &PreflightRequest) -> Result<ArtifactContext> 
                 status: entry.status,
                 interface_type: None,
                 allowed_tools,
+                allowed_services,
                 fail_closed,
                 bash_scopes,
                 has_broad_write,

@@ -480,6 +480,10 @@ write_report() {
   local row_status
   local notes
   local escaped_notes
+  local tmp_report
+  local existing_generated_utc
+  local existing_normalized
+  local candidate_normalized
 
   generated_utc="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
   status="PASS"
@@ -494,6 +498,7 @@ write_report() {
   ops_violations_count="$(count_lines "$ops_violations_tsv")"
 
   mkdir -p "$REPORT_DIR"
+  tmp_report="$(mktemp "${REPORT_FILE}.tmp.XXXXXX")"
 
   {
     echo "# Contract Coverage and Boundary Report"
@@ -546,7 +551,20 @@ write_report() {
         echo "- \`$path\`: $reason"
       done < "$ops_violations_tsv"
     fi
-  } > "$REPORT_FILE"
+  } > "$tmp_report"
+
+  if [[ -f "$REPORT_FILE" ]]; then
+    existing_generated_utc="$(awk '/^- generated_utc:/ {print $3; exit}' "$REPORT_FILE")"
+    existing_normalized="$(sed -E 's/^- generated_utc: .*/- generated_utc: __GENERATED_UTC__/' "$REPORT_FILE")"
+    candidate_normalized="$(sed -E 's/^- generated_utc: .*/- generated_utc: __GENERATED_UTC__/' "$tmp_report")"
+    if [[ -n "$existing_generated_utc" ]] && [[ "$existing_normalized" == "$candidate_normalized" ]]; then
+      generated_utc="$existing_generated_utc"
+      sed -i.bak -E "s/^- generated_utc: .*/- generated_utc: $generated_utc/" "$tmp_report"
+      rm -f "$tmp_report.bak"
+    fi
+  fi
+
+  mv "$tmp_report" "$REPORT_FILE"
 
   pass "wrote contract coverage report: ${REPORT_FILE#$ROOT_DIR/}"
 }

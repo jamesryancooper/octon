@@ -5,6 +5,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "$SKILLS_DIR/../../../.." && pwd)"
 MANIFEST="$SKILLS_DIR/manifest.yml"
 DEFAULT_OUT="$SKILLS_DIR/_ops/state/deny-by-default-policy.catalog.yml"
 OUT_PATH="${1:-$DEFAULT_OUT}"
@@ -92,10 +93,12 @@ normalize_generated_at() {
   sed -E 's/^generated_at: "[^"]*"/generated_at: "__GENERATED_AT__"/'
 }
 
+RELATIVE_MANIFEST="${MANIFEST#$REPO_ROOT/}"
+
 {
   echo "schema_version: \"1.0\""
   echo "generated_at: \"__GENERATED_AT__\""
-  echo "source_manifest: \"$MANIFEST\""
+  echo "source_manifest: \"$RELATIVE_MANIFEST\""
   echo "skills:"
 
   while IFS=$'\t' read -r skill_id skill_path skill_status; do

@@ -1,192 +1,28 @@
 ---
-acceptance_criteria:
-  - "Skill directory created with all required files"
-  - "SKILL.md frontmatter name matches directory"
-  - "Alignment decision recorded (aligned or extension-proposed)"
-  - "manifest.yml contains entry with correct id"
-  - "registry.yml contains entry with correct key"
-  - "Symlinks exist and resolve correctly"
-  - "Run log captures all phases"
-  - "Log indexes updated"
+title: Validation Reference
+description: Acceptance checks for the create-skill skill.
 ---
 
-# Validation Reference
+# Create Skill Validation
 
-Acceptance criteria and validation rules for the create-skill skill.
+## Required Pass Conditions
 
-## Acceptance Criteria
+- New directory exists at `.harmony/capabilities/runtime/skills/<group>/<skill_name>/`.
+- `SKILL.md` `name` matches `skill_name`.
+- `manifest.yml` entry exists and includes `skill_class`.
+- `registry.yml` entry exists and contains no `depends_on`.
+- Any generated placeholders are standard placeholders or declared parameters only.
+- `.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh <skill_name>` passes.
+- Run log exists and skill-level/top-level log indexes are updated.
 
-A skill creation is valid when:
+## Optional/Conditional Checks
 
-- [ ] Directory `.harmony/capabilities/runtime/skills/{{skill_name}}/` exists
-- [ ] `SKILL.md` exists with valid frontmatter
-- [ ] Frontmatter `name` field equals skill name
-- [ ] All 5 reference files exist in `references/`
-- [ ] `scripts/` and `assets/` directories exist
-- [ ] `manifest.yml` contains entry with `id: {{skill_name}}`
-- [ ] `registry.yml` contains entry with key `{{skill_name}}`
-- [ ] `catalog.md` contains row for skill
-- [ ] Symlinks exist in `.claude/`, `.cursor/`, `.codex/`
-- [ ] Symlinks resolve to correct target
-- [ ] Alignment decision recorded in checkpoint (`aligned` or `extension-proposed`)
-- [ ] Run log exists at `_ops/state/logs/create-skill/{{run_id}}.md`
-- [ ] Log indexes updated (both top-level and skill-level)
+- `composition` exists only when the new skill actually bundles prerequisite or invoke steps.
+- `allowed-services` is blank unless the skill composes services.
+- Host adapter links are refreshed with `setup-harness-links.sh <skill_name>` when the environment uses them.
 
-## Name Validation Rules
+## Failure Reporting
 
-### Format (Blocking)
-
-```regex
-^[a-z][a-z0-9]*(-[a-z0-9]+)*$
-```
-
-| Check | Valid | Invalid |
-|-------|-------|---------|
-| Lowercase only | `analyze-data` | `Analyze-Data` |
-| Start with letter | `a1-test` | `1-test` |
-| No leading hyphen | `my-skill` | `-my-skill` |
-| No trailing hyphen | `my-skill` | `my-skill-` |
-| No consecutive hyphens | `my-skill` | `my--skill` |
-| Length 1-64 | `a` through 64 chars | Empty or >64 |
-
-### Naming Convention (Warning)
-
-Skills should start with action verb:
-- `analyze-`, `build-`, `create-`, `deploy-`
-- `extract-`, `generate-`, `process-`, `refine-`
-- `run-`, `validate-`, `transform-`, `convert-`
-
-If not verb-noun, issue warning but continue.
-
-## Post-Creation Verification
-
-After Phase 5, verify:
-
-### Directory Structure
-
-```bash
-# All must exist
-ls -la .harmony/capabilities/runtime/skills/{{skill_name}}/
-ls -la .harmony/capabilities/runtime/skills/{{skill_name}}/references/
-```
-
-Expected:
-- `SKILL.md`
-- `references/behaviors.md`
-- `references/io-contract.md`
-- `references/safety.md`
-- `references/examples.md`
-- `references/validation.md`
-- `scripts/` (directory)
-- `assets/` (directory)
-
-### File Contents
-
-```bash
-# Check frontmatter name
-grep "^name: {{skill_name}}" .harmony/capabilities/runtime/skills/{{skill_name}}/SKILL.md
-```
-
-### Registry Entries
-
-```bash
-# Check manifest
-grep "id: {{skill_name}}" .harmony/capabilities/runtime/skills/manifest.yml
-
-# Check registry
-grep "^  {{skill_name}}:" .harmony/capabilities/runtime/skills/registry.yml
-```
-
-### Symlinks
-
-```bash
-# Check symlinks resolve
-readlink .claude/skills/{{skill_name}}
-readlink .cursor/skills/{{skill_name}}
-readlink .codex/skills/{{skill_name}}
-```
-
-Expected: `../../.harmony/capabilities/runtime/skills/{{skill_name}}`
-
-### Log Files
-
-```bash
-# Check run log exists
-ls .harmony/capabilities/runtime/skills/_ops/state/logs/create-skill/{{run_id}}.md
-
-# Check indexes updated
-grep "{{skill_name}}" .harmony/capabilities/runtime/skills/_ops/state/logs/create-skill/index.yml
-```
-
-## Validation Script
-
-The created skill should pass the validation script:
-
-```bash
-.harmony/capabilities/runtime/skills/scripts/validate-skills.sh {{skill_name}}
-```
-
-Expected output: All checks pass (note: some checks require TODOs to be completed).
-
-## Failure Conditions
-
-| Condition | Phase | Result |
-|-----------|-------|--------|
-| Name format invalid | 1 | STOP with error message |
-| Skill already exists | 1 | STOP, ask for confirmation |
-| Template not found | 2 | STOP with error message |
-| Cannot create directory | 2 | STOP with error message |
-| Cannot write file | 2-5 | STOP at relevant phase |
-| Registry malformed | 4 | STOP with error message |
-| Contract mismatch without extension proposal | 1 | STOP, require alignment decision |
-| Catalog not found | 5 | WARN, continue without catalog update |
-
-## Quality Checklist
-
-Before declaring completion:
-
-### Completeness
-- [ ] All 6 phases executed
-- [ ] All files created
-- [ ] All symlinks created
-- [ ] Registry entries added
-- [ ] Catalog entry added
-- [ ] Run log written
-- [ ] Indexes updated
-
-### Correctness
-- [ ] Name validation passed
-- [ ] Placeholders replaced
-- [ ] Frontmatter valid YAML
-- [ ] Symlinks resolve correctly
-- [ ] Registry entries have correct format
-- [ ] Alignment decision captured and auditable
-
-### Documentation
-- [ ] Checkpoint reflects final state (status: completed)
-- [ ] Run log captures all phases with timestamps
-- [ ] Next steps clearly communicated to user
-
-## Verification Gate
-
-The skill includes a verification gate at Phase 5:
-
-1. Check all required files exist
-2. Verify SKILL.md frontmatter is valid
-3. Verify manifest entry exists
-4. Verify registry entry exists
-5. Verify symlinks resolve
-
-If any check fails:
-- Report specific failure
-- Do not proceed to Phase 6
-- Offer to retry failed operations
-
-## Idempotency Verification
-
-On resume, verify:
-
-1. Checkpoint file exists and is valid YAML
-2. Current phase is recorded correctly
-3. Completed phases have timestamps
-4. No duplicate entries created in registries
+- Report the exact contract field that failed.
+- Do not report success when validation is red.
+- If the only failure is link refresh, mark the skill artifacts valid but the setup incomplete.

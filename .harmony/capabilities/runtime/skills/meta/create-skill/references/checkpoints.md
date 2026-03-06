@@ -27,7 +27,7 @@ recovery:
 
 # Checkpoint Reference
 
-Checkpointing keeps creation safe across interruptions and avoids partial catalog updates.
+Checkpointing keeps creation safe across interruptions and avoids partial registry updates.
 
 Resume contract:
 
