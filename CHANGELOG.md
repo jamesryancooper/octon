@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.4](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.3...harmony-v0.4.4) (2026-03-06)
+
+
+### Bug Fixes
+
+* **ci:** harden release and post-merge pr checks ([#101](https://github.com/jamesryancooper/harmony/issues/101)) ([58e1d96](https://github.com/jamesryancooper/harmony/commit/58e1d967c0f2662bb698f34b11e2b6048b0bb7fc))
+
 ## [0.4.3](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.2...harmony-v0.4.3) (2026-03-06)
 
 
