@@ -22,6 +22,7 @@ jobs:
   changes:
     name: classify-changes
     runs-on: ubuntu-latest
+    if: github.event.pull_request.state == 'open'
     outputs:
       risk: ${{ steps.filter.outputs.risk }}
       provider_trigger: ${{ steps.provider_trigger.outputs.provider_trigger }}
@@ -64,7 +65,7 @@ jobs:
   provider-findings:
     needs:
       - changes
-    if: needs.changes.outputs.provider_trigger == 'true'
+    if: github.event.pull_request.state == 'open' && needs.changes.outputs.provider_trigger == 'true'
     name: provider-${{ matrix.provider }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
@@ -146,10 +147,10 @@ jobs:
     name: AI Review Gate / decision
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    if: github.event.pull_request.state == 'open' && always()
     needs:
       - changes
       - provider-findings
-    if: always()
     env:
       AI_GATE_ENFORCE: ${{ vars.AI_GATE_ENFORCE || 'false' }}
       PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}

@@ -23,6 +23,7 @@ jobs:
     name: enforce-ci-efficiency-policy
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    if: github.event_name != 'pull_request' || github.event.pull_request.state == 'open'
     steps:
       - name: Checkout PR merge commit
         uses: actions/checkout@v4
