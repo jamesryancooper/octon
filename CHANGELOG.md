@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.6](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.5...harmony-v0.4.6) (2026-03-06)
+
+
+### Features
+
+* **scaffolding:** self-contain bootstrap ingress surfaces ([#105](https://github.com/jamesryancooper/harmony/issues/105)) ([dcc1fcf](https://github.com/jamesryancooper/harmony/commit/dcc1fcf3213d80dc35f4016faddc1e6ceac0f5c5))
+
 ## [0.4.5](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.4...harmony-v0.4.5) (2026-03-06)
 
 
