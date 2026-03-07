@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.7](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.6...harmony-v0.4.7) (2026-03-07)
+
+
+### Features
+
+* **workflows:** add workflow system audit ([#107](https://github.com/jamesryancooper/harmony/issues/107)) ([847ff19](https://github.com/jamesryancooper/harmony/commit/847ff19e49f1f4054aa11d4af68abac3f52c9c39))
+
+
+### Bug Fixes
+
+* **workflows:** fall back when rg is unavailable ([#110](https://github.com/jamesryancooper/harmony/issues/110)) ([5f6cdab](https://github.com/jamesryancooper/harmony/commit/5f6cdabdc66a4b58b1b016605ceb068edcd81b66))
+
 ## [0.4.6](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.5...harmony-v0.4.6) (2026-03-06)
 
 
