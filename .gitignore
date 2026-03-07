@@ -16,6 +16,7 @@ tmp/
 temp/
 *.pid
 *.pid.lock
+.harmony/output/.tmp/
 .harmony/output/reports/.tmp/
 .harmony/capabilities/_ops/state/.tmp/
 
@@ -27,7 +28,7 @@ logs/
 runs/
 
 
-# Additional local outputs
+# Additional local outputs and proposal workspaces
 out/
 .proposals/
 
