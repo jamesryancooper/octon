@@ -52,6 +52,11 @@ declare -A SCENARIO_RESULTS=()
 
 FINDINGS=()
 SCANNED_PATHS=()
+HAS_RG=0
+
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=1
+fi
 
 usage() {
   cat <<'USAGE'
@@ -137,10 +142,74 @@ frontmatter_query() {
   rm -f "$tmp_file"
 }
 
+matches_file_regex() {
+  local pattern="$1"
+  local file="$2"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
+}
+
+matches_paths_regex() {
+  local pattern="$1"
+  shift
+  local path
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -q -- "$pattern" "$@"
+  else
+    for path in "$@"; do
+      if [[ -d "$path" ]]; then
+        grep -RqsE -- "$pattern" "$path" && return 0
+      elif [[ -f "$path" ]]; then
+        grep -Eq -- "$pattern" "$path" && return 0
+      fi
+    done
+    return 1
+  fi
+}
+
+matches_paths_fixed() {
+  local token="$1"
+  shift
+  local path
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -Fq -- "$token" "$@"
+  else
+    for path in "$@"; do
+      if [[ -d "$path" ]]; then
+        grep -RqsF -- "$token" "$path" && return 0
+      elif [[ -f "$path" ]]; then
+        grep -Fq -- "$token" "$path" && return 0
+      fi
+    done
+    return 1
+  fi
+}
+
+matches_stdin_regex() {
+  local pattern="$1"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -q -- "$pattern"
+  else
+    grep -Eq -- "$pattern"
+  fi
+}
+
+extract_markdown_link_targets() {
+  local file="$1"
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    rg -No '\[[^]]+\]\(([^)]+)\)' -r '$1' "$file" || true
+  else
+    grep -Eo '\[[^]]+\]\(([^)]+)\)' "$file" | sed -E 's/.*\(([^)]+)\)$/\1/' || true
+  fi
+}
+
 has_section() {
   local file="$1"
   local title="$2"
-  rg -q "^##[[:space:]]+${title}([[:space:]]|\$)" "$file"
+  matches_file_regex "^##[[:space:]]+${title}([[:space:]]|\$)" "$file"
 }
 
 has_any_section() {
@@ -170,7 +239,7 @@ link_score() {
     if [[ -e "$(cd "$(dirname "$file")" && cd "$target" 2>/dev/null && pwd)" ]] || [[ -e "$(dirname "$file")/$target" ]]; then
       valid=$((valid + 1))
     fi
-  done < <(rg -No '\[[^]]+\]\(([^)]+)\)' -r '$1' "$file" || true)
+  done < <(extract_markdown_link_targets "$file")
 
   if [[ "$total" -eq 0 ]]; then
     printf '1.0|0\n'
@@ -364,7 +433,7 @@ workflow_primary_doc() {
 
 workflow_has_external_markers() {
   local artifact="$1"
-  rg -q '\b(pnpm|npm|npx|uv|pip install|swift build|swift test|docker|alembic)\b' "$artifact"/*
+  matches_paths_regex '\b(pnpm|npm|npx|uv|pip install|swift build|swift test|docker|alembic)\b' "$artifact"
 }
 
 score_workflow() {
@@ -443,7 +512,7 @@ score_workflow() {
 
   while IFS= read -r parameter_name; do
     [[ -z "$parameter_name" ]] && continue
-    if ! rg -Fq "$parameter_name" "$workflow_file" "$primary_doc" "$artifact" 2>/dev/null; then
+    if ! matches_paths_fixed "$parameter_name" "$workflow_file" "$primary_doc" "$artifact" 2>/dev/null; then
       parameter_mentions=0
       add_finding "parameter-io-contract" "medium" "$artifact_rel" "registry parameter '$parameter_name' is undocumented in workflow content" "Document registry parameters in workflow usage or step guidance." "new-audit-only"
     fi
@@ -653,7 +722,7 @@ system_level_checks() {
   if [[ -s "$edge_file" ]]; then
     local tsort_output=""
     tsort_output="$(tsort "$edge_file" 2>&1 >/dev/null || true)"
-    if printf '%s' "$tsort_output" | rg -q 'cycle in data'; then
+    if printf '%s' "$tsort_output" | matches_stdin_regex 'cycle in data'; then
       add_finding "portfolio-coverage" "high" "$(rel_path "$REGISTRY")" "workflow dependency cycle detected" "Remove workflow dependency cycles from registry depends_on declarations." "new-audit-only"
     fi
   fi
