@@ -1,7 +1,9 @@
 ---
+name: add-api-endpoint
 title: "Task: Add an API Endpoint"
 description: Step-by-step guide to adding a new API endpoint with AI assistance.
 access: human
+version: "1.0.0"
 ---
 
 # Task: Add an API Endpoint

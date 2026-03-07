@@ -903,6 +903,72 @@ workflows:
           determinism: unique
           description: "Authoritative bounded-audit bundle for documentation recommendation and done-gate evidence"
 
+  audit-workflow-system-workflow:
+    version: "1.0.0"
+    commands: ["/audit-workflow-system-workflow"]
+    parameters:
+      - name: scope
+        type: folder
+        required: false
+        default: ".harmony/orchestration/runtime/workflows/"
+        description: "Root workflow directory to audit."
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "high"
+        description: "Minimum severity that blocks the done gate: critical, high, medium, low, all."
+      - name: include_docs
+        type: boolean
+        required: false
+        default: true
+        description: "Include companion workflow docs and rubric context in scope."
+      - name: include_governance
+        type: boolean
+        required: false
+        default: true
+        description: "Include workflow governance and validation surfaces in scope."
+      - name: run_live
+        type: boolean
+        required: false
+        default: true
+        description: "Run representative rehearsal scenarios in addition to static analysis."
+      - name: scenario_pack
+        type: text
+        required: false
+        default: "representative"
+        description: "Representative scenario pack to run when run_live is enabled."
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict convergence verification after remediation."
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability."
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for multi-run consistency checks."
+    access: human
+    depends_on: []
+    io:
+      inputs: []
+      outputs:
+        - name: workflow_system_audit_report
+          path: "../../output/reports/{{date}}-audit-workflow-system-workflow.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Narrative report summarizing workflow-system findings and recommendations."
+        - name: workflow_system_audit_bundle
+          path: "../../output/reports/audits/{{date}}-{{slug}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle for workflow-system findings, scores, scenarios, and done-gate evidence."
+
   # --- Skeleton entries (existing workflows, not yet fully migrated) ---
 
   create-harness:
@@ -960,7 +1026,7 @@ workflows:
     depends_on: []
 
   evaluate-workflow:
-    version: "1.0.0"
+    version: "1.1.0"
     commands: ["/evaluate-workflow"]
     access: human
     depends_on: []

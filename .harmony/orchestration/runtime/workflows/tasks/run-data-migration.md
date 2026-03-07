@@ -1,7 +1,9 @@
 ---
+name: run-data-migration
 title: "Task: Run a Data Migration"
 description: Step-by-step guide to running database migrations safely with AI assistance.
 access: human
+version: "1.0.0"
 ---
 
 # Task: Run a Data Migration

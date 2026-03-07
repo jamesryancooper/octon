@@ -1,6 +1,6 @@
 ---
 title: Assess Structure
-description: Check file organization and naming conventions.
+description: Check entrypoint, step parity, and format-specific structure conventions.
 ---
 
 # Step 2: Assess Structure
@@ -11,46 +11,36 @@ description: Check file organization and naming conventions.
 
 ## Purpose
 
-Evaluate the workflow's file structure against conventions.
+Evaluate workflow structure against the current directory and single-file contracts.
 
 ## Actions
 
-1. **Check overview exists (5 points):**
+1. **Check valid entrypoint exists:**
    ```text
-   Does 00-overview.md exist?
-   - Yes: +5 points
-   - No: 0 points, CRITICAL issue
+   Directory workflow: WORKFLOW.md exists
+   Single-file workflow: target file exists and parses
    ```
 
-2. **Check step file numbering (5 points):**
+2. **Check declared step/file parity:**
    ```text
-   Do all step files follow NN-name.md pattern?
-   - All match: +5 points
-   - Some match: +2 points
-   - None match: 0 points
+   Directory workflow: every declared step file exists
+   Single-file workflow: N/A, inline flow is valid
    ```
 
-3. **Check final step is verification (5 points):**
+3. **Check verification is structurally reachable:**
    ```text
-   Does the last numbered step contain "verify" or "validate"?
-   - Yes: +5 points
-   - No: 0 points, MAJOR issue
+   Directory: final step or workflow content reaches verification
+   Single-file: Required Outcome or equivalent verification section exists
    ```
 
-4. **Check file naming consistency (5 points):**
+4. **Check naming consistency:**
    ```text
-   Are all files kebab-case?
-   - All kebab-case: +5 points
-   - Mixed: +2 points
-   - Other: 0 points
+   Filenames and declared step references follow repo conventions
    ```
 
-5. **Check for documentation (5 points):**
+5. **Check purpose/usage documentation exists:**
    ```text
-   Is purpose documented in overview or README?
-   - Clear purpose: +5 points
-   - Partial: +2 points
-   - Missing: 0 points
+   The workflow explains what it does and when to use it
    ```
 
 ## Idempotency
@@ -68,35 +58,24 @@ Evaluate the workflow's file structure against conventions.
 
 ```json
 {
-  "category": "structure",
-  "max_points": 25,
-  "earned_points": 22,
+  "category": "contract_integrity",
+  "max_points": 20,
+  "earned_points": 18,
   "checks": [
-    {"name": "overview_exists", "points": 5, "max": 5, "status": "PASS"},
-    {"name": "step_numbering", "points": 5, "max": 5, "status": "PASS"},
-    {"name": "final_is_verify", "points": 5, "max": 5, "status": "PASS"},
-    {"name": "naming_consistency", "points": 5, "max": 5, "status": "PASS"},
-    {"name": "documentation", "points": 2, "max": 5, "status": "PARTIAL", "note": "Missing README"}
+    {"name": "entrypoint", "status": "PASS"},
+    {"name": "declared_step_parity", "status": "PASS"},
+    {"name": "verification_reachable", "status": "PARTIAL"},
+    {"name": "naming_consistency", "status": "PASS"}
   ],
   "issues": [
-    {"severity": "minor", "message": "Consider adding README.md to workflow directory"}
+    {"severity": "medium", "message": "Single-file workflow lacks explicit Required Outcome"}
   ]
 }
 ```
 
-## Scoring Criteria
-
-| Check | Full Points | Partial | None |
-|-------|-------------|---------|------|
-| Overview exists | 5 | - | 0 |
-| Step numbering | 5 | 2 | 0 |
-| Final is verify | 5 | - | 0 |
-| Naming consistency | 5 | 2 | 0 |
-| Documentation | 5 | 2 | 0 |
-
 ## Output
 
-- Structure score (0-25 points)
+- Structure/contract score
 - List of structural issues
 - Recommendations for improvement
 

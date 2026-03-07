@@ -8,6 +8,7 @@ ROOT_DIR="$(cd -- "$ORCHESTRATION_DIR/../.." && pwd)"
 
 MANIFEST="$WORKFLOWS_DIR/manifest.yml"
 REGISTRY="$WORKFLOWS_DIR/registry.yml"
+WORKFLOW_SYSTEM_AUDIT="$SCRIPT_DIR/audit-workflow-system.sh"
 
 errors=0
 warnings=0
@@ -344,7 +345,7 @@ check_bounded_audit_parameter_forwarding() {
 
 check_bounded_audit_contracts() {
   local audit_workflows
-  audit_workflows=(audit-orchestration-workflow audit-pre-release-workflow audit-change-risk-workflow audit-continuous-workflow audit-post-incident-workflow audit-release-readiness-workflow audit-documentation-workflow)
+  audit_workflows=(audit-orchestration-workflow audit-pre-release-workflow audit-change-risk-workflow audit-continuous-workflow audit-post-incident-workflow audit-release-readiness-workflow audit-documentation-workflow audit-workflow-system-workflow)
 
   local workflow_id rel_path workflow_dir workflow_file block
   for workflow_id in "${audit_workflows[@]}"; do
@@ -438,6 +439,19 @@ check_bounded_audit_contracts() {
   check_bounded_audit_parameter_forwarding
 }
 
+check_workflow_system_audit_static() {
+  if [[ ! -f "$WORKFLOW_SYSTEM_AUDIT" ]]; then
+    fail "missing workflow-system audit engine: ${WORKFLOW_SYSTEM_AUDIT#$ROOT_DIR/}"
+    return
+  fi
+
+  if bash "$WORKFLOW_SYSTEM_AUDIT" --mode ci-static --scope ".harmony/orchestration/runtime/workflows/"; then
+    pass "workflow-system audit static gate passed"
+  else
+    fail "workflow-system audit static gate failed"
+  fi
+}
+
 main() {
   echo "== Workflow Validation =="
 
@@ -449,6 +463,7 @@ main() {
   check_dependency_profiles_against_steps
   check_dependency_profiles_against_registry_io
   check_bounded_audit_contracts
+  check_workflow_system_audit_static
   check_deprecated_paths
 
   echo

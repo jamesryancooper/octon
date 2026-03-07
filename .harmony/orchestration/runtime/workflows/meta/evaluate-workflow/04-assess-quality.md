@@ -1,6 +1,6 @@
 ---
 title: Assess Quality
-description: Evaluate content quality and completeness.
+description: Evaluate execution safety, maintainability, and documentation quality.
 ---
 
 # Step 4: Assess Quality
@@ -13,66 +13,26 @@ description: Evaluate content quality and completeness.
 
 ## Purpose
 
-Evaluate the quality and completeness of workflow content.
+Render the remaining shared score categories and quality issues from the parsed workflow model.
 
 ## Actions
 
-### 4.1 Check Frontmatter Compliance (20 points)
+### 4.1 Check Execution Safety and Verification
 
 ```text
-Overview frontmatter fields:
-- title present and non-empty: 4 points
-- description present (max 160 chars): 4 points
-- access is 'human' or 'agent': 4 points
-- version in semantic format: 4 points
-- gap fix fields present: 4 points
+Check verification gate, target/output description, and execution-profile honesty
 ```
 
-### 4.2 Check Content Quality (25 points)
+### 4.2 Check Maintainability
 
 ```text
-Prerequisites defined (5 points):
-- At least one prerequisite: 5 points
-- None: 0 points
-
-Failure conditions defined (5 points):
-- At least one STOP condition: 5 points
-- None: 0 points
-
-Steps are actionable (5 points):
-- All steps have concrete Actions: 5 points
-- Most steps: 3 points
-- Few steps: 1 point
-
-Verification criteria clear (5 points):
-- Checklist items are testable: 5 points
-- Vague criteria: 2 points
-- No criteria: 0 points
-
-Error messages helpful (5 points):
-- Specific, actionable messages: 5 points
-- Generic messages: 2 points
-- No error handling: 0 points
+Check naming consistency, focused structure, and step/file coherence
 ```
 
-### 4.3 Check Maintainability (10 points)
+### 4.3 Check Documentation and References
 
 ```text
-Steps are focused (3 points):
-- Each step does one thing: 3 points
-- Steps do multiple things: 1 point
-
-References are valid (3 points):
-- All links resolve: 3 points
-- Some broken: 1 point
-
-No dead code/steps (2 points):
-- All steps reachable: 2 points
-- Orphaned steps: 0 points
-
-Consistent formatting (2 points):
-- Consistent headings/lists: 2 points
-- Inconsistent: 0 points
+Check local links, usage/target guidance, and description quality
 ```
 
 ### 4.4 Scan for Issues
@@ -103,37 +63,36 @@ Check for:
 {
   "category": "quality",
   "subcategories": {
-    "frontmatter": {
+    "execution_safety_verification": {
       "max_points": 20,
-      "earned_points": 18,
-      "checks": [...]
-    },
-    "content": {
-      "max_points": 25,
-      "earned_points": 20,
+      "earned_points": 16,
       "checks": [...]
     },
     "maintainability": {
       "max_points": 10,
       "earned_points": 8,
       "checks": [...]
+    },
+    "documentation_references": {
+      "max_points": 15,
+      "earned_points": 12,
+      "checks": [...]
     }
   },
-  "total_points": 46,
-  "max_points": 55,
+  "total_points": 36,
+  "max_points": 45,
   "issues": [
-    {"severity": "minor", "message": "Step 03 has vague error messages"},
-    {"severity": "warning", "message": "Description exceeds 160 characters"}
+    {"severity": "medium", "message": "Verification gate is implied rather than explicit"},
+    {"severity": "low", "message": "One local reference does not resolve"}
   ]
 }
 ```
 
 ## Output
 
-- Frontmatter score (0-20 points)
-- Content score (0-25 points)
-- Maintainability score (0-10 points)
-- Combined quality score
+- Execution safety score
+- Maintainability score
+- Documentation/reference score
 - List of quality issues
 - Recommendations
 

@@ -1,12 +1,26 @@
 ---
+name: promote-from-scratchpad
 title: Promote from Scratch
 description: Publish distilled insights from ideation/scratchpad/ to agent-facing artifacts.
 access: human
+version: "1.0.0"
 ---
 
 # Promote from Scratch
 
 When thinking in `ideation/scratchpad/` matures into actionable knowledge, use this workflow to promote insights to agent-facing locations.
+
+## Context
+
+This is a human-initiated bridge between raw ideation notes and durable
+agent-facing artifacts. Use it only when scratchpad content has become stable
+enough to act on.
+
+## Failure Conditions
+
+- Scratchpad source is still speculative or unresolved -> STOP, continue ideation before promotion
+- No suitable destination artifact can be identified -> STOP, clarify the target surface before promoting
+- Promotion would cross a human-led boundary without explicit direction -> STOP, wait for human instruction
 
 ---
 
@@ -165,3 +179,9 @@ An agent may help:
 
 - [`.harmony/ideation/scratchpad/README.md`](../../../../ideation/scratchpad/README.md) — Human-led zone (includes inbox, archive, projects)
 - [`.harmony/START.md`](../../../../START.md) — Visibility rules and routing
+
+## Required Outcome
+
+- [ ] Mature scratchpad content is distilled rather than copied verbatim
+- [ ] Destination artifact is identified and updated
+- [ ] Promotion result is understandable to a future agent or operator

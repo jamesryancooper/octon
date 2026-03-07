@@ -1,7 +1,9 @@
 ---
+name: create-project
 title: Create Project
 description: Scaffold a new project in projects/.
 access: human
+version: "1.0.0"
 ---
 
 # Create Project
@@ -23,6 +25,12 @@ Scaffold a new project with isolated scope, memory, and continuity.
 
 - Project slug must be lowercase with hyphens (e.g., `auth-patterns`)
 - No existing project with the same slug in `projects/`
+
+## Failure Conditions
+
+- Project slug is invalid -> STOP, report the required slug format
+- Project already exists -> STOP, use the existing project or choose a new slug
+- Project scaffold template is missing -> STOP, restore the project template before continuing
 
 ## Steps
 
@@ -70,6 +78,13 @@ projects/<slug>/
 ├── log.md         # Creation entry logged
 └── resources.md   # Harness resource references
 ```
+
+## Required Outcome
+
+- [ ] `projects/<slug>/` exists
+- [ ] `project.md` and `log.md` are initialized for the new project
+- [ ] Project registry entry is created or updated
+- [ ] The next step after creation is clear to the operator
 
 ## The Funnel
 

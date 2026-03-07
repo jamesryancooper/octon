@@ -226,6 +226,19 @@ workflows:
       - "audit docs for release"
       - "enforce documentation standards"
 
+  - id: audit-workflow-system-workflow
+    display_name: Workflow System Audit
+    group: audit
+    domain: workflows
+    path: audit/audit-workflow-system-workflow/
+    summary: Audit the Harmony workflow system for contract drift, portfolio gaps, sampled rehearsals, and validator blind spots.
+    status: active
+    triggers:
+      - "workflow system audit"
+      - "audit workflows system"
+      - "audit workflow portfolio"
+      - "evaluate workflows system"
+
   # --- foundations: Stack-specific project scaffolding ---
 
   - id: python-api-foundation
@@ -411,7 +424,7 @@ workflow_group_definitions:
   audit:
     description: Audit orchestration and release gates
     path: audit/
-    members: [audit-documentation-workflow, audit-orchestration-workflow, audit-pre-release-workflow, audit-change-risk-workflow, audit-continuous-workflow, audit-post-incident-workflow, audit-release-readiness-workflow]
+    members: [audit-documentation-workflow, audit-workflow-system-workflow, audit-orchestration-workflow, audit-pre-release-workflow, audit-change-risk-workflow, audit-continuous-workflow, audit-post-incident-workflow, audit-release-readiness-workflow]
 
   refactor:
     description: Verified structural refactor orchestration

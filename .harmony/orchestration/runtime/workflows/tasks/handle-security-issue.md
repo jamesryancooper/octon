@@ -1,7 +1,9 @@
 ---
+name: handle-security-issue
 title: "Task: Handle a Security Issue"
 description: Step-by-step guide to addressing security vulnerabilities and concerns.
 access: human
+version: "1.0.0"
 ---
 
 # Task: Handle a Security Issue

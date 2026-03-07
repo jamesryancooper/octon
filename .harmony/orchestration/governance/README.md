@@ -9,6 +9,8 @@
   `agent-augmented`, `human-only`).
 - `capability-map-v1.schema.json` - Validation schema for capability map
   updates.
+- `workflow-system-audit-v1.yml` - Machine-readable contract for the workflow-system bounded audit.
+- `workflow-system-audit-v1.schema.json` - Validation schema for workflow-system audit contract updates.
 
 ## Boundary
 

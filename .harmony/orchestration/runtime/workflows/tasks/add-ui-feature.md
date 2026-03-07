@@ -1,7 +1,9 @@
 ---
+name: add-ui-feature
 title: "Task: Add a UI Feature"
 description: Step-by-step guide to adding a new UI feature with AI assistance.
 access: human
+version: "1.0.0"
 ---
 
 # Task: Add a UI Feature

@@ -1,6 +1,6 @@
 ---
 title: Assess Gap Coverage
-description: Check workflow for gap remediation features.
+description: Check workflow for explicit gap controls and operational safety guidance.
 ---
 
 # Step 3: Assess Gap Coverage
@@ -11,67 +11,43 @@ description: Check workflow for gap remediation features.
 
 ## Purpose
 
-Evaluate the workflow's implementation of gap remediation features.
+Evaluate the workflow's implementation of explicit gap controls.
 
 ## Actions
 
-### 3.1 Check Idempotency (4 points)
+### 3.1 Check Idempotency
 
 ```text
-For each step file:
-  Does it have ## Idempotency section?
-  Does section include Check, If Already Complete, Marker?
-
-Scoring:
-- All steps have complete idempotency: 4 points
-- Most steps (>75%): 3 points
-- Some steps (>50%): 2 points
-- Few steps (<50%): 1 point
-- None: 0 points
+Directory workflow:
+  Prefer per-step Idempotency guidance
+Single-file workflow:
+  Require rerun/resume guidance in the main flow if interruption matters
 ```
 
-### 3.2 Check Dependencies (4 points)
+### 3.2 Check Dependencies
 
 ```text
-Does overview frontmatter have depends_on field?
-- Present and valid array: 4 points
-- Present but empty when deps likely needed: 2 points
-- Missing: 0 points
-- N/A (workflow has no logical dependencies): 4 points
+Check depends_on for directory workflows and explicit upstream assumptions for single-file workflows
 ```
 
-### 3.3 Check Checkpoints (4 points)
+### 3.3 Check Checkpoints and Resumption
 
 ```text
-Does overview frontmatter have checkpoints field?
-- Present with enabled:true and storage path: 4 points
-- Present but incomplete: 2 points
-- Missing: 0 points
+Checkpoints config for directory workflows
+Resume guidance for single-file workflows where interruption matters
 ```
 
-### 3.4 Check Versioning (4 points)
+### 3.4 Check Versioning
 
 ```text
-Does overview have version field?
-- Present in semantic format: 2 points
-- Invalid format: 0 points
-
-Does overview have Version History section?
-- Present with at least one entry: 2 points
-- Missing: 0 points
+Check version metadata and Version History where the workflow is actively maintained
 ```
 
-### 3.5 Check Parallel Steps (4 points)
+### 3.5 Check Branching and Parallelism
 
 ```text
-Does overview frontmatter have parallel_steps field?
-- Present (even if empty): 2 points
-- Missing: 0 points
-
-If parallel opportunities exist, are they documented?
-- Yes: 2 points
-- No opportunities: 2 points (N/A)
-- Opportunities missed: 0 points
+Directory workflows should declare parallel_steps or explicit N/A
+Single-file workflows should state when the flow is strictly sequential
 ```
 
 ## Idempotency
@@ -90,65 +66,45 @@ If parallel opportunities exist, are they documented?
 ```json
 {
   "category": "gap_coverage",
-  "max_points": 20,
-  "earned_points": 14,
+  "max_points": 25,
+  "earned_points": 18,
   "checks": [
     {
       "name": "idempotency",
-      "points": 4,
-      "max": 4,
       "status": "PASS",
-      "detail": "8/8 steps have idempotency"
+      "detail": "Flow includes rerun guidance"
     },
     {
       "name": "dependencies",
-      "points": 4,
-      "max": 4,
       "status": "PASS",
-      "detail": "depends_on field present"
+      "detail": "Explicit dependency assumptions present"
     },
     {
-      "name": "checkpoints",
-      "points": 2,
-      "max": 4,
+      "name": "checkpoints_resumption",
       "status": "PARTIAL",
-      "detail": "Missing storage path"
+      "detail": "No explicit resume guidance"
     },
     {
       "name": "versioning",
-      "points": 2,
-      "max": 4,
       "status": "PARTIAL",
       "detail": "Version present, history missing"
     },
     {
-      "name": "parallel_steps",
-      "points": 2,
-      "max": 4,
+      "name": "branching_parallelism",
       "status": "PARTIAL",
-      "detail": "Field present but opportunities not analyzed"
+      "detail": "Sequential assumption is implicit"
     }
   ],
   "issues": [
-    {"severity": "minor", "message": "Add storage path to checkpoints config"},
-    {"severity": "minor", "message": "Add Version History section"}
+    {"severity": "medium", "message": "Document interruption-safe resume behavior"},
+    {"severity": "low", "message": "Add Version History section"}
   ]
 }
 ```
 
-## Gap Coverage Summary Table
-
-| Gap | Status | Points | Notes |
-|-----|--------|--------|-------|
-| Idempotency | Full/Partial/None | X/4 | |
-| Dependencies | Full/Partial/None/N/A | X/4 | |
-| Checkpoints | Full/Partial/None | X/4 | |
-| Versioning | Full/Partial/None | X/4 | |
-| Parallel | Full/Partial/None/N/A | X/4 | |
-
 ## Output
 
-- Gap coverage score (0-20 points)
+- Gap coverage score
 - Per-gap status
 - List of gap-related issues
 - Recommendations for improvement

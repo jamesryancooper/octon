@@ -1,352 +1,88 @@
 ---
 title: Workflow Gap Remediation Guide
-description: Reference for implementing workflow architecture gap fixes.
+description: Gap reference for directory and single-file workflow contracts.
 ---
 
 # Workflow Gap Remediation Guide
 
-This document explains the six identified gaps in workflow architecture and how to address them.
+This guide describes the workflow gaps that the shared evaluator and Workflow
+System Audit look for. Some gaps apply differently to directory and single-file
+workflows.
 
 ## Gap Summary
 
-| Gap | Problem | Solution |
-|-----|---------|----------|
-| Idempotency | Re-running steps may cause issues | Completion checks + skip logic |
-| Dependencies | Unclear workflow ordering | `depends_on` frontmatter field |
-| Branching | All workflows strictly linear | Conditional branch notation |
-| Checkpoints | Can't resume interrupted workflows | State persistence + markers |
-| Versioning | No change tracking | `version` field + history section |
-| Parallel | Sequential even when unnecessary | `parallel_steps` declaration |
-
----
+| Gap | Directory Workflow Expectation | Single-File Workflow Expectation |
+|-----|-------------------------------|----------------------------------|
+| Idempotency | Per-step `## Idempotency` guidance | Inline rerun/skip guidance |
+| Dependencies | `depends_on` or explicit dependency notes | Explicit upstream assumptions |
+| Branching | Declared branch or merge behavior | Inline conditional flow guidance |
+| Checkpoints | `checkpoints` config and resumable steps | Resume/re-entry guidance if long-running |
+| Versioning | `version` plus Version History | Version metadata or clear maintenance state |
+| Parallelism | `parallel_steps` or explicit N/A | Explicitly state when work is sequential |
+| Verification | Final verify step or verification gate | `Required Outcome` or equivalent verification section |
 
 ## 1. Idempotency
 
-### Problem
+### Directory workflows
 
-When a workflow is interrupted and resumed, or when a step is re-run, it may:
-- Duplicate work already done
-- Fail on already-existing artifacts
-- Corrupt partial state
+- Each step should say how to detect prior completion.
+- Re-runs should either skip safely or explain cleanup-first behavior.
 
-### Solution
+### Single-file workflows
 
-Add an `## Idempotency` section to every step file:
+- The workflow should explain whether it is safe to rerun.
+- If the flow is interactive or stateful, call out how to resume without duplicating work.
 
-```markdown
-## Idempotency
+## 2. Dependencies
 
-**Check:** [How to detect if this step already ran]
-- [ ] File `X` exists
-- [ ] Registry contains entry for `Y`
+### Directory workflows
 
-**If Already Complete:**
-- Skip to next step
-- OR: Clean up by [action] before re-running
+- Use `depends_on` when upstream workflows are real prerequisites.
+- Avoid circular workflow dependencies.
 
-**Marker:** `checkpoints/<workflow-id>/<step>.complete`
-```
+### Single-file workflows
 
-### Implementation Checklist
+- If the workflow assumes prior setup, say so explicitly in Prerequisites or Context.
 
-- [ ] Each step has `## Idempotency` section
-- [ ] Completion checks are specific and testable
-- [ ] Skip logic is clear (skip vs cleanup-then-run)
-- [ ] Marker file path follows convention
+## 3. Branching
 
----
+### Directory workflows
 
-## 2. Cross-Workflow Dependencies
+- If the path diverges, say where and why.
+- Make merge points explicit.
 
-### Problem
+### Single-file workflows
 
-Some workflows require others to complete first, but this isn't documented. Agents may:
-- Start workflows out of order
-- Miss prerequisite setup
-- Encounter cryptic failures
+- Inline conditional paths should be spelled out in the flow narrative.
 
-### Solution
+## 4. Checkpoints and Resumption
 
-Add `depends_on` array to overview frontmatter:
+### Directory workflows
 
-```yaml
-depends_on:
-  - workflow: harness/create-harness
-    condition: "target .harmony/ must exist"
-  - workflow: skills/create-skill
-    condition: "optional, only if workflow uses skills"
-```
+- `checkpoints.enabled: true` with a storage path is the default expectation.
+- Step-level idempotency should make resumption safe.
 
-### Resolution Logic
+### Single-file workflows
 
-Before executing a workflow:
-1. Parse `depends_on` array
-2. For each dependency, check if condition is satisfied
-3. If not satisfied, either:
-   - Execute dependency workflow first
-   - Report blocker and suggest manual execution
-
-### Implementation Checklist
-
-- [ ] `depends_on` field present (can be empty `[]`)
-- [ ] Each dependency has `workflow` path and `condition`
-- [ ] Conditions are testable statements
-- [ ] Circular dependencies avoided
-
----
-
-## 3. Conditional Branching
-
-### Problem
-
-All workflows execute steps linearly, but some need:
-- Different paths based on input
-- Skip steps that don't apply
-- Multiple routes to same outcome
-
-### Solution
-
-Add branch notation to Steps section:
-
-```markdown
-## Steps
-
-1. [Validate ID](../../orchestration/runtime/workflows/meta/create-workflow/01-validate-id.md)
-2. [Analyze requirements](../../orchestration/runtime/workflows/meta/create-workflow/02-analyze-requirements.md)
-3. **Branch:**
-   - If complex workflow: [Select template](../../orchestration/runtime/workflows/meta/create-workflow/03-select-template.md)
-   - If simple workflow: [Generate structure](../../orchestration/runtime/workflows/meta/create-workflow/04-generate-structure.md)
-4. [Customize steps](../../orchestration/runtime/workflows/meta/create-workflow/05-customize-steps.md) _(branches merge here)_
-```
-
-And in step files:
-
-```markdown
-## Conditions
-
-**Branch A:** If [condition A]
-- Proceed to [step X]
-
-**Branch B:** If [condition B]
-- Proceed to [step Y]
-
-**Default:** If neither condition
-- Proceed to next numbered step
-```
-
-### Implementation Checklist
-
-- [ ] Branch points clearly marked in overview
-- [ ] Branch conditions are mutually exclusive or prioritized
-- [ ] Merge points identified
-- [ ] All branches eventually reach verification
-
----
-
-## 4. Checkpoints / Resumption
-
-### Problem
-
-Long workflows may be interrupted by:
-- Session timeouts
-- Errors mid-execution
-- User pauses
-
-Without checkpoints, the workflow must restart from the beginning.
-
-### Solution
-
-Add checkpoint configuration to frontmatter:
-
-```yaml
-checkpoints:
-  enabled: true
-  storage: ".harmony/continuity/checkpoints/"
-```
-
-Checkpoint storage structure:
-
-```
-.harmony/continuity/checkpoints/
-├── <workflow-id>/
-│   ├── state.json           # Current step, branch, variables
-│   ├── 01-step.complete     # Marker per completed step
-│   ├── 02-step.complete
-│   └── context.json         # Captured context for resumption
-```
-
-State schema:
-
-```json
-{
-  "workflow": "workflows/create-workflow",
-  "started_at": "2025-01-14T10:00:00Z",
-  "current_step": "03-design-structure",
-  "branch": "parallel",
-  "variables": {
-    "workflow_id": "my-workflow",
-    "target_path": ".harmony/orchestration/runtime/workflows/my-workflow/"
-  },
-  "completed_steps": ["01-validate", "02-analyze"]
-}
-```
-
-### Resume Procedure
-
-1. Read `checkpoints/<workflow>/state.json`
-2. Load context from `context.json`
-3. Continue from `current_step`
-4. Skip steps in `completed_steps` (via idempotency checks)
-
-### Implementation Checklist
-
-- [ ] `checkpoints` field in frontmatter
-- [ ] Each step creates completion marker
-- [ ] State file updated after each step
-- [ ] Resume instructions in overview
-
----
+- A long or interruptible workflow should explain how to resume at the right point.
 
 ## 5. Versioning
 
-### Problem
+- Actively maintained workflows should record a `version` and a Version History section.
+- If a workflow is intentionally lightweight and not fully versioned, that should be visible rather than implicit.
 
-Workflows evolve but changes aren't tracked. This causes:
-- Confusion about expected behavior
-- Breaking changes without notice
-- No migration path for updates
+## 6. Parallelism
 
-### Solution
+- Document parallel groups when they are real.
+- If a workflow is intentionally sequential, an explicit empty or narrative “no parallel work” explanation is acceptable.
 
-Add `version` field to frontmatter:
+## 7. Verification
 
-```yaml
-version: "1.2.0"
-```
+- Directory workflows should end in a verify step or explicit verification gate.
+- Single-file workflows should have a `Required Outcome`, `Verification Gate`, or equivalent section describing success criteria.
 
-And `## Version History` section before References:
+## How the Shared Evaluator Uses This Guide
 
-```markdown
-## Version History
-
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.2.0 | 2025-01-14 | Added parallel step support |
-| 1.1.0 | 2025-01-10 | Added checkpoint system |
-| 1.0.0 | 2025-01-05 | Initial version |
-```
-
-### Versioning Guidelines
-
-- **Major (X.0.0):** Breaking changes to step structure or outputs
-- **Minor (0.X.0):** New steps added, optional features
-- **Patch (0.0.X):** Clarifications, error message improvements
-
-### Implementation Checklist
-
-- [ ] `version` field in frontmatter
-- [ ] Semantic version format (X.Y.Z)
-- [ ] Version History section present
-- [ ] Major changes documented with migration notes
-
----
-
-## 6. Parallel Step Execution
-
-### Problem
-
-Steps execute sequentially even when independent. This is:
-- Slower than necessary
-- Wasteful of parallelizable work
-- Missed optimization opportunity
-
-### Solution
-
-Add `parallel_steps` array to frontmatter:
-
-```yaml
-parallel_steps:
-  - group: "validation"
-    steps: ["02-validate-target", "03-validate-templates"]
-    join_at: "04-analyze"
-  - group: "file-generation"
-    steps: ["05-generate-overview", "06-generate-steps"]
-    join_at: "07-verify"
-```
-
-And in parallel-safe step files:
-
-```markdown
-## Parallel Execution
-
-**Group:** validation
-**Can run with:** 03-validate-templates.md
-**Join point:** 04-analyze.md
-
-**Independence Check:**
-- [ ] This step does not write to files read by parallel steps
-- [ ] This step does not depend on outputs from parallel steps
-- [ ] Failure in this step does not invalidate parallel steps
-```
-
-### Independence Criteria
-
-Two steps can run in parallel if:
-1. Neither reads files the other writes
-2. Neither depends on the other's output
-3. Either can fail without affecting the other
-4. Both complete before the join point
-
-### Implementation Checklist
-
-- [ ] `parallel_steps` field present (can be empty `[]`)
-- [ ] Each group has `steps` array and `join_at` point
-- [ ] Independence verified for each parallel pair
-- [ ] Join points are actual step files
-
----
-
-## Quick Reference
-
-### Frontmatter Template (Complete)
-
-```yaml
----
-title: "[Title]"
-description: "[Max 160 chars]"
-access: human|agent
-version: "1.0.0"
-depends_on: []
-checkpoints:
-  enabled: true
-  storage: ".harmony/continuity/checkpoints/"
-parallel_steps: []
----
-```
-
-### Step Idempotency Template
-
-```markdown
-## Idempotency
-
-**Check:** [Detection method]
-- [ ] [Condition]
-
-**If Already Complete:**
-- [Skip or cleanup action]
-
-**Marker:** `checkpoints/<workflow>/<step>.complete`
-```
-
-### Gap Fix Checklist
-
-For any workflow:
-
-- [ ] Overview has `version` field
-- [ ] Overview has `depends_on` field (even if empty)
-- [ ] Overview has `checkpoints` configuration
-- [ ] Overview has `parallel_steps` field (even if empty)
-- [ ] Overview has Version History section
-- [ ] Each step has Idempotency section
-- [ ] Branch points documented (if any)
-- [ ] Final step is verification gate
+- Missing gap controls lower workflow scores.
+- Missing verification, malformed contracts, or dependency cycles can escalate into findings.
+- System-level audits also look for gap blindness in the validator path itself.

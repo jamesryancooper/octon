@@ -1,0 +1,150 @@
+schema_version: "workflow-system-audit-v1"
+audit_id: "workflow-system-audit"
+version: "1.0.0"
+owner: "orchestration-owner"
+approved_by: "harmony-platform"
+
+defaults:
+  scope_root: ".harmony/orchestration/runtime/workflows/"
+  severity_threshold: "high"
+  include_docs: true
+  include_governance: true
+  run_live: true
+  scenario_pack: "representative"
+  convergence_k: 3
+  seed_list: [11, 23, 37]
+
+paths:
+  temp_output_root: ".harmony/output/.tmp/workflow-system-audit"
+  report_root: ".harmony/output/reports"
+  audit_bundle_root: ".harmony/output/reports/audits"
+  runtime_audit_root: ".harmony/cognition/runtime/audits"
+  companion_paths:
+    - ".harmony/orchestration/runtime/workflows/manifest.yml"
+    - ".harmony/orchestration/runtime/workflows/registry.yml"
+    - ".harmony/orchestration/runtime/workflows/README.md"
+    - ".harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh"
+    - ".harmony/orchestration/governance/capability-map-v1.yml"
+    - ".harmony/cognition/runtime/context/workflow-quality.md"
+    - ".harmony/cognition/runtime/context/workflow-gaps.md"
+    - ".harmony/assurance/runtime/_ops/scripts/alignment-check.sh"
+  excluded_roots:
+    - ".harmony/ideation/"
+    - ".harmony/output/"
+
+taxonomy:
+  - key: "routing-discovery"
+    default_severity: "high"
+    validator_coverage: "new-audit-only"
+    description: "Discovery metadata, triggers, commands, and routing clarity are incomplete or conflicting."
+  - key: "contract-schema"
+    default_severity: "high"
+    validator_coverage: "existing-blocking"
+    description: "Manifest, registry, workflow entrypoint, or step contract is invalid or inconsistent."
+  - key: "parameter-io-contract"
+    default_severity: "medium"
+    validator_coverage: "new-audit-only"
+    description: "Registry parameters or outputs do not line up with the workflow surface or execution profile."
+  - key: "gap-coverage"
+    default_severity: "medium"
+    validator_coverage: "new-audit-only"
+    description: "Idempotency, checkpoints, dependencies, versioning, branching, or parallel controls are missing or under-specified."
+  - key: "execution-safety"
+    default_severity: "high"
+    validator_coverage: "new-audit-only"
+    description: "Verification, failure handling, output reachability, or execution-profile safety is insufficient."
+  - key: "portfolio-coverage"
+    default_severity: "medium"
+    validator_coverage: "new-audit-only"
+    description: "The workflow portfolio has lifecycle gaps, redundant surfaces, or topology drift."
+  - key: "workflow-skill-boundary"
+    default_severity: "low"
+    validator_coverage: "not-yet-automatable"
+    description: "A workflow appears to be the wrong abstraction boundary for the problem."
+  - key: "validator-blind-spot"
+    default_severity: "high"
+    validator_coverage: "new-audit-only"
+    description: "A blocking issue is only detected by the workflow-system audit and is not enforced elsewhere."
+  - key: "docs-spec-drift"
+    default_severity: "low"
+    validator_coverage: "not-yet-automatable"
+    description: "Workflow documentation or examples drift from the current contract."
+  - key: "scenario-failure"
+    default_severity: "high"
+    validator_coverage: "new-audit-only"
+    description: "A representative rehearsal scenario cannot be resolved or validated deterministically."
+
+score_weights:
+  workflow:
+    discovery_routing: 10
+    contract_integrity: 20
+    quality_gap_coverage: 25
+    execution_safety_verification: 20
+    maintainability: 10
+    documentation_references: 15
+  system:
+    portfolio_architecture_coverage: 15
+    validator_coverage: 10
+
+lifecycle_expectations:
+  - left: "create-workflow"
+    right: "evaluate-workflow"
+    description: "Workflow creation should have an explicit evaluation surface."
+  - left: "create-workflow"
+    right: "update-workflow"
+    description: "Workflow creation should have an explicit update/remediation surface."
+  - left: "create-mission"
+    right: "complete-mission"
+    description: "Mission lifecycle should support explicit closeout."
+
+bundle_extras:
+  - "scores.yml"
+  - "portfolio.yml"
+  - "scenarios.yml"
+
+scenario_packs:
+  representative:
+    - workflow_id: "create-workflow"
+      mode: "full"
+      expected_format: "directory"
+      expected_execution_profile: "core"
+    - workflow_id: "evaluate-workflow"
+      mode: "full"
+      expected_format: "directory"
+      expected_execution_profile: "core"
+    - workflow_id: "audit-orchestration-workflow"
+      mode: "full"
+      expected_format: "directory"
+      expected_execution_profile: "core"
+    - workflow_id: "audit-documentation-workflow"
+      mode: "full"
+      expected_format: "directory"
+      expected_execution_profile: "core"
+    - workflow_id: "refactor"
+      mode: "full"
+      expected_format: "directory"
+      expected_execution_profile: "core"
+    - workflow_id: "python-api-foundation"
+      mode: "prereq-only"
+      expected_format: "directory"
+      expected_execution_profile: "external-dependent"
+      sample_inputs:
+        project_name: "demo-api"
+        description: "Deterministic API rehearsal"
+        python_version: "python3.12"
+    - workflow_id: "create-mission"
+      mode: "full"
+      expected_format: "directory"
+      expected_execution_profile: "core"
+    - workflow_id: "create-project"
+      mode: "full"
+      expected_format: "single-file"
+      expected_execution_profile: "core"
+    - workflow_id: "promote-from-scratchpad"
+      mode: "full"
+      expected_format: "single-file"
+      expected_execution_profile: "core"
+    - workflow_id: "agent-led-happy-path"
+      mode: "full"
+      expected_format: "single-file"
+      expected_execution_profile: "core"

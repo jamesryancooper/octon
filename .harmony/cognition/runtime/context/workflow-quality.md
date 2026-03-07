@@ -1,231 +1,118 @@
 ---
 title: Workflow Quality Criteria
-description: Grading rubric and quality standards for workflows.
+description: Shared scoring rubric for directory and single-file workflows.
 ---
 
 # Workflow Quality Criteria
 
-This document defines the quality standards used to evaluate workflows.
+This document defines the shared workflow scoring rubric used by `/evaluate-workflow`
+and the Workflow System Audit.
+
+## Supported Workflow Formats
+
+- **Directory workflow:** a directory with `WORKFLOW.md` plus declared step files
+- **Single-file workflow:** one `.md` file with workflow frontmatter and inline flow
+
+Both formats score on the same 100-point scale. Checks differ by format where the
+contract differs.
 
 ## Grading Rubric
 
 | Grade | Score | Description |
 |-------|-------|-------------|
-| **A** | 90-100% | Exemplary: All requirements met, gap fixes complete, well-documented |
-| **B** | 80-89% | Good: Most requirements met, minor gaps or improvements possible |
-| **C** | 70-79% | Adequate: Core functionality present, notable gaps or issues |
-| **D** | 60-69% | Below Standard: Significant issues, missing critical elements |
-| **F** | <60% | Failing: Does not meet minimum requirements |
-
----
+| **A** | 90-100 | Strong contract, clear execution path, low drift |
+| **B** | 80-89 | Good workflow with minor gaps |
+| **C** | 70-79 | Usable but notable gaps or drift |
+| **D** | 60-69 | Weak workflow needing focused remediation |
+| **F** | <60 | Failing workflow contract or poor execution safety |
 
 ## Evaluation Categories
 
-### 1. Structure Compliance (25 points)
+### 1. Discovery and Routing (10 points)
 
-| Criterion | Points | Check |
+| Criterion | Points | Notes |
 |-----------|--------|-------|
-| `00-overview.md` exists | 5 | File present in workflow directory |
-| Numbered step files | 5 | Files follow `NN-name.md` pattern |
-| Final step is verification | 5 | Last numbered file is verify/validation |
-| Consistent file naming | 5 | All files use kebab-case |
-| README or documentation | 5 | Purpose documented somewhere |
+| Clear summary/description | 4 | Explains what the workflow does and when to use it |
+| Discovery triggers or local usage guidance | 6 | Manifest triggers for registered workflows, or explicit Usage/Context guidance for direct-path evaluation |
 
-### 2. Frontmatter Compliance (20 points)
+### 2. Contract Integrity (20 points)
 
-| Criterion | Points | Check |
+| Criterion | Points | Notes |
 |-----------|--------|-------|
-| `title` field present | 4 | Non-empty string |
-| `description` field present | 4 | Non-empty, max 160 chars |
-| `access` field present | 4 | Value is `human` or `agent` |
-| `version` field present | 4 | Semantic version format |
-| Gap fix fields present | 4 | `depends_on`, `checkpoints`, `parallel_steps` |
+| Valid workflow entrypoint | 5 | `WORKFLOW.md` for directory workflows, workflow `.md` for single-file |
+| Declared step/file parity | 5 | Directory workflows only; single-file gets full credit when inline format is valid |
+| Required frontmatter present | 5 | `name`, `description`, access/version as applicable to current workflow contract |
+| Manifest/registry parity | 5 | Registered workflows align across manifest, registry, and workflow artifact |
 
-### 3. Content Quality (25 points)
+### 3. Quality and Gap Coverage (25 points)
 
-| Criterion | Points | Check |
+| Criterion | Points | Notes |
 |-----------|--------|-------|
-| Prerequisites defined | 5 | Clear list of requirements |
-| Failure conditions defined | 5 | At least one STOP condition |
-| Steps are actionable | 5 | Each step has concrete Actions |
-| Verification criteria clear | 5 | Checklist items are testable |
-| Error messages helpful | 5 | Specific, actionable error text |
+| Prerequisites documented | 5 | Or explicit context for human-initiated workflows |
+| Failure conditions documented | 5 | Actionable stop/fail guidance |
+| Actions/flow are actionable | 5 | Concrete ordered steps or inline flow |
+| Gap controls documented | 5 | Idempotency, checkpoints, dependencies, versioning, branching, or parallel guidance |
+| Version history present | 5 | For actively maintained workflows |
 
-### 4. Gap Coverage (20 points)
+### 4. Execution Safety and Verification (20 points)
 
-| Criterion | Points | Check |
+| Criterion | Points | Notes |
 |-----------|--------|-------|
-| Idempotency sections | 4 | Each step has `## Idempotency` |
-| Dependencies declared | 4 | `depends_on` properly configured |
-| Checkpoints configured | 4 | `checkpoints.enabled: true` with storage |
-| Version history present | 4 | Table with at least initial version |
-| Parallel steps identified | 4 | `parallel_steps` analyzed (even if empty) |
+| Explicit verification gate or required outcome | 8 | Must be reachable from the documented flow |
+| Target/output described | 4 | What the workflow affects or produces |
+| Step graph/inline flow is coherent | 4 | No unreachable or contradictory structure |
+| Execution profile is honest | 4 | `core` vs `external-dependent` matches documented behavior |
 
 ### 5. Maintainability (10 points)
 
-| Criterion | Points | Check |
+| Criterion | Points | Notes |
 |-----------|--------|-------|
-| Steps are focused | 3 | Each step does one thing |
-| References are valid | 3 | Links resolve to real files |
-| No dead code/steps | 2 | All steps reachable from overview |
-| Consistent formatting | 2 | Headings, lists, code blocks consistent |
+| Naming and structure are consistent | 5 | File naming and step layout follow repo conventions |
+| Workflow is focused | 5 | Steps and content have one clear reason to change |
 
----
+### 6. Documentation and References (15 points)
 
-## Scoring Formula
+| Criterion | Points | Notes |
+|-----------|--------|-------|
+| Local references resolve | 7 | Broken links reduce trust and operator throughput |
+| Usage/target guidance exists | 4 | Reader can tell how to invoke the workflow |
+| Description is helpful | 4 | Description is informative, not placeholder text |
 
-```
-Total Score = Structure + Frontmatter + Content + Gap Coverage + Maintainability
-            = 25 + 20 + 25 + 20 + 10
-            = 100 points maximum
-```
+## Format-Specific Notes
 
-Grade boundaries:
-- A: 90-100
-- B: 80-89
-- C: 70-79
-- D: 60-69
-- F: 0-59
+### Directory Workflows
 
----
+- `WORKFLOW.md` is the contract entrypoint
+- The `steps` array is the source of truth for step files
+- A wrapper style that delegates to `00-overview.md` is valid if `WORKFLOW.md` declares it
 
-## Quick Assessment Checklist
+### Single-File Workflows
 
-For rapid workflow evaluation:
+- Frontmatter should identify the workflow directly
+- Inline `Flow`, `Steps`, or equivalent execution guidance must replace step files
+- `Required Outcome` or an equivalent verification section should be explicit
 
-### Must Have (Failing without these)
-- [ ] `00-overview.md` exists
-- [ ] At least one step file exists
-- [ ] Verification/final step exists
-- [ ] `title` in frontmatter
-- [ ] `description` in frontmatter
+## Quick Checklist
 
-### Should Have (Below standard without these)
-- [ ] `access` in frontmatter
-- [ ] `version` in frontmatter
-- [ ] Prerequisites section
-- [ ] Failure conditions section
-- [ ] Steps section with links
+### Blocking Checks
 
-### Nice to Have (Good to exemplary)
-- [ ] All gap fix fields
-- [ ] Idempotency in every step
-- [ ] Version history section
-- [ ] Parallel steps analyzed
-- [ ] Comprehensive error messages
+- [ ] Workflow artifact parses successfully
+- [ ] Registered workflow path resolves on disk
+- [ ] Entry/frontmatter identity is coherent
+- [ ] Verification or required outcome is present
+- [ ] No dependency cycle or command collision is introduced
 
----
+### Non-Blocking but Important
 
-## Common Issues and Fixes
+- [ ] Version history exists
+- [ ] Gap controls are explicit
+- [ ] Local links resolve
+- [ ] Usage and target guidance are clear
 
-### Issue: Missing verification step
+## Output Expectations
 
-**Problem:** Workflow declares completion without verification gate.
+The shared scorer should be able to emit:
 
-**Fix:** Add `NN-verify.md` as final step with:
-- Verification checklist
-- Results documentation format
-- Failure handling procedure
-
-### Issue: No idempotency sections
-
-**Problem:** Steps don't handle re-runs gracefully.
-
-**Fix:** Add to each step file:
-```markdown
-## Idempotency
-
-**Check:** [How to detect completion]
-**If Already Complete:** [Skip or cleanup]
-**Marker:** `checkpoints/<workflow>/<step>.complete`
-```
-
-### Issue: Vague failure conditions
-
-**Problem:** "If error occurs -> STOP" doesn't help recovery.
-
-**Fix:** Make conditions specific:
-```markdown
-## Failure Conditions
-
-- Target directory already exists -> STOP, use /update-workflow instead
-- Invalid ID format -> STOP, ID must be kebab-case (e.g., my-workflow)
-- Template not found -> STOP, verify .harmony/orchestration/runtime/workflows/_scaffold/template/ exists
-```
-
-### Issue: Steps not actionable
-
-**Problem:** Steps describe what should happen but not how.
-
-**Fix:** Add concrete Actions:
-```markdown
-## Actions
-
-1. Run `ls <target>` to check if directory exists
-2. If exists, read `00-overview.md` to verify it's a workflow
-3. Parse frontmatter using YAML parser
-4. Check `version` field matches semantic format
-```
-
-### Issue: Missing gap fix fields
-
-**Problem:** Frontmatter missing `version`, `depends_on`, etc.
-
-**Fix:** Add complete frontmatter:
-```yaml
----
-title: "My Workflow"
-description: "Brief description."
-access: human
-version: "1.0.0"
-depends_on: []
-checkpoints:
-  enabled: true
-  storage: ".harmony/continuity/checkpoints/"
-parallel_steps: []
----
-```
-
----
-
-## Assessment Report Template
-
-```markdown
-# Workflow Assessment: [Workflow Name]
-
-**Path:** `[path/to/workflow/]`
-**Date:** YYYY-MM-DD
-**Evaluator:** [agent/human]
-
-## Scores
-
-| Category | Score | Max | Notes |
-|----------|-------|-----|-------|
-| Structure | X | 25 | |
-| Frontmatter | X | 20 | |
-| Content | X | 25 | |
-| Gap Coverage | X | 20 | |
-| Maintainability | X | 10 | |
-| **Total** | **X** | **100** | **Grade: X** |
-
-## Gap Coverage Detail
-
-| Gap | Status | Notes |
-|-----|--------|-------|
-| Idempotency | Full/Partial/None | |
-| Dependencies | Full/Partial/None/N/A | |
-| Branching | Full/Partial/None/N/A | |
-| Checkpoints | Full/Partial/None | |
-| Versioning | Full/Partial/None | |
-| Parallel | Full/Partial/None/N/A | |
-
-## Recommendations
-
-1. [Priority 1 recommendation]
-2. [Priority 2 recommendation]
-3. [Priority 3 recommendation]
-
-## Summary
-
-[Overall assessment and next steps]
-```
+- machine-readable score data for system audits
+- human-readable workflow reports for `/evaluate-workflow`
+- stable issue metadata suitable for bounded finding generation

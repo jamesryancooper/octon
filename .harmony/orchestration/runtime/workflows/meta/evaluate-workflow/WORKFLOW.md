@@ -2,7 +2,8 @@
 name: evaluate-workflow
 description: >
   Evaluate an existing workflow for structure, gap coverage, and contract
-  quality, then emit findings and recommendations.
+  quality across directory and single-file formats, then emit findings and
+  recommendations.
 steps:
   - id: read-workflow
     file: 01-read-workflow.md

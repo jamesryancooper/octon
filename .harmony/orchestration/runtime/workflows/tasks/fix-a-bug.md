@@ -1,7 +1,9 @@
 ---
+name: fix-a-bug
 title: "Task: Fix a Bug"
 description: Step-by-step guide to fixing a bug with AI assistance.
 access: human
+version: "1.0.0"
 ---
 
 # Task: Fix a Bug

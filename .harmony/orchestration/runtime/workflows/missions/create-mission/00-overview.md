@@ -25,6 +25,12 @@ Scaffold a new mission with isolated progress tracking.
 - Mission slug must be lowercase with hyphens (e.g., `auth-overhaul`)
 - No existing mission with the same slug
 
+## Failure Conditions
+
+- Mission slug is invalid -> STOP, report the required slug format
+- Mission already exists -> STOP, use the existing mission or choose a new slug
+- Mission scaffold template is missing -> STOP, restore the mission template before continuing
+
 ## Steps
 
 1. **Validate slug** — Check format and uniqueness
@@ -45,6 +51,12 @@ missions/<slug>/
 ├── tasks.json     # Empty task list
 └── log.md         # Creation entry logged
 ```
+
+## Required Outcome
+
+- [ ] `missions/<slug>/` exists with initialized mission artifacts
+- [ ] Mission registry is updated
+- [ ] Operator receives the next-step guidance after creation
 
 ## Next Steps After Creation
 

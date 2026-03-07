@@ -1,8 +1,8 @@
 ---
 title: Evaluate Workflow
-description: Assess an existing workflow against quality criteria and gap coverage.
+description: Assess a directory or single-file workflow with the shared workflow scorer.
 access: human
-version: "1.0.0"
+version: "2.0.0"
 depends_on: []
 checkpoints:
   enabled: true
@@ -15,7 +15,7 @@ parallel_steps:
 
 # Evaluate Workflow: Overview
 
-Assess an existing workflow for structure compliance, gap coverage, and content quality. This is a **read-only assessment** that produces a report without modifying the workflow.
+Assess an existing workflow artifact using the shared workflow scorer. This is a **read-only assessment** that produces a human-readable report from the same machine-readable scoring model used by the Workflow System Audit.
 
 ## Usage
 
@@ -26,24 +26,25 @@ Assess an existing workflow for structure compliance, gap coverage, and content 
 **Examples:**
 ```text
 /evaluate-workflow .harmony/orchestration/runtime/workflows/refactor/refactor/
-/evaluate-workflow .harmony/orchestration/runtime/workflows/custom-deploy/
+/evaluate-workflow .harmony/orchestration/runtime/workflows/projects/create-project.md
 ```
 
 ## Target
 
-Existing workflow directory containing `00-overview.md` and step files.
+- Directory workflow with `WORKFLOW.md`
+- Single-file workflow `.md`
 
 ## Prerequisites
 
-- Valid path to workflow directory
-- `00-overview.md` exists in directory
-- Directory contains at least one step file
+- Valid path to a workflow artifact
+- Directory workflows have `WORKFLOW.md`
+- Single-file workflows have workflow frontmatter and inline flow
 
 ## Failure Conditions
 
 - Path does not exist -> STOP, report "Path not found: <path>"
-- No `00-overview.md` found -> STOP, report "Not a valid workflow directory"
-- Path is a file, not directory -> STOP, report "Expected directory, got file"
+- Directory path missing `WORKFLOW.md` -> STOP, report "Not a valid workflow directory"
+- File path is not a workflow markdown file -> STOP, report "Not a valid single-file workflow"
 - Cannot read files -> STOP, report "Permission denied: <path>"
 
 ## Steps
@@ -58,20 +59,26 @@ Existing workflow directory containing `00-overview.md` and step files.
 
 Assessment report with:
 - Overall grade (A/B/C/D/F)
-- Structure compliance score (0-25 points)
-- Gap coverage score (0-20 points)
-- Content quality score (0-25 points)
-- Maintainability score (0-10 points)
+- Shared category scores from the workflow-quality rubric
 - Specific recommendations
+- Validation-ready issue metadata from the shared scorer
 
 ## Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.0.0 | 2026-03-06 | Switched to shared scorer, `WORKFLOW.md`, and single-file workflow support |
 | 1.0.0 | 2025-01-14 | Initial version |
 
 ## References
 
 - **Quality criteria:** `.harmony/cognition/runtime/context/workflow-quality.md`
 - **Gap checklist:** `.harmony/cognition/runtime/context/workflow-gaps.md`
+- **Shared scorer:** `.harmony/orchestration/runtime/workflows/_ops/scripts/audit-workflow-system.sh`
 - **Update workflow:** `.harmony/orchestration/runtime/workflows/meta/update-workflow/` (to fix issues)
+
+## Required Outcome
+
+- [ ] Workflow artifact is parsed successfully
+- [ ] Shared score output is rendered into a human-readable report
+- [ ] Recommendations identify the most important gaps without mutating the target

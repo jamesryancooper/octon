@@ -1,43 +1,45 @@
 ---
 title: Read Workflow
-description: Load and parse workflow files for assessment.
+description: Load and parse the workflow artifact for shared scoring.
 ---
 
 # Step 1: Read Workflow
 
 ## Input
 
-- `path`: Path to workflow directory
+- `path`: Path to a workflow directory or single-file workflow
 
 ## Purpose
 
-Load all workflow files and parse their structure for subsequent assessment steps.
+Load the workflow artifact in the same way the shared scorer does.
 
 ## Actions
 
 1. **Validate path:**
    ```text
    Check path exists
-   Check path is a directory
-   Check directory is readable
+   Check path is readable
    ```
 
-2. **List workflow files:**
-   ```bash
-   ls <path>/*.md
-   # Expect: 00-overview.md and numbered step files
-   ```
-
-3. **Read overview file:**
+2. **Determine workflow format:**
    ```text
-   Read <path>/00-overview.md
+   If directory:
+     require WORKFLOW.md
+   If file:
+     treat as single-file workflow
+   ```
+
+3. **Read workflow entrypoint:**
+   ```text
+   Directory: read <path>/WORKFLOW.md
+   Single-file: read <path>
    Parse YAML frontmatter
-   Extract sections (Prerequisites, Failure Conditions, Steps, etc.)
+   Extract sections and local references
    ```
 
-4. **Read step files:**
+4. **Read declared step files when directory-based:**
    ```text
-   For each file matching NN-*.md:
+   For each file declared in WORKFLOW.md frontmatter.steps:
      Read file content
      Parse frontmatter (if present)
      Extract sections (Input, Actions, Idempotency, Output, etc.)
@@ -47,19 +49,11 @@ Load all workflow files and parse their structure for subsequent assessment step
    ```json
    {
      "path": "<path>",
-     "overview": {
-       "frontmatter": {...},
-       "sections": {...}
-     },
-     "steps": [
-       {
-         "filename": "01-step.md",
-         "number": 1,
-         "frontmatter": {...},
-         "sections": {...}
-       }
-     ],
-     "file_count": N
+     "format": "directory|single-file",
+     "entrypoint": {...},
+     "primary_doc": {...},
+     "steps": [...],
+     "declared_step_count": N
    }
    ```
 
@@ -75,55 +69,11 @@ Load all workflow files and parse their structure for subsequent assessment step
 
 **Marker:** `checkpoints/evaluate-workflow/<workflow-id>/01-read.complete`
 
-## Parsed Workflow Schema
-
-```json
-{
-  "path": ".harmony/orchestration/runtime/workflows/refactor/refactor/",
-  "workflow_id": "refactor",
-  "overview": {
-    "frontmatter": {
-      "title": "Refactor",
-      "description": "...",
-      "access": "human",
-      "version": "1.0.0",
-      "depends_on": [],
-      "checkpoints": {...},
-      "parallel_steps": []
-    },
-    "sections": {
-      "prerequisites": ["..."],
-      "failure_conditions": ["..."],
-      "steps": [
-        {"number": 1, "name": "Define scope", "link": "./01-define-scope.md"}
-      ],
-      "version_history": [...]
-    }
-  },
-  "steps": [
-    {
-      "filename": "01-define-scope.md",
-      "number": 1,
-      "frontmatter": {"title": "...", "description": "..."},
-      "sections": {
-        "input": ["..."],
-        "actions": ["..."],
-        "idempotency": {...},
-        "output": ["..."]
-      },
-      "has_idempotency": true
-    }
-  ],
-  "file_count": 7,
-  "read_at": "2025-01-14T10:00:00Z"
-}
-```
-
 ## Error Messages
 
 - Path not found: "Workflow path '<path>' does not exist."
-- Not a directory: "Expected directory at '<path>', found file."
-- No overview: "No 00-overview.md found in '<path>'. Is this a workflow directory?"
+- Missing entrypoint: "No WORKFLOW.md found in '<path>'. Is this a workflow directory?"
+- Invalid file target: "Expected workflow markdown file at '<path>'."
 - Parse error: "Failed to parse '<file>': <error>"
 
 ## Output
@@ -135,6 +85,6 @@ Load all workflow files and parse their structure for subsequent assessment step
 ## Proceed When
 
 - [ ] Path exists and is readable
-- [ ] `00-overview.md` exists and parsed
-- [ ] At least one step file exists and parsed
+- [ ] Workflow entrypoint exists and parsed
+- [ ] Declared step files are parsed when required
 - [ ] Workflow model built successfully

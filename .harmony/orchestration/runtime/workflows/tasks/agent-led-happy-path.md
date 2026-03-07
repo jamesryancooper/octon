@@ -1,7 +1,9 @@
 ---
+name: agent-led-happy-path
 title: "Task: Agent-Led Happy Path"
 description: Canonical onboarding flow for agent-led execution from bootstrap through continuity.
 access: human
+version: "1.0.0"
 ---
 
 # Task: Agent-Led Happy Path
@@ -10,6 +12,12 @@ access: human
 
 Use this as the canonical onboarding path for agent-led work in this repository.
 Legacy onboarding variants are hard-deprecated for new runs.
+
+## Failure Conditions
+
+- Canonical ingress files are missing -> STOP, run the bootstrap path before continuing
+- No unblocked task can be identified -> STOP, resolve continuity state before execution
+- Required alignment or surface-specific validators fail -> STOP, address the failing checks before handoff
 
 ## Flow
 

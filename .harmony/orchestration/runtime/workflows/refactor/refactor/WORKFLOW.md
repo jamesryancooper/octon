@@ -28,3 +28,19 @@ steps:
 
 Use [00-overview.md](./00-overview.md) for workflow context and run step files
 in order.
+
+## Context
+
+Use this workflow when a repository refactor must be executed with an explicit
+scope, impact audit, verification gate, and documented outcome.
+
+## Target
+
+The selected code and documentation surfaces inside the current repository that
+must be refactored safely without leaving drift behind.
+
+## Failure Conditions
+
+- Refactor scope is ambiguous or too broad -> STOP, narrow the target before proceeding
+- Impact audit cannot account for touched surfaces -> STOP, complete the audit before execution
+- Verification cannot prove behavior safety after changes -> FAIL the workflow and revert or repair
