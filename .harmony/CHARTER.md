@@ -1,12 +1,14 @@
 ---
 
-## title: Harmony Charter
+title: Harmony Charter
 description: Foundational charter for Harmony's identity, purpose, operating model, authority, scope, and governance as a portable agent-first filesystem harness.
 status: Active
 version: "1.4.0"
 owner: Harmony governance
 review_cadence: Quarterly or per minor release
 effective_date: 2026-03-06
+
+---
 
 # Harmony Charter
 
@@ -118,7 +120,6 @@ Harmony is governed by these non-negotiable concepts:
 
 ## 4. Definitions
 
-
 | Term | Meaning |
 | ---- | ------- |
 | `objective contract` | The required two-artifact objective source for material autonomy: the objective brief and the active intent contract. |
@@ -162,7 +163,6 @@ Harmony is governed by these non-negotiable concepts:
 | `escalate` | Suspend material execution and require a policy-owner decision before continuing. |
 | `block` | Deny the requested material execution and remain fail-closed until governing conditions change. |
 
-
 ## 5. Applicability and Scope
 
 This charter applies to:
@@ -189,7 +189,6 @@ Out of scope:
 
 Harmony resolves conflicts using the following precedence ladder:
 
-
 | Order | Authority source                                                                                                                           | Effect                                                                                                                                             |
 | ----- | ------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1     | Applicable law and other non-waivable external obligations                                                                                 | Always controls.                                                                                                                                   |
@@ -200,7 +199,6 @@ Harmony resolves conflicts using the following precedence ladder:
 | 6     | Domain `practices/` documents and workspace adoption artifacts such as `/.harmony/scope.md`, `/.harmony/conventions.md`, and `/.harmony/OBJECTIVE.md` | Supply local operating values and standards within the slots allowed by higher-precedence rules.                                                   |
 | 7     | Informative documentation, including `_meta/` and root-level orientation documents                                                         | Explain or orient; never create competing authority.                                                                                               |
 | 8     | `_ops/` scripts and mutable operational state                                                                                              | Execute operations or hold mutable state; never become canonical policy or runtime authority.                                                      |
-
 
 Additional precedence rules:
 
@@ -215,7 +213,6 @@ Additional precedence rules:
 The accountability map below is the minimum required and exhaustive set for charter-governed flows named in this document. Each listed flow MUST have an explicit decision owner, execution owner, and escalation owner. Any new charter-governed flow that can approve, deny, widen, suspend, or materially constrain autonomy MUST be added to this map or explicitly delegated by domain governance before execution.
 
 If no narrower policy owner is explicitly named for a flow, the charter owner is the default decision and escalation owner. If owner selection remains ambiguous after applying Section 6, the charter owner is the escalation owner for resolving that ambiguity until a decision artifact records the applicable policy owner.
-
 
 | Flow or decision                                                                              | Decision owner                                                               | Execution owner                                                 | Escalation owner        |
 | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------- |
@@ -233,20 +230,17 @@ If no narrower policy owner is explicitly named for a flow, the charter owner is
 | Charter changes and approved charter exceptions                                               | Charter `owner`                                                              | Human or agent implementing the approved change                 | Charter `owner`         |
 | Routine planning, implementation, verification, and continuity updates within approved bounds | Agents operating within the active objective contract and authority surfaces | Agents                                                          | Applicable policy owner |
 
-
 Humans supervise Harmony through policy, approvals, exceptions, and evidence review. Agents own routine execution only within approved boundaries, authority surfaces, and objective contracts.
 
 ## 8. Operating Model
 
 Harmony operates as a controlled `PLAN -> SHIP -> LEARN` loop.
 
-
 | Stage   | Required outputs                                                                                                     |
 | ------- | -------------------------------------------------------------------------------------------------------------------- |
 | `PLAN`  | Explicit objective, scope, constraints, materiality classification where needed, authority assumptions, and routing prerequisites. |
 | `SHIP`  | Bound execution, assurance outcomes, decision artifacts with routing-order evidence, and rollback or recovery posture for every material change. |
 | `LEARN` | Continuity artifacts, outcomes, follow-on work, and objective or policy updates when new constraints are discovered. |
-
 
 Unless a higher-precedence source requires stronger fields, every decision, execution, assurance, continuity, and measurement artifact used to satisfy this charter MUST include:
 
@@ -284,12 +278,10 @@ Continuity artifacts MUST preserve append-only history unless an approved except
 
 Harmony uses the following objective-contract artifacts:
 
-
 | Artifact        | Location                                                  | Role                                                                                   |
 | --------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | Objective brief | `/.harmony/OBJECTIVE.md`                                  | Human-readable objective source for goals, scope, constraints, and acceptance context. |
 | Intent contract | `/.harmony/cognition/runtime/context/intent.contract.yml` | Machine-readable runtime authority for binding and evaluating material autonomy.       |
-
 
 Objective-contract rules:
 
@@ -360,7 +352,6 @@ Special-profile domains MUST NOT be reclassified into bounded-surface domains or
 
 Harmony uses the following surface roles:
 
-
 | Surface       | Role                                                                | Authority status                                              |
 | ------------- | ------------------------------------------------------------------- | ------------------------------------------------------------- |
 | `runtime/`    | Executable and discoverable runtime artifacts and runtime contracts | Canonical execution surface                                   |
@@ -368,7 +359,6 @@ Harmony uses the following surface roles:
 | `practices/`  | Operating standards and runbooks                                    | Operational guidance only; cannot override governance         |
 | `_meta/`      | Explanatory architecture and reference documentation                | Informative only                                              |
 | `_ops/`       | Operational scripts and mutable state                               | Operational only; never canonical runtime or policy authority |
-
 
 Surface rules:
 
@@ -384,7 +374,6 @@ Surface rules:
 ## 13. Success Signals
 
 Harmony is successful when each success signal below holds at its stated scope unless an approved exception explicitly narrows that scope. The valid scopes are `per material run`, `per material change`, and `per reporting period`. Before a reporting period starts, the applicable policy owner MUST approve a measurement record in approved workspace conventions for each success signal below. Each measurement record MUST name the measurement owner, evidence artifact, measurement method, scope, threshold or condition, any required `workspace target` or `support target`, and the linked reporting artifact used to publish the result. If a required target, measurement record, evidence artifact, reporting artifact, or linked exception decision artifact is missing, the affected success signal MUST be treated as a governance gap and MUST NOT be counted as passing.
-
 
 | Success signal | Scope | Observable condition |
 | -------------- | ----- | -------------------- |
@@ -412,7 +401,6 @@ Success-signal measurement rules:
 - `Privacy preservation` MUST verify the privacy constraints that apply to the run, any approved exception, and the linked evidence showing the constraint was satisfied before material side effects occurred.
 - `Continuity integrity` MUST verify that continuity artifacts append new history without overwriting prior approved records unless an approved exception records why the overwrite is safe.
 - `Tool and vendor portability` MUST name the declared substitution paths covered during the reporting period and the checks or approved exceptions that justify the portability claim.
-
 
 ## 14. Change Control
 
@@ -447,7 +435,6 @@ This charter does not override the protected change-control rules for `/.harmony
 
 The references below validate or mirror rules already stated in this charter. They do not replace the minimum governing behavior stated here. If a normative reference is unavailable or inconsistent with this charter when it is needed for material execution, Harmony MUST treat this charter as the governing text for policy meaning, MUST fail closed for any unresolved machine validation or routing dependency, and MUST escalate unless this charter explicitly states another safe fallback.
 
-
 | Reference                                                                                                                         | Role                                                                        | If unavailable                                                                           |
 | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
 | `AGENTS.md` and the applicable agency governance chain                                                                            | Higher-precedence governance for the same decision when explicitly in scope | Before bootstrap completes, use this charter as temporary policy meaning only and block material execution until bootstrap evidence exists. Do not infer missing permissions or approvals; escalate unresolved precedence questions. |
@@ -455,7 +442,6 @@ The references below validate or mirror rules already stated in this charter. Th
 | `/.harmony/engine/runtime/spec/intent-contract-v1.schema.json`                                                                    | Validator for the intent contract                                           | Block material runs that require schema validation. Manual review MAY support read-only planning, but it is not sufficient for material execution. |
 | `/.harmony/agency/governance/delegation-boundaries-v1.yml` and `/.harmony/agency/governance/delegation-boundaries-v1.schema.json` | Machine-readable support for routing `allow`, `escalate`, and `block`       | Block material runs that require deterministic routing. Charter-only manual interpretation MAY guide planning, but it is not sufficient to authorize material execution. |
 | `/.harmony/cognition/governance/principles/principles.md`                                                                         | Protected constitutional principles authority                               | Protected-governance edits remain disallowed unless explicit human override is provided. Missing or inaccessible principles text does not expand authority for unrelated non-governance execution. |
-
 
 ## 16. Informative References
 
