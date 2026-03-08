@@ -12,6 +12,7 @@ Enable reliable agent execution that is deterministic enough to trust, observabl
 | `tasks.json` | Structured task list with goal | read-write |
 | `entities.json` | Entity state tracking | read-write |
 | `next.md` | Immediate actionable steps | read-write |
+| `decisions/` | Append-oriented decision evidence artifacts | retention-governed |
 | `runs/` | Append-oriented run evidence artifacts | retention-governed |
 
 ## Convention Authority

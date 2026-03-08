@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "default_action": "retain",
+  "classes": [
+    {
+      "id": "governance_evidence",
+      "description": "Routing, authority, and escalation evidence for material orchestration actions.",
+      "match_prefixes": [
+        "dec-"
+      ],
+      "retention_days": 365,
+      "action_after_retention": "archive"
+    }
+  ],
+  "always_keep_files": [
+    "README.md",
+    "retention.json"
+  ]
+}

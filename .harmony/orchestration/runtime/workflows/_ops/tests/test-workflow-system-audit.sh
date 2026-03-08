@@ -185,6 +185,26 @@ case_external_profile_mismatch_fails_validator() {
   run_validator_in_fixture "$fixture_root"
 }
 
+case_execution_controls_boolean_is_allowed() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  local registry="$fixture_root/.harmony/orchestration/runtime/workflows/registry.yml"
+  yq -i '
+    .workflows."create-workflow".execution_controls.cancel_safe = true
+  ' "$registry"
+  run_validator_in_fixture "$fixture_root"
+}
+
+case_execution_controls_non_boolean_fails_validator() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  local registry="$fixture_root/.harmony/orchestration/runtime/workflows/registry.yml"
+  yq -i '
+    .workflows."create-workflow".execution_controls.cancel_safe = "sometimes"
+  ' "$registry"
+  run_validator_in_fixture "$fixture_root"
+}
+
 case_capability_map_gap_is_reported() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
@@ -249,6 +269,15 @@ main() {
     "validator rejects external profile drift" \
     "execution_profile='core'" \
     case_external_profile_mismatch_fails_validator
+
+  assert_success \
+    "validator accepts boolean execution_controls.cancel_safe metadata" \
+    case_execution_controls_boolean_is_allowed
+
+  assert_failure_contains \
+    "validator rejects non-boolean execution_controls.cancel_safe metadata" \
+    "execution_controls.cancel_safe must be true or false" \
+    case_execution_controls_non_boolean_fails_validator
 
   assert_success \
     "capability map drift is reported by the workflow-system audit" \

@@ -1,0 +1,21 @@
+{
+  "decision_id": "dec-20260308-weekly-freshness-audit-allow-01",
+  "outcome": "allow",
+  "surface": "automations",
+  "action": "launch-workflow",
+  "actor": "weekly-freshness-audit",
+  "decided_at": "2026-03-08T18:04:00Z",
+  "reason_codes": [
+    "target-resolved",
+    "policy-allowed"
+  ],
+  "summary": "Automation launch admitted after routing and idempotency checks passed.",
+  "workflow_ref": {
+    "workflow_group": "audit",
+    "workflow_id": "audit-continuous-workflow"
+  },
+  "automation_id": "weekly-freshness-audit",
+  "event_id": "evt-20260308-governance-drift-01",
+  "queue_item_id": "q-20260308-001",
+  "run_id": "run-20260308-audit-continuous-01"
+}

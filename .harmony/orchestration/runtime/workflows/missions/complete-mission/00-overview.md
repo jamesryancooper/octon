@@ -43,7 +43,7 @@ Mission moved to archive:
 
 ```text
 missions/.archive/<slug>/
-├── mission.md     # Status: completed/cancelled
+├── mission.md     # Status: completed/cancelled with linkage fields preserved
 ├── tasks.json     # Final task state
 └── log.md         # Completion entry logged
 ```

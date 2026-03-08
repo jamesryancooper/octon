@@ -21,7 +21,7 @@ integration and ownership boundaries.
 | Capability Plane | What atomic execution units are available? | `.harmony/capabilities/runtime/skills/` |
 | Orchestration Plane | How are multi-step missions sequenced? | `.harmony/orchestration/runtime/workflows/` |
 | Assurance Plane | What must pass before completion? | `.harmony/assurance/{runtime,practices}/` |
-| Continuity Plane | What happened and what is next? | `.harmony/continuity/{log.md,tasks.json,entities.json,next.md}` |
+| Continuity Plane | What happened, why did it happen, and what is next? | `.harmony/continuity/{log.md,tasks.json,entities.json,next.md,decisions/,runs/}` |
 | Knowledge Plane | What durable system context and decisions exist? | `.harmony/cognition/runtime/{context,decisions,evidence,evaluations,projections,knowledge-plane}/` |
 | Artifact Plane | What durable deliverables/evidence are produced? | `.harmony/output/` (with optional artifact compilation architecture under `/.harmony/cognition/_meta/architecture/artifact-surface/`) |
 
@@ -62,6 +62,8 @@ integration and ownership boundaries.
 
 - Material outcomes SHOULD be appended to `log.md`.
 - Active and blocked work MUST be represented in `tasks.json` and reflected in `next.md`.
+- Material routing and authority decisions SHOULD be stored in
+  `continuity/decisions/` following retention policy.
 - Run receipts/digests SHOULD be stored in `continuity/runs/` following retention policy.
 
 ### Knowledge <-> Continuity
@@ -96,6 +98,8 @@ Ingress -> Orchestration -> Capability -> Service -> Execution Kernel
 - `next.md` must only reference active, unblocked tasks from `tasks.json`.
 - `entities.json` ownership should align with task ownership when work is entity-specific.
 - `log.md` entries should provide enough context to understand why task/entity state changed.
+- `decisions/` artifacts should remain append-oriented and must not replace task
+  or workflow state.
 - `runs/` artifacts should map to retention classes and must not replace active task-state tracking surfaces.
 - Knowledge decision/evidence indexes and artifact outputs must remain cross-referenceable from continuity and assurance artifacts.
 

@@ -586,6 +586,10 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/orchestration/runtime/workflows/registry.yml"
   require_file "$HARMONY_DIR/orchestration/runtime/missions/registry.yml"
   require_file "$HARMONY_DIR/orchestration/governance/incidents.md"
+  require_file "$HARMONY_DIR/orchestration/governance/production-incident-runbook.md"
+
+  require_file "$HARMONY_DIR/continuity/decisions/README.md"
+  require_file "$HARMONY_DIR/continuity/decisions/retention.json"
 
   require_file "$HARMONY_DIR/assurance/governance/CHARTER.md"
   require_file "$HARMONY_DIR/assurance/governance/weights/weights.yml"
@@ -594,6 +598,7 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/assurance-gate.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-contract-governance.sh"
+  require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-tier-downgrade-policy.sh"
   require_file "$HARMONY_DIR/assurance/practices/complete.md"
   require_file "$HARMONY_DIR/assurance/practices/session-exit.md"

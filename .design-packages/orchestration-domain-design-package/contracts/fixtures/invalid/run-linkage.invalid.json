@@ -1,0 +1,12 @@
+{
+  "run_id": "run-20260308-audit-continuous-01",
+  "status": "succeeded",
+  "started_at": "2026-03-08T18:05:00Z",
+  "workflow_ref": {
+    "workflow_group": "audit",
+    "workflow_id": "audit-continuous-workflow"
+  },
+  "decision_id": "dec-20260308-weekly-freshness-audit-allow-01",
+  "continuity_run_path": ".harmony/continuity/runs/run-20260308-audit-continuous-01/",
+  "summary": "Continuous audit completed with warning-level findings."
+}

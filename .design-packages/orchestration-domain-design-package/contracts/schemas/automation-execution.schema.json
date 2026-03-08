@@ -1,0 +1,340 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/design-packages/orchestration/automation-execution.schema.json",
+  "title": "Automation Execution Contract Bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "automation",
+    "trigger",
+    "policy"
+  ],
+  "properties": {
+    "automation": {
+      "$ref": "#/$defs/automation"
+    },
+    "trigger": {
+      "$ref": "#/$defs/trigger"
+    },
+    "bindings": {
+      "$ref": "#/$defs/bindings"
+    },
+    "policy": {
+      "$ref": "#/$defs/policy"
+    }
+  },
+  "$defs": {
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "workflowRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow_group",
+        "workflow_id"
+      ],
+      "properties": {
+        "workflow_group": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "automation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "automation_id",
+        "title",
+        "workflow_ref",
+        "owner",
+        "status"
+      ],
+      "properties": {
+        "automation_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow_ref": {
+          "$ref": "#/$defs/workflowRef"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "paused",
+            "disabled",
+            "error"
+          ]
+        }
+      }
+    },
+    "scheduleTrigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cadence",
+        "at",
+        "timezone",
+        "missed_run_policy"
+      ],
+      "properties": {
+        "cadence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missed_run_policy": {
+          "type": "string",
+          "enum": [
+            "skip",
+            "run_immediately",
+            "next_window"
+          ]
+        }
+      }
+    },
+    "eventTrigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "watcher_ids",
+        "event_types",
+        "match_mode"
+      ],
+      "properties": {
+        "watcher_ids": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "event_types": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "severity_at_or_above": {
+          "type": "string",
+          "enum": [
+            "info",
+            "warning",
+            "high",
+            "critical"
+          ]
+        },
+        "source_ref_globs": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "match_mode": {
+          "type": "string",
+          "enum": [
+            "all",
+            "any"
+          ]
+        },
+        "dedupe_window": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "trigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "schedule",
+            "event"
+          ]
+        },
+        "schedule": {
+          "$ref": "#/$defs/scheduleTrigger"
+        },
+        "event": {
+          "$ref": "#/$defs/eventTrigger"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "schedule"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "schedule"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "event"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "event"
+            ]
+          }
+        }
+      ]
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "default_params": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean"
+            ]
+          }
+        },
+        "event_to_param_map": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "idempotencyStrategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "key_fields"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "event-dedupe",
+            "schedule-window"
+          ]
+        },
+        "key_fields": {
+          "$ref": "#/$defs/stringArray"
+        }
+      }
+    },
+    "retryPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_attempts",
+        "backoff",
+        "retryable_classes"
+      ],
+      "properties": {
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "backoff": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retryable_classes": {
+          "$ref": "#/$defs/stringArray"
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_concurrency",
+        "concurrency_mode",
+        "idempotency_strategy",
+        "retry_policy",
+        "pause_on_error"
+      ],
+      "properties": {
+        "max_concurrency": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "concurrency_mode": {
+          "type": "string",
+          "enum": [
+            "serialize",
+            "drop",
+            "replace",
+            "parallel"
+          ]
+        },
+        "idempotency_strategy": {
+          "$ref": "#/$defs/idempotencyStrategy"
+        },
+        "retry_policy": {
+          "$ref": "#/$defs/retryPolicy"
+        },
+        "pause_on_error": {
+          "type": "boolean"
+        },
+        "incident_policy": {
+          "type": "object"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "concurrency_mode": {
+                "enum": [
+                  "serialize",
+                  "replace"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "max_concurrency": {
+                "const": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

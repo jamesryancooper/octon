@@ -1,443 +1,132 @@
 ---
 title: Incidents
-description: What to do when production breaks. Rollback first, investigate second.
+description: Canonical Harmony incident governance contract for severity, authority, escalation, containment, and closure.
 ---
 
 # Incidents
 
-When something goes wrong in production, follow this guide. The golden rule: **Rollback first, investigate second.**
+This document is the canonical Harmony incident governance contract.
 
----
+It defines:
 
-## Incident Response Flowchart
+- what counts as an incident
+- how incident severity and lifecycle work
+- which actions may be automated
+- which actions require human approval
+- what evidence is required before closure
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  SOMETHING IS WRONG IN PRODUCTION                               │
-│                                                                 │
-│  1. Is it caused by a recent deploy?                            │
-│     └─ YES → Rollback immediately (30 sec fix)                  │
-│     └─ MAYBE → Rollback anyway, investigate after               │
-│     └─ NO → Continue to step 2                                  │
-│                                                                 │
-│  2. Is it caused by a feature flag?                             │
-│     └─ YES → Disable the flag (instant fix)                     │
-│     └─ NO → Continue to step 3                                  │
-│                                                                 │
-│  3. Is it an external service issue?                            │
-│     └─ YES → Enable fallback/degraded mode if available         │
-│     └─ NO → Investigate and hotfix                              │
-│                                                                 │
-│  4. After stabilization                                         │
-│     └─ Write postmortem (AI helps)                              │
-│     └─ Fix the root cause                                       │
-│     └─ Re-deploy with fix                                       │
-└─────────────────────────────────────────────────────────────────┘
-```
+It does not prescribe product-specific rollback commands. Those belong in
+`production-incident-runbook.md`.
 
----
+## Purpose
 
-## Quick Commands
+An incident is an abnormal condition that requires explicit containment,
+escalation, mitigation, or closure handling outside the normal delivery flow.
 
-| Situation | Command |
-|-----------|---------|
-| Start incident tracking | `harmony incident start` |
-| Rollback deployment | `vercel promote <previous-url>` |
-| Disable a feature | `harmony flag disable <flag>` |
-| Check what changed recently | `harmony changes --recent` |
-| Get AI analysis | `harmony investigate "description"` |
-| End incident | `harmony incident resolve` |
+Incidents exist to keep exception handling:
 
----
+- operator-visible
+- evidence-backed
+- policy-bounded
+- separate from routine mission or workflow execution
 
-## Step 1: Rollback (If Recent Deploy)
+## Severity Model
 
-**Time target: Under 2 minutes**
+| Severity | Meaning | Typical Response Posture |
+|---|---|---|
+| `sev0` | Catastrophic system-wide or safety/compliance impact | immediate containment, mandatory human escalation |
+| `sev1` | Critical user, reliability, or security impact | immediate containment, human oversight required |
+| `sev2` | Significant but bounded impact | prompt mitigation, explicit owner required |
+| `sev3` | Minor or localized abnormal condition | monitor, mitigate, and close with evidence |
 
-### Check if Recent Deploy Caused It
+Severity must always be explicit.
 
-```bash
-# When was the last deploy?
-vercel ls --limit 3
+## Lifecycle
 
-# What changed in that deploy?
-harmony changes --since <timestamp>
+Canonical lifecycle:
+
+```text
+open -> acknowledged -> mitigating -> monitoring -> resolved -> closed
+open -> acknowledged -> cancelled
 ```
 
-### Perform Rollback
+Definitions:
 
-```bash
-# Get the previous deployment URL
-vercel ls
+- `open`: incident is created and awaiting ownership
+- `acknowledged`: an owner has accepted responsibility
+- `mitigating`: containment, rollback, or remediation work is underway
+- `monitoring`: active mitigation is complete and the system is being observed
+- `resolved`: technical issue is mitigated and remaining work is documentation or follow-up
+- `closed`: closure evidence is complete and closure authority has approved
+- `cancelled`: incident record was opened unnecessarily or superseded before full handling
 
-# Promote the previous deployment (instant rollback)
-vercel promote <previous-deployment-url>
+## Authority Boundaries
 
-# Verify rollback succeeded
-harmony status --production
-```
+### Allowed automated actions
 
-**Don't wait to be sure.** If there's any chance the recent deploy caused it, rollback. You can always re-deploy later.
+Automation may:
 
----
+- propose incident creation or enrichment
+- propose severity changes
+- launch policy-permitted containment or rollback workflows
+- attach run, mission, and decision evidence
+- recommend closure when criteria appear satisfied
 
-## Step 2: Disable Feature Flag (If Flag-Related)
+### Human-required actions
 
-**Time target: Under 1 minute**
+A human or explicit policy-backed approval is required for:
 
-If the issue is related to a specific feature:
+- `sev0` and `sev1` closure
+- final transition to `closed`
+- any break-glass or override action not already policy-covered
+- severity downgrades that materially reduce response posture
+- waiving missing remediation evidence
 
-```bash
-# Disable the flag
-harmony flag disable <flag-name>
+Incidents may coordinate execution. They do not self-authorize policy
+exceptions.
 
-# Verify it's disabled
-harmony flag status <flag-name>
-```
+## Evidence Requirements
 
-This is faster than rollback if you know which feature is causing the problem.
+Every incident should retain:
 
----
+- explicit `incident_id`, `severity`, `status`, and `owner`
+- timeline of major status or severity changes
+- links to triggering runs or other initiating evidence
+- links to containment or remediation workflows and runs
+- linked missions when follow-up becomes multi-session work
 
-## Step 3: Investigate
+Closure requires:
 
-**Only after you've stabilized production**
+- closure summary
+- linked remediation evidence or explicit waiver
+- linked runs or explicit note that none exist
+- `closed_at`
+- `closed_by`
 
-### Let AI Help
+## Containment And Closure Rules
 
-```bash
-harmony investigate "users getting 500 errors on checkout"
-```
+- Containment actions should favor the smallest reversible intervention first.
+- Rollback may be automated only when already covered by policy and evidence requirements.
+- Incident closure must fail closed when required evidence is missing.
+- Closing an incident must not delete or rewrite lineage.
+- Follow-up work larger than one bounded run should move into mission state, not remain hidden in the incident.
 
-AI will:
-- Check recent deployments and changes
-- Analyze error logs
-- Check external service status
-- Look for patterns
+## Relationship To Runtime State
 
-**Example output:**
-```
-┌─ Investigation: 500 errors on checkout ─────────────────────┐
-│                                                              │
-│ Timeline:                                                    │
-│   15:32 - Deploy #142 (user-profiles feature)                │
-│   15:35 - Error rate started increasing                      │
-│   15:38 - First user report                                  │
-│                                                              │
-│ Likely cause: Deploy #142                                    │
-│ Confidence: 85%                                              │
-│                                                              │
-│ Evidence:                                                    │
-│   - Error spike correlates with deploy time                  │
-│   - Errors are in UserService (touched in #142)              │
-│   - No external service issues detected                      │
-│                                                              │
-│ Recommended action: Rollback to #141                         │
-│                                                              │
-│ [Rollback Now] [More Details] [Ignore]                       │
-└──────────────────────────────────────────────────────────────┘
-```
+If Harmony later promotes a runtime `incidents/` surface, this file remains the
+governance authority for:
 
-### Manual Investigation
+- severity semantics
+- lifecycle rules
+- escalation thresholds
+- closure authority
+- evidence requirements
 
-If AI can't find the cause:
+Runtime incident objects may project status and linkage. They do not replace
+this governance contract.
 
-```bash
-# Check recent errors
-harmony logs --production --errors --since "30 min ago"
+## Operational Runbook
 
-# Check specific service
-harmony logs --production --service checkout
-
-# Check external services
-harmony health --external
-```
-
----
-
-## Step 4: Communicate
-
-### If It's Affecting Users
-
-1. **Acknowledge** — Let users know you're aware (if you have a status page)
-2. **Update** — Post updates every 15-30 minutes
-3. **Resolve** — Announce when fixed
-
-### Between Team Members
-
-```bash
-# Start incident channel (if using Slack/Discord integration)
-harmony incident notify "Checkout 500s - investigating"
-
-# Update
-harmony incident update "Rolled back, monitoring"
-
-# Resolve
-harmony incident resolve "Root cause: null pointer in UserService"
-```
-
----
-
-## Step 5: Fix and Re-Deploy
-
-After stabilizing:
-
-### Create the Fix
-
-```bash
-# Start a hotfix
-harmony fix "checkout 500 error" --priority critical
-
-# AI will generate a fix based on investigation
-# Review and approve the fix PR
-```
-
-### Re-Deploy Carefully
-
-```bash
-# Ship the fix
-harmony ship checkout-fix
-
-# Enable gradually (even for fixes)
-harmony flag enable checkout-fix --scope internal
-
-# Verify fix works
-# Then full enable
-harmony flag enable checkout-fix
-```
-
----
-
-## Step 6: Postmortem
-
-**Required for any incident affecting users. AI helps write it.**
-
-```bash
-harmony postmortem create
-```
-
-AI generates a draft postmortem with:
-- Timeline (from logs and events)
-- Root cause analysis
-- Impact assessment
-- Action items
-
-### Postmortem Template
-
-```markdown
-# Incident: [Brief Description]
-
-## Summary
-One paragraph describing what happened.
-
-## Timeline
-- HH:MM - First symptom detected
-- HH:MM - Alert triggered / User reported
-- HH:MM - Investigation started
-- HH:MM - Root cause identified
-- HH:MM - Mitigation applied (rollback/flag disable)
-- HH:MM - Issue resolved
-- HH:MM - Post-incident verification
-
-## Impact
-- Duration: X minutes
-- Users affected: ~N
-- Revenue impact: $X (if applicable)
-
-## Root Cause
-What actually caused the issue.
-
-## What Went Well
-- Quick detection
-- Fast rollback
-- etc.
-
-## What Could Be Improved
-- Missing test coverage for this case
-- Alert could have triggered sooner
-- etc.
-
-## Action Items
-- [ ] Add test for null case (@owner, due date)
-- [ ] Improve alert threshold (@owner, due date)
-- [ ] Update runbook (@owner, due date)
-```
-
----
-
-## Severity Levels
-
-| Level | Definition | Response |
-|-------|------------|----------|
-| **Sev-1** | Production down, all users affected | Both devs engage, rollback immediately, postmortem required |
-| **Sev-2** | Significant degradation, many users affected | Primary on-call responds, rollback or hotfix, postmortem if > 15 min |
-| **Sev-3** | Minor issue, workaround available | Fix in normal flow, no postmortem needed |
-
-### Sev-1 Response
-
-```bash
-# Immediately
-vercel promote <previous-url>
-
-# Start tracking
-harmony incident start --severity 1
-
-# Notify
-harmony incident notify "SEV-1: Production down, rolling back"
-
-# Both devs engage
-# One focuses on mitigation
-# One focuses on investigation
-```
-
-### Sev-2 Response
-
-```bash
-# Quick assessment
-harmony investigate "brief description"
-
-# Mitigate
-harmony flag disable <flag-name>  # or rollback
-
-# Fix when stable
-harmony fix "description" --priority high
-```
-
-### Sev-3 Response
-
-```bash
-# Log the issue
-harmony fix "description"
-
-# Fix in normal flow
-# No emergency response needed
-```
-
----
-
-## Common Incidents and Responses
-
-### 500 Errors Spiking
-
-```bash
-# Quick check
-harmony investigate "500 error spike"
-
-# If recent deploy
-vercel promote <previous-url>
-
-# If specific feature
-harmony flag disable <flag-name>
-```
-
-### Slow Response Times
-
-```bash
-# Check what's slow
-harmony investigate "slow responses"
-
-# If it's a specific endpoint
-harmony flag disable <flag-name>  # if behind flag
-
-# If it's database
-# Check query logs, consider read replica, add caching
-```
-
-### External Service Down
-
-```bash
-# Check external services
-harmony health --external
-
-# Enable fallback mode if available
-harmony flag enable ops.fallback-mode
-
-# Wait for external service to recover
-```
-
-### Memory/CPU Issues
-
-```bash
-# Check resources
-harmony health --resources
-
-# If caused by recent deploy, rollback
-vercel promote <previous-url>
-
-# If gradual, investigate and scale
-```
-
----
-
-## Incident Checklist
-
-### During Incident
-
-```
-□ Acknowledge the incident
-□ Assess severity (Sev-1/2/3)
-□ Mitigate (rollback or disable flag)
-□ Communicate status
-□ Investigate root cause
-□ Apply fix
-□ Verify fix works
-□ Update communication
-□ Close incident
-```
-
-### After Incident
-
-```
-□ Write postmortem (within 48 hours)
-□ Create action items
-□ Share learnings with team
-□ Update runbooks if needed
-□ Close action items (within 2 weeks)
-```
-
----
-
-## On-Call Rotation
-
-For a 2-dev team:
-
-| Week | Primary | Backup |
-|------|---------|--------|
-| Odd weeks | Dev A | Dev B |
-| Even weeks | Dev B | Dev A |
-
-**On-call expectations:**
-- Respond to Sev-1/2 alerts within 15 minutes during work hours
-- After hours: Sev-1 only, within 30 minutes
-- No expectation to fix complex issues alone — escalate to backup
-
-**Sustainable on-call:**
-- No heroics. Rollback and hand off if needed.
-- Postmortem is about learning, not blame.
-- After an incident, next focus block is protected for recovery.
-
----
-
-## Alert Configuration
-
-AI monitors these automatically:
-
-| Metric | Alert Threshold | Severity |
-|--------|-----------------|----------|
-| Error rate (5xx) | > 1% | Sev-2 |
-| Error rate (5xx) | > 5% | Sev-1 |
-| p95 latency | > 500ms | Sev-2 |
-| p95 latency | > 2000ms | Sev-1 |
-| Error budget burn | > 2x normal | Sev-2 |
-| Error budget burn | > 5x normal | Sev-1 |
-| External service | Down | Sev-2 |
-
----
-
-## Full Documentation
-
-For detailed incident response procedures and SRE practices:
-
-- **Reliability & Ops**: [cognition/practices/methodology/reliability-and-ops.md](../../cognition/practices/methodology/reliability-and-ops.md)
-- **Security Baseline**: [cognition/practices/methodology/security-baseline.md](../../cognition/practices/methodology/security-baseline.md)
-- **Postmortem Template**: [cognition/practices/methodology/reliability-and-ops.md#blameless-postmortem-template-outline](../../cognition/practices/methodology/reliability-and-ops.md#blameless-postmortem-template-outline)
+Use `production-incident-runbook.md` for product-specific operational response
+steps such as rollback, feature flag handling, and production investigation
+commands.

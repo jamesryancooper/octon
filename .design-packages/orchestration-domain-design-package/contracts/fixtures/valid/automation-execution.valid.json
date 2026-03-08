@@ -1,0 +1,50 @@
+{
+  "automation": {
+    "automation_id": "weekly-freshness-audit",
+    "title": "Weekly Freshness Audit",
+    "workflow_ref": {
+      "workflow_group": "audit",
+      "workflow_id": "audit-continuous-workflow"
+    },
+    "owner": "orchestration-owner",
+    "status": "active"
+  },
+  "trigger": {
+    "kind": "event",
+    "event": {
+      "watcher_ids": [
+        "governance-drift-watcher"
+      ],
+      "event_types": [
+        "freshness-drift"
+      ],
+      "match_mode": "any",
+      "dedupe_window": "PT10M"
+    }
+  },
+  "bindings": {
+    "event_to_param_map": {
+      "source_ref": "target_path"
+    }
+  },
+  "policy": {
+    "max_concurrency": 1,
+    "concurrency_mode": "serialize",
+    "idempotency_strategy": {
+      "kind": "event-dedupe",
+      "key_fields": [
+        "automation_id",
+        "event_id",
+        "workflow_ref.workflow_id"
+      ]
+    },
+    "retry_policy": {
+      "max_attempts": 3,
+      "backoff": "exponential",
+      "retryable_classes": [
+        "transient"
+      ]
+    },
+    "pause_on_error": true
+  }
+}

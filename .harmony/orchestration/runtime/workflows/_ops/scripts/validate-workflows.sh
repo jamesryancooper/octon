@@ -272,6 +272,39 @@ extract_registry_workflow_block() {
   ' "$REGISTRY"
 }
 
+check_execution_controls_contract() {
+  local total_occurrences=0
+  if [[ "$HAS_RG" -eq 1 ]]; then
+    total_occurrences="$(rg -c '^[[:space:]]+execution_controls:[[:space:]]*$' "$REGISTRY" 2>/dev/null || printf '0')"
+  else
+    total_occurrences="$(grep -cE '^[[:space:]]+execution_controls:[[:space:]]*$' "$REGISTRY" 2>/dev/null || printf '0')"
+  fi
+
+  local workflow_id block validated_occurrences=0
+  for workflow_id in "${!WORKFLOW_PATHS[@]}"; do
+    block="$(extract_registry_workflow_block "$workflow_id")"
+    [[ -z "$block" ]] && continue
+
+    if printf '%s\n' "$block" | matches_stdin_regex '^[[:space:]]+execution_controls:[[:space:]]*$'; then
+      validated_occurrences=$((validated_occurrences + 1))
+
+      if printf '%s\n' "$block" | matches_stdin_regex '^[[:space:]]+cancel_safe:[[:space:]]+(true|false)[[:space:]]*$'; then
+        pass "workflow '$workflow_id' execution_controls.cancel_safe is boolean"
+      else
+        fail "workflow '$workflow_id' execution_controls.cancel_safe must be true or false"
+      fi
+    fi
+  done
+
+  if [[ "$validated_occurrences" -ne "${total_occurrences:-0}" ]]; then
+    fail "execution_controls appears outside workflow entries or is malformed in registry.yml"
+  elif [[ "${total_occurrences:-0}" -gt 0 ]]; then
+    pass "execution_controls only appears on workflow entries"
+  else
+    pass "no execution_controls declared in workflow registry"
+  fi
+}
+
 check_bounded_audit_parameter_forwarding() {
   local files
   files=(
@@ -462,6 +495,7 @@ main() {
   check_manifest_paths_exist
   check_dependency_profiles_against_steps
   check_dependency_profiles_against_registry_io
+  check_execution_controls_contract
   check_bounded_audit_contracts
   check_workflow_system_audit_static
   check_deprecated_paths

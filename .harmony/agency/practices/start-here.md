@@ -43,7 +43,7 @@ Kits: The tools AI uses under the hood. You don't call them directly.
 | Review AI's work            | Review PR + AI summary                        |
 | Ship to production          | `harmony ship` or your deployment promote command |
 | Rollback a problem          | `harmony rollback` or your deployment rollback command |
-| Handle an incident          | See [INCIDENTS.md](../../orchestration/governance/incidents.md)            |
+| Handle an incident          | See [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md)            |
 | Understand something        | `harmony explain "why did we..."`             |
 | Retry with guidance         | `harmony retry --constraint "try X instead"`  |
 | Pause AI work               | `harmony pause`                               |
@@ -103,7 +103,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 | 2 | [RISK-TIERS.md](../../cognition/runtime/context/risk-tiers.md) | 5 min | When to pay close attention |
 | 3 | [SHIPPING.md](./SHIPPING.md) | 5 min | How to release and rollback |
 | 5 | [TASKS/fix-a-bug.md](../../orchestration/runtime/workflows/tasks/fix-a-bug.md) | 5 min | Do your first guided task |
-| 7 | [INCIDENTS.md](../../orchestration/governance/incidents.md) | 5 min | What to do if production breaks |
+| 7 | [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md) | 5 min | What to do if production breaks |
 
 **Total reading for Week 1: ~30 minutes**
 
@@ -117,7 +117,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 | Want a different approach | `harmony retry --constraint "try X instead"` |
 | Need to pause AI work | `harmony pause` — Stops without discarding progress |
 | CI gates fail | AI auto-fixes most; you approve the fix PR |
-| Production incident | `harmony rollback` then [INCIDENTS.md](../../orchestration/governance/incidents.md) |
+| Production incident | `harmony rollback` then [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md) |
 | Not sure what's happening | `harmony status` — Shows current state |
 | Need command help | `harmony help <command>` — Shows options and examples |
 
@@ -169,7 +169,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 1. **Ready to start?** → [DAILY-FLOW.md](./DAILY-FLOW.md)
 2. **Want to understand risk?** → [RISK-TIERS.md](../../cognition/runtime/context/risk-tiers.md)
 3. **Need to ship something?** → [SHIPPING.md](./SHIPPING.md)
-4. **Production is down?** → [INCIDENTS.md](../../orchestration/governance/incidents.md)
+4. **Production is down?** → [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md)
 5. **Want the full details?** → [cognition/practices/methodology/README.md](../../cognition/practices/methodology/README.md) (AI-facing docs)
 
 ---

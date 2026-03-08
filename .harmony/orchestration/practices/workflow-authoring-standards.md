@@ -25,6 +25,7 @@ Applies to all workflows under `/.harmony/orchestration/runtime/workflows/`.
    - Multi-file workflows must include an ordered `steps` list whose `file`
      entries exist.
    - Step files must include `name` and `description` frontmatter.
+   - Optional `execution_controls.cancel_safe` belongs in `runtime/workflows/registry.yml`, not in `WORKFLOW.md`.
 4. **Require an explicit verification gate**
    - Every multi-file workflow must include a final verify step.
    - Workflow body must define completion criteria that are testable.
@@ -39,6 +40,9 @@ Applies to all workflows under `/.harmony/orchestration/runtime/workflows/`.
    - Runtime execution logic belongs in `runtime/`.
    - Incident policy belongs in `governance/`.
    - Authoring discipline and runbook guidance belong in `practices/`.
+8. **Declare cancellation safety conservatively**
+   - Omitted `execution_controls.cancel_safe` is treated as `false`.
+   - Set it to `true` only when partial cancellation cannot leave ambiguous side effects.
 
 ## Author Checklist
 
@@ -50,3 +54,4 @@ Applies to all workflows under `/.harmony/orchestration/runtime/workflows/`.
 - [ ] Final verify step exists and enforces completion.
 - [ ] Idempotency behavior is explicit for each step.
 - [ ] Side-effectful steps are fail-closed and policy-gated.
+- [ ] `execution_controls.cancel_safe` is declared only when cancellation is safe and deterministic.

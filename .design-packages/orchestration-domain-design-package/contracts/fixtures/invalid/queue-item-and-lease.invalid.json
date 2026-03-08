@@ -1,0 +1,16 @@
+{
+  "queue_item_id": "q-20260308-001",
+  "event_id": "evt-20260308-governance-drift-01",
+  "watcher_id": "governance-drift-watcher",
+  "target_automation_id": "weekly-freshness-audit",
+  "status": "claimed",
+  "priority": 50,
+  "available_at": "2026-03-08T18:00:00Z",
+  "claimed_by": "weekly-freshness-audit",
+  "claimed_at": "2026-03-08T18:00:05Z",
+  "claim_deadline": "2026-03-08T18:10:05Z",
+  "attempt_count": 0,
+  "max_attempts": 3,
+  "summary": "Run freshness audit for orchestration drift event.",
+  "enqueued_at": "2026-03-08T18:00:00Z"
+}

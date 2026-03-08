@@ -6,6 +6,7 @@ These schemas define field-level contracts for:
 
 - `tasks.json`
 - `entities.json`
+- `continuity/decisions/<decision-id>/decision.json`
 
 Validation is enforced by:
 

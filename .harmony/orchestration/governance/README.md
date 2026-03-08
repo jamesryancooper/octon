@@ -4,7 +4,8 @@
 
 ## Contracts
 
-- `incidents.md` - Canonical incident response governance and operating protocol.
+- `incidents.md` - Canonical incident governance contract for severity, authority, escalation, and closure.
+- `production-incident-runbook.md` - Product-specific operational response guide for production rollback and investigation.
 - `capability-map-v1.yml` - Workflow autonomy classification (`agent-ready`,
   `agent-augmented`, `human-only`).
 - `capability-map-v1.schema.json` - Validation schema for capability map

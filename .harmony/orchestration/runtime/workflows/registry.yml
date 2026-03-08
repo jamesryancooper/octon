@@ -10,6 +10,10 @@
 # - Workflows are procedural orchestrations.
 # - Composite Skills are reusable capability bundles.
 # - `depends_on.skill` may reference atomic or composite skills.
+# - Optional per-workflow execution controls may be declared as:
+#     execution_controls:
+#       cancel_safe: true|false
+#   Omitted `execution_controls.cancel_safe` is treated as `false`.
 
 routing:
   explicit_command_required: false

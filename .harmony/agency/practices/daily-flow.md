@@ -121,7 +121,7 @@ AI analyzes the alert, proposes a fix, and shows you the risk level. Approve the
 ```bash
 harmony incident start
 ```
-See [INCIDENTS.md](../../orchestration/governance/incidents.md) for full process. Rollback first, investigate second.
+See [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md) for full process. Rollback first, investigate second.
 
 **Urgent Bug:**
 ```bash
@@ -343,7 +343,7 @@ Compare to pre-AI approach where each of these would be 2-4 hours of work.
 ## Next Steps
 
 - **Need to ship something?** → [SHIPPING.md](./SHIPPING.md)
-- **Production issue?** → [INCIDENTS.md](../../orchestration/governance/incidents.md)
+- **Production issue?** → [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md)
 - **Want to understand risk tiers?** → [RISK-TIERS.md](../../cognition/runtime/context/risk-tiers.md)
 - **Specific task?** → Check [TASKS/](../../orchestration/runtime/workflows/tasks/) directory
 

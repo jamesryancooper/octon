@@ -1,0 +1,20 @@
+{
+  "incident_id": "inc-20260308-001",
+  "title": "Governance drift audit produced critical finding",
+  "severity": "sev2",
+  "status": "closed",
+  "owner": "@architect",
+  "created_at": "2026-03-08T18:10:00Z",
+  "summary": "Critical governance drift detected in orchestration artifacts.",
+  "run_ids": [
+    "run-20260308-audit-continuous-01"
+  ],
+  "workflow_refs": [
+    {
+      "workflow_group": "audit",
+      "workflow_id": "audit-continuous-workflow"
+    }
+  ],
+  "closed_at": "2026-03-08T19:10:00Z",
+  "closed_by": "@governance-owner"
+}

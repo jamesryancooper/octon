@@ -59,3 +59,15 @@ missions/<slug>/
 - **Mission `log.md`**: Isolated progress for this specific initiative
 
 Missions roll up to harness-level progress but maintain their own isolated tracking.
+
+## Optional Linkage Fields
+
+`mission.md` may also carry optional frontmatter linkage fields:
+
+- `campaign_id`
+- `default_workflow_refs`
+- `related_run_ids`
+
+Use these fields to link mission intent to strategic context, canonical
+workflow references, and material run lineage. Do not move this linkage into
+`registry.yml`; the registry remains the discovery and lifecycle index.

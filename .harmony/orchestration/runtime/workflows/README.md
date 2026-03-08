@@ -19,6 +19,20 @@ Governance migration profile is tracked separately as `change_profile`:
 - `atomic`
 - `transitional`
 
+## Execution Controls
+
+Workflow entries in `registry.yml` may declare optional execution controls.
+
+Current machine-readable control:
+
+- `execution_controls.cancel_safe: true|false`
+
+Use this only when cancellation is safe and deterministic for the workflow.
+If omitted, Harmony treats `cancel_safe` as `false`.
+
+This field exists for orchestration-time behavior such as automation
+`replace` semantics. It is not a scheduling or lifecycle field.
+
 Use `.harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh` to validate profile boundaries, manifest path parity, and the CI-blocking static slice of the workflow-system audit.
 
 The full workflow-system bounded audit is defined by:

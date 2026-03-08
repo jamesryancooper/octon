@@ -19,10 +19,14 @@ What happened, what is active now, and what should happen next?
 ├── log.md
 ├── tasks.json
 ├── entities.json
-└── next.md
+├── next.md
+├── decisions/
+└── runs/
 ```
 
-This contract is authoritative. Continuity artifacts must be represented through these files.
+The four top-level files are the authoritative handoff contract for active
+continuity state. `decisions/` and `runs/` are authoritative append-oriented
+evidence surfaces.
 
 ## File Responsibilities
 
@@ -51,6 +55,13 @@ This contract is authoritative. Continuity artifacts must be represented through
 - Must reference active unblocked task IDs from `tasks.json`.
 - Purpose: fast handoff surface for the next execution session.
 
+### `.harmony/continuity/decisions/`
+
+- Append-oriented routing, authority, and prerequisite decision evidence.
+- Canonical home for orchestration `allow`, `block`, and `escalate` records.
+- Lifecycle governed by `/.harmony/continuity/decisions/retention.json`.
+- Not a source of active task state.
+
 ### `.harmony/continuity/runs/`
 
 - Append-oriented run evidence artifacts (receipts, digests, policy traces).
@@ -68,6 +79,7 @@ This contract is authoritative. Continuity artifacts must be represented through
 | `tasks.json` | Mutable | Update status/ownership/blockers and knowledge links as work changes. |
 | `entities.json` | Mutable | Keep IDs stable; align owner/related_tasks with task state. |
 | `next.md` | Mutable | Keep concise, executable, and coherent with active unblocked tasks. |
+| `decisions/` | Append-oriented evidence | Apply retention classes and lifecycle actions from `decisions/retention.json`. |
 | `runs/` | Append-oriented evidence | Apply retention classes and lifecycle actions from `runs/retention.json`. |
 
 ## Cross-Subsystem Integration
@@ -82,12 +94,14 @@ This contract is authoritative. Continuity artifacts must be represented through
 - `tasks.json` and `next.md` must be coherent: `next.md` should point to active, unblocked items.
 - `entities.json` should reflect ownership and lifecycle before handoff.
 - Continuity JSON artifacts must satisfy canonical schema contracts under `_meta/architecture/schemas/`.
+- Decision evidence directories under `decisions/` must map to a declared retention class.
 - Run evidence directories under `runs/` must map to a declared retention class.
 - Post-cutover run evidence should support context-overhead classification (`within-target`, `warn`, `soft-fail`, `hard-fail`).
 
 ## Anti-Patterns
 
 - Storing active work state outside the canonical four-file contract.
+- Treating `decisions/` or `runs/` as mutable task state.
 - Letting `next.md` diverge from `tasks.json`.
 - Backfilling large historical edits into `log.md` without clear correction notes.
 - Using legacy task fields such as `blocked_by` instead of canonical `blockers`.

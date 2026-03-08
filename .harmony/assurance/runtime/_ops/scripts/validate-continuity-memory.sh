@@ -9,6 +9,9 @@ ROOT_DIR="$(cd -- "$HARMONY_DIR/.." && pwd)"
 TASKS_FILE="$HARMONY_DIR/continuity/tasks.json"
 ENTITIES_FILE="$HARMONY_DIR/continuity/entities.json"
 NEXT_FILE="$HARMONY_DIR/continuity/next.md"
+DECISIONS_DIR="$HARMONY_DIR/continuity/decisions"
+DECISIONS_POLICY_FILE="$DECISIONS_DIR/retention.json"
+DECISION_SCHEMA_FILE="$HARMONY_DIR/continuity/_meta/architecture/schemas/decision-record.schema.json"
 RUNS_DIR="$HARMONY_DIR/continuity/runs"
 RUNS_POLICY_FILE="$RUNS_DIR/retention.json"
 
@@ -485,6 +488,222 @@ validate_next_contract() {
   pass "next.md Current section references active unblocked tasks"
 }
 
+validate_decisions_retention_contract() {
+  echo "== Validate continuity/decisions retention and records =="
+  require_dir "$DECISIONS_DIR" || return
+  require_file "$DECISIONS_POLICY_FILE" || return
+  require_file "$DECISIONS_DIR/README.md" || return
+  require_file "$DECISION_SCHEMA_FILE" || return
+  validate_json_file "$DECISIONS_POLICY_FILE"
+  validate_json_file "$DECISION_SCHEMA_FILE"
+
+  if ! jq -e '
+    type == "object"
+    and .schema_version == "1.0"
+    and (.default_action | type == "string" and length > 0)
+    and (.classes | type == "array" and length > 0)
+    and (.always_keep_files | type == "array")
+  ' "$DECISIONS_POLICY_FILE" >/dev/null; then
+    fail "decisions retention policy root contract mismatch"
+  else
+    pass "decisions retention policy root contract is valid"
+  fi
+
+  local dup_class_ids
+  dup_class_ids="$(
+    jq -r '.classes | map(.id) | group_by(.)[] | select(length > 1) | .[0]' "$DECISIONS_POLICY_FILE" 2>/dev/null || true
+  )"
+  if [[ -n "$dup_class_ids" ]]; then
+    fail "duplicate decision retention class ids: $(echo "$dup_class_ids" | paste -sd ', ' -)"
+  else
+    pass "decision retention class ids are unique"
+  fi
+
+  local bad_classes
+  bad_classes="$(
+    jq -r '
+      .classes[]
+      | select(
+          (.id | type != "string" or length == 0)
+          or (.description | type != "string" or length == 0)
+          or (.match_prefixes | type != "array" or length == 0)
+          or ([.match_prefixes[]? | select((type != "string") or (length == 0))] | length > 0)
+          or (.retention_days | type != "number" or . <= 0)
+          or ((.action_after_retention as $a | ["archive","prune","retain"] | index($a)) == null)
+        )
+      | .id
+    ' "$DECISIONS_POLICY_FILE" 2>/dev/null || true
+  )"
+  if [[ -n "$bad_classes" ]]; then
+    fail "decision retention classes missing required fields: $(echo "$bad_classes" | paste -sd ', ' -)"
+  else
+    pass "decision retention classes are well formed"
+  fi
+
+  declare -A allowed_files=()
+  while IFS= read -r filename; do
+    [[ -z "$filename" ]] && continue
+    allowed_files["$filename"]=1
+  done < <(jq -r '.always_keep_files[]?' "$DECISIONS_POLICY_FILE" 2>/dev/null || true)
+
+  while IFS= read -r top_file; do
+    [[ -z "$top_file" ]] && continue
+    local file_name
+    file_name="$(basename "$top_file")"
+    if [[ -z "${allowed_files[$file_name]+x}" ]]; then
+      fail "decisions/ contains top-level file not listed in always_keep_files: ${file_name}"
+    fi
+  done < <(find "$DECISIONS_DIR" -mindepth 1 -maxdepth 1 -type f | sort)
+  pass "decisions top-level files match retention policy allowlist"
+
+  local class_prefixes
+  class_prefixes="$(
+    jq -r '.classes[] | .id as $id | .match_prefixes[] | [$id, .] | @tsv' "$DECISIONS_POLICY_FILE" 2>/dev/null || true
+  )"
+
+  local decision_path decision_name matched class_id prefix
+  while IFS= read -r decision_path; do
+    [[ -z "$decision_path" ]] && continue
+    decision_name="$(basename "$decision_path")"
+    matched=0
+
+    while IFS=$'\t' read -r class_id prefix; do
+      [[ -z "$class_id" || -z "$prefix" ]] && continue
+      if [[ "$decision_name" == "$prefix"* ]]; then
+        matched=1
+        break
+      fi
+    done <<< "$class_prefixes"
+
+    if [[ "$matched" -eq 0 ]]; then
+      fail "decision directory does not match any retention class prefix: $decision_name"
+    fi
+
+    local decision_json digest_md extra_files
+    decision_json="$decision_path/decision.json"
+    digest_md="$decision_path/digest.md"
+    if [[ ! -f "$decision_json" ]]; then
+      fail "decision directory missing decision.json: ${decision_path#$ROOT_DIR/}"
+      continue
+    fi
+
+    validate_json_file "$decision_json"
+
+    extra_files="$(
+      find "$decision_path" -mindepth 1 -maxdepth 1 -type f \
+        ! -name 'decision.json' ! -name 'digest.md' -print
+    )"
+    if [[ -n "$extra_files" ]]; then
+      fail "decision directory contains unsupported files: $(echo "$extra_files" | sed "s#${ROOT_DIR}/##g" | paste -sd ', ' -)"
+    else
+      pass "decision directory contains only allowed files: ${decision_path#$ROOT_DIR/}"
+    fi
+
+    local invalid_root
+    invalid_root="$(
+      jq -r '
+        def nonempty_string: type == "string" and length > 0;
+        select(
+          (type != "object")
+          or ((.decision_id | nonempty_string) | not)
+          or ((.outcome as $o | ["allow","block","escalate"] | index($o)) == null)
+          or ((.surface | nonempty_string) | not)
+          or ((.action | nonempty_string) | not)
+          or ((.actor | nonempty_string) | not)
+          or (((.decided_at // "") | test("^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$")) | not)
+          or ((.summary | nonempty_string) | not)
+          or (.reason_codes | type != "array" or length == 0 or ([.reason_codes[]? | select((type != "string") or (length == 0))] | length > 0))
+        )
+        | .decision_id // "<missing-decision-id>"
+      ' "$decision_json" 2>/dev/null || true
+    )"
+    if [[ -n "$invalid_root" ]]; then
+      fail "decision record missing required root fields: ${decision_json#$ROOT_DIR/}"
+      continue
+    else
+      pass "decision record root fields are valid: ${decision_json#$ROOT_DIR/}"
+    fi
+
+    local unknown_fields
+    unknown_fields="$(
+      jq -r \
+        --argjson allowed '["decision_id","outcome","surface","action","actor","decided_at","reason_codes","summary","workflow_ref","mission_id","automation_id","incident_id","event_id","queue_item_id","run_id","approval_refs"]' '
+        ((keys_unsorted - $allowed) // []) | join(",")
+      ' "$decision_json" 2>/dev/null || true
+    )"
+    if [[ -n "$unknown_fields" ]]; then
+      fail "decision record contains unsupported fields (${unknown_fields}): ${decision_json#$ROOT_DIR/}"
+    else
+      pass "decision record fields conform to canonical schema: ${decision_json#$ROOT_DIR/}"
+    fi
+
+    local bad_workflow_ref
+    bad_workflow_ref="$(
+      jq -r '
+        select(has("workflow_ref"))
+        | select(
+            (.workflow_ref | type != "object")
+            or ((.workflow_ref.workflow_group | type) != "string")
+            or ((.workflow_ref.workflow_group | length) == 0)
+            or ((.workflow_ref.workflow_id | type) != "string")
+            or ((.workflow_ref.workflow_id | length) == 0)
+            or (((.workflow_ref | keys_unsorted) - ["workflow_group","workflow_id"]) | length > 0)
+          )
+        | .decision_id
+      ' "$decision_json" 2>/dev/null || true
+    )"
+    if [[ -n "$bad_workflow_ref" ]]; then
+      fail "decision record workflow_ref is invalid: ${decision_json#$ROOT_DIR/}"
+    else
+      pass "decision record workflow_ref is valid when present: ${decision_json#$ROOT_DIR/}"
+    fi
+
+    local bad_approval_refs
+    bad_approval_refs="$(
+      jq -r '
+        select(
+          has("approval_refs")
+          and (
+            (.approval_refs | type != "array")
+            or ([.approval_refs[]? | select((type != "string") or (length == 0))] | length > 0)
+          )
+        )
+        | .decision_id
+      ' "$decision_json" 2>/dev/null || true
+    )"
+    if [[ -n "$bad_approval_refs" ]]; then
+      fail "decision record approval_refs must be a non-empty-string array: ${decision_json#$ROOT_DIR/}"
+    else
+      pass "decision record approval_refs are valid when present: ${decision_json#$ROOT_DIR/}"
+    fi
+
+    local basename_mismatch
+    basename_mismatch="$(
+      jq -r '.decision_id' "$decision_json" 2>/dev/null || true
+    )"
+    if [[ -n "$basename_mismatch" && "$basename_mismatch" != "$decision_name" ]]; then
+      fail "decision directory name does not match decision_id: ${decision_path#$ROOT_DIR/}"
+    else
+      pass "decision directory name matches decision_id: ${decision_path#$ROOT_DIR/}"
+    fi
+
+    local bad_run_outcome
+    bad_run_outcome="$(
+      jq -r '
+        select(has("run_id") and .outcome != "allow")
+        | .decision_id
+      ' "$decision_json" 2>/dev/null || true
+    )"
+    if [[ -n "$bad_run_outcome" ]]; then
+      fail "decision record run_id is only allowed when outcome=allow: ${decision_json#$ROOT_DIR/}"
+    else
+      pass "decision record run_id/outcome invariant holds: ${decision_json#$ROOT_DIR/}"
+    fi
+  done < <(find "$DECISIONS_DIR" -mindepth 1 -maxdepth 1 -type d | sort)
+
+  pass "decision directories map to retention classes"
+}
+
 validate_runs_retention_contract() {
   echo "== Validate continuity/runs retention contract =="
   require_dir "$RUNS_DIR" || return
@@ -588,6 +807,7 @@ main() {
   validate_tasks_contract
   validate_entities_contract
   validate_next_contract
+  validate_decisions_retention_contract
   validate_runs_retention_contract
 
   echo

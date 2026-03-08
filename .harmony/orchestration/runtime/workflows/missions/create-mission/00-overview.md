@@ -35,7 +35,8 @@ Scaffold a new mission with isolated progress tracking.
 
 1. **Validate slug** — Check format and uniqueness
 2. **Copy template** — Copy `missions/_scaffold/template/` to `missions/<slug>/`
-3. **Initialize mission.md** — Update with slug, start date, placeholder goal
+3. **Initialize mission.md** — Update with slug, start date, placeholder goal,
+   and default linkage fields
 4. **Initialize tasks.json** — Set mission name
 5. **Initialize log.md** — Add creation entry with date
 6. **Update registry** — Add mission to `active` list in `registry.yml`
@@ -47,7 +48,7 @@ A new mission directory ready for work:
 
 ```text
 missions/<slug>/
-├── mission.md     # Ready for goal/scope definition
+├── mission.md     # Ready for goal/scope/linkage definition
 ├── tasks.json     # Empty task list
 └── log.md         # Creation entry logged
 ```
@@ -60,7 +61,7 @@ missions/<slug>/
 
 ## Next Steps After Creation
 
-1. Edit `mission.md` to define goal, scope, and success criteria
+1. Edit `mission.md` to define goal, scope, success criteria, and optional linkage fields
 2. Assign an owner (agent role or @assistant)
 3. Add initial tasks to `tasks.json`
 4. Begin work on the mission

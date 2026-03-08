@@ -25,7 +25,8 @@ Read in this order:
 1. `runtime/workflows/manifest.yml` for workflow discovery (Tier 1)
 2. `runtime/workflows/registry.yml` for workflow metadata and dependencies (Tier 2)
 3. `runtime/missions/registry.yml` for active mission registry
-4. `governance/incidents.md` for incident response governance
+4. `governance/incidents.md` for incident governance
+5. `governance/production-incident-runbook.md` for production operational response steps
 5. `practices/workflow-authoring-standards.md` and
    `practices/mission-lifecycle-standards.md` for operating discipline
 

@@ -1,0 +1,13 @@
+{
+  "decision_id": "dec-20260308-weekly-freshness-audit-block-01",
+  "outcome": "block",
+  "surface": "automations",
+  "action": "launch-workflow",
+  "actor": "weekly-freshness-audit",
+  "decided_at": "2026-03-08T18:04:00Z",
+  "reason_codes": [
+    "cancel-safe-missing"
+  ],
+  "summary": "Replacement launch blocked because the target workflow is not cancel-safe.",
+  "run_id": "run-20260308-audit-continuous-01"
+}
