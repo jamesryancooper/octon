@@ -43,7 +43,8 @@ Before execution, the orchestrator must confirm:
 4. required runtime artifacts exist and are readable
 5. policy permits the requested action
 6. idempotency context is known
-7. required approvals exist for escalated or closure actions
+7. required approvals exist for escalated or privileged actions
+8. required coordination guarantees exist for side-effectful actions
 
 If any prerequisite is missing:
 
@@ -181,6 +182,9 @@ No runtime surface may silently become the policy author for another surface.
 | unresolved mission/workflow reference | `block` |
 | queue item without target automation | `block` |
 | duplicate or conflicting trigger selection | `block` |
+| invalid event bindings or missing required event input | `block` |
+| missing coordination key for side-effectful execution | `block` |
+| lock acquisition failed for side-effectful execution | `block` or defer per policy |
 | automation `replace` on workflow without `execution_controls.cancel_safe=true` | `block` |
 | automation policy requires approval not present | `escalate` |
 | incident closure requested without evidence | `block` |

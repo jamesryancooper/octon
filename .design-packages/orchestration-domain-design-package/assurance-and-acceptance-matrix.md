@@ -18,6 +18,8 @@ Define how the orchestration model will be validated before promotion into live
 | Evidence traceability | lineage and evidence links resolve both directions |
 | Incident control | incidents contain, escalate, and close correctly |
 | Discovery conformance | progressive-disclosure and SSOT rules hold |
+| Coordination safety | side-effectful actions acquire and retain required coordination |
+| Run liveness | active executor ownership and recovery are deterministic |
 
 ## Validation Expectations
 
@@ -27,7 +29,7 @@ Define how the orchestration model will be validated before promotion into live
 - every schema-backed contract has a machine-readable schema and fixtures
 - required fields exist
 - prohibited fields or states are rejected
-- live-authority-backed contracts are explicitly marked as such in
+- package-normative and schema-backed contracts are explicitly marked in
   `implementation-readiness.md`
 
 ### Schema And Shape Validation
@@ -41,8 +43,12 @@ Define how the orchestration model will be validated before promotion into live
 ### Routing Determinism Checks
 
 - queue items resolve to exactly one automation target
+- one watcher event may fan out deterministically to zero or more queue items
 - automations resolve to exactly one workflow target
 - event-trigger selection is deterministic under the declared match mode
+- `dedupe_window` suppression is deterministic
+- bindings are validated before admission
+- schedule-window resolution is deterministic across timezone and DST handling
 - every material action attempt resolves to exactly one `decision_id`
 - unresolved references block
 
@@ -53,6 +59,9 @@ Define how the orchestration model will be validated before promotion into live
 - queue item with missing target does not enter active claim path
 - blocked or escalated material actions write decision records
 - incident closure without evidence blocks
+- orphan allow decisions are detected before speculative relaunch
+- privileged actions without valid approval or override artifacts do not pass
+- side-effectful launches without acquired coordination do not pass
 
 ### Authority-Boundary Checks
 
@@ -78,6 +87,14 @@ Define how the orchestration model will be validated before promotion into live
 - mission-linked runs resolve both directions
 - incident-linked runs resolve both directions
 - queue/event/automation provenance resolves where present
+- active runs expose executor ownership and liveness state
+
+### Coordination And Liveness Checks
+
+- side-effectful executions derive deterministic `coordination_key`
+- coordination lock contention is handled deterministically across entry modes
+- active runs require `executor_id`, heartbeat, and lease state
+- stale active runs move into deterministic recovery behavior
 
 ### Incident Containment And Closure Checks
 
@@ -101,7 +118,7 @@ Define how the orchestration model will be validated before promotion into live
 | `runs` | continuity evidence linkage validates; `decision_id` resolves; projections do not outrank evidence |
 | `automations` | trigger selection deterministic; concurrency and idempotency rules enforced across `serialize`, `drop`, `parallel`, and `replace` |
 | `watchers` | event envelope valid; emits only through contract; no direct launch authority |
-| `queue` | automation-ingress only; claim token, lease, retry, and dead-letter semantics deterministic |
+| `queue` | automation-ingress only; event fan-out, claim token, lease, retry, and dead-letter semantics deterministic |
 | `incidents` | lifecycle valid; closure evidence required; escalation visible |
 | `campaigns` | aggregation only; no execution ownership; optionality preserved |
 
@@ -124,7 +141,8 @@ Define how the orchestration model will be validated before promotion into live
 | `G3` | evidence safety | material runs and blocked/escalated actions produce required evidence |
 | `G4` | authority safety | no surface exceeds its bounded authority |
 | `G5` | operational safety | pause/resume, queue retry, and incident closure behave correctly |
-| `G6` | canonicalization readiness | runtime/governance/practices/validation targets defined for promotion |
+| `G6` | hardened runtime safety | coordination, approvals, bindings, and run recovery behave correctly |
+| `G7` | canonicalization readiness | runtime/governance/practices/validation targets defined for promotion |
 
 ## Minimum Promotion Recommendation
 
@@ -132,4 +150,4 @@ Do not promote a proposed surface into live `.harmony/orchestration/` authority
 surfaces until it passes:
 
 - `G0` through `G4` for prototype implementation
-- `G0` through `G6` for canonical rollout
+- `G0` through `G7` for canonical rollout

@@ -47,9 +47,9 @@ Required for all automations.
 
 | Field | Required | Notes |
 |---|---|---|
-| `cadence` | yes | schedule cadence |
-| `at` | yes | execution time |
-| `timezone` | yes | timezone |
+| `cadence` | yes | schedule cadence using the grammar in `../orchestration-execution-model.md` |
+| `at` | yes | local execution time in `HH:MM` 24-hour form |
+| `timezone` | yes | IANA timezone |
 | `missed_run_policy` | yes | `skip`, `run_immediately`, `next_window` |
 
 #### `trigger.yml` event shape
@@ -60,15 +60,15 @@ Required for all automations.
 | `event_types` | yes | allowed event types |
 | `severity_at_or_above` | no | minimum event severity |
 | `source_ref_globs` | no | optional source filters |
-| `match_mode` | yes | `all` or `any` |
-| `dedupe_window` | no | optional event dedupe window |
+| `match_mode` | yes | `all` requires every declared selector group to match; `any` requires at least one declared selector group to match |
+| `dedupe_window` | no | optional suppression window for semantically identical events after idempotency-key derivation |
 
 ### `bindings.yml`
 
 | Field | Required | Notes |
 |---|---|---|
 | `default_params` | no | workflow parameter defaults |
-| `event_to_param_map` | no | only for event-triggered automations |
+| `event_to_param_map` | no | only for event-triggered automations; governed by `../automation-bindings-contract.md` |
 
 ### `policy.yml`
 
@@ -78,7 +78,7 @@ Required for all automations.
 | `concurrency_mode` | yes | `serialize`, `drop`, `replace`, `parallel` |
 | `idempotency_strategy.kind` | yes | `event-dedupe` or `schedule-window` |
 | `idempotency_strategy.key_fields` | yes | canonical fields used to derive the idempotency key |
-| `retry_policy` | yes | attempts, backoff, retryable error classes |
+| `retry_policy` | yes | attempts, supported backoff mode (`fixed`, `linear`, `exponential`), and canonical retryable error classes from `../failure-model.md` |
 | `pause_on_error` | yes | boolean |
 | `incident_policy` | no | incident escalation threshold or target |
 
@@ -152,12 +152,19 @@ Required for all automations.
 3. Every blocked, dropped, or escalated launch attempt must emit a decision
    record, even when no run is created.
 4. Event-triggered automations must select events only through `trigger.yml`.
-5. `max_concurrency`, `concurrency_mode`, and idempotency rules must be
+5. Event-triggered launches must validate bindings according to
+   `../automation-bindings-contract.md` before `allow` is possible.
+6. Side-effectful launches must satisfy
+   `../concurrency-control-model.md` in addition to automation-local overlap
+   policy.
+7. `max_concurrency`, `concurrency_mode`, and idempotency rules must be
    enforced before workflow launch.
-6. `replace` may not preempt a workflow unless
+8. `replace` may not preempt a workflow unless
    `execution_controls.cancel_safe=true`.
-7. If `pause_on_error=true`, repeated terminal failures move the automation to
+9. If `pause_on_error=true`, repeated terminal failures move the automation to
    `paused`.
+10. One event may route to multiple automations, but each queue item and each
+   admitted launch remains automation-specific.
 
 ## Example Policy
 
@@ -174,7 +181,7 @@ retry_policy:
   max_attempts: 3
   backoff: "exponential"
   retryable_classes:
-    - "transient"
+    - "transient_runtime_failure"
 pause_on_error: true
 incident_policy:
   open_incident_on:

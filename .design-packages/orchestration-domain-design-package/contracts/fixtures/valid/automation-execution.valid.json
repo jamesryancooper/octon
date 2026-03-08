@@ -24,7 +24,11 @@
   },
   "bindings": {
     "event_to_param_map": {
-      "source_ref": "target_path"
+      "target_path": {
+        "from": "event.source_ref",
+        "required": true,
+        "value_type": "string"
+      }
     }
   },
   "policy": {
@@ -42,7 +46,7 @@
       "max_attempts": 3,
       "backoff": "exponential",
       "retryable_classes": [
-        "transient"
+        "transient_runtime_failure"
       ]
     },
     "pause_on_error": true

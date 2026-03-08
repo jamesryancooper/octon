@@ -82,8 +82,32 @@
       "type": "string",
       "minLength": 1
     },
+    "coordination_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lock_required": {
+      "type": "boolean"
+    },
+    "lock_status": {
+      "type": "string",
+      "enum": [
+        "acquired",
+        "not-required",
+        "deferred",
+        "failed"
+      ]
+    },
     "approval_refs": {
       "$ref": "#/$defs/stringArray"
+    },
+    "override_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approval_scope_hash": {
+      "type": "string",
+      "minLength": 1
     }
   },
   "$defs": {
@@ -130,6 +154,21 @@
             "run_id"
           ]
         }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lock_required": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "coordination_key",
+          "lock_status"
+        ]
       }
     }
   ]

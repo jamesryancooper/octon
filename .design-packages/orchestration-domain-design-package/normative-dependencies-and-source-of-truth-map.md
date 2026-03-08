@@ -2,46 +2,46 @@
 
 ## Purpose
 
-This document identifies which orchestration rules are defined inside this
-package, which are inherited from canonical Harmony doctrine outside the
-package, and which file is authoritative for each major rule category.
-
-The goal is to eliminate ambiguity for implementers. A future implementer
-should not have to ask:
-
-`Which file is actually authoritative for this rule?`
-
-## Why This Map Is Needed
-
-The orchestration package is intentionally layered:
-
-- top-level architecture and framing docs explain the model
-- contracts define object and interface behavior
-- control documents define execution, lifecycle, evidence, and assurance rules
-- surface specs define responsibilities and boundaries
-- ADRs preserve rationale
-
-That layering is correct, but it also creates the risk of overlap if authority
-is not mapped explicitly.
+Identify which documents are authoritative for implementing the orchestration
+domain described by this package and distinguish package-local source of truth
+from higher-precedence repository governance.
 
 ## Global Harmony Precedence
 
-This package does not override repository-level or canonical Harmony authority.
+This package does not override repository-wide governance or continuity
+ownership.
 
 When conflicts exist, the higher-precedence Harmony authority wins:
 
 1. repository ingress and agent governance authorities (`AGENTS.md`,
    `CONSTITUTION.md`, delegation/memory overlays, active objective/intent)
-2. live canonical `.harmony/` authority surfaces
-3. this proposal package
+2. continuity ownership and retention authorities for
+   `continuity/decisions/` and `continuity/runs/`
+3. this package for target orchestration-domain behavior
 
-This package is a design-and-control package, not a runtime authority surface.
+Within the orchestration-domain design scope, this package is the package-local
+source of truth for target runtime behavior, contracts, lifecycle, and safety.
 
 ## Package-Local Normative Documents
 
-These documents are normative inside the package:
+### Core Domain And Architecture
 
-### Control Documents
+- `domain-model.md`
+- `runtime-architecture.md`
+- `orchestration-execution-model.md`
+- `dependency-resolution.md`
+- `concurrency-control-model.md`
+- `approval-and-override-contract.md`
+- `automation-bindings-contract.md`
+- `run-liveness-and-recovery-spec.md`
+- `approver-authority-model.md`
+- `surface-artifact-schemas.md`
+- `orchestration-lifecycle.md`
+- `governance-and-policy.md`
+- `failure-model.md`
+- `observability.md`
+
+### Detailed Control Documents
 
 - `lifecycle-and-state-machine-spec.md`
 - `routing-authority-and-execution-control.md`
@@ -53,15 +53,15 @@ These documents are normative inside the package:
 
 - all files under `contracts/`
 
-### Promotion Planning
+### Readiness And Promotion Planning
 
-- `canonicalization-target-map.md`
 - `implementation-readiness.md`
+- `canonicalization-target-map.md`
 
-## Package-Local Reference Documents
+## Package-Local Reference Or Historical Documents
 
-These documents are explanatory or planning-oriented, not the final source of
-behavioral truth when a more specific normative document exists:
+These documents remain useful, but they are not the primary behavioral source of
+truth when a more specific normative document exists:
 
 - `mature-harmony-orchestration-model.md`
 - `layered-model.md`
@@ -77,99 +77,93 @@ behavioral truth when a more specific normative document exists:
 - all files under `surfaces/`
 - all files under `adr/`
 
-Surface specs remain authoritative for surface purpose and non-goals unless a
-more specific contract or control document defines stricter behavior.
+Surface specs remain authoritative for surface purpose, role, and non-goals
+unless a more specific contract or control document defines stricter behavior.
 
 ## Externally Inherited Harmony Authorities
 
-This package depends on the following canonical Harmony authorities outside the
-package:
+The package still depends on external Harmony authorities for:
 
 | External Authority | Why It Matters |
 |---|---|
-| `AGENTS.md` and governing overlays | global process, safety, and precedence rules |
+| `AGENTS.md` and governing overlays | repo-wide process, safety, and precedence rules |
 | `.harmony/OBJECTIVE.md` and active intent contract | objective-bound execution and authorized scope |
-| `.harmony/orchestration/_meta/architecture/specification.md` | canonical workflow model and progressive disclosure rules |
-| `.harmony/orchestration/practices/workflow-authoring-standards.md` | existing workflow authoring constraints |
-| `.harmony/orchestration/practices/mission-lifecycle-standards.md` | existing mission lifecycle discipline |
-| `.harmony/orchestration/governance/incidents.md` | incident-response governance baseline |
-| `.harmony/orchestration/governance/production-incident-runbook.md` | product-specific operational response guide; not the governance source of truth |
-| `.harmony/continuity/_meta/architecture/continuity-plane.md` | canonical continuity boundary and evidence separation |
-| `.harmony/continuity/decisions/README.md` and decisions retention docs | durable decision evidence ownership |
-| `.harmony/continuity/runs/README.md` and retention policy | durable run evidence ownership |
+| `.harmony/continuity/_meta/architecture/continuity-plane.md` | continuity ownership and evidence separation |
+| `.harmony/continuity/decisions/README.md` and retention docs | decision-evidence ownership and lifecycle |
+| `.harmony/continuity/runs/README.md` and retention docs | durable run-evidence ownership and lifecycle |
+
+Current live workflow and mission docs under `.harmony/orchestration/` are
+implementation integration context and promotion targets. They are not the
+primary source of target orchestration behavior for this package.
 
 ## Source Of Truth Matrix
 
-| Rule Category | Primary Authority In Package | External Dependency | Notes |
+| Rule Category | Primary Authority In Package | Secondary / Supporting Authority | Notes |
 |---|---|---|---|
-| taxonomy | `canonical-surface-taxonomy.md` | Harmony objective and orchestration framing docs | explains classes and ownership |
-| lifecycle | `lifecycle-and-state-machine-spec.md` | live mission/workflow baseline docs | control doc overrides weaker prose summaries in surface specs |
-| routing / authority | `routing-authority-and-execution-control.md` | AGENTS/governance/intent authorities | defines `allow`, `escalate`, `block` behavior |
-| decision evidence | `contracts/decision-record-contract.md` and `evidence-observability-and-retention-spec.md` | continuity plane architecture plus live `continuity/decisions/` authority | canonical `decision_id` and decision evidence ownership |
-| evidence | `evidence-observability-and-retention-spec.md` | continuity evidence authorities | runtime projections may not outrank continuity evidence |
-| runtime shape | `runtime-shape-and-directory-structure.md` | canonicalization target map | structural reference |
-| discovery metadata | `contracts/discovery-and-authority-layer-contract.md` | workflow progressive disclosure spec | authoritative for promoted-surface discovery layering |
-| contract behavior | relevant file under `contracts/` | higher-precedence Harmony authorities only | contracts outrank surface specs for behavioral rules |
-| promotion criteria | `assurance-and-acceptance-matrix.md` and `implementation-readiness.md` | canonicalization target map | rollout readiness still requires live implementation |
+| domain vocabulary and ownership | `domain-model.md` | surface specs | canonical definitions and responsibilities |
+| runtime component responsibilities | `runtime-architecture.md` | `runtime-shape-and-directory-structure.md` | logical component model and write ownership |
+| execution entry modes and scheduling | `orchestration-execution-model.md` | `reference-examples.md` | canonical launch and scheduling semantics |
+| dependency and trigger resolution | `dependency-resolution.md` | `contracts/cross-surface-reference-contract.md` | deterministic reference and trigger matching |
+| target-global coordination | `concurrency-control-model.md` | `runtime-architecture.md` | lock derivation and contention behavior |
+| approvals and overrides | `approval-and-override-contract.md` | `governance-and-policy.md` | privileged action authorization |
+| automation binding semantics | `automation-bindings-contract.md` | `contracts/automation-execution-contract.md` | event-to-parameter mapping and validation |
+| run liveness and recovery | `run-liveness-and-recovery-spec.md` | `runtime-architecture.md`, `failure-model.md` | executor ownership and stale-run recovery |
+| workflow execution metadata | `contracts/workflow-execution-contract.md` | `orchestration-execution-model.md` | executable workflow metadata and launch interface |
+| coordination lock artifact | `contracts/coordination-lock-contract.md` | `concurrency-control-model.md` | lock schema, lease, and CAS semantics |
+| approver authority verification | `approver-authority-model.md` | `approval-and-override-contract.md` | approver registry and scope validation |
+| surface artifact schema coverage | `surface-artifact-schemas.md` | `contracts/discovery-and-authority-layer-contract.md` | required schema-backed runtime artifacts |
+| lifecycle phase model | `orchestration-lifecycle.md` | `lifecycle-and-state-machine-spec.md` | phase model first, detailed tables second |
+| per-surface state transitions | `lifecycle-and-state-machine-spec.md` | relevant surface contract | exact states and invariants |
+| routing / authority | `routing-authority-and-execution-control.md` | `governance-and-policy.md` | `allow` / `block` / `escalate` rules |
+| governance and approvals | `governance-and-policy.md` | repository governance authorities | policy stack and enforcement points |
+| failure semantics and recovery | `failure-model.md` | `failure-modes-and-safety-analysis.md` | canonical failure classes and recovery posture |
+| observability and operator lookup | `observability.md` | `evidence-observability-and-retention-spec.md` | health, correlation, and lookup guarantees |
+| decision evidence | `contracts/decision-record-contract.md` | continuity decision authorities | canonical `decision_id` and storage shape |
+| run evidence and linkage | `contracts/run-linkage-contract.md` | continuity run authorities | runtime projection plus evidence linkage |
+| discovery layering and SSOT | `contracts/discovery-and-authority-layer-contract.md` | `runtime-architecture.md` | package-local discovery and state ownership |
+| promotion criteria | `implementation-readiness.md` and `assurance-and-acceptance-matrix.md` | `canonicalization-target-map.md` | build-readiness vs live rollout readiness |
 
 ## What This Package Intentionally Does Not Redefine
 
 This package does not redefine:
 
 - repository-wide governance precedence
-- live workflow spec semantics already defined in `.harmony/orchestration`
-- live mission lifecycle semantics already defined in `.harmony/orchestration`
-- continuity as the owner of append-oriented durable evidence
-- human authority over policy authorship, exception handling, and escalation
+- active objective / intent authority
+- continuity ownership of append-oriented durable decision and run evidence
+- full workflow authoring syntax outside the orchestration-facing behaviors this
+  package consumes
 
 ## Conflict Resolution Inside The Package
 
-When two package docs appear to overlap, use this order:
+When two package docs overlap, resolve in this order:
 
 1. specific contract docs in `contracts/`
-2. control docs
-3. implementation-readiness and canonicalization planning docs
-4. surface specs
-5. architecture/reference docs
-6. ADRs and examples
-
-### Examples
-
-- If `surfaces/queue.md` and `contracts/queue-item-and-lease-contract.md`
-  differ on queue behavior, the contract wins.
-- If `layered-model.md` and
-  `routing-authority-and-execution-control.md` differ on who may launch work,
-  the routing/authority doc wins.
-- If `reference-examples.md` contradicts a contract, the contract wins and the
-  example is wrong.
-
-## Promotion Guidance
-
-When promoting package rules into live `.harmony` authority surfaces:
-
-1. preserve the same subject ownership
-2. move behavioral rules into runtime/governance/practices surfaces, not into
-   examples or ADRs
-3. do not promote reference docs as if they were canonical control documents
-4. keep continuity evidence ownership outside runtime state
-
-### Promotion Mapping
-
-- contracts become live contract/spec or runtime validation artifacts
-- control docs become live governance/practices/assurance documents
-- reference docs remain design context unless explicitly superseded
+2. detailed control docs
+3. core domain / architecture normative docs
+4. implementation-readiness and canonicalization planning docs
+5. surface specs
+6. reference and historical docs
+7. ADRs and examples
 
 ## Implementation Guidance
 
-If an implementer needs to answer a concrete question, use this shortcut:
-
 | Question | Start Here |
 |---|---|
-| What state transition is allowed? | `lifecycle-and-state-machine-spec.md` |
+| What does this concept mean? | `domain-model.md` |
+| Which component owns this action? | `runtime-architecture.md` |
+| How does orchestration begin and schedule work? | `orchestration-execution-model.md` |
+| How are references and triggers resolved? | `dependency-resolution.md` |
+| How are conflicting executions prevented? | `concurrency-control-model.md` |
+| What workflow metadata must exist to launch execution? | `contracts/workflow-execution-contract.md` |
+| What is the canonical lock artifact? | `contracts/coordination-lock-contract.md` |
+| What approval or break-glass artifact is required? | `approval-and-override-contract.md` |
+| How is approver authority verified? | `approver-authority-model.md` |
+| How are event bindings validated? | `automation-bindings-contract.md` |
+| How are stale active runs recovered? | `run-liveness-and-recovery-spec.md` |
+| What lifecycle phase or state applies? | `orchestration-lifecycle.md` then `lifecycle-and-state-machine-spec.md` |
 | Can this action proceed? | `routing-authority-and-execution-control.md` |
-| Where is routing decision evidence stored? | `contracts/decision-record-contract.md` |
-| What evidence is required? | `evidence-observability-and-retention-spec.md` |
-| What must pass before promotion? | `assurance-and-acceptance-matrix.md` |
+| What policy or approval gates apply? | `governance-and-policy.md` |
+| What happens on failure or partial execution? | `failure-model.md` |
+| What evidence and lookup path are required? | `observability.md` and `evidence-observability-and-retention-spec.md` |
 | Which contract governs this surface? | `contracts/README.md` |
-| How do I operate or author it safely? | `operator-and-authoring-runbook.md` |
-| How are schemas and fixtures validated? | `contracts/README.md` and `/.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh` |
+| What must pass before rollout? | `implementation-readiness.md` and `assurance-and-acceptance-matrix.md` |

@@ -20,6 +20,9 @@ This policy governs all contracts under `contracts/`, especially:
 
 ## Version Declaration Rule
 
+Normative orchestration contracts in this package are governed by this policy
+immediately.
+
 Promoted orchestration contracts MUST declare a contract version using semantic
 versioning:
 
@@ -30,8 +33,10 @@ Version declaration may live in:
 - contract metadata/frontmatter, or
 - the paired machine-readable schema artifact
 
-Proposal-package documents do not need inline version fields yet, but any live
-canonicalized contract must.
+Package-local normative contracts may defer inline version fields while still in
+design-package form, but they must still classify changes using this policy and
+record materially significant changes through ADRs. Any live canonicalized
+contract must declare version metadata inline.
 
 ## Change Classification
 
@@ -161,7 +166,8 @@ will treat unknown states as invalid.
 
 ## Promotion And Rollout Expectations
 
-Any contract change that affects promoted surfaces must:
+Any contract change that affects package-local normative behavior or promoted
+surfaces must:
 
 1. classify the change as breaking or non-breaking
 2. update validation logic
@@ -210,6 +216,7 @@ An ADR is required when a change:
 Validators should assert:
 
 - version presence for promoted contracts
+- change classification for package-local normative updates
 - compatibility class for the change
 - prohibited breaking changes without major version bump
 - dual-write or migration behavior during deprecation windows

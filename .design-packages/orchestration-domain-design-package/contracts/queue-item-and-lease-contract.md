@@ -22,7 +22,7 @@ queue/
 
 | Field | Required | Notes |
 |---|---|---|
-| `queue_item_id` | yes | canonical stable id |
+| `queue_item_id` | yes | canonical stable id; for event-driven ingress it should be deterministic from `event_id` + `target_automation_id` unless explicit replay/redrive context changes it |
 | `event_id` | no | source watcher event |
 | `watcher_id` | no | source watcher |
 | `target_automation_id` | yes | intended consumer |

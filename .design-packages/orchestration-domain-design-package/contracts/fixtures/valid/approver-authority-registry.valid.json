@@ -1,0 +1,26 @@
+{
+  "registry_version": "1.0.0",
+  "approvers": [
+    {
+      "approver_id": "@governance-owner",
+      "role": "governance-owner",
+      "approved_scopes": [
+        {
+          "action_class": "incident-close",
+          "surfaces": [
+            "incidents"
+          ],
+          "workflow_groups": [
+            "audit"
+          ],
+          "coordination_key_globs": [
+            "target:governance/*"
+          ]
+        }
+      ],
+      "issued_at": "2026-03-08T00:00:00Z",
+      "expires_at": "2026-06-08T00:00:00Z",
+      "revoked": false
+    }
+  ]
+}

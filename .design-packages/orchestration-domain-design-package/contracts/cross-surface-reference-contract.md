@@ -50,15 +50,17 @@ workflow_ref:
    invoke workflows.
 4. A `queue` item is automation-ingress only and must reference exactly one
    `target_automation_id`.
-5. A `run` must reference the strongest available execution context:
+5. One watcher event may produce zero or more queue items, but each queue item
+   must reference exactly one target automation.
+6. A `run` must reference the strongest available execution context:
    - `workflow_ref` is required for workflow-backed runs
    - `automation_id` is required when launched by an automation
    - `mission_id` is required when the run belongs to mission-owned execution
    - `incident_id` is required when the run is part of incident response
-6. Every material run must reference exactly one `decision_id`.
-7. An `incident` should reference at least one run, workflow, mission, or
+7. Every material run must reference exactly one `decision_id`.
+8. An `incident` should reference at least one run, workflow, mission, or
    decision record.
-8. Event-trigger selection belongs to an automation-local `trigger.yml` artifact,
+9. Event-trigger selection belongs to an automation-local `trigger.yml` artifact,
    not to queue items or watcher definitions.
 
 ## Invariants

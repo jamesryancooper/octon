@@ -39,6 +39,13 @@ continuity/runs/<run-id>/
 | `event_id` | no | source watcher event |
 | `queue_item_id` | no | source queue item |
 | `parent_run_id` | no | lineage support |
+| `coordination_key` | no | required when execution may produce external side effects |
+| `executor_id` | no | required when `status=running` |
+| `executor_acknowledged_at` | no | required when `status=running` after ownership acknowledgement |
+| `last_heartbeat_at` | no | required when `status=running` |
+| `lease_expires_at` | no | required when `status=running` |
+| `recovery_status` | no | liveness/recovery substate for active runs |
+| `recovery_reason` | no | operator-readable recovery reason when not `healthy` |
 | `decision_id` | yes | routing and authority decision record |
 | `continuity_run_path` | yes | evidence bundle path |
 | `summary` | yes | short outcome summary |
@@ -59,6 +66,8 @@ continuity/runs/<run-id>/
 - Terminal runs require `completed_at`.
 - A `failed` run must include a non-empty `summary`.
 - Projection entries must resolve back to a canonical `<run-id>.yml` file.
+- Side-effectful active runs require `coordination_key`.
+- `running` runs require one executor owner and valid liveness lease fields.
 
 ## Workflow And Mission Integration Rules
 
@@ -81,9 +90,14 @@ continuity/runs/<run-id>/
 
 ```yaml
 run_id: "run-20260307-audit-continuous-01"
-status: "succeeded"
+status: "running"
 started_at: "2026-03-07T18:05:00Z"
-completed_at: "2026-03-07T18:08:00Z"
+coordination_key: "target:governance/orchestration"
+executor_id: "executor-audit-01"
+executor_acknowledged_at: "2026-03-07T18:05:05Z"
+last_heartbeat_at: "2026-03-07T18:05:30Z"
+lease_expires_at: "2026-03-07T18:10:30Z"
+recovery_status: "healthy"
 workflow_ref:
   workflow_group: "audit"
   workflow_id: "audit-continuous-workflow"
@@ -92,5 +106,5 @@ event_id: "evt-20260307-governance-drift-01"
 queue_item_id: "q-20260307-001"
 decision_id: "dec-20260307-weekly-freshness-audit-allow-01"
 continuity_run_path: ".harmony/continuity/runs/run-20260307-audit-continuous-01/"
-summary: "Continuous audit completed with warning-level findings."
+summary: "Continuous audit is in progress."
 ```

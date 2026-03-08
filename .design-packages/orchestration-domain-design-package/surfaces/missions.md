@@ -34,10 +34,19 @@ success criteria, and isolated progress tracking.
 
 ## Implementation Contract
 
-Use Harmony's current mission runtime docs plus
-`../contracts/cross-surface-reference-contract.md` and
-`../contracts/run-linkage-contract.md`.
-Also see `../contracts/mission-workflow-binding-contract.md`.
+Primary orchestration behavior for `missions` in this package is defined by:
+
+- `../domain-model.md`
+- `../orchestration-execution-model.md`
+- `../orchestration-lifecycle.md`
+- `../governance-and-policy.md`
+- `../contracts/cross-surface-reference-contract.md`
+- `../contracts/run-linkage-contract.md`
+- `../contracts/mission-workflow-binding-contract.md`
+
+Live Harmony mission docs remain integration context for the current runtime
+surface shape. They are not the primary source of target cross-surface
+orchestration behavior here.
 
 ## Example Use Cases
 

@@ -1,0 +1,18 @@
+{
+  "approval_id": "apr-20260308-incident-close-01",
+  "artifact_type": "approval",
+  "action_class": "incident-close",
+  "scope": {
+    "surface": "incidents",
+    "action": "close-incident",
+    "coordination_key": "target:governance/orchestration"
+  },
+  "approved_by": "@governance-owner",
+  "issued_at": "2026-03-08T18:00:00Z",
+  "expires_at": "2026-03-09T18:00:00Z",
+  "rationale": "Closure evidence reviewed and approved.",
+  "review_required": false,
+  "evidence_refs": [
+    "continuity/runs/run-20260308-audit-continuous-01/"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "lock_id": "lock-target-governance-orchestration-01",
+  "coordination_key": "target:governance/orchestration",
+  "lock_class": "exclusive",
+  "owner_run_id": "run-20260308-audit-continuous-01",
+  "owner_executor_id": "executor-audit-01",
+  "lock_state": "held",
+  "acquired_at": "2026-03-08T18:05:00Z",
+  "last_heartbeat_at": "2026-03-08T18:05:30Z",
+  "lease_expires_at": "2026-03-08T18:10:30Z",
+  "lock_version": 3
+}

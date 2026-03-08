@@ -44,6 +44,7 @@ watchers/
 - Duplicate handling relies on `dedupe_key`
 - Events must be sanitized before emission
 - Watchers may recommend a target, but may not directly invoke a workflow
+- `target_automation_id` is a routing hint, not an authorization grant
 
 ## Invariants
 

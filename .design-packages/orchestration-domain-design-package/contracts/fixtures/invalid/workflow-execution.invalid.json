@@ -1,0 +1,16 @@
+{
+  "workflow_group": "audit",
+  "workflow_id": "audit-continuous-workflow",
+  "version": "1.0.0",
+  "entrypoint_ref": "audit/audit-continuous-workflow/WORKFLOW.md",
+  "side_effect_class": "destructive",
+  "execution_controls": {
+    "cancel_safe": false
+  },
+  "coordination_key_strategy": {
+    "kind": "none"
+  },
+  "required_inputs": [],
+  "produced_outputs": [],
+  "executor_interface_version": "workflow-executor-v1"
+}

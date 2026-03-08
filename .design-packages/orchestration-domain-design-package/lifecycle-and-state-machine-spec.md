@@ -292,12 +292,32 @@ It is a substate of `claimed`, not a separate top-level status.
   `running`.
 - Parent/child lineage may be represented through `parent_run_id`.
 
+### Run Liveness Substate
+
+Active runs carry liveness and recovery substate through fields such as:
+
+- `executor_id`
+- `executor_acknowledged_at`
+- `last_heartbeat_at`
+- `lease_expires_at`
+- `recovery_status`
+
+Valid `recovery_status` values for active runs are:
+
+- `healthy`
+- `suspect`
+- `recovery_pending`
+- `recovered`
+- `abandoned`
+
 ### Invariants
 
 - Every material run must reference continuity evidence.
 - Every material run must reference `decision_id`.
 - Terminal runs require `completed_at`.
 - A failed run must retain summary and evidence linkage.
+- A `running` run must have exactly one executor owner.
+- A `running` run must have a valid liveness lease.
 
 ## `incidents`
 

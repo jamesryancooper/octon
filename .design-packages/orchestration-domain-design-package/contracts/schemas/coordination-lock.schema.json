@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/design-packages/orchestration/coordination-lock.schema.json",
+  "title": "Coordination Lock Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "lock_id",
+    "coordination_key",
+    "lock_class",
+    "owner_run_id",
+    "lock_state",
+    "acquired_at",
+    "lease_expires_at",
+    "lock_version"
+  ],
+  "properties": {
+    "lock_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "coordination_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lock_class": {
+      "type": "string",
+      "enum": [
+        "exclusive",
+        "shared-read",
+        "shared-compatible"
+      ]
+    },
+    "owner_run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner_executor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lock_state": {
+      "type": "string",
+      "enum": [
+        "held",
+        "released",
+        "expired",
+        "transferred"
+      ]
+    },
+    "acquired_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$"
+    },
+    "last_heartbeat_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$"
+    },
+    "lease_expires_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$"
+    },
+    "lock_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "released_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$"
+    },
+    "previous_lock_id": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "lock_state": {
+            "const": "released"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "released_at"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lock_state": {
+            "const": "transferred"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "previous_lock_id"
+        ]
+      }
+    }
+  ]
+}

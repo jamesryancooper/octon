@@ -34,10 +34,21 @@ verification gates.
 
 ## Implementation Contract
 
-Use Harmony's current workflow runtime docs plus
-`../contracts/cross-surface-reference-contract.md` and
-`../contracts/run-linkage-contract.md`.
-Also see `../contracts/mission-workflow-binding-contract.md`.
+Primary orchestration behavior for `workflows` in this package is defined by:
+
+- `../domain-model.md`
+- `../orchestration-execution-model.md`
+- `../orchestration-lifecycle.md`
+- `../governance-and-policy.md`
+- `../contracts/workflow-execution-contract.md`
+- `../contracts/cross-surface-reference-contract.md`
+- `../contracts/run-linkage-contract.md`
+- `../contracts/mission-workflow-binding-contract.md`
+
+Live Harmony workflow docs remain important integration context for the current
+runtime surface shape. They are not the primary source of target
+cross-surface orchestration behavior here.
+
 Canonicalization addenda should define machine-readable
 `execution_controls.cancel_safe` for workflows that may be preempted by
 automation `replace` mode.

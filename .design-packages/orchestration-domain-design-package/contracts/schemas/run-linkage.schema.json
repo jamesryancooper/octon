@@ -61,6 +61,40 @@
       "type": "string",
       "minLength": 1
     },
+    "coordination_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "executor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "executor_acknowledged_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$"
+    },
+    "last_heartbeat_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$"
+    },
+    "lease_expires_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$"
+    },
+    "recovery_status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "suspect",
+        "recovery_pending",
+        "recovered",
+        "abandoned"
+      ]
+    },
+    "recovery_reason": {
+      "type": "string",
+      "minLength": 1
+    },
     "decision_id": {
       "type": "string",
       "pattern": "^dec-[A-Za-z0-9._:-]+$"
@@ -103,7 +137,15 @@
           }
         }
       },
-      "then": {},
+      "then": {
+        "required": [
+          "executor_id",
+          "executor_acknowledged_at",
+          "last_heartbeat_at",
+          "lease_expires_at",
+          "recovery_status"
+        ]
+      },
       "else": {
         "required": [
           "completed_at"

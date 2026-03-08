@@ -1,0 +1,14 @@
+{
+  "approval_id": "apr-20260308-break-glass-01",
+  "artifact_type": "override",
+  "action_class": "break-glass-containment",
+  "scope": {
+    "surface": "incidents",
+    "action": "containment-run"
+  },
+  "approved_by": "@governance-owner",
+  "issued_at": "2026-03-08T18:00:00Z",
+  "expires_at": "2026-03-09T18:00:00Z",
+  "rationale": "Emergency containment approved.",
+  "review_required": true
+}

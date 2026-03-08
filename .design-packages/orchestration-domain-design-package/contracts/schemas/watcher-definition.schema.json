@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/design-packages/orchestration/watcher-definition.schema.json",
+  "title": "Watcher Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "watcher_id",
+    "title",
+    "owner",
+    "status"
+  ],
+  "properties": {
+    "watcher_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "disabled",
+        "error"
+      ]
+    }
+  }
+}

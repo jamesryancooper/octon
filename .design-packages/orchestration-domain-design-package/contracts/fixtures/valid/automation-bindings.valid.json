@@ -1,0 +1,15 @@
+{
+  "event_to_param_map": {
+    "target_path": {
+      "from": "event.source_ref",
+      "required": true,
+      "value_type": "string"
+    },
+    "severity": {
+      "from": "event.severity",
+      "required": false,
+      "default": "warning",
+      "value_type": "string"
+    }
+  }
+}

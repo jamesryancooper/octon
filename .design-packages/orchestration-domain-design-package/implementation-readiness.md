@@ -2,18 +2,21 @@
 
 ## Verdict
 
-The mature orchestration model is now implementation-ready at the proposal,
-contract, and validation-artifact level.
+The orchestration domain design package is now implementation-ready as a
+package-local architectural specification.
 
 That means:
 
-- each surface has a purpose and boundary specification
-- the example shapes are defined
+- the system architecture can be reconstructed from package-local normative docs
+- the runtime component model, execution model, dependency resolution rules,
+  lifecycle model, failure semantics, governance model, and observability model
+  are defined in this package
 - the missing cross-surface contracts are codified
-- the model can now move from architecture proposal to concrete implementation
-  planning without needing additional core architecture discovery
+- engineers can implement the target orchestration domain without relying on
+  external Harmony docs for core orchestration behavior
 
-It does not mean runtime code has been shipped.
+It does not mean live `.harmony` runtime code has already been shipped. Live
+rollout remains a separate canonicalization step.
 
 ## What Changed To Reach Implementation Readiness
 
@@ -25,42 +28,67 @@ It does not mean runtime code has been shipped.
 - codified incident object lifecycle and closure rules
 - codified campaign object state and lifecycle
 - codified canonical cross-surface identifiers and references
+- added package-local domain model, runtime architecture, execution model,
+  lifecycle model, dependency-resolution algorithm, governance model,
+  observability model, and failure model
+- added package-local hardening artifacts for target-global concurrency,
+  approval and override evidence, automation bindings, run liveness, and
+  surface artifact schemas
 - added machine-readable schemas and fixtures for the highest-risk object
   contracts
-- aligned decision evidence to a live continuity authority surface
-- aligned incident governance to a live generic policy surface instead of a
-  product-specific runbook
+- added machine-readable schemas and fixtures for approvals, automation
+  bindings, and selected surface-local artifacts
+- internalized the orchestration-domain behavior previously left implicit or
+  externally assumed
+- aligned decision evidence and durable run evidence with their continuity-owned
+  storage boundaries
 
 ## Readiness Matrix
 
 | Surface | Status | Basis |
 |---|---|---|
-| `workflows` | implementation-ready | existing Harmony workflow contracts plus cross-surface reference, run linkage, and workflow execution-control addenda |
-| `missions` | implementation-ready | existing Harmony mission contracts plus cross-surface reference, mission binding, decision record, and run linkage contracts |
-| `campaigns` | implementation-ready | campaign object contract plus surface specification |
-| `automations` | implementation-ready | automation execution contract plus surface specification |
-| `watchers` | implementation-ready | watcher event contract plus surface specification |
-| `queue` | implementation-ready | queue item and lease contract plus surface specification |
-| `runs` | implementation-ready | run linkage contract plus continuity evidence split |
-| `incidents` | implementation-ready | incident object contract plus governance/runtime split |
+| `workflows` | implementation-ready | package-local domain, execution, lifecycle, governance, and run-linkage rules plus workflow-specific contracts |
+| `missions` | implementation-ready | package-local domain, execution, lifecycle, and mission-binding rules plus mission/run linkage contracts |
+| `campaigns` | implementation-ready | package-local domain and lifecycle rules plus campaign contracts |
+| `automations` | implementation-ready | execution model, dependency resolution, failure model, and automation execution contract |
+| `watchers` | implementation-ready | runtime architecture, dependency resolution, observability, and watcher event contract |
+| `queue` | implementation-ready | dependency resolution, runtime architecture, failure model, and queue item / lease contract |
+| `runs` | implementation-ready | runtime architecture, workflow execution, coordination lock, liveness, observability, and run linkage contract |
+| `incidents` | implementation-ready | governance model, lifecycle, failure model, and incident object contract |
 
 ## Required Contract Set
 
-- `contracts/versioning-and-compatibility-policy.md` — `live-authority-backed`
-- `contracts/cross-surface-reference-contract.md` — `live-authority-backed`
+- `contracts/versioning-and-compatibility-policy.md` — `package-normative`
+- `contracts/cross-surface-reference-contract.md` — `package-normative`
 - `contracts/decision-record-contract.md` — `schema-backed` via `contracts/schemas/decision-record.schema.json`
-- `contracts/campaign-object-contract.md` — `live-authority-backed`
+- `contracts/campaign-object-contract.md` — `package-normative`
+- `contracts/workflow-execution-contract.md` — `schema-backed` via `contracts/schemas/workflow-execution.schema.json`
 - `contracts/automation-execution-contract.md` — `schema-backed` via `contracts/schemas/automation-execution.schema.json`
+- `contracts/coordination-lock-contract.md` — `schema-backed` via `contracts/schemas/coordination-lock.schema.json`
 - `contracts/watcher-event-contract.md` — `schema-backed` via `contracts/schemas/watcher-event.schema.json`
 - `contracts/queue-item-and-lease-contract.md` — `schema-backed` via `contracts/schemas/queue-item-and-lease.schema.json`
 - `contracts/run-linkage-contract.md` — `schema-backed` via `contracts/schemas/run-linkage.schema.json`
 - `contracts/incident-object-contract.md` — `schema-backed` via `contracts/schemas/incident-object.schema.json`
-- `contracts/discovery-and-authority-layer-contract.md` — `live-authority-backed`
-- `contracts/mission-workflow-binding-contract.md` — `live-authority-backed`
-- `contracts/campaign-mission-coordination-contract.md` — `live-authority-backed`
+- `contracts/discovery-and-authority-layer-contract.md` — `package-normative`
+- `contracts/mission-workflow-binding-contract.md` — `package-normative`
+- `contracts/campaign-mission-coordination-contract.md` — `package-normative`
 
 ## Required Control Documents
 
+- `domain-model.md`
+- `runtime-architecture.md`
+- `orchestration-execution-model.md`
+- `dependency-resolution.md`
+- `concurrency-control-model.md`
+- `approval-and-override-contract.md`
+- `automation-bindings-contract.md`
+- `run-liveness-and-recovery-spec.md`
+- `approver-authority-model.md`
+- `surface-artifact-schemas.md`
+- `orchestration-lifecycle.md`
+- `governance-and-policy.md`
+- `failure-model.md`
+- `observability.md`
 - `normative-dependencies-and-source-of-truth-map.md`
 - `lifecycle-and-state-machine-spec.md`
 - `routing-authority-and-execution-control.md`
@@ -81,7 +109,7 @@ Proof-layer enforcement is provided by:
 
 - `/.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`
 
-This proposal package is now implementation-ready at the design, contract, and
+This package is now implementation-ready at the design, contract, and
 validation-artifact level, and canonicalization-ready at the promotion-planning
 level.
 
@@ -108,6 +136,16 @@ This package aligns with Harmony's philosophy because it preserves:
 - [ ] Every material action attempt emits exactly one continuity decision record.
 - [ ] Every material autonomous execution emits a run record linked to
       continuity evidence and `decision_id`.
+- [ ] Event-to-automation routing is deterministic, including zero-match,
+      target-hint, and multi-match fan-out behavior.
+- [ ] `match_mode`, `dedupe_window`, and `bindings.yml` semantics are defined
+      and enforced consistently.
+- [ ] Schedule-window evaluation is deterministic across timezone and DST
+      boundaries.
+- [ ] Every side-effectful material action derives a `coordination_key` and
+      acquires the required lock before external side effects begin.
+- [ ] Every workflow advertises executable metadata including `version`,
+      `side_effect_class`, `cancel_safe`, and `coordination_key_strategy`.
 - [ ] Every watcher emits the canonical event envelope.
 - [ ] Every queue item conforms to the canonical queue item schema and lease
       behavior.
@@ -117,13 +155,26 @@ This package aligns with Harmony's philosophy because it preserves:
       downstream when bounded follow-up work is needed.
 - [ ] Every automation defines explicit concurrency, idempotency, and retry
       policy.
+- [ ] Every automation retry policy uses canonical failure classes and supported
+      backoff semantics.
+- [ ] Every privileged action references a valid approval or override artifact
+      whose scope and expiry match the action.
+- [ ] Every privileged action also resolves to a non-revoked approver authority
+      entry with sufficient scope.
 - [ ] Automation `replace` is allowed only for workflows that explicitly declare
       `execution_controls.cancel_safe: true`.
 - [ ] Every event-triggered automation defines trigger selection in `trigger.yml`
       rather than in bindings or policy.
+- [ ] Orphan allow decisions, missing evidence links, and other launch-commit
+      failures are detected by reconciliation and surfaced operator-visibly.
+- [ ] Every active run has one executor owner, a valid liveness lease, and a
+      deterministic recovery path if that lease expires.
 - [ ] Every incident object satisfies lifecycle and closure evidence rules.
 - [ ] Every schema-backed contract has a valid JSON Schema plus one valid and
       one invalid fixture.
+- [ ] Required surface-local artifacts validate against their declared schemas.
+- [ ] Workflow execution metadata, coordination lock artifacts, and approver
+      authority registry artifacts validate against their schemas.
 - [ ] `validate-orchestration-design-package.sh` passes.
 - [ ] Every promoted surface satisfies the discovery-and-authority layering
       contract.
@@ -141,6 +192,7 @@ The following choices still need implementation decisions, but they are no
 longer architectural blockers:
 
 - backing storage technology
-- file format choices where multiple acceptable encodings exist
-- operational default values such as lease timeout duration or retry backoff
-- UI or operator tooling around these surfaces
+- operator-facing presentation or dashboard tooling
+- operational default values such as lease timeout duration, schedule evaluation
+  tick frequency, executor heartbeat interval, or exact backoff interval
+  constants

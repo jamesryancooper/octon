@@ -1,8 +1,13 @@
 {
   "run_id": "run-20260308-audit-continuous-01",
-  "status": "succeeded",
+  "status": "running",
   "started_at": "2026-03-08T18:05:00Z",
-  "completed_at": "2026-03-08T18:08:00Z",
+  "coordination_key": "target:governance/orchestration",
+  "executor_id": "executor-audit-01",
+  "executor_acknowledged_at": "2026-03-08T18:05:05Z",
+  "last_heartbeat_at": "2026-03-08T18:05:30Z",
+  "lease_expires_at": "2026-03-08T18:10:30Z",
+  "recovery_status": "healthy",
   "workflow_ref": {
     "workflow_group": "audit",
     "workflow_id": "audit-continuous-workflow"
@@ -12,5 +17,5 @@
   "queue_item_id": "q-20260308-001",
   "decision_id": "dec-20260308-weekly-freshness-audit-allow-01",
   "continuity_run_path": ".harmony/continuity/runs/run-20260308-audit-continuous-01/",
-  "summary": "Continuous audit completed with warning-level findings."
+  "summary": "Continuous audit is in progress."
 }

@@ -1,5 +1,9 @@
 # Profile Selection And Compliance
 
+Historical note: this is the creation-time governance receipt for the package.
+It is retained for provenance. It is not a primary source of orchestration
+runtime behavior.
+
 ## Profile Selection Receipt
 
 - `change_profile`: `atomic`
@@ -9,7 +13,7 @@
     is sufficient evidence to treat the harness as pre-1.0 for profile
     selection.
 - Downtime tolerance:
-  - not applicable; proposal package only
+  - not applicable; package-local specification work only
 - External consumer coordination:
   - none required
 - Data migration or backfill:
@@ -50,7 +54,8 @@
 
 ### Docs
 
-- New proposal package under `.design-packages/orchestration-domain-design-package/`
+- New specification package content under
+  `.design-packages/orchestration-domain-design-package/`
 - Scope includes model overview, taxonomy, charter, surface specifications,
   directory structures, diagrams, and adoption roadmap
 
@@ -58,7 +63,7 @@
 
 - Adds decision evidence, queue claim, and automation overlap semantics to the
   proposal contract set
-- The package proposes future contract shapes for orchestration, but does not
+- The package defines package-local orchestration contract shapes, but does not
   alter any live authority surfaces
 
 ## Compliance Receipt

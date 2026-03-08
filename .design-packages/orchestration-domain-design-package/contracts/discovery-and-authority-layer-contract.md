@@ -2,12 +2,15 @@
 
 ## Purpose
 
-This contract defines progressive-disclosure and single-source-of-truth rules
-for orchestration surfaces promoted into canonical Harmony authority surfaces.
+This contract defines package-local progressive-disclosure and
+single-source-of-truth rules for orchestration surfaces in this specification.
+
+The same layering must be preserved when these surfaces are promoted into live
+`.harmony` authority surfaces.
 
 ## Core Rule
 
-Every promoted orchestration surface must define:
+Every orchestration surface defined by this package must define:
 
 - discovery layer
 - routing/metadata layer
@@ -70,20 +73,24 @@ Applies to:
 
 ### `workflows`
 
-Continue using Harmony's current workflow progressive disclosure model:
+The package-local workflow integration contract is:
 
 - Tier 1: `manifest.yml`
 - Tier 2: `registry.yml`
-- Tier 3: `WORKFLOW.md`
-- Tier 4: step files
+- Tier 3: `WORKFLOW.md` plus step files
+- Tier 4: execution-time run and evidence context outside the workflow
+  definition tree (`runtime/runs/` and `continuity/runs/`)
 
 ### `missions`
 
-Use Harmony's current mission model with an explicit SSOT split:
+The package-local mission integration contract is:
 
 - `registry.yml`: discovery and lifecycle index
 - `mission.md`: mission definition and identity
 - `tasks.json`, `log.md`, `context/`: mission-local active state
+
+These shapes align with the current Harmony runtime, but this contract is the
+package-local source of truth for how they participate in orchestration.
 
 ## Single Source Of Truth Rules
 
@@ -93,3 +100,14 @@ Use Harmony's current mission model with an explicit SSOT split:
 3. Evidence bundles must not become the source of live execution state.
 4. Projection indexes may duplicate references for queryability, but must never
    outrank object records or evidence stores as authority.
+
+## Schema Requirement
+
+Artifacts named as required runtime surface files must be schema-backed when
+`surface-artifact-schemas.md` marks them as such.
+
+## Promotion Note
+
+When these package-defined surfaces are promoted into live `.harmony`, the same
+layering remains mandatory. Promotion may move the files, but it may not merge
+discovery, mutable state, and durable evidence into one authority layer.

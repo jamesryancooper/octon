@@ -1,0 +1,10 @@
+{
+  "event_to_param_map": {
+    "target_path": {
+      "from": "payload.source_ref",
+      "required": true,
+      "default": "fallback",
+      "value_type": "string"
+    }
+  }
+}

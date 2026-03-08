@@ -2,13 +2,13 @@
 
 ## Purpose
 
-This document maps the implementation-ready proposal surfaces to the live
-Harmony artifacts that would be required to promote them into canonical
-authority surfaces under `.harmony/orchestration/`.
+This document maps the implementation-ready orchestration surfaces defined by
+this package to the live Harmony artifacts required to promote them into
+canonical authority surfaces under `.harmony/orchestration/`.
 
 ## Promotion Rule
 
-A proposed surface is not canonical until it has:
+A package-defined surface is not live canonical until it has:
 
 - runtime discovery artifacts
 - at least one practices document

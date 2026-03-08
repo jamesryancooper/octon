@@ -7,7 +7,8 @@
   "decided_at": "2026-03-08T18:04:00Z",
   "reason_codes": [
     "target-resolved",
-    "policy-allowed"
+    "policy-allowed",
+    "coordination-lock-acquired"
   ],
   "summary": "Automation launch admitted after routing and idempotency checks passed.",
   "workflow_ref": {
@@ -17,5 +18,8 @@
   "automation_id": "weekly-freshness-audit",
   "event_id": "evt-20260308-governance-drift-01",
   "queue_item_id": "q-20260308-001",
+  "coordination_key": "target:governance/orchestration",
+  "lock_required": true,
+  "lock_status": "acquired",
   "run_id": "run-20260308-audit-continuous-01"
 }

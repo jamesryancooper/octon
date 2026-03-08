@@ -1,0 +1,32 @@
+{
+  "workflow_group": "audit",
+  "workflow_id": "audit-continuous-workflow",
+  "version": "1.0.0",
+  "entrypoint_ref": "audit/audit-continuous-workflow/WORKFLOW.md",
+  "side_effect_class": "mutating",
+  "execution_controls": {
+    "cancel_safe": false
+  },
+  "coordination_key_strategy": {
+    "kind": "explicit-input",
+    "source_fields": [
+      "target_path"
+    ],
+    "format": "target:{target_path}"
+  },
+  "required_inputs": [
+    {
+      "name": "target_path",
+      "value_type": "string",
+      "required": true
+    }
+  ],
+  "produced_outputs": [
+    {
+      "name": "result_summary",
+      "value_type": "string",
+      "required": true
+    }
+  ],
+  "executor_interface_version": "workflow-executor-v1"
+}

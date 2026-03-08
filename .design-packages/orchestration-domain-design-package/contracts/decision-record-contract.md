@@ -37,7 +37,12 @@ operator-readable summaries.
 | `event_id` | no | related watcher event |
 | `queue_item_id` | no | related queue item |
 | `run_id` | no | related run when an allowed action admitted execution |
-| `approval_refs` | no | approvals or waiver references required for escalated or policy-backed actions |
+| `coordination_key` | no | required for side-effectful actions |
+| `lock_required` | no | whether target-global coordination was required |
+| `lock_status` | no | `acquired`, `not-required`, `deferred`, `failed` |
+| `approval_refs` | no | approvals or waiver references required for escalated or privileged actions |
+| `override_ref` | no | break-glass override reference when used |
+| `approval_scope_hash` | no | stable digest of verified approval scope |
 
 ## Behavioral Rules
 
@@ -49,6 +54,9 @@ operator-readable summaries.
 4. Related references must use canonical identifiers and resolve when present.
 5. A decision record is the authoritative source for why a material action was
    allowed, blocked, or escalated.
+6. Privileged actions must reference approval or override artifacts that resolve
+   under `../approval-and-override-contract.md`.
+7. Side-effectful `allow` decisions must record coordination evidence.
 
 ## Invariants
 
@@ -59,6 +67,7 @@ operator-readable summaries.
 - `run_id` may be present only when `outcome=allow`.
 - Decision evidence remains continuity-owned even when runtime surfaces keep
   lightweight references to the latest decision.
+- `override_ref` may be present only when break-glass policy is used.
 
 ## Example
 
@@ -72,6 +81,7 @@ decided_at: "2026-03-08T18:04:00Z"
 reason_codes:
   - "target-resolved"
   - "policy-allowed"
+  - "coordination-lock-acquired"
 summary: "Automation launch admitted after routing, policy, and idempotency checks passed."
 workflow_ref:
   workflow_group: "audit"
@@ -79,5 +89,8 @@ workflow_ref:
 automation_id: "weekly-freshness-audit"
 event_id: "evt-20260308-governance-drift-01"
 queue_item_id: "q-20260308-001"
+coordination_key: "target:governance/orchestration"
+lock_required: true
+lock_status: "acquired"
 run_id: "run-20260308-audit-continuous-01"
 ```

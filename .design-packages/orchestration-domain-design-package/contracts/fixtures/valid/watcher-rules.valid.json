@@ -1,0 +1,9 @@
+{
+  "rules": [
+    {
+      "rule_id": "freshness-drift",
+      "event_type": "freshness-drift",
+      "severity": "warning"
+    }
+  ]
+}

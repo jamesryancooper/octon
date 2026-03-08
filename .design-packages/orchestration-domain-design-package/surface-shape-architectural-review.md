@@ -1,5 +1,9 @@
 # Surface Shape Architectural Review
 
+Historical note: this review is retained for provenance. Normative surface
+behavior now lives in the package-local domain, execution, lifecycle,
+governance, failure, observability, and contract documents.
+
 ## Review Scope
 
 This review evaluates the proposed orchestration surface shapes in

@@ -1,0 +1,9 @@
+{
+  "actions": [
+    {
+      "action_id": "act-001",
+      "action_type": "containment",
+      "status": "queued"
+    }
+  ]
+}

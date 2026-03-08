@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/design-packages/orchestration/workflow-execution.schema.json",
+  "title": "Workflow Execution Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workflow_group",
+    "workflow_id",
+    "version",
+    "entrypoint_ref",
+    "side_effect_class",
+    "execution_controls",
+    "coordination_key_strategy",
+    "required_inputs",
+    "produced_outputs",
+    "executor_interface_version"
+  ],
+  "properties": {
+    "workflow_group": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "entrypoint_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "side_effect_class": {
+      "type": "string",
+      "enum": [
+        "none",
+        "read_only",
+        "mutating",
+        "destructive"
+      ]
+    },
+    "execution_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cancel_safe"
+      ],
+      "properties": {
+        "cancel_safe": {
+          "type": "boolean"
+        }
+      }
+    },
+    "coordination_key_strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "none",
+            "workflow-target",
+            "mission-target",
+            "incident-target",
+            "explicit-input"
+          ]
+        },
+        "source_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "format": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ioField"
+      }
+    },
+    "produced_outputs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ioField"
+      }
+    },
+    "executor_interface_version": {
+      "type": "string",
+      "const": "workflow-executor-v1"
+    }
+  },
+  "$defs": {
+    "ioField": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value_type",
+        "required"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value_type": {
+          "type": "string",
+          "enum": [
+            "string",
+            "integer",
+            "number",
+            "boolean",
+            "object",
+            "array"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "default": {}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "side_effect_class": {
+            "enum": [
+              "mutating",
+              "destructive"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "coordination_key_strategy": {
+            "properties": {
+              "kind": {
+                "not": {
+                  "const": "none"
+                }
+              }
+            },
+            "required": [
+              "source_fields",
+              "format"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
