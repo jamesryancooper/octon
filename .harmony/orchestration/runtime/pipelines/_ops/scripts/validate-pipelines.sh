@@ -16,6 +16,7 @@ WORKFLOWS_DIR="${HARMONY_WORKFLOWS_DIR:-$RUNTIME_DIR/workflows}"
 
 MANIFEST="$PIPELINES_DIR/manifest.yml"
 REGISTRY="$PIPELINES_DIR/registry.yml"
+FILTER_PIPELINE_ID=""
 
 errors=0
 HAS_RG=0
@@ -23,6 +24,21 @@ HAS_RG=0
 if command -v rg >/dev/null 2>&1; then
   HAS_RG=1
 fi
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --pipeline-id)
+      shift
+      [[ $# -gt 0 ]] || { echo "[ERROR] --pipeline-id requires a value" >&2; exit 1; }
+      FILTER_PIPELINE_ID="$1"
+      ;;
+    *)
+      echo "[ERROR] unknown argument: $1" >&2
+      exit 1
+      ;;
+  esac
+  shift
+done
 
 fail() {
   echo "[ERROR] $1"
@@ -302,14 +318,24 @@ main() {
   require_file "$MANIFEST"
   require_file "$REGISTRY"
 
+  local matched=0
+
   while IFS= read -r row; do
     [[ -z "$row" ]] && continue
     row_json="$(printf '%s' "$row" | base64 --decode)"
     id="$(printf '%s' "$row_json" | yq -p=json -r '.id')"
+    if [[ -n "$FILTER_PIPELINE_ID" && "$id" != "$FILTER_PIPELINE_ID" ]]; then
+      continue
+    fi
+    matched=1
     rel_path="$(printf '%s' "$row_json" | yq -p=json -r '.path')"
     manifest_profile="$(printf '%s' "$row_json" | yq -p=json -r '.execution_profile // "core"')"
     check_pipeline_contract "$id" "$rel_path" "$manifest_profile"
   done < <(yq -r '.pipelines[] | to_json | @base64' "$MANIFEST")
+
+  if [[ -n "$FILTER_PIPELINE_ID" && "$matched" -eq 0 ]]; then
+    fail "unknown pipeline id '$FILTER_PIPELINE_ID'"
+  fi
 
   echo "Validation summary: errors=$errors"
   if [[ $errors -gt 0 ]]; then

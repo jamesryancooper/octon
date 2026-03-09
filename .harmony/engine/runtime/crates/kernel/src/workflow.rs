@@ -1043,9 +1043,8 @@ fn resolve_executor(kind: ExecutorKind, override_bin: Option<&Path>) -> Result<R
     if let Some(path) = override_bin {
         return match kind {
             ExecutorKind::Claude => Ok(ResolvedExecutor::Claude(path.to_path_buf())),
-            ExecutorKind::Auto | ExecutorKind::Codex => {
-                Ok(ResolvedExecutor::Codex(path.to_path_buf()))
-            }
+            ExecutorKind::Codex => Ok(ResolvedExecutor::Codex(path.to_path_buf())),
+            ExecutorKind::Auto => infer_auto_executor_from_path(path),
             ExecutorKind::Mock => Ok(ResolvedExecutor::Mock),
         };
     }
@@ -1054,7 +1053,8 @@ fn resolve_executor(kind: ExecutorKind, override_bin: Option<&Path>) -> Result<R
         let path = PathBuf::from(path);
         return match kind {
             ExecutorKind::Claude => Ok(ResolvedExecutor::Claude(path)),
-            ExecutorKind::Auto | ExecutorKind::Codex => Ok(ResolvedExecutor::Codex(path)),
+            ExecutorKind::Codex => Ok(ResolvedExecutor::Codex(path)),
+            ExecutorKind::Auto => infer_auto_executor_from_path(&path),
             ExecutorKind::Mock => Ok(ResolvedExecutor::Mock),
         };
     }
@@ -1076,6 +1076,24 @@ fn resolve_executor(kind: ExecutorKind, override_bin: Option<&Path>) -> Result<R
             }
         }
         ExecutorKind::Mock => Ok(ResolvedExecutor::Mock),
+    }
+}
+
+fn infer_auto_executor_from_path(path: &Path) -> Result<ResolvedExecutor> {
+    let filename = path
+        .file_name()
+        .map(|value| value.to_string_lossy().to_ascii_lowercase())
+        .unwrap_or_else(|| path.display().to_string().to_ascii_lowercase());
+
+    if filename.contains("claude") {
+        Ok(ResolvedExecutor::Claude(path.to_path_buf()))
+    } else if filename.contains("codex") {
+        Ok(ResolvedExecutor::Codex(path.to_path_buf()))
+    } else {
+        bail!(
+            "unable to infer executor kind from override path '{}'; pass --executor codex or --executor claude",
+            path.display()
+        )
     }
 }
 
@@ -1556,5 +1574,29 @@ mod tests {
             .join(".harmony-mock-runner/synthetic-remediation.md")
             .is_file());
         fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn auto_executor_override_infers_claude_from_binary_name() {
+        let resolved = resolve_executor(ExecutorKind::Auto, Some(Path::new("/tmp/claude")))
+            .expect("auto executor should infer claude from override");
+
+        match resolved {
+            ResolvedExecutor::Claude(path) => assert_eq!(path, PathBuf::from("/tmp/claude")),
+            other => panic!("expected claude executor, got {:?}", other),
+        }
+    }
+
+    #[test]
+    fn auto_executor_override_rejects_unknown_binary_name() {
+        let error = resolve_executor(ExecutorKind::Auto, Some(Path::new("/tmp/custom-runner")))
+            .expect_err("auto executor should reject unknown override names");
+
+        assert!(
+            error
+                .to_string()
+                .contains("unable to infer executor kind from override path"),
+            "unexpected error: {error}"
+        );
     }
 }
