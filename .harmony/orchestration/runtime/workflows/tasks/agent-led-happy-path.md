@@ -1,10 +1,33 @@
 ---
-name: agent-led-happy-path
-title: "Task: Agent-Led Happy Path"
-description: Canonical onboarding flow for agent-led execution from bootstrap through continuity.
-access: human
-version: "1.0.0"
+name: "agent-led-happy-path"
+description: "Canonical onboarding flow for agent-led execution from bootstrap through continuity."
 ---
+
+# Agent Led Happy Path
+
+_Generated projection from canonical pipeline `agent-led-happy-path`._
+
+## Usage
+
+```text
+/agent-led-happy-path
+```
+
+## Target
+
+This projection wraps the canonical pipeline `agent-led-happy-path` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/tasks/agent-led-happy-path`.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
 
 # Task: Agent-Led Happy Path
 
@@ -39,3 +62,10 @@ Legacy onboarding variants are hard-deprecated for new runs.
 
 - One execution pass from bootstrap -> execute -> assure -> continuity with
   fail-closed validation and durable continuity updates.
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `agent-led-happy-path` |
+

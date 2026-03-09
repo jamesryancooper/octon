@@ -1,0 +1,29 @@
+schema_version: "pipeline-contract-v1"
+name: "create-project"
+description: "Scaffold a new project in projects/."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "inline"
+    asset: "stages/01-inline.md"
+    kind: "analysis"
+    produces: ["stage:inline"]
+    consumes: []
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "single stage completes successfully"
+projection:
+  workflow_id: "create-project"
+  workflow_path: ".harmony/orchestration/runtime/workflows/projects/create-project.md"
+  generated: true
+  projection_format: "single-file"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

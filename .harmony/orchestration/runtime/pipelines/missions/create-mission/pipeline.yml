@@ -1,0 +1,29 @@
+schema_version: "pipeline-contract-v1"
+name: "create-mission"
+description: "Scaffold a new mission artifact set and register it for execution tracking."
+version: "1.1.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "overview"
+    asset: "stages/00-overview.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:overview"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "create-mission"
+  workflow_path: ".harmony/orchestration/runtime/workflows/missions/create-mission/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

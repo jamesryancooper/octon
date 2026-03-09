@@ -2,12 +2,18 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-WORKFLOWS_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
-ORCHESTRATION_DIR="$(cd -- "$WORKFLOWS_DIR/.." && pwd)"
-ROOT_DIR="$(cd -- "$ORCHESTRATION_DIR/../.." && pwd)"
+DEFAULT_WORKFLOWS_DIR="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
+WORKFLOWS_DIR="${HARMONY_WORKFLOWS_DIR:-$DEFAULT_WORKFLOWS_DIR}"
+RUNTIME_DIR="$(cd -- "$WORKFLOWS_DIR/.." && pwd)"
+ORCHESTRATION_DIR="$(cd -- "$RUNTIME_DIR/.." && pwd)"
+HARMONY_DIR="${HARMONY_DIR_OVERRIDE:-$(cd -- "$ORCHESTRATION_DIR/.." && pwd)}"
+ROOT_DIR="${HARMONY_ROOT_DIR:-$(cd -- "$HARMONY_DIR/.." && pwd)}"
+PIPELINES_DIR="${HARMONY_PIPELINES_DIR:-$RUNTIME_DIR/pipelines}"
+PROJECTION_GENERATOR="$PIPELINES_DIR/_ops/scripts/generate-workflow-projections.sh"
 
 MANIFEST="$WORKFLOWS_DIR/manifest.yml"
 REGISTRY="$WORKFLOWS_DIR/registry.yml"
+PIPELINE_MANIFEST="$PIPELINES_DIR/manifest.yml"
 WORKFLOW_SYSTEM_AUDIT="$SCRIPT_DIR/audit-workflow-system.sh"
 
 errors=0
@@ -242,6 +248,117 @@ check_dependency_profiles_against_registry_io() {
       fi
     fi
   done < <(extract_registry_paths)
+}
+
+check_pipeline_grade_assets() {
+  local id rel_path workflow_dir
+  for id in "${!WORKFLOW_PATHS[@]}"; do
+    rel_path="${WORKFLOW_PATHS[$id]}"
+    workflow_dir="$WORKFLOWS_DIR/$rel_path"
+
+    [[ -d "$workflow_dir" ]] || continue
+
+    if [[ -d "$workflow_dir/prompts" ]]; then
+      if matches_markdown_tree_regex '\./prompts/' "$workflow_dir"; then
+        pass "workflow '$id' references workflow-local prompts"
+      else
+        fail "workflow '$id' has prompts/ but does not reference workflow-local prompts"
+      fi
+    fi
+
+    if [[ -d "$workflow_dir/references" ]]; then
+      if matches_markdown_tree_regex '\./references/' "$workflow_dir"; then
+        pass "workflow '$id' references workflow-local contracts"
+      else
+        fail "workflow '$id' has references/ but does not reference workflow-local contracts"
+      fi
+    fi
+
+    if matches_markdown_tree_regex '\.design-packages/' "$workflow_dir"; then
+      fail "workflow '$id' depends on temporary .design-packages paths"
+    fi
+  done
+}
+
+check_workflow_projection_contracts() {
+  require_file "$PIPELINE_MANIFEST"
+
+  local id rel_path projection_id projection_path projection_format expected_format
+  for id in "${!WORKFLOW_PATHS[@]}"; do
+    rel_path="${WORKFLOW_PATHS[$id]}"
+    projection_id="$(yq -r ".workflows.\"$id\".projection.pipeline_id // \"\"" "$REGISTRY" 2>/dev/null || true)"
+    projection_path="$(yq -r ".workflows.\"$id\".projection.pipeline_path // \"\"" "$REGISTRY" 2>/dev/null || true)"
+    projection_format="$(yq -r ".workflows.\"$id\".projection.projection_format // \"\"" "$REGISTRY" 2>/dev/null || true)"
+
+    if [[ -z "$projection_id" || -z "$projection_path" || -z "$projection_format" ]]; then
+      fail "workflow '$id' missing projection metadata in registry.yml"
+      continue
+    fi
+
+    if [[ "$projection_id" == "$id" ]]; then
+      pass "workflow '$id' projection id matches workflow id"
+    else
+      fail "workflow '$id' projection id must match workflow id"
+    fi
+
+    if [[ -e "$ROOT_DIR/$projection_path" ]]; then
+      pass "workflow '$id' projection path resolves: ${projection_path#$ROOT_DIR/}"
+    else
+      fail "workflow '$id' projection path missing: $projection_path"
+    fi
+
+    if yq -e ".pipelines[] | select(.id == \"$projection_id\")" "$PIPELINE_MANIFEST" >/dev/null 2>&1; then
+      pass "workflow '$id' projection pipeline exists in pipeline manifest"
+    else
+      fail "workflow '$id' projection pipeline missing from pipeline manifest"
+    fi
+
+    expected_format="directory"
+    [[ "$rel_path" == *.md ]] && expected_format="single-file"
+    if [[ "$projection_format" == "$expected_format" ]]; then
+      pass "workflow '$id' projection format matches workflow shape"
+    else
+      fail "workflow '$id' projection format '$projection_format' does not match expected '$expected_format'"
+    fi
+  done
+}
+
+check_generated_projection_drift() {
+  require_file "$PROJECTION_GENERATOR"
+
+  local tmp_root
+  tmp_root="$(mktemp -d "${TMPDIR:-/tmp}/harmony-workflow-projection.XXXXXX")"
+
+  if ! bash "$PROJECTION_GENERATOR" --output-root "$tmp_root" >/dev/null; then
+    fail "workflow projection generator failed"
+    rm -rf "$tmp_root"
+    return
+  fi
+
+  local id rel_path projection_path generated_flag actual_target generated_target
+  for id in "${!WORKFLOW_PATHS[@]}"; do
+    rel_path="${WORKFLOW_PATHS[$id]}"
+    projection_path="$(yq -r ".workflows.\"$id\".projection.pipeline_path // \"\"" "$REGISTRY" 2>/dev/null || true)"
+    generated_flag="$(yq -r ".workflows.\"$id\".projection.generated // \"false\"" "$REGISTRY" 2>/dev/null || true)"
+
+    [[ "$generated_flag" == "true" ]] || continue
+
+    actual_target="$WORKFLOWS_DIR/$rel_path"
+    generated_target="$tmp_root/.harmony/orchestration/runtime/workflows/$rel_path"
+
+    if [[ ! -e "$generated_target" ]]; then
+      fail "workflow '$id' missing generated projection in temp output"
+      continue
+    fi
+
+    if diff -qr "$actual_target" "$generated_target" >/dev/null 2>&1; then
+      pass "workflow '$id' projection matches canonical pipeline"
+    else
+      fail "workflow '$id' projection drift detected against canonical pipeline"
+    fi
+  done
+
+  rm -rf "$tmp_root"
 }
 
 check_deprecated_paths() {
@@ -495,6 +612,9 @@ main() {
   check_manifest_paths_exist
   check_dependency_profiles_against_steps
   check_dependency_profiles_against_registry_io
+  check_pipeline_grade_assets
+  check_workflow_projection_contracts
+  check_generated_projection_drift
   check_execution_controls_contract
   check_bounded_audit_contracts
   check_workflow_system_audit_static

@@ -2,7 +2,12 @@
 
 All workflows live in `.harmony/orchestration/runtime/workflows/`, organized by group.
 
-**Discovery:** Read `manifest.yml` for workflow index (Tier 1). After matching, read `registry.yml` for extended metadata (Tier 2). Then load `WORKFLOW.md` when a workflow is activated.
+Workflows are now generated projection/readability surfaces over the canonical
+autonomous contracts in `/.harmony/orchestration/runtime/pipelines/`.
+
+**Discovery:** Read `manifest.yml` for the projection index (Tier 1). After
+matching, read `registry.yml` for extended metadata and the backing pipeline
+link (Tier 2). Then load `WORKFLOW.md` when a workflow projection is activated.
 
 ## Execution Profiles
 
@@ -33,7 +38,8 @@ If omitted, Harmony treats `cancel_safe` as `false`.
 This field exists for orchestration-time behavior such as automation
 `replace` semantics. It is not a scheduling or lifecycle field.
 
-Use `.harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh` to validate profile boundaries, manifest path parity, and the CI-blocking static slice of the workflow-system audit.
+Use `.harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh`
+to validate projection integrity, manifest/registry parity, and pipeline drift.
 
 The full workflow-system bounded audit is defined by:
 
@@ -46,19 +52,23 @@ Workflows are one part of the composition model:
 
 - **Composite Skill** (`.harmony/capabilities/runtime/skills/composite-skills.md`):
   reusable skill bundle with a stable command and contract.
+- **Pipeline** (`/.harmony/orchestration/runtime/pipelines/`):
+  canonical autonomous execution contract.
 - **Workflow** (this directory):
-  ordered procedural execution with staged checkpoints.
+  generated projection/readability layer for humans and slash-facing compatibility.
 - **Team** (`.harmony/agency/runtime/teams/`):
   actor topology and handoff policy.
 
-Use workflows when execution order and checkpoint structure are primary.
+Use pipelines when autonomous execution authority matters.
+Use workflows when human-readable staged projection or slash-surface
+compatibility is needed.
 Use Composite Skills when reusable capability bundling is primary.
 Teams may standardize which workflows and composite skills are used.
 
 ## Workflow Groups
 
 - `meta/` — Harness management (create, evaluate, migrate, update) and meta-workflows (create, evaluate, update workflow/skill)
-- `audit/` — Audit orchestration and release gates (audit-orchestration-workflow, audit-pre-release-workflow, audit-change-risk-workflow, audit-continuous-workflow, audit-post-incident-workflow, audit-release-readiness-workflow, audit-documentation-workflow, audit-workflow-system-workflow)
+- `audit/` — Audit orchestration and release gates (audit-orchestration-workflow, audit-pre-release-workflow, audit-change-risk-workflow, audit-continuous-workflow, audit-post-incident-workflow, audit-release-readiness-workflow, audit-documentation-workflow, audit-design-package-workflow, audit-workflow-system-workflow)
 - `refactor/` — Verified structural refactor orchestration (refactor)
 - `foundations/` — Stack-specific project scaffolding (python-api, swift-macos-app)
 - `missions/` — Mission lifecycle (create, complete)

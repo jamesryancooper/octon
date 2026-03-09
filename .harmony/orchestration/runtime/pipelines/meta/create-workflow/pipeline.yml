@@ -1,0 +1,71 @@
+schema_version: "pipeline-contract-v1"
+name: "create-workflow"
+description: "Scaffold a canonical pipeline, wire discovery metadata, and regenerate the compatibility workflow projection."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "validate-id"
+    asset: "stages/01-validate-id.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:validate-id"]
+    mutation_scope: []
+  - id: "analyze-requirements"
+    asset: "stages/02-analyze-requirements.md"
+    kind: "analysis"
+    consumes: ["stage:validate-id"]
+    produces: ["stage:analyze-requirements"]
+    mutation_scope: []
+  - id: "select-template"
+    asset: "stages/03-select-template.md"
+    kind: "analysis"
+    consumes: ["stage:analyze-requirements"]
+    produces: ["stage:select-template"]
+    mutation_scope: []
+  - id: "generate-structure"
+    asset: "stages/04-generate-structure.md"
+    kind: "mutation"
+    consumes: ["stage:select-template"]
+    produces: ["stage:generate-structure"]
+    mutation_scope: ["workflow-scope"]
+  - id: "customize-steps"
+    asset: "stages/05-customize-steps.md"
+    kind: "mutation"
+    consumes: ["stage:generate-structure"]
+    produces: ["stage:customize-steps"]
+    mutation_scope: ["workflow-scope"]
+  - id: "integrate-gap-fixes"
+    asset: "stages/06-integrate-gap-fixes.md"
+    kind: "mutation"
+    consumes: ["stage:customize-steps"]
+    produces: ["stage:integrate-gap-fixes"]
+    mutation_scope: ["workflow-scope"]
+  - id: "update-references"
+    asset: "stages/07-update-references.md"
+    kind: "mutation"
+    consumes: ["stage:integrate-gap-fixes"]
+    produces: ["stage:update-references"]
+    mutation_scope: ["workflow-scope"]
+  - id: "verify"
+    asset: "stages/08-verify.md"
+    kind: "verification"
+    consumes: ["stage:update-references"]
+    produces: ["stage:verify"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "create-workflow"
+  workflow_path: ".harmony/orchestration/runtime/workflows/meta/create-workflow/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

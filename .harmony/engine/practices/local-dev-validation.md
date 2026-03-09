@@ -3,10 +3,12 @@
 ## Required Local Checks
 
 - `bash .harmony/agency/_ops/scripts/validate/validate-agency.sh`
+- `bash .harmony/orchestration/runtime/pipelines/_ops/scripts/validate-pipelines.sh`
 - `bash .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh`
 - `bash .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict`
 - `bash .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
 - `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,agency,workflows,skills`
+- `bash .harmony/assurance/runtime/_ops/tests/test-design-package-workflow-runner.sh`
 - `cargo check --manifest-path .harmony/engine/runtime/crates/Cargo.toml`
 
 ## Execution-Profile Checks

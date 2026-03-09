@@ -1,10 +1,33 @@
 ---
-name: create-project
-title: Create Project
-description: Scaffold a new project in projects/.
-access: human
-version: "1.0.0"
+name: "create-project"
+description: "Scaffold a new project in projects/."
 ---
+
+# Create Project
+
+_Generated projection from canonical pipeline `create-project`._
+
+## Usage
+
+```text
+/create-project
+```
+
+## Target
+
+This projection wraps the canonical pipeline `create-project` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/projects/create-project`.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
 
 # Create Project
 
@@ -114,3 +137,10 @@ context/                → Permanent knowledge
 - [Projects](/.harmony/ideation/_meta/architecture/projects.md) — Full documentation
 - [Registry](../../../../ideation/projects/registry.md) — Project tracking
 - [Brainstorm](../../../../ideation/scratchpad/brainstorm/README.md) — Upstream exploration
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `create-project` |
+

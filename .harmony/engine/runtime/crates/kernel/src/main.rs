@@ -1,6 +1,8 @@
 mod context;
+mod pipeline;
 mod scaffold;
 mod stdio;
+mod workflow;
 
 use clap::{Parser, Subcommand};
 use harmony_core::errors::{ErrorCode, KernelError};
@@ -11,6 +13,8 @@ use std::process::Command as ProcessCommand;
 use std::sync::Arc;
 
 use crate::context::KernelContext;
+use crate::pipeline::RunPipelineOptions;
+use crate::workflow::{ExecutorKind, PipelineMode, RunDesignPackageOptions};
 
 #[derive(Parser)]
 #[command(
@@ -59,6 +63,18 @@ enum Command {
         #[command(subcommand)]
         cmd: ServiceCmd,
     },
+
+    /// Workflow execution entry points.
+    Workflow {
+        #[command(subcommand)]
+        cmd: WorkflowCmd,
+    },
+
+    /// Canonical pipeline execution entry points.
+    Pipeline {
+        #[command(subcommand)]
+        cmd: PipelineCmd,
+    },
 }
 
 #[derive(Subcommand)]
@@ -81,6 +97,68 @@ enum ServiceCmd {
     },
 }
 
+#[derive(Subcommand)]
+enum WorkflowCmd {
+    /// Run the architecture validation pipeline against a design package.
+    RunDesignPackage {
+        /// Path to the target design package.
+        #[arg(long = "package-path")]
+        package_path: String,
+        /// Pipeline mode.
+        #[arg(long, value_enum, default_value_t = PipelineMode::Rigorous)]
+        mode: PipelineMode,
+        /// Executor used for prompt stages.
+        #[arg(long, value_enum, default_value_t = ExecutorKind::Auto)]
+        executor: ExecutorKind,
+        /// Optional explicit executor binary path.
+        #[arg(long = "executor-bin")]
+        executor_bin: Option<String>,
+        /// Optional output slug override for the bounded bundle.
+        #[arg(long = "output-slug")]
+        output_slug: Option<String>,
+        /// Optional model override passed to the executor.
+        #[arg(long)]
+        model: Option<String>,
+        /// Materialize the bundle and prompt packets without invoking the executor.
+        #[arg(long = "prepare-only", default_value_t = false)]
+        prepare_only: bool,
+    },
+}
+
+#[derive(Subcommand)]
+enum PipelineCmd {
+    /// List canonical pipelines.
+    List,
+    /// Run a canonical pipeline.
+    Run {
+        /// Canonical pipeline id.
+        pipeline_id: String,
+        /// Input override in the form key=value. Repeatable.
+        #[arg(long = "set")]
+        set: Vec<String>,
+        /// Executor used for stage execution.
+        #[arg(long, value_enum, default_value_t = ExecutorKind::Auto)]
+        executor: ExecutorKind,
+        /// Optional explicit executor binary path.
+        #[arg(long = "executor-bin")]
+        executor_bin: Option<String>,
+        /// Optional output slug override for the run bundle.
+        #[arg(long = "output-slug")]
+        output_slug: Option<String>,
+        /// Optional model override.
+        #[arg(long)]
+        model: Option<String>,
+        /// Materialize stage packets and reports without invoking executors.
+        #[arg(long = "prepare-only", default_value_t = false)]
+        prepare_only: bool,
+    },
+    /// Validate canonical pipelines.
+    Validate {
+        /// Optional pipeline id to validate semantically after collection checks.
+        pipeline_id: Option<String>,
+    },
+}
+
 fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
 
@@ -92,6 +170,8 @@ fn main() -> anyhow::Result<()> {
         Command::ServeStdio => cmd_serve_stdio(),
         Command::Studio => cmd_studio(),
         Command::Service { cmd } => cmd_service(cmd),
+        Command::Workflow { cmd } => cmd_workflow(cmd),
+        Command::Pipeline { cmd } => cmd_pipeline(cmd),
     }
 }
 
@@ -226,6 +306,85 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
     Ok(())
 }
 
+fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
+    let harmony_dir = harmony_core::root::RootResolver::resolve()?;
+    match cmd {
+        WorkflowCmd::RunDesignPackage {
+            package_path,
+            mode,
+            executor,
+            executor_bin,
+            output_slug,
+            model,
+            prepare_only,
+        } => {
+            let result = workflow::run_design_package_from_harmony_dir(
+                &harmony_dir,
+                RunDesignPackageOptions {
+                    package_path: package_path.into(),
+                    mode,
+                    executor,
+                    executor_bin: executor_bin.map(Into::into),
+                    output_slug,
+                    model,
+                    prepare_only,
+                },
+            )?;
+            println!("bundle_root: {}", result.bundle_root.display());
+            println!("summary_report: {}", result.summary_report.display());
+            println!("final_verdict: {}", result.final_verdict);
+        }
+    }
+    Ok(())
+}
+
+fn cmd_pipeline(cmd: PipelineCmd) -> anyhow::Result<()> {
+    let harmony_dir = harmony_core::root::RootResolver::resolve()?;
+    match cmd {
+        PipelineCmd::List => {
+            for pipeline in pipeline::list_pipelines_from_harmony_dir(&harmony_dir)? {
+                println!(
+                    "{} @ {} ({}, {})",
+                    pipeline.id, pipeline.version, pipeline.path, pipeline.execution_profile
+                );
+            }
+        }
+        PipelineCmd::Run {
+            pipeline_id,
+            set,
+            executor,
+            executor_bin,
+            output_slug,
+            model,
+            prepare_only,
+        } => {
+            let input_overrides = parse_kv_overrides(&set)?;
+            let result = pipeline::run_pipeline_from_harmony_dir(
+                &harmony_dir,
+                RunPipelineOptions {
+                    pipeline_id,
+                    executor,
+                    executor_bin: executor_bin.map(Into::into),
+                    output_slug,
+                    model,
+                    prepare_only,
+                    input_overrides,
+                },
+            )?;
+            println!("bundle_root: {}", result.bundle_root.display());
+            println!("summary_report: {}", result.summary_report.display());
+            println!("final_verdict: {}", result.final_verdict);
+        }
+        PipelineCmd::Validate { pipeline_id } => {
+            pipeline::validate_pipelines_from_harmony_dir(&harmony_dir, pipeline_id.as_deref())?;
+            if let Some(pipeline_id) = pipeline_id {
+                println!("validated canonical pipeline: {pipeline_id}");
+            }
+        }
+    }
+    Ok(())
+}
+
 fn parse_category_name(target: &str, name: Option<&str>) -> anyhow::Result<(String, String)> {
     if let Some((category, service)) = target.split_once('/') {
         if category.is_empty() || service.is_empty() {
@@ -247,9 +406,26 @@ fn parse_category_name(target: &str, name: Option<&str>) -> anyhow::Result<(Stri
     Ok((target.to_string(), name.to_string()))
 }
 
+fn parse_kv_overrides(
+    values: &[String],
+) -> anyhow::Result<std::collections::HashMap<String, String>> {
+    let mut out = std::collections::HashMap::new();
+    for value in values {
+        let (key, value) = value
+            .split_once('=')
+            .ok_or_else(|| anyhow::anyhow!("invalid --set value '{value}', expected key=value"))?;
+        if key.is_empty() {
+            anyhow::bail!("invalid --set key in '{value}'");
+        }
+        out.insert(key.to_string(), value.to_string());
+    }
+    Ok(out)
+}
+
 #[cfg(test)]
 mod tests {
-    use super::{Cli, Command};
+    use super::{Cli, Command, PipelineCmd, WorkflowCmd};
+    use crate::workflow::{ExecutorKind, PipelineMode};
     use clap::{CommandFactory, Parser};
 
     #[test]
@@ -277,5 +453,90 @@ mod tests {
             help.contains("Launch Harmony Studio desktop UI"),
             "help output should include studio description"
         );
+    }
+
+    #[test]
+    fn cli_parses_workflow_run_design_package_subcommand() {
+        let cli = Cli::try_parse_from([
+            "harmony",
+            "workflow",
+            "run-design-package",
+            "--package-path",
+            ".design-packages/orchestration-domain-design-package",
+            "--mode",
+            "short",
+            "--prepare-only",
+        ])
+        .expect("workflow run-design-package should parse successfully");
+
+        match cli.cmd {
+            Command::Workflow {
+                cmd:
+                    WorkflowCmd::RunDesignPackage {
+                        package_path,
+                        mode,
+                        prepare_only,
+                        ..
+                    },
+            } => {
+                assert_eq!(
+                    package_path,
+                    ".design-packages/orchestration-domain-design-package"
+                );
+                assert_eq!(mode, PipelineMode::Short);
+                assert!(prepare_only);
+            }
+            _ => panic!("parsed command should be workflow run-design-package"),
+        }
+    }
+
+    #[test]
+    fn cli_help_lists_workflow_command() {
+        let mut cmd = Cli::command();
+        let mut help = Vec::new();
+        cmd.write_long_help(&mut help)
+            .expect("long help should render");
+        let help = String::from_utf8(help).expect("help should be valid utf-8");
+        assert!(
+            help.contains("workflow"),
+            "help output should contain workflow command"
+        );
+        assert!(
+            help.contains("Workflow execution entry points"),
+            "help output should include workflow command description"
+        );
+    }
+
+    #[test]
+    fn cli_parses_pipeline_run_subcommand() {
+        let cli = Cli::try_parse_from([
+            "harmony",
+            "pipeline",
+            "run",
+            "audit-design-package-workflow",
+            "--set",
+            "package_path=.design-packages/orchestration-domain-design-package",
+            "--executor",
+            "mock",
+            "--prepare-only",
+        ])
+        .expect("pipeline run should parse successfully");
+
+        match cli.cmd {
+            Command::Pipeline {
+                cmd:
+                    PipelineCmd::Run {
+                        pipeline_id,
+                        executor,
+                        prepare_only,
+                        ..
+                    },
+            } => {
+                assert_eq!(pipeline_id, "audit-design-package-workflow");
+                assert_eq!(executor, ExecutorKind::Mock);
+                assert!(prepare_only);
+            }
+            _ => panic!("parsed command should be pipeline run"),
+        }
     }
 }

@@ -1,0 +1,127 @@
+schema_version: "pipeline-contract-v1"
+name: "swift-macos-app-foundation"
+description: "Orchestrate the six Swift macOS app foundation skills in dependency order: scaffold-package first, then data-layer / daemon-service in parallel, then test-harness, then cli-interface, then contributor-guide last. Supports partial runs and resume after interruption."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "external-dependent"
+inputs:
+  - name: project_name
+    type: text
+    required: true
+    description: "Project name (PascalCase for modules)"
+  - name: description
+    type: text
+    required: true
+    description: "One-line project description"
+  - name: swift_version
+    type: text
+    required: true
+    default: "5.9"
+    description: "Swift version (e.g., 5.9, 6.0)"
+  - name: macos_target
+    type: text
+    required: true
+    default: "14"
+    description: "macOS deployment target (e.g., 14, 15)"
+  - name: dependencies
+    type: text
+    required: false
+    description: "Dependencies: grdb, yams, argument-parser, async-http-client, swift-graph, ulid"
+  - name: skip
+    type: text
+    required: false
+    description: "Comma-separated skill IDs to skip"
+stages:
+  - id: "gather-input"
+    asset: "stages/01-gather-input.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:gather-input"]
+    mutation_scope: []
+  - id: "scaffold-package"
+    asset: "stages/02-scaffold-package.md"
+    kind: "analysis"
+    consumes: ["stage:gather-input"]
+    produces: ["stage:scaffold-package"]
+    mutation_scope: []
+  - id: "parallel-middle"
+    asset: "stages/03-parallel-middle.md"
+    kind: "analysis"
+    consumes: ["stage:scaffold-package"]
+    produces: ["stage:parallel-middle"]
+    mutation_scope: []
+  - id: "test-harness"
+    asset: "stages/04-test-harness.md"
+    kind: "analysis"
+    consumes: ["stage:parallel-middle"]
+    produces: ["stage:test-harness"]
+    mutation_scope: []
+  - id: "cli-interface"
+    asset: "stages/05-cli-interface.md"
+    kind: "analysis"
+    consumes: ["stage:test-harness"]
+    produces: ["stage:cli-interface"]
+    mutation_scope: []
+  - id: "contributor-guide"
+    asset: "stages/06-contributor-guide.md"
+    kind: "analysis"
+    consumes: ["stage:cli-interface"]
+    produces: ["stage:contributor-guide"]
+    mutation_scope: []
+  - id: "smoke-test"
+    asset: "stages/07-smoke-test.md"
+    kind: "analysis"
+    consumes: ["stage:contributor-guide"]
+    produces: ["stage:smoke-test"]
+    mutation_scope: []
+  - id: "verify"
+    asset: "stages/08-verify.md"
+    kind: "verification"
+    consumes: ["stage:smoke-test"]
+    produces: ["stage:verify"]
+    mutation_scope: []
+artifacts:
+  - name: package_manifest
+    path: "Package.swift"
+    kind: file
+    format: swift
+    determinism: unique
+    description: "Swift Package Manager manifest"
+  - name: source_tree
+    path: "Sources/{{PROJECT_NAME}}/"
+    kind: directory
+    format: swift-package
+    determinism: unique
+    description: "Complete Swift source module structure"
+  - name: test_suite
+    path: "Tests/{{PROJECT_NAME}}Tests/"
+    kind: directory
+    format: swift-tests
+    determinism: unique
+    description: "XCTest test suites and fixtures"
+  - name: agent_doc
+    path: "CLAUDE.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "AI agent orientation document"
+done_gate:
+  checks:
+    - "`Package.swift` exists with correct targets and dependencies"
+    - "`Sources/{PROJECT_NAME}/` tree exists with all standard modules"
+    - "`Sources/{PROJECT_NAME}/Database/` has GRDB actor and migrations (if data-layer ran)"
+    - "`Sources/{PROJECT_NAME}Daemon/` has daemon actor and intent queue (if daemon ran)"
+    - "`Tests/{PROJECT_NAME}Tests/` has XCTest suites"
+    - "`Sources/{PROJECT_NAME}CLI/main.swift` has ArgumentParser commands"
+    - "`CLAUDE.md` and `CONTRIBUTING.md` exist"
+    - "`swift build` succeeds (or failures are documented)"
+    - "Verification step passes"
+projection:
+  workflow_id: "swift-macos-app-foundation"
+  workflow_path: ".harmony/orchestration/runtime/workflows/foundations/swift-macos-app/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

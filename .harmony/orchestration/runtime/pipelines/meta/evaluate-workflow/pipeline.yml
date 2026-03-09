@@ -1,0 +1,53 @@
+schema_version: "pipeline-contract-v1"
+name: "evaluate-workflow"
+description: "Evaluate a canonical pipeline and its workflow projection for structure, gap coverage, parameter/output clarity, and projection drift."
+version: "1.1.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "read-workflow"
+    asset: "stages/01-read-workflow.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:read-workflow"]
+    mutation_scope: []
+  - id: "assess-structure"
+    asset: "stages/02-assess-structure.md"
+    kind: "analysis"
+    consumes: ["stage:read-workflow"]
+    produces: ["stage:assess-structure"]
+    mutation_scope: []
+  - id: "assess-gap-coverage"
+    asset: "stages/03-assess-gap-coverage.md"
+    kind: "analysis"
+    consumes: ["stage:assess-structure"]
+    produces: ["stage:assess-gap-coverage"]
+    mutation_scope: []
+  - id: "assess-quality"
+    asset: "stages/04-assess-quality.md"
+    kind: "analysis"
+    consumes: ["stage:assess-gap-coverage"]
+    produces: ["stage:assess-quality"]
+    mutation_scope: []
+  - id: "generate-report"
+    asset: "stages/05-generate-report.md"
+    kind: "projection"
+    consumes: ["stage:assess-quality"]
+    produces: ["stage:generate-report"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "evaluate-workflow"
+  workflow_path: ".harmony/orchestration/runtime/workflows/meta/evaluate-workflow/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

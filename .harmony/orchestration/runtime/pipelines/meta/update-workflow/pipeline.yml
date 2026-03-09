@@ -1,0 +1,53 @@
+schema_version: "pipeline-contract-v1"
+name: "update-workflow"
+description: "Update a canonical pipeline, regenerate the workflow projection, and verify the resulting orchestration surface."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "audit-current"
+    asset: "stages/01-audit-current.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:audit-current"]
+    mutation_scope: []
+  - id: "identify-gaps"
+    asset: "stages/02-identify-gaps.md"
+    kind: "analysis"
+    consumes: ["stage:audit-current"]
+    produces: ["stage:identify-gaps"]
+    mutation_scope: []
+  - id: "plan-changes"
+    asset: "stages/03-plan-changes.md"
+    kind: "projection"
+    consumes: ["stage:identify-gaps"]
+    produces: ["stage:plan-changes"]
+    mutation_scope: []
+  - id: "execute-changes"
+    asset: "stages/04-execute-changes.md"
+    kind: "mutation"
+    consumes: ["stage:plan-changes"]
+    produces: ["stage:execute-changes"]
+    mutation_scope: ["workflow-scope"]
+  - id: "verify-update"
+    asset: "stages/05-verify-update.md"
+    kind: "verification"
+    consumes: ["stage:execute-changes"]
+    produces: ["stage:verify-update"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "update-workflow"
+  workflow_path: ".harmony/orchestration/runtime/workflows/meta/update-workflow/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

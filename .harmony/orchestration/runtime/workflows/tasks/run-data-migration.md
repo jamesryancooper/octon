@@ -1,10 +1,33 @@
 ---
-name: run-data-migration
-title: "Task: Run a Data Migration"
-description: Step-by-step guide to running database migrations safely with AI assistance.
-access: human
-version: "1.0.0"
+name: "run-data-migration"
+description: "Step-by-step guide to running database migrations safely with AI assistance."
 ---
+
+# Run Data Migration
+
+_Generated projection from canonical pipeline `run-data-migration`._
+
+## Usage
+
+```text
+/run-data-migration
+```
+
+## Target
+
+This projection wraps the canonical pipeline `run-data-migration` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/tasks/run-data-migration`.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
 
 # Task: Run a Data Migration
 
@@ -441,3 +464,10 @@ harmony migrate repair --environment production
 - [Handle a security issue](./handle-security-issue.md)
 - [Fix a bug](./fix-a-bug.md)
 - Back to [DAILY-FLOW.md](/.harmony/agency/practices/daily-flow.md)
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `run-data-migration` |
+

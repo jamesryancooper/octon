@@ -1,10 +1,33 @@
 ---
-name: handle-security-issue
-title: "Task: Handle a Security Issue"
-description: Step-by-step guide to addressing security vulnerabilities and concerns.
-access: human
-version: "1.0.0"
+name: "handle-security-issue"
+description: "Step-by-step guide to addressing security vulnerabilities and concerns."
 ---
+
+# Handle Security Issue
+
+_Generated projection from canonical pipeline `handle-security-issue`._
+
+## Usage
+
+```text
+/handle-security-issue
+```
+
+## Target
+
+This projection wraps the canonical pipeline `handle-security-issue` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/tasks/handle-security-issue`.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
 
 # Task: Handle a Security Issue
 
@@ -443,3 +466,10 @@ harmony security fix pentest --severity high
 - [Fix a bug](./fix-a-bug.md)
 - Back to [DAILY-FLOW.md](/.harmony/agency/practices/daily-flow.md)
 - [Security Baseline](/.harmony/cognition/practices/methodology/security-baseline.md) (full details)
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `handle-security-issue` |
+

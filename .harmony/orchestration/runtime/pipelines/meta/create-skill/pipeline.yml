@@ -1,0 +1,59 @@
+schema_version: "pipeline-contract-v1"
+name: "create-skill"
+description: "Scaffold a new skill from template, initialize contract content, and register it in discovery artifacts."
+version: "2.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "validate-name"
+    asset: "stages/01-validate-name.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:validate-name"]
+    mutation_scope: []
+  - id: "copy-template"
+    asset: "stages/02-copy-template.md"
+    kind: "analysis"
+    consumes: ["stage:validate-name"]
+    produces: ["stage:copy-template"]
+    mutation_scope: []
+  - id: "initialize-skill"
+    asset: "stages/03-initialize-skill.md"
+    kind: "analysis"
+    consumes: ["stage:copy-template"]
+    produces: ["stage:initialize-skill"]
+    mutation_scope: []
+  - id: "update-registry"
+    asset: "stages/04-update-registry.md"
+    kind: "analysis"
+    consumes: ["stage:initialize-skill"]
+    produces: ["stage:update-registry"]
+    mutation_scope: []
+  - id: "update-catalog"
+    asset: "stages/05-update-catalog.md"
+    kind: "analysis"
+    consumes: ["stage:update-registry"]
+    produces: ["stage:update-catalog"]
+    mutation_scope: []
+  - id: "report-success"
+    asset: "stages/06-report-success.md"
+    kind: "projection"
+    consumes: ["stage:update-catalog"]
+    produces: ["stage:report-success"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "create-skill"
+  workflow_path: ".harmony/orchestration/runtime/workflows/meta/create-skill/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

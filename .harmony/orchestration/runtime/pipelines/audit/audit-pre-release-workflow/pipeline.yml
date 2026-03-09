@@ -1,0 +1,159 @@
+schema_version: "pipeline-contract-v1"
+name: "audit-pre-release-workflow"
+description: "Chain bounded migration, subsystem-health, cross-subsystem, and freshness audits into a pre-release gate with deterministic evidence, stable finding identity, and explicit done-gate evaluation."
+version: "2.2.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  - name: subsystem
+    type: folder
+    required: true
+    description: "Root directory of the subsystem to audit"
+  - name: manifest
+    type: file
+    required: false
+    description: "Migration manifest (inline YAML or file path); omit for health-only audit"
+  - name: docs
+    type: folder
+    required: false
+    description: "Companion documentation directory for doc-to-source alignment"
+  - name: severity_threshold
+    type: text
+    required: false
+    default: "all"
+    description: "Minimum severity to report: critical, high, medium, low, all"
+  - name: run_cross_subsystem
+    type: boolean
+    required: false
+    default: true
+    description: "Run cross-subsystem coherence audit stage"
+  - name: run_freshness
+    type: boolean
+    required: false
+    default: true
+    description: "Run freshness and supersession audit stage"
+  - name: max_age_days
+    type: text
+    required: false
+    default: "30"
+    description: "Freshness threshold in days for stale artifact detection"
+  - name: post_remediation
+    type: boolean
+    required: false
+    default: false
+    description: "Enable strict done-gate enforcement for remediation verification"
+  - name: convergence_k
+    type: text
+    required: false
+    default: "3"
+    description: "Number of controlled reruns used to evaluate convergence stability"
+  - name: seed_list
+    type: text
+    required: false
+    description: "Comma-separated deterministic seeds used for multi-run consistency checks"
+stages:
+  - id: "configure"
+    asset: "stages/01-configure.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:configure"]
+    mutation_scope: []
+  - id: "migration-audit"
+    asset: "stages/02-migration-audit.md"
+    kind: "analysis"
+    consumes: ["stage:configure"]
+    produces: ["stage:migration-audit"]
+    mutation_scope: []
+  - id: "health-audit"
+    asset: "stages/03-health-audit.md"
+    kind: "analysis"
+    consumes: ["stage:migration-audit"]
+    produces: ["stage:health-audit"]
+    mutation_scope: []
+  - id: "cross-subsystem-audit"
+    asset: "stages/04-cross-subsystem-audit.md"
+    kind: "analysis"
+    consumes: ["stage:health-audit"]
+    produces: ["stage:cross-subsystem-audit"]
+    mutation_scope: []
+  - id: "freshness-audit"
+    asset: "stages/05-freshness-audit.md"
+    kind: "analysis"
+    consumes: ["stage:cross-subsystem-audit"]
+    produces: ["stage:freshness-audit"]
+    mutation_scope: []
+  - id: "merge"
+    asset: "stages/06-merge.md"
+    kind: "projection"
+    consumes: ["stage:freshness-audit"]
+    produces: ["stage:merge"]
+    mutation_scope: []
+  - id: "report"
+    asset: "stages/07-report.md"
+    kind: "projection"
+    consumes: ["stage:merge"]
+    produces: ["stage:report"]
+    mutation_scope: []
+  - id: "verify"
+    asset: "stages/08-verify.md"
+    kind: "verification"
+    consumes: ["stage:report"]
+    produces: ["stage:verify"]
+    mutation_scope: []
+artifacts:
+  - name: pre_release_report
+    path: "../../output/reports/{{date}}-audit-pre-release-workflow.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Consolidated pre-release audit report with go/no-go recommendation"
+  - name: health_audit_report
+    path: "../../output/reports/{{date}}-subsystem-health-audit.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Individual health audit report (produced by audit-subsystem-health)"
+  - name: migration_audit_report
+    path: "../../output/reports/{{date}}-migration-audit-consolidated.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Consolidated migration audit report (produced by audit-orchestration-workflow in migration-only mode, if manifest provided)"
+  - name: cross_subsystem_audit_report
+    path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)"
+  - name: freshness_audit_report
+    path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)"
+  - name: pre_release_audit_bundle
+    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: "Authoritative bounded-audit bundle for release recommendation, context-governance evidence, and done-gate verification"
+done_gate:
+  checks:
+    - "All planned stages executed or explicitly skipped"
+    - "Consolidated report exists at `.harmony/output/reports/YYYY-MM-DD-audit-pre-release-workflow.md`"
+    - "Pre-release bundle exists at `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`"
+    - "Findings are deduplicated with stable IDs and acceptance criteria"
+    - "Coverage and convergence metadata are recorded"
+    - "Instruction-layer manifest evidence exists for material policy runs"
+    - "Context-acquisition telemetry fields are present in receipts/digests"
+    - "Context governance validators pass (`validate-developer-context-policy.sh`, `validate-context-overhead-budget.sh`)"
+    - "Recommendation and done-gate rationale are explicit"
+projection:
+  workflow_id: "audit-pre-release-workflow"
+  workflow_path: ".harmony/orchestration/runtime/workflows/audit/audit-pre-release-workflow/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

@@ -1,0 +1,53 @@
+schema_version: "pipeline-contract-v1"
+name: "update-harness"
+description: "Align an existing harness with current canonical conventions by auditing gaps, planning updates, and executing bounded remediations."
+version: "1.1.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "audit-state"
+    asset: "stages/01-audit-state.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:audit-state"]
+    mutation_scope: []
+  - id: "identify-gaps"
+    asset: "stages/02-identify-gaps.md"
+    kind: "analysis"
+    consumes: ["stage:audit-state"]
+    produces: ["stage:identify-gaps"]
+    mutation_scope: []
+  - id: "assess-tokens"
+    asset: "stages/03-assess-tokens.md"
+    kind: "analysis"
+    consumes: ["stage:identify-gaps"]
+    produces: ["stage:assess-tokens"]
+    mutation_scope: []
+  - id: "propose-changes"
+    asset: "stages/04-propose-changes.md"
+    kind: "analysis"
+    consumes: ["stage:assess-tokens"]
+    produces: ["stage:propose-changes"]
+    mutation_scope: []
+  - id: "execute"
+    asset: "stages/05-execute.md"
+    kind: "analysis"
+    consumes: ["stage:propose-changes"]
+    produces: ["stage:execute"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "update-harness"
+  workflow_path: ".harmony/orchestration/runtime/workflows/meta/update-harness/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

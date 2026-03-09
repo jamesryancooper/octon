@@ -18,6 +18,8 @@ if defined PROCESSOR_ARCHITEW6432 set ARCH=%PROCESSOR_ARCHITEW6432%
 set BIN=%RUNTIME_OPS_DIR%\bin\harmony-windows-x64.exe
 
 if /I "%~1"=="studio" set BIN=
+if /I "%~1"=="workflow" set BIN=
+if /I "%~1"=="pipeline" set BIN=
 if "%~1"=="" set BIN=
 if /I "%~1"=="-h" set BIN=
 if /I "%~1"=="--help" set BIN=

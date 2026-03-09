@@ -1,10 +1,33 @@
 ---
-name: add-ui-feature
-title: "Task: Add a UI Feature"
-description: Step-by-step guide to adding a new UI feature with AI assistance.
-access: human
-version: "1.0.0"
+name: "add-ui-feature"
+description: "Step-by-step guide to adding a new UI feature with AI assistance."
 ---
+
+# Add Ui Feature
+
+_Generated projection from canonical pipeline `add-ui-feature`._
+
+## Usage
+
+```text
+/add-ui-feature
+```
+
+## Target
+
+This projection wraps the canonical pipeline `add-ui-feature` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/tasks/add-ui-feature`.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
 
 # Task: Add a UI Feature
 
@@ -411,3 +434,10 @@ harmony fix-tests "#145"
 - [Add an API endpoint](./add-api-endpoint.md) (for backend data)
 - [Handle a security issue](./handle-security-issue.md)
 - Back to [DAILY-FLOW.md](/.harmony/agency/practices/daily-flow.md)
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `add-ui-feature` |
+

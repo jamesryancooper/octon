@@ -1,0 +1,187 @@
+schema_version: "pipeline-contract-v1"
+name: "audit-design-package-workflow"
+description: "Run the architecture validation pipeline for a design package in rigorous or short mode, persist stage reports into a bounded bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  - name: package_path
+    type: folder
+    required: true
+    description: "Root design-package directory to validate and harden"
+  - name: mode
+    type: text
+    required: false
+    default: "rigorous"
+    description: "Pipeline mode: rigorous or short"
+  - name: executor
+    type: text
+    required: false
+    default: "auto"
+    description: "Executor backend: auto, codex, claude, or mock"
+  - name: executor_bin
+    type: file
+    required: false
+    description: "Optional explicit path to the selected executor binary"
+  - name: output_slug
+    type: text
+    required: false
+    description: "Optional stable slug for the bounded report bundle"
+  - name: model
+    type: text
+    required: false
+    description: "Optional model override forwarded to codex or claude"
+  - name: prepare_only
+    type: boolean
+    required: false
+    default: false
+    description: "Materialize bundle metadata and prompt packets without invoking the executor"
+  - name: summary_root
+    type: folder
+    required: false
+    default: ".harmony/output/reports"
+    description: "Root directory for the top-level summary report"
+  - name: bundle_root
+    type: folder
+    required: false
+    default: ".harmony/output/reports/audits"
+    description: "Root directory for the bounded stage-report bundle"
+stages:
+  - id: "configure"
+    asset: "stages/01-configure.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:configure"]
+    mutation_scope: []
+  - id: "design-audit"
+    asset: "stages/02-design-audit.md"
+    kind: "analysis"
+    consumes: ["stage:configure"]
+    produces: ["stage:design-audit"]
+    mutation_scope: []
+  - id: "remediation-track"
+    asset: "stages/03-remediation-track.md"
+    kind: "mutation"
+    consumes: ["stage:design-audit"]
+    produces: ["stage:remediation-track"]
+    mutation_scope: ["workflow-scope"]
+  - id: "implementation-simulation"
+    asset: "stages/04-implementation-simulation.md"
+    kind: "analysis"
+    consumes: ["stage:remediation-track"]
+    produces: ["stage:implementation-simulation"]
+    mutation_scope: []
+  - id: "specification-closure"
+    asset: "stages/05-specification-closure.md"
+    kind: "mutation"
+    consumes: ["stage:implementation-simulation"]
+    produces: ["stage:specification-closure"]
+    mutation_scope: ["workflow-scope"]
+  - id: "extract-blueprint"
+    asset: "stages/06-extract-blueprint.md"
+    kind: "projection"
+    consumes: ["stage:specification-closure"]
+    produces: ["stage:extract-blueprint"]
+    mutation_scope: []
+  - id: "first-implementation-plan"
+    asset: "stages/07-first-implementation-plan.md"
+    kind: "projection"
+    consumes: ["stage:extract-blueprint"]
+    produces: ["stage:first-implementation-plan"]
+    mutation_scope: []
+  - id: "report"
+    asset: "stages/08-report.md"
+    kind: "projection"
+    consumes: ["stage:first-implementation-plan"]
+    produces: ["stage:report"]
+    mutation_scope: []
+  - id: "verify"
+    asset: "stages/09-verify.md"
+    kind: "verification"
+    consumes: ["stage:report"]
+    produces: ["stage:verify"]
+    mutation_scope: []
+artifacts:
+  - name: design_package_workflow_summary
+    path: "../../output/reports/{{date}}-audit-design-package-workflow.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Top-level workflow summary with selected mode, readiness verdict, changed files, and next steps"
+  - name: design_package_audit_bundle
+    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: "Bounded bundle containing stage reports, metadata, validation state, and aggregate package deltas"
+  - name: design_audit_report
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/01-design-package-audit.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Stage report produced by the design package audit prompt"
+  - name: design_package_remediation_report
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/02-design-package-remediation.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Short-mode remediation report and package delta receipt"
+  - name: design_red_team_report
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/03-design-red-team.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Rigorous-mode adversarial report"
+  - name: design_hardening_report
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/04-design-hardening.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Rigorous-mode hardening report and package delta receipt"
+  - name: design_integration_report
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/05-design-integration.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Rigorous-mode integration report and package delta receipt"
+  - name: implementation_simulation_report
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/06-implementation-simulation.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Buildability simulation report"
+  - name: specification_closure_report
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/07-specification-closure.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Specification-closure report or explicit no-op receipt"
+  - name: implementation_architecture_blueprint
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Minimal implementer blueprint extracted from the stabilized package"
+  - name: first_implementation_plan
+    path: "../../output/reports/audits/{{date}}-{{slug}}/reports/09-first-implementation-plan.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "First production implementation plan derived from the blueprint"
+done_gate:
+  checks:
+    - "Selected mode is recorded and stage coverage matches it"
+    - "Every selected stage has a persisted report in the bounded bundle"
+    - "Every file-writing stage has a change manifest or zero-change receipt"
+    - "`package-delta.md`, `bundle.yml`, and `validation.md` exist"
+    - "Top-level summary exists at `.harmony/output/reports/YYYY-MM-DD-audit-design-package-workflow.md`"
+    - "Final readiness verdict is explicit"
+projection:
+  workflow_id: "audit-design-package-workflow"
+  workflow_path: ".harmony/orchestration/runtime/workflows/audit/audit-design-package-workflow/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

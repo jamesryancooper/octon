@@ -1,51 +1,92 @@
 ---
-name: audit-pre-release-workflow
-description: >
-  Chain bounded migration, subsystem-health, cross-subsystem, and freshness
-  audits into a pre-release gate with deterministic evidence, stable finding
-  identity, and explicit done-gate evaluation.
+name: "audit-pre-release-workflow"
+description: "Chain bounded migration, subsystem-health, cross-subsystem, and freshness audits into a pre-release gate with deterministic evidence, stable finding identity, and explicit done-gate evaluation."
 steps:
-  - id: configure
-    file: 01-configure.md
-    description: Parse parameters and determine bounded stage plan.
-  - id: migration-audit
-    file: 02-migration-audit.md
-    description: Run audit-orchestration-workflow in bounded mode if manifest provided.
-  - id: health-audit
-    file: 03-health-audit.md
-    description: Run audit-subsystem-health against target subsystem.
-  - id: cross-subsystem-audit
-    file: 04-cross-subsystem-audit.md
-    description: Run audit-cross-subsystem-coherence unless explicitly disabled.
-  - id: freshness-audit
-    file: 05-freshness-audit.md
-    description: Run audit-freshness-and-supersession unless explicitly disabled.
-  - id: merge
-    file: 06-merge.md
-    description: Merge findings into one stable release-readiness set.
-  - id: report
-    file: 07-report.md
-    description: Generate pre-release recommendation and bounded evidence bundle.
-  - id: verify
-    file: 08-verify.md
-    description: Validate workflow, context-governance evidence, and done-gate outcomes.
-# --- Harmony extensions ---
-access: human
-version: "2.2.0"
-depends_on: []
-checkpoints:
-  enabled: true
-  storage: ".harmony/continuity/checkpoints/"
-parallel_steps: []
+  - id: "configure"
+    file: "01-configure.md"
+    description: "configure"
+  - id: "migration-audit"
+    file: "02-migration-audit.md"
+    description: "migration-audit"
+  - id: "health-audit"
+    file: "03-health-audit.md"
+    description: "health-audit"
+  - id: "cross-subsystem-audit"
+    file: "04-cross-subsystem-audit.md"
+    description: "cross-subsystem-audit"
+  - id: "freshness-audit"
+    file: "05-freshness-audit.md"
+    description: "freshness-audit"
+  - id: "merge"
+    file: "06-merge.md"
+    description: "merge"
+  - id: "report"
+    file: "07-report.md"
+    description: "report"
+  - id: "verify"
+    file: "08-verify.md"
+    description: "verify"
 ---
 
-# Pre-Release Audit: Overview
+# Audit Pre Release Workflow
 
-Run a bounded release-readiness audit that consumes stage outputs with explicit coverage and finding identity contracts.
+_Generated projection from canonical pipeline `audit-pre-release-workflow`._
+
+## Usage
+
+```text
+/audit-pre-release-workflow
+```
+
+## Target
+
+This projection wraps the canonical pipeline `audit-pre-release-workflow` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/audit/audit-pre-release-workflow`.
+
+## Parameters
+
+- `subsystem` (folder, required=true): Root directory of the subsystem to audit
+- `manifest` (file, required=false): Migration manifest (inline YAML or file path); omit for health-only audit
+- `docs` (folder, required=false): Companion documentation directory for doc-to-source alignment
+- `severity_threshold` (text, required=false), default=`all`: Minimum severity to report: critical, high, medium, low, all
+- `run_cross_subsystem` (boolean, required=false), default=`true`: Run cross-subsystem coherence audit stage
+- `run_freshness` (boolean, required=false), default=`true`: Run freshness and supersession audit stage
+- `max_age_days` (text, required=false), default=`30`: Freshness threshold in days for stale artifact detection
+- `post_remediation` (boolean, required=false): Enable strict done-gate enforcement for remediation verification
+- `convergence_k` (text, required=false), default=`3`: Number of controlled reruns used to evaluate convergence stability
+- `seed_list` (text, required=false): Comma-separated deterministic seeds used for multi-run consistency checks
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
+## Outputs
+
+- `pre_release_report` -> `../../output/reports/{{date}}-audit-pre-release-workflow.md`: Consolidated pre-release audit report with go/no-go recommendation
+- `health_audit_report` -> `../../output/reports/{{date}}-subsystem-health-audit.md`: Individual health audit report (produced by audit-subsystem-health)
+- `migration_audit_report` -> `../../output/reports/{{date}}-migration-audit-consolidated.md`: Consolidated migration audit report (produced by audit-orchestration-workflow in migration-only mode, if manifest provided)
+- `cross_subsystem_audit_report` -> `../../output/reports/{{date}}-cross-subsystem-coherence-audit.md`: Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)
+- `freshness_audit_report` -> `../../output/reports/{{date}}-freshness-and-supersession-audit.md`: Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)
+- `pre_release_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for release recommendation, context-governance evidence, and done-gate verification
+
+## Steps
+
+1. [configure](./01-configure.md)
+2. [migration-audit](./02-migration-audit.md)
+3. [health-audit](./03-health-audit.md)
+4. [cross-subsystem-audit](./04-cross-subsystem-audit.md)
+5. [freshness-audit](./05-freshness-audit.md)
+6. [merge](./06-merge.md)
+7. [report](./07-report.md)
+8. [verify](./08-verify.md)
 
 ## Verification Gate
-
-Pre-release audit is complete only when:
 
 - [ ] All planned stages executed or explicitly skipped
 - [ ] Consolidated report exists at `.harmony/output/reports/YYYY-MM-DD-audit-pre-release-workflow.md`
@@ -59,10 +100,10 @@ Pre-release audit is complete only when:
 
 ## Version History
 
-| Version | Date | Changes |
-| ------- | ---- | ------- |
-| 2.2.0 | 2026-02-25 | Added context-governance verification criteria for instruction-layer manifests and context-acquisition telemetry gates |
-| 2.1.0 | 2026-02-22 | Forwarded deterministic controls (`post_remediation`, `convergence_k`, `seed_list`) through all nested audit stages |
-| 2.0.0 | 2026-02-22 | Added bounded-audit bundle and explicit done-gate/convergence metadata |
-| 1.2.0 | 2026-02-21 | Migration stage switched to audit-orchestration-workflow |
-| 1.0.0 | 2026-02-10 | Initial version |
+| Version | Changes |
+|---------|---------|
+| 2.2.0 | Generated from canonical pipeline `audit-pre-release-workflow` |
+
+## References
+
+- Canonical pipeline: `.harmony/orchestration/runtime/pipelines/audit/audit-pre-release-workflow/`

@@ -1,10 +1,33 @@
 ---
-name: fix-a-bug
-title: "Task: Fix a Bug"
-description: Step-by-step guide to fixing a bug with AI assistance.
-access: human
-version: "1.0.0"
+name: "fix-a-bug"
+description: "Step-by-step guide to fixing a bug with AI assistance."
 ---
+
+# Fix A Bug
+
+_Generated projection from canonical pipeline `fix-a-bug`._
+
+## Usage
+
+```text
+/fix-a-bug
+```
+
+## Target
+
+This projection wraps the canonical pipeline `fix-a-bug` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/tasks/fix-a-bug`.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
 
 # Task: Fix a Bug
 
@@ -292,3 +315,10 @@ harmony diagnose "#425"
 - [Add an API endpoint](./add-api-endpoint.md)
 - [Run a data migration](./run-data-migration.md)
 - Back to [DAILY-FLOW.md](/.harmony/agency/practices/daily-flow.md)
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `fix-a-bug` |
+

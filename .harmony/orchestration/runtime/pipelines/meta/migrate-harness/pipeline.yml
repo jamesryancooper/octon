@@ -1,0 +1,47 @@
+schema_version: "pipeline-contract-v1"
+name: "migrate-harness"
+description: "Migrate an older harness layout to current conventions while preserving intent, traceability, and recoverability. Reject unsupported harness schema versions with deterministic migration instructions."
+version: "1.1.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "backup-assessment"
+    asset: "stages/01-backup-assessment.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:backup-assessment"]
+    mutation_scope: []
+  - id: "structure-migration"
+    asset: "stages/02-structure-migration.md"
+    kind: "analysis"
+    consumes: ["stage:backup-assessment"]
+    produces: ["stage:structure-migration"]
+    mutation_scope: []
+  - id: "content-migration"
+    asset: "stages/03-content-migration.md"
+    kind: "analysis"
+    consumes: ["stage:structure-migration"]
+    produces: ["stage:content-migration"]
+    mutation_scope: []
+  - id: "validation"
+    asset: "stages/04-validation.md"
+    kind: "analysis"
+    consumes: ["stage:content-migration"]
+    produces: ["stage:validation"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "migrate-harness"
+  workflow_path: ".harmony/orchestration/runtime/workflows/meta/migrate-harness/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

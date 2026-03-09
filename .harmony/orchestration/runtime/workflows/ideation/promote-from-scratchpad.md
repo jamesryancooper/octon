@@ -1,10 +1,33 @@
 ---
-name: promote-from-scratchpad
-title: Promote from Scratch
-description: Publish distilled insights from ideation/scratchpad/ to agent-facing artifacts.
-access: human
-version: "1.0.0"
+name: "promote-from-scratchpad"
+description: "Publish distilled insights from ideation/scratchpad/ to agent-facing artifacts."
 ---
+
+# Promote From Scratchpad
+
+_Generated projection from canonical pipeline `promote-from-scratchpad`._
+
+## Usage
+
+```text
+/promote-from-scratchpad
+```
+
+## Target
+
+This projection wraps the canonical pipeline `promote-from-scratchpad` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/ideation/promote-from-scratchpad`.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
 
 # Promote from Scratch
 
@@ -185,3 +208,10 @@ An agent may help:
 - [ ] Mature scratchpad content is distilled rather than copied verbatim
 - [ ] Destination artifact is identified and updated
 - [ ] Promotion result is understandable to a future agent or operator
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `promote-from-scratchpad` |
+

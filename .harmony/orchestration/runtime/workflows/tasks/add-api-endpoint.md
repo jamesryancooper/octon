@@ -1,10 +1,33 @@
 ---
-name: add-api-endpoint
-title: "Task: Add an API Endpoint"
-description: Step-by-step guide to adding a new API endpoint with AI assistance.
-access: human
-version: "1.0.0"
+name: "add-api-endpoint"
+description: "Step-by-step guide to adding a new API endpoint with AI assistance."
 ---
+
+# Add Api Endpoint
+
+_Generated projection from canonical pipeline `add-api-endpoint`._
+
+## Usage
+
+```text
+/add-api-endpoint
+```
+
+## Target
+
+This projection wraps the canonical pipeline `add-api-endpoint` for staged human review and slash-facing compatibility.
+
+## Prerequisites
+
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/tasks/add-api-endpoint`.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
 
 # Task: Add an API Endpoint
 
@@ -379,3 +402,10 @@ harmony spec "GET /api/orders/:id returns order, 404 if not found, 403 if not ow
 - [Add a UI feature](./add-ui-feature.md)
 - [Handle a security issue](./handle-security-issue.md)
 - Back to [DAILY-FLOW.md](/.harmony/agency/practices/daily-flow.md)
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `add-api-endpoint` |
+

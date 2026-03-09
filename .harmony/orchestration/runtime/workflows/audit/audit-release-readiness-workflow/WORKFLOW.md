@@ -1,108 +1,108 @@
 ---
-name: audit-release-readiness-workflow
-description: >
-  Orchestrate layered bounded audits (release core, operational readiness, API
-  contract, test quality, observability, security, and data governance) into a
-  deterministic release gate with stable finding identity, coverage accounting,
-  and explicit done-gate evaluation.
+name: "audit-release-readiness-workflow"
+description: "Orchestrate layered bounded audits (release core, operational readiness, API contract, test quality, observability, security, and data governance) into a deterministic release gate with stable finding identity, coverage accounting, and explicit done-gate evaluation."
 steps:
-  - id: configure
-    file: 01-configure.md
-    description: Parse parameters and build deterministic stage plan.
-  - id: release-core-audit
-    file: 02-release-core-audit.md
-    description: Run audit-release-readiness skill as the mandatory release-core layer.
-  - id: operational-readiness-audit
-    file: 03-operational-readiness-audit.md
-    description: Run audit-operational-readiness unless explicitly disabled.
-  - id: api-contract-audit
-    file: 04-api-contract-audit.md
-    description: Run audit-api-contract unless explicitly disabled.
-  - id: test-quality-audit
-    file: 05-test-quality-audit.md
-    description: Run audit-test-quality unless explicitly disabled.
-  - id: observability-audit
-    file: 06-observability-audit.md
-    description: Run audit-observability-coverage unless explicitly disabled.
-  - id: security-audit
-    file: 07-security-audit.md
-    description: Run audit-security-compliance unless explicitly disabled.
-  - id: data-governance-audit
-    file: 08-data-governance-audit.md
-    description: Run audit-data-governance unless explicitly disabled.
-  - id: merge
-    file: 09-merge.md
-    description: Merge stage outputs into stable release-readiness finding set.
-  - id: report
-    file: 10-report.md
-    description: Generate consolidated workflow report and bounded-audit evidence bundle.
-  - id: verify
-    file: 11-verify.md
-    description: Validate workflow contract and mode-specific done-gate outcomes.
-# --- Harmony extensions ---
-access: human
-version: "1.0.0"
-depends_on: []
-checkpoints:
-  enabled: true
-  storage: ".harmony/continuity/checkpoints/"
-parallel_steps: []
+  - id: "configure"
+    file: "01-configure.md"
+    description: "configure"
+  - id: "release-core-audit"
+    file: "02-release-core-audit.md"
+    description: "release-core-audit"
+  - id: "operational-readiness-audit"
+    file: "03-operational-readiness-audit.md"
+    description: "operational-readiness-audit"
+  - id: "api-contract-audit"
+    file: "04-api-contract-audit.md"
+    description: "api-contract-audit"
+  - id: "test-quality-audit"
+    file: "05-test-quality-audit.md"
+    description: "test-quality-audit"
+  - id: "observability-audit"
+    file: "06-observability-audit.md"
+    description: "observability-audit"
+  - id: "security-audit"
+    file: "07-security-audit.md"
+    description: "security-audit"
+  - id: "data-governance-audit"
+    file: "08-data-governance-audit.md"
+    description: "data-governance-audit"
+  - id: "merge"
+    file: "09-merge.md"
+    description: "merge"
+  - id: "report"
+    file: "10-report.md"
+    description: "report"
+  - id: "verify"
+    file: "11-verify.md"
+    description: "verify"
 ---
 
-# Release Readiness Audit Workflow: Overview
+# Audit Release Readiness Workflow
 
-Run a bounded layered release-readiness gate by composing domain audits into one deterministic recommendation.
+_Generated projection from canonical pipeline `audit-release-readiness-workflow`._
 
 ## Usage
 
 ```text
-/audit-release-readiness-workflow scope=".harmony"
-```
-
-With strict post-remediation gate:
-
-```text
-/audit-release-readiness-workflow scope=".harmony" post_remediation="true" convergence_k="3" seed_list="11,23,37"
+/audit-release-readiness-workflow
 ```
 
 ## Target
 
-A subsystem or repository scope that requires evidence-backed release readiness across operational, interface, quality, observability, security, and governance layers.
+This projection wraps the canonical pipeline `audit-release-readiness-workflow` for staged human review and slash-facing compatibility.
 
 ## Prerequisites
 
-- `audit-release-readiness` skill is active
-- `audit-operational-readiness` skill is active when `run_operational=true`
-- `audit-api-contract` skill is active when `run_api_contract=true`
-- `audit-test-quality` skill is active when `run_test_quality=true`
-- `audit-observability-coverage` skill is active when `run_observability=true`
-- `audit-security-compliance` skill is active when `run_security=true`
-- `audit-data-governance` skill is active when `run_data_governance=true`
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/audit/audit-release-readiness-workflow`.
+
+## Parameters
+
+- `scope` (folder, required=true): Root directory containing release-relevant artifacts to audit
+- `severity_threshold` (text, required=false), default=`all`: Minimum severity to report: critical, high, medium, low, all
+- `run_operational` (boolean, required=false), default=`true`: Run audit-operational-readiness stage
+- `run_api_contract` (boolean, required=false), default=`true`: Run audit-api-contract stage
+- `run_test_quality` (boolean, required=false), default=`true`: Run audit-test-quality stage
+- `run_observability` (boolean, required=false), default=`true`: Run audit-observability-coverage stage
+- `run_security` (boolean, required=false), default=`true`: Run audit-security-compliance stage
+- `run_data_governance` (boolean, required=false), default=`true`: Run audit-data-governance stage
+- `post_remediation` (boolean, required=false): Enable strict done-gate enforcement for remediation verification
+- `convergence_k` (text, required=false), default=`3`: Number of controlled reruns used to evaluate convergence stability
+- `seed_list` (text, required=false): Comma-separated deterministic seeds used for multi-run consistency checks
 
 ## Failure Conditions
 
-- `scope` missing or unreadable -> STOP, report configuration error
-- mandatory release-core stage fails with no prior report -> FAIL workflow
-- all enabled supplemental stages fail -> FAIL done-gate
-- merged coverage cannot account for scope surfaces -> FAIL done-gate
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
+## Outputs
+
+- `release_readiness_workflow_report` -> `../../output/reports/{{date}}-audit-release-readiness-workflow.md`: Consolidated layered release-readiness workflow report with recommendation
+- `release_core_audit_report` -> `../../output/reports/{{date}}-audit-release-readiness-{{run_id}}.md`: Release-core stage report produced by audit-release-readiness
+- `operational_readiness_audit_report` -> `../../output/reports/{{date}}-operational-readiness-audit-{{run_id}}.md`: Operational-readiness stage report (produced if enabled)
+- `api_contract_audit_report` -> `../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md`: API-contract stage report (produced if enabled)
+- `test_quality_audit_report` -> `../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md`: Test-quality stage report (produced if enabled)
+- `observability_coverage_audit_report` -> `../../output/reports/{{date}}-observability-coverage-audit-{{run_id}}.md`: Observability-coverage stage report (produced if enabled)
+- `security_compliance_audit_report` -> `../../output/reports/{{date}}-security-compliance-audit-{{run_id}}.md`: Security-compliance stage report (produced if enabled)
+- `data_governance_audit_report` -> `../../output/reports/{{date}}-data-governance-audit-{{run_id}}.md`: Data-governance stage report (produced if enabled)
+- `release_readiness_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for layered release-readiness recommendation and done-gate evidence
 
 ## Steps
 
-1. [Configure](./01-configure.md)
-2. [Release Core Audit](./02-release-core-audit.md)
-3. [Operational Readiness Audit](./03-operational-readiness-audit.md)
-4. [API Contract Audit](./04-api-contract-audit.md)
-5. [Test Quality Audit](./05-test-quality-audit.md)
-6. [Observability Audit](./06-observability-audit.md)
-7. [Security Audit](./07-security-audit.md)
-8. [Data Governance Audit](./08-data-governance-audit.md)
-9. [Merge](./09-merge.md)
-10. [Report](./10-report.md)
-11. [Verify](./11-verify.md)
+1. [configure](./01-configure.md)
+2. [release-core-audit](./02-release-core-audit.md)
+3. [operational-readiness-audit](./03-operational-readiness-audit.md)
+4. [api-contract-audit](./04-api-contract-audit.md)
+5. [test-quality-audit](./05-test-quality-audit.md)
+6. [observability-audit](./06-observability-audit.md)
+7. [security-audit](./07-security-audit.md)
+8. [data-governance-audit](./08-data-governance-audit.md)
+9. [merge](./09-merge.md)
+10. [report](./10-report.md)
+11. [verify](./11-verify.md)
 
 ## Verification Gate
-
-Workflow verification must prove:
 
 - [ ] All enabled stages executed or explicitly skipped
 - [ ] Consolidated workflow report exists
@@ -112,15 +112,12 @@ Workflow verification must prove:
 - [ ] Done-gate expression is evaluated and recorded
 - [ ] If `post_remediation=true`, done-gate is true
 
-## Outputs
-
-- Consolidated workflow report:
-  - `.harmony/output/reports/YYYY-MM-DD-audit-release-readiness-workflow.md`
-- Authoritative bounded-audit bundle:
-  - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
-
 ## Version History
 
-| Version | Date | Changes |
-| ------- | ---- | ------- |
-| 1.0.0 | 2026-02-23 | Initial bounded layered release-readiness orchestration workflow |
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `audit-release-readiness-workflow` |
+
+## References
+
+- Canonical pipeline: `.harmony/orchestration/runtime/pipelines/audit/audit-release-readiness-workflow/`

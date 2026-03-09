@@ -1,75 +1,70 @@
 ---
-name: audit-documentation-workflow
-description: >
-  Run bounded documentation standards enforcement by invoking
-  audit-documentation-standards, then emit a deterministic bundle with stable
-  finding identity, coverage accounting, and explicit done-gate evaluation.
+name: "audit-documentation-workflow"
+description: "Run bounded documentation standards enforcement by invoking audit-documentation-standards, then emit a deterministic bundle with stable finding identity, coverage accounting, and explicit done-gate evaluation."
 steps:
-  - id: configure
-    file: 01-configure.md
-    description: Parse parameters and build bounded execution plan.
-  - id: run-standards-audit
-    file: 02-run-standards-audit.md
-    description: Execute audit-documentation-standards in bounded mode.
-  - id: report
-    file: 03-report.md
-    description: Generate recommendation report and bounded evidence bundle.
-  - id: verify
-    file: 04-verify.md
-    description: Validate workflow artifacts and mode-specific done-gate outcomes.
-# --- Harmony extensions ---
-access: human
-version: "3.0.0"
-depends_on: []
-checkpoints:
-  enabled: true
-  storage: ".harmony/continuity/checkpoints/"
-parallel_steps: []
+  - id: "configure"
+    file: "01-configure.md"
+    description: "configure"
+  - id: "run-standards-audit"
+    file: "02-run-standards-audit.md"
+    description: "run-standards-audit"
+  - id: "report"
+    file: "03-report.md"
+    description: "report"
+  - id: "verify"
+    file: "04-verify.md"
+    description: "verify"
 ---
 
-# Documentation Audit: Overview
+# Audit Documentation Workflow
 
-Run a bounded release-readiness documentation audit for a docs root using Harmony canonical docs-as-code standards.
+_Generated projection from canonical pipeline `audit-documentation-workflow`._
 
 ## Usage
 
 ```text
-/audit-documentation-workflow docs_root="docs"
-```
-
-With bounded convergence controls:
-
-```text
-/audit-documentation-workflow docs_root="docs" post_remediation="true" convergence_k="3" seed_list="11,23,37"
+/audit-documentation-workflow
 ```
 
 ## Target
 
-A documentation tree (for example `docs/`) that must be validated for spec/ADR/guide/runbook/contract completeness and structure before release.
+This projection wraps the canonical pipeline `audit-documentation-workflow` for staged human review and slash-facing compatibility.
 
 ## Prerequisites
 
-- `audit-documentation-standards` skill is active in the skill manifest
-- `docs_root` exists
-- Canonical policy and template paths exist (defaults or overrides)
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/audit/audit-documentation-workflow`.
+
+## Parameters
+
+- `docs_root` (folder, required=true): Root documentation directory to validate
+- `template_root` (folder, required=false), default=`.harmony/scaffolding/runtime/templates/docs/documentation-standards`: Canonical documentation template root
+- `policy_doc` (file, required=false), default=`.harmony/cognition/governance/principles/documentation-is-code.md`: Canonical docs-as-code policy document
+- `severity_threshold` (text, required=false), default=`all`: Minimum severity to report: critical, high, medium, low, all
+- `post_remediation` (boolean, required=false): Enable strict done-gate enforcement for remediation verification
+- `convergence_k` (text, required=false), default=`3`: Number of controlled reruns used to evaluate convergence stability
+- `seed_list` (text, required=false): Comma-separated deterministic seeds used for multi-run consistency checks
 
 ## Failure Conditions
 
-- Missing docs root -> STOP, report `DOCS_ROOT_NOT_FOUND`
-- Missing canonical guidance path -> STOP, report `CANONICAL_PATH_NOT_FOUND`
-- Audit skill unavailable -> STOP, report `SKILL_NOT_AVAILABLE`
-- Coverage accounting leaves unaccounted files -> FAIL done-gate
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
+## Outputs
+
+- `docs_audit_report` -> `../../output/reports/{{date}}-audit-documentation-workflow.md`: Consolidated documentation audit report with release recommendation
+- `docs_standards_audit_report` -> `../../output/reports/{{date}}-documentation-standards-audit.md`: Input audit report produced by audit-documentation-standards
+- `documentation_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for documentation recommendation and done-gate evidence
 
 ## Steps
 
-1. [Configure](./01-configure.md) - Parse parameters and deterministic controls
-2. [Run Standards Audit](./02-run-standards-audit.md) - Execute bounded documentation audit skill
-3. [Report](./03-report.md) - Emit recommendation report plus bounded evidence bundle
-4. [Verify](./04-verify.md) - Validate completion gate by mode
+1. [configure](./01-configure.md)
+2. [run-standards-audit](./02-run-standards-audit.md)
+3. [report](./03-report.md)
+4. [verify](./04-verify.md)
 
 ## Verification Gate
-
-Documentation audit is complete only when:
 
 - [ ] Documentation standards audit report exists
 - [ ] Documentation audit recommendation report exists
@@ -80,14 +75,10 @@ Documentation audit is complete only when:
 
 ## Version History
 
-| Version | Date | Changes |
-| ------- | ---- | ------- |
-| 3.0.0 | 2026-02-22 | Clean-break migration to bounded workflow contract with done-gate and convergence controls |
-| 2.0.0 | 2026-02-21 | Clean-break rename from `documentation-quality-gate` to `audit-documentation-workflow` |
-| 1.0.0 | 2026-02-13 | Initial version |
+| Version | Changes |
+|---------|---------|
+| 3.0.0 | Generated from canonical pipeline `audit-documentation-workflow` |
 
 ## References
 
-- **Skill:** `.harmony/capabilities/runtime/skills/audit/audit-documentation-standards/SKILL.md`
-- **Policy:** `.harmony/cognition/governance/principles/documentation-is-code.md`
-- **Guidance:** `.harmony/scaffolding/runtime/templates/documentation-standards.md`
+- Canonical pipeline: `.harmony/orchestration/runtime/pipelines/audit/audit-documentation-workflow/`

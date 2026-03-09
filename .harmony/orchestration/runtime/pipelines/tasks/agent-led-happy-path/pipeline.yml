@@ -1,0 +1,29 @@
+schema_version: "pipeline-contract-v1"
+name: "agent-led-happy-path"
+description: "Canonical onboarding flow for agent-led execution from bootstrap through continuity."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "inline"
+    asset: "stages/01-inline.md"
+    kind: "analysis"
+    produces: ["stage:inline"]
+    consumes: []
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "single stage completes successfully"
+projection:
+  workflow_id: "agent-led-happy-path"
+  workflow_path: ".harmony/orchestration/runtime/workflows/tasks/agent-led-happy-path.md"
+  generated: true
+  projection_format: "single-file"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

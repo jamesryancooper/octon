@@ -177,6 +177,14 @@ run_workflows() {
   run_step \
     "Validate workflow contracts" \
     bash "$HARMONY_DIR/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh"
+
+  run_step \
+    "Validate canonical pipeline contracts" \
+    bash "$HARMONY_DIR/orchestration/runtime/pipelines/_ops/scripts/validate-pipelines.sh"
+
+  run_step \
+    "Validate architecture validation pipeline package" \
+    bash "$SCRIPT_DIR/validate-architecture-validation-pipeline.sh"
 }
 
 run_skills() {

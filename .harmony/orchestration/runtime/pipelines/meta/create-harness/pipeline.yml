@@ -1,0 +1,65 @@
+schema_version: "pipeline-contract-v1"
+name: "create-harness"
+description: "Scaffold a new .harmony directory in a target location, then customize it to the target repository context."
+version: "1.2.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "validate-prerequisites"
+    asset: "stages/01-validate-prerequisites.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:validate-prerequisites"]
+    mutation_scope: []
+  - id: "validate-target"
+    asset: "stages/02-validate-target.md"
+    kind: "analysis"
+    consumes: ["stage:validate-prerequisites"]
+    produces: ["stage:validate-target"]
+    mutation_scope: []
+  - id: "analyze-context"
+    asset: "stages/03-analyze-context.md"
+    kind: "analysis"
+    consumes: ["stage:validate-target"]
+    produces: ["stage:analyze-context"]
+    mutation_scope: []
+  - id: "gather-input"
+    asset: "stages/04-gather-input.md"
+    kind: "analysis"
+    consumes: ["stage:analyze-context"]
+    produces: ["stage:gather-input"]
+    mutation_scope: []
+  - id: "copy-templates"
+    asset: "stages/05-copy-templates.md"
+    kind: "analysis"
+    consumes: ["stage:gather-input"]
+    produces: ["stage:copy-templates"]
+    mutation_scope: []
+  - id: "customize"
+    asset: "stages/06-customize.md"
+    kind: "analysis"
+    consumes: ["stage:copy-templates"]
+    produces: ["stage:customize"]
+    mutation_scope: []
+  - id: "verify"
+    asset: "stages/07-verify.md"
+    kind: "verification"
+    consumes: ["stage:customize"]
+    produces: ["stage:verify"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "create-harness"
+  workflow_path: ".harmony/orchestration/runtime/workflows/meta/create-harness/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

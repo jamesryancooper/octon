@@ -1,0 +1,41 @@
+schema_version: "pipeline-contract-v1"
+name: "evaluate-harness"
+description: "Evaluate a .harmony directory for structure, token efficiency, and quality signal completeness."
+version: "1.1.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  []
+stages:
+  - id: "assess-files"
+    asset: "stages/01-assess-files.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:assess-files"]
+    mutation_scope: []
+  - id: "classify-content"
+    asset: "stages/02-classify-content.md"
+    kind: "analysis"
+    consumes: ["stage:assess-files"]
+    produces: ["stage:classify-content"]
+    mutation_scope: []
+  - id: "generate-report"
+    asset: "stages/03-generate-report.md"
+    kind: "projection"
+    consumes: ["stage:classify-content"]
+    produces: ["stage:generate-report"]
+    mutation_scope: []
+artifacts:
+  []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "evaluate-harness"
+  workflow_path: ".harmony/orchestration/runtime/workflows/meta/evaluate-harness/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

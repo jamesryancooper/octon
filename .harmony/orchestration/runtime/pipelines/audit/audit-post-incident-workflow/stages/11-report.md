@@ -1,0 +1,39 @@
+---
+name: report
+title: "Generate Post-Incident Report"
+description: "Generate consolidated post-incident recommendation report and bounded-audit bundle."
+---
+
+# Step 11: Generate Post-Incident Report
+
+## Purpose
+
+Publish a post-incident closure recommendation and machine-checkable bounded-audit artifacts.
+
+## Actions
+
+1. Write consolidated report:
+   - `.harmony/output/reports/YYYY-MM-DD-audit-post-incident-workflow.md`
+2. Write bounded-audit bundle:
+   - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
+3. Ensure bundle contains:
+   - `bundle.yml`
+   - `findings.yml`
+   - `coverage.yml`
+   - `convergence.yml`
+   - `evidence.md`
+   - `commands.md`
+   - `validation.md`
+   - `inventory.md`
+4. Record residual risk tier and recommendation rationale.
+5. Evaluate and record done-gate expression.
+
+## Done-Gate Expression
+
+`open_findings_at_or_above_threshold == 0 && coverage.unaccounted_files == 0 && convergence.stable == true`
+
+## Proceed When
+
+- [ ] Consolidated report exists
+- [ ] Bundle contract files exist
+- [ ] Risk tier, recommendation, and done-gate result are explicit

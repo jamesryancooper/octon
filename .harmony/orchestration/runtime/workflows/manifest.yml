@@ -1,13 +1,14 @@
-# Workflow Manifest — Tier 1 Discovery
+# Workflow Manifest — Tier 1 Projection Discovery
 #
 # Ultra-lightweight index for routing and intent matching.
 # Token budget: ~50 tokens per workflow entry.
 #
 # Goal alignment: Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
 #
-# Load this FIRST for workflow discovery.
+# Load this for workflow projection discovery.
+# Canonical autonomous discovery happens in ../pipelines/manifest.yml first.
 # After matching, load registry.yml for extended metadata.
-# Then load WORKFLOW.md when a workflow is activated.
+# Then load WORKFLOW.md when a workflow projection is activated.
 #
 # Fields:
 #   id           - Unique identifier (matches directory name and WORKFLOW.md name)
@@ -90,36 +91,36 @@ workflows:
     group: meta
     domain: workflows
     path: meta/create-workflow/
-    summary: Scaffold a new workflow with gap-aware structure and verification gates.
+    summary: Scaffold a new canonical pipeline and generate its workflow projection.
     status: active
     triggers:
       - "create a workflow"
-      - "scaffold workflow"
-      - "new workflow"
+      - "create a pipeline"
+      - "scaffold workflow projection"
 
   - id: evaluate-workflow
     display_name: Evaluate Workflow
     group: meta
     domain: workflows
     path: meta/evaluate-workflow/
-    summary: Assess an existing workflow against quality criteria and gap coverage.
+    summary: Assess a pipeline plus its workflow projection for contract integrity and drift.
     status: active
     triggers:
       - "evaluate workflow"
-      - "assess workflow quality"
-      - "grade workflow"
+      - "evaluate pipeline"
+      - "audit workflow projection"
 
   - id: update-workflow
     display_name: Update Workflow
     group: meta
     domain: workflows
     path: meta/update-workflow/
-    summary: Modify an existing workflow to add features or fix gaps.
+    summary: Update a canonical pipeline and repair any resulting workflow projection drift.
     status: active
     triggers:
       - "update workflow"
-      - "fix workflow gaps"
-      - "improve workflow"
+      - "update pipeline"
+      - "fix workflow projection drift"
 
   # --- audit/refactor: Verify integrity and execute structural refactors ---
 
@@ -225,6 +226,19 @@ workflows:
       - "run docs audit workflow"
       - "audit docs for release"
       - "enforce documentation standards"
+
+  - id: audit-design-package-workflow
+    display_name: Design Package Audit
+    group: audit
+    domain: audit
+    path: audit/audit-design-package-workflow/
+    summary: Run the architecture validation pipeline for a design package, including audit, remediation track, simulation, closure, and implementation extraction.
+    status: active
+    triggers:
+      - "audit design package"
+      - "validate architecture package"
+      - "run design package pipeline"
+      - "architecture validation pipeline"
 
   - id: audit-workflow-system-workflow
     display_name: Workflow System Audit
@@ -342,7 +356,7 @@ workflows:
       - "agent led happy path"
       - "canonical onboarding path"
       - "bootstrap execute assure continuity"
-      - "start canonical workflow"
+      - "start canonical pipeline"
 
   - id: add-api-endpoint
     display_name: Add API Endpoint
@@ -424,7 +438,7 @@ workflow_group_definitions:
   audit:
     description: Audit orchestration and release gates
     path: audit/
-    members: [audit-documentation-workflow, audit-workflow-system-workflow, audit-orchestration-workflow, audit-pre-release-workflow, audit-change-risk-workflow, audit-continuous-workflow, audit-post-incident-workflow, audit-release-readiness-workflow]
+    members: [audit-documentation-workflow, audit-design-package-workflow, audit-workflow-system-workflow, audit-orchestration-workflow, audit-pre-release-workflow, audit-change-risk-workflow, audit-continuous-workflow, audit-post-incident-workflow, audit-release-readiness-workflow]
 
   refactor:
     description: Verified structural refactor orchestration

@@ -1,0 +1,33 @@
+schema_version: "pipeline-contract-v1"
+name: "[pipeline-id]"
+description: "[What this pipeline does and when to use it.]"
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs: []
+stages:
+  - id: "stage"
+    asset: "stages/01-stage.md"
+    kind: "analysis"
+    produces: ["stage:stage"]
+    consumes: []
+    mutation_scope: []
+  - id: "verify"
+    asset: "stages/99-verify.md"
+    kind: "verification"
+    produces: ["stage:verify"]
+    consumes: ["stage:stage"]
+    mutation_scope: []
+artifacts: []
+done_gate:
+  checks:
+    - "verification stage passes"
+projection:
+  workflow_id: "[pipeline-id]"
+  workflow_path: ".harmony/orchestration/runtime/workflows/[group]/[pipeline-id]/"
+  generated: true
+  projection_format: "directory"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

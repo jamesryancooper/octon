@@ -1,93 +1,87 @@
 ---
-name: audit-workflow-system-workflow
-description: >
-  Audit the Harmony workflow system with bounded static analysis, representative
-  rehearsals, stable finding IDs, coverage accounting, and explicit done-gate
-  evaluation.
+name: "audit-workflow-system-workflow"
+description: "Audit the Harmony workflow system with bounded static analysis, representative rehearsals, stable finding IDs, coverage accounting, and explicit done-gate evaluation."
 steps:
-  - id: build-inventory
-    file: 01-build-inventory.md
-    description: Resolve audit scope, inventory workflow artifacts, and build coverage accounting.
-  - id: validate-contracts
-    file: 02-validate-contracts.md
-    description: Evaluate manifest, registry, workflow, and capability-map contract integrity.
-  - id: evaluate-workflows
-    file: 03-evaluate-workflows.md
-    description: Score each workflow against the shared evaluator and collect findings.
-  - id: assess-portfolio
-    file: 04-assess-portfolio.md
-    description: Detect lifecycle gaps, overlaps, dependency cycles, and validator blind spots.
-  - id: run-scenarios
-    file: 05-run-scenarios.md
-    description: Run representative workflow rehearsals for core and external-dependent surfaces.
-  - id: merge-and-score
-    file: 06-merge-and-score.md
-    description: Deduplicate issues into stable findings and compute workflow/system scores.
-  - id: report
-    file: 07-report.md
-    description: Emit the narrative report, runtime audit plan, and bounded evidence bundle.
-  - id: verify
-    file: 08-verify.md
-    description: Validate done-gate outcomes, coverage accounting, and convergence metadata.
-# --- Harmony extensions ---
-access: human
-version: "1.0.0"
-depends_on: []
-checkpoints:
-  enabled: true
-  storage: ".harmony/continuity/checkpoints/"
-parallel_steps: []
+  - id: "build-inventory"
+    file: "01-build-inventory.md"
+    description: "build-inventory"
+  - id: "validate-contracts"
+    file: "02-validate-contracts.md"
+    description: "validate-contracts"
+  - id: "evaluate-workflows"
+    file: "03-evaluate-workflows.md"
+    description: "evaluate-workflows"
+  - id: "assess-portfolio"
+    file: "04-assess-portfolio.md"
+    description: "assess-portfolio"
+  - id: "run-scenarios"
+    file: "05-run-scenarios.md"
+    description: "run-scenarios"
+  - id: "merge-and-score"
+    file: "06-merge-and-score.md"
+    description: "merge-and-score"
+  - id: "report"
+    file: "07-report.md"
+    description: "report"
+  - id: "verify"
+    file: "08-verify.md"
+    description: "verify"
 ---
 
-# Workflow System Audit Workflow
+# Audit Workflow System Workflow
 
-Run a bounded audit of the Harmony workflow system itself, not just one workflow.
+_Generated projection from canonical pipeline `audit-workflow-system-workflow`._
 
 ## Usage
 
 ```text
-/audit-workflow-system-workflow scope=".harmony/orchestration/runtime/workflows/"
-```
-
-With strict post-remediation convergence:
-
-```text
-/audit-workflow-system-workflow scope=".harmony/orchestration/runtime/workflows/" post_remediation="true" convergence_k="3" seed_list="11,23,37"
+/audit-workflow-system-workflow
 ```
 
 ## Target
 
-The workflow portfolio rooted at `.harmony/orchestration/runtime/workflows/` plus the companion governance, validation, and rubric surfaces required to prove discovery, contract, and operability integrity.
+This projection wraps the canonical pipeline `audit-workflow-system-workflow` for staged human review and slash-facing compatibility.
 
 ## Prerequisites
 
-- `.harmony/orchestration/governance/workflow-system-audit-v1.yml` exists
-- `.harmony/orchestration/runtime/workflows/_ops/scripts/audit-workflow-system.sh` is available
-- `.harmony/orchestration/runtime/workflows/manifest.yml` and `registry.yml` are readable
-- Companion context and assurance surfaces are readable when included in scope
+- Required pipeline inputs are available.
+- Canonical pipeline assets exist under `.harmony/orchestration/runtime/pipelines/audit/audit-workflow-system-workflow`.
+
+## Parameters
+
+- `scope` (folder, required=false), default=`.harmony/orchestration/runtime/workflows/`: Root workflow directory to audit.
+- `severity_threshold` (text, required=false), default=`high`: Minimum severity that blocks the done gate: critical, high, medium, low, all.
+- `include_docs` (boolean, required=false), default=`true`: Include companion workflow docs and rubric context in scope.
+- `include_governance` (boolean, required=false), default=`true`: Include workflow governance and validation surfaces in scope.
+- `run_live` (boolean, required=false), default=`true`: Run representative rehearsal scenarios in addition to static analysis.
+- `scenario_pack` (text, required=false), default=`representative`: Representative scenario pack to run when run_live is enabled.
+- `post_remediation` (boolean, required=false): Enable strict convergence verification after remediation.
+- `convergence_k` (text, required=false), default=`3`: Number of controlled reruns used to evaluate convergence stability.
+- `seed_list` (text, required=false): Comma-separated deterministic seeds used for multi-run consistency checks.
 
 ## Failure Conditions
 
-- Audit contract missing or unreadable -> STOP, report configuration error
-- Scope root missing or unreadable -> STOP, report `SCOPE_NOT_FOUND`
-- Shared audit engine fails to parse manifest, registry, or workflow frontmatter -> FAIL workflow
-- Coverage accounting leaves unaccounted files -> FAIL done-gate
-- If `post_remediation=true`, convergence is unstable or blocking findings remain -> FAIL done-gate
+- Required inputs are missing or invalid.
+- The backing canonical pipeline contract or stage assets are missing.
+- Verification criteria are not satisfied.
+
+## Outputs
+
+- `workflow_system_audit_report` -> `../../output/reports/{{date}}-audit-workflow-system-workflow.md`: Narrative report summarizing workflow-system findings and recommendations.
+- `workflow_system_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for workflow-system findings, scores, scenarios, and done-gate evidence.
 
 ## Steps
 
-1. [Build Inventory](./01-build-inventory.md)
-2. [Validate Contracts](./02-validate-contracts.md)
-3. [Evaluate Workflows](./03-evaluate-workflows.md)
-4. [Assess Portfolio](./04-assess-portfolio.md)
-5. [Run Scenarios](./05-run-scenarios.md)
-6. [Merge and Score](./06-merge-and-score.md)
-7. [Report](./07-report.md)
-8. [Verify](./08-verify.md)
+1. [build-inventory](./01-build-inventory.md)
+2. [validate-contracts](./02-validate-contracts.md)
+3. [evaluate-workflows](./03-evaluate-workflows.md)
+4. [assess-portfolio](./04-assess-portfolio.md)
+5. [run-scenarios](./05-run-scenarios.md)
+6. [merge-and-score](./06-merge-and-score.md)
+7. [report](./07-report.md)
+8. [verify](./08-verify.md)
 
 ## Verification Gate
-
-Workflow verification must prove:
 
 - [ ] Findings are deduplicated with stable IDs and objective acceptance criteria
 - [ ] Coverage accounting has zero unaccounted files
@@ -97,24 +91,12 @@ Workflow verification must prove:
 - [ ] Done-gate expression is evaluated in `validation.md` and `convergence.yml`
 - [ ] If `post_remediation=true`, convergence K-run result is stable and empty at/above threshold
 
-## Outputs
-
-- Consolidated report:
-  - `.harmony/output/reports/YYYY-MM-DD-audit-workflow-system-workflow.md`
-- Authoritative bounded-audit bundle:
-  - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
-- Runtime audit plan:
-  - `.harmony/cognition/runtime/audits/YYYY-MM-DD-<slug>/plan.md`
-
 ## Version History
 
-| Version | Date | Changes |
-| ------- | ---- | ------- |
-| 1.0.0 | 2026-03-06 | Initial bounded workflow-system audit with shared scorer, representative rehearsals, and validator blind-spot detection |
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical pipeline `audit-workflow-system-workflow` |
 
 ## References
 
-- `.harmony/orchestration/governance/workflow-system-audit-v1.yml`
-- `.harmony/orchestration/runtime/workflows/_ops/scripts/audit-workflow-system.sh`
-- `.harmony/cognition/practices/methodology/audits/README.md`
-- `.harmony/cognition/practices/methodology/audits/findings-contract.md`
+- Canonical pipeline: `.harmony/orchestration/runtime/pipelines/audit/audit-workflow-system-workflow/`
