@@ -2,5 +2,11 @@
   "watcher_id": "governance-drift-watcher",
   "title": "Governance Drift Watcher",
   "owner": "orchestration-owner",
-  "status": "active"
+  "status": "active",
+  "runner": {
+    "kind": "poll",
+    "cadence": "PT1H"
+  },
+  "cursor_mode": "per-source-watermark",
+  "suppression_window": "PT6H"
 }

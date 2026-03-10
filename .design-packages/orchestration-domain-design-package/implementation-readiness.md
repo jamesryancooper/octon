@@ -21,6 +21,8 @@ rollout remains a separate canonicalization step.
 ## What Changed To Reach Implementation Readiness
 
 - codified watcher event envelope rules
+- codified watcher definition-layer authority across `watcher.yml`,
+  `sources.yml`, `rules.yml`, and `emits.yml`
 - codified material decision evidence with canonical `decision_id` linkage
 - codified queue item and lease semantics
 - codified automation concurrency and idempotency behavior
@@ -54,7 +56,7 @@ rollout remains a separate canonicalization step.
 | `missions` | implementation-ready | package-local domain, execution, lifecycle, and mission-binding rules plus mission/run linkage contracts |
 | `campaigns` | implementation-ready | package-local domain and lifecycle rules plus campaign contracts |
 | `automations` | implementation-ready | execution model, dependency resolution, failure model, and automation execution contract |
-| `watchers` | implementation-ready | runtime architecture, dependency resolution, observability, and watcher event contract |
+| `watchers` | implementation-ready | runtime architecture, dependency resolution, observability, watcher definition contract, and watcher event contract |
 | `queue` | implementation-ready | dependency resolution, runtime architecture, failure model, and queue item / lease contract |
 | `runs` | implementation-ready | runtime architecture, workflow execution, coordination lock, liveness, observability, and run linkage contract |
 | `incidents` | implementation-ready | governance model, lifecycle, failure model, and incident object contract |
@@ -68,6 +70,7 @@ rollout remains a separate canonicalization step.
 - `contracts/workflow-execution-contract.md` — `schema-backed` via `contracts/schemas/workflow-execution.schema.json`
 - `contracts/automation-execution-contract.md` — `schema-backed` via `contracts/schemas/automation-execution.schema.json`
 - `contracts/coordination-lock-contract.md` — `schema-backed` via `contracts/schemas/coordination-lock.schema.json`
+- `contracts/watcher-definition-contract.md` — `package-normative`
 - `contracts/watcher-event-contract.md` — `schema-backed` via `contracts/schemas/watcher-event.schema.json`
 - `contracts/queue-item-and-lease-contract.md` — `schema-backed` via `contracts/schemas/queue-item-and-lease.schema.json`
 - `contracts/run-linkage-contract.md` — `schema-backed` via `contracts/schemas/run-linkage.schema.json`
@@ -153,7 +156,15 @@ This package aligns with Harmony's philosophy because it preserves:
 - [ ] Every workflow stage asset resolves from `workflow.yml`, remains local to
       `stages/`, and no README or registry projection outranks the definition
       artifact.
+- [ ] Every watcher defines valid `watcher.yml`, `sources.yml`, `rules.yml`,
+      and `emits.yml` artifacts, and rule/event references resolve without
+      guessing.
 - [ ] Every watcher emits the canonical event envelope.
+- [ ] Every watcher event includes the canonical `rule_id` for the matched
+      rule, and routing hints appear only when allowed by the matching emitted
+      event declaration.
+- [ ] Watcher mutable state stays in `state/` and does not become the canonical
+      evidence layer for emitted events.
 - [ ] Every queue item conforms to the canonical queue item schema and lease
       behavior.
 - [ ] Every claimed queue item carries `claimed_at`, `claim_deadline`, and

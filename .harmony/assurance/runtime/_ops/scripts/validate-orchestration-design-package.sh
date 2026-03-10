@@ -38,7 +38,9 @@ SUPPLEMENTARY_SCHEMA_BASES=(
   "coordination-lock"
   "workflow-execution"
   "watcher-definition"
+  "watcher-sources"
   "watcher-rules"
+  "watcher-emits"
   "incident-actions"
 )
 
@@ -150,6 +152,7 @@ validate_watcher_event_fixture() {
     type == "object"
     and (.event_id | nonempty_string)
     and (.watcher_id | nonempty_string)
+    and (.rule_id | nonempty_string)
     and (.event_type | nonempty_string)
     and (((.emitted_at // "") | test("^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$")))
     and ((.severity as $s | ["info","warning","high","critical"] | index($s)) != null)
@@ -489,19 +492,98 @@ validate_watcher_definition_fixture() {
     and (.title | nonempty_string)
     and (.owner | nonempty_string)
     and ((.status as $s | ["active","paused","disabled","error"] | index($s)) != null)
+    and (.runner | type == "object")
+    and ((.runner.kind as $k | ["poll","subscription"] | index($k)) != null)
+    and (
+      (.runner.kind != "poll")
+      or (
+        (.runner | has("cadence"))
+        and (.runner.cadence | type == "string" and test("^P(T.*)?[0-9A-Z]+.*$"))
+      )
+    )
+    and ((.cursor_mode as $m | ["none","per-source-watermark","opaque"] | index($m)) != null)
+    and (
+      (has("suppression_window") | not)
+      or (.suppression_window | type == "string" and test("^P(T.*)?[0-9A-Z]+.*$"))
+    )
+  ' "$file" >/dev/null
+}
+
+validate_watcher_sources_fixture() {
+  local file="$1"
+  jq -e '
+    def nonempty_string: type == "string" and length > 0;
+    type == "object"
+    and (.sources | type == "array" and length > 0)
+    and all(
+      .sources[];
+      (.source_id | nonempty_string)
+      and (.kind | nonempty_string)
+      and (.ref | nonempty_string)
+      and ((.required_access as $a | ["read","read-metadata"] | index($a)) != null)
+      and ((has("cursor_field") | not) or (.cursor_field | nonempty_string))
+    )
   ' "$file" >/dev/null
 }
 
 validate_watcher_rules_fixture() {
   local file="$1"
   jq -e '
+    def nonempty_string: type == "string" and length > 0;
     type == "object"
     and (.rules | type == "array" and length > 0)
     and all(
       .rules[];
-      (.rule_id | type == "string" and length > 0)
-      and (.event_type | type == "string" and length > 0)
+      (.rule_id | nonempty_string)
+      and (.source_ids | type == "array" and length > 0 and all(.[]; nonempty_string))
+      and (.condition | type == "object")
+      and ((.condition.kind as $k | ["threshold","absence","change","match"] | index($k)) != null)
+      and (
+        (has("condition") | not)
+        or (
+          ((.condition | has("window")) | not)
+          or (.condition.window | type == "string" and test("^P(T.*)?[0-9A-Z]+.*$"))
+        )
+      )
+      and (.event_type | nonempty_string)
       and ((.severity as $s | ["info","warning","high","critical"] | index($s)) != null)
+      and (.summary_template | nonempty_string)
+      and (
+        (has("dedupe_key_fields") | not)
+        or (.dedupe_key_fields | type == "array" and length > 0 and all(.[]; nonempty_string))
+      )
+      and (
+        (has("routing_hints") | not)
+        or (
+          (.routing_hints | type == "object")
+          and (
+            ((.routing_hints | has("target_automation_id")) | not)
+            or (.routing_hints.target_automation_id | nonempty_string)
+          )
+          and (
+            ((.routing_hints | has("candidate_incident_id")) | not)
+            or (.routing_hints.candidate_incident_id | nonempty_string)
+          )
+        )
+      )
+    )
+  ' "$file" >/dev/null
+}
+
+validate_watcher_emits_fixture() {
+  local file="$1"
+  jq -e '
+    def nonempty_string: type == "string" and length > 0;
+    type == "object"
+    and (.emits | type == "array" and length > 0)
+    and all(
+      .emits[];
+      (.event_type | nonempty_string)
+      and (.payload_fields | type == "array" and all(.[]; nonempty_string))
+      and (.allow_payload_ref | type == "boolean")
+      and (.routing_hints | type == "object")
+      and (.routing_hints.allow_target_automation_id | type == "boolean")
+      and (.routing_hints.allow_candidate_incident_id | type == "boolean")
     )
   ' "$file" >/dev/null
 }
@@ -580,8 +662,14 @@ validate_schema_fixture() {
     watcher-definition)
       validate_watcher_definition_fixture "$file"
       ;;
+    watcher-sources)
+      validate_watcher_sources_fixture "$file"
+      ;;
     watcher-rules)
       validate_watcher_rules_fixture "$file"
+      ;;
+    watcher-emits)
+      validate_watcher_emits_fixture "$file"
       ;;
     incident-actions)
       validate_incident_actions_fixture "$file"

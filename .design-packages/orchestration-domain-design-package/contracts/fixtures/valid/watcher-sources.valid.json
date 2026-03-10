@@ -1,0 +1,11 @@
+{
+  "sources": [
+    {
+      "source_id": "orchestration-tree",
+      "kind": "filesystem",
+      "ref": ".harmony/orchestration",
+      "required_access": "read-metadata",
+      "cursor_field": "mtime"
+    }
+  ]
+}

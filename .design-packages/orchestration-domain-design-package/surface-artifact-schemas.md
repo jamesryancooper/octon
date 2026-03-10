@@ -14,7 +14,9 @@ This document is normative for schema coverage expectations.
 | `automations` | `bindings.yml` | `contracts/schemas/automation-bindings.schema.json` |
 | `workflows` | `workflow.yml` | `contracts/schemas/workflow-execution.schema.json` |
 | `watchers` | `watcher.yml` | `contracts/schemas/watcher-definition.schema.json` |
+| `watchers` | `sources.yml` | `contracts/schemas/watcher-sources.schema.json` |
 | `watchers` | `rules.yml` | `contracts/schemas/watcher-rules.schema.json` |
+| `watchers` | `emits.yml` | `contracts/schemas/watcher-emits.schema.json` |
 | `incidents` | `actions.yml` | `contracts/schemas/incident-actions.schema.json` |
 | coordination manager | lock artifact | `contracts/schemas/coordination-lock.schema.json` |
 | approvals / overrides | approval artifact | `contracts/schemas/approval-and-override.schema.json` |
@@ -26,6 +28,14 @@ For `workflows`, the schema-backed artifact is the definition contract
 `stages/*.md` remain Markdown assets. They do not require a JSON Schema, but
 they must be resolved only from a valid `workflow.yml` and remain subject to
 drift checks for relative pathing and local asset ownership.
+
+For `watchers`, the definition layer is the four-file family
+`watcher.yml` + `sources.yml` + `rules.yml` + `emits.yml`.
+
+Watcher `state/*.json` artifacts remain runner-owned mutable state in v1. They
+must satisfy behavioral guarantees from the lifecycle, observability, and
+retention specs, but they are not promoted as schema-backed cross-runtime
+definition artifacts in this package pass.
 
 ## Validation Mode
 

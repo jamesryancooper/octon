@@ -2,8 +2,13 @@
   "rules": [
     {
       "rule_id": "freshness-drift",
+      "source_ids": [],
+      "condition": {
+        "kind": "threshold"
+      },
       "event_type": "freshness-drift",
-      "severity": "urgent"
+      "severity": "urgent",
+      "summary_template": "Freshness threshold exceeded."
     }
   ]
 }

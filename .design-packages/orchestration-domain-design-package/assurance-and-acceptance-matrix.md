@@ -33,6 +33,8 @@ Define how the orchestration model will be validated before promotion into live
   `implementation-readiness.md`
 - workflow execution authority is validated at `workflow.yml`, not in README or
   registry prose
+- watcher authority is validated at `watcher.yml`, `sources.yml`, `rules.yml`,
+  and `emits.yml`, not in registry projections or state files
 
 ### Schema And Shape Validation
 
@@ -40,6 +42,8 @@ Define how the orchestration model will be validated before promotion into live
 - required top-level discovery artifacts exist
 - every workflow unit contains a valid `workflow.yml`
 - every stage asset referenced from `workflow.yml` resolves under `stages/`
+- every watcher unit contains valid `watcher.yml`, `sources.yml`, `rules.yml`,
+  and `emits.yml`
 - state directories and indexes are present where required
 - schema-backed fixtures pass/fail under
   `validate-orchestration-design-package.sh`
@@ -55,6 +59,10 @@ Define how the orchestration model will be validated before promotion into live
 - schedule-window resolution is deterministic across timezone and DST handling
 - every material action attempt resolves to exactly one `decision_id`
 - unresolved references block
+- watcher `rule_id` and `event_type` resolve back to the emitting watcher
+  definition without ambiguous fallback
+- watcher routing hints appear only when the corresponding emitted-event
+  declaration permits them
 
 ### Fail-Closed Checks
 
@@ -74,6 +82,7 @@ Define how the orchestration model will be validated before promotion into live
 - workflows do not own recurrence
 - campaigns do not become execution containers
 - runtime surfaces do not self-authorize policy exceptions
+- watcher `state/` does not become the canonical event or evidence surface
 
 ### Queue Lease And Retry Checks
 
@@ -114,6 +123,8 @@ Define how the orchestration model will be validated before promotion into live
 - routing metadata stays lightweight and does not carry mutable state
 - existing workflow surfaces preserve `manifest.yml -> registry.yml ->
   workflow.yml` authority order and keep `README.md` non-authoritative
+- watcher surfaces preserve `manifest.yml -> registry.yml -> watcher definition
+  family -> state -> evidence` authority order
 
 ## Surface Acceptance Criteria
 
@@ -123,7 +134,7 @@ Define how the orchestration model will be validated before promotion into live
 | `missions` | workflow bindings and run linkage validate; no recurrence leakage |
 | `runs` | continuity evidence linkage validates; `decision_id` resolves; projections do not outrank evidence |
 | `automations` | trigger selection deterministic; concurrency and idempotency rules enforced across `serialize`, `drop`, `parallel`, and `replace` |
-| `watchers` | event envelope valid; emits only through contract; no direct launch authority |
+| `watchers` | watcher definition family validates; rule and emitted-event references resolve; event envelope valid; mutable state and evidence stay separate; no direct launch authority |
 | `queue` | automation-ingress only; event fan-out, claim token, lease, retry, and dead-letter semantics deterministic |
 | `incidents` | lifecycle valid; closure evidence required; escalation visible |
 | `campaigns` | aggregation only; no execution ownership; optionality preserved |

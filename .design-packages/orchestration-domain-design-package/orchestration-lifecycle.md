@@ -30,7 +30,7 @@ The orchestration domain uses seven canonical phases:
 | workflow | authored and registered | reference resolves for launch | run in progress | definition retired or deprecated separately; runs terminate normally | workflow definition plus historical runs |
 | mission | `created` | `active` with owner and success criteria | mission-owned work in progress | `completed` / `cancelled` / `archived` | archived mission and linked evidence |
 | automation | authored and registered | `active` | launch evaluation ongoing | `disabled` | policy and state history |
-| watcher | authored and registered | `active` | evaluation / emission ongoing | `disabled` | watcher state history per retention |
+| watcher | authored and registered | `active` | evaluation / emission ongoing | `disabled` | watcher state history plus linked event lineage per retention |
 | queue item | enqueued | `pending` or eligible `retry` | `claimed` | `dead_letter` or acknowledged removal | receipts and evidence |
 | run | created and linked | `running` after admission | `running` | `succeeded` / `failed` / `cancelled` | run record plus continuity evidence |
 | incident | `open` | `acknowledged` / `mitigating` / `monitoring` / `resolved` | containment/remediation coordination in progress | `closed` / `cancelled` | incident record and closure evidence |

@@ -8,7 +8,9 @@
     "watcher_id",
     "title",
     "owner",
-    "status"
+    "status",
+    "runner",
+    "cursor_mode"
   ],
   "properties": {
     "watcher_id": {
@@ -31,6 +33,54 @@
         "disabled",
         "error"
       ]
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "poll",
+            "subscription"
+          ]
+        },
+        "cadence": {
+          "type": "string",
+          "pattern": "^P(T.*)?[0-9A-Z]+.*$"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "poll"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "cadence"
+            ]
+          }
+        }
+      ]
+    },
+    "cursor_mode": {
+      "type": "string",
+      "enum": [
+        "none",
+        "per-source-watermark",
+        "opaque"
+      ]
+    },
+    "suppression_window": {
+      "type": "string",
+      "pattern": "^P(T.*)?[0-9A-Z]+.*$"
     }
   }
 }

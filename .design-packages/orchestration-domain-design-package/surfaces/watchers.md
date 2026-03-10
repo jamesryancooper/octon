@@ -17,6 +17,13 @@ thresholds, and emit events when a monitored condition matters.
   contract
 - maintain health, cursor, and suppression state
 
+## Consumers
+
+- event router
+- operators diagnosing health or suppression behavior
+- incident-correlation logic
+- event-triggered automations downstream of queue ingress
+
 ## Differentiators
 
 - detect rather than execute
@@ -35,8 +42,31 @@ thresholds, and emit events when a monitored condition matters.
 
 ## Implementation Contract
 
-See `../contracts/watcher-event-contract.md` and
-`../contracts/cross-surface-reference-contract.md`.
+See:
+
+- `../contracts/watcher-definition-contract.md`
+- `../contracts/watcher-event-contract.md`
+- `../contracts/cross-surface-reference-contract.md`
+
+## Best-Fit Authority Model
+
+`watchers` are a collection surface with all five authority layers present:
+
+1. discovery
+   - `manifest.yml`
+2. routing / metadata
+   - `registry.yml`
+3. definition
+   - `watcher.yml`, `sources.yml`, `rules.yml`, `emits.yml`
+4. mutable state
+   - `state/cursor.json`, `state/health.json`, `state/suppressions.json`
+5. evidence
+   - emitted event lineage keyed by `event_id`, plus downstream queue /
+     decision / incident linkage
+
+The watcher definition layer is machine-readable and authoritative.
+
+Markdown remains subordinate guidance only.
 
 ## Example Use Cases
 
@@ -94,6 +124,9 @@ watchers/
         ├── health.json
         └── suppressions.json
 ```
+
+Emitted event evidence stays outside `state/`; state snapshots do not replace
+event lineage.
 
 ## Non-Goals
 

@@ -109,6 +109,7 @@ primary source of target orchestration behavior for this package.
 | automation binding semantics | `automation-bindings-contract.md` | `contracts/automation-execution-contract.md` | event-to-parameter mapping and validation |
 | run liveness and recovery | `run-liveness-and-recovery-spec.md` | `runtime-architecture.md`, `failure-model.md` | executor ownership and stale-run recovery |
 | workflow definition and execution contract | `contracts/workflow-execution-contract.md` | `orchestration-execution-model.md` | schema-backed `workflow.yml`, subordinate stage assets, and launch interface |
+| watcher definition and emitted-event interface | `contracts/watcher-definition-contract.md`, `contracts/watcher-event-contract.md` | `runtime-architecture.md`, `dependency-resolution.md`, `observability.md` | schema-backed watcher definition family plus canonical emitted event envelope |
 | coordination lock artifact | `contracts/coordination-lock-contract.md` | `concurrency-control-model.md` | lock schema, lease, and CAS semantics |
 | approver authority verification | `approver-authority-model.md` | `approval-and-override-contract.md` | approver registry and scope validation |
 | surface artifact schema coverage | `surface-artifact-schemas.md` | `contracts/discovery-and-authority-layer-contract.md` | required schema-backed runtime artifacts |
@@ -120,7 +121,7 @@ primary source of target orchestration behavior for this package.
 | observability and operator lookup | `observability.md` | `evidence-observability-and-retention-spec.md` | health, correlation, and lookup guarantees |
 | decision evidence | `contracts/decision-record-contract.md` | continuity decision authorities | canonical `decision_id` and storage shape |
 | run evidence and linkage | `contracts/run-linkage-contract.md` | continuity run authorities | runtime projection plus evidence linkage |
-| discovery layering and SSOT | `contracts/discovery-and-authority-layer-contract.md` | `runtime-architecture.md` | package-local discovery and state ownership |
+| discovery layering and SSOT | `contracts/discovery-and-authority-layer-contract.md` | `runtime-architecture.md` | package-local discovery, state ownership, and evidence-layer separation |
 | promotion criteria | `implementation-readiness.md` and `assurance-and-acceptance-matrix.md` | `canonicalization-target-map.md` | build-readiness vs live rollout readiness |
 
 ## What This Package Intentionally Does Not Redefine

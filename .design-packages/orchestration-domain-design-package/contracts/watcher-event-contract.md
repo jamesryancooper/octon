@@ -4,21 +4,17 @@
 
 This contract defines the canonical event envelope emitted by `watchers`.
 
-## Required Object Artifacts
+Watcher-local definition artifacts and state/evidence split are governed by
+`watcher-definition-contract.md`. This contract governs emitted event
+instances.
 
-```text
-watchers/
-├── registry.yml
-└── <watcher-id>/
-    ├── watcher.yml
-    ├── sources.yml
-    ├── rules.yml
-    ├── emits.yml
-    └── state/
-        ├── cursor.json
-        ├── health.json
-        └── suppressions.json
-```
+## Authority Linkage
+
+- `watcher_id` must resolve to one watcher definition.
+- `rule_id` must resolve to one rule in that watcher's `rules.yml`.
+- `event_type` must be declared in that watcher's `emits.yml`.
+- routing hints may appear only when the matching emitted-event declaration
+  allows them.
 
 ## Event Envelope
 
@@ -26,6 +22,7 @@ watchers/
 |---|---|---|
 | `event_id` | yes | canonical stable event id |
 | `watcher_id` | yes | emitting watcher |
+| `rule_id` | yes | emitting rule within the watcher definition |
 | `event_type` | yes | semantic event kind |
 | `emitted_at` | yes | ISO timestamp |
 | `severity` | yes | `info`, `warning`, `high`, `critical` |
@@ -45,19 +42,23 @@ watchers/
 - Events must be sanitized before emission
 - Watchers may recommend a target, but may not directly invoke a workflow
 - `target_automation_id` is a routing hint, not an authorization grant
+- `rule_id` must remain stable enough for audit lookup and suppression analysis
 
 ## Invariants
 
 - `event_id` must be unique.
+- `rule_id` must resolve to the watcher-local rule that produced the event.
 - `dedupe_key` must be stable for semantically identical detections.
 - `severity` must be explicit on every event.
 - `summary` must be present even when payload is omitted.
+- `event_type` must be declared in the emitting watcher's `emits.yml`.
 
 ## Example
 
 ```yaml
 event_id: "evt-20260307-governance-drift-01"
 watcher_id: "governance-drift-watcher"
+rule_id: "freshness-drift"
 event_type: "freshness-drift"
 emitted_at: "2026-03-07T18:00:00Z"
 severity: "warning"

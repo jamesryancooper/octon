@@ -1,0 +1,16 @@
+{
+  "emits": [
+    {
+      "event_type": "freshness-drift",
+      "payload_fields": [
+        "path",
+        "age_days"
+      ],
+      "allow_payload_ref": false,
+      "routing_hints": {
+        "allow_target_automation_id": true,
+        "allow_candidate_incident_id": false
+      }
+    }
+  ]
+}

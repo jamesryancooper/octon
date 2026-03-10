@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/design-packages/orchestration/watcher-emits.schema.json",
+  "title": "Watcher Emits",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "emits"
+  ],
+  "properties": {
+    "emits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "event_type",
+          "payload_fields",
+          "allow_payload_ref",
+          "routing_hints"
+        ],
+        "properties": {
+          "event_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "payload_fields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "allow_payload_ref": {
+            "type": "boolean"
+          },
+          "routing_hints": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "allow_target_automation_id",
+              "allow_candidate_incident_id"
+            ],
+            "properties": {
+              "allow_target_automation_id": {
+                "type": "boolean"
+              },
+              "allow_candidate_incident_id": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

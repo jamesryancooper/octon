@@ -76,6 +76,7 @@ listing.
 - `contracts/campaign-object-contract.md`
 - `contracts/automation-execution-contract.md`
 - `contracts/coordination-lock-contract.md`
+- `contracts/watcher-definition-contract.md`
 - `contracts/watcher-event-contract.md`
 - `contracts/queue-item-and-lease-contract.md`
 - `contracts/run-linkage-contract.md`
@@ -97,8 +98,10 @@ listing.
 - `contracts/schemas/queue-item-and-lease.schema.json`
 - `contracts/schemas/run-linkage.schema.json`
 - `contracts/schemas/watcher-definition.schema.json`
+- `contracts/schemas/watcher-sources.schema.json`
 - `contracts/schemas/watcher-event.schema.json`
 - `contracts/schemas/watcher-rules.schema.json`
+- `contracts/schemas/watcher-emits.schema.json`
 - `contracts/schemas/workflow-execution.schema.json`
 
 ## Valid Proof Fixtures
@@ -114,8 +117,10 @@ listing.
 - `contracts/fixtures/valid/queue-item-and-lease.valid.json`
 - `contracts/fixtures/valid/run-linkage.valid.json`
 - `contracts/fixtures/valid/watcher-definition.valid.json`
+- `contracts/fixtures/valid/watcher-sources.valid.json`
 - `contracts/fixtures/valid/watcher-event.valid.json`
 - `contracts/fixtures/valid/watcher-rules.valid.json`
+- `contracts/fixtures/valid/watcher-emits.valid.json`
 - `contracts/fixtures/valid/workflow-execution.valid.json`
 
 ## Invalid Proof Fixtures
@@ -131,8 +136,10 @@ listing.
 - `contracts/fixtures/invalid/queue-item-and-lease.invalid.json`
 - `contracts/fixtures/invalid/run-linkage.invalid.json`
 - `contracts/fixtures/invalid/watcher-definition.invalid.json`
+- `contracts/fixtures/invalid/watcher-sources.invalid.json`
 - `contracts/fixtures/invalid/watcher-event.invalid.json`
 - `contracts/fixtures/invalid/watcher-rules.invalid.json`
+- `contracts/fixtures/invalid/watcher-emits.invalid.json`
 - `contracts/fixtures/invalid/workflow-execution.invalid.json`
 
 ## Implementation Blueprint

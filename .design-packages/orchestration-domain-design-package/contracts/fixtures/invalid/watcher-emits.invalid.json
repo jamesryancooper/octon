@@ -1,0 +1,14 @@
+{
+  "emits": [
+    {
+      "event_type": "freshness-drift",
+      "payload_fields": [
+        "path"
+      ],
+      "allow_payload_ref": false,
+      "routing_hints": {
+        "allow_target_automation_id": true
+      }
+    }
+  ]
+}

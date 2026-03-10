@@ -2,8 +2,26 @@
   "rules": [
     {
       "rule_id": "freshness-drift",
+      "source_ids": [
+        "orchestration-tree"
+      ],
+      "condition": {
+        "kind": "threshold",
+        "path": "days_since_update",
+        "operator": ">=",
+        "value": 7
+      },
       "event_type": "freshness-drift",
-      "severity": "warning"
+      "severity": "warning",
+      "summary_template": "Freshness threshold exceeded for {{source_ref}}.",
+      "dedupe_key_fields": [
+        "watcher_id",
+        "rule_id",
+        "source_ref"
+      ],
+      "routing_hints": {
+        "target_automation_id": "weekly-freshness-audit"
+      }
     }
   ]
 }

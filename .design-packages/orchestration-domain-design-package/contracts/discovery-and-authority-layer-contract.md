@@ -10,14 +10,19 @@ The same layering must be preserved when these surfaces are promoted into live
 
 ## Core Rule
 
-Every orchestration surface defined by this package must define:
+Every orchestration surface defined by this package must define, or explicitly
+point to, clear authority for:
 
 - discovery layer
 - routing/metadata layer
 - definition layer
-- state/evidence layer
+- mutable state layer
+- evidence layer
 
 Each layer must have one clear source of truth.
+
+If a surface does not keep local mutable state or local durable evidence, it
+must explicitly name the external authority surface that owns that layer.
 
 ## Collection Surface Pattern
 
@@ -35,7 +40,8 @@ Applies to:
 | 1 | `manifest.yml` | routing identity, display name, summary, status |
 | 2 | `registry.yml` | version, dependencies, I/O, state paths, validation hooks |
 | 3 | `<surface-id>/...` | full object definition and local contracts |
-| 4 | `state/` plus linked evidence | mutable runtime state and execution traces |
+| 4 | `<surface-id>/state/` | mutable local runtime state |
+| 5 | linked evidence / receipts / lineage | durable evidence for emitted or material behavior |
 
 ### Rules
 
@@ -43,6 +49,38 @@ Applies to:
 2. Tier 2 must hold cross-object metadata, not mutable state.
 3. Tier 3 is the source of truth for object definition.
 4. Tier 4 is the source of truth for mutable local state.
+5. Tier 5 is the source of truth for durable evidence and must not be merged
+   back into mutable state.
+
+Where a collection surface does not keep one of these layers locally, the
+external owning surface must be named explicitly.
+
+### `watchers`
+
+The package-local watcher integration contract is:
+
+- Tier 1: `manifest.yml`
+  - surface discovery identity
+- Tier 2: `registry.yml`
+  - watcher discovery index, operator metadata, and state-path projections
+- Tier 3: `<watcher-id>/watcher.yml`, `sources.yml`, `rules.yml`, `emits.yml`
+  - authoritative watcher definition layer
+- Tier 4: `<watcher-id>/state/`
+  - mutable cursor, health, and suppression state owned by the watcher runner
+- Tier 5: emitted event lineage
+  - `event_id` keyed evidence linked through queue items, decision records,
+    incidents, and any retained watcher-event journal or receipt layer
+
+Watcher-specific authority rules:
+
+1. `watcher.yml`, `sources.yml`, `rules.yml`, and `emits.yml` collectively
+   define watcher behavior.
+2. `registry.yml` may project selected watcher facts, but it must not outrank
+   the watcher definition layer.
+3. `state/` is not the evidence layer. Health and cursor snapshots do not
+   replace emitted event lineage.
+4. Evidence lookup by `event_id` must resolve without using `state/` as the
+   canonical source.
 
 ## Infrastructure Surface Pattern
 
@@ -119,6 +157,9 @@ package-local source of truth for how they participate in orchestration.
    outrank object records or evidence stores as authority.
 5. For `workflows`, Markdown instruction assets remain subordinate to the
    schema-backed `workflow.yml` definition artifact.
+6. For `watchers`, emitted event lineage and mutable watcher state must remain
+   distinct authority layers even when both are stored near the same runtime
+   implementation.
 
 ## Schema Requirement
 
