@@ -1,5 +1,9 @@
 # Orchestration Domain Design Package
 
+This is a temporary, implementation-scoped design package. It exists to
+organize the orchestration design artifacts until their long-lived authority is
+promoted into `.harmony/`.
+
 This package is the implementation-ready architectural specification for the
 target orchestration domain in Harmony.
 
@@ -26,6 +30,14 @@ is a separate canonicalization step defined in this package.
 - `incidents` remain a safety and escalation surface with human-governed
   authority.
 - `campaigns` remain optional portfolio coordination above missions.
+
+## AI Discovery
+
+- `artifact-catalog.md`
+  - exhaustive categorized inventory of every file in this package
+- current paths remain unchanged
+  - the catalog improves agent discovery without introducing relocation churn
+- if you need substance rather than inventory, follow the reading order below
 
 ## Reading Order
 
