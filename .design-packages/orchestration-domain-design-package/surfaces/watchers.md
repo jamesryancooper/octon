@@ -22,13 +22,13 @@ thresholds, and emit events when a monitored condition matters.
 - event router
 - operators diagnosing health or suppression behavior
 - incident-correlation logic
-- event-triggered automations downstream of queue ingress
+- event-triggered automations downstream of `queue` ingress
 
 ## Differentiators
 
 - detect rather than execute
 - long-lived and sensor-like
-- upstream of automations, queue, and incidents
+- upstream of automations, `queue`, and incidents
 
 ## Complexity
 

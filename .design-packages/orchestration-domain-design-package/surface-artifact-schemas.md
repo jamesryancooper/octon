@@ -37,6 +37,13 @@ must satisfy behavioral guarantees from the lifecycle, observability, and
 retention specs, but they are not promoted as schema-backed cross-runtime
 definition artifacts in this package pass.
 
+For `queue`, v1 does not introduce a separate surface-local definition artifact
+beyond runtime discovery projections. The authoritative machine-readable
+definition is `contracts/schemas/queue-item-and-lease.schema.json`, referenced
+by `contracts/queue-item-and-lease-contract.md`. Any surface-local `schema.yml`
+remains a projection/reference artifact and must not become an independent
+behavioral authority.
+
 ## Validation Mode
 
 Each required schema must have:

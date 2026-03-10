@@ -94,9 +94,10 @@ Applies to:
 | Tier | Artifact | Source Of Truth |
 |---|---|---|
 | 1 | `README.md` | operator discovery and orientation |
-| 2 | `registry.yml`, `schema.yml` | queue capabilities, schema, lane definitions |
-| 3 | lane directories | active queue items |
-| 4 | `receipts/` | append-only completion and terminal handling records |
+| 2 | `registry.yml`, optional `schema.yml` | routing metadata and references to the queue-item contract/schema |
+| 3 | `contracts/queue-item-and-lease-contract.md`, `contracts/schemas/queue-item-and-lease.schema.json` | authoritative queue-item definition, lane semantics, and claim/ack/retry/dead-letter behavior |
+| 4 | lane directories | active queue items and mutable intake state |
+| 5 | `receipts/` | append-only completion and terminal handling records |
 
 ### `runs`
 
@@ -160,6 +161,9 @@ package-local source of truth for how they participate in orchestration.
 6. For `watchers`, emitted event lineage and mutable watcher state must remain
    distinct authority layers even when both are stored near the same runtime
    implementation.
+7. For `queue`, local `registry.yml` or `schema.yml` projections must not
+   outrank the queue-item contract/schema or imply unsupported named-queue
+   identity in v1.
 
 ## Schema Requirement
 

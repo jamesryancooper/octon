@@ -192,6 +192,9 @@ queue/
 └── receipts/
 ```
 
+The singular surface name reflects that v1 uses one shared queueing substrate.
+Lane directories remain the local mutable state for that substrate.
+
 ### `runs/`
 
 ```text

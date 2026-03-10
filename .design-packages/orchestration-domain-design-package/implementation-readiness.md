@@ -169,6 +169,9 @@ This package aligns with Harmony's philosophy because it preserves:
       behavior.
 - [ ] Every claimed queue item carries `claimed_at`, `claim_deadline`, and
       `claim_token`, and stale ack attempts are rejected.
+- [ ] The `queue` surface preserves discovery, routing metadata, external
+      definition authority, mutable lane state, and receipts as distinct
+      layers.
 - [ ] Queue ingress remains automation-only; missions are created only
       downstream when bounded follow-up work is needed.
 - [ ] Every automation defines explicit concurrency, idempotency, and retry

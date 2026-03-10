@@ -22,7 +22,7 @@ A package-defined surface is not live canonical until it has:
 | `campaigns` | `runtime/campaigns/README.md`, `runtime/campaigns/manifest.yml`, `runtime/campaigns/registry.yml` | `practices/campaign-lifecycle-standards.md` | optional addendum in `governance/README.md` | `runtime/campaigns/_ops/scripts/validate-campaigns.sh` |
 | `automations` | `runtime/automations/README.md`, `runtime/automations/manifest.yml`, `runtime/automations/registry.yml` | `practices/automation-authoring-standards.md`, `practices/automation-operations.md` | `governance/automation-policy.md` | `runtime/automations/_ops/scripts/validate-automations.sh` |
 | `watchers` | `runtime/watchers/README.md`, `runtime/watchers/manifest.yml`, `runtime/watchers/registry.yml`, `runtime/watchers/<watcher-id>/watcher.yml`, `runtime/watchers/<watcher-id>/sources.yml`, `runtime/watchers/<watcher-id>/rules.yml`, `runtime/watchers/<watcher-id>/emits.yml`, `runtime/watchers/<watcher-id>/state/` | `practices/watcher-authoring-standards.md`, `practices/watcher-operations.md` | `governance/watcher-signal-policy.md` | `runtime/watchers/_ops/scripts/validate-watchers.sh` |
-| `queue` | `runtime/queue/README.md`, `runtime/queue/registry.yml`, `runtime/queue/schema.yml` | `practices/queue-operations-standards.md` | `governance/queue-safety-policy.md` | `runtime/queue/_ops/scripts/validate-queue.sh` |
+| `queue` | `runtime/queue/README.md`, `runtime/queue/registry.yml`, `runtime/queue/schema.yml`, `runtime/queue/pending/`, `runtime/queue/claimed/`, `runtime/queue/retry/`, `runtime/queue/dead-letter/`, `runtime/queue/receipts/` | `practices/queue-operations-standards.md` | `governance/queue-safety-policy.md` | `runtime/queue/_ops/scripts/validate-queue.sh` |
 | `runs` | `runtime/runs/README.md`, `runtime/runs/index.yml` | `practices/run-linkage-standards.md` | addendum to continuity evidence policy if needed | `runtime/runs/_ops/scripts/validate-runs.sh` |
 | `incidents` | `runtime/incidents/README.md`, `runtime/incidents/manifest.yml`, `runtime/incidents/registry.yml` | `practices/incident-lifecycle-standards.md` | extend generic `governance/incidents.md`; keep product steps in `governance/production-incident-runbook.md` | `runtime/incidents/_ops/scripts/validate-incidents.sh` |
 
@@ -104,6 +104,18 @@ This sequence keeps Harmony aligned to minimal sufficient complexity while still
 allowing the mature model to land cleanly.
 
 ## Watcher Promotion Note
+
+## Queue Promotion Note
+
+When `queue` is promoted, live Harmony must preserve:
+
+- the singular top-level surface path `runtime/queue/`
+- queue-item definition authority in `contracts/queue-item-and-lease-contract.md`
+  plus `contracts/schemas/queue-item-and-lease.schema.json`
+- `registry.yml` and any local `schema.yml` as discovery/reference artifacts,
+  not as the primary behavioral contract
+- lane directories as mutable state and `receipts/` as append-only evidence
+- the absence of `queue_id` or named-queue collection semantics in v1
 
 When `watchers` are promoted, live Harmony must preserve:
 

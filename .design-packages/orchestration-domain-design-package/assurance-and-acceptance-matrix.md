@@ -35,6 +35,8 @@ Define how the orchestration model will be validated before promotion into live
   registry prose
 - watcher authority is validated at `watcher.yml`, `sources.yml`, `rules.yml`,
   and `emits.yml`, not in registry projections or state files
+- queue execution authority is validated at the queue-item contract/schema, not
+  in `registry.yml` prose or a local `schema.yml` projection
 
 ### Schema And Shape Validation
 
@@ -44,6 +46,8 @@ Define how the orchestration model will be validated before promotion into live
 - every stage asset referenced from `workflow.yml` resolves under `stages/`
 - every watcher unit contains valid `watcher.yml`, `sources.yml`, `rules.yml`,
   and `emits.yml`
+- queue preserves lane directories and `receipts/`, while keeping queue-item
+  definition authority external to mutable runtime state
 - state directories and indexes are present where required
 - schema-backed fixtures pass/fail under
   `validate-orchestration-design-package.sh`
@@ -125,6 +129,8 @@ Define how the orchestration model will be validated before promotion into live
   workflow.yml` authority order and keep `README.md` non-authoritative
 - watcher surfaces preserve `manifest.yml -> registry.yml -> watcher definition
   family -> state -> evidence` authority order
+- queue preserves `README.md -> registry.yml / schema.yml projection -> queue
+  item contract/schema -> lane state -> receipts` authority order
 
 ## Surface Acceptance Criteria
 

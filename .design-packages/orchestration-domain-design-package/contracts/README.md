@@ -47,7 +47,7 @@ orchestration-domain specification defined by this package.
   - Event envelope emitted by watchers
 - `queue-item-and-lease-contract.md`
   - Queue item schema, lane semantics, claim lease behavior, retry, and
-    dead-letter rules
+    dead-letter rules for `queue`
 - `run-linkage-contract.md`
   - Run record shape and linkage to continuity evidence
 - `incident-object-contract.md`

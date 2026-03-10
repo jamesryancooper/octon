@@ -18,6 +18,16 @@ queue/
 └── receipts/
 ```
 
+## Surface Naming Note
+
+`queue` is the top-level surface name because v1 models one shared queueing
+substrate.
+
+V1 still models one shared queueing substrate rather than a collection of
+independently defined queue objects. `queue_item_id` remains the authoritative
+unit of routing and state. Introducing `queue_id`, per-queue definitions, or
+named queue registries requires a new contract revision.
+
 ## Queue Item Fields
 
 | Field | Required | Notes |

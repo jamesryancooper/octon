@@ -38,6 +38,29 @@ events, retries, and backpressure.
 See `../contracts/queue-item-and-lease-contract.md` and
 `../contracts/cross-surface-reference-contract.md`.
 
+## Best-Fit Authority Model
+
+`queue` is an infrastructure surface with five explicit authority layers:
+
+1. discovery
+   - `README.md`
+2. routing / metadata
+   - `registry.yml`
+   - optional `schema.yml` as a projection/reference artifact only
+3. definition
+   - `../contracts/queue-item-and-lease-contract.md`
+   - `../contracts/schemas/queue-item-and-lease.schema.json`
+4. mutable state
+   - lane directories (`pending/`, `claimed/`, `retry/`, `dead-letter/`)
+5. evidence
+   - `receipts/`
+
+Machine-readable authority lives in the queue-item contract and schema, not in
+Markdown prose or runtime-local discovery projections.
+
+The singular surface name reflects that v1 uses one shared queueing substrate.
+`queue_item_id` remains the authoritative routing and state unit.
+
 ## Example Use Cases
 
 1. A queue of freshness or drift events emitted by watchers and claimed by
