@@ -24,6 +24,24 @@ Each layer must have one clear source of truth.
 If a surface does not keep local mutable state or local durable evidence, it
 must explicitly name the external authority surface that owns that layer.
 
+## Markdown Role
+
+Surface-level Markdown may exist for orientation, authoring guidance, or
+operator context, but its role must be explicit and subordinate.
+
+Rules:
+
+1. A surface-level `README.md` may exist to explain purpose, non-goals, safe
+   usage, or navigation.
+2. A `README.md` is never the canonical contract for discovery, routing,
+   definition, mutable state, or durable evidence.
+3. Surface-local narrative artifacts such as `README.md`, `mission.md`,
+   `timeline.md`, `closure.md`, and `log.md` may explain or summarize, but they
+   must not redefine machine-readable authority already assigned elsewhere.
+4. Where Markdown is present on collection surfaces such as `automations`,
+   `watchers`, or `campaigns`, it sits outside the five authority tiers and
+   remains explanatory only.
+
 ## Collection Surface Pattern
 
 Applies to:
