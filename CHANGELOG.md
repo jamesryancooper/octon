@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.9](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.8...harmony-v0.4.9) (2026-03-10)
+
+
+### Features
+
+* **scaffolding:** standardize design package flow ([#131](https://github.com/jamesryancooper/harmony/issues/131)) ([dc535fc](https://github.com/jamesryancooper/harmony/commit/dc535fca72d5510bbf67908ed474d0b1f97e3e06))
+
 ## [0.4.8](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.7...harmony-v0.4.8) (2026-03-10)
 
 
