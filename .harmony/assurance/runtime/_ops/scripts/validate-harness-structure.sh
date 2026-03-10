@@ -598,6 +598,7 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/assurance-gate.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-contract-governance.sh"
+  require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-design-package-standard.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-tier-downgrade-policy.sh"
   require_file "$HARMONY_DIR/assurance/practices/complete.md"
@@ -614,6 +615,7 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/scaffolding/runtime/bootstrap/init-project.sh"
   require_file "$HARMONY_DIR/scaffolding/runtime/bootstrap/objectives/registry.txt"
   require_file "$HARMONY_DIR/scaffolding/runtime/templates/manifest.schema.json"
+  require_file "$HARMONY_DIR/scaffolding/runtime/templates/design-package.schema.json"
   require_file "$HARMONY_DIR/scaffolding/runtime/templates/README.md"
   require_file "$HARMONY_DIR/scaffolding/runtime/_ops/scripts/sync-bootstrap-projection.sh"
   require_file "$HARMONY_DIR/scaffolding/runtime/templates/audits/template.bounded-audit.md"
@@ -621,6 +623,7 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh"
   require_file "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-bootstrap-projections.sh"
   require_file "$HARMONY_DIR/scaffolding/governance/patterns/README.md"
+  require_file "$HARMONY_DIR/scaffolding/governance/patterns/design-package-standard.md"
   require_file "$HARMONY_DIR/scaffolding/practices/README.md"
 }
 

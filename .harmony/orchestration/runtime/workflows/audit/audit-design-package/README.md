@@ -105,6 +105,7 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 - [ ] Every file-writing stage has a change manifest or zero-change receipt
 - [ ] `package-delta.md`, `bundle.yml`, and `validation.md` exist
 - [ ] Top-level summary exists at `.harmony/output/reports/YYYY-MM-DD-audit-design-package.md`
+- [ ] If the target package contains `design-package.yml`, `validate-design-package-standard.sh --package <target>` passes
 - [ ] Final readiness verdict is explicit
 
 ## References

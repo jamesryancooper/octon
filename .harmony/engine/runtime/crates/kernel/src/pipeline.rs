@@ -7,7 +7,10 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use time::format_description;
 
-use crate::workflow::{self, ExecutorKind, PipelineMode, RunDesignPackageOptions};
+use crate::workflow::{
+    self, DesignPackageClass, ExecutorKind, PipelineMode, RunCreateDesignPackageOptions,
+    RunDesignPackageOptions,
+};
 
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".harmony/output/reports/workflows";
 
@@ -146,6 +149,9 @@ pub fn run_pipeline_from_harmony_dir(
     if options.pipeline_id == "audit-design-package" {
         return run_design_package_pipeline(harmony_dir, options);
     }
+    if options.pipeline_id == "create-design-package" {
+        return run_create_design_package_pipeline(harmony_dir, options);
+    }
     run_generic_pipeline(harmony_dir, options)
 }
 
@@ -158,9 +164,7 @@ fn run_design_package_pipeline(
         .get("package_path")
         .cloned()
         .ok_or_else(|| {
-            anyhow::anyhow!(
-                "workflow 'audit-design-package' requires --set package_path=<path>"
-            )
+            anyhow::anyhow!("workflow 'audit-design-package' requires --set package_path=<path>")
         })?;
 
     let mode = match options
@@ -184,6 +188,74 @@ fn run_design_package_pipeline(
             output_slug: options.output_slug,
             model: options.model,
             prepare_only: options.prepare_only,
+        },
+    )?;
+
+    Ok(RunPipelineResult {
+        bundle_root: result.bundle_root,
+        summary_report: result.summary_report,
+        final_verdict: result.final_verdict,
+    })
+}
+
+fn run_create_design_package_pipeline(
+    harmony_dir: &Path,
+    options: RunPipelineOptions,
+) -> Result<RunPipelineResult> {
+    let package_id = options
+        .input_overrides
+        .get("package_id")
+        .cloned()
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow 'create-design-package' requires --set package_id=<value>")
+        })?;
+    let package_title = options
+        .input_overrides
+        .get("package_title")
+        .cloned()
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow 'create-design-package' requires --set package_title=<value>")
+        })?;
+    let implementation_targets = options
+        .input_overrides
+        .get("implementation_targets")
+        .cloned()
+        .ok_or_else(|| {
+            anyhow::anyhow!(
+                "workflow 'create-design-package' requires --set implementation_targets=<value>"
+            )
+        })?;
+
+    let package_class = match options
+        .input_overrides
+        .get("package_class")
+        .map(String::as_str)
+        .unwrap_or("domain-runtime")
+    {
+        "domain-runtime" => DesignPackageClass::DomainRuntime,
+        "experience-product" => DesignPackageClass::ExperienceProduct,
+        other => bail!("unsupported create-design-package package_class '{other}'"),
+    };
+
+    let result = workflow::run_create_design_package_from_harmony_dir(
+        harmony_dir,
+        RunCreateDesignPackageOptions {
+            package_id,
+            package_title,
+            package_class,
+            implementation_targets: parse_csv_list(&implementation_targets),
+            include_contracts: parse_optional_bool(
+                options.input_overrides.get("include_contracts"),
+                "include_contracts",
+            )?,
+            include_conformance: parse_optional_bool(
+                options.input_overrides.get("include_conformance"),
+                "include_conformance",
+            )?,
+            include_canonicalization: parse_optional_bool(
+                options.input_overrides.get("include_canonicalization"),
+                "include_canonicalization",
+            )?,
         },
     )?;
 
@@ -412,6 +484,31 @@ fn resolve_inputs(
         }
     }
     Ok(resolved)
+}
+
+fn parse_csv_list(value: &str) -> Vec<String> {
+    value
+        .split(',')
+        .map(str::trim)
+        .filter(|item| !item.is_empty())
+        .map(ToOwned::to_owned)
+        .collect()
+}
+
+fn parse_optional_bool(value: Option<&String>, field: &str) -> Result<Option<bool>> {
+    let Some(value) = value else {
+        return Ok(None);
+    };
+
+    match value.to_ascii_lowercase().as_str() {
+        "true" | "1" | "yes" => Ok(Some(true)),
+        "false" | "0" | "no" => Ok(Some(false)),
+        other => bail!(
+            "workflow field '{}' expects a boolean value, got '{}'",
+            field,
+            other
+        ),
+    }
 }
 
 fn resolve_relative_to_repo(repo_root: &Path, raw: &str) -> Result<PathBuf> {

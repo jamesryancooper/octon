@@ -1,0 +1,90 @@
+schema_version: "workflow-contract-v1"
+name: "create-design-package"
+description: "Scaffold a standard-governed design package from canonical templates, materialize its manifest, and validate it immediately."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  - name: package_id
+    type: text
+    required: true
+    description: "Kebab-case design package id and directory name under .design-packages/"
+  - name: package_title
+    type: text
+    required: true
+    description: "Human-readable package title"
+  - name: package_class
+    type: text
+    required: false
+    default: "domain-runtime"
+    description: "Package class: domain-runtime or experience-product"
+  - name: implementation_targets
+    type: text
+    required: true
+    description: "Comma-separated durable target paths that will survive package removal"
+  - name: include_contracts
+    type: boolean
+    required: false
+    description: "Optional override for contracts module selection; omitted uses the class default"
+  - name: include_conformance
+    type: boolean
+    required: false
+    description: "Optional override for conformance module selection; omitted uses the class default"
+  - name: include_canonicalization
+    type: boolean
+    required: false
+    description: "Optional override for canonicalization module selection; omitted uses the class default"
+stages:
+  - id: "validate-request"
+    asset: "stages/01-validate-request.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:validate-request"]
+    mutation_scope: []
+  - id: "select-bundles"
+    asset: "stages/02-select-bundles.md"
+    kind: "analysis"
+    consumes: ["stage:validate-request"]
+    produces: ["stage:select-bundles"]
+    mutation_scope: []
+  - id: "scaffold-package"
+    asset: "stages/03-scaffold-package.md"
+    kind: "mutation"
+    consumes: ["stage:select-bundles"]
+    produces: ["stage:scaffold-package"]
+    mutation_scope: ["workflow-scope"]
+  - id: "validate-package"
+    asset: "stages/04-validate-package.md"
+    kind: "verification"
+    consumes: ["stage:scaffold-package"]
+    produces: ["stage:validate-package"]
+    mutation_scope: []
+  - id: "report"
+    asset: "stages/05-report.md"
+    kind: "projection"
+    consumes: ["stage:validate-package"]
+    produces: ["stage:report"]
+    mutation_scope: []
+artifacts:
+  - name: design_package_root
+    path: "../../../../../.design-packages/{{package_id}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: "Scaffolded standard-governed design package"
+  - name: design_package_manifest
+    path: "../../../../../.design-packages/{{package_id}}/design-package.yml"
+    kind: file
+    format: yaml
+    determinism: unique
+    description: "Root manifest for the standard-governed design package"
+done_gate:
+  checks:
+    - "scaffolded package directory exists under .design-packages/"
+    - "design-package.yml is present and valid"
+    - "validate-design-package-standard.sh passes for the scaffolded package"
+    - "verification stage passes"
+constraints:
+  fail_closed: true
+  forbid_design_packages: false
+  require_relative_local_assets: true
