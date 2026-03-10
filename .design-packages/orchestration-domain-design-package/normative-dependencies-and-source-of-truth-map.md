@@ -106,6 +106,7 @@ primary source of target orchestration behavior for this package.
 | dependency and trigger resolution | `dependency-resolution.md` | `contracts/cross-surface-reference-contract.md` | deterministic reference and trigger matching |
 | target-global coordination | `concurrency-control-model.md` | `runtime-architecture.md` | lock derivation and contention behavior |
 | approvals and overrides | `approval-and-override-contract.md` | `governance-and-policy.md` | privileged action authorization |
+| automation definition and launch policy | `contracts/automation-execution-contract.md` | `orchestration-execution-model.md`, `dependency-resolution.md` | canonical split across `automation.yml`, `trigger.yml`, `bindings.yml`, and `policy.yml` |
 | automation binding semantics | `automation-bindings-contract.md` | `contracts/automation-execution-contract.md` | event-to-parameter mapping and validation |
 | run liveness and recovery | `run-liveness-and-recovery-spec.md` | `runtime-architecture.md`, `failure-model.md` | executor ownership and stale-run recovery |
 | workflow definition and execution contract | `contracts/workflow-execution-contract.md` | `orchestration-execution-model.md` | schema-backed `workflow.yml`, subordinate stage assets, and launch interface |
@@ -156,6 +157,7 @@ When two package docs overlap, resolve in this order:
 | Which component owns this action? | `runtime-architecture.md` |
 | How does orchestration begin and schedule work? | `orchestration-execution-model.md` |
 | How are references and triggers resolved? | `dependency-resolution.md` |
+| What defines automation identity, triggers, bindings, and launch policy? | `contracts/automation-execution-contract.md` then `automation-bindings-contract.md` |
 | How are conflicting executions prevented? | `concurrency-control-model.md` |
 | What workflow definition contract must exist to launch execution? | `contracts/workflow-execution-contract.md` |
 | What makes a mission valid and where do mission linkage fields live? | `contracts/mission-object-contract.md` then `contracts/mission-workflow-binding-contract.md` |

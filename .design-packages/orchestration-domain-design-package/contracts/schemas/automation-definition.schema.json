@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/design-packages/orchestration/automation-definition.schema.json",
+  "title": "Automation Definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "automation_id",
+    "title",
+    "workflow_ref",
+    "owner",
+    "status"
+  ],
+  "properties": {
+    "automation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workflow_group",
+        "workflow_id"
+      ],
+      "properties": {
+        "workflow_group": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workflow_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "disabled",
+        "error"
+      ]
+    }
+  }
+}

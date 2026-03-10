@@ -37,6 +37,23 @@ bounded workflows should run without manual initiation.
 See `../contracts/automation-execution-contract.md` and
 `../contracts/cross-surface-reference-contract.md`.
 
+## Canonical Authority Model
+
+- discovery
+  - `manifest.yml`
+- routing and metadata
+  - `registry.yml`
+- definition
+  - `automation.yml`, `trigger.yml`, `bindings.yml`, `policy.yml`
+- mutable state
+  - `state/status.json`, `state/last-run.json`, `state/counters.json`
+- durable evidence
+  - linked `decision_id`, run records, and continuity evidence outside the
+    automation tree
+
+The definition layer must remain machine-readable. Markdown may orient
+operators, but it must not become the canonical launch contract.
+
 ## Example Use Cases
 
 1. A weekly automation that runs `audit-release-readiness-workflow` against a
@@ -93,6 +110,15 @@ automations/
         ├── last-run.json
         └── counters.json
 ```
+
+`automation.yml` owns automation identity and workflow target.
+
+`trigger.yml` owns schedule or event selection.
+
+`bindings.yml` owns workflow defaults and event input mapping.
+
+`policy.yml` owns overlap, idempotency, retry, and automation-local incident
+policy.
 
 ## Non-Goals
 

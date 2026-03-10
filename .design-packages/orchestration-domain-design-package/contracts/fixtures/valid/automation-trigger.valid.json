@@ -1,0 +1,9 @@
+{
+  "kind": "schedule",
+  "schedule": {
+    "cadence": "weekly:MO,WE,FR",
+    "at": "09:30",
+    "timezone": "America/Chicago",
+    "missed_run_policy": "next_window"
+  }
+}

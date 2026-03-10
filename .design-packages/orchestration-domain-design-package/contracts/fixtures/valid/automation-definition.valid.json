@@ -1,0 +1,10 @@
+{
+  "automation_id": "weekly-freshness-audit",
+  "title": "Weekly Freshness Audit",
+  "workflow_ref": {
+    "workflow_group": "audit",
+    "workflow_id": "audit-continuous-workflow"
+  },
+  "owner": "orchestration-owner",
+  "status": "active"
+}

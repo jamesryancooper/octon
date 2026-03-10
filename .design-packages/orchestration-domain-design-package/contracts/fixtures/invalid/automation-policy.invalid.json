@@ -1,0 +1,23 @@
+{
+  "max_concurrency": 2,
+  "concurrency_mode": "replace",
+  "idempotency_strategy": {
+    "kind": "event-dedupe",
+    "key_fields": [
+      "automation_id"
+    ]
+  },
+  "retry_policy": {
+    "max_attempts": 0,
+    "backoff": "quadratic",
+    "retryable_classes": [
+      "transient"
+    ]
+  },
+  "pause_on_error": "true",
+  "incident_policy": {
+    "open_incident_on": [
+      "unknown-threshold"
+    ]
+  }
+}

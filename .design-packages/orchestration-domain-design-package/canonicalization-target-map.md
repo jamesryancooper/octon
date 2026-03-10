@@ -107,6 +107,44 @@ following addenda:
   - validate `mission.yml`, registry projection drift, and archive-state
     semantics
 
+## Automation Promotion Targets
+
+If `automations` are promoted, the live Harmony surface should receive the
+following artifacts and constraints:
+
+- `runtime/automations/README.md`
+  - define authority order as `manifest.yml -> registry.yml -> automation.yml +
+    trigger.yml + bindings.yml + policy.yml -> state/`; keep README
+    explanatory only
+- `runtime/automations/manifest.yml`
+  - discovery identity, summary, and canonical path projection only
+- `runtime/automations/registry.yml`
+  - lightweight routing metadata, dependency projections, and state pointers;
+    do not make registry fields canonical for trigger or policy semantics
+- `runtime/automations/_scaffold/template/automation.yml`
+  - canonical automation identity, workflow target, owner, and lifecycle state
+- `runtime/automations/_scaffold/template/trigger.yml`
+  - canonical schedule/event selection contract
+- `runtime/automations/_scaffold/template/bindings.yml`
+  - canonical defaults and event-binding contract, including the empty-object
+    case
+- `runtime/automations/_scaffold/template/policy.yml`
+  - canonical concurrency, idempotency, retry, and incident-escalation policy
+- `runtime/automations/<automation-id>/`
+  - preserve the split definition layer rather than collapsing authority into
+    registry metadata or prose
+- `practices/automation-authoring-standards.md`
+  - require file-level schema-backed authority and forbid trigger selection in
+    bindings or policy
+- `practices/automation-operations.md`
+  - define pause/resume, replay, retry, and state/evidence operating guidance
+- `governance/automation-policy.md`
+  - define how automation launch authority composes with workflow governance,
+    approvals, incident thresholds, and objective scope
+- `runtime/automations/_ops/scripts/validate-automations.sh`
+  - validate `automation.yml`, `trigger.yml`, `bindings.yml`, and `policy.yml`
+    first, then drift-check registry and state projections
+
 ## Canonicalization Sequence
 
 1. Promote `runs`

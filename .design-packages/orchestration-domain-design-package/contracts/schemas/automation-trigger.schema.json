@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://harmony.local/design-packages/orchestration/automation-trigger.schema.json",
+  "title": "Automation Trigger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "kind"
+  ],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": [
+        "schedule",
+        "event"
+      ]
+    },
+    "schedule": {
+      "$ref": "#/$defs/scheduleTrigger"
+    },
+    "event": {
+      "$ref": "#/$defs/eventTrigger"
+    }
+  },
+  "$defs": {
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "scheduleTrigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cadence",
+        "at",
+        "timezone",
+        "missed_run_policy"
+      ],
+      "properties": {
+        "cadence": {
+          "type": "string",
+          "pattern": "^(hourly:(?:[1-9]|1[0-9]|2[0-4])|daily|weekly:(?:MO|TU|WE|TH|FR|SA|SU)(?:,(?:MO|TU|WE|TH|FR|SA|SU))*)$"
+        },
+        "at": {
+          "type": "string",
+          "pattern": "^(?:[01][0-9]|2[0-3]):[0-5][0-9]$"
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "missed_run_policy": {
+          "type": "string",
+          "enum": [
+            "skip",
+            "run_immediately",
+            "next_window"
+          ]
+        }
+      }
+    },
+    "eventTrigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "watcher_ids",
+        "event_types",
+        "match_mode"
+      ],
+      "properties": {
+        "watcher_ids": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "event_types": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "severity_at_or_above": {
+          "type": "string",
+          "enum": [
+            "info",
+            "warning",
+            "high",
+            "critical"
+          ]
+        },
+        "source_ref_globs": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "match_mode": {
+          "type": "string",
+          "enum": [
+            "all",
+            "any"
+          ]
+        },
+        "dedupe_window": {
+          "type": "string",
+          "pattern": "^P(T.*)?[0-9A-Z]+.*$"
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "schedule"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "schedule"
+        ],
+        "not": {
+          "required": [
+            "event"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "event"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "event"
+        ],
+        "not": {
+          "required": [
+            "schedule"
+          ]
+        }
+      }
+    }
+  ]
+}

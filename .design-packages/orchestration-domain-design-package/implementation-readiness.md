@@ -26,6 +26,9 @@ rollout remains a separate canonicalization step.
 - codified material decision evidence with canonical `decision_id` linkage
 - codified queue item and lease semantics
 - codified automation concurrency and idempotency behavior
+- hardened `automations` so the canonical definition layer is the authored
+  `automation.yml` + `trigger.yml` + `bindings.yml` + `policy.yml` artifact set
+  rather than a synthetic bundle alone
 - codified run-object authority plus projection/evidence separation between
   `runtime/runs/` and `continuity/runs/`
 - codified incident object lifecycle and closure rules, clarifying that runtime
@@ -61,7 +64,7 @@ rollout remains a separate canonicalization step.
 | `workflows` | implementation-ready | package-local domain, execution, lifecycle, governance, run-linkage rules, and a schema-backed `workflow.yml` definition contract |
 | `missions` | implementation-ready | package-local domain, execution, lifecycle, schema-backed `mission.yml` mission object, and mission/run linkage contracts |
 | `campaigns` | implementation-ready | package-local domain and lifecycle rules plus campaign contracts |
-| `automations` | implementation-ready | execution model, dependency resolution, failure model, and automation execution contract |
+| `automations` | implementation-ready | execution model, dependency resolution, failure model, automation execution contract, and schema-backed `automation.yml` / `trigger.yml` / `bindings.yml` / `policy.yml` authority artifacts |
 | `watchers` | implementation-ready | runtime architecture, dependency resolution, observability, watcher definition contract, and watcher event contract |
 | `queue` | implementation-ready | dependency resolution, runtime architecture, failure model, and queue item / lease contract |
 | `runs` | implementation-ready | runtime architecture, workflow execution, coordination lock, liveness, observability, and a run-linkage contract that keeps canonical per-run state separate from subordinate projections and continuity evidence |
@@ -75,7 +78,7 @@ rollout remains a separate canonicalization step.
 - `contracts/campaign-object-contract.md` — `package-normative`
 - `contracts/workflow-execution-contract.md` — `schema-backed` via `contracts/schemas/workflow-execution.schema.json`
 - `contracts/mission-object-contract.md` — `schema-backed` via `contracts/schemas/mission-object.schema.json`
-- `contracts/automation-execution-contract.md` — `schema-backed` via `contracts/schemas/automation-execution.schema.json`
+- `contracts/automation-execution-contract.md` — `schema-backed` via `contracts/schemas/automation-execution.schema.json` (aggregate proof over `automation.yml`, `trigger.yml`, `bindings.yml`, and `policy.yml`)
 - `contracts/coordination-lock-contract.md` — `schema-backed` via `contracts/schemas/coordination-lock.schema.json`
 - `contracts/watcher-definition-contract.md` — `package-normative`
 - `contracts/watcher-event-contract.md` — `schema-backed` via `contracts/schemas/watcher-event.schema.json`
@@ -191,6 +194,16 @@ This package aligns with Harmony's philosophy because it preserves:
       layers.
 - [ ] Queue ingress remains automation-only; missions are created only
       downstream when bounded follow-up work is needed.
+- [ ] Every automation contains valid `automation.yml`, `trigger.yml`,
+      `bindings.yml`, and `policy.yml` artifacts.
+- [ ] `automation.yml` remains the canonical source of automation identity,
+      workflow target, owner, and lifecycle control state.
+- [ ] `trigger.yml` remains the canonical source of schedule or event
+      selection; bindings and policy do not redefine it.
+- [ ] `policy.yml` remains the canonical source of concurrency, idempotency,
+      retry, and automation-local incident escalation rules.
+- [ ] Automation state projections and counters remain subordinate to the
+      canonical definition artifacts and linked decision/run evidence.
 - [ ] Every automation defines explicit concurrency, idempotency, and retry
       policy.
 - [ ] Every automation retry policy uses canonical failure classes and supported

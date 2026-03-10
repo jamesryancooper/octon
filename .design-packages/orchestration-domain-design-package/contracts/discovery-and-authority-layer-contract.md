@@ -154,6 +154,43 @@ Run-specific authority rules:
 
 ## Existing Surface Integration
 
+### `automations`
+
+The package-local automation integration contract is:
+
+- Tier 1: `manifest.yml`
+  - discovery identity, summary, and canonical path reference
+- Tier 2: `registry.yml`
+  - routing metadata, dependency projections, state pointers, and operator
+    summaries derived from the automation definition artifacts
+- Tier 3: `<automation-id>/automation.yml`
+  - authoritative machine-readable automation identity, workflow target, owner,
+    and lifecycle control state
+- Tier 3 subordinate required artifacts: `trigger.yml`, `bindings.yml`,
+  `policy.yml`
+  - authoritative machine-readable trigger selection, input binding/defaulting,
+    and admission policy
+- Tier 4: `state/status.json`, `state/last-run.json`, `state/counters.json`
+  - mutable automation-local operational projections
+- Tier 4 linked evidence outside the automation tree
+  - continuity decision evidence and run/evidence linkage
+
+Automation-specific authority rules:
+
+1. `automation.yml` is the single source of truth for `automation_id`,
+   `workflow_ref`, `owner`, and lifecycle control state.
+2. `trigger.yml` is the single source of truth for event/schedule selection and
+   dedupe-window configuration.
+3. `bindings.yml` is the single source of truth for workflow parameter defaults
+   and event input extraction; it must not encode trigger selection or retry
+   policy.
+4. `policy.yml` is the single source of truth for concurrency, idempotency,
+   retry, and automation-local incident policy.
+5. `registry.yml` may duplicate selected fields for discovery, but it must not
+   outrank the per-automation definition files.
+6. `state/*.json` files are projections only; they must not redefine workflow
+   target, trigger selection, or policy semantics.
+
 ### `workflows`
 
 The package-local workflow integration contract is:
@@ -222,14 +259,17 @@ Mission-specific authority rules:
 6. For `missions`, `mission.yml` is the canonical identity/lifecycle/linkage
    artifact; `mission.md` is subordinate narrative; `tasks.json`, `log.md`, and
    `context/` remain mutable mission-local state/evidence only.
-7. For `watchers`, emitted event lineage and mutable watcher state must remain
+7. For `automations`, `automation.yml`, `trigger.yml`, `bindings.yml`, and
+   `policy.yml` together form the canonical definition layer; registry and
+   state projections must remain subordinate to those artifacts.
+8. For `watchers`, emitted event lineage and mutable watcher state must remain
    distinct authority layers even when both are stored near the same runtime
    implementation.
-8. For `queue`, local `registry.yml` or `schema.yml` projections must not
+9. For `queue`, local `registry.yml` or `schema.yml` projections must not
    outrank the queue-item contract/schema or imply unsupported named-queue
    identity in v1.
-9. For `incidents`, `index.yml` and narrative evidence must remain subordinate
-   to the schema-backed `incident.yml` object/state record.
+10. For `incidents`, `index.yml` and narrative evidence must remain subordinate
+    to the schema-backed `incident.yml` object/state record.
 
 ## Schema Requirement
 

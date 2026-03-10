@@ -31,6 +31,9 @@ Define how the orchestration model will be validated before promotion into live
 - prohibited fields or states are rejected
 - package-normative and schema-backed contracts are explicitly marked in
   `implementation-readiness.md`
+- automation identity, trigger selection, bindings, and policy authority are
+  validated at `automation.yml`, `trigger.yml`, `bindings.yml`, and
+  `policy.yml`, not in registry projections or prose
 - workflow execution authority is validated at `workflow.yml`, not in README or
   registry prose
 - watcher authority is validated at `watcher.yml`, `sources.yml`, `rules.yml`,
@@ -50,6 +53,8 @@ Define how the orchestration model will be validated before promotion into live
 
 - runtime tree matches canonical shapes
 - required top-level discovery artifacts exist
+- every automation unit contains valid `automation.yml`, `trigger.yml`,
+  `bindings.yml`, and `policy.yml`
 - every workflow unit contains a valid `workflow.yml`
 - every mission unit contains a valid `mission.yml`
 - every stage asset referenced from `workflow.yml` resolves under `stages/`
@@ -75,6 +80,8 @@ Define how the orchestration model will be validated before promotion into live
 - event-trigger selection is deterministic under the declared match mode
 - `dedupe_window` suppression is deterministic
 - bindings are validated before admission
+- automation launch eligibility is derived from the split definition artifacts,
+  not inferred from registry fields or operator prose
 - schedule-window resolution is deterministic across timezone and DST handling
 - every material action attempt resolves to exactly one `decision_id`
 - unresolved references block
@@ -140,6 +147,9 @@ Define how the orchestration model will be validated before promotion into live
 - promoted collection surfaces have `manifest.yml` and `registry.yml`
 - infrastructure surfaces satisfy the discovery-and-authority contract
 - routing metadata stays lightweight and does not carry mutable state
+- promoted automation surfaces preserve `manifest.yml -> registry.yml ->
+  automation.yml + trigger.yml + bindings.yml + policy.yml -> state/`
+  authority order
 - existing workflow surfaces preserve `manifest.yml -> registry.yml ->
   workflow.yml` authority order and keep `README.md` non-authoritative
 - watcher surfaces preserve `manifest.yml -> registry.yml -> watcher definition
@@ -161,7 +171,7 @@ Define how the orchestration model will be validated before promotion into live
 | `workflows` | `workflow.yml` validates, stage references resolve, registry projections do not outrank the definition artifact, execution context can emit runs, and evidence linkage rules hold |
 | `missions` | `mission.yml` validates, registry projections do not outrank the mission object, workflow bindings and run linkage validate, and no recurrence leakage occurs |
 | `runs` | continuity evidence linkage validates; `decision_id` resolves; `index.yml` and `by-surface/` projections resolve back to canonical `<run-id>.yml`; projections do not outrank the canonical run record or continuity evidence |
-| `automations` | trigger selection deterministic; concurrency and idempotency rules enforced across `serialize`, `drop`, `parallel`, and `replace` |
+| `automations` | `automation.yml`, `trigger.yml`, `bindings.yml`, and `policy.yml` validate; trigger selection stays in `trigger.yml`; bindings/policy do not leak authority; concurrency and idempotency rules are enforced across `serialize`, `drop`, `parallel`, and `replace` |
 | `watchers` | watcher definition family validates; rule and emitted-event references resolve; event envelope valid; mutable state and evidence stay separate; no direct launch authority |
 | `queue` | automation-ingress only; event fan-out, claim token, lease, retry, and dead-letter semantics deterministic |
 | `incidents` | `incident.yml` validates; `actions.yml` validates when present; lifecycle and closure evidence rules hold; escalation is visible; prose evidence remains subordinate to machine state |

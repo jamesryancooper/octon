@@ -38,8 +38,8 @@ orchestration-domain specification defined by this package.
 - `campaign-object-contract.md`
   - Minimum campaign schema, lifecycle, and invariants
 - `automation-execution-contract.md`
-  - Trigger model, policy model, concurrency, idempotency, and run rules for
-    automations
+  - Split automation definition artifacts, trigger model, policy model,
+    concurrency, idempotency, and run rules for automations
 - `coordination-lock-contract.md`
   - Lock artifact schema, lease semantics, and compare-and-swap acquisition
     behavior
@@ -101,7 +101,7 @@ Validation is enforced by:
 | `workflow-execution-contract.md` | `schema-backed` | `contracts/schemas/workflow-execution.schema.json` validating `workflow.yml` |
 | `mission-object-contract.md` | `schema-backed` | `contracts/schemas/mission-object.schema.json` validating `mission.yml` |
 | `campaign-object-contract.md` | `package-normative` | `domain-model.md` and `orchestration-lifecycle.md` |
-| `automation-execution-contract.md` | `schema-backed` | `contracts/schemas/automation-execution.schema.json` |
+| `automation-execution-contract.md` | `schema-backed` | aggregate `contracts/schemas/automation-execution.schema.json` plus file-level schemas for `automation.yml`, `trigger.yml`, `bindings.yml`, and `policy.yml` |
 | `coordination-lock-contract.md` | `schema-backed` | `contracts/schemas/coordination-lock.schema.json` |
 | `watcher-definition-contract.md` | `package-normative` | `contracts/schemas/watcher-definition.schema.json`, `contracts/schemas/watcher-sources.schema.json`, `contracts/schemas/watcher-rules.schema.json`, and `contracts/schemas/watcher-emits.schema.json` |
 | `watcher-event-contract.md` | `schema-backed` | `contracts/schemas/watcher-event.schema.json` |
@@ -119,7 +119,10 @@ contract list:
 
 - `contracts/schemas/approval-and-override.schema.json`
 - `contracts/schemas/approver-authority-registry.schema.json`
+- `contracts/schemas/automation-definition.schema.json`
 - `contracts/schemas/automation-bindings.schema.json`
+- `contracts/schemas/automation-trigger.schema.json`
+- `contracts/schemas/automation-policy.schema.json`
 - `contracts/schemas/coordination-lock.schema.json`
 - `contracts/schemas/workflow-execution.schema.json`
 - `contracts/schemas/watcher-definition.schema.json`
