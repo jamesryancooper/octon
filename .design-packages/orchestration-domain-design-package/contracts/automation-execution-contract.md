@@ -118,7 +118,7 @@ Required for all automations.
 
 | Field | Required | Notes |
 |---|---|---|
-| `cadence` | yes | schedule cadence using the grammar in `../orchestration-execution-model.md` |
+| `cadence` | yes | schedule cadence using the grammar in `normative/execution/orchestration-execution-model.md` |
 | `at` | yes | local execution time in `HH:MM` 24-hour form |
 | `timezone` | yes | IANA timezone |
 | `missed_run_policy` | yes | `skip`, `run_immediately`, `next_window` |
@@ -129,17 +129,28 @@ Required for all automations.
 |---|---|---|
 | `watcher_ids` | yes | allowed source watchers |
 | `event_types` | yes | allowed event types |
-| `severity_at_or_above` | no | minimum event severity |
-| `source_ref_globs` | no | optional source filters |
+| `severity_at_or_above` | no | minimum event severity using the canonical order `info < warning < high < critical` |
+| `source_ref_globs` | no | optional full-string, case-sensitive Harmony path globs over normalized `source_ref` |
 | `match_mode` | yes | `all` requires every declared selector group to match; `any` requires at least one declared selector group to match |
 | `dedupe_window` | no | optional suppression window for semantically identical events after idempotency-key derivation |
+
+#### Event selector semantics
+
+- `severity_at_or_above` is evaluated with the one canonical severity order
+  `info < warning < high < critical`.
+- `source_ref_globs` match the full normalized `source_ref` string.
+- `source_ref_globs` are case-sensitive.
+- Supported glob operators are `*`, `**`, `?`, and bracket classes `[]`.
+- Brace expansion and extglob are not supported in v1.
+- `match_mode=all` requires every declared selector family to match.
+- `match_mode=any` requires at least one declared selector family to match.
 
 ### `bindings.yml`
 
 | Field | Required | Notes |
 |---|---|---|
 | `default_params` | no | workflow parameter defaults |
-| `event_to_param_map` | no | only for event-triggered automations; governed by `../automation-bindings-contract.md` |
+| `event_to_param_map` | no | only for event-triggered automations; governed by `normative/execution/automation-bindings-contract.md` |
 
 Rules:
 
@@ -156,7 +167,7 @@ Rules:
 | `concurrency_mode` | yes | `serialize`, `drop`, `replace`, `parallel` |
 | `idempotency_strategy.kind` | yes | `event-dedupe` or `schedule-window` |
 | `idempotency_strategy.key_fields` | yes | canonical fields used to derive the idempotency key |
-| `retry_policy` | yes | attempts, supported backoff mode (`fixed`, `linear`, `exponential`), and canonical retryable error classes from `../failure-model.md` |
+| `retry_policy` | yes | attempts, supported backoff mode (`fixed`, `linear`, `exponential`), and canonical retryable error classes from `normative/assurance/failure-model.md` |
 | `pause_on_error` | yes | boolean |
 | `incident_policy.open_incident_on[]` | no | automation-local incident escalation thresholds listed below |
 
@@ -241,9 +252,9 @@ Rules:
    record, even when no run is created.
 5. Event-triggered automations must select events only through `trigger.yml`.
 6. Event-triggered launches must validate bindings according to
-   `../automation-bindings-contract.md` before `allow` is possible.
+   `normative/execution/automation-bindings-contract.md` before `allow` is possible.
 7. Side-effectful launches must satisfy
-   `../concurrency-control-model.md` in addition to automation-local overlap
+   `normative/execution/concurrency-control-model.md` in addition to automation-local overlap
    policy.
 8. `max_concurrency`, `concurrency_mode`, and idempotency rules must be
    enforced before workflow launch.

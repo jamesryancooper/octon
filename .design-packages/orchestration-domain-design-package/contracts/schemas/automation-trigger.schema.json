@@ -81,6 +81,7 @@
         },
         "severity_at_or_above": {
           "type": "string",
+          "description": "Minimum event severity using the canonical order info < warning < high < critical.",
           "enum": [
             "info",
             "warning",
@@ -89,6 +90,7 @@
           ]
         },
         "source_ref_globs": {
+          "description": "Case-sensitive full-string Harmony path globs over normalized source_ref values. Supports *, **, ?, and bracket classes [].",
           "$ref": "#/$defs/stringArray"
         },
         "match_mode": {

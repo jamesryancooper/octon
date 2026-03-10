@@ -1,0 +1,28 @@
+{
+  "scenario_id": "routing-target-hint-miss",
+  "suite": "routing",
+  "description": "A target hint blocks queue creation when it does not intersect the candidate set.",
+  "event": {
+    "watcher_id": "governance-drift-watcher",
+    "event_type": "freshness-drift",
+    "severity": "warning",
+    "source_ref": ".harmony/orchestration/runtime/workflows",
+    "target_automation_id": "nonexistent-automation"
+  },
+  "automations": [
+    {
+      "automation_id": "weekly-freshness-audit",
+      "selector": {
+        "watcher_ids": ["governance-drift-watcher"],
+        "event_types": ["freshness-drift"],
+        "severity_at_or_above": "warning",
+        "match_mode": "all"
+      }
+    }
+  ],
+  "expected": {
+    "matched_automation_ids": [],
+    "suppressed_automation_ids": [],
+    "outcome": "blocked_target_hint"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "scenario_id": "routing-severity-threshold-match",
+  "suite": "routing",
+  "description": "A warning event matches an automation whose minimum threshold is warning.",
+  "event": {
+    "watcher_id": "governance-drift-watcher",
+    "event_type": "freshness-drift",
+    "severity": "warning",
+    "source_ref": ".harmony/orchestration/runtime/workflows"
+  },
+  "automations": [
+    {
+      "automation_id": "weekly-freshness-audit",
+      "selector": {
+        "watcher_ids": ["governance-drift-watcher"],
+        "event_types": ["freshness-drift"],
+        "severity_at_or_above": "warning",
+        "match_mode": "all"
+      }
+    }
+  ],
+  "expected": {
+    "matched_automation_ids": ["weekly-freshness-audit"],
+    "suppressed_automation_ids": [],
+    "outcome": "single_match"
+  }
+}

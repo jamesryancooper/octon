@@ -68,10 +68,10 @@ orchestration-domain specification defined by this package.
 `workflows` and `missions` remain existing Harmony runtime surfaces, but their
 orchestration-domain behavior in this package is governed first by:
 
-- `domain-model.md`
-- `orchestration-execution-model.md`
-- `orchestration-lifecycle.md`
-- `governance-and-policy.md`
+- `normative/architecture/domain-model.md`
+- `normative/execution/orchestration-execution-model.md`
+- `normative/execution/orchestration-lifecycle.md`
+- `normative/governance/governance-and-policy.md`
 - the cross-surface reference, run linkage, decision record, and mission
   object and mission binding contracts in this directory
 
@@ -90,13 +90,14 @@ Machine-readable proof artifacts for schema-backed object contracts live under:
 Validation is enforced by:
 
 - `/.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`
+- `conformance/validate_scenarios.py` for package semantic conformance
 
 ### Proof Coverage
 
 | Contract | Validation Mode | Proof Artifact |
 |---|---|---|
 | `versioning-and-compatibility-policy.md` | `package-normative` | package-local change-control rules plus validator coverage |
-| `cross-surface-reference-contract.md` | `package-normative` | `domain-model.md`, `dependency-resolution.md`, and schema-backed object contracts |
+| `cross-surface-reference-contract.md` | `package-normative` | `normative/architecture/domain-model.md`, `normative/execution/dependency-resolution.md`, and schema-backed object contracts |
 | `decision-record-contract.md` | `schema-backed` | `contracts/schemas/decision-record.schema.json` |
 | `workflow-execution-contract.md` | `schema-backed` | `contracts/schemas/workflow-execution.schema.json` validating `workflow.yml` |
 | `mission-object-contract.md` | `schema-backed` | `contracts/schemas/mission-object.schema.json` validating `mission.yml` |
@@ -108,9 +109,9 @@ Validation is enforced by:
 | `queue-item-and-lease-contract.md` | `schema-backed` | `contracts/schemas/queue-item-and-lease.schema.json` |
 | `run-linkage-contract.md` | `schema-backed` | `contracts/schemas/run-linkage.schema.json` |
 | `incident-object-contract.md` | `schema-backed` | `contracts/schemas/incident-object.schema.json` |
-| `discovery-and-authority-layer-contract.md` | `package-normative` | `runtime-architecture.md`, `orchestration-lifecycle.md`, and package-local authority rules |
-| `mission-workflow-binding-contract.md` | `package-normative` | `domain-model.md`, `orchestration-execution-model.md`, and `orchestration-lifecycle.md` |
-| `campaign-mission-coordination-contract.md` | `package-normative` | `domain-model.md` and `orchestration-lifecycle.md` |
+| `discovery-and-authority-layer-contract.md` | `package-normative` | `normative/architecture/runtime-architecture.md`, `normative/execution/orchestration-lifecycle.md`, and package-local authority rules |
+| `mission-workflow-binding-contract.md` | `package-normative` | `normative/architecture/domain-model.md`, `normative/execution/orchestration-execution-model.md`, and `normative/execution/orchestration-lifecycle.md` |
+| `campaign-mission-coordination-contract.md` | `package-normative` | `normative/architecture/domain-model.md` and `normative/execution/orchestration-lifecycle.md` |
 
 ### Supplementary Hardening Schemas
 

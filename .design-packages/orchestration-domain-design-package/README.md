@@ -11,7 +11,9 @@ Package-local normative documents define the target orchestration behavior,
 contracts, lifecycle rules, runtime architecture, and safety model. Repository
 governance, active objective/intent, and continuity ownership still remain
 higher-precedence authorities. Promotion into live `.harmony/` runtime surfaces
-is a separate canonicalization step defined in this package.
+is a separate canonicalization step defined in this package. This remediation is
+package-only: it hardens the package contract and proof surface, but it does not
+claim to reconcile live `.harmony/orchestration` authority.
 
 ## Core Conclusions
 
@@ -33,97 +35,129 @@ is a separate canonicalization step defined in this package.
 
 ## AI Discovery
 
-- `artifact-catalog.md`
+- `navigation/artifact-catalog.md`
   - exhaustive categorized inventory of every file in this package
-- current paths remain unchanged
-  - the catalog improves agent discovery without introducing relocation churn
+- package content is now organized by module
+  - navigation, normative, contracts, conformance, implementation, reference,
+    and history each have one clear job
 - if you need substance rather than inventory, follow the reading order below
 
-## Reading Order
+## Package Layout
 
-1. `domain-model.md`
-2. `runtime-architecture.md`
-3. `orchestration-execution-model.md`
-4. `dependency-resolution.md`
-5. `concurrency-control-model.md`
-6. `approval-and-override-contract.md`
-7. `automation-bindings-contract.md`
-8. `run-liveness-and-recovery-spec.md`
-9. `approver-authority-model.md`
-10. `surface-artifact-schemas.md`
-11. `orchestration-lifecycle.md`
-12. `governance-and-policy.md`
-13. `failure-model.md`
-14. `observability.md`
-15. `lifecycle-and-state-machine-spec.md`
-16. `routing-authority-and-execution-control.md`
-17. `evidence-observability-and-retention-spec.md`
-18. `assurance-and-acceptance-matrix.md`
-19. `implementation-readiness.md`
-20. `normative-dependencies-and-source-of-truth-map.md`
-21. `contracts/README.md`
-22. `reference-examples.md`
-23. `operator-and-authoring-runbook.md`
-24. `canonicalization-target-map.md`
-25. `surfaces/`
-26. Historical and supporting context:
-    - `profile-selection-and-compliance.md`
-    - `surface-shape-architectural-review.md`
-    - `mature-harmony-orchestration-model.md`
-    - `layered-model.md`
-    - `runtime-shape-and-directory-structure.md`
-    - `adoption-roadmap.md`
-    - `adr/README.md`
+```text
+.design-packages/orchestration-domain-design-package/
+├── README.md
+├── navigation/
+├── normative/
+├── contracts/
+├── conformance/
+├── implementation/
+├── reference/
+└── history/
+```
+
+### Module Roles
+
+- `navigation/`
+  - package entry maps, inventory, source-of-truth, and planning-only
+    canonicalization material
+- `normative/`
+  - active behavioral specification grouped into architecture, execution,
+    governance, and assurance
+- `contracts/`
+  - object, interface, linkage, and compatibility contracts plus schemas and
+    fixtures
+- `conformance/`
+  - machine-readable semantic scenarios and the scenario contract used to prove
+    routing, scheduling, and recovery behavior
+- `implementation/`
+  - implementer-facing build blueprint derived from the normative spec
+- `reference/`
+  - active non-authoritative examples, surface deep dives, and safety-analysis
+    support material
+- `history/`
+  - provenance-only material such as prior reviews, legacy framing, and ADRs
+
+## Reading Routes
+
+### Implementer
+
+1. `normative/architecture/domain-model.md`
+2. `normative/architecture/runtime-architecture.md`
+3. `normative/execution/orchestration-execution-model.md`
+4. `normative/execution/dependency-resolution.md`
+5. `normative/execution/run-liveness-and-recovery-spec.md`
+6. `contracts/README.md`
+7. `conformance/README.md`
+8. `normative/assurance/implementation-readiness.md`
+
+### Contract Author
+
+1. `navigation/source-of-truth-map.md`
+2. `contracts/README.md`
+3. `contracts/versioning-and-compatibility-policy.md`
+4. `normative/execution/dependency-resolution.md`
+5. `normative/governance/governance-and-policy.md`
+6. `conformance/README.md`
+
+### Auditor
+
+1. `navigation/artifact-catalog.md`
+2. `navigation/source-of-truth-map.md`
+3. `normative/assurance/assurance-and-acceptance-matrix.md`
+4. `normative/assurance/implementation-readiness.md`
+5. `conformance/README.md`
+6. `reference/reference-examples.md`
 
 ## Package Contents
 
 ### Core Normative Specification
 
-- `domain-model.md`
+- `normative/architecture/domain-model.md`
   - canonical vocabulary, ownership model, and surface relationships
-- `runtime-architecture.md`
+- `normative/architecture/runtime-architecture.md`
   - logical runtime components, write ownership, and reconciliation behavior
-- `orchestration-execution-model.md`
+- `normative/execution/orchestration-execution-model.md`
   - execution entry modes, schedule semantics, concurrency, and idempotency
-- `dependency-resolution.md`
+- `normative/execution/dependency-resolution.md`
   - deterministic reference resolution and trigger matching algorithms
-- `concurrency-control-model.md`
+- `normative/execution/concurrency-control-model.md`
   - target-global coordination, locking, and contention behavior
-- `approval-and-override-contract.md`
+- `normative/governance/approval-and-override-contract.md`
   - approval, waiver, and break-glass override artifact contract
-- `automation-bindings-contract.md`
+- `normative/execution/automation-bindings-contract.md`
   - normative semantics for `bindings.yml` and event parameter mapping
-- `run-liveness-and-recovery-spec.md`
+- `normative/execution/run-liveness-and-recovery-spec.md`
   - executor ownership, heartbeat, and deterministic recovery behavior
-- `approver-authority-model.md`
+- `normative/governance/approver-authority-model.md`
   - governance-owned approver registry and approval verification model
-- `surface-artifact-schemas.md`
+- `normative/assurance/surface-artifact-schemas.md`
   - schema coverage expectations for required surface-local artifacts
-- `orchestration-lifecycle.md`
+- `normative/execution/orchestration-lifecycle.md`
   - cross-surface lifecycle phase model
-- `governance-and-policy.md`
+- `normative/governance/governance-and-policy.md`
   - policy stack, enforcement points, and auditability rules
-- `failure-model.md`
+- `normative/assurance/failure-model.md`
   - canonical failure classes, retry semantics, compensation posture, and
     recovery rules
-- `observability.md`
+- `normative/assurance/observability.md`
   - correlation model, required health signals, and operator lookup guarantees
 
 ### Detailed Control Docs
 
-- `lifecycle-and-state-machine-spec.md`
+- `normative/execution/lifecycle-and-state-machine-spec.md`
   - exact state tables, transitions, and invariants for stateful surfaces
-- `routing-authority-and-execution-control.md`
+- `normative/governance/routing-authority-and-execution-control.md`
   - `allow` / `block` / `escalate` rules for material actions
-- `evidence-observability-and-retention-spec.md`
+- `normative/governance/evidence-observability-and-retention-spec.md`
   - evidence ownership, linkage, retention, and continuity split rules
-- `assurance-and-acceptance-matrix.md`
+- `normative/assurance/assurance-and-acceptance-matrix.md`
   - validation expectations and promotion gates
-- `implementation-readiness.md`
+- `normative/assurance/implementation-readiness.md`
   - build-readiness verdict, contract inventory, and implementation checklist
-- `normative-dependencies-and-source-of-truth-map.md`
+- `navigation/source-of-truth-map.md`
   - package-local source-of-truth map and conflict-resolution order
-- `operator-and-authoring-runbook.md`
+- `normative/assurance/operator-and-authoring-runbook.md`
   - safe authoring and operating guidance
 
 ### Contracts
@@ -135,23 +169,30 @@ is a separate canonicalization step defined in this package.
 - `contracts/fixtures/`
   - valid and invalid fixtures used by the design-package validator
 
+### Conformance
+
+- `conformance/README.md`
+  - semantic scenario contract and proof-layer navigation
+- `conformance/scenarios/`
+  - routing, scheduling, and recovery scenario packs consumed by the validator
+
 ### Reference And Historical Context
 
-- `implementation-blueprint/`
+- `implementation/`
   - implementer-oriented multi-page blueprint for the first production build
-- `reference-examples.md`
+- `reference/reference-examples.md`
   - end-to-end worked examples
-- `canonicalization-target-map.md`
+- `navigation/canonicalization-target-map.md`
   - live `.harmony` promotion targets and sequencing
-- `surfaces/`
+- `reference/surfaces/`
   - per-surface purpose, non-goals, and implementation summaries
-- `mature-harmony-orchestration-model.md`
+- `history/mature-harmony-orchestration-model.md`
   - legacy high-level framing retained as background context
-- `surface-shape-architectural-review.md`
+- `history/surface-shape-architectural-review.md`
   - historical review artifact retained for provenance
-- `profile-selection-and-compliance.md`
+- `history/profile-selection-and-compliance.md`
   - creation-time governance receipt retained for provenance
-- `adr/`
+- `history/adr/`
   - architectural decision records explaining material design choices
 
 ## Specification Scope
@@ -168,8 +209,16 @@ This package defines:
   required to make the package spec-closed for implementation
 - the evidence, observability, and governance rules required for trustworthy
   operation
+- the semantic conformance scenarios required to keep routing, scheduling, and
+  recovery claims honest
 - the promotion targets for landing this model in live `.harmony` authority
   surfaces
 
 This package does not itself implement the live runtime. It defines the build
 specification engineers should implement.
+
+## Explicit Non-Goals For This Remediation
+
+- live `.harmony/orchestration` authority reconciliation
+- canonicalization safety claims beyond package planning artifacts
+- storage-backend or transport selection

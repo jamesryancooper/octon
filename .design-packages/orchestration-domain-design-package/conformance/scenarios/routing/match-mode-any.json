@@ -1,0 +1,27 @@
+{
+  "scenario_id": "routing-match-mode-any",
+  "suite": "routing",
+  "description": "match_mode any admits the automation when one selector family matches.",
+  "event": {
+    "watcher_id": "governance-drift-watcher",
+    "event_type": "freshness-drift",
+    "severity": "info",
+    "source_ref": ".harmony/orchestration/runtime/workflows"
+  },
+  "automations": [
+    {
+      "automation_id": "freshness-audit-any",
+      "selector": {
+        "watcher_ids": ["governance-drift-watcher"],
+        "event_types": ["different-event"],
+        "source_ref_globs": [".harmony/orchestration/runtime/**"],
+        "match_mode": "any"
+      }
+    }
+  ],
+  "expected": {
+    "matched_automation_ids": ["freshness-audit-any"],
+    "suppressed_automation_ids": [],
+    "outcome": "single_match"
+  }
+}

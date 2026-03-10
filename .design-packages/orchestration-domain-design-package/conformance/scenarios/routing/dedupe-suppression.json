@@ -1,0 +1,28 @@
+{
+  "scenario_id": "routing-dedupe-suppression",
+  "suite": "routing",
+  "description": "An event-triggered automation with a dedupe window is suppressed when the dedupe key already exists.",
+  "event": {
+    "watcher_id": "governance-drift-watcher",
+    "event_type": "freshness-drift",
+    "severity": "warning",
+    "source_ref": ".harmony/orchestration/runtime/workflows"
+  },
+  "automations": [
+    {
+      "automation_id": "weekly-freshness-audit",
+      "selector": {
+        "watcher_ids": ["governance-drift-watcher"],
+        "event_types": ["freshness-drift"],
+        "match_mode": "all",
+        "dedupe_window": "PT15M"
+      }
+    }
+  ],
+  "dedupe_hits": ["weekly-freshness-audit"],
+  "expected": {
+    "matched_automation_ids": [],
+    "suppressed_automation_ids": ["weekly-freshness-audit"],
+    "outcome": "no_match_block"
+  }
+}

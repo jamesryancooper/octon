@@ -1,0 +1,21 @@
+{
+  "scenario_id": "scheduling-dst-fall-back",
+  "suite": "scheduling",
+  "description": "A repeated local time creates one schedule window and uses the first occurrence only.",
+  "schedule": {
+    "cadence": "daily",
+    "at": "01:30",
+    "timezone": "America/Chicago",
+    "missed_run_policy": "next_window"
+  },
+  "transition": {
+    "kind": "fall_back",
+    "local_date": "2026-11-01",
+    "repeated_time": "01:30"
+  },
+  "expected": {
+    "resolved_local_time": "01:30",
+    "window_count": 1,
+    "selected_occurrence": "first"
+  }
+}

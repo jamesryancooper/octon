@@ -55,7 +55,7 @@ operator-readable summaries.
 5. A decision record is the authoritative source for why a material action was
    allowed, blocked, or escalated.
 6. Privileged actions must reference approval or override artifacts that resolve
-   under `../approval-and-override-contract.md`.
+   under `normative/governance/approval-and-override-contract.md`.
 7. Side-effectful `allow` decisions must record coordination evidence.
 
 ## Invariants

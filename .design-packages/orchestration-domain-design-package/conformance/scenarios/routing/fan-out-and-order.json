@@ -1,0 +1,34 @@
+{
+  "scenario_id": "routing-fan-out-and-order",
+  "suite": "routing",
+  "description": "Two matching automations fan out in lexical automation_id order.",
+  "event": {
+    "watcher_id": "governance-drift-watcher",
+    "event_type": "freshness-drift",
+    "severity": "high",
+    "source_ref": ".harmony/orchestration/runtime/workflows"
+  },
+  "automations": [
+    {
+      "automation_id": "zeta-freshness-audit",
+      "selector": {
+        "watcher_ids": ["governance-drift-watcher"],
+        "event_types": ["freshness-drift"],
+        "match_mode": "all"
+      }
+    },
+    {
+      "automation_id": "alpha-freshness-audit",
+      "selector": {
+        "watcher_ids": ["governance-drift-watcher"],
+        "event_types": ["freshness-drift"],
+        "match_mode": "all"
+      }
+    }
+  ],
+  "expected": {
+    "matched_automation_ids": ["alpha-freshness-audit", "zeta-freshness-audit"],
+    "suppressed_automation_ids": [],
+    "outcome": "fan_out"
+  }
+}

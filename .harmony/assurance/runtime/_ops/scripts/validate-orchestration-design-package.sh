@@ -12,23 +12,35 @@ SCHEMAS_DIR="$CONTRACTS_DIR/schemas"
 VALID_FIXTURES_DIR="$CONTRACTS_DIR/fixtures/valid"
 INVALID_FIXTURES_DIR="$CONTRACTS_DIR/fixtures/invalid"
 CONTRACTS_README="$CONTRACTS_DIR/README.md"
-IMPLEMENTATION_READINESS="$PACKAGE_DIR/implementation-readiness.md"
+CONFORMANCE_DIR="$PACKAGE_DIR/conformance"
+CONFORMANCE_VALIDATOR="$CONFORMANCE_DIR/validate_scenarios.py"
+IMPLEMENTATION_READINESS="$PACKAGE_DIR/normative/assurance/implementation-readiness.md"
 
 REQUIRED_NORMATIVE_DOCS=(
-  "$PACKAGE_DIR/domain-model.md"
-  "$PACKAGE_DIR/runtime-architecture.md"
-  "$PACKAGE_DIR/orchestration-execution-model.md"
-  "$PACKAGE_DIR/dependency-resolution.md"
-  "$PACKAGE_DIR/concurrency-control-model.md"
-  "$PACKAGE_DIR/approval-and-override-contract.md"
-  "$PACKAGE_DIR/automation-bindings-contract.md"
-  "$PACKAGE_DIR/run-liveness-and-recovery-spec.md"
-  "$PACKAGE_DIR/approver-authority-model.md"
-  "$PACKAGE_DIR/surface-artifact-schemas.md"
-  "$PACKAGE_DIR/orchestration-lifecycle.md"
-  "$PACKAGE_DIR/governance-and-policy.md"
-  "$PACKAGE_DIR/failure-model.md"
-  "$PACKAGE_DIR/observability.md"
+  "$PACKAGE_DIR/normative/architecture/domain-model.md"
+  "$PACKAGE_DIR/normative/architecture/runtime-architecture.md"
+  "$PACKAGE_DIR/normative/execution/orchestration-execution-model.md"
+  "$PACKAGE_DIR/normative/execution/dependency-resolution.md"
+  "$PACKAGE_DIR/normative/execution/concurrency-control-model.md"
+  "$PACKAGE_DIR/normative/governance/approval-and-override-contract.md"
+  "$PACKAGE_DIR/normative/execution/automation-bindings-contract.md"
+  "$PACKAGE_DIR/normative/execution/run-liveness-and-recovery-spec.md"
+  "$PACKAGE_DIR/normative/governance/approver-authority-model.md"
+  "$PACKAGE_DIR/normative/assurance/surface-artifact-schemas.md"
+  "$PACKAGE_DIR/normative/execution/orchestration-lifecycle.md"
+  "$PACKAGE_DIR/normative/governance/governance-and-policy.md"
+  "$PACKAGE_DIR/normative/assurance/failure-model.md"
+  "$PACKAGE_DIR/normative/assurance/observability.md"
+)
+
+REQUIRED_MODULE_DIRS=(
+  "navigation"
+  "normative"
+  "contracts"
+  "conformance"
+  "implementation"
+  "reference"
+  "history"
 )
 
 SUPPLEMENTARY_SCHEMA_BASES=(
@@ -87,6 +99,14 @@ check_jq_available() {
     pass "jq is available"
   else
     fail "jq is required for orchestration design package validation"
+  fi
+}
+
+check_python_available() {
+  if command -v python3 >/dev/null 2>&1; then
+    pass "python3 is available"
+  else
+    fail "python3 is required for orchestration design package semantic conformance"
   fi
 }
 
@@ -990,6 +1010,29 @@ check_required_normative_docs() {
   done
 }
 
+check_module_layout() {
+  local module
+  for module in "${REQUIRED_MODULE_DIRS[@]}"; do
+    require_dir "$PACKAGE_DIR/$module"
+  done
+
+  local root_file
+  while IFS= read -r root_file; do
+    [[ -z "$root_file" ]] && continue
+    if [[ "$(basename "$root_file")" != "README.md" ]]; then
+      fail "unexpected root-level file in package: ${root_file#$ROOT_DIR/}"
+    fi
+  done < <(find "$PACKAGE_DIR" -maxdepth 1 -type f | sort)
+}
+
+check_conformance_module() {
+  require_file "$PACKAGE_DIR/conformance/README.md" || return
+  require_file "$CONFORMANCE_VALIDATOR" || return
+  require_dir "$PACKAGE_DIR/conformance/scenarios/routing" || return
+  require_dir "$PACKAGE_DIR/conformance/scenarios/scheduling" || return
+  require_dir "$PACKAGE_DIR/conformance/scenarios/recovery" || return
+}
+
 check_required_hardening_sections() {
   local spec
   local file
@@ -1003,14 +1046,14 @@ check_required_hardening_sections() {
       fail "missing hardening section '$pattern' in ${file#$ROOT_DIR/}"
     fi
   done <<EOF
-$PACKAGE_DIR/runtime-architecture.md|## Coordination Protocol
-$PACKAGE_DIR/orchestration-execution-model.md|## Execution Handshake
-$PACKAGE_DIR/dependency-resolution.md|## Binding Validation
-$PACKAGE_DIR/governance-and-policy.md|## Privileged Action Classes
-$PACKAGE_DIR/lifecycle-and-state-machine-spec.md|### Run Liveness Substate
+$PACKAGE_DIR/normative/architecture/runtime-architecture.md|## Coordination Protocol
+$PACKAGE_DIR/normative/execution/orchestration-execution-model.md|## Execution Handshake
+$PACKAGE_DIR/normative/execution/dependency-resolution.md|## Binding Validation
+$PACKAGE_DIR/normative/governance/governance-and-policy.md|## Privileged Action Classes
+$PACKAGE_DIR/normative/execution/lifecycle-and-state-machine-spec.md|### Run Liveness Substate
 $PACKAGE_DIR/contracts/workflow-execution-contract.md|## Workflow Execution Interface
 $PACKAGE_DIR/contracts/coordination-lock-contract.md|## Acquisition Algorithm
-$PACKAGE_DIR/approver-authority-model.md|## Approval Verification Algorithm
+$PACKAGE_DIR/normative/governance/approver-authority-model.md|## Approval Verification Algorithm
 EOF
 }
 
@@ -1103,17 +1146,30 @@ check_required_contract_coverage() {
   fi
 }
 
+run_conformance_scenarios() {
+  require_file "$CONFORMANCE_VALIDATOR" || return
+  if python3 "$CONFORMANCE_VALIDATOR" "$CONFORMANCE_DIR"; then
+    pass "semantic conformance scenarios passed"
+  else
+    fail "semantic conformance scenarios failed"
+  fi
+}
+
 main() {
   echo "== Validate Orchestration Design Package =="
 
   check_jq_available
+  check_python_available
   require_dir "$PACKAGE_DIR"
+  check_module_layout
   check_required_normative_docs
+  check_conformance_module
   check_required_hardening_sections
   check_contracts_readme
   check_schema_directory
   check_required_contract_coverage
   check_supplementary_schema_packs
+  run_conformance_scenarios
 
   echo
   echo "Orchestration design package validation summary: errors=$errors warnings=$warnings"

@@ -1,0 +1,21 @@
+{
+  "scenario_id": "recovery-missing-ack-abandon",
+  "suite": "recovery",
+  "description": "A run with a missing executor acknowledgement is abandoned when safe same-executor resume is unavailable.",
+  "run": {
+    "status": "running",
+    "executor_id": "executor-1",
+    "recovery_status": "healthy"
+  },
+  "signals": {
+    "ack_missing": true,
+    "heartbeat_expired": false,
+    "same_executor_reacknowledged": false,
+    "coordination_still_valid": false
+  },
+  "expected": {
+    "outcome": "abandon_and_escalate",
+    "recovery_status": "abandoned",
+    "allow_new_side_effects": false
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "scenario_id": "recovery-abandon-blocks-new-side-effects",
+  "suite": "recovery",
+  "description": "An abandoned run keeps the coordination key blocked from new side effects.",
+  "run": {
+    "status": "running",
+    "executor_id": "executor-1",
+    "recovery_status": "recovery_pending"
+  },
+  "signals": {
+    "ack_missing": false,
+    "heartbeat_expired": true,
+    "same_executor_reacknowledged": false,
+    "coordination_still_valid": false
+  },
+  "expected": {
+    "outcome": "abandon_and_escalate",
+    "recovery_status": "abandoned",
+    "allow_new_side_effects": false
+  }
+}

@@ -327,7 +327,7 @@ Mission-specific authority rules:
 ## Schema Requirement
 
 Artifacts named as required runtime surface files must be schema-backed when
-`surface-artifact-schemas.md` marks them as such.
+`normative/assurance/surface-artifact-schemas.md` marks them as such.
 
 ## Promotion Note
 
