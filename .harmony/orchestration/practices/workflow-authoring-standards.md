@@ -29,6 +29,9 @@ that authors or evaluates workflows.
 6. Keep temporary material non-canonical.
    - `/.design-packages/` may inform work, but must never be a live dependency
      of canonical workflows, generated READMEs, or validators.
+   - Exception: workflows whose explicit purpose is to scaffold, validate, or
+     harden design packages may target `/.design-packages/` directly, but that
+     allowance does not extend to unrelated runtime workflows.
 
 ## Checklist
 

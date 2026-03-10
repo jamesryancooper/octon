@@ -89,6 +89,17 @@ workflows:
       - "create a workflow"
       - "create a pipeline"
       - "scaffold workflow README"
+  - id: create-design-package
+    display_name: Create Design Package
+    group: meta
+    domain: scaffolding
+    path: meta/create-design-package/
+    summary: Scaffold a standard-governed design package, materialize its manifest, and validate the resulting package immediately.
+    status: active
+    triggers:
+      - "create a design package"
+      - "scaffold a design package"
+      - "create implementation blueprint package"
   - id: evaluate-workflow
     display_name: Evaluate Workflow
     group: meta

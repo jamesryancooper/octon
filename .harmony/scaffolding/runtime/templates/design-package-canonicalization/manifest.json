@@ -1,0 +1,12 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "design-package-canonicalization",
+  "description": "Optional canonicalization planning overlay for standard-governed design packages.",
+  "inherits": "design-package-core",
+  "additions": {
+    "files": [
+      "navigation/canonicalization-target-map.md"
+    ]
+  },
+  "usage": "/create-design-package"
+}

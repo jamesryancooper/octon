@@ -298,7 +298,11 @@ check_workflow_contract() {
   fi
 
   if matches_path_regex '\.design-packages/' "$workflow_dir"; then
-    fail "workflow '$id' depends on temporary .design-packages paths"
+    if [[ "$id" == "audit-design-package" || "$id" == "create-design-package" ]]; then
+      pass "workflow '$id' design-package references allowed by explicit exception"
+    else
+      fail "workflow '$id' depends on temporary .design-packages paths"
+    fi
   else
     pass "workflow '$id' avoids temporary .design-packages paths"
   fi
@@ -410,6 +414,9 @@ check_dependency_profiles_against_registry_io() {
   while IFS= read -r row; do
     [[ -z "$row" ]] && continue
     IFS='|' read -r id path <<< "$row"
+    if [[ -n "$FILTER_WORKFLOW_ID" && "$id" != "$FILTER_WORKFLOW_ID" ]]; then
+      continue
+    fi
     profile="${WORKFLOW_PROFILES[$id]:-core}"
 
     if [[ "$path" =~ ^(src/|tests/|Package\.swift$|Sources/|Tests/|AGENT\.md$|CLAUDE\.md$) ]]; then
@@ -491,6 +498,11 @@ check_runtime_pipeline_references_absent() {
 }
 
 check_workflow_system_audit_static() {
+  if [[ -n "$FILTER_WORKFLOW_ID" ]]; then
+    pass "workflow-system audit skipped for filtered validation"
+    return
+  fi
+
   if [[ ! -f "$WORKFLOW_SYSTEM_AUDIT" ]]; then
     warn "workflow-system audit engine missing: ${WORKFLOW_SYSTEM_AUDIT#$ROOT_DIR/}"
     return

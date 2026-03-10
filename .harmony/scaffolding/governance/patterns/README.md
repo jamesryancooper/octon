@@ -7,3 +7,4 @@ This directory contains reusable design and decision patterns.
 - `api-design-guidelines.md`
 - `domain-modeling.md`
 - `adr-policy.md`
+- `design-package-standard.md`

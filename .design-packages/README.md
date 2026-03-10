@@ -3,6 +3,11 @@
 `/.design-packages/` is a temporary workspace for implementation-oriented design
 material.
 
+Future packages that opt into the standard-governed design-package contract must
+include a root `design-package.yml`. Packages without that manifest remain
+legacy implementation material and are not validated against the standard by
+default.
+
 ## Non-Canonical Rule
 
 Design packages are implementation aids. They are not canonical runtime,
@@ -24,8 +29,12 @@ When creating or updating a design package:
 - describe the package as an aid, input, draft, or working design material
 - avoid phrases such as `canonical`, `authoritative architecture specification`,
   or `source of truth` when referring to the design package itself
+- package-local precedence maps are allowed only when they are explicitly framed
+  as temporary implementer guidance rather than enduring repository authority
 - if downstream artifacts need canonical authority, point them to the intended
   runtime or documentation surface that will survive package removal
+- for standard-governed packages, follow
+  `.harmony/scaffolding/governance/patterns/design-package-standard.md`
 
 ## Lifecycle Expectation
 

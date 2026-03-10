@@ -122,6 +122,14 @@ case_missing_change_manifest_rule_fails() {
   run_validator_in_fixture "$fixture_root"
 }
 
+case_missing_standard_validator_rule_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  perl -0pi -e 's/validate-design-package-standard\.sh[^\n]*//g' \
+    "$fixture_root/.harmony/orchestration/runtime/workflows/audit/audit-design-package/stages/09-verify.md"
+  run_validator_in_fixture "$fixture_root"
+}
+
 case_missing_capability_map_registration_fails() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
@@ -152,6 +160,11 @@ main() {
     "architecture validation workflow validator rejects remediation stages without change manifest guidance" \
     "remediation track requires change manifest" \
     case_missing_change_manifest_rule_fails
+
+  assert_failure_contains \
+    "architecture validation workflow validator rejects verify stages that omit the standard validator rule" \
+    "verify stage runs the standard validator for manifest-bearing packages" \
+    case_missing_standard_validator_rule_fails
 
   assert_failure_contains \
     "architecture validation workflow validator rejects missing workflow capability-map registration" \

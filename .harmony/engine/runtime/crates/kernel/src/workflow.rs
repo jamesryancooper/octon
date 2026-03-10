@@ -16,6 +16,63 @@ const WORKFLOW_ROOT_REL: &str =
     ".harmony/orchestration/runtime/workflows/audit/audit-design-package";
 const REPORTS_ROOT_REL: &str = ".harmony/output/reports";
 const AUDIT_BUNDLES_REL: &str = ".harmony/output/reports/audits";
+const WORKFLOW_REPORTS_ROOT_REL: &str = ".harmony/output/reports/workflows";
+const STANDARD_DESIGN_PACKAGE_VALIDATOR_REL: &str =
+    ".harmony/assurance/runtime/_ops/scripts/validate-design-package-standard.sh";
+const DESIGN_PACKAGE_TEMPLATE_ROOT_REL: &str = ".harmony/scaffolding/runtime/templates";
+const DESIGN_PACKAGES_ROOT_REL: &str = ".design-packages";
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum DesignPackageClass {
+    DomainRuntime,
+    ExperienceProduct,
+}
+
+impl DesignPackageClass {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::DomainRuntime => "domain-runtime",
+            Self::ExperienceProduct => "experience-product",
+        }
+    }
+
+    fn template_name(self) -> &'static str {
+        match self {
+            Self::DomainRuntime => "design-package-domain-runtime",
+            Self::ExperienceProduct => "design-package-experience-product",
+        }
+    }
+
+    fn default_include_contracts(self) -> bool {
+        matches!(self, Self::DomainRuntime)
+    }
+
+    fn default_include_conformance(self) -> bool {
+        matches!(self, Self::DomainRuntime)
+    }
+
+    fn default_include_canonicalization(self) -> bool {
+        matches!(self, Self::DomainRuntime)
+    }
+}
+
+#[derive(Clone, Debug)]
+pub struct RunCreateDesignPackageOptions {
+    pub package_id: String,
+    pub package_title: String,
+    pub package_class: DesignPackageClass,
+    pub implementation_targets: Vec<String>,
+    pub include_contracts: Option<bool>,
+    pub include_conformance: Option<bool>,
+    pub include_canonicalization: Option<bool>,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunCreateDesignPackageResult {
+    pub bundle_root: PathBuf,
+    pub summary_report: PathBuf,
+    pub final_verdict: String,
+}
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, ValueEnum)]
 pub enum PipelineMode {
@@ -257,6 +314,189 @@ pub fn run_design_package_from_harmony_dir(
     runner.run()
 }
 
+pub fn run_create_design_package_from_harmony_dir(
+    harmony_dir: &Path,
+    options: RunCreateDesignPackageOptions,
+) -> Result<RunCreateDesignPackageResult> {
+    let repo_root = harmony_dir
+        .parent()
+        .context("failed to resolve repository root from .harmony directory")?
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+
+    validate_design_package_id(&options.package_id)?;
+    if options.package_title.trim().is_empty() {
+        bail!("package_title must not be empty");
+    }
+    if options.implementation_targets.is_empty() {
+        bail!("implementation_targets must contain at least one target path");
+    }
+
+    let design_packages_root = repo_root.join(DESIGN_PACKAGES_ROOT_REL);
+    fs::create_dir_all(&design_packages_root)
+        .with_context(|| format!("create {}", design_packages_root.display()))?;
+
+    let package_root = design_packages_root.join(&options.package_id);
+    if package_root.exists() {
+        bail!(
+            "target design package already exists: {}",
+            package_root.display()
+        );
+    }
+
+    let include_contracts = options
+        .include_contracts
+        .unwrap_or(options.package_class.default_include_contracts());
+    let include_conformance = options
+        .include_conformance
+        .unwrap_or(options.package_class.default_include_conformance());
+    let include_canonicalization = options
+        .include_canonicalization
+        .unwrap_or(options.package_class.default_include_canonicalization());
+
+    let selected_modules = build_selected_modules(
+        include_contracts,
+        include_conformance,
+        include_canonicalization,
+    );
+
+    let package_rel = rel_path(&repo_root, &package_root);
+    let package_summary = format!(
+        "Temporary implementation-scoped design package for {}.",
+        options.package_title.trim()
+    );
+    let exit_expectation = format!(
+        "Promote durable outputs into {} and remove this package after implementation lands.",
+        options.implementation_targets.join(", ")
+    );
+    let conformance_validator_path = if include_conformance {
+        format!("{package_rel}/conformance/validate_scenarios.py")
+    } else {
+        "null".to_string()
+    };
+
+    let replacements = build_design_package_replacements(
+        &options,
+        &package_summary,
+        &exit_expectation,
+        &package_rel,
+        &selected_modules,
+        &conformance_validator_path,
+    );
+
+    fs::create_dir_all(&package_root)
+        .with_context(|| format!("create {}", package_root.display()))?;
+    let template_root = repo_root.join(DESIGN_PACKAGE_TEMPLATE_ROOT_REL);
+    apply_template_bundle(
+        &template_root.join("design-package-core"),
+        &package_root,
+        &replacements,
+    )?;
+    apply_template_bundle(
+        &template_root.join(options.package_class.template_name()),
+        &package_root,
+        &replacements,
+    )?;
+    if include_contracts {
+        apply_template_bundle(
+            &template_root.join("design-package-contracts"),
+            &package_root,
+            &replacements,
+        )?;
+    }
+    if include_conformance {
+        apply_template_bundle(
+            &template_root.join("design-package-conformance"),
+            &package_root,
+            &replacements,
+        )?;
+    }
+    if include_canonicalization {
+        apply_template_bundle(
+            &template_root.join("design-package-canonicalization"),
+            &package_root,
+            &replacements,
+        )?;
+    }
+
+    fs::write(
+        package_root.join("design-package.yml"),
+        build_design_package_manifest(
+            &options,
+            &package_summary,
+            &exit_expectation,
+            &selected_modules,
+            if include_conformance {
+                Some(conformance_validator_path.as_str())
+            } else {
+                None
+            },
+        ),
+    )
+    .with_context(|| {
+        format!(
+            "write {}",
+            package_root.join("design-package.yml").display()
+        )
+    })?;
+    fs::write(
+        package_root.join("navigation/source-of-truth-map.md"),
+        build_source_of_truth_map(&options, &selected_modules),
+    )
+    .with_context(|| {
+        format!(
+            "write {}",
+            package_root
+                .join("navigation/source-of-truth-map.md")
+                .display()
+        )
+    })?;
+    fs::write(
+        package_root.join("navigation/artifact-catalog.md"),
+        build_artifact_catalog(&package_root, &options.package_id, &package_rel)?,
+    )
+    .with_context(|| {
+        format!(
+            "write {}",
+            package_root
+                .join("navigation/artifact-catalog.md")
+                .display()
+        )
+    })?;
+
+    let reports_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    fs::create_dir_all(&reports_root)
+        .with_context(|| format!("create {}", reports_root.display()))?;
+    let date = today_string()?;
+    let bundle_root = unique_directory(
+        &reports_root,
+        &format!(
+            "{date}-{}",
+            slugify(&format!("create-{}", options.package_id))
+        ),
+    )?;
+    let summary_report = bundle_root.join("summary.md");
+
+    let validator_log =
+        run_standard_design_package_validator(&repo_root, &package_root, &bundle_root)?;
+    let summary = build_create_design_package_summary(
+        &repo_root,
+        &package_root,
+        &summary_report,
+        &options,
+        &selected_modules,
+        &validator_log,
+    );
+    fs::write(&summary_report, summary)
+        .with_context(|| format!("write {}", summary_report.display()))?;
+
+    Ok(RunCreateDesignPackageResult {
+        bundle_root,
+        summary_report,
+        final_verdict: "scaffolded".to_string(),
+    })
+}
+
 impl Runner {
     fn new(harmony_dir: &Path, options: RunDesignPackageOptions) -> Result<Self> {
         let repo_root = harmony_dir
@@ -303,11 +543,8 @@ impl Runner {
         fs::create_dir_all(&stage_inputs_dir)?;
         fs::create_dir_all(&stage_logs_dir)?;
 
-        let summary_report = unique_file(
-            &reports_root,
-            &format!("{date}-audit-design-package"),
-            "md",
-        )?;
+        let summary_report =
+            unique_file(&reports_root, &format!("{date}-audit-design-package"), "md")?;
 
         let stages = match options.mode {
             PipelineMode::Rigorous => RIGOROUS_STAGES,
@@ -381,6 +618,32 @@ impl Runner {
             }
         };
 
+        match self.validate_standard_governed_target() {
+            Ok(Some(log_path)) => validation_notes.push(format!(
+                "standard validator passed for manifest-bearing package (`{}`)",
+                rel_path(&self.repo_root, &log_path)
+            )),
+            Ok(None) => {
+                if self.options.prepare_only {
+                    validation_notes
+                        .push("prepare-only mode skipped the standard validator".to_string());
+                } else {
+                    validation_notes.push(
+                        "target package has no design-package.yml; standard validator skipped"
+                            .to_string(),
+                    );
+                }
+            }
+            Err(error) => {
+                validation_notes.push(format!("standard validator failed: {error}"));
+                self.write_package_delta(&stage_outcomes)?;
+                self.write_commands_log(&command_log)?;
+                self.write_validation("failed", &report_paths, &stage_outcomes, &validation_notes)?;
+                self.write_summary("failed", &report_paths, &stage_outcomes, &validation_notes)?;
+                return Err(error);
+            }
+        }
+
         self.write_package_delta(&stage_outcomes)?;
         self.write_commands_log(&command_log)?;
         self.write_validation(
@@ -402,6 +665,19 @@ impl Runner {
             summary_report: self.summary_report,
             final_verdict,
         })
+    }
+
+    fn validate_standard_governed_target(&self) -> Result<Option<PathBuf>> {
+        if self.options.prepare_only || !self.target_package.join("design-package.yml").is_file() {
+            return Ok(None);
+        }
+
+        let log_path = run_standard_design_package_validator(
+            &self.repo_root,
+            &self.target_package,
+            &self.bundle_root,
+        )?;
+        Ok(Some(log_path))
     }
 
     fn ensure_workflow_files(&self) -> Result<()> {
@@ -922,6 +1198,18 @@ impl Runner {
                 ));
             }
         }
+        if self.target_package.join("design-package.yml").is_file() {
+            body.push_str(&format!(
+                "- [{}] standard design-package validator passed\n",
+                if self.options.prepare_only
+                    || self.bundle_root.join("standard-validator.log").is_file()
+                {
+                    "x"
+                } else {
+                    " "
+                }
+            ));
+        }
         body.push_str("\n## Notes\n\n");
         for note in notes {
             body.push_str(&format!("- {note}\n"));
@@ -1233,6 +1521,338 @@ fn build_mock_stage_artifacts(
     Ok((mutations, report_body))
 }
 
+fn validate_design_package_id(package_id: &str) -> Result<()> {
+    let bytes = package_id.as_bytes();
+    if bytes.is_empty() {
+        bail!("package_id must not be empty");
+    }
+    if !bytes[0].is_ascii_lowercase() {
+        bail!("package_id must start with a lowercase ASCII letter");
+    }
+    if !bytes
+        .iter()
+        .all(|byte| byte.is_ascii_lowercase() || byte.is_ascii_digit() || *byte == b'-')
+    {
+        bail!("package_id may contain only lowercase ASCII letters, digits, and hyphens");
+    }
+    Ok(())
+}
+
+fn build_selected_modules(
+    include_contracts: bool,
+    include_conformance: bool,
+    include_canonicalization: bool,
+) -> Vec<&'static str> {
+    let mut modules = vec!["reference", "history"];
+    if include_contracts {
+        modules.push("contracts");
+    }
+    if include_conformance {
+        modules.push("conformance");
+    }
+    if include_canonicalization {
+        modules.push("canonicalization");
+    }
+    modules
+}
+
+fn build_design_package_replacements(
+    options: &RunCreateDesignPackageOptions,
+    package_summary: &str,
+    exit_expectation: &str,
+    package_rel: &str,
+    selected_modules: &[&str],
+    conformance_validator_path: &str,
+) -> BTreeMap<String, String> {
+    let mut replacements = BTreeMap::new();
+    replacements.insert("PACKAGE_ID".to_string(), options.package_id.clone());
+    replacements.insert(
+        "PACKAGE_TITLE".to_string(),
+        options.package_title.trim().to_string(),
+    );
+    replacements.insert("PACKAGE_SUMMARY".to_string(), package_summary.to_string());
+    replacements.insert(
+        "PACKAGE_CLASS".to_string(),
+        options.package_class.as_str().to_string(),
+    );
+    replacements.insert("PACKAGE_PATH".to_string(), package_rel.to_string());
+    replacements.insert(
+        "SELECTED_MODULES_YAML".to_string(),
+        format_yaml_list(selected_modules.iter().copied()),
+    );
+    replacements.insert(
+        "IMPLEMENTATION_TARGETS_YAML".to_string(),
+        format_yaml_list(options.implementation_targets.iter().map(String::as_str)),
+    );
+    replacements.insert(
+        "IMPLEMENTATION_TARGETS_BULLETS".to_string(),
+        format_markdown_bullets(options.implementation_targets.iter().map(String::as_str)),
+    );
+    replacements.insert(
+        "SELECTED_MODULES_BULLETS".to_string(),
+        format_markdown_bullets(selected_modules.iter().copied()),
+    );
+    replacements.insert("EXIT_EXPECTATION".to_string(), exit_expectation.to_string());
+    replacements.insert("DEFAULT_AUDIT_MODE".to_string(), "rigorous".to_string());
+    replacements.insert("PACKAGE_VALIDATOR_PATH".to_string(), "null".to_string());
+    replacements.insert(
+        "CONFORMANCE_VALIDATOR_PATH".to_string(),
+        if conformance_validator_path == "null" {
+            "null".to_string()
+        } else {
+            format!("\"{conformance_validator_path}\"")
+        },
+    );
+    replacements.insert(
+        "CLASS_PRIMARY_DOCS".to_string(),
+        match options.package_class {
+            DesignPackageClass::DomainRuntime => format_markdown_bullets([
+                "`normative/architecture/domain-model.md`",
+                "`normative/architecture/runtime-architecture.md`",
+                "`normative/execution/behavior-model.md`",
+                "`normative/assurance/implementation-readiness.md`",
+            ]),
+            DesignPackageClass::ExperienceProduct => format_markdown_bullets([
+                "`normative/experience/user-journeys.md`",
+                "`normative/experience/information-architecture.md`",
+                "`normative/experience/screen-states-and-flows.md`",
+                "`normative/assurance/implementation-readiness.md`",
+            ]),
+        },
+    );
+    replacements.insert(
+        "OPTIONAL_MODULE_DOCS".to_string(),
+        build_optional_module_docs(selected_modules),
+    );
+    replacements.insert(
+        "ARTIFACT_CATALOG_ENTRIES".to_string(),
+        "- generated after scaffold completion".to_string(),
+    );
+    replacements
+}
+
+fn build_optional_module_docs(selected_modules: &[&str]) -> String {
+    let mut docs = vec![
+        "`reference/README.md`".to_string(),
+        "`history/README.md`".to_string(),
+    ];
+    if selected_modules.contains(&"contracts") {
+        docs.push("`contracts/README.md`".to_string());
+    }
+    if selected_modules.contains(&"conformance") {
+        docs.push("`conformance/README.md`".to_string());
+    }
+    if selected_modules.contains(&"canonicalization") {
+        docs.push("`navigation/canonicalization-target-map.md`".to_string());
+    }
+    format_markdown_bullets(docs.iter().map(String::as_str))
+}
+
+fn build_design_package_manifest(
+    options: &RunCreateDesignPackageOptions,
+    package_summary: &str,
+    exit_expectation: &str,
+    selected_modules: &[&str],
+    conformance_validator_path: Option<&str>,
+) -> String {
+    format!(
+        "schema_version: \"design-package-v1\"\npackage_id: \"{}\"\ntitle: \"{}\"\nsummary: \"{}\"\npackage_class: \"{}\"\nselected_modules:\n{}implementation_targets:\n{}status: \"draft\"\nlifecycle:\n  temporary: true\n  exit_expectation: \"{}\"\nvalidation:\n  default_audit_mode: \"rigorous\"\n  package_validator_path: null\n  conformance_validator_path: {}\n",
+        options.package_id,
+        options.package_title.trim().replace('"', "\\\""),
+        package_summary.replace('"', "\\\""),
+        options.package_class.as_str(),
+        format_yaml_list(selected_modules.iter().copied()),
+        format_yaml_list(options.implementation_targets.iter().map(String::as_str)),
+        exit_expectation.replace('"', "\\\""),
+        conformance_validator_path
+            .map(|path| format!("\"{}\"", path.replace('"', "\\\"")))
+            .unwrap_or_else(|| "null".to_string())
+    )
+}
+
+fn build_source_of_truth_map(
+    options: &RunCreateDesignPackageOptions,
+    selected_modules: &[&str],
+) -> String {
+    let primary_docs = match options.package_class {
+        DesignPackageClass::DomainRuntime => format_markdown_bullets([
+            "`normative/architecture/domain-model.md`",
+            "`normative/architecture/runtime-architecture.md`",
+            "`normative/execution/behavior-model.md`",
+            "`normative/assurance/implementation-readiness.md`",
+        ]),
+        DesignPackageClass::ExperienceProduct => format_markdown_bullets([
+            "`normative/experience/user-journeys.md`",
+            "`normative/experience/information-architecture.md`",
+            "`normative/experience/screen-states-and-flows.md`",
+            "`normative/assurance/implementation-readiness.md`",
+        ]),
+    };
+    let optional_docs = build_optional_module_docs(selected_modules);
+    format!(
+        "# Package Reading And Precedence Map\n\n## Purpose\n\nThis file defines the package-local reading order and document precedence for implementers using this temporary design package. It does not make the package a canonical repository authority.\n\n## External Authorities\n\nRepository-wide governance and durable runtime/documentation surfaces remain higher-precedence than this temporary package.\n\n## Primary Package Inputs\n\n### Core\n\n- `design-package.yml`\n- `implementation/README.md`\n- `implementation/minimal-implementation-blueprint.md`\n- `implementation/first-implementation-plan.md`\n\n### Class-Specific Normative Docs\n\n{}\n\n### Optional Modules\n\n{}\n\n## Conflict Resolution\n\n1. repository-wide governance and durable authorities\n2. `design-package.yml`\n3. class-specific normative docs\n4. optional module docs\n5. reference and history material\n",
+        primary_docs, optional_docs
+    )
+}
+
+fn build_artifact_catalog(
+    package_root: &Path,
+    package_id: &str,
+    package_rel: &str,
+) -> Result<String> {
+    let inventory = snapshot_package(package_root)?;
+    let entries = if inventory.is_empty() {
+        "- no files recorded".to_string()
+    } else {
+        format_markdown_bullets(inventory.keys().map(String::as_str))
+    };
+    Ok(format!(
+        "# Artifact Catalog\n\nThis catalog lists the files currently present in the package. Regenerate it whenever files are added, removed, or reorganized.\n\n## Package\n\n- `package_id`: `{}`\n- `package_path`: `{}`\n\n## Files\n\n{}\n",
+        package_id, package_rel, entries
+    ))
+}
+
+fn apply_template_bundle(
+    template_root: &Path,
+    package_root: &Path,
+    replacements: &BTreeMap<String, String>,
+) -> Result<()> {
+    let manifest = template_root.join("manifest.json");
+    if !manifest.is_file() {
+        bail!(
+            "template bundle missing manifest.json: {}",
+            template_root.display()
+        );
+    }
+
+    for entry in WalkDir::new(template_root)
+        .follow_links(false)
+        .into_iter()
+        .filter_map(|entry| entry.ok())
+    {
+        if !entry.file_type().is_file() {
+            continue;
+        }
+        let source = entry.path();
+        let rel = source
+            .strip_prefix(template_root)
+            .with_context(|| format!("strip template prefix from {}", source.display()))?;
+        if rel == Path::new("manifest.json") {
+            continue;
+        }
+
+        let rendered = render_template_text(
+            &fs::read_to_string(source)
+                .with_context(|| format!("read template file {}", source.display()))?,
+            replacements,
+        );
+        let destination = package_root.join(rel);
+        if let Some(parent) = destination.parent() {
+            fs::create_dir_all(parent).with_context(|| format!("create {}", parent.display()))?;
+        }
+        fs::write(&destination, rendered)
+            .with_context(|| format!("write scaffolded file {}", destination.display()))?;
+    }
+
+    Ok(())
+}
+
+fn render_template_text(template: &str, replacements: &BTreeMap<String, String>) -> String {
+    let mut rendered = template.to_string();
+    for (key, value) in replacements {
+        rendered = rendered.replace(&format!("{{{{{key}}}}}"), value);
+    }
+    rendered
+}
+
+fn format_yaml_list<'a>(items: impl IntoIterator<Item = &'a str>) -> String {
+    let collected = items
+        .into_iter()
+        .map(|item| format!("  - \"{}\"\n", item.replace('"', "\\\"")))
+        .collect::<String>();
+    if collected.is_empty() {
+        "  []\n".to_string()
+    } else {
+        collected
+    }
+}
+
+fn format_markdown_bullets<'a>(items: impl IntoIterator<Item = &'a str>) -> String {
+    let collected = items
+        .into_iter()
+        .map(|item| format!("- {item}\n"))
+        .collect::<String>();
+    if collected.is_empty() {
+        "- none\n".to_string()
+    } else {
+        collected.trim_end().to_string()
+    }
+}
+
+fn run_standard_design_package_validator(
+    repo_root: &Path,
+    package_root: &Path,
+    bundle_root: &Path,
+) -> Result<PathBuf> {
+    let script = repo_root.join(STANDARD_DESIGN_PACKAGE_VALIDATOR_REL);
+    if !script.is_file() {
+        bail!(
+            "missing standard design-package validator: {}",
+            script.display()
+        );
+    }
+
+    let package_rel = rel_path(repo_root, package_root);
+    let output = Command::new("bash")
+        .arg(&script)
+        .arg("--package")
+        .arg(&package_rel)
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| format!("run standard validator for {}", package_root.display()))?;
+
+    let log_path = bundle_root.join("standard-validator.log");
+    let mut log = String::new();
+    log.push_str(&format!(
+        "# Standard Design Package Validator\n\n- package: `{}`\n- status: `{}`\n\n## stdout\n\n```\n{}\n```\n\n## stderr\n\n```\n{}\n```\n",
+        package_rel,
+        output.status,
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    ));
+    fs::write(&log_path, log).with_context(|| format!("write {}", log_path.display()))?;
+
+    if !output.status.success() {
+        bail!(
+            "standard design-package validator failed for {} (see {})",
+            package_rel,
+            log_path.display()
+        );
+    }
+
+    Ok(log_path)
+}
+
+fn build_create_design_package_summary(
+    repo_root: &Path,
+    package_root: &Path,
+    summary_report: &Path,
+    options: &RunCreateDesignPackageOptions,
+    selected_modules: &[&str],
+    validator_log: &Path,
+) -> String {
+    format!(
+        "# Create Design Package Summary\n\n- workflow_id: `create-design-package`\n- package_path: `{}`\n- package_class: `{}`\n- final_verdict: `scaffolded`\n- summary_report: `{}`\n- validator_log: `{}`\n\n## Selected Modules\n\n{}\n\n## Implementation Targets\n\n{}\n\n## Next Steps\n\n1. Fill in the package-specific normative and implementation details.\n2. Run `/audit-design-package package_path=\"{}\"` to mature the package.\n3. Promote durable outputs into the listed implementation targets before archiving the package.\n",
+        rel_path(repo_root, package_root),
+        options.package_class.as_str(),
+        rel_path(repo_root, summary_report),
+        rel_path(repo_root, validator_log),
+        format_markdown_bullets(selected_modules.iter().copied()),
+        format_markdown_bullets(options.implementation_targets.iter().map(String::as_str)),
+        rel_path(repo_root, package_root),
+    )
+}
+
 fn today_string() -> Result<String> {
     let format = format_description::parse("[year]-[month]-[day]")?;
     Ok(time::OffsetDateTime::now_utc().format(&format)?)
@@ -1401,9 +2021,11 @@ mod tests {
         write_file(&target_package.join("README.md"), "# Target Package\n");
 
         let workflow_root = root.join(WORKFLOW_ROOT_REL);
-        fs::create_dir_all(workflow_root.join("stages"))
-            .expect("workflow stages dir should exist");
-        write_file(&workflow_root.join("workflow.yml"), "name: audit-design-package\n");
+        fs::create_dir_all(workflow_root.join("stages")).expect("workflow stages dir should exist");
+        write_file(
+            &workflow_root.join("workflow.yml"),
+            "name: audit-design-package\n",
+        );
 
         for name in [
             "02-design-audit.md",
@@ -1430,6 +2052,52 @@ mod tests {
         }
 
         (harmony_dir, target_package)
+    }
+
+    fn source_repo_root() -> PathBuf {
+        PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../../../..")
+            .canonicalize()
+            .expect("source repo root should resolve")
+    }
+
+    fn copy_tree(from: &Path, to: &Path) {
+        for entry in WalkDir::new(from)
+            .follow_links(false)
+            .into_iter()
+            .filter_map(|entry| entry.ok())
+        {
+            let path = entry.path();
+            let rel = path
+                .strip_prefix(from)
+                .expect("relative path should resolve");
+            let dest = to.join(rel);
+            if entry.file_type().is_dir() {
+                fs::create_dir_all(&dest).expect("target directory should exist");
+            } else if entry.file_type().is_file() {
+                if let Some(parent) = dest.parent() {
+                    fs::create_dir_all(parent).expect("parent directory should exist");
+                }
+                fs::copy(path, &dest).expect("file should copy");
+            }
+        }
+    }
+
+    fn seed_create_design_package_fixture(root: &Path) -> PathBuf {
+        let harmony_dir = root.join(".harmony");
+        fs::create_dir_all(&harmony_dir).expect(".harmony dir should exist");
+
+        let source_root = source_repo_root();
+        copy_tree(
+            &source_root.join(".harmony/scaffolding/runtime/templates"),
+            &root.join(".harmony/scaffolding/runtime/templates"),
+        );
+        copy_tree(
+            &source_root.join(".harmony/assurance/runtime/_ops/scripts"),
+            &root.join(".harmony/assurance/runtime/_ops/scripts"),
+        );
+
+        harmony_dir
     }
 
     #[test]
@@ -1598,5 +2266,81 @@ mod tests {
                 .contains("unable to infer executor kind from override path"),
             "unexpected error: {error}"
         );
+    }
+
+    #[test]
+    fn create_design_package_scaffolds_domain_runtime_defaults() {
+        let root = make_temp_root("create-runtime");
+        let harmony_dir = seed_create_design_package_fixture(&root);
+
+        let result = run_create_design_package_from_harmony_dir(
+            &harmony_dir,
+            RunCreateDesignPackageOptions {
+                package_id: "runtime-package".to_string(),
+                package_title: "Runtime Package".to_string(),
+                package_class: DesignPackageClass::DomainRuntime,
+                implementation_targets: vec![
+                    ".harmony/orchestration/runtime/example.md".to_string()
+                ],
+                include_contracts: None,
+                include_conformance: None,
+                include_canonicalization: None,
+            },
+        )
+        .expect("create-design-package should succeed");
+
+        let package_root = root.join(".design-packages/runtime-package");
+        let manifest =
+            fs::read_to_string(package_root.join("design-package.yml")).expect("manifest exists");
+        let summary = fs::read_to_string(&result.summary_report).expect("summary should exist");
+
+        assert!(package_root.join("contracts/README.md").is_file());
+        assert!(package_root.join("conformance/README.md").is_file());
+        assert!(package_root
+            .join("navigation/canonicalization-target-map.md")
+            .is_file());
+        assert!(manifest.contains("package_class: \"domain-runtime\""));
+        assert!(manifest.contains("- \"contracts\""));
+        assert!(manifest.contains("- \"conformance\""));
+        assert!(manifest.contains("- \"canonicalization\""));
+        assert!(summary.contains("final_verdict: `scaffolded`"));
+        assert!(result.bundle_root.join("standard-validator.log").is_file());
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn create_design_package_scaffolds_experience_product_defaults() {
+        let root = make_temp_root("create-experience");
+        let harmony_dir = seed_create_design_package_fixture(&root);
+
+        run_create_design_package_from_harmony_dir(
+            &harmony_dir,
+            RunCreateDesignPackageOptions {
+                package_id: "experience-package".to_string(),
+                package_title: "Experience Package".to_string(),
+                package_class: DesignPackageClass::ExperienceProduct,
+                implementation_targets: vec![".harmony/scaffolding/runtime/example.md".to_string()],
+                include_contracts: None,
+                include_conformance: None,
+                include_canonicalization: None,
+            },
+        )
+        .expect("create-design-package should succeed");
+
+        let package_root = root.join(".design-packages/experience-package");
+        let manifest =
+            fs::read_to_string(package_root.join("design-package.yml")).expect("manifest exists");
+
+        assert!(package_root
+            .join("normative/experience/user-journeys.md")
+            .is_file());
+        assert!(package_root.join("reference/README.md").is_file());
+        assert!(!package_root.join("contracts/README.md").exists());
+        assert!(!package_root.join("conformance/README.md").exists());
+        assert!(manifest.contains("package_class: \"experience-product\""));
+        assert!(manifest.contains("- \"reference\""));
+        assert!(manifest.contains("- \"history\""));
+        assert!(manifest.contains("conformance_validator_path: null"));
+        fs::remove_dir_all(root).ok();
     }
 }
