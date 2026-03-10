@@ -179,7 +179,7 @@ run_workflows() {
     bash "$HARMONY_DIR/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh"
 
   run_step \
-    "Validate architecture validation pipeline package" \
+    "Validate architecture validation workflow package" \
     bash "$SCRIPT_DIR/validate-architecture-validation-pipeline.sh"
 }
 

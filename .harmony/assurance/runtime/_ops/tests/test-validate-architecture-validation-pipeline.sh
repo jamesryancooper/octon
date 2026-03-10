@@ -66,7 +66,7 @@ assert_failure_contains() {
 
 create_fixture_repo() {
   local fixture_root
-  fixture_root="$(mktemp -d "${TMPDIR:-/tmp}/architecture-validation-pipeline.XXXXXX")"
+  fixture_root="$(mktemp -d "${TMPDIR:-/tmp}/architecture-validation-workflow.XXXXXX")"
   CLEANUP_DIRS+=("$fixture_root")
 
   mkdir -p \
@@ -133,7 +133,7 @@ case_missing_capability_map_registration_fails() {
 case_temporary_dependency_fails() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
-  printf '\n- legacy: .design-packages/architecture-validation-pipeline-package\n' >> \
+  printf '\n- current: .design-packages/architecture-validation-workflow-package\n' >> \
     "$fixture_root/.harmony/orchestration/runtime/workflows/audit/audit-design-package/stages/02-design-audit.md"
   run_validator_in_fixture "$fixture_root"
 }
@@ -160,7 +160,7 @@ main() {
 
   assert_failure_contains \
     "architecture validation workflow validator rejects temporary design-package dependencies" \
-    "design audit stage avoids temporary package path references" \
+    "design audit stage avoids temporary workflow package path references" \
     case_temporary_dependency_fails
 
   echo

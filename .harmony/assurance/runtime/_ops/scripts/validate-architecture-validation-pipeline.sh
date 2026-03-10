@@ -12,6 +12,8 @@ WORKFLOW_MANIFEST="$HARMONY_DIR/orchestration/runtime/workflows/manifest.yml"
 WORKFLOW_REGISTRY="$HARMONY_DIR/orchestration/runtime/workflows/registry.yml"
 CAPABILITY_MAP="$HARMONY_DIR/orchestration/governance/capability-map-v1.yml"
 WORKFLOWS_README="$HARMONY_DIR/orchestration/runtime/workflows/README.md"
+LEGACY_PACKAGE_PATH=".design-packages/architecture-validation-pipeline-package"
+WORKFLOW_PACKAGE_PATH=".design-packages/architecture-validation-workflow-package"
 
 errors=0
 
@@ -86,7 +88,8 @@ check_workflow_contract() {
   require_fixed 'name: "audit-design-package"' "$WORKFLOW_DIR/workflow.yml" "workflow contract name matches id"
   require_fixed 'forbid_design_packages: true' "$WORKFLOW_DIR/workflow.yml" "workflow contract forbids design-package dependencies"
   require_absent_fixed 'projection:' "$WORKFLOW_DIR/workflow.yml" "workflow contract omits deprecated projection block"
-  require_absent_fixed ".design-packages/architecture-validation-pipeline-package" "$WORKFLOW_DIR/workflow.yml" "workflow contract avoids temporary package path references"
+  require_absent_fixed "$LEGACY_PACKAGE_PATH" "$WORKFLOW_DIR/workflow.yml" "workflow contract avoids legacy temporary package path references"
+  require_absent_fixed "$WORKFLOW_PACKAGE_PATH" "$WORKFLOW_DIR/workflow.yml" "workflow contract avoids temporary workflow package path references"
   require_fixed "temporary workspace for implementation-oriented design" "$DESIGN_PACKAGES_README" ".design-packages README describes temporary purpose"
   require_fixed "They are not canonical runtime" "$DESIGN_PACKAGES_README" ".design-packages README forbids canonical treatment"
 }
@@ -98,7 +101,8 @@ check_stage_contracts() {
   require_fixed "canonical workflow" "$WORKFLOW_DIR/stages/01-configure.md" "configure stage uses canonical workflow framing"
   require_absent_fixed "./prompts/" "$WORKFLOW_DIR/stages/01-configure.md" "configure stage avoids workflow-local prompt references"
   require_absent_fixed "./references/" "$WORKFLOW_DIR/stages/01-configure.md" "configure stage avoids workflow-local reference paths"
-  require_absent_fixed ".design-packages/architecture-validation-pipeline-package" "$WORKFLOW_DIR/stages/02-design-audit.md" "design audit stage avoids temporary package path references"
+  require_absent_fixed "$LEGACY_PACKAGE_PATH" "$WORKFLOW_DIR/stages/02-design-audit.md" "design audit stage avoids legacy temporary package path references"
+  require_absent_fixed "$WORKFLOW_PACKAGE_PATH" "$WORKFLOW_DIR/stages/02-design-audit.md" "design audit stage avoids temporary workflow package path references"
 }
 
 check_registration() {

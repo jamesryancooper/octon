@@ -31,6 +31,34 @@ mutability: append-only
 
 - None
 
+## 2026-03-10
+
+**Session focus:** Rename the architecture validation design package from
+pipeline wording to workflow wording and align assurance references.
+
+**Completed:**
+
+- Renamed `.design-packages/architecture-validation-pipeline-package/` to
+  `.design-packages/architecture-validation-workflow-package/`
+- Updated package-facing labels in the renamed package README and Harmony
+  integration doc
+- Tightened the architecture validation assurance script to reject both legacy
+  and current temporary package path references in workflow surfaces
+- Updated the validator test fixture and the alignment-check step label to
+  match the workflow package naming
+- Verified the rename with:
+  `bash .harmony/assurance/runtime/_ops/scripts/validate-architecture-validation-pipeline.sh`
+  and
+  `bash .harmony/assurance/runtime/_ops/tests/test-validate-architecture-validation-pipeline.sh`
+
+**Next:**
+
+- None
+
+**Blockers:**
+
+- None
+
 ## 2026-02-25 (intent-layer clean-break execution)
 
 **Session focus:** Execute intent-layer migration for machine-readable intent,

@@ -30,7 +30,7 @@ Run the executable runner through the kernel:
   `/.harmony/orchestration/runtime/workflows/registry.yml`
 - Workflow capability classification:
   `/.harmony/orchestration/governance/capability-map-v1.yml`
-- Pipeline package validator:
+- Workflow package validator:
   `/.harmony/assurance/runtime/_ops/scripts/validate-architecture-validation-pipeline.sh`
 
 ## Why The Prompts Stay Together

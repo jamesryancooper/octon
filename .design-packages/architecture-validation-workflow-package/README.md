@@ -1,4 +1,4 @@
-# Architecture Validation Pipeline Package
+# Architecture Validation Workflow Package
 
 This package provides the prompt and operating-contract bundle for validating,
 hardening, and extracting implementation guidance from a temporary Harmony
