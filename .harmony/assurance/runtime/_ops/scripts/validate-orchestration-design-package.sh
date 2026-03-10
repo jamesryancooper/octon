@@ -289,10 +289,15 @@ validate_automation_execution_fixture() {
       type == "object"
       and (.workflow_group | nonempty_string)
       and (.workflow_id | nonempty_string);
+    def positive_integer:
+      type == "number"
+      and . >= 1
+      and floor == .;
     def string_array:
       type == "array"
       and length > 0
-      and all(.[]; type == "string" and length > 0);
+      and all(.[]; type == "string" and length > 0)
+      and ((unique | length) == length);
     type == "object"
     and (.automation | type == "object")
     and (.automation.automation_id | nonempty_string)
@@ -337,18 +342,19 @@ validate_automation_execution_fixture() {
       or (.bindings.event_to_param_map | binding_map_valid)
     )
     and (.policy | type == "object")
-    and (.policy.max_concurrency | type == "number" and . >= 1)
+    and (.policy.max_concurrency | positive_integer)
     and ((.policy.concurrency_mode as $m | ["serialize","drop","replace","parallel"] | index($m)) != null)
     and (.policy.idempotency_strategy | type == "object")
     and ((.policy.idempotency_strategy.kind as $k | ["event-dedupe","schedule-window"] | index($k)) != null)
     and (.policy.idempotency_strategy.key_fields | string_array)
     and (.policy.retry_policy | type == "object")
-    and (.policy.retry_policy.max_attempts | type == "number" and . >= 1)
+    and (.policy.retry_policy.max_attempts | positive_integer)
     and ((.policy.retry_policy.backoff as $b | ["fixed","linear","exponential"] | index($b)) != null)
     and (
       .policy.retry_policy.retryable_classes
       | type == "array"
       and length > 0
+      and ((unique | length) == length)
       and all(
         .[];
         ["validation_failure","reference_resolution_failure","policy_denied","approval_missing","transient_runtime_failure","terminal_runtime_failure","concurrency_conflict","binding_validation_failure","lock_acquisition_failure","lock_lost_during_execution","executor_liveness_failure","stale_claim","evidence_write_failure","launch_commit_failure","manual_quarantine"] | index(.) != null
