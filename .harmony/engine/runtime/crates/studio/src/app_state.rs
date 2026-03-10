@@ -268,7 +268,10 @@ impl AppState {
             if let Some(document) = &workflow.document {
                 if let Some(name) = &document.name {
                     if !name.trim().is_empty() {
-                        return format!("{name} ({})", workflow.id);
+                        if name != &workflow.id {
+                            return format!("{name} ({})", workflow.id);
+                        }
+                        return workflow.id.clone();
                     }
                 }
             }
@@ -286,7 +289,7 @@ impl AppState {
                     }
                 }
             }
-            return "Workflow frontmatter did not provide a description.".to_string();
+            return "Workflow contract did not provide a description.".to_string();
         }
         "Select a workflow from the left list or graph canvas.".to_string()
     }
@@ -294,7 +297,8 @@ impl AppState {
     pub fn selected_path(&self) -> String {
         if let Some(workflow) = self.selected_workflow() {
             let mut segments = vec![
-                format!("workflow file: {}", workflow.workflow_file.display()),
+                format!("workflow contract: {}", workflow.contract_file.display()),
+                format!("generated README: {}", workflow.workflow_file.display()),
                 format!("workflow dir: {}", workflow.workflow_dir.display()),
             ];
             if let Some(path_hint) = &workflow.manifest_path_hint {
@@ -394,6 +398,7 @@ impl AppState {
 
         let existing_edit_count = self.staged_edits.len();
         let mut touched_targets = 0usize;
+        let mut readme_status_note: Option<String> = None;
 
         if workflow.has_workflow_file {
             let original = match fs::read_to_string(&workflow.workflow_file) {
@@ -415,12 +420,10 @@ impl AppState {
             );
             touched_targets += 1;
         } else {
-            self.staged_edits.stage_create(
-                workflow.workflow_file.clone(),
-                workflow_file_template(&workflow.id),
-                "Create missing README.md from safe template".to_string(),
-            );
-            touched_targets += 1;
+            readme_status_note = Some(format!(
+                "README.md is missing for '{}'; regenerate it from workflow.yml with generate-workflow-guides.sh.",
+                workflow.id
+            ));
         }
 
         if let Some(document) = workflow.document {
@@ -441,11 +444,25 @@ impl AppState {
         let newly_staged = total_staged.saturating_sub(existing_edit_count);
         self.apply_armed = false;
         if total_staged == 0 {
-            self.export_status = format!("No staged edits were needed for '{}'.", workflow.id);
+            self.export_status = format!(
+                "No staged edits were needed for '{}'.{}",
+                workflow.id,
+                readme_status_note
+                    .as_deref()
+                    .map(|note| format!(" {note}"))
+                    .unwrap_or_default()
+            );
         } else {
             self.export_status = format!(
-                "Staged {} new edits ({} total) across {} targets for '{}'.",
-                newly_staged, total_staged, touched_targets, workflow.id
+                "Staged {} new edits ({} total) across {} targets for '{}'.{}",
+                newly_staged,
+                total_staged,
+                touched_targets,
+                workflow.id,
+                readme_status_note
+                    .as_deref()
+                    .map(|note| format!(" {note}"))
+                    .unwrap_or_default()
             );
         }
 
@@ -803,12 +820,6 @@ fn build_graph_layout(snapshot: &WorkflowIndexSnapshot) -> (Vec<PositionedNode>,
     (base_layout, edges)
 }
 
-fn workflow_file_template(workflow_id: &str) -> String {
-    format!(
-        "---\nname: {workflow_id}\ndescription: TODO: describe what this workflow does and when to use it.\nsteps: []\n---\n\n# {workflow_id}\n\nAdd workflow overview and numbered step files.\n"
-    )
-}
-
 fn step_file_template(step_id: &str, description: Option<&str>) -> String {
     let desc = description
         .map(str::trim)
@@ -1082,13 +1093,13 @@ mod tests {
             1,
             "registry dependency should create one edge"
         );
-        assert_eq!(state.selected_title(), "Alpha Flow (alpha)");
+        assert_eq!(state.selected_title(), "alpha");
         assert_eq!(state.selected_issue_count(), 0);
         assert_eq!(state.selected_steps().len(), 1);
         assert_eq!(state.selected_steps()[0].status, "ok");
 
         state.select_workflow("beta");
-        assert_eq!(state.selected_title(), "Beta Flow (beta)");
+        assert_eq!(state.selected_title(), "beta");
         assert_eq!(
             state.selected_dependency_summary(),
             "Dependencies: alpha",
@@ -1235,12 +1246,20 @@ mod tests {
             "---\nname: Alpha Flow\ndescription: Alpha workflow for fixture tests.\nsteps:\n  - id: alpha-step\n    file: 01-alpha.md\n    description: Alpha step.\n---\n\n# Alpha\n",
         );
         write_file(
-            &root.join(".harmony/orchestration/runtime/workflows/alpha/01-alpha.md"),
+            &root.join(".harmony/orchestration/runtime/workflows/alpha/workflow.yml"),
+            "schema_version: workflow-contract-v1\nname: alpha\ndescription: Alpha workflow for fixture tests.\nversion: 1.0.0\nentry_mode: human\nexecution_profile: core\nstages:\n  - id: alpha-step\n    asset: stages/01-alpha.md\n    kind: analysis\nartifacts: []\ndone_gate:\n  checks:\n    - Alpha complete\n",
+        );
+        write_file(
+            &root.join(".harmony/orchestration/runtime/workflows/alpha/stages/01-alpha.md"),
             "---\nname: alpha-step\ndescription: Alpha step.\n---\n",
         );
         write_file(
             &root.join(".harmony/orchestration/runtime/workflows/beta/README.md"),
             "---\nname: Beta Flow\ndescription: Beta workflow with a missing step file.\nsteps:\n  - id: beta-step\n    file: 01-beta.md\n    description: Beta missing step.\n---\n\n# Beta\n",
+        );
+        write_file(
+            &root.join(".harmony/orchestration/runtime/workflows/beta/workflow.yml"),
+            "schema_version: workflow-contract-v1\nname: beta\ndescription: Beta workflow with a missing step file.\nversion: 1.0.0\nentry_mode: human\nexecution_profile: core\nstages:\n  - id: beta-step\n    asset: stages/01-beta.md\n    kind: analysis\nartifacts: []\ndone_gate:\n  checks:\n    - Beta complete\n",
         );
     }
 
@@ -1251,7 +1270,7 @@ mod tests {
         );
         write_file(
             &root.join(".harmony/output/reports/1002-1-studio-apply-audit.md"),
-            "# Harmony Studio Apply Audit\n\n- timestamp_unix_ms: 1002\n- status: failed-rolled-back\n- attempted_files: 2\n- applied_files: 1\n- rolled_back_files: 1\n- summary: Apply failed and rolled back 1 file(s): synthetic write error\n\n## Staged Edits\n- create | .harmony/orchestration/runtime/workflows/beta/01-beta.md | Create missing step file\n",
+            "# Harmony Studio Apply Audit\n\n- timestamp_unix_ms: 1002\n- status: failed-rolled-back\n- attempted_files: 2\n- applied_files: 1\n- rolled_back_files: 1\n- summary: Apply failed and rolled back 1 file(s): synthetic write error\n\n## Staged Edits\n- create | .harmony/orchestration/runtime/workflows/beta/stages/01-beta.md | Create missing step file\n",
         );
     }
 

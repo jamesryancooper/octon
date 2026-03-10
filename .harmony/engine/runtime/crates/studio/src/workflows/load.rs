@@ -10,6 +10,8 @@ pub struct WorkflowSummary {
     pub manifest_path_hint: Option<String>,
     pub registry_path_hint: Option<String>,
     pub workflow_dir: PathBuf,
+    pub contract_file: PathBuf,
+    pub has_contract_file: bool,
     pub workflow_file: PathBuf,
     pub has_workflow_file: bool,
     pub dependencies: Vec<String>,
@@ -72,17 +74,17 @@ struct RegistryDependency {
 }
 
 #[derive(Debug, Deserialize, Default)]
-struct WorkflowFrontmatter {
+struct WorkflowContract {
     name: Option<String>,
     description: Option<String>,
     #[serde(default)]
-    steps: Vec<WorkflowStepFrontmatter>,
+    stages: Vec<WorkflowStageContract>,
 }
 
 #[derive(Debug, Deserialize)]
-struct WorkflowStepFrontmatter {
+struct WorkflowStageContract {
     id: String,
-    file: String,
+    asset: String,
     description: Option<String>,
 }
 
@@ -122,6 +124,7 @@ pub fn load_workflow_index(root: &Path) -> Result<WorkflowIndexSnapshot> {
                 workflow.path.as_deref(),
                 registry_path_hint.as_deref(),
             );
+            let contract_file = workflow_dir.join("workflow.yml");
             let workflow_file = workflow_dir.join("README.md");
             let dependencies = registry_entry
                 .map(|entry| {
@@ -134,11 +137,13 @@ pub fn load_workflow_index(root: &Path) -> Result<WorkflowIndexSnapshot> {
                         .collect::<Vec<_>>()
                 })
                 .unwrap_or_default();
-            let (document, parse_error) = parse_workflow_document(&workflow_dir, &workflow_file);
+            let (document, parse_error) = parse_workflow_contract(&workflow_dir, &contract_file);
             WorkflowSummary {
                 id: workflow.id,
                 manifest_path_hint: workflow.path,
                 registry_path_hint,
+                has_contract_file: contract_file.exists(),
+                contract_file,
                 has_workflow_file: workflow_file.exists(),
                 workflow_file,
                 workflow_dir,
@@ -190,58 +195,48 @@ fn normalize_workflow_reference(raw: &str) -> String {
         .to_string()
 }
 
-fn parse_workflow_document(
+fn parse_workflow_contract(
     workflow_dir: &Path,
-    workflow_file: &Path,
+    contract_file: &Path,
 ) -> (Option<WorkflowDocument>, Option<String>) {
-    if !workflow_file.exists() {
+    if !contract_file.exists() {
         return (None, None);
     }
 
-    let markdown = match fs::read_to_string(workflow_file) {
+    let workflow_yaml = match fs::read_to_string(contract_file) {
         Ok(value) => value,
         Err(error) => {
             return (
                 None,
                 Some(format!(
                     "failed to read {}: {error}",
-                    workflow_file.display()
+                    contract_file.display()
                 )),
             );
         }
     };
 
-    let Some(frontmatter_yaml) = extract_frontmatter(&markdown) else {
-        return (
-            None,
-            Some(format!(
-                "missing YAML frontmatter in {}",
-                workflow_file.display()
-            )),
-        );
-    };
-
-    let frontmatter: WorkflowFrontmatter = match serde_yaml::from_str(&frontmatter_yaml) {
+    let contract: WorkflowContract = match serde_yaml::from_str(&workflow_yaml) {
         Ok(value) => value,
         Err(error) => {
             return (
                 None,
                 Some(format!(
-                    "invalid frontmatter in {}: {error}",
-                    workflow_file.display()
+                    "invalid workflow contract in {}: {error}",
+                    contract_file.display()
                 )),
             );
         }
     };
 
-    let steps = frontmatter
-        .steps
+    let steps = contract
+        .stages
         .into_iter()
         .map(|step| {
-            let path = workflow_dir.join(&step.file);
+            let path = workflow_dir.join(&step.asset);
             WorkflowStepSummary {
                 id: step.id,
-                file: step.file,
+                file: step.asset,
                 description: step.description,
                 exists: path.exists(),
                 path,
@@ -251,27 +246,10 @@ fn parse_workflow_document(
 
     (
         Some(WorkflowDocument {
-            name: frontmatter.name,
-            description: frontmatter.description,
+            name: contract.name,
+            description: contract.description,
             steps,
         }),
         None,
     )
-}
-
-fn extract_frontmatter(markdown: &str) -> Option<String> {
-    let mut lines = markdown.lines();
-    if lines.next()?.trim() != "---" {
-        return None;
-    }
-
-    let mut yaml_lines = Vec::new();
-    for line in lines {
-        if line.trim() == "---" {
-            return Some(yaml_lines.join("\n"));
-        }
-        yaml_lines.push(line);
-    }
-
-    None
 }

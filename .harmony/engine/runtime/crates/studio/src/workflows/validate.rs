@@ -14,37 +14,46 @@ pub fn validate_snapshot(snapshot: &WorkflowIndexSnapshot) -> Vec<ValidationIssu
     let mut issues = Vec::new();
 
     for workflow in &snapshot.workflows {
-        if !workflow.has_workflow_file {
+        if !workflow.has_contract_file {
             issues.push(ValidationIssue {
-                code: "missing-workflow-file",
+                code: "missing-workflow-contract",
                 workflow_id: Some(workflow.id.clone()),
-                message: format!("Workflow '{}' is missing README.md", workflow.id),
-                path: Some(workflow.workflow_file.clone()),
+                message: format!("Workflow '{}' is missing workflow.yml", workflow.id),
+                path: Some(workflow.contract_file.clone()),
             });
         }
 
-        if let Some(parse_error) = &workflow.parse_error {
+        if !workflow.has_workflow_file {
             issues.push(ValidationIssue {
-                code: "invalid-workflow-frontmatter",
+                code: "missing-workflow-readme",
                 workflow_id: Some(workflow.id.clone()),
                 message: format!(
-                    "Workflow '{}' frontmatter error: {parse_error}",
+                    "Workflow '{}' is missing generated README.md",
                     workflow.id
                 ),
                 path: Some(workflow.workflow_file.clone()),
             });
         }
 
+        if let Some(parse_error) = &workflow.parse_error {
+            issues.push(ValidationIssue {
+                code: "invalid-workflow-contract",
+                workflow_id: Some(workflow.id.clone()),
+                message: format!("Workflow '{}' contract error: {parse_error}", workflow.id),
+                path: Some(workflow.contract_file.clone()),
+            });
+        }
+
         if let Some(document) = &workflow.document {
             if document.steps.is_empty() {
                 issues.push(ValidationIssue {
-                    code: "missing-workflow-steps",
+                    code: "missing-workflow-stages",
                     workflow_id: Some(workflow.id.clone()),
                     message: format!(
-                        "Workflow '{}' does not declare any step entries in frontmatter",
+                        "Workflow '{}' does not declare any stages in workflow.yml",
                         workflow.id
                     ),
-                    path: Some(workflow.workflow_file.clone()),
+                    path: Some(workflow.contract_file.clone()),
                 });
             }
 
