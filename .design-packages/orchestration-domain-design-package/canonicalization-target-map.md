@@ -172,6 +172,7 @@ When `runs` is promoted, live Harmony must preserve:
 
 When `campaigns` are promoted, live Harmony must preserve:
 
+- `runtime/campaigns/README.md` as operator orientation only
 - `runtime/campaigns/manifest.yml` as lightweight surface discovery
 - `runtime/campaigns/registry.yml` as campaign lookup projection only
 - `runtime/campaigns/<campaign-id>/campaign.yml` as the canonical campaign
