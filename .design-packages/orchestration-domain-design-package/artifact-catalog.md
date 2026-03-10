@@ -73,6 +73,7 @@ listing.
 - `contracts/cross-surface-reference-contract.md`
 - `contracts/decision-record-contract.md`
 - `contracts/workflow-execution-contract.md`
+- `contracts/mission-object-contract.md`
 - `contracts/campaign-object-contract.md`
 - `contracts/automation-execution-contract.md`
 - `contracts/coordination-lock-contract.md`
@@ -95,6 +96,7 @@ listing.
 - `contracts/schemas/decision-record.schema.json`
 - `contracts/schemas/incident-actions.schema.json`
 - `contracts/schemas/incident-object.schema.json`
+- `contracts/schemas/mission-object.schema.json`
 - `contracts/schemas/queue-item-and-lease.schema.json`
 - `contracts/schemas/run-linkage.schema.json`
 - `contracts/schemas/watcher-definition.schema.json`
@@ -114,6 +116,7 @@ listing.
 - `contracts/fixtures/valid/decision-record.valid.json`
 - `contracts/fixtures/valid/incident-actions.valid.json`
 - `contracts/fixtures/valid/incident-object.valid.json`
+- `contracts/fixtures/valid/mission-object.valid.json`
 - `contracts/fixtures/valid/queue-item-and-lease.valid.json`
 - `contracts/fixtures/valid/run-linkage.valid.json`
 - `contracts/fixtures/valid/watcher-definition.valid.json`
@@ -133,6 +136,7 @@ listing.
 - `contracts/fixtures/invalid/decision-record.invalid.json`
 - `contracts/fixtures/invalid/incident-actions.invalid.json`
 - `contracts/fixtures/invalid/incident-object.invalid.json`
+- `contracts/fixtures/invalid/mission-object.invalid.json`
 - `contracts/fixtures/invalid/queue-item-and-lease.invalid.json`
 - `contracts/fixtures/invalid/run-linkage.invalid.json`
 - `contracts/fixtures/invalid/watcher-definition.invalid.json`

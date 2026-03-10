@@ -13,6 +13,7 @@ This document is normative for schema coverage expectations.
 |---|---|---|
 | `automations` | `bindings.yml` | `contracts/schemas/automation-bindings.schema.json` |
 | `workflows` | `workflow.yml` | `contracts/schemas/workflow-execution.schema.json` |
+| `missions` | `mission.yml` | `contracts/schemas/mission-object.schema.json` |
 | `watchers` | `watcher.yml` | `contracts/schemas/watcher-definition.schema.json` |
 | `watchers` | `sources.yml` | `contracts/schemas/watcher-sources.schema.json` |
 | `watchers` | `rules.yml` | `contracts/schemas/watcher-rules.schema.json` |
@@ -25,6 +26,10 @@ This document is normative for schema coverage expectations.
 
 For `workflows`, the schema-backed artifact is the definition contract
 (`workflow.yml`), not registry metadata or prose guidance.
+
+For `missions`, the schema-backed artifact is `mission.yml`, not `mission.md`.
+Mission Markdown, task state, and progress logs remain subordinate narrative or
+mutable local state/evidence assets.
 
 `stages/*.md` remain Markdown assets. They do not require a JSON Schema, but
 they must be resolved only from a valid `workflow.yml` and remain subject to

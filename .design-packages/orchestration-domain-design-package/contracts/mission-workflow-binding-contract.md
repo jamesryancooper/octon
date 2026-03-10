@@ -7,6 +7,9 @@ missions into workflow-definition containers.
 
 ## Binding Model
 
+Mission linkage fields live in `mission.yml` under
+`mission-object-contract.md`.
+
 Missions may reference workflows through canonical workflow references such as:
 
 ```yaml
@@ -15,7 +18,7 @@ workflow_ref:
   workflow_id: "audit-continuous-workflow"
 ```
 
-Mission-level linkage fields may include:
+Mission-level linkage fields stored in `mission.yml` may include:
 
 - `default_workflow_refs[]`
 - `active_run_ids[]`
@@ -30,6 +33,9 @@ Mission-level linkage fields may include:
 4. Every mission-owned material invocation must emit a decision record before or
    with the resulting run.
 5. Mission context must be carried in the run as `mission_id`.
+6. `mission.md` may explain why a workflow matters to the mission, but it must
+   not replace `mission.yml` as the source of workflow references or run
+   linkage.
 
 ## Workflow Execution Controls
 

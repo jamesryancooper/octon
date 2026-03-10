@@ -118,15 +118,21 @@ missions/
 ├── registry.yml
 ├── .archive/
 ├── _scaffold/template/
+│   ├── mission.yml
 │   ├── mission.md
 │   ├── tasks.json
 │   └── log.md
 └── <mission-id>/
+    ├── mission.yml
     ├── mission.md
     ├── tasks.json
     ├── log.md
     └── context/
 ```
+
+`mission.yml` is the canonical mission object.
+
+`mission.md` remains subordinate narrative guidance.
 
 ### `campaigns/`
 

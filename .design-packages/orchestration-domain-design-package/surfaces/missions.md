@@ -41,8 +41,10 @@ Primary orchestration behavior for `missions` in this package is defined by:
 - `../orchestration-lifecycle.md`
 - `../governance-and-policy.md`
 - `../contracts/cross-surface-reference-contract.md`
+- `../contracts/mission-object-contract.md`
 - `../contracts/run-linkage-contract.md`
 - `../contracts/mission-workflow-binding-contract.md`
+- `../surface-artifact-schemas.md`
 
 Live Harmony mission docs remain integration context for the current runtime
 surface shape. They are not the primary source of target cross-surface
@@ -80,6 +82,20 @@ orchestration behavior here.
 - not self-governing
 - can be agent-owned, but remains governed by explicit scope and lifecycle
 
+## Target Authority Model
+
+- `registry.yml`
+  - discovery and lifecycle projection only
+- `<mission-id>/mission.yml`
+  - canonical machine-readable mission object for identity, lifecycle,
+    ownership, success criteria, and cross-surface linkage
+- `<mission-id>/mission.md`
+  - optional human-readable brief subordinate to `mission.yml`
+- `tasks.json` and `context/`
+  - mutable mission-local planning state and blockers
+- `log.md` plus linked runs / continuity evidence
+  - append-oriented mission-local narrative and cross-surface evidence pointers
+
 ### Overlap Risks
 
 - overlaps `tasks.json` if used for generic project task tracking
@@ -94,11 +110,17 @@ missions/
 ├── registry.yml
 ├── .archive/
 └── <mission-id>/
+    ├── mission.yml
     ├── mission.md
     ├── tasks.json
     ├── log.md
     └── context/
 ```
+
+`mission.yml` is required.
+
+`mission.md` is optional but recommended and must remain subordinate to
+`mission.yml`.
 
 ## Non-Goals
 

@@ -43,12 +43,15 @@ Define how the orchestration model will be validated before promotion into live
 - incident response authority is validated at schema-backed `incident.yml` and
   `actions.yml` when present, not in `timeline.md`, `closure.md`, or lookup
   projections
+- mission identity, lifecycle, and linkage authority are validated at
+  `mission.yml`, not in `mission.md` or registry projections
 
 ### Schema And Shape Validation
 
 - runtime tree matches canonical shapes
 - required top-level discovery artifacts exist
 - every workflow unit contains a valid `workflow.yml`
+- every mission unit contains a valid `mission.yml`
 - every stage asset referenced from `workflow.yml` resolves under `stages/`
 - every watcher unit contains valid `watcher.yml`, `sources.yml`, `rules.yml`,
   and `emits.yml`
@@ -147,13 +150,16 @@ Define how the orchestration model will be validated before promotion into live
   continuity/runs/` authority order
 - incidents preserve `README.md -> index.yml -> incident.yml / actions.yml ->
   timeline/closure evidence` authority order
+- existing mission surfaces preserve `registry.yml -> mission.yml -> mission.md`
+  authority order and keep task/log/context state subordinate to the canonical
+  mission object
 
 ## Surface Acceptance Criteria
 
 | Surface | Acceptance Criteria |
 |---|---|
 | `workflows` | `workflow.yml` validates, stage references resolve, registry projections do not outrank the definition artifact, execution context can emit runs, and evidence linkage rules hold |
-| `missions` | workflow bindings and run linkage validate; no recurrence leakage |
+| `missions` | `mission.yml` validates, registry projections do not outrank the mission object, workflow bindings and run linkage validate, and no recurrence leakage occurs |
 | `runs` | continuity evidence linkage validates; `decision_id` resolves; `index.yml` and `by-surface/` projections resolve back to canonical `<run-id>.yml`; projections do not outrank the canonical run record or continuity evidence |
 | `automations` | trigger selection deterministic; concurrency and idempotency rules enforced across `serialize`, `drop`, `parallel`, and `replace` |
 | `watchers` | watcher definition family validates; rule and emitted-event references resolve; event envelope valid; mutable state and evidence stay separate; no direct launch authority |

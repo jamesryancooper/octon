@@ -86,10 +86,26 @@ following addenda:
   - validate `workflow.yml`, stage asset resolution, and non-authoritative
     registry/README drift checks
 - `runtime/missions/README.md`
-  - add mission linkage fields for `campaign_id`, `default_workflow_refs`, and
-    `related_run_ids`
+  - define mission authority order as `registry.yml -> mission.yml ->
+    mission.md`; keep tasks/log/context subordinate to the canonical mission
+    object
+- `runtime/missions/registry.yml`
+  - keep discovery and lifecycle projections lightweight; do not make registry
+    entries canonical for mission ownership, success criteria, or linkage
+- `runtime/missions/_scaffold/template/mission.yml`
+  - add the schema-backed mission object with lifecycle, ownership, success
+    criteria, and linkage fields
+- `runtime/missions/<mission-id>/mission.yml`
+  - make `mission.yml` the authoritative mission artifact for identity,
+    lifecycle, and cross-surface linkage
+- `runtime/missions/<mission-id>/mission.md`
+  - keep goal, scope, and operator narrative subordinate to `mission.yml`
 - `practices/mission-lifecycle-standards.md`
-  - add mission/run/decision linkage expectations
+  - add `mission.yml` authority, mission/run/decision linkage expectations, and
+    archive semantics
+- `runtime/missions/_ops/scripts/validate-missions.sh`
+  - validate `mission.yml`, registry projection drift, and archive-state
+    semantics
 
 ## Canonicalization Sequence
 

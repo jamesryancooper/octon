@@ -411,6 +411,63 @@ validate_workflow_execution_fixture() {
   ' "$file" >/dev/null
 }
 
+validate_mission_object_fixture() {
+  local file="$1"
+  jq -e '
+    def nonempty_string: type == "string" and length > 0;
+    def valid_time: type == "string" and test("^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$");
+    def workflow_ref_valid:
+      type == "object"
+      and (.workflow_group | nonempty_string)
+      and (.workflow_id | nonempty_string);
+    def string_array_or_empty:
+      type == "array"
+      and all(.[]; type == "string" and length > 0);
+    type == "object"
+    and (.schema_version == "mission-object-v1")
+    and (.mission_id | nonempty_string)
+    and (.title | nonempty_string)
+    and (.summary | nonempty_string)
+    and ((.status as $s | ["created","active","completed","cancelled","archived"] | index($s)) != null)
+    and (.owner | nonempty_string)
+    and (.created_at | valid_time)
+    and (
+      .success_criteria
+      | type == "array"
+      and length > 0
+      and all(.[]; type == "string" and length > 0)
+    )
+    and (
+      (has("campaign_id") | not)
+      or (.campaign_id | nonempty_string)
+    )
+    and (
+      (has("default_workflow_refs") | not)
+      or (
+        .default_workflow_refs
+        | type == "array"
+        and all(.[]; workflow_ref_valid)
+      )
+    )
+    and (
+      (has("active_run_ids") | not)
+      or (.active_run_ids | string_array_or_empty)
+    )
+    and (
+      (has("recent_run_ids") | not)
+      or (.recent_run_ids | string_array_or_empty)
+    )
+    and (
+      (has("related_run_ids") | not)
+      or (.related_run_ids | string_array_or_empty)
+    )
+    and (
+      (.status != "archived")
+      or (.archived_from_status == "completed" or .archived_from_status == "cancelled")
+    )
+  ' "$file" >/dev/null
+}
+
 validate_coordination_lock_fixture() {
   local file="$1"
   jq -e '
@@ -646,6 +703,9 @@ validate_schema_fixture() {
       ;;
     workflow-execution)
       validate_workflow_execution_fixture "$file"
+      ;;
+    mission-object)
+      validate_mission_object_fixture "$file"
       ;;
     coordination-lock)
       validate_coordination_lock_fixture "$file"

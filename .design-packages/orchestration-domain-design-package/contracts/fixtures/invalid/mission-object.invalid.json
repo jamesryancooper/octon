@@ -1,0 +1,10 @@
+{
+  "schema_version": "mission-object-v1",
+  "mission_id": "release-readiness-capabilities",
+  "title": "Release Readiness Capabilities",
+  "summary": "Drive a bounded release-readiness push for the capabilities subsystem.",
+  "status": "archived",
+  "owner": "@architect",
+  "created_at": "2026-03-10T15:00:00Z",
+  "success_criteria": []
+}

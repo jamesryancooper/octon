@@ -1,0 +1,29 @@
+{
+  "schema_version": "mission-object-v1",
+  "mission_id": "release-readiness-capabilities",
+  "title": "Release Readiness Capabilities",
+  "summary": "Drive a bounded release-readiness push for the capabilities subsystem.",
+  "status": "active",
+  "owner": "@architect",
+  "created_at": "2026-03-10T15:00:00Z",
+  "success_criteria": [
+    "Release-readiness audit completes with no unresolved blockers.",
+    "Follow-up fixes are scoped or landed."
+  ],
+  "campaign_id": "governance-hardening-2026",
+  "default_workflow_refs": [
+    {
+      "workflow_group": "audit",
+      "workflow_id": "audit-release-readiness-workflow"
+    }
+  ],
+  "active_run_ids": [
+    "run-20260310-release-readiness-01"
+  ],
+  "recent_run_ids": [
+    "run-20260310-release-readiness-01"
+  ],
+  "related_run_ids": [
+    "run-20260308-audit-continuous-01"
+  ]
+}

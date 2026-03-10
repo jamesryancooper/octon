@@ -36,6 +36,9 @@ rollout remains a separate canonicalization step.
 - added package-local domain model, runtime architecture, execution model,
   lifecycle model, dependency-resolution algorithm, governance model,
   observability model, and failure model
+- hardened `missions` so canonical identity, lifecycle, ownership, success
+  criteria, and linkage live in schema-backed `mission.yml` rather than in
+  Markdown or registry projections
 - added package-local hardening artifacts for target-global concurrency,
   approval and override evidence, automation bindings, run liveness, and
   surface artifact schemas
@@ -56,7 +59,7 @@ rollout remains a separate canonicalization step.
 | Surface | Status | Basis |
 |---|---|---|
 | `workflows` | implementation-ready | package-local domain, execution, lifecycle, governance, run-linkage rules, and a schema-backed `workflow.yml` definition contract |
-| `missions` | implementation-ready | package-local domain, execution, lifecycle, and mission-binding rules plus mission/run linkage contracts |
+| `missions` | implementation-ready | package-local domain, execution, lifecycle, schema-backed `mission.yml` mission object, and mission/run linkage contracts |
 | `campaigns` | implementation-ready | package-local domain and lifecycle rules plus campaign contracts |
 | `automations` | implementation-ready | execution model, dependency resolution, failure model, and automation execution contract |
 | `watchers` | implementation-ready | runtime architecture, dependency resolution, observability, watcher definition contract, and watcher event contract |
@@ -71,6 +74,7 @@ rollout remains a separate canonicalization step.
 - `contracts/decision-record-contract.md` — `schema-backed` via `contracts/schemas/decision-record.schema.json`
 - `contracts/campaign-object-contract.md` — `package-normative`
 - `contracts/workflow-execution-contract.md` — `schema-backed` via `contracts/schemas/workflow-execution.schema.json`
+- `contracts/mission-object-contract.md` — `schema-backed` via `contracts/schemas/mission-object.schema.json`
 - `contracts/automation-execution-contract.md` — `schema-backed` via `contracts/schemas/automation-execution.schema.json`
 - `contracts/coordination-lock-contract.md` — `schema-backed` via `contracts/schemas/coordination-lock.schema.json`
 - `contracts/watcher-definition-contract.md` — `package-normative`
@@ -165,6 +169,13 @@ This package aligns with Harmony's philosophy because it preserves:
 - [ ] Every watcher defines valid `watcher.yml`, `sources.yml`, `rules.yml`,
       and `emits.yml` artifacts, and rule/event references resolve without
       guessing.
+- [ ] Every mission contains a valid `mission.yml` with canonical `mission_id`,
+      `status`, `owner`, `summary`, `success_criteria`, and mission linkage
+      fields.
+- [ ] Mission registry entries and mission Markdown briefs remain projections or
+      subordinate guidance; they do not outrank `mission.yml`.
+- [ ] Mission-local tasks, logs, and context do not replace run or decision
+      evidence.
 - [ ] Every watcher emits the canonical event envelope.
 - [ ] Every watcher event includes the canonical `rule_id` for the matched
       rule, and routing hints appear only when allowed by the matching emitted

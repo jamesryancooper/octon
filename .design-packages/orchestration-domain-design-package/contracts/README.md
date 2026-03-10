@@ -9,17 +9,18 @@ orchestration-domain specification defined by this package.
 2. `cross-surface-reference-contract.md`
 3. `decision-record-contract.md`
 4. `workflow-execution-contract.md`
-5. `campaign-object-contract.md`
-6. `automation-execution-contract.md`
-7. `coordination-lock-contract.md`
-8. `watcher-definition-contract.md`
-9. `watcher-event-contract.md`
-10. `queue-item-and-lease-contract.md`
-11. `run-linkage-contract.md`
-12. `incident-object-contract.md`
-13. `discovery-and-authority-layer-contract.md`
-14. `mission-workflow-binding-contract.md`
-15. `campaign-mission-coordination-contract.md`
+5. `mission-object-contract.md`
+6. `campaign-object-contract.md`
+7. `automation-execution-contract.md`
+8. `coordination-lock-contract.md`
+9. `watcher-definition-contract.md`
+10. `watcher-event-contract.md`
+11. `queue-item-and-lease-contract.md`
+12. `run-linkage-contract.md`
+13. `incident-object-contract.md`
+14. `discovery-and-authority-layer-contract.md`
+15. `mission-workflow-binding-contract.md`
+16. `campaign-mission-coordination-contract.md`
 
 ## Contract Roles
 
@@ -32,6 +33,8 @@ orchestration-domain specification defined by this package.
   - Canonical decision evidence for `allow`, `block`, and `escalate` outcomes
 - `workflow-execution-contract.md`
   - Workflow definition artifact, launch interface, and executor state contract
+- `mission-object-contract.md`
+  - Schema-backed mission definition, lifecycle, ownership, and linkage object
 - `campaign-object-contract.md`
   - Minimum campaign schema, lifecycle, and invariants
 - `automation-execution-contract.md`
@@ -70,7 +73,7 @@ orchestration-domain behavior in this package is governed first by:
 - `orchestration-lifecycle.md`
 - `governance-and-policy.md`
 - the cross-surface reference, run linkage, decision record, and mission
-  binding contracts in this directory
+  object and mission binding contracts in this directory
 
 Live `.harmony` workflow and mission docs remain important integration and
 promotion context, but they are not the primary source of target orchestration
@@ -96,6 +99,7 @@ Validation is enforced by:
 | `cross-surface-reference-contract.md` | `package-normative` | `domain-model.md`, `dependency-resolution.md`, and schema-backed object contracts |
 | `decision-record-contract.md` | `schema-backed` | `contracts/schemas/decision-record.schema.json` |
 | `workflow-execution-contract.md` | `schema-backed` | `contracts/schemas/workflow-execution.schema.json` validating `workflow.yml` |
+| `mission-object-contract.md` | `schema-backed` | `contracts/schemas/mission-object.schema.json` validating `mission.yml` |
 | `campaign-object-contract.md` | `package-normative` | `domain-model.md` and `orchestration-lifecycle.md` |
 | `automation-execution-contract.md` | `schema-backed` | `contracts/schemas/automation-execution.schema.json` |
 | `coordination-lock-contract.md` | `schema-backed` | `contracts/schemas/coordination-lock.schema.json` |
