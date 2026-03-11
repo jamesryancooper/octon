@@ -1,0 +1,12 @@
+rules:
+  - rule_id: "contract-drift"
+    source_ids:
+      - "source"
+    condition:
+      kind: "change"
+      path: "mtime"
+    event_type: "runtime-contract-drift"
+    severity: "warning"
+    summary_template: "Runtime contract drift detected."
+    dedupe_key_fields:
+      - "source_ref"

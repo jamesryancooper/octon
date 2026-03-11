@@ -1,0 +1,9 @@
+watcher_id: "[watcher-id]"
+title: "[Watcher title]"
+owner: "@owner"
+status: "active"
+runner:
+  kind: "poll"
+  cadence: "PT5M"
+cursor_mode: "per-source-watermark"
+suppression_window: "PT10M"

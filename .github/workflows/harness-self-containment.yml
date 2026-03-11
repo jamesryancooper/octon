@@ -5,10 +5,12 @@ on:
     branches:
       - main
     paths:
+      - '.design-packages/orchestration-domain-design-package/**'
       - '.harmony/**'
       - '.github/workflows/harness-self-containment.yml'
   pull_request:
     paths:
+      - '.design-packages/orchestration-domain-design-package/**'
       - '.harmony/**'
       - '.github/workflows/harness-self-containment.yml'
 
@@ -65,6 +67,16 @@ jobs:
         run: |
           chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
           .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+
+      - name: Validate orchestration design package
+        run: |
+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh
+          .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh
+
+      - name: Validate orchestration runtime surface hooks
+        run: |
+          chmod +x .harmony/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
+          .harmony/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
 
       - name: Validate services independence
         run: |

@@ -4,6 +4,10 @@
 
 ## Contracts
 
+- `approver-authority-registry.json` - Canonical approver authority registry for privileged orchestration actions.
+- `automation-policy.md` - Canonical policy for unattended automation launch behavior.
+- `queue-safety-policy.md` - Canonical safety policy for queue claim, ack, retry, and dead-letter handling.
+- `watcher-signal-policy.md` - Canonical policy for watcher signal emission and routing-hint posture.
 - `incidents.md` - Canonical incident governance contract for severity, authority, escalation, and closure.
 - `production-incident-runbook.md` - Product-specific operational response guide for production rollback and investigation.
 - `capability-map-v1.yml` - Workflow autonomy classification (`agent-ready`,

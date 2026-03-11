@@ -4,6 +4,16 @@ description: "Orchestrate the six Python API foundation skills in dependency ord
 version: "1.0.0"
 entry_mode: "human"
 execution_profile: "external-dependent"
+side_effect_class: "mutating"
+execution_controls:
+  cancel_safe: false
+coordination_key_strategy:
+  kind: "workflow-target"
+  source_fields:
+    - "workflow_group"
+    - "workflow_id"
+  format: "workflow:{workflow_group}/{workflow_id}"
+executor_interface_version: "workflow-executor-v1"
 inputs:
   - name: project_name
     type: text

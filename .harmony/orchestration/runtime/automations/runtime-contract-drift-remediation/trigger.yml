@@ -1,0 +1,9 @@
+kind: "event"
+event:
+  watcher_ids:
+    - "runtime-contract-drift-watcher"
+  event_types:
+    - "runtime-contract-drift"
+  severity_at_or_above: "warning"
+  match_mode: "all"
+  dedupe_window: "PT10M"

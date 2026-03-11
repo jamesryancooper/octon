@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.1",
-  "mission": "[slug]",
-  "goal": "[Mission goal summary]",
+  "schema_version": "1.2",
+  "mission_id": "[mission-id]",
+  "goal_summary": "[Mission goal summary]",
   "tasks": []
 }

@@ -222,7 +222,9 @@ check_workflow_contract() {
   local workflow_file="$workflow_dir/workflow.yml"
   local guide_readme="$workflow_dir/README.md"
   local registry_version registry_profile
-  local name description version entry_mode execution_profile stage_count done_gate_count
+  local name description version entry_mode execution_profile side_effect_class cancel_safe
+  local coordination_kind coordination_source_fields coordination_format
+  local executor_interface_version has_recurrence_fields stage_count done_gate_count
 
   require_file "$workflow_file"
   require_dir "$workflow_dir/stages"
@@ -239,6 +241,13 @@ check_workflow_contract() {
   version="$(yq -r '.version // ""' "$workflow_file")"
   entry_mode="$(yq -r '.entry_mode // ""' "$workflow_file")"
   execution_profile="$(yq -r '.execution_profile // ""' "$workflow_file")"
+  side_effect_class="$(yq -r '.side_effect_class // ""' "$workflow_file")"
+  cancel_safe="$(yq -r '.execution_controls.cancel_safe' "$workflow_file")"
+  coordination_kind="$(yq -r '.coordination_key_strategy.kind // ""' "$workflow_file")"
+  coordination_source_fields="$(yq -r '.coordination_key_strategy.source_fields | length // 0' "$workflow_file")"
+  coordination_format="$(yq -r '.coordination_key_strategy.format // ""' "$workflow_file")"
+  executor_interface_version="$(yq -r '.executor_interface_version // ""' "$workflow_file")"
+  has_recurrence_fields="$(yq -r 'has("trigger") or has("schedule") or has("cadence") or has("timezone") or has("missed_run_policy")' "$workflow_file")"
   stage_count="$(yq -r '.stages | length' "$workflow_file")"
   done_gate_count="$(yq -r '.done_gate.checks | length' "$workflow_file")"
   registry_version="$(yq -r ".workflows.\"$id\".version // \"\"" "$REGISTRY")"
@@ -257,6 +266,41 @@ check_workflow_contract() {
     core|external-dependent) pass "workflow '$id' execution_profile valid: $execution_profile" ;;
     *) fail "workflow '$id' has invalid execution_profile '$execution_profile'" ;;
   esac
+
+  case "$side_effect_class" in
+    none|read_only|mutating|destructive) pass "workflow '$id' side_effect_class valid: $side_effect_class" ;;
+    *) fail "workflow '$id' has invalid side_effect_class '$side_effect_class'" ;;
+  esac
+
+  case "$cancel_safe" in
+    true|false) pass "workflow '$id' execution_controls.cancel_safe declared" ;;
+    *) fail "workflow '$id' must declare execution_controls.cancel_safe as boolean" ;;
+  esac
+
+  case "$coordination_kind" in
+    none|workflow-target|mission-target|incident-target|explicit-input)
+      pass "workflow '$id' coordination_key_strategy kind valid: $coordination_kind"
+      ;;
+    *)
+      fail "workflow '$id' has invalid coordination_key_strategy.kind '$coordination_kind'"
+      ;;
+  esac
+
+  if [[ "$coordination_kind" == "none" ]]; then
+    case "$side_effect_class" in
+      none|read_only) pass "workflow '$id' coordination none allowed for side_effect_class '$side_effect_class'" ;;
+      *) fail "workflow '$id' side-effectful workflows may not use coordination_key_strategy.kind=none" ;;
+    esac
+  else
+    [[ "$coordination_source_fields" -gt 0 ]] && pass "workflow '$id' coordination source_fields declared" || fail "workflow '$id' missing coordination_key_strategy.source_fields"
+    non_empty "$coordination_format" && pass "workflow '$id' coordination format declared" || fail "workflow '$id' missing coordination_key_strategy.format"
+  fi
+
+  if [[ "$executor_interface_version" == "workflow-executor-v1" ]]; then
+    pass "workflow '$id' executor interface version valid"
+  else
+    fail "workflow '$id' must declare executor_interface_version workflow-executor-v1"
+  fi
 
   if [[ "$manifest_profile" == "$execution_profile" ]]; then
     pass "workflow '$id' manifest and contract execution_profile match"
@@ -278,6 +322,12 @@ check_workflow_contract() {
 
   [[ "$stage_count" -gt 0 ]] && pass "workflow '$id' declares stages" || fail "workflow '$id' has no stages"
   [[ "$done_gate_count" -gt 0 ]] && pass "workflow '$id' declares done-gate checks" || fail "workflow '$id' missing done-gate checks"
+
+  if [[ "$has_recurrence_fields" == "false" ]]; then
+    pass "workflow '$id' does not carry recurrence semantics"
+  else
+    fail "workflow '$id' must not define recurrence or scheduler semantics"
+  fi
 
   if yq -e '.projection' "$workflow_file" >/dev/null 2>&1; then
     fail "workflow '$id' retains deprecated projection block"

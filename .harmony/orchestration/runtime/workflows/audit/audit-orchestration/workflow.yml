@@ -4,6 +4,12 @@ description: "Coordinate bounded multi-pass audits across partitioned scope, mer
 version: "2.0.0"
 entry_mode: "human"
 execution_profile: "core"
+side_effect_class: "read_only"
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: "none"
+executor_interface_version: "workflow-executor-v1"
 inputs:
   - name: manifest
     type: file

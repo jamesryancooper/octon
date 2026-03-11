@@ -1,0 +1,5 @@
+schema_version: "orchestration-watchers-manifest-v1"
+watchers:
+  - watcher_id: runtime-contract-drift-watcher
+    path: runtime-contract-drift-watcher
+    summary: "Detect contract drift in orchestration runtime workflow definitions."

@@ -21,8 +21,26 @@ jobs:
   validate-pr-template:
     name: PR Quality Standards
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - id: orchestration_scope
+        name: Detect orchestration implementation impact
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            orchestration_validation:
+              - '.design-packages/orchestration-domain-design-package/**'
+              - '.harmony/orchestration/**'
+              - '.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh'
+              - '.harmony/assurance/runtime/_ops/tests/test-validate-orchestration-design-package.sh'
+              - '.harmony/engine/practices/local-dev-validation.md'
+              - '.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md'
+
       - name: Validate required sections and checklist
         uses: actions/github-script@v7
         with:
@@ -123,3 +141,14 @@ jobs:
             }
 
             core.info("PR body passes required standards.");
+
+      - name: Run orchestration validation gate
+        if: steps.orchestration_scope.outputs.orchestration_validation == 'true'
+        run: |
+          bash .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh
+          bash .harmony/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
+
+      - name: Skip orchestration validation gate (no relevant changes)
+        if: steps.orchestration_scope.outputs.orchestration_validation != 'true'
+        run: |
+          echo "No orchestration implementation impact detected; skipping package/runtime validation gate."

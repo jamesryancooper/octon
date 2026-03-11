@@ -1,0 +1,8 @@
+schema_version: "orchestration-automations-manifest-v1"
+automations:
+  - automation_id: daily-harness-evaluation
+    path: daily-harness-evaluation
+    summary: "Scheduled daily harness evaluation."
+  - automation_id: runtime-contract-drift-remediation
+    path: runtime-contract-drift-remediation
+    summary: "Event-triggered automation for runtime contract drift remediation."

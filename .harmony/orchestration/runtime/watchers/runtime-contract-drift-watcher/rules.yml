@@ -1,0 +1,14 @@
+rules:
+  - rule_id: "workflow-contract-drift"
+    source_ids:
+      - "workflow-runtime"
+    condition:
+      kind: "change"
+      path: "mtime"
+    event_type: "runtime-contract-drift"
+    severity: "warning"
+    summary_template: "Runtime workflow contract drift detected."
+    dedupe_key_fields:
+      - "source_ref"
+    routing_hints:
+      target_automation_id: "runtime-contract-drift-remediation"

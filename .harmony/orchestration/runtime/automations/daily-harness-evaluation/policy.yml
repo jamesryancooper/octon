@@ -1,0 +1,14 @@
+max_concurrency: 1
+concurrency_mode: "serialize"
+idempotency_strategy:
+  kind: "schedule-window"
+  key_fields:
+    - "automation_id"
+    - "schedule_window_id"
+retry_policy:
+  max_attempts: 3
+  backoff: "fixed"
+  retryable_classes:
+    - "lock_acquisition_failure"
+    - "launch_commit_failure"
+pause_on_error: false

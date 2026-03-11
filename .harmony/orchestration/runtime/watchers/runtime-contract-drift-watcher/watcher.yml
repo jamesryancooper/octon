@@ -1,0 +1,9 @@
+watcher_id: "runtime-contract-drift-watcher"
+title: "Runtime Contract Drift Watcher"
+owner: "@architect"
+status: "active"
+runner:
+  kind: "poll"
+  cadence: "PT5M"
+cursor_mode: "per-source-watermark"
+suppression_window: "PT10M"

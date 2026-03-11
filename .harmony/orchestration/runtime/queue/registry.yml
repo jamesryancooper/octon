@@ -1,0 +1,12 @@
+schema_version: "orchestration-queue-registry-v1"
+surface: "queue"
+queue_model: "shared-substrate-v1"
+authority:
+  contract: ".design-packages/orchestration-domain-design-package/contracts/queue-item-and-lease-contract.md"
+  schema: ".design-packages/orchestration-domain-design-package/contracts/schemas/queue-item-and-lease.schema.json"
+lanes:
+  - "pending"
+  - "claimed"
+  - "retry"
+  - "dead-letter"
+receipts_dir: "receipts"

@@ -4,6 +4,12 @@ description: "Orchestrate layered bounded audits to quantify change risk across 
 version: "1.0.0"
 entry_mode: "human"
 execution_profile: "core"
+side_effect_class: "read_only"
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: "none"
+executor_interface_version: "workflow-executor-v1"
 inputs:
   - name: subsystem
     type: folder

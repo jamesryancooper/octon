@@ -1,5 +1,7 @@
 # Missions Registry
-# Tracks active and archived missions
+# Discovery and lifecycle projection only.
+# Canonical mission identity, owner, status, success criteria, and linkage live
+# in mission.yml for each mission unit.
 
 schema_version: "1.0"
 
@@ -8,10 +10,12 @@ active: []
 #   - id: auth-overhaul
 #     status: active
 #     owner: planner
+#     path: auth-overhaul
 #     started: 2025-01-03
 #     target_completion: 2025-01-31
 
 archived: []
 # Example:
 #   - id: doc-migration
+#     path: .archive/doc-migration
 #     completed: 2024-12-15

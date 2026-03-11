@@ -1,0 +1,26 @@
+{
+  "registry_version": "1.0.0",
+  "approvers": [
+    {
+      "approver_id": "@architect",
+      "role": "incident-commander",
+      "approved_scopes": [
+        {
+          "action_class": "close-incident",
+          "surfaces": [
+            "incidents"
+          ]
+        },
+        {
+          "action_class": "incident-severity-downgrade",
+          "surfaces": [
+            "incidents"
+          ]
+        }
+      ],
+      "issued_at": "2026-03-10T00:00:00Z",
+      "expires_at": "2027-03-10T00:00:00Z",
+      "revoked": false
+    }
+  ]
+}

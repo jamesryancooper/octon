@@ -35,11 +35,13 @@ Scaffold a new mission with isolated progress tracking.
 
 1. **Validate slug** — Check format and uniqueness
 2. **Copy template** — Copy `missions/_scaffold/template/` to `missions/<slug>/`
-3. **Initialize mission.md** — Update with slug, start date, placeholder goal,
-   and default linkage fields
-4. **Initialize tasks.json** — Set mission name
-5. **Initialize log.md** — Add creation entry with date
-6. **Update registry** — Add mission to `active` list in `registry.yml`
+3. **Initialize mission.yml** — Update canonical mission identity, lifecycle,
+   owner, summary, success criteria, and linkage placeholders
+4. **Initialize mission.md** — Keep bounded narrative context subordinate to
+   `mission.yml`
+5. **Initialize tasks.json** — Set mission identifier
+6. **Initialize log.md** — Add creation entry with date
+7. **Update registry** — Add mission to `active` list in `registry.yml`
 7. **Confirm** — Report success and next steps
 
 ## Output
@@ -48,9 +50,11 @@ A new mission directory ready for work:
 
 ```text
 missions/<slug>/
-├── mission.md     # Ready for goal/scope/linkage definition
+├── mission.yml    # Canonical mission object
+├── mission.md     # Narrative context subordinate to mission.yml
 ├── tasks.json     # Empty task list
-└── log.md         # Creation entry logged
+├── log.md         # Creation entry logged
+└── context/       # Mission-local context
 ```
 
 ## Required Outcome
@@ -61,8 +65,9 @@ missions/<slug>/
 
 ## Next Steps After Creation
 
-1. Edit `mission.md` to define goal, scope, success criteria, and optional linkage fields
-2. Assign an owner (agent role or @assistant)
+1. Edit `mission.yml` to define owner, lifecycle state, success criteria, and
+   optional workflow/run linkage
+2. Update `mission.md` with bounded narrative context
 3. Add initial tasks to `tasks.json`
 4. Begin work on the mission
 

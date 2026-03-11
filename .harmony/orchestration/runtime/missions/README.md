@@ -7,6 +7,14 @@ description: Time-bounded sub-projects with isolated progress tracking.
 
 Missions are **time-bounded sub-projects** within a harness. They provide isolated progress tracking for parallel workstreams or large initiatives.
 
+Authority order for live mission surfaces is:
+
+`registry.yml -> mission.yml -> mission.md`
+
+`mission.yml` is the canonical mission object for identity, lifecycle, owner,
+success criteria, and cross-surface linkage. `mission.md`, `tasks.json`,
+`log.md`, and `context/` remain subordinate mission-local guidance or state.
+
 ## When to Create a Mission
 
 | Scenario | Use Mission? | Alternative |
@@ -39,17 +47,20 @@ Use the workflow: `/create-mission <slug>`
 
 Or manually:
 1. Copy `_scaffold/template/` to a new directory: `missions/<slug>/`
-2. Update `mission.md` with goal, scope, success criteria
-3. Register in `registry.yml`
+2. Update `mission.yml` with title, summary, owner, lifecycle state, and
+   success criteria
+3. Update `mission.md` with bounded narrative context
+4. Register in `registry.yml`
 
 ## Mission Structure
 
 ```text
 missions/<slug>/
-├── mission.md     # Goal, scope, owner, status
+├── mission.yml    # Canonical machine-readable mission object
+├── mission.md     # Optional narrative brief subordinate to mission.yml
 ├── tasks.json     # Mission-specific task list
 ├── log.md         # Mission-specific progress log
-└── context/       # Mission-specific decisions (optional)
+└── context/       # Mission-specific local context
 ```
 
 ## Relationship to Harness Progress
@@ -62,10 +73,12 @@ Missions roll up to harness-level progress but maintain their own isolated track
 
 ## Optional Linkage Fields
 
-`mission.md` may also carry optional frontmatter linkage fields:
+`mission.yml` may also carry optional linkage fields:
 
 - `campaign_id`
 - `default_workflow_refs`
+- `active_run_ids`
+- `recent_run_ids`
 - `related_run_ids`
 
 Use these fields to link mission intent to strategic context, canonical

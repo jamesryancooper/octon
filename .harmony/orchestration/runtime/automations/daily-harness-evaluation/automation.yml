@@ -1,0 +1,7 @@
+automation_id: "daily-harness-evaluation"
+title: "Daily Harness Evaluation"
+workflow_ref:
+  workflow_group: "meta"
+  workflow_id: "evaluate-harness"
+owner: "@architect"
+status: "active"

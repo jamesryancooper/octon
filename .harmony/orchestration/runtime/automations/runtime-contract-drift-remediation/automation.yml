@@ -1,0 +1,7 @@
+automation_id: "runtime-contract-drift-remediation"
+title: "Runtime Contract Drift Remediation"
+workflow_ref:
+  workflow_group: "refactor"
+  workflow_id: "refactor"
+owner: "@architect"
+status: "active"

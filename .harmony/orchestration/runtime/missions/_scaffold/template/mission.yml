@@ -1,0 +1,13 @@
+schema_version: "mission-object-v1"
+mission_id: "[mission-id]"
+title: "Mission: [mission-id]"
+summary: "[One paragraph describing the bounded objective of this mission.]"
+status: "created"
+owner: "[owner]"
+created_at: "YYYY-MM-DDTHH:MM:SSZ"
+success_criteria:
+  - "[Explicit completion check 1]"
+default_workflow_refs: []
+active_run_ids: []
+recent_run_ids: []
+related_run_ids: []

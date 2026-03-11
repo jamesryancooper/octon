@@ -1,0 +1,7 @@
+automation_id: "[automation-id]"
+title: "[Automation title]"
+workflow_ref:
+  workflow_group: "refactor"
+  workflow_id: "refactor"
+owner: "@owner"
+status: "active"

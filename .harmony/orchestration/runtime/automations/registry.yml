@@ -1,0 +1,14 @@
+schema_version: "orchestration-automations-registry-v1"
+automations:
+  daily-harness-evaluation:
+    path: "daily-harness-evaluation"
+    status: "active"
+    workflow_ref:
+      workflow_group: "meta"
+      workflow_id: "evaluate-harness"
+  runtime-contract-drift-remediation:
+    path: "runtime-contract-drift-remediation"
+    status: "active"
+    workflow_ref:
+      workflow_group: "refactor"
+      workflow_id: "refactor"

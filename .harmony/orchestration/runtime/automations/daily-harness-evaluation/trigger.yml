@@ -1,0 +1,6 @@
+kind: "schedule"
+schedule:
+  cadence: "daily"
+  at: "02:30"
+  timezone: "America/Chicago"
+  missed_run_policy: "next_window"

@@ -4,6 +4,16 @@ description: "Align an existing harness with current canonical conventions by au
 version: "1.1.0"
 entry_mode: "human"
 execution_profile: "core"
+side_effect_class: "mutating"
+execution_controls:
+  cancel_safe: false
+coordination_key_strategy:
+  kind: "workflow-target"
+  source_fields:
+    - "workflow_group"
+    - "workflow_id"
+  format: "workflow:{workflow_group}/{workflow_id}"
+executor_interface_version: "workflow-executor-v1"
 inputs: []
 stages:
   - id: "audit-state"

@@ -27,6 +27,9 @@ It is continuity-owned evidence, not active task state.
 decisions/
 ├── README.md
 ├── retention.json
+├── approvals/
+│   ├── README.md
+│   └── <approval-id>.json
 └── <decision-id>/
     ├── decision.json
     └── digest.md
@@ -37,6 +40,7 @@ decisions/
 ## What Belongs Here
 
 - decision records for `allow`, `block`, and `escalate`
+- approval, waiver, and override artifacts for privileged actions
 - prerequisite and approval evidence references
 - operator-readable decision digests
 

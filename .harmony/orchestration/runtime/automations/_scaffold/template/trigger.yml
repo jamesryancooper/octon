@@ -1,0 +1,7 @@
+kind: "event"
+event:
+  watcher_ids:
+    - "[watcher-id]"
+  event_types:
+    - "[event-type]"
+  match_mode: "all"
