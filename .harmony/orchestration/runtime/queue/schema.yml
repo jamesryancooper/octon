@@ -1,6 +1,6 @@
 schema_version: "orchestration-queue-schema-projection-v1"
-queue_item_contract: ".design-packages/orchestration-domain-design-package/contracts/queue-item-and-lease-contract.md"
-queue_item_schema: ".design-packages/orchestration-domain-design-package/contracts/schemas/queue-item-and-lease.schema.json"
+queue_item_contract: "queue-item-and-lease-contract.md"
+queue_item_schema: "schemas/queue-item-and-lease.schema.json"
 receipt_shape:
   required_fields:
     - "queue_item_id"

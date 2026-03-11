@@ -216,6 +216,36 @@ module_selected() {
   yq -e ".selected_modules[] | select(. == \"$module\")" "$manifest" >/dev/null 2>&1
 }
 
+validate_implementation_targets() {
+  local manifest="$1"
+  local package_label="$2"
+  local package_id="$3"
+  local target_rel target_abs matches
+
+  while IFS= read -r target_rel; do
+    [[ -n "$target_rel" ]] || continue
+
+    if [[ "$target_rel" == .design-packages/* ]]; then
+      fail "$package_label implementation target must point outside .design-packages/: $target_rel"
+      continue
+    fi
+
+    target_abs="$ROOT_DIR/$target_rel"
+    if [[ ! -e "$target_abs" ]]; then
+      warn "$package_label implementation target not present yet: $target_rel"
+      continue
+    fi
+
+    matches="$(grep -R -n -F -- ".design-packages/$package_id" "$target_abs" 2>/dev/null || true)"
+    if [[ -n "$matches" ]]; then
+      fail "$package_label implementation target retains temporary package dependency: $target_rel"
+      printf '%s\n' "$matches"
+    else
+      pass "$package_label implementation target avoids temporary package dependencies: $target_rel"
+    fi
+  done < <(yq -r '.implementation_targets[]?' "$manifest")
+}
+
 validate_package() {
   local package_dir="$1"
   local manifest="$package_dir/design-package.yml"
@@ -283,6 +313,8 @@ validate_package() {
   else
     fail "$package_label implementation_targets must contain at least one path"
   fi
+
+  validate_implementation_targets "$manifest" "$package_label" "$package_id"
 
   validate_selected_modules "$manifest" "$package_label"
 

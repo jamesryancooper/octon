@@ -108,7 +108,7 @@ Contract rules:
 
 - `package_id` must match the package directory name.
 - `implementation_targets` must contain one or more repo-relative durable target
-  paths.
+  paths outside `.design-packages/`.
 - `lifecycle.temporary` must remain `true`.
 - `validation.package_validator_path` may be `null`.
 - `validation.conformance_validator_path` may be `null` only when the
@@ -144,6 +144,18 @@ from the package alone, the required:
 - first implementation slice
 
 without inventing architecture.
+
+## Canonicalization Independence Rule
+
+Durable implementation targets must stand on their own after promotion.
+
+- Canonical runtime, documentation, governance, and validation artifacts must
+  not retain references to `.design-packages/<package_id>/`.
+- If a promoted target needs a contract, schema, fixture, or operator guide
+  that originated in the package, that artifact must be materialized into the
+  durable target surface before merge.
+- Temporary package provenance belongs in plans, PRs, receipts, or historical
+  material, not in canonical target artifacts.
 
 ## Validation And Workflow Path
 

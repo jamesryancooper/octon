@@ -71,7 +71,7 @@ Validation is workflow-first and fail-closed:
 - invalid stage kinds or mutation scope
 - README drift
 - manifest/registry/workflow mismatch
-- live references to temporary `/.design-packages/`
+- live references to temporary design-package paths
 
 No peer `runtime/pipelines/` orchestration surface remains in the shipped
 model.

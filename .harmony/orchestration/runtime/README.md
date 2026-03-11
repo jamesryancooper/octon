@@ -50,4 +50,4 @@ Governance contracts belong in `../governance/`.
 Package-defined surface roots may appear here in groundwork form before they
 become live canonical surfaces. A surface is not canonical until it has the
 runtime discovery artifacts, practices, governance addenda, and validator
-coverage defined by the orchestration design package.
+coverage established inside `/.harmony/orchestration/` itself.

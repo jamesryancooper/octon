@@ -28,6 +28,13 @@ if [[ -f "$primitive_test" && "${ORCHESTRATION_RUNTIME_SKIP_PRIMITIVE_TEST:-0}" 
   echo
 fi
 
+live_independence_validator="$RUNTIME_DIR/_ops/scripts/validate-orchestration-live-independence.sh"
+if [[ -f "$live_independence_validator" && "${ORCHESTRATION_RUNTIME_SKIP_LIVE_INDEPENDENCE_VALIDATOR:-0}" != "1" ]]; then
+  echo "== Run ${live_independence_validator#$RUNTIME_DIR/} =="
+  bash "$live_independence_validator"
+  echo
+fi
+
 first_slice_test="$RUNTIME_DIR/_ops/tests/test-first-end-to-end-slice.sh"
 if [[ -f "$first_slice_test" && "${ORCHESTRATION_RUNTIME_SKIP_FIRST_SLICE_TEST:-0}" != "1" ]]; then
   echo "== Run ${first_slice_test#$RUNTIME_DIR/} =="
@@ -60,5 +67,12 @@ operator_hardening_test="$RUNTIME_DIR/_ops/tests/test-operator-hardening.sh"
 if [[ -f "$operator_hardening_test" && "${ORCHESTRATION_RUNTIME_SKIP_OPERATOR_HARDENING_TEST:-0}" != "1" ]]; then
   echo "== Run ${operator_hardening_test#$RUNTIME_DIR/} =="
   bash "$operator_hardening_test"
+  echo
+fi
+
+live_independence_test="$RUNTIME_DIR/_ops/tests/test-orchestration-live-independence.sh"
+if [[ -f "$live_independence_test" && "${ORCHESTRATION_RUNTIME_SKIP_LIVE_INDEPENDENCE_TEST:-0}" != "1" ]]; then
+  echo "== Run ${live_independence_test#$RUNTIME_DIR/} =="
+  bash "$live_independence_test"
   echo
 fi

@@ -35,8 +35,8 @@
 - `campaign-promotion-criteria.md` - standing criteria for when optional
   `campaigns` should remain deferred or be promoted into live runtime.
 - `orchestration-domain-implementation-agreement.md` - Phase 0 working
-  agreement for implementing and promoting the orchestration domain from the
-  design package without inventing architecture.
+  agreement for promoting temporary design material into standalone live
+  orchestration authority without inventing architecture.
 
 ## Boundary
 

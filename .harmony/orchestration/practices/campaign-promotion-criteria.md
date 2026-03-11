@@ -80,9 +80,9 @@ The current live decision is still `no-go`. See:
 
 - `/.harmony/output/plans/2026-03-10-orchestration-domain-phase9-completion-receipt.md`
 
-## Package References
+## Promotion Independence Rule
 
-- `/.design-packages/orchestration-domain-design-package/contracts/campaign-object-contract.md`
-- `/.design-packages/orchestration-domain-design-package/contracts/campaign-mission-coordination-contract.md`
-- `/.design-packages/orchestration-domain-design-package/reference/surfaces/campaigns.md`
-- `/.design-packages/orchestration-domain-design-package/navigation/canonicalization-target-map.md`
+If `campaigns` are ever promoted, the implementation must materialize the
+campaign object contract, schema, runtime discovery artifacts, practices, and
+validator coverage inside live `/.harmony/orchestration/` surfaces before
+merge. No live campaign artifact may depend on temporary design-package paths.

@@ -10,6 +10,7 @@ REPO_ROOT="$(cd -- "$HARMONY_DIR/.." && pwd)"
 
 SCHEDULE_SCRIPT=".harmony/orchestration/runtime/_ops/scripts/evaluate-automation-schedule.py"
 SCHEDULE_LAUNCH_SCRIPT=".harmony/orchestration/runtime/_ops/scripts/launch-scheduled-automation-run.sh"
+SCHEDULE_FIXTURES_DIR=".harmony/orchestration/runtime/_ops/fixtures/scheduling"
 EMIT_SCRIPT=".harmony/orchestration/runtime/_ops/scripts/emit-watcher-event.sh"
 ROUTE_SCRIPT=".harmony/orchestration/runtime/_ops/scripts/route-watcher-event.sh"
 QUEUE_SCRIPT=".harmony/orchestration/runtime/_ops/scripts/manage-queue.sh"
@@ -22,7 +23,7 @@ cleanup_paths=()
 cleanup() {
   local path
   for path in "${cleanup_paths[@]}"; do
-    [[ -n "$path" ]] && rm -rf "$path"
+    [[ -n "$path" && -e "$path" ]] && rm -r "$path"
   done
 }
 trap cleanup EXIT
@@ -85,8 +86,8 @@ schedule:
   timezone: "America/Chicago"
   missed_run_policy: "next_window"
 EOF
-  spring_json="$(python3 "$REPO_ROOT/$SCHEDULE_SCRIPT" --automation-id daily-harness-evaluation --trigger-file "$spring_trigger" --transition-file "$REPO_ROOT/.design-packages/orchestration-domain-design-package/conformance/scenarios/scheduling/dst-spring-forward.json")"
-  fall_json="$(python3 "$REPO_ROOT/$SCHEDULE_SCRIPT" --automation-id daily-harness-evaluation --trigger-file "$fall_trigger" --transition-file "$REPO_ROOT/.design-packages/orchestration-domain-design-package/conformance/scenarios/scheduling/dst-fall-back.json")"
+  spring_json="$(python3 "$REPO_ROOT/$SCHEDULE_SCRIPT" --automation-id daily-harness-evaluation --trigger-file "$spring_trigger" --transition-file "$REPO_ROOT/$SCHEDULE_FIXTURES_DIR/dst-spring-forward.json")"
+  fall_json="$(python3 "$REPO_ROOT/$SCHEDULE_SCRIPT" --automation-id daily-harness-evaluation --trigger-file "$fall_trigger" --transition-file "$REPO_ROOT/$SCHEDULE_FIXTURES_DIR/dst-fall-back.json")"
   jq -e '.resolved_local_time == "03:00" and .window_count == 1' <<<"$spring_json" >/dev/null
   jq -e '.resolved_local_time == "01:30" and .window_count == 1 and .selected_occurrence == "first"' <<<"$fall_json" >/dev/null
 }
@@ -95,9 +96,9 @@ case_scheduled_launch_is_idempotent() {
   local fixture_root envs output
   fixture_root="$(create_fixture)"
   envs=("HARMONY_DIR_OVERRIDE=$fixture_root/.harmony" "HARMONY_ROOT_DIR=$fixture_root")
-  output="$(env "${envs[@]}" bash "$REPO_ROOT/$SCHEDULE_LAUNCH_SCRIPT" --automation-id daily-harness-evaluation --transition-file "$REPO_ROOT/.design-packages/orchestration-domain-design-package/conformance/scenarios/scheduling/dst-spring-forward.json" --executor-id executor-schedule)"
+  output="$(env "${envs[@]}" bash "$REPO_ROOT/$SCHEDULE_LAUNCH_SCRIPT" --automation-id daily-harness-evaluation --transition-file "$REPO_ROOT/$SCHEDULE_FIXTURES_DIR/dst-spring-forward.json" --executor-id executor-schedule)"
   jq -e '.run_id | startswith("run-daily-harness-evaluation:2026-03-08:03:00")' <<<"$output" >/dev/null
-  if env "${envs[@]}" bash "$REPO_ROOT/$SCHEDULE_LAUNCH_SCRIPT" --automation-id daily-harness-evaluation --transition-file "$REPO_ROOT/.design-packages/orchestration-domain-design-package/conformance/scenarios/scheduling/dst-spring-forward.json" --executor-id executor-schedule >/dev/null 2>&1; then
+  if env "${envs[@]}" bash "$REPO_ROOT/$SCHEDULE_LAUNCH_SCRIPT" --automation-id daily-harness-evaluation --transition-file "$REPO_ROOT/$SCHEDULE_FIXTURES_DIR/dst-spring-forward.json" --executor-id executor-schedule >/dev/null 2>&1; then
     return 1
   fi
 }

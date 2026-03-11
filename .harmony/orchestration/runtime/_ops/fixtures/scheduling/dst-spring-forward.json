@@ -1,0 +1,21 @@
+{
+  "scenario_id": "scheduling-dst-spring-forward",
+  "suite": "scheduling",
+  "description": "A nonexistent local time resolves to the next valid minute on the same date.",
+  "schedule": {
+    "cadence": "daily",
+    "at": "02:30",
+    "timezone": "America/Chicago",
+    "missed_run_policy": "next_window"
+  },
+  "transition": {
+    "kind": "spring_forward",
+    "local_date": "2026-03-08",
+    "gap_start": "02:00",
+    "gap_end": "02:59"
+  },
+  "expected": {
+    "resolved_local_time": "03:00",
+    "window_count": 1
+  }
+}

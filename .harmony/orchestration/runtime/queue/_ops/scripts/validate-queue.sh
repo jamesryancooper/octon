@@ -19,11 +19,48 @@ fi
 require_file_rel "README.md"
 require_file_rel "registry.yml"
 require_file_rel "schema.yml"
+require_file_rel "queue-item-and-lease-contract.md"
+require_file_rel "schemas/queue-item-and-lease.schema.json"
 require_dir_rel "pending"
 require_dir_rel "claimed"
 require_dir_rel "retry"
 require_dir_rel "dead-letter"
 require_dir_rel "receipts"
+
+require_fixed() {
+  local needle="$1"
+  local rel="$2"
+  local label="$3"
+  if grep -Fq -- "$needle" "$SURFACE_DIR/$rel"; then
+    pass "$label"
+  else
+    fail "$label"
+  fi
+}
+
+check_definition_surfaces_are_local() {
+  local matches=""
+  matches="$(
+    grep -R -n -F -- ".design-packages/" \
+      "$SURFACE_DIR/README.md" \
+      "$SURFACE_DIR/registry.yml" \
+      "$SURFACE_DIR/schema.yml" \
+      "$SURFACE_DIR/queue-item-and-lease-contract.md" \
+      "$SURFACE_DIR/schemas" 2>/dev/null || true
+  )"
+  if [[ -n "$matches" ]]; then
+    fail "queue surface definition artifacts must not depend on temporary .design-packages paths"
+    printf '%s\n' "$matches"
+  else
+    pass "queue surface definition artifacts avoid temporary .design-packages paths"
+  fi
+}
+
+require_fixed 'contract: "queue-item-and-lease-contract.md"' "registry.yml" "queue registry points to the live contract"
+require_fixed 'schema: "schemas/queue-item-and-lease.schema.json"' "registry.yml" "queue registry points to the live schema"
+require_fixed 'queue_item_contract: "queue-item-and-lease-contract.md"' "schema.yml" "queue schema projection points to the live contract"
+require_fixed 'queue_item_schema: "schemas/queue-item-and-lease.schema.json"' "schema.yml" "queue schema projection points to the live schema"
+check_definition_surfaces_are_local
 
 validate_queue_item() {
   local lane="$1"

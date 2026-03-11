@@ -302,6 +302,20 @@ case_forbidden_authority_phrase_fails() {
   run_validator_in_fixture "$fixture_root" --package ".design-packages/experience-package"
 }
 
+case_live_target_backreference_fails() {
+  local fixture_root package_dir
+  fixture_root="$(create_fixture_repo)"
+  package_dir="$(create_experience_product_package "$fixture_root")"
+  mkdir -p "$fixture_root/.harmony/example"
+  cat >"$fixture_root/.harmony/example/experience.md" <<'EOF'
+# Live Target
+
+Do not leave `.design-packages/experience-package/navigation/source-of-truth-map.md`
+as a dependency.
+EOF
+  run_validator_in_fixture "$fixture_root" --package ".design-packages/experience-package"
+}
+
 case_selected_module_missing_artifact_fails() {
   local fixture_root package_dir
   fixture_root="$(create_fixture_repo)"
@@ -342,6 +356,11 @@ main() {
     "design-package standard validator rejects forbidden authority phrases" \
     "README avoids forbidden source-of-truth phrase" \
     case_forbidden_authority_phrase_fails
+
+  assert_failure_contains \
+    "design-package standard validator rejects live targets that still reference the package" \
+    "implementation target retains temporary package dependency" \
+    case_live_target_backreference_fails
 
   assert_failure_contains \
     "design-package standard validator rejects missing selected-module artifacts" \
