@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.11](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.10...harmony-v0.4.11) (2026-03-11)
+
+
+### Bug Fixes
+
+* **orchestration:** remove design package backreferences ([#137](https://github.com/jamesryancooper/harmony/issues/137)) ([8717243](https://github.com/jamesryancooper/harmony/commit/87172438b7063a143e8f4769c74dc38f27dec8b1))
+
 ## [0.4.10](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.9...harmony-v0.4.10) (2026-03-11)
 
 
