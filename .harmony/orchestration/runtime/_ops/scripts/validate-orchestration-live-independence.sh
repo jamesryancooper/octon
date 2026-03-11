@@ -16,38 +16,48 @@ pass() {
   echo "[OK] $1"
 }
 
+filter_allowed_matches() {
+  awk '
+    /runtime\/workflows\/registry\.yml:[0-9]+:.*Kebab-case design package id and directory name under \.design-packages\// { next }
+    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.design-packages\/\{\{package_id\}\}\/"/ { next }
+    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.design-packages\/\{\{package_id\}\}\/design-package\.yml"/ { next }
+    { print }
+  '
+}
+
 scan_matches() {
+  local raw_matches
+
   if command -v rg >/dev/null 2>&1; then
-    (
-      cd "$ORCHESTRATION_DIR"
-      rg -n --hidden --glob '!.git' \
-        --glob '!_meta/architecture/specification.md' \
-        --glob '!practices/workflow-authoring-standards.md' \
-        --glob '!runtime/_ops/scripts/validate-orchestration-live-independence.sh' \
-        --glob '!runtime/_ops/tests/test-orchestration-live-independence.sh' \
-        --glob '!runtime/queue/_ops/scripts/validate-queue.sh' \
-        --glob '!runtime/workflows/manifest.yml' \
-        --glob '!runtime/workflows/registry.yml' \
-        --glob '!runtime/workflows/_ops/scripts/validate-workflows.sh' \
-        --glob '!runtime/workflows/meta/create-design-package/**' \
-        --glob '!runtime/workflows/audit/audit-design-package/**' \
-        '\.design-packages/' . || true
-    )
-    return
+    raw_matches="$(
+      cd "$ORCHESTRATION_DIR" && \
+        rg -n --hidden --glob '!.git' \
+          --glob '!_meta/architecture/specification.md' \
+          --glob '!practices/workflow-authoring-standards.md' \
+          --glob '!runtime/_ops/scripts/validate-orchestration-live-independence.sh' \
+          --glob '!runtime/_ops/tests/test-orchestration-live-independence.sh' \
+          --glob '!runtime/queue/_ops/scripts/validate-queue.sh' \
+          --glob '!runtime/workflows/_ops/scripts/validate-workflows.sh' \
+          --glob '!runtime/workflows/meta/create-design-package/**' \
+          --glob '!runtime/workflows/audit/audit-design-package/**' \
+          '\.design-packages/' . || true
+    )"
+  else
+    raw_matches="$(
+      grep -R -n -E '\.design-packages/' "$ORCHESTRATION_DIR" 2>/dev/null \
+        | grep -v '/_meta/architecture/specification.md:' \
+        | grep -v '/practices/workflow-authoring-standards.md:' \
+        | grep -v '/runtime/_ops/scripts/validate-orchestration-live-independence.sh:' \
+        | grep -v '/runtime/_ops/tests/test-orchestration-live-independence.sh:' \
+        | grep -v '/runtime/queue/_ops/scripts/validate-queue.sh:' \
+        | grep -v '/runtime/workflows/_ops/scripts/validate-workflows.sh:' \
+        | grep -v '/runtime/workflows/meta/create-design-package/' \
+        | grep -v '/runtime/workflows/audit/audit-design-package/' \
+        || true
+    )"
   fi
 
-  grep -R -n -E '\.design-packages/' "$ORCHESTRATION_DIR" 2>/dev/null \
-    | grep -v '/_meta/architecture/specification.md:' \
-    | grep -v '/practices/workflow-authoring-standards.md:' \
-    | grep -v '/runtime/_ops/scripts/validate-orchestration-live-independence.sh:' \
-    | grep -v '/runtime/_ops/tests/test-orchestration-live-independence.sh:' \
-    | grep -v '/runtime/queue/_ops/scripts/validate-queue.sh:' \
-    | grep -v '/runtime/workflows/manifest.yml:' \
-    | grep -v '/runtime/workflows/registry.yml:' \
-    | grep -v '/runtime/workflows/_ops/scripts/validate-workflows.sh:' \
-    | grep -v '/runtime/workflows/meta/create-design-package/' \
-    | grep -v '/runtime/workflows/audit/audit-design-package/' \
-    || true
+  printf '%s\n' "$raw_matches" | filter_allowed_matches
 }
 
 matches="$(scan_matches)"

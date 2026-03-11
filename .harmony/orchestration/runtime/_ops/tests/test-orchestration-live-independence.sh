@@ -86,7 +86,7 @@ EOF
   cat > "$fixture_root/.harmony/orchestration/runtime/workflows/manifest.yml" <<'EOF'
 workflows:
   create-design-package:
-    artifact_path: ".design-packages/{{package_id}}/"
+    path: "meta/create-design-package/"
 EOF
 
   cat > "$fixture_root/.harmony/orchestration/runtime/workflows/registry.yml" <<'EOF'
@@ -133,6 +133,17 @@ case_live_backreference_fails() {
   run_validator_in_fixture "$fixture_root"
 }
 
+case_unexpected_workflow_index_backreference_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  cat >> "$fixture_root/.harmony/orchestration/runtime/workflows/registry.yml" <<'EOF'
+  update-workflow:
+    outputs:
+      path: ".design-packages/unexpected-package/"
+EOF
+  run_validator_in_fixture "$fixture_root"
+}
+
 main() {
   assert_success \
     "live-independence validator allows explicit design-package workflow exceptions" \
@@ -142,6 +153,11 @@ main() {
     "live-independence validator rejects live orchestration backreferences" \
     "live orchestration artifacts must not depend on temporary .design-packages paths" \
     case_live_backreference_fails
+
+  assert_failure_contains \
+    "live-independence validator rejects unexpected workflow index backreferences" \
+    "live orchestration artifacts must not depend on temporary .design-packages paths" \
+    case_unexpected_workflow_index_backreference_fails
 
   echo
   echo "Passed: $pass_count"
