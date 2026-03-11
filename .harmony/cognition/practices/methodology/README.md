@@ -147,6 +147,8 @@ Use these companion documents when you need deeper operational detail:
 - `architecture-and-repo-structure.md` — 12-Factor modulith, Hexagonal boundaries, and feature flags.
 - `tooling-and-metrics.md` — provider-agnostic tooling policy and improvement metrics.
 - `sandbox-flow.md` — Canonical end-to-end sandbox flow using previews, flags, CI gates, and observability before production rollout.
+- `architecture-readiness/README.md` — Whole-harness and bounded-domain architecture-readiness applicability and execution model.
+- `architecture-readiness/framework.md` — Architecture-readiness scoring dimensions, hard gates, and failure-mode expectations.
 - `migrations/README.md` — Profile-governed migration policy, invariants, exceptions, CI gates, and legacy banlist governance.
 - `audits/README.md` — Bounded audit policy, invariants, convergence controls, CI gates, and stable findings contract.
 

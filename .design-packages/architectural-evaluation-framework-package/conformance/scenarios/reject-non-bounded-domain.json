@@ -1,0 +1,12 @@
+{
+  "scenario_id": "reject-non-bounded-domain",
+  "suite": "scope-classification",
+  "description": "A non-target domain profile is rejected or marked not-applicable before scoring.",
+  "inputs": {
+    "scope_path": ".harmony/ideation"
+  },
+  "expected": {
+    "support_decision": "not-applicable",
+    "reason": "target-profile-not-supported"
+  }
+}

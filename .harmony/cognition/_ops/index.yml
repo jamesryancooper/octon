@@ -4,7 +4,7 @@
 schema_version: "1.0"
 files:
   - id: ops-overview
-    path: README.md
+    path: overview.md
     summary: Cognition ops surface orientation and script grouping.
     when: First entrypoint before invoking cognition _ops scripts.
 
@@ -32,4 +32,3 @@ files:
     path: projections/index.yml
     summary: Discovery index for runtime projections surface validators.
     when: When validating projection definitions and materialized outputs.
-

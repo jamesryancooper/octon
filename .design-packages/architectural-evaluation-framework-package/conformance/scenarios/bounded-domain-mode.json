@@ -1,0 +1,13 @@
+{
+  "scenario_id": "bounded-domain-mode",
+  "suite": "mode-selection",
+  "description": "A bounded-surface top-level domain is accepted and routed to bounded-domain mode.",
+  "inputs": {
+    "scope_path": ".harmony/capabilities"
+  },
+  "expected": {
+    "support_decision": "supported",
+    "target_profile": "bounded-surface-domain",
+    "evaluation_mode": "bounded-domain"
+  }
+}

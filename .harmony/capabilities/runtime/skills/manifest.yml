@@ -258,6 +258,30 @@ skills:
       - domain-specialized
       - self-validating
 
+  - id: audit-architecture-readiness
+    display_name: Audit Architecture Readiness
+    group: audit
+    path: audit/audit-architecture-readiness/
+    skill_class: invocable
+    summary: "Bounded architecture-readiness audit for Harmony whole-harness and bounded-surface domain targets."
+    status: active
+    tags:
+      - audit
+      - architecture
+      - readiness
+      - control-plane
+    triggers:
+      - "audit architecture readiness"
+      - "run architecture readiness audit"
+      - "evaluate harmony architecture readiness"
+      - "run audit-architecture-readiness"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
   - id: audit-charter
     display_name: Audit Charter
     group: audit

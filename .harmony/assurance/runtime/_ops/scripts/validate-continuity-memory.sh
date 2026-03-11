@@ -565,6 +565,27 @@ validate_decisions_retention_contract() {
   while IFS= read -r decision_path; do
     [[ -z "$decision_path" ]] && continue
     decision_name="$(basename "$decision_path")"
+
+    if [[ "$decision_name" == "approvals" ]]; then
+      local approval_extra approval_json
+      approval_extra="$(
+        find "$decision_path" -mindepth 1 -maxdepth 1 -type f \
+          ! -name 'README.md' ! -name '*.json' -print
+      )"
+      if [[ -n "$approval_extra" ]]; then
+        fail "approval container contains unsupported files: $(echo "$approval_extra" | sed "s#${ROOT_DIR}/##g" | paste -sd ', ' -)"
+      else
+        pass "approval container contains only README.md and approval JSON artifacts: ${decision_path#$ROOT_DIR/}"
+      fi
+
+      while IFS= read -r approval_json; do
+        [[ -z "$approval_json" ]] && continue
+        validate_json_file "$approval_json"
+      done < <(find "$decision_path" -mindepth 1 -maxdepth 1 -type f -name '*.json' | sort)
+
+      continue
+    fi
+
     matched=0
 
     while IFS=$'\t' read -r class_id prefix; do

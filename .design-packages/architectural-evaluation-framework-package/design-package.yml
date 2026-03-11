@@ -1,0 +1,23 @@
+schema_version: "design-package-v1"
+package_id: "architectural-evaluation-framework-package"
+title: "Architectural Evaluation Framework Design Package"
+summary: "Temporary blueprint for building a Harmony architecture-readiness evaluation capability for whole-harness and bounded-surface domain audits."
+package_class: "domain-runtime"
+selected_modules:
+  - "contracts"
+  - "conformance"
+  - "reference"
+  - "canonicalization"
+implementation_targets:
+  - ".harmony/capabilities/runtime/skills/audit/audit-architecture-readiness/"
+  - ".harmony/orchestration/runtime/workflows/audit/audit-architecture-readiness/"
+  - ".harmony/cognition/practices/methodology/architecture-readiness/"
+  - ".harmony/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md"
+status: "archived"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promoted into durable .harmony surfaces and archived in place as historical implementation material with no live dependencies."
+validation:
+  default_audit_mode: "rigorous"
+  package_validator_path: null
+  conformance_validator_path: ".design-packages/architectural-evaluation-framework-package/conformance/validate_scenarios.sh"

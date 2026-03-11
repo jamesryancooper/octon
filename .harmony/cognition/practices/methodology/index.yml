@@ -118,6 +118,16 @@ files:
     summary: Machine-readable discovery index for bounded audit governance artifacts.
     when: For targeted audit policy lookup without full-doc scans.
 
+  - id: architecture-readiness-overview
+    path: architecture-readiness/README.md
+    summary: Target applicability and operating overview for architecture-readiness evaluation.
+    when: Before running or implementing whole-harness or bounded-domain architecture-readiness audits.
+
+  - id: architecture-readiness-framework
+    path: architecture-readiness/framework.md
+    summary: Scoring dimensions, hard gates, and remediation expectations for architecture-readiness audits.
+    when: When authoring, reviewing, or validating architecture-readiness findings.
+
   - id: spec-templates-overview
     path: templates/README.md
     summary: Risk-tiered spec template surface and usage guidance.

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Architecture Readiness Target v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "target_id",
+    "scope_path",
+    "target_profile",
+    "evaluation_mode"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "architecture-readiness-target-v1"
+    },
+    "target_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_profile": {
+      "type": "string",
+      "enum": [
+        "whole-harmony",
+        "bounded-surface-domain"
+      ]
+    },
+    "evaluation_mode": {
+      "type": "string",
+      "enum": [
+        "whole-harness",
+        "bounded-domain"
+      ]
+    },
+    "domain_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "target_profile": {
+            "const": "whole-harmony"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evaluation_mode": {
+            "const": "whole-harness"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target_profile": {
+            "const": "bounded-surface-domain"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "domain_id"
+        ],
+        "properties": {
+          "evaluation_mode": {
+            "const": "bounded-domain"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": "architecture-readiness-target-v1",
+  "target_id": "ideation-domain",
+  "scope_path": ".harmony/ideation",
+  "target_profile": "human-led-domain",
+  "evaluation_mode": "bounded-domain",
+  "domain_id": "ideation",
+  "notes": "This should be rejected because the framework does not target human-led domains."
+}

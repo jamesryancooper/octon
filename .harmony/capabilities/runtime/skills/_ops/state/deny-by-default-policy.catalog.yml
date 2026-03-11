@@ -1,5 +1,5 @@
 schema_version: "1.0"
-generated_at: "2026-03-06T17:15:41Z"
+generated_at: "2026-03-11T19:20:52Z"
 source_manifest: ".harmony/capabilities/runtime/skills/manifest.yml"
 skills:
   - id: "synthesize-research"
@@ -109,6 +109,17 @@ skills:
     allowed_services:
   - id: "audit-domain-architecture"
     path: "audit/audit-domain-architecture/"
+    status: "active"
+    broad_write_scope: false
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(../../output/reports/*)"
+      - "Write(_ops/state/logs/*)"
+    allowed_services:
+  - id: "audit-architecture-readiness"
+    path: "audit/audit-architecture-readiness/"
     status: "active"
     broad_write_scope: false
     allowed_tools:

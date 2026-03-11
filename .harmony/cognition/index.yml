@@ -44,6 +44,6 @@ files:
     when: Before invoking cognition _ops scripts by intent.
 
   - id: cognition-ops-overview
-    path: _ops/README.md
+    path: _ops/overview.md
     summary: Cognition operational scripts surface and guardrail entrypoints.
     when: Before running cognition maintenance and validation scripts.

@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Architecture Readiness Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "target",
+    "verdict",
+    "weighted_score_summary",
+    "critical_gaps",
+    "next_actions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "architecture-readiness-report-v1"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_id",
+        "scope_path",
+        "target_profile",
+        "evaluation_mode"
+      ],
+      "properties": {
+        "target_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_profile": {
+          "type": "string"
+        },
+        "evaluation_mode": {
+          "type": "string"
+        }
+      }
+    },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "implementation-ready",
+        "conditionally-implementation-ready",
+        "not-implementation-ready",
+        "not-applicable"
+      ]
+    },
+    "weighted_score_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "average_score",
+        "dimensions",
+        "hard_gate_failures"
+      ],
+      "properties": {
+        "average_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "score",
+              "weight"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 3
+              },
+              "weight": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        },
+        "hard_gate_failures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "critical_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "gap_id",
+          "title",
+          "severity",
+          "remediation_artifacts"
+        ],
+        "properties": {
+          "gap_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "remediation_artifacts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "next_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

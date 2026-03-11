@@ -206,6 +206,18 @@ workflows:
       - "run release readiness workflow"
       - "layered release readiness audit"
       - "orchestrate release readiness audits"
+  - id: audit-architecture-readiness
+    display_name: Architecture Readiness Audit Workflow
+    group: audit
+    domain: audit
+    path: audit/audit-architecture-readiness/
+    summary: Orchestrate whole-harness and bounded-domain architecture-readiness audits into one bounded implementation-readiness recommendation.
+    status: active
+    triggers:
+      - "architecture readiness audit workflow"
+      - "run architecture readiness workflow"
+      - "audit harmony architecture readiness"
+      - "orchestrate architecture readiness audits"
   - id: audit-documentation
     display_name: Documentation Audit
     group: audit
