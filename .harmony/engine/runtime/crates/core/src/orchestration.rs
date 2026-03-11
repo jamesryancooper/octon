@@ -1842,7 +1842,7 @@ fn parse_last_timeline_timestamp(path: &Path) -> Result<Option<String>> {
     for line in text.lines().rev() {
         let trimmed = line.trim();
         if let Some(rest) = trimmed.strip_prefix("- ") {
-            if let Some((timestamp, _)) = rest.split_once(':') {
+            if let Some((timestamp, _)) = rest.split_once(": ") {
                 if timestamp.contains('T') {
                     return Ok(Some(timestamp.to_string()));
                 }
@@ -2046,6 +2046,10 @@ mod tests {
         assert_eq!(snapshot.automations[0].suppression_count, 2);
         assert_eq!(snapshot.missions[0].blocked_task_count, 1);
         assert_eq!(snapshot.incidents[0].closure_ready, true);
+        assert_eq!(
+            snapshot.incidents[0].last_timeline_update_at.as_deref(),
+            Some("2026-03-11T10:20:00Z")
+        );
 
         let _ = fs::remove_file("/tmp/harmony-orch-event.json");
         fs::remove_dir_all(root).ok();
