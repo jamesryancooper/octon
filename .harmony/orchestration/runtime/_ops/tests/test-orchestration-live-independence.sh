@@ -92,8 +92,11 @@ EOF
   cat > "$fixture_root/.harmony/orchestration/runtime/workflows/registry.yml" <<'EOF'
 workflows:
   create-design-package:
+    parameters:
+      - description: "Kebab-case design package id and directory name under .design-packages/"
     outputs:
-      path: ".design-packages/{{package_id}}/"
+      - path: "../../../../../.design-packages/{{package_id}}/"
+      - path: "../../../../../.design-packages/{{package_id}}/design-package.yml"
 EOF
 
   cat > "$fixture_root/.harmony/orchestration/runtime/workflows/meta/create-design-package/README.md" <<'EOF'
