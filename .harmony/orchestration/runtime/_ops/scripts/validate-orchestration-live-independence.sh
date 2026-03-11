@@ -16,28 +16,41 @@ pass() {
   echo "[OK] $1"
 }
 
-if ! command -v rg >/dev/null 2>&1; then
-  fail "rg is required for orchestration live-independence validation"
-  echo "orchestration live-independence validation summary: errors=$errors"
-  exit 1
-fi
+scan_matches() {
+  if command -v rg >/dev/null 2>&1; then
+    (
+      cd "$ORCHESTRATION_DIR"
+      rg -n --hidden --glob '!.git' \
+        --glob '!_meta/architecture/specification.md' \
+        --glob '!practices/workflow-authoring-standards.md' \
+        --glob '!runtime/_ops/scripts/validate-orchestration-live-independence.sh' \
+        --glob '!runtime/_ops/tests/test-orchestration-live-independence.sh' \
+        --glob '!runtime/queue/_ops/scripts/validate-queue.sh' \
+        --glob '!runtime/workflows/manifest.yml' \
+        --glob '!runtime/workflows/registry.yml' \
+        --glob '!runtime/workflows/_ops/scripts/validate-workflows.sh' \
+        --glob '!runtime/workflows/meta/create-design-package/**' \
+        --glob '!runtime/workflows/audit/audit-design-package/**' \
+        '\.design-packages/' . || true
+    )
+    return
+  fi
 
-pushd "$ORCHESTRATION_DIR" >/dev/null
-matches="$(
-  rg -n --hidden --glob '!.git' \
-    --glob '!_meta/architecture/specification.md' \
-    --glob '!practices/workflow-authoring-standards.md' \
-    --glob '!runtime/_ops/scripts/validate-orchestration-live-independence.sh' \
-    --glob '!runtime/_ops/tests/test-orchestration-live-independence.sh' \
-    --glob '!runtime/queue/_ops/scripts/validate-queue.sh' \
-    --glob '!runtime/workflows/manifest.yml' \
-    --glob '!runtime/workflows/registry.yml' \
-    --glob '!runtime/workflows/_ops/scripts/validate-workflows.sh' \
-    --glob '!runtime/workflows/meta/create-design-package/**' \
-    --glob '!runtime/workflows/audit/audit-design-package/**' \
-    '\.design-packages/' . || true
-)"
-popd >/dev/null
+  grep -R -n -E '\.design-packages/' "$ORCHESTRATION_DIR" 2>/dev/null \
+    | grep -v '/_meta/architecture/specification.md:' \
+    | grep -v '/practices/workflow-authoring-standards.md:' \
+    | grep -v '/runtime/_ops/scripts/validate-orchestration-live-independence.sh:' \
+    | grep -v '/runtime/_ops/tests/test-orchestration-live-independence.sh:' \
+    | grep -v '/runtime/queue/_ops/scripts/validate-queue.sh:' \
+    | grep -v '/runtime/workflows/manifest.yml:' \
+    | grep -v '/runtime/workflows/registry.yml:' \
+    | grep -v '/runtime/workflows/_ops/scripts/validate-workflows.sh:' \
+    | grep -v '/runtime/workflows/meta/create-design-package/' \
+    | grep -v '/runtime/workflows/audit/audit-design-package/' \
+    || true
+}
+
+matches="$(scan_matches)"
 
 if [[ -n "$matches" ]]; then
   fail "live orchestration artifacts must not depend on temporary .design-packages paths"
