@@ -22,7 +22,7 @@ cleanup_paths=()
 cleanup() {
   local path
   for path in "${cleanup_paths[@]}"; do
-    [[ -n "$path" ]] && rm -rf "$path"
+    [[ -n "$path" && -e "$path" ]] && rm -r "$path"
   done
 }
 trap cleanup EXIT
@@ -119,7 +119,12 @@ case_primitives_round_trip() {
     --claim-token "$claim_token")"
   [[ -f "$receipt_path" ]]
 
-  env ORCHESTRATION_RUNTIME_SKIP_PRIMITIVE_TEST=1 "${envs[@]}" bash "$REPO_ROOT/$RUNTIME_VALIDATE" >/dev/null
+  env \
+    ORCHESTRATION_RUNTIME_SKIP_PRIMITIVE_TEST=1 \
+    ORCHESTRATION_RUNTIME_SKIP_LIVE_INDEPENDENCE_VALIDATOR=1 \
+    ORCHESTRATION_RUNTIME_SKIP_LIVE_INDEPENDENCE_TEST=1 \
+    "${envs[@]}" \
+    bash "$REPO_ROOT/$RUNTIME_VALIDATE" >/dev/null
 }
 
 assert_success "shared runtime primitives round-trip" case_primitives_round_trip
