@@ -16,6 +16,32 @@
 | `_coordination/` | Internal lock state for target-global coordination | direct path |
 | `_ops/scripts/validate-orchestration-runtime.sh` | Runtime validation dispatcher for live and planned orchestration surfaces | direct invocation |
 
+## Operator Inspection
+
+Preferred operator entry points for this runtime are:
+
+- `harmony orchestration summary --surface all`
+- `harmony orchestration lookup --run-id <run-id>`
+- `harmony orchestration lookup --decision-id <decision-id>`
+- `harmony orchestration lookup --incident-id <incident-id>`
+- `harmony orchestration incident closure-readiness --incident-id <incident-id>`
+
+Thin wrappers for common operator tasks live under `runtime/_ops/scripts/`,
+including:
+
+- `lookup-orchestration-lineage.sh`
+- `inspect-run-health.sh`
+- `summarize-watcher-health.sh`
+- `summarize-queue-health.sh`
+- `summarize-automation-health.sh`
+- `summarize-mission-health.sh`
+- `summarize-incident-health.sh`
+- `check-incident-closure-readiness.sh`
+- `generate-ops-snapshot.sh`
+
+These helpers remain projection-only over canonical runtime, governance, and
+continuity artifacts.
+
 ## Boundary
 
 Only runtime orchestration artifacts belong here.

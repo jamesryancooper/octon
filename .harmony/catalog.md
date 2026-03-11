@@ -110,7 +110,7 @@ Atomic operations in `capabilities/runtime/commands/`:
 | Command | Access | Description |
 |---------|--------|-------------|
 | [init.md](./capabilities/runtime/commands/init.md) | human | Initialize canonical `.harmony` bootstrap files plus repo-root ingress adapters (`.harmony/AGENTS.md`, `.harmony/OBJECTIVE.md`, `intent.contract.yml`, root `AGENTS.md`, root `CLAUDE.md`, `alignment-check`, optional `BOOT*.md`) |
-| [studio.md](./capabilities/runtime/commands/studio.md) | human | Launch Harmony Studio for workflow graph design, inspection, and safe staged edits |
+| [studio.md](./capabilities/runtime/commands/studio.md) | human | Launch Harmony Studio for workflow graph design, read-only orchestration operations, and safe staged edits |
 | [recover.md](./capabilities/runtime/commands/recover.md) | human | Recovery procedures for common agent failure modes |
 | [audit-skills-system-expansion.md](./capabilities/runtime/commands/audit-skills-system-expansion.md) | human | Invoke the skills-system expansion evaluation prompt through a slash-style command wrapper |
 | [alignment-check.md](./capabilities/runtime/commands/alignment-check.md) | human | Run profile-based alignment checks across harness aspects |

@@ -15,6 +15,7 @@ Applies to incident opening, enrichment, mitigation tracking, and closure.
 3. `closure.md` is required when `status=closed`.
 4. Closing an incident requires:
    - explicit closure authority
+   - a fail-closed closure-readiness check before the final status transition
    - closure summary
    - remediation evidence or explicit waiver
 5. Incident runtime state must remain subordinate to incident governance:
@@ -26,5 +27,7 @@ Applies to incident opening, enrichment, mitigation tracking, and closure.
 
 - Runtime incidents coordinate response state.
 - Governance remains in `/.harmony/orchestration/governance/incidents.md`.
+- Use `harmony orchestration incident closure-readiness --incident-id <id>`
+  before human closure.
 - Larger follow-up work should move into mission state rather than remaining
   implicit in incident notes.

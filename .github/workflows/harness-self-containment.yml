@@ -63,6 +63,11 @@ jobs:
           chmod +x .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
           .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
 
+      - name: Test bounded-audit convergence validator
+        run: |
+          chmod +x .harmony/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
+          .harmony/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
+
       - name: Validate workflow manifest and dependency profiles
         run: |
           chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh

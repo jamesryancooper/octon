@@ -35,7 +35,7 @@ bounded verification.
    - selected mode
    - key blockers or readiness verdict
    - changed files
-   - bounded bundle path
+   - workflow bundle path
 
 ## Output
 

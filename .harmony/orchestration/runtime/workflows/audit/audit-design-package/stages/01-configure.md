@@ -12,7 +12,7 @@ description: Resolve target package, mode, bundle paths, and expected stage set.
 - `mode` (optional, default `rigorous`)
 - `output_slug` (optional)
 - `summary_root` (optional, default `.harmony/output/reports`)
-- `bundle_root` (optional, default `.harmony/output/reports/audits`)
+- `bundle_root` (optional, default `.harmony/output/reports/workflows`)
 
 ## Purpose
 

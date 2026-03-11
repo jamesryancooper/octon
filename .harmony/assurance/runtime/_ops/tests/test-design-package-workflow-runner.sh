@@ -96,6 +96,8 @@ case_mock_runner_passes() {
   CLEANUP_PATHS+=("$bundle_root" "$summary_report")
 
   [[ "$final_verdict" == "mock-executed" ]] || return 1
+  [[ "$bundle_root" == *"/.harmony/output/reports/workflows/"* ]] || return 1
+  [[ "$bundle_root" != *"/.harmony/output/reports/audits/"* ]] || return 1
   assert_dir_exists "$bundle_root" || return 1
   assert_file_exists "$summary_report" || return 1
   assert_file_exists "$bundle_root/reports/01-design-package-audit.md" || return 1
@@ -128,6 +130,8 @@ case_live_runner_optional() {
   CLEANUP_PATHS+=("$bundle_root" "$summary_report")
 
   [[ -n "$final_verdict" ]] || return 1
+  [[ "$bundle_root" == *"/.harmony/output/reports/workflows/"* ]] || return 1
+  [[ "$bundle_root" != *"/.harmony/output/reports/audits/"* ]] || return 1
   assert_dir_exists "$bundle_root" || return 1
   assert_file_exists "$summary_report" || return 1
   assert_file_exists "$bundle_root/reports/01-design-package-audit.md" || return 1

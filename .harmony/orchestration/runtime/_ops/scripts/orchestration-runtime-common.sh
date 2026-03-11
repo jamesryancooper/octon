@@ -5,11 +5,12 @@ orchestration_runtime_init() {
   ORCH_COMMON_SCRIPT_DIR="$(cd -- "$(dirname -- "$caller_script")" && pwd)"
   ORCH_RUNTIME_DIR="$(cd -- "$ORCH_COMMON_SCRIPT_DIR/../.." && pwd)"
   ORCHESTRATION_DIR="$(cd -- "$ORCH_RUNTIME_DIR/.." && pwd)"
+  TOOL_HARMONY_DIR="$(cd -- "$ORCHESTRATION_DIR/.." && pwd)"
   if [[ -n "${HARMONY_DIR_OVERRIDE:-}" ]]; then
     HARMONY_DIR="$HARMONY_DIR_OVERRIDE"
     ROOT_DIR="${HARMONY_ROOT_DIR:-$(cd -- "$HARMONY_DIR/.." && pwd)}"
   else
-    HARMONY_DIR="$(cd -- "$ORCHESTRATION_DIR/.." && pwd)"
+    HARMONY_DIR="$TOOL_HARMONY_DIR"
     ROOT_DIR="$(cd -- "$HARMONY_DIR/.." && pwd)"
   fi
 
@@ -23,6 +24,7 @@ orchestration_runtime_init() {
   MISSIONS_DIR="$RUNTIME_DIR/missions"
   COORDINATION_DIR="$RUNTIME_DIR/_coordination"
   LOCKS_DIR="$COORDINATION_DIR/locks"
+  HARMONY_KERNEL_RUNNER="$TOOL_HARMONY_DIR/engine/runtime/run"
 }
 
 require_tools() {
@@ -41,6 +43,14 @@ ensure_dir() {
 
 now_utc() {
   date -u '+%Y-%m-%dT%H:%M:%SZ'
+}
+
+orchestration_runtime_run_kernel() {
+  local cwd="${HARMONY_ROOT_DIR:-$ROOT_DIR}"
+  (
+    cd "$cwd"
+    "$HARMONY_KERNEL_RUNNER" "$@"
+  )
 }
 
 next_expiry() {

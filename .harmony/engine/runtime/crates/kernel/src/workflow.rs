@@ -15,7 +15,6 @@ const WORKFLOW_ID: &str = "audit-design-package";
 const WORKFLOW_ROOT_REL: &str =
     ".harmony/orchestration/runtime/workflows/audit/audit-design-package";
 const REPORTS_ROOT_REL: &str = ".harmony/output/reports";
-const AUDIT_BUNDLES_REL: &str = ".harmony/output/reports/audits";
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".harmony/output/reports/workflows";
 const STANDARD_DESIGN_PACKAGE_VALIDATOR_REL: &str =
     ".harmony/assurance/runtime/_ops/scripts/validate-design-package-standard.sh";
@@ -98,7 +97,7 @@ pub enum ExecutorKind {
 }
 
 impl ExecutorKind {
-    fn as_str(self) -> &'static str {
+    pub(crate) fn as_str(self) -> &'static str {
         match self {
             Self::Auto => "auto",
             Self::Codex => "codex",
@@ -255,6 +254,8 @@ const REPORT_PLACEHOLDERS: &[(&str, &str)] = &[
 
 #[derive(Clone, Debug, Serialize)]
 struct BundleMetadata {
+    kind: String,
+    id: String,
     workflow_id: String,
     package_path: String,
     mode: String,
@@ -263,6 +264,10 @@ struct BundleMetadata {
     slug: String,
     started_at: String,
     completed_at: String,
+    summary: String,
+    reports_dir: String,
+    stage_inputs_dir: String,
+    stage_logs_dir: String,
     selected_stages: Vec<String>,
     report_paths: BTreeMap<String, String>,
     changed_files: BTreeMap<String, Vec<String>>,
@@ -518,11 +523,14 @@ impl Runner {
 
         let workflow_root = repo_root.join(WORKFLOW_ROOT_REL);
         let reports_root = repo_root.join(REPORTS_ROOT_REL);
-        let audit_bundles_root = repo_root.join(AUDIT_BUNDLES_REL);
+        let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
         fs::create_dir_all(&reports_root)
             .with_context(|| format!("create reports root {}", reports_root.display()))?;
-        fs::create_dir_all(&audit_bundles_root).with_context(|| {
-            format!("create audit bundles root {}", audit_bundles_root.display())
+        fs::create_dir_all(&workflow_bundles_root).with_context(|| {
+            format!(
+                "create workflow bundles root {}",
+                workflow_bundles_root.display()
+            )
         })?;
 
         let date = today_string()?;
@@ -535,7 +543,10 @@ impl Runner {
                 .to_string()
         }));
 
-        let bundle_root = unique_directory(&audit_bundles_root, &format!("{date}-{target_slug}"))?;
+        let bundle_root = unique_directory(
+            &workflow_bundles_root,
+            &format!("{date}-{WORKFLOW_ID}-{target_slug}"),
+        )?;
         let reports_dir = bundle_root.join("reports");
         let stage_inputs_dir = bundle_root.join("stage-inputs");
         let stage_logs_dir = bundle_root.join("stage-logs");
@@ -1269,6 +1280,12 @@ impl Runner {
         for note in notes {
             body.push_str(&format!("- {note}\n"));
         }
+        fs::write(self.bundle_root.join("summary.md"), &body).with_context(|| {
+            format!(
+                "write bundle summary {}",
+                self.bundle_root.join("summary.md").display()
+            )
+        })?;
         fs::write(&self.summary_report, body)
             .with_context(|| format!("write summary {}", self.summary_report.display()))
     }
@@ -1280,6 +1297,13 @@ impl Runner {
         final_verdict: &str,
     ) -> Result<()> {
         let metadata = BundleMetadata {
+            kind: "workflow-execution-bundle".to_string(),
+            id: self
+                .bundle_root
+                .file_name()
+                .and_then(|value| value.to_str())
+                .unwrap_or("workflow-bundle")
+                .to_string(),
             workflow_id: WORKFLOW_ID.to_string(),
             package_path: rel_path(&self.repo_root, &self.target_package),
             mode: self.options.mode.as_str().to_string(),
@@ -1288,6 +1312,10 @@ impl Runner {
             slug: self.slug.clone(),
             started_at: self.started_at.clone(),
             completed_at: now_rfc3339()?,
+            summary: "summary.md".to_string(),
+            reports_dir: "reports".to_string(),
+            stage_inputs_dir: "stage-inputs".to_string(),
+            stage_logs_dir: "stage-logs".to_string(),
             selected_stages: self
                 .stages
                 .iter()
@@ -2197,6 +2225,11 @@ mod tests {
         assert!(validation.contains("prepared-only"));
         assert!(summary.contains("prepared-only"));
         assert!(prompt_packet.contains("Final Answer Requirement"));
+        assert!(result
+            .bundle_root
+            .to_string_lossy()
+            .contains(".harmony/output/reports/workflows/"));
+        assert!(result.bundle_root.join("summary.md").is_file());
         assert!(result.bundle_root.join("plan.md").is_file());
         assert!(result.bundle_root.join("bundle.yml").is_file());
         fs::remove_dir_all(root).ok();
@@ -2236,6 +2269,11 @@ mod tests {
         assert_eq!(result.final_verdict, "mock-executed");
         assert!(summary.contains("mock-executed"));
         assert!(validation.contains("mock-executed"));
+        assert!(result
+            .bundle_root
+            .to_string_lossy()
+            .contains(".harmony/output/reports/workflows/"));
+        assert!(result.bundle_root.join("summary.md").is_file());
         assert!(package_delta.contains("synthetic-remediation.md"));
         assert!(stage_report.contains("CHANGE MANIFEST"));
         assert!(target_package

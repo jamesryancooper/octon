@@ -52,6 +52,8 @@ ownership.
    - `campaigns` are deferred by default.
    - Promote `campaigns` only when multi-mission coordination pressure is
      demonstrated and documented.
+   - Use `campaign-promotion-criteria.md` as the standing live decision guide
+     before reopening the `campaigns` surface.
 
 ## Current Surface Decision
 

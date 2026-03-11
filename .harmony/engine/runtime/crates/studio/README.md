@@ -1,12 +1,14 @@
 # harmony_studio
 
-Desktop workflow studio for Harmony harness projects.
+Desktop workflow and operations studio for Harmony harness projects.
 
 ## Scope
 
 - Workflow inventory and validation overview
 - Dependency graph canvas with pan/zoom/select
 - Workflow detail inspector from parsed `README.md` frontmatter steps
+- Read-only orchestration operations workspace for overview, lookup, runs,
+  incidents, queue, watchers, automations, missions, and playbooks
 - Staged edit buffer with patch preview export
 - Guarded apply flow with transactional rollback
 - Apply audit index, filtering, preview, and path actions

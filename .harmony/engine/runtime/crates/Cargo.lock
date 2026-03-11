@@ -2443,6 +2443,7 @@ name = "harmony_studio"
 version = "1.0.0"
 dependencies = [
  "anyhow",
+ "harmony_core",
  "serde",
  "serde_yaml",
  "slint",
