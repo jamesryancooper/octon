@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.10](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.9...harmony-v0.4.10) (2026-03-11)
+
+
+### Features
+
+* **orchestration:** add operator hardening surfaces ([#135](https://github.com/jamesryancooper/harmony/issues/135)) ([c98749b](https://github.com/jamesryancooper/harmony/commit/c98749b5234d11c5f8a299b5f932cb8e14b69f97))
+
 ## [0.4.9](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.8...harmony-v0.4.9) (2026-03-11)
 
 
