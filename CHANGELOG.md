@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.9](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.8...harmony-v0.4.9) (2026-03-11)
+
+
+### Features
+
+* **orchestration:** implement domain rollout from design package ([#133](https://github.com/jamesryancooper/harmony/issues/133)) ([d7ea1a4](https://github.com/jamesryancooper/harmony/commit/d7ea1a4cc8c1e6f00df9297b69cdf0b78e1980f1))
+* **scaffolding:** standardize design package flow ([#131](https://github.com/jamesryancooper/harmony/issues/131)) ([dc535fc](https://github.com/jamesryancooper/harmony/commit/dc535fca72d5510bbf67908ed474d0b1f97e3e06))
+
 ## [0.4.8](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.7...harmony-v0.4.8) (2026-03-10)
 
 
