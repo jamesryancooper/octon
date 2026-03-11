@@ -1,6 +1,6 @@
 ---
 title: Launch Studio
-description: Launch Harmony Studio for workflow graph design, inspection, and safe staged edits.
+description: Launch Harmony Studio for workflow graph design, read-only orchestration operations, and safe staged edits.
 access: agent
 argument-hint: "[--root <project-root>]"
 ---
@@ -43,6 +43,16 @@ When `studio` is invoked, the launcher uses source mode to avoid stale prebuilt 
 - Opens the `harmony_studio` desktop window
 - Loads workflows from `.harmony/orchestration/runtime/workflows/`
 - Enables graph inspection, staged edit buffer, patch preview export, and apply audit browsing
+- Enables a read-only `Operations` workspace for:
+  - overview
+  - lookup
+  - runs
+  - incidents
+  - queue
+  - watchers
+  - automations
+  - missions
+  - playbooks
 
 ## References
 

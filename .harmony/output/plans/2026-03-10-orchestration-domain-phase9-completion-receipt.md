@@ -89,6 +89,10 @@ Re-open the `campaigns` decision only if one or more of these become true:
 3. Operators need a deterministic portfolio rollup that cannot be expressed
    cleanly through mission, run, incident, or output-report surfaces.
 
+The standing live decision guide for future re-evaluation now lives at:
+
+- `/.harmony/orchestration/practices/campaign-promotion-criteria.md`
+
 ## Phase 9 Verdict
 
 Phase 9 is complete.

@@ -192,8 +192,8 @@ From repo root:
 .harmony/engine/runtime/run studio
 ```
 
-Use `studio` when you want a visual workflow graph + inspector + safe staged
-edit/apply flow.
+Use `studio` when you want a visual workflow graph, a read-only orchestration
+operations workspace, and the safe staged edit/apply flow.
 
 ## Assistants
 

@@ -624,6 +624,7 @@ check_discovery_contracts() {
   require_file "$HARMONY_DIR/assurance/practices/complete.md"
   require_file "$HARMONY_DIR/assurance/practices/session-exit.md"
   require_file "$HARMONY_DIR/output/reports/audits/README.md"
+  require_file "$HARMONY_DIR/output/reports/workflows/README.md"
 
   require_file "$HARMONY_DIR/AGENTS.md"
   require_file "$HARMONY_DIR/OBJECTIVE.md"
@@ -1025,12 +1026,58 @@ check_output_migration_evidence_surface() {
   done
 }
 
+output_audit_bundle_has_materialized_contract_files() {
+  local bundle_dir="$1"
+  local contract_file
+  local contract_files
+  contract_files=(bundle.yml findings.yml coverage.yml convergence.yml evidence.md commands.md validation.md inventory.md)
+
+  for contract_file in "${contract_files[@]}"; do
+    if [[ -f "$bundle_dir/$contract_file" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+output_audit_bundle_has_tracked_files() {
+  local bundle_dir="$1"
+  local bundle_rel="$1"
+
+  bundle_rel="${bundle_dir#$ROOT_DIR/}"
+  if ! git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    return 1
+  fi
+
+  if [[ -n "$(git -C "$ROOT_DIR" ls-files -- "$bundle_rel")" ]]; then
+    return 0
+  fi
+
+  return 1
+}
+
+output_audit_bundle_is_authoritative() {
+  local bundle_dir="$1"
+
+  if output_audit_bundle_has_tracked_files "$bundle_dir"; then
+    return 0
+  fi
+
+  if output_audit_bundle_has_materialized_contract_files "$bundle_dir"; then
+    return 0
+  fi
+
+  return 1
+}
+
 check_output_audit_evidence_surface() {
   local audits_reports_dir="$HARMONY_DIR/output/reports/audits"
   local flat_audit_evidence
-  local bundle_dirs
+  local discovered_bundle_dirs
+  local bundle_dirs=()
   local required_files
-  local bundle required rel bundle_name
+  local discovered_bundle bundle required rel bundle_name
 
   required_files=(bundle.yml findings.yml coverage.yml convergence.yml evidence.md commands.md validation.md inventory.md)
 
@@ -1047,14 +1094,28 @@ check_output_audit_evidence_surface() {
     pass "no flat bounded-audit evidence files under output/reports/audits/"
   fi
 
-  mapfile -t bundle_dirs < <(
+  mapfile -t discovered_bundle_dirs < <(
     find "$audits_reports_dir" -mindepth 1 -maxdepth 1 -type d -name '20*-*' | sort
   )
-  if [[ ${#bundle_dirs[@]} -eq 0 ]]; then
+  if [[ ${#discovered_bundle_dirs[@]} -eq 0 ]]; then
     pass "no bounded-audit evidence bundles present (optional surface)"
     return
   fi
-  pass "found ${#bundle_dirs[@]} bounded-audit evidence bundle directories"
+
+  for discovered_bundle in "${discovered_bundle_dirs[@]}"; do
+    if output_audit_bundle_is_authoritative "$discovered_bundle"; then
+      bundle_dirs+=("$discovered_bundle")
+    else
+      pass "skipping non-authoritative audit workspace directory: ${discovered_bundle#$ROOT_DIR/}"
+    fi
+  done
+
+  if [[ ${#bundle_dirs[@]} -eq 0 ]]; then
+    pass "no authoritative bounded-audit evidence bundles present (optional surface)"
+    return
+  fi
+
+  pass "found ${#bundle_dirs[@]} authoritative bounded-audit evidence bundle directories"
 
   for bundle in "${bundle_dirs[@]}"; do
     rel="${bundle#$ROOT_DIR/}"
@@ -1121,6 +1182,176 @@ check_output_audit_evidence_surface() {
         pass "bounded-audit bundle metadata inventory pointer valid: $rel/bundle.yml"
       else
         fail "bounded-audit bundle metadata inventory pointer must be inventory.md: $rel/bundle.yml"
+      fi
+    fi
+  done
+}
+
+output_workflow_bundle_has_materialized_contract_files() {
+  local bundle_dir="$1"
+  local contract_path
+  local contract_paths
+  contract_paths=(bundle.yml summary.md commands.md validation.md inventory.md)
+
+  for contract_path in "${contract_paths[@]}"; do
+    if [[ -f "$bundle_dir/$contract_path" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+output_workflow_bundle_has_tracked_files() {
+  local bundle_dir="$1"
+  local bundle_rel="$1"
+
+  bundle_rel="${bundle_dir#$ROOT_DIR/}"
+  if ! git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    return 1
+  fi
+
+  if [[ -n "$(git -C "$ROOT_DIR" ls-files -- "$bundle_rel")" ]]; then
+    return 0
+  fi
+
+  return 1
+}
+
+output_workflow_bundle_is_authoritative() {
+  local bundle_dir="$1"
+
+  if output_workflow_bundle_has_tracked_files "$bundle_dir"; then
+    return 0
+  fi
+
+  if output_workflow_bundle_has_materialized_contract_files "$bundle_dir"; then
+    return 0
+  fi
+
+  return 1
+}
+
+check_output_workflow_bundle_surface() {
+  local workflows_reports_dir="$HARMONY_DIR/output/reports/workflows"
+  local flat_workflow_evidence
+  local discovered_bundle_dirs
+  local bundle_dirs=()
+  local required_files required_dirs
+  local discovered_bundle bundle required rel bundle_name
+
+  required_files=(bundle.yml summary.md commands.md validation.md inventory.md)
+  required_dirs=(reports stage-inputs stage-logs)
+
+  require_dir "$workflows_reports_dir"
+  require_file "$workflows_reports_dir/README.md"
+
+  mapfile -t flat_workflow_evidence < <(
+    find "$workflows_reports_dir" -mindepth 1 -maxdepth 1 -type f | sort |
+      grep -E '/[0-9]{4}-[0-9]{2}-[0-9]{2}-.*\.md$' || true
+  )
+  if [[ ${#flat_workflow_evidence[@]} -gt 0 ]]; then
+    fail "flat workflow evidence files are forbidden; use bundle directories under output/reports/workflows/"
+  else
+    pass "no flat workflow evidence files under output/reports/workflows/"
+  fi
+
+  mapfile -t discovered_bundle_dirs < <(
+    find "$workflows_reports_dir" -mindepth 1 -maxdepth 1 -type d -name '20*-*' | sort
+  )
+  if [[ ${#discovered_bundle_dirs[@]} -eq 0 ]]; then
+    pass "no workflow execution bundles present (optional surface)"
+    return
+  fi
+
+  for discovered_bundle in "${discovered_bundle_dirs[@]}"; do
+    if output_workflow_bundle_is_authoritative "$discovered_bundle"; then
+      bundle_dirs+=("$discovered_bundle")
+    else
+      pass "skipping non-authoritative workflow workspace directory: ${discovered_bundle#$ROOT_DIR/}"
+    fi
+  done
+
+  if [[ ${#bundle_dirs[@]} -eq 0 ]]; then
+    pass "no authoritative workflow execution bundles present (optional surface)"
+    return
+  fi
+
+  pass "found ${#bundle_dirs[@]} authoritative workflow execution bundle directories"
+
+  for bundle in "${bundle_dirs[@]}"; do
+    rel="${bundle#$ROOT_DIR/}"
+    bundle_name="$(basename "$bundle")"
+
+    for required in "${required_files[@]}"; do
+      if [[ ! -f "$bundle/$required" ]]; then
+        fail "workflow execution bundle missing required file (${required}): $rel"
+      else
+        pass "workflow execution bundle file present (${required}): $rel"
+      fi
+    done
+
+    for required in "${required_dirs[@]}"; do
+      if [[ ! -d "$bundle/$required" ]]; then
+        fail "workflow execution bundle missing required directory (${required}): $rel"
+      else
+        pass "workflow execution bundle directory present (${required}): $rel"
+      fi
+    done
+
+    if [[ -f "$bundle/bundle.yml" ]]; then
+      if grep -Eq '^kind:[[:space:]]*"?workflow-execution-bundle"?$' "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata kind valid: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata missing/invalid kind (workflow-execution-bundle): $rel/bundle.yml"
+      fi
+
+      if grep -Eq "^id:[[:space:]]*\"?${bundle_name}\"?$" "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata id matches directory: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata id must match directory name (${bundle_name}): $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^summary:[[:space:]]*"?summary\.md"?$' "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata summary pointer valid: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata summary pointer must be summary.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^commands:[[:space:]]*"?commands\.md"?$' "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata commands pointer valid: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata commands pointer must be commands.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^validation:[[:space:]]*"?validation\.md"?$' "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata validation pointer valid: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata validation pointer must be validation.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^inventory:[[:space:]]*"?inventory\.md"?$' "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata inventory pointer valid: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata inventory pointer must be inventory.md: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^reports_dir:[[:space:]]*"?reports"?$' "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata reports_dir valid: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata reports_dir must be reports: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^stage_inputs_dir:[[:space:]]*"?stage-inputs"?$' "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata stage_inputs_dir valid: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata stage_inputs_dir must be stage-inputs: $rel/bundle.yml"
+      fi
+
+      if grep -Eq '^stage_logs_dir:[[:space:]]*"?stage-logs"?$' "$bundle/bundle.yml"; then
+        pass "workflow bundle metadata stage_logs_dir valid: $rel/bundle.yml"
+      else
+        fail "workflow bundle metadata stage_logs_dir must be stage-logs: $rel/bundle.yml"
       fi
     fi
   done
@@ -2048,6 +2279,7 @@ main() {
   check_output_decision_evidence_surface
   check_output_migration_evidence_surface
   check_output_audit_evidence_surface
+  check_output_workflow_bundle_surface
   check_domain_profile_shapes
   check_deprecated_agency_paths
   check_deprecated_engine_paths

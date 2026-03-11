@@ -11,6 +11,12 @@ When something goes wrong in production, follow this runbook. The golden rule:
 Use `incidents.md` for generic Harmony incident governance. Use this file for
 product-specific operational response steps.
 
+For orchestration-specific lookup, closure readiness, and failure handling,
+also use:
+
+- `/.harmony/orchestration/practices/operator-lookup-and-triage.md`
+- `/.harmony/orchestration/practices/orchestration-failure-playbooks.md`
+
 ## Incident Response Flowchart
 
 ```text
@@ -47,6 +53,9 @@ product-specific operational response steps.
 | Check what changed recently | `harmony changes --recent` |
 | Get AI analysis | `harmony investigate "description"` |
 | End incident | `harmony incident resolve` |
+| Orchestration lookup | `harmony orchestration lookup --incident-id <id>` |
+| Closure readiness | `harmony orchestration incident closure-readiness --incident-id <id>` |
+| Ops snapshot | `harmony orchestration summary --surface all` |
 
 ## Step 1: Rollback (If Recent Deploy)
 
@@ -113,6 +122,23 @@ harmony logs --production --service checkout
 harmony health --external
 ```
 
+### Orchestration-specific investigation
+
+If the issue touches watcher, queue, automation, run, or incident lineage:
+
+```bash
+# Get an orchestration-wide snapshot
+harmony orchestration summary --surface all
+
+# Follow the incident or run lineage
+harmony orchestration lookup --incident-id <incident-id>
+harmony orchestration lookup --run-id <run-id>
+```
+
+Use the scenario-specific response playbooks in
+`/.harmony/orchestration/practices/orchestration-failure-playbooks.md` once the
+failure class is known.
+
 ## Step 4: Communicate
 
 If users are affected:
@@ -158,3 +184,14 @@ AI can draft:
 - contributing factors
 - remediation actions
 - follow-up work
+
+## Step 7: Closure Readiness
+
+Before a human closes an orchestration-linked incident, run:
+
+```bash
+harmony orchestration incident closure-readiness --incident-id <incident-id>
+```
+
+If the readiness check reports blockers, do not close the incident until the
+missing evidence is linked or explicitly waived under policy.

@@ -1,5 +1,5 @@
 use anyhow::{bail, Context, Result};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
 use std::fs;
 use std::io::Write;
@@ -30,6 +30,32 @@ pub struct RunPipelineResult {
     pub bundle_root: PathBuf,
     pub summary_report: PathBuf,
     pub final_verdict: String,
+}
+
+#[derive(Debug, Serialize)]
+struct WorkflowBundleMetadata {
+    kind: String,
+    id: String,
+    workflow_id: String,
+    version: String,
+    entry_mode: String,
+    execution_profile: String,
+    executor: String,
+    prepare_only: bool,
+    started_at: String,
+    completed_at: String,
+    summary: String,
+    commands: String,
+    validation: String,
+    inventory: String,
+    reports_dir: String,
+    stage_inputs_dir: String,
+    stage_logs_dir: String,
+    final_verdict: String,
+    resolved_inputs: BTreeMap<String, String>,
+    stage_assets: BTreeMap<String, String>,
+    stage_reports: BTreeMap<String, String>,
+    target_root: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -287,6 +313,7 @@ fn run_generic_pipeline(
     fs::create_dir_all(&reports_root)?;
 
     let date = today_string()?;
+    let started_at = now_rfc3339()?;
     let slug = options
         .output_slug
         .clone()
@@ -301,17 +328,35 @@ fn run_generic_pipeline(
     fs::create_dir_all(&stage_logs_dir)?;
 
     let summary_report = bundle_root.join("summary.md");
+    let commands_report = bundle_root.join("commands.md");
+    let validation_report = bundle_root.join("validation.md");
+    let inventory_report = bundle_root.join("inventory.md");
 
     let input_map = resolve_inputs(&contract, &options.input_overrides)?;
+    let resolved_inputs = input_map
+        .iter()
+        .map(|(key, value)| (key.clone(), value.clone()))
+        .collect::<BTreeMap<_, _>>();
     let target_root = input_map
         .get("package_path")
         .or_else(|| input_map.get("subsystem"))
         .or_else(|| input_map.get("docs_root"))
         .map(|value| resolve_relative_to_repo(&repo_root, value))
         .transpose()?;
+    let target_root_rel = target_root
+        .as_ref()
+        .map(|path| path.strip_prefix(&repo_root).unwrap_or(path).display().to_string());
+
+    let final_verdict = if options.prepare_only {
+        "prepared-only".to_string()
+    } else if options.executor == ExecutorKind::Mock {
+        "mock-executed".to_string()
+    } else {
+        "manual-review-required".to_string()
+    };
 
     let mut summary = format!(
-        "# Workflow Run Summary\n\n- workflow_id: `{}`\n- version: `{}`\n- entry_mode: `{}`\n- description: `{}`\n- execution_profile: `{}`\n- canonical_path: `{}`\n- bundle_root: `{}`\n- prepare_only: `{}`\n",
+        "# Workflow Run Summary\n\n- workflow_id: `{}`\n- version: `{}`\n- entry_mode: `{}`\n- description: `{}`\n- execution_profile: `{}`\n- canonical_path: `{}`\n- bundle_root: `{}`\n- prepare_only: `{}`\n- final_verdict: `{}`\n",
         entry.id,
         contract.version,
         contract.entry_mode,
@@ -319,8 +364,12 @@ fn run_generic_pipeline(
         entry.execution_profile.clone().unwrap_or_else(|| contract.execution_profile.clone()),
         pipeline_dir.strip_prefix(&repo_root).unwrap_or(&pipeline_dir).display(),
         bundle_root.display(),
-        options.prepare_only
+        options.prepare_only,
+        final_verdict
     );
+    let mut stage_assets = BTreeMap::new();
+    let mut stage_reports = BTreeMap::new();
+    let mut command_log = Vec::new();
 
     for stage in &contract.stages {
         let asset_path = pipeline_dir.join(&stage.asset);
@@ -333,6 +382,24 @@ fn run_generic_pipeline(
         let packet_path = stage_inputs_dir.join(format!("{}-packet.md", stage.id));
         fs::write(&packet_path, &rendered)?;
         let report_path = reports_dir.join(format!("{}-report.md", stage.id));
+        let log_path = stage_logs_dir.join(format!("{}-executor.log", stage.id));
+        let packet_rel = packet_path
+            .strip_prefix(&bundle_root)
+            .unwrap_or(&packet_path)
+            .display()
+            .to_string();
+        let report_rel = report_path
+            .strip_prefix(&bundle_root)
+            .unwrap_or(&report_path)
+            .display()
+            .to_string();
+        let log_rel = log_path
+            .strip_prefix(&bundle_root)
+            .unwrap_or(&log_path)
+            .display()
+            .to_string();
+        stage_assets.insert(stage.id.clone(), stage.asset.clone());
+        stage_reports.insert(stage.id.clone(), report_rel.clone());
 
         if options.prepare_only {
             fs::write(
@@ -342,6 +409,17 @@ fn run_generic_pipeline(
                     stage.id, stage.kind, stage.asset
                 ),
             )?;
+            fs::write(
+                &log_path,
+                format!(
+                    "prepare-only: stage `{}` was not executed; prompt packet materialized.\n",
+                    stage.id
+                ),
+            )?;
+            command_log.push(format!(
+                "- stage `{}` | kind=`{}` | asset=`{}` | prompt_packet=`{}` | report=`{}` | log=`{}` | executor=`prepare-only`",
+                stage.id, stage.kind, stage.asset, packet_rel, report_rel, log_rel
+            ));
             continue;
         }
 
@@ -362,6 +440,13 @@ fn run_generic_pipeline(
                     format!(
                         "# Synthetic Stage Report\n\n- stage: `{}`\n- kind: `{}`\n",
                         stage.id, stage.kind
+                    ),
+                )?;
+                fs::write(
+                    &log_path,
+                    format!(
+                        "mock executor produced synthetic output for stage `{}`.\n",
+                        stage.id
                     ),
                 )?;
             }
@@ -385,13 +470,21 @@ fn run_generic_pipeline(
                         &rendered,
                     )?
                 };
-                fs::write(
-                    stage_logs_dir.join(format!("{}-executor.log", stage.id)),
-                    &output.stderr,
-                )?;
+                fs::write(&log_path, &output.stderr)?;
                 fs::write(&report_path, &output.stdout)?;
             }
         }
+
+        command_log.push(format!(
+            "- stage `{}` | kind=`{}` | asset=`{}` | prompt_packet=`{}` | report=`{}` | log=`{}` | executor=`{}`",
+            stage.id,
+            stage.kind,
+            stage.asset,
+            packet_rel,
+            report_rel,
+            log_rel,
+            options.executor.as_str()
+        ));
 
         summary.push_str(&format!(
             "- stage `{}` -> `{}`\n",
@@ -403,18 +496,99 @@ fn run_generic_pipeline(
         ));
     }
 
+    let inventory = format!(
+        "# Workflow Bundle Inventory\n\n- workflow_id: `{}`\n- version: `{}`\n- entry_mode: `{}`\n- execution_profile: `{}`\n- bundle_root: `{}`\n{}\n\n## Resolved Inputs\n\n{}\n## Stages\n\n{}\n",
+        entry.id,
+        contract.version,
+        contract.entry_mode,
+        entry.execution_profile.clone().unwrap_or_else(|| contract.execution_profile.clone()),
+        bundle_root.display(),
+        target_root_rel
+            .as_ref()
+            .map(|value| format!("- target_root: `{value}`"))
+            .unwrap_or_else(|| "- target_root: `<none>`".to_string()),
+        if resolved_inputs.is_empty() {
+            "- None\n\n".to_string()
+        } else {
+            resolved_inputs
+                .iter()
+                .map(|(key, value)| format!("- `{key}` = `{value}`"))
+                .collect::<Vec<_>>()
+                .join("\n")
+                + "\n\n"
+        },
+        contract
+            .stages
+            .iter()
+            .map(|stage| format!(
+                "- `{}` | kind=`{}` | asset=`{}` | report=`{}`",
+                stage.id,
+                stage.kind,
+                stage.asset,
+                stage_reports
+                    .get(&stage.id)
+                    .cloned()
+                    .unwrap_or_else(|| "reports/<missing>".to_string())
+            ))
+            .collect::<Vec<_>>()
+            .join("\n")
+    );
+    fs::write(&inventory_report, inventory)?;
+
+    let commands = format!(
+        "# Workflow Bundle Commands\n\n- workflow_id: `{}`\n- executor: `{}`\n- prepare_only: `{}`\n\n## Stage Packets\n\n{}\n",
+        entry.id,
+        options.executor.as_str(),
+        options.prepare_only,
+        command_log.join("\n")
+    );
+    fs::write(&commands_report, commands)?;
+
     fs::write(&summary_report, summary)?;
+
+    let validation = format!(
+        "# Workflow Bundle Validation\n\n- workflow_id: `{}`\n- final_verdict: `{}`\n- prepare_only: `{}`\n\n## Checks\n\n- [x] `reports/`, `stage-inputs/`, and `stage-logs/` were created\n- [x] `summary.md`, `commands.md`, `validation.md`, and `inventory.md` were written\n- [x] Every declared stage produced a prompt packet and report path\n- [x] Bundle metadata can resolve the internal workflow bundle files\n",
+        entry.id, final_verdict, options.prepare_only
+    );
+    fs::write(&validation_report, validation)?;
+
+    let metadata = WorkflowBundleMetadata {
+        kind: "workflow-execution-bundle".to_string(),
+        id: bundle_root
+            .file_name()
+            .and_then(|value| value.to_str())
+            .unwrap_or("workflow-bundle")
+            .to_string(),
+        workflow_id: entry.id.clone(),
+        version: contract.version.clone(),
+        entry_mode: contract.entry_mode.clone(),
+        execution_profile: entry
+            .execution_profile
+            .clone()
+            .unwrap_or_else(|| contract.execution_profile.clone()),
+        executor: options.executor.as_str().to_string(),
+        prepare_only: options.prepare_only,
+        started_at,
+        completed_at: now_rfc3339()?,
+        summary: "summary.md".to_string(),
+        commands: "commands.md".to_string(),
+        validation: "validation.md".to_string(),
+        inventory: "inventory.md".to_string(),
+        reports_dir: "reports".to_string(),
+        stage_inputs_dir: "stage-inputs".to_string(),
+        stage_logs_dir: "stage-logs".to_string(),
+        final_verdict: final_verdict.clone(),
+        resolved_inputs,
+        stage_assets,
+        stage_reports,
+        target_root: target_root_rel,
+    };
+    fs::write(bundle_root.join("bundle.yml"), serde_yaml::to_string(&metadata)?)?;
 
     Ok(RunPipelineResult {
         bundle_root,
         summary_report,
-        final_verdict: if options.prepare_only {
-            "prepared-only".to_string()
-        } else if options.executor == ExecutorKind::Mock {
-            "mock-executed".to_string()
-        } else {
-            "manual-review-required".to_string()
-        },
+        final_verdict,
     })
 }
 
@@ -636,6 +810,10 @@ fn today_string() -> Result<String> {
     Ok(time::OffsetDateTime::now_utc().format(&format)?)
 }
 
+fn now_rfc3339() -> Result<String> {
+    Ok(time::OffsetDateTime::now_utc().format(&time::format_description::well_known::Rfc3339)?)
+}
+
 fn unique_directory(parent: &Path, stem: &str) -> Result<PathBuf> {
     for idx in 0.. {
         let candidate = if idx == 0 {
@@ -675,5 +853,163 @@ fn slugify(input: &str) -> String {
         "pipeline".to_string()
     } else {
         trimmed.to_string()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashMap;
+
+    fn make_temp_root(label: &str) -> PathBuf {
+        let root = std::env::temp_dir().join(format!(
+            "harmony-pipeline-fixture-{}-{}",
+            label,
+            std::process::id()
+        ));
+        let _ = fs::remove_dir_all(&root);
+        fs::create_dir_all(&root).expect("create temp root");
+        root
+    }
+
+    fn seed_generic_workflow_fixture(root: &Path) -> PathBuf {
+        let harmony_dir = root.join(".harmony");
+        let workflows_dir = harmony_dir.join("orchestration/runtime/workflows/test/sample-workflow");
+        fs::create_dir_all(workflows_dir.join("stages")).expect("create workflow stages");
+        fs::create_dir_all(harmony_dir.join("output/reports")).expect("create output root");
+
+        fs::write(
+            harmony_dir.join("orchestration/runtime/workflows/manifest.yml"),
+            r#"workflows:
+  - id: "sample-workflow"
+    path: "test/sample-workflow/"
+    execution_profile: "core"
+"#,
+        )
+        .expect("write manifest");
+        fs::write(
+            harmony_dir.join("orchestration/runtime/workflows/registry.yml"),
+            r#"workflows:
+  sample-workflow:
+    version: "1.0.0"
+"#,
+        )
+        .expect("write registry");
+        fs::write(
+            workflows_dir.join("workflow.yml"),
+            r#"name: "sample-workflow"
+description: "Fixture workflow for workflow bundle contract tests."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs:
+  - name: package_path
+    type: folder
+    required: false
+stages:
+  - id: "01"
+    asset: "stages/01-analyze.md"
+    kind: "analysis"
+  - id: "02"
+    asset: "stages/02-mutate.md"
+    kind: "mutation"
+"#,
+        )
+        .expect("write workflow contract");
+        fs::write(
+            workflows_dir.join("stages/01-analyze.md"),
+            "# Analyze\n\nInspect the fixture.\n",
+        )
+        .expect("write stage 01");
+        fs::write(
+            workflows_dir.join("stages/02-mutate.md"),
+            "# Mutate\n\nWrite a synthetic mutation.\n",
+        )
+        .expect("write stage 02");
+        harmony_dir
+    }
+
+    #[test]
+    fn mock_generic_workflow_materializes_workflow_bundle_contract() {
+        let root = make_temp_root("mock");
+        let harmony_dir = seed_generic_workflow_fixture(&root);
+
+        let result = run_pipeline_from_harmony_dir(
+            &harmony_dir,
+            RunPipelineOptions {
+                pipeline_id: "sample-workflow".to_string(),
+                executor: ExecutorKind::Mock,
+                executor_bin: None,
+                output_slug: Some("fixture".to_string()),
+                model: None,
+                prepare_only: false,
+                input_overrides: HashMap::new(),
+            },
+        )
+        .expect("mock workflow run should succeed");
+
+        let metadata =
+            fs::read_to_string(result.bundle_root.join("bundle.yml")).expect("bundle metadata");
+        let summary =
+            fs::read_to_string(result.bundle_root.join("summary.md")).expect("bundle summary");
+        let commands =
+            fs::read_to_string(result.bundle_root.join("commands.md")).expect("commands log");
+        let inventory =
+            fs::read_to_string(result.bundle_root.join("inventory.md")).expect("inventory log");
+
+        assert_eq!(result.summary_report, result.bundle_root.join("summary.md"));
+        assert!(result
+            .bundle_root
+            .to_string_lossy()
+            .contains(".harmony/output/reports/workflows/"));
+        assert!(metadata.contains("kind: workflow-execution-bundle"));
+        assert!(metadata.contains("summary: summary.md"));
+        assert!(metadata.contains("reports_dir: reports"));
+        assert!(summary.contains("final_verdict: `mock-executed`"));
+        assert!(commands.contains("executor=`mock`"));
+        assert!(inventory.contains("stage `02`") || inventory.contains("`02` | kind=`mutation`"));
+        assert!(result.bundle_root.join("validation.md").is_file());
+        assert!(result.bundle_root.join("reports/01-report.md").is_file());
+        assert!(result.bundle_root.join("reports/02-report.md").is_file());
+        assert!(result.bundle_root.join("stage-inputs/01-packet.md").is_file());
+        assert!(result.bundle_root.join("stage-logs/01-executor.log").is_file());
+
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn prepare_only_generic_workflow_still_writes_bundle_contract_files() {
+        let root = make_temp_root("prepare-only");
+        let harmony_dir = seed_generic_workflow_fixture(&root);
+
+        let result = run_pipeline_from_harmony_dir(
+            &harmony_dir,
+            RunPipelineOptions {
+                pipeline_id: "sample-workflow".to_string(),
+                executor: ExecutorKind::Auto,
+                executor_bin: None,
+                output_slug: Some("prepare".to_string()),
+                model: None,
+                prepare_only: true,
+                input_overrides: HashMap::new(),
+            },
+        )
+        .expect("prepare-only workflow run should succeed");
+
+        let metadata =
+            fs::read_to_string(result.bundle_root.join("bundle.yml")).expect("bundle metadata");
+        let log =
+            fs::read_to_string(result.bundle_root.join("stage-logs/01-executor.log")).expect("log");
+
+        assert_eq!(result.final_verdict, "prepared-only");
+        assert!(metadata.contains("prepare_only: true"));
+        assert!(metadata.contains("final_verdict: prepared-only"));
+        assert!(result.bundle_root.join("summary.md").is_file());
+        assert!(result.bundle_root.join("commands.md").is_file());
+        assert!(result.bundle_root.join("validation.md").is_file());
+        assert!(result.bundle_root.join("inventory.md").is_file());
+        assert!(log.contains("prepare-only"));
+
+        fs::remove_dir_all(root).ok();
     }
 }

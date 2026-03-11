@@ -1,14 +1,16 @@
 mod context;
+mod orchestration;
 mod pipeline;
 mod scaffold;
 mod stdio;
 mod workflow;
 
-use clap::{Parser, Subcommand};
+use clap::{Args, Parser, Subcommand, ValueEnum};
 use harmony_core::errors::{ErrorCode, KernelError};
 use harmony_core::tiers::validate_runtime_discovery_tiers;
 use harmony_core::trace::TraceWriter;
 use harmony_wasm_host::policy::GrantSet;
+use std::path::PathBuf;
 use std::process::Command as ProcessCommand;
 use std::sync::Arc;
 
@@ -69,6 +71,12 @@ enum Command {
         #[command(subcommand)]
         cmd: WorkflowCmd,
     },
+
+    /// Read-only orchestration operator inspection commands.
+    Orchestration {
+        #[command(subcommand)]
+        cmd: OrchestrationCmd,
+    },
 }
 
 #[derive(Subcommand)]
@@ -125,6 +133,124 @@ enum WorkflowCmd {
     },
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, ValueEnum)]
+enum OrchestrationSurfaceArg {
+    Watchers,
+    Queue,
+    Automations,
+    Runs,
+    Missions,
+    Incidents,
+    All,
+}
+
+impl From<OrchestrationSurfaceArg> for harmony_core::orchestration::SummarySurface {
+    fn from(value: OrchestrationSurfaceArg) -> Self {
+        match value {
+            OrchestrationSurfaceArg::Watchers => Self::Watchers,
+            OrchestrationSurfaceArg::Queue => Self::Queue,
+            OrchestrationSurfaceArg::Automations => Self::Automations,
+            OrchestrationSurfaceArg::Runs => Self::Runs,
+            OrchestrationSurfaceArg::Missions => Self::Missions,
+            OrchestrationSurfaceArg::Incidents => Self::Incidents,
+            OrchestrationSurfaceArg::All => Self::All,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Args)]
+#[group(required = true, multiple = false)]
+struct OrchestrationLookupArgs {
+    #[arg(long = "decision-id")]
+    decision_id: Option<String>,
+    #[arg(long = "run-id")]
+    run_id: Option<String>,
+    #[arg(long = "incident-id")]
+    incident_id: Option<String>,
+    #[arg(long = "queue-item-id")]
+    queue_item_id: Option<String>,
+    #[arg(long = "event-id")]
+    event_id: Option<String>,
+    #[arg(long = "automation-id")]
+    automation_id: Option<String>,
+    #[arg(long = "watcher-id")]
+    watcher_id: Option<String>,
+    #[arg(long = "mission-id")]
+    mission_id: Option<String>,
+}
+
+impl TryFrom<OrchestrationLookupArgs> for harmony_core::orchestration::LookupQuery {
+    type Error = anyhow::Error;
+
+    fn try_from(value: OrchestrationLookupArgs) -> Result<Self, Self::Error> {
+        if let Some(id) = value.decision_id {
+            return Ok(Self::DecisionId(id));
+        }
+        if let Some(id) = value.run_id {
+            return Ok(Self::RunId(id));
+        }
+        if let Some(id) = value.incident_id {
+            return Ok(Self::IncidentId(id));
+        }
+        if let Some(id) = value.queue_item_id {
+            return Ok(Self::QueueItemId(id));
+        }
+        if let Some(id) = value.event_id {
+            return Ok(Self::EventId(id));
+        }
+        if let Some(id) = value.automation_id {
+            return Ok(Self::AutomationId(id));
+        }
+        if let Some(id) = value.watcher_id {
+            return Ok(Self::WatcherId(id));
+        }
+        if let Some(id) = value.mission_id {
+            return Ok(Self::MissionId(id));
+        }
+        anyhow::bail!("exactly one orchestration lookup id is required");
+    }
+}
+
+#[derive(Subcommand)]
+enum OrchestrationIncidentCmd {
+    /// Evaluate incident closure readiness.
+    ClosureReadiness {
+        #[arg(long = "incident-id")]
+        incident_id: String,
+        #[arg(long, value_enum, default_value_t = orchestration::OutputFormat::Json)]
+        format: orchestration::OutputFormat,
+        #[arg(long = "output-report")]
+        output_report: Option<PathBuf>,
+    },
+}
+
+#[derive(Subcommand)]
+enum OrchestrationCmd {
+    /// Resolve forward and reverse orchestration lineage by canonical id.
+    Lookup {
+        #[command(flatten)]
+        query: OrchestrationLookupArgs,
+        #[arg(long, value_enum, default_value_t = orchestration::OutputFormat::Json)]
+        format: orchestration::OutputFormat,
+        #[arg(long = "output-report")]
+        output_report: Option<PathBuf>,
+    },
+    /// Summarize orchestration surface health.
+    Summary {
+        #[arg(long, value_enum)]
+        surface: OrchestrationSurfaceArg,
+        #[arg(long, value_enum, default_value_t = orchestration::OutputFormat::Json)]
+        format: orchestration::OutputFormat,
+        #[arg(long = "output-report")]
+        output_report: Option<PathBuf>,
+    },
+    /// Incident-specific operator inspection commands.
+    Incident {
+        #[command(subcommand)]
+        cmd: OrchestrationIncidentCmd,
+    },
+}
+
 fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
 
@@ -137,6 +263,7 @@ fn main() -> anyhow::Result<()> {
         Command::Studio => cmd_studio(),
         Command::Service { cmd } => cmd_service(cmd),
         Command::Workflow { cmd } => cmd_workflow(cmd),
+        Command::Orchestration { cmd } => cmd_orchestration(cmd),
     }
 }
 
@@ -321,6 +448,49 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
     Ok(())
 }
 
+fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
+    let harmony_dir = harmony_core::root::RootResolver::resolve()?;
+    let repo_root = harmony_dir
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!(".harmony has no repository root"))?
+        .to_path_buf();
+
+    match cmd {
+        OrchestrationCmd::Lookup {
+            query,
+            format,
+            output_report,
+        } => orchestration::write_lookup(
+            &harmony_dir,
+            query.try_into()?,
+            format,
+            output_report.as_deref().map(|path| resolve_output_path(&repo_root, path)),
+        ),
+        OrchestrationCmd::Summary {
+            surface,
+            format,
+            output_report,
+        } => orchestration::write_summary(
+            &harmony_dir,
+            surface.into(),
+            format,
+            output_report.as_deref().map(|path| resolve_output_path(&repo_root, path)),
+        ),
+        OrchestrationCmd::Incident { cmd } => match cmd {
+            OrchestrationIncidentCmd::ClosureReadiness {
+                incident_id,
+                format,
+                output_report,
+            } => orchestration::write_incident_closure_readiness(
+                &harmony_dir,
+                &incident_id,
+                format,
+                output_report.as_deref().map(|path| resolve_output_path(&repo_root, path)),
+            ),
+        },
+    }
+}
+
 fn parse_category_name(target: &str, name: Option<&str>) -> anyhow::Result<(String, String)> {
     if let Some((category, service)) = target.split_once('/') {
         if category.is_empty() || service.is_empty() {
@@ -358,9 +528,20 @@ fn parse_kv_overrides(
     Ok(out)
 }
 
+fn resolve_output_path(repo_root: &std::path::Path, raw: &std::path::Path) -> PathBuf {
+    if raw.is_absolute() {
+        raw.to_path_buf()
+    } else {
+        repo_root.join(raw)
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::{Cli, Command, WorkflowCmd};
+    use super::{
+        Cli, Command, OrchestrationCmd, OrchestrationIncidentCmd, OrchestrationSurfaceArg,
+        WorkflowCmd,
+    };
     use crate::workflow::ExecutorKind;
     use clap::{CommandFactory, Parser};
 
@@ -459,5 +640,94 @@ mod tests {
             }
             _ => panic!("parsed command should be workflow validate"),
         }
+    }
+
+    #[test]
+    fn cli_parses_orchestration_lookup_subcommand() {
+        let cli = Cli::try_parse_from([
+            "harmony",
+            "orchestration",
+            "lookup",
+            "--run-id",
+            "run-001",
+            "--format",
+            "markdown",
+        ])
+        .expect("orchestration lookup should parse");
+
+        match cli.cmd {
+            Command::Orchestration {
+                cmd:
+                    OrchestrationCmd::Lookup {
+                        query,
+                        format,
+                        ..
+                    },
+            } => {
+                assert_eq!(query.run_id.as_deref(), Some("run-001"));
+                assert_eq!(format, crate::orchestration::OutputFormat::Markdown);
+            }
+            _ => panic!("parsed command should be orchestration lookup"),
+        }
+    }
+
+    #[test]
+    fn cli_parses_orchestration_summary_subcommand() {
+        let cli = Cli::try_parse_from([
+            "harmony",
+            "orchestration",
+            "summary",
+            "--surface",
+            "all",
+        ])
+        .expect("orchestration summary should parse");
+
+        match cli.cmd {
+            Command::Orchestration {
+                cmd: OrchestrationCmd::Summary { surface, .. },
+            } => assert_eq!(surface, OrchestrationSurfaceArg::All),
+            _ => panic!("parsed command should be orchestration summary"),
+        }
+    }
+
+    #[test]
+    fn cli_parses_orchestration_incident_closure_subcommand() {
+        let cli = Cli::try_parse_from([
+            "harmony",
+            "orchestration",
+            "incident",
+            "closure-readiness",
+            "--incident-id",
+            "inc-001",
+        ])
+        .expect("incident closure-readiness should parse");
+
+        match cli.cmd {
+            Command::Orchestration {
+                cmd:
+                    OrchestrationCmd::Incident {
+                        cmd:
+                            OrchestrationIncidentCmd::ClosureReadiness { incident_id, .. },
+                    },
+            } => assert_eq!(incident_id, "inc-001"),
+            _ => panic!("parsed command should be incident closure-readiness"),
+        }
+    }
+
+    #[test]
+    fn cli_help_lists_orchestration_command() {
+        let mut cmd = Cli::command();
+        let mut help = Vec::new();
+        cmd.write_long_help(&mut help)
+            .expect("long help should render");
+        let help = String::from_utf8(help).expect("help should be valid utf-8");
+        assert!(
+            help.contains("orchestration"),
+            "help output should contain orchestration command"
+        );
+        assert!(
+            help.contains("Read-only orchestration operator inspection commands"),
+            "help output should include orchestration description"
+        );
     }
 }

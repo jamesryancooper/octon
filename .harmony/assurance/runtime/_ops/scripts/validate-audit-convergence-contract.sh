@@ -337,6 +337,51 @@ validate_bundle_metadata() {
   fi
 }
 
+bundle_dir_has_materialized_contract_files() {
+  local bundle_dir="$1"
+  local contract_file
+  local contract_files
+  contract_files=(bundle.yml findings.yml coverage.yml convergence.yml evidence.md commands.md validation.md inventory.md)
+
+  for contract_file in "${contract_files[@]}"; do
+    if [[ -f "$bundle_dir/$contract_file" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+bundle_dir_has_tracked_files() {
+  local bundle_dir="$1"
+  local bundle_rel="$1"
+
+  bundle_rel="${bundle_dir#$ROOT_DIR/}"
+  if ! git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    return 1
+  fi
+
+  if [[ -n "$(git -C "$ROOT_DIR" ls-files -- "$bundle_rel")" ]]; then
+    return 0
+  fi
+
+  return 1
+}
+
+bundle_dir_is_authoritative() {
+  local bundle_dir="$1"
+
+  if bundle_dir_has_tracked_files "$bundle_dir"; then
+    return 0
+  fi
+
+  if bundle_dir_has_materialized_contract_files "$bundle_dir"; then
+    return 0
+  fi
+
+  return 1
+}
+
 validate_report_bundles() {
   require_dir "$REPORTS_DIR"
   require_file "$REPORTS_DIR/README.md"
@@ -349,15 +394,30 @@ validate_report_bundles() {
     pass "no flat bounded-audit markdown files in output/reports/audits/"
   fi
 
-  local bundle_dirs
-  mapfile -t bundle_dirs < <(find "$REPORTS_DIR" -mindepth 1 -maxdepth 1 -type d -name '20*-*' | sort)
+  local discovered_bundle_dirs
+  mapfile -t discovered_bundle_dirs < <(find "$REPORTS_DIR" -mindepth 1 -maxdepth 1 -type d -name '20*-*' | sort)
 
-  if [[ ${#bundle_dirs[@]} -eq 0 ]]; then
+  if [[ ${#discovered_bundle_dirs[@]} -eq 0 ]]; then
     pass "no bounded-audit bundles found yet (allowed)"
     return
   fi
 
-  pass "found ${#bundle_dirs[@]} bounded-audit bundle directories"
+  local bundle_dirs=()
+  local discovered_bundle
+  for discovered_bundle in "${discovered_bundle_dirs[@]}"; do
+    if bundle_dir_is_authoritative "$discovered_bundle"; then
+      bundle_dirs+=("$discovered_bundle")
+    else
+      pass "skipping non-authoritative audit workspace directory: ${discovered_bundle#$ROOT_DIR/}"
+    fi
+  done
+
+  if [[ ${#bundle_dirs[@]} -eq 0 ]]; then
+    pass "no authoritative bounded-audit bundles found yet (allowed)"
+    return
+  fi
+
+  pass "found ${#bundle_dirs[@]} authoritative bounded-audit bundle directories"
 
   local required_files
   required_files=(bundle.yml findings.yml coverage.yml convergence.yml evidence.md commands.md validation.md inventory.md)

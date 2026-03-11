@@ -180,6 +180,56 @@ fn main() -> Result<()> {
         }
     });
 
+    let weak_window = window.as_weak();
+    let state_for_refresh_ops = Rc::clone(&state);
+    window.on_refresh_ops(move || {
+        if let Some(window) = weak_window.upgrade() {
+            let mut state = state_for_refresh_ops.borrow_mut();
+            state.refresh_ops();
+            refresh_view(&window, &state);
+        }
+    });
+
+    let weak_window = window.as_weak();
+    let state_for_set_ops_section = Rc::clone(&state);
+    window.on_set_ops_section(move |mode| {
+        if let Some(window) = weak_window.upgrade() {
+            let mut state = state_for_set_ops_section.borrow_mut();
+            state.set_ops_section(mode);
+            refresh_view(&window, &state);
+        }
+    });
+
+    let weak_window = window.as_weak();
+    let state_for_set_ops_lookup_mode = Rc::clone(&state);
+    window.on_set_ops_lookup_mode(move |mode| {
+        if let Some(window) = weak_window.upgrade() {
+            let mut state = state_for_set_ops_lookup_mode.borrow_mut();
+            state.set_ops_lookup_mode(mode);
+            refresh_view(&window, &state);
+        }
+    });
+
+    let weak_window = window.as_weak();
+    let state_for_set_ops_lookup_query = Rc::clone(&state);
+    window.on_set_ops_lookup_query(move |query| {
+        if let Some(window) = weak_window.upgrade() {
+            let mut state = state_for_set_ops_lookup_query.borrow_mut();
+            state.set_ops_lookup_query(query.as_str());
+            refresh_view(&window, &state);
+        }
+    });
+
+    let weak_window = window.as_weak();
+    let state_for_run_ops_lookup = Rc::clone(&state);
+    window.on_run_ops_lookup(move || {
+        if let Some(window) = weak_window.upgrade() {
+            let mut state = state_for_run_ops_lookup.borrow_mut();
+            state.run_ops_lookup();
+            refresh_view(&window, &state);
+        }
+    });
+
     window.run().context("studio window exited with error")
 }
 
@@ -199,6 +249,13 @@ fn refresh_view(window: &AppWindow, state: &AppState) {
     window.set_selected_audit_preview(state.selected_audit_preview_text().into());
     window.set_audit_filter_query(state.audit_filter_query_text().into());
     window.set_audit_status_filter_mode(state.audit_status_filter_mode());
+    window.set_ops_status(state.ops_status_text().into());
+    window.set_ops_section_mode(state.ops_section_mode());
+    window.set_ops_section_title(state.ops_section_title_text().into());
+    window.set_ops_lookup_mode(state.ops_lookup_mode());
+    window.set_ops_lookup_query(state.ops_lookup_query_text().into());
+    window.set_ops_lookup_result(state.ops_lookup_result_text().into());
+    window.set_ops_section_body(state.ops_section_body_text().into());
 
     window.set_selected_title(state.selected_title().into());
     window.set_selected_description(state.selected_description().into());

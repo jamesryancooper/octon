@@ -55,3 +55,10 @@ if [[ -f "$incident_approval_test" && "${ORCHESTRATION_RUNTIME_SKIP_INCIDENT_APP
   bash "$incident_approval_test"
   echo
 fi
+
+operator_hardening_test="$RUNTIME_DIR/_ops/tests/test-operator-hardening.sh"
+if [[ -f "$operator_hardening_test" && "${ORCHESTRATION_RUNTIME_SKIP_OPERATOR_HARDENING_TEST:-0}" != "1" ]]; then
+  echo "== Run ${operator_hardening_test#$RUNTIME_DIR/} =="
+  bash "$operator_hardening_test"
+  echo
+fi

@@ -8,6 +8,7 @@ pub mod discovery;
 pub mod errors;
 pub mod jsonlines;
 pub mod limits;
+pub mod orchestration;
 pub mod policy;
 pub mod registry;
 pub mod root;

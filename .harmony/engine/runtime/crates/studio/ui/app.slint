@@ -59,7 +59,7 @@ component ActionButton inherits Rectangle {
 export component AppWindow inherits Window {
     title: "Harmony Studio";
     width: 1340px;
-    height: 860px;
+    height: 1220px;
     background: #0e141c;
 
     in-out property <string> root_path: "Locating .harmony root...";
@@ -77,6 +77,13 @@ export component AppWindow inherits Window {
     in-out property <string> selected_audit_preview: "# No apply audits found.\n";
     in-out property <string> audit_filter_query: "";
     in-out property <int> audit_status_filter_mode: 0;
+    in-out property <string> ops_status: "Initializing operations snapshot...";
+    in-out property <int> ops_section_mode: 0;
+    in-out property <string> ops_section_title: "Overview";
+    in-out property <int> ops_lookup_mode: 0;
+    in-out property <string> ops_lookup_query: "";
+    in-out property <string> ops_lookup_result: "# Enter a canonical id and run a lookup.\n";
+    in-out property <string> ops_section_body: "# Overview unavailable.\n";
 
     in-out property <[WorkflowListItem]> workflows;
     in-out property <[GraphNodeItem]> graph_nodes;
@@ -105,6 +112,11 @@ export component AppWindow inherits Window {
     callback copy-selected-audit-path();
     callback set-audit-filter-query(string);
     callback set-audit-status-filter(int);
+    callback refresh-ops();
+    callback set-ops-section(int);
+    callback set-ops-lookup-mode(int);
+    callback set-ops-lookup-query(string);
+    callback run-ops-lookup();
 
     VerticalLayout {
         spacing: 12px;
@@ -423,6 +435,178 @@ export component AppWindow inherits Window {
                             wrap: word-wrap;
                         }
                     }
+                }
+            }
+        }
+
+        Rectangle {
+            border-color: #2c3a49;
+            border-width: 1px;
+            border-radius: 10px;
+            background: #111a24;
+            height: 348px;
+
+            Text {
+                text: "Operations Workspace · " + ops_section_title;
+                color: #e8f1ff;
+                font-size: 18px;
+                x: 14px;
+                y: 12px;
+            }
+
+            ActionButton {
+                x: parent.width - 114px;
+                y: 10px;
+                width: 100px;
+                height: 30px;
+                label: "Refresh";
+                clicked => { root.refresh-ops(); }
+            }
+
+            HorizontalLayout {
+                x: 14px;
+                y: 46px;
+                spacing: 8px;
+
+                ActionButton { width: 96px; height: 28px; label: ops_section_mode == 0 ? "[Overview]" : "Overview"; clicked => { root.set-ops-section(0); } }
+                ActionButton { width: 88px; height: 28px; label: ops_section_mode == 1 ? "[Lookup]" : "Lookup"; clicked => { root.set-ops-section(1); } }
+                ActionButton { width: 72px; height: 28px; label: ops_section_mode == 2 ? "[Runs]" : "Runs"; clicked => { root.set-ops-section(2); } }
+                ActionButton { width: 92px; height: 28px; label: ops_section_mode == 3 ? "[Incidents]" : "Incidents"; clicked => { root.set-ops-section(3); } }
+                ActionButton { width: 76px; height: 28px; label: ops_section_mode == 4 ? "[Queue]" : "Queue"; clicked => { root.set-ops-section(4); } }
+            }
+
+            HorizontalLayout {
+                x: 14px;
+                y: 82px;
+                spacing: 8px;
+
+                ActionButton { width: 92px; height: 28px; label: ops_section_mode == 5 ? "[Watchers]" : "Watchers"; clicked => { root.set-ops-section(5); } }
+                ActionButton { width: 112px; height: 28px; label: ops_section_mode == 6 ? "[Automations]" : "Automations"; clicked => { root.set-ops-section(6); } }
+                ActionButton { width: 92px; height: 28px; label: ops_section_mode == 7 ? "[Missions]" : "Missions"; clicked => { root.set-ops-section(7); } }
+                ActionButton { width: 100px; height: 28px; label: ops_section_mode == 8 ? "[Playbooks]" : "Playbooks"; clicked => { root.set-ops-section(8); } }
+            }
+
+            Rectangle {
+                x: 12px;
+                y: 118px;
+                width: parent.width - 24px;
+                height: 30px;
+                visible: ops_section_mode == 1;
+                border-color: #27374a;
+                border-width: 1px;
+                border-radius: 6px;
+                background: #0f1721;
+
+                lookup_input := TextInput {
+                    x: 8px;
+                    y: 3px;
+                    width: 360px;
+                    height: parent.height - 6px;
+                    text: ops_lookup_query;
+                    edited => { root.set-ops-lookup-query(lookup_input.text); }
+                }
+
+                ActionButton {
+                    x: 376px;
+                    y: 1px;
+                    width: 92px;
+                    height: 28px;
+                    label: ops_lookup_mode == 0 ? "[Decision]" : "Decision";
+                    clicked => { root.set-ops-lookup-mode(0); }
+                }
+                ActionButton {
+                    x: 476px;
+                    y: 1px;
+                    width: 72px;
+                    height: 28px;
+                    label: ops_lookup_mode == 1 ? "[Run]" : "Run";
+                    clicked => { root.set-ops-lookup-mode(1); }
+                }
+                ActionButton {
+                    x: 556px;
+                    y: 1px;
+                    width: 92px;
+                    height: 28px;
+                    label: ops_lookup_mode == 2 ? "[Incident]" : "Incident";
+                    clicked => { root.set-ops-lookup-mode(2); }
+                }
+                ActionButton {
+                    x: 656px;
+                    y: 1px;
+                    width: 78px;
+                    height: 28px;
+                    label: ops_lookup_mode == 3 ? "[Queue]" : "Queue";
+                    clicked => { root.set-ops-lookup-mode(3); }
+                }
+                ActionButton {
+                    x: 742px;
+                    y: 1px;
+                    width: 76px;
+                    height: 28px;
+                    label: ops_lookup_mode == 4 ? "[Event]" : "Event";
+                    clicked => { root.set-ops-lookup-mode(4); }
+                }
+                ActionButton {
+                    x: 826px;
+                    y: 1px;
+                    width: 106px;
+                    height: 28px;
+                    label: ops_lookup_mode == 5 ? "[Automation]" : "Automation";
+                    clicked => { root.set-ops-lookup-mode(5); }
+                }
+                ActionButton {
+                    x: 940px;
+                    y: 1px;
+                    width: 90px;
+                    height: 28px;
+                    label: ops_lookup_mode == 6 ? "[Watcher]" : "Watcher";
+                    clicked => { root.set-ops-lookup-mode(6); }
+                }
+                ActionButton {
+                    x: 1038px;
+                    y: 1px;
+                    width: 88px;
+                    height: 28px;
+                    label: ops_lookup_mode == 7 ? "[Mission]" : "Mission";
+                    clicked => { root.set-ops-lookup-mode(7); }
+                }
+                ActionButton {
+                    x: parent.width - 98px;
+                    y: 1px;
+                    width: 88px;
+                    height: 28px;
+                    label: "Run";
+                    clicked => { root.run-ops-lookup(); }
+                }
+            }
+
+            Text {
+                text: ops_status;
+                color: #a5bed9;
+                x: 14px;
+                y: ops_section_mode == 1 ? 154px : 118px;
+                width: parent.width - 28px;
+                wrap: word-wrap;
+            }
+
+            Rectangle {
+                x: 12px;
+                y: ops_section_mode == 1 ? 182px : 150px;
+                width: parent.width - 24px;
+                height: parent.height - (ops_section_mode == 1 ? 194px : 162px);
+                border-color: #27374a;
+                border-width: 1px;
+                border-radius: 8px;
+                background: #0f1721;
+                clip: true;
+
+                Text {
+                    text: ops_section_mode == 1 ? ops_lookup_result : ops_section_body;
+                    color: #d7e5f8;
+                    x: 10px;
+                    y: 8px;
+                    width: parent.width - 20px;
+                    wrap: word-wrap;
                 }
             }
         }

@@ -1,6 +1,6 @@
 ---
 name: "audit-design-package"
-description: "Run the architecture validation pipeline for a design package in rigorous or short mode, persist stage reports into a bounded bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts."
+description: "Run the architecture validation pipeline for a design package in rigorous or short mode, persist stage reports into a workflow bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts."
 steps:
   - id: "configure"
     file: "stages/01-configure.md"
@@ -43,7 +43,7 @@ _Generated README from canonical workflow `audit-design-package`._
 
 ## Purpose
 
-Run the architecture validation pipeline for a design package in rigorous or short mode, persist stage reports into a bounded bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts.
+Run the architecture validation pipeline for a design package in rigorous or short mode, persist stage reports into a workflow bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts.
 
 ## Target
 
@@ -64,7 +64,7 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 - `model` (text, required=false): Optional model override forwarded to codex or claude
 - `prepare_only` (boolean, required=false): Materialize bundle metadata and prompt packets without invoking the executor
 - `summary_root` (folder, required=false), default=`.harmony/output/reports`: Root directory for the top-level summary report
-- `bundle_root` (folder, required=false), default=`.harmony/output/reports/audits`: Root directory for the bounded stage-report bundle
+- `bundle_root` (folder, required=false), default=`.harmony/output/reports/workflows`: Root directory for the workflow stage-report bundle
 
 ## Failure Conditions
 
@@ -75,16 +75,16 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 ## Outputs
 
 - `design_package_workflow_summary` -> `../../output/reports/{{date}}-audit-design-package.md`: Top-level workflow summary with selected mode, readiness verdict, changed files, and next steps
-- `design_package_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Bounded bundle containing stage reports, metadata, validation state, and aggregate package deltas
-- `design_audit_report` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/01-design-package-audit.md`: Stage report produced by the design package audit prompt
-- `design_package_remediation_report` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/02-design-package-remediation.md`: Short-mode remediation report and package delta receipt
-- `design_red_team_report` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/03-design-red-team.md`: Rigorous-mode adversarial report
-- `design_hardening_report` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/04-design-hardening.md`: Rigorous-mode hardening report and package delta receipt
-- `design_integration_report` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/05-design-integration.md`: Rigorous-mode integration report and package delta receipt
-- `implementation_simulation_report` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/06-implementation-simulation.md`: Buildability simulation report
-- `specification_closure_report` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/07-specification-closure.md`: Specification-closure report or explicit no-op receipt
-- `implementation_architecture_blueprint` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md`: Minimal implementer blueprint extracted from the stabilized package
-- `first_implementation_plan` -> `../../output/reports/audits/{{date}}-{{slug}}/reports/09-first-implementation-plan.md`: First production implementation plan derived from the blueprint
+- `design_package_workflow_bundle` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/`: Workflow bundle containing stage reports, metadata, validation state, and aggregate package deltas
+- `design_audit_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/01-design-package-audit.md`: Stage report produced by the design package audit prompt
+- `design_package_remediation_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/02-design-package-remediation.md`: Short-mode remediation report and package delta receipt
+- `design_red_team_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/03-design-red-team.md`: Rigorous-mode adversarial report
+- `design_hardening_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/04-design-hardening.md`: Rigorous-mode hardening report and package delta receipt
+- `design_integration_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/05-design-integration.md`: Rigorous-mode integration report and package delta receipt
+- `implementation_simulation_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/06-implementation-simulation.md`: Buildability simulation report
+- `specification_closure_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/07-specification-closure.md`: Specification-closure report or explicit no-op receipt
+- `implementation_architecture_blueprint` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md`: Minimal implementer blueprint extracted from the stabilized package
+- `first_implementation_plan` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/09-first-implementation-plan.md`: First production implementation plan derived from the blueprint
 
 ## Steps
 
@@ -101,7 +101,7 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 ## Verification Gate
 
 - [ ] Selected mode is recorded and stage coverage matches it
-- [ ] Every selected stage has a persisted report in the bounded bundle
+- [ ] Every selected stage has a persisted report in the workflow bundle
 - [ ] Every file-writing stage has a change manifest or zero-change receipt
 - [ ] `package-delta.md`, `bundle.yml`, and `validation.md` exist
 - [ ] Top-level summary exists at `.harmony/output/reports/YYYY-MM-DD-audit-design-package.md`
