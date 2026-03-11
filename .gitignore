@@ -26,6 +26,8 @@ logs/
 
 # Runtime and service run records
 runs/
+!.harmony/orchestration/runtime/runs/
+!.harmony/orchestration/runtime/runs/**
 
 
 # Additional local outputs and proposal workspaces
