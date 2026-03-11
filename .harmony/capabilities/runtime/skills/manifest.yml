@@ -247,9 +247,9 @@ skills:
       - independence
       - maintainability
     triggers:
-      - "independent architecture critique"
-      - "audit domain architecture externally"
-      - "architecture review outside governance doctrine"
+      - "independent domain architecture critique"
+      - "audit harmony domain architecture externally"
+      - "external domain architecture review"
       - "run audit-domain-architecture"
     skill_sets:
       - executor
@@ -271,9 +271,9 @@ skills:
       - readiness
       - control-plane
     triggers:
-      - "audit architecture readiness"
-      - "run architecture readiness audit"
-      - "evaluate harmony architecture readiness"
+      - "implementation readiness audit for harmony architecture"
+      - "assess harmony control-plane readiness"
+      - "evaluate bounded-surface domain readiness"
       - "run audit-architecture-readiness"
     skill_sets:
       - executor
