@@ -8,7 +8,7 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-import glob as stdlib_glob
+import fnmatch
 
 
 SEVERITY_ORDER = {"info": 0, "warning": 1, "high": 2, "critical": 3}
@@ -26,13 +26,7 @@ def normalize_path(value: str) -> str:
 def harmony_glob_match(pattern: str, value: str) -> bool:
     normalized_pattern = normalize_path(pattern)
     normalized_value = normalize_path(value)
-    regex = stdlib_glob.translate(
-        normalized_pattern,
-        recursive=True,
-        include_hidden=True,
-        seps="/",
-    )
-    return re.fullmatch(regex, normalized_value) is not None
+    return fnmatch.fnmatchcase(normalized_value, normalized_pattern)
 
 
 def ensure(condition: bool, message: str) -> None:
