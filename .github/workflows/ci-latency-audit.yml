@@ -176,7 +176,11 @@ jobs:
               return;
             }
 
-            if (action === "update_if_exists" || action === "update_existing") {
+            if (
+              action === "update_if_open" ||
+              action === "update_if_exists" ||
+              action === "update_existing"
+            ) {
               if (!existing) {
                 core.info("Watch state with no open issue; leaving issue surface unchanged.");
                 return;
