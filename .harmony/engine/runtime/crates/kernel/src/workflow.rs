@@ -2751,7 +2751,7 @@ fn build_create_design_package_summary(
     body.push_str("\n## Next Steps\n\n");
     if final_verdict == "scaffolded" {
         body.push_str(&format!(
-            "1. Fill in the package-specific normative and implementation details.\n2. Run `/audit-design-proposal package_path=\"{}\"` to mature the package.\n3. Promote durable outputs into the listed implementation targets before archiving the package.\n",
+            "1. Fill in the proposal-specific normative and implementation details.\n2. Run `/audit-design-proposal proposal_path=\"{}\"` to mature the proposal.\n3. Promote durable outputs into the listed implementation targets before archiving the proposal.\n",
             rel_path(repo_root, package_root),
         ));
     } else {
@@ -2790,8 +2790,12 @@ fn upsert_proposal_registry(
         registry.schema_version = "proposal-registry-v1".to_string();
     }
 
-    registry.active.retain(|entry| entry.id != proposal_id);
-    registry.archived.retain(|entry| entry.id != proposal_id);
+    registry
+        .active
+        .retain(|entry| !(entry.id == proposal_id && entry.kind == proposal_kind));
+    registry
+        .archived
+        .retain(|entry| !(entry.id == proposal_id && entry.kind == proposal_kind));
     registry.active.push(ProposalActiveRegistryEntry {
         id: proposal_id.to_string(),
         kind: proposal_kind.to_string(),
@@ -2801,7 +2805,11 @@ fn upsert_proposal_registry(
         status: status.to_string(),
         promotion_targets: promotion_targets.to_vec(),
     });
-    registry.active.sort_by(|left, right| left.id.cmp(&right.id));
+    registry.active.sort_by(|left, right| {
+        left.kind
+            .cmp(&right.kind)
+            .then_with(|| left.id.cmp(&right.id))
+    });
 
     let yaml = serde_yaml::to_string(&registry)?;
     if let Some(parent) = registry_path.parent() {
@@ -3805,6 +3813,9 @@ mod tests {
         assert!(manifest.contains("- \"conformance\""));
         assert!(manifest.contains("- \"canonicalization\""));
         assert!(summary.contains("final_verdict: `scaffolded`"));
+        assert!(summary.contains(
+            "/audit-design-proposal proposal_path=\".proposals/design/runtime-package\""
+        ));
         assert!(summary.contains("bundle_root: `"));
         assert!(result.bundle_root.join("summary.md").is_file());
         assert!(result.bundle_root.join("bundle.yml").is_file());
@@ -3936,6 +3947,54 @@ mod tests {
         );
         assert!(validation.contains("request-validation-failure"));
         assert!(summary.contains("request-validation-failure"));
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn proposal_registry_preserves_same_id_across_kinds() {
+        let root = make_temp_root("proposal-registry-kinds");
+        let harmony_dir = seed_create_design_package_fixture(&root);
+
+        run_create_static_proposal_from_harmony_dir(
+            &harmony_dir,
+            StaticProposalKind::Migration,
+            RunCreateStaticProposalOptions {
+                proposal_id: "shared-id".to_string(),
+                proposal_title: "Shared Migration".to_string(),
+                promotion_scope: ProposalScope::RepoLocal,
+                promotion_targets: vec!["docs/migration.md".to_string()],
+            },
+        )
+        .expect("migration proposal should scaffold");
+
+        run_create_static_proposal_from_harmony_dir(
+            &harmony_dir,
+            StaticProposalKind::Policy,
+            RunCreateStaticProposalOptions {
+                proposal_id: "shared-id".to_string(),
+                proposal_title: "Shared Policy".to_string(),
+                promotion_scope: ProposalScope::RepoLocal,
+                promotion_targets: vec!["docs/policy.md".to_string()],
+            },
+        )
+        .expect("policy proposal should scaffold");
+
+        let registry: ProposalRegistry = serde_yaml::from_str(
+            &fs::read_to_string(root.join(".proposals/registry.yml"))
+                .expect("registry should exist"),
+        )
+        .expect("registry should parse");
+
+        assert_eq!(registry.active.len(), 2);
+        assert!(registry
+            .active
+            .iter()
+            .any(|entry| entry.kind == "migration" && entry.id == "shared-id"));
+        assert!(registry
+            .active
+            .iter()
+            .any(|entry| entry.kind == "policy" && entry.id == "shared-id"));
+
         fs::remove_dir_all(root).ok();
     }
 }

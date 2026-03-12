@@ -200,7 +200,8 @@ validate_registry_projection() {
   local manifest="$1"
   local label="$2"
   local proposal_id="$3"
-  local proposal_rel="$4"
+  local proposal_kind="$4"
+  local proposal_rel="$5"
   local registry="$ROOT_DIR/.proposals/registry.yml"
   local path_query
 
@@ -214,9 +215,9 @@ validate_registry_projection() {
   validate_enum "$(yaml_string "$registry" '.schema_version')" "proposal registry schema_version valid" "proposal-registry-v1"
 
   if [[ "$(yaml_string "$manifest" '.status')" == "archived" ]]; then
-    path_query=".archived[] | select(.id == \"$proposal_id\") | .path"
+    path_query=".archived[] | select(.id == \"$proposal_id\" and .kind == \"$proposal_kind\") | .path"
   else
-    path_query=".active[] | select(.id == \"$proposal_id\") | .path"
+    path_query=".active[] | select(.id == \"$proposal_id\" and .kind == \"$proposal_kind\") | .path"
   fi
 
   local entry_path
@@ -277,7 +278,7 @@ validate_proposal() {
   fi
 
   validate_promotion_targets "$manifest" "proposal '$proposal_rel'" "$proposal_id" "$proposal_rel"
-  validate_registry_projection "$manifest" "proposal '$proposal_rel'" "$proposal_id" "$proposal_rel"
+  validate_registry_projection "$manifest" "proposal '$proposal_rel'" "$proposal_id" "$kind" "$proposal_rel"
 }
 
 main() {
