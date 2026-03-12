@@ -79,6 +79,17 @@ CI MUST validate these bundle keys at key level (not file-presence only), includ
 - `exceptions.md`
 - `ci-gates.md`
 - `findings-contract.md`
+- `surface-architecture.md`
+
+## Single-Surface Architecture Analysis
+
+Use `surface-architecture.md` as the canonical bounded-audit doctrine for
+architecture analysis of one durable Harmony surface or surface unit.
+
+This doctrine complements, but does not replace:
+
+- domain-scale critique under `audit-domain-architecture`
+- readiness verdicts under `audit-architecture-readiness`
 
 ## Runtime Audit Records
 

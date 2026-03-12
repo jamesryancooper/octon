@@ -32,3 +32,8 @@ files:
     path: findings-contract.md
     summary: Stable finding identity and acceptance criteria contract.
     when: When generating, deduplicating, or resolving findings.
+
+  - id: audit-surface-architecture-doctrine
+    path: surface-architecture.md
+    summary: Canonical doctrine for bounded analysis of one durable Harmony surface or surface unit.
+    when: When planning or running a single-surface architecture audit.

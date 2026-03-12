@@ -55,6 +55,9 @@ It may compose with existing audits, but does not replace them:
 
 - `audit-cross-subsystem-coherence` supplements whole-harness runs
 - `audit-domain-architecture` supplements bounded-domain runs
+- `audit-surface-architecture` supplements unit-level follow-up when a finding
+  must be narrowed to one workflow, skill, watcher, automation, contract
+  surface, or methodology surface
 
 Existing audit semantics remain unchanged. The architecture-readiness evaluator
 owns the final readiness verdict.

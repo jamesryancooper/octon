@@ -55,7 +55,9 @@ Representative examples for the audit-architecture-readiness skill.
 
 **Wrong behavior:** Running the full scorecard on `.harmony/capabilities/governance`.
 
-**Why wrong:** Surface-only paths are outside the supported target model and must be marked `not-applicable`.
+**Why wrong:** Surface-only paths are outside the supported target model and
+must be marked `not-applicable`. Use `audit-surface-architecture` when the goal
+is to evaluate one durable surface unit.
 
 ### Inferring Readiness Without Evidence
 

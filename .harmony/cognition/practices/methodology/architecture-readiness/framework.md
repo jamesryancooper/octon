@@ -88,6 +88,25 @@ Every critical or high gap must name:
 - the purpose of that artifact
 - the acceptance criteria for closing the gap
 
+## Composition With Surface Architecture Analysis
+
+When a readiness finding cannot be closed safely without clarifying the
+authority model of one durable surface unit, the follow-up analysis should use
+surface-architecture doctrine and classification vocabulary:
+
+- `contract-first`
+- `mixed`
+- `markdown-first`
+- `human-led/non-executable`
+
+That follow-up must preserve the readiness framework's scope boundaries:
+
+- readiness remains the verdict owner
+- surface analysis clarifies one unit's authority, validator, and documentation
+  shape
+- remediation still names exact durable artifacts and objective acceptance
+  criteria
+
 ## Output Contract
 
 The markdown report must include:

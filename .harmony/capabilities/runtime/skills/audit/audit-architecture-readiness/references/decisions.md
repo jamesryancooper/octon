@@ -12,7 +12,7 @@ decisions:
         next_phase: "Run bounded-domain evaluation"
       - condition: "target_path resolves to unsupported profile or surface-only path"
         label: not_applicable
-        next_phase: "Emit not-applicable verdict and stop scoring"
+        next_phase: "Emit not-applicable verdict, recommend audit-surface-architecture for single-surface follow-up, and stop scoring"
 
   - id: evidence-sufficiency
     point: "Phase 5: Self-Challenge"

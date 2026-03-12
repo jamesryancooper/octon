@@ -34,6 +34,10 @@ Use this skill when:
   artifacts
 - You need structured output for design review or workflow orchestration
 
+Use `audit-surface-architecture` instead when the question is about one
+workflow, skill, watcher, automation, contract surface, or methodology surface
+rather than whole-harness or bounded-domain readiness.
+
 ## Quick Start
 
 ```text

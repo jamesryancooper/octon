@@ -697,8 +697,82 @@ skills:
           determinism: variable
           description: "Top-level log index (cross-skill)"
 
+  audit-surface-architecture:
+    version: "1.0.1"
+    commands:
+      - /audit-surface-architecture
+    parameters:
+      - name: surface_path
+        type: text
+        required: true
+        description: "Repo-relative path under /.harmony/ identifying one durable surface unit"
+      - name: surface_kind
+        type: text
+        required: false
+        default: "auto"
+        description: "Optional surface kind override: auto, workflow, skill, watcher, automation, service, contract, methodology, other"
+      - name: severity_threshold
+        type: text
+        required: false
+        default: "all"
+        description: "Minimum severity to report: critical, high, medium, low, all"
+      - name: evidence_depth
+        type: text
+        required: false
+        default: "standard"
+        description: "Evidence intensity: quick, standard, deep"
+      - name: post_remediation
+        type: boolean
+        required: false
+        default: false
+        description: "Enable strict done-gate verification mode for post-remediation runs"
+      - name: convergence_k
+        type: text
+        required: false
+        default: "3"
+        description: "Number of controlled reruns used to evaluate convergence stability"
+      - name: seed_list
+        type: text
+        required: false
+        description: "Comma-separated deterministic seeds used for consistency checks"
+    requires:
+      context: []
+    io:
+      inputs: []
+      outputs:
+        - name: surface_architecture_audit_report
+          path: "../../../output/reports/{{date}}-surface-architecture-audit-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Surface-architecture findings report with authority classification, gaps, and target-state recommendation"
+        - name: bounded_audit_bundle
+          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Authoritative bounded-audit bundle with findings, coverage, convergence, and validation artifacts"
+        - name: run_log
+          path: "_ops/state/logs/audit-surface-architecture/{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Execution log for this surface-architecture audit run"
+        - name: log_index
+          path: "_ops/state/logs/audit-surface-architecture/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Index of all audit-surface-architecture runs with metadata"
+        - name: top_log_index
+          path: "_ops/state/logs/index.yml"
+          kind: file
+          format: yaml
+          determinism: variable
+          description: "Top-level log index (cross-skill)"
+
   audit-architecture-readiness:
-    version: "1.0.0"
+    version: "1.0.1"
     commands:
       - /audit-architecture-readiness
     parameters:

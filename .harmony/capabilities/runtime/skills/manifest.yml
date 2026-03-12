@@ -258,6 +258,30 @@ skills:
       - domain-specialized
       - self-validating
 
+  - id: audit-surface-architecture
+    display_name: Audit Surface Architecture
+    group: audit
+    path: audit/audit-surface-architecture/
+    skill_class: invocable
+    summary: "Bounded architecture audit for one durable Harmony surface or surface unit."
+    status: active
+    tags:
+      - audit
+      - architecture
+      - authority
+      - surface
+    triggers:
+      - "audit one harmony surface architecture"
+      - "review one workflow or skill architecture"
+      - "single surface architecture audit"
+      - "run audit-surface-architecture"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+
   - id: audit-architecture-readiness
     display_name: Audit Architecture Readiness
     group: audit
