@@ -18,7 +18,7 @@ declare -a CLEANUP_PATHS=()
 cleanup() {
   local path
   for path in "${CLEANUP_PATHS[@]}"; do
-    [[ -e "$path" ]] && rm -rf "$path"
+    [[ -e "$path" ]] && rm -r "$path"
   done
 }
 trap cleanup EXIT
