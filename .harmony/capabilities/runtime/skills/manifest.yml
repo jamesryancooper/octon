@@ -475,6 +475,34 @@ skills:
       - domain-specialized
       - self-validating
 
+  - id: audit-ci-latency
+    display_name: Audit Ci Latency
+    group: audit
+    path: audit/audit-ci-latency/
+    skill_class: invocable
+    summary: "Report-only audit of recent GitHub Actions latency, required-path performance, slow steps, and duplicate workflow work."
+    status: active
+    tags:
+      - audit
+      - ci
+      - latency
+      - github-actions
+      - performance
+    triggers:
+      - "audit ci latency"
+      - "ci latency audit"
+      - "evaluate ci latency"
+      - "analyze github actions speed"
+      - "check ci critical path"
+      - "run audit-ci-latency"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - domain-specialized
+      - self-validating
+      - external-dependent
+
   - id: audit-ui
     display_name: Audit UI
     group: audit

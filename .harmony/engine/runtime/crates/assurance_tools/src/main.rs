@@ -1,3 +1,5 @@
+mod ci_latency;
+
 use anyhow::{anyhow, bail, Context, Result};
 use clap::{Args, Parser, Subcommand};
 use serde_json::{Map, Number, Value};
@@ -19,6 +21,7 @@ struct Cli {
 enum Command {
     Score(ScoreArgs),
     Gate(GateArgs),
+    CiLatency(ci_latency::CiLatencyArgs),
 }
 
 #[derive(Args, Debug)]
@@ -29,7 +32,10 @@ struct ScoreArgs {
     )]
     weights: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/governance/scores/scores.yml")]
+    #[arg(
+        long,
+        default_value = ".harmony/assurance/governance/scores/scores.yml"
+    )]
     scores: PathBuf,
 
     #[arg(long, default_value = ".harmony/assurance/governance/CHARTER.md")]
@@ -95,7 +101,10 @@ struct GateArgs {
     )]
     weights: PathBuf,
 
-    #[arg(long, default_value = ".harmony/assurance/governance/scores/scores.yml")]
+    #[arg(
+        long,
+        default_value = ".harmony/assurance/governance/scores/scores.yml"
+    )]
     scores: PathBuf,
 
     #[arg(long, default_value = ".harmony/assurance/governance/CHARTER.md")]
@@ -247,6 +256,7 @@ fn run() -> Result<()> {
     match cli.command {
         Command::Score(args) => run_score(args),
         Command::Gate(args) => run_gate(args),
+        Command::CiLatency(args) => ci_latency::run(args),
     }
 }
 
