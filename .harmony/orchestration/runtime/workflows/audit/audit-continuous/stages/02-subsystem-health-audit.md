@@ -31,7 +31,7 @@ If stage fails:
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-subsystem-health-audit.md`
 - Subsystem-health findings summary for merge
 
 ## Proceed When

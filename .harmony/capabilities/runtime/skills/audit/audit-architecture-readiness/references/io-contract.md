@@ -36,12 +36,12 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: architecture_readiness_audit_report
-      path: "../../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.md"
+      path: "../../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured architecture-readiness findings report"
     - name: architecture_readiness_summary_json
-      path: "../../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.json"
+      path: "../../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
       format: json
       determinism: unique
       description: "Machine-readable readiness summary validated against the promoted report schema"

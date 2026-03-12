@@ -39,7 +39,7 @@ If stage fails, record failure details and continue to step 9.
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-data-governance-audit-<run-id>.md` (if run)
+- `.harmony/output/reports/analysis/YYYY-MM-DD-data-governance-audit-<run-id>.md` (if run)
 - Data governance stage findings summary for merge
 
 ## Proceed When

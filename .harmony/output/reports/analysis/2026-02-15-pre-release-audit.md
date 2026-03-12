@@ -70,7 +70,7 @@ No remediation batches required from this run.
 | Migration audit (if applicable) | skipped (no manifest) | N-A |
 | Cross-subsystem audit (if enabled) | completed | PASS |
 | Freshness audit (if enabled) | completed | PASS |
-| Consolidated report exists | `.harmony/output/reports/2026-02-15-pre-release-audit.md` | PASS |
+| Consolidated report exists | `.harmony/output/reports/analysis/2026-02-15-pre-release-audit.md` | PASS |
 | Go/no-go stated | GO stated with rationale | PASS |
 | Findings merged | Completed across all run stages | PASS |
 | Deduplicated | Trivially satisfied (0 findings) | PASS |

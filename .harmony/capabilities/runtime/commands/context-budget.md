@@ -14,7 +14,7 @@ Calculate and emit deterministic context budget output for native mode.
 ```text
 /context-budget --limit <int> --used <int>
 /context-budget --limit <int> --used <int> --unit tokens
-/context-budget --limit <int> --used <int> --report .harmony/output/reports/<date>-context-budget.md
+/context-budget --limit <int> --used <int> --report .harmony/output/reports/analysis/<date>-context-budget.md
 ```
 
 ## Parameters

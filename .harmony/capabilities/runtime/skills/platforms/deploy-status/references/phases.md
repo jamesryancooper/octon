@@ -35,6 +35,6 @@ description: Phase-by-phase instructions for deploy-status.
 
 **Goal:** Produce a decision-ready output.
 
-1. Write readiness report to `.harmony/output/reports/`.
+1. Write readiness report to `.harmony/output/reports/analysis/`.
 2. Write run log to `_ops/state/logs/deploy-status/{{run_id}}.md`.
 3. Return external output metadata (deployment URL + normalized state) in the response.

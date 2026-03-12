@@ -19,7 +19,7 @@ description: Input/output contract for audit-freshness-and-supersession.
 
 ## Outputs
 
-- `.harmony/output/reports/YYYY-MM-DD-freshness-and-supersession-audit.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-freshness-and-supersession-audit.md`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/bundle.yml`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/findings.yml`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/coverage.yml`

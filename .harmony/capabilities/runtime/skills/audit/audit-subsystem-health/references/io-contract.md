@@ -40,7 +40,7 @@ Extended input/output documentation for the `audit-subsystem-health` skill.
 
 ### Primary Report
 
-Written to `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md`.
+Written to `.harmony/output/reports/analysis/YYYY-MM-DD-subsystem-health-audit.md`.
 
 The report includes:
 

@@ -110,25 +110,25 @@ workflows:
           description: "Migration manifest with old/new mappings and scope"
       outputs:
         - name: consolidated_report
-          path: "../../output/reports/{{date}}-migration-audit-consolidated.md"
+          path: "../../output/reports/analysis/{{date}}-migration-audit-consolidated.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated report with partitioned migration findings and optional global-stage outcomes"
         - name: partition_reports
-          path: "../../output/reports/{{date}}-migration-audit-{{partition}}.md"
+          path: "../../output/reports/analysis/{{date}}-migration-audit-{{partition}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Individual partition audit reports"
         - name: cross_subsystem_audit_report
-          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Individual cross-subsystem coherence audit report (produced if enabled)"
         - name: freshness_audit_report
-          path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -203,31 +203,31 @@ workflows:
       inputs: []
       outputs:
         - name: pre_release_report
-          path: "../../output/reports/{{date}}-audit-pre-release.md"
+          path: "../../output/reports/analysis/{{date}}-audit-pre-release.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated pre-release audit report with go/no-go recommendation"
         - name: health_audit_report
-          path: "../../output/reports/{{date}}-subsystem-health-audit.md"
+          path: "../../output/reports/analysis/{{date}}-subsystem-health-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Individual health audit report (produced by audit-subsystem-health)"
         - name: migration_audit_report
-          path: "../../output/reports/{{date}}-migration-audit-consolidated.md"
+          path: "../../output/reports/analysis/{{date}}-migration-audit-consolidated.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated migration audit report (produced by audit-orchestration in migration-only mode, if manifest provided)"
         - name: cross_subsystem_audit_report
-          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)"
         - name: freshness_audit_report
-          path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -328,49 +328,49 @@ workflows:
       inputs: []
       outputs:
         - name: change_risk_report
-          path: "../../output/reports/{{date}}-audit-change-risk.md"
+          path: "../../output/reports/analysis/{{date}}-audit-change-risk.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated change-risk report with risk tier and recommendation"
         - name: subsystem_health_audit_report
-          path: "../../output/reports/{{date}}-subsystem-health-audit.md"
+          path: "../../output/reports/analysis/{{date}}-subsystem-health-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Subsystem-health stage report (mandatory)"
         - name: migration_audit_report
-          path: "../../output/reports/{{date}}-migration-audit.md"
+          path: "../../output/reports/analysis/{{date}}-migration-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Migration-impact stage report (produced if enabled and manifest is provided)"
         - name: api_contract_audit_report
-          path: "../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "API-contract stage report (produced if enabled)"
         - name: test_quality_audit_report
-          path: "../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Test-quality stage report (produced if enabled)"
         - name: operational_readiness_audit_report
-          path: "../../output/reports/{{date}}-operational-readiness-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Operational-readiness stage report (produced if enabled)"
         - name: cross_subsystem_audit_report
-          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Cross-subsystem stage report (produced if enabled)"
         - name: freshness_audit_report
-          path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -486,61 +486,61 @@ workflows:
       inputs: []
       outputs:
         - name: continuous_audit_report
-          path: "../../output/reports/{{date}}-audit-continuous.md"
+          path: "../../output/reports/analysis/{{date}}-audit-continuous.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated audit-continuous report with ongoing risk recommendation"
         - name: subsystem_health_audit_report
-          path: "../../output/reports/{{date}}-subsystem-health-audit.md"
+          path: "../../output/reports/analysis/{{date}}-subsystem-health-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Subsystem-health stage report (mandatory)"
         - name: observability_coverage_audit_report
-          path: "../../output/reports/{{date}}-observability-coverage-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Observability-coverage stage report (mandatory)"
         - name: operational_readiness_audit_report
-          path: "../../output/reports/{{date}}-operational-readiness-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Operational-readiness stage report (produced if enabled)"
         - name: api_contract_audit_report
-          path: "../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "API-contract stage report (produced if enabled)"
         - name: test_quality_audit_report
-          path: "../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Test-quality stage report (produced if enabled)"
         - name: security_compliance_audit_report
-          path: "../../output/reports/{{date}}-security-compliance-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Security-compliance stage report (produced if enabled)"
         - name: data_governance_audit_report
-          path: "../../output/reports/{{date}}-data-governance-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Data-governance stage report (produced if enabled)"
         - name: cross_subsystem_audit_report
-          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Cross-subsystem stage report (produced if enabled)"
         - name: freshness_audit_report
-          path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -647,55 +647,55 @@ workflows:
       inputs: []
       outputs:
         - name: post_incident_report
-          path: "../../output/reports/{{date}}-audit-post-incident.md"
+          path: "../../output/reports/analysis/{{date}}-audit-post-incident.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated post-incident closure report with residual risk recommendation"
         - name: operational_readiness_audit_report
-          path: "../../output/reports/{{date}}-operational-readiness-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Operational-readiness stage report (mandatory)"
         - name: observability_coverage_audit_report
-          path: "../../output/reports/{{date}}-observability-coverage-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Observability-coverage stage report (mandatory)"
         - name: security_compliance_audit_report
-          path: "../../output/reports/{{date}}-security-compliance-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Security-compliance stage report (produced if enabled)"
         - name: data_governance_audit_report
-          path: "../../output/reports/{{date}}-data-governance-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Data-governance stage report (produced if enabled)"
         - name: api_contract_audit_report
-          path: "../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "API-contract stage report (produced if enabled)"
         - name: test_quality_audit_report
-          path: "../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Test-quality stage report (produced if enabled)"
         - name: cross_subsystem_audit_report
-          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Cross-subsystem stage report (produced if enabled)"
         - name: freshness_audit_report
-          path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -783,49 +783,49 @@ workflows:
       inputs: []
       outputs:
         - name: release_readiness_workflow_report
-          path: "../../output/reports/{{date}}-audit-release-readiness.md"
+          path: "../../output/reports/analysis/{{date}}-audit-release-readiness.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated layered release-readiness workflow report with recommendation"
         - name: release_core_audit_report
-          path: "../../output/reports/{{date}}-audit-release-readiness-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-audit-release-readiness-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Release-core stage report produced by audit-release-readiness"
         - name: operational_readiness_audit_report
-          path: "../../output/reports/{{date}}-operational-readiness-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Operational-readiness stage report (produced if enabled)"
         - name: api_contract_audit_report
-          path: "../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "API-contract stage report (produced if enabled)"
         - name: test_quality_audit_report
-          path: "../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Test-quality stage report (produced if enabled)"
         - name: observability_coverage_audit_report
-          path: "../../output/reports/{{date}}-observability-coverage-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Observability-coverage stage report (produced if enabled)"
         - name: security_compliance_audit_report
-          path: "../../output/reports/{{date}}-security-compliance-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Security-compliance stage report (produced if enabled)"
         - name: data_governance_audit_report
-          path: "../../output/reports/{{date}}-data-governance-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -885,31 +885,31 @@ workflows:
       inputs: []
       outputs:
         - name: architecture_readiness_workflow_report
-          path: "../../output/reports/{{date}}-audit-architecture-readiness.md"
+          path: "../../output/reports/analysis/{{date}}-audit-architecture-readiness.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated architecture-readiness workflow report with recommendation"
         - name: architecture_readiness_audit_report
-          path: "../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Primary stage report produced by audit-architecture-readiness"
         - name: architecture_readiness_summary_json
-          path: "../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.json"
+          path: "../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
           kind: file
           format: json
           determinism: unique
           description: "Machine-readable summary produced by audit-architecture-readiness"
         - name: cross_subsystem_audit_report
-          path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Cross-subsystem coherence report (produced if enabled and applicable)"
         - name: domain_architecture_audit_report
-          path: "../../output/reports/{{date}}-domain-architecture-audit-{{run_id}}.md"
+          path: "../../output/reports/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -965,13 +965,13 @@ workflows:
       inputs: []
       outputs:
         - name: docs_audit_report
-          path: "../../output/reports/{{date}}-audit-documentation.md"
+          path: "../../output/reports/analysis/{{date}}-audit-documentation.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Consolidated documentation audit report with release recommendation"
         - name: docs_standards_audit_report
-          path: "../../output/reports/{{date}}-documentation-standards-audit.md"
+          path: "../../output/reports/analysis/{{date}}-documentation-standards-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1020,7 +1020,7 @@ workflows:
       - name: summary_root
         type: folder
         required: false
-        default: ".harmony/output/reports"
+        default: ".harmony/output/reports/analysis"
         description: "Root directory for the top-level summary report"
       - name: bundle_root
         type: folder
@@ -1039,7 +1039,7 @@ workflows:
           description: "Target package treated as temporary implementation design material under review, not canonical runtime authority"
       outputs:
         - name: design_package_workflow_summary
-          path: "../../output/reports/{{date}}-audit-design-package.md"
+          path: "../../output/reports/analysis/{{date}}-audit-design-package.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1158,7 +1158,7 @@ workflows:
       inputs: []
       outputs:
         - name: workflow_system_audit_report
-          path: "../../output/reports/{{date}}-audit-workflow-system.md"
+          path: "../../output/reports/analysis/{{date}}-audit-workflow-system.md"
           kind: file
           format: markdown
           determinism: unique

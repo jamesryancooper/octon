@@ -65,6 +65,6 @@ lifecycle, derived graph traversal, progressive discovery workflows, and optiona
 
 ## Required Evidence Artifacts
 
-- Phase baseline report in `.harmony/output/reports/` for filesystem interfaces rollout.
-- Runtime alignment report in `.harmony/output/reports/` for split snapshot/discovery/watch services.
-- Completion evidence report in `.harmony/output/reports/` with validation outcomes.
+- Phase baseline report in `.harmony/output/reports/analysis/` for filesystem interfaces rollout.
+- Runtime alignment report in `.harmony/output/reports/analysis/` for split snapshot/discovery/watch services.
+- Completion evidence report in `.harmony/output/reports/analysis/` with validation outcomes.

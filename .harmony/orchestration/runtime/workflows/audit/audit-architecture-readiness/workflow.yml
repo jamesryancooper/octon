@@ -95,31 +95,31 @@ stages:
     mutation_scope: []
 artifacts:
   - name: architecture_readiness_workflow_report
-    path: "../../output/reports/{{date}}-audit-architecture-readiness.md"
+    path: "../../output/reports/analysis/{{date}}-audit-architecture-readiness.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated architecture-readiness workflow report with recommendation and rationale"
   - name: architecture_readiness_audit_report
-    path: "../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.md"
+    path: "../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Primary stage report produced by audit-architecture-readiness"
   - name: architecture_readiness_summary_json
-    path: "../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.json"
+    path: "../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
     kind: file
     format: json
     determinism: unique
     description: "Machine-readable summary produced by audit-architecture-readiness"
   - name: cross_subsystem_audit_report
-    path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Cross-subsystem coherence report (produced if enabled and applicable)"
   - name: domain_architecture_audit_report
-    path: "../../output/reports/{{date}}-domain-architecture-audit-{{run_id}}.md"
+    path: "../../output/reports/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique

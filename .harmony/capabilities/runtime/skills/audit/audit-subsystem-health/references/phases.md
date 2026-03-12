@@ -67,7 +67,7 @@ behavior:
         - "Assign final severity to each finding"
         - "Group into recommended fix batches"
         - "Generate coverage proof section"
-        - "Write report to output/reports/"
+        - "Write report to output/reports/analysis/"
         - "Write execution log with idempotency metadata"
   principles:
     - name: "Fixed lenses"
@@ -450,6 +450,6 @@ Consolidate all findings into a structured, actionable report.
    ```
 
 5. **Generate coverage proof**
-6. **Write report** to `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md`
+6. **Write report** to `.harmony/output/reports/analysis/YYYY-MM-DD-subsystem-health-audit.md`
 7. **Write execution log** to `_ops/state/logs/audit-subsystem-health/{{run_id}}.md`
 8. **Update log index** (`_ops/state/logs/audit-subsystem-health/index.yml`)

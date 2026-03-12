@@ -72,11 +72,11 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 
 ## Outputs
 
-- `pre_release_report` -> `../../output/reports/{{date}}-audit-pre-release.md`: Consolidated pre-release audit report with go/no-go recommendation
-- `health_audit_report` -> `../../output/reports/{{date}}-subsystem-health-audit.md`: Individual health audit report (produced by audit-subsystem-health)
-- `migration_audit_report` -> `../../output/reports/{{date}}-migration-audit-consolidated.md`: Consolidated migration audit report (produced by audit-orchestration in migration-only mode, if manifest provided)
-- `cross_subsystem_audit_report` -> `../../output/reports/{{date}}-cross-subsystem-coherence-audit.md`: Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)
-- `freshness_audit_report` -> `../../output/reports/{{date}}-freshness-and-supersession-audit.md`: Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)
+- `pre_release_report` -> `../../output/reports/analysis/{{date}}-audit-pre-release.md`: Consolidated pre-release audit report with go/no-go recommendation
+- `health_audit_report` -> `../../output/reports/analysis/{{date}}-subsystem-health-audit.md`: Individual health audit report (produced by audit-subsystem-health)
+- `migration_audit_report` -> `../../output/reports/analysis/{{date}}-migration-audit-consolidated.md`: Consolidated migration audit report (produced by audit-orchestration in migration-only mode, if manifest provided)
+- `cross_subsystem_audit_report` -> `../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)
+- `freshness_audit_report` -> `../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md`: Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)
 - `pre_release_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for release recommendation, context-governance evidence, and done-gate verification
 
 ## Steps
@@ -93,7 +93,7 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 ## Verification Gate
 
 - [ ] All planned stages executed or explicitly skipped
-- [ ] Consolidated report exists at `.harmony/output/reports/YYYY-MM-DD-audit-pre-release.md`
+- [ ] Consolidated report exists at `.harmony/output/reports/analysis/YYYY-MM-DD-audit-pre-release.md`
 - [ ] Pre-release bundle exists at `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 - [ ] Findings are deduplicated with stable IDs and acceptance criteria
 - [ ] Coverage and convergence metadata are recorded

@@ -14,7 +14,7 @@ use walkdir::WalkDir;
 const WORKFLOW_ID: &str = "audit-design-package";
 const WORKFLOW_ROOT_REL: &str =
     ".harmony/orchestration/runtime/workflows/audit/audit-design-package";
-const REPORTS_ROOT_REL: &str = ".harmony/output/reports";
+const REPORTS_ROOT_REL: &str = ".harmony/output/reports/analysis";
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".harmony/output/reports/workflows";
 const STANDARD_DESIGN_PACKAGE_VALIDATOR_REL: &str =
     ".harmony/assurance/runtime/_ops/scripts/validate-design-package-standard.sh";

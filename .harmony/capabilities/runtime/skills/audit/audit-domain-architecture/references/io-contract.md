@@ -41,7 +41,7 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: critique_report
-      path: "../../../output/reports/{{date}}-domain-architecture-audit-{{run_id}}.md"
+      path: "../../../output/reports/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured independent architecture critique report"

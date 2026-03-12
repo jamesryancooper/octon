@@ -20,7 +20,7 @@ description: Canonical compaction thresholds, flush sequence, and fail-closed be
 
 Evidence output:
 
-- `.harmony/output/reports/<date>-memory-flush-evidence.md`
+- `.harmony/output/reports/analysis/<date>-memory-flush-evidence.md`
 
 ## Fail-Closed Rule
 

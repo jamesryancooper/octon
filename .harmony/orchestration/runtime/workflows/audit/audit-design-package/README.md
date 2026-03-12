@@ -72,7 +72,7 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 - `output_slug` (text, required=false): Optional stable slug for the bounded report bundle
 - `model` (text, required=false): Optional model override forwarded to codex or claude
 - `prepare_only` (boolean, required=false): Materialize bundle metadata and prompt packets without invoking the executor
-- `summary_root` (folder, required=false), default=`.harmony/output/reports`: Root directory for the top-level summary report
+- `summary_root` (folder, required=false), default=`.harmony/output/reports/analysis`: Root directory for the top-level summary report
 - `bundle_root` (folder, required=false), default=`.harmony/output/reports/workflows`: Root directory for the workflow stage-report bundle
 
 ## Failure Conditions
@@ -83,7 +83,7 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 
 ## Outputs
 
-- `design_package_workflow_summary` -> `../../output/reports/{{date}}-audit-design-package.md`: Top-level workflow summary with selected mode, readiness verdict, changed files, and next steps
+- `design_package_workflow_summary` -> `../../output/reports/analysis/{{date}}-audit-design-package.md`: Top-level workflow summary with selected mode, readiness verdict, changed files, and next steps
 - `design_package_workflow_bundle` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/`: Workflow bundle containing stage reports, metadata, validation state, and aggregate package deltas
 - `design_audit_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/01-design-package-audit.md`: Stage report produced by the design package audit prompt
 - `design_package_remediation_report` -> `../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/02-design-package-remediation.md`: Short-mode remediation report and package delta receipt
@@ -117,7 +117,7 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 - [ ] Every file-writing stage has a change manifest or zero-change receipt
 - [ ] `summary.md`, `commands.md`, `inventory.md`, `package-delta.md`, `bundle.yml`, and `validation.md` exist
 - [ ] `stage-inputs/` and `stage-logs/` exist for the workflow bundle
-- [ ] Top-level summary exists at `.harmony/output/reports/YYYY-MM-DD-audit-design-package.md`
+- [ ] Top-level summary exists at `.harmony/output/reports/analysis/YYYY-MM-DD-audit-design-package.md`
 - [ ] If the target package contains `design-package.yml`, `validate-design-package-standard.sh --package <target>` passes
 - [ ] Final readiness verdict is explicit
 

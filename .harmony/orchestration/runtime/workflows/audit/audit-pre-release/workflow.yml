@@ -108,31 +108,31 @@ stages:
     mutation_scope: []
 artifacts:
   - name: pre_release_report
-    path: "../../output/reports/{{date}}-audit-pre-release.md"
+    path: "../../output/reports/analysis/{{date}}-audit-pre-release.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated pre-release audit report with go/no-go recommendation"
   - name: health_audit_report
-    path: "../../output/reports/{{date}}-subsystem-health-audit.md"
+    path: "../../output/reports/analysis/{{date}}-subsystem-health-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual health audit report (produced by audit-subsystem-health)"
   - name: migration_audit_report
-    path: "../../output/reports/{{date}}-migration-audit-consolidated.md"
+    path: "../../output/reports/analysis/{{date}}-migration-audit-consolidated.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated migration audit report (produced by audit-orchestration in migration-only mode, if manifest provided)"
   - name: cross_subsystem_audit_report
-    path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)"
   - name: freshness_audit_report
-    path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+    path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
     kind: file
     format: markdown
     determinism: unique
@@ -146,7 +146,7 @@ artifacts:
 done_gate:
   checks:
     - "All planned stages executed or explicitly skipped"
-    - "Consolidated report exists at `.harmony/output/reports/YYYY-MM-DD-audit-pre-release.md`"
+    - "Consolidated report exists at `.harmony/output/reports/analysis/YYYY-MM-DD-audit-pre-release.md`"
     - "Pre-release bundle exists at `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`"
     - "Findings are deduplicated with stable IDs and acceptance criteria"
     - "Coverage and convergence metadata are recorded"

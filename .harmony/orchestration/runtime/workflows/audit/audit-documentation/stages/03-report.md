@@ -17,7 +17,7 @@ Publish a human-readable recommendation and machine-checkable bounded-audit arti
    - `CONDITIONAL-GO` if no CRITICAL but HIGH findings exist
    - `GO` if only MEDIUM/LOW findings remain
 2. Write consolidated report to:
-   - `.harmony/output/reports/YYYY-MM-DD-audit-documentation.md`
+   - `.harmony/output/reports/analysis/YYYY-MM-DD-audit-documentation.md`
 3. Write bounded-audit bundle to:
    - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 4. Ensure bundle contains:
@@ -37,7 +37,7 @@ Publish a human-readable recommendation and machine-checkable bounded-audit arti
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-audit-documentation.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-audit-documentation.md`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 
 ## Proceed When

@@ -60,7 +60,8 @@ Authority order is:
 - Update `mission.yml` linkage fields when mission/workflow/run relationships
   change materially.
 - Link mission outcomes to durable evidence in
-  `/.harmony/output/reports/` when verification artifacts are produced.
+  typed subdirectories under `/.harmony/output/reports/` when verification
+  artifacts are produced.
 - Material execution evidence belongs in `/.harmony/continuity/runs/`.
 - Material routing and authority decisions belong in
   `/.harmony/continuity/decisions/`.

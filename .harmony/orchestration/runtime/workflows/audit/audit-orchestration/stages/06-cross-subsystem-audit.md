@@ -43,7 +43,7 @@ Proceed to step 7.
 
 2. **Wait for completion:**
 
-   The skill writes `.harmony/output/reports/YYYY-MM-DD-cross-subsystem-coherence-audit.md`.
+   The skill writes `.harmony/output/reports/analysis/YYYY-MM-DD-cross-subsystem-coherence-audit.md`.
 
 3. **Capture results summary:**
 
@@ -55,7 +55,7 @@ Proceed to step 7.
 
    ```markdown
    Cross-subsystem audit: COMPLETED
-   Report: .harmony/output/reports/{{date}}-cross-subsystem-coherence-audit.md
+   Report: .harmony/output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md
    Findings: {{total}} ({{critical}} CRITICAL, {{high}} HIGH, {{medium}} MEDIUM, {{low}} LOW)
    ```
 
@@ -76,7 +76,7 @@ Error: {{error_message}}
 
 **Check:** Cross-subsystem report already exists for today's date.
 
-- [ ] `.harmony/output/reports/YYYY-MM-DD-cross-subsystem-coherence-audit.md` exists
+- [ ] `.harmony/output/reports/analysis/YYYY-MM-DD-cross-subsystem-coherence-audit.md` exists
 
 **If Already Complete:**
 

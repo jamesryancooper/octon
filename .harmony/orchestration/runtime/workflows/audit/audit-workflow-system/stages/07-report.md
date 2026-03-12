@@ -13,7 +13,7 @@ Write the authoritative artifacts for human review and machine validation.
 ## Actions
 
 1. Write the narrative workflow-system audit report:
-   - `.harmony/output/reports/YYYY-MM-DD-audit-workflow-system.md`
+   - `.harmony/output/reports/analysis/YYYY-MM-DD-audit-workflow-system.md`
 2. Write the authoritative bundle directory:
    - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 3. Write the required bundle files:

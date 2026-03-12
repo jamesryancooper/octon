@@ -23,7 +23,7 @@ All required assertions are satisfied:
 - Migration plan:
   - `/.harmony/cognition/runtime/migrations/2026-02-25-context-governance-clean-break/plan.md`
 - Task breakdown:
-  - `/.harmony/output/reports/2026-02-25-context-governance-integration-task-breakdown.md`
+  - `/.harmony/output/reports/analysis/2026-02-25-context-governance-integration-task-breakdown.md`
 - Command receipts:
   - `/.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/commands.md`
 - Validation summary:

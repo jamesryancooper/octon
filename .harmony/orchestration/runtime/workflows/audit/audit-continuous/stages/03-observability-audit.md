@@ -31,7 +31,7 @@ If stage fails:
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-observability-coverage-audit-<run-id>.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-observability-coverage-audit-<run-id>.md`
 - Observability findings summary for merge
 
 ## Proceed When

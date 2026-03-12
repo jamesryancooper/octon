@@ -32,7 +32,7 @@ done
 
 if [[ -z "$REPORT_PATH" ]]; then
   repo_root="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || pwd)"
-  REPORT_PATH="$repo_root/.harmony/output/reports/$(date +%F)-query-baseline.md"
+  REPORT_PATH="$repo_root/.harmony/output/reports/analysis/$(date +%F)-query-baseline.md"
 fi
 
 if [[ ! -f "$DATASET" ]]; then

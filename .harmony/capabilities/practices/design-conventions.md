@@ -800,7 +800,7 @@ Deliverables go directly to their **final destination** in `.harmony/{{category}
 |----------|---------|--------------|
 | `prompts` | Refined prompts | `.harmony/scaffolding/practices/prompts/` |
 | `drafts` | Document drafts | `.harmony/output/drafts/` |
-| `reports` | Analysis reports | `.harmony/output/reports/` |
+| `reports` | Analysis reports | `.harmony/output/reports/analysis/` |
 | `analyses` | Code/data analyses | `.harmony/cognition/runtime/analyses/` |
 | `scaffolds` | Generated scaffolds | Target directory |
 
@@ -821,7 +821,7 @@ skills:
   generate-client:
     outputs:
       # Tier 1: Standard category
-      - path: ".harmony/output/reports/{{{run-id}}}-generation.md"
+      - path: ".harmony/output/reports/analysis/{{{run-id}}}-generation.md"
         type: deliverable
       
       # Tier 2: Custom harness location

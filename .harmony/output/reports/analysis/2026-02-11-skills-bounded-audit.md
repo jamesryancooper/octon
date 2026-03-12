@@ -160,5 +160,5 @@ Recommendation:
 
 ## Artifacts
 
-- Machine-readable findings: `.harmony/output/reports/2026-02-11-skills-bounded-audit-findings.yml`
+- Machine-readable findings: `.harmony/output/reports/analysis/2026-02-11-skills-bounded-audit-findings.yml`
 - Raw intermediate data: `.harmony/output/reports/.tmp/`

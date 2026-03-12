@@ -71,13 +71,13 @@ stages:
     mutation_scope: []
 artifacts:
   - name: docs_audit_report
-    path: "../../output/reports/{{date}}-audit-documentation.md"
+    path: "../../output/reports/analysis/{{date}}-audit-documentation.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated documentation audit report with release recommendation"
   - name: docs_standards_audit_report
-    path: "../../output/reports/{{date}}-documentation-standards-audit.md"
+    path: "../../output/reports/analysis/{{date}}-documentation-standards-audit.md"
     kind: file
     format: markdown
     determinism: unique

@@ -13,7 +13,7 @@ Publish recommendation in markdown and machine-checkable bounded-audit artifacts
 ## Actions
 
 1. Write consolidated markdown report:
-   - `.harmony/output/reports/YYYY-MM-DD-audit-pre-release.md`
+   - `.harmony/output/reports/analysis/YYYY-MM-DD-audit-pre-release.md`
 2. Write bounded-audit bundle:
    - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 3. Ensure bundle contains:

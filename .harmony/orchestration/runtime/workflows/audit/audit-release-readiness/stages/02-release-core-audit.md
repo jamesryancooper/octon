@@ -35,7 +35,7 @@ If stage fails:
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-audit-release-readiness-<run-id>.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-audit-release-readiness-<run-id>.md`
 - Release-core findings summary for merge
 
 ## Proceed When

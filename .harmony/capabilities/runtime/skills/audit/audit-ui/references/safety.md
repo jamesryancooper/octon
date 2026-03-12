@@ -53,7 +53,7 @@ The skill reads UI files within the `target` directory. No read restrictions bey
 
 The skill may only write to:
 
-- `.harmony/output/reports/` — Audit report deliverable
+- `.harmony/output/reports/analysis/` — Audit report deliverable
 - `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-ui/` — Execution logs
 
 ### Source Code Modifications

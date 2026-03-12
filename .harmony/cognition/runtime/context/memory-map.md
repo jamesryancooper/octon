@@ -17,7 +17,7 @@ This document prevents duplicated memory surfaces by clarifying canonical owners
 | Shared context and operational guidance | `.harmony/cognition/runtime/context/*.md` | Durable reference material and guardrails. |
 | Durable architecture decisions (ADRs) | `.harmony/cognition/runtime/decisions/*.md` and `.harmony/cognition/runtime/context/decisions.md` | ADR files are append-only; the context summary is generated from ADR metadata. |
 | System knowledge graph contracts | `.harmony/cognition/runtime/knowledge/*` | System behavior/traceability knowledge, not task state. |
-| Compaction evidence artifacts | `.harmony/output/reports/<date>-memory-flush-evidence.md` | Required when flush/compaction occurs. |
+| Compaction evidence artifacts | `.harmony/output/reports/analysis/<date>-memory-flush-evidence.md` | Required when flush/compaction occurs. |
 
 ## Boundary Rules
 

@@ -31,7 +31,7 @@ Run `audit-subsystem-health` to verify subsystem coherence (config consistency, 
 
 2. **Wait for completion:**
 
-   The skill writes `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md`.
+   The skill writes `.harmony/output/reports/analysis/YYYY-MM-DD-subsystem-health-audit.md`.
 
 3. **Capture results summary:**
 
@@ -43,7 +43,7 @@ Run `audit-subsystem-health` to verify subsystem coherence (config consistency, 
 
    ```markdown
    Health audit: COMPLETED
-   Report: .harmony/output/reports/{{date}}-subsystem-health-audit.md
+   Report: .harmony/output/reports/analysis/{{date}}-subsystem-health-audit.md
    Findings: {{total}} ({{critical}} CRITICAL, {{high}} HIGH, {{medium}} MEDIUM, {{low}} LOW)
    ```
 
@@ -64,7 +64,7 @@ Error: {{error_message}}
 
 **Check:** Health report already exists for today's date.
 
-- [ ] `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md` exists
+- [ ] `.harmony/output/reports/analysis/YYYY-MM-DD-subsystem-health-audit.md` exists
 
 **If Already Complete:**
 

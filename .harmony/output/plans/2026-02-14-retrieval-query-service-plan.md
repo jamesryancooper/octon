@@ -274,7 +274,7 @@ Deliverables:
 2. Run record emission aligned with service conventions.
 3. Baseline evaluation dataset for query quality.
 4. Baseline report in:
-   - `.harmony/output/reports/<date>-query-baseline.md`
+   - `.harmony/output/reports/analysis/<date>-query-baseline.md`
 
 Acceptance thresholds (initial):
 

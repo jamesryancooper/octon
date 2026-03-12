@@ -51,7 +51,7 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: observability_coverage_audit_report
-      path: "../../../output/reports/{{date}}-observability-coverage-audit-{{run_id}}.md"
+      path: "../../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured observability coverage findings report"

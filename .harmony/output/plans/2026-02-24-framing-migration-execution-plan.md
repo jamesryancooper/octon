@@ -259,17 +259,17 @@ Exit criteria:
 Owner: `harmony-platform`  
 Edit order:
 
-1. Rewrite `.harmony/output/reports/2026-02-18-quality-charter-qge-integration/qge-readme.md`
-2. Rewrite `.harmony/output/reports/2026-02-18-quality-weight-model-update/FILES.md`
-3. Rewrite `.harmony/output/reports/2026-02-18-subsystem-override-policy/SUBSYSTEM_OVERRIDE_POLICY.md`
-4. Rewrite `.harmony/output/reports/2026-02-18-quality-charter-qge-integration/output.example.md`
+1. Rewrite `.harmony/output/reports/packages/2026-02-18-quality-charter-qge-integration/qge-readme.md`
+2. Rewrite `.harmony/output/reports/packages/2026-02-18-quality-weight-model-update/FILES.md`
+3. Rewrite `.harmony/output/reports/packages/2026-02-18-subsystem-override-policy/SUBSYSTEM_OVERRIDE_POLICY.md`
+4. Rewrite `.harmony/output/reports/packages/2026-02-18-quality-charter-qge-integration/output.example.md`
 5. Ensure rewritten reports reference current Assurance Engine surfaces and canonical umbrella chain.
 
 Verification command:
 
 ```bash
-rg -n 'LEGACY_QUALITY_ENGINE|\LEGACY_QUALITY_PATH|Trust > Speed of development' .harmony/output/reports/2026-02-18-*
-rg -n 'Assurance Engine|Assurance > Productivity > Integration' .harmony/output/reports/2026-02-18-*
+rg -n 'LEGACY_QUALITY_ENGINE|\LEGACY_QUALITY_PATH|Trust > Speed of development' .harmony/output/reports/packages/2026-02-18-*
+rg -n 'Assurance Engine|Assurance > Productivity > Integration' .harmony/output/reports/packages/2026-02-18-*
 ```
 
 Exit criteria:
@@ -324,7 +324,7 @@ Owner: `harmony-platform`
 Edit order:
 
 1. No net-new policy edits unless gate failures require fixes.
-2. Produce final migration convergence note at `.harmony/output/reports/2026-02-24-framing-migration-convergence.md`.
+2. Produce final migration convergence note at `.harmony/output/reports/analysis/2026-02-24-framing-migration-convergence.md`.
 
 Verification command:
 

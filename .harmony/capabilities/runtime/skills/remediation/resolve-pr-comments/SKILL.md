@@ -85,7 +85,7 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-pr-comments-resolved.md` — Resolution report
+- `.harmony/output/reports/analysis/YYYY-MM-DD-pr-comments-resolved.md` — Resolution report
 - `_ops/state/logs/resolve-pr-comments/` — Execution logs with index
 
 ## Boundaries

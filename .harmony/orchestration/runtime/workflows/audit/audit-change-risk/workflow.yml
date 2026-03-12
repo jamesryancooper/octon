@@ -146,49 +146,49 @@ stages:
     mutation_scope: []
 artifacts:
   - name: change_risk_report
-    path: "../../output/reports/{{date}}-audit-change-risk.md"
+    path: "../../output/reports/analysis/{{date}}-audit-change-risk.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated change-risk report with risk tier and recommendation"
   - name: subsystem_health_audit_report
-    path: "../../output/reports/{{date}}-subsystem-health-audit.md"
+    path: "../../output/reports/analysis/{{date}}-subsystem-health-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Subsystem-health stage report (mandatory)"
   - name: migration_audit_report
-    path: "../../output/reports/{{date}}-migration-audit.md"
+    path: "../../output/reports/analysis/{{date}}-migration-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Migration-impact stage report (produced if enabled and manifest is provided)"
   - name: api_contract_audit_report
-    path: "../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md"
+    path: "../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "API-contract stage report (produced if enabled)"
   - name: test_quality_audit_report
-    path: "../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md"
+    path: "../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Test-quality stage report (produced if enabled)"
   - name: operational_readiness_audit_report
-    path: "../../output/reports/{{date}}-operational-readiness-audit-{{run_id}}.md"
+    path: "../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Operational-readiness stage report (produced if enabled)"
   - name: cross_subsystem_audit_report
-    path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Cross-subsystem stage report (produced if enabled)"
   - name: freshness_audit_report
-    path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+    path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
     kind: file
     format: markdown
     determinism: unique

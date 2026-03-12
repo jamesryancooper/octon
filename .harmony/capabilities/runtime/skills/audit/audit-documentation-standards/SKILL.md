@@ -76,7 +76,7 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-documentation-standards-audit.md` -- Human-readable findings report
+- `.harmony/output/reports/analysis/YYYY-MM-DD-documentation-standards-audit.md` -- Human-readable findings report
 - `.harmony/output/reports/audits/YYYY-MM-DD-<run-id>/` -- Authoritative bounded-audit bundle
 - `_ops/state/logs/audit-documentation-standards/` -- Execution logs with index
 

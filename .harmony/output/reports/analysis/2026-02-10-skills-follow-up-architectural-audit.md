@@ -6,9 +6,9 @@ Selected Context: archetype=library/SDK/tooling (primary), platform/infra (secon
 ## Scope
 
 - Prior baseline reviewed:
-  - `.harmony/output/reports/2026-02-10-skills-system-audit.md`
-  - `.harmony/output/reports/2026-02-10-audit-remediation-summary.md`
-  - `.harmony/output/reports/2026-02-10-deferred-items.md`
+  - `.harmony/output/reports/analysis/2026-02-10-skills-system-audit.md`
+  - `.harmony/output/reports/analysis/2026-02-10-audit-remediation-summary.md`
+  - `.harmony/output/reports/analysis/2026-02-10-deferred-items.md`
 - Audited implementation:
   - `.harmony/capabilities/skills/manifest.yml`
   - `.harmony/capabilities/skills/capabilities.yml`

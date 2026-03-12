@@ -35,7 +35,7 @@ Extended input/output documentation for the resolve-pr-comments skill.
 
 ### Primary Output: Resolution Report
 
-Written to `.harmony/output/reports/YYYY-MM-DD-pr-comments-resolved.md`.
+Written to `.harmony/output/reports/analysis/YYYY-MM-DD-pr-comments-resolved.md`.
 
 ### Execution Log
 

@@ -148,7 +148,7 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-charter-audit-<run-id>.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-charter-audit-<run-id>.md`
 - `_ops/state/logs/audit-charter/`
 
 ## Boundaries

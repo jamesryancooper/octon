@@ -4,6 +4,8 @@ use std::fs;
 use std::io::ErrorKind;
 use std::path::{Path, PathBuf};
 
+const OPERATIONS_REPORTS_DIR_REL: &str = ".harmony/output/reports/operations";
+
 #[derive(Debug, Clone)]
 pub enum StagedFileEdit {
     Update {
@@ -238,7 +240,7 @@ impl StagedEditBuffer {
 
     pub fn export_patch_preview(&self, repo_root: &Path) -> Result<PathBuf> {
         let preview = self.render_unified_patch(repo_root);
-        let reports_dir = repo_root.join(".harmony/output/reports");
+        let reports_dir = repo_root.join(OPERATIONS_REPORTS_DIR_REL);
         fs::create_dir_all(&reports_dir)?;
 
         let timestamp = std::time::SystemTime::now()
@@ -312,7 +314,7 @@ pub fn list_recent_apply_audits(repo_root: &Path, limit: usize) -> Result<Vec<Ap
         return Ok(Vec::new());
     }
 
-    let reports_dir = repo_root.join(".harmony/output/reports");
+    let reports_dir = repo_root.join(OPERATIONS_REPORTS_DIR_REL);
     if !reports_dir.exists() {
         return Ok(Vec::new());
     }
@@ -481,7 +483,7 @@ fn write_apply_audit(
     execution: &ApplyExecution,
     edits: &BTreeMap<PathBuf, StagedFileEdit>,
 ) -> Result<PathBuf> {
-    let reports_dir = repo_root.join(".harmony/output/reports");
+    let reports_dir = repo_root.join(OPERATIONS_REPORTS_DIR_REL);
     match write_apply_audit_in_dir(&reports_dir, repo_root, execution, edits) {
         Ok(path) => Ok(path),
         Err(primary_error) => {

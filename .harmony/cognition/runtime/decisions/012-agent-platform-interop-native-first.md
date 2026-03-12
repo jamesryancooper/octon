@@ -65,7 +65,7 @@ Core service surface:
 ## Implementation Notes
 
 - Phase 0.5 baseline report:
-  - `.harmony/output/reports/2026-02-14-platform-coupling-baseline.md`
+  - `.harmony/output/reports/analysis/2026-02-14-platform-coupling-baseline.md`
 - Core schemas:
   - `.harmony/capabilities/services/interfaces/agent-platform/schema/capabilities.schema.json`
   - `.harmony/capabilities/services/interfaces/agent-platform/schema/session-policy.schema.json`

@@ -133,6 +133,6 @@ Required evidence fields:
 ## Required Evidence Artifacts
 
 - Memory flush evidence:
-  - `.harmony/output/reports/<date>-memory-flush-evidence.md`
+  - `.harmony/output/reports/analysis/<date>-memory-flush-evidence.md`
 - Platform coupling baseline:
-  - `.harmony/output/reports/2026-02-14-platform-coupling-baseline.md`
+  - `.harmony/output/reports/analysis/2026-02-14-platform-coupling-baseline.md`

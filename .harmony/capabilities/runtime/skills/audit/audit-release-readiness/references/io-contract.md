@@ -61,7 +61,7 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: release_readiness_audit_report
-      path: "../../../output/reports/{{date}}-audit-release-readiness-{{run_id}}.md"
+      path: "../../../output/reports/analysis/{{date}}-audit-release-readiness-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured release-readiness findings report"

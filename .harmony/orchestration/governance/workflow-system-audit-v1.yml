@@ -16,7 +16,7 @@ defaults:
 
 paths:
   temp_output_root: ".harmony/output/.tmp/workflow-system-audit"
-  report_root: ".harmony/output/reports"
+  report_root: ".harmony/output/reports/analysis"
   audit_bundle_root: ".harmony/output/reports/audits"
   runtime_audit_root: ".harmony/cognition/runtime/audits"
   companion_paths:

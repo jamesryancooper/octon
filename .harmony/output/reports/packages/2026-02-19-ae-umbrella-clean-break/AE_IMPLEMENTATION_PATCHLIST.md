@@ -192,7 +192,7 @@ Required updates:
 ### 16. Historical reports strategy
 
 If strict repo-wide rename is required, include:
-- `.harmony/output/reports/2026-02-18-quality-charter-qge-integration/` rename and content edits
+- `.harmony/output/reports/packages/2026-02-18-quality-charter-qge-integration/` rename and content edits
 
 If preserving historical provenance is preferred, keep historical files immutable and add:
 - a migration note stating historical references are pre-AE artifacts

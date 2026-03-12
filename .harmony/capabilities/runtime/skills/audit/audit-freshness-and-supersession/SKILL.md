@@ -78,7 +78,7 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-freshness-and-supersession-audit.md` -- Human-readable findings report
+- `.harmony/output/reports/analysis/YYYY-MM-DD-freshness-and-supersession-audit.md` -- Human-readable findings report
 - `.harmony/output/reports/audits/YYYY-MM-DD-<run-id>/` -- Authoritative bounded-audit bundle
 - `_ops/state/logs/audit-freshness-and-supersession/` -- Execution logs with index
 

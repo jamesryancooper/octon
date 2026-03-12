@@ -36,7 +36,7 @@ Proceed immediately to step 3.
 
 2. **Wait for completion:**
 
-   The workflow produces its migration report at `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md`
+   The workflow produces its migration report at `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit-consolidated.md`
 
 3. **Capture results summary:**
 
@@ -49,7 +49,7 @@ Proceed immediately to step 3.
 
    ```markdown
    Migration audit: COMPLETED
-   Report: .harmony/output/reports/{{date}}-migration-audit-consolidated.md
+   Report: .harmony/output/reports/analysis/{{date}}-migration-audit-consolidated.md
    Findings: {{total}} ({{critical}} CRITICAL, {{high}} HIGH, {{medium}} MEDIUM, {{low}} LOW)
    ```
 
@@ -71,7 +71,7 @@ Note: Health audit will proceed independently
 
 **Check:** Migration audit report already exists for today's date.
 
-- [ ] `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md` exists
+- [ ] `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit-consolidated.md` exists
 
 **If Already Complete:**
 

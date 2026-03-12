@@ -294,7 +294,7 @@ mkdir -p "$(dirname "$raw_tsv")"
 mkdir -p "$(dirname "$summary_tsv")"
 
 if [[ -z "$report_path" && "$emit_report" == "1" ]]; then
-  report_path="$HARMONY_DIR/output/reports/$(date +%F)-filesystem-interfaces-perf-regression-report.md"
+  report_path="$HARMONY_DIR/output/reports/analysis/$(date +%F)-filesystem-interfaces-perf-regression-report.md"
 fi
 
 if [[ -z "$fixture_root" ]]; then

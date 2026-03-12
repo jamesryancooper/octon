@@ -39,7 +39,7 @@ If stage fails, record failure details and continue to step 6.
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-test-quality-audit-<run-id>.md` (if run)
+- `.harmony/output/reports/analysis/YYYY-MM-DD-test-quality-audit-<run-id>.md` (if run)
 - Test quality stage findings summary for merge
 
 ## Proceed When
