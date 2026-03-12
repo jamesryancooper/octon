@@ -42,6 +42,7 @@ jobs:
       WINDOW_RUNS: ${{ github.event.inputs.window_runs || '40' }}
       TOP_WORKFLOWS: ${{ github.event.inputs.top_workflows || '5' }}
       GATE_SCOPE: ${{ github.event.inputs.gate_scope || 'required' }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -86,7 +87,7 @@ jobs:
           path: |
             ${{ env.SUMMARY_JSON }}
             ${{ env.SUMMARY_MD }}
-          if-no-files-found: error
+          if-no-files-found: warn
           retention-days: 7
 
       - name: Ensure issue label exists
