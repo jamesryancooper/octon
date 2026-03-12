@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.13](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.12...harmony-v0.4.13) (2026-03-12)
+
+
+### Features
+
+* **audits:** add surface architecture audit skill ([#148](https://github.com/jamesryancooper/harmony/issues/148)) ([06ff7ea](https://github.com/jamesryancooper/harmony/commit/06ff7eaa7f92ccb75e83152d1e68464aee189873))
+
 ## [0.4.12](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.11...harmony-v0.4.12) (2026-03-11)
 
 
