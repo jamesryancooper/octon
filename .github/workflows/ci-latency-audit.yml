@@ -42,8 +42,6 @@ jobs:
       WINDOW_RUNS: ${{ github.event.inputs.window_runs || '40' }}
       TOP_WORKFLOWS: ${{ github.event.inputs.top_workflows || '5' }}
       GATE_SCOPE: ${{ github.event.inputs.gate_scope || 'required' }}
-      SUMMARY_JSON: ${{ runner.temp }}/ci-latency-audit-summary.json
-      SUMMARY_MD: ${{ runner.temp }}/ci-latency-audit-summary.md
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -55,6 +53,11 @@ jobs:
         uses: swatinem/rust-cache@v2
         with:
           cache-bin: true
+
+      - name: Define summary paths
+        run: |
+          echo "SUMMARY_JSON=$RUNNER_TEMP/ci-latency-audit-summary.json" >> "$GITHUB_ENV"
+          echo "SUMMARY_MD=$RUNNER_TEMP/ci-latency-audit-summary.md" >> "$GITHUB_ENV"
 
       - name: Run CI latency audit
         run: |
