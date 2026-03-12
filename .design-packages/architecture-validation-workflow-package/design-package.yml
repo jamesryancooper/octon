@@ -1,7 +1,7 @@
 schema_version: "design-package-v1"
 package_id: "architecture-validation-workflow-package"
 title: "Architecture Validation Workflow Package"
-summary: "Historical implementation package for the audit-design-package workflow, its validator surfaces, and its package-hardening prompt bundle."
+summary: "Temporary implementation package for the audit-design-package workflow, its validator surfaces, and its package-hardening prompt bundle."
 package_class: "domain-runtime"
 selected_modules: []
 implementation_targets:
@@ -12,19 +12,10 @@ implementation_targets:
   - ".harmony/assurance/runtime/_ops/scripts/validate-architecture-validation-pipeline.sh"
   - ".harmony/assurance/runtime/_ops/tests/test-validate-architecture-validation-pipeline.sh"
   - ".harmony/assurance/runtime/_ops/tests/test-design-package-workflow-runner.sh"
-status: "archived"
-archive:
-  archived_at: "2026-03-11"
-  archived_from_status: "legacy-unknown"
-  disposition: "implemented"
-  original_path: ".design-packages/architecture-validation-workflow-package"
-  promotion_evidence:
-    - ".design-packages/.archive/architecture-validation-workflow-package/implementation-readiness.md"
-    - ".harmony/assurance/runtime/_ops/scripts/validate-architecture-validation-pipeline.sh"
-    - ".harmony/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml"
+status: "in-review"
 lifecycle:
   temporary: true
-  exit_expectation: "The workflow and validator surfaces have been promoted into durable /.harmony targets, so this package now remains only as archived historical implementation material under /.design-packages/.archive/."
+  exit_expectation: "Keep this package active until the workflow contract, registry projection, assurance coverage, and package guidance converge; then archive or remove it after the durable /.harmony targets are fully aligned."
 validation:
   default_audit_mode: "rigorous"
   package_validator_path: null
