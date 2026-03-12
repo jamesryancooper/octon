@@ -1,0 +1,18 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-policy-core",
+  "description": "Subtype core files for policy proposals.",
+  "inherits": "proposal-core",
+  "additions": {
+    "directories": [
+      "policy"
+    ],
+    "files": [
+      "policy-proposal.yml",
+      "policy/decision.md",
+      "policy/policy-delta.md",
+      "policy/enforcement-plan.md"
+    ]
+  },
+  "usage": "/create-policy-proposal"
+}

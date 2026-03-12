@@ -3,15 +3,15 @@
 ## Required Local Checks
 
 - `bash .harmony/agency/_ops/scripts/validate/validate-agency.sh`
-- `bash .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`
+- `bash .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh`
 - `bash .harmony/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh`
 - `bash .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict`
 - `bash .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
 - `bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,agency,workflows,skills`
-- `bash .harmony/assurance/runtime/_ops/scripts/validate-create-design-package-workflow.sh`
-- `bash .harmony/assurance/runtime/_ops/tests/test-validate-create-design-package-workflow.sh`
-- `bash .harmony/assurance/runtime/_ops/tests/test-create-design-package-workflow-runner.sh`
-- `bash .harmony/assurance/runtime/_ops/tests/test-audit-design-package-workflow-runner.sh`
+- `bash .harmony/assurance/runtime/_ops/scripts/validate-create-design-proposal-workflow.sh`
+- `bash .harmony/assurance/runtime/_ops/tests/test-validate-create-design-proposal-workflow.sh`
+- `bash .harmony/assurance/runtime/_ops/tests/test-create-design-proposal-workflow-runner.sh`
+- `bash .harmony/assurance/runtime/_ops/tests/test-audit-design-proposal-workflow-runner.sh`
 - `cargo check --manifest-path .harmony/engine/runtime/crates/Cargo.toml`
 
 ## Execution-Profile Checks

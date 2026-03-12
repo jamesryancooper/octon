@@ -1,0 +1,18 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-architecture-core",
+  "description": "Subtype core files for architecture proposals.",
+  "inherits": "proposal-core",
+  "additions": {
+    "directories": [
+      "architecture"
+    ],
+    "files": [
+      "architecture-proposal.yml",
+      "architecture/target-architecture.md",
+      "architecture/acceptance-criteria.md",
+      "architecture/implementation-plan.md"
+    ]
+  },
+  "usage": "/create-architecture-proposal"
+}

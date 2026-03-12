@@ -1,0 +1,24 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-design-domain-runtime",
+  "description": "Overlay for domain and runtime oriented design proposals.",
+  "inherits": "proposal-design-core",
+  "additions": {
+    "directories": [
+      "normative/architecture",
+      "normative/execution",
+      "normative/assurance",
+      "reference",
+      "history"
+    ],
+    "files": [
+      "normative/architecture/domain-model.md",
+      "normative/architecture/runtime-architecture.md",
+      "normative/execution/behavior-model.md",
+      "normative/assurance/implementation-readiness.md",
+      "reference/README.md",
+      "history/README.md"
+    ]
+  },
+  "usage": "/create-design-proposal"
+}

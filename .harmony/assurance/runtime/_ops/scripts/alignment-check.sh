@@ -180,11 +180,11 @@ run_workflows() {
 
   run_step \
     "Validate architecture validation workflow package" \
-    bash "$SCRIPT_DIR/validate-audit-design-package-workflow.sh"
+    bash "$SCRIPT_DIR/validate-audit-design-proposal-workflow.sh"
 
   run_step \
-    "Validate create-design-package workflow" \
-    bash "$SCRIPT_DIR/validate-create-design-package-workflow.sh"
+    "Validate create-design-proposal workflow" \
+    bash "$SCRIPT_DIR/validate-create-design-proposal-workflow.sh"
 }
 
 run_skills() {

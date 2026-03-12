@@ -1,0 +1,18 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-migration-core",
+  "description": "Subtype core files for migration proposals.",
+  "inherits": "proposal-core",
+  "additions": {
+    "directories": [
+      "migration"
+    ],
+    "files": [
+      "migration-proposal.yml",
+      "migration/plan.md",
+      "migration/release-notes.md",
+      "migration/rollback.md"
+    ]
+  },
+  "usage": "/create-migration-proposal"
+}

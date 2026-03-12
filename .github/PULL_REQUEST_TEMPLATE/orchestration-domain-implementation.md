@@ -5,7 +5,7 @@ Reminder: Run `@codex review`.
 
 ## Package Authority
 
-- Package path: `.design-packages/orchestration-domain-design-package`
+- Package path: `.proposals/design/orchestration-domain-design-proposal`
 - Backlog ID(s):
 - Primary authority document(s):
 - Surface(s) touched:

@@ -24,7 +24,7 @@ ownership.
      policy, or operator guidance they require inside `/.harmony/` before they
      are merged.
    - Canonical runtime, governance, practices, and validator artifacts must
-     not depend on temporary design-package paths.
+     not depend on temporary proposal paths.
 2. Preserve continuity ownership.
    - Durable decision evidence stays under `/.harmony/continuity/decisions/`.
    - Durable run evidence stays under `/.harmony/continuity/runs/`.

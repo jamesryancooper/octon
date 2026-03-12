@@ -33,10 +33,10 @@ that authors or evaluates workflows.
    - `README.md` is derived from `workflow.yml + stages/`.
    - README drift is a validation failure.
 7. Keep temporary material non-canonical.
-   - `/.design-packages/` may inform work, but must never be a live dependency
+   - `/.proposals/design/` may inform work, but must never be a live dependency
      of canonical workflows, generated READMEs, or validators.
    - Exception: workflows whose explicit purpose is to scaffold, validate, or
-     harden design packages may target `/.design-packages/` directly, but that
+     harden design proposals may target `/.proposals/design/` directly, but that
      allowance does not extend to unrelated runtime workflows.
 8. Keep the workflow boundary honest.
    - Use a workflow when the unit needs explicit multi-stage orchestration,

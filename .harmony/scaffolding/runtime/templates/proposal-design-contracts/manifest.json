@@ -1,0 +1,17 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-design-contracts",
+  "description": "Optional contracts module overlay for standard-governed design proposals.",
+  "inherits": "proposal-design-core",
+  "additions": {
+    "directories": [
+      "contracts/schemas",
+      "contracts/fixtures/valid",
+      "contracts/fixtures/invalid"
+    ],
+    "files": [
+      "contracts/README.md"
+    ]
+  },
+  "usage": "/create-design-proposal"
+}

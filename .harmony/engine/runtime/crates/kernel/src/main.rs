@@ -578,9 +578,9 @@ mod tests {
             "harmony",
             "workflow",
             "run",
-            "audit-design-package",
+            "audit-design-proposal",
             "--set",
-            "package_path=.design-packages/orchestration-domain-design-package",
+            "proposal_path=.proposals/.archive/design/orchestration-domain-design-package",
             "--executor",
             "mock",
             "--prepare-only",
@@ -597,7 +597,7 @@ mod tests {
                         ..
                     },
             } => {
-                assert_eq!(workflow_id, "audit-design-package");
+                assert_eq!(workflow_id, "audit-design-proposal");
                 assert_eq!(executor, ExecutorKind::Mock);
                 assert!(prepare_only);
             }
@@ -628,7 +628,7 @@ mod tests {
             "harmony",
             "workflow",
             "validate",
-            "audit-design-package",
+            "audit-design-proposal",
         ])
         .expect("workflow validate should parse successfully");
 
@@ -636,7 +636,7 @@ mod tests {
             Command::Workflow {
                 cmd: WorkflowCmd::Validate { workflow_id },
             } => {
-                assert_eq!(workflow_id.as_deref(), Some("audit-design-package"));
+                assert_eq!(workflow_id.as_deref(), Some("audit-design-proposal"));
             }
             _ => panic!("parsed command should be workflow validate"),
         }

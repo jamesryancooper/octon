@@ -12,7 +12,7 @@ Representative examples for the audit-surface-architecture skill.
 ### Invocation
 
 ```text
-/audit-surface-architecture surface_path=".harmony/orchestration/runtime/workflows/meta/create-design-package"
+/audit-surface-architecture surface_path=".harmony/orchestration/runtime/workflows/meta/create-design-proposal"
 ```
 
 ### Expected Emphasis

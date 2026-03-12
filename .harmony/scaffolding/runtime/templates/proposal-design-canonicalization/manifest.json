@@ -1,0 +1,12 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-design-canonicalization",
+  "description": "Optional canonicalization planning overlay for standard-governed design proposals.",
+  "inherits": "proposal-design-core",
+  "additions": {
+    "files": [
+      "navigation/canonicalization-target-map.md"
+    ]
+  },
+  "usage": "/create-design-proposal"
+}

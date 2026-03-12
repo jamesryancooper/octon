@@ -70,7 +70,8 @@ create_fixture_repo() {
 
   mkdir -p \
     "$fixture_root/.harmony/orchestration/runtime/_ops/scripts" \
-    "$fixture_root/.harmony/orchestration/runtime/workflows/meta/create-design-package" \
+    "$fixture_root/.harmony/orchestration/runtime/workflows/meta/create-design-proposal" \
+    "$fixture_root/.harmony/orchestration/runtime/workflows/meta/create-migration-proposal" \
     "$fixture_root/.harmony/orchestration/practices" \
     "$fixture_root/.harmony/orchestration/runtime/queue"
 
@@ -80,29 +81,48 @@ create_fixture_repo() {
   cat > "$fixture_root/.harmony/orchestration/practices/workflow-authoring-standards.md" <<'EOF'
 # Workflow Authoring Standards
 
-`/.design-packages/` may inform work, but must never be a live dependency.
+`/.proposals/` may inform work, but must never be a live dependency.
 EOF
 
   cat > "$fixture_root/.harmony/orchestration/runtime/workflows/manifest.yml" <<'EOF'
 workflows:
-  create-design-package:
-    path: "meta/create-design-package/"
+  create-design-proposal:
+    path: "meta/create-design-proposal/"
+  create-migration-proposal:
+    path: "meta/create-migration-proposal/"
 EOF
 
   cat > "$fixture_root/.harmony/orchestration/runtime/workflows/registry.yml" <<'EOF'
 workflows:
-  create-design-package:
+  create-design-proposal:
     parameters:
-      - description: "Kebab-case design package id and directory name under .design-packages/"
+      - description: "Kebab-case design proposal id and directory name under .proposals/design/"
     outputs:
-      - path: "../../../../../.design-packages/{{package_id}}/"
-      - path: "../../../../../.design-packages/{{package_id}}/design-package.yml"
+      - path: "../../../../../.proposals/design/{{proposal_id}}/"
+      - path: "../../../../../.proposals/design/{{proposal_id}}/proposal.yml"
+      - path: "../../../../../.proposals/design/{{proposal_id}}/design-proposal.yml"
+  create-migration-proposal:
+    parameters:
+      - description: "Kebab-case migration proposal id and directory name under .proposals/migration/"
+    outputs:
+      - path: "../../../../../.proposals/migration/{{proposal_id}}/"
+      - path: "../../../../../.proposals/migration/{{proposal_id}}/proposal.yml"
+      - path: "../../../../../.proposals/migration/{{proposal_id}}/migration-proposal.yml"
+  proposal-registry:
+    outputs:
+      - path: "../../../../../.proposals/registry.yml"
 EOF
 
-  cat > "$fixture_root/.harmony/orchestration/runtime/workflows/meta/create-design-package/README.md" <<'EOF'
-# Create Design Package
+  cat > "$fixture_root/.harmony/orchestration/runtime/workflows/meta/create-design-proposal/README.md" <<'EOF'
+# Create Design Proposal
 
-Scaffold `.design-packages/{{package_id}}/`.
+Scaffold `.proposals/design/{{proposal_id}}/`.
+EOF
+
+  cat > "$fixture_root/.harmony/orchestration/runtime/workflows/meta/create-migration-proposal/README.md" <<'EOF'
+# Create Migration Proposal
+
+Scaffold `.proposals/migration/{{proposal_id}}/`.
 EOF
 
   cat > "$fixture_root/.harmony/orchestration/runtime/queue/README.md" <<'EOF'
@@ -122,7 +142,7 @@ run_validator_in_fixture() {
   )
 }
 
-case_allowlisted_design_package_references_pass() {
+case_allowlisted_proposal_references_pass() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
   run_validator_in_fixture "$fixture_root"
@@ -131,7 +151,7 @@ case_allowlisted_design_package_references_pass() {
 case_live_backreference_fails() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
-  printf '\nSee `.design-packages/runtime-package/navigation/source-of-truth-map.md`.\n' >> \
+  printf '\nSee `.proposals/runtime-package/navigation/source-of-truth-map.md`.\n' >> \
     "$fixture_root/.harmony/orchestration/runtime/queue/README.md"
   run_validator_in_fixture "$fixture_root"
 }
@@ -142,24 +162,24 @@ case_unexpected_workflow_index_backreference_fails() {
   cat >> "$fixture_root/.harmony/orchestration/runtime/workflows/registry.yml" <<'EOF'
   update-workflow:
     outputs:
-      path: ".design-packages/unexpected-package/"
+      path: ".proposals/unexpected-package/"
 EOF
   run_validator_in_fixture "$fixture_root"
 }
 
 main() {
   assert_success \
-    "live-independence validator allows explicit design-package workflow exceptions" \
-    case_allowlisted_design_package_references_pass
+    "live-independence validator allows explicit proposal workflow exceptions" \
+    case_allowlisted_proposal_references_pass
 
   assert_failure_contains \
     "live-independence validator rejects live orchestration backreferences" \
-    "live orchestration artifacts must not depend on temporary .design-packages paths" \
+    "live orchestration artifacts must not depend on temporary .proposals paths" \
     case_live_backreference_fails
 
   assert_failure_contains \
     "live-independence validator rejects unexpected workflow index backreferences" \
-    "live orchestration artifacts must not depend on temporary .design-packages paths" \
+    "live orchestration artifacts must not depend on temporary .proposals paths" \
     case_unexpected_workflow_index_backreference_fails
 
   echo

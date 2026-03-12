@@ -41,7 +41,7 @@ require_fixed() {
 check_definition_surfaces_are_local() {
   local matches=""
   matches="$(
-    grep -R -n -F -- ".design-packages/" \
+    grep -R -n -F -- ".proposals/" \
       "$SURFACE_DIR/README.md" \
       "$SURFACE_DIR/registry.yml" \
       "$SURFACE_DIR/schema.yml" \
@@ -49,10 +49,10 @@ check_definition_surfaces_are_local() {
       "$SURFACE_DIR/schemas" 2>/dev/null || true
   )"
   if [[ -n "$matches" ]]; then
-    fail "queue surface definition artifacts must not depend on temporary .design-packages paths"
+    fail "queue surface definition artifacts must not depend on temporary .proposals paths"
     printf '%s\n' "$matches"
   else
-    pass "queue surface definition artifacts avoid temporary .design-packages paths"
+    pass "queue surface definition artifacts avoid temporary .proposals paths"
   fi
 }
 

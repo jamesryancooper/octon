@@ -129,7 +129,7 @@ scenario_packs:
       mode: "full"
       expected_format: "directory"
       expected_execution_profile: "core"
-    - workflow_id: "audit-design-package"
+    - workflow_id: "audit-design-proposal"
       mode: "full"
       expected_format: "directory"
       expected_execution_profile: "core"

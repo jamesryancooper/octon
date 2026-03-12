@@ -1,0 +1,13 @@
+schema_version: "proposal-v1"
+proposal_id: "{{PROPOSAL_ID}}"
+title: "{{PROPOSAL_TITLE}}"
+summary: "{{PROPOSAL_SUMMARY}}"
+proposal_kind: "{{PROPOSAL_KIND}}"
+promotion_scope: "{{PROMOTION_SCOPE}}"
+promotion_targets:
+{{PROMOTION_TARGETS_YAML}}
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: "{{EXIT_EXPECTATION}}"
+related_proposals: []

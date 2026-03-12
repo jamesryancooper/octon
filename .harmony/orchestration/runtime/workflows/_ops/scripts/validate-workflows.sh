@@ -347,14 +347,17 @@ check_workflow_contract() {
     pass "workflow '$id' avoids deprecated guide directory"
   fi
 
-  if matches_path_regex '\.design-packages/' "$workflow_dir"; then
-    if [[ "$id" == "audit-design-package" || "$id" == "create-design-package" ]]; then
-      pass "workflow '$id' design-package references allowed by explicit exception"
-    else
-      fail "workflow '$id' depends on temporary .design-packages paths"
-    fi
+  if matches_path_regex '\.proposals/' "$workflow_dir"; then
+    case "$id" in
+      create-design-proposal|create-migration-proposal|create-policy-proposal|create-architecture-proposal|audit-design-proposal|audit-migration-proposal|audit-policy-proposal|audit-architecture-proposal)
+        pass "workflow '$id' proposal references allowed by explicit exception"
+        ;;
+      *)
+        fail "workflow '$id' depends on temporary .proposals paths"
+        ;;
+    esac
   else
-    pass "workflow '$id' avoids temporary .design-packages paths"
+    pass "workflow '$id' avoids temporary .proposals paths"
   fi
 
   check_workflow_stages "$id" "$workflow_file" "$workflow_dir"
@@ -504,7 +507,10 @@ check_guide_drift() {
       fail "workflow '$id' missing generated README in temp output"
       continue
     fi
-    if diff -q "$actual" "$generated" >/dev/null 2>&1; then
+    if diff -q \
+      <(perl -0pe 's/\n+\z/\n/' "$actual") \
+      <(perl -0pe 's/\n+\z/\n/' "$generated") \
+      >/dev/null 2>&1; then
       pass "workflow '$id' README matches canonical workflow"
     else
       fail "workflow '$id' README drift detected against canonical workflow"
@@ -536,8 +542,8 @@ check_runtime_pipeline_references_absent() {
     "$HARMONY_DIR/engine/runtime/run"
     "$HARMONY_DIR/engine/runtime/run.cmd"
     "$HARMONY_DIR/assurance/runtime/_ops/scripts/alignment-check.sh"
-    "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh"
-    "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-create-design-package-workflow.sh"
+    "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-audit-design-proposal-workflow.sh"
+    "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-create-design-proposal-workflow.sh"
     "$HARMONY_DIR/capabilities/runtime/commands"
   )
   if rg -n "runtime/pipelines|pipeline\\.yml|projection\\.pipeline_" "${targets[@]}" \

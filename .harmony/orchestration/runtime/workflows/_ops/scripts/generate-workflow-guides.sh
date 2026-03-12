@@ -144,7 +144,6 @@ for row in "${workflow_rows[@]}"; do
     printf -- '- Canonical stages: `.harmony/orchestration/runtime/workflows/%sstages/`\n' "$rel_path"
     printf '\n## Version History\n\n'
     printf '| Version | Changes |\n|---------|---------|\n| %s | Generated from canonical workflow `%s` |\n' "$version" "$workflow_id"
-    printf '\n'
   } >"$readme_path"
 done
 

@@ -102,17 +102,50 @@ workflows:
       - "create a workflow"
       - "create a pipeline"
       - "scaffold workflow README"
-  - id: create-design-package
-    display_name: Create Design Package
+  - id: create-design-proposal
+    display_name: Create Design Proposal
     group: meta
-    domain: scaffolding
-    path: meta/create-design-package/
-    summary: Scaffold a standard-governed design package, materialize its manifest, and validate the resulting package immediately.
+    domain: proposals
+    path: meta/create-design-proposal/
+    summary: Scaffold a standard-governed design proposal, materialize its manifests, and validate the resulting proposal immediately.
     status: active
     triggers:
-      - "create a design package"
-      - "scaffold a design package"
-      - "create implementation blueprint package"
+      - "create a design proposal"
+      - "scaffold a design proposal"
+      - "create implementation design proposal"
+  - id: create-migration-proposal
+    display_name: Create Migration Proposal
+    group: meta
+    domain: proposals
+    path: meta/create-migration-proposal/
+    summary: Scaffold a standard-governed migration proposal and validate the resulting proposal immediately.
+    status: active
+    triggers:
+      - "create a migration proposal"
+      - "scaffold a migration proposal"
+      - "create migration plan proposal"
+  - id: create-policy-proposal
+    display_name: Create Policy Proposal
+    group: meta
+    domain: proposals
+    path: meta/create-policy-proposal/
+    summary: Scaffold a standard-governed policy proposal and validate the resulting proposal immediately.
+    status: active
+    triggers:
+      - "create a policy proposal"
+      - "scaffold a policy proposal"
+      - "create policy change proposal"
+  - id: create-architecture-proposal
+    display_name: Create Architecture Proposal
+    group: meta
+    domain: proposals
+    path: meta/create-architecture-proposal/
+    summary: Scaffold a standard-governed architecture proposal and validate the resulting proposal immediately.
+    status: active
+    triggers:
+      - "create an architecture proposal"
+      - "scaffold an architecture proposal"
+      - "create architecture change proposal"
   - id: evaluate-workflow
     display_name: Evaluate Workflow
     group: meta
@@ -243,18 +276,51 @@ workflows:
       - "run docs audit workflow"
       - "audit docs for release"
       - "enforce documentation standards"
-  - id: audit-design-package
-    display_name: Design Package Audit
+  - id: audit-design-proposal
+    display_name: Design Proposal Audit
     group: audit
     domain: audit
-    path: audit/audit-design-package/
-    summary: Run the architecture validation pipeline for a design package, including audit, remediation track, simulation, closure, and implementation extraction.
+    path: audit/audit-design-proposal/
+    summary: Run the architecture validation pipeline for a design proposal, including audit, remediation track, simulation, closure, and implementation extraction.
     status: active
     triggers:
-      - "audit design package"
-      - "validate architecture package"
-      - "run design package pipeline"
+      - "audit design proposal"
+      - "validate design proposal"
+      - "run design proposal pipeline"
       - "architecture validation pipeline"
+  - id: audit-migration-proposal
+    display_name: Migration Proposal Audit
+    group: audit
+    domain: audit
+    path: audit/audit-migration-proposal/
+    summary: Run deterministic completeness and consistency validation for a migration proposal.
+    status: active
+    triggers:
+      - "audit migration proposal"
+      - "validate migration proposal"
+      - "review migration proposal"
+  - id: audit-policy-proposal
+    display_name: Policy Proposal Audit
+    group: audit
+    domain: audit
+    path: audit/audit-policy-proposal/
+    summary: Run deterministic completeness and consistency validation for a policy proposal.
+    status: active
+    triggers:
+      - "audit policy proposal"
+      - "validate policy proposal"
+      - "review policy proposal"
+  - id: audit-architecture-proposal
+    display_name: Architecture Proposal Audit
+    group: audit
+    domain: audit
+    path: audit/audit-architecture-proposal/
+    summary: Run deterministic completeness and consistency validation for an architecture proposal.
+    status: active
+    triggers:
+      - "audit architecture proposal"
+      - "validate architecture proposal"
+      - "review architecture proposal"
   - id: audit-workflow-system
     display_name: Workflow System Audit
     group: audit
@@ -421,11 +487,11 @@ workflow_group_definitions:
   meta:
     description: Operate on the harness itself (CRUD for harness components)
     path: meta/
-    members: [create-harness, evaluate-harness, migrate-harness, update-harness, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-package]
+    members: [create-harness, evaluate-harness, migrate-harness, update-harness, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal]
   audit:
     description: Audit orchestration and release gates
     path: audit/
-    members: [audit-documentation, audit-design-package, audit-workflow-system, audit-orchestration, audit-pre-release, audit-change-risk, audit-continuous, audit-post-incident, audit-release-readiness, audit-architecture-readiness]
+    members: [audit-documentation, audit-design-proposal, audit-migration-proposal, audit-policy-proposal, audit-architecture-proposal, audit-workflow-system, audit-orchestration, audit-pre-release, audit-change-risk, audit-continuous, audit-post-incident, audit-release-readiness, audit-architecture-readiness]
   refactor:
     description: Verified structural refactor orchestration
     path: refactor/

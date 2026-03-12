@@ -1,0 +1,16 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-design-conformance",
+  "description": "Optional conformance module overlay for standard-governed design proposals.",
+  "inherits": "proposal-design-core",
+  "additions": {
+    "directories": [
+      "conformance/scenarios"
+    ],
+    "files": [
+      "conformance/README.md",
+      "conformance/validate_scenarios.py"
+    ]
+  },
+  "usage": "/create-design-proposal"
+}

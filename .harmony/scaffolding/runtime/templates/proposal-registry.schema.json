@@ -1,0 +1,134 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Proposal Registry",
+  "description": "Schema for the manifest-governed proposal registry.",
+  "type": "object",
+  "required": ["schema_version", "active", "archived"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "proposal-registry-v1"
+    },
+    "active": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "scope",
+          "path",
+          "title",
+          "status",
+          "promotion_targets"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["design", "migration", "policy", "architecture"]
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["harmony-internal", "repo-local"]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.proposals\\/[a-z][a-z0-9-]*\\/[a-z][a-z0-9-]*$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "enum": ["draft", "in-review", "accepted", "implemented", "rejected"]
+          },
+          "promotion_targets": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "archived": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "kind",
+          "scope",
+          "path",
+          "title",
+          "status",
+          "disposition",
+          "archived_at",
+          "archived_from_status",
+          "original_path",
+          "promotion_targets"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["design", "migration", "policy", "architecture"]
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["harmony-internal", "repo-local"]
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.proposals\\/\\.archive\\/[a-z][a-z0-9-]*\\/[a-z][a-z0-9-]*$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "type": "string",
+            "const": "archived"
+          },
+          "disposition": {
+            "type": "string",
+            "enum": ["implemented", "rejected", "historical"]
+          },
+          "archived_at": {
+            "type": "string",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+          },
+          "archived_from_status": {
+            "type": "string",
+            "enum": ["draft", "in-review", "accepted", "implemented", "rejected", "legacy-unknown"]
+          },
+          "original_path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "promotion_targets": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

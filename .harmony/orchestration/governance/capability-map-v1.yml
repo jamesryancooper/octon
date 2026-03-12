@@ -78,13 +78,13 @@ workflows:
     required_contracts:
       - "delegation-boundaries-v1"
 
-  - workflow_id: "audit-design-package"
+  - workflow_id: "audit-design-proposal"
     classification: "agent-augmented"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
-  - workflow_id: "create-design-package"
+  - workflow_id: "create-design-proposal"
     classification: "agent-augmented"
     autonomous_allowed: false
     required_contracts:

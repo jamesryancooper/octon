@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - '.design-packages/orchestration-domain-design-package/**'
+      - '.proposals/design/orchestration-domain-design-proposal/**'
       - '.harmony/**'
       - '.github/workflows/harness-self-containment.yml'
   pull_request:
     paths:
-      - '.design-packages/orchestration-domain-design-package/**'
+      - '.proposals/design/orchestration-domain-design-proposal/**'
       - '.harmony/**'
       - '.github/workflows/harness-self-containment.yml'
 
@@ -38,10 +38,10 @@ jobs:
         with:
           filters: |
             orchestration:
-              - '.design-packages/orchestration-domain-design-package/**'
+              - '.proposals/design/orchestration-domain-design-proposal/**'
               - '.harmony/orchestration/**'
-              - '.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh'
-              - '.harmony/assurance/runtime/_ops/tests/test-validate-orchestration-design-package.sh'
+              - '.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh'
+              - '.harmony/assurance/runtime/_ops/tests/test-validate-orchestration-design-proposal.sh'
               - '.harmony/engine/practices/local-dev-validation.md'
               - '.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md'
             workflow_manifest:
@@ -99,11 +99,11 @@ jobs:
           chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
           .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 
-      - name: Validate orchestration design package
+      - name: Validate orchestration design proposal
         if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh
+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
+          .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
 
       - name: Validate orchestration runtime surface hooks
         if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'

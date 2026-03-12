@@ -1,0 +1,5 @@
+schema_version: "migration-proposal-v1"
+change_profile: "atomic"
+release_state: "pre-1.0"
+version_sources:
+  - "version.txt"

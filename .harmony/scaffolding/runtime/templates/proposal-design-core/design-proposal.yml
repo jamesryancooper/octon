@@ -1,0 +1,8 @@
+schema_version: "design-proposal-v1"
+design_class: "{{DESIGN_CLASS}}"
+selected_modules:
+{{SELECTED_MODULES_YAML}}
+validation:
+  default_audit_mode: "{{DEFAULT_AUDIT_MODE}}"
+  design_validator_path: {{DESIGN_VALIDATOR_PATH}}
+  conformance_validator_path: {{CONFORMANCE_VALIDATOR_PATH}}

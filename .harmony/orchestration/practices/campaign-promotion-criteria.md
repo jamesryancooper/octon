@@ -85,4 +85,4 @@ The current live decision is still `no-go`. See:
 If `campaigns` are ever promoted, the implementation must materialize the
 campaign object contract, schema, runtime discovery artifacts, practices, and
 validator coverage inside live `/.harmony/orchestration/` surfaces before
-merge. No live campaign artifact may depend on temporary design-package paths.
+merge. No live campaign artifact may depend on temporary proposal paths.

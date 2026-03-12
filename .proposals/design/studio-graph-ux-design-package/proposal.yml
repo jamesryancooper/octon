@@ -1,0 +1,16 @@
+schema_version: "proposal-v1"
+proposal_id: "studio-graph-ux-design-package"
+title: "Harmony Studio Graph UX Design Proposal"
+summary: "Implementation-ready design direction for the Harmony Studio graph UX workbench and its supporting inspection and staged-edit surfaces."
+proposal_kind: "design"
+promotion_scope: "harmony-internal"
+promotion_targets:
+  - ".harmony/engine/runtime/crates/studio/"
+  - ".harmony/engine/runtime/run"
+  - ".harmony/capabilities/runtime/commands/studio.md"
+  - ".harmony/catalog.md"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promote the approved Harmony Studio UX direction into the runtime, command, and catalog surfaces listed above, then archive this proposal once the durable implementation lands."
+related_proposals: []

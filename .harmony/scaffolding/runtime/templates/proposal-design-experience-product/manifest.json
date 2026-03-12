@@ -1,0 +1,23 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-design-experience-product",
+  "description": "Overlay for product and experience oriented design proposals.",
+  "inherits": "proposal-design-core",
+  "additions": {
+    "directories": [
+      "normative/experience",
+      "normative/assurance",
+      "reference",
+      "history"
+    ],
+    "files": [
+      "normative/experience/user-journeys.md",
+      "normative/experience/information-architecture.md",
+      "normative/experience/screen-states-and-flows.md",
+      "normative/assurance/implementation-readiness.md",
+      "reference/README.md",
+      "history/README.md"
+    ]
+  },
+  "usage": "/create-design-proposal"
+}

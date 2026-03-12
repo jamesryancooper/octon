@@ -8,8 +8,9 @@ use std::process::{Command, Stdio};
 use time::format_description;
 
 use crate::workflow::{
-    self, DesignPackageClass, ExecutorKind, PipelineMode, RunCreateDesignPackageOptions,
-    RunDesignPackageOptions,
+    self, DesignPackageClass, ExecutorKind, PipelineMode, ProposalScope,
+    RunAuditStaticProposalOptions, RunCreateDesignPackageOptions,
+    RunCreateStaticProposalOptions, RunDesignPackageOptions, StaticProposalKind,
 };
 
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".harmony/output/reports/workflows";
@@ -172,11 +173,29 @@ pub fn run_pipeline_from_harmony_dir(
     harmony_dir: &Path,
     options: RunPipelineOptions,
 ) -> Result<RunPipelineResult> {
-    if options.pipeline_id == "audit-design-package" {
+    if options.pipeline_id == "audit-design-proposal" {
         return run_design_package_pipeline(harmony_dir, options);
     }
-    if options.pipeline_id == "create-design-package" {
+    if options.pipeline_id == "create-design-proposal" {
         return run_create_design_package_pipeline(harmony_dir, options);
+    }
+    if options.pipeline_id == "create-migration-proposal" {
+        return run_create_static_proposal_pipeline(harmony_dir, options, StaticProposalKind::Migration);
+    }
+    if options.pipeline_id == "create-policy-proposal" {
+        return run_create_static_proposal_pipeline(harmony_dir, options, StaticProposalKind::Policy);
+    }
+    if options.pipeline_id == "create-architecture-proposal" {
+        return run_create_static_proposal_pipeline(harmony_dir, options, StaticProposalKind::Architecture);
+    }
+    if options.pipeline_id == "audit-migration-proposal" {
+        return run_audit_static_proposal_pipeline(harmony_dir, options, StaticProposalKind::Migration);
+    }
+    if options.pipeline_id == "audit-policy-proposal" {
+        return run_audit_static_proposal_pipeline(harmony_dir, options, StaticProposalKind::Policy);
+    }
+    if options.pipeline_id == "audit-architecture-proposal" {
+        return run_audit_static_proposal_pipeline(harmony_dir, options, StaticProposalKind::Architecture);
     }
     run_generic_pipeline(harmony_dir, options)
 }
@@ -187,10 +206,10 @@ fn run_design_package_pipeline(
 ) -> Result<RunPipelineResult> {
     let package_path = options
         .input_overrides
-        .get("package_path")
+        .get("proposal_path")
         .cloned()
         .ok_or_else(|| {
-            anyhow::anyhow!("workflow 'audit-design-package' requires --set package_path=<path>")
+            anyhow::anyhow!("workflow 'audit-design-proposal' requires --set proposal_path=<path>")
         })?;
 
     let mode = match options
@@ -201,7 +220,7 @@ fn run_design_package_pipeline(
     {
         "rigorous" => PipelineMode::Rigorous,
         "short" => PipelineMode::Short,
-        other => bail!("unsupported audit-design-package mode '{other}'"),
+        other => bail!("unsupported audit-design-proposal mode '{other}'"),
     };
 
     let result = workflow::run_design_package_from_harmony_dir(
@@ -230,37 +249,49 @@ fn run_create_design_package_pipeline(
 ) -> Result<RunPipelineResult> {
     let package_id = options
         .input_overrides
-        .get("package_id")
+        .get("proposal_id")
         .cloned()
         .ok_or_else(|| {
-            anyhow::anyhow!("workflow 'create-design-package' requires --set package_id=<value>")
+            anyhow::anyhow!("workflow 'create-design-proposal' requires --set proposal_id=<value>")
         })?;
     let package_title = options
         .input_overrides
-        .get("package_title")
+        .get("proposal_title")
         .cloned()
         .ok_or_else(|| {
-            anyhow::anyhow!("workflow 'create-design-package' requires --set package_title=<value>")
+            anyhow::anyhow!("workflow 'create-design-proposal' requires --set proposal_title=<value>")
         })?;
     let implementation_targets = options
         .input_overrides
-        .get("implementation_targets")
+        .get("promotion_targets")
         .cloned()
         .ok_or_else(|| {
             anyhow::anyhow!(
-                "workflow 'create-design-package' requires --set implementation_targets=<value>"
+                "workflow 'create-design-proposal' requires --set promotion_targets=<value>"
             )
         })?;
+    let promotion_scope = parse_promotion_scope(
+        options
+            .input_overrides
+            .get("promotion_scope")
+            .map(String::as_str)
+            .ok_or_else(|| {
+                anyhow::anyhow!(
+                    "workflow 'create-design-proposal' requires --set promotion_scope=<value>"
+                )
+            })?,
+        "create-design-proposal",
+    )?;
 
     let package_class = match options
         .input_overrides
-        .get("package_class")
+        .get("proposal_class")
         .map(String::as_str)
         .unwrap_or("domain-runtime")
     {
         "domain-runtime" => DesignPackageClass::DomainRuntime,
         "experience-product" => DesignPackageClass::ExperienceProduct,
-        other => bail!("unsupported create-design-package package_class '{other}'"),
+        other => bail!("unsupported create-design-proposal proposal_class '{other}'"),
     };
 
     let result = workflow::run_create_design_package_from_harmony_dir(
@@ -269,6 +300,7 @@ fn run_create_design_package_pipeline(
             package_id,
             package_title,
             package_class,
+            promotion_scope,
             implementation_targets: parse_csv_list(&implementation_targets),
             include_contracts: parse_optional_bool(
                 options.input_overrides.get("include_contracts"),
@@ -282,6 +314,81 @@ fn run_create_design_package_pipeline(
                 options.input_overrides.get("include_canonicalization"),
                 "include_canonicalization",
             )?,
+        },
+    )?;
+
+    Ok(RunPipelineResult {
+        bundle_root: result.bundle_root,
+        summary_report: result.summary_report,
+        final_verdict: result.final_verdict,
+    })
+}
+
+fn run_create_static_proposal_pipeline(
+    harmony_dir: &Path,
+    options: RunPipelineOptions,
+    kind: StaticProposalKind,
+) -> Result<RunPipelineResult> {
+    let workflow_id = format!("create-{}-proposal", kind.as_str());
+    let proposal_id = options
+        .input_overrides
+        .get("proposal_id")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_id=<value>"))?;
+    let proposal_title = options
+        .input_overrides
+        .get("proposal_title")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_title=<value>"))?;
+    let promotion_targets = options
+        .input_overrides
+        .get("promotion_targets")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set promotion_targets=<value>"))?;
+    let promotion_scope = parse_promotion_scope(
+        options
+            .input_overrides
+            .get("promotion_scope")
+            .map(String::as_str)
+            .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set promotion_scope=<value>"))?,
+        &workflow_id,
+    )?;
+
+    let result = workflow::run_create_static_proposal_from_harmony_dir(
+        harmony_dir,
+        kind,
+        RunCreateStaticProposalOptions {
+            proposal_id,
+            proposal_title,
+            promotion_scope,
+            promotion_targets: parse_csv_list(&promotion_targets),
+        },
+    )?;
+
+    Ok(RunPipelineResult {
+        bundle_root: result.bundle_root,
+        summary_report: result.summary_report,
+        final_verdict: result.final_verdict,
+    })
+}
+
+fn run_audit_static_proposal_pipeline(
+    harmony_dir: &Path,
+    options: RunPipelineOptions,
+    kind: StaticProposalKind,
+) -> Result<RunPipelineResult> {
+    let workflow_id = format!("audit-{}-proposal", kind.as_str());
+    let proposal_path = options
+        .input_overrides
+        .get("proposal_path")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_path=<path>"))?;
+
+    let result = workflow::run_audit_static_proposal_from_harmony_dir(
+        harmony_dir,
+        kind,
+        RunAuditStaticProposalOptions {
+            proposal_path: proposal_path.into(),
         },
     )?;
 
@@ -667,6 +774,16 @@ fn parse_csv_list(value: &str) -> Vec<String> {
         .filter(|item| !item.is_empty())
         .map(ToOwned::to_owned)
         .collect()
+}
+
+fn parse_promotion_scope(value: &str, workflow_id: &str) -> Result<ProposalScope> {
+    match value {
+        "harmony-internal" => Ok(ProposalScope::HarmonyInternal),
+        "repo-local" => Ok(ProposalScope::RepoLocal),
+        other => bail!(
+            "unsupported {workflow_id} promotion_scope '{other}' (expected harmony-internal or repo-local)"
+        ),
+    }
 }
 
 fn parse_optional_bool(value: Option<&String>, field: &str) -> Result<Option<bool>> {

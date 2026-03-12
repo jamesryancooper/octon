@@ -1,0 +1,7 @@
+schema_version: "design-proposal-v1"
+design_class: "experience-product"
+selected_modules: []
+validation:
+  default_audit_mode: "rigorous"
+  design_validator_path: null
+  conformance_validator_path: null

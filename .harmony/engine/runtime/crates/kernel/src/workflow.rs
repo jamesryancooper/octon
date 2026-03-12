@@ -11,15 +11,57 @@ use std::process::{Command, Stdio};
 use time::format_description;
 use walkdir::WalkDir;
 
-const WORKFLOW_ID: &str = "audit-design-package";
+const WORKFLOW_ID: &str = "audit-design-proposal";
 const WORKFLOW_ROOT_REL: &str =
-    ".harmony/orchestration/runtime/workflows/audit/audit-design-package";
+    ".harmony/orchestration/runtime/workflows/audit/audit-design-proposal";
 const REPORTS_ROOT_REL: &str = ".harmony/output/reports/analysis";
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".harmony/output/reports/workflows";
 const STANDARD_DESIGN_PACKAGE_VALIDATOR_REL: &str =
-    ".harmony/assurance/runtime/_ops/scripts/validate-design-package-standard.sh";
+    ".harmony/assurance/runtime/_ops/scripts/validate-design-proposal.sh";
 const DESIGN_PACKAGE_TEMPLATE_ROOT_REL: &str = ".harmony/scaffolding/runtime/templates";
-const DESIGN_PACKAGES_ROOT_REL: &str = ".design-packages";
+const PROPOSALS_ROOT_REL: &str = ".proposals";
+const DESIGN_PACKAGES_ROOT_REL: &str = ".proposals/design";
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum ProposalScope {
+    HarmonyInternal,
+    RepoLocal,
+}
+
+impl ProposalScope {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::HarmonyInternal => "harmony-internal",
+            Self::RepoLocal => "repo-local",
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum StaticProposalKind {
+    Migration,
+    Policy,
+    Architecture,
+}
+
+impl StaticProposalKind {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Migration => "migration",
+            Self::Policy => "policy",
+            Self::Architecture => "architecture",
+        }
+    }
+
+    fn validator_rel(self) -> &'static str {
+        match self {
+            Self::Migration => ".harmony/assurance/runtime/_ops/scripts/validate-migration-proposal.sh",
+            Self::Policy => ".harmony/assurance/runtime/_ops/scripts/validate-policy-proposal.sh",
+            Self::Architecture => ".harmony/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh",
+        }
+    }
+
+}
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DesignPackageClass {
@@ -37,8 +79,8 @@ impl DesignPackageClass {
 
     fn template_name(self) -> &'static str {
         match self {
-            Self::DomainRuntime => "design-package-domain-runtime",
-            Self::ExperienceProduct => "design-package-experience-product",
+            Self::DomainRuntime => "proposal-design-domain-runtime",
+            Self::ExperienceProduct => "proposal-design-experience-product",
         }
     }
 
@@ -60,6 +102,7 @@ pub struct RunCreateDesignPackageOptions {
     pub package_id: String,
     pub package_title: String,
     pub package_class: DesignPackageClass,
+    pub promotion_scope: ProposalScope,
     pub implementation_targets: Vec<String>,
     pub include_contracts: Option<bool>,
     pub include_conformance: Option<bool>,
@@ -68,6 +111,21 @@ pub struct RunCreateDesignPackageOptions {
 
 #[derive(Clone, Debug)]
 pub struct RunCreateDesignPackageResult {
+    pub bundle_root: PathBuf,
+    pub summary_report: PathBuf,
+    pub final_verdict: String,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunCreateStaticProposalOptions {
+    pub proposal_id: String,
+    pub proposal_title: String,
+    pub promotion_scope: ProposalScope,
+    pub promotion_targets: Vec<String>,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunCreateStaticProposalResult {
     pub bundle_root: PathBuf,
     pub summary_report: PathBuf,
     pub final_verdict: String,
@@ -132,6 +190,18 @@ pub struct RunDesignPackageResult {
     pub final_verdict: String,
 }
 
+#[derive(Clone, Debug)]
+pub struct RunAuditStaticProposalOptions {
+    pub proposal_path: PathBuf,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunAuditStaticProposalResult {
+    pub bundle_root: PathBuf,
+    pub summary_report: PathBuf,
+    pub final_verdict: String,
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 enum StageClass {
     Evaluative,
@@ -157,7 +227,7 @@ const RIGOROUS_STAGES: &[StageDefinition] = &[
     StageDefinition {
         id: "01",
         prompt_file: "02-design-audit.md",
-        report_file: "01-design-package-audit.md",
+        report_file: "01-design-proposal-audit.md",
         class: StageClass::Evaluative,
     },
     StageDefinition {
@@ -208,13 +278,13 @@ const SHORT_STAGES: &[StageDefinition] = &[
     StageDefinition {
         id: "01",
         prompt_file: "02-design-audit.md",
-        report_file: "01-design-package-audit.md",
+        report_file: "01-design-proposal-audit.md",
         class: StageClass::Evaluative,
     },
     StageDefinition {
         id: "02",
-        prompt_file: "03-design-package-remediation.md",
-        report_file: "02-design-package-remediation.md",
+        prompt_file: "03-design-proposal-remediation.md",
+        report_file: "02-design-proposal-remediation.md",
         class: StageClass::FileWriting,
     },
     StageDefinition {
@@ -282,34 +352,36 @@ struct BundleMetadata {
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
-struct DesignPackageRegistry {
+struct ProposalRegistry {
     schema_version: String,
-    active: Vec<ActiveRegistryEntry>,
-    archived: Vec<ArchivedRegistryEntry>,
+    active: Vec<ProposalActiveRegistryEntry>,
+    archived: Vec<ProposalArchivedRegistryEntry>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-struct ActiveRegistryEntry {
+struct ProposalActiveRegistryEntry {
     id: String,
+    kind: String,
+    scope: String,
     path: String,
     title: String,
-    package_class: String,
     status: String,
-    implementation_targets: Vec<String>,
+    promotion_targets: Vec<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-struct ArchivedRegistryEntry {
+struct ProposalArchivedRegistryEntry {
     id: String,
+    kind: String,
+    scope: String,
     path: String,
     title: String,
-    package_class: String,
     status: String,
     disposition: String,
     archived_at: String,
     archived_from_status: String,
     original_path: String,
-    implementation_targets: Vec<String>,
+    promotion_targets: Vec<String>,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -458,9 +530,9 @@ pub fn run_create_design_package_from_harmony_dir(
         .canonicalize()
         .context("failed to canonicalize repository root")?;
 
-    let design_packages_root = repo_root.join(DESIGN_PACKAGES_ROOT_REL);
-    fs::create_dir_all(&design_packages_root)
-        .with_context(|| format!("create {}", design_packages_root.display()))?;
+    let design_proposals_root = repo_root.join(DESIGN_PACKAGES_ROOT_REL);
+    fs::create_dir_all(&design_proposals_root)
+        .with_context(|| format!("create {}", design_proposals_root.display()))?;
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     fs::create_dir_all(&reports_root)
         .with_context(|| format!("create {}", reports_root.display()))?;
@@ -474,17 +546,17 @@ pub fn run_create_design_package_from_harmony_dir(
         &workflow_bundles_root,
         &format!(
             "{date}-{}",
-            slugify(&format!("create-design-package-{}", options.package_id))
+            slugify(&format!("create-design-proposal-{}", options.package_id))
         ),
     )?;
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
     let summary_report =
-        unique_file(&reports_root, &format!("{date}-create-design-package"), "md")?;
+        unique_file(&reports_root, &format!("{date}-create-design-proposal"), "md")?;
 
-    let package_root = design_packages_root.join(&options.package_id);
-    let package_rel = rel_path(&repo_root, &package_root);
+    let proposal_root = design_proposals_root.join(&options.package_id);
+    let proposal_rel = rel_path(&repo_root, &proposal_root);
 
     let include_contracts = options
         .include_contracts
@@ -510,7 +582,7 @@ pub fn run_create_design_package_from_harmony_dir(
         options.implementation_targets.join(", ")
     );
     let conformance_validator_path = if include_conformance {
-        format!("{package_rel}/conformance/validate_scenarios.py")
+        format!("{proposal_rel}/conformance/validate_scenarios.py")
     } else {
         "null".to_string()
     };
@@ -519,7 +591,7 @@ pub fn run_create_design_package_from_harmony_dir(
         &options,
         &package_summary,
         &exit_expectation,
-        &package_rel,
+        &proposal_rel,
         &selected_modules,
         &conformance_validator_path,
     );
@@ -535,10 +607,11 @@ pub fn run_create_design_package_from_harmony_dir(
         "01",
         "validate-request",
         &format!(
-            "# Validate Request\n\n- package_id: `{}`\n- package_title: `{}`\n- package_class: `{}`\n- implementation_targets: `{}`\n",
+            "# Validate Request\n\n- proposal_id: `{}`\n- proposal_title: `{}`\n- proposal_class: `{}`\n- promotion_scope: `{}`\n- promotion_targets: `{}`\n",
             options.package_id,
             options.package_title.trim(),
             options.package_class.as_str(),
+            options.promotion_scope.as_str(),
             options.implementation_targets.join(", ")
         ),
     )?;
@@ -561,11 +634,11 @@ pub fn run_create_design_package_from_harmony_dir(
             failed_stage: "validate-request",
             message: "implementation_targets must contain at least one target path".to_string(),
         });
-    } else if package_root.exists() {
+    } else if proposal_root.exists() {
         failure = Some(CreateDesignPackageFailure {
             class: CreateDesignPackageFailureClass::RequestValidation,
             failed_stage: "validate-request",
-            message: format!("target design package already exists: {}", package_root.display()),
+            message: format!("target design proposal already exists: {}", proposal_root.display()),
         });
     }
 
@@ -574,13 +647,13 @@ pub fn run_create_design_package_from_harmony_dir(
         "01",
         "validate-request",
         if failure.is_some() { "failed" } else { "passed" },
-        &format!("- package_root: `{}`\n", package_root.display()),
+        &format!("- proposal_root: `{}`\n", proposal_root.display()),
     )?;
     command_log.push(format!(
-        "- stage validate-request | status={} | input={} | package_root={}",
+        "- stage validate-request | status={} | input={} | proposal_root={}",
         if failure.is_some() { "failed" } else { "passed" },
         rel_path(&repo_root, &stage01_input),
-        package_root.display()
+        proposal_root.display()
     ));
 
     if failure.is_none() {
@@ -589,7 +662,7 @@ pub fn run_create_design_package_from_harmony_dir(
             "02",
             "select-bundles",
             &format!(
-                "# Select Bundles\n\n- package_class: `{}`\n- include_contracts: `{}`\n- include_conformance: `{}`\n- include_canonicalization: `{}`\n- selected_modules: `{}`\n",
+                "# Select Bundles\n\n- proposal_class: `{}`\n- include_contracts: `{}`\n- include_conformance: `{}`\n- include_canonicalization: `{}`\n- selected_modules: `{}`\n",
                 options.package_class.as_str(),
                 include_contracts,
                 include_conformance,
@@ -618,52 +691,69 @@ pub fn run_create_design_package_from_harmony_dir(
             "03",
             "scaffold-package",
             &format!(
-                "# Scaffold Package\n\n- package_root: `{}`\n- package_rel: `{}`\n- selected_modules: `{}`\n",
-                package_root.display(),
-                package_rel,
+                "# Scaffold Proposal\n\n- proposal_root: `{}`\n- proposal_rel: `{}`\n- selected_modules: `{}`\n",
+                proposal_root.display(),
+                proposal_rel,
                 selected_modules.join(", ")
             ),
         )?;
         let scaffold_result: Result<()> = (|| {
-            fs::create_dir_all(&package_root)
-                .with_context(|| format!("create {}", package_root.display()))?;
+            fs::create_dir_all(&proposal_root)
+                .with_context(|| format!("create {}", proposal_root.display()))?;
             apply_template_bundle(
-                &template_root.join("design-package-core"),
-                &package_root,
+                &template_root.join("proposal-core"),
+                &proposal_root,
+                &replacements,
+            )?;
+            apply_template_bundle(
+                &template_root.join("proposal-design-core"),
+                &proposal_root,
                 &replacements,
             )?;
             apply_template_bundle(
                 &template_root.join(options.package_class.template_name()),
-                &package_root,
+                &proposal_root,
                 &replacements,
             )?;
             if include_contracts {
                 apply_template_bundle(
-                    &template_root.join("design-package-contracts"),
-                    &package_root,
+                    &template_root.join("proposal-design-contracts"),
+                    &proposal_root,
                     &replacements,
                 )?;
             }
             if include_conformance {
                 apply_template_bundle(
-                    &template_root.join("design-package-conformance"),
-                    &package_root,
+                    &template_root.join("proposal-design-conformance"),
+                    &proposal_root,
                     &replacements,
                 )?;
             }
             if include_canonicalization {
                 apply_template_bundle(
-                    &template_root.join("design-package-canonicalization"),
-                    &package_root,
+                    &template_root.join("proposal-design-canonicalization"),
+                    &proposal_root,
                     &replacements,
                 )?;
             }
             fs::write(
-                package_root.join("design-package.yml"),
-                build_design_package_manifest(
+                proposal_root.join("proposal.yml"),
+                build_proposal_manifest(
                     &options,
                     &package_summary,
                     &exit_expectation,
+                ),
+            )
+            .with_context(|| {
+                format!(
+                    "write {}",
+                    proposal_root.join("proposal.yml").display()
+                )
+            })?;
+            fs::write(
+                proposal_root.join("design-proposal.yml"),
+                build_design_proposal_manifest(
+                    &options,
                     &selected_modules,
                     if include_conformance {
                         Some(conformance_validator_path.as_str())
@@ -675,47 +765,49 @@ pub fn run_create_design_package_from_harmony_dir(
             .with_context(|| {
                 format!(
                     "write {}",
-                    package_root.join("design-package.yml").display()
+                    proposal_root.join("design-proposal.yml").display()
                 )
             })?;
             fs::write(
-                package_root.join("navigation/source-of-truth-map.md"),
+                proposal_root.join("navigation/source-of-truth-map.md"),
                 build_source_of_truth_map(&options, &selected_modules),
             )
             .with_context(|| {
                 format!(
                     "write {}",
-                    package_root
+                    proposal_root
                         .join("navigation/source-of-truth-map.md")
                         .display()
                 )
             })?;
             fs::write(
-                package_root.join("navigation/artifact-catalog.md"),
-                build_artifact_catalog(&package_root, &options.package_id, &package_rel)?,
+                proposal_root.join("navigation/artifact-catalog.md"),
+                build_artifact_catalog(&proposal_root, &options.package_id, &proposal_rel)?,
             )
             .with_context(|| {
                 format!(
                     "write {}",
-                    package_root
+                    proposal_root
                         .join("navigation/artifact-catalog.md")
                         .display()
                 )
             })?;
-            upsert_design_package_registry(
+            upsert_proposal_registry(
                 &repo_root,
                 &options.package_id,
-                &package_rel,
+                "design",
+                options.promotion_scope.as_str(),
+                &proposal_rel,
                 options.package_title.trim(),
-                options.package_class.as_str(),
                 &options.implementation_targets,
+                "draft",
             )?;
             registry_synced = true;
             Ok(())
         })();
 
         if let Err(error) = scaffold_result {
-            let class = if error.to_string().contains(".design-packages/registry.yml") {
+            let class = if error.to_string().contains(".proposals/registry.yml") {
                 CreateDesignPackageFailureClass::RegistryUpdate
             } else {
                 CreateDesignPackageFailureClass::Scaffold
@@ -729,23 +821,23 @@ pub fn run_create_design_package_from_harmony_dir(
         write_create_stage_log(
             &bundle_root,
             "03",
-            "scaffold-package",
+            "scaffold-proposal",
             if failure.is_some() { "failed" } else { "passed" },
             &format!(
-                "- package_root: `{}`\n- registry_synced: `{}`\n",
-                package_root.display(),
+                "- proposal_root: `{}`\n- registry_synced: `{}`\n",
+                proposal_root.display(),
                 registry_synced
             ),
         )?;
         command_log.push(format!(
-            "- stage scaffold-package | status={} | input={} | package_root={}",
+            "- stage scaffold-proposal | status={} | input={} | proposal_root={}",
             if failure.is_some() { "failed" } else { "passed" },
             rel_path(&repo_root, &stage03_input),
-            package_root.display()
+            proposal_root.display()
         ));
     }
 
-    write_create_inventory(&bundle_root, &package_root)?;
+    write_create_inventory(&bundle_root, &proposal_root)?;
 
     if failure.is_none() {
         let stage04_input = write_create_stage_input(
@@ -753,23 +845,24 @@ pub fn run_create_design_package_from_harmony_dir(
             "04",
             "validate-package",
             &format!(
-                "# Validate Package\n\n- package_path: `{}`\n- validator: `bash .harmony/assurance/runtime/_ops/scripts/validate-design-package-standard.sh --package {}`\n",
-                package_root.display(),
-                package_rel
+                "# Validate Proposal\n\n- proposal_path: `{}`\n- validators:\n  - `bash .harmony/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package {}`\n  - `bash .harmony/assurance/runtime/_ops/scripts/validate-design-proposal.sh --package {}`\n",
+                proposal_root.display(),
+                proposal_rel,
+                proposal_rel
             ),
         )?;
-        match run_standard_design_package_validator(&repo_root, &package_root, &bundle_root) {
+        match run_design_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root) {
             Ok(log_path) => {
                 validator_log = Some(log_path.clone());
                 write_create_stage_log(
                     &bundle_root,
                     "04",
-                    "validate-package",
+                    "validate-proposal",
                     "passed",
                     &format!("- validator_log: `{}`\n", rel_path(&repo_root, &log_path)),
                 )?;
                 command_log.push(format!(
-                    "- stage validate-package | status=passed | input={} | validator_log={}",
+                    "- stage validate-proposal | status=passed | input={} | validator_log={}",
                     rel_path(&repo_root, &stage04_input),
                     rel_path(&repo_root, &log_path)
                 ));
@@ -777,18 +870,18 @@ pub fn run_create_design_package_from_harmony_dir(
             Err(error) => {
                 failure = Some(CreateDesignPackageFailure {
                     class: CreateDesignPackageFailureClass::StandardValidator,
-                    failed_stage: "validate-package",
+                    failed_stage: "validate-proposal",
                     message: error.to_string(),
                 });
                 write_create_stage_log(
                     &bundle_root,
                     "04",
-                    "validate-package",
+                    "validate-proposal",
                     "failed",
                     &format!("- error: `{}`\n", error),
                 )?;
                 command_log.push(format!(
-                    "- stage validate-package | status=failed | input={}",
+                    "- stage validate-proposal | status=failed | input={}",
                     rel_path(&repo_root, &stage04_input)
                 ));
             }
@@ -833,7 +926,7 @@ pub fn run_create_design_package_from_harmony_dir(
     write_create_commands_log(&bundle_root, &command_log)?;
     let summary = build_create_design_package_summary(
         &repo_root,
-        &package_root,
+        &proposal_root,
         &bundle_root,
         &summary_report,
         &options,
@@ -858,7 +951,7 @@ pub fn run_create_design_package_from_harmony_dir(
     )?;
     write_create_validation(
         &bundle_root,
-        &package_root,
+        &proposal_root,
         final_verdict,
         failure.as_ref(),
         validator_log.as_deref(),
@@ -879,6 +972,195 @@ pub fn run_create_design_package_from_harmony_dir(
         bundle_root,
         summary_report,
         final_verdict: final_verdict.to_string(),
+    })
+}
+
+pub fn run_create_static_proposal_from_harmony_dir(
+    harmony_dir: &Path,
+    kind: StaticProposalKind,
+    options: RunCreateStaticProposalOptions,
+) -> Result<RunCreateStaticProposalResult> {
+    let repo_root = harmony_dir
+        .parent()
+        .context("failed to resolve repository root from .harmony directory")?
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+
+    let proposals_root = repo_root.join(PROPOSALS_ROOT_REL).join(kind.as_str());
+    fs::create_dir_all(&proposals_root)?;
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    fs::create_dir_all(&reports_root)?;
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    fs::create_dir_all(&workflow_bundles_root)?;
+
+    let date = today_string()?;
+    let bundle_root = unique_directory(
+        &workflow_bundles_root,
+        &format!("{date}-create-{}-proposal-{}", kind.as_str(), slugify(&options.proposal_id)),
+    )?;
+    fs::create_dir_all(bundle_root.join("reports"))?;
+    fs::create_dir_all(bundle_root.join("stage-inputs"))?;
+    fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let summary_report = unique_file(
+        &reports_root,
+        &format!("{date}-create-{}-proposal", kind.as_str()),
+        "md",
+    )?;
+
+    let proposal_root = proposals_root.join(&options.proposal_id);
+    if proposal_root.exists() {
+        bail!("target proposal already exists: {}", proposal_root.display());
+    }
+    if options.proposal_title.trim().is_empty() {
+        bail!("proposal_title must not be empty");
+    }
+    if options.promotion_targets.is_empty() {
+        bail!("promotion_targets must contain at least one target path");
+    }
+
+    let exit_expectation = format!(
+        "Promote durable outputs into {} and remove this proposal after implementation lands.",
+        options.promotion_targets.join(", ")
+    );
+    let replacements = build_static_proposal_replacements(kind, &options, &exit_expectation);
+    let template_root = repo_root.join(DESIGN_PACKAGE_TEMPLATE_ROOT_REL);
+
+    fs::create_dir_all(&proposal_root)?;
+    apply_template_bundle(&template_root.join("proposal-core"), &proposal_root, &replacements)?;
+    apply_template_bundle(
+        &template_root.join(format!("proposal-{}-core", kind.as_str())),
+        &proposal_root,
+        &replacements,
+    )?;
+
+    upsert_proposal_registry(
+        &repo_root,
+        &options.proposal_id,
+        kind.as_str(),
+        options.promotion_scope.as_str(),
+        &rel_path(&repo_root, &proposal_root),
+        options.proposal_title.trim(),
+        &options.promotion_targets,
+        "draft",
+    )?;
+
+    let validator_log =
+        run_static_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, kind)?;
+    write_create_inventory(&bundle_root, &proposal_root)?;
+    write_create_commands_log(
+        &bundle_root,
+        &[format!(
+            "- create {} proposal | proposal_root={} | validator_log={}",
+            kind.as_str(),
+            rel_path(&repo_root, &proposal_root),
+            rel_path(&repo_root, &validator_log)
+        )],
+    )?;
+    let summary = build_static_create_summary(
+        &repo_root,
+        &proposal_root,
+        &bundle_root,
+        &summary_report,
+        kind,
+        &options,
+        &validator_log,
+    );
+    fs::write(bundle_root.join("summary.md"), &summary)?;
+    fs::write(&summary_report, summary)?;
+    write_create_validation(
+        &bundle_root,
+        &proposal_root,
+        "scaffolded",
+        None,
+        Some(&validator_log),
+        true,
+        &[format!("kind: `{}`", kind.as_str())],
+    )?;
+    write_static_create_bundle_metadata(
+        &repo_root,
+        &bundle_root,
+        &summary_report,
+        kind,
+        &options,
+        "scaffolded",
+    )?;
+
+    Ok(RunCreateStaticProposalResult {
+        bundle_root,
+        summary_report,
+        final_verdict: "scaffolded".to_string(),
+    })
+}
+
+pub fn run_audit_static_proposal_from_harmony_dir(
+    harmony_dir: &Path,
+    kind: StaticProposalKind,
+    options: RunAuditStaticProposalOptions,
+) -> Result<RunAuditStaticProposalResult> {
+    let repo_root = harmony_dir
+        .parent()
+        .context("failed to resolve repository root from .harmony directory")?
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+    let proposal_root = resolve_repo_relative_path(&repo_root, &options.proposal_path)?;
+    if !proposal_root.is_dir() {
+        bail!("target proposal not found: {}", proposal_root.display());
+    }
+
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    fs::create_dir_all(&reports_root)?;
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    fs::create_dir_all(&workflow_bundles_root)?;
+    let date = today_string()?;
+    let bundle_root = unique_directory(
+        &workflow_bundles_root,
+        &format!("{date}-audit-{}-proposal-{}", kind.as_str(), slugify(&rel_path(&repo_root, &proposal_root))),
+    )?;
+    fs::create_dir_all(bundle_root.join("reports"))?;
+    fs::create_dir_all(bundle_root.join("stage-inputs"))?;
+    fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let summary_report = unique_file(
+        &reports_root,
+        &format!("{date}-audit-{}-proposal", kind.as_str()),
+        "md",
+    )?;
+
+    let validator_log =
+        run_static_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, kind)?;
+    write_create_inventory(&bundle_root, &proposal_root)?;
+    write_create_commands_log(
+        &bundle_root,
+        &[format!(
+            "- audit {} proposal | proposal_root={} | validator_log={}",
+            kind.as_str(),
+            rel_path(&repo_root, &proposal_root),
+            rel_path(&repo_root, &validator_log)
+        )],
+    )?;
+    let summary = format!(
+        "# Audit {} Proposal Summary\n\n- workflow_id: `audit-{}-proposal`\n- proposal_path: `{}`\n- final_verdict: `validated`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n",
+        kind.as_str(),
+        kind.as_str(),
+        rel_path(&repo_root, &proposal_root),
+        rel_path(&repo_root, &bundle_root),
+        rel_path(&repo_root, &summary_report),
+        rel_path(&repo_root, &validator_log)
+    );
+    fs::write(bundle_root.join("summary.md"), &summary)?;
+    fs::write(&summary_report, summary)?;
+    write_static_audit_validation(&bundle_root, kind, &validator_log)?;
+    write_static_audit_bundle_metadata(
+        &repo_root,
+        &bundle_root,
+        &summary_report,
+        kind,
+        &proposal_root,
+    )?;
+
+    Ok(RunAuditStaticProposalResult {
+        bundle_root,
+        summary_report,
+        final_verdict: "validated".to_string(),
     })
 }
 
@@ -935,7 +1217,7 @@ impl Runner {
         fs::create_dir_all(&stage_logs_dir)?;
 
         let summary_report =
-            unique_file(&reports_root, &format!("{date}-audit-design-package"), "md")?;
+            unique_file(&reports_root, &format!("{date}-audit-design-proposal"), "md")?;
 
         let stages = match options.mode {
             PipelineMode::Rigorous => RIGOROUS_STAGES,
@@ -1036,7 +1318,7 @@ impl Runner {
                         .push("prepare-only mode skipped the standard validator".to_string());
                 } else {
                     validation_notes.push(
-                        "target package has no design-package.yml; standard validator skipped"
+                        "target package has no design-proposal.yml; standard validator skipped"
                             .to_string(),
                     );
                 }
@@ -1086,7 +1368,7 @@ impl Runner {
     }
 
     fn validate_standard_governed_target(&self) -> Result<Option<PathBuf>> {
-        if self.options.prepare_only || !self.target_package.join("design-package.yml").is_file() {
+        if self.options.prepare_only || !self.target_package.join("design-proposal.yml").is_file() {
             return Ok(None);
         }
 
@@ -1713,7 +1995,7 @@ impl Runner {
                 ));
             }
         }
-        if self.target_package.join("design-package.yml").is_file() {
+        if self.target_package.join("design-proposal.yml").is_file() {
             body.push_str(&format!(
                 "- [{}] standard design-package validator passed\n",
                 if self.options.prepare_only
@@ -2160,32 +2442,40 @@ fn build_design_package_replacements(
     options: &RunCreateDesignPackageOptions,
     package_summary: &str,
     exit_expectation: &str,
-    package_rel: &str,
+    _package_rel: &str,
     selected_modules: &[&str],
     conformance_validator_path: &str,
 ) -> BTreeMap<String, String> {
     let mut replacements = BTreeMap::new();
     replacements.insert("PACKAGE_ID".to_string(), options.package_id.clone());
     replacements.insert(
-        "PACKAGE_TITLE".to_string(),
+        "PROPOSAL_TITLE".to_string(),
         options.package_title.trim().to_string(),
     );
-    replacements.insert("PACKAGE_SUMMARY".to_string(), package_summary.to_string());
+    replacements.insert("PROPOSAL_ID".to_string(), options.package_id.clone());
+    replacements.insert("PROPOSAL_SUMMARY".to_string(), package_summary.to_string());
     replacements.insert(
-        "PACKAGE_CLASS".to_string(),
+        "PROPOSAL_KIND".to_string(),
+        "design".to_string(),
+    );
+    replacements.insert(
+        "DESIGN_CLASS".to_string(),
         options.package_class.as_str().to_string(),
     );
-    replacements.insert("PACKAGE_PATH".to_string(), package_rel.to_string());
+    replacements.insert(
+        "PROMOTION_SCOPE".to_string(),
+        options.promotion_scope.as_str().to_string(),
+    );
     replacements.insert(
         "SELECTED_MODULES_YAML".to_string(),
         format_yaml_list(selected_modules.iter().copied()),
     );
     replacements.insert(
-        "IMPLEMENTATION_TARGETS_YAML".to_string(),
+        "PROMOTION_TARGETS_YAML".to_string(),
         format_yaml_list(options.implementation_targets.iter().map(String::as_str)),
     );
     replacements.insert(
-        "IMPLEMENTATION_TARGETS_BULLETS".to_string(),
+        "PROMOTION_TARGETS_BULLETS".to_string(),
         format_markdown_bullets(options.implementation_targets.iter().map(String::as_str)),
     );
     replacements.insert(
@@ -2193,8 +2483,10 @@ fn build_design_package_replacements(
         format_markdown_bullets(selected_modules.iter().copied()),
     );
     replacements.insert("EXIT_EXPECTATION".to_string(), exit_expectation.to_string());
+    replacements.insert("PROPOSAL_STATUS".to_string(), "draft".to_string());
+    replacements.insert("RELATED_PROPOSALS_YAML".to_string(), "  []\n".to_string());
     replacements.insert("DEFAULT_AUDIT_MODE".to_string(), "rigorous".to_string());
-    replacements.insert("PACKAGE_VALIDATOR_PATH".to_string(), "null".to_string());
+    replacements.insert("DESIGN_VALIDATOR_PATH".to_string(), "null".to_string());
     replacements.insert(
         "CONFORMANCE_VALIDATOR_PATH".to_string(),
         if conformance_validator_path == "null" {
@@ -2248,22 +2540,31 @@ fn build_optional_module_docs(selected_modules: &[&str]) -> String {
     format_markdown_bullets(docs.iter().map(String::as_str))
 }
 
-fn build_design_package_manifest(
+fn build_proposal_manifest(
     options: &RunCreateDesignPackageOptions,
     package_summary: &str,
     exit_expectation: &str,
+) -> String {
+    format!(
+        "schema_version: \"proposal-v1\"\nproposal_id: \"{}\"\ntitle: \"{}\"\nsummary: \"{}\"\nproposal_kind: \"design\"\npromotion_scope: \"{}\"\npromotion_targets:\n{}status: \"draft\"\nlifecycle:\n  temporary: true\n  exit_expectation: \"{}\"\nrelated_proposals: []\n",
+        options.package_id,
+        options.package_title.trim().replace('"', "\\\""),
+        package_summary.replace('"', "\\\""),
+        options.promotion_scope.as_str(),
+        format_yaml_list(options.implementation_targets.iter().map(String::as_str)),
+        exit_expectation.replace('"', "\\\""),
+    )
+}
+
+fn build_design_proposal_manifest(
+    options: &RunCreateDesignPackageOptions,
     selected_modules: &[&str],
     conformance_validator_path: Option<&str>,
 ) -> String {
     format!(
-        "schema_version: \"design-package-v1\"\npackage_id: \"{}\"\ntitle: \"{}\"\nsummary: \"{}\"\npackage_class: \"{}\"\nselected_modules:\n{}implementation_targets:\n{}status: \"draft\"\nlifecycle:\n  temporary: true\n  exit_expectation: \"{}\"\nvalidation:\n  default_audit_mode: \"rigorous\"\n  package_validator_path: null\n  conformance_validator_path: {}\n",
-        options.package_id,
-        options.package_title.trim().replace('"', "\\\""),
-        package_summary.replace('"', "\\\""),
+        "schema_version: \"design-proposal-v1\"\ndesign_class: \"{}\"\nselected_modules:\n{}validation:\n  default_audit_mode: \"rigorous\"\n  design_validator_path: null\n  conformance_validator_path: {}\n",
         options.package_class.as_str(),
         format_yaml_list(selected_modules.iter().copied()),
-        format_yaml_list(options.implementation_targets.iter().map(String::as_str)),
-        exit_expectation.replace('"', "\\\""),
         conformance_validator_path
             .map(|path| format!("\"{}\"", path.replace('"', "\\\"")))
             .unwrap_or_else(|| "null".to_string())
@@ -2290,7 +2591,7 @@ fn build_source_of_truth_map(
     };
     let optional_docs = build_optional_module_docs(selected_modules);
     format!(
-        "# Package Reading And Precedence Map\n\n## Purpose\n\nThis file defines the package-local reading order and document precedence for implementers using this temporary design package. It does not make the package a canonical repository authority.\n\n## External Authorities\n\nRepository-wide governance and durable runtime/documentation surfaces remain higher-precedence than this temporary package.\n\n## Primary Package Inputs\n\n### Core\n\n- `design-package.yml`\n- `implementation/README.md`\n- `implementation/minimal-implementation-blueprint.md`\n- `implementation/first-implementation-plan.md`\n\n### Class-Specific Normative Docs\n\n{}\n\n### Optional Modules\n\n{}\n\n## Conflict Resolution\n\n1. repository-wide governance and durable authorities\n2. `design-package.yml`\n3. class-specific normative docs\n4. optional module docs\n5. reference and history material\n",
+        "# Proposal Reading And Precedence Map\n\n## Purpose\n\nThis file defines the proposal-local reading order and document precedence for implementers using this temporary design proposal. It does not make the proposal a canonical repository authority.\n\n## External Authorities\n\nRepository-wide governance and durable runtime/documentation surfaces remain higher-precedence than this temporary proposal.\n\n## Primary Proposal Inputs\n\n### Core\n\n- `proposal.yml`\n- `design-proposal.yml`\n- `implementation/README.md`\n- `implementation/minimal-implementation-blueprint.md`\n- `implementation/first-implementation-plan.md`\n\n### Class-Specific Normative Docs\n\n{}\n\n### Optional Modules\n\n{}\n\n## Conflict Resolution\n\n1. repository-wide governance and durable authorities\n2. `proposal.yml`\n3. `design-proposal.yml`\n4. class-specific normative docs\n5. optional module docs\n6. reference and history material\n",
         primary_docs, optional_docs
     )
 }
@@ -2307,7 +2608,7 @@ fn build_artifact_catalog(
         format_markdown_bullets(inventory.keys().map(String::as_str))
     };
     Ok(format!(
-        "# Artifact Catalog\n\nThis catalog lists the files currently present in the package. Regenerate it whenever files are added, removed, or reorganized.\n\n## Package\n\n- `package_id`: `{}`\n- `package_path`: `{}`\n\n## Files\n\n{}\n",
+        "# Artifact Catalog\n\nThis catalog lists the files currently present in the proposal. Regenerate it whenever files are added, removed, or reorganized.\n\n## Proposal\n\n- `proposal_id`: `{}`\n- `proposal_path`: `{}`\n\n## Files\n\n{}\n",
         package_id, package_rel, entries
     ))
 }
@@ -2394,43 +2695,7 @@ fn run_standard_design_package_validator(
     package_root: &Path,
     bundle_root: &Path,
 ) -> Result<PathBuf> {
-    let script = repo_root.join(STANDARD_DESIGN_PACKAGE_VALIDATOR_REL);
-    if !script.is_file() {
-        bail!(
-            "missing standard design-package validator: {}",
-            script.display()
-        );
-    }
-
-    let package_rel = rel_path(repo_root, package_root);
-    let output = Command::new("bash")
-        .arg(&script)
-        .arg("--package")
-        .arg(&package_rel)
-        .current_dir(repo_root)
-        .output()
-        .with_context(|| format!("run standard validator for {}", package_root.display()))?;
-
-    let log_path = bundle_root.join("standard-validator.log");
-    let mut log = String::new();
-    log.push_str(&format!(
-        "# Standard Design Package Validator\n\n- package: `{}`\n- status: `{}`\n\n## stdout\n\n```\n{}\n```\n\n## stderr\n\n```\n{}\n```\n",
-        package_rel,
-        output.status,
-        String::from_utf8_lossy(&output.stdout),
-        String::from_utf8_lossy(&output.stderr)
-    ));
-    fs::write(&log_path, log).with_context(|| format!("write {}", log_path.display()))?;
-
-    if !output.status.success() {
-        bail!(
-            "standard design-package validator failed for {} (see {})",
-            package_rel,
-            log_path.display()
-        );
-    }
-
-    Ok(log_path)
+    run_design_proposal_validator_stack(repo_root, package_root, bundle_root)
 }
 
 fn build_create_design_package_summary(
@@ -2448,7 +2713,7 @@ fn build_create_design_package_summary(
     let mut body = String::new();
     body.push_str("# Create Design Package Summary\n\n");
     body.push_str(&format!(
-        "- workflow_id: `create-design-package`\n- package_path: `{}`\n- package_class: `{}`\n- final_verdict: `{}`\n- bundle_root: `{}`\n- summary_report: `{}`\n",
+        "- workflow_id: `create-design-proposal`\n- package_path: `{}`\n- package_class: `{}`\n- final_verdict: `{}`\n- bundle_root: `{}`\n- summary_report: `{}`\n",
         rel_path(repo_root, package_root),
         options.package_class.as_str(),
         final_verdict,
@@ -2486,54 +2751,65 @@ fn build_create_design_package_summary(
     body.push_str("\n## Next Steps\n\n");
     if final_verdict == "scaffolded" {
         body.push_str(&format!(
-            "1. Fill in the package-specific normative and implementation details.\n2. Run `/audit-design-package package_path=\"{}\"` to mature the package.\n3. Promote durable outputs into the listed implementation targets before archiving the package.\n",
+            "1. Fill in the proposal-specific normative and implementation details.\n2. Run `/audit-design-proposal proposal_path=\"{}\"` to mature the proposal.\n3. Promote durable outputs into the listed implementation targets before archiving the proposal.\n",
             rel_path(repo_root, package_root),
         ));
     } else {
         body.push_str(
-            "1. Inspect `validation.md`, `commands.md`, and any stage logs in the workflow bundle.\n2. Fix the recorded failure cause.\n3. Re-run `/create-design-package` with the same request after the failure is resolved.\n",
+            "1. Inspect `validation.md`, `commands.md`, and any stage logs in the workflow bundle.\n2. Fix the recorded failure cause.\n3. Re-run `/create-design-proposal` with the same request after the failure is resolved.\n",
         );
     }
     body
 }
 
-fn upsert_design_package_registry(
+fn upsert_proposal_registry(
     repo_root: &Path,
-    package_id: &str,
-    package_rel: &str,
-    package_title: &str,
-    package_class: &str,
-    implementation_targets: &[String],
+    proposal_id: &str,
+    proposal_kind: &str,
+    proposal_scope: &str,
+    proposal_rel: &str,
+    proposal_title: &str,
+    promotion_targets: &[String],
+    status: &str,
 ) -> Result<()> {
-    let registry_path = repo_root.join(".design-packages/registry.yml");
+    let registry_path = repo_root.join(".proposals/registry.yml");
     let mut registry = if registry_path.is_file() {
         let contents = fs::read_to_string(&registry_path)
             .with_context(|| format!("read {}", registry_path.display()))?;
-        serde_yaml::from_str::<DesignPackageRegistry>(&contents)
+        serde_yaml::from_str::<ProposalRegistry>(&contents)
             .with_context(|| format!("parse {}", registry_path.display()))?
     } else {
-        DesignPackageRegistry {
-            schema_version: "design-package-registry-v1".to_string(),
+        ProposalRegistry {
+            schema_version: "proposal-registry-v1".to_string(),
             active: Vec::new(),
             archived: Vec::new(),
         }
     };
 
     if registry.schema_version.is_empty() {
-        registry.schema_version = "design-package-registry-v1".to_string();
+        registry.schema_version = "proposal-registry-v1".to_string();
     }
 
-    registry.active.retain(|entry| entry.id != package_id);
-    registry.archived.retain(|entry| entry.id != package_id);
-    registry.active.push(ActiveRegistryEntry {
-        id: package_id.to_string(),
-        path: package_rel.to_string(),
-        title: package_title.to_string(),
-        package_class: package_class.to_string(),
-        status: "draft".to_string(),
-        implementation_targets: implementation_targets.to_vec(),
+    registry
+        .active
+        .retain(|entry| !(entry.id == proposal_id && entry.kind == proposal_kind));
+    registry
+        .archived
+        .retain(|entry| !(entry.id == proposal_id && entry.kind == proposal_kind));
+    registry.active.push(ProposalActiveRegistryEntry {
+        id: proposal_id.to_string(),
+        kind: proposal_kind.to_string(),
+        scope: proposal_scope.to_string(),
+        path: proposal_rel.to_string(),
+        title: proposal_title.to_string(),
+        status: status.to_string(),
+        promotion_targets: promotion_targets.to_vec(),
     });
-    registry.active.sort_by(|left, right| left.id.cmp(&right.id));
+    registry.active.sort_by(|left, right| {
+        left.kind
+            .cmp(&right.kind)
+            .then_with(|| left.id.cmp(&right.id))
+    });
 
     let yaml = serde_yaml::to_string(&registry)?;
     if let Some(parent) = registry_path.parent() {
@@ -2581,9 +2857,9 @@ fn write_create_inventory(bundle_root: &Path, package_root: &Path) -> Result<()>
     let body = if package_root.is_dir() {
         let inventory = snapshot_package(package_root)?;
         let mut body = String::new();
-        body.push_str("# Scaffolded Package Inventory\n\n");
+        body.push_str("# Scaffolded Proposal Inventory\n\n");
         body.push_str(&format!(
-            "- package_path: `{}`\n- file_count: `{}`\n\n",
+            "- proposal_path: `{}`\n- file_count: `{}`\n\n",
             package_root.display(),
             inventory.len()
         ));
@@ -2592,7 +2868,7 @@ fn write_create_inventory(bundle_root: &Path, package_root: &Path) -> Result<()>
         }
         body
     } else {
-        "# Scaffolded Package Inventory\n\n- package_path: `not-created`\n- file_count: `0`\n"
+        "# Scaffolded Proposal Inventory\n\n- proposal_path: `not-created`\n- file_count: `0`\n"
             .to_string()
     };
     fs::write(&path, body).with_context(|| format!("write {}", path.display()))
@@ -2632,19 +2908,24 @@ fn write_create_validation(
     }
     body.push_str("\n## Checks\n\n");
     body.push_str(&format!(
-        "- [{}] scaffolded package directory exists under `.design-packages/`\n",
+        "- [{}] scaffolded proposal directory exists under `/.proposals/`\n",
         if package_root.is_dir() { "x" } else { " " }
     ));
     body.push_str(&format!(
-        "- [{}] `design-package.yml` is present\n",
-        if package_root.join("design-package.yml").is_file() {
+        "- [{}] `proposal.yml` and subtype manifest are present\n",
+        if package_root.join("proposal.yml").is_file()
+            && (package_root.join("design-proposal.yml").is_file()
+                || package_root.join("migration-proposal.yml").is_file()
+                || package_root.join("policy-proposal.yml").is_file()
+                || package_root.join("architecture-proposal.yml").is_file())
+        {
             "x"
         } else {
             " "
         }
     ));
     body.push_str(&format!(
-        "- [{}] `registry.yml` includes the scaffolded package\n",
+        "- [{}] `registry.yml` includes the scaffolded proposal\n",
         if registry_synced { "x" } else { " " }
     ));
     body.push_str(&format!(
@@ -2703,7 +2984,7 @@ fn write_create_bundle_metadata(
             .and_then(|value| value.to_str())
             .unwrap_or("workflow-bundle")
             .to_string(),
-        workflow_id: "create-design-package".to_string(),
+        workflow_id: "create-design-proposal".to_string(),
         package_id: options.package_id.clone(),
         package_class: options.package_class.as_str().to_string(),
         started_at: started_at.to_string(),
@@ -2723,6 +3004,237 @@ fn write_create_bundle_metadata(
     let yaml = serde_yaml::to_string(&metadata)?;
     fs::write(bundle_root.join("bundle.yml"), yaml)
         .with_context(|| format!("write {}", bundle_root.join("bundle.yml").display()))
+}
+
+fn run_design_proposal_validator_stack(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+) -> Result<PathBuf> {
+    run_validator_stack(
+        repo_root,
+        proposal_root,
+        bundle_root,
+        &[
+            ".harmony/assurance/runtime/_ops/scripts/validate-proposal-standard.sh",
+            STANDARD_DESIGN_PACKAGE_VALIDATOR_REL,
+        ],
+    )
+}
+
+fn run_static_proposal_validator_stack(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+    kind: StaticProposalKind,
+) -> Result<PathBuf> {
+    run_validator_stack(
+        repo_root,
+        proposal_root,
+        bundle_root,
+        &[
+            ".harmony/assurance/runtime/_ops/scripts/validate-proposal-standard.sh",
+            kind.validator_rel(),
+        ],
+    )
+}
+
+fn run_validator_stack(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+    validators: &[&str],
+) -> Result<PathBuf> {
+    let proposal_rel = rel_path(repo_root, proposal_root);
+    let log_path = bundle_root.join("standard-validator.log");
+    let mut log = String::from("# Proposal Validator Stack\n\n");
+
+    for validator_rel in validators {
+        let script = repo_root.join(validator_rel);
+        if !script.is_file() {
+            bail!("missing proposal validator: {}", script.display());
+        }
+        let output = Command::new("bash")
+            .arg(&script)
+            .arg("--package")
+            .arg(&proposal_rel)
+            .current_dir(repo_root)
+            .output()
+            .with_context(|| format!("run validator {} for {}", validator_rel, proposal_root.display()))?;
+        log.push_str(&format!(
+            "## `{}`\n\n- proposal: `{}`\n- status: `{}`\n\n### stdout\n\n```\n{}\n```\n\n### stderr\n\n```\n{}\n```\n\n",
+            validator_rel,
+            proposal_rel,
+            output.status,
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr),
+        ));
+        if !output.status.success() {
+            fs::write(&log_path, &log)?;
+            bail!(
+                "proposal validator failed for {} via {} (see {})",
+                proposal_rel,
+                validator_rel,
+                log_path.display()
+            );
+        }
+    }
+
+    fs::write(&log_path, log)?;
+    Ok(log_path)
+}
+
+fn build_static_proposal_replacements(
+    kind: StaticProposalKind,
+    options: &RunCreateStaticProposalOptions,
+    exit_expectation: &str,
+) -> BTreeMap<String, String> {
+    let mut replacements = BTreeMap::new();
+    replacements.insert("PROPOSAL_ID".to_string(), options.proposal_id.clone());
+    replacements.insert("PROPOSAL_TITLE".to_string(), options.proposal_title.trim().to_string());
+    replacements.insert(
+        "PROPOSAL_SUMMARY".to_string(),
+        format!("Temporary implementation-scoped {} proposal.", kind.as_str()),
+    );
+    replacements.insert("PROPOSAL_KIND".to_string(), kind.as_str().to_string());
+    replacements.insert(
+        "PROMOTION_SCOPE".to_string(),
+        options.promotion_scope.as_str().to_string(),
+    );
+    replacements.insert(
+        "PROMOTION_TARGETS_YAML".to_string(),
+        format_yaml_list(options.promotion_targets.iter().map(String::as_str)),
+    );
+    replacements.insert(
+        "PROMOTION_TARGETS_BULLETS".to_string(),
+        format_markdown_bullets(options.promotion_targets.iter().map(String::as_str)),
+    );
+    replacements.insert("EXIT_EXPECTATION".to_string(), exit_expectation.to_string());
+    replacements.insert("PROPOSAL_STATUS".to_string(), "draft".to_string());
+    replacements.insert("RELATED_PROPOSALS_YAML".to_string(), "  []\n".to_string());
+    replacements
+}
+
+fn build_static_create_summary(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+    summary_report: &Path,
+    kind: StaticProposalKind,
+    options: &RunCreateStaticProposalOptions,
+    validator_log: &Path,
+) -> String {
+    format!(
+        "# Create {} Proposal Summary\n\n- workflow_id: `create-{}-proposal`\n- proposal_path: `{}`\n- promotion_scope: `{}`\n- final_verdict: `scaffolded`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n",
+        kind.as_str(),
+        kind.as_str(),
+        rel_path(repo_root, proposal_root),
+        options.promotion_scope.as_str(),
+        rel_path(repo_root, bundle_root),
+        rel_path(repo_root, summary_report),
+        rel_path(repo_root, validator_log),
+    )
+}
+
+fn write_static_create_bundle_metadata(
+    repo_root: &Path,
+    bundle_root: &Path,
+    summary_report: &Path,
+    kind: StaticProposalKind,
+    options: &RunCreateStaticProposalOptions,
+    final_verdict: &str,
+) -> Result<()> {
+    let metadata = BundleMetadata {
+        kind: "workflow-execution-bundle".to_string(),
+        id: bundle_root.file_name().and_then(|v| v.to_str()).unwrap_or("workflow-bundle").to_string(),
+        workflow_id: format!("create-{}-proposal", kind.as_str()),
+        package_path: options.proposal_id.clone(),
+        mode: "n/a".to_string(),
+        executor: "n/a".to_string(),
+        prepare_only: false,
+        slug: kind.as_str().to_string(),
+        started_at: now_rfc3339()?,
+        completed_at: now_rfc3339()?,
+        summary: "summary.md".to_string(),
+        reports_dir: "reports".to_string(),
+        stage_inputs_dir: "stage-inputs".to_string(),
+        stage_logs_dir: "stage-logs".to_string(),
+        selected_stages: vec![
+            "validate-request".to_string(),
+            "scaffold-proposal".to_string(),
+            "validate-proposal".to_string(),
+            "report".to_string(),
+        ],
+        report_paths: BTreeMap::new(),
+        changed_files: BTreeMap::new(),
+        plan: "plan.md".to_string(),
+        inventory: "inventory.md".to_string(),
+        commands: "commands.md".to_string(),
+        validation: "validation.md".to_string(),
+        summary_report: rel_path(repo_root, summary_report),
+        final_verdict: final_verdict.to_string(),
+        failure_class: None,
+        failed_stage: None,
+    };
+    fs::write(bundle_root.join("bundle.yml"), serde_yaml::to_string(&metadata)?)?;
+    Ok(())
+}
+
+fn write_static_audit_validation(
+    bundle_root: &Path,
+    kind: StaticProposalKind,
+    validator_log: &Path,
+) -> Result<()> {
+    let body = format!(
+        "# Validation\n\n- final_verdict: `validated`\n- proposal_kind: `{}`\n- validator_log: `{}`\n",
+        kind.as_str(),
+        validator_log.display()
+    );
+    fs::write(bundle_root.join("validation.md"), body)?;
+    Ok(())
+}
+
+fn write_static_audit_bundle_metadata(
+    repo_root: &Path,
+    bundle_root: &Path,
+    summary_report: &Path,
+    kind: StaticProposalKind,
+    proposal_root: &Path,
+) -> Result<()> {
+    let metadata = BundleMetadata {
+        kind: "workflow-execution-bundle".to_string(),
+        id: bundle_root.file_name().and_then(|v| v.to_str()).unwrap_or("workflow-bundle").to_string(),
+        workflow_id: format!("audit-{}-proposal", kind.as_str()),
+        package_path: rel_path(repo_root, proposal_root),
+        mode: "n/a".to_string(),
+        executor: "n/a".to_string(),
+        prepare_only: false,
+        slug: kind.as_str().to_string(),
+        started_at: now_rfc3339()?,
+        completed_at: now_rfc3339()?,
+        summary: "summary.md".to_string(),
+        reports_dir: "reports".to_string(),
+        stage_inputs_dir: "stage-inputs".to_string(),
+        stage_logs_dir: "stage-logs".to_string(),
+        selected_stages: vec![
+            "configure".to_string(),
+            "proposal-audit".to_string(),
+            "report".to_string(),
+            "verify".to_string(),
+        ],
+        report_paths: BTreeMap::new(),
+        changed_files: BTreeMap::new(),
+        plan: "plan.md".to_string(),
+        inventory: "inventory.md".to_string(),
+        commands: "commands.md".to_string(),
+        validation: "validation.md".to_string(),
+        summary_report: rel_path(repo_root, summary_report),
+        final_verdict: "validated".to_string(),
+        failure_class: None,
+        failed_stage: None,
+    };
+    fs::write(bundle_root.join("bundle.yml"), serde_yaml::to_string(&metadata)?)?;
+    Ok(())
 }
 
 fn today_string() -> Result<String> {
@@ -2897,12 +3409,12 @@ mod tests {
         fs::create_dir_all(workflow_root.join("stages")).expect("workflow stages dir should exist");
         write_file(
             &workflow_root.join("workflow.yml"),
-            "name: audit-design-package\n",
+            "name: audit-design-proposal\n",
         );
 
         for name in [
             "02-design-audit.md",
-            "03-design-package-remediation.md",
+            "03-design-proposal-remediation.md",
             "04-design-red-team.md",
             "05-design-hardening.md",
             "06-design-integration.md",
@@ -2912,7 +3424,7 @@ mod tests {
             "10-first-implementation-plan.md",
         ] {
             let body = match name {
-                "03-design-package-remediation.md" => {
+                "03-design-proposal-remediation.md" => {
                     "Target: <PACKAGE_PATH>\nAudit: <AUDIT_REPORT>\nCHANGE MANIFEST"
                 }
                 "05-design-hardening.md" => {
@@ -3025,7 +3537,7 @@ mod tests {
         let mut report_paths = BTreeMap::new();
         report_paths.insert(
             "01".to_string(),
-            "reports/01-design-package-audit.md".to_string(),
+            "reports/01-design-proposal-audit.md".to_string(),
         );
         let mut report_bodies = BTreeMap::new();
         report_bodies.insert("01".to_string(), "# Audit Report\n\nbody".to_string());
@@ -3072,7 +3584,7 @@ mod tests {
         let prompt_packet = fs::read_to_string(
             result
                 .bundle_root
-                .join("stage-inputs/02-02-design-package-remediation.prompt.md"),
+                .join("stage-inputs/02-02-design-proposal-remediation.prompt.md"),
         )
         .expect("stage 02 prompt packet should exist");
 
@@ -3116,7 +3628,7 @@ mod tests {
         let stage_report = fs::read_to_string(
             result
                 .bundle_root
-                .join("reports/02-design-package-remediation.md"),
+                .join("reports/02-design-proposal-remediation.md"),
         )
         .expect("stage report should exist");
 
@@ -3275,6 +3787,7 @@ mod tests {
                 package_id: "runtime-package".to_string(),
                 package_title: "Runtime Package".to_string(),
                 package_class: DesignPackageClass::DomainRuntime,
+                promotion_scope: ProposalScope::HarmonyInternal,
                 implementation_targets: vec![
                     ".harmony/orchestration/runtime/example.md".to_string()
                 ],
@@ -3283,11 +3796,11 @@ mod tests {
                 include_canonicalization: None,
             },
         )
-        .expect("create-design-package should succeed");
+        .expect("create-design-proposal should succeed");
 
-        let package_root = root.join(".design-packages/runtime-package");
+        let package_root = root.join(".proposals/design/runtime-package");
         let manifest =
-            fs::read_to_string(package_root.join("design-package.yml")).expect("manifest exists");
+            fs::read_to_string(package_root.join("design-proposal.yml")).expect("manifest exists");
         let summary = fs::read_to_string(&result.summary_report).expect("summary should exist");
 
         assert!(package_root.join("contracts/README.md").is_file());
@@ -3295,11 +3808,14 @@ mod tests {
         assert!(package_root
             .join("navigation/canonicalization-target-map.md")
             .is_file());
-        assert!(manifest.contains("package_class: \"domain-runtime\""));
+        assert!(manifest.contains("design_class: \"domain-runtime\""));
         assert!(manifest.contains("- \"contracts\""));
         assert!(manifest.contains("- \"conformance\""));
         assert!(manifest.contains("- \"canonicalization\""));
         assert!(summary.contains("final_verdict: `scaffolded`"));
+        assert!(summary.contains(
+            "/audit-design-proposal proposal_path=\".proposals/design/runtime-package\""
+        ));
         assert!(summary.contains("bundle_root: `"));
         assert!(result.bundle_root.join("summary.md").is_file());
         assert!(result.bundle_root.join("bundle.yml").is_file());
@@ -3310,7 +3826,7 @@ mod tests {
         assert!(result.bundle_root.join("stage-logs").is_dir());
         assert!(result.bundle_root.join("standard-validator.log").is_file());
         assert!(
-            fs::read_to_string(root.join(".design-packages/registry.yml"))
+            fs::read_to_string(root.join(".proposals/registry.yml"))
                 .expect("registry should exist")
                 .contains("runtime-package")
         );
@@ -3328,17 +3844,18 @@ mod tests {
                 package_id: "experience-package".to_string(),
                 package_title: "Experience Package".to_string(),
                 package_class: DesignPackageClass::ExperienceProduct,
+                promotion_scope: ProposalScope::HarmonyInternal,
                 implementation_targets: vec![".harmony/scaffolding/runtime/example.md".to_string()],
                 include_contracts: None,
                 include_conformance: None,
                 include_canonicalization: None,
             },
         )
-        .expect("create-design-package should succeed");
+        .expect("create-design-proposal should succeed");
 
-        let package_root = root.join(".design-packages/experience-package");
+        let package_root = root.join(".proposals/design/experience-package");
         let manifest =
-            fs::read_to_string(package_root.join("design-package.yml")).expect("manifest exists");
+            fs::read_to_string(package_root.join("design-proposal.yml")).expect("manifest exists");
 
         assert!(package_root
             .join("normative/experience/user-journeys.md")
@@ -3346,7 +3863,7 @@ mod tests {
         assert!(package_root.join("reference/README.md").is_file());
         assert!(!package_root.join("contracts/README.md").exists());
         assert!(!package_root.join("conformance/README.md").exists());
-        assert!(manifest.contains("package_class: \"experience-product\""));
+        assert!(manifest.contains("design_class: \"experience-product\""));
         assert!(manifest.contains("- \"reference\""));
         assert!(manifest.contains("- \"history\""));
         assert!(manifest.contains("conformance_validator_path: null"));
@@ -3372,6 +3889,7 @@ mod tests {
                 package_id: "duplicate-package".to_string(),
                 package_title: "Duplicate Package".to_string(),
                 package_class: DesignPackageClass::DomainRuntime,
+                promotion_scope: ProposalScope::HarmonyInternal,
                 implementation_targets: vec![
                     ".harmony/orchestration/runtime/example.md".to_string()
                 ],
@@ -3380,7 +3898,7 @@ mod tests {
                 include_canonicalization: None,
             },
         )
-        .expect("first create-design-package run should succeed");
+        .expect("first create-design-proposal run should succeed");
 
         let error = run_create_design_package_from_harmony_dir(
             &harmony_dir,
@@ -3388,6 +3906,7 @@ mod tests {
                 package_id: "duplicate-package".to_string(),
                 package_title: "Duplicate Package".to_string(),
                 package_class: DesignPackageClass::DomainRuntime,
+                promotion_scope: ProposalScope::HarmonyInternal,
                 implementation_targets: vec![
                     ".harmony/orchestration/runtime/example.md".to_string()
                 ],
@@ -3428,6 +3947,54 @@ mod tests {
         );
         assert!(validation.contains("request-validation-failure"));
         assert!(summary.contains("request-validation-failure"));
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn proposal_registry_preserves_same_id_across_kinds() {
+        let root = make_temp_root("proposal-registry-kinds");
+        let harmony_dir = seed_create_design_package_fixture(&root);
+
+        run_create_static_proposal_from_harmony_dir(
+            &harmony_dir,
+            StaticProposalKind::Migration,
+            RunCreateStaticProposalOptions {
+                proposal_id: "shared-id".to_string(),
+                proposal_title: "Shared Migration".to_string(),
+                promotion_scope: ProposalScope::RepoLocal,
+                promotion_targets: vec!["docs/migration.md".to_string()],
+            },
+        )
+        .expect("migration proposal should scaffold");
+
+        run_create_static_proposal_from_harmony_dir(
+            &harmony_dir,
+            StaticProposalKind::Policy,
+            RunCreateStaticProposalOptions {
+                proposal_id: "shared-id".to_string(),
+                proposal_title: "Shared Policy".to_string(),
+                promotion_scope: ProposalScope::RepoLocal,
+                promotion_targets: vec!["docs/policy.md".to_string()],
+            },
+        )
+        .expect("policy proposal should scaffold");
+
+        let registry: ProposalRegistry = serde_yaml::from_str(
+            &fs::read_to_string(root.join(".proposals/registry.yml"))
+                .expect("registry should exist"),
+        )
+        .expect("registry should parse");
+
+        assert_eq!(registry.active.len(), 2);
+        assert!(registry
+            .active
+            .iter()
+            .any(|entry| entry.kind == "migration" && entry.id == "shared-id"));
+        assert!(registry
+            .active
+            .iter()
+            .any(|entry| entry.kind == "policy" && entry.id == "shared-id"));
+
         fs::remove_dir_all(root).ok();
     }
 }
