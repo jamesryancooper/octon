@@ -1,6 +1,19 @@
 schema_version: "design-package-registry-v1"
 
-active: []
+active:
+  - id: "architecture-validation-workflow-package"
+    path: ".design-packages/architecture-validation-workflow-package"
+    title: "Architecture Validation Workflow Package"
+    package_class: "domain-runtime"
+    status: "in-review"
+    implementation_targets:
+      - ".harmony/orchestration/runtime/workflows/audit/audit-design-package/"
+      - ".harmony/orchestration/runtime/workflows/manifest.yml"
+      - ".harmony/orchestration/runtime/workflows/registry.yml"
+      - ".harmony/orchestration/governance/capability-map-v1.yml"
+      - ".harmony/assurance/runtime/_ops/scripts/validate-architecture-validation-pipeline.sh"
+      - ".harmony/assurance/runtime/_ops/tests/test-validate-architecture-validation-pipeline.sh"
+      - ".harmony/assurance/runtime/_ops/tests/test-design-package-workflow-runner.sh"
 
 archived:
   - id: "architectural-evaluation-framework-package"
@@ -17,23 +30,6 @@ archived:
       - ".harmony/orchestration/runtime/workflows/audit/audit-architecture-readiness/"
       - ".harmony/cognition/practices/methodology/architecture-readiness/"
       - ".harmony/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md"
-  - id: "architecture-validation-workflow-package"
-    path: ".design-packages/.archive/architecture-validation-workflow-package"
-    title: "Architecture Validation Workflow Package"
-    package_class: "domain-runtime"
-    status: "archived"
-    disposition: "implemented"
-    archived_at: "2026-03-11"
-    archived_from_status: "legacy-unknown"
-    original_path: ".design-packages/architecture-validation-workflow-package"
-    implementation_targets:
-      - ".harmony/orchestration/runtime/workflows/audit/audit-design-package/"
-      - ".harmony/orchestration/runtime/workflows/manifest.yml"
-      - ".harmony/orchestration/runtime/workflows/registry.yml"
-      - ".harmony/orchestration/governance/capability-map-v1.yml"
-      - ".harmony/assurance/runtime/_ops/scripts/validate-architecture-validation-pipeline.sh"
-      - ".harmony/assurance/runtime/_ops/tests/test-validate-architecture-validation-pipeline.sh"
-      - ".harmony/assurance/runtime/_ops/tests/test-design-package-workflow-runner.sh"
   - id: "ci-optimizations"
     path: ".design-packages/.archive/ci-optimizations"
     title: "Harmony CI Optimization Proposal Package"

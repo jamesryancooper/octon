@@ -5,8 +5,7 @@ This is a temporary, implementation-scoped design package for
 operators. It is not a canonical runtime, documentation, policy, or contract
 authority.
 
-Status: `archived`
-Archive Disposition: `implemented`
+Status: `in-review`
 
 This package provides the prompt and operating-contract bundle for validating,
 hardening, and extracting implementation guidance from a temporary Harmony
@@ -51,9 +50,10 @@ canonical runtime or documentation authority.
 
 ## Exit Path
 
-The workflow and validator surfaces have already been promoted into the durable
-`/.harmony/` targets listed above. This package now remains only as archived
-historical implementation material under `/.design-packages/.archive/`.
+Keep this package active under `/.design-packages/architecture-validation-workflow-package/`
+until the workflow contract, registry projection, assurance coverage, and
+package guidance converge. After the durable `/.harmony/` targets are fully
+aligned, archive or remove the package again.
 
 ## Why Harmony Implements This As A Workflow
 
