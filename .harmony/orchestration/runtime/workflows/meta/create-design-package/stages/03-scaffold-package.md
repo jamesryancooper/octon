@@ -26,6 +26,8 @@ baseline standard validator.
 5. Render `navigation/source-of-truth-map.md` from the selected class and
    modules.
 6. Add or update the matching active entry in `.design-packages/registry.yml`.
+7. Record the scaffolded package inventory so later stages can prove the exact
+   on-disk shape that passed validation.
 
 ## Proceed When
 
@@ -35,3 +37,4 @@ baseline standard validator.
 - [ ] Core artifacts exist
 - [ ] Class-specific required docs exist
 - [ ] Selected optional modules exist
+- [ ] Scaffold inventory can be captured without guesswork

@@ -1,6 +1,6 @@
 ---
 name: "audit-design-package"
-description: "Run the architecture validation pipeline for a design package in rigorous or short mode, persist stage reports into a workflow bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts."
+description: "Run the architecture validation pipeline for a design package in rigorous or short mode with explicit remediation stages, persist stage reports into a workflow bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts."
 steps:
   - id: "configure"
     file: "stages/01-configure.md"
@@ -8,26 +8,35 @@ steps:
   - id: "design-audit"
     file: "stages/02-design-audit.md"
     description: "design-audit"
-  - id: "remediation-track"
-    file: "stages/03-remediation-track.md"
-    description: "remediation-track"
+  - id: "design-package-remediation"
+    file: "stages/03-design-package-remediation.md"
+    description: "design-package-remediation"
+  - id: "design-red-team"
+    file: "stages/04-design-red-team.md"
+    description: "design-red-team"
+  - id: "design-hardening"
+    file: "stages/05-design-hardening.md"
+    description: "design-hardening"
+  - id: "design-integration"
+    file: "stages/06-design-integration.md"
+    description: "design-integration"
   - id: "implementation-simulation"
-    file: "stages/04-implementation-simulation.md"
+    file: "stages/07-implementation-simulation.md"
     description: "implementation-simulation"
   - id: "specification-closure"
-    file: "stages/05-specification-closure.md"
+    file: "stages/08-specification-closure.md"
     description: "specification-closure"
   - id: "extract-blueprint"
-    file: "stages/06-extract-blueprint.md"
+    file: "stages/09-extract-blueprint.md"
     description: "extract-blueprint"
   - id: "first-implementation-plan"
-    file: "stages/07-first-implementation-plan.md"
+    file: "stages/10-first-implementation-plan.md"
     description: "first-implementation-plan"
   - id: "report"
-    file: "stages/08-report.md"
+    file: "stages/11-report.md"
     description: "report"
   - id: "verify"
-    file: "stages/09-verify.md"
+    file: "stages/12-verify.md"
     description: "verify"
 ---
 
@@ -43,7 +52,7 @@ _Generated README from canonical workflow `audit-design-package`._
 
 ## Purpose
 
-Run the architecture validation pipeline for a design package in rigorous or short mode, persist stage reports into a workflow bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts.
+Run the architecture validation pipeline for a design package in rigorous or short mode with explicit remediation stages, persist stage reports into a workflow bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts.
 
 ## Target
 
@@ -90,20 +99,24 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 
 1. [configure](./stages/01-configure.md)
 2. [design-audit](./stages/02-design-audit.md)
-3. [remediation-track](./stages/03-remediation-track.md)
-4. [implementation-simulation](./stages/04-implementation-simulation.md)
-5. [specification-closure](./stages/05-specification-closure.md)
-6. [extract-blueprint](./stages/06-extract-blueprint.md)
-7. [first-implementation-plan](./stages/07-first-implementation-plan.md)
-8. [report](./stages/08-report.md)
-9. [verify](./stages/09-verify.md)
+3. [design-package-remediation](./stages/03-design-package-remediation.md)
+4. [design-red-team](./stages/04-design-red-team.md)
+5. [design-hardening](./stages/05-design-hardening.md)
+6. [design-integration](./stages/06-design-integration.md)
+7. [implementation-simulation](./stages/07-implementation-simulation.md)
+8. [specification-closure](./stages/08-specification-closure.md)
+9. [extract-blueprint](./stages/09-extract-blueprint.md)
+10. [first-implementation-plan](./stages/10-first-implementation-plan.md)
+11. [report](./stages/11-report.md)
+12. [verify](./stages/12-verify.md)
 
 ## Verification Gate
 
 - [ ] Selected mode is recorded and stage coverage matches it
 - [ ] Every selected stage has a persisted report in the workflow bundle
 - [ ] Every file-writing stage has a change manifest or zero-change receipt
-- [ ] `package-delta.md`, `bundle.yml`, and `validation.md` exist
+- [ ] `summary.md`, `commands.md`, `inventory.md`, `package-delta.md`, `bundle.yml`, and `validation.md` exist
+- [ ] `stage-inputs/` and `stage-logs/` exist for the workflow bundle
 - [ ] Top-level summary exists at `.harmony/output/reports/YYYY-MM-DD-audit-design-package.md`
 - [ ] If the target package contains `design-package.yml`, `validate-design-package-standard.sh --package <target>` passes
 - [ ] Final readiness verdict is explicit

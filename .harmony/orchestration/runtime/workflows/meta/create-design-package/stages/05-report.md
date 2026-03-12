@@ -17,14 +17,23 @@ authoring workflow.
    - package class
    - selected modules
    - implementation targets
-2. Point the operator at:
+2. Write the workflow bundle summary and metadata:
+   - `bundle.yml`
+   - `summary.md`
+   - `commands.md`
+   - `validation.md`
+   - `inventory.md`
+3. Write the top-level summary report under `/.harmony/output/reports/`.
+4. Point the operator at:
    - `design-package.yml`
    - `navigation/source-of-truth-map.md`
    - `/audit-design-package`
-3. Record that the package is ready for content authoring, not automatically
+5. Record that the package is ready for content authoring, not automatically
    implementation-ready.
 
 ## Proceed When
 
 - [ ] Report includes package path and modules
+- [ ] Workflow bundle contract files exist
+- [ ] Top-level summary exists
 - [ ] Next authoring path is explicit

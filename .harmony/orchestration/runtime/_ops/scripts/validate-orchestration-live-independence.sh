@@ -21,6 +21,7 @@ filter_allowed_matches() {
     /runtime\/workflows\/registry\.yml:[0-9]+:.*Kebab-case design package id and directory name under \.design-packages\// { next }
     /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.design-packages\/\{\{package_id\}\}\/"/ { next }
     /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.design-packages\/\{\{package_id\}\}\/design-package\.yml"/ { next }
+    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.design-packages\/registry\.yml"/ { next }
     { print }
   '
 }

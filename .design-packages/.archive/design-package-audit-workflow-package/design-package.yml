@@ -1,0 +1,33 @@
+schema_version: "design-package-v1"
+package_id: "design-package-audit-workflow-package"
+title: "Design Package Audit Workflow Package"
+summary: "Historical implementation package for aligning and updating the audit-design-package workflow, its registry projection, and its assurance surfaces."
+package_class: "domain-runtime"
+selected_modules: []
+implementation_targets:
+  - ".harmony/orchestration/runtime/workflows/audit/audit-design-package/"
+  - ".harmony/orchestration/runtime/workflows/manifest.yml"
+  - ".harmony/orchestration/runtime/workflows/registry.yml"
+  - ".harmony/orchestration/governance/capability-map-v1.yml"
+  - ".harmony/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh"
+  - ".harmony/assurance/runtime/_ops/tests/test-validate-audit-design-package-workflow.sh"
+  - ".harmony/assurance/runtime/_ops/tests/test-audit-design-package-workflow-runner.sh"
+status: "archived"
+archive:
+  archived_at: "2026-03-12"
+  archived_from_status: "implementation-ready"
+  disposition: "implemented"
+  original_path: ".design-packages/design-package-audit-workflow-package"
+  promotion_evidence:
+    - ".harmony/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml"
+    - ".harmony/orchestration/runtime/workflows/registry.yml"
+    - ".harmony/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh"
+    - ".harmony/assurance/runtime/_ops/tests/test-validate-audit-design-package-workflow.sh"
+    - ".harmony/assurance/runtime/_ops/tests/test-audit-design-package-workflow-runner.sh"
+lifecycle:
+  temporary: true
+  exit_expectation: "The workflow, registry, runner, and assurance updates have been promoted into durable /.harmony targets, so this package now remains only as archived historical implementation material under /.design-packages/.archive/."
+validation:
+  default_audit_mode: "rigorous"
+  package_validator_path: null
+  conformance_validator_path: null

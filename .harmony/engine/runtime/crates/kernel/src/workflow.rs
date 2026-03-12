@@ -1,6 +1,6 @@
 use anyhow::{bail, Context, Result};
 use clap::ValueEnum;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::OsStr;
@@ -162,43 +162,43 @@ const RIGOROUS_STAGES: &[StageDefinition] = &[
     },
     StageDefinition {
         id: "03",
-        prompt_file: "03-remediation-track.md",
+        prompt_file: "04-design-red-team.md",
         report_file: "03-design-red-team.md",
         class: StageClass::Evaluative,
     },
     StageDefinition {
         id: "04",
-        prompt_file: "03-remediation-track.md",
+        prompt_file: "05-design-hardening.md",
         report_file: "04-design-hardening.md",
         class: StageClass::FileWriting,
     },
     StageDefinition {
         id: "05",
-        prompt_file: "03-remediation-track.md",
+        prompt_file: "06-design-integration.md",
         report_file: "05-design-integration.md",
         class: StageClass::FileWriting,
     },
     StageDefinition {
         id: "06",
-        prompt_file: "04-implementation-simulation.md",
+        prompt_file: "07-implementation-simulation.md",
         report_file: "06-implementation-simulation.md",
         class: StageClass::Evaluative,
     },
     StageDefinition {
         id: "07",
-        prompt_file: "05-specification-closure.md",
+        prompt_file: "08-specification-closure.md",
         report_file: "07-specification-closure.md",
         class: StageClass::FileWriting,
     },
     StageDefinition {
         id: "08",
-        prompt_file: "06-extract-blueprint.md",
+        prompt_file: "09-extract-blueprint.md",
         report_file: "08-minimal-implementation-architecture-blueprint.md",
         class: StageClass::Guidance,
     },
     StageDefinition {
         id: "09",
-        prompt_file: "07-first-implementation-plan.md",
+        prompt_file: "10-first-implementation-plan.md",
         report_file: "09-first-implementation-plan.md",
         class: StageClass::Guidance,
     },
@@ -213,31 +213,31 @@ const SHORT_STAGES: &[StageDefinition] = &[
     },
     StageDefinition {
         id: "02",
-        prompt_file: "03-remediation-track.md",
+        prompt_file: "03-design-package-remediation.md",
         report_file: "02-design-package-remediation.md",
         class: StageClass::FileWriting,
     },
     StageDefinition {
         id: "06",
-        prompt_file: "04-implementation-simulation.md",
+        prompt_file: "07-implementation-simulation.md",
         report_file: "06-implementation-simulation.md",
         class: StageClass::Evaluative,
     },
     StageDefinition {
         id: "07",
-        prompt_file: "05-specification-closure.md",
+        prompt_file: "08-specification-closure.md",
         report_file: "07-specification-closure.md",
         class: StageClass::FileWriting,
     },
     StageDefinition {
         id: "08",
-        prompt_file: "06-extract-blueprint.md",
+        prompt_file: "09-extract-blueprint.md",
         report_file: "08-minimal-implementation-architecture-blueprint.md",
         class: StageClass::Guidance,
     },
     StageDefinition {
         id: "09",
-        prompt_file: "07-first-implementation-plan.md",
+        prompt_file: "10-first-implementation-plan.md",
         report_file: "09-first-implementation-plan.md",
         class: StageClass::Guidance,
     },
@@ -277,6 +277,135 @@ struct BundleMetadata {
     validation: String,
     summary_report: String,
     final_verdict: String,
+    failure_class: Option<String>,
+    failed_stage: Option<String>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+struct DesignPackageRegistry {
+    schema_version: String,
+    active: Vec<ActiveRegistryEntry>,
+    archived: Vec<ArchivedRegistryEntry>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ActiveRegistryEntry {
+    id: String,
+    path: String,
+    title: String,
+    package_class: String,
+    status: String,
+    implementation_targets: Vec<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ArchivedRegistryEntry {
+    id: String,
+    path: String,
+    title: String,
+    package_class: String,
+    status: String,
+    disposition: String,
+    archived_at: String,
+    archived_from_status: String,
+    original_path: String,
+    implementation_targets: Vec<String>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum FailureClass {
+    ExecutorEnvironment,
+    PromptPacket,
+    StageValidation,
+    PackageMutation,
+    StandardValidator,
+}
+
+impl FailureClass {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::ExecutorEnvironment => "executor-environment-failure",
+            Self::PromptPacket => "prompt-packet-failure",
+            Self::StageValidation => "stage-validation-failure",
+            Self::PackageMutation => "package-mutation-failure",
+            Self::StandardValidator => "standard-validator-failure",
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
+struct RunFailure {
+    class: FailureClass,
+    failed_stage: Option<String>,
+    message: String,
+}
+
+impl RunFailure {
+    fn new(class: FailureClass, failed_stage: Option<&str>, message: impl Into<String>) -> Self {
+        Self {
+            class,
+            failed_stage: failed_stage.map(str::to_string),
+            message: message.into(),
+        }
+    }
+}
+
+impl std::fmt::Display for RunFailure {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if let Some(stage) = &self.failed_stage {
+            write!(f, "{} at stage {}: {}", self.class.as_str(), stage, self.message)
+        } else {
+            write!(f, "{}: {}", self.class.as_str(), self.message)
+        }
+    }
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct CreateDesignPackageBundleMetadata {
+    kind: String,
+    id: String,
+    workflow_id: String,
+    package_id: String,
+    package_class: String,
+    started_at: String,
+    completed_at: String,
+    summary: String,
+    commands: String,
+    validation: String,
+    inventory: String,
+    reports_dir: String,
+    stage_inputs_dir: String,
+    stage_logs_dir: String,
+    summary_report: String,
+    final_verdict: String,
+    failure_class: Option<String>,
+    failed_stage: Option<String>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum CreateDesignPackageFailureClass {
+    RequestValidation,
+    Scaffold,
+    RegistryUpdate,
+    StandardValidator,
+}
+
+impl CreateDesignPackageFailureClass {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::RequestValidation => "request-validation-failure",
+            Self::Scaffold => "scaffold-failure",
+            Self::RegistryUpdate => "registry-update-failure",
+            Self::StandardValidator => "standard-validator-failure",
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
+struct CreateDesignPackageFailure {
+    class: CreateDesignPackageFailureClass,
+    failed_stage: &'static str,
+    message: String,
 }
 
 #[derive(Clone, Debug)]
@@ -329,25 +458,33 @@ pub fn run_create_design_package_from_harmony_dir(
         .canonicalize()
         .context("failed to canonicalize repository root")?;
 
-    validate_design_package_id(&options.package_id)?;
-    if options.package_title.trim().is_empty() {
-        bail!("package_title must not be empty");
-    }
-    if options.implementation_targets.is_empty() {
-        bail!("implementation_targets must contain at least one target path");
-    }
-
     let design_packages_root = repo_root.join(DESIGN_PACKAGES_ROOT_REL);
     fs::create_dir_all(&design_packages_root)
         .with_context(|| format!("create {}", design_packages_root.display()))?;
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    fs::create_dir_all(&reports_root)
+        .with_context(|| format!("create {}", reports_root.display()))?;
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    fs::create_dir_all(&workflow_bundles_root)
+        .with_context(|| format!("create {}", workflow_bundles_root.display()))?;
+
+    let date = today_string()?;
+    let started_at = now_rfc3339()?;
+    let bundle_root = unique_directory(
+        &workflow_bundles_root,
+        &format!(
+            "{date}-{}",
+            slugify(&format!("create-design-package-{}", options.package_id))
+        ),
+    )?;
+    fs::create_dir_all(bundle_root.join("reports"))?;
+    fs::create_dir_all(bundle_root.join("stage-inputs"))?;
+    fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let summary_report =
+        unique_file(&reports_root, &format!("{date}-create-design-package"), "md")?;
 
     let package_root = design_packages_root.join(&options.package_id);
-    if package_root.exists() {
-        bail!(
-            "target design package already exists: {}",
-            package_root.display()
-        );
-    }
+    let package_rel = rel_path(&repo_root, &package_root);
 
     let include_contracts = options
         .include_contracts
@@ -364,8 +501,6 @@ pub fn run_create_design_package_from_harmony_dir(
         include_conformance,
         include_canonicalization,
     );
-
-    let package_rel = rel_path(&repo_root, &package_root);
     let package_summary = format!(
         "Temporary implementation-scoped design package for {}.",
         options.package_title.trim()
@@ -389,116 +524,361 @@ pub fn run_create_design_package_from_harmony_dir(
         &conformance_validator_path,
     );
 
-    fs::create_dir_all(&package_root)
-        .with_context(|| format!("create {}", package_root.display()))?;
-    let template_root = repo_root.join(DESIGN_PACKAGE_TEMPLATE_ROOT_REL);
-    apply_template_bundle(
-        &template_root.join("design-package-core"),
-        &package_root,
-        &replacements,
-    )?;
-    apply_template_bundle(
-        &template_root.join(options.package_class.template_name()),
-        &package_root,
-        &replacements,
-    )?;
-    if include_contracts {
-        apply_template_bundle(
-            &template_root.join("design-package-contracts"),
-            &package_root,
-            &replacements,
-        )?;
-    }
-    if include_conformance {
-        apply_template_bundle(
-            &template_root.join("design-package-conformance"),
-            &package_root,
-            &replacements,
-        )?;
-    }
-    if include_canonicalization {
-        apply_template_bundle(
-            &template_root.join("design-package-canonicalization"),
-            &package_root,
-            &replacements,
-        )?;
-    }
+    let mut command_log = Vec::new();
+    let mut notes = Vec::new();
+    let mut validator_log: Option<PathBuf> = None;
+    let mut failure: Option<CreateDesignPackageFailure> = None;
+    let mut registry_synced = false;
 
-    fs::write(
-        package_root.join("design-package.yml"),
-        build_design_package_manifest(
-            &options,
-            &package_summary,
-            &exit_expectation,
-            &selected_modules,
-            if include_conformance {
-                Some(conformance_validator_path.as_str())
-            } else {
-                None
-            },
-        ),
-    )
-    .with_context(|| {
-        format!(
-            "write {}",
-            package_root.join("design-package.yml").display()
-        )
-    })?;
-    fs::write(
-        package_root.join("navigation/source-of-truth-map.md"),
-        build_source_of_truth_map(&options, &selected_modules),
-    )
-    .with_context(|| {
-        format!(
-            "write {}",
-            package_root
-                .join("navigation/source-of-truth-map.md")
-                .display()
-        )
-    })?;
-    fs::write(
-        package_root.join("navigation/artifact-catalog.md"),
-        build_artifact_catalog(&package_root, &options.package_id, &package_rel)?,
-    )
-    .with_context(|| {
-        format!(
-            "write {}",
-            package_root
-                .join("navigation/artifact-catalog.md")
-                .display()
-        )
-    })?;
-
-    let reports_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
-    fs::create_dir_all(&reports_root)
-        .with_context(|| format!("create {}", reports_root.display()))?;
-    let date = today_string()?;
-    let bundle_root = unique_directory(
-        &reports_root,
+    let stage01_input = write_create_stage_input(
+        &bundle_root,
+        "01",
+        "validate-request",
         &format!(
-            "{date}-{}",
-            slugify(&format!("create-{}", options.package_id))
+            "# Validate Request\n\n- package_id: `{}`\n- package_title: `{}`\n- package_class: `{}`\n- implementation_targets: `{}`\n",
+            options.package_id,
+            options.package_title.trim(),
+            options.package_class.as_str(),
+            options.implementation_targets.join(", ")
         ),
     )?;
-    let summary_report = bundle_root.join("summary.md");
 
-    let validator_log =
-        run_standard_design_package_validator(&repo_root, &package_root, &bundle_root)?;
+    if let Err(error) = validate_design_package_id(&options.package_id) {
+        failure = Some(CreateDesignPackageFailure {
+            class: CreateDesignPackageFailureClass::RequestValidation,
+            failed_stage: "validate-request",
+            message: error.to_string(),
+        });
+    } else if options.package_title.trim().is_empty() {
+        failure = Some(CreateDesignPackageFailure {
+            class: CreateDesignPackageFailureClass::RequestValidation,
+            failed_stage: "validate-request",
+            message: "package_title must not be empty".to_string(),
+        });
+    } else if options.implementation_targets.is_empty() {
+        failure = Some(CreateDesignPackageFailure {
+            class: CreateDesignPackageFailureClass::RequestValidation,
+            failed_stage: "validate-request",
+            message: "implementation_targets must contain at least one target path".to_string(),
+        });
+    } else if package_root.exists() {
+        failure = Some(CreateDesignPackageFailure {
+            class: CreateDesignPackageFailureClass::RequestValidation,
+            failed_stage: "validate-request",
+            message: format!("target design package already exists: {}", package_root.display()),
+        });
+    }
+
+    write_create_stage_log(
+        &bundle_root,
+        "01",
+        "validate-request",
+        if failure.is_some() { "failed" } else { "passed" },
+        &format!("- package_root: `{}`\n", package_root.display()),
+    )?;
+    command_log.push(format!(
+        "- stage validate-request | status={} | input={} | package_root={}",
+        if failure.is_some() { "failed" } else { "passed" },
+        rel_path(&repo_root, &stage01_input),
+        package_root.display()
+    ));
+
+    if failure.is_none() {
+        let stage02_input = write_create_stage_input(
+            &bundle_root,
+            "02",
+            "select-bundles",
+            &format!(
+                "# Select Bundles\n\n- package_class: `{}`\n- include_contracts: `{}`\n- include_conformance: `{}`\n- include_canonicalization: `{}`\n- selected_modules: `{}`\n",
+                options.package_class.as_str(),
+                include_contracts,
+                include_conformance,
+                include_canonicalization,
+                selected_modules.join(", ")
+            ),
+        )?;
+        write_create_stage_log(
+            &bundle_root,
+            "02",
+            "select-bundles",
+            "passed",
+            &format!("- selected_modules: `{}`\n", selected_modules.join(", ")),
+        )?;
+        command_log.push(format!(
+            "- stage select-bundles | status=passed | input={} | selected_modules={}",
+            rel_path(&repo_root, &stage02_input),
+            selected_modules.join(", ")
+        ));
+    }
+
+    if failure.is_none() {
+        let template_root = repo_root.join(DESIGN_PACKAGE_TEMPLATE_ROOT_REL);
+        let stage03_input = write_create_stage_input(
+            &bundle_root,
+            "03",
+            "scaffold-package",
+            &format!(
+                "# Scaffold Package\n\n- package_root: `{}`\n- package_rel: `{}`\n- selected_modules: `{}`\n",
+                package_root.display(),
+                package_rel,
+                selected_modules.join(", ")
+            ),
+        )?;
+        let scaffold_result: Result<()> = (|| {
+            fs::create_dir_all(&package_root)
+                .with_context(|| format!("create {}", package_root.display()))?;
+            apply_template_bundle(
+                &template_root.join("design-package-core"),
+                &package_root,
+                &replacements,
+            )?;
+            apply_template_bundle(
+                &template_root.join(options.package_class.template_name()),
+                &package_root,
+                &replacements,
+            )?;
+            if include_contracts {
+                apply_template_bundle(
+                    &template_root.join("design-package-contracts"),
+                    &package_root,
+                    &replacements,
+                )?;
+            }
+            if include_conformance {
+                apply_template_bundle(
+                    &template_root.join("design-package-conformance"),
+                    &package_root,
+                    &replacements,
+                )?;
+            }
+            if include_canonicalization {
+                apply_template_bundle(
+                    &template_root.join("design-package-canonicalization"),
+                    &package_root,
+                    &replacements,
+                )?;
+            }
+            fs::write(
+                package_root.join("design-package.yml"),
+                build_design_package_manifest(
+                    &options,
+                    &package_summary,
+                    &exit_expectation,
+                    &selected_modules,
+                    if include_conformance {
+                        Some(conformance_validator_path.as_str())
+                    } else {
+                        None
+                    },
+                ),
+            )
+            .with_context(|| {
+                format!(
+                    "write {}",
+                    package_root.join("design-package.yml").display()
+                )
+            })?;
+            fs::write(
+                package_root.join("navigation/source-of-truth-map.md"),
+                build_source_of_truth_map(&options, &selected_modules),
+            )
+            .with_context(|| {
+                format!(
+                    "write {}",
+                    package_root
+                        .join("navigation/source-of-truth-map.md")
+                        .display()
+                )
+            })?;
+            fs::write(
+                package_root.join("navigation/artifact-catalog.md"),
+                build_artifact_catalog(&package_root, &options.package_id, &package_rel)?,
+            )
+            .with_context(|| {
+                format!(
+                    "write {}",
+                    package_root
+                        .join("navigation/artifact-catalog.md")
+                        .display()
+                )
+            })?;
+            upsert_design_package_registry(
+                &repo_root,
+                &options.package_id,
+                &package_rel,
+                options.package_title.trim(),
+                options.package_class.as_str(),
+                &options.implementation_targets,
+            )?;
+            registry_synced = true;
+            Ok(())
+        })();
+
+        if let Err(error) = scaffold_result {
+            let class = if error.to_string().contains(".design-packages/registry.yml") {
+                CreateDesignPackageFailureClass::RegistryUpdate
+            } else {
+                CreateDesignPackageFailureClass::Scaffold
+            };
+            failure = Some(CreateDesignPackageFailure {
+                class,
+                failed_stage: "scaffold-package",
+                message: error.to_string(),
+            });
+        }
+        write_create_stage_log(
+            &bundle_root,
+            "03",
+            "scaffold-package",
+            if failure.is_some() { "failed" } else { "passed" },
+            &format!(
+                "- package_root: `{}`\n- registry_synced: `{}`\n",
+                package_root.display(),
+                registry_synced
+            ),
+        )?;
+        command_log.push(format!(
+            "- stage scaffold-package | status={} | input={} | package_root={}",
+            if failure.is_some() { "failed" } else { "passed" },
+            rel_path(&repo_root, &stage03_input),
+            package_root.display()
+        ));
+    }
+
+    write_create_inventory(&bundle_root, &package_root)?;
+
+    if failure.is_none() {
+        let stage04_input = write_create_stage_input(
+            &bundle_root,
+            "04",
+            "validate-package",
+            &format!(
+                "# Validate Package\n\n- package_path: `{}`\n- validator: `bash .harmony/assurance/runtime/_ops/scripts/validate-design-package-standard.sh --package {}`\n",
+                package_root.display(),
+                package_rel
+            ),
+        )?;
+        match run_standard_design_package_validator(&repo_root, &package_root, &bundle_root) {
+            Ok(log_path) => {
+                validator_log = Some(log_path.clone());
+                write_create_stage_log(
+                    &bundle_root,
+                    "04",
+                    "validate-package",
+                    "passed",
+                    &format!("- validator_log: `{}`\n", rel_path(&repo_root, &log_path)),
+                )?;
+                command_log.push(format!(
+                    "- stage validate-package | status=passed | input={} | validator_log={}",
+                    rel_path(&repo_root, &stage04_input),
+                    rel_path(&repo_root, &log_path)
+                ));
+            }
+            Err(error) => {
+                failure = Some(CreateDesignPackageFailure {
+                    class: CreateDesignPackageFailureClass::StandardValidator,
+                    failed_stage: "validate-package",
+                    message: error.to_string(),
+                });
+                write_create_stage_log(
+                    &bundle_root,
+                    "04",
+                    "validate-package",
+                    "failed",
+                    &format!("- error: `{}`\n", error),
+                )?;
+                command_log.push(format!(
+                    "- stage validate-package | status=failed | input={}",
+                    rel_path(&repo_root, &stage04_input)
+                ));
+            }
+        }
+    }
+
+    let final_verdict = if failure.is_some() { "failed" } else { "scaffolded" };
+    notes.push(format!("registry_synced: `{}`", registry_synced));
+    if final_verdict == "scaffolded" {
+        notes.push(
+            "package is ready for content authoring, not automatically implementation-ready"
+                .to_string(),
+        );
+    } else if let Some(failure) = &failure {
+        notes.push(failure.message.clone());
+    }
+
+    let stage05_input = write_create_stage_input(
+        &bundle_root,
+        "05",
+        "report",
+        &format!(
+            "# Report Outcome\n\n- final_verdict: `{}`\n- bundle_root: `{}`\n",
+            final_verdict,
+            bundle_root.display()
+        ),
+    )?;
+    write_create_stage_log(
+        &bundle_root,
+        "05",
+        "report",
+        if failure.is_some() { "partial" } else { "passed" },
+        &format!("- summary_report: `{}`\n", summary_report.display()),
+    )?;
+    command_log.push(format!(
+        "- stage report | status={} | input={} | summary_report={}",
+        if failure.is_some() { "partial" } else { "passed" },
+        rel_path(&repo_root, &stage05_input),
+        rel_path(&repo_root, &summary_report)
+    ));
+
+    write_create_commands_log(&bundle_root, &command_log)?;
     let summary = build_create_design_package_summary(
         &repo_root,
         &package_root,
+        &bundle_root,
         &summary_report,
         &options,
         &selected_modules,
-        &validator_log,
+        validator_log.as_deref(),
+        final_verdict,
+        failure.as_ref(),
+        &notes,
     );
+    fs::write(bundle_root.join("summary.md"), &summary)
+        .with_context(|| format!("write {}", bundle_root.join("summary.md").display()))?;
     fs::write(&summary_report, summary)
         .with_context(|| format!("write {}", summary_report.display()))?;
+    write_create_bundle_metadata(
+        &repo_root,
+        &bundle_root,
+        &summary_report,
+        &options,
+        final_verdict,
+        failure.as_ref(),
+        &started_at,
+    )?;
+    write_create_validation(
+        &bundle_root,
+        &package_root,
+        final_verdict,
+        failure.as_ref(),
+        validator_log.as_deref(),
+        registry_synced,
+        &notes,
+    )?;
+
+    if let Some(failure) = failure {
+        bail!(
+            "{} at stage {}: {}",
+            failure.class.as_str(),
+            failure.failed_stage,
+            failure.message
+        );
+    }
 
     Ok(RunCreateDesignPackageResult {
         bundle_root,
         summary_report,
-        final_verdict: "scaffolded".to_string(),
+        final_verdict: final_verdict.to_string(),
     })
 }
 
@@ -579,8 +959,6 @@ impl Runner {
     }
 
     fn run(self) -> Result<RunDesignPackageResult> {
-        self.ensure_workflow_files()?;
-
         let mut validation_notes = Vec::new();
         let mut report_paths = BTreeMap::new();
         let mut report_bodies = BTreeMap::new();
@@ -591,6 +969,20 @@ impl Runner {
         let package_inventory = snapshot_package(&self.target_package)?;
         self.write_inventory(&package_inventory)?;
         self.write_plan()?;
+
+        if let Err(error) = self.ensure_workflow_files() {
+            let failure = RunFailure::new(FailureClass::StageValidation, None, error.to_string());
+            validation_notes.push(failure.to_string());
+            self.record_failure(
+                &failure,
+                &report_paths,
+                &stage_outcomes,
+                &changed_files,
+                &command_log,
+                &validation_notes,
+            )?;
+            return Err(anyhow::anyhow!(failure.to_string()));
+        }
 
         let final_verdict = match self.execute_stages(
             &mut report_paths,
@@ -619,13 +1011,17 @@ impl Runner {
                     "manual-review-required".to_string()
                 }
             }
-            Err(error) => {
-                validation_notes.push(format!("stage execution failed: {error}"));
-                self.write_package_delta(&stage_outcomes)?;
-                self.write_commands_log(&command_log)?;
-                self.write_validation("failed", &report_paths, &stage_outcomes, &validation_notes)?;
-                self.write_summary("failed", &report_paths, &stage_outcomes, &validation_notes)?;
-                return Err(error);
+            Err(failure) => {
+                validation_notes.push(failure.to_string());
+                self.record_failure(
+                    &failure,
+                    &report_paths,
+                    &stage_outcomes,
+                    &changed_files,
+                    &command_log,
+                    &validation_notes,
+                )?;
+                return Err(anyhow::anyhow!(failure.to_string()));
             }
         };
 
@@ -646,12 +1042,21 @@ impl Runner {
                 }
             }
             Err(error) => {
-                validation_notes.push(format!("standard validator failed: {error}"));
-                self.write_package_delta(&stage_outcomes)?;
-                self.write_commands_log(&command_log)?;
-                self.write_validation("failed", &report_paths, &stage_outcomes, &validation_notes)?;
-                self.write_summary("failed", &report_paths, &stage_outcomes, &validation_notes)?;
-                return Err(error);
+                let failure = RunFailure::new(
+                    FailureClass::StandardValidator,
+                    None,
+                    error.to_string(),
+                );
+                validation_notes.push(failure.to_string());
+                self.record_failure(
+                    &failure,
+                    &report_paths,
+                    &stage_outcomes,
+                    &changed_files,
+                    &command_log,
+                    &validation_notes,
+                )?;
+                return Err(anyhow::anyhow!(failure.to_string()));
             }
         }
 
@@ -662,14 +1067,16 @@ impl Runner {
             &report_paths,
             &stage_outcomes,
             &validation_notes,
+            None,
         )?;
         self.write_summary(
             &final_verdict,
             &report_paths,
             &stage_outcomes,
             &validation_notes,
+            None,
         )?;
-        self.write_bundle_metadata(&report_paths, &changed_files, &final_verdict)?;
+        self.write_bundle_metadata(&report_paths, &changed_files, &final_verdict, None)?;
 
         Ok(RunDesignPackageResult {
             bundle_root: self.bundle_root,
@@ -723,16 +1130,31 @@ impl Runner {
         stage_outcomes: &mut BTreeMap<String, StageOutcome>,
         changed_files: &mut BTreeMap<String, Vec<String>>,
         command_log: &mut Vec<String>,
-    ) -> Result<()> {
+    ) -> std::result::Result<(), RunFailure> {
         for stage in self.stages {
-            let prompt_markdown = self.render_stage_prompt(stage, report_paths, report_bodies)?;
+            let prompt_markdown = self
+                .render_stage_prompt(stage, report_paths, report_bodies)
+                .map_err(|error| {
+                    RunFailure::new(
+                        FailureClass::PromptPacket,
+                        Some(stage.id),
+                        error.to_string(),
+                    )
+                })?;
             let prompt_packet_path = self.stage_inputs_dir.join(format!(
                 "{}-{}.prompt.md",
                 stage.id,
                 trim_md_suffix(stage.report_file)
             ));
             fs::write(&prompt_packet_path, &prompt_markdown)
-                .with_context(|| format!("write prompt packet {}", prompt_packet_path.display()))?;
+                .with_context(|| format!("write prompt packet {}", prompt_packet_path.display()))
+                .map_err(|error| {
+                    RunFailure::new(
+                        FailureClass::PromptPacket,
+                        Some(stage.id),
+                        error.to_string(),
+                    )
+                })?;
 
             let relative_report_path = PathBuf::from("reports").join(stage.report_file);
             report_paths.insert(
@@ -752,7 +1174,13 @@ impl Runner {
             }
 
             let package_before = if stage.class.is_file_writing() {
-                Some(snapshot_package(&self.target_package)?)
+                Some(snapshot_package(&self.target_package).map_err(|error| {
+                    RunFailure::new(
+                        FailureClass::PackageMutation,
+                        Some(stage.id),
+                        error.to_string(),
+                    )
+                })?)
             } else {
                 None
             };
@@ -763,32 +1191,97 @@ impl Runner {
                 stage.id,
                 trim_md_suffix(stage.report_file)
             ));
-            let executor_used =
-                self.execute_stage(stage, &prompt_markdown, &report_path, &log_path)?;
+            let executor_used = match self.execute_stage(stage, &prompt_markdown, &report_path, &log_path) {
+                Ok(executor_used) => executor_used,
+                Err(error) => {
+                    if let Some(before) = package_before.as_ref() {
+                        let after = snapshot_package(&self.target_package).map_err(|snapshot_error| {
+                            RunFailure::new(
+                                FailureClass::PackageMutation,
+                                Some(stage.id),
+                                format!(
+                                    "executor failed and package state could not be inspected: {}; {}",
+                                    error, snapshot_error
+                                ),
+                            )
+                        })?;
+                        let mut outcome = StageOutcome::default();
+                        outcome.changed_files = diff_snapshots(before, &after);
+                        if !outcome.changed_files.is_empty() {
+                            changed_files.insert(
+                                stage.id.to_string(),
+                                outcome
+                                    .changed_files
+                                    .iter()
+                                    .map(|change| format!("{}:{}", change.kind, change.path))
+                                    .collect(),
+                            );
+                        }
+                        stage_outcomes.insert(stage.id.to_string(), outcome);
+                    }
+                    command_log.push(format!(
+                        "- stage {} | executor={} | prompt_packet={} | report={} | log={} | status=failed-before-report",
+                        stage.id,
+                        self.options.executor.as_str(),
+                        rel_path(&self.repo_root, &prompt_packet_path),
+                        rel_path(&self.repo_root, &report_path),
+                        rel_path(&self.repo_root, &log_path)
+                    ));
+                    return Err(RunFailure::new(
+                        FailureClass::ExecutorEnvironment,
+                        Some(stage.id),
+                        error.to_string(),
+                    ));
+                }
+            };
 
             let report_body = fs::read_to_string(&report_path)
-                .with_context(|| format!("read stage report {}", report_path.display()))?;
-            if report_body.trim().is_empty() {
-                bail!("stage {} produced an empty report", stage.id);
-            }
-
-            if stage.class.is_file_writing() && !report_has_change_receipt(&report_body) {
-                bail!(
-                    "stage {} report does not include a change manifest or explicit zero-change receipt",
-                    stage.id
-                );
-            }
+                .with_context(|| format!("read stage report {}", report_path.display()))
+                .map_err(|error| {
+                    RunFailure::new(
+                        FailureClass::StageValidation,
+                        Some(stage.id),
+                        error.to_string(),
+                    )
+                })?;
 
             let mut outcome = StageOutcome::default();
-            if let Some(before) = package_before {
-                let after = snapshot_package(&self.target_package)?;
-                outcome.changed_files = diff_snapshots(&before, &after);
+            if let Some(before) = package_before.as_ref() {
+                let after = snapshot_package(&self.target_package).map_err(|error| {
+                    RunFailure::new(
+                        FailureClass::PackageMutation,
+                        Some(stage.id),
+                        error.to_string(),
+                    )
+                })?;
+                outcome.changed_files = diff_snapshots(before, &after);
                 let changed = outcome
                     .changed_files
                     .iter()
                     .map(|change| format!("{}:{}", change.kind, change.path))
                     .collect::<Vec<_>>();
                 changed_files.insert(stage.id.to_string(), changed);
+            }
+
+            if report_body.trim().is_empty() {
+                stage_outcomes.insert(stage.id.to_string(), outcome);
+                return Err(RunFailure::new(
+                    FailureClass::StageValidation,
+                    Some(stage.id),
+                    format!("stage {} produced an empty report", stage.id),
+                ));
+            }
+
+            if stage.class.is_file_writing() && !report_has_change_receipt(&report_body) {
+                stage_outcomes.insert(stage.id.to_string(), outcome);
+                return Err(RunFailure::new(
+                    FailureClass::StageValidation,
+                    Some(stage.id),
+                    format!(
+                        "stage {} report does not include a change manifest or explicit zero-change receipt",
+                        stage.id
+                    ),
+                ));
             }
 
             command_log.push(format!(
@@ -1172,6 +1665,7 @@ impl Runner {
         report_paths: &BTreeMap<String, String>,
         outcomes: &BTreeMap<String, StageOutcome>,
         notes: &[String],
+        failure: Option<&RunFailure>,
     ) -> Result<()> {
         let mut body = String::new();
         body.push_str("# Validation\n\n");
@@ -1179,6 +1673,16 @@ impl Runner {
             "- final_verdict: `{final_verdict}`\n- prepare_only: `{}`\n\n",
             self.options.prepare_only
         ));
+        if let Some(failure) = failure {
+            body.push_str(&format!(
+                "- failure_class: `{}`\n",
+                failure.class.as_str()
+            ));
+            if let Some(stage) = &failure.failed_stage {
+                body.push_str(&format!("- failed_stage: `{stage}`\n"));
+            }
+            body.push('\n');
+        }
         body.push_str("## Checks\n\n");
         for stage in self.stages {
             let report_exists = if self.options.prepare_only {
@@ -1221,6 +1725,32 @@ impl Runner {
                 }
             ));
         }
+        body.push_str(&format!(
+            "- [{}] `commands.md` exists\n",
+            if self.bundle_root.join("commands.md").is_file() {
+                "x"
+            } else {
+                " "
+            }
+        ));
+        body.push_str(&format!(
+            "- [{}] `inventory.md` exists\n",
+            if self.bundle_root.join("inventory.md").is_file() {
+                "x"
+            } else {
+                " "
+            }
+        ));
+        body.push_str(&format!(
+            "- [{}] `stage-inputs/` and `stage-logs/` exist\n",
+            if self.bundle_root.join("stage-inputs").is_dir()
+                && self.bundle_root.join("stage-logs").is_dir()
+            {
+                "x"
+            } else {
+                " "
+            }
+        ));
         body.push_str("\n## Notes\n\n");
         for note in notes {
             body.push_str(&format!("- {note}\n"));
@@ -1241,6 +1771,7 @@ impl Runner {
         report_paths: &BTreeMap<String, String>,
         outcomes: &BTreeMap<String, StageOutcome>,
         notes: &[String],
+        failure: Option<&RunFailure>,
     ) -> Result<()> {
         let mut body = String::new();
         body.push_str("# Design Package Workflow Summary\n\n");
@@ -1253,6 +1784,16 @@ impl Runner {
             final_verdict,
             self.bundle_root.display()
         ));
+        if let Some(failure) = failure {
+            body.push_str(&format!(
+                "- failure_class: `{}`\n",
+                failure.class.as_str()
+            ));
+            if let Some(stage) = &failure.failed_stage {
+                body.push_str(&format!("- failed_stage: `{stage}`\n"));
+            }
+            body.push('\n');
+        }
         body.push_str("## Reports\n\n");
         for stage in self.stages {
             if let Some(report_path) = report_paths.get(stage.id) {
@@ -1295,6 +1836,7 @@ impl Runner {
         report_paths: &BTreeMap<String, String>,
         changed_files: &BTreeMap<String, Vec<String>>,
         final_verdict: &str,
+        failure: Option<&RunFailure>,
     ) -> Result<()> {
         let metadata = BundleMetadata {
             kind: "workflow-execution-bundle".to_string(),
@@ -1329,6 +1871,8 @@ impl Runner {
             validation: "validation.md".to_string(),
             summary_report: rel_path(&self.repo_root, &self.summary_report),
             final_verdict: final_verdict.to_string(),
+            failure_class: failure.map(|failure| failure.class.as_str().to_string()),
+            failed_stage: failure.and_then(|failure| failure.failed_stage.clone()),
         };
         let yaml = serde_yaml::to_string(&metadata)?;
         fs::write(self.bundle_root.join("bundle.yml"), yaml).with_context(|| {
@@ -1337,6 +1881,34 @@ impl Runner {
                 self.bundle_root.join("bundle.yml").display()
             )
         })
+    }
+
+    fn record_failure(
+        &self,
+        failure: &RunFailure,
+        report_paths: &BTreeMap<String, String>,
+        stage_outcomes: &BTreeMap<String, StageOutcome>,
+        changed_files: &BTreeMap<String, Vec<String>>,
+        command_log: &[String],
+        validation_notes: &[String],
+    ) -> Result<()> {
+        self.write_package_delta(stage_outcomes)?;
+        self.write_commands_log(command_log)?;
+        self.write_validation(
+            "failed",
+            report_paths,
+            stage_outcomes,
+            validation_notes,
+            Some(failure),
+        )?;
+        self.write_summary(
+            "failed",
+            report_paths,
+            stage_outcomes,
+            validation_notes,
+            Some(failure),
+        )?;
+        self.write_bundle_metadata(report_paths, changed_files, "failed", Some(failure))
     }
 }
 
@@ -1864,21 +2436,293 @@ fn run_standard_design_package_validator(
 fn build_create_design_package_summary(
     repo_root: &Path,
     package_root: &Path,
+    bundle_root: &Path,
     summary_report: &Path,
     options: &RunCreateDesignPackageOptions,
     selected_modules: &[&str],
-    validator_log: &Path,
+    validator_log: Option<&Path>,
+    final_verdict: &str,
+    failure: Option<&CreateDesignPackageFailure>,
+    notes: &[String],
 ) -> String {
-    format!(
-        "# Create Design Package Summary\n\n- workflow_id: `create-design-package`\n- package_path: `{}`\n- package_class: `{}`\n- final_verdict: `scaffolded`\n- summary_report: `{}`\n- validator_log: `{}`\n\n## Selected Modules\n\n{}\n\n## Implementation Targets\n\n{}\n\n## Next Steps\n\n1. Fill in the package-specific normative and implementation details.\n2. Run `/audit-design-package package_path=\"{}\"` to mature the package.\n3. Promote durable outputs into the listed implementation targets before archiving the package.\n",
+    let mut body = String::new();
+    body.push_str("# Create Design Package Summary\n\n");
+    body.push_str(&format!(
+        "- workflow_id: `create-design-package`\n- package_path: `{}`\n- package_class: `{}`\n- final_verdict: `{}`\n- bundle_root: `{}`\n- summary_report: `{}`\n",
         rel_path(repo_root, package_root),
         options.package_class.as_str(),
+        final_verdict,
+        rel_path(repo_root, bundle_root),
         rel_path(repo_root, summary_report),
-        rel_path(repo_root, validator_log),
-        format_markdown_bullets(selected_modules.iter().copied()),
-        format_markdown_bullets(options.implementation_targets.iter().map(String::as_str)),
-        rel_path(repo_root, package_root),
+    ));
+    if let Some(validator_log) = validator_log {
+        body.push_str(&format!("- validator_log: `{}`\n", rel_path(repo_root, validator_log)));
+    }
+    if let Some(failure) = failure {
+        body.push_str(&format!(
+            "- failure_class: `{}`\n- failed_stage: `{}`\n",
+            failure.class.as_str(),
+            failure.failed_stage,
+        ));
+    }
+    body.push_str("\n## Selected Modules\n\n");
+    body.push_str(&format!(
+        "{}\n\n",
+        format_markdown_bullets(selected_modules.iter().copied())
+    ));
+    body.push_str("## Implementation Targets\n\n");
+    body.push_str(&format!(
+        "{}\n\n",
+        format_markdown_bullets(options.implementation_targets.iter().map(String::as_str))
+    ));
+    body.push_str("## Notes\n\n");
+    if notes.is_empty() {
+        body.push_str("- no additional notes\n");
+    } else {
+        for note in notes {
+            body.push_str(&format!("- {note}\n"));
+        }
+    }
+    body.push_str("\n## Next Steps\n\n");
+    if final_verdict == "scaffolded" {
+        body.push_str(&format!(
+            "1. Fill in the package-specific normative and implementation details.\n2. Run `/audit-design-package package_path=\"{}\"` to mature the package.\n3. Promote durable outputs into the listed implementation targets before archiving the package.\n",
+            rel_path(repo_root, package_root),
+        ));
+    } else {
+        body.push_str(
+            "1. Inspect `validation.md`, `commands.md`, and any stage logs in the workflow bundle.\n2. Fix the recorded failure cause.\n3. Re-run `/create-design-package` with the same request after the failure is resolved.\n",
+        );
+    }
+    body
+}
+
+fn upsert_design_package_registry(
+    repo_root: &Path,
+    package_id: &str,
+    package_rel: &str,
+    package_title: &str,
+    package_class: &str,
+    implementation_targets: &[String],
+) -> Result<()> {
+    let registry_path = repo_root.join(".design-packages/registry.yml");
+    let mut registry = if registry_path.is_file() {
+        let contents = fs::read_to_string(&registry_path)
+            .with_context(|| format!("read {}", registry_path.display()))?;
+        serde_yaml::from_str::<DesignPackageRegistry>(&contents)
+            .with_context(|| format!("parse {}", registry_path.display()))?
+    } else {
+        DesignPackageRegistry {
+            schema_version: "design-package-registry-v1".to_string(),
+            active: Vec::new(),
+            archived: Vec::new(),
+        }
+    };
+
+    if registry.schema_version.is_empty() {
+        registry.schema_version = "design-package-registry-v1".to_string();
+    }
+
+    registry.active.retain(|entry| entry.id != package_id);
+    registry.archived.retain(|entry| entry.id != package_id);
+    registry.active.push(ActiveRegistryEntry {
+        id: package_id.to_string(),
+        path: package_rel.to_string(),
+        title: package_title.to_string(),
+        package_class: package_class.to_string(),
+        status: "draft".to_string(),
+        implementation_targets: implementation_targets.to_vec(),
+    });
+    registry.active.sort_by(|left, right| left.id.cmp(&right.id));
+
+    let yaml = serde_yaml::to_string(&registry)?;
+    if let Some(parent) = registry_path.parent() {
+        fs::create_dir_all(parent)
+            .with_context(|| format!("create {}", parent.display()))?;
+    }
+    fs::write(&registry_path, yaml).with_context(|| format!("write {}", registry_path.display()))
+}
+
+fn write_create_stage_input(
+    bundle_root: &Path,
+    stage_id: &str,
+    stage_slug: &str,
+    body: &str,
+) -> Result<PathBuf> {
+    let path = bundle_root
+        .join("stage-inputs")
+        .join(format!("{stage_id}-{stage_slug}.md"));
+    fs::write(&path, body).with_context(|| format!("write {}", path.display()))?;
+    Ok(path)
+}
+
+fn write_create_stage_log(
+    bundle_root: &Path,
+    stage_id: &str,
+    stage_slug: &str,
+    status: &str,
+    body: &str,
+) -> Result<PathBuf> {
+    let path = bundle_root
+        .join("stage-logs")
+        .join(format!("{stage_id}-{stage_slug}.log"));
+    fs::write(
+        &path,
+        format!(
+            "# Stage {stage_id}\n\n- stage: `{stage_slug}`\n- status: `{status}`\n\n{body}\n"
+        ),
     )
+    .with_context(|| format!("write {}", path.display()))?;
+    Ok(path)
+}
+
+fn write_create_inventory(bundle_root: &Path, package_root: &Path) -> Result<()> {
+    let path = bundle_root.join("inventory.md");
+    let body = if package_root.is_dir() {
+        let inventory = snapshot_package(package_root)?;
+        let mut body = String::new();
+        body.push_str("# Scaffolded Package Inventory\n\n");
+        body.push_str(&format!(
+            "- package_path: `{}`\n- file_count: `{}`\n\n",
+            package_root.display(),
+            inventory.len()
+        ));
+        for path in inventory.keys() {
+            body.push_str(&format!("- `{path}`\n"));
+        }
+        body
+    } else {
+        "# Scaffolded Package Inventory\n\n- package_path: `not-created`\n- file_count: `0`\n"
+            .to_string()
+    };
+    fs::write(&path, body).with_context(|| format!("write {}", path.display()))
+}
+
+fn write_create_commands_log(bundle_root: &Path, command_log: &[String]) -> Result<()> {
+    let path = bundle_root.join("commands.md");
+    let mut body = String::from("# Stage Commands\n\n");
+    if command_log.is_empty() {
+        body.push_str("- no stage commands or receipts recorded\n");
+    } else {
+        for entry in command_log {
+            body.push_str(entry);
+            body.push('\n');
+        }
+    }
+    fs::write(&path, body).with_context(|| format!("write {}", path.display()))
+}
+
+fn write_create_validation(
+    bundle_root: &Path,
+    package_root: &Path,
+    final_verdict: &str,
+    failure: Option<&CreateDesignPackageFailure>,
+    validator_log: Option<&Path>,
+    registry_synced: bool,
+    notes: &[String],
+) -> Result<()> {
+    let mut body = String::from("# Validation\n\n");
+    body.push_str(&format!("- final_verdict: `{final_verdict}`\n"));
+    if let Some(failure) = failure {
+        body.push_str(&format!(
+            "- failure_class: `{}`\n- failed_stage: `{}`\n",
+            failure.class.as_str(),
+            failure.failed_stage,
+        ));
+    }
+    body.push_str("\n## Checks\n\n");
+    body.push_str(&format!(
+        "- [{}] scaffolded package directory exists under `.design-packages/`\n",
+        if package_root.is_dir() { "x" } else { " " }
+    ));
+    body.push_str(&format!(
+        "- [{}] `design-package.yml` is present\n",
+        if package_root.join("design-package.yml").is_file() {
+            "x"
+        } else {
+            " "
+        }
+    ));
+    body.push_str(&format!(
+        "- [{}] `registry.yml` includes the scaffolded package\n",
+        if registry_synced { "x" } else { " " }
+    ));
+    body.push_str(&format!(
+        "- [{}] workflow bundle contract files exist\n",
+        if bundle_root.join("bundle.yml").is_file()
+            && bundle_root.join("summary.md").is_file()
+            && bundle_root.join("commands.md").is_file()
+            && bundle_root.join("validation.md").is_file()
+            && bundle_root.join("inventory.md").is_file()
+        {
+            "x"
+        } else {
+            " "
+        }
+    ));
+    body.push_str(&format!(
+        "- [{}] `reports/`, `stage-inputs/`, and `stage-logs/` exist\n",
+        if bundle_root.join("reports").is_dir()
+            && bundle_root.join("stage-inputs").is_dir()
+            && bundle_root.join("stage-logs").is_dir()
+        {
+            "x"
+        } else {
+            " "
+        }
+    ));
+    body.push_str(&format!(
+        "- [{}] `standard-validator.log` exists\n",
+        if validator_log.is_some() { "x" } else { " " }
+    ));
+    body.push_str("\n## Notes\n\n");
+    if notes.is_empty() {
+        body.push_str("- no additional notes\n");
+    } else {
+        for note in notes {
+            body.push_str(&format!("- {note}\n"));
+        }
+    }
+    fs::write(bundle_root.join("validation.md"), body)
+        .with_context(|| format!("write {}", bundle_root.join("validation.md").display()))
+}
+
+fn write_create_bundle_metadata(
+    repo_root: &Path,
+    bundle_root: &Path,
+    summary_report: &Path,
+    options: &RunCreateDesignPackageOptions,
+    final_verdict: &str,
+    failure: Option<&CreateDesignPackageFailure>,
+    started_at: &str,
+) -> Result<()> {
+    let metadata = CreateDesignPackageBundleMetadata {
+        kind: "workflow-execution-bundle".to_string(),
+        id: bundle_root
+            .file_name()
+            .and_then(|value| value.to_str())
+            .unwrap_or("workflow-bundle")
+            .to_string(),
+        workflow_id: "create-design-package".to_string(),
+        package_id: options.package_id.clone(),
+        package_class: options.package_class.as_str().to_string(),
+        started_at: started_at.to_string(),
+        completed_at: now_rfc3339()?,
+        summary: "summary.md".to_string(),
+        commands: "commands.md".to_string(),
+        validation: "validation.md".to_string(),
+        inventory: "inventory.md".to_string(),
+        reports_dir: "reports".to_string(),
+        stage_inputs_dir: "stage-inputs".to_string(),
+        stage_logs_dir: "stage-logs".to_string(),
+        summary_report: rel_path(repo_root, summary_report),
+        final_verdict: final_verdict.to_string(),
+        failure_class: failure.map(|failure| failure.class.as_str().to_string()),
+        failed_stage: failure.map(|failure| failure.failed_stage.to_string()),
+    };
+    let yaml = serde_yaml::to_string(&metadata)?;
+    fs::write(bundle_root.join("bundle.yml"), yaml)
+        .with_context(|| format!("write {}", bundle_root.join("bundle.yml").display()))
 }
 
 fn today_string() -> Result<String> {
@@ -2018,6 +2862,7 @@ fn rel_path(root: &Path, path: &Path) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::os::unix::fs::PermissionsExt;
     use std::time::{SystemTime, UNIX_EPOCH};
 
     fn make_temp_root(label: &str) -> PathBuf {
@@ -2057,21 +2902,30 @@ mod tests {
 
         for name in [
             "02-design-audit.md",
-            "03-remediation-track.md",
-            "04-implementation-simulation.md",
-            "05-specification-closure.md",
-            "06-extract-blueprint.md",
-            "07-first-implementation-plan.md",
+            "03-design-package-remediation.md",
+            "04-design-red-team.md",
+            "05-design-hardening.md",
+            "06-design-integration.md",
+            "07-implementation-simulation.md",
+            "08-specification-closure.md",
+            "09-extract-blueprint.md",
+            "10-first-implementation-plan.md",
         ] {
             let body = match name {
-                "03-remediation-track.md" => {
+                "03-design-package-remediation.md" => {
                     "Target: <PACKAGE_PATH>\nAudit: <AUDIT_REPORT>\nCHANGE MANIFEST"
                 }
-                "04-implementation-simulation.md" => "Target: <PACKAGE_PATH>",
-                "05-specification-closure.md" => {
+                "05-design-hardening.md" => {
+                    "Target: <PACKAGE_PATH>\nRed team: <RED_TEAM_REPORT>\nCHANGE MANIFEST"
+                }
+                "06-design-integration.md" => {
+                    "Target: <PACKAGE_PATH>\nHardening: <HARDENING_REPORT>\nCHANGE MANIFEST"
+                }
+                "07-implementation-simulation.md" => "Target: <PACKAGE_PATH>",
+                "08-specification-closure.md" => {
                     "Target: <PACKAGE_PATH>\nSimulation: <IMPLEMENTATION_SIMULATION_REPORT>\nzero-change receipt"
                 }
-                "07-first-implementation-plan.md" => {
+                "10-first-implementation-plan.md" => {
                     "Target: <PACKAGE_PATH>\nBlueprint: <BLUEPRINT_REPORT>"
                 }
                 _ => "Target: <PACKAGE_PATH>",
@@ -2274,11 +3128,115 @@ mod tests {
             .to_string_lossy()
             .contains(".harmony/output/reports/workflows/"));
         assert!(result.bundle_root.join("summary.md").is_file());
+        assert!(result.bundle_root.join("commands.md").is_file());
+        assert!(result.bundle_root.join("inventory.md").is_file());
+        assert!(result.bundle_root.join("stage-inputs").is_dir());
+        assert!(result.bundle_root.join("stage-logs").is_dir());
         assert!(package_delta.contains("synthetic-remediation.md"));
         assert!(stage_report.contains("CHANGE MANIFEST"));
         assert!(target_package
             .join(".harmony-mock-runner/synthetic-remediation.md")
             .is_file());
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn rigorous_mock_executor_run_materializes_rigorous_reports() {
+        let root = make_temp_root("mock-rigorous");
+        let (harmony_dir, target_package) = seed_pipeline_fixture(&root);
+
+        let result = run_design_package_from_harmony_dir(
+            &harmony_dir,
+            RunDesignPackageOptions {
+                package_path: target_package.strip_prefix(&root).unwrap().to_path_buf(),
+                mode: PipelineMode::Rigorous,
+                executor: ExecutorKind::Mock,
+                executor_bin: None,
+                output_slug: Some("mock-rigorous".to_string()),
+                model: None,
+                prepare_only: false,
+            },
+        )
+        .expect("rigorous mock run should succeed");
+
+        assert_eq!(result.final_verdict, "mock-executed");
+        assert!(result
+            .bundle_root
+            .join("reports/03-design-red-team.md")
+            .is_file());
+        assert!(result
+            .bundle_root
+            .join("reports/04-design-hardening.md")
+            .is_file());
+        assert!(result
+            .bundle_root
+            .join("reports/05-design-integration.md")
+            .is_file());
+        assert!(result.bundle_root.join("commands.md").is_file());
+        assert!(result.bundle_root.join("inventory.md").is_file());
+        assert!(result.bundle_root.join("stage-inputs").is_dir());
+        assert!(result.bundle_root.join("stage-logs").is_dir());
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn failing_executor_writes_failure_receipts() {
+        let root = make_temp_root("failing-executor");
+        let (harmony_dir, target_package) = seed_pipeline_fixture(&root);
+
+        let fake_codex = root.join("bin/codex");
+        write_file(
+            &fake_codex,
+            "#!/usr/bin/env bash\nprintf 'synthetic failure\\n' >&2\nexit 1\n",
+        );
+        let mut permissions = fs::metadata(&fake_codex)
+            .expect("fake codex should exist")
+            .permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(&fake_codex, permissions).expect("fake codex should be executable");
+
+        let error = run_design_package_from_harmony_dir(
+            &harmony_dir,
+            RunDesignPackageOptions {
+                package_path: target_package.strip_prefix(&root).unwrap().to_path_buf(),
+                mode: PipelineMode::Short,
+                executor: ExecutorKind::Codex,
+                executor_bin: Some(fake_codex),
+                output_slug: Some("failing-executor".to_string()),
+                model: None,
+                prepare_only: false,
+            },
+        )
+        .expect_err("failing executor should fail the run");
+
+        assert!(error
+            .to_string()
+            .contains("executor-environment-failure at stage 01"));
+
+        let bundles_root = root.join(".harmony/output/reports/workflows");
+        let bundle_root = fs::read_dir(&bundles_root)
+            .expect("workflow bundle root should exist")
+            .filter_map(|entry| entry.ok())
+            .map(|entry| entry.path())
+            .find(|path| path.is_dir())
+            .expect("failed bundle should exist");
+
+        let bundle = fs::read_to_string(bundle_root.join("bundle.yml"))
+            .expect("bundle metadata should exist");
+        let validation = fs::read_to_string(bundle_root.join("validation.md"))
+            .expect("validation should exist");
+        let summary = fs::read_to_string(bundle_root.join("summary.md"))
+            .expect("summary should exist");
+        let commands = fs::read_to_string(bundle_root.join("commands.md"))
+            .expect("commands log should exist");
+
+        assert!(bundle.contains("failure_class: executor-environment-failure"));
+        assert!(bundle.contains("failed_stage: '01'") || bundle.contains("failed_stage: \"01\""));
+        assert!(validation.contains("failure_class: `executor-environment-failure`"));
+        assert!(validation.contains("failed_stage: `01`"));
+        assert!(summary.contains("failure_class: `executor-environment-failure`"));
+        assert!(summary.contains("failed_stage: `01`"));
+        assert!(commands.contains("status=failed-before-report"));
         fs::remove_dir_all(root).ok();
     }
 
@@ -2342,7 +3300,20 @@ mod tests {
         assert!(manifest.contains("- \"conformance\""));
         assert!(manifest.contains("- \"canonicalization\""));
         assert!(summary.contains("final_verdict: `scaffolded`"));
+        assert!(summary.contains("bundle_root: `"));
+        assert!(result.bundle_root.join("summary.md").is_file());
+        assert!(result.bundle_root.join("bundle.yml").is_file());
+        assert!(result.bundle_root.join("commands.md").is_file());
+        assert!(result.bundle_root.join("validation.md").is_file());
+        assert!(result.bundle_root.join("inventory.md").is_file());
+        assert!(result.bundle_root.join("stage-inputs").is_dir());
+        assert!(result.bundle_root.join("stage-logs").is_dir());
         assert!(result.bundle_root.join("standard-validator.log").is_file());
+        assert!(
+            fs::read_to_string(root.join(".design-packages/registry.yml"))
+                .expect("registry should exist")
+                .contains("runtime-package")
+        );
         fs::remove_dir_all(root).ok();
     }
 
@@ -2351,7 +3322,7 @@ mod tests {
         let root = make_temp_root("create-experience");
         let harmony_dir = seed_create_design_package_fixture(&root);
 
-        run_create_design_package_from_harmony_dir(
+        let result = run_create_design_package_from_harmony_dir(
             &harmony_dir,
             RunCreateDesignPackageOptions {
                 package_id: "experience-package".to_string(),
@@ -2379,6 +3350,84 @@ mod tests {
         assert!(manifest.contains("- \"reference\""));
         assert!(manifest.contains("- \"history\""));
         assert!(manifest.contains("conformance_validator_path: null"));
+        assert!(result.bundle_root.join("summary.md").is_file());
+        assert!(result.bundle_root.join("bundle.yml").is_file());
+        assert!(result.bundle_root.join("commands.md").is_file());
+        assert!(result.bundle_root.join("validation.md").is_file());
+        assert!(result.bundle_root.join("inventory.md").is_file());
+        assert!(result.bundle_root.join("stage-inputs").is_dir());
+        assert!(result.bundle_root.join("stage-logs").is_dir());
+        assert!(result.bundle_root.join("standard-validator.log").is_file());
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn create_design_package_duplicate_id_writes_failure_receipts() {
+        let root = make_temp_root("create-duplicate");
+        let harmony_dir = seed_create_design_package_fixture(&root);
+
+        run_create_design_package_from_harmony_dir(
+            &harmony_dir,
+            RunCreateDesignPackageOptions {
+                package_id: "duplicate-package".to_string(),
+                package_title: "Duplicate Package".to_string(),
+                package_class: DesignPackageClass::DomainRuntime,
+                implementation_targets: vec![
+                    ".harmony/orchestration/runtime/example.md".to_string()
+                ],
+                include_contracts: None,
+                include_conformance: None,
+                include_canonicalization: None,
+            },
+        )
+        .expect("first create-design-package run should succeed");
+
+        let error = run_create_design_package_from_harmony_dir(
+            &harmony_dir,
+            RunCreateDesignPackageOptions {
+                package_id: "duplicate-package".to_string(),
+                package_title: "Duplicate Package".to_string(),
+                package_class: DesignPackageClass::DomainRuntime,
+                implementation_targets: vec![
+                    ".harmony/orchestration/runtime/example.md".to_string()
+                ],
+                include_contracts: None,
+                include_conformance: None,
+                include_canonicalization: None,
+            },
+        )
+        .expect_err("duplicate package id should fail");
+
+        assert!(
+            error
+                .to_string()
+                .contains("request-validation-failure at stage validate-request"),
+            "unexpected error: {error}"
+        );
+
+        let bundles_root = root.join(".harmony/output/reports/workflows");
+        let bundle_root = fs::read_dir(&bundles_root)
+            .expect("workflow bundles root should exist")
+            .filter_map(|entry| entry.ok())
+            .map(|entry| entry.path())
+            .filter(|path| path.is_dir())
+            .max()
+            .expect("failed bundle should exist");
+
+        let bundle = fs::read_to_string(bundle_root.join("bundle.yml"))
+            .expect("bundle metadata should exist");
+        let validation = fs::read_to_string(bundle_root.join("validation.md"))
+            .expect("validation should exist");
+        let summary = fs::read_to_string(bundle_root.join("summary.md"))
+            .expect("summary should exist");
+
+        assert!(bundle.contains("failure_class: request-validation-failure"));
+        assert!(
+            bundle.contains("failed_stage: validate-request")
+                || bundle.contains("failed_stage: \"validate-request\"")
+        );
+        assert!(validation.contains("request-validation-failure"));
+        assert!(summary.contains("request-validation-failure"));
         fs::remove_dir_all(root).ok();
     }
 }

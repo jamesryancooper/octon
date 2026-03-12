@@ -1,6 +1,6 @@
 ---
 name: "create-design-package"
-description: "Scaffold a standard-governed design package from canonical templates, materialize its manifest, and validate it immediately."
+description: "Scaffold a standard-governed design package from canonical templates, materialize its manifest, persist first-class workflow bundle evidence, and validate it immediately."
 steps:
   - id: "validate-request"
     file: "stages/01-validate-request.md"
@@ -31,7 +31,7 @@ _Generated README from canonical workflow `create-design-package`._
 
 ## Purpose
 
-Scaffold a standard-governed design package from canonical templates, materialize its manifest, and validate it immediately.
+Scaffold a standard-governed design package from canonical templates, materialize its manifest, persist first-class workflow bundle evidence, and validate it immediately.
 
 ## Target
 
@@ -60,6 +60,9 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 
 ## Outputs
 
+- `create_design_package_workflow_summary` -> `../../../../../.harmony/output/reports/{{date}}-create-design-package.md`: Top-level workflow summary with package identity, selected modules, validator outcome, and next steps
+- `create_design_package_workflow_bundle` -> `../../../../../.harmony/output/reports/workflows/{{date}}-create-design-package-{{package_id}}/`: Workflow execution bundle containing stage receipts, validation state, scaffold inventory, and validator evidence
+- `create_design_package_validator_log` -> `../../../../../.harmony/output/reports/workflows/{{date}}-create-design-package-{{package_id}}/standard-validator.log`: Captured stdout and stderr from validate-design-package-standard.sh
 - `design_package_root` -> `../../../../../.design-packages/{{package_id}}/`: Scaffolded standard-governed design package
 - `design_package_manifest` -> `../../../../../.design-packages/{{package_id}}/design-package.yml`: Root manifest for the standard-governed design package
 - `design_package_registry` -> `../../../../../.design-packages/registry.yml`: Manifest-governed design-package registry updated with the new active package entry
@@ -77,8 +80,13 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 - [ ] scaffolded package directory exists under .design-packages/
 - [ ] design-package.yml is present and valid
 - [ ] registry.yml includes the scaffolded package
+- [ ] workflow bundle exists under `.harmony/output/reports/workflows/`
+- [ ] `bundle.yml`, `summary.md`, `commands.md`, `validation.md`, and `inventory.md` exist
+- [ ] `reports/`, `stage-inputs/`, and `stage-logs/` exist
+- [ ] standard-validator.log exists
 - [ ] validate-design-package-standard.sh passes for the scaffolded package
-- [ ] verification stage passes
+- [ ] top-level summary exists
+- [ ] final verdict is explicit
 
 ## References
 

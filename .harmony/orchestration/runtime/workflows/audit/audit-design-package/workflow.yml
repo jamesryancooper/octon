@@ -1,6 +1,6 @@
 schema_version: "workflow-contract-v1"
 name: "audit-design-package"
-description: "Run the architecture validation pipeline for a design package in rigorous or short mode, persist stage reports into a workflow bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts."
+description: "Run the architecture validation pipeline for a design package in rigorous or short mode with explicit remediation stages, persist stage reports into a workflow bundle, and verify that file-writing stages changed the package or emitted explicit zero-change receipts."
 version: "1.0.0"
 entry_mode: "human"
 execution_profile: "core"
@@ -69,44 +69,62 @@ stages:
     consumes: ["stage:configure"]
     produces: ["stage:design-audit"]
     mutation_scope: []
-  - id: "remediation-track"
-    asset: "stages/03-remediation-track.md"
+  - id: "design-package-remediation"
+    asset: "stages/03-design-package-remediation.md"
     kind: "mutation"
     consumes: ["stage:design-audit"]
-    produces: ["stage:remediation-track"]
+    produces: ["stage:design-package-remediation"]
+    mutation_scope: ["workflow-scope"]
+  - id: "design-red-team"
+    asset: "stages/04-design-red-team.md"
+    kind: "analysis"
+    consumes: ["stage:design-audit"]
+    produces: ["stage:design-red-team"]
+    mutation_scope: []
+  - id: "design-hardening"
+    asset: "stages/05-design-hardening.md"
+    kind: "mutation"
+    consumes: ["stage:design-red-team"]
+    produces: ["stage:design-hardening"]
+    mutation_scope: ["workflow-scope"]
+  - id: "design-integration"
+    asset: "stages/06-design-integration.md"
+    kind: "mutation"
+    consumes: ["stage:design-hardening"]
+    produces: ["stage:design-integration"]
     mutation_scope: ["workflow-scope"]
   - id: "implementation-simulation"
-    asset: "stages/04-implementation-simulation.md"
+    asset: "stages/07-implementation-simulation.md"
     kind: "analysis"
-    consumes: ["stage:remediation-track"]
+    consumes: ["stage:design-package-remediation", "stage:design-integration"]
     produces: ["stage:implementation-simulation"]
     mutation_scope: []
   - id: "specification-closure"
-    asset: "stages/05-specification-closure.md"
+    asset: "stages/08-specification-closure.md"
     kind: "mutation"
     consumes: ["stage:implementation-simulation"]
     produces: ["stage:specification-closure"]
     mutation_scope: ["workflow-scope"]
   - id: "extract-blueprint"
-    asset: "stages/06-extract-blueprint.md"
+    asset: "stages/09-extract-blueprint.md"
     kind: "projection"
     consumes: ["stage:specification-closure"]
     produces: ["stage:extract-blueprint"]
     mutation_scope: []
   - id: "first-implementation-plan"
-    asset: "stages/07-first-implementation-plan.md"
+    asset: "stages/10-first-implementation-plan.md"
     kind: "projection"
     consumes: ["stage:extract-blueprint"]
     produces: ["stage:first-implementation-plan"]
     mutation_scope: []
   - id: "report"
-    asset: "stages/08-report.md"
+    asset: "stages/11-report.md"
     kind: "projection"
     consumes: ["stage:first-implementation-plan"]
     produces: ["stage:report"]
     mutation_scope: []
   - id: "verify"
-    asset: "stages/09-verify.md"
+    asset: "stages/12-verify.md"
     kind: "verification"
     consumes: ["stage:report"]
     produces: ["stage:verify"]
@@ -183,7 +201,8 @@ done_gate:
     - "Selected mode is recorded and stage coverage matches it"
     - "Every selected stage has a persisted report in the workflow bundle"
     - "Every file-writing stage has a change manifest or zero-change receipt"
-    - "`package-delta.md`, `bundle.yml`, and `validation.md` exist"
+    - "`summary.md`, `commands.md`, `inventory.md`, `package-delta.md`, `bundle.yml`, and `validation.md` exist"
+    - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
     - "Top-level summary exists at `.harmony/output/reports/YYYY-MM-DD-audit-design-package.md`"
     - "If the target package contains `design-package.yml`, `validate-design-package-standard.sh --package <target>` passes"
     - "Final readiness verdict is explicit"

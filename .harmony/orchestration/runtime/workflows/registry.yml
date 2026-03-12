@@ -1025,8 +1025,8 @@ workflows:
       - name: bundle_root
         type: folder
         required: false
-        default: ".harmony/output/reports/audits"
-        description: "Root directory for the bounded stage-report bundle"
+        default: ".harmony/output/reports/workflows"
+        description: "Root directory for the workflow stage-report bundle"
     access: human
     depends_on: []
     io:
@@ -1045,61 +1045,61 @@ workflows:
           determinism: unique
           description: "Top-level workflow summary with selected mode, readiness verdict, changed files, and next steps"
         - name: design_package_audit_bundle
-          path: "../../output/reports/audits/{{date}}-{{slug}}/"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/"
           kind: directory
           format: mixed
           determinism: unique
-          description: "Bounded bundle containing stage reports, metadata, validation state, and aggregate package deltas"
+          description: "Workflow bundle containing stage reports, metadata, validation state, and aggregate package deltas"
         - name: design_audit_report
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/01-design-package-audit.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/01-design-package-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Stage report produced by the design package audit prompt"
         - name: design_package_remediation_report
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/02-design-package-remediation.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/02-design-package-remediation.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Short-mode remediation report and package delta receipt"
         - name: design_red_team_report
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/03-design-red-team.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/03-design-red-team.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Rigorous-mode adversarial report"
         - name: design_hardening_report
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/04-design-hardening.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/04-design-hardening.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Rigorous-mode hardening report and package delta receipt"
         - name: design_integration_report
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/05-design-integration.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/05-design-integration.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Rigorous-mode integration report and package delta receipt"
         - name: implementation_simulation_report
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/06-implementation-simulation.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/06-implementation-simulation.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Buildability simulation report"
         - name: specification_closure_report
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/07-specification-closure.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/07-specification-closure.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Specification-closure report or explicit no-op receipt"
         - name: implementation_architecture_blueprint
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Minimal implementer blueprint extracted from the stabilized package"
         - name: first_implementation_plan
-          path: "../../output/reports/audits/{{date}}-{{slug}}/reports/09-first-implementation-plan.md"
+          path: "../../output/reports/workflows/{{date}}-audit-design-package-{{slug}}/reports/09-first-implementation-plan.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1260,6 +1260,24 @@ workflows:
           required: true
           description: "Package id, title, class, implementation targets, and optional module overrides"
       outputs:
+        - name: create_design_package_workflow_summary
+          path: "../../../../../.harmony/output/reports/{{date}}-create-design-package.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Top-level workflow summary with package identity, selected modules, validator outcome, and next steps"
+        - name: create_design_package_workflow_bundle
+          path: "../../../../../.harmony/output/reports/workflows/{{date}}-create-design-package-{{package_id}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Workflow execution bundle containing stage receipts, validation state, scaffold inventory, and validator evidence"
+        - name: create_design_package_validator_log
+          path: "../../../../../.harmony/output/reports/workflows/{{date}}-create-design-package-{{package_id}}/standard-validator.log"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Captured stdout and stderr from validate-design-package-standard.sh"
         - name: design_package_root
           path: "../../../../../.design-packages/{{package_id}}/"
           kind: directory
@@ -1272,6 +1290,12 @@ workflows:
           format: yaml
           determinism: unique
           description: "Root manifest for the scaffolded design package"
+        - name: design_package_registry
+          path: "../../../../../.design-packages/registry.yml"
+          kind: file
+          format: yaml
+          determinism: shared
+          description: "Manifest-governed design-package registry updated with the new active package entry"
   evaluate-workflow:
     version: "1.1.0"
     commands: ["/evaluate-workflow"]

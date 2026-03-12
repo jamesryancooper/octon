@@ -536,7 +536,8 @@ check_runtime_pipeline_references_absent() {
     "$HARMONY_DIR/engine/runtime/run"
     "$HARMONY_DIR/engine/runtime/run.cmd"
     "$HARMONY_DIR/assurance/runtime/_ops/scripts/alignment-check.sh"
-    "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-architecture-validation-pipeline.sh"
+    "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh"
+    "$HARMONY_DIR/assurance/runtime/_ops/scripts/validate-create-design-package-workflow.sh"
     "$HARMONY_DIR/capabilities/runtime/commands"
   )
   if rg -n "runtime/pipelines|pipeline\\.yml|projection\\.pipeline_" "${targets[@]}" \

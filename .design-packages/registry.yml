@@ -1,21 +1,25 @@
 schema_version: "design-package-registry-v1"
 
-active:
-  - id: "architecture-validation-workflow-package"
-    path: ".design-packages/architecture-validation-workflow-package"
-    title: "Architecture Validation Workflow Package"
+active: []
+
+archived:
+  - id: "design-package-audit-workflow-package"
+    path: ".design-packages/.archive/design-package-audit-workflow-package"
+    title: "Design Package Audit Workflow Package"
     package_class: "domain-runtime"
-    status: "in-review"
+    status: "archived"
+    disposition: "implemented"
+    archived_at: "2026-03-12"
+    archived_from_status: "implementation-ready"
+    original_path: ".design-packages/design-package-audit-workflow-package"
     implementation_targets:
       - ".harmony/orchestration/runtime/workflows/audit/audit-design-package/"
       - ".harmony/orchestration/runtime/workflows/manifest.yml"
       - ".harmony/orchestration/runtime/workflows/registry.yml"
       - ".harmony/orchestration/governance/capability-map-v1.yml"
-      - ".harmony/assurance/runtime/_ops/scripts/validate-architecture-validation-pipeline.sh"
-      - ".harmony/assurance/runtime/_ops/tests/test-validate-architecture-validation-pipeline.sh"
-      - ".harmony/assurance/runtime/_ops/tests/test-design-package-workflow-runner.sh"
-
-archived:
+      - ".harmony/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh"
+      - ".harmony/assurance/runtime/_ops/tests/test-validate-audit-design-package-workflow.sh"
+      - ".harmony/assurance/runtime/_ops/tests/test-audit-design-package-workflow-runner.sh"
   - id: "architectural-evaluation-framework-package"
     path: ".design-packages/.archive/architectural-evaluation-framework-package"
     title: "Architectural Evaluation Framework Design Package"
