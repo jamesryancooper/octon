@@ -32,11 +32,31 @@ jobs:
         with:
           fetch-depth: 2
 
-      - id: filesystem_scope
-        name: Detect filesystem interface runtime impact
+      - id: scope
+        name: Detect impacted validation scopes
         uses: dorny/paths-filter@v3
         with:
           filters: |
+            orchestration:
+              - '.design-packages/orchestration-domain-design-package/**'
+              - '.harmony/orchestration/**'
+              - '.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh'
+              - '.harmony/assurance/runtime/_ops/tests/test-validate-orchestration-design-package.sh'
+              - '.harmony/engine/practices/local-dev-validation.md'
+              - '.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md'
+            workflow_manifest:
+              - '.harmony/orchestration/runtime/workflows/**'
+              - '.harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh'
+              - '.github/workflows/harness-self-containment.yml'
+              - '.github/workflows/pr-quality.yml'
+            services_runtime:
+              - '.harmony/capabilities/runtime/services/**'
+              - '.harmony/capabilities/runtime/commands/**'
+              - '.harmony/cognition/runtime/context/index.yml'
+              - '.harmony/engine/runtime/**'
+              - '.github/workflows/filesystem-interfaces-runtime.yml'
+              - '.github/workflows/filesystem-interfaces-perf-regression.yml'
+              - '.github/workflows/harness-self-containment.yml'
             filesystem_runtime:
               - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
               - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
@@ -51,6 +71,11 @@ jobs:
               - '.harmony/engine/runtime/**'
               - '.github/workflows/filesystem-interfaces-runtime.yml'
               - '.github/workflows/filesystem-interfaces-perf-regression.yml'
+              - '.github/workflows/harness-self-containment.yml'
+            assurance_contract:
+              - '.harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh'
+              - '.harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh'
+              - '.harmony/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh'
               - '.github/workflows/harness-self-containment.yml'
 
       - name: Validate harness structure contract
@@ -69,33 +94,37 @@ jobs:
           .harmony/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
 
       - name: Validate workflow manifest and dependency profiles
+        if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
           chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
           .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 
       - name: Validate orchestration design package
+        if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
           chmod +x .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh
           .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh
 
       - name: Validate orchestration runtime surface hooks
+        if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
           chmod +x .harmony/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
           .harmony/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
 
       - name: Validate services independence
+        if: steps.scope.outputs.services_runtime == 'true'
         run: |
           chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
           .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
 
       - name: Validate filesystem interface runtime wiring
-        if: steps.filesystem_scope.outputs.filesystem_runtime == 'true'
+        if: steps.scope.outputs.filesystem_runtime == 'true'
         run: |
           chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
           .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
 
       - name: Skip filesystem interface runtime wiring (no relevant changes)
-        if: steps.filesystem_scope.outputs.filesystem_runtime != 'true'
+        if: steps.scope.outputs.filesystem_runtime != 'true'
         run: |
           echo "No filesystem runtime-impacting changes detected; skipping filesystem wiring validation step."
 

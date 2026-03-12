@@ -46,6 +46,19 @@ workflows:
       - "evaluate harness"
       - "assess harness quality"
       - "check harness health"
+  - id: evaluate-ci-latency
+    display_name: Evaluate Ci Latency
+    group: meta
+    domain: workflows
+    path: meta/evaluate-ci-latency/
+    execution_profile: external-dependent
+    summary: Audit recent GitHub Actions latency and tightening opportunities for this repository.
+    status: active
+    triggers:
+      - "evaluate ci latency"
+      - "audit ci latency"
+      - "analyze ci speed"
+      - "check ci critical path"
   - id: migrate-harness
     display_name: Migrate Harness
     group: meta

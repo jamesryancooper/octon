@@ -1180,6 +1180,49 @@ workflows:
     commands: ["/evaluate-harness"]
     access: human
     depends_on: []
+  evaluate-ci-latency:
+    version: "0.1.0"
+    commands: ["/evaluate-ci-latency"]
+    parameters:
+      - name: window_runs
+        type: text
+        required: false
+        default: "40"
+        description: "Number of recent successful PR runs used for latency analysis."
+      - name: top_workflows
+        type: text
+        required: false
+        default: "5"
+        description: "Number of slow or regressed workflows to inspect for step hotspots."
+      - name: gate_scope
+        type: text
+        required: false
+        default: "required"
+        description: "Latency scope to emphasize in the report: required or all."
+      - name: policy_path
+        type: file
+        required: false
+        default: ".harmony/agency/practices/standards/ci-latency-policy.json"
+        description: "Policy contract defining thresholds, window sizes, and issue semantics."
+    access: human
+    depends_on:
+      - skill: audit-ci-latency
+        condition: "active in skill manifest"
+    io:
+      inputs: []
+      outputs:
+        - name: ci_latency_evaluation_report
+          path: "../../output/reports/{{date}}-ci-latency-evaluation-{{run_id}}.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Read-only evaluation report for GitHub Actions latency posture and tightening candidates."
+        - name: ci_latency_evaluation_summary
+          path: "../../output/reports/{{date}}-ci-latency-evaluation-{{run_id}}.json"
+          kind: file
+          format: json
+          determinism: unique
+          description: "Machine-readable evaluation summary for CI latency status and recommended actions."
   migrate-harness:
     version: "1.1.0"
     commands: ["/migrate-harness"]

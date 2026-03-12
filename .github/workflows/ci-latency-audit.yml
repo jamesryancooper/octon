@@ -1,0 +1,211 @@
+name: CI Latency Audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      window_runs:
+        description: Number of completed runs to analyze per workflow.
+        required: false
+        default: "40"
+      top_workflows:
+        description: Number of workflows to inspect for hotspots.
+        required: false
+        default: "5"
+      gate_scope:
+        description: Gate scope for report consumers.
+        required: false
+        default: "required"
+        type: choice
+        options:
+          - required
+          - all
+          - failing
+  schedule:
+    - cron: "0 15 * * 1"
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: ci-latency-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    name: ci-latency-audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      POLICY_FILE: .harmony/agency/practices/standards/ci-latency-policy.json
+      WINDOW_RUNS: ${{ github.event.inputs.window_runs || '40' }}
+      TOP_WORKFLOWS: ${{ github.event.inputs.top_workflows || '5' }}
+      GATE_SCOPE: ${{ github.event.inputs.gate_scope || 'required' }}
+      SUMMARY_JSON: ${{ runner.temp }}/ci-latency-audit-summary.json
+      SUMMARY_MD: ${{ runner.temp }}/ci-latency-audit-summary.md
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Restore Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          cache-bin: true
+
+      - name: Run CI latency audit
+        run: |
+          chmod +x .harmony/agency/_ops/scripts/ci/audit-ci-latency.sh
+          .harmony/agency/_ops/scripts/ci/audit-ci-latency.sh \
+            --repository "$GITHUB_REPOSITORY" \
+            --policy "$POLICY_FILE" \
+            --window-runs "$WINDOW_RUNS" \
+            --top-workflows "$TOP_WORKFLOWS" \
+            --gate-scope "$GATE_SCOPE" \
+            --out-json "$SUMMARY_JSON" \
+            --out-markdown "$SUMMARY_MD"
+
+      - name: Append summary to job summary
+        if: always()
+        run: |
+          if [[ -f "$SUMMARY_MD" ]]; then
+            cat "$SUMMARY_MD" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload CI latency artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-latency-audit
+          path: |
+            ${{ env.SUMMARY_JSON }}
+            ${{ env.SUMMARY_MD }}
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Ensure issue label exists
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const policy = JSON.parse(fs.readFileSync(process.env.POLICY_FILE, "utf8"));
+            const label = policy.issue?.label || "ci-latency";
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label
+              });
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label,
+                color: "C2E0C6",
+                description: "CI latency audit breach tracking"
+              });
+            }
+
+      - name: Reconcile CI latency issue
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            if (!fs.existsSync(process.env.SUMMARY_JSON) || !fs.existsSync(process.env.SUMMARY_MD)) {
+              core.info("CI latency summary files are missing; skipping issue reconciliation.");
+              return;
+            }
+            const policy = JSON.parse(fs.readFileSync(process.env.POLICY_FILE, "utf8"));
+            const summary = JSON.parse(fs.readFileSync(process.env.SUMMARY_JSON, "utf8"));
+            const report = fs.readFileSync(process.env.SUMMARY_MD, "utf8");
+
+            const title = policy.issue?.title || "[ci-latency] weekly audit breach";
+            const label = policy.issue?.label || "ci-latency";
+            const search = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${title}" state:open`
+            });
+            const existing = search.data.items.find((item) => item.title === title);
+            const action = String(summary.issue_action || "none");
+            const status = String(summary.status || "unknown");
+            const stamp = new Date().toISOString();
+
+            const updateComment = [
+              `CI latency audit update at ${stamp}.`,
+              "",
+              `- status: ${status}`,
+              `- issue_action: ${action}`,
+              "",
+              report
+            ].join("\n");
+
+            if (status === "healthy" || action === "close_if_exists" || action === "close_existing") {
+              if (!existing) {
+                core.info("No open CI latency issue to close.");
+                return;
+              }
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body: [
+                  "Recovery detected by the scheduled CI latency audit.",
+                  "",
+                  report
+                ].join("\n")
+              });
+
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                state: "closed"
+              });
+              return;
+            }
+
+            if (action === "update_if_exists" || action === "update_existing") {
+              if (!existing) {
+                core.info("Watch state with no open issue; leaving issue surface unchanged.");
+                return;
+              }
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existing.number,
+                body: updateComment
+              });
+              return;
+            }
+
+            if (action === "open_or_update" || action === "update_or_open") {
+              if (existing) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: existing.number,
+                  body: updateComment
+                });
+                return;
+              }
+
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body: report,
+                labels: [label]
+              });
+              return;
+            }
+
+            core.info(`No issue action required for audit status '${status}'.`);
