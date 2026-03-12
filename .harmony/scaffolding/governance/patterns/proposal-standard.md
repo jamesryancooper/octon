@@ -104,6 +104,45 @@ Rules:
   `archive.disposition=implemented`.
 - `lifecycle.temporary` must remain `true`.
 
+## Lifecycle Rule
+
+Proposals move through one active lifecycle and one archive lifecycle:
+
+1. `draft`
+   - The proposal package exists at the active proposal path.
+   - `proposal.yml`, subtype manifest, `README.md`, and navigation files exist.
+   - The registry projection exists under `/.proposals/registry.yml`.
+   - Subtype-specific required files may still be placeholders unless the
+     subtype standard says otherwise.
+2. `in-review`
+   - The proposal content is authored enough for substantive review.
+   - Promotion targets, reading order, and subtype-specific required artifacts
+     are explicit enough to evaluate the proposal without inventing missing
+     artifact classes.
+3. `accepted`
+   - The proposal is approved as the temporary implementation or decision aid
+     to use for promotion work.
+   - Subtype-specific readiness rules for `accepted` status must be satisfied
+     before this status is set.
+4. `implemented` or `rejected`
+   - `implemented` means the proposal's durable outputs have been promoted into
+     the declared `promotion_targets`.
+   - `rejected` means the proposal will not be promoted and is waiting for
+     archival or historical retention handling.
+5. `archived`
+   - The proposal moves to `/.proposals/.archive/<kind>/<proposal_id>/`.
+   - `archive.*` metadata records disposition, origin, and promotion evidence.
+
+Rules:
+
+- Proposals may not claim canonical authority at any lifecycle stage.
+- Subtype standards define what content must exist before a proposal is
+  considered review-ready or acceptance-ready.
+- Promotion into durable authority must happen before archival when
+  `archive.disposition=implemented`.
+- After promotion, canonical targets must stand on their own without
+  dependencies on `/.proposals/` paths.
+
 ## Registry Contract
 
 `/.proposals/registry.yml` must define:

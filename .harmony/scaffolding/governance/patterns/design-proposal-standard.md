@@ -54,15 +54,23 @@ Every standard-governed design proposal must contain:
 - `normative/experience/screen-states-and-flows.md`
 - `normative/assurance/implementation-readiness.md`
 
-## Optional Modules
+## Module Set
 
 Allowed `selected_modules` values:
 
-- `contracts`
-- `conformance`
 - `reference`
 - `history`
+- `contracts`
+- `conformance`
 - `canonicalization`
+
+Default module behavior for the canonical `/create-design-proposal` workflow:
+
+- every newly scaffolded design proposal includes `reference` and `history`
+- `domain-runtime` proposals also include `contracts`, `conformance`, and
+  `canonicalization` by default
+- `experience-product` proposals do not include `contracts`, `conformance`, or
+  `canonicalization` unless explicitly requested
 
 Module requirements:
 
@@ -127,6 +135,54 @@ Archived design proposal READMEs must also:
 
 The README may describe proposal-local reading order or precedence, but it must
 not claim enduring repository authority.
+
+## Proposal Lifecycle Rule
+
+Standard-governed design proposals use the generic proposal lifecycle with the
+following design-specific content gates:
+
+1. `draft` means scaffold-complete, not implementation-ready.
+   - The core artifact set exists.
+   - The class-specific required docs exist.
+   - `implementation/minimal-implementation-blueprint.md` and
+     `implementation/first-implementation-plan.md` may still be placeholders.
+   - The proposal is ready for content authoring and audit, not yet for
+     implementation.
+2. `in-review` means content-complete enough for real design review.
+   - The class-specific normative docs contain the spec/PRD-equivalent design
+     content for the package.
+   - The implementation blueprint and first implementation plan reflect the
+     current design rather than scaffold placeholders.
+   - Every selected module contains the supporting material required by that
+     module set.
+3. `accepted` means implementation-ready temporary authority.
+   - The readiness definition below is satisfied.
+   - A competent engineer can implement the first slice without inventing
+     architecture, contracts, runtime behavior, or validation expectations.
+4. `implemented` means promotion-complete and archive-ready.
+   - Durable targets have absorbed every required runtime, documentation,
+     contract, schema, fixture, validator, or operator-guide artifact needed to
+     stand on their own.
+   - Canonical targets no longer depend on the proposal path.
+5. `archived` means historical retention only.
+   - The proposal has moved to the archive path with archive metadata and
+     evidence recorded in `proposal.yml` and `/.proposals/registry.yml`.
+
+Artifact classes in this lifecycle:
+
+- proposal metadata and navigation:
+  `proposal.yml`, `design-proposal.yml`, `README.md`,
+  `navigation/artifact-catalog.md`, `navigation/source-of-truth-map.md`
+- spec/PRD-equivalent design authority:
+  class-specific `normative/` docs plus
+  `implementation/minimal-implementation-blueprint.md` and
+  `implementation/first-implementation-plan.md`
+- default supporting context:
+  `reference/README.md` and `history/README.md`
+- conditional proof and promotion surfaces:
+  `contracts/`, `conformance/`, and
+  `navigation/canonicalization-target-map.md` when selected or required by the
+  target promotion path
 
 ## Readiness Definition
 
