@@ -132,4 +132,3 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 | Version | Changes |
 |---------|---------|
 | 1.0.0 | Generated from canonical workflow `audit-design-proposal` |
-
