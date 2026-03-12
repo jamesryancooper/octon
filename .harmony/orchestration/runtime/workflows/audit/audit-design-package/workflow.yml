@@ -49,7 +49,7 @@ inputs:
   - name: summary_root
     type: folder
     required: false
-    default: ".harmony/output/reports"
+    default: ".harmony/output/reports/analysis"
     description: "Root directory for the top-level summary report"
   - name: bundle_root
     type: folder
@@ -131,7 +131,7 @@ stages:
     mutation_scope: []
 artifacts:
   - name: design_package_workflow_summary
-    path: "../../output/reports/{{date}}-audit-design-package.md"
+    path: "../../output/reports/analysis/{{date}}-audit-design-package.md"
     kind: file
     format: markdown
     determinism: unique
@@ -203,7 +203,7 @@ done_gate:
     - "Every file-writing stage has a change manifest or zero-change receipt"
     - "`summary.md`, `commands.md`, `inventory.md`, `package-delta.md`, `bundle.yml`, and `validation.md` exist"
     - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
-    - "Top-level summary exists at `.harmony/output/reports/YYYY-MM-DD-audit-design-package.md`"
+    - "Top-level summary exists at `.harmony/output/reports/analysis/YYYY-MM-DD-audit-design-package.md`"
     - "If the target package contains `design-package.yml`, `validate-design-package-standard.sh --package <target>` passes"
     - "Final readiness verdict is explicit"
 constraints:

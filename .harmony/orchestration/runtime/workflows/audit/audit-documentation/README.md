@@ -57,8 +57,8 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 
 ## Outputs
 
-- `docs_audit_report` -> `../../output/reports/{{date}}-audit-documentation.md`: Consolidated documentation audit report with release recommendation
-- `docs_standards_audit_report` -> `../../output/reports/{{date}}-documentation-standards-audit.md`: Input audit report produced by audit-documentation-standards
+- `docs_audit_report` -> `../../output/reports/analysis/{{date}}-audit-documentation.md`: Consolidated documentation audit report with release recommendation
+- `docs_standards_audit_report` -> `../../output/reports/analysis/{{date}}-documentation-standards-audit.md`: Input audit report produced by audit-documentation-standards
 - `documentation_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for documentation recommendation and done-gate evidence
 
 ## Steps

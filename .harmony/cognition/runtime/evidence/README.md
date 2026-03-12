@@ -5,7 +5,8 @@ Canonical runtime map of evidence bundle locations for decision, migration, and 
 ## Purpose
 
 - Make evidence discovery deterministic from cognition runtime surfaces.
-- Link runtime records to generated evidence bundles under `/.harmony/output/reports/`.
+- Link runtime records to generated evidence bundles under typed report roots in
+  `/.harmony/output/reports/`.
 - Avoid ad-hoc evidence path resolution by humans and agents.
 
 ## Canonical Index

@@ -31,7 +31,7 @@ Run the audit skill and collect findings, coverage, and convergence inputs for r
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-documentation-standards-audit.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-documentation-standards-audit.md`
 - Findings/coverage/convergence summary for step 3
 
 ## Proceed When

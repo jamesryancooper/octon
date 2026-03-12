@@ -114,7 +114,7 @@ Status: **in progress, baseline run complete**
 - Required-check finalization: baseline set finalized and enforced.
 - Commit-message lint remains advisory.
 - Metrics baseline run captured in:
-  `.harmony/output/reports/2026-03-03-week4-stabilization-baseline.md`
+  `.harmony/output/reports/analysis/2026-03-03-week4-stabilization-baseline.md`
 - Policy tuning applied:
   - release-please PRs now triage to `risk:med` to keep low-risk autonomy metrics meaningful.
   - stale-draft close automation added behind explicit variable gate.

@@ -123,7 +123,7 @@ Minor acceptable variance:
 
 After skill execution, verify:
 
-1. Report exists at `.harmony/output/reports/YYYY-MM-DD-migration-audit.md`
+1. Report exists at `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit.md`
 2. Report has findings from all 3 mandatory layers (even if 0 findings)
 3. Self-challenge phase executed with all 4 checks documented
 4. Report includes coverage proof section (files confirmed clean)

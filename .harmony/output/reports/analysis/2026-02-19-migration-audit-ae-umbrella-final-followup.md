@@ -123,7 +123,7 @@ Clean for legacy-chain/QGE migration drift (active surfaces):
 Configured exclusions were honored:
 
 - `.archive/**`
-- `.harmony/output/reports/2026-02-18-quality-charter-qge-integration/**`
+- `.harmony/output/reports/packages/2026-02-18-quality-charter-qge-integration/**`
 
 ## Recommended Fix Batches
 

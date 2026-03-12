@@ -37,7 +37,7 @@ Proceed to step 6.
 
 2. **Wait for completion:**
 
-   The skill writes `.harmony/output/reports/YYYY-MM-DD-freshness-and-supersession-audit.md`.
+   The skill writes `.harmony/output/reports/analysis/YYYY-MM-DD-freshness-and-supersession-audit.md`.
 
 3. **Capture results summary:**
 
@@ -49,7 +49,7 @@ Proceed to step 6.
 
    ```markdown
    Freshness audit: COMPLETED
-   Report: .harmony/output/reports/{{date}}-freshness-and-supersession-audit.md
+   Report: .harmony/output/reports/analysis/{{date}}-freshness-and-supersession-audit.md
    Findings: {{total}} ({{critical}} CRITICAL, {{high}} HIGH, {{medium}} MEDIUM, {{low}} LOW)
    ```
 
@@ -70,7 +70,7 @@ Error: {{error_message}}
 
 **Check:** Freshness report already exists for today's date.
 
-- [ ] `.harmony/output/reports/YYYY-MM-DD-freshness-and-supersession-audit.md` exists
+- [ ] `.harmony/output/reports/analysis/YYYY-MM-DD-freshness-and-supersession-audit.md` exists
 
 **If Already Complete:**
 

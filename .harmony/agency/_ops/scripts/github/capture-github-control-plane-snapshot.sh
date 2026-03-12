@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO=""
-OUT_DIR=".harmony/output/reports"
+OUT_DIR=".harmony/output/reports/analysis"
 OUT_BASENAME=""
 
 usage() {

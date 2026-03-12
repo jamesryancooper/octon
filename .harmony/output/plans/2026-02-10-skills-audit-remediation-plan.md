@@ -1,7 +1,7 @@
 # Skills Audit Remediation Plan
 
 Date: 2026-02-10
-Source: `.harmony/output/reports/2026-02-10-skills-subsystem-audit.md`
+Source: `.harmony/output/reports/analysis/2026-02-10-skills-subsystem-audit.md`
 
 ## Context
 

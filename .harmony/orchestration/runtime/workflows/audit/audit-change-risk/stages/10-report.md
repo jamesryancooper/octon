@@ -13,7 +13,7 @@ Publish a human-readable risk recommendation and machine-checkable bounded-audit
 ## Actions
 
 1. Write consolidated report:
-   - `.harmony/output/reports/YYYY-MM-DD-audit-change-risk.md`
+   - `.harmony/output/reports/analysis/YYYY-MM-DD-audit-change-risk.md`
 2. Write bounded-audit bundle:
    - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 3. Ensure bundle contains:

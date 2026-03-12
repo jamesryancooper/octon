@@ -37,7 +37,7 @@ Use this skill when:
 ## Quick Start
 
 ```text
-/plan-charter-alignment charter_path=".harmony/CHARTER.md" findings_source=".harmony/output/reports/2026-03-05-charter-audit.md"
+/plan-charter-alignment charter_path=".harmony/CHARTER.md" findings_source=".harmony/output/reports/analysis/2026-03-05-charter-audit-2026-03-05-harmony-root-charter.md"
 ```
 
 With explicit scoring target:

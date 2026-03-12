@@ -13,7 +13,7 @@ Publish recommendation in markdown plus authoritative machine-checkable bounded-
 ## Actions
 
 1. Write consolidated workflow report:
-   - `.harmony/output/reports/YYYY-MM-DD-audit-release-readiness.md`
+   - `.harmony/output/reports/analysis/YYYY-MM-DD-audit-release-readiness.md`
 2. Write bounded-audit bundle:
    - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 3. Ensure bundle contains:

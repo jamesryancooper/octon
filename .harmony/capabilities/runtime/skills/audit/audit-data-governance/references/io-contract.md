@@ -66,7 +66,7 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: data_governance_audit_report
-      path: "../../../output/reports/{{date}}-data-governance-audit-{{run_id}}.md"
+      path: "../../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured data-governance findings report"

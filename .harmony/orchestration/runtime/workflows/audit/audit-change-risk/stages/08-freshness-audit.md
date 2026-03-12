@@ -39,7 +39,7 @@ If stage fails, record failure details and continue to step 9.
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-freshness-and-supersession-audit.md` (if run)
+- `.harmony/output/reports/analysis/YYYY-MM-DD-freshness-and-supersession-audit.md` (if run)
 - Freshness findings summary for merge
 
 ## Proceed When

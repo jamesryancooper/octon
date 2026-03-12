@@ -88,7 +88,7 @@ Self-Challenge Results:
 ### Phase 6: Report
 
 ```
-Report written to: .harmony/output/reports/2026-02-10-subsystem-health-audit.md
+Report written to: .harmony/output/reports/analysis/2026-02-10-subsystem-health-audit.md
 
 Executive Summary:
   Total findings: 7 across 6 files

@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../.." && pwd)"
 cd "$ROOT_DIR"
 
 LEDGER_PATH=".harmony/cognition/governance/exceptions/principles-charter-overrides.md"
-REPORT_DIR=".harmony/output/reports"
+REPORT_DIR=".harmony/output/reports/analysis"
 TODAY_UTC="$(date -u +%Y-%m-%d)"
 NOW_UTC="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 REPORT_PATH="${REPORT_DIR}/${TODAY_UTC}-principles-charter-overrides-audit.md"

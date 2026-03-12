@@ -61,7 +61,7 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: security_compliance_audit_report
-      path: "../../../output/reports/{{date}}-security-compliance-audit-{{run_id}}.md"
+      path: "../../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured security and compliance findings report"

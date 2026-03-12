@@ -128,25 +128,25 @@ stages:
     mutation_scope: []
 artifacts:
   - name: consolidated_report
-    path: "../../output/reports/{{date}}-migration-audit-consolidated.md"
+    path: "../../output/reports/analysis/{{date}}-migration-audit-consolidated.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated report with partitioned migration findings and optional global-stage outcomes"
   - name: partition_reports
-    path: "../../output/reports/{{date}}-migration-audit-{{partition}}.md"
+    path: "../../output/reports/analysis/{{date}}-migration-audit-{{partition}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual partition audit reports"
   - name: cross_subsystem_audit_report
-    path: "../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual cross-subsystem coherence audit report (produced if enabled)"
   - name: freshness_audit_report
-    path: "../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+    path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
     kind: file
     format: markdown
     determinism: unique

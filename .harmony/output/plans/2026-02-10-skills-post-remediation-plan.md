@@ -4,7 +4,7 @@ Date: 2026-02-10
 
 ## Context
 
-The follow-up architectural audit (`.harmony/output/reports/2026-02-10-skills-follow-up-architectural-audit.md`) identified 13 cross-artifact alignment issues (A1-A13), validator coverage gaps, and documentation drift. All findings have been independently verified against source files. This plan addresses the audit's Critical and Important action items in dependency order, with validator improvements first (so subsequent changes can be validated), then data fixes, then docs.
+The follow-up architectural audit (`.harmony/output/reports/analysis/2026-02-10-skills-follow-up-architectural-audit.md`) identified 13 cross-artifact alignment issues (A1-A13), validator coverage gaps, and documentation drift. All findings have been independently verified against source files. This plan addresses the audit's Critical and Important action items in dependency order, with validator improvements first (so subsequent changes can be validated), then data fixes, then docs.
 
 ## Phase 1: Fix vercel-deploy capability regression (A1)
 

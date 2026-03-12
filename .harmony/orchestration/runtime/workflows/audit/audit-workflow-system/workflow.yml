@@ -106,7 +106,7 @@ stages:
     mutation_scope: []
 artifacts:
   - name: workflow_system_audit_report
-    path: "../../output/reports/{{date}}-audit-workflow-system.md"
+    path: "../../output/reports/analysis/{{date}}-audit-workflow-system.md"
     kind: file
     format: markdown
     determinism: unique

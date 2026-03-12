@@ -100,8 +100,8 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-migration-audit.md` — Findings report (unified mode)
-- `.harmony/output/reports/YYYY-MM-DD-migration-audit-{partition}.md` — Findings report (partition mode)
+- `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit.md` — Findings report (unified mode)
+- `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit-{partition}.md` — Findings report (partition mode)
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/` — Authoritative bounded-audit bundle (when orchestrated)
 - `_ops/state/logs/audit-migration/` — Execution logs with index
 

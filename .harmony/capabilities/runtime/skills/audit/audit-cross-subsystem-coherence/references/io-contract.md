@@ -19,7 +19,7 @@ description: Input/output contract for audit-cross-subsystem-coherence.
 
 ## Outputs
 
-- `.harmony/output/reports/YYYY-MM-DD-cross-subsystem-coherence-audit.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-cross-subsystem-coherence-audit.md`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/bundle.yml`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/findings.yml`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/coverage.yml`

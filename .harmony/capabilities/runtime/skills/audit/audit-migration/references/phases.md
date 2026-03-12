@@ -50,7 +50,7 @@ behavior:
         - "Assign final severity to each finding"
         - "Group into recommended fix batches"
         - "Generate coverage proof section"
-        - "Write report to output/reports/"
+        - "Write report to output/reports/analysis/"
         - "Write execution log with idempotency metadata"
   principles:
     - name: "Fixed lenses"
@@ -542,7 +542,7 @@ Consolidate all findings into a structured, actionable report with coverage proo
 
 6. **Write report:**
 
-   Output to `.harmony/output/reports/YYYY-MM-DD-migration-audit.md`:
+   Output to `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit.md`:
 
    ```markdown
    # Post-Migration Audit Report
@@ -621,7 +621,7 @@ Consolidate all findings into a structured, actionable report with coverage proo
    - Sorted file list hash: {{hash}}
 
    ## Report Location
-   - .harmony/output/reports/YYYY-MM-DD-migration-audit.md
+   - .harmony/output/reports/analysis/YYYY-MM-DD-migration-audit.md
    ```
 
 8. **Update log index** (`_ops/state/logs/audit-migration/index.yml`)

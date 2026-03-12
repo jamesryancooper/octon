@@ -3,7 +3,7 @@
 - Run ID: `2026-03-06-harmony-root-charter-alignment-rerun`
 - Skill: `plan-charter-alignment`
 - Charter Path: `.harmony/CHARTER.md`
-- Findings Source: `.harmony/output/reports/2026-03-06-charter-audit-2026-03-06-harmony-root-charter-rerun.md`
+- Findings Source: `.harmony/output/reports/analysis/2026-03-06-charter-audit-2026-03-06-harmony-root-charter-rerun.md`
 - Target Score: `95`
 - Requested Scope: `charter-only`
 - Planning Mode: `read-only`

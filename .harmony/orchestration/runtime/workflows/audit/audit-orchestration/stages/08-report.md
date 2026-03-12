@@ -13,7 +13,7 @@ Emit backward-compatible report plus authoritative machine-checkable bundle.
 ## Actions
 
 1. Write legacy consolidated report:
-   - `.harmony/output/reports/YYYY-MM-DD-migration-audit-consolidated.md`
+   - `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit-consolidated.md`
 2. Write authoritative bundle directory:
    - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 3. Bundle files (required):

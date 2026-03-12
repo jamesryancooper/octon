@@ -39,7 +39,7 @@ If stage fails, record failure details and continue to step 5.
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-api-contract-audit-<run-id>.md` (if run)
+- `.harmony/output/reports/analysis/YYYY-MM-DD-api-contract-audit-<run-id>.md` (if run)
 - API-contract findings summary for merge
 
 ## Proceed When

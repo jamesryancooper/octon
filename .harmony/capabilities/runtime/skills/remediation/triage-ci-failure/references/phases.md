@@ -42,7 +42,7 @@ behavior:
         - "Generate triage report with diagnosis and fix details"
         - "Include: failure category, root cause, fix applied, verification result"
         - "Include: CI run link, failing job/step, relevant log excerpt"
-        - "Write report to output/reports/"
+        - "Write report to output/reports/analysis/"
         - "Write execution log with metadata"
         - "Update log index"
   goals:

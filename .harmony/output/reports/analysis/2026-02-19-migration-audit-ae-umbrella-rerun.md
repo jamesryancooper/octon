@@ -8,7 +8,7 @@
 - `.harmony/runtime/crates/assurance_tools`
 - `.github`
 - `.harmony/output/assurance`
-- `.harmony/output/reports/2026-02-19-ae-umbrella-clean-break`
+- `.harmony/output/reports/packages/2026-02-19-ae-umbrella-clean-break`
 - `.harmony/cognition/decisions/018-assurance-umbrella-chain-migration.md`
 
 ## Executive Summary
@@ -31,8 +31,8 @@
 
 ### F-001 (HIGH) — Planned AE test surface not implemented
 - **Files:**
-  - `.harmony/output/reports/2026-02-19-ae-umbrella-clean-break/AE_TEST_PLAN.md:27`
-  - `.harmony/output/reports/2026-02-19-ae-umbrella-clean-break/AE_TEST_PLAN.md:42`
+  - `.harmony/output/reports/packages/2026-02-19-ae-umbrella-clean-break/AE_TEST_PLAN.md:27`
+  - `.harmony/output/reports/packages/2026-02-19-ae-umbrella-clean-break/AE_TEST_PLAN.md:42`
   - `.github/workflows/assurance-weight-gates.yml:86`
 - **Evidence:**
   - Test plan references `.harmony/runtime/crates/assurance_tools/tests/` and `.harmony/runtime/crates/assurance_tools/tests/fixtures/umbrella/`, but these paths do not exist.
@@ -43,8 +43,8 @@
 
 ### F-002 (LOW) — Non-literal glob path notation in migration artifacts
 - **Files:**
-  - `.harmony/output/reports/2026-02-19-ae-umbrella-clean-break/AE_DOCS_PATCH.md:81`
-  - `.harmony/output/reports/2026-02-19-ae-umbrella-clean-break/AE_IMPLEMENTATION_PATCHLIST.md:202`
+  - `.harmony/output/reports/packages/2026-02-19-ae-umbrella-clean-break/AE_DOCS_PATCH.md:81`
+  - `.harmony/output/reports/packages/2026-02-19-ae-umbrella-clean-break/AE_IMPLEMENTATION_PATCHLIST.md:202`
 - **Evidence:** References like `.harmony/assurance/**` and `.harmony/output/assurance/**` are glob shorthand, not literal resolvable paths.
 - **Impact:** Causes noise in path-resolution audits; no runtime impact.
 - **Recommendation:** Mark these explicitly as glob examples or replace with concrete directory paths in final artifacts.
@@ -88,7 +88,7 @@ No active AE runtime/policy/workflow/generated-output file in scope retains lega
 ## Exclusion Zones
 
 - `.archive/**` (historical archive)
-- `.harmony/output/reports/2026-02-18-quality-charter-qge-integration/**` (historical pre-migration report set)
+- `.harmony/output/reports/packages/2026-02-18-quality-charter-qge-integration/**` (historical pre-migration report set)
 
 ## Self-Challenge Outcomes
 

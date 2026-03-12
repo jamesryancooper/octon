@@ -35,7 +35,7 @@ bounded verification.
 4. Ensure `bundle/stage-inputs/` and `bundle/stage-logs/` remain available as
    authoritative execution evidence.
 5. Write the top-level summary report at:
-   - `.harmony/output/reports/YYYY-MM-DD-audit-design-package.md`
+   - `.harmony/output/reports/analysis/YYYY-MM-DD-audit-design-package.md`
 6. Ensure the summary references:
    - selected mode
    - key blockers or readiness verdict

@@ -8,8 +8,8 @@
 - `.harmony/cognition/runtime/migrations/2026-02-25-context-governance-clean-break/plan.md`
 - `.harmony/engine/governance/instruction-layer-precedence.md`
 - `.harmony/engine/runtime/spec/instruction-layer-manifest-v1.schema.json`
-- `.harmony/output/reports/2026-02-25-context-governance-clean-break/PATCHPLAN.md`
-- `.harmony/output/reports/2026-02-25-context-governance-integration-task-breakdown.md`
+- `.harmony/output/reports/packages/2026-02-25-context-governance-clean-break/PATCHPLAN.md`
+- `.harmony/output/reports/analysis/2026-02-25-context-governance-integration-task-breakdown.md`
 - `.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/bundle.yml`
 - `.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/commands.md`
 - `.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/evidence.md`

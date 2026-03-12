@@ -754,6 +754,9 @@ check_expected_internals() {
   require_dir "$HARMONY_DIR/ideation/projects"
 
   require_dir "$HARMONY_DIR/output/reports"
+  require_dir "$HARMONY_DIR/output/reports/analysis"
+  require_dir "$HARMONY_DIR/output/reports/packages"
+  require_dir "$HARMONY_DIR/output/reports/operations"
   require_dir "$HARMONY_DIR/output/reports/decisions"
   require_dir "$HARMONY_DIR/output/reports/migrations"
   require_dir "$HARMONY_DIR/output/reports/audits"
@@ -927,6 +930,46 @@ check_cognition_audit_record_surface() {
     fail "dated audit records must not exist under practices surface: ${policy_dir#$ROOT_DIR/}"
   else
     pass "dated audit records isolated to runtime surface"
+  fi
+}
+
+check_output_reports_surface() {
+  local reports_root="$HARMONY_DIR/output/reports"
+  local analysis_dir="$reports_root/analysis"
+  local packages_dir="$reports_root/packages"
+  local operations_dir="$reports_root/operations"
+  local root_files
+  local root_dirs
+  local allowed_dirs
+
+  require_dir "$reports_root"
+  require_file "$reports_root/README.md"
+  require_dir "$analysis_dir"
+  require_file "$analysis_dir/README.md"
+  require_dir "$packages_dir"
+  require_file "$packages_dir/README.md"
+  require_dir "$operations_dir"
+  require_file "$operations_dir/README.md"
+
+  mapfile -t root_files < <(
+    find "$reports_root" -mindepth 1 -maxdepth 1 -type f | sort |
+      grep -Ev '/(\.gitkeep|README\.md)$' || true
+  )
+  if [[ ${#root_files[@]} -gt 0 ]]; then
+    fail "reports root must not contain flat report files; use typed subdirectories under output/reports/"
+  else
+    pass "reports root contains no flat report files"
+  fi
+
+  allowed_dirs='^(analysis|packages|operations|audits|migrations|workflows|decisions|\.tmp)$'
+  mapfile -t root_dirs < <(
+    find "$reports_root" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort |
+      grep -Ev "$allowed_dirs" || true
+  )
+  if [[ ${#root_dirs[@]} -gt 0 ]]; then
+    fail "reports root contains unexpected directories: $(printf '%s\n' "${root_dirs[@]}" | paste -sd ', ' -)"
+  else
+    pass "reports root contains only typed report directories"
   fi
 }
 
@@ -2276,6 +2319,7 @@ main() {
   check_cognition_generated_runtime_artifacts
   check_cognition_migration_index_cross_references
   check_cognition_audit_index_cross_references
+  check_output_reports_surface
   check_output_decision_evidence_surface
   check_output_migration_evidence_surface
   check_output_audit_evidence_surface

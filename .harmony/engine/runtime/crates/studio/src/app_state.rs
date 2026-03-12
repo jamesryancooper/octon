@@ -1899,11 +1899,11 @@ mod tests {
 
     fn write_fixture_audits(root: &Path) {
         write_file(
-            &root.join(".harmony/output/reports/1001-1-studio-apply-audit.md"),
+            &root.join(".harmony/output/reports/operations/1001-1-studio-apply-audit.md"),
             "# Harmony Studio Apply Audit\n\n- timestamp_unix_ms: 1001\n- status: applied\n- attempted_files: 1\n- applied_files: 1\n- rolled_back_files: 0\n- summary: Applied 1 staged edits.\n\n## Staged Edits\n- update | .harmony/orchestration/runtime/workflows/alpha/README.md | Normalize README.md frontmatter defaults\n",
         );
         write_file(
-            &root.join(".harmony/output/reports/1002-1-studio-apply-audit.md"),
+            &root.join(".harmony/output/reports/operations/1002-1-studio-apply-audit.md"),
             "# Harmony Studio Apply Audit\n\n- timestamp_unix_ms: 1002\n- status: failed-rolled-back\n- attempted_files: 2\n- applied_files: 1\n- rolled_back_files: 1\n- summary: Apply failed and rolled back 1 file(s): synthetic write error\n\n## Staged Edits\n- create | .harmony/orchestration/runtime/workflows/beta/stages/01-beta.md | Create missing step file\n",
         );
     }

@@ -62,7 +62,7 @@ The output report must include:
 
 After skill execution, verify:
 
-1. Report exists at `.harmony/output/reports/YYYY-MM-DD-subsystem-health-audit.md`
+1. Report exists at `.harmony/output/reports/analysis/YYYY-MM-DD-subsystem-health-audit.md`
 2. Log exists at `_ops/state/logs/audit-subsystem-health/{{run_id}}.md`
 3. In orchestrated mode, bundle exists with required files (`bundle.yml`, `findings.yml`, `coverage.yml`, `convergence.yml`, `evidence.md`, `commands.md`, `validation.md`, `inventory.md`)
 4. `coverage.yml` records `unaccounted_files: 0` for pass state

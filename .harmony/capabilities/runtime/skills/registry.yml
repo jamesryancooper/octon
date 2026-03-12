@@ -281,13 +281,13 @@ skills:
           description: "Optional manifest file (alternative to inline YAML)"
       outputs:
         - name: audit_report
-          path: "../../../output/reports/{{date}}-migration-audit.md"
+          path: "../../../output/reports/analysis/{{date}}-migration-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured findings report with severity tiers and fix batches"
         - name: partition_audit_report
-          path: "../../../output/reports/{{date}}-migration-audit-{{partition}}.md"
+          path: "../../../output/reports/analysis/{{date}}-migration-audit-{{partition}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -318,7 +318,7 @@ skills:
           description: "Top-level log index (cross-skill)"
 
   audit-subsystem-health:
-    version: "2.4.6"
+    version: "2.4.7"
     commands:
       - /audit-subsystem-health
     parameters:
@@ -364,7 +364,7 @@ skills:
       inputs: []
       outputs:
         - name: health_audit_report
-          path: "../../../output/reports/{{date}}-subsystem-health-audit.md"
+          path: "../../../output/reports/analysis/{{date}}-subsystem-health-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -439,7 +439,7 @@ skills:
       inputs: []
       outputs:
         - name: coherence_audit_report
-          path: "../../../output/reports/{{date}}-cross-subsystem-coherence-audit.md"
+          path: "../../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -514,7 +514,7 @@ skills:
       inputs: []
       outputs:
         - name: freshness_audit_report
-          path: "../../../output/reports/{{date}}-freshness-and-supersession-audit.md"
+          path: "../../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -588,7 +588,7 @@ skills:
       inputs: []
       outputs:
         - name: docs_standards_audit_report
-          path: "../../../output/reports/{{date}}-documentation-standards-audit.md"
+          path: "../../../output/reports/analysis/{{date}}-documentation-standards-audit.md"
           kind: file
           format: markdown
           determinism: unique
@@ -667,7 +667,7 @@ skills:
       inputs: []
       outputs:
         - name: domain_architecture_audit_report
-          path: "../../../output/reports/{{date}}-domain-architecture-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -741,13 +741,13 @@ skills:
       inputs: []
       outputs:
         - name: architecture_readiness_audit_report
-          path: "../../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Architecture-readiness findings report with verdict, gaps, and remediation plan"
         - name: architecture_readiness_summary_json
-          path: "../../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.json"
+          path: "../../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
           kind: file
           format: json
           determinism: unique
@@ -807,7 +807,7 @@ skills:
       inputs: []
       outputs:
         - name: charter_audit_report
-          path: "../../../output/reports/{{date}}-charter-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-charter-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -890,7 +890,7 @@ skills:
       inputs: []
       outputs:
         - name: observability_coverage_audit_report
-          path: "../../../output/reports/{{date}}-observability-coverage-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -989,7 +989,7 @@ skills:
       inputs: []
       outputs:
         - name: security_compliance_audit_report
-          path: "../../../output/reports/{{date}}-security-compliance-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1093,7 +1093,7 @@ skills:
       inputs: []
       outputs:
         - name: data_governance_audit_report
-          path: "../../../output/reports/{{date}}-data-governance-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1192,7 +1192,7 @@ skills:
       inputs: []
       outputs:
         - name: test_quality_audit_report
-          path: "../../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1291,7 +1291,7 @@ skills:
       inputs: []
       outputs:
         - name: operational_readiness_audit_report
-          path: "../../../output/reports/{{date}}-operational-readiness-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1390,7 +1390,7 @@ skills:
       inputs: []
       outputs:
         - name: release_readiness_audit_report
-          path: "../../../output/reports/{{date}}-audit-release-readiness-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-audit-release-readiness-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1489,7 +1489,7 @@ skills:
       inputs: []
       outputs:
         - name: api_contract_audit_report
-          path: "../../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1564,7 +1564,7 @@ skills:
       inputs: []
       outputs:
         - name: audit_report
-          path: "../../../output/reports/{{date}}-ui-audit.md"
+          path: "../../../output/reports/analysis/{{date}}-ui-audit.md"
           kind: file
           format: markdown
           determinism: variable
@@ -2374,7 +2374,7 @@ skills:
       inputs: []
       outputs:
         - name: status_report
-          path: "../../../output/reports/{{date}}-deploy-status-{{project}}.md"
+          path: "../../../output/reports/analysis/{{date}}-deploy-status-{{project}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -2580,7 +2580,7 @@ skills:
       inputs: []
       outputs:
         - name: smoke_report
-          path: "../../../output/reports/{{date}}-provider-preview-smoke-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-provider-preview-smoke-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -2743,7 +2743,7 @@ skills:
       inputs: []
       outputs:
         - name: resolution_report
-          path: "../../../output/reports/{{date}}-pr-comments-resolved.md"
+          path: "../../../output/reports/analysis/{{date}}-pr-comments-resolved.md"
           kind: file
           format: markdown
           determinism: unique
@@ -2797,7 +2797,7 @@ skills:
       inputs: []
       outputs:
         - name: triage_report
-          path: "../../../output/reports/{{date}}-ci-triage.md"
+          path: "../../../output/reports/analysis/{{date}}-ci-triage.md"
           kind: file
           format: markdown
           determinism: unique
@@ -2863,7 +2863,7 @@ skills:
       inputs: []
       outputs:
         - name: triage_report
-          path: "../../../output/reports/{{date}}-ci-gate-triage-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-ci-gate-triage-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
@@ -2917,7 +2917,7 @@ skills:
       inputs: []
       outputs:
         - name: incident_report
-          path: "../../../output/reports/{{date}}-incident-response-{{run_id}}.md"
+          path: "../../../output/reports/analysis/{{date}}-incident-response-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique

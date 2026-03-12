@@ -52,7 +52,7 @@ The skill reads files across the entire codebase within the defined scope. No re
 
 The skill may only write to:
 
-- `.harmony/output/reports/` — Audit report deliverable
+- `.harmony/output/reports/analysis/` — Audit report deliverable
 - `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-migration/` — Execution logs
 
 ### Source Code Modifications

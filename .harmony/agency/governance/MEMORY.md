@@ -61,7 +61,7 @@ For profile-governed work, run evidence memory MUST include:
   - persist durable summary only,
   - emit flush evidence artifact.
 - Flush evidence artifact path:
-  - `.harmony/output/reports/<date>-memory-flush-evidence.md`.
+  - `.harmony/output/reports/analysis/<date>-memory-flush-evidence.md`.
 - Flush failure behavior:
   - default is fail-closed (block compaction),
   - only continue with explicit ACP waiver and waiver evidence.

@@ -28,7 +28,7 @@ Defined in `.harmony/capabilities/runtime/skills/registry.yml`.
 
 ## Outputs
 
-- `.harmony/output/reports/YYYY-MM-DD-documentation-standards-audit.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-documentation-standards-audit.md`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/bundle.yml`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/findings.yml`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/coverage.yml`

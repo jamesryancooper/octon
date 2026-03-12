@@ -37,7 +37,7 @@ This audit treats all prior work as "claimed done" and independently verifies it
 
 ## Output
 
-- **Primary report:** `.harmony/output/reports/2026-02-10-skills-exhaustive-audit.md`
+- **Primary report:** `.harmony/output/reports/analysis/2026-02-10-skills-exhaustive-audit.md`
 - **Format:** Findings grouped by dimension, each with severity (critical / important / minor / informational), affected files with line numbers, and specific remediation steps
 - **Summary table:** Finding count by dimension and severity
 

@@ -351,7 +351,7 @@ Phase 0 (baseline + guardrails):
 
 - Re-run baseline capture before and after rollback:
   `.harmony/agency/_ops/scripts/github/capture-github-control-plane-snapshot.sh`
-- Compare baseline artifacts in `.harmony/output/reports/` to confirm expected
+- Compare baseline artifacts in `.harmony/output/reports/analysis/` to confirm expected
   control-plane restoration.
 
 Phase 1 (eventual autonomous merge reconciliation):

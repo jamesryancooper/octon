@@ -61,7 +61,7 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: test_quality_audit_report
-      path: "../../../output/reports/{{date}}-test-quality-audit-{{run_id}}.md"
+      path: "../../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured test-quality findings report"

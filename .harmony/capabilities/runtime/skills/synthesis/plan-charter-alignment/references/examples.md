@@ -8,7 +8,7 @@ description: Example uses of the plan-charter-alignment skill.
 ## Charter-Only Alignment Plan
 
 ```text
-/plan-charter-alignment charter_path=".harmony/CHARTER.md" findings_source=".harmony/output/reports/2026-03-05-charter-audit.md"
+/plan-charter-alignment charter_path=".harmony/CHARTER.md" findings_source=".harmony/output/reports/analysis/2026-03-05-charter-audit-2026-03-05-harmony-root-charter.md"
 ```
 
 Expected outcome:

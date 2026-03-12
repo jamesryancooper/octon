@@ -95,7 +95,7 @@ if [[ "$flush_ok" != "true" && "$flush_ok" != "false" ]]; then
 fi
 
 if [[ -z "$output" ]]; then
-  output=".harmony/output/reports/$(date +%F)-memory-flush-evidence.md"
+  output=".harmony/output/reports/analysis/$(date +%F)-memory-flush-evidence.md"
 fi
 
 percent=$(( used * 100 / limit ))

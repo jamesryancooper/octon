@@ -38,7 +38,7 @@ Extended input/output documentation for the triage-ci-failure skill.
 
 ### Primary Output: Triage Report
 
-Written to `.harmony/output/reports/YYYY-MM-DD-ci-triage.md`.
+Written to `.harmony/output/reports/analysis/YYYY-MM-DD-ci-triage.md`.
 
 ### Execution Log
 

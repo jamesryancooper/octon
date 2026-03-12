@@ -14,7 +14,7 @@ An exhaustive, bounded audit of the `.harmony/capabilities/skills/` subsystem ac
 
 ## Output
 
-- Primary report: `.harmony/output/reports/2026-02-10-skills-subsystem-audit.md`
+- Primary report: `.harmony/output/reports/analysis/2026-02-10-skills-subsystem-audit.md`
 - Format: Findings grouped by dimension, each with severity (critical / important / minor / informational), affected files, and remediation
 
 ## Execution Strategy

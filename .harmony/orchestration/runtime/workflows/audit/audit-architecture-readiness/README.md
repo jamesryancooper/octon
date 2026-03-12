@@ -69,11 +69,11 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 
 ## Outputs
 
-- `architecture_readiness_workflow_report` -> `../../output/reports/{{date}}-audit-architecture-readiness.md`: Consolidated architecture-readiness workflow report with recommendation and rationale
-- `architecture_readiness_audit_report` -> `../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.md`: Primary stage report produced by audit-architecture-readiness
-- `architecture_readiness_summary_json` -> `../../output/reports/{{date}}-architecture-readiness-audit-{{run_id}}.json`: Machine-readable summary produced by audit-architecture-readiness
-- `cross_subsystem_audit_report` -> `../../output/reports/{{date}}-cross-subsystem-coherence-audit.md`: Cross-subsystem coherence report (produced if enabled and applicable)
-- `domain_architecture_audit_report` -> `../../output/reports/{{date}}-domain-architecture-audit-{{run_id}}.md`: Supplemental domain-architecture report (produced if enabled and applicable)
+- `architecture_readiness_workflow_report` -> `../../output/reports/analysis/{{date}}-audit-architecture-readiness.md`: Consolidated architecture-readiness workflow report with recommendation and rationale
+- `architecture_readiness_audit_report` -> `../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md`: Primary stage report produced by audit-architecture-readiness
+- `architecture_readiness_summary_json` -> `../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json`: Machine-readable summary produced by audit-architecture-readiness
+- `cross_subsystem_audit_report` -> `../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Cross-subsystem coherence report (produced if enabled and applicable)
+- `domain_architecture_audit_report` -> `../../output/reports/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md`: Supplemental domain-architecture report (produced if enabled and applicable)
 - `architecture_readiness_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for architecture-readiness recommendation and done-gate evidence
 
 ## Steps

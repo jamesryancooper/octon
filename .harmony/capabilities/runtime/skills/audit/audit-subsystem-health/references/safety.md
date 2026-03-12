@@ -52,7 +52,7 @@ The skill reads files within the subsystem directory and optionally the companio
 
 The skill may only write to:
 
-- `.harmony/output/reports/` — Audit report deliverable
+- `.harmony/output/reports/analysis/` — Audit report deliverable
 - `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-subsystem-health/` — Execution logs
 
 ### Source Code Modifications

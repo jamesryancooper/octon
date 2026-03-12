@@ -55,7 +55,7 @@ The output report must include:
 
 After skill execution, verify:
 
-1. Report exists at `.harmony/output/reports/YYYY-MM-DD-pr-comments-resolved.md`
+1. Report exists at `.harmony/output/reports/analysis/YYYY-MM-DD-pr-comments-resolved.md`
 2. Every comment has a status (APPLIED, DEFERRED, ANSWERED, NEEDS_DISCUSSION)
 3. No comments were silently dropped
 4. DESIGN comments were not applied without approval

@@ -57,7 +57,7 @@ This skill accepts optional project/deployment targets plus environment and URL-
 
 Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-- `.harmony/output/reports/` - Deployment readiness report
+- `.harmony/output/reports/analysis/` - Deployment readiness report
 - `.harmony/capabilities/runtime/skills/_ops/state/logs/deploy-status/` - Execution logs and run index
 
 External outputs (deployment URL and status state) are documented in `references/external-outputs.md`.

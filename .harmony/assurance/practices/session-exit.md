@@ -52,7 +52,7 @@ Complete before ending a session, context reset, or handoff.
 ### If compaction policy changed or was exercised
 
 - [ ] Verify memory flush threshold behavior (80% warning, 90% mandatory flush)
-- [ ] Ensure flush evidence report exists in `.harmony/output/reports/`
+- [ ] Ensure flush evidence report exists in `.harmony/output/reports/analysis/`
 - [ ] If flush failed, verify ACP waiver evidence before proceeding
 
 ### If `.harmony` architecture surfaces changed

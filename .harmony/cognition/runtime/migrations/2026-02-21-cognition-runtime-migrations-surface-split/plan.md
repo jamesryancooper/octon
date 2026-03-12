@@ -23,7 +23,7 @@ Legacy mixed-location migration record patterns:
 - Dated migration plan records under policy surface:
   - `/.harmony/cognition/practices/methodology/migrations/<YYYY-MM-DD>-<slug>/plan.md`
 - Root-level migration evidence reports in output reports root:
-  - `/.harmony/output/reports/<YYYY-MM-DD>-<slug>/evidence.md` (migration evidence class)
+  - `/.harmony/output/reports/migrations/<YYYY-MM-DD>-<slug>/evidence.md` (legacy migration evidence class before bundle isolation)
 
 ## 3) What Is the New SSOT (Explicit)
 

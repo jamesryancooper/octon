@@ -48,6 +48,6 @@ Planned file map for full agent-native deny-by-default implementation.
 
 ## Report Package
 
-- `/Users/jamesryancooper/Projects/harmony/.harmony/output/reports/2026-02-19-agent-native-deny-by-default/PATCHPLAN.md`
-- `/Users/jamesryancooper/Projects/harmony/.harmony/output/reports/2026-02-19-agent-native-deny-by-default/FILES.md`
+- `/Users/jamesryancooper/Projects/harmony/.harmony/output/reports/packages/2026-02-19-agent-native-deny-by-default/PATCHPLAN.md`
+- `/Users/jamesryancooper/Projects/harmony/.harmony/output/reports/packages/2026-02-19-agent-native-deny-by-default/FILES.md`
 - `/Users/jamesryancooper/Projects/harmony/.github/workflows/deny-by-default-gates.yml`

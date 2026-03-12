@@ -71,7 +71,7 @@ This README summarizes the canonical workflow unit at `.harmony/orchestration/ru
 
 ## Outputs
 
-- `workflow_system_audit_report` -> `../../output/reports/{{date}}-audit-workflow-system.md`: Narrative report summarizing workflow-system findings and recommendations.
+- `workflow_system_audit_report` -> `../../output/reports/analysis/{{date}}-audit-workflow-system.md`: Narrative report summarizing workflow-system findings and recommendations.
 - `workflow_system_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for workflow-system findings, scores, scenarios, and done-gate evidence.
 
 ## Steps

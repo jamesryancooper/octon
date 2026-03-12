@@ -46,7 +46,7 @@ This skill has no persistent input resources. It operates on:
 
 ## Outputs
 
-- `.harmony/output/reports/YYYY-MM-DD-ui-audit.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-ui-audit.md`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/bundle.yml`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/findings.yml`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/coverage.yml`

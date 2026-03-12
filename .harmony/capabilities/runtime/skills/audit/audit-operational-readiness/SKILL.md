@@ -86,7 +86,7 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-operational-readiness-audit-<run-id>.md` -- Structured findings report
+- `.harmony/output/reports/analysis/YYYY-MM-DD-operational-readiness-audit-<run-id>.md` -- Structured findings report
 - `.harmony/output/reports/audits/YYYY-MM-DD-<run-id>/` -- Authoritative bounded-audit bundle
 - `_ops/state/logs/audit-operational-readiness/` -- Execution logs with index
 

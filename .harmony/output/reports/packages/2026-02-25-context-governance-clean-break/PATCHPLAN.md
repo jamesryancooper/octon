@@ -66,7 +66,7 @@ Execute a clean-break migration for:
 1. Runtime migration plan:
    - `/.harmony/cognition/runtime/migrations/2026-02-25-context-governance-clean-break/plan.md`
 2. Task breakdown:
-   - `/.harmony/output/reports/2026-02-25-context-governance-integration-task-breakdown.md`
+   - `/.harmony/output/reports/analysis/2026-02-25-context-governance-integration-task-breakdown.md`
 3. Evidence bundle:
    - `/.harmony/output/reports/migrations/2026-02-25-context-governance-clean-break/`
    - required files: `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, `inventory.md`

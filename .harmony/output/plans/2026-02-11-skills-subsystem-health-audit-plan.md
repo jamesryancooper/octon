@@ -36,7 +36,7 @@ This audit independently re-verifies subsystem health regardless of prior remedi
 
 ### Output
 
-- **Report:** `.harmony/output/reports/2026-02-11-skills-subsystem-health-audit.md`
+- **Report:** `.harmony/output/reports/analysis/2026-02-11-skills-subsystem-health-audit.md`
 - **Format:** Findings grouped by lens, each with severity tier, affected files with line numbers, and remediation recommendation
 - **Severity tiers:** Critical (blocks execution or causes silent misrouting), Important (causes confusion or incomplete discovery), Minor (cosmetic or non-blocking), Informational (observation, no action required)
 

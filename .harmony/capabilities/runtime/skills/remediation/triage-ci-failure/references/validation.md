@@ -47,7 +47,7 @@ Acceptance criteria for a complete triage-ci-failure execution.
 
 ## Verification Checklist
 
-1. Report exists at `.harmony/output/reports/YYYY-MM-DD-ci-triage.md`
+1. Report exists at `.harmony/output/reports/analysis/YYYY-MM-DD-ci-triage.md`
 2. Root cause was identified (not "unknown")
 3. Fix was verified locally (or INFRA category documented)
 4. Log exists at `_ops/state/logs/triage-ci-failure/{{run_id}}.md`

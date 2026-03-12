@@ -88,8 +88,8 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-architecture-readiness-audit-<run-id>.md`
-- `.harmony/output/reports/YYYY-MM-DD-architecture-readiness-audit-<run-id>.json`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-architecture-readiness-audit-<run-id>.md`
+- `.harmony/output/reports/analysis/YYYY-MM-DD-architecture-readiness-audit-<run-id>.json`
 - `.harmony/output/reports/audits/YYYY-MM-DD-<run-id>/`
 - `_ops/state/logs/audit-architecture-readiness/`
 

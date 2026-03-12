@@ -82,7 +82,7 @@ Output paths are defined in `.harmony/capabilities/runtime/skills/registry.yml` 
 
 Outputs are written to:
 
-- `.harmony/output/reports/YYYY-MM-DD-ci-triage.md` — Triage report
+- `.harmony/output/reports/analysis/YYYY-MM-DD-ci-triage.md` — Triage report
 - `_ops/state/logs/triage-ci-failure/` — Execution logs with index
 
 ## Boundaries

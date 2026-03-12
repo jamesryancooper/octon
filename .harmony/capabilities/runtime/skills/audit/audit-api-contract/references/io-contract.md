@@ -61,7 +61,7 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: api_contract_audit_report
-      path: "../../../output/reports/{{date}}-api-contract-audit-{{run_id}}.md"
+      path: "../../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured API-contract findings report"

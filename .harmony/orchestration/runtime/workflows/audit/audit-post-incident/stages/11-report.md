@@ -13,7 +13,7 @@ Publish a post-incident closure recommendation and machine-checkable bounded-aud
 ## Actions
 
 1. Write consolidated report:
-   - `.harmony/output/reports/YYYY-MM-DD-audit-post-incident.md`
+   - `.harmony/output/reports/analysis/YYYY-MM-DD-audit-post-incident.md`
 2. Write bounded-audit bundle:
    - `.harmony/output/reports/audits/YYYY-MM-DD-<slug>/`
 3. Ensure bundle contains:

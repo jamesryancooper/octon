@@ -169,7 +169,7 @@ Output paths are defined in the skill's registry I/O mapping. Skills produce two
 |----------|--------------|
 | Prompts | `.harmony/scaffolding/practices/prompts/{{timestamp}}-{{name}}.md` |
 | Drafts | `.harmony/output/drafts/{{timestamp}}-{{name}}.md` |
-| Reports | `.harmony/output/reports/{{timestamp}}-{{name}}.md` |
+| Reports | `.harmony/output/reports/analysis/{{timestamp}}-{{name}}.md` |
 
 **Operational Artifacts (`.harmony/capabilities/runtime/skills/`):**
 

@@ -39,7 +39,7 @@ If stage fails, record failure details and continue to step 4.
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-operational-readiness-audit-<run-id>.md` (if run)
+- `.harmony/output/reports/analysis/YYYY-MM-DD-operational-readiness-audit-<run-id>.md` (if run)
 - Operational stage findings summary for merge
 
 ## Proceed When

@@ -1,7 +1,7 @@
 # Skills Exhaustive Audit Remediation Plan
 
 Date: 2026-02-11
-Source: `.harmony/output/reports/2026-02-10-skills-exhaustive-audit.md`
+Source: `.harmony/output/reports/analysis/2026-02-10-skills-exhaustive-audit.md`
 
 ## Context
 

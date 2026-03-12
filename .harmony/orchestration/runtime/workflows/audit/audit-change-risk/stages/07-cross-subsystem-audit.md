@@ -40,7 +40,7 @@ If stage fails, record failure details and continue to step 8.
 
 ## Output
 
-- `.harmony/output/reports/YYYY-MM-DD-cross-subsystem-coherence-audit.md` (if run)
+- `.harmony/output/reports/analysis/YYYY-MM-DD-cross-subsystem-coherence-audit.md` (if run)
 - Cross-subsystem findings summary for merge
 
 ## Proceed When

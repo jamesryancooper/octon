@@ -93,7 +93,7 @@ migration:
 
 ### Primary Output: Audit Report
 
-Written to `.harmony/output/reports/YYYY-MM-DD-migration-audit.md`.
+Written to `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit.md`.
 
 ```markdown
 # Post-Migration Audit Report
@@ -137,7 +137,7 @@ Written to `.harmony/output/reports/YYYY-MM-DD-migration-audit.md`.
 
 When `partition` is set, the report filename includes the partition name:
 
-Written to `.harmony/output/reports/YYYY-MM-DD-migration-audit-{partition}.md`.
+Written to `.harmony/output/reports/analysis/YYYY-MM-DD-migration-audit-{partition}.md`.
 
 The report header includes additional metadata:
 
@@ -179,7 +179,7 @@ Written to `.harmony/capabilities/runtime/skills/_ops/state/logs/audit-migration
 | Semantic Read-Through | 8 | 12 | — |
 
 ## Output
-- Report: .harmony/output/reports/2026-02-08-migration-audit.md
+- Report: .harmony/output/reports/analysis/2026-02-08-migration-audit.md
 ```
 
 ### Log Index
@@ -201,7 +201,7 @@ runs:
       total_findings: 53
       critical: 1
       high: 25
-    report: ../../output/reports/2026-02-08-migration-audit.md
+    report: ../../output/reports/analysis/2026-02-08-migration-audit.md
     log: 2026-02-08-capability-restructure.md
 ```
 

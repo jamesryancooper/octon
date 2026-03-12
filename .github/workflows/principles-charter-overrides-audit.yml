@@ -26,5 +26,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: principles-charter-overrides-audit
-          path: .harmony/output/reports/*principles-charter-overrides-audit.md
+          path: .harmony/output/reports/analysis/*principles-charter-overrides-audit.md
           if-no-files-found: error
