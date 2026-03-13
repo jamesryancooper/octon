@@ -1,0 +1,176 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Extension Pack",
+  "description": "Proposed schema for .extensions/<pack-id>/pack.yml in v1.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "version",
+    "display_name",
+    "summary",
+    "compatibility",
+    "trust",
+    "dependencies",
+    "contents"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "extension-pack-v1"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compatibility": {
+      "type": "object",
+      "required": ["harmony_version", "extensions_api_version"],
+      "properties": {
+        "harmony_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "extensions_api_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "trust": {
+      "type": "object",
+      "required": ["tier", "provenance"],
+      "properties": {
+        "tier": {
+          "type": "string",
+          "enum": ["first-party", "trusted", "semi-trusted"]
+        },
+        "provenance": {
+          "type": "string",
+          "enum": ["repo-local", "vendored", "mirrored"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependencies": {
+      "type": "object",
+      "required": ["requires", "conflicts"],
+      "properties": {
+        "requires": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "version_range"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "version_range": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "conflicts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "version_range"],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "version_range": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "contents": {
+      "type": "object",
+      "required": [
+        "skills",
+        "commands",
+        "templates",
+        "prompts",
+        "context",
+        "validation"
+      ],
+      "properties": {
+        "skills": {
+          "type": ["object", "null"],
+          "properties": {
+            "manifest": { "type": "string", "const": "skills/manifest.fragment.yml" },
+            "registry": { "type": "string", "const": "skills/registry.fragment.yml" }
+          },
+          "required": ["manifest", "registry"],
+          "additionalProperties": false
+        },
+        "commands": {
+          "type": ["object", "null"],
+          "properties": {
+            "manifest": { "type": "string", "const": "commands/manifest.fragment.yml" }
+          },
+          "required": ["manifest"],
+          "additionalProperties": false
+        },
+        "templates": {
+          "type": ["object", "null"],
+          "properties": {
+            "catalog": { "type": "string", "const": "templates/catalog.fragment.yml" }
+          },
+          "required": ["catalog"],
+          "additionalProperties": false
+        },
+        "prompts": {
+          "type": ["object", "null"],
+          "properties": {
+            "catalog": { "type": "string", "const": "prompts/catalog.fragment.yml" }
+          },
+          "required": ["catalog"],
+          "additionalProperties": false
+        },
+        "context": {
+          "type": ["object", "null"],
+          "properties": {
+            "catalog": { "type": "string", "const": "context/catalog.fragment.yml" }
+          },
+          "required": ["catalog"],
+          "additionalProperties": false
+        },
+        "validation": {
+          "type": ["object", "null"],
+          "properties": {
+            "catalog": { "type": "string", "const": "validation/catalog.fragment.yml" }
+          },
+          "required": ["catalog"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

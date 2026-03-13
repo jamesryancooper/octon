@@ -1,0 +1,14 @@
+schema_version: "extensions-skills-registry-fragment-v1"
+skills:
+  nextjs--app-router-runtime:
+    version: "1.0.0"
+    commands:
+      - /nextjs--app-router-runtime
+    parameters:
+      - name: focus
+        type: text
+        required: false
+        default: "runtime"
+        description: "Focus area for the runtime guidance."
+    requires:
+      context: []

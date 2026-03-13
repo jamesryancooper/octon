@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Extensions Catalog",
+  "description": "Proposed schema for .extensions/catalog.yml in v1.",
+  "type": "object",
+  "required": ["schema_version", "harness_scope", "extensions"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "extensions-catalog-v1"
+    },
+    "harness_scope": {
+      "type": "string",
+      "const": "root-only"
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "path",
+          "enabled",
+          "pinned_version"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^\\.extensions\\/[a-z][a-z0-9-]*$"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "pinned_version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+          },
+          "expected_pack_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

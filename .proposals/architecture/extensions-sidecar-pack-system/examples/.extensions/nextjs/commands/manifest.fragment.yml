@@ -1,0 +1,8 @@
+schema_version: "extensions-commands-fragment-v1"
+commands:
+  - id: nextjs--preview-readiness
+    display_name: Nextjs Preview Readiness
+    path: nextjs--preview-readiness.md
+    summary: "Review preview readiness for a Next.js surface."
+    access: agent
+    argument_hint: "[target-path]"
