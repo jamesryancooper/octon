@@ -1,0 +1,55 @@
+{
+  "interop_contract_version": "1.0.0",
+  "id": "agent-platform-edge-context-governance",
+  "description": "Context-governance evidence fixture with manifest completeness and overhead classification.",
+  "context_governance": {
+    "instruction_layer_manifest": {
+      "schema_version": "instruction-layer-manifest-v1",
+      "generated_at": "2026-02-25T00:00:00Z",
+      "layers": [
+        {
+          "layer_id": "provider",
+          "source": "upstream",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "bytes": 0,
+          "visibility": "partial"
+        },
+        {
+          "layer_id": "system",
+          "source": "octon-system",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "bytes": 0,
+          "visibility": "partial"
+        },
+        {
+          "layer_id": "developer",
+          "source": "AGENTS.md",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "bytes": 1024,
+          "visibility": "full"
+        },
+        {
+          "layer_id": "user",
+          "source": "runtime-request",
+          "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+          "bytes": 512,
+          "visibility": "full"
+        }
+      ]
+    },
+    "receipt_fields": [
+      "instruction_layers",
+      "context_acquisition",
+      "context_overhead_ratio"
+    ],
+    "context_acquisition": {
+      "file_reads": 18,
+      "search_queries": 4,
+      "commands": 7,
+      "subagent_spawns": 1,
+      "duration_ms": 64000
+    },
+    "context_overhead_ratio": 0.22,
+    "overhead_class": "warn-tier"
+  }
+}

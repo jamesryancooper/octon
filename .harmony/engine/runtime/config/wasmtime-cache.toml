@@ -1,6 +1,0 @@
-# Wasmtime compilation cache configuration.
-# The cache directory lives under the repo-local Harmony state dir.
-
-[cache]
-enabled = true
-directory = ".harmony/engine/_ops/state/wasmtime-cache"

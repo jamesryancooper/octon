@@ -1,0 +1,22 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-design-core",
+  "description": "Core template for standard-governed Octon design proposals.",
+  "inherits": "proposal-core",
+  "files": {
+    "required": [
+      "README.md",
+      "design-proposal.yml",
+      "implementation/README.md",
+      "implementation/minimal-implementation-blueprint.md",
+      "implementation/first-implementation-plan.md"
+    ],
+    "directories": {
+      "required": [
+        "navigation",
+        "implementation"
+      ]
+    }
+  },
+  "usage": "/create-design-proposal"
+}

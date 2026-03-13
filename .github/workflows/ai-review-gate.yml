@@ -39,17 +39,17 @@ jobs:
           filters: |
             risk:
               - '.github/workflows/**'
-              - '.harmony/**/*.sh'
-              - '.harmony/**/*.bash'
-              - '.harmony/**/*.js'
-              - '.harmony/**/*.ts'
-              - '.harmony/**/*.rs'
-              - '.harmony/**/*.json'
-              - '.harmony/**/*.toml'
-              - '.harmony/**/*.yml'
-              - '.harmony/**/*.yaml'
-              - '.harmony/engine/runtime/run'
-              - '.harmony/engine/runtime/run.cmd'
+              - '.octon/**/*.sh'
+              - '.octon/**/*.bash'
+              - '.octon/**/*.js'
+              - '.octon/**/*.ts'
+              - '.octon/**/*.rs'
+              - '.octon/**/*.json'
+              - '.octon/**/*.toml'
+              - '.octon/**/*.yml'
+              - '.octon/**/*.yaml'
+              - '.octon/engine/runtime/run'
+              - '.octon/engine/runtime/run.cmd'
               - 'AGENTS.md'
 
       - id: provider_trigger
@@ -90,10 +90,10 @@ jobs:
       - name: Build PR diff artifact
         run: |
           set -euo pipefail
-          mkdir -p .harmony/output/.tmp/ai-gate
+          mkdir -p .octon/output/.tmp/ai-gate
           git diff --unified=0 \
             ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} \
-            > .harmony/output/.tmp/ai-gate/pr.diff || true
+            > .octon/output/.tmp/ai-gate/pr.diff || true
 
       - name: Run provider adapter
         env:
@@ -102,17 +102,17 @@ jobs:
         run: |
           set -euo pipefail
 
-          policy=".harmony/agency/practices/standards/ai-gate-policy.json"
-          schema=".harmony/agency/practices/standards/ai-gate-findings.schema.json"
-          diff=".harmony/output/.tmp/ai-gate/pr.diff"
-          output=".harmony/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json"
+          policy=".octon/agency/practices/standards/ai-gate-policy.json"
+          schema=".octon/agency/practices/standards/ai-gate-findings.schema.json"
+          diff=".octon/output/.tmp/ai-gate/pr.diff"
+          output=".octon/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json"
 
           case "${{ matrix.provider }}" in
             openai)
-              script=".harmony/agency/_ops/scripts/ai-gate/provider-openai.sh"
+              script=".octon/agency/_ops/scripts/ai-gate/provider-openai.sh"
               ;;
             anthropic)
-              script=".harmony/agency/_ops/scripts/ai-gate/provider-anthropic.sh"
+              script=".octon/agency/_ops/scripts/ai-gate/provider-anthropic.sh"
               ;;
             *)
               echo "Unknown provider: ${{ matrix.provider }}" >&2
@@ -130,7 +130,7 @@ jobs:
       - name: Validate normalized findings structure
         run: |
           set -euo pipefail
-          file=".harmony/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json"
+          file=".octon/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json"
           jq -e '
             .provider and .status and .generated_at and .summary and (.findings | type == "array")
           ' "${file}" >/dev/null
@@ -139,7 +139,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ai-gate-findings-${{ matrix.provider }}
-          path: .harmony/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json
+          path: .octon/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json
           if-no-files-found: error
           retention-days: 3
 
@@ -167,16 +167,16 @@ jobs:
         continue-on-error: true
         with:
           pattern: ai-gate-findings-*
-          path: .harmony/output/.tmp/ai-gate/artifacts
+          path: .octon/output/.tmp/ai-gate/artifacts
           merge-multiple: true
 
       - name: Ensure provider findings files exist
         run: |
           set -euo pipefail
-          mkdir -p .harmony/output/.tmp/ai-gate/artifacts
+          mkdir -p .octon/output/.tmp/ai-gate/artifacts
 
           for provider in openai anthropic; do
-            file=".harmony/output/.tmp/ai-gate/artifacts/findings-${provider}.json"
+            file=".octon/output/.tmp/ai-gate/artifacts/findings-${provider}.json"
             if [[ -f "${file}" ]]; then
               continue
             fi
@@ -216,13 +216,13 @@ jobs:
         run: |
           set -euo pipefail
 
-          policy=".harmony/agency/practices/standards/ai-gate-policy.json"
-          schema=".harmony/agency/practices/standards/ai-gate-findings.schema.json"
-          findings_dir=".harmony/output/.tmp/ai-gate/artifacts"
-          output=".harmony/output/.tmp/ai-gate/decision.json"
+          policy=".octon/agency/practices/standards/ai-gate-policy.json"
+          schema=".octon/agency/practices/standards/ai-gate-findings.schema.json"
+          findings_dir=".octon/output/.tmp/ai-gate/artifacts"
+          output=".octon/output/.tmp/ai-gate/decision.json"
 
-          chmod +x .harmony/agency/_ops/scripts/ai-gate/aggregate-decision.sh
-          .harmony/agency/_ops/scripts/ai-gate/aggregate-decision.sh \
+          chmod +x .octon/agency/_ops/scripts/ai-gate/aggregate-decision.sh
+          .octon/agency/_ops/scripts/ai-gate/aggregate-decision.sh \
             --policy "${policy}" \
             --schema "${schema}" \
             --findings-dir "${findings_dir}" \
@@ -236,7 +236,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          decision_file=".harmony/output/.tmp/ai-gate/decision.json"
+          decision_file=".octon/output/.tmp/ai-gate/decision.json"
           blockers="$(jq -r '.blockers_total' "${decision_file}")"
           waived="$(jq -r '.waived' "${decision_file}")"
 
@@ -252,7 +252,7 @@ jobs:
         if: always()
         run: |
           set -euo pipefail
-          decision_file=".harmony/output/.tmp/ai-gate/decision.json"
+          decision_file=".octon/output/.tmp/ai-gate/decision.json"
           {
             echo "### AI Review Gate"
             echo
@@ -271,7 +271,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ai-gate-decision
-          path: .harmony/output/.tmp/ai-gate/decision.json
+          path: .octon/output/.tmp/ai-gate/decision.json
           if-no-files-found: error
           retention-days: 7
 

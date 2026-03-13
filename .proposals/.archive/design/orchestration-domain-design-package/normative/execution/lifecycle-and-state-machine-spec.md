@@ -3,7 +3,7 @@
 ## Purpose
 
 Define the allowed lifecycle states, transitions, invariants, and failure
-handling rules for stateful orchestration surfaces in the mature Harmony
+handling rules for stateful orchestration surfaces in the mature Octon
 orchestration model.
 
 This document is normative for lifecycle behavior. Surface object contracts

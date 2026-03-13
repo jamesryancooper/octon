@@ -4,7 +4,7 @@
 
 ```text
 00 Cover
-  Frame: Cover / Harmony Studio Graph UX
+  Frame: Cover / Octon Studio Graph UX
   Frame: Cover / Product Goals
   Frame: Cover / Data Model Summary
 

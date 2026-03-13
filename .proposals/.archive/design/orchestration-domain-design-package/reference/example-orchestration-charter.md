@@ -1,6 +1,6 @@
 # Example Orchestration Charter
 
-This document is an example of what a future canonical charter for Harmony's
+This document is an example of what a future canonical charter for Octon's
 orchestration model could look like. It is illustrative, not authoritative.
 
 ## Purpose

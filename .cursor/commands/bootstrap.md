@@ -2,7 +2,7 @@
 
 Quick-start a new agent session in a harness.
 
-See `.harmony/scaffolding/prompts/bootstrap-session.md` for full details.
+See `.octon/scaffolding/prompts/bootstrap-session.md` for full details.
 
 ## Usage
 
@@ -18,10 +18,10 @@ Or for the current directory:
 
 ## Implementation
 
-Execute `.harmony/scaffolding/prompts/bootstrap-session.md` in the target directory. Locates the nearest `.harmony/` and runs the boot sequence.
+Execute `.octon/scaffolding/prompts/bootstrap-session.md` in the target directory. Locates the nearest `.octon/` and runs the boot sequence.
 
 ## References
 
-- **Canonical:** `.harmony/scaffolding/_meta/architecture/prompts.md`
-- **Prompt:** `.harmony/scaffolding/prompts/bootstrap-session.md`
+- **Canonical:** `.octon/scaffolding/_meta/architecture/prompts.md`
+- **Prompt:** `.octon/scaffolding/prompts/bootstrap-session.md`
 

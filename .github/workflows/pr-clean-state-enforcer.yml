@@ -203,8 +203,8 @@ jobs:
                 "",
                 "Action expectations:",
                 "- Resolve manual-lane/blocking conditions promptly (`accept:human`, policy labels, review threads/checks).",
-                "- After merge/close, run local cleanup: `.harmony/agency/_ops/scripts/git/git-pr-cleanup.sh`.",
-                "- Preferred shipping path: `.harmony/agency/_ops/scripts/git/git-pr-ship.sh` (includes cleanup watcher)."
+                "- After merge/close, run local cleanup: `.octon/agency/_ops/scripts/git/git-pr-cleanup.sh`.",
+                "- Preferred shipping path: `.octon/agency/_ops/scripts/git/git-pr-ship.sh` (includes cleanup watcher)."
               ];
               const body = lines.join("\n");
 

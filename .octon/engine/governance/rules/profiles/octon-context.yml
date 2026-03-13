@@ -1,0 +1,5 @@
+id: octon-context
+version: "1.0.0"
+status: active
+owner: cognition-architecture
+summary: "Inject harness context and frontmatter constraints for .octon edits."

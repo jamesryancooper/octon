@@ -130,7 +130,7 @@ Required for all automations.
 | `watcher_ids` | yes | allowed source watchers |
 | `event_types` | yes | allowed event types |
 | `severity_at_or_above` | no | minimum event severity using the canonical order `info < warning < high < critical` |
-| `source_ref_globs` | no | optional full-string, case-sensitive Harmony path globs over normalized `source_ref` |
+| `source_ref_globs` | no | optional full-string, case-sensitive Octon path globs over normalized `source_ref` |
 | `match_mode` | yes | `all` requires every declared selector group to match; `any` requires at least one declared selector group to match |
 | `dedupe_window` | no | optional suppression window for semantically identical events after idempotency-key derivation |
 

@@ -14,7 +14,7 @@ Archive Disposition: `historical`
 
 ## Implementation Targets
 
-- `/.harmony/cognition/practices/methodology/`
+- `/.octon/cognition/practices/methodology/`
 
 ## Included Artifacts
 

@@ -17,11 +17,11 @@ Primary goal: Maximize release velocity and autonomous execution for solo develo
 These remain mandatory and are not modified by this plan:
 
 - `main` is PR-first; direct push only via break-glass override.
-  - Source: `AGENTS.md`, `.harmony/cognition/governance/principles/principles.md`, `.github/workflows/main-pr-first-guard.yml`
+  - Source: `AGENTS.md`, `.octon/cognition/governance/principles/principles.md`, `.github/workflows/main-pr-first-guard.yml`
 - ACP + deny-by-default remain the authority model for durable changes.
-  - Source: `.harmony/cognition/governance/principles/autonomous-control-points.md`, `.harmony/cognition/governance/principles/deny-by-default.md`
-- Harmony harness structure remains under `.harmony/`.
-  - Source: `.harmony/START.md`
+  - Source: `.octon/cognition/governance/principles/autonomous-control-points.md`, `.octon/cognition/governance/principles/deny-by-default.md`
+- Octon harness structure remains under `.octon/`.
+  - Source: `.octon/START.md`
 - Existing domain safety checks remain active (agency/assurance/deny-by-default/main safety).
 
 ## 2. Target Operating Profile
@@ -72,7 +72,7 @@ Use four implementation phases to avoid destabilizing delivery.
 
 ## A. Standards and practices updates
 
-### 1) Update `.harmony/agency/practices/standards/commit-pr-standards.json`
+### 1) Update `.octon/agency/practices/standards/commit-pr-standards.json`
 
 Change set:
 
@@ -89,7 +89,7 @@ Rationale:
 
 - Makes PR-title/trunk commit quality machine-readable and canonical.
 
-### 2) Update `.harmony/agency/practices/commits.md`
+### 2) Update `.octon/agency/practices/commits.md`
 
 Change set:
 
@@ -103,7 +103,7 @@ Rationale:
 
 - Reduces friction for autonomous iteration while preserving clean trunk history.
 
-### 3) Update `.harmony/agency/practices/pull-request-standards.md`
+### 3) Update `.octon/agency/practices/pull-request-standards.md`
 
 Change set:
 
@@ -145,8 +145,8 @@ Purpose:
 Key behavior:
 
 - Trigger: `pull_request_target` (no checkout)
-- Compute labels from changed paths using Harmony-aware prefixes:
-  - `.harmony/agency/`, `.harmony/capabilities/`, `.harmony/cognition/`, `.harmony/orchestration/`, `.harmony/scaffolding/`, `.harmony/assurance/`, `.harmony/engine/`, `.harmony/continuity/`, `.harmony/ideation/`, `.harmony/output/`, `.github/`
+- Compute labels from changed paths using Octon-aware prefixes:
+  - `.octon/agency/`, `.octon/capabilities/`, `.octon/cognition/`, `.octon/orchestration/`, `.octon/scaffolding/`, `.octon/assurance/`, `.octon/engine/`, `.octon/continuity/`, `.octon/ideation/`, `.octon/output/`, `.github/`
 - Set risk:
   - high for governance/runtime-control-plane sensitive paths
   - medium for broad runtime/ops surfaces
@@ -182,12 +182,12 @@ High-impact path set (initial):
 
 - `.github/**`
 - `AGENTS.md`
-- `.harmony/agency/governance/**`
-- `.harmony/cognition/governance/**`
-- `.harmony/capabilities/governance/**`
-- `.harmony/engine/governance/**`
-- `.harmony/engine/runtime/spec/**`
-- `.harmony/assurance/governance/**`
+- `.octon/agency/governance/**`
+- `.octon/cognition/governance/**`
+- `.octon/capabilities/governance/**`
+- `.octon/engine/governance/**`
+- `.octon/engine/runtime/spec/**`
+- `.octon/assurance/governance/**`
 
 ### 7) Add `.github/workflows/pr-auto-merge.yml`
 
@@ -294,35 +294,35 @@ Notes:
 - weekly GitHub Actions dependency updates
 - labels aligned to triage policy
 
-## E. Local/agent automation scripts (Harmony-native path)
+## E. Local/agent automation scripts (Octon-native path)
 
-Place scripts under `.harmony/agency/_ops/scripts/`.
+Place scripts under `.octon/agency/_ops/scripts/`.
 
-### 17) Add `.harmony/agency/_ops/scripts/git/git-wt-new.sh`
+### 17) Add `.octon/agency/_ops/scripts/git/git-wt-new.sh`
 
 Purpose:
 
 - one-command worktree + branch creation
 
-### 18) Add `.harmony/agency/_ops/scripts/git/git-pr-open.sh`
+### 18) Add `.octon/agency/_ops/scripts/git/git-pr-open.sh`
 
 Purpose:
 
 - commit/push/open draft PR with template-aware body
 
-### 19) Add `.harmony/agency/_ops/scripts/git/git-pr-ship.sh`
+### 19) Add `.octon/agency/_ops/scripts/git/git-pr-ship.sh`
 
 Purpose:
 
 - set labels, mark ready, enable auto-merge
 
-### 20) Add `.harmony/agency/_ops/scripts/github/sync-github-labels.sh`
+### 20) Add `.octon/agency/_ops/scripts/github/sync-github-labels.sh`
 
 Purpose:
 
 - idempotent creation/update of required labels
 
-### 21) Add `.harmony/agency/practices/git-autonomy-playbook.md`
+### 21) Add `.octon/agency/practices/git-autonomy-playbook.md`
 
 Purpose:
 

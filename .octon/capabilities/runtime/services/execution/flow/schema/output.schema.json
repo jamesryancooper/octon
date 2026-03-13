@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/flowkit/flowkit.outputs.v1.json",
+  "title": "FlowKitOutputs",
+  "description": "Output schema for FlowKit run results",
+  "type": "object",
+  "required": ["result", "runId", "context_acquisition", "context_overhead_ratio"],
+  "properties": {
+    "result": {
+      "description": "Flow-specific result payload",
+      "type": ["object", "array", "string", "number", "boolean", "null"]
+    },
+    "runId": {
+      "type": "string",
+      "description": "Stable identifier for this run",
+      "format": "uuid"
+    },
+    "artifacts": {
+      "type": "array",
+      "description": "Paths to artifacts produced by the flow",
+      "items": {
+        "type": "string"
+      }
+    },
+    "context_acquisition": {
+      "type": "object",
+      "description": "Context-acquisition counters for this flow execution.",
+      "required": ["file_reads", "search_queries", "commands", "subagent_spawns", "duration_ms"],
+      "properties": {
+        "file_reads": { "type": "integer", "minimum": 0 },
+        "search_queries": { "type": "integer", "minimum": 0 },
+        "commands": { "type": "integer", "minimum": 0 },
+        "subagent_spawns": { "type": "integer", "minimum": 0 },
+        "duration_ms": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": true
+    },
+    "context_overhead_ratio": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Measured context-overhead ratio for this flow run."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Metadata about the flow run",
+      "properties": {
+        "flowName": { "type": "string" },
+        "workflowManifestPath": { "type": "string" },
+        "canonicalPromptPath": { "type": "string" },
+        "workspaceRoot": { "type": "string" },
+        "runnerEndpoint": { "type": "string" },
+        "workflowEntrypoint": { "type": "string" },
+        "runtimeRunId": { "type": "string" },
+        "spanPrefix": { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  }
+}

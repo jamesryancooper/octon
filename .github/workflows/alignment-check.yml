@@ -48,12 +48,12 @@ jobs:
 
       - name: Run alignment-check
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/alignment-check.sh
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-commit-pr-alignment.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-commit-pr-alignment.sh
 
           args=(--profile "$PROFILE")
           if [[ "$DRY_RUN" == "true" ]]; then
             args+=(--dry-run)
           fi
 
-          bash .harmony/assurance/runtime/_ops/scripts/alignment-check.sh "${args[@]}"
+          bash .octon/assurance/runtime/_ops/scripts/alignment-check.sh "${args[@]}"

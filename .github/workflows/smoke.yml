@@ -23,7 +23,7 @@ jobs:
       - name: Run harness smoke checks
         run: |
           echo "Running harness smoke checks..."
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-          chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-          .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          chmod +x .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+          .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh

@@ -1,0 +1,254 @@
+schema_version: "2.0"
+mode: "hard-enforce"
+defaults:
+  fail_closed: true
+  deny_unknown_tokens: true
+  deny_unscoped_bash: true
+  deny_unscoped_write: true
+exceptions:
+  state_file: "exceptions.yml"
+  require_owner: true
+  require_reason: true
+  require_created: true
+  require_expires: true
+  max_lease_days: 120
+grants:
+  state_dir: "grants"
+  default_ttl_seconds: 3600
+  max_ttl_seconds_by_tier:
+    low: 86400
+    medium: 14400
+    high: 1800
+  allow_auto_grant_low: true
+  allow_auto_grant_medium: false
+  allow_auto_grant_high: false
+  require_provenance: true
+agent_only:
+  enabled: true
+  risk_tiers:
+    low:
+      min_distinct_agents: 1
+      require_review: false
+      require_quorum_token: false
+      require_rollback_plan: false
+    medium:
+      min_distinct_agents: 2
+      require_review: true
+      require_quorum_token: false
+      require_rollback_plan: true
+    high:
+      min_distinct_agents: 2
+      require_review: true
+      require_quorum_token: true
+      require_rollback_plan: true
+kill_switch:
+  state_dir: "kill-switches"
+  fail_closed: true
+profiles:
+  refactor:
+    description: "Refactor"
+    auto_grant_tier: low
+    tool_bundle: ["Read", "Edit"]
+    write_scope_bundle: ["Write(src/*)"]
+    service_allowlist: ["plan"]
+    deny_rules: ["DDB004_UNSCOPED_BASH"]
+observability:
+  decision_log_path: "logs/decisions.jsonl"
+  friction_slo:
+    false_deny_rate_max: 0.005
+    median_deny_to_unblock_seconds_max: 60
+    auto_remediation_success_rate_min: 0.9
+acp:
+  levels:
+    - id: ACP-0
+      name: Observe
+      description: Read only
+    - id: ACP-1
+      name: Reversible Local
+      description: Local reversible changes
+    - id: ACP-2
+      name: Stateful Reversible
+      description: Stateful reversible changes
+    - id: ACP-3
+      name: Destructive-Adjacent
+      description: Soft destructive with recovery window
+    - id: ACP-4
+      name: Irreversible
+      description: Irreversible operations
+  risk_tier_mapping:
+    low: ACP-1
+    medium: ACP-2
+    high: ACP-3
+  docs_gate:
+    enforce_on_phase: [promote]
+    evidence_types: [docs.spec, docs.adr, docs.runbook]
+    reason_code: ACP_DOCS_EVIDENCE_MISSING
+    missing_action_by_acp:
+      ACP-1: STAGE_ONLY
+      ACP-2: DENY
+      ACP-3: DENY
+      ACP-4: DENY
+  profile_defaults:
+    refactor:
+      ceiling: ACP-3
+      allow_stage_only_fallback: true
+    operate:
+      ceiling: ACP-3
+      allow_stage_only_fallback: true
+  rules:
+    - id: acp-commit
+      match:
+        class: git.commit
+        phase: [promote]
+      require:
+        acp: ACP-1
+        phase: promote
+        reversibility:
+          required: true
+          primitive: git.revert_commit
+        evidence_required: [diff, tests]
+        budget_set: budgets.repo-small
+        circuit_breaker_set: circuit_breakers.repo-stage
+      on_missing_requirements: STAGE_ONLY
+    - id: acp-merge-main
+      match:
+        class: git.merge
+        phase: [promote]
+        target:
+          branch: [main]
+      require:
+        acp: ACP-2
+        phase: promote
+        reversibility:
+          required: true
+          primitive: git.revert_merge
+          rollback_proof_required: true
+        evidence_required: [diff, tests]
+        quorum_required: quorum.acp2
+        budget_set: budgets.repo-merge
+        circuit_breaker_set: circuit_breakers.repo-promote
+      on_missing_requirements: STAGE_ONLY
+    - id: acp-soft-delete-local
+      match:
+        class: fs.soft_delete
+        phase: [promote]
+        target:
+          scope: [local]
+      require:
+        acp: ACP-1
+        phase: promote
+        reversibility:
+          required: true
+          primitive: fs.move_to_trash
+        evidence_required: [diff]
+        budget_set: budgets.fs-delete
+        circuit_breaker_set: circuit_breakers.destructive
+      on_missing_requirements: STAGE_ONLY
+    - id: acp-soft-delete-broad
+      match:
+        class: fs.soft_delete
+        phase: [promote]
+      require:
+        acp: ACP-3
+        phase: promote
+        reversibility:
+          required: true
+          primitive: fs.move_to_trash
+          rollback_proof_required: true
+        evidence_required: [diff]
+        quorum_required: quorum.acp3
+        budget_set: budgets.fs-delete
+        circuit_breaker_set: circuit_breakers.destructive
+      on_missing_requirements: STAGE_ONLY
+reversibility:
+  required_for_acp_at_or_above: ACP-1
+  primitives:
+    git.revert_commit:
+      description: Revert commit
+      rollback_handle_type: git-commit
+      default_recovery_window: P30D
+    git.revert_merge:
+      description: Revert merge
+      rollback_handle_type: git-merge
+      default_recovery_window: P30D
+    fs.move_to_trash:
+      description: Soft delete via trash
+      rollback_handle_type: fs-trash
+      default_recovery_window: P30D
+  blocked_when_not_break_glass:
+    - fs.hard_delete
+budgets:
+  repo-small:
+    repo.max_files_touched: 50
+    repo.max_loc_delta: 1500
+  repo-merge:
+    repo.max_files_touched: 200
+    repo.max_loc_delta: 8000
+  fs-delete:
+    fs.max_paths_deleted: 100
+quorum:
+  acp2:
+    min_signatures: 2
+    required_roles: [proposer, verifier]
+  acp3:
+    min_signatures: 3
+    required_roles: [proposer, verifier, recovery]
+attestations:
+  required_fields: [role, actor_id, timestamp, plan_hash, evidence_hash, signature]
+  roles:
+    proposer:
+      description: Proposes
+    verifier:
+      description: Verifies
+    recovery:
+      description: Recovery checks
+    owner:
+      description: Boundary owner attestation
+  binding:
+    require_plan_hash: true
+    require_evidence_hash: true
+    allowed_hash_algorithms: [sha256]
+  owner_attestation:
+    enabled: true
+    role: owner
+    sources: [codeowners, ownership_registry, boundaries_manifest]
+    required_for_acp: [ACP-2, ACP-3]
+    required_when_target_flags: [boundary_exception, owner_scope, owner_attestation_required]
+    timeout_seconds: 900
+    retry:
+      max_attempts: 3
+      backoff_seconds: 60
+    escalate_on_exhausted: true
+circuit_breakers:
+  repo-stage:
+    triggers:
+      - id: cb-test-fail
+        type: invariant
+        signal: tests.failed
+        threshold: 1
+        action: stop_and_stage_only
+  repo-promote:
+    triggers:
+      - id: cb-ci-fail
+        type: invariant
+        signal: ci.failed
+        threshold: 1
+        action: auto_rollback_and_trip_killswitch
+  destructive:
+    triggers:
+      - id: cb-budget
+        type: budget
+        signal: budget.exceeded
+        threshold: 1
+        action: stop_and_stage_only
+receipts:
+  required_for_acp_at_or_above: ACP-1
+  emit_on: [ALLOW, STAGE_ONLY, DENY, ESCALATE]
+  paths:
+    runs_dir: ".octon/continuity/runs"
+    decision_log: "logs/decisions.jsonl"
+    acp_decision_log: "logs/acp-decisions.jsonl"
+  required_fields:
+    - run_id
+    - decision
+    - reason_codes

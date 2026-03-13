@@ -39,7 +39,7 @@ status.
 - `pipeline-overview.md`
 - `stage-contracts.md`
 - `artifact-contract.md`
-- `harmony-integration.md`
+- `octon-integration.md`
 - `normative/execution/run-lifecycle.md`
 - `normative/execution/executor-interface.md`
 - `normative/execution/executor-runtime-prerequisites.md`
@@ -57,15 +57,15 @@ status.
 - `prompts/08-minimal-implementation-architecture-extraction.md`
 - `prompts/09-first-implementation-plan.md`
 
-## Required Harmony Surfaces
+## Required Octon Surfaces
 
-- `/.harmony/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml`
-- `/.harmony/orchestration/runtime/workflows/manifest.yml`
-- `/.harmony/orchestration/runtime/workflows/registry.yml`
-- `/.harmony/orchestration/governance/capability-map-v1.yml`
-- `/.harmony/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh`
-- `/.harmony/assurance/runtime/_ops/tests/test-validate-audit-design-package-workflow.sh`
-- `/.harmony/engine/runtime/crates/kernel/src/workflow.rs`
+- `/.octon/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml`
+- `/.octon/orchestration/runtime/workflows/manifest.yml`
+- `/.octon/orchestration/runtime/workflows/registry.yml`
+- `/.octon/orchestration/governance/capability-map-v1.yml`
+- `/.octon/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh`
+- `/.octon/assurance/runtime/_ops/tests/test-validate-audit-design-package-workflow.sh`
+- `/.octon/engine/runtime/crates/kernel/src/workflow.rs`
 
 ## Readiness Checklist
 

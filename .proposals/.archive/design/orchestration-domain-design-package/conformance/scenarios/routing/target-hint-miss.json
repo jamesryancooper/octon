@@ -6,7 +6,7 @@
     "watcher_id": "governance-drift-watcher",
     "event_type": "freshness-drift",
     "severity": "warning",
-    "source_ref": ".harmony/orchestration/runtime/workflows",
+    "source_ref": ".octon/orchestration/runtime/workflows",
     "target_automation_id": "nonexistent-automation"
   },
   "automations": [

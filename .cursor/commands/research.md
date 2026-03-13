@@ -1,6 +1,6 @@
 # Start Project `/research`
 
-Create a new project in `.harmony/ideation/projects/`.
+Create a new project in `.octon/ideation/projects/`.
 
 ## Usage
 
@@ -21,9 +21,9 @@ Create a new project in `.harmony/ideation/projects/`.
 
 ## Implementation
 
-1. Copy `.harmony/ideation/projects/_template/` to `.harmony/ideation/projects/<slug>/`
+1. Copy `.octon/ideation/projects/_template/` to `.octon/ideation/projects/<slug>/`
 2. Update `project.md` with the slug and current date
-3. Add entry to `.harmony/ideation/projects/registry.md` under **Active**
+3. Add entry to `.octon/ideation/projects/registry.md` under **Active**
 4. Report success to user
 
 ## The Funnel
@@ -46,7 +46,7 @@ Use `/research` when you're ready to commit to a structured exploration that wil
 
 ## References
 
-- **Registry:** `.harmony/ideation/projects/registry.md`
-- **Template:** `.harmony/ideation/projects/_template/`
-- **Documentation:** `.harmony/ideation/projects/README.md`
-- **Brainstorm (upstream):** `.harmony/ideation/scratchpad/brainstorm/`
+- **Registry:** `.octon/ideation/projects/registry.md`
+- **Template:** `.octon/ideation/projects/_template/`
+- **Documentation:** `.octon/ideation/projects/README.md`
+- **Brainstorm (upstream):** `.octon/ideation/scratchpad/brainstorm/`

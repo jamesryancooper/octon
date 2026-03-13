@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/filesystem-watch/input.v1.json",
+  "title": "FilesystemWatchInput",
+  "type": "object",
+  "required": ["command", "payload"],
+  "additionalProperties": false,
+  "properties": {
+    "command": {
+      "type": "string",
+      "enum": ["watch.poll"]
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

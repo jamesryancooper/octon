@@ -1,0 +1,6 @@
+# Wasmtime compilation cache configuration.
+# The cache directory lives under runtime support state.
+
+[cache]
+enabled = true
+directory = ".octon/runtime/_ops/state/wasmtime-cache"

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/agent-platform/input.v1.json",
+  "title": "AgentPlatformInput",
+  "description": "Input schema for native interop service operations.",
+  "type": "object",
+  "required": ["command", "mode", "payload"],
+  "properties": {
+    "command": {
+      "type": "string",
+      "enum": [
+        "context-budget",
+        "validate-session-policy",
+        "negotiate-capabilities"
+      ]
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["native", "adapter"]
+    },
+    "adapter_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": { "const": "adapter" }
+        }
+      },
+      "then": {
+        "required": ["adapter_id"]
+      }
+    }
+  ]
+}

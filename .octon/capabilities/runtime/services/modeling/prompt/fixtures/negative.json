@@ -1,0 +1,13 @@
+{
+  "id": "prompt-negative-missing-id",
+  "description": "Missing prompt id fails validation.",
+  "request": {
+    "variables": {
+      "target": ".octon/capabilities/runtime/services"
+    }
+  },
+  "expect": {
+    "errorCode": "InputValidationError",
+    "exitCode": 5
+  }
+}

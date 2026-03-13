@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://harmony.local/design-packages/orchestration/automation-trigger.schema.json",
+  "$id": "https://octon.local/design-packages/orchestration/automation-trigger.schema.json",
   "title": "Automation Trigger",
   "type": "object",
   "additionalProperties": false,
@@ -90,7 +90,7 @@
           ]
         },
         "source_ref_globs": {
-          "description": "Case-sensitive full-string Harmony path globs over normalized source_ref values. Supports *, **, ?, and bracket classes [].",
+          "description": "Case-sensitive full-string Octon path globs over normalized source_ref values. Supports *, **, ?, and bracket classes [].",
           "$ref": "#/$defs/stringArray"
         },
         "match_mode": {

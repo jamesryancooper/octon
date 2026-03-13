@@ -12,4 +12,4 @@ Use these files in order:
 3. `first-implementation-plan.md`
 
 These documents remain temporary historical guidance recording how the durable
-`/.harmony/` workflow, registry, runner, and assurance surfaces were aligned.
+`/.octon/` workflow, registry, runner, and assurance surfaces were aligned.

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Describe the durable Harmony surfaces and interactions required to implement the
+Describe the durable Octon surfaces and interactions required to implement the
 architecture-readiness framework.
 
 ## Components
@@ -10,7 +10,7 @@ architecture-readiness framework.
 ### Methodology Surface
 
 - location:
-  `/.harmony/cognition/practices/methodology/architecture-readiness/`
+  `/.octon/cognition/practices/methodology/architecture-readiness/`
 - responsibility:
   - explain target applicability
   - explain dimensions and hard gates
@@ -19,7 +19,7 @@ architecture-readiness framework.
 ### Primary Audit Skill
 
 - location:
-  `/.harmony/capabilities/runtime/skills/audit/audit-architecture-readiness/`
+  `/.octon/capabilities/runtime/skills/audit/audit-architecture-readiness/`
 - responsibility:
   - classify the target
   - collect evidence
@@ -30,7 +30,7 @@ architecture-readiness framework.
 ### Orchestration Workflow
 
 - location:
-  `/.harmony/orchestration/runtime/workflows/audit/audit-architecture-readiness/`
+  `/.octon/orchestration/runtime/workflows/audit/audit-architecture-readiness/`
 - responsibility:
   - coordinate larger-scope runs
   - invoke optional supplemental audits
@@ -39,7 +39,7 @@ architecture-readiness framework.
 ### ADR Pattern
 
 - location:
-  `/.harmony/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md`
+  `/.octon/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md`
 - responsibility:
   - provide a reusable architecture-readiness gate for ADR review
 

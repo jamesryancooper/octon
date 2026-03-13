@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/planning-contingency/output.schema.json",
+  "title": "PlanningContingencyOutput",
+  "type": "object",
+  "required": ["status", "command", "result"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "partial", "error"]
+    },
+    "command": {
+      "type": "string"
+    },
+    "result": {
+      "type": "object",
+      "required": ["command", "source", "goal", "alternatives", "contingencySummary"],
+      "properties": {
+        "command": { "type": "string" },
+        "source": { "type": "string" },
+        "goal": { "type": "string" },
+        "alternatives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["removedStepIds", "delta", "plan"],
+            "properties": {
+              "removedStepIds": {
+                "type": "array",
+                "items": { "type": "string", "minLength": 1 }
+              },
+              "delta": {
+                "type": "object",
+                "required": ["removedCount", "keptCount"],
+                "properties": {
+                  "removedCount": { "type": "integer", "minimum": 0 },
+                  "keptCount": { "type": "integer", "minimum": 0 }
+                },
+                "additionalProperties": true
+              },
+              "plan": {
+                "type": "object",
+                "required": ["goal", "steps", "order"],
+                "properties": {
+                  "goal": { "type": "string" },
+                  "steps": { "type": "array" },
+                  "order": { "type": "array" }
+                },
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "contingencySummary": {
+          "type": "object",
+          "required": ["alternatives", "requestedFailedCount", "feasibleAlternatives"],
+          "properties": {
+            "alternatives": { "type": "integer", "minimum": 0 },
+            "requestedFailedCount": { "type": "integer", "minimum": 0 },
+            "feasibleAlternatives": { "type": "integer", "minimum": 0 },
+            "maxAlternatives": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

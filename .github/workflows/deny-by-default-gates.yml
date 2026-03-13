@@ -3,24 +3,24 @@ name: Deny-by-Default Gates
 on:
   pull_request:
     paths:
-      - '.harmony/capabilities/_ops/**'
-      - '.harmony/capabilities/runtime/services/**'
-      - '.harmony/capabilities/runtime/skills/**'
-      - '.harmony/capabilities/governance/policy/**'
-      - '.harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh'
-      - '.harmony/engine/runtime/spec/policy-interface-v1.md'
-      - '.harmony/engine/runtime/crates/policy_engine/**'
+      - '.octon/capabilities/_ops/**'
+      - '.octon/capabilities/runtime/services/**'
+      - '.octon/capabilities/runtime/skills/**'
+      - '.octon/capabilities/governance/policy/**'
+      - '.octon/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh'
+      - '.octon/engine/runtime/spec/policy-interface-v1.md'
+      - '.octon/engine/runtime/crates/policy_engine/**'
   push:
     branches:
       - main
     paths:
-      - '.harmony/capabilities/_ops/**'
-      - '.harmony/capabilities/runtime/services/**'
-      - '.harmony/capabilities/runtime/skills/**'
-      - '.harmony/capabilities/governance/policy/**'
-      - '.harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh'
-      - '.harmony/engine/runtime/spec/policy-interface-v1.md'
-      - '.harmony/engine/runtime/crates/policy_engine/**'
+      - '.octon/capabilities/_ops/**'
+      - '.octon/capabilities/runtime/services/**'
+      - '.octon/capabilities/runtime/skills/**'
+      - '.octon/capabilities/governance/policy/**'
+      - '.octon/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh'
+      - '.octon/engine/runtime/spec/policy-interface-v1.md'
+      - '.octon/engine/runtime/crates/policy_engine/**'
 
 permissions:
   contents: read
@@ -47,20 +47,20 @@ jobs:
 
       - name: Validate deny-by-default contract and enforcement (strict)
         run: |
-          chmod +x .harmony/capabilities/_ops/scripts/validate-deny-by-default.sh
-          .harmony/capabilities/_ops/scripts/validate-deny-by-default.sh --all --profile strict
+          chmod +x .octon/capabilities/_ops/scripts/validate-deny-by-default.sh
+          .octon/capabilities/_ops/scripts/validate-deny-by-default.sh --all --profile strict
 
       - name: Validate engine capabilities boundary
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
+          .octon/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
 
       - name: Validate capability/engine consistency
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
+          .octon/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
 
       - name: Friction SLO report
         run: |
-          chmod +x .harmony/capabilities/_ops/scripts/policy-rollout-mode.sh
-          .harmony/capabilities/_ops/scripts/policy-rollout-mode.sh slo-report
+          chmod +x .octon/capabilities/_ops/scripts/policy-rollout-mode.sh
+          .octon/capabilities/_ops/scripts/policy-rollout-mode.sh slo-report

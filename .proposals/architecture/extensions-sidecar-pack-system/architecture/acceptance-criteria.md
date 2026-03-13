@@ -30,14 +30,14 @@ following are true:
    - compiled effective indexes
 5. The source-of-truth split is explicit:
    - `/.extensions/` stores pack source and selection
-   - `/.harmony/` stores runtime authority, governance, and derived effective
+   - `/.octon/` stores runtime authority, governance, and derived effective
      projections
-6. The required `.harmony/` implementation surfaces are explicit:
+6. The required `.octon/` implementation surfaces are explicit:
    - `engine/governance`
    - `engine/runtime`
    - `capabilities/runtime`
    - `assurance/runtime`
-   - `harmony.yml` and architecture docs
+   - `octon.yml` and architecture docs
    - `scaffolding`
    - operator-facing commands or workflows
 7. Runtime behavior is explicit when extensions are available:
@@ -56,12 +56,12 @@ following are true:
    - validation
 9. Compatibility is explicit and machine-readable against the exact root-harness
    keys:
-   - `harmony.yml.versioning.harness.release_version`
-   - `harmony.yml.extensions.api_version`
+   - `octon.yml.versioning.harness.release_version`
+   - `octon.yml.extensions.api_version`
    - versioned pack dependency edges
 10. Rebased runtime resolution is explicit:
     - artifact paths are rebased through an effective artifact map
-    - extension-relative write scopes are mapped into Harmony-owned roots
+    - extension-relative write scopes are mapped into Octon-owned roots
     - unsupported write or output declarations fail closed
 11. Freshness and invalidation rules are explicit:
     - source digests recorded
@@ -78,11 +78,11 @@ following are true:
     extension projections.
 15. V1 enforces one installed version per pack id.
 16. Artifact naming and collision rules are explicit and fail closed.
-17. Canonical Harmony manifests are not edited in place by pack install or
+17. Canonical Octon manifests are not edited in place by pack install or
    enable flows.
 18. The proposal leaves no ambiguity about which implementation work must land
-    in `/.harmony/` versus repo-root `/.extensions/`.
-19. The proposal includes concrete example packs showing how removed Harmony
+    in `/.octon/` versus repo-root `/.extensions/`.
+19. The proposal includes concrete example packs showing how removed Octon
     scoped-template material is re-expressed inside `/.extensions/`:
     - `docs` as a template example plus an ARE-derived skill
     - `node-ts` as a template example

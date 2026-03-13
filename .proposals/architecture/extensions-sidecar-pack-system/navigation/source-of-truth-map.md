@@ -4,7 +4,7 @@
 
 | Concern | Source of truth | Notes |
 | --- | --- | --- |
-| Root harness extension binding and compatibility contract | `.harmony/harmony.yml` | Declares root-only extension scope plus `versioning.harness.release_version` and `extensions.api_version` |
+| Root harness extension binding and compatibility contract | `.octon/octon.yml` | Declares root-only extension scope plus `versioning.harness.release_version` and `extensions.api_version` |
 | Pack installation and enablement | `.extensions/catalog.yml` | Selection plane only; no trust or provenance authority |
 | Pack-local identity, version, trust, compatibility, dependencies, and content entrypoints | `.extensions/<pack-id>/pack.yml` | Authoritative pack manifest for one installed pack id |
 | Pack-contributed skills metadata | `.extensions/<pack-id>/skills/manifest.fragment.yml` and `registry.fragment.yml` | Additive only; cannot redefine core globals |
@@ -24,23 +24,23 @@
 
 | Concern | Derived path | Notes |
 | --- | --- | --- |
-| Effective skills catalogs | `.harmony/engine/_ops/state/extensions/effective/skills/**` | Derived runtime-facing projection |
-| Effective commands catalog | `.harmony/engine/_ops/state/extensions/effective/commands/manifest.yml` | Derived runtime-facing projection |
-| Effective templates catalog | `.harmony/engine/_ops/state/extensions/effective/templates/catalog.yml` | Derived runtime-facing projection |
-| Effective prompts catalog | `.harmony/engine/_ops/state/extensions/effective/prompts/catalog.yml` | Derived runtime-facing projection |
-| Effective context catalog | `.harmony/engine/_ops/state/extensions/effective/context/catalog.yml` | Derived runtime-facing projection |
-| Effective validation catalog | `.harmony/engine/_ops/state/extensions/effective/validation/catalog.yml` | Derived runtime-facing projection |
-| Effective artifact map | `.harmony/engine/_ops/state/extensions/effective/artifacts.yml` | Canonical rebased mapping from effective ids to source files and digests |
-| Effective permission and output rebase metadata | `.harmony/engine/_ops/state/extensions/effective/artifacts.yml` | Includes rebased write scopes and Harmony-owned output targets for extension artifacts |
-| Extension lock / resolution receipt | `.harmony/engine/_ops/state/extensions/lock.yml` | Active generation id, input digests, and resolution metadata |
-| Extension validation receipts and audit output | `.harmony/output/reports/**` and `.harmony/engine/_ops/state/extensions/**` | Produced by Harmony validators and lifecycle workflows |
-| Runtime precedence and fail-closed behavior | `.harmony/engine/governance/**` | Remains inside Harmony core |
-| Governance, practices, methodology, agency, and orchestration authority | `.harmony/**` | `.extensions/` must not duplicate these surfaces |
+| Effective skills catalogs | `.octon/engine/_ops/state/extensions/effective/skills/**` | Derived runtime-facing projection |
+| Effective commands catalog | `.octon/engine/_ops/state/extensions/effective/commands/manifest.yml` | Derived runtime-facing projection |
+| Effective templates catalog | `.octon/engine/_ops/state/extensions/effective/templates/catalog.yml` | Derived runtime-facing projection |
+| Effective prompts catalog | `.octon/engine/_ops/state/extensions/effective/prompts/catalog.yml` | Derived runtime-facing projection |
+| Effective context catalog | `.octon/engine/_ops/state/extensions/effective/context/catalog.yml` | Derived runtime-facing projection |
+| Effective validation catalog | `.octon/engine/_ops/state/extensions/effective/validation/catalog.yml` | Derived runtime-facing projection |
+| Effective artifact map | `.octon/engine/_ops/state/extensions/effective/artifacts.yml` | Canonical rebased mapping from effective ids to source files and digests |
+| Effective permission and output rebase metadata | `.octon/engine/_ops/state/extensions/effective/artifacts.yml` | Includes rebased write scopes and Octon-owned output targets for extension artifacts |
+| Extension lock / resolution receipt | `.octon/engine/_ops/state/extensions/lock.yml` | Active generation id, input digests, and resolution metadata |
+| Extension validation receipts and audit output | `.octon/output/reports/**` and `.octon/engine/_ops/state/extensions/**` | Produced by Octon validators and lifecycle workflows |
+| Runtime precedence and fail-closed behavior | `.octon/engine/governance/**` | Remains inside Octon core |
+| Governance, practices, methodology, agency, and orchestration authority | `.octon/**` | `.extensions/` must not duplicate these surfaces |
 
 ## Boundary Rules
 
 - Raw `.extensions/` paths must not become direct live dependencies of canonical
-  `.harmony/` manifests or registries.
+  `.octon/` manifests or registries.
 - `.extensions/` is a pack source surface, not a second runtime authority root.
 - Derived effective catalogs may reference pack-owned artifacts after
   validation, but the effective catalogs and artifact map remain the
@@ -49,9 +49,9 @@
 - Runtime consumers must resolve extension artifacts through the effective
   artifact map, not by interpreting pack-relative paths directly.
 - Runtime writes and durable outputs declared by extension artifacts must be
-  served from Harmony-owned destinations recorded in the effective artifact map.
-- Harmony-side commands, workflows, and scaffolds may operate on `.extensions/`
-  as an implementation surface while remaining subordinate to `.harmony/`
+  served from Octon-owned destinations recorded in the effective artifact map.
+- Octon-side commands, workflows, and scaffolds may operate on `.extensions/`
+  as an implementation surface while remaining subordinate to `.octon/`
   runtime and governance authority.
 - Fallback to core-only mode must withdraw stale extension-derived host and
   policy projections.

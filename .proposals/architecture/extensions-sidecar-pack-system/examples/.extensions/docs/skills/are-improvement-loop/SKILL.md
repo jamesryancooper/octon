@@ -4,9 +4,9 @@ description: >
   Additive documentation improvement skill derived from the former ARE
   workflow family, scoped as a v1 extension-pack example.
 license: MIT
-compatibility: Designed for Harmony extension-pack authoring examples.
+compatibility: Designed for Octon extension-pack authoring examples.
 metadata:
-  author: Harmony Framework
+  author: Octon Framework
   created: "2026-03-13"
   updated: "2026-03-13"
 skill_sets: [executor, specialist]
@@ -22,7 +22,7 @@ Example extension-pack skill for proposal illustration only.
 
 - The task is centered on improving repository documentation
 - You want a reusable loop for analyze, refine, and evaluate work
-- A docs-specific specialization should remain additive to core Harmony
+- A docs-specific specialization should remain additive to core Octon
 
 ## Converted Source
 
@@ -35,7 +35,7 @@ former scoped docs template. The phase mapping is summarized in
 - Additive only
 - Does not introduce pack-local orchestration or governance authority
 - Example is read-only; operational writes, if later added, must be rebased
-  into Harmony-owned destinations by the extension compiler
+  into Octon-owned destinations by the extension compiler
 
 ## Suggested Flow
 

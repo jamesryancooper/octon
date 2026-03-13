@@ -2,19 +2,19 @@
 
 ## Workstream 1: Core Contracts And Documentation
 
-- Add durable architecture docs in `/.harmony/` defining `/.extensions/` as a
-  repo-root source surface supported by Harmony.
+- Add durable architecture docs in `/.octon/` defining `/.extensions/` as a
+  repo-root source surface supported by Octon.
 - Record that `/.extensions/` binds to the root harness only.
 - Add governance docs defining:
   - trust tiers
   - compatibility ranges
   - root-harness compatibility keys at
-    `harmony.yml.versioning.harness.release_version` and
-    `harmony.yml.extensions.api_version`
+    `octon.yml.versioning.harness.release_version` and
+    `octon.yml.extensions.api_version`
   - collision rules
   - allowed and forbidden content classes
   - fail-closed behavior
-- Update `/.harmony/harmony.yml` and architecture references so bootstrap and
+- Update `/.octon/octon.yml` and architecture references so bootstrap and
   update flows have an explicit stance on `/.extensions/`.
 
 ## Workstream 2: Extension Catalog And Pack Schemas
@@ -41,7 +41,7 @@
 
 ## Workstream 3: Runtime Discovery And Resolution
 
-- Add repo-root discovery of `/.extensions/` in `/.harmony/engine/runtime/`.
+- Add repo-root discovery of `/.extensions/` in `/.octon/engine/runtime/`.
 - Implement loading for:
   - `catalog.yml`
   - enabled pack roots
@@ -58,7 +58,7 @@
 ## Workstream 4: Effective Index Compiler
 
 - Add compiler logic that reads validated extension content and emits effective
-  indexes under `/.harmony/engine/_ops/state/extensions/effective/`.
+  indexes under `/.octon/engine/_ops/state/extensions/effective/`.
 - Generate effective views for the v1 routable surfaces:
   - skills manifest
   - skills registry
@@ -88,7 +88,7 @@
 
 ## Workstream 5: Runtime Consumption
 
-- Update Harmony runtime and supporting tooling so enabled extension content is
+- Update Octon runtime and supporting tooling so enabled extension content is
   consumed through the effective indexes when available.
 - Ensure native core content remains authoritative and extension content is
   additive only.
@@ -111,7 +111,7 @@
   surfaced through effective catalogs.
 - Update deny-by-default policy compilation to include extension-provided skills
   through the effective view.
-- Ensure extension-aware host projections remain subordinate to Harmony
+- Ensure extension-aware host projections remain subordinate to Octon
   governance and runtime authority.
 - Define teardown rules so stale or disabled extension projections are removed
   during fallback or regeneration.
@@ -129,10 +129,10 @@
   - generation locks
   - catalog vs pack manifest mismatch
 - Add checks that every rebased write scope or durable output target resolves to
-  an approved Harmony-owned destination.
+  an approved Octon-owned destination.
 - Add guardrails that reject forbidden content under `/.extensions/`.
 - Add guardrails that block disallowed raw `.extensions/` path dependencies from
-  canonical `.harmony/` surfaces outside approved derived projections.
+  canonical `.octon/` surfaces outside approved derived projections.
 - Integrate extension checks into `alignment-check` or equivalent assurance
   entrypoints.
 - Add automated tests for:
@@ -149,7 +149,7 @@
 
 ## Workstream 8: Scaffolding Support
 
-- Add scaffolding templates under `/.harmony/scaffolding/` for creating new
+- Add scaffolding templates under `/.octon/scaffolding/` for creating new
   extension packs with the approved v1 shape.
 - Provide authoring guidance for:
   - `pack.yml`
@@ -162,13 +162,13 @@
 
 ## Workstream 9: Operator Workflows And Commands
 
-- Add Harmony-managed workflows or commands for:
+- Add Octon-managed workflows or commands for:
   - validating an extension pack
   - compiling effective indexes
   - enabling or disabling a pack
   - auditing extension integrity
   - reporting extension-unavailable or stale-generation states
-- Keep these operational entrypoints inside `/.harmony/`, not under
+- Keep these operational entrypoints inside `/.octon/`, not under
   `/.extensions/`.
 
 ## Workstream 10: Proving Packs And Legacy Conversion Examples
@@ -178,9 +178,9 @@
   - `docs/` for a docs-focused template example plus an ARE-derived skill
   - `node-ts/` for a Node.js/TypeScript template example
 - Use those examples to prove the preferred bucket mapping for removed scoped
-  Harmony surfaces:
+  Octon surfaces:
   - template-shaped specialization becomes `templates/`
   - workflow-like specialist guidance becomes `skills/`
-- Prove that Harmony can discover, validate, compile, and consume those packs
+- Prove that Octon can discover, validate, compile, and consume those packs
   through effective indexes without adding new governance, orchestration, or
-  agency surfaces outside `/.harmony/`.
+  agency surfaces outside `/.octon/`.

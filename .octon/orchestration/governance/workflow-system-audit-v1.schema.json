@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/orchestration/governance/workflow-system-audit-v1.schema.json",
+  "title": "Workflow System Audit v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "audit_id",
+    "version",
+    "owner",
+    "approved_by",
+    "defaults",
+    "paths",
+    "taxonomy",
+    "score_weights",
+    "scenario_packs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "workflow-system-audit-v1"
+    },
+    "audit_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approved_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "defaults": {
+      "type": "object",
+      "required": [
+        "scope_root",
+        "severity_threshold",
+        "include_docs",
+        "include_governance",
+        "run_live",
+        "scenario_pack",
+        "convergence_k",
+        "seed_list"
+      ],
+      "properties": {
+        "scope_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity_threshold": {
+          "enum": ["critical", "high", "medium", "low", "all"]
+        },
+        "include_docs": {
+          "type": "boolean"
+        },
+        "include_governance": {
+          "type": "boolean"
+        },
+        "run_live": {
+          "type": "boolean"
+        },
+        "scenario_pack": {
+          "type": "string",
+          "minLength": 1
+        },
+        "convergence_k": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "seed_list": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "integer"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "paths": {
+      "type": "object",
+      "required": [
+        "temp_output_root",
+        "report_root",
+        "audit_bundle_root",
+        "runtime_audit_root",
+        "companion_paths",
+        "excluded_roots"
+      ],
+      "properties": {
+        "temp_output_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "report_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audit_bundle_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_audit_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "companion_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "excluded_roots": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "taxonomy": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["key", "default_severity", "validator_coverage", "description"],
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "default_severity": {
+            "enum": ["critical", "high", "medium", "low", "all"]
+          },
+          "validator_coverage": {
+            "enum": ["existing-blocking", "new-audit-only", "not-yet-automatable"]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "score_weights": {
+      "type": "object",
+      "required": ["workflow", "system"],
+      "properties": {
+        "workflow": {
+          "type": "object",
+          "required": [
+            "discovery_routing",
+            "contract_integrity",
+            "quality_gap_coverage",
+            "execution_safety_verification",
+            "maintainability",
+            "documentation_references"
+          ],
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "system": {
+          "type": "object",
+          "required": ["portfolio_architecture_coverage", "validator_coverage"],
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "lifecycle_expectations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["left", "right", "description"],
+        "properties": {
+          "left": {
+            "type": "string",
+            "minLength": 1
+          },
+          "right": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "bundle_extras": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "scenario_packs": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["workflow_id", "mode", "expected_format", "expected_execution_profile"],
+          "properties": {
+            "workflow_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "mode": {
+              "enum": ["full", "prereq-only"]
+            },
+            "expected_format": {
+              "enum": ["directory", "single-file"]
+            },
+            "expected_execution_profile": {
+              "enum": ["core", "external-dependent"]
+            },
+            "sample_inputs": {
+              "type": "object",
+              "additionalProperties": {
+                "type": ["string", "number", "boolean"]
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

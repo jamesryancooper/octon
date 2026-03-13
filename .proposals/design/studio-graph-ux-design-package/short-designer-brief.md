@@ -1,7 +1,7 @@
 # Short Designer Brief for Studio Graph UX
 
 **Product**
-Harmony Studio is a desktop workflow-mapping tool for technical maintainers. Its core job is to make a repo’s workflow system understandable at a glance, expose broken or inconsistent definitions quickly, and let users move from discovery into safe review actions.
+Octon Studio is a desktop workflow-mapping tool for technical maintainers. Its core job is to make a repo’s workflow system understandable at a glance, expose broken or inconsistent definitions quickly, and let users move from discovery into safe review actions.
 
 **Primary User**
 Platform engineer, repo maintainer, or systems-oriented developer working with many interdependent workflows.

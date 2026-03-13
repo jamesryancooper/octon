@@ -1,0 +1,6 @@
+# path_regex<TAB>term<TAB>owner<TAB>expires_on<TAB>note
+^\.octon/capabilities/runtime/services/manifest\.yml$	langgraph	@platform	2026-05-31	Flow service tag still reflects legacy runtime coupling.
+^\.octon/capabilities/runtime/services/execution/flow/SERVICE\.md$	langgraph	@platform	2026-05-31	Flow service description still names implementation runtime.
+^\.octon/capabilities/runtime/services/execution/service-roles\.md$	langgraph	@platform	2026-06-30	Transitional architecture doc pending adapter-neutral rewrite.
+^\.octon/capabilities/runtime/services/operations/cost/schema/output\.schema\.json$	openai	@ops-cost	2026-06-30	Provider enum remains until pricing model abstraction is added.
+^\.octon/capabilities/runtime/services/operations/cost/schema/output\.schema\.json$	anthropic	@ops-cost	2026-06-30	Provider enum remains until pricing model abstraction is added.

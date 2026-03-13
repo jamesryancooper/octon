@@ -16,7 +16,7 @@ This catalog lists the current archived proposal artifacts for
 - `pipeline-overview.md`
 - `stage-contracts.md`
 - `artifact-contract.md`
-- `harmony-integration.md`
+- `octon-integration.md`
 - `implementation-readiness.md`
 
 ## Navigation
@@ -58,5 +58,5 @@ This catalog lists the current archived proposal artifacts for
 
 ## Non-Authoritative Local Artifacts
 
-- `.harmony-mock-runner/` may appear during local runner tests. It is generated
+- `.octon-mock-runner/` may appear during local runner tests. It is generated
   working state, not a package authority surface.

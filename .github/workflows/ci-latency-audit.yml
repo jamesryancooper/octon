@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      POLICY_FILE: .harmony/agency/practices/standards/ci-latency-policy.json
+      POLICY_FILE: .octon/agency/practices/standards/ci-latency-policy.json
       WINDOW_RUNS: ${{ github.event.inputs.window_runs || '40' }}
       TOP_WORKFLOWS: ${{ github.event.inputs.top_workflows || '5' }}
       GATE_SCOPE: ${{ github.event.inputs.gate_scope || 'required' }}
@@ -62,8 +62,8 @@ jobs:
 
       - name: Run CI latency audit
         run: |
-          chmod +x .harmony/agency/_ops/scripts/ci/audit-ci-latency.sh
-          .harmony/agency/_ops/scripts/ci/audit-ci-latency.sh \
+          chmod +x .octon/agency/_ops/scripts/ci/audit-ci-latency.sh
+          .octon/agency/_ops/scripts/ci/audit-ci-latency.sh \
             --repository "$GITHUB_REPOSITORY" \
             --policy "$POLICY_FILE" \
             --window-runs "$WINDOW_RUNS" \

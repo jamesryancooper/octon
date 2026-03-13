@@ -1,0 +1,23 @@
+# Octon runtime policy (v1).
+#
+# This file is not part of the v1 spec-bundle contract, but is used by the
+# reference kernel implementation as the deny-by-default allowlist for
+# service capabilities.
+
+format_version: policy-v1
+
+default:
+  allow: []
+
+categories:
+  # Example: allow all agent-platform services to write logs.
+  agent-platform:
+    allow:
+      - log.write
+
+services:
+  # Allow the reference KV service to use local storage.
+  agent-platform/kv:
+    allow:
+      - storage.local
+      - log.write

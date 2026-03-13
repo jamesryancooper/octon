@@ -2,7 +2,7 @@
 
 ## Intent
 
-The mature model should be adopted in phases. Harmony does not need every
+The mature model should be adopted in phases. Octon does not need every
 surface immediately.
 
 ## Phase 1: Strengthen The Existing Foundation
@@ -122,5 +122,5 @@ Exit criteria:
 7. `watchers`
 8. `campaigns`
 
-This sequence preserves minimal sufficient complexity while still moving Harmony
+This sequence preserves minimal sufficient complexity while still moving Octon
 toward mature autonomous operation.

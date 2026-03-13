@@ -10,7 +10,7 @@ The package remains implementation-ready only when both of these are true:
 - static contract validation passes
 - semantic conformance scenarios pass
 
-This module is package-local. It does not claim live `.harmony/orchestration`
+This module is package-local. It does not claim live `.octon/orchestration`
 adoption safety.
 
 ## Scenario Contract
@@ -83,4 +83,4 @@ Semantic evaluation is implemented by:
 
 Static package validation is implemented by:
 
-- `/.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`
+- `/.octon/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`

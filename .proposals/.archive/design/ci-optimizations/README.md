@@ -1,4 +1,4 @@
-# Harmony CI Optimization Proposal Package
+# Octon CI Optimization Proposal Package
 
 This is a temporary, implementation-scoped design package for
 `ci-optimizations`. It is a build aid for engineers and operators. It is not a canonical runtime, documentation, policy, or contract authority.
@@ -10,7 +10,7 @@ Archive Disposition: `implemented`
 
 - `/.github/workflows/`
 - `/.github/scripts/ci-efficiency-guard.sh`
-- `/.harmony/agency/practices/github-autonomy-runbook.md`
+- `/.octon/agency/practices/github-autonomy-runbook.md`
 
 ## Exit Path
 

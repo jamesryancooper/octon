@@ -12,7 +12,7 @@ This package provided the design contract and implementation guidance for
 bringing the `audit-design-package` workflow, registry projection, runner
 behavior, and assurance surfaces into one coherent state.
 
-Within Harmony, the native entry point is the workflow:
+Within Octon, the native entry point is the workflow:
 
 ```text
 /audit-design-package package_path="<TARGET_PACKAGE>"
@@ -21,7 +21,7 @@ Within Harmony, the native entry point is the workflow:
 The executable runtime entry point is:
 
 ```text
-.harmony/engine/runtime/run workflow run audit-design-package --package-path "<TARGET_PACKAGE>"
+.octon/engine/runtime/run workflow run audit-design-package --package-path "<TARGET_PACKAGE>"
 ```
 
 Executor modes:
@@ -32,15 +32,15 @@ Executor modes:
 
 The package contains prompt assets and design contracts that define the intended
 pipeline behavior. They are package-local implementation guidance for updating
-the durable `/.harmony/` workflow surfaces. The live runtime must remain
+the durable `/.octon/` workflow surfaces. The live runtime must remain
 self-contained and must not depend on this package at execution time.
 
 The hardened package now makes four critical boundaries explicit:
 
 - bundle outputs belong under
-  `.harmony/output/reports/workflows/YYYY-MM-DD-audit-design-package-<slug>/`
+  `.octon/output/reports/workflows/YYYY-MM-DD-audit-design-package-<slug>/`
 - workflow runtime truth belongs to `workflow.yml` and its stage assets under
-  `/.harmony/`
+  `/.octon/`
 - package mutation stages are governed by explicit lifecycle, recovery, and
   receipt rules
 - executor interaction is governed by a stable prompt-packet and response
@@ -52,22 +52,22 @@ canonical runtime or documentation authority.
 
 ## Implementation Targets
 
-- `/.harmony/orchestration/runtime/workflows/audit/audit-design-package/`
-- `/.harmony/orchestration/runtime/workflows/manifest.yml`
-- `/.harmony/orchestration/runtime/workflows/registry.yml`
-- `/.harmony/orchestration/governance/capability-map-v1.yml`
-- `/.harmony/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh`
-- `/.harmony/assurance/runtime/_ops/tests/test-validate-audit-design-package-workflow.sh`
-- `/.harmony/assurance/runtime/_ops/tests/test-audit-design-package-workflow-runner.sh`
+- `/.octon/orchestration/runtime/workflows/audit/audit-design-package/`
+- `/.octon/orchestration/runtime/workflows/manifest.yml`
+- `/.octon/orchestration/runtime/workflows/registry.yml`
+- `/.octon/orchestration/governance/capability-map-v1.yml`
+- `/.octon/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh`
+- `/.octon/assurance/runtime/_ops/tests/test-validate-audit-design-package-workflow.sh`
+- `/.octon/assurance/runtime/_ops/tests/test-audit-design-package-workflow-runner.sh`
 
 ## Exit Path
 
 The workflow, registry, runner, and assurance updates have been promoted into
-the durable `/.harmony/` targets listed above. This package now remains only as
+the durable `/.octon/` targets listed above. This package now remains only as
 archived historical implementation material under
 `/.design-packages/.archive/`.
 
-## Why Harmony Implements This As A Workflow
+## Why Octon Implements This As A Workflow
 
 The pipeline is stateful, ordered, and artifact-driven:
 
@@ -76,9 +76,9 @@ The pipeline is stateful, ordered, and artifact-driven:
 - the operator needs a durable bundle containing reports, change manifests, and
   final implementation guidance
 
-That makes a workflow the smallest robust Harmony primitive. This package
+That makes a workflow the smallest robust Octon primitive. This package
 describes the target workflow behavior, but the durable runtime authorities are
-the live `/.harmony/` workflow contract, stage assets, registry projection,
+the live `/.octon/` workflow contract, stage assets, registry projection,
 runner, and assurance surfaces. The prompt files under `prompts/` are temporary
 design inputs used to update those durable runtime surfaces.
 
@@ -167,7 +167,7 @@ FILE: <PACKAGE_PATH>/path/to/existing-file.md
 3. `pipeline-overview.md`
 4. `stage-contracts.md`
 5. `artifact-contract.md`
-6. `harmony-integration.md`
+6. `octon-integration.md`
 7. `normative/execution/run-lifecycle.md`
 8. `normative/execution/executor-interface.md`
 9. `normative/execution/executor-runtime-prerequisites.md`
@@ -185,7 +185,7 @@ FILE: <PACKAGE_PATH>/path/to/existing-file.md
 - `pipeline-overview.md` — mode selection and stage-sequence summary
 - `stage-contracts.md` — stage-by-stage handoff, mutation, and gating rules
 - `artifact-contract.md` — bounded bundle layout and report naming contract
-- `harmony-integration.md` — workflow integration, invocation, and assurance wiring
+- `octon-integration.md` — workflow integration, invocation, and assurance wiring
 - `normative/execution/run-lifecycle.md` — execution state machine, retry, cancellation, and rerun semantics
 - `normative/execution/executor-interface.md` — prompt-packet envelope, response contract, and error classification
 - `normative/execution/executor-runtime-prerequisites.md` — supported executors, prerequisites, and degraded-mode rules

@@ -4,7 +4,7 @@
 
 1. `proposal.yml`
 2. `design-proposal.yml`
-3. `harmony-studio-graph-ux-design-spec.md`
+3. `octon-studio-graph-ux-design-spec.md`
 4. `normative/experience/user-journeys.md`
 5. `normative/experience/information-architecture.md`
 6. `normative/experience/screen-states-and-flows.md`

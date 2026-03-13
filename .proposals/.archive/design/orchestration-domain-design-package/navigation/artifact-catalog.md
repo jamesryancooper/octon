@@ -15,7 +15,7 @@ listing.
    - `implementation/README.md`
    - `history/adr/README.md`
 4. Treat this package as implementation-scoped design material. Long-lived
-   canonical authority belongs in `.harmony/` after promotion.
+   canonical authority belongs in `.octon/` after promotion.
 
 ## Entry Points And Navigation
 
@@ -63,13 +63,13 @@ listing.
 ## Supporting Context, Examples, And Historical Inputs
 
 - `history/adoption-roadmap.md`
-- `history/alignment-with-harmony-goal.md`
+- `history/alignment-with-octon-goal.md`
 - `reference/canonical-surface-taxonomy.md`
 - `reference/end-to-end-flow.md`
 - `reference/example-orchestration-charter.md`
 - `reference/failure-modes-and-safety-analysis.md`
 - `reference/layered-model.md`
-- `history/mature-harmony-orchestration-model.md`
+- `history/mature-octon-orchestration-model.md`
 - `history/profile-selection-and-compliance.md`
 - `reference/reference-examples.md`
 - `reference/runtime-shape-and-directory-structure.md`

@@ -9,7 +9,7 @@
 | `navigation/source-of-truth-map.md` | Authority map for the proposed `.extensions/` model |
 | `architecture/target-architecture.md` | Proposed v1 `.extensions/` boundary and structure |
 | `architecture/acceptance-criteria.md` | Conditions that prove the boundary is implemented correctly |
-| `architecture/implementation-plan.md` | Workstreams for implementing the boundary in Harmony |
+| `architecture/implementation-plan.md` | Workstreams for implementing the boundary in Octon |
 | `reference/catalog.schema.json` | Proposed schema for `/.extensions/catalog.yml` |
 | `reference/pack.schema.json` | Proposed schema for `/.extensions/<pack-id>/pack.yml` |
 | `reference/effective-index-merge-and-precedence.md` | Proposed merge and precedence contract for compiled effective indexes |

@@ -1,0 +1,885 @@
+export struct WorkflowListItem {
+    id: string,
+    label: string,
+    selected: bool,
+    issue_count: int,
+    step_count: int,
+}
+
+export struct GraphNodeItem {
+    id: string,
+    label: string,
+    x: float,
+    y: float,
+    selected: bool,
+}
+
+export struct InspectorStepItem {
+    id: string,
+    file: string,
+    status: string,
+    description: string,
+}
+
+export struct InspectorIssueItem {
+    code: string,
+    message: string,
+}
+
+export struct ApplyAuditItem {
+    path: string,
+    status: string,
+    summary: string,
+    selected: bool,
+}
+
+component ActionButton inherits Rectangle {
+    in property <string> label;
+    callback clicked();
+
+    border-color: #2f4155;
+    border-width: 1px;
+    border-radius: 7px;
+    background: #1b2a38;
+
+    Text {
+        text: root.label;
+        color: #dce7f7;
+        horizontal-alignment: center;
+        vertical-alignment: center;
+    }
+
+    TouchArea {
+        clicked => {
+            root.clicked();
+        }
+    }
+}
+
+export component AppWindow inherits Window {
+    title: "Octon Studio";
+    width: 1340px;
+    height: 1220px;
+    background: #0e141c;
+
+    in-out property <string> root_path: "Locating .octon root...";
+    in-out property <string> status_text: "Initializing workflow index...";
+    in-out property <int> workflow_count: 0;
+    in-out property <int> edge_count: 0;
+    in-out property <int> issue_count: 0;
+    in-out property <int> zoom_percent: 100;
+    in-out property <int> staged_edit_count: 0;
+    in-out property <bool> apply_armed: false;
+    in-out property <int> audit_count: 0;
+    in-out property <string> patch_preview: "# No staged edits.\n";
+    in-out property <string> export_status: "No staged edits yet.";
+    in-out property <string> selected_audit_path: "No audit selected";
+    in-out property <string> selected_audit_preview: "# No apply audits found.\n";
+    in-out property <string> audit_filter_query: "";
+    in-out property <int> audit_status_filter_mode: 0;
+    in-out property <string> ops_status: "Initializing operations snapshot...";
+    in-out property <int> ops_section_mode: 0;
+    in-out property <string> ops_section_title: "Overview";
+    in-out property <int> ops_lookup_mode: 0;
+    in-out property <string> ops_lookup_query: "";
+    in-out property <string> ops_lookup_result: "# Enter a canonical id and run a lookup.\n";
+    in-out property <string> ops_section_body: "# Overview unavailable.\n";
+
+    in-out property <[WorkflowListItem]> workflows;
+    in-out property <[GraphNodeItem]> graph_nodes;
+    in-out property <[InspectorStepItem]> inspector_steps;
+    in-out property <[InspectorIssueItem]> inspector_issues;
+    in-out property <[ApplyAuditItem]> apply_audits;
+
+    in-out property <string> selected_title: "No workflow selected";
+    in-out property <string> selected_description: "";
+    in-out property <string> selected_path: "-";
+    in-out property <string> selected_dependency_summary: "Dependencies: -";
+    in-out property <int> selected_issue_count: 0;
+
+    callback select-workflow(string);
+    callback pan-view(int, int);
+    callback zoom-view(float);
+    callback reset-view();
+    callback stage-selected-edits();
+    callback clear-staged-edits();
+    callback export-patch-preview();
+    callback toggle-apply-arm();
+    callback apply-staged-edits();
+    callback refresh-audits();
+    callback select-audit(int);
+    callback open-selected-audit();
+    callback copy-selected-audit-path();
+    callback set-audit-filter-query(string);
+    callback set-audit-status-filter(int);
+    callback refresh-ops();
+    callback set-ops-section(int);
+    callback set-ops-lookup-mode(int);
+    callback set-ops-lookup-query(string);
+    callback run-ops-lookup();
+
+    VerticalLayout {
+        spacing: 12px;
+        padding: 16px;
+
+        Rectangle {
+            border-color: #2c3a49;
+            border-width: 1px;
+            border-radius: 10px;
+            background: #111a24;
+            height: 76px;
+
+            Text {
+                text: "Octon Studio";
+                color: #eef4ff;
+                font-size: 24px;
+                x: 14px;
+                y: 10px;
+            }
+
+            Text {
+                text: root_path;
+                color: #97a9be;
+                x: 14px;
+                y: 44px;
+            }
+        }
+
+        HorizontalLayout {
+            spacing: 12px;
+
+            Rectangle {
+                border-color: #2c3a49;
+                border-width: 1px;
+                border-radius: 10px;
+                background: #131d28;
+                horizontal-stretch: 1;
+
+                Text {
+                    text: "Workflows (" + workflow_count + ")";
+                    color: #ecf3ff;
+                    font-size: 18px;
+                    x: 14px;
+                    y: 12px;
+                }
+
+                Rectangle {
+                    x: 12px;
+                    y: 44px;
+                    width: parent.width - 24px;
+                    height: parent.height - 56px;
+                    background: #101822;
+                    border-color: #27374a;
+                    border-width: 1px;
+                    border-radius: 8px;
+
+                    for workflow[index] in root.workflows: Rectangle {
+                        x: 8px;
+                        y: 8px + index * 40px;
+                        width: parent.width - 16px;
+                        height: 34px;
+                        border-color: workflow.selected ? #5ea1ff : #2f4052;
+                        border-width: workflow.selected ? 2px : 1px;
+                        border-radius: 6px;
+                        background: workflow.selected ? #1d3146 : #172432;
+
+                        Text {
+                            text: workflow.label + " (" + workflow.step_count + " steps, " + workflow.issue_count + " issues)";
+                            color: #d9e5f5;
+                            x: 10px;
+                            y: 8px;
+                        }
+
+                        TouchArea {
+                            clicked => {
+                                root.select-workflow(workflow.id);
+                            }
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                border-color: #2c3a49;
+                border-width: 1px;
+                border-radius: 10px;
+                background: #131d28;
+                horizontal-stretch: 2;
+
+                Text {
+                    text: "Graph (" + edge_count + " dependency edges)";
+                    color: #ecf3ff;
+                    font-size: 18px;
+                    x: 14px;
+                    y: 12px;
+                }
+
+                HorizontalLayout {
+                    x: 14px;
+                    y: 44px;
+                    spacing: 8px;
+
+                    ActionButton {
+                        width: 42px;
+                        height: 30px;
+                        label: "←";
+                        clicked => { root.pan-view(80, 0); }
+                    }
+                    ActionButton {
+                        width: 42px;
+                        height: 30px;
+                        label: "→";
+                        clicked => { root.pan-view(-80, 0); }
+                    }
+                    ActionButton {
+                        width: 42px;
+                        height: 30px;
+                        label: "↑";
+                        clicked => { root.pan-view(0, 80); }
+                    }
+                    ActionButton {
+                        width: 42px;
+                        height: 30px;
+                        label: "↓";
+                        clicked => { root.pan-view(0, -80); }
+                    }
+                    ActionButton {
+                        width: 42px;
+                        height: 30px;
+                        label: "+";
+                        clicked => { root.zoom-view(1.15); }
+                    }
+                    ActionButton {
+                        width: 42px;
+                        height: 30px;
+                        label: "-";
+                        clicked => { root.zoom-view(0.87); }
+                    }
+                    ActionButton {
+                        width: 70px;
+                        height: 30px;
+                        label: "Reset";
+                        clicked => { root.reset-view(); }
+                    }
+
+                    Text {
+                        text: "zoom " + zoom_percent + "%";
+                        color: #d5e3f8;
+                        y: 6px;
+                    }
+                }
+
+                Rectangle {
+                    x: 12px;
+                    y: 82px;
+                    width: parent.width - 24px;
+                    height: parent.height - 94px;
+                    background: #0f1721;
+                    border-color: #26374a;
+                    border-width: 1px;
+                    border-radius: 8px;
+                    clip: true;
+
+                    for node[index] in root.graph_nodes: Rectangle {
+                        x: node.x * 1px;
+                        y: node.y * 1px;
+                        width: 170px;
+                        height: 52px;
+                        border-color: node.selected ? #7eb5ff : #334960;
+                        border-width: node.selected ? 2px : 1px;
+                        border-radius: 6px;
+                        background: node.selected ? #24415f : #1a2a3a;
+
+                        Text {
+                            text: node.label;
+                            color: #e8f1ff;
+                            x: 10px;
+                            y: 8px;
+                        }
+
+                        Text {
+                            text: node.id;
+                            color: #9bb0c9;
+                            x: 10px;
+                            y: 28px;
+                        }
+
+                        TouchArea {
+                            clicked => {
+                                root.select-workflow(node.id);
+                            }
+                        }
+                    }
+                }
+            }
+
+            Rectangle {
+                border-color: #2c3a49;
+                border-width: 1px;
+                border-radius: 10px;
+                background: #131d28;
+                horizontal-stretch: 1;
+
+                Text {
+                    text: "Inspector (" + selected_issue_count + " issues)";
+                    color: #ecf3ff;
+                    font-size: 18px;
+                    x: 14px;
+                    y: 12px;
+                }
+
+                Text {
+                    text: selected_title;
+                    color: #dbe8fa;
+                    font-size: 16px;
+                    x: 14px;
+                    y: 44px;
+                    width: parent.width - 28px;
+                    wrap: word-wrap;
+                }
+
+                Text {
+                    text: selected_description;
+                    color: #9fb2c8;
+                    x: 14px;
+                    y: 78px;
+                    width: parent.width - 28px;
+                    wrap: word-wrap;
+                }
+
+                Text {
+                    text: selected_dependency_summary;
+                    color: #d0dff2;
+                    x: 14px;
+                    y: 134px;
+                    width: parent.width - 28px;
+                    wrap: word-wrap;
+                }
+
+                Text {
+                    text: selected_path;
+                    color: #7f96b3;
+                    x: 14px;
+                    y: 164px;
+                    width: parent.width - 28px;
+                    wrap: word-wrap;
+                }
+
+                Rectangle {
+                    x: 12px;
+                    y: 196px;
+                    width: parent.width - 24px;
+                    height: parent.height - 208px;
+                    background: #0f1721;
+                    border-color: #27374a;
+                    border-width: 1px;
+                    border-radius: 8px;
+
+                    Text {
+                        text: "Steps";
+                        color: #d5e4f8;
+                        x: 10px;
+                        y: 8px;
+                    }
+
+                    for step[index] in root.inspector_steps: Rectangle {
+                        x: 8px;
+                        y: 30px + index * 42px;
+                        width: parent.width - 16px;
+                        height: 36px;
+                        border-color: step.status == "ok" ? #335b47 : #7a4a4a;
+                        border-width: 1px;
+                        border-radius: 6px;
+                        background: step.status == "ok" ? #182a24 : #321e24;
+
+                        Text {
+                            text: step.id + " · " + step.file + " · " + step.status;
+                            color: #d8e5f7;
+                            x: 8px;
+                            y: 5px;
+                        }
+
+                        Text {
+                            text: step.description;
+                            color: #9fb2c8;
+                            x: 8px;
+                            y: 20px;
+                            width: parent.width - 16px;
+                            wrap: word-wrap;
+                        }
+                    }
+
+                    Text {
+                        text: "Issues";
+                        color: #d5e4f8;
+                        x: 10px;
+                        y: parent.height - 96px;
+                    }
+
+                    for issue[index] in root.inspector_issues: Rectangle {
+                        x: 8px;
+                        y: parent.height - 74px + index * 30px;
+                        width: parent.width - 16px;
+                        height: 24px;
+                        border-color: #7b5252;
+                        border-width: 1px;
+                        border-radius: 4px;
+                        background: #332226;
+
+                        Text {
+                            text: issue.code + ": " + issue.message;
+                            color: #f0d5d8;
+                            x: 6px;
+                            y: 4px;
+                            width: parent.width - 12px;
+                            wrap: word-wrap;
+                        }
+                    }
+                }
+            }
+        }
+
+        Rectangle {
+            border-color: #2c3a49;
+            border-width: 1px;
+            border-radius: 10px;
+            background: #111a24;
+            height: 348px;
+
+            Text {
+                text: "Operations Workspace · " + ops_section_title;
+                color: #e8f1ff;
+                font-size: 18px;
+                x: 14px;
+                y: 12px;
+            }
+
+            ActionButton {
+                x: parent.width - 114px;
+                y: 10px;
+                width: 100px;
+                height: 30px;
+                label: "Refresh";
+                clicked => { root.refresh-ops(); }
+            }
+
+            HorizontalLayout {
+                x: 14px;
+                y: 46px;
+                spacing: 8px;
+
+                ActionButton { width: 96px; height: 28px; label: ops_section_mode == 0 ? "[Overview]" : "Overview"; clicked => { root.set-ops-section(0); } }
+                ActionButton { width: 88px; height: 28px; label: ops_section_mode == 1 ? "[Lookup]" : "Lookup"; clicked => { root.set-ops-section(1); } }
+                ActionButton { width: 72px; height: 28px; label: ops_section_mode == 2 ? "[Runs]" : "Runs"; clicked => { root.set-ops-section(2); } }
+                ActionButton { width: 92px; height: 28px; label: ops_section_mode == 3 ? "[Incidents]" : "Incidents"; clicked => { root.set-ops-section(3); } }
+                ActionButton { width: 76px; height: 28px; label: ops_section_mode == 4 ? "[Queue]" : "Queue"; clicked => { root.set-ops-section(4); } }
+            }
+
+            HorizontalLayout {
+                x: 14px;
+                y: 82px;
+                spacing: 8px;
+
+                ActionButton { width: 92px; height: 28px; label: ops_section_mode == 5 ? "[Watchers]" : "Watchers"; clicked => { root.set-ops-section(5); } }
+                ActionButton { width: 112px; height: 28px; label: ops_section_mode == 6 ? "[Automations]" : "Automations"; clicked => { root.set-ops-section(6); } }
+                ActionButton { width: 92px; height: 28px; label: ops_section_mode == 7 ? "[Missions]" : "Missions"; clicked => { root.set-ops-section(7); } }
+                ActionButton { width: 100px; height: 28px; label: ops_section_mode == 8 ? "[Playbooks]" : "Playbooks"; clicked => { root.set-ops-section(8); } }
+            }
+
+            Rectangle {
+                x: 12px;
+                y: 118px;
+                width: parent.width - 24px;
+                height: 30px;
+                visible: ops_section_mode == 1;
+                border-color: #27374a;
+                border-width: 1px;
+                border-radius: 6px;
+                background: #0f1721;
+
+                lookup_input := TextInput {
+                    x: 8px;
+                    y: 3px;
+                    width: 360px;
+                    height: parent.height - 6px;
+                    text: ops_lookup_query;
+                    edited => { root.set-ops-lookup-query(lookup_input.text); }
+                }
+
+                ActionButton {
+                    x: 376px;
+                    y: 1px;
+                    width: 92px;
+                    height: 28px;
+                    label: ops_lookup_mode == 0 ? "[Decision]" : "Decision";
+                    clicked => { root.set-ops-lookup-mode(0); }
+                }
+                ActionButton {
+                    x: 476px;
+                    y: 1px;
+                    width: 72px;
+                    height: 28px;
+                    label: ops_lookup_mode == 1 ? "[Run]" : "Run";
+                    clicked => { root.set-ops-lookup-mode(1); }
+                }
+                ActionButton {
+                    x: 556px;
+                    y: 1px;
+                    width: 92px;
+                    height: 28px;
+                    label: ops_lookup_mode == 2 ? "[Incident]" : "Incident";
+                    clicked => { root.set-ops-lookup-mode(2); }
+                }
+                ActionButton {
+                    x: 656px;
+                    y: 1px;
+                    width: 78px;
+                    height: 28px;
+                    label: ops_lookup_mode == 3 ? "[Queue]" : "Queue";
+                    clicked => { root.set-ops-lookup-mode(3); }
+                }
+                ActionButton {
+                    x: 742px;
+                    y: 1px;
+                    width: 76px;
+                    height: 28px;
+                    label: ops_lookup_mode == 4 ? "[Event]" : "Event";
+                    clicked => { root.set-ops-lookup-mode(4); }
+                }
+                ActionButton {
+                    x: 826px;
+                    y: 1px;
+                    width: 106px;
+                    height: 28px;
+                    label: ops_lookup_mode == 5 ? "[Automation]" : "Automation";
+                    clicked => { root.set-ops-lookup-mode(5); }
+                }
+                ActionButton {
+                    x: 940px;
+                    y: 1px;
+                    width: 90px;
+                    height: 28px;
+                    label: ops_lookup_mode == 6 ? "[Watcher]" : "Watcher";
+                    clicked => { root.set-ops-lookup-mode(6); }
+                }
+                ActionButton {
+                    x: 1038px;
+                    y: 1px;
+                    width: 88px;
+                    height: 28px;
+                    label: ops_lookup_mode == 7 ? "[Mission]" : "Mission";
+                    clicked => { root.set-ops-lookup-mode(7); }
+                }
+                ActionButton {
+                    x: parent.width - 98px;
+                    y: 1px;
+                    width: 88px;
+                    height: 28px;
+                    label: "Run";
+                    clicked => { root.run-ops-lookup(); }
+                }
+            }
+
+            Text {
+                text: ops_status;
+                color: #a5bed9;
+                x: 14px;
+                y: ops_section_mode == 1 ? 154px : 118px;
+                width: parent.width - 28px;
+                wrap: word-wrap;
+            }
+
+            Rectangle {
+                x: 12px;
+                y: ops_section_mode == 1 ? 182px : 150px;
+                width: parent.width - 24px;
+                height: parent.height - (ops_section_mode == 1 ? 194px : 162px);
+                border-color: #27374a;
+                border-width: 1px;
+                border-radius: 8px;
+                background: #0f1721;
+                clip: true;
+
+                Text {
+                    text: ops_section_mode == 1 ? ops_lookup_result : ops_section_body;
+                    color: #d7e5f8;
+                    x: 10px;
+                    y: 8px;
+                    width: parent.width - 20px;
+                    wrap: word-wrap;
+                }
+            }
+        }
+
+        Rectangle {
+            border-color: #2c3a49;
+            border-width: 1px;
+            border-radius: 10px;
+            background: #111a24;
+            height: 336px;
+
+            Text {
+                text: "Apply Audits (" + audit_count + ")";
+                color: #e8f1ff;
+                font-size: 18px;
+                x: 14px;
+                y: 12px;
+            }
+
+            ActionButton {
+                x: parent.width - 226px;
+                y: 10px;
+                width: 100px;
+                height: 30px;
+                label: "Refresh";
+                clicked => { root.refresh-audits(); }
+            }
+
+            ActionButton {
+                x: parent.width - 114px;
+                y: 10px;
+                width: 100px;
+                height: 30px;
+                label: "Copy Path";
+                clicked => { root.copy-selected-audit-path(); }
+            }
+
+            Rectangle {
+                x: 12px;
+                y: 46px;
+                width: 270px;
+                height: 26px;
+                border-color: #34495d;
+                border-width: 1px;
+                border-radius: 4px;
+                background: #0f1721;
+
+                audit_query_input := TextInput {
+                    x: 6px;
+                    y: 3px;
+                    width: parent.width - 12px;
+                    height: parent.height - 6px;
+                    text: audit_filter_query;
+                    edited => {
+                        root.set-audit-filter-query(audit_query_input.text);
+                    }
+                }
+            }
+
+            ActionButton {
+                x: parent.width - 322px;
+                y: 46px;
+                width: 100px;
+                height: 26px;
+                label: "Open File";
+                clicked => { root.open-selected-audit(); }
+            }
+
+            ActionButton {
+                x: parent.width - 214px;
+                y: 46px;
+                width: 100px;
+                height: 26px;
+                label: audit_status_filter_mode == 0 ? "[All]" : "All";
+                clicked => { root.set-audit-status-filter(0); }
+            }
+
+            ActionButton {
+                x: parent.width - 106px;
+                y: 46px;
+                width: 100px;
+                height: 26px;
+                label: audit_status_filter_mode == 1 ? "[Applied]" : "Applied";
+                clicked => { root.set-audit-status-filter(1); }
+            }
+
+            ActionButton {
+                x: parent.width - 106px;
+                y: 76px;
+                width: 100px;
+                height: 26px;
+                label: audit_status_filter_mode == 2 ? "[Failed]" : "Failed";
+                clicked => { root.set-audit-status-filter(2); }
+            }
+
+            Rectangle {
+                x: 12px;
+                y: 106px;
+                width: parent.width - 24px;
+                height: 106px;
+                border-color: #27374a;
+                border-width: 1px;
+                border-radius: 8px;
+                background: #0f1721;
+                clip: true;
+
+                for audit[index] in root.apply_audits: Rectangle {
+                    x: 8px;
+                    y: 8px + index * 28px;
+                    width: parent.width - 16px;
+                    height: 24px;
+                    border-color: audit.selected ? #6ea8ff : (audit.status == "applied" ? #335b47 : #7a4a4a);
+                    border-width: 1px;
+                    border-radius: 4px;
+                    background: audit.selected ? #1f3451 : (audit.status == "applied" ? #182a24 : #321e24);
+
+                    Text {
+                        text: audit.status + " · " + audit.summary;
+                        color: #d8e5f7;
+                        x: 6px;
+                        y: 3px;
+                        width: parent.width - 12px;
+                        wrap: word-wrap;
+                    }
+
+                    TouchArea {
+                        clicked => {
+                            root.select-audit(index);
+                        }
+                    }
+                }
+            }
+
+            Text {
+                text: selected_audit_path;
+                color: #9eb6cf;
+                x: 14px;
+                y: 218px;
+                width: parent.width - 28px;
+                wrap: word-wrap;
+            }
+
+            Rectangle {
+                x: 12px;
+                y: 244px;
+                width: parent.width - 24px;
+                height: parent.height - 256px;
+                border-color: #27374a;
+                border-width: 1px;
+                border-radius: 8px;
+                background: #0f1721;
+                clip: true;
+
+                Text {
+                    text: selected_audit_preview;
+                    color: #d7e5f8;
+                    x: 10px;
+                    y: 8px;
+                    width: parent.width - 20px;
+                    wrap: word-wrap;
+                }
+            }
+        }
+
+        Rectangle {
+            border-color: #2c3a49;
+            border-width: 1px;
+            border-radius: 10px;
+            background: #111a24;
+            height: 238px;
+
+            Text {
+                text: "Staged Edit Buffer (" + staged_edit_count + " files)";
+                color: #e8f1ff;
+                font-size: 18px;
+                x: 14px;
+                y: 12px;
+            }
+
+            HorizontalLayout {
+                x: 14px;
+                y: 42px;
+                spacing: 8px;
+
+                ActionButton {
+                    width: 150px;
+                    height: 30px;
+                    label: "Stage Safe Edits";
+                    clicked => { root.stage-selected-edits(); }
+                }
+
+                ActionButton {
+                    width: 70px;
+                    height: 30px;
+                    label: "Clear";
+                    clicked => { root.clear-staged-edits(); }
+                }
+
+                ActionButton {
+                    width: 170px;
+                    height: 30px;
+                    label: "Export Patch Preview";
+                    clicked => { root.export-patch-preview(); }
+                }
+
+                ActionButton {
+                    width: 120px;
+                    height: 30px;
+                    label: apply_armed ? "Disarm Apply" : "Arm Apply";
+                    clicked => { root.toggle-apply-arm(); }
+                }
+
+                ActionButton {
+                    width: 120px;
+                    height: 30px;
+                    label: "Apply to Files";
+                    clicked => { root.apply-staged-edits(); }
+                }
+            }
+
+            Text {
+                text: export_status;
+                color: #a5bed9;
+                x: 14px;
+                y: 76px;
+                width: parent.width - 28px;
+                wrap: word-wrap;
+            }
+
+            Text {
+                text: "Writes are blocked until apply is armed. Review the preview before applying.";
+                color: #c8a68a;
+                x: 14px;
+                y: 98px;
+                width: parent.width - 28px;
+                wrap: word-wrap;
+            }
+
+            Rectangle {
+                x: 12px;
+                y: 126px;
+                width: parent.width - 24px;
+                height: parent.height - 138px;
+                border-color: #27374a;
+                border-width: 1px;
+                border-radius: 8px;
+                background: #0f1721;
+                clip: true;
+
+                Text {
+                    text: patch_preview;
+                    color: #d7e5f8;
+                    x: 10px;
+                    y: 8px;
+                    width: parent.width - 20px;
+                    wrap: word-wrap;
+                }
+            }
+        }
+
+        Rectangle {
+            border-color: #2c3a49;
+            border-width: 1px;
+            border-radius: 8px;
+            background: #111a24;
+            height: 34px;
+
+            Text {
+                text: status_text;
+                color: #d2deee;
+                x: 12px;
+                y: 8px;
+            }
+        }
+    }
+}

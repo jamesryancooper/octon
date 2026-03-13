@@ -22,7 +22,7 @@ jobs:
           patterns='docs/architecture/harness/|scripts/smoke-check\\.sh|scripts/flags-stale-report\\.js|commitlint\\.config\\.cjs|@packages/workflows|packages/workflows/<flowId>'
 
           rg -n --hidden -S "${patterns}" \
-            .harmony .cursor .claude .codex .github AGENTS.md CLAUDE.md CODEOWNERS \
+            .octon .cursor .claude .codex .github AGENTS.md CLAUDE.md CODEOWNERS \
             --glob '!**/ideation/**' \
             --glob '!**/output/**' \
             --glob '!**/_scaffold/**' \

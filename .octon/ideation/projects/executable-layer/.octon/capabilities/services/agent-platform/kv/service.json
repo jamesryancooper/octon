@@ -1,0 +1,119 @@
+{
+  "format_version": "service-manifest-v1",
+  "name": "kv",
+  "version": "1.0.0",
+  "category": "agent-platform",
+  "abi": "wasi-component@0.2",
+  "entry": "service.wasm",
+  "capabilities_required": [
+    "storage.local",
+    "log.write"
+  ],
+  "ops": {
+    "get": {
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "value": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "idempotent": true,
+      "streaming": false
+    },
+    "put": {
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key",
+          "value"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ok"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          }
+        }
+      },
+      "idempotent": true,
+      "streaming": false
+    },
+    "del": {
+      "input_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "key"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ok"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          }
+        }
+      },
+      "idempotent": true,
+      "streaming": false
+    }
+  },
+  "limits": {
+    "max_request_bytes": 1048576,
+    "max_response_bytes": 1048576,
+    "timeout_ms": 30000,
+    "max_concurrency": 4
+  },
+  "integrity": {},
+  "docs": {
+    "summary": "Local key/value storage for Octon runtime state.",
+    "help": "Use for durable state under .octon/runtime/_ops/state/kv/. Keys are strings; values are UTF-8 strings in v1."
+  }
+}

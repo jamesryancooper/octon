@@ -1,0 +1,242 @@
+meta:
+  version: "1.0.0"
+  updated_at: "2026-02-18"
+  owner: "octon-platform"
+  status: "active"
+  schema_version: "1"
+
+attribute_catalog:
+  - id: performance
+    name: Performance
+  - id: scalability
+    name: Scalability
+  - id: reliability
+    name: Reliability
+  - id: availability
+    name: Availability
+  - id: robustness
+    name: Robustness
+  - id: recoverability
+    name: Recoverability
+  - id: dependability
+    name: Dependability
+  - id: safety
+    name: Safety
+  - id: security
+    name: Security
+  - id: simplicity
+    name: Simplicity
+  - id: evolvability
+    name: Evolvability
+  - id: maintainability
+    name: Long-term Maintainability
+  - id: portability
+    name: Portability
+  - id: functional_suitability
+    name: Functional Suitability
+  - id: completeness
+    name: Completeness
+  - id: operability
+    name: Operability
+  - id: observability
+    name: Observability
+  - id: testability
+    name: Testability
+  - id: auditability
+    name: Auditability
+  - id: deployability
+    name: Deployability
+  - id: usability
+    name: Usability
+  - id: accessibility
+    name: Accessibility
+  - id: interoperability
+    name: Interoperability
+  - id: compatibility
+    name: Compatibility
+  - id: configurability
+    name: Configurability
+  - id: sustainability
+    name: Sustainability
+
+profiles:
+  global-default:
+    description: "Octon baseline profile"
+    weights:
+      performance: 3
+      scalability: 3
+      reliability: 5
+      availability: 4
+      robustness: 4
+      recoverability: 5
+      dependability: 4
+      safety: 5
+      security: 5
+      simplicity: 5
+      evolvability: 4
+      maintainability: 5
+      portability: 5
+      functional_suitability: 5
+      completeness: 4
+      operability: 4
+      observability: 4
+      testability: 4
+      auditability: 4
+      deployability: 4
+      usability: 3
+      accessibility: 3
+      interoperability: 4
+      compatibility: 3
+      configurability: 3
+      sustainability: 2
+
+  ci-reliability:
+    description: "CI/release control-plane emphasis"
+    base: global-default
+    weights:
+      scalability: 4
+      availability: 5
+      operability: 5
+      observability: 5
+      testability: 5
+      auditability: 5
+      deployability: 5
+
+  local-devex:
+    description: "Local speed and ergonomics emphasis"
+    base: global-default
+    weights:
+      performance: 4
+      simplicity: 5
+      usability: 5
+      portability: 5
+      auditability: 3
+      availability: 3
+
+  regulated:
+    description: "Regulated/high-assurance emphasis"
+    base: global-default
+    weights:
+      dependability: 5
+      safety: 5
+      security: 5
+      availability: 5
+      recoverability: 5
+      observability: 5
+      testability: 5
+      auditability: 5
+
+selection_defaults:
+  run_mode:
+    local: local-devex
+    ci: ci-reliability
+    release: ci-reliability
+    prod-runtime: ci-reliability
+
+overrides:
+  run_mode:
+    local:
+      weights:
+        usability: 5
+        simplicity: 5
+        auditability: 3
+    ci:
+      weights:
+        reliability: 5
+        testability: 5
+        auditability: 5
+    release:
+      weights:
+        deployability: 5
+        recoverability: 5
+        auditability: 5
+
+  subsystem:
+    runtime:
+      weights:
+        reliability: 5
+        availability: 5
+        recoverability: 5
+        safety: 5
+        security: 5
+        operability: 5
+        observability: 5
+    quality:
+      weights:
+        testability: 5
+        functional_suitability: 5
+        auditability: 5
+    continuity:
+      weights:
+        recoverability: 5
+        observability: 5
+        auditability: 5
+    scaffolding:
+      weights:
+        simplicity: 5
+        portability: 5
+        usability: 4
+
+  maturity:
+    prototype:
+      weights:
+        usability: 5
+        simplicity: 5
+        availability: 3
+        deployability: 3
+        auditability: 3
+    alpha:
+      weights:
+        reliability: 4
+        testability: 4
+        observability: 4
+    beta:
+      weights:
+        reliability: 5
+        testability: 5
+        observability: 5
+        deployability: 4
+    prod:
+      weights:
+        availability: 5
+        recoverability: 5
+        operability: 5
+        auditability: 5
+    critical:
+      weights:
+        availability: 5
+        recoverability: 5
+        dependability: 5
+        safety: 5
+        security: 5
+        operability: 5
+        observability: 5
+        auditability: 5
+        testability: 5
+
+  repo:
+    octon:
+      weights:
+        portability: 5
+        simplicity: 5
+        auditability: 5
+
+maturity_defaults:
+  prototype: local-devex
+  alpha: global-default
+  beta: ci-reliability
+  prod: ci-reliability
+  critical: regulated
+
+deprecation_policy:
+  allowed_statuses: [active, deprecated]
+  min_release_cycles_before_removal: 2
+  require_replacement_profile: true
+  require_sunset_date: true
+
+changelog:
+  - date: "2026-02-18"
+    version: "1.0.0"
+    change: "Initial weighted quality model with global + ci/local/regulated profiles"
+    rationale: "Establish deterministic baseline and override contract"
+    adr: "TBD"

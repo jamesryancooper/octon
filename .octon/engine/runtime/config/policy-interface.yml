@@ -1,0 +1,27 @@
+format_version: policy-interface-config-v1
+
+paths:
+  default_policy: ".octon/capabilities/governance/policy/deny-by-default.v2.yml"
+  receipt_writer: ".octon/capabilities/_ops/scripts/policy-receipt-write.sh"
+  rollout_mode_state: ".octon/capabilities/_ops/state/rollout-mode.state"
+  intent_contract: ".octon/engine/runtime/spec/intent-contract-v1.schema.json"
+  instruction_layer_manifest_schema: ".octon/engine/runtime/spec/instruction-layer-manifest-v1.schema.json"
+
+exit_codes:
+  allow: 0
+  deny: 13
+  contract_error: 2
+
+wrapper:
+  acp_enforce:
+    supports_emit_receipt: true
+    validates_receipt: true
+    material_runs_require_manifest: true
+
+enforcement:
+  intent_binding:
+    enabled: true
+    missing_action: deny
+    invalid_action: deny
+    missing_reason_code: INTENT_MISSING
+    invalid_reason_code: INTENT_REF_INVALID

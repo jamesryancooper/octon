@@ -6,7 +6,7 @@
 
 ## Context
 
-Harmony’s operating model depends on explicit boundary separation. If runtime
+Octon’s operating model depends on explicit boundary separation. If runtime
 state, governance policy, and continuity evidence collapse into one layer, the
 system becomes harder to trust, validate, and evolve.
 

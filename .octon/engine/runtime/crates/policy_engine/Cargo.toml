@@ -1,0 +1,24 @@
+[package]
+name = "policy_engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "policy_engine"
+path = "src/lib.rs"
+
+[[bin]]
+name = "octon-policy"
+path = "src/bin/policy.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+jsonschema.workspace = true
+thiserror.workspace = true
+glob.workspace = true
+time.workspace = true

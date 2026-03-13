@@ -1,0 +1,69 @@
+# Proposal Validator Stack
+
+## `.octon/assurance/runtime/_ops/scripts/validate-proposal-standard.sh`
+
+- proposal: `.proposals/architecture/extensions-sidecar-pack-system`
+- status: `exit status: 0`
+
+### stdout
+
+```
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' manifest exists
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' manifest parses as YAML
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' schema_version is proposal-v1
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' kind valid
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' scope valid
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' status valid
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' id matches directory name
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' active path matches kind/id
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' non-archived proposal omits archive block
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' octon-internal targets stay under .octon/
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' avoids mixed target families
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' promotion target avoids proposal-path backreferences: .octon/engine/runtime/
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' promotion target avoids proposal-path backreferences: .octon/engine/governance/
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' promotion target avoids proposal-path backreferences: .octon/capabilities/runtime/
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' promotion target avoids proposal-path backreferences: .octon/capabilities/_meta/architecture/
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' promotion target avoids proposal-path backreferences: .octon/assurance/runtime/
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' promotion target avoids proposal-path backreferences: .octon/scaffolding/
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' promotion target avoids proposal-path backreferences: .octon/orchestration/runtime/workflows/
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' promotion target avoids proposal-path backreferences: .octon/octon.yml
+[OK] proposal registry exists
+[OK] proposal registry parses as YAML
+[OK] proposal registry schema_version valid
+[OK] proposal '.proposals/architecture/extensions-sidecar-pack-system' registry entry path matches manifest path
+Validation summary: errors=0 warnings=0
+
+```
+
+### stderr
+
+```
+
+```
+
+## `.octon/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh`
+
+- proposal: `.proposals/architecture/extensions-sidecar-pack-system`
+- status: `exit status: 0`
+
+### stdout
+
+```
+[OK] base proposal manifest exists
+[OK] architecture proposal manifest exists
+[OK] README exists
+[OK] artifact catalog exists
+[OK] source-of-truth map exists
+[OK] target architecture exists
+[OK] acceptance criteria exists
+[OK] implementation plan exists
+Validation summary: errors=0
+
+```
+
+### stderr
+
+```
+
+```
+

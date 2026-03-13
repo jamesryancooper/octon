@@ -3,8 +3,8 @@
 ## Purpose
 
 This document maps the implementation-ready orchestration surfaces defined by
-this package to the live Harmony artifacts required to promote them into
-canonical authority surfaces under `.harmony/orchestration/`.
+this package to the live Octon artifacts required to promote them into
+canonical authority surfaces under `.octon/orchestration/`.
 
 This document is planning-only in the current remediation. It does not claim
 that live authority reconciliation is complete.
@@ -45,7 +45,7 @@ not themselves orchestration runtime surfaces:
 
 ## Existing Canonical Surfaces
 
-The following already have live Harmony authority surfaces:
+The following already have live Octon authority surfaces:
 
 - `workflows`
 - `missions`
@@ -63,7 +63,7 @@ It is to add:
 
 ## Workflow And Mission Integration Targets
 
-If the mature model is promoted, the current Harmony surfaces should receive the
+If the mature model is promoted, the current Octon surfaces should receive the
 following addenda:
 
 - `runtime/workflows/README.md`
@@ -112,7 +112,7 @@ following addenda:
 
 ## Automation Promotion Targets
 
-If `automations` are promoted, the live Harmony surface should receive the
+If `automations` are promoted, the live Octon surface should receive the
 following artifacts and constraints:
 
 - `runtime/automations/README.md`
@@ -157,12 +157,12 @@ following artifacts and constraints:
 5. Promote `watchers`
 6. Promote `campaigns` only if needed
 
-This sequence keeps Harmony aligned to minimal sufficient complexity while still
+This sequence keeps Octon aligned to minimal sufficient complexity while still
 allowing the mature model to land cleanly.
 
 ## Runs Promotion Note
 
-When `runs` is promoted, live Harmony must preserve:
+When `runs` is promoted, live Octon must preserve:
 
 - `runtime/runs/README.md` as operator orientation only
 - `runtime/runs/index.yml` as the global discovery and lookup projection
@@ -173,7 +173,7 @@ When `runs` is promoted, live Harmony must preserve:
 
 ## Campaign Promotion Note
 
-When `campaigns` are promoted, live Harmony must preserve:
+When `campaigns` are promoted, live Octon must preserve:
 
 - `runtime/campaigns/README.md` as operator orientation only
 - `runtime/campaigns/manifest.yml` as lightweight surface discovery
@@ -187,7 +187,7 @@ When `campaigns` are promoted, live Harmony must preserve:
 
 ## Queue Promotion Note
 
-When `queue` is promoted, live Harmony must preserve:
+When `queue` is promoted, live Octon must preserve:
 
 - the singular top-level surface path `runtime/queue/`
 - queue-item definition authority in `contracts/queue-item-and-lease-contract.md`
@@ -199,7 +199,7 @@ When `queue` is promoted, live Harmony must preserve:
 
 ## Watcher Promotion Note
 
-When `watchers` are promoted, live Harmony must preserve:
+When `watchers` are promoted, live Octon must preserve:
 
 - schema-backed authority for `watcher.yml`, `sources.yml`, `rules.yml`, and
   `emits.yml`
@@ -209,7 +209,7 @@ When `watchers` are promoted, live Harmony must preserve:
 
 ## Incident Promotion Note
 
-When `incidents` are promoted, live Harmony must preserve:
+When `incidents` are promoted, live Octon must preserve:
 
 - `governance/incidents.md` as the governance authority for severity, closure
   authority, and escalation rules

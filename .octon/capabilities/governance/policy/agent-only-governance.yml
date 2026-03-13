@@ -1,0 +1,29 @@
+schema_version: "1.2"
+agent_only:
+  enabled: true
+  risk_tiers:
+    low:
+      min_distinct_agents: 1
+      require_review: false
+      require_quorum_token: false
+      require_rollback_plan: false
+    medium:
+      min_distinct_agents: 2
+      require_review: true
+      require_quorum_token: false
+      require_rollback_plan: true
+    high:
+      min_distinct_agents: 2
+      require_review: true
+      require_quorum_token: true
+      require_rollback_plan: true
+  kill_switch:
+    fail_closed: true
+  # Scoped kill-switch records (global/service/category) are authoritative.
+  kill_switches:
+    state_dir: ".octon/capabilities/_ops/state/kill-switches"
+    required_fields: [scope, owner, reason, created, expires, state]
+    default_state: "active"
+  rollback:
+    on_guard_violation: "halt-and-rollback"
+    rollback_plan_ref: ".octon/cognition/governance/principles/reversibility.md"

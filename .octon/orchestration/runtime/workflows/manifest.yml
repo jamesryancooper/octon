@@ -1,0 +1,519 @@
+# Workflow Manifest — Tier 1 Canonical Discovery
+#
+# Ultra-lightweight index for routing and intent matching.
+# Token budget: ~50 tokens per workflow entry.
+#
+# Goal alignment: Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
+#
+# Load this first for workflow discovery.
+# After matching, load registry.yml for extended metadata.
+# Then load workflow.yml as the canonical contract.
+# Load README.md only when human-readable staged guidance is needed.
+#
+# Fields:
+#   id           - Unique identifier (matches directory name and workflow.yml name)
+#   display_name - Human-readable display name
+#   group        - Workflow group for directory organization
+#                  Resolved via workflow_group_definitions below
+#   domain       - Fine-grained domain classification
+#   path         - Relative path to workflow directory
+#   execution_profile - Runtime dependency profile: core | external-dependent
+#   summary      - One-line description for routing decisions
+#   status       - Lifecycle state: active | deprecated | experimental
+#   triggers     - Natural language phrases for intent matching
+
+workflows:
+  # --- meta: Operate on the harness itself ---
+  - id: evaluate-harness
+    display_name: Evaluate Harness
+    group: meta
+    domain: harness
+    path: meta/evaluate-harness/
+    summary: Evaluate a .octon directory for token efficiency and effectiveness.
+    status: active
+    triggers:
+      - "evaluate harness"
+      - "assess harness quality"
+      - "check harness health"
+  - id: evaluate-ci-latency
+    display_name: Evaluate Ci Latency
+    group: meta
+    domain: workflows
+    path: meta/evaluate-ci-latency/
+    execution_profile: external-dependent
+    summary: Audit recent GitHub Actions latency and tightening opportunities for this repository.
+    status: active
+    triggers:
+      - "evaluate ci latency"
+      - "audit ci latency"
+      - "analyze ci speed"
+      - "check ci critical path"
+  - id: migrate-harness
+    display_name: Migrate Harness
+    group: meta
+    domain: harness
+    path: meta/migrate-harness/
+    summary: Upgrade an older harness to current conventions.
+    status: active
+    triggers:
+      - "migrate harness"
+      - "upgrade harness"
+      - "update harness structure"
+  - id: update-harness
+    display_name: Update Harness
+    group: meta
+    domain: harness
+    path: meta/update-harness/
+    summary: Align an existing .octon directory with the canonical definition.
+    status: active
+    triggers:
+      - "update harness"
+      - "align harness"
+      - "fix harness gaps"
+  - id: create-skill
+    display_name: Create Skill
+    group: meta
+    domain: skills
+    path: meta/create-skill/
+    summary: Scaffold a new skill from template with registry entry.
+    status: deprecated
+    triggers:
+      - "create a skill"
+      - "scaffold skill"
+  - id: create-workflow
+    display_name: Create Workflow
+    group: meta
+    domain: workflows
+    path: meta/create-workflow/
+    summary: Scaffold a new canonical workflow unit and generate its guide.
+    status: active
+    triggers:
+      - "create a workflow"
+      - "create a pipeline"
+      - "scaffold workflow README"
+  - id: create-design-proposal
+    display_name: Create Design Proposal
+    group: meta
+    domain: proposals
+    path: meta/create-design-proposal/
+    summary: Scaffold a standard-governed design proposal, materialize its manifests, and validate the resulting proposal immediately.
+    status: active
+    triggers:
+      - "create a design proposal"
+      - "scaffold a design proposal"
+      - "create implementation design proposal"
+  - id: create-migration-proposal
+    display_name: Create Migration Proposal
+    group: meta
+    domain: proposals
+    path: meta/create-migration-proposal/
+    summary: Scaffold a standard-governed migration proposal and validate the resulting proposal immediately.
+    status: active
+    triggers:
+      - "create a migration proposal"
+      - "scaffold a migration proposal"
+      - "create migration plan proposal"
+  - id: create-policy-proposal
+    display_name: Create Policy Proposal
+    group: meta
+    domain: proposals
+    path: meta/create-policy-proposal/
+    summary: Scaffold a standard-governed policy proposal and validate the resulting proposal immediately.
+    status: active
+    triggers:
+      - "create a policy proposal"
+      - "scaffold a policy proposal"
+      - "create policy change proposal"
+  - id: create-architecture-proposal
+    display_name: Create Architecture Proposal
+    group: meta
+    domain: proposals
+    path: meta/create-architecture-proposal/
+    summary: Scaffold a standard-governed architecture proposal and validate the resulting proposal immediately.
+    status: active
+    triggers:
+      - "create an architecture proposal"
+      - "scaffold an architecture proposal"
+      - "create architecture change proposal"
+  - id: evaluate-workflow
+    display_name: Evaluate Workflow
+    group: meta
+    domain: workflows
+    path: meta/evaluate-workflow/
+    summary: Assess a canonical workflow unit and its guide for contract integrity and drift.
+    status: active
+    triggers:
+      - "evaluate workflow"
+      - "evaluate pipeline"
+      - "audit workflow README"
+  - id: update-workflow
+    display_name: Update Workflow
+    group: meta
+    domain: workflows
+    path: meta/update-workflow/
+    summary: Update a canonical workflow unit and repair any resulting README drift.
+    status: active
+    triggers:
+      - "update workflow"
+      - "update pipeline"
+      - "fix workflow README drift"
+  # --- audit/refactor: Verify integrity and execute structural refactors ---
+  - id: refactor
+    display_name: Refactor
+    group: refactor
+    domain: refactor
+    path: refactor/refactor/
+    summary: Execute a verified refactor with exhaustive audit and mandatory verification.
+    status: active
+    triggers:
+      - "refactor codebase"
+      - "workflow rename across codebase"
+      - "verified refactor"
+  - id: audit-orchestration
+    display_name: Orchestrate Audit
+    group: audit
+    domain: audit
+    path: audit/audit-orchestration/
+    summary: Coordinate partitioned migration audits with optional cross-subsystem and freshness global stages.
+    status: active
+    triggers:
+      - "orchestrate an audit"
+      - "run a partitioned audit"
+      - "parallel audit"
+      - "coordinate audit partitions"
+  - id: audit-pre-release
+    display_name: Pre-Release Audit
+    group: audit
+    domain: audit
+    path: audit/audit-pre-release/
+    summary: Chain orchestrated migration, health, cross-subsystem, and freshness audits into a pre-release quality gate.
+    status: active
+    triggers:
+      - "pre-release audit"
+      - "run pre-release gate"
+      - "release readiness check"
+      - "full audit before release"
+  - id: audit-change-risk
+    display_name: Change Risk Audit
+    group: audit
+    domain: audit
+    path: audit/audit-change-risk/
+    summary: Orchestrate layered integrity, migration, contract, quality, operational, coherence, and freshness audits into one bounded change-risk gate.
+    status: active
+    triggers:
+      - "change risk audit"
+      - "run change risk workflow"
+      - "audit change risk"
+      - "change impact risk gate"
+  - id: audit-continuous
+    display_name: Continuous Audit
+    group: audit
+    domain: audit
+    path: audit/audit-continuous/
+    summary: Orchestrate recurring layered subsystem health, observability, operational, contract, quality, security, governance, coherence, and freshness audits into one bounded continuous-risk gate.
+    status: active
+    triggers:
+      - "continuous audit"
+      - "run continuous audit workflow"
+      - "continuous risk audit"
+      - "ongoing audit workflow"
+  - id: audit-post-incident
+    display_name: Post-Incident Audit
+    group: audit
+    domain: audit
+    path: audit/audit-post-incident/
+    summary: Orchestrate layered post-incident audits for response, observability, security, governance, and recurrence-risk closure.
+    status: active
+    triggers:
+      - "post incident audit"
+      - "post-incident audit"
+      - "incident closure audit"
+      - "incident remediation audit workflow"
+  - id: audit-release-readiness
+    display_name: Release Readiness Audit Workflow
+    group: audit
+    domain: audit
+    path: audit/audit-release-readiness/
+    summary: Orchestrate layered release, operational, API, test, observability, security, and data-governance audits into one bounded release gate.
+    status: active
+    triggers:
+      - "release readiness audit workflow"
+      - "run release readiness workflow"
+      - "layered release readiness audit"
+      - "orchestrate release readiness audits"
+  - id: audit-architecture-readiness
+    display_name: Architecture Readiness Audit Workflow
+    group: audit
+    domain: audit
+    path: audit/audit-architecture-readiness/
+    summary: Orchestrate whole-harness and bounded-domain architecture-readiness audits into one bounded implementation-readiness recommendation.
+    status: active
+    triggers:
+      - "architecture readiness audit workflow"
+      - "run architecture readiness workflow"
+      - "audit octon architecture readiness"
+      - "orchestrate architecture readiness audits"
+  - id: audit-documentation
+    display_name: Documentation Audit
+    group: audit
+    domain: audit
+    path: audit/audit-documentation/
+    summary: Run bounded docs-as-code standards enforcement with deterministic bundle evidence and done-gate outcomes.
+    status: active
+    triggers:
+      - "documentation audit"
+      - "run docs audit workflow"
+      - "audit docs for release"
+      - "enforce documentation standards"
+  - id: audit-design-proposal
+    display_name: Design Proposal Audit
+    group: audit
+    domain: audit
+    path: audit/audit-design-proposal/
+    summary: Run the architecture validation pipeline for a design proposal, including audit, remediation track, simulation, closure, and implementation extraction.
+    status: active
+    triggers:
+      - "audit design proposal"
+      - "validate design proposal"
+      - "run design proposal pipeline"
+      - "architecture validation pipeline"
+  - id: audit-migration-proposal
+    display_name: Migration Proposal Audit
+    group: audit
+    domain: audit
+    path: audit/audit-migration-proposal/
+    summary: Run deterministic completeness and consistency validation for a migration proposal.
+    status: active
+    triggers:
+      - "audit migration proposal"
+      - "validate migration proposal"
+      - "review migration proposal"
+  - id: audit-policy-proposal
+    display_name: Policy Proposal Audit
+    group: audit
+    domain: audit
+    path: audit/audit-policy-proposal/
+    summary: Run deterministic completeness and consistency validation for a policy proposal.
+    status: active
+    triggers:
+      - "audit policy proposal"
+      - "validate policy proposal"
+      - "review policy proposal"
+  - id: audit-architecture-proposal
+    display_name: Architecture Proposal Audit
+    group: audit
+    domain: audit
+    path: audit/audit-architecture-proposal/
+    summary: Run deterministic completeness and consistency validation for an architecture proposal.
+    status: active
+    triggers:
+      - "audit architecture proposal"
+      - "validate architecture proposal"
+      - "review architecture proposal"
+  - id: audit-workflow-system
+    display_name: Workflow System Audit
+    group: audit
+    domain: workflows
+    path: audit/audit-workflow-system/
+    summary: Audit the Octon workflow system for contract drift, portfolio gaps, sampled rehearsals, and validator blind spots.
+    status: active
+    triggers:
+      - "workflow system audit"
+      - "audit workflows system"
+      - "audit workflow portfolio"
+      - "evaluate workflows system"
+  # --- foundations: Stack-specific project scaffolding ---
+  - id: python-api-foundation
+    display_name: Python API Foundation
+    group: foundations
+    domain: foundations
+    path: foundations/python-api/
+    execution_profile: external-dependent
+    summary: Orchestrate six foundation skills to scaffold a Python API project.
+    status: active
+    triggers:
+      - "set up a python api project"
+      - "scaffold python api"
+      - "run python foundation"
+      - "python api foundation"
+      - "bootstrap python api"
+  - id: swift-macos-app-foundation
+    display_name: Swift macOS App Foundation
+    group: foundations
+    domain: foundations
+    path: foundations/swift-macos-app/
+    execution_profile: external-dependent
+    summary: Orchestrate six foundation skills to scaffold a Swift macOS application.
+    status: active
+    triggers:
+      - "set up a swift macos app"
+      - "scaffold swift app"
+      - "run swift foundation"
+      - "swift macos foundation"
+      - "bootstrap swift macos app"
+      - "create swift macos project"
+  # --- missions: Mission lifecycle management ---
+  - id: create-mission
+    display_name: Create Mission
+    group: missions
+    domain: missions
+    path: missions/create-mission/
+    summary: Scaffold a new mission from template.
+    status: active
+    triggers:
+      - "create a mission"
+      - "start a new mission"
+      - "scaffold mission"
+  - id: complete-mission
+    display_name: Complete Mission
+    group: missions
+    domain: missions
+    path: missions/complete-mission/
+    summary: Archive a completed mission.
+    status: active
+    triggers:
+      - "complete mission"
+      - "archive mission"
+      - "finish mission"
+  # --- projects: Project scaffolding ---
+  - id: create-project
+    display_name: Create Project
+    group: projects
+    domain: projects
+    path: projects/create-project/
+    summary: Scaffold a new project in projects/.
+    status: active
+    triggers:
+      - "create a project"
+      - "new project"
+      - "scaffold project"
+  # --- ideation: Scratchpad content promotion ---
+  - id: promote-from-scratchpad
+    display_name: Promote from Scratchpad
+    group: ideation
+    domain: ideation
+    path: ideation/promote-from-scratchpad/
+    summary: Publish distilled insights from scratchpad to agent-facing artifacts.
+    status: active
+    triggers:
+      - "promote from scratchpad"
+      - "publish scratchpad"
+      - "promote insights"
+  # --- tasks: Guided operational playbooks ---
+  - id: agent-led-happy-path
+    display_name: Agent-Led Happy Path
+    group: tasks
+    domain: tasks
+    path: tasks/agent-led-happy-path/
+    summary: Canonical onboarding flow for agent-led execution from bootstrap to continuity.
+    status: active
+    triggers:
+      - "agent led happy path"
+      - "canonical onboarding path"
+      - "bootstrap execute assure continuity"
+      - "start canonical workflow"
+  - id: add-api-endpoint
+    display_name: Add API Endpoint
+    group: tasks
+    domain: tasks
+    path: tasks/add-api-endpoint/
+    summary: Guided workflow for adding a new API endpoint with spec, build, and review checkpoints.
+    status: active
+    triggers:
+      - "add api endpoint"
+      - "new api route"
+      - "build endpoint"
+  - id: add-ui-feature
+    display_name: Add UI Feature
+    group: tasks
+    domain: tasks
+    path: tasks/add-ui-feature/
+    summary: Guided workflow for shipping a UI feature with preview and review gates.
+    status: active
+    triggers:
+      - "add ui feature"
+      - "build ui"
+      - "new frontend feature"
+  - id: fix-a-bug
+    display_name: Fix a Bug
+    group: tasks
+    domain: tasks
+    path: tasks/fix-a-bug/
+    summary: Guided bug-fix workflow from issue intake through verification.
+    status: active
+    triggers:
+      - "fix a bug"
+      - "debug issue"
+      - "resolve defect"
+  - id: handle-security-issue
+    display_name: Handle Security Issue
+    group: tasks
+    domain: tasks
+    path: tasks/handle-security-issue/
+    summary: Guided security response workflow for vulnerability investigation and remediation.
+    status: active
+    triggers:
+      - "handle security issue"
+      - "security vulnerability"
+      - "security remediation"
+  - id: run-data-migration
+    display_name: Run Data Migration
+    group: tasks
+    domain: tasks
+    path: tasks/run-data-migration/
+    summary: Guided workflow for planning and executing data migrations safely.
+    status: active
+    triggers:
+      - "run data migration"
+      - "database migration"
+      - "schema migration"
+# ============================================================================
+# WORKFLOW GROUP DEFINITIONS
+# Domain-oriented clusters for routing and directory organization.
+# Workflows declare a `group` above; members are resolved here.
+# ============================================================================
+workflow_group_definitions:
+  meta:
+    description: Operate on the harness itself (CRUD for harness components)
+    path: meta/
+    members: [evaluate-harness, migrate-harness, update-harness, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal]
+  audit:
+    description: Audit orchestration and release gates
+    path: audit/
+    members: [audit-documentation, audit-design-proposal, audit-migration-proposal, audit-policy-proposal, audit-architecture-proposal, audit-workflow-system, audit-orchestration, audit-pre-release, audit-change-risk, audit-continuous, audit-post-incident, audit-release-readiness, audit-architecture-readiness]
+  refactor:
+    description: Verified structural refactor orchestration
+    path: refactor/
+    members: [refactor]
+  foundations:
+    description: Stack-specific project scaffolding orchestration
+    path: foundations/
+    members: [python-api-foundation, swift-macos-app-foundation]
+  missions:
+    description: Mission lifecycle management
+    path: missions/
+    members: [create-mission, complete-mission]
+  projects:
+    description: Project scaffolding
+    path: projects/
+    members: [create-project]
+  ideation:
+    description: Scratchpad content promotion
+    path: ideation/
+    members: [promote-from-scratchpad]
+  tasks:
+    description: Guided operational task playbooks
+    path: tasks/
+    members: [agent-led-happy-path, add-api-endpoint, add-ui-feature, fix-a-bug, handle-security-issue, run-data-migration]
+# ============================================================================
+# GOVERNANCE LINKAGE
+# Capability map governs whether workflows may run autonomous or require
+# agent-augmented / human-only execution.
+# ============================================================================
+governance:
+  capability_map_ref: "../../governance/capability-map-v1.yml"
+  capability_map_schema_ref: "../../governance/capability-map-v1.schema.json"
+  classification_field: "capability_classification"
+  autonomy_gate:
+    autonomous_execution_requires: "agent-ready"
+    non_ready_modes: ["agent-augmented", "human-only"]

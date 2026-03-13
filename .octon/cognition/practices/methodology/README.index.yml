@@ -1,0 +1,35 @@
+# Methodology README Section Index
+# Sidecar index for targeted discovery into methodology overview content.
+
+schema_version: "1.0"
+source: README.md
+sections:
+  - id: machine-discovery
+    heading: "Machine Discovery"
+    summary: Discovery contract and targeted index entrypoints.
+    when: First read before loading large methodology docs.
+
+  - id: unifying-objective
+    heading: "Octon’s Unifying Objective"
+    summary: Core outcome Octon is designed to achieve.
+    when: When framing methodology intent and tradeoffs.
+
+  - id: system-guarantees
+    heading: "System Guarantees (self‑reinforcing invariants)"
+    summary: Core invariants and guarantees across the methodology.
+    when: Before changing methodology-level contracts.
+
+  - id: lifecycle-overview
+    heading: "Method Lifecycle Overview"
+    summary: End-to-end lifecycle model and stage transitions.
+    when: When designing process flow changes.
+
+  - id: quality-gates
+    heading: "CI/CD Quality Gates"
+    summary: Release and quality gating expectations.
+    when: When changing enforcement or release policy.
+
+  - id: metrics-improvement
+    heading: "Metrics & Improvement"
+    summary: Scorecard and continuous-improvement posture.
+    when: When adjusting scorecards or feedback loops.

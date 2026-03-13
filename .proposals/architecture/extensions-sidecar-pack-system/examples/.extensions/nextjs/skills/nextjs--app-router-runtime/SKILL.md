@@ -4,9 +4,9 @@ description: >
   Additive runtime guidance for Next.js App Router work, scoped as a v1
   extension-pack skill example.
 license: MIT
-compatibility: Designed for Harmony extension-pack authoring examples.
+compatibility: Designed for Octon extension-pack authoring examples.
 metadata:
-  author: Harmony Framework
+  author: Octon Framework
   created: "2026-03-13"
   updated: "2026-03-13"
 skill_sets: [executor, specialist]
@@ -26,6 +26,6 @@ Example extension-pack skill for proposal illustration only.
 ## Boundaries
 
 - Additive only
-- Does not override Harmony governance or methodology
+- Does not override Octon governance or methodology
 - Example is read-only; operational writes, if later added, must be rebased into
-  Harmony-owned destinations by the extension compiler
+  Octon-owned destinations by the extension compiler

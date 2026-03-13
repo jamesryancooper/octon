@@ -1,9 +1,9 @@
 ## 1. Recommended Workflow
 
-**Repo inspection note:** I attempted to inspect `https://github.com/jamesryancooper/harmony` but it returns **404 Not Found**, and the `jamesryancooper` profile does not list a public `harmony` repo (only 4 public repos show up). That usually means the repo is **private/unavailable to unauthenticated browsing** or the URL has changed. 
+**Repo inspection note:** I attempted to inspect `https://github.com/jamesryancooper/octon` but it returns **404 Not Found**, and the `jamesryancooper` profile does not list a public `octon` repo (only 4 public repos show up). That usually means the repo is **private/unavailable to unauthenticated browsing** or the URL has changed. 
 So: I’m giving a **complete, implementable operating model**, but the “repo changes” section is expressed as **add/align these files** (because I can’t verify what already exists). Step 1 of the implementation plan is an automated **repo inventory** via `gh` to reconcile with your current state.
 
-### Happy path (PLAN → SHIP → LEARN, Harmony-aligned)
+### Happy path (PLAN → SHIP → LEARN, Octon-aligned)
 
 **Diagram-like flow**
 
@@ -114,7 +114,7 @@ Rules are stated as **MUST/SHOULD/MAY**, and every one includes *how it’s enfo
 **Workspace root**
 
 ```
-~/ws/harmony/
+~/ws/octon/
   main/                         # normal clone, always on main
   wt/
     feat-142-agent-policy-gate/ # worktrees (one per branch)
@@ -134,7 +134,7 @@ Rules are stated as **MUST/SHOULD/MAY**, and every one includes *how it’s enfo
 * `docs(governance): define branch + PR conventions`
 * `refactor(engine)!: change runtime contract resolver`
 
-**Allowed scopes (Harmony-oriented)**
+**Allowed scopes (Octon-oriented)**
 Use one of: `agency`, `capabilities`, `cognition`, `orchestration`, `scaffolding`, `assurance`, `engine`, `continuity`, `ideation`, `governance`, `practices`, `runtime`, `ops`, `meta`.
 
 ### PR titles (must match squash commit convention)
@@ -158,7 +158,7 @@ Use one of: `agency`, `capabilities`, `cognition`, `orchestration`, `scaffolding
 
 * `type:feat`, `type:fix`, `type:docs`, `type:refactor`, `type:chore`, `type:ci`, `type:test`, `type:hotfix`, `type:exp`
 
-**Area** (Harmony domains/surfaces)
+**Area** (Octon domains/surfaces)
 
 * `area:agency`, `area:capabilities`, …, `area:engine`
 * plus surfaces: `area:governance`, `area:practices`, `area:runtime`, `area:ops`, `area:meta`
@@ -299,7 +299,7 @@ Create a rule for `main` (or a ruleset targeting `main`) and set:
 All playbooks assume:
 
 ```bash
-REPO="jamesryancooper/harmony"
+REPO="jamesryancooper/octon"
 BASE="main"
 ```
 
@@ -492,7 +492,7 @@ Run from a machine authenticated to GitHub:
 
 This produces your “current state” for alignment.
 
-### Step 1 — Add the SSOT workflow docs (Harmony-aligned)
+### Step 1 — Add the SSOT workflow docs (Octon-aligned)
 
 **Files**
 
@@ -505,7 +505,7 @@ This produces your “current state” for alignment.
 
 **Why**
 
-* Keeps policy authority in governance, and operational runbooks in practices (Harmony-aligned).
+* Keeps policy authority in governance, and operational runbooks in practices (Octon-aligned).
 
 ### Step 2 — PR template + labels
 

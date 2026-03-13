@@ -3,7 +3,7 @@
 This example illustrates a first-party v1 extension pack rooted at
 `/.extensions/docs/`.
 
-It demonstrates the preferred conversion path for removed Harmony scoped docs
+It demonstrates the preferred conversion path for removed Octon scoped docs
 content:
 
 - the former `docs` scoped template becomes a pack-local template example

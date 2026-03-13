@@ -1,0 +1,52 @@
+{
+  "input": {
+    "command": "ask",
+    "query": "Summarize rollout decisions.",
+    "index": {
+      "snapshot": "indexes/test-snapshot"
+    },
+    "strategy": {
+      "use": ["keyword", "semantic"],
+      "required_signals": ["semantic"],
+      "fuse": "rrf",
+      "top_k": 6
+    }
+  },
+  "expected_output": {
+    "run": {
+      "run_id": "run-ask-invalid-001",
+      "service_version": "0.1.0",
+      "snapshot_id": "indexes/test-snapshot"
+    },
+    "status": "error",
+    "candidates": [],
+    "citations": [],
+    "evidence": [],
+    "diagnostics": {
+      "strategy": {
+        "use": ["keyword", "semantic"],
+        "fuse": "rrf",
+        "top_k": 6
+      },
+      "timings": {
+        "total_ms": 4
+      },
+      "deterministic_stages": [],
+      "warnings": ["Semantic scoring was required but unavailable."]
+    },
+    "error": {
+      "code": "SemanticScoringUnavailableError",
+      "message": "Semantic scoring could not be completed for this request."
+    }
+  },
+  "metadata": {
+    "id": "invalid-ask-semantic-unavailable",
+    "type": "negative",
+    "behavior_family": "ask",
+    "description": "Ask fails when required semantic scoring cannot run.",
+    "expected_result": "fail",
+    "runtime_env": {
+      "OCTON_QUERY_SEMANTIC_AVAILABLE": "false"
+    }
+  }
+}

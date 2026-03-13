@@ -3,7 +3,7 @@
 ## Purpose
 
 Provide practical guidance for humans and agents authoring and operating the
-orchestration domain within Harmony policy.
+orchestration domain within Octon policy.
 
 ## Authoring Principles
 

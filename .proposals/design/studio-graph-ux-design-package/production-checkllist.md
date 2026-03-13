@@ -1,6 +1,6 @@
 # Production Checklist for Studio Graph UX
 
-Here’s the exact production checklist to work through. It follows the required page/frame structure, uses the exact naming system, and includes the components, screens, states, prototype flows, and spec frames needed for the Harmony Studio graph UX deliverable.   
+Here’s the exact production checklist to work through. It follows the required page/frame structure, uses the exact naming system, and includes the components, screens, states, prototype flows, and spec frames needed for the Octon Studio graph UX deliverable.   
 
 ## 1) Set up the design file
 
@@ -19,7 +19,7 @@ Here’s the exact production checklist to work through. It follows the required
 
 ## 2) Create the cover designs
 
-* [ ] `Cover / Harmony Studio Graph UX`
+* [ ] `Cover / Octon Studio Graph UX`
 * [ ] `Cover / Product Goals`
 * [ ] `Cover / Data Model Summary`
 
@@ -261,4 +261,4 @@ Also include notes for state behavior, selection sync, dense-graph behavior, and
 * [ ] Key information is understandable outside the graph canvas  
 * [ ] Primary screens work at `1600 x 1000` and remain usable at `1366 x 860`
 
-The shortest practical way to think about it is: **design foundations first, then components, then the 15 required screens including minimum-size validation, then the 5 prototype flows, then the 8 handoff/spec frames**. That will give you everything needed to start and complete the visual design work for Harmony Studio’s graph-first workbench.  
+The shortest practical way to think about it is: **design foundations first, then components, then the 15 required screens including minimum-size validation, then the 5 prototype flows, then the 8 handoff/spec frames**. That will give you everything needed to start and complete the visual design work for Octon Studio’s graph-first workbench.  

@@ -1,9 +1,0 @@
-{
-  "id": "scaffold",
-  "description": "Create new bounded artifacts from approved templates.",
-  "auto_grant_tier": "low",
-  "tool_bundle": ["Read", "Glob", "Grep", "Edit", "Bash(cp *)", "Bash(mkdir *)", "Bash(rg *)"],
-  "write_scope_bundle": ["Write(.harmony/capabilities/*)", "Write(src/*)", "Write(tests/*)"],
-  "service_allowlist": ["capability-bind", "scheduler", "playbook"],
-  "deny_rules": ["DDB008_WRITE_SCOPE_BROAD", "DDB021_GRANT_SCOPE_TOO_BROAD"]
-}

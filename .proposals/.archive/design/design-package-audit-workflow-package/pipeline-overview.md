@@ -47,18 +47,18 @@ Sequence:
 - Architecture Extraction and First Implementation Plan convert the stabilized
   package into implementer-ready outputs.
 
-## Harmony Output Rule
+## Octon Output Rule
 
 Every workflow run should leave behind:
 
 - one workflow bundle under
-  `.harmony/output/reports/workflows/YYYY-MM-DD-audit-design-package-<slug>/`
-- one top-level summary report under `.harmony/output/reports/`
+  `.octon/output/reports/workflows/YYYY-MM-DD-audit-design-package-<slug>/`
+- one top-level summary report under `.octon/output/reports/`
 - one report file per selected stage
 - one prompt packet and one stage log per selected stage
 - aggregate validation metadata proving which mode ran and which files changed
 - the minimum workflow bundle contract required by
-  `/.harmony/output/reports/workflows/README.md`
+  `/.octon/output/reports/workflows/README.md`
 
 See `artifact-contract.md` for the bundle layout.
 

@@ -1,0 +1,145 @@
+meta:
+  inferred_at: "2026-02-18"
+  inference_method: "repository evidence: workflows + validators + governance docs"
+  scale:
+    "5": "hard-gated / mandatory"
+    "4": "strong norm + consistent checks"
+    "3": "partial enforcement"
+    "2": "occasional mention"
+    "1": "not evident"
+
+as_is_weights:
+  performance: 3
+  scalability: 2
+  reliability: 5
+  availability: 3
+  robustness: 4
+  recoverability: 4
+  dependability: 4
+  safety: 5
+  security: 5
+  simplicity: 4
+  evolvability: 4
+  maintainability: 4
+  portability: 5
+  functional_suitability: 4
+  completeness: 4
+  operability: 3
+  observability: 3
+  testability: 4
+  auditability: 4
+  deployability: 3
+  usability: 3
+  accessibility: 2
+  interoperability: 4
+  compatibility: 3
+  configurability: 3
+  sustainability: 1
+
+evidence:
+  performance:
+    - .github/workflows/filesystem-interfaces-perf-regression.yml
+    - .octon/cognition/methodology/performance-and-scalability.md
+  scalability:
+    - .octon/cognition/methodology/performance-and-scalability.md
+  reliability:
+    - .github/workflows/main-push-safety.yml
+    - .github/workflows/filesystem-interfaces-runtime.yml
+    - .octon/cognition/principles/determinism.md
+  availability:
+    - .octon/cognition/methodology/reliability-and-ops.md
+  robustness:
+    - .octon/cognition/_meta/architecture/runtime-policy.md
+    - .octon/capabilities/services/_ops/scripts/validate-service-independence.sh
+  recoverability:
+    - .octon/cognition/principles/reversibility.md
+    - .octon/cognition/_meta/architecture/runtime-policy.md
+  dependability:
+    - .octon/cognition/pillars/trust.md
+  safety:
+    - .octon/cognition/principles/deny-by-default.md
+    - .octon/cognition/principles/no-silent-apply.md
+    - .octon/cognition/_meta/architecture/governance-model.md
+  security:
+    - .octon/cognition/methodology/ci-cd-quality-gates.md
+    - .octon/cognition/principles/security-and-privacy-baseline.md
+  simplicity:
+    - .octon/cognition/principles/simplicity-over-complexity.md
+  evolvability:
+    - .octon/cognition/principles/ownership-and-boundaries.md
+    - .octon/cognition/decisions/012-agent-platform-interop-native-first.md
+  maintainability:
+    - .octon/cognition/principles/README.md
+    - .octon/cognition/principles/documentation-is-code.md
+  portability:
+    - .github/workflows/harness-self-containment.yml
+    - .octon/cognition/principles/portability-and-independence.md
+  functional_suitability:
+    - .octon/cognition/principles/contract-first.md
+    - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+  completeness:
+    - .github/workflows/pr-quality.yml
+    - .octon/cognition/principles/observability-as-a-contract.md
+  operability:
+    - .octon/cognition/methodology/reliability-and-ops.md
+  observability:
+    - .octon/cognition/principles/observability-as-a-contract.md
+    - .octon/cognition/methodology/ci-cd-quality-gates.md
+  testability:
+    - .octon/assurance/testing-strategy.md
+    - .github/workflows/filesystem-interfaces-runtime.yml
+  auditability:
+    - .octon/cognition/principles/determinism.md
+    - .octon/cognition/principles/determinism-and-provenance.md
+    - .octon/continuity/log.md
+  deployability:
+    - .octon/cognition/_meta/architecture/runtime-policy.md
+    - .github/workflows/runtime-binaries.yml
+  usability:
+    - .octon/agency/agents/architect/AGENT.md
+  accessibility:
+    - .octon/cognition/principles/accessibility-baseline.md
+  interoperability:
+    - .octon/cognition/context/agent-platform-interop.md
+    - .octon/capabilities/services/_ops/scripts/validate-service-independence.sh
+  compatibility:
+    - .github/workflows/filesystem-interfaces-runtime.yml
+  configurability:
+    - .octon/cognition/principles/flags-by-default.md
+    - .github/workflows/flags-stale-report.yml
+  sustainability:
+    - .octon/cognition/methodology/README.md
+
+unknowns:
+  - "Branch protection required-checks are not fully represented in repository files."
+  - "Some methodology gates are normative but not fully wired into active workflows."
+  - "Incident urgency and production behavior are only partially observable from tracked repo artifacts."
+
+delta_vs_target:
+  target_profile: ci-reliability
+  top_mismatches:
+    - attribute: observability
+      as_is: 3
+      target: 5
+      delta: 2
+      backlog_hint: "Add repo-wide observability evidence gate."
+    - attribute: availability
+      as_is: 3
+      target: 5
+      delta: 2
+      backlog_hint: "Add harness-level availability SLO and burn-rate gate."
+    - attribute: operability
+      as_is: 3
+      target: 5
+      delta: 2
+      backlog_hint: "Require runbook-readiness checks for high-risk paths."
+    - attribute: deployability
+      as_is: 3
+      target: 5
+      delta: 2
+      backlog_hint: "Add standard release/rollback rehearsal evidence gate."
+    - attribute: scalability
+      as_is: 2
+      target: 4
+      delta: 2
+      backlog_hint: "Extend benchmark regression checks beyond filesystem interfaces."

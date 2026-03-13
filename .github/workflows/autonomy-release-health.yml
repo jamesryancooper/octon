@@ -28,8 +28,8 @@ jobs:
       AUTONOMY_PAT_VALUE: ${{ secrets.AUTONOMY_PAT }}
       AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || '' }}
       AUTONOMY_POLICY_ENFORCE: ${{ vars.AUTONOMY_POLICY_ENFORCE || '' }}
-      RELEASE_BRANCH: release-please--branches--main--components--harmony
-      CONTROL_PLANE_CONTRACT_PATH: .harmony/agency/practices/standards/github-control-plane-contract.json
+      RELEASE_BRANCH: release-please--branches--main--components--octon
+      CONTROL_PLANE_CONTRACT_PATH: .octon/agency/practices/standards/github-control-plane-contract.json
     steps:
       - name: Checkout
         uses: actions/checkout@v4

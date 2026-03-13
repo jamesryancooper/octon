@@ -1,6 +1,6 @@
 # Implementation
 
-This directory translates the Harmony Studio design proposal into
+This directory translates the Octon Studio design proposal into
 implementer-facing execution guidance.
 
 Required outputs:

@@ -2,7 +2,7 @@
 
 ## Goal
 
-Deliver the smallest robust Harmony implementation of the architectural
+Deliver the smallest robust Octon implementation of the architectural
 evaluation framework without forcing it onto unsupported domain profiles.
 
 ## Minimum Live Slice
@@ -11,8 +11,8 @@ evaluation framework without forcing it onto unsupported domain profiles.
 
 Create:
 
-- `/.harmony/cognition/practices/methodology/architecture-readiness/README.md`
-- `/.harmony/cognition/practices/methodology/architecture-readiness/framework.md`
+- `/.octon/cognition/practices/methodology/architecture-readiness/README.md`
+- `/.octon/cognition/practices/methodology/architecture-readiness/framework.md`
 
 Purpose:
 
@@ -24,12 +24,12 @@ Purpose:
 
 Create:
 
-- `/.harmony/capabilities/runtime/skills/audit/audit-architecture-readiness/`
+- `/.octon/capabilities/runtime/skills/audit/audit-architecture-readiness/`
 
 Required behavior:
 
 - accept `target_path` and classify the target
-- allow only `/.harmony/` whole-harness mode and bounded-surface top-level
+- allow only `/.octon/` whole-harness mode and bounded-surface top-level
   domain mode
 - emit weighted score summary, hard-gate failures, critical/high gaps,
   failure-mode assessment, and file-level remediation guidance
@@ -49,7 +49,7 @@ specialized inputs, not replacements.
 
 Create after the skill:
 
-- `/.harmony/orchestration/runtime/workflows/audit/audit-architecture-readiness/`
+- `/.octon/orchestration/runtime/workflows/audit/audit-architecture-readiness/`
 
 Workflow role:
 
@@ -62,21 +62,21 @@ Workflow role:
 Promote:
 
 - `adr-acceptance-matrix.md` into
-  `/.harmony/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md`
+  `/.octon/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md`
 
 ## Explicit Non-Goals
 
 - do not retrofit the framework onto `continuity`, `ideation`, or `output`
 - do not turn `/.design-packages/` into a live dependency
-- do not change `audit-domain-architecture` to become Harmony-doctrine-first
+- do not change `audit-domain-architecture` to become Octon-doctrine-first
 
 ## Minimal Acceptance Gate
 
 The first live version is acceptable when:
 
 1. target classification prevents unsupported scopes from being force-fit
-2. the skill can audit `/.harmony/`
+2. the skill can audit `/.octon/`
 3. the skill can audit one bounded-surface domain such as
-   `/.harmony/capabilities/`
+   `/.octon/capabilities/`
 4. the output report follows the framework scorecard and remediation structure
 5. no canonical artifact retains a dependency on this package

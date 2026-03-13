@@ -16,10 +16,10 @@
 .DS_Store
 
 # Runtime and service state
-.harmony/engine/_ops/state/
-.harmony/capabilities/runtime/services/_ops/state/
-.harmony/capabilities/runtime/skills/_ops/state/
-.harmony/capabilities/runtime/tools/_ops/state/
+.octon/engine/_ops/state/
+.octon/capabilities/runtime/services/_ops/state/
+.octon/capabilities/runtime/skills/_ops/state/
+.octon/capabilities/runtime/tools/_ops/state/
 
 # Logs and local run artifacts
 *.log

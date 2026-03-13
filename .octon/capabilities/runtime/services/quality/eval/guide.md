@@ -1,0 +1,26 @@
+# Eval — Verification & Regression Checks
+
+- **Purpose:** Verifies docs/code/diffs with deterministic checks and AI judges, adding governed, evaluable quality gates aligned to Octon.
+- **Responsibilities:** validating contracts, checking links/style, scoring hallucination risk with goldens, parsing diffs for risk, emitting pass/fail gates.
+- **Octon alignment:** advances governance and consistency by enforcing interoperable contracts and policy‑aware gates across services; ensures evaluable outputs before merge.
+- **Integrates with:** Plan/Agent (orchestrate checks), Dev/Doc/Stack (targets), Query (ground truth), Test (contracts), Policy (policies), Patch (PR status/comments).
+- **I/O:** targets (paths or diffs) in; JSON reports and PR statuses/comments out.
+- **Wins:** Catches regressions early; merges only when evidence and policies pass.
+- **Common Qs:** *Block merges?* Yes—status checks via Patch. *LLM judges optional?* Yes—use when goldens exist. *Offline?* Runs deterministic checks without external calls.
+- **Implementation Choices (opinionated):**
+  - jsonschema: enforce output contracts with precise, machine‑readable failures.
+  - unidiff: parse/score patch diffs for risk thresholds and gating.
+  - ragas: lightweight faithfulness/hallucination scoring when golden Q/A datasets exist.
+- **Octon default:** Include security/static checks (**CodeQL**, **Semgrep**), license/SBOM, secret scanning, and contract tests from **Test** as required gates.
+
+## Minimal Interfaces (copy/paste scaffolds)
+
+### Eval (checks)
+
+```json
+{
+  "targets": ["docs_out/**","src/**"],
+  "checks": ["format","links","style","grounding","tests","codeql","semgrep","sbom","secrets"],
+  "thresholds": {"hallucination_risk":"low","tests_pass":true}
+}
+```

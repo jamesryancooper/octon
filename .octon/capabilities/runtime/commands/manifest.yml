@@ -1,0 +1,175 @@
+# Commands Manifest
+# Lightweight index for command discovery.
+# Commands are atomic, deterministic operations invoked by name.
+#
+# Goal alignment: Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
+#
+# Fields:
+#   id             - Unique identifier (matches filename without .md)
+#   display_name   - Human-readable name
+#   path           - Relative path to command file
+#   summary        - One-line description (from frontmatter)
+#   access         - human | agent
+#   argument_hint  - Expected arguments (optional)
+
+schema_version: "1.0"
+
+commands:
+  - id: audit-skills-system-expansion
+    display_name: Audit Skills System Expansion
+    path: audit-skills-system-expansion.md
+    summary: Invoke the skills-system expansion evaluation prompt through a slash-style command wrapper.
+    access: agent
+    argument_hint: "[subsystem-path] [--compare-scope <csv>] [--material-only true|false]"
+
+  - id: alignment-check
+    display_name: Alignment Check
+    path: alignment-check.md
+    summary: Run profile-based harness alignment validations through a single command.
+    access: agent
+    argument_hint: "--profile <aspect>[,<aspect>...] [--dry-run] [--list-profiles]"
+
+  - id: init
+    display_name: Initialize Project
+    path: init.md
+    summary: Generate canonical .octon bootstrap files plus root ingress adapters and objective-contract artifacts.
+    access: agent
+    argument_hint: "[@project-root] [--force] [--dry-run] [--list-objectives] [--objective <id>] [--objective-owner <name>] [--objective-approved-by <name>] [--no-claude-alias] [--with-boot-files] [--with-agent-platform-adapters] [--agent-platform-adapters <csv>]"
+
+  - id: studio
+    display_name: Launch Studio
+    path: studio.md
+    summary: Launch Octon Studio for workflow graph design, inspection, and safe staged edits.
+    access: agent
+    argument_hint: "[--root <project-root>]"
+
+  - id: recover
+    display_name: Recover from Errors
+    path: recover.md
+    summary: Recovery procedures for common agent failure modes.
+    access: agent
+
+  - id: validate-frontmatter
+    display_name: Validate Frontmatter
+    path: validate-frontmatter.md
+    summary: Validate YAML frontmatter in markdown files.
+    access: agent
+
+  - id: context-budget
+    display_name: Context Budget
+    path: context-budget.md
+    summary: Emit deterministic native context budget state and threshold classification.
+    access: agent
+    argument_hint: "--limit <int> --used <int> [--unit tokens|characters] [--report <path>]"
+
+  - id: validate-session-policy
+    display_name: Validate Session Policy
+    path: validate-session-policy.md
+    summary: Validate a session policy JSON file against native interop semantics.
+    access: agent
+    argument_hint: "--file <path-to-session-policy-json>"
+
+  - id: validate-platform-interop
+    display_name: Validate Platform Interop
+    path: validate-platform-interop.md
+    summary: Run native-first interop checks across core independence, adapter conformance, and degradation behavior.
+    access: agent
+    argument_hint: "[--mode all|services-core|platform-core|adapters|conformance|degradation]"
+
+  - id: query-ask
+    display_name: Query Ask
+    path: query-ask.md
+    summary: Run query service in ask mode and return grounded answer output.
+    access: agent
+    argument_hint: "--file <path-to-query-json>"
+
+  - id: query-retrieve
+    display_name: Query Retrieve
+    path: query-retrieve.md
+    summary: Run query service in retrieve mode and return ranked candidates.
+    access: agent
+    argument_hint: "--file <path-to-query-json>"
+
+  - id: query-explain
+    display_name: Query Explain
+    path: query-explain.md
+    summary: Run query service in explain mode and return ranking rationale.
+    access: agent
+    argument_hint: "--file <path-to-query-json>"
+
+  - id: snapshot-build
+    display_name: Snapshot Build
+    path: snapshot-build.md
+    summary: Build deterministic snapshot artifacts via filesystem-snapshot.
+    access: agent
+    argument_hint: "[--root <path>] [--state-dir <path>] [--set-current true|false]"
+
+  - id: snapshot-diff
+    display_name: Snapshot Diff
+    path: snapshot-diff.md
+    summary: Compare two filesystem-snapshot artifacts.
+    access: agent
+    argument_hint: "--base <snapshot-id|path> --head <snapshot-id|path> [--state-dir <path>]"
+
+  - id: discover-start
+    display_name: Discover Start
+    path: discover-start.md
+    summary: Start progressive discovery via filesystem-discovery.
+    access: agent
+    argument_hint: "--query <text> [--limit <n>]"
+
+  - id: discover-expand
+    display_name: Discover Expand
+    path: discover-expand.md
+    summary: Expand discovery frontier via filesystem-discovery graph traversal.
+    access: agent
+    argument_hint: "--node-ids '<json-array>' [--limit <n>]"
+
+  - id: discover-explain
+    display_name: Discover Explain
+    path: discover-explain.md
+    summary: Explain candidate relevance/provenance via filesystem-discovery.
+    access: agent
+    argument_hint: "--query <text> --candidate-node-ids '<json-array>'"
+
+  - id: discover-resolve
+    display_name: Discover Resolve
+    path: discover-resolve.md
+    summary: Resolve a discovered node back to file path via filesystem-discovery.
+    access: agent
+    argument_hint: "--node-id <node-id>"
+
+  - id: watch-poll
+    display_name: Watch Poll
+    path: watch-poll.md
+    summary: Run filesystem-watch polling change detection for the current workspace.
+    access: agent
+    argument_hint: "[--root <path>] [--state-key <key>] [--max-events <n>] [--max-files <n>]"
+
+  - id: create-workflow
+    display_name: Create Workflow
+    path: create-workflow.md
+    summary: Scaffold a new workflow with gap-aware structure.
+    access: agent
+    argument_hint: "<workflow-id>"
+
+  - id: evaluate-workflow
+    display_name: Evaluate Workflow
+    path: evaluate-workflow.md
+    summary: Assess a workflow against quality criteria and gap coverage.
+    access: agent
+    argument_hint: "<path>"
+
+  - id: update-workflow
+    display_name: Update Workflow
+    path: update-workflow.md
+    summary: Modify an existing workflow to add features or fix gaps.
+    access: agent
+    argument_hint: "<path>"
+
+  - id: refactor
+    display_name: Refactor
+    path: refactor.md
+    summary: Execute a verified codebase refactor with exhaustive audit and mandatory verification.
+    access: agent
+    argument_hint: "<old-pattern> <new-pattern>"

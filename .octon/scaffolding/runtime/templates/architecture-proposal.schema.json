@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Architecture Proposal Manifest",
+  "description": "Schema for Octon architecture proposal subtype manifests.",
+  "type": "object",
+  "required": ["schema_version", "architecture_kind"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "architecture-proposal-v1"
+    },
+    "architecture_kind": {
+      "type": "string",
+      "enum": ["repo-architecture", "domain-architecture", "cross-domain-architecture"]
+    }
+  },
+  "additionalProperties": false
+}

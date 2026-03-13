@@ -6,7 +6,7 @@ on:
       - main
     paths-ignore:
       - "**/*.md"
-      - ".harmony/output/**"
+      - ".octon/output/**"
   workflow_dispatch:
 
 permissions:
@@ -35,55 +35,55 @@ jobs:
 
       - name: Validate harness structure
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
 
       - name: Validate harness version compatibility contract
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh
+          .octon/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh
 
       - name: Validate SSOT precedence drift contract
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh
+          .octon/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh
 
       - name: Validate bounded-audit convergence contract
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
+          .octon/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
 
       - name: Validate workflows
         run: |
-          chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
-          .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+          chmod +x .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+          .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 
       - name: Validate skills
         run: |
-          chmod +x .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh
-          .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict
+          chmod +x .octon/capabilities/runtime/skills/_ops/scripts/validate-skills.sh
+          .octon/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict
 
       - name: Validate service independence
         run: |
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+          .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
 
       - name: Validate deny-by-default (strict)
         run: |
-          chmod +x .harmony/capabilities/_ops/scripts/validate-deny-by-default.sh
-          .harmony/capabilities/_ops/scripts/validate-deny-by-default.sh --all --profile strict
+          chmod +x .octon/capabilities/_ops/scripts/validate-deny-by-default.sh
+          .octon/capabilities/_ops/scripts/validate-deny-by-default.sh --all --profile strict
 
       - name: Validate engine capabilities boundary
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
+          .octon/assurance/runtime/_ops/scripts/validate-engine-capability-boundary.sh
 
       - name: Validate capability/engine consistency
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
+          .octon/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
 
       - name: Validate agency contracts
         run: |
-          chmod +x .harmony/agency/_ops/scripts/validate/validate-agency.sh
-          .harmony/agency/_ops/scripts/validate/validate-agency.sh
+          chmod +x .octon/agency/_ops/scripts/validate/validate-agency.sh
+          .octon/agency/_ops/scripts/validate/validate-agency.sh

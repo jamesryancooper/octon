@@ -79,7 +79,7 @@ That sequence follows the required system order while also giving you the highes
 Give me one controller prompt like this:
 
 ```text
-Use the Harmony Studio Graph UX docs as the source of truth.
+Use the Octon Studio Graph UX docs as the source of truth.
 
 Create design images in a manifest-driven sequence.
 

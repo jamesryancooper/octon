@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/costkit/costkit.inputs.v1.json",
+  "title": "CostKitInputs",
+  "description": "Input schema for CostKit estimate and record operations",
+  "oneOf": [
+    {
+      "title": "EstimateRequest",
+      "type": "object",
+      "required": ["operation", "workflowType", "tier"],
+      "properties": {
+        "operation": {
+          "type": "string",
+          "const": "estimate"
+        },
+        "workflowType": {
+          "type": "string",
+          "description": "Type of workflow (e.g., 'code-from-plan')"
+        },
+        "tier": {
+          "type": "string",
+          "enum": ["T1", "T2", "T3"],
+          "description": "Risk tier"
+        },
+        "stage": {
+          "type": "string",
+          "enum": ["draft", "final"],
+          "description": "Workflow stage (for T2)"
+        },
+        "model": {
+          "type": "string",
+          "description": "Override model selection"
+        },
+        "inputTokens": {
+          "type": "integer",
+          "description": "Estimated input tokens",
+          "minimum": 0
+        },
+        "outputTokens": {
+          "type": "integer",
+          "description": "Estimated output tokens",
+          "minimum": 0
+        }
+      }
+    },
+    {
+      "title": "RecordUsageRequest",
+      "type": "object",
+      "required": ["operation", "model", "inputTokens", "outputTokens", "workflowType", "tier", "durationMs", "success"],
+      "properties": {
+        "operation": {
+          "type": "string",
+          "const": "record"
+        },
+        "model": {
+          "type": "string",
+          "description": "Model used"
+        },
+        "inputTokens": {
+          "type": "integer",
+          "description": "Actual input tokens",
+          "minimum": 0
+        },
+        "outputTokens": {
+          "type": "integer",
+          "description": "Actual output tokens",
+          "minimum": 0
+        },
+        "workflowType": {
+          "type": "string",
+          "description": "Type of workflow"
+        },
+        "tier": {
+          "type": "string",
+          "enum": ["T1", "T2", "T3"],
+          "description": "Risk tier"
+        },
+        "taskId": {
+          "type": "string",
+          "description": "Associated task ID"
+        },
+        "estimateId": {
+          "type": "string",
+          "description": "Associated estimate ID"
+        },
+        "durationMs": {
+          "type": "integer",
+          "description": "Duration in milliseconds",
+          "minimum": 0
+        },
+        "success": {
+          "type": "boolean",
+          "description": "Whether operation succeeded"
+        },
+        "error": {
+          "type": "string",
+          "description": "Error message if failed"
+        }
+      }
+    }
+  ]
+}
+

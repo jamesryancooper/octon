@@ -13,5 +13,5 @@ The original package documents remain at the package root as source material:
 - `adr-acceptance-matrix.md`
 - `governed-autonomous-engineering-architecture-audit-prompt.md`
 
-These files are inputs to the blueprint. They are not durable Harmony
+These files are inputs to the blueprint. They are not durable Octon
 authorities.

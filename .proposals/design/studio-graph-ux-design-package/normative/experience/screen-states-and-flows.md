@@ -16,6 +16,6 @@
 
 ## Canonical Supporting Inputs
 
-- `harmony-studio-graph-ux-design-spec.md`
+- `octon-studio-graph-ux-design-spec.md`
 - `screen-prompt-pack.md`
 - `design-checklist.md`

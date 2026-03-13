@@ -36,11 +36,11 @@ jobs:
           filters: |
             risky:
               - '.github/workflows/**'
-              - '.harmony/agency/governance/**'
-              - '.harmony/cognition/governance/**'
-              - '.harmony/capabilities/runtime/**'
-              - '.harmony/engine/runtime/**'
-              - '.harmony/assurance/runtime/**'
+              - '.octon/agency/governance/**'
+              - '.octon/cognition/governance/**'
+              - '.octon/capabilities/runtime/**'
+              - '.octon/engine/runtime/**'
+              - '.octon/assurance/runtime/**'
               - 'AGENTS.md'
 
   codex-review:

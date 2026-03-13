@@ -1,8 +1,8 @@
 # Proposals
 
 `/.proposals/` is the repository-root, non-canonical workspace for temporary
-proposal artifacts that shape durable implementation in either `/.harmony/` or
-repo-local targets outside `/.harmony/`.
+proposal artifacts that shape durable implementation in either `/.octon/` or
+repo-local targets outside `/.octon/`.
 
 Every manifest-governed proposal must include:
 
@@ -29,7 +29,7 @@ documentation, policy, or contract authorities.
 Implications:
 
 - proposals may be archived or removed after promotion lands
-- promotion outputs must point to durable `/.harmony/` or repo-native authority
+- promotion outputs must point to durable `/.octon/` or repo-native authority
   surfaces, not back to the proposal as a source of truth
 - generated workflow reports, blueprints, plans, and summaries must not claim
   that the proposal is authoritative or canonical
@@ -40,15 +40,15 @@ All manifest-governed proposals must:
 
 - remain temporary and implementation-scoped
 - choose exactly one `promotion_scope`:
-  - `harmony-internal`
+  - `octon-internal`
   - `repo-local`
 - point `promotion_targets` only at durable, repo-local surfaces outside
   `/.proposals/`
-- avoid mixed `.harmony/**` and non-`.harmony/**` promotion targets unless the
+- avoid mixed `.octon/**` and non-`.octon/**` promotion targets unless the
   archived proposal preserves historical mixed targets under an explicit
   `legacy-unknown` archive lineage
 - describe their subtype-specific authority using the subtype standard under
-  `.harmony/scaffolding/governance/patterns/`
+  `.octon/scaffolding/governance/patterns/`
 
 ## Lifecycle Expectation
 

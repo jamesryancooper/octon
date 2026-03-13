@@ -11,15 +11,15 @@ Archive Disposition: `implemented`
 ## Purpose
 
 - package class: `domain-runtime`
-- summary: Blueprint for a Harmony architecture-readiness evaluation capability
+- summary: Blueprint for a Octon architecture-readiness evaluation capability
   that targets whole-harness audits and bounded-surface domain audits.
 
 ## Implementation Targets
 
-- `/.harmony/capabilities/runtime/skills/audit/audit-architecture-readiness/`
-- `/.harmony/orchestration/runtime/workflows/audit/audit-architecture-readiness/`
-- `/.harmony/cognition/practices/methodology/architecture-readiness/`
-- `/.harmony/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md`
+- `/.octon/capabilities/runtime/skills/audit/audit-architecture-readiness/`
+- `/.octon/orchestration/runtime/workflows/audit/audit-architecture-readiness/`
+- `/.octon/cognition/practices/methodology/architecture-readiness/`
+- `/.octon/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md`
 
 ## Included Modules
 
@@ -41,6 +41,6 @@ Archive Disposition: `implemented`
 
 ## Exit Path
 
-This package has been promoted into the durable `/.harmony/` surfaces listed
+This package has been promoted into the durable `/.octon/` surfaces listed
 above and is archived under `/.design-packages/.archive/` as historical
 implementation material. No live surface should depend on this package.

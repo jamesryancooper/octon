@@ -1,6 +1,6 @@
 # Screen Prompt Pack for Studio Graph UX
 
-This document bundles the 18 individual design prompts for the Harmony Studio
+This document bundles the 18 individual design prompts for the Octon Studio
 graph UX in the recommended production order.
 
 Use these prompts when you want to generate one design artifact at a time rather
@@ -11,7 +11,7 @@ than using the controller flow in `manifest-and-controller-prompt-pack.md`.
 Frame: `Foundations / Grid / Desktop 1600x1000 / Primary`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Foundations / Grid / Desktop 1600x1000 / Primary`
@@ -19,7 +19,7 @@ Create exactly one design artifact:
 This is a foundations board, not a product screen.
 
 Goal:
-Define the primary desktop layout system for Harmony Studio's graph-first workbench so all later components and screens inherit one clear shell.
+Define the primary desktop layout system for Octon Studio's graph-first workbench so all later components and screens inherit one clear shell.
 
 Must show:
 - the primary design target `1600 x 1000`
@@ -51,7 +51,7 @@ Output:
 Frame: `Foundations / Grid / Desktop 1366x860 / Minimum`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Foundations / Grid / Desktop 1366x860 / Minimum`
@@ -59,7 +59,7 @@ Create exactly one design artifact:
 This is a foundations validation board, not a product screen.
 
 Goal:
-Show how the primary Harmony Studio shell compresses to the minimum supported desktop `1366 x 860` without losing usability.
+Show how the primary Octon Studio shell compresses to the minimum supported desktop `1366 x 860` without losing usability.
 
 Must show:
 - the same six shell regions as the primary layout
@@ -84,7 +84,7 @@ Output:
 Frame: `Components / Graph`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Components / Graph`
@@ -92,7 +92,7 @@ Create exactly one design artifact:
 This is a component board, not a full product screen.
 
 Goal:
-Define the complete graph component system for Harmony Studio so later screens can reuse one consistent graph language.
+Define the complete graph component system for Octon Studio so later screens can reuse one consistent graph language.
 
 Required components:
 - `Graph / Canvas`
@@ -134,7 +134,7 @@ Output:
 Frame: `Desktop / 1600x1000 / Overview / Workflow Selected`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / Overview / Workflow Selected`
@@ -142,7 +142,7 @@ Create exactly one design artifact:
 This is the visual anchor screen for the product.
 
 Goal:
-Establish the primary Harmony Studio shell, hierarchy, component language, graph treatment, inspector treatment, dock treatment, and selection behavior.
+Establish the primary Octon Studio shell, hierarchy, component language, graph treatment, inspector treatment, dock treatment, and selection behavior.
 
 Must show:
 - full shell: header, left rail, graph canvas, right inspector, bottom dock, status bar
@@ -167,7 +167,7 @@ Output:
 Frame: `Desktop / 1600x1000 / Overview / Default`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / Overview / Default`
@@ -204,7 +204,7 @@ Output:
 Frame: `Desktop / 1600x1000 / Overview / Workflow Selected With Issues`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / Overview / Workflow Selected With Issues`
@@ -239,7 +239,7 @@ Output:
 Frame: `Desktop / 1600x1000 / Overview / Dense Graph`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / Overview / Dense Graph`
@@ -248,7 +248,7 @@ This screen must be a controlled delta from the anchor:
 `Desktop / 1600x1000 / Overview / Workflow Selected`
 
 Goal:
-Show that Harmony Studio remains usable when the graph is dense.
+Show that Octon Studio remains usable when the graph is dense.
 
 State delta:
 - many more nodes and edges are visible
@@ -276,7 +276,7 @@ Output:
 Frame: `Desktop / 1600x1000 / Search / Results`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / Search / Results`
@@ -311,7 +311,7 @@ Output:
 Frame: `Desktop / 1600x1000 / Search / No Results`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / Search / No Results`
@@ -346,7 +346,7 @@ Output:
 Frame: `Desktop / 1600x1000 / State / No Selection`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / State / No Selection`
@@ -381,7 +381,7 @@ Output:
 Frame: `Desktop / 1600x1000 / State / Loading`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / State / Loading`
@@ -415,7 +415,7 @@ Output:
 Frame: `Desktop / 1600x1000 / State / Error`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / State / Error`
@@ -449,7 +449,7 @@ Output:
 Frame: `Desktop / 1600x1000 / Dock / Apply Audits`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / Dock / Apply Audits`
@@ -483,7 +483,7 @@ Output:
 Frame: `Desktop / 1600x1000 / Dock / Staged Edits`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1600x1000 / Dock / Staged Edits`
@@ -520,7 +520,7 @@ Output:
 Frame: `Desktop / 1366x860 / Validation / Default`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1366x860 / Validation / Default`
@@ -553,7 +553,7 @@ Output:
 Frame: `Desktop / 1366x860 / Validation / Workflow Selected`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1366x860 / Validation / Workflow Selected`
@@ -584,7 +584,7 @@ Output:
 Frame: `Desktop / 1366x860 / Validation / Dense Graph`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1366x860 / Validation / Dense Graph`
@@ -616,7 +616,7 @@ Output:
 Frame: `Desktop / 1366x860 / Validation / Dock`
 
 ```text
-Use the Harmony Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
+Use the Octon Studio Graph UX docs in `.proposals/studio-graph-ux` as the source of truth.
 
 Create exactly one design artifact:
 `Desktop / 1366x860 / Validation / Dock`

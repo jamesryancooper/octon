@@ -1,0 +1,22 @@
+id: cognition-runtime-surface-map
+schema_version: "1.0"
+description: Runtime projection joining cognition runtime surface indexes into one query map.
+
+sources:
+  - ../../index.yml
+  - ../../context/index.yml
+  - ../../decisions/index.yml
+  - ../../migrations/index.yml
+  - ../../analyses/index.yml
+  - ../../knowledge/index.yml
+  - ../../evidence/index.yml
+  - ../../evaluations/index.yml
+  - ../../projections/index.yml
+
+refresh:
+  mode: on-change
+  trigger_paths:
+    - .octon/cognition/runtime/**/index.yml
+
+materialization:
+  output: ../materialized/cognition-runtime-surface-map.latest.yml

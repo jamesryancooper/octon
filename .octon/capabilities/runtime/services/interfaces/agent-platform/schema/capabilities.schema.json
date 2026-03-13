@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/agent-platform/capabilities.v1.json",
+  "title": "AgentPlatformCapabilities",
+  "description": "Canonical capability report schema for native or adapter mode.",
+  "type": "object",
+  "required": [
+    "interop_contract_version",
+    "mode",
+    "generated_at",
+    "capabilities"
+  ],
+  "properties": {
+    "interop_contract_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["native", "adapter"]
+    },
+    "adapter_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "capabilities": {
+      "type": "object",
+      "required": [
+        "session_policy",
+        "context_budget",
+        "pruning",
+        "memory_flush",
+        "routing",
+        "presence"
+      ],
+      "properties": {
+        "session_policy": { "$ref": "#/$defs/capability_state" },
+        "context_budget": { "$ref": "#/$defs/capability_state" },
+        "pruning": { "$ref": "#/$defs/capability_state" },
+        "memory_flush": { "$ref": "#/$defs/capability_state" },
+        "routing": { "$ref": "#/$defs/capability_state" },
+        "presence": { "$ref": "#/$defs/capability_state" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "capability_state": {
+      "type": "object",
+      "required": ["state", "via", "evidence_required"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": ["supported", "degraded", "unsupported"]
+        },
+        "via": {
+          "type": "string",
+          "enum": ["native", "adapter"]
+        },
+        "evidence_required": { "type": "boolean" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": { "const": "adapter" }
+        }
+      },
+      "then": {
+        "required": ["adapter_id"]
+      }
+    }
+  ]
+}

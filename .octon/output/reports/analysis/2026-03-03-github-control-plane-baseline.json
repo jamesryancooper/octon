@@ -1,0 +1,66 @@
+{
+  "generated_at_utc": "2026-03-03T23:26:35Z",
+  "repository": "jamesryancooper/octon",
+  "captures": {
+    "repo_settings": {
+      "status": "error",
+      "command": "gh api repos/jamesryancooper/octon",
+      "stdout": "",
+      "stderr": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
+      "exit_code": 1
+    },
+    "rulesets": {
+      "status": "error",
+      "command": "gh api repos/jamesryancooper/octon/rulesets?includes_parents=false",
+      "stdout": "",
+      "stderr": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
+      "exit_code": 1
+    },
+    "actions_permissions": {
+      "status": "error",
+      "command": "gh api repos/jamesryancooper/octon/actions/permissions",
+      "stdout": "",
+      "stderr": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
+      "exit_code": 1
+    },
+    "workflow_permissions": {
+      "status": "error",
+      "command": "gh api repos/jamesryancooper/octon/actions/permissions/workflow",
+      "stdout": "",
+      "stderr": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
+      "exit_code": 1
+    },
+    "branch_protection_main": {
+      "status": "error",
+      "command": "gh api repos/jamesryancooper/octon/branches/main/protection",
+      "stdout": "",
+      "stderr": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
+      "exit_code": 1
+    },
+    "secrets": {
+      "status": "error",
+      "command": "gh secret list --app actions --repo jamesryancooper/octon --json name",
+      "stdout": "",
+      "stderr": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
+      "exit_code": 1
+    },
+    "variables": {
+      "status": "error",
+      "command": "gh variable list --repo jamesryancooper/octon --json name",
+      "stdout": "",
+      "stderr": "error connecting to api.github.com\ncheck your internet connection or https://githubstatus.com",
+      "exit_code": 1
+    }
+  },
+  "derived": {
+    "required_checks": [],
+    "required_presence": {
+      "AUTONOMY_PAT_secret": false,
+      "OPENAI_API_KEY_secret": false,
+      "ANTHROPIC_API_KEY_secret": false,
+      "AUTONOMY_AUTO_MERGE_ENABLED_variable": false,
+      "AUTONOMY_POLICY_ENFORCE_variable": false,
+      "AI_GATE_ENFORCE_variable": false
+    }
+  }
+}

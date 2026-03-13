@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://harmony.local/design-packages/orchestration/queue-item-and-lease.schema.json",
+  "$id": "https://octon.local/design-packages/orchestration/queue-item-and-lease.schema.json",
   "title": "Queue Item And Lease",
   "type": "object",
   "additionalProperties": false,

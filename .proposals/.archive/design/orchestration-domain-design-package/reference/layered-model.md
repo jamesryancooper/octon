@@ -86,14 +86,14 @@ Without those controls, the model becomes merely distributed, not governed.
 
 ## Minimal Mature Core
 
-If Harmony adopts only part of the mature model, the best minimal mature core
+If Octon adopts only part of the mature model, the best minimal mature core
 is:
 
 - `workflows`
 - `missions`
 - `runs`
 
-That gives Harmony:
+That gives Octon:
 
 - bounded procedures,
 - bounded multi-session work,

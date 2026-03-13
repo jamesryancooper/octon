@@ -2,7 +2,7 @@
 
 ## Status
 
-- Current Harmony surface
+- Current Octon surface
 
 ## Core Purpose
 
@@ -46,7 +46,7 @@ Primary orchestration behavior for `missions` in this package is defined by:
 - `../contracts/mission-workflow-binding-contract.md`
 - `normative/assurance/surface-artifact-schemas.md`
 
-Live Harmony mission docs remain integration context for the current runtime
+Live Octon mission docs remain integration context for the current runtime
 surface shape. They are not the primary source of target cross-surface
 orchestration behavior here.
 

@@ -4,7 +4,7 @@ version: "1.0.0"
 display_name: "Docs"
 summary: "Documentation-focused additive capabilities and scaffolds carried as an extension-pack example."
 compatibility:
-  harmony_version: "^1.4.0"
+  octon_version: "^1.4.0"
   extensions_api_version: "1.0"
 trust:
   tier: "first-party"

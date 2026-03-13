@@ -1,0 +1,355 @@
+meta:
+  version: "1"
+  updated_at: "2026-02-24"
+  owner: "octon-platform"
+  status: "active"
+  schema_version: "1"
+  description: "Measured subsystem assurance scores and evidence"
+  score_scale:
+    min: 0
+    max: 5
+
+defaults:
+  owner: "octon-platform"
+  attributes:
+    performance:
+      score: 3
+      target_score: 5
+      acceptance_criteria: "Critical paths stay within agreed latency/throughput budgets."
+      evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+    scalability:
+      score: 2
+      target_score: 4
+      acceptance_criteria: "Capacity can increase without redesigning core contracts."
+      evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+    reliability:
+      score: 5
+      target_score: 5
+      acceptance_criteria: "Determinism and validation checks must pass for changed surfaces."
+      evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+    availability:
+      score: 3
+      target_score: 5
+      acceptance_criteria: "Service health and access targets are defined and monitored."
+      evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+    robustness:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Invalid inputs and partial failures are handled without unsafe collapse."
+      evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+    recoverability:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Rollback or reversible-path evidence exists for material changes."
+      evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+    dependability:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Reliability, availability, safety, and maintainability posture stays trustworthy."
+      evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+    safety:
+      score: 5
+      target_score: 5
+      acceptance_criteria: "No unapproved material side effects; deny-by-default boundaries hold."
+      evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+    autonomy:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Autonomous execution remains effective for low/medium-risk work while every autonomous run binds intent_ref, boundary context, and capability classification under ACP gates."
+      evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/engine/runtime/spec/intent-contract-v1.schema.json
+        - .octon/orchestration/governance/capability-map-v1.yml
+    security:
+      score: 5
+      target_score: 5
+      acceptance_criteria: "Security controls/scans pass with no unresolved critical findings."
+      evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+    complexity_calibration:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance."
+      evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+    evolvability:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Changes preserve bounded extension and safe adaptation paths."
+      evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+    maintainability:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Contracts/docs/tests remain readable and update-safe."
+      evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+    portability:
+      score: 5
+      target_score: 5
+      acceptance_criteria: "Core behavior remains tool/OS/runtime agnostic."
+      evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+    functional_suitability:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Changed behavior satisfies declared requirements and contracts."
+      evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+    completeness:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Required scope and checks are fully covered for the active profile."
+      evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+    operability:
+      score: 3
+      target_score: 5
+      acceptance_criteria: "Runbook-ready operation and incident handling are preserved."
+      evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+    observability:
+      score: 3
+      target_score: 5
+      acceptance_criteria: "Changed flows emit usable traces/logs/metrics with correlation, including intent/boundary/mode provenance for autonomous decisions."
+      evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        - .octon/capabilities/_ops/scripts/policy-receipt-write.sh
+    testability:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Changed behavior is covered by deterministic tests."
+      evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+    auditability:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "Traceable evidence exists for decisions and execution, and decision receipts capture intent_ref, boundary_id, workflow_mode, and capability classification."
+      evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        - .octon/engine/runtime/spec/policy-receipt-v1.schema.json
+        - .octon/assurance/runtime/_ops/scripts/validate-intent-layer.sh
+    deployability:
+      score: 3
+      target_score: 5
+      acceptance_criteria: "Changes are safely installable/upgradable with rollback path."
+      evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+    usability:
+      score: 3
+      target_score: 4
+      acceptance_criteria: "Developer or operator workflow remains understandable and low-friction."
+      evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+    accessibility:
+      score: 2
+      target_score: 4
+      acceptance_criteria: "Inclusive interaction baseline remains satisfied."
+      evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+    interoperability:
+      score: 4
+      target_score: 5
+      acceptance_criteria: "External integration contracts remain stable and validated."
+      evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+    compatibility:
+      score: 3
+      target_score: 4
+      acceptance_criteria: "Behavior co-exists with supported toolchains and environments."
+      evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+    configurability:
+      score: 3
+      target_score: 4
+      acceptance_criteria: "Configuration changes remain controlled and non-explosive."
+      evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+    sustainability:
+      score: 1
+      target_score: 3
+      acceptance_criteria: "Resource/cost impact is tracked and bounded for intended usage."
+      evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+
+subsystems:
+  agency:
+    owner: "agency-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      autonomy:
+        score: 5
+      usability:
+        score: 4
+      operability:
+        score: 4
+    conflicts:
+      - attributes: [security, usability]
+        decision: "Security-first defaults with explicit review ergonomics"
+        adr: .octon/cognition/runtime/decisions/011-agency-subsystem-finalization.md
+      - attributes: [autonomy, safety]
+        decision: "Autonomy remains bounded by deny-by-default and no-silent-apply ACP gates."
+        adr: .octon/cognition/runtime/decisions/015-autonomy-quality-attribute.md
+
+  capabilities:
+    owner: "capabilities-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      interoperability:
+        score: 5
+      compatibility:
+        score: 4
+      scalability:
+        score: 3
+    conflicts:
+      - attributes: [complexity_calibration, interoperability]
+        decision: "Interop breadth is constrained by native-first boundaries"
+        adr: .octon/cognition/runtime/decisions/012-agent-platform-interop-native-first.md
+
+  orchestration:
+    owner: "orchestration-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      autonomy:
+        score: 5
+      reliability:
+        score: 4
+      observability:
+        score: 3
+      deployability:
+        score: 4
+    conflicts:
+      - attributes: [autonomy, safety]
+        decision: "Orchestrations may automate planning/execution but cannot bypass ACP gates for material changes."
+        adr: .octon/cognition/runtime/decisions/015-autonomy-quality-attribute.md
+
+  cognition:
+    owner: "cognition-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      maintainability:
+        score: 5
+      completeness:
+        score: 5
+      auditability:
+        score: 5
+
+  continuity:
+    owner: "continuity-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      autonomy:
+        score: 3
+      recoverability:
+        score: 5
+      observability:
+        score: 4
+      auditability:
+        score: 5
+
+  assurance:
+    owner: "assurance-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      autonomy:
+        score: 3
+      testability:
+        score: 5
+      functional_suitability:
+        score: 5
+      auditability:
+        score: 5
+
+  runtime:
+    owner: "runtime-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      autonomy:
+        score: 4
+      performance:
+        score: 4
+      scalability:
+        score: 3
+      availability:
+        score: 4
+      reliability:
+        score: 5
+      recoverability:
+        score: 5
+      operability:
+        score: 4
+      observability:
+        score: 4
+    conflicts:
+      - attributes: [performance, auditability]
+        decision: "Retain audit signals while scoping perf-sensitive instrumentation"
+        adr: .octon/cognition/runtime/decisions/013-filesystem-interfaces-native-first.md
+
+  scaffolding:
+    owner: "scaffolding-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      complexity_calibration:
+        score: 5
+      portability:
+        score: 5
+      usability:
+        score: 4
+
+  output:
+    owner: "output-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      auditability:
+        score: 5
+      completeness:
+        score: 4
+
+  ideation:
+    owner: "ideation-owner"
+    last_updated: "2026-02-18"
+    attributes:
+      autonomy:
+        score: 1
+      safety:
+        score: 4
+      usability:
+        score: 4
+      maintainability:
+        score: 3

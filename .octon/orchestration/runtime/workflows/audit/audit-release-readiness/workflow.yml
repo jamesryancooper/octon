@@ -1,0 +1,201 @@
+schema_version: "workflow-contract-v1"
+name: "audit-release-readiness"
+description: "Orchestrate layered bounded audits (release core, operational readiness, API contract, test quality, observability, security, and data governance) into a deterministic release gate with stable finding identity, coverage accounting, and explicit done-gate evaluation."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+side_effect_class: "read_only"
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: "none"
+executor_interface_version: "workflow-executor-v1"
+inputs:
+  - name: scope
+    type: folder
+    required: true
+    description: "Root directory containing release-relevant artifacts to audit"
+  - name: severity_threshold
+    type: text
+    required: false
+    default: "all"
+    description: "Minimum severity to report: critical, high, medium, low, all"
+  - name: run_operational
+    type: boolean
+    required: false
+    default: true
+    description: "Run audit-operational-readiness stage"
+  - name: run_api_contract
+    type: boolean
+    required: false
+    default: true
+    description: "Run audit-api-contract stage"
+  - name: run_test_quality
+    type: boolean
+    required: false
+    default: true
+    description: "Run audit-test-quality stage"
+  - name: run_observability
+    type: boolean
+    required: false
+    default: true
+    description: "Run audit-observability-coverage stage"
+  - name: run_security
+    type: boolean
+    required: false
+    default: true
+    description: "Run audit-security-compliance stage"
+  - name: run_data_governance
+    type: boolean
+    required: false
+    default: true
+    description: "Run audit-data-governance stage"
+  - name: post_remediation
+    type: boolean
+    required: false
+    default: false
+    description: "Enable strict done-gate enforcement for remediation verification"
+  - name: convergence_k
+    type: text
+    required: false
+    default: "3"
+    description: "Number of controlled reruns used to evaluate convergence stability"
+  - name: seed_list
+    type: text
+    required: false
+    description: "Comma-separated deterministic seeds used for multi-run consistency checks"
+stages:
+  - id: "configure"
+    asset: "stages/01-configure.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:configure"]
+    mutation_scope: []
+  - id: "release-core-audit"
+    asset: "stages/02-release-core-audit.md"
+    kind: "analysis"
+    consumes: ["stage:configure"]
+    produces: ["stage:release-core-audit"]
+    mutation_scope: []
+  - id: "operational-readiness-audit"
+    asset: "stages/03-operational-readiness-audit.md"
+    kind: "analysis"
+    consumes: ["stage:release-core-audit"]
+    produces: ["stage:operational-readiness-audit"]
+    mutation_scope: []
+  - id: "api-contract-audit"
+    asset: "stages/04-api-contract-audit.md"
+    kind: "analysis"
+    consumes: ["stage:operational-readiness-audit"]
+    produces: ["stage:api-contract-audit"]
+    mutation_scope: []
+  - id: "test-quality-audit"
+    asset: "stages/05-test-quality-audit.md"
+    kind: "analysis"
+    consumes: ["stage:api-contract-audit"]
+    produces: ["stage:test-quality-audit"]
+    mutation_scope: []
+  - id: "observability-audit"
+    asset: "stages/06-observability-audit.md"
+    kind: "analysis"
+    consumes: ["stage:test-quality-audit"]
+    produces: ["stage:observability-audit"]
+    mutation_scope: []
+  - id: "security-audit"
+    asset: "stages/07-security-audit.md"
+    kind: "analysis"
+    consumes: ["stage:observability-audit"]
+    produces: ["stage:security-audit"]
+    mutation_scope: []
+  - id: "data-governance-audit"
+    asset: "stages/08-data-governance-audit.md"
+    kind: "analysis"
+    consumes: ["stage:security-audit"]
+    produces: ["stage:data-governance-audit"]
+    mutation_scope: []
+  - id: "merge"
+    asset: "stages/09-merge.md"
+    kind: "projection"
+    consumes: ["stage:data-governance-audit"]
+    produces: ["stage:merge"]
+    mutation_scope: []
+  - id: "report"
+    asset: "stages/10-report.md"
+    kind: "projection"
+    consumes: ["stage:merge"]
+    produces: ["stage:report"]
+    mutation_scope: []
+  - id: "verify"
+    asset: "stages/11-verify.md"
+    kind: "verification"
+    consumes: ["stage:report"]
+    produces: ["stage:verify"]
+    mutation_scope: []
+artifacts:
+  - name: release_readiness_workflow_report
+    path: "../../output/reports/analysis/{{date}}-audit-release-readiness.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Consolidated layered release-readiness workflow report with recommendation"
+  - name: release_core_audit_report
+    path: "../../output/reports/analysis/{{date}}-audit-release-readiness-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Release-core stage report produced by audit-release-readiness"
+  - name: operational_readiness_audit_report
+    path: "../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Operational-readiness stage report (produced if enabled)"
+  - name: api_contract_audit_report
+    path: "../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "API-contract stage report (produced if enabled)"
+  - name: test_quality_audit_report
+    path: "../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Test-quality stage report (produced if enabled)"
+  - name: observability_coverage_audit_report
+    path: "../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Observability-coverage stage report (produced if enabled)"
+  - name: security_compliance_audit_report
+    path: "../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Security-compliance stage report (produced if enabled)"
+  - name: data_governance_audit_report
+    path: "../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Data-governance stage report (produced if enabled)"
+  - name: release_readiness_audit_bundle
+    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: "Authoritative bounded-audit bundle for layered release-readiness recommendation and done-gate evidence"
+done_gate:
+  checks:
+    - "All enabled stages executed or explicitly skipped"
+    - "Consolidated workflow report exists"
+    - "Bounded bundle exists at `.octon/output/reports/audits/YYYY-MM-DD-<slug>/`"
+    - "Findings are deduplicated with stable IDs and acceptance criteria"
+    - "Coverage and convergence metadata are present"
+    - "Done-gate expression is evaluated and recorded"
+    - "If `post_remediation=true`, done-gate is true"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

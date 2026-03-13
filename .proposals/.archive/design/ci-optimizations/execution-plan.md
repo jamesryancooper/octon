@@ -1,4 +1,4 @@
-# Harmony CI Cost Optimization Execution Plan
+# Octon CI Cost Optimization Execution Plan
 
 ## Profile Selection Receipt
 
@@ -90,17 +90,17 @@
 +          filters: |
 +            risk:
 +              - '.github/workflows/**'
-+              - '.harmony/**/*.sh'
-+              - '.harmony/**/*.bash'
-+              - '.harmony/**/*.js'
-+              - '.harmony/**/*.ts'
-+              - '.harmony/**/*.rs'
-+              - '.harmony/**/*.json'
-+              - '.harmony/**/*.toml'
-+              - '.harmony/**/*.yml'
-+              - '.harmony/**/*.yaml'
-+              - '.harmony/engine/runtime/run'
-+              - '.harmony/engine/runtime/run.cmd'
++              - '.octon/**/*.sh'
++              - '.octon/**/*.bash'
++              - '.octon/**/*.js'
++              - '.octon/**/*.ts'
++              - '.octon/**/*.rs'
++              - '.octon/**/*.json'
++              - '.octon/**/*.toml'
++              - '.octon/**/*.yml'
++              - '.octon/**/*.yaml'
++              - '.octon/engine/runtime/run'
++              - '.octon/engine/runtime/run.cmd'
 +              - 'AGENTS.md'
 +
 +      - id: provider_trigger
@@ -127,7 +127,7 @@
          uses: actions/upload-artifact@v4
          with:
            name: ai-gate-findings-${{ matrix.provider }}
-           path: .harmony/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json
+           path: .octon/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json
            if-no-files-found: error
 +          retention-days: 3
 @@
@@ -147,10 +147,10 @@
        - name: Ensure provider findings files exist
          run: |
            set -euo pipefail
-           mkdir -p .harmony/output/.tmp/ai-gate/artifacts
+           mkdir -p .octon/output/.tmp/ai-gate/artifacts
  
            for provider in openai anthropic; do
-             file=".harmony/output/.tmp/ai-gate/artifacts/findings-${provider}.json"
+             file=".octon/output/.tmp/ai-gate/artifacts/findings-${provider}.json"
              if [[ -f "${file}" ]]; then
                continue
              fi
@@ -189,7 +189,7 @@
          uses: actions/upload-artifact@v4
          with:
            name: ai-gate-decision
-           path: .harmony/output/.tmp/ai-gate/decision.json
+           path: .octon/output/.tmp/ai-gate/decision.json
            if-no-files-found: error
 +          retention-days: 7
 ```
@@ -197,7 +197,7 @@
 ### 2) `.github/workflows/filesystem-interfaces-perf-regression.yml`
 
 #### Edit intent
-- Narrow trigger scope from `.harmony/engine/**` to runtime-only paths.
+- Narrow trigger scope from `.octon/engine/**` to runtime-only paths.
 - Add concurrency, timeout, and Rust caching.
 - Stop reinstalling `cargo-component` when present.
 - Shorten artifact retention.
@@ -210,14 +210,14 @@
    push:
      paths:
 @@
--      - '.harmony/engine/**'
-+      - '.harmony/engine/runtime/**'
+-      - '.octon/engine/**'
++      - '.octon/engine/runtime/**'
 @@
    pull_request:
      paths:
 @@
--      - '.harmony/engine/**'
-+      - '.harmony/engine/runtime/**'
+-      - '.octon/engine/**'
++      - '.octon/engine/runtime/**'
 @@
  permissions:
    contents: read
@@ -299,10 +299,10 @@
 -          set +e
 -          {
 -            echo "Running harness smoke checks..."
--            chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
--            chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
--            .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
--            .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+-            chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+-            chmod +x .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+-            .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+-            .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 -          } > smoke-summary.txt 2>&1
 -          status=$?
 -          set -e
@@ -329,10 +329,10 @@
 -            });
 -            if (failed) core.setFailed('Smoke checks failed');
 +          echo "Running harness smoke checks..."
-+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-+          chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
-+          .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-+          .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
++          chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
++          chmod +x .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
++          .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
++          .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 ```
 
 ### 4) `.github/workflows/pr-autonomy-policy.yml`
@@ -493,11 +493,11 @@
 +          filters: |
 +            risky:
 +              - '.github/workflows/**'
-+              - '.harmony/agency/governance/**'
-+              - '.harmony/cognition/governance/**'
-+              - '.harmony/capabilities/runtime/**'
-+              - '.harmony/engine/runtime/**'
-+              - '.harmony/assurance/runtime/**'
++              - '.octon/agency/governance/**'
++              - '.octon/cognition/governance/**'
++              - '.octon/capabilities/runtime/**'
++              - '.octon/engine/runtime/**'
++              - '.octon/assurance/runtime/**'
 +              - 'AGENTS.md'
 +
    codex-review:
@@ -519,7 +519,7 @@
 +    timeout-minutes: 20
 ```
 
-### 10) `.harmony/agency/practices/github-autonomy-runbook.md`
+### 10) `.octon/agency/practices/github-autonomy-runbook.md`
 
 #### Edit intent
 - Add incident note for stale failed check contexts after billing outage recovery.
@@ -571,7 +571,7 @@ Policy enforced for future workflows:
   - Dry-run lint validation for all edited workflows (`actionlint` or `yamllint` + `gh workflow view` checks).
   - PR simulation for label-only, docs-only, risky-change, and schedule scenarios.
 - `docs`:
-  - `.harmony/agency/practices/github-autonomy-runbook.md` (billing stale-context recovery note).
+  - `.octon/agency/practices/github-autonomy-runbook.md` (billing stale-context recovery note).
   - Baseline and post-change report artifacts under `.proposals/ci-optimizations`.
 - `contracts`:
   - Required-check names remain unchanged.

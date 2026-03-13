@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Harness Template Manifest",
+  "description": "Schema for harness template manifest.json files.",
+  "type": "object",
+  "required": ["name", "description"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Template identifier (e.g., 'octon', 'proposal-core')"
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the template's purpose"
+    },
+    "inherits": {
+      "type": ["string", "null"],
+      "description": "Parent template name, or null for base template"
+    },
+    "files": {
+      "type": "object",
+      "description": "File requirements for base templates",
+      "properties": {
+        "required": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Files that must exist"
+        },
+        "directories": {
+          "type": "object",
+          "properties": {
+            "required": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Directories that must exist"
+            },
+            "standard": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Directories created as needed"
+            }
+          }
+        }
+      }
+    },
+    "contents": {
+      "type": "object",
+      "description": "Map of file paths to descriptions",
+      "additionalProperties": { "type": "string" }
+    },
+    "overrides": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Files from parent template that this template overrides"
+    },
+    "additions": {
+      "type": "object",
+      "description": "New content added by this template",
+      "properties": {
+        "directories": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "files": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "usage": {
+      "type": "string",
+      "description": "Example command to use this template"
+    }
+  }
+}

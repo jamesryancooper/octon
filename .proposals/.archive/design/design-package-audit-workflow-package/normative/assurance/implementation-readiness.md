@@ -5,7 +5,7 @@
 ## Ready
 
 - the package identifies the intended durable implementation targets
-- the workflow, validator, and runner surfaces already exist in `/.harmony/`
+- the workflow, validator, and runner surfaces already exist in `/.octon/`
 - the package now defines:
   - the execution lifecycle and recovery model
   - the executor prompt-packet and response contract
@@ -19,7 +19,7 @@
 ## Archive Scope Boundary
 
 The package now serves as historical implementation evidence. Durable workflow
-truth lives under `/.harmony/`.
+truth lives under `/.octon/`.
 
 ## Evidence
 

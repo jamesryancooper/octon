@@ -1,0 +1,19 @@
+{
+  "id": "prompt-positive-compile",
+  "description": "Prompt compile returns required output structure.",
+  "request": {
+    "promptId": "workflow/implement",
+    "variables": {
+      "target": ".octon/capabilities/runtime/services"
+    },
+    "options": {
+      "variant": "default",
+      "model": "gpt-4o-mini",
+      "hash": true
+    }
+  },
+  "expect": {
+    "hasKeys": ["promptId", "content", "messages", "hash"],
+    "hashPrefix": "sha256:"
+  }
+}

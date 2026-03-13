@@ -7,11 +7,11 @@ for the future architecture-readiness evaluation capability.
 
 ## Supported Target Classes
 
-- `whole-harmony`
-  - scope: `/.harmony/`
+- `whole-octon`
+  - scope: `/.octon/`
   - evaluation mode: `whole-harness`
 - `bounded-surface-domain`
-  - scope: one top-level bounded-surface domain under `/.harmony/`
+  - scope: one top-level bounded-surface domain under `/.octon/`
   - evaluation mode: `bounded-domain`
 
 Supported bounded-surface domains:
@@ -58,5 +58,5 @@ Supported bounded-surface domains:
 - `TargetProfile` determines whether an `EvaluationMode` is allowed.
 - `EvaluationMode` determines which framework dimensions are in scope.
 - `DimensionScore` and `FailureModeAssessment` feed the final verdict.
-- `RemediationArtifact` ties gaps to durable Harmony surfaces, never back to the
+- `RemediationArtifact` ties gaps to durable Octon surfaces, never back to the
   design package.

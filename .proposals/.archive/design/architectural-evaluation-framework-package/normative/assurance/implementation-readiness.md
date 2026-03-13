@@ -24,7 +24,7 @@ The live framework is ready when:
 
 ## Remaining Work
 
-- materialize methodology docs in `/.harmony/cognition/practices/`
+- materialize methodology docs in `/.octon/cognition/practices/`
 - implement the primary audit skill
 - implement the orchestration workflow
 - promote the ADR matrix into scaffolding governance patterns

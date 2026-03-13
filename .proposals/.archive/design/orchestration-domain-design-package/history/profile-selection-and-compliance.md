@@ -24,7 +24,7 @@ runtime behavior.
 - Blast radius and uncertainty:
   - low blast radius, documentation-only
 - Compliance and policy constraints:
-  - proposal must preserve Harmony's explicit authority model:
+  - proposal must preserve Octon's explicit authority model:
     `agent-first`, `system-governed`, human-owned policy authorship, exception
     handling, and escalation authority
 - Hard gates for `transitional`:
@@ -68,7 +68,7 @@ runtime behavior.
 
 ## Compliance Receipt
 
-- Preserves Harmony's objective of safe, reviewable, verifiable, autonomous use
+- Preserves Octon's objective of safe, reviewable, verifiable, autonomous use
   rather than unconstrained autonomy
 - Keeps governance authority explicit instead of embedding governance implicitly
   inside runtime execution surfaces

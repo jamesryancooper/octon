@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/guardkit/guardkit.outputs.v1.json",
+  "title": "GuardKitOutputs",
+  "description": "Output schema for GuardKit check results",
+  "type": "object",
+  "required": ["passed", "checks"],
+  "properties": {
+    "passed": {
+      "type": "boolean",
+      "description": "Whether all checks passed"
+    },
+    "checks": {
+      "type": "array",
+      "description": "Individual check results",
+      "items": {
+        "type": "object",
+        "required": ["name", "passed"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Check name"
+          },
+          "passed": {
+            "type": "boolean",
+            "description": "Whether check passed"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"],
+            "description": "Severity if failed"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable message"
+          },
+          "details": {
+            "type": "object",
+            "description": "Additional details",
+            "additionalProperties": true
+          },
+          "matches": {
+            "type": "array",
+            "description": "Pattern matches found",
+            "items": {
+              "type": "object",
+              "properties": {
+                "pattern": { "type": "string" },
+                "location": { "type": "string" },
+                "redacted": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "sanitized": {
+      "type": "string",
+      "description": "Sanitized content (if sanitization was performed)"
+    },
+    "summary": {
+      "type": "object",
+      "description": "Summary of check results",
+      "properties": {
+        "totalChecks": { "type": "integer" },
+        "passedChecks": { "type": "integer" },
+        "failedChecks": { "type": "integer" },
+        "highestSeverity": { 
+          "type": "string",
+          "enum": ["none", "low", "medium", "high", "critical"]
+        }
+      }
+    }
+  }
+}
+

@@ -4,8 +4,8 @@
 
 Create:
 
-- `/.harmony/cognition/practices/methodology/architecture-readiness/README.md`
-- `/.harmony/cognition/practices/methodology/architecture-readiness/framework.md`
+- `/.octon/cognition/practices/methodology/architecture-readiness/README.md`
+- `/.octon/cognition/practices/methodology/architecture-readiness/framework.md`
 
 Acceptance criteria:
 
@@ -17,7 +17,7 @@ Acceptance criteria:
 
 Create:
 
-- `/.harmony/capabilities/runtime/skills/audit/audit-architecture-readiness/SKILL.md`
+- `/.octon/capabilities/runtime/skills/audit/audit-architecture-readiness/SKILL.md`
 - required references, registry entries, manifest entries, and output contract
 
 Acceptance criteria:
@@ -31,7 +31,7 @@ Acceptance criteria:
 
 Create:
 
-- `/.harmony/orchestration/runtime/workflows/audit/audit-architecture-readiness/workflow.yml`
+- `/.octon/orchestration/runtime/workflows/audit/audit-architecture-readiness/workflow.yml`
 - generated `README.md`
 - stage assets for configure, classify, evaluate, optional supplemental audits,
   merge, report, and verify
@@ -46,7 +46,7 @@ Acceptance criteria:
 
 Create:
 
-- `/.harmony/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md`
+- `/.octon/scaffolding/governance/patterns/adr-architecture-readiness-matrix.md`
 
 Acceptance criteria:
 

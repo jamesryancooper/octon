@@ -1,0 +1,9 @@
+{
+  "id": "docs",
+  "description": "Author and revise documentation and report artifacts.",
+  "auto_grant_tier": "low",
+  "tool_bundle": ["Read", "Glob", "Grep", "Edit", "Bash(rg *)"],
+  "write_scope_bundle": ["Write(.octon/output/*)", "Write(.octon/cognition/*)", "Write(README.md)"],
+  "service_allowlist": ["prompt", "spec", "plan"],
+  "deny_rules": ["DDB008_WRITE_SCOPE_BROAD", "DDB021_GRANT_SCOPE_TOO_BROAD"]
+}

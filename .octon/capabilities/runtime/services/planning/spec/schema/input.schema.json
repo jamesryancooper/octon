@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/spec/input.schema.json",
+  "title": "SpecServiceInput",
+  "type": "object",
+  "required": ["command"],
+  "properties": {
+    "command": {
+      "type": "string",
+      "enum": ["init", "validate", "render", "diagram"]
+    },
+    "targetPath": {
+      "type": "string",
+      "minLength": 1
+    },
+    "featureId": {
+      "type": "string"
+    },
+    "dryRun": {
+      "type": "boolean"
+    },
+    "options": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

@@ -2,7 +2,7 @@
 
 ## Goal
 
-Describe the durable Harmony surfaces that implement this package.
+Describe the durable Octon surfaces that implement this package.
 
 ## Layers
 
@@ -13,12 +13,12 @@ implementation guidance.
 
 ### 2. Workflow Contract Layer
 
-`/.harmony/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml`
+`/.octon/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml`
 defines inputs, stages, artifacts, and done-gate checks.
 
 ### 3. Execution Layer
 
-`/.harmony/engine/runtime/crates/kernel/src/workflow.rs` resolves selected
+`/.octon/engine/runtime/crates/kernel/src/workflow.rs` resolves selected
 stages, renders prompt packets, invokes the executor, and persists bundle
 artifacts.
 

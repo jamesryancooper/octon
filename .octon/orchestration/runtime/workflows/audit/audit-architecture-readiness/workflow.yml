@@ -1,0 +1,146 @@
+schema_version: "workflow-contract-v1"
+name: "audit-architecture-readiness"
+description: "Orchestrate whole-harness and bounded-domain architecture-readiness audits into a deterministic bounded-audit recommendation with optional supplemental evidence."
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+side_effect_class: "read_only"
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: "none"
+executor_interface_version: "workflow-executor-v1"
+inputs:
+  - name: target_path
+    type: folder
+    required: true
+    description: "Octon target path to audit: either .octon or one top-level bounded-surface domain"
+  - name: severity_threshold
+    type: text
+    required: false
+    default: "all"
+    description: "Minimum severity to report: critical, high, medium, low, all"
+  - name: run_cross_subsystem
+    type: boolean
+    required: false
+    default: true
+    description: "Run audit-cross-subsystem-coherence when the target is whole-harness"
+  - name: run_domain_architecture
+    type: boolean
+    required: false
+    default: true
+    description: "Run audit-domain-architecture when the target is bounded-domain"
+  - name: post_remediation
+    type: boolean
+    required: false
+    default: false
+    description: "Enable strict done-gate enforcement for remediation verification"
+  - name: convergence_k
+    type: text
+    required: false
+    default: "3"
+    description: "Number of controlled reruns used to evaluate convergence stability"
+  - name: seed_list
+    type: text
+    required: false
+    description: "Comma-separated deterministic seeds used for multi-run consistency checks"
+stages:
+  - id: "configure"
+    asset: "stages/01-configure.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:configure"]
+    mutation_scope: []
+  - id: "classify-target"
+    asset: "stages/02-classify-target.md"
+    kind: "analysis"
+    consumes: ["stage:configure"]
+    produces: ["stage:classify-target"]
+    mutation_scope: []
+  - id: "primary-audit"
+    asset: "stages/03-primary-audit.md"
+    kind: "analysis"
+    consumes: ["stage:classify-target"]
+    produces: ["stage:primary-audit"]
+    mutation_scope: []
+  - id: "cross-subsystem-audit"
+    asset: "stages/04-cross-subsystem-audit.md"
+    kind: "analysis"
+    consumes: ["stage:primary-audit"]
+    produces: ["stage:cross-subsystem-audit"]
+    mutation_scope: []
+  - id: "domain-architecture-audit"
+    asset: "stages/05-domain-architecture-audit.md"
+    kind: "analysis"
+    consumes: ["stage:cross-subsystem-audit"]
+    produces: ["stage:domain-architecture-audit"]
+    mutation_scope: []
+  - id: "merge"
+    asset: "stages/06-merge.md"
+    kind: "projection"
+    consumes: ["stage:domain-architecture-audit"]
+    produces: ["stage:merge"]
+    mutation_scope: []
+  - id: "report"
+    asset: "stages/07-report.md"
+    kind: "projection"
+    consumes: ["stage:merge"]
+    produces: ["stage:report"]
+    mutation_scope: []
+  - id: "verify"
+    asset: "stages/08-verify.md"
+    kind: "verification"
+    consumes: ["stage:report"]
+    produces: ["stage:verify"]
+    mutation_scope: []
+artifacts:
+  - name: architecture_readiness_workflow_report
+    path: "../../output/reports/analysis/{{date}}-audit-architecture-readiness.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Consolidated architecture-readiness workflow report with recommendation and rationale"
+  - name: architecture_readiness_audit_report
+    path: "../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Primary stage report produced by audit-architecture-readiness"
+  - name: architecture_readiness_summary_json
+    path: "../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
+    kind: file
+    format: json
+    determinism: unique
+    description: "Machine-readable summary produced by audit-architecture-readiness"
+  - name: cross_subsystem_audit_report
+    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Cross-subsystem coherence report (produced if enabled and applicable)"
+  - name: domain_architecture_audit_report
+    path: "../../output/reports/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Supplemental domain-architecture report (produced if enabled and applicable)"
+  - name: architecture_readiness_audit_bundle
+    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: "Authoritative bounded-audit bundle for architecture-readiness recommendation and done-gate evidence"
+done_gate:
+  checks:
+    - "Primary audit executes and classifies the target explicitly"
+    - "Supplemental stages execute or skip according to the target mode"
+    - "Consolidated workflow report exists"
+    - "Bounded-audit bundle exists at `.octon/output/reports/audits/YYYY-MM-DD-<slug>/`"
+    - "Findings are deduplicated with stable IDs and acceptance criteria"
+    - "Coverage and convergence metadata are present"
+    - "Done-gate expression is evaluated and recorded"
+    - "If `post_remediation=true`, done-gate is true"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

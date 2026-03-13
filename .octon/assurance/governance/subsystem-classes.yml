@@ -1,0 +1,55 @@
+meta:
+  version: "1"
+  updated_at: "2026-02-18"
+  owner: "octon-platform"
+  status: "active"
+  enforcement_phase: "phase2"
+  description: "Subsystem classification and strictness controls for repo-level override deviations."
+
+allowed_reason_categories:
+  - regulated
+  - incident-response
+  - experimental
+  - performance
+  - security
+  - reliability
+  - portability
+  - developer-experience
+  - compatibility
+  - governance
+
+classes:
+  control-plane:
+    description: "Safety, governance, and delivery-control surfaces where override drift is high risk."
+    strictness:
+      require_deviation_record: true
+      require_adr: true
+      require_changelog: true
+      min_reviewers: 2
+      large_change_threshold: 1
+      require_adr_for_large_change: true
+      warn_missing_expiry_without_permanent: true
+
+  productivity:
+    description: "Developer acceleration and output ergonomics surfaces with lower blast radius."
+    strictness:
+      require_deviation_record: false
+      require_adr: false
+      require_changelog: false
+      min_reviewers: 1
+      large_change_threshold: 2
+      require_adr_for_large_change: true
+      warn_missing_expiry_without_permanent: true
+
+subsystems:
+  runtime: control-plane
+  assurance: control-plane
+  continuity: control-plane
+  agency: control-plane
+
+  capabilities: productivity
+  orchestration: productivity
+  cognition: productivity
+  scaffolding: productivity
+  output: productivity
+  ideation: productivity

@@ -6,7 +6,7 @@ Define how the orchestration model will be validated as a package-local,
 implementation-ready specification.
 
 This remediation proves package behavior only. It does not prove live
-`.harmony/orchestration` adoption safety.
+`.octon/orchestration` adoption safety.
 
 ## Assurance Domains
 
@@ -91,7 +91,7 @@ This remediation proves package behavior only. It does not prove live
 - event-trigger selection is deterministic under the declared match mode
 - `severity_at_or_above` uses the canonical order
   `info < warning < high < critical`
-- `source_ref_globs` use case-sensitive full-string Harmony path glob semantics
+- `source_ref_globs` use case-sensitive full-string Octon path glob semantics
 - `dedupe_window` suppression is deterministic
 - bindings are validated before admission
 - automation launch eligibility is derived from the split definition artifacts,
@@ -230,7 +230,7 @@ This remediation proves package behavior only. It does not prove live
 
 ## Minimum Promotion Recommendation
 
-Do not promote a proposed surface into live `.harmony/orchestration/` authority
+Do not promote a proposed surface into live `.octon/orchestration/` authority
 surfaces until it passes:
 
 - `G0` through `G4` for prototype implementation

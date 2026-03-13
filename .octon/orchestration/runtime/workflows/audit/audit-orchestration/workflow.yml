@@ -1,0 +1,171 @@
+schema_version: "workflow-contract-v1"
+name: "audit-orchestration"
+description: "Coordinate bounded multi-pass audits across partitioned scope, merge with stable finding IDs and coverage accounting, and emit a deterministic evidence bundle with explicit done-gate and convergence metadata."
+version: "2.0.0"
+entry_mode: "human"
+execution_profile: "core"
+side_effect_class: "read_only"
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: "none"
+executor_interface_version: "workflow-executor-v1"
+inputs:
+  - name: manifest
+    type: file
+    required: true
+    description: "Migration manifest (inline YAML or file path)"
+  - name: scope
+    type: folder
+    required: false
+    default: "."
+    description: "Root directory to partition and audit"
+  - name: docs
+    type: folder
+    required: false
+    description: "Companion documentation directory for optional global coherence checks"
+  - name: severity_threshold
+    type: text
+    required: false
+    default: "all"
+    description: "Minimum severity to report: critical, high, medium, low, all"
+  - name: strategy
+    type: text
+    required: false
+    default: "by-directory"
+    description: "Partition strategy: by-directory, by-type, by-concern, auto"
+  - name: concern_map
+    type: text
+    required: false
+    description: "Manual concern-to-glob mapping (required for by-concern strategy)"
+  - name: partition_count
+    type: text
+    required: false
+    description: "Number of partitions (for auto strategy)"
+  - name: run_cross_subsystem
+    type: boolean
+    required: false
+    default: true
+    description: "Run cross-subsystem coherence audit stage"
+  - name: run_freshness
+    type: boolean
+    required: false
+    default: true
+    description: "Run freshness and supersession audit stage"
+  - name: max_age_days
+    type: text
+    required: false
+    default: "30"
+    description: "Freshness threshold in days for stale artifact detection"
+  - name: post_remediation
+    type: boolean
+    required: false
+    default: false
+    description: "Enable strict done-gate verification after remediation"
+  - name: convergence_k
+    type: text
+    required: false
+    default: "3"
+    description: "Number of controlled reruns used to evaluate convergence stability"
+  - name: seed_list
+    type: text
+    required: false
+    description: "Comma-separated deterministic seeds used for multi-pass consistency checks"
+stages:
+  - id: "configure"
+    asset: "stages/01-configure.md"
+    kind: "analysis"
+    consumes: []
+    produces: ["stage:configure"]
+    mutation_scope: []
+  - id: "partition"
+    asset: "stages/02-partition.md"
+    kind: "analysis"
+    consumes: ["stage:configure"]
+    produces: ["stage:partition"]
+    mutation_scope: []
+  - id: "dispatch"
+    asset: "stages/03-dispatch.md"
+    kind: "analysis"
+    consumes: ["stage:partition"]
+    produces: ["stage:dispatch"]
+    mutation_scope: []
+  - id: "merge"
+    asset: "stages/04-merge.md"
+    kind: "projection"
+    consumes: ["stage:dispatch"]
+    produces: ["stage:merge"]
+    mutation_scope: []
+  - id: "challenge"
+    asset: "stages/05-challenge.md"
+    kind: "analysis"
+    consumes: ["stage:merge"]
+    produces: ["stage:challenge"]
+    mutation_scope: []
+  - id: "cross-subsystem-audit"
+    asset: "stages/06-cross-subsystem-audit.md"
+    kind: "analysis"
+    consumes: ["stage:challenge"]
+    produces: ["stage:cross-subsystem-audit"]
+    mutation_scope: []
+  - id: "freshness-audit"
+    asset: "stages/07-freshness-audit.md"
+    kind: "analysis"
+    consumes: ["stage:cross-subsystem-audit"]
+    produces: ["stage:freshness-audit"]
+    mutation_scope: []
+  - id: "report"
+    asset: "stages/08-report.md"
+    kind: "projection"
+    consumes: ["stage:freshness-audit"]
+    produces: ["stage:report"]
+    mutation_scope: []
+  - id: "verify"
+    asset: "stages/09-verify.md"
+    kind: "verification"
+    consumes: ["stage:report"]
+    produces: ["stage:verify"]
+    mutation_scope: []
+artifacts:
+  - name: consolidated_report
+    path: "../../output/reports/analysis/{{date}}-migration-audit-consolidated.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Consolidated report with partitioned migration findings and optional global-stage outcomes"
+  - name: partition_reports
+    path: "../../output/reports/analysis/{{date}}-migration-audit-{{partition}}.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Individual partition audit reports"
+  - name: cross_subsystem_audit_report
+    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Individual cross-subsystem coherence audit report (produced if enabled)"
+  - name: freshness_audit_report
+    path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: "Individual freshness and supersession audit report (produced if enabled)"
+  - name: bounded_audit_bundle
+    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: "Authoritative bounded-audit evidence bundle with findings, coverage, and convergence artifacts"
+done_gate:
+  checks:
+    - "Coverage accounting has zero unaccounted files"
+    - "Findings are deduplicated with stable IDs and acceptance criteria"
+    - "Determinism receipt is present (`commit_sha`, `scope_hash`, `prompt_hash`, seed/fingerprint policy, findings hash)"
+    - "Audit bundle exists at `.octon/output/reports/audits/YYYY-MM-DD-<slug>/`"
+    - "Done-gate expression is evaluated and recorded"
+    - "If `post_remediation=true`, convergence K-run result is stable and empty at/above threshold"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

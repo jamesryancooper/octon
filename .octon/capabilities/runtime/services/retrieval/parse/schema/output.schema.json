@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/retrieval-parse/output.schema.json",
+  "title": "ParseServiceOutput",
+  "type": "object",
+  "required": ["status", "summary", "artifacts"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["success", "partial", "error"]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "type"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": ["markdown", "json", "asset"]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "runId": {
+      "type": "string"
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

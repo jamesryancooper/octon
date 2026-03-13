@@ -24,10 +24,10 @@ Event-trigger selection belongs in `trigger.yml`.
 ## Alternatives Considered
 
 - Embed recurrence metadata and event selection directly in workflows
-- Let external schedulers own all recurrence without a Harmony surface
+- Let external schedulers own all recurrence without a Octon surface
 
 ## Relationship To Existing Contracts
 
 - reinforces `contracts/automation-execution-contract.md`
 - reinforces `reference/surfaces/workflows.md`
-- aligns with `history/mature-harmony-orchestration-model.md`
+- aligns with `history/mature-octon-orchestration-model.md`

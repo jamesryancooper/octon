@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/continuity/entities.schema.json",
+  "title": "Octon Continuity Entities",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "description",
+    "entities"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.1"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entities": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/entity"
+      }
+    }
+  },
+  "$defs": {
+    "stringArray": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "knowledgeLinks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "specs",
+        "contracts",
+        "decisions",
+        "evidence"
+      ],
+      "properties": {
+        "specs": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "contracts": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "decisions": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "evidence": {
+          "$ref": "#/$defs/stringArray"
+        }
+      }
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "status",
+        "last_modified",
+        "owner"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "file",
+            "directory",
+            "mission",
+            "workflow",
+            "domain",
+            "service",
+            "artifact",
+            "other"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "stable",
+            "in_progress",
+            "blocked",
+            "needs_review",
+            "archived"
+          ]
+        },
+        "last_modified": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "related_tasks": {
+          "$ref": "#/$defs/stringArray"
+        },
+        "knowledge_links": {
+          "$ref": "#/$defs/knowledgeLinks"
+        }
+      }
+    }
+  }
+}

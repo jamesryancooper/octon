@@ -1,5 +1,0 @@
-# id|label|summary
-project-app-repo|Project / App Repo|Set up and develop a software project or application repository.
-documentation-knowledge-base|Documentation / Knowledge Base|Create, maintain, and improve docs, guides, and reference content.
-filesystem-management|Filesystem Management|Organize, audit, migrate, and govern files and directory structures safely.
-general-purpose|General Purpose|Use Harmony as a governed autonomous workspace for mixed or custom objectives.

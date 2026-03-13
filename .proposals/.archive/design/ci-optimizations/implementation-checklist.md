@@ -1,4 +1,4 @@
-# Harmony CI Cost Optimization Checklist (Execution)
+# Octon CI Cost Optimization Checklist (Execution)
 
 ## Baseline + target
 
@@ -20,7 +20,7 @@
 - [x] AI Gate artifact retention reduction in `.github/workflows/ai-review-gate.yml`.
   - Evidence: `.github/workflows/ai-review-gate.yml` (`retention-days: 3`, `retention-days: 7`)
 - [x] Perf trigger scope narrowing in `.github/workflows/filesystem-interfaces-perf-regression.yml`.
-  - Evidence: `.github/workflows/filesystem-interfaces-perf-regression.yml` (`.harmony/engine/runtime/**` paths)
+  - Evidence: `.github/workflows/filesystem-interfaces-perf-regression.yml` (`.octon/engine/runtime/**` paths)
 - [x] Rust/cargo caching and `cargo-component` install guard in `.github/workflows/filesystem-interfaces-perf-regression.yml`.
   - Evidence: `.github/workflows/filesystem-interfaces-perf-regression.yml` (`swatinem/rust-cache@v2`, guarded install block)
 - [x] Perf artifact retention reduction in `.github/workflows/filesystem-interfaces-perf-regression.yml`.
@@ -40,7 +40,7 @@
   - Evidence: `.github/workflows/codex-pr-review.yml` (`jobs.changes`, label/risky gate in `codex-review.if`)
 - [x] Timeout discipline updates on long-running workflows.
   - Evidence: timeout additions in `.github/workflows/ai-review-gate.yml`, `.github/workflows/filesystem-interfaces-perf-regression.yml`, `.github/workflows/pr-quality.yml`, `.github/workflows/commit-and-branch-standards.yml`, `.github/workflows/smoke.yml`, `.github/workflows/codex-pr-review.yml`
-- [x] Billing-incident stale-context note in `.harmony/agency/practices/github-autonomy-runbook.md`.
+- [x] Billing-incident stale-context note in `.octon/agency/practices/github-autonomy-runbook.md`.
   - Evidence: troubleshooting note appended under `## Troubleshooting`
 
 ## Codification (future-proofing)

@@ -1,0 +1,19 @@
+# BOOT.md
+
+## Purpose
+
+Recurring startup routine for agent sessions in this repository.
+
+## Session Start Checklist
+
+1. Confirm working directory is repository root and `.octon/` exists.
+2. Read `.octon/AGENTS.md`, then load default agent contracts from `.octon/agency/manifest.yml`.
+3. Scan `.octon/continuity/log.md` and `.octon/continuity/tasks.json` for active work and blockers.
+4. Review `.octon/START.md` for the active boot sequence.
+5. Begin the highest-priority unblocked task.
+
+## Guardrails
+
+- Keep this file short and deterministic.
+- Keep steps idempotent and primarily read-only.
+- Put one-time onboarding in `BOOTSTRAP.md`, not here.

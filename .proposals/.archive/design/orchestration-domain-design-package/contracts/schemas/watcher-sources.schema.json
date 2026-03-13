@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://harmony.local/design-packages/orchestration/watcher-sources.schema.json",
+  "$id": "https://octon.local/design-packages/orchestration/watcher-sources.schema.json",
   "title": "Watcher Sources",
   "type": "object",
   "additionalProperties": false,
