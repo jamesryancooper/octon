@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.14](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.13...harmony-v0.4.14) (2026-03-13)
+
+
+### Bug Fixes
+
+* **output:** keep audit bundle directories tracked ([#155](https://github.com/jamesryancooper/harmony/issues/155)) ([b1c3728](https://github.com/jamesryancooper/harmony/commit/b1c3728c4adcbf8bbb24a7f2367fa857f121e739))
+
 ## [0.4.13](https://github.com/jamesryancooper/harmony/compare/harmony-v0.4.12...harmony-v0.4.13) (2026-03-12)
 
 
