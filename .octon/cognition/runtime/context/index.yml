@@ -1,0 +1,201 @@
+# Context Index
+# Lightweight index of reference material in cognition/runtime/context/.
+# Read this to find relevant context without listing the directory.
+#
+# Fields:
+#   id         - File identifier (filename without extension)
+#   path       - Relative path to file
+#   summary    - One-line description
+#   when       - When an agent should read this file
+#
+# Contract registry fields:
+#   contract_id - Stable contract identifier
+#   owner       - Owning subsystem
+#   version     - Contract version for change tracking
+#   supersedes  - Prior contract IDs replaced by this contract
+#   enforced_by - Enforcement paths that gate compliance
+
+schema_version: "1.0"
+
+contracts:
+  - contract_id: OCTON-SPEC-014
+    path: ../../_meta/architecture/runtime-vs-ops-contract.md
+    owner: cognition
+    version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-harness-structure.sh
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+  - contract_id: OCTON-SPEC-015
+    path: ../../_meta/architecture/specification.md
+    owner: cognition
+    version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+  - contract_id: OCTON-SPEC-016
+    path: ../../_meta/architecture/specification.md
+    owner: cognition
+    version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+  - contract_id: OCTON-SPEC-017
+    path: ../../_meta/architecture/specification.md
+    owner: cognition
+    version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+  - contract_id: ASSURANCE-PRECEDENCE-001
+    path: ../../../assurance/governance/precedence.md
+    owner: assurance
+    version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/assurance-gate.sh
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+  - contract_id: ENGINE-GOV-001
+    path: ../../../engine/governance/README.md
+    owner: engine
+    version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+  - contract_id: ENGINE-GOV-002
+    path: ../../../engine/governance/instruction-layer-precedence.md
+    owner: engine
+    version: "1.0.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+  - contract_id: OPS-MUTATION-001
+    path: ../../_meta/architecture/runtime-vs-ops-contract.md
+    owner: cognition
+    version: "1.1.0"
+    supersedes: []
+    enforced_by:
+      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+ops_mutation_policy:
+  allow_write_roots:
+    - ../../../capabilities/_ops/state
+    - ../../../engine/_ops/state
+    - ../../../cognition/_ops
+    - ../../../assurance/runtime/_ops
+    - ../../../output
+    - ../../../continuity
+  immutable_targets:
+    - ../../governance/principles/principles.md
+    - ../../../agency/governance
+    - ../../../capabilities/governance
+    - ../../../cognition/governance
+    - ../../../orchestration/governance
+    - ../../../assurance/governance
+    - ../../../engine/governance
+    - ../../../scaffolding/governance
+  enforce_with:
+    - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+
+files:
+  - id: constraints
+    path: constraints.md
+    summary: Technical and business rules that limit harness operations.
+    when: Before any work — know hard limits.
+
+  - id: decisions
+    path: decisions.md
+    summary: Generated ADR summary for key decisions affecting this harness.
+    when: Before making decisions that might duplicate past choices.
+
+  - id: memory-map
+    path: memory-map.md
+    summary: Canonical routing map for memory class placement and ownership boundaries.
+    when: Before creating new memory artifacts or proposing new memory surfaces.
+
+  - id: continuity
+    path: continuity.md
+    summary: Optional continuity artifact signals for append-only handling.
+    when: When classifying continuity files during refactors or migrations.
+
+  - id: lessons
+    path: lessons.md
+    summary: Anti-patterns and failures to avoid repeating.
+    when: Before proposing approaches or strategies.
+
+  - id: glossary
+    path: glossary.md
+    summary: Domain-specific terminology for the harness system.
+    when: When encountering or defining domain terms.
+
+  - id: glossary-repo
+    path: glossary-repo.md
+    summary: Repository-wide glossary and conventions.
+    when: When working with repository-level terms or status vocabulary.
+
+  - id: risk-tiers
+    path: risk-tiers.md
+    summary: Risk-tier model and control expectations.
+    when: When selecting rigor level, approvals, and quality gates.
+
+  - id: metrics-scorecard
+    path: metrics-scorecard.md
+    summary: Metric definitions and scorecard expectations.
+    when: When evaluating health, progress, or delivery quality.
+
+  - id: cost-management
+    path: cost-management.md
+    summary: Cost governance and efficiency guidance.
+    when: When making tradeoffs that affect spend or efficiency.
+
+  - id: primitives
+    path: primitives.md
+    summary: Core building blocks (skill, workflow, command, etc.) and when to use each.
+    when: When deciding what type of artifact to create.
+
+  - id: dependencies
+    path: dependencies.md
+    summary: External systems and references this harness interacts with.
+    when: When integrating with external resources.
+
+  - id: intent-contract
+    path: intent.contract.yml
+    summary: Active machine-readable objective contract bound to repo-local autonomy.
+    when: Before evaluating scope, routing, or material execution authority.
+
+  - id: tools
+    path: tools.md
+    summary: Available tools and selection guidance.
+    when: When unsure which tool to use for a task.
+
+  - id: compaction
+    path: compaction.md
+    summary: Token compaction strategies.
+    when: Approaching context limits or ending long sessions.
+
+  - id: agent-platform-interop
+    path: agent-platform-interop.md
+    summary: Native-first interop semantics and ownership boundaries for optional platform adapters.
+    when: When implementing session policy, context budgeting, compaction policy, routing, or adapter boundaries.
+
+  - id: filesystem-interfaces-interop
+    path: filesystem-interfaces-interop.md
+    summary: Native-first semantics for filesystem operations, derived graph traversal, and progressive discovery.
+    when: When implementing snapshot artifacts, filesystem interface contracts, or discovery operations.
+
+  - id: workflow-gaps
+    path: workflow-gaps.md
+    summary: Workflow gap remediation guide (idempotency, dependencies, branching, etc.).
+    when: When creating or evaluating workflows.
+
+  - id: workflow-quality
+    path: workflow-quality.md
+    summary: Grading rubric and quality standards for workflows.
+    when: When evaluating workflow quality.

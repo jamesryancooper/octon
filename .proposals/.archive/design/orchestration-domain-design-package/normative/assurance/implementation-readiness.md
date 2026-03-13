@@ -15,9 +15,9 @@ That means:
 - the package now carries machine-checked semantic conformance for routing,
   scheduling, and recovery behavior
 - engineers can implement the target orchestration domain without relying on
-  external Harmony docs for core orchestration behavior
+  external Octon docs for core orchestration behavior
 
-It does not mean live `.harmony` runtime code has already been shipped. Live
+It does not mean live `.octon` runtime code has already been shipped. Live
 rollout remains a separate canonicalization step.
 
 ## What Changed To Reach Implementation Readiness
@@ -128,22 +128,22 @@ rollout remains a separate canonicalization step.
 
 ## Canonicalization Targets
 
-Promotion targets for live Harmony authority surfaces are defined in:
+Promotion targets for live Octon authority surfaces are defined in:
 
 - `navigation/canonicalization-target-map.md`
 
 Proof-layer enforcement is provided by:
 
-- `/.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`
+- `/.octon/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`
 - `conformance/validate_scenarios.py`
 
 This package is now implementation-ready at the design, contract, static
 validation, and semantic conformance level. Canonicalization planning remains
 documented, but live authority reconciliation is outside this remediation scope.
 
-## Harmony Philosophy Alignment
+## Octon Philosophy Alignment
 
-This package aligns with Harmony's philosophy because it preserves:
+This package aligns with Octon's philosophy because it preserves:
 
 - `agent-first` execution through bounded agent-readable orchestration surfaces
 - `system-governed` control through explicit governance boundaries and incident
@@ -173,7 +173,7 @@ This package aligns with Harmony's philosophy because it preserves:
       and enforced consistently.
 - [ ] `severity_at_or_above` uses the canonical order
       `info < warning < high < critical`.
-- [ ] `source_ref_globs` use case-sensitive full-string Harmony path glob
+- [ ] `source_ref_globs` use case-sensitive full-string Octon path glob
       semantics with `*`, `**`, `?`, and bracket classes only.
 - [ ] Schedule-window evaluation is deterministic across timezone and DST
       boundaries.

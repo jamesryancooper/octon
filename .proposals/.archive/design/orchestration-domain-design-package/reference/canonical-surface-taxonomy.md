@@ -2,7 +2,7 @@
 
 ## Taxonomy Summary
 
-| Surface | Class | Time Horizon | Current Status In Harmony | Primary Question It Answers |
+| Surface | Class | Time Horizon | Current Status In Octon | Primary Question It Answers |
 |---|---|---|---|---|
 | `campaigns` | Strategic portfolio | long-lived | proposed | Which set of missions serves one larger objective? |
 | `missions` | Initiative state | bounded multi-session | current | What bounded initiative is active, who owns it, and what remains? |
@@ -97,7 +97,7 @@ linear inheritance chain.
 
 ## Canonical Maturity Position
 
-Harmony's mature taxonomy should explicitly treat:
+Octon's mature taxonomy should explicitly treat:
 
 - `workflows`, `missions`, and `runs` as core
 - `automations` as the first autonomy extension

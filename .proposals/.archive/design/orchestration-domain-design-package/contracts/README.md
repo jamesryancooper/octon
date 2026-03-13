@@ -65,7 +65,7 @@ orchestration-domain specification defined by this package.
 
 ## Current-Surface Note
 
-`workflows` and `missions` remain existing Harmony runtime surfaces, but their
+`workflows` and `missions` remain existing Octon runtime surfaces, but their
 orchestration-domain behavior in this package is governed first by:
 
 - `normative/architecture/domain-model.md`
@@ -75,7 +75,7 @@ orchestration-domain behavior in this package is governed first by:
 - the cross-surface reference, run linkage, decision record, and mission
   object and mission binding contracts in this directory
 
-Live `.harmony` workflow and mission docs remain important integration and
+Live `.octon` workflow and mission docs remain important integration and
 promotion context, but they are not the primary source of target orchestration
 behavior for this package.
 
@@ -89,7 +89,7 @@ Machine-readable proof artifacts for schema-backed object contracts live under:
 
 Validation is enforced by:
 
-- `/.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`
+- `/.octon/assurance/runtime/_ops/scripts/validate-orchestration-design-package.sh`
 - `conformance/validate_scenarios.py` for package semantic conformance
 
 ### Proof Coverage

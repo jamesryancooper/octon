@@ -8,28 +8,28 @@ Status: `archived`
 Archive Disposition: `implemented`
 
 This package organized orchestration design artifacts until their long-lived
-authority was promoted into `/.harmony/`.
+authority was promoted into `/.octon/`.
 
 Repository governance, the active objective/intent, and continuity ownership
-remain higher-precedence authorities. Promotion into live `/.harmony/` runtime
+remain higher-precedence authorities. Promotion into live `/.octon/` runtime
 surfaces is a separate canonicalization step defined in this package.
 
 ## Implementation Targets
 
-- `/.harmony/orchestration/runtime/`
-- `/.harmony/orchestration/practices/`
-- `/.harmony/continuity/decisions/`
-- `/.harmony/continuity/runs/`
+- `/.octon/orchestration/runtime/`
+- `/.octon/orchestration/practices/`
+- `/.octon/continuity/decisions/`
+- `/.octon/continuity/runs/`
 
 ## Exit Path
 
-Durable orchestration authority has been promoted into `/.harmony/`, and this
+Durable orchestration authority has been promoted into `/.octon/`, and this
 package now remains under `/.design-packages/.archive/` as historical
 implementation material with no live package-path dependencies.
 
 ## Core Conclusions
 
-- Harmony should optimize for `AI-native, system-governed autonomy`, not
+- Octon should optimize for `AI-native, system-governed autonomy`, not
   human-free autonomy.
 - `workflows` remain the bounded procedural core of orchestration.
 - `missions` remain the bounded multi-session initiative surface.
@@ -195,10 +195,10 @@ implementation material with no live package-path dependencies.
 - `reference/reference-examples.md`
   - end-to-end worked examples
 - `navigation/canonicalization-target-map.md`
-  - live `.harmony` promotion targets and sequencing
+  - live `.octon` promotion targets and sequencing
 - `reference/surfaces/`
   - per-surface purpose, non-goals, and implementation summaries
-- `history/mature-harmony-orchestration-model.md`
+- `history/mature-octon-orchestration-model.md`
   - legacy high-level framing retained as background context
 - `history/surface-shape-architectural-review.md`
   - historical review artifact retained for provenance
@@ -223,7 +223,7 @@ This package defines:
   operation
 - the semantic conformance scenarios required to keep routing, scheduling, and
   recovery claims honest
-- the promotion targets for landing this model in live `.harmony` authority
+- the promotion targets for landing this model in live `.octon` authority
   surfaces
 
 This package does not itself implement the live runtime. It defines the build
@@ -231,6 +231,6 @@ specification engineers should implement.
 
 ## Explicit Non-Goals For This Remediation
 
-- live `.harmony/orchestration` authority reconciliation
+- live `.octon/orchestration` authority reconciliation
 - canonicalization safety claims beyond package planning artifacts
 - storage-backend or transport selection

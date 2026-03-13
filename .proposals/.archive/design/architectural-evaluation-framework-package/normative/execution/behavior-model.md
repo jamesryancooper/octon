@@ -10,7 +10,7 @@ the future architecture-readiness audit capability.
 1. `configure`
    - capture target path, thresholds, and optional supplemental audit toggles
 2. `classify-target`
-   - resolve `whole-harmony`, `bounded-surface-domain`, or unsupported profile
+   - resolve `whole-octon`, `bounded-surface-domain`, or unsupported profile
 3. `applicability-gate`
    - continue only for supported target classes
 4. `collect-evidence`
@@ -34,5 +34,5 @@ the future architecture-readiness audit capability.
 - Bounded-domain mode must operate only on top-level bounded-surface domains.
 - Surface-only targets route elsewhere and do not use this framework as the
   primary evaluator.
-- Remediation outputs must point to durable Harmony paths outside
+- Remediation outputs must point to durable Octon paths outside
   `/.design-packages/`.

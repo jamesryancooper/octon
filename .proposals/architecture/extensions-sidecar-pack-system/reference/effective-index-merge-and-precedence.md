@@ -2,40 +2,40 @@
 
 ## Purpose
 
-Define the proposed v1 merge rules that Harmony uses when compiling effective
-discovery indexes from core `/.harmony/` content plus enabled `/.extensions/`
+Define the proposed v1 merge rules that Octon uses when compiling effective
+discovery indexes from core `/.octon/` content plus enabled `/.extensions/`
 content.
 
 This contract assumes a single repo-root harness.
 
 ## Inputs
 
-- native Harmony manifests and registries under `/.harmony/`
-- root-harness extension contract values from `/.harmony/harmony.yml`
+- native Octon manifests and registries under `/.octon/`
+- root-harness extension contract values from `/.octon/octon.yml`
 - enabled extension entries from `/.extensions/catalog.yml`
 - validated pack manifests from `/.extensions/<pack-id>/pack.yml`
 - validated fragment files from each enabled pack
 
 ## Output
 
-Harmony writes derived effective indexes under:
+Octon writes derived effective indexes under:
 
-- `/.harmony/engine/_ops/state/extensions/effective/skills/manifest.yml`
-- `/.harmony/engine/_ops/state/extensions/effective/skills/registry.yml`
-- `/.harmony/engine/_ops/state/extensions/effective/commands/manifest.yml`
-- `/.harmony/engine/_ops/state/extensions/effective/templates/catalog.yml`
-- `/.harmony/engine/_ops/state/extensions/effective/prompts/catalog.yml`
-- `/.harmony/engine/_ops/state/extensions/effective/context/catalog.yml`
-- `/.harmony/engine/_ops/state/extensions/effective/validation/catalog.yml`
-- `/.harmony/engine/_ops/state/extensions/effective/artifacts.yml`
-- `/.harmony/engine/_ops/state/extensions/lock.yml`
+- `/.octon/engine/_ops/state/extensions/effective/skills/manifest.yml`
+- `/.octon/engine/_ops/state/extensions/effective/skills/registry.yml`
+- `/.octon/engine/_ops/state/extensions/effective/commands/manifest.yml`
+- `/.octon/engine/_ops/state/extensions/effective/templates/catalog.yml`
+- `/.octon/engine/_ops/state/extensions/effective/prompts/catalog.yml`
+- `/.octon/engine/_ops/state/extensions/effective/context/catalog.yml`
+- `/.octon/engine/_ops/state/extensions/effective/validation/catalog.yml`
+- `/.octon/engine/_ops/state/extensions/effective/artifacts.yml`
+- `/.octon/engine/_ops/state/extensions/lock.yml`
 
 These effective catalogs are runtime-facing projections. They are not
 hand-edited.
 
 ## Merge Rules
 
-1. Start with native Harmony content as the base.
+1. Start with native Octon content as the base.
 2. Resolve enabled packs from `catalog.yml`.
 3. Validate every enabled pack before merge.
 4. Topologically order packs by declared dependencies.
@@ -49,37 +49,37 @@ hand-edited.
 ## Rebased Permission And Output Rules
 
 If an extension artifact declares runtime writes or durable output paths,
-Harmony must rebase those declarations into Harmony-owned destinations and
+Octon must rebase those declarations into Octon-owned destinations and
 record the result in `artifacts.yml`.
 
 Allowed rebased destination classes include:
 
-- `/.harmony/capabilities/runtime/skills/_ops/state/logs/**`
-- `/.harmony/engine/_ops/state/extensions/**`
-- `/.harmony/output/reports/**`
+- `/.octon/capabilities/runtime/skills/_ops/state/logs/**`
+- `/.octon/engine/_ops/state/extensions/**`
+- `/.octon/output/reports/**`
 
 The compiler must reject:
 
 - writes that would resolve inside `/.extensions/**`
-- writes that escape approved Harmony-owned roots
+- writes that escape approved Octon-owned roots
 - ambiguous relative output declarations
 
 ## Precedence
 
 Precedence is strict:
 
-1. native Harmony authority
+1. native Octon authority
 2. enabled extension contributions
 3. disabled or invalid packs are excluded entirely
 
-Native Harmony entries are never overridden by extension content.
+Native Octon entries are never overridden by extension content.
 
 Compatibility is strict:
 
-- `pack.yml.compatibility.harmony_version` must match
-  `harmony.yml.versioning.harness.release_version`
+- `pack.yml.compatibility.octon_version` must match
+  `octon.yml.versioning.harness.release_version`
 - `pack.yml.compatibility.extensions_api_version` must match
-  `harmony.yml.extensions.api_version`
+  `octon.yml.extensions.api_version`
 - every dependency edge must satisfy the required version range
 
 Catalog selection is strict:
@@ -130,9 +130,9 @@ Compilation fails closed when:
 - catalog selection mismatches pack identity or version
 - any artifact path cannot be rebased into `artifacts.yml`
 - any declared write scope or durable output path cannot be rebased into an
-  approved Harmony-owned destination
+  approved Octon-owned destination
 
-When compilation fails, Harmony must not publish a partial effective generation.
+When compilation fails, Octon must not publish a partial effective generation.
 
 ## Freshness And Invalidation
 
@@ -145,7 +145,7 @@ When compilation fails, Harmony must not publish a partial effective generation.
 - artifact map digest
 - compile timestamp
 
-Before runtime consumption, Harmony must verify that current source digests
+Before runtime consumption, Octon must verify that current source digests
 still match the active lock.
 
 If the lock is stale:
@@ -158,7 +158,7 @@ If the lock is stale:
 ## Withdrawal And Cleanup
 
 When fallback excludes a previously active pack or rejects a stale generation,
-Harmony must:
+Octon must:
 
 1. rebuild host-visible projections from the surviving generation
 2. rebuild extension-aware policy catalogs from the surviving generation

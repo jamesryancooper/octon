@@ -36,7 +36,7 @@ whenever files are added, removed, or reorganized.
 - `contracts/schemas/architecture-readiness-report.schema.json`
 - `contracts/schemas/architecture-readiness-target.schema.json`
 - `contracts/fixtures/valid/bounded-domain-target.json`
-- `contracts/fixtures/valid/whole-harmony-target.json`
+- `contracts/fixtures/valid/whole-octon-target.json`
 - `contracts/fixtures/invalid/non-target-domain.json`
 - `conformance/README.md`
 - `conformance/validate_scenarios.sh`

@@ -1,0 +1,6 @@
+# Wasmtime compilation cache configuration.
+# The cache directory lives under the repo-local Octon state dir.
+
+[cache]
+enabled = true
+directory = ".octon/engine/_ops/state/wasmtime-cache"

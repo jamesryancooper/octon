@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Translate Harmony’s routing, authority, escalation, and fail-closed principles
+Translate Octon’s routing, authority, escalation, and fail-closed principles
 into orchestration-specific execution control rules.
 
 ## Core Rule
@@ -150,7 +150,7 @@ Blocked state is not permission to fall back to implicit behavior.
 
 ## Break-Glass And Emergency Override Posture
 
-Harmony does not assume broad break-glass autonomy by default.
+Octon does not assume broad break-glass autonomy by default.
 
 If emergency override is permitted, it must be limited to:
 

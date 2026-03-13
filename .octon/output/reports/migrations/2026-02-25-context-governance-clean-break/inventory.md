@@ -1,0 +1,74 @@
+# Inventory
+
+## Added
+
+- `.octon/assurance/runtime/_ops/scripts/validate-context-overhead-budget.sh`
+- `.octon/assurance/runtime/_ops/scripts/validate-developer-context-policy.sh`
+- `.octon/capabilities/runtime/services/interfaces/agent-platform/fixtures/edge.json`
+- `.octon/cognition/runtime/migrations/2026-02-25-context-governance-clean-break/plan.md`
+- `.octon/engine/governance/instruction-layer-precedence.md`
+- `.octon/engine/runtime/spec/instruction-layer-manifest-v1.schema.json`
+- `.octon/output/reports/packages/2026-02-25-context-governance-clean-break/PATCHPLAN.md`
+- `.octon/output/reports/analysis/2026-02-25-context-governance-integration-task-breakdown.md`
+- `.octon/output/reports/migrations/2026-02-25-context-governance-clean-break/bundle.yml`
+- `.octon/output/reports/migrations/2026-02-25-context-governance-clean-break/commands.md`
+- `.octon/output/reports/migrations/2026-02-25-context-governance-clean-break/evidence.md`
+- `.octon/output/reports/migrations/2026-02-25-context-governance-clean-break/inventory.md`
+- `.octon/output/reports/migrations/2026-02-25-context-governance-clean-break/validation.md`
+
+## Modified
+
+- `.octon/assurance/practices/complete.md`
+- `.octon/assurance/practices/session-exit.md`
+- `.octon/assurance/runtime/_ops/scripts/alignment-check.sh`
+- `.octon/capabilities/_ops/scripts/policy-acp-request.sh`
+- `.octon/capabilities/_ops/scripts/policy-receipt-write.sh`
+- `.octon/capabilities/_ops/tests/test-deny-by-default-runtime.sh`
+- `.octon/capabilities/governance/policy/acp-provenance-fields.schema.json`
+- `.octon/capabilities/governance/policy/deny-by-default.v2.schema.json`
+- `.octon/capabilities/governance/policy/deny-by-default.v2.yml`
+- `.octon/capabilities/practices/services-conventions/run-records.md`
+- `.octon/capabilities/runtime/commands/init.md`
+- `.octon/capabilities/runtime/services/_ops/scripts/enforce-deny-by-default.sh`
+- `.octon/capabilities/runtime/services/_ops/state/deny-by-default-policy.catalog.yml`
+- `.octon/capabilities/runtime/services/execution/agent/fixtures/edge.json`
+- `.octon/capabilities/runtime/services/execution/agent/guide.md`
+- `.octon/capabilities/runtime/services/execution/agent/impl/agent.sh`
+- `.octon/capabilities/runtime/services/execution/agent/schema/output.schema.json`
+- `.octon/capabilities/runtime/services/execution/flow/fixtures/edge.json`
+- `.octon/capabilities/runtime/services/execution/flow/guide.md`
+- `.octon/capabilities/runtime/services/execution/flow/impl/flow-client.sh`
+- `.octon/capabilities/runtime/services/execution/flow/schema/output.schema.json`
+- `.octon/capabilities/runtime/services/interfaces/filesystem-discovery/contract.md`
+- `.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/contract.md`
+- `.octon/capabilities/runtime/skills/_ops/state/deny-by-default-policy.catalog.yml`
+- `.octon/capabilities/runtime/skills/audit/audit-subsystem-health/alignment-notes.md`
+- `.octon/cognition/_meta/architecture/specification.md`
+- `.octon/cognition/practices/methodology/migrations/ci-gates.md`
+- `.octon/cognition/practices/methodology/migrations/legacy-banlist.md`
+- `.octon/cognition/runtime/context/decisions.md`
+- `.octon/cognition/runtime/context/index.yml`
+- `.octon/cognition/runtime/evidence/index.yml`
+- `.octon/cognition/runtime/knowledge/graph/edges.yml`
+- `.octon/cognition/runtime/knowledge/graph/nodes.yml`
+- `.octon/cognition/runtime/migrations/index.yml`
+- `.octon/continuity/_meta/architecture/continuity-plane.md`
+- `.octon/continuity/_meta/architecture/runs-retention.md`
+- `.octon/continuity/runs/retention.json`
+- `.octon/engine/_meta/evidence/verification-scenarios.md`
+- `.octon/engine/governance/README.md`
+- `.octon/engine/runtime/config/policy-interface.yml`
+- `.octon/engine/runtime/policy`
+- `.octon/engine/runtime/spec/policy-digest-v1.md`
+- `.octon/engine/runtime/spec/policy-interface-v1.md`
+- `.octon/engine/runtime/spec/policy-receipt-v1.schema.json`
+- `.octon/orchestration/runtime/workflows/audit/audit-pre-release-workflow/08-verify.md`
+- `.octon/orchestration/runtime/workflows/audit/audit-pre-release-workflow/WORKFLOW.md`
+- `.octon/orchestration/runtime/workflows/registry.yml`
+- `.octon/output/assurance/results/contract-coverage-latest.md`
+- `.octon/scaffolding/runtime/_ops/scripts/init-project.sh`
+- `.octon/scaffolding/runtime/templates/AGENTS.md`
+
+## Removed
+
+- None

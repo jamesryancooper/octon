@@ -5,37 +5,37 @@ on:
     branches:
       - main
     paths:
-      - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
-      - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
-      - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
-      - '.harmony/capabilities/runtime/services/manifest.runtime.yml'
-      - '.harmony/capabilities/runtime/services/registry.runtime.yml'
-      - '.harmony/engine/runtime/**'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
-      - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv'
+      - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+      - '.octon/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+      - '.octon/capabilities/runtime/services/interfaces/filesystem-watch/**'
+      - '.octon/capabilities/runtime/services/manifest.runtime.yml'
+      - '.octon/capabilities/runtime/services/registry.runtime.yml'
+      - '.octon/engine/runtime/**'
+      - '.octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
+      - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv'
       - '.github/workflows/filesystem-interfaces-runtime.yml'
   pull_request:
     paths:
-      - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
-      - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
-      - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
-      - '.harmony/capabilities/runtime/services/manifest.runtime.yml'
-      - '.harmony/capabilities/runtime/services/registry.runtime.yml'
-      - '.harmony/engine/runtime/**'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
-      - '.harmony/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
-      - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv'
+      - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+      - '.octon/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+      - '.octon/capabilities/runtime/services/interfaces/filesystem-watch/**'
+      - '.octon/capabilities/runtime/services/manifest.runtime.yml'
+      - '.octon/capabilities/runtime/services/registry.runtime.yml'
+      - '.octon/engine/runtime/**'
+      - '.octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
+      - '.octon/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
+      - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv'
       - '.github/workflows/filesystem-interfaces-runtime.yml'
 
 permissions:
@@ -64,32 +64,32 @@ jobs:
         with:
           filters: |
             runtime_required:
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
-              - '.harmony/capabilities/runtime/services/manifest.runtime.yml'
-              - '.harmony/capabilities/runtime/services/registry.runtime.yml'
-              - '.harmony/engine/runtime/**'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-watch/**'
+              - '.octon/capabilities/runtime/services/manifest.runtime.yml'
+              - '.octon/capabilities/runtime/services/registry.runtime.yml'
+              - '.octon/engine/runtime/**'
+              - '.octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
+              - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh'
+              - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-integration.sh'
+              - '.octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+              - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
+              - '.octon/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
               - '.github/workflows/filesystem-interfaces-runtime.yml'
-              - '!.harmony/capabilities/runtime/services/interfaces/**/SERVICE.md'
-              - '!.harmony/capabilities/runtime/services/interfaces/**/contract.md'
+              - '!.octon/capabilities/runtime/services/interfaces/**/SERVICE.md'
+              - '!.octon/capabilities/runtime/services/interfaces/**/contract.md'
             perf_required:
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
-              - '.harmony/engine/runtime/**'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-watch/**'
+              - '.octon/engine/runtime/**'
+              - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh'
+              - '.octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv'
               - '.github/workflows/filesystem-interfaces-runtime.yml'
-              - '!.harmony/capabilities/runtime/services/interfaces/**/SERVICE.md'
-              - '!.harmony/capabilities/runtime/services/interfaces/**/contract.md'
+              - '!.octon/capabilities/runtime/services/interfaces/**/SERVICE.md'
+              - '!.octon/capabilities/runtime/services/interfaces/**/contract.md'
 
   validate:
     name: validate-${{ matrix.os }}
@@ -134,57 +134,57 @@ jobs:
 
       - name: Build split filesystem wasm services from source
         run: |
-          .harmony/engine/runtime/run service build interfaces/filesystem-snapshot
-          .harmony/engine/runtime/run service build interfaces/filesystem-discovery
-          .harmony/engine/runtime/run service build interfaces/filesystem-watch
+          .octon/engine/runtime/run service build interfaces/filesystem-snapshot
+          .octon/engine/runtime/run service build interfaces/filesystem-discovery
+          .octon/engine/runtime/run service build interfaces/filesystem-watch
 
       - name: Unit tests (filesystem-snapshot Rust crate)
         if: needs.changes.outputs.runtime_required == 'true'
-        working-directory: .harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/rust
+        working-directory: .octon/capabilities/runtime/services/interfaces/filesystem-snapshot/rust
         run: |
           cargo test --quiet
 
       - name: Unit tests (filesystem-discovery Rust crate)
         if: needs.changes.outputs.runtime_required == 'true'
-        working-directory: .harmony/capabilities/runtime/services/interfaces/filesystem-discovery/rust
+        working-directory: .octon/capabilities/runtime/services/interfaces/filesystem-discovery/rust
         run: |
           cargo test --quiet
 
       - name: Unit tests (filesystem-watch Rust crate)
         if: needs.changes.outputs.runtime_required == 'true'
-        working-directory: .harmony/capabilities/runtime/services/interfaces/filesystem-watch/rust
+        working-directory: .octon/capabilities/runtime/services/interfaces/filesystem-watch/rust
         run: |
           cargo test --quiet
 
       - name: Validate runtime registry and wasm package
         if: needs.changes.outputs.runtime_required == 'true'
         run: |
-          .harmony/engine/runtime/run validate
+          .octon/engine/runtime/run validate
 
       - name: Validate filesystem interface services
         if: needs.changes.outputs.runtime_required == 'true'
         run: |
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+          .octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
 
       - name: Determinism regression
         if: needs.changes.outputs.runtime_required == 'true'
         run: |
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
+          .octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-determinism.sh
 
       - name: Build cross-OS fixture snapshot id
         if: needs.changes.outputs.runtime_required == 'true'
         run: |
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
-          FIXTURE_ROOT=".harmony/output/.tmp/filesystem-interfaces-bench/cross-os-fixture"
-          STATE_DIR=".harmony/engine/_ops/state/snapshots-cross-os"
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
+          FIXTURE_ROOT=".octon/output/.tmp/filesystem-interfaces-bench/cross-os-fixture"
+          STATE_DIR=".octon/engine/_ops/state/snapshots-cross-os"
           rm -rf "$FIXTURE_ROOT"
-          .harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh \
+          .octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh \
             --profile ci \
             --fixture-root "$FIXTURE_ROOT" >/dev/null
           SNAP_INPUT="$(printf '{"root":"%s","state_dir":"%s","set_current":false}' "$FIXTURE_ROOT" "$STATE_DIR")"
-          SNAP_OUT="$(.harmony/engine/runtime/run tool interfaces/filesystem-snapshot snapshot.build --json "$SNAP_INPUT")"
+          SNAP_OUT="$(.octon/engine/runtime/run tool interfaces/filesystem-snapshot snapshot.build --json "$SNAP_INPUT")"
           SNAP_ID="$(printf '%s' "$SNAP_OUT" | tr -d '\n' | sed -nE 's/.*"snapshot_id"[[:space:]]*:[[:space:]]*"([^"]+)".*/\1/p')"
           if [[ -z "$SNAP_ID" ]]; then
             echo "ERROR: failed to extract snapshot_id from fixture snapshot output"
@@ -205,9 +205,9 @@ jobs:
         if: needs.changes.outputs.runtime_required == 'true'
         run: |
           mkdir -p "$RUNNER_TEMP/filesystem-interfaces-slo"
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh \
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh
+          .octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh \
             --profile ci \
             --no-report \
             --raw-out "$RUNNER_TEMP/filesystem-interfaces-slo/filesystem-interfaces-slo.raw.tsv" \
@@ -233,8 +233,8 @@ jobs:
         if: ${{ matrix.run_perf_regression && needs.changes.outputs.perf_required == 'true' }}
         run: |
           mkdir -p "$RUNNER_TEMP/filesystem-interfaces-perf"
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh \
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh
+          .octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh \
             --profile ci \
             --no-report \
             --raw-out "$RUNNER_TEMP/filesystem-interfaces-perf/filesystem-interfaces-perf.raw.tsv" \

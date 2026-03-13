@@ -1,6 +1,6 @@
 # Manifest and Controller Prompt Pack for Studio Graph UX
 
-Below is a ready-to-run pack built around the exact page/frame structure, required screen list, named component groups, and current data constraints in the Harmony Studio docs. It sets the primary design target at `1600 x 1000`, validates the workbench at the minimum supported desktop `1366 x 860`, preserves the graph-first-but-not-graph-only model, and avoids inventing unsupported data such as ownership, timestamps, formal severity tiers, or rich edge metadata.
+Below is a ready-to-run pack built around the exact page/frame structure, required screen list, named component groups, and current data constraints in the Octon Studio docs. It sets the primary design target at `1600 x 1000`, validates the workbench at the minimum supported desktop `1366 x 860`, preserves the graph-first-but-not-graph-only model, and avoids inventing unsupported data such as ownership, timestamps, formal severity tiers, or rich edge metadata.
 
 The most reliable automation is a phased run: lock the visual system first, then generate boards, then generate the core screens by delta from the anchor, then generate prototype/spec boards. That matches the required page order and helps keep shell proportions, selection treatment, dense-graph behavior, and apply gating consistent across all outputs.
 
@@ -16,7 +16,7 @@ The most reliable automation is a phased run: lock the visual system first, then
 ## 1) Manifest
 
 ```yaml
-project: Harmony Studio Graph UX
+project: Octon Studio Graph UX
 source_of_truth:
   - full-designer-brief.md
   - short-designer-brief.md
@@ -27,7 +27,7 @@ source_of_truth:
 global_contract:
   primary_design_target: "1600x1000 desktop"
   minimum_supported_desktop: "1366x860"
-  product: "Harmony Studio"
+  product: "Octon Studio"
   feel:
     - technical
     - calm
@@ -108,7 +108,7 @@ phases:
     - "Desktop / 1600x1000 / Overview / Workflow Selected"
 
   phase_b_boards:
-    - "Cover / Harmony Studio Graph UX"
+    - "Cover / Octon Studio Graph UX"
     - "Cover / Product Goals"
     - "Cover / Data Model Summary"
     - "Foundations / Color Styles"
@@ -302,7 +302,7 @@ Use this first.
 Use the MANIFEST already provided in this thread as the operating contract.
 
 Task:
-Lock the Harmony Studio visual system before bulk generation.
+Lock the Octon Studio visual system before bulk generation.
 
 Generate these frames in order:
 1. Foundations / Grid / Desktop 1600x1000 / Primary
@@ -369,7 +369,7 @@ Task:
 Generate the remaining cover, foundations, and component boards.
 
 Generate these frames in order:
-1. Cover / Harmony Studio Graph UX
+1. Cover / Octon Studio Graph UX
 2. Cover / Product Goals
 3. Cover / Data Model Summary
 4. Foundations / Color Styles
@@ -566,7 +566,7 @@ After the image, print a short change summary.
 Use this after all phases to check coverage against the docs.
 
 ```text
-Audit the generated Harmony Studio design set against the MANIFEST and the source docs.
+Audit the generated Octon Studio design set against the MANIFEST and the source docs.
 
 Return:
 1. Coverage table by frame name

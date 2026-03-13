@@ -1,0 +1,85 @@
+format_version: services-registry-v1
+services:
+  interfaces/filesystem-snapshot:
+    owner: agency/platform
+    risk_tier: medium
+    approvals:
+      invoke: none
+      writes: human_if_outside_scope
+    depends_on: []
+    io:
+      state_dir: .octon/engine/_ops/state/snapshots
+    notes:
+      - Writer plane for deterministic snapshot lifecycle and bounded fs.* operations.
+      - Snapshot artifacts are canonical inputs for filesystem-discovery and filesystem-watch.
+    observability:
+      log_events: true
+      trace_inputs: redacted
+      trace_outputs: redacted
+  interfaces/filesystem-discovery:
+    owner: agency/platform
+    risk_tier: medium
+    approvals:
+      invoke: none
+      writes: none
+    depends_on:
+      - interfaces/filesystem-snapshot
+    io:
+      state_dir: .octon/engine/_ops/state/snapshots
+    notes:
+      - Query plane for kg.* and discover.* operations over deterministic snapshots.
+      - Read-only plane; no filesystem writes required.
+    observability:
+      log_events: true
+      trace_inputs: redacted
+      trace_outputs: redacted
+  interfaces/filesystem-watch:
+    owner: agency/platform
+    risk_tier: medium
+    approvals:
+      invoke: none
+      writes: human_if_outside_scope
+    depends_on:
+      - interfaces/filesystem-snapshot
+    io:
+      state_dir: .octon/engine/_ops/state/kv
+    notes:
+      - OS-agnostic polling watcher hints persisted via runtime state files.
+      - Volatile runtime state and .git paths are excluded by default.
+    observability:
+      log_events: true
+      trace_inputs: redacted
+      trace_outputs: redacted
+  interfaces/kv:
+    owner: agency/platform
+    risk_tier: low
+    approvals:
+      invoke: none
+      writes: human_if_outside_scope
+    depends_on: []
+    io:
+      state_dir: .octon/engine/_ops/state/kv
+    notes:
+      - Values are UTF-8 strings in v1.
+      - Keys are case-sensitive.
+    observability:
+      log_events: true
+      trace_inputs: redacted
+      trace_outputs: redacted
+  execution/flow:
+    owner: agency/execution
+    risk_tier: medium
+    approvals:
+      invoke: none
+      writes: human_if_outside_scope
+    depends_on:
+      - interfaces/kv
+    io:
+      state_dir: .octon/engine/_ops/state/runs/flow
+    notes:
+      - Native-octon adapter is the default execution path.
+      - LangGraph HTTP integration is opt-in via adapter/runtime config.
+    observability:
+      log_events: true
+      trace_inputs: redacted
+      trace_outputs: redacted

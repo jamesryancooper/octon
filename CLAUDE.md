@@ -1,1 +1,1 @@
-.harmony/AGENTS.md
+.octon/AGENTS.md

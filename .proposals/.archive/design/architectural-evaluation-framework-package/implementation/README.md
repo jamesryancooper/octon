@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Translate this temporary package into durable Harmony surfaces without turning
+Translate this temporary package into durable Octon surfaces without turning
 the package itself into a live authority.
 
 ## Integration Decision
@@ -13,13 +13,13 @@ audit surfaces to mean something different.
 ### Primary Durable Integration
 
 - `audit-architecture-readiness` skill in
-  `/.harmony/capabilities/runtime/skills/audit/`
+  `/.octon/capabilities/runtime/skills/audit/`
 - `audit-architecture-readiness` workflow in
-  `/.harmony/orchestration/runtime/workflows/audit/`
+  `/.octon/orchestration/runtime/workflows/audit/`
 - methodology docs in
-  `/.harmony/cognition/practices/methodology/architecture-readiness/`
+  `/.octon/cognition/practices/methodology/architecture-readiness/`
 - reusable ADR review matrix in
-  `/.harmony/scaffolding/governance/patterns/`
+  `/.octon/scaffolding/governance/patterns/`
 
 ## Why New Surfaces
 
@@ -45,7 +45,7 @@ audit surfaces to mean something different.
 
 The live framework should support only:
 
-- whole-harness architecture audits against `/.harmony/`
+- whole-harness architecture audits against `/.octon/`
 - bounded-surface top-level domain audits for `agency`, `capabilities`,
   `cognition`, `orchestration`, `assurance`, `scaffolding`, and `engine`
 

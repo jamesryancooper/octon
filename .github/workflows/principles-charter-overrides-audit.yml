@@ -19,12 +19,12 @@ jobs:
       - name: Run override audit
         run: |
           set -euo pipefail
-          bash .harmony/cognition/_ops/principles/scripts/audit-principles-charter-overrides.sh
+          bash .octon/cognition/_ops/principles/scripts/audit-principles-charter-overrides.sh
 
       - name: Upload audit report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: principles-charter-overrides-audit
-          path: .harmony/output/reports/analysis/*principles-charter-overrides-audit.md
+          path: .octon/output/reports/analysis/*principles-charter-overrides-audit.md
           if-no-files-found: error

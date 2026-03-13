@@ -1,12 +1,12 @@
 {
   "schema_version": "architecture-readiness-target-v1",
   "target_id": "capabilities-domain",
-  "scope_path": ".harmony/capabilities",
+  "scope_path": ".octon/capabilities",
   "target_profile": "bounded-surface-domain",
   "evaluation_mode": "bounded-domain",
   "domain_id": "capabilities",
   "supplemental_audits": [
     "audit-domain-architecture"
   ],
-  "notes": "Bounded-surface domain evaluation for a top-level Harmony domain."
+  "notes": "Bounded-surface domain evaluation for a top-level Octon domain."
 }

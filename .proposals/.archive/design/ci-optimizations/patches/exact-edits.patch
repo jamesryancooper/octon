@@ -1,4 +1,4 @@
-# Harmony CI optimization patch blueprint
+# Octon CI optimization patch blueprint
 # Apply manually or with your preferred patching workflow.
 # Source of truth: .proposals/ci-optimizations/execution-plan.md
 
@@ -26,17 +26,17 @@ diff --git a/.github/workflows/ai-review-gate.yml b/.github/workflows/ai-review-
 +          filters: |
 +            risk:
 +              - '.github/workflows/**'
-+              - '.harmony/**/*.sh'
-+              - '.harmony/**/*.bash'
-+              - '.harmony/**/*.js'
-+              - '.harmony/**/*.ts'
-+              - '.harmony/**/*.rs'
-+              - '.harmony/**/*.json'
-+              - '.harmony/**/*.toml'
-+              - '.harmony/**/*.yml'
-+              - '.harmony/**/*.yaml'
-+              - '.harmony/engine/runtime/run'
-+              - '.harmony/engine/runtime/run.cmd'
++              - '.octon/**/*.sh'
++              - '.octon/**/*.bash'
++              - '.octon/**/*.js'
++              - '.octon/**/*.ts'
++              - '.octon/**/*.rs'
++              - '.octon/**/*.json'
++              - '.octon/**/*.toml'
++              - '.octon/**/*.yml'
++              - '.octon/**/*.yaml'
++              - '.octon/engine/runtime/run'
++              - '.octon/engine/runtime/run.cmd'
 +              - 'AGENTS.md'
 +
 +      - id: provider_trigger
@@ -63,7 +63,7 @@ diff --git a/.github/workflows/ai-review-gate.yml b/.github/workflows/ai-review-
          uses: actions/upload-artifact@v4
          with:
            name: ai-gate-findings-${{ matrix.provider }}
-           path: .harmony/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json
+           path: .octon/output/.tmp/ai-gate/findings-${{ matrix.provider }}.json
            if-no-files-found: error
 +          retention-days: 3
 @@
@@ -83,7 +83,7 @@ diff --git a/.github/workflows/ai-review-gate.yml b/.github/workflows/ai-review-
        - name: Ensure provider findings files exist
          run: |
            set -euo pipefail
-           mkdir -p .harmony/output/.tmp/ai-gate/artifacts
+           mkdir -p .octon/output/.tmp/ai-gate/artifacts
 @@
 +            status="unavailable"
 +            summary="Provider artifact missing; marked unavailable."
@@ -118,7 +118,7 @@ diff --git a/.github/workflows/ai-review-gate.yml b/.github/workflows/ai-review-
          uses: actions/upload-artifact@v4
          with:
            name: ai-gate-decision
-           path: .harmony/output/.tmp/ai-gate/decision.json
+           path: .octon/output/.tmp/ai-gate/decision.json
            if-no-files-found: error
 +          retention-days: 7
 
@@ -126,11 +126,11 @@ diff --git a/.github/workflows/filesystem-interfaces-perf-regression.yml b/.gith
 --- a/.github/workflows/filesystem-interfaces-perf-regression.yml
 +++ b/.github/workflows/filesystem-interfaces-perf-regression.yml
 @@
--      - '.harmony/engine/**'
-+      - '.harmony/engine/runtime/**'
+-      - '.octon/engine/**'
++      - '.octon/engine/runtime/**'
 @@
--      - '.harmony/engine/**'
-+      - '.harmony/engine/runtime/**'
+-      - '.octon/engine/**'
++      - '.octon/engine/runtime/**'
 @@
  permissions:
    contents: read
@@ -193,10 +193,10 @@ diff --git a/.github/workflows/smoke.yml b/.github/workflows/smoke.yml
 -          set +e
 -          {
 -            echo "Running harness smoke checks..."
--            chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
--            chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
--            .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
--            .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+-            chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+-            chmod +x .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+-            .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+-            .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 -          } > smoke-summary.txt 2>&1
 -          status=$?
 -          set -e
@@ -223,10 +223,10 @@ diff --git a/.github/workflows/smoke.yml b/.github/workflows/smoke.yml
 -            });
 -            if (failed) core.setFailed('Smoke checks failed');
 +          echo "Running harness smoke checks..."
-+          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-+          chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
-+          .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-+          .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
++          chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
++          chmod +x .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
++          .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
++          .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 
 diff --git a/.github/workflows/pr-autonomy-policy.yml b/.github/workflows/pr-autonomy-policy.yml
 --- a/.github/workflows/pr-autonomy-policy.yml
@@ -348,11 +348,11 @@ diff --git a/.github/workflows/codex-pr-review.yml b/.github/workflows/codex-pr-
 +          filters: |
 +            risky:
 +              - '.github/workflows/**'
-+              - '.harmony/agency/governance/**'
-+              - '.harmony/cognition/governance/**'
-+              - '.harmony/capabilities/runtime/**'
-+              - '.harmony/engine/runtime/**'
-+              - '.harmony/assurance/runtime/**'
++              - '.octon/agency/governance/**'
++              - '.octon/cognition/governance/**'
++              - '.octon/capabilities/runtime/**'
++              - '.octon/engine/runtime/**'
++              - '.octon/assurance/runtime/**'
 +              - 'AGENTS.md'
 +
    codex-review:
@@ -373,9 +373,9 @@ diff --git a/.github/workflows/codex-pr-review.yml b/.github/workflows/codex-pr-
      runs-on: ubuntu-latest
 +    timeout-minutes: 20
 
-diff --git a/.harmony/agency/practices/github-autonomy-runbook.md b/.harmony/agency/practices/github-autonomy-runbook.md
---- a/.harmony/agency/practices/github-autonomy-runbook.md
-+++ b/.harmony/agency/practices/github-autonomy-runbook.md
+diff --git a/.octon/agency/practices/github-autonomy-runbook.md b/.octon/agency/practices/github-autonomy-runbook.md
+--- a/.octon/agency/practices/github-autonomy-runbook.md
++++ b/.octon/agency/practices/github-autonomy-runbook.md
 @@
  - `AI Review Gate` reports blockers in strict mode:
    fix blockers or apply temporary waiver labels (`ai-gate:waive` +

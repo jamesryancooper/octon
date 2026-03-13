@@ -1,11 +1,11 @@
 # Runtime Shape And Directory Structure
 
-## Current Harmony Runtime Shape
+## Current Octon Runtime Shape
 
-Today, Harmony's orchestration runtime centers on:
+Today, Octon's orchestration runtime centers on:
 
 ```text
-.harmony/orchestration/
+.octon/orchestration/
 ├── runtime/
 │   ├── workflows/
 │   └── missions/
@@ -23,7 +23,7 @@ This is a strong foundation. It already separates:
 ## Proposed Mature Runtime Shape
 
 ```text
-.harmony/orchestration/
+.octon/orchestration/
 ├── runtime/
 │   ├── campaigns/         # Proposed strategic portfolio containers
 │   ├── missions/          # Existing bounded initiative state
@@ -66,7 +66,7 @@ The mature model should preserve a split between:
 
 ## Why `runs` Should Be Split
 
-Harmony already uses `continuity/runs/` as append-oriented evidence storage.
+Octon already uses `continuity/runs/` as append-oriented evidence storage.
 That should remain the durable evidence store.
 
 If a first-class orchestration `runs` surface is introduced, it should own:
@@ -236,7 +236,7 @@ when the incident tracks executable response actions. `timeline.md` and
 
 ## Directory-Shape Guidance
 
-The mature model should follow the same principle Harmony already uses
+The mature model should follow the same principle Octon already uses
 elsewhere:
 
 - runtime directories own active executable or stateful surfaces

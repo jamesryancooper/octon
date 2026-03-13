@@ -1,0 +1,30 @@
+# Architecture Resources Section Index
+# Sidecar index for targeted discovery into architecture resources corpus.
+
+schema_version: "1.0"
+source: resources.md
+sections:
+  - id: blueprint
+    heading: "Octon Polyglot Monorepo (Internal Canonical Blueprint)"
+    summary: Canonical blueprint and contribution posture.
+    when: Start here for architecture resource orientation.
+
+  - id: foundational-architecture
+    heading: "Foundational Architecture"
+    summary: Core architecture patterns and baseline decisions.
+    when: When selecting architecture patterns.
+
+  - id: observability-operability
+    heading: "Reliability, Observability, and Operability"
+    summary: Runtime reliability and diagnostics resources.
+    when: When changing observability and operational controls.
+
+  - id: determinism-quality
+    heading: "Determinism, Testing, and Quality Gates"
+    summary: Deterministic execution and quality enforcement resources.
+    when: When changing verification and release guardrails.
+
+  - id: tools-frameworks
+    heading: "Tools, Frameworks, and Utilities"
+    summary: Reference tooling catalog and ecosystem links.
+    when: When evaluating toolchain or integration choices.

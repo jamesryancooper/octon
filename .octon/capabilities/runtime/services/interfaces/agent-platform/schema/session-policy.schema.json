@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/agent-platform/session-policy.v1.json",
+  "title": "AgentPlatformSessionPolicy",
+  "description": "Canonical session policy schema for native interop semantics.",
+  "type": "object",
+  "required": [
+    "interop_contract_version",
+    "policy_id",
+    "scope_class",
+    "reset_class",
+    "send_class",
+    "context_budget",
+    "pruning_class",
+    "memory",
+    "routing",
+    "presence"
+  ],
+  "properties": {
+    "interop_contract_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "policy_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "scope_class": {
+      "type": "string",
+      "enum": ["session", "run", "task"]
+    },
+    "reset_class": {
+      "type": "string",
+      "enum": ["none", "soft", "hard"]
+    },
+    "send_class": {
+      "type": "string",
+      "enum": ["append", "replace", "branch"]
+    },
+    "context_budget": {
+      "type": "object",
+      "required": [
+        "max_units",
+        "used_units",
+        "warning_threshold_percent",
+        "flush_threshold_percent"
+      ],
+      "properties": {
+        "max_units": { "type": "integer", "minimum": 1 },
+        "used_units": { "type": "integer", "minimum": 0 },
+        "warning_threshold_percent": { "type": "integer", "const": 80 },
+        "flush_threshold_percent": { "type": "integer", "const": 90 },
+        "unit": {
+          "type": "string",
+          "enum": ["tokens", "characters"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "pruning_class": {
+      "type": "string",
+      "enum": ["none", "conservative", "aggressive"]
+    },
+    "memory": {
+      "type": "object",
+      "required": [
+        "flush_before_compaction",
+        "fail_closed_on_flush_failure"
+      ],
+      "properties": {
+        "flush_before_compaction": { "type": "boolean", "const": true },
+        "fail_closed_on_flush_failure": { "type": "boolean", "const": true }
+      },
+      "additionalProperties": false
+    },
+    "routing": {
+      "type": "object",
+      "required": ["precedence"],
+      "properties": {
+        "precedence": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "human-safety",
+              "governance-policy",
+              "agent-policy",
+              "adapter-execution"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "presence": {
+      "type": "object",
+      "required": ["heartbeat_seconds", "evidence_fields"],
+      "properties": {
+        "heartbeat_seconds": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 300
+        },
+        "evidence_fields": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string" },
+          "allOf": [
+            { "contains": { "const": "run_id" } },
+            { "contains": { "const": "session_id" } },
+            { "contains": { "const": "heartbeat_at" } },
+            { "contains": { "const": "mode" } },
+            { "contains": { "const": "active_capabilities" } },
+            { "contains": { "const": "degraded_capabilities" } }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

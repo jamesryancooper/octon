@@ -37,9 +37,9 @@
     },
     "compatibility": {
       "type": "object",
-      "required": ["harmony_version", "extensions_api_version"],
+      "required": ["octon_version", "extensions_api_version"],
       "properties": {
-        "harmony_version": {
+        "octon_version": {
           "type": "string",
           "minLength": 1
         },

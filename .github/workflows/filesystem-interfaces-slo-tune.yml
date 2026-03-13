@@ -50,10 +50,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/download-filesystem-interfaces-slo-history.sh
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/download-filesystem-interfaces-slo-history.sh
           HISTORY_DIR="$RUNNER_TEMP/filesystem-interfaces-slo-history"
           mkdir -p "$HISTORY_DIR"
-          .harmony/capabilities/runtime/services/_ops/scripts/download-filesystem-interfaces-slo-history.sh \
+          .octon/capabilities/runtime/services/_ops/scripts/download-filesystem-interfaces-slo-history.sh \
             --repo "$GITHUB_REPOSITORY" \
             --workflow filesystem-interfaces-runtime.yml \
             --artifact-name filesystem-interfaces-slo-summary \
@@ -63,20 +63,20 @@ jobs:
 
       - name: Tune SLO budgets from history window
         run: |
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh \
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh
+          .octon/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh \
             --history-dir "$HISTORY_DIR" \
-            --budgets-file .harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/slo-budgets.tsv \
+            --budgets-file .octon/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/slo-budgets.tsv \
             --min-runs "$MIN_RUNS" \
             --headroom-percent "$HEADROOM_PERCENT" \
             --max-tighten-percent "$MAX_TIGHTEN_PERCENT"
 
       - name: Validate tuned budgets
         run: |
-          .harmony/engine/runtime/run service build interfaces/filesystem-snapshot
-          .harmony/engine/runtime/run service build interfaces/filesystem-discovery
-          .harmony/engine/runtime/run service build interfaces/filesystem-watch
-          FILESYSTEM_INTERFACES_VALIDATE_SLO=1 bash .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+          .octon/engine/runtime/run service build interfaces/filesystem-snapshot
+          .octon/engine/runtime/run service build interfaces/filesystem-discovery
+          .octon/engine/runtime/run service build interfaces/filesystem-watch
+          FILESYSTEM_INTERFACES_VALIDATE_SLO=1 bash .octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v6
@@ -94,7 +94,7 @@ jobs:
           branch: perf/filesystem-interfaces-slo-tune
           delete-branch: true
           add-paths: |
-            .harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/slo-budgets.tsv
+            .octon/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/slo-budgets.tsv
 
   notify-on-failure:
     name: notify-on-failure

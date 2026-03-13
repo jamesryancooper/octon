@@ -1,13 +1,13 @@
 {
   "scenario_id": "whole-harness-mode",
   "suite": "scope-classification",
-  "description": "Whole Harmony root is accepted and routed to whole-harness mode.",
+  "description": "Whole Octon root is accepted and routed to whole-harness mode.",
   "inputs": {
-    "scope_path": ".harmony"
+    "scope_path": ".octon"
   },
   "expected": {
     "support_decision": "supported",
-    "target_profile": "whole-harmony",
+    "target_profile": "whole-octon",
     "evaluation_mode": "whole-harness"
   }
 }

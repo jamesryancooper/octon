@@ -1,0 +1,9 @@
+{
+  "id": "release-readiness",
+  "description": "Hard checks for CI/release with no automatic broadening.",
+  "auto_grant_tier": "none",
+  "tool_bundle": ["Read", "Glob", "Grep", "Bash(git diff *)", "Bash(git status*)"],
+  "write_scope_bundle": ["Write(.octon/output/reports/*)"],
+  "service_allowlist": ["guard", "cost", "scheduler", "critic"],
+  "deny_rules": ["DDB001_POLICY_FILE_MISSING", "DDB002_POLICY_INVALID", "DDB019_KILL_SWITCH_ACTIVE"]
+}

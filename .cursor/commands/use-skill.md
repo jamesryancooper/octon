@@ -2,7 +2,7 @@
 
 Invoke a harness skill with explicit selection.
 
-See `.harmony/capabilities/skills/registry.yml` for skill definitions and mappings.
+See `.octon/capabilities/skills/registry.yml` for skill definitions and mappings.
 
 ## Usage
 
@@ -25,12 +25,12 @@ See `.harmony/capabilities/skills/registry.yml` for skill definitions and mappin
 
 ## Implementation
 
-1. Read `.harmony/capabilities/skills/registry.yml` for skill definitions and I/O mappings
-2. Load the skill definition from `.harmony/capabilities/skills/<skill-id>/SKILL.md`
+1. Read `.octon/capabilities/skills/registry.yml` for skill definitions and I/O mappings
+2. Load the skill definition from `.octon/capabilities/skills/<skill-id>/SKILL.md`
 4. Validate inputs match skill requirements
 5. Execute the skill's behavior steps
-6. Write outputs to `.harmony/output/drafts/` (always local)
-7. Write run log to `.harmony/capabilities/skills/_state/logs/<skill-id>/<run-id>.md`
+6. Write outputs to `.octon/output/drafts/` (always local)
+7. Write run log to `.octon/capabilities/skills/_state/logs/<skill-id>/<run-id>.md`
 
 ## Progressive Disclosure
 
@@ -58,6 +58,6 @@ Skills can also be invoked via:
 
 ## References
 
-- **Registry:** `.harmony/capabilities/skills/registry.yml`
-- **Documentation:** `.harmony/capabilities/skills/README.md`
-- **Skills README:** `.harmony/capabilities/skills/README.md`
+- **Registry:** `.octon/capabilities/skills/registry.yml`
+- **Documentation:** `.octon/capabilities/skills/README.md`
+- **Skills README:** `.octon/capabilities/skills/README.md`

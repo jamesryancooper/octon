@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://harmony.local/design-packages/orchestration/automation-execution.schema.json",
+  "$id": "https://octon.local/design-packages/orchestration/automation-execution.schema.json",
   "title": "Automation Execution Contract Bundle",
   "type": "object",
   "additionalProperties": false,

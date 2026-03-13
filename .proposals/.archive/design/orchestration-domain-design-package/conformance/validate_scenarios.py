@@ -23,7 +23,7 @@ def normalize_path(value: str) -> str:
     return value.replace("\\", "/")
 
 
-def harmony_glob_match(pattern: str, value: str) -> bool:
+def octon_glob_match(pattern: str, value: str) -> bool:
     normalized_pattern = normalize_path(pattern)
     normalized_value = normalize_path(value)
     return fnmatch.fnmatchcase(normalized_value, normalized_pattern)
@@ -48,7 +48,7 @@ def evaluate_selector(selector: dict, event: dict) -> bool:
     if "source_ref_globs" in selector:
         selector_results.append(
             any(
-                harmony_glob_match(pattern, event["source_ref"])
+                octon_glob_match(pattern, event["source_ref"])
                 for pattern in selector["source_ref_globs"]
             )
         )

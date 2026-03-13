@@ -1,12 +1,12 @@
 {
   "scenario_id": "routing-source-ref-glob-no-match",
   "suite": "routing",
-  "description": "A source_ref outside the declared Harmony path glob does not match.",
+  "description": "A source_ref outside the declared Octon path glob does not match.",
   "event": {
     "watcher_id": "governance-drift-watcher",
     "event_type": "freshness-drift",
     "severity": "warning",
-    "source_ref": ".harmony/capabilities/runtime/services"
+    "source_ref": ".octon/capabilities/runtime/services"
   },
   "automations": [
     {
@@ -14,7 +14,7 @@
       "selector": {
         "watcher_ids": ["governance-drift-watcher"],
         "event_types": ["freshness-drift"],
-        "source_ref_globs": [".harmony/orchestration/runtime/**"],
+        "source_ref_globs": [".octon/orchestration/runtime/**"],
         "match_mode": "all"
       }
     }

@@ -6,12 +6,12 @@ on:
       - main
     paths:
       - '.proposals/design/orchestration-domain-design-proposal/**'
-      - '.harmony/**'
+      - '.octon/**'
       - '.github/workflows/harness-self-containment.yml'
   pull_request:
     paths:
       - '.proposals/design/orchestration-domain-design-proposal/**'
-      - '.harmony/**'
+      - '.octon/**'
       - '.github/workflows/harness-self-containment.yml'
 
 permissions:
@@ -39,89 +39,89 @@ jobs:
           filters: |
             orchestration:
               - '.proposals/design/orchestration-domain-design-proposal/**'
-              - '.harmony/orchestration/**'
-              - '.harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh'
-              - '.harmony/assurance/runtime/_ops/tests/test-validate-orchestration-design-proposal.sh'
-              - '.harmony/engine/practices/local-dev-validation.md'
+              - '.octon/orchestration/**'
+              - '.octon/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh'
+              - '.octon/assurance/runtime/_ops/tests/test-validate-orchestration-design-proposal.sh'
+              - '.octon/engine/practices/local-dev-validation.md'
               - '.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md'
             workflow_manifest:
-              - '.harmony/orchestration/runtime/workflows/**'
-              - '.harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh'
+              - '.octon/orchestration/runtime/workflows/**'
+              - '.octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh'
               - '.github/workflows/harness-self-containment.yml'
               - '.github/workflows/pr-quality.yml'
             services_runtime:
-              - '.harmony/capabilities/runtime/services/**'
-              - '.harmony/capabilities/runtime/commands/**'
-              - '.harmony/cognition/runtime/context/index.yml'
-              - '.harmony/engine/runtime/**'
+              - '.octon/capabilities/runtime/services/**'
+              - '.octon/capabilities/runtime/commands/**'
+              - '.octon/cognition/runtime/context/index.yml'
+              - '.octon/engine/runtime/**'
               - '.github/workflows/filesystem-interfaces-runtime.yml'
               - '.github/workflows/filesystem-interfaces-perf-regression.yml'
               - '.github/workflows/harness-self-containment.yml'
             filesystem_runtime:
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-discovery/**'
-              - '.harmony/capabilities/runtime/services/interfaces/filesystem-watch/**'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-*.sh'
-              - '.harmony/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
-              - '.harmony/capabilities/runtime/services/manifest.yml'
-              - '.harmony/capabilities/runtime/services/registry.yml'
-              - '.harmony/capabilities/runtime/commands/**'
-              - '.harmony/cognition/runtime/context/index.yml'
-              - '.harmony/engine/runtime/**'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+              - '.octon/capabilities/runtime/services/interfaces/filesystem-watch/**'
+              - '.octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
+              - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-*.sh'
+              - '.octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+              - '.octon/capabilities/runtime/services/manifest.yml'
+              - '.octon/capabilities/runtime/services/registry.yml'
+              - '.octon/capabilities/runtime/commands/**'
+              - '.octon/cognition/runtime/context/index.yml'
+              - '.octon/engine/runtime/**'
               - '.github/workflows/filesystem-interfaces-runtime.yml'
               - '.github/workflows/filesystem-interfaces-perf-regression.yml'
               - '.github/workflows/harness-self-containment.yml'
             assurance_contract:
-              - '.harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh'
-              - '.harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh'
-              - '.harmony/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh'
+              - '.octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh'
+              - '.octon/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh'
+              - '.octon/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh'
               - '.github/workflows/harness-self-containment.yml'
 
       - name: Validate harness structure contract
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
 
       - name: Validate bounded-audit convergence contract
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
+          .octon/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
 
       - name: Test bounded-audit convergence validator
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
-          .harmony/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
+          chmod +x .octon/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
+          .octon/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
 
       - name: Validate workflow manifest and dependency profiles
         if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
-          chmod +x .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
-          .harmony/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+          chmod +x .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+          .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 
       - name: Validate orchestration design proposal
         if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
-          chmod +x .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
-          .harmony/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
+          chmod +x .octon/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
+          .octon/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
 
       - name: Validate orchestration runtime surface hooks
         if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
-          chmod +x .harmony/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
-          .harmony/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
+          chmod +x .octon/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
+          .octon/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
 
       - name: Validate services independence
         if: steps.scope.outputs.services_runtime == 'true'
         run: |
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+          .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
 
       - name: Validate filesystem interface runtime wiring
         if: steps.scope.outputs.filesystem_runtime == 'true'
         run: |
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+          .octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
 
       - name: Skip filesystem interface runtime wiring (no relevant changes)
         if: steps.scope.outputs.filesystem_runtime != 'true'

@@ -2,27 +2,27 @@
 
 Upgrade an older harness to current conventions.
 
-See `.harmony/orchestration/runtime/workflows/meta/migrate-harness/README.md` for full description and steps.
+See `.octon/orchestration/runtime/workflows/meta/migrate-harness/README.md` for full description and steps.
 
 ## Usage
 
 ```text
-/migrate-harness @path/to/.harmony
+/migrate-harness @path/to/.octon
 ```
 
 Or for the root harness:
 
 ```text
-/migrate-harness @.harmony
+/migrate-harness @.octon
 ```
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/runtime/workflows/meta/migrate-harness/`.
+Execute the workflow in `.octon/orchestration/runtime/workflows/meta/migrate-harness/`.
 
 Start with `README.md`, then follow each step in sequence.
 
 ## References
 
-- **Canonical:** `.harmony/START.md`
-- **Workflow:** `.harmony/orchestration/runtime/workflows/meta/migrate-harness/`
+- **Canonical:** `.octon/START.md`
+- **Workflow:** `.octon/orchestration/runtime/workflows/meta/migrate-harness/`

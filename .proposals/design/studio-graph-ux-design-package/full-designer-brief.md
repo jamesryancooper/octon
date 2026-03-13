@@ -3,7 +3,7 @@
 Below is a self-contained designer brief with the current Studio requirements and data model already extracted.
 
 **Studio Graph UX Brief**
-Design a desktop interface for a workflow mapping tool called `Harmony Studio`. Its primary purpose is to help maintainers understand workflow relationships quickly, identify broken or inconsistent workflow definitions, inspect a selected workflow in detail, and move safely into review or corrective actions.
+Design a desktop interface for a workflow mapping tool called `Octon Studio`. Its primary purpose is to help maintainers understand workflow relationships quickly, identify broken or inconsistent workflow definitions, inspect a selected workflow in detail, and move safely into review or corrective actions.
 
 **Primary User**
 A technical maintainer or platform engineer working with a large set of workflows and their dependencies.
@@ -59,7 +59,7 @@ Purpose:
 
 Must include:
 
-- Product title: `Harmony Studio`
+- Product title: `Octon Studio`
 - Current workspace or repo root path
 - Optional global health summary
 

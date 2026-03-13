@@ -37,15 +37,15 @@ jobs:
 
       - name: Build split filesystem wasm services from source
         run: |
-          .harmony/engine/runtime/run service build interfaces/filesystem-snapshot
-          .harmony/engine/runtime/run service build interfaces/filesystem-discovery
-          .harmony/engine/runtime/run service build interfaces/filesystem-watch
+          .octon/engine/runtime/run service build interfaces/filesystem-snapshot
+          .octon/engine/runtime/run service build interfaces/filesystem-discovery
+          .octon/engine/runtime/run service build interfaces/filesystem-watch
 
       - name: Run cold/warm perf regression gate
         run: |
           mkdir -p "$RUNNER_TEMP/filesystem-interfaces-perf"
-          chmod +x .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh
-          .harmony/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh \
+          chmod +x .octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh
+          .octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-perf-regression.sh \
             --profile ci \
             --no-report \
             --raw-out "$RUNNER_TEMP/filesystem-interfaces-perf/filesystem-interfaces-perf.raw.tsv" \

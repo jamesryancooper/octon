@@ -39,7 +39,7 @@ workflow_ref:
   workflow_id: "audit-release-readiness-workflow"
 mission_id: "release-readiness-capabilities"
 decision_id: "dec-20260308-release-readiness-allow-01"
-continuity_run_path: ".harmony/continuity/runs/run-20260308-release-readiness-01/"
+continuity_run_path: ".octon/continuity/runs/run-20260308-release-readiness-01/"
 ```
 
 ### Step-By-Step Flow
@@ -108,7 +108,7 @@ event_id: "evt-20260308-governance-drift-01"
 watcher_id: "governance-drift-watcher"
 event_type: "freshness-drift"
 severity: "warning"
-source_ref: ".harmony/orchestration/runtime/workflows"
+source_ref: ".octon/orchestration/runtime/workflows"
 target_automation_id: "weekly-freshness-audit"
 ```
 
@@ -136,7 +136,7 @@ trigger:
     event_types: ["freshness-drift"]
     severity_at_or_above: "warning"
     source_ref_globs:
-      - ".harmony/orchestration/runtime/**"
+      - ".octon/orchestration/runtime/**"
     match_mode: "all"
 ```
 
@@ -150,7 +150,7 @@ trigger:
 5. The automation validates `trigger.yml`, `bindings.yml`, and `policy.yml`.
    In this example the event matches because `warning >= warning` under the
    canonical severity order and the full normalized `source_ref` matches
-   `.harmony/orchestration/runtime/**`.
+   `.octon/orchestration/runtime/**`.
 6. An allow decision record is written for the admitted launch.
 7. The automation launches `audit-continuous-workflow`.
 8. A run record is created:

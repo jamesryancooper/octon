@@ -1,0 +1,32 @@
+# Scaffolded Proposal Inventory
+
+- proposal_path: `/Users/jamesryancooper/.codex/worktrees/d823/octon/.proposals/architecture/extensions-sidecar-pack-system`
+- file_count: `27`
+
+- `README.md`
+- `architecture-proposal.yml`
+- `architecture/acceptance-criteria.md`
+- `architecture/implementation-plan.md`
+- `architecture/target-architecture.md`
+- `examples/.extensions/nextjs/README.md`
+- `examples/.extensions/nextjs/commands/manifest.fragment.yml`
+- `examples/.extensions/nextjs/commands/nextjs--preview-readiness.md`
+- `examples/.extensions/nextjs/context/catalog.fragment.yml`
+- `examples/.extensions/nextjs/context/nextjs--guide.md`
+- `examples/.extensions/nextjs/pack.yml`
+- `examples/.extensions/nextjs/prompts/catalog.fragment.yml`
+- `examples/.extensions/nextjs/prompts/nextjs--architecture-review.md`
+- `examples/.extensions/nextjs/skills/manifest.fragment.yml`
+- `examples/.extensions/nextjs/skills/nextjs--app-router-runtime/SKILL.md`
+- `examples/.extensions/nextjs/skills/registry.fragment.yml`
+- `examples/.extensions/nextjs/templates/catalog.fragment.yml`
+- `examples/.extensions/nextjs/templates/nextjs--route-handler/MANIFEST.md`
+- `examples/.extensions/nextjs/templates/nextjs--route-handler/manifest.json`
+- `examples/.extensions/nextjs/validation/README.md`
+- `examples/.extensions/nextjs/validation/catalog.fragment.yml`
+- `navigation/artifact-catalog.md`
+- `navigation/source-of-truth-map.md`
+- `proposal.yml`
+- `reference/catalog.schema.json`
+- `reference/effective-index-merge-and-precedence.md`
+- `reference/pack.schema.json`

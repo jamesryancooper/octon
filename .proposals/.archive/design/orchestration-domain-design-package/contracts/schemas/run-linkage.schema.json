@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://harmony.local/design-packages/orchestration/run-linkage.schema.json",
+  "$id": "https://octon.local/design-packages/orchestration/run-linkage.schema.json",
   "title": "Run Linkage Record",
   "type": "object",
   "additionalProperties": false,
@@ -101,7 +101,7 @@
     },
     "continuity_run_path": {
       "type": "string",
-      "pattern": "^\\.harmony/continuity/runs/.+/$"
+      "pattern": "^\\.octon/continuity/runs/.+/$"
     },
     "summary": {
       "type": "string",

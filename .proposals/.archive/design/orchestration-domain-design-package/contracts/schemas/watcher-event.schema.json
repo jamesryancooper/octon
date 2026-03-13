@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://harmony.local/design-packages/orchestration/watcher-event.schema.json",
+  "$id": "https://octon.local/design-packages/orchestration/watcher-event.schema.json",
   "title": "Watcher Event Envelope",
   "type": "object",
   "additionalProperties": false,

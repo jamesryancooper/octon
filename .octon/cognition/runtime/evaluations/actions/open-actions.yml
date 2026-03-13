@@ -1,0 +1,19 @@
+schema_version: "1.0"
+updated: "2026-02-22"
+
+# Expected fields per action:
+# - id
+# - source_digest
+# - owner
+# - due_date
+# - status
+# - summary
+# - evidence
+actions:
+  - id: "ACTION-2026-W08-01"
+    source_digest: "2026-W08-weekly-scorecard"
+    owner: "cognition-ops"
+    due_date: "2026-02-27"
+    status: "open"
+    summary: "Establish recurring weekly digest production cadence."
+    evidence: "/.octon/cognition/practices/operations/weekly-evaluations.md"

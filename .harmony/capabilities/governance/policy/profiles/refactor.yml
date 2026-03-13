@@ -1,9 +1,0 @@
-{
-  "id": "refactor",
-  "description": "Scoped implementation changes across existing modules.",
-  "auto_grant_tier": "low",
-  "tool_bundle": ["Read", "Glob", "Grep", "Edit", "Bash(rg *)", "Bash(git diff *)", "Bash(git status*)"],
-  "write_scope_bundle": ["Write(.harmony/*)", "Write(src/*)"],
-  "service_allowlist": ["plan", "spec", "critic", "replan"],
-  "deny_rules": ["DDB004_UNSCOPED_BASH", "DDB005_UNSCOPED_WRITE", "DDB021_GRANT_SCOPE_TOO_BROAD"]
-}

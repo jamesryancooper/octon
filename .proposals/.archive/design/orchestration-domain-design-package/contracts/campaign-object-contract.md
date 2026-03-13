@@ -95,7 +95,7 @@ Each `milestones[]` entry must be machine-readable and contain:
 ```yaml
 campaign_id: "governance-hardening-2026"
 title: "Governance Hardening 2026"
-objective: "Strengthen Harmony governance and evidence boundaries across runtime and continuity surfaces."
+objective: "Strengthen Octon governance and evidence boundaries across runtime and continuity surfaces."
 status: "active"
 owner: "@architect"
 created_at: "2026-03-07T12:00:00Z"

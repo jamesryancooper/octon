@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "v*"
-      - "runtime-v*"
+      - "octon-v*"
+      - "octon-runtime-v*"
 
 permissions:
   contents: read
@@ -19,12 +19,12 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            source_binary: harmony
-            target_binary: harmony-linux-x64
+            source_binary: octon
+            target_binary: octon-linux-x64
             artifact_name: runtime-linux-x64
           - os: windows-latest
-            source_binary: harmony.exe
-            target_binary: harmony-windows-x64.exe
+            source_binary: octon.exe
+            target_binary: octon-windows-x64.exe
             artifact_name: runtime-windows-x64
 
     steps:
@@ -34,9 +34,9 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Build harmony runtime (release)
-        working-directory: .harmony/engine/runtime/crates
-        run: cargo build -p harmony_kernel --release
+      - name: Build octon runtime (release)
+        working-directory: .octon/engine/runtime/crates
+        run: cargo build -p octon_kernel --release
 
       - name: Package runtime binary
         shell: bash
@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
           mkdir -p dist
           cp \
-            ".harmony/engine/runtime/crates/target/release/${{ matrix.source_binary }}" \
+            ".octon/engine/runtime/crates/target/release/${{ matrix.source_binary }}" \
             "dist/${{ matrix.target_binary }}"
 
       - name: Upload runtime artifact
@@ -79,6 +79,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/harmony-linux-x64
-            dist/harmony-windows-x64.exe
+            dist/octon-linux-x64
+            dist/octon-windows-x64.exe
           fail_on_unmatched_files: true

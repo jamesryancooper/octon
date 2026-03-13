@@ -1,0 +1,113 @@
+audit:
+  id: skills-bounded-audit-2026-02-11
+  date: "2026-02-11"
+  timestamp_utc: "2026-02-11T11:30:59Z"
+  scope:
+    - ".octon/capabilities/skills/**"
+    - "docs/architecture/harness/skills/**"
+    - ".octon/orchestration/workflows/meta/create-skill(x)/**"
+  summary:
+    high: 2
+    medium: 2
+    low: 1
+    total_findings: 5
+
+checks:
+  registry_manifest_drift: pass
+  phantom_skills: pass
+  stale_cross_references: fail
+  doc_to_source_misalignment: fail
+  broken_internal_links: fail
+  schema_violations: pass
+  trigger_invocation_gaps: partial
+  template_drift: fail
+  log_state_coherence: partial
+
+findings:
+  - id: F-001
+    severity: high
+    category: broken_internal_links
+    title: "Broken relative links across skills and architecture docs"
+    evidence:
+      - file: ".octon/capabilities/skills/README.md"
+        lines: [5, 74, 107, 240, 455]
+      - file: ".octon/capabilities/skills/_state/logs/FORMAT.md"
+        lines: [335, 336, 337]
+      - file: ".octon/capabilities/skills/synthesis/refine-prompt/references/errors.md"
+        lines: [206]
+      - file: ".octon/capabilities/skills/synthesis/synthesize-research/references/errors.md"
+        lines: [251]
+      - file: "docs/architecture/harness/skills/reference-artifacts.md"
+        lines: [374]
+      - file: "docs/architecture/harness/skills/skill-format.md"
+        lines: [133, 134, 135, 136, 137]
+    metrics:
+      broken_links: 16
+      affected_files: 6
+    recommendation: "Fix relative path depth and replace non-resolving links with valid local targets or non-clickable examples."
+
+  - id: F-002
+    severity: high
+    category: template_drift
+    title: "create-skill scaffold guidance references obsolete path/ref contracts"
+    evidence:
+      - file: ".octon/capabilities/skills/meta/create-skill/references/phases.md"
+        lines: [13, 130, 141, 172, 236, 249, 310, 338, 393]
+      - file: ".octon/capabilities/skills/_template/references/checkpoints.md"
+        lines: [238]
+      - file: ".octon/orchestration/workflows/meta/create-skill(x)/02-copy-template.md"
+        lines: [23, 47]
+      - file: ".octon/orchestration/workflows/meta/create-skill(x)/03-initialize-skill.md"
+        lines: [30, 53]
+      - file: ".octon/orchestration/workflows/meta/create-skill(x)/06-report-success.md"
+        lines: [29, 70]
+    recommendation: "Update create-skill phase/workflow docs to grouped paths and capability-driven reference set; remove behaviors.md and stale version examples."
+
+  - id: F-003
+    severity: medium
+    category: doc_to_source_misalignment
+    title: "Conflicting naming rules between skill-format and specification docs"
+    evidence:
+      - file: "docs/architecture/harness/skills/skill-format.md"
+        lines: [29, 63]
+      - file: "docs/architecture/harness/skills/specification.md"
+        lines: [30, 34]
+    recommendation: "Align skill-format naming section with grouped-directory policy documented in specification."
+
+  - id: F-004
+    severity: medium
+    category: trigger_invocation_gaps
+    title: "High trigger overlap density may cause ambiguous discovery"
+    evidence:
+      - file: ".octon/output/reports/.tmp/validate.normal.out"
+        detail: "81 overlap notes emitted by validator"
+      - file: ".octon/output/reports/.tmp/trigger_overlap_by_skill.tsv"
+        detail: "Top overlap counts include python-api=11, swift-macos-app=9, swift-scaffold-package=9"
+    metrics:
+      overlap_pairs: 81
+      exact_duplicate_triggers: 0
+      invocable_without_triggers: 0
+    recommendation: "Narrow broad trigger phrases for high-collision skills with stronger domain qualifiers."
+
+  - id: F-005
+    severity: low
+    category: log_state_coherence
+    title: "Documented log filename convention does not match observed logs"
+    evidence:
+      - file: ".octon/capabilities/skills/_state/logs/FORMAT.md"
+        lines: [20, 23]
+      - file: ".octon/capabilities/skills/_state/logs/audit-migration/2026-02-08-workspace-to-harness.md"
+      - file: ".octon/capabilities/skills/_state/logs/audit-migration/2026-02-08-workspace-to-harness-rerun.md"
+    recommendation: "Treat log filename as opaque run_id in docs, or enforce documented timestamp pattern in log writers."
+
+clean_checks:
+  - name: "manifest-registry id parity"
+    detail: "0 manifest-only IDs; 0 registry-only IDs"
+  - name: "manifest-to-disk path parity"
+    detail: "0 manifest paths missing on disk; 0 on-disk skill dirs unindexed"
+  - name: "manifest schema fields"
+    detail: "0 missing required fields; 0 unknown fields"
+  - name: "registry schema fields"
+    detail: "0 missing required fields; 0 unknown fields"
+  - name: "capability and skill_set vocabulary"
+    detail: "0 invalid skill_sets; 0 invalid capabilities"

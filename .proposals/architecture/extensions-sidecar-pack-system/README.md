@@ -7,19 +7,19 @@ It is not a canonical runtime, documentation, policy, or contract authority.
 ## Purpose
 
 - proposal kind: `architecture`
-- promotion scope: `harmony-internal`
-- summary: Define the full Harmony-side implementation that lets the harness discover, validate, compile, and consume additive extension content from a repo-root `.extensions/` sidecar without creating a second authority surface.
+- promotion scope: `octon-internal`
+- summary: Define the full Octon-side implementation that lets the harness discover, validate, compile, and consume additive extension content from a repo-root `.extensions/` sidecar without creating a second authority surface.
 
 ## Promotion Targets
 
-- `.harmony/engine/runtime/`
-- `.harmony/engine/governance/`
-- `.harmony/capabilities/runtime/`
-- `.harmony/capabilities/_meta/architecture/`
-- `.harmony/assurance/runtime/`
-- `.harmony/scaffolding/`
-- `.harmony/orchestration/runtime/workflows/`
-- `.harmony/harmony.yml`
+- `.octon/engine/runtime/`
+- `.octon/engine/governance/`
+- `.octon/capabilities/runtime/`
+- `.octon/capabilities/_meta/architecture/`
+- `.octon/assurance/runtime/`
+- `.octon/scaffolding/`
+- `.octon/orchestration/runtime/workflows/`
+- `.octon/octon.yml`
 
 ## Reading Order
 
@@ -41,7 +41,7 @@ This proposal also includes:
 
 - a proposed schema for `/.extensions/catalog.yml`
 - a proposed schema for `/.extensions/<pack-id>/pack.yml`
-- a merge and precedence spec for Harmony effective indexes
+- a merge and precedence spec for Octon effective indexes
 - concrete example packs rooted at:
   - `/.extensions/nextjs/`
   - `/.extensions/docs/`
@@ -51,5 +51,5 @@ This proposal also includes:
 
 Promote the durable extension boundary, loader rules, validator stack,
 effective-index compiler, authoring scaffolds, and operator workflows into
-`/.harmony/`. Treat the repo-root `/.extensions/` surface as an implementation
+`/.octon/`. Treat the repo-root `/.extensions/` surface as an implementation
 outcome described by the promoted architecture, not as proposal authority.

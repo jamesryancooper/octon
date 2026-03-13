@@ -1,28 +1,28 @@
 # Update Harness `/update-harness`
 
-Align an existing `.harmony` directory with the canonical harness definition.
+Align an existing `.octon` directory with the canonical harness definition.
 
-See `.harmony/orchestration/runtime/workflows/meta/update-harness/README.md` for full description and steps.
+See `.octon/orchestration/runtime/workflows/meta/update-harness/README.md` for full description and steps.
 
 ## Usage
 
 ```text
-/update-harness @path/to/.harmony
+/update-harness @path/to/.octon
 ```
 
 Or for the root harness:
 
 ```text
-/update-harness @.harmony
+/update-harness @.octon
 ```
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/runtime/workflows/meta/update-harness/`.
+Execute the workflow in `.octon/orchestration/runtime/workflows/meta/update-harness/`.
 
 Start with `README.md`, then follow each step in sequence.
 
 ## References
 
-- **Canonical:** `.harmony/START.md`
-- **Workflow:** `.harmony/orchestration/runtime/workflows/meta/update-harness/`
+- **Canonical:** `.octon/START.md`
+- **Workflow:** `.octon/orchestration/runtime/workflows/meta/update-harness/`

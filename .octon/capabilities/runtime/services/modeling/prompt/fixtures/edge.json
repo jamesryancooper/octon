@@ -1,0 +1,20 @@
+{
+  "id": "prompt-edge-token-limit",
+  "description": "Prompt compile honors maxTokens budget approximation.",
+  "request": {
+    "promptId": "workflow/implement",
+    "variables": {
+      "target": ".octon/capabilities/runtime/services",
+      "tier": "T2"
+    },
+    "options": {
+      "variant": "default",
+      "model": "gpt-4o",
+      "maxTokens": 32,
+      "hash": true
+    }
+  },
+  "expect": {
+    "maxEstimatedTokens": 32
+  }
+}

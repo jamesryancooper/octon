@@ -1,0 +1,42 @@
+---
+title: I/O Contract
+description: Parameters, inputs, and outputs for audit-documentation-standards.
+---
+
+# I/O Contract
+
+## Parameters
+
+Defined in `.octon/capabilities/runtime/skills/registry.yml`.
+
+| Parameter | Type | Required | Default | Description |
+| --------- | ---- | -------- | ------- | ----------- |
+| `docs_root` | folder | Yes | -- | Root documentation directory to audit |
+| `template_root` | folder | No | `.octon/scaffolding/runtime/templates/docs/documentation-standards` | Canonical documentation template root |
+| `policy_doc` | file | No | `.octon/cognition/governance/principles/documentation-is-code.md` | Canonical docs-as-code policy document |
+| `severity_threshold` | text | No | `all` | Minimum severity to report: `critical`, `high`, `medium`, `low`, `all` |
+| `post_remediation` | boolean | No | `false` | Enables strict done-gate behavior for convergence verification |
+| `convergence_k` | text | No | `3` | Number of controlled reruns used for convergence validation |
+| `seed_list` | text | No | deterministic defaults | Comma-separated seed list for run-to-run consistency checks |
+
+## Inputs
+
+- Documentation tree under `docs_root`
+- Canonical policy document
+- Canonical documentation standards guidance
+- Canonical template bundle
+
+## Outputs
+
+- `.octon/output/reports/analysis/YYYY-MM-DD-documentation-standards-audit.md`
+- `.octon/output/reports/audits/YYYY-MM-DD-<slug>/bundle.yml`
+- `.octon/output/reports/audits/YYYY-MM-DD-<slug>/findings.yml`
+- `.octon/output/reports/audits/YYYY-MM-DD-<slug>/coverage.yml`
+- `.octon/output/reports/audits/YYYY-MM-DD-<slug>/convergence.yml`
+- `.octon/output/reports/audits/YYYY-MM-DD-<slug>/evidence.md`
+- `.octon/output/reports/audits/YYYY-MM-DD-<slug>/commands.md`
+- `.octon/output/reports/audits/YYYY-MM-DD-<slug>/validation.md`
+- `.octon/output/reports/audits/YYYY-MM-DD-<slug>/inventory.md`
+- `_ops/state/logs/audit-documentation-standards/{{run_id}}.md`
+- `_ops/state/logs/audit-documentation-standards/index.yml`
+- `_ops/state/logs/index.yml`

@@ -7,7 +7,7 @@
 - `component-spec.md`
 - `page-structure.md`
 - `design-checklist.md`
-- `harmony-studio-graph-ux-design-spec.md`
+- `octon-studio-graph-ux-design-spec.md`
 - `manifest-and-controller-prompt-pack.md`
 - `screen-prompt-pack.md`
 - `production-workflow.md`

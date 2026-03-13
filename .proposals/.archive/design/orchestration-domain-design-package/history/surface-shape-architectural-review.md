@@ -15,7 +15,7 @@ This review evaluates the proposed orchestration surface shapes in
 - operability
 - change safety
 
-The review treats current Harmony surfaces and contracts as grounding evidence,
+The review treats current Octon surfaces and contracts as grounding evidence,
 not as a requirement to preserve the proposal unchanged.
 
 ## Executive Verdict
@@ -75,7 +75,7 @@ Verdict:
 
 Why:
 
-- Harmony already has a strong workflow contract
+- Octon already has a strong workflow contract
 - bounded procedure definition is clearly separated from execution engines and
   schedule policy
 - the shape supports both multi-file and single-file workflows
@@ -94,7 +94,7 @@ Verdict:
 
 Why:
 
-- Harmony already has a strong mission lifecycle and bounded-state model
+- Octon already has a strong mission lifecycle and bounded-state model
 - the shape clearly isolates initiative state from workflow definitions
 - archive, scaffold, and registry responsibilities are explicit
 
@@ -194,7 +194,7 @@ Verdict:
 
 Why:
 
-- Harmony already distinguishes durable evidence from active state
+- Octon already distinguishes durable evidence from active state
 - the orchestration `runs` surface makes sense as a projection and linkage layer
   over continuity evidence
 - reverse-lookup projections make the surface more usable for operators and
@@ -296,7 +296,7 @@ It is:
 - discoverable
 - reasonably low-coupling at the responsibility level
 - operable enough to propose and iterate on
-- safe enough to evolve without locking Harmony into one oversized orchestration
+- safe enough to evolve without locking Octon into one oversized orchestration
   abstraction
 
 The next step, if this proposal graduates toward implementation, is not to add

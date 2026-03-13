@@ -5,7 +5,7 @@
 Make the major orchestration failure modes explicit and tie them to containment,
 escalation, validation, and design boundaries.
 
-This document exists to reduce promotion risk before live `.harmony`
+This document exists to reduce promotion risk before live `.octon`
 canonicalization.
 
 ## Why Failure Analysis Is Needed

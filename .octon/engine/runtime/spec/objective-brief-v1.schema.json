@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/objective-brief-v1.schema.json",
+  "title": "Octon Objective Brief v1",
+  "description": "Machine-checkable frontmatter contract for the human-readable objective brief.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "objective_id",
+    "intent_id",
+    "intent_version",
+    "owner",
+    "approved_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "objective-brief-v1"
+    },
+    "objective_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intent_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intent_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "approved_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

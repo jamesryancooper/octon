@@ -3,27 +3,27 @@ name: Assurance Engine Gates
 on:
   pull_request:
     paths:
-      - '.harmony/assurance/governance/CHARTER.md'
-      - '.harmony/assurance/governance/weights/**'
-      - '.harmony/assurance/governance/**'
-      - '.harmony/assurance/governance/scores/**'
-      - '.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh'
-      - '.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh'
-      - '.harmony/engine/runtime/crates/assurance_tools/**'
-      - '.harmony/engine/runtime/crates/Cargo.toml'
+      - '.octon/assurance/governance/CHARTER.md'
+      - '.octon/assurance/governance/weights/**'
+      - '.octon/assurance/governance/**'
+      - '.octon/assurance/governance/scores/**'
+      - '.octon/assurance/runtime/_ops/scripts/compute-assurance-score.sh'
+      - '.octon/assurance/runtime/_ops/scripts/assurance-gate.sh'
+      - '.octon/engine/runtime/crates/assurance_tools/**'
+      - '.octon/engine/runtime/crates/Cargo.toml'
       - '.github/workflows/assurance-weight-gates.yml'
   push:
     branches:
       - main
     paths:
-      - '.harmony/assurance/governance/CHARTER.md'
-      - '.harmony/assurance/governance/weights/**'
-      - '.harmony/assurance/governance/**'
-      - '.harmony/assurance/governance/scores/**'
-      - '.harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh'
-      - '.harmony/assurance/runtime/_ops/scripts/assurance-gate.sh'
-      - '.harmony/engine/runtime/crates/assurance_tools/**'
-      - '.harmony/engine/runtime/crates/Cargo.toml'
+      - '.octon/assurance/governance/CHARTER.md'
+      - '.octon/assurance/governance/weights/**'
+      - '.octon/assurance/governance/**'
+      - '.octon/assurance/governance/scores/**'
+      - '.octon/assurance/runtime/_ops/scripts/compute-assurance-score.sh'
+      - '.octon/assurance/runtime/_ops/scripts/assurance-gate.sh'
+      - '.octon/engine/runtime/crates/assurance_tools/**'
+      - '.octon/engine/runtime/crates/Cargo.toml'
       - '.github/workflows/assurance-weight-gates.yml'
   workflow_dispatch:
 
@@ -72,38 +72,38 @@ jobs:
             exit 0
           fi
 
-          if git cat-file -e "$BASE_SHA:.harmony/assurance/governance/weights/weights.yml" 2>/dev/null; then
+          if git cat-file -e "$BASE_SHA:.octon/assurance/governance/weights/weights.yml" 2>/dev/null; then
             BASE_WEIGHTS="$RUNNER_TEMP/base-weights.yml"
-            git show "$BASE_SHA:.harmony/assurance/governance/weights/weights.yml" > "$BASE_WEIGHTS"
+            git show "$BASE_SHA:.octon/assurance/governance/weights/weights.yml" > "$BASE_WEIGHTS"
             echo "BASE_WEIGHTS=$BASE_WEIGHTS" >> "$GITHUB_ENV"
           fi
 
-          if git cat-file -e "$BASE_SHA:.harmony/assurance/governance/scores/scores.yml" 2>/dev/null; then
+          if git cat-file -e "$BASE_SHA:.octon/assurance/governance/scores/scores.yml" 2>/dev/null; then
             BASE_SCORES="$RUNNER_TEMP/base-scores.yml"
-            git show "$BASE_SHA:.harmony/assurance/governance/scores/scores.yml" > "$BASE_SCORES"
+            git show "$BASE_SHA:.octon/assurance/governance/scores/scores.yml" > "$BASE_SCORES"
             echo "BASE_SCORES=$BASE_SCORES" >> "$GITHUB_ENV"
           fi
 
-          if git cat-file -e "$BASE_SHA:.harmony/assurance/governance/CHARTER.md" 2>/dev/null; then
+          if git cat-file -e "$BASE_SHA:.octon/assurance/governance/CHARTER.md" 2>/dev/null; then
             BASE_CHARTER="$RUNNER_TEMP/base-charter.md"
-            git show "$BASE_SHA:.harmony/assurance/governance/CHARTER.md" > "$BASE_CHARTER"
+            git show "$BASE_SHA:.octon/assurance/governance/CHARTER.md" > "$BASE_CHARTER"
             echo "BASE_CHARTER=$BASE_CHARTER" >> "$GITHUB_ENV"
           fi
 
       - name: Compute assurance engine scorecard
         run: |
           OUT_DIR="$RUNNER_TEMP/assurance-engine-scorecard"
-          cargo build --quiet --manifest-path .harmony/engine/runtime/crates/Cargo.toml -p harmony_assurance_tools
-          cargo test --quiet --manifest-path .harmony/engine/runtime/crates/Cargo.toml -p harmony_assurance_tools
-          .harmony/assurance/runtime/_ops/scripts/compute-assurance-score.sh \
-            --weights .harmony/assurance/governance/weights/weights.yml \
-            --scores .harmony/assurance/governance/scores/scores.yml \
-            --charter .harmony/assurance/governance/CHARTER.md \
-            --context .harmony/assurance/governance/weights/inputs/context.yml \
+          cargo build --quiet --manifest-path .octon/engine/runtime/crates/Cargo.toml -p octon_assurance_tools
+          cargo test --quiet --manifest-path .octon/engine/runtime/crates/Cargo.toml -p octon_assurance_tools
+          .octon/assurance/runtime/_ops/scripts/compute-assurance-score.sh \
+            --weights .octon/assurance/governance/weights/weights.yml \
+            --scores .octon/assurance/governance/scores/scores.yml \
+            --charter .octon/assurance/governance/CHARTER.md \
+            --context .octon/assurance/governance/weights/inputs/context.yml \
             --profile ci-reliability \
             --run-mode ci \
             --maturity beta \
-            --repo harmony \
+            --repo octon \
             --out-dir "$OUT_DIR"
           echo "OUT_DIR=$OUT_DIR" >> "$GITHUB_ENV"
 
@@ -113,9 +113,9 @@ jobs:
           set -euo pipefail
           args=(
             --scorecard "$OUT_DIR/scorecard.yml"
-            --weights .harmony/assurance/governance/weights/weights.yml
-            --scores .harmony/assurance/governance/scores/scores.yml
-            --charter .harmony/assurance/governance/CHARTER.md
+            --weights .octon/assurance/governance/weights/weights.yml
+            --scores .octon/assurance/governance/scores/scores.yml
+            --charter .octon/assurance/governance/CHARTER.md
             --mode ci
             --summary-out "$OUT_DIR/gate-summary.md"
           )
@@ -133,7 +133,7 @@ jobs:
             args+=(--strict-warnings)
           fi
 
-          .harmony/assurance/runtime/_ops/scripts/assurance-gate.sh "${args[@]}"
+          .octon/assurance/runtime/_ops/scripts/assurance-gate.sh "${args[@]}"
 
       - name: Upload assurance artifacts
         uses: actions/upload-artifact@v4

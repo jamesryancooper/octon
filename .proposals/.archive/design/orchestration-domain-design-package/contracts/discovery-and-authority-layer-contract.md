@@ -6,7 +6,7 @@ This contract defines package-local progressive-disclosure and
 single-source-of-truth rules for orchestration surfaces in this specification.
 
 The same layering must be preserved when these surfaces are promoted into live
-`.harmony` authority surfaces.
+`.octon` authority surfaces.
 
 ## Core Rule
 
@@ -331,6 +331,6 @@ Artifacts named as required runtime surface files must be schema-backed when
 
 ## Promotion Note
 
-When these package-defined surfaces are promoted into live `.harmony`, the same
+When these package-defined surfaces are promoted into live `.octon`, the same
 layering remains mandatory. Promotion may move the files, but it may not merge
 discovery, mutable state, and durable evidence into one authority layer.

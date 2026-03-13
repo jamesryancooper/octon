@@ -1,0 +1,20 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "proposal-core",
+  "description": "Core files for standard-governed Octon proposals.",
+  "inherits": null,
+  "files": {
+    "required": [
+      "proposal.yml",
+      "README.md",
+      "navigation/artifact-catalog.md",
+      "navigation/source-of-truth-map.md"
+    ],
+    "directories": {
+      "required": [
+        "navigation"
+      ]
+    }
+  },
+  "usage": "proposal subtype workflows"
+}

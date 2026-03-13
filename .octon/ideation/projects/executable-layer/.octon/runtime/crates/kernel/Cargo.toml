@@ -1,0 +1,23 @@
+[package]
+name = "octon_kernel"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "octon"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+thiserror.workspace = true
+walkdir.workspace = true
+sha2.workspace = true
+hex.workspace = true
+
+octon_core = { path = "../core" }
+octon_wasm_host = { path = "../wasm_host" }

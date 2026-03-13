@@ -65,8 +65,8 @@ jobs:
             before="$(git rev-list --max-parents=0 HEAD | tail -n1)"
           fi
 
-          charter_path=".harmony/cognition/governance/principles/principles.md"
-          ledger_path=".harmony/cognition/governance/exceptions/principles-charter-overrides.md"
+          charter_path=".octon/cognition/governance/principles/principles.md"
+          ledger_path=".octon/cognition/governance/exceptions/principles-charter-overrides.md"
 
           charter_changed=false
           ledger_changed=false
@@ -87,7 +87,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          ledger=".harmony/cognition/governance/exceptions/principles-charter-overrides.md"
+          ledger=".octon/cognition/governance/exceptions/principles-charter-overrides.md"
           override_id="${{ steps.pr_guard.outputs.override_id }}"
 
           if [[ "${{ steps.changed.outputs.ledger_changed }}" != "true" ]]; then
@@ -126,5 +126,5 @@ jobs:
           LINT_BASE_REF: ${{ github.event.before }}
         run: |
           set -euo pipefail
-          bash .harmony/cognition/_ops/principles/scripts/lint-principles-governance.sh
-          bash .harmony/cognition/_ops/principles/scripts/audit-principles-charter-overrides.sh
+          bash .octon/cognition/_ops/principles/scripts/lint-principles-governance.sh
+          bash .octon/cognition/_ops/principles/scripts/audit-principles-charter-overrides.sh

@@ -130,6 +130,6 @@ automation_id: "weekly-freshness-audit"
 event_id: "evt-20260307-governance-drift-01"
 queue_item_id: "q-20260307-001"
 decision_id: "dec-20260307-weekly-freshness-audit-allow-01"
-continuity_run_path: ".harmony/continuity/runs/run-20260307-audit-continuous-01/"
+continuity_run_path: ".octon/continuity/runs/run-20260307-audit-continuous-01/"
 summary: "Continuous audit is in progress."
 ```

@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - '.harmony/capabilities/runtime/skills/**'
+      - '.octon/capabilities/runtime/skills/**'
   pull_request:
     paths:
-      - '.harmony/capabilities/runtime/skills/**'
+      - '.octon/capabilities/runtime/skills/**'
 
 permissions:
   contents: read
@@ -43,10 +43,10 @@ jobs:
 
       - name: Validate skills
         run: |
-          chmod +x .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh
-          .harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict
+          chmod +x .octon/capabilities/runtime/skills/_ops/scripts/validate-skills.sh
+          .octon/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict
 
       - name: Report validation results
         if: failure()
         run: |
-          echo "::error::Skills validation failed. Run '.harmony/capabilities/runtime/skills/_ops/scripts/validate-skills.sh' locally to see details."
+          echo "::error::Skills validation failed. Run '.octon/capabilities/runtime/skills/_ops/scripts/validate-skills.sh' locally to see details."

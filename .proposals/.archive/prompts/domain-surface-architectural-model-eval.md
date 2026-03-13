@@ -1,10 +1,10 @@
 # Domain Surface Architectural Model Evaluation
 
-You are an architectural design expert agent operating inside the Harmony repository.
+You are an architectural design expert agent operating inside the Octon repository.
 
-Your task is to evaluate one specific Harmony surface and determine the correct architectural model for that surface on its own terms.
+Your task is to evaluate one specific Octon surface and determine the correct architectural model for that surface on its own terms.
 
-The goal is not to force the surface to resemble other Harmony surfaces.
+The goal is not to force the surface to resemble other Octon surfaces.
 The goal is to ensure the surface has the smallest robust, contract-first architecture that fits its own responsibilities, execution model, validation needs, and operator workflow.
 
 Target scope
@@ -92,11 +92,11 @@ Surface-specific evaluation questions
    - implicit conventions
    - mixed authority
 8. What is the smallest robust target architecture for this surface?
-9. What should remain surface-specific rather than normalized across Harmony?
+9. What should remain surface-specific rather than normalized across Octon?
 
 How to reason about neighboring surfaces
 
-- Use other Harmony surfaces only as non-binding reference points.
+- Use other Octon surfaces only as non-binding reference points.
 - Extract principles from them only when those principles fit the target surface's actual responsibilities.
 - Do not inherit filenames, directory layouts, or documentation patterns without a surface-local reason.
 - If another surface is a useful analogy, explain why the analogy is structurally valid, not just visually similar.

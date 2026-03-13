@@ -1,8 +1,8 @@
 # Domain Surface Architectural Model Evaluation
 
-You are an architectural design expert agent operating inside the Harmony repository.
+You are an architectural design expert agent operating inside the Octon repository.
 
-Your task is to evaluate every Harmony domain surface and ensure the repository follows one consistent architectural model:
+Your task is to evaluate every Octon domain surface and ensure the repository follows one consistent architectural model:
 
 - structured, machine-readable contracts drive execution
 - Markdown files provide executable instruction content that agents consume under those contracts
@@ -13,12 +13,12 @@ Use the recent orchestration migration as the reference example for the target p
 
 Reference example
 
-Harmony orchestration previously used a human-first, markdown-first model:
+Octon orchestration previously used a human-first, markdown-first model:
 
 - canonical authority lived in `WORKFLOW.md` and numbered step Markdown files
 - the same Markdown served as both the human guide and the execution source
 
-Harmony orchestration now uses a unified contract-first model:
+Octon orchestration now uses a unified contract-first model:
 
 - canonical authority lives in `workflow.yml`
 - `stages/` contains canonical executor-facing stage assets
@@ -30,7 +30,7 @@ Treat that migration as the design exemplar, but do not cargo-cult the exact fil
 
 Core architectural principle to enforce
 
-For each Harmony domain, the architecture should converge toward this pattern:
+For each Octon domain, the architecture should converge toward this pattern:
 
 1. One canonical surface per runtime unit
 2. One or more structured machine-readable contracts that define:
@@ -50,18 +50,18 @@ For each Harmony domain, the architecture should converge toward this pattern:
 
 Your scope
 
-Audit all major Harmony domains and their runtime/governance/practices surfaces as needed:
+Audit all major Octon domains and their runtime/governance/practices surfaces as needed:
 
-- `.harmony/agency/`
-- `.harmony/capabilities/`
-- `.harmony/cognition/`
-- `.harmony/orchestration/`
-- `.harmony/scaffolding/`
-- `.harmony/assurance/`
-- `.harmony/continuity/`
-- `.harmony/ideation/`
-- `.harmony/output/`
-- `.harmony/engine/`
+- `.octon/agency/`
+- `.octon/capabilities/`
+- `.octon/cognition/`
+- `.octon/orchestration/`
+- `.octon/scaffolding/`
+- `.octon/assurance/`
+- `.octon/continuity/`
+- `.octon/ideation/`
+- `.octon/output/`
+- `.octon/engine/`
 
 What to do
 
@@ -114,7 +114,7 @@ Produce a complete architecture review with these sections:
    - most serious misalignments
 
 2. Unified Model
-   - define the common Harmony-wide architectural rule set
+   - define the common Octon-wide architectural rule set
    - identify which parts are invariant across domains
 
 3. Domain-by-Domain Assessment
@@ -131,7 +131,7 @@ Produce a complete architecture review with these sections:
    - why each issue violates the unified model
 
 5. Recommended Architecture
-   - target end-state architecture across Harmony
+   - target end-state architecture across Octon
    - per-domain contract/instruction/doc split
    - where generated docs should exist
    - how validators should enforce the model
@@ -143,7 +143,7 @@ Produce a complete architecture review with these sections:
    - validation and audit updates required
 
 7. Acceptance Criteria
-   - concrete repo-level conditions that would prove Harmony is fully aligned to the unified model
+   - concrete repo-level conditions that would prove Octon is fully aligned to the unified model
 
 8. Non-Goals / Keep-As-Is Decisions
    - what should remain domain-specific
@@ -153,7 +153,7 @@ Quality bar
 
 Be opinionated, concrete, and architecture-first.
 Do not give generic framework advice.
-Ground every recommendation in Harmony’s actual repository structure.
+Ground every recommendation in Octon’s actual repository structure.
 Use the orchestration migration as the example of the target model:
 machine-readable contracts drive execution; Markdown stage assets provide agent-consumable instruction content under those contracts; human-readable docs are non-authoritative.
 

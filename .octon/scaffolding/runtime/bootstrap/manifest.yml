@@ -1,0 +1,12 @@
+schema_version: "1.0"
+bundle: bootstrap
+canonical_root: ".octon/scaffolding/runtime/bootstrap"
+projected_roots:
+  - ".octon/scaffolding/runtime/templates/octon/scaffolding/runtime/bootstrap"
+ingress_adapters:
+  canonical_agents: ".octon/AGENTS.md"
+  repo_root_agents: "AGENTS.md"
+  repo_root_claude: "CLAUDE.md"
+objective_contract:
+  brief_path: ".octon/OBJECTIVE.md"
+  intent_path: ".octon/cognition/runtime/context/intent.contract.yml"

@@ -1,0 +1,13 @@
+schema_version: "1.0"
+run_id: "2026-02-22-audit-contract-bootstrap"
+scope_roots:
+  - ".octon/cognition/practices/methodology/audits/"
+  - ".octon/cognition/runtime/audits/"
+  - ".octon/output/reports/audits/"
+excluded_roots:
+  - ".octon/ideation/"
+total_files: 0
+scanned_files: 0
+summarized_sampled_files: 0
+excluded_files: 0
+unaccounted_files: 0

@@ -9,9 +9,9 @@
 ## Components
 
 - durable workflow contract under
-  `/.harmony/orchestration/runtime/workflows/audit/audit-design-package/`
+  `/.octon/orchestration/runtime/workflows/audit/audit-design-package/`
 - workflow discovery metadata in workflow `manifest.yml` and `registry.yml`
-- kernel runner support in `/.harmony/engine/runtime/crates/kernel/src/workflow.rs`
+- kernel runner support in `/.octon/engine/runtime/crates/kernel/src/workflow.rs`
 - package validator `validate-audit-design-package-workflow.sh`
 - regression coverage in:
   - `test-validate-audit-design-package-workflow.sh`
@@ -37,7 +37,7 @@
   `normative/execution/run-lifecycle.md`
 - executor prompt/response rules live in
   `normative/execution/executor-interface.md`
-- durable runtime source of truth lives under `/.harmony/`; this package
+- durable runtime source of truth lives under `/.octon/`; this package
   supplies the change contract, not a runtime dependency
 
 ## Deterministic Behaviors

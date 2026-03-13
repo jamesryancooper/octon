@@ -1,6 +1,6 @@
-Policy reference: `.harmony/agency/practices/pull-request-standards.md`
-Working agreement: `.harmony/orchestration/practices/orchestration-domain-implementation-agreement.md`
-Backlog reference: `.harmony/output/plans/2026-03-10-orchestration-domain-phase0-backlog.md`
+Policy reference: `.octon/agency/practices/pull-request-standards.md`
+Working agreement: `.octon/orchestration/practices/orchestration-domain-implementation-agreement.md`
+Backlog reference: `.octon/output/plans/2026-03-10-orchestration-domain-phase0-backlog.md`
 Reminder: Run `@codex review`.
 
 ## Package Authority

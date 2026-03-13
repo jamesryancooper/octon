@@ -7,11 +7,11 @@ layout, report shapes, and mutation receipts.
 ## Runtime Alignment Rule
 
 - The canonical bundle root for this package is
-  `.harmony/output/reports/workflows/YYYY-MM-DD-audit-design-package-<slug>/`.
+  `.octon/output/reports/workflows/YYYY-MM-DD-audit-design-package-<slug>/`.
 - The canonical top-level summary path is
-  `.harmony/output/reports/YYYY-MM-DD-audit-design-package[-<collision-index>].md`.
+  `.octon/output/reports/YYYY-MM-DD-audit-design-package[-<collision-index>].md`.
 - If this document conflicts with the implemented workflow contract at
-  `/.harmony/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml`,
+  `/.octon/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml`,
   treat the conflict as a readiness blocker and update this package before it is
   declared `implementation-ready`.
 
@@ -20,7 +20,7 @@ layout, report shapes, and mutation receipts.
 Each run writes one bounded bundle at:
 
 ```text
-.harmony/output/reports/workflows/YYYY-MM-DD-audit-design-package-<slug>/
+.octon/output/reports/workflows/YYYY-MM-DD-audit-design-package-<slug>/
 ```
 
 The bundle root must contain these required artifacts:
@@ -97,7 +97,7 @@ Each stage log must capture:
 
 ## Top-Level Summary
 
-Each run also writes one summary report under `.harmony/output/reports/`.
+Each run also writes one summary report under `.octon/output/reports/`.
 
 The summary must include:
 

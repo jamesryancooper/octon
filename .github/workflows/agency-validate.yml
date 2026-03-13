@@ -5,20 +5,20 @@ on:
     branches:
       - main
     paths:
-      - '.harmony/agency/**'
-      - '.harmony/harmony.yml'
-      - '.harmony/START.md'
-      - '.harmony/README.md'
-      - '.harmony/scope.md'
-      - '.harmony/scaffolding/runtime/templates/harmony/**'
+      - '.octon/agency/**'
+      - '.octon/octon.yml'
+      - '.octon/START.md'
+      - '.octon/README.md'
+      - '.octon/scope.md'
+      - '.octon/scaffolding/runtime/templates/octon/**'
   pull_request:
     paths:
-      - '.harmony/agency/**'
-      - '.harmony/harmony.yml'
-      - '.harmony/START.md'
-      - '.harmony/README.md'
-      - '.harmony/scope.md'
-      - '.harmony/scaffolding/runtime/templates/harmony/**'
+      - '.octon/agency/**'
+      - '.octon/octon.yml'
+      - '.octon/START.md'
+      - '.octon/README.md'
+      - '.octon/scope.md'
+      - '.octon/scaffolding/runtime/templates/octon/**'
 
 permissions:
   contents: read
@@ -37,15 +37,15 @@ jobs:
 
       - name: Validate agency contracts
         run: |
-          chmod +x .harmony/agency/_ops/scripts/validate/validate-agency.sh
-          .harmony/agency/_ops/scripts/validate/validate-agency.sh
+          chmod +x .octon/agency/_ops/scripts/validate/validate-agency.sh
+          .octon/agency/_ops/scripts/validate/validate-agency.sh
 
       - name: Validate autonomy label catalog
         run: |
-          chmod +x .harmony/agency/_ops/scripts/validate/validate-autonomy-labels.sh
-          .harmony/agency/_ops/scripts/validate/validate-autonomy-labels.sh
+          chmod +x .octon/agency/_ops/scripts/validate/validate-autonomy-labels.sh
+          .octon/agency/_ops/scripts/validate/validate-autonomy-labels.sh
 
       - name: Report validation failure
         if: failure()
         run: |
-          echo "::error::Agency validation failed. Run '.harmony/agency/_ops/scripts/validate/validate-agency.sh' locally to inspect errors."
+          echo "::error::Agency validation failed. Run '.octon/agency/_ops/scripts/validate/validate-agency.sh' locally to inspect errors."

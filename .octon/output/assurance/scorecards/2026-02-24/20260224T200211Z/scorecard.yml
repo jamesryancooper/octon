@@ -1,0 +1,5419 @@
+charter:
+  priority_chain:
+  - id: assurance
+    name: Assurance
+  - id: productivity
+    name: Productivity
+  - id: integration
+    name: Integration
+  priority_chain_source:
+  - Assurance
+  - Productivity
+  - Integration
+  reference: .octon/assurance/governance/CHARTER.md
+  tie_break_resolutions:
+  - explanation: Equal weighted priority resolved by Charter priority-chain tie-break.
+    loser: assurance:operability
+    loser_umbrella: productivity
+    priority: 10.0
+    winner: scaffolding:observability
+    winner_umbrella: assurance
+  tie_break_rule: When weighted priority ties, prioritize items mapped to higher umbrellas in chain order.
+  tradeoff_rules:
+  - Assurance is non-negotiable.
+  - Productivity is optimized inside assurance constraints.
+  - Integration requires explicit contracts, security controls, and tests.
+  - Attribute-level scoring remains the source of truth.
+  - Umbrella rollups must not hide critical assurance weaknesses.
+  tradeoff_rules_source:
+  - Assurance is non-negotiable.
+  - Productivity is optimized inside assurance constraints.
+  - Integration requires explicit contracts, security controls, and tests.
+  - Attribute-level scoring remains the source of truth.
+  - Umbrella rollups must not hide critical assurance weaknesses.
+  version: 2.1.0
+context:
+  baseline_present: false
+  baseline_scorecard: null
+  context_slug: repo-octon__run-mode-ci__maturity-beta__profile-ci-reliability
+  maturity: beta
+  profile: ci-reliability
+  repo: octon
+  run_mode: ci
+drivers:
+  top_backlog:
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: agency
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: observability
+    evidence:
+    - .octon/cognition/governance/principles/observability-as-a-contract.md
+    - .octon/cognition/_meta/architecture/observability-requirements.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: agency
+    suggested_action: Raise 'observability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: assurance
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: observability
+    evidence:
+    - .octon/cognition/governance/principles/observability-as-a-contract.md
+    - .octon/cognition/_meta/architecture/observability-requirements.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: assurance
+    suggested_action: Raise 'observability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: capabilities
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: observability
+    evidence:
+    - .octon/cognition/governance/principles/observability-as-a-contract.md
+    - .octon/cognition/_meta/architecture/observability-requirements.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: capabilities
+    suggested_action: Raise 'observability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: cognition
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: observability
+    evidence:
+    - .octon/cognition/governance/principles/observability-as-a-contract.md
+    - .octon/cognition/_meta/architecture/observability-requirements.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: cognition
+    suggested_action: Raise 'observability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: continuity
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: ideation
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: observability
+    evidence:
+    - .octon/cognition/governance/principles/observability-as-a-contract.md
+    - .octon/cognition/_meta/architecture/observability-requirements.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: ideation
+    suggested_action: Raise 'observability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: orchestration
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: observability
+    evidence:
+    - .octon/cognition/governance/principles/observability-as-a-contract.md
+    - .octon/cognition/_meta/architecture/observability-requirements.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: orchestration
+    suggested_action: Raise 'observability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: output
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: observability
+    evidence:
+    - .octon/cognition/governance/principles/observability-as-a-contract.md
+    - .octon/cognition/_meta/architecture/observability-requirements.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: output
+    suggested_action: Raise 'observability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: availability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/practices/methodology/risk-tiers.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: scaffolding
+    suggested_action: Raise 'availability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: observability
+    evidence:
+    - .octon/cognition/governance/principles/observability-as-a-contract.md
+    - .octon/cognition/_meta/architecture/observability-requirements.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: scaffolding
+    suggested_action: Raise 'observability' from 3 to target 5.
+    target: 5.0
+    umbrella: assurance
+    umbrella_rank: 1
+    weight: 5
+  - attribute: operability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/_meta/architecture/runtime-policy.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: assurance
+    suggested_action: Raise 'operability' from 3 to target 5.
+    target: 5.0
+    umbrella: productivity
+    umbrella_rank: 2
+    weight: 5
+  - attribute: operability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/_meta/architecture/runtime-policy.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: capabilities
+    suggested_action: Raise 'operability' from 3 to target 5.
+    target: 5.0
+    umbrella: productivity
+    umbrella_rank: 2
+    weight: 5
+  - attribute: operability
+    evidence:
+    - .octon/cognition/practices/methodology/reliability-and-ops.md
+    - .octon/cognition/_meta/architecture/runtime-policy.md
+    gap: 2.0
+    measured: 3.0
+    priority: 10.0
+    subsystem: cognition
+    suggested_action: Raise 'operability' from 3 to target 5.
+    target: 5.0
+    umbrella: productivity
+    umbrella_rank: 2
+    weight: 5
+  top_regressions: []
+effective_weights:
+  agency:
+    accessibility: 3
+    auditability: 5
+    autonomy: 5
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  assurance:
+    accessibility: 3
+    auditability: 5
+    autonomy: 4
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  capabilities:
+    accessibility: 3
+    auditability: 5
+    autonomy: 4
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  cognition:
+    accessibility: 3
+    auditability: 5
+    autonomy: 4
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  continuity:
+    accessibility: 3
+    auditability: 5
+    autonomy: 4
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  ideation:
+    accessibility: 3
+    auditability: 5
+    autonomy: 1
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  orchestration:
+    accessibility: 3
+    auditability: 5
+    autonomy: 5
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  output:
+    accessibility: 3
+    auditability: 5
+    autonomy: 4
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  runtime:
+    accessibility: 3
+    auditability: 5
+    autonomy: 4
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 3
+  scaffolding:
+    accessibility: 3
+    auditability: 5
+    autonomy: 4
+    availability: 5
+    compatibility: 3
+    completeness: 4
+    complexity_calibration: 5
+    configurability: 3
+    dependability: 4
+    deployability: 4
+    evolvability: 4
+    functional_suitability: 5
+    interoperability: 4
+    maintainability: 5
+    observability: 5
+    operability: 5
+    performance: 3
+    portability: 5
+    recoverability: 5
+    reliability: 5
+    robustness: 4
+    safety: 5
+    scalability: 4
+    security: 5
+    sustainability: 2
+    testability: 5
+    usability: 4
+meta:
+  generated_at: 2026-02-24T20:02:11Z
+  run_id: 20260224T200211Z
+  source_hash: 1301c8c6128f0a982b373c83ed624c7c7901ba5b8e1eb97d2a6b82d303b9f6be
+  tool: compute-assurance-score
+  tool_version: 0.3.0
+overall:
+  subsystem_count: 10
+  system_score: 0.762015
+  system_score_percent: 76.2
+policy_deviations:
+  enforcement_phase: phase2
+  items: []
+  permitted: 0
+  total: 0
+regressions:
+  baseline_present: false
+  hard: []
+  soft: []
+subsystems:
+  agency:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 25.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 2.0
+        notes: null
+        priority: 8.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 8.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 4.0
+        notes: null
+        priority: 0.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 12.0
+    conflicts:
+    - adr: .octon/cognition/runtime/decisions/011-agency-subsystem-finalization.md
+      attributes:
+      - security
+      - usability
+      decision: Security-first defaults with explicit review ergonomics
+    - adr: .octon/cognition/runtime/decisions/015-autonomy-quality-attribute.md
+      attributes:
+      - autonomy
+      - safety
+      decision: Autonomy remains bounded by deny-by-default and no-silent-apply ACP gates.
+    last_updated: 2026-02-18
+    notes: null
+    owner: agency-owner
+    score: 0.768696
+    score_percent: 76.87
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - subsystem:agency
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  assurance:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 2.0
+        notes: null
+        priority: 8.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 8.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 25.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+    conflicts: []
+    last_updated: 2026-02-18
+    notes: null
+    owner: assurance-owner
+    score: 0.764912
+    score_percent: 76.49
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - subsystem:assurance
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  capabilities:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 4.0
+        notes: null
+        priority: 0.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 12.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 20.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 4.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+    conflicts:
+    - adr: .octon/cognition/runtime/decisions/012-agent-platform-interop-native-first.md
+      attributes:
+      - complexity_calibration
+      - interoperability
+      decision: Interop breadth is constrained by native-first boundaries
+    last_updated: 2026-02-18
+    notes: null
+    owner: capabilities-owner
+    score: 0.764912
+    score_percent: 76.49
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  cognition:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 20.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 25.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 2.0
+        notes: null
+        priority: 8.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 8.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+    conflicts: []
+    last_updated: 2026-02-18
+    notes: null
+    owner: cognition-owner
+    score: 0.770175
+    score_percent: 77.02
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  continuity:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 2.0
+        notes: null
+        priority: 8.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 8.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+    conflicts: []
+    last_updated: 2026-02-18
+    notes: null
+    owner: continuity-owner
+    score: 0.764912
+    score_percent: 76.49
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - subsystem:continuity
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  ideation:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 4.0
+        impact: null
+        max_weighted_value: 5.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 1
+        weighted_value: 1.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 2.0
+        notes: null
+        priority: 8.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 8.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 4.0
+        notes: null
+        priority: 0.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 12.0
+    conflicts: []
+    last_updated: 2026-02-18
+    notes: null
+    owner: ideation-owner
+    score: 0.726126
+    score_percent: 72.61
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - subsystem:ideation
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  orchestration:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 25.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 2.0
+        notes: null
+        priority: 8.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 8.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+    conflicts:
+    - adr: .octon/cognition/runtime/decisions/015-autonomy-quality-attribute.md
+      attributes:
+      - autonomy
+      - safety
+      decision: Orchestrations may automate planning/execution but cannot bypass ACP gates for material changes.
+    last_updated: 2026-02-18
+    notes: null
+    owner: orchestration-owner
+    score: 0.753043
+    score_percent: 75.3
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - subsystem:orchestration
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  output:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 2.0
+        notes: null
+        priority: 8.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 8.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+    conflicts: []
+    last_updated: 2026-02-18
+    notes: null
+    owner: output-owner
+    score: 0.754386
+    score_percent: 75.44
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  runtime:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 4.0
+        notes: null
+        priority: 3.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 12.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 4.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+    conflicts:
+    - adr: .octon/cognition/runtime/decisions/013-filesystem-interfaces-native-first.md
+      attributes:
+      - performance
+      - auditability
+      decision: Retain audit signals while scoping perf-sensitive instrumentation
+    last_updated: 2026-02-18
+    notes: null
+    owner: runtime-owner
+    score: 0.792982
+    score_percent: 79.3
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - subsystem:runtime
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+  scaffolding:
+    attributes:
+      accessibility:
+        criteria: Inclusive interaction baseline remains satisfied.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 2.0
+        notes: null
+        priority: 6.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 6.0
+      auditability:
+        criteria: Traceable evidence exists for decisions and execution.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        - .octon/continuity/log.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      autonomy:
+        criteria: Autonomous execution remains effective for low/medium-risk work while material side effects require ACP gates and receipts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        - .octon/cognition/governance/principles/autonomous-control-points.md
+        - .octon/cognition/governance/principles/deny-by-default.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      availability:
+        criteria: Service health and access targets are defined and monitored.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/practices/methodology/risk-tiers.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      compatibility:
+        criteria: Behavior co-exists with supported toolchains and environments.
+        delta: null
+        evidence:
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 3
+        weighted_value: 9.0
+      completeness:
+        criteria: Required scope and checks are fully covered for the active profile.
+        delta: null
+        evidence:
+        - .github/workflows/pr-quality.yml
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      complexity_calibration:
+        criteria: Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/complexity-calibration.md
+        - .octon/agency/practices/pull-request-standards.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 25.0
+      configurability:
+        criteria: Configuration changes remain controlled and non-explosive.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/flags-by-default.md
+        - .github/workflows/flags-stale-report.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 3.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      dependability:
+        criteria: Reliability, availability, safety, and maintainability posture stays trustworthy.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/pillars/trust.md
+        - .octon/cognition/governance/principles/determinism-and-provenance.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      deployability:
+        criteria: Changes are safely installable/upgradable with rollback path.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .github/workflows/runtime-binaries.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 3.0
+        notes: null
+        priority: 8.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 12.0
+      evolvability:
+        criteria: Changes preserve bounded extension and safe adaptation paths.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+      functional_suitability:
+        criteria: Changed behavior satisfies declared requirements and contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/contract-first.md
+        - .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      interoperability:
+        criteria: External integration contracts remain stable and validated.
+        delta: null
+        evidence:
+        - .octon/cognition/runtime/context/agent-platform-interop.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 4
+        weighted_value: 16.0
+      maintainability:
+        criteria: Contracts/docs/tests remain readable and update-safe.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/documentation-is-code.md
+        - .octon/cognition/governance/principles/ownership-and-boundaries.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      observability:
+        criteria: Changed flows emit usable traces/logs/metrics with correlation.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/observability-as-a-contract.md
+        - .octon/cognition/_meta/architecture/observability-requirements.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 15.0
+      operability:
+        criteria: Runbook-ready operation and incident handling are preserved.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/reliability-and-ops.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 3.0
+        notes: null
+        priority: 10.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 15.0
+      performance:
+        criteria: Critical paths stay within agreed latency/throughput budgets.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .github/workflows/filesystem-interfaces-perf-regression.yml
+        gap: 2.0
+        impact: null
+        max_weighted_value: 15.0
+        measured: 3.0
+        notes: null
+        priority: 6.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 3
+        weighted_value: 9.0
+      portability:
+        criteria: Core behavior remains tool/OS/runtime agnostic.
+        delta: null
+        evidence:
+        - .github/workflows/harness-self-containment.yml
+        - .octon/cognition/governance/principles/portability-and-independence.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: integration
+        umbrella_rank: 3
+        weight: 5
+        weighted_value: 25.0
+      recoverability:
+        criteria: Rollback or reversible-path evidence exists for material changes.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/reversibility.md
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 20.0
+      reliability:
+        criteria: Determinism and validation checks must pass for changed surfaces.
+        delta: null
+        evidence:
+        - .github/workflows/main-push-safety.yml
+        - .octon/assurance/runtime/_ops/scripts/alignment-check.sh
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      robustness:
+        criteria: Invalid inputs and partial failures are handled without unsafe collapse.
+        delta: null
+        evidence:
+        - .octon/cognition/_meta/architecture/runtime-policy.md
+        - .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+        gap: 1.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 4.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 4
+        weighted_value: 16.0
+      safety:
+        criteria: No unapproved material side effects; deny-by-default boundaries hold.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/deny-by-default.md
+        - .octon/cognition/governance/principles/no-silent-apply.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      scalability:
+        criteria: Capacity can increase without redesigning core contracts.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/performance-and-scalability.md
+        - .octon/cognition/governance/principles/contract-first.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 2.0
+        notes: null
+        priority: 8.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 8.0
+      security:
+        criteria: Security controls/scans pass with no unresolved critical findings.
+        delta: null
+        evidence:
+        - .octon/cognition/governance/principles/security-and-privacy-baseline.md
+        - .octon/cognition/practices/methodology/ci-cd-quality-gates.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 5.0
+        notes: null
+        priority: 0.0
+        target: 5.0
+        umbrella: assurance
+        umbrella_rank: 1
+        weight: 5
+        weighted_value: 25.0
+      sustainability:
+        criteria: Resource/cost impact is tracked and bounded for intended usage.
+        delta: null
+        evidence:
+        - .octon/cognition/practices/methodology/README.md
+        - .octon/cognition/practices/methodology/tooling-and-metrics.md
+        gap: 2.0
+        impact: null
+        max_weighted_value: 10.0
+        measured: 1.0
+        notes: null
+        priority: 4.0
+        target: 3.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 2
+        weighted_value: 2.0
+      testability:
+        criteria: Changed behavior is covered by deterministic tests.
+        delta: null
+        evidence:
+        - .octon/assurance/practices/standards/testing-strategy.md
+        - .github/workflows/filesystem-interfaces-runtime.yml
+        gap: 1.0
+        impact: null
+        max_weighted_value: 25.0
+        measured: 4.0
+        notes: null
+        priority: 5.0
+        target: 5.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 5
+        weighted_value: 20.0
+      usability:
+        criteria: Developer or operator workflow remains understandable and low-friction.
+        delta: null
+        evidence:
+        - .octon/agency/runtime/agents/architect/AGENT.md
+        - .octon/cognition/governance/principles/accessibility-baseline.md
+        gap: 0.0
+        impact: null
+        max_weighted_value: 20.0
+        measured: 4.0
+        notes: null
+        priority: 0.0
+        target: 4.0
+        umbrella: productivity
+        umbrella_rank: 2
+        weight: 4
+        weighted_value: 16.0
+    conflicts: []
+    last_updated: 2026-02-18
+    notes: null
+    owner: scaffolding-owner
+    score: 0.76
+    score_percent: 76.0
+    weights_source:
+      overrides_applied:
+      - global
+      - run-mode:ci
+      - subsystem:scaffolding
+      - maturity:beta
+      - repo:octon
+      profile: ci-reliability
+umbrellas:
+- critical_floor: 4.0
+  formula: 0.7*weighted_mean + 0.3*critical_floor
+  id: assurance
+  name: Assurance
+  rank: 1
+  sample_count: 100
+  score: 4.13125
+  score_percent: 82.63
+  weight_total: 480.0
+  weighted_mean: 4.1875
+- critical_floor: null
+  formula: weighted_mean
+  id: productivity
+  name: Productivity
+  rank: 2
+  sample_count: 140
+  score: 3.383333
+  score_percent: 67.67
+  weight_total: 540.0
+  weighted_mean: 3.383333
+- critical_floor: null
+  formula: weighted_mean
+  id: integration
+  name: Integration
+  rank: 3
+  sample_count: 30
+  score: 4.225
+  score_percent: 84.5
+  weight_total: 120.0
+  weighted_mean: 4.225

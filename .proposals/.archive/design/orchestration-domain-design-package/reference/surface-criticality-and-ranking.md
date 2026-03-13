@@ -43,7 +43,7 @@ model into a truly autonomous one without corrupting workflow boundaries.
 
 - `incidents`
 
-This matters earlier than `watchers` or `campaigns` if Harmony expects
+This matters earlier than `watchers` or `campaigns` if Octon expects
 autonomous execution to encounter real failure modes.
 
 ### Scale Surfaces

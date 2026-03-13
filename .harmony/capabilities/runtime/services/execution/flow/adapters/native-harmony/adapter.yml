@@ -1,9 +1,0 @@
-id: native-harmony
-provider: Harmony
-runtime_mode: wasm-native
-interop_contract_version: "1.0.0"
-default: true
-requires_capabilities:
-  - log.write
-  - fs.read
-  - fs.write

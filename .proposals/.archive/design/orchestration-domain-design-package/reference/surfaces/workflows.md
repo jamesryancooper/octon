@@ -2,7 +2,7 @@
 
 ## Status
 
-- Current Harmony surface
+- Current Octon surface
 
 ## Core Purpose
 
@@ -45,7 +45,7 @@ Primary orchestration behavior for `workflows` in this package is defined by:
 - `../contracts/run-linkage-contract.md`
 - `../contracts/mission-workflow-binding-contract.md`
 
-Live Harmony workflow docs remain important integration context for the current
+Live Octon workflow docs remain important integration context for the current
 runtime surface shape. They are not the primary source of target
 cross-surface orchestration behavior here.
 

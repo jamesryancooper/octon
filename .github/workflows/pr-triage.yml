@@ -91,16 +91,16 @@ jobs:
               "type:revert": { color: "BFD4F2", description: "Revert change" },
               "type:unknown": { color: "D4C5F9", description: "Unclassified branch type" },
 
-              "area:agency": { color: "0E8A16", description: "Harmony agency domain" },
-              "area:capabilities": { color: "0E8A16", description: "Harmony capabilities domain" },
-              "area:cognition": { color: "0E8A16", description: "Harmony cognition domain" },
-              "area:orchestration": { color: "0E8A16", description: "Harmony orchestration domain" },
-              "area:scaffolding": { color: "0E8A16", description: "Harmony scaffolding domain" },
-              "area:assurance": { color: "0E8A16", description: "Harmony assurance domain" },
-              "area:engine": { color: "0E8A16", description: "Harmony engine domain" },
-              "area:continuity": { color: "0E8A16", description: "Harmony continuity domain" },
-              "area:ideation": { color: "0E8A16", description: "Harmony ideation domain" },
-              "area:output": { color: "0E8A16", description: "Harmony output domain" },
+              "area:agency": { color: "0E8A16", description: "Octon agency domain" },
+              "area:capabilities": { color: "0E8A16", description: "Octon capabilities domain" },
+              "area:cognition": { color: "0E8A16", description: "Octon cognition domain" },
+              "area:orchestration": { color: "0E8A16", description: "Octon orchestration domain" },
+              "area:scaffolding": { color: "0E8A16", description: "Octon scaffolding domain" },
+              "area:assurance": { color: "0E8A16", description: "Octon assurance domain" },
+              "area:engine": { color: "0E8A16", description: "Octon engine domain" },
+              "area:continuity": { color: "0E8A16", description: "Octon continuity domain" },
+              "area:ideation": { color: "0E8A16", description: "Octon ideation domain" },
+              "area:output": { color: "0E8A16", description: "Octon output domain" },
               "area:github": { color: "0052CC", description: "GitHub workflow or settings surface" },
               "area:root": { color: "0052CC", description: "Root contract or repository surface" },
               "area:uncategorized": { color: "BFDADC", description: "No known area match" },
@@ -168,16 +168,16 @@ jobs:
             }
 
             const areaPrefixMap = [
-              [".harmony/agency/", "area:agency"],
-              [".harmony/capabilities/", "area:capabilities"],
-              [".harmony/cognition/", "area:cognition"],
-              [".harmony/orchestration/", "area:orchestration"],
-              [".harmony/scaffolding/", "area:scaffolding"],
-              [".harmony/assurance/", "area:assurance"],
-              [".harmony/engine/", "area:engine"],
-              [".harmony/continuity/", "area:continuity"],
-              [".harmony/ideation/", "area:ideation"],
-              [".harmony/output/", "area:output"],
+              [".octon/agency/", "area:agency"],
+              [".octon/capabilities/", "area:capabilities"],
+              [".octon/cognition/", "area:cognition"],
+              [".octon/orchestration/", "area:orchestration"],
+              [".octon/scaffolding/", "area:scaffolding"],
+              [".octon/assurance/", "area:assurance"],
+              [".octon/engine/", "area:engine"],
+              [".octon/continuity/", "area:continuity"],
+              [".octon/ideation/", "area:ideation"],
+              [".octon/output/", "area:output"],
               [".github/", "area:github"]
             ];
 
@@ -203,19 +203,19 @@ jobs:
             const highImpactPathPatterns = [
               ".github/",
               "AGENTS.md",
-              ".harmony/agency/governance/",
-              ".harmony/cognition/governance/",
-              ".harmony/capabilities/governance/",
-              ".harmony/engine/governance/",
-              ".harmony/engine/runtime/spec/",
-              ".harmony/assurance/governance/"
+              ".octon/agency/governance/",
+              ".octon/cognition/governance/",
+              ".octon/capabilities/governance/",
+              ".octon/engine/governance/",
+              ".octon/engine/runtime/spec/",
+              ".octon/assurance/governance/"
             ];
             const mediumImpactPathPatterns = [
-              ".harmony/agency/runtime/",
-              ".harmony/capabilities/runtime/",
-              ".harmony/orchestration/runtime/",
-              ".harmony/assurance/runtime/",
-              ".harmony/engine/runtime/"
+              ".octon/agency/runtime/",
+              ".octon/capabilities/runtime/",
+              ".octon/orchestration/runtime/",
+              ".octon/assurance/runtime/",
+              ".octon/engine/runtime/"
             ];
 
             const isHighImpact = paths.some((path) => highImpactPathPatterns.some((prefix) => path.startsWith(prefix) || path === prefix));

@@ -39,7 +39,7 @@ jobs:
               lines.push('- Traces: link representative trace(s) for the changed flow');
             }
             lines.push('');
-            lines.push('References: Harmony DoS/ACP, SLOs, and threat model link.');
+            lines.push('References: Octon DoS/ACP, SLOs, and threat model link.');
             const body = lines.join('\n');
             await github.rest.issues.createComment({
               owner: context.repo.owner,

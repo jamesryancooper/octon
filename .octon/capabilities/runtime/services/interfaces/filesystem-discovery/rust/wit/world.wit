@@ -1,0 +1,58 @@
+package octon:runtime@1.0.0;
+
+world octon-service {
+  /// Host logging (capability-gated by the kernel).
+  import log: interface {
+    write: func(level: string, message: string);
+  }
+
+  /// Host clock (capability-gated by the kernel).
+  import clock: interface {
+    now-ms: func() -> u64;
+  }
+
+  /// Host KV (capability-gated by the kernel).
+  import kv: interface {
+    get: func(key: string) -> option<string>;
+    put: func(key: string, value: string);
+    del: func(key: string);
+  }
+
+  /// Host filesystem (capability-gated by the kernel, sandboxed to repo root).
+  /// See rust-fs-host-api.md for implementation details.
+  import fs: interface {
+    // bytes
+    read: func(path: string) -> list<u8>;
+    read-range: func(path: string, offset: u64, max-bytes: u64) -> list<u8>;
+    write: func(path: string, data: list<u8>);
+    create-file-exclusive: func(path: string, data: list<u8>) -> bool;
+
+    // text (UTF-8)
+    read-text: func(path: string) -> string;
+    write-text: func(path: string, data: string);
+
+    // queries
+    exists: func(path: string) -> bool;
+    list-dir: func(path: string) -> list<string>;
+    glob: func(pattern: string) -> list<string>;
+
+    // mutations
+    mkdirp: func(path: string);
+    rename: func(from-path: string, to-path: string);
+    remove-file: func(path: string);
+    remove-dir-recursive: func(path: string);
+
+    // metadata
+    variant node-kind { file, dir }
+    record stat {
+      kind: node-kind,
+      size: u64,
+      modified-ms: option<u64>,
+    }
+    get-stat: func(path: string) -> option<stat>;
+  }
+
+  /// Generic op dispatcher.
+  /// `input-json` and return value are UTF-8 JSON strings.
+  export invoke: func(op: string, input-json: string) -> string;
+}

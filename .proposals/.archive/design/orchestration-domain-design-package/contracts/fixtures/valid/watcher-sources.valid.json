@@ -3,7 +3,7 @@
     {
       "source_id": "orchestration-tree",
       "kind": "filesystem",
-      "ref": ".harmony/orchestration",
+      "ref": ".octon/orchestration",
       "required_access": "read-metadata",
       "cursor_field": "mtime"
     }

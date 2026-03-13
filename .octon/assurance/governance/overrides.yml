@@ -1,0 +1,52 @@
+meta:
+  version: "1"
+  updated_at: "2026-02-18"
+  owner: "octon-platform"
+  status: "active"
+  enforcement_phase: "phase2"
+  description: "Declared repo-level policy deviations over subsystem-provided weights."
+
+deviations:
+  - id: "dev-payments-runtime-auditability-001"
+    repo: "payments-repo"
+    profile: "regulated"
+    subsystem: "runtime"
+    attribute: "auditability"
+    old_value: 5
+    new_value: 4
+    reason_category: "performance"
+    reason: "Reduce high-volume trace retention overhead while preserving forensic minimums."
+    adr: ".octon/cognition/runtime/decisions/014-two-file-weight-governance-model.md"
+    changelog_version: "2.4.0"
+    owner: "payments-runtime-owner"
+    created_at: "2026-02-18"
+    temporary: true
+    expires_at: "2026-03-31"
+    permanent_justification: ""
+    approved_by:
+      - "payments-platform-owner"
+      - "payments-security-owner"
+    evidence:
+      - ".octon/output/assurance/results/repo-payments-repo__run-mode-ci__maturity-prod__profile-regulated.md"
+      - ".github/workflows/assurance-weight-gates.yml"
+
+  - id: "dev-docs-scaffolding-usability-001"
+    repo: "docs-repo"
+    profile: "local-devex"
+    subsystem: "scaffolding"
+    attribute: "usability"
+    old_value: 4
+    new_value: 5
+    reason_category: "developer-experience"
+    reason: "Prioritize onboarding ergonomics during template migration pilot."
+    adr: ".octon/cognition/runtime/decisions/025-scaffolding-bounded-surfaces-clean-break-migration.md"
+    changelog_version: "1.9.0"
+    owner: "docs-scaffolding-owner"
+    created_at: "2026-02-18"
+    temporary: false
+    expires_at: ""
+    permanent_justification: "Repo mission is documentation UX and template adoption speed."
+    approved_by:
+      - "docs-owner"
+    evidence:
+      - ".octon/output/assurance/effective/repo-docs-repo__run-mode-local__maturity-alpha__profile-local-devex.md"

@@ -1,6 +1,0 @@
-sources:
-  - source_id: "workflow-runtime"
-    kind: "filesystem-path"
-    ref: ".harmony/orchestration/runtime/workflows"
-    required_access: "read-metadata"
-    cursor_field: "mtime"

@@ -3,7 +3,7 @@
   "suite": "mode-selection",
   "description": "A bounded-surface top-level domain is accepted and routed to bounded-domain mode.",
   "inputs": {
-    "scope_path": ".harmony/capabilities"
+    "scope_path": ".octon/capabilities"
   },
   "expected": {
     "support_decision": "supported",

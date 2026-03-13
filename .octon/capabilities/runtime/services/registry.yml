@@ -1,0 +1,703 @@
+schema_version: "1.0"
+
+services:
+  guard:
+    version: "0.1.0"
+    commands: [check, sanitize]
+    parameters:
+      - name: content
+        type: text
+        required: true
+        description: "Content to inspect or sanitize."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [prompt, flow]
+    contracts:
+      input: governance/guard/schema/input.schema.json
+      output: governance/guard/schema/output.schema.json
+      rules: governance/guard/rules/rules.yml
+      fixtures: governance/guard/fixtures/
+      invariants: governance/guard/contracts/invariants.md
+      errors: governance/guard/contracts/errors.yml
+      compatibility: governance/guard/compatibility.yml
+      generation_manifest: governance/guard/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.guard
+      required_spans: [service.guard.check, service.guard.sanitize]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: false
+      key_from: [contentHash, checkType]
+    impl:
+      entrypoint: governance/guard/impl/guard.sh
+
+  prompt:
+    version: "0.1.0"
+    commands: [compile]
+    parameters:
+      - name: promptId
+        type: text
+        required: true
+        description: "Prompt identifier to compile."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [guard, flow]
+    contracts:
+      input: modeling/prompt/schema/input.schema.json
+      output: modeling/prompt/schema/output.schema.json
+      rules: modeling/prompt/rules/rules.yml
+      fixtures: modeling/prompt/fixtures/
+      invariants: modeling/prompt/contracts/invariants.md
+      errors: modeling/prompt/contracts/errors.yml
+      compatibility: modeling/prompt/compatibility.yml
+      generation_manifest: modeling/prompt/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.prompt
+      required_spans: [service.prompt.compile]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: false
+      key_from: [promptId, variablesHash, variantId]
+    impl:
+      entrypoint: modeling/prompt/impl/prompt.sh
+
+  cost:
+    version: "0.1.0"
+    commands: [estimate, record]
+    parameters:
+      - name: operation
+        type: text
+        required: true
+        description: "Operation mode: estimate or record."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [flow, prompt]
+    contracts:
+      input: operations/cost/schema/input.schema.json
+      output: operations/cost/schema/output.schema.json
+      rules: operations/cost/rules/rules.yml
+      fixtures: operations/cost/fixtures/
+      invariants: operations/cost/contracts/invariants.md
+      errors: operations/cost/contracts/errors.yml
+      compatibility: operations/cost/compatibility.yml
+      generation_manifest: operations/cost/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.cost
+      required_spans: [service.cost.estimate, service.cost.record]
+    policy:
+      enforcement: block
+      fail_closed: false
+    idempotency:
+      required: true
+      key_from: [model, inputTokens, outputTokens, workflowType]
+    impl:
+      entrypoint: operations/cost/impl/cost.sh
+
+  flow:
+    version: "0.1.0"
+    commands: [run]
+    parameters:
+      - name: config
+        type: object
+        required: true
+        description: "Flow execution config."
+    dependencies:
+      requires: []
+      orchestrates: [prompt, guard, cost]
+      integratesWith: []
+    contracts:
+      input: execution/flow/schema/input.schema.json
+      output: execution/flow/schema/output.schema.json
+      rules: execution/flow/rules/rules.yml
+      fixtures: execution/flow/fixtures/
+      invariants: execution/flow/contracts/invariants.md
+      errors: execution/flow/contracts/errors.yml
+      compatibility: execution/flow/compatibility.yml
+      generation_manifest: execution/flow/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.flow
+      required_spans: [service.flow.run]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [flowName, canonicalPromptPath, workflowManifestPath]
+    impl:
+      entrypoint: execution/flow/service.wasm
+
+  spec:
+    version: "0.1.0"
+    commands: [init, validate, render, diagram]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: init, validate, render, or diagram."
+      - name: targetPath
+        type: text
+        required: false
+        description: "Target path for spec operations."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [plan]
+    contracts:
+      input: planning/spec/schema/input.schema.json
+      output: planning/spec/schema/output.schema.json
+      rules: planning/spec/rules/rules.yml
+      fixtures: planning/spec/fixtures/
+      invariants: planning/spec/contracts/invariants.md
+      errors: planning/spec/contracts/errors.yml
+      compatibility: planning/spec/compatibility.yml
+      generation_manifest: planning/spec/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.spec
+      required_spans: [service.spec.init, service.spec.validate, service.spec.render, service.spec.diagram]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [command, targetPath]
+    impl:
+      entrypoint: planning/spec/impl/spec.sh
+
+  plan:
+    version: "0.1.0"
+    commands: [plan]
+    parameters:
+      - name: goal
+        type: text
+        required: true
+        description: "Primary planning goal."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [spec, playbook, flow]
+    contracts:
+      input: planning/plan/schema/input.schema.json
+      output: planning/plan/schema/output.schema.json
+      rules: planning/plan/rules/rules.yml
+      fixtures: planning/plan/fixtures/
+      invariants: planning/plan/contracts/invariants.md
+      errors: planning/plan/contracts/errors.yml
+      compatibility: planning/plan/compatibility.yml
+      generation_manifest: planning/plan/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.plan
+      required_spans: [service.plan.plan]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [goalHash, constraintsHash]
+    impl:
+      entrypoint: planning/plan/impl/plan.sh
+
+  playbook:
+    version: "0.1.0"
+    commands: [expand, validate]
+    parameters:
+      - name: playbookPath
+        type: text
+        required: true
+        description: "Path to playbook template."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [plan]
+    contracts:
+      input: planning/playbook/schema/input.schema.json
+      output: planning/playbook/schema/output.schema.json
+      rules: planning/playbook/rules/rules.yml
+      fixtures: planning/playbook/fixtures/
+      invariants: planning/playbook/contracts/invariants.md
+      errors: planning/playbook/contracts/errors.yml
+      compatibility: planning/playbook/compatibility.yml
+      generation_manifest: planning/playbook/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.playbook
+      required_spans: [service.playbook.expand, service.playbook.validate]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [playbookPath, paramsHash]
+    impl:
+      entrypoint: planning/playbook/impl/playbook.sh
+
+  critic:
+    version: "0.1.0"
+    commands: [validate, score]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: validate or score."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: strict
+        type: boolean
+        required: false
+        description: "Fail closed for all critical issues."
+      - name: riskTolerance
+        type: text
+        required: false
+        description: "Risk profile: low, medium, or high."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [scheduler, capability-bind]
+    contracts:
+      input: planning/critic/schema/input.schema.json
+      output: planning/critic/schema/output.schema.json
+      rules: planning/critic/rules/rules.yml
+      fixtures: planning/critic/fixtures/
+      invariants: planning/critic/contracts/invariants.md
+      errors: planning/critic/contracts/errors.yml
+      compatibility: planning/critic/compatibility.yml
+      generation_manifest: planning/critic/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.planning.critic
+      required_spans: [service.planning.critic.validate, service.planning.critic.score]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [command, planPath, riskTolerance, strict]
+    impl:
+      entrypoint: planning/critic/impl/critic.sh
+
+  replan:
+    version: "0.1.0"
+    commands: [replan]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: replan."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: blockedSteps
+        type: array
+        required: false
+        description: "Step IDs to remove from execution."
+      - name: allowMissingDependencies
+        type: boolean
+        required: false
+        description: "Allow replan output with dependencies removed."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [contingency, scheduler]
+    contracts:
+      input: planning/replan/schema/input.schema.json
+      output: planning/replan/schema/output.schema.json
+      rules: planning/replan/rules/rules.yml
+      fixtures: planning/replan/fixtures/
+      invariants: planning/replan/contracts/invariants.md
+      errors: planning/replan/contracts/errors.yml
+      compatibility: planning/replan/compatibility.yml
+      generation_manifest: planning/replan/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.planning.replan
+      required_spans: [service.planning.replan.replan]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [planPath, blockedSteps]
+    impl:
+      entrypoint: planning/replan/impl/replan.sh
+
+  scheduler:
+    version: "0.1.0"
+    commands: [schedule]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: schedule."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: maxParallel
+        type: number
+        required: false
+        description: "Maximum parallelism per scheduling stage."
+      - name: prefer
+        type: text
+        required: false
+        description: "compact or throughput scheduling policy."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [critic]
+    contracts:
+      input: planning/scheduler/schema/input.schema.json
+      output: planning/scheduler/schema/output.schema.json
+      rules: planning/scheduler/rules/rules.yml
+      fixtures: planning/scheduler/fixtures/
+      invariants: planning/scheduler/contracts/invariants.md
+      errors: planning/scheduler/contracts/errors.yml
+      compatibility: planning/scheduler/compatibility.yml
+      generation_manifest: planning/scheduler/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.scheduler
+      required_spans: [service.scheduler.schedule]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [planPath, maxParallel, prefer]
+    impl:
+      entrypoint: planning/scheduler/impl/scheduler.sh
+
+  capability-bind:
+    version: "0.1.0"
+    commands: [bind, validate]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: bind or validate."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: strategy
+        type: text
+        required: false
+        description: "prefer-native, prefer-adapter, or prefer-available."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [plan, scheduler]
+    contracts:
+      input: planning/capability-bind/schema/input.schema.json
+      output: planning/capability-bind/schema/output.schema.json
+      rules: planning/capability-bind/rules/rules.yml
+      fixtures: planning/capability-bind/fixtures/
+      invariants: planning/capability-bind/contracts/invariants.md
+      errors: planning/capability-bind/contracts/errors.yml
+      compatibility: planning/capability-bind/compatibility.yml
+      generation_manifest: planning/capability-bind/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.planning.capability-bind
+      required_spans: [service.planning.capability-bind.bind, service.planning.capability-bind.validate]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [planPath, command, strategy]
+    impl:
+      entrypoint: planning/capability-bind/impl/capability-bind.sh
+
+  contingency:
+    version: "0.1.0"
+    commands: [generate, validate]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: generate or validate."
+      - name: planPath
+        type: text
+        required: false
+        description: "Path to plan JSON."
+      - name: failedSteps
+        type: array
+        required: false
+        description: "List of failed or blocked step IDs."
+      - name: allowDescendants
+        type: boolean
+        required: false
+        description: "Also remove transitive descendants of failed steps."
+      - name: maxAlternatives
+        type: number
+        required: false
+        description: "Maximum number of alternatives to return."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [critic, replan]
+    contracts:
+      input: planning/contingency/schema/input.schema.json
+      output: planning/contingency/schema/output.schema.json
+      rules: planning/contingency/rules/rules.yml
+      fixtures: planning/contingency/fixtures/
+      invariants: planning/contingency/contracts/invariants.md
+      errors: planning/contingency/contracts/errors.yml
+      compatibility: planning/contingency/compatibility.yml
+      generation_manifest: planning/contingency/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.planning.contingency
+      required_spans: [service.planning.contingency.generate, service.planning.contingency.validate]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [planPath, failedSteps]
+    impl:
+      entrypoint: planning/contingency/impl/contingency.sh
+
+  agent:
+    version: "0.1.0"
+    commands: [execute, resume]
+    parameters:
+      - name: planPath
+        type: text
+        required: true
+        description: "Path to canonical plan.json."
+      - name: runId
+        type: text
+        required: false
+        description: "Existing run identifier for resume mode."
+    dependencies:
+      requires: []
+      orchestrates: [flow]
+      integratesWith: [plan, cost]
+    contracts:
+      input: execution/agent/schema/input.schema.json
+      output: execution/agent/schema/output.schema.json
+      rules: execution/agent/rules/rules.yml
+      fixtures: execution/agent/fixtures/
+      invariants: execution/agent/contracts/invariants.md
+      errors: execution/agent/contracts/errors.yml
+      compatibility: execution/agent/compatibility.yml
+      generation_manifest: execution/agent/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.agent
+      required_spans: [service.agent.execute, service.agent.resume]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [runId, planHash]
+    impl:
+      entrypoint: execution/agent/impl/agent.sh
+
+  agent-platform:
+    version: "0.1.0"
+    commands: [context-budget, validate-session-policy, negotiate-capabilities, memory-flush-evidence]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: context-budget, validate-session-policy, or negotiate-capabilities."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [flow, cost]
+    contracts:
+      input: interfaces/agent-platform/schema/input.schema.json
+      output: interfaces/agent-platform/schema/output.schema.json
+      rules: interfaces/agent-platform/rules/rules.yml
+      fixtures: interfaces/agent-platform/fixtures/
+      invariants: interfaces/agent-platform/contracts/invariants.md
+      errors: interfaces/agent-platform/contracts/errors.yml
+      compatibility: interfaces/agent-platform/compatibility.yml
+      generation_manifest: interfaces/agent-platform/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.agent-platform
+      required_spans: [service.agent-platform.context-budget, service.agent-platform.validate-session-policy, service.agent-platform.negotiate-capabilities, service.agent-platform.memory-flush-evidence]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [sessionId, policyId, budgetSnapshotHash]
+    impl:
+      entrypoint: interfaces/agent-platform/impl/context-budget.sh
+
+  query:
+    version: "0.1.0"
+    commands: [ask, retrieve, explain]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Operation mode: ask, retrieve, or explain."
+      - name: query
+        type: text
+        required: true
+        description: "Natural-language query text."
+      - name: index.snapshot
+        type: text
+        required: true
+        description: "External snapshot path or ID containing keyword/graph/chunk artifacts."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: []
+    contracts:
+      input: retrieval/query/schema/input.schema.json
+      output: retrieval/query/schema/output.schema.json
+      rules: retrieval/query/rules/rules.yml
+      fixtures: retrieval/query/fixtures/
+      invariants: retrieval/query/contracts/invariants.md
+      errors: retrieval/query/contracts/errors.yml
+      compatibility: retrieval/query/compatibility.yml
+      generation_manifest: retrieval/query/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.query
+      required_spans: [service.query.ask, service.query.retrieve, service.query.explain]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: false
+      key_from: [queryHash, snapshotId, strategyHash]
+    impl:
+      entrypoint: retrieval/query/impl/query.sh
+
+  filesystem-snapshot:
+    version: "0.1.0"
+    commands:
+      [fs.list, fs.read, fs.stat, fs.search, snapshot.build, snapshot.diff, snapshot.get-current]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Filesystem-snapshot operation command."
+      - name: snapshot_id
+        type: text
+        required: false
+        description: "Optional snapshot id (defaults to active snapshot pointer)."
+      - name: payload
+        type: object
+        required: true
+        description: "Operation payload."
+    dependencies:
+      requires: []
+      orchestrates: []
+      integratesWith: [filesystem-discovery, query, agent-platform]
+    contracts:
+      input: interfaces/filesystem-snapshot/schema/input.schema.json
+      output: interfaces/filesystem-snapshot/schema/output.schema.json
+      rules: interfaces/filesystem-snapshot/rules/rules.yml
+      fixtures: interfaces/filesystem-snapshot/fixtures/
+      invariants: interfaces/filesystem-snapshot/contracts/invariants.md
+      errors: interfaces/filesystem-snapshot/contracts/errors.yml
+      compatibility: interfaces/filesystem-snapshot/compatibility.yml
+      generation_manifest: interfaces/filesystem-snapshot/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.filesystem-snapshot
+      required_spans: [service.filesystem-snapshot.fs, service.filesystem-snapshot.snapshot]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [command, snapshotId, payloadHash]
+    impl:
+      entrypoint: engine/runtime/run tool interfaces/filesystem-snapshot
+
+  filesystem-discovery:
+    version: "0.1.0"
+    commands:
+      [
+        kg.get-node,
+        kg.neighbors,
+        kg.traverse,
+        kg.resolve-to-file,
+        discover.start,
+        discover.expand,
+        discover.explain,
+        discover.resolve
+      ]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Filesystem-discovery operation command."
+      - name: snapshot_id
+        type: text
+        required: false
+        description: "Optional snapshot id (defaults to active snapshot pointer)."
+      - name: payload
+        type: object
+        required: true
+        description: "Operation payload."
+    dependencies:
+      requires: [filesystem-snapshot]
+      orchestrates: []
+      integratesWith: [query, agent-platform]
+    contracts:
+      input: interfaces/filesystem-discovery/schema/input.schema.json
+      output: interfaces/filesystem-discovery/schema/output.schema.json
+      rules: interfaces/filesystem-discovery/rules/rules.yml
+      fixtures: interfaces/filesystem-discovery/fixtures/
+      invariants: interfaces/filesystem-discovery/contracts/invariants.md
+      errors: interfaces/filesystem-discovery/contracts/errors.yml
+      compatibility: interfaces/filesystem-discovery/compatibility.yml
+      generation_manifest: interfaces/filesystem-discovery/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.filesystem-discovery
+      required_spans: [service.filesystem-discovery.kg, service.filesystem-discovery.discover]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [command, snapshotId, payloadHash]
+    impl:
+      entrypoint: engine/runtime/run tool interfaces/filesystem-discovery
+
+  filesystem-watch:
+    version: "0.1.0"
+    commands: [watch.poll]
+    parameters:
+      - name: command
+        type: text
+        required: true
+        description: "Filesystem-watch operation command."
+      - name: payload
+        type: object
+        required: true
+        description: "Operation payload."
+    dependencies:
+      requires: [filesystem-snapshot]
+      orchestrates: []
+      integratesWith: [filesystem-discovery]
+    contracts:
+      input: interfaces/filesystem-watch/schema/input.schema.json
+      output: interfaces/filesystem-watch/schema/output.schema.json
+      rules: interfaces/filesystem-watch/rules/rules.yml
+      fixtures: interfaces/filesystem-watch/fixtures/
+      invariants: interfaces/filesystem-watch/contracts/invariants.md
+      errors: interfaces/filesystem-watch/contracts/errors.yml
+      compatibility: interfaces/filesystem-watch/compatibility.yml
+      generation_manifest: interfaces/filesystem-watch/impl/generated.manifest.json
+    observability:
+      service_name: octon.service.filesystem-watch
+      required_spans: [service.filesystem-watch.poll]
+    policy:
+      enforcement: block
+      fail_closed: true
+    idempotency:
+      required: true
+      key_from: [root, stateKey, payloadHash]
+    impl:
+      entrypoint: engine/runtime/run tool interfaces/filesystem-watch

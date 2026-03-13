@@ -1,24 +1,24 @@
 # Evaluate Harness `/evaluate-harness`
 
-Evaluate a `.harmony/` directory for token efficiency and agent effectiveness.
+Evaluate a `.octon/` directory for token efficiency and agent effectiveness.
 
-See `.harmony/orchestration/runtime/workflows/meta/evaluate-harness/README.md` for full description and steps.
+See `.octon/orchestration/runtime/workflows/meta/evaluate-harness/README.md` for full description and steps.
 
 ## Usage
 
 ```text
-/evaluate-harness @.harmony
+/evaluate-harness @.octon
 ```
 
 Evaluate the repo-root harness only.
 
 ## Implementation
 
-Execute the workflow in `.harmony/orchestration/runtime/workflows/meta/evaluate-harness/`.
+Execute the workflow in `.octon/orchestration/runtime/workflows/meta/evaluate-harness/`.
 
 Start with `README.md`, then follow each step in sequence.
 
 ## References
 
-- **Canonical:** `.harmony/START.md`
-- **Workflow:** `.harmony/orchestration/runtime/workflows/meta/evaluate-harness/`
+- **Canonical:** `.octon/START.md`
+- **Workflow:** `.octon/orchestration/runtime/workflows/meta/evaluate-harness/`

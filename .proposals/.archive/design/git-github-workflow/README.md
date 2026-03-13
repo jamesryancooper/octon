@@ -17,8 +17,8 @@ Archive Disposition: `implemented`
 
 - `/.github/workflows/`
 - `/.github/PULL_REQUEST_TEMPLATE.md`
-- `/.harmony/agency/practices/`
-- `/.harmony/agency/_ops/scripts/`
+- `/.octon/agency/practices/`
+- `/.octon/agency/_ops/scripts/`
 - `/.github/dependabot.yml`
 - `release-please-config.json`
 - `/.release-please-manifest.json`

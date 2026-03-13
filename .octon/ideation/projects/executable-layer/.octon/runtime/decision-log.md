@@ -1,0 +1,15 @@
+# Decision log
+
+| # | Decision | Options considered | Choice | Rationale |
+|---|----------|--------------------|--------|-----------|
+| 1 | Runtime policy configuration file format/location | No policy file; JSON; YAML | YAML at `.octon/runtime/config/policy.yml` | Octon already uses YAML widely; easy to edit. Spec-bundle does not define a policy file format, only the deny-by-default behavior, so this is an implementation choice. |
+| 2 | Default capability posture | Allow-by-default; deny-by-default | **Deny-by-default** | Required by spec: services get nothing unless explicitly granted. |
+| 3 | Policy scoping and precedence | Only per-service; per-category + per-service; global only | default allow + category allow + service allow | Provides minimal useful ergonomics while remaining deny-by-default. |
+| 4 | Concurrency enforcement when `max_concurrency` is exceeded | Queue/block; semaphore wait; reject | Reject new requests (error) | Prevents unbounded blocking in the stdio server and keeps behavior deterministic. |
+| 5 | Service output shape | Envelope `{ok,result}` vs raw op output | **Raw op output JSON** | `spec-bundle.md` service.json example implies op output_schema describes the whole output. `rust-service-authoring.md` shows an envelope helper, but `spec-bundle.md` is authoritative. |
+| 6 | Discovery source of truth | Tier YAML (`manifest.yml`/`registry.yml`) only; scan filesystem only; merge | Scan `service.json` under `.octon/capabilities/services/**/service.json` | This matches the explicit discovery behavior in `spec-bundle.md` module responsibilities. Tier YAMLs are included in-repo as metadata but not required for runtime loading in v1. |
+| 7 | Wasmtime cache wiring | No cache; custom cache; Wasmtime built-in cache via config file | Wasmtime cache config at `.octon/runtime/config/wasmtime-cache.toml` pointing to `.octon/runtime/_ops/state/wasmtime-cache` | Aligns with the implementation architecture doc and keeps cache local to runtime ops state. |
+| 8 | WASI stdio inheritance to guest modules | Inherit host stdio; inherit stderr only; no inheritance | **No stdio inheritance** | In stdio server mode, stdout is reserved for the NDJSON protocol. Guests should use `log.write` instead. |
+| 9 | Error code for output schema validation failure | Introduce INVALID_OUTPUT; reuse SERVICE_TRAP; reuse INTERNAL | SERVICE_TRAP | The v1 error-code set in `spec-bundle.md` does not include INVALID_OUTPUT, but output validation is mandatory. SERVICE_TRAP is the closest fail-closed error class. |
+| 10 | NDJSON cancellation request acknowledgment | No ack; ack with response; emit event | Send a response to the cancellation request id (ack) | The spec requires a final response for the cancelled request id; it does not forbid acknowledging the cancel request itself. This improves client UX and observability. |
+| 11 | Bootstrap script behavior when platform binaries are absent | Fail; download binaries; fallback to cargo | Fallback to `cargo run` | The architecture doc expects `runtime/_ops/bin/*` binaries, but this repo implementation does not ship them; the fallback keeps development usable. |

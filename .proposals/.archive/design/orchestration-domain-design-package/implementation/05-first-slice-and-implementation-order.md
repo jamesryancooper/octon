@@ -55,7 +55,7 @@ Concrete first path:
 | Topic | Final Decision |
 |---|---|
 | Severity ordering | `info < warning < high < critical` |
-| `source_ref_globs` | case-sensitive full-string Harmony path globs over normalized slash-separated paths; supports `*`, `**`, `?`, and `[]`; no brace expansion or extglob |
+| `source_ref_globs` | case-sensitive full-string Octon path globs over normalized slash-separated paths; supports `*`, `**`, `?`, and `[]`; no brace expansion or extglob |
 | Recovery policy | same-executor resume or `abandon_and_escalate`; no recovery transfer in v1 |
 
 ## Remaining Implementation Choices

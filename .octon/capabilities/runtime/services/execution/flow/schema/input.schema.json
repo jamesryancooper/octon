@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/flowkit/flowkit.inputs.v1.json",
+  "title": "FlowKitInputs",
+  "description": "Input schema for FlowKit run requests",
+  "type": "object",
+  "required": ["config"],
+  "properties": {
+    "config": {
+      "type": "object",
+      "description": "Flow configuration",
+      "required": ["flowName", "canonicalPromptPath", "workflowManifestPath"],
+      "properties": {
+        "flowName": {
+          "type": "string",
+          "description": "Identifier for the flow to run (e.g., 'architecture_assessment')",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "canonicalPromptPath": {
+          "type": "string",
+          "description": "Absolute or repo-relative path to the canonical prompt"
+        },
+        "workspaceRoot": {
+          "type": "string",
+          "description": "Optional workspace root to resolve relative paths"
+        },
+        "workflowManifestPath": {
+          "type": "string",
+          "description": "Workflow manifest path (e.g., 'langgraph.json')"
+        },
+        "workflowEntrypoint": {
+          "type": "string",
+          "description": "Optional workflow entrypoint id"
+        },
+        "observability": {
+          "type": "object",
+          "description": "Observability configuration",
+          "properties": {
+            "spanPrefix": {
+              "type": "string",
+              "description": "Prefix for span names"
+            },
+            "serviceName": {
+              "type": "string",
+              "description": "Service name for telemetry"
+            },
+            "enableTracing": {
+              "type": "boolean",
+              "description": "Enable trace propagation"
+            }
+          }
+        }
+      }
+    },
+    "params": {
+      "type": "object",
+      "description": "Optional parameters to seed the flow",
+      "additionalProperties": true
+    }
+  }
+}
+

@@ -1,0 +1,6 @@
+sources:
+  - source_id: "workflow-runtime"
+    kind: "filesystem-path"
+    ref: ".octon/orchestration/runtime/workflows"
+    required_access: "read-metadata"
+    cursor_field: "mtime"

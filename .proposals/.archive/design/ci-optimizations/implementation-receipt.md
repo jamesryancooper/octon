@@ -15,7 +15,7 @@
 - `.github/workflows/pr-auto-merge.yml`
 - `.github/workflows/pr-clean-state-enforcer.yml`
 - `.github/workflows/codex-pr-review.yml`
-- `.harmony/agency/practices/github-autonomy-runbook.md`
+- `.octon/agency/practices/github-autonomy-runbook.md`
 - `.github/workflows/ci-efficiency-guard.yml` (new)
 - `.github/scripts/ci-efficiency-guard.sh` (new, executable)
 

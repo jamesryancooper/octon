@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/query/query.outputs.v1.json",
+  "title": "QueryOutputs",
+  "description": "Output schema for query ask/retrieve/explain operations",
+  "type": "object",
+  "required": ["run", "status", "candidates", "citations", "evidence", "diagnostics"],
+  "additionalProperties": false,
+  "properties": {
+    "run": {
+      "type": "object",
+      "required": ["run_id", "service_version", "snapshot_id"],
+      "additionalProperties": false,
+      "properties": {
+        "run_id": { "type": "string", "minLength": 1 },
+        "service_version": { "type": "string", "minLength": 1 },
+        "snapshot_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["success", "partial", "error"]
+    },
+    "answer": {
+      "type": "string",
+      "description": "Synthesized response; emitted for ask."
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rank", "chunk_id", "doc_id", "score", "signals"],
+        "additionalProperties": false,
+        "properties": {
+          "rank": { "type": "integer", "minimum": 1 },
+          "chunk_id": { "type": "string", "minLength": 1 },
+          "doc_id": { "type": "string", "minLength": 1 },
+          "score": { "type": "number" },
+          "signals": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "keyword": { "type": "number" },
+              "semantic": { "type": "number" },
+              "graph": { "type": "number" }
+            }
+          },
+          "source_locator": {
+            "type": "string",
+            "description": "Source locator, e.g. path:line or doc#chunk_id."
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["chunk_id", "locator", "confidence"],
+        "additionalProperties": false,
+        "properties": {
+          "chunk_id": { "type": "string", "minLength": 1 },
+          "locator": { "type": "string", "minLength": 1 },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "claim": { "type": "string" }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["chunk_id", "locator", "excerpt"],
+        "additionalProperties": false,
+        "properties": {
+          "chunk_id": { "type": "string", "minLength": 1 },
+          "locator": { "type": "string", "minLength": 1 },
+          "excerpt": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "required": ["strategy", "timings", "deterministic_stages", "route_applied"],
+      "additionalProperties": false,
+      "properties": {
+        "strategy": {
+          "type": "object",
+          "required": ["use", "fuse", "route", "top_k"],
+          "additionalProperties": false,
+          "properties": {
+            "use": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["keyword", "semantic", "graph"]
+              }
+            },
+            "fuse": { "type": "string", "enum": ["rrf", "weighted"] },
+            "route": {
+              "type": "string",
+              "enum": ["flat", "hierarchical", "graph_global"]
+            },
+            "top_k": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "timings": {
+          "type": "object",
+          "required": ["total_ms"],
+          "additionalProperties": false,
+          "properties": {
+            "total_ms": { "type": "integer", "minimum": 0 },
+            "signal_ms": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "keyword": { "type": "integer", "minimum": 0 },
+                "semantic": { "type": "integer", "minimum": 0 },
+                "graph": { "type": "integer", "minimum": 0 },
+                "route": { "type": "integer", "minimum": 0 },
+                "memory": { "type": "integer", "minimum": 0 },
+                "fusion": { "type": "integer", "minimum": 0 },
+                "citation": { "type": "integer", "minimum": 0 }
+              }
+            }
+          }
+        },
+        "deterministic_stages": {
+          "type": "array",
+          "description": "Pipeline stages that are deterministic for this run.",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["keyword", "graph", "fusion", "citation"]
+          }
+        },
+        "degraded_signals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["keyword", "semantic", "graph"]
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "route_applied": {
+          "type": "boolean",
+          "description": "True when the requested route path executed successfully."
+        },
+        "memory_clues": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "InputValidationError",
+            "UnsupportedCommandError",
+            "UnsupportedSignalError",
+            "SnapshotNotFoundError",
+            "MissingSignalArtifactError",
+            "SemanticScoringUnavailableError",
+            "CitationAssemblyError",
+            "NativeInvariantViolation",
+            "ProviderTermLeakError"
+          ]
+        },
+        "message": { "type": "string", "minLength": 1 },
+        "details": { "type": "object", "additionalProperties": true }
+      }
+    }
+  }
+}

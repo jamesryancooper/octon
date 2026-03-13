@@ -8,22 +8,22 @@ authority.
 
 ## External Authorities
 
-Durable runtime and assurance surfaces under `/.harmony/` remain higher
+Durable runtime and assurance surfaces under `/.octon/` remain higher
 precedence than this package once they disagree.
 
 ## Durable Runtime Authorities
 
 When repository runtime surfaces disagree, resolve them in this order:
 
-1. `/.harmony/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml`
-2. `/.harmony/orchestration/runtime/workflows/audit/audit-design-package/stages/`
-3. generated `/.harmony/orchestration/runtime/workflows/audit/audit-design-package/README.md`
-4. `/.harmony/orchestration/runtime/workflows/registry.yml`
-5. `/.harmony/orchestration/runtime/workflows/manifest.yml`
-6. `/.harmony/orchestration/governance/capability-map-v1.yml`
-7. `/.harmony/engine/runtime/crates/kernel/src/workflow.rs`
-8. `/.harmony/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh`
-9. `/.harmony/assurance/runtime/_ops/tests/`
+1. `/.octon/orchestration/runtime/workflows/audit/audit-design-package/workflow.yml`
+2. `/.octon/orchestration/runtime/workflows/audit/audit-design-package/stages/`
+3. generated `/.octon/orchestration/runtime/workflows/audit/audit-design-package/README.md`
+4. `/.octon/orchestration/runtime/workflows/registry.yml`
+5. `/.octon/orchestration/runtime/workflows/manifest.yml`
+6. `/.octon/orchestration/governance/capability-map-v1.yml`
+7. `/.octon/engine/runtime/crates/kernel/src/workflow.rs`
+8. `/.octon/assurance/runtime/_ops/scripts/validate-audit-design-package-workflow.sh`
+9. `/.octon/assurance/runtime/_ops/tests/`
 
 Interpretation rule:
 
@@ -40,7 +40,7 @@ Interpretation rule:
 3. `pipeline-overview.md`
 4. `stage-contracts.md`
 5. `artifact-contract.md`
-6. `harmony-integration.md`
+6. `octon-integration.md`
 7. `normative/architecture/domain-model.md`
 8. `normative/architecture/runtime-architecture.md`
 9. `normative/execution/behavior-model.md`

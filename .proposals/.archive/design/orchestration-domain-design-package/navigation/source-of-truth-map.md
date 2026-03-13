@@ -18,12 +18,12 @@ Package modules are intentionally separated:
 - `reference/` for active but non-authoritative support material
 - `history/` for provenance-only artifacts
 
-## Global Harmony Precedence
+## Global Octon Precedence
 
 This package does not override repository-wide governance or continuity
 ownership.
 
-When conflicts exist, the higher-precedence Harmony authority wins:
+When conflicts exist, the higher-precedence Octon authority wins:
 
 1. repository ingress and agent governance authorities (`AGENTS.md`,
    `CONSTITUTION.md`, delegation/memory overlays, active objective/intent)
@@ -80,12 +80,12 @@ source of truth for target runtime behavior, contracts, lifecycle, and safety.
 These documents remain useful, but they are not the primary behavioral source of
 truth when a more specific normative document exists:
 
-- `history/mature-harmony-orchestration-model.md`
+- `history/mature-octon-orchestration-model.md`
 - `reference/layered-model.md`
 - `reference/runtime-shape-and-directory-structure.md`
 - `reference/canonical-surface-taxonomy.md`
 - `reference/end-to-end-flow.md`
-- `history/alignment-with-harmony-goal.md`
+- `history/alignment-with-octon-goal.md`
 - `reference/surface-criticality-and-ranking.md`
 - `history/surface-shape-architectural-review.md`
 - `reference/example-orchestration-charter.md`
@@ -97,19 +97,19 @@ truth when a more specific normative document exists:
 Surface specs remain authoritative for surface purpose, role, and non-goals
 unless a more specific contract or control document defines stricter behavior.
 
-## Externally Inherited Harmony Authorities
+## Externally Inherited Octon Authorities
 
-The package still depends on external Harmony authorities for:
+The package still depends on external Octon authorities for:
 
 | External Authority | Why It Matters |
 |---|---|
 | `AGENTS.md` and governing overlays | repo-wide process, safety, and precedence rules |
-| `.harmony/OBJECTIVE.md` and active intent contract | objective-bound execution and authorized scope |
-| `.harmony/continuity/_meta/architecture/continuity-plane.md` | continuity ownership and evidence separation |
-| `.harmony/continuity/decisions/README.md` and retention docs | decision-evidence ownership and lifecycle |
-| `.harmony/continuity/runs/README.md` and retention docs | durable run-evidence ownership and lifecycle |
+| `.octon/OBJECTIVE.md` and active intent contract | objective-bound execution and authorized scope |
+| `.octon/continuity/_meta/architecture/continuity-plane.md` | continuity ownership and evidence separation |
+| `.octon/continuity/decisions/README.md` and retention docs | decision-evidence ownership and lifecycle |
+| `.octon/continuity/runs/README.md` and retention docs | durable run-evidence ownership and lifecycle |
 
-Current live workflow and mission docs under `.harmony/orchestration/` are
+Current live workflow and mission docs under `.octon/orchestration/` are
 implementation integration context and promotion targets. They are not the
 primary source of target orchestration behavior for this package.
 
@@ -143,7 +143,7 @@ remediation.
 | observability and operator lookup | `normative/assurance/observability.md` | `normative/governance/evidence-observability-and-retention-spec.md` | health, correlation, and lookup guarantees |
 | decision evidence | `contracts/decision-record-contract.md` | continuity decision authorities | canonical `decision_id` and storage shape |
 | run object/state, projection, and evidence linkage | `contracts/run-linkage-contract.md` | continuity run authorities | canonical `<run-id>.yml` record plus subordinate runtime projections and continuity evidence linkage |
-| incident object/state and local evidence split | `contracts/incident-object-contract.md` | `normative/execution/orchestration-lifecycle.md`, `normative/governance/governance-and-policy.md`, `.harmony/orchestration/governance/incidents.md` | canonical `incident.yml` state plus subordinate local evidence and external governance authority |
+| incident object/state and local evidence split | `contracts/incident-object-contract.md` | `normative/execution/orchestration-lifecycle.md`, `normative/governance/governance-and-policy.md`, `.octon/orchestration/governance/incidents.md` | canonical `incident.yml` state plus subordinate local evidence and external governance authority |
 | campaign object/state and mission coordination | `contracts/campaign-object-contract.md`, `contracts/campaign-mission-coordination-contract.md` | `normative/architecture/domain-model.md`, `normative/execution/orchestration-lifecycle.md` | canonical `campaign.yml` object/state record plus mission aggregation, milestone, and optionality rules |
 | discovery layering and SSOT | `contracts/discovery-and-authority-layer-contract.md` | `normative/architecture/runtime-architecture.md` | package-local discovery, state ownership, and evidence-layer separation |
 | behavioral proof and semantic conformance | `conformance/README.md` and scenario packs under `conformance/scenarios/` | `normative/assurance/assurance-and-acceptance-matrix.md`, validator logic | package-level proof for routing, scheduling, and recovery semantics |
@@ -158,7 +158,7 @@ This package does not redefine:
 - continuity ownership of append-oriented durable decision and run evidence
 - full workflow authoring syntax outside the orchestration-facing behaviors this
   package consumes
-- live `.harmony/orchestration` authority alignment
+- live `.octon/orchestration` authority alignment
 
 ## Conflict Resolution Inside The Package
 

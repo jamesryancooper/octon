@@ -1,6 +1,6 @@
-Below are **ready-to-commit file contents** for the workflow set we designed (policy gates + CI + auto-triage + release automation). They’re written to fit Harmony’s **PLAN → SHIP → LEARN** loop and surface model (runtime/governance/practices/etc.). 
+Below are **ready-to-commit file contents** for the workflow set we designed (policy gates + CI + auto-triage + release automation). They’re written to fit Octon’s **PLAN → SHIP → LEARN** loop and surface model (runtime/governance/practices/etc.). 
 
-> Note: I still can’t directly inspect `jamesryancooper/harmony` because the repo URL returns 404 publicly (likely private). So these files are **portable defaults** designed to drop in cleanly. After you add them, you’ll want to confirm required check names and any repo-specific test commands.
+> Note: I still can’t directly inspect `jamesryancooper/octon` because the repo URL returns 404 publicly (likely private). So these files are **portable defaults** designed to drop in cleanly. After you add them, you’ll want to confirm required check names and any repo-specific test commands.
 
 ---
 
@@ -8,7 +8,7 @@ Below are **ready-to-commit file contents** for the workflow set we designed (po
 
 ```md
 <!--
-Harmony PR Template (agent-first, governed)
+Octon PR Template (agent-first, governed)
 
 REQUIRED:
 - PR title MUST follow Conventional Commits:
@@ -410,7 +410,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Run Harmony checks
+      - name: Run Octon checks
         run: bash runtime/ci/check.sh
 ```
 
@@ -425,7 +425,7 @@ set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
 cd "${ROOT}"
 
-echo "== Harmony CI: runtime/ci/check.sh =="
+echo "== Octon CI: runtime/ci/check.sh =="
 
 echo "== Hygiene (tracked files) =="
 python3 runtime/ci/hygiene.py
@@ -732,7 +732,7 @@ echo "Labels synced to ${REPO}"
 3. Run label sync:
 
 ```bash
-bash runtime/ops/labels.sync.sh jamesryancooper/harmony
+bash runtime/ops/labels.sync.sh jamesryancooper/octon
 ```
 
 4. In GitHub settings, protect `main` and require checks:

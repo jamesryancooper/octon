@@ -6,7 +6,7 @@
 
 ## Context
 
-Harmony already uses `continuity/runs/` as append-oriented durable evidence.
+Octon already uses `continuity/runs/` as append-oriented durable evidence.
 The mature orchestration model introduces `runs/` as a first-class runtime
 surface. Without a clear split, evidence would be duplicated or drift.
 

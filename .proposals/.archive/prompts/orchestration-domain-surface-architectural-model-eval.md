@@ -1,14 +1,14 @@
 # Orchestration Domain Surface Architectural Model Evaluation
 
-You are an architectural design expert agent operating inside the Harmony repository.
+You are an architectural design expert agent operating inside the Octon repository.
 
 Your task is to design the architectural model for one named orchestration surface within the package:
 
 - `.proposals/.archive/design/orchestration-domain-design-package/`
 
-This is a package-first design task, not a live Harmony implementation task.
+This is a package-first design task, not a live Octon implementation task.
 
-Your job is to determine the best-fit architectural model for the target surface inside the orchestration domain design proposal package, then produce the concrete proposal-package file updates required to make that design implementation-ready before any promotion into live `.harmony/` surfaces.
+Your job is to determine the best-fit architectural model for the target surface inside the orchestration domain design proposal package, then produce the concrete proposal-package file updates required to make that design implementation-ready before any promotion into live `.octon/` surfaces.
 
 Primary objective
 
@@ -39,7 +39,7 @@ Scope and authority
 - Evaluate exactly one target orchestration surface.
 - Work inside the orchestration design package first.
 - Treat package-local normative docs as the primary design authority for target orchestration behavior.
-- Treat current live `.harmony/orchestration/` surfaces as integration and promotion context, not as the primary target authority.
+- Treat current live `.octon/orchestration/` surfaces as integration and promotion context, not as the primary target authority.
 - Inspect adjacent package files only when they directly govern, validate, describe, or promote the target surface.
 - Do not redesign the entire orchestration domain unless the target surface cannot be made correct without a clearly bounded cross-surface contract adjustment.
 
@@ -64,7 +64,7 @@ That means:
 
 - define the correct target architecture for the named surface inside the design package
 - update package docs, contracts, schemas, fixtures, readiness gates, and promotion targets only where the surface change truly requires it
-- avoid drifting into live `.harmony` implementation details except where promotion targets must be clarified in `canonicalization-target-map.md`
+- avoid drifting into live `.octon` implementation details except where promotion targets must be clarified in `canonicalization-target-map.md`
 
 Core architectural principle
 
@@ -105,13 +105,13 @@ Do not normalize these unless the target surface itself needs it:
 - whether the definition layer is one file or several
 - whether Markdown instruction assets are needed at all
 - whether a new package-local contract, schema, or fixture is required
-- whether live Harmony promotion should add runtime, governance, practices, validation, or only addenda to existing surfaces
+- whether live Octon promotion should add runtime, governance, practices, validation, or only addenda to existing surfaces
 
 Important anti-patterns
 
 - Do not cargo-cult workflow conventions into unrelated orchestration surfaces.
 - Do not assume every surface needs staged Markdown assets.
-- Do not treat the current live Harmony shape as the answer if the package evidence says otherwise.
+- Do not treat the current live Octon shape as the answer if the package evidence says otherwise.
 - Do not preserve package inconsistency just because it already exists.
 - Do not invent cross-surface complexity unless the target surface actually needs it.
 - Do not recommend package file changes without naming the exact paths and content changes required.
@@ -155,9 +155,9 @@ Surface-specific evaluation questions
 9. Which other package docs become stale or incomplete if the surface model changes?
 10. What is the smallest package change set that makes the target surface implementation-ready?
 
-How to reason about live Harmony surfaces
+How to reason about live Octon surfaces
 
-- Use live `.harmony/orchestration/` artifacts only as current-state integration context.
+- Use live `.octon/orchestration/` artifacts only as current-state integration context.
 - Do not let the current implementation freeze the design package into an inferior model.
 - When promotion implications exist, record them in package-local promotion planning rather than redesigning live runtime files.
 
@@ -287,12 +287,12 @@ Produce a complete result with these sections:
 - atomic vs transitional recommendation for landing the proposal-package changes
 - rationale based on repo and surface facts
 - ordered workstreams
-- validation follow-up required before implementation in live `.harmony`
+- validation follow-up required before implementation in live `.octon`
 
 1. Canonicalization Notes
 
-- future live Harmony promotion implications for the target surface
-- what belongs later in `.harmony/orchestration/`
+- future live Octon promotion implications for the target surface
+- what belongs later in `.octon/orchestration/`
 - what should remain package-local until implementation proves out
 
 1. Acceptance Criteria

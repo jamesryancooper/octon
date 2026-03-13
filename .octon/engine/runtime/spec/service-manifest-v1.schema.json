@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/spec/service-manifest-v1.schema.json",
+  "title": "Octon Service Manifest v1",
+  "type": "object",
+  "required": [
+    "format_version",
+    "name",
+    "version",
+    "category",
+    "abi",
+    "entry",
+    "capabilities_required",
+    "ops",
+    "limits"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "format_version": {
+      "const": "service-manifest-v1"
+    },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$"
+    },
+    "category": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+    },
+    "abi": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry": {
+      "type": "string",
+      "pattern": "^[^\\\\/:*?\"<>|]+\\.wasm$"
+    },
+    "capabilities_required": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Capability id such as log.write, storage.local, fs.read, fs.write, clock.read, or net.http."
+      },
+      "uniqueItems": true
+    },
+    "ops": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["input_schema", "output_schema"],
+        "additionalProperties": false,
+        "properties": {
+          "input_schema": { "type": "object" },
+          "output_schema": { "type": "object" },
+          "idempotent": { "type": "boolean", "default": false },
+          "streaming": { "type": "boolean", "default": false }
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "required": [
+        "max_request_bytes",
+        "max_response_bytes",
+        "timeout_ms",
+        "max_concurrency"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "max_request_bytes": { "type": "integer", "minimum": 1024, "maximum": 33554432 },
+        "max_response_bytes": { "type": "integer", "minimum": 1024, "maximum": 33554432 },
+        "timeout_ms": { "type": "integer", "minimum": 1, "maximum": 600000 },
+        "max_concurrency": { "type": "integer", "minimum": 1, "maximum": 256 }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "wasm_sha256": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "docs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "summary": { "type": "string" },
+        "help": { "type": "string" }
+      }
+    }
+  }
+}

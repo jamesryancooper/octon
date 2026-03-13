@@ -1,6 +1,6 @@
 # GitHub Actions Baseline
 
-- repository: jamesryancooper/harmony
+- repository: jamesryancooper/octon
 - window_start_utc: 2026-02-02T21:57:33Z
 - window_end_utc: 2026-03-04T21:57:33Z
 - window_days: 30
