@@ -1,0 +1,28 @@
+schema_version: "extension-pack-v1"
+id: "nextjs"
+version: "1.0.0"
+display_name: "Next.js"
+summary: "Framework-specific additive capabilities for Next.js development."
+compatibility:
+  harmony_version: "^1.4.0"
+  extensions_api_version: "1.0"
+trust:
+  tier: "first-party"
+  provenance: "repo-local"
+dependencies:
+  requires: []
+  conflicts: []
+contents:
+  skills:
+    manifest: "skills/manifest.fragment.yml"
+    registry: "skills/registry.fragment.yml"
+  commands:
+    manifest: "commands/manifest.fragment.yml"
+  templates:
+    catalog: "templates/catalog.fragment.yml"
+  prompts:
+    catalog: "prompts/catalog.fragment.yml"
+  context:
+    catalog: "context/catalog.fragment.yml"
+  validation:
+    catalog: "validation/catalog.fragment.yml"

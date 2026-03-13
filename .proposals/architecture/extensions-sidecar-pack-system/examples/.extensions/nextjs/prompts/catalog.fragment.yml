@@ -1,0 +1,5 @@
+schema_version: "extensions-prompts-catalog-fragment-v1"
+prompts:
+  - id: nextjs--architecture-review
+    path: nextjs--architecture-review.md
+    summary: "Review a Next.js surface for runtime and boundary-fit concerns."

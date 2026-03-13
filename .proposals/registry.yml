@@ -1,6 +1,21 @@
 schema_version: "proposal-registry-v1"
 
 active:
+  - id: "extensions-sidecar-pack-system"
+    kind: "architecture"
+    scope: "harmony-internal"
+    path: ".proposals/architecture/extensions-sidecar-pack-system"
+    title: "External `.extensions` Sidecar Pack System"
+    status: "draft"
+    promotion_targets:
+      - ".harmony/engine/runtime/"
+      - ".harmony/engine/governance/"
+      - ".harmony/capabilities/runtime/"
+      - ".harmony/capabilities/_meta/architecture/"
+      - ".harmony/assurance/runtime/"
+      - ".harmony/scaffolding/"
+      - ".harmony/orchestration/runtime/workflows/"
+      - ".harmony/harmony.yml"
   - id: "studio-graph-ux-design-package"
     kind: "design"
     scope: "harmony-internal"

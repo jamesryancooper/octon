@@ -1,0 +1,6 @@
+schema_version: "extensions-templates-catalog-fragment-v1"
+templates:
+  - id: nextjs--route-handler
+    display_name: Nextjs Route Handler
+    path: nextjs--route-handler/
+    summary: "Example route-handler template for a Next.js extension pack."

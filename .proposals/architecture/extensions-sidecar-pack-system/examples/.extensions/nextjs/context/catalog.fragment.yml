@@ -1,0 +1,5 @@
+schema_version: "extensions-context-catalog-fragment-v1"
+documents:
+  - id: nextjs--guide
+    path: nextjs--guide.md
+    summary: "Context document describing the Next.js extension pack."

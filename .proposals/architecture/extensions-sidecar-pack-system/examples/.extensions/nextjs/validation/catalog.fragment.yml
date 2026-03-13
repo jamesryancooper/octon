@@ -1,0 +1,6 @@
+schema_version: "extensions-validation-catalog-fragment-v1"
+assets:
+  - id: nextjs--validation-readme
+    path: README.md
+    kind: documentation
+    summary: "Pack-local validation asset root for the Next.js extension pack."
