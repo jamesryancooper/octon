@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.15](https://github.com/jamesryancooper/octon/compare/harmony-v0.4.14...octon-v0.4.15) (2026-03-14)
+
+
+### Refactors
+
+* **harness:** remove legacy nested harness surfaces ([#157](https://github.com/jamesryancooper/octon/issues/157)) ([a68e066](https://github.com/jamesryancooper/octon/commit/a68e066df941c46dac728bf26c52c687cb1e242c))
+* **harness:** rename harmony to octon ([#158](https://github.com/jamesryancooper/octon/issues/158)) ([8d42b89](https://github.com/jamesryancooper/octon/commit/8d42b89fd5d9056bf7b6737502f4f7372ea50259))
+
+
+### Documentation
+
+* **readme:** add root octon overview ([#160](https://github.com/jamesryancooper/octon/issues/160)) ([0130b76](https://github.com/jamesryancooper/octon/commit/0130b76ed446757acad5859da5568eecc58b904e))
+
 ## [0.4.14](https://github.com/jamesryancooper/octon/compare/octon-v0.4.13...octon-v0.4.14) (2026-03-13)
 
 
