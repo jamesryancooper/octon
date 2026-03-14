@@ -1,40 +1,17 @@
 # Changelog
 
-## [0.4.15](https://github.com/jamesryancooper/octon/compare/octon-v0.4.14...octon-v0.4.15) (2026-03-14)
+## [0.4.15](https://github.com/jamesryancooper/octon/compare/harmony-v0.4.14...octon-v0.4.15) (2026-03-14)
 
 
-### Features
+### Refactors
 
-* **agency:** add local git autonomy helper scripts ([#43](https://github.com/jamesryancooper/octon/issues/43)) ([9078c3c](https://github.com/jamesryancooper/octon/commit/9078c3cd88032ab65a1831df4112e614ffe1a1d1))
-* **agency:** implement revised autonomy workflow patch ([#55](https://github.com/jamesryancooper/octon/issues/55)) ([22a3eed](https://github.com/jamesryancooper/octon/commit/22a3eed7b817f220aff1b9b0d40e993f87be4bee))
-* **audit:** add architecture readiness capability ([#139](https://github.com/jamesryancooper/octon/issues/139)) ([ee84627](https://github.com/jamesryancooper/octon/commit/ee8462792db5a8dc08432dcebee05e988dde8d94))
-* **audits:** add surface architecture audit skill ([#148](https://github.com/jamesryancooper/octon/issues/148)) ([06ff7ea](https://github.com/jamesryancooper/octon/commit/06ff7eaa7f92ccb75e83152d1e68464aee189873))
-* **capabilities:** add skills expansion audit entrypoints ([#96](https://github.com/jamesryancooper/octon/issues/96)) ([b6806e3](https://github.com/jamesryancooper/octon/commit/b6806e304277018e5b4a8ca9ace15c9e194b55cf))
-* **github:** implement phase c release acceleration ([#34](https://github.com/jamesryancooper/octon/issues/34)) ([7f9ec46](https://github.com/jamesryancooper/octon/commit/7f9ec46ccdf7dfe347df63acb7a0aadc2c4ecd86))
-* **init:** scaffold objective-aware bootstrap ([#103](https://github.com/jamesryancooper/octon/issues/103)) ([9069417](https://github.com/jamesryancooper/octon/commit/90694173ced805533ff6687f8a54892b83440f77))
-* **orchestration:** add operator hardening surfaces ([#135](https://github.com/jamesryancooper/octon/issues/135)) ([c98749b](https://github.com/jamesryancooper/octon/commit/c98749b5234d11c5f8a299b5f932cb8e14b69f97))
-* **orchestration:** implement domain rollout from design package ([#133](https://github.com/jamesryancooper/octon/issues/133)) ([d7ea1a4](https://github.com/jamesryancooper/octon/commit/d7ea1a4cc8c1e6f00df9297b69cdf0b78e1980f1))
-* **orchestration:** model campaigns as schema-backed objects ([#126](https://github.com/jamesryancooper/octon/issues/126)) ([b4c0408](https://github.com/jamesryancooper/octon/commit/b4c0408c30fd05f81f745427cbaa1ecf05bb3a14))
-* **scaffolding:** self-contain bootstrap ingress surfaces ([#105](https://github.com/jamesryancooper/octon/issues/105)) ([dcc1fcf](https://github.com/jamesryancooper/octon/commit/dcc1fcf3213d80dc35f4016faddc1e6ceac0f5c5))
-* **scaffolding:** standardize design package flow ([#131](https://github.com/jamesryancooper/octon/issues/131)) ([dc535fc](https://github.com/jamesryancooper/octon/commit/dc535fca72d5510bbf67908ed474d0b1f97e3e06))
-* **skills:** harden composition and service contracts ([#98](https://github.com/jamesryancooper/octon/issues/98)) ([f366c0b](https://github.com/jamesryancooper/octon/commit/f366c0b2fa8fceda0745203950504630f24a3d56))
-* **workflows:** add workflow system audit ([#107](https://github.com/jamesryancooper/octon/issues/107)) ([847ff19](https://github.com/jamesryancooper/octon/commit/847ff19e49f1f4054aa11d4af68abac3f52c9c39))
+* **harness:** remove legacy nested harness surfaces ([#157](https://github.com/jamesryancooper/octon/issues/157)) ([a68e066](https://github.com/jamesryancooper/octon/commit/a68e066df941c46dac728bf26c52c687cb1e242c))
+* **harness:** rename harmony to octon ([#158](https://github.com/jamesryancooper/octon/issues/158)) ([8d42b89](https://github.com/jamesryancooper/octon/commit/8d42b89fd5d9056bf7b6737502f4f7372ea50259))
 
 
-### Bug Fixes
+### Documentation
 
-* **agency:** align required check context naming ([#90](https://github.com/jamesryancooper/octon/issues/90)) ([5c7dc3e](https://github.com/jamesryancooper/octon/commit/5c7dc3e1ebf2b32e52113962bfb594aa99ece707))
-* **agency:** clear failed workflow permissions payload ([#60](https://github.com/jamesryancooper/octon/issues/60)) ([e58f563](https://github.com/jamesryancooper/octon/commit/e58f5635eb164e46345e6e59aeef1df9177e4d75))
-* **agency:** fail closed on workflow permissions reads ([#61](https://github.com/jamesryancooper/octon/issues/61)) ([88da3f0](https://github.com/jamesryancooper/octon/commit/88da3f0f5f0f2cb319bd2f76a5d7a91535f20954))
-* **agency:** harden autonomy health invariant checks ([#59](https://github.com/jamesryancooper/octon/issues/59)) ([e7ce60c](https://github.com/jamesryancooper/octon/commit/e7ce60cbf0b5be71fdabb320b4079cb1285644d1))
-* **agency:** harden autonomy health ruleset resolution ([#58](https://github.com/jamesryancooper/octon/issues/58)) ([13c0579](https://github.com/jamesryancooper/octon/commit/13c057967520544f54823d6c7b4448c500fb354a))
-* **audit:** reduce architecture audit trigger ambiguity ([#141](https://github.com/jamesryancooper/octon/issues/141)) ([efb41bd](https://github.com/jamesryancooper/octon/commit/efb41bd0b4c22f783b2268365f9498422adad135))
-* **ci:** harden release and post-merge pr checks ([#101](https://github.com/jamesryancooper/octon/issues/101)) ([58e1d96](https://github.com/jamesryancooper/octon/commit/58e1d967c0f2662bb698f34b11e2b6048b0bb7fc))
-* **github:** remove unsupported workflow settings check ([#40](https://github.com/jamesryancooper/octon/issues/40)) ([94ef39e](https://github.com/jamesryancooper/octon/commit/94ef39ea2171841880b9f2e6ea8871e8682392ab))
-* **orchestration:** remove design package backreferences ([#137](https://github.com/jamesryancooper/octon/issues/137)) ([8717243](https://github.com/jamesryancooper/octon/commit/87172438b7063a143e8f4769c74dc38f27dec8b1))
-* **output:** keep audit bundle directories tracked ([#155](https://github.com/jamesryancooper/octon/issues/155)) ([b1c3728](https://github.com/jamesryancooper/octon/commit/b1c3728c4adcbf8bbb24a7f2367fa857f121e739))
-* **workflows:** fall back when rg is unavailable ([#110](https://github.com/jamesryancooper/octon/issues/110)) ([5f6cdab](https://github.com/jamesryancooper/octon/commit/5f6cdabdc66a4b58b1b016605ceb068edcd81b66))
-* **workflows:** remove github-script core redeclarations ([#63](https://github.com/jamesryancooper/octon/issues/63)) ([6574a8d](https://github.com/jamesryancooper/octon/commit/6574a8d66619ceec5157fe33ff676c9da8ec6480))
+* **readme:** add root octon overview ([#160](https://github.com/jamesryancooper/octon/issues/160)) ([0130b76](https://github.com/jamesryancooper/octon/commit/0130b76ed446757acad5859da5568eecc58b904e))
 
 ## [0.4.14](https://github.com/jamesryancooper/octon/compare/octon-v0.4.13...octon-v0.4.14) (2026-03-13)
 
