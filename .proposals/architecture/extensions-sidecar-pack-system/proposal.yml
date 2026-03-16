@@ -1,7 +1,7 @@
 schema_version: "proposal-v1"
 proposal_id: "extensions-sidecar-pack-system"
-title: "External `.extensions` Sidecar Pack System"
-summary: "Define the full Octon-side implementation that lets the harness discover, validate, compile, and consume additive extension content from a repo-root `.extensions/` sidecar without creating a second authority surface."
+title: "External `.octon.extensions` Sidecar Pack System"
+summary: "Define the full Octon-side implementation that lets the harness discover, validate, compile, and consume additive extension content from a repo-root `.octon.extensions/` sidecar without creating a second authority surface."
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
 promotion_targets:

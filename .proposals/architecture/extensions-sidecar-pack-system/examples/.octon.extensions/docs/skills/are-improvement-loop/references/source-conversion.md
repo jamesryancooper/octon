@@ -9,5 +9,5 @@ harness template.
 - workflow-like specialist guidance becomes a pack-local skill
 - scaffolding-oriented customization remains a pack-local template example
 
-This split keeps `/.extensions/` pack-centric while avoiding extension-local
+This split keeps `/.octon.extensions/` pack-centric while avoiding extension-local
 orchestration surfaces.

@@ -1,7 +1,7 @@
 # Docs Extension Example
 
 This example illustrates a first-party v1 extension pack rooted at
-`/.extensions/docs/`.
+`/.octon.extensions/docs/`.
 
 It demonstrates the preferred conversion path for removed Octon scoped docs
 content:

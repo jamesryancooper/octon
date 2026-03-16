@@ -1,11 +1,11 @@
 # Acceptance Criteria
 
-The `.extensions/` sidecar boundary is ready to implement when all of the
+The `.octon.extensions/` sidecar boundary is ready to implement when all of the
 following are true:
 
 1. The v1 layout is defined with each pack rooted directly under
-   `/.extensions/<pack-id>/`.
-2. The proposal is explicit that `/.extensions/` binds only to the repo-root
+   `/.octon.extensions/<pack-id>/`.
+2. The proposal is explicit that `/.octon.extensions/` binds only to the repo-root
    harness.
 3. The allowed content set is explicit:
    - `catalog.yml`
@@ -29,7 +29,7 @@ following are true:
    - mutable runtime state
    - compiled effective indexes
 5. The source-of-truth split is explicit:
-   - `/.extensions/` stores pack source and selection
+   - `/.octon.extensions/` stores pack source and selection
    - `/.octon/` stores runtime authority, governance, and derived effective
      projections
 6. The required `.octon/` implementation surfaces are explicit:
@@ -81,8 +81,8 @@ following are true:
 17. Canonical Octon manifests are not edited in place by pack install or
    enable flows.
 18. The proposal leaves no ambiguity about which implementation work must land
-    in `/.octon/` versus repo-root `/.extensions/`.
+    in `/.octon/` versus repo-root `/.octon.extensions/`.
 19. The proposal includes concrete example packs showing how removed Octon
-    scoped-template material is re-expressed inside `/.extensions/`:
+    scoped-template material is re-expressed inside `/.octon.extensions/`:
     - `docs` as a template example plus an ARE-derived skill
     - `node-ts` as a template example

@@ -3,7 +3,7 @@
 ## Purpose
 
 Define the proposed v1 merge rules that Octon uses when compiling effective
-discovery indexes from core `/.octon/` content plus enabled `/.extensions/`
+discovery indexes from core `/.octon/` content plus enabled `/.octon.extensions/`
 content.
 
 This contract assumes a single repo-root harness.
@@ -12,8 +12,8 @@ This contract assumes a single repo-root harness.
 
 - native Octon manifests and registries under `/.octon/`
 - root-harness extension contract values from `/.octon/octon.yml`
-- enabled extension entries from `/.extensions/catalog.yml`
-- validated pack manifests from `/.extensions/<pack-id>/pack.yml`
+- enabled extension entries from `/.octon.extensions/catalog.yml`
+- validated pack manifests from `/.octon.extensions/<pack-id>/pack.yml`
 - validated fragment files from each enabled pack
 
 ## Output
@@ -60,7 +60,7 @@ Allowed rebased destination classes include:
 
 The compiler must reject:
 
-- writes that would resolve inside `/.extensions/**`
+- writes that would resolve inside `/.octon.extensions/**`
 - writes that escape approved Octon-owned roots
 - ambiguous relative output declarations
 

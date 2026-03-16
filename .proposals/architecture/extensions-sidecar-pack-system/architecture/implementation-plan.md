@@ -2,9 +2,9 @@
 
 ## Workstream 1: Core Contracts And Documentation
 
-- Add durable architecture docs in `/.octon/` defining `/.extensions/` as a
+- Add durable architecture docs in `/.octon/` defining `/.octon.extensions/` as a
   repo-root source surface supported by Octon.
-- Record that `/.extensions/` binds to the root harness only.
+- Record that `/.octon.extensions/` binds to the root harness only.
 - Add governance docs defining:
   - trust tiers
   - compatibility ranges
@@ -15,7 +15,7 @@
   - allowed and forbidden content classes
   - fail-closed behavior
 - Update `/.octon/octon.yml` and architecture references so bootstrap and
-  update flows have an explicit stance on `/.extensions/`.
+  update flows have an explicit stance on `/.octon.extensions/`.
 
 ## Workstream 2: Extension Catalog And Pack Schemas
 
@@ -41,7 +41,7 @@
 
 ## Workstream 3: Runtime Discovery And Resolution
 
-- Add repo-root discovery of `/.extensions/` in `/.octon/engine/runtime/`.
+- Add repo-root discovery of `/.octon.extensions/` in `/.octon/engine/runtime/`.
 - Implement loading for:
   - `catalog.yml`
   - enabled pack roots
@@ -130,8 +130,8 @@
   - catalog vs pack manifest mismatch
 - Add checks that every rebased write scope or durable output target resolves to
   an approved Octon-owned destination.
-- Add guardrails that reject forbidden content under `/.extensions/`.
-- Add guardrails that block disallowed raw `.extensions/` path dependencies from
+- Add guardrails that reject forbidden content under `/.octon.extensions/`.
+- Add guardrails that block disallowed raw `.octon.extensions/` path dependencies from
   canonical `.octon/` surfaces outside approved derived projections.
 - Integrate extension checks into `alignment-check` or equivalent assurance
   entrypoints.
@@ -169,11 +169,11 @@
   - auditing extension integrity
   - reporting extension-unavailable or stale-generation states
 - Keep these operational entrypoints inside `/.octon/`, not under
-  `/.extensions/`.
+  `/.octon.extensions/`.
 
 ## Workstream 10: Proving Packs And Legacy Conversion Examples
 
-- Author a small first-party example set directly under `/.extensions/`:
+- Author a small first-party example set directly under `/.octon.extensions/`:
   - `nextjs/` for a broad multi-bucket pack
   - `docs/` for a docs-focused template example plus an ARE-derived skill
   - `node-ts/` for a Node.js/TypeScript template example

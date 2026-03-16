@@ -1,7 +1,7 @@
 # Node-Ts Extension Example
 
 This example illustrates a first-party v1 extension pack rooted at
-`/.extensions/node-ts/`.
+`/.octon.extensions/node-ts/`.
 
 It demonstrates a Node.js and TypeScript pack-local template example for
 package and workspace customization.

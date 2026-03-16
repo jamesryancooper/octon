@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Extension Pack",
-  "description": "Proposed schema for .extensions/<pack-id>/pack.yml in v1.",
+  "description": "Proposed schema for .octon.extensions/<pack-id>/pack.yml in v1.",
   "type": "object",
   "required": [
     "schema_version",
