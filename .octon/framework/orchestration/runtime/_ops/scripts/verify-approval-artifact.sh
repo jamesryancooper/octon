@@ -28,7 +28,7 @@ done
 [[ -n "$approval_id" && -n "$action_class" && -n "$surface" ]] || { echo "approval-id, action-class, and surface are required" >&2; exit 1; }
 
 approval_file="$DECISIONS_DIR/approvals/$approval_id.json"
-registry_file="$OCTON_DIR/orchestration/governance/approver-authority-registry.json"
+registry_file="$OCTON_DIR/framework/orchestration/governance/approver-authority-registry.json"
 [[ -f "$approval_file" ]] || { echo "approval artifact missing: $approval_id" >&2; exit 1; }
 [[ -f "$registry_file" ]] || { echo "approver registry missing" >&2; exit 1; }
 
