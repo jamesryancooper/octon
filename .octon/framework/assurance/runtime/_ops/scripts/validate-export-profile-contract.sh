@@ -61,7 +61,7 @@ main() {
 
   local tmp_root=""
   tmp_root="$(mktemp -d "${TMPDIR:-/tmp}/octon-export-validate.XXXXXX")"
-  trap '[[ -n "${tmp_root:-}" ]] && rm -rf "$tmp_root"' EXIT
+  trap '[[ -n "${tmp_root:-}" ]] && rm -r -f -- "$tmp_root"' EXIT
 
   if EXPORT_HARNESS_VALIDATE_ONLY=1 OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" \
     bash "$EXPORT_SCRIPT" --profile repo_snapshot --output-dir "$tmp_root/repo_snapshot" >/dev/null

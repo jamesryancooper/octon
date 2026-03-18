@@ -342,7 +342,7 @@ main() {
 
   load_selected_packs
   tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/octon-extension-state.XXXXXX")"
-  trap '[[ -n "${tmpdir:-}" ]] && rm -rf "$tmpdir"' EXIT
+  trap '[[ -n "${tmpdir:-}" ]] && rm -r -f -- "$tmpdir"' EXIT
 
   local pack_id
   for pack_id in "${SELECTED_PACKS[@]}"; do
