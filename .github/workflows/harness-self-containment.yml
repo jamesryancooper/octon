@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - '.octon/inputs/exploratory/proposals/design/orchestration-domain-design-proposal/**'
+      - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
       - '.octon/**'
       - '.github/workflows/harness-self-containment.yml'
   pull_request:
     paths:
-      - '.octon/inputs/exploratory/proposals/design/orchestration-domain-design-proposal/**'
+      - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
       - '.octon/**'
       - '.github/workflows/harness-self-containment.yml'
 
@@ -38,7 +38,7 @@ jobs:
         with:
           filters: |
             orchestration:
-              - '.octon/inputs/exploratory/proposals/design/orchestration-domain-design-proposal/**'
+              - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
               - '.octon/framework/orchestration/**'
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh'
               - '.octon/framework/assurance/runtime/_ops/tests/test-validate-orchestration-design-proposal.sh'

@@ -7,7 +7,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OPS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 RUNTIME_DIR="$(cd "$OPS_DIR/.." && pwd)"
 ASSURANCE_DIR="$(cd "$RUNTIME_DIR/.." && pwd)"
-OCTON_DIR="$(cd "$ASSURANCE_DIR/.." && pwd)"
+FRAMEWORK_DIR="$(cd "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 VALIDATE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh"
 PACKAGE_PATH=".octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package"
@@ -89,10 +90,24 @@ run_validator_in_fixture() {
   )
 }
 
+run_validator_in_fixture_default_path() {
+  local fixture_root="$1"
+  (
+    cd "$fixture_root"
+    bash "$VALIDATE_SCRIPT"
+  )
+}
+
 case_valid_package_passes() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
   run_validator_in_fixture "$fixture_root"
+}
+
+case_default_package_path_passes() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  run_validator_in_fixture_default_path "$fixture_root"
 }
 
 case_missing_schema_fails() {
@@ -123,6 +138,10 @@ main() {
   assert_success \
     "design proposal validator accepts the baseline proof layer" \
     case_valid_package_passes
+
+  assert_success \
+    "design proposal validator resolves its default package path from the repo root" \
+    case_default_package_path_passes
 
   assert_failure_contains \
     "design proposal validator rejects missing schema artifacts" \
