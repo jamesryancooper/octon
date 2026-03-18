@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - '.proposals/design/orchestration-domain-design-proposal/**'
+      - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
       - '.octon/**'
       - '.github/workflows/harness-self-containment.yml'
   pull_request:
     paths:
-      - '.proposals/design/orchestration-domain-design-proposal/**'
+      - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
       - '.octon/**'
       - '.github/workflows/harness-self-containment.yml'
 
@@ -38,90 +38,91 @@ jobs:
         with:
           filters: |
             orchestration:
-              - '.proposals/design/orchestration-domain-design-proposal/**'
-              - '.octon/orchestration/**'
-              - '.octon/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh'
-              - '.octon/assurance/runtime/_ops/tests/test-validate-orchestration-design-proposal.sh'
-              - '.octon/engine/practices/local-dev-validation.md'
+              - '.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package/**'
+              - '.octon/framework/orchestration/**'
+              - '.octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh'
+              - '.octon/framework/assurance/runtime/_ops/tests/test-validate-orchestration-design-proposal.sh'
+              - '.octon/framework/engine/practices/local-dev-validation.md'
               - '.github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md'
             workflow_manifest:
-              - '.octon/orchestration/runtime/workflows/**'
-              - '.octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh'
+              - '.octon/framework/orchestration/runtime/workflows/**'
+              - '.octon/framework/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh'
               - '.github/workflows/harness-self-containment.yml'
               - '.github/workflows/pr-quality.yml'
             services_runtime:
-              - '.octon/capabilities/runtime/services/**'
-              - '.octon/capabilities/runtime/commands/**'
-              - '.octon/cognition/runtime/context/index.yml'
-              - '.octon/engine/runtime/**'
+              - '.octon/framework/capabilities/runtime/services/**'
+              - '.octon/framework/capabilities/runtime/commands/**'
+              - '.octon/instance/cognition/context/index.yml'
+              - '.octon/framework/engine/runtime/**'
               - '.github/workflows/filesystem-interfaces-runtime.yml'
               - '.github/workflows/filesystem-interfaces-perf-regression.yml'
               - '.github/workflows/harness-self-containment.yml'
             filesystem_runtime:
-              - '.octon/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
-              - '.octon/capabilities/runtime/services/interfaces/filesystem-discovery/**'
-              - '.octon/capabilities/runtime/services/interfaces/filesystem-watch/**'
-              - '.octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
-              - '.octon/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-*.sh'
-              - '.octon/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
-              - '.octon/capabilities/runtime/services/manifest.yml'
-              - '.octon/capabilities/runtime/services/registry.yml'
-              - '.octon/capabilities/runtime/commands/**'
-              - '.octon/cognition/runtime/context/index.yml'
-              - '.octon/engine/runtime/**'
+              - '.octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/**'
+              - '.octon/framework/capabilities/runtime/services/interfaces/filesystem-discovery/**'
+              - '.octon/framework/capabilities/runtime/services/interfaces/filesystem-watch/**'
+              - '.octon/framework/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh'
+              - '.octon/framework/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-*.sh'
+              - '.octon/framework/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
+              - '.octon/framework/capabilities/runtime/services/manifest.yml'
+              - '.octon/framework/capabilities/runtime/services/registry.yml'
+              - '.octon/framework/capabilities/runtime/commands/**'
+              - '.octon/instance/cognition/context/index.yml'
+              - '.octon/framework/engine/runtime/**'
               - '.github/workflows/filesystem-interfaces-runtime.yml'
               - '.github/workflows/filesystem-interfaces-perf-regression.yml'
               - '.github/workflows/harness-self-containment.yml'
             assurance_contract:
-              - '.octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh'
-              - '.octon/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh'
-              - '.octon/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh'
+              # Keep super-root validator and test harness changes on the same rerun path.
+              - '.octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh'
+              - '.octon/framework/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh'
+              - '.octon/framework/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh'
               - '.github/workflows/harness-self-containment.yml'
 
       - name: Validate harness structure contract
         run: |
-          chmod +x .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
-          .octon/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
 
       - name: Validate bounded-audit convergence contract
         run: |
-          chmod +x .octon/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
-          .octon/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh
 
       - name: Test bounded-audit convergence validator
         run: |
-          chmod +x .octon/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
-          .octon/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
+          .octon/framework/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh
 
       - name: Validate workflow manifest and dependency profiles
         if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
-          chmod +x .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
-          .octon/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+          chmod +x .octon/framework/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
+          .octon/framework/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
 
       - name: Validate orchestration design proposal
         if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
-          chmod +x .octon/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
-          .octon/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh
 
       - name: Validate orchestration runtime surface hooks
         if: steps.scope.outputs.orchestration == 'true' || steps.scope.outputs.workflow_manifest == 'true'
         run: |
-          chmod +x .octon/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
-          .octon/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
+          chmod +x .octon/framework/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
+          .octon/framework/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh
 
       - name: Validate services independence
         if: steps.scope.outputs.services_runtime == 'true'
         run: |
-          chmod +x .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
-          .octon/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+          chmod +x .octon/framework/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
+          .octon/framework/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh
 
       - name: Validate filesystem interface runtime wiring
         if: steps.scope.outputs.filesystem_runtime == 'true'
         run: |
-          chmod +x .octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
-          .octon/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+          chmod +x .octon/framework/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
+          .octon/framework/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
 
       - name: Skip filesystem interface runtime wiring (no relevant changes)
         if: steps.scope.outputs.filesystem_runtime != 'true'

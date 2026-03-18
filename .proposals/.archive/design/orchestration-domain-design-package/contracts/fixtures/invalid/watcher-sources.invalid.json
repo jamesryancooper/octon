@@ -1,9 +1,0 @@
-{
-  "sources": [
-    {
-      "source_id": "orchestration-tree",
-      "kind": "filesystem",
-      "ref": ".octon/orchestration"
-    }
-  ]
-}

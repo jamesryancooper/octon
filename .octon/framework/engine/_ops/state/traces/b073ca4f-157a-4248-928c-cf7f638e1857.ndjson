@@ -1,0 +1,4 @@
+{"event":"request.received","fields":{"op":"snapshot.build","service":"interfaces/filesystem-snapshot"},"trace_id":"b073ca4f-157a-4248-928c-cf7f638e1857","ts_ms":1771621110196}
+{"event":"policy.decision","fields":{"granted":["clock.read","fs.read","fs.write","log.write"],"service":"interfaces/filesystem-snapshot"},"trace_id":"b073ca4f-157a-4248-928c-cf7f638e1857","ts_ms":1771621110196}
+{"event":"invoke.start","fields":{"op":"snapshot.build","service":"interfaces/filesystem-snapshot","timeout_ms":120000},"trace_id":"b073ca4f-157a-4248-928c-cf7f638e1857","ts_ms":1771621110197}
+{"event":"invoke.end","fields":{"ok":true,"op":"snapshot.build","service":"interfaces/filesystem-snapshot"},"trace_id":"b073ca4f-157a-4248-928c-cf7f638e1857","ts_ms":1771621110871}

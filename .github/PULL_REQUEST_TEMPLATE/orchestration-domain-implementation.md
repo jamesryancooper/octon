@@ -1,11 +1,11 @@
-Policy reference: `.octon/agency/practices/pull-request-standards.md`
-Working agreement: `.octon/orchestration/practices/orchestration-domain-implementation-agreement.md`
-Backlog reference: `.octon/output/plans/2026-03-10-orchestration-domain-phase0-backlog.md`
+Policy reference: `.octon/framework/agency/practices/pull-request-standards.md`
+Working agreement: `.octon/framework/orchestration/practices/orchestration-domain-implementation-agreement.md`
+Backlog reference: `.octon/inputs/exploratory/plans/2026-03-10-orchestration-domain-phase0-backlog.md`
 Reminder: Run `@codex review`.
 
 ## Package Authority
 
-- Package path: `.proposals/design/orchestration-domain-design-proposal`
+- Package path: `.octon/inputs/exploratory/proposals/design/orchestration-domain-design-proposal`
 - Backlog ID(s):
 - Primary authority document(s):
 - Surface(s) touched:

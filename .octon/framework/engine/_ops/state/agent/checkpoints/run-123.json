@@ -1,0 +1,7 @@
+{
+  "planPath": "plan.json",
+  "previousState": "checkpointed",
+  "resumeCount": 1,
+  "runId": "run-123",
+  "state": "resumed"
+}

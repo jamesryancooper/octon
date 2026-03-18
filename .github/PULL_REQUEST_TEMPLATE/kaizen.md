@@ -1,4 +1,4 @@
-Policy reference: `.octon/agency/practices/pull-request-standards.md`
+Policy reference: `.octon/framework/agency/practices/pull-request-standards.md`
 Reminder: Run `@codex review`.
 
 ## What

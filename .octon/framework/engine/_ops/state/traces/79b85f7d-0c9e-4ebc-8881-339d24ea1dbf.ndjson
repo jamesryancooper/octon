@@ -1,0 +1,4 @@
+{"event":"request.received","fields":{"op":"run","service":"execution/flow"},"trace_id":"79b85f7d-0c9e-4ebc-8881-339d24ea1dbf","ts_ms":1771342792320}
+{"event":"policy.decision","fields":{"granted":["fs.read","fs.write","log.write","net.http"],"service":"execution/flow"},"trace_id":"79b85f7d-0c9e-4ebc-8881-339d24ea1dbf","ts_ms":1771342792320}
+{"event":"invoke.start","fields":{"op":"run","service":"execution/flow","timeout_ms":120000},"trace_id":"79b85f7d-0c9e-4ebc-8881-339d24ea1dbf","ts_ms":1771342792320}
+{"event":"invoke.error","fields":{"error":{"code":"SERVICE_TRAP","details":{},"message":"component imports instance `http`, but a matching implementation was not found in the linker | instance export `send` has the wrong type | function implementation is missing"},"service":"execution/flow"},"trace_id":"79b85f7d-0c9e-4ebc-8881-339d24ea1dbf","ts_ms":1771342792345}

@@ -168,16 +168,16 @@ jobs:
             }
 
             const areaPrefixMap = [
-              [".octon/agency/", "area:agency"],
-              [".octon/capabilities/", "area:capabilities"],
-              [".octon/cognition/", "area:cognition"],
-              [".octon/orchestration/", "area:orchestration"],
-              [".octon/scaffolding/", "area:scaffolding"],
-              [".octon/assurance/", "area:assurance"],
-              [".octon/engine/", "area:engine"],
-              [".octon/continuity/", "area:continuity"],
-              [".octon/ideation/", "area:ideation"],
-              [".octon/output/", "area:output"],
+              [".octon/framework/agency/", "area:agency"],
+              [".octon/framework/capabilities/", "area:capabilities"],
+              [".octon/framework/cognition/", "area:cognition"],
+              [".octon/framework/orchestration/", "area:orchestration"],
+              [".octon/framework/scaffolding/", "area:scaffolding"],
+              [".octon/framework/assurance/", "area:assurance"],
+              [".octon/framework/engine/", "area:engine"],
+              [".octon/state/continuity/repo/", "area:continuity"],
+              [".octon/inputs/exploratory/ideation/", "area:ideation"],
+              [".octon/generated/", "area:output"],
               [".github/", "area:github"]
             ];
 
@@ -203,19 +203,19 @@ jobs:
             const highImpactPathPatterns = [
               ".github/",
               "AGENTS.md",
-              ".octon/agency/governance/",
-              ".octon/cognition/governance/",
-              ".octon/capabilities/governance/",
-              ".octon/engine/governance/",
-              ".octon/engine/runtime/spec/",
-              ".octon/assurance/governance/"
+              ".octon/framework/agency/governance/",
+              ".octon/framework/cognition/governance/",
+              ".octon/framework/capabilities/governance/",
+              ".octon/framework/engine/governance/",
+              ".octon/framework/engine/runtime/spec/",
+              ".octon/framework/assurance/governance/"
             ];
             const mediumImpactPathPatterns = [
-              ".octon/agency/runtime/",
-              ".octon/capabilities/runtime/",
-              ".octon/orchestration/runtime/",
-              ".octon/assurance/runtime/",
-              ".octon/engine/runtime/"
+              ".octon/framework/agency/runtime/",
+              ".octon/framework/capabilities/runtime/",
+              ".octon/framework/orchestration/runtime/",
+              ".octon/framework/assurance/runtime/",
+              ".octon/framework/engine/runtime/"
             ];
 
             const isHighImpact = paths.some((path) => highImpactPathPatterns.some((prefix) => path.startsWith(prefix) || path === prefix));

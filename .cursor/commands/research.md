@@ -1,6 +1,6 @@
 # Start Project `/research`
 
-Create a new project in `.octon/ideation/projects/`.
+Create a new project in `.octon/inputs/exploratory/ideation/projects/`.
 
 ## Usage
 
@@ -21,9 +21,9 @@ Create a new project in `.octon/ideation/projects/`.
 
 ## Implementation
 
-1. Copy `.octon/ideation/projects/_template/` to `.octon/ideation/projects/<slug>/`
+1. Copy `.octon/inputs/exploratory/ideation/projects/_template/` to `.octon/inputs/exploratory/ideation/projects/<slug>/`
 2. Update `project.md` with the slug and current date
-3. Add entry to `.octon/ideation/projects/registry.md` under **Active**
+3. Add entry to `.octon/inputs/exploratory/ideation/projects/registry.md` under **Active**
 4. Report success to user
 
 ## The Funnel
@@ -46,7 +46,7 @@ Use `/research` when you're ready to commit to a structured exploration that wil
 
 ## References
 
-- **Registry:** `.octon/ideation/projects/registry.md`
-- **Template:** `.octon/ideation/projects/_template/`
-- **Documentation:** `.octon/ideation/projects/README.md`
-- **Brainstorm (upstream):** `.octon/ideation/scratchpad/brainstorm/`
+- **Registry:** `.octon/inputs/exploratory/ideation/projects/registry.md`
+- **Template:** `.octon/inputs/exploratory/ideation/projects/_template/`
+- **Documentation:** `.octon/inputs/exploratory/ideation/projects/README.md`
+- **Brainstorm (upstream):** `.octon/inputs/exploratory/ideation/scratchpad/brainstorm/`

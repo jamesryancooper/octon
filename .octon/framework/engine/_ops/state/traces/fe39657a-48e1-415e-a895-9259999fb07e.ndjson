@@ -1,0 +1,1 @@
+{"event":"request.received","fields":{"op":"snapshot.build","service":"interfaces/filesystem-snapshot"},"trace_id":"fe39657a-48e1-415e-a895-9259999fb07e","ts_ms":1771620245520}

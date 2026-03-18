@@ -1,0 +1,10 @@
+{
+  "decision": "STAGE_ONLY",
+  "dryRun": false,
+  "effectiveAcp": "ACP-2",
+  "memoize": false,
+  "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+  "resumeCount": 0,
+  "runId": "debug-agent-quorum-allow2-35683",
+  "state": "stage-only"
+}

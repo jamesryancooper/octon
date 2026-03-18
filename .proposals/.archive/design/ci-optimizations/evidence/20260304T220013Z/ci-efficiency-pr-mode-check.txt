@@ -1,2 +1,0 @@
-command: GITHUB_EVENT_NAME=pull_request GITHUB_BASE_REF=main bash .github/scripts/ci-efficiency-guard.sh
-CI efficiency policy check passed for 1 workflow file(s).

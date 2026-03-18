@@ -1,0 +1,10 @@
+{
+  "decision": "STAGE_ONLY",
+  "dryRun": false,
+  "effectiveAcp": "ACP-1",
+  "memoize": false,
+  "planPath": "README.md",
+  "resumeCount": 0,
+  "runId": "run-2310215229",
+  "state": "stage-only"
+}

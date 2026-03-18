@@ -29,6 +29,30 @@ jobs:
           BRANCH_NAME: ${{ github.head_ref }}
         with:
           script: |
+            async function readStandards(pathCandidates) {
+              for (const path of pathCandidates) {
+                try {
+                  const response = await github.rest.repos.getContent({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    path,
+                    ref: baseSha
+                  });
+                  if (!Array.isArray(response.data) && ("content" in response.data)) {
+                    return JSON.parse(
+                      Buffer.from(
+                        response.data.content,
+                        response.data.encoding || "base64"
+                      ).toString("utf8")
+                    );
+                  }
+                } catch (error) {
+                  if (error.status !== 404) throw error;
+                }
+              }
+              throw new Error(`Could not load standards from base SHA. Tried: ${pathCandidates.join(", ")}`);
+            }
+
             const pr = context.payload.pull_request;
             const headRef = pr?.head?.ref || "";
             const author = pr?.user?.login || "";
@@ -50,25 +74,10 @@ jobs:
               return;
             }
 
-            const path = ".octon/agency/practices/standards/commit-pr-standards.json";
-            const standardsResponse = await github.rest.repos.getContent({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              path,
-              ref: baseSha
-            });
-
-            if (Array.isArray(standardsResponse.data) || !("content" in standardsResponse.data)) {
-              core.setFailed(`Expected file content at ${path} but found a non-file response.`);
-              return;
-            }
-
-            const standards = JSON.parse(
-              Buffer.from(
-                standardsResponse.data.content,
-                standardsResponse.data.encoding || "base64"
-              ).toString("utf8")
-            );
+            const standards = await readStandards([
+              ".octon/framework/agency/practices/standards/commit-pr-standards.json",
+              ".octon/agency/practices/standards/commit-pr-standards.json"
+            ]);
 
             const branch = standards.branch;
             const branchName = process.env.BRANCH_NAME || "";
@@ -101,6 +110,30 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            async function readStandards(pathCandidates) {
+              for (const path of pathCandidates) {
+                try {
+                  const response = await github.rest.repos.getContent({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    path,
+                    ref: baseSha
+                  });
+                  if (!Array.isArray(response.data) && ("content" in response.data)) {
+                    return JSON.parse(
+                      Buffer.from(
+                        response.data.content,
+                        response.data.encoding || "base64"
+                      ).toString("utf8")
+                    );
+                  }
+                } catch (error) {
+                  if (error.status !== 404) throw error;
+                }
+              }
+              throw new Error(`Could not load standards from base SHA. Tried: ${pathCandidates.join(", ")}`);
+            }
+
             const pr = context.payload.pull_request;
             const headRef = pr?.head?.ref || "";
             const author = pr?.user?.login || "";
@@ -123,25 +156,16 @@ jobs:
               return;
             }
 
-            const standardsPath = ".octon/agency/practices/standards/commit-pr-standards.json";
-            const standardsResponse = await github.rest.repos.getContent({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              path: standardsPath,
-              ref: baseSha
-            });
-
-            if (Array.isArray(standardsResponse.data) || !("content" in standardsResponse.data)) {
-              core.warning(`Expected file content at ${standardsPath} but found a non-file response. Skipping advisory lint.`);
+            let standards;
+            try {
+              standards = await readStandards([
+                ".octon/framework/agency/practices/standards/commit-pr-standards.json",
+                ".octon/agency/practices/standards/commit-pr-standards.json"
+              ]);
+            } catch (error) {
+              core.warning(error.message);
               return;
             }
-
-            const standards = JSON.parse(
-              Buffer.from(
-                standardsResponse.data.content,
-                standardsResponse.data.encoding || "base64"
-              ).toString("utf8")
-            );
 
             const commitRules = standards.commit;
             const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");

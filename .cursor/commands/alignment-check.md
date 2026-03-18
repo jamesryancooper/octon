@@ -2,7 +2,7 @@
 
 Run profile-based harness alignment checks.
 
-See `.octon/capabilities/commands/alignment-check.md` for full details.
+See `.octon/framework/capabilities/commands/alignment-check.md` for full details.
 
 ## Usage
 
@@ -14,9 +14,9 @@ See `.octon/capabilities/commands/alignment-check.md` for full details.
 
 ## Implementation
 
-Execute `.octon/capabilities/commands/alignment-check.md`.
+Execute `.octon/framework/capabilities/commands/alignment-check.md`.
 
 ## References
 
-- **Command:** `.octon/capabilities/commands/alignment-check.md`
-- **Runner Script:** `.octon/assurance/_ops/scripts/alignment-check.sh`
+- **Command:** `.octon/framework/capabilities/commands/alignment-check.md`
+- **Runner Script:** `.octon/framework/assurance/_ops/scripts/alignment-check.sh`

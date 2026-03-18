@@ -1,0 +1,10 @@
+{
+  "decision": "ALLOW",
+  "dryRun": false,
+  "effectiveAcp": "ACP-3",
+  "memoize": false,
+  "planPath": "AGENTS.md",
+  "resumeCount": 0,
+  "runId": "run-acp3-allow",
+  "state": "promoted"
+}

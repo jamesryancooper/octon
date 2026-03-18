@@ -1,0 +1,15 @@
+schema_version: "octon-instance-manifest-v1"
+instance_id: "octon-self-host"
+framework_id: "octon-core"
+enabled_overlay_points:
+  - "instance-governance-policies"
+  - "instance-governance-contracts"
+  - "instance-agency-runtime"
+  - "instance-assurance-runtime"
+locality:
+  registry_path: ".octon/instance/locality/registry.yml"
+  manifest_path: ".octon/instance/locality/manifest.yml"
+feature_toggles:
+  integrated_inputs: true
+  generated_registry: true
+  state_class_root: true

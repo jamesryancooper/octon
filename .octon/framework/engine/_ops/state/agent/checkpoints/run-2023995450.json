@@ -1,0 +1,10 @@
+{
+  "decision": "DENY",
+  "dryRun": false,
+  "effectiveAcp": "ACP-2",
+  "memoize": false,
+  "planPath": ".octon/framework/cognition/principles/deny-by-default.md",
+  "resumeCount": 0,
+  "runId": "run-2023995450",
+  "state": "denied"
+}
