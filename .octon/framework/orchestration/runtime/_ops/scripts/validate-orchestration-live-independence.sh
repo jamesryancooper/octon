@@ -18,11 +18,13 @@ pass() {
 
 filter_allowed_matches() {
   awk '
-    /runtime\/workflows\/registry\.yml:[0-9]+:.*Kebab-case (design|migration|policy|architecture) proposal id and directory name under \.octon/inputs/exploratory/proposals\// { next }
-    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.octon/inputs/exploratory/proposals\/(design|migration|policy|architecture)\/\{\{proposal_id\}\}\/"/ { next }
-    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.octon/inputs/exploratory/proposals\/(design|migration|policy|architecture)\/\{\{proposal_id\}\}\/proposal\.yml"/ { next }
-    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.octon/inputs/exploratory/proposals\/(design|migration|policy|architecture)\/\{\{proposal_id\}\}\/(design|migration|policy|architecture)-proposal\.yml"/ { next }
-    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.octon/inputs/exploratory/proposals\/registry\.yml"/ { next }
+    index($0, "runtime/workflows/registry.yml:") &&
+      index($0, " proposal id and directory name under .octon/inputs/exploratory/proposals/") &&
+      $0 ~ /Kebab-case (design|migration|policy|architecture)/ { next }
+    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.octon\/inputs\/exploratory\/proposals\/(design|migration|policy|architecture)\/\{\{proposal_id\}\}\/"/ { next }
+    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.octon\/inputs\/exploratory\/proposals\/(design|migration|policy|architecture)\/\{\{proposal_id\}\}\/proposal\.yml"/ { next }
+    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.octon\/inputs\/exploratory\/proposals\/(design|migration|policy|architecture)\/\{\{proposal_id\}\}\/(design|migration|policy|architecture)-proposal\.yml"/ { next }
+    /runtime\/workflows\/registry\.yml:[0-9]+:.*path: "\.\.\/\.\.\/\.\.\/\.\.\/\.\.\/\.octon\/generated\/proposals\/registry\.yml"/ { next }
     { print }
   '
 }
