@@ -30,8 +30,8 @@ logs/
 
 # Runtime and service run records
 runs/
-!.octon/orchestration/runtime/runs/
-!.octon/orchestration/runtime/runs/**
+!.octon/framework/orchestration/runtime/runs/
+!.octon/framework/orchestration/runtime/runs/**
 !.octon/state/evidence/runs/
 .octon/state/evidence/runs/*
 !.octon/state/evidence/runs/README.md
