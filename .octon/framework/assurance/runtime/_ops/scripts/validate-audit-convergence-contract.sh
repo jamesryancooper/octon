@@ -3,12 +3,13 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-METHODOLOGY_DIR="$OCTON_DIR/cognition/practices/methodology/audits"
-RUNTIME_DIR="$OCTON_DIR/cognition/runtime/audits"
-REPORTS_DIR="$OCTON_DIR/output/reports/audits"
+METHODOLOGY_DIR="$OCTON_DIR/framework/cognition/practices/methodology/audits"
+RUNTIME_DIR="$OCTON_DIR/instance/cognition/context/shared/audits"
+REPORTS_DIR="$OCTON_DIR/state/evidence/validation/audits"
 RUNTIME_INDEX="$RUNTIME_DIR/index.yml"
 
 errors=0
@@ -389,9 +390,9 @@ validate_report_bundles() {
   local flat_files
   flat_files="$(find "$REPORTS_DIR" -mindepth 1 -maxdepth 1 -type f -name '20*-*.md' | sort || true)"
   if [[ -n "$flat_files" ]]; then
-    fail "flat bounded-audit markdown files are forbidden in output/reports/audits/"
+    fail "flat bounded-audit markdown files are forbidden in state/evidence/validation/audits/"
   else
-    pass "no flat bounded-audit markdown files in output/reports/audits/"
+    pass "no flat bounded-audit markdown files in state/evidence/validation/audits/"
   fi
 
   local discovered_bundle_dirs

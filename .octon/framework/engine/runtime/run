@@ -4,7 +4,8 @@ set -eu
 # Resolve .octon directory from this script location.
 RUNTIME_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 ENGINE_DIR="$(CDPATH= cd -- "$RUNTIME_DIR/.." && pwd)"
-OCTON_DIR="$(CDPATH= cd -- "$ENGINE_DIR/.." && pwd)"
+FRAMEWORK_DIR="$(CDPATH= cd -- "$ENGINE_DIR/.." && pwd)"
+OCTON_DIR="$(CDPATH= cd -- "$FRAMEWORK_DIR/.." && pwd)"
 RUNTIME_OPS_DIR="$ENGINE_DIR/_ops"
 RUNTIME_STATE_DIR="$RUNTIME_OPS_DIR/state"
 

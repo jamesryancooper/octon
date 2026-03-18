@@ -33,7 +33,8 @@ runs/
 !.octon/orchestration/runtime/runs/
 !.octon/orchestration/runtime/runs/**
 !.octon/state/evidence/runs/
-!.octon/state/evidence/runs/**
+.octon/state/evidence/runs/*
+!.octon/state/evidence/runs/README.md
 
 
 # Additional local outputs and proposal workspaces

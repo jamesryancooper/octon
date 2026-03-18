@@ -5,7 +5,8 @@ set -euo pipefail
 
 RUNTIME_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ENGINE_DIR="$(cd "$RUNTIME_DIR/.." && pwd)"
-OCTON_DIR="$(cd "$ENGINE_DIR/.." && pwd)"
+FRAMEWORK_DIR="$(cd "$ENGINE_DIR/.." && pwd)"
+OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 RUNTIME_CRATES_DIR="$RUNTIME_DIR/crates"
 DEFAULT_BIN="$ENGINE_DIR/_ops/state/build/runtime-crates-target/debug/octon-policy"
 POLICY_INTERFACE_CONFIG="$RUNTIME_DIR/config/policy-interface.yml"
