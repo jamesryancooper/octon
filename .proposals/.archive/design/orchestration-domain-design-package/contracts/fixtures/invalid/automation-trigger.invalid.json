@@ -1,8 +1,0 @@
-{
-  "kind": "schedule",
-  "schedule": {
-    "cadence": "monthly:1",
-    "at": "09:30",
-    "missed_run_policy": "skip"
-  }
-}

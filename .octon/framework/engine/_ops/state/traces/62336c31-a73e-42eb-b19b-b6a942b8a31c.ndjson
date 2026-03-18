@@ -1,0 +1,4 @@
+{"event":"request.received","fields":{"op":"ping","service":"agent-platform/slow"},"trace_id":"62336c31-a73e-42eb-b19b-b6a942b8a31c","ts_ms":1771127112829}
+{"event":"policy.decision","fields":{"granted":["log.write"],"service":"agent-platform/slow"},"trace_id":"62336c31-a73e-42eb-b19b-b6a942b8a31c","ts_ms":1771127112830}
+{"event":"invoke.start","fields":{"op":"ping","service":"agent-platform/slow","timeout_ms":1},"trace_id":"62336c31-a73e-42eb-b19b-b6a942b8a31c","ts_ms":1771127112830}
+{"event":"invoke.error","fields":{"error":{"code":"SERVICE_TRAP","details":{},"message":"error while executing at wasm backtrace:\n    0: 0x3974 - octon_agent_platform_slow_service.wasm!invoke"},"service":"agent-platform/slow"},"trace_id":"62336c31-a73e-42eb-b19b-b6a942b8a31c","ts_ms":1771127113020}

@@ -1,0 +1,4 @@
+{"event":"request.received","fields":{"op":"ping","service":"agent-platform/slow"},"trace_id":"3ffab1be-a2a3-4099-bf2c-1ccf98a0cd19","ts_ms":1771127148364}
+{"event":"policy.decision","fields":{"granted":["log.write"],"service":"agent-platform/slow"},"trace_id":"3ffab1be-a2a3-4099-bf2c-1ccf98a0cd19","ts_ms":1771127148364}
+{"event":"invoke.start","fields":{"op":"ping","service":"agent-platform/slow","timeout_ms":1},"trace_id":"3ffab1be-a2a3-4099-bf2c-1ccf98a0cd19","ts_ms":1771127148364}
+{"event":"invoke.error","fields":{"error":{"code":"TIMEOUT","details":{},"message":"service execution timed out"},"service":"agent-platform/slow"},"trace_id":"3ffab1be-a2a3-4099-bf2c-1ccf98a0cd19","ts_ms":1771127148891}

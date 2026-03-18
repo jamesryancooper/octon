@@ -1,6 +1,0 @@
-"event","run_count","total_billed_minutes_proxy"
-"pull_request",333,541
-"push",299,476
-"pull_request_target",261,297
-"schedule",99,99
-"workflow_dispatch",8,14

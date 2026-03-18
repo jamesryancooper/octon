@@ -1,2 +1,0 @@
-command: bash -n .github/scripts/ci-efficiency-guard.sh
-result: pass

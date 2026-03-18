@@ -1,0 +1,18 @@
+schema_version: "octon-framework-manifest-v1"
+framework_id: "octon-core"
+release_version: "0.4.15"
+supported_instance_schema_versions:
+  - "octon-instance-manifest-v1"
+overlay_registry: ".octon/framework/overlay-points/registry.yml"
+subsystems:
+  - "agency"
+  - "assurance"
+  - "capabilities"
+  - "cognition"
+  - "engine"
+  - "orchestration"
+  - "scaffolding"
+generators:
+  - "proposal-registry"
+  - "assurance-outputs"
+  - "validation-reports"

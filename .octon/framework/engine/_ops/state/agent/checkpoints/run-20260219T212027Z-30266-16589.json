@@ -1,0 +1,10 @@
+{
+  "decision": "STAGE_ONLY",
+  "dryRun": true,
+  "effectiveAcp": "ACP-1",
+  "memoize": false,
+  "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+  "resumeCount": 0,
+  "runId": "run-20260219T212027Z-30266-16589",
+  "state": "stage-only"
+}

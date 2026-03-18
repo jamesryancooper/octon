@@ -2,7 +2,7 @@
 
 Synthesize scattered research notes into a coherent findings document.
 
-See `.octon/capabilities/skills/synthesize-research/SKILL.md` for full details.
+See `.octon/framework/capabilities/skills/synthesize-research/SKILL.md` for full details.
 
 ## Usage
 
@@ -31,18 +31,18 @@ See `.octon/capabilities/skills/synthesize-research/SKILL.md` for full details.
    - Key themes with evidence
    - Contradictions and resolutions
    - Open questions
-4. Writes output to `.octon/output/drafts/<topic>-synthesis.md`
-5. Creates run log in `.octon/capabilities/skills/_state/logs/synthesize-research/`
+4. Writes output to `.octon/inputs/exploratory/drafts/<topic>-synthesis.md`
+5. Creates run log in `.octon/framework/capabilities/skills/_state/logs/synthesize-research/`
 
 ## Output
 
 ```text
-.octon/output/drafts/<topic>-synthesis.md
+.octon/inputs/exploratory/drafts/<topic>-synthesis.md
 ```
 
 ## References
 
-- **Skill:** `.octon/capabilities/skills/synthesize-research/SKILL.md`
-- **Shared Registry:** `.octon/capabilities/skills/registry.yml`
-- **Local Registry:** `.octon/capabilities/skills/registry.yml` (for input/output mappings)
-- **Documentation:** `.octon/capabilities/skills/README.md`
+- **Skill:** `.octon/framework/capabilities/skills/synthesize-research/SKILL.md`
+- **Shared Registry:** `.octon/framework/capabilities/skills/registry.yml`
+- **Local Registry:** `.octon/framework/capabilities/skills/registry.yml` (for input/output mappings)
+- **Documentation:** `.octon/framework/capabilities/skills/README.md`

@@ -2,7 +2,7 @@
 
 Reference guide for common agent failure modes.
 
-See `.octon/capabilities/commands/recover.md` for recovery procedures.
+See `.octon/framework/capabilities/commands/recover.md` for recovery procedures.
 
 ## Usage
 
@@ -12,9 +12,9 @@ See `.octon/capabilities/commands/recover.md` for recovery procedures.
 
 ## Implementation
 
-Display `.octon/capabilities/commands/recover.md` as a reference. Agent selects relevant recovery procedure based on error type.
+Display `.octon/framework/capabilities/commands/recover.md` as a reference. Agent selects relevant recovery procedure based on error type.
 
 ## References
 
-- **Canonical:** `.octon/capabilities/_meta/architecture/commands.md`
-- **Command:** `.octon/capabilities/commands/recover.md`
+- **Canonical:** `.octon/framework/capabilities/_meta/architecture/commands.md`
+- **Command:** `.octon/framework/capabilities/commands/recover.md`

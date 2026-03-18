@@ -1,0 +1,4 @@
+{"event":"request.received","fields":{"op":"get","service":"agent-platform/kv"},"trace_id":"f1994667-47fb-479d-90c6-19acf2942560","ts_ms":1771126291715}
+{"event":"policy.decision","fields":{"granted":["log.write","storage.local"],"service":"agent-platform/kv"},"trace_id":"f1994667-47fb-479d-90c6-19acf2942560","ts_ms":1771126291716}
+{"event":"invoke.start","fields":{"op":"get","service":"agent-platform/kv","timeout_ms":30000},"trace_id":"f1994667-47fb-479d-90c6-19acf2942560","ts_ms":1771126291716}
+{"event":"invoke.error","fields":{"error":{"code":"SERVICE_TRAP","details":{},"message":"import `wasi:cli/environment@0.2.3` has the wrong type"},"service":"agent-platform/kv"},"trace_id":"f1994667-47fb-479d-90c6-19acf2942560","ts_ms":1771126292355}

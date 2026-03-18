@@ -2,7 +2,7 @@
 
 Validate YAML frontmatter in markdown files.
 
-See `.octon/capabilities/commands/validate-frontmatter.md` for full action details.
+See `.octon/framework/capabilities/commands/validate-frontmatter.md` for full action details.
 
 ## Usage
 
@@ -12,10 +12,10 @@ See `.octon/capabilities/commands/validate-frontmatter.md` for full action detai
 
 ## Implementation
 
-Execute `.octon/capabilities/commands/validate-frontmatter.md` in the target directory.
+Execute `.octon/framework/capabilities/commands/validate-frontmatter.md` in the target directory.
 
 ## References
 
-- **Canonical:** `.octon/capabilities/_meta/architecture/commands.md`
-- **Command:** `.octon/capabilities/commands/validate-frontmatter.md`
+- **Canonical:** `.octon/framework/capabilities/_meta/architecture/commands.md`
+- **Command:** `.octon/framework/capabilities/commands/validate-frontmatter.md`
 

@@ -1,0 +1,10 @@
+{
+  "decision": "DENY",
+  "dryRun": false,
+  "effectiveAcp": "ACP-2",
+  "memoize": false,
+  "planPath": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/audit-plan.md",
+  "resumeCount": 0,
+  "runId": "run-2268324595",
+  "state": "denied"
+}

@@ -1,0 +1,10 @@
+{
+  "decision": "STAGE_ONLY",
+  "dryRun": true,
+  "effectiveAcp": "ACP-1",
+  "memoize": false,
+  "planPath": "AGENTS.md",
+  "resumeCount": 0,
+  "runId": "run-3223709911",
+  "state": "stage-only"
+}

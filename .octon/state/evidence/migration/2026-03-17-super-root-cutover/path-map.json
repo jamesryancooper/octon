@@ -1,0 +1,299 @@
+{
+  "schema_version": "octon-super-root-path-map-v1",
+  "migration_id": "2026-03-17-super-root-cutover",
+  "change_profile": "atomic",
+  "release_state": "pre-1.0",
+  "release_version": "0.4.15",
+  "mappings": [
+    {
+      "from": ".octon/framework/cognition/governance/CHARTER.md",
+      "to": ".octon/framework/cognition/governance/CHARTER.md",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/instance/bootstrap/START.md",
+      "to": ".octon/instance/bootstrap/START.md",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/bootstrap/OBJECTIVE.md",
+      "to": ".octon/instance/bootstrap/OBJECTIVE.md",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/bootstrap/scope.md",
+      "to": ".octon/instance/bootstrap/scope.md",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/bootstrap/conventions.md",
+      "to": ".octon/instance/bootstrap/conventions.md",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/bootstrap/catalog.md",
+      "to": ".octon/instance/bootstrap/catalog.md",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/bootstrap/init.sh",
+      "to": ".octon/instance/bootstrap/init.sh",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/framework/agency",
+      "to": ".octon/framework/agency",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/assurance",
+      "to": ".octon/framework/assurance",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/capabilities",
+      "to": ".octon/framework/capabilities",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/engine",
+      "to": ".octon/framework/engine",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/instance/orchestration/missions",
+      "to": ".octon/instance/orchestration/missions",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/framework/orchestration",
+      "to": ".octon/framework/orchestration",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/scaffolding",
+      "to": ".octon/framework/scaffolding",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/instance/cognition/decisions",
+      "to": ".octon/instance/cognition/decisions",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/framework/cognition/runtime/context/reference/primitives.md",
+      "to": ".octon/framework/cognition/runtime/context/reference/primitives.md",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/cognition/runtime/context/reference/tools.md",
+      "to": ".octon/framework/cognition/runtime/context/reference/tools.md",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/cognition/runtime/context/reference/compaction.md",
+      "to": ".octon/framework/cognition/runtime/context/reference/compaction.md",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/instance/cognition/context/index.yml",
+      "to": ".octon/instance/cognition/context/index.yml",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/cognition/context/shared/intent.contract.yml",
+      "to": ".octon/instance/cognition/context/shared/intent.contract.yml",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/cognition/context/shared",
+      "to": ".octon/instance/cognition/context/shared",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/cognition/context/shared/analyses",
+      "to": ".octon/instance/cognition/context/shared/analyses",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/cognition/context/shared/audits",
+      "to": ".octon/instance/cognition/context/shared/audits",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/cognition/context/shared/knowledge",
+      "to": ".octon/instance/cognition/context/shared/knowledge",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/instance/cognition/context/shared/migrations",
+      "to": ".octon/instance/cognition/context/shared/migrations",
+      "class": "instance"
+    },
+    {
+      "from": ".octon/framework/cognition",
+      "to": ".octon/framework/cognition",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/cognition/_meta/architecture/state/continuity",
+      "to": ".octon/framework/cognition/_meta/architecture/state/continuity",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/cognition/_meta/architecture/state/continuity/README.md",
+      "to": ".octon/framework/cognition/_meta/architecture/state/continuity/README.md",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/state/evidence/decisions/repo",
+      "to": ".octon/state/evidence/decisions/repo",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/evidence/runs",
+      "to": ".octon/state/evidence/runs",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/control/workflows/checkpoints",
+      "to": ".octon/state/control/workflows/checkpoints",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/continuity/repo/log.md",
+      "to": ".octon/state/continuity/repo/log.md",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/continuity/repo/tasks.json",
+      "to": ".octon/state/continuity/repo/tasks.json",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/continuity/repo/entities.json",
+      "to": ".octon/state/continuity/repo/entities.json",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/continuity/repo/next.md",
+      "to": ".octon/state/continuity/repo/next.md",
+      "class": "state"
+    },
+    {
+      "from": ".octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation",
+      "to": ".octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/README.md",
+      "to": ".octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/README.md",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/inputs/exploratory/ideation/scratchpad",
+      "to": ".octon/inputs/exploratory/ideation/scratchpad",
+      "class": "inputs"
+    },
+    {
+      "from": ".octon/inputs/exploratory/ideation/projects",
+      "to": ".octon/inputs/exploratory/ideation/projects",
+      "class": "inputs"
+    },
+    {
+      "from": ".octon/framework/cognition/_meta/architecture/generated/output",
+      "to": ".octon/framework/cognition/_meta/architecture/generated/output",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/framework/cognition/_meta/architecture/generated/output/README.md",
+      "to": ".octon/framework/cognition/_meta/architecture/generated/output/README.md",
+      "class": "framework"
+    },
+    {
+      "from": ".octon/generated/effective/assurance",
+      "to": ".octon/generated/effective/assurance",
+      "class": "generated"
+    },
+    {
+      "from": ".octon/generated/assurance/results",
+      "to": ".octon/generated/assurance/results",
+      "class": "generated"
+    },
+    {
+      "from": ".octon/generated/assurance/scorecards",
+      "to": ".octon/generated/assurance/scorecards",
+      "class": "generated"
+    },
+    {
+      "from": ".octon/generated/assurance/policy",
+      "to": ".octon/generated/assurance/policy",
+      "class": "generated"
+    },
+    {
+      "from": ".octon/generated/artifacts",
+      "to": ".octon/generated/artifacts",
+      "class": "generated"
+    },
+    {
+      "from": ".octon/generated/.tmp",
+      "to": ".octon/generated/.tmp",
+      "class": "generated"
+    },
+    {
+      "from": ".octon/state/evidence/validation/analysis",
+      "to": ".octon/state/evidence/validation/analysis",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/evidence/validation/audits",
+      "to": ".octon/state/evidence/validation/audits",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/evidence/runs/workflows",
+      "to": ".octon/state/evidence/runs/workflows",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/evidence/runs/operations",
+      "to": ".octon/state/evidence/runs/operations",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/evidence/decisions/repo/reports",
+      "to": ".octon/state/evidence/decisions/repo/reports",
+      "class": "state"
+    },
+    {
+      "from": ".octon/state/evidence/migration",
+      "to": ".octon/state/evidence/migration",
+      "class": "state"
+    },
+    {
+      "from": ".octon/inputs/exploratory/packages",
+      "to": ".octon/inputs/exploratory/packages",
+      "class": "inputs"
+    },
+    {
+      "from": ".octon/inputs/exploratory/plans",
+      "to": ".octon/inputs/exploratory/plans",
+      "class": "inputs"
+    },
+    {
+      "from": ".octon/inputs/exploratory/drafts",
+      "to": ".octon/inputs/exploratory/drafts",
+      "class": "inputs"
+    },
+    {
+      "from": ".octon/generated/proposals/registry.yml",
+      "to": ".octon/generated/proposals/registry.yml",
+      "class": "generated"
+    },
+    {
+      "from": ".octon/inputs/exploratory/proposals",
+      "to": ".octon/inputs/exploratory/proposals",
+      "class": "inputs"
+    }
+  ]
+}

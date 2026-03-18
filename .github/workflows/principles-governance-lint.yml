@@ -3,17 +3,17 @@ name: Principles Governance Lint
 on:
   pull_request:
     paths:
-      - '.octon/cognition/governance/principles/**/*.md'
-      - '.octon/cognition/governance/exceptions/**/*.md'
-      - '.octon/cognition/_ops/principles/scripts/*.sh'
+      - '.octon/framework/cognition/governance/principles/**/*.md'
+      - '.octon/framework/cognition/governance/exceptions/**/*.md'
+      - '.octon/framework/cognition/_ops/principles/scripts/*.sh'
       - '.github/workflows/principles-governance-lint.yml'
   push:
     branches:
       - main
     paths:
-      - '.octon/cognition/governance/principles/**/*.md'
-      - '.octon/cognition/governance/exceptions/**/*.md'
-      - '.octon/cognition/_ops/principles/scripts/*.sh'
+      - '.octon/framework/cognition/governance/principles/**/*.md'
+      - '.octon/framework/cognition/governance/exceptions/**/*.md'
+      - '.octon/framework/cognition/_ops/principles/scripts/*.sh'
       - '.github/workflows/principles-governance-lint.yml'
 
 permissions:
@@ -35,12 +35,12 @@ jobs:
       - name: Governance lint
         env:
           LINT_BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: bash .octon/cognition/_ops/principles/scripts/lint-principles-governance.sh
+        run: bash .octon/framework/cognition/_ops/principles/scripts/lint-principles-governance.sh
 
       - name: Governance lint fixture tests
         env:
           LINT_BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: bash .octon/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures.sh
+        run: bash .octon/framework/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures.sh
 
       - name: Docs promotion fail-closed contract test
-        run: bash .octon/cognition/_ops/principles/scripts/test-docs-promotion-fail-closed.sh
+        run: bash .octon/framework/cognition/_ops/principles/scripts/test-docs-promotion-fail-closed.sh

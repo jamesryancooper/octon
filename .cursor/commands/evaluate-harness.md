@@ -2,7 +2,7 @@
 
 Evaluate a `.octon/` directory for token efficiency and agent effectiveness.
 
-See `.octon/orchestration/runtime/workflows/meta/evaluate-harness/README.md` for full description and steps.
+See `.octon/framework/orchestration/runtime/workflows/meta/evaluate-harness/README.md` for full description and steps.
 
 ## Usage
 
@@ -14,11 +14,11 @@ Evaluate the repo-root harness only.
 
 ## Implementation
 
-Execute the workflow in `.octon/orchestration/runtime/workflows/meta/evaluate-harness/`.
+Execute the workflow in `.octon/framework/orchestration/runtime/workflows/meta/evaluate-harness/`.
 
 Start with `README.md`, then follow each step in sequence.
 
 ## References
 
-- **Canonical:** `.octon/START.md`
-- **Workflow:** `.octon/orchestration/runtime/workflows/meta/evaluate-harness/`
+- **Canonical:** `.octon/instance/bootstrap/START.md`
+- **Workflow:** `.octon/framework/orchestration/runtime/workflows/meta/evaluate-harness/`

@@ -108,7 +108,7 @@ jobs:
             let standards;
             let templateText;
             try {
-              standards = JSON.parse(await readTextFile(".octon/agency/practices/standards/commit-pr-standards.json"));
+              standards = JSON.parse(await readTextFile(".octon/framework/agency/practices/standards/commit-pr-standards.json"));
               templateText = await readTextFile(".github/PULL_REQUEST_TEMPLATE.md");
             } catch (error) {
               errors.push(`Could not load standards/template from base SHA: ${error.message}`);
@@ -195,12 +195,12 @@ jobs:
             const highImpactPaths = [
               ".github/",
               "AGENTS.md",
-              ".octon/agency/governance/",
-              ".octon/cognition/governance/",
-              ".octon/capabilities/governance/",
-              ".octon/engine/governance/",
-              ".octon/engine/runtime/spec/",
-              ".octon/assurance/governance/"
+              ".octon/framework/agency/governance/",
+              ".octon/framework/cognition/governance/",
+              ".octon/framework/capabilities/governance/",
+              ".octon/framework/engine/governance/",
+              ".octon/framework/engine/runtime/spec/",
+              ".octon/framework/assurance/governance/"
             ];
 
             const isHighImpact = paths.some((path) => highImpactPaths.some((prefix) => path.startsWith(prefix) || path === prefix));

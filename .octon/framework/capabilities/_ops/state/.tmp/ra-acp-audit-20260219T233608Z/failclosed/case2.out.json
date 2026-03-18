@@ -1,0 +1,6 @@
+{
+  "valid": false,
+  "schema_errors": [
+    "\"receipts\" is a required property"
+  ]
+}

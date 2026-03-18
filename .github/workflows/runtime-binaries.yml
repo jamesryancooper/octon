@@ -35,7 +35,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build octon runtime (release)
-        working-directory: .octon/engine/runtime/crates
+        working-directory: .octon/framework/engine/runtime/crates
         run: cargo build -p octon_kernel --release
 
       - name: Package runtime binary
@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
           mkdir -p dist
           cp \
-            ".octon/engine/runtime/crates/target/release/${{ matrix.source_binary }}" \
+            ".octon/framework/engine/runtime/crates/target/release/${{ matrix.source_binary }}" \
             "dist/${{ matrix.target_binary }}"
 
       - name: Upload runtime artifact

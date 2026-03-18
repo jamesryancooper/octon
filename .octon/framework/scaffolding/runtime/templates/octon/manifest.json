@@ -1,0 +1,54 @@
+{
+  "$schema": "../manifest.schema.json",
+  "name": "octon",
+  "description": "Base .octon/ template for all harnesses, including init objective packs.",
+  "goal_alignment": "Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.",
+  "inherits": null,
+  "files": {
+    "required": [
+      "README.md",
+      "AGENTS.md",
+      "octon.yml",
+      "framework/manifest.yml",
+      "instance/manifest.yml"
+    ],
+    "directories": {
+      "required": [
+        "framework",
+        "instance",
+        "inputs",
+        "state",
+        "generated"
+      ],
+      "standard": [
+        "framework/scaffolding/runtime/bootstrap",
+        "framework/scaffolding/runtime/templates",
+        "framework/capabilities/runtime/commands",
+        "framework/orchestration/runtime/workflows",
+        "instance/bootstrap",
+        "instance/ingress",
+        "state/continuity/repo",
+        "generated/proposals"
+      ]
+    }
+  },
+  "contents": {
+    "README.md": "Super-root overview",
+    "AGENTS.md": "Ingress adapter to instance ingress",
+    "octon.yml": "Root super-root manifest",
+    "framework/manifest.yml": "Portable framework manifest",
+    "instance/manifest.yml": "Repo instance manifest",
+    "instance/bootstrap/START.md": "Boot sequence and orientation",
+    "instance/bootstrap/OBJECTIVE.md": "Workspace objective",
+    "instance/bootstrap/scope.md": "Boundaries and responsibilities",
+    "instance/bootstrap/conventions.md": "Style and formatting rules",
+    "instance/bootstrap/catalog.md": "Index of commands and workflows",
+    "instance/bootstrap/init.sh": "Repo-local super-root health check",
+    "instance/ingress/AGENTS.md": "Canonical internal ingress",
+    "state/continuity/repo/log.md": "Append-only session history",
+    "state/continuity/repo/tasks.json": "Structured task list with goal",
+    "state/continuity/repo/entities.json": "Entity state tracking",
+    "state/continuity/repo/next.md": "Immediate actionable steps",
+    "generated/proposals/registry.yml": "Generated proposal registry"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "decision": "ALLOW",
+  "dryRun": false,
+  "effectiveAcp": "ACP-2",
+  "memoize": false,
+  "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+  "resumeCount": 0,
+  "runId": "runtime-agent-quorum-allow-27675-61454",
+  "state": "promoted"
+}
