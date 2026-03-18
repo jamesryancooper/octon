@@ -1,27 +1,21 @@
 # Step 3: Content Migration
 
-Transform content to meet current conventions.
+Transform content to meet the v2 root-manifest and export-profile contract.
 
 ## Actions
 
-1. **Update file references**
-   - Fix paths that changed during structure migration
-   - Update cross-references between files
-
-2. **Compress agent-facing content**
-   - Target token budgets per `.octon/framework/cognition/_meta/architecture/README.md#token-budget-guidelines`
-   - Move explanatory prose to `ideation/scratchpad/`
-   - Convert paragraphs to lists where possible
-
-3. **Add missing frontmatter**
-   - Add `access` field to commands, workflows, prompts
-   - Ensure `title` and `description` present
-
-4. **Update `catalog.md`**
-   - Reflect new file locations
-   - Add Access column if missing
+1. Update canonical docs so `bootstrap_core`, `repo_snapshot`, `pack_bundle`,
+   and advisory-only `full_fidelity` are described consistently.
+2. Replace legacy top-level extension API references with
+   `octon.yml.versioning.extensions.api_version`.
+3. Route export guidance to `/export-harness`; do not describe whole-tree copy
+   as the default install/export path.
+4. Update command, workflow, and catalog surfaces so the new export path is
+   discoverable.
 
 ## Output
 
-List of content transformations applied.
-
+- manifest fields rewritten
+- canonical docs updated
+- export guidance updated to `/export-harness`
+- remaining follow-up, if any

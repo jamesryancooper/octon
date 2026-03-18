@@ -113,7 +113,7 @@ The proposal example set demonstrates that split explicitly:
 - `/.octon/octon.yml` defines the root-harness binding and the machine-
   readable compatibility values consumed by pack compatibility checks:
   - `versioning.harness.release_version`
-  - `extensions.api_version`
+  - `versioning.extensions.api_version`
 - `/.octon/framework/engine/governance/**` remains authoritative for precedence,
   fail-closed behavior, and trust boundaries.
 - `/.octon/framework/engine/_ops/state/extensions/effective/**` holds derived effective
@@ -174,7 +174,7 @@ into an approved Octon-owned destination, compilation fails closed.
 Compatibility must be checked against two machine-readable root-harness values:
 
 - `octon.yml.versioning.harness.release_version`
-- `octon.yml.extensions.api_version`
+- `octon.yml.versioning.extensions.api_version`
 
 Pack-to-pack dependency edges must also be versioned. Id-only dependency edges
 are insufficient for safe evolution.
@@ -248,7 +248,7 @@ handle `/.octon.extensions/` whenever the sidecar is present.
 - compatibility rules between Octon and pack versions
 - the machine-readable root-harness compatibility contract at:
   - `octon.yml.versioning.harness.release_version`
-  - `octon.yml.extensions.api_version`
+  - `octon.yml.versioning.extensions.api_version`
 - duplicate-id and collision policy
 - fail-closed handling for invalid or partially valid packs
 - the v1 allowed and forbidden content classes
@@ -313,7 +313,7 @@ must expose effective catalogs for the non-routable supported buckets.
 - that `/.octon.extensions/` binds only to the root harness
 - the machine-readable root-harness compatibility keys:
   - `versioning.harness.release_version`
-  - `extensions.api_version`
+  - `versioning.extensions.api_version`
 - whether bootstrap/update flows preserve or scaffold the sidecar
 - the source-of-truth split between raw extension content and derived effective
   projections

@@ -1,6 +1,6 @@
 ---
 name: "migrate-harness"
-description: "Migrate an older harness layout to current conventions while preserving intent, traceability, and recoverability. Reject unsupported harness schema versions with deterministic migration instructions."
+description: "Migrate an older harness layout to the canonical v2 root-manifest and profile contract while preserving intent, traceability, and recoverability."
 steps:
   - id: "backup-assessment"
     file: "stages/01-backup-assessment.md"
@@ -28,7 +28,7 @@ _Generated README from canonical workflow `migrate-harness`._
 
 ## Purpose
 
-Migrate an older harness layout to current conventions while preserving intent, traceability, and recoverability. Reject unsupported harness schema versions with deterministic migration instructions.
+Migrate an older harness layout to the canonical v2 root-manifest and profile contract while preserving intent, traceability, and recoverability.
 
 ## Target
 
@@ -65,5 +65,4 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 | Version | Changes |
 |---------|---------|
-| 1.1.0 | Generated from canonical workflow `migrate-harness` |
-
+| 1.2.0 | Generated from canonical workflow `migrate-harness` |

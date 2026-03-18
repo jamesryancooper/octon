@@ -1312,12 +1312,30 @@ workflows:
           determinism: unique
           description: "Machine-readable evaluation summary for CI latency status and recommended actions."
   migrate-harness:
-    version: "1.1.0"
+    version: "1.2.0"
     commands: ["/migrate-harness"]
     access: human
     depends_on: []
+  export-harness:
+    version: "1.0.0"
+    commands: ["/export-harness"]
+    parameters:
+      - name: profile
+        type: text
+        required: true
+        description: "Export profile: repo_snapshot or pack_bundle"
+      - name: output_dir
+        type: folder
+        required: true
+        description: "Empty directory where the export root and export.receipt.yml will be written"
+      - name: pack_ids
+        type: text
+        required: false
+        description: "Comma-separated pack ids. Required only for pack_bundle."
+    access: human
+    depends_on: []
   update-harness:
-    version: "1.1.0"
+    version: "1.2.0"
     commands: ["/update-harness"]
     access: human
     depends_on:

@@ -30,6 +30,18 @@ This harness uses one repo-root `.octon/` per repository.
 
 **Resolution:** The active harness is the only `.octon/` on the current repository ancestor chain. Sibling repositories may each have their own repo-root harness.
 
+## Control-Plane Profiles
+
+`/.octon/octon.yml` is the authoritative root manifest for topology,
+versioning, install/export profiles, and fail-closed policy hooks.
+
+| Profile | Operator Surface | Behavior |
+|-----------|----------------|----------|
+| `bootstrap_core` | `/init` | Complete bootstrap after adopting the framework bundle and minimal instance metadata |
+| `repo_snapshot` | `/export-harness --profile repo_snapshot` | Export `octon.yml`, `framework/**`, `instance/**`, and enabled-pack dependency closure |
+| `pack_bundle` | `/export-harness --profile pack_bundle --pack-ids <csv>` | Export only selected additive packs plus dependency closure |
+| `full_fidelity` | Git clone | Advisory only; not a synthetic export payload |
+
 ---
 
 ## Canonical Specification
@@ -51,86 +63,47 @@ Subsystem expansion specs:
 
 ```text
 .octon/
-├── START.md        ← You are here
-├── scope.md        ← Boundaries
-├── conventions.md  ← Style rules
-├── catalog.md      ← Available operations
-│
-├── agency/
-│   ├── manifest.yml    ← Actor registry discovery
-│   ├── _meta/architecture/   ← Agency subsystem specification
-│   ├── runtime/        ← Runtime actor artifacts
-│   │   ├── agents/     ← Autonomous supervisors
-│   │   ├── assistants/ ← Focused specialists (@mention invocation)
-│   │   └── teams/      ← Reusable multi-actor compositions
-│   ├── governance/     ← Cross-agent contracts (constitution, delegation, memory)
-│   ├── practices/      ← Collaboration and delivery practices
-│   └── _ops/           ← Validation scripts and operational checks
-│
-├── capabilities/
-│   ├── _meta/architecture/   ← Capabilities subsystem specification
-│   ├── runtime/        ← Runtime capability artifacts
-│   │   ├── commands/   ← Atomic instruction-driven operations
-│   │   ├── skills/     ← Composite instruction-driven capabilities
-│   │   ├── tools/      ← Atomic invocation-driven tool packs
-│   │   └── services/   ← Composite invocation-driven domain capabilities
-│   ├── governance/     ← Capabilities policy contracts
-│   ├── practices/      ← Capabilities operating standards
-│   └── _ops/           ← Validation scripts and operational state
-│
-├── cognition/
-│   ├── _meta/architecture/   ← Cross-cutting harness and methodology architecture
-│   ├── runtime/        ← Cognition runtime artifacts (context, decisions, analyses)
-│   ├── governance/     ← Principles, controls, pillars, and exception contracts
-│   ├── practices/      ← Methodology and cognition operations guidance
-│   └── _ops/           ← Mutable cognition scripts/state for guardrails
-│
-├── continuity/         ← log.md, tasks.json, entities.json, next.md
-│   └── _meta/architecture/   ← Continuity subsystem specification
-│
-├── orchestration/
-│   ├── _meta/architecture/   ← Orchestration subsystem specification
-│   ├── runtime/        ← Runtime orchestration artifacts
-│   │   ├── workflows/  ← Canonical workflows with generated READMEs
-│   │   └── missions/   ← Time-bounded sub-projects
-│   ├── governance/     ← Incident governance contracts
-│   └── practices/      ← Operating standards
-│
-├── scaffolding/
-│   ├── _meta/architecture/   ← Scaffolding subsystem specification
-│   ├── runtime/        ← Runtime scaffolding artifacts
-│   │   ├── templates/  ← Boilerplate for new content
-│   │   └── _ops/scripts/ ← Scaffolding bootstrap scripts
-│   ├── governance/     ← Reusable design and policy patterns
-│   └── practices/      ← Task prompts and reference examples
-│
-├── assurance/           ← Assurance domain
-│   ├── _meta/architecture/   ← Assurance subsystem specification
-│   ├── runtime/         ← Runtime assurance artifacts and validators
-│   ├── governance/      ← Weighted policy contracts and score controls
-│   └── practices/       ← Session-exit and completion standards
-│
-├── ideation/           ← Human-led zone (IGNORE)
-│   ├── _meta/architecture/   ← Ideation subsystem specification
-│   ├── scratchpad/     ← Temporary staging (inbox/, archive/, etc.)
-│   └── projects/       ← Committed research
-│
-├── output/             ← Reports, drafts, artifacts
-│   └── _meta/architecture/   ← Output subsystem specification
-│
-└── engine/             ← Executable engine domain
-    ├── runtime/        ← Executable runtime layer (kernel + launchers)
-    │   ├── run         ← POSIX launcher
-    │   ├── run.cmd     ← Windows launcher
-    │   ├── crates/     ← Runtime implementation crates
-    │   ├── config/     ← Runtime policy and cache config
-    │   ├── spec/       ← Runtime contract/schema bundle
-    │   └── wit/        ← Canonical runtime WIT contracts
-    ├── governance/     ← Normative runtime contracts/policies
-    ├── practices/      ← Engine operating standards/runbooks
-    ├── _ops/           ← Runtime-local prebuilt binaries and mutable state
-    └── _meta/          ← Architecture and verification evidence
+├── README.md
+├── AGENTS.md
+├── octon.yml
+├── framework/
+│   ├── manifest.yml
+│   ├── agency/
+│   ├── assurance/
+│   ├── capabilities/
+│   ├── cognition/
+│   ├── engine/
+│   ├── orchestration/
+│   └── scaffolding/
+├── instance/
+│   ├── manifest.yml
+│   ├── extensions.yml
+│   ├── ingress/
+│   ├── bootstrap/
+│   ├── cognition/
+│   ├── locality/
+│   └── orchestration/
+├── inputs/
+│   ├── additive/
+│   │   └── extensions/
+│   └── exploratory/
+│       ├── ideation/
+│       ├── plans/
+│       ├── drafts/
+│       ├── packages/
+│       └── proposals/
+├── state/
+│   ├── continuity/
+│   ├── evidence/
+│   └── control/
+└── generated/
+    ├── effective/
+    ├── cognition/
+    └── proposals/
 ```
+
+Only `framework/**` and `instance/**` are authored authority. Raw
+`inputs/**` remain non-authoritative even when a profile exports them.
 
 ## Naming Convention
 
@@ -173,13 +146,13 @@ Flow:
      `cognition/_meta/architecture/specification.md`, and
      `cognition/governance/principles/README.md`.
 2. Execute
-   - Read `continuity/log.md` and `continuity/tasks.json`.
+   - Read `state/continuity/repo/log.md` and `state/continuity/repo/tasks.json`.
    - Execute the highest-priority unblocked task.
 3. Assure
    - Run `bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness`.
    - Run additional surface-specific validators for changed domains.
 4. Continuity
-   - Update `continuity/log.md` and `continuity/tasks.json`.
+   - Update `state/continuity/repo/log.md` and `state/continuity/repo/tasks.json`.
    - Complete `assurance/practices/session-exit.md` and verify
      `assurance/practices/complete.md`.
 
@@ -270,8 +243,8 @@ cognition/runtime/context/              → Permanent knowledge
 
 ## When Stuck
 
-- Check `continuity/tasks.json` for blocked items and their blockers
+- Check `state/continuity/repo/tasks.json` for blocked items and their blockers
 - Check `cognition/runtime/context/lessons.md` for anti-patterns to avoid
 - Check `cognition/runtime/context/decisions.md` for relevant past decisions
 - Review `scaffolding/practices/prompts/` for relevant task templates
-- If truly blocked, document the blocker in `continuity/log.md` and stop
+- If truly blocked, document the blocker in `state/continuity/repo/log.md` and stop

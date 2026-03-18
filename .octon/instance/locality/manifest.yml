@@ -1,0 +1,3 @@
+schema_version: "octon-locality-manifest-v1"
+registry_path: ".octon/instance/locality/registry.yml"
+resolution_mode: "single-active-scope"

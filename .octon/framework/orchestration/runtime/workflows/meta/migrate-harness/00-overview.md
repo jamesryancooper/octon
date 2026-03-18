@@ -1,8 +1,8 @@
 # Migrate Harness Overview
 
-This compatibility overview exists because the harness version contract points
-to `migrate-harness/00-overview.md` as the deterministic migration overview for
-older harness layouts.
+This compatibility overview exists because the v2 harness version contract
+points to `migrate-harness/00-overview.md` as the deterministic migration
+overview for older harness layouts.
 
 For the canonical workflow contract and generated operator guide, use:
 
@@ -11,8 +11,8 @@ For the canonical workflow contract and generated operator guide, use:
 
 ## Purpose
 
-Migrate an older harness layout to current conventions while preserving intent,
-traceability, and recoverability.
+Migrate an older harness layout to the v2 root-manifest and profile contract
+while preserving intent, traceability, and recoverability.
 
 ## Entry Command
 

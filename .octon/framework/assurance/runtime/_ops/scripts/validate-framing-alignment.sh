@@ -2,8 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
 errors=0
@@ -19,9 +18,9 @@ TERM_SIMPLICITY_ID='simplicity_'"over_complexity"
 TERM_QUALITY_ENGINE='Quality '"Governance Engine"
 TERM_QUALITY_PATH='\.octon/'"quality/"
 DEPRECATED_PATTERN="${TERM_HUMAN_GOV}|${TERM_RISK_TIER}|${TERM_SIMPLICITY_TITLE}|${TERM_SIMPLICITY_FIRST}|${TERM_SMALLEST}|${TERM_SIMPLICITY_ID}|${TERM_QUALITY_ENGINE}|${TERM_QUALITY_PATH}"
-ALLOWLIST_ADR_009="$OCTON_DIR/cognition/runtime/decisions/009-manifest-discovery-and-validation.md"
+ALLOWLIST_ADR_009="$OCTON_DIR/instance/cognition/decisions/009-manifest-discovery-and-validation.md"
 ALLOWLIST_TOKEN_009="${TERM_SIMPLICITY_TITLE}"
-ALLOWLIST_ADR_017="$OCTON_DIR/cognition/runtime/decisions/017-assurance-clean-break-migration.md"
+ALLOWLIST_ADR_017="$OCTON_DIR/instance/cognition/decisions/017-assurance-clean-break-migration.md"
 ALLOWLIST_TOKEN_017=".octon/"'quality/'
 ALLOWLIST_SUPERSEDES='Superseded by: `040-principles-charter-successor-v2026-02-24.md`'
 
@@ -73,29 +72,25 @@ require_contains_literal() {
 }
 
 validate_canonical_markers() {
-  require_contains "$ROOT_DIR/AGENTS.md" 'agent-first' "root AGENTS.md contains agent-first framing"
-  require_contains "$OCTON_DIR/AGENTS.md" 'agent-first' ".octon/AGENTS.md contains agent-first framing"
-  require_contains "$OCTON_DIR/README.md" 'system-governed' ".octon/README.md contains system-governed framing"
-  require_contains "$OCTON_DIR/cognition/governance/principles/complexity-calibration.md" 'Complexity Fitness' "complexity-calibration principle declares Complexity Fitness"
-  require_contains "$OCTON_DIR/cognition/governance/principles/complexity-calibration.md" 'minimal sufficient complexity' "complexity-calibration principle declares minimal sufficient complexity"
-  require_contains "$OCTON_DIR/assurance/governance/weights/weights.yml" 'complexity_calibration' "weights policy uses complexity_calibration id"
-  require_contains "$OCTON_DIR/assurance/governance/scores/scores.yml" 'complexity_calibration' "scores policy uses complexity_calibration id"
-  require_contains "$OCTON_DIR/assurance/governance/CHARTER.md" 'Assurance > Productivity > Integration' "assurance charter contains canonical umbrella order"
+  require_contains "$ROOT_DIR/AGENTS.md" 'Ingress Adapter' "root AGENTS.md contains ingress-adapter framing"
+  require_contains "$OCTON_DIR/AGENTS.md" 'Ingress Adapter' ".octon/AGENTS.md contains ingress-adapter framing"
+  require_contains "$OCTON_DIR/README.md" 'Super-Root' ".octon/README.md contains super-root framing"
+  require_contains "$OCTON_DIR/framework/cognition/governance/principles/complexity-calibration.md" 'Complexity Fitness' "complexity-calibration principle declares Complexity Fitness"
+  require_contains "$OCTON_DIR/framework/cognition/governance/principles/complexity-calibration.md" 'minimal sufficient complexity' "complexity-calibration principle declares minimal sufficient complexity"
+  require_contains "$OCTON_DIR/framework/assurance/governance/weights/weights.yml" 'complexity_calibration' "weights policy uses complexity_calibration id"
+  require_contains "$OCTON_DIR/framework/assurance/governance/scores/scores.yml" 'complexity_calibration' "scores policy uses complexity_calibration id"
+  require_contains "$OCTON_DIR/framework/assurance/governance/CHARTER.md" 'Assurance > Productivity > Integration' "assurance charter contains canonical umbrella order"
 }
 
 validate_goal_explicitness_control_points() {
-  require_contains_literal "$ROOT_DIR/AGENTS.md" "$CANONICAL_GOAL" "root AGENTS.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/AGENTS.md" "$CANONICAL_GOAL" ".octon/AGENTS.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/agency/governance/CONSTITUTION.md" "$CANONICAL_GOAL" "CONSTITUTION.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/agency/governance/DELEGATION.md" "$CANONICAL_GOAL" "DELEGATION.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/agency/governance/MEMORY.md" "$CANONICAL_GOAL" "MEMORY.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/agency/runtime/agents/architect/AGENT.md" "$CANONICAL_GOAL" "architect AGENT.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/agency/runtime/agents/architect/SOUL.md" "$CANONICAL_GOAL" "architect SOUL.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/README.md" "$CANONICAL_GOAL" ".octon/README.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/START.md" "$CANONICAL_GOAL" ".octon/instance/bootstrap/START.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/scaffolding/runtime/bootstrap/AGENTS.md" "$CANONICAL_GOAL" "bootstrap AGENTS.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/scaffolding/runtime/templates/octon/START.md" "$CANONICAL_GOAL" "template octon START.md contains canonical goal text"
-  require_contains_literal "$OCTON_DIR/scaffolding/runtime/templates/octon/continuity/tasks.json" "$CANONICAL_GOAL" "template continuity tasks goal defaults to canonical goal text"
+  require_contains_literal "$OCTON_DIR/framework/agency/governance/CONSTITUTION.md" "$CANONICAL_GOAL" "CONSTITUTION.md contains canonical goal text"
+  require_contains_literal "$OCTON_DIR/framework/agency/governance/DELEGATION.md" "$CANONICAL_GOAL" "DELEGATION.md contains canonical goal text"
+  require_contains_literal "$OCTON_DIR/framework/agency/governance/MEMORY.md" "$CANONICAL_GOAL" "MEMORY.md contains canonical goal text"
+  require_contains_literal "$OCTON_DIR/framework/agency/runtime/agents/architect/AGENT.md" "$CANONICAL_GOAL" "architect AGENT.md contains canonical goal text"
+  require_contains_literal "$OCTON_DIR/framework/agency/runtime/agents/architect/SOUL.md" "$CANONICAL_GOAL" "architect SOUL.md contains canonical goal text"
+  require_contains_literal "$OCTON_DIR/instance/bootstrap/START.md" "$CANONICAL_GOAL" ".octon/instance/bootstrap/START.md contains canonical goal text"
+  require_contains_literal "$OCTON_DIR/framework/scaffolding/runtime/bootstrap/AGENTS.md" "$CANONICAL_GOAL" "bootstrap AGENTS.md contains canonical goal text"
+  require_contains_literal "$OCTON_DIR/framework/scaffolding/runtime/templates/octon/START.md" "$CANONICAL_GOAL" "template octon START.md contains canonical goal text"
 }
 
 validate_deprecated_tokens() {
@@ -150,7 +145,7 @@ validate_deprecated_tokens() {
 }
 
 validate_active_wording_drift() {
-  local purpose_file="$OCTON_DIR/cognition/governance/purpose/convivial-purpose.md"
+  local purpose_file="$OCTON_DIR/framework/cognition/governance/purpose/convivial-purpose.md"
   local matches
 
   matches="$(rg -n -i "five pillars|the five pillars" "$purpose_file" || true)"

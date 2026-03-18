@@ -1,0 +1,6 @@
+schema_version: "octon-extension-quarantine-state-v1"
+updated_at: "2026-03-18T18:25:41Z"
+blocked_packs: []
+affected_dependents: []
+reason_codes: []
+acknowledgements: []

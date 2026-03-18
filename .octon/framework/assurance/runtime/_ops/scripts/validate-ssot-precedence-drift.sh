@@ -2,13 +2,12 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-SPEC_FILE="$OCTON_DIR/cognition/_meta/architecture/specification.md"
-ASSURANCE_PRECEDENCE="$OCTON_DIR/assurance/governance/precedence.md"
-ENGINE_GOVERNANCE="$OCTON_DIR/engine/governance/README.md"
+SPEC_FILE="$OCTON_DIR/framework/cognition/_meta/architecture/specification.md"
+ASSURANCE_PRECEDENCE="$OCTON_DIR/framework/assurance/governance/precedence.md"
+ENGINE_GOVERNANCE="$OCTON_DIR/framework/engine/governance/README.md"
 CANONICAL_GOAL='Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.'
 
 errors=0
@@ -123,11 +122,12 @@ check_cross_doc_alignment() {
 check_precedence_goal_alignment() {
   local precedence_files=(
     "$ROOT_DIR/AGENTS.md"
-    "$OCTON_DIR/agency/governance/CONSTITUTION.md"
-    "$OCTON_DIR/agency/governance/DELEGATION.md"
-    "$OCTON_DIR/agency/governance/MEMORY.md"
-    "$OCTON_DIR/agency/runtime/agents/architect/AGENT.md"
-    "$OCTON_DIR/agency/runtime/agents/architect/SOUL.md"
+    "$OCTON_DIR/AGENTS.md"
+    "$OCTON_DIR/framework/agency/governance/CONSTITUTION.md"
+    "$OCTON_DIR/framework/agency/governance/DELEGATION.md"
+    "$OCTON_DIR/framework/agency/governance/MEMORY.md"
+    "$OCTON_DIR/framework/agency/runtime/agents/architect/AGENT.md"
+    "$OCTON_DIR/framework/agency/runtime/agents/architect/SOUL.md"
   )
   local file
 
@@ -184,7 +184,8 @@ check_for_conflicting_wording() {
     case "$rel" in
       .octon/framework/cognition/_meta/architecture/specification.md|\
       .octon/framework/assurance/governance/precedence.md|\
-      .octon/framework/engine/governance/README.md)
+      .octon/framework/engine/governance/README.md|\
+      .octon/framework/cognition/governance/CHARTER.md)
         continue
         ;;
     esac

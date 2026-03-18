@@ -2,8 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 
 PROFILE_CSV=""
 LIST_PROFILES=0
@@ -77,6 +76,26 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-harness-version-contract.sh"
 
   run_step \
+    "Validate root manifest profile contract" \
+    bash "$SCRIPT_DIR/validate-root-manifest-profiles.sh"
+
+  run_step \
+    "Validate framework and instance companion manifests" \
+    bash "$SCRIPT_DIR/validate-companion-manifests.sh"
+
+  run_step \
+    "Validate extension desired/actual/compiled publication state" \
+    bash "$SCRIPT_DIR/validate-extension-publication-state.sh"
+
+  run_step \
+    "Validate export profile contract and current snapshot completeness" \
+    bash "$SCRIPT_DIR/validate-export-profile-contract.sh"
+
+  run_step \
+    "Validate raw-input dependency ban for runtime and governance surfaces" \
+    bash "$SCRIPT_DIR/validate-raw-input-dependency-ban.sh"
+
+  run_step \
     "Validate contract governance coverage and _ops boundaries" \
     bash "$SCRIPT_DIR/validate-contract-governance.sh"
 
@@ -115,20 +134,20 @@ run_harness() {
   run_step \
     "Validate context-governance clean-break banlist entries" \
     rg -n "context-governance-clean-break|instruction-layer|context-acquisition" \
-      "$OCTON_DIR/cognition/practices/methodology/migrations/legacy-banlist.md"
+      "$OCTON_DIR/framework/cognition/practices/methodology/migrations/legacy-banlist.md"
 
   run_step \
     "Validate context-governance clean-break CI gate doctrine entries" \
     rg -n "Context governance clean-break|instruction-layer|context-acquisition|context-overhead|Profile Selection Receipt|change_profile|release_state|transitional_exception_note" \
-      "$OCTON_DIR/cognition/practices/methodology/migrations/ci-gates.md"
+      "$OCTON_DIR/framework/cognition/practices/methodology/migrations/ci-gates.md"
 
   run_step \
     "Validate execution-profile governance doctrine entries" \
     rg -n "change_profile|release_state|transitional_exception_note|Profile Selection Receipt|Impact Map|Compliance Receipt|Exceptions/Escalations" \
-      "$OCTON_DIR/cognition/practices/methodology/migrations/README.md" \
-      "$OCTON_DIR/cognition/practices/methodology/migrations/doctrine.md" \
-      "$OCTON_DIR/cognition/practices/methodology/migrations/ci-gates.md" \
-      "$OCTON_DIR/scaffolding/runtime/templates/migrations/template.clean-break-migration.md"
+      "$OCTON_DIR/framework/cognition/practices/methodology/migrations/README.md" \
+      "$OCTON_DIR/framework/cognition/practices/methodology/migrations/doctrine.md" \
+      "$OCTON_DIR/framework/cognition/practices/methodology/migrations/ci-gates.md" \
+      "$OCTON_DIR/framework/scaffolding/runtime/templates/migrations/template.clean-break-migration.md"
 
   run_step \
     "Validate tier downgrade governance policy contract" \
@@ -137,14 +156,14 @@ run_harness() {
   run_step \
     "Validate execution-profile governance PR contract entries" \
     rg -n "Profile Selection Receipt|Implementation Plan|Impact Map \\(code, tests, docs, contracts\\)|Compliance Receipt|Exceptions/Escalations|change_profile" \
-      "$OCTON_DIR/agency/practices/pull-request-standards.md" \
+      "$OCTON_DIR/framework/agency/practices/pull-request-standards.md" \
       "$OCTON_DIR/../.github/PULL_REQUEST_TEMPLATE.md" \
       "$OCTON_DIR/../.github/PULL_REQUEST_TEMPLATE/kaizen.md"
 
   run_step \
     "Validate workflow execution_profile and governance change_profile disambiguation" \
     rg -n "execution_profile|core\\|external-dependent|change_profile" \
-      "$OCTON_DIR/orchestration/runtime/workflows/README.md"
+      "$OCTON_DIR/framework/orchestration/runtime/workflows/README.md"
 
   run_step \
     "Validate bounded-audit convergence contract" \

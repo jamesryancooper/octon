@@ -1,6 +1,6 @@
 # Step 3: Assess Token Efficiency
 
-For agent-facing files (non-dot-prefixed), estimate tokens (words × 1.3) against budgets per `.octon/framework/cognition/_meta/architecture/README.md#token-budget-guidelines`.
+For agent-facing files, estimate tokens against current budgets and identify any files whose outdated manifest/export guidance should be tightened while updating Packet 2 drift.
 
 ## Flag files that
 
@@ -8,4 +8,3 @@ For agent-facing files (non-dot-prefixed), estimate tokens (words × 1.3) agains
 - Contain redundant content
 - Could be more concise
 - Duplicate content from other files
-

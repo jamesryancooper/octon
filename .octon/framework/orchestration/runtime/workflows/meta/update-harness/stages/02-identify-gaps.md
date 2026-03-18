@@ -4,7 +4,6 @@ Report:
 
 - **Missing required files** — files that MUST exist
 - **Missing standard directories** — directories needed for this harness's use case
-- **Move to `ideation/scratchpad/`** — explanatory content that isn't actionable for agents
-- **Move to `ideation/scratchpad/archive/`** — outdated content that should be preserved but not active
+- **Legacy root-manifest keys** — top-level portability keys that must move into nested v2 fields
+- **Missing Packet 2 control metadata** — `instance/extensions.yml`, companion-manifest fields, and export-profile semantics
 - **Non-standard files/directories** — items that need review or categorization
-

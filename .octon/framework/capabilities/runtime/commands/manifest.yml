@@ -36,6 +36,13 @@ commands:
     access: agent
     argument_hint: "[@project-root] [--force] [--dry-run] [--list-objectives] [--objective <id>] [--objective-owner <name>] [--objective-approved-by <name>] [--no-claude-alias] [--with-boot-files] [--with-agent-platform-adapters] [--agent-platform-adapters <csv>]"
 
+  - id: export-harness
+    display_name: Export Harness
+    path: export-harness.md
+    summary: Materialize repo_snapshot or pack_bundle exports from the root-manifest profile contract.
+    access: agent
+    argument_hint: "--profile repo_snapshot|pack_bundle --output-dir <path> [--pack-ids <csv>]"
+
   - id: studio
     display_name: Launch Studio
     path: studio.md

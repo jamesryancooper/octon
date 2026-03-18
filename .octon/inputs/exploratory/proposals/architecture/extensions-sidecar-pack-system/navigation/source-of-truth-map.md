@@ -4,7 +4,7 @@
 
 | Concern | Source of truth | Notes |
 | --- | --- | --- |
-| Root harness extension binding and compatibility contract | `.octon/octon.yml` | Declares root-only extension scope plus `versioning.harness.release_version` and `extensions.api_version` |
+| Root harness extension binding and compatibility contract | `.octon/octon.yml` | Declares root-only extension scope plus `versioning.harness.release_version` and `versioning.extensions.api_version` |
 | Pack installation and enablement | `.octon.extensions/catalog.yml` | Selection plane only; no trust or provenance authority |
 | Pack-local identity, version, trust, compatibility, dependencies, and content entrypoints | `.octon.extensions/<pack-id>/pack.yml` | Authoritative pack manifest for one installed pack id |
 | Pack-contributed skills metadata | `.octon.extensions/<pack-id>/skills/manifest.fragment.yml` and `registry.fragment.yml` | Additive only; cannot redefine core globals |

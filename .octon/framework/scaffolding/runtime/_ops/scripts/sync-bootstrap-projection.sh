@@ -2,10 +2,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
-MANIFEST_FILE="$OCTON_DIR/scaffolding/runtime/bootstrap/manifest.yml"
-SOURCE_DIR="$OCTON_DIR/scaffolding/runtime/bootstrap"
+MANIFEST_FILE="$OCTON_DIR/framework/scaffolding/runtime/bootstrap/manifest.yml"
+SOURCE_DIR="$OCTON_DIR/framework/scaffolding/runtime/bootstrap"
 
 if [[ ! -f "$MANIFEST_FILE" ]]; then
   echo "[ERROR] Missing bootstrap manifest: $MANIFEST_FILE" >&2

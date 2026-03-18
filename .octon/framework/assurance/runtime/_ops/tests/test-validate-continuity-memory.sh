@@ -4,11 +4,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OPS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-RUNTIME_DIR="$(cd "$OPS_DIR/.." && pwd)"
-ASSURANCE_DIR="$(cd "$RUNTIME_DIR/.." && pwd)"
-OCTON_DIR="$(cd "$ASSURANCE_DIR/.." && pwd)"
-REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../../../../../.." && pwd)"
 VALIDATE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-continuity-memory.sh"
 
 pass_count=0
@@ -74,6 +70,7 @@ create_fixture_repo() {
   mkdir -p \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture/state/continuity/schemas" \
+    "$fixture_root/.octon/state/continuity/repo" \
     "$fixture_root/.octon/state/evidence/decisions/repo/dec-20260308-weekly-freshness-audit-allow-01" \
     "$fixture_root/.octon/state/evidence/runs"
 

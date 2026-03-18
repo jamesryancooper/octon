@@ -2,15 +2,14 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
 CANONICAL_AGENTS_FILE="$OCTON_DIR/AGENTS.md"
 ROOT_AGENTS_FILE="$ROOT_DIR/AGENTS.md"
 ROOT_CLAUDE_FILE="$ROOT_DIR/CLAUDE.md"
-OBJECTIVE_FILE="$OCTON_DIR/OBJECTIVE.md"
-INTENT_FILE="$OCTON_DIR/cognition/runtime/context/intent.contract.yml"
+OBJECTIVE_FILE="$OCTON_DIR/instance/bootstrap/OBJECTIVE.md"
+INTENT_FILE="$OCTON_DIR/instance/cognition/context/shared/intent.contract.yml"
 EXPECTED_INGRESS_TARGET=".octon/AGENTS.md"
 
 errors=0
@@ -76,10 +75,10 @@ validate_ingress_adapter() {
   fi
 
   if [[ -f "$file_path" ]]; then
-    if cmp -s "$CANONICAL_AGENTS_FILE" "$file_path"; then
-      pass "$label fallback copy matches .octon/AGENTS.md"
+    if rg -n -F "$EXPECTED_INGRESS_TARGET" "$file_path" >/dev/null 2>&1; then
+      pass "$label adapter points to $EXPECTED_INGRESS_TARGET"
     else
-      fail "$label fallback copy diverges from .octon/AGENTS.md"
+      fail "$label adapter does not point to $EXPECTED_INGRESS_TARGET"
     fi
     return
   fi
@@ -117,6 +116,12 @@ main() {
   [[ -f "$CANONICAL_AGENTS_FILE" ]] || fail "missing canonical AGENTS source: ${CANONICAL_AGENTS_FILE#$ROOT_DIR/}"
   [[ -f "$OBJECTIVE_FILE" ]] || fail "missing canonical objective brief: ${OBJECTIVE_FILE#$ROOT_DIR/}"
   [[ -f "$INTENT_FILE" ]] || fail "missing intent contract: ${INTENT_FILE#$ROOT_DIR/}"
+
+  if rg -n -F '.octon/instance/ingress/AGENTS.md' "$CANONICAL_AGENTS_FILE" >/dev/null 2>&1; then
+    pass ".octon/AGENTS.md points to canonical internal ingress"
+  else
+    fail ".octon/AGENTS.md must point to canonical internal ingress"
+  fi
 
   validate_ingress_adapter "$ROOT_AGENTS_FILE" "AGENTS.md"
   validate_ingress_adapter "$ROOT_CLAUDE_FILE" "CLAUDE.md"

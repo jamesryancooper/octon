@@ -53,18 +53,31 @@ workflows:
     group: meta
     domain: harness
     path: meta/migrate-harness/
-    summary: Upgrade an older harness to current conventions.
+    summary: Upgrade an older harness to the v2 root-manifest and profile contract.
     status: active
     triggers:
       - "migrate harness"
       - "upgrade harness"
       - "update harness structure"
+      - "cut over root manifest profiles"
+  - id: export-harness
+    display_name: Export Harness
+    group: meta
+    domain: harness
+    path: meta/export-harness/
+    summary: Materialize repo_snapshot or pack_bundle exports from the root-manifest profile contract.
+    status: active
+    triggers:
+      - "export harness"
+      - "build repo snapshot"
+      - "export pack bundle"
+      - "materialize repo snapshot"
   - id: update-harness
     display_name: Update Harness
     group: meta
     domain: harness
     path: meta/update-harness/
-    summary: Align an existing .octon directory with the canonical definition.
+    summary: Align an existing .octon directory with the canonical v2 root-manifest and profile model.
     status: active
     triggers:
       - "update harness"
@@ -476,7 +489,7 @@ workflow_group_definitions:
   meta:
     description: Operate on the harness itself (CRUD for harness components)
     path: meta/
-    members: [evaluate-harness, migrate-harness, update-harness, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal]
+    members: [evaluate-harness, migrate-harness, export-harness, update-harness, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal]
   audit:
     description: Audit orchestration and release gates
     path: audit/

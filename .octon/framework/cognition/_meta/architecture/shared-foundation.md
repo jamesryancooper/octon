@@ -38,6 +38,13 @@ explicit.
 `octon.yml` defines profile-driven portability. Do not copy the whole `.octon/`
 tree as the default bootstrap model.
 
+- `bootstrap_core` installs `octon.yml`, `framework/**`, and
+  `instance/manifest.yml`; `/init` completes repo-local bootstrap projections.
+- `repo_snapshot` exports `octon.yml`, `framework/**`, `instance/**`, and the
+  enabled-pack dependency closure through `/export-harness`.
+- `pack_bundle` exports selected additive packs plus dependency closure only.
+- `full_fidelity` is advisory only and uses a normal Git clone.
+
 ## Boundaries
 
 - Raw `inputs/**` paths must never become direct runtime or policy

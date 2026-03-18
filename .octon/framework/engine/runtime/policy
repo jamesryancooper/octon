@@ -360,7 +360,7 @@ emit_instruction_layer_manifest() {
   local layers_json="$2"
   local run_dir manifest_path generated_at
 
-  run_dir="$OCTON_DIR/continuity/runs/$run_id"
+  run_dir="$DEFAULT_RECEIPTS_RUNS_DIR/$run_id"
   manifest_path="$run_dir/$MANIFEST_FILENAME"
   generated_at="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
   mkdir -p "$run_dir"

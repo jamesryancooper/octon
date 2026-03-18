@@ -10,7 +10,7 @@
   - compatibility ranges
   - root-harness compatibility keys at
     `octon.yml.versioning.harness.release_version` and
-    `octon.yml.extensions.api_version`
+    `octon.yml.versioning.extensions.api_version`
   - collision rules
   - allowed and forbidden content classes
   - fail-closed behavior

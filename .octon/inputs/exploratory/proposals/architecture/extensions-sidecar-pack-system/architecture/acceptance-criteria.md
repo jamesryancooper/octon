@@ -57,7 +57,7 @@ following are true:
 9. Compatibility is explicit and machine-readable against the exact root-harness
    keys:
    - `octon.yml.versioning.harness.release_version`
-   - `octon.yml.extensions.api_version`
+   - `octon.yml.versioning.extensions.api_version`
    - versioned pack dependency edges
 10. Rebased runtime resolution is explicit:
     - artifact paths are rebased through an effective artifact map
