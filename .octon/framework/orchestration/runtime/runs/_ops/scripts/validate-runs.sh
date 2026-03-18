@@ -49,7 +49,7 @@ validate_run_record() {
     *) fail "run '$run_id' has invalid status '$status'" ;;
   esac
   [[ "$started_at" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$ ]] && pass "run '$run_id' started_at is ISO-like" || fail "run '$run_id' started_at must be ISO timestamp"
-  [[ -n "$decision_id" && -f "$OCTON_DIR/continuity/decisions/$decision_id/decision.json" ]] && pass "run '$run_id' decision link resolves" || fail "run '$run_id' decision link missing"
+  [[ -n "$decision_id" && -f "$OCTON_DIR/state/evidence/decisions/repo/$decision_id/decision.json" ]] && pass "run '$run_id' decision link resolves" || fail "run '$run_id' decision link missing"
   [[ -n "$continuity_run_path" && -d "$OCTON_DIR/${continuity_run_path#.octon/}" ]] && pass "run '$run_id' continuity path resolves" || fail "run '$run_id' continuity path missing"
   [[ -n "$summary" ]] && pass "run '$run_id' summary present" || fail "run '$run_id' summary missing"
 
