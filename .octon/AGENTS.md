@@ -1,5 +1,9 @@
 # `.octon` Ingress Adapter
 
+## Behavioral Contract
+
+Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
+
 Canonical internal ingress lives at `/.octon/instance/ingress/AGENTS.md`.
 
 Read in this order:

@@ -2,9 +2,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
-ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
+DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
+OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
+ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 
 MANIFEST_FILE="$OCTON_DIR/octon.yml"
 
@@ -28,110 +28,9 @@ require_file() {
   fi
 }
 
-extract_root_scalar() {
-  local key="$1"
-  awk -v key="$key" '
-    $0 ~ "^" key ":[[:space:]]*" {
-      line=$0
-      sub("^" key ":[[:space:]]*", "", line)
-      sub(/[[:space:]]+#.*/, "", line)
-      gsub(/^"/, "", line)
-      gsub(/"$/, "", line)
-      print line
-      exit
-    }
-  ' "$MANIFEST_FILE"
-}
-
-extract_harness_scalar() {
-  local key="$1"
-  awk -v key="$key" '
-    /^versioning:[[:space:]]*$/ { in_versioning=1; next }
-
-    in_versioning == 1 {
-      if ($0 ~ /^[^[:space:]]/) {
-        in_versioning=0
-        in_harness=0
-      }
-
-      if ($0 ~ /^  harness:[[:space:]]*$/) {
-        in_harness=1
-        next
-      }
-
-      if (in_harness == 1 && $0 ~ /^  [^[:space:]]/) {
-        in_harness=0
-      }
-
-      if (in_harness == 1 && $0 ~ "^    " key ":[[:space:]]*") {
-        line=$0
-        sub("^    " key ":[[:space:]]*", "", line)
-        sub(/[[:space:]]+#.*/, "", line)
-        gsub(/^"/, "", line)
-        gsub(/"$/, "", line)
-        print line
-        exit
-      }
-    }
-  ' "$MANIFEST_FILE"
-}
-
-extract_harness_list() {
-  local key="$1"
-  awk -v key="$key" '
-    /^versioning:[[:space:]]*$/ { in_versioning=1; next }
-
-    in_versioning == 1 {
-      if ($0 ~ /^[^[:space:]]/) {
-        in_versioning=0
-        in_harness=0
-        in_list=0
-      }
-
-      if ($0 ~ /^  harness:[[:space:]]*$/) {
-        in_harness=1
-        next
-      }
-
-      if (in_harness == 1 && $0 ~ /^  [^[:space:]]/) {
-        in_harness=0
-        in_list=0
-      }
-
-      if (in_harness == 1 && $0 ~ "^    " key ":[[:space:]]*$") {
-        in_list=1
-        next
-      }
-
-      if (in_list == 1) {
-        if ($0 ~ /^      - /) {
-          line=$0
-          sub(/^      - /, "", line)
-          sub(/[[:space:]]+#.*/, "", line)
-          gsub(/^"/, "", line)
-          gsub(/"$/, "", line)
-          print line
-          next
-        }
-
-        if ($0 ~ /^    [a-zA-Z0-9_]+:[[:space:]]*/ || $0 ~ /^  [^[:space:]]/ || $0 ~ /^[^[:space:]]/) {
-          in_list=0
-        }
-      }
-    }
-  ' "$MANIFEST_FILE"
-}
-
-value_in_list() {
-  local needle="$1"
-  shift
-  local value
-  for value in "$@"; do
-    if [[ "$value" == "$needle" ]]; then
-      return 0
-    fi
-  done
-  return 1
+yaml_value() {
+  local query="$1"
+  yq -r "$query // \"\"" "$MANIFEST_FILE"
 }
 
 main() {
@@ -143,32 +42,73 @@ main() {
     exit 1
   fi
 
-  local schema_version
-  schema_version="$(extract_root_scalar "schema_version")"
-  if [[ -z "$schema_version" ]]; then
-    fail "missing root schema_version in ${MANIFEST_FILE#$ROOT_DIR/}"
+  if yq -e '.' "$MANIFEST_FILE" >/dev/null 2>&1; then
+    pass "root manifest parses as YAML"
   else
-    pass "root schema_version detected: $schema_version"
+    fail "root manifest must parse as YAML"
+    echo "Validation summary: errors=$errors"
+    exit 1
   fi
 
-  mapfile -t supported_versions < <(extract_harness_list "supported_schema_versions")
-  if [[ "${#supported_versions[@]}" -eq 0 ]]; then
-    fail "missing versioning.harness.supported_schema_versions in ${MANIFEST_FILE#$ROOT_DIR/}"
+  local schema_version
+  schema_version="$(yaml_value '.schema_version')"
+  if [[ "$schema_version" == "octon-root-manifest-v2" ]]; then
+    pass "root schema_version detected: $schema_version"
   else
-    pass "supported schema versions declared (${#supported_versions[@]})"
+    fail "root schema_version must be octon-root-manifest-v2 (found '${schema_version:-<empty>}')"
+  fi
+
+  if [[ "$(yaml_value '.topology.super_root')" == ".octon/" ]]; then
+    pass "topology.super_root declared"
+  else
+    fail "missing or invalid topology.super_root"
+  fi
+
+  if yq -e 'has("class_roots") and .class_roots != null' "$MANIFEST_FILE" >/dev/null 2>&1; then
+    fail "legacy top-level class_roots key must be removed"
+  else
+    pass "legacy top-level class_roots key removed"
+  fi
+
+  if yq -e 'has("extensions") and .extensions != null' "$MANIFEST_FILE" >/dev/null 2>&1; then
+    fail "legacy top-level extensions key must be removed"
+  else
+    pass "legacy top-level extensions key removed"
+  fi
+
+  if yq -e 'has("human_led") and .human_led != null' "$MANIFEST_FILE" >/dev/null 2>&1; then
+    fail "legacy top-level human_led key must be removed"
+  else
+    pass "legacy top-level human_led key removed"
+  fi
+
+  local release_version
+  release_version="$(yaml_value '.versioning.harness.release_version')"
+  if [[ -n "$release_version" ]]; then
+    pass "harness release version declared: $release_version"
+  else
+    fail "missing versioning.harness.release_version"
+  fi
+
+  local supported_count
+  supported_count="$(yq -r '.versioning.harness.supported_schema_versions | length // 0' "$MANIFEST_FILE")"
+  if [[ "$supported_count" -gt 0 ]]; then
+    pass "supported schema versions declared ($supported_count)"
+  else
+    fail "missing versioning.harness.supported_schema_versions"
   fi
 
   local rejection_mode
-  rejection_mode="$(extract_harness_scalar "rejection_mode")"
-  if [[ "$rejection_mode" != "fail-closed" ]]; then
-    fail "versioning.harness.rejection_mode must be 'fail-closed' (found '${rejection_mode:-<empty>}')"
-  else
+  rejection_mode="$(yaml_value '.versioning.harness.rejection_mode')"
+  if [[ "$rejection_mode" == "fail-closed" ]]; then
     pass "rejection mode is fail-closed"
+  else
+    fail "versioning.harness.rejection_mode must be 'fail-closed' (found '${rejection_mode:-<empty>}')"
   fi
 
   local migration_workflow migration_overview
-  migration_workflow="$(extract_harness_scalar "migration_workflow")"
-  migration_overview="$(extract_harness_scalar "migration_overview")"
+  migration_workflow="$(yaml_value '.versioning.harness.migration_workflow')"
+  migration_overview="$(yaml_value '.versioning.harness.migration_overview')"
 
   if [[ -z "$migration_workflow" ]]; then
     fail "missing versioning.harness.migration_workflow"
@@ -186,24 +126,18 @@ main() {
     pass "migration overview path resolves: .octon/$migration_overview"
   fi
 
-  mapfile -t deterministic_steps < <(extract_harness_list "deterministic_upgrade_instructions")
-  if [[ "${#deterministic_steps[@]}" -eq 0 ]]; then
-    fail "missing versioning.harness.deterministic_upgrade_instructions"
+  local deterministic_count
+  deterministic_count="$(yq -r '.versioning.harness.deterministic_upgrade_instructions | length // 0' "$MANIFEST_FILE")"
+  if [[ "$deterministic_count" -gt 0 ]]; then
+    pass "deterministic upgrade instructions declared ($deterministic_count)"
   else
-    pass "deterministic upgrade instructions declared (${#deterministic_steps[@]})"
+    fail "missing versioning.harness.deterministic_upgrade_instructions"
   fi
 
-  if [[ -n "$schema_version" && "${#supported_versions[@]}" -gt 0 ]]; then
-    if value_in_list "$schema_version" "${supported_versions[@]}"; then
-      pass "schema_version '$schema_version' is supported"
-    else
-      fail "unsupported harness schema_version '$schema_version' (supported: $(IFS=,; echo "${supported_versions[*]}"))"
-      echo "Deterministic upgrade instructions:"
-      local step
-      for step in "${deterministic_steps[@]}"; do
-        echo "  - $step"
-      done
-    fi
+  if yq -e '.versioning.harness.supported_schema_versions[] | select(. == "octon-root-manifest-v2")' "$MANIFEST_FILE" >/dev/null 2>&1; then
+    pass "schema_version 'octon-root-manifest-v2' is supported"
+  else
+    fail "supported_schema_versions must include octon-root-manifest-v2"
   fi
 
   echo "Validation summary: errors=$errors"

@@ -109,7 +109,8 @@ Atomic operations in `capabilities/runtime/commands/`:
 
 | Command | Access | Description |
 |---------|--------|-------------|
-| [init.md](./capabilities/runtime/commands/init.md) | human | Initialize canonical `.octon` bootstrap files plus repo-root ingress adapters (`.octon/AGENTS.md`, `.octon/instance/bootstrap/OBJECTIVE.md`, `intent.contract.yml`, root `AGENTS.md`, root `CLAUDE.md`, `alignment-check`, optional `BOOT*.md`) |
+| [init.md](./capabilities/runtime/commands/init.md) | human | Complete the `bootstrap_core` install by generating canonical `.octon` bootstrap files plus repo-root ingress adapters (`.octon/AGENTS.md`, `.octon/instance/bootstrap/OBJECTIVE.md`, `intent.contract.yml`, root `AGENTS.md`, root `CLAUDE.md`, `alignment-check`, optional `BOOT*.md`) |
+| [export-harness.md](./capabilities/runtime/commands/export-harness.md) | human | Materialize `repo_snapshot` or `pack_bundle` exports from the root-manifest profile contract |
 | [studio.md](./capabilities/runtime/commands/studio.md) | human | Launch Octon Studio for workflow graph design, read-only orchestration operations, and safe staged edits |
 | [recover.md](./capabilities/runtime/commands/recover.md) | human | Recovery procedures for common agent failure modes |
 | [audit-skills-system-expansion.md](./capabilities/runtime/commands/audit-skills-system-expansion.md) | human | Invoke the skills-system expansion evaluation prompt through a slash-style command wrapper |
@@ -174,9 +175,10 @@ Multi-step procedures in `orchestration/runtime/workflows/`.
 
 | Workflow | Access | Description |
 |----------|--------|-------------|
-| [evaluate-harness](./orchestration/runtime/workflows/meta/evaluate-harness/00-overview.md) | human | Evaluate token efficiency and effectiveness |
-| [migrate-harness](./orchestration/runtime/workflows/meta/migrate-harness/00-overview.md) | human | Upgrade older harness to current conventions |
-| [update-harness](./orchestration/runtime/workflows/meta/update-harness/00-overview.md) | human | Align with canonical definition |
+| [evaluate-harness](./orchestration/runtime/workflows/meta/evaluate-harness/README.md) | human | Evaluate token efficiency and effectiveness |
+| [migrate-harness](./orchestration/runtime/workflows/meta/migrate-harness/README.md) | human | Upgrade older harnesses to the v2 root-manifest and profile contract |
+| [export-harness](./orchestration/runtime/workflows/meta/export-harness/README.md) | human | Materialize `repo_snapshot` or `pack_bundle` exports from the current root-manifest contract |
+| [update-harness](./orchestration/runtime/workflows/meta/update-harness/README.md) | human | Align with the canonical v2 root-manifest and profile model |
 
 ### Projects
 
@@ -301,12 +303,14 @@ When modifying an existing harness:
 | Harness has minor structural gaps | `/update-harness` | Non-destructive fixes |
 | Harness uses old file structure (e.g., `agents/` dir) | `/migrate-harness` | Major restructuring needed |
 | Major convention changes between versions | `/migrate-harness` | Preserves content while transforming structure |
+| Need a behaviorally complete adopted-repo export | `/export-harness --profile repo_snapshot` | Emits the canonical repo snapshot and fails closed on missing pack closure |
+| Need a reusable pack bundle | `/export-harness --profile pack_bundle --pack-ids <csv>` | Emits only selected additive packs plus dependency closure |
 | Read-only assessment, no changes | `/evaluate-harness` | Produces report only |
-| No harness exists yet | Adopt the repo-root bundle, then run `/init` | Harness-modification workflows assume an existing root harness |
+| No harness exists yet | Adopt the `bootstrap_core` bundle, then run `/init` | Harness-modification workflows assume an existing root harness |
 
 ```text
 Does the harness exist?
-├── NO → adopt the repo-root bundle, then run /init
+├── NO → adopt the bootstrap_core bundle, then run /init
 └── YES → Is it structurally correct (current conventions)?
     ├── NO → /migrate-harness (structural transformation)
     └── YES → Do you want to make changes?
@@ -382,8 +386,8 @@ Session continuity in `continuity/`:
 
 | File | Description |
 |------|-------------|
-| [log.md](./continuity/log.md) | Append-only session history |
-| [tasks.json](./continuity/tasks.json) | Structured task list with goal |
+| [log.md](./state/continuity/repo/log.md) | Append-only session history |
+| [tasks.json](./state/continuity/repo/tasks.json) | Structured task list with goal |
 | [entities.json](./continuity/entities.json) | Entity state tracking |
 | [next.md](./continuity/next.md) | Immediate actionable steps (promoted from `ideation/scratchpad/`) |
 
@@ -413,9 +417,10 @@ The root harness template contains:
 | Script | Description |
 |--------|-------------|
 | [scaffolding/runtime/_ops/scripts/init-project.sh](./scaffolding/runtime/_ops/scripts/init-project.sh) | Stable wrapper path for the canonical bootstrap generator that writes `.octon`-local authored files plus root ingress adapters |
+| [orchestration/runtime/_ops/scripts/export-harness.sh](./orchestration/runtime/_ops/scripts/export-harness.sh) | Stable runner for `repo_snapshot` and `pack_bundle` materialization from `octon.yml` |
 | [init.sh](./init.sh) | Health check: verifies required files/directories exist |
 
-**Usage:** Run `.octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh --list-objectives` to inspect common use cases, then run `.octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh --objective <id>` from repo root (or use `/init`) for project bootstrap. This writes canonical authored files under `/.octon/` and refreshes the root `AGENTS.md` and `CLAUDE.md` ingress adapters. Add `--with-boot-files` to generate `BOOT.md` and `BOOTSTRAP.md`. Run `.octon/instance/bootstrap/init.sh` from `.octon/` for harness health checks.
+**Usage:** Run `.octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh --list-objectives` to inspect common use cases, then run `.octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh --objective <id>` from repo root (or use `/init`) to complete `bootstrap_core` installation. This writes canonical authored files under `/.octon/` and refreshes the root `AGENTS.md` and `CLAUDE.md` ingress adapters. Use `.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh --profile repo_snapshot|pack_bundle --output-dir <path>` (or `/export-harness`) for manifest-governed exports. Run `.octon/instance/bootstrap/init.sh` from `.octon/` for harness health checks.
 
 ---
 

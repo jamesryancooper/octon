@@ -19,90 +19,91 @@ schema_version: "1.0"
 
 contracts:
   - contract_id: OCTON-SPEC-014
-    path: ../../_meta/architecture/runtime-vs-ops-contract.md
+    path: ../../../framework/cognition/_meta/architecture/runtime-vs-ops-contract.md
     owner: cognition
     version: "1.1.0"
     supersedes: []
     enforced_by:
-      - ../../../assurance/runtime/_ops/scripts/validate-harness-structure.sh
-      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
   - contract_id: OCTON-SPEC-015
-    path: ../../_meta/architecture/specification.md
+    path: ../../../framework/cognition/_meta/architecture/specification.md
     owner: cognition
     version: "1.1.0"
     supersedes: []
     enforced_by:
-      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
   - contract_id: OCTON-SPEC-016
-    path: ../../_meta/architecture/specification.md
+    path: ../../../framework/cognition/_meta/architecture/specification.md
     owner: cognition
     version: "1.1.0"
     supersedes: []
     enforced_by:
-      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
   - contract_id: OCTON-SPEC-017
-    path: ../../_meta/architecture/specification.md
+    path: ../../../framework/cognition/_meta/architecture/specification.md
     owner: cognition
     version: "1.1.0"
     supersedes: []
     enforced_by:
-      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
   - contract_id: ASSURANCE-PRECEDENCE-001
-    path: ../../../assurance/governance/precedence.md
+    path: ../../../framework/assurance/governance/precedence.md
     owner: assurance
     version: "1.1.0"
     supersedes: []
     enforced_by:
-      - ../../../assurance/runtime/_ops/scripts/assurance-gate.sh
-      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/assurance-gate.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
   - contract_id: ENGINE-GOV-001
-    path: ../../../engine/governance/README.md
+    path: ../../../framework/engine/governance/README.md
     owner: engine
     version: "1.1.0"
     supersedes: []
     enforced_by:
-      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
   - contract_id: ENGINE-GOV-002
-    path: ../../../engine/governance/instruction-layer-precedence.md
+    path: ../../../framework/engine/governance/instruction-layer-precedence.md
     owner: engine
     version: "1.0.0"
     supersedes: []
     enforced_by:
-      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
   - contract_id: OPS-MUTATION-001
-    path: ../../_meta/architecture/runtime-vs-ops-contract.md
+    path: ../../../framework/cognition/_meta/architecture/runtime-vs-ops-contract.md
     owner: cognition
     version: "1.1.0"
     supersedes: []
     enforced_by:
-      - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+      - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
 ops_mutation_policy:
   allow_write_roots:
-    - ../../../capabilities/_ops/state
-    - ../../../engine/_ops/state
-    - ../../../cognition/_ops
-    - ../../../assurance/runtime/_ops
-    - ../../../output
-    - ../../../continuity
+    - ../../../framework/capabilities/_ops/state
+    - ../../../framework/engine/_ops/state
+    - ../../../framework/cognition/_ops
+    - ../../../framework/assurance/runtime/_ops
+    - ../../../generated
+    - ../../../state/continuity/repo
+    - ../../../state/evidence
   immutable_targets:
-    - ../../governance/principles/principles.md
-    - ../../../agency/governance
-    - ../../../capabilities/governance
-    - ../../../cognition/governance
-    - ../../../orchestration/governance
-    - ../../../assurance/governance
-    - ../../../engine/governance
-    - ../../../scaffolding/governance
+    - ../../../framework/cognition/governance/principles/principles.md
+    - ../../../framework/agency/governance
+    - ../../../framework/capabilities/governance
+    - ../../../framework/cognition/governance
+    - ../../../framework/orchestration/governance
+    - ../../../framework/assurance/governance
+    - ../../../framework/engine/governance
+    - ../../../framework/scaffolding/governance
   enforce_with:
-    - ../../../assurance/runtime/_ops/scripts/validate-contract-governance.sh
+    - ../../../framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh
 
 files:
   - id: constraints

@@ -1,0 +1,27 @@
+schema_version: "intent-contract-v1"
+intent_id: "{{INTENT_ID}}"
+version: "1.0.0"
+objective_signals:
+  - id: shippable-change-flow
+    description: "Move the next repo change from plan to verified implementation with clear evidence."
+  - id: repo-health
+    description: "Keep build, test, and delivery expectations explicit and current."
+authorized_actions:
+  - "Create and update source code, tests, documentation, and repo-local automation."
+  - "Refactor repo structure when it improves delivery clarity and stays within approved bounds."
+  - "Run repo-local verification and continuity updates required to ship work safely."
+hard_boundaries:
+  - boundary_id: repo-local-only
+    rule: "Stay within the managed repository unless an explicit authority surface authorizes external effects."
+    on_violation: deny
+  - boundary_id: destructive-release-guard
+    rule: "Do not perform destructive, irreversible, or production-affecting actions without the required approvals and evidence."
+    on_violation: escalate
+tradeoff_hierarchy:
+  - "Assurance"
+  - "Correctness"
+  - "Usability"
+  - "Productivity"
+owner: "{{OBJECTIVE_OWNER}}"
+approved_by: "{{OBJECTIVE_APPROVED_BY}}"
+created_at: "{{GENERATED_AT}}"

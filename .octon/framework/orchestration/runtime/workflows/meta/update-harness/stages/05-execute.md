@@ -4,8 +4,9 @@ After user approval:
 
 1. Create missing structure
 2. Move/rename files as proposed
-3. Update content as needed
-4. Update `continuity/log.md` with changes made
+3. Update v2 root-manifest/profile content as needed
+4. Route export requests to `/export-harness`
+5. Update `continuity/log.md` with changes made
 
 ## Output format
 
@@ -16,4 +17,3 @@ Produce report with these sections:
 3. **Token Analysis** — Files with estimated tokens vs budget
 4. **Proposed Changes** — Specific actions organized by type (create/move/rename/update/merge)
 5. **Gaps Remaining** — Any issues that need human decision
-

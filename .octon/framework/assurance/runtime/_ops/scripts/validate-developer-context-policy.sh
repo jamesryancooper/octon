@@ -2,11 +2,10 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 REPO_ROOT="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-POLICY_FILE="$OCTON_DIR/capabilities/governance/policy/deny-by-default.v2.yml"
+POLICY_FILE="$OCTON_DIR/framework/capabilities/governance/policy/deny-by-default.v2.yml"
 errors=0
 
 fail() {
@@ -101,7 +100,7 @@ check_artifact_limits() {
       pass "$artifact_path within max_bytes ($bytes <= $max_bytes)"
     fi
 
-    sections="$(rg -n '^## ' "$REPO_ROOT/$artifact_path" | wc -l | tr -d '[:space:]')"
+    sections="$( (rg -n '^## ' "$REPO_ROOT/$artifact_path" || true) | wc -l | tr -d '[:space:]')"
     if [[ "$sections" =~ ^[0-9]+$ ]] && (( sections > max_sections )); then
       fail "$artifact_path exceeds max_sections ($sections > $max_sections)"
     else
@@ -117,6 +116,10 @@ check_required_sections_present() {
   local section
 
   [[ -f "$REPO_ROOT/$artifact" ]] || return 0
+  if [[ "$artifact" == "AGENTS.md" || "$artifact" == "CLAUDE.md" || "$artifact" == ".octon/AGENTS.md" ]]; then
+    pass "$artifact is an ingress adapter and is exempt from required section checks"
+    return 0
+  fi
   for section in "${required_sections[@]}"; do
     if rg -n "^##[[:space:]]+$section([[:space:]]*$|[[:space:]])" "$REPO_ROOT/$artifact" >/dev/null; then
       :

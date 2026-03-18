@@ -1,6 +1,6 @@
 ---
 name: "update-harness"
-description: "Align an existing harness with current canonical conventions by auditing gaps, planning updates, and executing bounded remediations."
+description: "Align an existing harness with the canonical v2 root-manifest and profile model by auditing gaps, planning updates, and executing bounded remediations."
 steps:
   - id: "audit-state"
     file: "stages/01-audit-state.md"
@@ -31,7 +31,7 @@ _Generated README from canonical workflow `update-harness`._
 
 ## Purpose
 
-Align an existing harness with current canonical conventions by auditing gaps, planning updates, and executing bounded remediations.
+Align an existing harness with the canonical v2 root-manifest and profile model by auditing gaps, planning updates, and executing bounded remediations.
 
 ## Target
 
@@ -69,5 +69,4 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 | Version | Changes |
 |---------|---------|
-| 1.1.0 | Generated from canonical workflow `update-harness` |
-
+| 1.2.0 | Generated from canonical workflow `update-harness` |

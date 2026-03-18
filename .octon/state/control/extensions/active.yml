@@ -1,0 +1,12 @@
+schema_version: "octon-extension-active-state-v1"
+desired_config_revision:
+  path: ".octon/instance/extensions.yml"
+  sha256: "8a94d7441e41e446ee053598b4f2c0a2c2c52197e26c0a46cb8be97f8d3b79ad"
+resolved_active_packs: []
+dependency_closure: []
+generation_id: "extensions-8a94d7441e41"
+published_effective_catalog: ".octon/generated/effective/extensions/catalog.effective.yml"
+published_artifact_map: ".octon/generated/effective/extensions/artifact-map.yml"
+published_generation_lock: ".octon/generated/effective/extensions/generation.lock.yml"
+validation_timestamp: "2026-03-18T19:24:48Z"
+status: "published"

@@ -1,6 +1,6 @@
-schema_version: "octon-framework-manifest-v1"
+schema_version: "octon-framework-manifest-v2"
 framework_id: "octon-core"
-release_version: "0.4.15"
+release_version: "0.5.0"
 supported_instance_schema_versions:
   - "octon-instance-manifest-v1"
 overlay_registry: ".octon/framework/overlay-points/registry.yml"
@@ -16,3 +16,11 @@ generators:
   - "proposal-registry"
   - "assurance-outputs"
   - "validation-reports"
+bundled_policy_sets:
+  - ".octon/framework/agency/governance/"
+  - ".octon/framework/assurance/governance/"
+  - ".octon/framework/capabilities/governance/"
+  - ".octon/framework/cognition/governance/"
+  - ".octon/framework/engine/governance/"
+  - ".octon/framework/orchestration/governance/"
+  - ".octon/framework/scaffolding/governance/"

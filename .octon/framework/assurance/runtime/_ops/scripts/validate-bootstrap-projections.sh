@@ -2,14 +2,13 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-SOURCE_DIR="$OCTON_DIR/scaffolding/runtime/bootstrap"
+SOURCE_DIR="$OCTON_DIR/framework/scaffolding/runtime/bootstrap"
 MANIFEST_FILE="$SOURCE_DIR/manifest.yml"
-LIVE_WRAPPER="$OCTON_DIR/scaffolding/runtime/_ops/scripts/init-project.sh"
-TEMPLATE_WRAPPER="$OCTON_DIR/scaffolding/runtime/templates/octon/scaffolding/runtime/_ops/scripts/init-project.sh"
+LIVE_WRAPPER="$OCTON_DIR/framework/scaffolding/runtime/_ops/scripts/init-project.sh"
+TEMPLATE_WRAPPER="$OCTON_DIR/framework/scaffolding/runtime/templates/octon/scaffolding/runtime/_ops/scripts/init-project.sh"
 
 errors=0
 

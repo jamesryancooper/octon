@@ -1,0 +1,23 @@
+schema_version: "proposal-v1"
+proposal_id: "root-manifest-profiles-and-export-semantics"
+title: "Root Manifest and Behaviorally Complete Profile Model"
+summary: "Formalize `/.octon/octon.yml` as the authoritative super-root manifest, require companion manifests, and replace broad path portability with a validator-enforced profile model in which `repo_snapshot` is behaviorally complete and fails closed when enabled-pack closure cannot be exported."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/octon.yml"
+  - ".octon/framework/manifest.yml"
+  - ".octon/instance/manifest.yml"
+  - ".octon/instance/extensions.yml"
+  - ".octon/README.md"
+  - ".octon/instance/bootstrap/START.md"
+  - ".octon/framework/cognition/_meta/architecture/shared-foundation.md"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/assurance/runtime/"
+  - ".octon/framework/orchestration/runtime/workflows/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promote the ratified root manifest contract, companion-manifest requirements, profile semantics, and fail-closed export rules into durable `.octon/` control-plane and validator surfaces, then archive this proposal once canonical install, export, update, and snapshot behavior no longer depends on transitional manifest semantics."
+related_proposals:
+  - "super-root-semantics-and-taxonomy"

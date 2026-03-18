@@ -2,17 +2,16 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-TASKS_FILE="$OCTON_DIR/continuity/tasks.json"
-ENTITIES_FILE="$OCTON_DIR/continuity/entities.json"
-NEXT_FILE="$OCTON_DIR/continuity/next.md"
-DECISIONS_DIR="$OCTON_DIR/continuity/decisions"
+TASKS_FILE="$OCTON_DIR/state/continuity/repo/tasks.json"
+ENTITIES_FILE="$OCTON_DIR/state/continuity/repo/entities.json"
+NEXT_FILE="$OCTON_DIR/state/continuity/repo/next.md"
+DECISIONS_DIR="$OCTON_DIR/state/evidence/decisions/repo"
 DECISIONS_POLICY_FILE="$DECISIONS_DIR/retention.json"
-DECISION_SCHEMA_FILE="$OCTON_DIR/continuity/_meta/architecture/schemas/decision-record.schema.json"
-RUNS_DIR="$OCTON_DIR/continuity/runs"
+DECISION_SCHEMA_FILE="$OCTON_DIR/framework/cognition/_meta/architecture/state/continuity/schemas/decision-record.schema.json"
+RUNS_DIR="$OCTON_DIR/state/evidence/runs"
 RUNS_POLICY_FILE="$RUNS_DIR/retention.json"
 
 errors=0
@@ -586,6 +585,20 @@ validate_decisions_retention_contract() {
       continue
     fi
 
+    if [[ "$decision_name" == "reports" ]]; then
+      local reports_extra
+      reports_extra="$(
+        find "$decision_path" -mindepth 1 -maxdepth 1 -type f \
+          ! -name 'README.md' ! -name '*.md' -print
+      )"
+      if [[ -n "$reports_extra" ]]; then
+        fail "reports container contains unsupported files: $(echo "$reports_extra" | sed "s#${ROOT_DIR}/##g" | paste -sd ', ' -)"
+      else
+        pass "reports container contains only README.md and markdown artifacts: ${decision_path#$ROOT_DIR/}"
+      fi
+      continue
+    fi
+
     matched=0
 
     while IFS=$'\t' read -r class_id prefix; do
@@ -800,6 +813,12 @@ validate_runs_retention_contract() {
   while IFS= read -r run_path; do
     [[ -z "$run_path" ]] && continue
     run_name="$(basename "$run_path")"
+
+    if [[ "$run_name" == "operations" || "$run_name" == "workflows" ]]; then
+      pass "run container retained as canonical top-level bucket: ${run_path#$ROOT_DIR/}"
+      continue
+    fi
+
     matched=0
 
     while IFS=$'\t' read -r class_id prefix; do

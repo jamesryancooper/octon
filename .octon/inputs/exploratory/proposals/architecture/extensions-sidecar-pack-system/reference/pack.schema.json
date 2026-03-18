@@ -41,7 +41,7 @@
       "properties": {
         "octon_version": {
           "type": "string",
-          "minLength": 1
+          "pattern": "^(\\*|\\^[0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+\\.[0-9]+)$"
         },
         "extensions_api_version": {
           "type": "string",
@@ -81,7 +81,7 @@
               },
               "version_range": {
                 "type": "string",
-                "minLength": 1
+                "pattern": "^(\\*|\\^[0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+\\.[0-9]+)$"
               }
             },
             "additionalProperties": false
@@ -99,7 +99,7 @@
               },
               "version_range": {
                 "type": "string",
-                "minLength": 1
+                "pattern": "^(\\*|\\^[0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+\\.[0-9]+)$"
               }
             },
             "additionalProperties": false

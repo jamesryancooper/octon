@@ -2,17 +2,16 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-CONTEXT_INDEX="$OCTON_DIR/cognition/runtime/context/index.yml"
-SPEC_FILE="$OCTON_DIR/cognition/_meta/architecture/specification.md"
-RUNTIME_OPS_CONTRACT="$OCTON_DIR/cognition/_meta/architecture/runtime-vs-ops-contract.md"
-ASSURANCE_PRECEDENCE="$OCTON_DIR/assurance/governance/precedence.md"
-ENGINE_GOVERNANCE="$OCTON_DIR/engine/governance/README.md"
+CONTEXT_INDEX="$OCTON_DIR/instance/cognition/context/index.yml"
+SPEC_FILE="$OCTON_DIR/framework/cognition/_meta/architecture/specification.md"
+RUNTIME_OPS_CONTRACT="$OCTON_DIR/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md"
+ASSURANCE_PRECEDENCE="$OCTON_DIR/framework/assurance/governance/precedence.md"
+ENGINE_GOVERNANCE="$OCTON_DIR/framework/engine/governance/README.md"
 
-REPORT_DIR="$OCTON_DIR/output/assurance/results"
+REPORT_DIR="$OCTON_DIR/generated/assurance/results"
 REPORT_FILE="$REPORT_DIR/contract-coverage-latest.md"
 
 errors=0
@@ -272,18 +271,21 @@ check_required_contract_text() {
 }
 
 check_ops_mutation_policy_metadata() {
+  local context_dir
   local list_file
   local key
   local rel
   local abs
   local found
 
+  context_dir="$(dirname "$CONTEXT_INDEX")"
+
   for key in allow_write_roots immutable_targets enforce_with; do
     list_file="$tmpdir/ops-policy-${key}.txt"
     extract_ops_policy_list "$key" > "$list_file"
 
     if [[ ! -s "$list_file" ]]; then
-      fail "ops_mutation_policy.${key} has no entries in cognition/runtime/context/index.yml"
+      fail "ops_mutation_policy.${key} has no entries in instance/cognition/context/index.yml"
       continue
     fi
 
@@ -292,7 +294,7 @@ check_ops_mutation_policy_metadata() {
     while IFS= read -r rel; do
       [[ -z "$rel" ]] && continue
       found=1
-      abs="$OCTON_DIR/cognition/runtime/context/$rel"
+      abs="$context_dir/$rel"
       if [[ "$key" == "enforce_with" ]]; then
         if [[ -f "$abs" ]]; then
           pass "ops_mutation_policy.${key} path resolves: $rel"
@@ -315,7 +317,7 @@ check_ops_mutation_policy_metadata() {
 }
 
 check_contract_registry() {
-  local context_dir="$OCTON_DIR/cognition/runtime/context"
+  local context_dir="$OCTON_DIR/instance/cognition/context"
   local contract_count
   local duplicate_ids
   local contract_id
@@ -336,7 +338,7 @@ check_contract_registry() {
   extract_contract_registry > "$contracts_tsv"
 
   if [[ ! -s "$contracts_tsv" ]]; then
-    fail "no contracts declared in cognition/runtime/context/index.yml"
+    fail "no contracts declared in instance/cognition/context/index.yml"
     return
   fi
 

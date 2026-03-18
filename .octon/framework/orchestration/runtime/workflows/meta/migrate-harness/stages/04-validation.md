@@ -1,32 +1,21 @@
 # Step 4: Validation
 
-Verify the migrated harness is functional.
+Verify the migrated harness is functional under the v2 root-manifest and
+profile contract.
 
 ## Actions
 
-1. **Run health check**
-   - Execute `init.sh` if present
-   - Or manually verify structure
-
-2. **Test boot sequence**
-   - Read `START.md` and follow boot sequence
-   - Verify all referenced files exist and are readable
-
-3. **Check token budgets**
-   - Total harness: ~2,000 target, ~5,000 max
-   - Single file: ~300 target, ~500 max
-   - `START.md`: ~200 target, ~300 max
-
-4. **Validate frontmatter**
-   - Run `/validate-frontmatter @<harness-path>`
+1. Run `bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness`.
+2. Run `bash .octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh --profile repo_snapshot --output-dir <empty-temp-dir>`.
+3. Confirm `export.receipt.yml` is emitted and `full_fidelity` is rejected as advisory-only.
+4. Confirm `START.md`, `catalog.md`, and canonical architecture docs all point to the v2 manifest shape.
 
 ## Output
 
 | Section | Content |
 |---------|---------|
-| **Migration Summary** | Files moved, transformed, created |
-| **Preserved Content** | Custom content retained with new locations |
-| **Archived Content** | Deprecated content moved to `ideation/scratchpad/archive/` |
-| **Validation Status** | Pass/fail with details |
+| **Migration Summary** | Control-plane files created, transformed, or removed |
+| **Preserved Content** | Custom content retained under framework/instance/state boundaries |
+| **Validation Status** | Pass/fail with alignment and export evidence |
+| **Export Status** | `repo_snapshot` verification result |
 | **Post-Migration Notes** | Any manual follow-up needed |
-

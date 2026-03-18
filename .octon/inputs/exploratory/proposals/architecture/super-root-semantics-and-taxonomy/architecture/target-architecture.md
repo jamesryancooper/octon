@@ -367,7 +367,7 @@ the class-root taxonomy defined here.
 - class-root bindings
 - `versioning.harness.release_version`
 - `versioning.harness.supported_schema_versions`
-- `extensions.api_version`
+- `versioning.extensions.api_version`
 - install, export, and update profiles
 - raw-input dependency policy
 - generated-staleness policy

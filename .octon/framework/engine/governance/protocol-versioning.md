@@ -25,7 +25,9 @@ Every protocol-affecting change must carry an execution-profile receipt with:
 
 | Surface | Current | Supported | Unsupported Handling |
 |---|---|---|---|
-| Harness manifest schema (`/.octon/octon.yml:schema_version`) | `1.0` | `1.0` only | Reject (fail-closed) and route to deterministic `/migrate-harness` instructions in `/.octon/octon.yml` |
+| Harness manifest schema (`/.octon/octon.yml:schema_version`) | `octon-root-manifest-v2` | `octon-root-manifest-v2` only | Reject (fail-closed) and route to deterministic `/migrate-harness` instructions in `/.octon/octon.yml` |
+| Framework companion manifest schema (`/.octon/framework/manifest.yml:schema_version`) | `octon-framework-manifest-v2` | `octon-framework-manifest-v2` only | Reject (fail-closed) and repair the framework companion manifest before export or runtime validation |
+| Instance companion manifest schema (`/.octon/instance/manifest.yml:schema_version`) | `octon-instance-manifest-v1` | `octon-instance-manifest-v1` only | Reject (fail-closed) and repair the instance companion manifest before export or runtime validation |
 | Engine stdio protocol | `octon-stdio-v1` | `octon-stdio-v1` only | Reject handshake with `PROTOCOL_UNSUPPORTED` |
 | Policy command interface | `policy-interface-v1` | `policy-interface-v1` only | Reject command with explicit schema/version violation |
 | Policy receipt schema | `policy-receipt-v1` | `policy-receipt-v1` only | Reject receipt validation and fail policy gate |

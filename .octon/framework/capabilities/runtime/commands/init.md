@@ -7,7 +7,7 @@ argument-hint: "[@project-root] [--force] [--dry-run] [--list-objectives] [--obj
 
 # Initialize Project `/init`
 
-Initialize project-level files after dropping `.octon/` into a repository.
+Initialize project-level files after adopting the `bootstrap_core` bundle into a repository.
 
 ## Usage
 
@@ -48,7 +48,7 @@ Run:
 
 Behavior:
 
-1. Render canonical `/.octon/AGENTS.md` from `.octon/framework/scaffolding/runtime/bootstrap/AGENTS.md`.
+1. Treat the adopted `bootstrap_core` profile as the install surface and render canonical `/.octon/AGENTS.md` from `.octon/framework/scaffolding/runtime/bootstrap/AGENTS.md`.
 2. Refresh repo-root `AGENTS.md` and `CLAUDE.md` ingress adapters to `/.octon/AGENTS.md`.
 3. Resolve a common objective from `.octon/framework/scaffolding/runtime/bootstrap/objectives/` and generate `/.octon/instance/bootstrap/OBJECTIVE.md` plus `.octon/instance/cognition/context/shared/intent.contract.yml`.
 4. Use `.octon/framework/agency/manifest.yml` `default_agent` for contract paths.

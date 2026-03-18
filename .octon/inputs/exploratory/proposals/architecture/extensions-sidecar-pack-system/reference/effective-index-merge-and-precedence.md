@@ -79,7 +79,7 @@ Compatibility is strict:
 - `pack.yml.compatibility.octon_version` must match
   `octon.yml.versioning.harness.release_version`
 - `pack.yml.compatibility.extensions_api_version` must match
-  `octon.yml.extensions.api_version`
+  `octon.yml.versioning.extensions.api_version`
 - every dependency edge must satisfy the required version range
 
 Catalog selection is strict:
