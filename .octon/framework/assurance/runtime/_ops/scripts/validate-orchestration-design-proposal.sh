@@ -7,7 +7,12 @@ FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-PACKAGE_ARG="${1:-.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package}"
+DEFAULT_PACKAGE_PATH=".octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package"
+PACKAGE_ARG="${1:-$DEFAULT_PACKAGE_PATH}"
+USING_DEFAULT_PACKAGE=0
+if [[ "$#" -eq 0 ]]; then
+  USING_DEFAULT_PACKAGE=1
+fi
 if [[ "$PACKAGE_ARG" = /* ]]; then
   PACKAGE_DIR="$PACKAGE_ARG"
 else
@@ -82,6 +87,10 @@ pass() {
   echo "[OK] $1"
 }
 
+skip() {
+  echo "[SKIP] $1"
+}
+
 require_file() {
   local file="$1"
   if [[ ! -f "$file" ]]; then
@@ -122,6 +131,15 @@ validate_json_file() {
     pass "valid JSON: ${file#$ROOT_DIR/}"
   else
     fail "invalid JSON: ${file#$ROOT_DIR/}"
+  fi
+}
+
+skip_if_default_package_missing() {
+  if [[ "$USING_DEFAULT_PACKAGE" -eq 1 && ! -d "$PACKAGE_DIR" ]]; then
+    skip "default orchestration design package not present in checkout: ${PACKAGE_DIR#$ROOT_DIR/}"
+    echo
+    echo "Orchestration design package validation summary: errors=0 warnings=0 skipped=1"
+    exit 0
   fi
 }
 
@@ -1163,6 +1181,8 @@ run_conformance_scenarios() {
 
 main() {
   echo "== Validate Orchestration Design Package =="
+
+  skip_if_default_package_missing
 
   check_jq_available
   check_python_available

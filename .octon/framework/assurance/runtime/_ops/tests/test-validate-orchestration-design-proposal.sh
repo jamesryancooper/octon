@@ -46,6 +46,28 @@ assert_success() {
   fi
 }
 
+assert_success_contains() {
+  local name="$1"
+  local needle="$2"
+  shift 2
+
+  local output=""
+  local rc=0
+  output="$("$@" 2>&1)" || rc=$?
+
+  if (( rc == 0 )) && grep -Fq "$needle" <<<"$output"; then
+    pass "$name"
+    return 0
+  fi
+
+  fail "$name"
+  echo "  expected success containing: $needle" >&2
+  echo "  exit code: $rc" >&2
+  echo "  output:" >&2
+  echo "$output" >&2
+  return 1
+}
+
 assert_failure_contains() {
   local name="$1"
   local needle="$2"
@@ -82,6 +104,18 @@ create_fixture_repo() {
   printf '%s\n' "$fixture_root"
 }
 
+create_fixture_repo_without_package() {
+  local fixture_root
+  fixture_root="$(mktemp -d "${TMPDIR:-/tmp}/design-package-validation.XXXXXX")"
+  CLEANUP_DIRS+=("$fixture_root")
+
+  mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh"
+
+  printf '%s\n' "$fixture_root"
+}
+
 run_validator_in_fixture() {
   local fixture_root="$1"
   (
@@ -107,6 +141,12 @@ case_valid_package_passes() {
 case_default_package_path_passes() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
+  run_validator_in_fixture_default_path "$fixture_root"
+}
+
+case_missing_default_package_skips() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo_without_package)"
   run_validator_in_fixture_default_path "$fixture_root"
 }
 
@@ -142,6 +182,11 @@ main() {
   assert_success \
     "design proposal validator resolves its default package path from the repo root" \
     case_default_package_path_passes
+
+  assert_success_contains \
+    "design proposal validator skips when the implicit default package is absent from checkout" \
+    "[SKIP] default orchestration design package not present in checkout" \
+    case_missing_default_package_skips
 
   assert_failure_contains \
     "design proposal validator rejects missing schema artifacts" \
