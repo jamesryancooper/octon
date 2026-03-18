@@ -362,17 +362,25 @@ impl OrchestrationInspector {
             .parent()
             .ok_or_else(|| KernelError::new(ErrorCode::Internal, ".octon has no repository root"))?
             .to_path_buf();
-        let runtime_dir = octon_dir.join("orchestration").join("runtime");
-        let continuity_dir = octon_dir.join("continuity");
+        let runtime_dir = octon_dir.join("framework").join("orchestration").join("runtime");
+        let decisions_dir = octon_dir
+            .join("state")
+            .join("evidence")
+            .join("decisions")
+            .join("repo");
+        let missions_dir = octon_dir
+            .join("instance")
+            .join("orchestration")
+            .join("missions");
 
         Ok(Self {
             runs: load_runs(&repo_root, &runtime_dir)?,
-            decisions: load_decisions(&repo_root, &continuity_dir)?,
+            decisions: load_decisions(&repo_root, &decisions_dir)?,
             queue_items: load_queue_items(&repo_root, &runtime_dir)?,
             queue_receipts: load_queue_receipts(&repo_root, &runtime_dir)?,
             watchers: load_watchers(&repo_root, &runtime_dir)?,
             automations: load_automations(&repo_root, &runtime_dir)?,
-            missions: load_missions(&repo_root, &runtime_dir)?,
+            missions: load_missions(&repo_root, &missions_dir)?,
             incidents: load_incidents(&repo_root, &runtime_dir)?,
             repo_root,
             runtime_dir,
@@ -1353,8 +1361,7 @@ fn load_runs(repo_root: &Path, runtime_dir: &Path) -> Result<Vec<RunRecord>> {
     Ok(runs)
 }
 
-fn load_decisions(repo_root: &Path, continuity_dir: &Path) -> Result<Vec<DecisionRecord>> {
-    let decisions_dir = continuity_dir.join("decisions");
+fn load_decisions(repo_root: &Path, decisions_dir: &Path) -> Result<Vec<DecisionRecord>> {
     if !decisions_dir.is_dir() {
         return Ok(Vec::new());
     }
@@ -1526,8 +1533,7 @@ fn load_automations(repo_root: &Path, runtime_dir: &Path) -> Result<Vec<Automati
     Ok(items)
 }
 
-fn load_missions(repo_root: &Path, runtime_dir: &Path) -> Result<Vec<MissionRecord>> {
-    let missions_dir = runtime_dir.join("missions");
+fn load_missions(repo_root: &Path, missions_dir: &Path) -> Result<Vec<MissionRecord>> {
     if !missions_dir.is_dir() {
         return Ok(Vec::new());
     }

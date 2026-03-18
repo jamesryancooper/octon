@@ -5,7 +5,8 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 OPS_DIR="$(cd -- "$SCRIPT_DIR/.." && pwd)"
 RUNTIME_DIR="$(cd -- "$OPS_DIR/.." && pwd)"
 ORCHESTRATION_DIR="$(cd -- "$RUNTIME_DIR/.." && pwd)"
-OCTON_DIR="$(cd -- "$ORCHESTRATION_DIR/.." && pwd)"
+FRAMEWORK_DIR="$(cd -- "$ORCHESTRATION_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd -- "$OCTON_DIR/.." && pwd)"
 
 LOOKUP_SCRIPT=".octon/framework/orchestration/runtime/_ops/scripts/lookup-orchestration-lineage.sh"
@@ -55,7 +56,7 @@ snapshot_runtime_tree() {
   local fixture_root="$1"
   (
     cd "$fixture_root"
-    find .octon/framework/orchestration .octon/continuity -type f -print | sort | while IFS= read -r file; do
+    find .octon/framework/orchestration .octon/state/evidence -type f -print | sort | while IFS= read -r file; do
       shasum "$file"
     done
   )
@@ -268,7 +269,7 @@ EOF
 case_lookup_and_summary_commands() {
   local fixture_root envs run_lookup event_lookup queue_summary watcher_summary automation_summary mission_summary incident_summary
   fixture_root="$(create_fixture)"
-  envs=("OCTON_DIR_OVERRIDE=$fixture_root/.octon" "OCTON_ROOT_DIR=$fixture_root" "OCTON_RUNTIME_PREFER_SOURCE=1")
+  envs=("OCTON_DIR_OVERRIDE=$fixture_root/.octon" "OCTON_ROOT_DIR=$fixture_root" "OCTON_RUNTIME_PREFER_SOURCE=1" "OCTON_KERNEL_RUNNER_OVERRIDE=$REPO_ROOT/.octon/framework/engine/runtime/run")
 
   run_lookup="$(env "${envs[@]}" bash "$REPO_ROOT/$LOOKUP_SCRIPT" --run-id run-001)"
   jq -e '.artifacts | any(.kind == "decision" and .id == "dec-001") and any(.kind == "queue_item" and .id == "q-001")' <<<"$run_lookup" >/dev/null
@@ -295,7 +296,7 @@ case_lookup_and_summary_commands() {
 case_run_health_and_closure_readiness() {
   local fixture_root envs run_health blocked_readiness ready_readiness
   fixture_root="$(create_fixture)"
-  envs=("OCTON_DIR_OVERRIDE=$fixture_root/.octon" "OCTON_ROOT_DIR=$fixture_root" "OCTON_RUNTIME_PREFER_SOURCE=1")
+  envs=("OCTON_DIR_OVERRIDE=$fixture_root/.octon" "OCTON_ROOT_DIR=$fixture_root" "OCTON_RUNTIME_PREFER_SOURCE=1" "OCTON_KERNEL_RUNNER_OVERRIDE=$REPO_ROOT/.octon/framework/engine/runtime/run")
 
   run_health="$(env "${envs[@]}" bash "$REPO_ROOT/$RUN_HEALTH_SCRIPT" --run-id run-001)"
   jq -e '.artifacts | any(.kind == "run" and .details.decision_link_health == "healthy" and .details.evidence_link_health == "healthy")' <<<"$run_health" >/dev/null
@@ -342,7 +343,7 @@ EOF
 case_wrappers_are_read_only_and_snapshot_writes_report() {
   local fixture_root envs before after report_path
   fixture_root="$(create_fixture)"
-  envs=("OCTON_DIR_OVERRIDE=$fixture_root/.octon" "OCTON_ROOT_DIR=$fixture_root" "OCTON_RUNTIME_PREFER_SOURCE=1")
+  envs=("OCTON_DIR_OVERRIDE=$fixture_root/.octon" "OCTON_ROOT_DIR=$fixture_root" "OCTON_RUNTIME_PREFER_SOURCE=1" "OCTON_KERNEL_RUNNER_OVERRIDE=$REPO_ROOT/.octon/framework/engine/runtime/run")
 
   before="$(snapshot_runtime_tree "$fixture_root")"
   env "${envs[@]}" bash "$REPO_ROOT/$LOOKUP_SCRIPT" --run-id run-001 >/dev/null

@@ -24,7 +24,7 @@ orchestration_runtime_init() {
   MISSIONS_DIR="$RUNTIME_DIR/missions"
   COORDINATION_DIR="$RUNTIME_DIR/_coordination"
   LOCKS_DIR="$COORDINATION_DIR/locks"
-  OCTON_KERNEL_RUNNER="$OCTON_DIR/framework/engine/runtime/run"
+  OCTON_KERNEL_RUNNER="${OCTON_KERNEL_RUNNER_OVERRIDE:-$OCTON_DIR/framework/engine/runtime/run}"
 }
 
 require_tools() {
