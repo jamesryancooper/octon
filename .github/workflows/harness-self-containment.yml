@@ -73,6 +73,7 @@ jobs:
               - '.github/workflows/filesystem-interfaces-perf-regression.yml'
               - '.github/workflows/harness-self-containment.yml'
             assurance_contract:
+              # Keep super-root validator and test harness changes on the same rerun path.
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh'
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh'
               - '.octon/framework/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh'
