@@ -5,14 +5,15 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+OCTON_DIR="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 SERVICES_ROOT="$CAPABILITIES_DIR/runtime/services"
 SERVICES_MANIFEST="$SERVICES_ROOT/manifest.yml"
 POLICY_V2_FILE="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
 ENFORCER_SCRIPT="$SERVICES_ROOT/_ops/scripts/enforce-deny-by-default.sh"
 AGENT_ENTRYPOINT="$SERVICES_ROOT/execution/agent/impl/agent.sh"
 BREAKER_ACTIONS_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-circuit-breaker-actions.sh"
-POLICY_RUNNER="$REPO_ROOT/.octon/framework/engine/runtime/policy"
+POLICY_RUNNER="$OCTON_DIR/framework/engine/runtime/policy"
 
 if [[ ! -f "$ENFORCER_SCRIPT" ]]; then
   echo "Missing runtime enforcer script: $ENFORCER_SCRIPT" >&2

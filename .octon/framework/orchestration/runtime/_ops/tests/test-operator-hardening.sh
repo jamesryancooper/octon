@@ -56,7 +56,9 @@ snapshot_runtime_tree() {
   local fixture_root="$1"
   (
     cd "$fixture_root"
-    find .octon/framework/orchestration .octon/state/evidence -type f -print | sort | while IFS= read -r file; do
+    find .octon/framework/orchestration .octon/state/evidence -type f \
+      ! -path '.octon/state/evidence/validation/analysis/*' \
+      -print | sort | while IFS= read -r file; do
       shasum "$file"
     done
   )

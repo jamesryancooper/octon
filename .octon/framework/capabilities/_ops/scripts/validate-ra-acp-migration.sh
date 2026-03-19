@@ -5,7 +5,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+OCTON_DIR="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 
 POLICY_FILE="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
 TAXONOMY_FILE="$CAPABILITIES_DIR/governance/policy/acp-operation-classes.md"
@@ -148,7 +149,7 @@ check_active_surface_legacy_terms() {
         --glob '!**/.octon/framework/cognition/_ops/principles/scripts/test-principles-governance-lint-fixtures.sh' \
         --glob '!**/validate-ra-acp-migration.sh' \
         "$pattern" \
-        "$REPO_ROOT/.octon" 2>/dev/null || true
+        "$OCTON_DIR" 2>/dev/null || true
     else
       grep -RInEi --binary-files=without-match \
         "$pattern" \

@@ -6,7 +6,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OPS_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 CAPABILITIES_DIR="$(cd "$OPS_DIR/.." && pwd)"
-REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+OCTON_DIR="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 
 pass_count=0
 fail_count=0

@@ -5,8 +5,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
-ENGINE_POLICY_RUNNER="$REPO_ROOT/.octon/framework/engine/runtime/policy"
+OCTON_DIR="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+ENGINE_POLICY_RUNNER="$OCTON_DIR/framework/engine/runtime/policy"
 
 if [[ ! -x "$ENGINE_POLICY_RUNNER" ]]; then
   echo "Missing engine policy runner: $ENGINE_POLICY_RUNNER" >&2
