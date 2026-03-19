@@ -82,10 +82,7 @@
     "state/continuity/repo/tasks.json": "Structured task list with goal",
     "state/continuity/repo/entities.json": "Entity state tracking",
     "state/continuity/repo/next.md": "Immediate actionable steps",
-    "state/continuity/scopes/octon-harness/log.md": "Append-only scope session history",
-    "state/continuity/scopes/octon-harness/tasks.json": "Structured scope task list with goal",
-    "state/continuity/scopes/octon-harness/entities.json": "Scope entity state tracking",
-    "state/continuity/scopes/octon-harness/next.md": "Immediate scope-local actionable steps",
+    "state/continuity/scopes/README.md": "Scope continuity root; declared scopes get continuity scaffolds during locality publication",
     "generated/proposals/registry.yml": "Generated proposal registry"
   }
 }

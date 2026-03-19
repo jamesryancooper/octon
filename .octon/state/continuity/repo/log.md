@@ -33,6 +33,30 @@ mutability: append-only
 
 ## 2026-03-19
 
+**Session focus:** Packet 7 scaffold merge-blocker remediation
+
+**Completed:**
+
+- Removed the repo-specific `state/continuity/scopes/octon-harness/**`
+  payload from the generic `templates/octon` scaffold so new harnesses no
+  longer ship undeclared scope continuity directories
+- Replaced the removed scaffold payload with a generic
+  `state/continuity/scopes/README.md` contract note that explains scope
+  continuity is materialized when locality publication activates declared
+  scopes
+- Re-ran the locality/continuity regression tests and the full harness
+  alignment gate to confirm the follow-up fix does not regress Packet 7
+
+**Next:**
+
+- Push the scaffold fix and resolve the blocking PR conversation
+
+**Blockers:**
+
+- None
+
+## 2026-03-19
+
 **Session focus:** Remediate Packet 7 post-cutover review findings.
 
 **Completed:**
