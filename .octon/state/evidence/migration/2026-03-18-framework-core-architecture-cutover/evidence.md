@@ -27,7 +27,7 @@ Single-promotion clean-break migration implementing Packet 3
 
 ## Receipts and Evidence
 
-- Proposal: `/.octon/inputs/exploratory/proposals/architecture/framework-core-architecture/`
+ - Proposal: `/.octon/inputs/exploratory/proposals/architecture/3-framework-core-architecture/`
 - Path map: `path-map.json`
 - Validation receipts: `validation.md`
 - Command log: `commands.md`

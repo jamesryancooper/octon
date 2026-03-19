@@ -4,7 +4,7 @@
 - Status: Accepted
 - Deciders: Octon maintainers
 - Related:
-  - `/.octon/inputs/exploratory/proposals/architecture/repo-instance-architecture/`
+  - `/.octon/inputs/exploratory/proposals/architecture/4-repo-instance-architecture/`
   - `/.octon/instance/cognition/context/shared/migrations/2026-03-18-repo-instance-architecture-cutover/plan.md`
   - `/.octon/framework/cognition/_meta/architecture/specification.md`
 
