@@ -2469,6 +2469,9 @@ fn should_skip(path: &str, state_dir: &str) -> bool {
     if normalized == SERVICES_BUILD_STATE_ROOT
         || normalized.starts_with(&format!("{SERVICES_BUILD_STATE_ROOT}/"))
         || normalized.contains("/generated/.tmp/capabilities/services/build/")
+        || normalized == ".octon/generated/.tmp/engine/build"
+        || normalized.starts_with(".octon/generated/.tmp/engine/build/")
+        || normalized.contains("/generated/.tmp/engine/build/")
     {
         return true;
     }

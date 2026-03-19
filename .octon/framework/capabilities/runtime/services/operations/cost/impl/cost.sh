@@ -201,7 +201,7 @@ if [[ "$operation" == "record" ]]; then
     (if $error != "" then {error: $error} else {} end)')"
 
   script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-  state_dir="$(cd "$script_dir/../../../../../state/evidence/runs/services" && pwd)"
+  state_dir="$(cd "$script_dir/../../../../../../state/evidence/runs/services" && pwd)"
   mkdir -p "$state_dir"
   echo "$record_json" >> "$state_dir/cost-usage.jsonl"
 

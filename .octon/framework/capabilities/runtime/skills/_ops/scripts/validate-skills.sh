@@ -2224,7 +2224,7 @@ scaffold_io_mapping() {
           description: \"Optional input source folder\"
       outputs:
         - name: result
-          path: \"/.octon/state/evidence/runs/skills/${skill_id}/{{run_id}}-{{category}}.md\"
+          path: \"/.octon/generated/{{category}}/{{timestamp}}-${skill_id}.md\"
           kind: file
           format: markdown
           determinism: stable
