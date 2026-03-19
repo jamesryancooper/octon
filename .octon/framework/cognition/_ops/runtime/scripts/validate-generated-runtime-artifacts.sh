@@ -3,6 +3,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 COGNITION_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
+OCTON_DIR="$(cd -- "$COGNITION_DIR/../.." && pwd)"
+INSTANCE_COGNITION_DIR="$OCTON_DIR/instance/cognition"
+INSTANCE_COGNITION_SHARED_DIR="$INSTANCE_COGNITION_DIR/context/shared"
 SYNC_SCRIPT="$SCRIPT_DIR/sync-runtime-artifacts.sh"
 FIXTURE_TEST_SCRIPT="$SCRIPT_DIR/test-sync-runtime-artifacts-fixtures.sh"
 
@@ -85,9 +88,9 @@ check_sorted_and_unique() {
 }
 
 check_decisions_summary_contract() {
-  local summary="$COGNITION_DIR/runtime/context/decisions.md"
+  local summary="$INSTANCE_COGNITION_SHARED_DIR/decisions.md"
   if [[ ! -f "$summary" ]]; then
-    fail "missing generated decisions summary: runtime/context/decisions.md"
+    fail "missing generated decisions summary: .octon/instance/cognition/context/shared/decisions.md"
     return
   fi
 
@@ -118,7 +121,7 @@ date_to_epoch() {
 }
 
 check_evaluation_digest_freshness() {
-  local digest_index="$COGNITION_DIR/runtime/evaluations/digests/index.yml"
+  local digest_index="$INSTANCE_COGNITION_SHARED_DIR/evaluations/digests/index.yml"
   local latest_digest_date
   local now_epoch
   local digest_epoch
@@ -126,7 +129,7 @@ check_evaluation_digest_freshness() {
   local freshness_threshold_days=10
 
   if [[ ! -f "$digest_index" ]]; then
-    warn "cannot evaluate digest freshness; missing file: runtime/evaluations/digests/index.yml"
+    warn "cannot evaluate digest freshness; missing file: .octon/instance/cognition/context/shared/evaluations/digests/index.yml"
     return
   fi
 
@@ -180,10 +183,10 @@ main() {
     fail "sync fixture tests failed"
   fi
 
-  check_sorted_and_unique "$COGNITION_DIR/runtime/decisions/index.yml" "runtime decision index"
-  check_sorted_and_unique "$COGNITION_DIR/runtime/migrations/index.yml" "runtime migration index" false
-  check_sorted_and_unique "$COGNITION_DIR/runtime/audits/index.yml" "runtime audit index" false
-  check_sorted_and_unique "$COGNITION_DIR/runtime/evaluations/actions/open-actions.yml" "evaluation open-action ledger"
+  check_sorted_and_unique "$INSTANCE_COGNITION_DIR/decisions/index.yml" "runtime decision index"
+  check_sorted_and_unique "$INSTANCE_COGNITION_SHARED_DIR/migrations/index.yml" "runtime migration index" false
+  check_sorted_and_unique "$INSTANCE_COGNITION_SHARED_DIR/audits/index.yml" "runtime audit index" false
+  check_sorted_and_unique "$INSTANCE_COGNITION_SHARED_DIR/evaluations/actions/open-actions.yml" "evaluation open-action ledger"
   check_decisions_summary_contract
   check_evaluation_digest_freshness
 

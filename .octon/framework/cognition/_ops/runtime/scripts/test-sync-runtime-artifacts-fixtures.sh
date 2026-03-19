@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../.." && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 cd "$ROOT_DIR"
 
 SYNC_SCRIPT=".octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh"
@@ -129,14 +129,14 @@ assert_not_contains "$open_actions" 'ACTION-2026-W08-02' "closed action should n
 assert_contains "$open_actions" 'owner: "unassigned"' "missing owner default should become unassigned"
 assert_contains "$open_actions" 'due_date: "tbd"' "missing due_date default should become tbd"
 
-if COGNITION_DIR_OVERRIDE="$fixture_cognition" OUTPUT_DIR_OVERRIDE="$fixture_output" bash "$SYNC_SCRIPT" --target evaluations --check >/dev/null; then
+if COGNITION_DIR_OVERRIDE="$fixture_cognition" OUTPUT_DIR_OVERRIDE="$fixture_state" bash "$SYNC_SCRIPT" --target evaluations --check >/dev/null; then
   :
 else
   echo "[fail] target-selective --check should pass after generation"
   exit 1
 fi
 
-if COGNITION_DIR_OVERRIDE="$fixture_cognition" OUTPUT_DIR_OVERRIDE="$fixture_output" bash "$SYNC_SCRIPT" --target unknown-target >/dev/null 2>"$tmp_dir/unknown-target.err"; then
+if COGNITION_DIR_OVERRIDE="$fixture_cognition" OUTPUT_DIR_OVERRIDE="$fixture_state" bash "$SYNC_SCRIPT" --target unknown-target >/dev/null 2>"$tmp_dir/unknown-target.err"; then
   echo "[fail] unknown --target should fail"
   exit 1
 fi
