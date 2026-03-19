@@ -1,0 +1,24 @@
+{
+  "runId": "run-4f1053a1060d",
+  "service": {
+    "name": "octon.service.query",
+    "version": "0.1.0"
+  },
+  "inputs": {},
+  "status": "success",
+  "summary": "ask completed with status success",
+  "durationMs": 245,
+  "stage": "implement",
+  "risk": "medium",
+  "telemetry": {
+    "trace_id": "run-4f1053a1060d",
+    "spans": [
+      "service.query.ask"
+    ]
+  },
+  "determinism": {
+    "inputsHash": "sha256:bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f"
+  },
+  "outputs": {},
+  "createdAt": "2026-02-16T02:54:01Z"
+}

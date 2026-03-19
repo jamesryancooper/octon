@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Write(../../output/reports/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -52,11 +52,11 @@ The report includes:
 
 ### Execution Log
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-subsystem-health/{{run_id}}.md`.
+Written to `.octon/state/evidence/runs/skills/audit-subsystem-health/{{run_id}}.md`.
 
 ### Log Index
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-subsystem-health/index.yml`.
+Written to `.octon/state/evidence/runs/skills/audit-subsystem-health/index.yml`.
 
 ### Authoritative Bundle (Orchestrated Mode)
 
@@ -80,5 +80,5 @@ This skill requires:
 - **Read** -- Read config files, definitions, and docs
 - **Glob** -- Discover definition files and path targets
 - **Grep** -- Pattern-based cross-reference/semantic checks
-- **Write(../../output/reports/*)** -- Write report and bounded bundle artifacts
-- **Write(_ops/state/logs/*)** -- Write run logs and indexes
+- **Write(/.octon/state/evidence/validation/analysis/*)** -- Write report and bounded bundle artifacts
+- **Write(/.octon/state/evidence/runs/skills/*)** -- Write run logs and indexes

@@ -12,7 +12,7 @@ metadata:
   updated: "2026-03-05"
 skill_sets: [executor, specialist, guardian]
 capabilities: []
-allowed-tools: Read Glob Grep Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Provider Nextjs Astro Runtime
@@ -50,7 +50,7 @@ This skill accepts framework surface, runtime mode, and observability scope.
 
 Output paths are defined in `.octon/framework/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-Primary output is execution evidence in `_ops/state/logs/provider-nextjs-astro-runtime/`.
+Primary output is execution evidence in `/.octon/state/evidence/runs/skills/provider-nextjs-astro-runtime/`.
 
 ## Boundaries
 

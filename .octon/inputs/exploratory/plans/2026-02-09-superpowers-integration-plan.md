@@ -47,7 +47,7 @@ The [obra/superpowers](https://github.com/obra/superpowers) repository contains 
 ```yaml
 skill_sets: [executor, guardian]
 capabilities: []
-allowed-tools: Read Glob Grep Edit Bash(npm) Bash(npx) Bash(git) Write(../../output/reports/*) Write(logs/*)
+allowed-tools: Read Glob Grep Edit Bash(npm) Bash(npx) Bash(git) Write(/.octon/state/evidence/validation/analysis/*) Write(logs/*)
 ```
 
 ---
@@ -80,7 +80,7 @@ allowed-tools: Read Glob Grep Edit Bash(npm) Bash(npx) Bash(git) Write(../../out
 ```yaml
 skill_sets: [guardian]
 capabilities: []
-allowed-tools: Read Glob Grep Bash(npm) Bash(npx) Bash(git) Write(../../output/reports/*) Write(logs/*)
+allowed-tools: Read Glob Grep Bash(npm) Bash(npx) Bash(git) Write(/.octon/state/evidence/validation/analysis/*) Write(logs/*)
 ```
 
 ---
@@ -128,7 +128,7 @@ allowed-tools: Read Glob Grep Write(logs/*)
 - `SKILL.md` — executor + collaborator, turns vague ideas into validated designs through iterative dialogue
 - `references/phases.md` — 5 phases: Clarify (one question at a time, multiple choice preferred, max 5 questions) -> Explore (2-3 approaches with tradeoffs, recommendation) -> Converge (refine chosen approach, resolve remaining decisions) -> Design (200-300 word sections, validate each) -> Document (compile into design doc)
 - `references/interaction.md` — dialogue protocol: clarification questions, approach selection, section validation checkpoints
-- `references/io-contract.md` — params: idea, context; output: design document in output/drafts/
+- `references/io-contract.md` — params: idea, context; output: design document in /.octon/inputs/exploratory/drafts/
 - `references/examples.md` — 2 examples (notification system brainstorm, user changes direction mid-design)
 
 **Key content from superpowers source:**
@@ -153,7 +153,7 @@ ideation:
 ```yaml
 skill_sets: [executor, collaborator]
 capabilities: []
-allowed-tools: Read Glob Grep Write(../../output/drafts/*) Write(logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/drafts/*) Write(logs/*)
 ```
 
 ---
@@ -195,7 +195,7 @@ orchestration:
 ```yaml
 skill_sets: [coordinator, delegator]
 capabilities: []
-allowed-tools: Read Glob Grep Bash(git) Write(../../output/reports/*) Write(runs/*) Write(logs/*)
+allowed-tools: Read Glob Grep Bash(git) Write(/.octon/state/evidence/validation/analysis/*) Write(runs/*) Write(logs/*)
 ```
 
 ---

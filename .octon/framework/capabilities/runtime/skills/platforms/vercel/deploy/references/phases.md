@@ -73,7 +73,7 @@ Detailed instructions for each phase of the Vercel deployment workflow.
 
 ### Steps
 
-1. Write execution log to `_ops/state/logs/vercel-deploy/{run_id}.md`:
+1. Write execution log to `/.octon/state/evidence/runs/skills/vercel-deploy/{run_id}.md`:
    ```markdown
    # vercel-deploy — {run_id}
 
@@ -85,5 +85,5 @@ Detailed instructions for each phase of the Vercel deployment workflow.
    - **Status:** success | failed
    - **Notes:** {any warnings or errors}
    ```
-2. Update `_ops/state/logs/vercel-deploy/index.yml` and `_ops/state/logs/index.yml`
+2. Update `/.octon/state/evidence/runs/skills/vercel-deploy/index.yml` and `/.octon/state/evidence/runs/skills/index.yml`
 3. Report deployment URL and status to user

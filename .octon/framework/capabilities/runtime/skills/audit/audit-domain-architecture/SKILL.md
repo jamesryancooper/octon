@@ -18,7 +18,7 @@ metadata:
   updated: "2026-02-22"
 skill_sets: [executor, guardian]
 capabilities: [domain-specialized, self-validating]
-allowed-tools: Read Glob Grep Write(../../output/reports/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Audit Domain Architecture
@@ -60,12 +60,13 @@ Canonical Octon domains supported by default:
 - `.octon/framework/assurance`
 - `.octon/framework/capabilities`
 - `.octon/framework/cognition`
-- `.octon/continuity`
 - `.octon/framework/engine`
-- `.octon/ideation`
 - `.octon/framework/orchestration`
-- `.octon/output`
 - `.octon/framework/scaffolding`
+- `.octon/instance`
+- `.octon/inputs`
+- `.octon/state`
+- `.octon/generated`
 
 If `domain_path` does not exist, the skill switches to **prospective mode** and produces a critique using profile baselines and neighboring-domain evidence.
 
@@ -121,7 +122,7 @@ Outputs are written to:
 
 - `.octon/state/evidence/validation/analysis/YYYY-MM-DD-domain-architecture-audit-<run-id>.md` -- Structured critique report
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<run-id>/` -- Authoritative bounded-audit bundle
-- `_ops/state/logs/audit-domain-architecture/` -- Execution logs with index
+- `/.octon/state/evidence/runs/skills/audit-domain-architecture/` -- Execution logs with index
 
 ## Done Gate
 

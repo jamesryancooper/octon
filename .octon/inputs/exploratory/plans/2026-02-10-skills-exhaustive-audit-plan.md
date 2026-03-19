@@ -205,7 +205,7 @@ Read the validator source and catalogue every named check (27+ claimed). For eac
 
 1. Confirm `../../*` no longer blanket-passes
 2. Confirm paths resolving outside `.octon/` are rejected
-3. Confirm legitimate cross-directory paths (e.g., `../../output/drafts/*`) are allowed
+3. Confirm legitimate cross-directory paths (e.g., `/.octon/inputs/exploratory/drafts/*`) are allowed
 4. Test edge case: `../../../../../../etc/passwd` — must be rejected
 
 #### 3.5 Grouped path handling

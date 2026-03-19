@@ -85,15 +85,15 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `change_risk_report` -> `../../output/reports/analysis/{{date}}-audit-change-risk.md`: Consolidated change-risk report with risk tier and recommendation
-- `subsystem_health_audit_report` -> `../../output/reports/analysis/{{date}}-subsystem-health-audit.md`: Subsystem-health stage report (mandatory)
-- `migration_audit_report` -> `../../output/reports/analysis/{{date}}-migration-audit.md`: Migration-impact stage report (produced if enabled and manifest is provided)
-- `api_contract_audit_report` -> `../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md`: API-contract stage report (produced if enabled)
-- `test_quality_audit_report` -> `../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md`: Test-quality stage report (produced if enabled)
-- `operational_readiness_audit_report` -> `../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md`: Operational-readiness stage report (produced if enabled)
-- `cross_subsystem_audit_report` -> `../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Cross-subsystem stage report (produced if enabled)
-- `freshness_audit_report` -> `../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md`: Freshness stage report (produced if enabled)
-- `change_risk_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for change-risk recommendation and done-gate evidence
+- `change_risk_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-audit-change-risk.md`: Consolidated change-risk report with risk tier and recommendation
+- `subsystem_health_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-subsystem-health-audit.md`: Subsystem-health stage report (mandatory)
+- `migration_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-migration-audit.md`: Migration-impact stage report (produced if enabled and manifest is provided)
+- `api_contract_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-api-contract-audit-{{run_id}}.md`: API-contract stage report (produced if enabled)
+- `test_quality_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-test-quality-audit-{{run_id}}.md`: Test-quality stage report (produced if enabled)
+- `operational_readiness_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md`: Operational-readiness stage report (produced if enabled)
+- `cross_subsystem_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Cross-subsystem stage report (produced if enabled)
+- `freshness_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-freshness-and-supersession-audit.md`: Freshness stage report (produced if enabled)
+- `change_risk_audit_bundle` -> `/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for change-risk recommendation and done-gate evidence
 
 ## Steps
 

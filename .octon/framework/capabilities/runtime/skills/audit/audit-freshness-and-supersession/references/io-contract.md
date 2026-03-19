@@ -10,7 +10,7 @@ description: Input/output contract for audit-freshness-and-supersession.
 | Parameter | Type | Required | Default | Description |
 | --------- | ---- | -------- | ------- | ----------- |
 | `scope` | folder | No | `.octon` | Root directory to audit |
-| `artifact_globs` | text | No | `cognition/runtime/context/**/*.md,cognition/runtime/decisions/**/*.md,output/plans/**/*.md,output/reports/**/*.md` | Comma-separated globs of artifact families |
+| `artifact_globs` | text | No | `cognition/runtime/context/**/*.md,cognition/runtime/decisions/**/*.md,/.octon/inputs/exploratory/plans/**/*.md,/.octon/state/evidence/validation/analysis/**/*.md` | Comma-separated globs of artifact families |
 | `max_age_days` | text | No | `30` | Maximum artifact age before stale classification |
 | `severity_threshold` | text | No | `all` | Minimum severity to report: `critical`, `high`, `medium`, `low`, `all` |
 | `post_remediation` | boolean | No | `false` | Enables strict done-gate behavior for convergence verification |
@@ -28,9 +28,9 @@ description: Input/output contract for audit-freshness-and-supersession.
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/commands.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/validation.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/inventory.md`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-freshness-and-supersession/{{run_id}}.md`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-freshness-and-supersession/index.yml`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/index.yml`
+- `.octon/state/evidence/runs/skills/audit-freshness-and-supersession/{{run_id}}.md`
+- `.octon/state/evidence/runs/skills/audit-freshness-and-supersession/index.yml`
+- `.octon/state/evidence/runs/skills/index.yml`
 
 ## Allowed Tools
 

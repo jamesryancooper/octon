@@ -58,7 +58,7 @@ behavior:
       steps:
         - "Structure refined prompt with all context"
         - "Save to .octon/framework/scaffolding/practices/prompts/{{timestamp}}-refined.md"
-        - "Log execution to _ops/state/logs/refine-prompt/"
+        - "Log execution to /.octon/state/evidence/runs/skills/refine-prompt/"
         - "Optionally execute the refined prompt"
   goals:
     - "Ground the prompt in actual codebase context"
@@ -305,7 +305,7 @@ Produce the final refined prompt:
 
 2. **Save artifacts**
    - Write to `.octon/framework/scaffolding/practices/prompts/{{timestamp}}-refined.md`
-   - Log to `_ops/state/logs/refine-prompt/{{timestamp}}-refine-prompt.md`
+   - Log to `/.octon/state/evidence/runs/skills/refine-prompt/{{timestamp}}-refine-prompt.md`
 
 3. **Execute (optional)**
    - If `--execute`, run the refined prompt

@@ -1,0 +1,34 @@
+{
+  "checkpoint": {
+    "decision": "STAGE_ONLY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "planPath": "AGENTS.md",
+    "resumeCount": 0,
+    "runId": "run-acp2-disagree",
+    "state": "stage-only"
+  },
+  "mode": "execute",
+  "planPath": "AGENTS.md",
+  "result": {
+    "acpDecisionPath": ".octon/state/evidence/runs/run-acp2-disagree/acp-decision.json",
+    "acpRequestPath": ".octon/state/evidence/runs/run-acp2-disagree/acp-request.json",
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/run-acp2-disagree.json",
+    "decision": "STAGE_ONLY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "mode": "execute",
+    "planPath": "AGENTS.md",
+    "reasonCodes": [
+      "ACP_QUORUM_INVALID",
+      "ACP_STAGE_ONLY_REQUIRED"
+    ],
+    "resume": false,
+    "summary": "Promotion blocked; staged artifacts preserved",
+    "warnings": []
+  },
+  "runId": "run-acp2-disagree",
+  "status": "partial"
+}

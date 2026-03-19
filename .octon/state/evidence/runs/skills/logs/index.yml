@@ -1,0 +1,58 @@
+updated: "2026-03-06T00:00:00Z"
+
+recent_runs:
+  - run_id: "2026-03-06-octon-root-charter-alignment-rerun"
+    skill_id: "plan-charter-alignment"
+    path: "plan-charter-alignment/2026-03-06-octon-root-charter-alignment-rerun.md"
+    status: "success"
+  - run_id: "2026-03-06-octon-root-charter-rerun"
+    skill_id: "audit-charter"
+    path: "audit-charter/2026-03-06-octon-root-charter-rerun.md"
+    status: "success"
+  - run_id: "2026-03-05-octon-root-charter-alignment"
+    skill_id: "plan-charter-alignment"
+    path: "plan-charter-alignment/2026-03-05-octon-root-charter-alignment.md"
+    status: "success"
+  - run_id: "2026-03-05-octon-root-charter"
+    skill_id: "audit-charter"
+    path: "audit-charter/2026-03-05-octon-root-charter.md"
+    status: "success"
+  - run_id: "2026-02-22-cognition-observed-standard"
+    skill_id: "audit-domain-architecture"
+    path: "audit-domain-architecture/2026-02-22-cognition-observed-standard.md"
+    status: "success"
+  - run_id: "2026-02-15-subsystem-health-pre-release"
+    skill_id: "audit-subsystem-health"
+    path: "audit-subsystem-health/2026-02-15-subsystem-health-pre-release.md"
+    status: "success"
+  - run_id: "2026-02-15-cross-subsystem-coherence-post-fixes"
+    skill_id: "audit-cross-subsystem-coherence"
+    path: "audit-cross-subsystem-coherence/2026-02-15-cross-subsystem-coherence-post-fixes.md"
+    status: "success"
+  - run_id: "2026-02-15-freshness-pre-release"
+    skill_id: "audit-freshness-and-supersession"
+    path: "audit-freshness-and-supersession/2026-02-15-freshness-pre-release.md"
+    status: "success"
+  - run_id: "2026-02-15-cross-subsystem-coherence-pre-scale-readiness"
+    skill_id: "audit-cross-subsystem-coherence"
+    path: "audit-cross-subsystem-coherence/2026-02-15-cross-subsystem-coherence-pre-scale-readiness.md"
+    status: "success"
+  - run_id: "2026-02-08-workspace-to-harness-rerun"
+    skill_id: "audit-migration"
+    path: "audit-migration/2026-02-08-workspace-to-harness-rerun.md"
+    status: "success"
+  - run_id: "2026-02-08-workspace-to-harness"
+    skill_id: "audit-migration"
+    path: "audit-migration/2026-02-08-workspace-to-harness.md"
+    status: "success"
+
+summary:
+  total_runs: 11
+  by_skill:
+    plan-charter-alignment: 2
+    audit-charter: 2
+    audit-domain-architecture: 1
+    audit-subsystem-health: 1
+    audit-cross-subsystem-coherence: 2
+    audit-freshness-and-supersession: 1
+    audit-migration: 2

@@ -85,7 +85,7 @@ By the end of this work, operators should be able to:
 | Workstream | Purpose | Expected surfaces |
 | --- | --- | --- |
 | `WS1 Operator Lookups` | add direct lineage lookup and state inspection flows | `runtime/_ops/scripts/`, `practices/` |
-| `WS2 Status Views` | add subordinate rollups for watchers, queue, automations, runs, missions, and incidents | `runtime/_ops/scripts/`, `output/reports/` |
+| `WS2 Status Views` | add subordinate rollups for watchers, queue, automations, runs, missions, and incidents | `runtime/_ops/scripts/`, `/.octon/state/evidence/validation/analysis/` |
 | `WS3 Incident Ergonomics` | make open/manage/close flows easier and more deterministic | `runtime/incidents/`, `practices/`, `governance/` |
 | `WS4 Playbooks And Validation` | encode scenario-specific response guidance and fail-closed checks | `practices/`, `_ops/scripts/`, assurance validators |
 

@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/audit-migration/{{run-id}}/"
+  storage: ".octon/state/control/skills/checkpoints/audit-migration/{{run-id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ Checkpointing preserves layer isolation and reproducibility across interruptions
 
 Resume contract:
 
-- Checkpoints are written under `.octon/framework/capabilities/runtime/skills/_ops/state/runs/audit-migration/{{run-id}}/`.
+- Checkpoints are written under `.octon/state/control/skills/checkpoints/audit-migration/{{run-id}}/`.
 - Resume never skips mandatory layers; it continues from the first incomplete layer.
 - Partition mode resumes with the same partition filter to keep coverage proofs valid.

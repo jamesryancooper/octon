@@ -14,7 +14,7 @@ metadata:
   updated: "2026-03-12"
 skill_sets: [executor, guardian]
 capabilities: [domain-specialized, self-validating]
-allowed-tools: Read Glob Grep Write(../../output/reports/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Audit Surface Architecture
@@ -104,7 +104,7 @@ Outputs are written to:
 
 - `.octon/state/evidence/validation/YYYY-MM-DD-surface-architecture-audit-<run-id>.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<run-id>/`
-- `_ops/state/logs/audit-surface-architecture/`
+- `/.octon/state/evidence/runs/skills/audit-surface-architecture/`
 
 ## Severity Classification
 

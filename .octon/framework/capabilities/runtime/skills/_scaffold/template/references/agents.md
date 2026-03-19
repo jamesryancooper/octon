@@ -542,7 +542,7 @@ Parent Run: abc-123
 
 ### Logging Failed Sub-Agents
 
-Every sub-agent failure must be logged to `_ops/state/runs/{{skill-id}}/{{run-id}}/agent-failures.yml`:
+Every sub-agent failure must be logged to `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/agent-failures.yml`:
 
 ```yaml
 failures:

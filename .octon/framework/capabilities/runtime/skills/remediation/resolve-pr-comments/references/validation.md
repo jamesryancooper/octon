@@ -59,5 +59,5 @@ After skill execution, verify:
 2. Every comment has a status (APPLIED, DEFERRED, ANSWERED, NEEDS_DISCUSSION)
 3. No comments were silently dropped
 4. DESIGN comments were not applied without approval
-5. Log exists at `_ops/state/logs/resolve-pr-comments/{{run_id}}.md`
+5. Log exists at `/.octon/state/evidence/runs/skills/resolve-pr-comments/{{run_id}}.md`
 6. Log index updated

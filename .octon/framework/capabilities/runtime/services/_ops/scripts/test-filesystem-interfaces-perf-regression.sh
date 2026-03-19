@@ -5,7 +5,7 @@ set -o pipefail
 
 OCTON_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../" && pwd)"
 RUNTIME_RUN="$OCTON_DIR/engine/runtime/run"
-RUNTIME_BIN_CANDIDATE="$OCTON_DIR/engine/_ops/state/build/runtime-crates-target/debug/octon"
+RUNTIME_BIN_CANDIDATE="$OCTON_DIR/../generated/.tmp/engine/build/runtime-crates-target/debug/octon"
 export OCTON_RUNTIME_PREFER_SOURCE="${OCTON_RUNTIME_PREFER_SOURCE:-1}"
 FIXTURE_BUILDER="$OCTON_DIR/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh"
 DEFAULT_BASELINE_FILE="$OCTON_DIR/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv"
@@ -13,7 +13,7 @@ DEFAULT_BASELINE_FILE="$OCTON_DIR/capabilities/runtime/services/interfaces/files
 profile="ci"
 baseline_file="$DEFAULT_BASELINE_FILE"
 fixture_root=""
-state_root=".octon/framework/engine/_ops/state/snapshots-perf"
+state_root=".octon/generated/.tmp/engine/filesystem-snapshots-perf"
 raw_out_path=""
 summary_out_path=""
 report_path=""
@@ -278,7 +278,7 @@ calc_phase_stats() {
 }
 
 timestamp="$(date +%Y%m%dT%H%M%S)"
-tmp_dir="$OCTON_DIR/output/reports/.tmp"
+tmp_dir="$OCTON_DIR//.octon/state/evidence/validation/analysis/.tmp"
 mkdir -p "$tmp_dir"
 raw_tsv="$tmp_dir/filesystem-interfaces-perf-${timestamp}.raw.tsv"
 summary_tsv="$tmp_dir/filesystem-interfaces-perf-${timestamp}.summary.tsv"
@@ -294,7 +294,7 @@ mkdir -p "$(dirname "$raw_tsv")"
 mkdir -p "$(dirname "$summary_tsv")"
 
 if [[ -z "$report_path" && "$emit_report" == "1" ]]; then
-  report_path="$OCTON_DIR/output/reports/analysis/$(date +%F)-filesystem-interfaces-perf-regression-report.md"
+  report_path="$OCTON_DIR//.octon/state/evidence/validation/analysis/$(date +%F)-filesystem-interfaces-perf-regression-report.md"
 fi
 
 if [[ -z "$fixture_root" ]]; then

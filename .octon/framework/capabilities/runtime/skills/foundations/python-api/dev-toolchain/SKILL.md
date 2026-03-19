@@ -7,7 +7,7 @@ description: >
 skill_sets: [specialist]
 capabilities: [phased, external-dependent]
 # Write scopes are explicit: workspace scaffolding plus skill log output.
-allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_ops/state/logs/*) Bash(mkdir) Bash(just) Bash(pre-commit)
+allowed-tools: Read Grep Glob Edit Write(../../../**) Write(/.octon/state/evidence/runs/skills/*) Bash(mkdir) Bash(just) Bash(pre-commit)
 ---
 
 # Dev Toolchain

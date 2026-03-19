@@ -1,0 +1,35 @@
+{
+  "checkpoint": {
+    "decision": "DENY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+    "resumeCount": 0,
+    "runId": "runtime-agent-quorum-allow-25225-53646",
+    "state": "denied"
+  },
+  "mode": "execute",
+  "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+  "result": {
+    "acpDecisionPath": ".octon/state/evidence/runs/runtime-agent-quorum-allow-25225-53646/acp-decision.json",
+    "acpRequestPath": ".octon/state/evidence/runs/runtime-agent-quorum-allow-25225-53646/acp-request.json",
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/runtime-agent-quorum-allow-25225-53646.json",
+    "decision": "DENY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "mode": "execute",
+    "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+    "reasonCodes": [
+      "ACP_PROTECTED_TARGET",
+      "ACP_EVIDENCE_MISSING",
+      "ACP_DOCS_EVIDENCE_MISSING"
+    ],
+    "resume": false,
+    "summary": "ACP gate denied promotion",
+    "warnings": []
+  },
+  "runId": "runtime-agent-quorum-allow-25225-53646",
+  "status": "error"
+}

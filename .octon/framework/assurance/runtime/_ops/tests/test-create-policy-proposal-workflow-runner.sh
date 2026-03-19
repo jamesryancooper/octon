@@ -8,7 +8,7 @@ ASSURANCE_DIR="$(cd "$RUNTIME_DIR/.." && pwd)"
 OCTON_DIR="$(cd "$ASSURANCE_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 RUNNER="$OCTON_DIR/engine/runtime/run"
-TMP_ROOT="$OCTON_DIR/output/.tmp"
+TMP_ROOT="$ROOT_DIR/.octon/generated/.tmp/assurance-workflow-tests"
 
 pass_count=0
 fail_count=0

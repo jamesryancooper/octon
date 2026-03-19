@@ -176,14 +176,14 @@ Edit order:
 2. Update `.octon/framework/assurance/governance/weights/weights.yml` (attribute id/name + all weight maps)
 3. Update `.octon/framework/assurance/governance/scores/scores.yml` (attribute key, criteria, evidence links, conflicts)
 4. Update `.octon/framework/assurance/governance/weights/weights.md`
-5. Regenerate `.octon/framework/assurance/runtime/_ops/state/effective-weights.lock.yml`
+5. Regenerate `.octon/generated/effective/assurance/effective-weights.lock.yml`
 
 Verification command:
 
 ```bash
 bash .octon/framework/assurance/runtime/_ops/scripts/compute-assurance-score.sh --weights .octon/framework/assurance/governance/weights/weights.yml --scores .octon/framework/assurance/governance/scores/scores.yml
 bash .octon/framework/assurance/runtime/_ops/scripts/assurance-gate.sh --scorecard "$(ls -t .octon/generated/assurance/scorecards/*/*/scorecard.yml | head -n 1)" --weights .octon/framework/assurance/governance/weights/weights.yml --scores .octon/framework/assurance/governance/scores/scores.yml
-rg -n '\bsimplicity\b' .octon/framework/assurance/governance/weights/weights.yml .octon/framework/assurance/governance/scores/scores.yml .octon/framework/assurance/runtime/_ops/state/effective-weights.lock.yml
+rg -n '\bsimplicity\b' .octon/framework/assurance/governance/weights/weights.yml .octon/framework/assurance/governance/scores/scores.yml .octon/generated/effective/assurance/effective-weights.lock.yml
 ```
 
 Exit criteria:

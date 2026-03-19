@@ -1,0 +1,36 @@
+{
+  "checkpoint": {
+    "decision": "STAGE_ONLY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-1",
+    "memoize": false,
+    "planPath": "README.md",
+    "resumeCount": 0,
+    "runId": "run-2310215229",
+    "state": "stage-only"
+  },
+  "mode": "execute",
+  "planPath": "README.md",
+  "result": {
+    "acpDecisionPath": ".octon/state/evidence/runs/run-2310215229/acp-decision.json",
+    "acpRequestPath": ".octon/state/evidence/runs/run-2310215229/acp-request.json",
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/run-2310215229.json",
+    "decision": "STAGE_ONLY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-1",
+    "memoize": false,
+    "mode": "execute",
+    "planPath": "README.md",
+    "reasonCodes": [
+      "ACP_BUDGET_EXCEEDED",
+      "ACP_STAGE_ONLY_REQUIRED"
+    ],
+    "resume": false,
+    "summary": "Promotion blocked; staged artifacts preserved",
+    "warnings": [
+      "planPath does not exist on disk; executing in logical mode only"
+    ]
+  },
+  "runId": "run-2310215229",
+  "status": "partial"
+}

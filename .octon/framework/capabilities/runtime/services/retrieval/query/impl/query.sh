@@ -14,7 +14,8 @@ SIGNALS_DIR="$SCRIPT_DIR/signals"
 SERVICE_VERSION="0.1.0"
 SERVICE_NAME="octon.service.query"
 SERVICES_DIR="$(cd "$SCRIPT_DIR/../../.." && pwd)"
-RUN_RECORD_DIR="$SERVICES_DIR/_ops/state/runs/query"
+OCTON_DIR="$(cd "$SERVICES_DIR/../../../../" && pwd)"
+RUN_RECORD_DIR="$OCTON_DIR/state/evidence/runs/services/query"
 
 if ! command -v jq >/dev/null 2>&1; then
   echo '{"run":{"run_id":"run-invalid","service_version":"0.1.0","snapshot_id":"unknown"},"status":"error","candidates":[],"citations":[],"evidence":[],"diagnostics":{"strategy":{"use":[],"fuse":"rrf","top_k":1},"timings":{"total_ms":0},"deterministic_stages":[],"warnings":["jq is required."]},"error":{"code":"InputValidationError","message":"jq is required for query runtime."}}'

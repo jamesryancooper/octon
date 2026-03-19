@@ -453,7 +453,7 @@ octon_acp_gate_enforce() {
     return 13
   fi
 
-  tmp_dir="$octon_root/capabilities/_ops/state/.tmp/acp"
+  tmp_dir="$repo_root/generated/.tmp/capabilities/policy/acp"
   mkdir -p "$tmp_dir"
   request_file="$tmp_dir/${run_id}-${service_id}-request.json"
   decision_file="$tmp_dir/${run_id}-${service_id}-decision.json"
@@ -519,7 +519,7 @@ octon_acp_gate_enforce() {
   octon_acp_emit_receipt "$receipt_writer" "$policy_file" "$request_file" "$decision_file"
   decision_kind="$(jq -r '.decision // "DENY"' "$decision_file" 2>/dev/null || echo "DENY")"
 
-  continuity_run_dir="$octon_root/continuity/runs/$run_id"
+  continuity_run_dir="$repo_root/state/evidence/runs/$run_id"
   rollback_dir="$continuity_run_dir/rollback"
   mkdir -p "$continuity_run_dir"
   if [[ -x "$breaker_actions_script" ]]; then
@@ -569,10 +569,10 @@ octon_enforce_service_policy() {
   service_md="$service_dir/SERVICE.md"
   manifest="$services_root/manifest.yml"
   policy_file="$octon_root/capabilities/governance/policy/deny-by-default.v2.yml"
-  exceptions_file="$octon_root/capabilities/_ops/state/deny-by-default-exceptions.yml"
+  exceptions_file="$repo_root/state/control/capabilities/deny-by-default-exceptions.yml"
   policy_runner="$octon_root/engine/runtime/policy"
-  enforcement_log="$services_root/_ops/state/logs/deny-by-default-enforcement.log"
-  decision_json_log="$octon_root/capabilities/_ops/state/logs/deny-by-default-decisions.jsonl"
+  enforcement_log="$repo_root/state/evidence/runs/services/logs/deny-by-default-enforcement.log"
+  decision_json_log="$repo_root/state/evidence/decisions/repo/capabilities/deny-by-default-decisions.jsonl"
 
   if [[ ! -x "$policy_runner" ]]; then
     echo "[deny-by-default] missing policy runner script: $policy_runner" >&2

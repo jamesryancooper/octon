@@ -79,7 +79,7 @@ All file paths referenced in the refined prompt must:
 
 All outputs must be written to:
 - `.octon/framework/scaffolding/practices/prompts/{{timestamp}}-refined.md` (deliverable)
-- `_ops/state/logs/refine-prompt/{{run_id}}.md` (execution log)
+- `/.octon/state/evidence/runs/skills/refine-prompt/{{run_id}}.md` (execution log)
 
 ### Timestamp Format
 

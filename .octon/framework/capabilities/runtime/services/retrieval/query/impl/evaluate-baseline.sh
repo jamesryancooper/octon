@@ -184,7 +184,7 @@ $(cat "$rows_file")
 
 - Semantic signal latency is agent-bound and scales with candidate set size and model inference behavior.
 - Deterministic stages: keyword, graph, fusion, citation.
-- Run records emitted to '.octon/framework/capabilities/runtime/services/_ops/state/runs/query/' include span evidence:
+- Run records emitted to '.octon/state/evidence/runs/services/query/' include span evidence:
   - 'service.query.ask'
   - 'service.query.retrieve'
   - 'service.query.explain'

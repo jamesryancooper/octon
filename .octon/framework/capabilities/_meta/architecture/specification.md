@@ -67,7 +67,7 @@ allowed-tools in SKILL.md → SINGLE SOURCE OF TRUTH
 The `allowed-tools` field in SKILL.md frontmatter uses space-delimited tool names:
 
 ```yaml
-allowed-tools: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(../prompts/*) Write(/.octon/state/evidence/runs/skills/*)
 ```
 
 ### Tool Reference
@@ -75,9 +75,9 @@ allowed-tools: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
 | `allowed-tools` | Internal Format | Description |
 |-----------------|-----------------|-------------|
 | `Read` | `filesystem.read` | Read files |
-| `Write(_ops/state/runs/*)` | `filesystem.write.runs` | Write execution state |
+| `Write(/.octon/state/control/skills/checkpoints/*)` | `filesystem.write.runs` | Write execution state |
 | `Write(../{{category}}/*)` | `filesystem.write.deliverables` | Write deliverables to final destination |
-| `Write(_ops/state/logs/*)` | `filesystem.write.logs` | Write to logs directory |
+| `Write(/.octon/state/evidence/runs/skills/*)` | `filesystem.write.logs` | Write to logs directory |
 | `Glob` | `filesystem.glob` | Pattern matching for file discovery |
 | `Grep` | `filesystem.grep` | Content search |
 | `WebFetch` | `network.fetch` | HTTP requests (read-only) |
@@ -106,8 +106,8 @@ map_allowed_to_internal() {
     local allowed="$1"
     case "$allowed" in
         Read)                    echo "filesystem.read" ;;
-        Write\(_ops/state/runs/\*\))        echo "filesystem.write.runs" ;;
-        Write\(_ops/state/logs/\*\))        echo "filesystem.write.logs" ;;
+        Write\(/.octon/state/control/skills/checkpoints/\*\))        echo "filesystem.write.runs" ;;
+        Write\(/.octon/state/evidence/runs/skills/\*\))        echo "filesystem.write.logs" ;;
         Write\(../*\))           echo "filesystem.write.deliverables" ;;
         Glob)                    echo "filesystem.glob" ;;
         Grep)                    echo "filesystem.grep" ;;
@@ -358,8 +358,8 @@ Validate a skill manually:
 
 #### Execution
 
-- [ ] Skill produces output in designated location (deliverables to `.octon/{{category}}/`, execution state to `_ops/state/runs/{{skill-id}}/`)
-- [ ] Skill creates run log in `_ops/state/logs/{{skill-id}}/{{run-id}}.md`
+- [ ] Skill produces output in designated location (deliverables to `.octon/{{category}}/`, execution state to `/.octon/state/control/skills/checkpoints/{{skill-id}}/`)
+- [ ] Skill creates run log in `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md`
 - [ ] Output matches format defined in `.octon/framework/capabilities/runtime/skills/registry.yml`
 - [ ] All acceptance criteria are met
 

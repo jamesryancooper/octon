@@ -25,8 +25,8 @@ Production services in this harness are self-contained and must not require or r
 | `_ops/scripts/validate-services.sh` | Structural and contract validator |
 | `_ops/scripts/validate-service-independence.sh` | Independence validator (forbidden external package references) |
 | `_ops/scripts/compile-deny-by-default-policy.sh` | Generates normalized service policy catalog for runtime/CI review |
-| `_ops/state/` | Service logs and run state |
-| `../_ops/state/deny-by-default-exceptions.yml` | Time-boxed deny-by-default exception leases (owner + expiry required) |
+| `/.octon/state/evidence/runs/services/` | Service logs and run state |
+| `/.octon/state/control/capabilities/deny-by-default-exceptions.yml` | Time-boxed deny-by-default exception leases (owner + expiry required) |
 | `_meta/docs/` | Non-structural support docs (platform, integration guides, migration notes) |
 | `_meta/docs/composite-services.md` | Canonical definition of harness-only composite service composition |
 

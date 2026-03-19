@@ -268,7 +268,7 @@ skills:
   your-skill-name:
     io:
       inputs:
-        - path: "_ops/state/resources/your-skill-name/input/"
+        - path: "/.octon/instance/capabilities/runtime/skills/resources/your-skill-name/input/"
           kind: directory
           required: true
           description: "Source folder for skill input"
@@ -308,7 +308,7 @@ Run the skill with a test input:
 
 Verify:
 - [ ] Output created in expected location
-- [ ] Run log created in `_ops/state/logs/{{skill-id}}/{{run-id}}.md`
+- [ ] Run log created in `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md`
 - [ ] Output format matches specification
 - [ ] All phases executed correctly
 

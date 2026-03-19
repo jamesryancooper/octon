@@ -45,8 +45,8 @@ A UI audit execution is valid when all conditions are met.
 
 - [ ] Report includes executive summary and severity breakdown
 - [ ] Coverage proof includes clean files and exclusions
-- [ ] Execution log was written to `_ops/state/logs/audit-ui/{run_id}.md`
-- [ ] Log index was updated at `_ops/state/logs/audit-ui/index.yml`
+- [ ] Execution log was written to `/.octon/state/evidence/runs/skills/audit-ui/{run_id}.md`
+- [ ] Log index was updated at `/.octon/state/evidence/runs/skills/audit-ui/index.yml`
 
 ## Mode Rules
 

@@ -83,17 +83,17 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `design_proposal_workflow_summary` -> `../../output/reports/analysis/{{date}}-audit-design-proposal.md`: Top-level workflow summary with selected mode, readiness verdict, changed files, and next steps
-- `design_proposal_workflow_bundle` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/`: Workflow bundle containing stage reports, metadata, validation state, and aggregate proposal deltas
-- `design_audit_report` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/01-design-proposal-audit.md`: Stage report produced by the design proposal audit prompt
-- `design_proposal_remediation_report` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/02-design-proposal-remediation.md`: Short-mode remediation report and package delta receipt
-- `design_red_team_report` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/03-design-red-team.md`: Rigorous-mode adversarial report
-- `design_hardening_report` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/04-design-hardening.md`: Rigorous-mode hardening report and package delta receipt
-- `design_integration_report` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/05-design-integration.md`: Rigorous-mode integration report and package delta receipt
-- `implementation_simulation_report` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/06-implementation-simulation.md`: Buildability simulation report
-- `specification_closure_report` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/07-specification-closure.md`: Specification-closure report or explicit no-op receipt
-- `implementation_architecture_blueprint` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md`: Minimal implementer blueprint extracted from the stabilized package
-- `first_implementation_plan` -> `../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/09-first-implementation-plan.md`: First production implementation plan derived from the blueprint
+- `design_proposal_workflow_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-audit-design-proposal.md`: Top-level workflow summary with selected mode, readiness verdict, changed files, and next steps
+- `design_proposal_workflow_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/`: Workflow bundle containing stage reports, metadata, validation state, and aggregate proposal deltas
+- `design_audit_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/01-design-proposal-audit.md`: Stage report produced by the design proposal audit prompt
+- `design_proposal_remediation_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/02-design-proposal-remediation.md`: Short-mode remediation report and package delta receipt
+- `design_red_team_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/03-design-red-team.md`: Rigorous-mode adversarial report
+- `design_hardening_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/04-design-hardening.md`: Rigorous-mode hardening report and package delta receipt
+- `design_integration_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/05-design-integration.md`: Rigorous-mode integration report and package delta receipt
+- `implementation_simulation_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/06-implementation-simulation.md`: Buildability simulation report
+- `specification_closure_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/07-specification-closure.md`: Specification-closure report or explicit no-op receipt
+- `implementation_architecture_blueprint` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md`: Minimal implementer blueprint extracted from the stabilized package
+- `first_implementation_plan` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/09-first-implementation-plan.md`: First production implementation plan derived from the blueprint
 
 ## Steps
 

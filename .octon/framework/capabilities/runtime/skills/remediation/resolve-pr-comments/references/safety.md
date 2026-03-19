@@ -5,7 +5,7 @@ description: Safety policies and constraints for the resolve-pr-comments skill.
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Edit Bash(gh) Write(../../output/reports/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Edit Bash(gh) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.

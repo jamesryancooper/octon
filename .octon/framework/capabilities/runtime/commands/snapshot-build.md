@@ -21,5 +21,5 @@ Build deterministic snapshot artifacts via the filesystem-snapshot writer plane.
 
 ```bash
 .octon/framework/engine/runtime/run tool interfaces/filesystem-snapshot snapshot.build --json \
-  '{"root":".","state_dir":".octon/framework/engine/_ops/state/snapshots","set_current":true}'
+  '{"root":".","state_dir":".octon/generated/effective/capabilities/filesystem-snapshots","set_current":true}'
 ```

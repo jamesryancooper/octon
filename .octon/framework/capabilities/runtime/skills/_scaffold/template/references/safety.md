@@ -23,8 +23,8 @@ safety:
   file_policy:
     write_scope:                   # Paths where writing is allowed
       - ".octon/generated/{{category}}/**"     # Deliverables (final destination)
-      - ".octon/framework/capabilities/runtime/skills/_ops/state/runs/**"      # Execution state (session recovery)
-      - ".octon/framework/capabilities/runtime/skills/_ops/state/logs/**"      # Logs (always allowed)
+      - ".octon/state/control/skills/checkpoints/**"      # Execution state (session recovery)
+      - ".octon/state/evidence/runs/skills/**"      # Logs (always allowed)
       # Custom paths as defined in registry I/O mapping
       # Must remain within the repository-root harness scope
     scope_authority:               # Repository-root scope rules
@@ -61,8 +61,8 @@ The skill may only write to designated output locations:
 | Tier        | Path                                      | Purpose              |
 |-------------|-------------------------------------------|----------------------|
 | **Tier 1**  | `.octon/generated/{{category}}/**`              | Deliverables         |
-| **Tier 1**  | `.octon/framework/capabilities/runtime/skills/_ops/state/runs/{{skill-id}}/**`  | Execution state (session recovery) |
-| **Tier 1**  | `.octon/framework/capabilities/runtime/skills/_ops/state/logs/**`               | Execution logs       |
+| **Tier 1**  | `.octon/state/control/skills/checkpoints/{{skill-id}}/**`  | Execution state (session recovery) |
+| **Tier 1**  | `.octon/state/evidence/runs/skills/**`               | Execution logs       |
 
 ### Scope Authority
 

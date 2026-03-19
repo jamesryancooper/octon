@@ -8,7 +8,7 @@ services:
       writes: human_if_outside_scope
     depends_on: []
     io:
-      state_dir: .octon/framework/engine/_ops/state/snapshots
+      state_dir: .octon/generated/effective/capabilities/filesystem-snapshots
     notes:
       - Writer plane for deterministic snapshot lifecycle and bounded fs.* operations.
       - Snapshot artifacts are canonical inputs for filesystem-discovery and filesystem-watch.
@@ -25,7 +25,7 @@ services:
     depends_on:
       - interfaces/filesystem-snapshot
     io:
-      state_dir: .octon/framework/engine/_ops/state/snapshots
+      state_dir: .octon/generated/effective/capabilities/filesystem-snapshots
     notes:
       - Query plane for kg.* and discover.* operations over deterministic snapshots.
       - Read-only plane; no filesystem writes required.
@@ -42,7 +42,7 @@ services:
     depends_on:
       - interfaces/filesystem-snapshot
     io:
-      state_dir: .octon/framework/engine/_ops/state/kv
+      state_dir: .octon/state/control/engine/kv
     notes:
       - OS-agnostic polling watcher hints persisted via runtime state files.
       - Volatile runtime state and .git paths are excluded by default.
@@ -58,7 +58,7 @@ services:
       writes: human_if_outside_scope
     depends_on: []
     io:
-      state_dir: .octon/framework/engine/_ops/state/kv
+      state_dir: .octon/state/control/engine/kv
     notes:
       - Values are UTF-8 strings in v1.
       - Keys are case-sensitive.
@@ -75,7 +75,7 @@ services:
     depends_on:
       - interfaces/kv
     io:
-      state_dir: .octon/framework/engine/_ops/state/runs/flow
+      state_dir: .octon/state/evidence/runs/services/flow
     notes:
       - Native-octon adapter is the default execution path.
       - LangGraph HTTP integration is opt-in via adapter/runtime config.

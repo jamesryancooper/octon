@@ -42,4 +42,4 @@ Plans must include all top-level sections:
 2. Profile receipt contains `change_profile`, `release_state`, and hard-gate facts.
 3. If `pre-1.0` + `transitional`, exception note contains: `rationale`, `risks`, `owner`, `target_removal_date`.
 4. Required five top-level sections are present.
-5. Log exists at `_ops/state/logs/spec-to-implementation/{{run_id}}.md`.
+5. Log exists at `/.octon/state/evidence/runs/skills/spec-to-implementation/{{run_id}}.md`.

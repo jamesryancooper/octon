@@ -58,7 +58,7 @@
 ## Workstream 4: Effective Index Compiler
 
 - Add compiler logic that reads validated extension content and emits effective
-  indexes under `/.octon/framework/engine/_ops/state/extensions/effective/`.
+  indexes under `/.octon/generated/effective/extensions/`.
 - Generate effective views for the v1 routable surfaces:
   - skills manifest
   - skills registry

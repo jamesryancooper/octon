@@ -12,7 +12,7 @@ metadata:
   updated: "2026-03-05"
 skill_sets: [executor, specialist, guardian, integrator]
 capabilities: [external-dependent]
-allowed-tools: Read Glob Grep Bash(gh *) Write(_ops/state/logs/*) Write(../../../output/reports/*)
+allowed-tools: Read Glob Grep Bash(gh *) Write(/.octon/state/evidence/runs/skills/*) Write(/.octon/state/evidence/validation/analysis/*)
 ---
 
 # CI Gate Triage

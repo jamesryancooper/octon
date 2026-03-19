@@ -14,7 +14,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor]
 capabilities: [domain-specialized]
-allowed-tools: Read Glob Write(../../output/drafts/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Write(/.octon/inputs/exploratory/drafts/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Synthesize Research
@@ -33,7 +33,7 @@ Use this skill when:
 ## Quick Start
 
 ```markdown
-/synthesize-research _ops/state/resources/synthesize-research/topic/
+/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/topic/
 ```
 
 ## Core Workflow
@@ -54,7 +54,7 @@ This skill accepts one required parameter: a folder path containing research not
 
 Output paths are defined in `.octon/framework/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-Outputs are written to `.octon/inputs/exploratory/drafts/` (synthesis document) and `_ops/state/logs/synthesize-research/` (execution log).
+Outputs are written to `.octon/inputs/exploratory/drafts/` (synthesis document) and `/.octon/state/evidence/runs/skills/synthesize-research/` (execution log).
 
 ## Output Format
 

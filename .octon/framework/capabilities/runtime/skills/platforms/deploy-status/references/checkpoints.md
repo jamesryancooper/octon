@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/deploy-status/{{run_id}}/"
+  storage: ".octon/state/control/skills/checkpoints/deploy-status/{{run_id}}/"
   retention: session
 
   schema:

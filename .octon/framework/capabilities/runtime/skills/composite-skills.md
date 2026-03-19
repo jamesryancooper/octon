@@ -48,8 +48,8 @@ In `.octon/framework/capabilities/runtime/skills/registry.yml`, a Composite Skil
 2. Declare explicit parameters and output artifacts.
 3. Declare child skill/service steps in `composition.steps` with typed refs and bindings.
 4. Expose deterministic output policy in `io.outputs[].determinism`.
-5. Record execution artifacts in `_ops/state/runs/<skill-id>/<run-id>/` and
-   `_ops/state/logs/<skill-id>/<run-id>.md`.
+5. Record execution artifacts in `/.octon/state/control/skills/checkpoints/<skill-id>/<run-id>/` and
+   `/.octon/state/evidence/runs/skills/<skill-id>/<run-id>.md`.
 
 ## Execution Semantics
 

@@ -34,7 +34,7 @@ rules:
 4. Broad write scopes require a time-boxed exception lease with owner and
    expiry.
 5. Exception leases are tracked in
-   `.octon/framework/capabilities/_ops/state/deny-by-default-exceptions.yml` and CI
+   `.octon/state/control/capabilities/deny-by-default-exceptions.yml` and CI
    fails on expired leases.
 6. Introduce a low-risk `dev-fast` policy profile to reduce friction for
    routine local changes without weakening repository safety defaults.

@@ -99,7 +99,7 @@ Explicitly capture what is being refactored before any changes.
 
 ### Output
 
-Write scope definition to `_ops/state/runs/refactor/{{id}}/scope.md`:
+Write scope definition to `/.octon/state/control/skills/checkpoints/refactor/{{id}}/scope.md`:
 
 ```markdown
 ## Refactor Scope
@@ -209,7 +209,7 @@ Exhaustively search for ALL references before making changes.
 
 ### Output
 
-Write audit manifest to `_ops/state/runs/refactor/{{id}}/audit-manifest.md`
+Write audit manifest to `/.octon/state/control/skills/checkpoints/refactor/{{id}}/audit-manifest.md`
 
 ### Checkpoint Update
 
@@ -277,7 +277,7 @@ Transform audit results into an actionable change manifest.
 
 ### Output
 
-Write change manifest to `_ops/state/runs/refactor/{{id}}/change-manifest.md`
+Write change manifest to `/.octon/state/control/skills/checkpoints/refactor/{{id}}/change-manifest.md`
 
 ### Checkpoint Update
 
@@ -359,7 +359,7 @@ Make all planned changes systematically.
 
 ### Output
 
-Write execution log to `_ops/state/runs/refactor/{{id}}/execution-log.md`
+Write execution log to `/.octon/state/control/skills/checkpoints/refactor/{{id}}/execution-log.md`
 
 ### Checkpoint Update
 
@@ -462,7 +462,7 @@ These must be explicitly listed and justified:
 
 ### Output
 
-Write verification report to `_ops/state/runs/refactor/{{id}}/verification-report.md`
+Write verification report to `/.octon/state/control/skills/checkpoints/refactor/{{id}}/verification-report.md`
 
 ### Checkpoint Update
 
@@ -526,9 +526,9 @@ Record the completed refactor and formally close.
    - Verification: all audit searches return zero results
    ```
 
-   Save to `_ops/state/runs/refactor/{{id}}/commit-message.txt`
+   Save to `/.octon/state/control/skills/checkpoints/refactor/{{id}}/commit-message.txt`
 
-3. **Update log index** (`_ops/state/logs/refactor/index.yml`)
+3. **Update log index** (`/.octon/state/evidence/runs/skills/refactor/index.yml`)
 
 4. **Declare completion:**
 
@@ -537,7 +537,7 @@ Record the completed refactor and formally close.
    - Files changed: N
    - Verification: PASSED
    - Continuity artifacts: Updated (append-only)
-   - Suggested commit: _ops/state/runs/refactor/{{id}}/commit-message.txt
+   - Suggested commit: /.octon/state/control/skills/checkpoints/refactor/{{id}}/commit-message.txt
    ```
 
 ### Continuity Artifact Rules
@@ -553,7 +553,7 @@ Record the completed refactor and formally close.
 
 ### Output
 
-Write summary to `_ops/state/runs/refactor/{{id}}/summary.md`
+Write summary to `/.octon/state/control/skills/checkpoints/refactor/{{id}}/summary.md`
 
 ### Checkpoint Update
 
@@ -573,7 +573,7 @@ phases:
 
 On skill invocation, check for existing checkpoint:
 
-1. Look for `_ops/state/runs/refactor/*{{scope-slug}}*/checkpoint.yml`
+1. Look for `/.octon/state/control/skills/checkpoints/refactor/*{{scope-slug}}*/checkpoint.yml`
 
 2. If found, read checkpoint (~50 tokens):
    - Check `status` field

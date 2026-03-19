@@ -63,8 +63,8 @@ Canonical migration plan/index discovery remains under:
 
 ### Docs
 
-- Update output/cognition READMEs and migration methodology docs for bundle conventions.
-- Update clean-break migration prompt/instructions/template to require bundle output.
+- Update generated-output and validation-evidence architecture READMEs plus migration methodology docs for bundle conventions.
+- Update clean-break migration prompt/instructions/template to require bundle evidence outputs at canonical `state/**` and `generated/**` destinations.
 
 ### Tests and Validation
 
@@ -82,7 +82,7 @@ Canonical migration plan/index discovery remains under:
   - `/.octon/state/evidence/migration/2026-02-21-migration-evidence-bundle-format/`
 - Updated entrypoints/contracts:
   - `/.octon/state/evidence/migration/README.md`
-  - `/.octon/framework/cognition/_meta/architecture/generated/output/README.md`
+  - `/.octon/framework/cognition/_meta/architecture/README.md`
   - `/.octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
   - migration clean-break templates/prompts/instructions
 
@@ -90,7 +90,7 @@ Canonical migration plan/index discovery remains under:
 
 ### A) Static Verification
 
-- [x] No flat `*-evidence.md` migration files remain in `output/reports/migrations/`.
+- [x] No flat `*-evidence.md` migration files remain in `/.octon/state/evidence/migration/`.
 - [x] All migration evidence bundles contain required files.
 
 ### B) Runtime Verification

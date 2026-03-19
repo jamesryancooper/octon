@@ -37,6 +37,6 @@ Defined in `.octon/framework/capabilities/runtime/skills/registry.yml`.
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/commands.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/validation.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/inventory.md`
-- `_ops/state/logs/audit-documentation-standards/{{run_id}}.md`
-- `_ops/state/logs/audit-documentation-standards/index.yml`
-- `_ops/state/logs/index.yml`
+- `/.octon/state/evidence/runs/skills/audit-documentation-standards/{{run_id}}.md`
+- `/.octon/state/evidence/runs/skills/audit-documentation-standards/index.yml`
+- `/.octon/state/evidence/runs/skills/index.yml`

@@ -1,0 +1,25 @@
+schema_version: "proposal-v1"
+proposal_id: "framework-core-architecture"
+title: "Portable Framework/Core Architecture"
+summary: "Formalize `/.octon/framework/**` as the portable authored Octon core bundle, ratify `framework/manifest.yml` and `framework/overlay-points/registry.yml` as authoritative framework control surfaces, and define the class-boundary, portability, update, and validation rules that keep framework authority separate from repo-specific instance content, raw inputs, mutable state, and generated outputs."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/octon.yml"
+  - ".octon/README.md"
+  - ".octon/instance/bootstrap/START.md"
+  - ".octon/framework/manifest.yml"
+  - ".octon/framework/overlay-points/registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/cognition/_meta/architecture/shared-foundation.md"
+  - ".octon/framework/assurance/runtime/"
+  - ".octon/framework/orchestration/runtime/workflows/"
+  - ".octon/framework/scaffolding/runtime/templates/octon/"
+  - ".octon/framework/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promote the framework bundle boundary, companion-manifest and overlay-registry requirements, framework placement rules, and fail-closed validation/update semantics into durable `.octon/` architecture, control-plane, assurance, and workflow surfaces, then archive this proposal once canonical framework contracts no longer rely on transitional boundary assumptions."
+related_proposals:
+  - "super-root-semantics-and-taxonomy"
+  - "root-manifest-profiles-and-export-semantics"

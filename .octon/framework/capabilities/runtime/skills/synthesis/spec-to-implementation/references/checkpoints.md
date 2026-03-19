@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/spec-to-implementation/{{run-id}}/"
+  storage: ".octon/state/control/skills/checkpoints/spec-to-implementation/{{run-id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ Checkpoints retain requirement extraction and task graph context across interrup
 
 Resume contract:
 
-- State is stored in `.octon/framework/capabilities/runtime/skills/_ops/state/runs/spec-to-implementation/{{run-id}}/`.
+- State is stored in `.octon/state/control/skills/checkpoints/spec-to-implementation/{{run-id}}/`.
 - Resume preserves assumption logs so review context is not lost.
 - Any material spec update invalidates prior decomposition checkpoints.

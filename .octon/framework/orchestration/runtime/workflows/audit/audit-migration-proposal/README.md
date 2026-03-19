@@ -51,8 +51,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `migration_proposal_workflow_summary` -> `../../output/reports/analysis/{{date}}-audit-migration-proposal.md`: Top-level workflow summary for migration proposal validation
-- `migration_proposal_workflow_bundle` -> `../../output/reports/workflows/{{date}}-audit-migration-proposal-{{slug}}/`: Workflow bundle containing validation metadata and outputs
+- `migration_proposal_workflow_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-audit-migration-proposal.md`: Top-level workflow summary for migration proposal validation
+- `migration_proposal_workflow_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-migration-proposal-{{slug}}/`: Workflow bundle containing validation metadata and outputs
 
 ## Steps
 

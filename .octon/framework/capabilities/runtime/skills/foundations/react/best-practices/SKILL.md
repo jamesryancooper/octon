@@ -13,7 +13,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [specialist]
 capabilities: []
-allowed-tools: Read Glob Grep Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # React Best Practices

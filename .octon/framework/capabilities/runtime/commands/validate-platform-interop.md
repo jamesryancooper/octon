@@ -49,4 +49,4 @@ Modes:
 ## References
 
 - **Validator:** `.octon/framework/capabilities/runtime/services/_ops/scripts/validate-service-independence.sh`
-- **Allowlist:** `.octon/framework/capabilities/runtime/services/_ops/state/provider-term-allowlist.tsv`
+- **Allowlist:** `.octon/framework/capabilities/governance/policy/provider-term-allowlist.tsv`

@@ -1,0 +1,33 @@
+{
+  "checkpoint": {
+    "decision": "ALLOW",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+    "resumeCount": 0,
+    "runId": "runtime-agent-quorum-allow-17597-84617",
+    "state": "promoted"
+  },
+  "mode": "execute",
+  "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+  "result": {
+    "acpDecisionPath": ".octon/state/evidence/runs/runtime-agent-quorum-allow-17597-84617/acp-decision.json",
+    "acpRequestPath": ".octon/state/evidence/runs/runtime-agent-quorum-allow-17597-84617/acp-request.json",
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/runtime-agent-quorum-allow-17597-84617.json",
+    "decision": "ALLOW",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "mode": "execute",
+    "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+    "reasonCodes": [
+      "ACP_PROTECTED_TARGET"
+    ],
+    "resume": false,
+    "summary": "Promotion allowed by ACP gate",
+    "warnings": []
+  },
+  "runId": "runtime-agent-quorum-allow-17597-84617",
+  "status": "success"
+}

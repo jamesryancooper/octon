@@ -60,7 +60,7 @@ repo/
 - If more than one `.octon/` exists on that chain, resolution fails because exactly one repo-root harness is allowed
 - Writes stay within the repository root and declared output locations
 - Deliverables go to `.octon/{{category}}/` (final destination)
-- Execution state goes to `.octon/framework/capabilities/runtime/skills/_ops/state/runs/{{skill-id}}/{{run-id}}/`
+- Execution state goes to `.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/`
 
 See [Architecture](./architecture.md) for the complete model.
 
@@ -136,8 +136,8 @@ See [Creation](./creation.md) for the full workflow.
 | `.octon/framework/capabilities/runtime/skills/<skill-id>/references/` | Phase details, safety, validation (Tier 4) |
 | `.octon/framework/capabilities/runtime/skills/_scaffold/template/` | Scaffolding for new skills |
 | `.octon/framework/capabilities/runtime/skills/_ops/scripts/validate-skills.sh` | Capability validation script |
-| `.octon/framework/capabilities/runtime/skills/_ops/state/runs/{{skill-id}}/` | Execution state (checkpoints) |
-| `.octon/framework/capabilities/runtime/skills/_ops/state/logs/{{skill-id}}/` | Skill-specific logs |
+| `.octon/state/control/skills/checkpoints/{{skill-id}}/` | Execution state (checkpoints) |
+| `.octon/state/evidence/runs/skills/{{skill-id}}/` | Skill-specific logs |
 | `.octon/{{category}}/` | Deliverables (prompts, drafts, etc.) |
 
 ---

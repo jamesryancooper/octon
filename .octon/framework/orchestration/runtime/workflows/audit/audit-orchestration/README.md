@@ -78,11 +78,11 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `consolidated_report` -> `../../output/reports/analysis/{{date}}-migration-audit-consolidated.md`: Consolidated report with partitioned migration findings and optional global-stage outcomes
-- `partition_reports` -> `../../output/reports/analysis/{{date}}-migration-audit-{{partition}}.md`: Individual partition audit reports
-- `cross_subsystem_audit_report` -> `../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Individual cross-subsystem coherence audit report (produced if enabled)
-- `freshness_audit_report` -> `../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md`: Individual freshness and supersession audit report (produced if enabled)
-- `bounded_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit evidence bundle with findings, coverage, and convergence artifacts
+- `consolidated_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-migration-audit-consolidated.md`: Consolidated report with partitioned migration findings and optional global-stage outcomes
+- `partition_reports` -> `/.octon/state/evidence/validation/analysis/{{date}}-migration-audit-{{partition}}.md`: Individual partition audit reports
+- `cross_subsystem_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Individual cross-subsystem coherence audit report (produced if enabled)
+- `freshness_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-freshness-and-supersession-audit.md`: Individual freshness and supersession audit report (produced if enabled)
+- `bounded_audit_bundle` -> `/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit evidence bundle with findings, coverage, and convergence artifacts
 
 ## Steps
 

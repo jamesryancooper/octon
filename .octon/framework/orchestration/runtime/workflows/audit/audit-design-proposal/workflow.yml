@@ -131,67 +131,67 @@ stages:
     mutation_scope: []
 artifacts:
   - name: design_proposal_workflow_summary
-    path: "../../output/reports/analysis/{{date}}-audit-design-proposal.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-design-proposal.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Top-level workflow summary with selected mode, readiness verdict, changed files, and next steps"
   - name: design_proposal_workflow_bundle
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/"
     kind: directory
     format: mixed
     determinism: unique
     description: "Workflow bundle containing stage reports, metadata, validation state, and aggregate proposal deltas"
   - name: design_audit_report
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/01-design-proposal-audit.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/01-design-proposal-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Stage report produced by the design proposal audit prompt"
   - name: design_proposal_remediation_report
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/02-design-proposal-remediation.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/02-design-proposal-remediation.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Short-mode remediation report and package delta receipt"
   - name: design_red_team_report
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/03-design-red-team.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/03-design-red-team.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Rigorous-mode adversarial report"
   - name: design_hardening_report
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/04-design-hardening.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/04-design-hardening.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Rigorous-mode hardening report and package delta receipt"
   - name: design_integration_report
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/05-design-integration.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/05-design-integration.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Rigorous-mode integration report and package delta receipt"
   - name: implementation_simulation_report
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/06-implementation-simulation.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/06-implementation-simulation.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Buildability simulation report"
   - name: specification_closure_report
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/07-specification-closure.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/07-specification-closure.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Specification-closure report or explicit no-op receipt"
   - name: implementation_architecture_blueprint
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/08-minimal-implementation-architecture-blueprint.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Minimal implementer blueprint extracted from the stabilized package"
   - name: first_implementation_plan
-    path: "../../output/reports/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/09-first-implementation-plan.md"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/09-first-implementation-plan.md"
     kind: file
     format: markdown
     determinism: unique

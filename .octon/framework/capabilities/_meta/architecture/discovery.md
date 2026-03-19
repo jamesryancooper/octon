@@ -245,7 +245,7 @@ skills:
   synthesize-research:
     io:
       inputs:
-        - path: "_ops/state/resources/synthesize-research/"
+        - path: "/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/"
           kind: directory
           required: true
           description: "Research notes and source materials"
@@ -259,7 +259,7 @@ skills:
   refine-prompt:
     io:
       inputs:
-        - path: "_ops/state/resources/refine-prompt/prompts/"
+        - path: "/.octon/instance/capabilities/runtime/skills/resources/refine-prompt/prompts/"
           kind: directory
           required: false
           description: "Optional prompt source folder"
@@ -322,10 +322,10 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern w
 
 | Category | Path Pattern | Purpose |
 |----------|--------------|---------|
-| `_ops/state/configs/` | `_ops/state/configs/{{skill-id}}/` | Per-skill configuration overrides |
-| `_ops/state/resources/` | `_ops/state/resources/{{skill-id}}/` | Per-skill input materials |
-| `_ops/state/runs/` | `_ops/state/runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
-| `_ops/state/logs/` | `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Execution history |
+| `/.octon/instance/capabilities/runtime/skills/configs/` | `/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` | Per-skill configuration overrides |
+| `/.octon/instance/capabilities/runtime/skills/resources/` | `/.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` | Per-skill input materials |
+| `/.octon/state/control/skills/checkpoints/` | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
+| `/.octon/state/evidence/runs/skills/` | `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` | Execution history |
 
 #### Custom Paths (Tier 2 & 3)
 

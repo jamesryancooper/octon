@@ -63,10 +63,10 @@ The root harness scope includes the repository root and all repository descendan
 │  │   ├── SKILL.md              Core instructions (<500 lines)   │
 │  │   └── references/           Progressive disclosure content   │
 │  ├── synthesize-research/                                      │
-│  ├── _ops/state/configs/                  Per-skill configuration          │
-│  ├── _ops/state/resources/                Per-skill input resources        │
-│  ├── _ops/state/runs/                     Execution state (checkpoints)    │
-│  └── _ops/state/logs/                     Execution logs with indexes      │
+│  ├── /.octon/instance/capabilities/runtime/skills/configs/                  Per-skill configuration          │
+│  ├── /.octon/instance/capabilities/runtime/skills/resources/                Per-skill input resources        │
+│  ├── /.octon/state/control/skills/checkpoints/                     Execution state (checkpoints)    │
+│  └── /.octon/state/evidence/runs/skills/                     Execution logs with indexes      │
 └─────────────────────────────────────────────────────────────────┘
                                  │
                                  │ exposed via symlinks
@@ -168,16 +168,16 @@ All operational categories follow the `{{category}}/{{skill-id}}/` pattern withi
 
 | Content | Purpose |
 |---------|---------|
-| `_ops/state/configs/{{skill-id}}/` | Per-skill configuration overrides |
-| `_ops/state/resources/{{skill-id}}/` | Per-skill input resources (notes, docs, data) |
-| `_ops/state/runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
-| `_ops/state/logs/index.yml` | Cross-skill chronological index |
-| `_ops/state/logs/{{skill-id}}/index.yml` | Skill-level run metadata |
-| `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Execution audit logs |
+| `/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` | Per-skill configuration overrides |
+| `/.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` | Per-skill input resources (notes, docs, data) |
+| `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
+| `/.octon/state/evidence/runs/skills/index.yml` | Cross-skill chronological index |
+| `/.octon/state/evidence/runs/skills/{{skill-id}}/index.yml` | Skill-level run metadata |
+| `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` | Execution audit logs |
 
-> **Bounded top-level:** The top level has fixed entries regardless of skill count: `manifest.yml`, `registry.yml`, `capabilities.yml`, `_ops/state/configs/`, `_ops/state/resources/`, `_ops/state/runs/`, `_ops/state/logs/`.
+> **Bounded top-level:** The top level has fixed entries regardless of skill count: `manifest.yml`, `registry.yml`, `capabilities.yml`, `/.octon/instance/capabilities/runtime/skills/configs/`, `/.octon/instance/capabilities/runtime/skills/resources/`, `/.octon/state/control/skills/checkpoints/`, `/.octon/state/evidence/runs/skills/`.
 
-> **Terminology Note:** The `_ops/state/runs/` directory stores **execution state** for session recovery (checkpoints, manifests). This is distinct from **harness continuity files** (`continuity/log.md`, ADRs, decisions) which preserve project history. See [Design Conventions](../../practices/design-conventions.md#continuity-artifact-detection) for continuity file handling.
+> **Terminology Note:** The `/.octon/state/control/skills/checkpoints/` directory stores **execution state** for session recovery (checkpoints, manifests). This is distinct from **harness continuity files** (`continuity/log.md`, ADRs, decisions) which preserve project history. See [Design Conventions](../../practices/design-conventions.md#continuity-artifact-detection) for continuity file handling.
 
 ### Output Paths
 
@@ -186,10 +186,10 @@ Output paths are declared in `registry.yml` under each skill's `io:` section and
 | Path Type | Example | Purpose |
 |-----------|---------|---------|
 | **Deliverables** | `.octon/{{category}}/{{file}}` | Final products (prompts, drafts) |
-| **Configs** | `_ops/state/configs/{{skill-id}}/` | Per-skill configuration |
-| **Resources** | `_ops/state/resources/{{skill-id}}/` | Per-skill input materials |
-| **Execution state** | `_ops/state/runs/{{skill-id}}/{{run-id}}/` | Checkpoints, manifests |
-| **Logs** | `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Execution audit |
+| **Configs** | `/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` | Per-skill configuration |
+| **Resources** | `/.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` | Per-skill input materials |
+| **Execution state** | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` | Checkpoints, manifests |
+| **Logs** | `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` | Execution audit |
 | **Project tree path** | `packages/flowkit/docs/api.md` | Must be declared, scope-validated |
 
 **Scope validation:** Paths are checked to ensure they remain within the repository-root harness scope.
@@ -220,12 +220,12 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern w
 
 | Category | Path Pattern | Purpose |
 |----------|--------------|---------|
-| `_ops/state/configs/` | `_ops/state/configs/{{skill-id}}/` | Per-skill configuration overrides |
-| `_ops/state/resources/` | `_ops/state/resources/{{skill-id}}/` | Per-skill input materials |
-| `_ops/state/runs/` | `_ops/state/runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
-| `_ops/state/logs/` | `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Execution history |
+| `/.octon/instance/capabilities/runtime/skills/configs/` | `/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` | Per-skill configuration overrides |
+| `/.octon/instance/capabilities/runtime/skills/resources/` | `/.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` | Per-skill input materials |
+| `/.octon/state/control/skills/checkpoints/` | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
+| `/.octon/state/evidence/runs/skills/` | `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` | Execution history |
 
-**Correlation pattern:** `_ops/state/logs/{{skill-id}}/{{run-id}}.md` pairs with `_ops/state/runs/{{skill-id}}/{{run-id}}/` for easy correlation.
+**Correlation pattern:** `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` pairs with `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` for easy correlation.
 
 ---
 
@@ -405,7 +405,7 @@ Skills in `.octon/framework/capabilities/runtime/skills/` can be:
 Every skill execution produces:
 
 - Output artifacts (default or custom paths within scope)
-- Run logs in `_ops/state/logs/{{skill-id}}/{{run-id}}.md`
+- Run logs in `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md`
 - Timestamped entries for traceability
 
 ---

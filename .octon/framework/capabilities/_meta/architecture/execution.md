@@ -11,7 +11,7 @@ This document covers what happens when a skill runs, including run logging, safe
 
 ## Run Logging
 
-> **Note:** For skills with the `phased` capability, see [Design Conventions](../../practices/design-conventions.md) for the recommended log structure using `_ops/state/logs/{{skill-id}}/` with multi-level indexes.
+> **Note:** For skills with the `phased` capability, see [Design Conventions](../../practices/design-conventions.md) for the recommended log structure using `/.octon/state/evidence/runs/skills/{{skill-id}}/` with multi-level indexes.
 
 Every skill execution produces a log. The log location follows this pattern:
 
@@ -93,12 +93,12 @@ Skills may only write to paths defined in their registry I/O mappings, validated
 
 | Category | Path Pattern | Read/Write |
 |----------|--------------|------------|
-| `_ops/state/configs/` | `_ops/state/configs/{{skill-id}}/` | Read (skills), Write (user/setup) |
-| `_ops/state/resources/` | `_ops/state/resources/{{skill-id}}/` | Read (skills), Write (user) |
-| `_ops/state/runs/` | `_ops/state/runs/{{skill-id}}/{{run-id}}/` | Read/Write (skills) |
-| `_ops/state/logs/` | `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Read/Write (skills) |
+| `/.octon/instance/capabilities/runtime/skills/configs/` | `/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` | Read (skills), Write (user/setup) |
+| `/.octon/instance/capabilities/runtime/skills/resources/` | `/.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` | Read (skills), Write (user) |
+| `/.octon/state/control/skills/checkpoints/` | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` | Read/Write (skills) |
+| `/.octon/state/evidence/runs/skills/` | `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` | Read/Write (skills) |
 
-> **Note:** All `.octon/framework/capabilities/runtime/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. Skills typically read from `_ops/state/configs/` and `_ops/state/resources/`, and write to `_ops/state/runs/` and `_ops/state/logs/`.
+> **Note:** All `.octon/framework/capabilities/runtime/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern. Skills typically read from `/.octon/instance/capabilities/runtime/skills/configs/` and `/.octon/instance/capabilities/runtime/skills/resources/`, and write to `/.octon/state/control/skills/checkpoints/` and `/.octon/state/evidence/runs/skills/`.
 
 ### Repository Scope Enforcement
 
@@ -176,11 +176,11 @@ All operational categories follow the `{{category}}/{{skill-id}}/` pattern:
 
 | Category | Path Pattern | Read/Write |
 |----------|--------------|------------|
-| Configs | `_ops/state/configs/{{skill-id}}/` | Read (skills), Write (user/setup) |
-| Resources | `_ops/state/resources/{{skill-id}}/` | Read (skills), Write (user) |
-| Checkpoints | `_ops/state/runs/{{skill-id}}/{{run-id}}/checkpoint.yml` | Read/Write (skills) |
-| Manifests | `_ops/state/runs/{{skill-id}}/{{run-id}}/*.md` | Read/Write (skills) |
-| Logs | `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Read/Write (skills) |
+| Configs | `/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` | Read (skills), Write (user/setup) |
+| Resources | `/.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` | Read (skills), Write (user) |
+| Checkpoints | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/checkpoint.yml` | Read/Write (skills) |
+| Manifests | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/*.md` | Read/Write (skills) |
+| Logs | `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` | Read/Write (skills) |
 
 **Tier 2 & 3 — Custom Paths (must declare, scope-validated):**
 
@@ -296,7 +296,7 @@ outputs:
 **Invocation:**
 
 ```bash
-/synthesize-research _ops/state/resources/synthesize-research/api-design/
+/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/api-design/
 ```
 
 **Resolution:**
@@ -368,7 +368,7 @@ When creating a new skill, replace all `{{placeholder}}` values with actual cont
 │  5. WRITE OUTPUT (scope-validated)                              │
 │     ├── Re-validate path is within repository scope             │
 │     ├── Save to declared output path                            │
-│     └── Log to _ops/state/logs/{{skill-id}}/{{run-id}}.md                  │
+│     └── Log to /.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md                  │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```

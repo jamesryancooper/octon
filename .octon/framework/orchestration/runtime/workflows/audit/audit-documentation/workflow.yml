@@ -71,19 +71,19 @@ stages:
     mutation_scope: []
 artifacts:
   - name: docs_audit_report
-    path: "../../output/reports/analysis/{{date}}-audit-documentation.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-documentation.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated documentation audit report with release recommendation"
   - name: docs_standards_audit_report
-    path: "../../output/reports/analysis/{{date}}-documentation-standards-audit.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-documentation-standards-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Input audit report produced by audit-documentation-standards"
   - name: documentation_audit_bundle
-    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    path: "/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/"
     kind: directory
     format: mixed
     determinism: unique

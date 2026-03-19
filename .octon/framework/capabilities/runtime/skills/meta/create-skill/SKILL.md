@@ -14,7 +14,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor]
 capabilities: [self-validating]
-allowed-tools: Read Glob Grep Write(/.octon/framework/capabilities/runtime/skills/*) Write(_ops/state/runs/*) Write(_ops/state/logs/*) Bash(mkdir) Bash(ln) Bash(cp)
+allowed-tools: Read Glob Grep Write(/.octon/framework/capabilities/runtime/skills/*) Write(/.octon/state/control/skills/checkpoints/*) Write(/.octon/state/evidence/runs/skills/*) Bash(mkdir) Bash(ln) Bash(cp)
 ---
 
 # Create Skill
@@ -71,8 +71,8 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 
 Outputs are written to:
 - `.octon/framework/capabilities/runtime/skills/<group>/{{skill_name}}/` — The new skill directory (deliverable)
-- `_ops/state/runs/create-skill/{{run_id}}/` — Execution state (checkpoint and summary) for session recovery
-- `_ops/state/logs/create-skill/` — Execution logs with index
+- `/.octon/state/control/skills/checkpoints/create-skill/{{run_id}}/` — Execution state (checkpoint and summary) for session recovery
+- `/.octon/state/evidence/runs/skills/create-skill/` — Execution logs with index
 
 ## Naming Convention
 

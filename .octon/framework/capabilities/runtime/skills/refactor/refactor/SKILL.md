@@ -14,7 +14,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor, guardian]
 capabilities: [resumable]
-allowed-tools: Read Glob Grep Edit Write(_ops/state/runs/*) Write(_ops/state/logs/*) Bash(mv) Bash(mkdir)
+allowed-tools: Read Glob Grep Edit Write(/.octon/state/control/skills/checkpoints/*) Write(/.octon/state/evidence/runs/skills/*) Bash(mv) Bash(mkdir)
 ---
 
 # Refactor
@@ -56,8 +56,8 @@ This skill accepts one required parameter (`scope`) and optional parameters for 
 Output paths are defined in `.octon/framework/capabilities/runtime/skills/registry.yml` (single source of truth).
 
 Outputs are written to:
-- `_ops/state/runs/refactor/{{refactor-id}}/` — Execution state (checkpoint, manifests, reports) for session recovery
-- `_ops/state/logs/refactor/` — Execution logs with index
+- `/.octon/state/control/skills/checkpoints/refactor/{{refactor-id}}/` — Execution state (checkpoint, manifests, reports) for session recovery
+- `/.octon/state/evidence/runs/skills/refactor/` — Execution logs with index
 
 ## Verification Gate
 

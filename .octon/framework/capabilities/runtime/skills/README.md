@@ -152,7 +152,7 @@ cp -r .octon/framework/capabilities/runtime/skills/_template .octon/framework/ca
 **Invoke a skill:**
 
 ```text
-/synthesize-research _ops/state/resources/synthesize-research/topic/
+/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/topic/
 ```
 
 **Or explicit call pattern:**
@@ -173,10 +173,10 @@ use skill: synthesize-research
 ├── composite-skills.md             # Canonical composition model for skills
 ├── _scaffold/template/                      # Scaffolding for new skills
 ├── <group>/<skill-id>/SKILL.md     # Core instructions (<500 lines)
-├── _ops/state/runs/                           # Execution state (checkpoints) for session recovery
-├── _ops/state/configs/                        # Per-skill configuration overrides
-├── _ops/state/resources/                      # Per-skill input materials
-├── _ops/state/logs/                           # Execution logs
+├── /.octon/state/control/skills/checkpoints/                           # Execution state (checkpoints) for session recovery
+├── /.octon/instance/capabilities/runtime/skills/configs/                        # Per-skill configuration overrides
+├── /.octon/instance/capabilities/runtime/skills/resources/                      # Per-skill input materials
+├── /.octon/state/evidence/runs/skills/                           # Execution logs
 └── _ops/scripts/                       # Validation and maintenance scripts
 
 .octon/generated/                    # Deliverables (final products)
@@ -219,8 +219,8 @@ use skill: synthesize-research
 │   │                                                                     │   │
 │   │  registry.yml ──────▶ I/O mappings (inputs, outputs)                │   │
 │   │       │                                                             │   │
-│   │       ├──▶ _ops/state/runs/       Execution state (session recovery)            │   │
-│   │       └──▶ _ops/state/logs/       Execution audit logs                         │   │
+│   │       ├──▶ /.octon/state/control/skills/checkpoints/       Execution state (session recovery)            │   │
+│   │       └──▶ /.octon/state/evidence/runs/skills/       Execution audit logs                         │   │
 │   └─────────────────────────────────────────────────────────────────────┘   │
 │                                    │                                        │
 │                                    │ exposed via symlinks                   │
@@ -249,7 +249,7 @@ DATA FLOW:
   Read SKILL.md ─────────────▶ Load full instructions + tool permissions
          │
          ▼
-  Execute skill ─────────────▶ Write deliverables + _ops/state/runs/, log to _ops/state/logs/
+  Execute skill ─────────────▶ Write deliverables + /.octon/state/control/skills/checkpoints/, log to /.octon/state/evidence/runs/skills/
 ```
 
 ## Single Source of Truth
@@ -414,7 +414,7 @@ parameters:
 The `allowed-tools` field in SKILL.md frontmatter is the **single source of truth** for tool permissions. Octon extends the agentskills.io format with path scoping:
 
 ```yaml
-allowed-tools: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(../prompts/*) Write(/.octon/state/evidence/runs/skills/*)
 #              │    │    │    │                    │
 #              │    │    │    │                    └─ Scoped write (logs only)
 #              │    │    │    └─ Scoped write (deliverables destination)
@@ -431,7 +431,7 @@ allowed-tools: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
 
 - Active skills must use scoped permissions (`Bash(<command>)`, `Write(<path>/*)`).
 - Active skills cannot use bare `Bash`, `Shell`, or bare `Write`.
-- Active skills using broad write scopes (`Write(...**)`) must have an active lease in `.octon/framework/capabilities/_ops/state/deny-by-default-exceptions.yml`.
+- Active skills using broad write scopes (`Write(...**)`) must have an active lease in `.octon/state/control/capabilities/deny-by-default-exceptions.yml`.
 - Policy catalogs are generated via `./_ops/scripts/compile-deny-by-default-policy.sh` for CI/runtime review.
 
 ## Capability Patterns

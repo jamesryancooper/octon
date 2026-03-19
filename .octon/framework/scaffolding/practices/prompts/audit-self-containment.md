@@ -14,19 +14,15 @@ Read-only audit that verifies every subsystem under `.octon/` is harness-native 
 
 Harness integrity auditor — structural analyst that enforces harness boundary isolation.
 
-## Subsystems Under Audit
+## Class Roots Under Audit
 
-| Subsystem | Path | Expected Internals |
+| Class Root | Path | Expected Internals |
 |---|---|---|
-| Agency | `agency/` | `manifest.yml`, `_meta/architecture/`, `agents/`, `assistants/`, `teams/` |
-| Capabilities | `capabilities/` | `_meta/architecture/`, `skills/`, `commands/`, `tools/`, `services/` |
-| Cognition | `cognition/` | `_meta/architecture/`, `principles/`, `methodology/`, `context/`, `decisions/`, `analyses/` |
-| Orchestration | `orchestration/` | `_meta/architecture/`, `workflows/`, `missions/` |
-| Scaffolding | `scaffolding/` | `_meta/architecture/`, `patterns/`, `templates/`, `prompts/`, `examples/` |
-| Quality | `quality/` | `_meta/architecture/`, checklists |
-| Continuity | `continuity/` | `_meta/architecture/`, `log.md`, `tasks.json`, `entities.json`, `next.md` |
-| Ideation | `ideation/` | `_meta/architecture/`, `scratchpad/`, `projects/` |
-| Output | `output/` | Reports, drafts, artifacts |
+| Framework | `framework/` | `manifest.yml`, `overlay-points/`, portable authored domains, portable `_ops/` helpers only |
+| Instance | `instance/` | `manifest.yml`, `ingress/`, `bootstrap/`, `locality/`, `cognition/`, `orchestration/`, `extensions.yml` |
+| Inputs | `inputs/` | `additive/extensions/`, `exploratory/proposals/`, `exploratory/plans/`, `exploratory/drafts/`, `exploratory/ideation/` |
+| State | `state/` | `continuity/`, `evidence/`, `control/` |
+| Generated | `generated/` | `effective/`, `cognition/`, `proposals/` |
 
 Each subsystem MUST satisfy three properties:
 
@@ -36,14 +32,14 @@ Each subsystem MUST satisfy three properties:
 
 ## Instructions
 
-For each of the nine subsystems, perform these verification layers in order.
+For each of the five class roots, perform these verification layers in order.
 
 ### Layer 1: Structural Completeness
 
 1. Verify `README.md` exists and provides orientation (contents table, purpose statement)
 2. Verify `architecture/` directory exists with at least a `README.md`
-3. If the subsystem uses discovery (capabilities, agency, orchestration), verify `manifest.yml` exists at the subsystem or sub-domain level
-4. Flag any subsystem missing required structural files
+3. If the class root uses discovery or companion control metadata, verify required manifests/registries exist at the canonical paths
+4. Flag any class root missing required structural files
 
 ### Layer 2: Harness-Native Compliance
 
@@ -57,10 +53,10 @@ For each of the nine subsystems, perform these verification layers in order.
 
 ### Layer 3: Self-Containment Audit
 
-1. For services: verify no service references external kit implementations (per `_ops/scripts/validate-service-independence.sh` logic)
-2. For skills: verify each skill's `references/`, `scripts/`, and `_ops/state/` directories resolve within `.octon/framework/capabilities/runtime/skills/`
-3. For workflows: verify step files (`01-*.md`, `02-*.md`) reference only harness-internal paths and tools
-4. Verify no subsystem requires importing or installing external dependencies to function
+1. For framework services: verify no service references external kit implementations (per `_ops/scripts/validate-service-independence.sh` logic)
+2. For framework skills: verify each skill's `references/` and `scripts/` resolve within `.octon/framework/capabilities/runtime/skills/`, and verify any config/resource/checkpoint/log paths resolve only to the canonical `instance/**`, `state/**`, or `generated/**` Packet 3 homes
+3. For workflows and bootstrap materials: verify step files (`01-*.md`, `02-*.md`) reference only harness-internal paths and tools
+4. Verify no class root requires importing or installing external dependencies to function
 5. Confirm dependency boundaries: only host-provided prerequisites (agent runtime, model, `read`/`glob`/`grep`/`bash` tools) are assumed
 
 ### Layer 4: Self-Challenge

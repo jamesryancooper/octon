@@ -548,7 +548,7 @@ check_runtime_pipeline_references_absent() {
     "$OCTON_DIR/framework/capabilities/runtime/commands"
   )
   if rg -n "runtime/pipelines|pipeline\\.yml|projection\\.pipeline_" "${targets[@]}" \
-    --glob '!**/target/**' --glob '!**/output/**' >/dev/null 2>&1; then
+    --glob '!**/target/**' >/dev/null 2>&1; then
     fail "repo still contains deprecated pipeline-surface references"
   else
     pass "deprecated pipeline-surface references removed"

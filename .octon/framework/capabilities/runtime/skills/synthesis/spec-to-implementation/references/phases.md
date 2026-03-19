@@ -25,7 +25,7 @@ behavior:
     - name: "Plan"
       steps:
         - "Generate plan with mandatory top-level sections"
-        - "Write plan to output/plans/ with deterministic naming"
+        - "Write plan to /.octon/inputs/exploratory/plans/ with deterministic naming"
     - name: "Review"
       steps:
         - "Present profile selection rationale, implementation plan, and compliance receipt"

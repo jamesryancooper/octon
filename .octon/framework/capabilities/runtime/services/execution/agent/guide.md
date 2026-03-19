@@ -6,8 +6,8 @@ identifiers, and resumable execution checkpoints.
 ## Responsibilities
 
 - Execute plan runs in native harness mode.
-- Persist checkpoints under `.octon/framework/engine/_ops/state/agent/checkpoints/`.
-- Persist run records under `.octon/framework/engine/_ops/state/agent/runs/`.
+- Persist checkpoints under `.octon/state/control/engine/agent/checkpoints/`.
+- Persist run records under `.octon/state/evidence/runs/engine/agent/`.
 - Support `resume=true` with checkpoint restoration.
 
 ## Core Guarantees

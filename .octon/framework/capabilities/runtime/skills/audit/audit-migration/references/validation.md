@@ -132,8 +132,8 @@ After skill execution, verify:
 7. Convergence metadata is recorded when `convergence_k > 1`
 8. Bundle files exist in orchestrated mode (`findings.yml`, `coverage.yml`, `convergence.yml`)
 9. Each layer completed fully before the next began (lens isolation)
-10. Log exists at `_ops/state/logs/audit-migration/{{run_id}}.md`
-11. Log index updated at `_ops/state/logs/audit-migration/index.yml`
+10. Log exists at `/.octon/state/evidence/runs/skills/audit-migration/{{run_id}}.md`
+11. Log index updated at `/.octon/state/evidence/runs/skills/audit-migration/index.yml`
 12. No source files were modified (read-only guarantee)
 13. If partition mode: report filename includes partition name
 14. If partition mode: report metadata includes partition, file_filter, partition_mode

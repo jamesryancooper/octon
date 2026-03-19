@@ -2,8 +2,8 @@
 safety:
   mode: read-only
   allowed_writes:
-    - "../../../output/reports/*"
-    - "_ops/state/logs/*"
+    - "/.octon/state/evidence/validation/analysis/*"
+    - "/.octon/state/evidence/runs/skills/*"
   forbidden:
     - "Editing files in the audited domain path"
     - "Treating governance artifacts as binding optimization targets"

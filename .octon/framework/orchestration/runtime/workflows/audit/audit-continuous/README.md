@@ -93,17 +93,17 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `continuous_audit_report` -> `../../output/reports/analysis/{{date}}-audit-continuous.md`: Consolidated audit-continuous report with ongoing risk recommendation
-- `subsystem_health_audit_report` -> `../../output/reports/analysis/{{date}}-subsystem-health-audit.md`: Subsystem-health stage report (mandatory)
-- `observability_coverage_audit_report` -> `../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md`: Observability-coverage stage report (mandatory)
-- `operational_readiness_audit_report` -> `../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md`: Operational-readiness stage report (produced if enabled)
-- `api_contract_audit_report` -> `../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md`: API-contract stage report (produced if enabled)
-- `test_quality_audit_report` -> `../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md`: Test-quality stage report (produced if enabled)
-- `security_compliance_audit_report` -> `../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md`: Security-compliance stage report (produced if enabled)
-- `data_governance_audit_report` -> `../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md`: Data-governance stage report (produced if enabled)
-- `cross_subsystem_audit_report` -> `../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Cross-subsystem stage report (produced if enabled)
-- `freshness_audit_report` -> `../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md`: Freshness stage report (produced if enabled)
-- `continuous_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for continuous risk recommendation and done-gate evidence
+- `continuous_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-audit-continuous.md`: Consolidated audit-continuous report with ongoing risk recommendation
+- `subsystem_health_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-subsystem-health-audit.md`: Subsystem-health stage report (mandatory)
+- `observability_coverage_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md`: Observability-coverage stage report (mandatory)
+- `operational_readiness_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md`: Operational-readiness stage report (produced if enabled)
+- `api_contract_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-api-contract-audit-{{run_id}}.md`: API-contract stage report (produced if enabled)
+- `test_quality_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-test-quality-audit-{{run_id}}.md`: Test-quality stage report (produced if enabled)
+- `security_compliance_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-security-compliance-audit-{{run_id}}.md`: Security-compliance stage report (produced if enabled)
+- `data_governance_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-data-governance-audit-{{run_id}}.md`: Data-governance stage report (produced if enabled)
+- `cross_subsystem_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Cross-subsystem stage report (produced if enabled)
+- `freshness_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-freshness-and-supersession-audit.md`: Freshness stage report (produced if enabled)
+- `continuous_audit_bundle` -> `/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for continuous risk recommendation and done-gate evidence
 
 ## Steps
 

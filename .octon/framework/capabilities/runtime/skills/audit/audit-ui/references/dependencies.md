@@ -65,7 +65,7 @@ every execution — there is no bundled fallback ruleset.
 
 If offline operation is needed in the future, consider:
 
-- Caching the last fetched ruleset to `_ops/state/configs/audit-ui/cached-ruleset.md`
+- Caching the last fetched ruleset to `/.octon/instance/capabilities/runtime/skills/configs/audit-ui/cached-ruleset.md`
 - Using the cached version when WebFetch fails
 - Logging a warning that the cached version may be outdated
 

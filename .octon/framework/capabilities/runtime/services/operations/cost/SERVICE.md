@@ -39,7 +39,7 @@ impl:
   timeout_ms: 30000
   health_check: null
 dry_run: true
-allowed-tools: Read Write(../../_ops/state/runs/*) Glob Grep Bash(bash)
+allowed-tools: Read Write(/.octon/state/evidence/runs/services/*) Glob Grep Bash(bash)
 ---
 
 # Cost Service

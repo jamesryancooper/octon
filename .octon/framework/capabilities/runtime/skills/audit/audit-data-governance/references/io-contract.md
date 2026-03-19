@@ -66,22 +66,22 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: data_governance_audit_report
-      path: "../../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured data-governance findings report"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-data-governance/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-data-governance/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this data-governance audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-data-governance/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-data-governance/index.yml"
       format: yaml
       determinism: variable
       description: "Index of data-governance audit runs with metadata"

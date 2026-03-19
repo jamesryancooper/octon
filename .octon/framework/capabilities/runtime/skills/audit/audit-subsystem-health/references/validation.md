@@ -63,7 +63,7 @@ The output report must include:
 After skill execution, verify:
 
 1. Report exists at `.octon/state/evidence/validation/analysis/YYYY-MM-DD-subsystem-health-audit.md`
-2. Log exists at `_ops/state/logs/audit-subsystem-health/{{run_id}}.md`
+2. Log exists at `/.octon/state/evidence/runs/skills/audit-subsystem-health/{{run_id}}.md`
 3. In orchestrated mode, bundle exists with required files (`bundle.yml`, `findings.yml`, `coverage.yml`, `convergence.yml`, `evidence.md`, `commands.md`, `validation.md`, `inventory.md`)
 4. `coverage.yml` records `unaccounted_files: 0` for pass state
 5. `findings.yml` has stable IDs and acceptance criteria for each finding

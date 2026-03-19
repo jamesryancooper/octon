@@ -17,19 +17,22 @@ super-root cutover.
 2. The only canonical class roots are `framework/`, `instance/`, `inputs/`,
    `state/`, and `generated/`.
 3. Only `framework/**` and `instance/**` are authored authority.
-4. `state/**` is authoritative only as operational truth and retained
+4. `framework/**` is limited to portable authored core and portable helper
+   assets only; repo-local mutable state, retained evidence, and generated
+   outputs are forbidden there.
+5. `state/**` is authoritative only as operational truth and retained
    evidence.
-5. `generated/**` is never source of truth.
-6. Raw `inputs/**` paths must never become direct runtime or policy
+6. `generated/**` is never source of truth.
+7. Raw `inputs/**` paths must never become direct runtime or policy
    dependencies.
-7. Human-led ideation lives under `inputs/exploratory/ideation/**`.
-8. Retired legacy roots from the mixed-tree topology must not be
+8. Human-led ideation lives under `inputs/exploratory/ideation/**`.
+9. Retired legacy roots from the mixed-tree topology must not be
    reintroduced.
-9. `/.octon/octon.yml` is the authoritative root manifest for topology,
+10. `/.octon/octon.yml` is the authoritative root manifest for topology,
    versioning, profiles, and fail-closed policy hooks.
-10. `repo_snapshot` is behaviorally complete and includes enabled-pack
+11. `repo_snapshot` is behaviorally complete and includes enabled-pack
     dependency closure.
-11. `full_fidelity` is advisory only and is not a synthetic export payload.
+12. `full_fidelity` is advisory only and is not a synthetic export payload.
 
 ## Precedence
 
@@ -73,6 +76,7 @@ for runtime, governance, and practices.
 
 - Missing required manifests block runtime.
 - Wrong-class placement blocks runtime.
+- Framework-local `_ops/state/**` paths block runtime.
 - Stale required generated outputs block runtime.
 - Direct reads from raw `inputs/**` by runtime or policy code block runtime.
 - Incomplete enabled-pack closure blocks `repo_snapshot` export.

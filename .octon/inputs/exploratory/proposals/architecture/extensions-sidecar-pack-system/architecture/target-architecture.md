@@ -116,7 +116,7 @@ The proposal example set demonstrates that split explicitly:
   - `versioning.extensions.api_version`
 - `/.octon/framework/engine/governance/**` remains authoritative for precedence,
   fail-closed behavior, and trust boundaries.
-- `/.octon/framework/engine/_ops/state/extensions/effective/**` holds derived effective
+- `/.octon/generated/effective/extensions/**` holds derived effective
   catalogs, artifact maps, and lock metadata after validation.
 - Core Octon manifests remain authoritative for native content.
 - Pack fragments are additive only and must not redefine surface-global
@@ -162,8 +162,8 @@ If an extension artifact declares write scopes or durable output paths, Octon
 must compile those declarations into Octon-owned destinations under approved
 roots such as:
 
-- `/.octon/framework/capabilities/runtime/skills/_ops/state/logs/**`
-- `/.octon/framework/engine/_ops/state/extensions/**`
+- `/.octon/state/evidence/runs/skills/**`
+- `/.octon/generated/effective/extensions/**`
 - `/.octon/state/evidence/validation/**`
 
 If a declared write scope or output path cannot be deterministically rebased
@@ -262,7 +262,7 @@ handle `/.octon.extensions/` whenever the sidecar is present.
 - dependency and conflict resolution for enabled packs
 - generation of a lock / resolution receipt
 - compilation of effective catalogs and artifact maps under
-  `/.octon/framework/engine/_ops/state/extensions/effective/`
+  `/.octon/generated/effective/extensions/`
 - runtime consumption of those effective indexes whenever extensions are
   available
 - deterministic fallback to core-only behavior when no extensions are present

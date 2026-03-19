@@ -1,0 +1,31 @@
+{
+  "checkpoint": {
+    "decision": "ALLOW",
+    "dryRun": false,
+    "effectiveAcp": "ACP-3",
+    "memoize": false,
+    "planPath": "AGENTS.md",
+    "resumeCount": 0,
+    "runId": "run-acp3-allow",
+    "state": "promoted"
+  },
+  "mode": "execute",
+  "planPath": "AGENTS.md",
+  "result": {
+    "acpDecisionPath": ".octon/state/evidence/runs/run-acp3-allow/acp-decision.json",
+    "acpRequestPath": ".octon/state/evidence/runs/run-acp3-allow/acp-request.json",
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/run-acp3-allow.json",
+    "decision": "ALLOW",
+    "dryRun": false,
+    "effectiveAcp": "ACP-3",
+    "memoize": false,
+    "mode": "execute",
+    "planPath": "AGENTS.md",
+    "reasonCodes": [],
+    "resume": false,
+    "summary": "Promotion allowed by ACP gate",
+    "warnings": []
+  },
+  "runId": "run-acp3-allow",
+  "status": "success"
+}

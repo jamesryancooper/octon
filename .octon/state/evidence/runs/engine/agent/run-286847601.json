@@ -1,0 +1,26 @@
+{
+  "checkpoint": {
+    "dryRun": false,
+    "memoize": true,
+    "planPath": "plan.json",
+    "resumeCount": 0,
+    "runId": "run-286847601",
+    "state": "running"
+  },
+  "mode": "execute",
+  "planPath": "plan.json",
+  "result": {
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/run-286847601.json",
+    "dryRun": false,
+    "memoize": true,
+    "mode": "execute",
+    "planPath": "plan.json",
+    "resume": false,
+    "summary": "Execution accepted",
+    "warnings": [
+      "planPath does not exist on disk; executing in logical mode only"
+    ]
+  },
+  "runId": "run-286847601",
+  "status": "success"
+}

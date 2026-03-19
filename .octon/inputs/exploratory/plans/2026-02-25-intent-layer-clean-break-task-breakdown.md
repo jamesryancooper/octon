@@ -395,7 +395,7 @@ Owner: `octon-platform`
 File list:
 
 1. No required edits (gate run + cutover action)
-2. Optional rollback state: `.octon/framework/capabilities/_ops/state/rollout-mode.state`
+2. Optional rollback state: `.octon/state/control/capabilities/rollout-mode.state`
 
 Exact edit order:
 

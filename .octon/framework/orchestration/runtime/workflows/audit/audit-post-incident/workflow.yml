@@ -156,61 +156,61 @@ stages:
     mutation_scope: []
 artifacts:
   - name: post_incident_report
-    path: "../../output/reports/analysis/{{date}}-audit-post-incident.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-post-incident.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated post-incident closure report with residual risk recommendation"
   - name: operational_readiness_audit_report
-    path: "../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Operational-readiness stage report (mandatory)"
   - name: observability_coverage_audit_report
-    path: "../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Observability-coverage stage report (mandatory)"
   - name: security_compliance_audit_report
-    path: "../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Security-compliance stage report (produced if enabled)"
   - name: data_governance_audit_report
-    path: "../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Data-governance stage report (produced if enabled)"
   - name: api_contract_audit_report
-    path: "../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "API-contract stage report (produced if enabled)"
   - name: test_quality_audit_report
-    path: "../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Test-quality stage report (produced if enabled)"
   - name: cross_subsystem_audit_report
-    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Cross-subsystem stage report (produced if enabled)"
   - name: freshness_audit_report
-    path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-freshness-and-supersession-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Freshness stage report (produced if enabled)"
   - name: post_incident_audit_bundle
-    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    path: "/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/"
     kind: directory
     format: mixed
     determinism: unique

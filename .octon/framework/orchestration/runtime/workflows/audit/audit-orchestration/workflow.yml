@@ -128,31 +128,31 @@ stages:
     mutation_scope: []
 artifacts:
   - name: consolidated_report
-    path: "../../output/reports/analysis/{{date}}-migration-audit-consolidated.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-migration-audit-consolidated.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated report with partitioned migration findings and optional global-stage outcomes"
   - name: partition_reports
-    path: "../../output/reports/analysis/{{date}}-migration-audit-{{partition}}.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-migration-audit-{{partition}}.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual partition audit reports"
   - name: cross_subsystem_audit_report
-    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual cross-subsystem coherence audit report (produced if enabled)"
   - name: freshness_audit_report
-    path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-freshness-and-supersession-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual freshness and supersession audit report (produced if enabled)"
   - name: bounded_audit_bundle
-    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    path: "/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/"
     kind: directory
     format: mixed
     determinism: unique

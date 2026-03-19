@@ -1,5 +1,5 @@
 # Approval prompt rules for Codex execpolicy.
-# Canonical profile: .octon/engine/governance/rules/profiles/approval-prompts.yml
+# Canonical profile: .octon/framework/engine/governance/rules/profiles/approval-prompts.yml
 
 prefix_rule(
     pattern = ["rm", "-rf"],

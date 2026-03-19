@@ -67,7 +67,7 @@ Running semantic quality checks...
 MEDIUM: Trigger overlap — "scaffold a skill" matches both create-skill and python-scaffold-package
 MEDIUM: Doc drift — .octon/framework/capabilities/_meta/architecture/architecture.md describes "flat directory layout" but skills use group-based nesting
 LOW: deploy-status — display_name "Deploy Status" doesn't capitalize correctly (expected "Deploy Status" ✓ — actually OK)
-LOW: Missing _ops/state/logs/react/ directory (no log outputs declared, so informational only)
+LOW: Missing /.octon/state/evidence/runs/skills/react/ directory (no log outputs declared, so informational only)
 CLEAN: 28 entries pass all semantic checks
 
 Coverage: 32 entries analyzed, 512 trigger pairs compared, 19 doc files checked

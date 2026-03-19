@@ -84,6 +84,14 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-companion-manifests.sh"
 
   run_step \
+    "Validate framework overlay registry and enablement contract" \
+    bash "$SCRIPT_DIR/validate-overlay-points.sh"
+
+  run_step \
+    "Validate framework core boundary clear-break contract" \
+    bash "$SCRIPT_DIR/validate-framework-core-boundary.sh"
+
+  run_step \
     "Validate extension desired/actual/compiled publication state" \
     bash "$SCRIPT_DIR/validate-extension-publication-state.sh"
 
@@ -227,7 +235,7 @@ run_services() {
 }
 
 run_weights() {
-  local out_dir="$OCTON_DIR/output/.tmp/assurance-engine-alignment"
+  local out_dir="$OCTON_DIR/generated/.tmp/assurance/engine-alignment"
   run_step \
     "Compute assurance engine scorecard" \
     bash "$OCTON_DIR/assurance/runtime/_ops/scripts/compute-assurance-score.sh" \

@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/triage-ci-failure/{{run-id}}/"
+  storage: ".octon/state/control/skills/checkpoints/triage-ci-failure/{{run-id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ Checkpointing prevents re-triaging large CI logs after interruption.
 
 Resume contract:
 
-- State is saved in `.octon/framework/capabilities/runtime/skills/_ops/state/runs/triage-ci-failure/{{run-id}}/`.
+- State is saved in `.octon/state/control/skills/checkpoints/triage-ci-failure/{{run-id}}/`.
 - Resume re-verifies CI job identity to avoid applying stale fixes.
 - Verification results are appended to checkpoint state before final report.

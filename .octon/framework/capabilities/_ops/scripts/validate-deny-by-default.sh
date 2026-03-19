@@ -5,14 +5,15 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+OCTON_DIR="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 
 SERVICES_MANIFEST="$CAPABILITIES_DIR/runtime/services/manifest.yml"
 SKILLS_MANIFEST="$CAPABILITIES_DIR/runtime/skills/manifest.yml"
 SERVICES_VALIDATOR="$CAPABILITIES_DIR/runtime/services/_ops/scripts/validate-services.sh"
 SKILLS_VALIDATOR="$CAPABILITIES_DIR/runtime/skills/_ops/scripts/validate-skills.sh"
 RUNTIME_TEST_SCRIPT="$CAPABILITIES_DIR/_ops/tests/test-deny-by-default-runtime.sh"
-POLICY_RUNNER="$REPO_ROOT/.octon/framework/engine/runtime/policy"
+POLICY_RUNNER="$OCTON_DIR/framework/engine/runtime/policy"
 POLICY_V2_FILE="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
 POLICY_V2_SCHEMA="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.schema.json"
 POLICY_REASON_CODES="$CAPABILITIES_DIR/governance/policy/reason-codes.md"
@@ -25,7 +26,7 @@ KILL_SWITCH_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-kill-switch.sh"
 ROLLOUT_SCRIPT="$CAPABILITIES_DIR/_ops/scripts/policy-rollout-mode.sh"
 RA_ACP_MIGRATION_GUARD="$CAPABILITIES_DIR/_ops/scripts/validate-ra-acp-migration.sh"
 RA_ACP_MIGRATION_GUARD_TEST_SCRIPT="$CAPABILITIES_DIR/_ops/tests/test-ra-acp-migration-guard.sh"
-CAPABILITY_ENGINE_CONSISTENCY_VALIDATOR="$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh"
+CAPABILITY_ENGINE_CONSISTENCY_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh"
 
 PROFILE="${OCTON_VALIDATION_PROFILE:-dev-fast}"
 MODE="changed"
@@ -203,7 +204,7 @@ collect_changed_targets() {
     fi
 
     case "$changed_file" in
-      .octon/framework/capabilities/_ops/state/deny-by-default-exceptions.yml|\
+      .octon/state/control/capabilities/deny-by-default-exceptions.yml|\
       .octon/framework/capabilities/governance/policy/agent-only-governance.yml|\
       .octon/framework/capabilities/_ops/scripts/*|\
       .octon/framework/capabilities/runtime/services/_ops/scripts/*|\

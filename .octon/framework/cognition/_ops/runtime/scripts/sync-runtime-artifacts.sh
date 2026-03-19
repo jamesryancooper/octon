@@ -9,9 +9,9 @@ else
 fi
 RUNTIME_DIR="$COGNITION_DIR/runtime"
 if [[ -n "${OUTPUT_DIR_OVERRIDE:-}" ]]; then
-  OUTPUT_DIR="$(cd -- "$OUTPUT_DIR_OVERRIDE" && pwd)"
+  EVIDENCE_DIR="$(cd -- "$OUTPUT_DIR_OVERRIDE/state/evidence" && pwd)"
 else
-  OUTPUT_DIR="$(cd -- "$COGNITION_DIR/../output" && pwd)"
+  EVIDENCE_DIR="$(cd -- "$COGNITION_DIR/../../state/evidence" && pwd)"
 fi
 
 MODE="apply"
@@ -702,25 +702,25 @@ generate_evidence_index() {
 
   while IFS=$'\t' read -r migration_id _plan_path _adr_path _evidence_path; do
     [[ -z "$migration_id" ]] && continue
-    printf '%s\tmigration\t../../../output/reports/migrations/%s/evidence.md\t../migrations/index.yml\n' "$migration_id" "$migration_id" >> "$records"
+    printf '%s\tmigration\t/.octon/state/evidence/migration/%s/evidence.md\t../migrations/index.yml\n' "$migration_id" "$migration_id" >> "$records"
   done < <(extract_migration_records "$migrations_index")
 
   if [[ -f "$audits_index" ]]; then
     while IFS=$'\t' read -r audit_id _audit_path; do
       [[ -z "$audit_id" ]] && continue
-      printf '%s\taudit\t../../../output/reports/audits/%s/evidence.md\t../audits/index.yml\n' "$audit_id" "$audit_id" >> "$records"
+      printf '%s\taudit\t/.octon/state/evidence/validation/audits/%s/evidence.md\t../audits/index.yml\n' "$audit_id" "$audit_id" >> "$records"
     done < <(extract_index_id_path "$audits_index")
   fi
 
-  if [[ -d "$OUTPUT_DIR/reports/decisions" ]]; then
+  if [[ -d "$EVIDENCE_DIR/decisions/repo/reports" ]]; then
     while IFS= read -r bundle_dir; do
       [[ -z "$bundle_dir" ]] && continue
       local bundle_id
       bundle_id="$(basename "$bundle_dir")"
       if [[ -f "$bundle_dir/evidence.md" ]]; then
-        printf '%s\tdecision\t../../../output/reports/decisions/%s/evidence.md\t../decisions/index.yml\n' "$bundle_id" "$bundle_id" >> "$records"
+        printf '%s\tdecision\t/.octon/state/evidence/decisions/repo/reports/%s/evidence.md\t../decisions/index.yml\n' "$bundle_id" "$bundle_id" >> "$records"
       fi
-    done < <(find "$OUTPUT_DIR/reports/decisions" -mindepth 1 -maxdepth 1 -type d -name '[0-9][0-9][0-9]-*' | sort)
+    done < <(find "$EVIDENCE_DIR/decisions/repo/reports" -mindepth 1 -maxdepth 1 -type d -name '[0-9][0-9][0-9]-*' | sort)
   fi
 
   {
@@ -736,17 +736,17 @@ files:
     when: First entrypoint for cognition runtime evidence routing.
 
   - id: decision-evidence-contract
-    path: ../../../output/reports/decisions/README.md
+    path: /.octon/state/evidence/decisions/repo/reports/README.md
     summary: Decision evidence bundle contract and required files.
     when: Before creating or validating decision evidence bundles.
 
   - id: migration-evidence-contract
-    path: ../../../output/reports/migrations/README.md
+    path: /.octon/state/evidence/migration/README.md
     summary: Migration evidence bundle contract and required files.
     when: Before creating or validating migration evidence bundles.
 
   - id: audit-evidence-contract
-    path: ../../../output/reports/audits/README.md
+    path: /.octon/state/evidence/validation/audits/README.md
     summary: Bounded audit evidence bundle contract and required files.
     when: Before creating or validating audit evidence bundles.
 

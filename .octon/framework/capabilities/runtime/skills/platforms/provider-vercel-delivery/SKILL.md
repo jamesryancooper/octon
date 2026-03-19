@@ -12,7 +12,7 @@ metadata:
   updated: "2026-03-05"
 skill_sets: [executor, specialist, guardian, integrator]
 capabilities: [external-dependent, external-output]
-allowed-tools: Read Glob Grep Bash(vercel *) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Bash(vercel *) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Provider Vercel Delivery
@@ -50,7 +50,7 @@ This skill accepts target environment, operation mode, and evidence-link inputs.
 
 Output paths are defined in `.octon/framework/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-Primary output is execution evidence in `_ops/state/logs/provider-vercel-delivery/`.
+Primary output is execution evidence in `/.octon/state/evidence/runs/skills/provider-vercel-delivery/`.
 
 ## Boundaries
 

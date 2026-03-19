@@ -14,7 +14,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor, collaborator]
 capabilities: []
-allowed-tools: Read Glob Grep Write(../../scaffolding/practices/prompts/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/framework/scaffolding/practices/prompts/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Refine Prompt
@@ -60,7 +60,7 @@ This skill accepts one required parameter (`raw_prompt`) and three optional para
 
 Output paths are defined in `.octon/framework/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-Outputs are written to `.octon/framework/scaffolding/practices/prompts/` (refined prompt) and `_ops/state/logs/refine-prompt/` (execution log).
+Outputs are written to `.octon/framework/scaffolding/practices/prompts/` (refined prompt) and `/.octon/state/evidence/runs/skills/refine-prompt/` (execution log).
 
 ## Boundaries
 

@@ -51,8 +51,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `architecture_proposal_workflow_summary` -> `../../output/reports/analysis/{{date}}-audit-architecture-proposal.md`: Top-level workflow summary for architecture proposal validation
-- `architecture_proposal_workflow_bundle` -> `../../output/reports/workflows/{{date}}-audit-architecture-proposal-{{slug}}/`: Workflow bundle containing validation metadata and outputs
+- `architecture_proposal_workflow_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-audit-architecture-proposal.md`: Top-level workflow summary for architecture proposal validation
+- `architecture_proposal_workflow_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-architecture-proposal-{{slug}}/`: Workflow bundle containing validation metadata and outputs
 
 ## Steps
 

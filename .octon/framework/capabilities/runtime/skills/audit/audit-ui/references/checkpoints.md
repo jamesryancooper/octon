@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/audit-ui/{{run-id}}/"
+  storage: ".octon/state/control/skills/checkpoints/audit-ui/{{run-id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ State is preserved for deterministic reporting and restart safety.
 
 Resume contract:
 
-- Checkpoints are stored in `.octon/framework/capabilities/runtime/skills/_ops/state/runs/audit-ui/{{run-id}}/`.
+- Checkpoints are stored in `.octon/state/control/skills/checkpoints/audit-ui/{{run-id}}/`.
 - Resume validates that the same ruleset URL and target scope are still in effect.
 - If not, the run restarts from discovery to avoid mixed baselines.

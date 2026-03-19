@@ -108,37 +108,37 @@ stages:
     mutation_scope: []
 artifacts:
   - name: pre_release_report
-    path: "../../output/reports/analysis/{{date}}-audit-pre-release.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-pre-release.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated pre-release audit report with go/no-go recommendation"
   - name: health_audit_report
-    path: "../../output/reports/analysis/{{date}}-subsystem-health-audit.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-subsystem-health-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual health audit report (produced by audit-subsystem-health)"
   - name: migration_audit_report
-    path: "../../output/reports/analysis/{{date}}-migration-audit-consolidated.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-migration-audit-consolidated.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Consolidated migration audit report (produced by audit-orchestration in migration-only mode, if manifest provided)"
   - name: cross_subsystem_audit_report
-    path: "../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)"
   - name: freshness_audit_report
-    path: "../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-freshness-and-supersession-audit.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)"
   - name: pre_release_audit_bundle
-    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    path: "/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/"
     kind: directory
     format: mixed
     determinism: unique

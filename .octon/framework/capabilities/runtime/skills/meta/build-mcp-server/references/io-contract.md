@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Edit Write(../../../**) Bash(npm) Bash(npx) Bash(mkdir) Bash(cp) Bash(node) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Edit Write(../../../**) Bash(npm) Bash(npx) Bash(mkdir) Bash(cp) Bash(node) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -33,11 +33,11 @@ Created at `{output_dir}/{name}/` with full project structure.
 
 ### Execution Log
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/build-mcp-server/{{run_id}}.md`.
+Written to `.octon/state/evidence/runs/skills/build-mcp-server/{{run_id}}.md`.
 
 ### Log Index
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/build-mcp-server/index.yml`.
+Written to `.octon/state/evidence/runs/skills/build-mcp-server/index.yml`.
 
 ## Dependencies
 
@@ -49,4 +49,4 @@ This skill requires:
 - **Edit** — Modify generated files during implementation
 - **Write** — Create new project files
 - **Bash** — Run npm install, TypeScript compilation, validation
-- **Write(_ops/state/logs/*)** — Write execution logs
+- **Write(/.octon/state/evidence/runs/skills/*)** — Write execution logs

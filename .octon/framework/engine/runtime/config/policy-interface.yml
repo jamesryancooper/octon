@@ -3,7 +3,7 @@ format_version: policy-interface-config-v1
 paths:
   default_policy: ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
   receipt_writer: ".octon/framework/capabilities/_ops/scripts/policy-receipt-write.sh"
-  rollout_mode_state: ".octon/framework/capabilities/_ops/state/rollout-mode.state"
+  rollout_mode_state: ".octon/state/control/capabilities/rollout-mode.state"
   intent_contract: ".octon/framework/engine/runtime/spec/intent-contract-v1.schema.json"
   instruction_layer_manifest_schema: ".octon/framework/engine/runtime/spec/instruction-layer-manifest-v1.schema.json"
 

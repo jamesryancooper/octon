@@ -442,45 +442,36 @@ The root-level files form an **orientation layer**---the first things an agent r
 | `conventions.md` | Style rules, terminology, formatting standards |
 | `catalog.md` | Index of available commands and workflows in this harness |
 
-### Domains
+### Class Roots
 
-Each domain has a `README.md` that provides orientation. The README depth is proportional to how agents interact with that domain (see [Domain Orientation Contract](#domain-orientation-contract)).
+Each class root has a distinct authority contract. The top level is no longer a
+mixed domain tree.
 
 | Directory | Purpose | Contains | Interaction Model |
 |-----------|---------|----------|-------------------|
-| `agency/` | Actor + governance boundaries | Actors, governance, practices | Referenced |
-| `capabilities/` | Executable capabilities | Skills, commands, tools | Routable + Referenced |
-| `cognition/` | Background knowledge and memory | Context, decisions, analyses | Reference material |
-| `continuity/` | Session-to-session state | Log, tasks, entities | State (read/write contract) |
-| `ideation/` | Human-led exploration | Scratchpad, projects | Human-gated |
-| `orchestration/` | Coordination and execution | Runtime, governance, practices | Routable + Referenced |
-| `output/` | Generated artifacts | Reports, drafts, artifacts | State (write contract) |
-| `assurance/` | Verification and quality gates | Completion checklists, session-exit | State (quality gates) |
-| `scaffolding/` | Reusable building blocks | runtime, governance, practices | Referenced |
+| `framework/` | Portable authored Octon core | Companion manifest, overlay registry, authored framework domains | Authoritative authored core |
+| `instance/` | Repo-specific durable authority | Ingress, bootstrap, locality, context, decisions, missions, extensions config | Authoritative repo-owned |
+| `inputs/` | Non-authoritative additive and exploratory material | Extension packs, proposals, plans, drafts, ideation | Non-authoritative source material |
+| `state/` | Operational truth and retained evidence | Continuity, control state, evidence bundles | Mutable operational truth |
+| `generated/` | Rebuildable derived outputs | Effective views, reports, registries, projections | Derived and non-authoritative |
 
-### Mapping from Previous Structure
+### Legacy Mapping
 
-For reference, here is how the previous flat structure maps to domains:
+For reference, here is how the retired mixed-tree structure maps into the
+current class-root topology:
 
 | Previous Path | Current Path |
 |---------------|--------------|
-| `agents/` | `agency/runtime/agents/` |
-| `assistants/` | `agency/runtime/assistants/` |
-| `teams/` | `agency/runtime/teams/` |
-| `context/` | `cognition/runtime/context/` |
-| `progress/` | `continuity/` |
-| `checklists/` | `assurance/` |
-| `workflows/` | `orchestration/runtime/workflows/` |
-| `missions/` | `orchestration/runtime/missions/` |
-| `commands/` | `capabilities/runtime/commands/` |
-| `skills/` | `capabilities/runtime/skills/` |
-| `prompts/` | `scaffolding/practices/prompts/` |
-| `templates/` | `scaffolding/runtime/templates/` |
-| `examples/` | `scaffolding/practices/examples/` |
-| `patterns/` | `scaffolding/governance/patterns/` |
-| `projects/` | `ideation/projects/` |
-| `.scratchpad/` | `ideation/scratchpad/` |
-| *(new)* | `output/` |
+| `agents/`, `assistants/`, `teams/` | `framework/agency/runtime/` |
+| `commands/`, `skills/`, `tools/`, `services/` | `framework/capabilities/runtime/` |
+| `context/` | `instance/cognition/context/` |
+| `progress/` | `state/continuity/repo/` |
+| `checklists/` | `framework/assurance/practices/` |
+| `workflows/` | `framework/orchestration/runtime/workflows/` |
+| `missions/` | `instance/orchestration/missions/` |
+| `prompts/`, `templates/`, `examples/`, `patterns/` | `framework/scaffolding/` |
+| `projects/`, `.scratchpad/` | `inputs/exploratory/ideation/` |
+| `output/` | `generated/` and `state/evidence/validation/` depending artifact class |
 
 ---
 

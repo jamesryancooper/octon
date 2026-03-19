@@ -27,7 +27,7 @@ explicit.
 
 ## Meanings
 
-- `framework/` is portable authored Octon core.
+- `framework/` is portable authored Octon core and portable helper assets only.
 - `instance/` is repo-specific durable authored material.
 - `inputs/` is non-authoritative additive and exploratory input.
 - `state/` is mutable operational truth and retained evidence.
@@ -47,6 +47,8 @@ tree as the default bootstrap model.
 
 ## Boundaries
 
+- `framework/**` must not contain repo-local mutable state, retained evidence,
+  or generated outputs.
 - Raw `inputs/**` paths must never become direct runtime or policy
   dependencies.
 - Human-led ideation is part of `inputs/exploratory/ideation/**`.

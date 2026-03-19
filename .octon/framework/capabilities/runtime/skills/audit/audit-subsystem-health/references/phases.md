@@ -46,7 +46,7 @@ behavior:
         - "Trigger quality: flag triggers that are too generic (< 3 words) or too similar to other skills"
         - "Naming convention check: verify display_name is Title Case of id, verify id is kebab-case"
         - "Summary alignment: compare manifest summary with first sentence of SKILL.md description"
-        - "State directory contract: verify _ops/state/logs/{skill-id}/ structure matches documented convention"
+        - "State directory contract: verify /.octon/state/evidence/runs/skills/{skill-id}/ structure matches documented convention"
         - "If docs parameter set: compare docs descriptions with actual subsystem structure"
         - "If docs parameter set: check doc internal links resolve on disk"
         - "Broken cross-references: check all paths in config files resolve on disk"
@@ -67,7 +67,7 @@ behavior:
         - "Assign final severity to each finding"
         - "Group into recommended fix batches"
         - "Generate coverage proof section"
-        - "Write report to output/reports/analysis/"
+        - "Write report to /.octon/state/evidence/validation/analysis/"
         - "Write execution log with idempotency metadata"
   principles:
     - name: "Fixed lenses"
@@ -335,9 +335,12 @@ Check for semantic issues that structural validation cannot catch.
 
 5. **State directory contract:**
 
-   Verify the `_ops/state/` directory structure matches documented conventions:
-   - `_ops/state/logs/{skill-id}/` should exist for skills with log outputs in registry
-   - `_ops/state/logs/{skill-id}/index.yml` should exist if logs are expected
+   Verify the Packet 3 skill state split matches documented conventions:
+   - `/.octon/instance/capabilities/runtime/skills/configs/{skill-id}/` should exist when per-skill configs are provisioned
+   - `/.octon/instance/capabilities/runtime/skills/resources/{skill-id}/` should exist when per-skill resources are provisioned
+   - `/.octon/state/control/skills/checkpoints/{skill-id}/` should exist for stateful/resumable skills
+   - `/.octon/state/evidence/runs/skills/{skill-id}/` should exist for skills with log outputs in registry
+   - `/.octon/state/evidence/runs/skills/{skill-id}/index.yml` should exist if logs are expected
    - Missing expected directories → LOW finding
 
 6. **Doc-to-source alignment (when `docs` parameter is set):**
@@ -451,5 +454,5 @@ Consolidate all findings into a structured, actionable report.
 
 5. **Generate coverage proof**
 6. **Write report** to `.octon/state/evidence/validation/analysis/YYYY-MM-DD-subsystem-health-audit.md`
-7. **Write execution log** to `_ops/state/logs/audit-subsystem-health/{{run_id}}.md`
-8. **Update log index** (`_ops/state/logs/audit-subsystem-health/index.yml`)
+7. **Write execution log** to `/.octon/state/evidence/runs/skills/audit-subsystem-health/{{run_id}}.md`
+8. **Update log index** (`/.octon/state/evidence/runs/skills/audit-subsystem-health/index.yml`)

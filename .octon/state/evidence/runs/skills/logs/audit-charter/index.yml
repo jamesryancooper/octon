@@ -1,0 +1,38 @@
+skill: audit-charter
+updated: "2026-03-06"
+
+runs:
+  - id: "2026-03-06-octon-root-charter-rerun"
+    charter_path: ".octon/framework/cognition/governance/CHARTER.md"
+    status: completed
+    timestamp: "2026-03-06"
+    parameters:
+      severity_threshold: all
+      include_rewrites: true
+      include_scores: true
+    metrics:
+      contradictions_direct: 0
+      conflicts_latent: 4
+      gaps_high: 0
+      gaps_medium: 4
+      gaps_low: 2
+      normative_clause_lines_audited: 41
+    report: ../../../../output/reports/2026-03-06-charter-audit-2026-03-06-octon-root-charter-rerun.md
+    log: 2026-03-06-octon-root-charter-rerun.md
+  - id: "2026-03-05-octon-root-charter"
+    charter_path: ".octon/framework/cognition/governance/CHARTER.md"
+    status: completed
+    timestamp: "2026-03-05"
+    parameters:
+      severity_threshold: all
+      include_rewrites: true
+      include_scores: true
+    metrics:
+      contradictions_direct: 0
+      conflicts_latent: 4
+      gaps_high: 0
+      gaps_medium: 4
+      gaps_low: 2
+      normative_clauses: 41
+    report: ../../../../output/reports/2026-03-05-charter-audit-2026-03-05-octon-root-charter.md
+    log: 2026-03-05-octon-root-charter.md

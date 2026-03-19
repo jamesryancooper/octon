@@ -6,7 +6,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 POLICY_FILE="${OCTON_DDB_POLICY_FILE:-$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml}"
-STATE_FILE="$CAPABILITIES_DIR/_ops/state/rollout-mode.state"
+STATE_FILE="$CAPABILITIES_DIR/../../state/control/capabilities/rollout-mode.state"
 
 usage() {
   cat <<'USAGE'

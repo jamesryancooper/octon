@@ -12,7 +12,7 @@ metadata:
   updated: "2026-03-05"
 skill_sets: [executor, specialist, guardian]
 capabilities: [external-dependent, external-output]
-allowed-tools: Read Glob Grep Bash(curl *) Write(_ops/state/logs/*) Write(../../output/reports/*)
+allowed-tools: Read Glob Grep Bash(curl *) Write(/.octon/state/evidence/runs/skills/*) Write(/.octon/state/evidence/validation/analysis/*)
 ---
 
 # Provider Preview Smoke

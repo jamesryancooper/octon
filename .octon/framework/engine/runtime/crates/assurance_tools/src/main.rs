@@ -86,7 +86,7 @@ struct ScoreArgs {
     #[arg(long, default_value = ".octon/generated/assurance/policy/deviations")]
     deviations_dir: PathBuf,
 
-    #[arg(long, default_value = ".octon/framework/assurance/runtime/_ops/state")]
+    #[arg(long, default_value = ".octon/generated/effective/assurance")]
     lock_dir: PathBuf,
 }
 

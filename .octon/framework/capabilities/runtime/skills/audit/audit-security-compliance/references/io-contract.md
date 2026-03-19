@@ -61,22 +61,22 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: security_compliance_audit_report
-      path: "../../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured security and compliance findings report"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-security-compliance/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-security-compliance/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this security and compliance audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-security-compliance/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-security-compliance/index.yml"
       format: yaml
       determinism: variable
       description: "Index of security and compliance audit runs with metadata"

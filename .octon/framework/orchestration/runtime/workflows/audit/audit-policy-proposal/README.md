@@ -51,8 +51,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `policy_proposal_workflow_summary` -> `../../output/reports/analysis/{{date}}-audit-policy-proposal.md`: Top-level workflow summary for policy proposal validation
-- `policy_proposal_workflow_bundle` -> `../../output/reports/workflows/{{date}}-audit-policy-proposal-{{slug}}/`: Workflow bundle containing validation metadata and outputs
+- `policy_proposal_workflow_summary` -> `/.octon/state/evidence/validation/analysis/{{date}}-audit-policy-proposal.md`: Top-level workflow summary for policy proposal validation
+- `policy_proposal_workflow_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-policy-proposal-{{slug}}/`: Workflow bundle containing validation metadata and outputs
 
 ## Steps
 

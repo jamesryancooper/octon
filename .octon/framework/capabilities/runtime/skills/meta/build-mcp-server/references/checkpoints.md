@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/build-mcp-server/{{run-id}}/"
+  storage: ".octon/state/control/skills/checkpoints/build-mcp-server/{{run-id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ Checkpoint state keeps tool contract decisions and scaffold progress synchronize
 
 Resume contract:
 
-- State is persisted in `.octon/framework/capabilities/runtime/skills/_ops/state/runs/build-mcp-server/{{run-id}}/`.
+- State is persisted in `.octon/state/control/skills/checkpoints/build-mcp-server/{{run-id}}/`.
 - Resume revalidates chosen language and tool list before code generation.
 - Validation results are appended to checkpoint state for final reporting.

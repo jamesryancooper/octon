@@ -8,10 +8,10 @@ and repeatably.
 
 **Scope**
 This charter defines Octon's assurance priorities and the rules Octon uses
-to make trade-offs. It applies to Octon's subsystems (`agency/`,
-`capabilities/`, `orchestration/`, `cognition/`, `continuity/`, `assurance/`,
-`runtime/`, `scaffolding/`, `output/`, `ideation/`) and to any repo adopting
-Octon.
+to make trade-offs. It applies to Octon's class roots (`framework/`,
+`instance/`, `inputs/`, `state/`, `generated/`) and to the framework's core
+authored domains (`agency/`, `assurance/`, `capabilities/`, `cognition/`,
+`engine/`, `orchestration/`, `scaffolding/`) in any repo adopting Octon.
 
 ---
 

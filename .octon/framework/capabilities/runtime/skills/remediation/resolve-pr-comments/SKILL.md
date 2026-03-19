@@ -14,7 +14,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor, guardian]
 capabilities: [external-dependent]
-allowed-tools: Read Glob Grep Edit Bash(gh) Write(../../output/reports/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Edit Bash(gh) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Resolve PR Comments
@@ -86,7 +86,7 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 Outputs are written to:
 
 - `.octon/state/evidence/validation/analysis/YYYY-MM-DD-pr-comments-resolved.md` — Resolution report
-- `_ops/state/logs/resolve-pr-comments/` — Execution logs with index
+- `/.octon/state/evidence/runs/skills/resolve-pr-comments/` — Execution logs with index
 
 ## Boundaries
 

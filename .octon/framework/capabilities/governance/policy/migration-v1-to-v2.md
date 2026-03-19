@@ -11,7 +11,7 @@ policy contract.
 
 ## Source Artifacts (v1)
 
-- `.octon/framework/capabilities/_ops/state/deny-by-default-exceptions.yml`
+- `.octon/state/control/capabilities/deny-by-default-exceptions.yml`
 - `.octon/framework/capabilities/governance/policy/agent-only-governance.yml`
 - Service and skill `allowed-tools` declarations in `SERVICE.md` / `SKILL.md`
 - Shell runtime guard: `services/_ops/scripts/enforce-deny-by-default.sh`

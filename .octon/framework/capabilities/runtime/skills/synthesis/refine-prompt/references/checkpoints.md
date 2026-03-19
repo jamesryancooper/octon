@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/refine-prompt/{{run-id}}/"
+  storage: ".octon/state/control/skills/checkpoints/refine-prompt/{{run-id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ State is preserved to avoid redoing expensive context analysis and self-critique
 
 Resume contract:
 
-- Checkpoints live in `.octon/framework/capabilities/runtime/skills/_ops/state/runs/refine-prompt/{{run-id}}/`.
+- Checkpoints live in `.octon/state/control/skills/checkpoints/refine-prompt/{{run-id}}/`.
 - If the raw prompt text changes mid-run, earlier checkpoints are invalidated.
 - Confirmation responses are appended as resume metadata.

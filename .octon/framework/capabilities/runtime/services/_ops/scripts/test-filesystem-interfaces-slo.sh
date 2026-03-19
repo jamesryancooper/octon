@@ -10,7 +10,7 @@ FIXTURE_BUILDER="$OCTON_DIR/capabilities/runtime/services/_ops/scripts/build-fil
 SLO_BUDGETS="$OCTON_DIR/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/slo-budgets.tsv"
 
 profile="ci"
-state_dir=".octon/framework/engine/_ops/state/snapshots"
+state_dir=".octon/generated/effective/capabilities/filesystem-snapshots"
 samples_override=""
 fixture_root=""
 report_path=""
@@ -129,7 +129,7 @@ now_ms() {
 }
 
 timestamp="$(date +%Y%m%dT%H%M%S)"
-tmp_dir="$OCTON_DIR/output/reports/.tmp"
+tmp_dir="$OCTON_DIR//.octon/state/evidence/validation/analysis/.tmp"
 mkdir -p "$tmp_dir"
 raw_tsv="$tmp_dir/filesystem-interfaces-slo-${timestamp}.raw.tsv"
 summary_tsv="$tmp_dir/filesystem-interfaces-slo-${timestamp}.summary.tsv"
@@ -146,7 +146,7 @@ mkdir -p "$(dirname "$raw_tsv")"
 mkdir -p "$(dirname "$summary_tsv")"
 
 if [[ -z "$report_path" && "$emit_report" == "1" ]]; then
-  report_path="$OCTON_DIR/output/reports/analysis/$(date +%F)-filesystem-interfaces-slo-report.md"
+  report_path="$OCTON_DIR//.octon/state/evidence/validation/analysis/$(date +%F)-filesystem-interfaces-slo-report.md"
 fi
 
 if [[ -z "$fixture_root" ]]; then

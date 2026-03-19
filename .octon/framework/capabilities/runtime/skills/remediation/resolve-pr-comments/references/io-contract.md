@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Edit Bash(gh) Write(../../output/reports/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Edit Bash(gh) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -39,11 +39,11 @@ Written to `.octon/state/evidence/validation/analysis/YYYY-MM-DD-pr-comments-res
 
 ### Execution Log
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/resolve-pr-comments/{{run_id}}.md`.
+Written to `.octon/state/evidence/runs/skills/resolve-pr-comments/{{run_id}}.md`.
 
 ### Log Index
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/resolve-pr-comments/index.yml`.
+Written to `.octon/state/evidence/runs/skills/resolve-pr-comments/index.yml`.
 
 ## Dependencies
 
@@ -56,8 +56,8 @@ This skill requires:
 - **Grep** — Search for related code patterns
 - **Edit** — Apply fixes to source files
 - **Bash(gh)** — GitHub CLI for fetching PR data and comments
-- **Write(../../output/reports/*)** — Write resolution report
-- **Write(_ops/state/logs/*)** — Write execution logs
+- **Write(/.octon/state/evidence/validation/analysis/*)** — Write resolution report
+- **Write(/.octon/state/evidence/runs/skills/*)** — Write execution logs
 
 ## External Dependencies
 

@@ -51,7 +51,8 @@ The local resolver and gate tooling is the authoritative assurance engine:
 3. `governance/scores/scores.yml` defines measured subsystem scores.
 4. `runtime/_ops/scripts/compute-assurance-score.sh` resolves effective policy.
 5. `runtime/_ops/scripts/assurance-gate.sh` enforces gates and drift checks.
-6. Outputs and evidence are written under `../output/assurance/`.
+6. Generated assurance outputs are written under `.octon/generated/assurance/`,
+   with validation evidence retained under `.octon/state/evidence/validation/`.
 
 Active umbrella chain:
 

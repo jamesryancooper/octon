@@ -204,7 +204,7 @@ states:
 - Full `SKILL.md` specification with inputs, outputs, dependencies
 - Invoked via `/command`, `use skill: <id>`, or natural language triggers
 - Stateless and portable (symlinked to harness directories)
-- Writes only to `.octon/framework/capabilities/runtime/skills/outputs/**` and `_ops/state/logs/**`
+- Writes only to `.octon/framework/capabilities/runtime/skills/outputs/**` and `/.octon/state/evidence/runs/skills/**`
 - Can declare reusable child-skill composition metadata in registry
 
 ### When to Use

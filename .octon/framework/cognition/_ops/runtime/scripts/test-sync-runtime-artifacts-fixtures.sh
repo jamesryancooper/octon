@@ -53,10 +53,10 @@ tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/runtime-artifacts-fixtures.XXXXXX")"
 trap 'rm -rf "$tmp_dir"' EXIT
 
 fixture_cognition="$tmp_dir/cognition"
-fixture_output="$tmp_dir/output"
+fixture_state="$tmp_dir/state"
 mkdir -p "$fixture_cognition/runtime/evaluations/digests"
 mkdir -p "$fixture_cognition/runtime/evaluations/actions"
-mkdir -p "$fixture_output/reports"
+mkdir -p "$fixture_state/state/evidence/validation/analysis"
 
 cat >"$fixture_cognition/runtime/evaluations/digests/README.md" <<'EOF'
 # Fixture Digests
@@ -109,7 +109,7 @@ actions:
 # Weekly Digest W09
 EOF
 
-if COGNITION_DIR_OVERRIDE="$fixture_cognition" OUTPUT_DIR_OVERRIDE="$fixture_output" bash "$SYNC_SCRIPT" --target evaluations >/dev/null; then
+if COGNITION_DIR_OVERRIDE="$fixture_cognition" OUTPUT_DIR_OVERRIDE="$fixture_state" bash "$SYNC_SCRIPT" --target evaluations >/dev/null; then
   :
 else
   echo "[fail] target-selective evaluations generation failed"

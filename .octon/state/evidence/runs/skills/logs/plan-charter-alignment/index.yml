@@ -1,0 +1,38 @@
+skill: plan-charter-alignment
+updated: "2026-03-06"
+
+runs:
+  - id: "2026-03-06-octon-root-charter-alignment-rerun"
+    charter_path: ".octon/framework/cognition/governance/CHARTER.md"
+    findings_source: ".octon/state/evidence/validation/2026-03-06-charter-audit-2026-03-06-octon-root-charter-rerun.md"
+    status: completed
+    timestamp: "2026-03-06"
+    parameters:
+      target_score: "95"
+      change_profile: atomic
+      release_state: stable
+      scope: charter-only
+    metrics:
+      bundles: 4
+      medium_findings_covered: 7
+      low_findings_covered: 3
+      validation_scenarios: 10
+    plan: ../../../../output/plans/2026-03-06-charter-alignment-plan-2026-03-06-octon-root-charter-alignment-rerun.md
+    log: 2026-03-06-octon-root-charter-alignment-rerun.md
+  - id: "2026-03-05-octon-root-charter-alignment"
+    charter_path: ".octon/framework/cognition/governance/CHARTER.md"
+    findings_source: ".octon/state/evidence/validation/2026-03-05-charter-audit-2026-03-05-octon-root-charter.md"
+    status: completed
+    timestamp: "2026-03-05"
+    parameters:
+      target_score: "95"
+      change_profile: atomic
+      release_state: stable
+      scope: charter-only
+    metrics:
+      bundles: 4
+      medium_findings_covered: 4
+      low_findings_covered: 2
+      validation_scenarios: 9
+    plan: ../../../../output/plans/2026-03-05-charter-alignment-plan-2026-03-05-octon-root-charter-alignment.md
+    log: 2026-03-05-octon-root-charter-alignment.md

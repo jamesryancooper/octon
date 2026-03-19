@@ -14,7 +14,7 @@ metadata:
   updated: "2026-03-05"
 skill_sets: [executor, collaborator]
 capabilities: [self-validating]
-allowed-tools: Read Glob Grep Write(../../output/plans/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/plans/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Plan Charter Alignment
@@ -88,7 +88,7 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 Outputs are written to:
 
 - `.octon/inputs/exploratory/plans/YYYY-MM-DD-charter-alignment-plan-<run-id>.md`
-- `_ops/state/logs/plan-charter-alignment/`
+- `/.octon/state/evidence/runs/skills/plan-charter-alignment/`
 
 ## Boundaries
 

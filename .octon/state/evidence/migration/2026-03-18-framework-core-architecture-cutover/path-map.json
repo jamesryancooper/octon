@@ -1,0 +1,136 @@
+{
+  "schema_version": "framework-core-cutover-path-map-v1",
+  "cutover_id": "2026-03-18-framework-core-architecture-cutover",
+  "mappings": [
+    {
+      "from": ".octon/framework/capabilities/_ops/state/grants/**",
+      "to": ".octon/state/control/capabilities/grants/**",
+      "class": "control_state"
+    },
+    {
+      "from": ".octon/framework/capabilities/_ops/state/kill-switches/**",
+      "to": ".octon/state/control/capabilities/kill-switches/**",
+      "class": "control_state"
+    },
+    {
+      "from": ".octon/framework/capabilities/_ops/state/deny-by-default-exceptions.yml",
+      "to": ".octon/state/control/capabilities/deny-by-default-exceptions.yml",
+      "class": "control_state"
+    },
+    {
+      "from": ".octon/framework/capabilities/_ops/state/rollout-mode.state",
+      "to": ".octon/state/control/capabilities/rollout-mode.state",
+      "class": "control_state"
+    },
+    {
+      "from": ".octon/framework/capabilities/_ops/state/logs/acp-decisions.jsonl",
+      "to": ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      "class": "retained_evidence"
+    },
+    {
+      "from": ".octon/framework/capabilities/_ops/state/logs/deny-by-default-decisions.jsonl",
+      "to": ".octon/state/evidence/decisions/repo/capabilities/deny-by-default-decisions.jsonl",
+      "class": "retained_evidence"
+    },
+    {
+      "from": ".octon/framework/capabilities/_ops/state/.tmp/**",
+      "to": ".octon/generated/.tmp/capabilities/policy/**",
+      "class": "transient_generated"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/skills/_ops/state/configs/**",
+      "to": ".octon/instance/capabilities/runtime/skills/configs/**",
+      "class": "repo_authority"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/skills/_ops/state/resources/**",
+      "to": ".octon/instance/capabilities/runtime/skills/resources/**",
+      "class": "repo_authority"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/skills/_ops/state/runs/**",
+      "to": ".octon/state/control/skills/checkpoints/**",
+      "class": "control_state"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/skills/_ops/state/logs/**",
+      "to": ".octon/state/evidence/runs/skills/**",
+      "class": "retained_evidence"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/skills/_ops/state/deny-by-default-policy.catalog.yml",
+      "to": ".octon/generated/effective/capabilities/skills-deny-by-default-policy.catalog.yml",
+      "class": "generated_effective"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/services/_ops/state/runs/**",
+      "to": ".octon/state/evidence/runs/services/**",
+      "class": "retained_evidence"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/services/_ops/state/logs/**",
+      "to": ".octon/state/evidence/runs/services/logs/**",
+      "class": "retained_evidence"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/services/_ops/state/build/**",
+      "to": ".octon/generated/.tmp/capabilities/services/build/**",
+      "class": "transient_generated"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/services/_ops/state/deny-by-default-policy.catalog.yml",
+      "to": ".octon/generated/effective/capabilities/deny-by-default-policy.catalog.yml",
+      "class": "generated_effective"
+    },
+    {
+      "from": ".octon/framework/capabilities/runtime/services/_ops/state/provider-term-allowlist.tsv",
+      "to": ".octon/framework/capabilities/governance/policy/provider-term-allowlist.tsv",
+      "class": "portable_authored"
+    },
+    {
+      "from": ".octon/framework/assurance/runtime/_ops/state/*.lock.yml",
+      "to": ".octon/generated/effective/assurance/*.lock.yml",
+      "class": "generated_effective"
+    },
+    {
+      "from": ".octon/framework/engine/_ops/state/traces/**",
+      "to": ".octon/state/evidence/runs/engine/traces/**",
+      "class": "retained_evidence"
+    },
+    {
+      "from": ".octon/framework/engine/_ops/state/agent/checkpoints/**",
+      "to": ".octon/state/control/engine/agent/checkpoints/**",
+      "class": "control_state"
+    },
+    {
+      "from": ".octon/framework/engine/_ops/state/agent/runs/**",
+      "to": ".octon/state/evidence/runs/engine/agent/**",
+      "class": "retained_evidence"
+    },
+    {
+      "from": ".octon/framework/engine/_ops/state/kv/**",
+      "to": ".octon/state/control/engine/kv/**",
+      "class": "control_state"
+    },
+    {
+      "from": ".octon/framework/engine/_ops/state/watch/**",
+      "to": ".octon/state/control/engine/watch/**",
+      "class": "control_state"
+    },
+    {
+      "from": ".octon/framework/engine/_ops/state/snapshots/**",
+      "to": ".octon/generated/effective/capabilities/filesystem-snapshots/**",
+      "class": "generated_effective"
+    },
+    {
+      "from": ".octon/framework/engine/_ops/state/build/**",
+      "to": ".octon/generated/.tmp/engine/build/**",
+      "class": "transient_generated"
+    },
+    {
+      "from": ".octon/framework/engine/runtime/_ops/state/build/**",
+      "to": ".octon/generated/.tmp/engine/runtime-build/**",
+      "class": "transient_generated"
+    }
+  ]
+}

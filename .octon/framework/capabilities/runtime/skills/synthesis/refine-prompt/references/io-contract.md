@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Write(../../scaffolding/practices/prompts/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Write(/.octon/framework/scaffolding/practices/prompts/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.

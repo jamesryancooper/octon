@@ -22,7 +22,7 @@ temp/
 *.pid
 *.pid.lock
 .octon/generated/.tmp/
-.octon/capabilities/_ops/state/.tmp/
+.octon/generated/.tmp/capabilities/policy/
 
 # Logs directory
 logs/
@@ -35,16 +35,16 @@ runs/
 !.octon/state/evidence/runs/
 .octon/state/evidence/runs/*
 !.octon/state/evidence/runs/README.md
+!.octon/state/evidence/runs/skills/
+!.octon/state/evidence/runs/skills/**
+!.octon/state/evidence/runs/services/
+!.octon/state/evidence/runs/services/**
+!.octon/state/evidence/runs/engine/
+!.octon/state/evidence/runs/engine/**
 
 
 # Additional local outputs and proposal workspaces
 out/
-
-# Octon runtime state (local/cache/traces)
-.octon/engine/_ops/state/
-.octon/engine/_ops/state/**
-!.octon/engine/_ops/state/
-!.octon/engine/_ops/state/.gitkeep
 
 # OS-specific files
 .DS_Store
@@ -68,21 +68,14 @@ Icon?
 .fleet/
 
 # Rust build artifacts (Octon runtime + wasm services)
-.octon/engine/runtime/_ops/state/build/
-.octon/engine/runtime/_ops/state/build/**
-.octon/framework/engine/runtime/_ops/state/build/
-.octon/framework/engine/runtime/_ops/state/build/**
-.octon/engine/_ops/state/build/
-.octon/engine/_ops/state/build/**
-.octon/framework/engine/_ops/state/build/
-.octon/framework/engine/_ops/state/build/**
-.octon/capabilities/runtime/services/_ops/state/build/
-.octon/capabilities/runtime/services/_ops/state/build/**
-.octon/framework/capabilities/runtime/services/_ops/state/build/
-.octon/framework/capabilities/runtime/services/_ops/state/build/**
+.octon/generated/.tmp/engine/runtime-build/
+.octon/generated/.tmp/engine/runtime-build/**
+.octon/generated/.tmp/engine/build/
+.octon/generated/.tmp/engine/build/**
+.octon/generated/.tmp/capabilities/services/build/
+.octon/generated/.tmp/capabilities/services/build/**
 
 # Direct cargo build artifact locations
-.octon/engine/runtime/crates/target/
 .octon/framework/engine/runtime/crates/target/
 .octon/capabilities/runtime/services/**/rust/target/
 .octon/framework/capabilities/runtime/services/**/rust/target/

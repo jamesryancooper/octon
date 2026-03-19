@@ -1,0 +1,42 @@
+skill: audit-domain-architecture
+updated: "2026-02-22"
+
+runs:
+  - id: "2026-02-22-cognition-observed-standard"
+    domain_path: ".octon/framework/cognition"
+    mode: observed
+    status: completed
+    timestamp: "2026-02-22"
+    parameters:
+      evidence_depth: standard
+      severity_threshold: all
+      criteria: modularity,discoverability,coupling,operability,change-safety,testability
+    metrics:
+      surfaces_mapped: 6
+      files_scanned: 278
+      critical: 0
+      high: 1
+      medium: 2
+      low: 0
+      recommendations: 3
+    report: ../../../../output/reports/2026-02-22-domain-architecture-audit-2026-02-22-cognition-observed-standard.md
+    log: 2026-02-22-cognition-observed-standard.md
+  - id: "orchestration-domain-design-package-audit"
+    domain_path: ".design-packages/orchestration-domain-design-package"
+    mode: observed
+    status: completed
+    timestamp: "2026-03-08"
+    parameters:
+      evidence_depth: standard
+      severity_threshold: all
+      criteria: modularity,discoverability,coupling,operability,change-safety,testability
+    metrics:
+      surfaces_mapped: 8
+      files_scanned: 52
+      critical: 0
+      high: 2
+      medium: 1
+      low: 0
+      recommendations: 4
+    report: ../../../../output/reports/2026-03-08-domain-architecture-audit-orchestration-domain-design-package-audit.md
+    log: orchestration-domain-design-package-audit.md

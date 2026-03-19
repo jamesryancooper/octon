@@ -5,7 +5,7 @@ description: Safety policies and constraints for the audit-migration skill.
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Write(../../output/reports/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -53,7 +53,7 @@ The skill reads files across the entire codebase within the defined scope. No re
 The skill may only write to:
 
 - `.octon/state/evidence/validation/analysis/` — Audit report deliverable
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-migration/` — Execution logs
+- `.octon/state/evidence/runs/skills/audit-migration/` — Execution logs
 
 ### Source Code Modifications
 

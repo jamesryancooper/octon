@@ -36,5 +36,5 @@ description: Phase-by-phase instructions for deploy-status.
 **Goal:** Produce a decision-ready output.
 
 1. Write readiness report to `.octon/state/evidence/validation/analysis/`.
-2. Write run log to `_ops/state/logs/deploy-status/{{run_id}}.md`.
+2. Write run log to `/.octon/state/evidence/runs/skills/deploy-status/{{run_id}}.md`.
 3. Return external output metadata (deployment URL + normalized state) in the response.

@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Edit Write(_ops/state/runs/*) Write(_ops/state/logs/*) Bash(mv) Bash(mkdir)
+# Current allowed-tools: Read Glob Grep Edit Write(/.octon/state/control/skills/checkpoints/*) Write(/.octon/state/evidence/runs/skills/*) Bash(mv) Bash(mkdir)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -34,10 +34,10 @@ Extended input/output documentation for the refactor skill.
 
 ## Output Structure
 
-All execution state artifacts are written to `.octon/framework/capabilities/runtime/skills/_ops/state/runs/refactor/{{refactor-id}}/` for session recovery:
+All execution state artifacts are written to `.octon/state/control/skills/checkpoints/refactor/{{refactor-id}}/` for session recovery:
 
 ```
-_ops/state/runs/refactor/{{refactor-id}}/
+/.octon/state/control/skills/checkpoints/refactor/{{refactor-id}}/
 ├── checkpoint.yml        # Execution state (source of truth for resume)
 ├── scope.md              # Phase 1: Scope definition
 ├── audit-manifest.md     # Phase 2: Audit results
@@ -104,10 +104,10 @@ parameters:
 
 ## Log Structure
 
-Logs are written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/refactor/`:
+Logs are written to `.octon/state/evidence/runs/skills/refactor/`:
 
 ```
-_ops/state/logs/refactor/
+/.octon/state/evidence/runs/skills/refactor/
 ├── index.yml                    # Skill-level index with metadata
 └── {{refactor-id}}.md             # Individual run log
 ```
@@ -115,7 +115,7 @@ _ops/state/logs/refactor/
 ### Log Index Schema
 
 ```yaml
-# _ops/state/logs/refactor/index.yml
+# /.octon/state/evidence/runs/skills/refactor/index.yml
 skill: refactor
 updated: "2026-01-20T10:15:00Z"
 
@@ -172,7 +172,7 @@ Dry-run output:
 - 1 directory to rename
 
 **Change Manifest:**
-See _ops/state/runs/refactor/{{id}}/change-manifest.md
+See /.octon/state/control/skills/checkpoints/refactor/{{id}}/change-manifest.md
 
 **Next steps:**
 - Review the change manifest
@@ -187,8 +187,8 @@ Tool requirements are defined in SKILL.md `allowed-tools` frontmatter:
 - **Glob** — Pattern matching for file discovery
 - **Grep** — Content search for pattern matching
 - **Edit** — Modify source files to replace references
-- **Write(_ops/state/runs/*)** — Write execution state (session recovery)
-- **Write(_ops/state/logs/*)** — Write execution logs
+- **Write(/.octon/state/control/skills/checkpoints/*)** — Write execution state (session recovery)
+- **Write(/.octon/state/evidence/runs/skills/*)** — Write execution logs
 - **Bash(mv)** — Rename/move files and directories
 - **Bash(mkdir)** — Create output directories
 

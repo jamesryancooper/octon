@@ -32,7 +32,7 @@ description: Clean-break migration plan for separating assurance runtime artifac
 
 - Runtime assurance authority:
   - `/.octon/framework/assurance/runtime/_ops/scripts/`
-  - `/.octon/framework/assurance/runtime/_ops/state/`
+  - `/.octon/generated/effective/assurance/`
   - `/.octon/framework/assurance/runtime/trust/`
 - Governance assurance authority:
   - `/.octon/framework/assurance/governance/CHARTER.md`

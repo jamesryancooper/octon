@@ -1,9 +1,0 @@
-{
-  "allow": false,
-  "mode": "hard-enforce",
-  "deny": {
-    "code": "DDB025_RUNTIME_DECISION_ENGINE_ERROR",
-    "message": "failed to parse ACP request /Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/_ops/state/.tmp/ra-acp-audit-20260219T233613Z/failclosed/case3.missing-runid.request.json: missing field `run_id` at line 35 column 1",
-    "remediation_hint": "Inspect policy input and engine diagnostics"
-  }
-}

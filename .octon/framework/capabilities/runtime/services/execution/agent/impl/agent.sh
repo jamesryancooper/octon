@@ -11,9 +11,9 @@ source "$SCRIPT_DIR/../../../_ops/scripts/enforce-deny-by-default.sh"
 octon_enforce_service_policy "agent" "$0" "$@"
 
 
-STATE_ROOT=".octon/framework/engine/_ops/state/agent"
+STATE_ROOT=".octon/state/control/engine/agent"
 CHECKPOINT_DIR="$STATE_ROOT/checkpoints"
-RUNS_DIR="$STATE_ROOT/runs"
+RUNS_DIR=".octon/state/evidence/runs/engine/agent"
 CONTINUITY_RUNS_DIR=".octon/state/evidence/runs"
 POLICY_FILE=".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
 POLICY_RUNNER=".octon/framework/engine/runtime/policy"

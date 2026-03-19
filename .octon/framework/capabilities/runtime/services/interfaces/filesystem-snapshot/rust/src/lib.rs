@@ -14,9 +14,9 @@ const CONTRACT_VERSION: &str = "1.0.0";
 const SNAPSHOT_FORMAT_VERSION: u64 = 2;
 const SNAPSHOT_MIN_SUPPORTED_FORMAT_VERSION: u64 = 1;
 const SNAPSHOT_MAX_SUPPORTED_FORMAT_VERSION: u64 = SNAPSHOT_FORMAT_VERSION;
-const DEFAULT_STATE_DIR: &str = ".octon/framework/engine/_ops/state/snapshots";
-const RUNTIME_STATE_ROOT: &str = ".octon/framework/engine/_ops/state";
-const SERVICES_BUILD_STATE_ROOT: &str = ".octon/framework/capabilities/runtime/services/_ops/state/build";
+const DEFAULT_STATE_DIR: &str = ".octon/generated/effective/capabilities/filesystem-snapshots";
+const RUNTIME_STATE_ROOT: &str = ".octon/state/control/engine";
+const SERVICES_BUILD_STATE_ROOT: &str = ".octon/generated/.tmp/capabilities/services/build";
 const HASH_CACHE_FILE: &str = "hash-cache.jsonl";
 const SEARCH_INDEX_FILE: &str = "search-index.jsonl";
 const SNAPSHOT_READY_MARKER: &str = ".ready";
@@ -2468,7 +2468,10 @@ fn should_skip(path: &str, state_dir: &str) -> bool {
 
     if normalized == SERVICES_BUILD_STATE_ROOT
         || normalized.starts_with(&format!("{SERVICES_BUILD_STATE_ROOT}/"))
-        || normalized.contains("/_ops/state/build/")
+        || normalized.contains("/generated/.tmp/capabilities/services/build/")
+        || normalized == ".octon/generated/.tmp/engine/build"
+        || normalized.starts_with(".octon/generated/.tmp/engine/build/")
+        || normalized.contains("/generated/.tmp/engine/build/")
     {
         return true;
     }
@@ -2782,19 +2785,19 @@ mod tests {
     #[test]
     fn should_skip_runtime_state_paths() {
         assert!(should_skip(
-            ".octon/framework/engine/_ops/state/traces/x.ndjson",
+            ".octon/state/evidence/runs/engine/traces/x.ndjson",
             DEFAULT_STATE_DIR
         ));
         assert!(should_skip(
-            ".octon/framework/engine/_ops/state/build/x",
+            ".octon/generated/.tmp/engine/build/x",
             DEFAULT_STATE_DIR
         ));
         assert!(should_skip(
-            ".octon/framework/engine/_ops/state/snapshots/snap-abc",
+            ".octon/generated/effective/capabilities/filesystem-snapshots/snap-abc",
             DEFAULT_STATE_DIR
         ));
         assert!(should_skip(
-            ".octon/framework/capabilities/runtime/services/_ops/state/build/target/debug/file.o",
+            ".octon/generated/.tmp/capabilities/services/build/target/debug/file.o",
             DEFAULT_STATE_DIR
         ));
         assert!(should_skip(".git/config", DEFAULT_STATE_DIR));

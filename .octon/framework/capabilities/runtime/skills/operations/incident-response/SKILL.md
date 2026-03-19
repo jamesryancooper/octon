@@ -12,7 +12,7 @@ metadata:
   updated: "2026-03-05"
 skill_sets: [executor, specialist, guardian]
 capabilities: []
-allowed-tools: Read Glob Grep Write(_ops/state/logs/*) Write(../../../output/reports/*)
+allowed-tools: Read Glob Grep Write(/.octon/state/evidence/runs/skills/*) Write(/.octon/state/evidence/validation/analysis/*)
 ---
 
 # Incident Response

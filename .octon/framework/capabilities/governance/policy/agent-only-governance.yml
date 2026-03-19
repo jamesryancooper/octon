@@ -21,7 +21,7 @@ agent_only:
     fail_closed: true
   # Scoped kill-switch records (global/service/category) are authoritative.
   kill_switches:
-    state_dir: ".octon/framework/capabilities/_ops/state/kill-switches"
+    state_dir: ".octon/state/control/capabilities/kill-switches"
     required_fields: [scope, owner, reason, created, expires, state]
     default_state: "active"
   rollback:

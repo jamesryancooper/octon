@@ -20,15 +20,15 @@ This contract assumes a single repo-root harness.
 
 Octon writes derived effective indexes under:
 
-- `/.octon/framework/engine/_ops/state/extensions/effective/skills/manifest.yml`
-- `/.octon/framework/engine/_ops/state/extensions/effective/skills/registry.yml`
-- `/.octon/framework/engine/_ops/state/extensions/effective/commands/manifest.yml`
-- `/.octon/framework/engine/_ops/state/extensions/effective/templates/catalog.yml`
-- `/.octon/framework/engine/_ops/state/extensions/effective/prompts/catalog.yml`
-- `/.octon/framework/engine/_ops/state/extensions/effective/context/catalog.yml`
-- `/.octon/framework/engine/_ops/state/extensions/effective/validation/catalog.yml`
-- `/.octon/framework/engine/_ops/state/extensions/effective/artifacts.yml`
-- `/.octon/framework/engine/_ops/state/extensions/lock.yml`
+- `/.octon/generated/effective/extensions/catalog.effective.yml`
+- `/.octon/generated/effective/extensions/catalog.effective.yml`
+- `/.octon/generated/effective/extensions/catalog.effective.yml`
+- `/.octon/generated/effective/extensions/catalog.effective.yml`
+- `/.octon/generated/effective/extensions/catalog.effective.yml`
+- `/.octon/generated/effective/extensions/catalog.effective.yml`
+- `/.octon/generated/effective/extensions/catalog.effective.yml`
+- `/.octon/generated/effective/extensions/artifact-map.yml`
+- `/.octon/generated/effective/extensions/generation.lock.yml`
 
 These effective catalogs are runtime-facing projections. They are not
 hand-edited.
@@ -54,8 +54,8 @@ record the result in `artifacts.yml`.
 
 Allowed rebased destination classes include:
 
-- `/.octon/framework/capabilities/runtime/skills/_ops/state/logs/**`
-- `/.octon/framework/engine/_ops/state/extensions/**`
+- `/.octon/state/evidence/runs/skills/**`
+- `/.octon/generated/effective/extensions/**`
 - `/.octon/state/evidence/validation/**`
 
 The compiler must reject:

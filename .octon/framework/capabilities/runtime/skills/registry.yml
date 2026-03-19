@@ -39,10 +39,10 @@
 # Directory Structure:
 # All operational categories follow the {category}/{skill-id}/ pattern:
 #
-#   _ops/state/configs/{skill-id}/       - Per-skill configuration overrides
-#   _ops/state/resources/{skill-id}/     - Per-skill input resources (notes, docs, data)
-#   _ops/state/runs/{skill-id}/{run-id}/ - Execution state (checkpoints, manifests) for recovery
-#   _ops/state/logs/{skill-id}/{run-id}.md - Execution logs
+#   /.octon/instance/capabilities/runtime/skills/configs/{skill-id}/       - Per-skill configuration overrides
+#   /.octon/instance/capabilities/runtime/skills/resources/{skill-id}/     - Per-skill input resources (notes, docs, data)
+#   /.octon/state/control/skills/checkpoints/{skill-id}/{run-id}/ - Execution state (checkpoints, manifests) for recovery
+#   /.octon/state/evidence/runs/skills/{skill-id}/{run-id}.md - Execution logs
 #
 # Note: The pattern "use skill: {{id}}" is universal and does not need
 # per-skill configuration. Agents recognize this pattern automatically.
@@ -71,35 +71,35 @@ skills:
       context: []
     io:
       inputs:
-        - path: "_ops/state/resources/synthesize-research/projects/{{project}}/"
+        - path: "/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/projects/{{project}}/"
           kind: directory
           required: true
           description: "Project folder containing research notes"
-        - path: "_ops/state/resources/synthesize-research/{{topic}}/"
+        - path: "/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/{{topic}}/"
           kind: directory
           required: false
           description: "Additional source materials by topic"
       outputs:
         - name: synthesis_document
-          path: "../../../output/drafts/{{topic}}-synthesis.md"
+          path: "/.octon/inputs/exploratory/drafts/{{topic}}-synthesis.md"
           kind: file
           format: markdown
           determinism: stable
           description: "Consolidated findings document with themes and evidence"
         - name: run_log
-          path: "_ops/state/logs/synthesize-research/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/synthesize-research/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log capturing inputs, outputs, and processing notes"
         - name: log_index
-          path: "_ops/state/logs/synthesize-research/index.yml"
+          path: "/.octon/state/evidence/runs/skills/synthesize-research/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all synthesize-research runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -133,31 +133,31 @@ skills:
       context: []
     io:
       inputs:
-        - path: "_ops/state/resources/refine-prompt/prompts/"
+        - path: "/.octon/instance/capabilities/runtime/skills/resources/refine-prompt/prompts/"
           kind: directory
           required: false
           description: "Optional folder containing prompt source files"
       outputs:
         - name: refined_prompt
-          path: "../../../scaffolding/practices/prompts/{{timestamp}}-refined.md"
+          path: "/.octon/framework/scaffolding/practices/prompts/{{timestamp}}-refined.md"
           kind: file
           format: markdown
           determinism: stable
           description: "The refined, improved prompt ready for execution"
         - name: run_log
-          path: "_ops/state/logs/refine-prompt/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/refine-prompt/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log with input, context analyzed, and output summary"
         - name: log_index
-          path: "_ops/state/logs/refine-prompt/index.yml"
+          path: "/.octon/state/evidence/runs/skills/refine-prompt/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all refine-prompt runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -193,25 +193,25 @@ skills:
       inputs: []
       outputs:
         - name: refactor_artifacts
-          path: "_ops/state/runs/refactor/{{refactor_id}}/"
+          path: "/.octon/state/control/skills/checkpoints/refactor/{{refactor_id}}/"
           kind: directory
           format: markdown
           determinism: unique
           description: "Refactor execution state (checkpoint, manifests, reports) for recovery"
         - name: run_log
-          path: "_ops/state/logs/refactor/{{refactor_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/refactor/{{refactor_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this refactor run"
         - name: log_index
-          path: "_ops/state/logs/refactor/index.yml"
+          path: "/.octon/state/evidence/runs/skills/refactor/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all refactor runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -229,7 +229,7 @@ skills:
       - name: manifest_file
         type: file
         required: false
-        description: "Optional manifest file name within _ops/state/configs/audit-migration/"
+        description: "Optional manifest file name within /.octon/instance/capabilities/runtime/skills/configs/audit-migration/"
       - name: scope
         type: text
         required: false
@@ -274,44 +274,44 @@ skills:
       context: []
     io:
       inputs:
-        - path: "_ops/state/configs/audit-migration/{{manifest_file}}"
+        - path: "/.octon/instance/capabilities/runtime/skills/configs/audit-migration/{{manifest_file}}"
           kind: file
           format: yaml
           required: false
           description: "Optional manifest file (alternative to inline YAML)"
       outputs:
         - name: audit_report
-          path: "../../../output/reports/analysis/{{date}}-migration-audit.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-migration-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured findings report with severity tiers and fix batches"
         - name: partition_audit_report
-          path: "../../../output/reports/analysis/{{date}}-migration-audit-{{partition}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-migration-audit-{{partition}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Partition-scoped findings report (when partition parameter is set)"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-migration/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-migration/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-migration/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-migration/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-migration runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -364,31 +364,31 @@ skills:
       inputs: []
       outputs:
         - name: health_audit_report
-          path: "../../../output/reports/analysis/{{date}}-subsystem-health-audit.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-subsystem-health-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured findings report with severity tiers and fix batches"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-subsystem-health/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-subsystem-health/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-subsystem-health/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-subsystem-health/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-subsystem-health runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -439,31 +439,31 @@ skills:
       inputs: []
       outputs:
         - name: coherence_audit_report
-          path: "../../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Cross-subsystem coherence findings report with severity tiers and fix batches"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-cross-subsystem-coherence/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-cross-subsystem-coherence/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-cross-subsystem-coherence/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-cross-subsystem-coherence/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-cross-subsystem-coherence runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -482,7 +482,7 @@ skills:
       - name: artifact_globs
         type: text
         required: false
-        default: "cognition/runtime/context/**/*.md,cognition/runtime/decisions/**/*.md,output/plans/**/*.md,output/reports/**/*.md"
+        default: "cognition/runtime/context/**/*.md,cognition/runtime/decisions/**/*.md,/.octon/inputs/exploratory/plans/**/*.md,/.octon/state/evidence/validation/analysis/**/*.md"
         description: "Comma-separated globs selecting artifact families"
       - name: max_age_days
         type: text
@@ -514,31 +514,31 @@ skills:
       inputs: []
       outputs:
         - name: freshness_audit_report
-          path: "../../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-freshness-and-supersession-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Freshness and supersession findings report with severity tiers and fix batches"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-freshness-and-supersession/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-freshness-and-supersession/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-freshness-and-supersession/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-freshness-and-supersession/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-freshness-and-supersession runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -588,31 +588,31 @@ skills:
       inputs: []
       outputs:
         - name: docs_standards_audit_report
-          path: "../../../output/reports/analysis/{{date}}-documentation-standards-audit.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-documentation-standards-audit.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured docs standards findings report with severity tiers and fix batches"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-documentation-standards/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-documentation-standards/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-documentation-standards/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-documentation-standards/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-documentation-standards runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -667,31 +667,31 @@ skills:
       inputs: []
       outputs:
         - name: domain_architecture_audit_report
-          path: "../../../output/reports/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Independent architecture critique report with evidence-backed findings and recommendations"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-domain-architecture/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-domain-architecture/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this architecture critique run"
         - name: log_index
-          path: "_ops/state/logs/audit-domain-architecture/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-domain-architecture/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-domain-architecture runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -741,31 +741,31 @@ skills:
       inputs: []
       outputs:
         - name: surface_architecture_audit_report
-          path: "../../../output/reports/{{date}}-surface-architecture-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-surface-architecture-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Surface-architecture findings report with authority classification, gaps, and target-state recommendation"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings, coverage, convergence, and validation artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-surface-architecture/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-surface-architecture/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this surface-architecture audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-surface-architecture/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-surface-architecture/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-surface-architecture runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -815,37 +815,37 @@ skills:
       inputs: []
       outputs:
         - name: architecture_readiness_audit_report
-          path: "../../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Architecture-readiness findings report with verdict, gaps, and remediation plan"
         - name: architecture_readiness_summary_json
-          path: "../../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
           kind: file
           format: json
           determinism: unique
           description: "Machine-readable architecture-readiness summary"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings, coverage, convergence, and validation artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-architecture-readiness/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-architecture-readiness/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this architecture-readiness run"
         - name: log_index
-          path: "_ops/state/logs/audit-architecture-readiness/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-architecture-readiness/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-architecture-readiness runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -881,25 +881,25 @@ skills:
       inputs: []
       outputs:
         - name: charter_audit_report
-          path: "../../../output/reports/analysis/{{date}}-charter-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-charter-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Closed-book charter audit with matrices, findings, rewrite pack, and scores"
         - name: run_log
-          path: "_ops/state/logs/audit-charter/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-charter/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this charter audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-charter/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-charter/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-charter runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -964,31 +964,31 @@ skills:
       inputs: []
       outputs:
         - name: observability_coverage_audit_report
-          path: "../../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Observability coverage findings report with telemetry, SLO, alert, and runbook readiness gaps"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-observability-coverage/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-observability-coverage/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this observability coverage audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-observability-coverage/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-observability-coverage/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-observability-coverage runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1063,31 +1063,31 @@ skills:
       inputs: []
       outputs:
         - name: security_compliance_audit_report
-          path: "../../../output/reports/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-security-compliance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Security and compliance findings report with policy, control, secrets, and evidence readiness gaps"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-security-compliance/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-security-compliance/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this security and compliance audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-security-compliance/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-security-compliance/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-security-compliance runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1167,31 +1167,31 @@ skills:
       inputs: []
       outputs:
         - name: data_governance_audit_report
-          path: "../../../output/reports/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-data-governance-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Data-governance findings report with classification, retention, lineage, privacy, and evidence readiness gaps"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-data-governance/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-data-governance/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this data-governance audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-data-governance/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-data-governance/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-data-governance runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1239,7 +1239,7 @@ skills:
       - name: evidence_artifacts_glob
         type: text
         required: false
-        default: "**/continuity/runs/**/evidence/**,**/output/reports/**quality**"
+        default: "**/continuity/runs/**/evidence/**,**//.octon/state/evidence/validation/analysis/**quality**"
         description: "Comma-separated globs selecting quality evidence and run-receipt artifacts"
       - name: severity_threshold
         type: text
@@ -1266,31 +1266,31 @@ skills:
       inputs: []
       outputs:
         - name: test_quality_audit_report
-          path: "../../../output/reports/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-test-quality-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured test-quality findings report"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-test-quality/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-test-quality/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this test-quality audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-test-quality/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-test-quality/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-test-quality runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1338,7 +1338,7 @@ skills:
       - name: evidence_artifacts_glob
         type: text
         required: false
-        default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+        default: "**/continuity/runs/**/evidence/**,**//.octon/state/evidence/validation/analysis/**"
         description: "Comma-separated globs selecting operational evidence and run-receipt artifacts"
       - name: severity_threshold
         type: text
@@ -1365,31 +1365,31 @@ skills:
       inputs: []
       outputs:
         - name: operational_readiness_audit_report
-          path: "../../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured operational-readiness findings report"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-operational-readiness/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-operational-readiness/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this operational-readiness audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-operational-readiness/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-operational-readiness/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-operational-readiness runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1437,7 +1437,7 @@ skills:
       - name: evidence_artifacts_glob
         type: text
         required: false
-        default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+        default: "**/continuity/runs/**/evidence/**,**//.octon/state/evidence/validation/analysis/**"
         description: "Comma-separated globs selecting release evidence and run-receipt artifacts"
       - name: severity_threshold
         type: text
@@ -1464,31 +1464,31 @@ skills:
       inputs: []
       outputs:
         - name: release_readiness_audit_report
-          path: "../../../output/reports/analysis/{{date}}-audit-release-readiness-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-release-readiness-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured release-readiness findings report"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-release-readiness/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-release-readiness/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this release-readiness audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-release-readiness/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-release-readiness/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-release-readiness runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1536,7 +1536,7 @@ skills:
       - name: evidence_artifacts_glob
         type: text
         required: false
-        default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+        default: "**/continuity/runs/**/evidence/**,**//.octon/state/evidence/validation/analysis/**"
         description: "Comma-separated globs selecting API governance evidence and run-receipt artifacts"
       - name: severity_threshold
         type: text
@@ -1563,31 +1563,31 @@ skills:
       inputs: []
       outputs:
         - name: api_contract_audit_report
-          path: "../../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured API-contract findings report"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-api-contract/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-api-contract/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this API-contract audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-api-contract/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-api-contract/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-api-contract runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1626,31 +1626,31 @@ skills:
       inputs: []
       outputs:
         - name: ci_latency_audit_report
-          path: "../../../output/reports/{{date}}-ci-latency-audit-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-ci-latency-audit-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured CI latency audit report with hotspots, breach status, and tightening recommendations"
         - name: ci_latency_summary
-          path: "../../../output/reports/{{date}}-ci-latency-audit-{{run_id}}.json"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-ci-latency-audit-{{run_id}}.json"
           kind: file
           format: json
           determinism: unique
           description: "Machine-readable latency summary for workflows, issues, and follow-on automation"
         - name: run_log
-          path: "_ops/state/logs/audit-ci-latency/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-ci-latency/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this CI latency audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-ci-latency/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-ci-latency/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-ci-latency runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1701,31 +1701,31 @@ skills:
       inputs: []
       outputs:
         - name: audit_report
-          path: "../../../output/reports/analysis/{{date}}-ui-audit.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-ui-audit.md"
           kind: file
           format: markdown
           determinism: variable
           description: "UI audit findings with file:line violations and rule references"
         - name: bounded_audit_bundle
-          path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+          path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
           kind: directory
           format: mixed
           determinism: unique
           description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
         - name: run_log
-          path: "_ops/state/logs/audit-ui/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/audit-ui/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this UI audit run"
         - name: log_index
-          path: "_ops/state/logs/audit-ui/index.yml"
+          path: "/.octon/state/evidence/runs/skills/audit-ui/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all audit-ui runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1775,19 +1775,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/python-scaffold-package/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/python-scaffold-package/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/python-scaffold-package/index.yml"
+          path: "/.octon/state/evidence/runs/skills/python-scaffold-package/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all python-scaffold-package runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1822,19 +1822,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/python-contract-first-api/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/python-contract-first-api/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/python-contract-first-api/index.yml"
+          path: "/.octon/state/evidence/runs/skills/python-contract-first-api/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all python-contract-first-api runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1869,19 +1869,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/python-test-harness/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/python-test-harness/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/python-test-harness/index.yml"
+          path: "/.octon/state/evidence/runs/skills/python-test-harness/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all python-test-harness runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1916,19 +1916,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/python-dev-toolchain/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/python-dev-toolchain/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/python-dev-toolchain/index.yml"
+          path: "/.octon/state/evidence/runs/skills/python-dev-toolchain/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all python-dev-toolchain runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -1963,19 +1963,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/python-infra-manifest/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/python-infra-manifest/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/python-infra-manifest/index.yml"
+          path: "/.octon/state/evidence/runs/skills/python-infra-manifest/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all python-infra-manifest runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2005,19 +2005,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/python-contributor-guide/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/python-contributor-guide/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/python-contributor-guide/index.yml"
+          path: "/.octon/state/evidence/runs/skills/python-contributor-guide/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all python-contributor-guide runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2047,19 +2047,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/swift-scaffold-package/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/swift-scaffold-package/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/swift-scaffold-package/index.yml"
+          path: "/.octon/state/evidence/runs/skills/swift-scaffold-package/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all swift-scaffold-package runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2094,19 +2094,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/swift-data-layer/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/swift-data-layer/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/swift-data-layer/index.yml"
+          path: "/.octon/state/evidence/runs/skills/swift-data-layer/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all swift-data-layer runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2141,19 +2141,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/swift-cli-interface/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/swift-cli-interface/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/swift-cli-interface/index.yml"
+          path: "/.octon/state/evidence/runs/skills/swift-cli-interface/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all swift-cli-interface runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2188,19 +2188,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/swift-daemon-service/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/swift-daemon-service/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/swift-daemon-service/index.yml"
+          path: "/.octon/state/evidence/runs/skills/swift-daemon-service/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all swift-daemon-service runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2235,19 +2235,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/swift-test-harness/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/swift-test-harness/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/swift-test-harness/index.yml"
+          path: "/.octon/state/evidence/runs/skills/swift-test-harness/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all swift-test-harness runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2277,19 +2277,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/swift-contributor-guide/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/swift-contributor-guide/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log"
         - name: log_index
-          path: "_ops/state/logs/swift-contributor-guide/index.yml"
+          path: "/.octon/state/evidence/runs/skills/swift-contributor-guide/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all swift-contributor-guide runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2341,19 +2341,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/react-composition-patterns/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/react-composition-patterns/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this pattern review"
         - name: log_index
-          path: "_ops/state/logs/react-composition-patterns/index.yml"
+          path: "/.octon/state/evidence/runs/skills/react-composition-patterns/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2375,19 +2375,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/react-best-practices/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/react-best-practices/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this review"
         - name: log_index
-          path: "_ops/state/logs/react-best-practices/index.yml"
+          path: "/.octon/state/evidence/runs/skills/react-best-practices/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2409,19 +2409,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/react-native-best-practices/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/react-native-best-practices/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this review"
         - name: log_index
-          path: "_ops/state/logs/react-native-best-practices/index.yml"
+          path: "/.octon/state/evidence/runs/skills/react-native-best-practices/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2461,19 +2461,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/vercel-deploy/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/vercel-deploy/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log capturing deployment URL and status"
         - name: log_index
-          path: "_ops/state/logs/vercel-deploy/index.yml"
+          path: "/.octon/state/evidence/runs/skills/vercel-deploy/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all deploy runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2511,25 +2511,25 @@ skills:
       inputs: []
       outputs:
         - name: status_report
-          path: "../../../output/reports/analysis/{{date}}-deploy-status-{{project}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-deploy-status-{{project}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Deployment status report with readiness assessment and follow-ups"
         - name: run_log
-          path: "_ops/state/logs/deploy-status/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/deploy-status/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for deployment status checks"
         - name: log_index
-          path: "_ops/state/logs/deploy-status/index.yml"
+          path: "/.octon/state/evidence/runs/skills/deploy-status/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of deploy-status runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2582,19 +2582,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/provider-vercel-delivery/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/provider-vercel-delivery/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for provider-specific delivery actions"
         - name: log_index
-          path: "_ops/state/logs/provider-vercel-delivery/index.yml"
+          path: "/.octon/state/evidence/runs/skills/provider-vercel-delivery/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of provider-vercel-delivery runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2627,19 +2627,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/provider-github-gates/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/provider-github-gates/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for provider-specific gate mapping"
         - name: log_index
-          path: "_ops/state/logs/provider-github-gates/index.yml"
+          path: "/.octon/state/evidence/runs/skills/provider-github-gates/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of provider-github-gates runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2671,19 +2671,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/provider-nextjs-astro-runtime/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/provider-nextjs-astro-runtime/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for framework/runtime adapter analysis"
         - name: log_index
-          path: "_ops/state/logs/provider-nextjs-astro-runtime/index.yml"
+          path: "/.octon/state/evidence/runs/skills/provider-nextjs-astro-runtime/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of provider-nextjs-astro-runtime runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2717,25 +2717,25 @@ skills:
       inputs: []
       outputs:
         - name: smoke_report
-          path: "../../../output/reports/analysis/{{date}}-provider-preview-smoke-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-provider-preview-smoke-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Preview smoke summary with readiness classification"
         - name: run_log
-          path: "_ops/state/logs/provider-preview-smoke/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/provider-preview-smoke/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for provider preview smoke checks"
         - name: log_index
-          path: "_ops/state/logs/provider-preview-smoke/index.yml"
+          path: "/.octon/state/evidence/runs/skills/provider-preview-smoke/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of provider-preview-smoke runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2769,19 +2769,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/turborepo-taskgraph/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/turborepo-taskgraph/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for Turborepo taskgraph diagnostics"
         - name: log_index
-          path: "_ops/state/logs/turborepo-taskgraph/index.yml"
+          path: "/.octon/state/evidence/runs/skills/turborepo-taskgraph/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of turborepo-taskgraph runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2829,25 +2829,25 @@ skills:
           determinism: stable
           description: "The created skill directory (deliverable)"
         - name: scaffold_artifacts
-          path: "_ops/state/runs/create-skill/{{run_id}}/"
+          path: "/.octon/state/control/skills/checkpoints/create-skill/{{run_id}}/"
           kind: directory
           format: yaml
           determinism: unique
           description: "Execution state (checkpoint and summary) for session recovery"
         - name: run_log
-          path: "_ops/state/logs/create-skill/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/create-skill/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this skill creation"
         - name: skill_log_index
-          path: "_ops/state/logs/create-skill/index.yml"
+          path: "/.octon/state/evidence/runs/skills/create-skill/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all create-skill runs with metadata"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2880,25 +2880,25 @@ skills:
       inputs: []
       outputs:
         - name: resolution_report
-          path: "../../../output/reports/analysis/{{date}}-pr-comments-resolved.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-pr-comments-resolved.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured resolution report with per-comment status"
         - name: run_log
-          path: "_ops/state/logs/resolve-pr-comments/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/resolve-pr-comments/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this resolution run"
         - name: log_index
-          path: "_ops/state/logs/resolve-pr-comments/index.yml"
+          path: "/.octon/state/evidence/runs/skills/resolve-pr-comments/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all resolve-pr-comments runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -2934,25 +2934,25 @@ skills:
       inputs: []
       outputs:
         - name: triage_report
-          path: "../../../output/reports/analysis/{{date}}-ci-triage.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-ci-triage.md"
           kind: file
           format: markdown
           determinism: unique
           description: "CI triage report with diagnosis and fix details"
         - name: run_log
-          path: "_ops/state/logs/triage-ci-failure/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/triage-ci-failure/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this triage run"
         - name: log_index
-          path: "_ops/state/logs/triage-ci-failure/index.yml"
+          path: "/.octon/state/evidence/runs/skills/triage-ci-failure/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all triage-ci-failure runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -3000,25 +3000,25 @@ skills:
       inputs: []
       outputs:
         - name: triage_report
-          path: "../../../output/reports/analysis/{{date}}-ci-gate-triage-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-ci-gate-triage-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Structured gate triage report with prioritized remediation plan"
         - name: run_log
-          path: "_ops/state/logs/ci-gate-triage/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/ci-gate-triage/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for CI gate triage runs"
         - name: log_index
-          path: "_ops/state/logs/ci-gate-triage/index.yml"
+          path: "/.octon/state/evidence/runs/skills/ci-gate-triage/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of ci-gate-triage runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -3054,25 +3054,25 @@ skills:
       inputs: []
       outputs:
         - name: incident_report
-          path: "../../../output/reports/analysis/{{date}}-incident-response-{{run_id}}.md"
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-incident-response-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Incident response receipt with timeline, mitigation, and follow-ups"
         - name: run_log
-          path: "_ops/state/logs/incident-response/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/incident-response/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for incident-response runs"
         - name: log_index
-          path: "_ops/state/logs/incident-response/index.yml"
+          path: "/.octon/state/evidence/runs/skills/incident-response/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of incident-response runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -3094,19 +3094,19 @@ skills:
       inputs: []
       outputs:
         - name: run_log
-          path: "_ops/state/logs/postgres-best-practices/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/postgres-best-practices/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this review"
         - name: log_index
-          path: "_ops/state/logs/postgres-best-practices/index.yml"
+          path: "/.octon/state/evidence/runs/skills/postgres-best-practices/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -3151,25 +3151,25 @@ skills:
       inputs: []
       outputs:
         - name: implementation_plan
-          path: "../../../output/plans/{{date}}-implementation-plan-{{run_id}}.md"
+          path: "/.octon/inputs/exploratory/plans/{{date}}-implementation-plan-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Staged implementation plan with profile selection receipt, impact map, compliance receipt, and escalation sections"
         - name: run_log
-          path: "_ops/state/logs/spec-to-implementation/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/spec-to-implementation/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this planning run"
         - name: log_index
-          path: "_ops/state/logs/spec-to-implementation/index.yml"
+          path: "/.octon/state/evidence/runs/skills/spec-to-implementation/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all spec-to-implementation runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -3214,25 +3214,25 @@ skills:
       inputs: []
       outputs:
         - name: charter_alignment_plan
-          path: "../../../output/plans/{{date}}-charter-alignment-plan-{{run_id}}.md"
+          path: "/.octon/inputs/exploratory/plans/{{date}}-charter-alignment-plan-{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Profile-governed charter alignment plan with change bundles and validation scenarios"
         - name: run_log
-          path: "_ops/state/logs/plan-charter-alignment/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/plan-charter-alignment/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this charter alignment planning run"
         - name: log_index
-          path: "_ops/state/logs/plan-charter-alignment/index.yml"
+          path: "/.octon/state/evidence/runs/skills/plan-charter-alignment/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all plan-charter-alignment runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable
@@ -3277,19 +3277,19 @@ skills:
           determinism: stable
           description: "The created MCP server project directory"
         - name: run_log
-          path: "_ops/state/logs/build-mcp-server/{{run_id}}.md"
+          path: "/.octon/state/evidence/runs/skills/build-mcp-server/{{run_id}}.md"
           kind: file
           format: markdown
           determinism: unique
           description: "Execution log for this build"
         - name: log_index
-          path: "_ops/state/logs/build-mcp-server/index.yml"
+          path: "/.octon/state/evidence/runs/skills/build-mcp-server/index.yml"
           kind: file
           format: yaml
           determinism: variable
           description: "Index of all build-mcp-server runs"
         - name: top_log_index
-          path: "_ops/state/logs/index.yml"
+          path: "/.octon/state/evidence/runs/skills/index.yml"
           kind: file
           format: yaml
           determinism: variable

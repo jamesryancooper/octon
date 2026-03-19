@@ -86,8 +86,7 @@ contracts:
 
 ops_mutation_policy:
   allow_write_roots:
-    - ../../../framework/capabilities/_ops/state
-    - ../../../framework/engine/_ops/state
+    - ../../../state/control
     - ../../../framework/cognition/_ops
     - ../../../framework/assurance/runtime/_ops
     - ../../../generated

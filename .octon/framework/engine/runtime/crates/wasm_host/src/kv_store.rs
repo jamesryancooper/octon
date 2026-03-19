@@ -18,7 +18,7 @@ struct Inner {
 }
 
 impl KvStore {
-    /// Opens (or creates) a KV store at `state_dir` (e.g. `.octon/framework/engine/_ops/state/kv/`).
+    /// Opens (or creates) a KV store at `state_dir` (e.g. `.octon/state/control/engine/kv/`).
     /// Stores data in `store.json` as a JSON object: { "key": "value", ... }.
     pub fn open(state_dir: PathBuf) -> io::Result<Self> {
         fs::create_dir_all(&state_dir)?;

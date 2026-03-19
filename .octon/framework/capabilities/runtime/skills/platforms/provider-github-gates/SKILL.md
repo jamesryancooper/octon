@@ -12,7 +12,7 @@ metadata:
   updated: "2026-03-05"
 skill_sets: [executor, specialist, guardian]
 capabilities: [external-dependent]
-allowed-tools: Read Glob Grep Bash(gh *) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Bash(gh *) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Provider GitHub Gates
@@ -50,7 +50,7 @@ This skill accepts PR identifier, repository target, and gate scope options.
 
 Output paths are defined in `.octon/framework/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-Primary output is execution evidence in `_ops/state/logs/provider-github-gates/`.
+Primary output is execution evidence in `/.octon/state/evidence/runs/skills/provider-github-gates/`.
 
 ## Boundaries
 

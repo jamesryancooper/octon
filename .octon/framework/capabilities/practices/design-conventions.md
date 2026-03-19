@@ -43,13 +43,13 @@ This document defines cross-cutting design decisions that apply to all skills, p
 .octon/framework/capabilities/runtime/skills/
 ├── manifest.yml              # Harness skill index (extends .octon)
 ├── registry.yml              # Harness I/O mappings
-├── _ops/state/configs/                  # Per-skill configuration overrides
+├── /.octon/instance/capabilities/runtime/skills/configs/                  # Per-skill configuration overrides
 │   └── {{skill-id}}/
-├── _ops/state/resources/                # Per-skill input resources
+├── /.octon/instance/capabilities/runtime/skills/resources/                # Per-skill input resources
 │   └── {{skill-id}}/
-├── _ops/state/runs/                     # Per-skill execution state
+├── /.octon/state/control/skills/checkpoints/                     # Per-skill execution state
 │   └── {{skill-id}}/{{run-id}}/
-└── _ops/state/logs/                     # Per-skill execution logs
+└── /.octon/state/evidence/runs/skills/                     # Per-skill execution logs
     ├── index.yml
     └── {{skill-id}}/
         ├── index.yml
@@ -62,10 +62,10 @@ All operational categories follow the `{{category}}/{{skill-id}}/` pattern:
 
 | Category | Path Pattern | Purpose | Read/Write |
 |----------|--------------|---------|------------|
-| `_ops/state/configs/` | `_ops/state/configs/{{skill-id}}/` | Configuration overrides | Read (skills), Write (user/setup) |
-| `_ops/state/resources/` | `_ops/state/resources/{{skill-id}}/` | Input materials (notes, docs, data) | Read (skills), Write (user) |
-| `_ops/state/runs/` | `_ops/state/runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) | Read/Write (skills) |
-| `_ops/state/logs/` | `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Execution history | Read/Write (skills) |
+| `/.octon/instance/capabilities/runtime/skills/configs/` | `/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` | Configuration overrides | Read (skills), Write (user/setup) |
+| `/.octon/instance/capabilities/runtime/skills/resources/` | `/.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` | Input materials (notes, docs, data) | Read (skills), Write (user) |
+| `/.octon/state/control/skills/checkpoints/` | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) | Read/Write (skills) |
+| `/.octon/state/evidence/runs/skills/` | `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` | Execution history | Read/Write (skills) |
 
 ### Rationale
 
@@ -92,11 +92,11 @@ The top-level remains fixed at 6 entries (manifest, registry, configs, resources
 
 | Query | Command |
 |-------|---------|
-| All recent runs | `cat _ops/state/logs/index.yml` |
-| All logs across skills | `ls _ops/state/logs/` |
+| All recent runs | `cat /.octon/state/evidence/runs/skills/index.yml` |
+| All logs across skills | `ls /.octon/state/evidence/runs/skills/` |
 | All refactor artifacts | `ls */refactor/` |
-| Disk usage by category | `du -sh _ops/state/configs/ _ops/state/resources/ _ops/state/runs/ _ops/state/logs/` |
-| Clean old runs | `find _ops/state/runs/ -maxdepth 2 -name "2025-*" -type d` |
+| Disk usage by category | `du -sh /.octon/instance/capabilities/runtime/skills/configs/ /.octon/instance/capabilities/runtime/skills/resources/ /.octon/state/control/skills/checkpoints/ /.octon/state/evidence/runs/skills/` |
+| Clean old runs | `find /.octon/state/control/skills/checkpoints/ -maxdepth 2 -name "2025-*" -type d` |
 
 ### Permission Patterns
 
@@ -107,22 +107,22 @@ allowed-tools: >
   Read
   Glob
   Grep
-  Write(_ops/state/runs/*)       # execution state
-  Write(_ops/state/logs/*)       # execution logs
+  Write(/.octon/state/control/skills/checkpoints/*)       # execution state
+  Write(/.octon/state/evidence/runs/skills/*)       # execution logs
 ```
 
-Skills typically read from `_ops/state/configs/` and `_ops/state/resources/`, and write to `_ops/state/runs/` and `_ops/state/logs/`. However, this is not always the case—some skills may also read from `_ops/state/runs/` or `_ops/state/logs/` to determine current state or progress.
+Skills typically read from `/.octon/instance/capabilities/runtime/skills/configs/` and `/.octon/instance/capabilities/runtime/skills/resources/`, and write to `/.octon/state/control/skills/checkpoints/` and `/.octon/state/evidence/runs/skills/`. However, this is not always the case—some skills may also read from `/.octon/state/control/skills/checkpoints/` or `/.octon/state/evidence/runs/skills/` to determine current state or progress.
 
 ---
 
 ## Log Structure
 
-**Decision:** Use `_ops/state/logs/{{skill-id}}/` for skill-specific logs with multi-level indexes.
+**Decision:** Use `/.octon/state/evidence/runs/skills/{{skill-id}}/` for skill-specific logs with multi-level indexes.
 
 ### Directory Structure
 
 ```markdown
-.octon/framework/capabilities/runtime/skills/_ops/state/logs/
+.octon/state/evidence/runs/skills/
 ├── index.yml                          # Top-level: recent runs across ALL skills
 ├── refactor/
 │   ├── index.yml                      # Skill-level: ALL refactor runs with metadata
@@ -141,12 +141,12 @@ Skills typically read from `_ops/state/configs/` and `_ops/state/resources/`, an
 - **Skill-specific grouping** enables queries like "show me all refactors"
 - **Log filename matches runs directory** for trivial correlation
 - **Multi-level indexes** support both chronological and skill-specific queries
-- **Mirrors `_ops/state/runs/{{skill-id}}/`** pattern for consistency
+- **Mirrors `/.octon/state/control/skills/checkpoints/{{skill-id}}/`** pattern for consistency
 
 ### Top-Level Index Schema
 
 ```yaml
-# _ops/state/logs/index.yml - Cross-skill chronological index (~50-100 tokens)
+# /.octon/state/evidence/runs/skills/index.yml - Cross-skill chronological index (~50-100 tokens)
 updated: "2026-01-20T10:15:00Z"
 
 recent_runs:  # Last N runs across all skills
@@ -173,7 +173,7 @@ summary:
 ### Skill-Level Index Schema
 
 ```yaml
-# _ops/state/logs/refactor/index.yml - All refactor runs with rich metadata
+# /.octon/state/evidence/runs/skills/refactor/index.yml - All refactor runs with rich metadata
 skill: refactor
 updated: "2026-01-20T10:15:00Z"
 
@@ -200,26 +200,26 @@ scopes_completed:
 
 | Index | Requirement | Rationale |
 |-------|-------------|-----------|
-| `_ops/state/logs/index.yml` | **Required** | All skills update this; enables cross-skill queries |
-| `_ops/state/logs/{{skill-id}}/index.yml` | **Recommended for phased executor skills** | Rich metadata for phased skills; optional for minimal skills |
+| `/.octon/state/evidence/runs/skills/index.yml` | **Required** | All skills update this; enables cross-skill queries |
+| `/.octon/state/evidence/runs/skills/{{skill-id}}/index.yml` | **Recommended for phased executor skills** | Rich metadata for phased skills; optional for minimal skills |
 
 ### Key Benefits
 
 - **Quick state discovery:** "Was X already done?" → Check `scopes_completed` in skill index
 - **Skill-specific metrics:** Track verification status, files changed, etc.
 - **Top-level stays small:** Only recent N runs, not entire history
-- **Correlation:** `_ops/state/runs/refactor/2026-01-19-rename-scratch/` pairs with `_ops/state/logs/refactor/2026-01-19-rename-scratch.md`
+- **Correlation:** `/.octon/state/control/skills/checkpoints/refactor/2026-01-19-rename-scratch/` pairs with `/.octon/state/evidence/runs/skills/refactor/2026-01-19-rename-scratch.md`
 
 ---
 
 ## Checkpoint Storage
 
-**Decision:** Use `_ops/state/runs/{{skill-id}}/{{run-id}}/checkpoint.yml` as the source of truth for execution state.
+**Decision:** Use `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/checkpoint.yml` as the source of truth for execution state.
 
 ### Directory Structure
 
 ```markdown
-.octon/framework/capabilities/runtime/skills/_ops/state/runs/refactor/2026-01-19-rename-scratch/
+.octon/state/control/skills/checkpoints/refactor/2026-01-19-rename-scratch/
 ├── checkpoint.yml        # Execution state (source of truth for resume)
 ├── scope.md              # Phase 1 output
 ├── audit-manifest.md     # Phase 2 output
@@ -231,7 +231,7 @@ scopes_completed:
 
 ### Rationale
 
-- **Skills write execution state** to `_ops/state/runs/` — keeps checkpoints and manifests separate from deliverables
+- **Skills write execution state** to `/.octon/state/control/skills/checkpoints/` — keeps checkpoints and manifests separate from deliverables
 - **Keeping all artifacts together** makes inspection easier
 - **Explicit checkpoint file** supports progressive disclosure and faster resume
 - **Correlates with log files** via matching `{{skill-id}}/{{run-id}}`
@@ -305,8 +305,8 @@ parameters:
 
 | Tier | What to Read | Tokens | Question Answered |
 |------|--------------|--------|-------------------|
-| 1 | `_ops/state/logs/index.yml` | ~50 | "What ran recently across all skills?" |
-| 2 | `_ops/state/logs/{{skill-id}}/index.yml` | ~100 | "What {{skill}} runs have been done? Was X already done?" |
+| 1 | `/.octon/state/evidence/runs/skills/index.yml` | ~50 | "What ran recently across all skills?" |
+| 2 | `/.octon/state/evidence/runs/skills/{{skill-id}}/index.yml` | ~100 | "What {{skill}} runs have been done? Was X already done?" |
 | 3 | `checkpoint.yml` | ~50 | "What's the state of this specific run?" |
 | 4 | Phase outputs (scope.md, etc.) | ~200-500 each | "What were the results of phase N?" |
 | 5 | `execution-log.md` | Variable | "Debug partial execution, find exact stopping point" |
@@ -327,16 +327,16 @@ parameters:
 ### Pattern
 
 ```markdown
-_ops/state/runs/{{skill-id}}/{{run-id}}/       ← Execution state (checkpoint, manifests) for session recovery
-_ops/state/logs/{{skill-id}}/{{run-id}}.md     ← Execution log
+/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/       ← Execution state (checkpoint, manifests) for session recovery
+/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md     ← Execution log
 ```
 
 ### Examples
 
 | Skill | Run ID | Artifacts | Log |
 |-------|--------|-----------|-----|
-| refactor | `2026-01-20-move-utils` | `_ops/state/runs/refactor/2026-01-20-move-utils/` | `_ops/state/logs/refactor/2026-01-20-move-utils.md` |
-| create-skill | `2026-01-20-analyze-codebase` | `_ops/state/runs/create-skill/2026-01-20-analyze-codebase/` | `_ops/state/logs/create-skill/2026-01-20-analyze-codebase.md` |
+| refactor | `2026-01-20-move-utils` | `/.octon/state/control/skills/checkpoints/refactor/2026-01-20-move-utils/` | `/.octon/state/evidence/runs/skills/refactor/2026-01-20-move-utils.md` |
+| create-skill | `2026-01-20-analyze-codebase` | `/.octon/state/control/skills/checkpoints/create-skill/2026-01-20-analyze-codebase/` | `/.octon/state/evidence/runs/skills/create-skill/2026-01-20-analyze-codebase.md` |
 
 ### Run ID Format
 
@@ -379,7 +379,7 @@ After audit/discovery phase, evaluate scope:
 ## Scope Check Gate
 
 If escalation needed:
-1. Save artifacts to _ops/state/runs/{{skill-id}}/{{run-id}}/
+1. Save artifacts to /.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/
 2. Report: "This task exceeds skill scope. Recommend creating a mission."
 3. Provide mission template pre-filled with audit data
 4. STOP — do not proceed to execution phase
@@ -425,10 +425,10 @@ These thresholds are based on practical constraints of agent sessions and human 
 1. **Start with defaults** — Use the values in the table above
 2. **Run a few skills** — Observe where escalation triggers feel premature or too late
 3. **Adjust incrementally** — Change one threshold at a time, by 25-50%
-4. **Document your settings** — Override in `.octon/framework/capabilities/runtime/skills/_ops/state/configs/defaults.yml`:
+4. **Document your settings** — Override in `.octon/instance/capabilities/runtime/skills/configs/defaults.yml`:
 
 ```yaml
-# .octon/framework/capabilities/runtime/skills/_ops/state/configs/defaults.yml
+# .octon/instance/capabilities/runtime/skills/configs/defaults.yml
 scope_limits:
   files_to_modify: 75      # Raised: monorepo with small files
   match_count: 150         # Lowered: limited test coverage
@@ -466,7 +466,7 @@ scope_limits:
 
 **Mission handoff:** When a skill determines work exceeds session scope, it should:
 
-1. Save current state to `_ops/state/runs/{{skill-id}}/{{run-id}}/`
+1. Save current state to `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/`
 2. Generate a mission template pre-filled with audit data
 3. Report: "This task exceeds skill scope. Recommend creating a mission."
 4. Provide the mission template path for user to review and initiate
@@ -490,7 +490,7 @@ See `.octon/framework/orchestration/runtime/workflows/` for mission templates an
 ### What Skills SHOULD Do
 
 1. **Generate a suggested commit message** with summary of changes
-2. **Save commit message** to `_ops/state/runs/{{skill-id}}/{{run-id}}/commit-message.txt`
+2. **Save commit message** to `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/commit-message.txt`
 3. **Inform user:** "Changes are unstaged. Suggested commit message saved."
 4. **Do NOT** run `git add` or `git commit`
 
@@ -527,7 +527,7 @@ If the user explicitly passes `--commit` or `auto_commit: true`, the skill MAY c
 - Z items to change
 
 **Change Manifest:**
-- [full manifest in _ops/state/runs/{{skill-id}}/{{run-id}}/change-manifest.md]
+- [full manifest in /.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/change-manifest.md]
 
 **Next steps:**
 - Review the change manifest
@@ -536,7 +536,7 @@ If the user explicitly passes `--commit` or `auto_commit: true`, the skill MAY c
 
 ### Artifact Preservation
 
-Dry-run artifacts remain in `_ops/state/runs/` so a subsequent real run can detect them and offer to resume from the planning phase.
+Dry-run artifacts remain in `/.octon/state/control/skills/checkpoints/` so a subsequent real run can detect them and offer to resume from the planning phase.
 
 ---
 
@@ -549,7 +549,7 @@ Dry-run artifacts remain in `_ops/state/runs/` so a subsequent real run can dete
 ```markdown
 On skill invocation, check for existing checkpoint:
 
-1. Look for `_ops/state/runs/{{skill-id}}/*{{identifier}}*/checkpoint.yml`
+1. Look for `/.octon/state/control/skills/checkpoints/{{skill-id}}/*{{identifier}}*/checkpoint.yml`
 2. If found, read checkpoint.yml (~50 tokens)
 3. Check `status` field and `current_phase`
 4. Check `resume.instruction` for explicit guidance
@@ -632,7 +632,7 @@ Choice:
 
 ## Continuity Artifact Detection
 
-> **Terminology Note:** This section describes **harness continuity files**—historical records (progress logs, ADRs, decisions) that preserve project history and require append-only protection during skill execution. For **skill execution state** (checkpoints, manifests) stored in `_ops/state/runs/{{skill-id}}/{{run-id}}/`, see [Checkpoint Storage](#checkpoint-storage) above. The two concepts serve different purposes: harness continuity files preserve *project history*, while skill execution state enables *session recovery*.
+> **Terminology Note:** This section describes **harness continuity files**—historical records (progress logs, ADRs, decisions) that preserve project history and require append-only protection during skill execution. For **skill execution state** (checkpoints, manifests) stored in `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/`, see [Checkpoint Storage](#checkpoint-storage) above. The two concepts serve different purposes: harness continuity files preserve *project history*, while skill execution state enables *session recovery*.
 
 **Decision:** Use convention-based allowlist with explicit configuration override.
 
@@ -843,12 +843,12 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 
 | Category | Path Pattern | Purpose |
 |----------|--------------|---------|
-| `_ops/state/configs/` | `_ops/state/configs/{{skill-id}}/` | Per-skill configuration overrides |
-| `_ops/state/resources/` | `_ops/state/resources/{{skill-id}}/` | Per-skill input materials |
-| `_ops/state/runs/` | `_ops/state/runs/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
-| `_ops/state/logs/` | `_ops/state/logs/{{skill-id}}/{{run-id}}.md` | Execution history |
+| `/.octon/instance/capabilities/runtime/skills/configs/` | `/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` | Per-skill configuration overrides |
+| `/.octon/instance/capabilities/runtime/skills/resources/` | `/.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` | Per-skill input materials |
+| `/.octon/state/control/skills/checkpoints/` | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` | Execution state (checkpoints, manifests) |
+| `/.octon/state/evidence/runs/skills/` | `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` | Execution history |
 
-**Correlation pattern:** `_ops/state/logs/{{skill-id}}/{{run-id}}.md` pairs with `_ops/state/runs/{{skill-id}}/{{run-id}}/`
+**Correlation pattern:** `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` pairs with `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/`
 
 ---
 
@@ -932,7 +932,7 @@ The `external-dependent` capability requires a `references/dependencies.md` file
 The current pattern has no offline fallback — if the URL is unreachable, the skill stops. A future enhancement could cache the last fetched ruleset:
 
 ```text
-_ops/state/configs/{{skill-id}}/cached-ruleset.md    ← Auto-saved after each successful fetch
+/.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/cached-ruleset.md    ← Auto-saved after each successful fetch
 ```
 
 Implementation considerations:
@@ -953,12 +953,12 @@ This pattern is documented but **not yet implemented** in any skill.
 |-------|----------|
 | **Directory structure** | Artifact-centric categorical structure with bounded top-level |
 | **Category pattern** | All categories follow `{{category}}/{{skill-id}}/` pattern |
-| **Log structure** | `_ops/state/logs/{{skill-id}}/` with multi-level indexes |
-| **Checkpoint storage** | `_ops/state/runs/{{skill-id}}/{{run-id}}/checkpoint.yml` as source of truth |
+| **Log structure** | `/.octon/state/evidence/runs/skills/{{skill-id}}/` with multi-level indexes |
+| **Checkpoint storage** | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/checkpoint.yml` as source of truth |
 | **Deliverables** | Write to `.octon/{{category}}/` (final destination) |
-| **Operational artifacts** | Write to `_ops/state/configs/`, `_ops/state/resources/`, `_ops/state/runs/`, `_ops/state/logs/` |
+| **Operational artifacts** | Write to `/.octon/instance/capabilities/runtime/skills/configs/`, `/.octon/instance/capabilities/runtime/skills/resources/`, `/.octon/state/control/skills/checkpoints/`, `/.octon/state/evidence/runs/skills/` |
 | **Progressive disclosure** | Tiered state discovery (index → checkpoint → phase outputs) |
-| **Runs-log correlation** | `_ops/state/runs/{{skill-id}}/{{run-id}}/` pairs with `_ops/state/logs/{{skill-id}}/{{run-id}}.md` |
+| **Runs-log correlation** | `/.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` pairs with `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` |
 | **Scope limits** | >50 files or >3 modules → escalate to mission |
 | **Git integration** | No auto-commit; provide suggested commit message |
 | **Dry-run mode** | Execute discovery/planning phases only |

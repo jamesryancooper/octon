@@ -142,7 +142,7 @@ tools: []
 
 ```yaml
 # New pack reference (additive — existing format still works):
-allowed-tools: pack:read-only Write(../../output/reports/*) Write(_ops/state/logs/*)
+allowed-tools: pack:read-only Write(/.octon/state/evidence/validation/analysis/*) Write(_ops/state/logs/*)
 
 # Multiple packs + inline tools:
 allowed-tools: pack:file-ops pack:ci-integration WebFetch Write(_ops/state/logs/*)

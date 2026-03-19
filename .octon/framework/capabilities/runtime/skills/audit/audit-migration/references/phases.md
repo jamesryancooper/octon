@@ -50,7 +50,7 @@ behavior:
         - "Assign final severity to each finding"
         - "Group into recommended fix batches"
         - "Generate coverage proof section"
-        - "Write report to output/reports/analysis/"
+        - "Write report to /.octon/state/evidence/validation/analysis/"
         - "Write execution log with idempotency metadata"
   principles:
     - name: "Fixed lenses"
@@ -303,7 +303,7 @@ Verify that paths referenced in key operational files actually resolve on disk.
    | ------------------- | ----------------- | -------------------------------------------- |
    | Backtick paths      | `` `path/to/file` `` | `` `cognition/runtime/context/decisions.md` ``    |
    | Markdown links      | `label + target`  | `decisions -> cognition/runtime/decisions/`          |
-   | YAML path values    | `path: "value"`   | `path: "_ops/state/resources/synthesize-research/"`     |
+   | YAML path values    | `path: "value"`   | `path: "/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/"`     |
    | Relative references | `./path` or `../path` | `../capabilities/runtime/commands/`              |
 
 3. **Resolve each path relative to its containing file:**
@@ -591,7 +591,7 @@ Consolidate all findings into a structured, actionable report with coverage proo
 
 7. **Write execution log:**
 
-   Log to `_ops/state/logs/audit-migration/{{run_id}}.md`:
+   Log to `/.octon/state/evidence/runs/skills/audit-migration/{{run_id}}.md`:
 
    ```markdown
    # Audit Migration Run Log
@@ -624,7 +624,7 @@ Consolidate all findings into a structured, actionable report with coverage proo
    - .octon/state/evidence/validation/analysis/YYYY-MM-DD-migration-audit.md
    ```
 
-8. **Update log index** (`_ops/state/logs/audit-migration/index.yml`)
+8. **Update log index** (`/.octon/state/evidence/runs/skills/audit-migration/index.yml`)
 
 ### Partition-Mode Report Variant (when `partition` parameter is set)
 

@@ -38,7 +38,7 @@ io:
     - name: evidence_artifacts_glob
       type: text
       required: false
-      default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+      default: "**/continuity/runs/**/evidence/**,**//.octon/state/evidence/validation/analysis/**"
       description: "Comma-separated globs selecting operational evidence and run-receipt artifacts"
     - name: severity_threshold
       type: text
@@ -61,22 +61,22 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: operational_readiness_audit_report
-      path: "../../../output/reports/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-operational-readiness-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured operational-readiness findings report"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-operational-readiness/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-operational-readiness/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this operational-readiness audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-operational-readiness/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-operational-readiness/index.yml"
       format: yaml
       determinism: variable
       description: "Index of operational-readiness audit runs with metadata"

@@ -88,13 +88,61 @@ require_file "$OCTON_DIR/state/continuity/repo/next.md"
 require_dir "$OCTON_DIR/state/control/extensions"
 require_file "$OCTON_DIR/state/control/extensions/active.yml"
 require_file "$OCTON_DIR/state/control/extensions/quarantine.yml"
+require_dir "$OCTON_DIR/state/control/capabilities"
+require_dir "$OCTON_DIR/state/control/skills"
+require_dir "$OCTON_DIR/state/control/engine"
 require_dir "$OCTON_DIR/state/evidence/decisions/repo"
+require_dir "$OCTON_DIR/state/evidence/decisions/repo/capabilities"
 require_dir "$OCTON_DIR/state/evidence/runs"
+require_dir "$OCTON_DIR/state/evidence/runs/skills"
+require_dir "$OCTON_DIR/state/evidence/runs/services"
+require_dir "$OCTON_DIR/state/evidence/runs/engine"
 require_dir "$OCTON_DIR/state/evidence/validation"
 require_dir "$OCTON_DIR/state/evidence/migration"
 
 require_dir "$OCTON_DIR/generated/effective"
+require_dir "$OCTON_DIR/generated/effective/assurance"
+require_dir "$OCTON_DIR/generated/effective/capabilities"
+require_dir "$OCTON_DIR/generated/effective/capabilities/filesystem-snapshots"
 require_dir "$OCTON_DIR/generated/proposals"
+
+unexpected_octon_entries=()
+while IFS= read -r entry; do
+  rel="${entry#$OCTON_DIR/}"
+  case "$rel" in
+    README.md|AGENTS.md|octon.yml|framework|instance|inputs|state|generated)
+      ;;
+    *)
+      unexpected_octon_entries+=(".octon/$rel")
+      ;;
+  esac
+done < <(find "$OCTON_DIR" -mindepth 1 -maxdepth 1 -print | sort)
+
+if [[ "${#unexpected_octon_entries[@]}" -gt 0 ]]; then
+  fail "unexpected top-level .octon entries remain outside the five-class topology"
+  printf '%s\n' "${unexpected_octon_entries[@]}"
+else
+  pass "no unexpected top-level .octon entries remain"
+fi
+
+unexpected_framework_entries=()
+while IFS= read -r entry; do
+  rel="${entry#$OCTON_DIR/framework/}"
+  case "$rel" in
+    manifest.yml|overlay-points|agency|assurance|capabilities|cognition|engine|orchestration|scaffolding)
+      ;;
+    *)
+      unexpected_framework_entries+=("framework/$rel")
+      ;;
+  esac
+done < <(find "$OCTON_DIR/framework" -mindepth 1 -maxdepth 1 -print | sort)
+
+if [[ "${#unexpected_framework_entries[@]}" -gt 0 ]]; then
+  fail "unexpected framework top-level entries remain outside the Packet 3 framework bundle"
+  printf '%s\n' "${unexpected_framework_entries[@]}"
+else
+  pass "no unexpected framework top-level entries remain"
+fi
 
 if [[ -e "$OCTON_DIR/continuity" ]]; then
   fail "legacy continuity root still exists: .octon/continuity"

@@ -44,4 +44,4 @@ description: Acceptance criteria for the build-mcp-server skill.
 5. Error handling returns structured messages
 6. No credentials in source code
 7. README is complete and accurate
-8. Log exists at `_ops/state/logs/build-mcp-server/{{run_id}}.md`
+8. Log exists at `/.octon/state/evidence/runs/skills/build-mcp-server/{{run_id}}.md`

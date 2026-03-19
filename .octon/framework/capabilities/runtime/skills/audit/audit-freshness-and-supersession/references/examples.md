@@ -20,5 +20,5 @@ description: Example invocations for audit-freshness-and-supersession.
 ## Focused Artifact Families
 
 ```text
-/audit-freshness-and-supersession scope=".octon" artifact_globs="output/plans/**/*.md,output/reports/**/*.md"
+/audit-freshness-and-supersession scope=".octon" artifact_globs="/.octon/inputs/exploratory/plans/**/*.md,/.octon/state/evidence/validation/analysis/**/*.md"
 ```

@@ -40,7 +40,7 @@ Representative examples for the audit-architecture-readiness skill.
 ### Invocation
 
 ```text
-/audit-architecture-readiness target_path=".octon/ideation"
+/audit-architecture-readiness target_path=".octon/inputs/exploratory/ideation"
 ```
 
 ### Expected Emphasis

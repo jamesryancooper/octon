@@ -20,7 +20,7 @@ It supplements built-in pattern matching when a repository needs local overrides
 - `**/cognition/runtime/context/decisions.md`
 - `**/cognition/runtime/decisions/*.md`
 - `**/cognition/runtime/migrations/*/plan.md`
-- `**/output/reports/migrations/*/evidence.md`
+- `**//.octon/state/evidence/migration/*/evidence.md`
 
 ## Mutability
 

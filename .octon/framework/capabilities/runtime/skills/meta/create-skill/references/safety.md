@@ -8,7 +8,7 @@ description: Safety constraints for the create-skill skill.
 ## Tool Policy
 
 - Read template, manifest, registry, and existing skill definitions before writing.
-- Write only inside `.octon/framework/capabilities/runtime/skills/`, `_ops/state/runs/`, and `_ops/state/logs/`.
+- Write only inside `.octon/framework/capabilities/runtime/skills/`, `/.octon/state/control/skills/checkpoints/`, and `/.octon/state/evidence/runs/skills/`.
 - Use `Bash(mkdir)` and `Bash(cp)` only for bounded template scaffolding.
 - Use the shared `setup-harness-links.sh` flow instead of hand-creating per-skill symlinks.
 

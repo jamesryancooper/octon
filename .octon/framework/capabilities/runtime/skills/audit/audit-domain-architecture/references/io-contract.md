@@ -41,22 +41,22 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: critique_report
-      path: "../../../output/reports/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-domain-architecture-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured independent architecture critique report"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-domain-architecture/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-domain-architecture/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this critique run"
     - name: log_index
-      path: "_ops/state/logs/audit-domain-architecture/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-domain-architecture/index.yml"
       format: yaml
       determinism: variable
       description: "Index of critique runs with metadata"

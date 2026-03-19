@@ -5,7 +5,7 @@ description: Safety policies and constraints for the deploy skill.
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Bash(vercel *) Bash(npm pack*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Bash(vercel *) Bash(npm pack*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -84,7 +84,7 @@ This skill explicitly does **NOT** have:
 
 ### Write Scope
 
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/vercel-deploy/` — Execution logs only
+- `.octon/state/evidence/runs/skills/vercel-deploy/` — Execution logs only
 
 ### Source Code Modifications
 

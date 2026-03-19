@@ -38,7 +38,7 @@ io:
     - name: evidence_artifacts_glob
       type: text
       required: false
-      default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+      default: "**/continuity/runs/**/evidence/**,**//.octon/state/evidence/validation/analysis/**"
       description: "Comma-separated globs selecting API governance evidence and run-receipt artifacts"
     - name: severity_threshold
       type: text
@@ -61,22 +61,22 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: api_contract_audit_report
-      path: "../../../output/reports/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-api-contract-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured API-contract findings report"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-api-contract/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-api-contract/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this API-contract audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-api-contract/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-api-contract/index.yml"
       format: yaml
       determinism: variable
       description: "Index of API-contract audit runs with metadata"

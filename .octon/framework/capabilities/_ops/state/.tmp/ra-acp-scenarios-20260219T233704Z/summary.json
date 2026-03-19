@@ -1,9 +1,0 @@
-{
-  "out_dir": "/Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/_ops/state/.tmp/ra-acp-scenarios-20260219T233704Z",
-  "run_ids": [
-    "audit5-acp1-allow-20260219T233704Z",
-    "audit5-acp2-stage-20260219T233704Z",
-    "audit5-acp2-allow-20260219T233704Z",
-    "audit5-acp4-deny-20260219T233704Z"
-  ]
-}

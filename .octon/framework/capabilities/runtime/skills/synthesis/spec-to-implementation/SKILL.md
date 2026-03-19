@@ -12,7 +12,7 @@ metadata:
   updated: "2026-03-04"
 skill_sets: [executor, coordinator]
 capabilities: [human-collaborative]
-allowed-tools: Read Glob Grep Write(../../output/plans/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/plans/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Spec to Implementation
@@ -77,7 +77,7 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 Outputs are written to:
 
 - `.octon/inputs/exploratory/plans/YYYY-MM-DD-implementation-plan-{{run_id}}.md`
-- `_ops/state/logs/spec-to-implementation/`
+- `/.octon/state/evidence/runs/skills/spec-to-implementation/`
 
 ## Boundaries
 

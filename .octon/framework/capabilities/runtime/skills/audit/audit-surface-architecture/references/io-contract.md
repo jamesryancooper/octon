@@ -36,22 +36,22 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: surface_architecture_audit_report
-      path: "../../../output/reports/{{date}}-surface-architecture-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-surface-architecture-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured surface-architecture findings report"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-surface-architecture/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-surface-architecture/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this surface-architecture audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-surface-architecture/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-surface-architecture/index.yml"
       format: yaml
       determinism: variable
       description: "Index of surface-architecture audit runs with metadata"

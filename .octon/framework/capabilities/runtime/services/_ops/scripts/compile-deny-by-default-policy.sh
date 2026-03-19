@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVICES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 ROOT_DIR="$(cd "$SERVICES_DIR/../../../.." && pwd)"
 MANIFEST="$SERVICES_DIR/manifest.yml"
-DEFAULT_OUT="$SERVICES_DIR/_ops/state/deny-by-default-policy.catalog.yml"
+DEFAULT_OUT="$ROOT_DIR/generated/effective/capabilities/deny-by-default-policy.catalog.yml"
 OUT_PATH="${1:-$DEFAULT_OUT}"
 
 split_allowed_tools() {

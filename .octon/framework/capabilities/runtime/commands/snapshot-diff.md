@@ -19,5 +19,5 @@ Compare two snapshots and emit added/removed/changed paths.
 
 ```bash
 .octon/framework/engine/runtime/run tool interfaces/filesystem-snapshot snapshot.diff --json \
-  '{"base":"snap-aaaa","head":"snap-bbbb","state_dir":".octon/framework/engine/_ops/state/snapshots"}'
+  '{"base":"snap-aaaa","head":"snap-bbbb","state_dir":".octon/generated/effective/capabilities/filesystem-snapshots"}'
 ```

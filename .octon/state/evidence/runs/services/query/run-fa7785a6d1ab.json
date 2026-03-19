@@ -1,0 +1,27 @@
+{
+  "runId": "run-fa7785a6d1ab",
+  "service": {
+    "name": "octon.service.query",
+    "version": "0.1.0"
+  },
+  "inputs": {},
+  "status": "failure",
+  "summary": "Snapshot 'indexes/does-not-exist' could not be resolved.",
+  "durationMs": 0,
+  "stage": "implement",
+  "risk": "medium",
+  "telemetry": {
+    "trace_id": "run-fa7785a6d1ab",
+    "spans": [
+      "service.query.explain"
+    ]
+  },
+  "determinism": {
+    "inputsHash": "sha256:bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f"
+  },
+  "outputs": {},
+  "createdAt": "2026-02-14T22:30:53Z",
+  "error": {
+    "code": "SnapshotNotFoundError"
+  }
+}

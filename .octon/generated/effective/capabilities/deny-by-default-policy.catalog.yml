@@ -1,0 +1,184 @@
+schema_version: "1.0"
+generated_at: "2026-03-18T20:47:21Z"
+source_manifest: "framework/capabilities/runtime/services/manifest.yml"
+services:
+  - id: "guard"
+    path: "governance/guard/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "prompt"
+    path: "modeling/prompt/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "cost"
+    path: "operations/cost/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: false
+    allowed_tools:
+      - "Read"
+      - "Write(/.octon/state/evidence/runs/services/*)"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "flow"
+    path: "execution/flow/"
+    status: "active"
+    interface_type: "mcp"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Write(/.octon/state/evidence/runs/services/flow/*)"
+  - id: "spec"
+    path: "planning/spec/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "plan"
+    path: "planning/plan/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "playbook"
+    path: "planning/playbook/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "critic"
+    path: "planning/critic/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "replan"
+    path: "planning/replan/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "scheduler"
+    path: "planning/scheduler/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "capability-bind"
+    path: "planning/capability-bind/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "contingency"
+    path: "planning/contingency/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "agent"
+    path: "execution/agent/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+      - "Write(/.octon/state/control/engine/agent/*)"
+      - "Write(/.octon/state/evidence/runs/engine/agent/*)"
+  - id: "agent-platform"
+    path: "interfaces/agent-platform/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+  - id: "query"
+    path: "retrieval/query/"
+    status: "active"
+    interface_type: "shell"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Grep"
+      - "Bash(bash)"
+      - "Write(/.octon/state/evidence/runs/services/query/*)"
+  - id: "filesystem-snapshot"
+    path: "interfaces/filesystem-snapshot/"
+    status: "active"
+    interface_type: "library"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Write(/.octon/generated/effective/capabilities/filesystem-snapshots/*)"
+  - id: "filesystem-discovery"
+    path: "interfaces/filesystem-discovery/"
+    status: "active"
+    interface_type: "library"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+  - id: "filesystem-watch"
+    path: "interfaces/filesystem-watch/"
+    status: "active"
+    interface_type: "library"
+    fail_closed: true
+    allowed_tools:
+      - "Read"
+      - "Glob"
+      - "Write(/.octon/state/control/engine/watch/*)"

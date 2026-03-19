@@ -5,7 +5,7 @@ description: Safety policies and constraints for the synthesize-research skill.
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Write(../../output/drafts/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Write(/.octon/inputs/exploratory/drafts/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -37,7 +37,7 @@ The skill may only write to designated output locations:
 | Tier | Path | Purpose |
 |------|------|---------|
 | **Tier 1** | `.octon/inputs/exploratory/drafts/**` | Synthesis documents (deliverables) |
-| **Tier 1** | `.octon/framework/capabilities/runtime/skills/_ops/state/logs/**` | Execution logs |
+| **Tier 1** | `.octon/state/evidence/runs/skills/**` | Execution logs |
 
 ### Scope Authority
 
@@ -65,7 +65,7 @@ The skill must never:
 - Preserve the nuance of original research
 - State assumptions explicitly
 - Mark uncertain findings with appropriate confidence level
-- Write only to .octon/inputs/exploratory/drafts/ and _ops/state/logs/ directories
+- Write only to .octon/inputs/exploratory/drafts/ and /.octon/state/evidence/runs/skills/ directories
 
 ### Must Never
 

@@ -27,7 +27,7 @@ Cost provides deterministic estimate/record operations for AI workflow spend tra
 ## Runtime
 
 - Entrypoint: `impl/cost.sh`
-- Durable usage path: `../../_ops/state/runs/cost-usage.jsonl`
+- Durable usage path: `/.octon/state/evidence/runs/services/cost-usage.jsonl`
 
 ## Contract Artifacts
 

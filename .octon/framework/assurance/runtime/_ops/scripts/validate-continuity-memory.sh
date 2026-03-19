@@ -599,6 +599,11 @@ validate_decisions_retention_contract() {
       continue
     fi
 
+    if [[ "$decision_name" == "capabilities" ]]; then
+      pass "decision container retained as canonical top-level bucket: ${decision_path#$ROOT_DIR/}"
+      continue
+    fi
+
     matched=0
 
     while IFS=$'\t' read -r class_id prefix; do
@@ -814,7 +819,7 @@ validate_runs_retention_contract() {
     [[ -z "$run_path" ]] && continue
     run_name="$(basename "$run_path")"
 
-    if [[ "$run_name" == "operations" || "$run_name" == "workflows" ]]; then
+    if [[ "$run_name" == "operations" || "$run_name" == "workflows" || "$run_name" == "engine" || "$run_name" == "services" || "$run_name" == "skills" ]]; then
       pass "run container retained as canonical top-level bucket: ${run_path#$ROOT_DIR/}"
       continue
     fi

@@ -993,7 +993,8 @@ mod tests {
         let octon_dir = root.join(".octon");
         let workflows_dir = octon_dir.join("orchestration/runtime/workflows/test/sample-workflow");
         fs::create_dir_all(workflows_dir.join("stages")).expect("create workflow stages");
-        fs::create_dir_all(octon_dir.join("output/reports")).expect("create output root");
+        fs::create_dir_all(octon_dir.join("state/evidence/validation/analysis"))
+            .expect("create evidence root");
 
         fs::write(
             octon_dir.join("orchestration/runtime/workflows/manifest.yml"),

@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep WebFetch Write(../../output/reports/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep WebFetch Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -55,8 +55,8 @@ This skill has no persistent input resources. It operates on:
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/commands.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/validation.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/inventory.md`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-ui/{run_id}.md`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-ui/index.yml`
+- `.octon/state/evidence/runs/skills/audit-ui/{run_id}.md`
+- `.octon/state/evidence/runs/skills/audit-ui/index.yml`
 
 ## Determinism Notes
 

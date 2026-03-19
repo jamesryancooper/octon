@@ -146,7 +146,7 @@ If both `/repo/.octon/` and `/repo/packages/kits/.octon/` exist, invocation fail
 | **Registry loading** | Loads the repo-root `.octon/framework/capabilities/runtime/skills/registry.yml` |
 | **Output paths**     | Validates paths against the repository root boundary |
 | **Write permissions**| Can write only within the repo-root harness scope and declared project paths |
-| **Run logs**         | Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/{{skill-id}}/{{run-id}}.md` |
+| **Run logs**         | Written to `.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` |
 
 See [Harness Resolution](./harness-resolution.md) for the complete resolution algorithm.
 

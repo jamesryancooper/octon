@@ -32,7 +32,7 @@ context_overhead_gate:
     - context_acquisition
     - context_overhead_ratio
 exceptions:
-  state_file: ".octon/framework/capabilities/_ops/state/deny-by-default-exceptions.yml"
+  state_file: ".octon/state/control/capabilities/deny-by-default-exceptions.yml"
   require_owner: true
   require_reason: true
   require_created: true
@@ -40,17 +40,17 @@ exceptions:
   max_lease_days: 120
 governance_overrides:
   waivers:
-    state_file: ".octon/framework/capabilities/_ops/state/governance-waivers.json"
+    state_file: ".octon/state/control/capabilities/governance-waivers.json"
     required_fields: [id, owner, reason_code, scope, target, created, expires, evidence_refs, receipt_required, risk_tier, acp]
     max_duration_days: 7
     require_receipt: true
   exceptions:
-    state_file: ".octon/framework/capabilities/_ops/state/deny-by-default-exceptions.yml"
+    state_file: ".octon/state/control/capabilities/deny-by-default-exceptions.yml"
     required_fields: [id, owner, reason_code, scope, target, created, expires, evidence_refs, receipt_required, risk_tier, acp]
     max_duration_days: 120
     require_receipt: true
 grants:
-  state_dir: ".octon/framework/capabilities/_ops/state/grants"
+  state_dir: ".octon/state/control/capabilities/grants"
   default_ttl_seconds: 3600
   max_ttl_seconds_by_tier:
     low: 86400
@@ -79,7 +79,7 @@ agent_only:
       require_quorum_token: true
       require_rollback_plan: true
 kill_switch:
-  state_dir: ".octon/framework/capabilities/_ops/state/kill-switches"
+  state_dir: ".octon/state/control/capabilities/kill-switches"
   fail_closed: true
 profiles:
   refactor:
@@ -118,7 +118,7 @@ profiles:
     service_allowlist: ["guard", "cost", "scheduler", "critic"]
     deny_rules: ["DDB001_POLICY_FILE_MISSING", "DDB002_POLICY_INVALID", "DDB019_KILL_SWITCH_ACTIVE"]
 observability:
-  decision_log_path: ".octon/framework/capabilities/_ops/state/logs/deny-by-default-decisions.jsonl"
+  decision_log_path: ".octon/state/evidence/decisions/repo/capabilities/deny-by-default-decisions.jsonl"
   friction_slo:
     false_deny_rate_max: 0.005
     median_deny_to_unblock_seconds_max: 60
@@ -736,8 +736,8 @@ receipts:
   emit_on: [ALLOW, STAGE_ONLY, DENY, ESCALATE]
   paths:
     runs_dir: .octon/state/evidence/runs
-    decision_log: .octon/framework/capabilities/_ops/state/logs/deny-by-default-decisions.jsonl
-    acp_decision_log: .octon/framework/capabilities/_ops/state/logs/acp-decisions.jsonl
+    decision_log: .octon/state/evidence/decisions/repo/capabilities/deny-by-default-decisions.jsonl
+    acp_decision_log: .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
   required_fields:
     - schema_version
     - run_id

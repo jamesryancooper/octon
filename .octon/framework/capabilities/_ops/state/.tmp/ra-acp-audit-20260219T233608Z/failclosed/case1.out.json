@@ -1,9 +1,0 @@
-{
-  "allow": false,
-  "mode": "hard-enforce",
-  "deny": {
-    "code": "DDB025_RUNTIME_DECISION_ENGINE_ERROR",
-    "message": "failed to load policy /Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/_ops/state/.tmp/ra-acp-audit-20260219T233608Z/failclosed/case1.policy.bad.yml",
-    "remediation_hint": "Inspect policy input and engine diagnostics"
-  }
-}

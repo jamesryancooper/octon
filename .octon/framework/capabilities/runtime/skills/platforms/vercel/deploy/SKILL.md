@@ -12,7 +12,7 @@ metadata:
   updated: "2026-02-09"
 skill_sets: [executor]
 capabilities: [external-dependent, external-output]
-allowed-tools: Read Glob Bash(vercel *) Bash(npm pack*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Bash(vercel *) Bash(npm pack*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Vercel Deploy
@@ -59,7 +59,7 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 
 Outputs are written to:
 
-- `_ops/state/logs/vercel-deploy/` — Execution logs with deployment URLs and status
+- `/.octon/state/evidence/runs/skills/vercel-deploy/` — Execution logs with deployment URLs and status
 
 The deployment URL is reported directly to the user (not written to a file).
 

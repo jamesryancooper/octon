@@ -3,11 +3,11 @@ name: python-contract-first-api
 description: >
   Generate a coherent contract set from a domain description: OpenAPI 3.1.0 spec,
   JSON Schema files, Pydantic ContractModel classes, contract tests, and JSON test
-  fixtures. Invoke with a domain description and list of _ops/state/resources/endpoints.
+  fixtures. Invoke with a domain description and list of /.octon/instance/capabilities/runtime/skills/resources/endpoints.
 skill_sets: [specialist]
 capabilities: [phased]
 # Write scopes are explicit: workspace scaffolding plus skill log output.
-allowed-tools: Read Grep Glob Edit Write(../../../**) Write(_ops/state/logs/*) Bash(mkdir)
+allowed-tools: Read Grep Glob Edit Write(../../../**) Write(/.octon/state/evidence/runs/skills/*) Bash(mkdir)
 ---
 
 # Contract-First API
@@ -120,7 +120,7 @@ for new path segments in the OpenAPI spec.
 
 ## Edge Cases
 
-- If contracts already exist, read them first and only add new _ops/state/resources/fields.
+- If contracts already exist, read them first and only add new /.octon/instance/capabilities/runtime/skills/resources/fields.
 - If a schema change would remove or rename a field, warn the user and point to
   the versioning policy.
 - If `tests/conftest.py` lacks the required fixtures, note that `/test-harness`

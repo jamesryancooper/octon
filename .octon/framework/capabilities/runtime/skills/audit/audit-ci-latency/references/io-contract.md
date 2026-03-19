@@ -22,22 +22,22 @@ io:
       description: "Scope emphasized in the final report: required or all"
   outputs:
     - name: ci_latency_audit_report
-      path: "../../../output/reports/{{date}}-ci-latency-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-ci-latency-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Human-readable CI latency audit report"
     - name: ci_latency_summary
-      path: "../../../output/reports/{{date}}-ci-latency-audit-{{run_id}}.json"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-ci-latency-audit-{{run_id}}.json"
       format: json
       determinism: unique
       description: "Machine-readable summary consumed by workflows and follow-on analysis"
     - name: run_log
-      path: "_ops/state/logs/audit-ci-latency/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-ci-latency/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-ci-latency/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-ci-latency/index.yml"
       format: yaml
       determinism: variable
       description: "Index of prior audit-ci-latency runs"

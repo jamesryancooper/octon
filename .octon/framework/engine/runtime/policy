@@ -8,12 +8,12 @@ ENGINE_DIR="$(cd "$RUNTIME_DIR/.." && pwd)"
 FRAMEWORK_DIR="$(cd "$ENGINE_DIR/.." && pwd)"
 OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 RUNTIME_CRATES_DIR="$RUNTIME_DIR/crates"
-DEFAULT_BIN="$ENGINE_DIR/_ops/state/build/runtime-crates-target/debug/octon-policy"
+DEFAULT_BIN="$OCTON_DIR/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy"
 POLICY_INTERFACE_CONFIG="$RUNTIME_DIR/config/policy-interface.yml"
 
 DEFAULT_POLICY_REL=".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
 RECEIPT_WRITER_REL=".octon/framework/capabilities/_ops/scripts/policy-receipt-write.sh"
-ROLLOUT_STATE_REL=".octon/framework/capabilities/_ops/state/rollout-mode.state"
+ROLLOUT_STATE_REL=".octon/state/control/capabilities/rollout-mode.state"
 INSTRUCTION_LAYER_MANIFEST_SCHEMA_REL=".octon/framework/engine/runtime/spec/instruction-layer-manifest-v1.schema.json"
 MATERIAL_RUNS_REQUIRE_MANIFEST="true"
 MANIFEST_FILENAME="instruction-layer-manifest.json"
@@ -529,10 +529,10 @@ ensure_octon_policy_bin() {
     return 1
   fi
 
-  mkdir -p "$ENGINE_DIR/_ops/state/build/runtime-crates-target"
+  mkdir -p "$OCTON_DIR/generated/.tmp/engine/build/runtime-crates-target"
   (
     cd "$RUNTIME_CRATES_DIR"
-    export CARGO_TARGET_DIR="$ENGINE_DIR/_ops/state/build/runtime-crates-target"
+    export CARGO_TARGET_DIR="$OCTON_DIR/generated/.tmp/engine/build/runtime-crates-target"
     cargo build -q -p policy_engine --bin octon-policy
   )
 

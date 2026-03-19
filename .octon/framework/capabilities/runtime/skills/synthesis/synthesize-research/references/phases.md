@@ -25,7 +25,7 @@ behavior:
     - name: "Output"
       steps:
         - "Write synthesis to .octon/inputs/exploratory/drafts/{{topic}}-synthesis.md"
-        - "Write run log to _ops/state/logs/synthesize-research/{{timestamp}}-synthesize-research.md"
+        - "Write run log to /.octon/state/evidence/runs/skills/synthesize-research/{{timestamp}}-synthesize-research.md"
   goals:
     - "Consolidate dispersed research into a single coherent document"
     - "Identify and organize findings by theme"
@@ -134,7 +134,7 @@ Produce final artifacts.
    - Include all sections: summary, themes, contradictions, questions, sources
 
 2. **Write run log**
-   - Path: `_ops/state/logs/synthesize-research/{{timestamp}}-synthesize-research.md`
+   - Path: `/.octon/state/evidence/runs/skills/synthesize-research/{{timestamp}}-synthesize-research.md`
    - Record: run_id, status, timestamps, inputs, outputs
    - Note any issues or decisions made during synthesis
 

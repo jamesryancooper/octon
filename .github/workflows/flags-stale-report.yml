@@ -24,7 +24,6 @@ jobs:
           rg -n --hidden -S "${patterns}" \
             .octon .cursor .claude .codex .github AGENTS.md CLAUDE.md CODEOWNERS \
             --glob '!**/ideation/**' \
-            --glob '!**/output/**' \
             --glob '!**/_scaffold/**' \
             --glob '!**/scaffolding/runtime/templates/**' \
             --glob '!**/orchestration/runtime/workflows/meta/**' \

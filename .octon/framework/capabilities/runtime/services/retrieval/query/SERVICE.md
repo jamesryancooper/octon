@@ -45,7 +45,7 @@ impl:
   timeout_ms: 30000
   health_check: null
 dry_run: true
-allowed-tools: Read Glob Grep Bash(bash)
+allowed-tools: Read Glob Grep Bash(bash) Write(/.octon/state/evidence/runs/services/query/*)
 ---
 
 # Query Service

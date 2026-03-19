@@ -5,8 +5,9 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
-POLICY_RUNNER="$REPO_ROOT/.octon/framework/engine/runtime/policy"
+OCTON_DIR="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
+POLICY_RUNNER="$OCTON_DIR/framework/engine/runtime/policy"
 DEFAULT_POLICY="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
 
 usage() {

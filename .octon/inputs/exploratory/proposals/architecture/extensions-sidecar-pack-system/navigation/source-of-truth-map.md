@@ -24,16 +24,16 @@
 
 | Concern | Derived path | Notes |
 | --- | --- | --- |
-| Effective skills catalogs | `.octon/framework/engine/_ops/state/extensions/effective/skills/**` | Derived runtime-facing projection |
-| Effective commands catalog | `.octon/framework/engine/_ops/state/extensions/effective/commands/manifest.yml` | Derived runtime-facing projection |
-| Effective templates catalog | `.octon/framework/engine/_ops/state/extensions/effective/templates/catalog.yml` | Derived runtime-facing projection |
-| Effective prompts catalog | `.octon/framework/engine/_ops/state/extensions/effective/prompts/catalog.yml` | Derived runtime-facing projection |
-| Effective context catalog | `.octon/framework/engine/_ops/state/extensions/effective/context/catalog.yml` | Derived runtime-facing projection |
-| Effective validation catalog | `.octon/framework/engine/_ops/state/extensions/effective/validation/catalog.yml` | Derived runtime-facing projection |
-| Effective artifact map | `.octon/framework/engine/_ops/state/extensions/effective/artifacts.yml` | Canonical rebased mapping from effective ids to source files and digests |
-| Effective permission and output rebase metadata | `.octon/framework/engine/_ops/state/extensions/effective/artifacts.yml` | Includes rebased write scopes and Octon-owned output targets for extension artifacts |
-| Extension lock / resolution receipt | `.octon/framework/engine/_ops/state/extensions/lock.yml` | Active generation id, input digests, and resolution metadata |
-| Extension validation receipts and audit output | `.octon/state/evidence/validation/**` and `.octon/framework/engine/_ops/state/extensions/**` | Produced by Octon validators and lifecycle workflows |
+| Effective skills catalogs | `.octon/generated/effective/extensions/catalog.effective.yml` | Derived runtime-facing projection |
+| Effective commands catalog | `.octon/generated/effective/extensions/catalog.effective.yml` | Derived runtime-facing projection |
+| Effective templates catalog | `.octon/generated/effective/extensions/catalog.effective.yml` | Derived runtime-facing projection |
+| Effective prompts catalog | `.octon/generated/effective/extensions/catalog.effective.yml` | Derived runtime-facing projection |
+| Effective context catalog | `.octon/generated/effective/extensions/catalog.effective.yml` | Derived runtime-facing projection |
+| Effective validation catalog | `.octon/generated/effective/extensions/catalog.effective.yml` | Derived runtime-facing projection |
+| Effective artifact map | `.octon/generated/effective/extensions/artifact-map.yml` | Canonical rebased mapping from effective ids to source files and digests |
+| Effective permission and output rebase metadata | `.octon/generated/effective/extensions/artifact-map.yml` | Includes rebased write scopes and Octon-owned output targets for extension artifacts |
+| Extension lock / resolution receipt | `.octon/generated/effective/extensions/generation.lock.yml` | Active generation id, input digests, and resolution metadata |
+| Extension validation receipts and audit output | `.octon/state/evidence/validation/**` and `.octon/generated/effective/extensions/**` | Produced by Octon validators and lifecycle workflows |
 | Runtime precedence and fail-closed behavior | `.octon/framework/engine/governance/**` | Remains inside Octon core |
 | Governance, practices, methodology, agency, and orchestration authority | `.octon/**` | `.octon.extensions/` must not duplicate these surfaces |
 

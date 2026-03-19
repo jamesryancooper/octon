@@ -63,7 +63,7 @@ All outputs must:
 All outputs must be written to:
 
 - `.octon/generated/{{category}}/{{timestamp}}-{{name}}.md` (deliverable)
-- `_ops/state/logs/{{skill-id}}/{{run-id}}.md` (execution log)
+- `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md` (execution log)
 
 ### Timestamp Format
 

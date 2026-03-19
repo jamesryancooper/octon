@@ -70,14 +70,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 CAPABILITIES_DIR="$(cd "$SKILLS_DIR/../.." && pwd)"
 OCTON_DIR="$(cd "$CAPABILITIES_DIR/.." && pwd)"
-REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
+REPO_ROOT="$(cd "$OCTON_DIR/../.." && pwd)"
 MANIFEST="$SKILLS_DIR/manifest.yml"
 REGISTRY="$SKILLS_DIR/registry.yml"
 CAPABILITIES_SCHEMA="$SKILLS_DIR/capabilities.yml"
 SKILLS_REGISTRY="$REPO_ROOT/.octon/framework/capabilities/runtime/skills/registry.yml"
 TOOLS_MANIFEST="$REPO_ROOT/.octon/framework/capabilities/runtime/tools/manifest.yml"
 SERVICES_MANIFEST="$REPO_ROOT/.octon/framework/capabilities/runtime/services/manifest.yml"
-EXCEPTIONS_FILE="$REPO_ROOT/.octon/framework/capabilities/_ops/state/deny-by-default-exceptions.yml"
+EXCEPTIONS_FILE="$REPO_ROOT/.octon/state/control/capabilities/deny-by-default-exceptions.yml"
 AGENT_ONLY_POLICY_FILE="$REPO_ROOT/.octon/framework/capabilities/governance/policy/agent-only-governance.yml"
 AGENT_ONLY_VALIDATOR="$REPO_ROOT/.octon/framework/capabilities/_ops/scripts/validate-agent-only-governance.sh"
 POLICY_V2_FILE="$REPO_ROOT/.octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
@@ -890,8 +890,8 @@ get_skill_tools() {
 # |----------------------------|---------------------------|--------------------------|
 # | Read                       | filesystem.read           | Read files               |
 # | Edit                       | filesystem.edit           | Edit files in-place      |
-# | Write(_ops/state/runs/*)              | filesystem.write.runs     | Write execution state (session recovery) |
-# | Write(_ops/state/logs/*)              | filesystem.write.logs     | Write to logs dir        |
+# | Write(/.octon/state/control/skills/checkpoints/*)              | filesystem.write.runs     | Write execution state (session recovery) |
+# | Write(/.octon/state/evidence/runs/skills/*)              | filesystem.write.logs     | Write to logs dir        |
 # | Write(../{category}/*)     | filesystem.write.deliverables | Write deliverables   |
 # | Write(...)                 | filesystem.write.scoped   | Write to explicit scoped path |
 # | Glob                       | filesystem.glob           | Pattern file discovery   |
@@ -910,8 +910,8 @@ map_allowed_to_internal() {
         Read)                    echo "filesystem.read" ;;
         Edit)                    echo "filesystem.edit" ;;
         Write)                   echo "filesystem.write" ;;
-        Write\(_ops/state/runs/\*\))        echo "filesystem.write.runs" ;;
-        Write\(_ops/state/logs/\*\))        echo "filesystem.write.logs" ;;
+        Write\(/.octon/state/control/skills/checkpoints/\*\))        echo "filesystem.write.runs" ;;
+        Write\(/.octon/state/evidence/runs/skills/\*\))        echo "filesystem.write.logs" ;;
         Write\(../*\))           echo "filesystem.write.deliverables" ;;
         Write\(*\))              echo "filesystem.write.scoped" ;;
         Glob)                    echo "filesystem.glob" ;;
@@ -1082,11 +1082,11 @@ map_allowed_to_registry() {
 
 # Split allowed-tools value by spaces outside parentheses.
 # Example:
-#   "Read Bash(vercel *) Write(_ops/state/logs/*)"
+#   "Read Bash(vercel *) Write(/.octon/state/evidence/runs/skills/*)"
 # becomes tokens:
 #   Read
 #   Bash(vercel *)
-#   Write(_ops/state/logs/*)
+#   Write(/.octon/state/evidence/runs/skills/*)
 split_allowed_tools() {
     local raw="$1"
     local token=""
@@ -1433,9 +1433,8 @@ get_output_paths() {
     ' "$SKILLS_REGISTRY"
 }
 
-# Validate that a path is within harness scope
-# Deliverables may target .octon/generated/, .octon/framework/scaffolding/, or .octon/state/continuity/repo/
-# from skill-local paths (../../...).
+# Validate that a path is within harness scope.
+# Packet 3 allows only canonical repo-absolute /.octon/... targets for instance/state/generated homes.
 normalize_path_lexical() {
     local input_path="$1"
 
@@ -1482,7 +1481,9 @@ validate_path_scope() {
     local octon_root="$REPO_ROOT/.octon"
 
     local resolved_input
-    if [[ "$path" == /* ]]; then
+    if [[ "$path" == "/.octon/"* ]]; then
+        resolved_input="$REPO_ROOT$path"
+    elif [[ "$path" == /* ]]; then
         resolved_input="$path"
     else
         resolved_input="$skills_root/$path"
@@ -1497,16 +1498,6 @@ validate_path_scope() {
 
     if [[ "$resolved_path" != "$octon_root" ]] && [[ "$resolved_path" != "$octon_root/"* ]]; then
         echo "Path escapes .octon scope: $path"
-        return 1
-    fi
-
-    if [[ "$path" == ../../* ]]; then
-        if [[ "$resolved_path" == "$octon_root/output/"* ]] || \
-           [[ "$resolved_path" == "$octon_root/scaffolding/"* ]] || \
-           [[ "$resolved_path" == "$octon_root/continuity/"* ]]; then
-            return 0
-        fi
-        echo "Path outside allowed deliverable scope (.octon/output|scaffolding|continuity): $path"
         return 1
     fi
 
@@ -2227,19 +2218,19 @@ scaffold_io_mapping() {
     local scaffold="
     io:
       inputs:
-        - path: \"_ops/state/resources/${skill_id}/{{category}}/\"
+        - path: \"/.octon/instance/capabilities/runtime/skills/resources/${skill_id}/{{category}}/\"
           kind: directory
           required: false
           description: \"Optional input source folder\"
       outputs:
         - name: result
-          path: \"../../output/{{category}}/{{timestamp}}-${skill_id}.md\"
+          path: \"/.octon/generated/{{category}}/{{timestamp}}-${skill_id}.md\"
           kind: file
           format: markdown
           determinism: stable
           description: \"Skill output document\"
         - name: run_log
-          path: \"_ops/state/logs/${skill_id}/{{run_id}}.md\"
+          path: \"/.octon/state/evidence/runs/skills/${skill_id}/{{run_id}}.md\"
           kind: file
           format: markdown
           determinism: unique

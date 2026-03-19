@@ -3163,10 +3163,10 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
         if !policy
             .exceptions
             .state_file
-            .starts_with(".octon/framework/capabilities/_ops/state/")
+            .starts_with(".octon/state/control/capabilities/")
         {
             semantic_errors.push(
-                "exceptions.state_file must remain under .octon/framework/capabilities/_ops/state/"
+                "exceptions.state_file must remain under .octon/state/control/capabilities/"
                     .to_string(),
             );
         }
@@ -3174,20 +3174,20 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
         if !policy
             .grants
             .state_dir
-            .starts_with(".octon/framework/capabilities/_ops/state/")
+            .starts_with(".octon/state/control/capabilities/")
         {
             semantic_errors.push(
-                "grants.state_dir must remain under .octon/framework/capabilities/_ops/state/".to_string(),
+                "grants.state_dir must remain under .octon/state/control/capabilities/".to_string(),
             );
         }
 
         if !policy
             .kill_switch
             .state_dir
-            .starts_with(".octon/framework/capabilities/_ops/state/")
+            .starts_with(".octon/state/control/capabilities/")
         {
             semantic_errors.push(
-                "kill_switch.state_dir must remain under .octon/framework/capabilities/_ops/state/"
+                "kill_switch.state_dir must remain under .octon/state/control/capabilities/"
                     .to_string(),
             );
         }
@@ -3207,10 +3207,10 @@ pub fn doctor(request: &DoctorRequest) -> Result<DoctorReport> {
             };
             if !override_cfg
                 .state_file
-                .starts_with(".octon/framework/capabilities/_ops/state/")
+                .starts_with(".octon/state/control/capabilities/")
             {
                 semantic_errors.push(format!(
-                    "governance_overrides.{name}.state_file must remain under .octon/framework/capabilities/_ops/state/"
+                    "governance_overrides.{name}.state_file must remain under .octon/state/control/capabilities/"
                 ));
             }
             if override_cfg.required_fields.is_empty() {

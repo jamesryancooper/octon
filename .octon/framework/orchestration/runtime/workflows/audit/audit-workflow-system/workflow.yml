@@ -106,13 +106,13 @@ stages:
     mutation_scope: []
 artifacts:
   - name: workflow_system_audit_report
-    path: "../../output/reports/analysis/{{date}}-audit-workflow-system.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-workflow-system.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Narrative report summarizing workflow-system findings and recommendations."
   - name: workflow_system_audit_bundle
-    path: "../../output/reports/audits/{{date}}-{{slug}}/"
+    path: "/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/"
     kind: directory
     format: mixed
     determinism: unique

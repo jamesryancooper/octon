@@ -1,0 +1,34 @@
+skill: audit-cross-subsystem-coherence
+updated: "2026-02-15"
+
+runs:
+  - id: "2026-02-15-cross-subsystem-coherence-post-fixes"
+    scope: ".octon"
+    status: completed
+    timestamp: "2026-02-15"
+    metrics:
+      findings: 0
+      critical: 0
+      high: 0
+      medium: 0
+      low: 0
+      workflows_checked: 25
+      skills_checked: 38
+      services_checked: 6
+    report: ../../../../output/reports/2026-02-15-cross-subsystem-coherence-audit.md
+    log: 2026-02-15-cross-subsystem-coherence-post-fixes.md
+  - id: "2026-02-15-cross-subsystem-coherence-pre-scale-readiness"
+    scope: ".octon"
+    status: completed
+    timestamp: "2026-02-15"
+    metrics:
+      findings: 6
+      critical: 0
+      high: 2
+      medium: 3
+      low: 1
+      workflows_checked: 25
+      skills_checked: 38
+      services_checked: 6
+    report: ../../../../output/reports/2026-02-15-cross-subsystem-coherence-audit.md
+    log: 2026-02-15-cross-subsystem-coherence-pre-scale-readiness.md

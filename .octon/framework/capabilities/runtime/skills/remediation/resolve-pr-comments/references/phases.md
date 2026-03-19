@@ -47,7 +47,7 @@ behavior:
         - "Include: comment text, classification, resolution, file:line, verification status"
         - "Group DEFERRED and NEEDS_DISCUSSION items at the top"
         - "Include summary statistics (resolved, deferred, questions answered)"
-        - "Write report to output/reports/analysis/"
+        - "Write report to /.octon/state/evidence/validation/analysis/"
         - "Write execution log with metadata"
         - "Update log index"
   goals:

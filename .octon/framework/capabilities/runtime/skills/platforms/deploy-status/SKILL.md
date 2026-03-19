@@ -12,7 +12,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor]
 capabilities: [external-dependent, external-output]
-allowed-tools: Read Glob Bash(vercel *) WebFetch Write(../../output/reports/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Bash(vercel *) WebFetch Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Deploy Status
@@ -58,7 +58,7 @@ This skill accepts optional project/deployment targets plus environment and URL-
 Output paths are defined in `.octon/framework/capabilities/runtime/skills/registry.yml` (single source of truth).
 
 - `.octon/state/evidence/validation/analysis/` - Deployment readiness report
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/deploy-status/` - Execution logs and run index
+- `.octon/state/evidence/runs/skills/deploy-status/` - Execution logs and run index
 
 External outputs (deployment URL and status state) are documented in `references/external-outputs.md`.
 

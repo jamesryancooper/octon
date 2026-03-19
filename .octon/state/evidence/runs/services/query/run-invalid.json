@@ -1,0 +1,27 @@
+{
+  "runId": "run-invalid",
+  "service": {
+    "name": "octon.service.query",
+    "version": "0.1.0"
+  },
+  "inputs": {},
+  "status": "failure",
+  "summary": "Expected JSON input on stdin.",
+  "durationMs": 0,
+  "stage": "implement",
+  "risk": "medium",
+  "telemetry": {
+    "trace_id": "run-invalid",
+    "spans": [
+      "service.query.unknown"
+    ]
+  },
+  "determinism": {
+    "inputsHash": "sha256:bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f"
+  },
+  "outputs": {},
+  "createdAt": "2026-02-19T12:03:37Z",
+  "error": {
+    "code": "InputValidationError"
+  }
+}

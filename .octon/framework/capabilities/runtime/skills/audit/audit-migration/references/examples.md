@@ -111,7 +111,7 @@ The audit revealed distinct classes of staleness, each caught by different layer
 | Direct old→new name references | Grep Sweep | `.workspace/context/` instead of `.octon/instance/cognition/context/shared/` |
 | Broken cross-references | Cross-Reference Audit | `catalog.md` linking to `skills.md` when it became `skills/README.md` |
 | Conceptual staleness | Semantic Read-Through | "Two-tier architecture" description when model changed to "progressive disclosure" |
-| Incomplete on-disk renames | Cross-Reference Audit | `_ops/state/resources/research-synthesizer/` not renamed to `_ops/state/resources/synthesize-research/` |
+| Incomplete on-disk renames | Cross-Reference Audit | `/.octon/instance/capabilities/runtime/skills/resources/research-synthesizer/` not renamed to `/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/` |
 | Secondary migration debris | Grep Sweep | `docs/handbooks/` references from a separate docs reorganization |
 
 ### Fix Batches Generated

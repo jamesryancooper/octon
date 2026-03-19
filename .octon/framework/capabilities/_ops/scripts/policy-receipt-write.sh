@@ -32,7 +32,7 @@ read_policy_paths() {
   [[ -n "$runs_dir" ]] || runs_dir=".octon/state/evidence/runs"
   [[ -n "$receipt_name" ]] || receipt_name="receipt.json"
   [[ -n "$digest_name" ]] || digest_name="digest.md"
-  [[ -n "$acp_log" ]] || acp_log=".octon/framework/capabilities/_ops/state/logs/acp-decisions.jsonl"
+  [[ -n "$acp_log" ]] || acp_log=".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
 
   printf '%s\n' "$runs_dir" "$receipt_name" "$digest_name" "$acp_log"
 }

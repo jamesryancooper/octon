@@ -43,16 +43,16 @@ skill_sets: []
 capabilities: []
 # Tool Permissions (Single Source of Truth)
 # Format: Space-delimited list. Add (path/glob) to scope writes.
-# Example: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
+# Example: Read Glob Grep Write(../prompts/*) Write(/.octon/state/evidence/runs/skills/*)
 #          └─ Read-only ─┘     └─ Scoped writes ────────┘
-# Pack reference example: pack:read-only Write(_ops/state/logs/*)
+# Pack reference example: pack:read-only Write(/.octon/state/evidence/runs/skills/*)
 # See: .octon/framework/capabilities/_meta/architecture/specification.md#tool-permissions-single-source-of-truth
 # Tool reference: Read, Glob, Grep, Write(path/*), WebFetch, Shell, Task
 #
 # Output Types:
 #   - Deliverables: Write(../{{category}}/*) - e.g., Write(../prompts/*), Write(../drafts/*)
-#   - Continuity Artifacts: Write(_ops/state/runs/*) - for stateful/resumable skills
-allowed-tools: Read Glob Grep Write(../{{category}}/*) Write(_ops/state/logs/*)
+#   - Continuity Artifacts: Write(/.octon/state/control/skills/checkpoints/*) - for stateful/resumable skills
+allowed-tools: Read Glob Grep Write(../{{category}}/*) Write(/.octon/state/evidence/runs/skills/*)
 # Allowed service IDs (optional, space-delimited):
 # Must exactly match any `kind: service` refs declared in registry composition.
 # Example: guard cost
@@ -101,10 +101,10 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 All operational categories in `.octon/framework/capabilities/runtime/skills/` follow the `{{category}}/{{skill-id}}/` pattern:
 
 - **Deliverables:** `.octon/generated/{{category}}/` (e.g., `.octon/framework/scaffolding/practices/prompts/`, `.octon/inputs/exploratory/drafts/`)
-- **Configs:** `.octon/framework/capabilities/runtime/skills/_ops/state/configs/{{skill-id}}/` (per-skill configuration overrides)
-- **Resources:** `.octon/framework/capabilities/runtime/skills/_ops/state/resources/{{skill-id}}/` (per-skill input materials)
-- **Continuity Artifacts:** `.octon/framework/capabilities/runtime/skills/_ops/state/runs/{{skill-id}}/{{run-id}}/` (for stateful/resumable skills)
-- **Execution Logs:** `.octon/framework/capabilities/runtime/skills/_ops/state/logs/{{skill-id}}/{{run-id}}.md`
+- **Configs:** `.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` (per-skill configuration overrides)
+- **Resources:** `.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` (per-skill input materials)
+- **Continuity Artifacts:** `.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` (for stateful/resumable skills)
+- **Execution Logs:** `.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md`
 
 ## Boundaries
 

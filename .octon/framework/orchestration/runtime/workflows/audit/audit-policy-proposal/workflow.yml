@@ -46,13 +46,13 @@ stages:
     mutation_scope: []
 artifacts:
   - name: policy_proposal_workflow_summary
-    path: "../../output/reports/analysis/{{date}}-audit-policy-proposal.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-policy-proposal.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Top-level workflow summary for policy proposal validation"
   - name: policy_proposal_workflow_bundle
-    path: "../../output/reports/workflows/{{date}}-audit-policy-proposal-{{slug}}/"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-policy-proposal-{{slug}}/"
     kind: directory
     format: mixed
     determinism: unique

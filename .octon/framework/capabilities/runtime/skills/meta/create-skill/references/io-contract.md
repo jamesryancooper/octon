@@ -55,8 +55,8 @@ Add `composition` only when the skill actually declares prerequisite or invoke s
 ## Filesystem Outputs
 
 - `.octon/framework/capabilities/runtime/skills/<group>/<skill_name>/`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/runs/create-skill/{{run_id}}/`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/create-skill/{{run_id}}.md`
+- `.octon/state/control/skills/checkpoints/create-skill/{{run_id}}/`
+- `.octon/state/evidence/runs/skills/create-skill/{{run_id}}.md`
 
 ## Placeholder Rules
 

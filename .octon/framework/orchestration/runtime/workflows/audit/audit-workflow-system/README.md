@@ -71,8 +71,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `workflow_system_audit_report` -> `../../output/reports/analysis/{{date}}-audit-workflow-system.md`: Narrative report summarizing workflow-system findings and recommendations.
-- `workflow_system_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for workflow-system findings, scores, scenarios, and done-gate evidence.
+- `workflow_system_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-audit-workflow-system.md`: Narrative report summarizing workflow-system findings and recommendations.
+- `workflow_system_audit_bundle` -> `/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for workflow-system findings, scores, scenarios, and done-gate evidence.
 
 ## Steps
 

@@ -69,7 +69,7 @@ The follow-up architectural audit (`.octon/state/evidence/validation/analysis/20
 
 **Changes:**
 
-- In `validate_path_scope()` (lines 575-603), replace the blanket `../../*` allow with a check that the resolved destination starts with the `.octon/` prefix. Allow `../../output/`, `../../scaffolding/`, and `../../continuity/` as known safe destinations. Reject paths that escape the `.octon/` tree.
+- In `validate_path_scope()`, replace the blanket parent-traversal allow with a check that only canonical Packet 3 destinations are accepted. Allow repo-absolute `/.octon/instance/**`, `/.octon/state/**`, and `/.octon/generated/**` targets plus in-tree skill-relative paths; reject any retired pre-Packet-3 mixed-tree roots.
 
 ## Phase 5: Reconcile create-skill contracts (A2, A3)
 

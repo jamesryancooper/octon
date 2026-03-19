@@ -3,4 +3,4 @@
 
 [cache]
 enabled = true
-directory = ".octon/framework/engine/_ops/state/wasmtime-cache"
+directory = ".octon/generated/.tmp/engine/wasmtime-cache"

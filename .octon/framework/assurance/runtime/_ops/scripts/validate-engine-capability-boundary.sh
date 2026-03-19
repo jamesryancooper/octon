@@ -25,7 +25,7 @@ check_no_internal_engine_dependencies() {
   local pattern
   local hits
 
-  pattern='engine/runtime/crates/|engine/_ops/state/build/runtime-crates-target|runtime/crates/policy_engine'
+  pattern='engine/runtime/crates/|generated/\\.tmp/engine/build/runtime-crates-target|runtime/crates/policy_engine'
   hits="$(rg -n --no-heading -e "$pattern" \
     "$CAPABILITIES_DIR" \
     --glob '*.sh' \

@@ -50,7 +50,7 @@ Acceptance criteria for a complete triage-ci-failure execution.
 1. Report exists at `.octon/state/evidence/validation/analysis/YYYY-MM-DD-ci-triage.md`
 2. Root cause was identified (not "unknown")
 3. Fix was verified locally (or INFRA category documented)
-4. Log exists at `_ops/state/logs/triage-ci-failure/{{run_id}}.md`
+4. Log exists at `/.octon/state/evidence/runs/skills/triage-ci-failure/{{run_id}}.md`
 5. Log index updated
 6. No CI config files were modified
 7. No tests were skipped or deleted

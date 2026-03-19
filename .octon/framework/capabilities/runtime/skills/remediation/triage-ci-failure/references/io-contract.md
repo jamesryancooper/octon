@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Edit Bash(gh) Bash(npm) Bash(npx) Write(../../output/reports/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Edit Bash(gh) Bash(npm) Bash(npx) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -42,11 +42,11 @@ Written to `.octon/state/evidence/validation/analysis/YYYY-MM-DD-ci-triage.md`.
 
 ### Execution Log
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/triage-ci-failure/{{run_id}}.md`.
+Written to `.octon/state/evidence/runs/skills/triage-ci-failure/{{run_id}}.md`.
 
 ### Log Index
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/triage-ci-failure/index.yml`.
+Written to `.octon/state/evidence/runs/skills/triage-ci-failure/index.yml`.
 
 ## Dependencies
 
@@ -58,8 +58,8 @@ This skill requires:
 - **Edit** — Apply fixes to source files
 - **Bash(gh)** — GitHub CLI for fetching CI logs
 - **Bash(npm/npx)** — Run local verification checks
-- **Write(../../output/reports/*)** — Write triage report
-- **Write(_ops/state/logs/*)** — Write execution logs
+- **Write(/.octon/state/evidence/validation/analysis/*)** — Write triage report
+- **Write(/.octon/state/evidence/runs/skills/*)** — Write execution logs
 
 ## External Dependencies
 

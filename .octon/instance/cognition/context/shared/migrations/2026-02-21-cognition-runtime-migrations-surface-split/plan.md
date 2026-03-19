@@ -49,7 +49,7 @@ Canonical split by artifact role:
 ### Code
 
 - Move all dated migration plan records from practices migration policy surface to runtime migration surface.
-- Move existing migration evidence reports from output reports root to `output/reports/migrations/`.
+- Move existing migration evidence reports from output reports root to `/.octon/state/evidence/migration/`.
 - Add harness structure guardrails to fail closed if dated migration records reappear under practices or migration evidence reappears at reports root.
 
 ### Contracts

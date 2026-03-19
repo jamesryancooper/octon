@@ -5,7 +5,7 @@ description: Safety policies and constraints for the spec-to-implementation skil
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Write(../../output/plans/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/plans/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.

@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Write(../../output/drafts/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Write(/.octon/inputs/exploratory/drafts/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -28,7 +28,7 @@ Extended input/output documentation for the synthesize-research skill.
 The skill expects a folder containing markdown files with research notes:
 
 ```markdown
-_ops/state/resources/synthesize-research/topic/
+/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/topic/
 ├── findings.md       # Research findings
 ├── notes.md          # Raw notes
 ├── log.md            # Research log (optional)
@@ -104,7 +104,7 @@ status: success  # success | partial | failed
 started_at: 2025-01-12T10:31:00Z
 ended_at: 2025-01-12T10:44:12Z
 inputs:
-  - _ops/state/resources/synthesize-research/api-design/
+  - /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/api-design/
 outputs:
   - .octon/inputs/exploratory/drafts/api-design-synthesis.md
 tools_used:
@@ -135,23 +135,23 @@ No external dependencies required. Works with any folder containing markdown fil
 ### Basic Invocation
 
 ```bash
-/synthesize-research _ops/state/resources/synthesize-research/topic/
+/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/topic/
 ```
 
 ### With Project Folder
 
 ```bash
-/synthesize-research _ops/state/resources/synthesize-research/projects/auth-patterns/
+/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/projects/auth-patterns/
 ```
 
 ### Examples
 
 ```bash
 # Synthesize API design research
-/synthesize-research _ops/state/resources/synthesize-research/api-design/
+/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/api-design/
 
 # Synthesize project research
-/synthesize-research _ops/state/resources/synthesize-research/projects/caching-strategy/
+/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/projects/caching-strategy/
 
 # Using explicit skill call
 use skill: synthesize-research

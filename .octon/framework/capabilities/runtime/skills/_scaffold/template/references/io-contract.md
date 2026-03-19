@@ -36,7 +36,7 @@ Parameter definitions are in `registry.yml` (single source of truth). Summary:
 
 Output definitions are in `.octon/framework/capabilities/runtime/skills/registry.yml` (single source of truth).
 
-> **Note:** All `.octon/framework/capabilities/runtime/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern: `_ops/state/configs/`, `_ops/state/resources/`, `_ops/state/runs/`, `_ops/state/logs/`.
+> **Note:** All `.octon/framework/capabilities/runtime/skills/` categories follow the `{{category}}/{{skill-id}}/` pattern: `/.octon/instance/capabilities/runtime/skills/configs/`, `/.octon/instance/capabilities/runtime/skills/resources/`, `/.octon/state/control/skills/checkpoints/`, `/.octon/state/evidence/runs/skills/`.
 
 Summary:
 
@@ -48,7 +48,7 @@ Summary:
 
 ### Run Log
 
-- **Path:** `_ops/state/logs/{{skill-id}}/{{run-id}}.md`
+- **Path:** `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md`
 - **Format:** YAML frontmatter + Markdown
 - **Content:** Execution log with input, context, and output summary
 
@@ -109,7 +109,7 @@ Tool requirements are defined in SKILL.md `allowed-tools` frontmatter (single so
 |-------------------|---------------|
 | `Read`            | {{Purpose}}   |
 | `Write(../{{category}}/*)`| Write deliverables to final destination |
-| `Write(_ops/state/logs/*)`   | Write execution logs |
+| `Write(/.octon/state/evidence/runs/skills/*)`   | Write execution logs |
 | `Glob`            | {{Purpose}}   |
 | `Grep`            | {{Purpose}}   |
 

@@ -42,7 +42,7 @@ impl:
   timeout_ms: 60000
   health_check: null
 dry_run: true
-allowed-tools: Read Glob
+allowed-tools: Read Glob Write(/.octon/state/control/engine/watch/*)
 ---
 
 # Filesystem Watch Service

@@ -1,0 +1,31 @@
+{
+  "checkpoint": {
+    "decision": "ALLOW",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+    "resumeCount": 0,
+    "runId": "tmp-agent-acp2-noext-$$",
+    "state": "promoted"
+  },
+  "mode": "execute",
+  "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+  "result": {
+    "acpDecisionPath": ".octon/state/evidence/runs/tmp-agent-acp2-noext-$$/acp-decision.json",
+    "acpRequestPath": ".octon/state/evidence/runs/tmp-agent-acp2-noext-$$/acp-request.json",
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/tmp-agent-acp2-noext-$$.json",
+    "decision": "ALLOW",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "mode": "execute",
+    "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+    "reasonCodes": [],
+    "resume": false,
+    "summary": "Promotion allowed by ACP gate",
+    "warnings": []
+  },
+  "runId": "tmp-agent-acp2-noext-$$",
+  "status": "success"
+}

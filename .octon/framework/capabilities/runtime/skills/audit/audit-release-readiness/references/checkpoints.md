@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-release-readiness/{{run_id}}.md"
+  storage: ".octon/state/evidence/runs/skills/audit-release-readiness/{{run_id}}.md"
   retention: session
 
   schema:

@@ -43,7 +43,7 @@ impl:
   timeout_ms: 60000
   health_check: null
 dry_run: true
-allowed-tools: Read Glob
+allowed-tools: Read Glob Write(/.octon/generated/effective/capabilities/filesystem-snapshots/*)
 ---
 
 # Filesystem Snapshot Service

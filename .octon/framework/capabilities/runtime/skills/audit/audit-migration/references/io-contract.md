@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Write(../../output/reports/*) Write(_ops/state/logs/*)
+# Current allowed-tools: Read Glob Grep Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -28,7 +28,7 @@ Extended input/output documentation for the audit-migration skill.
 | Parameter | Type | Required | Default | Description |
 | --------- | ---- | -------- | ------- | ----------- |
 | `manifest` | text | Yes | — | Migration manifest (inline YAML or file path) |
-| `manifest_file` | file | No | — | Optional manifest file name under `_ops/state/configs/audit-migration/` |
+| `manifest_file` | file | No | — | Optional manifest file name under `/.octon/instance/capabilities/runtime/skills/configs/audit-migration/` |
 | `scope` | text | No | `.` | Directory to audit |
 | `severity_threshold` | text | No | `all` | Minimum severity to report: `critical`, `high`, `medium`, `low`, `all` |
 | `structure_spec` | file | No | — | Path to documented directory structure for structure diff layer |
@@ -150,11 +150,11 @@ The report header includes additional metadata:
 
 The execution log filename similarly includes the partition:
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-migration/{{run_id}}-{partition}.md`.
+Written to `.octon/state/evidence/runs/skills/audit-migration/{{run_id}}-{partition}.md`.
 
 ### Execution Log
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-migration/{{run_id}}.md`.
+Written to `.octon/state/evidence/runs/skills/audit-migration/{{run_id}}.md`.
 
 ```markdown
 # Audit Migration Run Log
@@ -184,7 +184,7 @@ Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-m
 
 ### Log Index
 
-Written to `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-migration/index.yml`:
+Written to `.octon/state/evidence/runs/skills/audit-migration/index.yml`:
 
 ```yaml
 skill: audit-migration
@@ -201,7 +201,7 @@ runs:
       total_findings: 53
       critical: 1
       high: 25
-    report: ../../output/reports/analysis/2026-02-08-migration-audit.md
+    report: /.octon/state/evidence/validation/analysis/2026-02-08-migration-audit.md
     log: 2026-02-08-capability-restructure.md
 ```
 
@@ -226,8 +226,8 @@ This skill requires:
 - **Read** — Read files for cross-reference and semantic analysis
 - **Glob** — Find key operational files and verify path existence
 - **Grep** — Pattern-based search for stale references
-- **Write(../../output/reports/*)** — Write audit report
-- **Write(_ops/state/logs/*)** — Write execution logs
+- **Write(/.octon/state/evidence/validation/analysis/*)** — Write audit report
+- **Write(/.octon/state/evidence/runs/skills/*)** — Write execution logs
 
 No external dependencies required.
 

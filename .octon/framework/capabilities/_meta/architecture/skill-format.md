@@ -78,7 +78,7 @@ metadata:
   author: Octon Framework
   created: "2025-01-14"
   updated: "2025-01-15"
-allowed-tools: Read Glob Grep Write(../prompts/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(../prompts/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 ```
 
@@ -121,7 +121,7 @@ The Markdown body follows the frontmatter and contains skill instructions. Per t
 
 ## Output Location
 - **Deliverables:** `.octon/{{category}}/{{timestamp}}-{{name}}.md`
-- **Run logs:** `_ops/state/logs/{{skill-id}}/{{run-id}}.md`
+- **Run logs:** `/.octon/state/evidence/runs/skills/{{skill-id}}/{{run-id}}.md`
 
 ## Boundaries
 - [Constraints]

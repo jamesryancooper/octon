@@ -6,7 +6,7 @@ mod bindings;
 
 const CONTRACT_VERSION: &str = "1.0.0";
 const DEFAULT_STATE_KEY: &str = "filesystem-watch:default";
-const DEFAULT_STATE_DIR: &str = ".octon/framework/engine/_ops/state/watch";
+const DEFAULT_STATE_DIR: &str = ".octon/state/control/engine/watch";
 const DEFAULT_ROOT: &str = ".";
 const DEFAULT_MAX_EVENTS: usize = 500;
 const MAX_EVENTS_HARD: usize = 10_000;
@@ -429,10 +429,10 @@ fn should_skip(path: &str, state_dir: &str) -> bool {
     let p = normalize_rel_path(path);
     const PREFIXES: [&str; 5] = [
         ".git",
-        ".octon/framework/engine/_ops/state/traces",
-        ".octon/framework/engine/_ops/state/build",
-        ".octon/framework/engine/_ops/state/snapshots",
-        ".octon/framework/engine/_ops/state/watch",
+        ".octon/state/evidence/runs/engine/traces",
+        ".octon/generated/.tmp/engine/build",
+        ".octon/generated/effective/capabilities/filesystem-snapshots",
+        ".octon/state/control/engine/watch",
     ];
 
     for prefix in PREFIXES {

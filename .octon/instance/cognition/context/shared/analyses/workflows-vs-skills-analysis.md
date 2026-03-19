@@ -19,8 +19,8 @@ After comprehensive analysis of the skills system (production-ready, agentskills
 
 | Skill ID | Purpose | Has I/O Contract | Has Logging | Triggers |
 |----------|---------|------------------|-------------|----------|
-| `refine-prompt` | Transform rough prompts into clear, actionable instructions with codebase context | Yes (outputs/prompts/, _ops/state/logs/refine-prompt/) | Yes | "refine my prompt", "improve this prompt", "expand this prompt" |
-| `synthesize-research` | Synthesize scattered research notes into coherent findings documents | Yes (outputs/drafts/, _ops/state/logs/synthesize-research/) | Yes | "synthesize my research", "consolidate findings", "summarize research notes" |
+| `refine-prompt` | Transform rough prompts into clear, actionable instructions with codebase context | Yes (outputs/prompts/, /.octon/state/evidence/runs/skills/refine-prompt/) | Yes | "refine my prompt", "improve this prompt", "expand this prompt" |
+| `synthesize-research` | Synthesize scattered research notes into coherent findings documents | Yes (outputs/drafts/, /.octon/state/evidence/runs/skills/synthesize-research/) | Yes | "synthesize my research", "consolidate findings", "summarize research notes" |
 
 **Observations:**
 
@@ -68,7 +68,7 @@ After comprehensive analysis of the skills system (production-ready, agentskills
 |------------|-------------------------|------------------|
 | **I/O Contract** | Typed paths in registry.yml, explicit output locations | Required |
 | **Composability** | Pipeline-friendly design, defined inputs/outputs enable chaining | Core philosophy |
-| **Auditability** | Required run logs in `_ops/state/logs/<skill-id>/` | Required |
+| **Auditability** | Required run logs in `/.octon/state/evidence/runs/skills/<skill-id>/` | Required |
 | **Invocation** | `/command`, natural triggers, `use skill: {{id}}` | Supported |
 | **Progressive Disclosure** | 4-tier model (manifest → registry → SKILL.md → references) | Required |
 | **Portability** | Harness-agnostic via symlinks to `.claude/`, `.cursor/`, `.codex/` | Supported |
@@ -178,7 +178,7 @@ After comprehensive analysis of the skills system (production-ready, agentskills
 **Analysis:**
 
 - Skills are output-focused, but nothing prevents the output from being process documentation
-- The run log (`_ops/state/logs/<skill-id>/`) already captures execution trace
+- The run log (`/.octon/state/evidence/runs/skills/<skill-id>/`) already captures execution trace
 - A skill could explicitly output a "process report" as its primary artifact
 
 **How it works in practice:**
@@ -474,7 +474,7 @@ For skills that implement procedural workflows, adopt this pattern:
 ---
 name: refactor
 description: Execute a verified codebase refactor with exhaustive audit and mandatory verification.
-allowed-tools: Read Glob Grep Edit Write(outputs/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Edit Write(outputs/*) Write(/.octon/state/evidence/runs/skills/*)
 metadata:
   archetype: workflow
   checkpoints: true

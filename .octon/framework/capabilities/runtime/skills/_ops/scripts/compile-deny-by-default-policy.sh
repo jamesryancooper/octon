@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 REPO_ROOT="$(cd "$SKILLS_DIR/../../../.." && pwd)"
 MANIFEST="$SKILLS_DIR/manifest.yml"
-DEFAULT_OUT="$SKILLS_DIR/_ops/state/deny-by-default-policy.catalog.yml"
+DEFAULT_OUT="$REPO_ROOT/generated/effective/capabilities/skills-deny-by-default-policy.catalog.yml"
 OUT_PATH="${1:-$DEFAULT_OUT}"
 
 split_allowed_tools() {

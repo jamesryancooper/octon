@@ -23,29 +23,32 @@ This document applies to any Octon domain that exposes both `runtime/` and
 
 - `runtime/`: Canonical executable/discovery surface for domain runtime
   artifacts and runtime contracts.
-- `_ops/`: Operational support surface for scripts, validators, control-plane
-  helpers, and mutable operational state.
+- `_ops/`: Operational support surface for scripts, validators, and
+  control-plane helpers that remain portable with the framework bundle.
 
 ## Contract Rules
 
 1. Artifacts that are discovered/executed as canonical runtime behavior MUST
    live under `runtime/`.
-2. Operational scripts and mutable operational state MUST live under `_ops/`
-   (domain-level or runtime-local, depending on ownership).
-3. `_ops/` MUST NOT become a parallel canonical runtime artifact surface.
-4. Discovery metadata for runtime artifact classes (for example manifests and
+2. Operational scripts MUST live under `_ops/` (domain-level or runtime-local,
+   depending on ownership).
+3. Mutable repo-specific operational state, retained evidence, and generated
+   outputs MUST NOT live under `framework/**/_ops/**`; they belong under
+   `state/**` or `generated/**` according to class ownership.
+4. `_ops/` MUST NOT become a parallel canonical runtime artifact surface.
+5. Discovery metadata for runtime artifact classes (for example manifests and
    registries) MUST resolve to canonical runtime surfaces.
-5. Normative policy contracts MUST live in `governance/`; `_ops/` MAY carry
-   operational policy state used by enforcement tooling.
-6. When an operational asset is owned by one runtime subsystem only, it SHOULD
+6. Normative policy contracts MUST live in `governance/`; `_ops/` MAY carry
+   portable helper assets used by enforcement tooling.
+7. When an operational asset is owned by one runtime subsystem only, it SHOULD
    live in runtime-local `_ops/` (for example `runtime/_ops/`).
-7. When an operational asset coordinates multiple runtime classes in the same
+8. When an operational asset coordinates multiple runtime classes in the same
    domain, it SHOULD live in domain-level `_ops/`.
-8. Mutable control-plane state in `_ops/` MUST be scoped to declared allowlist
-   roots and MUST fail closed when a write target falls outside those roots.
-9. `_ops/` automation MUST emit enforcement receipts for failed-closed
+9. `_ops/` automation MUST fail closed when a write target falls outside the
+   canonical `state/**` or `generated/**` write roots declared by policy.
+10. `_ops/` automation MUST emit enforcement receipts for failed-closed
    decisions and out-of-policy write attempts.
-10. `_ops/` automation MUST NOT mutate immutable governance targets without a
+11. `_ops/` automation MUST NOT mutate immutable governance targets without a
     time-boxed, explicitly recorded exception lease.
 
 ## Default Mutation Allowlist (Fail-Closed)
@@ -53,8 +56,10 @@ This document applies to any Octon domain that exposes both `runtime/` and
 Unless a stricter domain contract is declared, `_ops/` automation is limited to
 these mutable targets:
 
-- `<domain>/_ops/state/**`
 - `/.octon/generated/**`
+- `/.octon/generated/.tmp/**`
+- `/.octon/state/control/**`
+- `/.octon/state/evidence/**`
 - `/.octon/state/continuity/repo/**`
 - domain-specific generated artifacts that are explicitly declared in the
   contract registry and linked to enforcement checks
@@ -77,29 +82,32 @@ Use this decision sequence:
 
 1. If the artifact is part of canonical runtime behavior or runtime discovery,
    place it in `runtime/`.
-2. If the artifact is a validator/control script, lease/grant/lock/log state,
-   or other mutable operational support data, place it in `_ops/`.
+2. If the artifact is a validator/control script or other portable operational
+   support helper, place it in `_ops/`.
 3. If the artifact defines normative policy intent, place it in `governance/`
    (not `_ops/`).
-4. If the artifact is mutable control-plane state, verify that writes are
-   constrained to allowlist roots and not targeting immutable governance paths.
+4. If the artifact is mutable control-plane state, retained evidence, or a
+   rebuildable generated output, place it in `state/**` or `generated/**`
+   rather than `_ops/`.
 
 ## Canonical Examples
 
 - Capabilities:
   - `runtime/` hosts executable capability classes (`commands`, `skills`,
     `tools`, `services`).
-  - `_ops/` hosts deny-by-default policy control-plane scripts and mutable
-    grant/kill-switch state.
+  - `_ops/` hosts deny-by-default policy control-plane scripts.
+  - mutable grant/kill-switch state lives under `/.octon/state/control/**`.
 - Cognition:
   - `runtime/` hosts authoritative context/decision/analysis artifacts.
   - `_ops/` hosts guardrail lint/check scripts and mutable guardrail state.
 - Engine:
   - `runtime/` hosts launchers, runtime crates, runtime contracts, and config.
-  - `_ops/` hosts prebuilt binaries and mutable runtime state.
+  - `_ops/` hosts portable runtime helper scripts only.
+  - mutable runtime state and traces live under `/.octon/state/**` or
+    `/.octon/generated/**`.
 - Assurance:
-  - Runtime-local `_ops/` under `runtime/` hosts assurance engine entrypoints
-    and lock/state artifacts for assurance execution.
+  - Runtime-local `_ops/` under `runtime/` hosts assurance engine entrypoints.
+  - assurance lock artifacts live under `/.octon/generated/effective/assurance/`.
 
 ## Non-Goals
 

@@ -14,7 +14,7 @@ metadata:
   updated: "2026-02-10"
 skill_sets: [executor]
 capabilities: [external-dependent]
-allowed-tools: Read Glob Grep Edit Bash(gh) Bash(npm) Bash(npx) Write(../../output/reports/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Edit Bash(gh) Bash(npm) Bash(npx) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Triage CI Failure
@@ -83,7 +83,7 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 Outputs are written to:
 
 - `.octon/state/evidence/validation/analysis/YYYY-MM-DD-ci-triage.md` — Triage report
-- `_ops/state/logs/triage-ci-failure/` — Execution logs with index
+- `/.octon/state/evidence/runs/skills/triage-ci-failure/` — Execution logs with index
 
 ## Boundaries
 

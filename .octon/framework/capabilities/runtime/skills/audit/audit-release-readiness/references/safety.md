@@ -2,8 +2,8 @@
 safety:
   mode: read-only
   allowed_writes:
-    - "../../../output/reports/*"
-    - "_ops/state/logs/*"
+    - "/.octon/state/evidence/validation/analysis/*"
+    - "/.octon/state/evidence/runs/skills/*"
   forbidden:
     - "Editing files in the audited scope"
     - "Reporting release-readiness claims without path-level evidence"

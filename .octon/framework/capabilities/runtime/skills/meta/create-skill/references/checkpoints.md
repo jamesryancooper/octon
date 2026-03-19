@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/create-skill/{{run_id}}/"
+  storage: ".octon/state/control/skills/checkpoints/create-skill/{{run_id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ Checkpointing keeps creation safe across interruptions and avoids partial regist
 
 Resume contract:
 
-- State lives in `.octon/framework/capabilities/runtime/skills/_ops/state/runs/create-skill/{{run_id}}/`.
+- State lives in `.octon/state/control/skills/checkpoints/create-skill/{{run_id}}/`.
 - Registry updates are replayed only after validation and scaffold checkpoints are present.
 - Resume re-runs uniqueness checks before any destructive operation.

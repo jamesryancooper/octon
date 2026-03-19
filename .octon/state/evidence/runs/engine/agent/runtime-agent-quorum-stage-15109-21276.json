@@ -1,0 +1,34 @@
+{
+  "checkpoint": {
+    "decision": "STAGE_ONLY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+    "resumeCount": 0,
+    "runId": "runtime-agent-quorum-stage-15109-21276",
+    "state": "stage-only"
+  },
+  "mode": "execute",
+  "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+  "result": {
+    "acpDecisionPath": ".octon/state/evidence/runs/runtime-agent-quorum-stage-15109-21276/acp-decision.json",
+    "acpRequestPath": ".octon/state/evidence/runs/runtime-agent-quorum-stage-15109-21276/acp-request.json",
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/runtime-agent-quorum-stage-15109-21276.json",
+    "decision": "STAGE_ONLY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "mode": "execute",
+    "planPath": ".octon/framework/cognition/principles/autonomous-control-points.md",
+    "reasonCodes": [
+      "ACP_QUORUM_MISSING",
+      "ACP_STAGE_ONLY_REQUIRED"
+    ],
+    "resume": false,
+    "summary": "Promotion blocked; staged artifacts preserved",
+    "warnings": []
+  },
+  "runId": "runtime-agent-quorum-stage-15109-21276",
+  "status": "partial"
+}

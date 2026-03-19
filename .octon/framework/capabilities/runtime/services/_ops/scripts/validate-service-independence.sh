@@ -10,7 +10,7 @@ OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 AGENT_PLATFORM_DIR="$SERVICES_DIR/interfaces/agent-platform"
 ADAPTERS_DIR="$AGENT_PLATFORM_DIR/adapters"
-ALLOWLIST_FILE="$SERVICES_DIR/_ops/state/provider-term-allowlist.tsv"
+ALLOWLIST_FILE="$FRAMEWORK_DIR/capabilities/governance/policy/provider-term-allowlist.tsv"
 TODAY="$(date +%F)"
 
 RED='\033[0;31m'

@@ -11,7 +11,7 @@
 #
 checkpoints:
   strategy: phase                    # phase | step | time-based
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/{{skill-id}}/{{run-id}}/"
+  storage: ".octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/"
   retention: session                 # session | permanent
 
   schema:
@@ -116,8 +116,8 @@ Files produced during execution (not just final output):
 
 | Output | Path | Purpose |
 |--------|------|---------|
-| Phase 1 checkpoint | `_ops/state/runs/{{run-id}}/phase1.json` | {{purpose}} |
-| Phase 2 checkpoint | `_ops/state/runs/{{run-id}}/phase2.json` | {{purpose}} |
+| Phase 1 checkpoint | `/.octon/state/control/skills/checkpoints/{{run-id}}/phase1.json` | {{purpose}} |
+| Phase 2 checkpoint | `/.octon/state/control/skills/checkpoints/{{run-id}}/phase2.json` | {{purpose}} |
 
 ---
 
@@ -134,7 +134,7 @@ Execution is interrupted during Phase 4 (Execute) after completing 7 of 13 file 
 ### Checkpoint State at Interruption
 
 ```yaml
-# .octon/framework/capabilities/runtime/skills/_ops/state/runs/refactor/2026-01-22-scratch-to-scratchpad/checkpoint.yml
+# .octon/state/control/skills/checkpoints/refactor/2026-01-22-scratch-to-scratchpad/checkpoint.yml
 skill: refactor
 version: "1.0.0"
 status: in_progress
@@ -185,7 +185,7 @@ When user invokes `/refactor .scratch/ → .scratchpad/` again:
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │  1. DETECT CHECKPOINT                                           │
-│     Look for: _ops/state/runs/refactor/*scratch-to-scratchpad*/checkpoint  │
+│     Look for: /.octon/state/control/skills/checkpoints/refactor/*scratch-to-scratchpad*/checkpoint  │
 │     Found: 2026-01-22-scratch-to-scratchpad/checkpoint.yml      │
 │                                                                  │
 │  2. READ CHECKPOINT (~50 tokens)                                │
@@ -238,7 +238,7 @@ When user invokes `/refactor .scratch/ → .scratchpad/` again:
 # In your skill's phases.md, add resumption logic:
 resumption:
   detection:
-    pattern: "_ops/state/runs/{{skill-id}}/*{{scope-slug}}*/checkpoint.yml"
+    pattern: "/.octon/state/control/skills/checkpoints/{{skill-id}}/*{{scope-slug}}*/checkpoint.yml"
     load_tokens: 50  # Keep checkpoint small for fast detection
 
   decision_matrix:

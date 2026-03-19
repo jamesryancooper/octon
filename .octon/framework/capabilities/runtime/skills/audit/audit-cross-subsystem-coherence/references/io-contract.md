@@ -28,9 +28,9 @@ description: Input/output contract for audit-cross-subsystem-coherence.
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/commands.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/validation.md`
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/inventory.md`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-cross-subsystem-coherence/{{run_id}}.md`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/audit-cross-subsystem-coherence/index.yml`
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/index.yml`
+- `.octon/state/evidence/runs/skills/audit-cross-subsystem-coherence/{{run_id}}.md`
+- `.octon/state/evidence/runs/skills/audit-cross-subsystem-coherence/index.yml`
+- `.octon/state/evidence/runs/skills/index.yml`
 
 ## Allowed Tools
 

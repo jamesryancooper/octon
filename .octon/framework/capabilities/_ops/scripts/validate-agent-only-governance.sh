@@ -5,7 +5,7 @@ set -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CAPABILITIES_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-REPO_ROOT="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
+ROOT_DIR="$(cd "$CAPABILITIES_DIR/../../.." && pwd)"
 POLICY_FILE="${1:-$CAPABILITIES_DIR/governance/policy/agent-only-governance.yml}"
 
 errors=0
@@ -104,11 +104,11 @@ if [[ -z "$kill_switch_state_dir" ]]; then
   log_error "Missing kill_switches.state_dir"
 else
   case "$kill_switch_state_dir" in
-    .octon/framework/capabilities/_ops/state/*)
+    .octon/state/control/capabilities/*)
       log_success "kill_switches.state_dir scoped to capabilities state"
       ;;
     *)
-      log_error "kill_switches.state_dir must stay within .octon/framework/capabilities/_ops/state/* (got: $kill_switch_state_dir)"
+      log_error "kill_switches.state_dir must stay within .octon/state/control/capabilities/* (got: $kill_switch_state_dir)"
       ;;
   esac
 fi
@@ -143,7 +143,7 @@ rollback_plan_ref="$(awk '
 ' "$POLICY_FILE")"
 
 if [[ -n "$rollback_plan_ref" ]]; then
-  if [[ ! -f "$REPO_ROOT/$rollback_plan_ref" ]]; then
+  if [[ ! -f "$ROOT_DIR/$rollback_plan_ref" ]]; then
     log_error "rollback_plan_ref points to missing file: $rollback_plan_ref"
   else
     log_success "rollback_plan_ref exists: $rollback_plan_ref"

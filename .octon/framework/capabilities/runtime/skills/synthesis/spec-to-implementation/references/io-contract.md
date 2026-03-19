@@ -41,13 +41,13 @@ The plan must include these top-level sections:
 
 Written to:
 
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/spec-to-implementation/{{run_id}}.md`
+- `.octon/state/evidence/runs/skills/spec-to-implementation/{{run_id}}.md`
 
 ### Log Index
 
 Written to:
 
-- `.octon/framework/capabilities/runtime/skills/_ops/state/logs/spec-to-implementation/index.yml`
+- `.octon/state/evidence/runs/skills/spec-to-implementation/index.yml`
 
 ## Governance Keys
 
@@ -61,5 +61,5 @@ Machine-readable keys used in receipts and templates:
 
 - **Read**: spec and existing code/contracts
 - **Glob/Grep**: locate impacted surfaces
-- **Write(../../output/plans/*)**: emit plan artifact
-- **Write(_ops/state/logs/*)**: emit run logs and index
+- **Write(/.octon/inputs/exploratory/plans/*)**: emit plan artifact
+- **Write(/.octon/state/evidence/runs/skills/*)**: emit run logs and index

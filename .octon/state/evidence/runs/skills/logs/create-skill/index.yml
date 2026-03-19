@@ -1,0 +1,13 @@
+# Create-Skill Log Index
+# All create-skill runs with metadata for progressive disclosure
+#
+# Tier 2 Discovery: Read this file to see skill creation history
+# Tier 3: Read individual run logs for full details
+
+skill: create-skill
+updated: null
+
+runs: []
+
+# Quick lookup for "was skill X already created?"
+skills_created: []

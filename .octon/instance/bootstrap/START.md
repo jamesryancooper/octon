@@ -122,7 +122,7 @@ Within these namespaces, common subpaths are:
 - `_meta/docs/`
 - `_meta/evidence/`
 - `_ops/scripts/`
-- `_ops/state/`
+- `state/**`
 - `_scaffold/template/`
 
 ## Canonical Agent-Led Path

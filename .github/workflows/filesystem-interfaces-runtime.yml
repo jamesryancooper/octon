@@ -178,7 +178,7 @@ jobs:
         run: |
           chmod +x .octon/framework/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
           FIXTURE_ROOT=".octon/generated/.tmp/filesystem-interfaces-bench/cross-os-fixture"
-          STATE_DIR=".octon/framework/engine/_ops/state/snapshots-cross-os"
+          STATE_DIR=".octon/generated/.tmp/engine/filesystem-snapshots-cross-os"
           rm -rf "$FIXTURE_ROOT"
           .octon/framework/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh \
             --profile ci \

@@ -5,7 +5,7 @@ service is implemented as a WASM component and registered as `interfaces/kv`.
 
 ## Purpose
 
-- Persist durable runtime state under `.octon/framework/engine/_ops/state/kv/`.
+- Persist durable runtime state under `.octon/state/control/engine/kv/`.
 - Expose simple JSON ops through `invoke(op, input-json)`.
 - Keep state operations deterministic and idempotent.
 
@@ -31,7 +31,7 @@ All op input/output schemas are defined in `service.json`.
 ## Runtime Requirements
 
 - Required capabilities: `storage.local`, `log.write`.
-- State directory: `.octon/framework/engine/_ops/state/kv`.
+- State directory: `.octon/state/control/engine/kv`.
 - Manifest limits:
   - `max_concurrency`: 4
   - `timeout_ms`: 30000
@@ -42,7 +42,7 @@ All op input/output schemas are defined in `service.json`.
 
 - Keys are case-sensitive strings.
 - Values are UTF-8 strings in v1.
-- Host persistence is a JSON map at `.octon/framework/engine/_ops/state/kv/store.json`.
+- Host persistence is a JSON map at `.octon/state/control/engine/kv/store.json`.
 
 ## Development
 

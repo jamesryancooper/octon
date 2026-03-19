@@ -51,22 +51,22 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: observability_coverage_audit_report
-      path: "../../../output/reports/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-observability-coverage-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured observability coverage findings report"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-observability-coverage/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-observability-coverage/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this observability coverage audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-observability-coverage/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-observability-coverage/index.yml"
       format: yaml
       determinism: variable
       description: "Index of observability coverage audit runs with metadata"

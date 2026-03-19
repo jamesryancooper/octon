@@ -7,7 +7,7 @@ mod bindings;
 use bindings::Guest;
 
 const DEFAULT_HTTP_TIMEOUT_MS: u64 = 30_000;
-const FLOW_RUNS_DIR: &str = ".octon/framework/engine/_ops/state/runs/flow";
+const FLOW_RUNS_DIR: &str = ".octon/state/evidence/runs/services/flow";
 const FLOW_ADAPTER_NATIVE: &str = "native-octon";
 const FLOW_ADAPTER_LANGGRAPH_HTTP: &str = "langgraph-http";
 

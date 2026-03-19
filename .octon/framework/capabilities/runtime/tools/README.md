@@ -11,7 +11,7 @@ Tool packs and custom tool contracts for invocation-driven atomic capabilities.
 | `capabilities.yml` | Built-in tool vocabulary, interface types, and pack rules |
 | `_scaffold/template/TOOL.md` | Authoring template for custom tools |
 | `_ops/scripts/validate-tools.sh` | Structural and semantic validator |
-| `_ops/state/logs/` | Tool subsystem operation logs |
+| `/.octon/state/evidence/runs/skills/` | Tool subsystem operation logs |
 
 ## Discovery
 
@@ -26,7 +26,7 @@ Tool packs and custom tool contracts for invocation-driven atomic capabilities.
 Examples:
 
 ```yaml
-allowed-tools: pack:read-only Write(_ops/state/logs/*)
+allowed-tools: pack:read-only Write(/.octon/state/evidence/runs/skills/*)
 allowed-tools: pack:file-ops pack:ci-integration WebFetch
 ```
 

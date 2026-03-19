@@ -15,12 +15,13 @@ These targets are supported directly:
 - `.octon/framework/assurance`
 - `.octon/framework/capabilities`
 - `.octon/framework/cognition`
-- `.octon/continuity`
 - `.octon/framework/engine`
-- `.octon/ideation`
 - `.octon/framework/orchestration`
-- `.octon/output`
 - `.octon/framework/scaffolding`
+- `.octon/instance`
+- `.octon/inputs`
+- `.octon/state`
+- `.octon/generated`
 
 ## Example 1: Existing Domain Critique
 

@@ -46,13 +46,13 @@ stages:
     mutation_scope: []
 artifacts:
   - name: migration_proposal_workflow_summary
-    path: "../../output/reports/analysis/{{date}}-audit-migration-proposal.md"
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-migration-proposal.md"
     kind: file
     format: markdown
     determinism: unique
     description: "Top-level workflow summary for migration proposal validation"
   - name: migration_proposal_workflow_bundle
-    path: "../../output/reports/workflows/{{date}}-audit-migration-proposal-{{slug}}/"
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-migration-proposal-{{slug}}/"
     kind: directory
     format: mixed
     determinism: unique

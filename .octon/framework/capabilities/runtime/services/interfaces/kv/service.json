@@ -6,7 +6,7 @@
   ],
   "category": "interfaces",
   "docs": {
-    "help": "Use for durable state under .octon/framework/engine/_ops/state/kv/. Keys are strings; values are UTF-8 strings in v1.",
+    "help": "Use for durable state under .octon/state/control/engine/kv/. Keys are strings; values are UTF-8 strings in v1.",
     "summary": "Local key/value storage for Octon runtime state."
   },
   "entry": "service.wasm",

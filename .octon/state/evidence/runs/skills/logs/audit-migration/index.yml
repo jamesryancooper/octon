@@ -1,0 +1,114 @@
+skill: audit-migration
+updated: "2026-02-19"
+
+runs:
+  - id: "2026-02-08-workspace-to-harness"
+    migration: "workspace-to-harness rename"
+    status: completed
+    timestamp: "2026-02-08"
+    metrics:
+      mappings: 8
+      files_scanned: 121
+      total_findings: 12
+      critical: 1
+      high: 6
+      medium: 4
+      low: 1
+    report: ../../../../output/reports/2026-02-08-migration-audit.md
+    log: 2026-02-08-workspace-to-harness.md
+
+  - id: "2026-02-08-workspace-to-harness-rerun"
+    migration: "workspace-to-harness rename (verification re-run)"
+    status: completed
+    timestamp: "2026-02-08"
+    metrics:
+      mappings: 8
+      prior_findings_verified: 12
+      prior_findings_fixed: 12
+      new_migration_findings: 0
+      new_non_migration_findings: 1
+      critical: 0
+      high: 0
+      medium: 1
+      low: 0
+    report: ../../../../output/reports/2026-02-08-migration-audit-rerun.md
+    log: 2026-02-08-workspace-to-harness-rerun.md
+
+  - id: "2026-02-18-quality-to-assurance"
+    migration: "quality-to-assurance legitimacy-layer transition"
+    status: completed
+    timestamp: "2026-02-18"
+    metrics:
+      mappings: 8
+      files_scanned: 1405
+      key_files_scanned: 173
+      migration_findings: 0
+      non_migration_findings: 9
+      critical: 0
+      high: 0
+      medium: 9
+      low: 0
+    report: ../../../../output/reports/2026-02-18-migration-audit.md
+    log: 2026-02-18-quality-to-assurance.md
+
+  - id: "2026-02-18-quality-to-assurance-rerun"
+    migration: "quality-to-assurance legitimacy-layer transition (cleanup re-run)"
+    status: completed
+    timestamp: "2026-02-18"
+    metrics:
+      mappings: 8
+      migration_findings: 0
+      non_migration_findings: 0
+      critical: 0
+      high: 0
+      medium: 0
+      low: 0
+    report: ../../../../output/reports/2026-02-18-migration-audit-rerun.md
+    log: 2026-02-18-quality-to-assurance-rerun.md
+
+  - id: "2026-02-19-ae-umbrella-rerun"
+    migration: "assurance-engine umbrella chain clean-break (follow-up verification)"
+    status: completed
+    timestamp: "2026-02-19"
+    metrics:
+      mappings: 11
+      files_scanned: 87
+      key_files_scanned: 23
+      grep_layer_migration_drift_findings: 0
+      total_findings: 2
+      critical: 0
+      high: 1
+      medium: 0
+      low: 1
+    report: ../../../../output/reports/2026-02-19-migration-audit-ae-umbrella-rerun.md
+    log: 2026-02-19-ae-umbrella-rerun.md
+
+  - id: "2026-02-19-ae-umbrella-closure"
+    migration: "assurance-engine umbrella chain clean-break (closure re-run)"
+    status: completed
+    timestamp: "2026-02-19"
+    metrics:
+      total_findings: 0
+      critical: 0
+      high: 0
+      medium: 0
+      low: 0
+    report: ../../../../output/reports/2026-02-19-migration-audit-ae-umbrella-closure.md
+    log: 2026-02-19-ae-umbrella-closure.md
+
+  - id: "2026-02-19-ae-umbrella-final-followup"
+    migration: "assurance-engine umbrella chain clean-break (final follow-up)"
+    status: completed
+    timestamp: "2026-02-19"
+    metrics:
+      mappings: 11
+      files_scanned: 88
+      key_files_scanned: 13
+      grep_raw_hits: 6
+      actionable_findings: 0
+      critical: 0
+      high: 0
+      medium: 0
+      low: 0
+    report: ../../../../output/reports/2026-02-19-migration-audit-ae-umbrella-final-followup.md
+    log: 2026-02-19-ae-umbrella-final-followup.md

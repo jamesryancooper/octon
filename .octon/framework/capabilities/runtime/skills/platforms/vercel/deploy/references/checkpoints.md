@@ -1,7 +1,7 @@
 ---
 checkpoints:
   strategy: phase
-  storage: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/vercel-deploy/{{run-id}}/"
+  storage: ".octon/state/control/skills/checkpoints/vercel-deploy/{{run-id}}/"
   retention: session
 
   schema:
@@ -31,6 +31,6 @@ Checkpoint state preserves deployment intent and captured URL artifacts for reli
 
 Resume contract:
 
-- State is stored under `.octon/framework/capabilities/runtime/skills/_ops/state/runs/vercel-deploy/{{run-id}}/`.
+- State is stored under `.octon/state/control/skills/checkpoints/vercel-deploy/{{run-id}}/`.
 - Resume re-checks CLI auth/link status before invoking deploy commands.
 - Deployment URL is only considered final after successful deploy checkpoint.

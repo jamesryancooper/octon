@@ -20,7 +20,7 @@ Status: **Deferred**.
 ## TraceWriter
 
 - A functional `TraceWriter` exists at `.octon/framework/engine/runtime/crates/core/src/trace.rs`.
-- It writes NDJSON trace events to `.octon/framework/engine/_ops/state/traces/<trace_id>.ndjson`.
+- It writes NDJSON trace events to `.octon/state/evidence/runs/engine/traces/<trace_id>.ndjson`.
 - The stdio server creates a trace writer per invocation when possible (`kernel/src/stdio.rs`).
 
 Limitations:

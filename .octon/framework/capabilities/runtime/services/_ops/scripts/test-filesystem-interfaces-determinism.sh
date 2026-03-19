@@ -10,7 +10,7 @@ OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 RUNTIME_RUN="$OCTON_DIR/framework/engine/runtime/run"
 export OCTON_RUNTIME_PREFER_SOURCE="${OCTON_RUNTIME_PREFER_SOURCE:-1}"
-STATE_DIR_BASE=".octon/framework/engine/_ops/state/snapshots"
+STATE_DIR_BASE=".octon/generated/effective/capabilities/filesystem-snapshots"
 STATE_DIR="${FILESYSTEM_INTERFACES_STATE_DIR:-$STATE_DIR_BASE/determinism-$$}"
 HAS_RG=false
 
@@ -120,9 +120,9 @@ if [[ ! -f "$FILES_JSONL" ]]; then
   exit 1
 fi
 
-if has_file_match "\"path\":\"\\.octon/framework/engine/_ops/state/" "$FILES_JSONL"; then
+if has_file_match "\"path\":\"\\.octon/state/control/engine/" "$FILES_JSONL"; then
   echo "ERROR: runtime state paths leaked into snapshot artifact"
-  print_file_matches "\"path\":\"\\.octon/framework/engine/_ops/state/" "$FILES_JSONL"
+  print_file_matches "\"path\":\"\\.octon/state/control/engine/" "$FILES_JSONL"
   exit 1
 fi
 

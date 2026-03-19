@@ -34,7 +34,7 @@
   - `/.octon/framework/engine/runtime/crates/kernel/src/workflow.rs`
   - `/.octon/framework/assurance/runtime/_ops/tests/test-design-package-workflow-runner.sh`
 - `docs`:
-  - `/.octon/framework/cognition/_meta/architecture/generated/output/README.md`
+  - `/.octon/framework/cognition/_meta/architecture/README.md`
   - `/.octon/state/evidence/runs/workflows/README.md`
 - `contracts`:
   - `workflow-execution-bundle` contract for `/.octon/state/evidence/runs/workflows/<YYYY-MM-DD>-<slug>/`

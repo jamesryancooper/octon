@@ -135,7 +135,7 @@ Workflows:
 - Add or adjust tests for new SSOT:
   - ensure workflow/skill validators pass on new paths
   - ensure ops catalog regeneration writes new paths:
-    - `/.octon/framework/capabilities/runtime/skills/_ops/state/deny-by-default-policy.catalog.yml`
+    - `/.octon/generated/effective/capabilities/skills-deny-by-default-policy.catalog.yml`
   - extend migration guardrails to fail on reintroduction:
     - add legacy entries to `legacy-banlist.md`
     - add explicit deprecated path checks in validators where appropriate

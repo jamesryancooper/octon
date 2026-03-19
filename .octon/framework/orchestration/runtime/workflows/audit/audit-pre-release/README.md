@@ -72,12 +72,12 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `pre_release_report` -> `../../output/reports/analysis/{{date}}-audit-pre-release.md`: Consolidated pre-release audit report with go/no-go recommendation
-- `health_audit_report` -> `../../output/reports/analysis/{{date}}-subsystem-health-audit.md`: Individual health audit report (produced by audit-subsystem-health)
-- `migration_audit_report` -> `../../output/reports/analysis/{{date}}-migration-audit-consolidated.md`: Consolidated migration audit report (produced by audit-orchestration in migration-only mode, if manifest provided)
-- `cross_subsystem_audit_report` -> `../../output/reports/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)
-- `freshness_audit_report` -> `../../output/reports/analysis/{{date}}-freshness-and-supersession-audit.md`: Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)
-- `pre_release_audit_bundle` -> `../../output/reports/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for release recommendation, context-governance evidence, and done-gate verification
+- `pre_release_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-audit-pre-release.md`: Consolidated pre-release audit report with go/no-go recommendation
+- `health_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-subsystem-health-audit.md`: Individual health audit report (produced by audit-subsystem-health)
+- `migration_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-migration-audit-consolidated.md`: Consolidated migration audit report (produced by audit-orchestration in migration-only mode, if manifest provided)
+- `cross_subsystem_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-cross-subsystem-coherence-audit.md`: Individual cross-subsystem coherence audit report (produced by audit-cross-subsystem-coherence, if enabled)
+- `freshness_audit_report` -> `/.octon/state/evidence/validation/analysis/{{date}}-freshness-and-supersession-audit.md`: Individual freshness and supersession audit report (produced by audit-freshness-and-supersession, if enabled)
+- `pre_release_audit_bundle` -> `/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/`: Authoritative bounded-audit bundle for release recommendation, context-governance evidence, and done-gate verification
 
 ## Steps
 

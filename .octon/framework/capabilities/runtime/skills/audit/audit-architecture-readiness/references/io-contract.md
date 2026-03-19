@@ -36,27 +36,27 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: architecture_readiness_audit_report
-      path: "../../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured architecture-readiness findings report"
     - name: architecture_readiness_summary_json
-      path: "../../../output/reports/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-architecture-readiness-audit-{{run_id}}.json"
       format: json
       determinism: unique
       description: "Machine-readable readiness summary validated against the promoted report schema"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings, coverage, convergence, and validation artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-architecture-readiness/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-architecture-readiness/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this readiness audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-architecture-readiness/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-architecture-readiness/index.yml"
       format: yaml
       determinism: variable
       description: "Index of readiness-audit runs with metadata"

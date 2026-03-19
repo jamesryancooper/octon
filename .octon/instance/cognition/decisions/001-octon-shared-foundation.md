@@ -53,7 +53,7 @@ Current rule:
 | `missions/` | Time-bounded sub-projects (always local) |
 | `context/decisions.md`, `lessons.md`, `glossary.md`, `constraints.md` | Domain-specific knowledge |
 | `workflows/audit/`, `workflows/tasks/` | Domain-specific workflows |
-| `skills/outputs/`, `skills/_ops/state/logs/` | Execution artifacts (always local) |
+| `skills/outputs/`, `skills//.octon/state/evidence/runs/skills/` | Execution artifacts (always local) |
 | Stub READMEs | Override points + discoverability |
 
 ## Skills Registry Split

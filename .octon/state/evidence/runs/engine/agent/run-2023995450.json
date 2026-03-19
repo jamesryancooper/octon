@@ -1,0 +1,33 @@
+{
+  "checkpoint": {
+    "decision": "DENY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "planPath": ".octon/framework/cognition/principles/deny-by-default.md",
+    "resumeCount": 0,
+    "runId": "run-2023995450",
+    "state": "denied"
+  },
+  "mode": "execute",
+  "planPath": ".octon/framework/cognition/principles/deny-by-default.md",
+  "result": {
+    "acpDecisionPath": ".octon/state/evidence/runs/run-2023995450/acp-decision.json",
+    "acpRequestPath": ".octon/state/evidence/runs/run-2023995450/acp-request.json",
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/run-2023995450.json",
+    "decision": "DENY",
+    "dryRun": false,
+    "effectiveAcp": "ACP-2",
+    "memoize": false,
+    "mode": "execute",
+    "planPath": ".octon/framework/cognition/principles/deny-by-default.md",
+    "reasonCodes": [
+      "ACP_CIRCUIT_BREAKER_TRIPPED"
+    ],
+    "resume": false,
+    "summary": "ACP gate denied promotion",
+    "warnings": []
+  },
+  "runId": "run-2023995450",
+  "status": "error"
+}

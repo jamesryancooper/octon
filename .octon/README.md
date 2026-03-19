@@ -7,7 +7,7 @@ class-first, not domain-first.
 
 | Root | Role |
 | --- | --- |
-| `framework/` | Portable authored Octon core |
+| `framework/` | Portable authored Octon core plus portable helper assets only |
 | `instance/` | Repo-specific durable authored authority |
 | `inputs/` | Non-authoritative additive and exploratory inputs |
 | `state/` | Operational truth and retained evidence |
@@ -15,6 +15,8 @@ class-first, not domain-first.
 
 Only `framework/**` and `instance/**` are authored authority. Raw
 `inputs/**` never participate directly in runtime or policy decisions.
+`framework/**` must not contain repo-local authority, mutable operational
+truth, retained evidence, or generated outputs.
 
 ## Canonical Bootstrap And Ingress
 

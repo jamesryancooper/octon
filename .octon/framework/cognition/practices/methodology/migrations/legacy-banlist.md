@@ -74,7 +74,7 @@ Each entry should be specific enough to avoid false positives.
 - `documentation-quality-gate` - deprecated workflow identifier and command token - removed by migration `2026-02-21-documentation-audit-clean-break-rename`
 - `orchestration/runtime/workflows/audit/documentation-quality-gate/` - deprecated docs workflow runtime path - removed by migration `2026-02-21-documentation-audit-clean-break-rename`
 - `cognition/practices/methodology/migrations/20` - deprecated migration record prefix under practices surface - removed by migration `2026-02-21-cognition-runtime-migrations-surface-split`
-- `output/reports/migrations/*-evidence.md` - deprecated flat migration evidence filename pattern - removed by migration `2026-02-21-migration-evidence-bundle-format`
+- `/.octon/state/evidence/migration/*-evidence.md` - deprecated flat migration evidence filename pattern - removed by migration `2026-02-21-migration-evidence-bundle-format`
 - `onboard-new-developer` - retired onboarding workflow identifier/command token; removed from discoverable routing by migration `2026-02-24-clean-break-governance-cutover`
 - `operation.target.instruction_layers` - deprecated context-governance clean-break compatibility alias; replaced by top-level `instruction_layers` field in migration `2026-02-25-context-governance-clean-break`
 - `operation.target.context_acquisition` - deprecated context-governance clean-break compatibility alias; replaced by top-level `context_acquisition` field in migration `2026-02-25-context-governance-clean-break`

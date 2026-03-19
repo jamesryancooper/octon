@@ -60,7 +60,7 @@ Read `.octon/framework/capabilities/runtime/skills/manifest.yml` for skill disco
 ### Safety
 
 - Follow `deny-by-default` tool policy
-- Log every execution to `capabilities/runtime/skills/_ops/state/logs/`
+- Log every execution to `/.octon/state/evidence/runs/skills/`
 
 ## Workflows
 

@@ -19,7 +19,7 @@ interaction:
 
   state_persistence:
     strategy: checkpoint
-    location: ".octon/framework/capabilities/runtime/skills/_ops/state/runs/refine-prompt/{{run-id}}/"
+    location: ".octon/state/control/skills/checkpoints/refine-prompt/{{run-id}}/"
 
   fallback:
     on_timeout: abort

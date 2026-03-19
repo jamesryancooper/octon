@@ -1,0 +1,27 @@
+{
+  "runId": "run-88cd1f326780",
+  "service": {
+    "name": "octon.service.query",
+    "version": "0.1.0"
+  },
+  "inputs": {},
+  "status": "failure",
+  "summary": "Semantic scoring is unavailable in this runtime.",
+  "durationMs": 0,
+  "stage": "implement",
+  "risk": "medium",
+  "telemetry": {
+    "trace_id": "run-88cd1f326780",
+    "spans": [
+      "service.query.ask"
+    ]
+  },
+  "determinism": {
+    "inputsHash": "sha256:bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f"
+  },
+  "outputs": {},
+  "createdAt": "2026-02-14T22:30:53Z",
+  "error": {
+    "code": "SemanticScoringUnavailableError"
+  }
+}

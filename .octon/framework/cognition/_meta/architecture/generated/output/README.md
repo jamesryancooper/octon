@@ -1,33 +1,28 @@
-# Output Architecture
+# Generated And Evidence Output Architecture
 
-Output stores generated deliverables and now follows the same structural
-contract as other subsystems.
+Octon no longer uses a single `output/` class root. Generated and
+human-facing output artifacts now land in canonical class-root destinations.
 
 ## Purpose
 
-- Keep artifacts, drafts, plans, and reports separated from source domains.
+- Keep drafts, plans, generated views, and evidence reports separated by
+  artifact class.
 - Preserve chronological outputs with deterministic naming.
 - Maintain subsystem architecture metadata for structural linting consistency.
 
 ## Contract
 
-- Generated content belongs under `output/` subdirectories (`artifacts/`,
-  `drafts/`, `plans/`, `reports/`).
-- `output/reports/` is a category index, not a flat write target.
-- Standalone report files belong under
-  `output/reports/analysis/<YYYY-MM-DD>-<slug>.<ext>`.
-- Multi-file report sets that are not evidence bundles belong under
-  `output/reports/packages/<slug>/` or
-  `output/reports/packages/<YYYY-MM-DD>-<slug>/`.
-- Tooling-generated operational artifacts belong under
-  `output/reports/operations/`.
+- Draft deliverables belong under `/.octon/inputs/exploratory/drafts/`.
+- Plan deliverables belong under `/.octon/inputs/exploratory/plans/`.
+- Standalone validation and analysis reports belong under
+  `/.octon/state/evidence/validation/analysis/`.
+- Authoritative bounded-audit bundles belong under
+  `/.octon/state/evidence/validation/audits/<YYYY-MM-DD>-<slug>/`.
+- Workflow execution bundles belong under
+  `/.octon/state/evidence/runs/workflows/<YYYY-MM-DD>-<slug>/`.
 - Migration evidence bundles belong under
-  `output/reports/migrations/<YYYY-MM-DD>-<slug>/` and include
-  `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, and
-  `inventory.md`.
-- Decision evidence bundles (optional) belong under
-  `output/reports/decisions/<NNN>-<slug>/` and, when present, include
-  `bundle.yml`, `evidence.md`, `commands.md`, `validation.md`, and
-  `inventory.md`.
-- Architecture metadata for this subsystem lives under
-  `output/_meta/architecture/`.
+  `/.octon/state/evidence/migration/<YYYY-MM-DD>-<slug>/`.
+- Decision evidence bundles belong under
+  `/.octon/state/evidence/decisions/repo/reports/<NNN>-<slug>/`.
+- Runtime-facing generated views belong under `/.octon/generated/effective/**`.
+- Transient generated build/cache artifacts belong under `/.octon/generated/.tmp/**`.

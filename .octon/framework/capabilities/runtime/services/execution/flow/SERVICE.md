@@ -42,7 +42,7 @@ adapters:
   registry: adapters/registry.yml
   validator: impl/validate-adapters.sh
 dry_run: true
-allowed-tools: Read Glob Grep
+allowed-tools: Read Glob Grep Write(/.octon/state/evidence/runs/services/flow/*)
 ---
 
 # Flow Service

@@ -19,7 +19,7 @@ metadata:
   updated: "2026-02-24"
 skill_sets: [executor, guardian]
 capabilities: [domain-specialized, self-validating]
-allowed-tools: Read Glob Grep Write(../../output/reports/*) Write(_ops/state/logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Audit Subsystem Health
@@ -92,7 +92,7 @@ Outputs are written to:
 
 - `.octon/state/evidence/validation/analysis/YYYY-MM-DD-subsystem-health-audit.md` -- Human-readable findings report
 - `.octon/state/evidence/validation/audits/YYYY-MM-DD-<run-id>/` -- Authoritative bounded-audit bundle
-- `_ops/state/logs/audit-subsystem-health/` -- Execution logs with index
+- `/.octon/state/evidence/runs/skills/audit-subsystem-health/` -- Execution logs with index
 
 ## Severity Classification
 

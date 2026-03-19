@@ -1,0 +1,21 @@
+{
+  "checkpoint": {
+    "planPath": "plan.json",
+    "previousState": "checkpointed",
+    "resumeCount": 1,
+    "runId": "run-123",
+    "state": "resumed"
+  },
+  "mode": "resume",
+  "planPath": "plan.json",
+  "result": {
+    "checkpointPath": ".octon/runtime/_ops/state/agent/checkpoints/run-123.json",
+    "dryRun": false,
+    "memoize": false,
+    "mode": "resume",
+    "planPath": "plan.json",
+    "summary": "Run resumed from checkpoint"
+  },
+  "runId": "run-123",
+  "status": "success"
+}

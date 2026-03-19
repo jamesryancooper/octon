@@ -38,7 +38,7 @@ io:
     - name: evidence_artifacts_glob
       type: text
       required: false
-      default: "**/continuity/runs/**/evidence/**,**/output/reports/**"
+      default: "**/continuity/runs/**/evidence/**,**//.octon/state/evidence/validation/analysis/**"
       description: "Comma-separated globs selecting release evidence and run-receipt artifacts"
     - name: severity_threshold
       type: text
@@ -61,22 +61,22 @@ io:
       description: "Comma-separated seed list for run-to-run consistency checks"
   outputs:
     - name: release_readiness_audit_report
-      path: "../../../output/reports/analysis/{{date}}-audit-release-readiness-{{run_id}}.md"
+      path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-release-readiness-{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Structured release-readiness findings report"
     - name: bounded_audit_bundle
-      path: "../../../output/reports/audits/{{date}}-{{run_id}}/"
+      path: "/.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/"
       format: mixed
       determinism: unique
       description: "Authoritative bounded-audit bundle with findings/coverage/convergence artifacts"
     - name: run_log
-      path: "_ops/state/logs/audit-release-readiness/{{run_id}}.md"
+      path: "/.octon/state/evidence/runs/skills/audit-release-readiness/{{run_id}}.md"
       format: markdown
       determinism: unique
       description: "Execution log for this release-readiness audit run"
     - name: log_index
-      path: "_ops/state/logs/audit-release-readiness/index.yml"
+      path: "/.octon/state/evidence/runs/skills/audit-release-readiness/index.yml"
       format: yaml
       determinism: variable
       description: "Index of release-readiness audit runs with metadata"
