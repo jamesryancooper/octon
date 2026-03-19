@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.16](https://github.com/jamesryancooper/octon/compare/octon-v0.4.15...octon-v0.4.16) (2026-03-18)
+
+
+### Features
+
+* **control-plane:** cut over root manifest profile model ([#168](https://github.com/jamesryancooper/octon/issues/168)) ([05a84c8](https://github.com/jamesryancooper/octon/commit/05a84c8733234605a8d9700caaef6b8912acf5ce))
+
 ## [0.4.15](https://github.com/jamesryancooper/octon/compare/harmony-v0.4.14...octon-v0.4.15) (2026-03-14)
 
 
