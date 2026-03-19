@@ -56,6 +56,14 @@ the instance manifest enables it:
 | `instance-agency-runtime` | `instance/agency/runtime/**` | `merge_by_id` | 30 |
 | `instance-assurance-runtime` | `instance/assurance/runtime/**` | `append_only` | 40 |
 
+Canonical locality inputs and outputs are:
+
+- authored locality control metadata: `instance/locality/{manifest.yml,registry.yml}`
+- authored per-scope manifests: `instance/locality/scopes/<scope-id>/scope.yml`
+- durable scope-local context: `instance/cognition/context/scopes/<scope-id>/**`
+- mutable locality quarantine: `state/control/locality/quarantine.yml`
+- compiled effective locality outputs: `generated/effective/locality/**`
+
 ## Portability
 
 `octon.yml` defines profile-driven portability. Do not copy the whole `.octon/`
@@ -87,3 +95,5 @@ tree as the default bootstrap model.
   dependencies.
 - Human-led ideation is part of `inputs/exploratory/ideation/**`.
 - Legacy mixed roots are not canonical and must not be reintroduced.
+- Locality is root-owned; descendant `.octon/` roots, hierarchical scope
+  inheritance, and ancestor-chain scope composition are invalid in v1.

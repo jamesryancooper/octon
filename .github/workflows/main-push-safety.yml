@@ -43,6 +43,16 @@ jobs:
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
 
+      - name: Validate locality registry
+        run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh
+
+      - name: Validate locality publication state
+        run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh
+
       - name: Validate harness version compatibility contract
         run: |
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh

@@ -102,3 +102,8 @@ records:
     path: 2026-03-19-overlay-and-ingress-model-cutover/plan.md
     adr: ../decisions/049-overlay-and-ingress-model-atomic-cutover.md
     evidence: /.octon/state/evidence/migration/2026-03-19-overlay-and-ingress-model-cutover/evidence.md
+
+  - id: 2026-03-19-locality-and-scope-registry-cutover
+    path: 2026-03-19-locality-and-scope-registry-cutover/plan.md
+    adr: ../decisions/050-locality-and-scope-registry-atomic-cutover.md
+    evidence: /.octon/state/evidence/migration/2026-03-19-locality-and-scope-registry-cutover/evidence.md

@@ -1,0 +1,8 @@
+schema_version: "octon-locality-generation-lock-v1"
+generator_version: ""
+generation_id: "locality-bootstrap-placeholder"
+published_at: "1970-01-01T00:00:00Z"
+locality_manifest_sha256: ""
+locality_registry_sha256: ""
+quarantine_sha256: ""
+scope_manifest_digests: []

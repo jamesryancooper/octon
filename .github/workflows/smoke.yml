@@ -25,7 +25,11 @@ jobs:
           echo "Running harness smoke checks..."
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh
           chmod +x .octon/framework/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh
           .octon/framework/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh

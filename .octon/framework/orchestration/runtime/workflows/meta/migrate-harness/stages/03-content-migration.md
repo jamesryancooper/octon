@@ -19,8 +19,13 @@ export-profile contracts.
    `instance/manifest.yml#enabled_overlay_points`,
    `/.octon/AGENTS.md`, and `instance/ingress/AGENTS.md` are described
    consistently.
-6. Update command, workflow, and catalog surfaces so the new export path,
-   overlay contract, and repo-instance authority model are discoverable.
+6. Rewrite active locality references so
+   `instance/locality/{manifest.yml,registry.yml,scopes/**}`,
+   `generated/effective/locality/**`, and
+   `state/control/locality/quarantine.yml` are described consistently.
+7. Update command, workflow, and catalog surfaces so the new export path,
+   overlay contract, locality contract, and repo-instance authority model are
+   discoverable.
 
 ## Output
 

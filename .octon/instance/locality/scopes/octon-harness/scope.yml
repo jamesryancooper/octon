@@ -1,0 +1,22 @@
+schema_version: "octon-locality-scope-v1"
+scope_id: "octon-harness"
+display_name: "Octon Harness"
+root_path: ".octon"
+owner: "Octon maintainers"
+status: "active"
+tech_tags:
+  - "octon"
+  - "harness"
+language_tags:
+  - "markdown"
+  - "yaml"
+  - "bash"
+  - "json"
+  - "rust"
+routing_hints:
+  preferred_capability_domains:
+    - "architecture"
+    - "assurance"
+mission_defaults:
+  scope_ids:
+    - "octon-harness"

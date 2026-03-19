@@ -7,7 +7,7 @@ default_agent: architect
 routing:
   assistant_prefix: "@"
   ambiguity_resolution: "ask"
-  locality: "nearest-registry-wins"
+  locality: "repo-instance-scope-registry"
 
 registries:
   agents: "runtime/agents/registry.yml"

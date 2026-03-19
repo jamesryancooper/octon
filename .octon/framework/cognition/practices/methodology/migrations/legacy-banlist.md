@@ -83,6 +83,7 @@ Each entry should be specific enough to avoid false positives.
 - `latest_digest // .digest` - deprecated instruction-layer digest fallback expression removed in migration `2026-02-25-context-governance-clean-break`
 - `compatibility_receipt` - deprecated context-governance clean-break compatibility output key removed in migration `2026-02-25-context-governance-clean-break`
 - `compatibility_digest` - deprecated context-governance clean-break compatibility output key removed in migration `2026-02-25-context-governance-clean-break`
+- `nearest-registry-wins` - deprecated locality resolution token replaced by the root-owned repo-instance scope registry in migration `2026-03-19-locality-and-scope-registry-cutover`
 
 ## Banned Paths
 

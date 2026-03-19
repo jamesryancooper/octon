@@ -23,7 +23,7 @@ done
 
 echo ""
 echo "Key authored surfaces:"
-for dir in ../framework/agency ../framework/capabilities ../framework/cognition ../framework/orchestration ../framework/assurance ../framework/engine ../framework/scaffolding ../instance/ingress ../instance/bootstrap ../instance/locality ../instance/cognition ../instance/capabilities/runtime ../instance/orchestration/missions ../inputs/additive/extensions ../state/continuity/repo ../generated/proposals; do
+for dir in ../framework/agency ../framework/capabilities ../framework/cognition ../framework/orchestration ../framework/assurance ../framework/engine ../framework/scaffolding ../instance/ingress ../instance/bootstrap ../instance/locality ../instance/locality/scopes ../instance/cognition ../instance/cognition/context/scopes ../instance/capabilities/runtime ../instance/orchestration/missions ../inputs/additive/extensions ../state/continuity/repo ../state/control/locality ../generated/effective/locality ../generated/proposals; do
   if [ -e "$dir" ]; then
     echo "✓ $dir"
   else

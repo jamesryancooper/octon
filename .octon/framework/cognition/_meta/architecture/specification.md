@@ -51,6 +51,17 @@ super-root cutover.
 20. Undeclared or disabled overlay artifacts fail closed.
 21. Repo-owned bootstrap, locality, context, ADRs, repo-native capabilities,
     missions, and desired extension configuration belong in `instance/**`.
+22. `instance/locality/manifest.yml`, `instance/locality/registry.yml`, and
+    `instance/locality/scopes/<scope-id>/scope.yml` are the only authored
+    locality authority surfaces.
+23. In v1, each `scope_id` declares exactly one `root_path`.
+24. In v1, locality resolution yields zero or one active scope per target
+    path.
+25. Descendant `.octon/` roots, hierarchical scope inheritance, and
+    ancestor-chain scope composition are invalid locality models.
+26. `state/control/locality/quarantine.yml` is mutable operational control
+    truth; `generated/effective/locality/**` is non-authoritative compiled
+    locality state.
 
 ## Precedence
 
@@ -100,6 +111,11 @@ for runtime, governance, and practices.
 - ingress: `/.octon/instance/ingress/AGENTS.md`
 - bootstrap docs: `/.octon/instance/bootstrap/`
 - locality: `/.octon/instance/locality/`
+- scope schema contract:
+  `/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/scope.schema.json`
+- scope-local durable context: `/.octon/instance/cognition/context/scopes/`
+- locality quarantine: `/.octon/state/control/locality/quarantine.yml`
+- effective locality outputs: `/.octon/generated/effective/locality/`
 - repo context and ADRs: `/.octon/instance/cognition/`
 - repo missions: `/.octon/instance/orchestration/missions/`
 - export runner: `/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh`
@@ -132,6 +148,18 @@ for runtime, governance, and practices.
 No blanket shadow-tree model exists for `instance/**`. Any future
 overlay-capable surface must be declared in the framework overlay registry
 before it becomes legal.
+
+## Locality And Scope Contract
+
+- locality authority is rooted under `instance/locality/**`
+- each scope is authored once at `instance/locality/scopes/<scope-id>/scope.yml`
+- `include_globs` and `exclude_globs` refine a single rooted subtree and may
+  not redefine scope authority into multiple roots
+- missions may reference scopes, but they do not define locality
+- runtime-facing locality consumers use compiled
+  `generated/effective/locality/**`
+- invalid scope state quarantines locally under
+  `state/control/locality/quarantine.yml`
 
 ### Overlay Resolution Order
 

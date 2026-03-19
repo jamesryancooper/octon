@@ -96,6 +96,14 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-repo-instance-boundary.sh"
 
   run_step \
+    "Validate locality registry and scope contract" \
+    bash "$SCRIPT_DIR/validate-locality-registry.sh"
+
+  run_step \
+    "Validate locality publication state" \
+    bash "$SCRIPT_DIR/validate-locality-publication-state.sh"
+
+  run_step \
     "Validate extension desired/actual/compiled publication state" \
     bash "$SCRIPT_DIR/validate-extension-publication-state.sh"
 

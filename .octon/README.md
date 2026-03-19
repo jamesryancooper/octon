@@ -57,7 +57,14 @@ No other `instance/**` subtree is overlay-capable in v1.
 - Projected ingress surface: `/.octon/AGENTS.md`
 - Canonical ingress: `/.octon/instance/ingress/AGENTS.md`
 - Canonical bootstrap docs: `/.octon/instance/bootstrap/`
-- Canonical locality authority: `/.octon/instance/locality/`
+- Canonical locality authority:
+  `/.octon/instance/locality/{manifest.yml,registry.yml,scopes/<scope-id>/scope.yml}`
+- Canonical scope-local durable context:
+  `/.octon/instance/cognition/context/scopes/<scope-id>/`
+- Canonical locality quarantine:
+  `/.octon/state/control/locality/quarantine.yml`
+- Canonical effective locality outputs:
+  `/.octon/generated/effective/locality/`
 - Canonical repo context and ADRs: `/.octon/instance/cognition/`
 - Canonical repo missions: `/.octon/instance/orchestration/missions/`
 - Root manifest: `/.octon/octon.yml`
@@ -68,6 +75,18 @@ No other `instance/**` subtree is overlay-capable in v1.
 Repo-root `AGENTS.md` and `CLAUDE.md` are thin adapters to `/.octon/AGENTS.md`
 only. They must be a symlink to `/.octon/AGENTS.md` or a byte-for-byte parity
 copy and may not add runtime or policy text.
+
+## Locality And Scope Registry
+
+Locality is root-owned under `instance/locality/**`, not implemented through
+descendant `.octon/` roots, sidecars, or ancestor-chain lookup. In v1:
+
+- each `scope_id` declares exactly one `root_path`
+- each target path resolves to zero or one active scope
+- overlapping active scopes fail closed and quarantine locally
+- missions may reference scopes, but they do not define scope identity
+- runtime-facing locality consumers use
+  `generated/effective/locality/**`, which is compiled and non-authoritative
 
 ## Portability
 

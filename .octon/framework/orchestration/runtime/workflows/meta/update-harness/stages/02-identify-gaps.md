@@ -12,6 +12,9 @@ Report:
 - **Missing Packet 5 overlay and ingress contract surfaces** — overlay
   registry strictness, `enabled_overlay_points`, reserved overlay roots, and
   root-adapter thinness that must converge in one cutover
+- **Missing Packet 6 locality contract surfaces** — scope manifests,
+  `generated/effective/locality/**`, `state/control/locality/**`, and
+  locality fail-closed validators that must converge in one cutover
 - **Active mixed-path repo-instance references** — control-plane docs or
   workflows that still use retired repo-context, continuity, or legacy mission
   roots

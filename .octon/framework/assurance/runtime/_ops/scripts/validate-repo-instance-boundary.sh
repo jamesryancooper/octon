@@ -41,8 +41,12 @@ require_dir() {
 }
 
 check_required_structure() {
+  require_file "$INSTANCE_DIR/locality/README.md"
   require_file "$INSTANCE_DIR/locality/manifest.yml"
   require_file "$INSTANCE_DIR/locality/registry.yml"
+  require_dir "$INSTANCE_DIR/locality/scopes"
+  require_dir "$INSTANCE_DIR/cognition/context/scopes"
+  require_file "$INSTANCE_DIR/cognition/context/scopes/README.md"
   require_dir "$INSTANCE_DIR/orchestration/missions"
   require_file "$INSTANCE_DIR/orchestration/missions/README.md"
   require_file "$INSTANCE_DIR/orchestration/missions/registry.yml"
@@ -137,6 +141,16 @@ check_wrong_class_placements() {
     printf '%s\n' "$forbidden_payloads" | sed "s|$ROOT_DIR/||"
   else
     pass "no wrong-class raw input or generated/control payloads exist under instance/**"
+  fi
+}
+
+check_locality_scope_contract() {
+  local scope_manifest_count
+  scope_manifest_count="$(find "$INSTANCE_DIR/locality/scopes" -type f -name 'scope.yml' ! -path '*/_scaffold/*' | wc -l | tr -d ' ')"
+  if [[ "$scope_manifest_count" -gt 0 ]]; then
+    pass "locality scope manifests present under instance/locality/scopes/**"
+  else
+    fail "missing locality scope manifests under instance/locality/scopes/**"
   fi
 }
 
@@ -236,6 +250,7 @@ main() {
   check_enabled_overlay_roots
   check_overlay_domain_shape
   check_wrong_class_placements
+  check_locality_scope_contract
   check_active_reference_drift
   check_native_collision_risk
 

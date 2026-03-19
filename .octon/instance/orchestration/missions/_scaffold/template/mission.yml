@@ -5,4 +5,5 @@ summary: ""
 status: "created"
 owner: null
 created_at: "YYYY-MM-DD"
+scope_ids: []
 success_criteria: []

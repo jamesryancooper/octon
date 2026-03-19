@@ -19,6 +19,8 @@ This principle shapes Octon's harness architecture:
 - Skills live near the code they operate on
 - Configuration stays in canonical repo-root files, not parent/child harness chains
 - Agents load only the context relevant to their current location
+- Durable scope identity is authored once under `instance/locality/**` and
+  compiled into `generated/effective/locality/**`
 
 ## Why It Matters
 
@@ -58,6 +60,7 @@ Octon implements locality through a single `.octon/` directory organized by capa
 | Category | Path | Content |
 | -------- | ---- | ------- |
 | Cognition | `instance/cognition/context/shared/` | Decisions, lessons, glossary, dependencies |
+| Scoped Cognition | `instance/cognition/context/scopes/<scope-id>/` | Durable scope-local context bound to a declared scope |
 | Continuity | `state/continuity/repo/` | Progress log, tasks, entities, next actions |
 | Quality | `framework/assurance/` | Completion checklists, session-exit |
 | Orchestration | `framework/orchestration/runtime/workflows/` plus `instance/orchestration/missions/` | Shared workflows plus repo-owned missions |
@@ -65,6 +68,29 @@ Octon implements locality through a single `.octon/` directory organized by capa
 | Scaffolding | `framework/scaffolding/` | runtime, governance, practices |
 
 Portability is declared via `octon.yml` metadata — it specifies which paths are reusable framework assets vs. project-specific state.
+
+### Root-Owned Scope Registry
+
+Octon implements locality through one repo-owned scope registry:
+
+```text
+.octon/instance/locality/
+  manifest.yml
+  registry.yml
+  scopes/<scope-id>/scope.yml
+```
+
+The scope registry is the only authored source of truth for locality.
+Generated runtime-facing locality views live under
+`generated/effective/locality/**`, and invalid scope state quarantines under
+`state/control/locality/quarantine.yml`.
+
+In v1:
+
+- each `scope_id` has exactly one `root_path`
+- a target path resolves to zero or one active scope
+- overlapping active scopes are invalid
+- missions may reference scopes, but they do not define locality
 
 ### Single-Root Harness Topology
 
@@ -182,6 +208,8 @@ Current: /repo/packages/auth/src/handlers/login.ts
 Resolution chain:
 1. Resolve repository root: /repo/
 2. Load active harness: /repo/.octon/
+3. Load `instance/locality/manifest.yml` and `instance/locality/registry.yml`
+4. Resolve the applicable `scope_id`, if any
 ```
 
 ### Context Composition
@@ -197,6 +225,10 @@ sources:
   - .octon/instance/cognition/context/shared/auth-decisions.md
   - .octon/instance/cognition/context/shared/auth-glossary.md
 ```
+
+Scope-local durable context is added from
+`.octon/instance/cognition/context/scopes/<scope-id>/**` only when the active
+scope registry resolves a matching `scope_id`.
 
 ### Progress Isolation
 
@@ -228,6 +260,9 @@ Missions inherit locality principles:
     ├── tasks.json     # Mission-specific tasks
     └── context/       # Mission-specific context
 ```
+
+Missions may also reference one or more locality `scope_id` values, but that
+reference never replaces the root-owned scope registry.
 
 ## Relationship to Other Principles
 

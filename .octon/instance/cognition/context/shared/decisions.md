@@ -65,6 +65,7 @@ Do not edit manually. Update ADR files and `/.octon/instance/cognition/decisions
 | ADR-047 | Accepted | 2026-03-06 | ADR 047: Self-Contained Bootstrap And Ingress Adapters | `../decisions/047-self-contained-bootstrap-and-ingress-adapters.md` |
 | ADR-048 | Accepted | 2026-03-18 | ADR 048: Repo-Instance Architecture Atomic Cutover | `../decisions/048-repo-instance-architecture-atomic-cutover.md` |
 | ADR-049 | Accepted | 2026-03-19 | ADR 049: Overlay And Ingress Model Atomic Cutover | `../decisions/049-overlay-and-ingress-model-atomic-cutover.md` |
+| ADR-050 | Accepted | 2026-03-19 | ADR 050: Locality And Scope Registry Atomic Cutover | `../decisions/050-locality-and-scope-registry-atomic-cutover.md` |
 
 ## Update Procedure
 

@@ -76,6 +76,11 @@ jobs:
               # Keep super-root validator and test harness changes on the same rerun path.
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh'
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh'
+              - '.octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh'
+              - '.octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh'
+              - '.octon/framework/assurance/runtime/_ops/tests/test-validate-locality-registry.sh'
+              - '.octon/framework/assurance/runtime/_ops/tests/test-validate-locality-publication-state.sh'
+              - '.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh'
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh'
               - '.octon/framework/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh'
               - '.github/workflows/harness-self-containment.yml'
@@ -89,6 +94,16 @@ jobs:
         run: |
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
+
+      - name: Validate locality registry contract
+        run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh
+
+      - name: Validate locality publication state
+        run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh
 
       - name: Validate bounded-audit convergence contract
         run: |

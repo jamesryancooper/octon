@@ -576,6 +576,7 @@ check_manifest_links() {
   grep -q 'agents:\s*"runtime/agents/registry.yml"' "$MANIFEST" || fail "manifest missing agents registry link"
   grep -q 'assistants:\s*"runtime/assistants/registry.yml"' "$MANIFEST" || fail "manifest missing assistants registry link"
   grep -q 'teams:\s*"runtime/teams/registry.yml"' "$MANIFEST" || fail "manifest missing teams registry link"
+  grep -q 'locality:\s*"repo-instance-scope-registry"' "$MANIFEST" || fail "manifest routing.locality must be repo-instance-scope-registry"
 
   local default_agent
   default_agent="$(awk '/^default_agent:\s*/ {print $2}' "$MANIFEST" | tr -d '"')"
@@ -589,6 +590,8 @@ check_manifest_links() {
   else
     pass "manifest default_agent resolves to agents registry"
   fi
+
+  pass "manifest routing.locality uses repo-instance scope registry model"
 }
 
 check_deprecations() {

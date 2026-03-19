@@ -120,6 +120,17 @@ Canonical root-harness structure:
 All other `instance/**` surfaces remain instance-native rather than
 overlay-capable.
 
+### Packet 6 Locality And Scope Registry
+
+- locality authority lives under `instance/locality/**`
+- each scope is authored at `instance/locality/scopes/<scope-id>/scope.yml`
+- scope-local durable context lives under
+  `instance/cognition/context/scopes/<scope-id>/**`
+- runtime-facing locality views live under `generated/effective/locality/**`
+- invalid scopes quarantine locally under `state/control/locality/**`
+- descendant `.octon/` roots, nearest-registry fallback, hierarchical
+  inheritance, and ancestor-chain composition are invalid in v1
+
 **Portability:** `octon.yml` no longer declares a broad path allowlist. It
 defines install/export profiles, class-root bindings, version compatibility,
 human-led zones, and fail-closed policies. `bootstrap_core` is the install

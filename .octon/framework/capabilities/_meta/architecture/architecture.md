@@ -42,6 +42,18 @@ The root harness scope includes the repository root and all repository descendan
 |---------|--------------|
 | **repo** | `repo/**` subject to declared output paths and policy |
 
+## Locality Resolution
+
+Capability routing and agent execution resolve locality from the root-owned
+repo-instance scope registry, not from descendant harnesses or nearest-parent
+registry fallback.
+
+- authored locality authority: `/.octon/instance/locality/**`
+- compiled runtime-facing locality view: `/.octon/generated/effective/locality/**`
+- v1 model: one `root_path` per `scope_id`, zero or one active scope per path
+- invalid models: descendant `.octon/` roots, hierarchical scope inheritance,
+  ancestor-chain composition
+
 ### Example: Who Can Write `flowkit/src/generated.ts`
 
 | Harness   | Permission | Reason |

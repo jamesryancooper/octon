@@ -10,7 +10,8 @@ profile contract.
 3. Confirm `export.receipt.yml` is emitted and `full_fidelity` is rejected as advisory-only.
 4. Confirm the packet-4 repo-instance boundary validator passes and is included in the harness alignment profile.
 5. Confirm the packet-5 overlay validator and bootstrap-ingress validator both pass and are included in the harness alignment profile.
-6. Confirm `START.md`, `catalog.md`, and canonical architecture docs all point to the v2 manifest shape plus the packet-4 and packet-5 authority model.
+6. Confirm the packet-6 locality registry validator and locality publication-state validator both pass and are included in the harness alignment profile.
+7. Confirm `START.md`, `catalog.md`, and canonical architecture docs all point to the v2 manifest shape plus the packet-4, packet-5, and packet-6 authority model.
 
 ## Output
 

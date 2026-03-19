@@ -1,0 +1,11 @@
+schema_version: "octon-locality-generation-lock-v1"
+generator_version: "0.5.0"
+generation_id: "locality-43feef076274"
+published_at: "2026-03-19T19:40:46Z"
+locality_manifest_sha256: "2f8e87656e920f10b6d48ea118f3137d2cabf0bae774e8360be5fa4fcc27e1d1"
+locality_registry_sha256: "29d97816ceab9b0ecab34a01f92752e32d09c61a2bbe6ff96bae5b045d5a2e2d"
+quarantine_sha256: "549357c8a03262bac9515d693621d33eb768bad6d5deaedaddbc5c39801d67ee"
+scope_manifest_digests:
+  - scope_id: "octon-harness"
+    manifest_path: ".octon/instance/locality/scopes/octon-harness/scope.yml"
+    sha256: "a1b3bacb7e0afdeafa4ffe27bed4aa85de3418a02f2a05fce52043bd6afac3aa"

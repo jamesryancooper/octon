@@ -1,0 +1,9 @@
+schema_version: "octon-locality-artifact-map-v1"
+generator_version: "0.5.0"
+generation_id: "locality-43feef076274"
+published_at: "2026-03-19T19:40:46Z"
+artifacts:
+  - scope_id: "octon-harness"
+    registry_entry: ".octon/instance/locality/registry.yml#/scopes/0"
+    manifest_path: ".octon/instance/locality/scopes/octon-harness/scope.yml"
+    manifest_sha256: "a1b3bacb7e0afdeafa4ffe27bed4aa85de3418a02f2a05fce52043bd6afac3aa"

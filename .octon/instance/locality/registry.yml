@@ -1,2 +1,4 @@
 schema_version: "octon-locality-registry-v1"
-scopes: []
+scopes:
+  - scope_id: "octon-harness"
+    manifest_path: ".octon/instance/locality/scopes/octon-harness/scope.yml"

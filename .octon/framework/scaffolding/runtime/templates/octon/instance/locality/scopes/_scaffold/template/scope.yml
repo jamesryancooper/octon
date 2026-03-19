@@ -1,0 +1,14 @@
+schema_version: "octon-locality-scope-v1"
+scope_id: "<scope-id>"
+display_name: "Scope: <scope-id>"
+root_path: "<repo-relative-root>"
+owner: "<owner>"
+status: "active"
+tech_tags: []
+language_tags: []
+# include_globs: []
+# exclude_globs: []
+# routing_hints: {}
+# mission_defaults:
+#   scope_ids:
+#     - "<scope-id>"

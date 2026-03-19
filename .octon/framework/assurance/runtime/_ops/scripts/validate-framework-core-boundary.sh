@@ -91,6 +91,7 @@ main() {
         --glob '!.octon/state/evidence/**' \
         --glob '!.octon/inputs/exploratory/ideation/**' \
         --glob '!.octon/inputs/exploratory/packages/**' \
+        --glob '!.octon/inputs/exploratory/proposals/**' \
         --glob '!.octon/inputs/exploratory/proposals/.archive/**' \
         --glob '!.octon/instance/cognition/decisions/**' \
         --glob '!.octon/instance/cognition/context/shared/migrations/**' \
@@ -120,6 +121,7 @@ main() {
         --glob '!**/target/**' \
         --glob '!**/node_modules/**' \
         --glob '!**/.git/**' \
+        --glob '!.octon/inputs/exploratory/proposals/**' \
         --glob '!.octon/inputs/exploratory/proposals/.archive/**' \
         --glob '!.octon/framework/assurance/runtime/_ops/scripts/validate-framework-core-boundary.sh' \
         --glob '!.octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh' \

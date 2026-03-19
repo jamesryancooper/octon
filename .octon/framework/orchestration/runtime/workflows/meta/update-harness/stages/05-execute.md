@@ -13,8 +13,12 @@ After user approval:
    `/.octon/AGENTS.md`
 6. Remove or quarantine ad hoc overlay-like paths that fall outside the four
    ratified overlay roots
-7. Route export requests to `/export-harness`
-8. Update `state/continuity/repo/log.md` with changes made
+7. Preserve and repair Packet 6 locality authority under
+   `instance/locality/**`, compiled locality outputs under
+   `generated/effective/locality/**`, and locality quarantine state under
+   `state/control/locality/**`
+8. Route export requests to `/export-harness`
+9. Update `state/continuity/repo/log.md` with changes made
 
 ## Output format
 

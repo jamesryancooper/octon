@@ -1,0 +1,25 @@
+schema_version: "octon-locality-effective-scopes-v1"
+generator_version: "0.5.0"
+generation_id: "locality-43feef076274"
+published_at: "2026-03-19T19:40:46Z"
+resolution_mode: "single-active-scope"
+source:
+  locality_manifest_path: ".octon/instance/locality/manifest.yml"
+  locality_manifest_sha256: "2f8e87656e920f10b6d48ea118f3137d2cabf0bae774e8360be5fa4fcc27e1d1"
+  locality_registry_path: ".octon/instance/locality/registry.yml"
+  locality_registry_sha256: "29d97816ceab9b0ecab34a01f92752e32d09c61a2bbe6ff96bae5b045d5a2e2d"
+active_scope_ids:
+  - "octon-harness"
+scopes:
+  - scope_id: "octon-harness"
+    manifest_path: ".octon/instance/locality/scopes/octon-harness/scope.yml"
+    display_name: "Octon Harness"
+    root_path: ".octon"
+    owner: "Octon maintainers"
+    status: "active"
+    tech_tags: [  "octon",  "harness"]
+    language_tags: [  "markdown",  "yaml",  "bash",  "json",  "rust"]
+    include_globs: []
+    exclude_globs: []
+    routing_hints: {  "preferred_capability_domains": [    "architecture",    "assurance"  ]}
+    mission_defaults: {  "scope_ids": [    "octon-harness"  ]}

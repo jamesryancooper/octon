@@ -12,7 +12,8 @@ copy_packet2_runtime_scripts() {
   local fixture_root="$1"
   mkdir -p \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts" \
-    "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts"
+    "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas"
 
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh"
@@ -24,10 +25,20 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-export-profile-contract.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-raw-input-dependency-ban.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-raw-input-dependency-ban.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
+  cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" \
+    "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/README.md" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/README.md"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/scope.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/scope.schema.json"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
 
@@ -37,8 +48,11 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-companion-manifests.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-export-profile-contract.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-raw-input-dependency-ban.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
+    "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
 }
 
@@ -56,7 +70,11 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/framework/scaffolding/governance" \
     "$fixture_root/.octon/framework/orchestration/runtime/workflows/meta/migrate-harness" \
     "$fixture_root/.octon/instance/locality" \
+    "$fixture_root/.octon/instance/locality/scopes/octon-harness" \
+    "$fixture_root/.octon/instance/cognition/context/scopes/octon-harness" \
     "$fixture_root/.octon/inputs/additive/extensions" \
+    "$fixture_root/.octon/state/control/locality" \
+    "$fixture_root/.octon/generated/effective/locality" \
     "$fixture_root/.octon/generated/proposals"
 
   cat >"$fixture_root/.octon/octon.yml" <<'EOF'
@@ -193,9 +211,36 @@ registry_path: ".octon/instance/locality/registry.yml"
 resolution_mode: "single-active-scope"
 EOF
 
+  cat >"$fixture_root/.octon/instance/locality/README.md" <<'EOF'
+# Locality
+EOF
+
   cat >"$fixture_root/.octon/instance/locality/registry.yml" <<'EOF'
 schema_version: "octon-locality-registry-v1"
-scopes: []
+scopes:
+  - scope_id: "octon-harness"
+    manifest_path: ".octon/instance/locality/scopes/octon-harness/scope.yml"
+EOF
+
+  cat >"$fixture_root/.octon/instance/locality/scopes/octon-harness/scope.yml" <<'EOF'
+schema_version: "octon-locality-scope-v1"
+scope_id: "octon-harness"
+display_name: "Octon Harness"
+root_path: ".octon"
+owner: "Fixture Maintainers"
+status: "active"
+tech_tags:
+  - "octon"
+language_tags:
+  - "yaml"
+EOF
+
+  cat >"$fixture_root/.octon/instance/cognition/context/scopes/README.md" <<'EOF'
+# Scope Context
+EOF
+
+  cat >"$fixture_root/.octon/instance/cognition/context/scopes/octon-harness/README.md" <<'EOF'
+# Octon Harness Scope Context
 EOF
 
   cat >"$fixture_root/.octon/generated/proposals/registry.yml" <<'EOF'
@@ -203,6 +248,15 @@ schema_version: "proposal-registry-v1"
 active: []
 archived: []
 EOF
+
+  cat >"$fixture_root/.octon/state/control/locality/quarantine.yml" <<'EOF'
+schema_version: "octon-locality-quarantine-state-v1"
+updated_at: "2026-03-19T00:00:00Z"
+records: []
+EOF
+
+  OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
+    bash "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" >/dev/null
 
   OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
     bash "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" >/dev/null

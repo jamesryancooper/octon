@@ -9,6 +9,8 @@ for durable mission definitions and mission-scoped orchestration artifacts.
 - separate durable mission definitions from framework workflows and mutable
   continuity state
 - provide one canonical registry and scaffolding surface for mission creation
+- allow missions to reference one or more locality `scope_id` values without
+  turning missions into locality authority
 
 ## Layout
 
@@ -33,6 +35,8 @@ for durable mission definitions and mission-scoped orchestration artifacts.
 ## Boundary Rules
 
 - mission authority lives here under `instance/**`
+- missions may reference scope ids, but scope identity still lives under
+  `instance/locality/**`
 - mission-local mutable execution evidence belongs under `state/**`
 - framework workflows may create or complete missions, but they are not the
   authority surface for mission definitions

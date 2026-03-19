@@ -30,11 +30,18 @@ Canonical repo-instance authority lives under:
 - `instance/manifest.yml`
 - `instance/ingress/`
 - `instance/bootstrap/`
-- `instance/locality/`
+- `instance/locality/` (`manifest.yml`, `registry.yml`, `scopes/<scope-id>/scope.yml`)
 - `instance/cognition/`
 - `instance/capabilities/runtime/`
 - `instance/orchestration/missions/`
 - `instance/extensions.yml`
+
+Compiled locality publication and control surfaces live under:
+
+- `state/control/locality/quarantine.yml`
+- `generated/effective/locality/scopes.effective.yml`
+- `generated/effective/locality/artifact-map.yml`
+- `generated/effective/locality/generation.lock.yml`
 
 Overlay-capable repo authority is limited to declared enabled overlay points:
 

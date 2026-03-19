@@ -133,6 +133,21 @@ Instance-native repo authority lives at:
 - `instance/orchestration/missions/**`
 - `instance/extensions.yml`
 
+Canonical locality resolution and publication surfaces are:
+
+- `instance/locality/manifest.yml`
+- `instance/locality/registry.yml`
+- `instance/locality/scopes/<scope-id>/scope.yml`
+- `instance/cognition/context/scopes/<scope-id>/**`
+- `state/control/locality/quarantine.yml`
+- `generated/effective/locality/scopes.effective.yml`
+- `generated/effective/locality/artifact-map.yml`
+- `generated/effective/locality/generation.lock.yml`
+
+Packet 6 locality remains root-owned. Descendant `.octon/` roots,
+nearest-registry fallback, hierarchical scope inheritance, and ancestor-chain
+scope composition are invalid in v1.
+
 Overlay-capable repo authority is limited to these declared enabled points:
 
 | Overlay point | Instance path | Merge mode | Precedence |

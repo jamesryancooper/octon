@@ -101,3 +101,5 @@ records:
     path: 048-repo-instance-architecture-atomic-cutover.md
   - id: 049-overlay-and-ingress-model-atomic-cutover
     path: 049-overlay-and-ingress-model-atomic-cutover.md
+  - id: 050-locality-and-scope-registry-atomic-cutover
+    path: 050-locality-and-scope-registry-atomic-cutover.md
