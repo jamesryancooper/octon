@@ -1,6 +1,7 @@
 # Step 3: Content Migration
 
-Transform content to meet the v2 root-manifest and export-profile contract.
+Transform content to meet the v2 root-manifest, repo-instance, and
+export-profile contracts.
 
 ## Actions
 
@@ -10,12 +11,16 @@ Transform content to meet the v2 root-manifest and export-profile contract.
    `octon.yml.versioning.extensions.api_version`.
 3. Route export guidance to `/export-harness`; do not describe whole-tree copy
    as the default install/export path.
-4. Update command, workflow, and catalog surfaces so the new export path is
-   discoverable.
+4. Rewrite active repo-instance references so ingress, bootstrap, locality,
+   durable context, ADRs, missions, and repo continuity resolve to their
+   canonical `instance/**` and `state/**` homes.
+5. Update command, workflow, and catalog surfaces so the new export path and
+   repo-instance authority model are discoverable.
 
 ## Output
 
 - manifest fields rewritten
 - canonical docs updated
+- repo-instance path references rewritten
 - export guidance updated to `/export-harness`
 - remaining follow-up, if any

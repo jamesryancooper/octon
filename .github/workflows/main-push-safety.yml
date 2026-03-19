@@ -38,6 +38,11 @@ jobs:
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
 
+      - name: Validate repo-instance boundary
+        run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
+
       - name: Validate harness version compatibility contract
         run: |
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh

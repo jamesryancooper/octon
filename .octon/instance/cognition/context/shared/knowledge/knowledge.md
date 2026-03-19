@@ -104,7 +104,7 @@ The Knowledge Plane indexes and links **system knowledge** across these domains:
 | **Tests** | Test cases, coverage, results, flakiness | CI/CD pipelines |
 | **Runtime Telemetry** | Traces, logs, metrics, SLO signals | OpenTelemetry ingestion |
 | **SBOM** | Dependencies, versions, licenses, vulnerabilities | Build-time generation |
-| **Decision Records** | Durable architecture/system decisions with rationale and links | `cognition/runtime/decisions/` + indexes |
+| **Decision Records** | Durable architecture/system decisions with rationale and links | `instance/cognition/decisions/` + indexes |
 | **Cross-Plane Effects** | Continuity/assurance/artifact links into system knowledge | Cross-plane refs |
 
 ### What Knowledge Plane Does NOT Own

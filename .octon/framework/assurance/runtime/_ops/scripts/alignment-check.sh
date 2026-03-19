@@ -92,6 +92,10 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-framework-core-boundary.sh"
 
   run_step \
+    "Validate repo-instance boundary clear-break contract" \
+    bash "$SCRIPT_DIR/validate-repo-instance-boundary.sh"
+
+  run_step \
     "Validate extension desired/actual/compiled publication state" \
     bash "$SCRIPT_DIR/validate-extension-publication-state.sh"
 

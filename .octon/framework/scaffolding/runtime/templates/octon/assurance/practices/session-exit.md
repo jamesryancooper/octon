@@ -9,18 +9,17 @@ Complete before ending a session, context reset, or handoff.
 
 ## Required Steps
 
-- [ ] **Update `continuity/log.md`** with session summary
-- [ ] **Update `continuity/tasks.json`** status
-- [ ] **Update `continuity/entities.json`** if applicable
+- [ ] **Update `state/continuity/repo/log.md`** with session summary
+- [ ] **Update `state/continuity/repo/tasks.json`** status
+- [ ] **Update `state/continuity/repo/entities.json`** if applicable
 - [ ] **Document in-flight state** if mid-task
 
 ## Conditional Steps
 
 ### If a decision was made
 
-- [ ] Add to `cognition/runtime/context/decisions.md`
+- [ ] Add to `instance/cognition/context/shared/decisions.md`
 
 ### If something failed
 
-- [ ] Add to `cognition/runtime/context/lessons.md`
-
+- [ ] Add to `instance/cognition/context/shared/lessons.md`

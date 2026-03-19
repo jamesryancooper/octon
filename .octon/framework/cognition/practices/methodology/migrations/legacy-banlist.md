@@ -101,7 +101,7 @@ Each entry should be specific enough to avoid false positives.
 - `/.octon/framework/orchestration/incidents.md` - moved to governance surface - removed by migration `2026-02-20-orchestration-bounded-surfaces`
 - `/.octon/framework/orchestration/incident-response.md` - compatibility redirect removed in clean-break migration `2026-02-20-orchestration-bounded-surfaces`
 - `/.octon/framework/scaffolding/runtime/templates/octon/orchestration/workflows/` - replaced by `/.octon/framework/scaffolding/runtime/templates/octon/orchestration/runtime/workflows/` - removed by migration `2026-02-20-orchestration-bounded-surfaces`
-- `/.octon/framework/scaffolding/runtime/templates/octon/orchestration/missions/` - replaced by `/.octon/framework/scaffolding/runtime/templates/octon/orchestration/runtime/missions/` - removed by migration `2026-02-20-orchestration-bounded-surfaces`
+- `/.octon/framework/scaffolding/runtime/templates/octon/orchestration/missions/` - replaced by `/.octon/framework/scaffolding/runtime/templates/octon/instance/orchestration/missions/` - removed by migration `2026-02-20-orchestration-bounded-surfaces`
 - `/.octon/framework/scaffolding/runtime/templates/<legacy-docs-template>/orchestration/workflows/` - replaced by `/.octon/framework/scaffolding/runtime/templates/<legacy-docs-template>/orchestration/runtime/workflows/` - removed by migration `2026-02-20-orchestration-bounded-surfaces`
 - `/.octon/framework/capabilities/commands/` - replaced by `/.octon/framework/capabilities/runtime/commands/` - removed by migration `2026-02-20-capabilities-bounded-surfaces`
 - `/.octon/framework/capabilities/skills/` - replaced by `/.octon/framework/capabilities/runtime/skills/` - removed by migration `2026-02-20-capabilities-bounded-surfaces`

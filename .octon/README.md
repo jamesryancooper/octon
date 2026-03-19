@@ -17,11 +17,18 @@ Only `framework/**` and `instance/**` are authored authority. Raw
 `inputs/**` never participate directly in runtime or policy decisions.
 `framework/**` must not contain repo-local authority, mutable operational
 truth, retained evidence, or generated outputs.
+`instance/**` is the canonical repo-owned authority layer for ingress,
+bootstrap, locality, durable context, ADRs, repo-native capabilities,
+missions, desired extension configuration, and enabled overlay-capable
+instance surfaces only.
 
 ## Canonical Bootstrap And Ingress
 
 - Canonical ingress: `/.octon/instance/ingress/AGENTS.md`
 - Canonical bootstrap docs: `/.octon/instance/bootstrap/`
+- Canonical locality authority: `/.octon/instance/locality/`
+- Canonical repo context and ADRs: `/.octon/instance/cognition/`
+- Canonical repo missions: `/.octon/instance/orchestration/missions/`
 - Root manifest: `/.octon/octon.yml`
 - Export workflow: `/.octon/framework/orchestration/runtime/workflows/meta/export-harness/`
 - Canonical architecture contract:

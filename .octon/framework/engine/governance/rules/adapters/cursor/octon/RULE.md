@@ -156,5 +156,5 @@ For operational instructions when editing harness files, see the harness's own `
 
 - Following conventions in `conventions.md`
 - Staying within scope defined in `scope.md`
-- Updating `continuity/log.md` when making changes
+- Updating `/.octon/state/continuity/repo/log.md` when making changes
 - Verifying against `assurance/complete.md` before completing work

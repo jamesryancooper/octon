@@ -9,8 +9,8 @@ Verify presence of required and optional components:
 | Category | Items | Status |
 |----------|-------|--------|
 | **Required files** | `START.md`, `scope.md`, `conventions.md` | ✅/❌ |
-| **Required dirs** | `continuity/`, `assurance/` | ✅/❌ |
-| **Optional dirs** | `scaffolding/practices/prompts/`, `orchestration/runtime/workflows/`, `capabilities/runtime/commands/`, `cognition/runtime/context/`, `scaffolding/runtime/templates/`, `scaffolding/practices/examples/` | Present? |
+| **Required dirs** | `state/continuity/repo/`, `framework/assurance/` | ✅/❌ |
+| **Optional dirs** | `scaffolding/practices/prompts/`, `framework/orchestration/runtime/workflows/`, `instance/orchestration/missions/`, `capabilities/runtime/commands/`, `instance/cognition/context/shared/`, `scaffolding/runtime/templates/`, `scaffolding/practices/examples/` | Present? |
 
 ## File Assessment Criteria
 
@@ -25,4 +25,3 @@ Assess each file against these criteria:
 | **Failure prevention** | Does it prevent a specific failure mode? |
 | **Scope alignment** | Does content match `scope.md`? |
 | **Currency** | Is content up to date? |
-

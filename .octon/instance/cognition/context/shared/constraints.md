@@ -33,5 +33,5 @@ Rules that limit what can be done. Agents MUST respect these constraints.
 
 | Constraint | Rule | Rationale |
 |------------|------|-----------|
-| Progress updates | MUST update `continuity/log.md` before session end | Ensures continuity. |
+| Progress updates | MUST update `/.octon/state/continuity/repo/log.md` before session end | Ensures continuity. |
 | Checklist verification | MUST verify against `assurance/practices/complete.md` before completing tasks | Prevents premature completion. |

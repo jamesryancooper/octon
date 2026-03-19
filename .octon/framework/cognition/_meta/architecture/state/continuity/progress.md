@@ -120,6 +120,6 @@ This validator enforces schema shape, status/field invariants, cross-file cohere
 
 In `START.md`, continuity loading is:
 
-1. Read `continuity/log.md` for recent history.
-2. Read `continuity/tasks.json` for priorities/blockers.
-3. Read `continuity/next.md` for immediate execution order.
+1. Read `/.octon/state/continuity/repo/log.md` for recent history.
+2. Read `/.octon/state/continuity/repo/tasks.json` for priorities/blockers.
+3. Read `/.octon/state/continuity/repo/next.md` for immediate execution order.

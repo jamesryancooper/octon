@@ -10,7 +10,7 @@ description: Input/output contract for audit-freshness-and-supersession.
 | Parameter | Type | Required | Default | Description |
 | --------- | ---- | -------- | ------- | ----------- |
 | `scope` | folder | No | `.octon` | Root directory to audit |
-| `artifact_globs` | text | No | `cognition/runtime/context/**/*.md,cognition/runtime/decisions/**/*.md,/.octon/inputs/exploratory/plans/**/*.md,/.octon/state/evidence/validation/analysis/**/*.md` | Comma-separated globs of artifact families |
+| `artifact_globs` | text | No | `instance/cognition/context/shared/**/*.md,instance/cognition/decisions/**/*.md,/.octon/inputs/exploratory/plans/**/*.md,/.octon/state/evidence/validation/analysis/**/*.md` | Comma-separated globs of artifact families |
 | `max_age_days` | text | No | `30` | Maximum artifact age before stale classification |
 | `severity_threshold` | text | No | `all` | Minimum severity to report: `critical`, `high`, `medium`, `low`, `all` |
 | `post_remediation` | boolean | No | `false` | Enables strict done-gate behavior for convergence verification |

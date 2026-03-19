@@ -1,6 +1,6 @@
 schema_version: "workflow-contract-v1"
 name: "update-harness"
-description: "Align an existing harness with the canonical v2 root-manifest and profile model by auditing gaps, planning updates, and executing bounded remediations."
+description: "Align an existing harness with the canonical class-root contracts by auditing root-manifest, repo-instance, and boundary gaps, planning updates, and executing bounded remediations while preserving repo-owned `instance/**` authority unless an explicit migration contract applies."
 version: "1.2.0"
 entry_mode: "human"
 execution_profile: "core"

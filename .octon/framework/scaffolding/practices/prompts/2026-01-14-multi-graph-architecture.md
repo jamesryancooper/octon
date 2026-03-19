@@ -47,7 +47,7 @@ octon/
 │               └── manifest.json
 │
 ├── .octon/
-│   └── cognition/runtime/decisions/
+│   └── instance/cognition/decisions/
 │       ├── root/
 │       │   └── D001.md
 │       ├── api/
@@ -146,7 +146,7 @@ Examples:
         "tags": ["architecture", "api"]
       },
       "meta": {
-        "source": "cognition/runtime/decisions/001-octon-shared-foundation.md",
+        "source": "instance/cognition/decisions/001-octon-shared-foundation.md",
         "created": "2026-01-10",
         "modified": "2026-01-14"
       }
@@ -158,7 +158,7 @@ Examples:
         "status": "in_progress"
       },
       "meta": {
-        "source": "continuity/tasks.json"
+        "source": "/.octon/state/continuity/repo/tasks.json"
       }
     }
   },
@@ -192,7 +192,7 @@ Examples:
         "status": "accepted"
       },
       "meta": {
-        "source": "cognition/runtime/context/decisions.md"
+        "source": "/.octon/instance/cognition/context/shared/decisions.md"
       }
     }
   },
@@ -211,11 +211,11 @@ Examples:
 {
   "generated_at": "2026-01-14T10:30:00Z",
   "sources": {
-    "cognition/runtime/context/decisions.md": {
+    "/.octon/instance/cognition/context/shared/decisions.md": {
       "hash": "a1b2c3d4e5f6",
       "mtime": "2026-01-14T09:00:00Z"
     },
-    "continuity/tasks.json": {
+    "/.octon/state/continuity/repo/tasks.json": {
       "hash": "b2c3d4e5f6a1",
       "mtime": "2026-01-14T10:15:00Z"
     }

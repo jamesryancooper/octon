@@ -22,31 +22,31 @@ Complete before ending a session, context reset, or handoff.
 - [ ] **Run continuity memory validation** (when continuity artifacts or memory policy changed)
   - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-continuity-memory.sh`
 
-- [ ] **Update `continuity/log.md`** with session summary
+- [ ] **Update `/.octon/state/continuity/repo/log.md`** with session summary
   - Date header
   - Session focus
   - What was completed
   - What's next
   - Any blockers
 
-- [ ] **Update `continuity/tasks.json`** status
+- [ ] **Update `/.octon/state/continuity/repo/tasks.json`** status
   - Mark completed tasks as `completed` with `completed_at`
   - Mark incomplete work as `in_progress` or `blocked`
   - Add any new tasks discovered
 
-- [ ] **Update `continuity/entities.json`** if applicable
+- [ ] **Update `/.octon/state/continuity/repo/entities.json`** if applicable
   - Record state of any artifacts being actively modified
   - Note in-flight changes that aren't committed
 
 - [ ] **Document in-flight state**
-  - If mid-task, describe current position in `continuity/log.md`
+  - If mid-task, describe current position in `/.octon/state/continuity/repo/log.md`
   - Include any uncommitted reasoning or partial work
 
 ## Conditional Steps
 
 ### If a decision was made
 
-- [ ] Add to `cognition/runtime/context/decisions.md`
+- [ ] Add to `/.octon/instance/cognition/context/shared/decisions.md`
 - [ ] Optionally create full ADR in `docs/decisions/` or `ideation/scratchpad/`
 
 ### If compaction policy changed or was exercised
@@ -77,21 +77,21 @@ Complete before ending a session, context reset, or handoff.
 - [ ] Run `bash .octon/framework/assurance/runtime/_ops/scripts/compute-assurance-score.sh --weights .octon/framework/assurance/governance/weights/weights.yml --scores .octon/framework/assurance/governance/scores/scores.yml`
 - [ ] Run `bash .octon/framework/assurance/runtime/_ops/scripts/assurance-gate.sh --scorecard <generated-scorecard.yml> --weights .octon/framework/assurance/governance/weights/weights.yml --scores .octon/framework/assurance/governance/scores/scores.yml`
 - [ ] Verify `.octon/generated/effective/assurance/<context>.md` and `.octon/generated/assurance/results/<context>.md` were generated
-- [ ] Attach scorecard path and gate outcome in `continuity/log.md`
+- [ ] Attach scorecard path and gate outcome in `/.octon/state/continuity/repo/log.md`
 
 ### If something failed
 
-- [ ] Add to `cognition/runtime/context/lessons.md`
-- [ ] Note in `continuity/log.md`
+- [ ] Add to `/.octon/instance/cognition/context/shared/lessons.md`
+- [ ] Note in `/.octon/state/continuity/repo/log.md`
 
 ### If new patterns discovered
 
 - [ ] Consider adding to `conventions.md`
-- [ ] Or add to `cognition/runtime/context/lessons.md` as anti-pattern
+- [ ] Or add to `/.octon/instance/cognition/context/shared/lessons.md` as anti-pattern
 
 ## Session Summary Template
 
-Use this format in `continuity/log.md`:
+Use this format in `/.octon/state/continuity/repo/log.md`:
 
 ```markdown
 ## YYYY-MM-DD

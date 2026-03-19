@@ -67,7 +67,7 @@ validate_json_file() {
 }
 
 validate_tasks_contract() {
-  echo "== Validate continuity/tasks.json =="
+  echo "== Validate /.octon/state/continuity/repo/tasks.json =="
   require_file "$TASKS_FILE" || return
   validate_json_file "$TASKS_FILE"
 
@@ -284,7 +284,7 @@ validate_tasks_contract() {
 }
 
 validate_entities_contract() {
-  echo "== Validate continuity/entities.json =="
+  echo "== Validate /.octon/state/continuity/repo/entities.json =="
   require_file "$ENTITIES_FILE" || return
   validate_json_file "$ENTITIES_FILE"
 
@@ -434,7 +434,7 @@ validate_entities_contract() {
 }
 
 validate_next_contract() {
-  echo "== Validate continuity/next.md coherence =="
+  echo "== Validate /.octon/state/continuity/repo/next.md coherence =="
   require_file "$NEXT_FILE" || return
 
   local current_section

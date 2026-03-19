@@ -10,7 +10,7 @@ Record the completed refactor in continuity artifacts and formally close the ref
    - Step 5 must show PASSED status
    - If not, return to Step 4
 
-2. Update `continuity/log.md` (**APPEND ONLY**):
+2. Update `/.octon/state/continuity/repo/log.md` (**APPEND ONLY**):
    ```markdown
    ## YYYY-MM-DD
 
@@ -29,7 +29,7 @@ Record the completed refactor in continuity artifacts and formally close the ref
    - None
    ```
 
-3. If the refactor represents a decision, update `cognition/runtime/context/decisions.md` (**APPEND ONLY**):
+3. If the refactor represents a decision, update `/.octon/instance/cognition/context/shared/decisions.md` (**APPEND ONLY**):
    ```markdown
    | D0XX | [Topic] naming | `new-name` over `old-name` | [rationale] | YYYY-MM-DD |
    ```

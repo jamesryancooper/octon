@@ -64,7 +64,7 @@ AI auto-assigns a risk tier to every change. Higher tiers require more human att
 
 **Rule of thumb:** If AI says T1, you can trust the summary. T2 deserves a quick read. T3 needs your full attention.
 
-→ See [RISK-TIERS.md](../../cognition/runtime/context/risk-tiers.md) for details.
+→ See [RISK-TIERS.md](/.octon/instance/cognition/context/shared/risk-tiers.md) for details.
 
 ---
 
@@ -100,7 +100,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 |-----|----------|------|----------------|
 | 1 | This doc (START-HERE) | 5 min | Mental model, first commands |
 | 1 | [DAILY-FLOW.md](./DAILY-FLOW.md) | 5 min | Daily rhythm |
-| 2 | [RISK-TIERS.md](../../cognition/runtime/context/risk-tiers.md) | 5 min | When to pay close attention |
+| 2 | [RISK-TIERS.md](/.octon/instance/cognition/context/shared/risk-tiers.md) | 5 min | When to pay close attention |
 | 3 | [SHIPPING.md](./SHIPPING.md) | 5 min | How to release and rollback |
 | 5 | [TASKS/fix-a-bug.md](../../orchestration/runtime/workflows/tasks/fix-a-bug.md) | 5 min | Do your first guided task |
 | 7 | [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md) | 5 min | What to do if production breaks |
@@ -135,7 +135,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 | **Flag** | Feature flag. New features ship OFF by default, then get enabled gradually. |
 | **Kit** | Tools AI uses under the hood. You can use kit CLIs directly for debugging. |
 
-→ See [../../cognition/runtime/context/glossary.md](../../cognition/runtime/context/glossary.md) for complete glossary.
+→ See [/.octon/instance/cognition/context/shared/glossary.md](/.octon/instance/cognition/context/shared/glossary.md) for complete glossary.
 → See [Kits Reference](/.octon/framework/capabilities/runtime/services/_meta/docs/kits-reference.md) for kit CLI quick reference.
 
 ---
@@ -167,7 +167,7 @@ The AI will guide you through everything step-by-step. Takes about 15-20 minutes
 ## Where to Go Next
 
 1. **Ready to start?** → [DAILY-FLOW.md](./DAILY-FLOW.md)
-2. **Want to understand risk?** → [RISK-TIERS.md](../../cognition/runtime/context/risk-tiers.md)
+2. **Want to understand risk?** → [RISK-TIERS.md](/.octon/instance/cognition/context/shared/risk-tiers.md)
 3. **Need to ship something?** → [SHIPPING.md](./SHIPPING.md)
 4. **Production is down?** → [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md)
 5. **Want the full details?** → [cognition/practices/methodology/README.md](../../cognition/practices/methodology/README.md) (AI-facing docs)

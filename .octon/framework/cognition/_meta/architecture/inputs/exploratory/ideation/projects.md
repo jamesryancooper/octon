@@ -16,9 +16,9 @@ A project is a **scaled-down harness** for human-led exploration:
 | Harness Component | Project Equivalent |
 |---------------------|----------------------------|
 | `scope.md` | `project.md` (Goal, Scope, Questions) |
-| `continuity/log.md` | `log.md` (Session notes) |
-| `cognition/runtime/context/decisions.md` | Findings Summary in `project.md` |
-| `continuity/tasks.json` | Key Questions in `project.md` |
+| `/.octon/state/continuity/repo/log.md` | `log.md` (Session notes) |
+| `/.octon/instance/cognition/context/shared/decisions.md` | Findings Summary in `project.md` |
+| `/.octon/state/continuity/repo/tasks.json` | Key Questions in `project.md` |
 
 Projects provide structure for investigations that:
 
@@ -61,7 +61,7 @@ ideation/projects/              Committed research (produces artifacts)
         ↓
 orchestration/missions/         Committed execution (ships deliverables)
         ↓
-cognition/runtime/context/              Permanent harness knowledge
+instance/cognition/context/shared/              Permanent harness knowledge
 ```
 
 Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `context/` directly or spawn `missions/`.
@@ -129,7 +129,7 @@ The `registry.md` tracks all projects in three tables:
 
 | Project | Goal | Completed | Outcomes |
 |---------|------|-----------|----------|
-| api-design | Design v2 API structure | 2025-01-05 | cognition/runtime/context/decisions.md, mission created |
+| api-design | Design v2 API structure | 2025-01-05 | /.octon/instance/cognition/context/shared/decisions.md, mission created |
 ```
 
 ---
@@ -170,9 +170,9 @@ last_activity: YYYY-MM-DD
 ## Outputs
 
 When this research matures, findings should go to:
-- [ ] `cognition/runtime/context/decisions.md` — Design decisions made
-- [ ] `cognition/runtime/context/lessons.md` — Anti-patterns discovered
-- [ ] `cognition/runtime/context/glossary.md` — New terminology defined
+- [ ] `/.octon/instance/cognition/context/shared/decisions.md` — Design decisions made
+- [ ] `/.octon/instance/cognition/context/shared/lessons.md` — Anti-patterns discovered
+- [ ] `/.octon/instance/cognition/context/shared/glossary.md` — New terminology defined
 - [ ] Create mission — If actionable work identified
 
 ## Status
@@ -341,10 +341,10 @@ Projects should consume harness context as research inputs:
 
 | Resource | How It Helps |
 |----------|--------------|
-| `cognition/runtime/context/glossary.md` | Understand domain terminology |
-| `cognition/runtime/context/decisions.md` | Know existing decisions to build on |
-| `cognition/runtime/context/lessons.md` | Avoid known anti-patterns |
-| `cognition/runtime/context/constraints.md` | Respect non-negotiable boundaries |
+| `/.octon/instance/cognition/context/shared/glossary.md` | Understand domain terminology |
+| `/.octon/instance/cognition/context/shared/decisions.md` | Know existing decisions to build on |
+| `/.octon/instance/cognition/context/shared/lessons.md` | Avoid known anti-patterns |
+| `/.octon/instance/cognition/context/shared/constraints.md` | Respect non-negotiable boundaries |
 
 ---
 
@@ -376,11 +376,11 @@ When work needs to pause:
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `cognition/runtime/context/decisions.md` |
-| Anti-patterns discovered | `cognition/runtime/context/lessons.md` |
-| New terminology | `cognition/runtime/context/glossary.md` |
+| Design decisions | `/.octon/instance/cognition/context/shared/decisions.md` |
+| Anti-patterns discovered | `/.octon/instance/cognition/context/shared/lessons.md` |
+| New terminology | `/.octon/instance/cognition/context/shared/glossary.md` |
 | Actionable work identified | Create mission in `orchestration/missions/` |
-| Finalized constraints | `cognition/runtime/context/constraints.md` |
+| Finalized constraints | `/.octon/instance/cognition/context/shared/constraints.md` |
 
 ---
 
@@ -424,8 +424,8 @@ Evaluate authentication library options for the new user service.
 3. What are the security tradeoffs?
 
 ## Outputs
-- [x] `cognition/runtime/context/decisions.md` — Library selection
-- [ ] `cognition/runtime/context/lessons.md` — Security pitfalls found
+- [x] `/.octon/instance/cognition/context/shared/decisions.md` — Library selection
+- [ ] `/.octon/instance/cognition/context/shared/lessons.md` — Security pitfalls found
 - [ ] Create mission — Implementation work
 
 ## Findings Summary

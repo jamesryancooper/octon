@@ -97,10 +97,10 @@ Parse and validate the migration manifest before any scanning begins.
        - old: ".workspace/"
          new: ".octon/"
        - old: "context/"
-         new: "cognition/runtime/context/"
+         new: "instance/cognition/context/shared/"
      exclusions:
-       - "continuity/log.md"
-       - "cognition/runtime/decisions/"
+       - "/.octon/state/continuity/repo/log.md"
+       - "instance/cognition/decisions/"
        - ".history/"
      key_files:
        - "START.md"
@@ -121,8 +121,8 @@ Parse and validate the migration manifest before any scanning begins.
 
    | Pattern Type      | Example                            | Resolution              |
    | ----------------- | ---------------------------------- | ----------------------- |
-   | Exact file        | `continuity/log.md`                | Single file             |
-   | Directory         | `cognition/runtime/decisions/`             | All files recursively   |
+   | Exact file        | `/.octon/state/continuity/repo/log.md`                | Single file             |
+   | Directory         | `instance/cognition/decisions/`             | All files recursively   |
    | Glob              | `*.archive/*`                      | Pattern expansion       |
    | Append-only marker | Files with `mutability: append-only` | Auto-detected         |
 
@@ -207,7 +207,7 @@ Systematically search for all stale patterns defined in the migration manifest.
 
 1. **Generate search variations for EACH mapping:**
 
-   For a mapping `old: "context/"`, `new: "cognition/runtime/context/"`:
+   For a mapping `old: "context/"`, `new: "instance/cognition/context/shared/"`:
 
    | #   | Pattern               | Example                            |
    | --- | --------------------- | ---------------------------------- |
@@ -265,7 +265,7 @@ Record for each mapping:
 | Mapping                           | Variations Searched | Files Matched | Files Clean |
 | --------------------------------- | ------------------- | ------------- | ----------- |
 | `.workspace/` → `.octon/`      | 8/8                 | 3             | 254         |
-| `context/` → `cognition/runtime/context/` | 6/8                | 7             | 250         |
+| `context/` → `instance/cognition/context/shared/` | 6/8                | 7             | 250         |
 ```
 
 **Idempotency rule:** Process mappings in manifest order, files in sorted order. Do not skip a mapping because "it's probably fine." Do not stop early because "enough findings were found."
@@ -301,15 +301,15 @@ Verify that paths referenced in key operational files actually resolve on disk.
 
    | Format              | Regex Pattern     | Example                                     |
    | ------------------- | ----------------- | -------------------------------------------- |
-   | Backtick paths      | `` `path/to/file` `` | `` `cognition/runtime/context/decisions.md` ``    |
-   | Markdown links      | `label + target`  | `decisions -> cognition/runtime/decisions/`          |
+   | Backtick paths      | `` `path/to/file` `` | `` `/.octon/instance/cognition/context/shared/decisions.md` ``    |
+   | Markdown links      | `label + target`  | `decisions -> instance/cognition/decisions/`          |
    | YAML path values    | `path: "value"`   | `path: "/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/"`     |
    | Relative references | `./path` or `../path` | `../capabilities/runtime/commands/`              |
 
 3. **Resolve each path relative to its containing file:**
 
    For a reference in `.octon/instance/bootstrap/START.md`:
-   - `cognition/runtime/context/decisions.md` → `.octon/instance/cognition/context/shared/decisions.md`
+   - `/.octon/instance/cognition/context/shared/decisions.md` → `.octon/instance/cognition/context/shared/decisions.md`
    - `../.octon/framework/cognition/_meta/architecture/` → `.octon/framework/cognition/_meta/architecture/`
 
 4. **Check whether each path exists:**
@@ -424,7 +424,7 @@ Semantic findings appended to the findings collection.
    | Mapping                           | Status          | Findings | Notes            |
    | --------------------------------- | --------------- | -------- | ---------------- |
    | `.workspace/` → `.octon/`      | Findings        | 3        |                  |
-   | `context/` → `cognition/runtime/context/` | Confirmed clean | 0        | All refs updated |
+   | `context/` → `instance/cognition/context/shared/` | Confirmed clean | 0        | All refs updated |
    | `commands/` → `capabilities/runtime/commands/` | **GAP**    | ?        | Not searched!    |
    ```
 

@@ -386,7 +386,7 @@ Phases 1-4 complete. Looks good, declaring complete!
 
 **Wrong:**
 ```markdown
-# In continuity/log.md
+# In /.octon/state/continuity/repo/log.md
 
 ## 2026-01-15
 - Working on .scratch/ directory  ← MODIFIED to say .scratchpad/
@@ -394,7 +394,7 @@ Phases 1-4 complete. Looks good, declaring complete!
 
 **Right:**
 ```markdown
-# In continuity/log.md
+# In /.octon/state/continuity/repo/log.md
 
 ## 2026-01-15
 - Working on .scratch/ directory  ← LEFT UNCHANGED

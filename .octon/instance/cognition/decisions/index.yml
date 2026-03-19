@@ -97,3 +97,5 @@ records:
     path: 046-execution-profile-governance-cutover-contract.md
   - id: 047-self-contained-bootstrap-and-ingress-adapters
     path: 047-self-contained-bootstrap-and-ingress-adapters.md
+  - id: 048-repo-instance-architecture-atomic-cutover
+    path: 048-repo-instance-architecture-atomic-cutover.md

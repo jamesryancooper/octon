@@ -306,7 +306,7 @@ changelog:
     version: "2.2.1"
     change: "Aligned assurance charter scope wording to the Packet 3 framework/core class-root architecture."
     rationale: "The framework/core clear-break changes the top-level authority model, so the assurance charter and policy metadata must version that scope alignment together."
-    adr: ".octon/inputs/exploratory/proposals/architecture/framework-core-architecture/architecture/target-architecture.md"
+    adr: ".octon/framework/cognition/_meta/architecture/specification.md"
     charter_ref: ".octon/framework/assurance/governance/CHARTER.md"
   - date: "2026-02-25"
     version: "2.2.0"

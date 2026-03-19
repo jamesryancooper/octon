@@ -12,8 +12,8 @@ description: Assurance criteria and completion checklist for harness tasks.
 - [ ] Follows `conventions.md` style rules
 - [ ] Framing-complete checks passed (for framing-sensitive changes)
 - [ ] Native-first rule preserved (core behavior works with zero adapters)
-- [ ] Updated `continuity/log.md` with session summary
-- [ ] Updated `continuity/tasks.json` status
+- [ ] Updated `/.octon/state/continuity/repo/log.md` with session summary
+- [ ] Updated `/.octon/state/continuity/repo/tasks.json` status
 - [ ] `validate-continuity-memory.sh` passes when continuity/memory artifacts changed
 - [ ] `validate-developer-context-policy.sh` passes when developer context policy surfaces change
 - [ ] `validate-context-overhead-budget.sh` passes when runtime telemetry/receipt policy surfaces change
@@ -81,5 +81,5 @@ description: Assurance criteria and completion checklist for harness tasks.
 |---------|------------|
 | **Premature completion** | Run through this checklist before marking done |
 | **Scope creep** | Re-read `scope.md` if task expands |
-| **Broken continuity** | Always update `continuity/log.md` before session end |
+| **Broken continuity** | Always update `/.octon/state/continuity/repo/log.md` before session end |
 | **Token bloat** | Ask "does an agent need this to act?" If no, cut it or move to `ideation/scratchpad/` |

@@ -25,6 +25,16 @@ Enable reliable agent execution that is deterministic enough to trust, observabl
 └── generated/        ← Rebuildable outputs only
 ```
 
+Canonical repo-instance authority lives under:
+
+- `instance/ingress/`
+- `instance/bootstrap/`
+- `instance/locality/`
+- `instance/cognition/`
+- `instance/capabilities/runtime/`
+- `instance/orchestration/missions/`
+- `instance/extensions.yml`
+
 ## Boot Sequence
 
 0. **If root `AGENTS.md`, `.octon/AGENTS.md`, or `.octon/instance/bootstrap/OBJECTIVE.md` is missing:** run `/init` (or `.octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh`) first.

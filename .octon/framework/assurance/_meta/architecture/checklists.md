@@ -40,8 +40,8 @@ If a harness includes the `assurance/` subsystem, it MUST define `assurance/prac
 - [ ] Output matches task requirements
 - [ ] Stayed within `scope.md` boundaries
 - [ ] Follows `conventions.md` style rules
-- [ ] Updated `continuity/log.md` with session summary
-- [ ] Updated `continuity/tasks.json` status
+- [ ] Updated `/.octon/state/continuity/repo/log.md` with session summary
+- [ ] Updated `/.octon/state/continuity/repo/tasks.json` status
 
 ## Quality Criteria
 
@@ -76,18 +76,18 @@ Steps to complete before ending a session, context reset, or handoff.
 
 ## Required Steps
 
-- [ ] Update `continuity/log.md` with session summary
-- [ ] Update `continuity/tasks.json` status
-- [ ] Update `continuity/entities.json` if applicable
+- [ ] Update `/.octon/state/continuity/repo/log.md` with session summary
+- [ ] Update `/.octon/state/continuity/repo/tasks.json` status
+- [ ] Update `/.octon/state/continuity/repo/entities.json` if applicable
 - [ ] Document in-flight state if mid-task
 
 ## Conditional Steps
 
 ### If a decision was made
-- [ ] Add to `cognition/runtime/context/decisions.md`
+- [ ] Add to `/.octon/instance/cognition/context/shared/decisions.md`
 
 ### If something failed
-- [ ] Add to `cognition/runtime/context/lessons.md`
+- [ ] Add to `/.octon/instance/cognition/context/shared/lessons.md`
 ```
 
 ### Purpose
@@ -131,7 +131,7 @@ Include a table of common failures and their prevention:
 |---------|------------|
 | Premature completion | Run through this checklist |
 | Scope creep | Re-read `scope.md` if task expands |
-| Broken continuity | Always update `continuity/log.md` |
+| Broken continuity | Always update `/.octon/state/continuity/repo/log.md` |
 ```
 
 ---

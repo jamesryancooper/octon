@@ -71,10 +71,10 @@ Files matching these patterns are **APPEND-ONLY** during refactors:
 
 ```yaml
 continuity_patterns:
-  - "**/continuity/log.md"
+  - "**//.octon/state/continuity/repo/log.md"
   - "**/continuity/*.md"
   - "**/decisions/*.md"
-  - "**/cognition/runtime/context/decisions.md"
+  - "**//.octon/instance/cognition/context/shared/decisions.md"
   - "**/CHANGELOG.md"
   - "**/HISTORY.md"
   - "**/.history/**"

@@ -23,7 +23,7 @@ done
 
 echo ""
 echo "Key authored surfaces:"
-for dir in ../framework/agency ../framework/capabilities ../framework/cognition ../framework/orchestration ../framework/assurance ../framework/engine ../framework/scaffolding ../instance/ingress ../instance/bootstrap ../instance/cognition ../inputs/additive/extensions ../state/continuity/repo ../generated/proposals; do
+for dir in ../framework/agency ../framework/capabilities ../framework/cognition ../framework/orchestration ../framework/assurance ../framework/engine ../framework/scaffolding ../instance/ingress ../instance/bootstrap ../instance/locality ../instance/cognition ../instance/capabilities/runtime ../instance/orchestration/missions ../inputs/additive/extensions ../state/continuity/repo ../generated/proposals; do
   if [ -e "$dir" ]; then
     echo "✓ $dir"
   else
@@ -38,6 +38,16 @@ for file in ../framework/manifest.yml ../instance/manifest.yml ../instance/exten
     echo "✓ $file"
   else
     echo "✗ $file (missing)"
+  fi
+done
+
+echo ""
+echo "Packet 4 repo-instance surfaces:"
+for dir in ../instance/governance/policies ../instance/governance/contracts ../instance/agency/runtime ../instance/assurance/runtime ../instance/capabilities/runtime/commands; do
+  if [ -e "$dir" ]; then
+    echo "✓ $dir"
+  else
+    echo "✗ $dir (missing)"
   fi
 done
 

@@ -341,7 +341,7 @@ Two domains have dedicated indexes beyond their README:
 
 - **`capabilities/runtime/commands/manifest.yml`** --- Lightweight command index (id, display_name, summary, access, argument_hint). Simpler than skills/workflows manifests: no triggers, no skill sets, no groups. Commands are deterministic and invoked by name, not by intent matching.
 
-- **`cognition/runtime/context/index.yml`** --- Context file index with a `when` field per entry, telling agents when each reference file is relevant to their current task. Avoids loading all context files to find the one needed.
+- **`instance/cognition/context/shared/index.yml`** --- Context file index with a `when` field per entry, telling agents when each reference file is relevant to their current task. Avoids loading all context files to find the one needed.
 
 ---
 
@@ -384,9 +384,9 @@ ideation/scratchpad/brainstorm/ -> Structured exploration (filter stage)
         |
 ideation/projects/              -> Committed research (produces artifacts)
         |
-orchestration/runtime/missions/         -> Committed execution
+instance/orchestration/missions/         -> Committed execution
         |
-cognition/runtime/context/              -> Permanent knowledge
+instance/cognition/context/shared/              -> Permanent knowledge
 ```
 
 #### Human-Led Collaboration
@@ -415,14 +415,14 @@ Agent: "I noticed some relevant notes in ideation/scratchpad/ that might help...
 
 #### Projects and the Funnel
 
-Projects (`ideation/projects/`) have a distinct role in the funnel because they frequently produce artifacts that feed the main harness. Projects are still human-led (require explicit direction) but findings flow directly to `cognition/runtime/context/` without a separate promotion step.
+Projects (`ideation/projects/`) have a distinct role in the funnel because they frequently produce artifacts that feed the main harness. Projects are still human-led (require explicit direction) but findings flow directly to `instance/cognition/context/shared/` without a separate promotion step.
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `cognition/runtime/context/decisions.md` |
-| Anti-patterns | `cognition/runtime/context/lessons.md` |
-| New terminology | `cognition/runtime/context/glossary.md` |
-| Actionable work | Create mission in `orchestration/runtime/missions/` |
+| Design decisions | `/.octon/instance/cognition/context/shared/decisions.md` |
+| Anti-patterns | `/.octon/instance/cognition/context/shared/lessons.md` |
+| New terminology | `/.octon/instance/cognition/context/shared/glossary.md` |
+| Actionable work | Create mission in `instance/orchestration/missions/` |
 
 **Rule:** Summarize and distill findings; don't copy project notes verbatim.
 
@@ -524,7 +524,7 @@ Not every directory needs a `.octon`. Use this guide to decide.
 |----------|-------------------|
 | **Locality** | Guidance for X lives next to X---no hunting through centralized docs |
 | **Scoped context** | Agent loads only relevant context, not the entire repo |
-| **Continuity** | `continuity/log.md` + `tasks.json` survive context resets |
+| **Continuity** | `/.octon/state/continuity/repo/log.md` + `tasks.json` survive context resets |
 | **Explicit boundaries** | `scope.md` prevents scope creep; agent knows when to stop |
 | **Quality gates** | `assurance/practices/complete.md` checklist prevents premature completion |
 | **Separation** | Agent-facing vs human-led is explicit (`ideation/` directory) |

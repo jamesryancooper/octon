@@ -1,0 +1,8 @@
+schema_version: "octon-mission-v1"
+mission_id: "<mission-id>"
+title: "Mission: <mission-id>"
+summary: ""
+status: "created"
+owner: null
+created_at: "YYYY-MM-DD"
+success_criteria: []

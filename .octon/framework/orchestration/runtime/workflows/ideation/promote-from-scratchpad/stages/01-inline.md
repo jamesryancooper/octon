@@ -21,11 +21,11 @@ enough to act on.
 
 | Trigger | What Happened | Action |
 |---------|---------------|--------|
-| **Decision made** | You've resolved a question or chosen a direction | Add to `cognition/runtime/context/decisions.md` |
-| **Constraint discovered** | You've identified a non-negotiable requirement | Add to `cognition/runtime/context/constraints.md` |
-| **Pattern identified** | You've found a reusable approach | Add to `cognition/runtime/context/lessons.md` or create workflow |
-| **Term clarified** | You've defined domain vocabulary | Add to `cognition/runtime/context/glossary.md` |
-| **Next step identified** | You know the immediate action to take | Add to `continuity/next.md` |
+| **Decision made** | You've resolved a question or chosen a direction | Add to `/.octon/instance/cognition/context/shared/decisions.md` |
+| **Constraint discovered** | You've identified a non-negotiable requirement | Add to `/.octon/instance/cognition/context/shared/constraints.md` |
+| **Pattern identified** | You've found a reusable approach | Add to `/.octon/instance/cognition/context/shared/lessons.md` or create workflow |
+| **Term clarified** | You've defined domain vocabulary | Add to `/.octon/instance/cognition/context/shared/glossary.md` |
+| **Next step identified** | You know the immediate action to take | Add to `/.octon/state/continuity/repo/next.md` |
 
 ---
 
@@ -33,11 +33,11 @@ enough to act on.
 
 | Content Type | Destination | Format |
 |--------------|-------------|--------|
-| Finalized decisions + rationale | `cognition/runtime/context/decisions.md` | Table row or section |
-| Non-negotiable constraints | `cognition/runtime/context/constraints.md` | Table row or section |
-| Domain terminology | `cognition/runtime/context/glossary.md` | Table row |
-| Lessons learned, anti-patterns | `cognition/runtime/context/lessons.md` | Entry with context |
-| Immediate next actions | `continuity/next.md` | Actionable list |
+| Finalized decisions + rationale | `/.octon/instance/cognition/context/shared/decisions.md` | Table row or section |
+| Non-negotiable constraints | `/.octon/instance/cognition/context/shared/constraints.md` | Table row or section |
+| Domain terminology | `/.octon/instance/cognition/context/shared/glossary.md` | Table row |
+| Lessons learned, anti-patterns | `/.octon/instance/cognition/context/shared/lessons.md` | Entry with context |
+| Immediate next actions | `/.octon/state/continuity/repo/next.md` | Actionable list |
 | Reusable procedures | `orchestration/runtime/workflows/` or `capabilities/runtime/commands/` | New file |
 
 ---
@@ -75,7 +75,7 @@ touch .octon/state/continuity/repo/next.md
 
 Follow the format conventions of the destination file:
 
-**For `cognition/runtime/context/decisions.md`:**
+**For `/.octon/instance/cognition/context/shared/decisions.md`:**
 
 ```markdown
 | ID | Decision | Choice | Rationale | Date |
@@ -83,7 +83,7 @@ Follow the format conventions of the destination file:
 | D00X | [Topic] | [Choice] | [Why] | YYYY-MM-DD |
 ```
 
-**For `cognition/runtime/context/constraints.md`:**
+**For `/.octon/instance/cognition/context/shared/constraints.md`:**
 
 ```markdown
 | Constraint | Implication | Reason |
@@ -91,7 +91,7 @@ Follow the format conventions of the destination file:
 | [Rule] | [What it means] | [Why it exists] |
 ```
 
-**For `cognition/runtime/context/glossary.md`:**
+**For `/.octon/instance/cognition/context/shared/glossary.md`:**
 
 ```markdown
 | Term | Definition |
@@ -99,7 +99,7 @@ Follow the format conventions of the destination file:
 | [Term] | [Meaning in this context] |
 ```
 
-**For `continuity/next.md`:**
+**For `/.octon/state/continuity/repo/next.md`:**
 
 ```markdown
 ## Next Actions
@@ -140,7 +140,7 @@ Maybe we should also consider...
 [more exploration]
 ```
 
-**After promotion (in `cognition/runtime/context/decisions.md`):**
+**After promotion (in `/.octon/instance/cognition/context/shared/decisions.md`):**
 
 ```markdown
 | ID | Decision | Choice | Rationale | Date |

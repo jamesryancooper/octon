@@ -22,12 +22,12 @@ Bootstrap assets used by `/init` are not part of this surface. They live under `
 │   ├── conventions.md
 │   ├── catalog.md
 │   ├── capabilities/runtime/commands/
-│   ├── orchestration/runtime/workflows/
+│   ├── framework/orchestration/runtime/workflows/
 │   ├── scaffolding/practices/prompts/
 │   ├── scaffolding/governance/patterns/
-│   ├── cognition/runtime/context/
-│   ├── continuity/
-│   ├── assurance/
+│   ├── instance/cognition/context/shared/
+│   ├── state/continuity/repo/
+│   ├── framework/assurance/practices/
 │   ├── scaffolding/runtime/bootstrap/
 │   │   ├── AGENTS.md       # Included canonical .octon/AGENTS.md source
 │   │   ├── BOOT.md         # Included optional BOOT template

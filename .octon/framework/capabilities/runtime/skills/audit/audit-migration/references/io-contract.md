@@ -54,16 +54,16 @@ migration:
       file_types: "md,yml,yaml,json"
 
     - old: "context/"
-      new: "cognition/runtime/context/"
+      new: "instance/cognition/context/shared/"
 
     - old: "commands/"
       new: "capabilities/runtime/commands/"
 
   exclusions:
     # Exact files
-    - "continuity/log.md"
+    - "/.octon/state/continuity/repo/log.md"
     # Directories (recursive)
-    - "cognition/runtime/decisions/"
+    - "instance/cognition/decisions/"
     - ".history/"
     # Glob patterns
     - "*.archive/*"

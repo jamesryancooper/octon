@@ -160,7 +160,7 @@ See `[reference]` for full details.
 - [if any]
 ```
 
-**Immutability rule:** Past entries in `continuity/log.md` are immutable. New sessions append new entries; existing entries are never modified. This preserves historical accuracy across refactors and renames.
+**Immutability rule:** Past entries in `state/continuity/repo/log.md` are immutable. New sessions append new entries; existing entries are never modified. This preserves historical accuracy across refactors and renames.
 
 ## Continuity Artifacts
 
@@ -170,9 +170,9 @@ Continuity artifacts are files that preserve historical context across sessions.
 
 | File | Purpose | Rule |
 |------|---------|------|
-| `continuity/log.md` | Session history | Append new entries; never modify past entries |
-| `cognition/runtime/context/decisions.md` | Decision summary | Append new decisions; never update old references |
-| `cognition/runtime/decisions/*.md` | Full ADRs | Append addendums; never modify accepted content |
+| `state/continuity/repo/log.md` | Session history | Append new entries; never modify past entries |
+| `instance/cognition/context/shared/decisions.md` | Decision summary | Append new decisions; never update old references |
+| `instance/cognition/decisions/*.md` | Full ADRs | Append addendums; never modify accepted content |
 
 ### Mutability Frontmatter
 
@@ -207,5 +207,5 @@ When renaming or moving paths, **do not** update historical references:
 ### See Also
 
 - **Decision:** D014 (Continuity artifact immutability)
-- **ADR:** [ADR-004](cognition/runtime/decisions/004-refactor-workflow.md)
+- **ADR:** [ADR-004](/.octon/instance/cognition/decisions/004-refactor-workflow.md)
 - **Workflow:** `.octon/framework/orchestration/runtime/workflows/refactor/refactor/`

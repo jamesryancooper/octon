@@ -30,17 +30,17 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 
 3. **Prepare content for each destination**
 
-   **For `cognition/runtime/context/decisions.md`:**
+   **For `/.octon/instance/cognition/context/shared/decisions.md`:**
    - Extract decision statements with rationale
    - Format as: Decision → Rationale → Date → Source
    - Keep concise; link to project for details
 
-   **For `cognition/runtime/context/lessons.md`:**
+   **For `/.octon/instance/cognition/context/shared/lessons.md`:**
    - Extract anti-patterns and pitfalls discovered
    - Format as: What to avoid → Why → What to do instead
    - Focus on actionable guidance
 
-   **For `cognition/runtime/context/glossary.md`:**
+   **For `/.octon/instance/cognition/context/shared/glossary.md`:**
    - Extract new terminology defined during research
    - Format as: Term → Definition → Context
    - Ensure consistency with existing glossary
@@ -77,7 +77,7 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 
 ### Publication Plan
 
-#### → cognition/runtime/context/decisions.md
+#### → /.octon/instance/cognition/context/shared/decisions.md
 
 **Content to add:**
 
@@ -93,7 +93,7 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 **Source:** Project: [project-slug]
 ```
 
-#### → cognition/runtime/context/lessons.md
+#### → /.octon/instance/cognition/context/shared/lessons.md
 
 **Content to add:**
 
@@ -109,7 +109,7 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 **Source:** Project: [project-slug]
 ```
 
-#### → cognition/runtime/context/glossary.md
+#### → /.octon/instance/cognition/context/shared/glossary.md
 
 **Terms to add:**
 
@@ -117,7 +117,7 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 |------|------------|
 | [Term 1] | [Definition] |
 
-#### → orchestration/runtime/missions/ (if applicable)
+#### → instance/orchestration/missions/ (if applicable)
 
 **Mission to create:**
 

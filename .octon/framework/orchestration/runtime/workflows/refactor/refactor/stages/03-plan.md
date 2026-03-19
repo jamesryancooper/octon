@@ -24,7 +24,7 @@ Transform the audit results into an actionable change manifest. Every change sho
 2. Identify continuity artifacts that need **append-only** treatment:
    ```markdown
    ### Continuity Artifacts (append-only)
-   - [ ] `continuity/log.md` — Add new entry, do NOT modify existing
+   - [ ] `/.octon/state/continuity/repo/log.md` — Add new entry, do NOT modify existing
    - [ ] `decisions/*.md` — Add new decision, do NOT update old references
    ```
 
@@ -67,8 +67,8 @@ A prioritized, trackable change manifest:
 - [ ] [... remaining files ...]
 
 ### Phase 4: Continuity Artifacts (APPEND ONLY)
-- [ ] `continuity/log.md` — Add refactor entry
-- [ ] `cognition/runtime/context/decisions.md` — Add decision entry if applicable
+- [ ] `/.octon/state/continuity/repo/log.md` — Add refactor entry
+- [ ] `/.octon/instance/cognition/context/shared/decisions.md` — Add decision entry if applicable
 ```
 
 ## Idempotency

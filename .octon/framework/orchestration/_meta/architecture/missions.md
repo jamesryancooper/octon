@@ -147,8 +147,8 @@ target_completion: null
 ```mermaid
 graph TB
     subgraph harness [Harness - The Project]
-        continuity[continuity/]
-        context[cognition/runtime/context/]
+        continuity[state/continuity/repo/]
+        context[instance/cognition/context/shared/]
         
         subgraph missions [missions/]
             m1[auth-overhaul/]
@@ -174,7 +174,7 @@ graph TB
 
 | Level | File | Scope |
 |-------|------|-------|
-| **Harness** | `continuity/tasks.json` | Cross-cutting tasks, not mission-specific |
+| **Harness** | `state/continuity/repo/tasks.json` | Cross-cutting tasks, not mission-specific |
 | **Mission** | `missions/<slug>/tasks.json` | Tasks for this specific initiative |
 
 Missions have their own progress tracking. When a mission completes, its final state is preserved in the archive.

@@ -344,7 +344,7 @@ Compare to pre-AI approach where each of these would be 2-4 hours of work.
 
 - **Need to ship something?** → [SHIPPING.md](./SHIPPING.md)
 - **Production issue?** → [INCIDENTS.md](../../orchestration/governance/production-incident-runbook.md)
-- **Want to understand risk tiers?** → [RISK-TIERS.md](../../cognition/runtime/context/risk-tiers.md)
+- **Want to understand risk tiers?** → [RISK-TIERS.md](/.octon/instance/cognition/context/shared/risk-tiers.md)
 - **Specific task?** → Check [TASKS/](../../orchestration/runtime/workflows/tasks/) directory
 
 ---

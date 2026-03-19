@@ -20,8 +20,8 @@ migration:
     - old: ".scratch"
       new: ".scratchpad"
   exclusions:
-    - "continuity/log.md"
-    - "cognition/runtime/decisions/"
+    - "/.octon/state/continuity/repo/log.md"
+    - "instance/cognition/decisions/"
   scope: ".octon/"
 ```
 
@@ -55,7 +55,7 @@ migration:
       new: ".octon/"
     # Capability-organized renames
     - old: "context/"
-      new: "cognition/runtime/context/"
+      new: "instance/cognition/context/shared/"
     - old: "commands/"
       new: "capabilities/runtime/commands/"
     - old: "progress/"
@@ -65,7 +65,7 @@ migration:
     - old: "workflows/"
       new: "orchestration/runtime/workflows/"
     - old: "missions/"
-      new: "orchestration/runtime/missions/"
+      new: "instance/orchestration/missions/"
     - old: "assistants/"
       new: "agency/runtime/assistants/"
     - old: "templates/"
@@ -79,8 +79,8 @@ migration:
       new: "phases.md"
   exclusions:
     # Append-only historical records
-    - "continuity/log.md"
-    - "cognition/runtime/decisions/"
+    - "/.octon/state/continuity/repo/log.md"
+    - "instance/cognition/decisions/"
     # Historical/archived content
     - ".history/"
     - ".specstory/"

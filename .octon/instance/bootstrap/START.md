@@ -80,8 +80,12 @@ Subsystem expansion specs:
 │   ├── extensions.yml
 │   ├── ingress/
 │   ├── bootstrap/
+│   ├── governance/
+│   ├── agency/
+│   ├── assurance/
 │   ├── cognition/
 │   ├── locality/
+│   ├── capabilities/
 │   └── orchestration/
 ├── inputs/
 │   ├── additive/
@@ -214,9 +218,9 @@ ideation/scratchpad/brainstorm/ → Structured exploration (filter stage)
         ↓
 ideation/projects/              → Committed research (produces artifacts)
         ↓
-orchestration/runtime/missions/         → Committed execution
+instance/orchestration/missions/        → Committed execution
         ↓
-cognition/runtime/context/              → Permanent knowledge
+instance/cognition/context/shared/      → Permanent knowledge
 ```
 
 ---
@@ -230,21 +234,21 @@ cognition/runtime/context/              → Permanent knowledge
 | Ideas worth exploring | `ideation/scratchpad/brainstorm/` | Graduate to projects or kill |
 | Committed research | `ideation/projects/<slug>/` | Until findings published |
 | Deprecated content | `ideation/scratchpad/archive/` | Permanent reference |
-| Finalized decisions | `cognition/runtime/context/decisions.md` | Permanent |
-| Constraints, non-negotiables | `cognition/runtime/context/constraints.md` | Permanent |
-| Next actions | `continuity/next.md` | Active |
-| Harness terminology | `cognition/runtime/context/glossary.md` | Reference |
-| Repo-wide terminology | `cognition/runtime/context/glossary-repo.md` | Reference |
-| Lessons learned | `cognition/runtime/context/lessons.md` | Reference |
+| Finalized decisions | `instance/cognition/context/shared/decisions.md` | Permanent |
+| Constraints, non-negotiables | `instance/cognition/context/shared/constraints.md` | Permanent |
+| Next actions | `state/continuity/repo/next.md` | Active |
+| Harness terminology | `instance/cognition/context/shared/glossary.md` | Reference |
+| Repo-wide terminology | `instance/cognition/context/shared/glossary-repo.md` | Reference |
+| Lessons learned | `instance/cognition/context/shared/lessons.md` | Reference |
 
-**Publishing findings:** Project findings flow directly to `cognition/runtime/context/` files without a separate promotion step.
+**Publishing findings:** Project findings flow directly to `instance/cognition/context/shared/` files without a separate promotion step.
 
 ---
 
 ## When Stuck
 
 - Check `state/continuity/repo/tasks.json` for blocked items and their blockers
-- Check `cognition/runtime/context/lessons.md` for anti-patterns to avoid
-- Check `cognition/runtime/context/decisions.md` for relevant past decisions
+- Check `instance/cognition/context/shared/lessons.md` for anti-patterns to avoid
+- Check `instance/cognition/context/shared/decisions.md` for relevant past decisions
 - Review `scaffolding/practices/prompts/` for relevant task templates
 - If truly blocked, document the blocker in `state/continuity/repo/log.md` and stop

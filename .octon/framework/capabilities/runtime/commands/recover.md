@@ -15,14 +15,14 @@ access: agent
 
 ## Lost context
 
-1. Read `continuity/log.md` — What was done
-2. Read `continuity/tasks.json` — Current state
+1. Read `/.octon/state/continuity/repo/log.md` — What was done
+2. Read `/.octon/state/continuity/repo/tasks.json` — Current state
 3. `git log --oneline -10` — Recent commits
 4. Re-read `START.md` boot sequence
 
 ## Stuck on a task
 
-1. Document blocker in `continuity/log.md`
+1. Document blocker in `/.octon/state/continuity/repo/log.md`
 2. Update task status to `blocked` in `tasks.json`
 3. Move to next unblocked task
 4. If all tasks blocked, stop and report

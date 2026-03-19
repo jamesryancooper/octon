@@ -53,15 +53,15 @@ Task templates in `scaffolding/practices/prompts/`:
 
 ## Context
 
-Background knowledge in `cognition/runtime/context/`:
+Background knowledge in `instance/cognition/context/shared/`:
 
 | File | Description |
 |------|-------------|
-| [decisions.md](../../../../cognition/runtime/context/decisions.md) | Agent-readable decision summaries. |
-| [lessons.md](../../../../cognition/runtime/context/lessons.md) | Anti-patterns and failures to avoid. |
-| [glossary.md](../../../../cognition/runtime/context/glossary.md) | Domain-specific terminology. |
-| [dependencies.md](../../../../cognition/runtime/context/dependencies.md) | External systems and references. |
-| [constraints.md](../../../../cognition/runtime/context/constraints.md) | Technical and business rules. |
+| [decisions.md](/.octon/instance/cognition/context/shared/decisions.md) | Agent-readable decision summaries. |
+| [lessons.md](/.octon/instance/cognition/context/shared/lessons.md) | Anti-patterns and failures to avoid. |
+| [glossary.md](/.octon/instance/cognition/context/shared/glossary.md) | Domain-specific terminology. |
+| [dependencies.md](/.octon/instance/cognition/context/shared/dependencies.md) | External systems and references. |
+| [constraints.md](/.octon/instance/cognition/context/shared/constraints.md) | Technical and business rules. |
 
 ## Access Key
 

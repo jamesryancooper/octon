@@ -5,8 +5,8 @@
 - [ ] Output matches task requirements
 - [ ] Stayed within `scope.md` boundaries
 - [ ] Follows `conventions.md` style rules
-- [ ] Updated `continuity/log.md` with session summary
-- [ ] Updated `continuity/tasks.json` status
+- [ ] Updated `state/continuity/repo/log.md` with session summary
+- [ ] Updated `state/continuity/repo/tasks.json` status
 
 ## Quality Criteria
 
@@ -28,4 +28,4 @@
 |---------|------------|
 | Premature completion | Run through this checklist |
 | Scope creep | Re-read `scope.md` if task expands |
-| Broken continuity | Always update `continuity/log.md` |
+| Broken continuity | Always update `state/continuity/repo/log.md` |

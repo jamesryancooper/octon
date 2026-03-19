@@ -356,6 +356,6 @@ See `.octon/instance/bootstrap/catalog.md` for complete decision flowcharts and 
 - [Harness Workflows](../../../orchestration/runtime/workflows/README.md) — Multi-step procedures
 - [Harness Prompts](../../../scaffolding/practices/prompts/README.md) — Context-dependent task templates
 - [Agency](../../../agency/README.md) — Canonical actor taxonomy and routing model
-- [Missions](../../../orchestration/runtime/missions/README.md) — Time-bounded sub-projects
+- [Missions](../../../instance/orchestration/missions/README.md) — Time-bounded sub-projects
 - [Checklists](../../../assurance/_meta/architecture/checklists.md) — Quality gates
 - [README.md](./README.md) — Canonical harness structure reference

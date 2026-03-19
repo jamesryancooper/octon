@@ -1,0 +1,81 @@
+{
+  "schema_version": "repo-instance-cutover-path-map-v1",
+  "cutover_id": "2026-03-18-repo-instance-architecture-cutover",
+  "mappings": [
+    {
+      "from": "cognition/runtime/context/constraints.md",
+      "to": ".octon/instance/cognition/context/shared/constraints.md",
+      "class": "repo_authority"
+    },
+    {
+      "from": "cognition/runtime/context/lessons.md",
+      "to": ".octon/instance/cognition/context/shared/lessons.md",
+      "class": "repo_authority"
+    },
+    {
+      "from": "cognition/runtime/context/glossary.md",
+      "to": ".octon/instance/cognition/context/shared/glossary.md",
+      "class": "repo_authority"
+    },
+    {
+      "from": "cognition/runtime/context/glossary-repo.md",
+      "to": ".octon/instance/cognition/context/shared/glossary-repo.md",
+      "class": "repo_authority"
+    },
+    {
+      "from": "cognition/runtime/context/dependencies.md",
+      "to": ".octon/instance/cognition/context/shared/dependencies.md",
+      "class": "repo_authority"
+    },
+    {
+      "from": "cognition/runtime/context/compaction.md",
+      "to": ".octon/instance/cognition/context/shared/compaction.md",
+      "class": "repo_authority"
+    },
+    {
+      "from": "cognition/runtime/context/tools.md",
+      "to": ".octon/instance/cognition/context/shared/tools.md",
+      "class": "repo_authority"
+    },
+    {
+      "from": "cognition/runtime/context/decisions.md",
+      "to": ".octon/instance/cognition/context/shared/decisions.md",
+      "class": "temporary_generated_exception"
+    },
+    {
+      "from": "cognition/runtime/decisions/*.md",
+      "to": ".octon/instance/cognition/decisions/*.md",
+      "class": "repo_authority"
+    },
+    {
+      "from": "continuity/log.md",
+      "to": ".octon/state/continuity/repo/log.md",
+      "class": "operational_truth"
+    },
+    {
+      "from": "continuity/tasks.json",
+      "to": ".octon/state/continuity/repo/tasks.json",
+      "class": "operational_truth"
+    },
+    {
+      "from": "continuity/entities.json",
+      "to": ".octon/state/continuity/repo/entities.json",
+      "class": "operational_truth"
+    },
+    {
+      "from": "continuity/next.md",
+      "to": ".octon/state/continuity/repo/next.md",
+      "class": "operational_truth"
+    },
+    {
+      "from": ".octon/framework/orchestration/missions/**",
+      "to": ".octon/instance/orchestration/missions/**",
+      "class": "repo_authority"
+    },
+    {
+      "from": "orchestration/runtime/missions/**",
+      "to": ".octon/instance/orchestration/missions/**",
+      "class": "repo_authority"
+    }
+  ]
+}

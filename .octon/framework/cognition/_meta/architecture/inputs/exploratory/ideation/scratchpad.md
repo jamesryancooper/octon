@@ -244,9 +244,9 @@ graph TB
     subgraph harness_root [.octon/]
         subgraph agent_facing [Agent-Facing]
             projects[ideation/projects/]
-            context[cognition/runtime/context/]
-            progress[continuity/]
-            missions[orchestration/missions/]
+            context[instance/cognition/context/shared/]
+            progress[state/continuity/repo/]
+            missions[instance/orchestration/missions/]
         end
 
         subgraph human_led [Human-Led: ideation/scratchpad/]

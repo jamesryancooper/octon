@@ -11,19 +11,23 @@ The root `.octon/` is the **repo-wide agent harness** for repository-wide operat
 
 This harness contains:
 
-- Repository-wide decisions, lessons, and constraints
+- Repository-wide durable context, ADRs, locality, and bootstrap guidance
 - Repository-wide principles, methodology, and architecture guidance
-- Progress tracking for repo-level work
-- Mission tracking for time-bounded sub-projects
-- Domain-specific workflows
+- Progress tracking for repo-level work under `state/continuity/repo/`
+- Mission definitions for time-bounded sub-projects under
+  `instance/orchestration/missions/`
+- Domain-specific workflows owned by the framework layer
 
-**Note:** All content is organized by capability within `.octon/`. See `.octon/README.md` for the full structure.
+**Note:** `.octon/` is class-first. Repo-owned authority lives under
+`instance/**`, operational truth lives under `state/**`, and framework-owned
+runtime/governance surfaces live under `framework/**`.
 
 ## In Scope
 
 - Repository-wide context (decisions, lessons, glossary, constraints)
 - Repository-wide architecture, principles, and methodology docs
-- Repo-level progress tracking and session continuity
+- Repo-level progress tracking and session continuity under
+  `state/continuity/repo/`
 - Repository-wide workflows
 - Managing missions (time-bounded sub-projects)
 - Repo-specific conventions and style rules

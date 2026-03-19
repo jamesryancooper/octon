@@ -438,7 +438,7 @@ allowed-tools: Read Glob Grep Write(../prompts/*) Write(/.octon/state/evidence/r
 
 ### Live Ruleset (`external-dependent`)
 
-**Decision:** [D040](../../../cognition/runtime/context/decisions.md)
+**Decision:** [D040](/.octon/instance/cognition/context/shared/decisions.md)
 **Canonical example:** [`audit-ui`](audit/audit-ui/SKILL.md)
 
 Some skills fetch their rule sets from external URLs at runtime rather than

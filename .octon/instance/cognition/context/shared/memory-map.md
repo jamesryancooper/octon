@@ -22,9 +22,9 @@ This document prevents duplicated memory surfaces by clarifying canonical owners
 ## Boundary Rules
 
 - Do not create a parallel source-of-truth memory surface under `cognition/` without an ADR.
-- Keep active execution state in `continuity/`, not in ad hoc cognition files.
+- Keep active execution state in `state/continuity/repo/`, not in ad hoc cognition files.
 - Keep memory policy in Agency governance, not runtime context notes.
-- Use cognition runtime context for discoverability and routing, not as a duplicate state ledger.
+- Use `instance/cognition/context/shared/` for discoverability and routing, not as a duplicate state ledger.
 
 ## When To Read
 

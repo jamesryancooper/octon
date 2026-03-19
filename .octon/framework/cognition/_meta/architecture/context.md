@@ -89,7 +89,7 @@ Anti-patterns and failures to avoid. Prevents agents from repeating past mistake
 
 - MUST include actionable "Do Instead" for anti-patterns
 - SHOULD add entries when failures occur
-- MAY reference related tasks or sessions in `continuity/log.md`
+- MAY reference related tasks or sessions in `/.octon/state/continuity/repo/log.md`
 
 ---
 

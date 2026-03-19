@@ -21,12 +21,12 @@ Check token budgets per `.octon/framework/cognition/_meta/architecture/README.md
 
 ## Progress Review
 
-Review `continuity/log.md` for:
+Review `/.octon/state/continuity/repo/log.md` for:
 - Staleness (>30 days since last update)
 - Completeness (proper session format)
 - Continuity (clear thread across sessions)
 
-Review `continuity/tasks.json` for:
+Review `/.octon/state/continuity/repo/tasks.json` for:
 - Schema compliance
 - Blocked task resolution
 - Task rot (old pending tasks)

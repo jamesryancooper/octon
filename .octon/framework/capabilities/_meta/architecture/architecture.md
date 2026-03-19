@@ -177,7 +177,7 @@ All operational categories follow the `{{category}}/{{skill-id}}/` pattern withi
 
 > **Bounded top-level:** The top level has fixed entries regardless of skill count: `manifest.yml`, `registry.yml`, `capabilities.yml`, `/.octon/instance/capabilities/runtime/skills/configs/`, `/.octon/instance/capabilities/runtime/skills/resources/`, `/.octon/state/control/skills/checkpoints/`, `/.octon/state/evidence/runs/skills/`.
 
-> **Terminology Note:** The `/.octon/state/control/skills/checkpoints/` directory stores **execution state** for session recovery (checkpoints, manifests). This is distinct from **harness continuity files** (`continuity/log.md`, ADRs, decisions) which preserve project history. See [Design Conventions](../../practices/design-conventions.md#continuity-artifact-detection) for continuity file handling.
+> **Terminology Note:** The `/.octon/state/control/skills/checkpoints/` directory stores **execution state** for session recovery (checkpoints, manifests). This is distinct from **harness continuity files** (`/.octon/state/continuity/repo/log.md`, ADRs, decisions) which preserve project history. See [Design Conventions](../../practices/design-conventions.md#continuity-artifact-detection) for continuity file handling.
 
 ### Output Paths
 

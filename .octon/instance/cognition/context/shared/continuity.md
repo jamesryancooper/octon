@@ -16,9 +16,9 @@ It supplements built-in pattern matching when a repository needs local overrides
 
 ## Suggested Signals
 
-- `**/continuity/log.md`
-- `**/cognition/runtime/context/decisions.md`
-- `**/cognition/runtime/decisions/*.md`
+- `**//.octon/state/continuity/repo/log.md`
+- `**//.octon/instance/cognition/context/shared/decisions.md`
+- `**/instance/cognition/decisions/*.md`
 - `**/cognition/runtime/migrations/*/plan.md`
 - `**//.octon/state/evidence/migration/*/evidence.md`
 

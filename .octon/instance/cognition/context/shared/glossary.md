@@ -24,4 +24,4 @@ Terms used consistently throughout harness documentation. Use these terms exactl
 | Scratchpad | Human-led zone (`ideation/scratchpad/`) for ephemeral content and the early-stage idea funnel. Subdirectories: `inbox/` (staging), `archive/` (deprecated), `brainstorm/` (exploration), `ideas/`, `drafts/`, `daily/`. |
 | Project | Human-led exploration in `ideation/projects/` that produces harness artifacts. |
 | Brainstorm | Single-file structured exploration in `ideation/scratchpad/brainstorm/` -- filter stage between ideas and projects. |
-| The Funnel | Pipeline from ideas to committed work: `ideation/scratchpad/ideas/` → `ideation/scratchpad/brainstorm/` → `ideation/projects/` → `orchestration/runtime/missions/` → `cognition/runtime/context/`. |
+| The Funnel | Pipeline from ideas to committed work: `ideation/scratchpad/ideas/` → `ideation/scratchpad/brainstorm/` → `ideation/projects/` → `instance/orchestration/missions/` → `instance/cognition/context/shared/`. |

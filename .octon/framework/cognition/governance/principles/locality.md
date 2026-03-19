@@ -57,12 +57,12 @@ Octon implements locality through a single `.octon/` directory organized by capa
 
 | Category | Path | Content |
 | -------- | ---- | ------- |
-| Cognition | `cognition/runtime/context/` | Decisions, lessons, glossary, dependencies |
-| Continuity | `continuity/` | Progress log, tasks, entities |
-| Quality | `assurance/` | Completion checklists, session-exit |
-| Orchestration | `orchestration/` | Workflows, missions |
-| Capabilities | `capabilities/` | Skills, commands |
-| Scaffolding | `scaffolding/` | runtime, governance, practices |
+| Cognition | `instance/cognition/context/shared/` | Decisions, lessons, glossary, dependencies |
+| Continuity | `state/continuity/repo/` | Progress log, tasks, entities, next actions |
+| Quality | `framework/assurance/` | Completion checklists, session-exit |
+| Orchestration | `framework/orchestration/runtime/workflows/` plus `instance/orchestration/missions/` | Shared workflows plus repo-owned missions |
+| Capabilities | `framework/capabilities/` and `instance/capabilities/runtime/` | Portable capabilities plus repo-native runtime capability surfaces |
+| Scaffolding | `framework/scaffolding/` | runtime, governance, practices |
 
 Portability is declared via `octon.yml` metadata — it specifies which paths are reusable framework assets vs. project-specific state.
 
@@ -103,11 +103,11 @@ Locality includes boundaries. The repo-root harness follows strict scope rules:
 
 ```
 .octon/
-├── cognition/runtime/context/
+├── instance/cognition/context/shared/
 │   └── billing-glossary.md    # Billing terminology
-├── assurance/practices/
+├── framework/assurance/practices/
 │   └── payment-flow.md        # Billing-specific checklist
-└── orchestration/runtime/workflows/billing/
+└── framework/orchestration/runtime/workflows/billing/
     └── ...
 ```
 
@@ -208,9 +208,9 @@ The root harness tracks progress for the repository and its domains:
 └── tasks.json     # Repository task list
 
 .octon/instance/orchestration/missions/billing-hardening/
-└── continuity/
-    ├── log.md     # Mission-specific session log
-    └── tasks.json # Mission-specific task list
+├── mission.yml    # Mission authority object
+├── log.md         # Mission-specific session log
+└── tasks.json     # Mission-specific task list
 ```
 
 This enables parallel workstreams without pollution.
@@ -222,10 +222,10 @@ Missions inherit locality principles:
 ```
 .octon/instance/orchestration/missions/
 └── add-mfa/
-    ├── brief.md       # Mission scope
-    ├── continuity/
-    │   ├── log.md     # Mission-specific log
-    │   └── tasks.json # Mission-specific tasks
+    ├── mission.yml    # Mission authority object
+    ├── mission.md     # Mission scope
+    ├── log.md         # Mission-specific log
+    ├── tasks.json     # Mission-specific tasks
     └── context/       # Mission-specific context
 ```
 

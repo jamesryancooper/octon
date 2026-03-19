@@ -253,17 +253,17 @@ Transform audit results into an actionable change manifest.
    - [ ] `.octon/framework/orchestration/runtime/workflows/example.md` (3 changes)
 
    ### Phase 4: Continuity Artifacts (APPEND ONLY)
-   - [ ] `continuity/log.md` — Add entry (DO NOT MODIFY EXISTING)
-   - [ ] `cognition/runtime/context/decisions.md` — Add entry if applicable
+   - [ ] `/.octon/state/continuity/repo/log.md` — Add entry (DO NOT MODIFY EXISTING)
+   - [ ] `/.octon/instance/cognition/context/shared/decisions.md` — Add entry if applicable
    ```
 
 2. **Identify continuity artifacts:**
 
    Check files against continuity patterns:
-   - `**/continuity/log.md`
+   - `**//.octon/state/continuity/repo/log.md`
    - `**/continuity/*.md`
    - `**/decisions/*.md`
-   - `**/cognition/runtime/context/decisions.md`
+   - `**//.octon/instance/cognition/context/shared/decisions.md`
    - `**/CHANGELOG.md`
    - `**/ADR-*.md`, `**/adr-*.md`
 
@@ -325,7 +325,7 @@ Make all planned changes systematically.
 
    **CRITICAL: Do NOT modify existing content**
 
-   For `continuity/log.md`:
+   For `/.octon/state/continuity/repo/log.md`:
    ```markdown
    ## YYYY-MM-DD
 
@@ -456,7 +456,7 @@ These must be explicitly listed and justified:
 
 | File | Reason |
 |------|--------|
-| `continuity/log.md:45` | Historical entry from 2025-01-13 |
+| `/.octon/state/continuity/repo/log.md:45` | Historical entry from 2025-01-13 |
 | `decisions/ADR-001.md:23` | ADR documents the original name |
 ```
 
@@ -504,7 +504,7 @@ Record the completed refactor and formally close.
 
 1. **Update continuity artifacts (APPEND ONLY):**
 
-   For `continuity/log.md`:
+   For `/.octon/state/continuity/repo/log.md`:
    ```markdown
    ## YYYY-MM-DD
 

@@ -33,6 +33,12 @@ super-root cutover.
 11. `repo_snapshot` is behaviorally complete and includes enabled-pack
     dependency closure.
 12. `full_fidelity` is advisory only and is not a synthetic export payload.
+13. Canonical internal ingress lives under `instance/ingress/**`; repo-root
+    ingress files are thin adapters only.
+14. Repo-owned bootstrap, locality, context, ADRs, repo-native capabilities,
+    missions, and desired extension configuration belong in `instance/**`.
+15. Overlay-capable instance surfaces are legal only at framework-declared
+    overlay points enabled by `instance/manifest.yml`.
 
 ## Precedence
 
@@ -68,6 +74,9 @@ for runtime, governance, and practices.
 - desired extension config: `/.octon/instance/extensions.yml`
 - ingress: `/.octon/instance/ingress/AGENTS.md`
 - bootstrap docs: `/.octon/instance/bootstrap/`
+- locality: `/.octon/instance/locality/`
+- repo context and ADRs: `/.octon/instance/cognition/`
+- repo missions: `/.octon/instance/orchestration/missions/`
 - export runner: `/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh`
 - framework architecture: `/.octon/framework/cognition/_meta/architecture/`
 - generated proposal registry: `/.octon/generated/proposals/registry.yml`

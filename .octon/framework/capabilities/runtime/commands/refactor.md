@@ -56,7 +56,7 @@ Start with `00-overview.md`, then follow each step in sequence.
 
 ## Continuity Artifact Rule
 
-When updating `continuity/log.md`, `decisions/*.md`, or similar historical records:
+When updating `/.octon/state/continuity/repo/log.md`, `decisions/*.md`, or similar historical records:
 
 - **Do:** Add new entries documenting the refactor
 - **Don't:** Modify existing entries to reflect new names/paths

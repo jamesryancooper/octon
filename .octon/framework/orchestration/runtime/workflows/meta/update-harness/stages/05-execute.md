@@ -4,9 +4,12 @@ After user approval:
 
 1. Create missing structure
 2. Move/rename files as proposed
-3. Update v2 root-manifest/profile content as needed
-4. Route export requests to `/export-harness`
-5. Update `continuity/log.md` with changes made
+3. Update root-manifest and repo-instance control-plane content as needed
+4. Preserve repo-owned `instance/**` ingress, bootstrap, locality, context,
+   decisions, missions, repo-native capabilities, and desired extension
+   configuration unless an explicit migration contract says otherwise
+5. Route export requests to `/export-harness`
+6. Update `state/continuity/repo/log.md` with changes made
 
 ## Output format
 

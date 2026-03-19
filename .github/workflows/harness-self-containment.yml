@@ -75,6 +75,7 @@ jobs:
             assurance_contract:
               # Keep super-root validator and test harness changes on the same rerun path.
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh'
+              - '.octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh'
               - '.octon/framework/assurance/runtime/_ops/scripts/validate-audit-convergence-contract.sh'
               - '.octon/framework/assurance/runtime/_ops/tests/test-validate-audit-convergence-contract.sh'
               - '.github/workflows/harness-self-containment.yml'
@@ -83,6 +84,11 @@ jobs:
         run: |
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh
+
+      - name: Validate repo-instance boundary contract
+        run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
 
       - name: Validate bounded-audit convergence contract
         run: |

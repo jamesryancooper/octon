@@ -37,7 +37,7 @@ Make all planned changes systematically, tracking progress against the manifest.
    - Do NOT modify existing content
    - Add new entry at the appropriate location:
 
-   For `continuity/log.md`:
+   For `/.octon/state/continuity/repo/log.md`:
    ```markdown
    ## YYYY-MM-DD
 
@@ -55,7 +55,7 @@ Make all planned changes systematically, tracking progress against the manifest.
    - None
    ```
 
-   For `cognition/runtime/context/decisions.md` (if applicable):
+   For `/.octon/instance/cognition/context/shared/decisions.md` (if applicable):
    ```markdown
    | D0XX | [Topic] naming | `.scratchpad/` over `.scratch/` | [rationale] | YYYY-MM-DD |
    ```

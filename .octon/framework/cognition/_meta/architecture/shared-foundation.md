@@ -33,6 +33,16 @@ explicit.
 - `state/` is mutable operational truth and retained evidence.
 - `generated/` is rebuildable output only.
 
+Canonical repo-instance authority includes:
+
+- `instance/ingress/**`
+- `instance/bootstrap/**`
+- `instance/locality/**`
+- `instance/cognition/**`
+- `instance/capabilities/runtime/**`
+- `instance/orchestration/missions/**`
+- `instance/extensions.yml`
+
 ## Portability
 
 `octon.yml` defines profile-driven portability. Do not copy the whole `.octon/`
@@ -49,6 +59,10 @@ tree as the default bootstrap model.
 
 - `framework/**` must not contain repo-local mutable state, retained evidence,
   or generated outputs.
+- repo-root ingress adapters are projections only; canonical authored ingress
+  lives under `instance/ingress/**`
+- framework updates preserve repo-owned `instance/**` content unless an
+  explicit migration contract says otherwise
 - Raw `inputs/**` paths must never become direct runtime or policy
   dependencies.
 - Human-led ideation is part of `inputs/exploratory/ideation/**`.

@@ -482,7 +482,7 @@ skills:
       - name: artifact_globs
         type: text
         required: false
-        default: "cognition/runtime/context/**/*.md,cognition/runtime/decisions/**/*.md,/.octon/inputs/exploratory/plans/**/*.md,/.octon/state/evidence/validation/analysis/**/*.md"
+        default: "instance/cognition/context/shared/**/*.md,instance/cognition/decisions/**/*.md,/.octon/inputs/exploratory/plans/**/*.md,/.octon/state/evidence/validation/analysis/**/*.md"
         description: "Comma-separated globs selecting artifact families"
       - name: max_age_days
         type: text
