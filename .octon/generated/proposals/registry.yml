@@ -4,7 +4,7 @@ active:
   - id: "super-root-semantics-and-taxonomy"
     kind: "architecture"
     scope: "octon-internal"
-    path: ".octon/inputs/exploratory/proposals/architecture/super-root-semantics-and-taxonomy"
+    path: ".octon/inputs/exploratory/proposals/architecture/1-super-root-semantics-and-taxonomy"
     title: "Octon Super-Root Semantics and Five-Class Taxonomy"
     status: "implemented"
     promotion_targets:
@@ -24,7 +24,7 @@ active:
   - id: "root-manifest-profiles-and-export-semantics"
     kind: "architecture"
     scope: "octon-internal"
-    path: ".octon/inputs/exploratory/proposals/architecture/root-manifest-profiles-and-export-semantics"
+    path: ".octon/inputs/exploratory/proposals/architecture/2-root-manifest-profiles-and-export-semantics"
     title: "Root Manifest and Behaviorally Complete Profile Model"
     status: "accepted"
     promotion_targets:
@@ -41,7 +41,7 @@ active:
   - id: "framework-core-architecture"
     kind: "architecture"
     scope: "octon-internal"
-    path: ".octon/inputs/exploratory/proposals/architecture/framework-core-architecture"
+    path: ".octon/inputs/exploratory/proposals/architecture/3-framework-core-architecture"
     title: "Portable Framework/Core Architecture"
     status: "accepted"
     promotion_targets:
@@ -59,7 +59,7 @@ active:
   - id: "repo-instance-architecture"
     kind: "architecture"
     scope: "octon-internal"
-    path: ".octon/inputs/exploratory/proposals/architecture/repo-instance-architecture"
+    path: ".octon/inputs/exploratory/proposals/architecture/4-repo-instance-architecture"
     title: "Repo-Instance Authoritative Layer"
     status: "implemented"
     promotion_targets:

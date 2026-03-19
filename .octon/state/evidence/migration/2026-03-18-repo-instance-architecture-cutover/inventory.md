@@ -14,7 +14,7 @@
 - `.octon/instance/cognition/decisions/048-repo-instance-architecture-atomic-cutover.md`
 - `.octon/state/evidence/migration/2026-03-18-repo-instance-architecture-cutover/{bundle.yml,evidence.md,commands.md,validation.md,inventory.md,path-map.json}`
 - `.octon/framework/scaffolding/runtime/templates/octon/instance/**`
-- `/.octon/inputs/exploratory/proposals/architecture/repo-instance-architecture/**`
+- `/.octon/inputs/exploratory/proposals/architecture/4-repo-instance-architecture/**`
 
 ## Modified
 
@@ -50,7 +50,7 @@
   - `.octon/generated/proposals/registry.yml`
   - `.octon/instance/cognition/context/shared/migrations/index.yml`
   - `.octon/instance/cognition/decisions/index.yml`
-  - `.octon/inputs/exploratory/proposals/architecture/repo-instance-architecture/{README.md,proposal.yml}`
+  - `.octon/inputs/exploratory/proposals/architecture/4-repo-instance-architecture/{README.md,proposal.yml}`
 - instance shared-context follow-up cleanup:
   - `.octon/instance/cognition/context/{index.yml,shared/{constraints.md,continuity.md,glossary.md,lessons.md,memory-map.md,knowledge/knowledge.md}}`
 - validation/export side effects:

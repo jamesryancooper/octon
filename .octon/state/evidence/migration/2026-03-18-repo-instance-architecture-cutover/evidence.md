@@ -28,7 +28,7 @@ Single-promotion atomic migration implementing Packet 4
 
 ## Receipts and Evidence
 
-- Proposal: `/.octon/inputs/exploratory/proposals/architecture/repo-instance-architecture/`
+- Proposal: `/.octon/inputs/exploratory/proposals/architecture/4-repo-instance-architecture/`
 - Path map: `path-map.json`
 - Validation receipts: `validation.md`
 - Command log: `commands.md`
