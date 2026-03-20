@@ -42,6 +42,8 @@ write_fixture() {
     "$root/.octon/framework/capabilities/runtime/skills/demo" \
     "$root/.octon/framework/capabilities/runtime/services/demo" \
     "$root/.octon/framework/capabilities/runtime/tools" \
+    "$root/.octon/inputs/additive/extensions/demo-ext/commands" \
+    "$root/.octon/inputs/additive/extensions/demo-ext/skills/demo-ext-skill" \
     "$root/.octon/generated/effective/extensions" \
     "$root/.octon/generated/effective/capabilities/filesystem-snapshots" \
     "$root/.octon/instance/capabilities/runtime/commands" \
@@ -118,6 +120,39 @@ packs:
 tools: []
 EOF
 
+  cat >"$root/.octon/inputs/additive/extensions/demo-ext/commands/manifest.fragment.yml" <<'EOF'
+schema_version: "extensions-commands-fragment-v1"
+commands:
+  - id: demo-ext-command
+    display_name: Demo Ext Command
+    path: demo-ext-command.md
+    summary: Demo extension command summary.
+    access: agent
+EOF
+
+  cat >"$root/.octon/inputs/additive/extensions/demo-ext/commands/demo-ext-command.md" <<'EOF'
+# Demo Ext Command
+EOF
+
+  cat >"$root/.octon/inputs/additive/extensions/demo-ext/skills/manifest.fragment.yml" <<'EOF'
+schema_version: "extensions-skills-fragment-v1"
+skills:
+  - id: demo-ext-skill
+    display_name: Demo Ext Skill
+    group: extensions
+    path: demo-ext-skill/
+    skill_class: invocable
+    summary: Demo extension skill summary.
+    status: active
+    tags: []
+    triggers: []
+EOF
+
+  cat >"$root/.octon/inputs/additive/extensions/demo-ext/skills/demo-ext-skill/SKILL.md" <<'EOF'
+# Demo Ext Skill
+allowed-tools: Read
+EOF
+
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'EOF'
 schema_version: "octon-extension-effective-catalog-v2"
 generator_version: "0.5.1"
@@ -125,9 +160,30 @@ generation_id: "extensions-fixture"
 published_at: "2026-03-20T00:00:00Z"
 publication_status: "published"
 desired_selected_packs: []
-published_active_packs: []
-dependency_closure: []
-packs: []
+published_active_packs:
+  - pack_id: "demo-ext"
+    source_id: "bundled-first-party"
+dependency_closure:
+  - pack_id: "demo-ext"
+    source_id: "bundled-first-party"
+    version: "1.0.0"
+    origin_class: "first_party_bundled"
+    manifest_path: ".octon/inputs/additive/extensions/demo-ext/pack.yml"
+packs:
+  - pack_id: "demo-ext"
+    source_id: "bundled-first-party"
+    version: "1.0.0"
+    origin_class: "first_party_bundled"
+    manifest_path: ".octon/inputs/additive/extensions/demo-ext/pack.yml"
+    trust_decision: "allow"
+    publication_status: "published"
+    content_roots:
+      skills: ".octon/inputs/additive/extensions/demo-ext/skills"
+      commands: ".octon/inputs/additive/extensions/demo-ext/commands"
+      templates: null
+      prompts: null
+      context: null
+      validation: null
 source:
   desired_config_path: ".octon/instance/extensions.yml"
   desired_config_sha256: "fixture"
@@ -153,6 +209,16 @@ case_publish_and_validate_passes() {
   write_fixture "$fixture"
   run_publish "$fixture"
   run_validator "$fixture"
+}
+
+case_extension_capabilities_are_published() {
+  local fixture
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  run_publish "$fixture"
+  grep -Fq 'extension.command.demo-ext.demo-ext-command' "$fixture/.octon/generated/effective/capabilities/routing.effective.yml"
+  grep -Fq 'extension.skill.demo-ext.demo-ext-skill' "$fixture/.octon/generated/effective/capabilities/routing.effective.yml"
 }
 
 case_stale_manifest_fails() {
@@ -185,11 +251,29 @@ case_raw_inputs_reference_fails() {
   ! run_validator "$fixture"
 }
 
+case_mutable_instance_inputs_do_not_rotate_digest() {
+  local fixture
+  local first_id second_id
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  mkdir -p "$fixture/.octon/instance/capabilities/runtime/skills/resources/demo" "$fixture/.octon/instance/capabilities/runtime/skills/configs/demo"
+  run_publish "$fixture"
+  first_id="$(yq -r '.generation_id // ""' "$fixture/.octon/generated/effective/capabilities/generation.lock.yml")"
+  printf 'note\n' >"$fixture/.octon/instance/capabilities/runtime/skills/resources/demo/notes.md"
+  printf 'config: true\n' >"$fixture/.octon/instance/capabilities/runtime/skills/configs/demo/settings.yml"
+  run_publish "$fixture"
+  second_id="$(yq -r '.generation_id // ""' "$fixture/.octon/generated/effective/capabilities/generation.lock.yml")"
+  [[ "$first_id" == "$second_id" ]]
+}
+
 main() {
   assert_success "capability publication validates for a fresh published fixture" case_publish_and_validate_passes
+  assert_success "capability publication includes extension-contributed commands and skills" case_extension_capabilities_are_published
   assert_success "capability publication validator fails on stale source digests" case_stale_manifest_fails
   assert_success "capability publication validator rejects legacy runtime-facing policy catalogs" case_legacy_catalog_fails
   assert_success "capability publication validator rejects raw inputs references" case_raw_inputs_reference_fails
+  assert_success "mutable instance skill inputs do not rotate capability generation" case_mutable_instance_inputs_do_not_rotate_digest
 
   echo
   echo "Passed: $pass_count"

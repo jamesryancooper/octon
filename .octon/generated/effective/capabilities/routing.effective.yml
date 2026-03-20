@@ -1,7 +1,7 @@
 schema_version: "octon-capability-routing-effective-v1"
 generator_version: "0.5.1"
-generation_id: "capabilities-d6b5707db07a"
-published_at: "2026-03-20T12:40:45Z"
+generation_id: "capabilities-1230401637e5"
+published_at: "2026-03-20T13:19:17Z"
 publication_status: "published"
 source:
   root_manifest_path: ".octon/octon.yml"
@@ -15,9 +15,10 @@ source:
   framework_tools_manifest_path: ".octon/framework/capabilities/runtime/tools/manifest.yml"
   framework_tools_manifest_sha256: "e8c9c5e20908f07ff17b4739698a4b6d2c50c5851807f6d806d878e5feee7234"
   instance_capabilities_path: ".octon/instance/capabilities/runtime"
-  instance_capabilities_sha256: "79e2f7661c0feec577ca3b51076df18261686b30e813824d4f87b3607e1f0037"
+  instance_capabilities_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   extensions_catalog_path: ".octon/generated/effective/extensions/catalog.effective.yml"
   extensions_catalog_sha256: "5f48ddf84e32b48ce8a1569c0ba1df45a6511eb365127ace0572d8893aa0217a"
+  extensions_capability_inputs_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 routing_candidates:
   - effective_id: "framework.command.alignment-check"
     artifact_map_id: "framework-command-alignment-check"

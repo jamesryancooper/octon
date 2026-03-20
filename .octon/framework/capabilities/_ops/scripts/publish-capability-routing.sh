@@ -88,7 +88,39 @@ instance_capabilities_digest() {
     rel="${file#$ROOT_DIR/}"
     sha="$(hash_file "$file")"
     payload+="${rel} ${sha}"$'\n'
-  done < <(find "$INSTANCE_CAPABILITIES_DIR" -type f ! -name '.gitkeep' | sort)
+  done < <(instance_definition_files)
+  printf '%s' "$payload" | hash_text
+}
+
+instance_definition_files() {
+  {
+    find "$OCTON_DIR/instance/capabilities/runtime/commands" -type f -name '*.md' ! -name 'README.md'
+    find "$OCTON_DIR/instance/capabilities/runtime/skills" -type f -name 'SKILL.md'
+  } 2>/dev/null | sort
+}
+
+extension_capability_input_digest() {
+  local payload=""
+  local commands_root skills_root file rel sha
+  while IFS=$'\t' read -r commands_root skills_root; do
+    [[ -n "$commands_root$skills_root" ]] || continue
+    if [[ -n "$commands_root" && "$commands_root" != "null" && -d "$ROOT_DIR/$commands_root" ]]; then
+      while IFS= read -r file; do
+        [[ -n "$file" ]] || continue
+        rel="${file#$ROOT_DIR/}"
+        sha="$(hash_file "$file")"
+        payload+="${rel} ${sha}"$'\n'
+      done < <(find "$ROOT_DIR/$commands_root" -type f | sort)
+    fi
+    if [[ -n "$skills_root" && "$skills_root" != "null" && -d "$ROOT_DIR/$skills_root" ]]; then
+      while IFS= read -r file; do
+        [[ -n "$file" ]] || continue
+        rel="${file#$ROOT_DIR/}"
+        sha="$(hash_file "$file")"
+        payload+="${rel} ${sha}"$'\n'
+      done < <(find "$ROOT_DIR/$skills_root" -type f | sort)
+    fi
+  done < <(yq -r '.packs[]? | [.content_roots.commands // "", .content_roots.skills // ""] | @tsv' "$EXTENSIONS_CATALOG" 2>/dev/null || true)
   printf '%s' "$payload" | hash_text
 }
 
@@ -128,7 +160,7 @@ write_artifact_map() {
   fi
 
   printf 'artifacts:\n' >>"$outfile"
-  while IFS=$'\t' read -r effective_id artifact_map_id origin_class capability_kind capability_id display_name summary status source_manifest source_path source_manifest_sha256 source_sha256; do
+  while IFS=$'\t' read -r effective_id artifact_map_id origin_class capability_kind capability_id display_name summary status source_manifest source_path source_manifest_sha256 source_sha256 extension_pack_id extension_source_id extension_entry_path; do
     printf '  - artifact_map_id: "%s"\n' "$(yaml_escape "$artifact_map_id")" >>"$outfile"
     printf '    effective_id: "%s"\n' "$(yaml_escape "$effective_id")" >>"$outfile"
     printf '    origin_class: "%s"\n' "$(yaml_escape "$origin_class")" >>"$outfile"
@@ -139,12 +171,17 @@ write_artifact_map() {
     printf '    source_manifest_sha256: "%s"\n' "$source_manifest_sha256" >>"$outfile"
     printf '    source_path: "%s"\n' "$(yaml_escape "$source_path")" >>"$outfile"
     printf '    source_sha256: "%s"\n' "$source_sha256" >>"$outfile"
+    if [[ -n "$extension_pack_id" ]]; then
+      printf '    extension_pack_id: "%s"\n' "$(yaml_escape "$extension_pack_id")" >>"$outfile"
+      printf '    extension_source_id: "%s"\n' "$(yaml_escape "$extension_source_id")" >>"$outfile"
+      printf '    extension_entry_path: "%s"\n' "$(yaml_escape "$extension_entry_path")" >>"$outfile"
+    fi
   done <"$tsv"
 }
 
 main() {
   local tmpdir="" routing_tmp artifact_tmp lock_tmp candidates_tmp artifacts_tmp
-  local root_sha commands_sha skills_sha services_sha tools_sha extensions_sha instance_sha
+  local root_sha commands_sha skills_sha services_sha tools_sha extensions_sha instance_sha extension_inputs_sha
   local generator_version generation_seed generation_sha generation_id published_at
   local default_published_at source_path source_sha manifest_rel manifest_sha capability_path display_name summary access status interface_type effective_id artifact_map_id capability_id
 
@@ -165,6 +202,7 @@ main() {
   tools_sha="$(hash_file "$TOOLS_MANIFEST")"
   extensions_sha="$(hash_file "$EXTENSIONS_CATALOG")"
   instance_sha="$(instance_capabilities_digest)"
+  extension_inputs_sha="$(extension_capability_input_digest)"
 
   : >"$candidates_tmp"
   : >"$artifacts_tmp"
@@ -261,12 +299,48 @@ main() {
       "$effective_id" "$artifact_map_id" "$capability_id" "$display_name" "$summary" "$manifest_rel" "$source_path" "$manifest_sha" "$source_sha" >>"$artifacts_tmp"
   done < <(find "$OCTON_DIR/instance/capabilities/runtime/skills" -type f -name 'SKILL.md' | sort | sed "s#^$ROOT_DIR/##")
 
+  while IFS=$'\t' read -r pack_id source_id commands_root; do
+    [[ -n "$commands_root" && "$commands_root" != "null" ]] || continue
+    [[ -f "$ROOT_DIR/$commands_root/manifest.fragment.yml" ]] || continue
+    while IFS=$'\t' read -r capability_id capability_path display_name summary access; do
+      [[ -n "$capability_id" ]] || continue
+      source_path=".octon/generated/effective/extensions/catalog.effective.yml"
+      source_sha="$extensions_sha"
+      manifest_rel=".octon/generated/effective/extensions/catalog.effective.yml"
+      manifest_sha="$extensions_sha"
+      effective_id="extension.command.${pack_id}.${capability_id}"
+      artifact_map_id="extension-command-${pack_id}-${capability_id}"
+      printf '%s\t%s\textension\tcommand\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+        "$effective_id" "$artifact_map_id" "$capability_id" "$display_name" "$summary" "active" "$manifest_rel" "" >>"$candidates_tmp"
+      printf '%s\t%s\textension\tcommand\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+        "$effective_id" "$artifact_map_id" "$capability_id" "$display_name" "$summary" "active" "$manifest_rel" "$source_path" "$manifest_sha" "$source_sha" "$pack_id" "$source_id" "commands/${capability_path}" >>"$artifacts_tmp"
+    done < <(yq -r '.commands[]? | [.id, .path, .display_name, .summary, .access] | @tsv' "$ROOT_DIR/$commands_root/manifest.fragment.yml")
+  done < <(yq -r '.packs[]? | [.pack_id, .source_id, .content_roots.commands // ""] | @tsv' "$EXTENSIONS_CATALOG" 2>/dev/null || true)
+
+  while IFS=$'\t' read -r pack_id source_id skills_root; do
+    [[ -n "$skills_root" && "$skills_root" != "null" ]] || continue
+    [[ -f "$ROOT_DIR/$skills_root/manifest.fragment.yml" ]] || continue
+    while IFS=$'\t' read -r capability_id capability_path display_name summary status; do
+      [[ -n "$capability_id" ]] || continue
+      source_path=".octon/generated/effective/extensions/catalog.effective.yml"
+      source_sha="$extensions_sha"
+      manifest_rel=".octon/generated/effective/extensions/catalog.effective.yml"
+      manifest_sha="$extensions_sha"
+      effective_id="extension.skill.${pack_id}.${capability_id}"
+      artifact_map_id="extension-skill-${pack_id}-${capability_id}"
+      printf '%s\t%s\textension\tskill\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+        "$effective_id" "$artifact_map_id" "$capability_id" "$display_name" "$summary" "$status" "$manifest_rel" "" >>"$candidates_tmp"
+      printf '%s\t%s\textension\tskill\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' \
+        "$effective_id" "$artifact_map_id" "$capability_id" "$display_name" "$summary" "$status" "$manifest_rel" "$source_path" "$manifest_sha" "$source_sha" "$pack_id" "$source_id" "skills/${capability_path}SKILL.md" >>"$artifacts_tmp"
+    done < <(yq -r '.skills[]? | [.id, .path, .display_name, .summary, .status] | @tsv' "$ROOT_DIR/$skills_root/manifest.fragment.yml")
+  done < <(yq -r '.packs[]? | [.pack_id, .source_id, .content_roots.skills // ""] | @tsv' "$EXTENSIONS_CATALOG" 2>/dev/null || true)
+
   LC_ALL=C sort "$candidates_tmp" -o "$candidates_tmp"
   LC_ALL=C sort "$artifacts_tmp" -o "$artifacts_tmp"
 
   generation_seed="$(
     printf 'root %s\ncommands %s\nskills %s\nservices %s\ntools %s\ninstance %s\nextensions %s\n' \
-      "$root_sha" "$commands_sha" "$skills_sha" "$services_sha" "$tools_sha" "$instance_sha" "$extensions_sha"
+      "$root_sha" "$commands_sha" "$skills_sha" "$services_sha" "$tools_sha" "$instance_sha" "$extensions_sha" "$extension_inputs_sha"
   )"
   generation_sha="$(printf '%s' "$generation_seed" | hash_text)"
   generation_id="capabilities-${generation_sha:0:12}"
@@ -293,6 +367,7 @@ main() {
     printf '  instance_capabilities_sha256: "%s"\n' "$instance_sha"
     printf '  extensions_catalog_path: ".octon/generated/effective/extensions/catalog.effective.yml"\n'
     printf '  extensions_catalog_sha256: "%s"\n' "$extensions_sha"
+    printf '  extensions_capability_inputs_sha256: "%s"\n' "$extension_inputs_sha"
     write_candidates "$routing_tmp" "$candidates_tmp"
   } >"$routing_tmp"
 
@@ -316,6 +391,7 @@ main() {
     printf 'framework_tools_manifest_sha256: "%s"\n' "$tools_sha"
     printf 'instance_capabilities_sha256: "%s"\n' "$instance_sha"
     printf 'extensions_catalog_sha256: "%s"\n' "$extensions_sha"
+    printf 'extensions_capability_inputs_sha256: "%s"\n' "$extension_inputs_sha"
     printf 'published_files:\n'
     printf '  - path: ".octon/generated/effective/capabilities/routing.effective.yml"\n'
     printf '  - path: ".octon/generated/effective/capabilities/artifact-map.yml"\n'

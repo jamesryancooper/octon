@@ -42,6 +42,7 @@ hash_file() {
 
 hash_directory_payload() {
   local dir="$1"
+  local include_pattern="${2:-}"
   local payload=""
   local file rel sha
   while IFS= read -r file; do
@@ -49,7 +50,42 @@ hash_directory_payload() {
     rel="${file#$ROOT_DIR/}"
     sha="$(hash_file "$file")"
     payload+="${rel} ${sha}"$'\n'
-  done < <(find "$dir" -type f ! -name '.gitkeep' | sort)
+  done < <(
+    if [[ -n "$include_pattern" ]]; then
+      find "$dir" -type f ! -name '.gitkeep' $include_pattern | sort
+    else
+      find "$dir" -type f ! -name '.gitkeep' | sort
+    fi
+  )
+  if command -v shasum >/dev/null 2>&1; then
+    printf '%s' "$payload" | shasum -a 256 | awk '{print $1}'
+  else
+    printf '%s' "$payload" | sha256sum | awk '{print $1}'
+  fi
+}
+
+hash_extension_capability_inputs() {
+  local payload=""
+  local commands_root skills_root file rel sha
+  while IFS=$'\t' read -r commands_root skills_root; do
+    [[ -n "$commands_root$skills_root" ]] || continue
+    if [[ -n "$commands_root" && "$commands_root" != "null" && -d "$ROOT_DIR/$commands_root" ]]; then
+      while IFS= read -r file; do
+        [[ -n "$file" ]] || continue
+        rel="${file#$ROOT_DIR/}"
+        sha="$(hash_file "$file")"
+        payload+="${rel} ${sha}"$'\n'
+      done < <(find "$ROOT_DIR/$commands_root" -type f | sort)
+    fi
+    if [[ -n "$skills_root" && "$skills_root" != "null" && -d "$ROOT_DIR/$skills_root" ]]; then
+      while IFS= read -r file; do
+        [[ -n "$file" ]] || continue
+        rel="${file#$ROOT_DIR/}"
+        sha="$(hash_file "$file")"
+        payload+="${rel} ${sha}"$'\n'
+      done < <(find "$ROOT_DIR/$skills_root" -type f | sort)
+    fi
+  done < <(yq -r '.packs[]? | [.content_roots.commands // "", .content_roots.skills // ""] | @tsv' "$EXTENSIONS_CATALOG" 2>/dev/null || true)
   if command -v shasum >/dev/null 2>&1; then
     printf '%s' "$payload" | shasum -a 256 | awk '{print $1}'
   else
@@ -102,14 +138,24 @@ main() {
   [[ "$(yq -r '.publication_status // ""' "$ROUTING_FILE")" == "published" ]] && pass "routing publication_status valid" || fail "routing publication_status invalid"
 
   local root_sha extensions_sha
-  local commands_sha skills_sha services_sha tools_sha instance_sha
+  local commands_sha skills_sha services_sha tools_sha instance_sha extension_inputs_sha
   root_sha="$(hash_file "$ROOT_MANIFEST")"
   extensions_sha="$(hash_file "$EXTENSIONS_CATALOG")"
   commands_sha="$(hash_file "$COMMANDS_MANIFEST")"
   skills_sha="$(hash_file "$SKILLS_MANIFEST")"
   services_sha="$(hash_file "$SERVICES_MANIFEST")"
   tools_sha="$(hash_file "$TOOLS_MANIFEST")"
-  instance_sha="$(hash_directory_payload "$INSTANCE_CAPABILITIES_DIR")"
+  instance_sha="$(
+    {
+      find "$INSTANCE_CAPABILITIES_DIR/commands" -type f -name '*.md' ! -name 'README.md' 2>/dev/null
+      find "$INSTANCE_CAPABILITIES_DIR/skills" -type f -name 'SKILL.md' 2>/dev/null
+    } | sort | while IFS= read -r file; do
+      rel="${file#$ROOT_DIR/}"
+      sha="$(hash_file "$file")"
+      printf '%s %s\n' "$rel" "$sha"
+    done | if command -v shasum >/dev/null 2>&1; then shasum -a 256 | awk '{print $1}'; else sha256sum | awk '{print $1}'; fi
+  )"
+  extension_inputs_sha="$(hash_extension_capability_inputs)"
   [[ "$(yq -r '.source.root_manifest_sha256 // ""' "$ROUTING_FILE")" == "$root_sha" ]] && pass "routing root manifest hash current" || fail "routing root manifest hash stale"
   [[ "$(yq -r '.root_manifest_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$root_sha" ]] && pass "generation lock root manifest hash current" || fail "generation lock root manifest hash stale"
   [[ "$(yq -r '.source.extensions_catalog_sha256 // ""' "$ROUTING_FILE")" == "$extensions_sha" ]] && pass "routing extensions catalog hash current" || fail "routing extensions catalog hash stale"
@@ -124,6 +170,8 @@ main() {
   [[ "$(yq -r '.framework_tools_manifest_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$tools_sha" ]] && pass "generation lock tools manifest hash current" || fail "generation lock tools manifest hash stale"
   [[ "$(yq -r '.source.instance_capabilities_sha256 // ""' "$ROUTING_FILE")" == "$instance_sha" ]] && pass "routing instance capabilities digest current" || fail "routing instance capabilities digest stale"
   [[ "$(yq -r '.instance_capabilities_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$instance_sha" ]] && pass "generation lock instance capabilities digest current" || fail "generation lock instance capabilities digest stale"
+  [[ "$(yq -r '.source.extensions_capability_inputs_sha256 // ""' "$ROUTING_FILE")" == "$extension_inputs_sha" ]] && pass "routing extension capability input digest current" || fail "routing extension capability input digest stale"
+  [[ "$(yq -r '.extensions_capability_inputs_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$extension_inputs_sha" ]] && pass "generation lock extension capability input digest current" || fail "generation lock extension capability input digest stale"
 
   local artifact_ids_from_routing artifact_ids_from_map
   artifact_ids_from_routing="$(yq -r '.routing_candidates[]?.artifact_map_id // ""' "$ROUTING_FILE" | awk 'NF' | LC_ALL=C sort)"
