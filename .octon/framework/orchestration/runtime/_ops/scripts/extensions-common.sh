@@ -205,23 +205,33 @@ ext_source_allows_origin() {
     | grep -Fx "$origin_class" >/dev/null 2>&1
 }
 
-ext_supported_contract_schema_version() {
+ext_contract_schema_path() {
   case "$1" in
-    root-manifest) printf 'octon-root-manifest-v2' ;;
-    framework-manifest) printf 'octon-framework-manifest-v2' ;;
-    instance-manifest) printf 'octon-instance-manifest-v1' ;;
-    instance-extensions) printf 'octon-instance-extensions-v2' ;;
-    extension-active-state) printf 'octon-extension-active-state-v2' ;;
-    extension-quarantine-state) printf 'octon-extension-quarantine-state-v2' ;;
-    extension-effective-catalog) printf 'octon-extension-effective-catalog-v3' ;;
-    extension-artifact-map) printf 'octon-extension-artifact-map-v3' ;;
-    extension-generation-lock) printf 'octon-extension-generation-lock-v3' ;;
+    root-manifest) printf '%s' "$ROOT_MANIFEST" ;;
+    framework-manifest) printf '%s' "$OCTON_DIR/framework/manifest.yml" ;;
+    instance-manifest) printf '%s' "$OCTON_DIR/instance/manifest.yml" ;;
+    instance-extensions) printf '%s' "$EXTENSIONS_MANIFEST" ;;
+    extension-active-state) printf '%s' "$ACTIVE_STATE" ;;
+    extension-quarantine-state) printf '%s' "$QUARANTINE_STATE" ;;
+    extension-effective-catalog) printf '%s' "$CATALOG_FILE" ;;
+    extension-artifact-map) printf '%s' "$ARTIFACT_MAP_FILE" ;;
+    extension-generation-lock) printf '%s' "$GENERATION_LOCK_FILE" ;;
     *) return 1 ;;
   esac
 }
 
+ext_live_contract_schema_version() {
+  local contract_id="$1" contract_path schema_version
+  contract_path="$(ext_contract_schema_path "$contract_id" 2>/dev/null || true)"
+  [[ -n "$contract_path" ]] || return 1
+  [[ -f "$contract_path" ]] || return 1
+  schema_version="$(yq -r '.schema_version // ""' "$contract_path" 2>/dev/null || true)"
+  [[ -n "$schema_version" ]] || return 1
+  printf '%s' "$schema_version"
+}
+
 ext_validate_required_contracts() {
-  local manifest="$1" contract_id schema_version supported_version
+  local manifest="$1" contract_id schema_version live_version
   declare -A seen_contract_ids=()
 
   yq -e '.compatibility.required_contracts | tag == "!!seq"' "$manifest" >/dev/null 2>&1 || {
@@ -236,12 +246,12 @@ ext_validate_required_contracts() {
       return 1
     fi
     seen_contract_ids["$contract_id"]="1"
-    supported_version="$(ext_supported_contract_schema_version "$contract_id" 2>/dev/null || true)"
-    if [[ -z "$supported_version" ]]; then
+    live_version="$(ext_live_contract_schema_version "$contract_id" 2>/dev/null || true)"
+    if [[ -z "$live_version" ]]; then
       EXT_LAST_ERROR_REASON="unsupported-required-contract:$contract_id"
       return 1
     fi
-    if [[ "$schema_version" != "$supported_version" ]]; then
+    if [[ "$schema_version" != "$live_version" ]]; then
       EXT_LAST_ERROR_REASON="required-contract-version-mismatch:$contract_id"
       return 1
     fi

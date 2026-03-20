@@ -72,6 +72,34 @@ case_supported_required_contracts_pass() {
   run_validator "$fixture_root"
 }
 
+case_required_contracts_follow_live_schema_versions() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  perl -0pi -e 's/schema_version: "octon-extension-effective-catalog-v3"/schema_version: "octon-extension-effective-catalog-v9"/' \
+    "$fixture_root/.octon/generated/effective/extensions/catalog.effective.yml"
+  perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v9"/' \
+    "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
+
+  run_validator "$fixture_root"
+}
+
+case_required_contract_version_mismatch_fails() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "instance-extensions"\n      schema_version: "octon-instance-extensions-v1"/' \
+    "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
+
+  ! run_validator "$fixture_root"
+}
+
 case_unexpected_top_level_bucket_fails() {
   local fixture_root
   fixture_root="$(create_packet2_fixture_repo)"
@@ -143,6 +171,8 @@ case_unsupported_required_contract_fails() {
 main() {
   assert_success "seeded packet-8 packs satisfy the pack contract" case_valid_seeded_packs_pass
   assert_success "supported required_contracts entries are accepted" case_supported_required_contracts_pass
+  assert_success "required_contracts resolve against live schema versions" case_required_contracts_follow_live_schema_versions
+  assert_success "required_contracts reject live version mismatches" case_required_contract_version_mismatch_fails
   assert_success "pack validator rejects legacy pack manifest shape" case_invalid_pack_schema_fails
   assert_success "pack validator rejects disallowed top-level pack buckets" case_unexpected_top_level_bucket_fails
   assert_success "pack validator rejects missing required provenance fields" case_missing_required_provenance_fields_fail
