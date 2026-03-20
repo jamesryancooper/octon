@@ -447,11 +447,14 @@ Agent: "I noticed some relevant notes in ideation/scratchpad/ that might help...
 
 #### Projects and the Funnel
 
-Projects (`ideation/projects/`) have a distinct role in the funnel because they frequently produce artifacts that feed the main harness. Projects are still human-led (require explicit direction) but findings flow directly to `instance/cognition/context/shared/` without a separate promotion step.
+Projects (`ideation/projects/`) have a distinct role in the funnel because
+they frequently produce artifacts that feed the main harness. Projects are
+still human-led (require explicit direction) but findings flow directly to
+their durable harness surfaces without a separate promotion step.
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `/.octon/instance/cognition/context/shared/decisions.md` |
+| Design decisions | `/.octon/instance/cognition/decisions/` (local full repos may also generate `/.octon/generated/cognition/summaries/decisions.md`) |
 | Anti-patterns | `/.octon/instance/cognition/context/shared/lessons.md` |
 | New terminology | `/.octon/instance/cognition/context/shared/glossary.md` |
 | Actionable work | Create mission in `instance/orchestration/missions/` |

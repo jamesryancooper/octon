@@ -53,11 +53,12 @@ Task templates in `scaffolding/practices/prompts/`:
 
 ## Context
 
-Background knowledge in `instance/cognition/context/shared/`:
+Background knowledge in `instance/cognition/context/shared/` and generated
+cognition summaries:
 
 | File | Description |
 |------|-------------|
-| [decisions.md](/.octon/instance/cognition/context/shared/decisions.md) | Agent-readable decision summaries. |
+| [decisions/README.md](/.octon/instance/cognition/decisions/README.md) | ADR authority and discovery guidance. |
 | [lessons.md](/.octon/instance/cognition/context/shared/lessons.md) | Anti-patterns and failures to avoid. |
 | [glossary.md](/.octon/instance/cognition/context/shared/glossary.md) | Domain-specific terminology. |
 | [dependencies.md](/.octon/instance/cognition/context/shared/dependencies.md) | External systems and references. |

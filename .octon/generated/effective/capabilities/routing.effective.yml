@@ -1,7 +1,7 @@
 schema_version: "octon-capability-routing-effective-v1"
 generator_version: "0.5.1"
-generation_id: "capabilities-12dd73721231"
-published_at: "2026-03-20T13:20:06Z"
+generation_id: "capabilities-a524dfadc47b"
+published_at: "2026-03-20T14:33:08Z"
 publication_status: "published"
 source:
   root_manifest_path: ".octon/octon.yml"
@@ -17,7 +17,7 @@ source:
   instance_capabilities_path: ".octon/instance/capabilities/runtime"
   instance_capabilities_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   extensions_catalog_path: ".octon/generated/effective/extensions/catalog.effective.yml"
-  extensions_catalog_sha256: "fbd6d61c72b4565ccb96cbf993cb2c9f506ec3cf44c33d1c13d65d3a816b4e3f"
+  extensions_catalog_sha256: "40bc45bf0908fd5e8afc49541eac2a5796a6ae48f478870991d65622b90ac639"
   extensions_capability_inputs_sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 routing_candidates:
   - effective_id: "framework.command.alignment-check"

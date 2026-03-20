@@ -51,8 +51,9 @@ Complete before ending a session, context reset, or handoff.
 
 ### If a decision was made
 
-- [ ] Add to `/.octon/instance/cognition/context/shared/decisions.md`
-- [ ] Optionally create full ADR in `docs/decisions/` or `ideation/scratchpad/`
+- [ ] Add or update an ADR in `/.octon/instance/cognition/decisions/`
+- [ ] Update `/.octon/instance/cognition/decisions/index.yml`
+- [ ] Run `bash .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh`
 
 ### If compaction policy changed or was exercised
 

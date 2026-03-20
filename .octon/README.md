@@ -87,6 +87,11 @@ No other `instance/**` subtree is overlay-capable in v1.
   `/.octon/generated/effective/extensions/`
 - Canonical derived cognition outputs:
   `/.octon/generated/cognition/`
+- Canonical ADR discovery index:
+  `/.octon/instance/cognition/decisions/index.yml`
+- Local generated readable decision summary (when generated outputs are
+  present locally):
+  `/.octon/generated/cognition/summaries/decisions.md`
 - Canonical raw exploratory proposal inputs:
   `/.octon/inputs/exploratory/proposals/<kind>/<proposal_id>/`
 - Canonical archived proposal inputs:

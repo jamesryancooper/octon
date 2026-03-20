@@ -55,9 +55,23 @@ Make all planned changes systematically, tracking progress against the manifest.
    - None
    ```
 
-   For `/.octon/instance/cognition/context/shared/decisions.md` (if applicable):
+   For `/.octon/instance/cognition/decisions/<NNN>-<slug>.md` (if applicable):
    ```markdown
-   | D0XX | [Topic] naming | `.scratchpad/` over `.scratch/` | [rationale] | YYYY-MM-DD |
+   # ADR-XXX: [Topic]
+
+   ## Context
+   [Why the refactor required a durable decision]
+
+   ## Decision
+   [What was chosen]
+
+   ## Consequences
+   [Key tradeoffs and impact]
+   ```
+
+   Then update `/.octon/instance/cognition/decisions/index.yml` and run:
+   ```bash
+   bash .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh
    ```
 
 ## Rules During Execution

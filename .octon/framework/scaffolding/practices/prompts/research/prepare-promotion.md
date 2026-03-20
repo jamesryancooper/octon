@@ -30,10 +30,11 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 
 3. **Prepare content for each destination**
 
-   **For `/.octon/instance/cognition/context/shared/decisions.md`:**
-   - Extract decision statements with rationale
-   - Format as: Decision → Rationale → Date → Source
-   - Keep concise; link to project for details
+   **For `/.octon/instance/cognition/decisions/`:**
+   - Extract durable architecture decisions with rationale
+   - Format as ADR content: Context → Decision → Consequences → Date → Source
+   - Update `/.octon/instance/cognition/decisions/index.yml`
+   - Regenerate `/.octon/generated/cognition/summaries/decisions.md`
 
    **For `/.octon/instance/cognition/context/shared/lessons.md`:**
    - Extract anti-patterns and pitfalls discovered
@@ -77,21 +78,28 @@ Use this prompt when research is mature enough to publish findings to agent-faci
 
 ### Publication Plan
 
-#### → /.octon/instance/cognition/context/shared/decisions.md
+#### → /.octon/instance/cognition/decisions/
 
 **Content to add:**
 
 ```markdown
-### [Decision Title]
+# ADR-XXX: [Decision Title]
 
-**Decision:** [Clear statement of what was decided]
+## Context
+[Why this decision was needed]
 
-**Rationale:** [Why this decision was made]
+## Decision
+[Clear statement of what was decided]
+
+## Consequences
+[Key tradeoffs and impact]
 
 **Date:** [YYYY-MM-DD]
-
 **Source:** Project: [project-slug]
 ```
+
+Also update `/.octon/instance/cognition/decisions/index.yml` and regenerate
+`/.octon/generated/cognition/summaries/decisions.md`.
 
 #### → /.octon/instance/cognition/context/shared/lessons.md
 

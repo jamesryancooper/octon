@@ -11,13 +11,13 @@ Keep derived cognition artifacts deterministic, internally generated, and drift-
 
 ## Generated Artifact Set
 
-- `/.octon/instance/cognition/context/shared/decisions.md`
-- `/.octon/framework/cognition/runtime/projections/materialized/cognition-runtime-surface-map.latest.yml`
-- `/.octon/framework/cognition/runtime/evidence/index.yml`
-- `/.octon/framework/cognition/runtime/evaluations/digests/index.yml`
-- `/.octon/framework/cognition/runtime/evaluations/actions/open-actions.yml`
-- `/.octon/instance/cognition/context/shared/knowledge/graph/nodes.yml`
-- `/.octon/instance/cognition/context/shared/knowledge/graph/edges.yml`
+- `/.octon/generated/cognition/summaries/decisions.md`
+- `/.octon/generated/cognition/projections/materialized/cognition-runtime-surface-map.latest.yml`
+- `/.octon/instance/cognition/context/shared/evidence/index.yml`
+- `/.octon/instance/cognition/context/shared/evaluations/digests/index.yml`
+- `/.octon/instance/cognition/context/shared/evaluations/actions/open-actions.yml`
+- `/.octon/generated/cognition/graph/nodes.yml`
+- `/.octon/generated/cognition/graph/edges.yml`
 - `/.octon/instance/cognition/context/shared/knowledge/sources/ingestion-receipts.yml`
 
 ## Canonical Tooling

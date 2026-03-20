@@ -301,7 +301,7 @@ Verify that paths referenced in key operational files actually resolve on disk.
 
    | Format              | Regex Pattern     | Example                                     |
    | ------------------- | ----------------- | -------------------------------------------- |
-   | Backtick paths      | `` `path/to/file` `` | `` `/.octon/instance/cognition/context/shared/decisions.md` ``    |
+   | Backtick paths      | `` `path/to/file` `` | `` `/.octon/generated/cognition/summaries/decisions.md` ``    |
    | Markdown links      | `label + target`  | `decisions -> instance/cognition/decisions/`          |
    | YAML path values    | `path: "value"`   | `path: "/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/"`     |
    | Relative references | `./path` or `../path` | `../capabilities/runtime/commands/`              |
@@ -309,7 +309,7 @@ Verify that paths referenced in key operational files actually resolve on disk.
 3. **Resolve each path relative to its containing file:**
 
    For a reference in `.octon/instance/bootstrap/START.md`:
-   - `/.octon/instance/cognition/context/shared/decisions.md` → `.octon/instance/cognition/context/shared/decisions.md`
+   - `/.octon/generated/cognition/summaries/decisions.md` → `.octon/generated/cognition/summaries/decisions.md`
    - `../.octon/framework/cognition/_meta/architecture/` → `.octon/framework/cognition/_meta/architecture/`
 
 4. **Check whether each path exists:**

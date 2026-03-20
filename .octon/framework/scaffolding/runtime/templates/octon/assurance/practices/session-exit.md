@@ -20,7 +20,9 @@ Complete before ending a session, context reset, or handoff.
 
 ### If a decision was made
 
-- [ ] Add to `instance/cognition/context/shared/decisions.md`
+- [ ] Add or update an ADR in `instance/cognition/decisions/`
+- [ ] Update `instance/cognition/decisions/index.yml`
+- [ ] Regenerate `generated/cognition/summaries/decisions.md`
 
 ### If something failed
 

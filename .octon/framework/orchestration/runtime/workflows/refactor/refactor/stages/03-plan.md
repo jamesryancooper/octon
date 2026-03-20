@@ -68,7 +68,9 @@ A prioritized, trackable change manifest:
 
 ### Phase 4: Continuity Artifacts (APPEND ONLY)
 - [ ] `/.octon/state/continuity/repo/log.md` — Add refactor entry
-- [ ] `/.octon/instance/cognition/context/shared/decisions.md` — Add decision entry if applicable
+- [ ] `/.octon/instance/cognition/decisions/*.md` — Add ADR or addendum if applicable
+- [ ] `/.octon/instance/cognition/decisions/index.yml` — Update if ADR set changes
+- [ ] `/.octon/generated/cognition/summaries/decisions.md` — Regenerate after ADR changes
 ```
 
 ## Idempotency

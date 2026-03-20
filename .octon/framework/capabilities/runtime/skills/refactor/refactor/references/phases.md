@@ -254,7 +254,9 @@ Transform audit results into an actionable change manifest.
 
    ### Phase 4: Continuity Artifacts (APPEND ONLY)
    - [ ] `/.octon/state/continuity/repo/log.md` — Add entry (DO NOT MODIFY EXISTING)
-   - [ ] `/.octon/instance/cognition/context/shared/decisions.md` — Add entry if applicable
+   - [ ] `/.octon/instance/cognition/decisions/*.md` — Add ADR or addendum if applicable
+   - [ ] `/.octon/instance/cognition/decisions/index.yml` — Update index if ADR set changed
+   - [ ] `/.octon/generated/cognition/summaries/decisions.md` — Regenerate after ADR changes
    ```
 
 2. **Identify continuity artifacts:**
@@ -263,7 +265,6 @@ Transform audit results into an actionable change manifest.
    - `**//.octon/state/continuity/repo/log.md`
    - `**/continuity/*.md`
    - `**/decisions/*.md`
-   - `**//.octon/instance/cognition/context/shared/decisions.md`
    - `**/CHANGELOG.md`
    - `**/ADR-*.md`, `**/adr-*.md`
 

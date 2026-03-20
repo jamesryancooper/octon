@@ -29,17 +29,10 @@ Record the completed refactor in continuity artifacts and formally close the ref
    - None
    ```
 
-3. If the refactor represents a decision, update `/.octon/instance/cognition/context/shared/decisions.md` (**APPEND ONLY**):
-   ```markdown
-   | D0XX | [Topic] naming | `new-name` over `old-name` | [rationale] | YYYY-MM-DD |
-   ```
-
-4. If creating an ADR, add to `decisions/` (**NEW FILE**, not modifying existing):
+3. If the refactor represents a durable decision, add or update an ADR in
+   `/.octon/instance/cognition/decisions/` and refresh the generated summary:
    ```markdown
    # ADR-XXX: [Title]
-
-   ## Status
-   Accepted
 
    ## Context
    [Why the refactor was needed]
@@ -49,6 +42,12 @@ Record the completed refactor in continuity artifacts and formally close the ref
 
    ## Consequences
    [Impact of the change]
+   ```
+
+4. Update `/.octon/instance/cognition/decisions/index.yml` if the ADR set
+   changed, then run:
+   ```bash
+   bash .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh
    ```
 
 5. Clear TodoWrite items related to this refactor
@@ -66,7 +65,7 @@ Record the completed refactor in continuity artifacts and formally close the ref
 | Action | Allowed | Not Allowed |
 |--------|---------|-------------|
 | Add new log entry | ✓ | |
-| Add new decision | ✓ | |
+| Add new ADR or ADR addendum | ✓ | |
 | Create new ADR | ✓ | |
 | Modify existing log entries | | ✗ |
 | Update old decision text | | ✗ |
@@ -77,7 +76,7 @@ Record the completed refactor in continuity artifacts and formally close the ref
 ## Output
 
 - Progress log updated with refactor summary
-- Decision recorded if applicable
+- ADR recorded and summary regenerated if applicable
 - ADR created if significant
 - TodoWrite cleared
 - Explicit completion declaration
@@ -99,6 +98,6 @@ Record the completed refactor in continuity artifacts and formally close the ref
 
 - [ ] Verification (Step 5) passed
 - [ ] Progress log has new entry (not modified old)
-- [ ] Decision recorded if applicable (append-only)
+- [ ] ADR recorded and summary regenerated if applicable
 - [ ] TodoWrite items cleared
 - [ ] Completion declared with stats

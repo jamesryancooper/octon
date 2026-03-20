@@ -10,7 +10,8 @@ This directory is the canonical runtime surface for full ADR artifacts.
 ## Purpose
 
 - Keep full append-only ADR records in one runtime-owned location.
-- Provide generated lightweight decision summaries in `/.octon/instance/cognition/context/shared/decisions.md`.
+- Provide generated lightweight decision summaries in
+  `/.octon/generated/cognition/summaries/decisions.md`.
 - Provide machine discovery through a single index.
 - Allow optional companion evidence bundles when deeper verification receipts are needed.
 
@@ -23,7 +24,7 @@ This directory is the canonical runtime surface for full ADR artifacts.
 - Machine discovery MUST resolve through:
   - `/.octon/instance/cognition/decisions/index.yml`
 - Human-oriented summary is generated and remains in:
-  - `/.octon/instance/cognition/context/shared/decisions.md`
+  - `/.octon/generated/cognition/summaries/decisions.md`
 
 ## Optional Evidence Bundles
 

@@ -221,7 +221,7 @@ Repo-root context composes shared and domain-specific files:
 sources:
   - .octon/framework/cognition/runtime/context/reference/tools.md
   - .octon/framework/cognition/runtime/context/reference/compaction.md
-  - .octon/instance/cognition/context/shared/decisions.md
+  - .octon/instance/cognition/decisions/index.yml
   - .octon/instance/cognition/context/shared/auth-decisions.md
   - .octon/instance/cognition/context/shared/auth-glossary.md
 ```

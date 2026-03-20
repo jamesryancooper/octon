@@ -110,11 +110,6 @@ files:
     summary: Technical and business rules that limit harness operations.
     when: Before any work — know hard limits.
 
-  - id: decisions
-    path: decisions.md
-    summary: Generated ADR summary for key decisions affecting this harness.
-    when: Before making decisions that might duplicate past choices.
-
   - id: memory-map
     path: memory-map.md
     summary: Canonical routing map for memory class placement and ownership boundaries.

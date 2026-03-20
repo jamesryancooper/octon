@@ -29,8 +29,7 @@ fi
 if [[ "$STANDALONE_FIXTURE_MODE" -eq 1 ]]; then
   CONTEXT_INDEX_PATH="$COGNITION_DIR/runtime/context/index.yml"
   DECISIONS_INDEX_PATH="$COGNITION_DIR/runtime/decisions/index.yml"
-  DECISIONS_SUMMARY_PATH="$COGNITION_DIR/runtime/context/decisions.md"
-  GENERATED_DECISIONS_SUMMARY_PATH="$COGNITION_DIR/runtime/summaries/decisions.md"
+  DECISIONS_SUMMARY_PATH="$COGNITION_DIR/runtime/summaries/decisions.md"
   MIGRATIONS_INDEX_PATH="$COGNITION_DIR/runtime/migrations/index.yml"
   ANALYSES_INDEX_PATH="$COGNITION_DIR/runtime/analyses/index.yml"
   KNOWLEDGE_INDEX_PATH="$COGNITION_DIR/runtime/knowledge/index.yml"
@@ -48,8 +47,7 @@ if [[ "$STANDALONE_FIXTURE_MODE" -eq 1 ]]; then
 else
   CONTEXT_INDEX_PATH="$INSTANCE_COGNITION_DIR/context/index.yml"
   DECISIONS_INDEX_PATH="$INSTANCE_COGNITION_DIR/decisions/index.yml"
-  DECISIONS_SUMMARY_PATH="$INSTANCE_COGNITION_SHARED_DIR/decisions.md"
-  GENERATED_DECISIONS_SUMMARY_PATH="$GENERATED_COGNITION_DIR/summaries/decisions.md"
+  DECISIONS_SUMMARY_PATH="$GENERATED_COGNITION_DIR/summaries/decisions.md"
   MIGRATIONS_INDEX_PATH="$INSTANCE_COGNITION_SHARED_DIR/migrations/index.yml"
   ANALYSES_INDEX_PATH="$INSTANCE_COGNITION_SHARED_DIR/analyses/index.yml"
   KNOWLEDGE_INDEX_PATH="$INSTANCE_COGNITION_SHARED_DIR/knowledge/index.yml"
@@ -89,7 +87,6 @@ usage() {
 Usage: sync-runtime-artifacts.sh [--check] [--target <name> ...]
 
 Generates deterministic cognition runtime derived artifacts:
-- instance/cognition/context/shared/decisions.md
 - generated/cognition/summaries/decisions.md
 - generated/cognition/projections/materialized/cognition-runtime-surface-map.latest.yml
 - instance/cognition/context/shared/evidence/index.yml
@@ -655,11 +652,9 @@ extract_digest_actions() {
 
 generate_decisions_context() {
   local index_file
-  local target
   local raw
 
   index_file="$DECISIONS_INDEX_PATH"
-  target="$DECISIONS_SUMMARY_PATH"
   raw="$(mktemp "$TMP_ROOT/decisions.XXXX")"
 
   {
@@ -715,7 +710,7 @@ HEADER
       status="$(markdown_escape "$status")"
       date="$(markdown_escape "$date")"
 
-      printf '| ADR-%s | %s | %s | %s | `../decisions/%s` |\n' "$adr_number" "$status" "$date" "$title" "$record_path"
+      printf '| ADR-%s | %s | %s | %s | `/.octon/instance/cognition/decisions/%s` |\n' "$adr_number" "$status" "$date" "$title" "$record_path"
     done < <(extract_index_id_path "$index_file")
 
     cat <<'FOOTER'
@@ -729,8 +724,7 @@ FOOTER
   } > "$raw"
 
   perl -0pi -e 's#__GENERATOR_VERSION__#'"$GENERATOR_VERSION"'#g' "$raw"
-  finalize_candidate "$target" "$raw" "generated_at" "timestamp"
-  finalize_candidate "$GENERATED_DECISIONS_SUMMARY_PATH" "$raw" "generated_at" "timestamp"
+  finalize_candidate "$DECISIONS_SUMMARY_PATH" "$raw" "generated_at" "timestamp"
 }
 
 generate_projection_materialized() {

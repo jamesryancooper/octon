@@ -1,7 +1,7 @@
 schema_version: "octon-capability-routing-artifact-map-v1"
 generator_version: "0.5.1"
-generation_id: "capabilities-12dd73721231"
-published_at: "2026-03-20T13:20:06Z"
+generation_id: "capabilities-a524dfadc47b"
+published_at: "2026-03-20T14:33:08Z"
 artifacts:
   - artifact_map_id: "framework-command-alignment-check"
     effective_id: "framework.command.alignment-check"

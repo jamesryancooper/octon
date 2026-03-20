@@ -171,8 +171,11 @@ Continuity artifacts are files that preserve historical context across sessions.
 | File | Purpose | Rule |
 |------|---------|------|
 | `state/continuity/repo/log.md` | Session history | Append new entries; never modify past entries |
-| `instance/cognition/context/shared/decisions.md` | Decision summary | Append new decisions; never update old references |
 | `instance/cognition/decisions/*.md` | Full ADRs | Append addendums; never modify accepted content |
+
+Generated decision summaries live at
+`generated/cognition/summaries/decisions.md`. They are derived artifacts and
+must be regenerated, not edited or treated as append-only authority.
 
 ### Mutability Frontmatter
 

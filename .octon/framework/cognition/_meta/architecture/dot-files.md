@@ -134,7 +134,7 @@ When project findings are ready:
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `instance/cognition/decisions/` (with generated summary in `/.octon/instance/cognition/context/shared/decisions.md`) |
+| Design decisions | `instance/cognition/decisions/` (local full repos may also generate `/.octon/generated/cognition/summaries/decisions.md`) |
 | Anti-patterns | `/.octon/instance/cognition/context/shared/lessons.md` |
 | New terminology | `/.octon/instance/cognition/context/shared/glossary.md` |
 | Actionable work | Create mission in `instance/orchestration/missions/` |

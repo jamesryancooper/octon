@@ -21,7 +21,7 @@ enough to act on.
 
 | Trigger | What Happened | Action |
 |---------|---------------|--------|
-| **Decision made** | You've resolved a question or chosen a direction | Add to `/.octon/instance/cognition/context/shared/decisions.md` |
+| **Decision made** | You've resolved a question or chosen a direction | Create or update an ADR in `/.octon/instance/cognition/decisions/` and regenerate the generated summary |
 | **Constraint discovered** | You've identified a non-negotiable requirement | Add to `/.octon/instance/cognition/context/shared/constraints.md` |
 | **Pattern identified** | You've found a reusable approach | Add to `/.octon/instance/cognition/context/shared/lessons.md` or create workflow |
 | **Term clarified** | You've defined domain vocabulary | Add to `/.octon/instance/cognition/context/shared/glossary.md` |
@@ -33,7 +33,7 @@ enough to act on.
 
 | Content Type | Destination | Format |
 |--------------|-------------|--------|
-| Finalized decisions + rationale | `/.octon/instance/cognition/context/shared/decisions.md` | Table row or section |
+| Durable design decisions + rationale | `/.octon/instance/cognition/decisions/` | ADR file + index update |
 | Non-negotiable constraints | `/.octon/instance/cognition/context/shared/constraints.md` | Table row or section |
 | Domain terminology | `/.octon/instance/cognition/context/shared/glossary.md` | Table row |
 | Lessons learned, anti-patterns | `/.octon/instance/cognition/context/shared/lessons.md` | Entry with context |
@@ -75,13 +75,23 @@ touch .octon/state/continuity/repo/next.md
 
 Follow the format conventions of the destination file:
 
-**For `/.octon/instance/cognition/context/shared/decisions.md`:**
+**For `/.octon/instance/cognition/decisions/`:**
 
 ```markdown
-| ID | Decision | Choice | Rationale | Date |
-|----|----------|--------|-----------|------|
-| D00X | [Topic] | [Choice] | [Why] | YYYY-MM-DD |
+# ADR-XXX: [Decision Title]
+
+## Context
+[Why this decision is needed]
+
+## Decision
+[What was chosen]
+
+## Consequences
+[Key tradeoffs and impact]
 ```
+
+Then update `/.octon/instance/cognition/decisions/index.yml` and regenerate
+`/.octon/generated/cognition/summaries/decisions.md`.
 
 **For `/.octon/instance/cognition/context/shared/constraints.md`:**
 
@@ -140,12 +150,20 @@ Maybe we should also consider...
 [more exploration]
 ```
 
-**After promotion (in `/.octon/instance/cognition/context/shared/decisions.md`):**
+**After promotion (in `/.octon/instance/cognition/decisions/`):**
 
 ```markdown
-| ID | Decision | Choice | Rationale | Date |
-|----|----------|--------|-----------|------|
-| D005 | Authentication strategy | Session-based | Redis already in use; aligns with security team; sessions are revocable | 2025-01-04 |
+# ADR-XXX: Authentication Strategy
+
+## Context
+JWT and session-based approaches were evaluated for the new service.
+
+## Decision
+Use session-based authentication.
+
+## Consequences
+Redis stays in the request path, but sessions remain revocable and align with
+security-team expectations.
 ```
 
 ---

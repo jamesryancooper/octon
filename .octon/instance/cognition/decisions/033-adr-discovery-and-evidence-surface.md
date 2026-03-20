@@ -52,3 +52,26 @@ This decision does not convert ADRs to per-decision directories.
 - Add harness guardrails requiring `decisions/index.yml` and the
   decision-evidence bundle contract when bundles are present.
 - Update runtime/output READMEs to document canonical placement.
+
+## Addendum 2026-03-20
+
+ADR 055 supersedes the decision-summary placement portion of this ADR.
+
+The following ADR 033 rules remain in force:
+
+- ADR files remain the canonical decision SSOT under
+  `/.octon/instance/cognition/decisions/<NNN>-<slug>.md`
+- `/.octon/instance/cognition/decisions/index.yml` remains the canonical ADR
+  discovery index
+- optional decision evidence bundles remain under
+  `/.octon/state/evidence/decisions/repo/reports/<NNN>-<slug>/`
+
+The readable generated ADR summary no longer lives under
+`/.octon/instance/cognition/context/shared/decisions.md`.
+
+Effective summary placement is now:
+
+- `/.octon/generated/cognition/summaries/decisions.md`
+
+The instance-local generated summary path is retired and must not exist after
+the Packet 11 cutover.

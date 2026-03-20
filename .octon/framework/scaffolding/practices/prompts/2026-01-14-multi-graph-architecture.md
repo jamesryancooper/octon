@@ -192,7 +192,7 @@ Examples:
         "status": "accepted"
       },
       "meta": {
-        "source": "/.octon/instance/cognition/context/shared/decisions.md"
+        "source": "/.octon/generated/cognition/summaries/decisions.md"
       }
     }
   },
@@ -211,7 +211,7 @@ Examples:
 {
   "generated_at": "2026-01-14T10:30:00Z",
   "sources": {
-    "/.octon/instance/cognition/context/shared/decisions.md": {
+    "/.octon/generated/cognition/summaries/decisions.md": {
       "hash": "a1b2c3d4e5f6",
       "mtime": "2026-01-14T09:00:00Z"
     },

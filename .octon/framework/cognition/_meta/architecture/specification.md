@@ -159,6 +159,8 @@ for runtime, governance, and practices.
   `/.octon/generated/effective/capabilities/`
 - effective extension outputs: `/.octon/generated/effective/extensions/`
 - derived cognition outputs: `/.octon/generated/cognition/`
+- readable decision summary:
+  `/.octon/generated/cognition/summaries/decisions.md`
 - repo context and ADRs: `/.octon/instance/cognition/`
 - repo missions: `/.octon/instance/orchestration/missions/`
 - export runner: `/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh`

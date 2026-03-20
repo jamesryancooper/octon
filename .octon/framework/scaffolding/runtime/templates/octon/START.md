@@ -96,6 +96,7 @@ Subdirectories: `inbox/` (staging), `archive/` (deprecated).
 - Check `state/continuity/repo/tasks.json` for blocked items
 - Check `state/continuity/scopes/<scope-id>/tasks.json` when the work is primarily scope-bound
 - Check `instance/cognition/context/shared/lessons.md` for anti-patterns to avoid
-- Check `instance/cognition/context/shared/decisions.md` for relevant past decisions
+- Check `instance/cognition/decisions/index.yml` and the linked ADRs for
+  relevant past decisions
 - Review repo-root context and adjacent domain docs for patterns
 - Document blocker in `state/continuity/repo/log.md` and stop

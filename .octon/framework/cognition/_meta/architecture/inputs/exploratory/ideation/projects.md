@@ -17,7 +17,7 @@ A project is a **scaled-down harness** for human-led exploration:
 |---------------------|----------------------------|
 | `scope.md` | `project.md` (Goal, Scope, Questions) |
 | `/.octon/state/continuity/repo/log.md` | `log.md` (Session notes) |
-| `/.octon/instance/cognition/context/shared/decisions.md` | Findings Summary in `project.md` |
+| `/.octon/instance/cognition/decisions/` | Findings Summary in `project.md` |
 | `/.octon/state/continuity/repo/tasks.json` | Key Questions in `project.md` |
 
 Projects provide structure for investigations that:
@@ -62,6 +62,7 @@ ideation/projects/              Committed research (produces artifacts)
 orchestration/missions/         Committed execution (ships deliverables)
         ↓
 instance/cognition/context/shared/              Permanent harness knowledge
+generated/cognition/summaries/                  Derived readable summaries
 ```
 
 Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `context/` directly or spawn `missions/`.
@@ -129,7 +130,7 @@ The `registry.md` tracks all projects in three tables:
 
 | Project | Goal | Completed | Outcomes |
 |---------|------|-----------|----------|
-| api-design | Design v2 API structure | 2025-01-05 | /.octon/instance/cognition/context/shared/decisions.md, mission created |
+| api-design | Design v2 API structure | 2025-01-05 | /.octon/instance/cognition/decisions/, generated summary refreshed, mission created |
 ```
 
 ---
@@ -170,7 +171,7 @@ last_activity: YYYY-MM-DD
 ## Outputs
 
 When this research matures, findings should go to:
-- [ ] `/.octon/instance/cognition/context/shared/decisions.md` — Design decisions made
+- [ ] `/.octon/instance/cognition/decisions/` — Durable design decisions recorded
 - [ ] `/.octon/instance/cognition/context/shared/lessons.md` — Anti-patterns discovered
 - [ ] `/.octon/instance/cognition/context/shared/glossary.md` — New terminology defined
 - [ ] Create mission — If actionable work identified
@@ -342,7 +343,7 @@ Projects should consume harness context as research inputs:
 | Resource | How It Helps |
 |----------|--------------|
 | `/.octon/instance/cognition/context/shared/glossary.md` | Understand domain terminology |
-| `/.octon/instance/cognition/context/shared/decisions.md` | Know existing decisions to build on |
+| `/.octon/generated/cognition/summaries/decisions.md` | Know existing decisions to build on |
 | `/.octon/instance/cognition/context/shared/lessons.md` | Avoid known anti-patterns |
 | `/.octon/instance/cognition/context/shared/constraints.md` | Respect non-negotiable boundaries |
 
@@ -353,7 +354,8 @@ Projects should consume harness context as research inputs:
 When findings are ready:
 
 1. **Summarize findings** in `project.md` Findings Summary section
-2. **Publish to harness** — update relevant `context/` files directly
+2. **Publish to harness** — update the relevant durable harness surfaces
+   directly
 3. **Spawn missions** if actionable work was identified
 4. **Move registry entry** from **Active** to **Completed**
 5. **Note outcomes** — what was published and where
@@ -376,7 +378,7 @@ When work needs to pause:
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `/.octon/instance/cognition/context/shared/decisions.md` |
+| Design decisions | `/.octon/instance/cognition/decisions/` |
 | Anti-patterns discovered | `/.octon/instance/cognition/context/shared/lessons.md` |
 | New terminology | `/.octon/instance/cognition/context/shared/glossary.md` |
 | Actionable work identified | Create mission in `orchestration/missions/` |
@@ -424,7 +426,7 @@ Evaluate authentication library options for the new user service.
 3. What are the security tradeoffs?
 
 ## Outputs
-- [x] `/.octon/instance/cognition/context/shared/decisions.md` — Library selection
+- [x] `/.octon/instance/cognition/decisions/` — Library selection
 - [ ] `/.octon/instance/cognition/context/shared/lessons.md` — Security pitfalls found
 - [ ] Create mission — Implementation work
 

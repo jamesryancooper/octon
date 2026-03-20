@@ -643,7 +643,6 @@ continuity_patterns:
   - "**//.octon/state/continuity/repo/log.md"
   - "**/continuity/*.md"
   - "**/decisions/*.md"
-  - "**//.octon/instance/cognition/context/shared/decisions.md"
   - "**/CHANGELOG.md"
   - "**/HISTORY.md"
   - "**/.history/**"
@@ -854,7 +853,7 @@ Operational artifacts use the categorical `{{category}}/{{skill-id}}/` pattern:
 
 ## Live Ruleset Pattern (`external-dependent`)
 
-**Decision:** [D040](/.octon/instance/cognition/context/shared/decisions.md) — Skills can fetch rule sets from external URLs at runtime using the `external-dependent` capability. This keeps audits current without harness updates, at the cost of requiring network access.
+**Decision:** [D040](/.octon/generated/cognition/summaries/decisions.md) — Skills can fetch rule sets from external URLs at runtime using the `external-dependent` capability. This keeps audits current without harness updates, at the cost of requiring network access.
 
 **Canonical example:** [`audit-ui`](/.octon/framework/capabilities/runtime/skills/audit/audit-ui/SKILL.md) — fetches web design guidelines from an external URL, scans UI files, and reports violations.
 

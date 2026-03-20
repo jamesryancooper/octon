@@ -144,6 +144,36 @@ check_wrong_class_placements() {
   fi
 }
 
+check_retired_generated_summary_absent() {
+  local retired_summary="$INSTANCE_DIR/cognition/context/shared/decisions.md"
+  if [[ -e "$retired_summary" ]]; then
+    fail "retired generated decisions summary still exists under instance/**"
+  fi
+
+  local generated_decision_summaries=""
+  generated_decision_summaries="$(
+    find "$INSTANCE_DIR" -type f -name '*.md' -print0 | while IFS= read -r -d '' file; do
+      if [[ "$file" == "$retired_summary" ]]; then
+        continue
+      fi
+      if grep -Eq '^title:[[:space:]]*Decisions$' "$file" \
+        && grep -Eq '^mutability:[[:space:]]*generated$' "$file" \
+        && grep -Eq '/\.octon/instance/cognition/decisions/index\.yml|/\.octon/instance/cognition/decisions/\*\.md' "$file"; then
+        printf '%s\n' "$file"
+      fi
+    done | sort
+  )"
+
+  if [[ -n "$generated_decision_summaries" ]]; then
+    fail "generated decisions summary must not exist anywhere under instance/**"
+    printf '%s\n' "$generated_decision_summaries" | sed "s|$ROOT_DIR/||"
+  fi
+
+  if [[ ! -e "$retired_summary" && -z "$generated_decision_summaries" ]]; then
+    pass "generated decisions summary absent from instance/**"
+  fi
+}
+
 check_locality_scope_contract() {
   local scope_manifest_count
   scope_manifest_count="$(find "$INSTANCE_DIR/locality/scopes" -type f -name 'scope.yml' ! -path '*/_scaffold/*' | wc -l | tr -d ' ')"
@@ -192,7 +222,7 @@ check_active_reference_drift() {
   drift="$(
     rg -n -P --no-heading \
       --glob '!**/migrations/**' \
-      '(?<!framework/)(?<!instance/)cognition/runtime/context/|(?<!framework/)(?<!instance/)cognition/runtime/decisions/|(?<!state/)continuity/(log\.md|tasks\.json|entities\.json|next\.md)|(?<!framework/)(?<!instance/)orchestration/runtime/missions/' \
+      '(?<!framework/)(?<!instance/)cognition/runtime/context/|(?<!framework/)(?<!instance/)cognition/runtime/decisions/|(?<!state/)continuity/(log\.md|tasks\.json|entities\.json|next\.md)|(?<!framework/)(?<!instance/)orchestration/runtime/missions/|instance/cognition/context/shared/decisions\.md' \
       "${existing[@]}" 2>/dev/null || true
   )"
 
@@ -250,6 +280,7 @@ main() {
   check_enabled_overlay_roots
   check_overlay_domain_shape
   check_wrong_class_placements
+  check_retired_generated_summary_absent
   check_locality_scope_contract
   check_active_reference_drift
   check_native_collision_risk

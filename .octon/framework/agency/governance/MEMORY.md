@@ -23,9 +23,15 @@ description: Cross-agent memory classes, retention boundaries, and privacy contr
 ## Retention and Placement
 
 - Session memory: do not persist unless explicitly needed for continuity.
-- Operational memory: persist only in designated documentation locations.
-- Decision memory: persist in approved append-only decision artifacts.
-- Run evidence memory: persist in continuity run-evidence paths and follow declared retention classes.
+- Operational memory: persist only in designated durable context locations,
+  primarily `/.octon/instance/cognition/context/**`.
+- Decision memory: persist in approved append-only ADR artifacts under
+  `/.octon/instance/cognition/decisions/**`.
+- Readable generated decision summaries may exist under
+  `/.octon/generated/cognition/summaries/**`, but they remain derived and do
+  not replace ADR authority.
+- Run evidence memory: persist in `/.octon/state/evidence/runs/**` and follow
+  declared retention classes.
 - Sensitive memory: do not persist outside authorized secure systems.
 
 For profile-governed work, run evidence memory MUST include:

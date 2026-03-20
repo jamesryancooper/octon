@@ -336,7 +336,8 @@ instance/cognition/context/shared/      → Permanent knowledge
 | Ideas worth exploring | `ideation/scratchpad/brainstorm/` | Graduate to projects or kill |
 | Committed research | `ideation/projects/<slug>/` | Until findings published |
 | Deprecated content | `ideation/scratchpad/archive/` | Permanent reference |
-| Finalized decisions | `instance/cognition/context/shared/decisions.md` | Permanent |
+| Durable architecture decisions | `instance/cognition/decisions/` | Permanent |
+| ADR discovery index | `instance/cognition/decisions/index.yml` | Permanent |
 | Constraints, non-negotiables | `instance/cognition/context/shared/constraints.md` | Permanent |
 | Next actions | `state/continuity/repo/next.md` | Active |
 | Harness terminology | `instance/cognition/context/shared/glossary.md` | Reference |
@@ -351,6 +352,7 @@ instance/cognition/context/shared/      → Permanent knowledge
 
 - Check `state/continuity/repo/tasks.json` for blocked items and their blockers
 - Check `instance/cognition/context/shared/lessons.md` for anti-patterns to avoid
-- Check `instance/cognition/context/shared/decisions.md` for relevant past decisions
+- Check `instance/cognition/decisions/index.yml` and the linked ADRs for
+  relevant past decisions
 - Review `scaffolding/practices/prompts/` for relevant task templates
 - If truly blocked, document the blocker in `state/continuity/repo/log.md` and stop

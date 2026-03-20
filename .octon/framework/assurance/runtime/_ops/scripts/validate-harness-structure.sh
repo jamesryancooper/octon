@@ -205,6 +205,12 @@ require_dir "$OCTON_DIR/generated/cognition"
 require_dir "$OCTON_DIR/generated/proposals"
 require_file "$OCTON_DIR/generated/proposals/registry.yml"
 
+if [[ -e "$OCTON_DIR/instance/cognition/context/shared/decisions.md" ]]; then
+  fail "retired generated decisions summary still exists: .octon/instance/cognition/context/shared/decisions.md"
+else
+  pass "retired instance-local generated decisions summary removed"
+fi
+
 unexpected_octon_entries=()
 while IFS= read -r entry; do
   rel="${entry#$OCTON_DIR/}"

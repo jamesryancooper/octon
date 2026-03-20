@@ -123,3 +123,7 @@ records:
     path: 2026-03-20-inputs-additive-extensions-cutover/plan.md
     adr: ../decisions/054-inputs-additive-extensions-atomic-cutover.md
     evidence: /.octon/state/evidence/migration/2026-03-20-inputs-additive-extensions-cutover/evidence.md
+  - id: 2026-03-20-memory-routing-and-decision-surfaces-cutover
+    path: 2026-03-20-memory-routing-and-decision-surfaces-cutover/plan.md
+    adr: ../decisions/055-memory-routing-and-decision-surfaces-atomic-cutover.md
+    evidence: /.octon/state/evidence/migration/2026-03-20-memory-routing-and-decision-surfaces-cutover/evidence.md

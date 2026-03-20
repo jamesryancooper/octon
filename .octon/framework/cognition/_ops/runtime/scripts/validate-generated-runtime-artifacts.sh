@@ -88,28 +88,50 @@ check_sorted_and_unique() {
 }
 
 check_decisions_summary_contract() {
-  local summary="$INSTANCE_COGNITION_SHARED_DIR/decisions.md"
   local generated_summary="$OCTON_DIR/generated/cognition/summaries/decisions.md"
-  if [[ ! -f "$summary" ]]; then
-    fail "missing generated decisions summary: .octon/instance/cognition/context/shared/decisions.md"
-    return
+  local retired_summary="$INSTANCE_COGNITION_SHARED_DIR/decisions.md"
+  if [[ -e "$retired_summary" ]]; then
+    fail "retired generated decisions summary must not exist: .octon/instance/cognition/context/shared/decisions.md"
   fi
 
-  if matches_pattern '^mutability:[[:space:]]*generated$' "$summary"; then
-    pass "decisions summary mutability contract is generated"
-  else
-    fail "decisions summary must declare mutability: generated"
+  local offending_summaries=""
+  offending_summaries="$(
+    find "$INSTANCE_COGNITION_DIR" -type f -name '*.md' -print0 | while IFS= read -r -d '' file; do
+      if [[ "$file" == "$retired_summary" ]]; then
+        continue
+      fi
+      if matches_pattern '^title:[[:space:]]*Decisions$' "$file" \
+        && matches_pattern '^mutability:[[:space:]]*generated$' "$file" \
+        && matches_pattern '/\.octon/instance/cognition/decisions/index\.yml|/\.octon/instance/cognition/decisions/\*\.md' "$file"; then
+        printf '%s\n' "$file"
+      fi
+    done | sort
+  )"
+
+  if [[ -n "$offending_summaries" ]]; then
+    fail "generated decisions summary must not exist anywhere under instance/**"
+    printf '%s\n' "$offending_summaries" | sed "s|$OCTON_DIR/|.octon/|"
   fi
 
-  if matches_pattern '^generated_from:' "$summary"; then
-    pass "decisions summary generated_from contract present"
-  else
-    fail "decisions summary missing generated_from contract"
+  if [[ ! -e "$retired_summary" && -z "$offending_summaries" ]]; then
+    pass "generated decisions summary absent from instance/**"
   fi
 
   if [[ ! -f "$generated_summary" ]]; then
     fail "missing generated cognition decisions summary: .octon/generated/cognition/summaries/decisions.md"
     return
+  fi
+
+  if matches_pattern '^mutability:[[:space:]]*generated$' "$generated_summary"; then
+    pass "generated cognition decisions summary mutability contract is generated"
+  else
+    fail "generated cognition decisions summary must declare mutability: generated"
+  fi
+
+  if matches_pattern '^generated_from:' "$generated_summary"; then
+    pass "generated cognition decisions summary generated_from contract present"
+  else
+    fail "generated cognition decisions summary missing generated_from contract"
   fi
 
   if matches_pattern '^generated_at:' "$generated_summary"; then
@@ -122,6 +144,12 @@ check_decisions_summary_contract() {
     pass "generated cognition decisions summary generator_version present"
   else
     fail "generated cognition decisions summary missing generator_version"
+  fi
+
+  if matches_pattern '`/\.octon/instance/cognition/decisions/' "$generated_summary"; then
+    pass "generated cognition decisions summary paths point to canonical ADR authority"
+  else
+    fail "generated cognition decisions summary must point to /.octon/instance/cognition/decisions/**"
   fi
 }
 

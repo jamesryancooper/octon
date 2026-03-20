@@ -233,7 +233,7 @@ In Octon harnesses, each type of knowledge has a designated home:
 | Conventions | `conventions.md` | Linter rules |
 | Available commands | `catalog.md` | — |
 | Task state | `/.octon/state/continuity/repo/tasks.json` | `/.octon/state/continuity/repo/log.md` entries |
-| Decisions | `/.octon/instance/cognition/context/shared/decisions.md` | ADR references |
+| Decisions | `/.octon/instance/cognition/decisions/` | `/.octon/generated/cognition/summaries/decisions.md` |
 | Skills | `SKILL.md` | Manifest entries |
 
 ## Enforcement Mechanisms

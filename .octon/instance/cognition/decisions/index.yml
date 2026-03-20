@@ -111,3 +111,5 @@ records:
     path: 053-root-manifest-profiles-and-export-semantics-atomic-cutover.md
   - id: 054-inputs-additive-extensions-atomic-cutover
     path: 054-inputs-additive-extensions-atomic-cutover.md
+  - id: 055-memory-routing-and-decision-surfaces-atomic-cutover
+    path: 055-memory-routing-and-decision-surfaces-atomic-cutover.md

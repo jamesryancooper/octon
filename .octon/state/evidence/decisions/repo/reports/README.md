@@ -15,4 +15,4 @@ Optional decision-specific evidence bundles live here.
 - Canonical ADR records (append-only) live in:
   - `/.octon/instance/cognition/decisions/`
 - Canonical decision summary table lives in:
-  - `/.octon/instance/cognition/context/shared/decisions.md`
+  - `/.octon/generated/cognition/summaries/decisions.md`

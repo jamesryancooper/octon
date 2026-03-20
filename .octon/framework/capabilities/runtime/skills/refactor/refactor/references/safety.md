@@ -74,7 +74,6 @@ continuity_patterns:
   - "**//.octon/state/continuity/repo/log.md"
   - "**/continuity/*.md"
   - "**/decisions/*.md"
-  - "**//.octon/instance/cognition/context/shared/decisions.md"
   - "**/CHANGELOG.md"
   - "**/HISTORY.md"
   - "**/.history/**"

@@ -12,8 +12,8 @@ Intent-first routing map across cognition runtime, governance, and practices.
 
 | Intent | Primary Entrypoint | Companion Paths |
 |---|---|---|
-| Find constraints or operational context before work | `/.octon/instance/cognition/context/index.yml` | `/.octon/instance/cognition/context/shared/constraints.md`, `/.octon/instance/cognition/context/shared/decisions.md` |
-| Review or add architecture decisions | `/.octon/instance/cognition/decisions/index.yml` | `/.octon/instance/cognition/context/shared/decisions.md`, `/.octon/framework/cognition/runtime/evidence/index.yml` |
+| Find constraints or operational context before work | `/.octon/instance/cognition/context/index.yml` | `/.octon/instance/cognition/context/shared/constraints.md`, `/.octon/instance/cognition/decisions/README.md` |
+| Review or add architecture decisions | `/.octon/instance/cognition/decisions/index.yml` | `/.octon/instance/cognition/decisions/README.md`, `/.octon/framework/cognition/runtime/evidence/index.yml` |
 | Plan or audit migration records | `/.octon/instance/cognition/context/shared/migrations/index.yml` | `/.octon/framework/cognition/practices/methodology/migrations/README.md`, `/.octon/framework/cognition/runtime/evidence/index.yml` |
 | Generate weekly scorecard digest | `/.octon/framework/cognition/runtime/evaluations/digests/index.yml` | `/.octon/instance/cognition/context/shared/metrics-scorecard.md`, `/.octon/framework/cognition/practices/operations/weekly-evaluations.md` |
 | Track remediation actions from evaluations | `/.octon/framework/cognition/runtime/evaluations/actions/index.yml` | `/.octon/framework/cognition/runtime/evaluations/actions/open-actions.yml`, `/.octon/framework/cognition/practices/operations/weekly-evaluations.md` |

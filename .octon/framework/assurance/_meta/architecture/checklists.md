@@ -84,7 +84,9 @@ Steps to complete before ending a session, context reset, or handoff.
 ## Conditional Steps
 
 ### If a decision was made
-- [ ] Add to `/.octon/instance/cognition/context/shared/decisions.md`
+- [ ] Add or update an ADR in `/.octon/instance/cognition/decisions/`
+- [ ] Update `/.octon/instance/cognition/decisions/index.yml`
+- [ ] Regenerate `/.octon/generated/cognition/summaries/decisions.md`
 
 ### If something failed
 - [ ] Add to `/.octon/instance/cognition/context/shared/lessons.md`
