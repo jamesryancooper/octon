@@ -1,6 +1,6 @@
 ---
 name: "export-harness"
-description: "Materialize repo_snapshot or pack_bundle exports from the v2 root-manifest profile contract and fail closed unless repo_snapshot has a clean published enabled-pack closure and all exported packs satisfy the Packet 13 pack contract."
+description: "Materialize repo_snapshot or pack_bundle exports from the v2 root-manifest profile contract and fail closed unless repo_snapshot has a clean published enabled-pack closure and exported packs satisfy the Packet 13 pack contract."
 steps:
   - id: "validate-request"
     file: "stages/01-validate-request.md"
@@ -28,7 +28,7 @@ _Generated README from canonical workflow `export-harness`._
 
 ## Purpose
 
-Materialize repo_snapshot or pack_bundle exports from the v2 root-manifest profile contract and fail closed unless repo_snapshot has a clean published enabled-pack closure and exported packs satisfy the Packet 13 compatibility and provenance contract.
+Materialize repo_snapshot or pack_bundle exports from the v2 root-manifest profile contract and fail closed unless repo_snapshot has a clean published enabled-pack closure and exported packs satisfy the Packet 13 pack contract.
 
 ## Target
 
