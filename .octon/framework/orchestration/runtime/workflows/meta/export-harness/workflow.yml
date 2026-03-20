@@ -1,6 +1,6 @@
 schema_version: "workflow-contract-v1"
 name: "export-harness"
-description: "Materialize repo_snapshot or pack_bundle exports from the v2 root-manifest profile contract and fail closed unless repo_snapshot has a clean published enabled-pack closure."
+description: "Materialize repo_snapshot or pack_bundle exports from the v2 root-manifest profile contract and fail closed unless repo_snapshot has a clean published enabled-pack closure and exported packs satisfy the Packet 13 pack contract."
 version: "1.0.0"
 entry_mode: "human"
 execution_profile: "core"
@@ -70,7 +70,8 @@ done_gate:
     - "export root exists at <output_dir>/.octon/"
     - "export.receipt.yml exists at <output_dir>/"
     - "repo_snapshot exports octon.yml, framework/**, instance/**, and the clean published enabled-pack dependency closure only"
-    - "pack_bundle exports only selected packs plus dependency closure"
+    - "pack_bundle exports only selected packs plus dependency closure and remains trust-agnostic"
+    - "exported pack payloads satisfy `octon-extension-pack-v3`"
 constraints:
   fail_closed: true
   forbid_design_packages: true
