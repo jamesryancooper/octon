@@ -11,7 +11,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-extension-quarantine-state-v2"
+      "const": "octon-extension-quarantine-state-v3"
     },
     "updated_at": {
       "type": "string",
@@ -58,6 +58,9 @@
               "string",
               "null"
             ]
+          },
+          "publication_blocking": {
+            "type": "boolean"
           }
         }
       }

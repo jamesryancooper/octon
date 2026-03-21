@@ -69,9 +69,9 @@ main() {
   require_yaml_file "$ARTIFACT_MAP_FILE"
   require_yaml_file "$GENERATION_LOCK_FILE"
 
-  [[ "$(yq -r '.schema_version // ""' "$ROUTING_FILE")" == "octon-capability-routing-effective-v2" ]] && pass "routing schema version valid" || fail "routing schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$ARTIFACT_MAP_FILE")" == "octon-capability-routing-artifact-map-v2" ]] && pass "artifact map schema version valid" || fail "artifact map schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$GENERATION_LOCK_FILE")" == "octon-capability-routing-generation-lock-v2" ]] && pass "generation lock schema version valid" || fail "generation lock schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$ROUTING_FILE")" == "octon-capability-routing-effective-v3" ]] && pass "routing schema version valid" || fail "routing schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$ARTIFACT_MAP_FILE")" == "octon-capability-routing-artifact-map-v3" ]] && pass "artifact map schema version valid" || fail "artifact map schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$GENERATION_LOCK_FILE")" == "octon-capability-routing-generation-lock-v3" ]] && pass "generation lock schema version valid" || fail "generation lock schema_version invalid"
 
   local expected_generator_version
   expected_generator_version="$(yq -r '.versioning.harness.release_version // ""' "$ROOT_MANIFEST")"
@@ -85,7 +85,43 @@ main() {
   [[ -n "$generation_id" ]] && pass "routing generation_id declared" || fail "routing generation_id missing"
   [[ "$(yq -r '.generation_id // ""' "$ARTIFACT_MAP_FILE")" == "$generation_id" ]] && pass "artifact map generation_id matches routing" || fail "artifact map generation_id mismatch"
   [[ "$(yq -r '.generation_id // ""' "$GENERATION_LOCK_FILE")" == "$generation_id" ]] && pass "generation lock generation_id matches routing" || fail "generation lock generation_id mismatch"
-  [[ "$(yq -r '.publication_status // ""' "$ROUTING_FILE")" == "published" ]] && pass "routing publication_status valid" || fail "routing publication_status invalid"
+  local routing_status locality_status extensions_status receipt_rel receipt_abs receipt_sha
+  routing_status="$(yq -r '.publication_status // ""' "$ROUTING_FILE")"
+  locality_status="$(yq -r '.routing_context.locality_publication_status // ""' "$ROUTING_FILE")"
+  extensions_status="$(yq -r '.routing_context.extension_publication_status // ""' "$ROUTING_FILE")"
+  case "$routing_status" in
+    published|published_with_quarantine)
+      pass "routing publication_status valid"
+      ;;
+    *)
+      fail "routing publication_status invalid"
+      ;;
+  esac
+  if [[ "$locality_status" == "published" && "$extensions_status" == "published" && "$routing_status" == "published" ]]; then
+    pass "routing publication status matches clean upstream state"
+  elif [[ "$routing_status" == "published_with_quarantine" && ( "$locality_status" != "published" || "$extensions_status" != "published" ) ]]; then
+    pass "routing publication status matches degraded upstream state"
+  else
+    fail "routing publication status does not match upstream locality/extensions state"
+  fi
+  receipt_rel="$(yq -r '.publication_receipt_path // ""' "$ROUTING_FILE")"
+  receipt_abs="$ROOT_DIR/$receipt_rel"
+  [[ -n "$receipt_rel" ]] && pass "routing publication receipt path declared" || fail "routing publication receipt path missing"
+  if [[ -f "$receipt_abs" ]]; then
+    pass "routing publication receipt file exists"
+    yq -e '.' "$receipt_abs" >/dev/null 2>&1 && pass "routing publication receipt parses as YAML" || fail "routing publication receipt must parse as YAML"
+  else
+    fail "routing publication receipt file missing"
+  fi
+  [[ "$(yq -r '.schema_version // ""' "$receipt_abs" 2>/dev/null)" == "octon-validation-publication-receipt-v1" ]] && pass "routing publication receipt schema version valid" || fail "routing publication receipt schema version invalid"
+  [[ "$(yq -r '.publication_family // ""' "$receipt_abs" 2>/dev/null)" == "capabilities" ]] && pass "routing publication receipt family valid" || fail "routing publication receipt family invalid"
+  [[ "$(yq -r '.generation_id // ""' "$receipt_abs" 2>/dev/null)" == "$generation_id" ]] && pass "routing publication receipt generation id matches" || fail "routing publication receipt generation id mismatch"
+  [[ "$(yq -r '.result // ""' "$receipt_abs" 2>/dev/null)" == "$routing_status" ]] && pass "routing publication receipt result matches" || fail "routing publication receipt result mismatch"
+  yq -e '.contract_refs | length > 0' "$receipt_abs" >/dev/null 2>&1 && pass "routing publication receipt contract refs declared" || fail "routing publication receipt contract refs missing"
+  receipt_sha="$(hash_file "$receipt_abs")"
+  [[ "$(yq -r '.publication_receipt_path // ""' "$GENERATION_LOCK_FILE")" == "$receipt_rel" ]] && pass "generation lock receipt path matches routing" || fail "generation lock receipt path mismatch"
+  [[ "$(yq -r '.publication_receipt_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$receipt_sha" ]] && pass "generation lock receipt hash current" || fail "generation lock receipt hash stale"
+  [[ "$(yq -r '.publication_status // ""' "$GENERATION_LOCK_FILE")" == "$routing_status" ]] && pass "generation lock publication status matches routing" || fail "generation lock publication status mismatch"
 
   local root_sha commands_sha skills_sha skills_registry_sha services_sha tools_sha instance_commands_sha instance_skills_sha locality_scopes_sha locality_lock_sha locality_generation_id extensions_sha extensions_lock_sha extensions_generation_id
   root_sha="$(hash_file "$ROOT_MANIFEST")"
@@ -210,6 +246,20 @@ main() {
     fail "capability publication must not embed raw inputs/** paths"
   else
     pass "capability publication avoids raw inputs/** paths"
+  fi
+
+  if yq -e '.invalidation_conditions | length > 0' "$ROUTING_FILE" >/dev/null 2>&1 \
+    && yq -e '.invalidation_conditions | length > 0' "$GENERATION_LOCK_FILE" >/dev/null 2>&1; then
+    pass "capability publication family declares invalidation conditions"
+  else
+    fail "capability publication family must declare invalidation conditions"
+  fi
+
+  if yq -e '.required_inputs[]? | select(. == ".octon/generated/effective/locality/generation.lock.yml")' "$GENERATION_LOCK_FILE" >/dev/null 2>&1 \
+    && yq -e '.required_inputs[]? | select(. == ".octon/generated/effective/extensions/generation.lock.yml")' "$GENERATION_LOCK_FILE" >/dev/null 2>&1; then
+    pass "generation lock required inputs include effective upstream locks"
+  else
+    fail "generation lock required inputs missing effective upstream locks"
   fi
 
   echo "Validation summary: errors=$errors"

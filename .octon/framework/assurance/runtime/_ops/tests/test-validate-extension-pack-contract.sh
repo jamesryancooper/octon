@@ -66,7 +66,7 @@ case_supported_required_contracts_pass() {
   copy_packet2_runtime_scripts "$fixture_root"
   write_valid_packet2_fixture "$fixture_root"
 
-  perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v3"/' \
+  perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v4"/' \
     "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
 
   run_validator "$fixture_root"
@@ -79,7 +79,7 @@ case_required_contracts_follow_live_schema_versions() {
   copy_packet2_runtime_scripts "$fixture_root"
   write_valid_packet2_fixture "$fixture_root"
 
-  perl -0pi -e 's/schema_version: "octon-extension-effective-catalog-v3"/schema_version: "octon-extension-effective-catalog-v9"/' \
+  perl -0pi -e 's/schema_version: "octon-extension-effective-catalog-v4"/schema_version: "octon-extension-effective-catalog-v9"/' \
     "$fixture_root/.octon/generated/effective/extensions/catalog.effective.yml"
   perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v9"/' \
     "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"

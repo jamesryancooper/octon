@@ -1,4 +1,4 @@
-schema_version: "octon-capability-routing-artifact-map-v2"
+schema_version: "octon-capability-routing-artifact-map-v3"
 generator_version: ""
 generation_id: "capabilities-bootstrap-placeholder"
 published_at: "1970-01-01T00:00:00Z"

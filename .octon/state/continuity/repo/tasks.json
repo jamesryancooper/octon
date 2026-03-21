@@ -247,6 +247,18 @@
       "description": "Implement the Packet 13 portability, compatibility, trust, and provenance atomic clear-break cutover",
       "status": "completed",
       "completed_at": "2026-03-20"
+    },
+    {
+      "id": "packet-14-validation-fail-closed-quarantine-staleness-atomic-cutover",
+      "description": "Implement the Packet 14 validation, fail-closed, quarantine, and staleness atomic clear-break cutover",
+      "status": "completed",
+      "completed_at": "2026-03-20"
+    },
+    {
+      "id": "archive-packet-14-validation-fail-closed-quarantine-staleness-proposal",
+      "description": "Archive the implemented Packet 14 validation, fail-closed, quarantine, and staleness proposal package",
+      "status": "completed",
+      "completed_at": "2026-03-20"
     }
   ]
 }

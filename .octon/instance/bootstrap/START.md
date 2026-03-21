@@ -153,9 +153,11 @@ Canonical locality resolution and publication surfaces are:
 - `instance/cognition/context/scopes/<scope-id>/**`
 - `state/continuity/scopes/<scope-id>/**`
 - `state/control/locality/quarantine.yml`
+- `state/evidence/validation/publication/locality/**`
 - `generated/effective/locality/scopes.effective.yml`
 - `generated/effective/locality/artifact-map.yml`
 - `generated/effective/locality/generation.lock.yml`
+- `state/evidence/validation/publication/capabilities/**`
 - `generated/effective/capabilities/routing.effective.yml`
 - `generated/effective/capabilities/artifact-map.yml`
 - `generated/effective/capabilities/generation.lock.yml`
@@ -169,6 +171,7 @@ Extension activation uses one desired/actual/quarantine/compiled model:
 - desired config: `instance/extensions.yml`
 - actual active state: `state/control/extensions/active.yml`
 - quarantine state: `state/control/extensions/quarantine.yml`
+- publication receipts: `state/evidence/validation/publication/extensions/**`
 - runtime-facing compiled outputs: `generated/effective/extensions/**`
 - runtime-facing capability routing: `generated/effective/capabilities/**`
 - derived cognition read models: `generated/cognition/**`
@@ -193,6 +196,8 @@ Generated-family rules in v1:
 - runtime-facing publication lives only under `generated/effective/**`
 - derived cognition outputs live only under `generated/cognition/**`
 - retained validation and assurance evidence lives under `state/evidence/**`
+- machine-readable publication receipts live under
+  `state/evidence/validation/publication/**`
 - `generated/artifacts/**`, `generated/assurance/**`, and
   `generated/effective/assurance/**` are not canonical Packet 10 families
 

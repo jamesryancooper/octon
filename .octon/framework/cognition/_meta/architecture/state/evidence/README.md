@@ -25,3 +25,4 @@
 - `../continuity/runs-retention.md`
 - `../continuity/decisions-retention.md`
 - `../control/README.md`
+- `./validation/README.md`

@@ -184,6 +184,54 @@ EOF
   ! run_export "$fixture_root" --profile repo_snapshot --output-dir "$fixture_root/out" >/dev/null 2>&1
 }
 
+case_repo_snapshot_quarantined_publication_fails() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  write_pack "$fixture_root" "third-party-pack" "third-party-imported" "third_party" "    []" "    []"
+
+  cat >"$fixture_root/.octon/instance/extensions.yml" <<'EOF'
+schema_version: "octon-instance-extensions-v2"
+selection:
+  enabled:
+    - pack_id: "docs"
+      source_id: "bundled-first-party"
+    - pack_id: "third-party-pack"
+      source_id: "third-party-imported"
+  disabled: []
+sources:
+  catalog:
+    bundled-first-party:
+      source_type: "internalized"
+      root: ".octon/inputs/additive/extensions"
+      allowed_origin_classes:
+        - "first_party_bundled"
+    first-party-imported:
+      source_type: "internalized"
+      root: ".octon/inputs/additive/extensions"
+      allowed_origin_classes:
+        - "first_party_external"
+    third-party-imported:
+      source_type: "internalized"
+      root: ".octon/inputs/additive/extensions"
+      allowed_origin_classes:
+        - "third_party"
+trust:
+  default_actions:
+    first_party_bundled: "allow"
+    first_party_external: "require_acknowledgement"
+    third_party: "deny"
+  source_overrides: {}
+  pack_overrides: {}
+acknowledgements: []
+EOF
+
+  ! run_export "$fixture_root" --profile repo_snapshot --output-dir "$fixture_root/out" >/dev/null 2>&1
+}
+
 case_repo_snapshot_incompatible_selected_pack_fails() {
   local fixture_root
   fixture_root="$(create_packet2_fixture_repo)"
@@ -364,6 +412,7 @@ main() {
   assert_success "repo_snapshot with empty enabled set exports only core payload" case_repo_snapshot_empty_enabled_exports_core_only
   assert_success "repo_snapshot fails when an enabled pack payload is missing" case_repo_snapshot_missing_enabled_pack_fails
   assert_success "repo_snapshot fails when an enabled pack requires acknowledgement" case_repo_snapshot_acknowledgement_required_pack_fails
+  assert_success "repo_snapshot fails when extension publication is quarantined" case_repo_snapshot_quarantined_publication_fails
   assert_success "repo_snapshot fails when an enabled pack is incompatible" case_repo_snapshot_incompatible_selected_pack_fails
   assert_success "pack_bundle exports selected packs plus dependency closure only" case_pack_bundle_includes_dependency_closure_only
   assert_success "pack_bundle exports raw packs even when repo trust would deny activation" case_pack_bundle_ignores_repo_trust_denial

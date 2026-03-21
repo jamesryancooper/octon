@@ -18,6 +18,9 @@ routing publication family.
 - `routing.effective.yml` carries `routing_context`, deterministic
   `resolution_order`, selector metadata, fingerprint metadata, host adapter
   metadata, and scope relevance metadata for each candidate.
+- Capability routing may publish with
+  `publication_status: published_with_quarantine` when locality or extension
+  inputs are coherent but degraded.
 - `filesystem-snapshots/**` is support data only and not the canonical routing
   publication surface.
 - Stale or invalid routing publication fails closed.

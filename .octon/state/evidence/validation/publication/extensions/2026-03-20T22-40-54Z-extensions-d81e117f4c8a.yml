@@ -1,0 +1,19 @@
+schema_version: "octon-validation-publication-receipt-v1"
+receipt_id: "extensions-2026-03-20T22-40-54Z-extensions-d81e117f4c8a"
+publication_family: "extensions"
+generation_id: "extensions-d81e117f4c8a"
+result: "published"
+validated_at: "2026-03-20T22:40:54Z"
+validator_version: "0.5.1"
+source_digests:
+  desired_config_sha256: "d81e117f4c8a5a1b552a77708a62ae299ac86143f3eacd414a03c85bb07c7785"
+  root_manifest_sha256: "b16e1eb53797a92b6d8e4ad8ac48d0a1b944591c08432d19f5fddb4425808e99"
+blocked_reasons: []
+quarantined_subjects: []
+published_paths:
+  - ".octon/generated/effective/extensions/artifact-map.yml"
+  - ".octon/generated/effective/extensions/catalog.effective.yml"
+  - ".octon/generated/effective/extensions/generation.lock.yml"
+required_inputs:
+  - ".octon/instance/extensions.yml"
+  - ".octon/octon.yml"

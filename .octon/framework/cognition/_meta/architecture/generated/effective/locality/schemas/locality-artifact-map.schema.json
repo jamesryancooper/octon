@@ -11,7 +11,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-locality-artifact-map-v1"
+      "const": "octon-locality-artifact-map-v2"
     },
     "generator_version": {
       "type": "string",

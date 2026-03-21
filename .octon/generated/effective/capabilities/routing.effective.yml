@@ -1,11 +1,19 @@
-schema_version: octon-capability-routing-effective-v2
-generator_version: 0.5.1
-generation_id: capabilities-532d584fe25b
-published_at: 2026-03-20T20:37:23Z
+schema_version: octon-capability-routing-effective-v3
+generator_version: 0.5.2
+generation_id: capabilities-ee27f4bbff0d
+published_at: 2026-03-21T00:03:31Z
 publication_status: published
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-03-21T00-03-31Z-capabilities-ee27f4bbff0d.yml
+invalidation_conditions:
+  - root-manifest-sha-changed
+  - native-capability-manifest-changed
+  - locality-effective-sha-changed
+  - locality-lock-sha-changed
+  - extensions-effective-sha-changed
+  - extensions-lock-sha-changed
 source:
   root_manifest_path: .octon/octon.yml
-  root_manifest_sha256: b16e1eb53797a92b6d8e4ad8ac48d0a1b944591c08432d19f5fddb4425808e99
+  root_manifest_sha256: 42fd994ada46e8b9153947ac352a466715eaf78cd265c882e1affa70b621ed0f
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
@@ -21,20 +29,22 @@ source:
   instance_skills_manifest_path: .octon/instance/capabilities/runtime/skills/manifest.yml
   instance_skills_manifest_sha256: e5b6c935f1c2d451eb5c59cdb0c3e99a508204d17c7e4ae03ca9f4c7d1305c7c
   locality_scopes_effective_path: .octon/generated/effective/locality/scopes.effective.yml
-  locality_scopes_effective_sha256: d7f7ac294ffc72785b7985891dfdf85ab1cc06c6e2a8334227164abc65daf690
+  locality_scopes_effective_sha256: c84df431ca92378d3d7a13389b74f683dfe6ba2ab6dcb9cd9b1c2f756351d9bb
   locality_generation_lock_path: .octon/generated/effective/locality/generation.lock.yml
-  locality_generation_lock_sha256: ada4208686edfa0260f063686041715d8ce3d5d8f92a6440b193eeb9d6983965
-  locality_generation_id: locality-34239636e33c
+  locality_generation_lock_sha256: 416b7e97747895a07b80481880d99564f6053ff21b7f866079e315daeb8e3fa7
+  locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: c5b03a9e15f711b853509070aac54508ba8db2a6a39b31161662f3d5f24de7bf
+  extensions_catalog_sha256: 4ecc8c9c316e143a4d4529c1e1e81775f13e229ed069ed4f63338aab202a1bba
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: ac632efb17d4e512153dcc58d774f23693c9196ab859e51db0300b93cc6f88d2
+  extensions_generation_lock_sha256: 8627b368db79ded9caa860213c4db5b57e7b78e0cc95dfc9452ff899559c0c99
   extensions_generation_id: extensions-d81e117f4c8a
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
-  locality_generation_id: locality-34239636e33c
+  locality_generation_id: locality-e08a88ec3dda
   extension_generation_id: extensions-d81e117f4c8a
   host_projection_mode: materialized-copy-v1
+  locality_publication_status: published
+  extension_publication_status: published
   scope_resolution_mode: single-active-scope
 routing_candidates:
   - effective_id: framework.command.alignment-check

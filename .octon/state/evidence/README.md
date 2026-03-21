@@ -11,5 +11,8 @@
 | `state/evidence/validation/**` | Validation receipts and audit evidence |
 | `state/evidence/migration/**` | Migration provenance and rollback traceability |
 
+`state/evidence/validation/publication/**` is the canonical machine-readable
+receipt family for locality, extension, and capability publication runs.
+
 Evidence is append-oriented and retention-governed. It must not be treated as
 active task state or rebuildable generated output.

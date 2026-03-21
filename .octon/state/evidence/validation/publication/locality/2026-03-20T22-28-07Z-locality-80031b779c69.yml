@@ -1,0 +1,26 @@
+schema_version: "octon-validation-publication-receipt-v1"
+receipt_id: "locality-2026-03-20T22-28-07Z-locality-80031b779c69"
+publication_family: "locality"
+generation_id: "locality-80031b779c69"
+result: "published"
+validated_at: "2026-03-20T22:28:07Z"
+validator_version: "0.5.1"
+source_digests:
+  root_manifest_sha256: "b16e1eb53797a92b6d8e4ad8ac48d0a1b944591c08432d19f5fddb4425808e99"
+  instance_manifest_sha256: "05a787edbf2f50719720385361eb8f15d92b70533e33ebe1ed88d10bf0bacae4"
+  locality_manifest_sha256: "2f8e87656e920f10b6d48ea118f3137d2cabf0bae774e8360be5fa4fcc27e1d1"
+  locality_registry_sha256: "29d97816ceab9b0ecab34a01f92752e32d09c61a2bbe6ff96bae5b045d5a2e2d"
+  quarantine_sha256: "50b0c5bb5acc500a163f54ba6908720c47d77ebd68597408145ba85ad0a52b6a"
+  scope_manifest__octon-harness: "8301f11e00fa2c18ef50e576e6256652476cfcada44b81c0a27a2caba81fc9bb"
+blocked_reasons: []
+quarantined_subjects: []
+published_paths:
+  - ".octon/generated/effective/locality/scopes.effective.yml"
+  - ".octon/generated/effective/locality/artifact-map.yml"
+  - ".octon/generated/effective/locality/generation.lock.yml"
+required_inputs:
+  - ".octon/instance/locality/manifest.yml"
+  - ".octon/instance/locality/registry.yml"
+  - ".octon/instance/locality/scopes/octon-harness/scope.yml"
+  - ".octon/instance/manifest.yml"
+  - ".octon/octon.yml"

@@ -6,6 +6,11 @@ source "$SCRIPT_DIR/../../../../orchestration/runtime/_ops/scripts/extensions-co
 
 extensions_common_init "${BASH_SOURCE[0]}"
 
+FRAMEWORK_COMMANDS_MANIFEST="$OCTON_DIR/framework/capabilities/runtime/commands/manifest.yml"
+FRAMEWORK_SKILLS_MANIFEST="$OCTON_DIR/framework/capabilities/runtime/skills/manifest.yml"
+INSTANCE_COMMANDS_MANIFEST="$OCTON_DIR/instance/capabilities/runtime/commands/manifest.yml"
+INSTANCE_SKILLS_MANIFEST="$OCTON_DIR/instance/capabilities/runtime/skills/manifest.yml"
+
 errors=0
 PUBLISHED_EXTENSION_PREFIX=".octon/generated/effective/extensions/published/"
 
@@ -60,12 +65,13 @@ main() {
   local desired_sha root_sha generation_id status
   desired_sha="$(ext_hash_file "$EXTENSIONS_MANIFEST")"
   root_sha="$(ext_hash_file "$ROOT_MANIFEST")"
+  local receipt_rel receipt_abs receipt_sha
 
-  [[ "$(yq -r '.schema_version // ""' "$ACTIVE_STATE")" == "octon-extension-active-state-v2" ]] && pass "active state schema version valid" || fail "active state schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$QUARANTINE_STATE")" == "octon-extension-quarantine-state-v2" ]] && pass "quarantine state schema version valid" || fail "quarantine state schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$CATALOG_FILE")" == "octon-extension-effective-catalog-v3" ]] && pass "effective catalog schema version valid" || fail "effective catalog schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$ARTIFACT_MAP_FILE")" == "octon-extension-artifact-map-v3" ]] && pass "artifact map schema version valid" || fail "artifact map schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$GENERATION_LOCK_FILE")" == "octon-extension-generation-lock-v3" ]] && pass "generation lock schema version valid" || fail "generation lock schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$ACTIVE_STATE")" == "octon-extension-active-state-v3" ]] && pass "active state schema version valid" || fail "active state schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$QUARANTINE_STATE")" == "octon-extension-quarantine-state-v3" ]] && pass "quarantine state schema version valid" || fail "quarantine state schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$CATALOG_FILE")" == "octon-extension-effective-catalog-v4" ]] && pass "effective catalog schema version valid" || fail "effective catalog schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$ARTIFACT_MAP_FILE")" == "octon-extension-artifact-map-v4" ]] && pass "artifact map schema version valid" || fail "artifact map schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$GENERATION_LOCK_FILE")" == "octon-extension-generation-lock-v4" ]] && pass "generation lock schema version valid" || fail "generation lock schema_version invalid"
   local expected_generator_version
   expected_generator_version="$(yq -r '.versioning.harness.release_version // ""' "$ROOT_MANIFEST" 2>/dev/null || true)"
   [[ -n "$expected_generator_version" ]] && pass "root manifest generator version available" || fail "root manifest missing versioning.harness.release_version"
@@ -90,11 +96,31 @@ main() {
   [[ "$(yq -r '.published_effective_catalog // ""' "$ACTIVE_STATE")" == ".octon/generated/effective/extensions/catalog.effective.yml" ]] && pass "active state catalog reference valid" || fail "active state catalog reference invalid"
   [[ "$(yq -r '.published_artifact_map // ""' "$ACTIVE_STATE")" == ".octon/generated/effective/extensions/artifact-map.yml" ]] && pass "active state artifact map reference valid" || fail "active state artifact map reference invalid"
   [[ "$(yq -r '.published_generation_lock // ""' "$ACTIVE_STATE")" == ".octon/generated/effective/extensions/generation.lock.yml" ]] && pass "active state generation lock reference valid" || fail "active state generation lock reference invalid"
+  receipt_rel="$(yq -r '.publication_receipt_path // ""' "$ACTIVE_STATE")"
+  [[ -n "$receipt_rel" ]] && pass "active state publication receipt path declared" || fail "active state missing publication receipt path"
+  receipt_abs="$ROOT_DIR/$receipt_rel"
+  if [[ -f "$receipt_abs" ]]; then
+    pass "publication receipt file exists"
+    yq -e '.' "$receipt_abs" >/dev/null 2>&1 && pass "publication receipt parses as YAML" || fail "publication receipt must parse as YAML"
+  else
+    fail "publication receipt file missing"
+  fi
+  [[ "$(yq -r '.schema_version // ""' "$receipt_abs" 2>/dev/null)" == "octon-validation-publication-receipt-v1" ]] && pass "publication receipt schema version valid" || fail "publication receipt schema version invalid"
+  [[ "$(yq -r '.publication_family // ""' "$receipt_abs" 2>/dev/null)" == "extensions" ]] && pass "publication receipt family valid" || fail "publication receipt family invalid"
+  [[ "$(yq -r '.generation_id // ""' "$receipt_abs" 2>/dev/null)" == "$generation_id" ]] && pass "publication receipt generation id matches active state" || fail "publication receipt generation id mismatch"
+  [[ "$(yq -r '.result // ""' "$receipt_abs" 2>/dev/null)" == "$status" ]] && pass "publication receipt result matches active state" || fail "publication receipt result mismatch"
+  yq -e '.contract_refs | length > 0' "$receipt_abs" >/dev/null 2>&1 && pass "publication receipt contract refs declared" || fail "publication receipt contract refs missing"
+  receipt_sha="$(ext_hash_file "$receipt_abs")"
+  [[ "$(yq -r '.publication_receipt_sha256 // ""' "$ACTIVE_STATE")" == "$receipt_sha" ]] && pass "active state receipt hash current" || fail "active state receipt hash stale"
 
   [[ "$(yq -r '.generation_id // ""' "$CATALOG_FILE")" == "$generation_id" ]] && pass "effective catalog generation_id matches active state" || fail "effective catalog generation_id mismatch"
   [[ "$(yq -r '.generation_id // ""' "$ARTIFACT_MAP_FILE")" == "$generation_id" ]] && pass "artifact map generation_id matches active state" || fail "artifact map generation_id mismatch"
   [[ "$(yq -r '.generation_id // ""' "$GENERATION_LOCK_FILE")" == "$generation_id" ]] && pass "generation lock generation_id matches active state" || fail "generation lock generation_id mismatch"
   [[ "$(yq -r '.publication_status // ""' "$CATALOG_FILE")" == "$status" ]] && pass "effective catalog status matches active state" || fail "effective catalog status mismatch"
+  [[ "$(yq -r '.publication_receipt_path // ""' "$CATALOG_FILE")" == "$receipt_rel" ]] && pass "effective catalog receipt path matches active state" || fail "effective catalog receipt path mismatch"
+  [[ "$(yq -r '.publication_status // ""' "$GENERATION_LOCK_FILE")" == "$status" ]] && pass "generation lock status matches active state" || fail "generation lock status mismatch"
+  [[ "$(yq -r '.publication_receipt_path // ""' "$GENERATION_LOCK_FILE")" == "$receipt_rel" ]] && pass "generation lock receipt path matches active state" || fail "generation lock receipt path mismatch"
+  [[ "$(yq -r '.publication_receipt_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$receipt_sha" ]] && pass "generation lock receipt hash current" || fail "generation lock receipt hash stale"
 
   [[ "$(yq -r '.source.desired_config_sha256 // ""' "$CATALOG_FILE")" == "$desired_sha" ]] && pass "effective catalog desired config hash current" || fail "effective catalog desired config hash stale"
   [[ "$(yq -r '.desired_config_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$desired_sha" ]] && pass "generation lock desired config hash current" || fail "generation lock desired config hash stale"
@@ -126,6 +152,42 @@ main() {
       || fail "routing_exports.skills invalid for $pack_id"
   done < <(yq -r '.packs[]? | [.pack_id, .source_id] | @tsv' "$CATALOG_FILE" 2>/dev/null || true)
 
+  local native_command_ids native_skill_ids collision_lines
+  native_command_ids="$(
+    {
+      yq -r '.commands[]?.id // ""' "$FRAMEWORK_COMMANDS_MANIFEST" 2>/dev/null || true
+      yq -r '.commands[]?.id // ""' "$INSTANCE_COMMANDS_MANIFEST" 2>/dev/null || true
+    } | awk 'NF' | LC_ALL=C sort -u
+  )"
+  native_skill_ids="$(
+    {
+      yq -r '.skills[]?.id // ""' "$FRAMEWORK_SKILLS_MANIFEST" 2>/dev/null || true
+      yq -r '.skills[]?.id // ""' "$INSTANCE_SKILLS_MANIFEST" 2>/dev/null || true
+    } | awk 'NF' | LC_ALL=C sort -u
+  )"
+  collision_lines="$(
+    {
+      yq -r '.packs[]? as $pack | $pack.routing_exports.commands[]? | ["command", $pack.pack_id, .capability_id] | @tsv' "$CATALOG_FILE" 2>/dev/null || true
+      yq -r '.packs[]? as $pack | $pack.routing_exports.skills[]? | ["skill", $pack.pack_id, .capability_id] | @tsv' "$CATALOG_FILE" 2>/dev/null || true
+    } | while IFS=$'\t' read -r kind pack_id capability_id; do
+      [[ -n "$capability_id" ]] || continue
+      if [[ "$kind" == "command" ]] && grep -Fx "$capability_id" <<<"$native_command_ids" >/dev/null 2>&1; then
+        printf '%s\t%s\n' "$kind" "$capability_id"
+      fi
+      if [[ "$kind" == "skill" ]] && grep -Fx "$capability_id" <<<"$native_skill_ids" >/dev/null 2>&1; then
+        printf '%s\t%s\n' "$kind" "$capability_id"
+      fi
+    done | LC_ALL=C sort -u
+  )"
+  if [[ -z "$collision_lines" ]]; then
+    pass "extension publication avoids native capability collisions"
+  else
+    while IFS=$'\t' read -r kind capability_id; do
+      [[ -n "$capability_id" ]] || continue
+      fail "extension publication collides with native ${kind} capability id: $capability_id"
+    done <<<"$collision_lines"
+  fi
+
   local quarantine_count
   quarantine_count="$(yq -r '.records | length' "$QUARANTINE_STATE" 2>/dev/null || printf '0')"
   case "$status" in
@@ -141,6 +203,21 @@ main() {
       [[ -z "$active_published" ]] && pass "withdrawn generation has no published_active_packs" || fail "withdrawn generation must have no published_active_packs"
       ;;
   esac
+
+  if yq -e '.required_inputs[]? | select(. == ".octon/instance/extensions.yml")' "$GENERATION_LOCK_FILE" >/dev/null 2>&1 \
+    && yq -e '.required_inputs[]? | select(. == ".octon/octon.yml")' "$GENERATION_LOCK_FILE" >/dev/null 2>&1; then
+    pass "generation lock required inputs include authoritative manifests"
+  else
+    fail "generation lock required inputs missing authoritative manifests"
+  fi
+
+  if yq -e '.invalidation_conditions | length > 0' "$ACTIVE_STATE" >/dev/null 2>&1 \
+    && yq -e '.invalidation_conditions | length > 0' "$CATALOG_FILE" >/dev/null 2>&1 \
+    && yq -e '.invalidation_conditions | length > 0' "$GENERATION_LOCK_FILE" >/dev/null 2>&1; then
+    pass "invalidation conditions declared across extension publication family"
+  else
+    fail "extension publication family must declare invalidation conditions"
+  fi
 
   local lock_closure
   lock_closure="$(yq -r '.pack_payload_digests[]? | [.pack_id, .source_id, .version, .origin_class, .manifest_path] | @tsv' "$GENERATION_LOCK_FILE" 2>/dev/null | awk 'NF' | LC_ALL=C sort)"

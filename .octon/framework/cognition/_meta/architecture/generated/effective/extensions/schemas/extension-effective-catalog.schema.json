@@ -6,9 +6,12 @@
   "additionalProperties": false,
   "required": [
     "schema_version",
+    "generator_version",
     "generation_id",
     "published_at",
     "publication_status",
+    "publication_receipt_path",
+    "invalidation_conditions",
     "desired_selected_packs",
     "published_active_packs",
     "dependency_closure",
@@ -17,7 +20,11 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-extension-effective-catalog-v3"
+      "const": "octon-extension-effective-catalog-v4"
+    },
+    "generator_version": {
+      "type": "string",
+      "minLength": 1
     },
     "generation_id": {
       "type": "string",
@@ -34,6 +41,17 @@
         "published_with_quarantine",
         "withdrawn"
       ]
+    },
+    "publication_receipt_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "invalidation_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "desired_selected_packs": {
       "type": "array",
@@ -150,7 +168,6 @@
           "required": [
             "trust_decision",
             "publication_status",
-            "content_roots",
             "routing_exports"
           ],
           "properties": {
@@ -169,56 +186,6 @@
                 "published_with_quarantine",
                 "withdrawn"
               ]
-            },
-            "content_roots": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "skills",
-                "commands",
-                "templates",
-                "prompts",
-                "context",
-                "validation"
-              ],
-              "properties": {
-                "skills": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "commands": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "templates": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "prompts": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "context": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                },
-                "validation": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
-                }
-              }
             },
             "routing_exports": {
               "type": "object",

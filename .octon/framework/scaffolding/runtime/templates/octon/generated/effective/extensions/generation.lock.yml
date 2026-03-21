@@ -1,11 +1,23 @@
-schema_version: "octon-extension-generation-lock-v3"
+schema_version: "octon-extension-generation-lock-v4"
 generator_version: ""
 generation_id: "{{EXTENSIONS_GENERATION_ID or 'extensions-pending'}}"
 published_at: "{{VALIDATION_TIMESTAMP or '1970-01-01T00:00:00Z'}}"
+publication_status: "published"
+publication_receipt_path: "{{EXTENSIONS_PUBLICATION_RECEIPT_PATH or '.octon/state/evidence/validation/publication/extensions/pending-extensions.yml'}}"
+publication_receipt_sha256: "{{EXTENSIONS_PUBLICATION_RECEIPT_SHA256 or 'pending'}}"
 desired_config_sha256: "{{EXTENSIONS_DESIRED_SHA256 or 'pending'}}"
 root_manifest_sha256: "{{ROOT_MANIFEST_SHA256 or 'pending'}}"
 published_files:
   - path: ".octon/generated/effective/extensions/catalog.effective.yml"
   - path: ".octon/generated/effective/extensions/artifact-map.yml"
   - path: ".octon/generated/effective/extensions/generation.lock.yml"
+required_inputs:
+  - ".octon/instance/extensions.yml"
+  - ".octon/octon.yml"
+invalidation_conditions:
+  - "desired-config-sha-changed"
+  - "root-manifest-sha-changed"
+  - "pack-manifest-or-payload-changed"
+  - "published-pack-set-changed"
+  - "quarantine-state-changed"
 pack_payload_digests: []

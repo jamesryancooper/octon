@@ -100,24 +100,12 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-locality-registry.sh"
 
   run_step \
-    "Validate locality publication state" \
-    bash "$SCRIPT_DIR/validate-locality-publication-state.sh"
-
-  run_step \
     "Validate additive extension pack contract" \
     bash "$SCRIPT_DIR/validate-extension-pack-contract.sh"
 
   run_step \
-    "Validate extension desired/actual/compiled publication state" \
-    bash "$SCRIPT_DIR/validate-extension-publication-state.sh"
-
-  run_step \
     "Validate export profile contract and current snapshot completeness" \
     bash "$SCRIPT_DIR/validate-export-profile-contract.sh"
-
-  run_step \
-    "Validate raw-input dependency ban for runtime and governance surfaces" \
-    bash "$SCRIPT_DIR/validate-raw-input-dependency-ban.sh"
 
   run_step \
     "Validate contract governance coverage and _ops boundaries" \
@@ -148,8 +136,8 @@ run_harness() {
     bash "$OCTON_DIR/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
 
   run_step \
-    "Validate capability publication state" \
-    bash "$SCRIPT_DIR/validate-capability-publication-state.sh"
+    "Validate runtime effective state and Packet 14 fail-closed trust gate" \
+    bash "$SCRIPT_DIR/validate-runtime-effective-state.sh"
 
   run_step \
     "Publish host capability projections" \

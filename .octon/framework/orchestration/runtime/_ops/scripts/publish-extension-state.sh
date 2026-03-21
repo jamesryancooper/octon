@@ -6,6 +6,11 @@ source "$SCRIPT_DIR/extensions-common.sh"
 
 extensions_common_init "${BASH_SOURCE[0]}"
 
+FRAMEWORK_COMMANDS_MANIFEST="$OCTON_DIR/framework/capabilities/runtime/commands/manifest.yml"
+FRAMEWORK_SKILLS_MANIFEST="$OCTON_DIR/framework/capabilities/runtime/skills/manifest.yml"
+INSTANCE_COMMANDS_MANIFEST="$OCTON_DIR/instance/capabilities/runtime/commands/manifest.yml"
+INSTANCE_SKILLS_MANIFEST="$OCTON_DIR/instance/capabilities/runtime/skills/manifest.yml"
+
 PUBLISHED_AT=""
 GENERATION_ID=""
 GENERATOR_VERSION=""
@@ -21,6 +26,229 @@ write_string_array_yaml() {
   local value
   for value in "$@"; do
     printf '%s- "%s"\n' "$indent" "$value"
+  done
+}
+
+receipt_timestamp_slug() {
+  local timestamp="$1"
+  timestamp="${timestamp//:/-}"
+  printf '%s\n' "$timestamp"
+}
+
+extension_publication_receipt_rel() {
+  local timestamp_slug="$1" generation_id="$2"
+  printf '.octon/state/evidence/validation/publication/extensions/%s-%s.yml\n' "$timestamp_slug" "$generation_id"
+}
+
+write_publication_receipt_string_list() {
+  local indent="$1"
+  shift
+  if [[ "$#" -eq 0 ]]; then
+    printf '%s[]\n' "$indent"
+    return
+  fi
+  local value
+  for value in "$@"; do
+    printf '%s- "%s"\n' "$indent" "$value"
+  done
+}
+
+write_extension_publication_receipt() {
+  local output_file="$1" receipt_id="$2" generation_id="$3" result="$4" desired_sha="$5" root_sha="$6" published_root_abs="$7"
+  local key pack_id source_id manifest_rel manifest_sha payload_rel payload_sha record dependent
+  local blocked_reasons=()
+  local required_inputs=(".octon/instance/extensions.yml" ".octon/octon.yml")
+  local published_paths=(
+    ".octon/generated/effective/extensions/catalog.effective.yml"
+    ".octon/generated/effective/extensions/artifact-map.yml"
+    ".octon/generated/effective/extensions/generation.lock.yml"
+  )
+
+  for key in "${EXT_SELECTED_KEYS[@]}"; do
+    pack_id="$(ext_key_pack_id "$key")"
+    required_inputs+=(".octon/inputs/additive/extensions/${pack_id}/pack.yml")
+  done
+
+  while IFS= read -r payload_rel; do
+    [[ -n "$payload_rel" ]] || continue
+    published_paths+=(".octon/generated/effective/extensions/${payload_rel}")
+  done < <(find "$published_root_abs" -mindepth 1 -printf '%P\n' 2>/dev/null | LC_ALL=C sort)
+
+  {
+    printf 'schema_version: "octon-validation-publication-receipt-v1"\n'
+    printf 'receipt_id: "%s"\n' "$receipt_id"
+    printf 'publication_family: "extensions"\n'
+    printf 'generation_id: "%s"\n' "$generation_id"
+    printf 'result: "%s"\n' "$result"
+    printf 'validated_at: "%s"\n' "$PUBLISHED_AT"
+    printf 'validator_version: "%s"\n' "$GENERATOR_VERSION"
+    printf 'contract_refs:\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-active-state.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-quarantine-state.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"\n'
+    printf 'source_digests:\n'
+    printf '  desired_config_sha256: "%s"\n' "$desired_sha"
+    printf '  root_manifest_sha256: "%s"\n' "$root_sha"
+    for key in "${EXT_SELECTED_KEYS[@]}"; do
+      pack_id="$(ext_key_pack_id "$key")"
+      source_id="$(ext_key_source_id "$key")"
+      manifest_rel=".octon/inputs/additive/extensions/${pack_id}/pack.yml"
+      manifest_sha="$(ext_hash_file "$ROOT_DIR/$manifest_rel")"
+      printf '  pack_manifest__%s__%s: "%s"\n' "$pack_id" "$source_id" "$manifest_sha"
+    done
+    if [[ "${#EXT_QUARANTINE_KEYS[@]}" -eq 0 ]]; then
+      printf 'blocked_reasons: []\n'
+    else
+      for key in "${EXT_QUARANTINE_KEYS[@]}"; do
+        blocked_reasons+=("${EXT_QUARANTINE_REASON["$key"]}")
+      done
+      printf 'blocked_reasons:\n'
+      printf '%s\n' "${blocked_reasons[@]}" | awk 'NF' | LC_ALL=C sort -u | while IFS= read -r record; do
+        printf '  - "%s"\n' "$record"
+      done
+    fi
+    if [[ "${#EXT_QUARANTINE_KEYS[@]}" -eq 0 ]]; then
+      printf 'quarantined_subjects: []\n'
+    else
+      printf 'quarantined_subjects:\n'
+      for key in "${EXT_QUARANTINE_KEYS[@]}"; do
+        pack_id="$(ext_key_pack_id "$key")"
+        source_id="$(ext_key_source_id "$key")"
+        printf '  - subject_kind: "pack"\n'
+        printf '    subject_id: "%s:%s"\n' "$pack_id" "$source_id"
+        printf '    reason_code: "%s"\n' "${EXT_QUARANTINE_REASON["$key"]}"
+        printf '    manifest_path: ".octon/inputs/additive/extensions/%s/pack.yml"\n' "$pack_id"
+        IFS=',' read -r -a dependents <<< "${EXT_QUARANTINE_AFFECTED["$key"]:-}"
+        for dependent in "${dependents[@]}"; do
+          dependent="$(ext_trim "$dependent")"
+          [[ -n "$dependent" ]] || continue
+          printf '  - subject_kind: "dependent"\n'
+          printf '    subject_id: "%s"\n' "$dependent"
+          printf '    reason_code: "dependency-unavailable:%s"\n' "$pack_id"
+          printf '    manifest_path: null\n'
+        done
+      done
+    fi
+    printf 'published_paths:\n'
+    printf '%s\n' "${published_paths[@]}" | awk 'NF' | LC_ALL=C sort -u | while IFS= read -r record; do
+      printf '  - "%s"\n' "$record"
+    done
+    printf 'required_inputs:\n'
+    printf '%s\n' "${required_inputs[@]}" | awk 'NF' | LC_ALL=C sort -u | while IFS= read -r record; do
+      printf '  - "%s"\n' "$record"
+    done
+  } >"$output_file"
+}
+
+remove_key_from_pack_refs() {
+  local remove_key="$1"
+  local value
+  local retained=()
+  for value in "$@"; do
+    [[ "$value" == "$remove_key" ]] && continue
+    retained+=("$value")
+  done
+  printf '%s\n' "${retained[@]}"
+}
+
+drop_published_key() {
+  local key="$1"
+  mapfile -t EXT_PUBLISHED_KEYS < <(remove_key_from_pack_refs "$key" "${EXT_PUBLISHED_KEYS[@]}" | awk 'NF')
+  mapfile -t PUBLISHED_SELECTED_KEYS < <(remove_key_from_pack_refs "$key" "${PUBLISHED_SELECTED_KEYS[@]}" | awk 'NF')
+  unset 'EXT_PUBLISHED_VERSION[$key]'
+  unset 'EXT_PUBLISHED_ORIGIN_CLASS[$key]'
+  unset 'EXT_PUBLISHED_MANIFEST_REL[$key]'
+  unset 'EXT_PUBLISHED_TRUST_DECISION[$key]'
+  unset 'EXT_PUBLISHED_ACKNOWLEDGEMENT_ID[$key]'
+  unset 'EXT_PUBLISHED_SOURCE_ID[$key]'
+}
+
+native_capability_ids() {
+  local kind="$1"
+  if [[ "$kind" == "command" ]]; then
+    {
+      yq -r '.commands[]?.id // ""' "$FRAMEWORK_COMMANDS_MANIFEST" 2>/dev/null || true
+      yq -r '.commands[]?.id // ""' "$INSTANCE_COMMANDS_MANIFEST" 2>/dev/null || true
+    } | awk 'NF' | LC_ALL=C sort -u
+  else
+    {
+      yq -r '.skills[]?.id // ""' "$FRAMEWORK_SKILLS_MANIFEST" 2>/dev/null || true
+      yq -r '.skills[]?.id // ""' "$INSTANCE_SKILLS_MANIFEST" 2>/dev/null || true
+    } | awk 'NF' | LC_ALL=C sort -u
+  fi
+}
+
+enforce_native_capability_collision_quarantine() {
+  local native_commands native_skills key pack_id source_id manifest_abs commands_root_rel skills_root_rel fragment_file capability_id
+  local collided_keys=()
+  native_commands="$(native_capability_ids command)"
+  native_skills="$(native_capability_ids skill)"
+
+  for key in "${EXT_PUBLISHED_KEYS[@]}"; do
+    pack_id="$(ext_key_pack_id "$key")"
+    source_id="$(ext_key_source_id "$key")"
+    manifest_abs="$ROOT_DIR/${EXT_PUBLISHED_MANIFEST_REL["$key"]}"
+
+    commands_root_rel="$(yq -r '.content_entrypoints.commands // ""' "$manifest_abs")"
+    if [[ -n "$commands_root_rel" && "$commands_root_rel" != "null" ]]; then
+      fragment_file="$(ext_pack_root_abs "$pack_id")/${commands_root_rel%/}/manifest.fragment.yml"
+      while IFS= read -r capability_id; do
+        [[ -n "$capability_id" ]] || continue
+        if grep -Fx "$capability_id" <<<"$native_commands" >/dev/null 2>&1; then
+          ext_record_quarantine "$pack_id" "$source_id" "native-capability-collision:command:$capability_id" "$pack_id" ""
+          collided_keys+=("$key")
+          break
+        fi
+      done < <(yq -r '.commands[]?.id // ""' "$fragment_file" 2>/dev/null || true)
+    fi
+
+    skills_root_rel="$(yq -r '.content_entrypoints.skills // ""' "$manifest_abs")"
+    if [[ -n "$skills_root_rel" && "$skills_root_rel" != "null" ]]; then
+      fragment_file="$(ext_pack_root_abs "$pack_id")/${skills_root_rel%/}/manifest.fragment.yml"
+      while IFS= read -r capability_id; do
+        [[ -n "$capability_id" ]] || continue
+        if grep -Fx "$capability_id" <<<"$native_skills" >/dev/null 2>&1; then
+          ext_record_quarantine "$pack_id" "$source_id" "native-capability-collision:skill:$capability_id" "$pack_id" ""
+          collided_keys+=("$key")
+          break
+        fi
+      done < <(yq -r '.skills[]?.id // ""' "$fragment_file" 2>/dev/null || true)
+    fi
+  done
+
+  if [[ "${#collided_keys[@]}" -eq 0 ]]; then
+    return 0
+  fi
+
+  mapfile -t collided_keys < <(printf '%s\n' "${collided_keys[@]}" | awk 'NF' | LC_ALL=C sort -u)
+  for key in "${collided_keys[@]}"; do
+    drop_published_key "$key"
+  done
+}
+
+prune_unsatisfied_dependents() {
+  local changed=1 key pack_id source_id manifest_abs dep_pack_id dep_source dep_key
+  local remove_key
+  while [[ "$changed" -eq 1 ]]; do
+    changed=0
+    for key in "${EXT_PUBLISHED_KEYS[@]}"; do
+      pack_id="$(ext_key_pack_id "$key")"
+      source_id="$(ext_key_source_id "$key")"
+      manifest_abs="$ROOT_DIR/${EXT_PUBLISHED_MANIFEST_REL["$key"]}"
+      while IFS=$'\t' read -r dep_pack_id dep_range; do
+        [[ -n "$dep_pack_id" ]] || continue
+        dep_source="$(ext_detect_pack_source_id "$dep_pack_id" 2>/dev/null || true)"
+        [[ -n "$dep_source" ]] || dep_source="$source_id"
+        dep_key="$(ext_pack_key "$dep_pack_id" "$dep_source")"
+        if [[ -z "${EXT_PUBLISHED_VERSION["$dep_key"]:-}" ]]; then
+          ext_record_quarantine "$pack_id" "$source_id" "dependency-unavailable:$dep_pack_id" "$pack_id" ""
+          drop_published_key "$key"
+          changed=1
+          break
+        fi
+      done < <(yq -r '.dependencies.requires[]? | [.pack_id, .version_range] | @tsv' "$manifest_abs" 2>/dev/null || true)
+    done
   done
 }
 
@@ -265,31 +493,28 @@ write_routing_exports() {
   write_pack_skill_routing_exports "$pack_id" "$source_id" "$manifest_abs"
 }
 
-write_content_roots() {
-  local manifest="$1" pack_id="$2" bucket rel
-  printf '    content_roots:\n'
-  for bucket in skills commands templates prompts context validation; do
-    rel="$(yq -r ".content_entrypoints.$bucket // \"\"" "$manifest")"
-    if [[ -z "$rel" || "$rel" == "null" ]]; then
-      printf '      %s: null\n' "$bucket"
-    else
-      printf '      %s: ".octon/inputs/additive/extensions/%s/%s"\n' "$bucket" "$pack_id" "$rel"
-    fi
-  done
-}
-
 write_effective_files() {
   local desired_sha="$1" root_sha="$2" tmpdir="$3" status="$4"
-  local active_tmp quarantine_tmp catalog_tmp artifact_map_tmp lock_tmp published_tmp
-  local key pack_id source_id manifest_abs manifest_rel trust_decision ack_id
+  local active_tmp quarantine_tmp family_tmp catalog_tmp artifact_map_tmp lock_tmp published_tmp receipt_tmp previous_family_tmp
+  local key pack_id source_id manifest_abs manifest_rel trust_decision
   local rel_path bucket abs_path sha payload_lines payload_sha
+  local receipt_slug receipt_rel receipt_abs receipt_id receipt_sha
+  local invalidation_conditions=(
+    "desired-config-sha-changed"
+    "root-manifest-sha-changed"
+    "pack-manifest-or-payload-changed"
+    "published-pack-set-changed"
+    "quarantine-state-changed"
+  )
 
   active_tmp="$tmpdir/active.yml"
   quarantine_tmp="$tmpdir/quarantine.yml"
-  catalog_tmp="$tmpdir/catalog.effective.yml"
-  artifact_map_tmp="$tmpdir/artifact-map.yml"
-  lock_tmp="$tmpdir/generation.lock.yml"
-  published_tmp="$tmpdir/published"
+  family_tmp="$tmpdir/effective-extensions"
+  catalog_tmp="$family_tmp/catalog.effective.yml"
+  artifact_map_tmp="$family_tmp/artifact-map.yml"
+  lock_tmp="$family_tmp/generation.lock.yml"
+  published_tmp="$family_tmp/published"
+  receipt_tmp="$tmpdir/publication.receipt.yml"
 
   mkdir -p "$published_tmp"
 
@@ -301,7 +526,20 @@ write_effective_files() {
   done
 
   {
-    printf 'schema_version: "octon-extension-active-state-v2"\n'
+    printf 'schema_version: "octon-extension-quarantine-state-v3"\n'
+    printf 'updated_at: "%s"\n' "$PUBLISHED_AT"
+    ext_write_quarantine_records "$PUBLISHED_AT"
+  } >"$quarantine_tmp"
+
+  receipt_slug="$(receipt_timestamp_slug "$PUBLISHED_AT")"
+  receipt_rel="$(extension_publication_receipt_rel "$receipt_slug" "$GENERATION_ID")"
+  receipt_abs="$ROOT_DIR/$receipt_rel"
+  receipt_id="extensions-$receipt_slug-$GENERATION_ID"
+  write_extension_publication_receipt "$receipt_tmp" "$receipt_id" "$GENERATION_ID" "$status" "$desired_sha" "$root_sha" "$published_tmp"
+  receipt_sha="$(ext_hash_file "$receipt_tmp")"
+
+  {
+    printf 'schema_version: "octon-extension-active-state-v3"\n'
     printf 'desired_config_revision:\n'
     printf '  path: ".octon/instance/extensions.yml"\n'
     printf '  sha256: "%s"\n' "$desired_sha"
@@ -312,22 +550,29 @@ write_effective_files() {
     printf 'published_effective_catalog: ".octon/generated/effective/extensions/catalog.effective.yml"\n'
     printf 'published_artifact_map: ".octon/generated/effective/extensions/artifact-map.yml"\n'
     printf 'published_generation_lock: ".octon/generated/effective/extensions/generation.lock.yml"\n'
+    printf 'publication_receipt_path: "%s"\n' "$receipt_rel"
+    printf 'publication_receipt_sha256: "%s"\n' "$receipt_sha"
+    printf 'invalidation_conditions:\n'
+    write_string_array_yaml '  ' "${invalidation_conditions[@]}"
+    printf 'required_inputs:\n'
+    printf '  - ".octon/instance/extensions.yml"\n'
+    printf '  - ".octon/octon.yml"\n'
+    for key in "${EXT_SELECTED_KEYS[@]}"; do
+      printf '  - ".octon/inputs/additive/extensions/%s/pack.yml"\n' "$(ext_key_pack_id "$key")"
+    done
     printf 'validation_timestamp: "%s"\n' "$PUBLISHED_AT"
     printf 'status: "%s"\n' "$status"
   } >"$active_tmp"
 
   {
-    printf 'schema_version: "octon-extension-quarantine-state-v2"\n'
-    printf 'updated_at: "%s"\n' "$PUBLISHED_AT"
-    ext_write_quarantine_records "$PUBLISHED_AT"
-  } >"$quarantine_tmp"
-
-  {
-    printf 'schema_version: "octon-extension-effective-catalog-v3"\n'
+    printf 'schema_version: "octon-extension-effective-catalog-v4"\n'
     printf 'generator_version: "%s"\n' "$GENERATOR_VERSION"
     printf 'generation_id: "%s"\n' "$GENERATION_ID"
     printf 'published_at: "%s"\n' "$PUBLISHED_AT"
     printf 'publication_status: "%s"\n' "$status"
+    printf 'publication_receipt_path: "%s"\n' "$receipt_rel"
+    printf 'invalidation_conditions:\n'
+    write_string_array_yaml '  ' "${invalidation_conditions[@]}"
     ext_emit_pack_ref_list "desired_selected_packs" "${EXT_SELECTED_KEYS[@]}"
     ext_emit_pack_ref_list "published_active_packs" "${PUBLISHED_SELECTED_KEYS[@]}"
     ext_emit_dependency_closure_list "dependency_closure" "${EXT_PUBLISHED_KEYS[@]}"
@@ -348,7 +593,6 @@ write_effective_files() {
         printf '    manifest_path: "%s"\n' "$manifest_rel"
         printf '    trust_decision: "%s"\n' "$trust_decision"
         printf '    publication_status: "%s"\n' "$status"
-        write_content_roots "$manifest_abs" "$pack_id"
         write_routing_exports "$pack_id" "$source_id" "$manifest_abs"
       done
     fi
@@ -360,7 +604,7 @@ write_effective_files() {
   } >"$catalog_tmp"
 
   {
-    printf 'schema_version: "octon-extension-artifact-map-v3"\n'
+    printf 'schema_version: "octon-extension-artifact-map-v4"\n'
     printf 'generator_version: "%s"\n' "$GENERATOR_VERSION"
     printf 'generation_id: "%s"\n' "$GENERATION_ID"
     printf 'published_at: "%s"\n' "$PUBLISHED_AT"
@@ -388,10 +632,13 @@ write_effective_files() {
   } >"$artifact_map_tmp"
 
   {
-    printf 'schema_version: "octon-extension-generation-lock-v3"\n'
+    printf 'schema_version: "octon-extension-generation-lock-v4"\n'
     printf 'generator_version: "%s"\n' "$GENERATOR_VERSION"
     printf 'generation_id: "%s"\n' "$GENERATION_ID"
     printf 'published_at: "%s"\n' "$PUBLISHED_AT"
+    printf 'publication_status: "%s"\n' "$status"
+    printf 'publication_receipt_path: "%s"\n' "$receipt_rel"
+    printf 'publication_receipt_sha256: "%s"\n' "$receipt_sha"
     printf 'desired_config_sha256: "%s"\n' "$desired_sha"
     printf 'root_manifest_sha256: "%s"\n' "$root_sha"
     printf 'published_files:\n'
@@ -400,9 +647,17 @@ write_effective_files() {
     printf '  - path: ".octon/generated/effective/extensions/generation.lock.yml"\n'
     while IFS= read -r abs_path; do
       [[ -n "$abs_path" ]] || continue
-      rel_path="${abs_path#${tmpdir}/}"
+      rel_path="${abs_path#${family_tmp}/}"
       printf '  - path: ".octon/generated/effective/extensions/%s"\n' "$rel_path"
     done < <(find "$published_tmp" \( -type f -o -type d \) ! -path "$published_tmp" | sort)
+    printf 'required_inputs:\n'
+    printf '  - ".octon/instance/extensions.yml"\n'
+    printf '  - ".octon/octon.yml"\n'
+    for key in "${EXT_SELECTED_KEYS[@]}"; do
+      printf '  - ".octon/inputs/additive/extensions/%s/pack.yml"\n' "$(ext_key_pack_id "$key")"
+    done
+    printf 'invalidation_conditions:\n'
+    write_string_array_yaml '  ' "${invalidation_conditions[@]}"
     if [[ "${#EXT_PUBLISHED_KEYS[@]}" -eq 0 ]]; then
       printf 'pack_payload_digests: []\n'
     else
@@ -436,12 +691,13 @@ write_effective_files() {
     fi
   } >"$lock_tmp"
 
-  mkdir -p "$(dirname "$ACTIVE_STATE")" "$EFFECTIVE_DIR"
-  rm -r -f "$PUBLISHED_PROJECTIONS_DIR"
-  mv "$published_tmp" "$PUBLISHED_PROJECTIONS_DIR"
-  mv "$catalog_tmp" "$CATALOG_FILE"
-  mv "$artifact_map_tmp" "$ARTIFACT_MAP_FILE"
-  mv "$lock_tmp" "$GENERATION_LOCK_FILE"
+  mkdir -p "$(dirname "$ACTIVE_STATE")" "$(dirname "$receipt_abs")"
+  previous_family_tmp="$tmpdir/effective-extensions.previous"
+  if [[ -d "$EFFECTIVE_DIR" ]]; then
+    mv "$EFFECTIVE_DIR" "$previous_family_tmp"
+  fi
+  mv "$family_tmp" "$EFFECTIVE_DIR"
+  mv "$receipt_tmp" "$receipt_abs"
   mv "$quarantine_tmp" "$QUARANTINE_STATE"
   mv "$active_tmp" "$ACTIVE_STATE"
 }
@@ -475,6 +731,9 @@ main() {
   mapfile -t EXT_PUBLISHED_KEYS < <(ext_pack_key_sort "${EXT_PUBLISHED_KEYS[@]}")
   mapfile -t PUBLISHED_SELECTED_KEYS < <(ext_pack_key_sort "${PUBLISHED_SELECTED_KEYS[@]}")
   mapfile -t EXT_QUARANTINE_KEYS < <(ext_pack_key_sort "${EXT_QUARANTINE_KEYS[@]}")
+
+  enforce_native_capability_collision_quarantine
+  prune_unsatisfied_dependents
 
   if [[ "${#EXT_SELECTED_KEYS[@]}" -eq 0 ]]; then
     status="published"

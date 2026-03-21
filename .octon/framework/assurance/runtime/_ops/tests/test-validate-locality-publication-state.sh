@@ -68,7 +68,7 @@ EOF
   ! run_validator "$fixture_root"
 }
 
-case_publish_blocks_invalid_overlap_and_records_quarantine() {
+case_publish_reduces_invalid_overlap_and_records_quarantine() {
   local fixture_root
   fixture_root="$(create_packet2_fixture_repo)"
   CLEANUP_DIRS+=("$fixture_root")
@@ -105,13 +105,17 @@ scopes:
     manifest_path: ".octon/instance/locality/scopes/overlap/scope.yml"
 EOF
 
-  ! OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
+  OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
     bash "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" >/dev/null
 
+  [[ "$(yq -r '.publication_status // ""' "$fixture_root/.octon/generated/effective/locality/scopes.effective.yml")" == "published_with_quarantine" ]]
+  [[ "$(yq -r '.active_scope_ids[0] // ""' "$fixture_root/.octon/generated/effective/locality/scopes.effective.yml")" == "octon-harness" ]]
+  ! yq -e '.active_scope_ids[]? | select(. == "overlap")' "$fixture_root/.octon/generated/effective/locality/scopes.effective.yml" >/dev/null 2>&1
   yq -e '.records | length > 0' "$fixture_root/.octon/state/control/locality/quarantine.yml" >/dev/null
+  run_validator "$fixture_root"
 }
 
-case_publish_blocks_safe_but_outside_root_glob() {
+case_publish_reduces_scope_with_outside_root_glob() {
   local fixture_root
   fixture_root="$(create_packet2_fixture_repo)"
   CLEANUP_DIRS+=("$fixture_root")
@@ -133,11 +137,14 @@ language_tags:
   - "yaml"
 EOF
 
-  ! OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
+  OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
     bash "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" >/dev/null
 
+  [[ "$(yq -r '.publication_status // ""' "$fixture_root/.octon/generated/effective/locality/scopes.effective.yml")" == "published_with_quarantine" ]]
+  [[ "$(yq -r '.scopes | length' "$fixture_root/.octon/generated/effective/locality/scopes.effective.yml")" == "0" ]]
   yq -e '.records[]? | select(.reason_code == "include-glob-outside-root")' \
     "$fixture_root/.octon/state/control/locality/quarantine.yml" >/dev/null
+  run_validator "$fixture_root"
 }
 
 case_publish_blocks_missing_scope_id() {
@@ -157,6 +164,8 @@ EOF
     bash "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" >/dev/null
 
   yq -e '.records[]? | select(.reason_code == "missing-scope-id")' \
+    "$fixture_root/.octon/state/control/locality/quarantine.yml" >/dev/null
+  yq -e '.records[]? | select(.publication_blocking == true)' \
     "$fixture_root/.octon/state/control/locality/quarantine.yml" >/dev/null
 }
 
@@ -179,9 +188,9 @@ case_generation_id_stable_for_noop_republish() {
 main() {
   assert_success "valid locality publication state passes" case_valid_fixture_passes
   assert_success "stale locality generation lock fails validation" case_stale_generation_lock_fails
-  assert_success "invalid overlap blocks publish and records quarantine" case_publish_blocks_invalid_overlap_and_records_quarantine
-  assert_success "safe but out-of-root glob blocks publish" case_publish_blocks_safe_but_outside_root_glob
-  assert_success "missing scope id blocks publish" case_publish_blocks_missing_scope_id
+  assert_success "invalid overlap republishes reduced locality set with quarantine" case_publish_reduces_invalid_overlap_and_records_quarantine
+  assert_success "out-of-root glob quarantines the affected scope and republishes" case_publish_reduces_scope_with_outside_root_glob
+  assert_success "repo-level locality registry failure still blocks publish" case_publish_blocks_missing_scope_id
   assert_success "generation id remains stable across noop republishes" case_generation_id_stable_for_noop_republish
 
   echo

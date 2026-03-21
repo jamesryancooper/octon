@@ -27,6 +27,8 @@ ROUTING_FILE="$EFFECTIVE_DIR/routing.effective.yml"
 ARTIFACT_MAP_FILE="$EFFECTIVE_DIR/artifact-map.yml"
 GENERATION_LOCK_FILE="$EFFECTIVE_DIR/generation.lock.yml"
 LOCALITY_SCOPES_JSON='[]'
+PUBLISHED_AT=""
+GENERATOR_VERSION=""
 
 hash_file() {
   local file="$1"
@@ -43,6 +45,91 @@ hash_text() {
   else
     sha256sum | awk '{print $1}'
   fi
+}
+
+receipt_timestamp_slug() {
+  local timestamp="$1"
+  timestamp="${timestamp//:/-}"
+  printf '%s\n' "$timestamp"
+}
+
+capability_publication_receipt_rel() {
+  local timestamp_slug="$1" generation_id="$2"
+  printf '.octon/state/evidence/validation/publication/capabilities/%s-%s.yml\n' "$timestamp_slug" "$generation_id"
+}
+
+write_capability_publication_receipt() {
+  local output_file="$1" receipt_id="$2" generation_id="$3" publication_status="$4"
+  local root_sha="$5" commands_sha="$6" skills_sha="$7" skills_registry_sha="$8" services_sha="$9" tools_sha="${10}"
+  local instance_commands_sha="${11}" instance_skills_sha="${12}" locality_scopes_sha="${13}" locality_lock_sha="${14}" locality_status="${15}" extensions_sha="${16}" extensions_lock_sha="${17}" extensions_status="${18}"
+
+  {
+    printf 'schema_version: "octon-validation-publication-receipt-v1"\n'
+    printf 'receipt_id: "%s"\n' "$receipt_id"
+    printf 'publication_family: "capabilities"\n'
+    printf 'generation_id: "%s"\n' "$generation_id"
+    printf 'result: "%s"\n' "$publication_status"
+    printf 'validated_at: "%s"\n' "$PUBLISHED_AT"
+    printf 'validator_version: "%s"\n' "$GENERATOR_VERSION"
+    printf 'contract_refs:\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/generated/effective/capabilities/schemas/capability-routing-effective.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/generated/effective/capabilities/schemas/capability-routing-generation-lock.schema.json"\n'
+    printf 'source_digests:\n'
+    printf '  root_manifest_sha256: "%s"\n' "$root_sha"
+    printf '  framework_commands_manifest_sha256: "%s"\n' "$commands_sha"
+    printf '  framework_skills_manifest_sha256: "%s"\n' "$skills_sha"
+    printf '  framework_skills_registry_sha256: "%s"\n' "$skills_registry_sha"
+    printf '  framework_services_manifest_sha256: "%s"\n' "$services_sha"
+    printf '  framework_tools_manifest_sha256: "%s"\n' "$tools_sha"
+    printf '  instance_commands_manifest_sha256: "%s"\n' "$instance_commands_sha"
+    printf '  instance_skills_manifest_sha256: "%s"\n' "$instance_skills_sha"
+    printf '  locality_scopes_sha256: "%s"\n' "$locality_scopes_sha"
+    printf '  locality_generation_lock_sha256: "%s"\n' "$locality_lock_sha"
+    printf '  extensions_catalog_sha256: "%s"\n' "$extensions_sha"
+    printf '  extensions_generation_lock_sha256: "%s"\n' "$extensions_lock_sha"
+    if [[ "$publication_status" == "published" ]]; then
+      printf 'blocked_reasons: []\n'
+      printf 'quarantined_subjects: []\n'
+    else
+      printf 'blocked_reasons:\n'
+      if [[ "$locality_status" != "published" ]]; then
+        printf '  - "locality:%s"\n' "$locality_status"
+      fi
+      if [[ "$extensions_status" != "published" ]]; then
+        printf '  - "extensions:%s"\n' "$extensions_status"
+      fi
+      printf 'quarantined_subjects:\n'
+      if [[ "$locality_status" != "published" ]]; then
+        printf '  - subject_kind: "repo"\n'
+        printf '    subject_id: "locality"\n'
+        printf '    reason_code: "%s"\n' "$locality_status"
+        printf '    manifest_path: ".octon/generated/effective/locality/scopes.effective.yml"\n'
+      fi
+      if [[ "$extensions_status" != "published" ]]; then
+        printf '  - subject_kind: "repo"\n'
+        printf '    subject_id: "extensions"\n'
+        printf '    reason_code: "%s"\n' "$extensions_status"
+        printf '    manifest_path: ".octon/generated/effective/extensions/catalog.effective.yml"\n'
+      fi
+    fi
+    printf 'published_paths:\n'
+    printf '  - ".octon/generated/effective/capabilities/routing.effective.yml"\n'
+    printf '  - ".octon/generated/effective/capabilities/artifact-map.yml"\n'
+    printf '  - ".octon/generated/effective/capabilities/generation.lock.yml"\n'
+    printf 'required_inputs:\n'
+    printf '  - ".octon/octon.yml"\n'
+    printf '  - ".octon/framework/capabilities/runtime/commands/manifest.yml"\n'
+    printf '  - ".octon/framework/capabilities/runtime/skills/manifest.yml"\n'
+    printf '  - ".octon/framework/capabilities/runtime/skills/registry.yml"\n'
+    printf '  - ".octon/framework/capabilities/runtime/services/manifest.yml"\n'
+    printf '  - ".octon/framework/capabilities/runtime/tools/manifest.yml"\n'
+    printf '  - ".octon/instance/capabilities/runtime/commands/manifest.yml"\n'
+    printf '  - ".octon/instance/capabilities/runtime/skills/manifest.yml"\n'
+    printf '  - ".octon/generated/effective/locality/scopes.effective.yml"\n'
+    printf '  - ".octon/generated/effective/locality/generation.lock.yml"\n'
+    printf '  - ".octon/generated/effective/extensions/catalog.effective.yml"\n'
+    printf '  - ".octon/generated/effective/extensions/generation.lock.yml"\n'
+  } >"$output_file"
 }
 
 normalize_path() {
@@ -611,7 +698,10 @@ assert_unique_field() {
 }
 
 normalize_payload() {
-  sed -E 's/^published_at: "[^"]*"/published_at: "__PUBLISHED_AT__"/'
+  sed -E \
+    -e 's/^published_at: "?[^"]*"?/published_at: "__PUBLISHED_AT__"/' \
+    -e 's#^publication_receipt_path: "?[^"]*"?#publication_receipt_path: "__PUBLICATION_RECEIPT_PATH__"#' \
+    -e 's/^publication_receipt_sha256: "?[^"]*"?/publication_receipt_sha256: "__PUBLICATION_RECEIPT_SHA256__"/'
 }
 
 maybe_reuse_published_at() {
@@ -642,11 +732,22 @@ maybe_reuse_published_at() {
 }
 
 main() {
-  local generator_version root_sha commands_sha skills_sha skills_registry_sha services_sha tools_sha instance_commands_sha instance_skills_sha locality_scopes_sha locality_lock_sha locality_generation_id extensions_sha extensions_lock_sha extensions_generation_id
-  local tmpdir candidates_raw candidates_sorted artifacts_raw routing_tmp artifact_tmp lock_tmp generation_seed generation_sha generation_id default_published_at published_at routing_context_json resolution_order_json
+  local root_sha commands_sha skills_sha skills_registry_sha services_sha tools_sha instance_commands_sha instance_skills_sha locality_scopes_sha locality_lock_sha locality_generation_id extensions_sha extensions_lock_sha extensions_generation_id
+  local locality_publication_status extensions_publication_status publication_status
+  local tmpdir candidates_raw candidates_sorted artifacts_raw routing_tmp artifact_tmp lock_tmp receipt_tmp
+  local generation_seed generation_sha generation_id default_published_at published_at routing_context_json resolution_order_json
+  local receipt_slug receipt_rel receipt_abs receipt_id receipt_sha
+  local invalidation_conditions=(
+    "root-manifest-sha-changed"
+    "native-capability-manifest-changed"
+    "locality-effective-sha-changed"
+    "locality-lock-sha-changed"
+    "extensions-effective-sha-changed"
+    "extensions-lock-sha-changed"
+  )
 
   mkdir -p "$EFFECTIVE_DIR"
-  generator_version="$(yq -r '.versioning.harness.release_version // ""' "$ROOT_MANIFEST")"
+  GENERATOR_VERSION="$(yq -r '.versioning.harness.release_version // ""' "$ROOT_MANIFEST")"
   LOCALITY_SCOPES_JSON="$(active_locality_scopes_json)"
   root_sha="$(hash_file "$ROOT_MANIFEST")"
   commands_sha="$(framework_commands_digest)"
@@ -659,9 +760,15 @@ main() {
   locality_scopes_sha="$(locality_scopes_digest)"
   locality_lock_sha="$(locality_lock_digest)"
   locality_generation_id="$(yq -r '.generation_id // ""' "$LOCALITY_LOCK_FILE")"
+  locality_publication_status="$(yq -r '.publication_status // "published"' "$LOCALITY_SCOPES_FILE")"
   extensions_sha="$(extensions_catalog_digest)"
   extensions_lock_sha="$(extensions_lock_digest)"
   extensions_generation_id="$(yq -r '.generation_id // ""' "$EXTENSIONS_LOCK_FILE")"
+  extensions_publication_status="$(yq -r '.publication_status // "published"' "$EXTENSIONS_CATALOG")"
+  publication_status="published"
+  if [[ "$locality_publication_status" != "published" || "$extensions_publication_status" != "published" ]]; then
+    publication_status="published_with_quarantine"
+  fi
 
   tmpdir="$(mktemp -d "${TMPDIR:-/tmp}/octon-capabilities.XXXXXX")"
   trap '[[ -n "${tmpdir:-}" ]] && rm -rf "$tmpdir"' EXIT
@@ -671,6 +778,7 @@ main() {
   routing_tmp="$tmpdir/routing.effective.yml"
   artifact_tmp="$tmpdir/artifact-map.yml"
   lock_tmp="$tmpdir/generation.lock.yml"
+  receipt_tmp="$tmpdir/publication.receipt.yml"
 
   : >"$candidates_raw"
   : >"$artifacts_raw"
@@ -700,6 +808,8 @@ main() {
     --arg locality_generation_id "$locality_generation_id" \
     --arg extension_generation_id "$extensions_generation_id" \
     --arg host_projection_mode "materialized-copy-v1" \
+    --arg locality_publication_status "$locality_publication_status" \
+    --arg extension_publication_status "$extensions_publication_status" \
     --arg resolution_mode "$(yq -r '.resolution_mode // "single-active-scope"' "$LOCALITY_SCOPES_FILE")" \
     '
       {
@@ -707,17 +817,25 @@ main() {
         locality_generation_id: $locality_generation_id,
         extension_generation_id: $extension_generation_id,
         host_projection_mode: $host_projection_mode,
+        locality_publication_status: $locality_publication_status,
+        extension_publication_status: $extension_publication_status,
         scope_resolution_mode: $resolution_mode
       }
     ')"
   resolution_order_json="$(jq -cs '[.[] | .effective_id]' "$candidates_sorted")"
 
+  receipt_slug="$(receipt_timestamp_slug "__PUBLISHED_AT__")"
+  receipt_rel="$(capability_publication_receipt_rel "$receipt_slug" "$generation_id")"
+  receipt_abs="$ROOT_DIR/$receipt_rel"
+  receipt_id="capabilities-${generation_id}"
+
   jq -n \
-    --arg schema_version "octon-capability-routing-effective-v2" \
-    --arg generator_version "$generator_version" \
+    --arg schema_version "octon-capability-routing-effective-v3" \
+    --arg generator_version "$GENERATOR_VERSION" \
     --arg generation_id "$generation_id" \
     --arg published_at "__PUBLISHED_AT__" \
-    --arg publication_status "published" \
+    --arg publication_status "$publication_status" \
+    --arg publication_receipt_path "__PUBLICATION_RECEIPT_PATH__" \
     --arg root_sha "$root_sha" \
     --arg commands_sha "$commands_sha" \
     --arg skills_sha "$skills_sha" \
@@ -742,6 +860,15 @@ main() {
         generation_id: $generation_id,
         published_at: $published_at,
         publication_status: $publication_status,
+        publication_receipt_path: $publication_receipt_path,
+        invalidation_conditions: [
+          "root-manifest-sha-changed",
+          "native-capability-manifest-changed",
+          "locality-effective-sha-changed",
+          "locality-lock-sha-changed",
+          "extensions-effective-sha-changed",
+          "extensions-lock-sha-changed"
+        ],
         source: {
           root_manifest_path: ".octon/octon.yml",
           root_manifest_sha256: $root_sha,
@@ -777,8 +904,8 @@ main() {
     ' | yq -P - >"$routing_tmp"
 
   jq -n \
-    --arg schema_version "octon-capability-routing-artifact-map-v2" \
-    --arg generator_version "$generator_version" \
+    --arg schema_version "octon-capability-routing-artifact-map-v3" \
+    --arg generator_version "$GENERATOR_VERSION" \
     --arg generation_id "$generation_id" \
     --arg published_at "__PUBLISHED_AT__" \
     --argjson artifacts "$(jq -cs 'sort_by(.artifact_map_id)' "$artifacts_raw")" \
@@ -793,10 +920,13 @@ main() {
     ' | yq -P - >"$artifact_tmp"
 
   jq -n \
-    --arg schema_version "octon-capability-routing-generation-lock-v2" \
-    --arg generator_version "$generator_version" \
+    --arg schema_version "octon-capability-routing-generation-lock-v3" \
+    --arg generator_version "$GENERATOR_VERSION" \
     --arg generation_id "$generation_id" \
     --arg published_at "__PUBLISHED_AT__" \
+    --arg publication_status "$publication_status" \
+    --arg publication_receipt_path "__PUBLICATION_RECEIPT_PATH__" \
+    --arg publication_receipt_sha "__PUBLICATION_RECEIPT_SHA256__" \
     --arg root_sha "$root_sha" \
     --arg commands_sha "$commands_sha" \
     --arg skills_sha "$skills_sha" \
@@ -817,6 +947,9 @@ main() {
         generator_version: $generator_version,
         generation_id: $generation_id,
         published_at: $published_at,
+        publication_status: $publication_status,
+        publication_receipt_path: $publication_receipt_path,
+        publication_receipt_sha256: $publication_receipt_sha,
         root_manifest_sha256: $root_sha,
         framework_commands_manifest_sha256: $commands_sha,
         framework_skills_manifest_sha256: $skills_sha,
@@ -831,6 +964,28 @@ main() {
         extensions_catalog_sha256: $extensions_sha,
         extensions_generation_lock_sha256: $extensions_lock_sha,
         extensions_generation_id: $extensions_generation_id,
+        required_inputs: [
+          ".octon/octon.yml",
+          ".octon/framework/capabilities/runtime/commands/manifest.yml",
+          ".octon/framework/capabilities/runtime/skills/manifest.yml",
+          ".octon/framework/capabilities/runtime/skills/registry.yml",
+          ".octon/framework/capabilities/runtime/services/manifest.yml",
+          ".octon/framework/capabilities/runtime/tools/manifest.yml",
+          ".octon/instance/capabilities/runtime/commands/manifest.yml",
+          ".octon/instance/capabilities/runtime/skills/manifest.yml",
+          ".octon/generated/effective/locality/scopes.effective.yml",
+          ".octon/generated/effective/locality/generation.lock.yml",
+          ".octon/generated/effective/extensions/catalog.effective.yml",
+          ".octon/generated/effective/extensions/generation.lock.yml"
+        ],
+        invalidation_conditions: [
+          "root-manifest-sha-changed",
+          "native-capability-manifest-changed",
+          "locality-effective-sha-changed",
+          "locality-lock-sha-changed",
+          "extensions-effective-sha-changed",
+          "extensions-lock-sha-changed"
+        ],
         published_files: [
           {path: ".octon/generated/effective/capabilities/routing.effective.yml"},
           {path: ".octon/generated/effective/capabilities/artifact-map.yml"},
@@ -840,8 +995,18 @@ main() {
     ' | yq -P - >"$lock_tmp"
 
   published_at="$(maybe_reuse_published_at "$routing_tmp" "$artifact_tmp" "$lock_tmp" "$default_published_at")"
-  perl -0pi -e 's/__PUBLISHED_AT__/'"$published_at"'/g' "$routing_tmp" "$artifact_tmp" "$lock_tmp"
+  receipt_slug="$(receipt_timestamp_slug "$published_at")"
+  receipt_rel="$(capability_publication_receipt_rel "$receipt_slug" "$generation_id")"
+  receipt_abs="$ROOT_DIR/$receipt_rel"
+  receipt_id="capabilities-$receipt_slug-$generation_id"
+  PUBLISHED_AT="$published_at"
+  write_capability_publication_receipt "$receipt_tmp" "$receipt_id" "$generation_id" "$publication_status" "$root_sha" "$commands_sha" "$skills_sha" "$skills_registry_sha" "$services_sha" "$tools_sha" "$instance_commands_sha" "$instance_skills_sha" "$locality_scopes_sha" "$locality_lock_sha" "$locality_publication_status" "$extensions_sha" "$extensions_lock_sha" "$extensions_publication_status"
+  receipt_sha="$(hash_file "$receipt_tmp")"
+  perl -0pi -e 's/__PUBLISHED_AT__/'"$published_at"'/g; s#__PUBLICATION_RECEIPT_PATH__#'"$receipt_rel"'#g' "$routing_tmp" "$artifact_tmp" "$lock_tmp"
+  perl -0pi -e 's/__PUBLICATION_RECEIPT_SHA256__/'"$receipt_sha"'/g' "$lock_tmp"
 
+  mkdir -p "$(dirname "$receipt_abs")"
+  mv "$receipt_tmp" "$receipt_abs"
   mv "$routing_tmp" "$ROUTING_FILE"
   mv "$artifact_tmp" "$ARTIFACT_MAP_FILE"
   mv "$lock_tmp" "$GENERATION_LOCK_FILE"

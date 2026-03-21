@@ -13,7 +13,8 @@ copy_packet2_runtime_scripts() {
   mkdir -p \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts" \
-    "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas"
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas" \
+    "$fixture_root/.octon/framework/capabilities/_ops/scripts"
 
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh"
@@ -33,6 +34,10 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
@@ -45,6 +50,8 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/scope.schema.json"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  cp "$REPO_ROOT/.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh" \
+    "$fixture_root/.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
 
   chmod +x \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh" \
@@ -56,10 +63,13 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" \
-    "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+    "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
+    "$fixture_root/.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
 }
 
 write_packet8_pack() {
@@ -133,6 +143,11 @@ write_valid_packet2_fixture() {
 
   mkdir -p \
     "$fixture_root/.octon/framework/overlay-points" \
+    "$fixture_root/.octon/framework/capabilities/runtime/commands" \
+    "$fixture_root/.octon/framework/capabilities/runtime/skills" \
+    "$fixture_root/.octon/framework/capabilities/runtime/skills/native-skill" \
+    "$fixture_root/.octon/framework/capabilities/runtime/services" \
+    "$fixture_root/.octon/framework/capabilities/runtime/tools" \
     "$fixture_root/.octon/framework/agency/governance" \
     "$fixture_root/.octon/framework/assurance/governance" \
     "$fixture_root/.octon/framework/capabilities/governance" \
@@ -144,9 +159,12 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/instance/locality" \
     "$fixture_root/.octon/instance/locality/scopes/octon-harness" \
     "$fixture_root/.octon/instance/cognition/context/scopes/octon-harness" \
+    "$fixture_root/.octon/instance/capabilities/runtime/commands" \
+    "$fixture_root/.octon/instance/capabilities/runtime/skills" \
     "$fixture_root/.octon/inputs/additive/extensions/.archive" \
     "$fixture_root/.octon/state/control/locality" \
     "$fixture_root/.octon/generated/effective/locality" \
+    "$fixture_root/.octon/generated/effective/capabilities" \
     "$fixture_root/.octon/generated/proposals"
 
   cat >"$fixture_root/.octon/octon.yml" <<'EOF'
@@ -257,6 +275,89 @@ EOF
 # migrate-harness overview
 EOF
 
+  cat >"$fixture_root/.octon/framework/capabilities/runtime/commands/manifest.yml" <<'EOF'
+schema_version: "1.0"
+commands:
+  - id: native-command
+    display_name: Native Command
+    path: native-command.md
+    summary: Native command summary.
+    access: agent
+EOF
+
+  cat >"$fixture_root/.octon/framework/capabilities/runtime/commands/native-command.md" <<'EOF'
+# Native Command
+EOF
+
+  cat >"$fixture_root/.octon/framework/capabilities/runtime/skills/manifest.yml" <<'EOF'
+schema_version: "3.0"
+default: null
+skills:
+  - id: native-skill
+    display_name: Native Skill
+    group: synthesis
+    path: native-skill/
+    skill_class: invocable
+    summary: Native skill summary.
+    status: active
+    tags: []
+    triggers: []
+    skill_sets: []
+    capabilities: []
+EOF
+
+  cat >"$fixture_root/.octon/framework/capabilities/runtime/skills/registry.yml" <<'EOF'
+schema_version: "4.0"
+routing:
+  explicit_command_required: false
+  ambiguity_resolution: "ask"
+skills:
+  native-skill:
+    version: "1.0.0"
+    host_adapters: [codex]
+    routing:
+      selectors:
+        include:
+          - "**"
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
+    commands:
+      - /native-skill
+    requires:
+      context: []
+    io:
+      inputs: []
+      outputs: []
+EOF
+
+  cat >"$fixture_root/.octon/framework/capabilities/runtime/skills/native-skill/SKILL.md" <<'EOF'
+# Native Skill
+allowed-tools: Read
+EOF
+
+  cat >"$fixture_root/.octon/framework/capabilities/runtime/services/manifest.yml" <<'EOF'
+schema_version: "1.0"
+services: []
+EOF
+
+  cat >"$fixture_root/.octon/framework/capabilities/runtime/tools/manifest.yml" <<'EOF'
+schema_version: "1.0"
+packs: []
+tools: []
+EOF
+
+  cat >"$fixture_root/.octon/instance/capabilities/runtime/commands/manifest.yml" <<'EOF'
+schema_version: "octon-instance-command-manifest-v1"
+commands: []
+EOF
+
+  cat >"$fixture_root/.octon/instance/capabilities/runtime/skills/manifest.yml" <<'EOF'
+schema_version: "octon-instance-skill-manifest-v1"
+skills: []
+EOF
+
   cat >"$fixture_root/.octon/instance/manifest.yml" <<'EOF'
 schema_version: "octon-instance-manifest-v1"
 instance_id: "fixture"
@@ -356,7 +457,7 @@ archived: []
 EOF
 
   cat >"$fixture_root/.octon/state/control/locality/quarantine.yml" <<'EOF'
-schema_version: "octon-locality-quarantine-state-v1"
+schema_version: "octon-locality-quarantine-state-v2"
 updated_at: "2026-03-19T00:00:00Z"
 records: []
 EOF

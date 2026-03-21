@@ -109,6 +109,8 @@ Use this decision sequence:
   - Runtime-local `_ops/` under `runtime/` hosts assurance engine entrypoints.
   - retained assurance and validation receipts live under
     `/.octon/state/evidence/validation/assurance/**`.
+  - runtime-facing publication receipts live under
+    `/.octon/state/evidence/validation/publication/**`.
   - ephemeral assurance rebuild intermediates may live under
     `/.octon/generated/.tmp/assurance/**`.
 

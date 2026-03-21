@@ -11,7 +11,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-capability-routing-artifact-map-v2"
+      "const": "octon-capability-routing-artifact-map-v3"
     },
     "generator_version": {
       "type": "string",

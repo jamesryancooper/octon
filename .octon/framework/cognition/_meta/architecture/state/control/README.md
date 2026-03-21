@@ -21,6 +21,8 @@ when their owning contracts explicitly ratify them.
 - Desired authored configuration remains outside `state/control/**`; for
   extensions that surface is `.octon/instance/extensions.yml`.
 - Runtime-facing compiled publication remains under `generated/**`.
+- Publication receipts for runtime-facing effective families live under
+  `.octon/state/evidence/validation/publication/**`.
 - Invalid control-state publication must fail closed rather than being ignored.
 
 ## Schema Contracts

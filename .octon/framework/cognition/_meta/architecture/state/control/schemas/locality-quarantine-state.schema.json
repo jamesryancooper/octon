@@ -11,7 +11,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-locality-quarantine-state-v1"
+      "const": "octon-locality-quarantine-state-v2"
     },
     "updated_at": {
       "type": "string",
@@ -25,7 +25,9 @@
         "required": [
           "scope_id",
           "manifest_path",
-          "reason_code"
+          "reason_code",
+          "quarantined_at",
+          "publication_blocking"
         ],
         "properties": {
           "scope_id": {
@@ -39,6 +41,13 @@
           "reason_code": {
             "type": "string",
             "minLength": 1
+          },
+          "quarantined_at": {
+            "type": "string",
+            "minLength": 1
+          },
+          "publication_blocking": {
+            "type": "boolean"
           }
         }
       }

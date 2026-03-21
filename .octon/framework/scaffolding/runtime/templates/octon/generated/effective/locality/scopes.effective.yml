@@ -1,12 +1,21 @@
-schema_version: "octon-locality-effective-scopes-v1"
+schema_version: "octon-locality-effective-scopes-v2"
 generator_version: ""
 generation_id: "locality-bootstrap-placeholder"
 published_at: "1970-01-01T00:00:00Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/locality/pending-locality.yml"
+invalidation_conditions:
+  - "locality-manifest-sha-changed"
+  - "locality-registry-sha-changed"
+  - "quarantine-state-changed"
+  - "scope-manifest-sha-changed"
 resolution_mode: "single-active-scope"
 source:
   locality_manifest_path: ".octon/instance/locality/manifest.yml"
   locality_manifest_sha256: ""
   locality_registry_path: ".octon/instance/locality/registry.yml"
   locality_registry_sha256: ""
+  quarantine_path: ".octon/state/control/locality/quarantine.yml"
+  quarantine_sha256: ""
 active_scope_ids: []
 scopes: []

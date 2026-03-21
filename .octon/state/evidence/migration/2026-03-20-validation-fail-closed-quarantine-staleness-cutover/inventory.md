@@ -1,0 +1,35 @@
+# Inventory
+
+- Runtime-effective validation and publication enforcement:
+  - `.octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh`
+  - `.octon/framework/assurance/runtime/_ops/scripts/validate-{locality,extension,capability}-publication-state.sh`
+  - `.octon/framework/orchestration/runtime/_ops/scripts/publish-{locality,extension}-state.sh`
+  - `.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh`
+- Contract surfaces:
+  - `.octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/**`
+  - `.octon/framework/cognition/_meta/architecture/state/control/schemas/*.json`
+  - `.octon/framework/cognition/_meta/architecture/generated/effective/{extensions,locality,capabilities}/schemas/*.json`
+- Regression coverage:
+  - `.octon/framework/assurance/runtime/_ops/tests/test_packet2_fixture_lib.sh`
+  - `.octon/framework/assurance/runtime/_ops/tests/test-validate-locality-publication-state.sh`
+  - `.octon/framework/assurance/runtime/_ops/tests/test-validate-extension-publication-state.sh`
+  - `.octon/framework/assurance/runtime/_ops/tests/test-validate-capability-publication-state.sh`
+  - `.octon/framework/assurance/runtime/_ops/tests/test-validate-runtime-effective-state.sh`
+  - `.octon/framework/assurance/runtime/_ops/tests/test-validate-extension-pack-contract.sh`
+  - `.octon/framework/assurance/runtime/_ops/tests/test-validate-host-projections.sh`
+  - `.octon/framework/assurance/runtime/_ops/tests/test-export-harness.sh`
+- Canonical docs and scaffolds:
+  - `.octon/README.md`
+  - `.octon/instance/bootstrap/START.md`
+  - `.octon/framework/cognition/_meta/architecture/{specification.md,runtime-vs-ops-contract.md}`
+  - `.octon/framework/scaffolding/runtime/templates/octon/**`
+  - `.octon/state/{control,evidence}/README.md`
+- Generated refresh and retained receipts:
+  - `.octon/generated/effective/{extensions,locality,capabilities}/**`
+  - `.octon/state/control/extensions/{active.yml,quarantine.yml}`
+  - `.octon/state/control/locality/quarantine.yml`
+  - `.octon/state/evidence/validation/publication/**`
+- Closeout:
+  - `.octon/instance/cognition/decisions/058-validation-fail-closed-quarantine-staleness-atomic-cutover.md`
+  - `.octon/generated/proposals/registry.yml`
+  - `.octon/inputs/exploratory/proposals/.archive/architecture/validation-fail-closed-quarantine-staleness/`

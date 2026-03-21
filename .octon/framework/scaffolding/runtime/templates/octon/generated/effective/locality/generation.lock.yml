@@ -1,7 +1,10 @@
-schema_version: "octon-locality-generation-lock-v1"
+schema_version: "octon-locality-generation-lock-v2"
 generator_version: ""
 generation_id: "locality-bootstrap-placeholder"
 published_at: "1970-01-01T00:00:00Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/locality/pending-locality.yml"
+publication_receipt_sha256: "pending"
 locality_manifest_sha256: ""
 locality_registry_sha256: ""
 quarantine_sha256: ""
@@ -9,4 +12,14 @@ published_files:
   - path: ".octon/generated/effective/locality/scopes.effective.yml"
   - path: ".octon/generated/effective/locality/artifact-map.yml"
   - path: ".octon/generated/effective/locality/generation.lock.yml"
+required_inputs:
+  - ".octon/octon.yml"
+  - ".octon/instance/manifest.yml"
+  - ".octon/instance/locality/manifest.yml"
+  - ".octon/instance/locality/registry.yml"
+invalidation_conditions:
+  - "locality-manifest-sha-changed"
+  - "locality-registry-sha-changed"
+  - "quarantine-state-changed"
+  - "scope-manifest-sha-changed"
 scope_manifest_digests: []

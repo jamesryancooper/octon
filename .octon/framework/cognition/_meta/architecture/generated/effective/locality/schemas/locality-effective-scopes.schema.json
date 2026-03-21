@@ -7,11 +7,16 @@
     "generator_version",
     "generation_id",
     "published_at",
-    "source"
+    "publication_status",
+    "publication_receipt_path",
+    "invalidation_conditions",
+    "source",
+    "active_scope_ids",
+    "scopes"
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-locality-effective-scopes-v1"
+      "const": "octon-locality-effective-scopes-v2"
     },
     "generator_version": {
       "type": "string",
@@ -25,14 +30,44 @@
       "type": "string",
       "minLength": 1
     },
+    "publication_status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "published_with_quarantine"
+      ]
+    },
+    "publication_receipt_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "invalidation_conditions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
     "source": {
       "type": "object",
       "required": [
         "locality_manifest_path",
         "locality_manifest_sha256",
         "locality_registry_path",
-        "locality_registry_sha256"
+        "locality_registry_sha256",
+        "quarantine_path",
+        "quarantine_sha256"
       ]
+    },
+    "active_scope_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "scopes": {
+      "type": "array"
     }
   }
 }

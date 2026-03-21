@@ -11,4 +11,5 @@
 | `state/control/locality/quarantine.yml` | Locality quarantine state |
 
 Desired authored configuration remains under `instance/**`. Runtime-facing
-compiled publication remains under `generated/**`.
+compiled publication remains under `generated/**`. Machine-readable
+publication receipts live under `state/evidence/validation/publication/**`.

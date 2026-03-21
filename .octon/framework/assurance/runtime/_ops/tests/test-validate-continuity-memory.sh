@@ -163,7 +163,7 @@ scopes:
 EOF
 
   cat > "$fixture_root/.octon/state/control/locality/quarantine.yml" <<'EOF'
-schema_version: "octon-locality-quarantine-state-v1"
+schema_version: "octon-locality-quarantine-state-v2"
 updated_at: "2026-03-19T00:00:00Z"
 records: []
 EOF
@@ -405,7 +405,7 @@ case_quarantined_scope_continuity_fails() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
   cat > "$fixture_root/.octon/state/control/locality/quarantine.yml" <<'EOF'
-schema_version: "octon-locality-quarantine-state-v1"
+schema_version: "octon-locality-quarantine-state-v2"
 updated_at: "2026-03-19T00:00:00Z"
 records:
   - scope_id: "octon-harness"

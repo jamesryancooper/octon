@@ -79,6 +79,8 @@ No other `instance/**` subtree is overlay-capable in v1.
   `/.octon/state/continuity/scopes/<scope-id>/`
 - Canonical retained operational evidence:
   `/.octon/state/evidence/`
+- Canonical publication validation receipts:
+  `/.octon/state/evidence/validation/publication/`
 - Canonical effective locality outputs:
   `/.octon/generated/effective/locality/`
 - Canonical effective capability-routing outputs:
@@ -123,6 +125,8 @@ descendant `.octon/` roots, sidecars, or ancestor-chain lookup. In v1:
 - runtime-facing capability consumers use
   `generated/effective/capabilities/**`, which is compiled and
   non-authoritative
+- runtime and policy trust these effective families only when freshness,
+  generation-lock coherence, and publication receipts remain current
 - derived cognition summaries, graphs, and projections live under
   `generated/cognition/**` and remain rebuildable only
 
@@ -169,6 +173,8 @@ Generated outputs are class-rooted, rebuildable, and never source-of-truth.
 - proposal discovery lives only under `generated/proposals/registry.yml`
 - retained validation and assurance receipts live under `state/evidence/**`,
   not under `generated/**`
+- machine-readable publication receipts live under
+  `state/evidence/validation/publication/**`
 - `generated/artifacts/**`, `generated/assurance/**`, and
   `generated/effective/assurance/**` are not canonical Packet 10 families
 

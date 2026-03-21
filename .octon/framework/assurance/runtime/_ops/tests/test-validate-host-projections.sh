@@ -80,11 +80,14 @@ allowed-tools: Read
 EOF
 
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'EOF'
-schema_version: "octon-extension-effective-catalog-v3"
+schema_version: "octon-extension-effective-catalog-v4"
 generator_version: "0.5.1"
 generation_id: "extensions-fixture"
 published_at: "2026-03-20T00:00:00Z"
 publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/fixture.yml"
+invalidation_conditions:
+  - "desired-config-sha-changed"
 desired_selected_packs: []
 published_active_packs:
   - pack_id: "demo-ext"
@@ -98,13 +101,6 @@ packs:
     manifest_path: ".octon/inputs/additive/extensions/demo-ext/pack.yml"
     trust_decision: "allow"
     publication_status: "published"
-    content_roots:
-      skills: ".octon/inputs/additive/extensions/demo-ext/skills"
-      commands: ".octon/inputs/additive/extensions/demo-ext/commands"
-      templates: null
-      prompts: null
-      context: null
-      validation: null
     routing_exports:
       commands:
         - capability_id: "demo-ext-command"
@@ -145,11 +141,14 @@ source:
 EOF
 
   cat >"$root/.octon/generated/effective/capabilities/routing.effective.yml" <<'EOF'
-schema_version: "octon-capability-routing-effective-v2"
+schema_version: "octon-capability-routing-effective-v3"
 generator_version: "0.5.1"
 generation_id: "capabilities-fixture"
 published_at: "2026-03-20T00:00:00Z"
 publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/capabilities/fixture.yml"
+invalidation_conditions:
+  - "root-manifest-sha-changed"
 source:
   root_manifest_path: ".octon/octon.yml"
   root_manifest_sha256: "fixture"
@@ -300,7 +299,7 @@ resolution_order:
 EOF
 
   cat >"$root/.octon/generated/effective/capabilities/artifact-map.yml" <<'EOF'
-schema_version: "octon-capability-routing-artifact-map-v2"
+schema_version: "octon-capability-routing-artifact-map-v3"
 generator_version: "0.5.1"
 generation_id: "capabilities-fixture"
 published_at: "2026-03-20T00:00:00Z"

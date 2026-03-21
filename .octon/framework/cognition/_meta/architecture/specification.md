@@ -81,22 +81,25 @@ super-root cutover.
     datasets, and projections only; it never becomes memory or ADR authority.
 34. Retained assurance and validation receipts belong under
     `state/evidence/validation/**`, not under `generated/**`.
-35. Raw exploratory proposals live only under
+35. Runtime-facing publication receipts live under
+    `state/evidence/validation/publication/**` and remain retained
+    operational evidence rather than generated outputs.
+36. Raw exploratory proposals live only under
     `inputs/exploratory/proposals/<kind>/<proposal_id>/**`; archived proposal
     packages live only under
     `inputs/exploratory/proposals/.archive/<kind>/<proposal_id>/**`.
-36. `generated/proposals/registry.yml` is the only generated proposal
+37. `generated/proposals/registry.yml` is the only generated proposal
     discovery surface and remains non-authoritative.
-37. `octon.yml#policies.generated_commit_defaults` is the binding default
+38. `octon.yml#policies.generated_commit_defaults` is the binding default
     commit-versus-rebuild policy for generated outputs.
-38. Proposals are excluded from runtime resolution, policy resolution,
+39. Proposals are excluded from runtime resolution, policy resolution,
     `bootstrap_core`, and `repo_snapshot`.
-39. No descendant-local or scope-local proposal workspace exists in v1.
-40. Raw extension packs use `octon-extension-pack-v3` and must carry
+40. No descendant-local or scope-local proposal workspace exists in v1.
+41. Raw extension packs use `octon-extension-pack-v3` and must carry
     `compatibility.required_contracts` plus pack-authored provenance fields.
-41. Repo trust decisions remain in `instance/extensions.yml`; pack provenance
+42. Repo trust decisions remain in `instance/extensions.yml`; pack provenance
     remains in `pack.yml`.
-42. `pack_bundle` is a trust-agnostic raw additive transfer profile and does
+43. `pack_bundle` is a trust-agnostic raw additive transfer profile and does
     not imply pack activation or publication.
 
 ## Precedence
@@ -157,6 +160,8 @@ for runtime, governance, and practices.
 - repo continuity: `/.octon/state/continuity/repo/`
 - scope continuity: `/.octon/state/continuity/scopes/`
 - retained evidence: `/.octon/state/evidence/`
+- publication validation receipts:
+  `/.octon/state/evidence/validation/publication/`
 - extension actual state: `/.octon/state/control/extensions/active.yml`
 - extension quarantine state: `/.octon/state/control/extensions/quarantine.yml`
 - locality quarantine: `/.octon/state/control/locality/quarantine.yml`
@@ -237,6 +242,8 @@ before it becomes legal.
 - Framework-local `_ops/state/**` paths block runtime.
 - Stale required generated outputs block runtime.
 - Stale required effective publication families block runtime and policy use.
+- Runtime-effective publication validators must require coherent publication
+  receipts under `state/evidence/validation/publication/**`.
 - Direct reads from raw `inputs/**` by runtime or policy code block runtime.
 - Direct reads from raw exploratory proposal paths by runtime or policy code
   are always invalid raw-input dependencies.

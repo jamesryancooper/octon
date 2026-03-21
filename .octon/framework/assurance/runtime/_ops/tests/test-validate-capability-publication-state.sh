@@ -195,16 +195,22 @@ skills: []
 EOF
 
   cat >"$root/.octon/generated/effective/locality/scopes.effective.yml" <<'EOF'
-schema_version: "octon-locality-effective-scopes-v1"
+schema_version: "octon-locality-effective-scopes-v2"
 generator_version: "0.5.1"
 generation_id: "locality-fixture"
 published_at: "2026-03-20T00:00:00Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/locality/fixture.yml"
+invalidation_conditions:
+  - "locality-manifest-sha-changed"
 resolution_mode: "single-active-scope"
 source:
   locality_manifest_path: ".octon/instance/locality/manifest.yml"
   locality_manifest_sha256: "fixture"
   locality_registry_path: ".octon/instance/locality/registry.yml"
   locality_registry_sha256: "fixture"
+  quarantine_path: ".octon/state/control/locality/quarantine.yml"
+  quarantine_sha256: "fixture"
 active_scope_ids:
   - "octon-harness"
 scopes:
@@ -223,10 +229,13 @@ scopes:
 EOF
 
   cat >"$root/.octon/generated/effective/locality/generation.lock.yml" <<'EOF'
-schema_version: "octon-locality-generation-lock-v1"
+schema_version: "octon-locality-generation-lock-v2"
 generator_version: "0.5.1"
 generation_id: "locality-fixture"
 published_at: "2026-03-20T00:00:00Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/locality/fixture.yml"
+publication_receipt_sha256: "fixture"
 locality_manifest_sha256: "fixture"
 locality_registry_sha256: "fixture"
 quarantine_sha256: "fixture"
@@ -234,15 +243,22 @@ published_files:
   - path: ".octon/generated/effective/locality/scopes.effective.yml"
   - path: ".octon/generated/effective/locality/artifact-map.yml"
   - path: ".octon/generated/effective/locality/generation.lock.yml"
+required_inputs:
+  - ".octon/octon.yml"
+invalidation_conditions:
+  - "locality-manifest-sha-changed"
 scope_manifest_digests: []
 EOF
 
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'EOF'
-schema_version: "octon-extension-effective-catalog-v3"
+schema_version: "octon-extension-effective-catalog-v4"
 generator_version: "0.5.1"
 generation_id: "extensions-fixture"
 published_at: "2026-03-20T00:00:00Z"
 publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/fixture.yml"
+invalidation_conditions:
+  - "desired-config-sha-changed"
 desired_selected_packs: []
 published_active_packs:
   - pack_id: "demo-ext"
@@ -261,13 +277,6 @@ packs:
     manifest_path: ".octon/inputs/additive/extensions/demo-ext/pack.yml"
     trust_decision: "allow"
     publication_status: "published"
-    content_roots:
-      skills: ".octon/inputs/additive/extensions/demo-ext/skills"
-      commands: ".octon/inputs/additive/extensions/demo-ext/commands"
-      templates: null
-      prompts: null
-      context: null
-      validation: null
     routing_exports:
       commands:
         - capability_id: "demo-ext-command"
@@ -308,10 +317,13 @@ source:
 EOF
 
   cat >"$root/.octon/generated/effective/extensions/generation.lock.yml" <<'EOF'
-schema_version: "octon-extension-generation-lock-v3"
+schema_version: "octon-extension-generation-lock-v4"
 generator_version: "0.5.1"
 generation_id: "extensions-fixture"
 published_at: "2026-03-20T00:00:00Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/fixture.yml"
+publication_receipt_sha256: "fixture"
 desired_config_sha256: "fixture"
 root_manifest_sha256: "fixture"
 published_files:
@@ -326,6 +338,11 @@ published_files:
   - path: ".octon/generated/effective/extensions/published/demo-ext/bundled-first-party/skills"
   - path: ".octon/generated/effective/extensions/published/demo-ext/bundled-first-party/skills/demo-ext-skill"
   - path: ".octon/generated/effective/extensions/published/demo-ext/bundled-first-party/skills/demo-ext-skill/SKILL.md"
+required_inputs:
+  - ".octon/instance/extensions.yml"
+  - ".octon/octon.yml"
+invalidation_conditions:
+  - "desired-config-sha-changed"
 pack_payload_digests: []
 EOF
 }
@@ -439,6 +456,48 @@ EOF
   [[ -z "$preferred_scope_hits" && "$scope_score" == "0" ]]
 }
 
+case_degraded_extension_generation_publishes_with_quarantine() {
+  local fixture
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  perl -0pi -e 's/publication_status: "published"/publication_status: "published_with_quarantine"/' \
+    "$fixture/.octon/generated/effective/extensions/catalog.effective.yml"
+  run_publish "$fixture"
+  [[ "$(yq -r '.publication_status // ""' "$fixture/.octon/generated/effective/capabilities/routing.effective.yml")" == "published_with_quarantine" ]]
+  [[ "$(yq -r '.routing_context.extension_publication_status // ""' "$fixture/.octon/generated/effective/capabilities/routing.effective.yml")" == "published_with_quarantine" ]]
+  run_validator "$fixture"
+}
+
+case_quarantined_scope_is_excluded_from_scope_relevance() {
+  local fixture preferred_scope_hits scope_score
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  perl -0pi -e 's/publication_status: published/publication_status: published_with_quarantine/' \
+    "$fixture/.octon/generated/effective/locality/scopes.effective.yml"
+  cat >>"$fixture/.octon/generated/effective/locality/scopes.effective.yml" <<'EOF'
+  - scope_id: "quarantined-command-scope"
+    manifest_path: ".octon/instance/locality/scopes/quarantined-command-scope/scope.yml"
+    display_name: "Quarantined Command Scope"
+    root_path: ".octon"
+    owner: "Fixture Maintainers"
+    status: "active"
+    tech_tags: []
+    language_tags: []
+    include_globs: []
+    exclude_globs: []
+    routing_hints:
+      preferred_capability_domains: ["command"]
+EOF
+  run_publish "$fixture"
+  preferred_scope_hits="$(yq -r '.routing_candidates[] | select(.effective_id == "framework.command.demo-command") | .scope_relevance.preferred_domain_match_scope_ids[]? // ""' "$fixture/.octon/generated/effective/capabilities/routing.effective.yml" | awk 'NF')"
+  scope_score="$(yq -r '.routing_candidates[] | select(.effective_id == "framework.command.demo-command") | .scope_relevance.score // -1' "$fixture/.octon/generated/effective/capabilities/routing.effective.yml")"
+  [[ "$(yq -r '.publication_status // ""' "$fixture/.octon/generated/effective/capabilities/routing.effective.yml")" == "published_with_quarantine" ]]
+  [[ -z "$preferred_scope_hits" && "$scope_score" == "0" ]]
+  run_validator "$fixture"
+}
+
 main() {
   assert_success "capability publication validates for a fresh published fixture" case_publish_and_validate_passes
   assert_success "capability publication includes extension-contributed commands and skills" case_extension_capabilities_are_published
@@ -448,6 +507,8 @@ main() {
   assert_success "capability publication validator rejects raw inputs references" case_raw_inputs_reference_fails
   assert_success "mutable instance skill inputs do not rotate capability generation" case_mutable_instance_inputs_do_not_rotate_digest
   assert_success "inactive scopes do not influence routing scope relevance" case_inactive_scopes_do_not_affect_scope_relevance
+  assert_success "degraded extension publication still yields coherent routing" case_degraded_extension_generation_publishes_with_quarantine
+  assert_success "quarantined scopes are excluded from routing relevance" case_quarantined_scope_is_excluded_from_scope_relevance
 
   echo
   echo "Passed: $pass_count"

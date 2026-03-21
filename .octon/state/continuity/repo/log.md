@@ -33,6 +33,40 @@ mutability: append-only
 
 ## 2026-03-20
 
+**Session focus:** Packet 14 validation, fail-closed, quarantine, and
+staleness atomic cutover
+
+**Completed:**
+
+- Added the Packet 14 runtime-effective trust gate at
+  `validate-runtime-effective-state.sh` and wired harness alignment to treat
+  it as the canonical runtime/publication validation entrypoint
+- Added retained publication receipts under
+  `state/evidence/validation/publication/**`, bumped the extension/locality/
+  capability publication schemas, and regenerated the live effective outputs
+  plus control-state links to those receipts
+- Changed locality publication to republish reduced coherent scope sets with
+  `published_with_quarantine`, removed obsolete extension `content_roots`
+  from the effective catalog, and hardened extension validation against
+  native-versus-extension capability collisions
+- Extended the focused Packet 14 shell regressions for locality quarantine,
+  extension receipt and collision behavior, capability degraded-publication
+  behavior, the new umbrella runtime-effective gate, and clean-only
+  `repo_snapshot` quarantine blocking
+- Recorded ADR 058 and the Packet 14 migration evidence bundle, then archived
+  the implemented Packet 14 proposal package under
+  `.octon/inputs/exploratory/proposals/.archive/architecture/validation-fail-closed-quarantine-staleness/`
+
+**Next:**
+
+- None
+
+**Blockers:**
+
+- None
+
+## 2026-03-20
+
 **Session focus:** Implement Packet 13 portability, compatibility, trust, and
 provenance atomic cutover
 

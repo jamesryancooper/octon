@@ -1,8 +1,16 @@
-schema_version: "octon-capability-routing-effective-v2"
+schema_version: "octon-capability-routing-effective-v3"
 generator_version: ""
 generation_id: "capabilities-bootstrap-placeholder"
 published_at: "1970-01-01T00:00:00Z"
 publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/capabilities/pending-capabilities.yml"
+invalidation_conditions:
+  - "root-manifest-sha-changed"
+  - "native-capability-manifest-changed"
+  - "locality-effective-sha-changed"
+  - "locality-lock-sha-changed"
+  - "extensions-effective-sha-changed"
+  - "extensions-lock-sha-changed"
 source:
   root_manifest_path: ".octon/octon.yml"
   root_manifest_sha256: ""
@@ -35,6 +43,8 @@ routing_context:
   locality_generation_id: ""
   extension_generation_id: ""
   host_projection_mode: "materialized-copy-v1"
+  locality_publication_status: "published"
+  extension_publication_status: "published"
   scope_resolution_mode: "single-active-scope"
 routing_candidates: []
 resolution_order: []
