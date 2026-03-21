@@ -117,3 +117,7 @@ records:
     path: 056-capability-routing-and-host-integration-atomic-cutover.md
   - id: 057-portability-compatibility-trust-provenance-atomic-cutover
     path: 057-portability-compatibility-trust-provenance-atomic-cutover.md
+  - id: 058-validation-fail-closed-quarantine-staleness-atomic-cutover
+    path: 058-validation-fail-closed-quarantine-staleness-atomic-cutover.md
+  - id: 059-migration-and-rollout-completion-review
+    path: 059-migration-and-rollout-completion-review.md

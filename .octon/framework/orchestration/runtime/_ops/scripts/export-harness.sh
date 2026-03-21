@@ -10,6 +10,7 @@ FRAMEWORK_MANIFEST="$OCTON_DIR/framework/manifest.yml"
 INSTANCE_MANIFEST="$OCTON_DIR/instance/manifest.yml"
 VALIDATOR_DIR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts"
 PUBLISH_EXTENSIONS_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+PUBLISH_CAPABILITIES_SCRIPT="$OCTON_DIR/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
 
 PROFILE=""
 OUTPUT_DIR=""
@@ -159,6 +160,12 @@ load_current_repo_snapshot_state() {
 
   OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" \
     bash "$VALIDATOR_DIR/validate-extension-publication-state.sh" >/dev/null
+
+  OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" \
+    bash "$PUBLISH_CAPABILITIES_SCRIPT" >/dev/null
+
+  OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" \
+    bash "$VALIDATOR_DIR/validate-capability-publication-state.sh" >/dev/null
 
   [[ "$(yq -r '.status // ""' "$ACTIVE_STATE")" == "published" ]] || fail "repo_snapshot requires clean published extension state"
   yq -e '.records | length == 0' "$QUARANTINE_STATE" >/dev/null 2>&1 || fail "repo_snapshot fails closed when extension quarantine is non-empty"

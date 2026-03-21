@@ -1,0 +1,34 @@
+# Inventory
+
+- Governing review contract:
+  - `.octon/inputs/exploratory/proposals/architecture/migration-rollout/`
+- Live canonical surfaces audited:
+  - `.octon/octon.yml`
+  - `.octon/README.md`
+  - `.octon/instance/bootstrap/START.md`
+  - `.octon/framework/manifest.yml`
+  - `.octon/instance/manifest.yml`
+  - `.octon/instance/ingress/AGENTS.md`
+  - `.octon/instance/extensions.yml`
+  - `.octon/state/control/extensions/{active.yml,quarantine.yml}`
+  - `.octon/state/control/locality/quarantine.yml`
+  - `.octon/state/continuity/{repo,scopes}/**`
+  - `.octon/generated/effective/{extensions,locality,capabilities}/**`
+  - `.octon/generated/proposals/registry.yml`
+- Lineage inputs correlated:
+  - `.octon/inputs/exploratory/proposals/.archive/architecture/**`
+  - `.octon/instance/cognition/context/shared/migrations/index.yml`
+  - `.octon/state/evidence/migration/**`
+  - `.octon/instance/cognition/decisions/index.yml`
+- Review-time remediations:
+  - `.octon/generated/effective/capabilities/{routing.effective.yml,artifact-map.yml,generation.lock.yml}`
+  - `.octon/state/evidence/validation/publication/capabilities/2026-03-21T01-16-23Z-capabilities-e45cda38ebdc.yml`
+  - `.octon/inputs/exploratory/proposals/architecture/migration-rollout/{README.md,proposal.yml}`
+  - `.octon/generated/proposals/registry.yml`
+  - `.octon/framework/assurance/runtime/_ops/tests/test-validate-extension-publication-state.sh`
+  - `.octon/instance/cognition/context/shared/migrations/index.yml`
+  - `.octon/instance/cognition/decisions/index.yml`
+- Closeout artifacts:
+  - `.octon/instance/cognition/context/shared/migrations/2026-03-20-migration-rollout-review/plan.md`
+  - `.octon/instance/cognition/decisions/059-migration-and-rollout-completion-review.md`
+  - `.octon/state/evidence/migration/2026-03-20-migration-rollout-review/{bundle.yml,evidence.md,commands.md,validation.md,inventory.md}`

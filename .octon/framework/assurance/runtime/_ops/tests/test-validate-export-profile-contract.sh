@@ -35,6 +35,12 @@ run_validator() {
     bash "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-export-profile-contract.sh" >/dev/null
 }
 
+run_runtime_validator() {
+  local fixture_root="$1"
+  OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
+    bash "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh" >/dev/null
+}
+
 case_full_fidelity_include_fails() {
   local fixture_root
   fixture_root="$(create_packet2_fixture_repo)"
@@ -114,8 +120,20 @@ EOF
   ! run_validator "$fixture_root"
 }
 
+case_validator_preserves_runtime_effective_coherence() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  run_validator "$fixture_root"
+  run_runtime_validator "$fixture_root"
+}
+
 main() {
   assert_success "export profile validator fails when full_fidelity defines an include payload" case_full_fidelity_include_fails
+  assert_success "export profile validator preserves runtime effective coherence after extension refresh" case_validator_preserves_runtime_effective_coherence
 
   echo
   echo "Passed: $pass_count"

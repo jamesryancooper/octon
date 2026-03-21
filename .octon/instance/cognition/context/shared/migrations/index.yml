@@ -135,3 +135,11 @@ records:
     path: 2026-03-20-portability-compatibility-trust-provenance-cutover/plan.md
     adr: ../decisions/057-portability-compatibility-trust-provenance-atomic-cutover.md
     evidence: /.octon/state/evidence/migration/2026-03-20-portability-compatibility-trust-provenance-cutover/evidence.md
+  - id: 2026-03-20-validation-fail-closed-quarantine-staleness-cutover
+    path: 2026-03-20-validation-fail-closed-quarantine-staleness-cutover/plan.md
+    adr: ../decisions/058-validation-fail-closed-quarantine-staleness-atomic-cutover.md
+    evidence: /.octon/state/evidence/migration/2026-03-20-validation-fail-closed-quarantine-staleness-cutover/evidence.md
+  - id: 2026-03-20-migration-rollout-review
+    path: 2026-03-20-migration-rollout-review/plan.md
+    adr: ../decisions/059-migration-and-rollout-completion-review.md
+    evidence: /.octon/state/evidence/migration/2026-03-20-migration-rollout-review/evidence.md

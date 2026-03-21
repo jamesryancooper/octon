@@ -330,7 +330,7 @@ EOF
   [[ "$(yq -r '.records[] | select(.pack_id == "dep") | .affected_dependents[0] // ""' "$fixture_root/.octon/state/control/extensions/quarantine.yml")" == "app" ]]
 }
 
-case_native_command_collision_fails_validation() {
+case_native_command_collision_quarantines_before_validation() {
   local fixture_root
   fixture_root="$(create_packet2_fixture_repo)"
   CLEANUP_DIRS+=("$fixture_root")
@@ -426,7 +426,8 @@ acknowledgements: []
 EOF
 
   publish_state "$fixture_root"
-  ! run_validator "$fixture_root"
+  [[ "$(yq -r '.records[] | select(.pack_id == "collision") | .reason_code // ""' "$fixture_root/.octon/state/control/extensions/quarantine.yml")" == "native-capability-collision:command:native-command" ]]
+  run_validator "$fixture_root"
 }
 
 main() {
@@ -438,7 +439,7 @@ main() {
   assert_success "active-state generation mismatches fail validation" case_active_state_generation_mismatch_fails
   assert_success "non-manifest payload changes invalidate the generation lock" case_non_manifest_payload_change_invalidates_generation_lock
   assert_success "dependency root-cause quarantine records carry affected dependents" case_dependency_root_cause_records_affected_dependents
-  assert_success "native command collisions fail extension publication validation" case_native_command_collision_fails_validation
+  assert_success "native command collisions quarantine before validation" case_native_command_collision_quarantines_before_validation
 
   echo
   echo "Passed: $pass_count"

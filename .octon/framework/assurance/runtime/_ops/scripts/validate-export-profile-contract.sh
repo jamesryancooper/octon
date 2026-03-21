@@ -9,6 +9,8 @@ MANIFEST_FILE="$OCTON_DIR/octon.yml"
 EXPORT_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
 EXT_PUBLICATION_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
 EXT_PACK_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
+CAP_PUBLICATION_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
+CAP_PUBLISH_SCRIPT="$OCTON_DIR/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
 
 errors=0
 
@@ -46,6 +48,16 @@ main() {
   else
     pass "extension pack validator is executable"
   fi
+  if [[ ! -x "$CAP_PUBLICATION_VALIDATOR" ]]; then
+    fail "capability publication validator missing or not executable: ${CAP_PUBLICATION_VALIDATOR#$ROOT_DIR/}"
+  else
+    pass "capability publication validator is executable"
+  fi
+  if [[ ! -x "$CAP_PUBLISH_SCRIPT" ]]; then
+    fail "capability routing publisher missing or not executable: ${CAP_PUBLISH_SCRIPT#$ROOT_DIR/}"
+  else
+    pass "capability routing publisher is executable"
+  fi
 
   [[ "$(yq -r '.profiles.pack_bundle.selector // ""' "$MANIFEST_FILE")" == "inputs/additive/extensions/<selected>/**" ]] && pass "pack_bundle selector is declared" || fail "pack_bundle selector must match Packet 2 contract"
   [[ "$(yq -r '.profiles.pack_bundle.include_dependency_closure // ""' "$MANIFEST_FILE")" == "true" ]] && pass "pack_bundle closure flag declared" || fail "pack_bundle.include_dependency_closure must be true"
@@ -79,6 +91,22 @@ main() {
     pass "extension publication state is current"
   else
     fail "extension publication state must validate before export"
+  fi
+
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" \
+    bash "$CAP_PUBLISH_SCRIPT" >/dev/null
+  then
+    pass "capability routing refresh succeeds after extension publication refresh"
+  else
+    fail "capability routing refresh must succeed after extension publication refresh"
+  fi
+
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" \
+    bash "$CAP_PUBLICATION_VALIDATOR" >/dev/null
+  then
+    pass "capability publication state is current after extension refresh"
+  else
+    fail "capability publication state must validate after extension refresh"
   fi
 
   local tmp_root=""
