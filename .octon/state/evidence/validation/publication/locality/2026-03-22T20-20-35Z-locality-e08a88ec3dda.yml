@@ -1,0 +1,32 @@
+schema_version: "octon-validation-publication-receipt-v1"
+receipt_id: "locality-2026-03-22T20-20-35Z-locality-e08a88ec3dda"
+publication_family: "locality"
+generation_id: "locality-e08a88ec3dda"
+result: "published"
+validated_at: "2026-03-22T20:20:35Z"
+validator_version: "0.5.3"
+contract_refs:
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/locality-quarantine-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/locality/schemas/locality-effective-scopes.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/locality/schemas/locality-generation-lock.schema.json"
+source_digests:
+  root_manifest_sha256: "879f63d7a675cea30d2209eb3db70e6f0db1f713c6835d1f09386806b4b596f6"
+  instance_manifest_sha256: "05a787edbf2f50719720385361eb8f15d92b70533e33ebe1ed88d10bf0bacae4"
+  locality_manifest_sha256: "2f8e87656e920f10b6d48ea118f3137d2cabf0bae774e8360be5fa4fcc27e1d1"
+  locality_registry_sha256: "29d97816ceab9b0ecab34a01f92752e32d09c61a2bbe6ff96bae5b045d5a2e2d"
+  quarantine_sha256: "169d010883f9d71101ee4bf6b1ded6922d8e7270b73d2911da6d977b7bb7d582"
+  scope_manifest__octon-harness: "8301f11e00fa2c18ef50e576e6256652476cfcada44b81c0a27a2caba81fc9bb"
+  scope_continuity__octon-harness: "01d2502482dcdabf455f1f861ca0a75e19811c4e92f2b50949b488fda153ebfa"
+  scope_decision_evidence__octon-harness: "dacab0690008851d7dd26d605bd328c2292607fc8cedfe002135b931908ca5b1"
+blocked_reasons: []
+quarantined_subjects: []
+published_paths:
+  - ".octon/generated/effective/locality/scopes.effective.yml"
+  - ".octon/generated/effective/locality/artifact-map.yml"
+  - ".octon/generated/effective/locality/generation.lock.yml"
+required_inputs:
+  - ".octon/instance/locality/manifest.yml"
+  - ".octon/instance/locality/registry.yml"
+  - ".octon/instance/locality/scopes/octon-harness/scope.yml"
+  - ".octon/instance/manifest.yml"
+  - ".octon/octon.yml"

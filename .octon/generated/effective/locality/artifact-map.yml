@@ -1,7 +1,7 @@
 schema_version: "octon-locality-artifact-map-v2"
-generator_version: "0.5.2"
+generator_version: "0.5.3"
 generation_id: "locality-e08a88ec3dda"
-published_at: "2026-03-21T00:03:23Z"
+published_at: "2026-03-22T20:20:35Z"
 artifacts:
   - scope_id: "octon-harness"
     registry_entry: ".octon/instance/locality/registry.yml#/scopes/0"
