@@ -18,6 +18,26 @@ pass() {
   echo "[OK] $1"
 }
 
+has_text() {
+  local needle="$1"
+  local path="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -Fq "$needle" "$path"
+  else
+    grep -Fq "$needle" "$path"
+  fi
+}
+
+has_pattern() {
+  local pattern="$1"
+  local path="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -q "$pattern" "$path"
+  else
+    grep -Eq "$pattern" "$path"
+  fi
+}
+
 require_file() {
   local path="$1"
   if [[ -f "$path" ]]; then
@@ -31,7 +51,7 @@ require_contains() {
   local path="$1"
   local needle="$2"
   local label="$3"
-  if rg -Fq "$needle" "$path"; then
+  if has_text "$needle" "$path"; then
     pass "$label"
   else
     fail "$label"
@@ -74,11 +94,12 @@ main() {
     "execution_tmp_root" \
     "RuntimeConfig exposes explicit execution scratch root"
 
-  if rg -n 'state_dir' \
-    "$OCTON_DIR/framework/engine/runtime/crates/core/src/config.rs" \
-    "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/main.rs" \
-    "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/stdio.rs" \
-    "$OCTON_DIR/framework/engine/runtime/crates/wasm_host/src/invoke.rs" >/dev/null; then
+  if (
+    has_pattern 'state_dir' "$OCTON_DIR/framework/engine/runtime/crates/core/src/config.rs" ||
+    has_pattern 'state_dir' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/main.rs" ||
+    has_pattern 'state_dir' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/stdio.rs" ||
+    has_pattern 'state_dir' "$OCTON_DIR/framework/engine/runtime/crates/wasm_host/src/invoke.rs"
+  ); then
     fail "legacy ambiguous runtime state_dir references remain in engine runtime entrypoints"
   else
     pass "legacy ambiguous runtime state_dir references are removed from engine runtime entrypoints"
@@ -88,7 +109,7 @@ main() {
     "$OCTON_DIR/framework/engine/runtime/crates/core/src/trace.rs" \
     "trace.ndjson" \
     "TraceWriter targets trace.ndjson in the bound run root"
-  if rg -n 'join\\("traces"\\)' "$OCTON_DIR/framework/engine/runtime/crates/core/src/trace.rs" >/dev/null; then
+  if has_pattern 'join\\("traces"\\)' "$OCTON_DIR/framework/engine/runtime/crates/core/src/trace.rs"; then
     fail "TraceWriter must not recreate framework-local traces directories"
   else
     pass "TraceWriter no longer writes through a traces directory indirection"
@@ -105,20 +126,37 @@ main() {
     [[ -n "$forbidden_prefix" ]] || continue
     if (
       cd "$ROOT_DIR"
-      rg -n --hidden --no-heading \
-        --glob '!**/target/**' \
-        --glob '!**/.git/**' \
-        --glob '!.octon/state/evidence/**' \
-        --glob '!.octon/instance/cognition/decisions/**' \
-        --glob '!.octon/instance/cognition/context/shared/migrations/**' \
-        --glob '!.octon/inputs/exploratory/proposals/**' \
-        --glob '!.octon/inputs/exploratory/proposals/.archive/**' \
-        --glob '!.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh' \
-        --glob '!.octon/framework/assurance/runtime/_ops/scripts/validate-framework-core-boundary.sh' \
-        --glob '!.octon/framework/assurance/runtime/_ops/tests/**' \
-        --glob '!.octon/framework/cognition/_meta/architecture/contract-registry.yml' \
-        "${forbidden_prefix#./}" \
-        "${search_roots[@]}" >/dev/null
+      if command -v rg >/dev/null 2>&1; then
+        rg -n --hidden --no-heading \
+          --glob '!**/target/**' \
+          --glob '!**/.git/**' \
+          --glob '!.octon/state/evidence/**' \
+          --glob '!.octon/instance/cognition/decisions/**' \
+          --glob '!.octon/instance/cognition/context/shared/migrations/**' \
+          --glob '!.octon/inputs/exploratory/proposals/**' \
+          --glob '!.octon/inputs/exploratory/proposals/.archive/**' \
+          --glob '!.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh' \
+          --glob '!.octon/framework/assurance/runtime/_ops/scripts/validate-framework-core-boundary.sh' \
+          --glob '!.octon/framework/assurance/runtime/_ops/tests/**' \
+          --glob '!.octon/framework/cognition/_meta/architecture/contract-registry.yml' \
+          "${forbidden_prefix#./}" \
+          "${search_roots[@]}" >/dev/null
+      else
+        mapfile -t candidate_files < <(
+          find "${search_roots[@]}" \
+            \( -path '*/target/*' -o -path '*/.git/*' -o -path '.octon/state/evidence/*' -o -path '.octon/instance/cognition/decisions/*' -o -path '.octon/instance/cognition/context/shared/migrations/*' -o -path '.octon/inputs/exploratory/proposals/*' -o -path '.octon/framework/assurance/runtime/_ops/tests/*' \) -prune \
+            -o -type f \
+            ! -name 'validate-architecture-conformance.sh' \
+            ! -name 'validate-framework-core-boundary.sh' \
+            ! -path '.octon/framework/cognition/_meta/architecture/contract-registry.yml' \
+            -print
+        )
+        if ((${#candidate_files[@]} > 0)); then
+          grep -n -E "${forbidden_prefix#./}" "${candidate_files[@]}" >/dev/null
+        else
+          false
+        fi
+      fi
     ); then
       fail "live runtime or doc references still mention forbidden execution write prefix: $forbidden_prefix"
     else
