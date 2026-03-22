@@ -1071,6 +1071,24 @@ fn find_binary(name: &str) -> Option<PathBuf> {
     None
 }
 
+fn infer_executor_kind_from_binary(path: &Path) -> Result<&'static str> {
+    let filename = path
+        .file_name()
+        .map(|value| value.to_string_lossy().to_ascii_lowercase())
+        .unwrap_or_else(|| path.display().to_string().to_ascii_lowercase());
+
+    if filename.contains("claude") {
+        Ok("claude")
+    } else if filename.contains("codex") {
+        Ok("codex")
+    } else {
+        bail!(
+            "unable to infer executor kind from override path '{}'; pass --executor codex or --executor claude",
+            path.display()
+        )
+    }
+}
+
 fn execution_budget_metadata(
     executor: ExecutorKind,
     executor_bin: Option<&Path>,
@@ -1083,11 +1101,7 @@ fn execution_budget_metadata(
         ExecutorKind::Mock => "mock",
         ExecutorKind::Auto => {
             let binary = resolve_executor_binary(executor, executor_bin)?;
-            if binary.ends_with("claude") {
-                "claude"
-            } else {
-                "codex"
-            }
+            infer_executor_kind_from_binary(&binary)?
         }
     };
 
@@ -1539,5 +1553,19 @@ stages:
         assert!(receipt["reason_codes"].as_array().map(|v| !v.is_empty()).unwrap_or(false));
 
         fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn auto_executor_budget_metadata_uses_filename_inference() {
+        let metadata = execution_budget_metadata(
+            ExecutorKind::Auto,
+            Some(Path::new("/tmp/claude-wrapper")),
+            Some("claude-3-5-sonnet-20241022"),
+            1024,
+        )
+        .expect("metadata should infer claude from wrapper filename");
+
+        assert_eq!(metadata.get("executor_kind").map(String::as_str), Some("claude"));
+        assert_eq!(metadata.get("budget_provider").map(String::as_str), Some("anthropic"));
     }
 }

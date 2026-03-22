@@ -754,8 +754,7 @@ pub fn estimate_model_cost(
     let prompt_bytes = prompt_bytes?;
     let model = model
         .map(|value| value.trim().to_string())
-        .filter(|value| !value.is_empty())
-        .unwrap_or_else(|| "default".to_string());
+        .filter(|value| !value.is_empty())?;
     let provider = provider
         .map(|value| value.trim().to_string())
         .filter(|value| !value.is_empty())
@@ -1225,6 +1224,47 @@ mod tests {
                 assert_eq!(rule_id, "workflow-stage-openai");
             }
             other => panic!("expected stage-only decision, got {:?}", other),
+        }
+    }
+
+    #[test]
+    fn budget_policy_treats_missing_model_as_missing_cost_evidence() {
+        let policy = ExecutionBudgetPolicy {
+            schema_version: "execution-budgets-v1".to_string(),
+            missing_cost_evidence_action: "stage_only".to_string(),
+            rules: vec![ExecutionBudgetRule {
+                id: "workflow-stage-openai".to_string(),
+                path_types: vec!["workflow-stage".to_string()],
+                action_types: Vec::new(),
+                executor_profiles: vec!["read_only_analysis".to_string()],
+                providers: vec!["openai".to_string()],
+                model_patterns: Vec::new(),
+                require_cost_evidence: true,
+                reason: "fixture".to_string(),
+                thresholds: ExecutionBudgetThresholds::default(),
+            }],
+        };
+
+        let decision = evaluate_execution_budget(
+            &policy,
+            &BudgetCheckContext {
+                request_id: "req-2",
+                path_type: "workflow-stage",
+                action_type: "execute_stage",
+                executor_profile: Some("read_only_analysis"),
+                provider: Some("openai"),
+                model: None,
+                prompt_bytes: Some(4096),
+            },
+        );
+
+        match decision {
+            BudgetDecision::StageOnly { reason_codes, .. } => {
+                assert!(reason_codes
+                    .iter()
+                    .any(|value| value == "EXECUTION_COST_EVIDENCE_MISSING"));
+            }
+            other => panic!("expected stage-only for missing model, got {:?}", other),
         }
     }
 }
