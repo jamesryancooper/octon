@@ -25,6 +25,7 @@ contract and should be treated as an extension candidate.
 
 - `service.execute` — generic service-driven promotion path (policy fallback)
 - `service.deploy` — promoting a build/deploy (ACP-2+)
+- `execution.authorize` — shared execution-governance boundary for material runtime paths
 
 ## Database / State
 
