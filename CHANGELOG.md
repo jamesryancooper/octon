@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.4](https://github.com/jamesryancooper/octon/compare/octon-v0.5.3...octon-v0.5.4) (2026-03-22)
+
+
+### Features
+
+* **harness:** tighten execution integrity cutover ([#189](https://github.com/jamesryancooper/octon/issues/189)) ([ffefbd7](https://github.com/jamesryancooper/octon/commit/ffefbd7472ce37073693cb46d0a4a38d85c5989b))
+
 ## [0.5.3](https://github.com/jamesryancooper/octon/compare/octon-v0.5.2...octon-v0.5.3) (2026-03-22)
 
 
