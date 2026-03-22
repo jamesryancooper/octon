@@ -28,7 +28,7 @@ ARTIFACT_MAP_FILE="$EFFECTIVE_DIR/artifact-map.yml"
 GENERATION_LOCK_FILE="$EFFECTIVE_DIR/generation.lock.yml"
 LOCALITY_SCOPES_JSON='[]'
 PUBLISHED_AT=""
-GENERATOR_VERSION=""
+GENERATOR_VERSION="capability-routing-publication-v3"
 
 hash_file() {
   local file="$1"
@@ -747,7 +747,6 @@ main() {
   )
 
   mkdir -p "$EFFECTIVE_DIR"
-  GENERATOR_VERSION="$(yq -r '.versioning.harness.release_version // ""' "$ROOT_MANIFEST")"
   LOCALITY_SCOPES_JSON="$(active_locality_scopes_json)"
   root_sha="$(hash_file "$ROOT_MANIFEST")"
   commands_sha="$(framework_commands_digest)"

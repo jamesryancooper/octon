@@ -74,8 +74,8 @@ main() {
   [[ "$(yq -r '.schema_version // ""' "$GENERATION_LOCK_FILE")" == "octon-capability-routing-generation-lock-v3" ]] && pass "generation lock schema version valid" || fail "generation lock schema_version invalid"
 
   local expected_generator_version
-  expected_generator_version="$(yq -r '.versioning.harness.release_version // ""' "$ROOT_MANIFEST")"
-  [[ -n "$expected_generator_version" ]] && pass "root manifest generator version available" || fail "root manifest missing versioning.harness.release_version"
+  expected_generator_version="capability-routing-publication-v3"
+  pass "capability routing generator version contract declared"
   [[ "$(yq -r '.generator_version // ""' "$ROUTING_FILE")" == "$expected_generator_version" ]] && pass "routing generator_version current" || fail "routing generator_version missing or stale"
   [[ "$(yq -r '.generator_version // ""' "$ARTIFACT_MAP_FILE")" == "$expected_generator_version" ]] && pass "artifact map generator_version current" || fail "artifact map generator_version missing or stale"
   [[ "$(yq -r '.generator_version // ""' "$GENERATION_LOCK_FILE")" == "$expected_generator_version" ]] && pass "generation lock generator_version current" || fail "generation lock generator_version missing or stale"
