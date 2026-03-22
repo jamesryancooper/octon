@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/jamesryancooper/octon/compare/octon-v0.5.2...octon-v0.5.3) (2026-03-22)
+
+
+### Features
+
+* **runtime:** harden execution governance cutover ([#187](https://github.com/jamesryancooper/octon/issues/187)) ([81fe773](https://github.com/jamesryancooper/octon/commit/81fe773a0d82cece6b4030b27d30e200caed9f0a))
+
 ## [0.5.2](https://github.com/jamesryancooper/octon/compare/octon-v0.5.1...octon-v0.5.2) (2026-03-20)
 
 
