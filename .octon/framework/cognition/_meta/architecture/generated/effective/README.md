@@ -18,7 +18,8 @@ Every effective family publishes:
 Every effective family must carry:
 
 - `schema_version`
-- `generator_version`
+- `generator_version` (the publication generator contract version, not the
+  harness release semver)
 - `generation_id`
 - `published_at`
 - source digests

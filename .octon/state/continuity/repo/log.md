@@ -1252,3 +1252,27 @@ proposal package
 **Blockers:**
 
 - None
+
+## 2026-03-22
+
+**Session focus:** Decouple publication generator versions from release semver
+
+**Completed:**
+
+- Reworked the locality, extension, and capability publication scripts plus
+  validators so `generator_version` is now a stable publication-generator
+  contract version instead of the harness release version
+- Regenerated the affected effective publication outputs and retained
+  publication receipts so the published state matches the new generator-version
+  contract
+- Confirmed the change addresses the recurring release-PR failure mode where
+  version-only `release-please` bumps were incorrectly treated as stale
+  publication state
+
+**Next:**
+
+- None
+
+**Blockers:**
+
+- None

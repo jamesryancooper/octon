@@ -37,7 +37,7 @@ declare -a QUARANTINE_RECORDS=()
 
 PUBLISHED_AT=""
 GENERATION_ID=""
-GENERATOR_VERSION=""
+GENERATOR_VERSION="locality-publication-v2"
 PUBLICATION_STATUS=""
 
 hash_file() {
@@ -663,12 +663,6 @@ main() {
     echo "[ERROR] missing locality scope schema contract: ${SCOPE_SCHEMA_FILE#$ROOT_DIR/}" >&2
     exit 1
   fi
-  GENERATOR_VERSION="$(yq -r '.versioning.harness.release_version // ""' "$ROOT_MANIFEST" 2>/dev/null || true)"
-  if [[ -z "$GENERATOR_VERSION" ]]; then
-    echo "[ERROR] root manifest missing versioning.harness.release_version" >&2
-    exit 1
-  fi
-
   if [[ "$(yq -r '.locality.registry_path // ""' "$INSTANCE_MANIFEST")" != ".octon/instance/locality/registry.yml" ]]; then
     append_quarantine_record "repo-locality" ".octon/instance/locality/registry.yml" "instance-manifest-registry-path-mismatch"
   fi

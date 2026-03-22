@@ -13,7 +13,7 @@ INSTANCE_SKILLS_MANIFEST="$OCTON_DIR/instance/capabilities/runtime/skills/manife
 
 PUBLISHED_AT=""
 GENERATION_ID=""
-GENERATOR_VERSION=""
+GENERATOR_VERSION="extension-publication-v3"
 declare -a PUBLISHED_SELECTED_KEYS=()
 
 write_string_array_yaml() {
@@ -708,7 +708,6 @@ main() {
   PUBLISHED_AT="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
   desired_sha="$(ext_hash_file "$EXTENSIONS_MANIFEST")"
   root_sha="$(ext_hash_file "$ROOT_MANIFEST")"
-  GENERATOR_VERSION="$(yq -r '.versioning.harness.release_version // ""' "$ROOT_MANIFEST")"
   GENERATION_ID="extensions-$(printf '%s' "$desired_sha" | cut -c1-12)"
 
   ext_load_selected_keys_from_manifest
