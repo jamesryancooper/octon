@@ -140,6 +140,10 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-runtime-effective-state.sh"
 
   run_step \
+    "Validate execution governance hardening contract" \
+    bash "$SCRIPT_DIR/validate-execution-governance.sh"
+
+  run_step \
     "Publish host capability projections" \
     bash "$OCTON_DIR/framework/capabilities/_ops/scripts/publish-host-projections.sh"
 

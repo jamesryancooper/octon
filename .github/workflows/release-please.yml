@@ -20,6 +20,19 @@ jobs:
     name: release-please
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assert protected execution posture
+        run: |
+          set -euo pipefail
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh
+          EFFECTIVE_MODE="$(bash .octon/framework/capabilities/_ops/scripts/policy-rollout-mode.sh get)"
+          OCTON_CI_WORKFLOW_ID="release-please" \
+          OCTON_PROTECTED_EXECUTION="true" \
+          OCTON_EFFECTIVE_POLICY_MODE="${EFFECTIVE_MODE}" \
+          .octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh
+
       - name: Create or update release PR / tags (attempt 1)
         id: release_attempt_1
         continue-on-error: true
@@ -70,3 +83,12 @@ jobs:
           echo "attempt=${{ steps.release.outputs.attempt }}"
           echo "prs_created=${{ steps.release.outputs.prs_created }}"
           echo "releases_created=${{ steps.release.outputs.releases_created }}"
+
+      - name: Upload protected execution receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-please-protected-execution-receipt
+          path: .octon/state/evidence/runs/ci/release-please-*
+          if-no-files-found: error
+          retention-days: 7

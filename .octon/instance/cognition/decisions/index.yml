@@ -121,3 +121,5 @@ records:
     path: 058-validation-fail-closed-quarantine-staleness-atomic-cutover.md
   - id: 059-migration-and-rollout-completion-review
     path: 059-migration-and-rollout-completion-review.md
+  - id: 060-runtime-execution-governance-hardening-atomic-cutover
+    path: 060-runtime-execution-governance-hardening-atomic-cutover.md

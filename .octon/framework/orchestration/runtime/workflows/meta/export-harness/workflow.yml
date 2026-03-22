@@ -1,78 +1,195 @@
-schema_version: "workflow-contract-v1"
-name: "export-harness"
-description: "Materialize repo_snapshot or pack_bundle exports from the v2 root-manifest profile contract and fail closed unless repo_snapshot has a clean published enabled-pack closure and exported packs satisfy the Packet 13 pack contract."
-version: "1.0.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "mutating"
-# Packet 13 keeps the workflow contract and generated README in lockstep.
+---
+schema_version: workflow-contract-v2
+name: export-harness
+description: Materialize repo_snapshot or pack_bundle exports from the v2 root-manifest
+  profile contract and fail closed unless repo_snapshot has a clean published enabled-pack
+  closure and exported packs satisfy the Packet 13 pack contract.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
 execution_controls:
   cancel_safe: false
 coordination_key_strategy:
-  kind: "workflow-target"
+  kind: workflow-target
   source_fields:
-    - "workflow_group"
-    - "workflow_id"
-  format: "workflow:{workflow_group}/{workflow_id}"
-executor_interface_version: "workflow-executor-v1"
+  - workflow_group
+  - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
 inputs:
-  - name: profile
-    type: text
-    required: true
-    description: "Export profile: repo_snapshot or pack_bundle"
-  - name: output_dir
-    type: folder
-    required: true
-    description: "Empty directory where the export root and export.receipt.yml will be written"
-  - name: pack_ids
-    type: text
-    required: false
-    description: "Comma-separated pack ids. Required only for pack_bundle."
+- name: profile
+  type: text
+  required: true
+  description: 'Export profile: repo_snapshot or pack_bundle'
+- name: output_dir
+  type: folder
+  required: true
+  description: Empty directory where the export root and export.receipt.yml will be
+    written
+- name: pack_ids
+  type: text
+  required: false
+  description: Comma-separated pack ids. Required only for pack_bundle.
 stages:
-  - id: "validate-request"
-    asset: "stages/01-validate-request.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:validate-request"]
-    mutation_scope: []
-  - id: "resolve-profile"
-    asset: "stages/02-resolve-profile.md"
-    kind: "analysis"
-    consumes: ["stage:validate-request"]
-    produces: ["stage:resolve-profile"]
-    mutation_scope: []
-  - id: "materialize-export"
-    asset: "stages/03-materialize-export.md"
-    kind: "mutation"
-    consumes: ["stage:resolve-profile"]
-    produces: ["stage:materialize-export"]
-    mutation_scope: ["workflow-scope"]
-  - id: "verify-export"
-    asset: "stages/04-verify-export.md"
-    kind: "verification"
-    consumes: ["stage:materialize-export"]
-    produces: ["stage:verify-export"]
-    mutation_scope: []
+- id: validate-request
+  asset: stages/01-validate-request.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:validate-request
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: resolve-profile
+  asset: stages/02-resolve-profile.md
+  kind: analysis
+  consumes:
+  - stage:validate-request
+  produces:
+  - stage:resolve-profile
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: materialize-export
+  asset: stages/03-materialize-export.md
+  kind: mutation
+  consumes:
+  - stage:resolve-profile
+  produces:
+  - stage:materialize-export
+  mutation_scope: &1
+  - workflow-scope
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - repo.write
+    - evidence.write
+    side_effects:
+      write_repo: true
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: medium
+    scope:
+      read:
+      - workflow-scope
+      write: *1
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: true
+    allowed_executor_profiles:
+    - scoped_repo_mutation
+- id: verify-export
+  asset: stages/04-verify-export.md
+  kind: verification
+  consumes:
+  - stage:materialize-export
+  produces:
+  - stage:verify-export
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts:
-  - name: export_root
-    path: "{{output_dir}}/.octon/"
-    kind: directory
-    format: mixed
-    determinism: unique
-    description: "Materialized harness export rooted at .octon/"
-  - name: export_receipt
-    path: "{{output_dir}}/export.receipt.yml"
-    kind: file
-    format: yaml
-    determinism: unique
-    description: "Receipt describing the exported profile payload, manifest schema versions, and resolved pack closure"
+- name: export_root
+  path: "{{output_dir}}/.octon/"
+  kind: directory
+  format: mixed
+  determinism: unique
+  description: Materialized harness export rooted at .octon/
+- name: export_receipt
+  path: "{{output_dir}}/export.receipt.yml"
+  kind: file
+  format: yaml
+  determinism: unique
+  description: Receipt describing the exported profile payload, manifest schema versions,
+    and resolved pack closure
 done_gate:
   checks:
-    - "export root exists at <output_dir>/.octon/"
-    - "export.receipt.yml exists at <output_dir>/"
-    - "repo_snapshot exports octon.yml, framework/**, instance/**, and the clean published enabled-pack dependency closure only"
-    - "pack_bundle exports only selected packs plus dependency closure and remains trust-agnostic"
-    - "exported pack payloads satisfy `octon-extension-pack-v3`"
+  - export root exists at <output_dir>/.octon/
+  - export.receipt.yml exists at <output_dir>/
+  - repo_snapshot exports octon.yml, framework/**, instance/**, and the clean published
+    enabled-pack dependency closure only
+  - pack_bundle exports only selected packs plus dependency closure and remains trust-agnostic
+  - exported pack payloads satisfy `octon-extension-pack-v3`
 constraints:
   fail_closed: true
   forbid_design_packages: true

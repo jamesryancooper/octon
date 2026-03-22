@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/execution-request-v1.schema.json",
+  "title": "Octon Execution Request v1",
+  "type": "object",
+  "required": [
+    "request_id",
+    "caller_path",
+    "action_type",
+    "target_id",
+    "requested_capabilities",
+    "side_effect_flags",
+    "risk_tier"
+  ],
+  "properties": {
+    "request_id": { "type": "string", "minLength": 1 },
+    "caller_path": { "type": "string", "minLength": 1 },
+    "action_type": { "type": "string", "minLength": 1 },
+    "target_id": { "type": "string", "minLength": 1 },
+    "requested_capabilities": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "side_effect_flags": { "type": "object" },
+    "risk_tier": { "type": "string", "minLength": 1 },
+    "intent_ref": { "type": "object" },
+    "actor_ref": { "type": "object" },
+    "review_requirements": { "type": "object" },
+    "scope_constraints": { "type": "object" },
+    "policy_mode_requested": { "type": "string" }
+  },
+  "additionalProperties": true
+}

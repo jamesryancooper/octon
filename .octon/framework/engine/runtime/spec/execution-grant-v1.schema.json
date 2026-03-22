@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/execution-grant-v1.schema.json",
+  "title": "Octon Execution Grant v1",
+  "type": "object",
+  "required": [
+    "grant_id",
+    "request_id",
+    "decision",
+    "granted_capabilities",
+    "scope_constraints",
+    "effective_policy_mode",
+    "reason_codes"
+  ],
+  "properties": {
+    "grant_id": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW", "STAGE_ONLY", "DENY", "ESCALATE"]
+    },
+    "granted_capabilities": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "scope_constraints": { "type": "object" },
+    "effective_policy_mode": { "type": "string", "minLength": 1 },
+    "reason_codes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "review_metadata": { "type": "object" },
+    "receipt_requirements": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": true
+}

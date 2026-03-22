@@ -1,61 +1,230 @@
-schema_version: "workflow-contract-v1"
-name: "create-skill"
-description: "Scaffold a new skill from template, initialize contract content, and register it in discovery artifacts."
-version: "2.0.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "mutating"
+---
+schema_version: workflow-contract-v2
+name: create-skill
+description: Scaffold a new skill from template, initialize contract content, and
+  register it in discovery artifacts.
+version: 2.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
 execution_controls:
   cancel_safe: false
 coordination_key_strategy:
-  kind: "workflow-target"
+  kind: workflow-target
   source_fields:
-    - "workflow_group"
-    - "workflow_id"
-  format: "workflow:{workflow_group}/{workflow_id}"
-executor_interface_version: "workflow-executor-v1"
+  - workflow_group
+  - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "validate-name"
-    asset: "stages/01-validate-name.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:validate-name"]
-    mutation_scope: []
-  - id: "copy-template"
-    asset: "stages/02-copy-template.md"
-    kind: "analysis"
-    consumes: ["stage:validate-name"]
-    produces: ["stage:copy-template"]
-    mutation_scope: []
-  - id: "initialize-skill"
-    asset: "stages/03-initialize-skill.md"
-    kind: "analysis"
-    consumes: ["stage:copy-template"]
-    produces: ["stage:initialize-skill"]
-    mutation_scope: []
-  - id: "update-registry"
-    asset: "stages/04-update-registry.md"
-    kind: "analysis"
-    consumes: ["stage:initialize-skill"]
-    produces: ["stage:update-registry"]
-    mutation_scope: []
-  - id: "update-catalog"
-    asset: "stages/05-update-catalog.md"
-    kind: "analysis"
-    consumes: ["stage:update-registry"]
-    produces: ["stage:update-catalog"]
-    mutation_scope: []
-  - id: "report-success"
-    asset: "stages/06-report-success.md"
-    kind: "projection"
-    consumes: ["stage:update-catalog"]
-    produces: ["stage:report-success"]
-    mutation_scope: []
+- id: validate-name
+  asset: stages/01-validate-name.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:validate-name
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: copy-template
+  asset: stages/02-copy-template.md
+  kind: analysis
+  consumes:
+  - stage:validate-name
+  produces:
+  - stage:copy-template
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: initialize-skill
+  asset: stages/03-initialize-skill.md
+  kind: analysis
+  consumes:
+  - stage:copy-template
+  produces:
+  - stage:initialize-skill
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: update-registry
+  asset: stages/04-update-registry.md
+  kind: analysis
+  consumes:
+  - stage:initialize-skill
+  produces:
+  - stage:update-registry
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: update-catalog
+  asset: stages/05-update-catalog.md
+  kind: analysis
+  consumes:
+  - stage:update-registry
+  produces:
+  - stage:update-catalog
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: report-success
+  asset: stages/06-report-success.md
+  kind: projection
+  consumes:
+  - stage:update-catalog
+  produces:
+  - stage:report-success
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

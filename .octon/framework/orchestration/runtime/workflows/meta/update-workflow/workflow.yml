@@ -1,51 +1,193 @@
-schema_version: "workflow-contract-v1"
-name: "update-workflow"
-description: "Update a canonical workflow, regenerate the workflow README, and verify the resulting orchestration surface."
-version: "1.0.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "read_only"
+---
+schema_version: workflow-contract-v2
+name: update-workflow
+description: Update a canonical workflow, regenerate the workflow README, and verify
+  the resulting orchestration surface.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
 execution_controls:
   cancel_safe: true
 coordination_key_strategy:
-  kind: "none"
-executor_interface_version: "workflow-executor-v1"
+  kind: none
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "audit-current"
-    asset: "stages/01-audit-current.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:audit-current"]
-    mutation_scope: []
-  - id: "identify-gaps"
-    asset: "stages/02-identify-gaps.md"
-    kind: "analysis"
-    consumes: ["stage:audit-current"]
-    produces: ["stage:identify-gaps"]
-    mutation_scope: []
-  - id: "plan-changes"
-    asset: "stages/03-plan-changes.md"
-    kind: "projection"
-    consumes: ["stage:identify-gaps"]
-    produces: ["stage:plan-changes"]
-    mutation_scope: []
-  - id: "execute-changes"
-    asset: "stages/04-execute-changes.md"
-    kind: "mutation"
-    consumes: ["stage:plan-changes"]
-    produces: ["stage:execute-changes"]
-    mutation_scope: ["workflow-scope"]
-  - id: "verify-update"
-    asset: "stages/05-verify-update.md"
-    kind: "verification"
-    consumes: ["stage:execute-changes"]
-    produces: ["stage:verify-update"]
-    mutation_scope: []
+- id: audit-current
+  asset: stages/01-audit-current.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:audit-current
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: identify-gaps
+  asset: stages/02-identify-gaps.md
+  kind: analysis
+  consumes:
+  - stage:audit-current
+  produces:
+  - stage:identify-gaps
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: plan-changes
+  asset: stages/03-plan-changes.md
+  kind: projection
+  consumes:
+  - stage:identify-gaps
+  produces:
+  - stage:plan-changes
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: execute-changes
+  asset: stages/04-execute-changes.md
+  kind: mutation
+  consumes:
+  - stage:plan-changes
+  produces:
+  - stage:execute-changes
+  mutation_scope: &1
+  - workflow-scope
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - repo.write
+    - evidence.write
+    side_effects:
+      write_repo: true
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: medium
+    scope:
+      read:
+      - workflow-scope
+      write: *1
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: true
+    allowed_executor_profiles:
+    - scoped_repo_mutation
+- id: verify-update
+  asset: stages/05-verify-update.md
+  kind: verification
+  consumes:
+  - stage:execute-changes
+  produces:
+  - stage:verify-update
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

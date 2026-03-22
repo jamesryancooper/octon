@@ -1,39 +1,124 @@
-schema_version: "workflow-contract-v1"
-name: "evaluate-harness"
-description: "Evaluate a .octon directory for structure, token efficiency, and quality signal completeness."
-version: "1.1.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "read_only"
+---
+schema_version: workflow-contract-v2
+name: evaluate-harness
+description: Evaluate a .octon directory for structure, token efficiency, and quality
+  signal completeness.
+version: 1.1.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
 execution_controls:
   cancel_safe: true
 coordination_key_strategy:
-  kind: "none"
-executor_interface_version: "workflow-executor-v1"
+  kind: none
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "assess-files"
-    asset: "stages/01-assess-files.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:assess-files"]
-    mutation_scope: []
-  - id: "classify-content"
-    asset: "stages/02-classify-content.md"
-    kind: "analysis"
-    consumes: ["stage:assess-files"]
-    produces: ["stage:classify-content"]
-    mutation_scope: []
-  - id: "generate-report"
-    asset: "stages/03-generate-report.md"
-    kind: "projection"
-    consumes: ["stage:classify-content"]
-    produces: ["stage:generate-report"]
-    mutation_scope: []
+- id: assess-files
+  asset: stages/01-assess-files.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:assess-files
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: classify-content
+  asset: stages/02-classify-content.md
+  kind: analysis
+  consumes:
+  - stage:assess-files
+  produces:
+  - stage:classify-content
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: generate-report
+  asset: stages/03-generate-report.md
+  kind: projection
+  consumes:
+  - stage:classify-content
+  produces:
+  - stage:generate-report
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

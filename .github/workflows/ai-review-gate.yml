@@ -162,6 +162,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Assert protected execution posture
+        run: |
+          set -euo pipefail
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh
+          EFFECTIVE_MODE="$(bash .octon/framework/capabilities/_ops/scripts/policy-rollout-mode.sh get)"
+          OCTON_CI_WORKFLOW_ID="ai-review-gate" \
+          OCTON_PROTECTED_EXECUTION="true" \
+          OCTON_EFFECTIVE_POLICY_MODE="${EFFECTIVE_MODE}" \
+          EXPECT_AI_GATE_ENFORCE="true" \
+          .octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh
+
       - name: Download provider findings artifacts
         uses: actions/download-artifact@v4
         continue-on-error: true
@@ -272,6 +283,15 @@ jobs:
         with:
           name: ai-gate-decision
           path: .octon/generated/.tmp/ai-gate/decision.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload protected execution receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-review-gate-protected-execution-receipt
+          path: .octon/state/evidence/runs/ci/ai-review-gate-*
           if-no-files-found: error
           retention-days: 7
 

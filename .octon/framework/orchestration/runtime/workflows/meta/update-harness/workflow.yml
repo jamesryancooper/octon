@@ -1,55 +1,198 @@
-schema_version: "workflow-contract-v1"
-name: "update-harness"
-description: "Align an existing harness with the canonical class-root, overlay, and ingress contracts by auditing root-manifest, repo-instance, adapter, and boundary gaps, planning updates, and executing bounded remediations while preserving repo-owned `instance/**` authority unless an explicit migration contract applies."
-version: "1.3.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "mutating"
+---
+schema_version: workflow-contract-v2
+name: update-harness
+description: Align an existing harness with the canonical class-root, overlay, and
+  ingress contracts by auditing root-manifest, repo-instance, adapter, and boundary
+  gaps, planning updates, and executing bounded remediations while preserving repo-owned
+  `instance/**` authority unless an explicit migration contract applies.
+version: 1.3.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
 execution_controls:
   cancel_safe: false
 coordination_key_strategy:
-  kind: "workflow-target"
+  kind: workflow-target
   source_fields:
-    - "workflow_group"
-    - "workflow_id"
-  format: "workflow:{workflow_group}/{workflow_id}"
-executor_interface_version: "workflow-executor-v1"
+  - workflow_group
+  - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "audit-state"
-    asset: "stages/01-audit-state.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:audit-state"]
-    mutation_scope: []
-  - id: "identify-gaps"
-    asset: "stages/02-identify-gaps.md"
-    kind: "analysis"
-    consumes: ["stage:audit-state"]
-    produces: ["stage:identify-gaps"]
-    mutation_scope: []
-  - id: "assess-tokens"
-    asset: "stages/03-assess-tokens.md"
-    kind: "analysis"
-    consumes: ["stage:identify-gaps"]
-    produces: ["stage:assess-tokens"]
-    mutation_scope: []
-  - id: "propose-changes"
-    asset: "stages/04-propose-changes.md"
-    kind: "analysis"
-    consumes: ["stage:assess-tokens"]
-    produces: ["stage:propose-changes"]
-    mutation_scope: []
-  - id: "execute"
-    asset: "stages/05-execute.md"
-    kind: "analysis"
-    consumes: ["stage:propose-changes"]
-    produces: ["stage:execute"]
-    mutation_scope: []
+- id: audit-state
+  asset: stages/01-audit-state.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:audit-state
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: identify-gaps
+  asset: stages/02-identify-gaps.md
+  kind: analysis
+  consumes:
+  - stage:audit-state
+  produces:
+  - stage:identify-gaps
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: assess-tokens
+  asset: stages/03-assess-tokens.md
+  kind: analysis
+  consumes:
+  - stage:identify-gaps
+  produces:
+  - stage:assess-tokens
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: propose-changes
+  asset: stages/04-propose-changes.md
+  kind: analysis
+  consumes:
+  - stage:assess-tokens
+  produces:
+  - stage:propose-changes
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: execute
+  asset: stages/05-execute.md
+  kind: analysis
+  consumes:
+  - stage:propose-changes
+  produces:
+  - stage:execute
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

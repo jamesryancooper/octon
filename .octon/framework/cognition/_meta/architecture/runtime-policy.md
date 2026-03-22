@@ -48,6 +48,13 @@ Design by contract continues in production. Critical assumptions are enforced at
 
 - Require authentication and authorization context for every protected action.
 - Missing or invalid auth context: abort the operation, log a security event, and do not attempt a best‑effort fallback.
+- Material execution in Octon must pass through the shared
+  `authorize_execution(...)` boundary before service invocation, workflow-stage
+  execution, executor launch, repo mutation, or protected CI control work.
+- Protected execution must fail closed unless the effective policy mode is
+  `hard-enforce`. Runtime or CI downgrades are invalid in protected paths.
+- External executors must run through named permission profiles. Dangerous raw
+  flags are denied by default unless an elevated profile is explicitly granted.
 
 **Resource contracts:**
 

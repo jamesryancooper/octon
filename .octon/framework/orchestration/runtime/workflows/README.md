@@ -24,6 +24,10 @@ Each workflow unit contains:
 
 ## Contract Disambiguation
 
+- `schema_version: workflow-contract-v2` is required in each `workflow.yml`.
+- Every stage must declare an `authorization` block with action type,
+  requested capabilities, side-effect flags, scopes, review requirements, and
+  allowed executor profiles.
 - `execution_profile` is required in each `workflow.yml`.
 - Allowed `execution_profile` values are `core` and `external-dependent`.
 - Governance-impacting changes to workflow contracts, validators, or runtime

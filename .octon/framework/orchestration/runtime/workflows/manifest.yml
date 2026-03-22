@@ -18,6 +18,7 @@
 #   domain       - Fine-grained domain classification
 #   path         - Relative path to workflow directory
 #   execution_profile - Runtime dependency profile: core | external-dependent
+#   workflow.yml schema_version - Must be workflow-contract-v2 with per-stage authorization blocks
 #   summary      - One-line description for routing decisions
 #   status       - Lifecycle state: active | deprecated | experimental
 #   triggers     - Natural language phrases for intent matching

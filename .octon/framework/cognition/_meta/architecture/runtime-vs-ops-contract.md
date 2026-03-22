@@ -105,6 +105,9 @@ Use this decision sequence:
   - `_ops/` hosts portable runtime helper scripts only.
   - mutable runtime state and traces live under `/.octon/state/**` or
     `/.octon/generated/**`.
+  - execution requests, grants, receipts, and executor-profile contracts live
+    under `engine/runtime/spec/**`; retained runtime execution evidence lives
+    under `/.octon/state/evidence/runs/**`.
 - Assurance:
   - Runtime-local `_ops/` under `runtime/` hosts assurance engine entrypoints.
   - retained assurance and validation receipts live under

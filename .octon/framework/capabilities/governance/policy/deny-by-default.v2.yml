@@ -552,6 +552,22 @@ acp:
         phase: promote
         break_glass_required: true
       on_missing_requirements: DENY
+    - id: acp-execution-governance-stage
+      match:
+        class: execution.authorize
+        phase: [stage]
+      require:
+        acp: ACP-1
+        phase: stage
+        reversibility:
+          required: true
+          primitive: git.revert_commit
+          rollback_proof_required: false
+          recovery_window_default: P14D
+        evidence_required: [diff]
+        budget_set: budgets.repo-small
+        circuit_breaker_set: circuit_breakers.repo-stage
+      on_missing_requirements: STAGE_ONLY
     - id: acp-infra-destroy-soft
       match:
         class: resource.detach

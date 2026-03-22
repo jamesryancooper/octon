@@ -37,6 +37,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Assert protected execution posture
+        run: |
+          set -euo pipefail
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh
+          EFFECTIVE_MODE="$(bash .octon/framework/capabilities/_ops/scripts/policy-rollout-mode.sh get)"
+          OCTON_CI_WORKFLOW_ID="deny-by-default-gates" \
+          OCTON_PROTECTED_EXECUTION="true" \
+          OCTON_EFFECTIVE_POLICY_MODE="${EFFECTIVE_MODE}" \
+          .octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh
+
       - name: Set up Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
@@ -64,3 +74,12 @@ jobs:
         run: |
           chmod +x .octon/framework/capabilities/_ops/scripts/policy-rollout-mode.sh
           .octon/framework/capabilities/_ops/scripts/policy-rollout-mode.sh slo-report
+
+      - name: Upload protected execution receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deny-by-default-gates-protected-execution-receipt
+          path: .octon/state/evidence/runs/ci/deny-by-default-gates-*
+          if-no-files-found: error
+          retention-days: 7

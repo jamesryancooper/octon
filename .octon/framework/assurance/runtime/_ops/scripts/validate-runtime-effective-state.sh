@@ -70,6 +70,9 @@ main() {
   run_validator \
     "capability publication state is current and coherent" \
     "$SCRIPT_DIR/validate-capability-publication-state.sh"
+  run_validator \
+    "execution governance contracts and protected CI posture are current" \
+    "$SCRIPT_DIR/validate-execution-governance.sh"
 
   echo "Validation summary: errors=$errors"
   if [[ $errors -gt 0 ]]; then

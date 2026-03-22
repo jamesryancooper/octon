@@ -1,33 +1,89 @@
-schema_version: "workflow-contract-v1"
+---
+schema_version: workflow-contract-v2
 name: "[workflow-id]"
 description: "[What this workflow does and when to use it.]"
-version: "1.0.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "read_only"
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
 execution_controls:
   cancel_safe: true
 coordination_key_strategy:
-  kind: "none"
-executor_interface_version: "workflow-executor-v1"
+  kind: none
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "stage"
-    asset: "stages/01-stage.md"
-    kind: "analysis"
-    produces: ["stage:stage"]
-    consumes: []
-    mutation_scope: []
-  - id: "verify"
-    asset: "stages/99-verify.md"
-    kind: "verification"
-    produces: ["stage:verify"]
-    consumes: ["stage:stage"]
-    mutation_scope: []
+- id: stage
+  asset: stages/01-stage.md
+  kind: analysis
+  produces:
+  - stage:stage
+  consumes: []
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: verify
+  asset: stages/99-verify.md
+  kind: verification
+  produces:
+  - stage:verify
+  consumes:
+  - stage:stage
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

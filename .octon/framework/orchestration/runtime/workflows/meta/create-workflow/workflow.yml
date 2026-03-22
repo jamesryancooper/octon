@@ -1,73 +1,302 @@
-schema_version: "workflow-contract-v1"
-name: "create-workflow"
-description: "Scaffold a canonical workflow, wire discovery metadata, and regenerate the compatibility workflow README."
-version: "1.0.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "mutating"
+---
+schema_version: workflow-contract-v2
+name: create-workflow
+description: Scaffold a canonical workflow, wire discovery metadata, and regenerate
+  the compatibility workflow README.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
 execution_controls:
   cancel_safe: false
 coordination_key_strategy:
-  kind: "workflow-target"
+  kind: workflow-target
   source_fields:
-    - "workflow_group"
-    - "workflow_id"
-  format: "workflow:{workflow_group}/{workflow_id}"
-executor_interface_version: "workflow-executor-v1"
+  - workflow_group
+  - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "validate-id"
-    asset: "stages/01-validate-id.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:validate-id"]
-    mutation_scope: []
-  - id: "analyze-requirements"
-    asset: "stages/02-analyze-requirements.md"
-    kind: "analysis"
-    consumes: ["stage:validate-id"]
-    produces: ["stage:analyze-requirements"]
-    mutation_scope: []
-  - id: "select-template"
-    asset: "stages/03-select-template.md"
-    kind: "analysis"
-    consumes: ["stage:analyze-requirements"]
-    produces: ["stage:select-template"]
-    mutation_scope: []
-  - id: "generate-structure"
-    asset: "stages/04-generate-structure.md"
-    kind: "mutation"
-    consumes: ["stage:select-template"]
-    produces: ["stage:generate-structure"]
-    mutation_scope: ["workflow-scope"]
-  - id: "customize-steps"
-    asset: "stages/05-customize-steps.md"
-    kind: "mutation"
-    consumes: ["stage:generate-structure"]
-    produces: ["stage:customize-steps"]
-    mutation_scope: ["workflow-scope"]
-  - id: "integrate-gap-fixes"
-    asset: "stages/06-integrate-gap-fixes.md"
-    kind: "mutation"
-    consumes: ["stage:customize-steps"]
-    produces: ["stage:integrate-gap-fixes"]
-    mutation_scope: ["workflow-scope"]
-  - id: "update-references"
-    asset: "stages/07-update-references.md"
-    kind: "mutation"
-    consumes: ["stage:integrate-gap-fixes"]
-    produces: ["stage:update-references"]
-    mutation_scope: ["workflow-scope"]
-  - id: "verify"
-    asset: "stages/08-verify.md"
-    kind: "verification"
-    consumes: ["stage:update-references"]
-    produces: ["stage:verify"]
-    mutation_scope: []
+- id: validate-id
+  asset: stages/01-validate-id.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:validate-id
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: analyze-requirements
+  asset: stages/02-analyze-requirements.md
+  kind: analysis
+  consumes:
+  - stage:validate-id
+  produces:
+  - stage:analyze-requirements
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: select-template
+  asset: stages/03-select-template.md
+  kind: analysis
+  consumes:
+  - stage:analyze-requirements
+  produces:
+  - stage:select-template
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: generate-structure
+  asset: stages/04-generate-structure.md
+  kind: mutation
+  consumes:
+  - stage:select-template
+  produces:
+  - stage:generate-structure
+  mutation_scope: &1
+  - workflow-scope
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - repo.write
+    - evidence.write
+    side_effects:
+      write_repo: true
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: medium
+    scope:
+      read:
+      - workflow-scope
+      write: *1
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: true
+    allowed_executor_profiles:
+    - scoped_repo_mutation
+- id: customize-steps
+  asset: stages/05-customize-steps.md
+  kind: mutation
+  consumes:
+  - stage:generate-structure
+  produces:
+  - stage:customize-steps
+  mutation_scope: &2
+  - workflow-scope
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - repo.write
+    - evidence.write
+    side_effects:
+      write_repo: true
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: medium
+    scope:
+      read:
+      - workflow-scope
+      write: *2
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: true
+    allowed_executor_profiles:
+    - scoped_repo_mutation
+- id: integrate-gap-fixes
+  asset: stages/06-integrate-gap-fixes.md
+  kind: mutation
+  consumes:
+  - stage:customize-steps
+  produces:
+  - stage:integrate-gap-fixes
+  mutation_scope: &3
+  - workflow-scope
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - repo.write
+    - evidence.write
+    side_effects:
+      write_repo: true
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: medium
+    scope:
+      read:
+      - workflow-scope
+      write: *3
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: true
+    allowed_executor_profiles:
+    - scoped_repo_mutation
+- id: update-references
+  asset: stages/07-update-references.md
+  kind: mutation
+  consumes:
+  - stage:integrate-gap-fixes
+  produces:
+  - stage:update-references
+  mutation_scope: &4
+  - workflow-scope
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - repo.write
+    - evidence.write
+    side_effects:
+      write_repo: true
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: medium
+    scope:
+      read:
+      - workflow-scope
+      write: *4
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: true
+    allowed_executor_profiles:
+    - scoped_repo_mutation
+- id: verify
+  asset: stages/08-verify.md
+  kind: verification
+  consumes:
+  - stage:update-references
+  produces:
+  - stage:verify
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

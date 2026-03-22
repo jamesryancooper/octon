@@ -1,5 +1,7 @@
 use anyhow::{bail, ensure, Context, Result};
 use clap::ValueEnum;
+use octon_core::config::{ConfigLoader, RuntimeConfig};
+use octon_core::policy::PolicyEngine;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
@@ -10,6 +12,14 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use time::format_description;
 use walkdir::WalkDir;
+
+use crate::authorization::{
+    authorize_execution, build_executor_command, finalize_execution,
+    now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
+    ExecutionArtifactPaths, ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec,
+    GrantBundle, ManagedExecutorKind, ReviewRequirements, ScopeConstraints,
+    SideEffectFlags, SideEffectSummary,
+};
 
 const WORKFLOW_ID: &str = "audit-design-proposal";
 const WORKFLOW_ROOT_REL: &str =
@@ -483,6 +493,7 @@ struct CreateDesignPackageFailure {
 #[derive(Clone, Debug)]
 struct Runner {
     repo_root: PathBuf,
+    runtime_cfg: RuntimeConfig,
     target_package: PathBuf,
     workflow_root: PathBuf,
     options: RunDesignPackageOptions,
@@ -512,6 +523,130 @@ struct StageOutcome {
     changed_files: Vec<FileChange>,
 }
 
+struct StageExecutionResult {
+    executor_used: String,
+    blocked_flags: Vec<String>,
+}
+
+struct AuthorizedWorkflowStage {
+    request: ExecutionRequest,
+    grant: GrantBundle,
+    artifacts: ExecutionArtifactPaths,
+    started_at: String,
+}
+
+fn authorize_workflow_stage(
+    runtime_cfg: &RuntimeConfig,
+    policy: &PolicyEngine,
+    bundle_root: &Path,
+    workflow_id: &str,
+    stage_id: &str,
+    action_type: &str,
+    target_id: &str,
+    requested_capabilities: Vec<String>,
+    write_scope: Vec<String>,
+    shell: bool,
+    write_repo: bool,
+    risk_tier: &str,
+    executor_profile: Option<&str>,
+) -> Result<AuthorizedWorkflowStage> {
+    let request = ExecutionRequest {
+        request_id: format!("{workflow_id}-{stage_id}"),
+        caller_path: "workflow-stage".to_string(),
+        action_type: action_type.to_string(),
+        target_id: target_id.to_string(),
+        requested_capabilities,
+        side_effect_flags: SideEffectFlags {
+            write_repo,
+            write_evidence: true,
+            shell,
+            network: false,
+            model_invoke: false,
+            state_mutation: false,
+            publication: false,
+            branch_mutation: false,
+        },
+        risk_tier: risk_tier.to_string(),
+        locality_scope: None,
+        intent_ref: None,
+        actor_ref: None,
+        parent_run_ref: Some(workflow_id.to_string()),
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: write_scope,
+            executor_profile: executor_profile.map(ToOwned::to_owned),
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: BTreeMap::from([
+            ("workflow_id".to_string(), workflow_id.to_string()),
+            ("stage_id".to_string(), stage_id.to_string()),
+        ]),
+    };
+    let grant = authorize_execution(runtime_cfg, policy, &request, None)?;
+    let artifacts = write_execution_start(&bundle_root.join("stages").join(stage_id), &request, &grant)?;
+    let started_at = auth_now_rfc3339()?;
+    Ok(AuthorizedWorkflowStage {
+        request,
+        grant,
+        artifacts,
+        started_at,
+    })
+}
+
+fn finalize_workflow_stage(
+    stage: &AuthorizedWorkflowStage,
+    status: &str,
+    error: Option<String>,
+    touched_scope: Vec<String>,
+) -> Result<()> {
+    finalize_execution(
+        &stage.artifacts,
+        &stage.request,
+        &stage.grant,
+        &stage.started_at,
+        &ExecutionOutcome {
+            status: status.to_string(),
+            started_at: stage.started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error,
+        },
+        &SideEffectSummary {
+            touched_scope,
+            executor_profile: stage.grant.scope_constraints.executor_profile.clone(),
+            ..SideEffectSummary::default()
+        },
+    )
+}
+
+fn finalize_workflow_failure(
+    artifacts: &ExecutionArtifactPaths,
+    request: &ExecutionRequest,
+    grant: &GrantBundle,
+    started_at: &str,
+    error: String,
+    touched_scope: Vec<String>,
+) -> Result<()> {
+    finalize_execution(
+        artifacts,
+        request,
+        grant,
+        started_at,
+        &ExecutionOutcome {
+            status: "failed".to_string(),
+            started_at: started_at.to_string(),
+            completed_at: auth_now_rfc3339()?,
+            error: Some(error),
+        },
+        &SideEffectSummary {
+            touched_scope,
+            ..SideEffectSummary::default()
+        },
+    )
+}
+
 pub fn run_design_package_from_octon_dir(
     octon_dir: &Path,
     options: RunDesignPackageOptions,
@@ -524,6 +659,8 @@ pub fn run_create_design_package_from_octon_dir(
     octon_dir: &Path,
     options: RunCreateDesignPackageOptions,
 ) -> Result<RunCreateDesignPackageResult> {
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
     let repo_root = octon_dir
         .parent()
         .context("failed to resolve repository root from .octon directory")?
@@ -531,12 +668,55 @@ pub fn run_create_design_package_from_octon_dir(
         .context("failed to canonicalize repository root")?;
 
     let design_proposals_root = repo_root.join(DESIGN_PACKAGES_ROOT_REL);
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_auth = authorize_execution(
+        &runtime_cfg,
+        &policy,
+        &ExecutionRequest {
+            request_id: format!("create-design-proposal-{}", options.package_id),
+            caller_path: "workflow".to_string(),
+            action_type: "execute_workflow".to_string(),
+            target_id: "create-design-proposal".to_string(),
+            requested_capabilities: vec![
+                "workflow.execute".to_string(),
+                "repo.write".to_string(),
+                "evidence.write".to_string(),
+            ],
+            side_effect_flags: SideEffectFlags {
+                write_repo: true,
+                write_evidence: true,
+                ..SideEffectFlags::default()
+            },
+            risk_tier: "medium".to_string(),
+            locality_scope: None,
+            intent_ref: None,
+            actor_ref: None,
+            parent_run_ref: None,
+            review_requirements: ReviewRequirements::default(),
+            scope_constraints: ScopeConstraints {
+                read: vec!["workflow-scope".to_string()],
+                write: vec![
+                    design_proposals_root.display().to_string(),
+                    reports_root.display().to_string(),
+                    workflow_bundles_root.display().to_string(),
+                ],
+                executor_profile: None,
+                locality_scope: None,
+            },
+            policy_mode_requested: None,
+            environment_hint: None,
+            metadata: BTreeMap::from([(
+                "workflow_id".to_string(),
+                "create-design-proposal".to_string(),
+            )]),
+        },
+        None,
+    )?;
     fs::create_dir_all(&design_proposals_root)
         .with_context(|| format!("create {}", design_proposals_root.display()))?;
-    let reports_root = repo_root.join(REPORTS_ROOT_REL);
     fs::create_dir_all(&reports_root)
         .with_context(|| format!("create {}", reports_root.display()))?;
-    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
     fs::create_dir_all(&workflow_bundles_root)
         .with_context(|| format!("create {}", workflow_bundles_root.display()))?;
 
@@ -552,6 +732,45 @@ pub fn run_create_design_package_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifacts =
+        write_execution_start(&bundle_root.join("workflow-execution"), &ExecutionRequest {
+            request_id: format!("create-design-proposal-{}", options.package_id),
+            caller_path: "workflow".to_string(),
+            action_type: "execute_workflow".to_string(),
+            target_id: "create-design-proposal".to_string(),
+            requested_capabilities: vec![
+                "workflow.execute".to_string(),
+                "repo.write".to_string(),
+                "evidence.write".to_string(),
+            ],
+            side_effect_flags: SideEffectFlags {
+                write_repo: true,
+                write_evidence: true,
+                ..SideEffectFlags::default()
+            },
+            risk_tier: "medium".to_string(),
+            locality_scope: None,
+            intent_ref: None,
+            actor_ref: None,
+            parent_run_ref: None,
+            review_requirements: ReviewRequirements::default(),
+            scope_constraints: ScopeConstraints {
+                read: vec!["workflow-scope".to_string()],
+                write: vec![
+                    design_proposals_root.display().to_string(),
+                    reports_root.display().to_string(),
+                    workflow_bundles_root.display().to_string(),
+                ],
+                executor_profile: None,
+                locality_scope: None,
+            },
+            policy_mode_requested: None,
+            environment_hint: None,
+            metadata: BTreeMap::from([(
+                "workflow_id".to_string(),
+                "create-design-proposal".to_string(),
+            )]),
+        }, &workflow_auth)?;
     let summary_report =
         unique_file(&reports_root, &format!("{date}-create-design-proposal"), "md")?;
 
@@ -697,6 +916,28 @@ pub fn run_create_design_package_from_octon_dir(
                 selected_modules.join(", ")
             ),
         )?;
+        let stage03_auth = authorize_workflow_stage(
+            &runtime_cfg,
+            &policy,
+            &bundle_root,
+            "create-design-proposal",
+            "03-scaffold-proposal",
+            "execute_stage",
+            "create-design-proposal::scaffold-proposal",
+            vec![
+                "workflow.stage.execute".to_string(),
+                "repo.write".to_string(),
+                "evidence.write".to_string(),
+            ],
+            vec![
+                proposal_root.display().to_string(),
+                bundle_root.join("stages/03-scaffold-proposal").display().to_string(),
+            ],
+            false,
+            true,
+            "medium",
+            Some("scoped_repo_mutation"),
+        )?;
         let scaffold_result: Result<()> = (|| {
             fs::create_dir_all(&proposal_root)
                 .with_context(|| format!("create {}", proposal_root.display()))?;
@@ -807,6 +1048,12 @@ pub fn run_create_design_package_from_octon_dir(
         })();
 
         if let Err(error) = scaffold_result {
+            let _ = finalize_workflow_stage(
+                &stage03_auth,
+                "failed",
+                Some(error.to_string()),
+                vec![proposal_root.display().to_string()],
+            );
             let class = if error.to_string().contains(".octon/generated/proposals/registry.yml") {
                 CreateDesignPackageFailureClass::RegistryUpdate
             } else {
@@ -817,6 +1064,13 @@ pub fn run_create_design_package_from_octon_dir(
                 failed_stage: "scaffold-package",
                 message: error.to_string(),
             });
+        } else {
+            finalize_workflow_stage(
+                &stage03_auth,
+                "succeeded",
+                None,
+                vec![proposal_root.display().to_string()],
+            )?;
         }
         write_create_stage_log(
             &bundle_root,
@@ -851,8 +1105,35 @@ pub fn run_create_design_package_from_octon_dir(
                 proposal_rel
             ),
         )?;
+        let stage04_auth = authorize_workflow_stage(
+            &runtime_cfg,
+            &policy,
+            &bundle_root,
+            "create-design-proposal",
+            "04-validate-proposal",
+            "execute_stage",
+            "create-design-proposal::validate-proposal",
+            vec![
+                "workflow.stage.execute".to_string(),
+                "evidence.write".to_string(),
+            ],
+            vec![
+                bundle_root.join("standard-validator.log").display().to_string(),
+                bundle_root.join("stages/04-validate-proposal").display().to_string(),
+            ],
+            true,
+            false,
+            "low",
+            Some("read_only_analysis"),
+        )?;
         match run_design_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root) {
             Ok(log_path) => {
+                finalize_workflow_stage(
+                    &stage04_auth,
+                    "succeeded",
+                    None,
+                    vec![rel_path(&repo_root, &log_path)],
+                )?;
                 validator_log = Some(log_path.clone());
                 write_create_stage_log(
                     &bundle_root,
@@ -868,6 +1149,12 @@ pub fn run_create_design_package_from_octon_dir(
                 ));
             }
             Err(error) => {
+                let _ = finalize_workflow_stage(
+                    &stage04_auth,
+                    "failed",
+                    Some(error.to_string()),
+                    vec![rel_path(&repo_root, &bundle_root.join("standard-validator.log"))],
+                );
                 failure = Some(CreateDesignPackageFailure {
                     class: CreateDesignPackageFailureClass::StandardValidator,
                     failed_stage: "validate-proposal",
@@ -960,6 +1247,59 @@ pub fn run_create_design_package_from_octon_dir(
     )?;
 
     if let Some(failure) = failure {
+        let _ = finalize_execution(
+            &workflow_artifacts,
+            &ExecutionRequest {
+                request_id: format!("create-design-proposal-{}", options.package_id),
+                caller_path: "workflow".to_string(),
+                action_type: "execute_workflow".to_string(),
+                target_id: "create-design-proposal".to_string(),
+                requested_capabilities: vec![
+                    "workflow.execute".to_string(),
+                    "repo.write".to_string(),
+                    "evidence.write".to_string(),
+                ],
+                side_effect_flags: SideEffectFlags {
+                    write_repo: true,
+                    write_evidence: true,
+                    ..SideEffectFlags::default()
+                },
+                risk_tier: "medium".to_string(),
+                locality_scope: None,
+                intent_ref: None,
+                actor_ref: None,
+                parent_run_ref: None,
+                review_requirements: ReviewRequirements::default(),
+                scope_constraints: ScopeConstraints {
+                    read: vec!["workflow-scope".to_string()],
+                    write: vec![
+                        design_proposals_root.display().to_string(),
+                        reports_root.display().to_string(),
+                        workflow_bundles_root.display().to_string(),
+                    ],
+                    executor_profile: None,
+                    locality_scope: None,
+                },
+                policy_mode_requested: None,
+                environment_hint: None,
+                metadata: BTreeMap::from([(
+                    "workflow_id".to_string(),
+                    "create-design-proposal".to_string(),
+                )]),
+            },
+            &workflow_auth,
+            &started_at,
+            &ExecutionOutcome {
+                status: "failed".to_string(),
+                started_at: started_at.clone(),
+                completed_at: auth_now_rfc3339()?,
+                error: Some(failure.message.clone()),
+            },
+            &SideEffectSummary {
+                touched_scope: vec![bundle_root.display().to_string()],
+                ..SideEffectSummary::default()
+            },
+        );
         bail!(
             "{} at stage {}: {}",
             failure.class.as_str(),
@@ -967,6 +1307,60 @@ pub fn run_create_design_package_from_octon_dir(
             failure.message
         );
     }
+
+    finalize_execution(
+        &workflow_artifacts,
+        &ExecutionRequest {
+            request_id: format!("create-design-proposal-{}", options.package_id),
+            caller_path: "workflow".to_string(),
+            action_type: "execute_workflow".to_string(),
+            target_id: "create-design-proposal".to_string(),
+            requested_capabilities: vec![
+                "workflow.execute".to_string(),
+                "repo.write".to_string(),
+                "evidence.write".to_string(),
+            ],
+            side_effect_flags: SideEffectFlags {
+                write_repo: true,
+                write_evidence: true,
+                ..SideEffectFlags::default()
+            },
+            risk_tier: "medium".to_string(),
+            locality_scope: None,
+            intent_ref: None,
+            actor_ref: None,
+            parent_run_ref: None,
+            review_requirements: ReviewRequirements::default(),
+            scope_constraints: ScopeConstraints {
+                read: vec!["workflow-scope".to_string()],
+                write: vec![
+                    design_proposals_root.display().to_string(),
+                    reports_root.display().to_string(),
+                    workflow_bundles_root.display().to_string(),
+                ],
+                executor_profile: None,
+                locality_scope: None,
+            },
+            policy_mode_requested: None,
+            environment_hint: None,
+            metadata: BTreeMap::from([(
+                "workflow_id".to_string(),
+                "create-design-proposal".to_string(),
+            )]),
+        },
+        &workflow_auth,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+            ..SideEffectSummary::default()
+        },
+    )?;
 
     Ok(RunCreateDesignPackageResult {
         bundle_root,
@@ -980,6 +1374,8 @@ pub fn run_create_static_proposal_from_octon_dir(
     kind: StaticProposalKind,
     options: RunCreateStaticProposalOptions,
 ) -> Result<RunCreateStaticProposalResult> {
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
     let repo_root = octon_dir
         .parent()
         .context("failed to resolve repository root from .octon directory")?
@@ -987,13 +1383,53 @@ pub fn run_create_static_proposal_from_octon_dir(
         .context("failed to canonicalize repository root")?;
 
     let proposals_root = repo_root.join(PROPOSALS_ROOT_REL).join(kind.as_str());
-    fs::create_dir_all(&proposals_root)?;
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
-    fs::create_dir_all(&reports_root)?;
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request = ExecutionRequest {
+        request_id: format!("create-{}-proposal-{}", kind.as_str(), options.proposal_id),
+        caller_path: "workflow".to_string(),
+        action_type: "execute_workflow".to_string(),
+        target_id: format!("create-{}-proposal", kind.as_str()),
+        requested_capabilities: vec![
+            "workflow.execute".to_string(),
+            "repo.write".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_repo: true,
+            write_evidence: true,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: "medium".to_string(),
+        locality_scope: None,
+        intent_ref: None,
+        actor_ref: None,
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: vec![
+                proposals_root.display().to_string(),
+                reports_root.display().to_string(),
+                workflow_bundles_root.display().to_string(),
+            ],
+            executor_profile: None,
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: BTreeMap::from([(
+            "workflow_id".to_string(),
+            format!("create-{}-proposal", kind.as_str()),
+        )]),
+    };
+    let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
+    fs::create_dir_all(&proposals_root)?;
+    fs::create_dir_all(&reports_root)?;
     fs::create_dir_all(&workflow_bundles_root)?;
 
     let date = today_string()?;
+    let started_at = auth_now_rfc3339()?;
     let bundle_root = unique_directory(
         &workflow_bundles_root,
         &format!("{date}-create-{}-proposal-{}", kind.as_str(), slugify(&options.proposal_id)),
@@ -1001,6 +1437,8 @@ pub fn run_create_static_proposal_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifacts =
+        write_execution_start(&bundle_root.join("workflow-execution"), &workflow_request, &workflow_grant)?;
     let summary_report = unique_file(
         &reports_root,
         &format!("{date}-create-{}-proposal", kind.as_str()),
@@ -1009,13 +1447,40 @@ pub fn run_create_static_proposal_from_octon_dir(
 
     let proposal_root = proposals_root.join(&options.proposal_id);
     if proposal_root.exists() {
-        bail!("target proposal already exists: {}", proposal_root.display());
+        let message = format!("target proposal already exists: {}", proposal_root.display());
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            message.clone(),
+            vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+        );
+        bail!(message);
     }
     if options.proposal_title.trim().is_empty() {
-        bail!("proposal_title must not be empty");
+        let message = "proposal_title must not be empty".to_string();
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            message.clone(),
+            vec![bundle_root.display().to_string()],
+        );
+        bail!(message);
     }
     if options.promotion_targets.is_empty() {
-        bail!("promotion_targets must contain at least one target path");
+        let message = "promotion_targets must contain at least one target path".to_string();
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            message.clone(),
+            vec![bundle_root.display().to_string()],
+        );
+        bail!(message);
     }
 
     let exit_expectation = format!(
@@ -1025,27 +1490,148 @@ pub fn run_create_static_proposal_from_octon_dir(
     let replacements = build_static_proposal_replacements(kind, &options, &exit_expectation);
     let template_root = repo_root.join(DESIGN_PACKAGE_TEMPLATE_ROOT_REL);
 
-    fs::create_dir_all(&proposal_root)?;
-    apply_template_bundle(&template_root.join("proposal-core"), &proposal_root, &replacements)?;
-    apply_template_bundle(
-        &template_root.join(format!("proposal-{}-core", kind.as_str())),
-        &proposal_root,
-        &replacements,
+    let stage_scaffold = match authorize_workflow_stage(
+        &runtime_cfg,
+        &policy,
+        &bundle_root,
+        &format!("create-{}-proposal", kind.as_str()),
+        "scaffold-proposal",
+        "execute_stage",
+        &format!("create-{}-proposal::scaffold-proposal", kind.as_str()),
+        vec![
+            "workflow.stage.execute".to_string(),
+            "repo.write".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![
+            proposal_root.display().to_string(),
+            bundle_root.join("stages/scaffold-proposal").display().to_string(),
+        ],
+        false,
+        true,
+        "medium",
+        Some("scoped_repo_mutation"),
+    ) {
+        Ok(stage) => stage,
+        Err(error) => {
+            let message = error.to_string();
+            let _ = finalize_workflow_failure(
+                &workflow_artifacts,
+                &workflow_request,
+                &workflow_grant,
+                &started_at,
+                message.clone(),
+                vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+            );
+            bail!(message);
+        }
+    };
+    let scaffold_result: Result<()> = (|| {
+        fs::create_dir_all(&proposal_root)?;
+        apply_template_bundle(&template_root.join("proposal-core"), &proposal_root, &replacements)?;
+        apply_template_bundle(
+            &template_root.join(format!("proposal-{}-core", kind.as_str())),
+            &proposal_root,
+            &replacements,
+        )?;
+
+        upsert_proposal_registry(
+            &repo_root,
+            &options.proposal_id,
+            kind.as_str(),
+            options.promotion_scope.as_str(),
+            &rel_path(&repo_root, &proposal_root),
+            options.proposal_title.trim(),
+            &options.promotion_targets,
+            "draft",
+        )?;
+        Ok(())
+    })();
+    if let Err(error) = scaffold_result {
+        let _ = finalize_workflow_stage(
+            &stage_scaffold,
+            "failed",
+            Some(error.to_string()),
+            vec![proposal_root.display().to_string()],
+        );
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            error.to_string(),
+            vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+        );
+        return Err(error);
+    }
+    finalize_workflow_stage(
+        &stage_scaffold,
+        "succeeded",
+        None,
+        vec![proposal_root.display().to_string()],
     )?;
 
-    upsert_proposal_registry(
-        &repo_root,
-        &options.proposal_id,
-        kind.as_str(),
-        options.promotion_scope.as_str(),
-        &rel_path(&repo_root, &proposal_root),
-        options.proposal_title.trim(),
-        &options.promotion_targets,
-        "draft",
+    let stage_validate = match authorize_workflow_stage(
+        &runtime_cfg,
+        &policy,
+        &bundle_root,
+        &format!("create-{}-proposal", kind.as_str()),
+        "validate-proposal",
+        "execute_stage",
+        &format!("create-{}-proposal::validate-proposal", kind.as_str()),
+        vec![
+            "workflow.stage.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![
+            bundle_root.join("standard-validator.log").display().to_string(),
+            bundle_root.join("stages/validate-proposal").display().to_string(),
+        ],
+        true,
+        false,
+        "low",
+        Some("read_only_analysis"),
+    ) {
+        Ok(stage) => stage,
+        Err(error) => {
+            let message = error.to_string();
+            let _ = finalize_workflow_failure(
+                &workflow_artifacts,
+                &workflow_request,
+                &workflow_grant,
+                &started_at,
+                message.clone(),
+                vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+            );
+            bail!(message);
+        }
+    };
+    let validator_log = match run_static_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, kind) {
+        Ok(log) => log,
+        Err(error) => {
+            let _ = finalize_workflow_stage(
+                &stage_validate,
+                "failed",
+                Some(error.to_string()),
+                vec![bundle_root.join("standard-validator.log").display().to_string()],
+            );
+            let _ = finalize_workflow_failure(
+                &workflow_artifacts,
+                &workflow_request,
+                &workflow_grant,
+                &started_at,
+                error.to_string(),
+                vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+            );
+            return Err(error);
+        }
+    };
+    finalize_workflow_stage(
+        &stage_validate,
+        "succeeded",
+        None,
+        vec![rel_path(&repo_root, &validator_log)],
     )?;
-
-    let validator_log =
-        run_static_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, kind)?;
     write_create_inventory(&bundle_root, &proposal_root)?;
     write_create_commands_log(
         &bundle_root,
@@ -1084,6 +1670,22 @@ pub fn run_create_static_proposal_from_octon_dir(
         &options,
         "scaffolded",
     )?;
+    finalize_execution(
+        &workflow_artifacts,
+        &workflow_request,
+        &workflow_grant,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+            ..SideEffectSummary::default()
+        },
+    )?;
 
     Ok(RunCreateStaticProposalResult {
         bundle_root,
@@ -1097,21 +1699,62 @@ pub fn run_audit_static_proposal_from_octon_dir(
     kind: StaticProposalKind,
     options: RunAuditStaticProposalOptions,
 ) -> Result<RunAuditStaticProposalResult> {
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
     let repo_root = octon_dir
         .parent()
         .context("failed to resolve repository root from .octon directory")?
         .canonicalize()
         .context("failed to canonicalize repository root")?;
-    let proposal_root = resolve_repo_relative_path(&repo_root, &options.proposal_path)?;
-    if !proposal_root.is_dir() {
-        bail!("target proposal not found: {}", proposal_root.display());
-    }
+    let proposal_root = if options.proposal_path.is_absolute() {
+        options.proposal_path.clone()
+    } else {
+        repo_root.join(&options.proposal_path)
+    };
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
-    fs::create_dir_all(&reports_root)?;
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request = ExecutionRequest {
+        request_id: format!("audit-{}-proposal-{}", kind.as_str(), slugify(&rel_path(&repo_root, &proposal_root))),
+        caller_path: "workflow".to_string(),
+        action_type: "execute_workflow".to_string(),
+        target_id: format!("audit-{}-proposal", kind.as_str()),
+        requested_capabilities: vec![
+            "workflow.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_repo: true,
+            write_evidence: true,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: "low".to_string(),
+        locality_scope: None,
+        intent_ref: None,
+        actor_ref: None,
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: vec![
+                reports_root.display().to_string(),
+                workflow_bundles_root.display().to_string(),
+            ],
+            executor_profile: None,
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: BTreeMap::from([(
+            "workflow_id".to_string(),
+            format!("audit-{}-proposal", kind.as_str()),
+        )]),
+    };
+    let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
+    fs::create_dir_all(&reports_root)?;
     fs::create_dir_all(&workflow_bundles_root)?;
     let date = today_string()?;
+    let started_at = auth_now_rfc3339()?;
     let bundle_root = unique_directory(
         &workflow_bundles_root,
         &format!("{date}-audit-{}-proposal-{}", kind.as_str(), slugify(&rel_path(&repo_root, &proposal_root))),
@@ -1119,14 +1762,88 @@ pub fn run_audit_static_proposal_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifacts =
+        write_execution_start(&bundle_root.join("workflow-execution"), &workflow_request, &workflow_grant)?;
     let summary_report = unique_file(
         &reports_root,
         &format!("{date}-audit-{}-proposal", kind.as_str()),
         "md",
     )?;
 
-    let validator_log =
-        run_static_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, kind)?;
+    if !proposal_root.is_dir() {
+        let message = format!("target proposal not found: {}", proposal_root.display());
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            message.clone(),
+            vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+        );
+        bail!(message);
+    }
+
+    let stage_validate = match authorize_workflow_stage(
+        &runtime_cfg,
+        &policy,
+        &bundle_root,
+        &format!("audit-{}-proposal", kind.as_str()),
+        "validate-proposal",
+        "execute_stage",
+        &format!("audit-{}-proposal::validate-proposal", kind.as_str()),
+        vec![
+            "workflow.stage.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![
+            bundle_root.join("standard-validator.log").display().to_string(),
+            bundle_root.join("stages/validate-proposal").display().to_string(),
+        ],
+        true,
+        false,
+        "low",
+        Some("read_only_analysis"),
+    ) {
+        Ok(stage) => stage,
+        Err(error) => {
+            let message = error.to_string();
+            let _ = finalize_workflow_failure(
+                &workflow_artifacts,
+                &workflow_request,
+                &workflow_grant,
+                &started_at,
+                message.clone(),
+                vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+            );
+            bail!(message);
+        }
+    };
+    let validator_log = match run_static_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, kind) {
+        Ok(log) => log,
+        Err(error) => {
+            let _ = finalize_workflow_stage(
+                &stage_validate,
+                "failed",
+                Some(error.to_string()),
+                vec![bundle_root.join("standard-validator.log").display().to_string()],
+            );
+            let _ = finalize_workflow_failure(
+                &workflow_artifacts,
+                &workflow_request,
+                &workflow_grant,
+                &started_at,
+                error.to_string(),
+                vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+            );
+            return Err(error);
+        }
+    };
+    finalize_workflow_stage(
+        &stage_validate,
+        "succeeded",
+        None,
+        vec![rel_path(&repo_root, &validator_log)],
+    )?;
     write_create_inventory(&bundle_root, &proposal_root)?;
     write_create_commands_log(
         &bundle_root,
@@ -1156,6 +1873,22 @@ pub fn run_audit_static_proposal_from_octon_dir(
         kind,
         &proposal_root,
     )?;
+    finalize_execution(
+        &workflow_artifacts,
+        &workflow_request,
+        &workflow_grant,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+            ..SideEffectSummary::default()
+        },
+    )?;
 
     Ok(RunAuditStaticProposalResult {
         bundle_root,
@@ -1166,6 +1899,7 @@ pub fn run_audit_static_proposal_from_octon_dir(
 
 impl Runner {
     fn new(octon_dir: &Path, options: RunDesignPackageOptions) -> Result<Self> {
+        let runtime_cfg = ConfigLoader::load(octon_dir)?;
         let repo_root = octon_dir
             .parent()
             .context("failed to resolve repository root from .octon directory")?
@@ -1226,6 +1960,7 @@ impl Runner {
 
         Ok(Self {
             repo_root,
+            runtime_cfg,
             target_package,
             workflow_root,
             options,
@@ -1405,6 +2140,78 @@ impl Runner {
         Ok(())
     }
 
+    fn stage_executor_profile(stage: &StageDefinition) -> &'static str {
+        if stage.class.is_file_writing() {
+            "scoped_repo_mutation"
+        } else {
+            "read_only_analysis"
+        }
+    }
+
+    fn stage_request(&self, stage: &StageDefinition) -> ExecutionRequest {
+        ExecutionRequest {
+            request_id: format!("{}-stage-{}", self.slug, stage.id),
+            caller_path: "workflow-stage".to_string(),
+            action_type: "execute_stage".to_string(),
+            target_id: format!("{WORKFLOW_ID}::{stage_id}", stage_id = stage.id),
+            requested_capabilities: if stage.class.is_file_writing() {
+                vec![
+                    "workflow.stage.execute".to_string(),
+                    "repo.write".to_string(),
+                    "evidence.write".to_string(),
+                ]
+            } else {
+                vec![
+                    "workflow.stage.execute".to_string(),
+                    "evidence.write".to_string(),
+                ]
+            },
+            side_effect_flags: SideEffectFlags {
+                write_repo: stage.class.is_file_writing(),
+                write_evidence: true,
+                shell: self.options.executor != ExecutorKind::Mock,
+                network: false,
+                model_invoke: self.options.executor != ExecutorKind::Mock,
+                state_mutation: false,
+                publication: false,
+                branch_mutation: false,
+            },
+            risk_tier: if stage.class.is_file_writing() {
+                "medium".to_string()
+            } else {
+                "low".to_string()
+            },
+            locality_scope: None,
+            intent_ref: None,
+            actor_ref: None,
+            parent_run_ref: Some(self.slug.clone()),
+            review_requirements: ReviewRequirements {
+                human_approval: false,
+                quorum: false,
+                rollback_metadata: false,
+            },
+            scope_constraints: ScopeConstraints {
+                read: vec![self.target_package.display().to_string()],
+                write: if stage.class.is_file_writing() {
+                    vec![
+                        self.target_package.display().to_string(),
+                        self.bundle_root.join("stages").display().to_string(),
+                    ]
+                } else {
+                    vec![self.bundle_root.join("stages").display().to_string()]
+                },
+                executor_profile: Some(Self::stage_executor_profile(stage).to_string()),
+                locality_scope: None,
+            },
+            policy_mode_requested: None,
+            environment_hint: None,
+            metadata: BTreeMap::from([
+                ("workflow_id".to_string(), WORKFLOW_ID.to_string()),
+                ("stage_id".to_string(), stage.id.to_string()),
+            ]),
+        }
+    }
+
     fn execute_stages(
         &self,
         report_paths: &mut BTreeMap<String, String>,
@@ -1413,6 +2220,7 @@ impl Runner {
         changed_files: &mut BTreeMap<String, Vec<String>>,
         command_log: &mut Vec<String>,
     ) -> std::result::Result<(), RunFailure> {
+        let policy = PolicyEngine::new(self.runtime_cfg.clone());
         for stage in self.stages {
             let prompt_markdown = self
                 .render_stage_prompt(stage, report_paths, report_bodies)
@@ -1473,9 +2281,57 @@ impl Runner {
                 stage.id,
                 trim_md_suffix(stage.report_file)
             ));
-            let executor_used = match self.execute_stage(stage, &prompt_markdown, &report_path, &log_path) {
-                Ok(executor_used) => executor_used,
+            let stage_request = self.stage_request(stage);
+            let stage_grant = authorize_execution(&self.runtime_cfg, &policy, &stage_request, None)
+                .map_err(|error| {
+                    RunFailure::new(
+                        FailureClass::ExecutorEnvironment,
+                        Some(stage.id),
+                        error.to_string(),
+                    )
+                })?;
+            let stage_artifacts = write_execution_start(
+                &self.bundle_root.join("stages").join(stage.id),
+                &stage_request,
+                &stage_grant,
+            )
+            .map_err(|error| {
+                RunFailure::new(
+                    FailureClass::ExecutorEnvironment,
+                    Some(stage.id),
+                    error.to_string(),
+                )
+            })?;
+            let stage_started_at = auth_now_rfc3339().map_err(|error| {
+                RunFailure::new(
+                    FailureClass::ExecutorEnvironment,
+                    Some(stage.id),
+                    error.to_string(),
+                )
+            })?;
+            let execution = match self.execute_stage(stage, &prompt_markdown, &report_path, &log_path) {
+                Ok(execution) => execution,
                 Err(error) => {
+                    let _ = finalize_execution(
+                        &stage_artifacts,
+                        &stage_request,
+                        &stage_grant,
+                        &stage_started_at,
+                        &ExecutionOutcome {
+                            status: "failed".to_string(),
+                            started_at: stage_started_at.clone(),
+                            completed_at: auth_now_rfc3339().unwrap_or_else(|_| stage_started_at.clone()),
+                            error: Some(error.to_string()),
+                        },
+                        &SideEffectSummary {
+                            touched_scope: vec![
+                                rel_path(&self.repo_root, &report_path),
+                                rel_path(&self.repo_root, &log_path),
+                            ],
+                            executor_profile: Some(Self::stage_executor_profile(stage).to_string()),
+                            ..SideEffectSummary::default()
+                        },
+                    );
                     if let Some(before) = package_before.as_ref() {
                         let after = snapshot_package(&self.target_package).map_err(|snapshot_error| {
                             RunFailure::new(
@@ -1569,11 +2425,45 @@ impl Runner {
             command_log.push(format!(
                 "- stage {} | executor={} | prompt_packet={} | report={} | log={}",
                 stage.id,
-                executor_used,
+                execution.executor_used,
                 rel_path(&self.repo_root, &prompt_packet_path),
                 rel_path(&self.repo_root, &report_path),
                 rel_path(&self.repo_root, &log_path)
             ));
+            finalize_execution(
+                &stage_artifacts,
+                &stage_request,
+                &stage_grant,
+                &stage_started_at,
+                &ExecutionOutcome {
+                    status: "succeeded".to_string(),
+                    started_at: stage_started_at.clone(),
+                    completed_at: auth_now_rfc3339().map_err(|error| {
+                        RunFailure::new(
+                            FailureClass::ExecutorEnvironment,
+                            Some(stage.id),
+                            error.to_string(),
+                        )
+                    })?,
+                    error: None,
+                },
+                &SideEffectSummary {
+                    touched_scope: vec![
+                        rel_path(&self.repo_root, &report_path),
+                        rel_path(&self.repo_root, &log_path),
+                    ],
+                    executor_profile: Some(Self::stage_executor_profile(stage).to_string()),
+                    dangerous_flags_blocked: execution.blocked_flags,
+                    ..SideEffectSummary::default()
+                },
+            )
+            .map_err(|error| {
+                RunFailure::new(
+                    FailureClass::StageValidation,
+                    Some(stage.id),
+                    error.to_string(),
+                )
+            })?;
 
             report_bodies.insert(stage.id.to_string(), report_body);
             stage_outcomes.insert(stage.id.to_string(), outcome);
@@ -1588,31 +2478,40 @@ impl Runner {
         prompt_markdown: &str,
         report_path: &Path,
         log_path: &Path,
-    ) -> Result<String> {
+    ) -> Result<StageExecutionResult> {
         match resolve_executor(self.options.executor, self.options.executor_bin.as_deref())? {
             ResolvedExecutor::Mock => {
                 self.execute_stage_mock(stage, prompt_markdown, report_path, log_path)?;
-                Ok("mock".to_string())
+                Ok(StageExecutionResult {
+                    executor_used: "mock".to_string(),
+                    blocked_flags: Vec::new(),
+                })
             }
             ResolvedExecutor::Codex(executor_bin) => {
-                self.execute_stage_codex(
+                let blocked_flags = self.execute_stage_codex(
                     stage,
                     prompt_markdown,
                     report_path,
                     log_path,
                     &executor_bin,
                 )?;
-                Ok("codex".to_string())
+                Ok(StageExecutionResult {
+                    executor_used: "codex".to_string(),
+                    blocked_flags,
+                })
             }
             ResolvedExecutor::Claude(executor_bin) => {
-                self.execute_stage_claude(
+                let blocked_flags = self.execute_stage_claude(
                     stage,
                     prompt_markdown,
                     report_path,
                     log_path,
                     &executor_bin,
                 )?;
-                Ok("claude".to_string())
+                Ok(StageExecutionResult {
+                    executor_used: "claude".to_string(),
+                    blocked_flags,
+                })
             }
         }
     }
@@ -1624,21 +2523,16 @@ impl Runner {
         report_path: &Path,
         log_path: &Path,
         executor_bin: &Path,
-    ) -> Result<()> {
-        let mut command = Command::new(executor_bin);
-        command
-            .arg("exec")
-            .arg("--ephemeral")
-            .arg("--full-auto")
-            .arg("--skip-git-repo-check")
-            .arg("--cd")
-            .arg(&self.repo_root)
-            .arg("--output-last-message")
-            .arg(report_path);
-
-        if let Some(model) = &self.options.model {
-            command.arg("--model").arg(model);
-        }
+    ) -> Result<Vec<String>> {
+        let profile = resolve_executor_profile(&self.runtime_cfg, Self::stage_executor_profile(stage))?;
+        let (mut command, blocked_flags) = build_executor_command(ExecutorCommandSpec {
+            kind: ManagedExecutorKind::Codex,
+            executor_bin,
+            repo_root: &self.repo_root,
+            output_path: Some(report_path),
+            model: self.options.model.as_deref(),
+            profile,
+        })?;
 
         let output = run_command_with_stdin(
             &mut command,
@@ -1661,7 +2555,7 @@ impl Runner {
                 log_path.display()
             );
         }
-        Ok(())
+        Ok(blocked_flags)
     }
 
     fn execute_stage_claude(
@@ -1671,18 +2565,16 @@ impl Runner {
         report_path: &Path,
         log_path: &Path,
         executor_bin: &Path,
-    ) -> Result<()> {
-        let mut command = Command::new(executor_bin);
-        command
-            .arg("-p")
-            .arg("--permission-mode")
-            .arg("bypassPermissions")
-            .arg("--output-format")
-            .arg("text");
-
-        if let Some(model) = &self.options.model {
-            command.arg("--model").arg(model);
-        }
+    ) -> Result<Vec<String>> {
+        let profile = resolve_executor_profile(&self.runtime_cfg, Self::stage_executor_profile(stage))?;
+        let (mut command, blocked_flags) = build_executor_command(ExecutorCommandSpec {
+            kind: ManagedExecutorKind::Claude,
+            executor_bin,
+            repo_root: &self.repo_root,
+            output_path: None,
+            model: self.options.model.as_deref(),
+            profile,
+        })?;
 
         let output = run_command_with_stdin(
             &mut command,
@@ -1708,7 +2600,7 @@ impl Runner {
 
         fs::write(report_path, &output.stdout)
             .with_context(|| format!("write stage report {}", report_path.display()))?;
-        Ok(())
+        Ok(blocked_flags)
     }
 
     fn execute_stage_mock(
@@ -3411,6 +4303,12 @@ mod tests {
     fn seed_pipeline_fixture(root: &Path) -> (PathBuf, PathBuf) {
         let octon_dir = root.join(".octon");
         fs::create_dir_all(&octon_dir).expect(".octon dir should exist");
+        fs::create_dir_all(octon_dir.join("instance/cognition/context/shared"))
+            .expect("intent contract dir should exist");
+        write_file(
+            &octon_dir.join("instance/cognition/context/shared/intent.contract.yml"),
+            "intent_id: \"intent://test/design-workflow\"\nversion: \"1.0.0\"\n",
+        );
 
         let target_package = root.join(".design-packages").join("target-package");
         fs::create_dir_all(&target_package).expect("target package should exist");
@@ -3461,7 +4359,7 @@ mod tests {
 
     fn source_repo_root() -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("../../../../..")
+            .join("../../../../../..")
             .canonicalize()
             .expect("source repo root should resolve")
     }
@@ -3491,6 +4389,12 @@ mod tests {
     fn seed_create_design_package_fixture(root: &Path) -> PathBuf {
         let octon_dir = root.join(".octon");
         fs::create_dir_all(&octon_dir).expect(".octon dir should exist");
+        fs::create_dir_all(octon_dir.join("instance/cognition/context/shared"))
+            .expect("intent contract dir should exist");
+        write_file(
+            &octon_dir.join("instance/cognition/context/shared/intent.contract.yml"),
+            "intent_id: \"intent://test/create-design-package\"\nversion: \"1.0.0\"\n",
+        );
 
         let source_root = source_repo_root();
         copy_tree(
@@ -3500,6 +4404,10 @@ mod tests {
         copy_tree(
             &source_root.join(".octon/framework/assurance/runtime/_ops/scripts"),
             &root.join(".octon/framework/assurance/runtime/_ops/scripts"),
+        );
+        copy_tree(
+            &source_root.join(".octon/framework/cognition/_meta/architecture/generated/proposals/schemas"),
+            &root.join(".octon/framework/cognition/_meta/architecture/generated/proposals/schemas"),
         );
 
         octon_dir
@@ -4005,6 +4913,150 @@ mod tests {
             .active
             .iter()
             .any(|entry| entry.kind == "policy" && entry.id == "shared-id"));
+
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn create_design_package_writes_execution_artifacts() {
+        let root = make_temp_root("create-artifacts");
+        let octon_dir = seed_create_design_package_fixture(&root);
+
+        let result = run_create_design_package_from_octon_dir(
+            &octon_dir,
+            RunCreateDesignPackageOptions {
+                package_id: "artifact-package".to_string(),
+                package_title: "Artifact Package".to_string(),
+                package_class: DesignPackageClass::DomainRuntime,
+                promotion_scope: ProposalScope::OctonInternal,
+                implementation_targets: vec![
+                    ".octon/framework/orchestration/runtime/example.md".to_string()
+                ],
+                include_contracts: None,
+                include_conformance: None,
+                include_canonicalization: None,
+            },
+        )
+        .expect("create-design-proposal should succeed");
+
+        for path in [
+            result.bundle_root.join("workflow-execution/execution-receipt.json"),
+            result.bundle_root.join("stages/03-scaffold-proposal/execution-receipt.json"),
+            result.bundle_root.join("stages/04-validate-proposal/execution-receipt.json"),
+        ] {
+            assert!(path.is_file(), "expected execution artifact {}", path.display());
+        }
+
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn create_static_and_audit_proposal_write_execution_artifacts() {
+        let root = make_temp_root("static-artifacts");
+        let octon_dir = seed_create_design_package_fixture(&root);
+
+        let create_result = run_create_static_proposal_from_octon_dir(
+            &octon_dir,
+            StaticProposalKind::Architecture,
+            RunCreateStaticProposalOptions {
+                proposal_id: "auditable-static".to_string(),
+                proposal_title: "Auditable Static".to_string(),
+                promotion_scope: ProposalScope::RepoLocal,
+                promotion_targets: vec!["docs/auditable.md".to_string()],
+            },
+        )
+        .expect("static proposal should scaffold");
+
+        let audit_result = run_audit_static_proposal_from_octon_dir(
+            &octon_dir,
+            StaticProposalKind::Architecture,
+            RunAuditStaticProposalOptions {
+                proposal_path: PathBuf::from(".octon/inputs/exploratory/proposals/architecture/auditable-static"),
+            },
+        )
+        .expect("static proposal audit should succeed");
+
+        for path in [
+            create_result.bundle_root.join("workflow-execution/execution-receipt.json"),
+            create_result.bundle_root.join("stages/scaffold-proposal/execution-receipt.json"),
+            create_result.bundle_root.join("stages/validate-proposal/execution-receipt.json"),
+            audit_result.bundle_root.join("workflow-execution/execution-receipt.json"),
+            audit_result.bundle_root.join("stages/validate-proposal/execution-receipt.json"),
+        ] {
+            assert!(path.is_file(), "expected execution artifact {}", path.display());
+        }
+
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn create_static_proposal_failure_writes_execution_artifacts() {
+        let root = make_temp_root("static-create-failure");
+        let octon_dir = seed_create_design_package_fixture(&root);
+
+        run_create_static_proposal_from_octon_dir(
+            &octon_dir,
+            StaticProposalKind::Policy,
+            RunCreateStaticProposalOptions {
+                proposal_id: "duplicate-static".to_string(),
+                proposal_title: "Duplicate Static".to_string(),
+                promotion_scope: ProposalScope::RepoLocal,
+                promotion_targets: vec!["docs/policy.md".to_string()],
+            },
+        )
+        .expect("first static proposal should scaffold");
+
+        let error = run_create_static_proposal_from_octon_dir(
+            &octon_dir,
+            StaticProposalKind::Policy,
+            RunCreateStaticProposalOptions {
+                proposal_id: "duplicate-static".to_string(),
+                proposal_title: "Duplicate Static".to_string(),
+                promotion_scope: ProposalScope::RepoLocal,
+                promotion_targets: vec!["docs/policy.md".to_string()],
+            },
+        )
+        .expect_err("duplicate static proposal should fail");
+        assert!(error.to_string().contains("target proposal already exists"));
+
+        let bundles_root = root.join(".octon/state/evidence/runs/workflows");
+        let bundle_root = fs::read_dir(&bundles_root)
+            .expect("workflow bundles root should exist")
+            .filter_map(|entry| entry.ok())
+            .map(|entry| entry.path())
+            .filter(|path| path.is_dir())
+            .max()
+            .expect("failed bundle should exist");
+        assert!(bundle_root.join("workflow-execution/execution-receipt.json").is_file());
+        assert!(bundle_root.join("workflow-execution/outcome.json").is_file());
+
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn audit_static_missing_target_writes_execution_artifacts() {
+        let root = make_temp_root("static-audit-failure");
+        let octon_dir = seed_create_design_package_fixture(&root);
+
+        let error = run_audit_static_proposal_from_octon_dir(
+            &octon_dir,
+            StaticProposalKind::Architecture,
+            RunAuditStaticProposalOptions {
+                proposal_path: PathBuf::from(".octon/inputs/exploratory/proposals/architecture/missing"),
+            },
+        )
+        .expect_err("missing static proposal should fail");
+        assert!(!error.to_string().is_empty());
+
+        let bundles_root = root.join(".octon/state/evidence/runs/workflows");
+        let bundle_root = fs::read_dir(&bundles_root)
+            .expect("workflow bundles root should exist")
+            .filter_map(|entry| entry.ok())
+            .map(|entry| entry.path())
+            .find(|path| path.is_dir())
+            .expect("failed bundle should exist");
+        assert!(bundle_root.join("workflow-execution/execution-receipt.json").is_file());
+        assert!(bundle_root.join("workflow-execution/outcome.json").is_file());
 
         fs::remove_dir_all(root).ok();
     }

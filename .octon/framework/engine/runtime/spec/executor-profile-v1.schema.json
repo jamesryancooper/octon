@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/executor-profile-v1.schema.json",
+  "title": "Octon Executor Profile v1",
+  "type": "object",
+  "required": [
+    "dangerous_flags_allowed",
+    "allow_repo_write",
+    "require_hard_enforce",
+    "require_human_review",
+    "require_rollback_metadata"
+  ],
+  "properties": {
+    "dangerous_flags_allowed": { "type": "boolean" },
+    "allow_repo_write": { "type": "boolean" },
+    "require_hard_enforce": { "type": "boolean" },
+    "require_human_review": { "type": "boolean" },
+    "require_rollback_metadata": { "type": "boolean" }
+  },
+  "additionalProperties": true
+}

@@ -1,68 +1,183 @@
-schema_version: "workflow-contract-v1"
-name: "audit-migration-proposal"
-description: "Run deterministic completeness and consistency validation for a migration proposal and persist bundle evidence."
-version: "1.0.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "read_only"
+---
+schema_version: workflow-contract-v2
+name: audit-migration-proposal
+description: Run deterministic completeness and consistency validation for a migration
+  proposal and persist bundle evidence.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
 execution_controls:
   cancel_safe: true
 coordination_key_strategy:
-  kind: "workflow-target"
+  kind: workflow-target
   source_fields:
-    - "workflow_group"
-    - "workflow_id"
-  format: "workflow:{workflow_group}/{workflow_id}"
-executor_interface_version: "workflow-executor-v1"
+  - workflow_group
+  - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
 inputs:
-  - name: proposal_path
-    type: folder
-    required: true
-    description: "Root migration proposal directory to validate"
+- name: proposal_path
+  type: folder
+  required: true
+  description: Root migration proposal directory to validate
 stages:
-  - id: "configure"
-    asset: "stages/01-configure.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:configure"]
-    mutation_scope: []
-  - id: "proposal-audit"
-    asset: "stages/02-proposal-audit.md"
-    kind: "analysis"
-    consumes: ["stage:configure"]
-    produces: ["stage:proposal-audit"]
-    mutation_scope: []
-  - id: "report"
-    asset: "stages/11-report.md"
-    kind: "projection"
-    consumes: ["stage:proposal-audit"]
-    produces: ["stage:report"]
-    mutation_scope: []
-  - id: "verify"
-    asset: "stages/12-verify.md"
-    kind: "verification"
-    consumes: ["stage:report"]
-    produces: ["stage:verify"]
-    mutation_scope: []
+- id: configure
+  asset: stages/01-configure.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:configure
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: proposal-audit
+  asset: stages/02-proposal-audit.md
+  kind: analysis
+  consumes:
+  - stage:configure
+  produces:
+  - stage:proposal-audit
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: report
+  asset: stages/11-report.md
+  kind: projection
+  consumes:
+  - stage:proposal-audit
+  produces:
+  - stage:report
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: verify
+  asset: stages/12-verify.md
+  kind: verification
+  consumes:
+  - stage:report
+  produces:
+  - stage:verify
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts:
-  - name: migration_proposal_workflow_summary
-    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-migration-proposal.md"
-    kind: file
-    format: markdown
-    determinism: unique
-    description: "Top-level workflow summary for migration proposal validation"
-  - name: migration_proposal_workflow_bundle
-    path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-migration-proposal-{{slug}}/"
-    kind: directory
-    format: mixed
-    determinism: unique
-    description: "Workflow bundle containing validation metadata and outputs"
+- name: migration_proposal_workflow_summary
+  path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-migration-proposal.md"
+  kind: file
+  format: markdown
+  determinism: unique
+  description: Top-level workflow summary for migration proposal validation
+- name: migration_proposal_workflow_bundle
+  path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-migration-proposal-{{slug}}/"
+  kind: directory
+  format: mixed
+  determinism: unique
+  description: Workflow bundle containing validation metadata and outputs
 done_gate:
   checks:
-    - "`summary.md`, `commands.md`, `inventory.md`, `bundle.yml`, and `validation.md` exist"
-    - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
-    - "validate-proposal-standard.sh and validate-migration-proposal.sh pass for the target proposal"
-    - "Final validation verdict is explicit"
+  - "`summary.md`, `commands.md`, `inventory.md`, `bundle.yml`, and `validation.md`
+    exist"
+  - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
+  - validate-proposal-standard.sh and validate-migration-proposal.sh pass for the
+    target proposal
+  - Final validation verdict is explicit
 constraints:
   fail_closed: true
   forbid_design_packages: true

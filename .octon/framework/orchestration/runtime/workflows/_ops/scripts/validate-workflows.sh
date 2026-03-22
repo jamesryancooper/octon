@@ -231,8 +231,8 @@ check_workflow_contract() {
   require_dir "$workflow_dir/stages"
   require_file "$guide_readme"
 
-  if [[ "$(yq -r '.schema_version // ""' "$workflow_file")" == "workflow-contract-v1" ]]; then
-    pass "workflow '$id' schema version is workflow-contract-v1"
+  if [[ "$(yq -r '.schema_version // ""' "$workflow_file")" == "workflow-contract-v2" ]]; then
+    pass "workflow '$id' schema version is workflow-contract-v2"
   else
     fail "workflow '$id' has invalid or missing schema_version"
   fi
@@ -369,7 +369,7 @@ check_workflow_stages() {
   local id="$1"
   local workflow_file="$2"
   local workflow_dir="$3"
-  local stage_rows row stage_json stage_id asset kind asset_path mutation_scope_len
+  local stage_rows row stage_json stage_id asset kind asset_path mutation_scope_len auth_action auth_caps_len auth_risk auth_scope_read_len auth_scope_write_len auth_profiles_len auth_write_repo
   local known_stage_ids=()
 
   mapfile -t stage_rows < <(yq -r '.stages[] | to_json | @base64' "$workflow_file")
@@ -384,6 +384,13 @@ check_workflow_stages() {
     asset="$(printf '%s' "$stage_json" | yq -p=json -r '.asset')"
     kind="$(printf '%s' "$stage_json" | yq -p=json -r '.kind')"
     mutation_scope_len="$(printf '%s' "$stage_json" | yq -p=json -r '.mutation_scope | length')"
+    auth_action="$(printf '%s' "$stage_json" | yq -p=json -r '.authorization.action_type // ""')"
+    auth_caps_len="$(printf '%s' "$stage_json" | yq -p=json -r '.authorization.requested_capabilities | length // 0')"
+    auth_risk="$(printf '%s' "$stage_json" | yq -p=json -r '.authorization.risk_tier // ""')"
+    auth_scope_read_len="$(printf '%s' "$stage_json" | yq -p=json -r '.authorization.scope.read | length // 0')"
+    auth_scope_write_len="$(printf '%s' "$stage_json" | yq -p=json -r '.authorization.scope.write | length // 0')"
+    auth_profiles_len="$(printf '%s' "$stage_json" | yq -p=json -r '.authorization.allowed_executor_profiles | length // 0')"
+    auth_write_repo="$(printf '%s' "$stage_json" | yq -p=json -r '.authorization.side_effects.write_repo // "false"')"
     asset_path="$workflow_dir/$asset"
 
     [[ "$asset" == stages/* ]] && pass "workflow '$id' stage '$stage_id' asset lives under stages/" || fail "workflow '$id' stage '$stage_id' asset must live under stages/"
@@ -397,6 +404,19 @@ check_workflow_stages() {
       [[ "$mutation_scope_len" -gt 0 ]] && pass "workflow '$id' stage '$stage_id' mutation scope declared" || fail "workflow '$id' stage '$stage_id' missing mutation scope"
     else
       [[ "$mutation_scope_len" -eq 0 ]] && pass "workflow '$id' stage '$stage_id' mutation scope absent as expected" || fail "workflow '$id' non-mutation stage '$stage_id' declares mutation scope"
+    fi
+
+    [[ -n "$auth_action" ]] && pass "workflow '$id' stage '$stage_id' authorization action_type declared" || fail "workflow '$id' stage '$stage_id' missing authorization.action_type"
+    [[ "$auth_caps_len" -gt 0 ]] && pass "workflow '$id' stage '$stage_id' authorization capabilities declared" || fail "workflow '$id' stage '$stage_id' missing authorization.requested_capabilities"
+    [[ -n "$auth_risk" ]] && pass "workflow '$id' stage '$stage_id' authorization risk tier declared" || fail "workflow '$id' stage '$stage_id' missing authorization.risk_tier"
+    [[ "$auth_scope_read_len" -gt 0 ]] && pass "workflow '$id' stage '$stage_id' authorization read scope declared" || fail "workflow '$id' stage '$stage_id' missing authorization.scope.read"
+    [[ "$auth_scope_write_len" -gt 0 ]] && pass "workflow '$id' stage '$stage_id' authorization write scope declared" || fail "workflow '$id' stage '$stage_id' missing authorization.scope.write"
+    [[ "$auth_profiles_len" -gt 0 ]] && pass "workflow '$id' stage '$stage_id' authorization executor profiles declared" || fail "workflow '$id' stage '$stage_id' missing authorization.allowed_executor_profiles"
+
+    if [[ "$kind" == "mutation" ]]; then
+      [[ "$auth_write_repo" == "true" ]] && pass "workflow '$id' stage '$stage_id' mutation authorization writes repo" || fail "workflow '$id' stage '$stage_id' mutation authorization must declare side_effects.write_repo=true"
+    else
+      [[ "$auth_write_repo" == "false" ]] && pass "workflow '$id' stage '$stage_id' non-mutation authorization avoids repo writes" || fail "workflow '$id' stage '$stage_id' non-mutation authorization must declare side_effects.write_repo=false"
     fi
 
     check_stage_references "$id" "$stage_id" "$stage_json" "${known_stage_ids[@]}"

@@ -1,0 +1,23 @@
+# Inventory
+
+- Engine runtime config and authorization wiring:
+  - `.octon/framework/engine/runtime/crates/core/src/config.rs`
+  - `.octon/framework/engine/runtime/crates/kernel/src/authorization.rs`
+  - `.octon/framework/engine/runtime/crates/kernel/src/{main,pipeline,stdio,workflow}.rs`
+- Runtime specs:
+  - `.octon/framework/engine/runtime/spec/execution-authorization-v1.md`
+  - `.octon/framework/engine/runtime/spec/execution-request-v1.schema.json`
+  - `.octon/framework/engine/runtime/spec/execution-grant-v1.schema.json`
+  - `.octon/framework/engine/runtime/spec/execution-receipt-v1.schema.json`
+  - `.octon/framework/engine/runtime/spec/executor-profile-v1.schema.json`
+- Workflow contract migration:
+  - `.octon/framework/orchestration/runtime/workflows/**/workflow.yml`
+  - `.octon/framework/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh`
+- Protected CI and assurance:
+  - `.github/workflows/{ai-review-gate,pr-autonomy-policy,deny-by-default-gates,release-please}.yml`
+  - `.octon/framework/assurance/runtime/_ops/scripts/{assert-protected-execution-posture,validate-execution-governance,validate-runtime-effective-state,alignment-check}.sh`
+- Architecture/bootstrap docs:
+  - `.octon/octon.yml`
+  - `.octon/README.md`
+  - `.octon/instance/bootstrap/START.md`
+  - `.octon/framework/cognition/_meta/architecture/{runtime-policy,runtime-vs-ops-contract,specification}.md`

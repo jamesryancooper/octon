@@ -1,120 +1,319 @@
-schema_version: "workflow-contract-v1"
-name: "python-api-foundation"
-description: "Orchestrate the six Python API foundation skills in dependency order: scaffold-package first, then contract-first-api / infra-manifest / dev-toolchain in parallel, then test-harness, then contributor-guide last. Supports partial runs and resume after interruption."
-version: "1.0.0"
-entry_mode: "human"
-execution_profile: "external-dependent"
-side_effect_class: "mutating"
+---
+schema_version: workflow-contract-v2
+name: python-api-foundation
+description: 'Orchestrate the six Python API foundation skills in dependency order:
+  scaffold-package first, then contract-first-api / infra-manifest / dev-toolchain
+  in parallel, then test-harness, then contributor-guide last. Supports partial runs
+  and resume after interruption.'
+version: 1.0.0
+entry_mode: human
+execution_profile: external-dependent
+side_effect_class: mutating
 execution_controls:
   cancel_safe: false
 coordination_key_strategy:
-  kind: "workflow-target"
+  kind: workflow-target
   source_fields:
-    - "workflow_group"
-    - "workflow_id"
-  format: "workflow:{workflow_group}/{workflow_id}"
-executor_interface_version: "workflow-executor-v1"
+  - workflow_group
+  - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
 inputs:
-  - name: project_name
-    type: text
-    required: true
-    description: "Project name (lowercase, hyphens)"
-  - name: description
-    type: text
-    required: true
-    description: "One-line project description"
-  - name: python_version
-    type: text
-    required: true
-    default: "python3.12"
-    description: "Python version (e.g., python3.12)"
-  - name: services
-    type: text
-    required: false
-    description: "Infrastructure services: postgres, nats, redis, s3, temporal"
-  - name: skip
-    type: text
-    required: false
-    description: "Comma-separated skill IDs to skip"
+- name: project_name
+  type: text
+  required: true
+  description: Project name (lowercase, hyphens)
+- name: description
+  type: text
+  required: true
+  description: One-line project description
+- name: python_version
+  type: text
+  required: true
+  default: python3.12
+  description: Python version (e.g., python3.12)
+- name: services
+  type: text
+  required: false
+  description: 'Infrastructure services: postgres, nats, redis, s3, temporal'
+- name: skip
+  type: text
+  required: false
+  description: Comma-separated skill IDs to skip
 stages:
-  - id: "gather-input"
-    asset: "stages/01-gather-input.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:gather-input"]
-    mutation_scope: []
-  - id: "scaffold-package"
-    asset: "stages/02-scaffold-package.md"
-    kind: "analysis"
-    consumes: ["stage:gather-input"]
-    produces: ["stage:scaffold-package"]
-    mutation_scope: []
-  - id: "parallel-middle"
-    asset: "stages/03-parallel-middle.md"
-    kind: "analysis"
-    consumes: ["stage:scaffold-package"]
-    produces: ["stage:parallel-middle"]
-    mutation_scope: []
-  - id: "test-harness"
-    asset: "stages/04-test-harness.md"
-    kind: "analysis"
-    consumes: ["stage:parallel-middle"]
-    produces: ["stage:test-harness"]
-    mutation_scope: []
-  - id: "contributor-guide"
-    asset: "stages/05-contributor-guide.md"
-    kind: "analysis"
-    consumes: ["stage:test-harness"]
-    produces: ["stage:contributor-guide"]
-    mutation_scope: []
-  - id: "smoke-test"
-    asset: "stages/06-smoke-test.md"
-    kind: "analysis"
-    consumes: ["stage:contributor-guide"]
-    produces: ["stage:smoke-test"]
-    mutation_scope: []
-  - id: "verify"
-    asset: "stages/07-verify.md"
-    kind: "verification"
-    consumes: ["stage:smoke-test"]
-    produces: ["stage:verify"]
-    mutation_scope: []
+- id: gather-input
+  asset: stages/01-gather-input.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:gather-input
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: true
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: scaffold-package
+  asset: stages/02-scaffold-package.md
+  kind: analysis
+  consumes:
+  - stage:gather-input
+  produces:
+  - stage:scaffold-package
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: true
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: parallel-middle
+  asset: stages/03-parallel-middle.md
+  kind: analysis
+  consumes:
+  - stage:scaffold-package
+  produces:
+  - stage:parallel-middle
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: true
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: test-harness
+  asset: stages/04-test-harness.md
+  kind: analysis
+  consumes:
+  - stage:parallel-middle
+  produces:
+  - stage:test-harness
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: true
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: contributor-guide
+  asset: stages/05-contributor-guide.md
+  kind: analysis
+  consumes:
+  - stage:test-harness
+  produces:
+  - stage:contributor-guide
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: true
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: smoke-test
+  asset: stages/06-smoke-test.md
+  kind: analysis
+  consumes:
+  - stage:contributor-guide
+  produces:
+  - stage:smoke-test
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: true
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: verify
+  asset: stages/07-verify.md
+  kind: verification
+  consumes:
+  - stage:smoke-test
+  produces:
+  - stage:verify
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: true
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts:
-  - name: project_scaffold
-    path: "src/{{package_name}}/"
-    kind: directory
-    format: python-package
-    determinism: unique
-    description: "Complete Python package structure"
-  - name: contracts
-    path: "docs/contracts/"
-    kind: directory
-    format: mixed
-    determinism: unique
-    description: "OpenAPI spec, JSON schemas, and versioning policy"
-  - name: test_suite
-    path: "tests/"
-    kind: directory
-    format: python-tests
-    determinism: unique
-    description: "Three-tier test pyramid"
-  - name: contributor_docs
-    path: "AGENT.md"
-    kind: file
-    format: markdown
-    determinism: unique
-    description: "AI agent orientation document"
+- name: project_scaffold
+  path: src/{{package_name}}/
+  kind: directory
+  format: python-package
+  determinism: unique
+  description: Complete Python package structure
+- name: contracts
+  path: docs/contracts/
+  kind: directory
+  format: mixed
+  determinism: unique
+  description: OpenAPI spec, JSON schemas, and versioning policy
+- name: test_suite
+  path: tests/
+  kind: directory
+  format: python-tests
+  determinism: unique
+  description: Three-tier test pyramid
+- name: contributor_docs
+  path: AGENT.md
+  kind: file
+  format: markdown
+  determinism: unique
+  description: AI agent orientation document
 done_gate:
   checks:
-    - "`pyproject.toml` exists with correct project name and dependencies"
-    - "`src/<package>/` tree exists with all standard sub-packages"
-    - "`docs/contracts/openapi-v1.yaml` exists (if contracts were generated)"
-    - "`tests/` directory has conftest, contract tests, and unit tests"
-    - "`docker-compose.local.yml` exists (if infrastructure was declared)"
-    - "`justfile` exists with standard targets"
-    - "`AGENT.md` and `CONTRIBUTING.md` exist"
-    - "`just check` passes (or failures are documented)"
-    - "Verification step passes"
+  - "`pyproject.toml` exists with correct project name and dependencies"
+  - "`src/<package>/` tree exists with all standard sub-packages"
+  - "`docs/contracts/openapi-v1.yaml` exists (if contracts were generated)"
+  - "`tests/` directory has conftest, contract tests, and unit tests"
+  - "`docker-compose.local.yml` exists (if infrastructure was declared)"
+  - "`justfile` exists with standard targets"
+  - "`AGENT.md` and `CONTRIBUTING.md` exist"
+  - "`just check` passes (or failures are documented)"
+  - Verification step passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

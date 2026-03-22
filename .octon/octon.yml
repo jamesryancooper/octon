@@ -79,3 +79,61 @@ resolution:
   runtime_inputs:
     proposals_registry: .octon/generated/proposals/registry.yml
     continuity: .octon/state/continuity/
+execution_governance:
+  policy_mode:
+    default: hard-enforce
+    protected: hard-enforce
+    allowed_development_modes:
+      - shadow
+      - soft-enforce
+      - hard-enforce
+  protected_refs:
+    - main
+  protected_workflows:
+    - ai-review-gate
+    - pr-autonomy-policy
+    - deny-by-default-gates
+    - release-please
+  critical_action_types:
+    - mutate_repo
+    - launch_executor_elevated
+    - protected_branch_mutation
+    - publish_artifact
+    - release_publication
+  receipt_roots:
+    kernel: .octon/state/evidence/runs/kernel
+    services: .octon/state/evidence/runs/services
+    workflows: .octon/state/evidence/runs/workflows
+    executors: .octon/state/evidence/runs/executors
+    ci: .octon/state/evidence/runs/ci
+  executor_profiles:
+    read_only_analysis:
+      dangerous_flags_allowed: false
+      allow_repo_write: false
+      require_hard_enforce: false
+      require_human_review: false
+      require_rollback_metadata: false
+    patch_generation_only:
+      dangerous_flags_allowed: false
+      allow_repo_write: true
+      require_hard_enforce: false
+      require_human_review: false
+      require_rollback_metadata: false
+    scoped_repo_mutation:
+      dangerous_flags_allowed: false
+      allow_repo_write: true
+      require_hard_enforce: false
+      require_human_review: false
+      require_rollback_metadata: false
+    release_candidate_preparation:
+      dangerous_flags_allowed: true
+      allow_repo_write: true
+      require_hard_enforce: true
+      require_human_review: true
+      require_rollback_metadata: true
+    human_review_required:
+      dangerous_flags_allowed: false
+      allow_repo_write: false
+      require_hard_enforce: true
+      require_human_review: true
+      require_rollback_metadata: true

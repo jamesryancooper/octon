@@ -1,61 +1,231 @@
-schema_version: "workflow-contract-v1"
-name: "refactor"
-description: "Execute a verified refactor workflow: define scope, audit impact, plan changes, execute safely, verify outcomes, and document results."
-version: "1.1.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "mutating"
+---
+schema_version: workflow-contract-v2
+name: refactor
+description: 'Execute a verified refactor workflow: define scope, audit impact, plan
+  changes, execute safely, verify outcomes, and document results.'
+version: 1.1.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
 execution_controls:
   cancel_safe: false
 coordination_key_strategy:
-  kind: "workflow-target"
+  kind: workflow-target
   source_fields:
-    - "workflow_group"
-    - "workflow_id"
-  format: "workflow:{workflow_group}/{workflow_id}"
-executor_interface_version: "workflow-executor-v1"
+  - workflow_group
+  - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "define-scope"
-    asset: "stages/01-define-scope.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:define-scope"]
-    mutation_scope: []
-  - id: "audit"
-    asset: "stages/02-audit.md"
-    kind: "analysis"
-    consumes: ["stage:define-scope"]
-    produces: ["stage:audit"]
-    mutation_scope: []
-  - id: "plan"
-    asset: "stages/03-plan.md"
-    kind: "mutation"
-    consumes: ["stage:audit"]
-    produces: ["stage:plan"]
-    mutation_scope: ["workflow-scope"]
-  - id: "execute"
-    asset: "stages/04-execute.md"
-    kind: "analysis"
-    consumes: ["stage:plan"]
-    produces: ["stage:execute"]
-    mutation_scope: []
-  - id: "verify"
-    asset: "stages/05-verify.md"
-    kind: "verification"
-    consumes: ["stage:execute"]
-    produces: ["stage:verify"]
-    mutation_scope: []
-  - id: "document"
-    asset: "stages/06-document.md"
-    kind: "analysis"
-    consumes: ["stage:verify"]
-    produces: ["stage:document"]
-    mutation_scope: []
+- id: define-scope
+  asset: stages/01-define-scope.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:define-scope
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: audit
+  asset: stages/02-audit.md
+  kind: analysis
+  consumes:
+  - stage:define-scope
+  produces:
+  - stage:audit
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: plan
+  asset: stages/03-plan.md
+  kind: mutation
+  consumes:
+  - stage:audit
+  produces:
+  - stage:plan
+  mutation_scope: &1
+  - workflow-scope
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - repo.write
+    - evidence.write
+    side_effects:
+      write_repo: true
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: medium
+    scope:
+      read:
+      - workflow-scope
+      write: *1
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: true
+    allowed_executor_profiles:
+    - scoped_repo_mutation
+- id: execute
+  asset: stages/04-execute.md
+  kind: analysis
+  consumes:
+  - stage:plan
+  produces:
+  - stage:execute
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: verify
+  asset: stages/05-verify.md
+  kind: verification
+  consumes:
+  - stage:execute
+  produces:
+  - stage:verify
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: document
+  asset: stages/06-document.md
+  kind: analysis
+  consumes:
+  - stage:verify
+  produces:
+  - stage:document
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

@@ -254,7 +254,7 @@ Closed with evidence.
 - Remediation Ref: `run:run-001`
 EOF
   cat > "$fixture_root/.octon/framework/orchestration/runtime/workflows/example/sample/workflow.yml" <<'EOF'
-schema_version: "workflow-contract-v1"
+schema_version: "workflow-contract-v2"
 name: "sample"
 description: "Example workflow."
 version: "1.0.0"

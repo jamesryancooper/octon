@@ -1,131 +1,360 @@
-schema_version: "workflow-contract-v1"
-name: "audit-workflow-system"
-description: "Audit the Octon workflow system with bounded static analysis, representative rehearsals, stable finding IDs, coverage accounting, and explicit done-gate evaluation."
-version: "1.0.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "read_only"
+---
+schema_version: workflow-contract-v2
+name: audit-workflow-system
+description: Audit the Octon workflow system with bounded static analysis, representative
+  rehearsals, stable finding IDs, coverage accounting, and explicit done-gate evaluation.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
 execution_controls:
   cancel_safe: true
 coordination_key_strategy:
-  kind: "none"
-executor_interface_version: "workflow-executor-v1"
+  kind: none
+executor_interface_version: workflow-executor-v1
 inputs:
-  - name: scope
-    type: folder
-    required: false
-    default: ".octon/framework/orchestration/runtime/workflows/"
-    description: "Root workflow directory to audit."
-  - name: severity_threshold
-    type: text
-    required: false
-    default: "high"
-    description: "Minimum severity that blocks the done gate: critical, high, medium, low, all."
-  - name: include_docs
-    type: boolean
-    required: false
-    default: true
-    description: "Include companion workflow docs and rubric context in scope."
-  - name: include_governance
-    type: boolean
-    required: false
-    default: true
-    description: "Include workflow governance and validation surfaces in scope."
-  - name: run_live
-    type: boolean
-    required: false
-    default: true
-    description: "Run representative rehearsal scenarios in addition to static analysis."
-  - name: scenario_pack
-    type: text
-    required: false
-    default: "representative"
-    description: "Representative scenario pack to run when run_live is enabled."
-  - name: post_remediation
-    type: boolean
-    required: false
-    default: false
-    description: "Enable strict convergence verification after remediation."
-  - name: convergence_k
-    type: text
-    required: false
-    default: "3"
-    description: "Number of controlled reruns used to evaluate convergence stability."
-  - name: seed_list
-    type: text
-    required: false
-    description: "Comma-separated deterministic seeds used for multi-run consistency checks."
+- name: scope
+  type: folder
+  required: false
+  default: ".octon/framework/orchestration/runtime/workflows/"
+  description: Root workflow directory to audit.
+- name: severity_threshold
+  type: text
+  required: false
+  default: high
+  description: 'Minimum severity that blocks the done gate: critical, high, medium,
+    low, all.'
+- name: include_docs
+  type: boolean
+  required: false
+  default: true
+  description: Include companion workflow docs and rubric context in scope.
+- name: include_governance
+  type: boolean
+  required: false
+  default: true
+  description: Include workflow governance and validation surfaces in scope.
+- name: run_live
+  type: boolean
+  required: false
+  default: true
+  description: Run representative rehearsal scenarios in addition to static analysis.
+- name: scenario_pack
+  type: text
+  required: false
+  default: representative
+  description: Representative scenario pack to run when run_live is enabled.
+- name: post_remediation
+  type: boolean
+  required: false
+  default: false
+  description: Enable strict convergence verification after remediation.
+- name: convergence_k
+  type: text
+  required: false
+  default: '3'
+  description: Number of controlled reruns used to evaluate convergence stability.
+- name: seed_list
+  type: text
+  required: false
+  description: Comma-separated deterministic seeds used for multi-run consistency
+    checks.
 stages:
-  - id: "build-inventory"
-    asset: "stages/01-build-inventory.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:build-inventory"]
-    mutation_scope: []
-  - id: "validate-contracts"
-    asset: "stages/02-validate-contracts.md"
-    kind: "analysis"
-    consumes: ["stage:build-inventory"]
-    produces: ["stage:validate-contracts"]
-    mutation_scope: []
-  - id: "evaluate-workflows"
-    asset: "stages/03-evaluate-workflows.md"
-    kind: "analysis"
-    consumes: ["stage:validate-contracts"]
-    produces: ["stage:evaluate-workflows"]
-    mutation_scope: []
-  - id: "assess-portfolio"
-    asset: "stages/04-assess-portfolio.md"
-    kind: "analysis"
-    consumes: ["stage:evaluate-workflows"]
-    produces: ["stage:assess-portfolio"]
-    mutation_scope: []
-  - id: "run-scenarios"
-    asset: "stages/05-run-scenarios.md"
-    kind: "analysis"
-    consumes: ["stage:assess-portfolio"]
-    produces: ["stage:run-scenarios"]
-    mutation_scope: []
-  - id: "merge-and-score"
-    asset: "stages/06-merge-and-score.md"
-    kind: "projection"
-    consumes: ["stage:run-scenarios"]
-    produces: ["stage:merge-and-score"]
-    mutation_scope: []
-  - id: "report"
-    asset: "stages/07-report.md"
-    kind: "projection"
-    consumes: ["stage:merge-and-score"]
-    produces: ["stage:report"]
-    mutation_scope: []
-  - id: "verify"
-    asset: "stages/08-verify.md"
-    kind: "verification"
-    consumes: ["stage:report"]
-    produces: ["stage:verify"]
-    mutation_scope: []
+- id: build-inventory
+  asset: stages/01-build-inventory.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:build-inventory
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: validate-contracts
+  asset: stages/02-validate-contracts.md
+  kind: analysis
+  consumes:
+  - stage:build-inventory
+  produces:
+  - stage:validate-contracts
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: evaluate-workflows
+  asset: stages/03-evaluate-workflows.md
+  kind: analysis
+  consumes:
+  - stage:validate-contracts
+  produces:
+  - stage:evaluate-workflows
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: assess-portfolio
+  asset: stages/04-assess-portfolio.md
+  kind: analysis
+  consumes:
+  - stage:evaluate-workflows
+  produces:
+  - stage:assess-portfolio
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: run-scenarios
+  asset: stages/05-run-scenarios.md
+  kind: analysis
+  consumes:
+  - stage:assess-portfolio
+  produces:
+  - stage:run-scenarios
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: merge-and-score
+  asset: stages/06-merge-and-score.md
+  kind: projection
+  consumes:
+  - stage:run-scenarios
+  produces:
+  - stage:merge-and-score
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: report
+  asset: stages/07-report.md
+  kind: projection
+  consumes:
+  - stage:merge-and-score
+  produces:
+  - stage:report
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: verify
+  asset: stages/08-verify.md
+  kind: verification
+  consumes:
+  - stage:report
+  produces:
+  - stage:verify
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts:
-  - name: workflow_system_audit_report
-    path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-workflow-system.md"
-    kind: file
-    format: markdown
-    determinism: unique
-    description: "Narrative report summarizing workflow-system findings and recommendations."
-  - name: workflow_system_audit_bundle
-    path: "/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/"
-    kind: directory
-    format: mixed
-    determinism: unique
-    description: "Authoritative bounded-audit bundle for workflow-system findings, scores, scenarios, and done-gate evidence."
+- name: workflow_system_audit_report
+  path: "/.octon/state/evidence/validation/analysis/{{date}}-audit-workflow-system.md"
+  kind: file
+  format: markdown
+  determinism: unique
+  description: Narrative report summarizing workflow-system findings and recommendations.
+- name: workflow_system_audit_bundle
+  path: "/.octon/state/evidence/validation/audits/{{date}}-{{slug}}/"
+  kind: directory
+  format: mixed
+  determinism: unique
+  description: Authoritative bounded-audit bundle for workflow-system findings, scores,
+    scenarios, and done-gate evidence.
 done_gate:
   checks:
-    - "Findings are deduplicated with stable IDs and objective acceptance criteria"
-    - "Coverage accounting has zero unaccounted files"
-    - "Representative scenario results are recorded"
-    - "Bounded bundle exists at `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/`"
-    - "Runtime audit plan exists at `.octon/instance/cognition/context/shared/audits/YYYY-MM-DD-<slug>/plan.md`"
-    - "Done-gate expression is evaluated in `validation.md` and `convergence.yml`"
-    - "If `post_remediation=true`, convergence K-run result is stable and empty at/above threshold"
+  - Findings are deduplicated with stable IDs and objective acceptance criteria
+  - Coverage accounting has zero unaccounted files
+  - Representative scenario results are recorded
+  - Bounded bundle exists at `.octon/state/evidence/validation/audits/YYYY-MM-DD-<slug>/`
+  - Runtime audit plan exists at `.octon/instance/cognition/context/shared/audits/YYYY-MM-DD-<slug>/plan.md`
+  - Done-gate expression is evaluated in `validation.md` and `convergence.yml`
+  - If `post_remediation=true`, convergence K-run result is stable and empty at/above
+    threshold
 constraints:
   fail_closed: true
   forbid_design_packages: true

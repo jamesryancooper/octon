@@ -103,6 +103,10 @@ No other `instance/**` subtree is overlay-capable in v1.
 - Canonical repo context and ADRs: `/.octon/instance/cognition/`
 - Canonical repo missions: `/.octon/instance/orchestration/missions/`
 - Root manifest: `/.octon/octon.yml`
+- Execution authorization contracts:
+  `/.octon/framework/engine/runtime/spec/execution-authorization-v1.md`,
+  `execution-request-v1.schema.json`, `execution-grant-v1.schema.json`,
+  `execution-receipt-v1.schema.json`, and `executor-profile-v1.schema.json`
 - Export workflow: `/.octon/framework/orchestration/runtime/workflows/meta/export-harness/`
 - Canonical architecture contract:
   `/.octon/framework/cognition/_meta/architecture/specification.md`

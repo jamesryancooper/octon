@@ -1,49 +1,162 @@
-schema_version: "workflow-contract-v1"
-name: "migrate-harness"
-description: "Migrate an older harness layout to the canonical v2 root-manifest and profile contract while preserving intent, traceability, and recoverability."
-version: "1.2.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "mutating"
+---
+schema_version: workflow-contract-v2
+name: migrate-harness
+description: Migrate an older harness layout to the canonical v2 root-manifest and
+  profile contract while preserving intent, traceability, and recoverability.
+version: 1.2.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
 execution_controls:
   cancel_safe: false
 coordination_key_strategy:
-  kind: "workflow-target"
+  kind: workflow-target
   source_fields:
-    - "workflow_group"
-    - "workflow_id"
-  format: "workflow:{workflow_group}/{workflow_id}"
-executor_interface_version: "workflow-executor-v1"
+  - workflow_group
+  - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "backup-assessment"
-    asset: "stages/01-backup-assessment.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:backup-assessment"]
-    mutation_scope: []
-  - id: "structure-migration"
-    asset: "stages/02-structure-migration.md"
-    kind: "analysis"
-    consumes: ["stage:backup-assessment"]
-    produces: ["stage:structure-migration"]
-    mutation_scope: []
-  - id: "content-migration"
-    asset: "stages/03-content-migration.md"
-    kind: "analysis"
-    consumes: ["stage:structure-migration"]
-    produces: ["stage:content-migration"]
-    mutation_scope: []
-  - id: "validation"
-    asset: "stages/04-validation.md"
-    kind: "analysis"
-    consumes: ["stage:content-migration"]
-    produces: ["stage:validation"]
-    mutation_scope: []
+- id: backup-assessment
+  asset: stages/01-backup-assessment.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:backup-assessment
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: structure-migration
+  asset: stages/02-structure-migration.md
+  kind: analysis
+  consumes:
+  - stage:backup-assessment
+  produces:
+  - stage:structure-migration
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: content-migration
+  asset: stages/03-content-migration.md
+  kind: analysis
+  consumes:
+  - stage:structure-migration
+  produces:
+  - stage:content-migration
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: validation
+  asset: stages/04-validation.md
+  kind: analysis
+  consumes:
+  - stage:content-migration
+  produces:
+  - stage:validation
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

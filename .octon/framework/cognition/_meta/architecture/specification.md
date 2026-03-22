@@ -101,6 +101,12 @@ super-root cutover.
     remains in `pack.yml`.
 43. `pack_bundle` is a trust-agnostic raw additive transfer profile and does
     not imply pack activation or publication.
+44. Material execution must resolve through the engine-owned
+    `authorize_execution(...)` boundary before side effects occur.
+45. Protected execution is legal only under `hard-enforce`.
+46. Workflow contracts use `workflow-contract-v2` and declare stage-level
+    authorization metadata.
+47. Runtime execution evidence belongs under `state/evidence/runs/**`.
 
 ## Precedence
 
@@ -235,6 +241,8 @@ before it becomes legal.
 
 - Missing required manifests block runtime.
 - Wrong-class placement blocks runtime.
+- Missing execution grants or execution receipts for material runtime paths
+  block runtime.
 - Invalid overlay registries, undeclared enablement, unsupported merge modes,
   or overlay artifacts outside enabled declared roots block runtime.
 - Repo-root ingress files that diverge from the projected ingress surface block

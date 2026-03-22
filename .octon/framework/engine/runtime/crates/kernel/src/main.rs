@@ -1,3 +1,4 @@
+mod authorization;
 mod context;
 mod orchestration;
 mod pipeline;
@@ -5,6 +6,11 @@ mod scaffold;
 mod stdio;
 mod workflow;
 
+use crate::authorization::{
+    artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
+    write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
+    ScopeConstraints, SideEffectFlags, SideEffectSummary,
+};
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::tiers::validate_runtime_discovery_tiers;
@@ -323,10 +329,6 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
         .resolve_id(service_id_or_name)
         .ok_or_else(|| KernelError::new(ErrorCode::UnknownService, "unknown service"))?;
 
-    // Policy gate.
-    let caps = ctx.policy.decide_allow(svc)?;
-    let grants = GrantSet::new(caps);
-
     let input: serde_json::Value = match input_json {
         Some(s) => serde_json::from_str(s).map_err(|e| {
             KernelError::new(ErrorCode::MalformedJson, format!("invalid --json: {e}"))
@@ -334,10 +336,65 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
         None => serde_json::json!({}),
     };
 
+    let request = ExecutionRequest {
+        request_id: new_request_id("tool"),
+        caller_path: "service".to_string(),
+        action_type: "invoke_service".to_string(),
+        target_id: format!("{}::{op}", svc.key.id()),
+        requested_capabilities: svc.manifest.capabilities_required.clone(),
+        side_effect_flags: SideEffectFlags {
+            write_evidence: true,
+            state_mutation: true,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: "medium".to_string(),
+        locality_scope: None,
+        intent_ref: None,
+        actor_ref: None,
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["service-input".to_string()],
+            write: vec!["service-state".to_string()],
+            executor_profile: None,
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: std::collections::BTreeMap::new(),
+    };
+    let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(svc))?;
+    let artifacts = write_execution_start(
+        &artifact_root_from_relative(
+            &ctx.cfg.repo_root,
+            &ctx.cfg.execution_governance.receipt_roots.services,
+            &request.request_id,
+        ),
+        &request,
+        &grant,
+    )?;
+    let started_at = now_rfc3339()?;
+    let grants = GrantSet::new(grant.granted_capabilities.clone());
     let trace = TraceWriter::new(&ctx.cfg.state_dir, None).ok();
     let out = ctx
         .invoker
         .invoke(svc, grants, op, input, trace.as_ref(), None, None)?;
+    finalize_execution(
+        &artifacts,
+        &request,
+        &grant,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec!["service-state".to_string()],
+            ..SideEffectSummary::default()
+        },
+    )?;
 
     println!("{}", serde_json::to_string_pretty(&out)?);
     Ok(())
@@ -349,7 +406,8 @@ fn cmd_serve_stdio() -> anyhow::Result<()> {
 }
 
 fn cmd_studio() -> anyhow::Result<()> {
-    let octon_dir = octon_core::root::RootResolver::resolve()?;
+    let ctx = KernelContext::load()?;
+    let octon_dir = ctx.cfg.octon_dir.clone();
     let runtime_dir = octon_dir.join("framework").join("engine").join("runtime");
     let manifest_path = runtime_dir.join("crates").join("Cargo.toml");
     let target_dir = octon_dir
@@ -358,6 +416,55 @@ fn cmd_studio() -> anyhow::Result<()> {
         .join("engine")
         .join("build")
         .join("runtime-crates-target");
+
+    let request = ExecutionRequest {
+        request_id: new_request_id("studio"),
+        caller_path: "kernel".to_string(),
+        action_type: "launch_executor".to_string(),
+        target_id: "octon-studio".to_string(),
+        requested_capabilities: vec![
+            "engine.studio.launch".to_string(),
+            "executor.shell".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_repo: true,
+            write_evidence: true,
+            shell: true,
+            state_mutation: true,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: "medium".to_string(),
+        locality_scope: None,
+        intent_ref: None,
+        actor_ref: None,
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements {
+            human_approval: true,
+            quorum: false,
+            rollback_metadata: false,
+        },
+        scope_constraints: ScopeConstraints {
+            read: vec!["repo-root".to_string()],
+            write: vec![target_dir.display().to_string()],
+            executor_profile: Some("scoped_repo_mutation".to_string()),
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: std::collections::BTreeMap::new(),
+    };
+    let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+    let artifacts = write_execution_start(
+        &artifact_root_from_relative(
+            &ctx.cfg.repo_root,
+            &ctx.cfg.execution_governance.receipt_roots.executors,
+            &request.request_id,
+        ),
+        &request,
+        &grant,
+    )?;
+    let started_at = now_rfc3339()?;
 
     std::fs::create_dir_all(&target_dir)?;
 
@@ -370,8 +477,35 @@ fn cmd_studio() -> anyhow::Result<()> {
         .arg("--bin")
         .arg("octon-studio")
         .current_dir(&octon_dir)
-        .env("CARGO_TARGET_DIR", target_dir)
+        .env("CARGO_TARGET_DIR", &target_dir)
         .status()?;
+
+    finalize_execution(
+        &artifacts,
+        &request,
+        &grant,
+        &started_at,
+        &ExecutionOutcome {
+            status: if status.success() {
+                "succeeded".to_string()
+            } else {
+                "failed".to_string()
+            },
+            started_at: started_at.clone(),
+            completed_at: now_rfc3339()?,
+            error: if status.success() {
+                None
+            } else {
+                Some(format!("cargo run exited with status {status}"))
+            },
+        },
+        &SideEffectSummary {
+            touched_scope: vec![target_dir.display().to_string()],
+            shell_commands: vec!["cargo run -p octon_studio --bin octon-studio".to_string()],
+            executor_profile: Some("scoped_repo_mutation".to_string()),
+            ..SideEffectSummary::default()
+        },
+    )?;
 
     if !status.success() {
         anyhow::bail!("octon studio exited with status {}", status);
@@ -381,17 +515,169 @@ fn cmd_studio() -> anyhow::Result<()> {
 }
 
 fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
-    let octon_dir = octon_core::root::RootResolver::resolve()?;
+    let ctx = KernelContext::load()?;
+    let octon_dir = ctx.cfg.octon_dir.clone();
     match cmd {
         ServiceCmd::New { category, name } => {
+            let service_root = octon_dir
+                .join("capabilities")
+                .join("runtime")
+                .join("services")
+                .join(&category)
+                .join(&name);
+            let request = ExecutionRequest {
+                request_id: new_request_id("service-new"),
+                caller_path: "kernel".to_string(),
+                action_type: "mutate_repo".to_string(),
+                target_id: format!("service-new:{category}/{name}"),
+                requested_capabilities: vec![
+                    "repo.write".to_string(),
+                    "scaffold.service".to_string(),
+                    "evidence.write".to_string(),
+                ],
+                side_effect_flags: SideEffectFlags {
+                    write_repo: true,
+                    write_evidence: true,
+                    ..SideEffectFlags::default()
+                },
+                risk_tier: "medium".to_string(),
+                locality_scope: None,
+                intent_ref: None,
+                actor_ref: None,
+                parent_run_ref: None,
+                review_requirements: ReviewRequirements {
+                    human_approval: true,
+                    quorum: false,
+                    rollback_metadata: false,
+                },
+                scope_constraints: ScopeConstraints {
+                    read: vec!["service-scaffold-template".to_string()],
+                    write: vec![service_root.display().to_string()],
+                    executor_profile: None,
+                    locality_scope: None,
+                },
+                policy_mode_requested: None,
+                environment_hint: None,
+                metadata: std::collections::BTreeMap::new(),
+            };
+            let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+            let artifacts = write_execution_start(
+                &artifact_root_from_relative(
+                    &ctx.cfg.repo_root,
+                    &ctx.cfg.execution_governance.receipt_roots.kernel,
+                    &request.request_id,
+                ),
+                &request,
+                &grant,
+            )?;
+            let started_at = now_rfc3339()?;
             scaffold::service_new(&octon_dir, &category, &name)?;
+            finalize_execution(
+                &artifacts,
+                &request,
+                &grant,
+                &started_at,
+                &ExecutionOutcome {
+                    status: "succeeded".to_string(),
+                    started_at: started_at.clone(),
+                    completed_at: now_rfc3339()?,
+                    error: None,
+                },
+                &SideEffectSummary {
+                    touched_scope: vec![service_root.display().to_string()],
+                    ..SideEffectSummary::default()
+                },
+            )?;
             println!(
                 "created service scaffold at .octon/framework/capabilities/runtime/services/{category}/{name}"
             );
         }
         ServiceCmd::Build { target, name } => {
             let (category, name) = parse_category_name(&target, name.as_deref())?;
+            let service_root = octon_dir
+                .join("capabilities")
+                .join("runtime")
+                .join("services")
+                .join(&category)
+                .join(&name);
+            let build_root = octon_dir
+                .join("capabilities")
+                .join("runtime")
+                .join("services")
+                .join("_ops")
+                .join("state")
+                .join("build")
+                .join(format!("{category}-{name}-target"));
+            let request = ExecutionRequest {
+                request_id: new_request_id("service-build"),
+                caller_path: "kernel".to_string(),
+                action_type: "build_service".to_string(),
+                target_id: format!("service-build:{category}/{name}"),
+                requested_capabilities: vec![
+                    "repo.write".to_string(),
+                    "executor.shell".to_string(),
+                    "evidence.write".to_string(),
+                ],
+                side_effect_flags: SideEffectFlags {
+                    write_repo: true,
+                    write_evidence: true,
+                    shell: true,
+                    state_mutation: true,
+                    ..SideEffectFlags::default()
+                },
+                risk_tier: "medium".to_string(),
+                locality_scope: None,
+                intent_ref: None,
+                actor_ref: None,
+                parent_run_ref: None,
+                review_requirements: ReviewRequirements {
+                    human_approval: true,
+                    quorum: false,
+                    rollback_metadata: false,
+                },
+                scope_constraints: ScopeConstraints {
+                    read: vec![service_root.display().to_string()],
+                    write: vec![service_root.display().to_string(), build_root.display().to_string()],
+                    executor_profile: Some("scoped_repo_mutation".to_string()),
+                    locality_scope: None,
+                },
+                policy_mode_requested: None,
+                environment_hint: None,
+                metadata: std::collections::BTreeMap::new(),
+            };
+            let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+            let artifacts = write_execution_start(
+                &artifact_root_from_relative(
+                    &ctx.cfg.repo_root,
+                    &ctx.cfg.execution_governance.receipt_roots.kernel,
+                    &request.request_id,
+                ),
+                &request,
+                &grant,
+            )?;
+            let started_at = now_rfc3339()?;
             scaffold::service_build(&octon_dir, &category, &name)?;
+            finalize_execution(
+                &artifacts,
+                &request,
+                &grant,
+                &started_at,
+                &ExecutionOutcome {
+                    status: "succeeded".to_string(),
+                    started_at: started_at.clone(),
+                    completed_at: now_rfc3339()?,
+                    error: None,
+                },
+                &SideEffectSummary {
+                    touched_scope: vec![service_root.display().to_string(), build_root.display().to_string()],
+                    shell_commands: vec![
+                        "cargo fetch --locked --target wasm32-wasip1".to_string(),
+                        "cargo component build --release --offline".to_string(),
+                    ],
+                    executor_profile: Some("scoped_repo_mutation".to_string()),
+                    ..SideEffectSummary::default()
+                },
+            )?;
             println!("built service and updated integrity: {category}/{name}");
         }
     }
@@ -449,7 +735,8 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
 }
 
 fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
-    let octon_dir = octon_core::root::RootResolver::resolve()?;
+    let ctx = KernelContext::load()?;
+    let octon_dir = ctx.cfg.octon_dir.clone();
     let repo_root = octon_dir
         .parent()
         .ok_or_else(|| anyhow::anyhow!(".octon has no repository root"))?
@@ -460,33 +747,214 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
             query,
             format,
             output_report,
-        } => orchestration::write_lookup(
-            &octon_dir,
-            query.try_into()?,
-            format,
-            output_report.as_deref().map(|path| resolve_output_path(&repo_root, path)),
-        ),
+        } => {
+            let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
+            if let Some(path) = output_report.as_ref() {
+                let request = ExecutionRequest {
+                    request_id: new_request_id("orchestration-lookup"),
+                    caller_path: "kernel".to_string(),
+                    action_type: "write_report".to_string(),
+                    target_id: "orchestration-lookup".to_string(),
+                    requested_capabilities: vec!["evidence.write".to_string()],
+                    side_effect_flags: SideEffectFlags {
+                        write_repo: true,
+                        write_evidence: true,
+                        ..SideEffectFlags::default()
+                    },
+                    risk_tier: "low".to_string(),
+                    locality_scope: None,
+                    intent_ref: None,
+                    actor_ref: None,
+                    parent_run_ref: None,
+                    review_requirements: ReviewRequirements::default(),
+                    scope_constraints: ScopeConstraints {
+                        read: vec!["orchestration-state".to_string()],
+                        write: vec![path.display().to_string()],
+                        executor_profile: None,
+                        locality_scope: None,
+                    },
+                    policy_mode_requested: None,
+                    environment_hint: None,
+                    metadata: std::collections::BTreeMap::new(),
+                };
+                let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+                let artifacts = write_execution_start(
+                    &artifact_root_from_relative(
+                        &ctx.cfg.repo_root,
+                        &ctx.cfg.execution_governance.receipt_roots.kernel,
+                        &request.request_id,
+                    ),
+                    &request,
+                    &grant,
+                )?;
+                let started_at = now_rfc3339()?;
+                orchestration::write_lookup(&octon_dir, query.try_into()?, format, output_report.clone())?;
+                finalize_execution(
+                    &artifacts,
+                    &request,
+                    &grant,
+                    &started_at,
+                    &ExecutionOutcome {
+                        status: "succeeded".to_string(),
+                        started_at: started_at.clone(),
+                        completed_at: now_rfc3339()?,
+                        error: None,
+                    },
+                    &SideEffectSummary {
+                        touched_scope: vec![path.display().to_string()],
+                        ..SideEffectSummary::default()
+                    },
+                )?;
+                Ok(())
+            } else {
+                orchestration::write_lookup(&octon_dir, query.try_into()?, format, None)
+            }
+        }
         OrchestrationCmd::Summary {
             surface,
             format,
             output_report,
-        } => orchestration::write_summary(
-            &octon_dir,
-            surface.into(),
-            format,
-            output_report.as_deref().map(|path| resolve_output_path(&repo_root, path)),
-        ),
+        } => {
+            let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
+            if let Some(path) = output_report.as_ref() {
+                let request = ExecutionRequest {
+                    request_id: new_request_id("orchestration-summary"),
+                    caller_path: "kernel".to_string(),
+                    action_type: "write_report".to_string(),
+                    target_id: "orchestration-summary".to_string(),
+                    requested_capabilities: vec!["evidence.write".to_string()],
+                    side_effect_flags: SideEffectFlags {
+                        write_repo: true,
+                        write_evidence: true,
+                        ..SideEffectFlags::default()
+                    },
+                    risk_tier: "low".to_string(),
+                    locality_scope: None,
+                    intent_ref: None,
+                    actor_ref: None,
+                    parent_run_ref: None,
+                    review_requirements: ReviewRequirements::default(),
+                    scope_constraints: ScopeConstraints {
+                        read: vec!["orchestration-state".to_string()],
+                        write: vec![path.display().to_string()],
+                        executor_profile: None,
+                        locality_scope: None,
+                    },
+                    policy_mode_requested: None,
+                    environment_hint: None,
+                    metadata: std::collections::BTreeMap::new(),
+                };
+                let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+                let artifacts = write_execution_start(
+                    &artifact_root_from_relative(
+                        &ctx.cfg.repo_root,
+                        &ctx.cfg.execution_governance.receipt_roots.kernel,
+                        &request.request_id,
+                    ),
+                    &request,
+                    &grant,
+                )?;
+                let started_at = now_rfc3339()?;
+                orchestration::write_summary(&octon_dir, surface.into(), format, output_report.clone())?;
+                finalize_execution(
+                    &artifacts,
+                    &request,
+                    &grant,
+                    &started_at,
+                    &ExecutionOutcome {
+                        status: "succeeded".to_string(),
+                        started_at: started_at.clone(),
+                        completed_at: now_rfc3339()?,
+                        error: None,
+                    },
+                    &SideEffectSummary {
+                        touched_scope: vec![path.display().to_string()],
+                        ..SideEffectSummary::default()
+                    },
+                )?;
+                Ok(())
+            } else {
+                orchestration::write_summary(&octon_dir, surface.into(), format, None)
+            }
+        }
         OrchestrationCmd::Incident { cmd } => match cmd {
             OrchestrationIncidentCmd::ClosureReadiness {
                 incident_id,
                 format,
                 output_report,
-            } => orchestration::write_incident_closure_readiness(
-                &octon_dir,
-                &incident_id,
-                format,
-                output_report.as_deref().map(|path| resolve_output_path(&repo_root, path)),
-            ),
+            } => {
+                let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
+                if let Some(path) = output_report.as_ref() {
+                    let request = ExecutionRequest {
+                        request_id: new_request_id("orchestration-closure"),
+                        caller_path: "kernel".to_string(),
+                        action_type: "write_report".to_string(),
+                        target_id: format!("incident-closure:{incident_id}"),
+                        requested_capabilities: vec!["evidence.write".to_string()],
+                        side_effect_flags: SideEffectFlags {
+                            write_repo: true,
+                            write_evidence: true,
+                            ..SideEffectFlags::default()
+                        },
+                        risk_tier: "low".to_string(),
+                        locality_scope: None,
+                        intent_ref: None,
+                        actor_ref: None,
+                        parent_run_ref: None,
+                        review_requirements: ReviewRequirements::default(),
+                        scope_constraints: ScopeConstraints {
+                            read: vec!["orchestration-state".to_string()],
+                            write: vec![path.display().to_string()],
+                            executor_profile: None,
+                            locality_scope: None,
+                        },
+                        policy_mode_requested: None,
+                        environment_hint: None,
+                        metadata: std::collections::BTreeMap::new(),
+                    };
+                    let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+                    let artifacts = write_execution_start(
+                        &artifact_root_from_relative(
+                            &ctx.cfg.repo_root,
+                            &ctx.cfg.execution_governance.receipt_roots.kernel,
+                            &request.request_id,
+                        ),
+                        &request,
+                        &grant,
+                    )?;
+                    let started_at = now_rfc3339()?;
+                    orchestration::write_incident_closure_readiness(
+                        &octon_dir,
+                        &incident_id,
+                        format,
+                        output_report.clone(),
+                    )?;
+                    finalize_execution(
+                        &artifacts,
+                        &request,
+                        &grant,
+                        &started_at,
+                        &ExecutionOutcome {
+                            status: "succeeded".to_string(),
+                            started_at: started_at.clone(),
+                            completed_at: now_rfc3339()?,
+                            error: None,
+                        },
+                        &SideEffectSummary {
+                            touched_scope: vec![path.display().to_string()],
+                            ..SideEffectSummary::default()
+                        },
+                    )?;
+                    Ok(())
+                } else {
+                    orchestration::write_incident_closure_readiness(
+                        &octon_dir,
+                        &incident_id,
+                        format,
+                        None,
+                    )
+                }
+            }
         },
     }
 }
@@ -534,6 +1002,14 @@ fn resolve_output_path(repo_root: &std::path::Path, raw: &std::path::Path) -> Pa
     } else {
         repo_root.join(raw)
     }
+}
+
+fn new_request_id(prefix: &str) -> String {
+    let millis = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|duration| duration.as_millis())
+        .unwrap_or(0);
+    format!("{prefix}-{millis}-{}", std::process::id())
 }
 
 #[cfg(test)]

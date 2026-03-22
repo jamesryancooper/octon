@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/execution-receipt-v1.schema.json",
+  "title": "Octon Execution Receipt v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "request_id",
+    "grant_id",
+    "target_id",
+    "action_type",
+    "path_type",
+    "environment_class",
+    "requested_capabilities",
+    "granted_capabilities",
+    "policy_mode_requested",
+    "policy_mode_effective",
+    "decision",
+    "reason_codes",
+    "side_effects",
+    "timestamps"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "execution-receipt-v1"
+    },
+    "request_id": { "type": "string", "minLength": 1 },
+    "grant_id": { "type": "string", "minLength": 1 },
+    "target_id": { "type": "string", "minLength": 1 },
+    "action_type": { "type": "string", "minLength": 1 },
+    "path_type": { "type": "string", "minLength": 1 },
+    "environment_class": { "type": "string", "enum": ["development", "protected"] },
+    "requested_capabilities": { "type": "array", "items": { "type": "string" } },
+    "granted_capabilities": { "type": "array", "items": { "type": "string" } },
+    "policy_mode_requested": { "type": "string", "minLength": 1 },
+    "policy_mode_effective": { "type": "string", "minLength": 1 },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW", "STAGE_ONLY", "DENY", "ESCALATE"]
+    },
+    "reason_codes": { "type": "array", "items": { "type": "string" } },
+    "side_effects": { "type": "object" },
+    "timestamps": {
+      "type": "object",
+      "required": ["started_at", "completed_at"],
+      "properties": {
+        "started_at": { "type": "string", "minLength": 1 },
+        "completed_at": { "type": "string", "minLength": 1 }
+      }
+    },
+    "evidence_links": { "type": "object" }
+  },
+  "additionalProperties": true
+}

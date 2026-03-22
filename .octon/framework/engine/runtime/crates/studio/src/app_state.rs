@@ -1809,7 +1809,7 @@ mod tests {
         );
         write_file(
             &root.join(".octon/framework/orchestration/runtime/workflows/alpha/workflow.yml"),
-            "schema_version: workflow-contract-v1\nname: alpha\ndescription: Alpha workflow for fixture tests.\nversion: 1.0.0\nentry_mode: human\nexecution_profile: core\nstages:\n  - id: alpha-step\n    asset: stages/01-alpha.md\n    kind: analysis\nartifacts: []\ndone_gate:\n  checks:\n    - Alpha complete\n",
+            "schema_version: workflow-contract-v2\nname: alpha\ndescription: Alpha workflow for fixture tests.\nversion: 1.0.0\nentry_mode: human\nexecution_profile: core\nstages:\n  - id: alpha-step\n    asset: stages/01-alpha.md\n    kind: analysis\n    mutation_scope: []\n    authorization:\n      action_type: execute_stage\n      requested_capabilities:\n        - workflow.stage.execute\n        - evidence.write\n      side_effects:\n        write_repo: false\n        write_evidence: true\n        shell: true\n        network: false\n        model_invoke: true\n        state_mutation: false\n        publication: false\n        branch_mutation: false\n      risk_tier: low\n      scope:\n        read:\n          - workflow-scope\n        write:\n          - workflow-evidence\n      review_requirements:\n        human_approval: false\n        quorum: false\n        rollback_metadata: false\n      allowed_executor_profiles:\n        - read_only_analysis\nartifacts: []\ndone_gate:\n  checks:\n    - Alpha complete\n",
         );
         write_file(
             &root.join(".octon/framework/orchestration/runtime/workflows/alpha/stages/01-alpha.md"),
@@ -1821,7 +1821,7 @@ mod tests {
         );
         write_file(
             &root.join(".octon/framework/orchestration/runtime/workflows/beta/workflow.yml"),
-            "schema_version: workflow-contract-v1\nname: beta\ndescription: Beta workflow with a missing step file.\nversion: 1.0.0\nentry_mode: human\nexecution_profile: core\nstages:\n  - id: beta-step\n    asset: stages/01-beta.md\n    kind: analysis\nartifacts: []\ndone_gate:\n  checks:\n    - Beta complete\n",
+            "schema_version: workflow-contract-v2\nname: beta\ndescription: Beta workflow with a missing step file.\nversion: 1.0.0\nentry_mode: human\nexecution_profile: core\nstages:\n  - id: beta-step\n    asset: stages/01-beta.md\n    kind: analysis\n    mutation_scope: []\n    authorization:\n      action_type: execute_stage\n      requested_capabilities:\n        - workflow.stage.execute\n        - evidence.write\n      side_effects:\n        write_repo: false\n        write_evidence: true\n        shell: true\n        network: false\n        model_invoke: true\n        state_mutation: false\n        publication: false\n        branch_mutation: false\n      risk_tier: low\n      scope:\n        read:\n          - workflow-scope\n        write:\n          - workflow-evidence\n      review_requirements:\n        human_approval: false\n        quorum: false\n        rollback_metadata: false\n      allowed_executor_profiles:\n        - read_only_analysis\nartifacts: []\ndone_gate:\n  checks:\n    - Beta complete\n",
         );
         write_file(
             &root.join(".octon/framework/orchestration/runtime/runs/run-001.yml"),

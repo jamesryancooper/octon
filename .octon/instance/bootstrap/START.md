@@ -258,6 +258,9 @@ Flow:
      `cognition/governance/principles/README.md`.
 2. Execute
    - Read `state/continuity/repo/log.md` and `state/continuity/repo/tasks.json`.
+   - Treat material execution as grant-bearing by default: services, workflow
+     stages, executor launches, repo mutation, and protected CI control work
+     must hold a valid execution grant and emit execution receipts.
    - If work is stably owned by one declared scope, also read
      `state/continuity/scopes/<scope-id>/{log.md,tasks.json,next.md}`.
    - Execute the highest-priority unblocked task.

@@ -1,4 +1,6 @@
 use anyhow::{bail, Context, Result};
+use octon_core::config::ConfigLoader;
+use octon_core::policy::PolicyEngine;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
 use std::fs;
@@ -7,6 +9,12 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use time::format_description;
 
+use crate::authorization::{
+    authorize_execution, build_executor_command, finalize_execution,
+    now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
+    ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec, ManagedExecutorKind,
+    ReviewRequirements, ScopeConstraints, SideEffectFlags, SideEffectSummary,
+};
 use crate::workflow::{
     self, DesignPackageClass, ExecutorKind, PipelineMode, ProposalScope,
     RunAuditStaticProposalOptions, RunCreateDesignPackageOptions,
@@ -111,6 +119,60 @@ struct PipelineStage {
     id: String,
     asset: String,
     kind: String,
+    #[serde(default)]
+    mutation_scope: Vec<String>,
+    authorization: StageAuthorization,
+}
+
+#[derive(Debug, Deserialize)]
+struct StageAuthorization {
+    action_type: String,
+    #[serde(default)]
+    requested_capabilities: Vec<String>,
+    side_effects: StageSideEffects,
+    risk_tier: String,
+    scope: StageScope,
+    review_requirements: StageReviewRequirements,
+    #[serde(default)]
+    allowed_executor_profiles: Vec<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct StageSideEffects {
+    #[serde(default)]
+    write_repo: bool,
+    #[serde(default)]
+    write_evidence: bool,
+    #[serde(default)]
+    shell: bool,
+    #[serde(default)]
+    network: bool,
+    #[serde(default)]
+    model_invoke: bool,
+    #[serde(default)]
+    state_mutation: bool,
+    #[serde(default)]
+    publication: bool,
+    #[serde(default)]
+    branch_mutation: bool,
+}
+
+#[derive(Debug, Deserialize)]
+struct StageScope {
+    #[serde(default)]
+    read: Vec<String>,
+    #[serde(default)]
+    write: Vec<String>,
+}
+
+#[derive(Debug, Deserialize, Default)]
+struct StageReviewRequirements {
+    #[serde(default)]
+    human_approval: bool,
+    #[serde(default)]
+    quorum: bool,
+    #[serde(default)]
+    rollback_metadata: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -404,6 +466,8 @@ fn run_generic_pipeline(
     options: RunPipelineOptions,
 ) -> Result<RunPipelineResult> {
     let (entry, _, pipeline_dir) = load_pipeline_definition(octon_dir, &options.pipeline_id)?;
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
     let contract: PipelineContract = serde_yaml::from_str(
         &fs::read_to_string(pipeline_dir.join("workflow.yml"))
             .with_context(|| format!("read {}", pipeline_dir.join("workflow.yml").display()))?,
@@ -417,10 +481,50 @@ fn run_generic_pipeline(
         .context("failed to canonicalize repository root")?;
 
     let reports_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request = ExecutionRequest {
+        request_id: new_request_id("workflow"),
+        caller_path: "workflow".to_string(),
+        action_type: if options.prepare_only {
+            "prepare_workflow".to_string()
+        } else {
+            "execute_workflow".to_string()
+        },
+        target_id: entry.id.clone(),
+        requested_capabilities: vec![
+            "workflow.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_repo: true,
+            write_evidence: true,
+            shell: false,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: if options.prepare_only {
+            "low".to_string()
+        } else {
+            "medium".to_string()
+        },
+        locality_scope: None,
+        intent_ref: None,
+        actor_ref: None,
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-contract".to_string()],
+            write: vec![reports_root.display().to_string()],
+            executor_profile: None,
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
+    };
+    let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
 
     let date = today_string()?;
-    let started_at = now_rfc3339()?;
+    let started_at = auth_now_rfc3339()?;
     let slug = options
         .output_slug
         .clone()
@@ -433,6 +537,8 @@ fn run_generic_pipeline(
     fs::create_dir_all(&reports_dir)?;
     fs::create_dir_all(&stage_inputs_dir)?;
     fs::create_dir_all(&stage_logs_dir)?;
+    let workflow_artifacts =
+        write_execution_start(&bundle_root.join("workflow-execution"), &workflow_request, &workflow_grant)?;
 
     let summary_report = bundle_root.join("summary.md");
     let commands_report = bundle_root.join("commands.md");
@@ -530,6 +636,59 @@ fn run_generic_pipeline(
             continue;
         }
 
+        let stage_executor_profile = stage
+            .authorization
+            .allowed_executor_profiles
+            .first()
+            .cloned();
+        let stage_request = ExecutionRequest {
+            request_id: format!("{}-stage-{}", workflow_request.request_id, stage.id),
+            caller_path: "workflow-stage".to_string(),
+            action_type: stage.authorization.action_type.clone(),
+            target_id: format!("{}::{}", entry.id, stage.id),
+            requested_capabilities: stage.authorization.requested_capabilities.clone(),
+            side_effect_flags: SideEffectFlags {
+                write_repo: stage.authorization.side_effects.write_repo,
+                write_evidence: stage.authorization.side_effects.write_evidence,
+                shell: stage.authorization.side_effects.shell && options.executor != ExecutorKind::Mock,
+                network: stage.authorization.side_effects.network && options.executor != ExecutorKind::Mock,
+                model_invoke: stage.authorization.side_effects.model_invoke && options.executor != ExecutorKind::Mock,
+                state_mutation: stage.authorization.side_effects.state_mutation,
+                publication: stage.authorization.side_effects.publication,
+                branch_mutation: stage.authorization.side_effects.branch_mutation,
+            },
+            risk_tier: stage.authorization.risk_tier.clone(),
+            locality_scope: None,
+            intent_ref: None,
+            actor_ref: None,
+            parent_run_ref: Some(workflow_request.request_id.clone()),
+            review_requirements: ReviewRequirements {
+                human_approval: stage.authorization.review_requirements.human_approval,
+                quorum: stage.authorization.review_requirements.quorum,
+                rollback_metadata: stage.authorization.review_requirements.rollback_metadata,
+            },
+            scope_constraints: ScopeConstraints {
+                read: stage.authorization.scope.read.clone(),
+                write: if stage.authorization.scope.write.is_empty() {
+                    stage.mutation_scope.clone()
+                } else {
+                    stage.authorization.scope.write.clone()
+                },
+                executor_profile: stage_executor_profile.clone(),
+                locality_scope: None,
+            },
+            policy_mode_requested: None,
+            environment_hint: None,
+            metadata: BTreeMap::from([
+                ("workflow_id".to_string(), entry.id.clone()),
+                ("stage_id".to_string(), stage.id.clone()),
+            ]),
+        };
+        let stage_grant = authorize_execution(&runtime_cfg, &policy, &stage_request, None)?;
+        let stage_artifacts =
+            write_execution_start(&bundle_root.join("stages").join(&stage.id), &stage_request, &stage_grant)?;
+        let stage_started_at = auth_now_rfc3339()?;
+
         match options.executor {
             ExecutorKind::Mock => {
                 if stage.kind == "mutation" {
@@ -556,10 +715,30 @@ fn run_generic_pipeline(
                         stage.id
                     ),
                 )?;
+                finalize_execution(
+                    &stage_artifacts,
+                    &stage_request,
+                    &stage_grant,
+                    &stage_started_at,
+                    &ExecutionOutcome {
+                        status: "succeeded".to_string(),
+                        started_at: stage_started_at.clone(),
+                        completed_at: auth_now_rfc3339()?,
+                        error: None,
+                    },
+                    &SideEffectSummary {
+                        touched_scope: vec![report_rel.clone(), log_rel.clone()],
+                        executor_profile: stage_executor_profile.clone(),
+                        ..SideEffectSummary::default()
+                    },
+                )?;
             }
             ExecutorKind::Codex | ExecutorKind::Claude | ExecutorKind::Auto => {
                 let executor_bin =
                     resolve_executor_binary(options.executor, options.executor_bin.as_deref())?;
+                let profile_name = stage_executor_profile
+                    .clone()
+                    .unwrap_or_else(|| "read_only_analysis".to_string());
                 let output = if matches!(options.executor, ExecutorKind::Claude)
                     || executor_bin.ends_with("claude")
                 {
@@ -568,6 +747,8 @@ fn run_generic_pipeline(
                         &executor_bin,
                         options.model.as_deref(),
                         &rendered,
+                        &profile_name,
+                        &runtime_cfg,
                     )?
                 } else {
                     run_codex(
@@ -575,10 +756,31 @@ fn run_generic_pipeline(
                         &executor_bin,
                         options.model.as_deref(),
                         &rendered,
+                        &profile_name,
+                        &runtime_cfg,
                     )?
                 };
                 fs::write(&log_path, &output.stderr)?;
                 fs::write(&report_path, &output.stdout)?;
+                finalize_execution(
+                    &stage_artifacts,
+                    &stage_request,
+                    &stage_grant,
+                    &stage_started_at,
+                    &ExecutionOutcome {
+                        status: "succeeded".to_string(),
+                        started_at: stage_started_at.clone(),
+                        completed_at: auth_now_rfc3339()?,
+                        error: None,
+                    },
+                    &SideEffectSummary {
+                        touched_scope: vec![report_rel.clone(), log_rel.clone()],
+                        shell_commands: vec![executor_bin.display().to_string()],
+                        executor_profile: Some(profile_name),
+                        dangerous_flags_blocked: output.blocked_flags,
+                        ..SideEffectSummary::default()
+                    },
+                )?;
             }
         }
 
@@ -675,7 +877,7 @@ fn run_generic_pipeline(
             .unwrap_or_else(|| contract.execution_profile.clone()),
         executor: options.executor.as_str().to_string(),
         prepare_only: options.prepare_only,
-        started_at,
+        started_at: started_at.clone(),
         completed_at: now_rfc3339()?,
         summary: "summary.md".to_string(),
         commands: "commands.md".to_string(),
@@ -691,6 +893,22 @@ fn run_generic_pipeline(
         target_root: target_root_rel,
     };
     fs::write(bundle_root.join("bundle.yml"), serde_yaml::to_string(&metadata)?)?;
+    finalize_execution(
+        &workflow_artifacts,
+        &workflow_request,
+        &workflow_grant,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![bundle_root.display().to_string()],
+            ..SideEffectSummary::default()
+        },
+    )?;
 
     Ok(RunPipelineResult {
         bundle_root,
@@ -844,6 +1062,7 @@ fn find_binary(name: &str) -> Option<PathBuf> {
 struct ExecOutput {
     stdout: String,
     stderr: String,
+    blocked_flags: Vec<String>,
 }
 
 fn run_codex(
@@ -851,28 +1070,27 @@ fn run_codex(
     executor: &Path,
     model: Option<&str>,
     prompt: &str,
+    profile_name: &str,
+    cfg: &octon_core::config::RuntimeConfig,
 ) -> Result<ExecOutput> {
     let output_file =
         std::env::temp_dir().join(format!("pipeline-codex-{}.txt", std::process::id()));
-    let mut command = Command::new(executor);
-    command
-        .arg("exec")
-        .arg("--ephemeral")
-        .arg("--full-auto")
-        .arg("--skip-git-repo-check")
-        .arg("--cd")
-        .arg(repo_root)
-        .arg("--output-last-message")
-        .arg(&output_file);
-    if let Some(model) = model {
-        command.arg("--model").arg(model);
-    }
+    let profile = resolve_executor_profile(cfg, profile_name)?;
+    let (mut command, blocked_flags) = build_executor_command(ExecutorCommandSpec {
+        kind: ManagedExecutorKind::Codex,
+        executor_bin: executor,
+        repo_root,
+        output_path: Some(&output_file),
+        model,
+        profile,
+    })?;
     let output = run_with_stdin(&mut command, repo_root, prompt)?;
     let stdout = fs::read_to_string(&output_file).unwrap_or_default();
     let _ = fs::remove_file(output_file);
     Ok(ExecOutput {
         stdout,
         stderr: String::from_utf8_lossy(&output.stderr).into_owned(),
+        blocked_flags,
     })
 }
 
@@ -881,21 +1099,23 @@ fn run_claude(
     executor: &Path,
     model: Option<&str>,
     prompt: &str,
+    profile_name: &str,
+    cfg: &octon_core::config::RuntimeConfig,
 ) -> Result<ExecOutput> {
-    let mut command = Command::new(executor);
-    command
-        .arg("-p")
-        .arg("--permission-mode")
-        .arg("bypassPermissions")
-        .arg("--output-format")
-        .arg("text");
-    if let Some(model) = model {
-        command.arg("--model").arg(model);
-    }
+    let profile = resolve_executor_profile(cfg, profile_name)?;
+    let (mut command, blocked_flags) = build_executor_command(ExecutorCommandSpec {
+        kind: ManagedExecutorKind::Claude,
+        executor_bin: executor,
+        repo_root,
+        output_path: None,
+        model,
+        profile,
+    })?;
     let output = run_with_stdin(&mut command, repo_root, prompt)?;
     Ok(ExecOutput {
         stdout: String::from_utf8_lossy(&output.stdout).into_owned(),
         stderr: String::from_utf8_lossy(&output.stderr).into_owned(),
+        blocked_flags,
     })
 }
 
@@ -947,6 +1167,14 @@ fn unique_directory(parent: &Path, stem: &str) -> Result<PathBuf> {
         "failed to allocate unique directory under {}",
         parent.display()
     )
+}
+
+fn new_request_id(prefix: &str) -> String {
+    let millis = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|duration| duration.as_millis())
+        .unwrap_or(0);
+    format!("{prefix}-{millis}-{}", std::process::id())
 }
 
 fn slugify(input: &str) -> String {
@@ -1015,7 +1243,8 @@ mod tests {
         .expect("write registry");
         fs::write(
             workflows_dir.join("workflow.yml"),
-            r#"name: "sample-workflow"
+            r#"schema_version: "workflow-contract-v2"
+name: "sample-workflow"
 description: "Fixture workflow for workflow bundle contract tests."
 version: "1.0.0"
 entry_mode: "human"
@@ -1028,12 +1257,63 @@ stages:
   - id: "01"
     asset: "stages/01-analyze.md"
     kind: "analysis"
+    mutation_scope: []
+    authorization:
+      action_type: "execute_stage"
+      requested_capabilities: ["workflow.stage.execute", "evidence.write"]
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: false
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: "low"
+      scope:
+        read: ["workflow-scope"]
+        write: ["workflow-evidence"]
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles: ["read_only_analysis"]
   - id: "02"
     asset: "stages/02-mutate.md"
     kind: "mutation"
+    mutation_scope: ["workflow-scope"]
+    authorization:
+      action_type: "execute_stage"
+      requested_capabilities: ["workflow.stage.execute", "repo.write", "evidence.write"]
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: false
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: "medium"
+      scope:
+        read: ["workflow-scope"]
+        write: ["workflow-scope"]
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles: ["scoped_repo_mutation"]
 "#,
         )
         .expect("write workflow contract");
+        fs::create_dir_all(octon_dir.join("instance/cognition/context/shared"))
+            .expect("create intent contract directory");
+        fs::write(
+            octon_dir.join("instance/cognition/context/shared/intent.contract.yml"),
+            "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
+        )
+        .expect("write intent contract");
         fs::write(
             workflows_dir.join("stages/01-analyze.md"),
             "# Analyze\n\nInspect the fixture.\n",
@@ -1127,6 +1407,47 @@ stages:
         assert!(result.bundle_root.join("validation.md").is_file());
         assert!(result.bundle_root.join("inventory.md").is_file());
         assert!(log.contains("prepare-only"));
+
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn mock_generic_workflow_writes_execution_artifacts() {
+        let root = make_temp_root("artifact-receipts");
+        let octon_dir = seed_generic_workflow_fixture(&root);
+
+        let result = run_pipeline_from_octon_dir(
+            &octon_dir,
+            RunPipelineOptions {
+                pipeline_id: "sample-workflow".to_string(),
+                executor: ExecutorKind::Mock,
+                executor_bin: None,
+                output_slug: Some("artifact-receipts".to_string()),
+                model: None,
+                prepare_only: false,
+                input_overrides: HashMap::new(),
+            },
+        )
+        .expect("mock workflow run should succeed");
+
+        for path in [
+            result.bundle_root.join("workflow-execution/execution-receipt.json"),
+            result.bundle_root.join("workflow-execution/grant-bundle.json"),
+            result.bundle_root.join("stages/01/execution-receipt.json"),
+            result.bundle_root.join("stages/01/grant-bundle.json"),
+            result.bundle_root.join("stages/02/execution-receipt.json"),
+            result.bundle_root.join("stages/02/grant-bundle.json"),
+        ] {
+            assert!(path.is_file(), "expected execution artifact {}", path.display());
+        }
+
+        let receipt: serde_json::Value = serde_json::from_str(
+            &fs::read_to_string(result.bundle_root.join("stages/02/execution-receipt.json"))
+                .expect("stage receipt should exist"),
+        )
+        .expect("stage receipt should parse");
+        assert_eq!(receipt["schema_version"], "execution-receipt-v1");
+        assert!(receipt["reason_codes"].as_array().map(|v| !v.is_empty()).unwrap_or(false));
 
         fs::remove_dir_all(root).ok();
     }

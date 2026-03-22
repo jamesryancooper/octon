@@ -1,51 +1,192 @@
-schema_version: "workflow-contract-v1"
-name: "evaluate-workflow"
-description: "Evaluate a canonical workflow and its workflow README for structure, gap coverage, parameter/output clarity, and README drift."
-version: "1.1.0"
-entry_mode: "human"
-execution_profile: "core"
-side_effect_class: "read_only"
+---
+schema_version: workflow-contract-v2
+name: evaluate-workflow
+description: Evaluate a canonical workflow and its workflow README for structure,
+  gap coverage, parameter/output clarity, and README drift.
+version: 1.1.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
 execution_controls:
   cancel_safe: true
 coordination_key_strategy:
-  kind: "none"
-executor_interface_version: "workflow-executor-v1"
+  kind: none
+executor_interface_version: workflow-executor-v1
 inputs: []
 stages:
-  - id: "read-workflow"
-    asset: "stages/01-read-workflow.md"
-    kind: "analysis"
-    consumes: []
-    produces: ["stage:read-workflow"]
-    mutation_scope: []
-  - id: "assess-structure"
-    asset: "stages/02-assess-structure.md"
-    kind: "analysis"
-    consumes: ["stage:read-workflow"]
-    produces: ["stage:assess-structure"]
-    mutation_scope: []
-  - id: "assess-gap-coverage"
-    asset: "stages/03-assess-gap-coverage.md"
-    kind: "analysis"
-    consumes: ["stage:assess-structure"]
-    produces: ["stage:assess-gap-coverage"]
-    mutation_scope: []
-  - id: "assess-quality"
-    asset: "stages/04-assess-quality.md"
-    kind: "analysis"
-    consumes: ["stage:assess-gap-coverage"]
-    produces: ["stage:assess-quality"]
-    mutation_scope: []
-  - id: "generate-report"
-    asset: "stages/05-generate-report.md"
-    kind: "projection"
-    consumes: ["stage:assess-quality"]
-    produces: ["stage:generate-report"]
-    mutation_scope: []
+- id: read-workflow
+  asset: stages/01-read-workflow.md
+  kind: analysis
+  consumes: []
+  produces:
+  - stage:read-workflow
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: assess-structure
+  asset: stages/02-assess-structure.md
+  kind: analysis
+  consumes:
+  - stage:read-workflow
+  produces:
+  - stage:assess-structure
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: assess-gap-coverage
+  asset: stages/03-assess-gap-coverage.md
+  kind: analysis
+  consumes:
+  - stage:assess-structure
+  produces:
+  - stage:assess-gap-coverage
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: assess-quality
+  asset: stages/04-assess-quality.md
+  kind: analysis
+  consumes:
+  - stage:assess-gap-coverage
+  produces:
+  - stage:assess-quality
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
+- id: generate-report
+  asset: stages/05-generate-report.md
+  kind: projection
+  consumes:
+  - stage:assess-quality
+  produces:
+  - stage:generate-report
+  mutation_scope: []
+  authorization:
+    action_type: execute_stage
+    requested_capabilities:
+    - workflow.stage.execute
+    - evidence.write
+    side_effects:
+      write_repo: false
+      write_evidence: true
+      shell: true
+      network: false
+      model_invoke: true
+      state_mutation: false
+      publication: false
+      branch_mutation: false
+    risk_tier: low
+    scope:
+      read:
+      - workflow-scope
+      write:
+      - workflow-evidence
+    review_requirements:
+      human_approval: false
+      quorum: false
+      rollback_metadata: false
+    allowed_executor_profiles:
+    - read_only_analysis
 artifacts: []
 done_gate:
   checks:
-    - "verification stage passes"
+  - verification stage passes
 constraints:
   fail_closed: true
   forbid_design_packages: true

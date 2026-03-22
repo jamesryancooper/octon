@@ -2011,7 +2011,7 @@ mod tests {
         .expect("write closure");
         fs::write(
             root.join(".octon/framework/orchestration/runtime/workflows/example/sample/workflow.yml"),
-            "schema_version: workflow-contract-v1\nname: sample\ndescription: Example workflow.\nversion: 1.0.0\nentry_mode: human\nexecution_profile: core\nstages: []\ndone_gate:\n  checks: []\n",
+            "schema_version: workflow-contract-v2\nname: sample\ndescription: Example workflow.\nversion: 1.0.0\nentry_mode: human\nexecution_profile: core\nstages: []\ndone_gate:\n  checks: []\n",
         )
         .expect("write workflow");
     }

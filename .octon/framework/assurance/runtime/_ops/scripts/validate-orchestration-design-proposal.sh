@@ -486,7 +486,7 @@ validate_workflow_execution_fixture() {
     def nonempty_string: type == "string" and length > 0;
     def string_array: type == "array" and all(.[]; type == "string" and length > 0);
     type == "object"
-    and (.schema_version == "workflow-contract-v1")
+    and (.schema_version == "workflow-contract-v2")
     and (.name | nonempty_string)
     and (.description | nonempty_string)
     and (.version | type == "string" and test("^[0-9]+\\.[0-9]+\\.[0-9]+$"))
@@ -513,6 +513,15 @@ validate_workflow_execution_fixture() {
       and (.consumes | string_array or (.consumes | type == "array" and length == 0))
       and (.produces | string_array or (.produces | type == "array" and length == 0))
       and (.mutation_scope | string_array or (.mutation_scope | type == "array" and length == 0))
+      and (.authorization | type == "object")
+      and (.authorization.action_type | nonempty_string)
+      and (.authorization.requested_capabilities | string_array)
+      and (.authorization.side_effects | type == "object")
+      and (.authorization.risk_tier | nonempty_string)
+      and (.authorization.scope.read | string_array)
+      and (.authorization.scope.write | string_array)
+      and (.authorization.review_requirements | type == "object")
+      and (.authorization.allowed_executor_profiles | string_array)
     )
     and (.artifacts | type == "array")
     and all(

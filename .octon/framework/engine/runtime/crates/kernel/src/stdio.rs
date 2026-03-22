@@ -1,7 +1,12 @@
+use crate::authorization::{
+    artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
+    write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
+    ScopeConstraints, SideEffectFlags, SideEffectSummary,
+};
 use crate::context::KernelContext;
 use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::jsonlines::{read_json_line, write_json_line};
-use octon_core::registry::{ServiceKey};
+use octon_core::registry::ServiceKey;
 use octon_core::trace::TraceWriter;
 use octon_wasm_host::cancel::CancelHandle;
 use octon_wasm_host::policy::GrantSet;
@@ -189,15 +194,74 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         return;
                     };
 
-                    // Policy gate.
-                    let grants = match ctx.policy.decide_allow(&service) {
-                        Ok(caps) => GrantSet::new(caps),
+                    let request = ExecutionRequest {
+                        request_id: format!("stdio-{id}"),
+                        caller_path: "service".to_string(),
+                        action_type: "invoke_service".to_string(),
+                        target_id: format!("{}::{op}", service.key.id()),
+                        requested_capabilities: service.manifest.capabilities_required.clone(),
+                        side_effect_flags: SideEffectFlags {
+                            write_evidence: true,
+                            state_mutation: true,
+                            ..SideEffectFlags::default()
+                        },
+                        risk_tier: "medium".to_string(),
+                        locality_scope: None,
+                        intent_ref: None,
+                        actor_ref: None,
+                        parent_run_ref: None,
+                        review_requirements: ReviewRequirements::default(),
+                        scope_constraints: ScopeConstraints {
+                            read: vec!["service-input".to_string()],
+                            write: vec!["service-state".to_string()],
+                            executor_profile: None,
+                            locality_scope: None,
+                        },
+                        policy_mode_requested: None,
+                        environment_hint: None,
+                        metadata: std::collections::BTreeMap::new(),
+                    };
+                    let grant = match authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(&service)) {
+                        Ok(grant) => grant,
                         Err(e) => {
                             let _ = out_tx.send(response_error(&id, e));
                             let _ = inflight.lock().unwrap().remove(&id);
                             return;
                         }
                     };
+                    let artifacts = match write_execution_start(
+                        &artifact_root_from_relative(
+                            &ctx.cfg.repo_root,
+                            &ctx.cfg.execution_governance.receipt_roots.services,
+                            &request.request_id,
+                        ),
+                        &request,
+                        &grant,
+                    ) {
+                        Ok(paths) => paths,
+                        Err(error) => {
+                            let err = KernelError::new(
+                                ErrorCode::Internal,
+                                format!("failed to create stdio execution artifacts: {error}"),
+                            );
+                            let _ = out_tx.send(response_error(&id, err));
+                            let _ = inflight.lock().unwrap().remove(&id);
+                            return;
+                        }
+                    };
+                    let started_at = match now_rfc3339() {
+                        Ok(value) => value,
+                        Err(error) => {
+                            let err = KernelError::new(
+                                ErrorCode::Internal,
+                                format!("failed to capture stdio start timestamp: {error}"),
+                            );
+                            let _ = out_tx.send(response_error(&id, err));
+                            let _ = inflight.lock().unwrap().remove(&id);
+                            return;
+                        }
+                    };
+                    let grants = GrantSet::new(grant.granted_capabilities.clone());
 
                     let result = ctx.invoker.invoke(
                         &service,
@@ -211,9 +275,41 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
 
                     match result {
                         Ok(v) => {
+                            let _ = finalize_execution(
+                                &artifacts,
+                                &request,
+                                &grant,
+                                &started_at,
+                                &ExecutionOutcome {
+                                    status: "succeeded".to_string(),
+                                    started_at: started_at.clone(),
+                                    completed_at: now_rfc3339().unwrap_or_else(|_| started_at.clone()),
+                                    error: None,
+                                },
+                                &SideEffectSummary {
+                                    touched_scope: vec!["service-state".to_string()],
+                                    ..SideEffectSummary::default()
+                                },
+                            );
                             let _ = out_tx.send(response_ok(&id, v));
                         }
                         Err(e) => {
+                            let _ = finalize_execution(
+                                &artifacts,
+                                &request,
+                                &grant,
+                                &started_at,
+                                &ExecutionOutcome {
+                                    status: "failed".to_string(),
+                                    started_at: started_at.clone(),
+                                    completed_at: now_rfc3339().unwrap_or_else(|_| started_at.clone()),
+                                    error: Some(e.to_string()),
+                                },
+                                &SideEffectSummary {
+                                    touched_scope: vec!["service-state".to_string()],
+                                    ..SideEffectSummary::default()
+                                },
+                            );
                             let _ = out_tx.send(response_error(&id, e));
                         }
                     }
