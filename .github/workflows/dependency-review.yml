@@ -15,5 +15,26 @@ jobs:
     name: review-runtime-dependency-changes
     runs-on: ubuntu-latest
     steps:
+      - id: support
+        name: Detect dependency review support
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          status="$(
+            gh api repos/${{ github.repository }} \
+              --jq '.security_and_analysis.dependency_graph.status // "unsupported"'
+          )"
+
+          if [[ "$status" == "enabled" ]]; then
+            echo "supported=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "supported=false" >> "$GITHUB_OUTPUT"
+          echo "::notice::Skipping dependency review because GitHub dependency graph support is unavailable for this repository (status=${status})."
+
       - name: Review Cargo dependency changes
+        if: steps.support.outputs.supported == 'true'
         uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
