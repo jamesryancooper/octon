@@ -20,6 +20,26 @@ pass() {
   echo "[OK] $1"
 }
 
+has_pattern() {
+  local pattern="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -q "$pattern" "$file"
+  else
+    grep -Eq "$pattern" "$file"
+  fi
+}
+
+has_text() {
+  local text="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -Fq "$text" "$file"
+  else
+    grep -Fq "$text" "$file"
+  fi
+}
+
 require_file() {
   local file="$1"
   if [[ -f "$file" ]]; then
@@ -60,32 +80,32 @@ main() {
     fail "documentation safety triggers must be exactly [authoritative-doc]"
   fi
 
-  if rg -n '\*\*/\*\.md' "$WORKFLOW_FILE" >/dev/null 2>&1; then
+  if has_pattern '\*\*/\*\.md' "$WORKFLOW_FILE"; then
     fail "main-push-safety workflow must not blanket-ignore Markdown paths"
   else
     pass "main-push-safety workflow no longer blanket-ignores Markdown"
   fi
 
-  if rg -Fq 'classify-authoritative-doc-change.sh' "$WORKFLOW_FILE"; then
+  if has_text 'classify-authoritative-doc-change.sh' "$WORKFLOW_FILE"; then
     pass "main-push-safety workflow delegates to the authoritative-doc classifier"
   else
     fail "main-push-safety workflow must invoke classify-authoritative-doc-change.sh"
   fi
 
-  if rg -Fq "needs.classify.outputs.should_run == 'true'" "$WORKFLOW_FILE"; then
+  if has_text "needs.classify.outputs.should_run == 'true'" "$WORKFLOW_FILE"; then
     pass "main-push-safety workflow gates heavy checks on classifier output"
   else
     fail "main-push-safety workflow must gate heavy checks on classifier output"
   fi
 
-  if rg -Fq 'git fetch --no-tags --depth=1 origin "${before}"' "$WORKFLOW_FILE" \
-    && rg -Fq 'git cat-file -e "${before}^{commit}"' "$WORKFLOW_FILE"; then
+  if has_text 'git fetch --no-tags --depth=1 origin "${before}"' "$WORKFLOW_FILE" \
+    && has_text 'git cat-file -e "${before}^{commit}"' "$WORKFLOW_FILE"; then
     pass "main-push-safety workflow fail-closes when the push base commit is missing locally"
   else
     fail "main-push-safety workflow must fetch/verify the push base commit before diffing"
   fi
 
-  if rg -Fq 'git diff --name-only "$before" "${{ github.sha }}" || true' "$WORKFLOW_FILE"; then
+  if has_text 'git diff --name-only "$before" "${{ github.sha }}" || true' "$WORKFLOW_FILE"; then
     fail "main-push-safety workflow must not swallow diff failures"
   else
     pass "main-push-safety workflow does not swallow diff failures"
