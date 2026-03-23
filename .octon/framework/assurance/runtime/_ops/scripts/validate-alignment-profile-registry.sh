@@ -20,6 +20,26 @@ pass() {
   echo "[OK] $1"
 }
 
+has_pattern() {
+  local pattern="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -q "$pattern" "$file"
+  else
+    grep -Eq "$pattern" "$file"
+  fi
+}
+
+has_text() {
+  local text="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -Fq "$text" "$file"
+  else
+    grep -Fq "$text" "$file"
+  fi
+}
+
 require_file() {
   local file="$1"
   if [[ -f "$file" ]]; then
@@ -30,13 +50,13 @@ require_file() {
 }
 
 check_workflow_contract() {
-  if rg -n 'type:[[:space:]]*choice' "$WORKFLOW_FILE" >/dev/null 2>&1; then
+  if has_pattern 'type:[[:space:]]*choice' "$WORKFLOW_FILE"; then
     fail "alignment-check workflow must not duplicate profile ids through a choice input"
   else
     pass "alignment-check workflow keeps profile input freeform"
   fi
 
-  if rg -Fq 'bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh "${args[@]}"' "$WORKFLOW_FILE"; then
+  if has_text 'bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh "${args[@]}"' "$WORKFLOW_FILE"; then
     pass "alignment-check workflow delegates to the shared runner"
   else
     fail "alignment-check workflow must delegate to the shared runner"
@@ -85,7 +105,7 @@ main() {
       && pass "profile $profile_id declares a boolean dry_run_safe" \
       || fail "profile $profile_id must declare a boolean dry_run_safe"
 
-    if [[ -n "$entrypoint" ]] && rg -q "^${entrypoint}[[:space:]]*\\(" "$RUNNER_FILE"; then
+    if [[ -n "$entrypoint" ]] && has_pattern "^${entrypoint}[[:space:]]*\\(" "$RUNNER_FILE"; then
       pass "profile $profile_id entrypoint exists in alignment-check.sh"
     else
       fail "profile $profile_id entrypoint '$entrypoint' is missing from alignment-check.sh"
