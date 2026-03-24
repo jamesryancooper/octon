@@ -88,7 +88,8 @@ Icon?
 .octon/capabilities/runtime/services/**/rust/src/bindings.rs
 
 # Proposal artifacts are tracked. Archived proposal history stays ignored by
-# default except for the currently promoted self-audit cutover package.
+# default except for canonical archived packets that remain part of the
+# proposal system's tracked discovery corpus.
 !.octon/inputs/exploratory/proposals/**
 .octon/inputs/exploratory/proposals/.archive/**
 !.octon/inputs/exploratory/proposals/.archive/
@@ -99,3 +100,5 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-system-integrity-and-archive-normalization/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-completion-cutover/
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-completion-cutover/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/migration-rollout/
+!.octon/inputs/exploratory/proposals/.archive/architecture/migration-rollout/**
