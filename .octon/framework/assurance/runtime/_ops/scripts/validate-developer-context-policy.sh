@@ -17,6 +17,25 @@ pass() {
   echo "[OK] $1"
 }
 
+count_sections() {
+  local file="$1"
+  if command -v rg >/dev/null 2>&1; then
+    (rg -n '^## ' "$file" || true) | wc -l | tr -d '[:space:]'
+  else
+    (grep -En '^## ' "$file" || true) | wc -l | tr -d '[:space:]'
+  fi
+}
+
+has_section_heading() {
+  local section="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -n "^##[[:space:]]+$section([[:space:]]*$|[[:space:]])" "$file" >/dev/null 2>&1
+  else
+    grep -En "^##[[:space:]]+$section([[:space:]]*$|[[:space:]])" "$file" >/dev/null 2>&1
+  fi
+}
+
 read_artifact_allowlist() {
   awk '
     /^[[:space:]]*artifact_paths:[[:space:]]*\[/ {
@@ -100,7 +119,7 @@ check_artifact_limits() {
       pass "$artifact_path within max_bytes ($bytes <= $max_bytes)"
     fi
 
-    sections="$( (rg -n '^## ' "$REPO_ROOT/$artifact_path" || true) | wc -l | tr -d '[:space:]')"
+    sections="$(count_sections "$REPO_ROOT/$artifact_path")"
     if [[ "$sections" =~ ^[0-9]+$ ]] && (( sections > max_sections )); then
       fail "$artifact_path exceeds max_sections ($sections > $max_sections)"
     else
@@ -121,7 +140,7 @@ check_required_sections_present() {
     return 0
   fi
   for section in "${required_sections[@]}"; do
-    if rg -n "^##[[:space:]]+$section([[:space:]]*$|[[:space:]])" "$REPO_ROOT/$artifact" >/dev/null; then
+    if has_section_heading "$section" "$REPO_ROOT/$artifact"; then
       :
     else
       fail "$artifact missing required section: $section"

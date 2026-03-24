@@ -23,6 +23,26 @@ pass() {
   echo "[OK] $1"
 }
 
+has_text() {
+  local text="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -n -F -m 1 "$text" "$file" >/dev/null 2>&1
+  else
+    grep -Fnm 1 -- "$text" "$file" >/dev/null 2>&1
+  fi
+}
+
+has_pattern() {
+  local pattern="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -n -m 1 "$pattern" "$file" >/dev/null 2>&1
+  else
+    grep -Enm 1 -- "$pattern" "$file" >/dev/null 2>&1
+  fi
+}
+
 frontmatter_field() {
   local file_path="$1"
   local key="$2"
@@ -98,7 +118,7 @@ validate_objective_headings() {
   )
 
   for heading in "${required_headings[@]}"; do
-    if rg -n "^## ${heading}$" "$OBJECTIVE_FILE" >/dev/null 2>&1; then
+    if has_pattern "^## ${heading}$" "$OBJECTIVE_FILE"; then
       pass ".octon/instance/bootstrap/OBJECTIVE.md contains section: $heading"
     else
       fail ".octon/instance/bootstrap/OBJECTIVE.md missing section: $heading"
@@ -117,13 +137,13 @@ main() {
   [[ -f "$OBJECTIVE_FILE" ]] || fail "missing canonical objective brief: ${OBJECTIVE_FILE#$ROOT_DIR/}"
   [[ -f "$INTENT_FILE" ]] || fail "missing intent contract: ${INTENT_FILE#$ROOT_DIR/}"
 
-  if rg -n -F '.octon/instance/ingress/AGENTS.md' "$CANONICAL_AGENTS_FILE" >/dev/null 2>&1; then
+  if has_text '.octon/instance/ingress/AGENTS.md' "$CANONICAL_AGENTS_FILE"; then
     pass ".octon/AGENTS.md points to canonical internal ingress"
   else
     fail ".octon/AGENTS.md must point to canonical internal ingress"
   fi
 
-  if rg -n -F 'Repo-root `AGENTS.md` and `CLAUDE.md` are thin adapters to this file.' "$CANONICAL_AGENTS_FILE" >/dev/null 2>&1; then
+  if has_text 'Repo-root `AGENTS.md` and `CLAUDE.md` are thin adapters to this file.' "$CANONICAL_AGENTS_FILE"; then
     pass ".octon/AGENTS.md declares the thin-adapter rule"
   else
     fail ".octon/AGENTS.md must declare the thin-adapter rule"

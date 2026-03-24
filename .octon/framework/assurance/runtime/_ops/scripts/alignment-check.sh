@@ -76,6 +76,16 @@ run_step() {
   fi
 }
 
+search_regex() {
+  local pattern="$1"
+  shift
+  if command -v rg >/dev/null 2>&1; then
+    rg -n "$pattern" "$@" >/dev/null 2>&1
+  else
+    grep -En -- "$pattern" "$@" >/dev/null 2>&1
+  fi
+}
+
 publish_or_validate_host_projections() {
   if bash "$SCRIPT_DIR/validate-host-projections.sh" >/dev/null 2>&1; then
     echo "[OK] host projections already current"
@@ -203,17 +213,17 @@ run_harness() {
 
   run_step \
     "Validate context-governance clean-break banlist entries" \
-    rg -n "context-governance-clean-break|instruction-layer|context-acquisition" \
+    search_regex "context-governance-clean-break|instruction-layer|context-acquisition" \
       "$OCTON_DIR/framework/cognition/practices/methodology/migrations/legacy-banlist.md"
 
   run_step \
     "Validate context-governance clean-break CI gate doctrine entries" \
-    rg -n "Context governance clean-break|instruction-layer|context-acquisition|context-overhead|Profile Selection Receipt|change_profile|release_state|transitional_exception_note" \
+    search_regex "Context governance clean-break|instruction-layer|context-acquisition|context-overhead|Profile Selection Receipt|change_profile|release_state|transitional_exception_note" \
       "$OCTON_DIR/framework/cognition/practices/methodology/migrations/ci-gates.md"
 
   run_step \
     "Validate execution-profile governance doctrine entries" \
-    rg -n "change_profile|release_state|transitional_exception_note|Profile Selection Receipt|Impact Map|Compliance Receipt|Exceptions/Escalations" \
+    search_regex "change_profile|release_state|transitional_exception_note|Profile Selection Receipt|Impact Map|Compliance Receipt|Exceptions/Escalations" \
       "$OCTON_DIR/framework/cognition/practices/methodology/migrations/README.md" \
       "$OCTON_DIR/framework/cognition/practices/methodology/migrations/doctrine.md" \
       "$OCTON_DIR/framework/cognition/practices/methodology/migrations/ci-gates.md" \
@@ -225,14 +235,14 @@ run_harness() {
 
   run_step \
     "Validate execution-profile governance PR contract entries" \
-    rg -n "Profile Selection Receipt|Implementation Plan|Impact Map \\(code, tests, docs, contracts\\)|Compliance Receipt|Exceptions/Escalations|change_profile" \
+    search_regex "Profile Selection Receipt|Implementation Plan|Impact Map \\(code, tests, docs, contracts\\)|Compliance Receipt|Exceptions/Escalations|change_profile" \
       "$OCTON_DIR/framework/agency/practices/pull-request-standards.md" \
       "$OCTON_DIR/../.github/PULL_REQUEST_TEMPLATE.md" \
       "$OCTON_DIR/../.github/PULL_REQUEST_TEMPLATE/kaizen.md"
 
   run_step \
     "Validate workflow execution_profile and governance change_profile disambiguation" \
-    rg -n "execution_profile|core\\|external-dependent|change_profile" \
+    search_regex "execution_profile|core\\|external-dependent|change_profile" \
       "$OCTON_DIR/framework/orchestration/runtime/workflows/README.md"
 
   run_step \

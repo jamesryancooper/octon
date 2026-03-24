@@ -21,6 +21,16 @@ pass() {
   echo "[OK] $1"
 }
 
+has_text() {
+  local text="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -Fq "$text" "$file"
+  else
+    grep -Fq -- "$text" "$file"
+  fi
+}
+
 main() {
   local diff_output=""
   local projected_dir=""
@@ -62,13 +72,13 @@ main() {
     fi
   done
 
-  if rg -F "scaffolding/runtime/bootstrap/init-project.sh" "$LIVE_WRAPPER" >/dev/null 2>&1; then
+  if has_text "scaffolding/runtime/bootstrap/init-project.sh" "$LIVE_WRAPPER"; then
     pass "live wrapper delegates to canonical bootstrap implementation"
   else
     fail "live wrapper does not delegate to canonical bootstrap implementation"
   fi
 
-  if rg -F "scaffolding/runtime/bootstrap/init-project.sh" "$TEMPLATE_WRAPPER" >/dev/null 2>&1; then
+  if has_text "scaffolding/runtime/bootstrap/init-project.sh" "$TEMPLATE_WRAPPER"; then
     pass "template wrapper delegates to local canonical bootstrap implementation"
   else
     fail "template wrapper does not delegate to local canonical bootstrap implementation"

@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "default_action": "retain",
+  "classes": [
+    {
+      "id": "governance_evidence",
+      "description": "Audit and policy evidence required for historical governance and compliance traceability.",
+      "match_prefixes": [
+        "acp-",
+        "audit",
+        "docs-gate-",
+        "runtime-acp",
+        "runtime-soft-delete-",
+        "runtime-agent-quorum-",
+        "snippet-emit-"
+      ],
+      "retention_days": 365,
+      "action_after_retention": "archive"
+    },
+    {
+      "id": "operational_debug",
+      "description": "Short-lived local validation and debugging runs.",
+      "match_prefixes": [
+        "debug-",
+        "run-",
+        "service-",
+        "tool-",
+        "stdio-"
+      ],
+      "retention_days": 30,
+      "action_after_retention": "prune"
+    },
+    {
+      "id": "scratch",
+      "description": "Temporary scratch runs and throwaway experiments.",
+      "match_prefixes": [
+        "tmp-"
+      ],
+      "retention_days": 7,
+      "action_after_retention": "prune"
+    }
+  ],
+  "always_keep_files": [
+    "README.md",
+    "retention.json",
+    "audit-plan.md"
+  ]
+}

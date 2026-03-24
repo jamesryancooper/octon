@@ -18,6 +18,32 @@ pass() {
   echo "[OK] $1"
 }
 
+has_pattern_in_files() {
+  local pattern="$1"
+  shift
+  if command -v rg >/dev/null 2>&1; then
+    rg -n "$pattern" "$@" >/dev/null 2>&1
+  else
+    grep -En -- "$pattern" "$@" >/dev/null 2>&1
+  fi
+}
+
+has_pattern_in_workflows() {
+  local pattern="$1"
+  local workflows_dir="$OCTON_DIR/framework/orchestration/runtime/workflows"
+
+  if command -v rg >/dev/null 2>&1; then
+    rg -n "$pattern" "$workflows_dir" -g 'workflow.yml' >/dev/null 2>&1
+  else
+    local -a workflow_files=()
+    mapfile -t workflow_files < <(find "$workflows_dir" -type f -name 'workflow.yml')
+    if ((${#workflow_files[@]} == 0)); then
+      return 1
+    fi
+    grep -En -- "$pattern" "${workflow_files[@]}" >/dev/null 2>&1
+  fi
+}
+
 run_test() {
   local label="$1"
   shift
@@ -60,25 +86,25 @@ main() {
     fail "root manifest must declare execution_governance.protected_workflows"
   fi
 
-  if rg -n 'workflow-contract-v1' "$OCTON_DIR/framework/orchestration/runtime/workflows" -g 'workflow.yml' >/dev/null; then
+  if has_pattern_in_workflows 'workflow-contract-v1'; then
     fail "workflow-contract-v1 references remain in live workflow.yml files"
   else
     pass "live workflow.yml files use workflow-contract-v2 only"
   fi
 
-  if rg -n 'authorization:' "$OCTON_DIR/framework/orchestration/runtime/workflows" -g 'workflow.yml' >/dev/null; then
+  if has_pattern_in_workflows 'authorization:'; then
     pass "workflow contracts declare stage authorization blocks"
   else
     fail "workflow contracts must declare stage authorization blocks"
   fi
 
-  if rg -n 'assert-protected-execution-posture\.sh' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/deny-by-default-gates.yml" "$ROOT_DIR/.github/workflows/release-please.yml" >/dev/null; then
+  if has_pattern_in_files 'assert-protected-execution-posture\.sh' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/deny-by-default-gates.yml" "$ROOT_DIR/.github/workflows/release-please.yml"; then
     pass "protected GitHub workflows call the execution posture guard"
   else
     fail "protected GitHub workflows must call assert-protected-execution-posture.sh"
   fi
 
-  if rg -n 'OCTON_EFFECTIVE_POLICY_MODE="hard-enforce"' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/deny-by-default-gates.yml" "$ROOT_DIR/.github/workflows/release-please.yml" >/dev/null; then
+  if has_pattern_in_files 'OCTON_EFFECTIVE_POLICY_MODE="hard-enforce"' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/deny-by-default-gates.yml" "$ROOT_DIR/.github/workflows/release-please.yml"; then
     fail "protected GitHub workflows must not hardcode OCTON_EFFECTIVE_POLICY_MODE"
   else
     pass "protected GitHub workflows derive effective policy mode instead of hardcoding it"

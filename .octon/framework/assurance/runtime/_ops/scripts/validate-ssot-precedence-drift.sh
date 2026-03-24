@@ -21,6 +21,37 @@ pass() {
   echo "[OK] $1"
 }
 
+search_files_pattern() {
+  local pattern="$1"
+  shift
+  if command -v rg >/dev/null 2>&1; then
+    rg -n -i "$pattern" "$@" || true
+  else
+    grep -Ein -- "$pattern" "$@" || true
+  fi
+}
+
+search_octon_docs_pattern() {
+  local pattern="$1"
+  if command -v rg >/dev/null 2>&1; then
+    rg -n -i \
+      "$pattern" \
+      "$OCTON_DIR" \
+      -g "**/governance/**/*.md" \
+      -g "**/practices/**/*.md" \
+      -g "**/_meta/architecture/**/*.md" || true
+  else
+    local -a md_files=()
+    mapfile -t md_files < <(
+      find "$OCTON_DIR" -type f -name '*.md' | grep -E '/(governance|practices|_meta/architecture)/'
+    )
+    if ((${#md_files[@]} == 0)); then
+      return 0
+    fi
+    grep -Ein -- "$pattern" "${md_files[@]}" || true
+  fi
+}
+
 require_file() {
   local file="$1"
   if [[ ! -f "$file" ]]; then
@@ -141,11 +172,7 @@ check_precedence_goal_alignment() {
   local deprecated_framing_pattern
   deprecated_framing_pattern='(AI-native,\ human-governed|risk-tiered\ human\ governance|Simplicity\ Over\ Complexity|simplicity-first|smallest\ viable)'
   local deprecated_hits
-  deprecated_hits="$(
-    rg -n -i \
-      "$deprecated_framing_pattern" \
-      "${precedence_files[@]}" || true
-  )"
+  deprecated_hits="$(search_files_pattern "$deprecated_framing_pattern" "${precedence_files[@]}")"
   if [[ -z "$deprecated_hits" ]]; then
     pass "no deprecated framing tokens in precedence-layer goal surfaces"
   else
@@ -161,14 +188,7 @@ check_for_conflicting_wording() {
   local rel
 
   pattern='(practices?.*(override|overrides|wins).*(runtime|governance)|(runtime|governance).*(override|overrides|wins).*practices?)'
-  matches="$(
-    rg -n -i \
-      "$pattern" \
-      "$OCTON_DIR" \
-      -g "**/governance/**/*.md" \
-      -g "**/practices/**/*.md" \
-      -g "**/_meta/architecture/**/*.md" || true
-  )"
+  matches="$(search_octon_docs_pattern "$pattern")"
 
   if [[ -z "$matches" ]]; then
     pass "no conflicting precedence wording detected"

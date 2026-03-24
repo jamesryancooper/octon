@@ -68,11 +68,18 @@ search_tree() {
       --glob '!.octon/framework/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh' \
       "$pattern" "$ROOT_DIR" || true
   else
-    grep -ERn -- "$pattern" "$ROOT_DIR" \
-      --exclude-dir=.git \
-      --exclude-dir=.octon/inputs/exploratory/plans \
-      --exclude=validate-framing-alignment.sh \
-      --exclude=validate-ssot-precedence-drift.sh 2>/dev/null || true
+    local -a candidate_files=()
+    mapfile -t candidate_files < <(
+      find "$ROOT_DIR" \
+        \( -path '*/.git/*' -o -path "$ROOT_DIR/.octon/inputs/exploratory/plans/*" \) -prune \
+        -o -type f \
+        ! -name 'validate-framing-alignment.sh' \
+        ! -name 'validate-ssot-precedence-drift.sh' \
+        -print
+    )
+    if ((${#candidate_files[@]} > 0)); then
+      grep -En -- "$pattern" "${candidate_files[@]}" 2>/dev/null || true
+    fi
   fi
 }
 
