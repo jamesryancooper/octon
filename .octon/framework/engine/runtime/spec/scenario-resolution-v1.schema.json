@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/scenario-resolution-v1.schema.json",
+  "title": "Mission Scenario Resolution v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "mission_id",
+    "source_refs",
+    "effective",
+    "rationale",
+    "generated_at",
+    "fresh_until"
+  ],
+  "properties": {
+    "schema_version": { "const": "scenario-resolution-v1" },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "source_refs": { "type": "object" },
+    "effective": {
+      "type": "object",
+      "required": [
+        "scenario_family",
+        "oversight_mode",
+        "execution_posture",
+        "preview_policy",
+        "feedback_window_required",
+        "proceed_on_silence_allowed",
+        "approval_required",
+        "safe_interrupt_boundary_class",
+        "overlap_policy",
+        "backfill_policy",
+        "pause_on_failure",
+        "digest_route",
+        "alert_route",
+        "required_quorum",
+        "recovery_profile",
+        "finalize_policy",
+        "safing_subset"
+      ],
+      "properties": {
+        "scenario_family": { "type": "string", "minLength": 1 },
+        "oversight_mode": { "type": "string", "minLength": 1 },
+        "execution_posture": { "type": "string", "minLength": 1 },
+        "preview_policy": { "type": "object" },
+        "feedback_window_required": { "type": "boolean" },
+        "proceed_on_silence_allowed": { "type": "boolean" },
+        "approval_required": { "type": "boolean" },
+        "safe_interrupt_boundary_class": { "type": "string", "minLength": 1 },
+        "overlap_policy": { "type": "string", "minLength": 1 },
+        "backfill_policy": { "type": "string", "minLength": 1 },
+        "pause_on_failure": { "type": "object" },
+        "digest_route": { "type": "string", "minLength": 1 },
+        "alert_route": { "type": "string", "minLength": 1 },
+        "required_quorum": { "type": "string", "minLength": 1 },
+        "recovery_profile": { "type": "object" },
+        "finalize_policy": { "type": "object" },
+        "safing_subset": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "rationale": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "fresh_until": { "type": "string", "minLength": 1 }
+  }
+}

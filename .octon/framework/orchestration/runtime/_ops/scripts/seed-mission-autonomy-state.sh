@@ -6,6 +6,7 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../.." && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 RECEIPT_WRITER="$SCRIPT_DIR/write-mission-control-receipt.sh"
+ROUTE_PUBLISHER="$SCRIPT_DIR/publish-mission-effective-route.sh"
 
 MISSION_ID=""
 ISSUED_BY=""
@@ -64,21 +65,27 @@ main() {
     printf 'schema_version: "mission-control-lease-v1"\n'
     printf 'mission_id: "%s"\n' "$MISSION_ID"
     printf 'lease_id: "seed-%s"\n' "$MISSION_ID"
-    printf 'status: "paused"\n'
-    printf 'granted_by: "%s"\n' "$ISSUED_BY"
-    printf 'granted_at: "%s"\n' "$ts"
+    printf 'state: "paused"\n'
+    printf 'issued_by: "%s"\n' "$ISSUED_BY"
+    printf 'issued_at: "%s"\n' "$ts"
     printf 'expires_at: "2099-01-01T00:00:00Z"\n'
-    printf 'max_concurrent_runs: 1\n'
-    printf 'allowed_action_classes:\n'
+    printf 'continuation_scope:\n'
+    printf '  summary: "Seeded mission autonomy continuation scope"\n'
+    printf '  allowed_execution_postures:\n'
+    printf '    - "%s"\n' "$execution_posture"
+    printf '  max_concurrent_runs: 1\n'
+    printf '  allowed_action_classes:\n'
     while IFS= read -r value; do
       [[ -n "$value" ]] || continue
-      printf '  - "%s"\n' "$value"
+      printf '    - "%s"\n' "$value"
     done < <(read_array_yaml "$mission_file" '.allowed_action_classes')
-    printf 'default_safing_subset:\n'
+    printf '  default_safing_subset:\n'
     while IFS= read -r value; do
       [[ -n "$value" ]] || continue
-      printf '  - "%s"\n' "$value"
+      printf '    - "%s"\n' "$value"
     done < <(read_array_yaml "$mission_file" '.default_safing_subset')
+    printf 'revocation_reason: null\n'
+    printf 'last_reviewed_at: "%s"\n' "$ts"
   } > "$control_dir/lease.yml"
 
   cat > "$control_dir/mode-state.yml" <<EOF
@@ -88,34 +95,42 @@ oversight_mode: "$oversight_mode"
 execution_posture: "$execution_posture"
 safety_state: "paused"
 phase: "planning"
-active_run_id: null
-current_slice_id: null
-next_safe_interrupt_boundary: null
-autonomy_budget_state: "healthy"
+active_run_ref: null
+current_slice_ref: null
+next_safe_interrupt_boundary_id: null
+effective_scenario_resolution_ref: null
+autonomy_burn_state: "healthy"
 breaker_state: "healthy"
+updated_at: "$ts"
 EOF
 
   cat > "$control_dir/intent-register.yml" <<EOF
 schema_version: "intent-register-v1"
 mission_id: "$MISSION_ID"
-version: 1
+revision: 1
+generated_from:
+  - "framework/orchestration/runtime/_ops/scripts/seed-mission-autonomy-state.sh"
 entries: []
 EOF
 
   cat > "$control_dir/directives.yml" <<EOF
-schema_version: "control-directives-v1"
+schema_version: "control-directive-v1"
 mission_id: "$MISSION_ID"
+revision: 1
 directives: []
 EOF
 
   cat > "$control_dir/schedule.yml" <<EOF
 schema_version: "schedule-control-v1"
 mission_id: "$MISSION_ID"
-future_run_status: "active"
-active_run_pause: "paused-until-resume"
+schedule_source: "mission-autonomy-policy"
+cadence_or_trigger: "$execution_posture"
+next_planned_run_at: null
+suspended_future_runs: false
+pause_active_run_requested: true
 overlap_policy: "$overlap_policy"
 backfill_policy: "$backfill_policy"
-pause_on_failure:
+pause_on_failure_rules:
   enabled: true
   triggers:
 EOF
@@ -123,11 +138,22 @@ EOF
     [[ -n "$trigger" ]] || continue
     printf '    - "%s"\n' "$trigger" >> "$control_dir/schedule.yml"
   done < <(read_array_yaml "$policy_file" '.pause_on_failure.default_triggers')
+  cat >> "$control_dir/schedule.yml" <<EOF
+preview_lead: null
+feedback_window_default: null
+quiet_hours: null
+digest_route_override: null
+last_schedule_mutation_ref: null
+EOF
 
   cat > "$control_dir/autonomy-budget.yml" <<EOF
 schema_version: "autonomy-budget-v1"
 mission_id: "$MISSION_ID"
 state: "healthy"
+window: "PT24H"
+threshold_profile_ref: "mission-autonomy.default"
+last_state_change_at: "$ts"
+applied_mode_adjustments: []
 updated_at: "$ts"
 counters: {}
 EOF
@@ -135,17 +161,29 @@ EOF
   cat > "$control_dir/circuit-breakers.yml" <<EOF
 schema_version: "circuit-breaker-v1"
 mission_id: "$MISSION_ID"
-state: "healthy"
+state: "clear"
+trip_reasons: []
+trip_conditions_snapshot: {}
+applied_actions: []
+tripped_at: null
+reset_requirements: []
+reset_ref: null
 updated_at: "$ts"
 tripped_breakers: []
 EOF
 
   cat > "$control_dir/subscriptions.yml" <<EOF
-schema_version: "mission-subscriptions-v1"
+schema_version: "subscriptions-v1"
 mission_id: "$MISSION_ID"
-owner_routes:
+owners:
   - "$owner_ref"
-subscribers: []
+watchers: []
+digest_recipients:
+  - "$owner_ref"
+alert_recipients:
+  - "$owner_ref"
+routing_policy_ref: ".octon/instance/governance/ownership/registry.yml"
+last_routing_evaluation_at: "$ts"
 EOF
 
   cat > "$continuity_dir/next-actions.yml" <<EOF
@@ -162,11 +200,17 @@ EOF
 - next_safe_action: \`review mission charter and resume the paused lease intentionally\`
 EOF
 
+  bash "$ROUTE_PUBLISHER" --mission-id "$MISSION_ID" >/dev/null
+
   bash "$RECEIPT_WRITER" \
     --mission-id "$MISSION_ID" \
     --receipt-type "mission-seed" \
     --issued-by "$ISSUED_BY" \
     --reason "Seed mission autonomy control and continuity state" \
+    --new-state-ref ".octon/state/control/execution/missions/$MISSION_ID/lease.yml" \
+    --reason-code "MISSION_CONTROL_SEEDED" \
+    --policy-ref ".octon/instance/governance/policies/mission-autonomy.yml" \
+    --policy-ref ".octon/instance/governance/ownership/registry.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/lease.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/mode-state.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/intent-register.yml" \
@@ -177,6 +221,7 @@ EOF
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/subscriptions.yml" \
     --affected-path ".octon/state/continuity/repo/missions/$MISSION_ID/next-actions.yml" \
     --affected-path ".octon/state/continuity/repo/missions/$MISSION_ID/handoff.md" \
+    --affected-path ".octon/generated/effective/orchestration/missions/$MISSION_ID/scenario-resolution.yml" \
     >/dev/null
 }
 

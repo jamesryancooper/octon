@@ -1475,6 +1475,8 @@ stages:
             .expect("create ownership fixture");
         fs::create_dir_all(octon_dir.join("state/control/execution/missions/sample-mission"))
             .expect("create mission control fixture");
+        fs::create_dir_all(octon_dir.join("generated/effective/orchestration/missions/sample-mission"))
+            .expect("create mission effective fixture");
         fs::write(
             octon_dir.join("instance/cognition/context/shared/intent.contract.yml"),
             "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
@@ -1502,44 +1504,49 @@ stages:
         .expect("write ownership registry");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/lease.yml"),
-            "schema_version: \"mission-control-lease-v1\"\nmission_id: \"sample-mission\"\nlease_id: \"lease-sample\"\nstatus: \"active\"\ngranted_by: \"operator://fixtures\"\ngranted_at: \"2026-03-23T00:00:00Z\"\nexpires_at: \"2026-03-30T00:00:00Z\"\nmax_concurrent_runs: 1\nallowed_action_classes:\n  - \"repo-maintenance\"\ndefault_safing_subset:\n  - \"observe_only\"\n  - \"stage_only\"\n",
+            "schema_version: \"mission-control-lease-v1\"\nmission_id: \"sample-mission\"\nlease_id: \"lease-sample\"\nstate: \"active\"\nissued_by: \"operator://fixtures\"\nissued_at: \"2026-03-23T00:00:00Z\"\nexpires_at: \"2099-03-30T00:00:00Z\"\ncontinuation_scope:\n  summary: \"Fixture continuation\"\n  allowed_execution_postures:\n    - \"continuous\"\n  max_concurrent_runs: 1\n  allowed_action_classes:\n    - \"repo-maintenance\"\n  default_safing_subset:\n    - \"observe_only\"\n    - \"stage_only\"\nrevocation_reason: null\nlast_reviewed_at: \"2026-03-23T00:00:00Z\"\n",
         )
         .expect("write lease");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/mode-state.yml"),
-            "schema_version: \"mode-state-v1\"\nmission_id: \"sample-mission\"\noversight_mode: \"feedback_window\"\nexecution_posture: \"continuous\"\nsafety_state: \"active\"\nphase: \"planning\"\nautonomy_budget_state: \"healthy\"\nbreaker_state: \"healthy\"\n",
+            "schema_version: \"mode-state-v1\"\nmission_id: \"sample-mission\"\noversight_mode: \"feedback_window\"\nexecution_posture: \"continuous\"\nsafety_state: \"active\"\nphase: \"planning\"\nactive_run_ref: null\ncurrent_slice_ref: null\nnext_safe_interrupt_boundary_id: null\neffective_scenario_resolution_ref: null\nautonomy_burn_state: \"healthy\"\nbreaker_state: \"clear\"\nupdated_at: \"2026-03-23T00:00:00Z\"\n",
         )
         .expect("write mode state");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/intent-register.yml"),
-            "schema_version: \"intent-register-v1\"\nmission_id: \"sample-mission\"\nversion: 1\nentries: []\n",
+            "schema_version: \"intent-register-v1\"\nmission_id: \"sample-mission\"\nrevision: 1\ngenerated_from:\n  - \"kernel-pipeline-fixture\"\nentries:\n  - slice_ref:\n      id: \"slice-1\"\n    intent_ref:\n      id: \"intent://test/sample-workflow\"\n      version: \"1.0.0\"\n    action_class: \"service.execute\"\n    target_ref:\n      id: \"sample-workflow\"\n    rationale: \"fixture\"\n    status: \"published\"\n    predicted_acp: \"ACP-1\"\n    planned_reversibility_class: \"reversible\"\n    safe_interrupt_boundary_id: \"task-boundary\"\n    boundary_class: \"task_boundary\"\n    expected_blast_radius: \"small\"\n    expected_budget_impact: {}\n    required_authorize_updates: []\n    rollback_plan_ref: \"plan://rollback\"\n    compensation_plan_ref: null\n    finalize_policy_ref: \"policy://finalize\"\n    earliest_start_at: \"2026-03-23T00:00:00Z\"\n    feedback_deadline_at: \"2026-03-23T00:30:00Z\"\n    default_on_silence: \"feedback_window\"\n",
         )
         .expect("write intent register");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/directives.yml"),
-            "schema_version: \"control-directives-v1\"\ndirectives: []\n",
+            "schema_version: \"control-directive-v1\"\nmission_id: \"sample-mission\"\nrevision: 1\ndirectives: []\n",
         )
         .expect("write directives");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/schedule.yml"),
-            "schema_version: \"schedule-control-v1\"\nmission_id: \"sample-mission\"\nfuture_run_status: \"active\"\nactive_run_pause: \"none\"\noverlap_policy: \"skip\"\nbackfill_policy: \"latest_only\"\npause_on_failure:\n  enabled: true\n  triggers: []\n",
+            "schema_version: \"schedule-control-v1\"\nmission_id: \"sample-mission\"\nschedule_source: \"fixture\"\ncadence_or_trigger: \"continuous\"\nnext_planned_run_at: null\nsuspended_future_runs: false\npause_active_run_requested: false\noverlap_policy: \"skip\"\nbackfill_policy: \"latest_only\"\npause_on_failure_rules:\n  enabled: true\n  triggers: []\npreview_lead: null\nfeedback_window_default: null\nquiet_hours: null\ndigest_route_override: null\nlast_schedule_mutation_ref: null\n",
         )
         .expect("write schedule");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/autonomy-budget.yml"),
-            "schema_version: \"autonomy-budget-v1\"\nmission_id: \"sample-mission\"\nstate: \"healthy\"\nupdated_at: \"2026-03-23T00:00:00Z\"\ncounters: {}\n",
+            "schema_version: \"autonomy-budget-v1\"\nmission_id: \"sample-mission\"\nstate: \"healthy\"\nwindow: \"PT24H\"\nthreshold_profile_ref: \"fixture\"\nlast_state_change_at: \"2026-03-23T00:00:00Z\"\napplied_mode_adjustments: []\nupdated_at: \"2026-03-23T00:00:00Z\"\ncounters: {}\n",
         )
         .expect("write autonomy budget");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/circuit-breakers.yml"),
-            "schema_version: \"circuit-breaker-v1\"\nmission_id: \"sample-mission\"\nstate: \"healthy\"\nupdated_at: \"2026-03-23T00:00:00Z\"\ntripped_breakers: []\n",
+            "schema_version: \"circuit-breaker-v1\"\nmission_id: \"sample-mission\"\nstate: \"clear\"\ntrip_reasons: []\ntrip_conditions_snapshot: {}\napplied_actions: []\ntripped_at: null\nreset_requirements: []\nreset_ref: null\nupdated_at: \"2026-03-23T00:00:00Z\"\ntripped_breakers: []\n",
         )
         .expect("write circuit breakers");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/subscriptions.yml"),
-            "schema_version: \"mission-subscriptions-v1\"\nsubscriptions: []\n",
+            "schema_version: \"subscriptions-v1\"\nmission_id: \"sample-mission\"\nowners:\n  - \"operator://fixtures\"\nwatchers: []\ndigest_recipients:\n  - \"operator://fixtures\"\nalert_recipients:\n  - \"operator://fixtures\"\nrouting_policy_ref: \".octon/instance/governance/ownership/registry.yml\"\nlast_routing_evaluation_at: \"2026-03-23T00:00:00Z\"\n",
         )
         .expect("write subscriptions");
+        fs::write(
+            octon_dir.join("generated/effective/orchestration/missions/sample-mission/scenario-resolution.yml"),
+            "schema_version: \"scenario-resolution-v1\"\nmission_id: \"sample-mission\"\nsource_refs: {}\neffective:\n  scenario_family: \"maintenance\"\n  oversight_mode: \"feedback_window\"\n  execution_posture: \"continuous\"\n  preview_policy: {}\n  feedback_window_required: true\n  proceed_on_silence_allowed: false\n  approval_required: false\n  safe_interrupt_boundary_class: \"task_boundary\"\n  overlap_policy: \"skip\"\n  backfill_policy: \"latest_only\"\n  pause_on_failure:\n    enabled: true\n    triggers: []\n  digest_route: \"preview_plus_closure_digest\"\n  alert_route: \"owners-first-digest\"\n  required_quorum: \"1\"\n  recovery_profile:\n    action_class: \"service.execute\"\n    primitive: \"git.revert_commit\"\n    rollback_handle_type: \"git-commit\"\n    recovery_window: \"P14D\"\n    reversibility_class: \"reversible\"\n  finalize_policy:\n    approval_required: false\n    block_finalize: false\n    break_glass_required: false\n  safing_subset:\n    - \"observe_only\"\nrationale:\n  - \"fixture\"\ngenerated_at: \"2026-03-23T00:00:00Z\"\nfresh_until: \"2099-03-30T00:00:00Z\"\n",
+        )
+        .expect("write scenario resolution");
         fs::write(
             workflows_dir.join("stages/01-analyze.md"),
             "# Analyze\n\nInspect the fixture.\n",

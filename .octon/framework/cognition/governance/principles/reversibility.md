@@ -17,7 +17,8 @@ For routine autonomous operations (ACP-1 through ACP-3), promoted changes MUST i
 
 Under Mission-Scoped Reversible Autonomy, rollback or compensation metadata is
 part of the mission slice contract and must remain visible through live mode,
-receipts, and recovery read models for the full recovery window.
+receipts, effective scenario resolution, and recovery read models for the full
+recovery window.
 
 Reversibility is not just about having a rollback button — it's about designing changes so that rollback is:
 - **Safe**: Rolling back doesn't cause data loss or corruption

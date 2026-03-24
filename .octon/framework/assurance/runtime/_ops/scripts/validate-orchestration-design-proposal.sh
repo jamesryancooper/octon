@@ -567,13 +567,19 @@ validate_mission_object_fixture() {
       type == "array"
       and all(.[]; type == "string" and length > 0);
     type == "object"
-    and (.schema_version == "mission-object-v1")
+    and (.schema_version == "octon-mission-v2")
     and (.mission_id | nonempty_string)
     and (.title | nonempty_string)
     and (.summary | nonempty_string)
     and ((.status as $s | ["created","active","completed","cancelled","archived"] | index($s)) != null)
-    and (.owner | nonempty_string)
+    and (.mission_class | nonempty_string)
+    and (.owner_ref | nonempty_string)
     and (.created_at | valid_time)
+    and (.risk_ceiling | nonempty_string)
+    and (.allowed_action_classes | string_array_or_empty)
+    and (.default_safing_subset | string_array_or_empty)
+    and (.default_schedule_hint | nonempty_string)
+    and (.default_overlap_policy | nonempty_string)
     and (
       .success_criteria
       | type == "array"

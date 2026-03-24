@@ -1,0 +1,11 @@
+schema_version: "circuit-breaker-v1"
+mission_id: "mission-autonomy-live-validation"
+state: "clear"
+trip_reasons: []
+trip_conditions_snapshot: {}
+applied_actions: []
+tripped_at: null
+reset_requirements: []
+reset_ref: null
+updated_at: "2026-03-24T16:49:15Z"
+tripped_breakers: []

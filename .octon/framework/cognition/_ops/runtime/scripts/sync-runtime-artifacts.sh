@@ -66,9 +66,11 @@ else
   MISSION_AUTHORITY_ROOT="$OCTON_DIR/instance/orchestration/missions"
   MISSION_CONTROL_ROOT="$OCTON_DIR/state/control/execution/missions"
   MISSION_CONTINUITY_ROOT="$OCTON_DIR/state/continuity/repo/missions"
+  MISSION_EFFECTIVE_ROUTE_ROOT="$OCTON_DIR/generated/effective/orchestration/missions"
   MISSION_SUMMARIES_ROOT="$GENERATED_COGNITION_DIR/summaries/missions"
   OPERATOR_DIGESTS_ROOT="$GENERATED_COGNITION_DIR/summaries/operators"
   MISSION_PROJECTION_ROOT="$GENERATED_COGNITION_DIR/projections/materialized/missions"
+  MISSION_EFFECTIVE_ROUTE_PUBLISHER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/publish-mission-effective-route.sh"
 fi
 RUNTIME_DIR="$COGNITION_DIR/runtime"
 if [[ -n "${OUTPUT_DIR_OVERRIDE:-}" ]]; then
@@ -824,6 +826,7 @@ generate_mission_autonomy_views() {
     local mission_dir="$MISSION_AUTHORITY_ROOT/$mission_id"
     local control_dir="$MISSION_CONTROL_ROOT/$mission_id"
     local continuity_dir="$MISSION_CONTINUITY_ROOT/$mission_id"
+    local scenario_route_file="$MISSION_EFFECTIVE_ROUTE_ROOT/$mission_id/scenario-resolution.yml"
     local mission_file="$mission_dir/mission.yml"
     local mode_state_file="$control_dir/mode-state.yml"
     local intent_register_file="$control_dir/intent-register.yml"
@@ -832,20 +835,36 @@ generate_mission_autonomy_views() {
     local handoff_file="$continuity_dir/handoff.md"
     local next_actions_file="$continuity_dir/next-actions.yml"
 
+    if [[ "$MODE" != "check" && -x "$MISSION_EFFECTIVE_ROUTE_PUBLISHER" ]]; then
+      bash "$MISSION_EFFECTIVE_ROUTE_PUBLISHER" --mission-id "$mission_id" >/dev/null
+    fi
+    [[ -f "$scenario_route_file" ]] || {
+      echo "missing mission scenario route: ${scenario_route_file#$ROOT_DIR/}" >&2
+      return 1
+    }
+
     local title status mission_class owner_ref oversight_mode execution_posture phase budget_state breaker_state
+    local route_family route_boundary_class route_digest_route route_recovery_window route_generated_at route_fresh_until
     title="$(extract_yaml_scalar "$mission_file" "title")"
     status="$(extract_yaml_scalar "$mission_file" "status")"
     mission_class="$(extract_yaml_scalar "$mission_file" "mission_class")"
     owner_ref="$(extract_yaml_scalar "$mission_file" "owner_ref")"
-    oversight_mode="$(extract_yaml_scalar "$mode_state_file" "oversight_mode")"
-    execution_posture="$(extract_yaml_scalar "$mode_state_file" "execution_posture")"
+    oversight_mode="$(yq -r '.effective.oversight_mode // ""' "$scenario_route_file" 2>/dev/null || true)"
+    execution_posture="$(yq -r '.effective.execution_posture // ""' "$scenario_route_file" 2>/dev/null || true)"
     phase="$(extract_yaml_scalar "$mode_state_file" "phase")"
     budget_state="$(extract_yaml_scalar "$autonomy_budget_file" "state")"
     breaker_state="$(extract_yaml_scalar "$circuit_breakers_file" "state")"
+    route_family="$(yq -r '.effective.scenario_family // ""' "$scenario_route_file" 2>/dev/null || true)"
+    route_boundary_class="$(yq -r '.effective.safe_interrupt_boundary_class // ""' "$scenario_route_file" 2>/dev/null || true)"
+    route_digest_route="$(yq -r '.effective.digest_route // ""' "$scenario_route_file" 2>/dev/null || true)"
+    route_recovery_window="$(yq -r '.effective.recovery_profile.recovery_window // ""' "$scenario_route_file" 2>/dev/null || true)"
+    route_generated_at="$(yq -r '.generated_at // ""' "$scenario_route_file" 2>/dev/null || true)"
+    route_fresh_until="$(yq -r '.fresh_until // ""' "$scenario_route_file" 2>/dev/null || true)"
 
     [[ -z "$title" ]] && title="$mission_id"
     [[ -z "$status" ]] && status="unknown"
     [[ -z "$mission_class" ]] && mission_class="unknown"
+    [[ -n "$route_family" ]] && mission_class="$route_family"
     [[ -z "$owner_ref" ]] && owner_ref="unassigned"
     [[ -z "$oversight_mode" ]] && oversight_mode="unknown"
     [[ -z "$execution_posture" ]] && execution_posture="unknown"
@@ -863,6 +882,7 @@ description: Generated current-state mission summary.
 mutability: generated
 generated_from:
   - /.octon/instance/orchestration/missions/${mission_id}/mission.yml
+  - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/control/execution/missions/${mission_id}/mode-state.yml
   - /.octon/state/control/execution/missions/${mission_id}/autonomy-budget.yml
   - /.octon/state/control/execution/missions/${mission_id}/circuit-breakers.yml
@@ -879,9 +899,13 @@ generator_version: "__GENERATOR_VERSION__"
 - owner_ref: \`${owner_ref}\`
 - oversight_mode: \`${oversight_mode}\`
 - execution_posture: \`${execution_posture}\`
+- safe_interrupt_boundary_class: \`${route_boundary_class}\`
 - phase: \`${phase}\`
 - autonomy_budget_state: \`${budget_state}\`
 - breaker_state: \`${breaker_state}\`
+- recovery_window: \`${route_recovery_window}\`
+- scenario_route_generated_at: \`${route_generated_at}\`
+- scenario_route_fresh_until: \`${route_fresh_until}\`
 EOF
     perl -0pi -e 's#__GENERATOR_VERSION__#'"$GENERATOR_VERSION"'#g' "$raw_now"
     finalize_candidate "$MISSION_SUMMARIES_ROOT/$mission_id/now.md" "$raw_now" "generated_at" "timestamp"
@@ -893,6 +917,7 @@ title: Mission Next
 description: Generated next-step mission summary.
 mutability: generated
 generated_from:
+  - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/control/execution/missions/${mission_id}/intent-register.yml
   - /.octon/state/continuity/repo/missions/${mission_id}/next-actions.yml
 generated_at: "__GENERATED_AT__"
@@ -902,6 +927,8 @@ generator_version: "__GENERATOR_VERSION__"
 # Mission Next
 
 - mission_id: \`${mission_id}\`
+- digest_route: \`${route_digest_route}\`
+- recovery_window: \`${route_recovery_window}\`
 - intent_register: \`/.octon/state/control/execution/missions/${mission_id}/intent-register.yml\`
 - next_actions: \`/.octon/state/continuity/repo/missions/${mission_id}/next-actions.yml\`
 EOF
@@ -915,6 +942,7 @@ title: Mission Recent
 description: Generated recent mission evidence summary.
 mutability: generated
 generated_from:
+  - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/evidence/runs/**
   - /.octon/state/evidence/control/execution/**
   - /.octon/state/continuity/repo/missions/${mission_id}/handoff.md
@@ -925,6 +953,7 @@ generator_version: "__GENERATOR_VERSION__"
 # Mission Recent
 
 - mission_id: \`${mission_id}\`
+- route_fresh_until: \`${route_fresh_until}\`
 - retained_run_evidence_root: \`/.octon/state/evidence/runs/\`
 - retained_control_evidence_root: \`/.octon/state/evidence/control/execution/\`
 - handoff: \`/.octon/state/continuity/repo/missions/${mission_id}/handoff.md\`
@@ -939,6 +968,7 @@ title: Mission Recover
 description: Generated mission recovery summary.
 mutability: generated
 generated_from:
+  - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/evidence/runs/**
   - /.octon/state/control/execution/missions/${mission_id}/mode-state.yml
 generated_at: "__GENERATED_AT__"
@@ -948,6 +978,7 @@ generator_version: "__GENERATOR_VERSION__"
 # Mission Recover
 
 - mission_id: \`${mission_id}\`
+- recovery_window: \`${route_recovery_window}\`
 - recovery_source: \`/.octon/state/evidence/runs/\`
 - mode_state: \`/.octon/state/control/execution/missions/${mission_id}/mode-state.yml\`
 EOF
@@ -970,6 +1001,7 @@ EOF
   "generated_at": "__GENERATED_AT__",
   "generated_from": [
     "/.octon/instance/orchestration/missions/${mission_id}/mission.yml",
+    "/.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml",
     "/.octon/state/control/execution/missions/${mission_id}/mode-state.yml",
     "/.octon/state/control/execution/missions/${mission_id}/intent-register.yml",
     "/.octon/state/continuity/repo/missions/${mission_id}/handoff.md"
@@ -987,6 +1019,7 @@ description: Generated operator digest entry for mission routing.
 mutability: generated
 generated_from:
   - /.octon/instance/orchestration/missions/${mission_id}/mission.yml
+  - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/control/execution/missions/${mission_id}/subscriptions.yml
 generated_at: "__GENERATED_AT__"
 generator_version: "__GENERATOR_VERSION__"
@@ -998,6 +1031,7 @@ generator_version: "__GENERATOR_VERSION__"
 - mission_id: \`${mission_id}\`
 - title: \`${title}\`
 - oversight_mode: \`${oversight_mode}\`
+- digest_route: \`${route_digest_route}\`
 - budget_state: \`${budget_state}\`
 - breaker_state: \`${breaker_state}\`
 EOF

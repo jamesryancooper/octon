@@ -1,9 +1,9 @@
 schema_version: "octon-locality-effective-scopes-v2"
 generator_version: "locality-publication-v2"
 generation_id: "locality-e08a88ec3dda"
-published_at: "2026-03-22T20:58:03Z"
+published_at: "2026-03-24T16:25:19Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/locality/2026-03-22T20-58-03Z-locality-e08a88ec3dda.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/locality/2026-03-24T16-25-19Z-locality-e08a88ec3dda.yml"
 invalidation_conditions:
   - "locality-manifest-sha-changed"
   - "locality-registry-sha-changed"
@@ -16,7 +16,7 @@ source:
   locality_registry_path: ".octon/instance/locality/registry.yml"
   locality_registry_sha256: "29d97816ceab9b0ecab34a01f92752e32d09c61a2bbe6ff96bae5b045d5a2e2d"
   quarantine_path: ".octon/state/control/locality/quarantine.yml"
-  quarantine_sha256: "5f101a4c12207a479509f8b46a2a5bfa254a5bc7e725e9f21a1175e3a858c8a1"
+  quarantine_sha256: "ba4696f6070ccb534c3da2907d1c38a7db6106ab9e412e792434e088e19934f4"
 active_scope_ids:
   - "octon-harness"
 scopes:

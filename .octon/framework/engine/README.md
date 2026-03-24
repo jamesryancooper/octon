@@ -34,4 +34,6 @@ semantics.
   `/.octon/state/control/execution/missions/**`
 - retained control-plane mutation evidence belongs under
   `/.octon/state/evidence/control/execution/**`
+- freshness-bounded effective mission scenario routing belongs under
+  `/.octon/generated/effective/orchestration/missions/**`
 - Legacy top-level `/.octon/runtime/` paths are prohibited.

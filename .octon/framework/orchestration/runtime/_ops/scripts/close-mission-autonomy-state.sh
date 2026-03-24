@@ -6,6 +6,7 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../.." && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 RECEIPT_WRITER="$SCRIPT_DIR/write-mission-control-receipt.sh"
+ROUTE_PUBLISHER="$SCRIPT_DIR/publish-mission-effective-route.sh"
 
 MISSION_ID=""
 ISSUED_BY=""
@@ -46,14 +47,20 @@ main() {
 schema_version: "mission-control-lease-v1"
 mission_id: "$MISSION_ID"
 lease_id: "close-$MISSION_ID"
-status: "revoked"
-granted_by: "$ISSUED_BY"
-granted_at: "$ts"
+state: "revoked"
+issued_by: "$ISSUED_BY"
+issued_at: "$ts"
 expires_at: "$ts"
-max_concurrent_runs: 0
-allowed_action_classes: []
-default_safing_subset:
-  - "observe_only"
+continuation_scope:
+  summary: "Closed mission autonomy continuation scope"
+  allowed_execution_postures:
+    - "one_shot"
+  max_concurrent_runs: 0
+  allowed_action_classes: []
+  default_safing_subset:
+    - "observe_only"
+revocation_reason: "mission_closed"
+last_reviewed_at: "$ts"
 EOF
 
   cat > "$control_dir/mode-state.yml" <<EOF
@@ -63,11 +70,13 @@ oversight_mode: "notify"
 execution_posture: "one_shot"
 safety_state: "paused"
 phase: "closed"
-active_run_id: null
-current_slice_id: null
-next_safe_interrupt_boundary: null
-autonomy_budget_state: "healthy"
+active_run_ref: null
+current_slice_ref: null
+next_safe_interrupt_boundary_id: null
+effective_scenario_resolution_ref: null
+autonomy_burn_state: "healthy"
 breaker_state: "healthy"
+updated_at: "$ts"
 EOF
 
   cat > "$continuity_dir/next-actions.yml" <<EOF
@@ -85,15 +94,21 @@ EOF
 - follow_up: \`none\`
 EOF
 
+  bash "$ROUTE_PUBLISHER" --mission-id "$MISSION_ID" >/dev/null
+
   bash "$RECEIPT_WRITER" \
     --mission-id "$MISSION_ID" \
     --receipt-type "mission-close" \
     --issued-by "$ISSUED_BY" \
     --reason "Close mission autonomy control and continuity state" \
+    --new-state-ref ".octon/state/control/execution/missions/$MISSION_ID/lease.yml" \
+    --reason-code "MISSION_CONTROL_CLOSED" \
+    --policy-ref ".octon/instance/governance/policies/mission-autonomy.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/lease.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/mode-state.yml" \
     --affected-path ".octon/state/continuity/repo/missions/$MISSION_ID/next-actions.yml" \
     --affected-path ".octon/state/continuity/repo/missions/$MISSION_ID/handoff.md" \
+    --affected-path ".octon/generated/effective/orchestration/missions/$MISSION_ID/scenario-resolution.yml" \
     >/dev/null
 }
 

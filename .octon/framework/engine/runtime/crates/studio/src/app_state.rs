@@ -1873,7 +1873,7 @@ mod tests {
         );
         write_file(
             &root.join(".octon/instance/orchestration/missions/example/mission.yml"),
-            "schema_version: \"mission-object-v1\"\nmission_id: \"example\"\ntitle: \"Example Mission\"\nsummary: \"Example mission.\"\nstatus: \"active\"\nowner: \"@architect\"\ncreated_at: \"2026-03-10T00:00:00Z\"\nactive_run_ids:\n  - \"run-001\"\n",
+            "schema_version: \"octon-mission-v2\"\nmission_id: \"example\"\ntitle: \"Example Mission\"\nsummary: \"Example mission.\"\nstatus: \"active\"\nmission_class: \"maintenance\"\nowner_ref: \"operator://architect\"\ncreated_at: \"2026-03-10T00:00:00Z\"\nrisk_ceiling: \"ACP-1\"\nallowed_action_classes:\n  - \"repo-maintenance\"\ndefault_safing_subset:\n  - \"observe_only\"\n  - \"stage_only\"\ndefault_schedule_hint: \"interruptible_scheduled\"\ndefault_overlap_policy: \"skip\"\nscope_ids: []\nsuccess_criteria:\n  - \"Example complete\"\nfailure_conditions: []\nactive_run_ids:\n  - \"run-001\"\n",
         );
         write_file(
             &root.join(".octon/instance/orchestration/missions/example/tasks.json"),

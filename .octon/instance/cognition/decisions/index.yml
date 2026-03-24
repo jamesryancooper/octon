@@ -129,3 +129,5 @@ records:
     path: 062-self-audit-and-release-hardening-atomic-cutover.md
   - id: 063-mission-scoped-reversible-autonomy-atomic-cutover
     path: 063-mission-scoped-reversible-autonomy-atomic-cutover.md
+  - id: 064-mission-scoped-reversible-autonomy-completion-cutover
+    path: 064-mission-scoped-reversible-autonomy-completion-cutover.md

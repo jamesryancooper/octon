@@ -1,0 +1,19 @@
+{
+  "schema_version": "octon-mission-tasks-v1",
+  "mission_id": "mission-autonomy-live-validation",
+  "tasks": [
+    {
+      "id": "verify-live-control-surfaces",
+      "description": "Keep the seeded control-state, effective-route, continuity, and generated summary surfaces coherent for this live mission.",
+      "status": "active"
+    },
+    {
+      "id": "exercise-authorize-update-and-closeout",
+      "description": "Exercise authorize-update and closeout behavior on this mission when an intentional live rehearsal is requested.",
+      "status": "pending",
+      "blockers": [
+        "verify-live-control-surfaces"
+      ]
+    }
+  ]
+}

@@ -6,21 +6,52 @@
   "additionalProperties": true,
   "required": [
     "schema_version",
-    "event_id",
-    "timestamp",
+    "receipt_id",
     "mission_id",
-    "receipt_type",
-    "issued_by",
+    "control_event_kind",
+    "subject_ref",
+    "applied_by",
+    "applied_at",
+    "prior_state_ref",
+    "new_state_ref",
+    "reason_codes",
+    "policy_refs",
     "affected_paths"
   ],
   "properties": {
     "schema_version": { "const": "control-receipt-v1" },
-    "event_id": { "type": "string", "minLength": 1 },
-    "timestamp": { "type": "string", "minLength": 1 },
+    "receipt_id": { "type": "string", "minLength": 1 },
     "mission_id": { "type": "string", "minLength": 1 },
-    "receipt_type": { "type": "string", "minLength": 1 },
-    "issued_by": { "type": "string", "minLength": 1 },
-    "reason": { "type": "string" },
+    "control_event_kind": {
+      "type": "string",
+      "enum": [
+        "directive_applied",
+        "authorize_update_applied",
+        "lease_changed",
+        "schedule_changed",
+        "breaker_tripped",
+        "breaker_reset",
+        "safing_changed",
+        "break_glass_activated",
+        "break_glass_cleared",
+        "mission_seed",
+        "mission_close"
+      ]
+    },
+    "subject_ref": { "type": "object" },
+    "applied_by": { "type": "string", "minLength": 1 },
+    "applied_at": { "type": "string", "minLength": 1 },
+    "prior_state_ref": { "type": ["string", "null"] },
+    "new_state_ref": { "type": ["string", "null"] },
+    "reason": { "type": ["string", "null"] },
+    "reason_codes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "policy_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
     "affected_paths": {
       "type": "array",
       "minItems": 1,
@@ -28,6 +59,7 @@
     },
     "linked_run_id": { "type": ["string", "null"] },
     "linked_directive_refs": { "type": "array", "items": { "type": "string" } },
-    "linked_authorize_update_refs": { "type": "array", "items": { "type": "string" } }
+    "linked_authorize_update_refs": { "type": "array", "items": { "type": "string" } },
+    "supersedes_receipt_id": { "type": ["string", "null"] }
   }
 }

@@ -1,0 +1,6 @@
+schema_version: "intent-register-v1"
+mission_id: "mission-autonomy-live-validation"
+revision: 1
+generated_from:
+  - "framework/orchestration/runtime/_ops/scripts/seed-mission-autonomy-state.sh"
+entries: []

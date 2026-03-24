@@ -7,20 +7,31 @@
   "required": [
     "schema_version",
     "mission_id",
-    "future_run_status",
-    "active_run_pause",
+    "schedule_source",
+    "cadence_or_trigger",
+    "next_planned_run_at",
+    "suspended_future_runs",
+    "pause_active_run_requested",
     "overlap_policy",
     "backfill_policy",
-    "pause_on_failure"
+    "pause_on_failure_rules",
+    "preview_lead",
+    "feedback_window_default",
+    "quiet_hours",
+    "digest_route_override",
+    "last_schedule_mutation_ref"
   ],
   "properties": {
     "schema_version": { "const": "schedule-control-v1" },
     "mission_id": { "type": "string", "minLength": 1 },
-    "future_run_status": { "type": "string", "minLength": 1 },
-    "active_run_pause": { "type": "string", "minLength": 1 },
+    "schedule_source": { "type": "string", "minLength": 1 },
+    "cadence_or_trigger": { "type": "string", "minLength": 1 },
+    "next_planned_run_at": { "type": ["string", "null"] },
+    "suspended_future_runs": { "type": "boolean" },
+    "pause_active_run_requested": { "type": "boolean" },
     "overlap_policy": { "type": "string", "minLength": 1 },
     "backfill_policy": { "type": "string", "minLength": 1 },
-    "pause_on_failure": {
+    "pause_on_failure_rules": {
       "type": "object",
       "required": ["enabled", "triggers"],
       "properties": {
@@ -28,6 +39,10 @@
         "triggers": { "type": "array", "items": { "type": "string", "minLength": 1 } }
       }
     },
-    "preview_window": { "type": ["object", "null"] }
+    "preview_lead": { "type": ["string", "null"] },
+    "feedback_window_default": { "type": ["string", "null"] },
+    "quiet_hours": { "type": ["object", "null"] },
+    "digest_route_override": { "type": ["string", "null"] },
+    "last_schedule_mutation_ref": { "type": ["string", "null"] }
   }
 }

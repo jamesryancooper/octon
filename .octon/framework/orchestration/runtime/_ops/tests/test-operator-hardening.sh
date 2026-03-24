@@ -146,13 +146,26 @@ EOF
 }
 EOF
   cat > "$fixture_root/.octon/instance/orchestration/missions/example/mission.yml" <<'EOF'
-schema_version: "mission-object-v1"
+schema_version: "octon-mission-v2"
 mission_id: "example"
 title: "Example Mission"
 summary: "Example mission."
 status: "active"
-owner: "@architect"
+mission_class: "maintenance"
+owner_ref: "operator://architect"
 created_at: "2026-03-10T00:00:00Z"
+risk_ceiling: "ACP-1"
+allowed_action_classes:
+  - "repo-maintenance"
+default_safing_subset:
+  - "observe_only"
+  - "stage_only"
+default_schedule_hint: "interruptible_scheduled"
+default_overlap_policy: "skip"
+scope_ids: []
+success_criteria:
+  - "Example complete"
+failure_conditions: []
 active_run_ids:
   - "run-001"
 EOF

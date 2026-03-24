@@ -18,6 +18,8 @@ long-running and always-running autonomous agents.
 - durable mission authority defines what the agent may keep trying to achieve
 - mutable mission control truth publishes the live lease, mode, schedule,
   directives, burn state, breaker state, and awareness routing
+- one freshness-bounded effective route compiles mission, policy, and live
+  control inputs for shared runtime, scheduler, and operator consumption
 - every material step is an action slice with forward intent, reversibility
   class, and a safe interrupt boundary
 - human control is supervisory: `Inspect`, `Signal`, and `Authorize-Update`
@@ -43,6 +45,8 @@ long-running and always-running autonomous agents.
   `/.octon/state/evidence/runs/**`
 - mission continuity:
   `/.octon/state/continuity/repo/missions/<mission-id>/**`
+- effective mission scenario resolution:
+  `/.octon/generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
 - derived mission/operator read models:
   `/.octon/generated/cognition/summaries/{missions,operators}/**`
 

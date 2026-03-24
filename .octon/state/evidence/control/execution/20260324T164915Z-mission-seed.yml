@@ -1,0 +1,35 @@
+schema_version: "control-receipt-v1"
+receipt_id: "20260324T164915Z-mission-seed"
+mission_id: "mission-autonomy-live-validation"
+control_event_kind: "mission-seed"
+subject_ref:
+  kind: "mission-seed"
+  path: ".octon/state/control/execution/missions/mission-autonomy-live-validation/lease.yml"
+applied_by: "operator://octon-maintainers"
+applied_at: "2026-03-24T16:49:15Z"
+prior_state_ref: null
+new_state_ref: ".octon/state/control/execution/missions/mission-autonomy-live-validation/lease.yml"
+reason: "Seed mission autonomy control and continuity state"
+reason_codes:
+  - "MISSION_CONTROL_SEEDED"
+policy_refs:
+  - ".octon/instance/governance/policies/mission-autonomy.yml"
+  - ".octon/instance/governance/ownership/registry.yml"
+affected_paths:
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/lease.yml"
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/mode-state.yml"
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/intent-register.yml"
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/directives.yml"
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/schedule.yml"
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/autonomy-budget.yml"
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/circuit-breakers.yml"
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/subscriptions.yml"
+  - ".octon/state/continuity/repo/missions/mission-autonomy-live-validation/next-actions.yml"
+  - ".octon/state/continuity/repo/missions/mission-autonomy-live-validation/handoff.md"
+  - ".octon/generated/effective/orchestration/missions/mission-autonomy-live-validation/scenario-resolution.yml"
+linked_run_id: null
+linked_directive_refs:
+  []
+linked_authorize_update_refs:
+  []
+supersedes_receipt_id: null

@@ -129,9 +129,12 @@ super-root cutover.
 57. Mission/operator read models under
     `generated/cognition/summaries/{missions,operators}/**` are derived only
     from canonical authority, control, evidence, and continuity surfaces.
-58. No autonomous runtime path may silently fall back to mission-less
+58. Mission effective scenario resolution lives only under
+    `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
+    and remains derived-only, freshness-bounded runtime input.
+59. No autonomous runtime path may silently fall back to mission-less
     execution after the mission-scoped reversible autonomy cutover.
-59. External UI, chat, or in-memory session state may not become a second
+60. External UI, chat, or in-memory session state may not become a second
     authoritative mission control plane.
 
 ## Precedence
@@ -204,6 +207,8 @@ for runtime, governance, and practices.
   `/.octon/state/control/execution/missions/`
 - retained control evidence:
   `/.octon/state/evidence/control/execution/`
+- effective mission scenario routes:
+  `/.octon/generated/effective/orchestration/missions/`
 - effective locality outputs: `/.octon/generated/effective/locality/`
 - effective capability-routing outputs:
   `/.octon/generated/effective/capabilities/`

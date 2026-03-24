@@ -39,6 +39,16 @@ main() {
       [[ -f "$MISSION_SUMMARIES/$mission_id/$file" ]] && pass "found mission summary $mission_id/$file" || fail "missing mission summary $mission_id/$file"
     done
     [[ -f "$MISSION_PROJECTIONS/$mission_id.json" ]] && pass "found mission projection $mission_id.json" || fail "missing mission projection $mission_id.json"
+    if [[ -f "$MISSION_SUMMARIES/$mission_id/now.md" ]] && grep -Fq "/.octon/generated/effective/orchestration/missions/$mission_id/scenario-resolution.yml" "$MISSION_SUMMARIES/$mission_id/now.md"; then
+      pass "mission now summary references effective route for $mission_id"
+    else
+      fail "mission now summary must reference effective route for $mission_id"
+    fi
+    if [[ -f "$MISSION_PROJECTIONS/$mission_id.json" ]] && grep -Fq "/.octon/generated/effective/orchestration/missions/$mission_id/scenario-resolution.yml" "$MISSION_PROJECTIONS/$mission_id.json"; then
+      pass "mission projection references effective route for $mission_id"
+    else
+      fail "mission projection must reference effective route for $mission_id"
+    fi
   done < <(yq -r '.active[]?' "$REGISTRY" 2>/dev/null || true)
 
   echo "Validation summary: errors=$errors"

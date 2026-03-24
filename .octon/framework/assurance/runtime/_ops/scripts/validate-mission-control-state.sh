@@ -10,6 +10,8 @@ CONTROL_ROOT="$OCTON_DIR/state/control/execution/missions"
 CONTINUITY_ROOT="$OCTON_DIR/state/continuity/repo/missions"
 SEED_HELPER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/seed-mission-autonomy-state.sh"
 CLOSE_HELPER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/close-mission-autonomy-state.sh"
+CONTROL_EVALUATOR="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/evaluate-mission-control-state.sh"
+AUTHORIZE_UPDATE_HELPER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/apply-mission-authorize-update.sh"
 
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
@@ -22,6 +24,8 @@ main() {
   [[ -d "$CONTINUITY_ROOT" ]] && pass "mission continuity root exists" || fail "missing mission continuity root"
   [[ -x "$SEED_HELPER" ]] && pass "mission seed helper exists" || fail "missing mission seed helper"
   [[ -x "$CLOSE_HELPER" ]] && pass "mission close helper exists" || fail "missing mission close helper"
+  [[ -x "$CONTROL_EVALUATOR" ]] && pass "mission control evaluator exists" || fail "missing mission control evaluator"
+  [[ -x "$AUTHORIZE_UPDATE_HELPER" ]] && pass "mission authorize-update helper exists" || fail "missing mission authorize-update helper"
 
   while IFS= read -r mission_id; do
     [[ -n "$mission_id" ]] || continue

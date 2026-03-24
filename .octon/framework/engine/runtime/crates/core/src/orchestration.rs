@@ -1557,7 +1557,7 @@ fn load_missions(repo_root: &Path, missions_dir: &Path) -> Result<Vec<MissionRec
             path: rel_path(repo_root, &mission_yml),
             title: string_field(&mission, "title").unwrap_or_else(|| rel_name.to_string()),
             status: string_field(&mission, "status").unwrap_or_else(|| "unknown".to_string()),
-            owner: string_field(&mission, "owner").unwrap_or_else(|| "unknown".to_string()),
+            owner: string_field(&mission, "owner_ref").unwrap_or_else(|| "unknown".to_string()),
             active_run_ids: string_array_field(&mission, "active_run_ids"),
             blocked_task_count,
             outstanding_task_count,
@@ -1961,7 +1961,7 @@ mod tests {
         .expect("write automation status");
         fs::write(
             root.join(".octon/instance/orchestration/missions/example/mission.yml"),
-            "schema_version: mission-object-v1\nmission_id: example\ntitle: Example Mission\nsummary: Example mission.\nstatus: active\nowner: '@architect'\ncreated_at: '2026-03-10T00:00:00Z'\nactive_run_ids:\n  - run-001\n",
+            "schema_version: octon-mission-v2\nmission_id: example\ntitle: Example Mission\nsummary: Example mission.\nstatus: active\nmission_class: maintenance\nowner_ref: 'operator://architect'\ncreated_at: '2026-03-10T00:00:00Z'\nrisk_ceiling: 'ACP-1'\nallowed_action_classes:\n  - 'repo-maintenance'\ndefault_safing_subset:\n  - 'observe_only'\n  - 'stage_only'\ndefault_schedule_hint: 'interruptible_scheduled'\ndefault_overlap_policy: 'skip'\nscope_ids: []\nsuccess_criteria:\n  - 'Example complete'\nfailure_conditions: []\nactive_run_ids:\n  - run-001\n",
         )
         .expect("write mission");
         fs::write(

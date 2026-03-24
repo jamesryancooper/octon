@@ -83,6 +83,9 @@ main() {
     "mission control state surfaces are current" \
     "$SCRIPT_DIR/validate-mission-control-state.sh"
   run_validator \
+    "mission effective scenario routes are current" \
+    "$SCRIPT_DIR/validate-mission-effective-routes.sh"
+  run_validator \
     "mission generated summaries are current" \
     "$SCRIPT_DIR/validate-mission-generated-summaries.sh"
   run_validator \

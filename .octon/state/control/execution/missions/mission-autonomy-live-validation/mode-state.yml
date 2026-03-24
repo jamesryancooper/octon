@@ -1,0 +1,13 @@
+schema_version: "mode-state-v1"
+mission_id: "mission-autonomy-live-validation"
+oversight_mode: "notify"
+execution_posture: "interruptible_scheduled"
+safety_state: "paused"
+phase: "planning"
+active_run_ref: null
+current_slice_ref: null
+next_safe_interrupt_boundary_id: null
+effective_scenario_resolution_ref: null
+autonomy_burn_state: "healthy"
+breaker_state: "healthy"
+updated_at: "2026-03-24T16:49:15Z"

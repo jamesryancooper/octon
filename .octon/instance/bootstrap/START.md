@@ -191,6 +191,8 @@ split:
   `state/evidence/control/execution/**`
 - mission continuity:
   `state/continuity/repo/missions/<mission-id>/**`
+- freshness-bounded effective mission routing:
+  `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
 - derived mission/operator read models:
   `generated/cognition/summaries/{missions,operators}/**`
 

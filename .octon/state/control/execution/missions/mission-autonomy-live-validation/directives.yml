@@ -1,0 +1,4 @@
+schema_version: "control-directive-v1"
+mission_id: "mission-autonomy-live-validation"
+revision: 1
+directives: []

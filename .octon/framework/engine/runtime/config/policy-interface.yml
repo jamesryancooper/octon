@@ -15,6 +15,7 @@ paths:
   execution_exception_leases: ".octon/state/control/execution/exception-leases.yml"
   mission_control_root: ".octon/state/control/execution/missions"
   control_receipt_root: ".octon/state/evidence/control/execution"
+  mission_effective_route_root: ".octon/generated/effective/orchestration/missions"
 
 exit_codes:
   allow: 0

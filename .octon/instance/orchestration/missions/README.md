@@ -42,6 +42,8 @@ for durable mission definitions and mission-scoped orchestration artifacts.
   `state/control/execution/missions/<mission-id>/**`
 - mission-local retained control evidence belongs under
   `state/evidence/control/execution/**`
+- mission-local effective scenario routing belongs under
+  `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
 - mission-local retained execution evidence belongs under
   `state/evidence/runs/**`
 - mission-local continuity belongs under

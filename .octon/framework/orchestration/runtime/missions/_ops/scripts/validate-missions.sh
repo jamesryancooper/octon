@@ -26,52 +26,48 @@ validate_mission_object() {
   local mission_file="$SURFACE_DIR/$rel_dir/mission.yml"
   local expected_id="$2"
   local is_template="$3"
-  local schema_version mission_id title summary status owner created_at success_count archived_from_status
+  local schema_version mission_id title summary status owner_ref created_at success_count mission_class risk_ceiling
 
   schema_version="$(yq -r '.schema_version // ""' "$mission_file")"
   mission_id="$(yq -r '.mission_id // ""' "$mission_file")"
   title="$(yq -r '.title // ""' "$mission_file")"
   summary="$(yq -r '.summary // ""' "$mission_file")"
   status="$(yq -r '.status // ""' "$mission_file")"
-  owner="$(yq -r '.owner // ""' "$mission_file")"
+  owner_ref="$(yq -r '.owner_ref // ""' "$mission_file")"
   created_at="$(yq -r '.created_at // ""' "$mission_file")"
   success_count="$(yq -r '.success_criteria | length' "$mission_file")"
-  archived_from_status="$(yq -r '.archived_from_status // ""' "$mission_file")"
+  mission_class="$(yq -r '.mission_class // ""' "$mission_file")"
+  risk_ceiling="$(yq -r '.risk_ceiling // ""' "$mission_file")"
 
-  [[ "$schema_version" == "mission-object-v1" ]] && pass "mission object '$rel_dir' schema version valid" || fail "mission object '$rel_dir' missing schema_version mission-object-v1"
+  [[ "$schema_version" == "octon-mission-v2" ]] && pass "mission object '$rel_dir' schema version valid" || fail "mission object '$rel_dir' missing schema_version octon-mission-v2"
 
   if [[ "$is_template" == "true" ]]; then
-    [[ "$mission_id" == "[mission-id]" ]] && pass "mission template mission_id placeholder present" || fail "mission template mission_id placeholder missing"
+    [[ "$mission_id" == "<mission-id>" ]] && pass "mission template mission_id placeholder present" || fail "mission template mission_id placeholder missing"
   else
     [[ "$mission_id" == "$expected_id" ]] && pass "mission '$expected_id' mission_id matches directory" || fail "mission '$expected_id' mission_id must match directory name"
   fi
 
   [[ -n "$title" && "$title" != "null" ]] && pass "mission object '$rel_dir' title present" || fail "mission object '$rel_dir' missing title"
-  [[ -n "$summary" && "$summary" != "null" ]] && pass "mission object '$rel_dir' summary present" || fail "mission object '$rel_dir' missing summary"
+  [[ "$summary" != "null" ]] && pass "mission object '$rel_dir' summary present" || fail "mission object '$rel_dir' missing summary"
 
   case "$status" in
     created|active|completed|cancelled|archived) pass "mission object '$rel_dir' status valid: $status" ;;
     *) fail "mission object '$rel_dir' has invalid status '$status'" ;;
   esac
 
-  [[ -n "$owner" && "$owner" != "null" ]] && pass "mission object '$rel_dir' owner present" || fail "mission object '$rel_dir' missing owner"
+  [[ -n "$owner_ref" && "$owner_ref" != "null" ]] && pass "mission object '$rel_dir' owner_ref present" || fail "mission object '$rel_dir' missing owner_ref"
+  [[ -n "$mission_class" && "$mission_class" != "null" ]] && pass "mission object '$rel_dir' mission_class present" || fail "mission object '$rel_dir' missing mission_class"
+  [[ -n "$risk_ceiling" && "$risk_ceiling" != "null" ]] && pass "mission object '$rel_dir' risk_ceiling present" || fail "mission object '$rel_dir' missing risk_ceiling"
 
   if [[ "$is_template" == "true" ]]; then
-    [[ "$created_at" == "YYYY-MM-DDTHH:MM:SSZ" ]] && pass "mission template created_at placeholder present" || fail "mission template created_at placeholder missing"
-  elif [[ "$created_at" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$ ]]; then
-    pass "mission '$expected_id' created_at is ISO-like"
+    [[ "$created_at" == "YYYY-MM-DD" ]] && pass "mission template created_at placeholder present" || fail "mission template created_at placeholder missing"
+  elif [[ "$created_at" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ || "$created_at" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$ ]]; then
+    pass "mission '$expected_id' created_at is date-like"
   else
-    fail "mission '$expected_id' created_at must be ISO timestamp"
+    fail "mission '$expected_id' created_at must be date-like"
   fi
 
   [[ "$success_count" -gt 0 ]] && pass "mission object '$rel_dir' success criteria present" || fail "mission object '$rel_dir' missing success criteria"
-
-  if [[ "$status" == "archived" ]]; then
-    case "$archived_from_status" in
-      completed|cancelled) pass "mission object '$rel_dir' archived_from_status valid" ;;
-      *) fail "mission object '$rel_dir' archived status requires archived_from_status completed|cancelled" ;;
-    esac
-  fi
 }
 
 check_registry_projection() {

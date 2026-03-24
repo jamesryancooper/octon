@@ -1,0 +1,11 @@
+schema_version: "subscriptions-v1"
+mission_id: "mission-autonomy-live-validation"
+owners:
+  - "operator://octon-maintainers"
+watchers: []
+digest_recipients:
+  - "operator://octon-maintainers"
+alert_recipients:
+  - "operator://octon-maintainers"
+routing_policy_ref: ".octon/instance/governance/ownership/registry.yml"
+last_routing_evaluation_at: "2026-03-24T16:49:15Z"

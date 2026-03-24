@@ -11,8 +11,13 @@
     "execution_posture",
     "safety_state",
     "phase",
-    "autonomy_budget_state",
-    "breaker_state"
+    "active_run_ref",
+    "current_slice_ref",
+    "next_safe_interrupt_boundary_id",
+    "effective_scenario_resolution_ref",
+    "autonomy_burn_state",
+    "breaker_state",
+    "updated_at"
   ],
   "properties": {
     "schema_version": { "const": "mode-state-v1" },
@@ -21,10 +26,12 @@
     "execution_posture": { "type": "string", "enum": ["one_shot", "continuous", "interruptible_scheduled"] },
     "safety_state": { "type": "string", "enum": ["active", "paused", "degraded", "safe", "break_glass"] },
     "phase": { "type": "string", "enum": ["planning", "staging", "promoting", "running", "recovering", "finalizing", "closed"] },
-    "active_run_id": { "type": ["string", "null"] },
-    "current_slice_id": { "type": ["string", "null"] },
-    "next_safe_interrupt_boundary": { "type": ["string", "null"] },
-    "autonomy_budget_state": { "type": "string", "enum": ["healthy", "warning", "exhausted"] },
-    "breaker_state": { "type": "string", "minLength": 1 }
+    "active_run_ref": { "type": ["object", "null"] },
+    "current_slice_ref": { "type": ["object", "null"] },
+    "next_safe_interrupt_boundary_id": { "type": ["string", "null"] },
+    "effective_scenario_resolution_ref": { "type": ["string", "null"] },
+    "autonomy_burn_state": { "type": "string", "enum": ["healthy", "warning", "exhausted"] },
+    "breaker_state": { "type": "string", "minLength": 1 },
+    "updated_at": { "type": "string", "minLength": 1 }
   }
 }

@@ -1,9 +1,21 @@
-schema_version: "octon-mission-v1"
+schema_version: "octon-mission-v2"
 mission_id: "<mission-id>"
 title: "Mission: <mission-id>"
 summary: ""
 status: "created"
-owner: null
+mission_class: "maintenance"
+owner_ref: "operator://<owner-id>"
 created_at: "YYYY-MM-DD"
+risk_ceiling: "ACP-2"
+allowed_action_classes:
+  - "repo-maintenance"
+default_safing_subset:
+  - "observe_only"
+  - "stage_only"
+default_schedule_hint: "interruptible_scheduled"
+default_overlap_policy: "skip"
 scope_ids: []
-success_criteria: []
+success_criteria:
+  - "<explicit-success-check>"
+failure_conditions: []
+notes_ref: "mission.md"

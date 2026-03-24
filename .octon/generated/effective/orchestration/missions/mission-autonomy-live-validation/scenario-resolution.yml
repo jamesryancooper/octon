@@ -1,0 +1,62 @@
+schema_version: "scenario-resolution-v1"
+mission_id: "mission-autonomy-live-validation"
+source_refs:
+  mission_charter: ".octon/instance/orchestration/missions/mission-autonomy-live-validation/mission.yml"
+  mission_autonomy_policy: ".octon/instance/governance/policies/mission-autonomy.yml"
+  ownership_registry: ".octon/instance/governance/ownership/registry.yml"
+  deny_by_default_policy: ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
+  root_manifest: ".octon/octon.yml"
+  lease: ".octon/state/control/execution/missions/mission-autonomy-live-validation/lease.yml"
+  mode_state: ".octon/state/control/execution/missions/mission-autonomy-live-validation/mode-state.yml"
+  intent_register: ".octon/state/control/execution/missions/mission-autonomy-live-validation/intent-register.yml"
+  directives: ".octon/state/control/execution/missions/mission-autonomy-live-validation/directives.yml"
+  schedule: ".octon/state/control/execution/missions/mission-autonomy-live-validation/schedule.yml"
+  autonomy_budget: ".octon/state/control/execution/missions/mission-autonomy-live-validation/autonomy-budget.yml"
+  circuit_breakers: ".octon/state/control/execution/missions/mission-autonomy-live-validation/circuit-breakers.yml"
+  subscriptions: ".octon/state/control/execution/missions/mission-autonomy-live-validation/subscriptions.yml"
+effective:
+  scenario_family: "maintenance"
+  oversight_mode: "notify"
+  execution_posture: "interruptible_scheduled"
+  preview_policy:
+    lead: "PT24H"
+    source: "mission-autonomy-policy"
+  feedback_window_required: false
+  proceed_on_silence_allowed: false
+  approval_required: false
+  safe_interrupt_boundary_class: "task_boundary"
+  overlap_policy: "skip"
+  backfill_policy: "latest_only"
+  pause_on_failure:
+    enabled: true
+    triggers:
+      - "rollback_path_failure"
+      - "breaker_trip"
+      - "missing_observability_on_risky_work"
+      - "repeated_promote_denials_same_slice_class"
+      - "out_of_blast_radius_side_effect"
+      - "control_surface_corruption"
+  digest_route: "preview_plus_closure_digest"
+  alert_route: "owners-first-digest"
+  required_quorum: "1"
+  recovery_profile:
+    action_class: "service.execute"
+    predicted_acp: "ACP-1"
+    reversibility_class: "reversible"
+    primitive: "git.revert_commit"
+    rollback_handle_type: "git-commit"
+    recovery_window: "P14D"
+  finalize_policy:
+    approval_required: false
+    block_finalize: false
+    break_glass_required: false
+  safing_subset:
+    - "observe_only"
+    - "stage_only"
+rationale:
+  - "mission class drives the scenario family"
+  - "mission-autonomy defaults provide oversight, scheduling, digest, and safing baselines"
+  - "deny-by-default ACP policy contributes reversibility and recovery defaults for the active action class"
+  - "live control state tightens proceed-on-silence and finalize behavior"
+generated_at: "2026-03-24T16:49:34Z"
+fresh_until: "2026-03-24T17:04:34Z"

@@ -357,6 +357,10 @@ run_mission_autonomy() {
     bash "$SCRIPT_DIR/validate-mission-control-evidence.sh"
 
   run_step \
+    "Validate effective mission scenario routes" \
+    bash "$SCRIPT_DIR/validate-mission-effective-routes.sh"
+
+  run_step \
     "Validate generated mission and operator summaries" \
     bash "$SCRIPT_DIR/validate-mission-generated-summaries.sh"
 

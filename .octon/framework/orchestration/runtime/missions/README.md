@@ -73,7 +73,10 @@ Missions roll up to harness-level progress but maintain their own isolated track
 
 ## Optional Linkage Fields
 
-`mission.yml` may also carry optional linkage fields:
+`mission.yml` uses `octon-mission-v2` with required `owner_ref`,
+`mission_class`, `risk_ceiling`, action-class, safing, and scope fields.
+
+It may also carry optional linkage fields:
 
 - `campaign_id`
 - `default_workflow_refs`

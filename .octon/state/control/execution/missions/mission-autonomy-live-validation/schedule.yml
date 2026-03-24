@@ -1,0 +1,23 @@
+schema_version: "schedule-control-v1"
+mission_id: "mission-autonomy-live-validation"
+schedule_source: "mission-autonomy-policy"
+cadence_or_trigger: "interruptible_scheduled"
+next_planned_run_at: null
+suspended_future_runs: false
+pause_active_run_requested: true
+overlap_policy: "skip"
+backfill_policy: "latest_only"
+pause_on_failure_rules:
+  enabled: true
+  triggers:
+    - "rollback_path_failure"
+    - "breaker_trip"
+    - "missing_observability_on_risky_work"
+    - "repeated_promote_denials_same_slice_class"
+    - "out_of_blast_radius_side_effect"
+    - "control_surface_corruption"
+preview_lead: null
+feedback_window_default: null
+quiet_hours: null
+digest_route_override: null
+last_schedule_mutation_ref: null

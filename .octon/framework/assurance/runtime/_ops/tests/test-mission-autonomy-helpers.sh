@@ -6,6 +6,7 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$DEFAULT_OCTON_DIR/.." && pwd)"
 SEED_SCRIPT="$ROOT_DIR/.octon/framework/orchestration/runtime/_ops/scripts/seed-mission-autonomy-state.sh"
 CLOSE_SCRIPT="$ROOT_DIR/.octon/framework/orchestration/runtime/_ops/scripts/close-mission-autonomy-state.sh"
+ROUTE_SCRIPT="$ROOT_DIR/.octon/framework/orchestration/runtime/_ops/scripts/publish-mission-effective-route.sh"
 
 fixture_root="$(mktemp -d)"
 cleanup_fixture() {
@@ -16,7 +17,16 @@ trap cleanup_fixture EXIT
 
 mkdir -p "$fixture_root/.octon/instance/orchestration/missions/demo"
 mkdir -p "$fixture_root/.octon/instance/governance/policies"
+mkdir -p "$fixture_root/.octon/instance/governance/ownership"
+mkdir -p "$fixture_root/.octon/framework/capabilities/governance/policy"
 mkdir -p "$fixture_root/.octon/state/evidence/control/execution"
+
+cat > "$fixture_root/.octon/octon.yml" <<'EOF'
+schema_version: octon-root-manifest-v2
+versioning:
+  harness:
+    release_version: 0.6.0
+EOF
 
 cat > "$fixture_root/.octon/instance/orchestration/missions/demo/mission.yml" <<'EOF'
 schema_version: "octon-mission-v2"
@@ -66,7 +76,27 @@ quorum: {}
 safing_defaults: {}
 EOF
 
+cat > "$fixture_root/.octon/instance/governance/ownership/registry.yml" <<'EOF'
+schema_version: "ownership-registry-v1"
+directive_precedence:
+  - "break_glass_or_kill_switch"
+  - "mission_owner"
+  - "ownership_registry"
+  - "codeowners"
+  - "subscribers"
+operators: []
+assets: []
+services: []
+subscriptions:
+  default_routes:
+    - "mission_owner"
+EOF
+
+cp "$ROOT_DIR/.octon/framework/capabilities/governance/policy/deny-by-default.v2.yml" \
+  "$fixture_root/.octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
+
 OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" bash "$SEED_SCRIPT" --mission-id demo --issued-by operator://seed-tester
+OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" bash "$ROUTE_SCRIPT" --mission-id demo >/dev/null
 
 test -f "$fixture_root/.octon/state/control/execution/missions/demo/lease.yml"
 test -f "$fixture_root/.octon/state/control/execution/missions/demo/mode-state.yml"
@@ -78,9 +108,10 @@ test -f "$fixture_root/.octon/state/control/execution/missions/demo/circuit-brea
 test -f "$fixture_root/.octon/state/control/execution/missions/demo/subscriptions.yml"
 test -f "$fixture_root/.octon/state/continuity/repo/missions/demo/next-actions.yml"
 test -f "$fixture_root/.octon/state/continuity/repo/missions/demo/handoff.md"
+test -f "$fixture_root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
 find "$fixture_root/.octon/state/evidence/control/execution" -type f -name '*.yml' | grep -q .
 
 OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" bash "$CLOSE_SCRIPT" --mission-id demo --issued-by operator://close-tester --final-status completed
 
-grep -q 'status: "revoked"' "$fixture_root/.octon/state/control/execution/missions/demo/lease.yml"
+grep -q 'state: "revoked"' "$fixture_root/.octon/state/control/execution/missions/demo/lease.yml"
 grep -q 'phase: "closed"' "$fixture_root/.octon/state/control/execution/missions/demo/mode-state.yml"

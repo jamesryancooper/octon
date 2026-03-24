@@ -1,13 +1,21 @@
-schema_version: "mission-object-v1"
-mission_id: "[mission-id]"
-title: "Mission: [mission-id]"
-summary: "[One paragraph describing the bounded objective of this mission.]"
+schema_version: "octon-mission-v2"
+mission_id: "<mission-id>"
+title: "Mission: <mission-id>"
+summary: ""
 status: "created"
-owner: "[owner]"
-created_at: "YYYY-MM-DDTHH:MM:SSZ"
+mission_class: "maintenance"
+owner_ref: "operator://<owner-id>"
+created_at: "YYYY-MM-DD"
+risk_ceiling: "ACP-2"
+allowed_action_classes:
+  - "repo-maintenance"
+default_safing_subset:
+  - "observe_only"
+  - "stage_only"
+default_schedule_hint: "interruptible_scheduled"
+default_overlap_policy: "skip"
+scope_ids: []
 success_criteria:
-  - "[Explicit completion check 1]"
-default_workflow_refs: []
-active_run_ids: []
-recent_run_ids: []
-related_run_ids: []
+  - "<explicit-success-check>"
+failure_conditions: []
+notes_ref: "mission.md"

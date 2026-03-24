@@ -1,0 +1,6 @@
+schema_version: "mission-next-actions-v1"
+mission_id: "mission-autonomy-live-validation"
+next_actions:
+  - "Inspect the mission control family, effective route, and generated summaries for mission-autonomy-live-validation."
+  - "Keep the continuation lease paused unless an intentional live rehearsal is requested."
+  - "Use authorize-update or closeout helpers rather than manual edits for break-glass and closure scenarios."

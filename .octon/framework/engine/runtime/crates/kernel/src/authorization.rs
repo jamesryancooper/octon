@@ -205,6 +205,12 @@ pub struct GrantBundle {
     #[serde(default)]
     pub budget: Option<BudgetMetadata>,
     #[serde(default)]
+    pub rollback_handle: Option<String>,
+    #[serde(default)]
+    pub compensation_handle: Option<String>,
+    #[serde(default)]
+    pub recovery_window: Option<String>,
+    #[serde(default)]
     pub autonomy_budget_state: Option<String>,
     #[serde(default)]
     pub breaker_state: Option<String>,
@@ -424,7 +430,10 @@ struct MissionCharterRecord {
 
 #[derive(Debug, Clone, Default, Deserialize)]
 struct MissionLeaseRecord {
-    status: String,
+    #[serde(default)]
+    state: String,
+    #[serde(default)]
+    expires_at: String,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -432,12 +441,21 @@ struct MissionAutonomyBudgetRecord {
     state: String,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone, Default, Deserialize)]
 struct MissionModeStateRecord {
     #[serde(default)]
     oversight_mode: String,
     #[serde(default)]
     execution_posture: String,
+    #[serde(default)]
+    safety_state: String,
+    #[serde(default)]
+    phase: String,
+    #[serde(default)]
+    effective_scenario_resolution_ref: Option<String>,
+    #[serde(default)]
+    autonomy_burn_state: String,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -448,13 +466,81 @@ struct MissionCircuitBreakersRecord {
     tripped_breakers: Vec<String>,
 }
 
+#[derive(Debug, Clone, Default, Deserialize)]
+struct MissionScheduleRecord {
+    #[serde(default)]
+    suspended_future_runs: bool,
+    #[serde(default)]
+    pause_active_run_requested: bool,
+}
+
+#[allow(dead_code)]
+#[derive(Debug, Clone, Default, Deserialize)]
+struct ScenarioResolutionRecord {
+    #[serde(default)]
+    mission_id: String,
+    #[serde(default)]
+    generated_at: String,
+    #[serde(default)]
+    fresh_until: String,
+    #[serde(default)]
+    effective: ScenarioResolutionEffective,
+}
+
+#[allow(dead_code)]
+#[derive(Debug, Clone, Default, Deserialize)]
+struct ScenarioResolutionEffective {
+    #[serde(default)]
+    oversight_mode: String,
+    #[serde(default)]
+    execution_posture: String,
+    #[serde(default)]
+    proceed_on_silence_allowed: bool,
+    #[serde(default)]
+    approval_required: bool,
+    #[serde(default)]
+    safe_interrupt_boundary_class: String,
+    #[serde(default)]
+    recovery_profile: ScenarioRecoveryProfile,
+    #[serde(default)]
+    finalize_policy: ScenarioFinalizePolicy,
+}
+
+#[allow(dead_code)]
+#[derive(Debug, Clone, Default, Deserialize)]
+struct ScenarioRecoveryProfile {
+    #[serde(default)]
+    action_class: String,
+    #[serde(default)]
+    primitive: String,
+    #[serde(default)]
+    rollback_handle_type: String,
+    #[serde(default)]
+    recovery_window: String,
+    #[serde(default)]
+    reversibility_class: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct ScenarioFinalizePolicy {
+    #[serde(default)]
+    approval_required: bool,
+    #[serde(default)]
+    block_finalize: bool,
+    #[serde(default)]
+    break_glass_required: bool,
+}
+
 #[derive(Debug, Clone)]
 struct ResolvedAutonomyState {
     context: AutonomyContext,
+    action_class: String,
+    rollback_handle: Option<String>,
+    compensation_handle: Option<String>,
+    recovery_window: String,
+    reversibility_primitive: Option<String>,
     autonomy_budget_state: String,
     breaker_state: String,
-    rollback_handle: String,
-    recovery_window: String,
 }
 
 fn mission_denial(message: impl Into<String>, reason_codes: Vec<&str>) -> KernelError {
@@ -502,6 +588,15 @@ fn ensure_file_exists(path: &Path, reason_code: &str) -> CoreResult<()> {
             vec![reason_code],
         ))
     }
+}
+
+fn parse_rfc3339(raw: &str) -> CoreResult<time::OffsetDateTime> {
+    time::OffsetDateTime::parse(raw, &time::format_description::well_known::Rfc3339).map_err(|e| {
+        KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!("failed to parse RFC3339 timestamp '{raw}': {e}"),
+        )
+    })
 }
 
 fn resolve_autonomy_state(
@@ -554,6 +649,11 @@ fn resolve_autonomy_state(
     let autonomy_budget_path = control_dir.join("autonomy-budget.yml");
     let circuit_breakers_path = control_dir.join("circuit-breakers.yml");
     let subscriptions_path = control_dir.join("subscriptions.yml");
+    let scenario_resolution_path = cfg
+        .octon_dir
+        .join("generated/effective/orchestration/missions")
+        .join(&mission_id)
+        .join("scenario-resolution.yml");
 
     for (path, reason_code) in [
         (&charter_path, "MISSION_CHARTER_MISSING"),
@@ -569,6 +669,12 @@ fn resolve_autonomy_state(
         (&subscriptions_path, "MISSION_SUBSCRIPTIONS_MISSING")
     ] {
         ensure_file_exists(path, reason_code)?;
+    }
+    if !scenario_resolution_path.is_file() {
+        return Err(mission_stage_only(
+            "mission scenario resolution is missing",
+            vec!["MISSION_SCENARIO_RESOLUTION_MISSING", "ACP_STAGE_ONLY_REQUIRED"],
+        ));
     }
 
     let charter: MissionCharterRecord = read_yaml_file(&charter_path)?;
@@ -586,7 +692,15 @@ fn resolve_autonomy_state(
     }
 
     let lease: MissionLeaseRecord = read_yaml_file(&lease_path)?;
-    match lease.status.as_str() {
+    if !lease.expires_at.trim().is_empty()
+        && parse_rfc3339(&lease.expires_at)? <= time::OffsetDateTime::now_utc()
+    {
+        return Err(mission_denial(
+            "mission continuation lease has expired",
+            vec!["MISSION_LEASE_EXPIRED"],
+        ));
+    }
+    match lease.state.as_str() {
         "active" => {}
         "paused" => {
             return Err(mission_stage_only(
@@ -610,21 +724,64 @@ fn resolve_autonomy_state(
 
     let autonomy_budget: MissionAutonomyBudgetRecord = read_yaml_file(&autonomy_budget_path)?;
     let mode_state: MissionModeStateRecord = read_yaml_file(&mode_state_path)?;
+    let schedule_state: MissionScheduleRecord = read_yaml_file(&schedule_path)?;
     let breaker_record: MissionCircuitBreakersRecord = read_yaml_file(&circuit_breakers_path)?;
+    let scenario_resolution: ScenarioResolutionRecord = read_yaml_file(&scenario_resolution_path)?;
+    if scenario_resolution.mission_id != mission_id {
+        return Err(mission_denial(
+            "scenario resolution mission_id does not match autonomy_context mission_ref",
+            vec!["MISSION_SCENARIO_RESOLUTION_MISMATCH"],
+        ));
+    }
+    if scenario_resolution.fresh_until.trim().is_empty() {
+        return Err(mission_stage_only(
+            "mission scenario resolution is missing freshness metadata",
+            vec!["MISSION_SCENARIO_RESOLUTION_STALE", "ACP_STAGE_ONLY_REQUIRED"],
+        ));
+    }
+    if parse_rfc3339(&scenario_resolution.fresh_until)? <= time::OffsetDateTime::now_utc() {
+        return Err(mission_stage_only(
+            "mission scenario resolution is stale",
+            vec!["MISSION_SCENARIO_RESOLUTION_STALE", "ACP_STAGE_ONLY_REQUIRED"],
+        ));
+    }
     let breaker_state = breaker_record
         .state
         .clone()
-        .unwrap_or_else(|| if breaker_record.tripped_breakers.is_empty() { "healthy".to_string() } else { "tripped".to_string() });
+        .unwrap_or_else(|| if breaker_record.tripped_breakers.is_empty() { "clear".to_string() } else { "tripped".to_string() });
 
     let mut context = context;
-    if !mode_state.oversight_mode.trim().is_empty() {
-        context.oversight_mode = mode_state.oversight_mode;
+    if !scenario_resolution.effective.oversight_mode.trim().is_empty() {
+        context.oversight_mode = scenario_resolution.effective.oversight_mode.clone();
+    } else if !mode_state.oversight_mode.trim().is_empty() {
+        context.oversight_mode = mode_state.oversight_mode.clone();
     }
-    if !mode_state.execution_posture.trim().is_empty() {
-        context.execution_posture = mode_state.execution_posture;
+    if !scenario_resolution.effective.execution_posture.trim().is_empty() {
+        context.execution_posture = scenario_resolution.effective.execution_posture.clone();
+    } else if !mode_state.execution_posture.trim().is_empty() {
+        context.execution_posture = mode_state.execution_posture.clone();
+    }
+    let autonomy_budget_state = if !mode_state.autonomy_burn_state.trim().is_empty() {
+        mode_state.autonomy_burn_state.clone()
+    } else {
+        autonomy_budget.state.clone()
+    };
+    if schedule_state.suspended_future_runs {
+        return Err(mission_stage_only(
+            "mission schedule has suspended future runs",
+            vec!["MISSION_SCHEDULE_SUSPENDED", "ACP_STAGE_ONLY_REQUIRED"],
+        ));
+    }
+    if schedule_state.pause_active_run_requested {
+        return Err(mission_stage_only(
+            "mission schedule requests pause at the next safe boundary",
+            vec!["MISSION_SCHEDULE_PAUSE_REQUESTED", "ACP_STAGE_ONLY_REQUIRED"],
+        ));
     }
 
-    if context.oversight_mode == "approval_required"
+    if (scenario_resolution.effective.approval_required
+        || scenario_resolution.effective.finalize_policy.approval_required
+        || scenario_resolution.effective.finalize_policy.break_glass_required)
         && !std::env::var("OCTON_EXECUTION_HUMAN_APPROVED")
             .unwrap_or_default()
             .eq_ignore_ascii_case("true")
@@ -636,25 +793,90 @@ fn resolve_autonomy_state(
     }
 
     if context.oversight_mode == "proceed_on_silence" {
-        if !matches!(context.reversibility_class.as_str(), "reversible" | "compensable") {
+        if !scenario_resolution.effective.proceed_on_silence_allowed {
             return Err(mission_stage_only(
-                "proceed_on_silence is allowed only for reversible or compensable slices",
-                vec!["MISSION_PROCEED_ON_SILENCE_NOT_ALLOWED", "ACP_STAGE_ONLY_REQUIRED"],
-            ));
-        }
-        if autonomy_budget.state != "healthy" || breaker_state != "healthy" {
-            return Err(mission_stage_only(
-                "proceed_on_silence is blocked by autonomy burn or breaker state",
+                "proceed_on_silence is blocked by effective scenario routing",
                 vec!["MISSION_PROCEED_ON_SILENCE_BLOCKED", "ACP_STAGE_ONLY_REQUIRED"],
             ));
         }
     }
+    if scenario_resolution.effective.finalize_policy.block_finalize
+        && (request.action_type.contains("finalize")
+            || context.reversibility_class == "irreversible")
+    {
+        return Err(mission_stage_only(
+            "mission finalize policy is currently blocking irreversible progression",
+            vec!["MISSION_FINALIZE_BLOCKED", "ACP_STAGE_ONLY_REQUIRED"],
+        ));
+    }
+    let action_class = if scenario_resolution
+        .effective
+        .recovery_profile
+        .action_class
+        .trim()
+        .is_empty()
+    {
+        "service.execute".to_string()
+    } else {
+        scenario_resolution.effective.recovery_profile.action_class.clone()
+    };
+    let recovery_window = scenario_resolution.effective.recovery_profile.recovery_window.clone();
+    if recovery_window.trim().is_empty() {
+        return Err(mission_stage_only(
+            "mission route could not derive recovery metadata for material work",
+            vec!["MISSION_RECOVERY_METADATA_MISSING", "ACP_STAGE_ONLY_REQUIRED"],
+        ));
+    }
+    let primitive = if scenario_resolution
+        .effective
+        .recovery_profile
+        .primitive
+        .trim()
+        .is_empty()
+    {
+        None
+    } else {
+        Some(scenario_resolution.effective.recovery_profile.primitive.clone())
+    };
+    let rollback_handle = if context.reversibility_class == "reversible" {
+        let rollback_handle_prefix = if scenario_resolution
+            .effective
+            .recovery_profile
+            .rollback_handle_type
+            .trim()
+            .is_empty()
+        {
+            "rollback"
+        } else {
+            scenario_resolution
+                .effective
+                .recovery_profile
+                .rollback_handle_type
+                .trim()
+        };
+        Some(format!(
+            "{}-{}-{}",
+            rollback_handle_prefix,
+            mission_id,
+            context.slice_ref.id
+        ))
+    } else {
+        None
+    };
+    let compensation_handle = if context.reversibility_class == "compensable" {
+        Some(format!("compensate-{}-{}", mission_id, context.slice_ref.id))
+    } else {
+        None
+    };
 
     Ok(Some(ResolvedAutonomyState {
-        rollback_handle: format!("rollback-{}-{}", mission_id, context.slice_ref.id),
-        recovery_window: "PT72H".to_string(),
         context,
-        autonomy_budget_state: autonomy_budget.state,
+        action_class,
+        rollback_handle,
+        compensation_handle,
+        recovery_window,
+        reversibility_primitive: primitive,
+        autonomy_budget_state,
         breaker_state,
     }))
 }
@@ -1040,6 +1262,15 @@ pub fn authorize_execution(
         policy_digest_path: policy_artifacts.digest_path,
         instruction_manifest_path: policy_artifacts.instruction_manifest_path,
         budget,
+        rollback_handle: autonomy_state
+            .as_ref()
+            .and_then(|state| state.rollback_handle.clone()),
+        compensation_handle: autonomy_state
+            .as_ref()
+            .and_then(|state| state.compensation_handle.clone()),
+        recovery_window: autonomy_state
+            .as_ref()
+            .map(|state| state.recovery_window.clone()),
         autonomy_budget_state: autonomy_state
             .as_ref()
             .map(|state| state.autonomy_budget_state.clone()),
@@ -1144,15 +1375,9 @@ pub fn finalize_execution(
             .autonomy_context
             .as_ref()
             .map(|context| context.boundary_id.clone()),
-        rollback_handle: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| format!("rollback-{}-{}", context.mission_ref.id, context.slice_ref.id)),
-        compensation_handle: None,
-        recovery_window: grant
-            .autonomy_context
-            .as_ref()
-            .map(|_| "PT72H".to_string()),
+        rollback_handle: grant.rollback_handle.clone(),
+        compensation_handle: grant.compensation_handle.clone(),
+        recovery_window: grant.recovery_window.clone(),
         autonomy_budget_state: grant.autonomy_budget_state.clone(),
         breaker_state: grant.breaker_state.clone(),
         applied_directive_refs: grant
@@ -1619,7 +1844,9 @@ fn build_policy_request_json(
         .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to serialize execution request: {e}")))?;
     let service_mode = request.caller_path == "service";
     let operation_class = if service_mode {
-        "service.execute"
+        autonomy_state
+            .map(|state| state.action_class.as_str())
+            .unwrap_or("service.execute")
     } else {
         "execution.authorize"
     };
@@ -1698,10 +1925,24 @@ fn build_policy_request_json(
         "slice_ref": autonomy_state.as_ref().map(|state| json!(state.context.slice_ref.clone())).unwrap_or(serde_json::Value::Null),
         "reversibility": {
             "reversible": autonomy_state.as_ref().map(|state| state.context.reversibility_class.as_str() != "irreversible").unwrap_or(true),
-            "primitive": "git.revert_commit",
-            "rollback_handle": autonomy_state.as_ref().map(|state| state.rollback_handle.clone()).unwrap_or_else(|| format!("rollback-{}", request.request_id)),
-            "compensation_handle": serde_json::Value::Null,
-            "recovery_window": autonomy_state.as_ref().map(|state| state.recovery_window.clone()).unwrap_or_else(|| "P14D".to_string())
+            "primitive": autonomy_state
+                .as_ref()
+                .and_then(|state| state.reversibility_primitive.clone())
+                .map(serde_json::Value::String)
+                .unwrap_or(serde_json::Value::Null),
+            "rollback_handle": autonomy_state
+                .as_ref()
+                .and_then(|state| state.rollback_handle.clone())
+                .unwrap_or_else(|| format!("rollback-{}", request.request_id)),
+            "compensation_handle": autonomy_state
+                .as_ref()
+                .and_then(|state| state.compensation_handle.clone())
+                .map(serde_json::Value::String)
+                .unwrap_or(serde_json::Value::Null),
+            "recovery_window": autonomy_state
+                .as_ref()
+                .map(|state| state.recovery_window.clone())
+                .unwrap_or_else(|| "P14D".to_string())
         },
         "evidence": if service_mode {
             json!([
@@ -2067,12 +2308,17 @@ mod tests {
             .join("instance/orchestration/missions")
             .join(mission_id);
         let control_dir = cfg.execution_control_root.join("missions").join(mission_id);
+        let effective_dir = cfg
+            .octon_dir
+            .join("generated/effective/orchestration/missions")
+            .join(mission_id);
         fs::create_dir_all(&mission_dir).expect("create mission dir");
         fs::create_dir_all(cfg.octon_dir.join("instance/governance/policies"))
             .expect("create mission policy dir");
         fs::create_dir_all(cfg.octon_dir.join("instance/governance/ownership"))
             .expect("create ownership dir");
         fs::create_dir_all(&control_dir).expect("create control dir");
+        fs::create_dir_all(&effective_dir).expect("create effective route dir");
         fs::write(
             cfg.octon_dir.join("instance/orchestration/missions/registry.yml"),
             format!("schema_version: \"octon-mission-registry-v2\"\nactive:\n  - {mission_id}\narchived: []\n"),
@@ -2097,49 +2343,80 @@ mod tests {
         .expect("write ownership registry");
         fs::write(
             control_dir.join("lease.yml"),
-            format!("schema_version: \"mission-control-lease-v1\"\nmission_id: \"{mission_id}\"\nlease_id: \"lease-1\"\nstatus: \"active\"\ngranted_by: \"operator://test\"\ngranted_at: \"2026-03-23T00:00:00Z\"\nexpires_at: \"2026-03-24T00:00:00Z\"\nmax_concurrent_runs: 1\nallowed_action_classes:\n  - \"repo-maintenance\"\ndefault_safing_subset:\n  - \"observe_only\"\n  - \"stage_only\"\n"),
+            format!("schema_version: \"mission-control-lease-v1\"\nmission_id: \"{mission_id}\"\nlease_id: \"lease-1\"\nstate: \"active\"\nissued_by: \"operator://test\"\nissued_at: \"2026-03-23T00:00:00Z\"\nexpires_at: \"2099-03-24T00:00:00Z\"\ncontinuation_scope:\n  summary: \"Fixture continuation\"\n  allowed_execution_postures:\n    - \"continuous\"\n  max_concurrent_runs: 1\n  allowed_action_classes:\n    - \"repo-maintenance\"\n  default_safing_subset:\n    - \"observe_only\"\n    - \"stage_only\"\nrevocation_reason: null\nlast_reviewed_at: \"2026-03-23T00:00:00Z\"\n"),
         )
         .expect("write lease");
         fs::write(
             control_dir.join("mode-state.yml"),
-            format!("schema_version: \"mode-state-v1\"\nmission_id: \"{mission_id}\"\noversight_mode: \"feedback_window\"\nexecution_posture: \"continuous\"\nsafety_state: \"active\"\nphase: \"planning\"\nautonomy_budget_state: \"{budget_state}\"\nbreaker_state: \"healthy\"\n"),
+            format!("schema_version: \"mode-state-v1\"\nmission_id: \"{mission_id}\"\noversight_mode: \"feedback_window\"\nexecution_posture: \"continuous\"\nsafety_state: \"active\"\nphase: \"planning\"\nactive_run_ref: null\ncurrent_slice_ref: null\nnext_safe_interrupt_boundary_id: null\neffective_scenario_resolution_ref: null\nautonomy_burn_state: \"{budget_state}\"\nbreaker_state: \"clear\"\nupdated_at: \"2026-03-23T00:00:00Z\"\n"),
         )
         .expect("write mode state");
         fs::write(
             control_dir.join("intent-register.yml"),
-            format!("schema_version: \"intent-register-v1\"\nmission_id: \"{mission_id}\"\nversion: 1\nentries: []\n"),
+            format!("schema_version: \"intent-register-v1\"\nmission_id: \"{mission_id}\"\nrevision: 1\ngenerated_from:\n  - \"kernel-test\"\nentries:\n  - slice_ref:\n      id: \"slice-1\"\n    intent_ref:\n      id: \"intent://test/example\"\n      version: \"1.0.0\"\n    action_class: \"service.execute\"\n    target_ref:\n      id: \"fixture\"\n    rationale: \"fixture\"\n    status: \"published\"\n    predicted_acp: \"ACP-1\"\n    planned_reversibility_class: \"reversible\"\n    safe_interrupt_boundary_id: \"task-boundary\"\n    boundary_class: \"task_boundary\"\n    expected_blast_radius: \"small\"\n    expected_budget_impact: {{}}\n    required_authorize_updates: []\n    rollback_plan_ref: \"plan://rollback\"\n    compensation_plan_ref: null\n    finalize_policy_ref: \"policy://finalize\"\n    earliest_start_at: \"2026-03-23T00:00:00Z\"\n    feedback_deadline_at: \"2026-03-23T00:30:00Z\"\n    default_on_silence: \"feedback_window\"\n"),
         )
         .expect("write intent register");
-        fs::write(control_dir.join("directives.yml"), "schema_version: \"control-directives-v1\"\ndirectives: []\n")
+        fs::write(control_dir.join("directives.yml"), format!("schema_version: \"control-directive-v1\"\nmission_id: \"{mission_id}\"\nrevision: 1\ndirectives: []\n"))
             .expect("write directives");
         fs::write(
             control_dir.join("schedule.yml"),
-            format!("schema_version: \"schedule-control-v1\"\nmission_id: \"{mission_id}\"\nfuture_run_status: \"active\"\nactive_run_pause: \"none\"\noverlap_policy: \"skip\"\nbackfill_policy: \"latest_only\"\npause_on_failure:\n  enabled: true\n  triggers: []\n"),
+            format!("schema_version: \"schedule-control-v1\"\nmission_id: \"{mission_id}\"\nschedule_source: \"test\"\ncadence_or_trigger: \"continuous\"\nnext_planned_run_at: null\nsuspended_future_runs: false\npause_active_run_requested: false\noverlap_policy: \"skip\"\nbackfill_policy: \"latest_only\"\npause_on_failure_rules:\n  enabled: true\n  triggers: []\npreview_lead: null\nfeedback_window_default: null\nquiet_hours: null\ndigest_route_override: null\nlast_schedule_mutation_ref: null\n"),
         )
         .expect("write schedule");
         fs::write(
             control_dir.join("autonomy-budget.yml"),
-            format!("schema_version: \"autonomy-budget-v1\"\nmission_id: \"{mission_id}\"\nstate: \"{budget_state}\"\nupdated_at: \"2026-03-23T00:00:00Z\"\ncounters: {{}}\n"),
+            format!("schema_version: \"autonomy-budget-v1\"\nmission_id: \"{mission_id}\"\nstate: \"{budget_state}\"\nwindow: \"PT24H\"\nthreshold_profile_ref: \"fixture\"\nlast_state_change_at: \"2026-03-23T00:00:00Z\"\napplied_mode_adjustments: []\nupdated_at: \"2026-03-23T00:00:00Z\"\ncounters: {{}}\n"),
         )
         .expect("write autonomy budget");
         fs::write(
             control_dir.join("circuit-breakers.yml"),
-            format!("schema_version: \"circuit-breaker-v1\"\nmission_id: \"{mission_id}\"\nstate: \"healthy\"\nupdated_at: \"2026-03-23T00:00:00Z\"\ntripped_breakers: []\n"),
+            format!("schema_version: \"circuit-breaker-v1\"\nmission_id: \"{mission_id}\"\nstate: \"clear\"\ntrip_reasons: []\ntrip_conditions_snapshot: {{}}\napplied_actions: []\ntripped_at: null\nreset_requirements: []\nreset_ref: null\nupdated_at: \"2026-03-23T00:00:00Z\"\ntripped_breakers: []\n"),
         )
         .expect("write breakers");
-        fs::write(control_dir.join("subscriptions.yml"), "schema_version: \"mission-subscriptions-v1\"\nsubscriptions: []\n")
+        fs::write(control_dir.join("subscriptions.yml"), format!("schema_version: \"subscriptions-v1\"\nmission_id: \"{mission_id}\"\nowners:\n  - \"operator://test\"\nwatchers: []\ndigest_recipients:\n  - \"operator://test\"\nalert_recipients:\n  - \"operator://test\"\nrouting_policy_ref: \".octon/instance/governance/ownership/registry.yml\"\nlast_routing_evaluation_at: \"2026-03-23T00:00:00Z\"\n"))
             .expect("write subscriptions");
+        fs::write(
+            effective_dir.join("scenario-resolution.yml"),
+            format!("schema_version: \"scenario-resolution-v1\"\nmission_id: \"{mission_id}\"\nsource_refs: {{}}\neffective:\n  scenario_family: \"maintenance\"\n  oversight_mode: \"feedback_window\"\n  execution_posture: \"continuous\"\n  preview_policy: {{}}\n  feedback_window_required: true\n  proceed_on_silence_allowed: false\n  approval_required: false\n  safe_interrupt_boundary_class: \"task_boundary\"\n  overlap_policy: \"skip\"\n  backfill_policy: \"latest_only\"\n  pause_on_failure:\n    enabled: true\n    triggers: []\n  digest_route: \"preview_plus_closure_digest\"\n  alert_route: \"owners-first-digest\"\n  required_quorum: \"1\"\n  recovery_profile:\n    action_class: \"service.execute\"\n    primitive: \"git.revert_commit\"\n    rollback_handle_type: \"git-commit\"\n    recovery_window: \"P14D\"\n    reversibility_class: \"reversible\"\n  finalize_policy:\n    approval_required: false\n    block_finalize: false\n    break_glass_required: false\n  safing_subset:\n    - \"observe_only\"\nrationale:\n  - \"fixture\"\ngenerated_at: \"2026-03-23T00:00:00Z\"\nfresh_until: \"2099-03-24T00:00:00Z\"\n"),
+        )
+        .expect("write scenario resolution");
     }
 
     fn mission_request(cfg: &RuntimeConfig, mission_id: &str, oversight_mode: &str, reversibility_class: &str) -> ExecutionRequest {
         let control_dir = cfg.execution_control_root.join("missions").join(mission_id);
+        let effective_dir = cfg
+            .octon_dir
+            .join("generated/effective/orchestration/missions")
+            .join(mission_id);
+        let budget_state = fs::read_to_string(control_dir.join("autonomy-budget.yml"))
+            .ok()
+            .and_then(|raw| serde_yaml::from_str::<serde_yaml::Value>(&raw).ok())
+            .and_then(|value| value.get("state").and_then(|inner| inner.as_str()).map(str::to_string))
+            .unwrap_or_else(|| "healthy".to_string());
         fs::write(
             control_dir.join("mode-state.yml"),
             format!(
-                "schema_version: \"mode-state-v1\"\nmission_id: \"{mission_id}\"\noversight_mode: \"{oversight_mode}\"\nexecution_posture: \"continuous\"\nsafety_state: \"active\"\nphase: \"planning\"\nautonomy_budget_state: \"healthy\"\nbreaker_state: \"healthy\"\n"
+                "schema_version: \"mode-state-v1\"\nmission_id: \"{mission_id}\"\noversight_mode: \"{oversight_mode}\"\nexecution_posture: \"continuous\"\nsafety_state: \"active\"\nphase: \"planning\"\nactive_run_ref: null\ncurrent_slice_ref: null\nnext_safe_interrupt_boundary_id: null\neffective_scenario_resolution_ref: null\nautonomy_burn_state: \"healthy\"\nbreaker_state: \"clear\"\nupdated_at: \"2026-03-23T00:00:00Z\"\n"
             ),
         )
         .expect("rewrite mode state");
+        fs::write(
+            effective_dir.join("scenario-resolution.yml"),
+            format!(
+                "schema_version: \"scenario-resolution-v1\"\nmission_id: \"{mission_id}\"\nsource_refs: {{}}\neffective:\n  scenario_family: \"maintenance\"\n  oversight_mode: \"{oversight_mode}\"\n  execution_posture: \"continuous\"\n  preview_policy: {{}}\n  feedback_window_required: {feedback_window_required}\n  proceed_on_silence_allowed: {proceed_on_silence_allowed}\n  approval_required: {approval_required}\n  safe_interrupt_boundary_class: \"task_boundary\"\n  overlap_policy: \"skip\"\n  backfill_policy: \"latest_only\"\n  pause_on_failure:\n    enabled: true\n    triggers: []\n  digest_route: \"preview_plus_closure_digest\"\n  alert_route: \"owners-first-digest\"\n  required_quorum: \"1\"\n  recovery_profile:\n    action_class: \"service.execute\"\n    primitive: \"git.revert_commit\"\n    rollback_handle_type: \"git-commit\"\n    recovery_window: \"P14D\"\n    reversibility_class: \"{reversibility_class}\"\n  finalize_policy:\n    approval_required: {approval_required}\n    block_finalize: false\n    break_glass_required: false\n  safing_subset:\n    - \"observe_only\"\nrationale:\n  - \"fixture\"\ngenerated_at: \"2026-03-23T00:00:00Z\"\nfresh_until: \"2099-03-24T00:00:00Z\"\n",
+                feedback_window_required = if oversight_mode == "feedback_window" { "true" } else { "false" },
+                proceed_on_silence_allowed = if oversight_mode == "proceed_on_silence"
+                    && budget_state == "healthy"
+                    && reversibility_class != "irreversible"
+                {
+                    "true"
+                } else {
+                    "false"
+                },
+                approval_required = if oversight_mode == "approval_required" { "true" } else { "false" },
+            ),
+        )
+        .expect("rewrite scenario resolution");
         let mut request = minimal_request();
         request.workflow_mode = "autonomous".to_string();
         request.autonomy_context = Some(
@@ -2307,6 +2584,50 @@ mod tests {
         assert_eq!(
             err.details["reason_codes"][0].as_str(),
             Some("MISSION_PROCEED_ON_SILENCE_BLOCKED")
+        );
+    }
+
+    #[test]
+    fn missing_scenario_resolution_returns_stage_only() {
+        let cfg = temp_runtime_config();
+        seed_mission_autonomy_fixture(&cfg, "mission-d", "healthy");
+        let policy = PolicyEngine::new(cfg.clone());
+        let request = mission_request(&cfg, "mission-d", "feedback_window", "reversible");
+        fs::remove_file(
+            cfg.octon_dir
+                .join("generated/effective/orchestration/missions/mission-d/scenario-resolution.yml"),
+        )
+        .expect("remove scenario resolution");
+        let err = authorize_execution(&cfg, &policy, &request, None)
+            .expect_err("missing route must fail closed");
+        assert_eq!(err.details["decision"].as_str(), Some("STAGE_ONLY"));
+        assert_eq!(
+            err.details["reason_codes"][0].as_str(),
+            Some("MISSION_SCENARIO_RESOLUTION_MISSING")
+        );
+    }
+
+    #[test]
+    fn stale_scenario_resolution_returns_stage_only() {
+        let cfg = temp_runtime_config();
+        seed_mission_autonomy_fixture(&cfg, "mission-e", "healthy");
+        let policy = PolicyEngine::new(cfg.clone());
+        let request = mission_request(&cfg, "mission-e", "feedback_window", "reversible");
+        let effective_path = cfg
+            .octon_dir
+            .join("generated/effective/orchestration/missions/mission-e/scenario-resolution.yml");
+        let stale = fs::read_to_string(&effective_path).expect("read route");
+        fs::write(
+            &effective_path,
+            stale.replace("fresh_until: \"2099-03-24T00:00:00Z\"", "fresh_until: \"2020-03-24T00:00:00Z\""),
+        )
+        .expect("rewrite route stale");
+        let err = authorize_execution(&cfg, &policy, &request, None)
+            .expect_err("stale route must fail closed");
+        assert_eq!(err.details["decision"].as_str(), Some("STAGE_ONLY"));
+        assert_eq!(
+            err.details["reason_codes"][0].as_str(),
+            Some("MISSION_SCENARIO_RESOLUTION_STALE")
         );
     }
 }

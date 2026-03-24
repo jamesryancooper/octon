@@ -1,0 +1,25 @@
+schema_version: "octon-mission-v2"
+mission_id: "mission-autonomy-live-validation"
+title: "Mission: mission-autonomy-live-validation"
+summary: "Keep one low-risk live maintenance mission available to validate the mission-scoped reversible autonomy control, effective-route, evidence, and generated-summary surfaces end to end."
+status: "active"
+mission_class: "maintenance"
+owner_ref: "operator://octon-maintainers"
+created_at: "2026-03-24"
+risk_ceiling: "ACP-1"
+allowed_action_classes:
+  - "repo-maintenance"
+default_safing_subset:
+  - "observe_only"
+  - "stage_only"
+default_schedule_hint: "interruptible_scheduled"
+default_overlap_policy: "skip"
+scope_ids:
+  - "octon-harness"
+success_criteria:
+  - "This mission has a coherent control-state family, effective route, continuity state, and generated mission/operator summaries."
+  - "The mission can be inspected, route-published, and closed without manual repair to authoritative or derived surfaces."
+failure_conditions:
+  - "Any required mission control file, scenario-resolution artifact, or generated summary becomes stale or missing."
+  - "The mission requires external effects, destructive action classes, or manual repair outside canonical mission surfaces."
+notes_ref: "mission.md"

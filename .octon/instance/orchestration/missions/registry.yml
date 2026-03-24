@@ -1,6 +1,9 @@
 schema_version: "octon-mission-registry-v2"
 control_root: ".octon/state/control/execution/missions"
 continuity_root: ".octon/state/continuity/repo/missions"
+effective_route_root: ".octon/generated/effective/orchestration/missions"
 summary_root: ".octon/generated/cognition/summaries/missions"
-active: []
+projection_root: ".octon/generated/cognition/projections/materialized/missions"
+active:
+  - "mission-autonomy-live-validation"
 archived: []

@@ -4,14 +4,40 @@
   "title": "Control Directive v1",
   "type": "object",
   "additionalProperties": true,
-  "required": ["directive_id", "directive_type", "issued_by", "issued_at", "status"],
+  "required": ["schema_version", "mission_id", "revision", "directives"],
   "properties": {
-    "directive_id": { "type": "string", "minLength": 1 },
-    "directive_type": { "type": "string", "minLength": 1 },
-    "issued_by": { "type": "string", "minLength": 1 },
-    "issued_at": { "type": "string", "minLength": 1 },
-    "status": { "type": "string", "minLength": 1 },
-    "scope": { "type": "object" },
-    "reason": { "type": "string" }
+    "schema_version": { "const": "control-directive-v1" },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "revision": { "type": "integer", "minimum": 1 },
+    "directives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "directive_id",
+          "kind",
+          "target_scope",
+          "submitted_by",
+          "precedence_source",
+          "submitted_at",
+          "effective_at",
+          "status",
+          "rationale"
+        ],
+        "properties": {
+          "directive_id": { "type": "string", "minLength": 1 },
+          "kind": { "type": "string", "minLength": 1 },
+          "target_scope": { "type": "object" },
+          "submitted_by": { "type": "string", "minLength": 1 },
+          "precedence_source": { "type": "string", "minLength": 1 },
+          "submitted_at": { "type": "string", "minLength": 1 },
+          "effective_at": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "minLength": 1 },
+          "rationale": { "type": "string", "minLength": 1 },
+          "expires_at": { "type": ["string", "null"] }
+        }
+      }
+    }
   }
 }

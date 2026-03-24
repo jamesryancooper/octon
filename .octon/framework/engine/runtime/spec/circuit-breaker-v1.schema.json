@@ -4,11 +4,37 @@
   "title": "Circuit Breaker v1",
   "type": "object",
   "additionalProperties": true,
-  "required": ["schema_version", "mission_id", "state", "updated_at", "tripped_breakers"],
+  "required": [
+    "schema_version",
+    "mission_id",
+    "state",
+    "trip_reasons",
+    "trip_conditions_snapshot",
+    "applied_actions",
+    "tripped_at",
+    "reset_requirements",
+    "reset_ref",
+    "updated_at"
+  ],
   "properties": {
     "schema_version": { "const": "circuit-breaker-v1" },
     "mission_id": { "type": "string", "minLength": 1 },
-    "state": { "type": "string", "minLength": 1 },
+    "state": { "type": "string", "enum": ["clear", "tripped", "latched"] },
+    "trip_reasons": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "trip_conditions_snapshot": { "type": "object" },
+    "applied_actions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "tripped_at": { "type": ["string", "null"] },
+    "reset_requirements": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "reset_ref": { "type": ["string", "null"] },
     "updated_at": { "type": "string", "minLength": 1 },
     "tripped_breakers": {
       "type": "array",

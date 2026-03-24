@@ -55,7 +55,8 @@ This document applies to any Octon domain that exposes both `runtime/` and
     time-boxed, explicitly recorded exception lease.
 12. Mission-control helper automation MUST materialize binding state only into
     canonical mission control, retained control evidence, mission continuity,
-    or generated mission/operator read-model surfaces.
+    generated effective mission-route surfaces, or generated mission/operator
+    read-model surfaces.
 
 ## Default Mutation Allowlist (Fail-Closed)
 
@@ -72,6 +73,7 @@ these mutable targets:
 - `/.octon/state/evidence/control/execution/**`
 - `/.octon/state/continuity/**`
 - `/.octon/state/continuity/repo/missions/**`
+- `/.octon/generated/effective/orchestration/missions/**`
 - `/.octon/generated/cognition/summaries/missions/**`
 - `/.octon/generated/cognition/summaries/operators/**`
 - `/.octon/generated/cognition/projections/materialized/missions/**`
@@ -125,6 +127,8 @@ Use this decision sequence:
     `/.octon/state/control/execution/missions/**`.
   - retained control-plane evidence lives under
     `/.octon/state/evidence/control/execution/**`.
+  - generated effective mission scenario routes live under
+    `/.octon/generated/effective/orchestration/missions/**`.
   - execution scratch lives under `/.octon/generated/.tmp/execution/**`.
   - execution requests, grants, receipts, and executor-profile contracts live
     under `engine/runtime/spec/**`; retained runtime execution evidence lives
