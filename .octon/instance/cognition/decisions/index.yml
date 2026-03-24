@@ -131,3 +131,5 @@ records:
     path: 063-mission-scoped-reversible-autonomy-atomic-cutover.md
   - id: 064-mission-scoped-reversible-autonomy-completion-cutover
     path: 064-mission-scoped-reversible-autonomy-completion-cutover.md
+  - id: 065-proposal-system-integrity-and-archive-normalization-atomic-cutover
+    path: 065-proposal-system-integrity-and-archive-normalization-atomic-cutover.md

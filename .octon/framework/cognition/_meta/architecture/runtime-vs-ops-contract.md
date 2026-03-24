@@ -135,6 +135,9 @@ Use this decision sequence:
     under `/.octon/state/evidence/runs/**`.
 - Assurance:
   - Runtime-local `_ops/` under `runtime/` hosts assurance engine entrypoints.
+  - Proposal registry generation and proposal validation scripts live under
+    assurance `_ops/`; the resulting proposal registry remains a generated
+    discovery artifact under `/.octon/generated/proposals/registry.yml`.
   - retained assurance and validation receipts live under
     `/.octon/state/evidence/validation/assurance/**`.
   - runtime-facing publication receipts live under

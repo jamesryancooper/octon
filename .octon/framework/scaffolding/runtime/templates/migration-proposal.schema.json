@@ -3,7 +3,7 @@
   "title": "Migration Proposal Manifest",
   "description": "Schema for Octon migration proposal subtype manifests.",
   "type": "object",
-  "required": ["schema_version", "change_profile", "validation"],
+  "required": ["schema_version", "change_profile", "release_state"],
   "properties": {
     "schema_version": {
       "type": "string",
@@ -13,16 +13,9 @@
       "type": "string",
       "enum": ["atomic", "transitional"]
     },
-    "validation": {
-      "type": "object",
-      "required": ["plan_template_path"],
-      "properties": {
-        "plan_template_path": {
-          "type": "string",
-          "minLength": 1
-        }
-      },
-      "additionalProperties": false
+    "release_state": {
+      "type": "string",
+      "enum": ["pre-1.0", "stable"]
     }
   },
   "additionalProperties": false

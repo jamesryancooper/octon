@@ -125,7 +125,9 @@ Repo trust remains in `instance/extensions.yml`.
   dependencies.
 - Proposal packages are integrated raw exploratory input only; they remain
   non-canonical and are discovered through `generated/proposals/registry.yml`
-  without making that registry authoritative.
+  without making that registry authoritative. The registry is rebuilt
+  deterministically from proposal manifests and belongs to the generated/ops
+  plane rather than the runtime authority plane.
 - Retained validation and assurance receipts belong under
   `state/evidence/validation/**`; generated outputs remain rebuildable only.
 - Human-led ideation is part of `inputs/exploratory/ideation/**`.

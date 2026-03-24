@@ -19,8 +19,22 @@ Required files:
 - `policy/policy-delta.md`
 - `policy/enforcement-plan.md`
 
+## Subtype Manifest Contract
+
+`policy-proposal.yml` must define:
+
+- `schema_version`
+- `policy_area`
+- `change_type`
+
+Allowed values:
+
+- `schema_version`: `policy-proposal-v1`
+- `change_type`: `new-policy` | `policy-update` | `policy-removal`
+
 Rules:
 
+- `policy_area` must be a non-empty machine-readable policy slice name.
 - `policy/decision.md` must use ADR-style decision sections.
 - `policy/policy-delta.md` must identify target authority surfaces and the exact
   intended delta.

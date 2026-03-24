@@ -1,0 +1,6 @@
+kind: migration-evidence-bundle
+id: 2026-03-24-proposal-system-integrity-and-archive-normalization-cutover
+evidence: evidence.md
+commands: commands.md
+validation: validation.md
+inventory: inventory.md

@@ -36,7 +36,7 @@ documentation, policy, or contract authority.
 
 ## Registry
 
-Add or update the matching entry in `/.octon/generated/proposals/registry.yml`
-when this proposal is created, archived, or materially reclassified. The
-registry is a committed discovery projection only and does not outrank the
-proposal-local normative docs.
+Proposal operations regenerate `/.octon/generated/proposals/registry.yml` from
+proposal manifests when this proposal is created, promoted, archived, or
+materially reclassified. The registry is a committed discovery projection only
+and does not outrank the proposal-local normative docs.

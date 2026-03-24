@@ -31,6 +31,8 @@ const STANDARD_DESIGN_PACKAGE_VALIDATOR_REL: &str =
 const DESIGN_PACKAGE_TEMPLATE_ROOT_REL: &str = ".octon/framework/scaffolding/runtime/templates";
 const PROPOSALS_ROOT_REL: &str = ".octon/inputs/exploratory/proposals";
 const DESIGN_PACKAGES_ROOT_REL: &str = ".octon/inputs/exploratory/proposals/design";
+const PROPOSAL_REGISTRY_GENERATOR_REL: &str =
+    ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ProposalScope {
@@ -62,15 +64,6 @@ impl StaticProposalKind {
             Self::Architecture => "architecture",
         }
     }
-
-    fn validator_rel(self) -> &'static str {
-        match self {
-            Self::Migration => ".octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh",
-            Self::Policy => ".octon/framework/assurance/runtime/_ops/scripts/validate-policy-proposal.sh",
-            Self::Architecture => ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh",
-        }
-    }
-
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -361,6 +354,7 @@ struct BundleMetadata {
     failed_stage: Option<String>,
 }
 
+#[cfg_attr(not(test), allow(dead_code))]
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
 struct ProposalRegistry {
     schema_version: String,
@@ -368,6 +362,7 @@ struct ProposalRegistry {
     archived: Vec<ProposalArchivedRegistryEntry>,
 }
 
+#[cfg_attr(not(test), allow(dead_code))]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 struct ProposalActiveRegistryEntry {
     id: String,
@@ -379,6 +374,7 @@ struct ProposalActiveRegistryEntry {
     promotion_targets: Vec<String>,
 }
 
+#[cfg_attr(not(test), allow(dead_code))]
 #[derive(Clone, Debug, Deserialize, Serialize)]
 struct ProposalArchivedRegistryEntry {
     id: String,
@@ -392,6 +388,62 @@ struct ProposalArchivedRegistryEntry {
     archived_from_status: String,
     original_path: String,
     promotion_targets: Vec<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProposalLifecycle {
+    temporary: bool,
+    exit_expectation: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProposalArchiveMetadata {
+    archived_at: String,
+    archived_from_status: String,
+    disposition: String,
+    original_path: String,
+    promotion_evidence: Vec<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProposalManifest {
+    schema_version: String,
+    proposal_id: String,
+    title: String,
+    summary: String,
+    proposal_kind: String,
+    promotion_scope: String,
+    promotion_targets: Vec<String>,
+    status: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    archive: Option<ProposalArchiveMetadata>,
+    lifecycle: ProposalLifecycle,
+    related_proposals: Vec<String>,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunValidateProposalOptions {
+    pub proposal_path: PathBuf,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunPromoteProposalOptions {
+    pub proposal_path: PathBuf,
+    pub promotion_evidence: Vec<String>,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunArchiveProposalOptions {
+    pub proposal_path: PathBuf,
+    pub disposition: String,
+    pub promotion_evidence: Vec<String>,
+}
+
+#[derive(Clone, Debug)]
+pub struct RunProposalOperationResult {
+    pub bundle_root: PathBuf,
+    pub summary_report: PathBuf,
+    pub final_verdict: String,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -1029,7 +1081,7 @@ pub fn run_create_design_package_from_octon_dir(
             })?;
             fs::write(
                 proposal_root.join("navigation/artifact-catalog.md"),
-                build_artifact_catalog(&proposal_root, &options.package_id, &proposal_rel)?,
+                build_artifact_catalog(&proposal_root, "design", &options.package_id, &proposal_rel)?,
             )
             .with_context(|| {
                 format!(
@@ -1039,16 +1091,7 @@ pub fn run_create_design_package_from_octon_dir(
                         .display()
                 )
             })?;
-            upsert_proposal_registry(
-                &repo_root,
-                &options.package_id,
-                "design",
-                options.promotion_scope.as_str(),
-                &proposal_rel,
-                options.package_title.trim(),
-                &options.implementation_targets,
-                "draft",
-            )?;
+            regenerate_proposal_registry(&repo_root, true)?;
             registry_synced = true;
             Ok(())
         })();
@@ -1546,17 +1589,37 @@ pub fn run_create_static_proposal_from_octon_dir(
             &proposal_root,
             &replacements,
         )?;
-
-        upsert_proposal_registry(
-            &repo_root,
-            &options.proposal_id,
-            kind.as_str(),
-            options.promotion_scope.as_str(),
-            &rel_path(&repo_root, &proposal_root),
-            options.proposal_title.trim(),
-            &options.promotion_targets,
-            "draft",
-        )?;
+        let proposal_rel = rel_path(&repo_root, &proposal_root);
+        fs::write(
+            proposal_root.join("navigation/source-of-truth-map.md"),
+            build_static_source_of_truth_map(kind),
+        )
+        .with_context(|| {
+            format!(
+                "write {}",
+                proposal_root
+                    .join("navigation/source-of-truth-map.md")
+                    .display()
+            )
+        })?;
+        fs::write(
+            proposal_root.join("navigation/artifact-catalog.md"),
+            build_artifact_catalog(
+                &proposal_root,
+                kind.as_str(),
+                &options.proposal_id,
+                &proposal_rel,
+            )?,
+        )
+        .with_context(|| {
+            format!(
+                "write {}",
+                proposal_root
+                    .join("navigation/artifact-catalog.md")
+                    .display()
+            )
+        })?;
+        regenerate_proposal_registry(&repo_root, true)?;
         Ok(())
     })();
     if let Err(error) = scaffold_result {
@@ -1908,6 +1971,907 @@ pub fn run_audit_static_proposal_from_octon_dir(
         bundle_root,
         summary_report,
         final_verdict: "validated".to_string(),
+    })
+}
+
+pub fn run_validate_proposal_from_octon_dir(
+    octon_dir: &Path,
+    options: RunValidateProposalOptions,
+) -> Result<RunProposalOperationResult> {
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
+    let repo_root = octon_dir
+        .parent()
+        .context("failed to resolve repository root from .octon directory")?
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+    let proposal_root = if options.proposal_path.is_absolute() {
+        options.proposal_path.clone()
+    } else {
+        repo_root.join(&options.proposal_path)
+    };
+    let proposal_rel = rel_path(&repo_root, &proposal_root);
+
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request = ExecutionRequest {
+        request_id: format!("validate-proposal-{}", slugify(&proposal_rel)),
+        caller_path: "workflow".to_string(),
+        action_type: "execute_workflow".to_string(),
+        target_id: "validate-proposal".to_string(),
+        requested_capabilities: vec![
+            "workflow.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_evidence: true,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: "low".to_string(),
+        workflow_mode: "human-only".to_string(),
+        locality_scope: None,
+        intent_ref: None,
+        autonomy_context: None,
+        actor_ref: None,
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: vec![
+                reports_root.display().to_string(),
+                workflow_bundles_root.display().to_string(),
+            ],
+            executor_profile: None,
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: BTreeMap::from([("workflow_id".to_string(), "validate-proposal".to_string())]),
+    };
+    let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
+    fs::create_dir_all(&reports_root)?;
+    fs::create_dir_all(&workflow_bundles_root)?;
+    let date = today_string()?;
+    let started_at = auth_now_rfc3339()?;
+    let bundle_root = unique_directory(
+        &workflow_bundles_root,
+        &format!("{date}-validate-proposal-{}", slugify(&proposal_rel)),
+    )?;
+    fs::create_dir_all(bundle_root.join("reports"))?;
+    fs::create_dir_all(bundle_root.join("stage-inputs"))?;
+    fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifacts =
+        write_execution_start(&bundle_root.join("workflow-execution"), &workflow_request, &workflow_grant)?;
+    let summary_report = unique_file(&reports_root, &format!("{date}-validate-proposal"), "md")?;
+
+    if !proposal_root.is_dir() {
+        let message = format!("target proposal not found: {}", proposal_root.display());
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            message.clone(),
+            vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+        );
+        bail!(message);
+    }
+
+    let manifest = load_proposal_manifest(&proposal_root)?;
+    let stage_validate = authorize_workflow_stage(
+        &runtime_cfg,
+        &policy,
+        &bundle_root,
+        "validate-proposal",
+        "validate-proposal",
+        "execute_stage",
+        "validate-proposal::validate-proposal",
+        vec![
+            "workflow.stage.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![
+            bundle_root.join("standard-validator.log").display().to_string(),
+            bundle_root.join("stages/validate-proposal").display().to_string(),
+        ],
+        true,
+        false,
+        "low",
+        Some("read_only_analysis"),
+    )?;
+    let validator_log =
+        match run_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, &manifest.proposal_kind) {
+            Ok(path) => path,
+            Err(error) => {
+                let _ = finalize_workflow_stage(
+                    &stage_validate,
+                    "failed",
+                    Some(error.to_string()),
+                    vec![bundle_root.join("standard-validator.log").display().to_string()],
+                );
+                let _ = finalize_workflow_failure(
+                    &workflow_artifacts,
+                    &workflow_request,
+                    &workflow_grant,
+                    &started_at,
+                    error.to_string(),
+                    vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+                );
+                return Err(error);
+            }
+        };
+    finalize_workflow_stage(
+        &stage_validate,
+        "succeeded",
+        None,
+        vec![rel_path(&repo_root, &validator_log)],
+    )?;
+
+    write_create_inventory(&bundle_root, &proposal_root)?;
+    write_create_commands_log(
+        &bundle_root,
+        &[format!(
+            "- validate proposal | proposal_path={} | proposal_kind={} | validator_log={}",
+            proposal_rel,
+            manifest.proposal_kind,
+            rel_path(&repo_root, &validator_log)
+        )],
+    )?;
+
+    let summary = format!(
+        "# Validate Proposal Summary\n\n- workflow_id: `validate-proposal`\n- proposal_path: `{}`\n- proposal_kind: `{}`\n- final_verdict: `validated`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n",
+        proposal_rel,
+        manifest.proposal_kind,
+        rel_path(&repo_root, &bundle_root),
+        rel_path(&repo_root, &summary_report),
+        rel_path(&repo_root, &validator_log),
+    );
+    fs::write(bundle_root.join("summary.md"), &summary)?;
+    fs::write(&summary_report, summary)?;
+    fs::write(
+        bundle_root.join("validation.md"),
+        format!(
+            "# Validation\n\n- final_verdict: `validated`\n- proposal_kind: `{}`\n- validator_log: `{}`\n- registry_check: `passed`\n",
+            manifest.proposal_kind,
+            rel_path(&repo_root, &validator_log)
+        ),
+    )?;
+    fs::write(
+        bundle_root.join("bundle.yml"),
+        serde_yaml::to_string(&BundleMetadata {
+            kind: "workflow-execution-bundle".to_string(),
+            id: bundle_root
+                .file_name()
+                .and_then(|v| v.to_str())
+                .unwrap_or("workflow-bundle")
+                .to_string(),
+            workflow_id: "validate-proposal".to_string(),
+            package_path: proposal_rel.clone(),
+            mode: "n/a".to_string(),
+            executor: "n/a".to_string(),
+            prepare_only: false,
+            slug: slugify(&proposal_rel),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            summary: "summary.md".to_string(),
+            reports_dir: "reports".to_string(),
+            stage_inputs_dir: "stage-inputs".to_string(),
+            stage_logs_dir: "stage-logs".to_string(),
+            selected_stages: vec!["validate-proposal".to_string(), "report".to_string()],
+            report_paths: BTreeMap::new(),
+            changed_files: BTreeMap::new(),
+            plan: "plan.md".to_string(),
+            inventory: "inventory.md".to_string(),
+            commands: "commands.md".to_string(),
+            validation: "validation.md".to_string(),
+            summary_report: rel_path(&repo_root, &summary_report),
+            final_verdict: "validated".to_string(),
+            failure_class: None,
+            failed_stage: None,
+        })?,
+    )?;
+    finalize_execution(
+        &workflow_artifacts,
+        &workflow_request,
+        &workflow_grant,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![bundle_root.display().to_string()],
+            ..SideEffectSummary::default()
+        },
+    )?;
+
+    Ok(RunProposalOperationResult {
+        bundle_root,
+        summary_report,
+        final_verdict: "validated".to_string(),
+    })
+}
+
+pub fn run_promote_proposal_from_octon_dir(
+    octon_dir: &Path,
+    options: RunPromoteProposalOptions,
+) -> Result<RunProposalOperationResult> {
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
+    let repo_root = octon_dir
+        .parent()
+        .context("failed to resolve repository root from .octon directory")?
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+    let proposal_root = if options.proposal_path.is_absolute() {
+        options.proposal_path.clone()
+    } else {
+        repo_root.join(&options.proposal_path)
+    };
+    let proposal_rel = rel_path(&repo_root, &proposal_root);
+
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request = ExecutionRequest {
+        request_id: format!("promote-proposal-{}", slugify(&proposal_rel)),
+        caller_path: "workflow".to_string(),
+        action_type: "execute_workflow".to_string(),
+        target_id: "promote-proposal".to_string(),
+        requested_capabilities: vec![
+            "workflow.execute".to_string(),
+            "repo.write".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_repo: true,
+            write_evidence: true,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: "medium".to_string(),
+        workflow_mode: "human-only".to_string(),
+        locality_scope: None,
+        intent_ref: None,
+        autonomy_context: None,
+        actor_ref: None,
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: vec![
+                proposal_root.display().to_string(),
+                reports_root.display().to_string(),
+                workflow_bundles_root.display().to_string(),
+            ],
+            executor_profile: None,
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: BTreeMap::from([("workflow_id".to_string(), "promote-proposal".to_string())]),
+    };
+    let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
+    fs::create_dir_all(&reports_root)?;
+    fs::create_dir_all(&workflow_bundles_root)?;
+    let date = today_string()?;
+    let started_at = auth_now_rfc3339()?;
+    let bundle_root = unique_directory(
+        &workflow_bundles_root,
+        &format!("{date}-promote-proposal-{}", slugify(&proposal_rel)),
+    )?;
+    fs::create_dir_all(bundle_root.join("reports"))?;
+    fs::create_dir_all(bundle_root.join("stage-inputs"))?;
+    fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifacts =
+        write_execution_start(&bundle_root.join("workflow-execution"), &workflow_request, &workflow_grant)?;
+    let summary_report = unique_file(&reports_root, &format!("{date}-promote-proposal"), "md")?;
+
+    if !proposal_root.is_dir() {
+        let message = format!("target proposal not found: {}", proposal_root.display());
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            message.clone(),
+            vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+        );
+        bail!(message);
+    }
+
+    validate_repo_relative_paths(&repo_root, &options.promotion_evidence, "promotion_evidence")?;
+    let mut manifest = load_proposal_manifest(&proposal_root)?;
+    ensure!(
+        proposal_rel == expected_active_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id),
+        "proposal must be promoted from the active path: {}",
+        proposal_rel
+    );
+    ensure!(
+        manifest.status == "accepted",
+        "promote-proposal requires status=accepted, found {}",
+        manifest.status
+    );
+
+    let stage_validate = authorize_workflow_stage(
+        &runtime_cfg,
+        &policy,
+        &bundle_root,
+        "promote-proposal",
+        "validate-proposal",
+        "execute_stage",
+        "promote-proposal::validate-proposal",
+        vec![
+            "workflow.stage.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![
+            bundle_root.join("standard-validator.log").display().to_string(),
+            bundle_root.join("stages/validate-proposal").display().to_string(),
+        ],
+        true,
+        false,
+        "low",
+        Some("read_only_analysis"),
+    )?;
+    let validator_log =
+        match run_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, &manifest.proposal_kind) {
+            Ok(path) => path,
+            Err(error) => {
+                let _ = finalize_workflow_stage(
+                    &stage_validate,
+                    "failed",
+                    Some(error.to_string()),
+                    vec![bundle_root.join("standard-validator.log").display().to_string()],
+                );
+                let _ = finalize_workflow_failure(
+                    &workflow_artifacts,
+                    &workflow_request,
+                    &workflow_grant,
+                    &started_at,
+                    error.to_string(),
+                    vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+                );
+                return Err(error);
+            }
+        };
+    finalize_workflow_stage(
+        &stage_validate,
+        "succeeded",
+        None,
+        vec![rel_path(&repo_root, &validator_log)],
+    )?;
+
+    let stage_promote = authorize_workflow_stage(
+        &runtime_cfg,
+        &policy,
+        &bundle_root,
+        "promote-proposal",
+        "promote-proposal",
+        "execute_stage",
+        "promote-proposal::promote-proposal",
+        vec![
+            "workflow.stage.execute".to_string(),
+            "repo.write".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![
+            proposal_root.display().to_string(),
+            bundle_root.join("stages/promote-proposal").display().to_string(),
+        ],
+        false,
+        true,
+        "medium",
+        Some("scoped_repo_mutation"),
+    )?;
+    let promote_result: Result<()> = (|| {
+        let original_manifest = manifest.clone();
+        ensure_promotion_targets_ready(&repo_root, &manifest, &proposal_root)?;
+        manifest.status = "implemented".to_string();
+        write_proposal_manifest(&proposal_root, &manifest)?;
+        if let Err(error) = regenerate_proposal_registry(&repo_root, true) {
+            write_proposal_manifest(&proposal_root, &original_manifest)?;
+            return Err(error);
+        }
+        Ok(())
+    })();
+    if let Err(error) = promote_result {
+        let _ = finalize_workflow_stage(
+            &stage_promote,
+            "failed",
+            Some(error.to_string()),
+            vec![proposal_root.display().to_string()],
+        );
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            error.to_string(),
+            vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+        );
+        return Err(error);
+    }
+    finalize_workflow_stage(
+        &stage_promote,
+        "succeeded",
+        None,
+        vec![
+            rel_path(&repo_root, &proposal_root.join("proposal.yml")),
+            ".octon/generated/proposals/registry.yml".to_string(),
+        ],
+    )?;
+
+    write_create_inventory(&bundle_root, &proposal_root)?;
+    write_create_commands_log(
+        &bundle_root,
+        &[
+            format!(
+                "- validate proposal before promotion | proposal_path={} | validator_log={}",
+                proposal_rel,
+                rel_path(&repo_root, &validator_log)
+            ),
+            format!(
+                "- promote proposal | proposal_path={} | promotion_evidence={}",
+                proposal_rel,
+                options.promotion_evidence.join(", ")
+            ),
+        ],
+    )?;
+    let summary = format!(
+        "# Promote Proposal Summary\n\n- workflow_id: `promote-proposal`\n- proposal_path: `{}`\n- proposal_kind: `{}`\n- final_verdict: `implemented`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n- promotion_evidence: `{}`\n",
+        proposal_rel,
+        manifest.proposal_kind,
+        rel_path(&repo_root, &bundle_root),
+        rel_path(&repo_root, &summary_report),
+        rel_path(&repo_root, &validator_log),
+        options.promotion_evidence.join(", ")
+    );
+    fs::write(bundle_root.join("summary.md"), &summary)?;
+    fs::write(&summary_report, summary)?;
+    fs::write(
+        bundle_root.join("validation.md"),
+        format!(
+            "# Validation\n\n- final_verdict: `implemented`\n- proposal_kind: `{}`\n- validator_log: `{}`\n- status_after_promotion: `implemented`\n- registry_sync: `passed`\n",
+            manifest.proposal_kind,
+            rel_path(&repo_root, &validator_log)
+        ),
+    )?;
+    fs::write(
+        bundle_root.join("bundle.yml"),
+        serde_yaml::to_string(&BundleMetadata {
+            kind: "workflow-execution-bundle".to_string(),
+            id: bundle_root
+                .file_name()
+                .and_then(|v| v.to_str())
+                .unwrap_or("workflow-bundle")
+                .to_string(),
+            workflow_id: "promote-proposal".to_string(),
+            package_path: proposal_rel.clone(),
+            mode: "n/a".to_string(),
+            executor: "n/a".to_string(),
+            prepare_only: false,
+            slug: slugify(&proposal_rel),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            summary: "summary.md".to_string(),
+            reports_dir: "reports".to_string(),
+            stage_inputs_dir: "stage-inputs".to_string(),
+            stage_logs_dir: "stage-logs".to_string(),
+            selected_stages: vec![
+                "validate-proposal".to_string(),
+                "promote-proposal".to_string(),
+                "report".to_string(),
+            ],
+            report_paths: BTreeMap::new(),
+            changed_files: BTreeMap::new(),
+            plan: "plan.md".to_string(),
+            inventory: "inventory.md".to_string(),
+            commands: "commands.md".to_string(),
+            validation: "validation.md".to_string(),
+            summary_report: rel_path(&repo_root, &summary_report),
+            final_verdict: "implemented".to_string(),
+            failure_class: None,
+            failed_stage: None,
+        })?,
+    )?;
+    finalize_execution(
+        &workflow_artifacts,
+        &workflow_request,
+        &workflow_grant,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![
+                bundle_root.display().to_string(),
+                proposal_root.display().to_string(),
+                repo_root
+                    .join(".octon/generated/proposals/registry.yml")
+                    .display()
+                    .to_string(),
+            ],
+            ..SideEffectSummary::default()
+        },
+    )?;
+
+    Ok(RunProposalOperationResult {
+        bundle_root,
+        summary_report,
+        final_verdict: "implemented".to_string(),
+    })
+}
+
+pub fn run_archive_proposal_from_octon_dir(
+    octon_dir: &Path,
+    options: RunArchiveProposalOptions,
+) -> Result<RunProposalOperationResult> {
+    let runtime_cfg = ConfigLoader::load(octon_dir)?;
+    let policy = PolicyEngine::new(runtime_cfg.clone());
+    let repo_root = octon_dir
+        .parent()
+        .context("failed to resolve repository root from .octon directory")?
+        .canonicalize()
+        .context("failed to canonicalize repository root")?;
+    let proposal_root = if options.proposal_path.is_absolute() {
+        options.proposal_path.clone()
+    } else {
+        repo_root.join(&options.proposal_path)
+    };
+    let proposal_rel = rel_path(&repo_root, &proposal_root);
+
+    let reports_root = repo_root.join(REPORTS_ROOT_REL);
+    let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request = ExecutionRequest {
+        request_id: format!("archive-proposal-{}", slugify(&proposal_rel)),
+        caller_path: "workflow".to_string(),
+        action_type: "execute_workflow".to_string(),
+        target_id: "archive-proposal".to_string(),
+        requested_capabilities: vec![
+            "workflow.execute".to_string(),
+            "repo.write".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_repo: true,
+            write_evidence: true,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: "medium".to_string(),
+        workflow_mode: "human-only".to_string(),
+        locality_scope: None,
+        intent_ref: None,
+        autonomy_context: None,
+        actor_ref: None,
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: vec![
+                proposal_root.display().to_string(),
+                reports_root.display().to_string(),
+                workflow_bundles_root.display().to_string(),
+            ],
+            executor_profile: None,
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata: BTreeMap::from([("workflow_id".to_string(), "archive-proposal".to_string())]),
+    };
+    let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
+    fs::create_dir_all(&reports_root)?;
+    fs::create_dir_all(&workflow_bundles_root)?;
+    let date = today_string()?;
+    let started_at = auth_now_rfc3339()?;
+    let bundle_root = unique_directory(
+        &workflow_bundles_root,
+        &format!("{date}-archive-proposal-{}", slugify(&proposal_rel)),
+    )?;
+    fs::create_dir_all(bundle_root.join("reports"))?;
+    fs::create_dir_all(bundle_root.join("stage-inputs"))?;
+    fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifacts =
+        write_execution_start(&bundle_root.join("workflow-execution"), &workflow_request, &workflow_grant)?;
+    let summary_report = unique_file(&reports_root, &format!("{date}-archive-proposal"), "md")?;
+
+    if !proposal_root.is_dir() {
+        let message = format!("target proposal not found: {}", proposal_root.display());
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            message.clone(),
+            vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+        );
+        bail!(message);
+    }
+
+    let mut manifest = load_proposal_manifest(&proposal_root)?;
+    ensure!(
+        proposal_rel == expected_active_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id),
+        "proposal must be archived from the active path: {}",
+        proposal_rel
+    );
+    ensure!(
+        manifest.status != "archived",
+        "proposal is already archived: {}",
+        proposal_rel
+    );
+    match options.disposition.as_str() {
+        "implemented" => {
+            ensure!(
+                manifest.status == "implemented",
+                "archive-proposal with disposition=implemented requires status=implemented, found {}",
+                manifest.status
+            );
+            validate_repo_relative_paths(&repo_root, &options.promotion_evidence, "promotion_evidence")?;
+        }
+        "rejected" => {
+            ensure!(
+                manifest.status == "rejected",
+                "archive-proposal with disposition=rejected requires status=rejected, found {}",
+                manifest.status
+            );
+        }
+        "historical" | "superseded" => {
+            if !options.promotion_evidence.is_empty() {
+                validate_repo_relative_paths(&repo_root, &options.promotion_evidence, "promotion_evidence")?;
+            }
+        }
+        other => bail!("unsupported archive disposition '{}'", other),
+    }
+
+    let stage_validate = authorize_workflow_stage(
+        &runtime_cfg,
+        &policy,
+        &bundle_root,
+        "archive-proposal",
+        "validate-proposal",
+        "execute_stage",
+        "archive-proposal::validate-proposal",
+        vec![
+            "workflow.stage.execute".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![
+            bundle_root.join("standard-validator.log").display().to_string(),
+            bundle_root.join("stages/validate-proposal").display().to_string(),
+        ],
+        true,
+        false,
+        "low",
+        Some("read_only_analysis"),
+    )?;
+    let validator_log =
+        match run_proposal_validator_stack(&repo_root, &proposal_root, &bundle_root, &manifest.proposal_kind) {
+            Ok(path) => path,
+            Err(error) => {
+                let _ = finalize_workflow_stage(
+                    &stage_validate,
+                    "failed",
+                    Some(error.to_string()),
+                    vec![bundle_root.join("standard-validator.log").display().to_string()],
+                );
+                let _ = finalize_workflow_failure(
+                    &workflow_artifacts,
+                    &workflow_request,
+                    &workflow_grant,
+                    &started_at,
+                    error.to_string(),
+                    vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+                );
+                return Err(error);
+            }
+        };
+    finalize_workflow_stage(
+        &stage_validate,
+        "succeeded",
+        None,
+        vec![rel_path(&repo_root, &validator_log)],
+    )?;
+
+    let archived_from_status = manifest.status.clone();
+    let archived_rel = expected_archived_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id);
+    let archived_root = repo_root.join(&archived_rel);
+    let stage_archive = authorize_workflow_stage(
+        &runtime_cfg,
+        &policy,
+        &bundle_root,
+        "archive-proposal",
+        "archive-proposal",
+        "execute_stage",
+        "archive-proposal::archive-proposal",
+        vec![
+            "workflow.stage.execute".to_string(),
+            "repo.write".to_string(),
+            "evidence.write".to_string(),
+        ],
+        vec![
+            proposal_root.display().to_string(),
+            archived_root.display().to_string(),
+            bundle_root.join("stages/archive-proposal").display().to_string(),
+        ],
+        false,
+        true,
+        "medium",
+        Some("scoped_repo_mutation"),
+    )?;
+    let archive_result: Result<()> = (|| {
+        ensure!(
+            !archived_root.exists(),
+            "archive destination already exists: {}",
+            archived_root.display()
+        );
+        if let Some(parent) = archived_root.parent() {
+            fs::create_dir_all(parent)
+                .with_context(|| format!("create {}", parent.display()))?;
+        }
+        fs::rename(&proposal_root, &archived_root).with_context(|| {
+            format!(
+                "move proposal from {} to {}",
+                proposal_root.display(),
+                archived_root.display()
+            )
+        })?;
+        manifest.status = "archived".to_string();
+        manifest.archive = Some(ProposalArchiveMetadata {
+            archived_at: today_string()?,
+            archived_from_status,
+            disposition: options.disposition.clone(),
+            original_path: proposal_rel.clone(),
+            promotion_evidence: options.promotion_evidence.clone(),
+        });
+        write_proposal_manifest(&archived_root, &manifest)?;
+        fs::write(
+            archived_root.join("navigation/artifact-catalog.md"),
+            build_artifact_catalog(
+                &archived_root,
+                &manifest.proposal_kind,
+                &manifest.proposal_id,
+                &archived_rel,
+            )?,
+        )?;
+        regenerate_proposal_registry(&repo_root, true)?;
+        Ok(())
+    })();
+    if let Err(error) = archive_result {
+        let _ = finalize_workflow_stage(
+            &stage_archive,
+            "failed",
+            Some(error.to_string()),
+            vec![archived_root.display().to_string()],
+        );
+        let _ = finalize_workflow_failure(
+            &workflow_artifacts,
+            &workflow_request,
+            &workflow_grant,
+            &started_at,
+            error.to_string(),
+            vec![bundle_root.display().to_string(), proposal_root.display().to_string()],
+        );
+        return Err(error);
+    }
+    finalize_workflow_stage(
+        &stage_archive,
+        "succeeded",
+        None,
+        vec![
+            archived_rel.clone(),
+            ".octon/generated/proposals/registry.yml".to_string(),
+        ],
+    )?;
+
+    write_create_inventory(&bundle_root, &archived_root)?;
+    write_create_commands_log(
+        &bundle_root,
+        &[
+            format!(
+                "- validate proposal before archive | proposal_path={} | validator_log={}",
+                proposal_rel,
+                rel_path(&repo_root, &validator_log)
+            ),
+            format!(
+                "- archive proposal | from={} | to={} | disposition={} | promotion_evidence={}",
+                proposal_rel,
+                archived_rel,
+                options.disposition,
+                options.promotion_evidence.join(", ")
+            ),
+        ],
+    )?;
+    let summary = format!(
+        "# Archive Proposal Summary\n\n- workflow_id: `archive-proposal`\n- proposal_path: `{}`\n- archived_path: `{}`\n- proposal_kind: `{}`\n- final_verdict: `archived`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n- disposition: `{}`\n",
+        proposal_rel,
+        archived_rel,
+        manifest.proposal_kind,
+        rel_path(&repo_root, &bundle_root),
+        rel_path(&repo_root, &summary_report),
+        rel_path(&repo_root, &validator_log),
+        options.disposition
+    );
+    fs::write(bundle_root.join("summary.md"), &summary)?;
+    fs::write(&summary_report, summary)?;
+    fs::write(
+        bundle_root.join("validation.md"),
+        format!(
+            "# Validation\n\n- final_verdict: `archived`\n- proposal_kind: `{}`\n- validator_log: `{}`\n- archived_path: `{}`\n- registry_sync: `passed`\n",
+            manifest.proposal_kind,
+            rel_path(&repo_root, &validator_log),
+            archived_rel
+        ),
+    )?;
+    fs::write(
+        bundle_root.join("bundle.yml"),
+        serde_yaml::to_string(&BundleMetadata {
+            kind: "workflow-execution-bundle".to_string(),
+            id: bundle_root
+                .file_name()
+                .and_then(|v| v.to_str())
+                .unwrap_or("workflow-bundle")
+                .to_string(),
+            workflow_id: "archive-proposal".to_string(),
+            package_path: archived_rel.clone(),
+            mode: "n/a".to_string(),
+            executor: "n/a".to_string(),
+            prepare_only: false,
+            slug: slugify(&archived_rel),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            summary: "summary.md".to_string(),
+            reports_dir: "reports".to_string(),
+            stage_inputs_dir: "stage-inputs".to_string(),
+            stage_logs_dir: "stage-logs".to_string(),
+            selected_stages: vec![
+                "validate-proposal".to_string(),
+                "archive-proposal".to_string(),
+                "report".to_string(),
+            ],
+            report_paths: BTreeMap::new(),
+            changed_files: BTreeMap::new(),
+            plan: "plan.md".to_string(),
+            inventory: "inventory.md".to_string(),
+            commands: "commands.md".to_string(),
+            validation: "validation.md".to_string(),
+            summary_report: rel_path(&repo_root, &summary_report),
+            final_verdict: "archived".to_string(),
+            failure_class: None,
+            failed_stage: None,
+        })?,
+    )?;
+    finalize_execution(
+        &workflow_artifacts,
+        &workflow_request,
+        &workflow_grant,
+        &started_at,
+        &ExecutionOutcome {
+            status: "succeeded".to_string(),
+            started_at: started_at.clone(),
+            completed_at: auth_now_rfc3339()?,
+            error: None,
+        },
+        &SideEffectSummary {
+            touched_scope: vec![
+                bundle_root.display().to_string(),
+                archived_root.display().to_string(),
+                repo_root
+                    .join(".octon/generated/proposals/registry.yml")
+                    .display()
+                    .to_string(),
+            ],
+            ..SideEffectSummary::default()
+        },
+    )?;
+
+    Ok(RunProposalOperationResult {
+        bundle_root,
+        summary_report,
+        final_verdict: "archived".to_string(),
     })
 }
 
@@ -3540,7 +4504,7 @@ fn build_source_of_truth_map(
     };
     let optional_docs = build_optional_module_docs(selected_modules);
     format!(
-        "# Proposal Reading And Precedence Map\n\n## Purpose\n\nThis file defines the proposal-local reading order and document precedence for implementers using this temporary design proposal. It does not make the proposal a canonical repository authority.\n\n## External Authorities\n\nRepository-wide governance and durable runtime/documentation surfaces remain higher-precedence than this temporary proposal.\n\n## Primary Proposal Inputs\n\n### Core\n\n- `proposal.yml`\n- `design-proposal.yml`\n- `implementation/README.md`\n- `implementation/minimal-implementation-blueprint.md`\n- `implementation/first-implementation-plan.md`\n\n### Class-Specific Normative Docs\n\n{}\n\n### Optional Modules\n\n{}\n\n### Discovery Projection\n\n- `/.octon/generated/proposals/registry.yml`\n\n## Conflict Resolution\n\n1. repository-wide governance and durable authorities\n2. `proposal.yml`\n3. `design-proposal.yml`\n4. class-specific normative docs\n5. optional module docs\n6. `implementation/README.md`\n7. `implementation/minimal-implementation-blueprint.md`\n8. `implementation/first-implementation-plan.md`\n9. `/.octon/generated/proposals/registry.yml`\n10. reference and history material\n",
+        "# Proposal Reading And Precedence Map\n\n## Purpose\n\nThis file defines the proposal-local reading order, authority boundaries, and evidence model for this temporary design proposal. It does not make the proposal a canonical repository authority.\n\n## External Authorities\n\n| Concern | Source of truth | Notes |\n| --- | --- | --- |\n| Repo-wide authority and non-canonical rules | `.octon/README.md`, `.octon/framework/cognition/_meta/architecture/specification.md`, `.octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md` | These durable surfaces outrank this proposal. |\n| Proposal workspace layout and lifecycle contract | `.octon/inputs/exploratory/proposals/README.md`, `.octon/framework/scaffolding/governance/patterns/proposal-standard.md`, `.octon/framework/scaffolding/governance/patterns/design-proposal-standard.md` | These durable proposal rules define placement, lifecycle, and package expectations. |\n| Design subtype contract | `.octon/framework/scaffolding/runtime/templates/design-proposal.schema.json`, `.octon/framework/assurance/runtime/_ops/scripts/validate-design-proposal.sh` | The subtype manifest, module rules, and validator behavior must remain aligned. |\n| Proposal registry projection contract | `.octon/generated/proposals/registry.yml`, `.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json` | The registry is projection-only and never outranks the manifests. |\n| Workflow evidence location | `.octon/state/evidence/runs/workflows/`, `.octon/state/evidence/validation/` | Proposal operation receipts belong under retained evidence, not inside the proposal package. |\n\n## Primary Proposal Inputs\n\n### Core\n\n- `proposal.yml`\n- `design-proposal.yml`\n- `implementation/README.md`\n- `implementation/minimal-implementation-blueprint.md`\n- `implementation/first-implementation-plan.md`\n\n### Class-Specific Normative Docs\n\n{}\n\n### Optional Modules\n\n{}\n\n### Discovery Projection\n\n- `/.octon/generated/proposals/registry.yml`\n\n## Proposal-Local Authority Roles\n\n| Artifact | Role | Authority level |\n| --- | --- | --- |\n| `proposal.yml` | Base identity, scope, targets, lifecycle, and exit contract | Highest proposal-local |\n| `design-proposal.yml` | Design subtype class, module, and validation contract | Secondary proposal-local |\n| Class-specific normative docs | The design-spec authority that implementation and review rely on | Primary working design surface |\n| `implementation/*.md` | Implementation framing and first-slice guidance | Supporting implementation guidance |\n| Optional module docs | Supporting reference, history, contracts, conformance, and canonicalization material | Supporting, not authoritative over manifests |\n| `navigation/source-of-truth-map.md` | Manual proposal-local precedence, authority, and evidence map | Explanatory support |\n| `navigation/artifact-catalog.md` | Generated file inventory for the current package shape | Low-authority generated inventory |\n| `/.octon/generated/proposals/registry.yml` | Discovery projection rebuilt from proposal manifests | Projection only |\n| `README.md` | Human entry point and reading guidance | Explanatory only |\n\n## Conflict Resolution\n\n1. Repository-wide governance and durable authorities\n2. `proposal.yml`\n3. `design-proposal.yml`\n4. Class-specific normative docs\n5. `implementation/README.md`\n6. `implementation/minimal-implementation-blueprint.md`\n7. `implementation/first-implementation-plan.md`\n8. Optional module docs\n9. `navigation/source-of-truth-map.md`\n10. `navigation/artifact-catalog.md`\n11. `/.octon/generated/proposals/registry.yml`\n12. `README.md`\n\n## Boundary Rules\n\n- This proposal remains temporary and non-canonical even when its content is implementation-ready.\n- Durable runtime, documentation, policy, and contract outputs must be promoted outside `/.octon/inputs/exploratory/proposals/`.\n- Proposal discovery is allowed through the committed registry projection, but lifecycle truth stays in `proposal.yml` and `design-proposal.yml`.\n- Proposal operation evidence belongs under `state/evidence/**`, not inside the proposal package or under `generated/**`.\n",
         primary_docs, optional_docs
     )
 }
@@ -3549,20 +4513,106 @@ fn expected_active_proposal_rel(proposal_kind: &str, proposal_id: &str) -> Strin
     format!("{PROPOSALS_ROOT_REL}/{proposal_kind}/{proposal_id}")
 }
 
+fn expected_archived_proposal_rel(proposal_kind: &str, proposal_id: &str) -> String {
+    format!("{PROPOSALS_ROOT_REL}/.archive/{proposal_kind}/{proposal_id}")
+}
+
+fn static_primary_docs(kind: StaticProposalKind) -> Vec<&'static str> {
+    match kind {
+        StaticProposalKind::Migration => vec![
+            "`migration/plan.md`",
+            "`migration/release-notes.md`",
+            "`migration/rollback.md`",
+        ],
+        StaticProposalKind::Policy => vec![
+            "`policy/decision.md`",
+            "`policy/policy-delta.md`",
+            "`policy/enforcement-plan.md`",
+        ],
+        StaticProposalKind::Architecture => vec![
+            "`architecture/target-architecture.md`",
+            "`architecture/acceptance-criteria.md`",
+            "`architecture/implementation-plan.md`",
+        ],
+    }
+}
+
+fn static_subtype_manifest_name(kind: StaticProposalKind) -> &'static str {
+    match kind {
+        StaticProposalKind::Migration => "migration-proposal.yml",
+        StaticProposalKind::Policy => "policy-proposal.yml",
+        StaticProposalKind::Architecture => "architecture-proposal.yml",
+    }
+}
+
+fn static_standard_path(kind: StaticProposalKind) -> &'static str {
+    match kind {
+        StaticProposalKind::Migration => ".octon/framework/scaffolding/governance/patterns/migration-proposal-standard.md",
+        StaticProposalKind::Policy => ".octon/framework/scaffolding/governance/patterns/policy-proposal-standard.md",
+        StaticProposalKind::Architecture => ".octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md",
+    }
+}
+
+fn static_schema_path(kind: StaticProposalKind) -> &'static str {
+    match kind {
+        StaticProposalKind::Migration => ".octon/framework/scaffolding/runtime/templates/migration-proposal.schema.json",
+        StaticProposalKind::Policy => ".octon/framework/scaffolding/runtime/templates/policy-proposal.schema.json",
+        StaticProposalKind::Architecture => ".octon/framework/scaffolding/runtime/templates/architecture-proposal.schema.json",
+    }
+}
+
+fn static_validator_rel(kind: StaticProposalKind) -> &'static str {
+    match kind {
+        StaticProposalKind::Migration => ".octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh",
+        StaticProposalKind::Policy => ".octon/framework/assurance/runtime/_ops/scripts/validate-policy-proposal.sh",
+        StaticProposalKind::Architecture => ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh",
+    }
+}
+
+fn build_static_source_of_truth_map(kind: StaticProposalKind) -> String {
+    let primary_docs = format_markdown_bullets(static_primary_docs(kind));
+    format!(
+        "# Proposal Reading And Precedence Map\n\n## Purpose\n\nThis file defines the proposal-local reading order, authority boundaries, and evidence model for this temporary {} proposal. It does not make the proposal a canonical repository authority.\n\n## External Authorities\n\n| Concern | Source of truth | Notes |\n| --- | --- | --- |\n| Repo-wide authority and non-canonical rules | `.octon/README.md`, `.octon/framework/cognition/_meta/architecture/specification.md`, `.octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md` | These durable surfaces outrank this proposal. |\n| Proposal workspace layout and lifecycle contract | `.octon/inputs/exploratory/proposals/README.md`, `.octon/framework/scaffolding/governance/patterns/proposal-standard.md`, `{}` | These durable proposal rules define placement, lifecycle, and subtype requirements. |\n| Subtype contract | `{}`, `{}` | The subtype manifest shape, template, and validator behavior must remain aligned. |\n| Proposal registry projection contract | `.octon/generated/proposals/registry.yml`, `.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json` | The registry is projection-only and never outranks the manifests. |\n| Workflow evidence location | `.octon/state/evidence/runs/workflows/`, `.octon/state/evidence/validation/` | Proposal operation receipts belong under retained evidence, not inside the proposal package. |\n\n## Primary Proposal Inputs\n\n1. `proposal.yml`\n2. `{}`\n3. `navigation/source-of-truth-map.md`\n4. {}\n5. `navigation/artifact-catalog.md`\n6. `/.octon/generated/proposals/registry.yml`\n\n## Proposal-Local Authority Roles\n\n| Artifact | Role | Authority level |\n| --- | --- | --- |\n| `proposal.yml` | Base identity, scope, targets, lifecycle, and exit contract | Highest proposal-local |\n| `{}` | Subtype-specific structured contract | Secondary proposal-local |\n| Primary subtype docs | The proposal's working design/architecture/policy surface | Primary working surface |\n| `navigation/source-of-truth-map.md` | Manual proposal-local precedence, authority, and evidence map | Explanatory support |\n| `navigation/artifact-catalog.md` | Generated file inventory for the current package shape | Low-authority generated inventory |\n| `/.octon/generated/proposals/registry.yml` | Discovery projection rebuilt from proposal manifests | Projection only |\n| `README.md` | Human entry point and reading guidance | Explanatory only |\n\n## Conflict Resolution\n\n1. Repository-wide governance and durable authorities\n2. `proposal.yml`\n3. `{}`\n4. Primary subtype docs\n5. `navigation/source-of-truth-map.md`\n6. `navigation/artifact-catalog.md`\n7. `/.octon/generated/proposals/registry.yml`\n8. `README.md`\n\n## Boundary Rules\n\n- This proposal remains temporary and non-canonical at every lifecycle stage.\n- Durable runtime, documentation, policy, and contract outputs must be promoted outside `/.octon/inputs/exploratory/proposals/`.\n- Proposal discovery is allowed through the committed registry projection, but lifecycle truth stays in `proposal.yml` and the subtype manifest.\n- Proposal operation evidence belongs under `state/evidence/**`, not inside the proposal package or under `generated/**`.\n",
+        kind.as_str(),
+        static_standard_path(kind),
+        static_schema_path(kind),
+        static_validator_rel(kind),
+        static_subtype_manifest_name(kind),
+        primary_docs,
+        static_subtype_manifest_name(kind),
+        static_subtype_manifest_name(kind),
+    )
+}
+
+fn catalog_inventory(package_root: &Path) -> Result<Vec<String>> {
+    let mut entries = Vec::new();
+    for path in snapshot_package(package_root)?.keys() {
+        if path.split('/').any(|segment| segment.starts_with('.')) {
+            continue;
+        }
+        entries.push(path.clone());
+    }
+    Ok(entries)
+}
+
 fn build_artifact_catalog(
     package_root: &Path,
+    proposal_kind: &str,
     package_id: &str,
     package_rel: &str,
 ) -> Result<String> {
-    let inventory = snapshot_package(package_root)?;
+    let inventory = catalog_inventory(package_root)?;
     let entries = if inventory.is_empty() {
-        "- no files recorded".to_string()
+        "| _none_ | No visible files recorded |\n".to_string()
     } else {
-        format_markdown_bullets(inventory.keys().map(String::as_str))
+        inventory
+            .iter()
+            .map(|path| format!("| `{path}` | Generated inventory entry |\n"))
+            .collect::<String>()
     };
     Ok(format!(
-        "# Artifact Catalog\n\nThis catalog lists the files currently present in the proposal. Regenerate it whenever files are added, removed, or reorganized.\n\n## Proposal\n\n- `proposal_id`: `{}`\n- `proposal_path`: `{}`\n\n## Files\n\n{}\n",
-        package_id, package_rel, entries
+        "# Artifact Catalog\n\nThis catalog is generated from the on-disk proposal package shape. Regenerate it whenever files are added, removed, or reorganized.\n\n## Proposal\n\n- `proposal_id`: `{}`\n- `proposal_kind`: `{}`\n- `proposal_path`: `{}`\n\n## Files\n\n| Path | Role |\n| --- | --- |\n{}",
+        package_id, proposal_kind, package_rel, entries
     ))
 }
 
@@ -3715,68 +4765,31 @@ fn build_create_design_package_summary(
     body
 }
 
-fn upsert_proposal_registry(
-    repo_root: &Path,
-    proposal_id: &str,
-    proposal_kind: &str,
-    proposal_scope: &str,
-    proposal_rel: &str,
-    proposal_title: &str,
-    promotion_targets: &[String],
-    status: &str,
-) -> Result<()> {
+fn regenerate_proposal_registry(repo_root: &Path, write: bool) -> Result<()> {
+    let generator = repo_root.join(PROPOSAL_REGISTRY_GENERATOR_REL);
     ensure!(
-        proposal_rel == expected_active_proposal_rel(proposal_kind, proposal_id),
-        "proposal registry entry path must match the canonical proposal_id-based layout: expected '{}', got '{}'",
-        expected_active_proposal_rel(proposal_kind, proposal_id),
-        proposal_rel
+        generator.is_file(),
+        "proposal registry generator missing: {}",
+        generator.display()
     );
 
-    let registry_path = repo_root.join(".octon/generated/proposals/registry.yml");
-    let mut registry = if registry_path.is_file() {
-        let contents = fs::read_to_string(&registry_path)
-            .with_context(|| format!("read {}", registry_path.display()))?;
-        serde_yaml::from_str::<ProposalRegistry>(&contents)
-            .with_context(|| format!("parse {}", registry_path.display()))?
-    } else {
-        ProposalRegistry {
-            schema_version: "proposal-registry-v1".to_string(),
-            active: Vec::new(),
-            archived: Vec::new(),
-        }
-    };
-
-    if registry.schema_version.is_empty() {
-        registry.schema_version = "proposal-registry-v1".to_string();
+    let mode = if write { "--write" } else { "--check" };
+    let output = Command::new("bash")
+        .arg(&generator)
+        .arg(mode)
+        .current_dir(repo_root)
+        .output()
+        .with_context(|| format!("run proposal registry generator {}", generator.display()))?;
+    if !output.status.success() {
+        bail!(
+            "proposal registry generator failed via {} (status {})\nstdout:\n{}\nstderr:\n{}",
+            mode,
+            output.status,
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr),
+        );
     }
-
-    registry
-        .active
-        .retain(|entry| !(entry.id == proposal_id && entry.kind == proposal_kind));
-    registry
-        .archived
-        .retain(|entry| !(entry.id == proposal_id && entry.kind == proposal_kind));
-    registry.active.push(ProposalActiveRegistryEntry {
-        id: proposal_id.to_string(),
-        kind: proposal_kind.to_string(),
-        scope: proposal_scope.to_string(),
-        path: proposal_rel.to_string(),
-        title: proposal_title.to_string(),
-        status: status.to_string(),
-        promotion_targets: promotion_targets.to_vec(),
-    });
-    registry.active.sort_by(|left, right| {
-        left.kind
-            .cmp(&right.kind)
-            .then_with(|| left.id.cmp(&right.id))
-    });
-
-    let yaml = serde_yaml::to_string(&registry)?;
-    if let Some(parent) = registry_path.parent() {
-        fs::create_dir_all(parent)
-            .with_context(|| format!("create {}", parent.display()))?;
-    }
-    fs::write(&registry_path, yaml).with_context(|| format!("write {}", registry_path.display()))
+    Ok(())
 }
 
 fn write_create_stage_input(
@@ -3971,15 +4984,7 @@ fn run_design_proposal_validator_stack(
     proposal_root: &Path,
     bundle_root: &Path,
 ) -> Result<PathBuf> {
-    run_validator_stack(
-        repo_root,
-        proposal_root,
-        bundle_root,
-        &[
-            ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh",
-            STANDARD_DESIGN_PACKAGE_VALIDATOR_REL,
-        ],
-    )
+    run_proposal_validator_stack(repo_root, proposal_root, bundle_root, "design")
 }
 
 fn run_static_proposal_validator_stack(
@@ -3988,13 +4993,32 @@ fn run_static_proposal_validator_stack(
     bundle_root: &Path,
     kind: StaticProposalKind,
 ) -> Result<PathBuf> {
+    run_proposal_validator_stack(repo_root, proposal_root, bundle_root, kind.as_str())
+}
+
+fn proposal_validator_rel(proposal_kind: &str) -> Result<&'static str> {
+    match proposal_kind {
+        "design" => Ok(STANDARD_DESIGN_PACKAGE_VALIDATOR_REL),
+        "migration" => Ok(static_validator_rel(StaticProposalKind::Migration)),
+        "policy" => Ok(static_validator_rel(StaticProposalKind::Policy)),
+        "architecture" => Ok(static_validator_rel(StaticProposalKind::Architecture)),
+        other => bail!("unsupported proposal kind '{}'", other),
+    }
+}
+
+fn run_proposal_validator_stack(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+    proposal_kind: &str,
+) -> Result<PathBuf> {
     run_validator_stack(
         repo_root,
         proposal_root,
         bundle_root,
         &[
             ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh",
-            kind.validator_rel(),
+            proposal_validator_rel(proposal_kind)?,
         ],
     )
 }
@@ -4073,6 +5097,93 @@ fn build_static_proposal_replacements(
     replacements.insert("PROPOSAL_STATUS".to_string(), "draft".to_string());
     replacements.insert("RELATED_PROPOSALS_YAML".to_string(), "  []\n".to_string());
     replacements
+}
+
+fn load_proposal_manifest(proposal_root: &Path) -> Result<ProposalManifest> {
+    let manifest_path = proposal_root.join("proposal.yml");
+    let raw =
+        fs::read_to_string(&manifest_path).with_context(|| format!("read {}", manifest_path.display()))?;
+    serde_yaml::from_str(&raw).with_context(|| format!("parse {}", manifest_path.display()))
+}
+
+fn write_proposal_manifest(proposal_root: &Path, manifest: &ProposalManifest) -> Result<()> {
+    let manifest_path = proposal_root.join("proposal.yml");
+    fs::write(&manifest_path, serde_yaml::to_string(manifest)?)
+        .with_context(|| format!("write {}", manifest_path.display()))
+}
+
+fn validate_repo_relative_paths(repo_root: &Path, paths: &[String], label: &str) -> Result<()> {
+    ensure!(!paths.is_empty(), "{} must not be empty", label);
+    for path in paths {
+        ensure!(
+            !path.starts_with('/'),
+            "{} must use repo-relative paths: {}",
+            label,
+            path
+        );
+        let canonical = repo_root
+            .join(path)
+            .canonicalize()
+            .with_context(|| format!("resolve {} path {}", label, path))?;
+        ensure!(
+            canonical.starts_with(repo_root),
+            "{} path must stay inside the repository root: {}",
+            label,
+            path
+        );
+        ensure!(
+            canonical.exists(),
+            "{} path must exist: {}",
+            label,
+            path
+        );
+    }
+    Ok(())
+}
+
+fn ensure_promotion_targets_ready(
+    repo_root: &Path,
+    manifest: &ProposalManifest,
+    proposal_root: &Path,
+) -> Result<()> {
+    let active_rel = rel_path(repo_root, proposal_root);
+    let archived_rel =
+        expected_archived_proposal_rel(&manifest.proposal_kind, &manifest.proposal_id);
+
+    for target in &manifest.promotion_targets {
+        let target_path = repo_root.join(target);
+        ensure!(
+            target_path.exists(),
+            "promotion target must exist before promotion: {}",
+            target
+        );
+
+        for pattern in [&active_rel, &archived_rel] {
+            let output = Command::new("grep")
+                .arg("-R")
+                .arg("-n")
+                .arg("-F")
+                .arg(pattern)
+                .arg(&target_path)
+                .current_dir(repo_root)
+                .output()
+                .with_context(|| {
+                    format!(
+                        "scan promotion target {} for proposal references",
+                        target_path.display()
+                    )
+                })?;
+            if output.status.success() {
+                bail!(
+                    "promotion target retains proposal-path dependency: {}\n{}",
+                    target,
+                    String::from_utf8_lossy(&output.stdout)
+                );
+            }
+        }
+    }
+
+    Ok(())
 }
 
 fn build_static_create_summary(

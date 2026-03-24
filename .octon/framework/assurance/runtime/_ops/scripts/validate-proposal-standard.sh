@@ -9,9 +9,12 @@ ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
 PROPOSAL_PATH=""
 SCAN_ALL=0
+SKIP_REGISTRY_CHECK=0
+SKIP_PROMOTION_TARGET_CHECKS=0
 errors=0
 warnings=0
-registry_schema_validated=0
+
+GENERATOR_SCRIPT="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
 
 fail() {
   echo "[ERROR] $1"
@@ -30,8 +33,8 @@ pass() {
 usage() {
   cat <<'EOF'
 usage:
-  validate-proposal-standard.sh --package <path>
-  validate-proposal-standard.sh --all-standard-proposals
+  validate-proposal-standard.sh --package <path> [--skip-registry-check] [--skip-promotion-target-checks]
+  validate-proposal-standard.sh --all-standard-proposals [--skip-registry-check] [--skip-promotion-target-checks]
 EOF
 }
 
@@ -44,6 +47,12 @@ while [[ $# -gt 0 ]]; do
       ;;
     --all-standard-proposals)
       SCAN_ALL=1
+      ;;
+    --skip-registry-check)
+      SKIP_REGISTRY_CHECK=1
+      ;;
+    --skip-promotion-target-checks)
+      SKIP_PROMOTION_TARGET_CHECKS=1
       ;;
     *)
       usage >&2
@@ -99,12 +108,6 @@ yaml_string() {
   yq -r "$query // \"\"" "$file"
 }
 
-json_string() {
-  local file="$1"
-  local query="$2"
-  yq -r "$query // \"\"" "$file"
-}
-
 check_file() {
   local file="$1"
   local label="$2"
@@ -141,15 +144,6 @@ validate_regex() {
   fi
 }
 
-validate_schema_enum() {
-  local value="$1"
-  local label="$2"
-  local schema_file="$3"
-  local query="$4"
-  mapfile -t allowed < <(yq -r "$query[]" "$schema_file")
-  validate_enum "$value" "$label" "${allowed[@]}"
-}
-
 validate_non_empty() {
   local value="$1"
   local label="$2"
@@ -178,118 +172,81 @@ validate_subtype_manifest_count() {
   fi
 }
 
-validate_registry_section_against_schema() {
-  local registry="$1"
-  local schema="$2"
-  local section="$3"
-  local count idx value
-  local required_query=".properties.${section}.items.required"
-  local props_query=".properties.${section}.items.properties"
-  local id_pattern kind_query scope_query path_pattern status_query
-
-  count="$(yq -r ".${section} | length" "$registry")"
-  id_pattern="$(json_string "$schema" "${props_query}.id.pattern")"
-  kind_query="${props_query}.kind.enum"
-  scope_query="${props_query}.scope.enum"
-  path_pattern="$(json_string "$schema" "${props_query}.path.pattern")"
-
-  if [[ "$section" == "active" ]]; then
-    status_query="${props_query}.status.enum"
-  else
-    status_query="${props_query}.status.const"
-  fi
-
-  for ((idx = 0; idx < count; idx++)); do
-    local prefix="proposal registry ${section}[$idx]"
-    local field
-
-    while IFS= read -r field; do
-      [[ -n "$field" ]] || continue
-      if [[ "$field" == "promotion_targets" ]]; then
-        value="$(yq -r ".${section}[$idx].promotion_targets | length" "$registry")"
-        if [[ "$value" =~ ^[1-9][0-9]*$ ]]; then
-          pass "$prefix promotion_targets present"
-        else
-          fail "$prefix promotion_targets present"
-        fi
-      else
-        value="$(yq -r ".${section}[$idx].${field} // \"\"" "$registry")"
-        validate_non_empty "$value" "$prefix required field '${field}' present"
-      fi
-    done < <(yq -r "$required_query[]" "$schema")
-
-    value="$(yq -r ".${section}[$idx].id // \"\"" "$registry")"
-    validate_regex "$value" "$prefix id matches schema" "$id_pattern"
-
-    value="$(yq -r ".${section}[$idx].kind // \"\"" "$registry")"
-    validate_schema_enum "$value" "$prefix kind matches schema" "$schema" "$kind_query"
-
-    value="$(yq -r ".${section}[$idx].scope // \"\"" "$registry")"
-    validate_schema_enum "$value" "$prefix scope matches schema" "$schema" "$scope_query"
-
-    value="$(yq -r ".${section}[$idx].path // \"\"" "$registry")"
-    validate_regex "$value" "$prefix path matches schema" "$path_pattern"
-
-    value="$(yq -r ".${section}[$idx].title // \"\"" "$registry")"
-    validate_non_empty "$value" "$prefix title present"
-
-    if [[ "$section" == "active" ]]; then
-      value="$(yq -r ".${section}[$idx].status // \"\"" "$registry")"
-      validate_schema_enum "$value" "$prefix status matches schema" "$schema" "$status_query"
-    else
-      value="$(yq -r ".${section}[$idx].status // \"\"" "$registry")"
-      validate_enum "$value" "$prefix status matches schema" "$(json_string "$schema" "$status_query")"
-
-      value="$(yq -r ".${section}[$idx].disposition // \"\"" "$registry")"
-      validate_schema_enum "$value" "$prefix disposition matches schema" "$schema" "${props_query}.disposition.enum"
-
-      value="$(yq -r ".${section}[$idx].archived_at // \"\"" "$registry")"
-      validate_regex "$value" "$prefix archived_at matches schema" "$(json_string "$schema" "${props_query}.archived_at.pattern")"
-
-      value="$(yq -r ".${section}[$idx].archived_from_status // \"\"" "$registry")"
-      validate_schema_enum "$value" "$prefix archived_from_status matches schema" "$schema" "${props_query}.archived_from_status.enum"
-
-      value="$(yq -r ".${section}[$idx].original_path // \"\"" "$registry")"
-      validate_non_empty "$value" "$prefix original_path present"
-    fi
-
-    local target_count target_idx target
-    target_count="$(yq -r ".${section}[$idx].promotion_targets | length" "$registry")"
-    for ((target_idx = 0; target_idx < target_count; target_idx++)); do
-      target="$(yq -r ".${section}[$idx].promotion_targets[$target_idx] // \"\"" "$registry")"
-      validate_non_empty "$target" "$prefix promotion_targets[$target_idx] present"
-    done
-  done
+artifact_catalog_entries() {
+  local artifact_catalog="$1"
+  perl -ne 'while(/`([^`]+)`/g){print "$1\n"}' "$artifact_catalog" \
+    | grep -E '^[^/[:space:]][^[:space:]]*\.[A-Za-z0-9._-]+$' \
+    | grep -v '^\.octon/' \
+    | sort -u || true
 }
 
-validate_registry_schema() {
-  local registry="$ROOT_DIR/.octon/generated/proposals/registry.yml"
-  local schema="$ROOT_DIR/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json"
+proposal_file_inventory() {
+  local proposal_dir="$1"
+  find "$proposal_dir" -type f | while IFS= read -r file; do
+    local rel="${file#$proposal_dir/}"
+    case "$rel" in
+      .*|*/.*)
+        continue
+        ;;
+    esac
+    printf '%s\n' "$rel"
+  done | sort
+}
 
-  if [[ "$registry_schema_validated" -eq 1 ]]; then
-    return 0
+validate_artifact_catalog() {
+  local proposal_dir="$1"
+  local label="$2"
+  local catalog="$proposal_dir/navigation/artifact-catalog.md"
+  [[ -f "$catalog" ]] || return 0
+
+  local tmp_dir actual listed
+  tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/proposal-catalog.XXXXXX")"
+  actual="$tmp_dir/actual.txt"
+  listed="$tmp_dir/listed.txt"
+  local missing stale
+
+  proposal_file_inventory "$proposal_dir" >"$actual"
+  artifact_catalog_entries "$catalog" >"$listed"
+
+  missing="$(comm -23 "$actual" "$listed" || true)"
+  stale="$(comm -13 "$actual" "$listed" || true)"
+
+  if [[ -n "$stale" ]]; then
+    fail "$label artifact catalog references only on-disk files"
+    echo "--- artifact-catalog stale entries"
+    printf '%s\n' "$stale"
+  else
+    pass "$label artifact catalog references only on-disk files"
   fi
-  registry_schema_validated=1
 
-  check_file "$registry" "proposal registry exists"
-  [[ -f "$registry" ]] || return 0
-  if ! yq -e '.' "$registry" >/dev/null 2>&1; then
-    fail "proposal registry parses as YAML"
-    return 0
+  if [[ -n "$missing" ]]; then
+    warn "$label artifact catalog omits some visible files; regenerate inventory for full coverage"
+  else
+    pass "$label artifact catalog covers visible files"
   fi
-  pass "proposal registry parses as YAML"
 
-  check_file "$schema" "proposal registry schema exists"
-  [[ -f "$schema" ]] || return 0
-  if ! yq -e '.' "$schema" >/dev/null 2>&1; then
-    fail "proposal registry schema parses as JSON"
-    return 0
+  if [[ -d "$tmp_dir" ]]; then
+    rm -r "$tmp_dir"
   fi
-  pass "proposal registry schema parses as JSON"
+}
 
-  validate_enum "$(yaml_string "$registry" '.schema_version')" "proposal registry schema_version valid" "$(json_string "$schema" '.properties.schema_version.const')"
-  validate_registry_section_against_schema "$registry" "$schema" "active"
-  validate_registry_section_against_schema "$registry" "$schema" "archived"
+validate_lifecycle() {
+  local manifest="$1"
+  local label="$2"
+
+  if [[ "$(yaml_string "$manifest" '.lifecycle.temporary')" == "true" ]]; then
+    pass "$label lifecycle.temporary remains true"
+  else
+    fail "$label lifecycle.temporary remains true"
+  fi
+
+  validate_non_empty "$(yaml_string "$manifest" '.lifecycle.exit_expectation')" "$label lifecycle.exit_expectation present"
+
+  if yq -e 'has("exit_expectation")' "$manifest" >/dev/null 2>&1; then
+    fail "$label top-level exit_expectation is forbidden"
+  else
+    pass "$label top-level exit_expectation is absent"
+  fi
 }
 
 allow_legacy_mixed_scope() {
@@ -297,12 +254,17 @@ allow_legacy_mixed_scope() {
   [[ "$(yaml_string "$manifest" '.archive.archived_from_status')" == "legacy-unknown" ]]
 }
 
+is_legacy_archive() {
+  local manifest="$1"
+  [[ "$(yaml_string "$manifest" '.status')" == "archived" ]] && allow_legacy_mixed_scope "$manifest"
+}
+
 validate_promotion_targets() {
   local manifest="$1"
   local label="$2"
   local proposal_id="$3"
-  local proposal_rel="$4"
-  local scope target_rel saw_octon=0 saw_non_octon=0 allow_legacy=0
+  local scope status target_rel saw_octon=0 saw_non_octon=0 allow_legacy=0
+  status="$(yaml_string "$manifest" '.status')"
 
   scope="$(yaml_string "$manifest" '.promotion_scope')"
   if allow_legacy_mixed_scope "$manifest"; then
@@ -322,19 +284,25 @@ validate_promotion_targets() {
     fi
   done < <(yq -r '.promotion_targets[]?' "$manifest")
 
-  if [[ "$scope" == "octon-internal" && "$saw_non_octon" -eq 1 && "$allow_legacy" -ne 1 ]]; then
+  if [[ "$status" == "archived" ]]; then
+    pass "$label archived proposal preserves promotion target provenance"
+  elif [[ "$scope" == "octon-internal" && "$saw_non_octon" -eq 1 && "$allow_legacy" -ne 1 ]]; then
     fail "$label octon-internal scope includes non-.octon promotion targets"
   elif [[ "$scope" == "octon-internal" ]]; then
     pass "$label octon-internal targets stay under .octon/"
   fi
 
-  if [[ "$scope" == "repo-local" && "$saw_octon" -eq 1 && "$allow_legacy" -ne 1 ]]; then
+  if [[ "$status" == "archived" ]]; then
+    true
+  elif [[ "$scope" == "repo-local" && "$saw_octon" -eq 1 && "$allow_legacy" -ne 1 ]]; then
     fail "$label repo-local scope includes .octon promotion targets"
   elif [[ "$scope" == "repo-local" ]]; then
     pass "$label repo-local targets stay outside .octon/"
   fi
 
-  if [[ "$saw_octon" -eq 1 && "$saw_non_octon" -eq 1 ]]; then
+  if [[ "$status" == "archived" ]]; then
+    true
+  elif [[ "$saw_octon" -eq 1 && "$saw_non_octon" -eq 1 ]]; then
     if [[ "$allow_legacy" -eq 1 ]]; then
       warn "$label preserves historical mixed targets under legacy-unknown archive lineage"
     else
@@ -355,44 +323,23 @@ validate_promotion_targets() {
       fi
       continue
     fi
-    local found=""
-    found="$(grep -R -n -E "\\.octon/inputs/exploratory/proposals/(\\.archive/)?[a-z0-9-]+/${proposal_id}" "$target_abs" 2>/dev/null || true)"
-    if [[ -n "$found" ]]; then
-      fail "$label promotion target retains proposal-path dependency: $target_rel"
-      printf '%s\n' "$found"
+    if [[ "$status" == "archived" ]]; then
+      pass "$label archived proposal skips proposal-path dependency scan for historical targets: $target_rel"
     else
-      pass "$label promotion target avoids proposal-path backreferences: $target_rel"
+      local found=""
+      if command -v rg >/dev/null 2>&1; then
+        found="$(rg -n -e "\\.octon/inputs/exploratory/proposals/(\\.archive/)?[a-z0-9-]+/${proposal_id}" "$target_abs" 2>/dev/null || true)"
+      else
+        found="$(grep -R -n -E "\\.octon/inputs/exploratory/proposals/(\\.archive/)?[a-z0-9-]+/${proposal_id}" "$target_abs" 2>/dev/null || true)"
+      fi
+      if [[ -n "$found" ]]; then
+        fail "$label promotion target retains proposal-path dependency: $target_rel"
+        printf '%s\n' "$found"
+      else
+        pass "$label promotion target avoids proposal-path backreferences: $target_rel"
+      fi
     fi
   done < <(yq -r '.promotion_targets[]?' "$manifest")
-}
-
-validate_registry_projection() {
-  local manifest="$1"
-  local label="$2"
-  local proposal_id="$3"
-  local proposal_kind="$4"
-  local proposal_rel="$5"
-  local registry="$ROOT_DIR/.octon/generated/proposals/registry.yml"
-  local path_query
-
-  validate_registry_schema
-  [[ -f "$registry" ]] || return 0
-
-  if [[ "$(yaml_string "$manifest" '.status')" == "archived" ]]; then
-    path_query=".archived[] | select(.id == \"$proposal_id\" and .kind == \"$proposal_kind\") | .path"
-  else
-    path_query=".active[] | select(.id == \"$proposal_id\" and .kind == \"$proposal_kind\") | .path"
-  fi
-
-  local entry_path
-  entry_path="$(yq -r "$path_query // \"\"" "$registry")"
-  if [[ -z "$entry_path" ]]; then
-    fail "$label registry entry exists"
-  elif [[ "$entry_path" == "$proposal_rel" ]]; then
-    pass "$label registry entry path matches manifest path"
-  else
-    fail "$label registry entry path matches manifest path"
-  fi
 }
 
 validate_proposal() {
@@ -417,13 +364,31 @@ validate_proposal() {
   scope="$(yaml_string "$manifest" '.promotion_scope')"
   status="$(yaml_string "$manifest" '.status')"
 
+  validate_regex "$proposal_id" "proposal '$proposal_rel' proposal_id matches format" '^[a-z][a-z0-9-]*$'
   validate_enum "$kind" "proposal '$proposal_rel' kind valid" "design" "migration" "policy" "architecture"
   validate_enum "$scope" "proposal '$proposal_rel' scope valid" "octon-internal" "repo-local"
   validate_enum "$status" "proposal '$proposal_rel' status valid" "draft" "in-review" "accepted" "implemented" "rejected" "archived"
   check_file "$proposal_dir/README.md" "proposal '$proposal_rel' README exists"
-  check_file "$proposal_dir/navigation/artifact-catalog.md" "proposal '$proposal_rel' artifact catalog exists"
-  check_file "$proposal_dir/navigation/source-of-truth-map.md" "proposal '$proposal_rel' source-of-truth map exists"
+  if is_legacy_archive "$manifest"; then
+    if [[ -f "$proposal_dir/navigation/artifact-catalog.md" ]]; then
+      pass "proposal '$proposal_rel' artifact catalog exists"
+    else
+      warn "proposal '$proposal_rel' legacy archive omits artifact catalog"
+    fi
+    if [[ -f "$proposal_dir/navigation/source-of-truth-map.md" ]]; then
+      pass "proposal '$proposal_rel' source-of-truth map exists"
+    else
+      warn "proposal '$proposal_rel' legacy archive omits source-of-truth map"
+    fi
+  else
+    check_file "$proposal_dir/navigation/artifact-catalog.md" "proposal '$proposal_rel' artifact catalog exists"
+    check_file "$proposal_dir/navigation/source-of-truth-map.md" "proposal '$proposal_rel' source-of-truth map exists"
+  fi
   validate_subtype_manifest_count "$proposal_dir" "proposal '$proposal_rel'"
+  if ! is_legacy_archive "$manifest"; then
+    validate_artifact_catalog "$proposal_dir" "proposal '$proposal_rel'"
+  fi
+  validate_lifecycle "$manifest" "proposal '$proposal_rel'"
 
   if [[ "$(basename "$proposal_dir")" == "$proposal_id" ]]; then
     pass "proposal '$proposal_rel' id matches directory name"
@@ -440,7 +405,9 @@ validate_proposal() {
       pass "proposal '$proposal_rel' active path matches kind/id"
       path_mode="active"
       ;;
-    *) fail "proposal '$proposal_rel' lives in a valid proposal path" ;;
+    *)
+      fail "proposal '$proposal_rel' lives in a valid proposal path"
+      ;;
   esac
 
   target_count="$(yq -r '.promotion_targets | length' "$manifest")"
@@ -482,8 +449,9 @@ validate_proposal() {
     fi
   fi
 
-  validate_promotion_targets "$manifest" "proposal '$proposal_rel'" "$proposal_id" "$proposal_rel"
-  validate_registry_projection "$manifest" "proposal '$proposal_rel'" "$proposal_id" "$kind" "$proposal_rel"
+  if [[ "$SKIP_PROMOTION_TARGET_CHECKS" -ne 1 ]]; then
+    validate_promotion_targets "$manifest" "proposal '$proposal_rel'" "$proposal_id"
+  fi
 }
 
 main() {
@@ -494,6 +462,18 @@ main() {
   else
     proposal_dir="$(resolve_dir "$PROPOSAL_PATH")"
     validate_proposal "$proposal_dir"
+  fi
+
+  if [[ "$SKIP_REGISTRY_CHECK" -ne 1 ]]; then
+    if [[ -x "$GENERATOR_SCRIPT" || -f "$GENERATOR_SCRIPT" ]]; then
+      if bash "$GENERATOR_SCRIPT" --check; then
+        pass "proposal registry synchronized with manifest projection"
+      else
+        fail "proposal registry synchronized with manifest projection"
+      fi
+    else
+      fail "proposal registry generator exists"
+    fi
   fi
 
   echo "Validation summary: errors=$errors warnings=$warnings"

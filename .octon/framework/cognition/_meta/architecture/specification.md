@@ -89,7 +89,8 @@ super-root cutover.
     packages live only under
     `inputs/exploratory/proposals/.archive/<kind>/<proposal_id>/**`.
 37. `generated/proposals/registry.yml` is the only generated proposal
-    discovery surface and remains non-authoritative.
+    discovery surface, is rebuilt deterministically from proposal manifests,
+    and remains non-authoritative.
 38. `octon.yml#policies.generated_commit_defaults` is the binding default
     commit-versus-rebuild policy for generated outputs.
 39. Proposals are excluded from runtime resolution, policy resolution,
@@ -236,6 +237,11 @@ for runtime, governance, and practices.
 - repo-owned execution budget policy:
   `/.octon/instance/governance/policies/execution-budgets.yml`
 - generated proposal registry: `/.octon/generated/proposals/registry.yml`
+
+Proposal lifecycle authority stays in `proposal.yml` and the subtype manifest.
+`navigation/source-of-truth-map.md` is the manual proposal-local precedence
+map, `navigation/artifact-catalog.md` is generated inventory, and the proposal
+registry is discovery-only.
 
 ## Overlay And Ingress Contract
 

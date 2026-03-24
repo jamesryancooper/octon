@@ -1,22 +1,24 @@
 ---
 title: Validate Scaffolded Package
-description: Run the design-package standard validator against the scaffolded package.
+description: Run the fail-closed proposal validator stack against the scaffolded migration proposal.
 ---
 
 # Step 4: Validate Scaffolded Package
 
 ## Purpose
 
-Ensure the scaffolded package is standard-compliant before reporting success.
+Ensure the scaffolded proposal is standard-compliant before reporting success.
 
 ## Actions
 
 1. Run:
+   `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package ".octon/inputs/exploratory/proposals/migration/<proposal_id>"`
+2. Run:
    `bash .octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh --package ".octon/inputs/exploratory/proposals/migration/<proposal_id>"`
-2. Fail closed if validation fails.
-3. Persist the validator transcript into the workflow bundle as
+3. Fail closed if validation fails.
+4. Persist the validator transcript into the workflow bundle as
    `standard-validator.log`.
-4. Record the validator outcome and any follow-up work needed before the package
+5. Record the validator outcome and any follow-up work needed before the package
    is filled in.
 
 ## Proceed When

@@ -13,6 +13,8 @@ Every manifest-governed proposal must include:
   - `policy-proposal.yml`
   - `architecture-proposal.yml`
 - `README.md`
+- `navigation/source-of-truth-map.md`
+- `navigation/artifact-catalog.md`
 - optional `support/`
 
 Manifest-governed proposals are projected into
@@ -74,13 +76,16 @@ Each proposal should make its exit path obvious:
 
 ## Manifest-Governed Discovery
 
-For manifest-governed proposals, use this authority order:
+For manifest-governed proposals, use this precedence model:
 
 1. `proposal.yml`
 2. subtype manifest
-3. `/.octon/generated/proposals/registry.yml`
-4. `README.md`
+3. `navigation/source-of-truth-map.md`
+4. subtype working docs
+5. `navigation/artifact-catalog.md`
+6. `/.octon/generated/proposals/registry.yml`
+7. `README.md`
 
-`/.octon/generated/proposals/registry.yml` is a projection for fast lookup. It
-must not replace the base manifest or subtype manifest as the lifecycle
-authority.
+`/.octon/generated/proposals/registry.yml` is a deterministically rebuilt
+projection for discovery only. It must not replace the base manifest or
+subtype manifest as lifecycle authority.

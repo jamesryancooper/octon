@@ -120,7 +120,7 @@ main() {
 
   assert_failure_contains \
     "create-design-proposal workflow validator rejects missing registry reference" \
-    "scaffold stage updates proposal registry" \
+    "scaffold stage regenerates proposal registry via canonical generator" \
     case_missing_registry_reference_fails
 
   assert_failure_contains \

@@ -10,6 +10,8 @@ errors=0
 fail(){ echo "[ERROR] $1"; errors=$((errors+1)); }
 pass(){ echo "[OK] $1"; }
 grep -Fq 'name: "create-architecture-proposal"' "$WORKFLOW_DIR/workflow.yml" && pass "workflow id matches" || fail "workflow id matches"
+grep -Fq 'generate-proposal-registry.sh' "$WORKFLOW_DIR/stages/03-scaffold-package.md" && pass "architecture scaffold stage regenerates proposal registry" || fail "architecture scaffold stage regenerates proposal registry"
+grep -Fq 'validate-proposal-standard.sh' "$WORKFLOW_DIR/stages/04-validate-package.md" && pass "baseline proposal validator referenced" || fail "baseline proposal validator referenced"
 grep -Fq 'validate-architecture-proposal.sh' "$WORKFLOW_DIR/workflow.yml" && pass "architecture validator referenced" || fail "architecture validator referenced"
 yq -e '.workflows[] | select(.id == "create-architecture-proposal" and .path == "meta/create-architecture-proposal/")' "$WORKFLOW_MANIFEST" >/dev/null 2>&1 && pass "manifest registration exists" || fail "manifest registration exists"
 grep -Fq 'create-architecture-proposal:' "$WORKFLOW_REGISTRY" && pass "registry entry exists" || fail "registry entry exists"

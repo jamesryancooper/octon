@@ -149,6 +149,39 @@ workflows:
       - "create an architecture proposal"
       - "scaffold an architecture proposal"
       - "create architecture change proposal"
+  - id: validate-proposal
+    display_name: Validate Proposal
+    group: meta
+    domain: proposals
+    path: meta/validate-proposal/
+    summary: Validate any manifest-governed proposal and fail closed on registry drift.
+    status: active
+    triggers:
+      - "validate proposal"
+      - "check proposal package"
+      - "verify proposal registry drift"
+  - id: promote-proposal
+    display_name: Promote Proposal
+    group: meta
+    domain: proposals
+    path: meta/promote-proposal/
+    summary: Promote an accepted proposal to implemented status after target and registry validation.
+    status: active
+    triggers:
+      - "promote proposal"
+      - "mark proposal implemented"
+      - "finalize proposal promotion"
+  - id: archive-proposal
+    display_name: Archive Proposal
+    group: meta
+    domain: proposals
+    path: meta/archive-proposal/
+    summary: Archive a proposal into the canonical archive path with coherent metadata and regenerated discovery.
+    status: active
+    triggers:
+      - "archive proposal"
+      - "retire proposal package"
+      - "move proposal to archive"
   - id: evaluate-workflow
     display_name: Evaluate Workflow
     group: meta
@@ -490,7 +523,7 @@ workflow_group_definitions:
   meta:
     description: Operate on the harness itself (CRUD for harness components)
     path: meta/
-    members: [evaluate-harness, evaluate-ci-latency, migrate-harness, export-harness, update-harness, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal]
+    members: [evaluate-harness, evaluate-ci-latency, migrate-harness, export-harness, update-harness, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal, validate-proposal, promote-proposal, archive-proposal]
   audit:
     description: Audit orchestration and release gates
     path: audit/

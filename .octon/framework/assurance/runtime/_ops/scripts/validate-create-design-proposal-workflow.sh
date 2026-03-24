@@ -37,7 +37,7 @@ main() {
   require_fixed 'name: "create-design-proposal"' "$WORKFLOW_DIR/workflow.yml" "workflow contract name matches id"
   require_fixed 'proposal_id' "$WORKFLOW_DIR/workflow.yml" "workflow contract exposes proposal_id input"
   require_fixed 'promotion_scope' "$WORKFLOW_DIR/workflow.yml" "workflow contract exposes promotion_scope input"
-  require_fixed '.octon/generated/proposals/registry.yml' "$WORKFLOW_DIR/stages/03-scaffold-package.md" "scaffold stage updates proposal registry"
+  require_fixed 'generate-proposal-registry.sh' "$WORKFLOW_DIR/stages/03-scaffold-package.md" "scaffold stage regenerates proposal registry via canonical generator"
   require_fixed 'validate-proposal-standard.sh' "$WORKFLOW_DIR/stages/04-validate-package.md" "validate stage runs baseline proposal validator"
   require_fixed 'validate-design-proposal.sh' "$WORKFLOW_DIR/stages/04-validate-package.md" "validate stage runs design proposal validator"
 

@@ -29,7 +29,7 @@ promotion_targets:
 status: "archived"
 archive:
   archived_at: "2026-03-23"
-  archived_from_status: "proposed"
+  archived_from_status: "implemented"
   disposition: "implemented"
   original_path: ".octon/inputs/exploratory/proposals/architecture/self-audit-and-release-hardening"
   promotion_evidence:

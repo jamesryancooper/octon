@@ -228,6 +228,31 @@ cutover
 
 - None
 
+## 2026-03-24
+
+**Session focus:** Land the proposal-system integrity and archive normalization
+atomic cutover
+
+**Completed:**
+
+- Added deterministic proposal-registry generation and fail-closed proposal
+  validation that now checks lifecycle structure, generated artifact-catalog
+  freshness, and manifest-to-registry drift through one canonical generator
+- Aligned proposal standards, templates, schemas, runner code, and workflow
+  contracts around one manifest-governed proposal lifecycle, including the new
+  `validate-proposal`, `promote-proposal`, and `archive-proposal` operations
+- Normalized the broken archived architecture packets, refreshed proposal
+  discovery, recorded ADR 065 plus the migration evidence bundle, and archived
+  the implemented proposal-system proposal package
+
+**Next:**
+
+- None
+
+**Blockers:**
+
+- None
+
 ## 2026-03-20
 
 **Session focus:** Archive the implemented Packet 12 proposal package

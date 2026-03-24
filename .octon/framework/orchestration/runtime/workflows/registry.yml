@@ -1521,6 +1521,111 @@ workflows:
         description: "Comma-separated durable target paths that will survive proposal removal"
     access: human
     depends_on: []
+  validate-proposal:
+    version: "1.0.0"
+    commands: ["/validate-proposal"]
+    parameters:
+      - name: proposal_path
+        type: folder
+        required: true
+        description: "Root proposal directory to validate"
+    access: human
+    depends_on: []
+    io:
+      inputs:
+        - name: proposal_root
+          path: "{{proposal_path}}"
+          kind: directory
+          format: mixed
+          required: true
+          description: "Target proposal under validation"
+      outputs:
+        - name: validate_proposal_summary
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-validate-proposal.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Top-level workflow summary for proposal validation"
+        - name: validate_proposal_bundle
+          path: "/.octon/state/evidence/runs/workflows/{{date}}-validate-proposal-{{slug}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Workflow bundle containing proposal validation metadata and outputs"
+  promote-proposal:
+    version: "1.0.0"
+    commands: ["/promote-proposal"]
+    parameters:
+      - name: proposal_path
+        type: folder
+        required: true
+        description: "Root active proposal directory to promote"
+      - name: promotion_evidence
+        type: text
+        required: true
+        description: "Comma-separated repo-relative paths that prove the durable promotion landed"
+    access: human
+    depends_on: []
+    io:
+      inputs:
+        - name: proposal_root
+          path: "{{proposal_path}}"
+          kind: directory
+          format: mixed
+          required: true
+          description: "Active proposal to promote"
+      outputs:
+        - name: promote_proposal_summary
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-promote-proposal.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Top-level workflow summary for proposal promotion"
+        - name: promote_proposal_bundle
+          path: "/.octon/state/evidence/runs/workflows/{{date}}-promote-proposal-{{slug}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Workflow bundle containing proposal promotion metadata and outputs"
+  archive-proposal:
+    version: "1.0.0"
+    commands: ["/archive-proposal"]
+    parameters:
+      - name: proposal_path
+        type: folder
+        required: true
+        description: "Root active proposal directory to archive"
+      - name: disposition
+        type: text
+        required: true
+        description: "Archive disposition: implemented, rejected, historical, or superseded"
+      - name: promotion_evidence
+        type: text
+        required: false
+        description: "Comma-separated repo-relative promotion evidence paths; required when disposition is implemented"
+    access: human
+    depends_on: []
+    io:
+      inputs:
+        - name: proposal_root
+          path: "{{proposal_path}}"
+          kind: directory
+          format: mixed
+          required: true
+          description: "Active proposal to archive"
+      outputs:
+        - name: archive_proposal_summary
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-archive-proposal.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Top-level workflow summary for proposal archival"
+        - name: archive_proposal_bundle
+          path: "/.octon/state/evidence/runs/workflows/{{date}}-archive-proposal-{{slug}}/"
+          kind: directory
+          format: mixed
+          determinism: unique
+          description: "Workflow bundle containing proposal archival metadata and outputs"
   evaluate-workflow:
     version: "1.1.0"
     commands: ["/evaluate-workflow"]

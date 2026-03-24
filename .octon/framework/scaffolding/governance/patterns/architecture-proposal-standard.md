@@ -19,6 +19,21 @@ Required files:
 - `architecture/acceptance-criteria.md`
 - `architecture/implementation-plan.md`
 
+## Subtype Manifest Contract
+
+`architecture-proposal.yml` must define:
+
+- `schema_version`
+- `architecture_scope`
+- `decision_type`
+
+Allowed values:
+
+- `schema_version`: `architecture-proposal-v1`
+- `architecture_scope`: `repo-architecture` | `domain-architecture` |
+  `cross-domain-architecture`
+- `decision_type`: `new-surface` | `surface-refactor` | `boundary-change`
+
 Rules:
 
 - `architecture/target-architecture.md` must describe the intended end state.

@@ -3,15 +3,19 @@
   "title": "Architecture Proposal Manifest",
   "description": "Schema for Octon architecture proposal subtype manifests.",
   "type": "object",
-  "required": ["schema_version", "architecture_kind"],
+  "required": ["schema_version", "architecture_scope", "decision_type"],
   "properties": {
     "schema_version": {
       "type": "string",
       "const": "architecture-proposal-v1"
     },
-    "architecture_kind": {
+    "architecture_scope": {
       "type": "string",
       "enum": ["repo-architecture", "domain-architecture", "cross-domain-architecture"]
+    },
+    "decision_type": {
+      "type": "string",
+      "enum": ["new-surface", "surface-refactor", "boundary-change"]
     }
   },
   "additionalProperties": false

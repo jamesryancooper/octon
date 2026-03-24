@@ -43,15 +43,29 @@ Allowed `kind` values in v1:
 
 ## Authority
 
-Authority order for every proposal:
+Manifest authority for every proposal:
 
 1. `proposal.yml`
 2. subtype manifest (`design-proposal.yml`, `migration-proposal.yml`,
    `policy-proposal.yml`, or `architecture-proposal.yml`)
-3. `registry.yml`
-4. `README.md`
 
-`README.md` is explanatory and never authoritative.
+Proposal-local navigation and supporting material follow after the manifests:
+
+3. `navigation/source-of-truth-map.md`
+4. subtype working documents
+5. `navigation/artifact-catalog.md`
+6. `/.octon/generated/proposals/registry.yml`
+7. `README.md`
+
+Rules:
+
+- `proposal.yml` and the subtype manifest are the only lifecycle authorities.
+- `navigation/source-of-truth-map.md` is the manual precedence and boundary map.
+- `navigation/artifact-catalog.md` is generated inventory, not semantic
+  authority.
+- `/.octon/generated/proposals/registry.yml` is discovery-only and never
+  authoritative over manifests.
+- `README.md` is explanatory and never authoritative.
 
 ## Common Required Files
 
@@ -107,11 +121,17 @@ Rules:
   under `.octon/`.
 - `promotion_scope=repo-local` requires every `promotion_target` to be inside
   the repository but outside `.octon/` and `.octon/inputs/exploratory/proposals/`.
-- mixed `.octon/` and non-`.octon/` targets are forbidden in one proposal
-  and must instead be split into linked proposals via `related_proposals`.
+- active proposals may not mix `.octon/` and non-`.octon/` targets in one
+  proposal and must instead be split into linked proposals via
+  `related_proposals`.
+- archived proposals may preserve historical mixed targets for provenance once
+  the proposal has exited active lifecycle use.
 - archived proposals with `archive.archived_from_status=legacy-unknown` may
   preserve historical mixed targets for provenance, but they may not return to
   active state without normalization.
+- `legacy-unknown` archived design imports may remain on disk as historical
+  lineage without appearing in the main generated proposal registry until they
+  are normalized into the standard packet contract.
 - `archive.*` fields are required when `status=archived` and forbidden
   otherwise.
 - proposals in an archive path must use `status=archived`.
@@ -119,6 +139,8 @@ Rules:
 - `archive.promotion_evidence` must be non-empty when
   `archive.disposition=implemented`.
 - `lifecycle.temporary` must remain `true`.
+- `lifecycle.exit_expectation` must be nested under `lifecycle`; a top-level
+  `exit_expectation` field is invalid.
 
 ## Lifecycle Rule
 
@@ -127,7 +149,8 @@ Proposals move through one active lifecycle and one archive lifecycle:
 1. `draft`
    - The proposal package exists at the active proposal path.
    - `proposal.yml`, subtype manifest, `README.md`, and navigation files exist.
-   - The registry projection exists under `/.octon/generated/proposals/registry.yml`.
+   - The registry projection exists under
+     `/.octon/generated/proposals/registry.yml` and is rebuilt from manifests.
    - Subtype-specific required files may still be placeholders unless the
      subtype standard says otherwise.
 2. `in-review`
@@ -156,8 +179,10 @@ Rules:
   considered review-ready or acceptance-ready.
 - Promotion into durable authority must happen before archival when
   `archive.disposition=implemented`.
-- After promotion, canonical targets must stand on their own without
+- After promotion, active canonical targets must stand on their own without
   dependencies on `/.octon/inputs/exploratory/proposals/` paths.
+- Archived retained evidence or historical records may still reference proposal
+  paths for provenance after the proposal leaves the active lifecycle.
 - Proposal validation failures block proposal workflows and proposal-registry
   generation only; they do not block runtime unless a runtime surface illegally
   depends on proposal paths.
@@ -193,6 +218,14 @@ Each archived entry must project:
 - `archived_from_status`
 - `original_path`
 - `promotion_targets`
+
+Rules:
+
+- The registry is a deterministic projection rebuilt from proposal manifests.
+- Registry generation and validation fail closed on orphaned entries, duplicate
+  `(kind, proposal_id)` collisions, path mismatches, kind mismatches, status
+  mismatches, or invalid archive metadata.
+- Manual registry edits are not a supported steady-state proposal operation.
 
 ## Non-Canonical Rule
 

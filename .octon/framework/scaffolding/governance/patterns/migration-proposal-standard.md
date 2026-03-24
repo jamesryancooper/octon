@@ -19,6 +19,20 @@ Required files:
 - `migration/release-notes.md`
 - `migration/rollback.md`
 
+## Subtype Manifest Contract
+
+`migration-proposal.yml` must define:
+
+- `schema_version`
+- `change_profile`
+- `release_state`
+
+Allowed values:
+
+- `schema_version`: `migration-proposal-v1`
+- `change_profile`: `atomic` | `transitional`
+- `release_state`: `pre-1.0` | `stable`
+
 Rules:
 
 - `migration/plan.md` must follow the clean-break migration plan template

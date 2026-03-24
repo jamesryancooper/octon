@@ -207,9 +207,15 @@ Proposal authority uses one manifest-governed exploratory model:
 - archived proposal inputs:
   `inputs/exploratory/proposals/.archive/<kind>/<proposal_id>/**`
 - generated proposal discovery: `generated/proposals/registry.yml`
-- lifecycle authority order:
-  `proposal.yml` > subtype manifest > `generated/proposals/registry.yml` >
+- lifecycle authority:
+  `proposal.yml` > subtype manifest
+- proposal-local reading order:
+  `navigation/source-of-truth-map.md` > subtype working docs >
+  `navigation/artifact-catalog.md` > `generated/proposals/registry.yml` >
   `README.md`
+- proposal registry behavior:
+  `generated/proposals/registry.yml` is a deterministically rebuilt discovery
+  projection and never lifecycle authority
 
 Generated-family rules in v1:
 

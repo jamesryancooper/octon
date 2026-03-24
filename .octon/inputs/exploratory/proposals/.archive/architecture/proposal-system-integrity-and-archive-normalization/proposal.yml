@@ -1,0 +1,33 @@
+schema_version: "proposal-v1"
+proposal_id: "proposal-system-integrity-and-archive-normalization"
+title: "Proposal System Integrity and Archive Normalization"
+summary: "Tighten Octon's proposal system without redesigning it: align subtype contracts, make the proposal registry a fail-closed projection, normalize archive integrity, add explicit validate/promote/archive workflows, and shift low-value artifact inventory to generated projection while preserving proposals as temporary non-canonical change packets."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/README.md"
+  - ".octon/instance/bootstrap/START.md"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md"
+  - ".octon/framework/cognition/_meta/architecture/generated/proposals/"
+  - ".octon/framework/scaffolding/governance/patterns/"
+  - ".octon/framework/scaffolding/runtime/templates/"
+  - ".octon/framework/assurance/runtime/"
+  - ".octon/framework/orchestration/runtime/workflows/"
+status: "archived"
+archive:
+  archived_at: "2026-03-24"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/proposal-system-integrity-and-archive-normalization"
+  promotion_evidence:
+    - ".octon/instance/cognition/decisions/065-proposal-system-integrity-and-archive-normalization-atomic-cutover.md"
+    - ".octon/state/evidence/migration/2026-03-24-proposal-system-integrity-and-archive-normalization-cutover/evidence.md"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promote one coherent proposal-system contract into durable architecture, standards, templates, validators, and workflows; deterministically rebuild the proposal registry from manifests; normalize or exclude broken archive entries from the main projection; then archive this proposal once proposal operation no longer depends on proposal-local guidance."
+related_proposals:
+  - "inputs-exploratory-proposals"
+  - "generated-effective-cognition-registry"
+  - "validation-fail-closed-quarantine-staleness"
+  - "migration-rollout"

@@ -1,7 +1,7 @@
 # Artifact Catalog
 
-This catalog lists the files currently present in the proposal. Regenerate it
-whenever files are added, removed, or reorganized.
+This catalog is generated from the on-disk proposal package shape. Regenerate
+it whenever files are added, removed, or reorganized.
 
 ## Proposal
 

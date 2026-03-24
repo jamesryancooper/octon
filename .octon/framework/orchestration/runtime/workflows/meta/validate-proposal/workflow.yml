@@ -1,0 +1,114 @@
+---
+schema_version: workflow-contract-v2
+name: validate-proposal
+description: Run fail-closed validation for any manifest-governed proposal and verify that the committed proposal registry matches the manifest projection.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - workflow_group
+    - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: proposal_path
+    type: folder
+    required: true
+    description: Root proposal directory to validate
+stages:
+  - id: validate-proposal
+    asset: stages/01-validate-proposal.md
+    kind: verification
+    consumes: []
+    produces:
+      - stage:validate-proposal
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: report
+    asset: stages/02-report.md
+    kind: projection
+    consumes:
+      - stage:validate-proposal
+    produces:
+      - stage:report
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+artifacts:
+  - name: validate_proposal_workflow_summary
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-validate-proposal.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Top-level workflow summary for proposal validation
+  - name: validate_proposal_workflow_bundle
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-validate-proposal-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: Workflow bundle containing proposal validation metadata and outputs
+done_gate:
+  checks:
+    - "`summary.md`, `commands.md`, `inventory.md`, `bundle.yml`, and `validation.md` exist"
+    - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
+    - validate-proposal-standard.sh and the subtype validator pass for the target proposal
+    - generated/proposals/registry.yml matches the deterministic manifest projection
+    - Final validation verdict is explicit
+constraints:
+  fail_closed: true
+  forbid_design_packages: false
+  require_relative_local_assets: true

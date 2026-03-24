@@ -17,8 +17,10 @@ use crate::authorization::{
 };
 use crate::workflow::{
     self, DesignPackageClass, ExecutorKind, PipelineMode, ProposalScope,
-    RunAuditStaticProposalOptions, RunCreateDesignPackageOptions,
-    RunCreateStaticProposalOptions, RunDesignPackageOptions, StaticProposalKind,
+    RunArchiveProposalOptions, RunAuditStaticProposalOptions,
+    RunCreateDesignPackageOptions, RunCreateStaticProposalOptions,
+    RunDesignPackageOptions, RunPromoteProposalOptions, RunValidateProposalOptions,
+    StaticProposalKind,
 };
 
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".octon/state/evidence/runs/workflows";
@@ -260,6 +262,15 @@ pub fn run_pipeline_from_octon_dir(
     if options.pipeline_id == "audit-architecture-proposal" {
         return run_audit_static_proposal_pipeline(octon_dir, options, StaticProposalKind::Architecture);
     }
+    if options.pipeline_id == "validate-proposal" {
+        return run_validate_proposal_pipeline(octon_dir, options);
+    }
+    if options.pipeline_id == "promote-proposal" {
+        return run_promote_proposal_pipeline(octon_dir, options);
+    }
+    if options.pipeline_id == "archive-proposal" {
+        return run_archive_proposal_pipeline(octon_dir, options);
+    }
     run_generic_pipeline(octon_dir, options)
 }
 
@@ -452,6 +463,96 @@ fn run_audit_static_proposal_pipeline(
         kind,
         RunAuditStaticProposalOptions {
             proposal_path: proposal_path.into(),
+        },
+    )?;
+
+    Ok(RunPipelineResult {
+        bundle_root: result.bundle_root,
+        summary_report: result.summary_report,
+        final_verdict: result.final_verdict,
+    })
+}
+
+fn run_validate_proposal_pipeline(
+    octon_dir: &Path,
+    options: RunPipelineOptions,
+) -> Result<RunPipelineResult> {
+    let proposal_path = options
+        .input_overrides
+        .get("proposal_path")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow 'validate-proposal' requires --set proposal_path=<path>"))?;
+
+    let result = workflow::run_validate_proposal_from_octon_dir(
+        octon_dir,
+        RunValidateProposalOptions {
+            proposal_path: proposal_path.into(),
+        },
+    )?;
+
+    Ok(RunPipelineResult {
+        bundle_root: result.bundle_root,
+        summary_report: result.summary_report,
+        final_verdict: result.final_verdict,
+    })
+}
+
+fn run_promote_proposal_pipeline(
+    octon_dir: &Path,
+    options: RunPipelineOptions,
+) -> Result<RunPipelineResult> {
+    let proposal_path = options
+        .input_overrides
+        .get("proposal_path")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow 'promote-proposal' requires --set proposal_path=<path>"))?;
+    let promotion_evidence = options
+        .input_overrides
+        .get("promotion_evidence")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow 'promote-proposal' requires --set promotion_evidence=<csv>"))?;
+
+    let result = workflow::run_promote_proposal_from_octon_dir(
+        octon_dir,
+        RunPromoteProposalOptions {
+            proposal_path: proposal_path.into(),
+            promotion_evidence: parse_csv_list(&promotion_evidence),
+        },
+    )?;
+
+    Ok(RunPipelineResult {
+        bundle_root: result.bundle_root,
+        summary_report: result.summary_report,
+        final_verdict: result.final_verdict,
+    })
+}
+
+fn run_archive_proposal_pipeline(
+    octon_dir: &Path,
+    options: RunPipelineOptions,
+) -> Result<RunPipelineResult> {
+    let proposal_path = options
+        .input_overrides
+        .get("proposal_path")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow 'archive-proposal' requires --set proposal_path=<path>"))?;
+    let disposition = options
+        .input_overrides
+        .get("disposition")
+        .cloned()
+        .ok_or_else(|| anyhow::anyhow!("workflow 'archive-proposal' requires --set disposition=<value>"))?;
+    let promotion_evidence = options
+        .input_overrides
+        .get("promotion_evidence")
+        .cloned()
+        .unwrap_or_default();
+
+    let result = workflow::run_archive_proposal_from_octon_dir(
+        octon_dir,
+        RunArchiveProposalOptions {
+            proposal_path: proposal_path.into(),
+            disposition,
+            promotion_evidence: parse_csv_list(&promotion_evidence),
         },
     )?;
 

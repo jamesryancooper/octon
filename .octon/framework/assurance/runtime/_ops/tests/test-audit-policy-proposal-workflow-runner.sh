@@ -35,11 +35,21 @@ new_fixture_proposal() {
   CLEANUP_PATHS+=("$fixture_root")
   proposal_root="$fixture_root/.octon/inputs/exploratory/proposals/policy/fixture-proposal"
   mkdir -p "$proposal_root/navigation" "$proposal_root/policy"
-  mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops" "$fixture_root/.octon/framework/scaffolding/runtime/templates"
+  mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops" "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas" "$fixture_root/.octon/framework/engine" "$fixture_root/.octon/framework/capabilities/governance" "$fixture_root/.octon/framework/capabilities/_ops" "$fixture_root/.octon/generated/.tmp/engine/build/runtime-crates-target/debug" "$fixture_root/.octon/instance/cognition/context/shared"
   cp -R "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/"
-  cp "$ROOT_DIR/.octon/framework/scaffolding/runtime/templates/proposal-registry.schema.json" \
-    "$fixture_root/.octon/framework/scaffolding/runtime/templates/proposal-registry.schema.json"
+  cp -R "$ROOT_DIR/.octon/framework/engine/runtime" "$fixture_root/.octon/framework/engine/"
+  cp -R "$ROOT_DIR/.octon/framework/capabilities/governance/policy" "$fixture_root/.octon/framework/capabilities/governance/"
+  cp -R "$ROOT_DIR/.octon/framework/capabilities/_ops/scripts" "$fixture_root/.octon/framework/capabilities/_ops/"
+  cp "$ROOT_DIR/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json"
+  cp "$ROOT_DIR/.octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy" \
+    "$fixture_root/.octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy"
+  cp "$ROOT_DIR/.octon/octon.yml" "$fixture_root/.octon/octon.yml"
+  cat >"$fixture_root/.octon/instance/cognition/context/shared/intent.contract.yml" <<'EOF'
+intent_id: "intent://test/proposals"
+version: "1.0.0"
+EOF
   cat >"$proposal_root/README.md" <<'EOF'
 # Fixture Policy Proposal
 EOF

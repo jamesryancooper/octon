@@ -18,10 +18,12 @@ It is not a canonical runtime, documentation, policy, or contract authority.
 
 1. `proposal.yml`
 2. `architecture-proposal.yml`
-3. `/.octon/generated/proposals/registry.yml`
+3. `navigation/source-of-truth-map.md`
 4. `architecture/target-architecture.md`
 5. `architecture/acceptance-criteria.md`
 6. `architecture/implementation-plan.md`
+7. `navigation/artifact-catalog.md`
+8. `/.octon/generated/proposals/registry.yml`
 
 ## Exit Path
 
@@ -29,6 +31,7 @@ It is not a canonical runtime, documentation, policy, or contract authority.
 
 ## Registry
 
-Add or update the matching entry in `/.octon/generated/proposals/registry.yml`
-when this proposal is created, archived, rejected, or materially
-reclassified. The registry is a committed discovery projection only.
+Proposal operations regenerate `/.octon/generated/proposals/registry.yml` from
+proposal manifests when this proposal is created, promoted, archived,
+rejected, or materially reclassified. The registry is a committed discovery
+projection only.

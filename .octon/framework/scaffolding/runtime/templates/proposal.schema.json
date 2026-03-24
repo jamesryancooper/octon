@@ -72,7 +72,7 @@
         },
         "disposition": {
           "type": "string",
-          "enum": ["implemented", "rejected", "historical"]
+          "enum": ["implemented", "rejected", "historical", "superseded"]
         },
         "original_path": {
           "type": "string",
@@ -128,6 +128,11 @@
         "not": {
           "required": ["archive"]
         }
+      }
+    },
+    {
+      "not": {
+        "required": ["exit_expectation"]
       }
     }
   ]

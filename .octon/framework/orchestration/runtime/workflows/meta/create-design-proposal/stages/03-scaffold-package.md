@@ -25,7 +25,8 @@ baseline standard validator.
 4. Regenerate `navigation/artifact-catalog.md` from the on-disk package shape.
 5. Render `navigation/source-of-truth-map.md` from the selected class and
    modules.
-6. Add or update the matching active entry in `.octon/generated/proposals/registry.yml`.
+6. Regenerate `.octon/generated/proposals/registry.yml` from manifests by
+   invoking the canonical projection generator.
 7. Record the scaffolded package inventory so later stages can prove the exact
    on-disk shape that passed validation.
 

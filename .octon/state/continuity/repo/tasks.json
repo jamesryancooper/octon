@@ -259,6 +259,12 @@
       "description": "Archive the implemented Packet 14 validation, fail-closed, quarantine, and staleness proposal package",
       "status": "completed",
       "completed_at": "2026-03-20"
+    },
+    {
+      "id": "proposal-system-integrity-and-archive-normalization-atomic-cutover",
+      "description": "Implement the proposal system integrity and archive normalization atomic cutover and archive the implementing proposal package",
+      "status": "completed",
+      "completed_at": "2026-03-24"
     }
   ]
 }

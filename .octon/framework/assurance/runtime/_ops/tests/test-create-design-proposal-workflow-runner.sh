@@ -52,12 +52,30 @@ new_fixture_repo() {
 
   mkdir -p \
     "$fixture_root/.octon/framework/scaffolding/runtime" \
-    "$fixture_root/.octon/framework/assurance/runtime/_ops"
+    "$fixture_root/.octon/framework/assurance/runtime/_ops" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas" \
+    "$fixture_root/.octon/framework/engine" \
+    "$fixture_root/.octon/framework/capabilities/governance" \
+    "$fixture_root/.octon/framework/capabilities/_ops" \
+    "$fixture_root/.octon/generated/.tmp/engine/build/runtime-crates-target/debug" \
+    "$fixture_root/.octon/instance/cognition/context/shared"
 
   cp -R "$REPO_ROOT/.octon/framework/scaffolding/runtime/templates" \
     "$fixture_root/.octon/framework/scaffolding/runtime/"
   cp -R "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/"
+  cp -R "$REPO_ROOT/.octon/framework/engine/runtime" "$fixture_root/.octon/framework/engine/"
+  cp -R "$REPO_ROOT/.octon/framework/capabilities/governance/policy" "$fixture_root/.octon/framework/capabilities/governance/"
+  cp -R "$REPO_ROOT/.octon/framework/capabilities/_ops/scripts" "$fixture_root/.octon/framework/capabilities/_ops/"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json"
+  cp "$REPO_ROOT/.octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy" \
+    "$fixture_root/.octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy"
+  cp "$REPO_ROOT/.octon/octon.yml" "$fixture_root/.octon/octon.yml"
+  cat >"$fixture_root/.octon/instance/cognition/context/shared/intent.contract.yml" <<'EOF'
+intent_id: "intent://test/proposals"
+version: "1.0.0"
+EOF
 
   printf '%s\n' "$fixture_root"
 }
@@ -95,6 +113,8 @@ case_domain_runtime_scaffold_passes() {
   assert_dir_exists "$package_root" || return 1
   assert_file_exists "$package_root/proposal.yml" || return 1
   assert_file_exists "$package_root/design-proposal.yml" || return 1
+  assert_file_exists "$package_root/navigation/source-of-truth-map.md" || return 1
+  assert_file_exists "$package_root/navigation/artifact-catalog.md" || return 1
   assert_file_exists "$fixture_root/.octon/generated/proposals/registry.yml" || return 1
   assert_file_exists "$bundle_root/bundle.yml" || return 1
   assert_file_exists "$bundle_root/summary.md" || return 1
@@ -117,6 +137,8 @@ case_experience_product_scaffold_passes() {
 
   assert_dir_exists "$package_root" || return 1
   assert_file_exists "$package_root/design-proposal.yml" || return 1
+  assert_file_exists "$package_root/navigation/source-of-truth-map.md" || return 1
+  assert_file_exists "$package_root/navigation/artifact-catalog.md" || return 1
   assert_file_exists "$bundle_root/standard-validator.log" || return 1
   assert_file_exists "$bundle_root/bundle.yml" || return 1
   grep -Fq 'experience-package' "$fixture_root/.octon/generated/proposals/registry.yml" || return 1

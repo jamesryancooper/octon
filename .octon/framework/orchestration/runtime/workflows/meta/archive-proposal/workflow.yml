@@ -1,0 +1,162 @@
+---
+schema_version: workflow-contract-v2
+name: archive-proposal
+description: Archive a promoted or retired proposal into the canonical archive path with coherent archive metadata and a regenerated proposal registry.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
+execution_controls:
+  cancel_safe: false
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - workflow_group
+    - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: proposal_path
+    type: folder
+    required: true
+    description: Root active proposal directory to archive
+  - name: disposition
+    type: text
+    required: true
+    description: "Archive disposition: implemented, rejected, historical, or superseded"
+  - name: promotion_evidence
+    type: text
+    required: false
+    description: Comma-separated repo-relative promotion evidence paths; required when disposition is implemented
+stages:
+  - id: validate-proposal
+    asset: stages/01-validate-proposal.md
+    kind: verification
+    consumes: []
+    produces:
+      - stage:validate-proposal
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: archive-proposal
+    asset: stages/02-archive-proposal.md
+    kind: mutation
+    consumes:
+      - stage:validate-proposal
+    produces:
+      - stage:archive-proposal
+    mutation_scope:
+      - workflow-scope
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - repo.write
+        - evidence.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-scope
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: true
+      allowed_executor_profiles:
+        - scoped_repo_mutation
+  - id: report
+    asset: stages/03-report.md
+    kind: projection
+    consumes:
+      - stage:archive-proposal
+    produces:
+      - stage:report
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+artifacts:
+  - name: archive_proposal_workflow_summary
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-archive-proposal.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Top-level workflow summary for proposal archival
+  - name: archive_proposal_workflow_bundle
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-archive-proposal-{{slug}}/"
+    kind: directory
+    format: mixed
+    determinism: unique
+    description: Workflow bundle containing proposal archival metadata and outputs
+done_gate:
+  checks:
+    - "`summary.md`, `commands.md`, `inventory.md`, `bundle.yml`, and `validation.md` exist"
+    - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
+    - "the source proposal validates before archival"
+    - "the source proposal starts from the active path and is not already archived"
+    - "archive metadata is coherent for the chosen disposition"
+    - "the proposal moves to `.archive/<kind>/<proposal_id>/`"
+    - "`proposal.yml` is rewritten to `status: archived` with archive metadata"
+    - "generated/proposals/registry.yml matches the deterministic manifest projection after archival"
+    - "final archival verdict is explicit"
+constraints:
+  fail_closed: true
+  forbid_design_packages: false
+  require_relative_local_assets: true

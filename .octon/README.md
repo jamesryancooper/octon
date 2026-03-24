@@ -176,12 +176,15 @@ are committed for reviewability versus rebuilt locally by default.
 Proposal packages live only under
 `/.octon/inputs/exploratory/proposals/<kind>/<proposal_id>/` and remain
 non-canonical even while they live inside the super-root. Their lifecycle
-authority order is `proposal.yml`, subtype manifest,
-`/.octon/generated/proposals/registry.yml`, then `README.md`.
+authority lives in `proposal.yml` and the subtype manifest. Proposal-local
+reading order then flows through `navigation/source-of-truth-map.md`,
+subtype working docs, `navigation/artifact-catalog.md`, and finally the
+generated registry as discovery-only projection.
 
 Runtime and policy consumers must never read proposal paths directly.
 Proposal discovery lives only in `/.octon/generated/proposals/registry.yml`,
-which is committed by default but remains non-authoritative.
+which is committed by default, rebuilt deterministically from manifests, and
+remains non-authoritative.
 
 ## Mission-Scoped Reversible Autonomy
 
