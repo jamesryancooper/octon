@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/jamesryancooper/octon/compare/octon-v0.5.6...octon-v0.6.0) (2026-03-24)
+
+
+### Features
+
+* **msraom:** complete mission autonomy cutover ([#198](https://github.com/jamesryancooper/octon/issues/198)) ([0d2fbef](https://github.com/jamesryancooper/octon/commit/0d2fbef430452599740591de3bf67065bbcd8b2b))
+
 ## [0.5.6](https://github.com/jamesryancooper/octon/compare/octon-v0.5.5...octon-v0.5.6) (2026-03-24)
 
 
