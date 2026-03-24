@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.6](https://github.com/jamesryancooper/octon/compare/octon-v0.5.5...octon-v0.5.6) (2026-03-24)
+
+
+### Features
+
+* **octon:** land mission autonomy cutover ([#196](https://github.com/jamesryancooper/octon/issues/196)) ([5c905af](https://github.com/jamesryancooper/octon/commit/5c905af75359ec63fff6e7ab05157efc3887e448))
+
 ## [0.5.5](https://github.com/jamesryancooper/octon/compare/octon-v0.5.4...octon-v0.5.5) (2026-03-22)
 
 
