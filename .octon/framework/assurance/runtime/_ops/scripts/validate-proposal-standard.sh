@@ -225,7 +225,9 @@ validate_artifact_catalog() {
     pass "$label artifact catalog covers visible files"
   fi
 
-  rm -rf "$tmp_dir"
+  if [[ -d "$tmp_dir" ]]; then
+    rm -r "$tmp_dir"
+  fi
 }
 
 validate_lifecycle() {

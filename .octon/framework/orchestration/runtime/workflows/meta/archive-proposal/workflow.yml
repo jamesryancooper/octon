@@ -23,7 +23,7 @@ inputs:
   - name: disposition
     type: text
     required: true
-    description: Archive disposition: implemented, rejected, historical, or superseded
+    description: "Archive disposition: implemented, rejected, historical, or superseded"
   - name: promotion_evidence
     type: text
     required: false
@@ -149,13 +149,13 @@ done_gate:
   checks:
     - "`summary.md`, `commands.md`, `inventory.md`, `bundle.yml`, and `validation.md` exist"
     - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
-    - the source proposal validates before archival
-    - the source proposal starts from the active path and is not already archived
-    - archive metadata is coherent for the chosen disposition
-    - the proposal moves to `.archive/<kind>/<proposal_id>/`
-    - `proposal.yml` is rewritten to `status: archived` with archive metadata
-    - generated/proposals/registry.yml matches the deterministic manifest projection after archival
-    - final archival verdict is explicit
+    - "the source proposal validates before archival"
+    - "the source proposal starts from the active path and is not already archived"
+    - "archive metadata is coherent for the chosen disposition"
+    - "the proposal moves to `.archive/<kind>/<proposal_id>/`"
+    - "`proposal.yml` is rewritten to `status: archived` with archive metadata"
+    - "generated/proposals/registry.yml matches the deterministic manifest projection after archival"
+    - "final archival verdict is explicit"
 constraints:
   fail_closed: true
   forbid_design_packages: false

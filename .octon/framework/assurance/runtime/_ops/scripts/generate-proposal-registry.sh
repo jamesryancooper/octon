@@ -180,7 +180,7 @@ main() {
   fi
 
   tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/proposal-registry.XXXXXX")"
-  trap '[[ -n "${tmp_dir:-}" ]] && rm -rf "$tmp_dir"' EXIT
+  trap '[[ -n "${tmp_dir:-}" && -d "${tmp_dir:-}" ]] && rm -r "$tmp_dir"' EXIT
   mkdir -p "$tmp_dir/active" "$tmp_dir/archived"
 
   while IFS= read -r manifest; do
