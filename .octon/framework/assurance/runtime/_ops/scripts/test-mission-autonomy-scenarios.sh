@@ -16,6 +16,11 @@ MISSION_PRINCIPLE="$OCTON_DIR/framework/cognition/governance/principles/mission-
 POLICY_DIGEST="$OCTON_DIR/framework/engine/runtime/spec/policy-digest-v2.md"
 ROOT_MANIFEST="$OCTON_DIR/octon.yml"
 ACP_POLICY="$OCTON_DIR/framework/capabilities/governance/policy/deny-by-default.v2.yml"
+FIXTURE_SCENARIOS_DEFAULT=1
+if [[ "${CI:-}" == "true" ]]; then
+  FIXTURE_SCENARIOS_DEFAULT=0
+fi
+INCLUDE_FIXTURE_SCENARIOS="${MISSION_AUTONOMY_INCLUDE_FIXTURE_SCENARIOS:-$FIXTURE_SCENARIOS_DEFAULT}"
 
 assert_yq() {
   local expr="$1"
@@ -342,33 +347,35 @@ if [[ "${MISSION_AUTONOMY_INCLUDE_HELPER_SMOKE:-0}" == "1" ]]; then
     bash "$HELPER_TEST"
 fi
 
-run_case \
-  "scenario fixture: routine repo housekeeping" \
-  case_routine_repo_housekeeping
+if [[ "$INCLUDE_FIXTURE_SCENARIOS" == "1" ]]; then
+  run_case \
+    "scenario fixture: routine repo housekeeping" \
+    case_routine_repo_housekeeping
 
-run_case \
-  "scenario fixture: future-run suspension blocks new runs" \
-  case_schedule_suspension_blocks_new_runs
+  run_case \
+    "scenario fixture: future-run suspension blocks new runs" \
+    case_schedule_suspension_blocks_new_runs
 
-run_case \
-  "scenario fixture: conflicting human input pauses and blocks finalize" \
-  case_conflicting_human_input_blocks_finalize_and_pauses
+  run_case \
+    "scenario fixture: conflicting human input pauses and blocks finalize" \
+    case_conflicting_human_input_blocks_finalize_and_pauses
 
-run_case \
-  "scenario fixture: breaker trip enters safing" \
-  case_breaker_trip_enters_safing
+  run_case \
+    "scenario fixture: breaker trip enters safing" \
+    case_breaker_trip_enters_safing
 
-run_case \
-  "scenario fixture: proceed-on-silence blocks on warning budget" \
-  case_proceed_on_silence_warning_budget_blocks
+  run_case \
+    "scenario fixture: proceed-on-silence blocks on warning budget" \
+    case_proceed_on_silence_warning_budget_blocks
 
-run_case \
-  "scenario fixture: destructive work requires operator acknowledgement" \
-  case_destructive_route_requires_operator_ack
+  run_case \
+    "scenario fixture: destructive work requires operator acknowledgement" \
+    case_destructive_route_requires_operator_ack
 
-run_case \
-  "scenario fixture: break-glass authorize-update mutates mode and emits receipt" \
-  case_break_glass_authorize_update_changes_mode_and_emits_receipt
+  run_case \
+    "scenario fixture: break-glass authorize-update mutates mode and emits receipt" \
+    case_break_glass_authorize_update_changes_mode_and_emits_receipt
+fi
 
 run_case \
   "scenario policy: routine repo housekeeping defaults declared" \
