@@ -13,6 +13,15 @@ errors=0
 
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
 pass() { echo "[OK] $1"; }
+has_pattern() {
+  local pattern="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
+}
 run_test() {
   local label="$1"
   shift
@@ -47,13 +56,13 @@ main() {
     [[ -f "$SPEC_DIR/$file" ]] && pass "found spec $file" || fail "missing spec $file"
   done
 
-  rg -q 'mission_autonomy_policy' "$CONFIG_FILE" && pass "policy interface exposes mission autonomy policy" || fail "policy interface missing mission_autonomy_policy path"
-  rg -q 'mission_control_root' "$CONFIG_FILE" && pass "policy interface exposes mission control root" || fail "policy interface missing mission_control_root path"
-  rg -q 'control_receipt_root' "$CONFIG_FILE" && pass "policy interface exposes control receipt root" || fail "policy interface missing control_receipt_root path"
-  rg -q 'policy-receipt-v2' "$OCTON_DIR/framework/capabilities/_ops/scripts/policy-receipt-write.sh" && pass "shared policy receipt writer emits v2 schema" || fail "shared policy receipt writer still emits v1 schema"
-  rg -q 'policy-digest-v2' "$OCTON_DIR/framework/capabilities/_ops/scripts/policy-receipt-write.sh" && pass "shared policy receipt writer emits v2 digest format" || fail "shared policy receipt writer still emits v1 digest format"
-  rg -q 'autonomy_context' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/authorization.rs" && pass "kernel authorization uses autonomy_context" || fail "kernel authorization missing autonomy_context"
-  rg -q 'workflow_mode' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/pipeline.rs" && pass "pipeline emits workflow_mode" || fail "pipeline missing workflow_mode"
+  has_pattern 'mission_autonomy_policy' "$CONFIG_FILE" && pass "policy interface exposes mission autonomy policy" || fail "policy interface missing mission_autonomy_policy path"
+  has_pattern 'mission_control_root' "$CONFIG_FILE" && pass "policy interface exposes mission control root" || fail "policy interface missing mission_control_root path"
+  has_pattern 'control_receipt_root' "$CONFIG_FILE" && pass "policy interface exposes control receipt root" || fail "policy interface missing control_receipt_root path"
+  has_pattern 'policy-receipt-v2' "$OCTON_DIR/framework/capabilities/_ops/scripts/policy-receipt-write.sh" && pass "shared policy receipt writer emits v2 schema" || fail "shared policy receipt writer still emits v1 schema"
+  has_pattern 'policy-digest-v2' "$OCTON_DIR/framework/capabilities/_ops/scripts/policy-receipt-write.sh" && pass "shared policy receipt writer emits v2 digest format" || fail "shared policy receipt writer still emits v1 digest format"
+  has_pattern 'autonomy_context' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/authorization.rs" && pass "kernel authorization uses autonomy_context" || fail "kernel authorization missing autonomy_context"
+  has_pattern 'workflow_mode' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/pipeline.rs" && pass "pipeline emits workflow_mode" || fail "pipeline missing workflow_mode"
 
   run_test \
     "authorization denies autonomous execution without mission context" \

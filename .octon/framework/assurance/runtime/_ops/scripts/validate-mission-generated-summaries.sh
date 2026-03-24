@@ -14,6 +14,15 @@ MISSION_PROJECTIONS="$OCTON_DIR/generated/cognition/projections/materialized/mis
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
 pass() { echo "[OK] $1"; }
+has_pattern() {
+  local pattern="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -q -- "$pattern" "$file"
+  else
+    grep -Eq -- "$pattern" "$file"
+  fi
+}
 
 main() {
   echo "== Mission Generated Summaries Validation =="
@@ -21,8 +30,8 @@ main() {
   [[ -d "$MISSION_SUMMARIES" ]] && pass "mission summaries root exists" || fail "missing mission summaries root"
   [[ -d "$OPERATOR_DIGESTS" ]] && pass "operator digests root exists" || fail "missing operator digests root"
   [[ -d "$MISSION_PROJECTIONS" ]] && pass "mission projections root exists" || fail "missing mission projections root"
-  rg -q 'generate_mission_autonomy_views' "$SYNC_SCRIPT" && pass "sync-runtime-artifacts includes mission generator" || fail "sync-runtime-artifacts missing mission generator"
-  rg -q 'missions' "$SYNC_SCRIPT" && pass "sync-runtime-artifacts advertises missions target" || fail "sync-runtime-artifacts missing missions target"
+  has_pattern 'generate_mission_autonomy_views' "$SYNC_SCRIPT" && pass "sync-runtime-artifacts includes mission generator" || fail "sync-runtime-artifacts missing mission generator"
+  has_pattern 'missions' "$SYNC_SCRIPT" && pass "sync-runtime-artifacts advertises missions target" || fail "sync-runtime-artifacts missing missions target"
 
   while IFS= read -r mission_id; do
     [[ -n "$mission_id" ]] || continue
