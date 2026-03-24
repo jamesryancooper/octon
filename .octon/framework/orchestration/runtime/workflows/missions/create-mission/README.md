@@ -1,6 +1,6 @@
 ---
 name: "create-mission"
-description: "Scaffold a new mission artifact set, register it for execution tracking, and seed mission autonomy control surfaces."
+description: "Scaffold a new mission artifact set and register it for execution tracking."
 steps:
   - id: "overview"
     file: "stages/00-overview.md"
@@ -19,8 +19,7 @@ _Generated README from canonical workflow `create-mission`._
 
 ## Purpose
 
-Scaffold a new mission artifact set, register it for execution tracking, and
-seed mission autonomy control surfaces.
+Scaffold a new mission artifact set and register it for execution tracking.
 
 ## Target
 
