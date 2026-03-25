@@ -110,10 +110,15 @@ validate_package() {
   local proposal_dir="$1"
   local proposal_rel="$2"
   local manifest="$proposal_dir/proposal.yml"
-  local kind validator
+  local kind status archived_from_status validator
 
   kind="$(yaml_string "$manifest" '.proposal_kind')"
-  if [[ "$kind" == "design" && "$(yaml_string "$manifest" '.archive.archived_from_status')" == "legacy-unknown" ]]; then
+  status="$(yaml_string "$manifest" '.status')"
+  archived_from_status="$(yaml_string "$manifest" '.archive.archived_from_status')"
+  if [[ "$kind" == "design" \
+    && "$status" == "archived" \
+    && "$proposal_rel" == .octon/inputs/exploratory/proposals/.archive/design/* \
+    && "$archived_from_status" == "legacy-unknown" ]]; then
     pass "legacy-unknown design import excluded from main registry projection: $proposal_rel"
     return 0
   fi
@@ -189,23 +194,26 @@ main() {
     local proposal_dir proposal_rel kind proposal_id scope title status key fragment archived_at archived_from_status disposition original_path
     proposal_dir="$(dirname "$manifest")"
     proposal_rel="$(rel_path "$proposal_dir")"
-    kind="$(yaml_string "$manifest" '.proposal_kind')"
-    archived_from_status="$(yaml_string "$manifest" '.archive.archived_from_status')"
-
-    if [[ "$kind" == "design" && "$archived_from_status" == "legacy-unknown" ]]; then
-      pass "legacy-unknown design import excluded from main registry projection: $proposal_rel"
-      continue
-    fi
 
     if ! validate_package "$proposal_dir" "$proposal_rel"; then
       continue
     fi
 
+    kind="$(yaml_string "$manifest" '.proposal_kind')"
     proposal_id="$(yaml_string "$manifest" '.proposal_id')"
     scope="$(yaml_string "$manifest" '.promotion_scope')"
     title="$(yaml_string "$manifest" '.title')"
     status="$(yaml_string "$manifest" '.status')"
+    archived_from_status="$(yaml_string "$manifest" '.archive.archived_from_status')"
     key="${kind}:${proposal_id}"
+
+    if [[ "$kind" == "design" \
+      && "$status" == "archived" \
+      && "$proposal_rel" == .octon/inputs/exploratory/proposals/.archive/design/* \
+      && "$archived_from_status" == "legacy-unknown" ]]; then
+      pass "legacy-unknown design import excluded from main registry projection: $proposal_rel"
+      continue
+    fi
 
     if [[ -n "${seen[$key]:-}" ]]; then
       fail "duplicate proposal key '${key}' across ${seen[$key]} and $proposal_rel"
