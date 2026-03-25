@@ -204,6 +204,12 @@ long-running and always-running autonomous agents.
 - derived machine-readable mission views live under
   `generated/cognition/projections/materialized/missions/<mission-id>/mission-view.yml`
 
+Seed-before-active is mandatory for mission-scoped autonomy.
+Mission authority stays under `instance/orchestration/missions/**`, and the
+activation path must seed control truth, continuity, route publication,
+generated summaries, and `mission-view.yml` before autonomous active or paused
+runtime state is legal.
+
 No autonomous runtime path may silently fall back to mission-less execution,
 and no external UI, chat transcript, or in-memory state may become a second
 authoritative control plane.

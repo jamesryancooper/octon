@@ -43,9 +43,9 @@ main() {
   local lease_state safety_state breaker_state oversight_mode route_family mission_class action_class
   local suspended_future_runs pause_active_run_requested approval_required break_glass_required block_finalize
   local route_fresh_until break_glass_expires_at required_quorum overlap_policy backfill_policy
-  local pause_boundary suspend_future_runs_directive stop_after_slice reprioritize_pending narrow_scope_active exclude_target_active enter_safing
+  local pause_boundary suspend_future_runs_directive resume_future_runs_directive stop_after_slice reprioritize_pending narrow_scope_active exclude_target_active enter_safing
   local allow_new_run=true pause_active_run=false safing_active=false
-  local required_operator_ack=false break_glass_active=false observe_to_operate_required=false approve_update_present=false
+  local required_operator_ack=false break_glass_active=false grant_exception_active=false observe_to_operate_required=false approve_update_present=false
   local current_slice_ref route_ref route_missing_link=false now_ts active_intent_count active_slice_ref has_material_intent=false
   now_ts="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 
@@ -71,7 +71,15 @@ main() {
   block_finalize="$(yq -r '.effective.finalize_policy.block_finalize // false' "$route_file")"
 
   pause_boundary="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "pause_at_boundary")] | length > 0' "$directives_file")"
-  suspend_future_runs_directive="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "suspend_future_runs")] | length > 0' "$directives_file")"
+  local schedule_override
+  schedule_override="$(yq -r '.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select(((.type // .kind) == "suspend_future_runs") or ((.type // .kind) == "resume_future_runs")) | (.type // .kind // "")' "$directives_file" 2>/dev/null | awk 'NF {value=$0} END {print value}')"
+  suspend_future_runs_directive="false"
+  resume_future_runs_directive="false"
+  if [[ "$schedule_override" == "suspend_future_runs" ]]; then
+    suspend_future_runs_directive="true"
+  elif [[ "$schedule_override" == "resume_future_runs" ]]; then
+    resume_future_runs_directive="true"
+  fi
   stop_after_slice="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "stop_after_slice")] | length > 0' "$directives_file")"
   reprioritize_pending="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "reprioritize")] | length > 0' "$directives_file")"
   narrow_scope_active="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "narrow_scope")] | length > 0' "$directives_file")"
@@ -79,6 +87,12 @@ main() {
   enter_safing="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "enter_safing")] | length > 0' "$directives_file")"
   approve_update_present="$(yq -r '[.authorize_updates[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied")) | select(.type == "approve")] | length > 0' "$authorize_updates_file")"
   break_glass_active="$(yq -r '[.authorize_updates[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied")) | select(.type == "enter_break_glass")] | length > 0' "$authorize_updates_file")"
+  local exception_grant_ref exception_grant_expires_at
+  exception_grant_ref="$(yq -r '.exception_grant_ref // ""' "$mode_state_file")"
+  exception_grant_expires_at="$(yq -r '.exception_grant_expires_at // ""' "$mode_state_file")"
+  if [[ -n "$exception_grant_ref" && ( -z "$exception_grant_expires_at" || "$exception_grant_expires_at" > "$now_ts" ) ]]; then
+    grant_exception_active=true
+  fi
   active_intent_count="$(yq -r '[.entries[]? | select((.state // .status) == "active" or (.state // .status) == "queued" or (.state // .status) == "published")] | length' "$intent_register_file")"
   active_slice_ref="$(yq -r '.entries[]? | select((.state // .status) == "active" or (.state // .status) == "queued" or (.state // .status) == "published") | .action_slice_ref // .slice_ref.path // .slice_ref.id // ""' "$intent_register_file" 2>/dev/null | awk 'NF {print; exit}')"
   if [[ -n "$active_slice_ref" && "$active_slice_ref" != .octon/* && "$active_slice_ref" != */*.yml ]]; then
@@ -91,7 +105,7 @@ main() {
     allow_new_run=false
     reasons+=("lease_not_active")
   fi
-  if [[ "$suspended_future_runs" == "true" ]]; then
+  if [[ "$suspended_future_runs" == "true" && "$resume_future_runs_directive" != "true" ]]; then
     allow_new_run=false
     reasons+=("future_runs_suspended")
   fi
@@ -175,12 +189,12 @@ main() {
     reasons+=("generic_route_recovery_fallback")
   fi
 
-  if [[ "$approval_required" == "true" && "$approve_update_present" != "true" ]]; then
+  if [[ "$approval_required" == "true" && "$approve_update_present" != "true" && "$grant_exception_active" != "true" ]]; then
     required_operator_ack=true
     allow_new_run=false
     reasons+=("operator_ack_required")
   fi
-  if [[ "$break_glass_required" == "true" && "$break_glass_active" != "true" ]]; then
+  if [[ "$break_glass_required" == "true" && "$break_glass_active" != "true" && "$grant_exception_active" != "true" ]]; then
     required_operator_ack=true
     allow_new_run=false
     reasons+=("break_glass_required")
@@ -222,10 +236,12 @@ main() {
     --arg block_finalize "$block_finalize" \
     --arg safing_active "$safing_active" \
     --arg break_glass_active "$break_glass_active" \
+    --arg grant_exception_active "$grant_exception_active" \
     --arg observe_to_operate_required "$observe_to_operate_required" \
     --arg suspended_future_runs "$suspended_future_runs" \
     --arg pause_active_run_requested "$pause_active_run_requested" \
     --arg suspend_future_runs_directive "$suspend_future_runs_directive" \
+    --arg resume_future_runs_directive "$resume_future_runs_directive" \
     --arg reprioritize_pending "$reprioritize_pending" \
     --arg narrow_scope_active "$narrow_scope_active" \
     --arg exclude_target_active "$exclude_target_active" \
@@ -244,6 +260,7 @@ main() {
       suspended_future_runs: ($suspended_future_runs == "true"),
       pause_active_run_requested: ($pause_active_run_requested == "true"),
       suspend_future_runs_directive: ($suspend_future_runs_directive == "true"),
+      resume_future_runs_directive: ($resume_future_runs_directive == "true"),
       reprioritize_pending: ($reprioritize_pending == "true"),
       scope_narrowing_active: ($narrow_scope_active == "true"),
       exclude_target_active: ($exclude_target_active == "true"),
@@ -251,6 +268,7 @@ main() {
       required_operator_ack: ($required_operator_ack == "true"),
       safing_active: ($safing_active == "true"),
       break_glass_active: ($break_glass_active == "true"),
+      grant_exception_active: ($grant_exception_active == "true"),
       observe_to_operate_required: ($observe_to_operate_required == "true"),
       route_link_missing: ($route_link_missing == "true"),
       current_slice_ref: $current_slice_ref,

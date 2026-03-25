@@ -136,12 +136,18 @@ profiles:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-proposal-package.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-authority.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-lifecycle-cutover.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-control-state.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-intent-invariants.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-control-evidence.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-effective-routes.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-route-normalization.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-generated-summaries.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-view-generation.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-source-of-truth.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/test-mission-autonomy-scenarios.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/test-mission-lifecycle-activation.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/test-autonomy-burn-reducer.sh"
     dry_run_safe: true
     consumers:
       - "local"

@@ -57,6 +57,21 @@ main() {
     else
       fail "mission projection must reference effective route for $mission_id"
     fi
+    if [[ -f "$MISSION_SUMMARIES/$mission_id/now.md" ]] && grep -Fq "/.octon/state/control/execution/missions/$mission_id/intent-register.yml" "$MISSION_SUMMARIES/$mission_id/now.md"; then
+      pass "mission now summary cites intent register for $mission_id"
+    else
+      fail "mission now summary must cite intent register for $mission_id"
+    fi
+    if [[ -f "$MISSION_SUMMARIES/$mission_id/recent.md" ]] && grep -Fq "/.octon/state/evidence/control/execution/" "$MISSION_SUMMARIES/$mission_id/recent.md"; then
+      pass "mission recent summary cites control evidence root for $mission_id"
+    else
+      fail "mission recent summary must cite control evidence root for $mission_id"
+    fi
+    if [[ -f "$MISSION_SUMMARIES/$mission_id/recover.md" ]] && grep -Fq "/.octon/state/evidence/control/execution/" "$MISSION_SUMMARIES/$mission_id/recover.md"; then
+      pass "mission recover summary cites control evidence root for $mission_id"
+    else
+      fail "mission recover summary must cite control evidence root for $mission_id"
+    fi
     if [[ -f "$subscriptions_file" ]]; then
       while IFS= read -r recipient; do
         [[ -n "$recipient" ]] || continue

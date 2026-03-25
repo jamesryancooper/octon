@@ -27,7 +27,7 @@ external effects.
   - `/.octon/state/continuity/repo/missions/mission-autonomy-live-validation/**`
   - `/.octon/generated/effective/orchestration/missions/mission-autonomy-live-validation/**`
   - `/.octon/generated/cognition/summaries/missions/mission-autonomy-live-validation/**`
-  - `/.octon/generated/cognition/projections/materialized/missions/mission-autonomy-live-validation.json`
+  - `/.octon/generated/cognition/projections/materialized/missions/mission-autonomy-live-validation/mission-view.yml`
 - Allowed action classes:
   - `repo-maintenance`
 - Explicit exclusions:
@@ -53,6 +53,7 @@ external effects.
 
 ## Notes
 
-This mission exists to give the MSRAOM cutover one real, low-risk live target
-for control-state, route-publication, authorize-update, summary, and closeout
-validation.
+This mission exists to give the MSRAOM closeout one real, low-risk live target
+for seed-before-active lifecycle validation, slice-linked intent, route
+publication, authorize-update handling, reducer-driven trust tightening,
+summary generation, and closeout proof.

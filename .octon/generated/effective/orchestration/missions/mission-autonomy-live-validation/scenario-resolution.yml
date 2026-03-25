@@ -18,9 +18,14 @@ source_refs:
   current_action_slice: ".octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml"
 effective:
   mission_class: "maintenance"
-  effective_scenario_family: "maintenance"
+  effective_scenario_family: "maintenance.repo_housekeeping"
   effective_action_class: "git.commit"
-  scenario_family: "maintenance"
+  scenario_family: "maintenance.repo_housekeeping"
+  scenario_family_source: "mission_class.default"
+  boundary_source: "action_slice.safe_interrupt_boundary_class"
+  recovery_source: "action_slice.rollback_primitive"
+  tightening_overlays:
+    []
   oversight_mode: "notify"
   execution_posture: "interruptible_scheduled"
   preview_policy:
@@ -49,21 +54,23 @@ effective:
     predicted_acp: "ACP-1"
     reversibility_class: "reversible"
     primitive: "git.revert_commit"
-    rollback_handle_type: "git-commit"
+    rollback_handle_type: "action-slice"
     recovery_window: "P30D"
   finalize_policy:
     approval_required: false
     block_finalize: false
     break_glass_required: false
+    exception_active: false
   safing_subset:
     - "observe_only"
     - "stage_only"
   route_reason_codes:
     - "INTENT_ENTRY_PRESENT"
     - "ROUTE_ACTION_CLASS_git_commit"
+    - "ROUTE_SCENARIO_FAMILY_UPGRADED"
 rationale:
   - "mission charter, mission policy, live control state, and retained governance policy compile into one effective route"
   - "material route behavior derives from the current intent entry plus action-slice when present"
   - "route linkage, safing state, and finalize gates must stay freshness-bounded"
-generated_at: "2026-03-25T16:46:34Z"
-fresh_until: "2026-03-25T17:01:34Z"
+generated_at: "2026-03-25T21:15:54Z"
+fresh_until: "2026-03-25T21:30:54Z"

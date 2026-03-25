@@ -8,6 +8,9 @@ ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 CONTROL_EVIDENCE_ROOT="$OCTON_DIR/state/evidence/control/execution"
 CONTROL_RECEIPT_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/control-receipt-v1.schema.json"
 RECEIPT_WRITER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/write-mission-control-receipt.sh"
+DIRECTIVE_RECORDER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/record-mission-directive.sh"
+AUTHORIZE_UPDATE_RECORDER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/record-mission-authorize-update.sh"
+AUTONOMY_REDUCER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/recompute-mission-autonomy-state.sh"
 
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
@@ -19,6 +22,9 @@ main() {
   [[ -d "$CONTROL_EVIDENCE_ROOT" ]] && pass "control evidence root exists" || fail "missing control evidence root"
   [[ -f "$CONTROL_RECEIPT_SCHEMA" ]] && pass "control receipt schema exists" || fail "missing control receipt schema"
   [[ -x "$RECEIPT_WRITER" ]] && pass "control receipt writer exists" || fail "missing control receipt writer"
+  [[ -x "$DIRECTIVE_RECORDER" ]] && pass "directive recorder exists" || fail "missing directive recorder"
+  [[ -x "$AUTHORIZE_UPDATE_RECORDER" ]] && pass "authorize-update recorder exists" || fail "missing authorize-update recorder"
+  [[ -x "$AUTONOMY_REDUCER" ]] && pass "autonomy reducer exists" || fail "missing autonomy reducer"
 
   local tmp_root
   tmp_root="$(mktemp -d)"
@@ -60,6 +66,7 @@ main() {
       authorize_update_add \
       authorize_update_apply \
       schedule_mutation \
+      lease_mutation \
       budget_transition \
       breaker_trip \
       breaker_reset \

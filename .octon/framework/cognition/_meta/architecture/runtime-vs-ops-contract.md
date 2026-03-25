@@ -57,6 +57,10 @@ This document applies to any Octon domain that exposes both `runtime/` and
     canonical mission control, retained control evidence, mission continuity,
     generated effective mission-route surfaces, or generated mission/operator
     read-model surfaces.
+13. Mission lifecycle automation MUST keep authority scaffolds under
+    `instance/orchestration/missions/**` and materialize mutable autonomy state
+    only through the seed-before-active path under canonical `state/**` and
+    `generated/**` roots.
 
 ## Default Mutation Allowlist (Fail-Closed)
 

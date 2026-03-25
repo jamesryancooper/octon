@@ -1,0 +1,23 @@
+# Commands
+
+- `bash .octon/framework/orchestration/runtime/_ops/scripts/publish-mission-effective-route.sh --mission-id mission-autonomy-live-validation`
+- `bash .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh --target missions`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-lifecycle-cutover.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-intent-invariants.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-route-normalization.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-view-generation.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-generated-summaries.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-control-evidence.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/test-mission-lifecycle-activation.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/test-autonomy-burn-reducer.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-effective-routes.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-source-of-truth.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/test-mission-autonomy-scenarios.sh`
+- `bash .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh`
+- `bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile mission-autonomy`

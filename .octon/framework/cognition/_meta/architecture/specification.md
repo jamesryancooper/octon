@@ -220,6 +220,8 @@ for runtime, governance, and practices.
   `/.octon/generated/cognition/summaries/missions/`
 - operator digests:
   `/.octon/generated/cognition/summaries/operators/`
+- machine mission views:
+  `/.octon/generated/cognition/projections/materialized/missions/`
 - readable decision summary:
   `/.octon/generated/cognition/summaries/decisions.md`
 - repo context and ADRs: `/.octon/instance/cognition/`
@@ -237,6 +239,14 @@ for runtime, governance, and practices.
 - repo-owned execution budget policy:
   `/.octon/instance/governance/policies/execution-budgets.yml`
 - generated proposal registry: `/.octon/generated/proposals/registry.yml`
+
+Mission-scoped autonomy uses one authority/control/evidence/read-model split:
+authored mission scaffolds stay under `instance/orchestration/missions/**`,
+mutable control truth stays under `state/control/execution/missions/**`,
+retained control evidence stays under `state/evidence/control/execution/**`,
+and generated route/view surfaces stay under `generated/**`.
+No autonomous active or paused mission is valid until the seed-before-active
+path materializes that full family.
 
 Proposal lifecycle authority stays in `proposal.yml` and the subtype manifest.
 `navigation/source-of-truth-map.md` is the manual proposal-local precedence

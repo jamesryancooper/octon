@@ -10,7 +10,7 @@ Define the bounded outcome for this mission.
 
 ## Owner
 
-- identify the accountable mission owner and any additional asset owners
+- identify the accountable `owner_ref` and any additional asset owners
 
 ## Scope
 
@@ -29,6 +29,8 @@ Define the bounded outcome for this mission.
 - describe whether this mission is one-shot, continuous, or interruptible on a
   schedule
 - describe expected preview and digest posture
+- note that control truth, route generation, and mission-view creation happen
+  through the seed-before-active path rather than inside this authority scaffold
 
 ## Notes
 

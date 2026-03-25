@@ -349,8 +349,16 @@ run_mission_autonomy() {
     bash "$SCRIPT_DIR/validate-mission-runtime-contracts.sh"
 
   run_step \
+    "Validate lifecycle seed-before-active cutover" \
+    bash "$SCRIPT_DIR/validate-mission-lifecycle-cutover.sh"
+
+  run_step \
     "Validate mission control state surfaces" \
     bash "$SCRIPT_DIR/validate-mission-control-state.sh"
+
+  run_step \
+    "Validate mission intent invariants" \
+    bash "$SCRIPT_DIR/validate-mission-intent-invariants.sh"
 
   run_step \
     "Validate mission control evidence surfaces" \
@@ -361,8 +369,16 @@ run_mission_autonomy() {
     bash "$SCRIPT_DIR/validate-mission-effective-routes.sh"
 
   run_step \
+    "Validate effective mission route normalization" \
+    bash "$SCRIPT_DIR/validate-route-normalization.sh"
+
+  run_step \
     "Validate generated mission and operator summaries" \
     bash "$SCRIPT_DIR/validate-mission-generated-summaries.sh"
+
+  run_step \
+    "Validate machine-readable mission views" \
+    bash "$SCRIPT_DIR/validate-mission-view-generation.sh"
 
   run_step \
     "Validate mission source-of-truth and no-shadow-surface rules" \
@@ -371,6 +387,14 @@ run_mission_autonomy() {
   run_step \
     "Run mission autonomy scenario tests" \
     bash "$SCRIPT_DIR/test-mission-autonomy-scenarios.sh"
+
+  run_step \
+    "Run lifecycle activation smoke test" \
+    bash "$SCRIPT_DIR/test-mission-lifecycle-activation.sh"
+
+  run_step \
+    "Run autonomy burn reducer smoke test" \
+    bash "$SCRIPT_DIR/test-autonomy-burn-reducer.sh"
 }
 
 run_all() {
