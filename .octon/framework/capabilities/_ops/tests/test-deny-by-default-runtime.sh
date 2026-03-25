@@ -611,7 +611,7 @@ run_service_wrapper_budget_metering_tests() {
       OCTON_AGENT_IDS='agent-a' \\
       OCTON_RISK_TIER=low \\
       OCTON_POLICY_PROFILE=refactor \\
-      OCTON_OPERATION_CLASS=service.execute \\
+      OCTON_OPERATION_CLASS=git.commit \\
       OCTON_OPERATION_PHASE=promote \\
       OCTON_RUN_ID='$budget_run_id' \\
       OCTON_ACP_EVIDENCE_JSON=\"\$evidence_json\" \\

@@ -1,0 +1,25 @@
+schema_version: "control-receipt-v1"
+receipt_id: "20260325T160001Z-lease-mutation"
+mission_id: "mission-autonomy-live-validation"
+control_mutation_class: "lease_mutation"
+source_ref: ".octon/state/control/execution/missions/mission-autonomy-live-validation/lease.yml"
+applied_to_ref: ".octon/state/control/execution/missions/mission-autonomy-live-validation/lease.yml"
+issuer_ref: "operator://octon-maintainers"
+timestamp: "2026-03-25T16:00:01Z"
+result: "applied"
+prior_state_ref: null
+new_state_ref: null
+reason: "Validation coverage receipt for lease_mutation"
+reason_codes:
+  - "VALIDATION_COVERAGE"
+affected_paths:
+  - ".octon/state/control/execution/missions/mission-autonomy-live-validation/lease.yml"
+policy_refs:
+  []
+linked_run_id: null
+linked_directive_refs:
+  []
+linked_authorize_update_refs:
+  []
+superseded_receipt_ref: null
+supersedes_receipt_id: null

@@ -5,9 +5,11 @@ mutability: generated
 generated_from:
   - /.octon/generated/effective/orchestration/missions/mission-autonomy-live-validation/scenario-resolution.yml
   - /.octon/state/evidence/runs/**
+  - /.octon/state/evidence/control/execution/**
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/mode-state.yml
-generated_at: "2026-03-25T03:26:09Z"
-generator_version: "0.6.1"
+  - .octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml
+generated_at: "2026-03-25T18:44:09Z"
+generator_version: "0.6.3"
 ---
 
 # Mission Recover

@@ -159,3 +159,7 @@ records:
     path: mission-scoped-reversible-autonomy-steady-state-cutover/plan.md
     adr: ../decisions/066-mission-scoped-reversible-autonomy-steady-state-cutover.md
     evidence: /.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-steady-state-cutover/evidence.md
+  - id: 2026-03-25-mission-scoped-reversible-autonomy-final-closeout-cutover
+    path: 2026-03-25-mission-scoped-reversible-autonomy-final-closeout-cutover/plan.md
+    adr: ../decisions/067-mission-scoped-reversible-autonomy-final-closeout-cutover.md
+    evidence: /.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-final-closeout-cutover/evidence.md

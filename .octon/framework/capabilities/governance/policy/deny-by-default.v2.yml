@@ -487,26 +487,6 @@ acp:
         budget_set: budgets.deploy
         circuit_breaker_set: circuit_breakers.deploy
       on_missing_requirements: STAGE_ONLY
-    - id: acp-service-execute-generic
-      match:
-        class: service.execute
-        phase: [promote]
-        target:
-          workflow_mode: [autonomous]
-          capability_classification: [agent-ready]
-          boundary_route: [allow]
-      require:
-        acp: ACP-1
-        phase: promote
-        reversibility:
-          required: true
-          primitive: git.revert_commit
-          rollback_proof_required: false
-          recovery_window_default: P14D
-        evidence_required: [diff]
-        budget_set: budgets.repo-small
-        circuit_breaker_set: circuit_breakers.repo-stage
-      on_missing_requirements: STAGE_ONLY
     - id: acp-service-execute-human
       match:
         class: service.execute
@@ -527,46 +507,12 @@ acp:
         budget_set: budgets.repo-small
         circuit_breaker_set: circuit_breakers.repo-stage
       on_missing_requirements: STAGE_ONLY
-    - id: acp-service-execute-boundary-escalate
+    - id: acp-service-autonomy-route-missing
       match:
-        class: service.execute
+        class: service.autonomy_route_missing
         phase: [promote]
         target:
           workflow_mode: [autonomous]
-          capability_classification: [agent-ready]
-          boundary_route: [escalate]
-      require:
-        acp: ACP-2
-        phase: promote
-        reversibility:
-          required: true
-          primitive: git.revert_commit
-          rollback_proof_required: true
-          recovery_window_default: P14D
-        evidence_required: [diff, plan]
-        quorum_required: quorum.acp2
-        budget_set: budgets.repo-small
-        circuit_breaker_set: circuit_breakers.repo-promote
-      on_missing_requirements: ESCALATE
-    - id: acp-service-execute-boundary-block
-      match:
-        class: service.execute
-        phase: [promote]
-        target:
-          workflow_mode: [autonomous]
-          boundary_route: [block]
-      require:
-        acp: ACP-4
-        phase: promote
-        break_glass_required: true
-      on_missing_requirements: DENY
-    - id: acp-service-execute-mode-violation
-      match:
-        class: service.execute
-        phase: [promote]
-        target:
-          workflow_mode: [autonomous]
-          capability_classification: [agent-augmented, human-only]
       require:
         acp: ACP-4
         phase: promote

@@ -51,71 +51,96 @@ derive_scenario_family() {
 
   case "$action_class" in
     service.deploy|git.merge|ci.workflow_edit|repo.modify_ci)
-      printf 'release_sensitive'
+      printf 'release_sensitive.publish_gate\taction_class.default\n'
       return
       ;;
   esac
 
   case "$externality" in
     external|external_sync|external_write)
-      printf 'external_sync'
+      printf 'external_sync.api_exchange\texternality.default\n'
       return
       ;;
   esac
 
   if [[ "$mission_class" == "observe" && "$enter_safing" == "true" ]]; then
-    printf 'incident'
+    printf 'incident.containment\tdirective.enter_safing\n'
     return
   fi
 
   if [[ "$reversibility" == "irreversible" ]]; then
-    printf 'destructive'
+    printf 'destructive.irreversible\treversibility.default\n'
     return
   fi
 
-  printf '%s' "$mission_class"
+  case "$mission_class" in
+    observe) printf 'observe.monitoring\tmission_class.default\n' ;;
+    campaign) printf 'campaign.long_refactor\tmission_class.default\n' ;;
+    maintenance) printf 'maintenance.repo_housekeeping\tmission_class.default\n' ;;
+    reconcile) printf 'reconcile.infra_drift\tmission_class.default\n' ;;
+    migration) printf 'migration.chunked_backfill\tmission_class.default\n' ;;
+    incident) printf 'incident.containment\tmission_class.default\n' ;;
+    destructive) printf 'destructive.irreversible\tmission_class.default\n' ;;
+    *) printf '%s.default\tmission_class.default\n' "$mission_class" ;;
+  esac
 }
 
 derive_boundary_class() {
   local explicit="$1"
   local scenario_family="$2"
   local action_class="$3"
+  local policy_file="$4"
+  local configured=""
+  local boundary_key=""
 
   case "$explicit" in
-    immediate|task_boundary|batch_boundary|checkpoint_boundary|rollout_boundary|stage_boundary|finalize_boundary)
-      printf '%s' "$explicit"
+    file_batch_boundary|task_boundary|resource_batch_boundary|chunk_boundary|deployment_step_boundary|api_page_boundary|playbook_step_boundary|publish_gate|contract_phase_boundary)
+      printf '%s\taction_slice.safe_interrupt_boundary_class\n' "$explicit"
       return
       ;;
   esac
 
   case "$action_class" in
     git.commit|fs.write)
-      printf 'task_boundary'
+      printf 'task_boundary\taction_class.default\n'
       return
       ;;
     service.deploy)
-      printf 'rollout_boundary'
+      printf 'deployment_step_boundary\taction_class.default\n'
       return
       ;;
     fs.hard_delete|db.hard_delete|resource.finalize_destroy)
-      printf 'finalize_boundary'
+      printf 'contract_phase_boundary\taction_class.default\n'
       return
       ;;
     fs.soft_delete|db.tombstone|resource.detach)
-      printf 'stage_boundary'
+      printf 'contract_phase_boundary\taction_class.default\n'
       return
       ;;
   esac
 
   case "$scenario_family" in
-    observe) printf 'immediate' ;;
-    campaign) printf 'task_boundary' ;;
-    maintenance|reconcile|external_sync) printf 'batch_boundary' ;;
-    migration) printf 'checkpoint_boundary' ;;
-    incident|release_sensitive) printf 'rollout_boundary' ;;
-    destructive) printf 'stage_boundary' ;;
-    *) printf 'task_boundary' ;;
+    maintenance.repo_housekeeping) boundary_key="repo_housekeeping" ;;
+    campaign.long_refactor) boundary_key="coding" ;;
+    reconcile.infra_drift) boundary_key="infra_drift" ;;
+    migration.chunked_backfill) boundary_key="migration" ;;
+    external_sync.api_exchange) boundary_key="external_sync" ;;
+    observe.monitoring) boundary_key="monitoring" ;;
+    incident.containment) boundary_key="incident" ;;
+    release_sensitive.publish_gate) boundary_key="release_sensitive" ;;
+    destructive.irreversible) boundary_key="destructive" ;;
+    *) boundary_key="" ;;
   esac
+
+  if [[ -n "$boundary_key" ]]; then
+    configured="$(yq -r ".safe_interrupt_boundaries.\"$boundary_key\" // \"\"" "$policy_file" 2>/dev/null || true)"
+    if [[ -n "$configured" ]]; then
+      printf '%s\tmission_autonomy_policy.safe_interrupt_boundaries.%s\n' "$configured" "$boundary_key"
+      return
+    fi
+  fi
+
+  printf 'task_boundary\tmission_autonomy_policy.safe_interrupt_boundaries.default\n'
 }
 
 main() {
@@ -175,15 +200,17 @@ main() {
 
   local mission_class risk_ceiling default_safing_subset oversight_mode execution_posture safety_state phase
   local budget_state breaker_state overlap_policy backfill_policy digest_route preview_lead next_planned_run_at lease_expires
-  local block_finalize enter_safing suspend_future_runs_directive reprioritize_pending narrow_scope_active exclude_target_active approval_update_present break_glass_active break_glass_expires_at
+  local block_finalize enter_safing suspend_future_runs_directive resume_future_runs_directive reprioritize_pending narrow_scope_active exclude_target_active approval_update_present grant_exception_active break_glass_active break_glass_expires_at exception_grant_ref exception_grant_expires_at
   local selected_entry_json action_slice_path slice_id intent_id intent_ref_id intent_ref_version entry_action_class predicted_acp
   local reversibility_class earliest_start feedback_deadline default_on_silence expected_externality entry_state
   local action_title action_scope_ids safe_interrupt_boundary_class rollback_primitive compensation_primitive
   local action_executor_profile action_approval_required owner_attestation_required action_rationale
   local effective_scenario_family effective_action_class primitive recovery_window rollback_handle_type
+  local scenario_family_source boundary_source recovery_source
   local break_glass_required required_quorum allow_proceed_on_silence approval_required
   local active_mode next_safe_interrupt_boundary_id current_slice_ref_path
   local -a reason_codes=()
+  local -a tightening_overlays=()
 
   mission_class="$(yq -r '.mission_class // ""' "$mission_file")"
   risk_ceiling="$(yq -r '.risk_ceiling // "ACP-1"' "$mission_file")"
@@ -201,6 +228,8 @@ main() {
   digest_route="$(yq -r '.digest_route_override // ""' "$schedule_file")"
   lease_expires="$(yq -r '.expires_at // ""' "$lease_file")"
   break_glass_expires_at="$(yq -r '.break_glass_expires_at // ""' "$mode_state_file")"
+  exception_grant_ref="$(yq -r '.exception_grant_ref // ""' "$mode_state_file")"
+  exception_grant_expires_at="$(yq -r '.exception_grant_expires_at // ""' "$mode_state_file")"
 
   [[ -n "$mission_class" ]] || mission_class="maintenance"
   [[ -n "$oversight_mode" ]] || oversight_mode="$(yq -r ".mode_defaults.\"$mission_class\" // \"notify\"" "$policy_file")"
@@ -210,14 +239,32 @@ main() {
   [[ -n "$preview_lead" ]] || preview_lead="$(yq -r '.preview_defaults.interval_gte_24h.preview_lead // "PT24H"' "$policy_file")"
   [[ -n "$digest_route" ]] || digest_route="$(yq -r ".digest_cadence_defaults.\"$mission_class\".route // \"preview_plus_closure_digest\"" "$policy_file")"
 
-  block_finalize="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "block_finalize")] | length > 0' "$directives_file")"
+  local finalize_override schedule_override
+  finalize_override="$(yq -r '.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select(((.type // .kind) == "block_finalize") or ((.type // .kind) == "unblock_finalize")) | (.type // .kind // "")' "$directives_file" 2>/dev/null | awk 'NF {value=$0} END {print value}')"
+  block_finalize="false"
+  if [[ "$finalize_override" == "block_finalize" ]]; then
+    block_finalize="true"
+  fi
   enter_safing="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "enter_safing")] | length > 0' "$directives_file")"
-  suspend_future_runs_directive="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "suspend_future_runs")] | length > 0' "$directives_file")"
+  schedule_override="$(yq -r '.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select(((.type // .kind) == "suspend_future_runs") or ((.type // .kind) == "resume_future_runs")) | (.type // .kind // "")' "$directives_file" 2>/dev/null | awk 'NF {value=$0} END {print value}')"
+  suspend_future_runs_directive="false"
+  resume_future_runs_directive="false"
+  if [[ "$schedule_override" == "suspend_future_runs" ]]; then
+    suspend_future_runs_directive="true"
+  elif [[ "$schedule_override" == "resume_future_runs" ]]; then
+    resume_future_runs_directive="true"
+  fi
   reprioritize_pending="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "reprioritize")] | length > 0' "$directives_file")"
   narrow_scope_active="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "narrow_scope")] | length > 0' "$directives_file")"
   exclude_target_active="$(yq -r '[.directives[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied") or ((.state // .status) == "accepted")) | select((.type // .kind) == "exclude_target")] | length > 0' "$directives_file")"
   approval_update_present="$(yq -r '[.authorize_updates[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied")) | select(.type == "approve")] | length > 0' "$authorize_updates_file")"
   break_glass_active="$(yq -r '[.authorize_updates[]? | select(((.state // .status) == "pending") or ((.state // .status) == "applied")) | select(.type == "enter_break_glass")] | length > 0' "$authorize_updates_file")"
+  grant_exception_active="false"
+  if [[ -n "$exception_grant_ref" ]]; then
+    if [[ -z "$exception_grant_expires_at" || "$exception_grant_expires_at" > "$generated_at" ]]; then
+      grant_exception_active="true"
+    fi
+  fi
   if [[ "$safety_state" == "break_glass" ]]; then
     break_glass_active="true"
   fi
@@ -285,13 +332,23 @@ main() {
     effective_action_class="mission.idle"
   fi
 
-  effective_scenario_family="$(derive_scenario_family "$mission_class" "$effective_action_class" "$expected_externality" "$reversibility_class" "$enter_safing")"
-  safe_interrupt_boundary_class="$(derive_boundary_class "${safe_interrupt_boundary_class:-}" "$effective_scenario_family" "$effective_action_class")"
+  IFS=$'\t' read -r effective_scenario_family scenario_family_source < <(derive_scenario_family "$mission_class" "$effective_action_class" "$expected_externality" "$reversibility_class" "$enter_safing")
+  IFS=$'\t' read -r safe_interrupt_boundary_class boundary_source < <(derive_boundary_class "${safe_interrupt_boundary_class:-}" "$effective_scenario_family" "$effective_action_class" "$policy_file")
   next_safe_interrupt_boundary_id="$safe_interrupt_boundary_class"
 
   primitive="$(ACTION_CLASS="$effective_action_class" yq -r '.acp.rules[]? | select(.match.class == strenv(ACTION_CLASS)) | .require.reversibility.primitive // ""' "$deny_policy_file" | awk 'NF {print; exit}')"
   recovery_window="$(ACTION_CLASS="$effective_action_class" yq -r '.acp.rules[]? | select(.match.class == strenv(ACTION_CLASS)) | .require.reversibility.recovery_window_default // ""' "$deny_policy_file" | awk 'NF {print; exit}')"
   rollback_handle_type="$(PRIMITIVE="$primitive" yq -r '.reversibility.primitives[strenv(PRIMITIVE)].rollback_handle_type // ""' "$deny_policy_file" 2>/dev/null || true)"
+  recovery_source="deny_by_default_policy"
+  if [[ -n "${rollback_primitive:-}" ]]; then
+    primitive="$rollback_primitive"
+    rollback_handle_type="action-slice"
+    recovery_source="action_slice.rollback_primitive"
+  elif [[ -n "${compensation_primitive:-}" ]]; then
+    primitive="$compensation_primitive"
+    rollback_handle_type="action-slice"
+    recovery_source="action_slice.compensation_primitive"
+  fi
   break_glass_required="$(ACTION_CLASS="$effective_action_class" yq -r '.acp.rules[]? | select(.match.class == strenv(ACTION_CLASS)) | .require.break_glass_required // false' "$deny_policy_file" | awk 'NF {print; exit}')"
   [[ -n "$break_glass_required" ]] || break_glass_required="false"
   [[ -n "$recovery_window" ]] || recovery_window="$(yq -r '.recovery_windows.local_reversible_repo_change // "PT72H"' "$policy_file")"
@@ -320,6 +377,9 @@ main() {
   if [[ "$suspend_future_runs_directive" == "true" ]]; then
     reason_codes+=("ROUTE_SUSPEND_FUTURE_RUNS_DIRECTIVE")
   fi
+  if [[ "$resume_future_runs_directive" == "true" ]]; then
+    reason_codes+=("ROUTE_RESUME_FUTURE_RUNS_DIRECTIVE")
+  fi
   if [[ "$reprioritize_pending" == "true" ]]; then
     reason_codes+=("ROUTE_REPRIORITIZE_PENDING")
   fi
@@ -332,10 +392,47 @@ main() {
   if [[ "$break_glass_active" == "true" ]]; then
     reason_codes+=("BREAK_GLASS_ACTIVE")
   fi
+  if [[ "$grant_exception_active" == "true" ]]; then
+    reason_codes+=("GRANT_EXCEPTION_ACTIVE")
+  fi
+  if [[ "$block_finalize" == "true" ]]; then
+    tightening_overlays+=("directive:block_finalize")
+  fi
+  if [[ "$suspend_future_runs_directive" == "true" ]]; then
+    tightening_overlays+=("directive:suspend_future_runs")
+  fi
+  if [[ "$reprioritize_pending" == "true" ]]; then
+    tightening_overlays+=("directive:reprioritize")
+  fi
+  if [[ "$narrow_scope_active" == "true" ]]; then
+    tightening_overlays+=("directive:narrow_scope")
+  fi
+  if [[ "$exclude_target_active" == "true" ]]; then
+    tightening_overlays+=("directive:exclude_target")
+  fi
+  if [[ "$enter_safing" == "true" ]]; then
+    tightening_overlays+=("directive:enter_safing")
+  fi
+  if [[ "$breaker_state" != "clear" ]]; then
+    tightening_overlays+=("breaker:${breaker_state}")
+  fi
+  if [[ "$safety_state" == "safe" || "$safety_state" == "degraded" ]]; then
+    tightening_overlays+=("safety_state:${safety_state}")
+  fi
+  if [[ "$break_glass_active" == "true" ]]; then
+    tightening_overlays+=("authorize_update:break_glass")
+  fi
+  if [[ "$grant_exception_active" == "true" ]]; then
+    tightening_overlays+=("authorize_update:grant_exception")
+  fi
 
   approval_required="false"
   if [[ "$oversight_mode" == "approval_required" || "$break_glass_required" == "true" || "${action_approval_required:-false}" == "true" ]]; then
     approval_required="true"
+  fi
+  if [[ "$grant_exception_active" == "true" ]]; then
+    approval_required="false"
+    break_glass_required="false"
   fi
 
   allow_proceed_on_silence="false"
@@ -377,6 +474,11 @@ effective:
   effective_scenario_family: "$effective_scenario_family"
   effective_action_class: "$effective_action_class"
   scenario_family: "$effective_scenario_family"
+  scenario_family_source: "$scenario_family_source"
+  boundary_source: "$boundary_source"
+  recovery_source: "$recovery_source"
+  tightening_overlays:
+$(printf '%s\n' "${tightening_overlays[@]}" | awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}')
   oversight_mode: "$oversight_mode"
   execution_posture: "$execution_posture"
   preview_policy:
@@ -406,6 +508,7 @@ $(yq -r '.pause_on_failure_rules.triggers[]? // ""' "$schedule_file" | awk 'NF {
     approval_required: $approval_required
     block_finalize: $block_finalize
     break_glass_required: $break_glass_required
+    exception_active: $grant_exception_active
   safing_subset:
 $(printf '%s\n' "$default_safing_subset" | tr ',' '\n' | awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}')
   route_reason_codes:

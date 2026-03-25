@@ -10,6 +10,8 @@ SEED_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/seed-missio
 ROUTE_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/publish-mission-effective-route.sh"
 EVALUATE_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/evaluate-mission-control-state.sh"
 AUTHORIZE_UPDATE_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/apply-mission-authorize-update.sh"
+DIRECTIVE_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/record-mission-directive.sh"
+SYNC_SCRIPT="$OCTON_DIR/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh"
 MISSION_POLICY="$OCTON_DIR/instance/governance/policies/mission-autonomy.yml"
 OWNERSHIP_REGISTRY="$OCTON_DIR/instance/governance/ownership/registry.yml"
 MISSION_PRINCIPLE="$OCTON_DIR/framework/cognition/governance/principles/mission-scoped-reversible-autonomy.md"
@@ -59,7 +61,14 @@ fixture_root() {
 }
 
 cleanup_root() {
-  rm -rf "$1"
+  local root="$1"
+  local tmp_root="${TMPDIR:-/tmp}"
+  tmp_root="${tmp_root%/}"
+  [[ -n "$root" ]] || return 0
+  case "$root" in
+    "$tmp_root"/*|/tmp/*) rm -fr -- "$root" ;;
+    *) echo "refusing to remove non-temp fixture root: $root" >&2; return 1 ;;
+  esac
 }
 
 seed_fixture_base() {
@@ -70,13 +79,27 @@ seed_fixture_base() {
     "$root/.octon/instance/governance/policies" \
     "$root/.octon/instance/governance/ownership" \
     "$root/.octon/framework/capabilities/governance/policy" \
+    "$root/.octon/state/evidence" \
     "$root/.octon/generated/effective/orchestration/missions" \
     "$root/.octon/state/evidence/control/execution"
 
   cp "$ROOT_MANIFEST" "$root/.octon/octon.yml"
+  cp -R "$OCTON_DIR/framework/cognition" "$root/.octon/framework/"
   cp "$MISSION_POLICY" "$root/.octon/instance/governance/policies/mission-autonomy.yml"
   cp "$OWNERSHIP_REGISTRY" "$root/.octon/instance/governance/ownership/registry.yml"
   cp "$ACP_POLICY" "$root/.octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
+
+  cat > "$root/.octon/instance/orchestration/missions/registry.yml" <<EOF
+schema_version: "octon-mission-registry-v2"
+control_root: ".octon/state/control/execution/missions"
+continuity_root: ".octon/state/continuity/repo/missions"
+effective_route_root: ".octon/generated/effective/orchestration/missions"
+summary_root: ".octon/generated/cognition/summaries/missions"
+projection_root: ".octon/generated/cognition/projections/materialized/missions"
+active:
+  - "demo"
+archived: []
+EOF
 
   cat > "$root/.octon/instance/orchestration/missions/demo/mission.yml" <<EOF
 schema_version: "octon-mission-v2"
@@ -117,6 +140,34 @@ write_published_slice() {
   local action_class="$2"
   local reversibility="$3"
   local predicted_acp="$4"
+  local expected_externality="${5:-repo_local}"
+  local default_on_silence="${6:-feedback_window}"
+  local boundary_class="${7:-task_boundary}"
+  local compensation_primitive="${8:-}"
+  local rollback_primitive="${9:-git.revert_commit}"
+  cat > "$root/.octon/state/control/execution/missions/demo/action-slices/slice-1.yml" <<EOF
+schema_version: "action-slice-v1"
+slice_id: "slice-1"
+mission_id: "demo"
+title: "Scenario fixture slice"
+action_class: "$action_class"
+scope_ids: []
+predicted_acp: "$predicted_acp"
+reversibility_class: "$reversibility"
+rollback_primitive: "$rollback_primitive"
+compensation_primitive: ${compensation_primitive:+\"$compensation_primitive\"}
+safe_interrupt_boundary_class: "$boundary_class"
+expected_blast_radius: "small"
+expected_externality_class: "$expected_externality"
+executor_profile: "scoped_repo_mutation"
+approval_required: false
+owner_attestation_required: false
+rationale: "scenario fixture"
+earliest_start: "2026-03-24T00:00:00Z"
+feedback_deadline: "2026-03-24T00:30:00Z"
+created_at: "2026-03-24T00:00:00Z"
+updated_at: "2026-03-24T00:00:00Z"
+EOF
   cat > "$root/.octon/state/control/execution/missions/demo/intent-register.yml" <<EOF
 schema_version: "intent-register-v1"
 mission_id: "demo"
@@ -137,16 +188,17 @@ entries:
     predicted_acp: "$predicted_acp"
     planned_reversibility_class: "$reversibility"
     safe_interrupt_boundary_id: "task-boundary"
-    boundary_class: "task_boundary"
+    boundary_class: "$boundary_class"
     expected_blast_radius: "small"
+    expected_externality_class: "$expected_externality"
     expected_budget_impact: {}
     required_authorize_updates: []
     rollback_plan_ref: "plan://rollback"
-    compensation_plan_ref: null
+    compensation_plan_ref: ${compensation_primitive:+\"plan://compensate\"}
     finalize_policy_ref: "policy://finalize"
     earliest_start_at: "2026-03-24T00:00:00Z"
     feedback_deadline_at: "2026-03-24T00:30:00Z"
-    default_on_silence: "feedback_window"
+    default_on_silence: "$default_on_silence"
 EOF
 }
 
@@ -186,7 +238,18 @@ set_schedule_flags() {
 evaluate_fixture() {
   local root="$1"
   OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$ROUTE_SCRIPT" --mission-id demo >/dev/null
+  OCTON_ROOT_DIR="$root" bash "$root/.octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh" --target missions >/dev/null
+  assert_fixture_views "$root"
   OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$EVALUATE_SCRIPT" --mission-id demo
+}
+
+assert_fixture_views() {
+  local root="$1"
+  [[ -f "$root/.octon/generated/cognition/summaries/missions/demo/now.md" ]]
+  [[ -f "$root/.octon/generated/cognition/summaries/missions/demo/next.md" ]]
+  [[ -f "$root/.octon/generated/cognition/summaries/missions/demo/recent.md" ]]
+  [[ -f "$root/.octon/generated/cognition/summaries/missions/demo/recover.md" ]]
+  [[ -f "$root/.octon/generated/cognition/projections/materialized/missions/demo/mission-view.yml" ]]
 }
 
 assert_json() {
@@ -200,10 +263,51 @@ case_routine_repo_housekeeping() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "maintenance"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-1"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   local json
   json="$(evaluate_fixture "$root")"
   assert_json "$json" '.allow_new_run == true and .pause_active_run == false and .overlap_policy == "skip"'
+  cleanup_root "$root"
+}
+
+case_observe_only_monitoring_routes_end_to_end() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "observe"
+  activate_fixture_mission "$root"
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .route_family == "observe.monitoring" and .action_class == "mission.idle"'
+  assert_yq '.effective.effective_scenario_family == "observe.monitoring"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  assert_yq '.effective.effective_action_class == "mission.idle"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  cleanup_root "$root"
+}
+
+case_campaign_long_refactor_routes_end_to_end() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "campaign"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .route_family == "campaign.long_refactor"'
+  assert_yq '.effective.effective_scenario_family == "campaign.long_refactor"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  assert_yq '.effective.execution_posture == "continuous"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  cleanup_root "$root"
+}
+
+case_migration_backfill_routes_end_to_end() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "migration"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "db.migrate" "reversible" "ACP-2" "repo_local" "feedback_window" "chunk_boundary" "" "db.down_migration_or_shadow"
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .route_family == "migration.chunked_backfill"'
+  assert_yq '.effective.effective_scenario_family == "migration.chunked_backfill"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  assert_yq '.effective.safe_interrupt_boundary_class == "chunk_boundary"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
   cleanup_root "$root"
 }
 
@@ -212,7 +316,7 @@ case_schedule_suspension_blocks_new_runs() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "maintenance"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-1"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   set_schedule_flags "$root" true false
   local json
   json="$(evaluate_fixture "$root")"
@@ -225,7 +329,7 @@ case_directive_suspend_future_runs_blocks_new_runs() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "maintenance"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-1"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   write_directives "$root" '  - directive_id: "dir-suspend"
     kind: "suspend_future_runs"
     target_scope: {}
@@ -241,12 +345,57 @@ case_directive_suspend_future_runs_blocks_new_runs() {
   cleanup_root "$root"
 }
 
+case_directive_resume_future_runs_reenables_new_runs() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "maintenance"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
+  set_schedule_flags "$root" true false
+  write_directives "$root" '  - directive_id: "dir-resume"
+    kind: "resume_future_runs"
+    target_scope: {}
+    submitted_by: "operator://demo-owner"
+    precedence_source: "mission_owner"
+    submitted_at: "2026-03-24T00:00:00Z"
+    effective_at: "immediate"
+    status: "accepted"
+    rationale: "resume future runs"'
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .resume_future_runs_directive == true'
+  cleanup_root "$root"
+}
+
+case_expired_suspend_directive_does_not_mutate_schedule() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "maintenance"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
+  OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$DIRECTIVE_SCRIPT" \
+    --mission-id demo \
+    --directive-id dir-expired-suspend \
+    --issued-by operator://demo-owner \
+    --kind suspend_future_runs \
+    --state expired \
+    >/dev/null
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .suspend_future_runs_directive == false'
+  assert_yq '.suspended_future_runs == false and .last_schedule_mutation_ref == null' "$root/.octon/state/control/execution/missions/demo/schedule.yml"
+  if grep -R 'control_mutation_class: "schedule_mutation"' "$root/.octon/state/evidence/control/execution" >/dev/null; then
+    return 1
+  fi
+  cleanup_root "$root"
+}
+
 case_reprioritize_pauses_material_work() {
   local root
   root="$(fixture_root)"
   seed_fixture_base "$root" "maintenance"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-1"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   write_directives "$root" '  - directive_id: "dir-reprioritize"
     kind: "reprioritize"
     target_scope: {}
@@ -267,7 +416,7 @@ case_scope_narrowing_blocks_material_work() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "maintenance"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-1"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   write_directives "$root" '  - directive_id: "dir-narrow-scope"
     kind: "narrow_scope"
     target_scope: {}
@@ -288,7 +437,7 @@ case_exclude_target_blocks_material_work() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "maintenance"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-1"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   write_directives "$root" '  - directive_id: "dir-exclude-target"
     kind: "exclude_target"
     target_scope: {}
@@ -309,7 +458,7 @@ case_conflicting_human_input_blocks_finalize_and_pauses() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "maintenance"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-1"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   write_directives "$root" '  - directive_id: "dir-1"
     kind: "pause_at_boundary"
     target_scope: {}
@@ -334,12 +483,42 @@ case_conflicting_human_input_blocks_finalize_and_pauses() {
   cleanup_root "$root"
 }
 
+case_unblock_finalize_clears_finalize_block() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "maintenance"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
+  write_directives "$root" '  - directive_id: "dir-block"
+    kind: "block_finalize"
+    target_scope: {}
+    submitted_by: "operator://demo-owner"
+    precedence_source: "mission_owner"
+    submitted_at: "2026-03-24T00:00:00Z"
+    effective_at: "immediate"
+    status: "accepted"
+    rationale: "block finalize"
+  - directive_id: "dir-unblock"
+    kind: "unblock_finalize"
+    target_scope: {}
+    submitted_by: "operator://demo-owner"
+    precedence_source: "mission_owner"
+    submitted_at: "2026-03-24T00:05:00Z"
+    effective_at: "immediate"
+    status: "accepted"
+    rationale: "unblock finalize"'
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.block_finalize == false'
+  cleanup_root "$root"
+}
+
 case_breaker_trip_enters_safing() {
   local root
   root="$(fixture_root)"
   seed_fixture_base "$root" "incident"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-2"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-2"
   set_breaker_state "$root" "tripped"
   local json
   json="$(evaluate_fixture "$root")"
@@ -352,11 +531,75 @@ case_proceed_on_silence_warning_budget_blocks() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "reconcile"
   activate_fixture_mission "$root"
-  write_published_slice "$root" "service.execute" "reversible" "ACP-1"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   set_budget_state "$root" "warning"
   local json
   json="$(evaluate_fixture "$root")"
   assert_json "$json" '.allow_new_run == false and (.reasons | index("proceed_on_silence_blocked"))'
+  cleanup_root "$root"
+}
+
+case_release_sensitive_work_routes_publish_gate() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "maintenance"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "service.deploy" "reversible" "ACP-2" "repo_local" "feedback_window" "deployment_step_boundary"
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .route_family == "release_sensitive.publish_gate"'
+  assert_yq '.effective.effective_scenario_family == "release_sensitive.publish_gate"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  assert_yq '.effective.safe_interrupt_boundary_class == "deployment_step_boundary"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  assert_fixture_views "$root"
+  cleanup_root "$root"
+}
+
+case_dependency_patching_routes_end_to_end() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "maintenance"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .route_family == "maintenance.repo_housekeeping" and .action_class == "git.commit"'
+  assert_fixture_views "$root"
+  cleanup_root "$root"
+}
+
+case_external_sync_routes_end_to_end() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "maintenance"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "git.commit" "compensable" "ACP-1" "external_sync" "feedback_window" "api_page_boundary" "external.compensate"
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .route_family == "external_sync.api_exchange"'
+  assert_yq '.effective.effective_scenario_family == "external_sync.api_exchange"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  assert_yq '.effective.safe_interrupt_boundary_class == "api_page_boundary"' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  assert_fixture_views "$root"
+  cleanup_root "$root"
+}
+
+case_late_feedback_blocks_finalize_end_to_end() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "maintenance"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
+  write_directives "$root" '  - directive_id: "dir-block-late-feedback"
+    kind: "block_finalize"
+    target_scope: {}
+    submitted_by: "operator://demo-owner"
+    precedence_source: "mission_owner"
+    submitted_at: "2026-03-24T00:10:00Z"
+    effective_at: "immediate"
+    status: "accepted"
+    rationale: "late feedback blocks finalize"'
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.block_finalize == true'
   cleanup_root "$root"
 }
 
@@ -369,6 +612,26 @@ case_destructive_route_requires_operator_ack() {
   local json
   json="$(evaluate_fixture "$root")"
   assert_json "$json" '.required_operator_ack == true and .allow_new_run == false'
+  cleanup_root "$root"
+}
+
+case_grant_exception_waives_operator_ack() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "destructive"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "fs.hard_delete" "irreversible" "ACP-4"
+  OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$AUTHORIZE_UPDATE_SCRIPT" \
+    --mission-id demo \
+    --authorize-update-id auth-grant-exception \
+    --issued-by operator://demo-owner \
+    --kind grant_exception
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.grant_exception_active == true and .required_operator_ack == false and .allow_new_run == true'
+  assert_yq '.effective.finalize_policy.exception_active == true' "$root/.octon/generated/effective/orchestration/missions/demo/scenario-resolution.yml"
+  assert_yq '.recovery_finalize_summary.exception_active == true' "$root/.octon/generated/cognition/projections/materialized/missions/demo/mission-view.yml"
+  grep -R "MISSION_EXCEPTION_GRANTED" "$root/.octon/state/evidence/control/execution" >/dev/null
   cleanup_root "$root"
 }
 
@@ -437,12 +700,32 @@ if [[ "$INCLUDE_FIXTURE_SCENARIOS" == "1" ]]; then
     case_routine_repo_housekeeping
 
   run_case \
+    "scenario fixture: observe-only monitoring routes end to end" \
+    case_observe_only_monitoring_routes_end_to_end
+
+  run_case \
+    "scenario fixture: campaign long-refactor routes end to end" \
+    case_campaign_long_refactor_routes_end_to_end
+
+  run_case \
+    "scenario fixture: migration backfill routes end to end" \
+    case_migration_backfill_routes_end_to_end
+
+  run_case \
     "scenario fixture: future-run suspension blocks new runs" \
     case_schedule_suspension_blocks_new_runs
 
   run_case \
     "scenario fixture: suspend-future-runs directive blocks new runs" \
     case_directive_suspend_future_runs_blocks_new_runs
+
+  run_case \
+    "scenario fixture: resume-future-runs directive reenables runs" \
+    case_directive_resume_future_runs_reenables_new_runs
+
+  run_case \
+    "scenario fixture: expired suspend-future-runs directive does not mutate schedule" \
+    case_expired_suspend_directive_does_not_mutate_schedule
 
   run_case \
     "scenario fixture: reprioritize pauses material work" \
@@ -461,6 +744,10 @@ if [[ "$INCLUDE_FIXTURE_SCENARIOS" == "1" ]]; then
     case_conflicting_human_input_blocks_finalize_and_pauses
 
   run_case \
+    "scenario fixture: unblock-finalize clears finalize block" \
+    case_unblock_finalize_clears_finalize_block
+
+  run_case \
     "scenario fixture: breaker trip enters safing" \
     case_breaker_trip_enters_safing
 
@@ -469,8 +756,28 @@ if [[ "$INCLUDE_FIXTURE_SCENARIOS" == "1" ]]; then
     case_proceed_on_silence_warning_budget_blocks
 
   run_case \
+    "scenario fixture: release-sensitive work routes through publish gate" \
+    case_release_sensitive_work_routes_publish_gate
+
+  run_case \
+    "scenario fixture: dependency patching routes end to end" \
+    case_dependency_patching_routes_end_to_end
+
+  run_case \
+    "scenario fixture: external sync routes end to end" \
+    case_external_sync_routes_end_to_end
+
+  run_case \
+    "scenario fixture: late feedback blocks finalize end to end" \
+    case_late_feedback_blocks_finalize_end_to_end
+
+  run_case \
     "scenario fixture: destructive work requires operator acknowledgement" \
     case_destructive_route_requires_operator_ack
+
+  run_case \
+    "scenario fixture: grant-exception waives operator acknowledgement" \
+    case_grant_exception_waives_operator_ack
 
   run_case \
     "scenario fixture: break-glass authorize-update mutates mode and emits receipt" \
@@ -495,23 +802,23 @@ run_case \
 
 run_case \
   "scenario: infra drift correction" \
-  assert_yq '.mode_defaults.reconcile == "proceed_on_silence" and .safe_interrupt_boundaries.infra_drift == "rollout_boundary" and .overlap_defaults.reconcile == "queue_latest"' "$MISSION_POLICY"
+  assert_yq '.mode_defaults.reconcile == "proceed_on_silence" and .safe_interrupt_boundaries.infra_drift == "deployment_step_boundary" and .overlap_defaults.reconcile == "queue_latest"' "$MISSION_POLICY"
 
 run_case \
   "scenario: cost cleanup or soft delete" \
-  assert_yq '.recovery_windows.soft_destructive_archive == "P14D" and .safe_interrupt_boundaries.destructive == "stage_boundary"' "$MISSION_POLICY"
+  assert_yq '.recovery_windows.soft_destructive_archive == "P14D" and .safe_interrupt_boundaries.destructive == "contract_phase_boundary"' "$MISSION_POLICY"
 
 run_case \
   "scenario: data migration or backfill" \
-  assert_yq '.mode_defaults.migration == "feedback_window" and .safe_interrupt_boundaries.migration == "checkpoint_boundary" and .recovery_windows.migration_chunk == "PT72H"' "$MISSION_POLICY"
+  assert_yq '.mode_defaults.migration == "feedback_window" and .safe_interrupt_boundaries.migration == "chunk_boundary" and .recovery_windows.migration_chunk == "PT72H"' "$MISSION_POLICY"
 
 run_case \
   "scenario: external API sync" \
-  assert_yq '.safe_interrupt_boundaries.external_sync == "batch_boundary" and .recovery_windows.compensable_external_sync == "PT24H"' "$MISSION_POLICY"
+  assert_yq '.safe_interrupt_boundaries.external_sync == "api_page_boundary" and .recovery_windows.compensable_external_sync == "PT24H"' "$MISSION_POLICY"
 
 run_case \
   "scenario: monitoring or guard missions" \
-  assert_yq '.digest_cadence_defaults.observe.route == "digest_plus_threshold_alert" and .execution_postures.observe == "continuous" and .safe_interrupt_boundaries.monitoring == "immediate"' "$MISSION_POLICY"
+  assert_yq '.digest_cadence_defaults.observe.route == "digest_plus_threshold_alert" and .execution_postures.observe == "continuous" and .safe_interrupt_boundaries.monitoring == "task_boundary"' "$MISSION_POLICY"
 
 run_case \
   "scenario: production incident response" \

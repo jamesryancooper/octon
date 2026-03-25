@@ -47,11 +47,13 @@ main() {
   [[ -f "$policy_file" ]] || { echo "missing mission autonomy policy: ${policy_file#$ROOT_DIR/}" >&2; exit 1; }
 
   local mission_class owner_ref overlap_policy backfill_policy oversight_mode execution_posture
+  local owner_slug
   mission_class="$(yq -r '.mission_class // ""' "$mission_file")"
   owner_ref="$(yq -r '.owner_ref // ""' "$mission_file")"
   [[ -n "$mission_class" ]] || { echo "mission_class missing in ${mission_file#$ROOT_DIR/}" >&2; exit 1; }
   [[ -n "$owner_ref" ]] || { echo "owner_ref missing in ${mission_file#$ROOT_DIR/}" >&2; exit 1; }
   [[ -n "$ISSUED_BY" ]] || ISSUED_BY="$owner_ref"
+  owner_slug="$(printf '%s' "${owner_ref#operator://}" | tr '/:@' '---')"
 
   oversight_mode="$(yq -r ".mode_defaults.\"$mission_class\" // \"notify\"" "$policy_file")"
   execution_posture="$(yq -r ".execution_postures.\"$mission_class\" // \"interruptible_scheduled\"" "$policy_file")"
@@ -243,6 +245,10 @@ EOF
     --affected-path ".octon/state/continuity/repo/missions/$MISSION_ID/handoff.md" \
     --affected-path ".octon/generated/effective/orchestration/missions/$MISSION_ID/scenario-resolution.yml" \
     --affected-path ".octon/generated/cognition/summaries/missions/$MISSION_ID/now.md" \
+    --affected-path ".octon/generated/cognition/summaries/missions/$MISSION_ID/next.md" \
+    --affected-path ".octon/generated/cognition/summaries/missions/$MISSION_ID/recent.md" \
+    --affected-path ".octon/generated/cognition/summaries/missions/$MISSION_ID/recover.md" \
+    --affected-path ".octon/generated/cognition/summaries/operators/$owner_slug/$MISSION_ID.md" \
     --affected-path ".octon/generated/cognition/projections/materialized/missions/$MISSION_ID/mission-view.yml" \
     >/dev/null
 }

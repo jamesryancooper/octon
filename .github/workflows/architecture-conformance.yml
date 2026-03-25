@@ -75,7 +75,22 @@ jobs:
       - name: Validate mission runtime contracts
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-intent-invariants.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-source-of-truth.sh
+
+  mission-lifecycle-cutover:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
+
+      - name: Validate mission lifecycle cutover
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-lifecycle-cutover.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/test-mission-lifecycle-activation.sh
 
   runtime-effective-state:
     runs-on: ubuntu-latest
@@ -87,7 +102,9 @@ jobs:
         run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
 
       - name: Validate runtime effective state
-        run: bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-route-normalization.sh
 
   mission-autonomy-scenarios:
     runs-on: ubuntu-latest
@@ -99,7 +116,9 @@ jobs:
         run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
 
       - name: Run mission autonomy scenarios
-        run: bash .octon/framework/assurance/runtime/_ops/scripts/test-mission-autonomy-scenarios.sh
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/test-mission-autonomy-scenarios.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/test-autonomy-burn-reducer.sh
 
   mission-generated-views-and-evidence:
     runs-on: ubuntu-latest
@@ -113,4 +132,5 @@ jobs:
       - name: Validate generated mission views and control evidence
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-generated-summaries.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-view-generation.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-control-evidence.sh

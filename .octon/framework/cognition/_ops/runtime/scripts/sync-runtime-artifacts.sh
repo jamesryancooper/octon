@@ -853,6 +853,7 @@ generate_mission_autonomy_views() {
 
     local title status mission_class owner_ref oversight_mode execution_posture phase budget_state breaker_state safety_state
     local route_family route_boundary_class route_digest_route route_recovery_window route_generated_at route_fresh_until route_action_class
+    local route_scenario_source route_boundary_source route_recovery_source
     local route_ref current_slice_ref next_slice_ref active_directives active_authorize_updates
     title="$(extract_yaml_scalar "$mission_file" "title")"
     status="$(extract_yaml_scalar "$mission_file" "status")"
@@ -867,6 +868,9 @@ generate_mission_autonomy_views() {
     route_family="$(yq -r '.effective.effective_scenario_family // .effective.scenario_family // ""' "$scenario_route_file" 2>/dev/null || true)"
     route_action_class="$(yq -r '.effective.effective_action_class // .effective.recovery_profile.action_class // ""' "$scenario_route_file" 2>/dev/null || true)"
     route_boundary_class="$(yq -r '.effective.safe_interrupt_boundary_class // ""' "$scenario_route_file" 2>/dev/null || true)"
+    route_scenario_source="$(yq -r '.effective.scenario_family_source // ""' "$scenario_route_file" 2>/dev/null || true)"
+    route_boundary_source="$(yq -r '.effective.boundary_source // ""' "$scenario_route_file" 2>/dev/null || true)"
+    route_recovery_source="$(yq -r '.effective.recovery_source // ""' "$scenario_route_file" 2>/dev/null || true)"
     route_digest_route="$(yq -r '.effective.digest_route // ""' "$scenario_route_file" 2>/dev/null || true)"
     route_recovery_window="$(yq -r '.effective.recovery_profile.recovery_window // ""' "$scenario_route_file" 2>/dev/null || true)"
     route_generated_at="$(yq -r '.generated_at // ""' "$scenario_route_file" 2>/dev/null || true)"
@@ -904,8 +908,10 @@ generated_from:
   - /.octon/instance/orchestration/missions/${mission_id}/mission.yml
   - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/control/execution/missions/${mission_id}/mode-state.yml
+  - /.octon/state/control/execution/missions/${mission_id}/intent-register.yml
   - /.octon/state/control/execution/missions/${mission_id}/autonomy-budget.yml
   - /.octon/state/control/execution/missions/${mission_id}/circuit-breakers.yml
+$(if [[ -n "$current_slice_ref" ]]; then printf '  - %s\n' "$current_slice_ref"; fi)
 generated_at: "__GENERATED_AT__"
 generator_version: "__GENERATOR_VERSION__"
 ---
@@ -943,6 +949,7 @@ generated_from:
   - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/control/execution/missions/${mission_id}/intent-register.yml
   - /.octon/state/continuity/repo/missions/${mission_id}/next-actions.yml
+$(if [[ -n "$next_slice_ref" ]]; then printf '  - %s\n' "$next_slice_ref"; fi)
 generated_at: "__GENERATED_AT__"
 generator_version: "__GENERATOR_VERSION__"
 ---
@@ -971,6 +978,8 @@ generated_from:
   - /.octon/state/evidence/runs/**
   - /.octon/state/evidence/control/execution/**
   - /.octon/state/continuity/repo/missions/${mission_id}/handoff.md
+  - /.octon/state/control/execution/missions/${mission_id}/directives.yml
+  - /.octon/state/control/execution/missions/${mission_id}/authorize-updates.yml
 generated_at: "__GENERATED_AT__"
 generator_version: "__GENERATOR_VERSION__"
 ---
@@ -997,7 +1006,9 @@ mutability: generated
 generated_from:
   - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/evidence/runs/**
+  - /.octon/state/evidence/control/execution/**
   - /.octon/state/control/execution/missions/${mission_id}/mode-state.yml
+$(if [[ -n "$current_slice_ref" ]]; then printf '  - %s\n' "$current_slice_ref"; fi)
 generated_at: "__GENERATED_AT__"
 generator_version: "__GENERATOR_VERSION__"
 ---
@@ -1033,6 +1044,9 @@ effective_route:
   effective_scenario_family: $(yaml_quote "$route_family")
   effective_action_class: $(yaml_quote "$route_action_class")
   safe_interrupt_boundary_class: $(yaml_quote "$route_boundary_class")
+  scenario_family_source: $(yaml_quote "$route_scenario_source")
+  boundary_source: $(yaml_quote "$route_boundary_source")
+  recovery_source: $(yaml_quote "$route_recovery_source")
   digest_route: $(yaml_quote "$route_digest_route")
   route_generated_at: $(yaml_quote "$route_generated_at")
   route_fresh_until: $(yaml_quote "$route_fresh_until")
@@ -1048,6 +1062,7 @@ $(printf '%s\n' "$active_authorize_updates" | tr ',' '\n' | awk 'NF {count++; pr
 recovery_finalize_summary:
   recovery_window: $(yaml_quote "$route_recovery_window")
   block_finalize: $(yq -r '.effective.finalize_policy.block_finalize // false' "$scenario_route_file" 2>/dev/null || printf 'false')
+  exception_active: $(yq -r '.effective.finalize_policy.exception_active // false' "$scenario_route_file" 2>/dev/null || printf 'false')
 summary_refs:
   now: "/.octon/generated/cognition/summaries/missions/${mission_id}/now.md"
   next: "/.octon/generated/cognition/summaries/missions/${mission_id}/next.md"
@@ -1061,7 +1076,10 @@ source_refs:
   route: "/.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml"
   mode_state: "/.octon/state/control/execution/missions/${mission_id}/mode-state.yml"
   intent_register: "/.octon/state/control/execution/missions/${mission_id}/intent-register.yml"
+$(if [[ -n "$current_slice_ref" ]]; then printf '  current_action_slice: "%s"\n' "$current_slice_ref"; fi)
   continuity: "/.octon/state/continuity/repo/missions/${mission_id}/handoff.md"
+  control_evidence_root: "/.octon/state/evidence/control/execution/"
+  run_evidence_root: "/.octon/state/evidence/runs/"
 last_refresh_at: "__LAST_REFRESH_AT__"
 EOF
     finalize_candidate "$MISSION_PROJECTION_ROOT/$mission_id/mission-view.yml" "$raw_projection" "last_refresh_at" "timestamp"
@@ -1079,6 +1097,7 @@ generated_from:
   - /.octon/instance/orchestration/missions/${mission_id}/mission.yml
   - /.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml
   - /.octon/state/control/execution/missions/${mission_id}/subscriptions.yml
+  - /.octon/instance/governance/ownership/registry.yml
 generated_at: "__GENERATED_AT__"
 generator_version: "__GENERATOR_VERSION__"
 ---

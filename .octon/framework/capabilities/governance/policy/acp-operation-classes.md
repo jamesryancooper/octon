@@ -23,7 +23,8 @@ contract and should be treated as an extension candidate.
 
 ## Runtime / Services
 
-- `service.execute` — generic service-driven promotion path (policy fallback)
+- `service.execute` — generic service-driven promotion path for explicit policy mappings
+- `service.autonomy_route_missing` — synthetic autonomy deny class when service-mode work has no mission-scoped route
 - `service.deploy` — promoting a build/deploy (ACP-2+)
 - `execution.authorize` — shared execution-governance boundary for material runtime paths
 

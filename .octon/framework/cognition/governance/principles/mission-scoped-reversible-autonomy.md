@@ -22,6 +22,9 @@ long-running and always-running autonomous agents.
   control inputs for shared runtime, scheduler, and operator consumption
 - every material step is an action slice with forward intent, reversibility
   class, and a safe interrupt boundary
+- the generated effective route records scenario-family, boundary, and recovery
+  provenance plus any tightening overlays from directives, breakers, safing,
+  or break-glass
 - human control is supervisory: `Inspect`, `Signal`, and `Authorize-Update`
   are distinct
 - durable side effects still pass the engine-owned execution boundary and ACP
@@ -49,6 +52,13 @@ long-running and always-running autonomous agents.
   `/.octon/generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
 - derived mission/operator read models:
   `/.octon/generated/cognition/summaries/{missions,operators}/**`
+- machine-readable mission views:
+  `/.octon/generated/cognition/projections/materialized/missions/<mission-id>/mission-view.yml`
+
+Mission creation stays authority-only.
+Before a mission may become active or paused for autonomous runtime, the
+seed-before-active path must materialize the mission control family, mission
+continuity, effective route, generated summaries, and mission view.
 
 ## Control Dimensions
 

@@ -6,10 +6,12 @@ generated_from:
   - /.octon/instance/orchestration/missions/mission-autonomy-live-validation/mission.yml
   - /.octon/generated/effective/orchestration/missions/mission-autonomy-live-validation/scenario-resolution.yml
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/mode-state.yml
+  - /.octon/state/control/execution/missions/mission-autonomy-live-validation/intent-register.yml
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/autonomy-budget.yml
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/circuit-breakers.yml
-generated_at: "2026-03-25T16:20:58Z"
-generator_version: "0.6.1"
+  - .octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml
+generated_at: "2026-03-25T21:15:54Z"
+generator_version: "0.6.3"
 ---
 
 # Mission Now
@@ -18,7 +20,7 @@ generator_version: "0.6.1"
 - title: `Mission: mission-autonomy-live-validation`
 - status: `active`
 - mission_class: `maintenance`
-- effective_scenario_family: `maintenance`
+- effective_scenario_family: `maintenance.repo_housekeeping`
 - effective_action_class: `git.commit`
 - owner_ref: `operator://octon-maintainers`
 - oversight_mode: `notify`
@@ -29,5 +31,5 @@ generator_version: "0.6.1"
 - autonomy_budget_state: `healthy`
 - breaker_state: `clear`
 - recovery_window: `P30D`
-- scenario_route_generated_at: `2026-03-25T16:20:58Z`
-- scenario_route_fresh_until: `2026-03-25T16:35:58Z`
+- scenario_route_generated_at: `2026-03-25T21:15:54Z`
+- scenario_route_fresh_until: `2026-03-25T21:30:54Z`

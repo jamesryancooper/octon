@@ -195,6 +195,13 @@ split:
   `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
 - derived mission/operator read models:
   `generated/cognition/summaries/{missions,operators}/**`
+- generated machine mission view:
+  `generated/cognition/projections/materialized/missions/<mission-id>/mission-view.yml`
+
+Mission creation remains authority-only under `instance/orchestration/missions/**`.
+Autonomous active or paused runtime state becomes legal only after the
+seed-before-active path materializes mission control truth, continuity, route
+generation, summaries, and mission view outputs under their canonical roots.
 
 Raw additive packs carry compatibility and provenance in
 `inputs/additive/extensions/<pack-id>/pack.yml`.

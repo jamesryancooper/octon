@@ -102,13 +102,15 @@ proceed_on_silence:
     - "identity_change"
 safe_interrupt_boundaries:
   coding: "task_boundary"
-  repo_housekeeping: "batch_boundary"
-  reconcile: "batch_boundary"
-  infra_drift: "rollout_boundary"
-  migration: "checkpoint_boundary"
-  monitoring: "immediate"
-  external_sync: "batch_boundary"
-  destructive: "stage_boundary"
+  repo_housekeeping: "file_batch_boundary"
+  reconcile: "resource_batch_boundary"
+  infra_drift: "deployment_step_boundary"
+  migration: "chunk_boundary"
+  monitoring: "task_boundary"
+  external_sync: "api_page_boundary"
+  incident: "playbook_step_boundary"
+  release_sensitive: "publish_gate"
+  destructive: "contract_phase_boundary"
 autonomy_burn:
   states:
     - "healthy"

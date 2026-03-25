@@ -47,13 +47,15 @@
     "safe_interrupt_boundary_class": {
       "type": "string",
       "enum": [
-        "immediate",
+        "file_batch_boundary",
         "task_boundary",
-        "batch_boundary",
-        "checkpoint_boundary",
-        "rollout_boundary",
-        "stage_boundary",
-        "finalize_boundary"
+        "resource_batch_boundary",
+        "chunk_boundary",
+        "deployment_step_boundary",
+        "api_page_boundary",
+        "playbook_step_boundary",
+        "publish_gate",
+        "contract_phase_boundary"
       ]
     },
     "expected_blast_radius": { "type": "string", "minLength": 1 },
