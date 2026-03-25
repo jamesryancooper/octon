@@ -14,6 +14,7 @@ SUMMARIES_ROOT="$OCTON_DIR/generated/cognition/summaries/missions"
 PROJECTION_ROOT="$OCTON_DIR/generated/cognition/projections/materialized/missions"
 CONTROL_EVIDENCE_ROOT="$OCTON_DIR/state/evidence/control/execution"
 SEED_HELPER="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/seed-mission-autonomy-state.sh"
+SYNC_SCRIPT="$OCTON_DIR/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh"
 
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
@@ -22,6 +23,7 @@ pass() { echo "[OK] $1"; }
 main() {
   echo "== Mission Lifecycle Cutover Validation =="
 
+  [[ -x "$SYNC_SCRIPT" ]] && bash "$SYNC_SCRIPT" --target missions >/dev/null 2>&1 || true
   [[ -x "$SEED_HELPER" ]] && pass "mission seed helper exists" || fail "missing mission seed helper"
 
   if find "$MISSION_ROOT/_scaffold" \( -name 'lease.yml' -o -name 'mode-state.yml' -o -name 'intent-register.yml' -o -name 'schedule.yml' -o -name 'autonomy-budget.yml' -o -name 'circuit-breakers.yml' -o -name 'subscriptions.yml' \) | grep -q .; then
