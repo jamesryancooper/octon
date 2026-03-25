@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/jamesryancooper/octon/compare/octon-v0.6.1...octon-v0.6.2) (2026-03-25)
+
+
+### Features
+
+* **mission-autonomy:** complete steady-state cutover ([#205](https://github.com/jamesryancooper/octon/issues/205)) ([f234a14](https://github.com/jamesryancooper/octon/commit/f234a14a66d3d6c2afae5400eda5e2e60d8fad99))
+
 ## [0.6.1](https://github.com/jamesryancooper/octon/compare/octon-v0.6.0...octon-v0.6.1) (2026-03-25)
 
 
