@@ -18,8 +18,9 @@ cleanup_root() {
 
 seed_fixture() {
   local root="$1"
+  local mission_id="${2:-demo}"
   mkdir -p \
-    "$root/.octon/instance/orchestration/missions/demo" \
+    "$root/.octon/instance/orchestration/missions/$mission_id" \
     "$root/.octon/instance/governance/policies" \
     "$root/.octon/instance/governance/ownership" \
     "$root/.octon/framework/capabilities/governance/policy"
@@ -37,14 +38,14 @@ effective_route_root: ".octon/generated/effective/orchestration/missions"
 summary_root: ".octon/generated/cognition/summaries/missions"
 projection_root: ".octon/generated/cognition/projections/materialized/missions"
 active:
-  - "demo"
+  - "$mission_id"
 archived: []
 EOF
 
-  cat > "$root/.octon/instance/orchestration/missions/demo/mission.yml" <<'EOF'
+  cat > "$root/.octon/instance/orchestration/missions/$mission_id/mission.yml" <<EOF
 schema_version: "octon-mission-v2"
-mission_id: "demo"
-title: "Demo Mission"
+mission_id: "$mission_id"
+title: "Mission $mission_id"
 summary: "Reducer fixture"
 status: "active"
 mission_class: "maintenance"
@@ -65,20 +66,21 @@ failure_conditions: []
 notes_ref: "mission.md"
 EOF
 
-  OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$SEED_SCRIPT" --mission-id demo --issued-by operator://demo-owner >/dev/null
+  OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$SEED_SCRIPT" --mission-id "$mission_id" --issued-by operator://demo-owner >/dev/null
 }
 
 write_breaker_trip() {
   local root="$1"
-  local trip_id="$2"
+  local mission_id="$2"
+  local trip_id="$3"
   OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$RECEIPT_WRITER" \
-    --mission-id demo \
+    --mission-id "$mission_id" \
     --receipt-type breaker_trip \
     --issued-by operator://demo-owner \
     --reason "Fixture breaker trip $trip_id" \
-    --new-state-ref ".octon/state/control/execution/missions/demo/circuit-breakers.yml" \
+    --new-state-ref ".octon/state/control/execution/missions/$mission_id/circuit-breakers.yml" \
     --reason-code "FIXTURE_BREAKER_TRIP" \
-    --affected-path ".octon/state/control/execution/missions/demo/circuit-breakers.yml" \
+    --affected-path ".octon/state/control/execution/missions/$mission_id/circuit-breakers.yml" \
     --output-root "$root/.octon/state/evidence/control/execution" \
     >/dev/null
 }
@@ -90,13 +92,22 @@ main() {
   root="$(fixture_root)"
   trap "cleanup_root '$root'" EXIT
 
-  seed_fixture "$root"
-  write_breaker_trip "$root" 1
+  seed_fixture "$root" demo
+  yq -i '.active += ["other"]' "$root/.octon/instance/orchestration/missions/registry.yml"
+  seed_fixture "$root" other
+
+  write_breaker_trip "$root" other 1
+  json="$(OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$REDUCER_SCRIPT" --mission-id demo --issued-by operator://demo-owner)"
+  jq -e '.budget.new_state == "healthy" and .breaker.new_state == "clear"' <<<"$json" >/dev/null
+
+  sleep 1
+  write_breaker_trip "$root" demo 1
 
   json="$(OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$REDUCER_SCRIPT" --mission-id demo --issued-by operator://demo-owner)"
   jq -e '.budget.new_state == "warning" and .breaker.new_state == "tripped"' <<<"$json" >/dev/null
 
-  write_breaker_trip "$root" 2
+  sleep 1
+  write_breaker_trip "$root" demo 2
   json="$(OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$REDUCER_SCRIPT" --mission-id demo --issued-by operator://demo-owner)"
   jq -e '.budget.new_state == "exhausted" and .breaker.new_state == "tripped"' <<<"$json" >/dev/null
 

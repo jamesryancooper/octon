@@ -135,7 +135,7 @@ main() {
     >/dev/null
 
   if [[ "$STATE" != "pending" ]]; then
-    if [[ "$KIND" == "suspend_future_runs" || "$KIND" == "resume_future_runs" ]]; then
+    if [[ "$STATE" != "expired" && ( "$KIND" == "suspend_future_runs" || "$KIND" == "resume_future_runs" ) ]]; then
       [[ -f "$schedule_file" ]] || { echo "missing schedule: ${schedule_file#$ROOT_DIR/}" >&2; exit 1; }
       local suspended_flag
       suspended_flag=true

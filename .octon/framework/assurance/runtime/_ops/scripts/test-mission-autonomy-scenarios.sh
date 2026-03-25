@@ -10,6 +10,7 @@ SEED_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/seed-missio
 ROUTE_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/publish-mission-effective-route.sh"
 EVALUATE_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/evaluate-mission-control-state.sh"
 AUTHORIZE_UPDATE_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/apply-mission-authorize-update.sh"
+DIRECTIVE_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/record-mission-directive.sh"
 SYNC_SCRIPT="$OCTON_DIR/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh"
 MISSION_POLICY="$OCTON_DIR/instance/governance/policies/mission-autonomy.yml"
 OWNERSHIP_REGISTRY="$OCTON_DIR/instance/governance/ownership/registry.yml"
@@ -359,6 +360,29 @@ case_directive_resume_future_runs_reenables_new_runs() {
   cleanup_root "$root"
 }
 
+case_expired_suspend_directive_does_not_mutate_schedule() {
+  local root
+  root="$(fixture_root)"
+  seed_fixture_base "$root" "maintenance"
+  activate_fixture_mission "$root"
+  write_published_slice "$root" "git.commit" "reversible" "ACP-1"
+  OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$DIRECTIVE_SCRIPT" \
+    --mission-id demo \
+    --directive-id dir-expired-suspend \
+    --issued-by operator://demo-owner \
+    --kind suspend_future_runs \
+    --state expired \
+    >/dev/null
+  local json
+  json="$(evaluate_fixture "$root")"
+  assert_json "$json" '.allow_new_run == true and .suspend_future_runs_directive == false'
+  assert_yq '.suspended_future_runs == false and .last_schedule_mutation_ref == null' "$root/.octon/state/control/execution/missions/demo/schedule.yml"
+  if grep -R 'control_mutation_class: "schedule_mutation"' "$root/.octon/state/evidence/control/execution" >/dev/null; then
+    return 1
+  fi
+  cleanup_root "$root"
+}
+
 case_reprioritize_pauses_material_work() {
   local root
   root="$(fixture_root)"
@@ -691,6 +715,10 @@ if [[ "$INCLUDE_FIXTURE_SCENARIOS" == "1" ]]; then
   run_case \
     "scenario fixture: resume-future-runs directive reenables runs" \
     case_directive_resume_future_runs_reenables_new_runs
+
+  run_case \
+    "scenario fixture: expired suspend-future-runs directive does not mutate schedule" \
+    case_expired_suspend_directive_does_not_mutate_schedule
 
   run_case \
     "scenario fixture: reprioritize pauses material work" \

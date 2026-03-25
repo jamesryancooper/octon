@@ -28,25 +28,38 @@ USAGE
 count_fixed_matches() {
   local pattern="$1"
   local root="$2"
+  local mission_id="$3"
   [[ -d "$root" ]] || { printf '0'; return; }
   local count=0
   local file
   if command -v rg >/dev/null 2>&1; then
     while IFS= read -r file; do
       [[ -n "$file" ]] || continue
-      if ! grep -Fq 'VALIDATION_COVERAGE' "$file" 2>/dev/null; then
+      if ! grep -Fq 'VALIDATION_COVERAGE' "$file" 2>/dev/null && mission_scope_matches "$file" "$mission_id"; then
         count=$((count + 1))
       fi
     done < <(rg -l --fixed-strings "$pattern" "$root" 2>/dev/null || true)
   else
     while IFS= read -r file; do
       [[ -n "$file" ]] || continue
-      if ! grep -Fq 'VALIDATION_COVERAGE' "$file" 2>/dev/null; then
+      if ! grep -Fq 'VALIDATION_COVERAGE' "$file" 2>/dev/null && mission_scope_matches "$file" "$mission_id"; then
         count=$((count + 1))
       fi
     done < <(grep -R -l -F -- "$pattern" "$root" 2>/dev/null || true)
   fi
   printf '%s' "$count"
+}
+
+mission_scope_matches() {
+  local file="$1"
+  local mission_id="$2"
+  [[ -n "$mission_id" ]] || return 0
+  [[ "$file" == *"/$mission_id/"* ]] && return 0
+  grep -Fq "mission_id: \"$mission_id\"" "$file" 2>/dev/null && return 0
+  grep -Fq "\"mission_id\": \"$mission_id\"" "$file" 2>/dev/null && return 0
+  grep -Fq "\"mission_id\":\"$mission_id\"" "$file" 2>/dev/null && return 0
+  grep -Fq "/$mission_id/" "$file" 2>/dev/null && return 0
+  return 1
 }
 
 main() {
@@ -81,16 +94,16 @@ main() {
   old_breaker_state="$(yq -r '.state // "clear"' "$breaker_file")"
   old_safety_state="$(yq -r '.safety_state // "paused"' "$mode_state_file")"
 
-  breaker_trips="$(count_fixed_matches "control_mutation_class: \"breaker_trip\"" "$CONTROL_EVIDENCE_ROOT")"
-  breaker_resets="$(count_fixed_matches "control_mutation_class: \"breaker_reset\"" "$CONTROL_EVIDENCE_ROOT")"
-  rollbacks="$(count_fixed_matches "rollback" "$RUN_EVIDENCE_ROOT")"
-  rollback_path_failures="$(count_fixed_matches "rollback_path_failure" "$RUN_EVIDENCE_ROOT")"
-  denied_promotes="$(count_fixed_matches "MISSION_APPROVAL_REQUIRED" "$RUN_EVIDENCE_ROOT")"
-  out_of_blast_radius="$(count_fixed_matches "out_of_blast_radius_side_effect" "$RUN_EVIDENCE_ROOT")"
-  high_severity_incidents="$(count_fixed_matches "high_severity_incident" "$RUN_EVIDENCE_ROOT")"
-  missing_observability="$(count_fixed_matches "missing_observability_on_risky_work" "$RUN_EVIDENCE_ROOT")"
-  retries="$(count_fixed_matches "retry" "$RUN_EVIDENCE_ROOT")"
-  compensations="$(count_fixed_matches "compensation" "$RUN_EVIDENCE_ROOT")"
+  breaker_trips="$(count_fixed_matches "control_mutation_class: \"breaker_trip\"" "$CONTROL_EVIDENCE_ROOT" "$MISSION_ID")"
+  breaker_resets="$(count_fixed_matches "control_mutation_class: \"breaker_reset\"" "$CONTROL_EVIDENCE_ROOT" "$MISSION_ID")"
+  rollbacks="$(count_fixed_matches "rollback" "$RUN_EVIDENCE_ROOT" "$MISSION_ID")"
+  rollback_path_failures="$(count_fixed_matches "rollback_path_failure" "$RUN_EVIDENCE_ROOT" "$MISSION_ID")"
+  denied_promotes="$(count_fixed_matches "MISSION_APPROVAL_REQUIRED" "$RUN_EVIDENCE_ROOT" "$MISSION_ID")"
+  out_of_blast_radius="$(count_fixed_matches "out_of_blast_radius_side_effect" "$RUN_EVIDENCE_ROOT" "$MISSION_ID")"
+  high_severity_incidents="$(count_fixed_matches "high_severity_incident" "$RUN_EVIDENCE_ROOT" "$MISSION_ID")"
+  missing_observability="$(count_fixed_matches "missing_observability_on_risky_work" "$RUN_EVIDENCE_ROOT" "$MISSION_ID")"
+  retries="$(count_fixed_matches "retry" "$RUN_EVIDENCE_ROOT" "$MISSION_ID")"
+  compensations="$(count_fixed_matches "compensation" "$RUN_EVIDENCE_ROOT" "$MISSION_ID")"
 
   new_budget_state="healthy"
   if [[ "$breaker_trips" -ge "$(yq -r '.autonomy_burn.exhausted_thresholds.breaker_trips // 2' "$policy_file")" ]] \
