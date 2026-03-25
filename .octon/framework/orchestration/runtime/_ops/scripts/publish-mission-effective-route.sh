@@ -399,9 +399,9 @@ $(yq -r '.pause_on_failure_rules.triggers[]? // ""' "$schedule_file" | awk 'NF {
     action_class: "$effective_action_class"
     predicted_acp: "$predicted_acp"
     reversibility_class: "$reversibility_class"
-    primitive: $( [[ -n "$primitive" ]] && yaml_quote "$primitive" || printf 'null' )
-    rollback_handle_type: $( [[ -n "$rollback_handle_type" ]] && yaml_quote "$rollback_handle_type" || printf 'null' )
-    recovery_window: $( [[ -n "$recovery_window" ]] && yaml_quote "$recovery_window" || printf 'null' )
+    primitive: $(yaml_quote "${primitive:-}")
+    rollback_handle_type: $(yaml_quote "${rollback_handle_type:-}")
+    recovery_window: $(yaml_quote "${recovery_window:-}")
   finalize_policy:
     approval_required: $approval_required
     block_finalize: $block_finalize

@@ -42,8 +42,8 @@
       "type": "string",
       "enum": ["reversible", "compensable", "irreversible"]
     },
-    "rollback_primitive": { "type": ["string", "null"], "minLength": 1 },
-    "compensation_primitive": { "type": ["string", "null"], "minLength": 1 },
+    "rollback_primitive": { "type": "string", "minLength": 1 },
+    "compensation_primitive": { "type": "string", "minLength": 1 },
     "safe_interrupt_boundary_class": {
       "type": "string",
       "enum": [
