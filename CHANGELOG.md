@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.3](https://github.com/jamesryancooper/octon/compare/octon-v0.6.2...octon-v0.6.3) (2026-03-25)
+
+
+### Features
+
+* **msraom:** complete final closeout cutover ([#207](https://github.com/jamesryancooper/octon/issues/207)) ([ff0828a](https://github.com/jamesryancooper/octon/commit/ff0828abee38313ff7cc5601363ed4c087dad1c3))
+
 ## [0.6.2](https://github.com/jamesryancooper/octon/compare/octon-v0.6.1...octon-v0.6.2) (2026-03-25)
 
 
