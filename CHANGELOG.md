@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/jamesryancooper/octon/compare/octon-v0.6.0...octon-v0.6.1) (2026-03-25)
+
+
+### Bug Fixes
+
+* **proposals:** finalize proposal integrity cutover ([#203](https://github.com/jamesryancooper/octon/issues/203)) ([bed5377](https://github.com/jamesryancooper/octon/commit/bed53775711ecfebb37585a3c373a18402687097))
+
 ## [0.6.0](https://github.com/jamesryancooper/octon/compare/octon-v0.5.6...octon-v0.6.0) (2026-03-24)
 
 
