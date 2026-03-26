@@ -210,6 +210,14 @@ activation path must seed control truth, continuity, route publication,
 generated summaries, and `mission-view.yml` before autonomous active or paused
 runtime state is legal.
 
+MSRAOM runtime closeout is recorded in
+`/.octon/instance/cognition/decisions/067-mission-scoped-reversible-autonomy-final-closeout-cutover.md`.
+Proposal-lineage closeout is recorded separately in
+`/.octon/instance/cognition/decisions/068-mission-scoped-reversible-autonomy-provenance-alignment-closeout.md`
+and
+`/.octon/instance/cognition/context/shared/migrations/2026-03-25-mission-scoped-reversible-autonomy-provenance-alignment-closeout/plan.md`.
+Proposal packets remain historical lineage only.
+
 No autonomous runtime path may silently fall back to mission-less execution,
 and no external UI, chat transcript, or in-memory state may become a second
 authoritative control plane.

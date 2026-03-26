@@ -100,5 +100,11 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-system-integrity-and-archive-normalization/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-completion-cutover/
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-completion-cutover/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-steady-state-cutover/
+!.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-steady-state-cutover/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-final-closeout-cutover/
+!.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-final-closeout-cutover/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-provenance-alignment-closeout/
+!.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-provenance-alignment-closeout/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/migration-rollout/
 !.octon/inputs/exploratory/proposals/.archive/architecture/migration-rollout/**
