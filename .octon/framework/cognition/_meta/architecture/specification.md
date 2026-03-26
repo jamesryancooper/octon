@@ -137,6 +137,11 @@ super-root cutover.
     execution after the mission-scoped reversible autonomy cutover.
 60. External UI, chat, or in-memory session state may not become a second
     authoritative mission control plane.
+61. For Mission-Scoped Reversible Autonomy, runtime closeout records under
+    `instance/cognition/decisions/067-*.md`; proposal-lineage closeout records
+    under `instance/cognition/decisions/068-*.md` plus the matching migration
+    plan under `instance/cognition/context/shared/migrations/**`; proposal
+    packets remain historical lineage only.
 
 ## Precedence
 

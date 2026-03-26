@@ -225,6 +225,17 @@ Proposal authority uses one manifest-governed exploratory model:
   projection and never lifecycle authority; legacy-unknown archived design
   imports stay outside the main projection until normalized
 
+For Mission-Scoped Reversible Autonomy specifically:
+
+- runtime closeout remains recorded in
+  `instance/cognition/decisions/067-mission-scoped-reversible-autonomy-final-closeout-cutover.md`
+- proposal-lineage closeout remains recorded in
+  `instance/cognition/decisions/068-mission-scoped-reversible-autonomy-provenance-alignment-closeout.md`
+  and
+  `instance/cognition/context/shared/migrations/2026-03-25-mission-scoped-reversible-autonomy-provenance-alignment-closeout/plan.md`
+- proposal packets under `inputs/exploratory/proposals/**` are historical
+  lineage and never runtime authority
+
 Generated-family rules in v1:
 
 - runtime-facing publication lives only under `generated/effective/**`

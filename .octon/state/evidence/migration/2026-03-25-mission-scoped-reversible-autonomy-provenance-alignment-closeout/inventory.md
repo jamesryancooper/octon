@@ -1,0 +1,25 @@
+# Inventory
+
+- `/.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-steady-state-cutover/proposal.yml`
+- `/.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-steady-state-cutover/README.md`
+- `/.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-final-closeout-cutover/proposal.yml`
+- `/.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-final-closeout-cutover/README.md`
+- `/.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-final-closeout-cutover/navigation/artifact-catalog.md`
+- `/.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-provenance-alignment-closeout/`
+- `/.gitignore`
+- `/.octon/instance/cognition/decisions/066-mission-scoped-reversible-autonomy-steady-state-cutover.md`
+- `/.octon/instance/cognition/decisions/067-mission-scoped-reversible-autonomy-final-closeout-cutover.md`
+- `/.octon/generated/proposals/registry.yml`
+- `/.octon/instance/cognition/decisions/068-mission-scoped-reversible-autonomy-provenance-alignment-closeout.md`
+- `/.octon/instance/cognition/decisions/index.yml`
+- `/.octon/instance/cognition/context/shared/migrations/2026-03-25-mission-scoped-reversible-autonomy-provenance-alignment-closeout/plan.md`
+- `/.octon/instance/cognition/context/shared/migrations/index.yml`
+- `/.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-provenance-alignment-closeout/bundle.yml`
+- `/.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-provenance-alignment-closeout/evidence.md`
+- `/.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-provenance-alignment-closeout/commands.md`
+- `/.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-provenance-alignment-closeout/validation.md`
+- `/.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-provenance-alignment-closeout/inventory.md`
+- `/.octon/README.md`
+- `/.octon/instance/bootstrap/START.md`
+- `/.octon/framework/cognition/_meta/architecture/specification.md`
+- `/.octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md`

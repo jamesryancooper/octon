@@ -1,5 +1,9 @@
 # Mission-Scoped Reversible Autonomy Final Closeout Cutover
 
+Historical status: implemented and archived. The runtime closeout evidence for
+this packet lives in ADR 067 and the matching migration evidence bundle under
+`/.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-final-closeout-cutover/`.
+
 This package is the **final, implementation-scoped architecture proposal** for bringing the Mission-Scoped Reversible Autonomy Operating Model (MSRAOM) to a truly finished, steady, fully correct state in Octon.
 
 It is a **big-bang, clean-break, atomic closeout packet**.

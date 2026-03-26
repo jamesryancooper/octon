@@ -6,7 +6,7 @@
 - Related:
   - `/.octon/instance/cognition/context/shared/migrations/mission-scoped-reversible-autonomy-steady-state-cutover/plan.md`
   - `/.octon/state/evidence/migration/2026-03-25-mission-scoped-reversible-autonomy-steady-state-cutover/`
-  - `/.octon/inputs/exploratory/proposals/architecture/mission-scoped-reversible-autonomy-steady-state-cutover/`
+  - `/.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-steady-state-cutover/`
 
 ## Context
 

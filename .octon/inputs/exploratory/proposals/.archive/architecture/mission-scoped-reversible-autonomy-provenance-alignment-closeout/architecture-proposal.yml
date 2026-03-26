@@ -1,0 +1,9 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-governance-architecture"
+decision_type: "surface-refactor"
+change_style: "atomic-clean-break"
+runtime_semantic_delta: false
+primary_objective: >
+  Bring archived proposal manifests, proposal discovery, ADR and migration
+  lineage, and architecture navigation fully into line with the already-landed
+  MSRAOM steady state.
