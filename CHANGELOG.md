@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.5](https://github.com/jamesryancooper/octon/compare/octon-v0.6.4...octon-v0.6.5) (2026-03-27)
+
+
+### Features
+
+* **authority:** complete wave 2 normalization ([#214](https://github.com/jamesryancooper/octon/issues/214)) ([192911f](https://github.com/jamesryancooper/octon/commit/192911fb05b8dfc66e3a31938379332a88bbb8f8))
+
 ## [0.6.4](https://github.com/jamesryancooper/octon/compare/octon-v0.6.3...octon-v0.6.4) (2026-03-27)
 
 
