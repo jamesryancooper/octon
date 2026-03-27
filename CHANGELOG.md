@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.4](https://github.com/jamesryancooper/octon/compare/octon-v0.6.3...octon-v0.6.4) (2026-03-27)
+
+
+### Features
+
+* **constitution:** complete wave 1 objective binding cutover ([#212](https://github.com/jamesryancooper/octon/issues/212)) ([230a766](https://github.com/jamesryancooper/octon/commit/230a7667b3e120ab57e53f3304b9c7dad7642c80))
+
 ## [0.6.3](https://github.com/jamesryancooper/octon/compare/octon-v0.6.2...octon-v0.6.3) (2026-03-25)
 
 
