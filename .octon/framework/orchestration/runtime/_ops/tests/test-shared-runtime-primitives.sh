@@ -70,6 +70,23 @@ create_fixture() {
   cp "$REPO_ROOT/.octon/instance/cognition/context/shared/workflow-gaps.md" \
     "$fixture_root/.octon/instance/cognition/context/shared/workflow-gaps.md"
 
+  # Keep the fixture focused on the primitives it seeds locally instead of any
+  # committed live run projections from the source repo.
+  find "$fixture_root/.octon/framework/orchestration/runtime/runs" \
+    -mindepth 1 \
+    ! -name 'README.md' \
+    ! -name 'index.yml' \
+    ! -name '.gitkeep' \
+    -delete
+  mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/workflows"
+  mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/missions"
+  mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/automations"
+  mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/incidents"
+  cat > "$fixture_root/.octon/framework/orchestration/runtime/runs/index.yml" <<'EOF'
+schema_version: "orchestration-runs-index-v1"
+runs: []
+EOF
+
   printf '%s\n' "$fixture_root"
 }
 
