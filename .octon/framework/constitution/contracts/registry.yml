@@ -33,7 +33,7 @@ families:
   - family_id: "runtime"
     path: ".octon/framework/constitution/contracts/runtime/**"
     activation_wave: 3
-    status: "reserved"
+    status: "active-transitional"
     description: "Run-lifecycle, checkpoint, and execution-state contracts."
   - family_id: "assurance"
     path: ".octon/framework/constitution/contracts/assurance/**"
@@ -57,6 +57,9 @@ integration_surfaces:
   authority_contract_family:
     root: ".octon/framework/constitution/contracts/authority/**"
     status: "active-transitional"
+  runtime_contract_family:
+    root: ".octon/framework/constitution/contracts/runtime/**"
+    status: "active-transitional"
   workspace_charter_pair:
     narrative: ".octon/instance/bootstrap/OBJECTIVE.md"
     machine: ".octon/instance/cognition/context/shared/intent.contract.yml"
@@ -68,6 +71,9 @@ integration_surfaces:
     status: "active-transitional"
   run_control_root:
     path: ".octon/state/control/execution/runs/**"
+    status: "active-transitional"
+  run_evidence_root:
+    path: ".octon/state/evidence/runs/**"
     status: "active-transitional"
   authority_control_roots:
     approvals: ".octon/state/control/execution/approvals/**"
@@ -86,4 +92,4 @@ notes:
   - "Wave 0 established the constitutional kernel and reserved the objective contract family."
   - "Wave 1 promotes the workspace objective pair, defines run-contract and stage-attempt schemas, and publishes the canonical run-control root."
   - "Wave 2 activates the authority contract family, publishes support-target declarations for routing, and normalizes approval, exception, revocation, and decision evidence roots."
-  - "Current mission-backed execution remains the live operational path until later runtime lifecycle waves move primary execution-time state to run roots."
+  - "Wave 3 activates the runtime contract family, makes run roots the primary execution-time unit of truth, and bridges mission continuity plus generated read models onto per-run evidence."

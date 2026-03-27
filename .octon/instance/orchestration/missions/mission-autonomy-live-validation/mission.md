@@ -58,6 +58,10 @@ external effects.
   `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`.
 - Retry, stage-only, and resumable attempts belong under
   `/.octon/state/control/execution/runs/<run-id>/stage-attempts/`.
+- Runtime-state, rollback-posture, and checkpoints belong under the same bound
+  run root.
+- Generated mission summaries and mission views consume per-run run evidence
+  and do not replace the bound run root.
 - Mission-only execution remains a transitional compatibility path with an
   explicit retirement gate.
 

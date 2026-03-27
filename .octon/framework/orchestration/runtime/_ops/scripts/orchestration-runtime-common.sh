@@ -22,7 +22,7 @@ orchestration_runtime_init() {
   RUNTIME_RUNS_DIR="$RUNTIME_DIR/runs"
   QUEUE_DIR="$RUNTIME_DIR/queue"
   WORKFLOWS_DIR="$RUNTIME_DIR/workflows"
-  MISSIONS_DIR="$RUNTIME_DIR/missions"
+  MISSIONS_DIR="$OCTON_DIR/instance/orchestration/missions"
   COORDINATION_DIR="$RUNTIME_DIR/_coordination"
   LOCKS_DIR="$COORDINATION_DIR/locks"
   OCTON_KERNEL_RUNNER="${OCTON_KERNEL_RUNNER_OVERRIDE:-$OCTON_DIR/framework/engine/runtime/run}"

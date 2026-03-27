@@ -19,6 +19,8 @@ linkage.
    - `decision_id`
    - `continuity_run_path`
    - `run_contract_path`
+   - `runtime_state_path`
+   - `rollback_posture_path`
 5. Side-effectful active runs must record `coordination_key`.
 6. Running runs must record:
    - `executor_id`

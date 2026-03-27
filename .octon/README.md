@@ -42,6 +42,8 @@ Core kernel artifacts:
 - `/.octon/framework/constitution/ownership/roles.yml`
 - `/.octon/framework/constitution/contracts/registry.yml`
 - `/.octon/framework/constitution/contracts/objective/**`
+- `/.octon/framework/constitution/contracts/authority/**`
+- `/.octon/framework/constitution/contracts/runtime/**`
 - `/.octon/framework/constitution/support-targets.schema.json`
 
 `/.octon/framework/cognition/_meta/architecture/specification.md` remains the
@@ -115,6 +117,8 @@ No other `instance/**` subtree is overlay-capable in v1.
   `/.octon/instance/cognition/context/shared/intent.contract.yml`
 - Canonical run-contract control roots:
   `/.octon/state/control/execution/runs/<run-id>/`
+- Canonical run lifecycle control files:
+  `/.octon/state/control/execution/runs/<run-id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
 - Canonical mission continuity:
   `/.octon/state/continuity/repo/missions/`
 - Canonical scope continuity:
@@ -235,6 +239,8 @@ long-running and always-running autonomous agents.
   `instance/orchestration/missions/<mission-id>/{mission.yml,mission.md}`
 - run-contract control roots live under
   `state/control/execution/runs/<run-id>/`
+- run lifecycle control files live under
+  `state/control/execution/runs/<run-id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
 - canonical approval control roots live under
   `state/control/execution/approvals/**`
 - canonical exception and revocation roots live under
@@ -244,6 +250,8 @@ long-running and always-running autonomous agents.
 - retained control-plane mutation evidence lives under
   `state/evidence/control/execution/**`
 - retained execution evidence remains under `state/evidence/runs/**`
+- canonical run receipts and replay pointers live under
+  `state/evidence/runs/<run-id>/{receipts/**,checkpoints/**,replay-pointers.yml,trace-pointers.yml}`
 - mission continuity lives under `state/continuity/repo/missions/<mission-id>/`
 - derived `now / next / recent / recover` views live under
   `generated/cognition/summaries/missions/<mission-id>/`

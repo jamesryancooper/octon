@@ -78,6 +78,16 @@ layers:
     adoption_status: "active-transitional"
     activation_wave: 1
   - rank: 9
+    authority: "run-lifecycle-control"
+    surfaces:
+      - ".octon/state/control/execution/runs/<run-id>/runtime-state.yml"
+      - ".octon/state/control/execution/runs/<run-id>/rollback-posture.yml"
+      - ".octon/state/control/execution/runs/<run-id>/checkpoints/**"
+      - ".octon/state/evidence/runs/<run-id>/{receipts/**,checkpoints/**,replay-pointers.yml,trace-pointers.yml}"
+    decision_rule: "Bound run lifecycle files govern execution-time status, rollback posture, durable checkpoints, and replay pointers beneath the bound run contract."
+    adoption_status: "active-transitional"
+    activation_wave: 3
+  - rank: 10
     authority: "capability-tool-and-adapter-contracts"
     surfaces:
       - ".octon/framework/capabilities/**"
@@ -87,7 +97,7 @@ layers:
     notes:
       - "Capability contracts are active."
       - "Generalized model and host adapter contracts remain staged."
-  - rank: 10
+  - rank: 11
     authority: "structural-architecture-and-placement-specs"
     surfaces:
       - ".octon/framework/cognition/_meta/architecture/specification.md"
@@ -99,7 +109,7 @@ layers:
       topology and placement, but they may not override higher constitutional
       layers.
     adoption_status: "active"
-  - rank: 11
+  - rank: 12
     authority: "informative-context"
     surfaces:
       - "informative docs"

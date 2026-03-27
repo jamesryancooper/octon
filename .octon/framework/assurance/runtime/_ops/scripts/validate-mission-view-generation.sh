@@ -25,7 +25,7 @@ main() {
     [[ -f "$mission_view" ]] && pass "mission view exists for $mission_id" || { fail "missing mission view for $mission_id"; continue; }
     [[ "$(yq -r '.schema_version // ""' "$mission_view")" == "mission-view-v1" ]] && pass "mission view schema is correct for $mission_id" || fail "mission view schema is invalid for $mission_id"
 
-    for path_key in mission route mode_state intent_register continuity control_evidence_root run_evidence_root; do
+    for path_key in mission route mode_state intent_register continuity control_evidence_root run_evidence_root run_control_root; do
       if [[ -n "$(yq -r ".source_refs.${path_key} // \"\"" "$mission_view" 2>/dev/null || true)" ]]; then
         pass "mission view source_refs.$path_key present for $mission_id"
       else
@@ -49,6 +49,14 @@ main() {
         pass "mission view summary_refs.$summary_ref resolves for $mission_id"
       else
         fail "mission view summary_refs.$summary_ref missing or unresolved for $mission_id"
+      fi
+    done
+
+    for refs_key in active_run_ids run_contracts runtime_states rollback_postures checkpoints receipts replay_pointers retained_evidence trace_pointers; do
+      if yq -e ".run_evidence_refs.${refs_key}" "$mission_view" >/dev/null 2>&1; then
+        pass "mission view run_evidence_refs.$refs_key present for $mission_id"
+      else
+        fail "mission view run_evidence_refs.$refs_key missing for $mission_id"
       fi
     done
 

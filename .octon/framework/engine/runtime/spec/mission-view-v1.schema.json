@@ -16,6 +16,7 @@
     "active_directives",
     "active_authorize_updates",
     "recovery_finalize_summary",
+    "run_evidence_refs",
     "summary_refs",
     "continuity_refs",
     "source_refs",
@@ -39,6 +40,7 @@
       "items": { "type": "string", "minLength": 1 }
     },
     "recovery_finalize_summary": { "type": "object" },
+    "run_evidence_refs": { "type": "object" },
     "summary_refs": { "type": "object" },
     "continuity_refs": { "type": "object" },
     "source_refs": { "type": "object" },

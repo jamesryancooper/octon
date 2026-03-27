@@ -67,10 +67,20 @@ main() {
     else
       fail "mission recent summary must cite control evidence root for $mission_id"
     fi
+    if [[ -f "$MISSION_SUMMARIES/$mission_id/recent.md" ]] && grep -Fq "run_count:" "$MISSION_SUMMARIES/$mission_id/recent.md"; then
+      pass "mission recent summary reports run_count for $mission_id"
+    else
+      fail "mission recent summary must report run_count for $mission_id"
+    fi
     if [[ -f "$MISSION_SUMMARIES/$mission_id/recover.md" ]] && grep -Fq "/.octon/state/evidence/control/execution/" "$MISSION_SUMMARIES/$mission_id/recover.md"; then
       pass "mission recover summary cites control evidence root for $mission_id"
     else
       fail "mission recover summary must cite control evidence root for $mission_id"
+    fi
+    if [[ -f "$MISSION_SUMMARIES/$mission_id/recover.md" ]] && grep -Fq "replay_pointer_ref:" "$MISSION_SUMMARIES/$mission_id/recover.md"; then
+      pass "mission recover summary reports replay pointer reference for $mission_id"
+    else
+      fail "mission recover summary must report replay pointer reference for $mission_id"
     fi
     if [[ -f "$subscriptions_file" ]]; then
       while IFS= read -r recipient; do

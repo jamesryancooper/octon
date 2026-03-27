@@ -1,0 +1,23 @@
+run_id: run-wave3-runtime-bridge-20260327
+status: succeeded
+started_at: "2026-03-27T19:52:03Z"
+decision_id: dec-wave3-runtime-bridge-20260327
+continuity_run_path: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/
+run_contract_path: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+stage_attempt_root: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/stage-attempts
+runtime_state_path: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/runtime-state.yml
+rollback_posture_path: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/rollback-posture.yml
+receipt_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/receipts
+replay_pointers_path: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
+trace_pointers_path: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/trace-pointers.yml
+summary: Transitional Wave 3 runtime bridge run completed after binding canonical lifecycle state for mission evidence consumers.
+executor_id: operator://octon-maintainers
+executor_acknowledged_at: "2026-03-27T19:52:03Z"
+last_heartbeat_at: "2026-03-27T19:52:03Z"
+lease_expires_at: "2026-03-27T19:53:03Z"
+recovery_status: healthy
+workflow_ref:
+  workflow_group: meta
+  workflow_id: evaluate-harness
+mission_id: mission-autonomy-live-validation
+completed_at: "2026-03-27T19:53:14Z"

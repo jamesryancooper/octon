@@ -23,6 +23,7 @@ The repo-local supreme control regime for `/.octon/` lives under
 - `/.octon/framework/constitution/ownership/roles.yml`
 - `/.octon/framework/constitution/contracts/registry.yml`
 - `/.octon/framework/constitution/contracts/authority/**`
+- `/.octon/framework/constitution/contracts/runtime/**`
 - `/.octon/framework/constitution/support-targets.schema.json`
 
 This umbrella specification remains the canonical cross-subsystem topology,
@@ -126,10 +127,11 @@ authority.
 45. Protected execution is legal only under `hard-enforce`.
 46. Workflow contracts use `workflow-contract-v2` and declare stage-level
     authorization metadata.
-47. Runtime execution evidence belongs under `state/evidence/runs/**`.
+47. Runtime execution evidence, receipts, checkpoints, replay pointers, and
+    retained run evidence belong under `state/evidence/runs/**`.
 48. Canonical mutable execution control truth belongs under
-    `state/control/execution/**`; per-run objective binding control roots live
-    under `state/control/execution/runs/<run-id>/**`.
+    `state/control/execution/**`; per-run lifecycle control roots live under
+    `state/control/execution/runs/<run-id>/**`.
 49. Canonical approval, exception, and revocation control truth live only under
     `state/control/execution/{approvals,exceptions,revocations}/**`.
 50. Canonical ephemeral execution scratch belongs under
@@ -150,25 +152,28 @@ authority.
     `state/control/execution/missions/<mission-id>/**`.
 57. Consequential run contracts live only under
     `state/control/execution/runs/<run-id>/run-contract.yml`.
-58. Retained control-plane mutation evidence and authority decision evidence
+58. Runtime-state, rollback-posture, and control checkpoints for consequential
+    runs live only under `state/control/execution/runs/<run-id>/**`.
+59. Retained control-plane mutation evidence and authority decision evidence
     live only under
     `state/evidence/control/execution/**`.
-59. Mission continuity and handoff state lives only under
+60. Mission continuity and handoff state lives only under
     `state/continuity/repo/missions/<mission-id>/**`.
-60. Mission/operator read models under
+61. Mission/operator read models under
     `generated/cognition/summaries/{missions,operators}/**` are derived only
-    from canonical authority, control, evidence, and continuity surfaces.
-61. Mission effective scenario resolution lives only under
+    from canonical authority, control, evidence, and continuity surfaces and
+    consume per-run run evidence when runs are bound.
+62. Mission effective scenario resolution lives only under
     `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
     and remains derived-only, freshness-bounded runtime input.
-62. No autonomous runtime path may silently fall back to mission-less
+63. No autonomous runtime path may silently fall back to mission-less
     execution after the mission-scoped reversible autonomy cutover.
-63. External UI, chat, or in-memory session state may not become a second
+64. External UI, chat, or in-memory session state may not become a second
     authoritative mission control plane.
-64. Labels, comments, checks, and similar host affordances are projection-only
+65. Labels, comments, checks, and similar host affordances are projection-only
     until runtime materializes canonical authority artifacts under
     `state/control/execution/**`.
-65. For Mission-Scoped Reversible Autonomy, runtime closeout records under
+66. For Mission-Scoped Reversible Autonomy, runtime closeout records under
     `instance/cognition/decisions/067-*.md`; proposal-lineage closeout records
     under `instance/cognition/decisions/068-*.md` plus the matching migration
     plan under `instance/cognition/context/shared/migrations/**`; proposal
@@ -235,6 +240,8 @@ constitutional kernel.
   `/.octon/framework/constitution/contracts/objective/**`
 - constitutional authority contracts:
   `/.octon/framework/constitution/contracts/authority/**`
+- constitutional runtime contracts:
+  `/.octon/framework/constitution/contracts/runtime/**`
 - constitutional contract registry:
   `/.octon/framework/constitution/contracts/registry.yml`
 - support-target schema:

@@ -30,5 +30,5 @@ transitional_execution_model:
   mission_only_execution: "transitional"
   stage_attempt_root: ".octon/state/control/execution/runs/<run-id>/stage-attempts"
   retirement_gate: "Retire mission-only execution assumptions after Wave 3 runtime lifecycle normalization promotes run roots to the primary execution-time unit of truth."
-  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-26-objective-binding-cutover/plan.md"
+  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-27-runtime-lifecycle-normalization-cutover/plan.md"
 notes_ref: "mission.md"

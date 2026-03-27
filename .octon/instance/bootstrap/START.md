@@ -215,6 +215,8 @@ split:
   `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`
 - stage-attempt roots:
   `/.octon/state/control/execution/runs/<run-id>/stage-attempts/**`
+- runtime lifecycle control roots:
+  `/.octon/state/control/execution/runs/<run-id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
 - repo-owned mission autonomy defaults:
   `instance/governance/policies/mission-autonomy.yml`
 - repo-owned non-path ownership authority:
@@ -229,6 +231,8 @@ split:
   `state/control/execution/missions/<mission-id>/**`
 - retained control-plane evidence:
   `state/evidence/control/execution/**`
+- retained run receipts and replay pointers:
+  `state/evidence/runs/<run-id>/{receipts/**,checkpoints/**,replay-pointers.yml,trace-pointers.yml}`
 - mission continuity:
   `state/continuity/repo/missions/<mission-id>/**`
 - freshness-bounded effective mission routing:
@@ -242,8 +246,9 @@ Mission creation remains authority-only under `instance/orchestration/missions/*
 Autonomous active or paused runtime state becomes legal only after the
 seed-before-active path materializes mission control truth, continuity, route
 generation, summaries, and mission view outputs under their canonical roots.
-During Wave 1 coexistence, mission remains the continuity container while the
-run contract becomes the defined atomic execution unit for consequential runs.
+During Wave 3 coexistence, mission remains the continuity container while the
+run root becomes the primary execution-time unit of truth for consequential
+runs.
 Wave 2 adds normalized authority control families so approvals, exceptions,
 revocations, and retained decision artifacts stop depending on host-shaped
 affordances.

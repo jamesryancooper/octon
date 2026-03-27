@@ -1,0 +1,5 @@
+schema_version: orchestration-run-lifecycle-receipt-v1
+run_id: run-wave3-runtime-bridge-20260327
+status: succeeded
+summary: Transitional Wave 3 runtime bridge run completed after binding canonical lifecycle state for mission evidence consumers.
+recorded_at: "2026-03-27T19:53:14Z"

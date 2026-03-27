@@ -46,6 +46,8 @@ long-running and always-running autonomous agents.
   `/.octon/instance/governance/support-targets.yml`
 - run contract control roots:
   `/.octon/state/control/execution/runs/<run-id>/**`
+- run lifecycle control files:
+  `/.octon/state/control/execution/runs/<run-id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
 - approval control roots:
   `/.octon/state/control/execution/approvals/**`
 - exception and revocation control roots:
@@ -56,6 +58,8 @@ long-running and always-running autonomous agents.
   `/.octon/state/evidence/control/execution/**`
 - retained run evidence:
   `/.octon/state/evidence/runs/**`
+- run replay and trace pointers:
+  `/.octon/state/evidence/runs/<run-id>/{replay-pointers.yml,trace-pointers.yml}`
 - mission continuity:
   `/.octon/state/continuity/repo/missions/<mission-id>/**`
 - effective mission scenario resolution:
@@ -72,6 +76,8 @@ continuity, effective route, generated summaries, and mission view.
 Consequential runs should additionally bind a run contract under
 `state/control/execution/runs/<run-id>/run-contract.yml`; mission-only
 execution remains transitional until later lifecycle normalization lands.
+Generated mission summaries and mission views consume per-run run evidence when
+runs are bound; they do not replace the run root as execution-time truth.
 
 ## Control Dimensions
 

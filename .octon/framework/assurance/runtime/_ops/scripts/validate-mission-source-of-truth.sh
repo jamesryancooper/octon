@@ -13,7 +13,7 @@ has_pattern() {
   local pattern="$1"
   shift
   if command -v rg >/dev/null 2>&1; then
-    rg -n -- "$pattern" "$@" >/dev/null 2>&1
+    rg -n --no-ignore -- "$pattern" "$@" >/dev/null 2>&1
   else
     grep -ERn -- "$pattern" "$@" >/dev/null 2>&1
   fi
@@ -44,6 +44,12 @@ main() {
     fail "mission projections must use mission-view.yml rather than legacy .json outputs"
   else
     pass "legacy .json mission projections are absent"
+  fi
+
+  if has_pattern 'run_evidence_refs:' "$OCTON_DIR/generated/cognition/projections/materialized/missions"; then
+    pass "mission projections consume per-run run evidence refs"
+  else
+    fail "mission projections must consume per-run run evidence refs"
   fi
 
   if find "$OCTON_DIR/generated" -type f \( -name '*journal*' -o -name '*activity-log*' \) | grep -q .; then

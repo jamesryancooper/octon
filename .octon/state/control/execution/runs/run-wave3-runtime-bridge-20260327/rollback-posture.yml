@@ -1,0 +1,8 @@
+schema_version: run-rollback-posture-v1
+run_id: run-wave3-runtime-bridge-20260327
+reversibility_class: reversible
+rollback_strategy: rollback
+contamination_state: clean
+hard_reset_required: false
+posture_source: orchestration-runtime
+updated_at: "2026-03-27T19:53:14Z"

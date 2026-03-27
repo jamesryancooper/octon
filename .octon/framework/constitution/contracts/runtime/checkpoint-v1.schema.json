@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/checkpoint-v1.schema.json",
+  "title": "Octon Run Checkpoint v1",
+  "description": "Durable control or evidence checkpoint for one bound run root.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "checkpoint_id",
+    "stage_attempt_id",
+    "checkpoint_kind",
+    "status",
+    "control_ref",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-checkpoint-v1"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage_attempt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_kind": {
+      "type": "string",
+      "enum": [
+        "binding",
+        "execution-start",
+        "execution-complete",
+        "recovery",
+        "resume"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "materialized",
+        "superseded",
+        "consumed",
+        "failed"
+      ]
+    },
+    "control_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -187,6 +187,10 @@ main() {
     "umbrella specification references canonical execution control root"
   require_contains \
     "$OCTON_DIR/framework/cognition/_meta/architecture/specification.md" \
+    ".octon/framework/constitution/contracts/runtime/**" \
+    "umbrella specification references constitutional runtime contracts"
+  require_contains \
+    "$OCTON_DIR/framework/cognition/_meta/architecture/specification.md" \
     ".octon/framework/constitution/CHARTER.md" \
     "umbrella specification references constitutional kernel"
   require_contains \
@@ -252,6 +256,14 @@ main() {
     "$OCTON_DIR/framework/engine/runtime/spec/policy-interface-v1.md" \
     "$support_targets" \
     "policy interface spec references repo-owned support-target declarations"
+  require_contains \
+    "$OCTON_DIR/framework/engine/runtime/spec/policy-interface-v1.md" \
+    ".octon/framework/constitution/contracts/runtime/" \
+    "policy interface spec references constitutional runtime contracts"
+  require_contains \
+    "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/authorization.rs" \
+    "bind_run_lifecycle" \
+    "authorization path binds canonical run lifecycle roots"
   require_contains \
     "$OCTON_DIR/framework/engine/runtime/spec/policy-interface-v1.md" \
     "$approval_requests" \

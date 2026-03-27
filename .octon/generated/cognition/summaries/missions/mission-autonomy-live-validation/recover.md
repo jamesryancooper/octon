@@ -8,8 +8,8 @@ generated_from:
   - /.octon/state/evidence/control/execution/**
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/mode-state.yml
   - .octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml
-generated_at: "2026-03-27T17:22:55Z"
-generator_version: "0.6.4"
+generated_at: "2026-03-27T19:52:20Z"
+generator_version: "0.6.5"
 ---
 
 # Mission Recover
@@ -18,4 +18,5 @@ generator_version: "0.6.4"
 - recovery_window: `P30D`
 - route_ref: `.octon/generated/effective/orchestration/missions/mission-autonomy-live-validation/scenario-resolution.yml`
 - recovery_source: `/.octon/state/evidence/runs/`
+- replay_pointer_ref: `/.octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml`
 - mode_state: `/.octon/state/control/execution/missions/mission-autonomy-live-validation/mode-state.yml`

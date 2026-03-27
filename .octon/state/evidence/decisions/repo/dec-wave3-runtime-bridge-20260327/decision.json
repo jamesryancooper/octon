@@ -1,0 +1,18 @@
+{
+  "decision_id": "dec-wave3-runtime-bridge-20260327",
+  "outcome": "allow",
+  "surface": "missions",
+  "action": "bind_runtime_lifecycle_bridge",
+  "actor": "operator://octon-maintainers",
+  "decided_at": "2026-03-27T19:51:34Z",
+  "reason_codes": [
+    "WAVE3_RUNTIME_BRIDGE"
+  ],
+  "summary": "Bind a transitional Wave 3 mission-backed run root so generated mission views consume canonical run evidence.",
+  "workflow_ref": {
+    "workflow_group": "meta",
+    "workflow_id": "evaluate-harness"
+  },
+  "mission_id": "mission-autonomy-live-validation",
+  "run_id": "run-wave3-runtime-bridge-20260327"
+}

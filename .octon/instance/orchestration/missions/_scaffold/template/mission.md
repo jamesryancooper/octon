@@ -39,6 +39,10 @@ Define the bounded outcome for this mission.
   `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`
 - stage attempts belong under
   `/.octon/state/control/execution/runs/<run-id>/stage-attempts/`
+- runtime-state, rollback-posture, and checkpoints belong under the same bound
+  run root
+- generated mission summaries and mission views consume per-run run evidence;
+  they do not replace the bound run root
 - any mission-only execution assumption is transitional and must retain its
   retirement gate
 

@@ -13,4 +13,4 @@ effective_scenario_resolution_ref: .octon/generated/effective/orchestration/miss
 autonomy_burn_state: "healthy"
 breaker_state: "clear"
 break_glass_expires_at: null
-updated_at: "2026-03-27T17:57:53Z"
+updated_at: "2026-03-27T20:31:21Z"

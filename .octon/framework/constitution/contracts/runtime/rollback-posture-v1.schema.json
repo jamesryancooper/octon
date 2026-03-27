@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json",
+  "title": "Octon Run Rollback Posture v1",
+  "description": "Canonical rollback, compensation, and contamination posture for one bound run root.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "reversibility_class",
+    "rollback_strategy",
+    "contamination_state",
+    "hard_reset_required",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-rollback-posture-v1"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reversibility_class": {
+      "type": "string",
+      "enum": [
+        "reversible",
+        "compensable",
+        "irreversible"
+      ]
+    },
+    "rollback_strategy": {
+      "type": "string",
+      "enum": [
+        "rollback",
+        "compensate",
+        "observe_only",
+        "none"
+      ]
+    },
+    "rollback_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rollback_handle": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "compensation_handle": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recovery_window": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "contamination_state": {
+      "type": "string",
+      "enum": [
+        "clean",
+        "suspect",
+        "contaminated",
+        "hard-reset-required"
+      ]
+    },
+    "hard_reset_required": {
+      "type": "boolean"
+    },
+    "posture_source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -13,3 +13,7 @@ repository.
 Detailed work state has one primary home. Cross-scope work belongs in repo
 continuity. Stable single-scope work belongs in the matching scope continuity
 surface.
+
+Continuity consumes canonical run evidence and lifecycle state. It does not
+replace `state/control/execution/runs/**` or `state/evidence/runs/**` as the
+execution-time source of truth.

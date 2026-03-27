@@ -34,3 +34,12 @@ shared `octon` CLI and Studio host:
 
 These are read-only operator surfaces over canonical orchestration and
 continuity artifacts. They do not create new execution authority.
+
+## Runtime Lifecycle
+
+Consequential execution binds one canonical run control root under
+`/.octon/state/control/execution/runs/<run-id>/` and one canonical evidence
+root under `/.octon/state/evidence/runs/<run-id>/` before side effects occur.
+Runtime writers may keep transitional compatibility artifacts, but canonical
+receipts, checkpoints, replay pointers, and rollback posture must remain under
+the bound run root.

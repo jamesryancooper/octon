@@ -342,6 +342,18 @@ pub struct GrantBundle {
     pub actor_ref: ActorRef,
     pub run_root: String,
     #[serde(default)]
+    pub run_control_root: Option<String>,
+    #[serde(default)]
+    pub run_receipts_root: Option<String>,
+    #[serde(default)]
+    pub replay_pointers_path: Option<String>,
+    #[serde(default)]
+    pub trace_pointers_path: Option<String>,
+    #[serde(default)]
+    pub retained_evidence_path: Option<String>,
+    #[serde(default)]
+    pub stage_attempt_ref: Option<String>,
+    #[serde(default)]
     pub policy_receipt_path: Option<String>,
     #[serde(default)]
     pub policy_digest_path: Option<String>,
@@ -839,6 +851,148 @@ struct ResolvedAutonomyState {
     break_glass_required: bool,
 }
 
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct RuntimeStateRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    run_id: String,
+    #[serde(default)]
+    status: String,
+    #[serde(default)]
+    workflow_mode: String,
+    #[serde(default)]
+    decision_state: Option<String>,
+    #[serde(default)]
+    run_contract_ref: String,
+    #[serde(default)]
+    stage_attempt_root: String,
+    #[serde(default)]
+    control_checkpoint_root: String,
+    #[serde(default)]
+    evidence_root: String,
+    #[serde(default)]
+    receipt_root: String,
+    #[serde(default)]
+    current_stage_attempt_id: Option<String>,
+    #[serde(default)]
+    last_checkpoint_ref: Option<String>,
+    #[serde(default)]
+    last_receipt_ref: Option<String>,
+    #[serde(default)]
+    mission_id: Option<String>,
+    #[serde(default)]
+    parent_run_ref: Option<String>,
+    #[serde(default)]
+    created_at: String,
+    #[serde(default)]
+    updated_at: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct RollbackPostureRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    run_id: String,
+    #[serde(default)]
+    reversibility_class: String,
+    #[serde(default)]
+    rollback_strategy: String,
+    #[serde(default)]
+    rollback_ref: Option<String>,
+    #[serde(default)]
+    rollback_handle: Option<String>,
+    #[serde(default)]
+    compensation_handle: Option<String>,
+    #[serde(default)]
+    recovery_window: Option<String>,
+    #[serde(default)]
+    contamination_state: String,
+    #[serde(default)]
+    hard_reset_required: bool,
+    #[serde(default)]
+    posture_source: Option<String>,
+    #[serde(default)]
+    updated_at: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct RunCheckpointRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    run_id: String,
+    #[serde(default)]
+    checkpoint_id: String,
+    #[serde(default)]
+    stage_attempt_id: String,
+    #[serde(default)]
+    checkpoint_kind: String,
+    #[serde(default)]
+    status: String,
+    #[serde(default)]
+    control_ref: String,
+    #[serde(default)]
+    evidence_ref: Option<String>,
+    #[serde(default)]
+    notes: Option<String>,
+    #[serde(default)]
+    created_at: String,
+    #[serde(default)]
+    updated_at: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct ReplayPointersRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    run_id: String,
+    #[serde(default)]
+    receipt_refs: Vec<String>,
+    #[serde(default)]
+    checkpoint_refs: Vec<String>,
+    #[serde(default)]
+    trace_refs: Vec<String>,
+    #[serde(default)]
+    external_replay_refs: Vec<String>,
+    #[serde(default)]
+    updated_at: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct RetainedRunEvidenceRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    run_id: String,
+    #[serde(default)]
+    evidence_refs: BTreeMap<String, String>,
+    #[serde(default)]
+    updated_at: String,
+}
+
+#[derive(Debug, Clone)]
+struct BoundRunLifecycle {
+    control_root: PathBuf,
+    evidence_root: PathBuf,
+    runtime_state_path: PathBuf,
+    receipts_root: PathBuf,
+    replay_pointers_path: PathBuf,
+    retained_evidence_path: PathBuf,
+    stage_attempt_path: PathBuf,
+    control_root_rel: String,
+    evidence_root_rel: String,
+    control_checkpoint_ref: String,
+    receipts_root_rel: String,
+    replay_pointers_ref: String,
+    trace_pointers_ref: String,
+    retained_evidence_ref: String,
+    stage_attempt_ref: String,
+    stage_attempt_id: String,
+}
+
 fn mission_denial(message: impl Into<String>, reason_codes: Vec<&str>) -> KernelError {
     KernelError::new(ErrorCode::CapabilityDenied, message.into()).with_details(json!({
         "reason_codes": reason_codes,
@@ -864,13 +1018,19 @@ where
     let raw = fs::read_to_string(path).map_err(|e| {
         KernelError::new(
             ErrorCode::CapabilityDenied,
-            format!("failed to read mission autonomy surface {}: {e}", path.display()),
+            format!(
+                "failed to read mission autonomy surface {}: {e}",
+                path.display()
+            ),
         )
     })?;
     serde_yaml::from_str::<T>(&raw).map_err(|e| {
         KernelError::new(
             ErrorCode::CapabilityDenied,
-            format!("failed to parse mission autonomy surface {}: {e}", path.display()),
+            format!(
+                "failed to parse mission autonomy surface {}: {e}",
+                path.display()
+            ),
         )
     })
 }
@@ -880,7 +1040,10 @@ fn ensure_file_exists(path: &Path, reason_code: &str) -> CoreResult<()> {
         Ok(())
     } else {
         Err(mission_denial(
-            format!("required mission autonomy surface missing: {}", path.display()),
+            format!(
+                "required mission autonomy surface missing: {}",
+                path.display()
+            ),
             vec![reason_code],
         ))
     }
@@ -929,7 +1092,8 @@ fn revocation_registry_path(cfg: &RuntimeConfig) -> PathBuf {
 }
 
 fn authority_evidence_root(cfg: &RuntimeConfig) -> PathBuf {
-    cfg.repo_root.join(".octon/state/evidence/control/execution")
+    cfg.repo_root
+        .join(".octon/state/evidence/control/execution")
 }
 
 fn decision_artifact_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
@@ -945,6 +1109,767 @@ fn run_contract_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
         .join("runs")
         .join(request_id)
         .join("run-contract.yml")
+}
+
+fn runtime_state_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_control_root(request_id).join("runtime-state.yml")
+}
+
+fn rollback_posture_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_control_root(request_id)
+        .join("rollback-posture.yml")
+}
+
+fn control_checkpoint_path(cfg: &RuntimeConfig, request_id: &str, checkpoint_id: &str) -> PathBuf {
+    cfg.run_control_root(request_id)
+        .join("checkpoints")
+        .join(format!("{checkpoint_id}.yml"))
+}
+
+fn evidence_checkpoint_path(cfg: &RuntimeConfig, request_id: &str, checkpoint_id: &str) -> PathBuf {
+    cfg.run_root(request_id)
+        .join("checkpoints")
+        .join(format!("{checkpoint_id}.yml"))
+}
+
+fn stage_attempt_dir_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_control_root(request_id).join("stage-attempts")
+}
+
+fn stage_attempt_file_path(
+    cfg: &RuntimeConfig,
+    request_id: &str,
+    stage_attempt_id: &str,
+) -> PathBuf {
+    stage_attempt_dir_path(cfg, request_id).join(format!("{stage_attempt_id}.yml"))
+}
+
+fn evidence_receipts_root(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_root(request_id).join("receipts")
+}
+
+fn replay_pointers_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_root(request_id).join("replay-pointers.yml")
+}
+
+fn trace_pointers_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_root(request_id).join("trace-pointers.yml")
+}
+
+fn retained_evidence_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_root(request_id).join("retained-run-evidence.yml")
+}
+
+fn stage_attempt_id_for_request(request: &ExecutionRequest) -> String {
+    request
+        .metadata
+        .get("stage_id")
+        .map(|stage_id| format!("{stage_id}--initial"))
+        .unwrap_or_else(|| "initial".to_string())
+}
+
+fn stage_ref_for_request(request: &ExecutionRequest) -> String {
+    if let Some(stage_id) = request.metadata.get("stage_id") {
+        return format!("workflow-stage:{stage_id}");
+    }
+    if let Some(workflow_id) = request.metadata.get("workflow_id") {
+        return format!("workflow:{workflow_id}");
+    }
+    request.target_id.clone()
+}
+
+fn requested_support_tier(cfg: &RuntimeConfig, request: &ExecutionRequest) -> CoreResult<String> {
+    if let Some(support_tier) = request.metadata.get("support_tier") {
+        if !support_tier.trim().is_empty() {
+            return Ok(support_tier.clone());
+        }
+    }
+    Ok(load_ownership_registry(cfg)?
+        .defaults
+        .support_tier
+        .unwrap_or_else(|| "repo-local-transitional".to_string()))
+}
+
+fn bind_run_lifecycle(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    autonomy_state: Option<&ResolvedAutonomyState>,
+) -> CoreResult<BoundRunLifecycle> {
+    let run_id = request.request_id.as_str();
+    let control_root = cfg.run_control_root(run_id);
+    let evidence_root = cfg.run_root(run_id);
+    let run_contract_path = run_contract_path(cfg, run_id);
+    let runtime_state_path = runtime_state_path(cfg, run_id);
+    let rollback_posture_path = rollback_posture_path(cfg, run_id);
+    let control_checkpoint_path = control_checkpoint_path(cfg, run_id, "bound");
+    let evidence_checkpoint_path = evidence_checkpoint_path(cfg, run_id, "bound");
+    let receipts_root = evidence_receipts_root(cfg, run_id);
+    let replay_pointers_path = replay_pointers_path(cfg, run_id);
+    let trace_pointers_path = trace_pointers_path(cfg, run_id);
+    let retained_evidence_path = retained_evidence_path(cfg, run_id);
+    let stage_attempt_id = stage_attempt_id_for_request(request);
+    let stage_attempt_path = stage_attempt_file_path(cfg, run_id, &stage_attempt_id);
+    let stage_attempt_root = stage_attempt_dir_path(cfg, run_id);
+    let now = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute run binding timestamp: {e}"),
+        )
+    })?;
+
+    for dir in [
+        &control_root,
+        &stage_attempt_root,
+        &control_root.join("checkpoints"),
+        &evidence_root,
+        &receipts_root,
+        &evidence_root.join("checkpoints"),
+        &evidence_root.join("replay"),
+    ] {
+        fs::create_dir_all(dir).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to create canonical run family {}: {e}",
+                    dir.display()
+                ),
+            )
+        })?;
+    }
+
+    let support_tier = requested_support_tier(cfg, request)?;
+    let reversibility_class = autonomy_state
+        .map(|state| state.context.reversibility_class.clone())
+        .unwrap_or_else(|| "reversible".to_string());
+    let mission_id = autonomy_state
+        .map(|state| state.context.mission_ref.id.clone())
+        .or_else(|| request.metadata.get("mission_id").cloned());
+    let parent_run_ref = request
+        .parent_run_ref
+        .as_ref()
+        .map(|parent| format!(".octon/state/control/execution/runs/{parent}/run-contract.yml"));
+    let rollback_ref = std::env::var("OCTON_EXECUTION_ROLLBACK_REF")
+        .ok()
+        .filter(|value| !value.trim().is_empty());
+
+    let control_root_rel = path_tail(&cfg.repo_root, &control_root);
+    let evidence_root_rel = path_tail(&cfg.repo_root, &evidence_root);
+    let run_contract_ref = path_tail(&cfg.repo_root, &run_contract_path);
+    let runtime_state_ref = path_tail(&cfg.repo_root, &runtime_state_path);
+    let rollback_posture_ref = path_tail(&cfg.repo_root, &rollback_posture_path);
+    let control_checkpoint_ref = path_tail(&cfg.repo_root, &control_checkpoint_path);
+    let evidence_checkpoint_ref = path_tail(&cfg.repo_root, &evidence_checkpoint_path);
+    let receipts_root_rel = path_tail(&cfg.repo_root, &receipts_root);
+    let replay_pointers_ref = path_tail(&cfg.repo_root, &replay_pointers_path);
+    let trace_pointers_ref = path_tail(&cfg.repo_root, &trace_pointers_path);
+    let retained_evidence_ref = path_tail(&cfg.repo_root, &retained_evidence_path);
+    let stage_attempt_ref = path_tail(&cfg.repo_root, &stage_attempt_path);
+
+    if !run_contract_path.is_file() {
+        let scope_in = if request.scope_constraints.read.is_empty() {
+            vec![request.caller_path.clone()]
+        } else {
+            dedupe_strings(&request.scope_constraints.read)
+        };
+        let required_evidence = dedupe_strings(&vec![
+            "decision-artifact".to_string(),
+            "execution-receipt".to_string(),
+            "policy-receipt".to_string(),
+            "replay-pointers".to_string(),
+            "trace-pointers".to_string(),
+        ]);
+        let mut objective_refs = serde_json::Map::new();
+        objective_refs.insert(
+            "workspace_objective_ref".to_string(),
+            json!(".octon/instance/bootstrap/OBJECTIVE.md"),
+        );
+        objective_refs.insert(
+            "workspace_intent_ref".to_string(),
+            json!(".octon/instance/cognition/context/shared/intent.contract.yml"),
+        );
+        if let Some(mission_id) = mission_id.as_ref() {
+            objective_refs.insert("mission_id".to_string(), json!(mission_id));
+            objective_refs.insert(
+                "mission_ref".to_string(),
+                json!(format!(
+                    ".octon/instance/orchestration/missions/{mission_id}/mission.yml"
+                )),
+            );
+        }
+        write_yaml(
+            &run_contract_path,
+            &json!({
+                "schema_version": "run-contract-v1",
+                "run_id": run_id,
+                "objective_refs": objective_refs,
+                "scope_in": scope_in,
+                "scope_out": dedupe_strings(&request.scope_constraints.write),
+                "requested_capabilities": dedupe_strings(&request.requested_capabilities),
+                "risk_class": request.risk_tier,
+                "reversibility_class": reversibility_class,
+                "support_tier": support_tier,
+                "required_approvals": Vec::<String>::new(),
+                "required_evidence": required_evidence,
+                "closure_conditions": [
+                    "Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.",
+                    "Canonical receipts and replay pointers remain linked to the run root."
+                ],
+                "stage_attempt_root": path_tail(&cfg.repo_root, &stage_attempt_root),
+                "control_checkpoint_root": path_tail(&cfg.repo_root, &control_root.join("checkpoints")),
+                "runtime_state_ref": runtime_state_ref,
+                "rollback_posture_ref": rollback_posture_ref,
+                "evidence_root": evidence_root_rel,
+                "receipt_root": receipts_root_rel,
+                "replay_pointers_ref": replay_pointers_ref,
+                "rollback_or_compensation_expectation": "Wave 3 binds rollback posture and contamination state under the canonical run root before consequential side effects.",
+                "status": "bound",
+                "created_at": now,
+                "updated_at": now,
+                "notes_ref": stage_attempt_ref
+            }),
+        )
+        .map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to write canonical run contract {}: {e}", run_contract_path.display()),
+            )
+        })?;
+    }
+
+    if !stage_attempt_path.is_file() {
+        write_yaml(
+            &stage_attempt_path,
+            &json!({
+                "schema_version": "stage-attempt-v1",
+                "run_id": run_id,
+                "stage_attempt_id": stage_attempt_id,
+                "stage_ref": stage_ref_for_request(request),
+                "attempt_kind": "initial",
+                "status": "planned",
+                "objective_ref": run_contract_ref,
+                "requested_capabilities": dedupe_strings(&request.requested_capabilities),
+                "evidence_refs": [],
+                "rollback_candidate": reversibility_class != "irreversible",
+                "created_at": now,
+                "updated_at": now
+            }),
+        )
+        .map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to write canonical stage attempt {}: {e}",
+                    stage_attempt_path.display()
+                ),
+            )
+        })?;
+    }
+
+    let mut runtime_state: RuntimeStateRecord = read_yaml_or_default(&runtime_state_path)?;
+    if runtime_state.created_at.trim().is_empty() {
+        runtime_state.created_at = now.clone();
+    }
+    runtime_state.schema_version = "run-runtime-state-v1".to_string();
+    runtime_state.run_id = run_id.to_string();
+    runtime_state.status = "authorizing".to_string();
+    runtime_state.workflow_mode = request.workflow_mode.clone();
+    runtime_state.decision_state = Some("pending".to_string());
+    runtime_state.run_contract_ref = run_contract_ref.clone();
+    runtime_state.stage_attempt_root = path_tail(&cfg.repo_root, &stage_attempt_root);
+    runtime_state.control_checkpoint_root =
+        path_tail(&cfg.repo_root, &control_root.join("checkpoints"));
+    runtime_state.evidence_root = evidence_root_rel.clone();
+    runtime_state.receipt_root = receipts_root_rel.clone();
+    runtime_state.current_stage_attempt_id = Some(stage_attempt_id.clone());
+    runtime_state.last_checkpoint_ref = Some(control_checkpoint_ref.clone());
+    runtime_state.mission_id = mission_id.clone();
+    runtime_state.parent_run_ref = parent_run_ref.clone();
+    runtime_state.updated_at = now.clone();
+    write_yaml(&runtime_state_path, &runtime_state).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write runtime-state {}: {e}",
+                runtime_state_path.display()
+            ),
+        )
+    })?;
+
+    let rollback_strategy = if rollback_ref.is_some() || reversibility_class == "reversible" {
+        "rollback"
+    } else if reversibility_class == "compensable" {
+        "compensate"
+    } else {
+        "observe_only"
+    };
+    let rollback_posture = RollbackPostureRecord {
+        schema_version: "run-rollback-posture-v1".to_string(),
+        run_id: run_id.to_string(),
+        reversibility_class: reversibility_class.clone(),
+        rollback_strategy: rollback_strategy.to_string(),
+        rollback_ref: rollback_ref.clone(),
+        rollback_handle: autonomy_state.and_then(|state| state.rollback_handle.clone()),
+        compensation_handle: autonomy_state.and_then(|state| state.compensation_handle.clone()),
+        recovery_window: autonomy_state.map(|state| state.recovery_window.clone()),
+        contamination_state: "clean".to_string(),
+        hard_reset_required: false,
+        posture_source: Some(if autonomy_state.is_some() {
+            "mission-autonomy".to_string()
+        } else {
+            "run-contract-default".to_string()
+        }),
+        updated_at: now.clone(),
+    };
+    write_yaml(&rollback_posture_path, &rollback_posture).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write rollback posture {}: {e}",
+                rollback_posture_path.display()
+            ),
+        )
+    })?;
+
+    let checkpoint = RunCheckpointRecord {
+        schema_version: "run-checkpoint-v1".to_string(),
+        run_id: run_id.to_string(),
+        checkpoint_id: "bound".to_string(),
+        stage_attempt_id: stage_attempt_id.clone(),
+        checkpoint_kind: "binding".to_string(),
+        status: "materialized".to_string(),
+        control_ref: control_checkpoint_ref.clone(),
+        evidence_ref: Some(evidence_checkpoint_ref.clone()),
+        notes: Some("Canonical run root bound before consequential side effects.".to_string()),
+        created_at: now.clone(),
+        updated_at: now.clone(),
+    };
+    write_yaml(&control_checkpoint_path, &checkpoint).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write control checkpoint {}: {e}",
+                control_checkpoint_path.display()
+            ),
+        )
+    })?;
+    write_yaml(&evidence_checkpoint_path, &checkpoint).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write evidence checkpoint {}: {e}",
+                evidence_checkpoint_path.display()
+            ),
+        )
+    })?;
+
+    let replay = ReplayPointersRecord {
+        schema_version: "run-replay-pointers-v1".to_string(),
+        run_id: run_id.to_string(),
+        receipt_refs: Vec::new(),
+        checkpoint_refs: vec![evidence_checkpoint_ref.clone()],
+        trace_refs: if trace_pointers_path.is_file() {
+            vec![trace_pointers_ref.clone()]
+        } else {
+            Vec::new()
+        },
+        external_replay_refs: Vec::new(),
+        updated_at: now.clone(),
+    };
+    write_yaml(&replay_pointers_path, &replay).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write replay pointers {}: {e}",
+                replay_pointers_path.display()
+            ),
+        )
+    })?;
+
+    let retained = RetainedRunEvidenceRecord {
+        schema_version: "retained-run-evidence-v1".to_string(),
+        run_id: run_id.to_string(),
+        evidence_refs: BTreeMap::from([
+            ("run_contract".to_string(), run_contract_ref.clone()),
+            ("runtime_state".to_string(), runtime_state_ref.clone()),
+            ("rollback_posture".to_string(), rollback_posture_ref.clone()),
+            (
+                "control_checkpoint".to_string(),
+                control_checkpoint_ref.clone(),
+            ),
+            (
+                "evidence_checkpoint".to_string(),
+                evidence_checkpoint_ref.clone(),
+            ),
+            ("replay_pointers".to_string(), replay_pointers_ref.clone()),
+            ("trace_pointers".to_string(), trace_pointers_ref.clone()),
+        ]),
+        updated_at: now.clone(),
+    };
+    write_yaml(&retained_evidence_path, &retained).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write retained run evidence manifest {}: {e}",
+                retained_evidence_path.display()
+            ),
+        )
+    })?;
+
+    Ok(BoundRunLifecycle {
+        control_root,
+        evidence_root,
+        runtime_state_path,
+        receipts_root,
+        replay_pointers_path,
+        retained_evidence_path,
+        stage_attempt_path,
+        control_root_rel,
+        evidence_root_rel,
+        control_checkpoint_ref,
+        receipts_root_rel,
+        replay_pointers_ref,
+        trace_pointers_ref,
+        retained_evidence_ref,
+        stage_attempt_ref,
+        stage_attempt_id,
+    })
+}
+
+fn update_bound_runtime_state(
+    bound: &BoundRunLifecycle,
+    status: &str,
+    decision_state: Option<&str>,
+    last_receipt_ref: Option<String>,
+    last_checkpoint_ref: Option<String>,
+) -> CoreResult<()> {
+    let mut state: RuntimeStateRecord = read_yaml_or_default(&bound.runtime_state_path)?;
+    if state.created_at.trim().is_empty() {
+        state.created_at = now_rfc3339().map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to compute runtime-state timestamp: {e}"),
+            )
+        })?;
+    }
+    state.schema_version = "run-runtime-state-v1".to_string();
+    state.run_id = bound
+        .control_root
+        .file_name()
+        .and_then(|value| value.to_str())
+        .unwrap_or_default()
+        .to_string();
+    state.status = status.to_string();
+    state.decision_state = decision_state
+        .map(ToOwned::to_owned)
+        .or(state.decision_state);
+    if let Some(value) = last_receipt_ref {
+        state.last_receipt_ref = Some(value);
+    }
+    if let Some(value) = last_checkpoint_ref {
+        state.last_checkpoint_ref = Some(value);
+    }
+    state.updated_at = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute runtime-state timestamp: {e}"),
+        )
+    })?;
+    write_yaml(&bound.runtime_state_path, &state).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to update runtime-state {}: {e}",
+                bound.runtime_state_path.display()
+            ),
+        )
+    })?;
+    Ok(())
+}
+
+fn update_stage_attempt_status(
+    bound: &BoundRunLifecycle,
+    status: &str,
+    evidence_ref: Option<String>,
+) -> CoreResult<()> {
+    let mut attempt: serde_yaml::Value = read_yaml_or_default(&bound.stage_attempt_path)?;
+    let now = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute stage-attempt timestamp: {e}"),
+        )
+    })?;
+    if let Some(mapping) = attempt.as_mapping_mut() {
+        mapping.insert(
+            serde_yaml::Value::from("status"),
+            serde_yaml::Value::from(status),
+        );
+        mapping.insert(
+            serde_yaml::Value::from("updated_at"),
+            serde_yaml::Value::from(now.clone()),
+        );
+        if let Some(evidence_ref) = evidence_ref {
+            let key = serde_yaml::Value::from("evidence_refs");
+            let existing = mapping
+                .get(&key)
+                .and_then(|value| value.as_sequence())
+                .cloned()
+                .unwrap_or_default();
+            let mut values = existing
+                .iter()
+                .filter_map(|value| value.as_str().map(ToOwned::to_owned))
+                .collect::<Vec<_>>();
+            values.push(evidence_ref);
+            values = dedupe_strings(&values);
+            mapping.insert(
+                key,
+                serde_yaml::Value::Sequence(
+                    values.into_iter().map(serde_yaml::Value::from).collect(),
+                ),
+            );
+        }
+    }
+    write_yaml(&bound.stage_attempt_path, &attempt).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to update stage attempt {}: {e}",
+                bound.stage_attempt_path.display()
+            ),
+        )
+    })?;
+    Ok(())
+}
+
+fn write_run_checkpoint(
+    control_path: &Path,
+    evidence_path: &Path,
+    run_id: &str,
+    stage_attempt_id: &str,
+    checkpoint_id: &str,
+    checkpoint_kind: &str,
+    notes: &str,
+) -> CoreResult<(String, String)> {
+    let created_at = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute checkpoint timestamp: {e}"),
+        )
+    })?;
+    let record = RunCheckpointRecord {
+        schema_version: "run-checkpoint-v1".to_string(),
+        run_id: run_id.to_string(),
+        checkpoint_id: checkpoint_id.to_string(),
+        stage_attempt_id: stage_attempt_id.to_string(),
+        checkpoint_kind: checkpoint_kind.to_string(),
+        status: "materialized".to_string(),
+        control_ref: control_path.display().to_string(),
+        evidence_ref: Some(evidence_path.display().to_string()),
+        notes: Some(notes.to_string()),
+        created_at: created_at.clone(),
+        updated_at: created_at,
+    };
+    write_yaml(control_path, &record).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write control checkpoint {}: {e}",
+                control_path.display()
+            ),
+        )
+    })?;
+    write_yaml(evidence_path, &record).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write evidence checkpoint {}: {e}",
+                evidence_path.display()
+            ),
+        )
+    })?;
+    Ok((
+        control_path.display().to_string(),
+        evidence_path.display().to_string(),
+    ))
+}
+
+fn merge_replay_receipt_ref(path: &Path, run_id: &str, ref_id: String) -> CoreResult<()> {
+    let mut replay: ReplayPointersRecord = read_yaml_or_default(path)?;
+    replay.schema_version = "run-replay-pointers-v1".to_string();
+    replay.run_id = run_id.to_string();
+    replay.receipt_refs.push(ref_id);
+    replay.receipt_refs = dedupe_strings(&replay.receipt_refs);
+    replay.updated_at = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute replay pointer timestamp: {e}"),
+        )
+    })?;
+    write_yaml(path, &replay).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to update replay pointers {}: {e}", path.display()),
+        )
+    })?;
+    Ok(())
+}
+
+fn merge_replay_checkpoint_ref(path: &Path, run_id: &str, ref_id: String) -> CoreResult<()> {
+    let mut replay: ReplayPointersRecord = read_yaml_or_default(path)?;
+    replay.schema_version = "run-replay-pointers-v1".to_string();
+    replay.run_id = run_id.to_string();
+    replay.checkpoint_refs.push(ref_id);
+    replay.checkpoint_refs = dedupe_strings(&replay.checkpoint_refs);
+    replay.updated_at = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute replay pointer timestamp: {e}"),
+        )
+    })?;
+    write_yaml(path, &replay).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to update replay pointers {}: {e}", path.display()),
+        )
+    })?;
+    Ok(())
+}
+
+fn merge_retained_evidence_ref(
+    path: &Path,
+    run_id: &str,
+    key: &str,
+    ref_id: String,
+) -> CoreResult<()> {
+    let mut retained: RetainedRunEvidenceRecord = read_yaml_or_default(path)?;
+    retained.schema_version = "retained-run-evidence-v1".to_string();
+    retained.run_id = run_id.to_string();
+    retained.evidence_refs.insert(key.to_string(), ref_id);
+    retained.updated_at = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute retained-evidence timestamp: {e}"),
+        )
+    })?;
+    write_yaml(path, &retained).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to update retained run evidence {}: {e}",
+                path.display()
+            ),
+        )
+    })?;
+    Ok(())
+}
+
+fn discover_repo_root(path: &Path) -> Option<PathBuf> {
+    let mut current = if path.is_dir() {
+        path.to_path_buf()
+    } else {
+        path.parent()?.to_path_buf()
+    };
+    loop {
+        if current.join(".octon").is_dir() {
+            return Some(current);
+        }
+        if !current.pop() {
+            return None;
+        }
+    }
+}
+
+fn resolve_relative_from_runtime_path(runtime_path: &Path, relative: &str) -> Option<PathBuf> {
+    let repo_root = discover_repo_root(runtime_path)?;
+    let relative_path = PathBuf::from(relative);
+    Some(if relative_path.is_absolute() {
+        relative_path
+    } else {
+        repo_root.join(relative_path)
+    })
+}
+
+fn copy_json_if_present(src: &Path, dst: &Path) -> CoreResult<()> {
+    if let Some(parent) = dst.parent() {
+        fs::create_dir_all(parent).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to create canonical receipt directory {}: {e}",
+                    parent.display()
+                ),
+            )
+        })?;
+    }
+    let bytes = fs::read(src).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to read execution artifact {}: {e}", src.display()),
+        )
+    })?;
+    fs::write(dst, bytes).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write canonical receipt {}: {e}", dst.display()),
+        )
+    })?;
+    Ok(())
+}
+
+fn bound_run_from_grant(runtime_path: &Path, grant: &GrantBundle) -> Option<BoundRunLifecycle> {
+    let repo_root = discover_repo_root(runtime_path)?;
+    let control_root_rel = grant.run_control_root.clone()?;
+    let control_root = resolve_relative_from_runtime_path(runtime_path, &control_root_rel)?;
+    let evidence_root = resolve_relative_from_runtime_path(runtime_path, &grant.run_root)?;
+    let runtime_state_path = control_root.join("runtime-state.yml");
+    let control_checkpoint_path = control_root.join("checkpoints").join("bound.yml");
+    let receipts_root = if let Some(rel) = &grant.run_receipts_root {
+        resolve_relative_from_runtime_path(runtime_path, rel)?
+    } else {
+        evidence_root.join("receipts")
+    };
+    let replay_pointers_path = if let Some(rel) = &grant.replay_pointers_path {
+        resolve_relative_from_runtime_path(runtime_path, rel)?
+    } else {
+        evidence_root.join("replay-pointers.yml")
+    };
+    let trace_pointers_path = if let Some(rel) = &grant.trace_pointers_path {
+        resolve_relative_from_runtime_path(runtime_path, rel)?
+    } else {
+        evidence_root.join("trace-pointers.yml")
+    };
+    let retained_evidence_path = if let Some(rel) = &grant.retained_evidence_path {
+        resolve_relative_from_runtime_path(runtime_path, rel)?
+    } else {
+        evidence_root.join("retained-run-evidence.yml")
+    };
+    let stage_attempt_path = if let Some(rel) = &grant.stage_attempt_ref {
+        resolve_relative_from_runtime_path(runtime_path, rel)?
+    } else {
+        control_root.join("stage-attempts").join("initial.yml")
+    };
+    let stage_attempt_id = stage_attempt_path
+        .file_stem()
+        .and_then(|value| value.to_str())
+        .unwrap_or("initial")
+        .to_string();
+    Some(BoundRunLifecycle {
+        control_root: control_root.clone(),
+        evidence_root: evidence_root.clone(),
+        runtime_state_path: runtime_state_path.clone(),
+        receipts_root: receipts_root.clone(),
+        replay_pointers_path: replay_pointers_path.clone(),
+        retained_evidence_path: retained_evidence_path.clone(),
+        stage_attempt_path: stage_attempt_path.clone(),
+        control_root_rel,
+        evidence_root_rel: path_tail(&repo_root, &evidence_root),
+        control_checkpoint_ref: path_tail(&repo_root, &control_checkpoint_path),
+        receipts_root_rel: path_tail(&repo_root, &receipts_root),
+        replay_pointers_ref: path_tail(&repo_root, &replay_pointers_path),
+        trace_pointers_ref: path_tail(&repo_root, &trace_pointers_path),
+        retained_evidence_ref: path_tail(&repo_root, &retained_evidence_path),
+        stage_attempt_ref: path_tail(&repo_root, &stage_attempt_path),
+        stage_attempt_id,
+    })
 }
 
 fn read_yaml_or_default<T>(path: &Path) -> CoreResult<T>
@@ -1024,7 +1949,8 @@ fn resolve_ownership_posture(
         }) {
             matched_asset_ref = asset.asset_id.clone();
             owner_refs.extend(
-                asset.owners
+                asset
+                    .owners
                     .iter()
                     .filter(|value| !value.trim().is_empty())
                     .map(|value| format!("operator://{value}")),
@@ -1261,7 +2187,10 @@ fn approval_projection_sources(request: &ExecutionRequest) -> Vec<AuthorityProje
         projections.push(AuthorityProjection {
             kind: "env-approval-flag".to_string(),
             ref_id: "env://OCTON_EXECUTION_HUMAN_APPROVED".to_string(),
-            notes: Some("Host approval projection only; runtime materialized the canonical grant.".to_string()),
+            notes: Some(
+                "Host approval projection only; runtime materialized the canonical grant."
+                    .to_string(),
+            ),
         });
     }
     for key in [
@@ -1280,7 +2209,9 @@ fn approval_projection_sources(request: &ExecutionRequest) -> Vec<AuthorityProje
     projections
 }
 
-pub fn with_authority_env_metadata(mut metadata: BTreeMap<String, String>) -> BTreeMap<String, String> {
+pub fn with_authority_env_metadata(
+    mut metadata: BTreeMap<String, String>,
+) -> BTreeMap<String, String> {
     for (env_key, meta_key) in [
         ("OCTON_SUPPORT_TIER", "support_tier"),
         ("OCTON_SUPPORT_MODEL_TIER", "support_model_tier"),
@@ -1289,9 +2220,18 @@ pub fn with_authority_env_metadata(mut metadata: BTreeMap<String, String>) -> BT
             "support_language_resource_tier",
         ),
         ("OCTON_SUPPORT_LOCALE_TIER", "support_locale_tier"),
-        ("OCTON_APPROVAL_PROJECTION_LABEL", "approval_projection_label"),
-        ("OCTON_APPROVAL_PROJECTION_COMMENT", "approval_projection_comment"),
-        ("OCTON_APPROVAL_PROJECTION_CHECK", "approval_projection_check"),
+        (
+            "OCTON_APPROVAL_PROJECTION_LABEL",
+            "approval_projection_label",
+        ),
+        (
+            "OCTON_APPROVAL_PROJECTION_COMMENT",
+            "approval_projection_comment",
+        ),
+        (
+            "OCTON_APPROVAL_PROJECTION_CHECK",
+            "approval_projection_check",
+        ),
     ] {
         if !metadata.contains_key(meta_key) {
             if let Ok(value) = std::env::var(env_key) {
@@ -1312,8 +2252,12 @@ fn write_approval_request(
     required_evidence: Vec<String>,
     reason_codes: Vec<String>,
 ) -> CoreResult<String> {
-    let now = now_rfc3339()
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to compute approval timestamp: {e}")))?;
+    let now = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute approval timestamp: {e}"),
+        )
+    })?;
     let artifact = ApprovalRequestArtifact {
         schema_version: "authority-approval-request-v1".to_string(),
         request_id: request.request_id.clone(),
@@ -1335,7 +2279,10 @@ fn write_approval_request(
     write_yaml(&path, &artifact).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("failed to write approval request artifact {}: {e}", path.display()),
+            format!(
+                "failed to write approval request artifact {}: {e}",
+                path.display()
+            ),
         )
     })?;
     Ok(path_tail(&cfg.repo_root, &path))
@@ -1362,8 +2309,12 @@ fn materialize_projection_grant(
     required_evidence: Vec<String>,
     review_metadata: &BTreeMap<String, String>,
 ) -> CoreResult<(ApprovalGrantArtifact, String)> {
-    let now = now_rfc3339()
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to compute grant timestamp: {e}")))?;
+    let now = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute grant timestamp: {e}"),
+        )
+    })?;
     let artifact = ApprovalGrantArtifact {
         schema_version: "authority-approval-grant-v1".to_string(),
         grant_id: format!("grant-{}", request.request_id),
@@ -1381,7 +2332,10 @@ fn materialize_projection_grant(
     write_yaml(&path, &artifact).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("failed to write approval grant artifact {}: {e}", path.display()),
+            format!(
+                "failed to write approval grant artifact {}: {e}",
+                path.display()
+            ),
         )
     })?;
     Ok((artifact, path_tail(&cfg.repo_root, &path)))
@@ -1402,7 +2356,13 @@ fn load_active_revocation_refs(
                 && (revocation.request_id.as_deref() == Some(request_id)
                     || revocation.grant_id.as_deref() == Some(grant_id))
         })
-        .map(|revocation| format!("{}#{}", path_tail(&cfg.repo_root, &path), revocation.revocation_id))
+        .map(|revocation| {
+            format!(
+                "{}#{}",
+                path_tail(&cfg.repo_root, &path),
+                revocation.revocation_id
+            )
+        })
         .collect())
 }
 
@@ -1483,8 +2443,12 @@ fn write_decision_artifact(
     exception_refs: Vec<String>,
     revocation_refs: Vec<String>,
 ) -> CoreResult<String> {
-    let generated_at = now_rfc3339()
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to compute decision timestamp: {e}")))?;
+    let generated_at = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute decision timestamp: {e}"),
+        )
+    })?;
     let artifact = DecisionArtifact {
         schema_version: "authority-decision-artifact-v1".to_string(),
         decision_id: format!("decision-{}", request.request_id),
@@ -1513,29 +2477,32 @@ fn write_decision_artifact(
     Ok(path_tail(&cfg.repo_root, &path))
 }
 
-fn write_authority_grant_bundle(
-    cfg: &RuntimeConfig,
-    grant: &GrantBundle,
-) -> CoreResult<String> {
+fn write_authority_grant_bundle(cfg: &RuntimeConfig, grant: &GrantBundle) -> CoreResult<String> {
     let path = authority_grant_bundle_path(cfg, &grant.request_id);
-    write_yaml(&path, &json!({
-        "schema_version": "authority-grant-bundle-v1",
-        "grant_id": grant.grant_id,
-        "request_id": grant.request_id,
-        "run_id": grant.request_id,
-        "approval_request_ref": grant.approval_request_ref,
-        "approval_grant_refs": grant.approval_grant_refs,
-        "exception_refs": grant.exception_lease_refs,
-        "revocation_refs": grant.revocation_refs,
-        "decision_artifact_ref": grant.decision_artifact_ref,
-        "generated_at": time::OffsetDateTime::now_utc()
-            .format(&time::format_description::well_known::Rfc3339)
-            .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string()),
-    }))
+    write_yaml(
+        &path,
+        &json!({
+            "schema_version": "authority-grant-bundle-v1",
+            "grant_id": grant.grant_id,
+            "request_id": grant.request_id,
+            "run_id": grant.request_id,
+            "approval_request_ref": grant.approval_request_ref,
+            "approval_grant_refs": grant.approval_grant_refs,
+            "exception_refs": grant.exception_lease_refs,
+            "revocation_refs": grant.revocation_refs,
+            "decision_artifact_ref": grant.decision_artifact_ref,
+            "generated_at": time::OffsetDateTime::now_utc()
+                .format(&time::format_description::well_known::Rfc3339)
+                .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string()),
+        }),
+    )
     .map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("failed to write authority grant bundle {}: {e}", path.display()),
+            format!(
+                "failed to write authority grant bundle {}: {e}",
+                path.display()
+            ),
         )
     })?;
     Ok(path_tail(&cfg.repo_root, &path))
@@ -1550,12 +2517,16 @@ fn resolve_autonomy_state(
         return Ok(None);
     }
 
-    let context = request
-        .autonomy_context
-        .clone()
-        .ok_or_else(|| mission_denial("autonomous execution requires autonomy_context", vec!["MISSION_AUTONOMY_CONTEXT_MISSING"]))?;
+    let context = request.autonomy_context.clone().ok_or_else(|| {
+        mission_denial(
+            "autonomous execution requires autonomy_context",
+            vec!["MISSION_AUTONOMY_CONTEXT_MISSING"],
+        )
+    })?;
 
-    if context.intent_ref.id != resolved_intent_ref.id || context.intent_ref.version != resolved_intent_ref.version {
+    if context.intent_ref.id != resolved_intent_ref.id
+        || context.intent_ref.version != resolved_intent_ref.version
+    {
         return Err(mission_denial(
             "autonomous execution intent binding does not match the resolved active intent",
             vec!["MISSION_AUTONOMY_INTENT_MISMATCH"],
@@ -1582,7 +2553,10 @@ fn resolve_autonomy_state(
         .join("governance")
         .join("ownership")
         .join("registry.yml");
-    let control_dir = cfg.execution_control_root.join("missions").join(&mission_id);
+    let control_dir = cfg
+        .execution_control_root
+        .join("missions")
+        .join(&mission_id);
     let lease_path = control_dir.join("lease.yml");
     let mode_state_path = control_dir.join("mode-state.yml");
     let intent_register_path = control_dir.join("intent-register.yml");
@@ -1608,14 +2582,17 @@ fn resolve_autonomy_state(
         (&schedule_path, "MISSION_SCHEDULE_MISSING"),
         (&autonomy_budget_path, "MISSION_AUTONOMY_BUDGET_MISSING"),
         (&circuit_breakers_path, "MISSION_CIRCUIT_BREAKERS_MISSING"),
-        (&subscriptions_path, "MISSION_SUBSCRIPTIONS_MISSING")
+        (&subscriptions_path, "MISSION_SUBSCRIPTIONS_MISSING"),
     ] {
         ensure_file_exists(path, reason_code)?;
     }
     if !scenario_resolution_path.is_file() {
         return Err(mission_stage_only(
             "mission scenario resolution is missing",
-            vec!["MISSION_SCENARIO_RESOLUTION_MISSING", "ACP_STAGE_ONLY_REQUIRED"],
+            vec![
+                "MISSION_SCENARIO_RESOLUTION_MISSING",
+                "ACP_STAGE_ONLY_REQUIRED",
+            ],
         ));
     }
 
@@ -1678,27 +2655,46 @@ fn resolve_autonomy_state(
     if scenario_resolution.fresh_until.trim().is_empty() {
         return Err(mission_stage_only(
             "mission scenario resolution is missing freshness metadata",
-            vec!["MISSION_SCENARIO_RESOLUTION_STALE", "ACP_STAGE_ONLY_REQUIRED"],
+            vec![
+                "MISSION_SCENARIO_RESOLUTION_STALE",
+                "ACP_STAGE_ONLY_REQUIRED",
+            ],
         ));
     }
     if parse_rfc3339(&scenario_resolution.fresh_until)? <= time::OffsetDateTime::now_utc() {
         return Err(mission_stage_only(
             "mission scenario resolution is stale",
-            vec!["MISSION_SCENARIO_RESOLUTION_STALE", "ACP_STAGE_ONLY_REQUIRED"],
+            vec![
+                "MISSION_SCENARIO_RESOLUTION_STALE",
+                "ACP_STAGE_ONLY_REQUIRED",
+            ],
         ));
     }
-    let breaker_state = breaker_record
-        .state
-        .clone()
-        .unwrap_or_else(|| if breaker_record.tripped_breakers.is_empty() { "clear".to_string() } else { "tripped".to_string() });
+    let breaker_state = breaker_record.state.clone().unwrap_or_else(|| {
+        if breaker_record.tripped_breakers.is_empty() {
+            "clear".to_string()
+        } else {
+            "tripped".to_string()
+        }
+    });
 
     let mut context = context;
-    if !scenario_resolution.effective.oversight_mode.trim().is_empty() {
+    if !scenario_resolution
+        .effective
+        .oversight_mode
+        .trim()
+        .is_empty()
+    {
         context.oversight_mode = scenario_resolution.effective.oversight_mode.clone();
     } else if !mode_state.oversight_mode.trim().is_empty() {
         context.oversight_mode = mode_state.oversight_mode.clone();
     }
-    if !scenario_resolution.effective.execution_posture.trim().is_empty() {
+    if !scenario_resolution
+        .effective
+        .execution_posture
+        .trim()
+        .is_empty()
+    {
         context.execution_posture = scenario_resolution.effective.execution_posture.clone();
     } else if !mode_state.execution_posture.trim().is_empty() {
         context.execution_posture = mode_state.execution_posture.clone();
@@ -1717,7 +2713,10 @@ fn resolve_autonomy_state(
     if schedule_state.pause_active_run_requested {
         return Err(mission_stage_only(
             "mission schedule requests pause at the next safe boundary",
-            vec!["MISSION_SCHEDULE_PAUSE_REQUESTED", "ACP_STAGE_ONLY_REQUIRED"],
+            vec![
+                "MISSION_SCHEDULE_PAUSE_REQUESTED",
+                "ACP_STAGE_ONLY_REQUIRED",
+            ],
         ));
     }
 
@@ -1725,7 +2724,10 @@ fn resolve_autonomy_state(
         if !scenario_resolution.effective.proceed_on_silence_allowed {
             return Err(mission_stage_only(
                 "proceed_on_silence is blocked by effective scenario routing",
-                vec!["MISSION_PROCEED_ON_SILENCE_BLOCKED", "ACP_STAGE_ONLY_REQUIRED"],
+                vec![
+                    "MISSION_PROCEED_ON_SILENCE_BLOCKED",
+                    "ACP_STAGE_ONLY_REQUIRED",
+                ],
             ));
         }
     }
@@ -1750,13 +2752,24 @@ fn resolve_autonomy_state(
             vec!["MISSION_ACTION_CLASS_MISSING", "ACP_STAGE_ONLY_REQUIRED"],
         ));
     } else {
-        scenario_resolution.effective.recovery_profile.action_class.clone()
+        scenario_resolution
+            .effective
+            .recovery_profile
+            .action_class
+            .clone()
     };
-    let recovery_window = scenario_resolution.effective.recovery_profile.recovery_window.clone();
+    let recovery_window = scenario_resolution
+        .effective
+        .recovery_profile
+        .recovery_window
+        .clone();
     if recovery_window.trim().is_empty() {
         return Err(mission_stage_only(
             "mission route could not derive recovery metadata for material work",
-            vec!["MISSION_RECOVERY_METADATA_MISSING", "ACP_STAGE_ONLY_REQUIRED"],
+            vec![
+                "MISSION_RECOVERY_METADATA_MISSING",
+                "ACP_STAGE_ONLY_REQUIRED",
+            ],
         ));
     }
     let primitive = if scenario_resolution
@@ -1768,7 +2781,13 @@ fn resolve_autonomy_state(
     {
         None
     } else {
-        Some(scenario_resolution.effective.recovery_profile.primitive.clone())
+        Some(
+            scenario_resolution
+                .effective
+                .recovery_profile
+                .primitive
+                .clone(),
+        )
     };
     let rollback_handle = if context.reversibility_class == "reversible" {
         let rollback_handle_prefix = if scenario_resolution
@@ -1788,15 +2807,16 @@ fn resolve_autonomy_state(
         };
         Some(format!(
             "{}-{}-{}",
-            rollback_handle_prefix,
-            mission_id,
-            context.slice_ref.id
+            rollback_handle_prefix, mission_id, context.slice_ref.id
         ))
     } else {
         None
     };
     let compensation_handle = if context.reversibility_class == "compensable" {
-        Some(format!("compensate-{}-{}", mission_id, context.slice_ref.id))
+        Some(format!(
+            "compensate-{}-{}",
+            mission_id, context.slice_ref.id
+        ))
     } else {
         None
     };
@@ -1811,8 +2831,14 @@ fn resolve_autonomy_state(
         autonomy_budget_state,
         breaker_state,
         approval_required: scenario_resolution.effective.approval_required
-            || scenario_resolution.effective.finalize_policy.approval_required,
-        break_glass_required: scenario_resolution.effective.finalize_policy.break_glass_required,
+            || scenario_resolution
+                .effective
+                .finalize_policy
+                .approval_required,
+        break_glass_required: scenario_resolution
+            .effective
+            .finalize_policy
+            .break_glass_required,
     }))
 }
 
@@ -1891,13 +2917,13 @@ pub fn authorize_execution(
     let effective_policy_mode = match environment {
         ExecutionEnvironment::Protected => {
             if requested_mode != cfg.execution_governance.protected_policy_mode {
-                return Err(
-                    KernelError::new(
-                        ErrorCode::CapabilityDenied,
-                        "protected execution rejected a weaker requested policy mode",
-                    )
-                    .with_details(json!({"reason_codes":["PROTECTED_EXECUTION_REQUIRES_HARD_ENFORCE"]})),
-                );
+                return Err(KernelError::new(
+                    ErrorCode::CapabilityDenied,
+                    "protected execution rejected a weaker requested policy mode",
+                )
+                .with_details(
+                    json!({"reason_codes":["PROTECTED_EXECUTION_REQUIRES_HARD_ENFORCE"]}),
+                ));
             }
             cfg.execution_governance.protected_policy_mode.clone()
         }
@@ -1909,16 +2935,14 @@ pub fn authorize_execution(
             {
                 requested_mode.clone()
             } else {
-                return Err(
-                    KernelError::new(
-                        ErrorCode::CapabilityDenied,
-                        format!(
-                            "requested policy mode '{}' is not allowed in development",
-                            requested_mode
-                        ),
-                    )
-                    .with_details(json!({"reason_codes":["POLICY_MODE_INVALID"]})),
-                );
+                return Err(KernelError::new(
+                    ErrorCode::CapabilityDenied,
+                    format!(
+                        "requested policy mode '{}' is not allowed in development",
+                        requested_mode
+                    ),
+                )
+                .with_details(json!({"reason_codes":["POLICY_MODE_INVALID"]})));
             }
         }
     };
@@ -1926,13 +2950,11 @@ pub fn authorize_execution(
     if matches!(environment, ExecutionEnvironment::Protected)
         && effective_policy_mode != cfg.execution_governance.protected_policy_mode
     {
-        return Err(
-            KernelError::new(
-                ErrorCode::CapabilityDenied,
-                "protected execution requires hard-enforce posture",
-            )
-            .with_details(json!({"reason_codes":["PROTECTED_EXECUTION_REQUIRES_HARD_ENFORCE"]})),
-        );
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            "protected execution requires hard-enforce posture",
+        )
+        .with_details(json!({"reason_codes":["PROTECTED_EXECUTION_REQUIRES_HARD_ENFORCE"]})));
     }
 
     let executor_profile = request
@@ -1944,69 +2966,63 @@ pub fn authorize_execution(
         && request.caller_path != "service"
         && request.scope_constraints.executor_profile.is_none()
     {
-        return Err(
-            KernelError::new(
-                ErrorCode::CapabilityDenied,
-                "shell-backed execution requires an executor profile",
-            )
-            .with_details(json!({"reason_codes":["EXECUTOR_PROFILE_MISSING"]})),
-        );
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            "shell-backed execution requires an executor profile",
+        )
+        .with_details(json!({"reason_codes":["EXECUTOR_PROFILE_MISSING"]})));
     }
     if request.scope_constraints.executor_profile.is_some() && executor_profile.is_none() {
-        return Err(
-            KernelError::new(
-                ErrorCode::CapabilityDenied,
-                "execution request referenced an unknown executor profile",
-            )
-            .with_details(json!({"reason_codes":["EXECUTOR_PROFILE_UNKNOWN"]})),
-        );
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            "execution request referenced an unknown executor profile",
+        )
+        .with_details(json!({"reason_codes":["EXECUTOR_PROFILE_UNKNOWN"]})));
     }
 
     if request.side_effect_flags.write_repo && request.scope_constraints.write.is_empty() {
-        return Err(
-            KernelError::new(
-                ErrorCode::CapabilityDenied,
-                "repo-mutating execution requires explicit write scope",
-            )
-            .with_details(json!({"reason_codes":["WRITE_SCOPE_MISSING"]})),
-        );
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            "repo-mutating execution requires explicit write scope",
+        )
+        .with_details(json!({"reason_codes":["WRITE_SCOPE_MISSING"]})));
     }
 
     if let Some(profile) = executor_profile {
         if profile.require_hard_enforce
             && effective_policy_mode != cfg.execution_governance.protected_policy_mode
         {
-            return Err(
-                KernelError::new(
-                    ErrorCode::CapabilityDenied,
-                    "elevated executor profile requires hard-enforce posture",
-                )
-                .with_details(json!({"reason_codes":["ELEVATED_EXECUTOR_REQUIRES_HARD_ENFORCE"]})),
-            );
+            return Err(KernelError::new(
+                ErrorCode::CapabilityDenied,
+                "elevated executor profile requires hard-enforce posture",
+            )
+            .with_details(json!({"reason_codes":["ELEVATED_EXECUTOR_REQUIRES_HARD_ENFORCE"]})));
         }
     }
 
     if is_critical_action(cfg, request, executor_profile)
         && effective_policy_mode != cfg.execution_governance.protected_policy_mode
     {
-        return Err(
-            KernelError::new(
-                ErrorCode::CapabilityDenied,
-                "critical action denied outside hard-enforce posture",
-            )
-            .with_details(json!({"reason_codes":["CRITICAL_ACTION_REQUIRES_HARD_ENFORCE"]})),
-        );
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            "critical action denied outside hard-enforce posture",
+        )
+        .with_details(json!({"reason_codes":["CRITICAL_ACTION_REQUIRES_HARD_ENFORCE"]})));
     }
 
-    let run_root = cfg.run_root(&request.request_id);
-    let run_root_rel = path_tail(&cfg.repo_root, &run_root);
+    let bound_run = bind_run_lifecycle(cfg, request, autonomy_state.as_ref())?;
+    let run_root = bound_run.evidence_root.clone();
+    let run_root_rel = bound_run.evidence_root_rel.clone();
     let run_contract = load_run_contract_record(cfg, request, autonomy_state.as_ref())?;
     let ownership = resolve_ownership_posture(cfg, request, &run_contract)?;
-    let support_tier = resolve_support_tier_posture(cfg, request, &run_contract, autonomy_state.as_ref())?;
+    let support_tier =
+        resolve_support_tier_posture(cfg, request, &run_contract, autonomy_state.as_ref())?;
     let reversibility = reversibility_payload(request, &run_contract, autonomy_state.as_ref());
 
     let requested_capabilities = dedupe_strings(&request.requested_capabilities);
-    let requested_network = requested_capabilities.iter().any(|value| value == "net.http");
+    let requested_network = requested_capabilities
+        .iter()
+        .any(|value| value == "net.http");
     let requested_without_network = requested_capabilities
         .iter()
         .filter(|value| value.as_str() != "net.http")
@@ -2019,13 +3035,11 @@ pub fn authorize_execution(
         requested_without_network.clone()
     };
     if granted_capabilities.is_empty() && !requested_network {
-        return Err(
-            KernelError::new(
-                ErrorCode::CapabilityDenied,
-                "execution request did not resolve any granted capabilities",
-            )
-            .with_details(json!({"reason_codes":["GRANTED_CAPABILITIES_EMPTY"]})),
-        );
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            "execution request did not resolve any granted capabilities",
+        )
+        .with_details(json!({"reason_codes":["GRANTED_CAPABILITIES_EMPTY"]})));
     }
 
     let mut review_metadata = review_metadata_from_env();
@@ -2044,7 +3058,8 @@ pub fn authorize_execution(
         || autonomy_requires_approval
         || !run_contract.required_approvals.is_empty();
     let quorum_required = request.review_requirements.quorum;
-    let rollback_required = profile_requires_rollback || request.review_requirements.rollback_metadata;
+    let rollback_required =
+        profile_requires_rollback || request.review_requirements.rollback_metadata;
     let mut required_evidence = run_contract.required_evidence.clone();
     if approval_required {
         required_evidence.push("approval-grant".to_string());
@@ -2088,7 +3103,8 @@ pub fn authorize_execution(
     let budget_preview = budget_preview_decision
         .as_ref()
         .map(|decision| budget_metadata_from_decision(&cfg.repo_root, &run_root, decision));
-    let mut budget_posture = budget_posture_from_preview(&cfg.repo_root, &run_root, budget_preview_decision.as_ref());
+    let mut budget_posture =
+        budget_posture_from_preview(&cfg.repo_root, &run_root, budget_preview_decision.as_ref());
     let mut network_egress_posture = None::<NetworkEgressPosture>;
     let mut exception_refs = Vec::new();
 
@@ -2120,6 +3136,35 @@ pub fn authorize_execution(
             exception_refs.clone(),
             revocation_refs.clone(),
         )?;
+        let runtime_status = match decision {
+            ExecutionDecision::Deny => "denied",
+            ExecutionDecision::StageOnly | ExecutionDecision::Escalate => "stage_only",
+            ExecutionDecision::Allow => "authorized",
+        };
+        let decision_state = match decision {
+            ExecutionDecision::Allow => "allow",
+            ExecutionDecision::StageOnly => "stage_only",
+            ExecutionDecision::Deny => "deny",
+            ExecutionDecision::Escalate => "escalate",
+        };
+        let stage_status = match decision {
+            ExecutionDecision::Deny => "failed",
+            _ => "staged",
+        };
+        let _ = update_bound_runtime_state(
+            &bound_run,
+            runtime_status,
+            Some(decision_state),
+            None,
+            Some(bound_run.control_checkpoint_ref.clone()),
+        );
+        let _ = update_stage_attempt_status(&bound_run, stage_status, Some(decision_ref.clone()));
+        let _ = merge_retained_evidence_ref(
+            &bound_run.retained_evidence_path,
+            &request.request_id,
+            "authority_decision",
+            decision_ref.clone(),
+        );
         Err(
             KernelError::new(ErrorCode::CapabilityDenied, message).with_details(json!({
                 "reason_codes": reason_codes,
@@ -2162,7 +3207,10 @@ pub fn authorize_execution(
         };
         return emit_route_error(
             decision,
-            format!("support tier '{}' is not authorized for this execution", support_tier.support_tier),
+            format!(
+                "support tier '{}' is not authorized for this execution",
+                support_tier.support_tier
+            ),
             vec![reason_code.to_string()],
             ownership.clone(),
             support_tier.clone(),
@@ -2184,7 +3232,7 @@ pub fn authorize_execution(
         ) {
             Ok(decision) => decision,
             Err(err) => {
-                let _ = write_decision_artifact(
+                let decision_ref = write_decision_artifact(
                     cfg,
                     request,
                     ExecutionDecision::Deny,
@@ -2199,6 +3247,26 @@ pub fn authorize_execution(
                     Vec::new(),
                     Vec::new(),
                 );
+                if let Ok(decision_ref) = decision_ref {
+                    let _ = update_bound_runtime_state(
+                        &bound_run,
+                        "denied",
+                        Some("deny"),
+                        None,
+                        Some(bound_run.control_checkpoint_ref.clone()),
+                    );
+                    let _ = update_stage_attempt_status(
+                        &bound_run,
+                        "failed",
+                        Some(decision_ref.clone()),
+                    );
+                    let _ = merge_retained_evidence_ref(
+                        &bound_run.retained_evidence_path,
+                        &request.request_id,
+                        "authority_decision",
+                        decision_ref,
+                    );
+                }
                 return Err(err);
             }
         };
@@ -2273,7 +3341,10 @@ pub fn authorize_execution(
         .into_iter()
         .map(|(_, path)| path)
         .collect::<Vec<_>>();
-    if approval_required && approval_grant_refs.is_empty() && review_metadata.contains_key("human_approval") {
+    if approval_required
+        && approval_grant_refs.is_empty()
+        && review_metadata.contains_key("human_approval")
+    {
         let (_, path) = materialize_projection_grant(
             cfg,
             request,
@@ -2284,7 +3355,10 @@ pub fn authorize_execution(
     }
 
     if approval_required && approval_grant_refs.is_empty() {
-        let mut reason_codes = vec!["HUMAN_APPROVAL_REQUIRED".to_string(), "ACP_STAGE_ONLY_REQUIRED".to_string()];
+        let mut reason_codes = vec![
+            "HUMAN_APPROVAL_REQUIRED".to_string(),
+            "ACP_STAGE_ONLY_REQUIRED".to_string(),
+        ];
         if autonomy_requires_approval {
             reason_codes.insert(0, "MISSION_APPROVAL_REQUIRED".to_string());
         }
@@ -2307,7 +3381,10 @@ pub fn authorize_execution(
         return emit_route_error(
             ExecutionDecision::StageOnly,
             "quorum evidence is required for this execution".to_string(),
-            vec!["QUORUM_EVIDENCE_REQUIRED".to_string(), "ACP_STAGE_ONLY_REQUIRED".to_string()],
+            vec![
+                "QUORUM_EVIDENCE_REQUIRED".to_string(),
+                "ACP_STAGE_ONLY_REQUIRED".to_string(),
+            ],
             ownership.clone(),
             support_tier.clone(),
             reversibility.clone(),
@@ -2323,7 +3400,10 @@ pub fn authorize_execution(
         return emit_route_error(
             ExecutionDecision::StageOnly,
             "rollback metadata is required for this execution".to_string(),
-            vec!["ROLLBACK_METADATA_REQUIRED".to_string(), "ACP_STAGE_ONLY_REQUIRED".to_string()],
+            vec![
+                "ROLLBACK_METADATA_REQUIRED".to_string(),
+                "ACP_STAGE_ONLY_REQUIRED".to_string(),
+            ],
             ownership.clone(),
             support_tier.clone(),
             reversibility.clone(),
@@ -2391,11 +3471,7 @@ pub fn authorize_execution(
         );
     }
 
-    let budget = finalize_execution_budget(
-        cfg,
-        budget_preview_decision,
-        &run_root,
-    )?;
+    let budget = finalize_execution_budget(cfg, budget_preview_decision, &run_root)?;
     if let Some(metadata) = &budget {
         budget_posture = json!({
             "route": "allow",
@@ -2435,6 +3511,12 @@ pub fn authorize_execution(
         autonomy_context: autonomy_state.as_ref().map(|state| state.context.clone()),
         actor_ref,
         run_root: run_root_rel,
+        run_control_root: Some(bound_run.control_root_rel.clone()),
+        run_receipts_root: Some(bound_run.receipts_root_rel.clone()),
+        replay_pointers_path: Some(bound_run.replay_pointers_ref.clone()),
+        trace_pointers_path: Some(bound_run.trace_pointers_ref.clone()),
+        retained_evidence_path: Some(bound_run.retained_evidence_ref.clone()),
+        stage_attempt_ref: Some(bound_run.stage_attempt_ref.clone()),
         policy_receipt_path: policy_artifacts.receipt_path,
         policy_digest_path: policy_artifacts.digest_path,
         instruction_manifest_path: policy_artifacts.instruction_manifest_path,
@@ -2482,10 +3564,67 @@ pub fn authorize_execution(
     grant.decision_artifact_ref = Some(decision_ref);
     let authority_bundle_ref = write_authority_grant_bundle(cfg, &grant)?;
     grant.authority_grant_bundle_ref = Some(authority_bundle_ref);
+    if let Some(policy_receipt_path) = grant.policy_receipt_path.clone() {
+        merge_replay_receipt_ref(
+            &bound_run.replay_pointers_path,
+            &request.request_id,
+            policy_receipt_path.clone(),
+        )?;
+        merge_retained_evidence_ref(
+            &bound_run.retained_evidence_path,
+            &request.request_id,
+            "policy_receipt",
+            policy_receipt_path,
+        )?;
+    }
+    if let Some(policy_digest_path) = grant.policy_digest_path.clone() {
+        merge_retained_evidence_ref(
+            &bound_run.retained_evidence_path,
+            &request.request_id,
+            "policy_digest",
+            policy_digest_path,
+        )?;
+    }
+    if let Some(instruction_manifest_path) = grant.instruction_manifest_path.clone() {
+        merge_retained_evidence_ref(
+            &bound_run.retained_evidence_path,
+            &request.request_id,
+            "instruction_manifest",
+            instruction_manifest_path,
+        )?;
+    }
+    if let Some(decision_artifact_ref) = grant.decision_artifact_ref.clone() {
+        merge_retained_evidence_ref(
+            &bound_run.retained_evidence_path,
+            &request.request_id,
+            "authority_decision",
+            decision_artifact_ref,
+        )?;
+    }
+    if let Some(authority_bundle_ref) = grant.authority_grant_bundle_ref.clone() {
+        merge_retained_evidence_ref(
+            &bound_run.retained_evidence_path,
+            &request.request_id,
+            "authority_grant_bundle",
+            authority_bundle_ref,
+        )?;
+    }
+    update_bound_runtime_state(
+        &bound_run,
+        "authorized",
+        Some("allow"),
+        grant.policy_receipt_path.clone(),
+        Some(bound_run.control_checkpoint_ref.clone()),
+    )?;
+    update_stage_attempt_status(&bound_run, "planned", grant.policy_receipt_path.clone())?;
     Ok(grant)
 }
 
-pub fn artifact_root_from_relative(repo_root: &Path, relative_root: &str, request_id: &str) -> PathBuf {
+pub fn artifact_root_from_relative(
+    repo_root: &Path,
+    relative_root: &str,
+    request_id: &str,
+) -> PathBuf {
     repo_root.join(relative_root).join(request_id)
 }
 
@@ -2524,6 +3663,103 @@ pub fn write_execution_start(
             "grant": grant,
         }),
     )?;
+    if let Some(bound) = bound_run_from_grant(root, grant) {
+        let request_receipt = bound.receipts_root.join("execution-request.json");
+        let decision_receipt = bound.receipts_root.join("policy-decision.json");
+        let grant_receipt = bound.receipts_root.join("grant-bundle.json");
+        copy_json_if_present(&paths.request, &request_receipt)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        copy_json_if_present(&paths.decision, &decision_receipt)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        copy_json_if_present(&paths.grant, &grant_receipt)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let start_control = bound
+            .control_root
+            .join("checkpoints")
+            .join("execution-start.yml");
+        let start_evidence = bound
+            .evidence_root
+            .join("checkpoints")
+            .join("execution-start.yml");
+        let (_, evidence_checkpoint_ref) = write_run_checkpoint(
+            &start_control,
+            &start_evidence,
+            &request.request_id,
+            &bound.stage_attempt_id,
+            "execution-start",
+            "execution-start",
+            "Execution artifacts materialized under the canonical run root.",
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        update_bound_runtime_state(
+            &bound,
+            "running",
+            Some("allow"),
+            Some(path_tail(
+                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                &grant_receipt,
+            )),
+            Some(path_tail(
+                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                &start_control,
+            )),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        update_stage_attempt_status(
+            &bound,
+            "running",
+            Some(path_tail(
+                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                &grant_receipt,
+            )),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_replay_receipt_ref(
+            &bound.replay_pointers_path,
+            &request.request_id,
+            path_tail(
+                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                &grant_receipt,
+            ),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_replay_checkpoint_ref(
+            &bound.replay_pointers_path,
+            &request.request_id,
+            evidence_checkpoint_ref.clone(),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "execution_request",
+            path_tail(
+                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                &request_receipt,
+            ),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "policy_decision",
+            path_tail(
+                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                &decision_receipt,
+            ),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "grant_bundle",
+            path_tail(
+                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                &grant_receipt,
+            ),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+    }
     Ok(paths)
 }
 
@@ -2629,6 +3865,89 @@ pub fn finalize_execution(
         },
     };
     write_json(&paths.receipt, &receipt)?;
+    if let Some(bound) = bound_run_from_grant(&paths.root, grant) {
+        let side_effects_receipt = bound.receipts_root.join("side-effects.json");
+        let outcome_receipt = bound.receipts_root.join("outcome.json");
+        let execution_receipt = bound.receipts_root.join("execution-receipt.json");
+        copy_json_if_present(&paths.side_effects, &side_effects_receipt)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        copy_json_if_present(&paths.outcome, &outcome_receipt)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        copy_json_if_present(&paths.receipt, &execution_receipt)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let terminal_control = bound
+            .control_root
+            .join("checkpoints")
+            .join("execution-complete.yml");
+        let terminal_evidence = bound
+            .evidence_root
+            .join("checkpoints")
+            .join("execution-complete.yml");
+        let (_, evidence_checkpoint_ref) = write_run_checkpoint(
+            &terminal_control,
+            &terminal_evidence,
+            &request.request_id,
+            &bound.stage_attempt_id,
+            "execution-complete",
+            "execution-complete",
+            "Execution outcome materialized under the canonical run root.",
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let repo_root = discover_repo_root(&paths.root).unwrap_or_else(|| PathBuf::from("."));
+        update_bound_runtime_state(
+            &bound,
+            &outcome.status,
+            Some("allow"),
+            Some(path_tail(&repo_root, &execution_receipt)),
+            Some(path_tail(&repo_root, &terminal_control)),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let terminal_stage_status = match outcome.status.as_str() {
+            "succeeded" => "succeeded",
+            "failed" => "failed",
+            "cancelled" => "cancelled",
+            _ => "failed",
+        };
+        update_stage_attempt_status(
+            &bound,
+            terminal_stage_status,
+            Some(path_tail(&repo_root, &execution_receipt)),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_replay_receipt_ref(
+            &bound.replay_pointers_path,
+            &request.request_id,
+            path_tail(&repo_root, &execution_receipt),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_replay_checkpoint_ref(
+            &bound.replay_pointers_path,
+            &request.request_id,
+            evidence_checkpoint_ref,
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "side_effects",
+            path_tail(&repo_root, &side_effects_receipt),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "outcome",
+            path_tail(&repo_root, &outcome_receipt),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "execution_receipt",
+            path_tail(&repo_root, &execution_receipt),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+    }
     Ok(())
 }
 
@@ -2672,9 +3991,7 @@ pub fn build_executor_command(spec: ExecutorCommandSpec<'_>) -> CoreResult<(Comm
         ManagedExecutorKind::Claude => {
             command.arg("-p").arg("--output-format").arg("text");
             if spec.profile.dangerous_flags_allowed {
-                command
-                    .arg("--permission-mode")
-                    .arg("bypassPermissions");
+                command.arg("--permission-mode").arg("bypassPermissions");
             }
         }
     }
@@ -2715,12 +4032,27 @@ fn write_yaml(path: &Path, value: &impl Serialize) -> anyhow::Result<()> {
 
 fn evidence_links(paths: &ExecutionArtifactPaths, grant: &GrantBundle) -> BTreeMap<String, String> {
     let mut links = BTreeMap::new();
-    links.insert("request".to_string(), path_tail(&paths.root, &paths.request));
-    links.insert("decision".to_string(), path_tail(&paths.root, &paths.decision));
+    links.insert(
+        "request".to_string(),
+        path_tail(&paths.root, &paths.request),
+    );
+    links.insert(
+        "decision".to_string(),
+        path_tail(&paths.root, &paths.decision),
+    );
     links.insert("grant".to_string(), path_tail(&paths.root, &paths.grant));
-    links.insert("side_effects".to_string(), path_tail(&paths.root, &paths.side_effects));
-    links.insert("outcome".to_string(), path_tail(&paths.root, &paths.outcome));
-    links.insert("receipt".to_string(), path_tail(&paths.root, &paths.receipt));
+    links.insert(
+        "side_effects".to_string(),
+        path_tail(&paths.root, &paths.side_effects),
+    );
+    links.insert(
+        "outcome".to_string(),
+        path_tail(&paths.root, &paths.outcome),
+    );
+    links.insert(
+        "receipt".to_string(),
+        path_tail(&paths.root, &paths.receipt),
+    );
     if let Some(path) = &grant.policy_receipt_path {
         links.insert("policy_receipt".to_string(), path.clone());
     }
@@ -2730,16 +4062,35 @@ fn evidence_links(paths: &ExecutionArtifactPaths, grant: &GrantBundle) -> BTreeM
     if let Some(path) = &grant.instruction_manifest_path {
         links.insert("instruction_manifest".to_string(), path.clone());
     }
-    links.insert(
-        "run_root".to_string(),
-        grant.run_root.clone(),
-    );
+    links.insert("run_root".to_string(), grant.run_root.clone());
+    if let Some(path) = &grant.run_control_root {
+        links.insert("run_control_root".to_string(), path.clone());
+    }
+    if let Some(path) = &grant.run_receipts_root {
+        links.insert("run_receipts_root".to_string(), path.clone());
+    }
+    if let Some(path) = &grant.replay_pointers_path {
+        links.insert("replay_pointers".to_string(), path.clone());
+    }
+    if let Some(path) = &grant.trace_pointers_path {
+        links.insert("trace_pointers".to_string(), path.clone());
+    }
+    if let Some(path) = &grant.retained_evidence_path {
+        links.insert("retained_evidence".to_string(), path.clone());
+    }
+    if let Some(path) = &grant.stage_attempt_ref {
+        links.insert("stage_attempt".to_string(), path.clone());
+    }
     if let Some(budget) = &grant.budget {
         if let Some(path) = &budget.evidence_path {
             links.insert("cost".to_string(), path.clone());
         }
     }
-    if grant.granted_capabilities.iter().any(|value| value == "net.http") {
+    if grant
+        .granted_capabilities
+        .iter()
+        .any(|value| value == "net.http")
+    {
         links.insert(
             "network_egress".to_string(),
             format!("{}/network-egress.ndjson", grant.run_root),
@@ -2761,10 +4112,7 @@ fn evidence_links(paths: &ExecutionArtifactPaths, grant: &GrantBundle) -> BTreeM
         );
     }
     if !grant.revocation_refs.is_empty() {
-        links.insert(
-            "revocations".to_string(),
-            grant.revocation_refs.join(","),
-        );
+        links.insert("revocations".to_string(), grant.revocation_refs.join(","));
     }
     if let Some(path) = &grant.decision_artifact_ref {
         links.insert("authority_decision".to_string(), path.clone());
@@ -2854,7 +4202,9 @@ fn compose_policy_receipt(
             ACP_TEST_LOCK
                 .get_or_init(|| Mutex::new(()))
                 .lock()
-                .map_err(|_| KernelError::new(ErrorCode::Internal, "failed to acquire ACP test lock"))?,
+                .map_err(|_| {
+                    KernelError::new(ErrorCode::Internal, "failed to acquire ACP test lock")
+                })?,
         )
     } else {
         None
@@ -2875,33 +4225,45 @@ fn compose_policy_receipt(
             policy_runner = source_root.join(".octon/framework/engine/runtime/policy");
         }
         if !policy_file.is_file() {
-            policy_file = source_root.join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml");
+            policy_file = source_root
+                .join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml");
         }
         if !receipt_writer.is_file() {
-            receipt_writer = source_root.join(".octon/framework/capabilities/_ops/scripts/policy-receipt-write.sh");
+            receipt_writer = source_root
+                .join(".octon/framework/capabilities/_ops/scripts/policy-receipt-write.sh");
         }
     }
     if !policy_runner.is_file() {
         return Err(KernelError::new(
             ErrorCode::Internal,
-            format!("execution authorization requires ACP runner: {}", policy_runner.display()),
+            format!(
+                "execution authorization requires ACP runner: {}",
+                policy_runner.display()
+            ),
         ));
     }
     if !receipt_writer.is_file() {
         return Err(KernelError::new(
             ErrorCode::Internal,
-            format!("execution authorization requires ACP receipt writer: {}", receipt_writer.display()),
+            format!(
+                "execution authorization requires ACP receipt writer: {}",
+                receipt_writer.display()
+            ),
         ));
     }
     if !policy_file.is_file() {
         return Err(KernelError::new(
             ErrorCode::Internal,
-            format!("execution authorization requires ACP policy file: {}", policy_file.display()),
+            format!(
+                "execution authorization requires ACP policy file: {}",
+                policy_file.display()
+            ),
         ));
     }
 
     let request_path = unique_temp_file(&format!("policy-request-{}", request.request_id), "json");
-    let decision_path = unique_temp_file(&format!("policy-decision-{}", request.request_id), "json");
+    let decision_path =
+        unique_temp_file(&format!("policy-decision-{}", request.request_id), "json");
     let run_root = cfg
         .repo_root
         .join(".octon/state/evidence/runs")
@@ -2911,6 +4273,9 @@ fn compose_policy_receipt(
     let receipt_path = run_root.join("receipt.latest.json");
     let digest_path = run_root.join("digest.latest.md");
     let instruction_manifest_path = run_root.join("instruction-layer-manifest.json");
+    let canonical_receipts_root = run_root.join("receipts");
+    let canonical_policy_receipt_path = canonical_receipts_root.join("policy-receipt.latest.json");
+    let canonical_policy_digest_path = canonical_receipts_root.join("policy-digest.latest.md");
 
     let request_json = build_policy_request_json(
         cfg,
@@ -2929,20 +4294,42 @@ fn compose_policy_receipt(
         network_egress_posture,
     )?;
 
-    fs::create_dir_all(&run_root)
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to create ACP run root: {e}")))?;
+    fs::create_dir_all(&run_root).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to create ACP run root: {e}"),
+        )
+    })?;
     fs::write(
         &request_path,
-        serde_json::to_vec_pretty(&request_json)
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to serialize policy request temp file: {e}")))?,
+        serde_json::to_vec_pretty(&request_json).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to serialize policy request temp file: {e}"),
+            )
+        })?,
     )
-    .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to write policy request temp file: {e}")))?;
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write policy request temp file: {e}"),
+        )
+    })?;
     fs::write(
         &execution_request_path,
-        serde_json::to_vec_pretty(&request_json)
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to serialize execution request artifact: {e}")))?,
+        serde_json::to_vec_pretty(&request_json).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to serialize execution request artifact: {e}"),
+            )
+        })?,
     )
-    .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to write execution request artifact: {e}")))?;
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write execution request artifact: {e}"),
+        )
+    })?;
     let acp_output = Command::new("bash")
         .arg(&policy_runner)
         .arg("acp-enforce")
@@ -2952,7 +4339,12 @@ fn compose_policy_receipt(
         .arg(&execution_request_path)
         .current_dir(&cfg.repo_root)
         .output()
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to spawn ACP execution flow: {e}")))?;
+        .map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to spawn ACP execution flow: {e}"),
+            )
+        })?;
     let stdout = String::from_utf8_lossy(&acp_output.stdout).to_string();
     let decision_json: serde_json::Value = serde_json::from_str(stdout.trim()).map_err(|e| {
         KernelError::new(
@@ -2970,7 +4362,12 @@ fn compose_policy_receipt(
         "ESCALATE" => ExecutionDecision::Escalate,
         _ => ExecutionDecision::Deny,
     };
-    if !acp_output.status.success() && !matches!(decision, ExecutionDecision::Deny | ExecutionDecision::StageOnly | ExecutionDecision::Escalate) {
+    if !acp_output.status.success()
+        && !matches!(
+            decision,
+            ExecutionDecision::Deny | ExecutionDecision::StageOnly | ExecutionDecision::Escalate
+        )
+    {
         return Err(KernelError::new(
             ErrorCode::Internal,
             format!(
@@ -2981,16 +4378,34 @@ fn compose_policy_receipt(
     }
     fs::write(
         &decision_path,
-        serde_json::to_vec_pretty(&decision_json)
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to serialize ACP decision: {e}")))?,
+        serde_json::to_vec_pretty(&decision_json).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to serialize ACP decision: {e}"),
+            )
+        })?,
     )
-    .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to write ACP decision temp file: {e}")))?;
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write ACP decision temp file: {e}"),
+        )
+    })?;
     fs::write(
         &policy_decision_path,
-        serde_json::to_vec_pretty(&decision_json)
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to serialize policy decision artifact: {e}")))?,
+        serde_json::to_vec_pretty(&decision_json).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to serialize policy decision artifact: {e}"),
+            )
+        })?,
     )
-    .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to write policy decision artifact: {e}")))?;
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write policy decision artifact: {e}"),
+        )
+    })?;
     write_instruction_manifest(
         &instruction_manifest_path,
         request_json
@@ -3008,7 +4423,12 @@ fn compose_policy_receipt(
         .arg(&decision_path)
         .current_dir(&cfg.repo_root)
         .output()
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to emit ACP receipt: {e}")))?;
+        .map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to emit ACP receipt: {e}"),
+            )
+        })?;
     fs::remove_file(&request_path).ok();
     fs::remove_file(&decision_path).ok();
     if !receipt_output.status.success() {
@@ -3027,6 +4447,19 @@ fn compose_policy_receipt(
             "policy receipt writer did not emit receipt.latest.json",
         ));
     }
+    fs::create_dir_all(&canonical_receipts_root).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to create canonical receipt root {}: {e}",
+                canonical_receipts_root.display()
+            ),
+        )
+    })?;
+    copy_json_if_present(&receipt_path, &canonical_policy_receipt_path)?;
+    if digest_path.is_file() {
+        copy_json_if_present(&digest_path, &canonical_policy_digest_path)?;
+    }
     let validate_output = Command::new("bash")
         .arg(&policy_runner)
         .arg("receipt-validate")
@@ -3036,7 +4469,12 @@ fn compose_policy_receipt(
         .arg(&receipt_path)
         .current_dir(&cfg.repo_root)
         .output()
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to validate ACP receipt: {e}")))?;
+        .map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to validate ACP receipt: {e}"),
+            )
+        })?;
     if !validate_output.status.success() {
         return Err(KernelError::new(
             ErrorCode::Internal,
@@ -3046,6 +4484,31 @@ fn compose_policy_receipt(
             ),
         ));
     }
+    merge_replay_receipt_ref(
+        &replay_pointers_path(cfg, &request.request_id),
+        &request.request_id,
+        path_tail(&cfg.repo_root, &canonical_policy_receipt_path),
+    )?;
+    merge_retained_evidence_ref(
+        &retained_evidence_path(cfg, &request.request_id),
+        &request.request_id,
+        "policy_receipt",
+        path_tail(&cfg.repo_root, &canonical_policy_receipt_path),
+    )?;
+    if canonical_policy_digest_path.is_file() {
+        merge_retained_evidence_ref(
+            &retained_evidence_path(cfg, &request.request_id),
+            &request.request_id,
+            "policy_digest",
+            path_tail(&cfg.repo_root, &canonical_policy_digest_path),
+        )?;
+    }
+    merge_retained_evidence_ref(
+        &retained_evidence_path(cfg, &request.request_id),
+        &request.request_id,
+        "instruction_manifest",
+        path_tail(&cfg.repo_root, &instruction_manifest_path),
+    )?;
 
     Ok(PolicyArtifacts {
         allow: decision_json
@@ -3067,9 +4530,9 @@ fn compose_policy_receipt(
             .get("remediation")
             .and_then(|value| value.as_str())
             .map(ToOwned::to_owned),
-        receipt_path: Some(path_tail(&cfg.repo_root, &receipt_path)),
+        receipt_path: Some(path_tail(&cfg.repo_root, &canonical_policy_receipt_path)),
         digest_path: if digest_path.is_file() {
-            Some(path_tail(&cfg.repo_root, &digest_path))
+            Some(path_tail(&cfg.repo_root, &canonical_policy_digest_path))
         } else {
             None
         },
@@ -3111,8 +4574,12 @@ fn build_policy_request_json(
     revocation_refs: &[String],
     network_egress_posture: Option<&NetworkEgressPosture>,
 ) -> CoreResult<serde_json::Value> {
-    let request_json = serde_json::to_vec(request)
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to serialize execution request: {e}")))?;
+    let request_json = serde_json::to_vec(request).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to serialize execution request: {e}"),
+        )
+    })?;
     let service_mode = request.caller_path == "service";
     let operation_class = if service_mode {
         autonomy_state
@@ -3285,8 +4752,12 @@ fn policy_profile_for_request(request: &ExecutionRequest) -> &'static str {
 
 fn write_instruction_manifest(path: &Path, layers: serde_json::Value) -> CoreResult<()> {
     if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent)
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to create instruction manifest directory: {e}")))?;
+        fs::create_dir_all(parent).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to create instruction manifest directory: {e}"),
+            )
+        })?;
     }
     fs::write(
         path,
@@ -3297,9 +4768,19 @@ fn write_instruction_manifest(path: &Path, layers: serde_json::Value) -> CoreRes
                 .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string()),
             "layers": layers,
         }))
-        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to serialize instruction manifest: {e}")))?,
+        .map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to serialize instruction manifest: {e}"),
+            )
+        })?,
     )
-    .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to write instruction manifest: {e}")))?;
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write instruction manifest: {e}"),
+        )
+    })?;
     Ok(())
 }
 
@@ -3328,16 +4809,13 @@ fn authorize_network_egress(
         .get("network_egress_method")
         .map(|value| value.as_str())
         .unwrap_or("GET");
-    let url = request
-        .metadata
-        .get("network_egress_url")
-        .ok_or_else(|| {
-            KernelError::new(
-                ErrorCode::CapabilityDenied,
-                "network-capable execution request missing network target metadata",
-            )
-            .with_details(json!({"reason_codes":["NETWORK_EGRESS_CONTEXT_MISSING"]}))
-        })?;
+    let url = request.metadata.get("network_egress_url").ok_or_else(|| {
+        KernelError::new(
+            ErrorCode::CapabilityDenied,
+            "network-capable execution request missing network target metadata",
+        )
+        .with_details(json!({"reason_codes":["NETWORK_EGRESS_CONTEXT_MISSING"]}))
+    })?;
     let policy = load_network_egress_policy(&cfg.repo_root)?;
     let leases = load_execution_exception_leases(&cfg.repo_root)?;
     evaluate_network_egress(
@@ -3372,8 +4850,14 @@ fn preview_execution_budget(
         .cloned()
         .or_else(|| {
             infer_provider_from_model(
-                request.metadata.get("budget_model").map(|value| value.as_str()),
-                request.metadata.get("executor_kind").map(|value| value.as_str()),
+                request
+                    .metadata
+                    .get("budget_model")
+                    .map(|value| value.as_str()),
+                request
+                    .metadata
+                    .get("executor_kind")
+                    .map(|value| value.as_str()),
             )
         });
     let prompt_bytes = request
@@ -3389,7 +4873,10 @@ fn preview_execution_budget(
             action_type: &request.action_type,
             executor_profile,
             provider: provider.as_deref(),
-            model: request.metadata.get("budget_model").map(|value| value.as_str()),
+            model: request
+                .metadata
+                .get("budget_model")
+                .map(|value| value.as_str()),
             prompt_bytes,
         },
     );
@@ -3501,7 +4988,11 @@ fn unique_temp_file(stem: &str, extension: &str) -> PathBuf {
         .duration_since(std::time::UNIX_EPOCH)
         .map(|duration| duration.as_millis())
         .unwrap_or(0);
-    std::env::temp_dir().join(format!("{stem}-{millis}-{}.{}", std::process::id(), extension))
+    std::env::temp_dir().join(format!(
+        "{stem}-{millis}-{}.{}",
+        std::process::id(),
+        extension
+    ))
 }
 
 fn zero_sha256() -> String {
@@ -3521,26 +5012,28 @@ fn sha256_bytes(bytes: &[u8]) -> String {
 }
 
 fn file_size(path: &Path) -> usize {
-    fs::metadata(path).map(|meta| meta.len() as usize).unwrap_or(0)
+    fs::metadata(path)
+        .map(|meta| meta.len() as usize)
+        .unwrap_or(0)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use octon_core::config::{ExecutionGovernanceConfig, PolicyConfig, ReceiptRootsConfig, RuntimeConfig};
+    use octon_core::config::{
+        ExecutionGovernanceConfig, PolicyConfig, ReceiptRootsConfig, RuntimeConfig,
+    };
     use std::fs;
-    use std::time::{SystemTime, UNIX_EPOCH};
     use std::path::PathBuf;
+    use std::time::{SystemTime, UNIX_EPOCH};
 
     fn temp_runtime_config() -> RuntimeConfig {
         let stamp = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .expect("time should move forward")
             .as_nanos();
-        let base = std::env::temp_dir().join(format!(
-            "octon-auth-test-{}-{stamp}",
-            std::process::id()
-        ));
+        let base =
+            std::env::temp_dir().join(format!("octon-auth-test-{}-{stamp}", std::process::id()));
         let _ = fs::remove_dir_all(&base);
         fs::create_dir_all(base.join(".octon/instance/cognition/context/shared"))
             .expect("create intent dir");
@@ -3562,8 +5055,7 @@ mod tests {
             .expect("create revocation dir");
         fs::create_dir_all(base.join(".octon/generated/.tmp/execution"))
             .expect("create execution tmp dir");
-        fs::create_dir_all(base.join(".octon/instance/governance"))
-            .expect("create governance dir");
+        fs::create_dir_all(base.join(".octon/instance/governance")).expect("create governance dir");
         fs::create_dir_all(base.join(".octon/instance/governance/ownership"))
             .expect("create ownership dir");
         fs::write(
@@ -3596,7 +5088,8 @@ mod tests {
             .canonicalize()
             .expect("source repo root should resolve");
         fs::copy(
-            source_root.join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"),
+            source_root
+                .join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"),
             base.join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"),
         )
         .expect("copy ACP policy");
@@ -3607,7 +5100,9 @@ mod tests {
             execution_control_root: base.join(".octon/state/control/execution"),
             execution_tmp_root: base.join(".octon/generated/.tmp/execution"),
             policy: PolicyConfig::default(),
-            policy_path: Some(PathBuf::from("framework/capabilities/governance/policy/deny-by-default.v2.yml")),
+            policy_path: Some(PathBuf::from(
+                "framework/capabilities/governance/policy/deny-by-default.v2.yml",
+            )),
             execution_governance: ExecutionGovernanceConfig {
                 receipt_roots: ReceiptRootsConfig::default(),
                 ..ExecutionGovernanceConfig::default()
@@ -3697,7 +5192,12 @@ mod tests {
         .expect("write scenario resolution");
     }
 
-    fn mission_request(cfg: &RuntimeConfig, mission_id: &str, oversight_mode: &str, reversibility_class: &str) -> ExecutionRequest {
+    fn mission_request(
+        cfg: &RuntimeConfig,
+        mission_id: &str,
+        oversight_mode: &str,
+        reversibility_class: &str,
+    ) -> ExecutionRequest {
         let control_dir = cfg.execution_control_root.join("missions").join(mission_id);
         let effective_dir = cfg
             .octon_dir
@@ -3706,7 +5206,12 @@ mod tests {
         let budget_state = fs::read_to_string(control_dir.join("autonomy-budget.yml"))
             .ok()
             .and_then(|raw| serde_yaml::from_str::<serde_yaml::Value>(&raw).ok())
-            .and_then(|value| value.get("state").and_then(|inner| inner.as_str()).map(str::to_string))
+            .and_then(|value| {
+                value
+                    .get("state")
+                    .and_then(|inner| inner.as_str())
+                    .map(str::to_string)
+            })
             .unwrap_or_else(|| "healthy".to_string());
         fs::write(
             control_dir.join("mode-state.yml"),
@@ -3831,8 +5336,8 @@ mod tests {
     #[test]
     fn executor_wrapper_blocks_dangerous_flags_by_default() {
         let cfg = temp_runtime_config();
-        let profile = resolve_executor_profile(&cfg, "read_only_analysis")
-            .expect("profile should exist");
+        let profile =
+            resolve_executor_profile(&cfg, "read_only_analysis").expect("profile should exist");
         let (_, blocked) = build_executor_command(ExecutorCommandSpec {
             kind: ManagedExecutorKind::Codex,
             executor_bin: Path::new("/usr/bin/env"),
@@ -3870,7 +5375,10 @@ mod tests {
             .expect("autonomous request with seeded mission surfaces should authorize");
         assert_eq!(grant.workflow_mode, "autonomous");
         assert_eq!(
-            grant.autonomy_context.as_ref().map(|value| value.mission_ref.id.as_str()),
+            grant
+                .autonomy_context
+                .as_ref()
+                .map(|value| value.mission_ref.id.as_str()),
             Some("mission-a")
         );
         assert_eq!(grant.autonomy_budget_state.as_deref(), Some("healthy"));
@@ -3916,10 +5424,9 @@ mod tests {
         assert!(encoded.contains("ref:"));
         assert!(!encoded.contains("ref_id:"));
 
-        let decoded: AuthorityProjection = serde_yaml::from_str(
-            "kind: github-label\nref: github://pull/214/label/accept:human\n",
-        )
-        .expect("decode canonical projection");
+        let decoded: AuthorityProjection =
+            serde_yaml::from_str("kind: github-label\nref: github://pull/214/label/accept:human\n")
+                .expect("decode canonical projection");
         assert_eq!(decoded.ref_id, "github://pull/214/label/accept:human");
 
         let legacy: AuthorityProjection = serde_yaml::from_str(
@@ -3960,7 +5467,10 @@ mod tests {
         .expect("rewrite support targets");
         let err = authorize_execution(&cfg, &policy, &minimal_request(), None)
             .expect_err("unsupported support tier should deny");
-        assert_eq!(err.details["reason_codes"][0].as_str(), Some("SUPPORT_TIER_UNSUPPORTED"));
+        assert_eq!(
+            err.details["reason_codes"][0].as_str(),
+            Some("SUPPORT_TIER_UNSUPPORTED")
+        );
     }
 
     #[test]
@@ -3985,8 +5495,9 @@ mod tests {
         let policy = PolicyEngine::new(cfg.clone());
         let request = mission_request(&cfg, "mission-d", "feedback_window", "reversible");
         fs::remove_file(
-            cfg.octon_dir
-                .join("generated/effective/orchestration/missions/mission-d/scenario-resolution.yml"),
+            cfg.octon_dir.join(
+                "generated/effective/orchestration/missions/mission-d/scenario-resolution.yml",
+            ),
         )
         .expect("remove scenario resolution");
         let err = authorize_execution(&cfg, &policy, &request, None)
@@ -4010,7 +5521,10 @@ mod tests {
         let stale = fs::read_to_string(&effective_path).expect("read route");
         fs::write(
             &effective_path,
-            stale.replace("fresh_until: \"2099-03-24T00:00:00Z\"", "fresh_until: \"2020-03-24T00:00:00Z\""),
+            stale.replace(
+                "fresh_until: \"2099-03-24T00:00:00Z\"",
+                "fresh_until: \"2020-03-24T00:00:00Z\"",
+            ),
         )
         .expect("rewrite route stale");
         let err = authorize_execution(&cfg, &policy, &request, None)
@@ -4034,7 +5548,10 @@ mod tests {
         let route = fs::read_to_string(&effective_path).expect("read route");
         fs::write(
             &effective_path,
-            route.replace("    action_class: \"git.commit\"\n", "    action_class: \"\"\n"),
+            route.replace(
+                "    action_class: \"git.commit\"\n",
+                "    action_class: \"\"\n",
+            ),
         )
         .expect("rewrite route without action class");
         let err = authorize_execution(&cfg, &policy, &request, None)

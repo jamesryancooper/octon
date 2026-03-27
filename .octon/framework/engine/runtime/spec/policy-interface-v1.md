@@ -39,8 +39,12 @@ These launchers are the canonical invocation boundary for policy operations.
   - `/.octon/instance/cognition/context/shared/intent.contract.yml`
 - Canonical authority contracts are published under:
   - `/.octon/framework/constitution/contracts/authority/`
+- Canonical runtime contracts are published under:
+  - `/.octon/framework/constitution/contracts/runtime/`
 - Canonical run-contract control roots are published under:
   - `/.octon/state/control/execution/runs/`
+- Canonical run lifecycle control files are published under:
+  - `/.octon/state/control/execution/runs/<run_id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
 - Canonical approval control roots are published under:
   - `/.octon/state/control/execution/approvals/requests`
   - `/.octon/state/control/execution/approvals/grants`
@@ -111,6 +115,14 @@ Wave 1 coexistence rule:
 - run contracts define the canonical atomic execution unit under
   `state/control/execution/runs/**`
 
+Wave 3 lifecycle rule:
+
+- consequential stages must bind the canonical run control and evidence roots
+  before approval materialization, policy receipts, or other consequential
+  side effects occur
+- mission summaries and mission views may consume run evidence, but they may
+  not replace the bound run root as the execution-time unit of truth
+
 For material ACP runs (`phase=promote|finalize` or explicit material side-effect
 flags), the wrapper executes a single mandatory path:
 
@@ -148,6 +160,9 @@ also satisfy:
 - repo-owned ownership and support-target declarations for consequential work
 - retained run evidence under `state/evidence/runs/<run_id>/**` for any
   resulting egress or cost artifacts
+- canonical run receipts under `state/evidence/runs/<run_id>/receipts/**`
+- canonical replay and trace pointers under
+  `state/evidence/runs/<run_id>/{replay-pointers.yml,trace-pointers.yml}`
 
 Host labels, comments, checks, and similar affordances remain projection-only.
 Runtime may translate them into canonical approval artifacts, but policy

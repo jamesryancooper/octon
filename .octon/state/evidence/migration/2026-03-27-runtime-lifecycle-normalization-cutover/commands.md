@@ -1,0 +1,30 @@
+# Wave 3 Command Log
+
+- `bash -n .octon/framework/orchestration/runtime/_ops/scripts/write-run.sh`
+- `bash -n .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh`
+- `bash -n .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh`
+- `cargo fmt --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml --all`
+- `cargo check --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml`
+- `bash .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh --target missions`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-view-generation.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-generated-summaries.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-source-of-truth.sh`
+- `bash .octon/framework/orchestration/runtime/runs/_ops/scripts/validate-runs.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-lifecycle-cutover.sh`
+- `bash .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh`
+- `bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh`
+- `bash .octon/framework/orchestration/runtime/_ops/scripts/write-decision.sh --decision-id dec-wave3-runtime-bridge-20260327 ...`
+- `bash .octon/framework/orchestration/runtime/_ops/scripts/write-run.sh create --run-id run-wave3-runtime-bridge-20260327 ...`
+- `bash .octon/framework/orchestration/runtime/_ops/scripts/write-run.sh complete --run-id run-wave3-runtime-bridge-20260327 ...`
+- `bash .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh --target missions`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-continuity-memory.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile mission-autonomy`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh`

@@ -65,6 +65,8 @@ else
   MISSION_REGISTRY_PATH="$OCTON_DIR/instance/orchestration/missions/registry.yml"
   MISSION_AUTHORITY_ROOT="$OCTON_DIR/instance/orchestration/missions"
   MISSION_CONTROL_ROOT="$OCTON_DIR/state/control/execution/missions"
+  RUN_CONTROL_ROOT="$OCTON_DIR/state/control/execution/runs"
+  RUN_EVIDENCE_ROOT="$OCTON_DIR/state/evidence/runs"
   MISSION_CONTINUITY_ROOT="$OCTON_DIR/state/continuity/repo/missions"
   MISSION_EFFECTIVE_ROUTE_ROOT="$OCTON_DIR/generated/effective/orchestration/missions"
   MISSION_SUMMARIES_ROOT="$GENERATED_COGNITION_DIR/summaries/missions"
@@ -269,6 +271,17 @@ extract_active_mission_ids() {
       print line
     }
   ' "$file"
+}
+
+collect_mission_run_ids() {
+  local mission_id="$1"
+  [[ -d "$RUN_CONTROL_ROOT" ]] || return 0
+  while IFS= read -r contract_file; do
+    [[ -n "$contract_file" ]] || continue
+    if [[ "$(yq -r '.objective_refs.mission_id // ""' "$contract_file" 2>/dev/null || true)" == "$mission_id" ]]; then
+      basename "$(dirname "$contract_file")"
+    fi
+  done < <(find "$RUN_CONTROL_ROOT" -mindepth 2 -maxdepth 2 -type f -name 'run-contract.yml' | sort)
 }
 
 operator_slug() {
@@ -896,6 +909,50 @@ generate_mission_autonomy_views() {
     [[ -z "$breaker_state" ]] && breaker_state="unknown"
     [[ -z "$route_ref" ]] && route_ref="/.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml"
 
+    local run_ids_file run_contract_refs_file runtime_state_refs_file rollback_posture_refs_file
+    local checkpoint_refs_file receipt_refs_file replay_pointer_refs_file retained_evidence_refs_file trace_pointer_refs_file
+    local run_count active_run_ids first_receipt_ref first_replay_pointer_ref
+    run_ids_file="$(mktemp "$TMP_ROOT/mission-run-ids.XXXX")"
+    run_contract_refs_file="$(mktemp "$TMP_ROOT/mission-run-contracts.XXXX")"
+    runtime_state_refs_file="$(mktemp "$TMP_ROOT/mission-runtime-states.XXXX")"
+    rollback_posture_refs_file="$(mktemp "$TMP_ROOT/mission-rollback-postures.XXXX")"
+    checkpoint_refs_file="$(mktemp "$TMP_ROOT/mission-checkpoints.XXXX")"
+    receipt_refs_file="$(mktemp "$TMP_ROOT/mission-receipts.XXXX")"
+    replay_pointer_refs_file="$(mktemp "$TMP_ROOT/mission-replay-pointers.XXXX")"
+    retained_evidence_refs_file="$(mktemp "$TMP_ROOT/mission-retained-evidence.XXXX")"
+    trace_pointer_refs_file="$(mktemp "$TMP_ROOT/mission-trace-pointers.XXXX")"
+    : > "$run_ids_file"
+    : > "$run_contract_refs_file"
+    : > "$runtime_state_refs_file"
+    : > "$rollback_posture_refs_file"
+    : > "$checkpoint_refs_file"
+    : > "$receipt_refs_file"
+    : > "$replay_pointer_refs_file"
+    : > "$retained_evidence_refs_file"
+    : > "$trace_pointer_refs_file"
+
+    while IFS= read -r run_id; do
+      [[ -n "$run_id" ]] || continue
+      printf '%s\n' "$run_id" >> "$run_ids_file"
+      printf '/.octon/state/control/execution/runs/%s/run-contract.yml\n' "$run_id" >> "$run_contract_refs_file"
+      printf '/.octon/state/control/execution/runs/%s/runtime-state.yml\n' "$run_id" >> "$runtime_state_refs_file"
+      printf '/.octon/state/control/execution/runs/%s/rollback-posture.yml\n' "$run_id" >> "$rollback_posture_refs_file"
+      printf '/.octon/state/control/execution/runs/%s/checkpoints/bound.yml\n' "$run_id" >> "$checkpoint_refs_file"
+      printf '/.octon/state/evidence/runs/%s/replay-pointers.yml\n' "$run_id" >> "$replay_pointer_refs_file"
+      printf '/.octon/state/evidence/runs/%s/retained-run-evidence.yml\n' "$run_id" >> "$retained_evidence_refs_file"
+      printf '/.octon/state/evidence/runs/%s/trace-pointers.yml\n' "$run_id" >> "$trace_pointer_refs_file"
+      if [[ -d "$RUN_EVIDENCE_ROOT/$run_id/receipts" ]]; then
+        while IFS= read -r receipt_file; do
+          printf '/.octon/state/evidence/runs/%s/receipts/%s\n' "$run_id" "$(basename "$receipt_file")" >> "$receipt_refs_file"
+        done < <(find "$RUN_EVIDENCE_ROOT/$run_id/receipts" -maxdepth 1 -type f | sort)
+      fi
+    done < <(collect_mission_run_ids "$mission_id")
+
+    run_count="$(awk 'NF {count++} END {print count+0}' "$run_ids_file")"
+    active_run_ids="$(paste -sd ',' "$run_ids_file" 2>/dev/null || true)"
+    first_receipt_ref="$(head -n1 "$receipt_refs_file" 2>/dev/null || true)"
+    first_replay_pointer_ref="$(head -n1 "$replay_pointer_refs_file" 2>/dev/null || true)"
+
     local raw_now raw_next raw_recent raw_recover raw_projection raw_operator operator_id
 
     raw_now="$(mktemp "$TMP_ROOT/mission-now.XXXX")"
@@ -989,6 +1046,9 @@ generator_version: "__GENERATOR_VERSION__"
 - mission_id: \`${mission_id}\`
 - route_fresh_until: \`${route_fresh_until}\`
 - retained_run_evidence_root: \`/.octon/state/evidence/runs/\`
+- run_count: \`${run_count}\`
+- active_run_ids: \`${active_run_ids}\`
+- first_receipt_ref: \`${first_receipt_ref}\`
 - retained_control_evidence_root: \`/.octon/state/evidence/control/execution/\`
 - active_directives: \`${active_directives}\`
 - active_authorize_updates: \`${active_authorize_updates}\`
@@ -1019,6 +1079,7 @@ generator_version: "__GENERATOR_VERSION__"
 - recovery_window: \`${route_recovery_window}\`
 - route_ref: \`${route_ref}\`
 - recovery_source: \`/.octon/state/evidence/runs/\`
+- replay_pointer_ref: \`${first_replay_pointer_ref}\`
 - mode_state: \`/.octon/state/control/execution/missions/${mission_id}/mode-state.yml\`
 EOF
     perl -0pi -e 's#__GENERATOR_VERSION__#'"$GENERATOR_VERSION"'#g' "$raw_recover"
@@ -1063,6 +1124,25 @@ recovery_finalize_summary:
   recovery_window: $(yaml_quote "$route_recovery_window")
   block_finalize: $(yq -r '.effective.finalize_policy.block_finalize // false' "$scenario_route_file" 2>/dev/null || printf 'false')
   exception_active: $(yq -r '.effective.finalize_policy.exception_active // false' "$scenario_route_file" 2>/dev/null || printf 'false')
+run_evidence_refs:
+  active_run_ids:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$run_ids_file")
+  run_contracts:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$run_contract_refs_file")
+  runtime_states:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$runtime_state_refs_file")
+  rollback_postures:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$rollback_posture_refs_file")
+  checkpoints:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$checkpoint_refs_file")
+  receipts:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$receipt_refs_file")
+  replay_pointers:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$replay_pointer_refs_file")
+  retained_evidence:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$retained_evidence_refs_file")
+  trace_pointers:
+$(awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}' "$trace_pointer_refs_file")
 summary_refs:
   now: "/.octon/generated/cognition/summaries/missions/${mission_id}/now.md"
   next: "/.octon/generated/cognition/summaries/missions/${mission_id}/next.md"
@@ -1076,6 +1156,7 @@ source_refs:
   route: "/.octon/generated/effective/orchestration/missions/${mission_id}/scenario-resolution.yml"
   mode_state: "/.octon/state/control/execution/missions/${mission_id}/mode-state.yml"
   intent_register: "/.octon/state/control/execution/missions/${mission_id}/intent-register.yml"
+  run_control_root: "/.octon/state/control/execution/runs/"
 $(if [[ -n "$current_slice_ref" ]]; then printf '  current_action_slice: "%s"\n' "$current_slice_ref"; fi)
   continuity: "/.octon/state/continuity/repo/missions/${mission_id}/handoff.md"
   control_evidence_root: "/.octon/state/evidence/control/execution/"

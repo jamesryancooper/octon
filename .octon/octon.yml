@@ -78,11 +78,13 @@ resolution:
     - generated
   runtime_inputs:
     objective_contract_family: .octon/framework/constitution/contracts/objective
+    runtime_contract_family: .octon/framework/constitution/contracts/runtime
     workspace_objective_brief: .octon/instance/bootstrap/OBJECTIVE.md
     workspace_intent_contract: .octon/instance/cognition/context/shared/intent.contract.yml
     proposals_registry: .octon/generated/proposals/registry.yml
     continuity: .octon/state/continuity/
     run_control_root: .octon/state/control/execution/runs
+    run_evidence_root: .octon/state/evidence/runs
     missions_registry: .octon/instance/orchestration/missions/registry.yml
     mission_control_root: .octon/state/control/execution/missions
     mission_continuity_root: .octon/state/continuity/repo/missions

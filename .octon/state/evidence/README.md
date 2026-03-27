@@ -6,7 +6,7 @@
 
 | Path | Purpose |
 | --- | --- |
-| `state/evidence/runs/**` | Run receipts, digests, and execution evidence |
+| `state/evidence/runs/**` | Run receipts, checkpoints, replay pointers, trace pointers, and retained execution evidence |
 | `state/evidence/control/execution/**` | Retained authority decisions, grant bundles, and control-plane mutation evidence |
 | `state/evidence/decisions/**` | Operational allow/block/escalate evidence |
 | `state/evidence/validation/**` | Validation receipts and audit evidence |

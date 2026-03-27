@@ -170,9 +170,12 @@ pub struct ConfigLoader;
 
 impl ConfigLoader {
     pub fn load(octon_dir: &Path) -> Result<RuntimeConfig> {
-        let octon_dir = octon_dir
-            .canonicalize()
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to canonicalize octon_dir: {e}")))?;
+        let octon_dir = octon_dir.canonicalize().map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to canonicalize octon_dir: {e}"),
+            )
+        })?;
 
         let repo_root = octon_dir
             .parent()
@@ -181,10 +184,7 @@ impl ConfigLoader {
 
         let run_evidence_root = octon_dir.join("state").join("evidence").join("runs");
         let execution_control_root = octon_dir.join("state").join("control").join("execution");
-        let execution_tmp_root = octon_dir
-            .join("generated")
-            .join(".tmp")
-            .join("execution");
+        let execution_tmp_root = octon_dir.join("generated").join(".tmp").join("execution");
 
         let root_manifest = Self::load_root_manifest(&octon_dir)?;
 
@@ -194,8 +194,7 @@ impl ConfigLoader {
         } else {
             PolicyConfig::default()
         };
-        let execution_governance =
-            Self::load_execution_governance(root_manifest.as_ref());
+        let execution_governance = Self::load_execution_governance(root_manifest.as_ref());
 
         let cache_config_path = octon_dir
             .join("framework")
@@ -245,7 +244,10 @@ impl ConfigLoader {
         let doc = serde_yaml::from_slice::<serde_yaml::Value>(&bytes).map_err(|e| {
             KernelError::new(
                 ErrorCode::Internal,
-                format!("root manifest is not valid YAML at {}: {e}", octon_yml.display()),
+                format!(
+                    "root manifest is not valid YAML at {}: {e}",
+                    octon_yml.display()
+                ),
             )
         })?;
 
@@ -284,9 +286,7 @@ impl ConfigLoader {
         root_manifest: Option<&serde_yaml::Value>,
     ) -> ExecutionGovernanceConfig {
         let mut cfg = ExecutionGovernanceConfig::default();
-        let Some(exec) = root_manifest
-            .and_then(|doc| doc.get("execution_governance"))
-        else {
+        let Some(exec) = root_manifest.and_then(|doc| doc.get("execution_governance")) else {
             return cfg;
         };
 
@@ -431,11 +431,13 @@ impl ConfigLoader {
         }
 
         for (cat, block) in file.categories {
-            cfg.category_allow.insert(cat, block.allow.into_iter().collect());
+            cfg.category_allow
+                .insert(cat, block.allow.into_iter().collect());
         }
 
         for (id, block) in file.services {
-            cfg.service_allow.insert(id, block.allow.into_iter().collect());
+            cfg.service_allow
+                .insert(id, block.allow.into_iter().collect());
         }
 
         Ok(cfg)
@@ -445,6 +447,10 @@ impl ConfigLoader {
 impl RuntimeConfig {
     pub fn run_root(&self, request_id: &str) -> PathBuf {
         self.run_evidence_root.join(request_id)
+    }
+
+    pub fn run_control_root(&self, request_id: &str) -> PathBuf {
+        self.execution_control_root.join("runs").join(request_id)
     }
 
     pub fn ensure_execution_write_path(&self, path: &Path) -> Result<()> {

@@ -345,6 +345,10 @@ run_mission_autonomy() {
     bash "$SCRIPT_DIR/validate-objective-binding-cutover.sh"
 
   run_step \
+    "Validate runtime lifecycle normalization cutover" \
+    bash "$SCRIPT_DIR/validate-runtime-lifecycle-normalization.sh"
+
+  run_step \
     "Validate mission authority and policy surfaces" \
     bash "$SCRIPT_DIR/validate-mission-authority.sh"
 

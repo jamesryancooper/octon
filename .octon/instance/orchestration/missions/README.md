@@ -50,6 +50,9 @@ for durable mission definitions and mission-scoped orchestration artifacts.
   `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
 - mission-local retained execution evidence belongs under
   `state/evidence/runs/**`
+- mission-local generated summaries and mission views must consume bound
+  per-run receipts, checkpoints, replay pointers, and rollback posture when
+  runs exist
 - mission-local continuity belongs under
   `state/continuity/repo/missions/<mission-id>/**`
 - stage attempts, retries, and staged previews belong under the bound run root

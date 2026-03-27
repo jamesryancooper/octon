@@ -8,12 +8,17 @@ views.
 `state/control/execution/runs/<run-id>/run-contract.yml -> README.md -> index.yml -> <run-id>.yml -> by-surface/ -> state/evidence/runs/`
 
 `state/control/execution/runs/<run-id>/run-contract.yml` is the canonical
-per-run execution contract for Wave 1.
+per-run execution contract.
+
+`state/control/execution/runs/<run-id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
+carry the canonical lifecycle state beneath that run contract.
 
 `<run-id>.yml` is the orchestration-facing projection and mutable operator view
 over that canonical run root.
 
-`state/evidence/runs/<run-id>/` remains the durable evidence authority.
+`state/evidence/runs/<run-id>/` remains the durable evidence authority,
+including canonical `receipts/**`, `checkpoints/**`, `replay-pointers.yml`,
+and `trace-pointers.yml`.
 
 ## Layout
 

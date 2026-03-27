@@ -1,0 +1,12 @@
+schema_version: retained-run-evidence-v1
+run_id: run-wave3-runtime-bridge-20260327
+evidence_refs:
+  run_contract: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+  runtime_state: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/runtime-state.yml
+  rollback_posture: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/rollback-posture.yml
+  control_checkpoint: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/checkpoints/bound.yml
+  evidence_checkpoint: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/checkpoints/bound.yml
+  orchestration_receipt: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/receipts/orchestration-lifecycle.yml
+  replay_pointers: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
+  trace_pointers: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/trace-pointers.yml
+updated_at: "2026-03-27T19:53:14Z"

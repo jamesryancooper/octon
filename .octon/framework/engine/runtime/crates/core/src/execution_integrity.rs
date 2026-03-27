@@ -208,6 +208,30 @@ pub struct ExecutionBudgetCounter {
     pub last_updated_at: Option<String>,
 }
 
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct RetainedRunEvidenceManifest {
+    pub schema_version: String,
+    pub run_id: String,
+    #[serde(default)]
+    pub evidence_refs: BTreeMap<String, String>,
+    pub updated_at: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct ReplayPointersManifest {
+    pub schema_version: String,
+    pub run_id: String,
+    #[serde(default)]
+    pub receipt_refs: Vec<String>,
+    #[serde(default)]
+    pub checkpoint_refs: Vec<String>,
+    #[serde(default)]
+    pub trace_refs: Vec<String>,
+    #[serde(default)]
+    pub external_replay_refs: Vec<String>,
+    pub updated_at: String,
+}
+
 #[derive(Debug, Clone)]
 pub struct BudgetCheckContext<'a> {
     pub request_id: &'a str,
@@ -358,7 +382,10 @@ pub fn parse_network_target(url: &str) -> Result<ParsedNetworkTarget> {
             (host.to_ascii_lowercase(), parsed_port)
         }
     } else {
-        (authority.to_ascii_lowercase(), default_port_for_scheme(scheme))
+        (
+            authority.to_ascii_lowercase(),
+            default_port_for_scheme(scheme),
+        )
     };
 
     Ok(ParsedNetworkTarget {
@@ -370,9 +397,7 @@ pub fn parse_network_target(url: &str) -> Result<ParsedNetworkTarget> {
 }
 
 pub fn load_network_egress_policy(repo_root: &Path) -> Result<NetworkEgressPolicy> {
-    load_yaml_or_default(
-        &repo_root.join(".octon/instance/governance/policies/network-egress.yml"),
-    )
+    load_yaml_or_default(&repo_root.join(".octon/instance/governance/policies/network-egress.yml"))
 }
 
 pub fn load_execution_exception_leases(repo_root: &Path) -> Result<ExecutionExceptionLeases> {
@@ -397,13 +422,19 @@ pub fn load_execution_budget_state(control_root: &Path) -> Result<ExecutionBudge
     let raw = fs::read_to_string(&path).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("failed to read execution budget state {}: {e}", path.display()),
+            format!(
+                "failed to read execution budget state {}: {e}",
+                path.display()
+            ),
         )
     })?;
     serde_yaml::from_str(&raw).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("failed to parse execution budget state {}: {e}", path.display()),
+            format!(
+                "failed to parse execution budget state {}: {e}",
+                path.display()
+            ),
         )
     })
 }
@@ -431,7 +462,10 @@ pub fn save_execution_budget_state(
     fs::write(&path, bytes).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("failed to write execution budget state {}: {e}", path.display()),
+            format!(
+                "failed to write execution budget state {}: {e}",
+                path.display()
+            ),
         )
     })?;
     Ok(path)
@@ -457,7 +491,9 @@ pub fn evaluate_network_egress(
                     rule.reason.clone()
                 },
                 source_kind: "policy".to_string(),
-                artifact_ref: Some(".octon/instance/governance/policies/network-egress.yml".to_string()),
+                artifact_ref: Some(
+                    ".octon/instance/governance/policies/network-egress.yml".to_string(),
+                ),
             });
         }
     }
@@ -473,12 +509,14 @@ pub fn evaluate_network_egress(
             return Ok(NetworkEgressDecision {
                 allowed: true,
                 matched_rule_id: lease.id.clone(),
-                reason: lease
-                    .reason
-                    .clone()
-                    .unwrap_or_else(|| "time-boxed network egress exception lease matched".to_string()),
+                reason: lease.reason.clone().unwrap_or_else(|| {
+                    "time-boxed network egress exception lease matched".to_string()
+                }),
                 source_kind: "exception-lease".to_string(),
-                artifact_ref: Some(format!(".octon/state/control/execution/exceptions/leases.yml#{}", lease.id)),
+                artifact_ref: Some(format!(
+                    ".octon/state/control/execution/exceptions/leases.yml#{}",
+                    lease.id
+                )),
             });
         }
     }
@@ -500,12 +538,7 @@ pub fn evaluate_network_egress(
 }
 
 pub fn write_network_egress_event(run_root: &Path, event: &NetworkEgressEvent) -> Result<PathBuf> {
-    fs::create_dir_all(run_root).map_err(|e| {
-        KernelError::new(
-            ErrorCode::Internal,
-            format!("failed to create run root {}: {e}", run_root.display()),
-        )
-    })?;
+    ensure_run_evidence_families(run_root)?;
     let path = run_root.join("network-egress.ndjson");
     let line = serde_json::to_string(event).map_err(|e| {
         KernelError::new(
@@ -535,6 +568,7 @@ pub fn write_network_egress_event(run_root: &Path, event: &NetworkEgressEvent) -
             format!("failed to write network egress log {}: {e}", path.display()),
         )
     })?;
+    record_retained_evidence(run_root, "network_egress", &path)?;
     Ok(path)
 }
 
@@ -693,12 +727,7 @@ pub fn write_execution_cost_evidence(
     run_root: &Path,
     evidence: &ExecutionCostEvidence,
 ) -> Result<PathBuf> {
-    fs::create_dir_all(run_root).map_err(|e| {
-        KernelError::new(
-            ErrorCode::Internal,
-            format!("failed to create run root {}: {e}", run_root.display()),
-        )
-    })?;
+    ensure_run_evidence_families(run_root)?;
     let path = run_root.join("cost.json");
     let bytes = serde_json::to_vec_pretty(evidence).map_err(|e| {
         KernelError::new(
@@ -709,9 +738,13 @@ pub fn write_execution_cost_evidence(
     fs::write(&path, bytes).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("failed to write execution cost evidence {}: {e}", path.display()),
+            format!(
+                "failed to write execution cost evidence {}: {e}",
+                path.display()
+            ),
         )
     })?;
+    record_retained_evidence(run_root, "cost", &path)?;
     Ok(path)
 }
 
@@ -732,7 +765,10 @@ pub fn record_budget_consumption(
     save_execution_budget_state(control_root, &state)
 }
 
-pub fn infer_provider_from_model(model: Option<&str>, executor_hint: Option<&str>) -> Option<String> {
+pub fn infer_provider_from_model(
+    model: Option<&str>,
+    executor_hint: Option<&str>,
+) -> Option<String> {
     if let Some(model) = model {
         let normalized = model.trim().to_ascii_lowercase();
         if normalized.starts_with("claude") {
@@ -881,7 +917,12 @@ fn network_rule_matches(
     target: &ParsedNetworkTarget,
     method: &str,
 ) -> bool {
-    if !rule.services.is_empty() && !rule.services.iter().any(|value| value == context.service_id) {
+    if !rule.services.is_empty()
+        && !rule
+            .services
+            .iter()
+            .any(|value| value == context.service_id)
+    {
         return false;
     }
     if !rule.adapters.is_empty()
@@ -949,7 +990,10 @@ fn lease_is_active(lease: &ExecutionExceptionLease) -> Result<bool> {
     let expires_at = OffsetDateTime::parse(&lease.expires_at, &Rfc3339).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("invalid execution exception lease expiry '{}': {e}", lease.expires_at),
+            format!(
+                "invalid execution exception lease expiry '{}': {e}",
+                lease.expires_at
+            ),
         )
     })?;
     Ok(expires_at > OffsetDateTime::now_utc())
@@ -1003,7 +1047,12 @@ fn execution_budget_rule_matches(
     rule: &ExecutionBudgetRule,
     context: &BudgetCheckContext<'_>,
 ) -> bool {
-    if !rule.path_types.is_empty() && !rule.path_types.iter().any(|value| value == context.path_type) {
+    if !rule.path_types.is_empty()
+        && !rule
+            .path_types
+            .iter()
+            .any(|value| value == context.path_type)
+    {
         return false;
     }
     if !rule.action_types.is_empty()
@@ -1017,7 +1066,11 @@ fn execution_budget_rule_matches(
     if !rule.executor_profiles.is_empty()
         && !context
             .executor_profile
-            .map(|value| rule.executor_profiles.iter().any(|candidate| candidate == value))
+            .map(|value| {
+                rule.executor_profiles
+                    .iter()
+                    .any(|candidate| candidate == value)
+            })
             .unwrap_or(false)
     {
         return false;
@@ -1091,6 +1144,106 @@ fn now_rfc3339() -> String {
     OffsetDateTime::now_utc()
         .format(&Rfc3339)
         .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string())
+}
+
+fn ensure_run_evidence_families(run_root: &Path) -> Result<()> {
+    fs::create_dir_all(run_root).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to create run root {}: {e}", run_root.display()),
+        )
+    })?;
+    for dir in [
+        run_root.join("receipts"),
+        run_root.join("checkpoints"),
+        run_root.join("replay"),
+    ] {
+        fs::create_dir_all(&dir).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to create run evidence family {}: {e}",
+                    dir.display()
+                ),
+            )
+        })?;
+    }
+    let replay_path = run_root.join("replay-pointers.yml");
+    if !replay_path.is_file() {
+        let manifest = ReplayPointersManifest {
+            schema_version: "run-replay-pointers-v1".to_string(),
+            run_id: run_id_from_root(run_root),
+            receipt_refs: Vec::new(),
+            checkpoint_refs: Vec::new(),
+            trace_refs: Vec::new(),
+            external_replay_refs: Vec::new(),
+            updated_at: now_rfc3339(),
+        };
+        let yaml = serde_yaml::to_string(&manifest).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to serialize replay pointer manifest: {e}"),
+            )
+        })?;
+        fs::write(&replay_path, yaml).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to write replay pointer manifest {}: {e}",
+                    replay_path.display()
+                ),
+            )
+        })?;
+    }
+    Ok(())
+}
+
+fn record_retained_evidence(run_root: &Path, key: &str, artifact_path: &Path) -> Result<()> {
+    let manifest_path = run_root.join("retained-run-evidence.yml");
+    let mut manifest = if manifest_path.is_file() {
+        let raw = fs::read_to_string(&manifest_path).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to read retained run evidence manifest {}: {e}",
+                    manifest_path.display()
+                ),
+            )
+        })?;
+        serde_yaml::from_str::<RetainedRunEvidenceManifest>(&raw).unwrap_or_default()
+    } else {
+        RetainedRunEvidenceManifest::default()
+    };
+    manifest.schema_version = "retained-run-evidence-v1".to_string();
+    manifest.run_id = run_id_from_root(run_root);
+    manifest
+        .evidence_refs
+        .insert(key.to_string(), artifact_path.display().to_string());
+    manifest.updated_at = now_rfc3339();
+    let yaml = serde_yaml::to_string(&manifest).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to serialize retained run evidence manifest: {e}"),
+        )
+    })?;
+    fs::write(&manifest_path, yaml).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to write retained run evidence manifest {}: {e}",
+                manifest_path.display()
+            ),
+        )
+    })?;
+    Ok(())
+}
+
+fn run_id_from_root(run_root: &Path) -> String {
+    run_root
+        .file_name()
+        .and_then(|value| value.to_str())
+        .unwrap_or("unknown-run")
+        .to_string()
 }
 
 #[cfg(test)]

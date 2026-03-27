@@ -171,3 +171,7 @@ records:
     path: 2026-03-26-objective-binding-cutover/plan.md
     adr: ../decisions/069-objective-binding-cutover.md
     evidence: /.octon/state/evidence/migration/2026-03-26-objective-binding-cutover/evidence.md
+  - id: 2026-03-27-runtime-lifecycle-normalization-cutover
+    path: 2026-03-27-runtime-lifecycle-normalization-cutover/plan.md
+    adr: ../decisions/070-runtime-lifecycle-normalization-cutover.md
+    evidence: /.octon/state/evidence/migration/2026-03-27-runtime-lifecycle-normalization-cutover/evidence.md

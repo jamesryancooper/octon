@@ -1,0 +1,5 @@
+schema_version: "orchestration-run-projection-v1"
+surface: "missions"
+key: "mission-autonomy-live-validation"
+run_ids:
+  - "run-wave3-runtime-bridge-20260327"

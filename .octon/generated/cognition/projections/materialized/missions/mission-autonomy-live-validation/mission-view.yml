@@ -1,0 +1,75 @@
+schema_version: "mission-view-v1"
+mission_id: "mission-autonomy-live-validation"
+mission:
+  title: "Mission: mission-autonomy-live-validation"
+  status: "active"
+  mission_class: "maintenance"
+  owner_ref: "operator://octon-maintainers"
+mode_state:
+  oversight_mode: "notify"
+  execution_posture: "interruptible_scheduled"
+  safety_state: "paused"
+  phase: "planning"
+  route_ref: ".octon/generated/effective/orchestration/missions/mission-autonomy-live-validation/scenario-resolution.yml"
+effective_route:
+  mission_class: "maintenance"
+  effective_scenario_family: "maintenance.repo_housekeeping"
+  effective_action_class: "git.commit"
+  safe_interrupt_boundary_class: "task_boundary"
+  scenario_family_source: "mission_class.default"
+  boundary_source: "action_slice.safe_interrupt_boundary_class"
+  recovery_source: "action_slice.rollback_primitive"
+  digest_route: "preview_plus_closure_digest"
+  route_generated_at: "2026-03-27T20:31:21Z"
+  route_fresh_until: "2026-03-27T20:46:21Z"
+current_slice_ref: ".octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml"
+next_slice_ref: ".octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml"
+budget_breaker_summary:
+  autonomy_budget_state: "healthy"
+  breaker_state: "clear"
+active_directives:
+  []
+active_authorize_updates:
+  []
+recovery_finalize_summary:
+  recovery_window: "P30D"
+  block_finalize: false
+  exception_active: false
+run_evidence_refs:
+  active_run_ids:
+    - "run-wave3-runtime-bridge-20260327"
+  run_contracts:
+    - "/.octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml"
+  runtime_states:
+    - "/.octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/runtime-state.yml"
+  rollback_postures:
+    - "/.octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/rollback-posture.yml"
+  checkpoints:
+    - "/.octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/checkpoints/bound.yml"
+  receipts:
+    - "/.octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/receipts/orchestration-lifecycle.yml"
+  replay_pointers:
+    - "/.octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml"
+  retained_evidence:
+    - "/.octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/retained-run-evidence.yml"
+  trace_pointers:
+    - "/.octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/trace-pointers.yml"
+summary_refs:
+  now: "/.octon/generated/cognition/summaries/missions/mission-autonomy-live-validation/now.md"
+  next: "/.octon/generated/cognition/summaries/missions/mission-autonomy-live-validation/next.md"
+  recent: "/.octon/generated/cognition/summaries/missions/mission-autonomy-live-validation/recent.md"
+  recover: "/.octon/generated/cognition/summaries/missions/mission-autonomy-live-validation/recover.md"
+continuity_refs:
+  handoff: "/.octon/state/continuity/repo/missions/mission-autonomy-live-validation/handoff.md"
+  next_actions: "/.octon/state/continuity/repo/missions/mission-autonomy-live-validation/next-actions.yml"
+source_refs:
+  mission: "/.octon/instance/orchestration/missions/mission-autonomy-live-validation/mission.yml"
+  route: "/.octon/generated/effective/orchestration/missions/mission-autonomy-live-validation/scenario-resolution.yml"
+  mode_state: "/.octon/state/control/execution/missions/mission-autonomy-live-validation/mode-state.yml"
+  intent_register: "/.octon/state/control/execution/missions/mission-autonomy-live-validation/intent-register.yml"
+  run_control_root: "/.octon/state/control/execution/runs/"
+  current_action_slice: ".octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml"
+  continuity: "/.octon/state/continuity/repo/missions/mission-autonomy-live-validation/handoff.md"
+  control_evidence_root: "/.octon/state/evidence/control/execution/"
+  run_evidence_root: "/.octon/state/evidence/runs/"
+last_refresh_at: "2026-03-27T20:31:21Z"

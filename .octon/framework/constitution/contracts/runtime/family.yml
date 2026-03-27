@@ -1,0 +1,50 @@
+schema_version: "octon-constitutional-runtime-family-v1"
+family_id: "runtime"
+status: "active-transitional"
+activation_wave: 3
+release_state: "pre-1.0"
+change_profile: "transitional"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-27-runtime-lifecycle-normalization-cutover/plan.md"
+transitional_exception_note:
+  rationale: >-
+    Wave 3 must normalize run lifecycle state, receipts, checkpoints, and
+    replay posture under per-run roots while preserving current mission-backed
+    continuity and generated read models during the coexistence window.
+  risks:
+    - "Run-root lifecycle writers could drift from older mission-backed projections."
+    - "Generated mission summaries could keep pointing only at generic evidence roots instead of per-run evidence."
+    - "Legacy root-level run evidence artifacts could outlive the canonical runtime families during backfill."
+  owner: "Octon governance"
+  target_removal_date: "2026-06-30"
+run_lifecycle:
+  runtime_state:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/runtime-state-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_file: "runtime-state.yml"
+  rollback_posture:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_file: "rollback-posture.yml"
+  checkpoints:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/checkpoint-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_dir: "checkpoints"
+  replay_pointers:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/replay-pointers-v1.schema.json"
+    evidence_root: ".octon/state/evidence/runs"
+    canonical_file: "replay-pointers.yml"
+  retained_run_evidence:
+    evidence_root: ".octon/state/evidence/runs"
+    canonical_families:
+      - "receipts/**"
+      - "checkpoints/**"
+      - "trace-pointers.yml"
+      - "retained-run-evidence.yml"
+bridges:
+  mission_continuity:
+    source_root: ".octon/state/continuity/repo/missions"
+    rule: "Mission continuity consumes run evidence and lifecycle state; it does not replace them."
+  generated_read_models:
+    summary_root: ".octon/generated/cognition/summaries/missions"
+    projection_root: ".octon/generated/cognition/projections/materialized/missions"
+    rule: "Generated mission summaries and mission views must reference per-run evidence when runs are bound."
