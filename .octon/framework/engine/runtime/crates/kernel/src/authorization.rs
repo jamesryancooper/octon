@@ -175,6 +175,7 @@ pub struct BudgetMetadata {
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct AuthorityProjection {
     pub kind: String,
+    #[serde(rename = "ref", alias = "ref_id")]
     pub ref_id: String,
     #[serde(default)]
     pub notes: Option<String>,
@@ -1401,7 +1402,7 @@ fn load_active_revocation_refs(
                 && (revocation.request_id.as_deref() == Some(request_id)
                     || revocation.grant_id.as_deref() == Some(grant_id))
         })
-        .map(|revocation| format!("{}.{}", path_tail(&cfg.repo_root, &path), revocation.revocation_id))
+        .map(|revocation| format!("{}#{}", path_tail(&cfg.repo_root, &path), revocation.revocation_id))
         .collect())
 }
 
@@ -3901,6 +3902,51 @@ mod tests {
             .octon_dir
             .join("state/control/execution/approvals/grants/grant-req-1.yml")
             .is_file());
+    }
+
+    #[test]
+    fn authority_projection_serializes_ref_and_accepts_legacy_alias() {
+        let projection = AuthorityProjection {
+            kind: "github-label".to_string(),
+            ref_id: "github://pull/214/label/accept:human".to_string(),
+            notes: None,
+        };
+
+        let encoded = serde_yaml::to_string(&projection).expect("serialize projection");
+        assert!(encoded.contains("ref:"));
+        assert!(!encoded.contains("ref_id:"));
+
+        let decoded: AuthorityProjection = serde_yaml::from_str(
+            "kind: github-label\nref: github://pull/214/label/accept:human\n",
+        )
+        .expect("decode canonical projection");
+        assert_eq!(decoded.ref_id, "github://pull/214/label/accept:human");
+
+        let legacy: AuthorityProjection = serde_yaml::from_str(
+            "kind: github-label\nref_id: github://pull/214/label/accept:human\n",
+        )
+        .expect("decode legacy projection");
+        assert_eq!(legacy.ref_id, "github://pull/214/label/accept:human");
+    }
+
+    #[test]
+    fn active_revocation_refs_use_fragment_format() {
+        let cfg = temp_runtime_config();
+        let revocations_path = cfg
+            .octon_dir
+            .join("state/control/execution/revocations/grants.yml");
+        fs::write(
+            &revocations_path,
+            "schema_version: \"authority-revocation-set-v1\"\nrevocations:\n  - schema_version: \"authority-revocation-v1\"\n    revocation_id: \"revoke-1\"\n    grant_id: \"grant-req-1\"\n    request_id: \"req-1\"\n    run_id: \"req-1\"\n    state: \"active\"\n    revoked_at: \"2026-03-27T00:00:00Z\"\n    revoked_by: \"operator://test\"\n    reason_codes: []\n    notes: null\n",
+        )
+        .expect("write revocation fixture");
+
+        let refs =
+            load_active_revocation_refs(&cfg, "req-1", "grant-req-1").expect("load revocations");
+        assert_eq!(
+            refs,
+            vec![".octon/state/control/execution/revocations/grants.yml#revoke-1".to_string()]
+        );
     }
 
     #[test]
