@@ -58,7 +58,7 @@ jobs:
             --output ".octon/generated/.tmp/pr-autonomy-authority.json"
           echo "approval_granted=$(jq -r '.approval_granted' .octon/generated/.tmp/pr-autonomy-authority.json)" >> "${GITHUB_OUTPUT}"
           echo "approval_request_ref=$(jq -r '.approval_request_ref' .octon/generated/.tmp/pr-autonomy-authority.json)" >> "${GITHUB_OUTPUT}"
-          echo "approval_grant_ref=$(jq -r '.approval_grant_ref // \"\"' .octon/generated/.tmp/pr-autonomy-authority.json)" >> "${GITHUB_OUTPUT}"
+          echo "approval_grant_ref=$(jq -r '.approval_grant_ref // ""' .octon/generated/.tmp/pr-autonomy-authority.json)" >> "${GITHUB_OUTPUT}"
 
       - name: Validate autonomy policy
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7

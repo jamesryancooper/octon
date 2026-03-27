@@ -1,0 +1,13 @@
+schema_version: proof-plane-report-v1
+plane: maintainability
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+outcome: pass
+proof_class: deterministic
+summary: Maintainability proof confirms the run remains aligned to the canonical architecture and contract registry surfaces.
+evidence_refs:
+  - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+  - .octon/framework/cognition/_meta/architecture/specification.md
+  - .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+known_limits: []
+generated_at: "2026-03-27T22:47:42Z"

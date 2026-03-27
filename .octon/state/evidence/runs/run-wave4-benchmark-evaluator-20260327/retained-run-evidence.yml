@@ -1,0 +1,21 @@
+schema_version: retained-run-evidence-v1
+run_id: run-wave4-benchmark-evaluator-20260327
+evidence_refs:
+  run_contract: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+  runtime_state: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/runtime-state.yml
+  rollback_posture: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/rollback-posture.yml
+  control_checkpoint: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/checkpoints/bound.yml
+  evidence_checkpoint: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/checkpoints/bound.yml
+  orchestration_receipt: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/receipts/orchestration-lifecycle.yml
+  replay_manifest: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay/manifest.yml
+  replay_pointers: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay-pointers.yml
+  trace_pointers: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/trace-pointers.yml
+  functional_report: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/functional.yml
+  behavioral_report: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/behavioral.yml
+  maintainability_report: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/maintainability.yml
+  recovery_report: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/recovery.yml
+  evaluator_review: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml
+  measurement_summary: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/measurements/summary.yml
+  intervention_log: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/interventions/log.yml
+  run_card: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/disclosure/run-card.yml
+updated_at: "2026-03-27T22:47:42Z"

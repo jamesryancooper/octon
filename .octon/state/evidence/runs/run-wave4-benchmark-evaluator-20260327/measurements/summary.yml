@@ -1,0 +1,22 @@
+schema_version: measurement-summary-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+metrics:
+  - metric_id: receipt-count
+    label: Retained lifecycle receipts
+    value: 1
+    unit: count
+  - metric_id: checkpoint-count
+    label: Retained checkpoints
+    value: 1
+    unit: count
+  - metric_id: proof-plane-count
+    label: Run-local proof-plane reports
+    value: 5
+    unit: count
+  - metric_id: intervention-count
+    label: Material interventions
+    value: 0
+    unit: count
+summary: Run emitted the canonical receipt, checkpoint, proof-plane, and disclosure families.
+recorded_at: "2026-03-27T22:47:42Z"

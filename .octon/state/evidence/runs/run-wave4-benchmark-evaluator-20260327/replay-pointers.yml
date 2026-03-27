@@ -1,0 +1,10 @@
+schema_version: run-replay-pointers-v1
+run_id: run-wave4-benchmark-evaluator-20260327
+receipt_refs:
+  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/receipts/orchestration-lifecycle.yml
+checkpoint_refs:
+  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/checkpoints/bound.yml
+trace_refs: []
+external_replay_refs:
+  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay/manifest.yml
+updated_at: "2026-03-27T22:47:42Z"

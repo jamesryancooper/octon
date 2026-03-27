@@ -1,0 +1,6 @@
+schema_version: intervention-log-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+interventions: []
+summary: No hidden or material human intervention was required for this retained run bundle.
+recorded_at: "2026-03-27T22:47:42Z"

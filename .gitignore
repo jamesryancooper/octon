@@ -34,11 +34,17 @@ logs/
 
 # Runtime and service run records
 runs/
+!.octon/state/control/execution/runs/
+!.octon/state/control/execution/runs/**
 !.octon/framework/orchestration/runtime/runs/
 !.octon/framework/orchestration/runtime/runs/**
 !.octon/state/evidence/runs/
 .octon/state/evidence/runs/*
 !.octon/state/evidence/runs/README.md
+!.octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/
+!.octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/**
+!.octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/
+!.octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/**
 !.octon/state/evidence/runs/skills/
 !.octon/state/evidence/runs/skills/**
 !.octon/state/evidence/runs/services/

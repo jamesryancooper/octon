@@ -1,0 +1,13 @@
+schema_version: proof-plane-report-v1
+plane: recovery
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+outcome: pass
+proof_class: deterministic
+summary: Recovery posture remains reconstructable from canonical rollback, checkpoint, and replay surfaces.
+evidence_refs:
+  - .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/rollback-posture.yml
+  - .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/checkpoints/bound.yml
+  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay/manifest.yml
+known_limits: []
+generated_at: "2026-03-27T22:47:42Z"

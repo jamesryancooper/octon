@@ -1,0 +1,13 @@
+schema_version: evaluator-review-v1
+subject_ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+evaluator_id: evaluator://wave4-routing
+disposition: approved
+summary: Independent evaluator approval was required because this run used a higher-risk class.
+evidence_refs:
+  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/functional.yml
+  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/behavioral.yml
+  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/maintainability.yml
+  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/recovery.yml
+known_limits:
+  - Independent human review remains available for higher-risk support tiers.
+recorded_at: "2026-03-27T22:47:42Z"
