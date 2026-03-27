@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.6](https://github.com/jamesryancooper/octon/compare/octon-v0.6.5...octon-v0.6.6) (2026-03-27)
+
+
+### Features
+
+* **proposals:** add unified execution constitution packet ([#218](https://github.com/jamesryancooper/octon/issues/218)) ([67db2f2](https://github.com/jamesryancooper/octon/commit/67db2f22b4b515f526f2501a2972c91ea0c8adf5))
+* **runtime:** complete wave 3 lifecycle normalization ([#216](https://github.com/jamesryancooper/octon/issues/216)) ([741e0f9](https://github.com/jamesryancooper/octon/commit/741e0f9b741dc7a31cdeb3f198ed752d22f942fd))
+
 ## [0.6.5](https://github.com/jamesryancooper/octon/compare/octon-v0.6.4...octon-v0.6.5) (2026-03-27)
 
 
