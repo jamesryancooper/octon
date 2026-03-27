@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/revocation-v1.schema.json",
+  "title": "Octon Revocation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "revocation_id",
+    "state",
+    "revoked_at",
+    "revoked_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "authority-revocation-v1"
+    },
+    "revocation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "grant_id": {
+      "type": ["string", "null"]
+    },
+    "request_id": {
+      "type": ["string", "null"]
+    },
+    "run_id": {
+      "type": ["string", "null"]
+    },
+    "state": {
+      "type": "string",
+      "enum": ["active", "cleared"]
+    },
+    "revoked_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revoked_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "notes": {
+      "type": ["string", "null"]
+    }
+  }
+}

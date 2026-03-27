@@ -38,5 +38,5 @@ obligations:
     requirement: >-
       Support claims and autonomy envelopes must cite explicit support-target
       declarations once the support-target matrix is published.
-    adoption_status: "staged"
-    activation_wave: 5
+    adoption_status: "active-transitional"
+    activation_wave: 2

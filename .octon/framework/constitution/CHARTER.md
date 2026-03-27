@@ -50,13 +50,16 @@ authorized, fail-closed, observable, and reviewable.
   retirement trigger
 - stage run-contract, disclosure, and support-target cutovers explicitly rather
   than silently weakening current fail-closed behavior
+- treat labels, comments, checks, and similar host affordances as projection
+  signals only until canonical authority artifacts exist
 
 ## Transitional Adoption Status
 
-Wave 0 establishes the constitutional kernel and its supremacy. Obligations
-that depend on run-contract roots, disclosure families, or published
-support-target declarations remain staged until their wave-specific cutovers
-land.
+Wave 0 establishes the constitutional kernel and its supremacy. Wave 1
+publishes the run-contract roots, and Wave 2 publishes the authority contract
+family plus the first support-target declaration required for routing.
+Disclosure families and broader support claims remain staged until their
+later wave-specific cutovers land.
 
 ## Canonical References
 
@@ -72,8 +75,12 @@ land.
 - ownership roles: `/.octon/framework/constitution/ownership/roles.yml`
 - constitutional contract registry:
   `/.octon/framework/constitution/contracts/registry.yml`
+- constitutional authority contracts:
+  `/.octon/framework/constitution/contracts/authority/**`
 - support-target schema:
   `/.octon/framework/constitution/support-targets.schema.json`
+- support-target declaration:
+  `/.octon/instance/governance/support-targets.yml`
 
 ## Amendment Policy
 

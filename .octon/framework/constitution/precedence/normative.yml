@@ -34,10 +34,10 @@ layers:
     decision_rule: >-
       Published repo-owned policy families and support-target declarations apply
       beneath the kernel.
-    adoption_status: "partial"
+    adoption_status: "active-transitional"
     notes:
       - "Repo policy families are active."
-      - "Support-target declarations are reserved until their publication wave lands."
+      - "Support-target declarations are published for Wave 2 routing."
   - rank: 4
     authority: "run-specific-authority-artifacts"
     surfaces:
@@ -45,9 +45,10 @@ layers:
       - ".octon/state/control/execution/exceptions/**"
       - ".octon/state/control/execution/revocations/**"
     decision_rule: >-
-      Approval, exception, and revocation artifacts govern the current run when
-      their normalization cutover is complete.
-    adoption_status: "staged"
+      Approval, exception, and revocation artifacts govern the current run.
+      Labels, comments, checks, and similar host affordances are projections
+      only until runtime materializes canonical authority artifacts here.
+    adoption_status: "active-transitional"
     activation_wave: 2
   - rank: 5
     authority: "workspace-charter-pair"

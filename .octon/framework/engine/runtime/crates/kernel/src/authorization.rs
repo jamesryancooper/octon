@@ -5,7 +5,7 @@ use octon_core::execution_integrity::{
     evaluate_execution_budget, evaluate_network_egress, infer_provider_from_model,
     load_execution_budget_policy, load_execution_exception_leases, load_network_egress_policy,
     record_budget_consumption, write_execution_cost_evidence, BudgetCheckContext, BudgetDecision,
-    NetworkEgressContext,
+    NetworkEgressContext, NetworkEgressDecision,
 };
 use octon_core::policy::PolicyEngine;
 use octon_core::registry::ServiceDescriptor;
@@ -172,6 +172,150 @@ pub struct BudgetMetadata {
     pub evidence_path: Option<String>,
 }
 
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct AuthorityProjection {
+    pub kind: String,
+    pub ref_id: String,
+    #[serde(default)]
+    pub notes: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct OwnershipPosture {
+    pub status: String,
+    #[serde(default)]
+    pub source: String,
+    #[serde(default)]
+    pub owner_refs: Vec<String>,
+    #[serde(default)]
+    pub matched_asset_ref: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SupportTierPosture {
+    pub support_tier: String,
+    #[serde(default)]
+    pub model_tier_id: Option<String>,
+    #[serde(default)]
+    pub workload_tier_id: Option<String>,
+    #[serde(default)]
+    pub language_resource_tier_id: Option<String>,
+    #[serde(default)]
+    pub locale_tier_id: Option<String>,
+    #[serde(default)]
+    pub workload_tier_label: Option<String>,
+    #[serde(default)]
+    pub support_status: String,
+    #[serde(default)]
+    pub route: String,
+    #[serde(default)]
+    pub requires_mission: bool,
+    #[serde(default)]
+    pub required_evidence: Vec<String>,
+    #[serde(default)]
+    pub declaration_ref: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct NetworkEgressPosture {
+    pub route: String,
+    #[serde(default)]
+    pub matched_rule_id: Option<String>,
+    #[serde(default)]
+    pub source_kind: Option<String>,
+    #[serde(default)]
+    pub artifact_ref: Option<String>,
+    #[serde(default)]
+    pub target_url: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ApprovalRequestArtifact {
+    pub schema_version: String,
+    pub request_id: String,
+    pub run_id: String,
+    pub status: String,
+    pub target_id: String,
+    pub action_type: String,
+    pub workflow_mode: String,
+    pub support_tier: String,
+    #[serde(default)]
+    pub ownership_refs: Vec<String>,
+    #[serde(default)]
+    pub reversibility_class: Option<String>,
+    #[serde(default)]
+    pub reason_codes: Vec<String>,
+    #[serde(default)]
+    pub required_evidence: Vec<String>,
+    #[serde(default)]
+    pub projection_sources: Vec<AuthorityProjection>,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ApprovalGrantArtifact {
+    pub schema_version: String,
+    pub grant_id: String,
+    pub request_id: String,
+    pub run_id: String,
+    pub state: String,
+    pub issued_by: String,
+    pub issued_at: String,
+    #[serde(default)]
+    pub expires_at: Option<String>,
+    #[serde(default)]
+    pub projection_sources: Vec<AuthorityProjection>,
+    #[serde(default)]
+    pub review_metadata: BTreeMap<String, String>,
+    #[serde(default)]
+    pub required_evidence: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RevocationArtifact {
+    pub schema_version: String,
+    pub revocation_id: String,
+    #[serde(default)]
+    pub grant_id: Option<String>,
+    #[serde(default)]
+    pub request_id: Option<String>,
+    #[serde(default)]
+    pub run_id: Option<String>,
+    pub state: String,
+    pub revoked_at: String,
+    pub revoked_by: String,
+    #[serde(default)]
+    pub reason_codes: Vec<String>,
+    #[serde(default)]
+    pub notes: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DecisionArtifact {
+    pub schema_version: String,
+    pub decision_id: String,
+    pub request_id: String,
+    pub run_id: String,
+    pub decision: ExecutionDecision,
+    #[serde(default)]
+    pub reason_codes: Vec<String>,
+    pub ownership: OwnershipPosture,
+    pub support_tier: SupportTierPosture,
+    pub reversibility: serde_json::Value,
+    pub budget: serde_json::Value,
+    pub egress: serde_json::Value,
+    #[serde(default)]
+    pub approval_request_ref: Option<String>,
+    #[serde(default)]
+    pub approval_grant_refs: Vec<String>,
+    #[serde(default)]
+    pub exception_refs: Vec<String>,
+    #[serde(default)]
+    pub revocation_refs: Vec<String>,
+    pub generated_at: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GrantBundle {
     pub grant_id: String,
@@ -214,6 +358,24 @@ pub struct GrantBundle {
     pub autonomy_budget_state: Option<String>,
     #[serde(default)]
     pub breaker_state: Option<String>,
+    #[serde(default)]
+    pub support_tier: Option<String>,
+    #[serde(default)]
+    pub ownership_refs: Vec<String>,
+    #[serde(default)]
+    pub approval_request_ref: Option<String>,
+    #[serde(default)]
+    pub approval_grant_refs: Vec<String>,
+    #[serde(default)]
+    pub exception_lease_refs: Vec<String>,
+    #[serde(default)]
+    pub revocation_refs: Vec<String>,
+    #[serde(default)]
+    pub decision_artifact_ref: Option<String>,
+    #[serde(default)]
+    pub authority_grant_bundle_ref: Option<String>,
+    #[serde(default)]
+    pub network_egress_posture: Option<NetworkEgressPosture>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -303,6 +465,24 @@ pub struct ExecutionReceipt {
     pub evidence_links: BTreeMap<String, String>,
     #[serde(default)]
     pub budget: Option<BudgetMetadata>,
+    #[serde(default)]
+    pub support_tier: Option<String>,
+    #[serde(default)]
+    pub ownership_refs: Vec<String>,
+    #[serde(default)]
+    pub approval_request_ref: Option<String>,
+    #[serde(default)]
+    pub approval_grant_refs: Vec<String>,
+    #[serde(default)]
+    pub exception_lease_refs: Vec<String>,
+    #[serde(default)]
+    pub revocation_refs: Vec<String>,
+    #[serde(default)]
+    pub decision_artifact_ref: Option<String>,
+    #[serde(default)]
+    pub authority_grant_bundle_ref: Option<String>,
+    #[serde(default)]
+    pub network_egress_posture: Option<NetworkEgressPosture>,
     pub timestamps: ReceiptTimestamps,
 }
 
@@ -531,6 +711,119 @@ struct ScenarioFinalizePolicy {
     break_glass_required: bool,
 }
 
+#[derive(Debug, Clone, Default, Deserialize)]
+struct RunContractRecord {
+    #[serde(default)]
+    support_tier: String,
+    #[serde(default)]
+    required_approvals: Vec<String>,
+    #[serde(default)]
+    required_evidence: Vec<String>,
+    #[serde(default)]
+    reversibility_class: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct OwnershipRegistryRecord {
+    #[serde(default)]
+    operators: Vec<OwnershipOperatorRecord>,
+    #[serde(default)]
+    assets: Vec<OwnershipAssetRecord>,
+    #[serde(default)]
+    services: Vec<OwnershipServiceRecord>,
+    #[serde(default)]
+    defaults: OwnershipDefaultsRecord,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct OwnershipOperatorRecord {
+    operator_id: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct OwnershipDefaultsRecord {
+    #[serde(default)]
+    operator_id: Option<String>,
+    #[serde(default)]
+    support_tier: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct OwnershipAssetRecord {
+    #[serde(default)]
+    asset_id: Option<String>,
+    #[serde(default)]
+    path_globs: Vec<String>,
+    #[serde(default)]
+    owners: Vec<String>,
+    #[serde(default)]
+    support_tier: Option<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct OwnershipServiceRecord {
+    #[serde(default)]
+    service_id: Option<String>,
+    #[serde(default)]
+    owners: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct SupportTargetsRecord {
+    #[serde(default)]
+    default_route: String,
+    #[serde(default)]
+    tiers: SupportTierDefinitions,
+    #[serde(default)]
+    compatibility_matrix: Vec<SupportMatrixEntry>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct SupportTierDefinitions {
+    #[serde(default)]
+    model: Vec<SupportNamedTier>,
+    #[serde(default)]
+    workload: Vec<SupportWorkloadTier>,
+    #[serde(default)]
+    language_resource: Vec<SupportNamedTier>,
+    #[serde(default)]
+    locale: Vec<SupportNamedTier>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct SupportNamedTier {
+    id: String,
+    label: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct SupportWorkloadTier {
+    id: String,
+    label: String,
+    #[serde(default)]
+    default_route: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct SupportMatrixEntry {
+    model_tier: String,
+    workload_tier: String,
+    language_resource_tier: String,
+    locale_tier: String,
+    support_status: String,
+    default_route: String,
+    #[serde(default)]
+    requires_mission: Option<bool>,
+    #[serde(default)]
+    required_evidence: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct RevocationRegistry {
+    #[serde(default)]
+    revocations: Vec<RevocationArtifact>,
+}
+
 #[derive(Debug, Clone)]
 struct ResolvedAutonomyState {
     context: AutonomyContext,
@@ -541,6 +834,8 @@ struct ResolvedAutonomyState {
     reversibility_primitive: Option<String>,
     autonomy_budget_state: String,
     breaker_state: String,
+    approval_required: bool,
+    break_glass_required: bool,
 }
 
 fn mission_denial(message: impl Into<String>, reason_codes: Vec<&str>) -> KernelError {
@@ -597,6 +892,652 @@ fn parse_rfc3339(raw: &str) -> CoreResult<time::OffsetDateTime> {
             format!("failed to parse RFC3339 timestamp '{raw}': {e}"),
         )
     })
+}
+
+fn decision_label(decision: &ExecutionDecision) -> &'static str {
+    match decision {
+        ExecutionDecision::Allow => "ALLOW",
+        ExecutionDecision::StageOnly => "STAGE_ONLY",
+        ExecutionDecision::Deny => "DENY",
+        ExecutionDecision::Escalate => "ESCALATE",
+    }
+}
+
+fn authority_control_root(cfg: &RuntimeConfig) -> PathBuf {
+    cfg.execution_control_root.clone()
+}
+
+fn approval_request_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    authority_control_root(cfg)
+        .join("approvals")
+        .join("requests")
+        .join(format!("{request_id}.yml"))
+}
+
+fn approval_grant_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    authority_control_root(cfg)
+        .join("approvals")
+        .join("grants")
+        .join(format!("grant-{request_id}.yml"))
+}
+
+fn revocation_registry_path(cfg: &RuntimeConfig) -> PathBuf {
+    authority_control_root(cfg)
+        .join("revocations")
+        .join("grants.yml")
+}
+
+fn authority_evidence_root(cfg: &RuntimeConfig) -> PathBuf {
+    cfg.repo_root.join(".octon/state/evidence/control/execution")
+}
+
+fn decision_artifact_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    authority_evidence_root(cfg).join(format!("authority-decision-{request_id}.yml"))
+}
+
+fn authority_grant_bundle_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    authority_evidence_root(cfg).join(format!("authority-grant-bundle-{request_id}.yml"))
+}
+
+fn run_contract_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.execution_control_root
+        .join("runs")
+        .join(request_id)
+        .join("run-contract.yml")
+}
+
+fn read_yaml_or_default<T>(path: &Path) -> CoreResult<T>
+where
+    T: Default + for<'de> Deserialize<'de>,
+{
+    if !path.is_file() {
+        return Ok(T::default());
+    }
+    read_yaml_file(path)
+}
+
+fn load_run_contract_record(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    autonomy_state: Option<&ResolvedAutonomyState>,
+) -> CoreResult<RunContractRecord> {
+    let path = run_contract_path(cfg, &request.request_id);
+    let mut record: RunContractRecord = read_yaml_or_default(&path)?;
+    if record.support_tier.trim().is_empty() {
+        record.support_tier = request
+            .metadata
+            .get("support_tier")
+            .cloned()
+            .unwrap_or_default();
+    }
+    if record.support_tier.trim().is_empty() {
+        record.support_tier = load_ownership_registry(cfg)?
+            .defaults
+            .support_tier
+            .unwrap_or_else(|| "repo-local-transitional".to_string());
+    }
+    if record.reversibility_class.trim().is_empty() {
+        record.reversibility_class = autonomy_state
+            .map(|state| state.context.reversibility_class.clone())
+            .unwrap_or_else(|| "reversible".to_string());
+    }
+    Ok(record)
+}
+
+fn load_ownership_registry(cfg: &RuntimeConfig) -> CoreResult<OwnershipRegistryRecord> {
+    let path = cfg
+        .octon_dir
+        .join("instance")
+        .join("governance")
+        .join("ownership")
+        .join("registry.yml");
+    read_yaml_or_default(&path)
+}
+
+fn ownership_glob_matches(pattern: &str, candidate: &str) -> bool {
+    if pattern == "**" || pattern == "*" {
+        return true;
+    }
+    if let Some(prefix) = pattern.strip_suffix("/**") {
+        return candidate.starts_with(prefix);
+    }
+    candidate == pattern
+}
+
+fn resolve_ownership_posture(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    run_contract: &RunContractRecord,
+) -> CoreResult<OwnershipPosture> {
+    let registry = load_ownership_registry(cfg)?;
+    let mut owner_refs = Vec::new();
+    let mut matched_asset_ref = None;
+
+    for asset in &registry.assets {
+        if asset.path_globs.iter().any(|glob| {
+            request
+                .scope_constraints
+                .write
+                .iter()
+                .any(|path| ownership_glob_matches(glob, path))
+        }) {
+            matched_asset_ref = asset.asset_id.clone();
+            owner_refs.extend(
+                asset.owners
+                    .iter()
+                    .filter(|value| !value.trim().is_empty())
+                    .map(|value| format!("operator://{value}")),
+            );
+            break;
+        }
+    }
+
+    if owner_refs.is_empty() && request.caller_path == "service" {
+        for service in &registry.services {
+            if service.service_id.as_deref() == Some(request.target_id.as_str()) {
+                owner_refs.extend(
+                    service
+                        .owners
+                        .iter()
+                        .filter(|value| !value.trim().is_empty())
+                        .map(|value| format!("operator://{value}")),
+                );
+            }
+        }
+    }
+
+    if owner_refs.is_empty() {
+        if let Some(default_owner) = registry.defaults.operator_id {
+            owner_refs.push(format!("operator://{default_owner}"));
+        } else if let Some(operator) = registry.operators.first() {
+            owner_refs.push(format!("operator://{}", operator.operator_id));
+        }
+    }
+
+    let status = if owner_refs.is_empty() {
+        "unresolved"
+    } else {
+        "resolved"
+    };
+    let source = if let Some(asset_ref) = &matched_asset_ref {
+        let asset_support_tier = registry
+            .assets
+            .iter()
+            .find(|asset| asset.asset_id.as_ref() == Some(asset_ref))
+            .and_then(|asset| asset.support_tier.as_deref());
+        if asset_support_tier.is_some() {
+            "ownership_registry.asset_with_support_tier"
+        } else {
+            "ownership_registry.asset"
+        }
+    } else if !request.scope_constraints.write.is_empty() {
+        "ownership_registry.default"
+    } else if !run_contract.support_tier.trim().is_empty() {
+        "ownership_registry.support_tier_default"
+    } else {
+        "ownership_registry.fallback"
+    };
+
+    Ok(OwnershipPosture {
+        status: status.to_string(),
+        source: source.to_string(),
+        owner_refs,
+        matched_asset_ref,
+    })
+}
+
+fn load_support_targets(cfg: &RuntimeConfig) -> CoreResult<SupportTargetsRecord> {
+    let path = cfg
+        .octon_dir
+        .join("instance")
+        .join("governance")
+        .join("support-targets.yml");
+    read_yaml_file(&path)
+}
+
+fn resolve_support_tier_posture(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    run_contract: &RunContractRecord,
+    autonomy_state: Option<&ResolvedAutonomyState>,
+) -> CoreResult<SupportTierPosture> {
+    let declaration = load_support_targets(cfg)?;
+    let requested_tier = run_contract.support_tier.trim();
+    let model_tier = request
+        .metadata
+        .get("support_model_tier")
+        .cloned()
+        .unwrap_or_else(|| "MT-B".to_string());
+    let language_resource_tier = request
+        .metadata
+        .get("support_language_resource_tier")
+        .cloned()
+        .unwrap_or_else(|| "LT-REF".to_string());
+    let locale_tier = request
+        .metadata
+        .get("support_locale_tier")
+        .cloned()
+        .unwrap_or_else(|| "LOC-EN".to_string());
+    let Some(workload) = declaration
+        .tiers
+        .workload
+        .iter()
+        .find(|tier| tier.id == requested_tier || tier.label == requested_tier)
+        .cloned()
+    else {
+        return Ok(SupportTierPosture {
+            support_tier: requested_tier.to_string(),
+            model_tier_id: Some(model_tier),
+            route: declaration.default_route,
+            support_status: "unsupported".to_string(),
+            declaration_ref: Some(".octon/instance/governance/support-targets.yml".to_string()),
+            ..SupportTierPosture::default()
+        });
+    };
+
+    let model_known = declaration
+        .tiers
+        .model
+        .iter()
+        .any(|tier| tier.id == model_tier || tier.label == model_tier);
+    let language_known = declaration
+        .tiers
+        .language_resource
+        .iter()
+        .any(|tier| tier.id == language_resource_tier || tier.label == language_resource_tier);
+    let locale_known = declaration
+        .tiers
+        .locale
+        .iter()
+        .any(|tier| tier.id == locale_tier || tier.label == locale_tier);
+
+    if !model_known || !language_known || !locale_known {
+        return Ok(SupportTierPosture {
+            support_tier: run_contract.support_tier.clone(),
+            model_tier_id: Some(model_tier),
+            workload_tier_id: Some(workload.id.clone()),
+            language_resource_tier_id: Some(language_resource_tier),
+            locale_tier_id: Some(locale_tier),
+            workload_tier_label: Some(workload.label),
+            support_status: "unsupported".to_string(),
+            route: declaration.default_route,
+            declaration_ref: Some(".octon/instance/governance/support-targets.yml".to_string()),
+            ..SupportTierPosture::default()
+        });
+    }
+
+    let matrix_entry = declaration
+        .compatibility_matrix
+        .iter()
+        .find(|entry| {
+            entry.model_tier == model_tier
+                && entry.workload_tier == workload.id
+                && entry.language_resource_tier == language_resource_tier
+                && entry.locale_tier == locale_tier
+        })
+        .cloned();
+    let support_status = matrix_entry
+        .as_ref()
+        .map(|entry| entry.support_status.clone())
+        .unwrap_or_else(|| "unsupported".to_string());
+    let route = matrix_entry
+        .as_ref()
+        .map(|entry| entry.default_route.clone())
+        .unwrap_or_else(|| {
+            if workload.default_route.trim().is_empty() {
+                declaration.default_route.clone()
+            } else {
+                workload.default_route.clone()
+            }
+        });
+    let requires_mission = matrix_entry
+        .as_ref()
+        .and_then(|entry| entry.requires_mission)
+        .unwrap_or(false);
+    let required_evidence = matrix_entry
+        .as_ref()
+        .map(|entry| entry.required_evidence.clone())
+        .unwrap_or_default();
+
+    if requires_mission && autonomy_state.is_none() {
+        return Ok(SupportTierPosture {
+            support_tier: run_contract.support_tier.clone(),
+            model_tier_id: Some(model_tier.clone()),
+            workload_tier_id: Some(workload.id),
+            language_resource_tier_id: Some(language_resource_tier.clone()),
+            locale_tier_id: Some(locale_tier.clone()),
+            workload_tier_label: Some(workload.label),
+            support_status,
+            route: "deny".to_string(),
+            requires_mission,
+            required_evidence,
+            declaration_ref: Some(".octon/instance/governance/support-targets.yml".to_string()),
+        });
+    }
+
+    Ok(SupportTierPosture {
+        support_tier: run_contract.support_tier.clone(),
+        model_tier_id: Some(model_tier),
+        workload_tier_id: Some(workload.id),
+        language_resource_tier_id: Some(language_resource_tier),
+        locale_tier_id: Some(locale_tier),
+        workload_tier_label: Some(workload.label),
+        support_status,
+        route,
+        requires_mission,
+        required_evidence,
+        declaration_ref: Some(".octon/instance/governance/support-targets.yml".to_string()),
+    })
+}
+
+fn review_metadata_from_env() -> BTreeMap<String, String> {
+    let mut review_metadata = BTreeMap::new();
+    if std::env::var("OCTON_EXECUTION_HUMAN_APPROVED")
+        .unwrap_or_default()
+        .eq_ignore_ascii_case("true")
+    {
+        review_metadata.insert("human_approval".to_string(), "true".to_string());
+    }
+    if let Ok(value) = std::env::var("OCTON_EXECUTION_QUORUM_TOKEN") {
+        if !value.trim().is_empty() {
+            review_metadata.insert("quorum_token".to_string(), value);
+        }
+    }
+    if let Ok(value) = std::env::var("OCTON_EXECUTION_ROLLBACK_REF") {
+        if !value.trim().is_empty() {
+            review_metadata.insert("rollback_ref".to_string(), value);
+        }
+    }
+    review_metadata
+}
+
+fn approval_projection_sources(request: &ExecutionRequest) -> Vec<AuthorityProjection> {
+    let mut projections = Vec::new();
+    if std::env::var("OCTON_EXECUTION_HUMAN_APPROVED")
+        .unwrap_or_default()
+        .eq_ignore_ascii_case("true")
+    {
+        projections.push(AuthorityProjection {
+            kind: "env-approval-flag".to_string(),
+            ref_id: "env://OCTON_EXECUTION_HUMAN_APPROVED".to_string(),
+            notes: Some("Host approval projection only; runtime materialized the canonical grant.".to_string()),
+        });
+    }
+    for key in [
+        "approval_projection_label",
+        "approval_projection_comment",
+        "approval_projection_check",
+    ] {
+        if let Some(value) = request.metadata.get(key) {
+            projections.push(AuthorityProjection {
+                kind: key.replace("approval_projection_", "host-"),
+                ref_id: value.clone(),
+                notes: Some("Host projection recorded for traceability only.".to_string()),
+            });
+        }
+    }
+    projections
+}
+
+pub fn with_authority_env_metadata(mut metadata: BTreeMap<String, String>) -> BTreeMap<String, String> {
+    for (env_key, meta_key) in [
+        ("OCTON_SUPPORT_TIER", "support_tier"),
+        ("OCTON_SUPPORT_MODEL_TIER", "support_model_tier"),
+        (
+            "OCTON_SUPPORT_LANGUAGE_RESOURCE_TIER",
+            "support_language_resource_tier",
+        ),
+        ("OCTON_SUPPORT_LOCALE_TIER", "support_locale_tier"),
+        ("OCTON_APPROVAL_PROJECTION_LABEL", "approval_projection_label"),
+        ("OCTON_APPROVAL_PROJECTION_COMMENT", "approval_projection_comment"),
+        ("OCTON_APPROVAL_PROJECTION_CHECK", "approval_projection_check"),
+    ] {
+        if !metadata.contains_key(meta_key) {
+            if let Ok(value) = std::env::var(env_key) {
+                if !value.trim().is_empty() {
+                    metadata.insert(meta_key.to_string(), value);
+                }
+            }
+        }
+    }
+    metadata
+}
+
+fn write_approval_request(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    run_contract: &RunContractRecord,
+    ownership: &OwnershipPosture,
+    required_evidence: Vec<String>,
+    reason_codes: Vec<String>,
+) -> CoreResult<String> {
+    let now = now_rfc3339()
+        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to compute approval timestamp: {e}")))?;
+    let artifact = ApprovalRequestArtifact {
+        schema_version: "authority-approval-request-v1".to_string(),
+        request_id: request.request_id.clone(),
+        run_id: request.request_id.clone(),
+        status: "pending".to_string(),
+        target_id: request.target_id.clone(),
+        action_type: request.action_type.clone(),
+        workflow_mode: request.workflow_mode.clone(),
+        support_tier: run_contract.support_tier.clone(),
+        ownership_refs: ownership.owner_refs.clone(),
+        reversibility_class: Some(run_contract.reversibility_class.clone()),
+        reason_codes,
+        required_evidence,
+        projection_sources: approval_projection_sources(request),
+        created_at: now.clone(),
+        updated_at: now,
+    };
+    let path = approval_request_path(cfg, &request.request_id);
+    write_yaml(&path, &artifact).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write approval request artifact {}: {e}", path.display()),
+        )
+    })?;
+    Ok(path_tail(&cfg.repo_root, &path))
+}
+
+fn load_existing_approval_grants(
+    cfg: &RuntimeConfig,
+    request_id: &str,
+) -> CoreResult<Vec<(ApprovalGrantArtifact, String)>> {
+    let path = approval_grant_path(cfg, request_id);
+    if !path.is_file() {
+        return Ok(Vec::new());
+    }
+    let grant: ApprovalGrantArtifact = read_yaml_file(&path)?;
+    if grant.state != "active" {
+        return Ok(Vec::new());
+    }
+    Ok(vec![(grant, path_tail(&cfg.repo_root, &path))])
+}
+
+fn materialize_projection_grant(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    required_evidence: Vec<String>,
+    review_metadata: &BTreeMap<String, String>,
+) -> CoreResult<(ApprovalGrantArtifact, String)> {
+    let now = now_rfc3339()
+        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to compute grant timestamp: {e}")))?;
+    let artifact = ApprovalGrantArtifact {
+        schema_version: "authority-approval-grant-v1".to_string(),
+        grant_id: format!("grant-{}", request.request_id),
+        request_id: request.request_id.clone(),
+        run_id: request.request_id.clone(),
+        state: "active".to_string(),
+        issued_by: "projection://runtime-host-approval".to_string(),
+        issued_at: now,
+        expires_at: None,
+        projection_sources: approval_projection_sources(request),
+        review_metadata: review_metadata.clone(),
+        required_evidence,
+    };
+    let path = approval_grant_path(cfg, &request.request_id);
+    write_yaml(&path, &artifact).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write approval grant artifact {}: {e}", path.display()),
+        )
+    })?;
+    Ok((artifact, path_tail(&cfg.repo_root, &path)))
+}
+
+fn load_active_revocation_refs(
+    cfg: &RuntimeConfig,
+    request_id: &str,
+    grant_id: &str,
+) -> CoreResult<Vec<String>> {
+    let path = revocation_registry_path(cfg);
+    let registry: RevocationRegistry = read_yaml_or_default(&path)?;
+    Ok(registry
+        .revocations
+        .into_iter()
+        .filter(|revocation| {
+            revocation.state == "active"
+                && (revocation.request_id.as_deref() == Some(request_id)
+                    || revocation.grant_id.as_deref() == Some(grant_id))
+        })
+        .map(|revocation| format!("{}.{}", path_tail(&cfg.repo_root, &path), revocation.revocation_id))
+        .collect())
+}
+
+fn budget_posture_from_preview(
+    repo_root: &Path,
+    run_root: &Path,
+    decision: Option<&BudgetDecision>,
+) -> serde_json::Value {
+    match decision {
+        Some(BudgetDecision::Allow {
+            rule_id,
+            reason_codes,
+            evidence,
+        }) => json!({
+            "route": "allow",
+            "rule_id": rule_id,
+            "reason_codes": reason_codes,
+            "estimated_cost_usd": evidence.estimated_cost_usd,
+            "evidence_path": path_tail(repo_root, &run_root.join("cost.json")),
+        }),
+        Some(BudgetDecision::StageOnly {
+            rule_id,
+            reason_codes,
+            evidence,
+            ..
+        }) => json!({
+            "route": "stage_only",
+            "rule_id": rule_id,
+            "reason_codes": reason_codes,
+            "estimated_cost_usd": evidence.estimated_cost_usd,
+            "evidence_path": path_tail(repo_root, &run_root.join("cost.json")),
+        }),
+        Some(BudgetDecision::Deny {
+            rule_id,
+            reason_codes,
+            evidence,
+            ..
+        }) => json!({
+            "route": "deny",
+            "rule_id": rule_id,
+            "reason_codes": reason_codes,
+            "estimated_cost_usd": evidence.estimated_cost_usd,
+            "evidence_path": path_tail(repo_root, &run_root.join("cost.json")),
+        }),
+        _ => json!({"route": "not-applicable"}),
+    }
+}
+
+fn reversibility_payload(
+    request: &ExecutionRequest,
+    run_contract: &RunContractRecord,
+    autonomy_state: Option<&ResolvedAutonomyState>,
+) -> serde_json::Value {
+    json!({
+        "requested": run_contract.reversibility_class,
+        "effective": autonomy_state
+            .map(|state| state.context.reversibility_class.clone())
+            .unwrap_or_else(|| run_contract.reversibility_class.clone()),
+        "rollback_ref_present": std::env::var("OCTON_EXECUTION_ROLLBACK_REF")
+            .map(|value| !value.trim().is_empty())
+            .unwrap_or(false),
+        "workflow_mode": request.workflow_mode,
+    })
+}
+
+fn write_decision_artifact(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    decision: ExecutionDecision,
+    reason_codes: Vec<String>,
+    ownership: OwnershipPosture,
+    support_tier: SupportTierPosture,
+    reversibility: serde_json::Value,
+    budget: serde_json::Value,
+    egress: serde_json::Value,
+    approval_request_ref: Option<String>,
+    approval_grant_refs: Vec<String>,
+    exception_refs: Vec<String>,
+    revocation_refs: Vec<String>,
+) -> CoreResult<String> {
+    let generated_at = now_rfc3339()
+        .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to compute decision timestamp: {e}")))?;
+    let artifact = DecisionArtifact {
+        schema_version: "authority-decision-artifact-v1".to_string(),
+        decision_id: format!("decision-{}", request.request_id),
+        request_id: request.request_id.clone(),
+        run_id: request.request_id.clone(),
+        decision,
+        reason_codes,
+        ownership,
+        support_tier,
+        reversibility,
+        budget,
+        egress,
+        approval_request_ref,
+        approval_grant_refs,
+        exception_refs,
+        revocation_refs,
+        generated_at,
+    };
+    let path = decision_artifact_path(cfg, &request.request_id);
+    write_yaml(&path, &artifact).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write decision artifact {}: {e}", path.display()),
+        )
+    })?;
+    Ok(path_tail(&cfg.repo_root, &path))
+}
+
+fn write_authority_grant_bundle(
+    cfg: &RuntimeConfig,
+    grant: &GrantBundle,
+) -> CoreResult<String> {
+    let path = authority_grant_bundle_path(cfg, &grant.request_id);
+    write_yaml(&path, &json!({
+        "schema_version": "authority-grant-bundle-v1",
+        "grant_id": grant.grant_id,
+        "request_id": grant.request_id,
+        "run_id": grant.request_id,
+        "approval_request_ref": grant.approval_request_ref,
+        "approval_grant_refs": grant.approval_grant_refs,
+        "exception_refs": grant.exception_lease_refs,
+        "revocation_refs": grant.revocation_refs,
+        "decision_artifact_ref": grant.decision_artifact_ref,
+        "generated_at": time::OffsetDateTime::now_utc()
+            .format(&time::format_description::well_known::Rfc3339)
+            .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string()),
+    }))
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write authority grant bundle {}: {e}", path.display()),
+        )
+    })?;
+    Ok(path_tail(&cfg.repo_root, &path))
 }
 
 fn resolve_autonomy_state(
@@ -779,19 +1720,6 @@ fn resolve_autonomy_state(
         ));
     }
 
-    if (scenario_resolution.effective.approval_required
-        || scenario_resolution.effective.finalize_policy.approval_required
-        || scenario_resolution.effective.finalize_policy.break_glass_required)
-        && !std::env::var("OCTON_EXECUTION_HUMAN_APPROVED")
-            .unwrap_or_default()
-            .eq_ignore_ascii_case("true")
-    {
-        return Err(mission_stage_only(
-            "mission slice requires explicit approval before promote",
-            vec!["MISSION_APPROVAL_REQUIRED", "ACP_STAGE_ONLY_REQUIRED"],
-        ));
-    }
-
     if context.oversight_mode == "proceed_on_silence" {
         if !scenario_resolution.effective.proceed_on_silence_allowed {
             return Err(mission_stage_only(
@@ -881,6 +1809,9 @@ fn resolve_autonomy_state(
         reversibility_primitive: primitive,
         autonomy_budget_state,
         breaker_state,
+        approval_required: scenario_resolution.effective.approval_required
+            || scenario_resolution.effective.finalize_policy.approval_required,
+        break_glass_required: scenario_resolution.effective.finalize_policy.break_glass_required,
     }))
 }
 
@@ -934,6 +1865,9 @@ pub fn authorize_execution(
     request: &ExecutionRequest,
     service: Option<&ServiceDescriptor>,
 ) -> CoreResult<GrantBundle> {
+    let mut request = request.clone();
+    request.metadata = with_authority_env_metadata(request.metadata);
+    let request = &request;
     let environment = resolve_execution_environment(cfg, request);
     let intent_ref = request
         .intent_ref
@@ -1049,77 +1983,6 @@ pub fn authorize_execution(
                 .with_details(json!({"reason_codes":["ELEVATED_EXECUTOR_REQUIRES_HARD_ENFORCE"]})),
             );
         }
-        if profile.require_human_review {
-            let approved = std::env::var("OCTON_EXECUTION_HUMAN_APPROVED")
-                .unwrap_or_default()
-                .eq_ignore_ascii_case("true");
-            if !approved {
-                return Err(
-                    KernelError::new(
-                        ErrorCode::CapabilityDenied,
-                        "human approval is required for this execution",
-                    )
-                    .with_details(json!({"reason_codes":["HUMAN_APPROVAL_REQUIRED"]})),
-                );
-            }
-        }
-        if profile.require_rollback_metadata {
-            let has_rollback = std::env::var("OCTON_EXECUTION_ROLLBACK_REF")
-                .map(|value| !value.trim().is_empty())
-                .unwrap_or(false);
-            if !has_rollback {
-                return Err(
-                    KernelError::new(
-                        ErrorCode::CapabilityDenied,
-                        "rollback metadata is required for this execution",
-                    )
-                    .with_details(json!({"reason_codes":["ROLLBACK_METADATA_REQUIRED"]})),
-                );
-            }
-        }
-    }
-
-    if request.review_requirements.human_approval {
-        let approved = std::env::var("OCTON_EXECUTION_HUMAN_APPROVED")
-            .unwrap_or_default()
-            .eq_ignore_ascii_case("true");
-        if !approved {
-            return Err(
-                KernelError::new(
-                    ErrorCode::CapabilityDenied,
-                    "human approval is required for this execution",
-                )
-                .with_details(json!({"reason_codes":["HUMAN_APPROVAL_REQUIRED"]})),
-            );
-        }
-    }
-    if request.review_requirements.quorum {
-        let has_quorum = std::env::var("OCTON_EXECUTION_QUORUM_TOKEN")
-            .map(|value| !value.trim().is_empty())
-            .unwrap_or(false);
-        if !has_quorum {
-            return Err(
-                KernelError::new(
-                    ErrorCode::CapabilityDenied,
-                    "quorum evidence is required for this execution",
-                )
-                .with_details(json!({"reason_codes":["QUORUM_EVIDENCE_REQUIRED"]})),
-            );
-        }
-    }
-    if request.review_requirements.rollback_metadata {
-        let has_rollback = std::env::var("OCTON_EXECUTION_ROLLBACK_REF")
-            .map(|value| !value.trim().is_empty())
-            .unwrap_or(false);
-        if !has_rollback {
-            return Err(
-                KernelError::new(
-                    ErrorCode::CapabilityDenied,
-                    "rollback metadata is required for this execution",
-                )
-                .with_details(json!({"reason_codes":["ROLLBACK_METADATA_REQUIRED"]})),
-            );
-        }
     }
 
     if is_critical_action(cfg, request, executor_profile)
@@ -1136,6 +1999,10 @@ pub fn authorize_execution(
 
     let run_root = cfg.run_root(&request.request_id);
     let run_root_rel = path_tail(&cfg.repo_root, &run_root);
+    let run_contract = load_run_contract_record(cfg, request, autonomy_state.as_ref())?;
+    let ownership = resolve_ownership_posture(cfg, request, &run_contract)?;
+    let support_tier = resolve_support_tier_posture(cfg, request, &run_contract, autonomy_state.as_ref())?;
+    let reversibility = reversibility_payload(request, &run_contract, autonomy_state.as_ref());
 
     let requested_capabilities = dedupe_strings(&request.requested_capabilities);
     let requested_network = requested_capabilities.iter().any(|value| value == "net.http");
@@ -1160,33 +2027,57 @@ pub fn authorize_execution(
         );
     }
 
-    let mut review_metadata = BTreeMap::new();
-    if std::env::var("OCTON_EXECUTION_HUMAN_APPROVED")
-        .unwrap_or_default()
-        .eq_ignore_ascii_case("true")
-    {
-        review_metadata.insert("human_approval".to_string(), "true".to_string());
+    let mut review_metadata = review_metadata_from_env();
+    let profile_requires_human_review = executor_profile
+        .map(|profile| profile.require_human_review)
+        .unwrap_or(false);
+    let profile_requires_rollback = executor_profile
+        .map(|profile| profile.require_rollback_metadata)
+        .unwrap_or(false);
+    let autonomy_requires_approval = autonomy_state
+        .as_ref()
+        .map(|state| state.approval_required || state.break_glass_required)
+        .unwrap_or(false);
+    let approval_required = profile_requires_human_review
+        || request.review_requirements.human_approval
+        || autonomy_requires_approval
+        || !run_contract.required_approvals.is_empty();
+    let quorum_required = request.review_requirements.quorum;
+    let rollback_required = profile_requires_rollback || request.review_requirements.rollback_metadata;
+    let mut required_evidence = run_contract.required_evidence.clone();
+    if approval_required {
+        required_evidence.push("approval-grant".to_string());
     }
-    if let Ok(value) = std::env::var("OCTON_EXECUTION_QUORUM_TOKEN") {
-        if !value.trim().is_empty() {
-            review_metadata.insert("quorum_token".to_string(), value);
-        }
+    if quorum_required {
+        required_evidence.push("quorum-token".to_string());
     }
-    if let Ok(value) = std::env::var("OCTON_EXECUTION_ROLLBACK_REF") {
-        if !value.trim().is_empty() {
-            review_metadata.insert("rollback_ref".to_string(), value);
-        }
+    if rollback_required {
+        required_evidence.push("rollback-ref".to_string());
     }
+    required_evidence.extend(support_tier.required_evidence.clone());
+    required_evidence = dedupe_strings(&required_evidence);
 
-    if requested_network {
-        let matched_rule = authorize_network_egress(
+    let approval_request_reason_codes = if approval_required {
+        let mut codes = vec!["HUMAN_APPROVAL_REQUIRED".to_string()];
+        if autonomy_requires_approval {
+            codes.push("MISSION_APPROVAL_REQUIRED".to_string());
+        }
+        codes
+    } else {
+        Vec::new()
+    };
+    let approval_request_ref = if approval_required {
+        Some(write_approval_request(
             cfg,
             request,
-            executor_profile.map(|profile| profile.name.as_str()),
-        )?;
-        granted_capabilities.push("net.http".to_string());
-        review_metadata.insert("network_egress_rule".to_string(), matched_rule);
-    }
+            &run_contract,
+            &ownership,
+            required_evidence.clone(),
+            approval_request_reason_codes.clone(),
+        )?)
+    } else {
+        None
+    };
 
     let budget_preview_decision = preview_execution_budget(
         cfg,
@@ -1196,6 +2087,272 @@ pub fn authorize_execution(
     let budget_preview = budget_preview_decision
         .as_ref()
         .map(|decision| budget_metadata_from_decision(&cfg.repo_root, &run_root, decision));
+    let mut budget_posture = budget_posture_from_preview(&cfg.repo_root, &run_root, budget_preview_decision.as_ref());
+    let mut network_egress_posture = None::<NetworkEgressPosture>;
+    let mut exception_refs = Vec::new();
+
+    let emit_route_error = |decision: ExecutionDecision,
+                            message: String,
+                            reason_codes: Vec<String>,
+                            ownership: OwnershipPosture,
+                            support_tier: SupportTierPosture,
+                            reversibility: serde_json::Value,
+                            budget: serde_json::Value,
+                            egress: serde_json::Value,
+                            approval_request_ref: Option<String>,
+                            approval_grant_refs: Vec<String>,
+                            exception_refs: Vec<String>,
+                            revocation_refs: Vec<String>|
+     -> CoreResult<GrantBundle> {
+        let decision_ref = write_decision_artifact(
+            cfg,
+            request,
+            decision.clone(),
+            reason_codes.clone(),
+            ownership,
+            support_tier,
+            reversibility,
+            budget,
+            egress,
+            approval_request_ref,
+            approval_grant_refs.clone(),
+            exception_refs.clone(),
+            revocation_refs.clone(),
+        )?;
+        Err(
+            KernelError::new(ErrorCode::CapabilityDenied, message).with_details(json!({
+                "reason_codes": reason_codes,
+                "decision": decision_label(&decision),
+                "decision_artifact_ref": decision_ref,
+                "approval_grant_refs": approval_grant_refs,
+                "exception_refs": exception_refs,
+                "revocation_refs": revocation_refs,
+            })),
+        )
+    };
+
+    if ownership.status != "resolved" {
+        return emit_route_error(
+            ExecutionDecision::Escalate,
+            "ownership is unresolved for this execution".to_string(),
+            vec!["OWNERSHIP_UNRESOLVED".to_string()],
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget_posture.clone(),
+            json!({"route": "not-applicable"}),
+            approval_request_ref.clone(),
+            Vec::new(),
+            Vec::new(),
+            Vec::new(),
+        );
+    }
+
+    if support_tier.route != "allow" || support_tier.support_status == "unsupported" {
+        let decision = match support_tier.route.as_str() {
+            "stage_only" => ExecutionDecision::StageOnly,
+            "escalate" => ExecutionDecision::Escalate,
+            _ => ExecutionDecision::Deny,
+        };
+        let reason_code = if support_tier.support_status == "unsupported" {
+            "SUPPORT_TIER_UNSUPPORTED"
+        } else {
+            "SUPPORT_TIER_ROUTE_BLOCKED"
+        };
+        return emit_route_error(
+            decision,
+            format!("support tier '{}' is not authorized for this execution", support_tier.support_tier),
+            vec![reason_code.to_string()],
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget_posture.clone(),
+            json!({"route": "not-applicable"}),
+            approval_request_ref.clone(),
+            Vec::new(),
+            Vec::new(),
+            Vec::new(),
+        );
+    }
+
+    if requested_network {
+        let egress_decision = match authorize_network_egress(
+            cfg,
+            request,
+            executor_profile.map(|profile| profile.name.as_str()),
+        ) {
+            Ok(decision) => decision,
+            Err(err) => {
+                let _ = write_decision_artifact(
+                    cfg,
+                    request,
+                    ExecutionDecision::Deny,
+                    vec!["NETWORK_EGRESS_DENIED".to_string()],
+                    ownership.clone(),
+                    support_tier.clone(),
+                    reversibility.clone(),
+                    budget_posture.clone(),
+                    json!({"route": "deny"}),
+                    approval_request_ref.clone(),
+                    Vec::new(),
+                    Vec::new(),
+                    Vec::new(),
+                );
+                return Err(err);
+            }
+        };
+        granted_capabilities.push("net.http".to_string());
+        review_metadata.insert(
+            "network_egress_rule".to_string(),
+            egress_decision.matched_rule_id.clone(),
+        );
+        review_metadata.insert(
+            "network_egress_source".to_string(),
+            egress_decision.source_kind.clone(),
+        );
+        if let Some(artifact_ref) = &egress_decision.artifact_ref {
+            if egress_decision.source_kind == "exception-lease" {
+                exception_refs.push(artifact_ref.clone());
+            }
+        }
+        network_egress_posture = Some(NetworkEgressPosture {
+            route: "allow".to_string(),
+            matched_rule_id: Some(egress_decision.matched_rule_id.clone()),
+            source_kind: Some(egress_decision.source_kind.clone()),
+            artifact_ref: egress_decision.artifact_ref.clone(),
+            target_url: request.metadata.get("network_egress_url").cloned(),
+        });
+    }
+
+    match budget_preview_decision.as_ref() {
+        Some(BudgetDecision::StageOnly {
+            reason_codes,
+            message,
+            ..
+        }) => {
+            return emit_route_error(
+                ExecutionDecision::StageOnly,
+                message.clone(),
+                reason_codes.clone(),
+                ownership.clone(),
+                support_tier.clone(),
+                reversibility.clone(),
+                budget_posture.clone(),
+                json!(network_egress_posture.clone().unwrap_or_default()),
+                approval_request_ref.clone(),
+                Vec::new(),
+                exception_refs.clone(),
+                Vec::new(),
+            );
+        }
+        Some(BudgetDecision::Deny {
+            reason_codes,
+            message,
+            ..
+        }) => {
+            return emit_route_error(
+                ExecutionDecision::Deny,
+                message.clone(),
+                reason_codes.clone(),
+                ownership.clone(),
+                support_tier.clone(),
+                reversibility.clone(),
+                budget_posture.clone(),
+                json!(network_egress_posture.clone().unwrap_or_default()),
+                approval_request_ref.clone(),
+                Vec::new(),
+                exception_refs.clone(),
+                Vec::new(),
+            );
+        }
+        _ => {}
+    }
+
+    let mut approval_grant_refs = load_existing_approval_grants(cfg, &request.request_id)?
+        .into_iter()
+        .map(|(_, path)| path)
+        .collect::<Vec<_>>();
+    if approval_required && approval_grant_refs.is_empty() && review_metadata.contains_key("human_approval") {
+        let (_, path) = materialize_projection_grant(
+            cfg,
+            request,
+            required_evidence.clone(),
+            &review_metadata,
+        )?;
+        approval_grant_refs.push(path);
+    }
+
+    if approval_required && approval_grant_refs.is_empty() {
+        let mut reason_codes = vec!["HUMAN_APPROVAL_REQUIRED".to_string(), "ACP_STAGE_ONLY_REQUIRED".to_string()];
+        if autonomy_requires_approval {
+            reason_codes.insert(0, "MISSION_APPROVAL_REQUIRED".to_string());
+        }
+        return emit_route_error(
+            ExecutionDecision::StageOnly,
+            "human approval is required for this execution".to_string(),
+            reason_codes,
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget_posture.clone(),
+            json!(network_egress_posture.clone().unwrap_or_default()),
+            approval_request_ref.clone(),
+            Vec::new(),
+            exception_refs.clone(),
+            Vec::new(),
+        );
+    }
+    if quorum_required && !review_metadata.contains_key("quorum_token") {
+        return emit_route_error(
+            ExecutionDecision::StageOnly,
+            "quorum evidence is required for this execution".to_string(),
+            vec!["QUORUM_EVIDENCE_REQUIRED".to_string(), "ACP_STAGE_ONLY_REQUIRED".to_string()],
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget_posture.clone(),
+            json!(network_egress_posture.clone().unwrap_or_default()),
+            approval_request_ref.clone(),
+            approval_grant_refs.clone(),
+            exception_refs.clone(),
+            Vec::new(),
+        );
+    }
+    if rollback_required && !review_metadata.contains_key("rollback_ref") {
+        return emit_route_error(
+            ExecutionDecision::StageOnly,
+            "rollback metadata is required for this execution".to_string(),
+            vec!["ROLLBACK_METADATA_REQUIRED".to_string(), "ACP_STAGE_ONLY_REQUIRED".to_string()],
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget_posture.clone(),
+            json!(network_egress_posture.clone().unwrap_or_default()),
+            approval_request_ref.clone(),
+            approval_grant_refs.clone(),
+            exception_refs.clone(),
+            Vec::new(),
+        );
+    }
+
+    let grant_id = format!("grant-{}", request.request_id);
+    let revocation_refs = load_active_revocation_refs(cfg, &request.request_id, &grant_id)?;
+    if !revocation_refs.is_empty() {
+        return emit_route_error(
+            ExecutionDecision::Deny,
+            "an active revocation blocks this execution".to_string(),
+            vec!["AUTHORITY_GRANT_REVOKED".to_string()],
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget_posture.clone(),
+            json!(network_egress_posture.clone().unwrap_or_default()),
+            approval_request_ref.clone(),
+            approval_grant_refs.clone(),
+            exception_refs.clone(),
+            revocation_refs.clone(),
+        );
+    }
 
     let policy_artifacts = compose_policy_receipt(
         cfg,
@@ -1205,25 +2362,31 @@ pub fn authorize_execution(
         &effective_policy_mode,
         budget_preview.as_ref(),
         autonomy_state.as_ref(),
+        &ownership,
+        &support_tier,
+        approval_request_ref.as_deref(),
+        &approval_grant_refs,
+        &exception_refs,
+        &revocation_refs,
+        network_egress_posture.as_ref(),
     )?;
     if !policy_artifacts.allow {
-        return Err(
-            KernelError::new(
-                ErrorCode::CapabilityDenied,
-                policy_artifacts
-                    .remediation
-                    .clone()
-                    .unwrap_or_else(|| "ACP denied execution".to_string()),
-            )
-            .with_details(json!({
-                "reason_codes": policy_artifacts.reason_codes,
-                "decision": match policy_artifacts.decision {
-                    ExecutionDecision::Allow => "ALLOW",
-                    ExecutionDecision::StageOnly => "STAGE_ONLY",
-                    ExecutionDecision::Deny => "DENY",
-                    ExecutionDecision::Escalate => "ESCALATE",
-                }
-            })),
+        return emit_route_error(
+            policy_artifacts.decision.clone(),
+            policy_artifacts
+                .remediation
+                .clone()
+                .unwrap_or_else(|| "ACP denied execution".to_string()),
+            policy_artifacts.reason_codes.clone(),
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget_posture.clone(),
+            json!(network_egress_posture.clone().unwrap_or_default()),
+            approval_request_ref.clone(),
+            approval_grant_refs.clone(),
+            exception_refs.clone(),
+            revocation_refs.clone(),
         );
     }
 
@@ -1232,9 +2395,19 @@ pub fn authorize_execution(
         budget_preview_decision,
         &run_root,
     )?;
+    if let Some(metadata) = &budget {
+        budget_posture = json!({
+            "route": "allow",
+            "rule_id": metadata.rule_id,
+            "reason_codes": metadata.reason_codes,
+            "estimated_cost_usd": metadata.estimated_cost_usd,
+            "actual_cost_usd": metadata.actual_cost_usd,
+            "evidence_path": metadata.evidence_path,
+        });
+    }
 
-    Ok(GrantBundle {
-        grant_id: format!("grant-{}", request.request_id),
+    let mut grant = GrantBundle {
+        grant_id: grant_id.clone(),
         request_id: request.request_id.clone(),
         decision: ExecutionDecision::Allow,
         granted_capabilities,
@@ -1280,7 +2453,35 @@ pub fn authorize_execution(
         breaker_state: autonomy_state
             .as_ref()
             .map(|state| state.breaker_state.clone()),
-    })
+        support_tier: Some(run_contract.support_tier.clone()),
+        ownership_refs: ownership.owner_refs.clone(),
+        approval_request_ref: approval_request_ref.clone(),
+        approval_grant_refs: approval_grant_refs.clone(),
+        exception_lease_refs: exception_refs.clone(),
+        revocation_refs: revocation_refs.clone(),
+        decision_artifact_ref: None,
+        authority_grant_bundle_ref: None,
+        network_egress_posture: network_egress_posture.clone(),
+    };
+    let decision_ref = write_decision_artifact(
+        cfg,
+        request,
+        ExecutionDecision::Allow,
+        grant.reason_codes.clone(),
+        ownership,
+        support_tier,
+        reversibility,
+        budget_posture,
+        json!(network_egress_posture.unwrap_or_default()),
+        approval_request_ref,
+        approval_grant_refs,
+        exception_refs,
+        revocation_refs,
+    )?;
+    grant.decision_artifact_ref = Some(decision_ref);
+    let authority_bundle_ref = write_authority_grant_bundle(cfg, &grant)?;
+    grant.authority_grant_bundle_ref = Some(authority_bundle_ref);
+    Ok(grant)
 }
 
 pub fn artifact_root_from_relative(repo_root: &Path, relative_root: &str, request_id: &str) -> PathBuf {
@@ -1412,6 +2613,15 @@ pub fn finalize_execution(
             || env_bool("OCTON_AUTONOMY_POLICY_ENFORCE"),
         evidence_links: evidence_links(paths, grant),
         budget: grant.budget.clone(),
+        support_tier: grant.support_tier.clone(),
+        ownership_refs: grant.ownership_refs.clone(),
+        approval_request_ref: grant.approval_request_ref.clone(),
+        approval_grant_refs: grant.approval_grant_refs.clone(),
+        exception_lease_refs: grant.exception_lease_refs.clone(),
+        revocation_refs: grant.revocation_refs.clone(),
+        decision_artifact_ref: grant.decision_artifact_ref.clone(),
+        authority_grant_bundle_ref: grant.authority_grant_bundle_ref.clone(),
+        network_egress_posture: grant.network_egress_posture.clone(),
         timestamps: ReceiptTimestamps {
             started_at: started_at.to_string(),
             completed_at: outcome.completed_at.clone(),
@@ -1493,6 +2703,15 @@ fn write_json(path: &Path, value: &impl Serialize) -> anyhow::Result<()> {
         .with_context(|| format!("write {}", path.display()))
 }
 
+fn write_yaml(path: &Path, value: &impl Serialize) -> anyhow::Result<()> {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)
+            .with_context(|| format!("create parent directory {}", parent.display()))?;
+    }
+    fs::write(path, serde_yaml::to_string(value)?)
+        .with_context(|| format!("write {}", path.display()))
+}
+
 fn evidence_links(paths: &ExecutionArtifactPaths, grant: &GrantBundle) -> BTreeMap<String, String> {
     let mut links = BTreeMap::new();
     links.insert("request".to_string(), path_tail(&paths.root, &paths.request));
@@ -1524,6 +2743,33 @@ fn evidence_links(paths: &ExecutionArtifactPaths, grant: &GrantBundle) -> BTreeM
             "network_egress".to_string(),
             format!("{}/network-egress.ndjson", grant.run_root),
         );
+    }
+    if let Some(path) = &grant.approval_request_ref {
+        links.insert("approval_request".to_string(), path.clone());
+    }
+    if !grant.approval_grant_refs.is_empty() {
+        links.insert(
+            "approval_grants".to_string(),
+            grant.approval_grant_refs.join(","),
+        );
+    }
+    if !grant.exception_lease_refs.is_empty() {
+        links.insert(
+            "exception_leases".to_string(),
+            grant.exception_lease_refs.join(","),
+        );
+    }
+    if !grant.revocation_refs.is_empty() {
+        links.insert(
+            "revocations".to_string(),
+            grant.revocation_refs.join(","),
+        );
+    }
+    if let Some(path) = &grant.decision_artifact_ref {
+        links.insert("authority_decision".to_string(), path.clone());
+    }
+    if let Some(path) = &grant.authority_grant_bundle_ref {
+        links.insert("authority_grant_bundle".to_string(), path.clone());
     }
     links
 }
@@ -1594,6 +2840,13 @@ fn compose_policy_receipt(
     effective_policy_mode: &str,
     budget_preview: Option<&BudgetMetadata>,
     autonomy_state: Option<&ResolvedAutonomyState>,
+    ownership: &OwnershipPosture,
+    support_tier: &SupportTierPosture,
+    approval_request_ref: Option<&str>,
+    approval_grant_refs: &[String],
+    exception_refs: &[String],
+    revocation_refs: &[String],
+    network_egress_posture: Option<&NetworkEgressPosture>,
 ) -> CoreResult<PolicyArtifacts> {
     let _test_guard = if cfg!(test) {
         Some(
@@ -1666,6 +2919,13 @@ fn compose_policy_receipt(
         effective_policy_mode,
         budget_preview,
         autonomy_state,
+        ownership,
+        support_tier,
+        approval_request_ref,
+        approval_grant_refs,
+        exception_refs,
+        revocation_refs,
+        network_egress_posture,
     )?;
 
     fs::create_dir_all(&run_root)
@@ -1842,6 +3102,13 @@ fn build_policy_request_json(
     effective_policy_mode: &str,
     budget_preview: Option<&BudgetMetadata>,
     autonomy_state: Option<&ResolvedAutonomyState>,
+    ownership: &OwnershipPosture,
+    support_tier: &SupportTierPosture,
+    approval_request_ref: Option<&str>,
+    approval_grant_refs: &[String],
+    exception_refs: &[String],
+    revocation_refs: &[String],
+    network_egress_posture: Option<&NetworkEgressPosture>,
 ) -> CoreResult<serde_json::Value> {
     let request_json = serde_json::to_vec(request)
         .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to serialize execution request: {e}")))?;
@@ -1922,6 +3189,13 @@ fn build_policy_request_json(
         "boundary_id": request.caller_path,
         "boundary_set_version": "v1",
         "workflow_mode": request.workflow_mode.clone(),
+        "ownership": ownership,
+        "support_tier": support_tier,
+        "approval_request_ref": approval_request_ref,
+        "approval_grant_refs": approval_grant_refs,
+        "exception_refs": exception_refs,
+        "revocation_refs": revocation_refs,
+        "network_egress": network_egress_posture,
         "oversight_mode": autonomy_state.as_ref().map(|state| json!(state.context.oversight_mode.clone())).unwrap_or(serde_json::Value::Null),
         "execution_posture": autonomy_state.as_ref().map(|state| json!(state.context.execution_posture.clone())).unwrap_or(serde_json::Value::Null),
         "reversibility_class": autonomy_state.as_ref().map(|state| json!(state.context.reversibility_class.clone())).unwrap_or(serde_json::Value::Null),
@@ -2042,7 +3316,7 @@ fn authorize_network_egress(
     cfg: &RuntimeConfig,
     request: &ExecutionRequest,
     executor_profile: Option<&str>,
-) -> CoreResult<String> {
+) -> CoreResult<NetworkEgressDecision> {
     let service_id = request
         .metadata
         .get("network_egress_service")
@@ -2065,7 +3339,7 @@ fn authorize_network_egress(
         })?;
     let policy = load_network_egress_policy(&cfg.repo_root)?;
     let leases = load_execution_exception_leases(&cfg.repo_root)?;
-    let decision = evaluate_network_egress(
+    evaluate_network_egress(
         &policy,
         &leases,
         &NetworkEgressContext {
@@ -2078,8 +3352,7 @@ fn authorize_network_egress(
             method,
         },
         url,
-    )?;
-    Ok(decision.matched_rule_id)
+    )
 }
 
 fn preview_execution_budget(
@@ -2274,15 +3547,49 @@ mod tests {
             .expect("create ACP policy dir");
         fs::create_dir_all(base.join(".octon/state/evidence/runs"))
             .expect("create run evidence dir");
+        fs::create_dir_all(base.join(".octon/state/evidence/control/execution"))
+            .expect("create control evidence dir");
         fs::create_dir_all(base.join(".octon/state/control/execution"))
             .expect("create execution control dir");
+        fs::create_dir_all(base.join(".octon/state/control/execution/approvals/requests"))
+            .expect("create approval request dir");
+        fs::create_dir_all(base.join(".octon/state/control/execution/approvals/grants"))
+            .expect("create approval grant dir");
+        fs::create_dir_all(base.join(".octon/state/control/execution/exceptions"))
+            .expect("create exception dir");
+        fs::create_dir_all(base.join(".octon/state/control/execution/revocations"))
+            .expect("create revocation dir");
         fs::create_dir_all(base.join(".octon/generated/.tmp/execution"))
             .expect("create execution tmp dir");
+        fs::create_dir_all(base.join(".octon/instance/governance"))
+            .expect("create governance dir");
+        fs::create_dir_all(base.join(".octon/instance/governance/ownership"))
+            .expect("create ownership dir");
         fs::write(
             base.join(".octon/instance/cognition/context/shared/intent.contract.yml"),
             "intent_id: intent://test/example\nversion: 1.0.0\n",
         )
         .expect("write intent contract");
+        fs::write(
+            base.join(".octon/instance/governance/support-targets.yml"),
+            "schema_version: \"octon-support-targets-v1\"\nowner: \"test\"\ndefault_route: \"deny\"\ntiers:\n  model:\n    - id: \"MT-B\"\n      label: \"repo-local-governed\"\n      default_autonomy: \"bounded\"\n      description: \"fixture\"\n  workload:\n    - id: \"WT-2\"\n      label: \"repo-local-transitional\"\n      default_route: \"allow\"\n      description: \"fixture\"\n  language_resource:\n    - id: \"LT-REF\"\n      label: \"reference-owned\"\n      description: \"fixture\"\n  locale:\n    - id: \"LOC-EN\"\n      label: \"english-primary\"\n      description: \"fixture\"\ncompatibility_matrix:\n  - model_tier: \"MT-B\"\n    workload_tier: \"WT-2\"\n    language_resource_tier: \"LT-REF\"\n    locale_tier: \"LOC-EN\"\n    support_status: \"supported\"\n    default_route: \"allow\"\n",
+        )
+        .expect("write support targets");
+        fs::write(
+            base.join(".octon/instance/governance/ownership/registry.yml"),
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"workflow-evidence\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
+        )
+        .expect("write ownership registry");
+        fs::write(
+            base.join(".octon/state/control/execution/exceptions/leases.yml"),
+            "schema_version: \"authority-exception-lease-set-v1\"\nleases: []\n",
+        )
+        .expect("write exception leases");
+        fs::write(
+            base.join(".octon/state/control/execution/revocations/grants.yml"),
+            "schema_version: \"authority-revocation-set-v1\"\nrevocations: []\n",
+        )
+        .expect("write revocations");
         let source_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("../../../../../..")
             .canonicalize()
@@ -2345,7 +3652,7 @@ mod tests {
         .expect("write mission autonomy policy");
         fs::write(
             cfg.octon_dir.join("instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators: []\nassets: []\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"fixture\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
         )
         .expect("write ownership registry");
         fs::write(
@@ -2577,6 +3884,37 @@ mod tests {
         let err = authorize_execution(&cfg, &policy, &request, None)
             .expect_err("approval-required autonomous request should stage only without approval");
         assert_eq!(err.details["decision"].as_str(), Some("STAGE_ONLY"));
+    }
+
+    #[test]
+    fn host_approval_projection_materializes_canonical_grant() {
+        let cfg = temp_runtime_config();
+        seed_mission_autonomy_fixture(&cfg, "mission-b2", "healthy");
+        let policy = PolicyEngine::new(cfg.clone());
+        let request = mission_request(&cfg, "mission-b2", "approval_required", "reversible");
+        std::env::set_var("OCTON_EXECUTION_HUMAN_APPROVED", "true");
+        let grant = authorize_execution(&cfg, &policy, &request, None)
+            .expect("host approval projection should materialize canonical grant");
+        std::env::remove_var("OCTON_EXECUTION_HUMAN_APPROVED");
+        assert!(!grant.approval_grant_refs.is_empty());
+        assert!(cfg
+            .octon_dir
+            .join("state/control/execution/approvals/grants/grant-req-1.yml")
+            .is_file());
+    }
+
+    #[test]
+    fn unsupported_support_tier_denies_execution() {
+        let cfg = temp_runtime_config();
+        let policy = PolicyEngine::new(cfg.clone());
+        fs::write(
+            cfg.octon_dir.join("instance/governance/support-targets.yml"),
+            "schema_version: \"octon-support-targets-v1\"\nowner: \"test\"\ndefault_route: \"deny\"\ntiers:\n  model:\n    - id: \"MT-B\"\n      label: \"repo-local-governed\"\n      default_autonomy: \"bounded\"\n      description: \"fixture\"\n  workload:\n    - id: \"WT-3\"\n      label: \"not-the-requested-tier\"\n      default_route: \"deny\"\n      description: \"fixture\"\n  language_resource:\n    - id: \"LT-REF\"\n      label: \"reference-owned\"\n      description: \"fixture\"\n  locale:\n    - id: \"LOC-EN\"\n      label: \"english-primary\"\n      description: \"fixture\"\ncompatibility_matrix:\n  - model_tier: \"MT-B\"\n    workload_tier: \"WT-3\"\n    language_resource_tier: \"LT-REF\"\n    locale_tier: \"LOC-EN\"\n    support_status: \"supported\"\n    default_route: \"allow\"\n",
+        )
+        .expect("rewrite support targets");
+        let err = authorize_execution(&cfg, &policy, &minimal_request(), None)
+            .expect_err("unsupported support tier should deny");
+        assert_eq!(err.details["reason_codes"][0].as_str(), Some("SUPPORT_TIER_UNSUPPORTED"));
     }
 
     #[test]

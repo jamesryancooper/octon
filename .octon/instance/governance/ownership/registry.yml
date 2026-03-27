@@ -9,8 +9,20 @@ operators:
   - operator_id: "octon-maintainers"
     display_name: "Octon Maintainers"
     contact: "repo://maintainers"
-assets: []
-services: []
+defaults:
+  operator_id: "octon-maintainers"
+  support_tier: "repo-local-transitional"
+assets:
+  - asset_id: "octon-harness"
+    path_globs:
+      - ".octon/**"
+    owners:
+      - "octon-maintainers"
+    support_tier: "repo-local-transitional"
+services:
+  - service_id: "execution/flow"
+    owners:
+      - "octon-maintainers"
 subscriptions:
   default_routes:
     - "mission_owner"

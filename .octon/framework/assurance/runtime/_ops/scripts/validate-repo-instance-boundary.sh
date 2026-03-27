@@ -58,6 +58,7 @@ check_required_structure() {
   require_file "$INSTANCE_DIR/orchestration/missions/_scaffold/template/log.md"
   require_dir "$INSTANCE_DIR/governance/ownership"
   require_file "$INSTANCE_DIR/governance/ownership/registry.yml"
+  require_file "$INSTANCE_DIR/governance/support-targets.yml"
   require_dir "$INSTANCE_DIR/capabilities/runtime/commands"
   require_file "$INSTANCE_DIR/capabilities/runtime/commands/README.md"
 }
@@ -92,6 +93,7 @@ check_overlay_domain_shape() {
       ! -path "$INSTANCE_DIR/governance/contracts/*" \
       ! -path "$INSTANCE_DIR/governance/ownership" \
       ! -path "$INSTANCE_DIR/governance/ownership/*" \
+      ! -path "$INSTANCE_DIR/governance/support-targets.yml" \
       -print | sort || true)"
     if [[ -n "$stray_paths" ]]; then
       fail "ad hoc governance overlay content exists outside ratified roots"

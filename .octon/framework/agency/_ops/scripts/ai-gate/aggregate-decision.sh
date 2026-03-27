@@ -7,6 +7,7 @@ FINDINGS_DIR=""
 LABELS_JSON='[]'
 ENFORCE_VALUE=""
 OUTPUT_PATH=""
+WAIVED_BY_AUTHORITY=""
 
 usage() {
   cat <<'USAGE'
@@ -18,6 +19,7 @@ Usage:
     --labels-json '<json-array>' \
     --enforce <true|false> \
     --output <path>
+    [--waived-by-authority <true|false>]
 
 Aggregates provider findings and emits a provider-agnostic AI gate decision.
 USAGE
@@ -74,6 +76,11 @@ while [[ $# -gt 0 ]]; do
       [[ $# -gt 0 ]] || error "--output requires a value"
       OUTPUT_PATH="$1"
       ;;
+    --waived-by-authority)
+      shift
+      [[ $# -gt 0 ]] || error "--waived-by-authority requires a value"
+      WAIVED_BY_AUTHORITY="$1"
+      ;;
     -h|--help)
       usage
       exit 0
@@ -111,14 +118,18 @@ else
   enforce="$(normalize_bool "${policy_default_enforce}")"
 fi
 
-waived=true
-while IFS= read -r label; do
-  [[ -n "${label}" ]] || continue
-  if ! jq -e --arg label "${label}" 'index($label) != null' <<<"${LABELS_JSON}" >/dev/null; then
-    waived=false
-    break
-  fi
-done < <(jq -r '.[]' <<<"${required_waiver_labels}")
+if [[ -n "${WAIVED_BY_AUTHORITY}" ]]; then
+  waived="$(normalize_bool "${WAIVED_BY_AUTHORITY}")"
+else
+  waived=true
+  while IFS= read -r label; do
+    [[ -n "${label}" ]] || continue
+    if ! jq -e --arg label "${label}" 'index($label) != null' <<<"${LABELS_JSON}" >/dev/null; then
+      waived=false
+      break
+    fi
+  done < <(jq -r '.[]' <<<"${required_waiver_labels}")
+fi
 
 provider_results='[]'
 providers_total=0

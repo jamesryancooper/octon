@@ -42,8 +42,14 @@ long-running and always-running autonomous agents.
   `/.octon/instance/governance/policies/mission-autonomy.yml`
 - ownership authority:
   `/.octon/instance/governance/ownership/registry.yml`
+- support-target declarations:
+  `/.octon/instance/governance/support-targets.yml`
 - run contract control roots:
   `/.octon/state/control/execution/runs/<run-id>/**`
+- approval control roots:
+  `/.octon/state/control/execution/approvals/**`
+- exception and revocation control roots:
+  `/.octon/state/control/execution/{exceptions,revocations}/**`
 - mission control truth:
   `/.octon/state/control/execution/missions/<mission-id>/**`
 - retained control evidence:
@@ -76,6 +82,10 @@ Keep these concerns distinct:
 - **approval**: explicit authority mutation
 - **reversibility**: what can still be rolled back or compensated after
   promotion
+
+Approval becomes authoritative only after runtime materializes canonical
+`ApprovalRequest` and `ApprovalGrant` artifacts. Labels, comments, checks, and
+chat state remain projection inputs only.
 
 Notifications are not approval.
 Silence is not consent.

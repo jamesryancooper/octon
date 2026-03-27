@@ -17,20 +17,28 @@ execution:
     execution_budgets: ".octon/instance/governance/policies/execution-budgets.yml"
     mission_autonomy: ".octon/instance/governance/policies/mission-autonomy.yml"
     ownership_registry: ".octon/instance/governance/ownership/registry.yml"
+    support_targets: ".octon/instance/governance/support-targets.yml"
     missions_registry: ".octon/instance/orchestration/missions/registry.yml"
   control_state:
     budget_state: ".octon/state/control/execution/budget-state.yml"
-    exception_leases: ".octon/state/control/execution/exception-leases.yml"
+    approval_requests_root: ".octon/state/control/execution/approvals/requests"
+    approval_grants_root: ".octon/state/control/execution/approvals/grants"
+    exception_leases: ".octon/state/control/execution/exceptions/leases.yml"
+    revocations: ".octon/state/control/execution/revocations/grants.yml"
     runs_root: ".octon/state/control/execution/runs"
     missions_root: ".octon/state/control/execution/missions"
   objective_binding:
     contract_family_root: ".octon/framework/constitution/contracts/objective"
     workspace_objective_brief: ".octon/instance/bootstrap/OBJECTIVE.md"
     workspace_intent_contract: ".octon/instance/cognition/context/shared/intent.contract.yml"
+  authority_binding:
+    contract_family_root: ".octon/framework/constitution/contracts/authority"
+    control_evidence_root: ".octon/state/evidence/control/execution"
   forbidden_write_prefixes:
     - ".octon/framework/engine/_ops/state"
   required_doc_surfaces:
     - ".octon/framework/constitution/CHARTER.md"
+    - ".octon/framework/constitution/contracts/authority/README.md"
     - ".octon/framework/constitution/contracts/objective/README.md"
     - ".octon/README.md"
     - ".octon/instance/ingress/AGENTS.md"
@@ -46,6 +54,8 @@ execution:
     - ".octon/framework/engine/runtime/spec/policy-receipt-v2.schema.json"
     - ".octon/framework/engine/runtime/spec/policy-digest-v2.md"
     - ".octon/state/control/execution/runs/README.md"
+    - ".octon/state/control/README.md"
+    - ".octon/state/evidence/README.md"
   blocking_checks:
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
@@ -83,6 +93,7 @@ documentation:
       description: "Markdown documents that define architecture, governance, bootstrap, or review-receipt behavior."
       match_globs:
         - ".octon/framework/constitution/CHARTER.md"
+        - ".octon/framework/constitution/contracts/authority/README.md"
         - ".octon/framework/constitution/contracts/objective/README.md"
         - ".octon/README.md"
         - ".octon/instance/ingress/AGENTS.md"
@@ -94,6 +105,8 @@ documentation:
         - ".octon/framework/engine/README.md"
         - ".octon/framework/engine/runtime/spec/policy-interface-v1.md"
         - ".octon/framework/engine/runtime/spec/policy-digest-v2.md"
+        - ".octon/state/control/README.md"
+        - ".octon/state/evidence/README.md"
         - ".octon/state/control/execution/runs/README.md"
         - ".octon/framework/agency/practices/pull-request-standards.md"
         - ".octon/instance/cognition/decisions/[0-9][0-9][0-9]-*.md"

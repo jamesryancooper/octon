@@ -1,5 +1,6 @@
 use crate::authorization::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
+    with_authority_env_metadata,
     write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
     ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
@@ -226,7 +227,7 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         },
                         policy_mode_requested: None,
                         environment_hint: None,
-                        metadata: service_profile.metadata.clone(),
+                        metadata: with_authority_env_metadata(service_profile.metadata.clone()),
                     };
                     let grant = match authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(&service)) {
                         Ok(grant) => grant,

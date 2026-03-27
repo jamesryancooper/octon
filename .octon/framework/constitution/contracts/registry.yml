@@ -18,7 +18,7 @@ kernel_surfaces:
   support_targets:
     schema: ".octon/framework/constitution/support-targets.schema.json"
     authoritative_declaration: ".octon/instance/governance/support-targets.yml"
-    status: "schema-only"
+    status: "active-transitional"
 families:
   - family_id: "objective"
     path: ".octon/framework/constitution/contracts/objective/**"
@@ -28,7 +28,7 @@ families:
   - family_id: "authority"
     path: ".octon/framework/constitution/contracts/authority/**"
     activation_wave: 2
-    status: "reserved"
+    status: "active-transitional"
     description: "Approval, exception, revocation, and grant-bundle contracts."
   - family_id: "runtime"
     path: ".octon/framework/constitution/contracts/runtime/**"
@@ -54,6 +54,9 @@ integration_surfaces:
   objective_contract_family:
     root: ".octon/framework/constitution/contracts/objective/**"
     status: "active-transitional"
+  authority_contract_family:
+    root: ".octon/framework/constitution/contracts/authority/**"
+    status: "active-transitional"
   workspace_charter_pair:
     narrative: ".octon/instance/bootstrap/OBJECTIVE.md"
     machine: ".octon/instance/cognition/context/shared/intent.contract.yml"
@@ -66,9 +69,15 @@ integration_surfaces:
   run_control_root:
     path: ".octon/state/control/execution/runs/**"
     status: "active-transitional"
+  authority_control_roots:
+    approvals: ".octon/state/control/execution/approvals/**"
+    exceptions: ".octon/state/control/execution/exceptions/**"
+    revocations: ".octon/state/control/execution/revocations/**"
+    status: "active-transitional"
   repo_policy_inputs:
     - ".octon/instance/governance/policies/**"
     - ".octon/instance/governance/ownership/registry.yml"
+    - ".octon/instance/governance/support-targets.yml"
   retained_evidence_roots:
     - ".octon/state/evidence/runs/**"
     - ".octon/state/evidence/control/execution/**"
@@ -76,4 +85,5 @@ integration_surfaces:
 notes:
   - "Wave 0 established the constitutional kernel and reserved the objective contract family."
   - "Wave 1 promotes the workspace objective pair, defines run-contract and stage-attempt schemas, and publishes the canonical run-control root."
+  - "Wave 2 activates the authority contract family, publishes support-target declarations for routing, and normalizes approval, exception, revocation, and decision evidence roots."
   - "Current mission-backed execution remains the live operational path until later runtime lifecycle waves move primary execution-time state to run roots."

@@ -68,10 +68,18 @@ main() {
 
   require_file "$ROOT_MANIFEST"
   require_file "$OCTON_DIR/framework/engine/runtime/spec/execution-authorization-v1.md"
+  require_file "$OCTON_DIR/framework/constitution/contracts/authority/README.md"
   require_file "$OCTON_DIR/framework/engine/runtime/spec/execution-request-v1.schema.json"
   require_file "$OCTON_DIR/framework/engine/runtime/spec/execution-grant-v1.schema.json"
   require_file "$OCTON_DIR/framework/engine/runtime/spec/execution-receipt-v1.schema.json"
   require_file "$OCTON_DIR/framework/engine/runtime/spec/executor-profile-v1.schema.json"
+  require_file "$OCTON_DIR/instance/governance/support-targets.yml"
+  require_file "$OCTON_DIR/framework/engine/_ops/scripts/write-authority-control-receipt.sh"
+  require_file "$OCTON_DIR/framework/engine/_ops/scripts/materialize-authority-approval.sh"
+  require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-exception-lease.sh"
+  require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-revocation.sh"
+  require_file "$OCTON_DIR/framework/agency/_ops/scripts/github/materialize-pr-authority.sh"
+  require_file "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"
   require_file "$SCRIPT_DIR/assert-protected-execution-posture.sh"
 
   if yq -e '.execution_governance.policy_mode.default == "hard-enforce"' "$ROOT_MANIFEST" >/dev/null; then
@@ -104,6 +112,18 @@ main() {
     fail "protected GitHub workflows must call assert-protected-execution-posture.sh"
   fi
 
+  if has_pattern_in_files 'materialize-pr-authority\.sh' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml"; then
+    pass "GitHub approval flows materialize canonical authority artifacts"
+  else
+    fail "GitHub approval flows must call materialize-pr-authority.sh"
+  fi
+
+  if has_pattern_in_files 'waived-by-authority' "$ROOT_DIR/.github/workflows/ai-review-gate.yml"; then
+    pass "AI gate waiver is routed through canonical authority output"
+  else
+    fail "AI gate waiver must be routed through canonical authority output"
+  fi
+
   if has_pattern_in_files 'OCTON_EFFECTIVE_POLICY_MODE="hard-enforce"' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/deny-by-default-gates.yml" "$ROOT_DIR/.github/workflows/release-please.yml"; then
     fail "protected GitHub workflows must not hardcode OCTON_EFFECTIVE_POLICY_MODE"
   else
@@ -125,6 +145,9 @@ main() {
   run_test \
     "kernel static proposal audit failure writes execution artifacts" \
     cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel audit_static_missing_target_writes_execution_artifacts -- --exact
+  run_test \
+    "authority control tooling writes canonical artifacts" \
+    bash "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"
 
   echo "Validation summary: errors=$errors"
   if [[ $errors -gt 0 ]]; then

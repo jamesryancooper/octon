@@ -228,6 +228,38 @@ cutover
 
 - None
 
+## 2026-03-27
+
+**Session focus:** Implement Wave 2 authority engine normalization
+
+**Completed:**
+
+- Published the constitutional authority contract family under
+  `framework/constitution/contracts/authority/**` and recorded the
+  transitional Wave 2 profile-selection receipt
+- Added canonical approval, exception, and revocation control roots plus the
+  repo-owned support-target declaration required for authority routing
+- Reworked runtime authorization so host approval signals materialize into
+  canonical approval grants, and ownership/support-tier/budget/egress posture
+  feed one normalized decision path with retained authority evidence
+- Added generic authority mutation tooling for approval projections, exception
+  leases, and revocations with retained control receipts
+- Routed the GitHub PR `accept:human` and AI-gate waiver flows through the
+  shared canonical authority wrapper instead of treating labels as approval
+- Expanded support-target coverage across workload/model/context/locale tiers
+  and matched runtime resolution against that fuller matrix
+- Updated architecture/bootstrap/runtime docs and blocking validators, then
+  passed the targeted Wave 2 validation stack plus `alignment-check.sh
+  --profile harness`
+
+**Next:**
+
+- None
+
+**Blockers:**
+
+- None
+
 ## 2026-03-24
 
 **Session focus:** Land the proposal-system integrity and archive normalization

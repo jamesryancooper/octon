@@ -22,6 +22,7 @@ The repo-local supreme control regime for `/.octon/` lives under
 - `/.octon/framework/constitution/obligations/{fail-closed.yml,evidence.yml}`
 - `/.octon/framework/constitution/ownership/roles.yml`
 - `/.octon/framework/constitution/contracts/registry.yml`
+- `/.octon/framework/constitution/contracts/authority/**`
 - `/.octon/framework/constitution/support-targets.schema.json`
 
 This umbrella specification remains the canonical cross-subsystem topology,
@@ -129,37 +130,45 @@ authority.
 48. Canonical mutable execution control truth belongs under
     `state/control/execution/**`; per-run objective binding control roots live
     under `state/control/execution/runs/<run-id>/**`.
-49. Canonical ephemeral execution scratch belongs under
+49. Canonical approval, exception, and revocation control truth live only under
+    `state/control/execution/{approvals,exceptions,revocations}/**`.
+50. Canonical ephemeral execution scratch belongs under
     `generated/.tmp/execution/**`.
-50. Repo-owned network egress policy lives at
+51. Repo-owned network egress policy lives at
     `instance/governance/policies/network-egress.yml`.
-51. Repo-owned execution budget policy lives at
+52. Repo-owned execution budget policy lives at
     `instance/governance/policies/execution-budgets.yml`.
-52. The machine-readable execution path and policy invariant registry lives at
+53. Repo-owned support-target declarations live at
+    `instance/governance/support-targets.yml`.
+54. The machine-readable execution path and policy invariant registry lives at
     `framework/cognition/_meta/architecture/contract-registry.yml`.
-53. Mission authority discovery lives only under
+55. Mission authority discovery lives only under
     `instance/orchestration/missions/**`; active mission charters use
     `octon-mission-v2` and remain continuity containers rather than the
     atomic execution unit.
-54. Mission-scoped mutable execution control truth lives only under
+56. Mission-scoped mutable execution control truth lives only under
     `state/control/execution/missions/<mission-id>/**`.
-55. Consequential run contracts live only under
+57. Consequential run contracts live only under
     `state/control/execution/runs/<run-id>/run-contract.yml`.
-56. Retained control-plane mutation evidence lives only under
+58. Retained control-plane mutation evidence and authority decision evidence
+    live only under
     `state/evidence/control/execution/**`.
-57. Mission continuity and handoff state lives only under
+59. Mission continuity and handoff state lives only under
     `state/continuity/repo/missions/<mission-id>/**`.
-58. Mission/operator read models under
+60. Mission/operator read models under
     `generated/cognition/summaries/{missions,operators}/**` are derived only
     from canonical authority, control, evidence, and continuity surfaces.
-59. Mission effective scenario resolution lives only under
+61. Mission effective scenario resolution lives only under
     `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
     and remains derived-only, freshness-bounded runtime input.
-60. No autonomous runtime path may silently fall back to mission-less
+62. No autonomous runtime path may silently fall back to mission-less
     execution after the mission-scoped reversible autonomy cutover.
-61. External UI, chat, or in-memory session state may not become a second
+63. External UI, chat, or in-memory session state may not become a second
     authoritative mission control plane.
-62. For Mission-Scoped Reversible Autonomy, runtime closeout records under
+64. Labels, comments, checks, and similar host affordances are projection-only
+    until runtime materializes canonical authority artifacts under
+    `state/control/execution/**`.
+65. For Mission-Scoped Reversible Autonomy, runtime closeout records under
     `instance/cognition/decisions/067-*.md`; proposal-lineage closeout records
     under `instance/cognition/decisions/068-*.md` plus the matching migration
     plan under `instance/cognition/context/shared/migrations/**`; proposal
@@ -224,10 +233,14 @@ constitutional kernel.
 - ownership roles: `/.octon/framework/constitution/ownership/roles.yml`
 - constitutional objective contracts:
   `/.octon/framework/constitution/contracts/objective/**`
+- constitutional authority contracts:
+  `/.octon/framework/constitution/contracts/authority/**`
 - constitutional contract registry:
   `/.octon/framework/constitution/contracts/registry.yml`
 - support-target schema:
   `/.octon/framework/constitution/support-targets.schema.json`
+- support-target declaration:
+  `/.octon/instance/governance/support-targets.yml`
 - root manifest: `/.octon/octon.yml`
 - overlay registry: `/.octon/framework/overlay-points/registry.yml`
 - overlay enablement: `/.octon/instance/manifest.yml#enabled_overlay_points`
@@ -252,8 +265,14 @@ constitutional kernel.
 - extension quarantine state: `/.octon/state/control/extensions/quarantine.yml`
 - locality quarantine: `/.octon/state/control/locality/quarantine.yml`
 - execution budget state: `/.octon/state/control/execution/budget-state.yml`
+- approval request root:
+  `/.octon/state/control/execution/approvals/requests`
+- approval grant root:
+  `/.octon/state/control/execution/approvals/grants`
 - execution exception leases:
-  `/.octon/state/control/execution/exception-leases.yml`
+  `/.octon/state/control/execution/exceptions/leases.yml`
+- execution revocations:
+  `/.octon/state/control/execution/revocations/grants.yml`
 - mission control root:
   `/.octon/state/control/execution/missions/`
 - retained control evidence:
@@ -295,6 +314,8 @@ authored mission scaffolds stay under `instance/orchestration/missions/**`,
 mutable control truth stays under `state/control/execution/missions/**`,
 retained control evidence stays under `state/evidence/control/execution/**`,
 and generated route/view surfaces stay under `generated/**`.
+Wave 2 additionally requires approval, exception, and revocation truth to land
+under `state/control/execution/{approvals,exceptions,revocations}/**`.
 No autonomous active or paused mission is valid until the seed-before-active
 path materializes that full family.
 

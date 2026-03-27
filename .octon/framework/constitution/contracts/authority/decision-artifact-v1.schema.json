@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/decision-artifact-v1.schema.json",
+  "title": "Octon Authority Decision Artifact v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_id",
+    "request_id",
+    "run_id",
+    "decision",
+    "reason_codes",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "authority-decision-artifact-v1"
+    },
+    "decision_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW", "STAGE_ONLY", "ESCALATE", "DENY"]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "ownership": {
+      "type": "object"
+    },
+    "support_tier": {
+      "type": "object"
+    },
+    "reversibility": {
+      "type": "object"
+    },
+    "budget": {
+      "type": "object"
+    },
+    "egress": {
+      "type": "object"
+    },
+    "approval_request_ref": {
+      "type": ["string", "null"]
+    },
+    "approval_grant_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "exception_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "revocation_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

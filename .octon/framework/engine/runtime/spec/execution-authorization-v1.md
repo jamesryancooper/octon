@@ -14,6 +14,11 @@ Material paths include service invocation, workflow-stage execution, executor
 launch, repo mutation, publication, protected CI checks, and any other path
 that can produce durable side effects.
 
+Wave 2 normalization additionally requires runtime to materialize canonical
+authority artifacts for approvals, exceptions, revocations, decision
+artifacts, and grant bundles under `state/control/execution/**` and
+`state/evidence/control/execution/**`.
+
 ## Required Guarantees
 
 - No material side effect may occur before a valid `GrantBundle` exists.
@@ -28,6 +33,12 @@ that can produce durable side effects.
   filtering.
 - Outbound HTTP and model-backed execution must satisfy repo-owned network
   egress and execution-budget policy before the material path proceeds.
+- Ownership resolution, support-tier routing, reversibility posture, budget
+  posture, and egress posture must participate in authority routing before a
+  grant is emitted.
+- Labels, comments, checks, and similar host affordances are projections only;
+  they are not authority until runtime materializes canonical approval
+  artifacts.
 
 ## Related Contracts
 

@@ -175,6 +175,8 @@ impl http::Host for HostState {
                     allowed: false,
                     matched_rule_id: "deny".to_string(),
                     reason: e.to_string(),
+                    source_kind: "policy".to_string(),
+                    artifact_ref: None,
                 },
             );
             if let Some(trace) = &self.trace {

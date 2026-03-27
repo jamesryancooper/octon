@@ -59,6 +59,7 @@ Repo-local supreme control authority lives under `framework/constitution/**`.
 | Ownership roles | `.octon/framework/constitution/ownership/roles.yml` |
 | Contract registry | `.octon/framework/constitution/contracts/registry.yml` |
 | Objective contracts | `.octon/framework/constitution/contracts/objective/` |
+| Authority contracts | `.octon/framework/constitution/contracts/authority/` |
 | Support-target schema | `.octon/framework/constitution/support-targets.schema.json` |
 
 Prompts, ingress adapters, workflows, and generated projections may project
@@ -218,6 +219,12 @@ split:
   `instance/governance/policies/mission-autonomy.yml`
 - repo-owned non-path ownership authority:
   `instance/governance/ownership/registry.yml`
+- repo-owned support-target declarations:
+  `instance/governance/support-targets.yml`
+- normalized approval control roots:
+  `state/control/execution/approvals/**`
+- normalized exception and revocation control roots:
+  `state/control/execution/{exceptions,revocations}/**`
 - mutable mission control truth:
   `state/control/execution/missions/<mission-id>/**`
 - retained control-plane evidence:
@@ -237,6 +244,9 @@ seed-before-active path materializes mission control truth, continuity, route
 generation, summaries, and mission view outputs under their canonical roots.
 During Wave 1 coexistence, mission remains the continuity container while the
 run contract becomes the defined atomic execution unit for consequential runs.
+Wave 2 adds normalized authority control families so approvals, exceptions,
+revocations, and retained decision artifacts stop depending on host-shaped
+affordances.
 
 Raw additive packs carry compatibility and provenance in
 `inputs/additive/extensions/<pack-id>/pack.yml`.

@@ -8,7 +8,7 @@ mod workflow;
 
 use crate::authorization::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
-    write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
+    with_authority_env_metadata, write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
     ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
 use clap::{Args, Parser, Subcommand, ValueEnum};
@@ -375,7 +375,7 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: service_profile.metadata.clone(),
+        metadata: with_authority_env_metadata(service_profile.metadata.clone()),
     };
     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(svc))?;
     let artifacts = write_execution_start(

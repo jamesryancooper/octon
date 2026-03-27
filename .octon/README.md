@@ -235,6 +235,10 @@ long-running and always-running autonomous agents.
   `instance/orchestration/missions/<mission-id>/{mission.yml,mission.md}`
 - run-contract control roots live under
   `state/control/execution/runs/<run-id>/`
+- canonical approval control roots live under
+  `state/control/execution/approvals/**`
+- canonical exception and revocation roots live under
+  `state/control/execution/{exceptions,revocations}/**`
 - mutable mission control truth lives under
   `state/control/execution/missions/<mission-id>/`
 - retained control-plane mutation evidence lives under
@@ -256,6 +260,11 @@ Wave 1 objective binding cutover makes mission the continuity container while
 run contracts become the atomic execution unit for consequential runs. Mission-
 only execution remains an explicit transitional compatibility path until a
 later lifecycle wave moves primary execution-time state to run roots.
+
+Wave 2 authority normalization routes approvals, exceptions, revocations, and
+retained decision evidence through canonical authority artifacts. Labels,
+comments, checks, and similar host affordances may project approval intent,
+but they never become authority without those runtime artifacts.
 
 MSRAOM runtime closeout is recorded in
 `/.octon/instance/cognition/decisions/067-mission-scoped-reversible-autonomy-final-closeout-cutover.md`.

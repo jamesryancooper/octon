@@ -221,6 +221,24 @@ jobs:
               }' > "${file}"
           done
 
+      - id: waiver_authority
+        name: Materialize AI gate waiver authority projection
+        run: |
+          set -euo pipefail
+          mkdir -p .octon/generated/.tmp/ai-gate
+          chmod +x .octon/framework/agency/_ops/scripts/github/materialize-pr-authority.sh
+          .octon/framework/agency/_ops/scripts/github/materialize-pr-authority.sh \
+            --pr-number "${GH_PR_NUMBER}" \
+            --labels-json "${PR_LABELS_JSON}" \
+            --request-scope "ai-review-gate-waiver" \
+            --issued-by "github://pull/${GH_PR_NUMBER}" \
+            --required-label "ai-gate:waive" \
+            --required-label "accept:human" \
+            --projection-ref "github://check/AI Review Gate / decision" \
+            --output ".octon/generated/.tmp/ai-gate/waiver-authority.json"
+          echo "approval_granted=$(jq -r '.approval_granted' .octon/generated/.tmp/ai-gate/waiver-authority.json)" >> "${GITHUB_OUTPUT}"
+          echo "approval_grant_ref=$(jq -r '.approval_grant_ref // \"\"' .octon/generated/.tmp/ai-gate/waiver-authority.json)" >> "${GITHUB_OUTPUT}"
+
       - id: aggregate
         name: Aggregate provider decisions
         continue-on-error: true
@@ -238,6 +256,7 @@ jobs:
             --schema "${schema}" \
             --findings-dir "${findings_dir}" \
             --labels-json "${PR_LABELS_JSON}" \
+            --waived-by-authority "${{ steps.waiver_authority.outputs.approval_granted }}" \
             --enforce "${AI_GATE_ENFORCE}" \
             --output "${output}"
 

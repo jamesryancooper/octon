@@ -31,12 +31,22 @@ These launchers are the canonical invocation boundary for policy operations.
   - `/.octon/instance/governance/policies/mission-autonomy.yml`
 - Repo-owned non-path ownership authority is declared in:
   - `/.octon/instance/governance/ownership/registry.yml`
+- Repo-owned support-target declarations are declared in:
+  - `/.octon/instance/governance/support-targets.yml`
 - Repo-owned workspace objective narrative is declared in:
   - `/.octon/instance/bootstrap/OBJECTIVE.md`
 - Repo-owned workspace objective machine contract is declared in:
   - `/.octon/instance/cognition/context/shared/intent.contract.yml`
+- Canonical authority contracts are published under:
+  - `/.octon/framework/constitution/contracts/authority/`
 - Canonical run-contract control roots are published under:
   - `/.octon/state/control/execution/runs/`
+- Canonical approval control roots are published under:
+  - `/.octon/state/control/execution/approvals/requests`
+  - `/.octon/state/control/execution/approvals/grants`
+- Canonical exception and revocation control roots are published under:
+  - `/.octon/state/control/execution/exceptions/leases.yml`
+  - `/.octon/state/control/execution/revocations/grants.yml`
 - Generated mission summaries are published under:
   - `/.octon/generated/cognition/summaries/missions/`
 - Generated operator digests are published under:
@@ -125,14 +135,24 @@ Decision outputs for `ALLOW`, `STAGE_ONLY`, and `DENY` must include:
 - machine-readable `reason_codes`
 - human-readable `remediation` guidance
 - budget metadata when execution-budget policy participates in the decision
+- ownership and support-tier routing posture when authority routing
+  participates in the decision
+- egress posture and normalized approval/exception/revocation refs when those
+  families participate in the decision
 
 Material execution that requests outbound HTTP or model-backed execution MUST
 also satisfy:
 
 - destination-scoped repo-owned network egress policy for `net.http`
 - repo-owned execution budget policy for billable or model-backed paths
+- repo-owned ownership and support-target declarations for consequential work
 - retained run evidence under `state/evidence/runs/<run_id>/**` for any
   resulting egress or cost artifacts
+
+Host labels, comments, checks, and similar affordances remain projection-only.
+Runtime may translate them into canonical approval artifacts, but policy
+evaluation must consume the normalized authority artifacts instead of the host
+surface directly.
 
 ## Instruction-Layer Manifest Contract
 

@@ -67,19 +67,27 @@ main() {
   fi
 
   require_file "$REGISTRY_FILE"
-  local run_root execution_control_root execution_tmp_root network_policy budget_policy budget_state exception_leases
+  local run_root execution_control_root execution_tmp_root network_policy budget_policy budget_state exception_leases support_targets approval_requests approval_grants revocations
   run_root="$(yq -r '.execution.write_roots.run_evidence_root' "$REGISTRY_FILE")"
   execution_control_root="$(yq -r '.execution.write_roots.execution_control_root' "$REGISTRY_FILE")"
   execution_tmp_root="$(yq -r '.execution.write_roots.execution_tmp_root' "$REGISTRY_FILE")"
   network_policy="$(yq -r '.execution.policy_roots.network_egress' "$REGISTRY_FILE")"
   budget_policy="$(yq -r '.execution.policy_roots.execution_budgets' "$REGISTRY_FILE")"
+  support_targets="$(yq -r '.execution.policy_roots.support_targets' "$REGISTRY_FILE")"
   budget_state="$(yq -r '.execution.control_state.budget_state' "$REGISTRY_FILE")"
+  approval_requests="$(yq -r '.execution.control_state.approval_requests_root' "$REGISTRY_FILE")"
+  approval_grants="$(yq -r '.execution.control_state.approval_grants_root' "$REGISTRY_FILE")"
   exception_leases="$(yq -r '.execution.control_state.exception_leases' "$REGISTRY_FILE")"
+  revocations="$(yq -r '.execution.control_state.revocations' "$REGISTRY_FILE")"
 
   require_file "$ROOT_DIR/$network_policy"
   require_file "$ROOT_DIR/$budget_policy"
+  require_file "$ROOT_DIR/$support_targets"
   require_file "$ROOT_DIR/$budget_state"
   require_file "$ROOT_DIR/$exception_leases"
+  require_file "$ROOT_DIR/$revocations"
+  [[ -d "$ROOT_DIR/$approval_requests" ]] && pass "found ${approval_requests}" || fail "missing ${approval_requests}"
+  [[ -d "$ROOT_DIR/$approval_grants" ]] && pass "found ${approval_grants}" || fail "missing ${approval_grants}"
 
   require_contains \
     "$OCTON_DIR/README.md" \
@@ -193,6 +201,22 @@ main() {
     "$OCTON_DIR/framework/cognition/_meta/architecture/specification.md" \
     "$budget_policy" \
     "umbrella specification references repo-owned execution budget policy"
+  require_contains \
+    "$OCTON_DIR/framework/cognition/_meta/architecture/specification.md" \
+    "$support_targets" \
+    "umbrella specification references repo-owned support-target declarations"
+  require_contains \
+    "$OCTON_DIR/framework/cognition/_meta/architecture/specification.md" \
+    "$approval_requests" \
+    "umbrella specification references canonical approval request root"
+  require_contains \
+    "$OCTON_DIR/framework/cognition/_meta/architecture/specification.md" \
+    "$exception_leases" \
+    "umbrella specification references canonical exception lease root"
+  require_contains \
+    "$OCTON_DIR/framework/cognition/_meta/architecture/specification.md" \
+    "$revocations" \
+    "umbrella specification references canonical revocation root"
 
   require_contains \
     "$OCTON_DIR/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md" \
@@ -224,6 +248,18 @@ main() {
     "$OCTON_DIR/framework/engine/runtime/spec/policy-interface-v1.md" \
     "$budget_policy" \
     "policy interface spec references repo-owned execution budget policy"
+  require_contains \
+    "$OCTON_DIR/framework/engine/runtime/spec/policy-interface-v1.md" \
+    "$support_targets" \
+    "policy interface spec references repo-owned support-target declarations"
+  require_contains \
+    "$OCTON_DIR/framework/engine/runtime/spec/policy-interface-v1.md" \
+    "$approval_requests" \
+    "policy interface spec references canonical approval request root"
+  require_contains \
+    "$OCTON_DIR/framework/engine/runtime/spec/policy-interface-v1.md" \
+    "$exception_leases" \
+    "policy interface spec references canonical exception lease root"
 
   require_contains \
     "$OCTON_DIR/framework/engine/runtime/spec/policy-receipt-v1.schema.json" \

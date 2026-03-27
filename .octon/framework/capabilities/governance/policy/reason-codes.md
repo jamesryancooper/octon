@@ -91,6 +91,15 @@ policy engine.
 | `BOUNDARY_ESCALATION_REQUIRED` | Decision matched a boundary route of `escalate`. | Escalate to owner/policy authority and wait for approval signal. |
 | `MODE_VIOLATION_AUTONOMY_NOT_ALLOWED` | Autonomous execution attempted for non-`agent-ready` workflow classification. | Re-run in `agent-augmented` or `human-only` mode, or reclassify workflow through governance process. |
 
+## Authority Engine Codes
+
+| Code | Meaning | Typical Remediation |
+|---|---|---|
+| `OWNERSHIP_UNRESOLVED` | No canonical owner could be resolved for the requested execution scope. | Publish or tighten ownership registry entries before retrying material execution. |
+| `SUPPORT_TIER_UNSUPPORTED` | The requested support tier is not declared or not supported for this route. | Use a declared support tier or publish the required support-target declaration. |
+| `SUPPORT_TIER_ROUTE_BLOCKED` | The support-tier declaration routed this execution away from `ALLOW`. | Keep the work staged/escalated or widen the declaration through governance. |
+| `AUTHORITY_GRANT_REVOKED` | A canonical revocation blocks the current approval grant or request. | Clear the revocation through the canonical revocation surface or request a new grant. |
+
 ## Deny Payload Shape
 
 ```json

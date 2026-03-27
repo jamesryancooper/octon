@@ -16,7 +16,7 @@ use walkdir::WalkDir;
 use crate::authorization::{
     authorize_execution, build_executor_command, finalize_execution,
     now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
-    ExecutionArtifactPaths, ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec,
+    with_authority_env_metadata, ExecutionArtifactPaths, ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec,
     GrantBundle, ManagedExecutorKind, ReviewRequirements, ScopeConstraints,
     SideEffectFlags, SideEffectSummary,
 };
@@ -3191,7 +3191,7 @@ impl Runner {
             },
             policy_mode_requested: None,
             environment_hint: None,
-            metadata,
+            metadata: with_authority_env_metadata(metadata),
         }
     }
 

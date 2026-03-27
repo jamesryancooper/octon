@@ -71,7 +71,13 @@ pub struct ExecutionExceptionLeases {
 pub struct ExecutionExceptionLease {
     pub id: String,
     #[serde(default)]
+    pub state: String,
+    #[serde(default)]
     pub lease_kind: String,
+    #[serde(default)]
+    pub request_id: Option<String>,
+    #[serde(default)]
+    pub run_id: Option<String>,
     #[serde(default)]
     pub service: Option<String>,
     #[serde(default)]
@@ -106,6 +112,9 @@ pub struct NetworkEgressDecision {
     pub allowed: bool,
     pub matched_rule_id: String,
     pub reason: String,
+    pub source_kind: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub artifact_ref: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -367,6 +376,10 @@ pub fn load_network_egress_policy(repo_root: &Path) -> Result<NetworkEgressPolic
 }
 
 pub fn load_execution_exception_leases(repo_root: &Path) -> Result<ExecutionExceptionLeases> {
+    let canonical = repo_root.join(".octon/state/control/execution/exceptions/leases.yml");
+    if canonical.is_file() {
+        return load_yaml_or_default(&canonical);
+    }
     load_yaml_or_default(&repo_root.join(".octon/state/control/execution/exception-leases.yml"))
 }
 
@@ -443,6 +456,8 @@ pub fn evaluate_network_egress(
                 } else {
                     rule.reason.clone()
                 },
+                source_kind: "policy".to_string(),
+                artifact_ref: Some(".octon/instance/governance/policies/network-egress.yml".to_string()),
             });
         }
     }
@@ -462,6 +477,8 @@ pub fn evaluate_network_egress(
                     .reason
                     .clone()
                     .unwrap_or_else(|| "time-boxed network egress exception lease matched".to_string()),
+                source_kind: "exception-lease".to_string(),
+                artifact_ref: Some(format!(".octon/state/control/execution/exceptions/leases.yml#{}", lease.id)),
             });
         }
     }
@@ -926,6 +943,9 @@ fn network_rule_matches(
 }
 
 fn lease_is_active(lease: &ExecutionExceptionLease) -> Result<bool> {
+    if !lease.state.trim().is_empty() && lease.state != "active" {
+        return Ok(false);
+    }
     let expires_at = OffsetDateTime::parse(&lease.expires_at, &Rfc3339).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,

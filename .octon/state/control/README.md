@@ -7,6 +7,9 @@
 | Path | Purpose |
 | --- | --- |
 | `state/control/execution/runs/` | Canonical per-run objective binding control roots |
+| `state/control/execution/approvals/` | Canonical approval requests and grants |
+| `state/control/execution/exceptions/` | Canonical exception-lease control truth |
+| `state/control/execution/revocations/` | Canonical authority revocations |
 | `state/control/execution/missions/` | Mission continuity and autonomy control truth |
 | `state/control/extensions/active.yml` | Actual active extension publication state, including desired versus published truth |
 | `state/control/extensions/quarantine.yml` | Extension quarantine and withdrawal records |

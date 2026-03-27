@@ -131,10 +131,15 @@ Use this decision sequence:
     `/.octon/state/control/execution/**`.
   - run-contract control roots live under
     `/.octon/state/control/execution/runs/**`.
+  - canonical approval, exception, and revocation control truth lives under
+    `/.octon/state/control/execution/{approvals,exceptions,revocations}/**`.
   - mission-scoped execution control truth lives under
     `/.octon/state/control/execution/missions/**`.
   - retained control-plane evidence lives under
     `/.octon/state/evidence/control/execution/**`.
+  - labels, comments, checks, and similar host affordances are projection-only
+    until runtime materializes canonical authority artifacts under the control
+    roots above.
   - generated effective mission scenario routes live under
     `/.octon/generated/effective/orchestration/missions/**`.
   - execution scratch lives under `/.octon/generated/.tmp/execution/**`.

@@ -44,11 +44,11 @@ rules:
   - id: "FCR-009"
     condition: "A valid support-target tier or adapter behavior declaration is missing."
     route: "DENY"
-    adoption_status: "staged"
-    activation_wave: 5
+    adoption_status: "active-transitional"
+    activation_wave: 2
     transitional_behavior: >-
-      Current repo policy, locality, and capability boundaries remain the live
-      guardrails until support-target declarations are published.
+      Wave 2 publishes the first support-target declaration for routing.
+      Broader support-claim disclosure remains staged for later waves.
   - id: "FCR-010"
     condition: "A bound run contract is missing or invalid for consequential execution."
     route: "STAGE_ONLY"

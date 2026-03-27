@@ -67,6 +67,7 @@ render_digest() {
   local run_id timestamp decision effective_acp operation_class phase reason_codes rollback_handle recovery_window telemetry_profile material_side_effect remediation
   local intent_ref boundary_id boundary_set_version workflow_mode capability_classification instruction_layers reason_details
   local mission_id slice_id oversight_mode execution_posture reversibility_class autonomy_budget_state breaker_state compensation_handle
+  local support_tier ownership_sources approval_request_ref approval_grant_refs exception_refs revocation_refs network_egress_route
 
   run_id="$(jq -r '.run_id // ""' "$receipt_path")"
   timestamp="$(jq -r '.timestamp // ""' "$receipt_path")"
@@ -92,6 +93,13 @@ render_digest() {
   compensation_handle="$(jq -r '.compensation_handle // ""' "$receipt_path")"
   autonomy_budget_state="$(jq -r '.autonomy_budget_state // ""' "$receipt_path")"
   breaker_state="$(jq -r '.breaker_state // ""' "$receipt_path")"
+  support_tier="$(jq -r '.support_tier.support_tier // .support_tier // ""' "$receipt_path")"
+  ownership_sources="$(jq -r '(.ownership.owner_refs // []) | join(",")' "$receipt_path")"
+  approval_request_ref="$(jq -r '.approval_request_ref // ""' "$receipt_path")"
+  approval_grant_refs="$(jq -r '(.approval_grant_refs // []) | join(",")' "$receipt_path")"
+  exception_refs="$(jq -r '(.exception_refs // []) | join(",")' "$receipt_path")"
+  revocation_refs="$(jq -r '(.revocation_refs // []) | join(",")' "$receipt_path")"
+  network_egress_route="$(jq -r '.network_egress.route // ""' "$receipt_path")"
   remediation="$(jq -r '.remediation // ""' "$receipt_path")"
   instruction_layers="$(jq -r '(.instruction_layers // []) | map("\(.layer_id):\(.source):\(.visibility):\(.bytes):\(.sha256)") | join(",")' "$receipt_path")"
   reason_details="$(jq -r '(.reason_details // [])[]? | "- `" + (.code // "") + "`: " + (.remediation // "")' "$receipt_path")"
@@ -125,6 +133,13 @@ render_digest() {
     echo "- Recovery Window: \`$recovery_window\`"
     echo "- Autonomy Budget State: \`$autonomy_budget_state\`"
     echo "- Breaker State: \`$breaker_state\`"
+    echo "- Support Tier: \`$support_tier\`"
+    echo "- Ownership Refs: \`$ownership_sources\`"
+    echo "- Approval Request Ref: \`$approval_request_ref\`"
+    echo "- Approval Grant Refs: \`$approval_grant_refs\`"
+    echo "- Exception Refs: \`$exception_refs\`"
+    echo "- Revocation Refs: \`$revocation_refs\`"
+    echo "- Network Egress Route: \`$network_egress_route\`"
     echo "- Remediation Summary: $remediation"
     echo
     echo "## Reason Detail"
@@ -263,6 +278,13 @@ main() {
       budget_rule_id: ($req[0].budget_rule_id // null),
       budget_reason_codes: ($req[0].budget_reason_codes // []),
       cost_evidence_path: ($req[0].cost_evidence_path // null),
+      ownership: ($req[0].ownership // {}),
+      support_tier: ($req[0].support_tier // null),
+      approval_request_ref: ($req[0].approval_request_ref // null),
+      approval_grant_refs: ($req[0].approval_grant_refs // []),
+      exception_refs: ($req[0].exception_refs // []),
+      revocation_refs: ($req[0].revocation_refs // []),
+      network_egress: ($req[0].network_egress // {}),
       operation: ($req[0].operation // {}),
       phase: ($req[0].phase // ""),
       material_side_effect: (

@@ -11,7 +11,7 @@ use time::format_description;
 
 use crate::authorization::{
     authorize_execution, build_executor_command, default_autonomy_context, finalize_execution,
-    now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
+    now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, with_authority_env_metadata, write_execution_start,
     ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec, ManagedExecutorKind,
     ReviewRequirements, ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
@@ -642,7 +642,7 @@ fn run_generic_pipeline(
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
+        metadata: with_authority_env_metadata(BTreeMap::from([("workflow_id".to_string(), entry.id.clone())])),
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;

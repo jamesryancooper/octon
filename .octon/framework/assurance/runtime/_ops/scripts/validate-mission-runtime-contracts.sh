@@ -55,7 +55,13 @@ main() {
     policy-digest-v2.md \
     control-receipt-v1.schema.json \
     scenario-resolution-v1.schema.json \
-    mission-view-v1.schema.json
+    mission-view-v1.schema.json \
+    ../../../constitution/contracts/authority/approval-request-v1.schema.json \
+    ../../../constitution/contracts/authority/approval-grant-v1.schema.json \
+    ../../../constitution/contracts/authority/exception-lease-v1.schema.json \
+    ../../../constitution/contracts/authority/revocation-v1.schema.json \
+    ../../../constitution/contracts/authority/decision-artifact-v1.schema.json \
+    ../../../constitution/contracts/authority/grant-bundle-v1.schema.json
   do
     [[ -f "$SPEC_DIR/$file" ]] && pass "found spec $file" || fail "missing spec $file"
   done
@@ -63,6 +69,10 @@ main() {
   has_pattern 'mission_autonomy_policy' "$CONFIG_FILE" && pass "policy interface exposes mission autonomy policy" || fail "policy interface missing mission_autonomy_policy path"
   has_pattern 'mission_control_root' "$CONFIG_FILE" && pass "policy interface exposes mission control root" || fail "policy interface missing mission_control_root path"
   has_pattern 'control_receipt_root' "$CONFIG_FILE" && pass "policy interface exposes control receipt root" || fail "policy interface missing control_receipt_root path"
+  has_pattern 'support_targets' "$CONFIG_FILE" && pass "policy interface exposes support-target declarations" || fail "policy interface missing support_targets path"
+  has_pattern 'approval_request_root' "$CONFIG_FILE" && pass "policy interface exposes approval request root" || fail "policy interface missing approval_request_root path"
+  has_pattern 'approval_grant_root' "$CONFIG_FILE" && pass "policy interface exposes approval grant root" || fail "policy interface missing approval_grant_root path"
+  has_pattern 'execution_revocations' "$CONFIG_FILE" && pass "policy interface exposes revocation root" || fail "policy interface missing execution_revocations path"
   has_pattern 'mission_effective_route_root' "$CONFIG_FILE" && pass "policy interface exposes mission effective route root" || fail "policy interface missing mission_effective_route_root path"
   has_pattern 'mission_summary_root' "$CONFIG_FILE" && pass "policy interface exposes mission summary root" || fail "policy interface missing mission_summary_root path"
   has_pattern 'operator_digest_root' "$CONFIG_FILE" && pass "policy interface exposes operator digest root" || fail "policy interface missing operator_digest_root path"
@@ -83,8 +93,14 @@ main() {
     "approval-required autonomous execution returns stage-only without approval" \
     cargo test --manifest-path "$CARGO_MANIFEST" -p octon_kernel approval_required_autonomous_request_returns_stage_only_without_human_approval
   run_test \
+    "host approval projection materializes canonical grant" \
+    cargo test --manifest-path "$CARGO_MANIFEST" -p octon_kernel host_approval_projection_materializes_canonical_grant
+  run_test \
     "proceed-on-silence blocks when autonomy budget is not healthy" \
     cargo test --manifest-path "$CARGO_MANIFEST" -p octon_kernel proceed_on_silence_blocks_when_autonomy_budget_not_healthy
+  run_test \
+    "unsupported support tier denies execution" \
+    cargo test --manifest-path "$CARGO_MANIFEST" -p octon_kernel unsupported_support_tier_denies_execution
   run_test \
     "authorization stage-onlys when mission scenario resolution is missing" \
     cargo test --manifest-path "$CARGO_MANIFEST" -p octon_kernel missing_scenario_resolution_returns_stage_only

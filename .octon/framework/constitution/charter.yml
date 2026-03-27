@@ -1,6 +1,6 @@
 schema_version: "octon-constitution-charter-v1"
 charter_id: "octon-harness-charter"
-version: "1.0.0-wave0"
+version: "1.0.0-wave2"
 owner: "Octon governance"
 purpose: >-
   Provide one explicit repo-local constitutional kernel for the Octon
@@ -34,7 +34,7 @@ epistemic_precedence_ref: ".octon/framework/constitution/precedence/epistemic.ym
 support_targets_ref:
   schema: ".octon/framework/constitution/support-targets.schema.json"
   authoritative_declaration: ".octon/instance/governance/support-targets.yml"
-  declaration_status: "reserved-until-published"
+  declaration_status: "active-transitional"
 amendment_policy:
   change_control: "explicit constitutional amendment workflow"
   human_approval_required: true
@@ -45,10 +45,10 @@ amendment_policy:
     - "documented rollback posture"
 review_cadence: "quarterly and on each material constitutional change"
 adoption_state:
-  wave: 0
+  wave: 2
   change_profile: "transitional"
   staged_cutovers:
     run_contract_requirement: "wave-1"
-    authority_artifact_normalization: "wave-2"
+    authority_artifact_normalization: "wave-2-active-transitional"
     disclosure_families: "wave-4"
-    support_target_declarations: "wave-5"
+    support_target_declarations: "wave-2-active-transitional for routing, wave-5 for full disclosure claims"
