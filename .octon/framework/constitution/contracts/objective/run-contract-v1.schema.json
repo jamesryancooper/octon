@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/objective/run-contract-v1.schema.json",
+  "title": "Octon Run Contract v1",
+  "description": "Constitutional per-run objective contract for consequential execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "objective_refs",
+    "scope_in",
+    "scope_out",
+    "requested_capabilities",
+    "risk_class",
+    "reversibility_class",
+    "support_tier",
+    "required_approvals",
+    "required_evidence",
+    "closure_conditions",
+    "stage_attempt_root",
+    "status",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-contract-v1"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objective_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workspace_objective_ref",
+        "workspace_intent_ref"
+      ],
+      "properties": {
+        "workspace_objective_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workspace_intent_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mission_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mission_id": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "scope_in": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "scope_out": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "requested_capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "risk_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reversibility_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_tier": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_approvals": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "closure_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "stage_attempt_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_or_compensation_expectation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "bound",
+        "running",
+        "staged",
+        "completed",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

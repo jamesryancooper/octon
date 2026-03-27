@@ -39,8 +39,8 @@ lineage in this order:
    - inspect decision outcome, reason codes, approval refs, and linked run or
      incident ids
 2. `run_id`
-   - inspect orchestration-facing run state, recovery status, and continuity
-     evidence linkage
+   - inspect the bound run contract, then inspect orchestration-facing run
+     projection, recovery status, and continuity evidence linkage
 3. `queue_item_id`
    - inspect current lane, claim/lease state, target automation, and receipts
 4. `event_id`

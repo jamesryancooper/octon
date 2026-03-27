@@ -127,7 +127,8 @@ authority.
     authorization metadata.
 47. Runtime execution evidence belongs under `state/evidence/runs/**`.
 48. Canonical mutable execution control truth belongs under
-    `state/control/execution/**`.
+    `state/control/execution/**`; per-run objective binding control roots live
+    under `state/control/execution/runs/<run-id>/**`.
 49. Canonical ephemeral execution scratch belongs under
     `generated/.tmp/execution/**`.
 50. Repo-owned network egress policy lives at
@@ -138,24 +139,27 @@ authority.
     `framework/cognition/_meta/architecture/contract-registry.yml`.
 53. Mission authority discovery lives only under
     `instance/orchestration/missions/**`; active mission charters use
-    `octon-mission-v2`.
+    `octon-mission-v2` and remain continuity containers rather than the
+    atomic execution unit.
 54. Mission-scoped mutable execution control truth lives only under
     `state/control/execution/missions/<mission-id>/**`.
-55. Retained control-plane mutation evidence lives only under
+55. Consequential run contracts live only under
+    `state/control/execution/runs/<run-id>/run-contract.yml`.
+56. Retained control-plane mutation evidence lives only under
     `state/evidence/control/execution/**`.
-56. Mission continuity and handoff state lives only under
+57. Mission continuity and handoff state lives only under
     `state/continuity/repo/missions/<mission-id>/**`.
-57. Mission/operator read models under
+58. Mission/operator read models under
     `generated/cognition/summaries/{missions,operators}/**` are derived only
     from canonical authority, control, evidence, and continuity surfaces.
-58. Mission effective scenario resolution lives only under
+59. Mission effective scenario resolution lives only under
     `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
     and remains derived-only, freshness-bounded runtime input.
-59. No autonomous runtime path may silently fall back to mission-less
+60. No autonomous runtime path may silently fall back to mission-less
     execution after the mission-scoped reversible autonomy cutover.
-60. External UI, chat, or in-memory session state may not become a second
+61. External UI, chat, or in-memory session state may not become a second
     authoritative mission control plane.
-61. For Mission-Scoped Reversible Autonomy, runtime closeout records under
+62. For Mission-Scoped Reversible Autonomy, runtime closeout records under
     `instance/cognition/decisions/067-*.md`; proposal-lineage closeout records
     under `instance/cognition/decisions/068-*.md` plus the matching migration
     plan under `instance/cognition/context/shared/migrations/**`; proposal
@@ -218,6 +222,8 @@ constitutional kernel.
 - evidence obligations:
   `/.octon/framework/constitution/obligations/evidence.yml`
 - ownership roles: `/.octon/framework/constitution/ownership/roles.yml`
+- constitutional objective contracts:
+  `/.octon/framework/constitution/contracts/objective/**`
 - constitutional contract registry:
   `/.octon/framework/constitution/contracts/registry.yml`
 - support-target schema:

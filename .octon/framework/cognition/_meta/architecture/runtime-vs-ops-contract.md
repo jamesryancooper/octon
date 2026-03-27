@@ -36,8 +36,9 @@ This document applies to any Octon domain that exposes both `runtime/` and
    outputs MUST NOT live under `framework/**/_ops/**`; they belong under
    `state/**` or `generated/**` according to class ownership.
    Execution-specific mutable control truth belongs under
-   `/.octon/state/control/execution/**`; execution scratch belongs under
-   `/.octon/generated/.tmp/execution/**`.
+   `/.octon/state/control/execution/**`; per-run objective binding belongs
+   under `/.octon/state/control/execution/runs/**`; execution scratch belongs
+   under `/.octon/generated/.tmp/execution/**`.
 4. `_ops/` MUST NOT become a parallel canonical runtime artifact surface.
 5. Discovery metadata for runtime artifact classes (for example manifests and
    registries) MUST resolve to canonical runtime surfaces.
@@ -72,6 +73,7 @@ these mutable targets:
 - `/.octon/generated/.tmp/execution/**`
 - `/.octon/state/control/**`
 - `/.octon/state/control/execution/**`
+- `/.octon/state/control/execution/runs/**`
 - `/.octon/state/control/execution/missions/**`
 - `/.octon/state/evidence/**`
 - `/.octon/state/evidence/control/execution/**`
@@ -127,6 +129,8 @@ Use this decision sequence:
     `/.octon/generated/**`.
   - mutable execution control truth lives under
     `/.octon/state/control/execution/**`.
+  - run-contract control roots live under
+    `/.octon/state/control/execution/runs/**`.
   - mission-scoped execution control truth lives under
     `/.octon/state/control/execution/missions/**`.
   - retained control-plane evidence lives under

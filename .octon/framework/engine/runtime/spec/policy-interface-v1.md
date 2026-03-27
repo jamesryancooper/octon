@@ -31,6 +31,12 @@ These launchers are the canonical invocation boundary for policy operations.
   - `/.octon/instance/governance/policies/mission-autonomy.yml`
 - Repo-owned non-path ownership authority is declared in:
   - `/.octon/instance/governance/ownership/registry.yml`
+- Repo-owned workspace objective narrative is declared in:
+  - `/.octon/instance/bootstrap/OBJECTIVE.md`
+- Repo-owned workspace objective machine contract is declared in:
+  - `/.octon/instance/cognition/context/shared/intent.contract.yml`
+- Canonical run-contract control roots are published under:
+  - `/.octon/state/control/execution/runs/`
 - Generated mission summaries are published under:
   - `/.octon/generated/cognition/summaries/missions/`
 - Generated operator digests are published under:
@@ -87,6 +93,13 @@ Autonomy MUST also provide `autonomy_context` with:
 - `boundary_id`
 
 Missing mission autonomy context is a fail-closed denial for autonomous runs.
+
+Wave 1 coexistence rule:
+
+- workspace objective pair remains the active workspace-charter layer
+- mission remains the continuity container for mission-class work
+- run contracts define the canonical atomic execution unit under
+  `state/control/execution/runs/**`
 
 For material ACP runs (`phase=promote|finalize` or explicit material side-effect
 flags), the wrapper executes a single mandatory path:

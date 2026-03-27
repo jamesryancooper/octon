@@ -95,6 +95,8 @@ case_first_slice_round_trip() {
   run_file="$fixture_root/.octon/framework/orchestration/runtime/runs/run-runtime-contract-drift-remediation-evt-first-slice-001.yml"
   [[ -f "$run_file" ]]
   yq -o=json '.' "$run_file" | jq -e '.status == "running" and .executor_acknowledged_at != null and .recovery_status == "healthy"' >/dev/null
+  [[ -f "$fixture_root/.octon/state/control/execution/runs/run-runtime-contract-drift-remediation-evt-first-slice-001/run-contract.yml" ]]
+  [[ -f "$fixture_root/.octon/state/control/execution/runs/run-runtime-contract-drift-remediation-evt-first-slice-001/stage-attempts/initial.yml" ]]
 
   # Simulate heartbeat expiry to prove deterministic reconciliation.
   yq -o=json '.' "$run_file" | jq '.lease_expires_at = "2000-01-01T00:00:00Z"' | yq -P -p=json '.' > "$run_file.tmp"

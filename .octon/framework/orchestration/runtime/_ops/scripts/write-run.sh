@@ -16,8 +16,224 @@ Usage:
 EOF
 }
 
+run_control_dir() {
+  local run_id="$1"
+  printf '%s/%s' "$RUN_CONTROL_ROOT" "$run_id"
+}
+
+run_contract_path() {
+  local run_id="$1"
+  printf '%s/%s/run-contract.yml' "$RUN_CONTROL_ROOT" "$run_id"
+}
+
+stage_attempt_dir() {
+  local run_id="$1"
+  printf '%s/%s/stage-attempts' "$RUN_CONTROL_ROOT" "$run_id"
+}
+
+run_contract_relpath() {
+  local run_id="$1"
+  printf '.octon/state/control/execution/runs/%s/run-contract.yml' "$run_id"
+}
+
+stage_attempt_dir_relpath() {
+  local run_id="$1"
+  printf '.octon/state/control/execution/runs/%s/stage-attempts' "$run_id"
+}
+
+contract_status_from_projection() {
+  case "$1" in
+    succeeded) printf 'completed' ;;
+    failed) printf 'failed' ;;
+    cancelled) printf 'cancelled' ;;
+    running) printf 'running' ;;
+    *) printf '%s' "$1" ;;
+  esac
+}
+
+attempt_status_from_projection() {
+  case "$1" in
+    completed) printf 'succeeded' ;;
+    *) printf '%s' "$1" ;;
+  esac
+}
+
+collect_scope_in_json() {
+  local workflow_group="$1"
+  local workflow_id="$2"
+  local mission_id="$3"
+  local automation_id="$4"
+  local incident_id="$5"
+
+  local -a scopes=()
+  if [[ -n "$workflow_group" && -n "$workflow_id" ]]; then
+    scopes+=(".octon/framework/orchestration/runtime/workflows/$workflow_group/$workflow_id")
+  fi
+  if [[ -n "$mission_id" ]]; then
+    scopes+=(".octon/instance/orchestration/missions/$mission_id")
+  fi
+  if [[ -n "$automation_id" ]]; then
+    scopes+=(".octon/framework/orchestration/runtime/automations/$automation_id")
+  fi
+  if [[ -n "$incident_id" ]]; then
+    scopes+=(".octon/framework/orchestration/runtime/incidents/$incident_id")
+  fi
+  if [[ "${#scopes[@]}" -eq 0 ]]; then
+    scopes+=(".octon/framework/orchestration/runtime")
+  fi
+
+  printf '%s\n' "${scopes[@]}" | jq -R . | jq -s .
+}
+
+collect_requested_capabilities_json() {
+  local workflow_group="$1"
+  local workflow_id="$2"
+  local mission_id="$3"
+  local automation_id="$4"
+
+  local -a capabilities=("evidence.write" "state.write")
+  if [[ -n "$workflow_group" && -n "$workflow_id" ]]; then
+    capabilities+=("workflow.execute")
+  fi
+  if [[ -n "$mission_id" ]]; then
+    capabilities+=("mission.context")
+  fi
+  if [[ -n "$automation_id" ]]; then
+    capabilities+=("automation.launch")
+  fi
+
+  printf '%s\n' "${capabilities[@]}" | awk '!seen[$0]++' | jq -R . | jq -s .
+}
+
+upsert_run_contract() {
+  local run_id="$1"
+  local status="$2"
+  local created_at="$3"
+  local workflow_group="$4"
+  local workflow_id="$5"
+  local mission_id="$6"
+  local automation_id="$7"
+  local incident_id="$8"
+  local summary="$9"
+
+  local run_dir contract_file stage_dir scope_in_json requested_capabilities_json mission_ref
+  run_dir="$(run_control_dir "$run_id")"
+  contract_file="$(run_contract_path "$run_id")"
+  stage_dir="$(stage_attempt_dir "$run_id")"
+  ensure_dir "$run_dir"
+  ensure_dir "$stage_dir"
+
+  scope_in_json="$(collect_scope_in_json "$workflow_group" "$workflow_id" "$mission_id" "$automation_id" "$incident_id")"
+  requested_capabilities_json="$(collect_requested_capabilities_json "$workflow_group" "$workflow_id" "$mission_id" "$automation_id")"
+  mission_ref=""
+  if [[ -n "$mission_id" ]]; then
+    mission_ref=".octon/instance/orchestration/missions/$mission_id/mission.yml"
+  fi
+
+  jq -n \
+    --arg run_id "$run_id" \
+    --arg status "$status" \
+    --arg created_at "$created_at" \
+    --arg updated_at "$created_at" \
+    --arg summary "$summary" \
+    --arg mission_id "$mission_id" \
+    --arg mission_ref "$mission_ref" \
+    --arg stage_attempt_root "$(stage_attempt_dir_relpath "$run_id")" \
+    --arg notes_ref ".octon/framework/orchestration/runtime/runs/$run_id.yml" \
+    --argjson scope_in "$scope_in_json" \
+    --argjson requested_capabilities "$requested_capabilities_json" \
+    '
+      {
+        schema_version: "run-contract-v1",
+        run_id: $run_id,
+        objective_refs: {
+          workspace_objective_ref: ".octon/instance/bootstrap/OBJECTIVE.md",
+          workspace_intent_ref: ".octon/instance/cognition/context/shared/intent.contract.yml"
+        },
+        scope_in: $scope_in,
+        scope_out: [],
+        requested_capabilities: $requested_capabilities,
+        risk_class: "low",
+        reversibility_class: "reversible",
+        support_tier: "repo-local-transitional",
+        required_approvals: [],
+        required_evidence: [
+          "decision-artifact",
+          "run-evidence-root",
+          "orchestration-run-projection"
+        ],
+        closure_conditions: [
+          "Run reaches a terminal projection status.",
+          "Decision and retained run evidence remain linked."
+        ],
+        stage_attempt_root: $stage_attempt_root,
+        rollback_or_compensation_expectation: "Rollback or compensation posture is handled by downstream runtime lifecycle waves; Wave 1 records the execution contract and initial attempt root.",
+        status: $status,
+        created_at: $created_at,
+        updated_at: $updated_at,
+        notes_ref: $notes_ref
+      }
+      | if $mission_id != "" then
+          .objective_refs += {
+            mission_id: $mission_id,
+            mission_ref: $mission_ref
+          }
+        else .
+        end
+    ' | yq -P -p=json '.' > "$contract_file"
+
+  local initial_attempt="$stage_dir/initial.yml"
+  if [[ ! -f "$initial_attempt" ]]; then
+    jq -n \
+      --arg run_id "$run_id" \
+      --arg status "$status" \
+      --arg created_at "$created_at" \
+      --arg updated_at "$created_at" \
+      --arg objective_ref "$(run_contract_relpath "$run_id")" \
+      --argjson requested_capabilities "$requested_capabilities_json" \
+      '
+        {
+          schema_version: "stage-attempt-v1",
+          run_id: $run_id,
+          stage_attempt_id: "initial",
+          stage_ref: "orchestration-projection",
+          attempt_kind: "initial",
+          status: $status,
+          objective_ref: $objective_ref,
+          requested_capabilities: $requested_capabilities,
+          evidence_refs: [],
+          rollback_candidate: true,
+          created_at: $created_at,
+          updated_at: $updated_at
+        }
+      ' | yq -P -p=json '.' > "$initial_attempt"
+  fi
+}
+
+update_run_contract_status() {
+  local run_id="$1"
+  local projection_status="$2"
+  local updated_at="$3"
+  local contract_status attempt_status contract_file initial_attempt
+  contract_file="$(run_contract_path "$run_id")"
+  initial_attempt="$(stage_attempt_dir "$run_id")/initial.yml"
+  contract_status="$(contract_status_from_projection "$projection_status")"
+  attempt_status="$(attempt_status_from_projection "$projection_status")"
+
+  if [[ -f "$contract_file" ]]; then
+    yq -o=json '.' "$contract_file" | jq --arg status "$contract_status" --arg updated_at "$updated_at" '.status=$status | .updated_at=$updated_at' | yq -P -p=json '.' > "$contract_file.tmp"
+    mv "$contract_file.tmp" "$contract_file"
+  fi
+
+  if [[ -f "$initial_attempt" ]]; then
+    yq -o=json '.' "$initial_attempt" | jq --arg status "$attempt_status" --arg updated_at "$updated_at" '.status=$status | .updated_at=$updated_at' | yq -P -p=json '.' > "$initial_attempt.tmp"
+    mv "$initial_attempt.tmp" "$initial_attempt"
+  fi
+}
+
 ensure_run_surface() {
   ensure_dir "$RUNTIME_RUNS_DIR"
+  ensure_dir "$RUN_CONTROL_ROOT"
   ensure_dir "$RUNTIME_RUNS_DIR/by-surface/workflows"
   ensure_dir "$RUNTIME_RUNS_DIR/by-surface/missions"
   ensure_dir "$RUNTIME_RUNS_DIR/by-surface/automations"
@@ -178,6 +394,8 @@ PY
     run_file="$RUNTIME_RUNS_DIR/$run_id.yml"
     [[ ! -f "$run_file" ]] || { echo "run already exists: $run_id" >&2; exit 1; }
 
+    upsert_run_contract "$run_id" "running" "$started_at" "$workflow_group" "$workflow_id" "$mission_id" "$automation_id" "$incident_id" "$summary"
+
     run_json="$(
       jq -n \
         --arg run_id "$run_id" \
@@ -200,6 +418,8 @@ PY
         --arg recovery_reason "$recovery_reason" \
         --arg decision_id "$decision_id" \
         --arg continuity_run_path "$continuity_run_path" \
+        --arg run_contract_path "$(run_contract_relpath "$run_id")" \
+        --arg stage_attempt_root "$(stage_attempt_dir_relpath "$run_id")" \
         --arg summary "$summary" '
           {
             run_id: $run_id,
@@ -207,6 +427,8 @@ PY
             started_at: $started_at,
             decision_id: $decision_id,
             continuity_run_path: $continuity_run_path,
+            run_contract_path: $run_contract_path,
+            stage_attempt_root: $stage_attempt_root,
             summary: $summary,
             executor_id: $executor_id,
             executor_acknowledged_at: $executor_acknowledged_at,
@@ -256,6 +478,7 @@ PY
     completed_at="$(now_utc)"
     run_json="$(yq -o=json '.' "$run_file" | jq --arg status "$status" --arg summary "$summary" --arg completed_at "$completed_at" '.status=$status | .summary=$summary | .completed_at=$completed_at')"
     printf '%s\n' "$run_json" | yq -P -p=json '.' > "$run_file"
+    update_run_contract_status "$run_id" "$status" "$completed_at"
     workflow_group="$(yq -r '.workflow_ref.workflow_group // ""' "$run_file")"
     workflow_id="$(yq -r '.workflow_ref.workflow_id // ""' "$run_file")"
     mission_id="$(yq -r '.mission_id // ""' "$run_file")"
@@ -286,6 +509,7 @@ PY
 )"
     run_json="$(yq -o=json '.' "$run_file" | jq --arg heartbeat_at "$heartbeat_at" --arg lease_expires_at "$lease_expires_at" '.last_heartbeat_at=$heartbeat_at | .lease_expires_at=$lease_expires_at')"
     printf '%s\n' "$run_json" | yq -P -p=json '.' > "$run_file"
+    update_run_contract_status "$run_id" "running" "$heartbeat_at"
     echo "$run_file"
     ;;
   recovery)
@@ -305,6 +529,7 @@ PY
     [[ -f "$run_file" ]] || { echo "run not found: $run_id" >&2; exit 1; }
     run_json="$(yq -o=json '.' "$run_file" | jq --arg recovery_status "$recovery_status" --arg recovery_reason "$recovery_reason" '.recovery_status=$recovery_status | (if $recovery_reason != "" then .recovery_reason=$recovery_reason else . end)')"
     printf '%s\n' "$run_json" | yq -P -p=json '.' > "$run_file"
+    update_run_contract_status "$run_id" "running" "$(now_utc)"
     echo "$run_file"
     ;;
   *)

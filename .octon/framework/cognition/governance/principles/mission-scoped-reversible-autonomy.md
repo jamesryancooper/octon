@@ -16,6 +16,8 @@ Mission-Scoped Reversible Autonomy is Octon's canonical operating model for
 long-running and always-running autonomous agents.
 
 - durable mission authority defines what the agent may keep trying to achieve
+- mission remains the continuity container while per-run objective binding
+  lands under the run-contract root
 - mutable mission control truth publishes the live lease, mode, schedule,
   directives, burn state, breaker state, and awareness routing
 - one freshness-bounded effective route compiles mission, policy, and live
@@ -40,6 +42,8 @@ long-running and always-running autonomous agents.
   `/.octon/instance/governance/policies/mission-autonomy.yml`
 - ownership authority:
   `/.octon/instance/governance/ownership/registry.yml`
+- run contract control roots:
+  `/.octon/state/control/execution/runs/<run-id>/**`
 - mission control truth:
   `/.octon/state/control/execution/missions/<mission-id>/**`
 - retained control evidence:
@@ -59,6 +63,9 @@ Mission creation stays authority-only.
 Before a mission may become active or paused for autonomous runtime, the
 seed-before-active path must materialize the mission control family, mission
 continuity, effective route, generated summaries, and mission view.
+Consequential runs should additionally bind a run contract under
+`state/control/execution/runs/<run-id>/run-contract.yml`; mission-only
+execution remains transitional until later lifecycle normalization lands.
 
 ## Control Dimensions
 

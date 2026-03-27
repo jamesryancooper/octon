@@ -28,7 +28,7 @@ validate_run_record() {
   local rel_file="$1"
   local run_file="$SURFACE_DIR/$rel_file"
   local run_id status started_at completed_at decision_id continuity_run_path summary
-  local executor_id executor_ack heartbeat lease_expires recovery_status
+  local executor_id executor_ack heartbeat lease_expires recovery_status run_contract_path
 
   run_id="$(yq -r '.run_id // ""' "$run_file")"
   status="$(yq -r '.status // ""' "$run_file")"
@@ -36,6 +36,7 @@ validate_run_record() {
   completed_at="$(yq -r '.completed_at // ""' "$run_file")"
   decision_id="$(yq -r '.decision_id // ""' "$run_file")"
   continuity_run_path="$(yq -r '.continuity_run_path // ""' "$run_file")"
+  run_contract_path="$(yq -r '.run_contract_path // ""' "$run_file")"
   summary="$(yq -r '.summary // ""' "$run_file")"
   executor_id="$(yq -r '.executor_id // ""' "$run_file")"
   executor_ack="$(yq -r '.executor_acknowledged_at // ""' "$run_file")"
@@ -51,6 +52,8 @@ validate_run_record() {
   [[ "$started_at" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T.+$ ]] && pass "run '$run_id' started_at is ISO-like" || fail "run '$run_id' started_at must be ISO timestamp"
   [[ -n "$decision_id" && -f "$OCTON_DIR/state/evidence/decisions/repo/$decision_id/decision.json" ]] && pass "run '$run_id' decision link resolves" || fail "run '$run_id' decision link missing"
   [[ -n "$continuity_run_path" && -d "$OCTON_DIR/${continuity_run_path#.octon/}" ]] && pass "run '$run_id' continuity path resolves" || fail "run '$run_id' continuity path missing"
+  [[ -n "$run_contract_path" && -f "$OCTON_DIR/${run_contract_path#.octon/}" ]] && pass "run '$run_id' canonical run contract resolves" || fail "run '$run_id' canonical run contract missing"
+  [[ -d "$OCTON_DIR/state/control/execution/runs/$run_id/stage-attempts" ]] && pass "run '$run_id' stage-attempt root exists" || fail "run '$run_id' stage-attempt root missing"
   [[ -n "$summary" ]] && pass "run '$run_id' summary present" || fail "run '$run_id' summary missing"
 
   if [[ "$status" == "running" ]]; then

@@ -41,6 +41,36 @@
     "generated_at": {
       "type": "string",
       "minLength": 1
+    },
+    "objective_layer": {
+      "type": "string",
+      "const": "workspace-charter-pair"
+    },
+    "constitutional_role": {
+      "type": "string",
+      "const": "workspace-charter-narrative"
+    },
+    "constitutional_objective_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "release_state": {
+      "type": "string",
+      "enum": [
+        "pre-1.0",
+        "stable"
+      ]
+    },
+    "change_profile": {
+      "type": "string",
+      "enum": [
+        "atomic",
+        "transitional"
+      ]
+    },
+    "profile_selection_receipt_ref": {
+      "type": "string",
+      "minLength": 1
     }
   }
 }

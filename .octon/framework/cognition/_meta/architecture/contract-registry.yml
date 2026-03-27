@@ -2,6 +2,7 @@ schema_version: "architecture-contract-registry-v1"
 execution:
   write_roots:
     run_evidence_root: ".octon/state/evidence/runs"
+    run_control_root: ".octon/state/control/execution/runs"
     execution_control_root: ".octon/state/control/execution"
     mission_control_root: ".octon/state/control/execution/missions"
     control_evidence_root: ".octon/state/evidence/control/execution"
@@ -20,11 +21,17 @@ execution:
   control_state:
     budget_state: ".octon/state/control/execution/budget-state.yml"
     exception_leases: ".octon/state/control/execution/exception-leases.yml"
+    runs_root: ".octon/state/control/execution/runs"
     missions_root: ".octon/state/control/execution/missions"
+  objective_binding:
+    contract_family_root: ".octon/framework/constitution/contracts/objective"
+    workspace_objective_brief: ".octon/instance/bootstrap/OBJECTIVE.md"
+    workspace_intent_contract: ".octon/instance/cognition/context/shared/intent.contract.yml"
   forbidden_write_prefixes:
     - ".octon/framework/engine/_ops/state"
   required_doc_surfaces:
     - ".octon/framework/constitution/CHARTER.md"
+    - ".octon/framework/constitution/contracts/objective/README.md"
     - ".octon/README.md"
     - ".octon/instance/ingress/AGENTS.md"
     - ".octon/framework/agency/governance/CONSTITUTION.md"
@@ -38,10 +45,12 @@ execution:
     - ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json"
     - ".octon/framework/engine/runtime/spec/policy-receipt-v2.schema.json"
     - ".octon/framework/engine/runtime/spec/policy-digest-v2.md"
+    - ".octon/state/control/execution/runs/README.md"
   blocking_checks:
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-lifecycle-cutover.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-intent-invariants.sh"
@@ -74,6 +83,7 @@ documentation:
       description: "Markdown documents that define architecture, governance, bootstrap, or review-receipt behavior."
       match_globs:
         - ".octon/framework/constitution/CHARTER.md"
+        - ".octon/framework/constitution/contracts/objective/README.md"
         - ".octon/README.md"
         - ".octon/instance/ingress/AGENTS.md"
         - ".octon/framework/agency/governance/CONSTITUTION.md"
@@ -84,6 +94,7 @@ documentation:
         - ".octon/framework/engine/README.md"
         - ".octon/framework/engine/runtime/spec/policy-interface-v1.md"
         - ".octon/framework/engine/runtime/spec/policy-digest-v2.md"
+        - ".octon/state/control/execution/runs/README.md"
         - ".octon/framework/agency/practices/pull-request-standards.md"
         - ".octon/instance/cognition/decisions/[0-9][0-9][0-9]-*.md"
         - ".github/PULL_REQUEST_TEMPLATE.md"

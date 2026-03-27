@@ -41,6 +41,7 @@ Core kernel artifacts:
 - `/.octon/framework/constitution/obligations/{fail-closed.yml,evidence.yml}`
 - `/.octon/framework/constitution/ownership/roles.yml`
 - `/.octon/framework/constitution/contracts/registry.yml`
+- `/.octon/framework/constitution/contracts/objective/**`
 - `/.octon/framework/constitution/support-targets.schema.json`
 
 `/.octon/framework/cognition/_meta/architecture/specification.md` remains the
@@ -108,6 +109,12 @@ No other `instance/**` subtree is overlay-capable in v1.
   `/.octon/inputs/additive/extensions/<pack-id>/`
 - Canonical repo continuity:
   `/.octon/state/continuity/repo/`
+- Canonical workspace objective brief:
+  `/.octon/instance/bootstrap/OBJECTIVE.md`
+- Canonical workspace intent contract:
+  `/.octon/instance/cognition/context/shared/intent.contract.yml`
+- Canonical run-contract control roots:
+  `/.octon/state/control/execution/runs/<run-id>/`
 - Canonical mission continuity:
   `/.octon/state/continuity/repo/missions/`
 - Canonical scope continuity:
@@ -226,6 +233,8 @@ long-running and always-running autonomous agents.
 
 - durable mission authority lives under
   `instance/orchestration/missions/<mission-id>/{mission.yml,mission.md}`
+- run-contract control roots live under
+  `state/control/execution/runs/<run-id>/`
 - mutable mission control truth lives under
   `state/control/execution/missions/<mission-id>/`
 - retained control-plane mutation evidence lives under
@@ -242,6 +251,11 @@ Mission authority stays under `instance/orchestration/missions/**`, and the
 activation path must seed control truth, continuity, route publication,
 generated summaries, and `mission-view.yml` before autonomous active or paused
 runtime state is legal.
+
+Wave 1 objective binding cutover makes mission the continuity container while
+run contracts become the atomic execution unit for consequential runs. Mission-
+only execution remains an explicit transitional compatibility path until a
+later lifecycle wave moves primary execution-time state to run roots.
 
 MSRAOM runtime closeout is recorded in
 `/.octon/instance/cognition/decisions/067-mission-scoped-reversible-autonomy-final-closeout-cutover.md`.

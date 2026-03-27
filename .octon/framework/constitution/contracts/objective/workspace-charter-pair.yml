@@ -1,0 +1,21 @@
+schema_version: "octon-workspace-charter-pair-v1"
+objective_layer: "workspace-charter-pair"
+status: "active"
+objective_id: "octon-governed-harness"
+intent_id: "intent://octon/octon-governed-harness"
+intent_version: "1.1.0"
+narrative_ref: ".octon/instance/bootstrap/OBJECTIVE.md"
+machine_ref: ".octon/instance/cognition/context/shared/intent.contract.yml"
+contract_family_ref: ".octon/framework/constitution/contracts/objective/family.yml"
+execution_binding:
+  consequential_execution_requires_run_contract: true
+  run_contract_control_root: ".octon/state/control/execution/runs"
+  run_contract_schema_ref: ".octon/framework/constitution/contracts/objective/run-contract-v1.schema.json"
+  stage_attempt_schema_ref: ".octon/framework/constitution/contracts/objective/stage-attempt-v1.schema.json"
+  mission_authority_root: ".octon/instance/orchestration/missions"
+  mission_required_for:
+    - "recurring-autonomy"
+    - "overlapping-work"
+    - "long-horizon-continuity"
+  run_only_autonomy_requires_declared_support_tier: true
+  silent_missionless_fallback: "deny"

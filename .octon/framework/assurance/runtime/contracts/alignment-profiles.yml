@@ -31,6 +31,7 @@ profiles:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh"
       - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
       - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
@@ -134,6 +135,7 @@ profiles:
     entrypoint: "run_mission_autonomy"
     required_paths:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-proposal-package.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-authority.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-lifecycle-cutover.sh"

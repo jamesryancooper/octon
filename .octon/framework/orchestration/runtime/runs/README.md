@@ -1,13 +1,17 @@
 # Orchestration Runs
 
-Orchestration-facing run state, indexes, and reverse-lookup projections.
+Orchestration-facing run projections, indexes, and reverse-lookup materialized
+views.
 
 ## Authority Order
 
-`README.md -> index.yml -> <run-id>.yml -> by-surface/ -> state/evidence/runs/`
+`state/control/execution/runs/<run-id>/run-contract.yml -> README.md -> index.yml -> <run-id>.yml -> by-surface/ -> state/evidence/runs/`
 
-`<run-id>.yml` is the canonical orchestration-facing run object and mutable
-status record.
+`state/control/execution/runs/<run-id>/run-contract.yml` is the canonical
+per-run execution contract for Wave 1.
+
+`<run-id>.yml` is the orchestration-facing projection and mutable operator view
+over that canonical run root.
 
 `state/evidence/runs/<run-id>/` remains the durable evidence authority.
 
@@ -27,7 +31,10 @@ runs/
 
 ## Boundary
 
-- Store orchestration-facing run state and lookup projections here.
+- Store orchestration-facing run projections and lookup indexes here.
+- Store canonical per-run execution contracts under
+  `/.octon/state/control/execution/runs/<run-id>/`.
 - Store durable receipts, digests, and evidence bundles in
   `/.octon/state/evidence/runs/`.
-- Do not let `index.yml` or `by-surface/` outrank canonical per-run records.
+- Do not let `index.yml`, `<run-id>.yml`, or `by-surface/` outrank the
+  canonical run-control root.

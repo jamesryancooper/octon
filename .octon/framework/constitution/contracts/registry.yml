@@ -23,8 +23,8 @@ families:
   - family_id: "objective"
     path: ".octon/framework/constitution/contracts/objective/**"
     activation_wave: 1
-    status: "reserved"
-    description: "Workspace, mission, and run objective contracts."
+    status: "active-transitional"
+    description: "Workspace, mission, run, and stage-attempt objective contracts."
   - family_id: "authority"
     path: ".octon/framework/constitution/contracts/authority/**"
     activation_wave: 2
@@ -51,12 +51,20 @@ families:
     status: "reserved"
     description: "Retention, replay, and evidence lifecycle contracts."
 integration_surfaces:
+  objective_contract_family:
+    root: ".octon/framework/constitution/contracts/objective/**"
+    status: "active-transitional"
   workspace_charter_pair:
     narrative: ".octon/instance/bootstrap/OBJECTIVE.md"
     machine: ".octon/instance/cognition/context/shared/intent.contract.yml"
-    status: "active-transitional"
+    contract_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
+    status: "active"
   mission_authority:
     path: ".octon/instance/orchestration/missions/**"
+    role: "continuity-container"
+    status: "active-transitional"
+  run_control_root:
+    path: ".octon/state/control/execution/runs/**"
     status: "active-transitional"
   repo_policy_inputs:
     - ".octon/instance/governance/policies/**"
@@ -66,5 +74,6 @@ integration_surfaces:
     - ".octon/state/evidence/control/execution/**"
     - ".octon/state/evidence/validation/publication/**"
 notes:
-  - "Wave 0 establishes the constitutional kernel and registry without cutting over reserved contract families."
-  - "Current mission-first execution remains active until the run-contract cutover lands."
+  - "Wave 0 established the constitutional kernel and reserved the objective contract family."
+  - "Wave 1 promotes the workspace objective pair, defines run-contract and stage-attempt schemas, and publishes the canonical run-control root."
+  - "Current mission-backed execution remains the live operational path until later runtime lifecycle waves move primary execution-time state to run roots."

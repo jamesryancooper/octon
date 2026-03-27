@@ -23,4 +23,18 @@ success_criteria:
 failure_conditions:
   - "Any required mission control file, scenario-resolution artifact, or generated summary becomes stale or missing."
   - "The mission requires external effects, destructive action classes, or manual repair outside canonical mission surfaces."
+objective_binding:
+  workspace_charter_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
+  execution_unit: "run-contract"
+  run_control_root: ".octon/state/control/execution/runs"
+  mission_role: "continuity-container"
+  mission_required_for:
+    - "recurring-autonomy"
+    - "overlapping-work"
+    - "long-horizon-continuity"
+transitional_execution_model:
+  mission_only_execution: "transitional"
+  stage_attempt_root: ".octon/state/control/execution/runs/<run-id>/stage-attempts"
+  retirement_gate: "Retire mission-only execution assumptions after Wave 3 runtime lifecycle normalization promotes run roots to the primary execution-time unit of truth."
+  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-26-objective-binding-cutover/plan.md"
 notes_ref: "mission.md"

@@ -32,6 +32,16 @@ Define the bounded outcome for this mission.
 - note that control truth, route generation, and mission-view creation happen
   through the seed-before-active path rather than inside this authority scaffold
 
+## Objective Binding
+
+- mission is the continuity container, not the atomic execution unit
+- consequential work should bind a run contract under
+  `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`
+- stage attempts belong under
+  `/.octon/state/control/execution/runs/<run-id>/stage-attempts/`
+- any mission-only execution assumption is transitional and must retain its
+  retirement gate
+
 ## Notes
 
 Add optional mission-local guidance here.

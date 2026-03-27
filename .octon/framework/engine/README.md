@@ -30,6 +30,8 @@ semantics.
 - retained execution evidence belongs under `/.octon/state/evidence/runs/**`
   and mutable execution control truth belongs under
   `/.octon/state/control/execution/**`, not under `engine/_ops/**`
+- per-run objective binding control roots belong under
+  `/.octon/state/control/execution/runs/**`
 - mission-scoped execution control truth belongs under
   `/.octon/state/control/execution/missions/**`
 - retained control-plane mutation evidence belongs under

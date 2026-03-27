@@ -58,6 +58,7 @@ Repo-local supreme control authority lives under `framework/constitution/**`.
 | Evidence obligations | `.octon/framework/constitution/obligations/evidence.yml` |
 | Ownership roles | `.octon/framework/constitution/ownership/roles.yml` |
 | Contract registry | `.octon/framework/constitution/contracts/registry.yml` |
+| Objective contracts | `.octon/framework/constitution/contracts/objective/` |
 | Support-target schema | `.octon/framework/constitution/support-targets.schema.json` |
 
 Prompts, ingress adapters, workflows, and generated projections may project
@@ -209,6 +210,10 @@ split:
 
 - durable mission authority:
   `instance/orchestration/missions/<mission-id>/{mission.yml,mission.md}`
+- run-contract control roots:
+  `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`
+- stage-attempt roots:
+  `/.octon/state/control/execution/runs/<run-id>/stage-attempts/**`
 - repo-owned mission autonomy defaults:
   `instance/governance/policies/mission-autonomy.yml`
 - repo-owned non-path ownership authority:
@@ -230,6 +235,8 @@ Mission creation remains authority-only under `instance/orchestration/missions/*
 Autonomous active or paused runtime state becomes legal only after the
 seed-before-active path materializes mission control truth, continuity, route
 generation, summaries, and mission view outputs under their canonical roots.
+During Wave 1 coexistence, mission remains the continuity container while the
+run contract becomes the defined atomic execution unit for consequential runs.
 
 Raw additive packs carry compatibility and provenance in
 `inputs/additive/extensions/<pack-id>/pack.yml`.

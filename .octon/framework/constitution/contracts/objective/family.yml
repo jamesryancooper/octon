@@ -1,0 +1,40 @@
+schema_version: "octon-constitutional-objective-family-v1"
+family_id: "objective"
+status: "active-transitional"
+activation_wave: 1
+release_state: "pre-1.0"
+change_profile: "transitional"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-26-objective-binding-cutover/plan.md"
+transitional_exception_note:
+  rationale: >-
+    Wave 1 must introduce constitutional objective contracts and run-control
+    roots while preserving the existing mission-backed execution path until
+    run-root lifecycle state is fully normalized.
+  risks:
+    - "Mission-first and run-first documentation could drift during coexistence."
+    - "Run-control roots could exist before all runtime writers move to them."
+    - "Legacy orchestration-facing run projections may still reflect pre-Wave 1 assumptions."
+  owner: "Octon governance"
+  target_removal_date: "2026-06-30"
+objective_stack:
+  workspace_charter_pair:
+    ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
+    role: "workspace objective authority"
+  mission_charter_pair:
+    root: ".octon/instance/orchestration/missions/**"
+    role: "continuity-container"
+  run_contract:
+    schema_ref: ".octon/framework/constitution/contracts/objective/run-contract-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_file: "run-contract.yml"
+    execution_unit: "atomic"
+  stage_attempt_contract:
+    schema_ref: ".octon/framework/constitution/contracts/objective/stage-attempt-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_dir: "stage-attempts"
+mission_only_execution:
+  status: "transitional"
+  retirement_gate: >-
+    Remove mission-only execution assumptions after Wave 3 runtime lifecycle
+    normalization promotes run roots to the primary execution-time unit of
+    truth.

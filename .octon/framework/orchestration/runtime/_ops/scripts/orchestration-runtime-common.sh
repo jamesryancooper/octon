@@ -18,6 +18,7 @@ orchestration_runtime_init() {
   RUNTIME_DIR="$OCTON_DIR/framework/orchestration/runtime"
   DECISIONS_DIR="$OCTON_DIR/state/evidence/decisions/repo"
   CONTINUITY_RUNS_DIR="$OCTON_DIR/state/evidence/runs"
+  RUN_CONTROL_ROOT="$OCTON_DIR/state/control/execution/runs"
   RUNTIME_RUNS_DIR="$RUNTIME_DIR/runs"
   QUEUE_DIR="$RUNTIME_DIR/queue"
   WORKFLOWS_DIR="$RUNTIME_DIR/workflows"

@@ -139,3 +139,5 @@ records:
     path: 067-mission-scoped-reversible-autonomy-final-closeout-cutover.md
   - id: 068-mission-scoped-reversible-autonomy-provenance-alignment-closeout
     path: 068-mission-scoped-reversible-autonomy-provenance-alignment-closeout.md
+  - id: 069-objective-binding-cutover
+    path: 069-objective-binding-cutover.md

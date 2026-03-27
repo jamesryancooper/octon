@@ -52,11 +52,12 @@ rules:
   - id: "FCR-010"
     condition: "A bound run contract is missing or invalid for consequential execution."
     route: "STAGE_ONLY"
-    adoption_status: "staged"
+    adoption_status: "active-transitional"
     activation_wave: 1
     transitional_behavior: >-
       Current mission-first authorization and execution contracts remain the
-      active enforcement path until the run-contract cutover lands.
+      live enforcement path while Wave 1 publishes the run-contract family and
+      run-control roots.
   - id: "FCR-011"
     condition: "Mandatory evidence from prior step transitions is missing."
     route: "STAGE_ONLY"

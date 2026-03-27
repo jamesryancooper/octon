@@ -341,6 +341,10 @@ run_mission_autonomy() {
     bash "$SCRIPT_DIR/validate-mission-proposal-package.sh"
 
   run_step \
+    "Validate constitutional objective binding cutover" \
+    bash "$SCRIPT_DIR/validate-objective-binding-cutover.sh"
+
+  run_step \
     "Validate mission authority and policy surfaces" \
     bash "$SCRIPT_DIR/validate-mission-authority.sh"
 

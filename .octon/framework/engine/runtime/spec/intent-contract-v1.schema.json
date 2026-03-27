@@ -117,6 +117,89 @@
     "review_by": {
       "type": "string",
       "minLength": 1
+    },
+    "objective_layer": {
+      "type": "string",
+      "const": "workspace-charter-pair"
+    },
+    "constitutional_role": {
+      "type": "string",
+      "const": "workspace-charter-machine"
+    },
+    "constitutional_objective_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "release_state": {
+      "type": "string",
+      "enum": [
+        "pre-1.0",
+        "stable"
+      ]
+    },
+    "change_profile": {
+      "type": "string",
+      "enum": [
+        "atomic",
+        "transitional"
+      ]
+    },
+    "profile_selection_receipt_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workspace_objective_ref",
+        "run_contract_control_root",
+        "run_contract_schema_ref",
+        "stage_attempt_schema_ref",
+        "mission_authority_root",
+        "mission_required_for",
+        "run_only_autonomy_requires_declared_support_tier",
+        "silent_missionless_fallback"
+      ],
+      "properties": {
+        "workspace_objective_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_contract_control_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_contract_schema_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stage_attempt_schema_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mission_authority_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mission_required_for": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "run_only_autonomy_requires_declared_support_tier": {
+          "type": "boolean"
+        },
+        "silent_missionless_fallback": {
+          "type": "string",
+          "enum": [
+            "deny"
+          ]
+        }
+      }
     }
   }
 }

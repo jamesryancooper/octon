@@ -1,9 +1,14 @@
 schema_version: "octon-mission-registry-v2"
 control_root: ".octon/state/control/execution/missions"
+run_control_root: ".octon/state/control/execution/runs"
 continuity_root: ".octon/state/continuity/repo/missions"
 effective_route_root: ".octon/generated/effective/orchestration/missions"
 summary_root: ".octon/generated/cognition/summaries/missions"
 projection_root: ".octon/generated/cognition/projections/materialized/missions"
+execution_unit: "run-contract"
+mission_role: "continuity-container"
+mission_only_execution: "transitional"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-26-objective-binding-cutover/plan.md"
 active:
   - "mission-autonomy-live-validation"
 archived: []

@@ -103,6 +103,8 @@ case_primitives_round_trip() {
     --executor-id executor-test-01 \
     --lease-seconds 300)"
   [[ -f "$run_path" ]]
+  [[ -f "$fixture_root/.octon/state/control/execution/runs/run-test-001/run-contract.yml" ]]
+  [[ -f "$fixture_root/.octon/state/control/execution/runs/run-test-001/stage-attempts/initial.yml" ]]
 
   lock_output="$(env "${envs[@]}" bash "$REPO_ROOT/$LOCK_SCRIPT" acquire \
     --coordination-key workflow:meta/evaluate-harness \

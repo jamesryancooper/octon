@@ -57,7 +57,7 @@ layers:
     decision_rule: "Workspace-wide objective authority applies beneath the kernel and repo policy."
     adoption_status: "active"
   - rank: 6
-    authority: "mission-charter"
+    authority: "mission-charter-pair"
     surfaces:
       - ".octon/instance/orchestration/missions/**"
     decision_rule: "Mission authority governs continuity, ownership, overlap, and long-horizon autonomy."
@@ -65,11 +65,18 @@ layers:
   - rank: 7
     authority: "run-contract"
     surfaces:
-      - ".octon/state/control/execution/runs/<run-id>/run.yml"
-    decision_rule: "Run contracts become the atomic execution authority when their cutover lands."
-    adoption_status: "staged"
+      - ".octon/state/control/execution/runs/<run-id>/run-contract.yml"
+    decision_rule: "Run contracts are the atomic execution authority for consequential runs."
+    adoption_status: "active-transitional"
     activation_wave: 1
   - rank: 8
+    authority: "stage-attempt-contract"
+    surfaces:
+      - ".octon/state/control/execution/runs/<run-id>/stage-attempts/**"
+    decision_rule: "Stage-attempt contracts govern retries, staged execution, and resumable attempt records beneath the bound run contract."
+    adoption_status: "active-transitional"
+    activation_wave: 1
+  - rank: 9
     authority: "capability-tool-and-adapter-contracts"
     surfaces:
       - ".octon/framework/capabilities/**"
@@ -79,7 +86,7 @@ layers:
     notes:
       - "Capability contracts are active."
       - "Generalized model and host adapter contracts remain staged."
-  - rank: 9
+  - rank: 10
     authority: "structural-architecture-and-placement-specs"
     surfaces:
       - ".octon/framework/cognition/_meta/architecture/specification.md"
@@ -91,7 +98,7 @@ layers:
       topology and placement, but they may not override higher constitutional
       layers.
     adoption_status: "active"
-  - rank: 10
+  - rank: 11
     authority: "informative-context"
     surfaces:
       - "informative docs"

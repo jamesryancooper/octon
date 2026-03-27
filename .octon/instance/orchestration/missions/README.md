@@ -36,6 +36,10 @@ for durable mission definitions and mission-scoped orchestration artifacts.
 
 - mission authority lives here under `instance/**`
 - active mission charters use `octon-mission-v2`
+- mission remains the continuity container rather than the atomic execution
+  unit
+- consequential runs bind per-run objective contracts under
+  `state/control/execution/runs/<run-id>/**`
 - missions may reference scope ids, but scope identity still lives under
   `instance/locality/**`
 - mission-local mutable execution control truth belongs under
@@ -48,5 +52,7 @@ for durable mission definitions and mission-scoped orchestration artifacts.
   `state/evidence/runs/**`
 - mission-local continuity belongs under
   `state/continuity/repo/missions/<mission-id>/**`
+- stage attempts, retries, and staged previews belong under the bound run root
+  rather than under mission authority
 - framework workflows may create or complete missions, but they are not the
   authority surface for mission definitions

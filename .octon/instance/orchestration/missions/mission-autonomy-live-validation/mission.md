@@ -51,6 +51,16 @@ external effects.
 - Preview and digest behavior should remain route-derived and visible through
   the generated mission/operator views
 
+## Objective Binding
+
+- This mission remains the continuity container for the live validation lane.
+- Consequential work bound to this mission should publish a run contract under
+  `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`.
+- Retry, stage-only, and resumable attempts belong under
+  `/.octon/state/control/execution/runs/<run-id>/stage-attempts/`.
+- Mission-only execution remains a transitional compatibility path with an
+  explicit retirement gate.
+
 ## Notes
 
 This mission exists to give the MSRAOM closeout one real, low-risk live target

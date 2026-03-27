@@ -2,10 +2,16 @@
 schema_version: "objective-brief-v1"
 objective_id: "octon-governed-harness"
 intent_id: "intent://octon/octon-governed-harness"
-intent_version: "1.0.0"
+intent_version: "1.1.0"
 owner: "Octon governance"
 approved_by: "Octon governance"
-generated_at: "2026-03-06T00:00:00Z"
+generated_at: "2026-03-26T00:00:00Z"
+objective_layer: "workspace-charter-pair"
+constitutional_role: "workspace-charter-narrative"
+constitutional_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
+release_state: "pre-1.0"
+change_profile: "transitional"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-26-objective-binding-cutover/plan.md"
 ---
 
 # Objective: Octon Governed Harness
@@ -16,11 +22,21 @@ Octon is a portable harness that turns any repository into a governed autonomous
 Use Octon in `octon` to evolve the harness itself with safe, reviewable, and
 verifiable changes.
 
+## Constitutional Role
+
+This brief is the narrative side of Octon's workspace-charter pair. Every
+consequential run must bind this workspace objective together with a per-run
+contract under `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`.
+Mission authority remains the continuity container and long-horizon autonomy
+surface during the transitional Wave 1 coexistence window.
+
 ## What Octon Should Optimize For
 
 - correctness and coherence of the harness runtime, governance, and bootstrap model
 - portability and self-containment across repositories and agent environments
 - deterministic validation, safe autonomy boundaries, and clear operational evidence
+- constitutional objective binding that keeps mission continuity distinct from
+  per-run execution authority
 
 ## In Scope
 

@@ -90,6 +90,9 @@ main() {
     "execution governance contracts and protected CI posture are current" \
     "$SCRIPT_DIR/validate-execution-governance.sh"
   run_optional_validator \
+    "objective binding cutover surfaces are current" \
+    "$SCRIPT_DIR/validate-objective-binding-cutover.sh"
+  run_optional_validator \
     "mission-scoped reversible autonomy contracts and enforcement are current" \
     "$SCRIPT_DIR/validate-mission-runtime-contracts.sh"
   run_optional_validator \
