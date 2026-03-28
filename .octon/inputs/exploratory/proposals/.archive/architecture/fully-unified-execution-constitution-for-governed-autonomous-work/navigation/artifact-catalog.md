@@ -8,7 +8,7 @@ not semantic authority.
 
 - `proposal_id`: `fully-unified-execution-constitution-for-governed-autonomous-work`
 - `proposal_kind`: `architecture`
-- `proposal_path`: `.octon/inputs/exploratory/proposals/architecture/fully-unified-execution-constitution-for-governed-autonomous-work`
+- `proposal_path`: `.octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work`
 
 ## Files
 

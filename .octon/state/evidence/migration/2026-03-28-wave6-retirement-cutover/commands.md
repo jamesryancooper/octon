@@ -1,6 +1,8 @@
 # Command Log
 
-- `rg -n "active-transitional|mission_only_execution|transitional_execution_model|accept:human|ai-gate:waive|materialize-pr-authority|OCTON_EXECUTION_HUMAN_APPROVED" .octon .github -g '!**/inputs/exploratory/**'`
+- `git mv .octon/inputs/exploratory/proposals/architecture/fully-unified-execution-constitution-for-governed-autonomous-work .octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work`
+- `rg -n "fully-unified-execution-constitution-for-governed-autonomous-work|inputs/exploratory/proposals/architecture/fully-unified-execution-constitution-for-governed-autonomous-work|inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work" .octon/octon.yml .octon/README.md .octon/instance/bootstrap/START.md .octon/instance/bootstrap/OBJECTIVE.md .octon/instance/cognition/context/shared/intent.contract.yml .octon/framework/cognition/_meta/architecture/specification.md .octon/framework/constitution .octon/framework/agency .octon/framework/assurance .octon/framework/engine/runtime .octon/framework/orchestration .octon/framework/lab .octon/framework/observability .octon/instance/governance .octon/instance/orchestration/missions .octon/state/control/execution .octon/generated/effective .octon/generated/cognition -S`
+- `rg -n "active-transitional|mission_only_execution|transitional_execution_model|accept:human|ai-gate:waive|materialize-pr-authority|OCTON_EXECUTION_HUMAN_APPROVED" .octon/octon.yml .octon/README.md .octon/instance/bootstrap .octon/instance/cognition/context/shared .octon/framework/constitution .octon/framework/agency .octon/framework/assurance .octon/framework/engine/runtime .octon/framework/orchestration .octon/framework/lab .octon/framework/observability .octon/instance/governance .octon/instance/orchestration/missions .octon/state/control/execution .octon/generated/effective .octon/generated/cognition .github/workflows -S`
 - `bash .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh --target decisions --target missions --target projections`
 - `bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write`
 - `bash .octon/framework/agency/_ops/scripts/validate/validate-agency.sh`
@@ -17,5 +19,5 @@
 - `bash .octon/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh`
 - `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel authorization::tests::approval_required_autonomous_request_returns_stage_only_without_human_approval -- --exact`
 - `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel authorization::tests::authority_projection_serializes_ref_and_accepts_legacy_alias -- --exact`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package <implementing-wave6-proposal>`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package <implementing-wave6-proposal> --skip-registry-check`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work`

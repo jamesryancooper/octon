@@ -24,7 +24,15 @@ promotion_targets:
   - ".octon/state/evidence/"
   - ".octon/generated/effective/"
   - ".octon/generated/cognition/"
-status: "implemented"
+status: "archived"
+archive:
+  archived_at: "2026-03-28"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/fully-unified-execution-constitution-for-governed-autonomous-work"
+  promotion_evidence:
+    - ".octon/instance/cognition/decisions/074-wave6-retirement-cutover.md"
+    - ".octon/state/evidence/migration/2026-03-28-wave6-retirement-cutover/evidence.md"
 lifecycle:
   temporary: true
   exit_expectation: "Promote the constitutional kernel, run-contract authority model, runtime evidence and disclosure model, and supporting governance, assurance, and generated read-model surfaces into durable .octon authorities; remove proposal-path dependencies from those promoted targets; then archive this package once implementation no longer depends on proposal-local planning artifacts."

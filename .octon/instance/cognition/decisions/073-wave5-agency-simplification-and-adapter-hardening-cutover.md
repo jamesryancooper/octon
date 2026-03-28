@@ -6,7 +6,7 @@
 - Related:
   - `/.octon/instance/cognition/context/shared/migrations/2026-03-27-wave5-agency-simplification-adapter-hardening-cutover/plan.md`
   - `/.octon/state/evidence/migration/2026-03-27-wave5-agency-simplification-adapter-hardening-cutover/`
-  - `/.octon/inputs/exploratory/proposals/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
+  - `/.octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
   - `/.octon/instance/cognition/decisions/071-assurance-lab-disclosure-expansion-cutover.md`
 
 ## Context

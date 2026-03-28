@@ -6,7 +6,7 @@
 - Related:
   - `/.octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md`
   - `/.octon/state/evidence/migration/2026-03-28-wave6-retirement-cutover/`
-  - `/.octon/inputs/exploratory/proposals/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
+  - `/.octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
   - `/.octon/instance/cognition/decisions/073-wave5-agency-simplification-and-adapter-hardening-cutover.md`
 
 ## Context
@@ -69,9 +69,7 @@ Rules:
 
 ### Follow-on Work
 
-1. Archive the implementing proposal package only after the status move to
-   `implemented` is validated and, if chosen, the archive workflow is run.
-2. Continue pruning historical allowlists or evidence notes that mention the
+1. Continue pruning historical allowlists or evidence notes that mention the
    retired label-based approval model when they cease to provide useful
    lineage.
 
@@ -88,4 +86,6 @@ Completion basis:
   contracts
 - runtime and GitHub workflows no longer materialize approval authority from
   labels or environment flags
+- the implementing proposal package is archived as implemented and the
+  generated proposal registry reflects that closeout state
 - validators, read models, and durable docs align to the same final model

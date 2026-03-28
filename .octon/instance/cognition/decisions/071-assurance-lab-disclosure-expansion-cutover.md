@@ -6,7 +6,7 @@
 - Related:
   - `/.octon/instance/cognition/context/shared/migrations/2026-03-27-assurance-lab-disclosure-expansion-cutover/plan.md`
   - `/.octon/state/evidence/migration/2026-03-27-assurance-lab-disclosure-expansion-cutover/`
-  - `/.octon/inputs/exploratory/proposals/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
+  - `/.octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
   - `/.octon/instance/cognition/decisions/070-runtime-lifecycle-normalization-cutover.md`
 
 ## Context

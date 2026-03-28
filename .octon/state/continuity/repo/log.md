@@ -33,6 +33,32 @@ mutability: append-only
 
 ## 2026-03-28
 
+**Session focus:** Complete the fully unified execution constitution archival
+closeout and validation follow-through
+
+**Completed:**
+
+- Moved the implementing proposal package to the canonical archive path under
+  `/.octon/inputs/exploratory/proposals/.archive/architecture/`
+- Rewrote the proposal lifecycle metadata to `status: archived` with
+  `disposition: implemented`, regenerated the proposal registry, and updated
+  Wave 6 ADR/migration/evidence records to reflect the completed archive
+  closeout
+- Reran the closeout validator stack, refreshed the affected generated
+  cognition/effective publication surfaces, and retained fresh publication
+  receipts under `state/evidence/validation/publication/**`
+
+**Next:**
+
+- No additional Wave 6 closeout work remains inside the repository; branch
+  closeout may proceed
+
+**Blockers:**
+
+- None
+
+## 2026-03-28
+
 **Session focus:** Implement Wave 6 retirement, cutover, and closeout for the
 fully unified execution constitution
 

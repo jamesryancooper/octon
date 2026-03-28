@@ -46,5 +46,5 @@
 - `instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md`
 - `instance/cognition/decisions/{index.yml,074-wave6-retirement-cutover.md}`
 - `state/evidence/migration/2026-03-28-wave6-retirement-cutover/**`
-- implementing Wave 6 proposal manifest (`proposal.yml`) promoted to
-  `implemented`
+- `inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/**`
+- implementing Wave 6 proposal package archived as `implemented`

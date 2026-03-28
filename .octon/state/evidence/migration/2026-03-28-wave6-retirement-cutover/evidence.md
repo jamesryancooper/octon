@@ -18,9 +18,10 @@ lands as one fully active constitutional execution system.
   high-impact PRs stay manual-lane only instead.
 - Durable docs, validators, and generated read models now align to the same
   final model.
-- The implementing proposal package now carries `status: implemented`, and the
-  deterministic proposal registry projects that status without introducing
-  proposal-path dependencies back into promoted targets.
+- The implementing proposal package is archived as implemented under the
+  canonical archive path, and the deterministic proposal registry projects that
+  archived state without introducing proposal-path dependencies back into
+  promoted targets.
 
 ## Receipts And Evidence
 
@@ -31,5 +32,5 @@ lands as one fully active constitutional execution system.
   `/.octon/instance/cognition/decisions/074-wave6-retirement-cutover.md`
 - Migration plan:
   `/.octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md`
-- Proposal status promotion:
-  implementing Wave 6 proposal manifest promoted to `implemented`
+- Archived proposal package:
+  `/.octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`

@@ -1,9 +1,9 @@
 schema_version: "octon-extension-effective-catalog-v4"
 generator_version: "extension-publication-v3"
 generation_id: "extensions-d81e117f4c8a"
-published_at: "2026-03-28T17:13:06Z"
+published_at: "2026-03-28T18:03:51Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-03-28T17-13-06Z-extensions-d81e117f4c8a.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-03-28T18-03-51Z-extensions-d81e117f4c8a.yml"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"

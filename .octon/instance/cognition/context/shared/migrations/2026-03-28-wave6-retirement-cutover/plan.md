@@ -123,6 +123,8 @@ description: Transitional migration plan for Wave 6 retirement, cutover, and clo
   `/.octon/state/evidence/migration/2026-03-28-wave6-retirement-cutover/evidence.md`
 - ADR:
   `/.octon/instance/cognition/decisions/074-wave6-retirement-cutover.md`
+- Archived proposal package:
+  `/.octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
 
 ## Exit Gate Status
 
@@ -131,10 +133,9 @@ description: Transitional migration plan for Wave 6 retirement, cutover, and clo
   - no live consequential execution path depends on the deprecated model
   - no durable target depends on the proposal path for live behavior
   - retirement evidence exists for removed shims and compensating scaffolds
-  - the proposal can move to implemented once proposal-independence is proven
-- Remaining active Wave 6 gaps: none inside the live constitutional model;
-  proposal archival remains deferred to a separate turn because proposal
-  resource/doc mutation was explicitly out of scope here
+  - the implementing proposal is archived as implemented once
+    proposal-independence is proven
+- Remaining active Wave 6 gaps: none
 
 ## Rollback
 

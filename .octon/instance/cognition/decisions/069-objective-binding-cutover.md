@@ -6,7 +6,7 @@
 - Related:
   - `/.octon/instance/cognition/context/shared/migrations/2026-03-26-objective-binding-cutover/plan.md`
   - `/.octon/state/evidence/migration/2026-03-26-objective-binding-cutover/`
-  - `/.octon/inputs/exploratory/proposals/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
+  - `/.octon/inputs/exploratory/proposals/.archive/architecture/fully-unified-execution-constitution-for-governed-autonomous-work/`
   - `/.octon/instance/cognition/decisions/063-mission-scoped-reversible-autonomy-atomic-cutover.md`
   - `/.octon/instance/cognition/decisions/067-mission-scoped-reversible-autonomy-final-closeout-cutover.md`
   - `/.octon/instance/cognition/decisions/068-mission-scoped-reversible-autonomy-provenance-alignment-closeout.md`
