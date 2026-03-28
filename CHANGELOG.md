@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.8](https://github.com/jamesryancooper/octon/compare/octon-v0.6.7...octon-v0.6.8) (2026-03-28)
+
+
+### Bug Fixes
+
+* **execution:** track closeout archive and continuity ([#226](https://github.com/jamesryancooper/octon/issues/226)) ([e036ff8](https://github.com/jamesryancooper/octon/commit/e036ff8269551e13085e1478dd55f7435fc0888e))
+
 ## [0.6.7](https://github.com/jamesryancooper/octon/compare/octon-v0.6.6...octon-v0.6.7) (2026-03-28)
 
 
