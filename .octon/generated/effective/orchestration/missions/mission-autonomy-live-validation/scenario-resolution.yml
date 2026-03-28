@@ -72,5 +72,5 @@ rationale:
   - "mission charter, mission policy, live control state, and retained governance policy compile into one effective route"
   - "material route behavior derives from the current intent entry plus action-slice when present"
   - "route linkage, safing state, and finalize gates must stay freshness-bounded"
-generated_at: "2026-03-28T01:28:21Z"
-fresh_until: "2026-03-28T01:43:21Z"
+generated_at: "2026-03-28T03:51:00Z"
+fresh_until: "2026-03-28T04:06:00Z"
