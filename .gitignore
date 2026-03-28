@@ -34,6 +34,8 @@ logs/
 
 # Runtime and service run records
 runs/
+!.octon/state/continuity/runs/
+!.octon/state/continuity/runs/**
 !.octon/state/control/execution/runs/
 !.octon/state/control/execution/runs/**
 !.octon/framework/orchestration/runtime/runs/
@@ -112,5 +114,7 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-final-closeout-cutover/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-provenance-alignment-closeout/
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-provenance-alignment-closeout/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/execution-constitution-completion-closeout/
+!.octon/inputs/exploratory/proposals/.archive/architecture/execution-constitution-completion-closeout/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/migration-rollout/
 !.octon/inputs/exploratory/proposals/.archive/architecture/migration-rollout/**

@@ -1,0 +1,35 @@
+schema_version: "proposal-v1"
+proposal_id: "execution-constitution-completion-closeout"
+title: "Execution Constitution Atomic Completion Closeout"
+summary: "Close the remaining authority, runtime, retention, lab, and retirement gaps in one clean-break atomic cutover so Octon can validly claim the fully unified execution constitution target state."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/constitution/"
+  - ".octon/framework/engine/runtime/"
+  - ".octon/framework/agency/"
+  - ".octon/framework/assurance/"
+  - ".octon/framework/lab/"
+  - ".octon/framework/observability/"
+  - ".octon/framework/orchestration/"
+  - ".octon/instance/governance/"
+  - ".octon/instance/orchestration/missions/"
+  - ".octon/state/control/execution/"
+  - ".octon/state/continuity/"
+  - ".octon/state/evidence/"
+  - ".octon/generated/effective/"
+  - ".octon/generated/cognition/"
+status: "archived"
+archive:
+  archived_at: "2026-03-28"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/execution-constitution-completion-closeout"
+  promotion_evidence:
+    - ".octon/instance/cognition/decisions/075-execution-constitution-completion-closeout.md"
+    - ".octon/state/evidence/migration/2026-03-28-execution-constitution-completion-closeout/evidence.md"
+lifecycle:
+  temporary: true
+  exit_expectation: "Archive after one atomic clean-break completion branch lands outside the proposal path, the final acceptance criteria are rerun against durable surfaces, and the archived unified-execution proposal no longer needs compensating follow-up or coexistence shims."
+related_proposals:
+  - "fully-unified-execution-constitution-for-governed-autonomous-work"
