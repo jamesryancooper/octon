@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.7](https://github.com/jamesryancooper/octon/compare/octon-v0.6.6...octon-v0.6.7) (2026-03-28)
+
+
+### Features
+
+* **constitution:** complete wave 4 assurance expansion ([#220](https://github.com/jamesryancooper/octon/issues/220)) ([3e7e0df](https://github.com/jamesryancooper/octon/commit/3e7e0dffb160479dfc2201892595299549d2b79b))
+
 ## [0.6.6](https://github.com/jamesryancooper/octon/compare/octon-v0.6.5...octon-v0.6.6) (2026-03-27)
 
 
