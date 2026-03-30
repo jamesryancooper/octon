@@ -154,7 +154,6 @@ check_precedence_goal_alignment() {
   local precedence_files=(
     "$ROOT_DIR/AGENTS.md"
     "$OCTON_DIR/AGENTS.md"
-    "$OCTON_DIR/framework/agency/governance/CONSTITUTION.md"
     "$OCTON_DIR/framework/agency/governance/DELEGATION.md"
     "$OCTON_DIR/framework/agency/governance/MEMORY.md"
     "$OCTON_DIR/framework/agency/runtime/agents/orchestrator/AGENT.md"
@@ -200,11 +199,14 @@ check_for_conflicting_wording() {
     file="${line%%:*}"
     rel="$(normalize_rel "$file")"
 
+    if [[ "$(basename "$rel")" == "CHARTER.md" && "$rel" == *"/framework/cognition/governance/"* ]]; then
+      continue
+    fi
+
     case "$rel" in
       .octon/framework/cognition/_meta/architecture/specification.md|\
       .octon/framework/assurance/governance/precedence.md|\
-      .octon/framework/engine/governance/README.md|\
-      .octon/framework/cognition/governance/CHARTER.md)
+      .octon/framework/engine/governance/README.md)
         continue
         ;;
     esac

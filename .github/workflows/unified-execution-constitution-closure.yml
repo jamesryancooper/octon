@@ -1,0 +1,70 @@
+name: Unified Execution Constitution Closure
+
+on:
+  pull_request:
+    paths:
+      - ".octon/instance/governance/closure/**"
+      - ".octon/instance/governance/disclosure/**"
+      - ".octon/instance/governance/support-targets.yml"
+      - ".octon/instance/governance/contracts/**"
+      - ".octon/framework/constitution/contracts/registry.yml"
+      - ".octon/framework/engine/runtime/adapters/host/**"
+      - ".octon/framework/assurance/governance/**"
+      - ".octon/state/control/execution/runs/**"
+      - ".octon/state/evidence/control/execution/**"
+      - ".octon/state/evidence/disclosure/**"
+      - ".octon/state/evidence/validation/publication/**"
+      - ".github/workflows/pr-autonomy-policy.yml"
+      - ".github/workflows/pr-auto-merge.yml"
+      - ".github/workflows/unified-execution-constitution-closure.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - ".octon/instance/governance/closure/**"
+      - ".octon/instance/governance/disclosure/**"
+      - ".octon/instance/governance/support-targets.yml"
+      - ".octon/instance/governance/contracts/**"
+      - ".octon/framework/constitution/contracts/registry.yml"
+      - ".octon/framework/engine/runtime/adapters/host/**"
+      - ".octon/framework/assurance/governance/**"
+      - ".octon/state/control/execution/runs/**"
+      - ".octon/state/evidence/control/execution/**"
+      - ".octon/state/evidence/disclosure/**"
+      - ".octon/state/evidence/validation/publication/**"
+      - ".github/workflows/pr-autonomy-policy.yml"
+      - ".github/workflows/pr-auto-merge.yml"
+      - ".github/workflows/unified-execution-constitution-closure.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  closure:
+    name: closure-certification
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Install yq
+        run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
+
+      - name: Assert unified-execution closure
+        run: |
+          set -euo pipefail
+          chmod +x .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh
+          .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh
+
+      - name: Upload closure publication bundle
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: unified-execution-constitution-closure-publication
+          path: |
+            .octon/state/evidence/validation/publication/unified-execution-constitution-closure/
+            .octon/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-closure/
+          if-no-files-found: error
+          retention-days: 7

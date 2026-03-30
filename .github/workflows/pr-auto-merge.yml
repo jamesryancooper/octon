@@ -144,138 +144,35 @@ jobs:
             gh api --paginate "repos/${GH_REPO}/pulls/${PR_NUMBER}/files?per_page=100"
           }
 
-          parse_semver_core() {
-            local raw="$1"
-            if [[ "$raw" =~ ^v?([0-9]+)(\.([0-9]+))?(\.([0-9]+))? ]]; then
-              printf '%s %s %s\n' "${BASH_REMATCH[1]}" "${BASH_REMATCH[3]:-0}" "${BASH_REMATCH[5]:-0}"
-            else
-              return 1
-            fi
-          }
-
-          classify_dependabot_update_type() {
-            local title="$1"
-            if [[ ! "$title" =~ from[[:space:]]+([^[:space:]]+)[[:space:]]+to[[:space:]]+([^[:space:]]+) ]]; then
-              printf 'unknown\n'
-              return
-            fi
-            local from_raw="${BASH_REMATCH[1]}"
-            local to_raw="${BASH_REMATCH[2]}"
-            local from_major from_minor from_patch to_major to_minor to_patch
-            read -r from_major from_minor from_patch < <(parse_semver_core "$from_raw" || printf 'x x x\n')
-            read -r to_major to_minor to_patch < <(parse_semver_core "$to_raw" || printf 'x x x\n')
-            if [[ "$from_major" == "x" || "$to_major" == "x" ]]; then
-              printf 'unknown\n'
-              return
-            fi
-            if [[ "$to_major" != "$from_major" ]]; then
-              printf 'major\n'
-            elif [[ "$to_minor" != "$from_minor" ]]; then
-              printf 'minor\n'
-            elif [[ "$to_patch" != "$from_patch" ]]; then
-              printf 'patch\n'
-            else
-              printf 'unknown\n'
-            fi
-          }
-
           collect_paths_json() {
-            pr_files | jq -sc '[.[][] | .filename]'
+            local files_json=".octon/generated/.tmp/pr-auto-merge/files-${PR_NUMBER}.json"
+            mkdir -p .octon/generated/.tmp/pr-auto-merge
+            if [[ ! -f "${files_json}" ]]; then
+              pr_files | jq -sc '[.[][] | .filename]' > "${files_json}"
+            fi
+            cat "${files_json}"
           }
 
-          compute_merge_authority() {
+          evaluate_policy() {
             local payload="$1"
-            local paths_json="$2"
-            local title author head_ref base_ref state is_draft is_cross_repo
-            local is_dependabot is_release_please is_dependabot_github_actions update_type
-            local high_impact=false
-            local medium_impact=false
-            local requires_human_review=false
-            local reason_code="PR_AUTONOMY_ELIGIBLE"
+            local tmp_dir=".octon/generated/.tmp/pr-auto-merge"
+            local pr_json="${tmp_dir}/pr-${PR_NUMBER}.json"
+            local files_json="${tmp_dir}/files-${PR_NUMBER}.json"
+            local result_json="${tmp_dir}/policy-${PR_NUMBER}.json"
 
-            title="$(jq -r '.title // ""' <<<"${payload}")"
-            author="$(jq -r '.user.login // ""' <<<"${payload}")"
-            head_ref="$(jq -r '.head.ref // ""' <<<"${payload}")"
-            base_ref="$(jq -r '.base.ref // ""' <<<"${payload}")"
-            state="$(jq -r '.state // ""' <<<"${payload}")"
-            is_draft="$(jq -r '.draft // false' <<<"${payload}")"
-            is_cross_repo="$(jq -r '.head.repo.fork // false' <<<"${payload}")"
+            mkdir -p "${tmp_dir}"
+            printf '%s\n' "${payload}" > "${pr_json}"
+            collect_paths_json >/dev/null
 
-            is_dependabot=false
-            [[ "${author}" == "dependabot[bot]" ]] && is_dependabot=true
-            is_release_please=false
-            [[ "${head_ref}" == release-please--* ]] && is_release_please=true
-            is_dependabot_github_actions=false
-            if [[ "${is_dependabot}" == true && "${head_ref}" == dependabot/github_actions/* ]]; then
-              is_dependabot_github_actions=true
-            fi
+            chmod +x .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh
+            .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh \
+              --pr-json "${pr_json}" \
+              --changed-files-json "${files_json}" \
+              --standards-json ".octon/framework/agency/practices/standards/commit-pr-standards.json" \
+              --pr-template ".github/PULL_REQUEST_TEMPLATE.md" \
+              --output-json "${result_json}" >/dev/null
 
-            update_type="n/a"
-            if [[ "${is_dependabot}" == true ]]; then
-              update_type="$(classify_dependabot_update_type "${title}")"
-            fi
-
-            if jq -e '
-              any(.[]?;
-                startswith(".github/")
-                or . == "AGENTS.md"
-                or startswith(".octon/framework/agency/governance/")
-                or startswith(".octon/framework/cognition/governance/")
-                or startswith(".octon/framework/capabilities/governance/")
-                or startswith(".octon/framework/engine/governance/")
-                or startswith(".octon/framework/engine/runtime/spec/")
-                or startswith(".octon/framework/assurance/governance/")
-              )' <<<"${paths_json}" >/dev/null; then
-              high_impact=true
-            fi
-
-            if [[ "${high_impact}" != true ]] && jq -e '
-              any(.[]?;
-                startswith(".octon/framework/agency/runtime/")
-                or startswith(".octon/framework/capabilities/runtime/")
-                or startswith(".octon/framework/orchestration/runtime/")
-                or startswith(".octon/framework/assurance/runtime/")
-                or startswith(".octon/framework/engine/runtime/")
-              )' <<<"${paths_json}" >/dev/null; then
-              medium_impact=true
-            fi
-
-            if [[ "${high_impact}" == true ]]; then
-              requires_human_review=true
-              reason_code="PR_AUTONOMY_HIGH_IMPACT_REVIEW_REQUIRED"
-            fi
-
-            if [[ "${is_dependabot_github_actions}" == true && ("${update_type}" == "major" || "${update_type}" == "unknown") ]]; then
-              requires_human_review=true
-              reason_code="PR_AUTONOMY_DEPENDABOT_REVIEW_REQUIRED"
-            fi
-
-            if [[ "${state}" != "open" ]]; then
-              printf 'staged|PR_NOT_OPEN|%s|%s\n' "${head_ref}" "${base_ref}"
-              return
-            fi
-            if [[ "${is_draft}" == "true" ]]; then
-              printf 'staged|PR_IS_DRAFT|%s|%s\n' "${head_ref}" "${base_ref}"
-              return
-            fi
-            if [[ "${is_cross_repo}" == "true" ]]; then
-              printf 'staged|PR_IS_FORK|%s|%s\n' "${head_ref}" "${base_ref}"
-              return
-            fi
-            if [[ "${base_ref}" != "main" ]]; then
-              printf 'staged|PR_BASE_NOT_MAIN|%s|%s\n' "${head_ref}" "${base_ref}"
-              return
-            fi
-            if [[ "${head_ref}" == exp/* ]]; then
-              printf 'staged|PR_EXPERIMENTAL_BRANCH|%s|%s\n' "${head_ref}" "${base_ref}"
-              return
-            fi
-            if [[ "${requires_human_review}" == true ]]; then
-              printf 'staged|%s|%s|%s\n' "${reason_code}" "${head_ref}" "${base_ref}"
-              return
-            fi
-
-            printf 'granted|PR_AUTONOMY_ELIGIBLE|%s|%s\n' "${head_ref}" "${base_ref}"
+            printf '%s\n' "${result_json}"
           }
 
           materialize_merge_authority() {
@@ -308,10 +205,12 @@ jobs:
           assert_automerge_eligible() {
             local payload="$1"
             local suffix="${2:-}"
-            local paths_json status reason_code head_ref base_ref
+            local result_json status reason_code head_ref
 
-            paths_json="$(collect_paths_json)"
-            IFS='|' read -r status reason_code head_ref base_ref < <(compute_merge_authority "${payload}" "${paths_json}")
+            result_json="$(evaluate_policy "${payload}")"
+            status="$(jq -r '.status' "${result_json}")"
+            reason_code="$(jq -r '.reason_code' "${result_json}")"
+            head_ref="$(jq -r '.head_ref' "${result_json}")"
             materialize_merge_authority "${status}" "${reason_code}" "${head_ref}"
 
             if [[ "$(jq -r '.state' <<<"${payload}")" != "open" ]]; then
@@ -341,6 +240,9 @@ jobs:
             fi
 
             if [[ "${status}" != "granted" ]]; then
+              jq -r '.notices[]?' "${result_json}" | while IFS= read -r notice; do
+                [[ -n "${notice}" ]] && echo "Notice: ${notice}"
+              done
               echo "Skipping: canonical merge authority is ${status}${suffix} (${reason_code})."
               exit 0
             fi

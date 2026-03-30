@@ -30,6 +30,7 @@ adapter_support:
     - MODEL-003
     - MODEL-004
 proof_bundle_refs:
+  - .octon/instance/governance/disclosure/harness-card.yml
   - .octon/instance/governance/closure/unified-execution-constitution.yml
   - .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
   - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/supported-envelope-positive.md

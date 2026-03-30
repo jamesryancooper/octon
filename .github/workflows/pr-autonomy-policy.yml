@@ -25,7 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
-      # Phase B default: enforce unless explicitly disabled.
       AUTONOMY_POLICY_ENFORCE: ${{ vars.AUTONOMY_POLICY_ENFORCE || 'true' }}
     steps:
       - name: Checkout
@@ -42,74 +41,34 @@ jobs:
           EXPECT_AUTONOMY_POLICY_ENFORCE="true" \
           .octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh
 
-      - name: Validate autonomy policy
+      - id: collect
+        name: Collect PR autonomy inputs
         uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
+            const fs = require("fs");
+            const path = require("path");
+
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const pr = context.payload.pull_request;
-            const pull_number = pr.number;
             const baseSha = pr.base?.sha;
 
-            const body = (pr.body || "").trim();
-            const title = (pr.title || "").trim();
-            const headRef = pr.head?.ref || "";
-            const author = pr.user?.login || "";
-            const labels = new Set((pr.labels || []).map((l) => l.name));
-            const isDependabotAuthor = author === "dependabot[bot]";
-            const isDependabot = isDependabotAuthor;
-            const isAutorelease = headRef.startsWith("release-please--") || [...labels].some((name) => name.startsWith("autorelease:"));
-            const isBotPath = isDependabot || isAutorelease;
-            const enforce = String(process.env.AUTONOMY_POLICY_ENFORCE || "").toLowerCase() === "true";
-            const isDependabotGithubActions = isDependabot && headRef.startsWith("dependabot/github_actions/");
-
-            function parseSemverCore(raw) {
-              const match = String(raw || "").trim().match(/^v?(?<major>\d+)(?:\.(?<minor>\d+))?(?:\.(?<patch>\d+))?/i);
-              if (!match || !match.groups) return null;
-              return {
-                major: Number(match.groups.major),
-                minor: Number(match.groups.minor || 0),
-                patch: Number(match.groups.patch || 0)
-              };
-            }
-
-            function classifyDependabotUpdateTypeFromTitle(value) {
-              const rangeMatch = String(value || "").match(/\bfrom\s+([^\s]+)\s+to\s+([^\s]+)/i);
-              if (!rangeMatch) return "unknown";
-              const from = parseSemverCore(rangeMatch[1]);
-              const to = parseSemverCore(rangeMatch[2]);
-              if (!from || !to) return "unknown";
-              if (to.major !== from.major) return "major";
-              if (to.minor !== from.minor) return "minor";
-              if (to.patch !== from.patch) return "patch";
-              return "unknown";
-            }
-
-            const dependabotUpdateType = isDependabot ? classifyDependabotUpdateTypeFromTitle(title) : "n/a";
-            const isDependabotSafeUpdate =
-              isDependabotGithubActions &&
-              (dependabotUpdateType === "minor" || dependabotUpdateType === "patch");
-            const dependabotHumanReviewRequired =
-              isDependabot &&
-              (dependabotUpdateType === "major" || dependabotUpdateType === "unknown");
-
-            const errors = [];
-
             if (!baseSha) {
-              errors.push("Unable to determine PR base SHA.");
+              core.setFailed("Unable to determine PR base SHA.");
+              return;
             }
 
-            async function readTextFile(path) {
+            async function readTextFile(filePath) {
               const response = await github.rest.repos.getContent({
                 owner,
                 repo,
-                path,
+                path: filePath,
                 ref: baseSha
               });
 
               if (Array.isArray(response.data) || !("content" in response.data)) {
-                throw new Error(`Expected file content at ${path}, received non-file response.`);
+                throw new Error(`Expected file content at ${filePath}, received non-file response.`);
               }
 
               return Buffer.from(
@@ -118,149 +77,83 @@ jobs:
               ).toString("utf8");
             }
 
-            async function readStandards() {
-              const candidates = [
-                ".octon/framework/agency/practices/standards/commit-pr-standards.json"
-              ];
-              for (const path of candidates) {
-                try {
-                  return JSON.parse(await readTextFile(path));
-                } catch (error) {
-                  if (!String(error.message || "").includes("Not Found")) {
-                    throw error;
-                  }
-                }
-              }
-              throw new Error(`Not Found (${candidates.join(", ")})`);
-            }
-
-            let standards;
-            let templateText;
-            try {
-              standards = await readStandards();
-              templateText = await readTextFile(".github/PULL_REQUEST_TEMPLATE.md");
-            } catch (error) {
-              errors.push(`Could not load standards/template from base SHA: ${error.message}`);
-            }
-
-            if (!isBotPath && standards) {
-              const allowedTypes = (standards.commit?.allowed_types || []).map((value) =>
-                String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-              ).join("|");
-              const scopePattern = standards.commit?.scope_pattern || "[a-z0-9][a-z0-9-]*";
-              const titleRegex = new RegExp(`^(?<type>${allowedTypes})\\((?<scope>${scopePattern})\\)(?<breaking>!)?: (?<summary>.+)$`);
-
-              const titleMatch = title.match(titleRegex);
-              if (!titleMatch || !titleMatch.groups) {
-                errors.push(`PR title '${title}' must match Conventional Commits format ${standards.commit?.header_format || "<type>(<scope>): <summary>"}.`);
-              } else {
-                const summary = titleMatch.groups.summary || "";
-                if (standards.commit?.summary_must_be_lowercase && summary !== summary.toLowerCase()) {
-                  errors.push("PR title summary must be lowercase.");
-                }
-                if (standards.commit?.summary_must_not_end_with_period && summary.endsWith(".")) {
-                  errors.push("PR title summary must not end with a period.");
-                }
-                if (standards.commit?.header_max_length && title.length > standards.commit.header_max_length) {
-                  errors.push(`PR title exceeds ${standards.commit.header_max_length} characters.`);
-                }
-              }
-            }
-
-            if (!isBotPath && standards) {
-              const branch = standards.branch || {};
-              const allowedTypes = (branch.allowed_types || []).map((value) =>
-                String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-              ).join("|");
-              const ticketPattern = branch.ticket_pattern || "[A-Za-z0-9]+-[0-9]+";
-              const slugPattern = branch.slug_pattern || "[a-z0-9]+(?:-[a-z0-9]+)*";
-              const branchRegex = new RegExp(`^(?<type>${allowedTypes})/(?:(?<ticket>${ticketPattern})-)?(?<slug>${slugPattern})$`);
-
-              if (!branchRegex.test(headRef)) {
-                errors.push(
-                  `Branch '${headRef}' must match ${branch.default_format || "<type>/<ticket-id>-<short-description>"} with allowed types: ${(branch.allowed_types || []).join(", ")}.`
-                );
-              }
-            }
-
-            if (headRef.startsWith("exp/")) {
-              errors.push("Branches under 'exp/' are non-mergeable in autonomy policy. Rename branch before merge.");
-            }
-
-            if (!isBotPath && templateText) {
-              const headingMatches = [...templateText.matchAll(/^##\s+(.+)\s*$/gm)];
-              const headings = headingMatches.map((match) => `## ${match[1].trim()}`);
-              const checklistHeading = "## Checklist";
-              const checklistIndex = headings.indexOf(checklistHeading);
-
-              if (checklistIndex === -1) {
-                errors.push("Canonical template is missing '## Checklist'.");
-              } else {
-                const requiredHeadings = headings.slice(0, checklistIndex + 1);
-                const missingHeadings = requiredHeadings.filter((heading) => {
-                  const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-                  return !new RegExp(`^${escaped}\\s*$`, "mi").test(body);
-                });
-                if (missingHeadings.length > 0) {
-                  errors.push(`PR body missing required sections: ${missingHeadings.join(", ")}`);
-                }
-              }
-
-              const hasIssueLink = /(close[sd]?|fixe?[sd]?|resolve[sd]?)\s+#\d+/i.test(body);
-              const hasNoIssue = /No-Issue:\s*\S+/i.test(body);
-              if (!hasIssueLink && !hasNoIssue) {
-                errors.push("PR body must include issue linkage (`Closes/Fixes/Resolves #...`) or `No-Issue: <reason>`.");
-              }
-            }
-
             const changedFiles = await github.paginate(github.rest.pulls.listFiles, {
               owner,
               repo,
-              pull_number,
+              pull_number: pr.number,
               per_page: 100
             });
-            const paths = changedFiles.map((file) => file.filename);
 
-            const highImpactPaths = [
-              ".github/",
-              "AGENTS.md",
-              ".octon/framework/agency/governance/",
-              ".octon/framework/cognition/governance/",
-              ".octon/framework/capabilities/governance/",
-              ".octon/framework/engine/governance/",
-              ".octon/framework/engine/runtime/spec/",
-              ".octon/framework/assurance/governance/"
-            ];
+            const tempDir = ".octon/generated/.tmp/pr-autonomy-policy";
+            fs.mkdirSync(tempDir, { recursive: true });
 
-            const isHighImpact = paths.some((path) => highImpactPaths.some((prefix) => path.startsWith(prefix) || path === prefix));
-            if (errors.length === 0) {
-              if (isDependabotGithubActions) {
-                core.info(`Dependabot github-actions update classified as '${dependabotUpdateType}'.`);
-              }
-              if (isHighImpact && !isDependabotSafeUpdate) {
-                core.notice("High-impact change detected. PR remains manual-lane only; autonomous merge is intentionally disabled.");
-              }
-              if (dependabotHumanReviewRequired) {
-                core.notice("Dependabot major/unknown update detected. PR remains manual-lane only; autonomous merge is intentionally disabled.");
-              }
-              core.info(`Autonomy policy passed (${enforce ? "enforced" : "advisory"} mode).`);
+            let standardsText = "";
+            let templateText = "";
+            try {
+              standardsText = await readTextFile(".octon/framework/agency/practices/standards/commit-pr-standards.json");
+              templateText = await readTextFile(".github/PULL_REQUEST_TEMPLATE.md");
+            } catch (error) {
+              core.setFailed(`Could not load standards/template from base SHA: ${error.message}`);
               return;
             }
 
-            const details = errors.map((item) => `- ${item}`).join("\n");
-            if (enforce) {
-              core.setFailed(`Autonomy policy failed (enforced mode):\n${details}`);
-              return;
-            }
+            fs.writeFileSync(path.join(tempDir, `pr-${pr.number}.json`), JSON.stringify(pr, null, 2));
+            fs.writeFileSync(path.join(tempDir, `changed-files-${pr.number}.json`), JSON.stringify(changedFiles.map((file) => file.filename), null, 2));
+            fs.writeFileSync(path.join(tempDir, `standards-${pr.number}.json`), standardsText);
+            fs.writeFileSync(path.join(tempDir, `pr-template-${pr.number}.md`), templateText);
 
-            core.warning(`Autonomy policy found ${errors.length} issue(s) in advisory mode:\n${details}`);
-            core.notice("Advisory override active. Set repo variable AUTONOMY_POLICY_ENFORCE=true to fail on violations.");
+            core.setOutput("pr_number", String(pr.number));
+
+      - name: Evaluate autonomy policy
+        env:
+          PR_NUMBER: ${{ steps.collect.outputs.pr_number }}
+        run: |
+          set -euo pipefail
+
+          tmp_dir=".octon/generated/.tmp/pr-autonomy-policy"
+          result_json="${tmp_dir}/result-${PR_NUMBER}.json"
+
+          chmod +x .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh
+          .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh \
+            --pr-json "${tmp_dir}/pr-${PR_NUMBER}.json" \
+            --changed-files-json "${tmp_dir}/changed-files-${PR_NUMBER}.json" \
+            --standards-json "${tmp_dir}/standards-${PR_NUMBER}.json" \
+            --pr-template "${tmp_dir}/pr-template-${PR_NUMBER}.md" \
+            --request-id "github-pr-autonomy-policy-${PR_NUMBER}" \
+            --run-id "github-pr-autonomy-policy-${PR_NUMBER}" \
+            --target-id "github-pr:${PR_NUMBER}" \
+            --issued-by "github://workflow/pr-autonomy-policy" \
+            --output-json "${result_json}"
+
+          jq -r '.notices[]?' "${result_json}" | while IFS= read -r notice; do
+            [[ -n "${notice}" ]] && echo "::notice::${notice}"
+          done
+
+          error_count="$(jq -r '.errors | length' "${result_json}")"
+          if [[ "${error_count}" -gt 0 ]]; then
+            details="$(jq -r '.errors[] | "- " + .' "${result_json}")"
+            if [[ "${AUTONOMY_POLICY_ENFORCE,,}" == "true" ]]; then
+              printf 'Autonomy policy failed (enforced mode):\n%s\n' "${details}" >&2
+              exit 1
+            fi
+
+            printf 'Autonomy policy found %s issue(s) in advisory mode:\n%s\n' "${error_count}" "${details}"
+            echo "::notice::Advisory override active. Set repo variable AUTONOMY_POLICY_ENFORCE=true to fail on violations."
+          else
+            status="$(jq -r '.status' "${result_json}")"
+            echo "Autonomy policy passed with canonical status: ${status}."
+          fi
 
       - name: Upload protected execution receipt
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: pr-autonomy-policy-protected-execution-receipt
-          path: .octon/state/evidence/runs/ci/pr-autonomy-policy-*
+          path: |
+            .octon/state/evidence/runs/ci/pr-autonomy-policy-*
+            .octon/generated/.tmp/pr-autonomy-policy/**
+            .octon/state/control/execution/approvals/requests/github-pr-autonomy-policy-*.yml
+            .octon/state/control/execution/approvals/grants/grant-github-pr-autonomy-policy-*.yml
+            .octon/state/evidence/control/execution
           if-no-files-found: error
           retention-days: 7

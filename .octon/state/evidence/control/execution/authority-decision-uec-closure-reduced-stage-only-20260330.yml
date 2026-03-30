@@ -1,0 +1,43 @@
+schema_version: authority-decision-artifact-v1
+decision_id: decision-uec-closure-reduced-stage-only-20260330
+request_id: uec-closure-reduced-stage-only-20260330
+run_id: uec-closure-reduced-stage-only-20260330
+decision: STAGE_ONLY
+reason_codes:
+  - CLOSURE_REDUCED_TUPLE
+  - SUPPORT_TARGET_STAGE_ONLY
+ownership:
+  status: resolved
+  source: closure-certification-fixture
+  owner_refs:
+    - operator://octon-maintainers
+support_tier:
+  support_tier: release-and-boundary-sensitive
+  model_tier_id: MT-B
+  workload_tier_id: WT-3
+  language_resource_tier_id: LT-REF
+  locale_tier_id: LOC-EN
+  host_adapter_id: repo-shell
+  host_adapter_status: supported
+  model_adapter_id: repo-local-governed
+  model_adapter_status: supported
+  adapter_conformance_criteria:
+    - HOST-001
+    - HOST-002
+    - MODEL-001
+    - MODEL-002
+    - MODEL-003
+  support_status: reduced
+reversibility:
+  requested: reversible
+  effective: reversible
+  workflow_mode: human-only
+budget:
+  route: not-applicable
+egress:
+  route: not-applicable
+approval_request_ref: null
+approval_grant_refs: []
+exception_refs: []
+revocation_refs: []
+generated_at: "2026-03-30T00:00:00Z"

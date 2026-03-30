@@ -2,11 +2,11 @@ schema_version: "octon-host-adapter-v1"
 adapter_id: "ci-control-plane"
 display_name: "CI Control Plane Projection"
 host_family: "ci"
-description: "Projects protected execution posture and release-health state into CI without letting CI define authority."
+description: "Projects protected execution posture and closure-certification release health into CI without letting CI define authority."
 replaceable: true
 authority_mode: "projection_only"
 runtime_surface:
-  interface_ref: ".github/workflows/architecture-conformance.yml"
+  interface_ref: ".github/workflows/unified-execution-constitution-closure.yml"
   integration_class: "ci-host"
 projection_sources:
   - "workflow-job"

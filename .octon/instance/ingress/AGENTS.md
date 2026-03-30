@@ -3,6 +3,9 @@
 This is the canonical internal ingress surface for this repository's
 super-rooted Octon harness.
 
+Enable reliable agent execution that is deterministic enough to trust,
+observable enough to debug, and flexible enough to evolve.
+
 ## Behavioral Contract
 
 - singular constitutional kernel:

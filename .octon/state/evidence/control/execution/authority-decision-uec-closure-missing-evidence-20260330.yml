@@ -1,0 +1,43 @@
+schema_version: authority-decision-artifact-v1
+decision_id: decision-uec-closure-missing-evidence-20260330
+request_id: uec-closure-missing-evidence-20260330
+run_id: uec-closure-missing-evidence-20260330
+decision: STAGE_ONLY
+reason_codes:
+  - CLOSURE_SUPPORTED_TUPLE
+  - MISSING_REQUIRED_EVIDENCE
+ownership:
+  status: resolved
+  source: closure-certification-fixture
+  owner_refs:
+    - operator://octon-maintainers
+support_tier:
+  support_tier: repo-local-consequential
+  model_tier_id: MT-B
+  workload_tier_id: WT-2
+  language_resource_tier_id: LT-REF
+  locale_tier_id: LOC-EN
+  host_adapter_id: repo-shell
+  host_adapter_status: supported
+  model_adapter_id: repo-local-governed
+  model_adapter_status: supported
+  adapter_conformance_criteria:
+    - HOST-001
+    - HOST-002
+    - MODEL-001
+    - MODEL-002
+    - MODEL-003
+  support_status: supported
+reversibility:
+  requested: reversible
+  effective: reversible
+  workflow_mode: human-only
+budget:
+  route: not-applicable
+egress:
+  route: not-applicable
+approval_request_ref: null
+approval_grant_refs: []
+exception_refs: []
+revocation_refs: []
+generated_at: "2026-03-30T00:00:00Z"

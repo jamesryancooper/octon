@@ -27,22 +27,27 @@ shim_surfaces:
       - "CLAUDE.md"
     role: "adapter-only projected ingress surfaces"
     status: "active-shim"
+    retirement_condition: "Remove when supported tools can enter directly through /.octon/instance/ingress/AGENTS.md without repo-root adapters."
   agency_constitution_application:
     path: ".octon/framework/agency/governance/CONSTITUTION.md"
     role: "historical agency constitutional shim retained outside the required execution path"
     status: "historical-shim"
+    retirement_condition: "Delete when lineage references stop requiring the historical agency constitutional shim."
   cognition_governance_charter:
     path: ".octon/framework/cognition/governance/CHARTER.md"
     role: "historical cognition-governance charter shim"
     status: "historical-shim"
+    retirement_condition: "Delete when compatibility readers and lineage references no longer require the cognition-governance shim."
   assurance_governance_charter:
     path: ".octon/framework/assurance/governance/CHARTER.md"
-    role: "assurance-governance priority shim"
-    status: "historical-shim"
+    role: "subordinate assurance-governance shim retained for assurance-local weighting and scoring policy"
+    status: "subordinate-governance"
+    retirement_condition: "Delete when assurance-local weighting and scoring no longer depend on a subordinate charter shim."
   protected_principles_charter:
     path: ".octon/framework/cognition/governance/principles/principles.md"
     role: "protected subordinate principles charter"
     status: "subordinate-governance"
+    retirement_condition: "Delete only if a stricter subordinate governance successor fully replaces the protected principles charter."
 families:
   - family_id: "objective"
     path: ".octon/framework/constitution/contracts/objective/**"
@@ -106,6 +111,9 @@ integration_surfaces:
     status: "active"
   governance_disclosure_source:
     path: ".octon/instance/governance/disclosure/**"
+    status: "active"
+  closure_claim_manifest:
+    path: ".octon/instance/governance/closure/unified-execution-constitution.yml"
     status: "active"
   retained_disclosure_roots:
     runs: ".octon/state/evidence/disclosure/runs/**"

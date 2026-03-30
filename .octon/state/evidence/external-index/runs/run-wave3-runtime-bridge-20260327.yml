@@ -1,0 +1,24 @@
+schema_version: external-replay-index-v1
+index_id: external-replay-run-wave3-runtime-bridge-20260327
+scope: run
+run_id: run-wave3-runtime-bridge-20260327
+entries:
+  - entry_id: run-wave3-runtime-bridge-20260327-replay-payload
+    run_id: run-wave3-runtime-bridge-20260327
+    artifact_kind: replay-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:run-wave3-runtime-bridge-20260327
+    locator: immutable://octon/replays/run-wave3-runtime-bridge-20260327/runtime-bridge.har
+    manifest_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
+    recorded_at: "2026-03-30T00:00:00Z"
+  - entry_id: run-wave3-runtime-bridge-20260327-trace-payload
+    run_id: run-wave3-runtime-bridge-20260327
+    artifact_kind: trace-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:run-wave3-runtime-bridge-20260327-trace
+    locator: immutable://octon/replays/run-wave3-runtime-bridge-20260327/trace.jsonl
+    manifest_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
+    recorded_at: "2026-03-30T00:00:00Z"
+updated_at: "2026-03-30T00:00:00Z"

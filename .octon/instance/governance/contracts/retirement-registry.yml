@@ -6,6 +6,29 @@ default_review_cadence: "before final claim and quarterly while any non-retired 
 review_set_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
 ablation_workflow_ref: ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
 entries:
+  - target_id: "ingress-projection-adapters"
+    status: "registered"
+    disposition: "projection-only"
+    paths:
+      - ".octon/AGENTS.md"
+      - "AGENTS.md"
+      - "CLAUDE.md"
+    owner_ref: "operator://octon-maintainers"
+    support_scope: "Repo-root and .octon ingress compatibility adapters only."
+    value_metric: "All supported tools continue to reach the canonical internal ingress without repo-root policy widening."
+    review_contract_ref: ".octon/instance/governance/contracts/drift-review.yml"
+    review_date: "2026-06-30"
+    retirement_trigger:
+      - "Supported tools stop requiring repo-root or .octon ingress adapter copies."
+      - "Drift review finds zero supported readers that depend on the adapter files."
+    required_ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
+    evidence_requirements:
+      - "drift-review"
+      - "retirement-review"
+    retirement_path: "Delete the ingress adapter files once supported tools bind directly to /.octon/instance/ingress/AGENTS.md without a repo-root adapter."
   - target_id: "workspace-objective-compatibility-shims"
     status: "registered"
     disposition: "compatibility-shim"
@@ -36,8 +59,8 @@ entries:
       - ".octon/framework/cognition/governance/CHARTER.md"
       - ".octon/framework/assurance/governance/CHARTER.md"
     owner_ref: "operator://octon-maintainers"
-    support_scope: "Historical lineage only; these surfaces must never regain authority."
-    value_metric: "Historical references remain useful without re-entering ingress, validator requirements, or proof-plane obligations."
+    support_scope: "Historical lineage or subordinate assurance-governance only; these surfaces must never regain peer constitutional authority."
+    value_metric: "Historical and subordinate references remain useful without re-entering ingress, validator requirements, or proof-plane obligations as peer authority."
     review_contract_ref: ".octon/instance/governance/contracts/drift-review.yml"
     review_date: "2026-06-29"
     retirement_trigger:
@@ -50,7 +73,7 @@ entries:
     evidence_requirements:
       - "drift-review"
       - "retirement-review"
-    retirement_path: "Delete retained duplicate surfaces once lineage docs and maintainability evidence fully point at framework/constitution/**."
+    retirement_path: "Delete retained duplicate surfaces once lineage docs, maintainability evidence, and assurance-local weighting all point at canonical or subordinate non-shim successors."
   - target_id: "legacy-per-run-decision-lineage"
     status: "historical-retained"
     disposition: "historical-lineage-only"
@@ -65,7 +88,7 @@ entries:
       - "All remaining readers consume canonical control/evidence execution roots."
       - "Retirement review finds no lineage-only references needed for audit continuity."
     required_ablation_suite:
-      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh"
     evidence_requirements:
       - "retirement-review"
@@ -86,7 +109,7 @@ entries:
       - "Canonical runtime writers and generated views no longer consume helper-authored projections."
       - "Ablation shows no RunCard, run-manifest, or authority evidence regression after helper removal."
     required_ablation_suite:
-      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh"
       - ".octon/framework/orchestration/runtime/runs/_ops/scripts/validate-runs.sh"
     evidence_requirements:
@@ -108,7 +131,7 @@ entries:
       - "Ablation shows no disclosure, replay, or closeout regression after mirror deletion."
     required_ablation_suite:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
-      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
       - ".octon/framework/orchestration/runtime/runs/_ops/scripts/validate-runs.sh"
     evidence_requirements:
       - "retirement-review"
@@ -129,7 +152,7 @@ entries:
       - "Ablation shows no disclosure regression after mirror deletion."
     required_ablation_suite:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
-      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
     evidence_requirements:
       - "retirement-review"
       - "ablation-deletion-receipt"

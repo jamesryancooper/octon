@@ -1,0 +1,100 @@
+schema_version: "unified-execution-constitution-closure-v1"
+claim_id: "unified-execution-constitution"
+claim_kind: "release"
+claim_status: "candidate"
+owner: "Octon governance"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-closure-certification-cutover/plan.md"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+supported_claim:
+  claim_statement: >-
+    Octon is a fully realized unified execution constitution within its declared
+    supported envelope for MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell
+    host adapter and the repo-local-governed model adapter, with canonical
+    authority artifacts, run-contract-first lifecycle control,
+    disclosure-canonical evidence, executable support-target enforcement,
+    release-blocking disclosure parity, shim independence, and live
+    build-to-delete evidence.
+  model_tier: "MT-B"
+  workload_tier: "WT-2"
+  language_resource_tier: "LT-REF"
+  locale_tier: "LOC-EN"
+  host_adapter: "repo-shell"
+  model_adapter: "repo-local-governed"
+  support_status: "supported"
+excluded_or_reduced_surfaces:
+  - surface_id: "github-control-plane"
+    status: "reduced"
+    route: "allow-as-projection-only"
+    rationale: "GitHub remains a downstream projection surface and may not mint authority."
+  - surface_id: "ci-control-plane"
+    status: "reduced"
+    route: "stage_only"
+    rationale: "CI remains a release-binding surface only and may not widen support or authority."
+  - surface_id: "WT-3"
+    status: "reduced"
+    route: "stage_only"
+    rationale: "Release- and boundary-sensitive work remains outside the fully realized claim."
+  - surface_id: "LT-EXT"
+    status: "reduced"
+    route: "stage_only"
+    rationale: "Extended-context work remains bounded and non-certified."
+  - surface_id: "LOC-MX"
+    status: "reduced"
+    route: "stage_only"
+    rationale: "Secondary-locale support remains reduced and review-bound."
+  - surface_id: "MT-C"
+    status: "experimental"
+    route: "stage_only"
+    rationale: "Experimental model-adapter work is not part of the certified envelope."
+  - surface_id: "WT-4"
+    status: "unsupported"
+    route: "deny"
+    rationale: "External or irreversible work remains denied by default."
+required_proof_artifacts:
+  - artifact_id: "authority-decision-artifact"
+  - artifact_id: "authority-grant-bundle"
+  - artifact_id: "run-contract"
+  - artifact_id: "run-manifest"
+  - artifact_id: "runtime-state"
+  - artifact_id: "rollback-posture"
+  - artifact_id: "stage-attempt-root"
+  - artifact_id: "checkpoint-root"
+  - artifact_id: "evidence-classification"
+  - artifact_id: "replay-pointers"
+  - artifact_id: "external-replay-index"
+  - artifact_id: "intervention-log"
+  - artifact_id: "measurement-summary"
+  - artifact_id: "run-card"
+  - artifact_id: "harness-card-proof-bundle"
+allowed_historical_shims:
+  - path: ".octon/AGENTS.md"
+    status: "adapter-only"
+    retirement_condition: "Delete once supported tooling enters directly through /.octon/instance/ingress/AGENTS.md."
+  - path: "AGENTS.md"
+    status: "adapter-only"
+    retirement_condition: "Delete once repo-root ingress adapters are no longer required by supported tools."
+  - path: "CLAUDE.md"
+    status: "adapter-only"
+    retirement_condition: "Delete once repo-root Claude-specific ingress adapters are no longer required by supported tools."
+publication_refs:
+  supported_positive: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/supported-envelope-positive.md"
+  reduced_stage_only: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/reduced-stage-only.md"
+  unsupported_deny: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/unsupported-deny.md"
+  missing_evidence_fail_closed: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/missing-evidence-fail-closed.md"
+  disclosure_parity: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/disclosure-parity.md"
+  shim_independence: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/shim-independence.md"
+  build_to_delete_receipt: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/build-to-delete-receipt.md"
+  summary: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/summary.md"
+permitted_release_wording: >-
+  Octon is a fully realized unified execution constitution within its declared
+  supported envelope for MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell
+  host adapter and the repo-local-governed model adapter, with canonical
+  authority artifacts, run-contract-first lifecycle control,
+  disclosure-canonical evidence, executable support-target enforcement,
+  release-blocking disclosure parity, shim independence, and live
+  build-to-delete evidence.
+known_limits:
+  - "GitHub remains reduced to projection-only control-plane behavior outside the certified release envelope."
+  - "CI remains reduced to stage-only release binding and may not mint support or approval authority."
+  - "WT-3, LT-EXT, LOC-MX, MT-C, and WT-4 remain explicitly outside the fully realized claim."
+generated_at: "2026-03-30T00:00:00Z"

@@ -2,11 +2,11 @@ schema_version: "octon-host-adapter-v1"
 adapter_id: "github-control-plane"
 display_name: "GitHub Control Plane Projection"
 host_family: "github"
-description: "Projects canonical lane, blocker, and review status into GitHub labels, comments, and checks without minting authority."
+description: "Projects canonical PR-autonomy lane, blocker, and review status into GitHub checks, comments, and labels without minting authority."
 replaceable: true
 authority_mode: "non_authoritative"
 runtime_surface:
-  interface_ref: ".github/workflows/pr-triage.yml"
+  interface_ref: ".github/workflows/pr-autonomy-policy.yml"
   integration_class: "host-projection"
 projection_sources:
   - "labels"
@@ -30,7 +30,7 @@ conformance_criteria_refs:
   - "HOST-003"
   - "HOST-004"
 known_limitations:
-  - "GitHub remains a projection host and cannot repair missing canonical approval artifacts."
+  - "GitHub remains a projection host and cannot repair missing canonical approval or closure artifacts."
   - "Locale and extended-context support remain intentionally narrower than repo-local shell and Studio hosts."
 non_authoritative_boundaries:
   - "GitHub state may mirror lane or blocker status, but runtime resolves authority only from canonical control artifacts."

@@ -77,6 +77,7 @@ main() {
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/write-authority-control-receipt.sh"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/materialize-authority-approval.sh"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/project-github-control-approval.sh"
+  require_file "$OCTON_DIR/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-exception-lease.sh"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-revocation.sh"
   require_file "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"
@@ -112,13 +113,13 @@ main() {
     fail "protected GitHub workflows must call assert-protected-execution-posture.sh"
   fi
 
-  if has_pattern_in_files 'materialize-pr-authority\.sh' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml"; then
-    fail "protected GitHub workflows must not materialize authority from host projections"
+  if has_pattern_in_files 'evaluate-pr-autonomy-policy\.sh' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
+    pass "GitHub autonomy workflows bind the canonical PR-autonomy classifier"
   else
-    pass "protected GitHub workflows do not materialize authority from host projections"
+    fail "GitHub autonomy workflows must bind the canonical PR-autonomy classifier"
   fi
 
-  if has_pattern_in_files 'project-github-control-approval\.sh' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
+  if has_pattern_in_files 'project-github-control-approval\.sh' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
     pass "GitHub control-plane workflows dual-write into canonical approval artifacts"
   else
     fail "GitHub control-plane workflows must dual-write into canonical approval artifacts"
