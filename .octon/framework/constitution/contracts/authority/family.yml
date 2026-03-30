@@ -18,6 +18,9 @@ authority_routing:
   revocation:
     schema_ref: ".octon/framework/constitution/contracts/authority/revocation-v1.schema.json"
     control_root: ".octon/state/control/execution/revocations"
+  quorum_policy:
+    schema_ref: ".octon/framework/constitution/contracts/authority/quorum-policy-v1.schema.json"
+    instance_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
   decision_artifact:
     schema_ref: ".octon/framework/constitution/contracts/authority/decision-artifact-v1.schema.json"
     evidence_root: ".octon/state/evidence/control/execution"

@@ -41,10 +41,10 @@ catalog:
   harness_cards:
     - card_id: "hc-wave4-assurance-disclosure-20260327"
       claim_kind: "support"
-      retained_card_ref: ".octon/state/evidence/lab/harness-cards/hc-wave4-assurance-disclosure-20260327.yml"
+      retained_card_ref: ".octon/state/evidence/disclosure/releases/archive-wave4-assurance-disclosure-20260327/harness-card.yml"
     - card_id: "hc-wave4-benchmark-disclosure-20260327"
       claim_kind: "benchmark"
-      retained_card_ref: ".octon/state/evidence/lab/harness-cards/hc-wave4-benchmark-disclosure-20260327.yml"
+      retained_card_ref: ".octon/state/evidence/disclosure/releases/archive-wave4-benchmark-disclosure-20260327/harness-card.yml"
   benchmark_measurements:
     - benchmark_id: "bmk-wave4-disclosure-parity-20260327"
       measurement_ref: ".octon/state/evidence/lab/benchmarks/bmk-wave4-disclosure-parity-20260327/summary.yml"

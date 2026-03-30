@@ -3,10 +3,10 @@
 `/.octon/framework/constitution/contracts/disclosure/**` defines normalized
 disclosure artifacts for consequential runs and system-level claims.
 
-## Wave 4 Status
+## Live Status
 
-Wave 4 promotes disclosure into a constitutional family while keeping
-disclosure subordinate to durable authority and retained evidence.
+Disclosure is now part of the live atomic execution model while remaining
+subordinate to durable authority and retained evidence.
 
 - RunCards summarize one consequential run from bound authority, retained
   evidence, structural/governance proof planes, observability, and replay
@@ -24,5 +24,10 @@ disclosure subordinate to durable authority and retained evidence.
 
 ## Canonical Roots
 
-- RunCards: `/.octon/state/evidence/runs/<run-id>/disclosure/`
-- HarnessCards: `/.octon/state/evidence/lab/harness-cards/`
+- Authored HarnessCard source: `/.octon/instance/governance/disclosure/`
+- RunCards: `/.octon/state/evidence/disclosure/runs/<run-id>/`
+- HarnessCards: `/.octon/state/evidence/disclosure/releases/<release-id>/`
+
+Historical lab-local HarnessCard mirrors may remain under
+`/.octon/state/evidence/lab/harness-cards/`, but they are no longer canonical
+for supported live disclosure.

@@ -13,7 +13,7 @@ use std::process::{Command, Stdio};
 use time::format_description;
 use walkdir::WalkDir;
 
-use crate::authorization::{
+use octon_authority_engine::{
     authorize_execution, build_executor_command, finalize_execution,
     now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
     with_authority_env_metadata, ExecutionArtifactPaths, ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec,
@@ -5501,6 +5501,36 @@ mod tests {
             octon_dir.join("framework/capabilities/governance/policy/deny-by-default.v2.yml"),
         )
         .expect("copy ACP policy");
+        copy_tree(
+            &source_repo_root().join(".octon/framework/capabilities/_ops/scripts"),
+            &root.join(".octon/framework/capabilities/_ops/scripts"),
+        );
+        fs::create_dir_all(octon_dir.join("instance/governance/ownership"))
+            .expect("ownership registry dir should exist");
+        write_file(
+            &octon_dir.join("instance/governance/ownership/registry.yml"),
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
+        );
+        fs::copy(
+            source_repo_root().join(".octon/instance/governance/support-targets.yml"),
+            octon_dir.join("instance/governance/support-targets.yml"),
+        )
+        .expect("copy support targets");
+        fs::create_dir_all(octon_dir.join("instance/capabilities/runtime/packs"))
+            .expect("runtime pack dir should exist");
+        fs::copy(
+            source_repo_root().join(".octon/instance/capabilities/runtime/packs/registry.yml"),
+            octon_dir.join("instance/capabilities/runtime/packs/registry.yml"),
+        )
+        .expect("copy runtime pack registry");
+        copy_tree(
+            &source_repo_root().join(".octon/framework/engine/runtime/adapters"),
+            &root.join(".octon/framework/engine/runtime/adapters"),
+        );
+        copy_tree(
+            &source_repo_root().join(".octon/framework/capabilities/packs"),
+            &root.join(".octon/framework/capabilities/packs"),
+        );
 
         let target_package = root.join(".design-packages").join("target-package");
         fs::create_dir_all(&target_package).expect("target package should exist");
@@ -5592,7 +5622,7 @@ mod tests {
         );
         write_file(
             &octon_dir.join("instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
         );
         fs::copy(
             source_repo_root().join(".octon/instance/governance/support-targets.yml"),
@@ -5625,6 +5655,10 @@ mod tests {
             octon_dir.join("framework/capabilities/governance/policy/deny-by-default.v2.yml"),
         )
         .expect("copy ACP policy");
+        copy_tree(
+            &source_repo_root().join(".octon/framework/capabilities/_ops/scripts"),
+            &root.join(".octon/framework/capabilities/_ops/scripts"),
+        );
 
         let source_root = source_repo_root();
         copy_tree(

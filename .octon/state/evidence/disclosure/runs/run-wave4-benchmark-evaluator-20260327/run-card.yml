@@ -1,0 +1,37 @@
+schema_version: run-card-v1
+run_id: run-wave4-benchmark-evaluator-20260327
+status: succeeded
+summary: Wave 4 benchmark evidence run completed with maintainability proof and approved evaluator review for benchmark disclosure.
+support_tier: release-and-boundary-sensitive
+support_target_ref: .octon/instance/governance/support-targets.yml
+adapter_support:
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  host_support_status: supported
+  model_support_status: supported
+  conformance_criteria:
+    - HOST-001
+    - HOST-002
+    - MODEL-001
+    - MODEL-002
+    - MODEL-003
+authority_refs:
+  run_contract: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+  decision_artifact: .octon/state/evidence/control/execution/authority-decision-run-wave4-benchmark-evaluator-20260327.yml
+  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-run-wave4-benchmark-evaluator-20260327.yml
+  retained_run_evidence: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/retained-run-evidence.yml
+proof_plane_refs:
+  structural: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/structural.yml
+  governance: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/governance.yml
+  functional: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/functional.yml
+  behavioral: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/behavioral.yml
+  maintainability: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/maintainability.yml
+  recovery: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/recovery.yml
+  evaluator: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml
+measurement_ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/measurements/summary.yml
+intervention_ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/interventions/log.yml
+replay_ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay/manifest.yml
+known_limits:
+  - Support posture remains bounded to the release-and-boundary-sensitive tier declared in support-targets.yml.
+  - Disclosure summarizes authority and evidence; it does not replace them.
+generated_at: "2026-03-30T00:00:00Z"

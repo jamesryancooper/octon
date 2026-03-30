@@ -15,6 +15,10 @@ The authority family is fully active.
   `/.octon/state/control/execution/exceptions/**`
 - normalized revocations live under:
   `/.octon/state/control/execution/revocations/**`
+- normalized quorum policy semantics live under:
+  `/.octon/framework/constitution/contracts/authority/quorum-policy-v1.schema.json`
+  and the repo policy binding at
+  `/.octon/instance/governance/policies/mission-autonomy.yml#quorum`
 - retained authority decisions and grant bundles live under:
   `/.octon/state/evidence/control/execution/**`
 
@@ -33,5 +37,6 @@ The authority family is fully active.
 - `approval-grant-v1.schema.json`
 - `exception-lease-v1.schema.json`
 - `revocation-v1.schema.json`
+- `quorum-policy-v1.schema.json`
 - `decision-artifact-v1.schema.json`
 - `grant-bundle-v1.schema.json`

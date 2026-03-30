@@ -9,7 +9,7 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use time::format_description;
 
-use crate::authorization::{
+use octon_authority_engine::{
     authorize_execution, build_executor_command, default_autonomy_context, finalize_execution,
     now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, with_authority_env_metadata, write_execution_start,
     ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec, ManagedExecutorKind,
@@ -28,6 +28,7 @@ const WORKFLOW_REPORTS_ROOT_REL: &str = ".octon/state/evidence/runs/workflows";
 #[derive(Debug, Clone)]
 pub struct RunPipelineOptions {
     pub pipeline_id: String,
+    pub run_id: Option<String>,
     pub mission_id: Option<String>,
     pub executor: ExecutorKind,
     pub executor_bin: Option<PathBuf>,
@@ -604,7 +605,11 @@ fn run_generic_pipeline(
         })
         .transpose()?;
     let workflow_request = ExecutionRequest {
-        request_id: new_request_id("workflow"),
+        request_id: options
+            .run_id
+            .clone()
+            .filter(|value| !value.trim().is_empty())
+            .unwrap_or_else(|| new_request_id("workflow")),
         caller_path: "workflow".to_string(),
         action_type: if options.prepare_only {
             "prepare_workflow".to_string()
@@ -1465,8 +1470,12 @@ mod tests {
             .expect("create evidence root");
         fs::create_dir_all(octon_dir.join("instance/charter"))
             .expect("create workspace charter root");
+        fs::create_dir_all(octon_dir.join("instance/governance"))
+            .expect("create governance root");
         fs::create_dir_all(octon_dir.join("framework/capabilities/governance/policy"))
             .expect("create policy root");
+        fs::create_dir_all(octon_dir.join("framework/capabilities/_ops/scripts"))
+            .expect("create ACP ops root");
         fs::write(
             octon_dir.join("instance/charter/workspace.yml"),
             "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
@@ -1482,6 +1491,16 @@ mod tests {
             octon_dir.join("framework/capabilities/governance/policy/deny-by-default.v2.yml"),
         )
         .expect("copy ACP policy");
+        fs::copy(
+            source_repo_root().join(".octon/framework/capabilities/_ops/scripts/policy-receipt-write.sh"),
+            octon_dir.join("framework/capabilities/_ops/scripts/policy-receipt-write.sh"),
+        )
+        .expect("copy ACP receipt writer");
+        fs::copy(
+            source_repo_root().join(".octon/instance/governance/support-targets.yml"),
+            octon_dir.join("instance/governance/support-targets.yml"),
+        )
+        .expect("copy support targets");
 
         fs::write(
             octon_dir.join("orchestration/runtime/workflows/manifest.yml"),
@@ -1602,7 +1621,7 @@ stages:
         .expect("write mission autonomy policy");
         fs::write(
             octon_dir.join("instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
         )
         .expect("write ownership registry");
         fs::copy(
@@ -1726,6 +1745,7 @@ stages:
             &octon_dir,
             RunPipelineOptions {
                 pipeline_id: "sample-workflow".to_string(),
+                run_id: None,
                 mission_id: Some("sample-mission".to_string()),
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
@@ -1775,6 +1795,7 @@ stages:
             &octon_dir,
             RunPipelineOptions {
                 pipeline_id: "sample-workflow".to_string(),
+                run_id: None,
                 mission_id: None,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
@@ -1806,6 +1827,7 @@ stages:
             &octon_dir,
             RunPipelineOptions {
                 pipeline_id: "sample-workflow".to_string(),
+                run_id: None,
                 mission_id: Some("sample-mission".to_string()),
                 executor: ExecutorKind::Auto,
                 executor_bin: None,
@@ -1843,6 +1865,7 @@ stages:
             &octon_dir,
             RunPipelineOptions {
                 pipeline_id: "sample-workflow".to_string(),
+                run_id: None,
                 mission_id: Some("sample-mission".to_string()),
                 executor: ExecutorKind::Mock,
                 executor_bin: None,

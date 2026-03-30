@@ -9,7 +9,9 @@ execution:
     run_assurance_root: ".octon/state/evidence/runs/<run-id>/assurance"
     run_measurements_root: ".octon/state/evidence/runs/<run-id>/measurements"
     run_interventions_root: ".octon/state/evidence/runs/<run-id>/interventions"
-    run_disclosure_root: ".octon/state/evidence/runs/<run-id>/disclosure"
+    run_disclosure_root: ".octon/state/evidence/disclosure/runs/<run-id>"
+    release_disclosure_root: ".octon/state/evidence/disclosure/releases/<release-id>"
+    governance_disclosure_root: ".octon/instance/governance/disclosure"
     execution_control_root: ".octon/state/control/execution"
     mission_control_root: ".octon/state/control/execution/missions"
     control_evidence_root: ".octon/state/evidence/control/execution"
@@ -59,8 +61,10 @@ execution:
     lab_evidence_root: ".octon/state/evidence/lab"
   disclosure_binding:
     contract_family_root: ".octon/framework/constitution/contracts/disclosure"
-    run_card_file: ".octon/state/evidence/runs/<run-id>/disclosure/run-card.yml"
-    harness_card_root: ".octon/state/evidence/lab/harness-cards"
+    authored_harness_card_file: ".octon/instance/governance/disclosure/harness-card.yml"
+    run_card_file: ".octon/state/evidence/disclosure/runs/<run-id>/run-card.yml"
+    harness_card_root: ".octon/state/evidence/disclosure/releases"
+    historical_harness_card_mirror_root: ".octon/state/evidence/lab/harness-cards"
     benchmark_root: ".octon/state/evidence/lab/benchmarks"
     evaluator_review_root: ".octon/state/evidence/lab/evaluator-reviews"
   retention_binding:

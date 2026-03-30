@@ -10,5 +10,5 @@ required_artifacts:
   - "benchmark-summary"
   - "run-manifest"
 blocking_support_tiers:
-  - "repo-local-transitional"
+  - "repo-local-consequential"
   - "release-and-boundary-sensitive"

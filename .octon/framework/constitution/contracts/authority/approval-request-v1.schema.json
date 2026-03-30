@@ -50,6 +50,12 @@
       "type": "string",
       "minLength": 1
     },
+    "quorum_policy_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "ownership_refs": {
       "type": "array",
       "items": {

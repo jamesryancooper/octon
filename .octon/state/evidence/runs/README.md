@@ -7,7 +7,7 @@ Its mutable control-plane counterpart is `state/control/execution/runs/`,
 which holds bound run contracts, run manifests, runtime-state,
 rollback-posture, stage attempts, and control checkpoints.
 
-Wave 4 canonicalizes the following evidence families beneath each run root:
+Canonical evidence families beneath each run root:
 
 ```text
 state/evidence/runs/<run-id>/
@@ -17,7 +17,6 @@ state/evidence/runs/<run-id>/
   assurance/
   measurements/
   interventions/
-  disclosure/
   replay-pointers.yml
   trace-pointers.yml
   evidence-classification.yml
@@ -25,5 +24,7 @@ state/evidence/runs/<run-id>/
 ```
 
 Canonical readers must consume the receipts, checkpoint, replay, proof-plane,
-measurement, intervention, disclosure, and pointer families above; deprecated
-root-level compatibility artifacts are retired.
+measurement, intervention, and pointer families above from the run evidence
+root. Canonical RunCards now live under
+`state/evidence/disclosure/runs/<run-id>/`; any run-local disclosure directory
+is historical mirror material only.

@@ -1,0 +1,16 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "adapter-review"
+contract_ref: ".octon/instance/governance/contracts/adapter-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-03-30T00:00:00Z"
+triggered_by:
+  - "Unified execution constitution atomic clean-break cutover"
+  - "Authority engine crate extraction"
+summary: "The runtime now exposes a named authority-engine crate, host adapters remain projection-only, model adapters remain non-authoritative, and support envelopes stay bounded by the published criteria."
+findings: []
+evidence_refs:
+  - ".octon/framework/engine/runtime/crates/authority_engine/**"
+  - ".octon/framework/engine/runtime/adapters/host/**"
+  - ".octon/framework/engine/runtime/adapters/model/**"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase5-adapter-support-target-hardening.sh"

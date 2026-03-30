@@ -1,4 +1,4 @@
-use crate::authorization::{
+use octon_authority_engine::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
     with_authority_env_metadata,
     write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,

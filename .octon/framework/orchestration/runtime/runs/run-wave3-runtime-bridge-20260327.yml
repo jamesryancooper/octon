@@ -14,11 +14,11 @@ receipt_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/recei
 assurance_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance
 measurements_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/measurements
 interventions_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/interventions
-run_card_path: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/disclosure/run-card.yml
+run_card_path: .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
 replay_pointers_path: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
 trace_pointers_path: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/trace-pointers.yml
 evidence_classification_path: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/evidence-classification.yml
-summary: Transitional Wave 3 runtime bridge run completed after binding canonical lifecycle state for mission evidence consumers.
+summary: Historical Wave 3 runtime bridge run remains retained under the canonical disclosure root after the clean-break cutover.
 executor_id: operator://octon-maintainers
 executor_acknowledged_at: "2026-03-27T19:52:03Z"
 last_heartbeat_at: "2026-03-27T19:52:03Z"

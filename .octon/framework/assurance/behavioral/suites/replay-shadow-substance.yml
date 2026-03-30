@@ -9,4 +9,4 @@ required_artifacts:
   - "replay-bundle"
   - "shadow-run"
 blocking_support_tiers:
-  - "repo-local-transitional"
+  - "repo-local-consequential"
