@@ -22,7 +22,7 @@ cleanup_paths=()
 cleanup() {
   local path
   for path in "${cleanup_paths[@]}"; do
-    [[ -n "$path" ]] && rm -rf "$path"
+    [[ -n "$path" && -e "$path" ]] && rm -r -- "$path"
   done
 }
 trap cleanup EXIT
@@ -82,7 +82,7 @@ create_fixture() {
     ! -name 'README.md' \
     ! -name 'index.yml' \
     ! -name '.gitkeep' \
-    -exec rm -rf {} +
+    -exec rm -r -- {} +
   mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/workflows"
   mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/missions"
   mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/automations"
