@@ -143,12 +143,13 @@ main() {
   header_format="$(jq -r '.commit.header_format // "<type>(<scope>): <summary>"' "$STANDARDS_JSON")"
   title_regex="^(${allowed_commit_types})\\((${scope_pattern})\\)(!)?: (.+)$"
 
-  local branch_allowed_types branch_ticket_pattern branch_slug_pattern branch_default_format branch_regex
+  local branch_allowed_types branch_ticket_pattern branch_slug_pattern branch_slug_pattern_ere branch_default_format branch_regex
   branch_allowed_types="$(jq -r '.branch.allowed_types | map(gsub("([][(){}.*+?^$|\\\\-])"; "\\\\\\1")) | join("|")' "$STANDARDS_JSON")"
   branch_ticket_pattern="$(jq -r '.branch.ticket_pattern // "[A-Za-z0-9]+-[0-9]+"' "$STANDARDS_JSON")"
   branch_slug_pattern="$(jq -r '.branch.slug_pattern // "[a-z0-9]+(?:-[a-z0-9]+)*"' "$STANDARDS_JSON")"
+  branch_slug_pattern_ere="$(printf '%s' "$branch_slug_pattern" | sed 's/(\?:/(/g')"
   branch_default_format="$(jq -r '.branch.default_format // "<type>/<ticket-id>-<short-description>"' "$STANDARDS_JSON")"
-  branch_regex="^(${branch_allowed_types})/(((${branch_ticket_pattern})-)?(${branch_slug_pattern}))$"
+  branch_regex="^(${branch_allowed_types})/(((${branch_ticket_pattern})-)?(${branch_slug_pattern_ere}))$"
 
   local -a errors=()
   local -a notices=()
@@ -214,7 +215,7 @@ main() {
 
     if ! printf '%s\n' "$body" | grep -Eiq '(close[sd]?|fixe?[sd]?|resolve[sd]?)\s+#\d+' \
       && ! printf '%s\n' "$body" | grep -Eiq 'No-Issue:\s*\S+'; then
-      errors+=("PR body must include issue linkage (`Closes/Fixes/Resolves #...`) or `No-Issue: <reason>`.")
+      errors+=("PR body must include issue linkage (Closes/Fixes/Resolves #...) or No-Issue: <reason>.")
     fi
   fi
 

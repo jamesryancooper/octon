@@ -59,6 +59,8 @@ check_required_structure() {
   require_dir "$INSTANCE_DIR/governance/ownership"
   require_file "$INSTANCE_DIR/governance/ownership/registry.yml"
   require_file "$INSTANCE_DIR/governance/support-targets.yml"
+  require_dir "$INSTANCE_DIR/governance/closure"
+  require_file "$INSTANCE_DIR/governance/closure/unified-execution-constitution.yml"
   require_dir "$INSTANCE_DIR/governance/disclosure"
   require_file "$INSTANCE_DIR/governance/disclosure/README.md"
   require_file "$INSTANCE_DIR/governance/disclosure/harness-card.yml"
@@ -94,6 +96,8 @@ check_overlay_domain_shape() {
       ! -path "$INSTANCE_DIR/governance/policies/*" \
       ! -path "$INSTANCE_DIR/governance/contracts" \
       ! -path "$INSTANCE_DIR/governance/contracts/*" \
+      ! -path "$INSTANCE_DIR/governance/closure" \
+      ! -path "$INSTANCE_DIR/governance/closure/*" \
       ! -path "$INSTANCE_DIR/governance/disclosure" \
       ! -path "$INSTANCE_DIR/governance/disclosure/*" \
       ! -path "$INSTANCE_DIR/governance/ownership" \

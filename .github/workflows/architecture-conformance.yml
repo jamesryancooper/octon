@@ -212,4 +212,4 @@ jobs:
       - name: Validate Phase 7 build-to-delete governance
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase7-build-to-delete-institutionalization.sh
-          bash .octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh
+          bash .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh

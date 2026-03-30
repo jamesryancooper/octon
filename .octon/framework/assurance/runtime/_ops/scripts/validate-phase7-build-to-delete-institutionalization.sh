@@ -13,7 +13,7 @@ PHASE7_EVIDENCE_DIR="$OCTON_DIR/state/evidence/migration/2026-03-29-unified-exec
 GOVERNANCE_CONTRACTS="$OCTON_DIR/instance/governance/contracts"
 BUILD_TO_DELETE_ROOT="$(yq -r '.latest_review_packet // ""' "$GOVERNANCE_CONTRACTS/closeout-reviews.yml" 2>/dev/null || true)"
 PHASE6_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh"
-CLOSEOUT_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+CLOSEOUT_VALIDATOR="$OCTON_DIR/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
 
 errors=0
 
@@ -122,11 +122,11 @@ main() {
   require_text '.octon/instance/governance/contracts/**' "$ARCH_WORKFLOW" "architecture workflow triggers on governance contract changes"
   require_text '.octon/state/evidence/validation/publication/**' "$ARCH_WORKFLOW" "architecture workflow triggers on publication review evidence changes"
   require_text 'validate-phase7-build-to-delete-institutionalization.sh' "$ARCH_WORKFLOW" "architecture workflow enforces Phase 7 validator"
-  require_text 'validate-execution-constitution-closeout.sh' "$ARCH_WORKFLOW" "architecture workflow enforces closeout validator"
+  require_text 'assert-unified-execution-closure.sh' "$ARCH_WORKFLOW" "architecture workflow enforces closeout validator"
 
   require_yq '.schema_version == "repo-retirement-policy-v2"' "$GOVERNANCE_CONTRACTS/retirement-policy.yml" "retirement policy uses Phase 7 schema"
   require_yq '.entries[] | select(.target_id == "workspace-objective-compatibility-shims" and .review_contract_ref == ".octon/instance/governance/contracts/drift-review.yml")' "$GOVERNANCE_CONTRACTS/retirement-registry.yml" "retirement registry binds workspace shims to drift review"
-  require_yq '.entries[] | select(.target_id == "helper-authored-run-projections" and .required_ablation_suite[] == ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh")' "$GOVERNANCE_CONTRACTS/retirement-registry.yml" "retirement registry ties helper projections to closeout ablation"
+  require_yq '.entries[] | select(.target_id == "helper-authored-run-projections" and .required_ablation_suite[] == ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh")' "$GOVERNANCE_CONTRACTS/retirement-registry.yml" "retirement registry ties helper projections to closeout ablation"
   require_yq '.review_id == "drift-review"' "$GOVERNANCE_CONTRACTS/drift-review.yml" "drift review contract publishes review id"
   require_yq '.review_id == "support-target-review"' "$GOVERNANCE_CONTRACTS/support-target-review.yml" "support-target review contract publishes review id"
   require_yq '.review_id == "adapter-review"' "$GOVERNANCE_CONTRACTS/adapter-review.yml" "adapter review contract publishes review id"

@@ -54,7 +54,13 @@ require_text() {
   local needle="$1"
   local file="$2"
   local label="$3"
-  if rg -Fq -- "$needle" "$file"; then
+  if command -v rg >/dev/null 2>&1; then
+    if rg -Fq -- "$needle" "$file"; then
+      pass "$label"
+    else
+      fail "$label"
+    fi
+  elif grep -Fq -- "$needle" "$file"; then
     pass "$label"
   else
     fail "$label"
@@ -302,7 +308,13 @@ run_shim_audit() {
       esac
       matched=1
       fail "historical shim referenced in certification-critical path: ${line#$ROOT_DIR/}"
-    done < <(rg -n -F -- "$shim" .github/workflows "$OCTON_DIR/framework/assurance" "$OCTON_DIR/instance/ingress" "$OCTON_DIR/instance/bootstrap" "$OCTON_DIR/framework/engine/runtime" || true)
+    done < <(
+      if command -v rg >/dev/null 2>&1; then
+        rg -n -F -- "$shim" .github/workflows "$OCTON_DIR/framework/assurance" "$OCTON_DIR/instance/ingress" "$OCTON_DIR/instance/bootstrap" "$OCTON_DIR/framework/engine/runtime" || true
+      else
+        grep -RFn -- "$shim" .github/workflows "$OCTON_DIR/framework/assurance" "$OCTON_DIR/instance/ingress" "$OCTON_DIR/instance/bootstrap" "$OCTON_DIR/framework/engine/runtime" 2>/dev/null || true
+      fi
+    )
   done < <(yq -r '.shim_surfaces | to_entries[] | select(.value.status == "historical-shim") | .value.path, .value.paths[]?' "$CONTRACT_REGISTRY")
 
   if [[ $matched -eq 0 ]]; then
