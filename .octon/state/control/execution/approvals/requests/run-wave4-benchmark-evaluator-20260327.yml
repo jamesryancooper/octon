@@ -6,6 +6,7 @@ target_id: "workflow:evaluate-harness"
 action_type: "execute_stage"
 workflow_mode: "human-only"
 support_tier: "release-and-boundary-sensitive"
+quorum_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
 ownership_refs:
   - "operator://octon-maintainers"
 reversibility_class: null
