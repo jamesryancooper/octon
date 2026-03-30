@@ -1,0 +1,16 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "adapter-review"
+contract_ref: ".octon/instance/governance/contracts/adapter-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-03-29T00:00:00Z"
+triggered_by:
+  - "Unified execution constitution Phase 7 completion"
+  - "Final target-state claim readiness"
+summary: "Canonical host and model adapters remain replaceable, conformance-backed, and bounded by support targets without regaining authority semantics."
+findings: []
+evidence_refs:
+  - ".octon/framework/engine/runtime/adapters/host/**"
+  - ".octon/framework/engine/runtime/adapters/model/**"
+  - ".octon/framework/constitution/contracts/adapters/**"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase5-adapter-support-target-hardening.sh"

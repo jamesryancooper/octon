@@ -1,0 +1,13 @@
+schema_version: "octon-capability-pack-v1"
+pack_id: "repo"
+surface: "repo"
+display_name: "Repo Surface Pack"
+description: "Repo-local file and workflow surfaces bounded by workspace scope and retained evidence."
+runtime_surface_refs:
+  - ".octon/framework/engine/runtime/spec/policy-interface-v1.md"
+  - ".octon/framework/orchestration/runtime/workflows/**"
+required_evidence:
+  - "authority-decision-artifact"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+known_limitations:
+  - "Repo scope does not automatically include branch mutation, external network access, or browser automation."

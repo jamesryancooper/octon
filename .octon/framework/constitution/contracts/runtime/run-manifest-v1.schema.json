@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/run-manifest-v1.schema.json",
+  "title": "Octon Run Manifest v1",
+  "description": "Canonical bound run-topology manifest for one consequential run.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "run_contract_ref",
+    "runtime_state_ref",
+    "run_continuity_ref",
+    "stage_attempt_root",
+    "control_checkpoint_root",
+    "rollback_posture_ref",
+    "evidence_root",
+    "receipt_root",
+    "assurance_root",
+    "measurement_root",
+    "intervention_root",
+    "disclosure_root",
+    "retained_evidence_ref",
+    "replay_pointers_ref",
+    "trace_pointers_ref",
+    "evidence_classification_ref",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-manifest-v1"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_contract_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_state_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_continuity_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage_attempt_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "control_checkpoint_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_posture_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "receipt_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assurance_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "measurement_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "intervention_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "disclosure_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retained_evidence_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "replay_pointers_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "trace_pointers_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_classification_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "external_replay_index_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "mission_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parent_run_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

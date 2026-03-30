@@ -1,0 +1,5 @@
+schema_version: "lab-domain-registry-v1"
+domain: "probes"
+entries:
+  - probe_id: "runtime-proof-probe"
+    path: ".octon/framework/lab/probes/runtime-proof-probe.yml"

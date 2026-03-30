@@ -4,8 +4,11 @@ status: "active"
 objective_id: "octon-governed-harness"
 intent_id: "intent://octon/octon-governed-harness"
 intent_version: "1.1.0"
-narrative_ref: ".octon/instance/bootstrap/OBJECTIVE.md"
-machine_ref: ".octon/instance/cognition/context/shared/intent.contract.yml"
+narrative_ref: ".octon/instance/charter/workspace.md"
+machine_ref: ".octon/instance/charter/workspace.yml"
+compatibility_shims:
+  - ".octon/instance/bootstrap/OBJECTIVE.md"
+  - ".octon/instance/cognition/context/shared/intent.contract.yml"
 contract_family_ref: ".octon/framework/constitution/contracts/objective/family.yml"
 execution_binding:
   consequential_execution_requires_run_contract: true

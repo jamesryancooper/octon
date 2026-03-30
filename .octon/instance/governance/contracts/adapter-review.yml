@@ -1,0 +1,20 @@
+schema_version: "repo-governance-review-v1"
+review_id: "adapter-review"
+owner: "Octon governance"
+status: "active"
+purpose: "Keep host and model adapters replaceable, conformance-backed, and non-authoritative."
+triggers:
+  - "When any host adapter, model adapter, or adapter conformance criterion changes."
+  - "When a new canonical host or model family is admitted."
+  - "Before any final target-state claim."
+cadence: "At every release that changes adapter manifests, adapter criteria, or adapter-backed disclosure."
+required_inputs:
+  - ".octon/framework/engine/runtime/adapters/host/**"
+  - ".octon/framework/engine/runtime/adapters/model/**"
+  - ".octon/framework/constitution/contracts/adapters/**"
+  - ".octon/instance/governance/support-targets.yml"
+evidence_requirements:
+  - "Approved adapter-review receipt under .octon/state/evidence/validation/publication/build-to-delete/<date>/adapter-review.yml"
+  - "Validation evidence that host adapters remain projection-only and model adapters remain support-target bounded."
+blocking_rule: "Reject when an adapter manifest, workflow, or disclosure surface widens authority or support beyond declared conformance criteria."
+retirement_path: "Retire only if adapter review is replaced by a stricter successor review contract with equivalent conformance coverage."

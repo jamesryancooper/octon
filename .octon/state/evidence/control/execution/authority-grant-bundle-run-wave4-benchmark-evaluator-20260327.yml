@@ -2,9 +2,12 @@ schema_version: authority-grant-bundle-v1
 grant_id: grant-run-wave4-benchmark-evaluator-20260327
 request_id: run-wave4-benchmark-evaluator-20260327
 run_id: run-wave4-benchmark-evaluator-20260327
-approval_request_ref: null
-approval_grant_refs: []
-exception_refs: []
-revocation_refs: []
+approval_request_ref: .octon/state/control/execution/approvals/requests/run-wave4-benchmark-evaluator-20260327.yml
+approval_grant_refs:
+  - .octon/state/control/execution/approvals/grants/grant-run-wave4-benchmark-evaluator-20260327.yml
+exception_refs:
+  - .octon/state/control/execution/exceptions/leases.yml#phase2-lease-sample
+revocation_refs:
+  - .octon/state/control/execution/revocations/grants.yml#phase2-revocation-sample
 decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-run-wave4-benchmark-evaluator-20260327.yml
 generated_at: "2026-03-28T00:00:00Z"

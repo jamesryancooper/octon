@@ -8,6 +8,9 @@ constitutional objective model for governed execution.
 The objective family is fully active.
 
 - workspace-charter pair remains:
+  `/.octon/instance/charter/workspace.md` and
+  `/.octon/instance/charter/workspace.yml`
+- compatibility shims remain at:
   `/.octon/instance/bootstrap/OBJECTIVE.md` and
   `/.octon/instance/cognition/context/shared/intent.contract.yml`
 - mission charter pair remains under:

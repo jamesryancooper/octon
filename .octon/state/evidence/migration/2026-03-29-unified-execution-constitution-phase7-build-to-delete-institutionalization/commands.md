@@ -1,0 +1,22 @@
+# Phase 7 Command Log
+
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/{README.md,architecture/implementation-plan.md,architecture/validation-plan.md,architecture/acceptance-criteria.md,architecture/simplification-deletion-model.md,resources/unified-execution-constitution-audit.md}`
+- `sed -n '1,320p' .octon/instance/governance/contracts/{README.md,retirement-policy.yml,closeout-reviews.yml}`
+- `sed -n '1,260p' .octon/framework/constitution/contracts/registry.yml`
+- `sed -n '1,260p' .github/workflows/architecture-conformance.yml`
+- `rg -n "retirement|drift-review|support-target-review|adapter-review|ablation" .octon/instance .octon/framework .octon/state/evidence/validation/publication`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase7-build-to-delete-institutionalization.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase5-adapter-support-target-hardening.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh`
+- `bash .octon/framework/agency/_ops/scripts/validate/validate-agency.sh`
+- `bash .octon/framework/agency/_ops/scripts/validate/validate-autonomy-labels.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
+- `cargo check --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel`
+- `bash .octon/framework/cognition/_ops/runtime/scripts/sync-runtime-artifacts.sh --target decisions`
+- `git diff --check`

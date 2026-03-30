@@ -1,0 +1,6 @@
+kind: migration-evidence-bundle
+id: 2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization
+evidence: evidence.md
+commands: commands.md
+validation: validation.md
+inventory: inventory.md

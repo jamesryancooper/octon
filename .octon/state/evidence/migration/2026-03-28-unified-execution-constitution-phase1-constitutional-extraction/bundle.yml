@@ -1,0 +1,6 @@
+kind: migration-evidence-bundle
+id: 2026-03-28-unified-execution-constitution-phase1-constitutional-extraction
+evidence: evidence.md
+commands: commands.md
+validation: validation.md
+inventory: inventory.md

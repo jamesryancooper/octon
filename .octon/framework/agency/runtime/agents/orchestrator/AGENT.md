@@ -3,9 +3,8 @@
 ## Contract Scope
 
 - This file defines execution policy for the default accountable execution role.
-- Optional identity overlay lives in [SOUL.md](./SOUL.md), but it is not authoritative.
-- Cross-agent governance overlays: [CONSTITUTION.md](../../../governance/CONSTITUTION.md), [DELEGATION.md](../../../governance/DELEGATION.md), [MEMORY.md](../../../governance/MEMORY.md).
-- Contract precedence: root `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> local `AGENT.md`.
+- Supporting overlays: [DELEGATION.md](../../../governance/DELEGATION.md) and [MEMORY.md](../../../governance/MEMORY.md).
+- Contract precedence: `framework/constitution/**` -> `instance/ingress/AGENTS.md` -> local `AGENT.md`.
 - Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
 
 ## Operating Role
@@ -32,7 +31,7 @@ The orchestrator must treat runtime artifacts as the source of execution truth:
 
 - bind run control and run evidence roots under `/.octon/state/control/execution/runs/**` and `/.octon/state/evidence/runs/**`
 - treat instruction-layer manifests and policy receipts as required execution evidence, not optional notes
-- follow `MEMORY.md` by persisting durable memory only through approved runtime or cognition surfaces
+- persist durable memory only through approved runtime or cognition surfaces; use `MEMORY.md` as supporting policy, not a required kernel layer
 - keep host and model adapters projection-only or non-authoritative; they may shape execution but never widen authority
 
 ## Required Planning And Receipts

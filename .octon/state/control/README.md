@@ -6,7 +6,7 @@
 
 | Path | Purpose |
 | --- | --- |
-| `state/control/execution/runs/` | Canonical per-run lifecycle control roots, including run contracts, stage attempts, checkpoints, runtime-state, and rollback-posture |
+| `state/control/execution/runs/` | Canonical per-run lifecycle control roots, including run contracts, run manifests, stage attempts, checkpoints, runtime-state, and rollback-posture |
 | `state/control/execution/approvals/` | Canonical approval requests and grants |
 | `state/control/execution/exceptions/` | Canonical exception-lease control truth |
 | `state/control/execution/revocations/` | Canonical authority revocations |

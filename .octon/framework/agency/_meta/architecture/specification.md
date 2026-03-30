@@ -148,18 +148,16 @@ Not allowed by default:
 .octon/framework/agency/
 ├── README.md
 ├── governance/
-│   ├── CONSTITUTION.md
 │   ├── DELEGATION.md
-│   └── MEMORY.md
+│   ├── MEMORY.md
+│   └── CONSTITUTION.md (historical shim)
 ├── manifest.yml
 ├── runtime/
 │   ├── agents/
 │   │   ├── registry.yml
 │   │   ├── _scaffold/template/AGENT.md
-│   │   ├── _scaffold/template/SOUL.md
 │   │   └── <id>/
-│   │       ├── AGENT.md
-│   │       └── SOUL.md (optional)
+│   │       └── AGENT.md
 │   ├── assistants/
 │   │   ├── registry.yml
 │   │   ├── _scaffold/template/assistant.md
@@ -194,15 +192,19 @@ registries:
 
 ### Cross-Agent Governance Contracts
 
-Required governance contracts:
+Required execution path:
 
-- `governance/CONSTITUTION.md`: non-negotiable policy, conscience rubric, and red lines.
+- `runtime/agents/orchestrator/AGENT.md`: kernel execution profile.
+
+Supporting overlays:
+
 - `governance/DELEGATION.md`: delegation authority, handoff protocol, and escalation.
 - `governance/MEMORY.md`: memory classes, retention policy, and privacy boundaries.
+- `governance/CONSTITUTION.md`: historical shim retained outside the required path.
 
-Precedence:
+Agency kernel path:
 
-`AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> `runtime/agents/<id>/AGENT.md`
+`framework/constitution/**` -> `instance/ingress/AGENTS.md` -> `runtime/agents/orchestrator/AGENT.md`
 
 ### `runtime/agents/registry.yml`
 
@@ -258,17 +260,6 @@ Must define:
 - escalation rules,
 - quality/security boundaries,
 - output contract.
-
-### Agent Identity Contract (`SOUL.md`)
-
-Optional only. If present, it must define:
-
-- philosophy,
-- identity and values,
-- communication posture,
-- ambiguity handling stance,
-- hard behavioral boundaries,
-- explicit cross-reference to `AGENT.md`.
 
 ### Assistant Document (`assistant.md`)
 
@@ -359,10 +350,9 @@ Automated checks should enforce:
 
 - schema shape and required fields for all registries,
 - cross-reference integrity (`path` targets exist),
-- required governance contracts (`governance/CONSTITUTION.md`, `governance/DELEGATION.md`, `governance/MEMORY.md`),
-- `CONSTITUTION.md` includes `Conscience` with `Decision Rubric` and `Red Lines`,
+- required supporting overlays (`governance/DELEGATION.md`, `governance/MEMORY.md`),
+- orchestrator is the kernel execution profile beneath ingress,
 - required `AGENT.md` for every agent path,
-- optional `SOUL.md` is explicitly non-authoritative when present,
 - alias uniqueness,
 - actor id uniqueness,
 - capitalization rule (`AGENT.md`, not `agent.md`),

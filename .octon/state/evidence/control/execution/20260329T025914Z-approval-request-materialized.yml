@@ -1,0 +1,22 @@
+schema_version: "authority-control-receipt-v1"
+receipt_id: "20260329T025914Z-approval-request-materialized"
+control_mutation_class: "approval_request_materialized"
+source_ref: ".octon/state/control/execution/approvals/requests/run-wave4-benchmark-evaluator-20260327.yml"
+applied_to_ref: ".octon/state/control/execution/approvals/requests/run-wave4-benchmark-evaluator-20260327.yml"
+issuer_ref: "operator://octon-governance"
+timestamp: "2026-03-29T02:59:14Z"
+result: "applied"
+reason: "Materialize canonical approval request"
+reason_codes:
+  - "PHASE2_CANONICAL_APPROVAL_BACKFILL"
+affected_paths:
+  - ".octon/state/control/execution/approvals/requests/run-wave4-benchmark-evaluator-20260327.yml"
+policy_refs:
+  []
+projection_refs:
+  - "operator://phase2/authority-backfill/run-wave4"
+approval_request_ref: ".octon/state/control/execution/approvals/requests/run-wave4-benchmark-evaluator-20260327.yml"
+approval_grant_ref: null
+exception_lease_ref: null
+revocation_ref: null
+linked_run_id: "run-wave4-benchmark-evaluator-20260327"

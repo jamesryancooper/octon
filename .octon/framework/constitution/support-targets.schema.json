@@ -200,7 +200,10 @@
         "language_resource_tier",
         "locale_tier",
         "support_status",
-        "default_route"
+        "default_route",
+        "requires_mission",
+        "allowed_capability_packs",
+        "required_evidence"
       ],
       "properties": {
         "model_tier": {

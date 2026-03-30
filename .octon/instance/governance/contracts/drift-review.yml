@@ -1,0 +1,19 @@
+schema_version: "repo-governance-review-v1"
+review_id: "drift-review"
+owner: "Octon governance"
+status: "active"
+purpose: "Detect stale or over-retained historical surfaces before they drift back into the live execution path."
+triggers:
+  - "Before any final target-state claim."
+  - "When ingress, the constitutional contract registry, or the retirement registry changes."
+  - "When a historical or compatibility-only surface is added, widened, or reclassified."
+cadence: "quarterly while the retirement registry contains any non-retired target, and immediately before claim or release closeout."
+required_inputs:
+  - ".octon/instance/ingress/AGENTS.md"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"
+evidence_requirements:
+  - "Approved drift-review receipt under .octon/state/evidence/validation/publication/build-to-delete/<date>/drift-review.yml"
+  - "Explicit list of historical or compatibility surfaces reviewed and their dispositions."
+blocking_rule: "Reject when a historical or compatibility-only surface is reachable from the required execution path or lacks a retirement path."
+retirement_path: "Retire only if a stricter successor review contract supersedes drift review across the same scope."

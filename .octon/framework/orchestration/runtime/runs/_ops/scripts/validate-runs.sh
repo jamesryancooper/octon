@@ -29,7 +29,7 @@ validate_run_record() {
   local run_file="$SURFACE_DIR/$rel_file"
   local run_id status started_at completed_at decision_id authority_decision_ref authority_grant_bundle_ref continuity_run_path summary
   local executor_id executor_ack heartbeat lease_expires recovery_status run_contract_path
-  local runtime_state_path rollback_posture_path receipt_root assurance_root measurements_root interventions_root run_card_path replay_pointers_path trace_pointers_path
+  local run_manifest_path runtime_state_path rollback_posture_path receipt_root assurance_root measurements_root interventions_root run_card_path replay_pointers_path trace_pointers_path evidence_classification_path external_replay_index_path support_tier
 
   run_id="$(yq -r '.run_id // ""' "$run_file")"
   status="$(yq -r '.status // ""' "$run_file")"
@@ -40,6 +40,7 @@ validate_run_record() {
   authority_grant_bundle_ref="$(yq -r '.authority_grant_bundle_ref // ""' "$run_file")"
   continuity_run_path="$(yq -r '.continuity_run_path // ""' "$run_file")"
   run_contract_path="$(yq -r '.run_contract_path // ""' "$run_file")"
+  run_manifest_path="$(yq -r '.run_manifest_path // ""' "$run_file")"
   runtime_state_path="$(yq -r '.runtime_state_path // ""' "$run_file")"
   rollback_posture_path="$(yq -r '.rollback_posture_path // ""' "$run_file")"
   receipt_root="$(yq -r '.receipt_root // ""' "$run_file")"
@@ -49,12 +50,15 @@ validate_run_record() {
   run_card_path="$(yq -r '.run_card_path // ""' "$run_file")"
   replay_pointers_path="$(yq -r '.replay_pointers_path // ""' "$run_file")"
   trace_pointers_path="$(yq -r '.trace_pointers_path // ""' "$run_file")"
+  evidence_classification_path="$(yq -r '.evidence_classification_path // ""' "$run_file")"
+  external_replay_index_path="$(yq -r '.external_replay_index_path // ""' "$run_file")"
   summary="$(yq -r '.summary // ""' "$run_file")"
   executor_id="$(yq -r '.executor_id // ""' "$run_file")"
   executor_ack="$(yq -r '.executor_acknowledged_at // ""' "$run_file")"
   heartbeat="$(yq -r '.last_heartbeat_at // ""' "$run_file")"
   lease_expires="$(yq -r '.lease_expires_at // ""' "$run_file")"
   recovery_status="$(yq -r '.recovery_status // ""' "$run_file")"
+  support_tier="$( [[ -n "$run_contract_path" && -f "$OCTON_DIR/${run_contract_path#.octon/}" ]] && yq -r '.support_tier // ""' "$OCTON_DIR/${run_contract_path#.octon/}" 2>/dev/null || printf '' )"
 
   [[ "$run_id" == "${rel_file%.yml}" ]] && pass "run '$run_id' file name matches run_id" || fail "run record '$rel_file' must match run_id"
   case "$status" in
@@ -72,6 +76,7 @@ validate_run_record() {
   fi
   [[ -n "$continuity_run_path" && -d "$OCTON_DIR/${continuity_run_path#.octon/}" && -f "$OCTON_DIR/${continuity_run_path#.octon/}/handoff.yml" ]] && pass "run '$run_id' continuity path resolves" || fail "run '$run_id' continuity path missing"
   [[ -n "$run_contract_path" && -f "$OCTON_DIR/${run_contract_path#.octon/}" ]] && pass "run '$run_id' canonical run contract resolves" || fail "run '$run_id' canonical run contract missing"
+  [[ -n "$run_manifest_path" && -f "$OCTON_DIR/${run_manifest_path#.octon/}" ]] && pass "run '$run_id' run manifest resolves" || fail "run '$run_id' run manifest missing"
   [[ -d "$OCTON_DIR/state/control/execution/runs/$run_id/stage-attempts" ]] && pass "run '$run_id' stage-attempt root exists" || fail "run '$run_id' stage-attempt root missing"
   [[ -n "$runtime_state_path" && -f "$OCTON_DIR/${runtime_state_path#.octon/}" ]] && pass "run '$run_id' runtime-state resolves" || fail "run '$run_id' runtime-state missing"
   [[ -n "$rollback_posture_path" && -f "$OCTON_DIR/${rollback_posture_path#.octon/}" ]] && pass "run '$run_id' rollback posture resolves" || fail "run '$run_id' rollback posture missing"
@@ -94,7 +99,14 @@ validate_run_record() {
   [[ -n "$run_card_path" && -f "$OCTON_DIR/${run_card_path#.octon/}" ]] && pass "run '$run_id' RunCard resolves" || fail "run '$run_id' RunCard missing"
   [[ -n "$replay_pointers_path" && -f "$OCTON_DIR/${replay_pointers_path#.octon/}" ]] && pass "run '$run_id' replay pointers resolve" || fail "run '$run_id' replay pointers missing"
   [[ -n "$trace_pointers_path" && -f "$OCTON_DIR/${trace_pointers_path#.octon/}" ]] && pass "run '$run_id' trace pointers resolve" || fail "run '$run_id' trace pointers missing"
+  [[ -n "$evidence_classification_path" && -f "$OCTON_DIR/${evidence_classification_path#.octon/}" ]] && pass "run '$run_id' evidence classification resolves" || fail "run '$run_id' evidence classification missing"
   [[ -n "$summary" ]] && pass "run '$run_id' summary present" || fail "run '$run_id' summary missing"
+
+  if [[ ("$support_tier" == "release-and-boundary-sensitive" || "$support_tier" == "external-or-irreversible") && "$status" != "running" ]]; then
+    [[ -n "$external_replay_index_path" && -f "$OCTON_DIR/${external_replay_index_path#.octon/}" ]] && pass "run '$run_id' external replay index resolves" || fail "run '$run_id' external replay index missing"
+    yq -e '.external_index_refs | length > 0' "$OCTON_DIR/state/evidence/runs/$run_id/replay/manifest.yml" >/dev/null 2>&1 && pass "run '$run_id' replay manifest links external index" || fail "run '$run_id' replay manifest must link external index"
+    yq -e '.external_index_refs | length > 0' "$OCTON_DIR/${replay_pointers_path#.octon/}" >/dev/null 2>&1 && pass "run '$run_id' replay pointers link external index" || fail "run '$run_id' replay pointers must link external index"
+  fi
 
   if [[ "$status" == "running" ]]; then
     [[ -n "$executor_id" ]] && pass "run '$run_id' executor owner present" || fail "run '$run_id' running state requires executor_id"

@@ -12,6 +12,8 @@ WORKSPACE_FILE="$FAMILY_DIR/workspace-charter-pair.yml"
 RUN_SCHEMA="$FAMILY_DIR/run-contract-v1.schema.json"
 STAGE_SCHEMA="$FAMILY_DIR/stage-attempt-v1.schema.json"
 CONTRACT_REGISTRY="$OCTON_DIR/framework/constitution/contracts/registry.yml"
+WORKSPACE_BRIEF_FILE="$OCTON_DIR/instance/charter/workspace.md"
+WORKSPACE_INTENT_FILE="$OCTON_DIR/instance/charter/workspace.yml"
 OBJECTIVE_FILE="$OCTON_DIR/instance/bootstrap/OBJECTIVE.md"
 INTENT_FILE="$OCTON_DIR/instance/cognition/context/shared/intent.contract.yml"
 MISSION_REGISTRY="$OCTON_DIR/instance/orchestration/missions/registry.yml"
@@ -24,7 +26,7 @@ RUN_LINKAGE_GUIDE="$OCTON_DIR/framework/orchestration/practices/run-linkage-stan
 WRITE_RUN_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/write-run.sh"
 ROOT_MANIFEST="$OCTON_DIR/octon.yml"
 POLICY_CONFIG="$OCTON_DIR/framework/engine/runtime/config/policy-interface.yml"
-MIGRATION_PLAN="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"
+MIGRATION_PLAN="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md"
 
 errors=0
 
@@ -106,6 +108,8 @@ main() {
   require_file "$RUN_SCHEMA"
   require_file "$STAGE_SCHEMA"
   require_file "$CONTRACT_REGISTRY"
+  require_file "$WORKSPACE_BRIEF_FILE"
+  require_file "$WORKSPACE_INTENT_FILE"
   require_file "$OBJECTIVE_FILE"
   require_file "$INTENT_FILE"
   require_file "$MISSION_REGISTRY"
@@ -125,15 +129,36 @@ main() {
 
   require_yq '.schema_version == "octon-constitutional-objective-family-v1"' "$FAMILY_FILE" "objective family schema version is correct"
   require_yq '.release_state == "pre-1.0"' "$FAMILY_FILE" "objective family records release_state"
-  require_yq '.change_profile == "transitional"' "$FAMILY_FILE" "objective family records transitional change profile"
-  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"' "$FAMILY_FILE" "objective family points to the current profile selection receipt"
+  require_yq '.change_profile == "atomic"' "$FAMILY_FILE" "objective family records atomic change profile"
+  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md"' "$FAMILY_FILE" "objective family points to the current profile selection receipt"
   require_yq '.objective_stack.run_contract.control_root == ".octon/state/control/execution/runs"' "$FAMILY_FILE" "objective family binds the run control root"
   require_yq '.objective_stack.stage_attempt_contract.canonical_dir == "stage-attempts"' "$FAMILY_FILE" "objective family defines stage-attempt placement"
   require_yq 'has("mission_only_execution") | not' "$FAMILY_FILE" "objective family no longer carries mission-only execution shims"
 
-  require_yq '.narrative_ref == ".octon/instance/bootstrap/OBJECTIVE.md"' "$WORKSPACE_FILE" "workspace charter pair narrative ref is canonical"
-  require_yq '.machine_ref == ".octon/instance/cognition/context/shared/intent.contract.yml"' "$WORKSPACE_FILE" "workspace charter pair machine ref is canonical"
+  require_yq '.narrative_ref == ".octon/instance/charter/workspace.md"' "$WORKSPACE_FILE" "workspace charter pair narrative ref is canonical"
+  require_yq '.machine_ref == ".octon/instance/charter/workspace.yml"' "$WORKSPACE_FILE" "workspace charter pair machine ref is canonical"
+  require_yq '.compatibility_shims[] | select(. == ".octon/instance/bootstrap/OBJECTIVE.md")' "$WORKSPACE_FILE" "workspace charter pair records bootstrap objective shim"
+  require_yq '.compatibility_shims[] | select(. == ".octon/instance/cognition/context/shared/intent.contract.yml")' "$WORKSPACE_FILE" "workspace charter pair records intent shim"
   require_yq '.execution_binding.run_contract_control_root == ".octon/state/control/execution/runs"' "$WORKSPACE_FILE" "workspace charter pair points to the run control root"
+
+  [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "objective_layer")" == "workspace-charter-pair" ]] \
+    && pass "workspace charter narrative declares workspace-charter layer" \
+    || fail "workspace charter narrative must declare objective_layer: workspace-charter-pair"
+  [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "constitutional_role")" == "workspace-charter-narrative" ]] \
+    && pass "workspace charter narrative declares narrative constitutional role" \
+    || fail "workspace charter narrative must declare workspace-charter-narrative role"
+  [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "constitutional_objective_ref")" == ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml" ]] \
+    && pass "workspace charter narrative points to workspace-charter pair contract" \
+    || fail "workspace charter narrative must point to workspace-charter-pair.yml"
+  [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "change_profile")" == "atomic" ]] \
+    && pass "workspace charter narrative records change_profile" \
+    || fail "workspace charter narrative must record atomic change_profile"
+
+  require_yq '.objective_layer == "workspace-charter-pair"' "$WORKSPACE_INTENT_FILE" "workspace charter machine declares workspace-charter layer"
+  require_yq '.constitutional_role == "workspace-charter-machine"' "$WORKSPACE_INTENT_FILE" "workspace charter machine declares machine constitutional role"
+  require_yq '.constitutional_objective_ref == ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"' "$WORKSPACE_INTENT_FILE" "workspace charter machine points to workspace-charter pair contract"
+  require_yq '.change_profile == "atomic"' "$WORKSPACE_INTENT_FILE" "workspace charter machine records atomic change profile"
+  require_yq '.execution_binding.run_contract_control_root == ".octon/state/control/execution/runs"' "$WORKSPACE_INTENT_FILE" "workspace charter machine binds the run control root"
 
   [[ "$(frontmatter_field "$OBJECTIVE_FILE" "objective_layer")" == "workspace-charter-pair" ]] \
     && pass "objective brief declares workspace-charter layer" \
@@ -147,18 +172,15 @@ main() {
   [[ "$(frontmatter_field "$OBJECTIVE_FILE" "release_state")" == "pre-1.0" ]] \
     && pass "objective brief records release_state" \
     || fail "objective brief must record release_state"
-  [[ "$(frontmatter_field "$OBJECTIVE_FILE" "change_profile")" == "transitional" ]] \
-    && pass "objective brief records change_profile" \
-    || fail "objective brief must record change_profile"
+  [[ "$(frontmatter_field "$OBJECTIVE_FILE" "shim_status")" == "compatibility-shim" ]] \
+    && pass "bootstrap objective brief is marked as compatibility shim" \
+    || fail "bootstrap objective brief must be marked as compatibility shim"
+  [[ "$(frontmatter_field "$OBJECTIVE_FILE" "canonical_ref")" == ".octon/instance/charter/workspace.md" ]] \
+    && pass "bootstrap objective brief points to canonical workspace charter" \
+    || fail "bootstrap objective brief must point to canonical workspace charter"
 
-  require_yq '.objective_layer == "workspace-charter-pair"' "$INTENT_FILE" "intent contract declares workspace-charter layer"
-  require_yq '.constitutional_role == "workspace-charter-machine"' "$INTENT_FILE" "intent contract declares machine constitutional role"
-  require_yq '.constitutional_objective_ref == ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"' "$INTENT_FILE" "intent contract points to workspace-charter pair contract"
-  require_yq '.release_state == "pre-1.0"' "$INTENT_FILE" "intent contract records release_state"
-  require_yq '.change_profile == "transitional"' "$INTENT_FILE" "intent contract records change_profile"
-  require_yq '.execution_binding.run_contract_control_root == ".octon/state/control/execution/runs"' "$INTENT_FILE" "intent contract binds the run control root"
-  require_yq '.execution_binding.mission_authority_root == ".octon/instance/orchestration/missions"' "$INTENT_FILE" "intent contract binds mission authority root"
-  require_yq '.execution_binding.silent_missionless_fallback == "deny"' "$INTENT_FILE" "intent contract denies silent mission-less fallback"
+  require_yq '.shim_status == "compatibility-shim"' "$INTENT_FILE" "intent contract is marked as compatibility shim"
+  require_yq '.canonical_ref == ".octon/instance/charter/workspace.yml"' "$INTENT_FILE" "intent contract points to canonical workspace machine charter"
 
   require_yq '.run_control_root == ".octon/state/control/execution/runs"' "$MISSION_REGISTRY" "mission registry records canonical run control root"
   require_yq '.execution_unit == "run-contract"' "$MISSION_REGISTRY" "mission registry records run-contract execution unit"
@@ -175,13 +197,17 @@ main() {
   done
 
   require_yq '.resolution.runtime_inputs.objective_contract_family == ".octon/framework/constitution/contracts/objective"' "$ROOT_MANIFEST" "root manifest exposes objective contract family runtime input"
-  require_yq '.resolution.runtime_inputs.workspace_objective_brief == ".octon/instance/bootstrap/OBJECTIVE.md"' "$ROOT_MANIFEST" "root manifest exposes workspace objective brief runtime input"
-  require_yq '.resolution.runtime_inputs.workspace_intent_contract == ".octon/instance/cognition/context/shared/intent.contract.yml"' "$ROOT_MANIFEST" "root manifest exposes workspace intent contract runtime input"
+  require_yq '.resolution.runtime_inputs.workspace_objective_brief == ".octon/instance/charter/workspace.md"' "$ROOT_MANIFEST" "root manifest exposes canonical workspace charter narrative runtime input"
+  require_yq '.resolution.runtime_inputs.workspace_intent_contract == ".octon/instance/charter/workspace.yml"' "$ROOT_MANIFEST" "root manifest exposes canonical workspace charter machine runtime input"
+  require_yq '.resolution.runtime_inputs.workspace_objective_shim == ".octon/instance/bootstrap/OBJECTIVE.md"' "$ROOT_MANIFEST" "root manifest records bootstrap objective shim"
+  require_yq '.resolution.runtime_inputs.workspace_intent_shim == ".octon/instance/cognition/context/shared/intent.contract.yml"' "$ROOT_MANIFEST" "root manifest records intent shim"
   require_yq '.resolution.runtime_inputs.run_control_root == ".octon/state/control/execution/runs"' "$ROOT_MANIFEST" "root manifest exposes run control root runtime input"
 
   require_yq '.paths.objective_contract_family == ".octon/framework/constitution/contracts/objective"' "$POLICY_CONFIG" "policy interface config exposes objective contract family"
-  require_yq '.paths.workspace_objective_brief == ".octon/instance/bootstrap/OBJECTIVE.md"' "$POLICY_CONFIG" "policy interface config exposes workspace objective brief"
-  require_yq '.paths.workspace_intent_contract == ".octon/instance/cognition/context/shared/intent.contract.yml"' "$POLICY_CONFIG" "policy interface config exposes workspace intent contract"
+  require_yq '.paths.workspace_objective_brief == ".octon/instance/charter/workspace.md"' "$POLICY_CONFIG" "policy interface config exposes canonical workspace charter narrative"
+  require_yq '.paths.workspace_intent_contract == ".octon/instance/charter/workspace.yml"' "$POLICY_CONFIG" "policy interface config exposes canonical workspace charter machine"
+  require_yq '.paths.workspace_objective_shim == ".octon/instance/bootstrap/OBJECTIVE.md"' "$POLICY_CONFIG" "policy interface config records bootstrap objective shim"
+  require_yq '.paths.workspace_intent_shim == ".octon/instance/cognition/context/shared/intent.contract.yml"' "$POLICY_CONFIG" "policy interface config records intent shim"
   require_yq '.paths.run_control_root == ".octon/state/control/execution/runs"' "$POLICY_CONFIG" "policy interface config exposes run control root"
 
   require_text "run-contract.yml" "$RUN_CONTROL_README" "run control README documents run-contract.yml"

@@ -15,7 +15,7 @@ Legacy onboarding variants are hard-deprecated for new runs.
 ## Flow
 
 1. Bootstrap
-   - Read `AGENTS.md`, `/.octon/instance/bootstrap/OBJECTIVE.md`, `.octon/instance/bootstrap/START.md`, `.octon/instance/bootstrap/scope.md`, and `.octon/instance/bootstrap/conventions.md`.
+   - Read `AGENTS.md`, `/.octon/instance/charter/workspace.md`, `.octon/instance/bootstrap/START.md`, `.octon/instance/bootstrap/scope.md`, and `.octon/instance/bootstrap/conventions.md`.
    - Confirm canonical cross-subsystem rules in `.octon/framework/cognition/_meta/architecture/specification.md`.
 2. Execute
    - Read `.octon/state/continuity/repo/log.md` and `.octon/state/continuity/repo/tasks.json`.

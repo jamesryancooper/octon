@@ -1,0 +1,6 @@
+schema_version: "shadow-run-manifest-v1"
+shadow_manifest_id: "runtime-proof-shadow"
+purpose: "Compare a shadow execution trace against the bound run without widening authority."
+expected_outputs:
+  - "shadow-run-report"
+  - "behavioral-proof-report"

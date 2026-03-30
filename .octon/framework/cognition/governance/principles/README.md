@@ -44,10 +44,10 @@ Machine-readable mapping from charter principles (`P1..P10`) to operational guid
 
 - [charter-map.yml](./charter-map.yml)
 
-## Constitutional Charter (Human-Override Controlled)
+## Protected Principles Charter (Human-Override Controlled)
 
 - Canonical charter: [Engineering Principles & Standards (Authoritative)](./principles.md)
-- Classification: constitutional artifact (`mutability: immutable`, `agent_editable: false`, `risk_tier: critical`, `change_policy: human-override-only`)
+- Classification: protected subordinate governance artifact (`mutability: immutable`, `agent_editable: false`, `risk_tier: critical`, `change_policy: human-override-only`)
 - Agent rule: agents MUST NOT modify `principles.md` without explicit human override instructions
 - Evolution model: default to versioned successor (`principles-vYYYY-MM-DD.md`) plus ADR; direct edits to `principles.md` require explicit human override + override evidence
 - Major framing-shift rule: require an explicit human override block in `principles.md` with rationale, responsible owner, review date, override scope, review/agreement evidence, and intentional non-automated exception log linkage.

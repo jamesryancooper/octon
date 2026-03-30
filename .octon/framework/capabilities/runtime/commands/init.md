@@ -52,7 +52,7 @@ Behavior:
 2. Refresh repo-root `AGENTS.md` and `CLAUDE.md` as thin ingress adapters to
    `/.octon/AGENTS.md`, using a symlink when possible and otherwise a
    byte-for-byte parity copy.
-3. Resolve a common objective from `.octon/framework/scaffolding/runtime/bootstrap/objectives/` and generate `/.octon/instance/bootstrap/OBJECTIVE.md` plus `.octon/instance/cognition/context/shared/intent.contract.yml`.
+3. Resolve a common objective from `.octon/framework/scaffolding/runtime/bootstrap/objectives/` and generate the canonical workspace charter pair at `/.octon/instance/charter/workspace.{md,yml}` plus compatibility shims at `/.octon/instance/bootstrap/OBJECTIVE.md` and `/.octon/instance/cognition/context/shared/intent.contract.yml`.
 4. Use `.octon/framework/agency/manifest.yml` `default_agent` for contract paths.
 5. Enforce developer-context policy limits for the generated AGENTS contract content before writing ingress adapters.
 6. Optionally render `BOOT.md` and `BOOTSTRAP.md` for BOOT compatibility.
@@ -64,8 +64,10 @@ Behavior:
 
 - `.octon/AGENTS.md` (generated or skipped)
 - root `AGENTS.md` ingress adapter to `/.octon/AGENTS.md` (created, refreshed, or skipped)
-- `.octon/instance/bootstrap/OBJECTIVE.md` (generated or skipped)
-- `.octon/instance/cognition/context/shared/intent.contract.yml` (generated or skipped)
+- `.octon/instance/charter/workspace.md` (generated or skipped)
+- `.octon/instance/charter/workspace.yml` (generated or skipped)
+- `.octon/instance/bootstrap/OBJECTIVE.md` (compatibility shim, generated or skipped)
+- `.octon/instance/cognition/context/shared/intent.contract.yml` (compatibility shim, generated or skipped)
 - `BOOT.md` and `BOOTSTRAP.md` (optional; generated or skipped)
 - `alignment-check` shim (generated or skipped)
 - `.octon/framework/capabilities/runtime/services/interfaces/agent-platform/adapters/enabled.yml` (optional; generated or skipped)

@@ -13,3 +13,5 @@ Canonical retained outputs live under:
 
 - `/.octon/state/evidence/runs/<run-id>/assurance/maintainability.yml`
 - `/.octon/state/evidence/lab/benchmarks/**`
+
+Authored suites live under `suites/**`.

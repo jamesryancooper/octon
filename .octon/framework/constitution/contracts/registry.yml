@@ -19,6 +19,30 @@ kernel_surfaces:
     schema: ".octon/framework/constitution/support-targets.schema.json"
     authoritative_declaration: ".octon/instance/governance/support-targets.yml"
     status: "active"
+shim_surfaces:
+  ingress_projection_adapters:
+    paths:
+      - ".octon/AGENTS.md"
+      - "AGENTS.md"
+      - "CLAUDE.md"
+    role: "adapter-only projected ingress surfaces"
+    status: "active-shim"
+  agency_constitution_application:
+    path: ".octon/framework/agency/governance/CONSTITUTION.md"
+    role: "historical agency constitutional shim retained outside the required execution path"
+    status: "historical-shim"
+  cognition_governance_charter:
+    path: ".octon/framework/cognition/governance/CHARTER.md"
+    role: "historical cognition-governance charter shim"
+    status: "historical-shim"
+  assurance_governance_charter:
+    path: ".octon/framework/assurance/governance/CHARTER.md"
+    role: "assurance-governance priority shim"
+    status: "historical-shim"
+  protected_principles_charter:
+    path: ".octon/framework/cognition/governance/principles/principles.md"
+    role: "protected subordinate principles charter"
+    status: "subordinate-governance"
 families:
   - family_id: "objective"
     path: ".octon/framework/constitution/contracts/objective/**"
@@ -49,7 +73,7 @@ families:
     path: ".octon/framework/constitution/contracts/adapters/**"
     activation_wave: 5
     status: "active"
-    description: "Host and model adapter contracts plus conformance criteria."
+    description: "Host, model, and capability-pack contracts plus conformance criteria."
   - family_id: "retention"
     path: ".octon/framework/constitution/contracts/retention/**"
     activation_wave: 6
@@ -65,21 +89,30 @@ integration_surfaces:
   runtime_contract_family:
     root: ".octon/framework/constitution/contracts/runtime/**"
     status: "active"
+  retention_contract_family:
+    root: ".octon/framework/constitution/contracts/retention/**"
+    status: "active"
+  run_manifest_file:
+    path: ".octon/state/control/execution/runs/<run-id>/run-manifest.yml"
+    status: "active"
+  run_evidence_classification_file:
+    path: ".octon/state/evidence/runs/<run-id>/evidence-classification.yml"
+    status: "active"
   assurance_contract_family:
     root: ".octon/framework/constitution/contracts/assurance/**"
     status: "active"
   disclosure_contract_family:
     root: ".octon/framework/constitution/contracts/disclosure/**"
     status: "active"
-  retention_contract_family:
-    root: ".octon/framework/constitution/contracts/retention/**"
-    status: "active"
   adapter_contract_family:
     root: ".octon/framework/constitution/contracts/adapters/**"
     status: "active"
   workspace_charter_pair:
-    narrative: ".octon/instance/bootstrap/OBJECTIVE.md"
-    machine: ".octon/instance/cognition/context/shared/intent.contract.yml"
+    narrative: ".octon/instance/charter/workspace.md"
+    machine: ".octon/instance/charter/workspace.yml"
+    compatibility_shims:
+      - ".octon/instance/bootstrap/OBJECTIVE.md"
+      - ".octon/instance/cognition/context/shared/intent.contract.yml"
     contract_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
     status: "active"
   mission_authority:
@@ -108,22 +141,34 @@ integration_surfaces:
     status: "active"
   repo_policy_inputs:
     - ".octon/instance/governance/policies/**"
+    - ".octon/instance/governance/contracts/**"
     - ".octon/instance/governance/ownership/registry.yml"
     - ".octon/instance/governance/support-targets.yml"
   runtime_adapter_roots:
     host: ".octon/framework/engine/runtime/adapters/host/**"
     model: ".octon/framework/engine/runtime/adapters/model/**"
+  runtime_capability_pack_roots:
+    framework: ".octon/framework/capabilities/packs/**"
+    instance: ".octon/instance/capabilities/runtime/packs/**"
   retained_evidence_roots:
     - ".octon/state/evidence/runs/**"
     - ".octon/state/evidence/lab/**"
     - ".octon/state/evidence/control/execution/**"
     - ".octon/state/evidence/validation/publication/**"
+  build_to_delete_review_evidence_root:
+    path: ".octon/state/evidence/validation/publication/build-to-delete/**"
+    status: "active"
 notes:
   - "Wave 0 established the constitutional kernel and reserved the objective contract family."
-  - "Wave 1 promotes the workspace objective pair, defines run-contract and stage-attempt schemas, and publishes the canonical run-control root."
+  - "Phase 1 keeps framework/constitution/** singular and de-authorizes legacy charter- or constitution-shaped surfaces into explicit shims."
+  - "Phase 2 re-homes the canonical workspace charter pair into instance/charter/** while preserving bootstrap and cognition objective files as explicit shims."
+  - "Wave 1 defines run-contract and stage-attempt schemas and publishes the canonical run-control root."
   - "Wave 2 activates the authority contract family, publishes support-target declarations for routing, and normalizes approval, exception, revocation, and decision evidence roots."
   - "Wave 3 activates the runtime contract family, makes run roots the primary execution-time unit of truth, and bridges mission continuity plus generated read models onto per-run evidence."
   - "Wave 4 activates the assurance and disclosure contract families, promotes lab and observability surfaces, and extends retained run evidence with proof-plane, measurement, intervention, and disclosure families."
+  - "Phase 4 adds authored functional, behavioral, maintainability, and recovery suites; substantive lab scenario/replay/shadow/fault domains; and evaluator adapters with CI enforcement."
   - "Wave 4 remediation adds the maintainability proof plane, reusable evaluator and HarnessCard writers, benchmark-backed lab catalogs, and a generic run evidence backfill path."
-  - "Wave 5 activates the adapter contract family, publishes runtime host/model adapter manifests, and bounds adapter support claims through support-target declarations and conformance criteria."
+  - "Wave 5 activates the adapter contract family, publishes runtime host/model adapter manifests, governs capability packs, and bounds adapter support claims through support-target declarations and conformance criteria."
   - "Wave 6 activates retention governance, separates run continuity from retained run evidence, and retires staged coexistence markers so the final constitutional model remains the only live target."
+  - "Phase 3 codifies `run-manifest.yml` as the canonical run-manifest model, adds per-run evidence classification, and requires external immutable replay indexing for supported boundary-sensitive run classes."
+  - "Phase 7 institutionalizes build-to-delete governance with a retirement registry, recurring drift/support-target/adapter/retirement reviews, and ablation-backed deletion receipts."

@@ -1,0 +1,5 @@
+schema_version: "lab-domain-registry-v1"
+domain: "scenarios"
+entries:
+  - scenario_id: "runtime-proof-pack"
+    path: ".octon/framework/lab/scenarios/packs/runtime-proof-pack.yml"

@@ -1,0 +1,13 @@
+schema_version: "octon-capability-pack-v1"
+pack_id: "api"
+surface: "api"
+display_name: "Outbound API Pack"
+description: "Outbound API and connector surfaces that require governed admission and egress evidence."
+runtime_surface_refs:
+  - ".octon/instance/governance/policies/network-egress.yml"
+required_evidence:
+  - "authority-decision-artifact"
+  - "run-evidence-root"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+known_limitations:
+  - "Outbound API execution is unadmitted in the current repo-local support envelope."

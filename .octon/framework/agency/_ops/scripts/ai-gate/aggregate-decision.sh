@@ -4,7 +4,6 @@ set -euo pipefail
 POLICY_PATH=""
 SCHEMA_PATH=""
 FINDINGS_DIR=""
-LABELS_JSON='[]'
 ENFORCE_VALUE=""
 OUTPUT_PATH=""
 WAIVED_BY_AUTHORITY=""
@@ -16,7 +15,6 @@ Usage:
     --policy <path> \
     --schema <path> \
     --findings-dir <dir> \
-    --labels-json '<json-array>' \
     --enforce <true|false> \
     --output <path>
     [--waived-by-authority <true|false>]
@@ -61,11 +59,6 @@ while [[ $# -gt 0 ]]; do
       [[ $# -gt 0 ]] || error "--findings-dir requires a value"
       FINDINGS_DIR="$1"
       ;;
-    --labels-json)
-      shift
-      [[ $# -gt 0 ]] || error "--labels-json requires a value"
-      LABELS_JSON="$1"
-      ;;
     --enforce)
       shift
       [[ $# -gt 0 ]] || error "--enforce requires a value"
@@ -100,18 +93,13 @@ require_cmd find
 [[ -d "${FINDINGS_DIR}" ]] || error "Findings directory not found: ${FINDINGS_DIR}"
 [[ -n "${OUTPUT_PATH}" ]] || error "--output is required"
 
-if ! jq -e 'type == "array"' <<<"${LABELS_JSON}" >/dev/null 2>&1; then
-  error "--labels-json must be a JSON array"
-fi
-
 policy_json="$(jq -c . "${POLICY_PATH}")"
 policy_version="$(jq -r '.version // "unknown"' <<<"${policy_json}")"
 policy_default_enforce="$(jq -r '.enforcement.default // false' <<<"${policy_json}")"
 policy_require_provider_ok="$(jq -r '.enforcement.require_all_providers_available_when_enforced // true' <<<"${policy_json}")"
 policy_blocking_decisions="$(jq -c '.blocking.decisions // ["block"]' <<<"${policy_json}")"
 policy_blocking_severities="$(jq -c '.blocking.severities // ["high", "critical"]' <<<"${policy_json}")"
-waiver_mode="$(jq -r '.waiver.mode // "label-gated"' <<<"${policy_json}")"
-required_waiver_labels="$(jq -c '.waiver.required_labels // []' <<<"${policy_json}")"
+waiver_mode="$(jq -r '.waiver.mode // "disabled"' <<<"${policy_json}")"
 
 if [[ -n "${ENFORCE_VALUE}" ]]; then
   enforce="$(normalize_bool "${ENFORCE_VALUE}")"
@@ -124,14 +112,7 @@ if [[ "${waiver_mode}" == "disabled" ]]; then
 elif [[ -n "${WAIVED_BY_AUTHORITY}" ]]; then
   waived="$(normalize_bool "${WAIVED_BY_AUTHORITY}")"
 else
-  waived=true
-  while IFS= read -r label; do
-    [[ -n "${label}" ]] || continue
-    if ! jq -e --arg label "${label}" 'index($label) != null' <<<"${LABELS_JSON}" >/dev/null; then
-      waived=false
-      break
-    fi
-  done < <(jq -r '.[]' <<<"${required_waiver_labels}")
+  waived=false
 fi
 
 provider_results='[]'
@@ -214,8 +195,6 @@ jq -n \
   --argjson enforce "${enforce}" \
   --argjson waived "${waived}" \
   --argjson gate_pass "${gate_pass}" \
-  --argjson labels "${LABELS_JSON}" \
-  --argjson required_waiver_labels "${required_waiver_labels}" \
   --argjson providers_total "${providers_total}" \
   --argjson providers_unavailable "${providers_unavailable}" \
   --argjson total_findings "${total_findings}" \
@@ -229,8 +208,6 @@ jq -n \
     enforce: $enforce,
     waived: $waived,
     gate_pass: $gate_pass,
-    labels: $labels,
-    required_waiver_labels: $required_waiver_labels,
     providers_total: $providers_total,
     providers_unavailable: $providers_unavailable,
     findings_total: $total_findings,

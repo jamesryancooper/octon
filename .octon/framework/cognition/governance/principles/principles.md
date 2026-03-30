@@ -18,6 +18,11 @@ applies_to:
 
 # Engineering Principles & Standards (Authoritative)
 
+> This protected principles charter is authoritative only within the
+> subordinate principles surface. It is not the repo-local constitutional
+> kernel; supreme repo-local constitutional authority lives under
+> `/.octon/framework/constitution/**`.
+
 **Status:** Binding
 **Applies to:** Architecture, code, documentation, configuration, delivery practices
 **Canonical goal:** Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.

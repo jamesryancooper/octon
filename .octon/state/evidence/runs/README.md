@@ -4,8 +4,8 @@
 replay pointers.
 
 Its mutable control-plane counterpart is `state/control/execution/runs/`,
-which holds bound run contracts, runtime-state, rollback-posture, stage
-attempts, and control checkpoints.
+which holds bound run contracts, run manifests, runtime-state,
+rollback-posture, stage attempts, and control checkpoints.
 
 Wave 4 canonicalizes the following evidence families beneath each run root:
 
@@ -20,6 +20,7 @@ state/evidence/runs/<run-id>/
   disclosure/
   replay-pointers.yml
   trace-pointers.yml
+  evidence-classification.yml
   retained-run-evidence.yml
 ```
 

@@ -15,3 +15,7 @@ Active authored runtime contracts cover:
 - shadow-run reports
 - fault-rehearsal reports
 - adversarial experiment reports
+
+Replay manifests remain Class B Git-pointer artifacts. When a supported run
+class requires external immutable replay payloads, the manifest must cite the
+content-addressed index entry retained under `state/evidence/external-index/**`.

@@ -1,0 +1,43 @@
+schema_version: "octon-runtime-capability-pack-registry-v1"
+owner: "Octon governance"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+packs:
+  - pack_id: "repo"
+    contract_ref: ".octon/framework/capabilities/packs/repo/manifest.yml"
+    admission_status: "admitted"
+    default_route: "allow"
+    required_evidence:
+      - "authority-decision-artifact"
+  - pack_id: "git"
+    contract_ref: ".octon/framework/capabilities/packs/git/manifest.yml"
+    admission_status: "admitted"
+    default_route: "allow"
+    required_evidence:
+      - "authority-grant-bundle"
+      - "rollback-proof"
+  - pack_id: "shell"
+    contract_ref: ".octon/framework/capabilities/packs/shell/manifest.yml"
+    admission_status: "admitted"
+    default_route: "allow"
+    required_evidence:
+      - "instruction-layer-manifest"
+  - pack_id: "telemetry"
+    contract_ref: ".octon/framework/capabilities/packs/telemetry/manifest.yml"
+    admission_status: "admitted"
+    default_route: "allow"
+    required_evidence:
+      - "run-evidence-root"
+  - pack_id: "browser"
+    contract_ref: ".octon/framework/capabilities/packs/browser/manifest.yml"
+    admission_status: "unadmitted"
+    default_route: "deny"
+    required_evidence:
+      - "lab-followup"
+      - "external-replay-index"
+  - pack_id: "api"
+    contract_ref: ".octon/framework/capabilities/packs/api/manifest.yml"
+    admission_status: "unadmitted"
+    default_route: "deny"
+    required_evidence:
+      - "run-evidence-root"
+      - "authority-decision-artifact"

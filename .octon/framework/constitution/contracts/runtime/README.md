@@ -7,6 +7,8 @@ constitutional run-lifecycle model for governed execution.
 
 Run roots are the primary execution-time unit of truth.
 
+- canonical run-topology manifests live under:
+  `/.octon/state/control/execution/runs/<run-id>/run-manifest.yml`
 - canonical runtime state lives under:
   `/.octon/state/control/execution/runs/<run-id>/runtime-state.yml`
 - canonical resumability and handoff continuity live under:
@@ -25,6 +27,9 @@ Run roots are the primary execution-time unit of truth.
 
 ## Final Rules
 
+- `run-manifest.yml` is the canonical bound run-manifest model.
+- `runtime-state.yml` carries mutable execution status only; it must not serve
+  as the only run-topology manifest.
 - Mission remains the continuity and long-horizon autonomy container.
 - Run continuity is first-class operational state and remains distinct from
   retained run evidence.
@@ -36,6 +41,7 @@ Run roots are the primary execution-time unit of truth.
 ## Canonical Files
 
 - `family.yml`
+- `run-manifest-v1.schema.json`
 - `runtime-state-v1.schema.json`
 - `run-continuity-v1.schema.json`
 - `rollback-posture-v1.schema.json`

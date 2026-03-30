@@ -17,7 +17,7 @@
       "type": "string",
       "enum": [
         "git-inline",
-        "pointered",
+        "git-pointer",
         "external-immutable"
       ]
     },

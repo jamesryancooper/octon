@@ -1,0 +1,45 @@
+schema_version: "intent-contract-v1"
+intent_id: "intent://octon/octon-governed-harness"
+version: "1.1.0"
+objective_layer: "workspace-charter-pair"
+constitutional_role: "workspace-charter-machine"
+constitutional_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
+release_state: "pre-1.0"
+change_profile: "atomic"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md"
+objective_signals:
+  - id: harness-coherence
+    description: "Keep bootstrap, runtime, validators, and docs aligned to the same governing model."
+  - id: portable-bootstrap
+    description: "Preserve a self-contained, reproducible bootstrap path for adopted repositories."
+authorized_actions:
+  - "Create and update Octon runtime, governance, assurance, scaffolding, workflow, and documentation artifacts inside this repository."
+  - "Refactor bootstrap, validation, portability, and authority-routing surfaces when the change remains reviewable and verifiable."
+  - "Run repo-local verification and continuity updates required to ship Octon changes safely."
+hard_boundaries:
+  - boundary_id: repo-local-only
+    rule: "Stay within this managed repository unless an explicit authority surface authorizes external effects."
+    on_violation: deny
+  - boundary_id: governance-and-release-guard
+    rule: "Do not weaken governance, bypass required validation, or perform destructive release-affecting actions without the required approvals and evidence."
+    on_violation: escalate
+tradeoff_hierarchy:
+  - "Assurance"
+  - "Correctness"
+  - "Portability"
+  - "Productivity"
+execution_binding:
+  workspace_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
+  run_contract_control_root: ".octon/state/control/execution/runs"
+  run_contract_schema_ref: ".octon/framework/constitution/contracts/objective/run-contract-v1.schema.json"
+  stage_attempt_schema_ref: ".octon/framework/constitution/contracts/objective/stage-attempt-v1.schema.json"
+  mission_authority_root: ".octon/instance/orchestration/missions"
+  mission_required_for:
+    - "recurring-autonomy"
+    - "overlapping-work"
+    - "long-horizon-continuity"
+  run_only_autonomy_requires_declared_support_tier: true
+  silent_missionless_fallback: "deny"
+owner: "Octon governance"
+approved_by: "Octon governance"
+created_at: "2026-03-28T00:00:00Z"

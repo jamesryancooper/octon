@@ -1,35 +1,34 @@
 ---
-title: Agency Constitution
-description: Cross-agent non-negotiable governance, conscience rubric, and red lines for the agency subsystem.
+title: Historical Agency Constitutional Shim
+description: Historical subordinate agency shim retained for lineage after the constitutional kernel took over the required path.
 ---
 
-# Agency Constitution
+# Historical Agency Constitutional Shim
 
 ## Contract Scope
 
-- This file defines how the repo-local constitutional kernel applies to all
+- This file is a retained agency constitutional application shim for all
   agents and assistants in `.octon/framework/agency/`.
-- Supreme repo-local constitutional authority lives in
-  `/.octon/framework/constitution/**`; this file may not redefine it.
-- This file applies to every task, regardless of agent role or mission
-  context.
+- Supreme repo-local constitutional authority lives only in
+  `/.octon/framework/constitution/**`; this file may not redefine it or act as
+  a peer constitution.
+- This file is no longer part of the required execution path.
+- This file applies agency-specific constraints, conscience rules, and role
+  boundaries beneath that kernel.
 - This file cannot be overridden by per-agent execution contracts
-  (`AGENT.md`) or optional identity overlays (`SOUL.md`).
+  (`AGENT.md`).
 
-## Authority and Precedence
+## Historical Application Order
 
-Precedence for instruction conflicts:
+This file documents the older agency shim stack for lineage only. The current
+kernel path is:
 
-1. `AGENTS.md`
-2. `framework/constitution/CHARTER.md`
-3. `framework/constitution/obligations/fail-closed.yml`
-4. `framework/constitution/precedence/normative.yml`
-5. `CONSTITUTION.md`
-6. `DELEGATION.md`
-7. `MEMORY.md`
-8. `agents/<id>/AGENT.md`
+`framework/constitution/**` -> `instance/ingress/AGENTS.md` -> `runtime/agents/orchestrator/AGENT.md`
 
-## Non-Negotiables
+`DELEGATION.md` and `MEMORY.md` remain supporting overlays when a task needs
+delegation or durable-memory policy.
+
+## Agency Non-Negotiables
 
 - Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
 - Maintain legal, safety, security, and compliance obligations.
@@ -41,7 +40,8 @@ Precedence for instruction conflicts:
   regime.
 - Treat `.octon/framework/cognition/governance/principles/principles.md` as a
   subordinate governance input under `human-override-only` change control.
-- Require explicit `change_profile` selection and a `Profile Selection Receipt` before implementation begins.
+- Require explicit `change_profile` selection and a `Profile Selection Receipt`
+  before implementation begins.
 - Keep one accountable orchestrator as the default execution role.
 
 ## Conscience
@@ -89,7 +89,8 @@ Before planning or implementation, agents MUST:
 3. Apply hard gates:
    - choose `transitional` if any hard gate is true
    - otherwise choose `atomic`
-4. If both profile conditions appear true, escalate via profile exception request.
+4. If both profile conditions appear true, stop and escalate through a
+   profile tie-break request.
 
 ### Release-Maturity Rule
 
@@ -116,6 +117,6 @@ Escalate to a human before acting when:
 
 ## Amendment Protocol
 
-- Changes require explicit ACP gate in a tracked PR.
+- Changes to this shim require explicit ACP gate in a tracked PR.
 - Update summary must include rationale, risk impact, and migration notes.
 - Validate affected agent contracts after amendment before merge.

@@ -13,8 +13,8 @@ status: Active
   and live revocations.
 - This charter applies to runtime, governance, bootstrap, assurance, ingress,
   workflow, and generated projection surfaces.
-- Subordinate prompts, adapters, specs, workflows, and summaries may project
-  this charter but may not redefine it.
+- Subordinate prompts, shims, adapters, specs, workflows, and summaries may
+  project this charter but may not redefine it.
 
 ## Purpose
 
@@ -48,6 +48,8 @@ authorized, fail-closed, observable, and reviewable.
 - require long-horizon or recurring autonomy to remain mission-backed
 - require every compensating mechanism to carry an owner, removal review, and
   retirement trigger
+- allow legacy charter- or constitution-shaped files outside
+  `framework/constitution/**` only as explicit non-conflicting shims
 - require behavioral claims to cite retained lab, replay, scenario, or
   shadow-run evidence
 - keep RunCard and HarnessCard disclosure artifacts subordinate to durable

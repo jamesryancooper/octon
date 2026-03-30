@@ -3,8 +3,8 @@ family_id: "authority"
 status: "active"
 activation_wave: 2
 release_state: "pre-1.0"
-change_profile: "transitional"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"
+change_profile: "atomic"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md"
 authority_routing:
   request:
     schema_ref: ".octon/framework/constitution/contracts/authority/approval-request-v1.schema.json"

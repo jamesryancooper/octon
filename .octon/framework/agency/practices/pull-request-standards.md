@@ -41,10 +41,11 @@ Human check-ins are exception-based and intentionally narrow:
   require ordinary human review and merge.
 - Dependabot major/unknown version jumps are triaged out of the autonomous
   merge lane and require ordinary human review and merge.
-- `autonomy:no-automerge` is a manual opt-out from autonomous merging.
 - No label, comment, or check may act as repo-local approval authority.
 - AI-gate waivers are not supported in the autonomy lane; blocking findings
   must be fixed or handled outside the lane.
+- Merge eligibility is determined from canonical authority artifacts and
+  required checks, not autonomy lane labels.
 
 ---
 

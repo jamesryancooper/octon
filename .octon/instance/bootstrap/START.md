@@ -113,6 +113,7 @@ Subsystem expansion specs:
 │   ├── manifest.yml
 │   ├── extensions.yml
 │   ├── ingress/
+│   ├── charter/
 │   ├── bootstrap/
 │   ├── governance/
 │   ├── agency/
@@ -173,6 +174,7 @@ Instance-native repo authority lives at:
 
 - `instance/manifest.yml`
 - `instance/ingress/**`
+- `instance/charter/**`
 - `instance/bootstrap/**`
 - `instance/locality/**`
 - `instance/cognition/context/**`
@@ -223,7 +225,7 @@ split:
 - stage-attempt roots:
   `/.octon/state/control/execution/runs/<run-id>/stage-attempts/**`
 - runtime lifecycle control roots:
-  `/.octon/state/control/execution/runs/<run-id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
+  `/.octon/state/control/execution/runs/<run-id>/{run-manifest.yml,runtime-state.yml,rollback-posture.yml,checkpoints/**}`
 - repo-owned mission autonomy defaults:
   `instance/governance/policies/mission-autonomy.yml`
 - repo-owned non-path ownership authority:
@@ -239,7 +241,7 @@ split:
 - retained control-plane evidence:
   `state/evidence/control/execution/**`
 - retained run receipts and replay pointers:
-  `state/evidence/runs/<run-id>/{receipts/**,checkpoints/**,replay-pointers.yml,trace-pointers.yml}`
+  `state/evidence/runs/<run-id>/{receipts/**,checkpoints/**,replay-pointers.yml,trace-pointers.yml,evidence-classification.yml}`
 - retained proof-plane, measurement, intervention, and disclosure evidence:
   `state/evidence/runs/<run-id>/{assurance/**,measurements/**,interventions/**,disclosure/**}`
 - retained lab evidence:
@@ -356,11 +358,11 @@ Human-readable guide:
 Flow:
 
 1. Bootstrap
-   - If root `AGENTS.md`, `/.octon/AGENTS.md`, or `/.octon/instance/bootstrap/OBJECTIVE.md` is missing, run `/init` (or
+   - If root `AGENTS.md`, `/.octon/AGENTS.md`, or `/.octon/instance/charter/workspace.md` is missing, run `/init` (or
      `.octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh`) first.
    - Read `/AGENTS.md` as the repo-root adapter to `/.octon/AGENTS.md`, then
      continue into `/.octon/instance/ingress/AGENTS.md`.
-   - Read `/.octon/instance/bootstrap/OBJECTIVE.md`, `scope.md`,
+   - Read `/.octon/instance/charter/workspace.md`, `scope.md`,
      `conventions.md`, `cognition/_meta/architecture/specification.md`, and
      `cognition/governance/principles/README.md`.
 2. Execute

@@ -1,5 +1,5 @@
 meta:
-  version: "2.2.1"
+  version: "2.2.2"
   updated_at: "2026-03-19"
   owner: "octon-platform"
   status: "active"
@@ -8,7 +8,7 @@ meta:
 
 charter:
   ref: ".octon/framework/assurance/governance/CHARTER.md"
-  version: "2.2.1"
+  version: "2.2.2"
   priority_chain:
     - id: assurance
       name: Assurance
@@ -302,6 +302,12 @@ guardrails:
     min_release_cycles_before_removal: 2
 
 changelog:
+  - date: "2026-03-29"
+    version: "2.2.2"
+    change: "Reframed the assurance charter as a subordinate governance shim beneath the constitutional kernel."
+    rationale: "Phase 6 retired duplicate constitutional authority, so assurance weighting metadata must version the charter shim demotion together with the retained assurance-local priority framing."
+    adr: ".octon/instance/cognition/decisions/082-unified-execution-constitution-phase6-simplification-deletion.md"
+    charter_ref: ".octon/framework/assurance/governance/CHARTER.md"
   - date: "2026-03-19"
     version: "2.2.1"
     change: "Aligned assurance charter scope wording to the Packet 3 framework/core class-root architecture."

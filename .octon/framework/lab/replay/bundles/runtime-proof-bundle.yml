@@ -1,0 +1,8 @@
+schema_version: "replay-bundle-v1"
+replay_bundle_id: "runtime-proof-bundle"
+purpose: "Define the replay bundle requirements for supported consequential runtime claims."
+required_inputs:
+  - "run-manifest"
+  - "replay-manifest"
+  - "replay-pointers"
+  - "measurement-summary"

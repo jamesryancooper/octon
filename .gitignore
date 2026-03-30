@@ -53,6 +53,8 @@ runs/
 !.octon/state/evidence/runs/services/**
 !.octon/state/evidence/runs/engine/
 !.octon/state/evidence/runs/engine/**
+!.octon/state/evidence/external-index/
+!.octon/state/evidence/external-index/**
 
 
 # Additional local outputs and proposal workspaces

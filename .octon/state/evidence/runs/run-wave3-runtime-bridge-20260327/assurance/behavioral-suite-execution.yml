@@ -1,0 +1,12 @@
+schema_version: proof-suite-execution-v1
+suite_id: replay-shadow-substance
+plane: behavioral
+subject_ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+outcome: pass
+checked_artifacts:
+  - .octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml
+  - .octon/state/evidence/lab/scenarios/scn-runtime-proof-supported-20260329/scenario-proof.yml
+  - .octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml
+  - .octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml
+  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
+recorded_at: "2026-03-29T21:26:52Z"

@@ -2,8 +2,10 @@
 
 Objective packs used by `/init` to generate Octon's repo-level objective contract:
 
-- `.octon/instance/bootstrap/OBJECTIVE.md`
-- `.octon/instance/cognition/context/shared/intent.contract.yml`
+- `.octon/instance/charter/workspace.md`
+- `.octon/instance/charter/workspace.yml`
+- `.octon/instance/bootstrap/OBJECTIVE.md` (compatibility shim)
+- `.octon/instance/cognition/context/shared/intent.contract.yml` (compatibility shim)
 
 Use `--list-objectives` to inspect the catalog, or run `/init` in an interactive terminal to choose one during initialization.
 

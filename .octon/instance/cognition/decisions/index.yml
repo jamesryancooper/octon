@@ -153,3 +153,21 @@ records:
     path: 074-wave6-retirement-cutover.md
   - id: 075-execution-constitution-completion-closeout
     path: 075-execution-constitution-completion-closeout.md
+  - id: 076-unified-execution-constitution-phase0-baseline-freeze
+    path: 076-unified-execution-constitution-phase0-baseline-freeze.md
+  - id: 077-unified-execution-constitution-phase1-constitutional-extraction
+    path: 077-unified-execution-constitution-phase1-constitutional-extraction.md
+  - id: 078-unified-execution-constitution-phase2-objective-authority-cutover
+    path: 078-unified-execution-constitution-phase2-objective-authority-cutover.md
+  - id: 079-unified-execution-constitution-phase3-runtime-evidence-normalization
+    path: 079-unified-execution-constitution-phase3-runtime-evidence-normalization.md
+  - id: 080-unified-execution-constitution-phase4-proof-evaluation-lab-expansion
+    path: 080-unified-execution-constitution-phase4-proof-evaluation-lab-expansion.md
+  - id: 081-unified-execution-constitution-phase5-adapter-support-target-hardening
+    path: 081-unified-execution-constitution-phase5-adapter-support-target-hardening.md
+  - id: 082-unified-execution-constitution-phase6-simplification-deletion
+    path: 082-unified-execution-constitution-phase6-simplification-deletion.md
+  - id: 083-unified-execution-constitution-phase7-build-to-delete-institutionalization
+    path: 083-unified-execution-constitution-phase7-build-to-delete-institutionalization.md
+  - id: 084-unified-execution-constitution-final-cutover-closeout
+    path: 084-unified-execution-constitution-final-cutover-closeout.md

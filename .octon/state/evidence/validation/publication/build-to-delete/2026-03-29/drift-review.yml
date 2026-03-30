@@ -1,0 +1,15 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "drift-review"
+contract_ref: ".octon/instance/governance/contracts/drift-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-03-29T00:00:00Z"
+triggered_by:
+  - "Unified execution constitution Phase 7 completion"
+  - "Final target-state claim readiness"
+summary: "Kernel, registry, review, and disclosure surfaces align, and all surviving historical or compatibility-only surfaces are explicitly registered and non-authoritative."
+findings: []
+evidence_refs:
+  - ".octon/instance/ingress/AGENTS.md"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"

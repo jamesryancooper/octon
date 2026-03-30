@@ -1,0 +1,35 @@
+# Phase 2 Command Log
+
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/{README.md,architecture/implementation-plan.md,architecture/acceptance-criteria.md,resources/unified-execution-constitution-audit.md,architecture/control-authority-model.md,navigation/change-map.md}`
+- `rg -n "instance/bootstrap/OBJECTIVE\\.md|intent\\.contract\\.yml|workspace-charter-pair|approval|grant|lease|revocation|authority-decision|grant-bundle|github-control-plane|accept:human|ai-gate:|ApprovalRequest|ApprovalGrant|exception-lease|revocations" .octon .github`
+- `sed -n '1,260p' .octon/framework/constitution/contracts/objective/{workspace-charter-pair.yml,README.md,family.yml}`
+- `sed -n '1,260p' .octon/framework/constitution/contracts/authority/{README.md,family.yml,approval-request-v1.schema.json,approval-grant-v1.schema.json,grant-bundle-v1.schema.json,decision-artifact-v1.schema.json,revocation-v1.schema.json}`
+- `sed -n '1,260p' .octon/framework/orchestration/runtime/_ops/scripts/write-run.sh`
+- `sed -n '1,260p' .octon/framework/orchestration/runtime/runs/_ops/scripts/validate-runs.sh`
+- `sed -n '1,260p' .octon/framework/engine/_ops/scripts/{materialize-authority-approval.sh,write-authority-control-receipt.sh,record-authority-exception-lease.sh,record-authority-revocation.sh}`
+- `sed -n '1,260p' .octon/framework/engine/runtime/{config/policy-interface.yml,spec/execution-authorization-v1.md,spec/policy-interface-v1.md}`
+- `sed -n '1,220p' .octon/framework/engine/runtime/adapters/host/{github-control-plane.yml,repo-shell.yml}`
+- `sed -n '3400,3975p' .octon/framework/engine/runtime/crates/kernel/src/authorization.rs`
+- `sed -n '1,260p' .github/workflows/{ai-review-gate.yml,pr-autonomy-policy.yml,pr-auto-merge.yml,pr-triage.yml}`
+- `bash .octon/framework/engine/_ops/scripts/materialize-authority-approval.sh --request-id run-wave4-benchmark-evaluator-20260327 --run-id run-wave4-benchmark-evaluator-20260327 --target-id workflow:evaluate-harness --action-type execute_stage --issued-by operator://octon-governance --support-tier release-and-boundary-sensitive --request-state granted --grant-state active --ownership-ref operator://octon-maintainers --required-evidence authority-grant-bundle --required-evidence mission-authority --required-evidence rollback-proof --reason-code PHASE2_CANONICAL_APPROVAL_BACKFILL --projection-kind historical-backfill --projection-ref operator://phase2/authority-backfill/run-wave4`
+- `bash .octon/framework/engine/_ops/scripts/record-authority-exception-lease.sh --lease-id phase2-lease-sample --lease-kind network-egress --state expired --issued-by operator://octon-governance --request-id run-wave4-benchmark-evaluator-20260327 --run-id run-wave4-benchmark-evaluator-20260327 --service execution/flow --adapter langgraph-http --method POST --scheme https --host example.com --path-prefix /v1 --ttl-seconds 1 --reason 'Phase 2 canonical lease sample for authority-root population'`
+- `bash .octon/framework/engine/_ops/scripts/record-authority-revocation.sh --revocation-id phase2-revocation-sample --grant-id grant-run-wave4-benchmark-evaluator-20260327 --request-id run-wave4-benchmark-evaluator-20260327 --run-id run-wave4-benchmark-evaluator-20260327 --state cleared --revoked-by operator://octon-governance --reason-code PHASE2_CANONICAL_REVOCATION_SAMPLE --notes 'Phase 2 canonical revocation sample kept cleared to avoid blocking the seeded grant.'`
+- `chmod +x .octon/framework/engine/_ops/scripts/project-github-control-approval.sh`
+- `bash -n .octon/framework/engine/_ops/scripts/project-github-control-approval.sh`
+- `bash -n .octon/framework/engine/_ops/scripts/record-authority-revocation.sh`
+- `bash -n .octon/framework/scaffolding/runtime/bootstrap/init-project.sh`
+- `yq -e '.' .octon/instance/charter/workspace.yml`
+- `yq -e '.' .octon/framework/constitution/contracts/objective/workspace-charter-pair.yml`
+- `yq -e '.' .github/workflows/ai-review-gate.yml`
+- `yq -e '.' .github/workflows/pr-auto-merge.yml`
+- `yq -e '.' .octon/state/control/execution/approvals/requests/run-wave4-benchmark-evaluator-20260327.yml`
+- `yq -e '.' .octon/state/control/execution/approvals/grants/grant-run-wave4-benchmark-evaluator-20260327.yml`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh`
+- `bash .octon/framework/agency/_ops/scripts/validate/validate-agency.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-framing-alignment.sh`
+- `git diff --check`

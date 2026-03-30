@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/lab/runtime/contracts/shadow-run-manifest-v1.schema.json",
+  "title": "Octon Shadow Run Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "shadow_manifest_id", "purpose", "expected_outputs"],
+  "properties": {
+    "schema_version": { "const": "shadow-run-manifest-v1" },
+    "shadow_manifest_id": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "expected_outputs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  }
+}

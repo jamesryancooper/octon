@@ -36,6 +36,8 @@ artifacts, and grant bundles under `state/control/execution/**` and
 - Ownership resolution, support-tier routing, reversibility posture, budget
   posture, and egress posture must participate in authority routing before a
   grant is emitted.
+- Governed capability-pack admission must agree with the published support
+  matrix before a grant is emitted.
 - Labels, comments, checks, and similar host affordances are projections only;
   policy evaluation ignores them whenever they disagree with canonical
   approval artifacts.

@@ -1,0 +1,6 @@
+schema_version: "evaluator-adapter-registry-v1"
+adapters:
+  - adapter_id: "openai-review"
+    path: ".octon/framework/assurance/evaluators/adapters/openai-review.yml"
+  - adapter_id: "anthropic-review"
+    path: ".octon/framework/assurance/evaluators/adapters/anthropic-review.yml"

@@ -9,9 +9,8 @@ role: "[orchestrator|verifier|coordinator|custom]"
 ## Contract Scope
 
 - This file defines execution policy only.
-- Optional identity overlay belongs in [SOUL.md](./SOUL.md) when present.
-- Cross-agent governance overlays: [CONSTITUTION.md](../../../../governance/CONSTITUTION.md), [DELEGATION.md](../../../../governance/DELEGATION.md), [MEMORY.md](../../../../governance/MEMORY.md).
-- Contract precedence: root `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> local `AGENT.md`.
+- Supporting overlays: [DELEGATION.md](../../../../governance/DELEGATION.md), [MEMORY.md](../../../../governance/MEMORY.md).
+- Contract precedence: `framework/constitution/**` -> `instance/ingress/AGENTS.md` -> local `AGENT.md`.
 
 ## Role
 

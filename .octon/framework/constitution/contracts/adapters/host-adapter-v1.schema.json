@@ -8,11 +8,14 @@
     "schema_version",
     "adapter_id",
     "display_name",
+    "host_family",
     "replaceable",
     "authority_mode",
     "runtime_surface",
     "support_target_ref",
+    "support_tier_declarations",
     "conformance_criteria_refs",
+    "known_limitations",
     "non_authoritative_boundaries"
   ],
   "properties": {
@@ -26,6 +29,15 @@
     "display_name": {
       "type": "string",
       "minLength": 1
+    },
+    "host_family": {
+      "type": "string",
+      "enum": [
+        "github",
+        "ci",
+        "local-cli",
+        "studio"
+      ]
     },
     "description": {
       "type": "string",
@@ -76,7 +88,18 @@
       "type": "string",
       "minLength": 1
     },
+    "support_tier_declarations": {
+      "$ref": "#/$defs/support_tier_declarations"
+    },
     "conformance_criteria_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "known_limitations": {
       "type": "array",
       "minItems": 1,
       "items": {
@@ -90,6 +113,52 @@
       "items": {
         "type": "string",
         "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "support_tier_declarations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_tiers",
+        "workload_tiers",
+        "language_resource_tiers",
+        "locale_tiers"
+      ],
+      "properties": {
+        "model_tiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "workload_tiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "language_resource_tiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "locale_tiers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
       }
     }
   }

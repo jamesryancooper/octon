@@ -11,10 +11,36 @@ tier_hints:
   - "MT-A"
   - "MT-B"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
+support_tier_declarations:
+  model_tiers:
+    - "MT-A"
+    - "MT-B"
+  workload_tiers:
+    - "WT-1"
+    - "WT-2"
+    - "WT-3"
+  language_resource_tiers:
+    - "LT-REF"
+    - "LT-EXT"
+  locale_tiers:
+    - "LOC-EN"
+    - "LOC-MX"
 conformance_criteria_refs:
   - "MODEL-001"
   - "MODEL-002"
   - "MODEL-003"
+  - "MODEL-004"
+conformance_suite_refs:
+  - ".octon/framework/assurance/maintainability/suites/runtime-ssot-alignment.yml"
+  - ".octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml"
+contamination_reset_policy:
+  clean_checkpoint_required: true
+  hard_reset_on_signature: true
+  contamination_signal_ref: ".octon/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json"
+  evidence_log_ref: ".octon/state/evidence/runs/<run-id>/interventions/log.yml"
+known_limitations:
+  - "Repo-local governed models remain bounded to declared support tiers and repo-owned context."
+  - "Provider- or browser-specific behavior must stay behind separate governed adapters or packs."
 non_authoritative_boundaries:
   - "Model-family behavior may shape planning and execution quality but may not widen authority or support tiers."
   - "Memory discipline must remain grounded in canonical run evidence and approved cognition surfaces."

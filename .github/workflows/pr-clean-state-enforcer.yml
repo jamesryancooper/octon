@@ -90,10 +90,6 @@ jobs:
               const reasons = [];
               const ageHours = (Date.now() - Date.parse(pr.updated_at)) / (1000 * 60 * 60);
 
-              if (labels.has("autonomy:no-automerge")) {
-                reasons.push("autonomy lane disabled");
-              }
-
               let mergeState = "unknown";
               try {
                 const detail = await github.rest.pulls.get({

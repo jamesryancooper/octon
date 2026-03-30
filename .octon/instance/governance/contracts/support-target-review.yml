@@ -1,0 +1,20 @@
+schema_version: "repo-governance-review-v1"
+review_id: "support-target-review"
+owner: "Octon governance"
+status: "active"
+purpose: "Keep support-target declarations, capability-pack admissions, and fail-closed enforcement aligned."
+triggers:
+  - "Before widening any support tier, locale, workload, or capability-pack admission."
+  - "When support-targets.yml, capability-pack admissions, or adapter envelopes change."
+  - "Before any final target-state claim."
+cadence: "Before support widening and at every release that changes support-target, admission, or capability-pack surfaces."
+required_inputs:
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/framework/capabilities/packs/**"
+  - ".octon/instance/capabilities/runtime/packs/**"
+  - ".octon/framework/constitution/contracts/adapters/**"
+evidence_requirements:
+  - "Approved support-target-review receipt under .octon/state/evidence/validation/publication/build-to-delete/<date>/support-target-review.yml"
+  - "Validation evidence that unsupported tuples and unadmitted packs still fail closed."
+blocking_rule: "Reject when support posture, pack admission, or disclosure claims exceed the declared support-target matrix."
+retirement_path: "Retire only if support-target review is subsumed by a stricter successor governance review with the same fail-closed guarantees."

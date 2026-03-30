@@ -9,8 +9,8 @@ trap 'rm -f -- "$TMP_FILE"' EXIT
 
 LEGACY_OCTON_CONTINUITY_PATTERN='\.octon/'"continuity"
 LEGACY_CONTINUITY_META_PATTERN='continuity/'"_meta/architecture"
-LEGACY_RUNS_PATTERN='continuity/'"runs/"
-LEGACY_DECISIONS_PATTERN='continuity/'"decisions/"
+LEGACY_RUNS_PATTERN='\.octon/'"continuity/runs/"
+LEGACY_DECISIONS_PATTERN='\.octon/'"continuity/decisions/"
 LEGACY_SCOPE_GATE_PATTERN='scope continuity remains gated off|scope continuity is not legal '"before Packet "'7'
 LEGACY_PACKET7_UNTIL_PATTERN='until Packet '"7"
 LEGACY_PACKET7_BEFORE_PATTERN='before Packet '"7"

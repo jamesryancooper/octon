@@ -10,9 +10,30 @@ runtime_surface:
 tier_hints:
   - "MT-C"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
+support_tier_declarations:
+  model_tiers:
+    - "MT-C"
+  workload_tiers:
+    - "WT-1"
+    - "WT-2"
+  language_resource_tiers:
+    - "LT-REF"
+  locale_tiers:
+    - "LOC-EN"
 conformance_criteria_refs:
   - "MODEL-001"
   - "MODEL-002"
+  - "MODEL-004"
+conformance_suite_refs:
+  - ".octon/framework/assurance/functional/suites/run-lifecycle-integrity.yml"
+contamination_reset_policy:
+  clean_checkpoint_required: true
+  hard_reset_on_signature: true
+  contamination_signal_ref: ".octon/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json"
+  evidence_log_ref: ".octon/state/evidence/runs/<run-id>/interventions/log.yml"
+known_limitations:
+  - "Experimental external models remain staged and cannot claim boundary-sensitive support."
+  - "This adapter does not admit browser or outbound API packs by itself."
 non_authoritative_boundaries:
   - "Experimental model adapters may not bypass support-target routing or runtime receipts."
   - "Provider-specific behavior is confined behind the adapter contract."

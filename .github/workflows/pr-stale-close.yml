@@ -40,7 +40,7 @@ jobs:
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const staleLabel = "autonomy:stale-draft";
-            const exemptLabels = new Set(["autonomy:no-automerge", "risk:high"]);
+            const exemptLabels = new Set(["risk:high"]);
 
             async function ensureStaleLabel() {
               try {
@@ -96,7 +96,7 @@ jobs:
                   issue_number: pr.number,
                   body: [
                     `Closing stale draft PR after ${Math.floor(idleDays)} days without updates.`,
-                    "Add `autonomy:no-automerge` to exempt future stale-close automation."
+                    "Add `risk:high` or another approved exempt label to avoid future stale-close automation."
                   ].join("\n\n")
                 });
                 await github.rest.pulls.update({

@@ -22,7 +22,7 @@ The stable scaffolding bootstrap wrapper. It delegates to the canonical bootstra
 ### Purpose
 
 - Generate canonical `/.octon/AGENTS.md` and refresh root ingress adapters
-- Generate canonical `/.octon/instance/bootstrap/OBJECTIVE.md` plus the active intent contract
+- Generate canonical `/.octon/instance/charter/workspace.{md,yml}` plus compatibility shims at `/.octon/instance/bootstrap/OBJECTIVE.md` and `/.octon/instance/cognition/context/shared/intent.contract.yml`
 - Optionally generate compatibility boot files (`BOOT.md`, `BOOTSTRAP.md`)
 - Generate root `alignment-check` shim
 - Optionally initialize agent-platform adapter bootstrap config

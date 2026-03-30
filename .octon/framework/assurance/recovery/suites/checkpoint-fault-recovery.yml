@@ -1,0 +1,13 @@
+schema_version: "proof-suite-v1"
+suite_id: "checkpoint-fault-recovery"
+plane: "recovery"
+purpose: "Require rollback posture, checkpoint lineage, replay references, and a retained fault rehearsal before recovery claims pass."
+runner_ref: ".octon/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
+required_artifacts:
+  - "rollback-posture"
+  - "checkpoint"
+  - "replay-bundle"
+  - "fault-report"
+blocking_support_tiers:
+  - "repo-local-transitional"

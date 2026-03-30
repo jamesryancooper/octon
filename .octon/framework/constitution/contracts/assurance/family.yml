@@ -3,8 +3,8 @@ family_id: "assurance"
 status: "active"
 activation_wave: 4
 release_state: "pre-1.0"
-change_profile: "transitional"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"
+change_profile: "atomic"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion/plan.md"
 proof_planes:
   structural:
     root: ".octon/framework/assurance/structural"
@@ -16,11 +16,18 @@ proof_planes:
     evidence_mode: "deterministic-validator"
   functional:
     root: ".octon/framework/assurance/functional"
+    suites_root: ".octon/framework/assurance/functional/suites"
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "deterministic-run-proof"
+    blocking_support_tiers:
+      - "repo-local-transitional"
+      - "release-and-boundary-sensitive"
   behavioral:
     root: ".octon/framework/assurance/behavioral"
+    suites_root: ".octon/framework/assurance/behavioral/suites"
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
+    blocking_support_tiers:
+      - "repo-local-transitional"
     required_evidence_classes:
       - "lab-scenario"
       - "replay"
@@ -28,19 +35,32 @@ proof_planes:
       - "shadow-run"
   maintainability:
     root: ".octon/framework/assurance/maintainability"
+    suites_root: ".octon/framework/assurance/maintainability/suites"
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "architecture-health"
+    blocking_support_tiers:
+      - "repo-local-transitional"
+      - "release-and-boundary-sensitive"
   recovery:
     root: ".octon/framework/assurance/recovery"
+    suites_root: ".octon/framework/assurance/recovery/suites"
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "checkpoint-and-rollback-proof"
+    blocking_support_tiers:
+      - "repo-local-transitional"
   evaluators:
     root: ".octon/framework/assurance/evaluators"
+    adapter_registry_ref: ".octon/framework/assurance/evaluators/adapters/registry.yml"
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/evaluator-review-v1.schema.json"
     evidence_mode: "independent-review"
 lab:
   framework_root: ".octon/framework/lab"
   evidence_root: ".octon/state/evidence/lab"
+  authored_domains:
+    - "scenarios"
+    - "replay"
+    - "shadow"
+    - "faults"
   scenario_schema_ref: ".octon/framework/lab/runtime/contracts/scenario-proof-v1.schema.json"
   replay_schema_ref: ".octon/framework/lab/runtime/contracts/replay-manifest-v1.schema.json"
 observability:

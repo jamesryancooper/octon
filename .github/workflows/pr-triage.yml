@@ -109,8 +109,6 @@ jobs:
               "risk:med": { color: "FBCA04", description: "Medium risk change" },
               "risk:high": { color: "B60205", description: "High impact governance/control-plane change" },
 
-              "autonomy:auto-merge": { color: "1B8835", description: "Eligible for autonomous auto-merge lane" },
-              "autonomy:no-automerge": { color: "B60205", description: "Excluded from autonomous auto-merge lane" },
               "bot:dependabot": { color: "0366D6", description: "Dependabot pull request" }
             };
 
@@ -234,20 +232,12 @@ jobs:
               desiredLabels.add("bot:dependabot");
             }
 
-            // Default autonomous lane:
-            // - All non-draft PRs are auto-merge eligible unless explicit human
-            //   review is required or a manual no-auto label is present.
-            const manualNoAuto = labels.has("autonomy:no-automerge");
             const highImpactHumanRequired = isHighImpact && !isDependabotSafeUpdate;
             const requiresHumanReview = highImpactHumanRequired || dependabotHumanReviewRequired;
-            const isAutoMergeEligible =
+            const autoMergeCandidate =
               !pr.draft &&
               !headRef.startsWith("exp/") &&
-              !manualNoAuto &&
               !requiresHumanReview;
-
-            const desiredAutonomy = isAutoMergeEligible ? "autonomy:auto-merge" : "autonomy:no-automerge";
-            desiredLabels.add(desiredAutonomy);
 
             // Keep exactly one type and one risk label managed by triage.
             const labelsToRemove = [];
@@ -258,7 +248,7 @@ jobs:
               if (current.startsWith("risk:") && current !== desiredRisk) {
                 labelsToRemove.push(current);
               }
-              if (current.startsWith("autonomy:") && current !== desiredAutonomy) {
+              if (current === "autonomy:auto-merge" || current === "autonomy:no-automerge") {
                 labelsToRemove.push(current);
               }
             }
@@ -320,8 +310,8 @@ jobs:
               core.notice("Dependabot major/unknown update detected. PR stays in the manual lane and will not be auto-merged.");
             }
 
-            if (isAutoMergeEligible) {
-              core.notice("PR triaged into autonomy auto-merge lane.");
+            if (autoMergeCandidate) {
+              core.notice("PR remains eligible for canonical auto-merge checks.");
             } else {
-              core.info("PR triaged out of autonomy auto-merge lane.");
+              core.info("PR remains out of the canonical auto-merge path.");
             }

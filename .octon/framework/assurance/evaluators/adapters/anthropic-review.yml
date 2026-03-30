@@ -1,0 +1,8 @@
+schema_version: "evaluator-adapter-v1"
+adapter_id: "anthropic-review"
+provider: "anthropic"
+script_ref: ".octon/framework/agency/_ops/scripts/ai-gate/provider-anthropic.sh"
+output_schema_ref: ".octon/framework/agency/practices/standards/ai-gate-findings.schema.json"
+non_authoritative: true
+review_kinds:
+  - "pr-risk-review"

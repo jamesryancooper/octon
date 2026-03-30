@@ -1,6 +1,7 @@
 schema_version: "evaluator-review-routing-v1"
 default_run_disposition: "not_required"
 default_harness_claim_disposition: "approved"
+adapter_registry_ref: ".octon/framework/assurance/evaluators/adapters/registry.yml"
 run_requirements:
   support_tiers_require_approved_review:
     - "release-and-boundary-sensitive"
@@ -10,6 +11,13 @@ run_requirements:
     - "critical"
   notes:
     - "Repo-local-transitional runs may resolve to not_required when deterministic proof is sufficient."
+  adapter_preferences:
+    release-and-boundary-sensitive:
+      - "openai-review"
+      - "anthropic-review"
+    external-or-irreversible:
+      - "openai-review"
+      - "anthropic-review"
 harness_claim_requirements:
   benchmark: "approved"
   release: "approved"

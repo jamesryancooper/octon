@@ -1,0 +1,24 @@
+# Phase 5 Command Log
+
+- `sed -n '1,260p' .octon/instance/ingress/AGENTS.md`
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/{README.md,architecture/implementation-plan.md,architecture/portability-adapters-support-targets.md,architecture/acceptance-criteria.md,resources/unified-execution-constitution-audit.md}`
+- `find .octon/framework/engine/runtime -maxdepth 4 -type f | sort`
+- `find .octon/instance/governance -maxdepth 4 -type f | sort`
+- `sed -n '1,320p' .octon/instance/governance/support-targets.yml`
+- `sed -n '1,260p' .octon/framework/constitution/contracts/adapters/{README.md,family.yml,model-adapter-v1.schema.json,host-adapter-v1.schema.json,adapter-conformance-v1.schema.json}`
+- `sed -n '1,260p' .octon/framework/engine/runtime/adapters/{README.md,host/README.md,model/README.md}`
+- `sed -n '1,260p' .octon/framework/engine/runtime/adapters/host/{repo-shell.yml,github-control-plane.yml}`
+- `sed -n '1,260p' .octon/framework/engine/runtime/adapters/model/{repo-local-governed.yml,experimental-external.yml}`
+- `sed -n '2280,2715p' .octon/framework/engine/runtime/crates/kernel/src/authorization.rs`
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel authorization::tests::development_mode_allows_soft_enforce -- --exact`
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel authorization::tests::undeclared_host_adapter_denies_execution -- --exact`
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel authorization::tests::unsupported_support_tier_denies_execution -- --exact`
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel authorization::tests::unadmitted_api_pack_denies_execution -- --exact`
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel authorization::tests::invalid_model_adapter_manifest_denies_execution -- --exact`
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel workflow::tests::create_design_package_writes_execution_artifacts -- --exact`
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel pipeline::tests::mock_generic_workflow_writes_execution_artifacts -- --exact`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase5-adapter-support-target-hardening.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh`
+- `cargo check --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel`
+- `git diff --check`

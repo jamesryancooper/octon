@@ -8,6 +8,10 @@ on:
       - ".octon/framework/constitution/**"
       - ".octon/framework/agency/**"
       - ".octon/framework/engine/**"
+      - ".octon/framework/assurance/**"
+      - ".octon/framework/capabilities/packs/**"
+      - ".octon/framework/lab/**"
+      - ".octon/framework/scaffolding/**"
       - ".octon/framework/assurance/runtime/**"
       - ".octon/framework/cognition/_meta/architecture/**"
       - ".octon/framework/cognition/governance/principles/**"
@@ -15,14 +19,20 @@ on:
       - ".octon/framework/orchestration/runtime/**"
       - ".octon/instance/orchestration/missions/**"
       - ".octon/instance/governance/policies/**"
+      - ".octon/instance/governance/contracts/**"
       - ".octon/instance/governance/ownership/**"
       - ".octon/instance/governance/support-targets.yml"
+      - ".octon/instance/capabilities/runtime/packs/**"
       - ".octon/state/control/execution/**"
       - ".octon/state/evidence/control/**"
+      - ".octon/state/evidence/runs/**"
+      - ".octon/state/evidence/lab/**"
+      - ".octon/state/evidence/validation/publication/**"
       - ".octon/state/continuity/repo/missions/**"
       - ".octon/generated/effective/**"
       - ".octon/generated/cognition/**"
       - ".octon/instance/bootstrap/**"
+      - ".github/workflows/ai-review-gate.yml"
       - ".github/workflows/architecture-conformance.yml"
   push:
     branches:
@@ -33,6 +43,10 @@ on:
       - ".octon/framework/constitution/**"
       - ".octon/framework/agency/**"
       - ".octon/framework/engine/**"
+      - ".octon/framework/assurance/**"
+      - ".octon/framework/capabilities/packs/**"
+      - ".octon/framework/lab/**"
+      - ".octon/framework/scaffolding/**"
       - ".octon/framework/assurance/runtime/**"
       - ".octon/framework/cognition/_meta/architecture/**"
       - ".octon/framework/cognition/governance/principles/**"
@@ -40,14 +54,20 @@ on:
       - ".octon/framework/orchestration/runtime/**"
       - ".octon/instance/orchestration/missions/**"
       - ".octon/instance/governance/policies/**"
+      - ".octon/instance/governance/contracts/**"
       - ".octon/instance/governance/ownership/**"
       - ".octon/instance/governance/support-targets.yml"
+      - ".octon/instance/capabilities/runtime/packs/**"
       - ".octon/state/control/execution/**"
       - ".octon/state/evidence/control/**"
+      - ".octon/state/evidence/runs/**"
+      - ".octon/state/evidence/lab/**"
+      - ".octon/state/evidence/validation/publication/**"
       - ".octon/state/continuity/repo/missions/**"
       - ".octon/generated/effective/**"
       - ".octon/generated/cognition/**"
       - ".octon/instance/bootstrap/**"
+      - ".github/workflows/ai-review-gate.yml"
       - ".github/workflows/architecture-conformance.yml"
 
 permissions:
@@ -140,3 +160,56 @@ jobs:
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-generated-summaries.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-view-generation.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-control-evidence.sh
+
+  proof-lab-enforcement:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
+
+      - name: Validate proof-plane and lab enforcement
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh
+
+  adapter-support-hardening:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
+
+      - name: Validate Phase 5 adapter and support-target hardening
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase5-adapter-support-target-hardening.sh
+
+  simplification-deletion:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
+
+      - name: Validate Phase 6 simplification and deletion
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh
+
+  build-to-delete-governance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
+
+      - name: Validate Phase 7 build-to-delete governance
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase7-build-to-delete-institutionalization.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh

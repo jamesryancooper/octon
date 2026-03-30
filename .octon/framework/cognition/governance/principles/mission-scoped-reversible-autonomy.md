@@ -47,7 +47,7 @@ long-running and always-running autonomous agents.
 - run contract control roots:
   `/.octon/state/control/execution/runs/<run-id>/**`
 - run lifecycle control files:
-  `/.octon/state/control/execution/runs/<run-id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
+  `/.octon/state/control/execution/runs/<run-id>/{run-manifest.yml,runtime-state.yml,rollback-posture.yml,checkpoints/**}`
 - approval control roots:
   `/.octon/state/control/execution/approvals/**`
 - exception and revocation control roots:
@@ -59,7 +59,7 @@ long-running and always-running autonomous agents.
 - retained run evidence:
   `/.octon/state/evidence/runs/**`
 - run replay and trace pointers:
-  `/.octon/state/evidence/runs/<run-id>/{replay-pointers.yml,trace-pointers.yml}`
+  `/.octon/state/evidence/runs/<run-id>/{replay-pointers.yml,trace-pointers.yml,evidence-classification.yml}`
 - mission continuity:
   `/.octon/state/continuity/repo/missions/<mission-id>/**`
 - effective mission scenario resolution:

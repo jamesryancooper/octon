@@ -1,0 +1,6 @@
+schema_version: "fault-injection-plan-v1"
+fault_plan_id: "runtime-proof-fault"
+purpose: "Inject checkpoint- and rollback-relevant failures to prove resumability and recovery posture."
+expected_outputs:
+  - "fault-report"
+  - "recovery-proof-report"

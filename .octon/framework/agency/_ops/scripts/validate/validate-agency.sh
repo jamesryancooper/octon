@@ -20,9 +20,7 @@ DELEGATION_FILE="$AGENCY_DIR/governance/DELEGATION.md"
 MEMORY_FILE="$AGENCY_DIR/governance/MEMORY.md"
 BOUNDARY_FILE="$AGENCY_DIR/governance/delegation-boundaries-v1.yml"
 ORCHESTRATOR_AGENT_FILE="$AGENCY_DIR/runtime/agents/orchestrator/AGENT.md"
-ORCHESTRATOR_SOUL_FILE="$AGENCY_DIR/runtime/agents/orchestrator/SOUL.md"
 VERIFIER_AGENT_FILE="$AGENCY_DIR/runtime/agents/verifier/AGENT.md"
-VERIFIER_SOUL_FILE="$AGENCY_DIR/runtime/agents/verifier/SOUL.md"
 
 errors=0
 warnings=0
@@ -269,7 +267,6 @@ check_manifest_and_roles() {
 }
 
 check_governance_and_contracts() {
-  require_file "$CONSTITUTION_FILE"
   require_file "$DELEGATION_FILE"
   require_file "$MEMORY_FILE"
   require_file "$BOUNDARY_FILE"
@@ -277,9 +274,25 @@ check_governance_and_contracts() {
   require_file "$VERIFIER_AGENT_FILE"
 
   grep -q '^## Execution Profile Governance' "$INSTANCE_AGENTS_FILE" || fail "instance ingress AGENTS.md missing execution profile governance section"
-  grep -q '^## Execution Profile Governance' "$CONSTITUTION_FILE" || fail "CONSTITUTION.md missing execution profile governance section"
-  grep -Fq 'change_profile' "$CONSTITUTION_FILE" || fail "CONSTITUTION.md missing change_profile rule"
-  grep -Fq 'tie-break' "$CONSTITUTION_FILE" || fail "CONSTITUTION.md missing profile tie-break rule"
+  if grep -Fq '.octon/framework/cognition/_meta/architecture/specification.md' "$INSTANCE_AGENTS_FILE"; then
+    fail "instance ingress AGENTS.md must not keep cognition architecture in the minimal constitutional read set"
+  else
+    pass "instance ingress AGENTS.md excludes cognition architecture from the minimal read set"
+  fi
+  if grep -Fq '.octon/framework/cognition/governance/principles/README.md' "$INSTANCE_AGENTS_FILE"; then
+    fail "instance ingress AGENTS.md must not keep cognition principles in the minimal constitutional read set"
+  else
+    pass "instance ingress AGENTS.md excludes cognition principles from the minimal read set"
+  fi
+  if grep -Fq '5. `.octon/instance/bootstrap/START.md`' "$INSTANCE_AGENTS_FILE"; then
+    fail "instance ingress AGENTS.md must not keep bootstrap START in the minimal constitutional read set"
+  else
+    pass "instance ingress AGENTS.md keeps bootstrap START outside the minimal read set"
+  fi
+  if [[ -f "$CONSTITUTION_FILE" ]]; then
+    grep -Fq 'Historical Agency Constitutional Shim' "$CONSTITUTION_FILE" || fail "historical CONSTITUTION.md must declare itself historical"
+    grep -Fq 'no longer part of the required execution path' "$CONSTITUTION_FILE" || fail "historical CONSTITUTION.md must stay out of the required execution path"
+  fi
 
   grep -Fq 'Profile Selection Receipt' "$DELEGATION_FILE" || fail "DELEGATION.md missing required output section: Profile Selection Receipt"
   grep -Fq 'Impact Map (code, tests, docs, contracts)' "$DELEGATION_FILE" || fail "DELEGATION.md missing required output section: Impact Map (code, tests, docs, contracts)"
@@ -296,15 +309,18 @@ check_governance_and_contracts() {
   grep -Fq 'Compliance Receipt' "$ORCHESTRATOR_AGENT_FILE" || fail "orchestrator AGENT.md missing Compliance Receipt requirement"
   grep -Fq 'Exceptions/Escalations' "$ORCHESTRATOR_AGENT_FILE" || fail "orchestrator AGENT.md missing Exceptions/Escalations requirement"
   grep -Fq 'host and model adapters' "$ORCHESTRATOR_AGENT_FILE" || fail "orchestrator AGENT.md must describe non-authoritative adapter handling"
+  if grep -Fq 'SOUL.md' "$ORCHESTRATOR_AGENT_FILE"; then
+    fail "orchestrator AGENT.md must not depend on SOUL.md in the kernel path"
+  else
+    pass "orchestrator AGENT.md excludes SOUL.md from the kernel path"
+  fi
 
   grep -Fq 'separation of duties' "$VERIFIER_AGENT_FILE" || fail "verifier AGENT.md must justify the role through separation of duties"
   grep -Fq 'not a second default owner' "$VERIFIER_AGENT_FILE" || fail "verifier AGENT.md must reject second-owner behavior"
-
-  if [[ -f "$ORCHESTRATOR_SOUL_FILE" ]]; then
-    grep -Fq 'optional identity overlay only' "$ORCHESTRATOR_SOUL_FILE" || fail "orchestrator SOUL.md must be explicitly non-authoritative"
-  fi
-  if [[ -f "$VERIFIER_SOUL_FILE" ]]; then
-    grep -Fq 'optional identity overlay only' "$VERIFIER_SOUL_FILE" || fail "verifier SOUL.md must be explicitly non-authoritative"
+  if grep -Fq 'SOUL.md' "$VERIFIER_AGENT_FILE"; then
+    fail "verifier AGENT.md must not depend on SOUL.md in the kernel path"
+  else
+    pass "verifier AGENT.md excludes SOUL.md from the kernel path"
   fi
 
   if awk '
@@ -347,6 +363,11 @@ check_instance_ingress() {
   else
     pass "instance ingress does not require a SOUL overlay"
   fi
+  if grep -Fq 'framework/agency/governance/CONSTITUTION.md' "$INSTANCE_AGENTS_FILE"; then
+    fail "instance ingress must not keep agency CONSTITUTION.md in the kernel path"
+  else
+    pass "instance ingress excludes agency CONSTITUTION.md from the kernel path"
+  fi
 }
 
 check_deprecations() {
@@ -358,6 +379,9 @@ check_deprecations() {
   [[ ! -f "$AGENCY_DIR/DELEGATION.md" ]] || fail "deprecated path exists: ${AGENCY_DIR#$ROOT_DIR/}/DELEGATION.md"
   [[ ! -f "$AGENCY_DIR/MEMORY.md" ]] || fail "deprecated path exists: ${AGENCY_DIR#$ROOT_DIR/}/MEMORY.md"
   [[ ! -d "$AGENCY_DIR/subagents" ]] || fail "deprecated path exists: ${AGENCY_DIR#$ROOT_DIR/}/subagents"
+  [[ ! -f "$AGENCY_DIR/runtime/agents/orchestrator/SOUL.md" ]] || fail "orchestrator SOUL.md must be retired from the active kernel path"
+  [[ ! -f "$AGENCY_DIR/runtime/agents/verifier/SOUL.md" ]] || fail "verifier SOUL.md must be retired from the active kernel path"
+  [[ ! -f "$AGENCY_DIR/runtime/agents/_scaffold/template/SOUL.md" ]] || fail "agent scaffold must not generate SOUL.md by default"
   pass "deprecated agency surfaces remain removed"
 }
 

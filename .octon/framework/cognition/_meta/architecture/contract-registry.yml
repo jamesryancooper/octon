@@ -36,10 +36,13 @@ execution:
     missions_root: ".octon/state/control/execution/missions"
   objective_binding:
     contract_family_root: ".octon/framework/constitution/contracts/objective"
-    workspace_objective_brief: ".octon/instance/bootstrap/OBJECTIVE.md"
-    workspace_intent_contract: ".octon/instance/cognition/context/shared/intent.contract.yml"
+    workspace_objective_brief: ".octon/instance/charter/workspace.md"
+    workspace_intent_contract: ".octon/instance/charter/workspace.yml"
+    workspace_objective_shim: ".octon/instance/bootstrap/OBJECTIVE.md"
+    workspace_intent_shim: ".octon/instance/cognition/context/shared/intent.contract.yml"
   runtime_binding:
     contract_family_root: ".octon/framework/constitution/contracts/runtime"
+    run_manifest_file: ".octon/state/control/execution/runs/<run-id>/run-manifest.yml"
     run_continuity_file: ".octon/state/continuity/runs/<run-id>/handoff.yml"
     runtime_state_file: ".octon/state/control/execution/runs/<run-id>/runtime-state.yml"
     rollback_posture_file: ".octon/state/control/execution/runs/<run-id>/rollback-posture.yml"
@@ -63,9 +66,10 @@ execution:
   retention_binding:
     contract_family_root: ".octon/framework/constitution/contracts/retention"
     external_index_root: ".octon/state/evidence/external-index"
+    evidence_classification_file: ".octon/state/evidence/runs/<run-id>/evidence-classification.yml"
     replay_storage_classes:
       - "git-inline"
-      - "pointered"
+      - "git-pointer"
       - "external-immutable"
   adapter_binding:
     contract_family_root: ".octon/framework/constitution/contracts/adapters"
@@ -108,6 +112,8 @@ execution:
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-unified-execution-phase3-runtime-evidence-normalization.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-wave5-agency-adapter-hardening.sh"

@@ -1,8 +1,8 @@
 ---
 
-title: Octon Charter
-description: Foundational charter for Octon's identity, purpose, operating model, authority, scope, and governance as a portable agent-first filesystem harness.
-status: Active
+title: Octon Cognition Governance Charter Shim
+description: Historical cognition-governance shim retained for compatibility after constitutional extraction.
+status: Active Shim
 version: "1.4.0"
 owner: Octon governance
 review_cadence: Quarterly or per minor release
@@ -10,7 +10,13 @@ effective_date: 2026-03-06
 
 ---
 
-# Octon Charter
+# Octon Cognition Governance Charter Shim
+
+> Shim status: This file is retained as cognition-governance lineage and a
+> compatibility entrypoint. Repo-local constitutional authority now lives only
+> in `/.octon/framework/constitution/**`. When this file or downstream
+> cognition surfaces conflict with the constitutional kernel, the kernel wins
+> and this file is subordinate or informative only.
 
 Octon is an agent-first, system-governed engineering harness that operates inside a filesystem. It provides the governing structure for how work is scoped, approved, executed, verified, and learned inside the directory where it is installed.
 
@@ -28,9 +34,10 @@ Octon gives teams the speed of autonomous AI execution with the guardrails of re
 
 ## 1. Charter Role
 
-This charter is Octon's cross-domain constitutional document within its scope.
+This file is a retained cognition-governance shim. It no longer acts as
+Octon's repo-local constitution.
 
-It defines:
+It preserves historical framing for:
 
 - what Octon is and is not,
 - what Octon does,
@@ -39,7 +46,9 @@ It defines:
 - which authority rules, boundaries, and evidence requirements apply,
 - how success and change control are measured.
 
-Within the managed filesystem boundary, this charter sets the minimum cross-domain rules that Octon domains, runtimes, workflows, capabilities, adoption artifacts, and operating practices MUST satisfy unless a higher-precedence rule defined in this charter applies.
+Within cognition-local governance work, this shim may explain historical
+intent, glossary, and subordinate governance rationale, but live repo-local
+constitutional rules now come from `framework/constitution/**`.
 
 ## 2. What Octon Is
 
@@ -122,9 +131,9 @@ Octon is governed by these non-negotiable concepts:
 
 | Term | Meaning |
 | ---- | ------- |
-| `objective contract` | The required two-artifact objective source for material autonomy: the objective brief and the active intent contract. |
-| `objective brief` | The human-readable objective statement stored at `/.octon/instance/bootstrap/OBJECTIVE.md`. It explains goals, scope, constraints, and acceptance context for the workspace. |
-| `intent contract` | The machine-readable artifact stored at `/.octon/instance/cognition/context/shared/intent.contract.yml`. It is the runtime authority for evaluating scope, binding execution, and validating autonomous material runs. |
+| `objective contract` | The required two-artifact objective source for material autonomy: the workspace charter narrative and the workspace charter machine contract. |
+| `objective brief` | The human-readable workspace charter stored at `/.octon/instance/charter/workspace.md`, with `/.octon/instance/bootstrap/OBJECTIVE.md` retained as a compatibility shim. It explains goals, scope, constraints, and acceptance context for the workspace. |
+| `intent contract` | The machine-readable workspace charter stored at `/.octon/instance/charter/workspace.yml`, with `/.octon/instance/cognition/context/shared/intent.contract.yml` retained as a compatibility shim. It is the runtime authority for evaluating scope, binding execution, and validating autonomous material runs. |
 | `material side effect` | Any write, delete, permission change, authority-surface change, external integration action, durable state mutation, destructive operation, or irreversible state transition. |
 | `material run` | Any autonomous or human-assisted execution that can produce one or more material side effects. |
 | `materiality classification` | The determination of whether a proposed operation is a material run by comparing its expected behavior against the `material side effect` definition and the governing objective or policy bounds. |
@@ -280,8 +289,8 @@ Octon uses the following objective-contract artifacts:
 
 | Artifact        | Location                                                  | Role                                                                                   |
 | --------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| Objective brief | `/.octon/instance/bootstrap/OBJECTIVE.md`                                  | Human-readable objective source for goals, scope, constraints, and acceptance context. |
-| Intent contract | `/.octon/instance/cognition/context/shared/intent.contract.yml` | Machine-readable runtime authority for binding and evaluating material autonomy.       |
+| Objective brief | `/.octon/instance/charter/workspace.md`                                  | Human-readable workspace charter source for goals, scope, constraints, and acceptance context. |
+| Intent contract | `/.octon/instance/charter/workspace.yml` | Machine-readable runtime authority for binding and evaluating material autonomy.       |
 
 Objective-contract rules:
 

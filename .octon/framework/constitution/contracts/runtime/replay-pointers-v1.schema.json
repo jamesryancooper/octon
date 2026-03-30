@@ -8,10 +8,11 @@
   "required": [
     "schema_version",
     "run_id",
+    "replay_manifest_refs",
     "receipt_refs",
     "checkpoint_refs",
     "trace_refs",
-    "external_replay_refs",
+    "external_index_refs",
     "updated_at"
   ],
   "properties": {
@@ -22,6 +23,13 @@
     "run_id": {
       "type": "string",
       "minLength": 1
+    },
+    "replay_manifest_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "receipt_refs": {
       "type": "array",
@@ -44,7 +52,7 @@
         "minLength": 1
       }
     },
-    "external_replay_refs": {
+    "external_index_refs": {
       "type": "array",
       "items": {
         "type": "string",

@@ -8,6 +8,8 @@ ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 CANONICAL_AGENTS_FILE="$OCTON_DIR/AGENTS.md"
 ROOT_AGENTS_FILE="$ROOT_DIR/AGENTS.md"
 ROOT_CLAUDE_FILE="$ROOT_DIR/CLAUDE.md"
+WORKSPACE_BRIEF_FILE="$OCTON_DIR/instance/charter/workspace.md"
+WORKSPACE_MACHINE_FILE="$OCTON_DIR/instance/charter/workspace.yml"
 OBJECTIVE_FILE="$OCTON_DIR/instance/bootstrap/OBJECTIVE.md"
 INTENT_FILE="$OCTON_DIR/instance/cognition/context/shared/intent.contract.yml"
 EXPECTED_INGRESS_TARGET=".octon/AGENTS.md"
@@ -134,6 +136,8 @@ main() {
   echo "== Bootstrap Ingress Validation =="
 
   [[ -f "$CANONICAL_AGENTS_FILE" ]] || fail "missing canonical AGENTS source: ${CANONICAL_AGENTS_FILE#$ROOT_DIR/}"
+  [[ -f "$WORKSPACE_BRIEF_FILE" ]] || fail "missing canonical workspace charter narrative: ${WORKSPACE_BRIEF_FILE#$ROOT_DIR/}"
+  [[ -f "$WORKSPACE_MACHINE_FILE" ]] || fail "missing canonical workspace charter machine: ${WORKSPACE_MACHINE_FILE#$ROOT_DIR/}"
   [[ -f "$OBJECTIVE_FILE" ]] || fail "missing canonical objective brief: ${OBJECTIVE_FILE#$ROOT_DIR/}"
   [[ -f "$INTENT_FILE" ]] || fail "missing intent contract: ${INTENT_FILE#$ROOT_DIR/}"
 
@@ -149,11 +153,29 @@ main() {
     fail ".octon/AGENTS.md must declare the thin-adapter rule"
   fi
 
+  if has_text '.octon/instance/bootstrap/OBJECTIVE.md' "$CANONICAL_AGENTS_FILE"; then
+    fail ".octon/AGENTS.md must remain adapter-only and may not widen ingress to OBJECTIVE.md"
+  else
+    pass ".octon/AGENTS.md does not widen ingress to OBJECTIVE.md"
+  fi
+
+  if has_text '.octon/instance/cognition/context/shared/intent.contract.yml' "$CANONICAL_AGENTS_FILE"; then
+    fail ".octon/AGENTS.md must remain adapter-only and may not widen ingress to intent.contract.yml"
+  else
+    pass ".octon/AGENTS.md does not widen ingress to intent.contract.yml"
+  fi
+
+  if has_text '.octon/instance/bootstrap/START.md' "$CANONICAL_AGENTS_FILE"; then
+    fail ".octon/AGENTS.md must remain adapter-only and may not widen ingress to START.md"
+  else
+    pass ".octon/AGENTS.md does not widen ingress to START.md"
+  fi
+
   validate_ingress_adapter "$ROOT_AGENTS_FILE" "AGENTS.md"
   validate_ingress_adapter "$ROOT_CLAUDE_FILE" "CLAUDE.md"
 
   if [[ -e "$ROOT_DIR/OBJECTIVE.md" || -L "$ROOT_DIR/OBJECTIVE.md" ]]; then
-    fail "root OBJECTIVE.md must not exist; canonical objective brief lives at .octon/instance/bootstrap/OBJECTIVE.md"
+    fail "root OBJECTIVE.md must not exist; canonical workspace charter lives at .octon/instance/charter/workspace.md"
   else
     pass "root OBJECTIVE.md is absent"
   fi

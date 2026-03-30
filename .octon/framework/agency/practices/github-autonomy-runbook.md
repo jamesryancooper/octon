@@ -83,8 +83,11 @@ Operational implication:
 
 - Do not rely on `/commits/{sha}/check-runs` when authenticating with a
   fine-grained PAT.
-- For autonomous merges, gate by labels/policy and let branch rulesets enforce
-  required checks at merge time.
+- For autonomous merges, compute eligibility from PR metadata and canonical
+  approval artifacts, then let branch rulesets enforce required checks at merge
+  time.
+- GitHub labels remain projection-only UX and must not be treated as merge
+  authority.
 
 If explicit check-run inspection is required, use a GitHub App token instead of
 a fine-grained PAT.
@@ -115,7 +118,6 @@ Mode control variable:
 Waiver contract:
 
 - AI-gate waivers are disabled in the autonomy lane
-- `ai-gate:blocker` is managed by the gate workflow on blocker findings
 
 ---
 
@@ -134,10 +136,10 @@ Before expecting autonomous merges:
 
 Human-review exceptions (default policy):
 
-1. PR carries explicit `autonomy:no-automerge`.
-2. PR head branch matches `exp/*`.
-3. PR touches high-impact governance/control-plane paths (manual lane only).
-4. Dependabot update is `major` or `unknown` semver transition (manual lane only).
+1. PR head branch matches `exp/*`.
+2. PR touches high-impact governance/control-plane paths (manual lane only).
+3. Dependabot update is `major` or `unknown` semver transition (manual lane only).
+4. Canonical approval artifacts and required checks are the authority source.
 
 Useful verification commands:
 
@@ -206,7 +208,6 @@ GitHub Actions dependency updates are split into two lanes:
 
 - Safe lane (autonomous): `semver-patch` and `semver-minor`
   - Grouped into one weekly Dependabot PR.
-  - Triaged to `autonomy:auto-merge` when policy is satisfied.
   - Merged autonomously by `pr-auto-merge.yml`.
 - Escalation lane (human): `semver-major` and unknown version transitions
   - Not auto-merged.
@@ -221,8 +222,8 @@ Configuration source:
 
 Operator note:
 
-- `autonomy:no-automerge` remains a manual override. If a human adds it, the PR
-  stays out of the autonomous lane.
+- Manual lane decisions come from policy, required checks, and canonical
+  approval artifacts rather than autonomy lane labels.
 
 ---
 
@@ -357,8 +358,8 @@ Phase 1 (eventual autonomous merge reconciliation):
 
 - Disable autonomous merging immediately with:
   `gh variable set AUTONOMY_AUTO_MERGE_ENABLED --body false`
-- If needed, manually remove `autonomy:auto-merge` from active PRs and apply
-  `autonomy:no-automerge`.
+- Existing PRs remain governed by canonical approval artifacts and required
+  checks after the variable change.
 
 Phase 3 (label contract convergence):
 

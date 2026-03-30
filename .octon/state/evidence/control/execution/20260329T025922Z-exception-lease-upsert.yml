@@ -1,0 +1,22 @@
+schema_version: "authority-control-receipt-v1"
+receipt_id: "20260329T025922Z-exception-lease-upsert"
+control_mutation_class: "exception_lease_upsert"
+source_ref: ".octon/state/control/execution/exceptions/leases.yml#phase2-lease-sample"
+applied_to_ref: ".octon/state/control/execution/exceptions/leases.yml#phase2-lease-sample"
+issuer_ref: "operator://octon-governance"
+timestamp: "2026-03-29T02:59:22Z"
+result: "applied"
+reason: "Phase 2 canonical lease sample for authority-root population"
+reason_codes:
+  - "EXCEPTION_LEASE_UPSERTED"
+affected_paths:
+  - ".octon/state/control/execution/exceptions/leases.yml"
+policy_refs:
+  []
+projection_refs:
+  []
+approval_request_ref: null
+approval_grant_ref: null
+exception_lease_ref: ".octon/state/control/execution/exceptions/leases.yml#phase2-lease-sample"
+revocation_ref: null
+linked_run_id: "run-wave4-benchmark-evaluator-20260327"

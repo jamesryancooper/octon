@@ -68,10 +68,10 @@ only. They must be symlinks or byte-for-byte parity copies.
 
 ## Boot Sequence
 
-0. **If root `AGENTS.md`, `.octon/AGENTS.md`, or `.octon/instance/bootstrap/OBJECTIVE.md` is missing:** run `/init` (or `.octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh`) first.
+0. **If root `AGENTS.md`, `.octon/AGENTS.md`, or `.octon/instance/charter/workspace.md` is missing:** run `/init` (or `.octon/framework/scaffolding/runtime/_ops/scripts/init-project.sh`) first.
 1. **Read `AGENTS.md`** → Root ingress adapter to `.octon/AGENTS.md`
 2. **Read `.octon/instance/ingress/AGENTS.md`** → Canonical internal ingress
-3. **Read `.octon/instance/bootstrap/OBJECTIVE.md`** → Active workspace objective
+3. **Read `.octon/instance/charter/workspace.md`** → Active workspace charter
 4. **Read `.octon/instance/bootstrap/scope.md`** → Boundaries
 5. **Read `.octon/instance/bootstrap/conventions.md`** → Style rules
 6. **Scan `.octon/instance/bootstrap/catalog.md`** → Available operations

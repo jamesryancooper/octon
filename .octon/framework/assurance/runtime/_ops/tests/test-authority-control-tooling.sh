@@ -8,6 +8,7 @@ OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
 APPROVAL_SCRIPT="$OCTON_DIR/framework/engine/_ops/scripts/materialize-authority-approval.sh"
+PROJECTION_SCRIPT="$OCTON_DIR/framework/engine/_ops/scripts/project-github-control-approval.sh"
 EXCEPTION_SCRIPT="$OCTON_DIR/framework/engine/_ops/scripts/record-authority-exception-lease.sh"
 REVOCATION_SCRIPT="$OCTON_DIR/framework/engine/_ops/scripts/record-authority-revocation.sh"
 tmp_root="$(mktemp -d "${TMPDIR:-/tmp}/octon-authority-tooling.XXXXXX")"
@@ -40,6 +41,37 @@ jq -e '.approval_granted == true and (.approval_grant_ref | length > 0)' "$tmp_r
 [[ -f "$tmp_root/.octon/state/control/execution/approvals/requests/req-tooling.yml" ]]
 [[ -f "$tmp_root/.octon/state/control/execution/approvals/grants/grant-req-tooling.yml" ]]
 find "$tmp_root/.octon/state/evidence/control/execution" -type f -name '*approval*' | grep -q .
+
+OCTON_DIR_OVERRIDE="$tmp_root/.octon" OCTON_ROOT_DIR="$tmp_root" bash "$PROJECTION_SCRIPT" \
+  --request-id "github-pr-101-ai-gate" \
+  --run-id "github-pr-101-ai-gate" \
+  --target-id "github-pr:101" \
+  --action-type "github-ai-review-gate" \
+  --issued-by "github://workflow/ai-review-gate" \
+  --status "staged" \
+  --projection-label "github://pull/101#label:ai-gate:blocker" \
+  --projection-check "github://pull/101#check:AI Review Gate / decision" \
+  --reason-code "AI_GATE_DECISION_FAIL_BLOCKERS" \
+  --output-json "$tmp_root/github-projection.json" \
+  >/dev/null
+[[ -f "$tmp_root/.octon/state/control/execution/approvals/requests/github-pr-101-ai-gate.yml" ]]
+[[ ! -f "$tmp_root/.octon/state/control/execution/approvals/grants/grant-github-pr-101-ai-gate.yml" ]]
+jq -e '.approval_granted == false and .approval_request_ref == ".octon/state/control/execution/approvals/requests/github-pr-101-ai-gate.yml"' "$tmp_root/github-projection.json" >/dev/null
+
+OCTON_DIR_OVERRIDE="$tmp_root/.octon" OCTON_ROOT_DIR="$tmp_root" bash "$PROJECTION_SCRIPT" \
+  --request-id "github-pr-101-ai-gate-denied" \
+  --run-id "github-pr-101-ai-gate-denied" \
+  --target-id "github-pr:101" \
+  --action-type "github-ai-review-gate" \
+  --issued-by "github://workflow/ai-review-gate" \
+  --status "denied" \
+  --projection-check "github://pull/101#check:AI Review Gate / decision" \
+  --reason-code "AI_GATE_DECISION_FAIL_PROVIDER_UNAVAILABLE" \
+  --output-json "$tmp_root/github-projection-denied.json" \
+  >/dev/null
+[[ -f "$tmp_root/.octon/state/control/execution/approvals/requests/github-pr-101-ai-gate-denied.yml" ]]
+[[ ! -f "$tmp_root/.octon/state/control/execution/approvals/grants/grant-github-pr-101-ai-gate-denied.yml" ]]
+jq -e '.approval_granted == false and .approval_request_ref == ".octon/state/control/execution/approvals/requests/github-pr-101-ai-gate-denied.yml"' "$tmp_root/github-projection-denied.json" >/dev/null
 
 OCTON_DIR_OVERRIDE="$tmp_root/.octon" OCTON_ROOT_DIR="$tmp_root" bash "$EXCEPTION_SCRIPT" \
   --lease-id "lease-tooling" \

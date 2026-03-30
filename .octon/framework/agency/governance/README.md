@@ -1,20 +1,26 @@
 ---
 title: Agency Governance
-description: Cross-agent governance contracts and precedence overlays for the agency subsystem.
+description: Cross-agent governance shims and overlays for the agency subsystem.
 ---
 
 # Agency Governance
 
-`governance/` contains cross-agent contracts that constrain every actor.
+`governance/` contains supporting delegation and memory overlays beneath the
+singular constitutional kernel. `CONSTITUTION.md` is retained only as a
+historical shim and is no longer part of the required execution path.
 
 ## Contracts
 
-- `CONSTITUTION.md` — Non-negotiable governance, conscience rubric, and red lines.
 - `DELEGATION.md` — Delegation authority, handoff protocol, and escalation rules.
 - `MEMORY.md` — Memory classes, retention boundaries, and privacy controls.
+- `CONSTITUTION.md` — Historical constitutional shim retained for lineage only.
 
 ## Precedence
 
-Contract precedence is:
+Agency kernel path is:
 
-`AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> actor `AGENT.md`
+`framework/constitution/**` -> `instance/ingress/AGENTS.md` -> `runtime/agents/orchestrator/AGENT.md`
+
+Supporting overlays may be consulted when needed:
+
+`DELEGATION.md` -> `MEMORY.md`

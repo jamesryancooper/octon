@@ -1,0 +1,14 @@
+schema_version: "proof-suite-v1"
+suite_id: "runtime-ssot-alignment"
+plane: "maintainability"
+purpose: "Prove that run artifacts stay aligned with the constitutional registry, runtime SSOT, and lab benchmark disclosures."
+runner_ref: ".octon/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
+required_artifacts:
+  - "constitutional-contract-registry"
+  - "runtime-contract-registry"
+  - "benchmark-summary"
+  - "run-manifest"
+blocking_support_tiers:
+  - "repo-local-transitional"
+  - "release-and-boundary-sensitive"

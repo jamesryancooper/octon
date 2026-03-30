@@ -10,3 +10,5 @@ Canonical retained outputs live under:
 
 Functional proof consumes canonical run receipts, checkpoints, and run-state
 artifacts instead of prose summaries.
+
+Authored suites live under `suites/**`.

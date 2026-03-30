@@ -1,0 +1,17 @@
+schema_version: lab-scenario-proof-v1
+scenario_id: scn-runtime-proof-supported-20260329
+purpose: Validate behavioral and recovery proof for a supported repo-local-transitional consequential run.
+subject_refs:
+  - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+  - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-manifest.yml
+procedure:
+  - Read the run manifest, replay manifest, and replay pointers.
+  - Confirm the supported run can be shadowed without mutating canonical control roots.
+  - Confirm a retained fault rehearsal exists for the same bound run.
+evidence_refs:
+  - .octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml
+  - .octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml
+  - .octon/state/evidence/lab/faults/flt-runtime-proof-supported-20260329/fault-report.yml
+  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
+outcome: pass
+recorded_at: "2026-03-29T18:25:00Z"

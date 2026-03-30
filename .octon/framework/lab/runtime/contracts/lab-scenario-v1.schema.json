@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/lab/runtime/contracts/lab-scenario-v1.schema.json",
+  "title": "Octon Lab Scenario v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "scenario_id", "purpose", "supported_planes", "expected_outputs"],
+  "properties": {
+    "schema_version": { "const": "lab-scenario-v1" },
+    "scenario_id": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "supported_planes": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "expected_outputs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  }
+}

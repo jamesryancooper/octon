@@ -11,7 +11,7 @@ multi-plane model while preserving the existing blocking gates.
 
 - structural and governance gates remain the current blocking baseline
 - functional, behavioral, maintainability, recovery, and evaluator proof
-  planes become first-class peers
+  planes become first-class peers with authored suites and CI enforcement
 - behavioral claims require lab, replay, scenario, or shadow-run evidence
 - consequential completion and support claims must carry interpretable proof
   refs rather than prose-only assertions
@@ -20,11 +20,14 @@ multi-plane model while preserving the existing blocking gates.
 
 - `family.yml`
 - `proof-plane-report-v1.schema.json`
+- `proof-suite-execution-v1.schema.json`
 - `evaluator-review-v1.schema.json`
 
 ## Canonical Roots
 
 - proof-plane docs: `/.octon/framework/assurance/{structural,functional,behavioral,governance,maintainability,recovery,evaluators}/**`
+- proof-plane suites: `/.octon/framework/assurance/{functional,behavioral,maintainability,recovery}/suites/**`
+- evaluator adapters: `/.octon/framework/assurance/evaluators/adapters/**`
 - lab-authored scenarios and replay contracts: `/.octon/framework/lab/**`
 - observability-authored measurement and intervention contracts:
   `/.octon/framework/observability/**`

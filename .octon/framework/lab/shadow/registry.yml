@@ -1,0 +1,5 @@
+schema_version: "lab-domain-registry-v1"
+domain: "shadow"
+entries:
+  - shadow_manifest_id: "runtime-proof-shadow"
+    path: ".octon/framework/lab/shadow/manifests/runtime-proof-shadow.yml"

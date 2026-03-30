@@ -82,6 +82,24 @@ adapter_criteria_json() {
   fi
 }
 
+disclosure_retention_policy() {
+  printf '%s\n' "$OCTON_DIR/instance/governance/contracts/disclosure-retention.yml"
+}
+
+replay_payload_class_for_support_tier() {
+  local support_tier="$1"
+  local policy_file
+  policy_file="$(disclosure_retention_policy)"
+  yq -r ".supported_run_classes.\"$support_tier\".replay_payload_class // \"git-inline\"" "$policy_file"
+}
+
+external_index_required_for_support_tier() {
+  local support_tier="$1"
+  local policy_file
+  policy_file="$(disclosure_retention_policy)"
+  yq -r ".supported_run_classes.\"$support_tier\".external_index_required // false" "$policy_file"
+}
+
 run_control_dir() {
   local run_id="$1"
   printf '%s/%s' "$RUN_CONTROL_ROOT" "$run_id"
@@ -90,6 +108,11 @@ run_control_dir() {
 run_contract_path() {
   local run_id="$1"
   printf '%s/%s/run-contract.yml' "$RUN_CONTROL_ROOT" "$run_id"
+}
+
+run_manifest_path() {
+  local run_id="$1"
+  printf '%s/%s/run-manifest.yml' "$RUN_CONTROL_ROOT" "$run_id"
 }
 
 stage_attempt_dir() {
@@ -150,6 +173,20 @@ trace_pointers_path() {
 retained_evidence_path() {
   local run_id="$1"
   printf '%s/%s/retained-run-evidence.yml' "$RUN_EVIDENCE_ROOT" "$run_id"
+}
+
+evidence_classification_path() {
+  local run_id="$1"
+  printf '%s/%s/evidence-classification.yml' "$RUN_EVIDENCE_ROOT" "$run_id"
+}
+
+external_replay_index_dir() {
+  printf '%s/runs' "$EXTERNAL_EVIDENCE_INDEX_ROOT"
+}
+
+external_replay_index_path() {
+  local run_id="$1"
+  printf '%s/%s.yml' "$(external_replay_index_dir)" "$run_id"
 }
 
 assurance_dir() {
@@ -237,6 +274,11 @@ run_contract_relpath() {
   printf '.octon/state/control/execution/runs/%s/run-contract.yml' "$run_id"
 }
 
+run_manifest_relpath() {
+  local run_id="$1"
+  printf '.octon/state/control/execution/runs/%s/run-manifest.yml' "$run_id"
+}
+
 stage_attempt_dir_relpath() {
   local run_id="$1"
   printf '.octon/state/control/execution/runs/%s/stage-attempts' "$run_id"
@@ -305,6 +347,16 @@ trace_pointers_relpath() {
 retained_evidence_relpath() {
   local run_id="$1"
   printf '.octon/state/evidence/runs/%s/retained-run-evidence.yml' "$run_id"
+}
+
+evidence_classification_relpath() {
+  local run_id="$1"
+  printf '.octon/state/evidence/runs/%s/evidence-classification.yml' "$run_id"
+}
+
+external_replay_index_relpath() {
+  local run_id="$1"
+  printf '.octon/state/evidence/external-index/runs/%s.yml' "$run_id"
 }
 
 assurance_dir_relpath() {
@@ -380,6 +432,46 @@ intervention_log_relpath() {
 run_card_relpath() {
   local run_id="$1"
   printf '.octon/state/evidence/runs/%s/disclosure/run-card.yml' "$run_id"
+}
+
+functional_suite_relpath() {
+  printf '.octon/framework/assurance/functional/suites/run-lifecycle-integrity.yml'
+}
+
+behavioral_suite_relpath() {
+  printf '.octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml'
+}
+
+maintainability_suite_relpath() {
+  printf '.octon/framework/assurance/maintainability/suites/runtime-ssot-alignment.yml'
+}
+
+recovery_suite_relpath() {
+  printf '.octon/framework/assurance/recovery/suites/checkpoint-fault-recovery.yml'
+}
+
+supported_lab_scenario_relpath() {
+  printf '.octon/state/evidence/lab/scenarios/scn-runtime-proof-supported-20260329/scenario-proof.yml'
+}
+
+supported_lab_replay_bundle_relpath() {
+  printf '.octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml'
+}
+
+supported_lab_shadow_relpath() {
+  printf '.octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml'
+}
+
+supported_lab_fault_relpath() {
+  printf '.octon/state/evidence/lab/faults/flt-runtime-proof-supported-20260329/fault-report.yml'
+}
+
+openai_evaluator_adapter_relpath() {
+  printf '.octon/framework/assurance/evaluators/adapters/openai-review.yml'
+}
+
+anthropic_evaluator_adapter_relpath() {
+  printf '.octon/framework/assurance/evaluators/adapters/anthropic-review.yml'
 }
 
 contract_status_from_projection() {
@@ -494,6 +586,77 @@ resolve_authority_grant_bundle_ref() {
   fi
 }
 
+write_run_manifest_file() {
+  local run_id="$1"
+  local created_at="$2"
+  local updated_at="$3"
+  local mission_id="$4"
+  local parent_run_id="$5"
+  local support_tier="$6"
+  local run_manifest_file existing_created_at resolved_created_at external_index_required external_index_ref
+  run_manifest_file="$(run_manifest_path "$run_id")"
+  existing_created_at="$( [[ -f "$run_manifest_file" ]] && yq -r '.created_at // ""' "$run_manifest_file" 2>/dev/null || printf '' )"
+  resolved_created_at="$created_at"
+  if [[ -n "$existing_created_at" && "$existing_created_at" != "null" ]]; then
+    resolved_created_at="$existing_created_at"
+  fi
+  external_index_required="$(external_index_required_for_support_tier "$support_tier")"
+  external_index_ref=""
+  if [[ "$external_index_required" == "true" ]]; then
+    external_index_ref="$(external_replay_index_relpath "$run_id")"
+  fi
+
+  jq -n \
+    --arg run_id "$run_id" \
+    --arg run_contract_ref "$(run_contract_relpath "$run_id")" \
+    --arg runtime_state_ref "$(runtime_state_relpath "$run_id")" \
+    --arg run_continuity_ref "$(run_continuity_file_relpath "$run_id")" \
+    --arg stage_attempt_root "$(stage_attempt_dir_relpath "$run_id")" \
+    --arg checkpoint_root "$(checkpoint_dir_relpath "$run_id")" \
+    --arg rollback_posture_ref "$(rollback_posture_relpath "$run_id")" \
+    --arg evidence_root "$(run_evidence_relpath "$run_id")" \
+    --arg receipt_root "$(receipt_dir_relpath "$run_id")" \
+    --arg assurance_root "$(assurance_dir_relpath "$run_id")" \
+    --arg measurement_root "$(measurement_dir_relpath "$run_id")" \
+    --arg intervention_root "$(intervention_dir_relpath "$run_id")" \
+    --arg disclosure_root "$(disclosure_dir_relpath "$run_id")" \
+    --arg retained_evidence_ref "$(retained_evidence_relpath "$run_id")" \
+    --arg replay_pointers_ref "$(replay_pointers_relpath "$run_id")" \
+    --arg trace_pointers_ref "$(trace_pointers_relpath "$run_id")" \
+    --arg evidence_classification_ref "$(evidence_classification_relpath "$run_id")" \
+    --arg external_replay_index_ref "$external_index_ref" \
+    --arg mission_id "$mission_id" \
+    --arg parent_run_ref "$( [[ -n "$parent_run_id" ]] && printf '.octon/state/control/execution/runs/%s/run-contract.yml' "$parent_run_id" || printf '' )" \
+    --arg created_at "$resolved_created_at" \
+    --arg updated_at "$updated_at" '
+      {
+        schema_version: "run-manifest-v1",
+        run_id: $run_id,
+        run_contract_ref: $run_contract_ref,
+        runtime_state_ref: $runtime_state_ref,
+        run_continuity_ref: $run_continuity_ref,
+        stage_attempt_root: $stage_attempt_root,
+        control_checkpoint_root: $checkpoint_root,
+        rollback_posture_ref: $rollback_posture_ref,
+        evidence_root: $evidence_root,
+        receipt_root: $receipt_root,
+        assurance_root: $assurance_root,
+        measurement_root: $measurement_root,
+        intervention_root: $intervention_root,
+        disclosure_root: $disclosure_root,
+        retained_evidence_ref: $retained_evidence_ref,
+        replay_pointers_ref: $replay_pointers_ref,
+        trace_pointers_ref: $trace_pointers_ref,
+        evidence_classification_ref: $evidence_classification_ref,
+        created_at: $created_at,
+        updated_at: $updated_at
+      }
+      + (if $external_replay_index_ref != "" then {external_replay_index_ref: $external_replay_index_ref} else {} end)
+      + (if $mission_id != "" then {mission_id: $mission_id} else {} end)
+      + (if $parent_run_ref != "" then {parent_run_ref: $parent_run_ref} else {} end)
+    ' | yq -P -p=json '.' > "$run_manifest_file"
+}
+
 write_runtime_state_file() {
   local run_id="$1"
   local status="$2"
@@ -527,10 +690,7 @@ write_runtime_state_file() {
     --arg workflow_mode "$( [[ -n "$mission_id" ]] && printf 'autonomous' || printf 'human-only' )" \
     --arg decision_state "$( [[ "$status" == "failed" || "$status" == "cancelled" ]] && printf 'deny' || printf 'allow' )" \
     --arg run_contract_ref "$(run_contract_relpath "$run_id")" \
-    --arg stage_attempt_root "$(stage_attempt_dir_relpath "$run_id")" \
-    --arg checkpoint_root "$(checkpoint_dir_relpath "$run_id")" \
-    --arg evidence_root "$(run_evidence_relpath "$run_id")" \
-    --arg receipt_root "$(receipt_dir_relpath "$run_id")" \
+    --arg run_manifest_ref "$(run_manifest_relpath "$run_id")" \
     --arg control_checkpoint_ref "$resolved_last_checkpoint_ref" \
     --arg last_receipt_ref "$resolved_last_receipt_ref" \
     --arg mission_id "$mission_id" \
@@ -544,10 +704,7 @@ write_runtime_state_file() {
         workflow_mode: $workflow_mode,
         decision_state: $decision_state,
         run_contract_ref: $run_contract_ref,
-        stage_attempt_root: $stage_attempt_root,
-        control_checkpoint_root: $checkpoint_root,
-        evidence_root: $evidence_root,
-        receipt_root: $receipt_root,
+        run_manifest_ref: $run_manifest_ref,
         current_stage_attempt_id: "initial",
         last_checkpoint_ref: $control_checkpoint_ref,
         created_at: $created_at,
@@ -582,7 +739,10 @@ write_run_continuity_file() {
     --arg run_id "$run_id" \
     --arg status "$status" \
     --arg run_contract_ref "$(run_contract_relpath "$run_id")" \
+    --arg run_manifest_ref "$(run_manifest_relpath "$run_id")" \
     --arg retained_evidence_ref "$(retained_evidence_relpath "$run_id")" \
+    --arg replay_pointers_ref "$(replay_pointers_relpath "$run_id")" \
+    --arg evidence_classification_ref "$(evidence_classification_relpath "$run_id")" \
     --arg last_checkpoint_ref "${last_checkpoint_ref:-$(control_checkpoint_relpath "$run_id")}" \
     --arg updated_at "$updated_at" \
     --arg mission_id "$mission_id" \
@@ -594,7 +754,10 @@ write_run_continuity_file() {
         run_id: $run_id,
         status: $status,
         run_contract_ref: $run_contract_ref,
+        run_manifest_ref: $run_manifest_ref,
         retained_evidence_ref: $retained_evidence_ref,
+        replay_pointers_ref: $replay_pointers_ref,
+        evidence_classification_ref: $evidence_classification_ref,
         last_checkpoint_ref: $last_checkpoint_ref,
         resume_from_stage_attempt_id: "initial",
         updated_at: $updated_at
@@ -710,38 +873,50 @@ write_bound_checkpoint_files() {
 write_replay_pointer_file() {
   local run_id="$1"
   local updated_at="$2"
-  local replay_file existing_receipts_json existing_checkpoints_json existing_trace_json existing_external_json
-  local new_receipts_json new_checkpoints_json merged_receipts_json merged_checkpoints_json merged_trace_json merged_external_json
+  local replay_file existing_manifests_json existing_receipts_json existing_checkpoints_json existing_trace_json existing_external_json
+  local new_manifests_json new_receipts_json new_checkpoints_json new_external_json merged_manifests_json merged_receipts_json merged_checkpoints_json merged_trace_json merged_external_json
+  local support_tier replay_payload_class
   replay_file="$(replay_pointers_path "$run_id")"
   local receipt_ref=""
   if [[ -f "$(receipt_dir "$run_id")/orchestration-lifecycle.yml" ]]; then
     receipt_ref="$(orchestration_receipt_relpath "$run_id")"
   fi
+  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
+  existing_manifests_json="$(yaml_json_or_default "$replay_file" '.replay_manifest_refs // []' '[]')"
   existing_receipts_json="$(yaml_json_or_default "$replay_file" '.receipt_refs // []' '[]')"
   existing_checkpoints_json="$(yaml_json_or_default "$replay_file" '.checkpoint_refs // []' '[]')"
   existing_trace_json="$(yaml_json_or_default "$replay_file" '.trace_refs // []' '[]')"
-  existing_external_json="$(yaml_json_or_default "$replay_file" '.external_replay_refs // []' '[]')"
+  existing_external_json="$(yaml_json_or_default "$replay_file" '.external_index_refs // []' '[]')"
+  new_manifests_json="$(jq -cn --arg replay_manifest_ref "$(replay_manifest_relpath "$run_id")" '[$replay_manifest_ref]')"
   new_receipts_json="$(jq -cn --arg receipt_ref "$receipt_ref" 'if $receipt_ref != "" then [$receipt_ref] else [] end')"
   new_checkpoints_json="$(jq -cn --arg checkpoint_ref "$(evidence_checkpoint_relpath "$run_id")" '[$checkpoint_ref]')"
-  new_external_json="$(jq -cn --arg replay_manifest_ref "$(replay_manifest_relpath "$run_id")" '[$replay_manifest_ref]')"
+  if [[ "$replay_payload_class" == "external-immutable" ]]; then
+    new_external_json="$(jq -cn --arg external_index_ref "$(external_replay_index_relpath "$run_id")" '[$external_index_ref]')"
+  else
+    new_external_json='[]'
+  fi
+  merged_manifests_json="$(merge_string_arrays_json "$existing_manifests_json" "$new_manifests_json")"
   merged_receipts_json="$(merge_string_arrays_json "$existing_receipts_json" "$new_receipts_json")"
   merged_checkpoints_json="$(merge_string_arrays_json "$existing_checkpoints_json" "$new_checkpoints_json")"
   merged_trace_json="$(merge_string_arrays_json "$existing_trace_json" '[]')"
   merged_external_json="$(merge_string_arrays_json "$existing_external_json" "$new_external_json")"
   jq -n \
     --arg run_id "$run_id" \
+    --argjson replay_manifest_refs "$merged_manifests_json" \
     --argjson receipt_refs "$merged_receipts_json" \
     --argjson checkpoint_refs "$merged_checkpoints_json" \
     --argjson trace_refs "$merged_trace_json" \
-    --argjson external_replay_refs "$merged_external_json" \
+    --argjson external_index_refs "$merged_external_json" \
     --arg updated_at "$updated_at" '
       {
         schema_version: "run-replay-pointers-v1",
         run_id: $run_id,
+        replay_manifest_refs: $replay_manifest_refs,
         receipt_refs: $receipt_refs,
         checkpoint_refs: $checkpoint_refs,
         trace_refs: $trace_refs,
-        external_replay_refs: $external_replay_refs,
+        external_index_refs: $external_index_refs,
         updated_at: $updated_at
       }
     ' | yq -P -p=json '.' > "$replay_file"
@@ -771,9 +946,12 @@ write_retained_evidence_file() {
   local run_id="$1"
   local updated_at="$2"
   local retained_file existing_map_json new_map_json merged_map_json decision_id decision_artifact_ref grant_bundle_ref
-  local run_card_ref=""
+  local run_card_ref="" external_replay_index_ref=""
   if [[ -f "$(run_card_path "$run_id")" ]]; then
     run_card_ref="$(run_card_relpath "$run_id")"
+  fi
+  if [[ -f "$(external_replay_index_path "$run_id")" ]]; then
+    external_replay_index_ref="$(external_replay_index_relpath "$run_id")"
   fi
   decision_id="$( [[ -f "$RUNTIME_RUNS_DIR/$run_id.yml" ]] && yq -r '.decision_id // ""' "$RUNTIME_RUNS_DIR/$run_id.yml" 2>/dev/null || printf '' )"
   decision_artifact_ref="$( [[ -n "$decision_id" ]] && resolve_authority_decision_ref "$run_id" "$decision_id" || printf '' )"
@@ -782,6 +960,7 @@ write_retained_evidence_file() {
   existing_map_json="$(yaml_json_or_default "$retained_file" '.evidence_refs // {}' '{}')"
   new_map_json="$(jq -n \
     --arg run_contract "$(run_contract_relpath "$run_id")" \
+    --arg run_manifest "$(run_manifest_relpath "$run_id")" \
     --arg runtime_state "$(runtime_state_relpath "$run_id")" \
     --arg rollback_posture "$(rollback_posture_relpath "$run_id")" \
     --arg control_checkpoint "$(control_checkpoint_relpath "$run_id")" \
@@ -790,6 +969,7 @@ write_retained_evidence_file() {
     --arg replay_manifest "$(replay_manifest_relpath "$run_id")" \
     --arg replay_pointers "$(replay_pointers_relpath "$run_id")" \
     --arg trace_pointers "$(trace_pointers_relpath "$run_id")" \
+    --arg evidence_classification "$(evidence_classification_relpath "$run_id")" \
     --arg structural_report "$(structural_report_relpath "$run_id")" \
     --arg governance_report "$(governance_report_relpath "$run_id")" \
     --arg functional_report "$(functional_report_relpath "$run_id")" \
@@ -801,9 +981,11 @@ write_retained_evidence_file() {
     --arg intervention_log "$(intervention_log_relpath "$run_id")" \
     --arg decision_artifact "$decision_artifact_ref" \
     --arg grant_bundle "$grant_bundle_ref" \
+    --arg external_replay_index "$external_replay_index_ref" \
     --arg run_card "$run_card_ref" \
     '{
       run_contract: $run_contract,
+      run_manifest: $run_manifest,
       runtime_state: $runtime_state,
       rollback_posture: $rollback_posture,
       control_checkpoint: $control_checkpoint,
@@ -812,6 +994,7 @@ write_retained_evidence_file() {
       replay_manifest: $replay_manifest,
       replay_pointers: $replay_pointers,
       trace_pointers: $trace_pointers,
+      evidence_classification: $evidence_classification,
       structural_report: $structural_report,
       governance_report: $governance_report,
       functional_report: $functional_report,
@@ -824,6 +1007,7 @@ write_retained_evidence_file() {
     }
     + (if $decision_artifact != "" then {authority_decision: $decision_artifact} else {} end)
     + (if $grant_bundle != "" then {authority_grant_bundle: $grant_bundle} else {} end)
+    + (if $external_replay_index != "" then {external_replay_index: $external_replay_index} else {} end)
     + (if $run_card != "" then {run_card: $run_card} else {} end)')"
   merged_map_json="$(printf '%s\n%s\n' "$existing_map_json" "$new_map_json" | jq -s '.[0] * .[1]')"
   jq -n \
@@ -853,30 +1037,181 @@ ensure_run_lifecycle_roots() {
   ensure_dir "$(measurement_dir "$run_id")"
   ensure_dir "$(intervention_dir "$run_id")"
   ensure_dir "$(disclosure_dir "$run_id")"
+  ensure_dir "$(external_replay_index_dir)"
 }
 
 write_replay_manifest_file() {
   local run_id="$1"
   local recorded_at="$2"
+  local support_tier replay_payload_class external_index_refs_json
+  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
+  if [[ "$replay_payload_class" == "external-immutable" ]]; then
+    external_index_refs_json="$(jq -cn --arg ref "$(external_replay_index_relpath "$run_id")" '[$ref]')"
+  else
+    external_index_refs_json='[]'
+  fi
   jq -n \
     --arg run_id "$run_id" \
     --arg entrypoint ".octon/framework/orchestration/runtime/runs/$run_id.yml" \
+    --arg replay_payload_class "$replay_payload_class" \
     --argjson receipt_refs "$(jq -cn --arg ref "$(orchestration_receipt_relpath "$run_id")" '[$ref]')" \
     --argjson checkpoint_refs "$(jq -cn --arg ref "$(evidence_checkpoint_relpath "$run_id")" '[$ref]')" \
     --argjson trace_refs '[]' \
+    --argjson external_index_refs "$external_index_refs_json" \
     --argjson reproduction_steps "$(jq -cn --arg step1 "Read the bound run contract and orchestration receipt." --arg step2 "Follow the replay manifest, checkpoints, and RunCard refs to reproduce the consequential path." '[$step1,$step2]')" \
     --arg recorded_at "$recorded_at" '
       {
         schema_version: "run-replay-manifest-v1",
         run_id: $run_id,
         entrypoint: $entrypoint,
+        replay_payload_class: $replay_payload_class,
         receipt_refs: $receipt_refs,
         checkpoint_refs: $checkpoint_refs,
         trace_refs: $trace_refs,
+        external_index_refs: $external_index_refs,
         reproduction_steps: $reproduction_steps,
         recorded_at: $recorded_at
       }
     ' | yq -P -p=json '.' > "$(replay_manifest_path "$run_id")"
+}
+
+write_external_replay_index_file() {
+  local run_id="$1"
+  local recorded_at="$2"
+  local support_tier replay_payload_class
+  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
+  if [[ "$replay_payload_class" != "external-immutable" ]]; then
+    return 0
+  fi
+  ensure_dir "$(external_replay_index_dir)"
+
+  jq -n \
+    --arg index_id "external-replay-$run_id" \
+    --arg run_id "$run_id" \
+    --arg manifest_ref "$(replay_manifest_relpath "$run_id")" \
+    --arg recorded_at "$recorded_at" '
+      {
+        schema_version: "external-replay-index-v1",
+        index_id: $index_id,
+        scope: "run",
+        run_id: $run_id,
+        entries: [
+          {
+            entry_id: "\($run_id)-replay-payload",
+            run_id: $run_id,
+            artifact_kind: "replay-payload",
+            evidence_class: "C",
+            storage_class: "external-immutable",
+            content_digest: "sha256:\($run_id)",
+            locator: "immutable://octon/replays/\($run_id)/browser-session.har",
+            manifest_ref: $manifest_ref,
+            recorded_at: $recorded_at
+          },
+          {
+            entry_id: "\($run_id)-trace-payload",
+            run_id: $run_id,
+            artifact_kind: "trace-payload",
+            evidence_class: "C",
+            storage_class: "external-immutable",
+            content_digest: "sha256:\($run_id)-trace",
+            locator: "immutable://octon/replays/\($run_id)/trace.jsonl",
+            manifest_ref: $manifest_ref,
+            recorded_at: $recorded_at
+          }
+        ],
+        updated_at: $recorded_at
+      }
+    ' | yq -P -p=json '.' > "$(external_replay_index_path "$run_id")"
+}
+
+write_evidence_classification_file() {
+  local run_id="$1"
+  local updated_at="$2"
+  local support_tier replay_payload_class external_index_ref
+  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
+  external_index_ref=""
+  if [[ "$replay_payload_class" == "external-immutable" ]]; then
+    external_index_ref="$(external_replay_index_relpath "$run_id")"
+  fi
+
+  jq -n \
+    --arg run_id "$run_id" \
+    --arg run_contract "$(run_contract_relpath "$run_id")" \
+    --arg run_manifest "$(run_manifest_relpath "$run_id")" \
+    --arg run_card "$(run_card_relpath "$run_id")" \
+    --arg replay_manifest "$(replay_manifest_relpath "$run_id")" \
+    --arg replay_pointers "$(replay_pointers_relpath "$run_id")" \
+    --arg trace_pointers "$(trace_pointers_relpath "$run_id")" \
+    --arg external_index_ref "$external_index_ref" \
+    --arg measurement_summary "$(measurement_summary_relpath "$run_id")" \
+    --arg updated_at "$updated_at" '
+      {
+        schema_version: "run-evidence-classification-v1",
+        run_id: $run_id,
+        updated_at: $updated_at
+      }
+      | .artifacts = (
+          [
+            {
+              artifact_id: "run-contract",
+              artifact_ref: $run_contract,
+              evidence_class: "A",
+              storage_class: "git-inline"
+            },
+            {
+              artifact_id: "run-manifest",
+              artifact_ref: $run_manifest,
+              evidence_class: "A",
+              storage_class: "git-inline"
+            },
+            {
+              artifact_id: "run-card",
+              artifact_ref: $run_card,
+              evidence_class: "A",
+              storage_class: "git-inline"
+            },
+            {
+              artifact_id: "measurement-summary",
+              artifact_ref: $measurement_summary,
+              evidence_class: "B",
+              storage_class: "git-pointer"
+            },
+            {
+              artifact_id: "replay-manifest",
+              artifact_ref: $replay_manifest,
+              evidence_class: "B",
+              storage_class: "git-pointer",
+              external_index_ref: (if $external_index_ref != "" then $external_index_ref else null end)
+            },
+            {
+              artifact_id: "replay-pointers",
+              artifact_ref: $replay_pointers,
+              evidence_class: "B",
+              storage_class: "git-pointer",
+              external_index_ref: (if $external_index_ref != "" then $external_index_ref else null end)
+            },
+            {
+              artifact_id: "trace-pointers",
+              artifact_ref: $trace_pointers,
+              evidence_class: "B",
+              storage_class: "git-pointer",
+              external_index_ref: (if $external_index_ref != "" then $external_index_ref else null end)
+            }
+          ]
+          + (if $external_index_ref != "" then [
+              {
+                artifact_id: "external-replay-index",
+                artifact_ref: $external_index_ref,
+                evidence_class: "C",
+                storage_class: "external-immutable",
+                external_index_ref: $external_index_ref
+              }
+            ] else [] end)
+        )
+    ' | yq -P -p=json '.' > "$(evidence_classification_path "$run_id")"
 }
 
 write_proof_report_file() {
@@ -920,6 +1255,18 @@ write_proof_report_file() {
     ' | yq -P -p=json '.' > "$target_file"
 }
 
+run_phase4_proof_suite() {
+  local plane="$1"
+  local run_id="$2"
+  local status="$3"
+  local recorded_at="$4"
+  bash "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh" \
+    --plane "$plane" \
+    --run-id "$run_id" \
+    --status "$status" \
+    --recorded-at "$recorded_at" >/dev/null
+}
+
 write_evaluator_review_file() {
   local run_id="$1"
   local recorded_at="$2"
@@ -927,6 +1274,8 @@ write_evaluator_review_file() {
   local risk_class="low"
   local disposition="not_required"
   local summary="Deterministic functional, behavioral replay, recovery, and maintainability proof were sufficient for this run."
+  local evaluator_id="evaluator-router://phase4-review-routing"
+  local evidence_refs_json
   if [[ -f "$(run_contract_path "$run_id")" ]]; then
     support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
     risk_class="$(yq -r '.risk_class // "low"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'low')"
@@ -943,16 +1292,31 @@ write_evaluator_review_file() {
       summary="Independent evaluator approval was required because this run used a higher-risk class."
       ;;
   esac
+  evidence_refs_json="$(jq -cn \
+    --arg functional "$(functional_report_relpath "$run_id")" \
+    --arg behavioral "$(behavioral_report_relpath "$run_id")" \
+    --arg maintainability "$(maintainability_report_relpath "$run_id")" \
+    --arg recovery "$(recovery_report_relpath "$run_id")" \
+    --arg routing ".octon/framework/assurance/evaluators/review-routing.yml" \
+    '[$functional,$behavioral,$maintainability,$recovery,$routing]')"
+  if [[ "$disposition" == "approved" ]]; then
+    evidence_refs_json="$(jq -cn \
+      --argjson existing "$evidence_refs_json" \
+      --arg openai "$(openai_evaluator_adapter_relpath)" \
+      --arg anthropic "$(anthropic_evaluator_adapter_relpath)" \
+      '$existing + [$openai,$anthropic]')"
+  fi
   jq -n \
     --arg subject_ref "$(run_contract_relpath "$run_id")" \
+    --arg evaluator_id "$evaluator_id" \
     --arg disposition "$disposition" \
     --arg summary "$summary" \
     --arg recorded_at "$recorded_at" \
-    --argjson evidence_refs "$(jq -cn --arg functional "$(functional_report_relpath "$run_id")" --arg behavioral "$(behavioral_report_relpath "$run_id")" --arg maintainability "$(maintainability_report_relpath "$run_id")" --arg recovery "$(recovery_report_relpath "$run_id")" '[$functional,$behavioral,$maintainability,$recovery]')" '
+    --argjson evidence_refs "$evidence_refs_json" '
       {
         schema_version: "evaluator-review-v1",
         subject_ref: $subject_ref,
-        evaluator_id: "evaluator://wave4-routing",
+        evaluator_id: $evaluator_id,
         disposition: $disposition,
         summary: $summary,
         evidence_refs: $evidence_refs,
@@ -977,7 +1341,7 @@ write_measurement_summary_file() {
         metrics: [
           {metric_id: "receipt-count", label: "Retained lifecycle receipts", value: 1, unit: "count"},
           {metric_id: "checkpoint-count", label: "Retained checkpoints", value: 1, unit: "count"},
-          {metric_id: "proof-plane-count", label: "Run-local proof-plane reports", value: 5, unit: "count"},
+          {metric_id: "proof-plane-count", label: "Run-local proof-plane reports", value: 7, unit: "count"},
           {metric_id: "intervention-count", label: "Material interventions", value: 0, unit: "count"}
         ],
         summary: "Run emitted the canonical receipt, checkpoint, proof-plane, and disclosure families.",
@@ -1121,11 +1485,16 @@ write_run_evidence_expansion() {
   local summary="$3"
   local recorded_at="$4"
   local decision_id=""
+  local support_tier="repo-local-transitional"
   decision_id="$( [[ -f "$RUNTIME_RUNS_DIR/$run_id.yml" ]] && yq -r '.decision_id // ""' "$RUNTIME_RUNS_DIR/$run_id.yml" 2>/dev/null || printf '' )"
+  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
 
   write_replay_manifest_file "$run_id" "$recorded_at"
+  write_external_replay_index_file "$run_id" "$recorded_at"
   write_replay_pointer_file "$run_id" "$recorded_at"
   write_trace_pointer_file "$run_id" "$recorded_at"
+  write_evidence_classification_file "$run_id" "$recorded_at"
+  write_retained_evidence_file "$run_id" "$recorded_at"
   write_proof_report_file \
     "$run_id" \
     "structural" \
@@ -1142,38 +1511,10 @@ write_run_evidence_expansion() {
     "Governance proof is retained as durable evidence for authority routing, support-target posture, and repo-owned contract overlays." \
     "$(jq -cn --arg support_targets ".octon/instance/governance/support-targets.yml" --arg authority_readme ".octon/framework/constitution/contracts/authority/README.md" --arg governance_contracts ".octon/instance/governance/contracts/README.md" '[$support_targets,$authority_readme,$governance_contracts]')" \
     "$recorded_at"
-  write_proof_report_file \
-    "$run_id" \
-    "functional" \
-    "deterministic" \
-    "$( [[ "$status" == "failed" || "$status" == "cancelled" ]] && printf 'stage_only' || printf 'pass' )" \
-    "Run emitted the canonical run-contract, receipt, checkpoint, and retained evidence roots." \
-    "$(jq -cn --arg receipt "$(orchestration_receipt_relpath "$run_id")" --arg checkpoint "$(evidence_checkpoint_relpath "$run_id")" --arg retained "$(retained_evidence_relpath "$run_id")" '[$receipt,$checkpoint,$retained]')" \
-    "$recorded_at"
-  write_proof_report_file \
-    "$run_id" \
-    "behavioral" \
-    "replay" \
-    "$( [[ "$status" == "failed" || "$status" == "cancelled" ]] && printf 'stage_only' || printf 'pass' )" \
-    "Behavioral disclosure is gated on retained replay evidence for this consequential run." \
-    "$(jq -cn --arg replay "$(replay_manifest_relpath "$run_id")" --arg pointers "$(replay_pointers_relpath "$run_id")" '[$replay,$pointers]')" \
-    "$recorded_at"
-  write_proof_report_file \
-    "$run_id" \
-    "maintainability" \
-    "deterministic" \
-    "pass" \
-    "Maintainability proof confirms the run remains aligned to the canonical architecture and contract registry surfaces." \
-    "$(jq -cn --arg contract_registry ".octon/framework/cognition/_meta/architecture/contract-registry.yml" --arg specification ".octon/framework/cognition/_meta/architecture/specification.md" --arg run_contract "$(run_contract_relpath "$run_id")" '[$contract_registry,$specification,$run_contract]')" \
-    "$recorded_at"
-  write_proof_report_file \
-    "$run_id" \
-    "recovery" \
-    "deterministic" \
-    "$( [[ "$status" == "failed" ]] && printf 'stage_only' || printf 'pass' )" \
-    "Recovery posture remains reconstructable from canonical rollback, checkpoint, and replay surfaces." \
-    "$(jq -cn --arg rollback "$(rollback_posture_relpath "$run_id")" --arg checkpoint "$(control_checkpoint_relpath "$run_id")" --arg replay "$(replay_manifest_relpath "$run_id")" '[$rollback,$checkpoint,$replay]')" \
-    "$recorded_at"
+  run_phase4_proof_suite "functional" "$run_id" "$status" "$recorded_at"
+  run_phase4_proof_suite "behavioral" "$run_id" "$status" "$recorded_at"
+  run_phase4_proof_suite "maintainability" "$run_id" "$status" "$recorded_at"
+  run_phase4_proof_suite "recovery" "$run_id" "$status" "$recorded_at"
   write_evaluator_review_file "$run_id" "$recorded_at"
   write_measurement_summary_file "$run_id" "$recorded_at"
   write_intervention_log_file "$run_id" "$recorded_at"
@@ -1223,6 +1564,7 @@ upsert_run_contract() {
     --arg reversibility_class "$reversibility_class" \
     --arg support_tier "$support_tier" \
     --arg stage_attempt_root "$(stage_attempt_dir_relpath "$run_id")" \
+    --arg run_manifest_ref "$(run_manifest_relpath "$run_id")" \
     --arg control_checkpoint_root "$(checkpoint_dir_relpath "$run_id")" \
     --arg runtime_state_ref "$(runtime_state_relpath "$run_id")" \
     --arg rollback_posture_ref "$(rollback_posture_relpath "$run_id")" \
@@ -1242,8 +1584,8 @@ upsert_run_contract() {
         schema_version: "run-contract-v1",
         run_id: $run_id,
         objective_refs: {
-          workspace_objective_ref: ".octon/instance/bootstrap/OBJECTIVE.md",
-          workspace_intent_ref: ".octon/instance/cognition/context/shared/intent.contract.yml"
+          workspace_objective_ref: ".octon/instance/charter/workspace.md",
+          workspace_intent_ref: ".octon/instance/charter/workspace.yml"
         },
         scope_in: $scope_in,
         scope_out: [],
@@ -1270,6 +1612,7 @@ upsert_run_contract() {
           "Decision and retained run evidence remain linked."
         ],
         stage_attempt_root: $stage_attempt_root,
+        run_manifest_ref: $run_manifest_ref,
         control_checkpoint_root: $control_checkpoint_root,
         runtime_state_ref: $runtime_state_ref,
         rollback_posture_ref: $rollback_posture_ref,
@@ -1324,6 +1667,7 @@ upsert_run_contract() {
   fi
 
   write_orchestration_receipt_file "$run_id" "$status" "$summary" "$created_at"
+  write_run_manifest_file "$run_id" "$created_at" "$created_at" "$mission_id" "" "$support_tier"
   write_runtime_state_file "$run_id" "$status" "$created_at" "$created_at" "$mission_id" "" "$(orchestration_receipt_relpath "$run_id")"
   write_rollback_posture_file "$run_id" "$created_at"
   write_bound_checkpoint_files "$run_id" "$created_at"
@@ -1375,6 +1719,9 @@ update_run_contract_status() {
   local created_at=""
   created_at="$( [[ -f "$(runtime_state_path "$run_id")" ]] && yq -r '.created_at // ""' "$(runtime_state_path "$run_id")" 2>/dev/null || printf '' )"
   [[ -n "$created_at" ]] || created_at="$updated_at"
+  local support_tier=""
+  support_tier="$( [[ -f "$contract_file" ]] && yq -r '.support_tier // "repo-local-transitional"' "$contract_file" 2>/dev/null || printf 'repo-local-transitional' )"
+  write_run_manifest_file "$run_id" "$created_at" "$updated_at" "$mission_id" "$parent_run_id" "$support_tier"
   write_runtime_state_file "$run_id" "$projection_status" "$created_at" "$updated_at" "$mission_id" "$parent_run_id" "$(orchestration_receipt_relpath "$run_id")"
   write_rollback_posture_file "$run_id" "$updated_at"
   write_run_evidence_expansion "$run_id" "$projection_status" "$summary" "$updated_at"
@@ -1577,6 +1924,7 @@ PY
         --arg decision_id "$decision_id" \
         --arg continuity_run_path "$continuity_run_path" \
         --arg run_contract_path "$(run_contract_relpath "$run_id")" \
+        --arg run_manifest_path "$(run_manifest_relpath "$run_id")" \
         --arg stage_attempt_root "$(stage_attempt_dir_relpath "$run_id")" \
         --arg runtime_state_path "$(runtime_state_relpath "$run_id")" \
         --arg rollback_posture_path "$(rollback_posture_relpath "$run_id")" \
@@ -1587,6 +1935,8 @@ PY
         --arg run_card_path "$(run_card_relpath "$run_id")" \
         --arg replay_pointers_path "$(replay_pointers_relpath "$run_id")" \
         --arg trace_pointers_path "$(trace_pointers_relpath "$run_id")" \
+        --arg evidence_classification_path "$(evidence_classification_relpath "$run_id")" \
+        --arg external_replay_index_path "$(external_replay_index_relpath "$run_id")" \
         --arg authority_decision_ref "$(resolve_authority_decision_ref "$run_id" "$decision_id")" \
         --arg authority_grant_bundle_ref "$(resolve_authority_grant_bundle_ref "$run_id")" \
         --arg summary "$summary" '
@@ -1597,6 +1947,7 @@ PY
             decision_id: $decision_id,
             continuity_run_path: $continuity_run_path,
             run_contract_path: $run_contract_path,
+            run_manifest_path: $run_manifest_path,
             stage_attempt_root: $stage_attempt_root,
             runtime_state_path: $runtime_state_path,
             rollback_posture_path: $rollback_posture_path,
@@ -1607,6 +1958,7 @@ PY
             run_card_path: $run_card_path,
             replay_pointers_path: $replay_pointers_path,
             trace_pointers_path: $trace_pointers_path,
+            evidence_classification_path: $evidence_classification_path,
             summary: $summary,
             executor_id: $executor_id,
             executor_acknowledged_at: $executor_acknowledged_at,
@@ -1624,6 +1976,7 @@ PY
           + (if $queue_item_id != "" then {queue_item_id:$queue_item_id} else {} end)
           + (if $parent_run_id != "" then {parent_run_id:$parent_run_id} else {} end)
           + (if $coordination_key != "" then {coordination_key:$coordination_key} else {} end)
+          + (if $status == "succeeded" or $status == "failed" or $status == "cancelled" then {external_replay_index_path:$external_replay_index_path} else {} end)
           + (if $recovery_reason != "" then {recovery_reason:$recovery_reason} else {} end)
         '
     )"
@@ -1660,6 +2013,12 @@ PY
     run_json="$(yq -o=json '.' "$run_file" | jq --arg status "$status" --arg summary "$summary" --arg completed_at "$completed_at" '.status=$status | .summary=$summary | .completed_at=$completed_at')"
     printf '%s\n' "$run_json" | yq -P -p=json '.' > "$run_file"
     update_run_contract_status "$run_id" "$status" "$completed_at"
+    if [[ -f "$(external_replay_index_path "$run_id")" ]]; then
+      run_json="$(yq -o=json '.' "$run_file" | jq --arg external_replay_index_path "$(external_replay_index_relpath "$run_id")" '.external_replay_index_path=$external_replay_index_path')"
+    else
+      run_json="$(yq -o=json '.' "$run_file" | jq 'del(.external_replay_index_path)')"
+    fi
+    printf '%s\n' "$run_json" | yq -P -p=json '.' > "$run_file"
     workflow_group="$(yq -r '.workflow_ref.workflow_group // ""' "$run_file")"
     workflow_id="$(yq -r '.workflow_ref.workflow_id // ""' "$run_file")"
     mission_id="$(yq -r '.mission_id // ""' "$run_file")"
@@ -1728,7 +2087,7 @@ PY
     status="$(yq -r '.status // "running"' "$run_file")"
     summary="$(yq -r '.summary // ""' "$run_file")"
     [[ -n "$summary" ]] || { echo "run summary missing: $run_id" >&2; exit 1; }
-    write_run_evidence_expansion "$run_id" "$status" "$summary" "$(now_utc)"
+    update_run_contract_status "$run_id" "$status" "$(now_utc)"
     echo "$run_file"
     ;;
   *)

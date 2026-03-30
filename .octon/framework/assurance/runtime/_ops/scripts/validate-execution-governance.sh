@@ -76,6 +76,7 @@ main() {
   require_file "$OCTON_DIR/instance/governance/support-targets.yml"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/write-authority-control-receipt.sh"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/materialize-authority-approval.sh"
+  require_file "$OCTON_DIR/framework/engine/_ops/scripts/project-github-control-approval.sh"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-exception-lease.sh"
   require_file "$OCTON_DIR/framework/engine/_ops/scripts/record-authority-revocation.sh"
   require_file "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"
@@ -117,10 +118,52 @@ main() {
     pass "protected GitHub workflows do not materialize authority from host projections"
   fi
 
+  if has_pattern_in_files 'project-github-control-approval\.sh' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
+    pass "GitHub control-plane workflows dual-write into canonical approval artifacts"
+  else
+    fail "GitHub control-plane workflows must dual-write into canonical approval artifacts"
+  fi
+
   if has_pattern_in_files 'accept:human|ai-gate:waive|waived-by-authority' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml"; then
     fail "protected GitHub workflows must not depend on label-based approval or waiver paths"
   else
     pass "protected GitHub workflows do not depend on label-based approval or waiver paths"
+  fi
+
+  if has_pattern_in_files 'projection-label|gh pr edit .*ai-gate:|gh pr edit .*autonomy:' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
+    fail "critical GitHub workflows must not project or sync autonomy/ai-gate labels"
+  else
+    pass "critical GitHub workflows do not project or sync autonomy/ai-gate labels"
+  fi
+
+  if has_pattern_in_files 'has_label "${payload}" "autonomy:auto-merge"|has_label "${payload}" "autonomy:no-automerge"|autonomy:auto-merge label missing|autonomy:no-automerge label present' "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
+    fail "pr-auto-merge must not use autonomy labels as merge authority"
+  else
+    pass "pr-auto-merge does not use autonomy labels as merge authority"
+  fi
+
+  if find "$OCTON_DIR/state/control/execution/approvals/requests" -type f -name '*.yml' | grep -q .; then
+    pass "canonical approval request artifacts are populated"
+  else
+    fail "canonical approval request artifacts must be populated"
+  fi
+
+  if find "$OCTON_DIR/state/control/execution/approvals/grants" -type f -name '*.yml' | grep -q .; then
+    pass "canonical approval grant artifacts are populated"
+  else
+    fail "canonical approval grant artifacts must be populated"
+  fi
+
+  if has_pattern_in_files 'schema_version:[[:space:]]*authority-exception-lease-v1' "$OCTON_DIR/state/control/execution/exceptions/leases.yml"; then
+    pass "canonical exception lease artifacts are populated"
+  else
+    fail "canonical exception lease artifacts must be populated"
+  fi
+
+  if has_pattern_in_files 'schema_version:[[:space:]]*authority-revocation-v1' "$OCTON_DIR/state/control/execution/revocations/grants.yml"; then
+    pass "canonical revocation artifacts are populated"
+  else
+    fail "canonical revocation artifacts must be populated"
   fi
 
   if has_pattern_in_files 'OCTON_EFFECTIVE_POLICY_MODE="hard-enforce"' "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/deny-by-default-gates.yml" "$ROOT_DIR/.github/workflows/release-please.yml"; then
@@ -147,6 +190,12 @@ main() {
   run_test \
     "kernel undeclared host adapter denies execution" \
     cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::undeclared_host_adapter_denies_execution -- --exact
+  run_test \
+    "kernel unadmitted api pack denies execution" \
+    cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::unadmitted_api_pack_denies_execution -- --exact
+  run_test \
+    "kernel invalid model adapter manifest denies execution" \
+    cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::invalid_model_adapter_manifest_denies_execution -- --exact
   run_test \
     "authority control tooling writes canonical artifacts" \
     bash "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"

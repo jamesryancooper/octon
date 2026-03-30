@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/lab/runtime/contracts/fault-injection-plan-v1.schema.json",
+  "title": "Octon Fault Injection Plan v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "fault_plan_id", "purpose", "expected_outputs"],
+  "properties": {
+    "schema_version": { "const": "fault-injection-plan-v1" },
+    "fault_plan_id": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "expected_outputs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  }
+}

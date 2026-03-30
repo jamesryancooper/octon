@@ -5484,10 +5484,10 @@ mod tests {
         seed_policy_runtime_env();
         let octon_dir = root.join(".octon");
         fs::create_dir_all(&octon_dir).expect(".octon dir should exist");
-        fs::create_dir_all(octon_dir.join("instance/cognition/context/shared"))
-            .expect("intent contract dir should exist");
+        fs::create_dir_all(octon_dir.join("instance/charter"))
+            .expect("workspace charter dir should exist");
         write_file(
-            &octon_dir.join("instance/cognition/context/shared/intent.contract.yml"),
+            &octon_dir.join("instance/charter/workspace.yml"),
             "intent_id: \"intent://test/design-workflow\"\nversion: \"1.0.0\"\n",
         );
         fs::create_dir_all(octon_dir.join("framework/capabilities/governance/policy"))
@@ -5582,24 +5582,40 @@ mod tests {
         seed_policy_runtime_env();
         let octon_dir = root.join(".octon");
         fs::create_dir_all(&octon_dir).expect(".octon dir should exist");
-        fs::create_dir_all(octon_dir.join("instance/cognition/context/shared"))
-            .expect("intent contract dir should exist");
+        fs::create_dir_all(octon_dir.join("instance/charter"))
+            .expect("workspace charter dir should exist");
         fs::create_dir_all(octon_dir.join("instance/governance/ownership"))
             .expect("governance ownership dir should exist");
         write_file(
-            &octon_dir.join("instance/cognition/context/shared/intent.contract.yml"),
+            &octon_dir.join("instance/charter/workspace.yml"),
             "intent_id: \"intent://test/create-design-package\"\nversion: \"1.0.0\"\n",
         );
         write_file(
             &octon_dir.join("instance/governance/ownership/registry.yml"),
             "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
         );
-        write_file(
-            &octon_dir.join("instance/governance/support-targets.yml"),
-            "schema_version: \"octon-support-targets-v1\"\nowner: \"fixtures\"\ndefault_route: \"deny\"\ntiers:\n  model:\n    - id: \"MT-B\"\n      label: \"repo-local-governed\"\n      default_autonomy: \"bounded\"\n      description: \"fixture\"\n  workload:\n    - id: \"WT-2\"\n      label: \"repo-local-transitional\"\n      default_route: \"allow\"\n      description: \"fixture\"\n  language_resource:\n    - id: \"LT-REF\"\n      label: \"reference-owned\"\n      description: \"fixture\"\n  locale:\n    - id: \"LOC-EN\"\n      label: \"english-primary\"\n      description: \"fixture\"\ncompatibility_matrix:\n  - model_tier: \"MT-B\"\n    workload_tier: \"WT-2\"\n    language_resource_tier: \"LT-REF\"\n    locale_tier: \"LOC-EN\"\n    support_status: \"supported\"\n    default_route: \"allow\"\nadapter_conformance_criteria:\n  - criterion_id: \"HOST-001\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"HOST-002\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-001\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"MODEL-002\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-003\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"run-evidence-root\"\nhost_adapters:\n  - adapter_id: \"repo-shell\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/host/repo-shell.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"HOST-001\"\n      - \"HOST-002\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"WT-2\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\nmodel_adapters:\n  - adapter_id: \"repo-local-governed\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"MODEL-001\"\n      - \"MODEL-002\"\n      - \"MODEL-003\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"WT-2\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"run-evidence-root\"\n",
-        );
+        fs::copy(
+            source_repo_root().join(".octon/instance/governance/support-targets.yml"),
+            octon_dir.join("instance/governance/support-targets.yml"),
+        )
+        .expect("copy support targets");
+        fs::create_dir_all(octon_dir.join("instance/capabilities/runtime/packs"))
+            .expect("runtime pack dir should exist");
+        fs::copy(
+            source_repo_root().join(".octon/instance/capabilities/runtime/packs/registry.yml"),
+            octon_dir.join("instance/capabilities/runtime/packs/registry.yml"),
+        )
+        .expect("copy runtime pack registry");
         fs::create_dir_all(octon_dir.join("framework/capabilities/governance/policy"))
             .expect("policy root should exist");
+        copy_tree(
+            &source_repo_root().join(".octon/framework/engine/runtime/adapters"),
+            &root.join(".octon/framework/engine/runtime/adapters"),
+        );
+        copy_tree(
+            &source_repo_root().join(".octon/framework/capabilities/packs"),
+            &root.join(".octon/framework/capabilities/packs"),
+        );
         write_file(
             &octon_dir.join("octon.yml"),
             "engine:\n  runtime:\n    policy_file: framework/capabilities/governance/policy/deny-by-default.v2.yml\n",

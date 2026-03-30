@@ -10,7 +10,10 @@
     "run_id",
     "status",
     "run_contract_ref",
+    "run_manifest_ref",
     "retained_evidence_ref",
+    "replay_pointers_ref",
+    "evidence_classification_ref",
     "last_checkpoint_ref",
     "updated_at"
   ],
@@ -40,7 +43,19 @@
       "type": "string",
       "minLength": 1
     },
+    "run_manifest_ref": {
+      "type": "string",
+      "minLength": 1
+    },
     "retained_evidence_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "replay_pointers_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_classification_ref": {
       "type": "string",
       "minLength": 1
     },

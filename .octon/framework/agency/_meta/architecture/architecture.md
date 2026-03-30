@@ -107,18 +107,19 @@ graph TD
 | Layer | Concern | Primary Artifacts |
 |---|---|---|
 | L1 | Actor identity and routing | `agency/manifest.yml`, `runtime/*/registry.yml` |
-| L2 | Cross-agent governance contracts | `governance/CONSTITUTION.md`, `governance/DELEGATION.md`, `governance/MEMORY.md` |
-| L3 | Actor behavior contracts | `AGENT.md`, `SOUL.md`, `assistant.md`, `team.md` |
-| L4 | Capability execution | skills and workflows |
-| L5 | Durable progress/state | missions, continuity, cognition |
-| L6 | Verification/governance | quality gates, audits, CI validation |
+| L2 | Kernel execution profile | `runtime/agents/orchestrator/AGENT.md` |
+| L3 | Supporting delegation and memory overlays | `governance/DELEGATION.md`, `governance/MEMORY.md`, historical `governance/CONSTITUTION.md` |
+| L4 | Actor behavior contracts | `AGENT.md`, `assistant.md`, `team.md` |
+| L5 | Capability execution | skills and workflows |
+| L6 | Durable progress/state | missions, continuity, cognition |
+| L7 | Verification/governance | quality gates, audits, CI validation |
 
 ## Key Contracts and Boundaries
 
-### Boundary 0: Governance Precedence
+### Boundary 0: Orchestrator Precedence
 
-- Cross-agent governance (`governance/CONSTITUTION.md`, `governance/DELEGATION.md`, `governance/MEMORY.md`) constrains all per-agent behavior.
-- Per-agent contracts can specialize behavior but cannot override governance red lines.
+- The orchestrator contract is the clear kernel execution profile beneath the constitutional kernel and ingress.
+- Delegation and memory overlays can narrow behavior, but they are not peer constitutional layers.
 
 ### Boundary 1: Orchestration vs Capability
 

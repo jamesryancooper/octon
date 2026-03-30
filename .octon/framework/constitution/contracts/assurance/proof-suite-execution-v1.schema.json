@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/proof-suite-execution-v1.schema.json",
+  "title": "Octon Proof Suite Execution v1",
+  "description": "Execution receipt for one authored proof suite against a specific run or claim.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "suite_id",
+    "plane",
+    "subject_ref",
+    "outcome",
+    "checked_artifacts",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "proof-suite-execution-v1"
+    },
+    "suite_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "plane": {
+      "type": "string",
+      "enum": [
+        "functional",
+        "behavioral",
+        "maintainability",
+        "recovery"
+      ]
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "stage_only",
+        "fail"
+      ]
+    },
+    "checked_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

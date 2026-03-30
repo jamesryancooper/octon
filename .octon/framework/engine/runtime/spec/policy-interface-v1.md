@@ -34,8 +34,11 @@ These launchers are the canonical invocation boundary for policy operations.
 - Repo-owned support-target declarations are declared in:
   - `/.octon/instance/governance/support-targets.yml`
 - Repo-owned workspace objective narrative is declared in:
-  - `/.octon/instance/bootstrap/OBJECTIVE.md`
+  - `/.octon/instance/charter/workspace.md`
 - Repo-owned workspace objective machine contract is declared in:
+  - `/.octon/instance/charter/workspace.yml`
+- Compatibility workspace objective shims remain at:
+  - `/.octon/instance/bootstrap/OBJECTIVE.md`
   - `/.octon/instance/cognition/context/shared/intent.contract.yml`
 - Canonical authority contracts are published under:
   - `/.octon/framework/constitution/contracts/authority/`
@@ -51,10 +54,14 @@ These launchers are the canonical invocation boundary for policy operations.
   - `/.octon/framework/engine/runtime/adapters/host/`
 - Runtime model adapter manifests are published under:
   - `/.octon/framework/engine/runtime/adapters/model/`
+- Framework capability-pack contracts are published under:
+  - `/.octon/framework/capabilities/packs/`
+- Repo-local capability-pack admission is published under:
+  - `/.octon/instance/capabilities/runtime/packs/`
 - Canonical run-contract control roots are published under:
   - `/.octon/state/control/execution/runs/`
 - Canonical run lifecycle control files are published under:
-  - `/.octon/state/control/execution/runs/<run_id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
+  - `/.octon/state/control/execution/runs/<run_id>/{run-manifest.yml,runtime-state.yml,rollback-posture.yml,checkpoints/**}`
 - Canonical lab-authored scenario and replay contracts are published under:
   - `/.octon/framework/lab/`
 - Canonical observability-authored measurement and intervention contracts are published under:
@@ -122,9 +129,10 @@ Autonomy MUST also provide `autonomy_context` with:
 
 Missing mission autonomy context is a fail-closed denial for autonomous runs.
 
-Wave 1 coexistence rule:
+Phase 2 objective rule:
 
-- workspace objective pair remains the active workspace-charter layer
+- instance/charter workspace pair is the active workspace-charter layer
+- bootstrap/cognition workspace pair remains compatibility shim only
 - mission remains the continuity container for mission-class work
 - run contracts define the canonical atomic execution unit under
   `state/control/execution/runs/**`
@@ -136,6 +144,16 @@ Wave 3 lifecycle rule:
   side effects occur
 - mission summaries and mission views may consume run evidence, but they may
   not replace the bound run root as the execution-time unit of truth
+
+Phase 3 normalization rule:
+
+- `run-manifest.yml` is the canonical bound run-manifest model
+- `runtime-state.yml` carries mutable execution status only
+- `state/evidence/runs/<run_id>/evidence-classification.yml` must encode the
+  packet Class A/B/C evidence model
+- supported boundary-sensitive runs must retain external immutable replay
+  payloads through a content-addressed index under
+  `state/evidence/external-index/**`
 
 For material ACP runs (`phase=promote|finalize` or explicit material side-effect
 flags), the wrapper executes a single mandatory path:
@@ -174,6 +192,8 @@ also satisfy:
 - repo-owned ownership and support-target declarations for consequential work
 - repo-owned host/model adapter declarations and adapter-conformance criteria
   from `/.octon/instance/governance/support-targets.yml`
+- repo-owned capability-pack admission under
+  `/.octon/instance/capabilities/runtime/packs/registry.yml`
 - retained run evidence under `state/evidence/runs/<run_id>/**` for any
   resulting egress or cost artifacts
 - canonical run receipts under `state/evidence/runs/<run_id>/receipts/**`
@@ -182,6 +202,8 @@ also satisfy:
   `state/evidence/runs/<run_id>/{assurance/**,measurements/**,interventions/**,disclosure/**}`
 - canonical replay and trace pointers under
   `state/evidence/runs/<run_id>/{replay-pointers.yml,trace-pointers.yml}`
+- canonical run evidence classification under
+  `state/evidence/runs/<run_id>/evidence-classification.yml`
 - retained lab evidence under `state/evidence/lab/**` for any system-level
   behavioral or support claims
 - retained lab evidence root:
@@ -199,6 +221,18 @@ Adapter metadata keys for runtime requests are:
 - `support_model_tier`
 - `support_language_resource_tier`
 - `support_locale_tier`
+
+Capability-pack admission is evaluated from inferred execution surfaces plus
+any explicit metadata override:
+
+- shell execution implies the `shell` pack
+- repo-local read/write scope implies the `repo` pack
+- branch mutation or publication implies the `git` pack
+- retained evidence emission implies the `telemetry` pack
+- outbound HTTP implies the `api` pack
+- browser-driving metadata implies the `browser` pack
+
+Unadmitted or unsupported packs fail closed.
 
 ## Instruction-Layer Manifest Contract
 

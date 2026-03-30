@@ -10,7 +10,8 @@ description: Cross-agent memory classes, retention boundaries, and privacy contr
 - This file defines what agents may retain, where it belongs, and when it must be discarded.
 - This file applies to all memory-like artifacts in `.octon/` (context, continuity, logs, outputs).
 - This file is subordinate to `AGENTS.md`, the constitutional kernel under
-  `/.octon/framework/constitution/**`, `CONSTITUTION.md`, and `DELEGATION.md`.
+  `/.octon/framework/constitution/**`, the orchestrator execution contract, and
+  `DELEGATION.md`.
 - Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
 
 ## Memory Classes

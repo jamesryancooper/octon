@@ -1,0 +1,22 @@
+schema_version: "authority-control-receipt-v1"
+receipt_id: "20260329T025922Z-authority-revocation-upsert"
+control_mutation_class: "authority_revocation_upsert"
+source_ref: ".octon/state/control/execution/revocations/grants.yml#phase2-revocation-sample"
+applied_to_ref: ".octon/state/control/execution/revocations/grants.yml#phase2-revocation-sample"
+issuer_ref: "operator://octon-governance"
+timestamp: "2026-03-29T02:59:22Z"
+result: "applied"
+reason: null
+reason_codes:
+  - "PHASE2_CANONICAL_REVOCATION_SAMPLE"
+affected_paths:
+  - ".octon/state/control/execution/revocations/grants.yml"
+policy_refs:
+  []
+projection_refs:
+  []
+approval_request_ref: null
+approval_grant_ref: null
+exception_lease_ref: null
+revocation_ref: ".octon/state/control/execution/revocations/grants.yml#phase2-revocation-sample"
+linked_run_id: "run-wave4-benchmark-evaluator-20260327"

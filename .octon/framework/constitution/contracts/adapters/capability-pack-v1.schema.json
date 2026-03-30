@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/adapters/capability-pack-v1.schema.json",
+  "title": "Octon Capability Pack Contract v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "pack_id",
+    "surface",
+    "display_name",
+    "description",
+    "runtime_surface_refs",
+    "support_target_ref",
+    "known_limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-capability-pack-v1"
+    },
+    "pack_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "surface": {
+      "type": "string",
+      "enum": [
+        "repo",
+        "git",
+        "shell",
+        "browser",
+        "api",
+        "telemetry"
+      ]
+    },
+    "display_name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_surface_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "support_target_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "known_limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+schema_version: "proof-suite-registry-v1"
+plane: "recovery"
+suites:
+  - suite_id: "checkpoint-fault-recovery"
+    path: ".octon/framework/assurance/recovery/suites/checkpoint-fault-recovery.yml"
+    enforcement_mode: "blocking-for-supported-claims"

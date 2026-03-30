@@ -1,5 +1,16 @@
 schema_version: "lab-catalog-v1"
 catalog:
+  authored_domains:
+    - domain_id: "scenarios"
+      registry_ref: ".octon/framework/lab/scenarios/registry.yml"
+    - domain_id: "replay"
+      registry_ref: ".octon/framework/lab/replay/registry.yml"
+    - domain_id: "shadow"
+      registry_ref: ".octon/framework/lab/shadow/registry.yml"
+    - domain_id: "faults"
+      registry_ref: ".octon/framework/lab/faults/registry.yml"
+    - domain_id: "probes"
+      registry_ref: ".octon/framework/lab/probes/registry.yml"
   scenarios:
     - scenario_id: "scn-wave4-assurance-disclosure-20260327"
       class: "support-validation"
@@ -18,6 +29,15 @@ catalog:
       purpose: "Retain bounded fault injection and recovery rehearsal evidence."
     - class_id: "adversarial"
       purpose: "Retain adversarial prompts, scenarios, or hostile-environment probes as behavioral evidence."
+  replay_bundles:
+    - replay_bundle_id: "rpl-runtime-proof-supported-20260329"
+      retained_bundle_ref: ".octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml"
+  shadow_runs:
+    - shadow_id: "shd-runtime-proof-supported-20260329"
+      retained_shadow_ref: ".octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml"
+  faults:
+    - fault_id: "flt-runtime-proof-supported-20260329"
+      retained_fault_ref: ".octon/state/evidence/lab/faults/flt-runtime-proof-supported-20260329/fault-report.yml"
   harness_cards:
     - card_id: "hc-wave4-assurance-disclosure-20260327"
       claim_kind: "support"

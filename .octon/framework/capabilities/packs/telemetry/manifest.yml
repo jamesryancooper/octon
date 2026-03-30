@@ -1,0 +1,12 @@
+schema_version: "octon-capability-pack-v1"
+pack_id: "telemetry"
+surface: "telemetry"
+display_name: "Telemetry Pack"
+description: "Observability and retained evidence surfaces for measurements, interventions, and replay pointers."
+runtime_surface_refs:
+  - ".octon/framework/observability/**"
+required_evidence:
+  - "run-evidence-root"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+known_limitations:
+  - "Telemetry surfaces summarize execution and may not widen authority."

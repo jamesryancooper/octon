@@ -54,8 +54,8 @@ layers:
   - rank: 5
     authority: "workspace-charter-pair"
     surfaces:
-      - ".octon/instance/bootstrap/OBJECTIVE.md"
-      - ".octon/instance/cognition/context/shared/intent.contract.yml"
+      - ".octon/instance/charter/workspace.md"
+      - ".octon/instance/charter/workspace.yml"
     decision_rule: "Workspace-wide objective authority applies beneath the kernel and repo policy."
     adoption_status: "active"
   - rank: 6
@@ -81,22 +81,25 @@ layers:
   - rank: 9
     authority: "run-lifecycle-control"
     surfaces:
+      - ".octon/state/control/execution/runs/<run-id>/run-manifest.yml"
       - ".octon/state/control/execution/runs/<run-id>/runtime-state.yml"
       - ".octon/state/control/execution/runs/<run-id>/rollback-posture.yml"
       - ".octon/state/control/execution/runs/<run-id>/checkpoints/**"
-      - ".octon/state/evidence/runs/<run-id>/{receipts/**,checkpoints/**,replay/**,assurance/**,measurements/**,interventions/**,disclosure/**,replay-pointers.yml,trace-pointers.yml}"
+      - ".octon/state/evidence/runs/<run-id>/{receipts/**,checkpoints/**,replay/**,assurance/**,measurements/**,interventions/**,disclosure/**,replay-pointers.yml,trace-pointers.yml,evidence-classification.yml}"
     decision_rule: >-
-      Bound run lifecycle files govern execution-time status, rollback
-      posture, durable checkpoints, replay manifests and pointers, proof-plane
-      evidence, observability evidence, and RunCard disclosure beneath the
-      bound run contract. These artifacts summarize authority and evidence but
-      may not widen authority.
+      Bound run lifecycle files govern execution-time topology, status,
+      rollback posture, durable checkpoints, replay manifests and pointers,
+      evidence classification, proof-plane evidence, observability evidence,
+      and RunCard disclosure beneath the bound run contract. These artifacts
+      summarize authority and evidence but may not widen authority.
     adoption_status: "active"
     activation_wave: 3
   - rank: 10
     authority: "capability-tool-and-adapter-contracts"
     surfaces:
       - ".octon/framework/capabilities/**"
+      - ".octon/framework/capabilities/packs/**"
+      - ".octon/instance/capabilities/runtime/packs/**"
       - ".octon/framework/constitution/contracts/adapters/**"
       - ".octon/framework/engine/runtime/adapters/**"
     decision_rule: "Capability and adapter contracts may narrow execution but may not widen authority; adapter families remain replaceable and non-authoritative."

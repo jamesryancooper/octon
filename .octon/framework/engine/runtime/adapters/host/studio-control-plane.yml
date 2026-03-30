@@ -1,0 +1,39 @@
+schema_version: "octon-host-adapter-v1"
+adapter_id: "studio-control-plane"
+display_name: "Studio Desktop Host"
+host_family: "studio"
+description: "Desktop host surface for Studio inspection and governed execution launch without adding hidden authority."
+replaceable: true
+authority_mode: "non_authoritative"
+runtime_surface:
+  interface_ref: ".octon/framework/engine/runtime/crates/studio/README.md"
+  integration_class: "desktop-host"
+projection_sources:
+  - "desktop-ui"
+  - "operator-surface"
+  - "launch-intent"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+support_tier_declarations:
+  model_tiers:
+    - "MT-A"
+    - "MT-B"
+  workload_tiers:
+    - "WT-1"
+    - "WT-2"
+    - "WT-3"
+  language_resource_tiers:
+    - "LT-REF"
+    - "LT-EXT"
+  locale_tiers:
+    - "LOC-EN"
+    - "LOC-MX"
+conformance_criteria_refs:
+  - "HOST-001"
+  - "HOST-002"
+  - "HOST-004"
+known_limitations:
+  - "Studio is governed for repo-local and reduced boundary-sensitive work only; it does not widen support beyond the matrix."
+  - "Desktop affordances remain operator UX and never substitute for runtime receipts."
+non_authoritative_boundaries:
+  - "Studio may render or launch governed flows, but it may not approve, revoke, or widen authority."
+  - "Displayed host state remains subordinate to canonical control and disclosure artifacts."

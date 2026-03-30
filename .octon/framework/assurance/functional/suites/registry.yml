@@ -1,0 +1,6 @@
+schema_version: "proof-suite-registry-v1"
+plane: "functional"
+suites:
+  - suite_id: "run-lifecycle-integrity"
+    path: ".octon/framework/assurance/functional/suites/run-lifecycle-integrity.yml"
+    enforcement_mode: "blocking-for-supported-claims"

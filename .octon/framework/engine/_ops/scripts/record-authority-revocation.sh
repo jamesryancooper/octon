@@ -59,6 +59,8 @@ main() {
   local tmp_json tmp_yaml
   tmp_json="$(mktemp "${TMPDIR:-/tmp}/authority-revocation.XXXXXX.json")"
   tmp_yaml="$(mktemp "${TMPDIR:-/tmp}/authority-revocation.XXXXXX.yml")"
+  local reason_codes_json
+  reason_codes_json="$(printf '%s\n' "${REASON_CODES[@]:-}" | jq -R . | jq -s 'map(select(length > 0))')"
   yq -o=json '.' "$revocations_file" | jq \
     --arg revocation_id "$REVOCATION_ID" \
     --arg grant_id "$GRANT_ID" \
@@ -68,6 +70,7 @@ main() {
     --arg revoked_at "$ts" \
     --arg revoked_by "$REVOKED_BY" \
     --arg notes "$NOTES" \
+    --argjson reason_codes "$reason_codes_json" \
     '
       .schema_version = "authority-revocation-set-v1" |
       .revocations = ((.revocations // []) | map(select(.revocation_id != $revocation_id))) |
@@ -80,7 +83,7 @@ main() {
         state: $state,
         revoked_at: $revoked_at,
         revoked_by: $revoked_by,
-        reason_codes: [],
+        reason_codes: $reason_codes,
         notes: (if ($notes | length) > 0 then $notes else null end)
       }]
     ' > "$tmp_json"

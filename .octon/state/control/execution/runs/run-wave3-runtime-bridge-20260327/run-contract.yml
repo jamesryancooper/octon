@@ -1,8 +1,8 @@
 schema_version: run-contract-v1
 run_id: run-wave3-runtime-bridge-20260327
 objective_refs:
-  workspace_objective_ref: .octon/instance/bootstrap/OBJECTIVE.md
-  workspace_intent_ref: .octon/instance/cognition/context/shared/intent.contract.yml
+  workspace_objective_ref: .octon/instance/charter/workspace.md
+  workspace_intent_ref: .octon/instance/charter/workspace.yml
   mission_id: mission-autonomy-live-validation
   mission_ref: .octon/instance/orchestration/missions/mission-autonomy-live-validation/mission.yml
 scope_in:
@@ -30,10 +30,12 @@ required_evidence:
   - maintainability-report
   - replay-pointers
   - trace-pointers
+  - evidence-classification
 closure_conditions:
   - Run reaches a terminal projection status.
   - Decision and retained run evidence remain linked.
 stage_attempt_root: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/stage-attempts
+run_manifest_ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-manifest.yml
 control_checkpoint_root: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/checkpoints
 runtime_state_ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/runtime-state.yml
 rollback_posture_ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/rollback-posture.yml
@@ -48,5 +50,5 @@ replay_pointers_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-2026032
 rollback_or_compensation_expectation: Rollback or compensation posture is handled by downstream runtime lifecycle waves; Wave 1 records the execution contract and initial attempt root.
 status: completed
 created_at: "2026-03-27T19:52:03Z"
-updated_at: "2026-03-27T19:53:14Z"
+updated_at: "2026-03-29T21:26:52Z"
 notes_ref: .octon/framework/orchestration/runtime/runs/run-wave3-runtime-bridge-20260327.yml

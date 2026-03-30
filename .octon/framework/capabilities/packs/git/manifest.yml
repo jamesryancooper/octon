@@ -1,0 +1,13 @@
+schema_version: "octon-capability-pack-v1"
+pack_id: "git"
+surface: "git"
+display_name: "Git Mutation Pack"
+description: "Branch, commit, and rollback-capable git surfaces for governed repo mutation."
+runtime_surface_refs:
+  - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+required_evidence:
+  - "authority-grant-bundle"
+  - "rollback-proof"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+known_limitations:
+  - "Git mutation remains bounded by executor profile, support tier, and protected-ref policy."

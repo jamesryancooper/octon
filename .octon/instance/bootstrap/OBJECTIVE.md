@@ -10,11 +10,18 @@ objective_layer: "workspace-charter-pair"
 constitutional_role: "workspace-charter-narrative"
 constitutional_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
 release_state: "pre-1.0"
-change_profile: "transitional"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"
+change_profile: "atomic"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md"
+shim_status: "compatibility-shim"
+canonical_ref: ".octon/instance/charter/workspace.md"
 ---
 
-# Objective: Octon Governed Harness
+# Objective Shim: Octon Governed Harness
+
+> Shim status: This file is a compatibility projection of the canonical
+> workspace charter at `/.octon/instance/charter/workspace.md`. Runtime and
+> constitutional bindings now resolve through the canonical `instance/charter`
+> pair, not this bootstrap shim.
 
 ## Workspace Goal
 
@@ -24,12 +31,11 @@ verifiable changes.
 
 ## Constitutional Role
 
-This brief is the narrative side of Octon's workspace-charter pair. Every
-consequential run must bind this workspace objective together with a per-run
-contract under `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`.
-Mission authority remains the continuity container and long-horizon autonomy
-surface, but it no longer substitutes for the bound run contract as the atomic
-execution unit.
+This file is the bootstrap-path shim for the narrative side of Octon's
+workspace-charter pair. Consequential runs bind the canonical instance charter
+under `/.octon/instance/charter/workspace.md` together with the machine charter
+and a per-run contract under
+`/.octon/state/control/execution/runs/<run-id>/run-contract.yml`.
 
 ## What Octon Should Optimize For
 

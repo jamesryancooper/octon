@@ -39,10 +39,10 @@ kernel.
 - `.octon/framework/constitution/CHARTER.md`
 - `.octon/framework/constitution/charter.yml`
 - `.octon/framework/agency/manifest.yml`
-- `.octon/framework/agency/governance/CONSTITUTION.md`
 - `.octon/framework/agency/governance/DELEGATION.md`
 - `.octon/framework/agency/governance/MEMORY.md`
 - `.octon/framework/agency/runtime/agents/registry.yml`
+- `.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
 - `.octon/framework/agency/runtime/assistants/registry.yml`
 - `.octon/framework/agency/runtime/teams/registry.yml`
 

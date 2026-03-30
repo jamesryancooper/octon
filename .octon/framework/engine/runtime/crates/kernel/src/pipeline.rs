@@ -1463,15 +1463,15 @@ mod tests {
         fs::create_dir_all(workflows_dir.join("stages")).expect("create workflow stages");
         fs::create_dir_all(octon_dir.join("state/evidence/validation/analysis"))
             .expect("create evidence root");
-        fs::create_dir_all(octon_dir.join("instance/cognition/context/shared"))
-            .expect("create intent contract root");
+        fs::create_dir_all(octon_dir.join("instance/charter"))
+            .expect("create workspace charter root");
         fs::create_dir_all(octon_dir.join("framework/capabilities/governance/policy"))
             .expect("create policy root");
         fs::write(
-            octon_dir.join("instance/cognition/context/shared/intent.contract.yml"),
+            octon_dir.join("instance/charter/workspace.yml"),
             "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
         )
-        .expect("write intent contract");
+        .expect("write workspace machine charter");
         fs::write(
             octon_dir.join("octon.yml"),
             "engine:\n  runtime:\n    policy_file: framework/capabilities/governance/policy/deny-by-default.v2.yml\n",
@@ -1567,7 +1567,7 @@ stages:
         )
         .expect("write workflow contract");
         fs::create_dir_all(octon_dir.join("instance/cognition/context/shared"))
-            .expect("create intent contract directory");
+            .expect("create workspace charter directory");
         fs::create_dir_all(octon_dir.join("instance/orchestration/missions/sample-mission"))
             .expect("create mission authority fixture");
         fs::create_dir_all(octon_dir.join("instance/governance/policies"))
@@ -1581,10 +1581,10 @@ stages:
         fs::create_dir_all(octon_dir.join("generated/effective/orchestration/missions/sample-mission"))
             .expect("create mission effective fixture");
         fs::write(
-            octon_dir.join("instance/cognition/context/shared/intent.contract.yml"),
+            octon_dir.join("instance/charter/workspace.yml"),
             "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
         )
-        .expect("write intent contract");
+        .expect("write workspace machine charter");
         fs::write(
             octon_dir.join("instance/orchestration/missions/registry.yml"),
             "schema_version: \"octon-mission-registry-v2\"\nactive:\n  - sample-mission\narchived: []\n",
@@ -1605,11 +1605,60 @@ stages:
             "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
         )
         .expect("write ownership registry");
-        fs::write(
+        fs::copy(
+            source_repo_root().join(".octon/instance/governance/support-targets.yml"),
             octon_dir.join("instance/governance/support-targets.yml"),
-            "schema_version: \"octon-support-targets-v1\"\nowner: \"fixtures\"\ndefault_route: \"deny\"\ntiers:\n  model:\n    - id: \"MT-B\"\n      label: \"repo-local-governed\"\n      default_autonomy: \"bounded\"\n      description: \"fixture\"\n  workload:\n    - id: \"WT-2\"\n      label: \"repo-local-transitional\"\n      default_route: \"allow\"\n      description: \"fixture\"\n  language_resource:\n    - id: \"LT-REF\"\n      label: \"reference-owned\"\n      description: \"fixture\"\n  locale:\n    - id: \"LOC-EN\"\n      label: \"english-primary\"\n      description: \"fixture\"\ncompatibility_matrix:\n  - model_tier: \"MT-B\"\n    workload_tier: \"WT-2\"\n    language_resource_tier: \"LT-REF\"\n    locale_tier: \"LOC-EN\"\n    support_status: \"supported\"\n    default_route: \"allow\"\nadapter_conformance_criteria:\n  - criterion_id: \"HOST-001\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"HOST-002\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-001\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"MODEL-002\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-003\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"run-evidence-root\"\nhost_adapters:\n  - adapter_id: \"repo-shell\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/host/repo-shell.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"HOST-001\"\n      - \"HOST-002\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"WT-2\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\nmodel_adapters:\n  - adapter_id: \"repo-local-governed\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"MODEL-001\"\n      - \"MODEL-002\"\n      - \"MODEL-003\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"WT-2\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"run-evidence-root\"\n",
         )
-        .expect("write support targets");
+        .expect("copy support targets");
+        fs::create_dir_all(octon_dir.join("instance/capabilities/runtime/packs"))
+            .expect("create runtime pack dir");
+        fs::create_dir_all(octon_dir.join("framework/engine/runtime/adapters/host"))
+            .expect("create host adapter dir");
+        fs::create_dir_all(octon_dir.join("framework/engine/runtime/adapters/model"))
+            .expect("create model adapter dir");
+        fs::create_dir_all(octon_dir.join("framework/capabilities/packs/repo"))
+            .expect("create repo pack dir");
+        fs::create_dir_all(octon_dir.join("framework/capabilities/packs/git"))
+            .expect("create git pack dir");
+        fs::create_dir_all(octon_dir.join("framework/capabilities/packs/shell"))
+            .expect("create shell pack dir");
+        fs::create_dir_all(octon_dir.join("framework/capabilities/packs/telemetry"))
+            .expect("create telemetry pack dir");
+        fs::copy(
+            source_repo_root().join(".octon/instance/capabilities/runtime/packs/registry.yml"),
+            octon_dir.join("instance/capabilities/runtime/packs/registry.yml"),
+        )
+        .expect("copy runtime pack registry");
+        fs::copy(
+            source_repo_root().join(".octon/framework/engine/runtime/adapters/host/repo-shell.yml"),
+            octon_dir.join("framework/engine/runtime/adapters/host/repo-shell.yml"),
+        )
+        .expect("copy repo-shell adapter");
+        fs::copy(
+            source_repo_root().join(".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"),
+            octon_dir.join("framework/engine/runtime/adapters/model/repo-local-governed.yml"),
+        )
+        .expect("copy repo-local-governed adapter");
+        fs::copy(
+            source_repo_root().join(".octon/framework/capabilities/packs/repo/manifest.yml"),
+            octon_dir.join("framework/capabilities/packs/repo/manifest.yml"),
+        )
+        .expect("copy repo pack");
+        fs::copy(
+            source_repo_root().join(".octon/framework/capabilities/packs/git/manifest.yml"),
+            octon_dir.join("framework/capabilities/packs/git/manifest.yml"),
+        )
+        .expect("copy git pack");
+        fs::copy(
+            source_repo_root().join(".octon/framework/capabilities/packs/shell/manifest.yml"),
+            octon_dir.join("framework/capabilities/packs/shell/manifest.yml"),
+        )
+        .expect("copy shell pack");
+        fs::copy(
+            source_repo_root().join(".octon/framework/capabilities/packs/telemetry/manifest.yml"),
+            octon_dir.join("framework/capabilities/packs/telemetry/manifest.yml"),
+        )
+        .expect("copy telemetry pack");
         fs::write(
             octon_dir.join("state/control/execution/missions/sample-mission/lease.yml"),
             "schema_version: \"mission-control-lease-v1\"\nmission_id: \"sample-mission\"\nlease_id: \"lease-sample\"\nstate: \"active\"\nissued_by: \"operator://fixtures\"\nissued_at: \"2026-03-23T00:00:00Z\"\nexpires_at: \"2099-03-30T00:00:00Z\"\ncontinuation_scope:\n  summary: \"Fixture continuation\"\n  allowed_execution_postures:\n    - \"continuous\"\n  max_concurrent_runs: 1\n  allowed_action_classes:\n    - \"repo-maintenance\"\n  default_safing_subset:\n    - \"observe_only\"\n    - \"stage_only\"\nrevocation_reason: null\nlast_reviewed_at: \"2026-03-23T00:00:00Z\"\n",

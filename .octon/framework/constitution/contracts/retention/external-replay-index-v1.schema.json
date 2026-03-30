@@ -6,12 +6,30 @@
   "additionalProperties": false,
   "required": [
     "schema_version",
+    "index_id",
+    "scope",
     "entries",
     "updated_at"
   ],
   "properties": {
     "schema_version": {
       "const": "external-replay-index-v1"
+    },
+    "index_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "run"
+      ]
+    },
+    "run_id": {
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "entries": {
       "type": "array",
@@ -21,9 +39,12 @@
         "required": [
           "entry_id",
           "run_id",
+          "artifact_kind",
+          "evidence_class",
           "storage_class",
           "content_digest",
           "locator",
+          "manifest_ref",
           "recorded_at"
         ],
         "properties": {
@@ -35,10 +56,24 @@
             "type": "string",
             "minLength": 1
           },
+          "artifact_kind": {
+            "type": "string",
+            "enum": [
+              "replay-payload",
+              "trace-payload"
+            ]
+          },
+          "evidence_class": {
+            "type": "string",
+            "enum": [
+              "B",
+              "C"
+            ]
+          },
           "storage_class": {
             "type": "string",
             "enum": [
-              "pointered",
+              "git-pointer",
               "external-immutable"
             ]
           },
@@ -47,6 +82,10 @@
             "minLength": 1
           },
           "locator": {
+            "type": "string",
+            "minLength": 1
+          },
+          "manifest_ref": {
             "type": "string",
             "minLength": 1
           },

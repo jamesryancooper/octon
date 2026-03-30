@@ -79,8 +79,6 @@ Behavior:
 
 Behavior:
 
-- Adds autonomy lane labels (`autonomy:auto-merge` by default).
-- Removes `autonomy:no-automerge` when requesting autonomous lane.
 - Marks draft PR as ready (unless `--no-ready`).
 - Requests squash auto-merge (unless `--no-automerge`).
 - Waits for PR closure (auto lane) and runs local cleanup enforcement.
@@ -162,8 +160,8 @@ When touching high-impact paths (for example `.github/` or governance paths):
 
 1. Leave the PR in the manual lane and complete ordinary human review.
 2. Keep PR focused and explicitly document risk/rollback.
-3. Use `git-pr-ship.sh --no-auto-label --no-automerge` if you want the
-   ready-state and cleanup helper without enabling the autonomy lane.
+3. Use `git-pr-ship.sh --no-automerge` if you want the ready-state and cleanup
+   helper without enabling the auto-merge request.
 4. Cleanup watcher will run automatically once the PR is eventually closed.
 
 ---

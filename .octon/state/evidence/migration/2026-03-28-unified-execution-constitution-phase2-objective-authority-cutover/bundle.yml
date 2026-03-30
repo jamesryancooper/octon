@@ -1,0 +1,6 @@
+kind: migration-evidence-bundle
+id: 2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover
+evidence: evidence.md
+commands: commands.md
+validation: validation.md
+inventory: inventory.md

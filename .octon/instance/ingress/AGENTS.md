@@ -5,42 +5,54 @@ super-rooted Octon harness.
 
 ## Behavioral Contract
 
-- default agent: `.octon/framework/agency/manifest.yml`
-- constitutional charter: `.octon/framework/constitution/CHARTER.md`
-- constitutional manifest: `.octon/framework/constitution/charter.yml`
-- normative precedence: `.octon/framework/constitution/precedence/normative.yml`
-- epistemic precedence: `.octon/framework/constitution/precedence/epistemic.yml`
-- fail-closed obligations: `.octon/framework/constitution/obligations/fail-closed.yml`
-- evidence obligations: `.octon/framework/constitution/obligations/evidence.yml`
-- ownership roles: `.octon/framework/constitution/ownership/roles.yml`
-- constitutional contract registry:
-  `.octon/framework/constitution/contracts/registry.yml`
-- agency constitutional application:
-  `.octon/framework/agency/governance/CONSTITUTION.md`
-- delegation: `.octon/framework/agency/governance/DELEGATION.md`
-- memory: `.octon/framework/agency/governance/MEMORY.md`
-- subordinate execution profile:
-  `.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
-- objective brief: `.octon/instance/bootstrap/OBJECTIVE.md`
-- active intent contract:
-  `.octon/instance/cognition/context/shared/intent.contract.yml`
+- singular constitutional kernel:
+  - `.octon/framework/constitution/CHARTER.md`
+  - `.octon/framework/constitution/charter.yml`
+  - `.octon/framework/constitution/precedence/normative.yml`
+  - `.octon/framework/constitution/precedence/epistemic.yml`
+  - `.octon/framework/constitution/obligations/fail-closed.yml`
+  - `.octon/framework/constitution/obligations/evidence.yml`
+  - `.octon/framework/constitution/ownership/roles.yml`
+  - `.octon/framework/constitution/contracts/registry.yml`
+- kernel execution profile:
+  - `.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+- optional supporting overlays:
+  - `.octon/framework/agency/governance/DELEGATION.md`
+  - `.octon/framework/agency/governance/MEMORY.md`
+- active workspace objective pair:
+  - `.octon/instance/charter/workspace.md`
+  - `.octon/instance/charter/workspace.yml`
+- compatibility workspace-charter shims:
+  - `.octon/instance/bootstrap/OBJECTIVE.md`
+  - `.octon/instance/cognition/context/shared/intent.contract.yml`
+- optional bootstrap orientation:
+  - `.octon/instance/bootstrap/START.md`
 
 ## Read Order
 
 1. `.octon/framework/constitution/CHARTER.md`
-2. `.octon/framework/constitution/obligations/fail-closed.yml`
-3. `.octon/framework/constitution/precedence/normative.yml`
-4. `.octon/framework/constitution/precedence/epistemic.yml`
-5. `.octon/instance/bootstrap/START.md`
-6. `.octon/instance/bootstrap/scope.md`
-7. `.octon/instance/bootstrap/conventions.md`
-8. `.octon/instance/bootstrap/catalog.md`
-9. `.octon/framework/cognition/_meta/architecture/specification.md`
-10. `.octon/framework/cognition/governance/principles/README.md`
-11. `.octon/state/continuity/repo/log.md`
-12. `.octon/state/continuity/repo/tasks.json`
-13. `.octon/state/continuity/scopes/<scope-id>/{log.md,tasks.json}` when the
-   current work is primarily owned by a declared scope
+2. `.octon/framework/constitution/charter.yml`
+3. `.octon/framework/constitution/obligations/fail-closed.yml`
+4. `.octon/framework/constitution/obligations/evidence.yml`
+5. `.octon/framework/constitution/precedence/normative.yml`
+6. `.octon/framework/constitution/precedence/epistemic.yml`
+7. `.octon/framework/constitution/ownership/roles.yml`
+8. `.octon/framework/constitution/contracts/registry.yml`
+9. `.octon/instance/charter/workspace.md`
+10. `.octon/instance/charter/workspace.yml`
+
+## Optional Orientation
+
+Use these only after the minimal constitutional read set above is bound:
+
+- `.octon/instance/bootstrap/START.md`
+- `.octon/instance/bootstrap/scope.md`
+- `.octon/instance/bootstrap/conventions.md`
+- `.octon/instance/bootstrap/catalog.md`
+- `.octon/state/continuity/repo/log.md`
+- `.octon/state/continuity/repo/tasks.json`
+- `.octon/state/continuity/scopes/<scope-id>/{log.md,tasks.json}` when the
+  current work is primarily owned by a declared scope
 
 ## Super-Root Topology
 

@@ -1,10 +1,11 @@
 schema_version: run-replay-pointers-v1
 run_id: run-wave3-runtime-bridge-20260327
+replay_manifest_refs:
+  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
 receipt_refs:
   - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/receipts/orchestration-lifecycle.yml
 checkpoint_refs:
   - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/checkpoints/bound.yml
 trace_refs: []
-external_replay_refs:
-  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
-updated_at: "2026-03-28T19:57:12Z"
+external_index_refs: []
+updated_at: "2026-03-29T21:26:52Z"

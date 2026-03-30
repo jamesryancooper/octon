@@ -1,0 +1,33 @@
+schema_version: "unified-execution-final-cutover-verdict-v1"
+packet_id: "octon-unified-execution-constitution-cutover"
+owner: "Octon governance"
+reviewed_at: "2026-03-29T00:00:00Z"
+verdict: "approved"
+can_honestly_claim_unified_execution_constitution: true
+promotion_ready: true
+archive_ready: true
+remaining_blockers: []
+resolved_during_review:
+  - "validate-assurance-disclosure-expansion.sh now expects the Phase 4 receipt for the assurance family."
+checklist_status:
+  constitutional_cutover: "pass"
+  objective_and_authority_cutover: "pass"
+  runtime_and_evidence_cutover: "pass"
+  proof_and_lab_cutover: "pass"
+  portability_and_support_cutover: "pass"
+  simplification_and_deletion_cutover: "pass"
+final_claim_criteria:
+  constitutional_kernel_supreme_and_singular: "pass"
+  every_consequential_run_is_run_bound: "pass"
+  every_material_action_is_authority_routed_before_effect: "pass"
+  mission_backed_and_run_only_autonomy_are_policy_bound: "pass"
+  proof_planes_exist_and_are_enforced: "pass"
+  runcard_and_harnesscard_are_mandatory_and_sufficient: "pass"
+  evidence_classes_and_replay_indexing_are_enforced: "pass"
+  support_target_matrix_is_real_and_fail_closed: "pass"
+  hidden_human_repair_is_impossible_without_disclosure: "pass"
+  transitional_scaffolding_retired_or_non_authoritative: "pass"
+evidence_refs:
+  - ".octon/state/evidence/migration/2026-03-29-unified-execution-constitution-final-cutover-closeout/claim-matrix.md"
+  - ".octon/state/evidence/migration/2026-03-29-unified-execution-constitution-final-cutover-closeout/validation.md"
+  - ".octon/instance/cognition/decisions/084-unified-execution-constitution-final-cutover-closeout.md"

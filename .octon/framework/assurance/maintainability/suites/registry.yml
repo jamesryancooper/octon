@@ -1,0 +1,6 @@
+schema_version: "proof-suite-registry-v1"
+plane: "maintainability"
+suites:
+  - suite_id: "runtime-ssot-alignment"
+    path: ".octon/framework/assurance/maintainability/suites/runtime-ssot-alignment.yml"
+    enforcement_mode: "blocking-for-supported-claims"

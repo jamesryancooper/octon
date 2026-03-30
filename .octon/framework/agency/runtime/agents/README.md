@@ -17,25 +17,25 @@ Agents are the accountable execution roles in the agency subsystem.
 
 ## Discovery
 
-Use `registry.yml` for actor routing metadata and `AGENT.md` for execution contracts.
-`SOUL.md` is optional and non-authoritative when present.
+Use `registry.yml` for actor routing metadata and `AGENT.md` for execution
+contracts. Legacy `SOUL.md` overlays are out of the scaffolded path and are
+ignored by the kernel execution order.
 
 ## Contract Layers
 
-Each agent directory requires one execution contract and may include one optional identity overlay:
+Each agent directory requires one execution contract. Legacy identity overlays
+are historical only and are not scaffolded by default:
 
 | File | Responsibility |
 |---|---|
 | `AGENT.md` | Operational policy: scope, delegation, escalation, output contract |
-| `SOUL.md` | Optional identity overlay only; it must not add authority or runtime policy |
+Supporting overlays in `agency/governance/`:
 
-Cross-agent overlays in `agency/governance/`:
-
-- `governance/CONSTITUTION.md`
 - `governance/DELEGATION.md`
 - `governance/MEMORY.md`
+- `governance/CONSTITUTION.md` (historical shim only)
 
-Precedence: root `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.md` -> agent `AGENT.md`.
+Agency kernel path: `framework/constitution/**` -> `instance/ingress/AGENTS.md` -> agent `AGENT.md`.
 
 ## Layout
 
@@ -43,8 +43,6 @@ Precedence: root `AGENTS.md` -> `CONSTITUTION.md` -> `DELEGATION.md` -> `MEMORY.
 agents/
 ├── registry.yml
 ├── _scaffold/template/AGENT.md
-├── _scaffold/template/SOUL.md
 └── <id>/
-    ├── AGENT.md
-    └── SOUL.md (optional)
+    └── AGENT.md
 ```

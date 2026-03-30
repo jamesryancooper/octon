@@ -1,0 +1,7 @@
+schema_version: "probe-contract-v1"
+probe_id: "runtime-proof-probe"
+purpose: "Collect bounded replay/shadow/fault telemetry for lab-backed proof and benchmark integrity."
+collection_mode: "bounded"
+expected_outputs:
+  - "measurement-summary"
+  - "retained-telemetry-pointer"

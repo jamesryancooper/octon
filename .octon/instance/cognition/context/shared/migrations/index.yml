@@ -195,3 +195,39 @@ records:
     path: 2026-03-28-execution-constitution-completion-closeout/plan.md
     adr: ../decisions/075-execution-constitution-completion-closeout.md
     evidence: /.octon/state/evidence/migration/2026-03-28-execution-constitution-completion-closeout/evidence.md
+  - id: 2026-03-28-unified-execution-constitution-phase0-baseline-freeze
+    path: 2026-03-28-unified-execution-constitution-phase0-baseline-freeze/plan.md
+    adr: ../decisions/076-unified-execution-constitution-phase0-baseline-freeze.md
+    evidence: /.octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase0-baseline-freeze/evidence.md
+  - id: 2026-03-28-unified-execution-constitution-phase1-constitutional-extraction
+    path: 2026-03-28-unified-execution-constitution-phase1-constitutional-extraction/plan.md
+    adr: ../decisions/077-unified-execution-constitution-phase1-constitutional-extraction.md
+    evidence: /.octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase1-constitutional-extraction/evidence.md
+  - id: 2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover
+    path: 2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md
+    adr: ../decisions/078-unified-execution-constitution-phase2-objective-authority-cutover.md
+    evidence: /.octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/evidence.md
+  - id: 2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization
+    path: 2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization/plan.md
+    adr: ../decisions/079-unified-execution-constitution-phase3-runtime-evidence-normalization.md
+    evidence: /.octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization/evidence.md
+  - id: 2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion
+    path: 2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion/plan.md
+    adr: ../decisions/080-unified-execution-constitution-phase4-proof-evaluation-lab-expansion.md
+    evidence: /.octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion/evidence.md
+  - id: 2026-03-29-unified-execution-constitution-phase5-adapter-support-target-hardening
+    path: 2026-03-29-unified-execution-constitution-phase5-adapter-support-target-hardening/plan.md
+    adr: ../decisions/081-unified-execution-constitution-phase5-adapter-support-target-hardening.md
+    evidence: /.octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase5-adapter-support-target-hardening/evidence.md
+  - id: 2026-03-29-unified-execution-constitution-phase6-simplification-deletion
+    path: 2026-03-29-unified-execution-constitution-phase6-simplification-deletion/plan.md
+    adr: ../decisions/082-unified-execution-constitution-phase6-simplification-deletion.md
+    evidence: /.octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase6-simplification-deletion/evidence.md
+  - id: 2026-03-29-unified-execution-constitution-phase7-build-to-delete-institutionalization
+    path: 2026-03-29-unified-execution-constitution-phase7-build-to-delete-institutionalization/plan.md
+    adr: ../decisions/083-unified-execution-constitution-phase7-build-to-delete-institutionalization.md
+    evidence: /.octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase7-build-to-delete-institutionalization/evidence.md
+  - id: 2026-03-29-unified-execution-constitution-final-cutover-closeout
+    path: 2026-03-29-unified-execution-constitution-final-cutover-closeout/plan.md
+    adr: ../decisions/084-unified-execution-constitution-final-cutover-closeout.md
+    evidence: /.octon/state/evidence/migration/2026-03-29-unified-execution-constitution-final-cutover-closeout/evidence.md

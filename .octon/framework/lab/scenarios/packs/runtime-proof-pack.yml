@@ -1,0 +1,10 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "runtime-proof-pack"
+purpose: "Exercise supported consequential runs through replayable scenario validation before behavioral claims pass."
+supported_planes:
+  - "behavioral"
+  - "recovery"
+expected_outputs:
+  - "scenario-proof"
+  - "replay-bundle"
+  - "shadow-run"

@@ -11,10 +11,7 @@
     "status",
     "workflow_mode",
     "run_contract_ref",
-    "stage_attempt_root",
-    "control_checkpoint_root",
-    "evidence_root",
-    "receipt_root",
+    "run_manifest_ref",
     "created_at",
     "updated_at"
   ],
@@ -67,19 +64,7 @@
       "type": "string",
       "minLength": 1
     },
-    "stage_attempt_root": {
-      "type": "string",
-      "minLength": 1
-    },
-    "control_checkpoint_root": {
-      "type": "string",
-      "minLength": 1
-    },
-    "evidence_root": {
-      "type": "string",
-      "minLength": 1
-    },
-    "receipt_root": {
+    "run_manifest_ref": {
       "type": "string",
       "minLength": 1
     },

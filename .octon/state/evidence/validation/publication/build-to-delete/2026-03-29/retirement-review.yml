@@ -1,0 +1,20 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "retirement-review"
+contract_ref: ".octon/instance/governance/contracts/retirement-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-03-29T00:00:00Z"
+triggered_by:
+  - "Unified execution constitution Phase 7 completion"
+  - "Final target-state claim readiness"
+summary: "Every compensating mechanism is now registered with review dates, retirement triggers, ablation suites, and explicit retirement paths, and retired Phase 6 scaffolding carries durable receipts."
+counts:
+  registered: 2
+  historical_retained: 2
+  retired: 2
+findings: []
+evidence_refs:
+  - ".octon/instance/governance/contracts/retirement-policy.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"
+  - ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
+  - ".octon/state/evidence/validation/publication/build-to-delete/2026-03-29/ablation-deletion-receipt.yml"

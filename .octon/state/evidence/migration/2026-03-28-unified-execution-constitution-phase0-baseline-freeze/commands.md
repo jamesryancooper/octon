@@ -1,0 +1,53 @@
+# Phase 0 Command Log
+
+- `sed -n '1,220p' AGENTS.md`
+- `sed -n '1,220p' .octon/instance/ingress/AGENTS.md`
+- `sed -n '1,220p' .octon/instance/bootstrap/OBJECTIVE.md`
+- `sed -n '1,220p' .octon/instance/cognition/context/shared/intent.contract.yml`
+- `sed -n '1,220p' .octon/instance/bootstrap/START.md`
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/README.md`
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/architecture/implementation-plan.md`
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/architecture-proposal.yml`
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/architecture/acceptance-criteria.md`
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/resources/unified-execution-constitution-audit.md`
+- `sed -n '1,220p' .octon/framework/constitution/CHARTER.md`
+- `sed -n '1,220p' .octon/framework/constitution/charter.yml`
+- `sed -n '1,260p' .octon/framework/constitution/contracts/registry.yml`
+- `sed -n '1,220p' .octon/framework/constitution/contracts/disclosure/README.md`
+- `sed -n '1,260p' .octon/framework/constitution/contracts/disclosure/harness-card-v1.schema.json`
+- `sed -n '1,220p' .octon/framework/cognition/_meta/architecture/specification.md`
+- `sed -n '1,220p' .octon/framework/cognition/governance/principles/README.md`
+- `sed -n '1,220p' .octon/instance/governance/support-targets.yml`
+- `sed -n '1,220p' .octon/instance/governance/contracts/disclosure-retention.yml`
+- `find .octon/state/control/execution/approvals -maxdepth 2 -type f | sort`
+- `find .octon/state/control/execution/exceptions -maxdepth 2 -type f | sort`
+- `find .octon/state/control/execution/revocations -maxdepth 2 -type f | sort`
+- `find .octon/state/control/execution/runs -maxdepth 3 -type f | sort | sed -n '1,80p'`
+- `find .octon/state/continuity/runs -mindepth 1 -maxdepth 1 -type d | wc -l`
+- `find .octon/state/evidence/runs -maxdepth 3 -type f | sort | sed -n '1,120p'`
+- `find .octon/state/evidence/lab -maxdepth 3 -type f | sort`
+- `find .octon/state/evidence/control/execution -maxdepth 2 -type f | sort`
+- `find .octon/state/evidence/external-index -maxdepth 3 -type f | sort | sed -n '1,120p'`
+- `find .octon/framework/assurance -maxdepth 2 -type f | sort | sed -n '1,120p'`
+- `find .octon/framework/engine/runtime/adapters -maxdepth 3 -type f | sort`
+- `test -d .octon/instance/governance/disclosure && echo present || echo absent`
+- `find .octon/state/control/execution/runs -mindepth 1 -maxdepth 1 -type d | wc -l`
+- `find .octon/state/continuity/runs -mindepth 1 -maxdepth 1 -type d | wc -l`
+- `find .octon/state/evidence/lab/harness-cards -name '*.yml' | wc -l`
+- `find .octon/state/evidence/lab/scenarios -name 'scenario-proof.yml' | wc -l`
+- `find .octon/state/evidence/lab/evaluator-reviews -name '*.yml' | wc -l`
+- `find .octon/state/evidence/control/execution -maxdepth 1 -name 'authority-*.yml' | wc -l`
+- `find .octon/state/evidence/external-index -mindepth 1 -type f | wc -l`
+- `shasum -a 256 .octon/framework/constitution/CHARTER.md .octon/framework/constitution/charter.yml .octon/framework/constitution/precedence/normative.yml .octon/framework/constitution/precedence/epistemic.yml .octon/framework/constitution/obligations/fail-closed.yml .octon/framework/constitution/obligations/evidence.yml .octon/framework/constitution/ownership/roles.yml .octon/framework/constitution/contracts/registry.yml .octon/instance/ingress/AGENTS.md .octon/instance/bootstrap/OBJECTIVE.md .octon/instance/cognition/context/shared/intent.contract.yml .octon/instance/bootstrap/START.md .octon/framework/cognition/_meta/architecture/specification.md .octon/framework/cognition/governance/principles/README.md .octon/octon.yml`
+- `yq -e '.' .octon/instance/cognition/context/shared/migrations/index.yml`
+- `yq -e '.records[] | select(.id == "2026-03-28-unified-execution-constitution-phase0-baseline-freeze")' .octon/instance/cognition/context/shared/migrations/index.yml`
+- `yq -e '.' .octon/instance/cognition/context/shared/evidence/index.yml`
+- `yq -e '.records[] | select(.id == "2026-03-28-unified-execution-constitution-phase0-baseline-freeze")' .octon/instance/cognition/context/shared/evidence/index.yml`
+- `yq -e '.' .octon/instance/cognition/decisions/index.yml`
+- `yq -e '.records[] | select(.id == "076-unified-execution-constitution-phase0-baseline-freeze")' .octon/instance/cognition/decisions/index.yml`
+- `yq -e '.' .octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase0-baseline-freeze/bundle.yml`
+- `yq -e '.' .octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase0-baseline-freeze/frozen-inputs.yml`
+- `yq -e '.schema_version == "phase0-constitutional-freeze-v1" and (.inputs | length == 15)' .octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase0-baseline-freeze/frozen-inputs.yml`
+- `yq -e '.' .octon/state/evidence/lab/harness-cards/hc-phase0-unified-execution-constitution-baseline-v0-20260328.yml`
+- `yq -e '.schema_version == "harness-card-v1" and .card_id == "hc-phase0-unified-execution-constitution-baseline-v0-20260328" and (.proof_bundle_refs | length == 3)' .octon/state/evidence/lab/harness-cards/hc-phase0-unified-execution-constitution-baseline-v0-20260328.yml`
+- `git diff --check`

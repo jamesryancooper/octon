@@ -1,0 +1,8 @@
+schema_version: replay-bundle-v1
+replay_bundle_id: rpl-runtime-proof-supported-20260329
+purpose: Replay the supported repo-local-transitional runtime proof path from bound run artifacts instead of chat continuity.
+required_inputs:
+  - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-manifest.yml
+  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
+  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
+  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/measurements/summary.yml

@@ -32,6 +32,8 @@ BENCHMARK_SCENARIO="$OCTON_DIR/state/evidence/lab/scenarios/scn-wave4-benchmark-
 BENCHMARK_SUMMARY="$OCTON_DIR/state/evidence/lab/benchmarks/bmk-wave4-disclosure-parity-20260327/summary.yml"
 BENCHMARK_EVALUATOR="$OCTON_DIR/state/evidence/lab/evaluator-reviews/evr-wave4-benchmark-disclosure-20260327.yml"
 MIGRATION_PLAN="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"
+ASSURANCE_RECEIPT="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion/plan.md"
+DISCLOSURE_RECEIPT="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"
 
 errors=0
 
@@ -98,6 +100,8 @@ main() {
   require_file "$ASSURANCE_FAMILY"
   require_file "$DISCLOSURE_FAMILY"
   require_file "$MIGRATION_PLAN"
+  require_file "$ASSURANCE_RECEIPT"
+  require_file "$DISCLOSURE_RECEIPT"
   require_file "$LAB_CATALOG"
   require_file "$EVALUATOR_ROUTING"
   require_file "$HARNESS_CARD_WRITER"
@@ -119,8 +123,8 @@ main() {
   require_yq '.families[] | select(.family_id == "disclosure" and .status == "active")' "$CONTRACT_REGISTRY" "constitutional registry activates disclosure contract family"
   require_yq '.integration_surfaces.assurance_contract_family.root == ".octon/framework/constitution/contracts/assurance/**"' "$CONTRACT_REGISTRY" "constitutional registry exposes assurance contract family root"
   require_yq '.integration_surfaces.disclosure_contract_family.root == ".octon/framework/constitution/contracts/disclosure/**"' "$CONTRACT_REGISTRY" "constitutional registry exposes disclosure contract family root"
-  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"' "$ASSURANCE_FAMILY" "assurance family points to the Wave 6 receipt"
-  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"' "$DISCLOSURE_FAMILY" "disclosure family points to the Wave 6 receipt"
+  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion/plan.md"' "$ASSURANCE_FAMILY" "assurance family points to the Phase 4 receipt"
+  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"' "$DISCLOSURE_FAMILY" "disclosure family points to the disclosure receipt"
   require_yq '.retained_evidence_roots[] | select(. == ".octon/state/evidence/lab/**")' "$EVIDENCE_OBLIGATIONS" "evidence obligations include retained lab evidence root"
   require_yq '.obligations[] | select(.id == "EVI-006" and .adoption_status == "active")' "$EVIDENCE_OBLIGATIONS" "RunCard disclosure obligation is active"
   require_yq '.obligations[] | select(.id == "EVI-007" and .adoption_status == "active")' "$EVIDENCE_OBLIGATIONS" "HarnessCard disclosure obligation is active"

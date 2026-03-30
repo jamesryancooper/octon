@@ -1,0 +1,12 @@
+schema_version: "proof-suite-v1"
+suite_id: "replay-shadow-substance"
+plane: "behavioral"
+purpose: "Require replayable scenario evidence plus a shadow execution artifact before behavioral claims pass."
+runner_ref: ".octon/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
+required_artifacts:
+  - "scenario-proof"
+  - "replay-bundle"
+  - "shadow-run"
+blocking_support_tiers:
+  - "repo-local-transitional"

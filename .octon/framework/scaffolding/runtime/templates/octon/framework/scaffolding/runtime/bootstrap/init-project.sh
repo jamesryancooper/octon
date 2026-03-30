@@ -111,6 +111,8 @@ ALIGNMENT_CHECK_OUT="$REPO_ROOT/alignment-check"
 OBJECTIVE_OUT="$REPO_ROOT/.octon/instance/bootstrap/OBJECTIVE.md"
 LEGACY_OBJECTIVE_OUT="$REPO_ROOT/OBJECTIVE.md"
 INTENT_CONTRACT_OUT="$REPO_ROOT/.octon/instance/cognition/context/shared/intent.contract.yml"
+WORKSPACE_CHARTER_MD_OUT="$REPO_ROOT/.octon/instance/charter/workspace.md"
+WORKSPACE_CHARTER_YML_OUT="$REPO_ROOT/.octon/instance/charter/workspace.yml"
 ADAPTER_REGISTRY="$REPO_ROOT/.octon/framework/capabilities/runtime/services/interfaces/agent-platform/adapters/registry.yml"
 ADAPTER_ENABLED_OUT="$REPO_ROOT/.octon/framework/capabilities/runtime/services/interfaces/agent-platform/adapters/enabled.yml"
 CONTEXT_POLICY_FILE="$OCTON_DIR/capabilities/governance/policy/deny-by-default.v2.yml"
@@ -458,15 +460,13 @@ resolve_objective_selection() {
 }
 
 render_agents_template() {
-  local escaped_default_agent escaped_execution_contract escaped_identity_contract
+  local escaped_default_agent escaped_execution_contract
   escaped_default_agent="$(escape_sed_replacement "$DEFAULT_AGENT")"
   escaped_execution_contract="$(escape_sed_replacement "$DEFAULT_AGENT_EXECUTION_CONTRACT")"
-  escaped_identity_contract="$(escape_sed_replacement "$DEFAULT_AGENT_IDENTITY_CONTRACT")"
 
   sed \
     -e "s|{{DEFAULT_AGENT}}|$escaped_default_agent|g" \
     -e "s|{{DEFAULT_AGENT_EXECUTION_CONTRACT}}|$escaped_execution_contract|g" \
-    -e "s|{{DEFAULT_AGENT_IDENTITY_CONTRACT}}|$escaped_identity_contract|g" \
     "$AGENTS_TEMPLATE_FILE"
 }
 
@@ -742,6 +742,8 @@ write_objective_contract() {
   fi
 
   echo "[INFO] Objective: $OBJECTIVE_LABEL ($SELECTED_OBJECTIVE_ID)"
+  write_objective_file "$objective_brief_template" "$WORKSPACE_CHARTER_MD_OUT" ".octon/instance/charter/workspace.md"
+  write_objective_file "$intent_contract_template" "$WORKSPACE_CHARTER_YML_OUT" ".octon/instance/charter/workspace.yml"
   write_objective_file "$objective_brief_template" "$OBJECTIVE_OUT" ".octon/instance/bootstrap/OBJECTIVE.md"
   write_objective_file "$intent_contract_template" "$INTENT_CONTRACT_OUT" "intent.contract.yml"
 }
@@ -905,7 +907,6 @@ if [[ -z "$OBJECTIVE_APPROVED_BY" ]]; then
 fi
 
 DEFAULT_AGENT_EXECUTION_CONTRACT=".octon/framework/agency/runtime/agents/${DEFAULT_AGENT}/AGENT.md"
-DEFAULT_AGENT_IDENTITY_CONTRACT=".octon/framework/agency/runtime/agents/${DEFAULT_AGENT}/SOUL.md"
 
 echo "== Project Init =="
 echo "Repo root: $REPO_ROOT"

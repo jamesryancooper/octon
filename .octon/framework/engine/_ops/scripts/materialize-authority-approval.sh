@@ -213,7 +213,11 @@ main() {
     --arg request_ref "$request_ref" \
     --arg grant_ref "$grant_ref" \
     --argjson granted "$( [[ -n "$GRANT_STATE" && "$GRANT_STATE" == "active" ]] && printf 'true' || printf 'false' )" \
-    '{approval_request_ref:$request_ref, approval_grant_ref:($grant_ref | select(length > 0)), approval_granted:$granted}'
+    '{
+      approval_request_ref: $request_ref,
+      approval_grant_ref: (if ($grant_ref | length) > 0 then $grant_ref else null end),
+      approval_granted: $granted
+    }'
 }
 
 main "$@"

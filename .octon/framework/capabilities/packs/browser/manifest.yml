@@ -1,0 +1,14 @@
+schema_version: "octon-capability-pack-v1"
+pack_id: "browser"
+surface: "browser"
+display_name: "Browser Automation Pack"
+description: "Browser automation, replay capture, and UI-driving surfaces that require governed admission."
+runtime_surface_refs:
+  - ".octon/framework/lab/replay/**"
+  - ".octon/framework/lab/shadow/**"
+required_evidence:
+  - "lab-followup"
+  - "external-replay-index"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+known_limitations:
+  - "Browser execution is unadmitted in the current repo-local support envelope."

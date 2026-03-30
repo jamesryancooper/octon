@@ -1,0 +1,6 @@
+schema_version: "proof-suite-registry-v1"
+plane: "behavioral"
+suites:
+  - suite_id: "replay-shadow-substance"
+    path: ".octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml"
+    enforcement_mode: "blocking-for-supported-claims"

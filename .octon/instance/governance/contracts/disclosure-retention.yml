@@ -6,11 +6,55 @@ canonical_disclosure_roots:
   run_cards: ".octon/state/evidence/runs/<run-id>/disclosure"
   harness_cards: ".octon/state/evidence/lab/harness-cards"
   external_replay_index: ".octon/state/evidence/external-index"
+evidence_classes:
+  A:
+    label: "git-inline"
+    applies_to:
+      - "charters"
+      - "approvals"
+      - "decisions"
+      - "support-targets"
+      - "run-card"
+      - "harness-card"
+      - "benchmark-summary"
+  B:
+    label: "git-pointer"
+    applies_to:
+      - "replay-manifest"
+      - "replay-pointers"
+      - "trace-pointers"
+      - "assurance-summary"
+      - "external-artifact-index"
+      - "measurement-summary"
+  C:
+    label: "external-immutable"
+    applies_to:
+      - "raw-model-io"
+      - "browser-artifacts"
+      - "har"
+      - "screenshots"
+      - "videos"
+      - "large-traces"
+      - "high-frequency-telemetry"
 storage_classes:
-  behavioral_replay: "git-inline or external-immutable"
-  run_card: "git-inline"
-  harness_card: "git-inline"
+  behavioral_replay: "Class B manifest plus Class C payload when required by run class"
+  run_card: "Class A"
+  harness_card: "Class A"
+supported_run_classes:
+  repo-local-transitional:
+    replay_payload_class: "git-inline"
+    replay_manifest_class: "B"
+    external_index_required: false
+  release-and-boundary-sensitive:
+    replay_payload_class: "external-immutable"
+    replay_manifest_class: "B"
+    external_index_required: true
+  external-or-irreversible:
+    replay_payload_class: "external-immutable"
+    replay_manifest_class: "B"
+    external_index_required: true
 rules:
   - "Behavioral claims must cite retained replay, scenario, shadow, or benchmark evidence."
   - "External replay payloads require a content-addressed index entry."
+  - "Run-local evidence classification must encode the packet Class A/B/C model."
   - "Disclosure artifacts stay subordinate to run-contract, authority, and retained evidence roots."

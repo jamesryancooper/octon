@@ -40,8 +40,8 @@ Guarded lane (rare human check-in):
 
 - High-impact governance/control-plane changes stay in the manual lane.
 - Dependabot major/unknown version jumps stay in the manual lane.
-- `autonomy:no-automerge` is a manual opt-out from autonomous merging.
-- Human check-in is metadata-level; enforcement still runs in CI/rulesets.
+- Human check-in is metadata-level; enforcement runs through canonical approval
+  artifacts plus CI/rulesets rather than label authority.
 
 Release lane:
 
@@ -64,6 +64,8 @@ AI review lane:
 
 - `AI Review Gate` runs provider adapters (OpenAI + Anthropic), normalizes
   findings, and computes `AI Review Gate / decision`.
+- The gate dual-writes projection state into canonical approval artifacts and
+  required checks without relying on AI-gate labels.
 - Shadow mode: `AI_GATE_ENFORCE=false` (decision check passes with telemetry).
 - Strict mode: `AI_GATE_ENFORCE=true` with `AI Review Gate / decision` required
   in the `main` branch ruleset.

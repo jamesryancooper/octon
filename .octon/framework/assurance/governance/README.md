@@ -2,12 +2,12 @@
 
 ## Purpose
 
-Canonical governance surface for assurance charter policy, precedence, and
-override contracts.
+Assurance-governance overlays and retained charter-shaped shims that operate
+under the singular constitutional kernel.
 
 ## Contents
 
-- `CHARTER.md` - umbrella priority contract and trade-off rules.
+- `CHARTER.md` - assurance-governance priority shim and trade-off framing.
 - `DOCTRINE.md` - assurance rationale and subsystem relationship contract.
 - `CHANGELOG.md` - governance-breaking change history.
 - `weights/` - policy weight contracts and context inputs.
@@ -18,6 +18,6 @@ override contracts.
 
 ## Boundary
 
-Normative assurance policy and governance live only in this surface.
-Execution entrypoints belong in `../runtime/`; operating checklists and
-standards belong in `../practices/`.
+Assurance-local governance overlays live in this surface beneath
+`framework/constitution/**`. Execution entrypoints belong in `../runtime/`;
+operating checklists and standards belong in `../practices/`.

@@ -19,6 +19,7 @@
     "required_evidence",
     "closure_conditions",
     "stage_attempt_root",
+    "run_manifest_ref",
     "status",
     "created_at"
   ],
@@ -116,6 +117,10 @@
       }
     },
     "stage_attempt_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_manifest_ref": {
       "type": "string",
       "minLength": 1
     },

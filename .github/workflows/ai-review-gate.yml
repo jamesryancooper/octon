@@ -7,8 +7,6 @@ on:
       - reopened
       - synchronize
       - ready_for_review
-      - labeled
-      - unlabeled
 
 permissions:
   contents: read
@@ -66,7 +64,7 @@ jobs:
     needs:
       - changes
     if: github.event.pull_request.state == 'open' && needs.changes.outputs.provider_trigger == 'true'
-    name: provider-${{ matrix.provider }}
+    name: evaluator-adapter-${{ matrix.provider }}
     runs-on: ubuntu-latest
     timeout-minutes: 12
     strategy:
@@ -95,7 +93,7 @@ jobs:
             ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} \
             > .octon/generated/.tmp/ai-gate/pr.diff || true
 
-      - name: Run provider adapter
+      - name: Run evaluator adapter
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -106,22 +104,11 @@ jobs:
           schema=".octon/framework/agency/practices/standards/ai-gate-findings.schema.json"
           diff=".octon/generated/.tmp/ai-gate/pr.diff"
           output=".octon/generated/.tmp/ai-gate/findings-${{ matrix.provider }}.json"
+          adapter_manifest=".octon/framework/assurance/evaluators/adapters/${{ matrix.provider }}-review.yml"
 
-          case "${{ matrix.provider }}" in
-            openai)
-              script=".octon/framework/agency/_ops/scripts/ai-gate/provider-openai.sh"
-              ;;
-            anthropic)
-              script=".octon/framework/agency/_ops/scripts/ai-gate/provider-anthropic.sh"
-              ;;
-            *)
-              echo "Unknown provider: ${{ matrix.provider }}" >&2
-              exit 1
-              ;;
-          esac
-
-          chmod +x "${script}"
-          "${script}" \
+          chmod +x .octon/framework/assurance/evaluators/runtime/_ops/scripts/run-evaluator-adapter.sh
+          .octon/framework/assurance/evaluators/runtime/_ops/scripts/run-evaluator-adapter.sh \
+            --adapter-manifest "${adapter_manifest}" \
             --policy "${policy}" \
             --schema "${schema}" \
             --diff "${diff}" \
@@ -153,7 +140,6 @@ jobs:
       - provider-findings
     env:
       AI_GATE_ENFORCE: ${{ vars.AI_GATE_ENFORCE || 'false' }}
-      PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
       GH_REPO: ${{ github.repository }}
       GH_PR_NUMBER: ${{ github.event.pull_request.number }}
       PROVIDER_TRIGGER: ${{ needs.changes.outputs.provider_trigger }}
@@ -237,27 +223,42 @@ jobs:
             --policy "${policy}" \
             --schema "${schema}" \
             --findings-dir "${findings_dir}" \
-            --labels-json "${PR_LABELS_JSON}" \
             --enforce "${AI_GATE_ENFORCE}" \
             --output "${output}"
 
-      - name: Sync AI gate labels
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Materialize canonical AI gate authority artifacts
+        if: always()
         run: |
           set -euo pipefail
 
           decision_file=".octon/generated/.tmp/ai-gate/decision.json"
+          control_json=".octon/generated/.tmp/ai-gate/authority.json"
+          decision="$(jq -r '.decision' "${decision_file}")"
+          gate_pass="$(jq -r '.gate_pass' "${decision_file}")"
           blockers="$(jq -r '.blockers_total' "${decision_file}")"
-          waived="$(jq -r '.waived' "${decision_file}")"
+          status="granted"
 
-          gh pr edit "${GH_PR_NUMBER}" --repo "${GH_REPO}" --add-label "ai-gate:required" >/dev/null 2>&1 || true
-
-          if [[ "${blockers}" -gt 0 && "${waived}" != "true" ]]; then
-            gh pr edit "${GH_PR_NUMBER}" --repo "${GH_REPO}" --add-label "ai-gate:blocker" >/dev/null 2>&1 || true
-          else
-            gh pr edit "${GH_PR_NUMBER}" --repo "${GH_REPO}" --remove-label "ai-gate:blocker" >/dev/null 2>&1 || true
+          if [[ "${gate_pass}" != "true" ]]; then
+            status="denied"
+          elif [[ "${blockers}" -gt 0 ]]; then
+            status="staged"
           fi
+
+          chmod +x .octon/framework/engine/_ops/scripts/project-github-control-approval.sh
+          .octon/framework/engine/_ops/scripts/project-github-control-approval.sh \
+            --request-id "github-ai-review-gate-pr-${GH_PR_NUMBER}" \
+            --run-id "github-ai-review-gate-pr-${GH_PR_NUMBER}" \
+            --target-id "github-pr:${GH_PR_NUMBER}" \
+            --action-type "github-ai-review-gate" \
+            --issued-by "github://workflow/ai-review-gate" \
+            --status "${status}" \
+            --support-tier "repo-local-transitional" \
+            --workflow-mode "human-only" \
+            --required-evidence "ai-review-gate-decision" \
+            --required-evidence "provider-findings" \
+            --reason-code "AI_GATE_DECISION_$(printf '%s' "${decision}" | tr '[:lower:]-' '[:upper:]_')" \
+            --projection-check "github://pull/${GH_PR_NUMBER}#check:AI Review Gate / decision" \
+            --output-json "${control_json}"
 
       - name: Append AI gate summary
         if: always()
@@ -284,6 +285,19 @@ jobs:
           name: ai-gate-decision
           path: .octon/generated/.tmp/ai-gate/decision.json
           if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload AI gate control artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ai-gate-control-artifacts
+          path: |
+            .octon/generated/.tmp/ai-gate/authority.json
+            .octon/state/control/execution/approvals/requests/github-ai-review-gate-pr-${{ github.event.pull_request.number }}.yml
+            .octon/state/control/execution/approvals/grants/grant-github-ai-review-gate-pr-${{ github.event.pull_request.number }}.yml
+            .octon/state/evidence/control/execution
+          if-no-files-found: warn
           retention-days: 7
 
       - name: Upload protected execution receipt

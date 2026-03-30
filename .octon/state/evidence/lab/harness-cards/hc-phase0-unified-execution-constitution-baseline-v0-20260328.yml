@@ -1,0 +1,31 @@
+schema_version: harness-card-v1
+card_id: hc-phase0-unified-execution-constitution-baseline-v0-20260328
+claim_kind: support
+claim_summary: Phase 0 baseline freeze publishes an internal repo-local disclosure baseline for the live unified-execution-constitution surfaces; it does not claim final target-state compliance.
+support_target_ref: .octon/instance/governance/support-targets.yml
+compatibility_tuple:
+  model_tier: MT-B
+  workload_tier: WT-2
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  support_status: supported
+adapter_support:
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  host_support_status: supported
+  model_support_status: supported
+  conformance_criteria:
+    - HOST-001
+    - HOST-002
+    - MODEL-001
+    - MODEL-002
+    - MODEL-003
+proof_bundle_refs:
+  - .octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase0-baseline-freeze/evidence.md
+  - .octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase0-baseline-freeze/inventory.md
+  - .octon/state/evidence/migration/2026-03-28-unified-execution-constitution-phase0-baseline-freeze/frozen-inputs.yml
+known_limits:
+  - This disclosure is an internal Phase 0 baseline only and does not assert final unified-execution-constitution completion.
+  - The live workspace objective layer remains bound to bootstrap and cognition paths rather than a packet-style instance charter root.
+  - Authored disclosure and external immutable replay indexing remain incomplete in the live repo.
+generated_at: "2026-03-28T00:00:00Z"

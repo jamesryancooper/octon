@@ -10,5 +10,7 @@ ingress_adapters:
   repo_root_agents: "AGENTS.md"
   repo_root_claude: "CLAUDE.md"
 objective_contract:
-  brief_path: ".octon/instance/bootstrap/OBJECTIVE.md"
-  intent_path: ".octon/instance/cognition/context/shared/intent.contract.yml"
+  brief_path: ".octon/instance/charter/workspace.md"
+  intent_path: ".octon/instance/charter/workspace.yml"
+  brief_shim_path: ".octon/instance/bootstrap/OBJECTIVE.md"
+  intent_shim_path: ".octon/instance/cognition/context/shared/intent.contract.yml"

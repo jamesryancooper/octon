@@ -7,6 +7,8 @@ This root is the primary execution-time unit of truth:
 
 - every consequential run must bind `run-contract.yml` under this root before
   side effects occur
+- every consequential run must also bind `run-manifest.yml` as the canonical
+  run-topology manifest
 - stage attempts belong under `stage-attempts/**` beneath the bound run root
 - checkpoints, runtime-state, and rollback-posture belong under the same run
   control root
@@ -22,6 +24,7 @@ This root is the primary execution-time unit of truth:
 ```text
 state/control/execution/runs/<run-id>/
   run-contract.yml
+  run-manifest.yml
   stage-attempts/
   checkpoints/
   runtime-state.yml

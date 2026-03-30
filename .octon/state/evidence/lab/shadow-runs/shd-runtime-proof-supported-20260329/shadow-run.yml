@@ -1,0 +1,4 @@
+schema_version: shadow-run-v1
+shadow_id: shd-runtime-proof-supported-20260329
+subject_ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+recorded_at: "2026-03-29T18:15:00Z"

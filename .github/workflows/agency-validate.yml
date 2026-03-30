@@ -10,6 +10,7 @@ on:
       - '.octon/instance/bootstrap/START.md'
       - '.octon/README.md'
       - '.octon/instance/bootstrap/scope.md'
+      - '.octon/framework/scaffolding/runtime/bootstrap/**'
       - '.octon/framework/scaffolding/runtime/templates/octon/**'
   pull_request:
     paths:
@@ -18,6 +19,7 @@ on:
       - '.octon/instance/bootstrap/START.md'
       - '.octon/README.md'
       - '.octon/instance/bootstrap/scope.md'
+      - '.octon/framework/scaffolding/runtime/bootstrap/**'
       - '.octon/framework/scaffolding/runtime/templates/octon/**'
 
 permissions:
@@ -40,7 +42,7 @@ jobs:
           chmod +x .octon/framework/agency/_ops/scripts/validate/validate-agency.sh
           .octon/framework/agency/_ops/scripts/validate/validate-agency.sh
 
-      - name: Validate autonomy label catalog
+      - name: Validate GitHub label catalog
         run: |
           chmod +x .octon/framework/agency/_ops/scripts/validate/validate-autonomy-labels.sh
           .octon/framework/agency/_ops/scripts/validate/validate-autonomy-labels.sh

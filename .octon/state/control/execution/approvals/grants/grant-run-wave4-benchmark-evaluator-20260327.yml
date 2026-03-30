@@ -1,0 +1,16 @@
+schema_version: "authority-approval-grant-v1"
+grant_id: "grant-run-wave4-benchmark-evaluator-20260327"
+request_id: "run-wave4-benchmark-evaluator-20260327"
+run_id: "run-wave4-benchmark-evaluator-20260327"
+state: "active"
+issued_by: "operator://octon-governance"
+issued_at: "2026-03-29T02:59:14Z"
+expires_at: null
+projection_sources:
+  - kind: "historical-backfill"
+    ref: "operator://phase2/authority-backfill/run-wave4"
+review_metadata: {}
+required_evidence:
+  - "authority-grant-bundle"
+  - "mission-authority"
+  - "rollback-proof"

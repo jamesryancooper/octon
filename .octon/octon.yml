@@ -83,16 +83,22 @@ resolution:
     disclosure_contract_family: .octon/framework/constitution/contracts/disclosure
     retention_contract_family: .octon/framework/constitution/contracts/retention
     adapter_contract_family: .octon/framework/constitution/contracts/adapters
-    workspace_objective_brief: .octon/instance/bootstrap/OBJECTIVE.md
-    workspace_intent_contract: .octon/instance/cognition/context/shared/intent.contract.yml
+    workspace_objective_brief: .octon/instance/charter/workspace.md
+    workspace_intent_contract: .octon/instance/charter/workspace.yml
+    workspace_objective_shim: .octon/instance/bootstrap/OBJECTIVE.md
+    workspace_intent_shim: .octon/instance/cognition/context/shared/intent.contract.yml
     proposals_registry: .octon/generated/proposals/registry.yml
     continuity: .octon/state/continuity/
     run_continuity_root: .octon/state/continuity/runs
     run_control_root: .octon/state/control/execution/runs
+    run_manifest_file: .octon/state/control/execution/runs/<run-id>/run-manifest.yml
     run_evidence_root: .octon/state/evidence/runs
+    run_evidence_classification_file: .octon/state/evidence/runs/<run-id>/evidence-classification.yml
     external_evidence_index_root: .octon/state/evidence/external-index
     host_adapter_root: .octon/framework/engine/runtime/adapters/host
     model_adapter_root: .octon/framework/engine/runtime/adapters/model
+    framework_capability_pack_root: .octon/framework/capabilities/packs
+    runtime_capability_pack_root: .octon/instance/capabilities/runtime/packs
     lab_framework_root: .octon/framework/lab
     observability_framework_root: .octon/framework/observability
     lab_evidence_root: .octon/state/evidence/lab

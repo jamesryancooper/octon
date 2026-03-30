@@ -55,19 +55,30 @@ create_fixture() {
 
   mkdir -p "$fixture_root/.octon/framework/orchestration/runtime"
   mkdir -p "$fixture_root/.octon/framework/orchestration/practices"
+  mkdir -p "$fixture_root/.octon/framework/cognition/_meta/architecture"
   mkdir -p "$fixture_root/.octon/instance/governance"
+  mkdir -p "$fixture_root/.octon/instance/governance/contracts"
   mkdir -p "$fixture_root/.octon/state/evidence/decisions/repo"
+  mkdir -p "$fixture_root/.octon/state/evidence/lab"
   mkdir -p "$fixture_root/.octon/state/evidence/runs"
   mkdir -p "$fixture_root/.octon/instance/cognition/context/shared"
 
   cp -R "$REPO_ROOT/.octon/framework/orchestration/runtime" "$fixture_root/.octon/framework/orchestration/"
+  cp -R "$REPO_ROOT/.octon/framework/assurance" "$fixture_root/.octon/framework/"
+  cp -R "$REPO_ROOT/.octon/framework/lab" "$fixture_root/.octon/framework/"
+  cp -R "$REPO_ROOT/.octon/framework/constitution" "$fixture_root/.octon/framework/"
   cp "$REPO_ROOT/.octon/framework/orchestration/practices/workflow-authoring-standards.md" \
     "$fixture_root/.octon/framework/orchestration/practices/workflow-authoring-standards.md"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/contract-registry.yml" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/contract-registry.yml"
   cp "$REPO_ROOT/.octon/state/evidence/decisions/repo/README.md" "$fixture_root/.octon/state/evidence/decisions/repo/README.md"
   cp "$REPO_ROOT/.octon/state/evidence/decisions/repo/retention.json" "$fixture_root/.octon/state/evidence/decisions/repo/retention.json"
+  cp -R "$REPO_ROOT/.octon/state/evidence/lab/." "$fixture_root/.octon/state/evidence/lab/"
   cp "$REPO_ROOT/.octon/state/evidence/runs/README.md" "$fixture_root/.octon/state/evidence/runs/README.md"
   cp "$REPO_ROOT/.octon/instance/governance/support-targets.yml" \
     "$fixture_root/.octon/instance/governance/support-targets.yml"
+  cp "$REPO_ROOT/.octon/instance/governance/contracts/disclosure-retention.yml" \
+    "$fixture_root/.octon/instance/governance/contracts/disclosure-retention.yml"
   cp "$REPO_ROOT/.octon/instance/cognition/context/shared/workflow-quality.md" \
     "$fixture_root/.octon/instance/cognition/context/shared/workflow-quality.md"
   cp "$REPO_ROOT/.octon/instance/cognition/context/shared/workflow-gaps.md" \
@@ -207,8 +218,47 @@ case_terminal_run_contract_status_is_stable() {
   [[ "$(yq -r '.status // ""' "$fixture_root/.octon/state/control/execution/runs/run-test-002/stage-attempts/initial.yml")" == "succeeded" ]]
 }
 
+case_terminal_high_tier_run_persists_external_replay_pointer() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+
+  local envs=("OCTON_DIR_OVERRIDE=$fixture_root/.octon" "OCTON_ROOT_DIR=$fixture_root")
+
+  env "${envs[@]}" bash "$REPO_ROOT/$DECISION_SCRIPT" \
+    --decision-id dec-test-003 \
+    --outcome allow \
+    --surface workflows \
+    --action launch-workflow \
+    --actor evaluate-harness \
+    --workflow-group meta \
+    --workflow-id evaluate-harness \
+    --reason-code target-resolved \
+    --summary 'Evaluate harness workflow admitted for execution.' >/dev/null
+
+  env "${envs[@]}" bash "$REPO_ROOT/$RUN_SCRIPT" create \
+    --run-id run-test-003 \
+    --decision-id dec-test-003 \
+    --summary 'Evaluate harness high-tier run started.' \
+    --workflow-group meta \
+    --workflow-id evaluate-harness \
+    --executor-id executor-test-03 \
+    --lease-seconds 300 \
+    --support-tier release-and-boundary-sensitive >/dev/null
+
+  env "${envs[@]}" bash "$REPO_ROOT/$RUN_SCRIPT" complete \
+    --run-id run-test-003 \
+    --status succeeded \
+    --summary 'Evaluate harness high-tier run completed.' >/dev/null
+
+  [[ "$(yq -r '.external_replay_index_path // ""' "$fixture_root/.octon/framework/orchestration/runtime/runs/run-test-003.yml")" == ".octon/state/evidence/external-index/runs/run-test-003.yml" ]]
+  [[ -f "$fixture_root/.octon/state/evidence/external-index/runs/run-test-003.yml" ]]
+  yq -e '.external_index_refs[] | select(. == ".octon/state/evidence/external-index/runs/run-test-003.yml")' \
+    "$fixture_root/.octon/state/evidence/runs/run-test-003/replay-pointers.yml" >/dev/null
+}
+
 assert_success "shared runtime primitives round-trip" case_primitives_round_trip
 assert_success "terminal run contract status remains stable" case_terminal_run_contract_status_is_stable
+assert_success "terminal high-tier runs persist external replay pointers" case_terminal_high_tier_run_persists_external_replay_pointer
 
 if (( fail_count > 0 )); then
   echo "FAILURES: $fail_count" >&2

@@ -1,0 +1,19 @@
+schema_version: "repo-governance-review-v1"
+review_id: "retirement-review"
+owner: "Octon governance"
+status: "active"
+purpose: "Keep every compensating mechanism registered, reviewed, and either retired, demoted, or explicitly retained with an ablation-backed path."
+triggers:
+  - "Before any final target-state claim."
+  - "When a retirement target reaches its review date or changes status."
+  - "When a new compatibility shim, historical shim, or projection-only helper is introduced."
+cadence: "Quarterly while any registered or historical-retained target remains, and immediately before claim or support widening."
+required_inputs:
+  - ".octon/instance/governance/contracts/retirement-policy.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"
+  - ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
+evidence_requirements:
+  - "Approved retirement-review receipt under .octon/state/evidence/validation/publication/build-to-delete/<date>/retirement-review.yml"
+  - "A current ablation-deletion receipt for every target evaluated in the release."
+blocking_rule: "Reject when any registered target lacks owner, support scope, value metric, review date, retirement trigger, required ablation suite, evidence requirements, or retirement path."
+retirement_path: "Retire only if an automated successor review owns the same registry completeness and ablation checks."

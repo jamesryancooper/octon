@@ -1,0 +1,5 @@
+schema_version: "lab-domain-registry-v1"
+domain: "replay"
+entries:
+  - replay_bundle_id: "runtime-proof-bundle"
+    path: ".octon/framework/lab/replay/bundles/runtime-proof-bundle.yml"

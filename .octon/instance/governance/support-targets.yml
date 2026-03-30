@@ -62,8 +62,9 @@ compatibility_matrix:
     default_route: "allow"
     requires_mission: false
     allowed_capability_packs:
-      - "read-only"
-      - "analysis"
+      - "repo"
+      - "shell"
+      - "telemetry"
     required_evidence:
       - "authority-decision-artifact"
   - model_tier: "MT-B"
@@ -74,9 +75,10 @@ compatibility_matrix:
     default_route: "allow"
     requires_mission: false
     allowed_capability_packs:
-      - "repo-maintenance"
-      - "governance"
-      - "runtime"
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
     required_evidence:
       - "authority-decision-artifact"
       - "authority-grant-bundle"
@@ -89,8 +91,10 @@ compatibility_matrix:
     default_route: "stage_only"
     requires_mission: true
     allowed_capability_packs:
-      - "governance"
-      - "runtime"
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
     required_evidence:
       - "authority-decision-artifact"
       - "authority-grant-bundle"
@@ -104,8 +108,9 @@ compatibility_matrix:
     default_route: "stage_only"
     requires_mission: false
     allowed_capability_packs:
-      - "read-only"
-      - "governance"
+      - "repo"
+      - "shell"
+      - "telemetry"
     required_evidence:
       - "authority-decision-artifact"
       - "lab-followup"
@@ -117,8 +122,10 @@ compatibility_matrix:
     default_route: "stage_only"
     requires_mission: false
     allowed_capability_packs:
-      - "governance"
-      - "runtime"
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
     required_evidence:
       - "authority-decision-artifact"
       - "extended-context-review"
@@ -130,8 +137,10 @@ compatibility_matrix:
     default_route: "stage_only"
     requires_mission: false
     allowed_capability_packs:
-      - "governance"
-      - "runtime"
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
     required_evidence:
       - "authority-decision-artifact"
       - "locale-review"
@@ -164,6 +173,12 @@ adapter_conformance_criteria:
     required_evidence:
       - "authority-grant-bundle"
       - "control-evidence-root"
+  - criterion_id: "HOST-004"
+    adapter_kind: "host"
+    description: "Canonical host adapters must publish explicit support-tier envelopes for GitHub, CI, local CLI, and Studio surfaces."
+    required_evidence:
+      - "support-target-declaration"
+      - "instruction-layer-manifest"
   - criterion_id: "MODEL-001"
     adapter_kind: "model"
     description: "Model adapter support claims remain bounded by declared support tiers."
@@ -182,6 +197,12 @@ adapter_conformance_criteria:
     required_evidence:
       - "run-evidence-root"
       - "control-evidence-root"
+  - criterion_id: "MODEL-004"
+    adapter_kind: "model"
+    description: "Model adapter manifests must publish conformance suites, contamination reset posture, and known limitations."
+    required_evidence:
+      - "run-evidence-root"
+      - "support-target-declaration"
 host_adapters:
   - adapter_id: "repo-shell"
     contract_ref: ".octon/framework/engine/runtime/adapters/host/repo-shell.yml"
@@ -192,10 +213,37 @@ host_adapters:
     criteria_refs:
       - "HOST-001"
       - "HOST-002"
+      - "HOST-004"
     allowed_model_tiers:
       - "MT-A"
       - "MT-B"
       - "MT-C"
+    allowed_workload_tiers:
+      - "WT-1"
+      - "WT-2"
+      - "WT-3"
+    allowed_language_resource_tiers:
+      - "LT-REF"
+      - "LT-EXT"
+    allowed_locale_tiers:
+      - "LOC-EN"
+      - "LOC-MX"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "instruction-layer-manifest"
+  - adapter_id: "studio-control-plane"
+    contract_ref: ".octon/framework/engine/runtime/adapters/host/studio-control-plane.yml"
+    authority_mode: "non_authoritative"
+    replaceable: true
+    support_status: "supported"
+    default_route: "allow"
+    criteria_refs:
+      - "HOST-001"
+      - "HOST-002"
+      - "HOST-004"
+    allowed_model_tiers:
+      - "MT-A"
+      - "MT-B"
     allowed_workload_tiers:
       - "WT-1"
       - "WT-2"
@@ -218,6 +266,7 @@ host_adapters:
     criteria_refs:
       - "HOST-001"
       - "HOST-003"
+      - "HOST-004"
     allowed_model_tiers:
       - "MT-B"
       - "MT-C"
@@ -231,6 +280,30 @@ host_adapters:
     required_evidence:
       - "authority-decision-artifact"
       - "control-evidence-root"
+  - adapter_id: "ci-control-plane"
+    contract_ref: ".octon/framework/engine/runtime/adapters/host/ci-control-plane.yml"
+    authority_mode: "projection_only"
+    replaceable: true
+    support_status: "reduced"
+    default_route: "stage_only"
+    criteria_refs:
+      - "HOST-001"
+      - "HOST-003"
+      - "HOST-004"
+    allowed_model_tiers:
+      - "MT-B"
+      - "MT-C"
+    allowed_workload_tiers:
+      - "WT-2"
+      - "WT-3"
+    allowed_language_resource_tiers:
+      - "LT-REF"
+    allowed_locale_tiers:
+      - "LOC-EN"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "control-evidence-root"
+      - "instruction-layer-manifest"
 model_adapters:
   - adapter_id: "repo-local-governed"
     contract_ref: ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"
@@ -242,6 +315,7 @@ model_adapters:
       - "MODEL-001"
       - "MODEL-002"
       - "MODEL-003"
+      - "MODEL-004"
     allowed_model_tiers:
       - "MT-A"
       - "MT-B"
@@ -268,6 +342,7 @@ model_adapters:
     criteria_refs:
       - "MODEL-001"
       - "MODEL-002"
+      - "MODEL-004"
     allowed_model_tiers:
       - "MT-C"
     allowed_workload_tiers:
@@ -283,4 +358,4 @@ model_adapters:
       - "lab-followup"
 notes:
   - "Wave 2 expands support-target coverage enough for authority routing across workload, model, context, and locale axes."
-  - "Wave 5 adds bounded adapter envelopes and adapter-conformance criteria for host and model support claims."
+  - "Wave 5 adds bounded adapter envelopes, canonical host-family coverage, governed capability-pack admission, and adapter-conformance criteria for host and model support claims."

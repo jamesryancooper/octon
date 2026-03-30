@@ -1,0 +1,30 @@
+# Phase 1 Command Log
+
+- `sed -n '1,220p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/{README.md,architecture/implementation-plan.md,architecture/acceptance-criteria.md}`
+- `sed -n '1,260p' .octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-cutover/resources/unified-execution-constitution-audit.md`
+- `sed -n '1,260p' .octon/framework/agency/governance/{CONSTITUTION.md,DELEGATION.md,MEMORY.md}`
+- `sed -n '1,260p' .octon/framework/cognition/governance/{CHARTER.md,README.md}`
+- `sed -n '1,220p' .octon/framework/cognition/governance/principles/{README.md,principles.md}`
+- `sed -n '1,220p' .octon/framework/assurance/governance/{CHARTER.md,README.md}`
+- `sed -n '1,220p' .octon/instance/ingress/AGENTS.md`
+- `sed -n '1,220p' .octon/AGENTS.md`
+- `sed -n '1,220p' AGENTS.md`
+- `sed -n '1,220p' CLAUDE.md`
+- `sed -n '1,220p' .octon/framework/scaffolding/runtime/bootstrap/AGENTS.md`
+- `sed -n '1,220p' .octon/framework/scaffolding/runtime/templates/octon/scaffolding/runtime/bootstrap/AGENTS.md`
+- `sed -n '1,220p' .octon/framework/scaffolding/runtime/templates/octon/framework/scaffolding/runtime/bootstrap/AGENTS.md`
+- `sed -n '1,220p' .octon/framework/constitution/{CHARTER.md,contracts/registry.yml}`
+- `rg -n 'AGENTS\\.md` -> `CONSTITUTION\\.md`|root `AGENTS\\.md`|Precedence for instruction conflicts:|cognition/_meta/architecture/specification\\.md|cognition/governance/principles/README\\.md' .octon/framework/agency .octon/instance/ingress/AGENTS.md .octon/AGENTS.md AGENTS.md CLAUDE.md`
+- `bash .octon/framework/agency/_ops/scripts/validate/validate-agency.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-framing-alignment.sh`
+- `cmp -s AGENTS.md .octon/AGENTS.md && echo ag_ok`
+- `cmp -s CLAUDE.md .octon/AGENTS.md && echo cl_ok`
+- `grep -n 'Shim status:' .octon/framework/cognition/governance/CHARTER.md .octon/framework/assurance/governance/CHARTER.md`
+- `grep -n 'constitutional application shim' .octon/framework/agency/governance/CONSTITUTION.md .octon/framework/agency/governance/README.md .octon/framework/constitution/contracts/registry.yml`
+- `yq -e '.' .octon/framework/constitution/contracts/registry.yml`
+- `yq -e '.records[] | select(.id == "2026-03-28-unified-execution-constitution-phase1-constitutional-extraction")' .octon/instance/cognition/context/shared/migrations/index.yml`
+- `yq -e '.records[] | select(.id == "077-unified-execution-constitution-phase1-constitutional-extraction")' .octon/instance/cognition/decisions/index.yml`
+- `yq -e '.records[] | select(.id == "2026-03-28-unified-execution-constitution-phase1-constitutional-extraction")' .octon/instance/cognition/context/shared/evidence/index.yml`
+- `git diff --check`

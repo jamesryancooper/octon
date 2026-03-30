@@ -1,0 +1,22 @@
+schema_version: "authority-approval-request-v1"
+request_id: "run-wave4-benchmark-evaluator-20260327"
+run_id: "run-wave4-benchmark-evaluator-20260327"
+status: "granted"
+target_id: "workflow:evaluate-harness"
+action_type: "execute_stage"
+workflow_mode: "human-only"
+support_tier: "release-and-boundary-sensitive"
+ownership_refs:
+  - "operator://octon-maintainers"
+reversibility_class: null
+reason_codes:
+  - "PHASE2_CANONICAL_APPROVAL_BACKFILL"
+required_evidence:
+  - "authority-grant-bundle"
+  - "mission-authority"
+  - "rollback-proof"
+projection_sources:
+  - kind: "historical-backfill"
+    ref: "operator://phase2/authority-backfill/run-wave4"
+created_at: "2026-03-29T02:59:14Z"
+updated_at: "2026-03-29T02:59:14Z"

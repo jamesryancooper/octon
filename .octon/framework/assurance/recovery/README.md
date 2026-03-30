@@ -9,3 +9,5 @@ Canonical retained outputs live under:
 
 Recovery proof must reference the bound rollback posture, checkpoint family,
 and replay manifest rather than reconstructed operator memory.
+
+Authored suites live under `suites/**`.

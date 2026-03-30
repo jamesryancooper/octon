@@ -6,7 +6,7 @@
 
 | Path | Purpose |
 | --- | --- |
-| `state/evidence/runs/**` | Run receipts, checkpoints, replay pointers, trace pointers, and retained execution evidence |
+| `state/evidence/runs/**` | Run receipts, checkpoints, replay manifests, replay pointers, evidence classification, trace pointers, and retained execution evidence |
 | `state/evidence/lab/**` | Retained scenario proof, benchmark measurements, evaluator reviews, and HarnessCard disclosure evidence |
 | `state/evidence/control/execution/**` | Retained authority decisions, grant bundles, and control-plane mutation evidence |
 | `state/evidence/external-index/**` | Content-addressed indexes for replay-heavy or externally retained immutable evidence |
@@ -19,3 +19,10 @@ receipt family for locality, extension, and capability publication runs.
 
 Evidence is append-oriented and retention-governed. It must not be treated as
 active task state or rebuildable generated output.
+
+Packet evidence classes:
+
+- `Class A`: Git-inline authored disclosures, approvals, decisions, and
+  benchmark summaries
+- `Class B`: Git-pointer manifests and pointer/index artifacts
+- `Class C`: External immutable raw replay and trace payloads

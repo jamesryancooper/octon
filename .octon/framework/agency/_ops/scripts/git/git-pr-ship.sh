@@ -4,7 +4,6 @@ set -euo pipefail
 PR_NUMBER=""
 MARK_READY=1
 REQUEST_AUTOMERGE=1
-ADD_AUTO_LABEL=1
 DRY_RUN=0
 LABELS_CSV=""
 WAIT_FOR_CLOSE=1
@@ -20,7 +19,6 @@ Usage:
 Options:
   --label <name>         Add additional label(s) before shipping (repeatable).
   --no-ready             Do not convert draft PR to ready state.
-  --no-auto-label        Do not add autonomy:auto-merge.
   --no-automerge         Skip auto-merge request call.
   --no-wait              Do not block waiting for PR closure.
   --wait-timeout-seconds Seconds to wait for closure before background watcher (default: 1800).
@@ -28,9 +26,8 @@ Options:
   --dry-run              Print actions without mutating PR state.
 
 Default behavior:
-  1) Add autonomy:auto-merge (and remove autonomy:no-automerge),
-  2) mark draft PR as ready,
-  3) request squash auto-merge.
+  1) mark draft PR as ready,
+  2) request squash auto-merge.
 USAGE
 }
 
@@ -70,9 +67,6 @@ while [[ $# -gt 0 ]]; do
       ;;
     --no-ready)
       MARK_READY=0
-      ;;
-    --no-auto-label)
-      ADD_AUTO_LABEL=0
       ;;
     --no-automerge)
       REQUEST_AUTOMERGE=0
@@ -147,31 +141,13 @@ if [[ "$PR_STATE" != "OPEN" ]]; then
   error "PR #${PR_NUMBER} is not open (state=$PR_STATE)."
 fi
 
-LABELS_TO_ADD=""
-if [[ "$ADD_AUTO_LABEL" -eq 1 ]]; then
-  LABELS_TO_ADD="autonomy:auto-merge"
-fi
-if [[ -n "$LABELS_CSV" ]]; then
-  if [[ -z "$LABELS_TO_ADD" ]]; then
-    LABELS_TO_ADD="$LABELS_CSV"
-  else
-    LABELS_TO_ADD="${LABELS_TO_ADD},${LABELS_CSV}"
-  fi
-fi
+LABELS_TO_ADD="$LABELS_CSV"
 
 if [[ -n "$LABELS_TO_ADD" ]]; then
   if [[ "$DRY_RUN" -eq 1 ]]; then
     echo "[DRY] gh pr edit \"$PR_NUMBER\" --add-label \"$LABELS_TO_ADD\""
   else
     gh pr edit "$PR_NUMBER" --add-label "$LABELS_TO_ADD"
-  fi
-fi
-
-if [[ "$ADD_AUTO_LABEL" -eq 1 ]]; then
-  if [[ "$DRY_RUN" -eq 1 ]]; then
-    echo "[DRY] gh pr edit \"$PR_NUMBER\" --remove-label \"autonomy:no-automerge\""
-  else
-    gh pr edit "$PR_NUMBER" --remove-label "autonomy:no-automerge" >/dev/null 2>&1 || true
   fi
 fi
 
@@ -227,4 +203,4 @@ if [[ "$RUN_CLEANUP" -eq 1 ]]; then
   fi
 fi
 
-echo "[OK] PR ready for autonomy lane: $PR_URL"
+echo "[OK] PR ready for canonical auto-merge checks: $PR_URL"

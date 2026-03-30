@@ -224,6 +224,10 @@ pub struct SupportTierPosture {
     #[serde(default)]
     pub required_evidence: Vec<String>,
     #[serde(default)]
+    pub allowed_capability_packs: Vec<String>,
+    #[serde(default)]
+    pub requested_capability_packs: Vec<String>,
+    #[serde(default)]
     pub declaration_ref: Option<String>,
 }
 
@@ -575,7 +579,7 @@ pub fn default_policy_mode(cfg: &RuntimeConfig) -> String {
 pub fn active_intent_ref(cfg: &RuntimeConfig) -> Option<IntentRef> {
     let path = cfg
         .repo_root
-        .join(".octon/instance/cognition/context/shared/intent.contract.yml");
+        .join(".octon/instance/charter/workspace.yml");
     let raw = fs::read_to_string(path).ok()?;
     let doc = serde_yaml::from_str::<serde_yaml::Value>(&raw).ok()?;
     Some(IntentRef {
@@ -844,6 +848,8 @@ struct SupportMatrixEntry {
     #[serde(default)]
     requires_mission: Option<bool>,
     #[serde(default)]
+    allowed_capability_packs: Vec<String>,
+    #[serde(default)]
     required_evidence: Vec<String>,
 }
 
@@ -882,12 +888,153 @@ struct AdapterSupportDeclaration {
     required_evidence: Vec<String>,
 }
 
+#[derive(Debug, Clone, Default, Deserialize)]
+struct AdapterRuntimeSurfaceRecord {
+    #[serde(default)]
+    interface_ref: String,
+    #[serde(default)]
+    integration_class: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct AdapterSupportTierDeclarationsRecord {
+    #[serde(default)]
+    model_tiers: Vec<String>,
+    #[serde(default)]
+    workload_tiers: Vec<String>,
+    #[serde(default)]
+    language_resource_tiers: Vec<String>,
+    #[serde(default)]
+    locale_tiers: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct ModelContaminationResetPolicyRecord {
+    #[serde(default)]
+    clean_checkpoint_required: bool,
+    #[serde(default)]
+    hard_reset_on_signature: bool,
+    #[serde(default)]
+    contamination_signal_ref: String,
+    #[serde(default)]
+    evidence_log_ref: String,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct ModelAdapterManifestRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    adapter_id: String,
+    #[serde(default)]
+    display_name: String,
+    #[serde(default)]
+    replaceable: bool,
+    #[serde(default)]
+    authority_mode: String,
+    #[serde(default)]
+    runtime_surface: AdapterRuntimeSurfaceRecord,
+    #[serde(default)]
+    support_target_ref: String,
+    #[serde(default)]
+    support_tier_declarations: AdapterSupportTierDeclarationsRecord,
+    #[serde(default)]
+    conformance_criteria_refs: Vec<String>,
+    #[serde(default)]
+    conformance_suite_refs: Vec<String>,
+    #[serde(default)]
+    contamination_reset_policy: ModelContaminationResetPolicyRecord,
+    #[serde(default)]
+    known_limitations: Vec<String>,
+    #[serde(default)]
+    non_authoritative_boundaries: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct HostAdapterManifestRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    adapter_id: String,
+    #[serde(default)]
+    display_name: String,
+    #[serde(default)]
+    host_family: String,
+    #[serde(default)]
+    replaceable: bool,
+    #[serde(default)]
+    authority_mode: String,
+    #[serde(default)]
+    runtime_surface: AdapterRuntimeSurfaceRecord,
+    #[serde(default)]
+    projection_sources: Vec<String>,
+    #[serde(default)]
+    support_target_ref: String,
+    #[serde(default)]
+    support_tier_declarations: AdapterSupportTierDeclarationsRecord,
+    #[serde(default)]
+    conformance_criteria_refs: Vec<String>,
+    #[serde(default)]
+    known_limitations: Vec<String>,
+    #[serde(default)]
+    non_authoritative_boundaries: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct RuntimeCapabilityPackRegistryRecord {
+    #[serde(default)]
+    packs: Vec<RuntimeCapabilityPackAdmissionRecord>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct RuntimeCapabilityPackAdmissionRecord {
+    #[serde(default)]
+    pack_id: String,
+    #[serde(default)]
+    contract_ref: String,
+    #[serde(default)]
+    admission_status: String,
+    #[serde(default)]
+    default_route: String,
+    #[serde(default)]
+    required_evidence: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default, Deserialize)]
+struct CapabilityPackManifestRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    pack_id: String,
+    #[serde(default)]
+    surface: String,
+    #[serde(default)]
+    display_name: String,
+    #[serde(default)]
+    description: String,
+    #[serde(default)]
+    runtime_surface_refs: Vec<String>,
+    #[serde(default)]
+    required_evidence: Vec<String>,
+    #[serde(default)]
+    support_target_ref: String,
+    #[serde(default)]
+    known_limitations: Vec<String>,
+}
+
 #[derive(Debug, Clone, Default)]
 struct ResolvedAdapterSupport {
     adapter_id: String,
     support_status: String,
     route: String,
     criteria_refs: Vec<String>,
+    required_evidence: Vec<String>,
+}
+
+#[derive(Debug, Clone, Default)]
+struct ResolvedCapabilityPackSupport {
+    support_status: String,
+    route: String,
     required_evidence: Vec<String>,
 }
 
@@ -926,13 +1073,7 @@ struct RuntimeStateRecord {
     #[serde(default)]
     run_contract_ref: String,
     #[serde(default)]
-    stage_attempt_root: String,
-    #[serde(default)]
-    control_checkpoint_root: String,
-    #[serde(default)]
-    evidence_root: String,
-    #[serde(default)]
-    receipt_root: String,
+    run_manifest_ref: String,
     #[serde(default)]
     current_stage_attempt_id: Option<String>,
     #[serde(default)]
@@ -1010,13 +1151,15 @@ struct ReplayPointersRecord {
     #[serde(default)]
     run_id: String,
     #[serde(default)]
+    replay_manifest_refs: Vec<String>,
+    #[serde(default)]
     receipt_refs: Vec<String>,
     #[serde(default)]
     checkpoint_refs: Vec<String>,
     #[serde(default)]
     trace_refs: Vec<String>,
     #[serde(default)]
-    external_replay_refs: Vec<String>,
+    external_index_refs: Vec<String>,
     #[serde(default)]
     updated_at: String,
 }
@@ -1044,7 +1187,13 @@ struct RunContinuityRecord {
     #[serde(default)]
     run_contract_ref: String,
     #[serde(default)]
+    run_manifest_ref: String,
+    #[serde(default)]
     retained_evidence_ref: String,
+    #[serde(default)]
+    replay_pointers_ref: String,
+    #[serde(default)]
+    evidence_classification_ref: String,
     #[serde(default)]
     last_receipt_ref: Option<String>,
     #[serde(default)]
@@ -1066,17 +1215,21 @@ struct BoundRunLifecycle {
     control_root: PathBuf,
     evidence_root: PathBuf,
     continuity_handoff_path: PathBuf,
+    _run_manifest_path: PathBuf,
     runtime_state_path: PathBuf,
     receipts_root: PathBuf,
     replay_pointers_path: PathBuf,
+    _evidence_classification_path: PathBuf,
     retained_evidence_path: PathBuf,
     stage_attempt_path: PathBuf,
     control_root_rel: String,
     evidence_root_rel: String,
     control_checkpoint_ref: String,
+    run_manifest_ref: String,
     receipts_root_rel: String,
     replay_pointers_ref: String,
     trace_pointers_ref: String,
+    evidence_classification_ref: String,
     retained_evidence_ref: String,
     stage_attempt_ref: String,
     stage_attempt_id: String,
@@ -1200,6 +1353,10 @@ fn run_contract_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
         .join("run-contract.yml")
 }
 
+fn run_manifest_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_control_root(request_id).join("run-manifest.yml")
+}
+
 fn runtime_state_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
     cfg.run_control_root(request_id).join("runtime-state.yml")
 }
@@ -1249,6 +1406,10 @@ fn retained_evidence_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
     cfg.run_root(request_id).join("retained-run-evidence.yml")
 }
 
+fn evidence_classification_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_root(request_id).join("evidence-classification.yml")
+}
+
 fn run_continuity_handoff_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
     cfg.run_continuity_path(request_id).join("handoff.yml")
 }
@@ -1293,6 +1454,7 @@ fn bind_run_lifecycle(
     let evidence_root = cfg.run_root(run_id);
     let continuity_root = cfg.run_continuity_path(run_id);
     let run_contract_path = run_contract_path(cfg, run_id);
+    let run_manifest_path = run_manifest_path(cfg, run_id);
     let continuity_handoff_path = run_continuity_handoff_path(cfg, run_id);
     let runtime_state_path = runtime_state_path(cfg, run_id);
     let rollback_posture_path = rollback_posture_path(cfg, run_id);
@@ -1302,6 +1464,7 @@ fn bind_run_lifecycle(
     let replay_pointers_path = replay_pointers_path(cfg, run_id);
     let trace_pointers_path = trace_pointers_path(cfg, run_id);
     let retained_evidence_path = retained_evidence_path(cfg, run_id);
+    let evidence_classification_path = evidence_classification_path(cfg, run_id);
     let stage_attempt_id = stage_attempt_id_for_request(request);
     let stage_attempt_path = stage_attempt_file_path(cfg, run_id, &stage_attempt_id);
     let stage_attempt_root = stage_attempt_dir_path(cfg, run_id);
@@ -1337,6 +1500,21 @@ fn bind_run_lifecycle(
     let reversibility_class = autonomy_state
         .map(|state| state.context.reversibility_class.clone())
         .unwrap_or_else(|| "reversible".to_string());
+    let profile_requires_human_review = request
+        .scope_constraints
+        .executor_profile
+        .as_ref()
+        .and_then(|profile_name| cfg.execution_governance.executor_profiles.get(profile_name))
+        .map(|profile| profile.require_human_review)
+        .unwrap_or(false);
+    let approval_expected = request.review_requirements.human_approval
+        || profile_requires_human_review
+        || autonomy_state
+            .map(|state| state.approval_required || state.break_glass_required)
+            .unwrap_or(false);
+    let expected_approval_ref = format!(
+        ".octon/state/control/execution/approvals/grants/grant-{run_id}.yml"
+    );
     let mission_id = autonomy_state
         .map(|state| state.context.mission_ref.id.clone())
         .or_else(|| request.metadata.get("mission_id").cloned());
@@ -1351,6 +1529,7 @@ fn bind_run_lifecycle(
     let control_root_rel = path_tail(&cfg.repo_root, &control_root);
     let evidence_root_rel = path_tail(&cfg.repo_root, &evidence_root);
     let run_contract_ref = path_tail(&cfg.repo_root, &run_contract_path);
+    let run_manifest_ref = path_tail(&cfg.repo_root, &run_manifest_path);
     let runtime_state_ref = path_tail(&cfg.repo_root, &runtime_state_path);
     let rollback_posture_ref = path_tail(&cfg.repo_root, &rollback_posture_path);
     let control_checkpoint_ref = path_tail(&cfg.repo_root, &control_checkpoint_path);
@@ -1359,6 +1538,7 @@ fn bind_run_lifecycle(
     let replay_pointers_ref = path_tail(&cfg.repo_root, &replay_pointers_path);
     let trace_pointers_ref = path_tail(&cfg.repo_root, &trace_pointers_path);
     let retained_evidence_ref = path_tail(&cfg.repo_root, &retained_evidence_path);
+    let evidence_classification_ref = path_tail(&cfg.repo_root, &evidence_classification_path);
     let stage_attempt_ref = path_tail(&cfg.repo_root, &stage_attempt_path);
 
     if !run_contract_path.is_file() {
@@ -1367,21 +1547,29 @@ fn bind_run_lifecycle(
         } else {
             dedupe_strings(&request.scope_constraints.read)
         };
-        let required_evidence = dedupe_strings(&vec![
+        let mut required_approvals = Vec::<String>::new();
+        if approval_expected {
+            required_approvals.push(expected_approval_ref.clone());
+        }
+        let mut required_evidence = vec![
             "decision-artifact".to_string(),
             "execution-receipt".to_string(),
             "policy-receipt".to_string(),
             "replay-pointers".to_string(),
             "trace-pointers".to_string(),
-        ]);
+        ];
+        if approval_expected {
+            required_evidence.push("approval-grant".to_string());
+        }
+        let required_evidence = dedupe_strings(&required_evidence);
         let mut objective_refs = serde_json::Map::new();
         objective_refs.insert(
             "workspace_objective_ref".to_string(),
-            json!(".octon/instance/bootstrap/OBJECTIVE.md"),
+            json!(".octon/instance/charter/workspace.md"),
         );
         objective_refs.insert(
             "workspace_intent_ref".to_string(),
-            json!(".octon/instance/cognition/context/shared/intent.contract.yml"),
+            json!(".octon/instance/charter/workspace.yml"),
         );
         if let Some(mission_id) = mission_id.as_ref() {
             objective_refs.insert("mission_id".to_string(), json!(mission_id));
@@ -1404,13 +1592,14 @@ fn bind_run_lifecycle(
                 "risk_class": request.risk_tier,
                 "reversibility_class": reversibility_class,
                 "support_tier": support_tier,
-                "required_approvals": Vec::<String>::new(),
+                "required_approvals": required_approvals,
                 "required_evidence": required_evidence,
                 "closure_conditions": [
                     "Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.",
                     "Canonical receipts and replay pointers remain linked to the run root."
                 ],
                 "stage_attempt_root": path_tail(&cfg.repo_root, &stage_attempt_root),
+                "run_manifest_ref": run_manifest_ref,
                 "control_checkpoint_root": path_tail(&cfg.repo_root, &control_root.join("checkpoints")),
                 "runtime_state_ref": runtime_state_ref,
                 "rollback_posture_ref": rollback_posture_ref,
@@ -1431,6 +1620,40 @@ fn bind_run_lifecycle(
             )
         })?;
     }
+
+    write_yaml(
+        &run_manifest_path,
+        &json!({
+            "schema_version": "run-manifest-v1",
+            "run_id": run_id,
+            "run_contract_ref": run_contract_ref,
+            "runtime_state_ref": runtime_state_ref,
+            "run_continuity_ref": path_tail(&cfg.repo_root, &continuity_handoff_path),
+            "stage_attempt_root": path_tail(&cfg.repo_root, &stage_attempt_root),
+            "control_checkpoint_root": path_tail(&cfg.repo_root, &control_root.join("checkpoints")),
+            "rollback_posture_ref": rollback_posture_ref,
+            "evidence_root": evidence_root_rel,
+            "receipt_root": receipts_root_rel,
+            "assurance_root": format!(".octon/state/evidence/runs/{run_id}/assurance"),
+            "measurement_root": format!(".octon/state/evidence/runs/{run_id}/measurements"),
+            "intervention_root": format!(".octon/state/evidence/runs/{run_id}/interventions"),
+            "disclosure_root": format!(".octon/state/evidence/runs/{run_id}/disclosure"),
+            "retained_evidence_ref": retained_evidence_ref,
+            "replay_pointers_ref": replay_pointers_ref,
+            "trace_pointers_ref": trace_pointers_ref,
+            "evidence_classification_ref": evidence_classification_ref,
+            "created_at": now,
+            "updated_at": now,
+            "mission_id": mission_id,
+            "parent_run_ref": parent_run_ref
+        }),
+    )
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write canonical run manifest {}: {e}", run_manifest_path.display()),
+        )
+    })?;
 
     if !stage_attempt_path.is_file() {
         write_yaml(
@@ -1471,11 +1694,7 @@ fn bind_run_lifecycle(
     runtime_state.workflow_mode = request.workflow_mode.clone();
     runtime_state.decision_state = Some("pending".to_string());
     runtime_state.run_contract_ref = run_contract_ref.clone();
-    runtime_state.stage_attempt_root = path_tail(&cfg.repo_root, &stage_attempt_root);
-    runtime_state.control_checkpoint_root =
-        path_tail(&cfg.repo_root, &control_root.join("checkpoints"));
-    runtime_state.evidence_root = evidence_root_rel.clone();
-    runtime_state.receipt_root = receipts_root_rel.clone();
+    runtime_state.run_manifest_ref = run_manifest_ref.clone();
     runtime_state.current_stage_attempt_id = Some(stage_attempt_id.clone());
     runtime_state.last_checkpoint_ref = Some(control_checkpoint_ref.clone());
     runtime_state.mission_id = mission_id.clone();
@@ -1561,6 +1780,7 @@ fn bind_run_lifecycle(
     let replay = ReplayPointersRecord {
         schema_version: "run-replay-pointers-v1".to_string(),
         run_id: run_id.to_string(),
+        replay_manifest_refs: Vec::new(),
         receipt_refs: Vec::new(),
         checkpoint_refs: vec![evidence_checkpoint_ref.clone()],
         trace_refs: if trace_pointers_path.is_file() {
@@ -1568,7 +1788,7 @@ fn bind_run_lifecycle(
         } else {
             Vec::new()
         },
-        external_replay_refs: Vec::new(),
+        external_index_refs: Vec::new(),
         updated_at: now.clone(),
     };
     write_yaml(&replay_pointers_path, &replay).map_err(|e| {
@@ -1586,6 +1806,7 @@ fn bind_run_lifecycle(
         run_id: run_id.to_string(),
         evidence_refs: BTreeMap::from([
             ("run_contract".to_string(), run_contract_ref.clone()),
+            ("run_manifest".to_string(), run_manifest_ref.clone()),
             ("runtime_state".to_string(), runtime_state_ref.clone()),
             ("rollback_posture".to_string(), rollback_posture_ref.clone()),
             (
@@ -1610,13 +1831,50 @@ fn bind_run_lifecycle(
             ),
         )
     })?;
+    write_yaml(
+        &evidence_classification_path,
+        &json!({
+            "schema_version": "run-evidence-classification-v1",
+            "run_id": run_id,
+            "artifacts": [
+                {
+                    "artifact_id": "run-contract",
+                    "artifact_ref": run_contract_ref,
+                    "evidence_class": "A",
+                    "storage_class": "git-inline"
+                },
+                {
+                    "artifact_id": "run-manifest",
+                    "artifact_ref": run_manifest_ref,
+                    "evidence_class": "A",
+                    "storage_class": "git-inline"
+                },
+                {
+                    "artifact_id": "replay-pointers",
+                    "artifact_ref": replay_pointers_ref,
+                    "evidence_class": "B",
+                    "storage_class": "git-pointer"
+                }
+            ],
+            "updated_at": now
+        }),
+    )
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write evidence classification {}: {e}", evidence_classification_path.display()),
+        )
+    })?;
     sync_run_continuity(
         &RunContinuityRecord {
             schema_version: "run-continuity-v1".to_string(),
             run_id: run_id.to_string(),
             status: "authorizing".to_string(),
             run_contract_ref: run_contract_ref.clone(),
+            run_manifest_ref: run_manifest_ref.clone(),
             retained_evidence_ref: retained_evidence_ref.clone(),
+            replay_pointers_ref: replay_pointers_ref.clone(),
+            evidence_classification_ref: evidence_classification_ref.clone(),
             last_receipt_ref: None,
             last_checkpoint_ref: control_checkpoint_ref.clone(),
             resume_from_stage_attempt_id: Some(stage_attempt_id.clone()),
@@ -1632,17 +1890,21 @@ fn bind_run_lifecycle(
         control_root,
         evidence_root,
         continuity_handoff_path,
+        _run_manifest_path: run_manifest_path,
         runtime_state_path,
         receipts_root,
         replay_pointers_path,
+        _evidence_classification_path: evidence_classification_path,
         retained_evidence_path,
         stage_attempt_path,
         control_root_rel,
         evidence_root_rel,
         control_checkpoint_ref,
+        run_manifest_ref,
         receipts_root_rel,
         replay_pointers_ref,
         trace_pointers_ref,
+        evidence_classification_ref,
         retained_evidence_ref,
         stage_attempt_ref,
         stage_attempt_id,
@@ -1673,6 +1935,9 @@ fn update_bound_runtime_state(
         .unwrap_or_default()
         .to_string();
     state.status = status.to_string();
+    if state.run_manifest_ref.trim().is_empty() {
+        state.run_manifest_ref = bound.run_manifest_ref.clone();
+    }
     state.decision_state = decision_state
         .map(ToOwned::to_owned)
         .or(state.decision_state);
@@ -1703,7 +1968,10 @@ fn update_bound_runtime_state(
             run_id: state.run_id.clone(),
             status: state.status.clone(),
             run_contract_ref: state.run_contract_ref.clone(),
+            run_manifest_ref: bound.run_manifest_ref.clone(),
             retained_evidence_ref: bound.retained_evidence_ref.clone(),
+            replay_pointers_ref: bound.replay_pointers_ref.clone(),
+            evidence_classification_ref: bound.evidence_classification_ref.clone(),
             last_receipt_ref: state.last_receipt_ref.clone(),
             last_checkpoint_ref: state
                 .last_checkpoint_ref
@@ -1988,6 +2256,7 @@ fn bound_run_from_grant(runtime_path: &Path, grant: &GrantBundle) -> Option<Boun
         .join(".octon/state/continuity/runs")
         .join(&grant.request_id)
         .join("handoff.yml");
+    let run_manifest_path = control_root.join("run-manifest.yml");
     let runtime_state_path = control_root.join("runtime-state.yml");
     let control_checkpoint_path = control_root.join("checkpoints").join("bound.yml");
     let receipts_root = if let Some(rel) = &grant.run_receipts_root {
@@ -2010,6 +2279,7 @@ fn bound_run_from_grant(runtime_path: &Path, grant: &GrantBundle) -> Option<Boun
     } else {
         evidence_root.join("retained-run-evidence.yml")
     };
+    let evidence_classification_path = evidence_root.join("evidence-classification.yml");
     let stage_attempt_path = if let Some(rel) = &grant.stage_attempt_ref {
         resolve_relative_from_runtime_path(runtime_path, rel)?
     } else {
@@ -2024,17 +2294,21 @@ fn bound_run_from_grant(runtime_path: &Path, grant: &GrantBundle) -> Option<Boun
         control_root: control_root.clone(),
         evidence_root: evidence_root.clone(),
         continuity_handoff_path: continuity_handoff_path.clone(),
+        _run_manifest_path: run_manifest_path.clone(),
         runtime_state_path: runtime_state_path.clone(),
         receipts_root: receipts_root.clone(),
         replay_pointers_path: replay_pointers_path.clone(),
+        _evidence_classification_path: evidence_classification_path.clone(),
         retained_evidence_path: retained_evidence_path.clone(),
         stage_attempt_path: stage_attempt_path.clone(),
         control_root_rel,
         evidence_root_rel: path_tail(&repo_root, &evidence_root),
         control_checkpoint_ref: path_tail(&repo_root, &control_checkpoint_path),
+        run_manifest_ref: path_tail(&repo_root, &run_manifest_path),
         receipts_root_rel: path_tail(&repo_root, &receipts_root),
         replay_pointers_ref: path_tail(&repo_root, &replay_pointers_path),
         trace_pointers_ref: path_tail(&repo_root, &trace_pointers_path),
+        evidence_classification_ref: path_tail(&repo_root, &evidence_classification_path),
         retained_evidence_ref: path_tail(&repo_root, &retained_evidence_path),
         stage_attempt_ref: path_tail(&repo_root, &stage_attempt_path),
         stage_attempt_id,
@@ -2191,6 +2465,279 @@ fn load_support_targets(cfg: &RuntimeConfig) -> CoreResult<SupportTargetsRecord>
     read_yaml_file(&path)
 }
 
+fn load_runtime_capability_pack_registry(
+    cfg: &RuntimeConfig,
+) -> CoreResult<RuntimeCapabilityPackRegistryRecord> {
+    let path = cfg
+        .octon_dir
+        .join("instance")
+        .join("capabilities")
+        .join("runtime")
+        .join("packs")
+        .join("registry.yml");
+    read_yaml_file(&path)
+}
+
+fn resolve_contract_path(repo_root: &Path, raw: &str) -> PathBuf {
+    repo_root.join(raw)
+}
+
+fn string_set_contains_all(container: &[String], expected: &[String]) -> bool {
+    let values: BTreeSet<&str> = container.iter().map(|value| value.as_str()).collect();
+    expected
+        .iter()
+        .all(|candidate| values.contains(candidate.as_str()))
+}
+
+fn validate_support_tier_declarations(
+    declarations: &AdapterSupportTierDeclarationsRecord,
+    adapter: &AdapterSupportDeclaration,
+) -> bool {
+    string_set_contains_all(&declarations.model_tiers, &adapter.allowed_model_tiers)
+        && string_set_contains_all(&declarations.workload_tiers, &adapter.allowed_workload_tiers)
+        && string_set_contains_all(
+            &declarations.language_resource_tiers,
+            &adapter.allowed_language_resource_tiers,
+        )
+        && string_set_contains_all(&declarations.locale_tiers, &adapter.allowed_locale_tiers)
+}
+
+fn validate_host_adapter_manifest(
+    cfg: &RuntimeConfig,
+    adapter: &AdapterSupportDeclaration,
+) -> Option<HostAdapterManifestRecord> {
+    if adapter.contract_ref.trim().is_empty() {
+        return None;
+    }
+    let path = resolve_contract_path(&cfg.repo_root, &adapter.contract_ref);
+    let manifest = read_yaml_file::<HostAdapterManifestRecord>(&path).ok()?;
+    if manifest.schema_version != "octon-host-adapter-v1"
+        || manifest.adapter_id != adapter.adapter_id
+        || manifest.display_name.trim().is_empty()
+        || !matches!(
+            manifest.host_family.as_str(),
+            "github" | "ci" | "local-cli" | "studio"
+        )
+        || !manifest.replaceable
+        || !matches!(
+            manifest.authority_mode.as_str(),
+            "projection_only" | "non_authoritative"
+        )
+        || manifest.runtime_surface.interface_ref.trim().is_empty()
+        || manifest.runtime_surface.integration_class.trim().is_empty()
+        || manifest.support_target_ref != ".octon/instance/governance/support-targets.yml"
+        || (manifest.host_family != "local-cli" && manifest.projection_sources.is_empty())
+        || !validate_support_tier_declarations(&manifest.support_tier_declarations, adapter)
+        || !string_set_contains_all(
+            &manifest.conformance_criteria_refs,
+            &adapter.criteria_refs,
+        )
+        || manifest.known_limitations.is_empty()
+        || manifest.non_authoritative_boundaries.is_empty()
+    {
+        return None;
+    }
+    Some(manifest)
+}
+
+fn validate_model_adapter_manifest(
+    cfg: &RuntimeConfig,
+    adapter: &AdapterSupportDeclaration,
+) -> Option<ModelAdapterManifestRecord> {
+    if adapter.contract_ref.trim().is_empty() {
+        return None;
+    }
+    let path = resolve_contract_path(&cfg.repo_root, &adapter.contract_ref);
+    let manifest = read_yaml_file::<ModelAdapterManifestRecord>(&path).ok()?;
+    if manifest.schema_version != "octon-model-adapter-v1"
+        || manifest.adapter_id != adapter.adapter_id
+        || manifest.display_name.trim().is_empty()
+        || !manifest.replaceable
+        || manifest.authority_mode != "non_authoritative"
+        || manifest.runtime_surface.interface_ref.trim().is_empty()
+        || manifest.runtime_surface.integration_class.trim().is_empty()
+        || manifest.support_target_ref != ".octon/instance/governance/support-targets.yml"
+        || !validate_support_tier_declarations(&manifest.support_tier_declarations, adapter)
+        || !string_set_contains_all(
+            &manifest.conformance_criteria_refs,
+            &adapter.criteria_refs,
+        )
+        || manifest.conformance_suite_refs.is_empty()
+        || manifest
+            .contamination_reset_policy
+            .contamination_signal_ref
+            .trim()
+            .is_empty()
+        || manifest
+            .contamination_reset_policy
+            .evidence_log_ref
+            .trim()
+            .is_empty()
+        || !manifest
+            .contamination_reset_policy
+            .clean_checkpoint_required
+        || !manifest
+            .contamination_reset_policy
+            .hard_reset_on_signature
+        || manifest.known_limitations.is_empty()
+        || manifest.non_authoritative_boundaries.is_empty()
+    {
+        return None;
+    }
+    Some(manifest)
+}
+
+fn infer_requested_capability_packs(request: &ExecutionRequest) -> Vec<String> {
+    let mut packs = Vec::new();
+
+    if !request.scope_constraints.read.is_empty()
+        || !request.scope_constraints.write.is_empty()
+        || request.caller_path == "workflow-stage"
+        || request.caller_path == "service"
+    {
+        packs.push("repo".to_string());
+    }
+    if request.side_effect_flags.shell {
+        packs.push("shell".to_string());
+    }
+    if request.side_effect_flags.write_repo
+        || request.side_effect_flags.branch_mutation
+        || request.side_effect_flags.publication
+        || request.action_type.contains("git")
+    {
+        packs.push("git".to_string());
+    }
+    if request.side_effect_flags.write_evidence || request.side_effect_flags.state_mutation {
+        packs.push("telemetry".to_string());
+    }
+    if request.side_effect_flags.network
+        || request
+            .requested_capabilities
+            .iter()
+            .any(|value| value == "net.http")
+        || request.metadata.contains_key("network_egress_url")
+    {
+        packs.push("api".to_string());
+    }
+    if request
+        .requested_capabilities
+        .iter()
+        .any(|value| value.starts_with("browser."))
+        || request
+            .metadata
+            .keys()
+            .any(|value| value.starts_with("browser_"))
+    {
+        packs.push("browser".to_string());
+    }
+    if let Some(raw) = request.metadata.get("support_capability_packs") {
+        for item in raw.split(',') {
+            let trimmed = item.trim();
+            if !trimmed.is_empty() {
+                packs.push(trimmed.to_string());
+            }
+        }
+    }
+
+    dedupe_strings(&packs)
+}
+
+fn resolve_capability_pack_support(
+    cfg: &RuntimeConfig,
+    requested_packs: &[String],
+    allowed_packs: &[String],
+) -> ResolvedCapabilityPackSupport {
+    if requested_packs.is_empty() {
+        return ResolvedCapabilityPackSupport {
+            support_status: "supported".to_string(),
+            route: "allow".to_string(),
+            required_evidence: Vec::new(),
+        };
+    }
+
+    let registry = match load_runtime_capability_pack_registry(cfg) {
+        Ok(registry) => registry,
+        Err(_) => {
+            return ResolvedCapabilityPackSupport {
+                support_status: "unsupported".to_string(),
+                route: "deny".to_string(),
+                required_evidence: Vec::new(),
+            }
+        }
+    };
+
+    let allowed: BTreeSet<&str> = allowed_packs.iter().map(|value| value.as_str()).collect();
+    let mut required_evidence = Vec::new();
+    let mut route = "allow".to_string();
+
+    for requested in requested_packs {
+        let Some(pack) = registry
+            .packs
+            .iter()
+            .find(|candidate| candidate.pack_id == *requested)
+        else {
+            return ResolvedCapabilityPackSupport {
+                support_status: "unsupported".to_string(),
+                route: "deny".to_string(),
+                required_evidence,
+            };
+        };
+
+        let manifest_path = resolve_contract_path(&cfg.repo_root, &pack.contract_ref);
+        let manifest = match read_yaml_file::<CapabilityPackManifestRecord>(&manifest_path) {
+            Ok(manifest) => manifest,
+            Err(_) => {
+                return ResolvedCapabilityPackSupport {
+                    support_status: "unsupported".to_string(),
+                    route: "deny".to_string(),
+                    required_evidence,
+                }
+            }
+        };
+        if manifest.schema_version != "octon-capability-pack-v1"
+            || manifest.pack_id != pack.pack_id
+            || manifest.surface != pack.pack_id
+            || manifest.display_name.trim().is_empty()
+            || manifest.description.trim().is_empty()
+            || manifest.runtime_surface_refs.is_empty()
+            || manifest.support_target_ref != ".octon/instance/governance/support-targets.yml"
+            || manifest.known_limitations.is_empty()
+            || pack.contract_ref.trim().is_empty()
+            || !matches!(pack.admission_status.as_str(), "admitted" | "unadmitted")
+            || pack.default_route.trim().is_empty()
+        {
+            return ResolvedCapabilityPackSupport {
+                support_status: "unsupported".to_string(),
+                route: "deny".to_string(),
+                required_evidence,
+            };
+        }
+
+        if pack.admission_status != "admitted" || !allowed.contains(requested.as_str()) {
+            return ResolvedCapabilityPackSupport {
+                support_status: "unsupported".to_string(),
+                route: "deny".to_string(),
+                required_evidence: merge_required_evidence(
+                    manifest
+                        .required_evidence
+                        .iter()
+                        .chain(pack.required_evidence.iter()),
+                ),
+            };
+        }
+
+        required_evidence.extend(manifest.required_evidence.clone());
+        required_evidence.extend(pack.required_evidence.clone());
+        route = combine_route(&[route.as_str(), pack.default_route.as_str()]);
+    }
+
+    ResolvedCapabilityPackSupport {
+        support_status: "supported".to_string(),
+        route,
+        required_evidence: dedupe_strings(&required_evidence),
+    }
+}
+
 fn route_rank(route: &str) -> u8 {
     match route {
         "deny" => 3,
@@ -2244,6 +2791,7 @@ where
 }
 
 fn resolve_adapter_support(
+    cfg: &RuntimeConfig,
     declaration: &SupportTargetsRecord,
     adapter_kind: &str,
     adapter_id: &str,
@@ -2296,6 +2844,20 @@ fn resolve_adapter_support(
         adapter.authority_mode == "non_authoritative"
     };
     if !authority_mode_valid {
+        return ResolvedAdapterSupport {
+            adapter_id: adapter.adapter_id.clone(),
+            support_status: "unsupported".to_string(),
+            route: "deny".to_string(),
+            ..ResolvedAdapterSupport::default()
+        };
+    }
+
+    let manifest_valid = if adapter_kind == "host" {
+        validate_host_adapter_manifest(cfg, adapter).is_some()
+    } else {
+        validate_model_adapter_manifest(cfg, adapter).is_some()
+    };
+    if !manifest_valid {
         return ResolvedAdapterSupport {
             adapter_id: adapter.adapter_id.clone(),
             support_status: "unsupported".to_string(),
@@ -2412,6 +2974,7 @@ fn resolve_support_tier_posture(
         .get("support_locale_tier")
         .cloned()
         .unwrap_or_else(|| "LOC-EN".to_string());
+    let requested_capability_packs = infer_requested_capability_packs(request);
     let Some(workload) = declaration
         .tiers
         .workload
@@ -2426,6 +2989,7 @@ fn resolve_support_tier_posture(
             support_status: "unsupported".to_string(),
             host_adapter_id: Some(host_adapter_id),
             model_adapter_id: Some(model_adapter_id),
+            requested_capability_packs,
             declaration_ref: Some(".octon/instance/governance/support-targets.yml".to_string()),
             ..SupportTierPosture::default()
         });
@@ -2459,6 +3023,7 @@ fn resolve_support_tier_posture(
             route: declaration.default_route,
             host_adapter_id: Some(host_adapter_id),
             model_adapter_id: Some(model_adapter_id),
+            requested_capability_packs,
             declaration_ref: Some(".octon/instance/governance/support-targets.yml".to_string()),
             ..SupportTierPosture::default()
         });
@@ -2496,7 +3061,12 @@ fn resolve_support_tier_posture(
         .as_ref()
         .map(|entry| entry.required_evidence.clone())
         .unwrap_or_default();
+    let allowed_capability_packs = matrix_entry
+        .as_ref()
+        .map(|entry| entry.allowed_capability_packs.clone())
+        .unwrap_or_default();
     let host_adapter = resolve_adapter_support(
+        cfg,
         &declaration,
         "host",
         &host_adapter_id,
@@ -2506,6 +3076,7 @@ fn resolve_support_tier_posture(
         &locale_tier,
     );
     let model_adapter = resolve_adapter_support(
+        cfg,
         &declaration,
         "model",
         &model_adapter_id,
@@ -2514,15 +3085,22 @@ fn resolve_support_tier_posture(
         &language_resource_tier,
         &locale_tier,
     );
+    let capability_pack_support = resolve_capability_pack_support(
+        cfg,
+        &requested_capability_packs,
+        &allowed_capability_packs,
+    );
     let support_status = combine_support_status(&[
         base_support_status.as_str(),
         host_adapter.support_status.as_str(),
         model_adapter.support_status.as_str(),
+        capability_pack_support.support_status.as_str(),
     ]);
     let route = combine_route(&[
         base_route.as_str(),
         host_adapter.route.as_str(),
         model_adapter.route.as_str(),
+        capability_pack_support.route.as_str(),
     ]);
     let adapter_conformance_criteria = merge_required_evidence(
         host_adapter
@@ -2535,6 +3113,11 @@ fn resolve_support_tier_posture(
             .iter()
             .chain(host_adapter.required_evidence.iter())
             .chain(model_adapter.required_evidence.iter()),
+    );
+    let required_evidence = merge_required_evidence(
+        required_evidence
+            .iter()
+            .chain(capability_pack_support.required_evidence.iter()),
     );
 
     if requires_mission && autonomy_state.is_none() {
@@ -2554,6 +3137,8 @@ fn resolve_support_tier_posture(
             route: "deny".to_string(),
             requires_mission,
             required_evidence,
+            allowed_capability_packs,
+            requested_capability_packs,
             declaration_ref: Some(".octon/instance/governance/support-targets.yml".to_string()),
         });
     }
@@ -2574,6 +3159,8 @@ fn resolve_support_tier_posture(
         route,
         requires_mission,
         required_evidence,
+        allowed_capability_packs,
+        requested_capability_packs,
         declaration_ref: Some(".octon/instance/governance/support-targets.yml".to_string()),
     })
 }
@@ -5387,7 +5974,7 @@ mod tests {
         workload_default_route: &str,
     ) -> String {
         format!(
-            "schema_version: \"octon-support-targets-v1\"\nowner: \"test\"\ndefault_route: \"deny\"\ntiers:\n  model:\n    - id: \"MT-B\"\n      label: \"repo-local-governed\"\n      default_autonomy: \"bounded\"\n      description: \"fixture\"\n  workload:\n    - id: \"{workload_id}\"\n      label: \"{workload_label}\"\n      default_route: \"{workload_default_route}\"\n      description: \"fixture\"\n  language_resource:\n    - id: \"LT-REF\"\n      label: \"reference-owned\"\n      description: \"fixture\"\n  locale:\n    - id: \"LOC-EN\"\n      label: \"english-primary\"\n      description: \"fixture\"\ncompatibility_matrix:\n  - model_tier: \"MT-B\"\n    workload_tier: \"{workload_id}\"\n    language_resource_tier: \"LT-REF\"\n    locale_tier: \"LOC-EN\"\n    support_status: \"supported\"\n    default_route: \"allow\"\nadapter_conformance_criteria:\n  - criterion_id: \"HOST-001\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"HOST-002\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-001\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"MODEL-002\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-003\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"run-evidence-root\"\nhost_adapters:\n  - adapter_id: \"repo-shell\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/host/repo-shell.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"HOST-001\"\n      - \"HOST-002\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"{workload_id}\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\nmodel_adapters:\n  - adapter_id: \"repo-local-governed\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"MODEL-001\"\n      - \"MODEL-002\"\n      - \"MODEL-003\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"{workload_id}\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"run-evidence-root\"\n"
+            "schema_version: \"octon-support-targets-v1\"\nowner: \"test\"\ndefault_route: \"deny\"\ntiers:\n  model:\n    - id: \"MT-B\"\n      label: \"repo-local-governed\"\n      default_autonomy: \"bounded\"\n      description: \"fixture\"\n  workload:\n    - id: \"{workload_id}\"\n      label: \"{workload_label}\"\n      default_route: \"{workload_default_route}\"\n      description: \"fixture\"\n  language_resource:\n    - id: \"LT-REF\"\n      label: \"reference-owned\"\n      description: \"fixture\"\n  locale:\n    - id: \"LOC-EN\"\n      label: \"english-primary\"\n      description: \"fixture\"\ncompatibility_matrix:\n  - model_tier: \"MT-B\"\n    workload_tier: \"{workload_id}\"\n    language_resource_tier: \"LT-REF\"\n    locale_tier: \"LOC-EN\"\n    support_status: \"supported\"\n    default_route: \"allow\"\n    requires_mission: false\n    allowed_capability_packs:\n      - \"repo\"\n      - \"shell\"\n      - \"telemetry\"\n    required_evidence:\n      - \"authority-decision-artifact\"\nadapter_conformance_criteria:\n  - criterion_id: \"HOST-001\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"HOST-002\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-001\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"MODEL-002\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-003\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"run-evidence-root\"\nhost_adapters:\n  - adapter_id: \"repo-shell\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/host/repo-shell.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"HOST-001\"\n      - \"HOST-002\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"{workload_id}\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\nmodel_adapters:\n  - adapter_id: \"repo-local-governed\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"MODEL-001\"\n      - \"MODEL-002\"\n      - \"MODEL-003\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"{workload_id}\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"run-evidence-root\"\n"
         )
     }
 
@@ -5399,10 +5986,26 @@ mod tests {
         let base =
             std::env::temp_dir().join(format!("octon-auth-test-{}-{stamp}", std::process::id()));
         let _ = fs::remove_dir_all(&base);
-        fs::create_dir_all(base.join(".octon/instance/cognition/context/shared"))
-            .expect("create intent dir");
+        fs::create_dir_all(base.join(".octon/instance/charter"))
+            .expect("create workspace charter dir");
         fs::create_dir_all(base.join(".octon/framework/capabilities/governance/policy"))
             .expect("create ACP policy dir");
+        fs::create_dir_all(base.join(".octon/framework/engine/runtime/adapters/host"))
+            .expect("create host adapter dir");
+        fs::create_dir_all(base.join(".octon/framework/engine/runtime/adapters/model"))
+            .expect("create model adapter dir");
+        fs::create_dir_all(base.join(".octon/framework/capabilities/packs/repo"))
+            .expect("create repo pack dir");
+        fs::create_dir_all(base.join(".octon/framework/capabilities/packs/git"))
+            .expect("create git pack dir");
+        fs::create_dir_all(base.join(".octon/framework/capabilities/packs/shell"))
+            .expect("create shell pack dir");
+        fs::create_dir_all(base.join(".octon/framework/capabilities/packs/browser"))
+            .expect("create browser pack dir");
+        fs::create_dir_all(base.join(".octon/framework/capabilities/packs/api"))
+            .expect("create api pack dir");
+        fs::create_dir_all(base.join(".octon/framework/capabilities/packs/telemetry"))
+            .expect("create telemetry pack dir");
         fs::create_dir_all(base.join(".octon/state/evidence/runs"))
             .expect("create run evidence dir");
         fs::create_dir_all(base.join(".octon/state/continuity/runs"))
@@ -5424,11 +6027,13 @@ mod tests {
         fs::create_dir_all(base.join(".octon/instance/governance")).expect("create governance dir");
         fs::create_dir_all(base.join(".octon/instance/governance/ownership"))
             .expect("create ownership dir");
+        fs::create_dir_all(base.join(".octon/instance/capabilities/runtime/packs"))
+            .expect("create runtime pack dir");
         fs::write(
-            base.join(".octon/instance/cognition/context/shared/intent.contract.yml"),
+            base.join(".octon/instance/charter/workspace.yml"),
             "intent_id: intent://test/example\nversion: 1.0.0\n",
         )
-        .expect("write intent contract");
+        .expect("write workspace machine charter");
         fs::write(
             base.join(".octon/instance/governance/support-targets.yml"),
             support_targets_fixture("WT-2", "repo-local-transitional", "allow"),
@@ -5459,6 +6064,51 @@ mod tests {
             base.join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"),
         )
         .expect("copy ACP policy");
+        fs::copy(
+            source_root.join(".octon/framework/engine/runtime/adapters/host/repo-shell.yml"),
+            base.join(".octon/framework/engine/runtime/adapters/host/repo-shell.yml"),
+        )
+        .expect("copy repo-shell adapter");
+        fs::copy(
+            source_root.join(".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"),
+            base.join(".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"),
+        )
+        .expect("copy repo-local-governed adapter");
+        fs::copy(
+            source_root.join(".octon/framework/capabilities/packs/repo/manifest.yml"),
+            base.join(".octon/framework/capabilities/packs/repo/manifest.yml"),
+        )
+        .expect("copy repo pack");
+        fs::copy(
+            source_root.join(".octon/framework/capabilities/packs/git/manifest.yml"),
+            base.join(".octon/framework/capabilities/packs/git/manifest.yml"),
+        )
+        .expect("copy git pack");
+        fs::copy(
+            source_root.join(".octon/framework/capabilities/packs/shell/manifest.yml"),
+            base.join(".octon/framework/capabilities/packs/shell/manifest.yml"),
+        )
+        .expect("copy shell pack");
+        fs::copy(
+            source_root.join(".octon/framework/capabilities/packs/browser/manifest.yml"),
+            base.join(".octon/framework/capabilities/packs/browser/manifest.yml"),
+        )
+        .expect("copy browser pack");
+        fs::copy(
+            source_root.join(".octon/framework/capabilities/packs/api/manifest.yml"),
+            base.join(".octon/framework/capabilities/packs/api/manifest.yml"),
+        )
+        .expect("copy api pack");
+        fs::copy(
+            source_root.join(".octon/framework/capabilities/packs/telemetry/manifest.yml"),
+            base.join(".octon/framework/capabilities/packs/telemetry/manifest.yml"),
+        )
+        .expect("copy telemetry pack");
+        fs::copy(
+            source_root.join(".octon/instance/capabilities/runtime/packs/registry.yml"),
+            base.join(".octon/instance/capabilities/runtime/packs/registry.yml"),
+        )
+        .expect("copy runtime pack registry");
         RuntimeConfig {
             octon_dir: base.join(".octon"),
             repo_root: base.clone(),
@@ -5843,6 +6493,45 @@ mod tests {
 
         let err = authorize_execution(&cfg, &policy, &request, None)
             .expect_err("undeclared host adapter should deny");
+        assert_eq!(
+            err.details["reason_codes"][0].as_str(),
+            Some("SUPPORT_TIER_UNSUPPORTED")
+        );
+    }
+
+    #[test]
+    fn unadmitted_api_pack_denies_execution() {
+        let cfg = temp_runtime_config();
+        let policy = PolicyEngine::new(cfg.clone());
+        let mut request = minimal_request();
+        request.requested_capabilities.push("net.http".to_string());
+        request.side_effect_flags.network = true;
+        request.metadata.insert(
+            "network_egress_url".to_string(),
+            "https://example.com".to_string(),
+        );
+
+        let err = authorize_execution(&cfg, &policy, &request, None)
+            .expect_err("unadmitted api pack should deny execution");
+        assert_eq!(
+            err.details["reason_codes"][0].as_str(),
+            Some("SUPPORT_TIER_UNSUPPORTED")
+        );
+    }
+
+    #[test]
+    fn invalid_model_adapter_manifest_denies_execution() {
+        let cfg = temp_runtime_config();
+        let policy = PolicyEngine::new(cfg.clone());
+        fs::write(
+            cfg.octon_dir
+                .join("framework/engine/runtime/adapters/model/repo-local-governed.yml"),
+            "schema_version: \"octon-model-adapter-v1\"\nadapter_id: \"repo-local-governed\"\ndisplay_name: \"Broken\"\nreplaceable: true\nauthority_mode: \"non_authoritative\"\nruntime_surface:\n  interface_ref: \".octon/framework/engine/runtime/spec/policy-interface-v1.md\"\n  integration_class: \"native-planning\"\nsupport_target_ref: \".octon/instance/governance/support-targets.yml\"\nsupport_tier_declarations:\n  model_tiers:\n    - \"MT-B\"\n  workload_tiers:\n    - \"WT-2\"\n  language_resource_tiers:\n    - \"LT-REF\"\n  locale_tiers:\n    - \"LOC-EN\"\nconformance_criteria_refs:\n  - \"MODEL-001\"\nconformance_suite_refs: []\ncontamination_reset_policy:\n  clean_checkpoint_required: true\n  hard_reset_on_signature: true\n  contamination_signal_ref: \".octon/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json\"\n  evidence_log_ref: \".octon/state/evidence/runs/<run-id>/interventions/log.yml\"\nknown_limitations:\n  - \"fixture\"\nnon_authoritative_boundaries:\n  - \"fixture\"\n",
+        )
+        .expect("write invalid model adapter manifest");
+
+        let err = authorize_execution(&cfg, &policy, &minimal_request(), None)
+            .expect_err("invalid model adapter manifest should deny");
         assert_eq!(
             err.details["reason_codes"][0].as_str(),
             Some("SUPPORT_TIER_UNSUPPORTED")

@@ -1,0 +1,74 @@
+schema_version: "proposal-v1"
+proposal_id: octon-unified-execution-constitution-cutover
+proposal_kind: architecture
+title: Octon Unified Execution Constitution Cutover
+status: implemented
+promotion_scope: octon-internal
+current_repo_baseline: 0.6.8
+recommended_start_release: 0.7.0
+recommended_claim_release: 0.8.0
+cutover_style:
+  - staged
+  - constitutional
+  - run-first
+  - repo-wide
+  - pre-1.0
+owners:
+  - repo://jamesryancooper/octon
+summary: >-
+  Comprehensive architecture packet, repository-grounded implementation audit,
+  and staged implementation program for taking Octon from its current
+  repository-grounded constitutional harness baseline to a fully unified
+  execution constitution.
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Archive after final cutover validation confirms the checklist and final
+    target-state claim criteria are satisfied from durable repo surfaces and
+    the packet no longer provides load-bearing implementation guidance outside
+    historical lineage.
+promotion_targets:
+  - ".octon/octon.yml"
+  - ".octon/README.md"
+  - ".octon/framework/constitution/"
+  - ".octon/framework/agency/"
+  - ".octon/framework/assurance/"
+  - ".octon/framework/capabilities/"
+  - ".octon/framework/engine/runtime/"
+  - ".octon/framework/lab/"
+  - ".octon/framework/observability/"
+  - ".octon/framework/orchestration/"
+  - ".octon/framework/scaffolding/"
+  - ".octon/instance/charter/"
+  - ".octon/instance/governance/"
+  - ".octon/instance/ingress/"
+  - ".octon/instance/orchestration/missions/"
+  - ".octon/state/control/execution/"
+  - ".octon/state/continuity/"
+  - ".octon/state/evidence/control/"
+  - ".octon/state/evidence/runs/"
+  - ".octon/state/evidence/lab/"
+  - ".octon/state/evidence/validation/publication/"
+  - ".octon/state/evidence/external-index/"
+  - ".octon/generated/effective/"
+  - ".octon/generated/cognition/"
+primary_promotion_targets:
+  - /.octon/framework/constitution/
+  - /.octon/framework/lab/
+  - /.octon/framework/observability/
+  - /.octon/framework/engine/runtime/
+  - /.octon/framework/agency/
+  - /.octon/instance/governance/
+  - /.octon/instance/orchestration/missions/
+  - /.octon/state/control/execution/
+  - /.octon/state/continuity/
+  - /.octon/state/evidence/
+non_goals:
+  - minimal-change migration
+  - preserving transitional architecture only to reduce change size
+  - preserving host-shaped authority semantics
+  - preserving persona-heavy kernel paths where not load-bearing
+retirement_expectation: >-
+  This packet is non-canonical implementation guidance. After promotion, it should be
+  archived once durable authorities, validators, and runtime cutovers have landed and the
+  closeout review verifies no open constitutional gaps remain.

@@ -3,10 +3,14 @@ plane: behavioral
 subject_kind: run
 subject_ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
 outcome: pass
-proof_class: replay
-summary: Behavioral disclosure is gated on retained replay evidence for this consequential run.
+proof_class: shadow-run
+summary: Behavioral proof is backed by scenario, replay, and shadow-run evidence for a supported consequential run.
 evidence_refs:
+  - .octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml
+  - .octon/state/evidence/lab/scenarios/scn-runtime-proof-supported-20260329/scenario-proof.yml
+  - .octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml
+  - .octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml
   - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
-  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
+  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/behavioral-suite-execution.yml
 known_limits: []
-generated_at: "2026-03-28T19:57:12Z"
+generated_at: "2026-03-29T21:26:52Z"

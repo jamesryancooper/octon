@@ -13,6 +13,7 @@ work.
 | Surface | Purpose | Canonical location |
 |---|---|---|
 | Runtime | Executable capability artifacts and discovery metadata | `runtime/` |
+| Packs | Governed cross-cutting capability surfaces bounded by support targets | `packs/` |
 | Governance | Normative policy contracts and schemas | `governance/` |
 | Practices | Operating standards and authoring conventions | `practices/` |
 | Architecture reference | Non-structural specification and design docs | `_meta/architecture/` |
@@ -56,6 +57,19 @@ Runtime discovery surfaces:
 - `runtime/skills/manifest.yml`
 - `runtime/tools/manifest.yml`
 - `runtime/services/manifest.yml`
+
+Governed capability-pack surfaces:
+
+- `packs/repo/`
+- `packs/git/`
+- `packs/shell/`
+- `packs/browser/`
+- `packs/api/`
+- `packs/telemetry/`
+
+Browser and API packs remain governed admission surfaces. They must fail
+closed until repo-local admission exists under
+`/.octon/instance/capabilities/runtime/packs/**`.
 
 ## Policy Notes
 

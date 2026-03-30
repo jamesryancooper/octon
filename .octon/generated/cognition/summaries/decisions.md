@@ -5,7 +5,7 @@ mutability: generated
 generated_from:
   - /.octon/instance/cognition/decisions/index.yml
   - /.octon/instance/cognition/decisions/*.md
-generated_at: "2026-03-28T16:52:59Z"
+generated_at: "2026-03-29T23:04:02Z"
 generator_version: "0.6.7"
 ---
 
@@ -92,6 +92,16 @@ Do not edit manually. Update ADR files and `/.octon/instance/cognition/decisions
 | ADR-072 | Accepted | 2026-03-27 | ADR 072: Wave 4 Gap Remediation Cutover | `/.octon/instance/cognition/decisions/072-wave4-gap-remediation-cutover.md` |
 | ADR-073 | Accepted | 2026-03-27 | ADR 073: Wave 5 Agency Simplification And Adapter Hardening Cutover | `/.octon/instance/cognition/decisions/073-wave5-agency-simplification-and-adapter-hardening-cutover.md` |
 | ADR-074 | Accepted | 2026-03-28 | ADR 074: Wave 6 Retirement, Cutover, And Closeout | `/.octon/instance/cognition/decisions/074-wave6-retirement-cutover.md` |
+| ADR-075 | Accepted | 2026-03-28 | ADR 075: Execution Constitution Completion Closeout | `/.octon/instance/cognition/decisions/075-execution-constitution-completion-closeout.md` |
+| ADR-076 | Accepted | 2026-03-28 | ADR 076: Unified Execution Constitution Phase 0 Baseline Freeze | `/.octon/instance/cognition/decisions/076-unified-execution-constitution-phase0-baseline-freeze.md` |
+| ADR-077 | Accepted | 2026-03-28 | ADR 077: Unified Execution Constitution Phase 1 Constitutional Extraction | `/.octon/instance/cognition/decisions/077-unified-execution-constitution-phase1-constitutional-extraction.md` |
+| ADR-078 | Accepted | 2026-03-28 | ADR 078: Unified Execution Constitution Phase 2 Objective And Authority Cutover | `/.octon/instance/cognition/decisions/078-unified-execution-constitution-phase2-objective-authority-cutover.md` |
+| ADR-079 | Accepted | 2026-03-29 | ADR 079: Unified Execution Constitution Phase 3 Runtime And Evidence Normalization | `/.octon/instance/cognition/decisions/079-unified-execution-constitution-phase3-runtime-evidence-normalization.md` |
+| ADR-080 | Accepted | 2026-03-29 | ADR 080: Unified Execution Constitution Phase 4 Proof Evaluation And Lab Expansion | `/.octon/instance/cognition/decisions/080-unified-execution-constitution-phase4-proof-evaluation-lab-expansion.md` |
+| ADR-081 | Accepted | 2026-03-29 | ADR 081: Unified Execution Constitution Phase 5 Adapter Support Target Hardening | `/.octon/instance/cognition/decisions/081-unified-execution-constitution-phase5-adapter-support-target-hardening.md` |
+| ADR-082 | Accepted | 2026-03-29 | ADR 082: Unified Execution Constitution Phase 6 Simplification And Deletion | `/.octon/instance/cognition/decisions/082-unified-execution-constitution-phase6-simplification-deletion.md` |
+| ADR-083 | Accepted | 2026-03-29 | ADR 083: Unified Execution Constitution Phase 7 Build-To-Delete Institutionalization | `/.octon/instance/cognition/decisions/083-unified-execution-constitution-phase7-build-to-delete-institutionalization.md` |
+| ADR-084 | Accepted | 2026-03-29 | ADR 084: Unified Execution Constitution Final Cutover Closeout | `/.octon/instance/cognition/decisions/084-unified-execution-constitution-final-cutover-closeout.md` |
 
 ## Update Procedure
 

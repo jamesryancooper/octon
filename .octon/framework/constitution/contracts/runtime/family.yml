@@ -3,9 +3,13 @@ family_id: "runtime"
 status: "active"
 activation_wave: 3
 release_state: "pre-1.0"
-change_profile: "transitional"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"
+change_profile: "atomic"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization/plan.md"
 run_lifecycle:
+  run_manifest:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/run-manifest-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_file: "run-manifest.yml"
   run_continuity:
     schema_ref: ".octon/framework/constitution/contracts/runtime/run-continuity-v1.schema.json"
     continuity_root: ".octon/state/continuity/runs"
@@ -37,11 +41,12 @@ run_lifecycle:
       - "interventions/**"
       - "disclosure/**"
       - "trace-pointers.yml"
+      - "evidence-classification.yml"
       - "retained-run-evidence.yml"
 bridges:
   run_continuity:
     source_root: ".octon/state/continuity/runs"
-    rule: "Run continuity carries resumability and handoff state; retained run evidence remains append-oriented evidence only."
+    rule: "Run continuity carries resumability and handoff state; `run-manifest.yml`, checkpoints, replay pointers, and retained evidence remain the authoritative artifact-rooted resume set."
   mission_continuity:
     source_root: ".octon/state/continuity/repo/missions"
     rule: "Mission continuity consumes run evidence and lifecycle state; it does not replace them."

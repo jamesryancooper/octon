@@ -109,7 +109,7 @@ Atomic operations in `capabilities/runtime/commands/`:
 
 | Command | Access | Description |
 |---------|--------|-------------|
-| [init.md](./capabilities/runtime/commands/init.md) | human | Complete the `bootstrap_core` install by generating canonical `.octon` bootstrap files plus repo-root ingress adapters (`.octon/AGENTS.md`, `.octon/instance/bootstrap/OBJECTIVE.md`, `intent.contract.yml`, root `AGENTS.md`, root `CLAUDE.md`, `alignment-check`, optional `BOOT*.md`) |
+| [init.md](./capabilities/runtime/commands/init.md) | human | Complete the `bootstrap_core` install by generating canonical `.octon` bootstrap files plus repo-root ingress adapters (`.octon/AGENTS.md`, `.octon/instance/charter/workspace.{md,yml}`, compatibility shims at `.octon/instance/bootstrap/OBJECTIVE.md` and `intent.contract.yml`, root `AGENTS.md`, root `CLAUDE.md`, `alignment-check`, optional `BOOT*.md`) |
 | [export-harness.md](./capabilities/runtime/commands/export-harness.md) | human | Materialize `repo_snapshot` or `pack_bundle` exports from the root-manifest profile contract |
 | [studio.md](./capabilities/runtime/commands/studio.md) | human | Launch Octon Studio for workflow graph design, read-only orchestration operations, and safe staged edits |
 | [recover.md](./capabilities/runtime/commands/recover.md) | human | Recovery procedures for common agent failure modes |

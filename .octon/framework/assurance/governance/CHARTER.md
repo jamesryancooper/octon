@@ -1,17 +1,19 @@
-# Assurance Charter
+# Assurance Governance Charter Shim
+
+> Shim status: This file is a subordinate assurance-governance shim retained
+> for compatibility with assurance tooling and weighting policy. Repo-local
+> constitutional authority lives under `/.octon/framework/constitution/**`.
+> This file may preserve assurance-local priority framing, but it may not act
+> as a peer constitution or override the kernel.
 
 **Purpose**
-Octon is a governed development harness that accelerates software delivery
-without sacrificing assurance. It standardizes how work is proposed, executed,
-verified, and recorded across repositories so teams can move quickly, safely,
-and repeatably.
+Preserve the assurance-local priority order and trade-off framing consumed by
+assurance governance, weights, and scoring tooling.
 
 **Scope**
-This charter defines Octon's assurance priorities and the rules Octon uses
-to make trade-offs. It applies to Octon's class roots (`framework/`,
-`instance/`, `inputs/`, `state/`, `generated/`) and to the framework's core
-authored domains (`agency/`, `assurance/`, `capabilities/`, `cognition/`,
-`engine/`, `orchestration/`, `scaffolding/`) in any repo adopting Octon.
+This shim applies only as an assurance-local overlay beneath the constitutional
+kernel. It does not create repo-local constitutional authority outside
+`framework/constitution/**`.
 
 ---
 

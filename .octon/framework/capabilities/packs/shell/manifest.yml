@@ -1,0 +1,12 @@
+schema_version: "octon-capability-pack-v1"
+pack_id: "shell"
+surface: "shell"
+display_name: "Shell Execution Pack"
+description: "Shell and terminal execution surfaces routed through named executor profiles."
+runtime_surface_refs:
+  - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+required_evidence:
+  - "instruction-layer-manifest"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+known_limitations:
+  - "Shell access does not imply browser or outbound API admission."

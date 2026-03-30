@@ -10,8 +10,11 @@ views.
 `state/control/execution/runs/<run-id>/run-contract.yml` is the canonical
 per-run execution contract.
 
+`state/control/execution/runs/<run-id>/run-manifest.yml` is the canonical bound
+run-manifest model.
+
 `state/control/execution/runs/<run-id>/{runtime-state.yml,rollback-posture.yml,checkpoints/**}`
-carry the canonical lifecycle state beneath that run contract.
+carry the canonical lifecycle state beneath that run manifest.
 
 `state/continuity/runs/<run-id>/handoff.yml` is the canonical mutable
 resumability and handoff state for the bound run.
@@ -22,7 +25,8 @@ over that canonical run root.
 `state/evidence/runs/<run-id>/` remains the durable evidence authority,
 including canonical `receipts/**`, `checkpoints/**`, `replay/**`,
 `assurance/**`, `measurements/**`, `interventions/**`, `disclosure/**`,
-`replay-pointers.yml`, and `trace-pointers.yml`.
+`replay-pointers.yml`, `trace-pointers.yml`,
+`evidence-classification.yml`, and external index links when required.
 
 ## Layout
 

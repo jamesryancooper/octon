@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/lab/runtime/contracts/replay-bundle-v1.schema.json",
+  "title": "Octon Replay Bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "replay_bundle_id", "purpose", "required_inputs"],
+  "properties": {
+    "schema_version": { "const": "replay-bundle-v1" },
+    "replay_bundle_id": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "required_inputs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+  }
+}
