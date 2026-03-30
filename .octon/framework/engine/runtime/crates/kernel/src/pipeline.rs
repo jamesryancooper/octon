@@ -604,12 +604,12 @@ fn run_generic_pipeline(
             )
         })
         .transpose()?;
+    let request_id = match options.run_id.as_deref() {
+        Some(value) => validate_run_id(value)?,
+        None => new_request_id("workflow"),
+    };
     let workflow_request = ExecutionRequest {
-        request_id: options
-            .run_id
-            .clone()
-            .filter(|value| !value.trim().is_empty())
-            .unwrap_or_else(|| new_request_id("workflow")),
+        request_id,
         caller_path: "workflow".to_string(),
         action_type: if options.prepare_only {
             "prepare_workflow".to_string()
@@ -1401,6 +1401,32 @@ fn new_request_id(prefix: &str) -> String {
     format!("{prefix}-{millis}-{}", std::process::id())
 }
 
+fn validate_run_id(input: &str) -> Result<String> {
+    let trimmed = input.trim();
+    if trimmed.is_empty() {
+        bail!("workflow --run-id must not be empty");
+    }
+    if trimmed.len() > 128 {
+        bail!("workflow --run-id must be 128 characters or fewer");
+    }
+    if trimmed == "." || trimmed == ".." {
+        bail!("workflow --run-id must not be a dot-segment");
+    }
+    if trimmed.contains('/') || trimmed.contains('\\') {
+        bail!("workflow --run-id must not contain path separators");
+    }
+    if !trimmed
+        .chars()
+        .all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-')
+    {
+        bail!("workflow --run-id must match ^[a-z0-9-]+$");
+    }
+    if trimmed.starts_with('-') || trimmed.ends_with('-') || trimmed.contains("--") {
+        bail!("workflow --run-id must use canonical hyphen-separated segments");
+    }
+    Ok(trimmed.to_string())
+}
+
 fn slugify(input: &str) -> String {
     let mut out = String::with_capacity(input.len());
     let mut prev_dash = false;
@@ -1783,6 +1809,47 @@ stages:
         assert!(result.bundle_root.join("stage-inputs/01-packet.md").is_file());
         assert!(result.bundle_root.join("stage-logs/01-executor.log").is_file());
 
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn validate_run_id_accepts_canonical_value() {
+        let run_id = validate_run_id("workflow-20260330-1").expect("canonical run id should pass");
+        assert_eq!(run_id, "workflow-20260330-1");
+    }
+
+    #[test]
+    fn validate_run_id_rejects_path_traversal() {
+        let error = validate_run_id("../escape").expect_err("path traversal must fail");
+        assert!(error
+            .to_string()
+            .contains("must not contain path separators"));
+    }
+
+    #[test]
+    fn generic_workflow_rejects_invalid_run_id() {
+        let root = make_temp_root("invalid-run-id");
+        let octon_dir = seed_generic_workflow_fixture(&root);
+
+        let error = run_pipeline_from_octon_dir(
+            &octon_dir,
+            RunPipelineOptions {
+                pipeline_id: "sample-workflow".to_string(),
+                run_id: Some("../escape".to_string()),
+                mission_id: None,
+                executor: ExecutorKind::Mock,
+                executor_bin: None,
+                output_slug: Some("invalid-run-id".to_string()),
+                model: None,
+                prepare_only: false,
+                input_overrides: HashMap::new(),
+            },
+        )
+        .expect_err("invalid run id must fail before execution");
+
+        assert!(error
+            .to_string()
+            .contains("must not contain path separators"));
         fs::remove_dir_all(root).ok();
     }
 
