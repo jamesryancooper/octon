@@ -21,4 +21,5 @@ hex.workspace = true
 time.workspace = true
 
 octon_core = { path = "../core" }
+octon_authority_engine = { path = "../authority_engine" }
 octon_wasm_host = { path = "../wasm_host" }

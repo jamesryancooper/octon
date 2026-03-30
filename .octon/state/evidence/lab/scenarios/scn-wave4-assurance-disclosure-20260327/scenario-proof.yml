@@ -3,13 +3,13 @@ scenario_id: scn-wave4-assurance-disclosure-20260327
 purpose: Validate that a consequential run can disclose proof, replay, and support posture without widening authority.
 subject_refs:
   - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
-  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/disclosure/run-card.yml
+  - .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
 procedure:
   - Inspect the bound run contract and retained evidence roots.
   - Verify that replay, proof-plane, measurement, intervention, and RunCard artifacts are present.
   - Confirm that support posture remains bounded by .octon/instance/governance/support-targets.yml.
 evidence_refs:
-  - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/disclosure/run-card.yml
+  - .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
   - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
   - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/functional.yml
   - .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/behavioral.yml

@@ -1,0 +1,37 @@
+schema_version: run-card-v1
+run_id: run-wave3-runtime-bridge-20260327
+status: succeeded
+summary: Historical Wave 3 runtime bridge evidence remains retained under the canonical run disclosure root after the atomic clean-break cutover.
+support_tier: repo-local-consequential
+support_target_ref: .octon/instance/governance/support-targets.yml
+adapter_support:
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  host_support_status: supported
+  model_support_status: supported
+  conformance_criteria:
+    - HOST-001
+    - HOST-002
+    - MODEL-001
+    - MODEL-002
+    - MODEL-003
+authority_refs:
+  run_contract: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+  decision_artifact: .octon/state/evidence/control/execution/authority-decision-run-wave3-runtime-bridge-20260327.yml
+  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-run-wave3-runtime-bridge-20260327.yml
+  retained_run_evidence: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/retained-run-evidence.yml
+proof_plane_refs:
+  structural: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/structural.yml
+  governance: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/governance.yml
+  functional: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/functional.yml
+  behavioral: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/behavioral.yml
+  maintainability: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/maintainability.yml
+  recovery: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/recovery.yml
+  evaluator: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/evaluator.yml
+measurement_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/measurements/summary.yml
+intervention_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/interventions/log.yml
+replay_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay/manifest.yml
+known_limits:
+  - This retained run documents a historical bridge exercise and does not constitute a second supported live runtime path.
+  - Support posture remains bounded to the repo-local-consequential tier declared in support-targets.yml.
+generated_at: "2026-03-30T00:00:00Z"

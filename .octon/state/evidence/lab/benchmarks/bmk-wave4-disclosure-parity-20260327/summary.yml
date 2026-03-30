@@ -1,6 +1,6 @@
 schema_version: measurement-summary-v1
 subject_kind: harness
-subject_ref: .octon/state/evidence/lab/harness-cards/hc-wave4-benchmark-disclosure-20260327.yml
+subject_ref: .octon/state/evidence/disclosure/releases/archive-wave4-benchmark-disclosure-20260327/harness-card.yml
 metrics:
   - metric_id: disclosure-parity
     label: RunCard to HarnessCard evidence parity

@@ -1,7 +1,7 @@
 schema_version: octon-capability-routing-artifact-map-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-99dcb67610d8
-published_at: 2026-03-30T00:18:18Z
+generation_id: capabilities-01659f6e47ee
+published_at: 2026-03-30T16:06:26Z
 artifacts:
   - artifact_map_id: framework-command-alignment-check
     effective_id: framework.command.alignment-check

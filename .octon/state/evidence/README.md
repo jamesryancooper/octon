@@ -7,7 +7,8 @@
 | Path | Purpose |
 | --- | --- |
 | `state/evidence/runs/**` | Run receipts, checkpoints, replay manifests, replay pointers, evidence classification, trace pointers, and retained execution evidence |
-| `state/evidence/lab/**` | Retained scenario proof, benchmark measurements, evaluator reviews, and HarnessCard disclosure evidence |
+| `state/evidence/disclosure/**` | Canonical retained RunCard and HarnessCard disclosure evidence |
+| `state/evidence/lab/**` | Retained scenario proof, benchmark measurements, evaluator reviews, and historical lab mirrors that support disclosure claims |
 | `state/evidence/control/execution/**` | Retained authority decisions, grant bundles, and control-plane mutation evidence |
 | `state/evidence/external-index/**` | Content-addressed indexes for replay-heavy or externally retained immutable evidence |
 | `state/evidence/decisions/**` | Historical lineage and capability-policy decision logs that no longer mint live per-run authority |

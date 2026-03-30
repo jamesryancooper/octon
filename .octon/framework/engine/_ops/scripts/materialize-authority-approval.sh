@@ -13,7 +13,8 @@ RUN_ID=""
 TARGET_ID=""
 ACTION_TYPE=""
 WORKFLOW_MODE="human-only"
-SUPPORT_TIER="repo-local-transitional"
+SUPPORT_TIER="repo-local-consequential"
+QUORUM_POLICY_REF=".octon/instance/governance/policies/mission-autonomy.yml#quorum"
 REQUEST_STATE="pending"
 GRANT_STATE=""
 ISSUED_BY=""
@@ -80,6 +81,7 @@ main() {
       --action-type) ACTION_TYPE="$2"; shift 2 ;;
       --workflow-mode) WORKFLOW_MODE="$2"; shift 2 ;;
       --support-tier) SUPPORT_TIER="$2"; shift 2 ;;
+      --quorum-policy-ref) QUORUM_POLICY_REF="$2"; shift 2 ;;
       --request-state) REQUEST_STATE="$2"; shift 2 ;;
       --grant-state) GRANT_STATE="$2"; shift 2 ;;
       --issued-by) ISSUED_BY="$2"; shift 2 ;;
@@ -118,6 +120,7 @@ main() {
     printf 'action_type: %s\n' "$(yaml_quote "$ACTION_TYPE")"
     printf 'workflow_mode: %s\n' "$(yaml_quote "$WORKFLOW_MODE")"
     printf 'support_tier: %s\n' "$(yaml_quote "$SUPPORT_TIER")"
+    printf 'quorum_policy_ref: %s\n' "$(yaml_quote "$QUORUM_POLICY_REF")"
     printf 'ownership_refs:\n'
     if [[ "${#OWNERSHIP_REFS[@]}" -eq 0 ]]; then
       printf '  []\n'
@@ -182,6 +185,7 @@ main() {
       printf 'issued_by: %s\n' "$(yaml_quote "$ISSUED_BY")"
       printf 'issued_at: %s\n' "$(yaml_quote "$now")"
       printf 'expires_at: null\n'
+      printf 'quorum_policy_ref: %s\n' "$(yaml_quote "$QUORUM_POLICY_REF")"
       printf 'projection_sources:\n'
       write_projection_sources
       printf 'review_metadata: {}\n'

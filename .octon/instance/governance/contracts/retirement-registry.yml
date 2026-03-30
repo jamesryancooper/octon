@@ -93,6 +93,47 @@ entries:
       - "retirement-review"
       - "ablation-deletion-receipt"
     retirement_path: "Delete helper projection scripts after canonical runtime writers and generated surfaces fully replace them."
+  - target_id: "run-local-disclosure-mirrors"
+    status: "historical-retained"
+    disposition: "historical-mirror"
+    paths:
+      - ".octon/state/evidence/runs/*/disclosure/**"
+    owner_ref: "operator://octon-maintainers"
+    support_scope: "Historical mirror only; canonical live RunCards now resolve from state/evidence/disclosure/runs/**."
+    value_metric: "No supported runtime, validator, or release claim depends on run-local disclosure directories as the canonical home."
+    review_contract_ref: ".octon/instance/governance/contracts/retirement-review.yml"
+    review_date: "2026-06-30"
+    retirement_trigger:
+      - "All migration and benchmark lineage references stop needing run-local disclosure mirrors."
+      - "Ablation shows no disclosure, replay, or closeout regression after mirror deletion."
+    required_ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+      - ".octon/framework/orchestration/runtime/runs/_ops/scripts/validate-runs.sh"
+    evidence_requirements:
+      - "retirement-review"
+      - "ablation-deletion-receipt"
+    retirement_path: "Delete run-local disclosure mirrors once historical lineage and benchmark fixtures point only at the canonical disclosure roots."
+  - target_id: "lab-local-harness-card-mirrors"
+    status: "historical-retained"
+    disposition: "historical-mirror"
+    paths:
+      - ".octon/state/evidence/lab/harness-cards/**"
+    owner_ref: "operator://octon-maintainers"
+    support_scope: "Historical mirror only; canonical live HarnessCards are authored under instance/governance/disclosure and retained under state/evidence/disclosure/releases/**."
+    value_metric: "No supported release claim, validator, or runtime path treats lab-local HarnessCards as canonical disclosure."
+    review_contract_ref: ".octon/instance/governance/contracts/retirement-review.yml"
+    review_date: "2026-06-30"
+    retirement_trigger:
+      - "Benchmark, evaluator, and migration lineage stop needing lab-local HarnessCard mirrors."
+      - "Ablation shows no disclosure regression after mirror deletion."
+    required_ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+    evidence_requirements:
+      - "retirement-review"
+      - "ablation-deletion-receipt"
+    retirement_path: "Delete lab-local HarnessCard mirrors once all historical readers consume the canonical release disclosure roots."
   - target_id: "runtime-agent-soul-overlays"
     status: "retired"
     disposition: "deleted"

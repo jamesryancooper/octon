@@ -5,6 +5,8 @@ keep build-to-delete governance active after the one-time cutover phases.
 
 ## Canonical Packet
 
+- `2026-03-30/` is the current active packet after the atomic clean-break
+  disclosure and support-tier convergence pass.
 - `2026-03-29/` is the first packet that institutionalizes:
   - drift review
   - support-target review

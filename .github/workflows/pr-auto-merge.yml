@@ -127,7 +127,7 @@ jobs:
               --action-type "github-pr-autonomy-merge" \
               --issued-by "github://workflow/pr-auto-merge" \
               --status "staged" \
-              --support-tier "repo-local-transitional" \
+              --support-tier "repo-local-consequential" \
               --workflow-mode "human-only" \
               --reason-code "PR_AUTONOMY_DISABLED" \
               --projection-check "github://pull/${PR_NUMBER}#check:Validate autonomy policy" \
@@ -293,7 +293,7 @@ jobs:
               --action-type "github-pr-autonomy-merge" \
               --issued-by "github://workflow/pr-auto-merge" \
               --status "${status}" \
-              --support-tier "repo-local-transitional" \
+              --support-tier "repo-local-consequential" \
               --workflow-mode "human-only" \
               --required-evidence "pr-autonomy-policy" \
               --required-evidence "required-checks" \

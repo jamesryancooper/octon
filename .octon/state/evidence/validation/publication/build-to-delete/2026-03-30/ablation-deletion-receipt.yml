@@ -1,0 +1,58 @@
+schema_version: "ablation-deletion-receipt-v1"
+workflow_id: "ablation-driven-deletion"
+contract_ref: ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
+owner: "Octon governance"
+status: "completed"
+executed_at: "2026-03-30T00:00:00Z"
+targets_evaluated:
+  - target_id: "runtime-agent-soul-overlays"
+    decision: "delete"
+    status_after_review: "retired"
+    regression_result: "none"
+    evidence_refs:
+      - ".octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase6-simplification-deletion/"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh"
+      - ".octon/framework/agency/_ops/scripts/validate/validate-agency.sh"
+  - target_id: "label-native-authority-lane-projections"
+    decision: "delete"
+    status_after_review: "retired"
+    regression_result: "none"
+    evidence_refs:
+      - ".octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase6-simplification-deletion/"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh"
+      - ".octon/framework/agency/_ops/scripts/validate/validate-autonomy-labels.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+  - target_id: "run-local-disclosure-mirrors"
+    decision: "retire-from-live-path"
+    status_after_review: "historical-retained"
+    regression_result: "none"
+    rationale: "Canonical RunCards now resolve from state/evidence/disclosure/runs/** while run-local disclosure directories remain historical mirrors only."
+    evidence_refs:
+      - ".octon/state/evidence/migration/2026-03-30-unified-execution-constitution-atomic-cutover/"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+      - ".octon/framework/orchestration/runtime/runs/_ops/scripts/validate-runs.sh"
+  - target_id: "lab-local-harness-card-mirrors"
+    decision: "retire-from-live-path"
+    status_after_review: "historical-retained"
+    regression_result: "none"
+    rationale: "Canonical HarnessCards now resolve from instance/governance/disclosure and state/evidence/disclosure/releases/** while lab-local files remain historical mirrors only."
+    evidence_refs:
+      - ".octon/state/evidence/migration/2026-03-30-unified-execution-constitution-atomic-cutover/"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+  - target_id: "workspace-objective-compatibility-shims"
+    decision: "retain"
+    status_after_review: "registered"
+    regression_result: "not_applicable"
+    next_review_date: "2026-06-30"
+    rationale: "Bootstrap compatibility shims remain bounded and explicitly registered; they are unaffected by the disclosure and authority cutover."
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"
+non_regression_summary: "Disclosure mirrors are no longer canonical live paths, and the remaining retained mirrors are explicitly bounded, disclosed, and review-scheduled."

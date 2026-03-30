@@ -16,7 +16,7 @@ requested_capabilities:
   - mission.context
 risk_class: low
 reversibility_class: reversible
-support_tier: repo-local-transitional
+support_tier: repo-local-consequential
 required_approvals: []
 required_evidence:
   - decision-artifact
@@ -44,8 +44,8 @@ receipt_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/recei
 assurance_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance
 measurement_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/measurements
 intervention_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/interventions
-disclosure_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/disclosure
-run_card_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/disclosure/run-card.yml
+disclosure_root: .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327
+run_card_ref: .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
 replay_pointers_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
 rollback_or_compensation_expectation: Rollback or compensation posture is handled by downstream runtime lifecycle waves; Wave 1 records the execution contract and initial attempt root.
 status: completed

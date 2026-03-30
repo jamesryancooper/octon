@@ -255,6 +255,8 @@ pub struct ApprovalRequestArtifact {
     pub workflow_mode: String,
     pub support_tier: String,
     #[serde(default)]
+    pub quorum_policy_ref: Option<String>,
+    #[serde(default)]
     pub ownership_refs: Vec<String>,
     #[serde(default)]
     pub reversibility_class: Option<String>,
@@ -279,6 +281,8 @@ pub struct ApprovalGrantArtifact {
     pub issued_at: String,
     #[serde(default)]
     pub expires_at: Option<String>,
+    #[serde(default)]
+    pub quorum_policy_ref: Option<String>,
     #[serde(default)]
     pub projection_sources: Vec<AuthorityProjection>,
     #[serde(default)]
@@ -387,6 +391,8 @@ pub struct GrantBundle {
     pub breaker_state: Option<String>,
     #[serde(default)]
     pub support_tier: Option<String>,
+    #[serde(default)]
+    pub quorum_policy_ref: Option<String>,
     #[serde(default)]
     pub ownership_refs: Vec<String>,
     #[serde(default)]
@@ -568,6 +574,10 @@ pub fn default_actor_ref() -> ActorRef {
 
 fn default_workflow_mode() -> String {
     "human-only".to_string()
+}
+
+fn canonical_quorum_policy_ref() -> &'static str {
+    ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
 }
 
 pub fn default_policy_mode(cfg: &RuntimeConfig) -> String {
@@ -1441,7 +1451,7 @@ fn requested_support_tier(cfg: &RuntimeConfig, request: &ExecutionRequest) -> Co
     Ok(load_ownership_registry(cfg)?
         .defaults
         .support_tier
-        .unwrap_or_else(|| "repo-local-transitional".to_string()))
+        .unwrap_or_else(|| "repo-local-consequential".to_string()))
 }
 
 fn bind_run_lifecycle(
@@ -1637,7 +1647,7 @@ fn bind_run_lifecycle(
             "assurance_root": format!(".octon/state/evidence/runs/{run_id}/assurance"),
             "measurement_root": format!(".octon/state/evidence/runs/{run_id}/measurements"),
             "intervention_root": format!(".octon/state/evidence/runs/{run_id}/interventions"),
-            "disclosure_root": format!(".octon/state/evidence/runs/{run_id}/disclosure"),
+            "disclosure_root": format!(".octon/state/evidence/disclosure/runs/{run_id}"),
             "retained_evidence_ref": retained_evidence_ref,
             "replay_pointers_ref": replay_pointers_ref,
             "trace_pointers_ref": trace_pointers_ref,
@@ -2343,7 +2353,7 @@ fn load_run_contract_record(
         record.support_tier = load_ownership_registry(cfg)?
             .defaults
             .support_tier
-            .unwrap_or_else(|| "repo-local-transitional".to_string());
+            .unwrap_or_else(|| "repo-local-consequential".to_string());
     }
     if record.reversibility_class.trim().is_empty() {
         record.reversibility_class = autonomy_state
@@ -3258,6 +3268,7 @@ fn write_approval_request(
         action_type: request.action_type.clone(),
         workflow_mode: request.workflow_mode.clone(),
         support_tier: run_contract.support_tier.clone(),
+        quorum_policy_ref: Some(canonical_quorum_policy_ref().to_string()),
         ownership_refs: ownership.owner_refs.clone(),
         reversibility_class: Some(run_contract.reversibility_class.clone()),
         reason_codes,
@@ -3439,6 +3450,7 @@ fn write_authority_grant_bundle(cfg: &RuntimeConfig, grant: &GrantBundle) -> Cor
             "grant_id": grant.grant_id,
             "request_id": grant.request_id,
             "run_id": grant.request_id,
+            "quorum_policy_ref": grant.quorum_policy_ref,
             "approval_request_ref": grant.approval_request_ref,
             "approval_grant_refs": grant.approval_grant_refs,
             "exception_refs": grant.exception_lease_refs,
@@ -4290,9 +4302,10 @@ pub fn authorize_execution(
         _ => {}
     }
 
-    let approval_grant_refs = load_existing_approval_grants(cfg, &request.request_id)?
-        .into_iter()
-        .map(|(_, path)| path)
+    let loaded_approval_grants = load_existing_approval_grants(cfg, &request.request_id)?;
+    let approval_grant_refs = loaded_approval_grants
+        .iter()
+        .map(|(_, path)| path.clone())
         .collect::<Vec<_>>();
 
     if approval_required && approval_grant_refs.is_empty() {
@@ -4314,6 +4327,29 @@ pub fn authorize_execution(
             json!(network_egress_posture.clone().unwrap_or_default()),
             approval_request_ref.clone(),
             Vec::new(),
+            exception_refs.clone(),
+            Vec::new(),
+        );
+    }
+    if approval_required
+        && loaded_approval_grants.iter().any(|(grant, _)| {
+            grant.quorum_policy_ref.as_deref() != Some(canonical_quorum_policy_ref())
+        })
+    {
+        return emit_route_error(
+            ExecutionDecision::StageOnly,
+            "approval grant is missing canonical quorum policy binding".to_string(),
+            vec![
+                "QUORUM_POLICY_BINDING_MISSING".to_string(),
+                "ACP_STAGE_ONLY_REQUIRED".to_string(),
+            ],
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget_posture.clone(),
+            json!(network_egress_posture.clone().unwrap_or_default()),
+            approval_request_ref.clone(),
+            approval_grant_refs.clone(),
             exception_refs.clone(),
             Vec::new(),
         );
@@ -4478,6 +4514,7 @@ pub fn authorize_execution(
             .as_ref()
             .map(|state| state.breaker_state.clone()),
         support_tier: Some(run_contract.support_tier.clone()),
+        quorum_policy_ref: Some(canonical_quorum_policy_ref().to_string()),
         ownership_refs: ownership.owner_refs.clone(),
         approval_request_ref: approval_request_ref.clone(),
         approval_grant_refs: approval_grant_refs.clone(),
@@ -6036,12 +6073,12 @@ mod tests {
         .expect("write workspace machine charter");
         fs::write(
             base.join(".octon/instance/governance/support-targets.yml"),
-            support_targets_fixture("WT-2", "repo-local-transitional", "allow"),
+            support_targets_fixture("WT-2", "repo-local-consequential", "allow"),
         )
         .expect("write support targets");
         fs::write(
             base.join(".octon/instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"workflow-evidence\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"workflow-evidence\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
         )
         .expect("write ownership registry");
         fs::write(
@@ -6165,7 +6202,7 @@ mod tests {
         .expect("write mission autonomy policy");
         fs::write(
             cfg.octon_dir.join("instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"fixture\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"fixture\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
         )
         .expect("write ownership registry");
         fs::write(

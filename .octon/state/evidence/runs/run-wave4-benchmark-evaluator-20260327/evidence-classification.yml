@@ -11,7 +11,7 @@ artifacts:
     evidence_class: A
     storage_class: git-inline
   - artifact_id: run-card
-    artifact_ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/disclosure/run-card.yml
+    artifact_ref: .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml
     evidence_class: A
     storage_class: git-inline
   - artifact_id: measurement-summary

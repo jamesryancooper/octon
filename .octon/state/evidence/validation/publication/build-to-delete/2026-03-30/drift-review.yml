@@ -1,0 +1,16 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "drift-review"
+contract_ref: ".octon/instance/governance/contracts/drift-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-03-30T00:00:00Z"
+triggered_by:
+  - "Unified execution constitution atomic clean-break cutover"
+  - "Canonical disclosure and support-tier convergence"
+summary: "The live constitutional manifest, runtime roots, disclosure roots, and build-to-delete surfaces now agree on one atomic post-merge model, while remaining historical mirrors are explicitly non-live."
+findings: []
+evidence_refs:
+  - ".octon/framework/constitution/charter.yml"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"
+  - ".octon/state/evidence/disclosure/README.md"

@@ -16,7 +16,7 @@ evidence_refs:
   evaluator_review: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/evaluator.yml
   measurement_summary: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/measurements/summary.yml
   intervention_log: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/interventions/log.yml
-  run_card: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/disclosure/run-card.yml
+  run_card: .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
   maintainability_report: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/maintainability.yml
   structural_report: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/structural.yml
   governance_report: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance/governance.yml

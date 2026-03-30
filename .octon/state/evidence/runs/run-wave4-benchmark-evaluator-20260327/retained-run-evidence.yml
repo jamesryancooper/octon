@@ -17,7 +17,7 @@ evidence_refs:
   evaluator_review: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml
   measurement_summary: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/measurements/summary.yml
   intervention_log: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/interventions/log.yml
-  run_card: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/disclosure/run-card.yml
+  run_card: .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml
   structural_report: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/structural.yml
   governance_report: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/governance.yml
   authority_decision: .octon/state/evidence/control/execution/authority-decision-run-wave4-benchmark-evaluator-20260327.yml

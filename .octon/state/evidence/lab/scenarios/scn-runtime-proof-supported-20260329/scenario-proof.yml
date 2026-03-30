@@ -1,6 +1,6 @@
 schema_version: lab-scenario-proof-v1
 scenario_id: scn-runtime-proof-supported-20260329
-purpose: Validate behavioral and recovery proof for a supported repo-local-transitional consequential run.
+purpose: Validate behavioral and recovery proof for a supported repo-local-consequential consequential run.
 subject_refs:
   - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
   - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-manifest.yml

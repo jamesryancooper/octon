@@ -1,0 +1,38 @@
+schema_version: harness-card-v1
+card_id: hc-unified-execution-constitution-atomic-cutover-20260330
+claim_kind: release
+claim_summary: Octon's supported live model is now run-contract-first, authority-artifactized, disclosure-canonical, and support-target-enforced under one atomic clean-break execution constitution.
+support_target_ref: .octon/instance/governance/support-targets.yml
+compatibility_tuple:
+  model_tier: MT-B
+  workload_tier: WT-2
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  support_status: supported
+adapter_support:
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  host_support_status: supported
+  model_support_status: supported
+  conformance_criteria:
+    - HOST-001
+    - HOST-002
+    - HOST-004
+    - MODEL-001
+    - MODEL-002
+    - MODEL-003
+    - MODEL-004
+proof_bundle_refs:
+  - .octon/instance/governance/disclosure/harness-card.yml
+  - .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
+  - .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml
+  - .octon/state/evidence/lab/scenarios/scn-wave4-assurance-disclosure-20260327/scenario-proof.yml
+  - .octon/state/evidence/lab/benchmarks/bmk-wave4-disclosure-parity-20260327/summary.yml
+  - .octon/state/evidence/lab/evaluator-reviews/evr-wave4-benchmark-disclosure-20260327.yml
+  - .octon/state/evidence/migration/2026-03-30-unified-execution-constitution-atomic-cutover/evidence.md
+known_limits:
+  - Historical lab-local HarnessCard files remain retained as non-live mirrors under state/evidence/lab/harness-cards.
+  - Release-and-boundary-sensitive work remains reduced support and stages when required proof or approval artifacts are missing.
+  - Unsupported external or irreversible work remains denied by default.
+generated_at: "2026-03-30T00:00:00Z"
+evaluator_review_ref: .octon/state/evidence/lab/evaluator-reviews/evr-wave4-benchmark-disclosure-20260327.yml

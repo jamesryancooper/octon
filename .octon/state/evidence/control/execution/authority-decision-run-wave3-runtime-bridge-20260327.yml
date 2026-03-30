@@ -12,7 +12,7 @@ ownership:
   owner_refs:
     - operator://octon-maintainers
 support_tier:
-  support_tier: repo-local-transitional
+  support_tier: repo-local-consequential
   model_tier_id: MT-B
   workload_tier_id: WT-2
   language_resource_tier_id: LT-REF

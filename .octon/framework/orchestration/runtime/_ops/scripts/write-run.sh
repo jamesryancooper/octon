@@ -206,7 +206,7 @@ intervention_dir() {
 
 disclosure_dir() {
   local run_id="$1"
-  printf '%s/%s/disclosure' "$RUN_EVIDENCE_ROOT" "$run_id"
+  printf '%s/%s' "$RUN_DISCLOSURE_ROOT" "$run_id"
 }
 
 replay_manifest_path() {
@@ -261,12 +261,12 @@ intervention_log_path() {
 
 run_card_path() {
   local run_id="$1"
-  printf '%s/%s/disclosure/run-card.yml' "$RUN_EVIDENCE_ROOT" "$run_id"
+  printf '%s/%s/run-card.yml' "$RUN_DISCLOSURE_ROOT" "$run_id"
 }
 
 run_card_markdown_path() {
   local run_id="$1"
-  printf '%s/%s/disclosure/run-card.md' "$RUN_EVIDENCE_ROOT" "$run_id"
+  printf '%s/%s/run-card.md' "$RUN_DISCLOSURE_ROOT" "$run_id"
 }
 
 run_contract_relpath() {
@@ -376,7 +376,7 @@ intervention_dir_relpath() {
 
 disclosure_dir_relpath() {
   local run_id="$1"
-  printf '.octon/state/evidence/runs/%s/disclosure' "$run_id"
+  printf '.octon/state/evidence/disclosure/runs/%s' "$run_id"
 }
 
 replay_manifest_relpath() {
@@ -431,7 +431,7 @@ intervention_log_relpath() {
 
 run_card_relpath() {
   local run_id="$1"
-  printf '.octon/state/evidence/runs/%s/disclosure/run-card.yml' "$run_id"
+  printf '.octon/state/evidence/disclosure/runs/%s/run-card.yml' "$run_id"
 }
 
 functional_suite_relpath() {
@@ -881,7 +881,7 @@ write_replay_pointer_file() {
   if [[ -f "$(receipt_dir "$run_id")/orchestration-lifecycle.yml" ]]; then
     receipt_ref="$(orchestration_receipt_relpath "$run_id")"
   fi
-  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
   replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
   existing_manifests_json="$(yaml_json_or_default "$replay_file" '.replay_manifest_refs // []' '[]')"
   existing_receipts_json="$(yaml_json_or_default "$replay_file" '.receipt_refs // []' '[]')"
@@ -1044,7 +1044,7 @@ write_replay_manifest_file() {
   local run_id="$1"
   local recorded_at="$2"
   local support_tier replay_payload_class external_index_refs_json
-  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
   replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
   if [[ "$replay_payload_class" == "external-immutable" ]]; then
     external_index_refs_json="$(jq -cn --arg ref "$(external_replay_index_relpath "$run_id")" '[$ref]')"
@@ -1080,7 +1080,7 @@ write_external_replay_index_file() {
   local run_id="$1"
   local recorded_at="$2"
   local support_tier replay_payload_class
-  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
   replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
   if [[ "$replay_payload_class" != "external-immutable" ]]; then
     return 0
@@ -1130,7 +1130,7 @@ write_evidence_classification_file() {
   local run_id="$1"
   local updated_at="$2"
   local support_tier replay_payload_class external_index_ref
-  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
   replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
   external_index_ref=""
   if [[ "$replay_payload_class" == "external-immutable" ]]; then
@@ -1270,14 +1270,14 @@ run_phase4_proof_suite() {
 write_evaluator_review_file() {
   local run_id="$1"
   local recorded_at="$2"
-  local support_tier="repo-local-transitional"
+  local support_tier="repo-local-consequential"
   local risk_class="low"
   local disposition="not_required"
   local summary="Deterministic functional, behavioral replay, recovery, and maintainability proof were sufficient for this run."
   local evaluator_id="evaluator-router://phase4-review-routing"
   local evidence_refs_json
   if [[ -f "$(run_contract_path "$run_id")" ]]; then
-    support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+    support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
     risk_class="$(yq -r '.risk_class // "low"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'low')"
   fi
   case "$support_tier" in
@@ -1373,7 +1373,7 @@ write_run_card_file() {
   local summary="$3"
   local generated_at="$4"
   local decision_id="$5"
-  local support_tier="repo-local-transitional"
+  local support_tier="repo-local-consequential"
   local host_adapter="${OCTON_SUPPORT_HOST_ADAPTER:-repo-shell}"
   local model_adapter="${OCTON_SUPPORT_MODEL_ADAPTER:-repo-local-governed}"
   local host_support_status="unsupported"
@@ -1382,7 +1382,7 @@ write_run_card_file() {
   local model_criteria_json='[]'
   local conformance_criteria_json='[]'
   if [[ -f "$(run_contract_path "$run_id")" ]]; then
-    support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+    support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
   fi
   if [[ -f "$OCTON_DIR/instance/governance/support-targets.yml" ]]; then
     host_support_status="$(adapter_status "host_adapters" "$host_adapter")"
@@ -1485,9 +1485,9 @@ write_run_evidence_expansion() {
   local summary="$3"
   local recorded_at="$4"
   local decision_id=""
-  local support_tier="repo-local-transitional"
+  local support_tier="repo-local-consequential"
   decision_id="$( [[ -f "$RUNTIME_RUNS_DIR/$run_id.yml" ]] && yq -r '.decision_id // ""' "$RUNTIME_RUNS_DIR/$run_id.yml" 2>/dev/null || printf '' )"
-  support_tier="$(yq -r '.support_tier // "repo-local-transitional"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-transitional')"
+  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
 
   write_replay_manifest_file "$run_id" "$recorded_at"
   write_external_replay_index_file "$run_id" "$recorded_at"
@@ -1720,7 +1720,7 @@ update_run_contract_status() {
   created_at="$( [[ -f "$(runtime_state_path "$run_id")" ]] && yq -r '.created_at // ""' "$(runtime_state_path "$run_id")" 2>/dev/null || printf '' )"
   [[ -n "$created_at" ]] || created_at="$updated_at"
   local support_tier=""
-  support_tier="$( [[ -f "$contract_file" ]] && yq -r '.support_tier // "repo-local-transitional"' "$contract_file" 2>/dev/null || printf 'repo-local-transitional' )"
+  support_tier="$( [[ -f "$contract_file" ]] && yq -r '.support_tier // "repo-local-consequential"' "$contract_file" 2>/dev/null || printf 'repo-local-consequential' )"
   write_run_manifest_file "$run_id" "$created_at" "$updated_at" "$mission_id" "$parent_run_id" "$support_tier"
   write_runtime_state_file "$run_id" "$projection_status" "$created_at" "$updated_at" "$mission_id" "$parent_run_id" "$(orchestration_receipt_relpath "$run_id")"
   write_rollback_posture_file "$run_id" "$updated_at"
@@ -1841,7 +1841,7 @@ case "$cmd" in
     status="running"
     risk_class="low"
     reversibility_class="reversible"
-    support_tier="repo-local-transitional"
+    support_tier="repo-local-consequential"
     while [[ $# -gt 0 ]]; do
       case "$1" in
         --run-id) run_id="$2"; shift 2 ;;

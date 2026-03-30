@@ -10,7 +10,7 @@ Canonical families:
 - `shadow-runs/**` for retained shadow execution reports
 - `faults/**` for retained fault rehearsal and recovery evidence
 - `benchmarks/**` for benchmark measurement bundles
-- `harness-cards/**` for system-level support, benchmark, and release claims
+- `harness-cards/**` for historical lab-local HarnessCard mirrors only
 - `evaluator-reviews/**` for independent benchmark and release review records
 
 Lab evidence is retained, replay-friendly, and non-authoritative.

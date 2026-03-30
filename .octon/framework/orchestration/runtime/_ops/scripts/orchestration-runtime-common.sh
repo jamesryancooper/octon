@@ -18,6 +18,8 @@ orchestration_runtime_init() {
   RUNTIME_DIR="$OCTON_DIR/framework/orchestration/runtime"
   DECISIONS_DIR="$OCTON_DIR/state/evidence/decisions/repo"
   RUN_EVIDENCE_ROOT="$OCTON_DIR/state/evidence/runs"
+  RUN_DISCLOSURE_ROOT="$OCTON_DIR/state/evidence/disclosure/runs"
+  RELEASE_DISCLOSURE_ROOT="$OCTON_DIR/state/evidence/disclosure/releases"
   RUN_CONTINUITY_ROOT="$OCTON_DIR/state/continuity/runs"
   CONTROL_EVIDENCE_ROOT="$OCTON_DIR/state/evidence/control/execution"
   EXTERNAL_EVIDENCE_INDEX_ROOT="$OCTON_DIR/state/evidence/external-index"

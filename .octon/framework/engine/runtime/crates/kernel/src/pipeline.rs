@@ -9,7 +9,7 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use time::format_description;
 
-use crate::authorization::{
+use octon_authority_engine::{
     authorize_execution, build_executor_command, default_autonomy_context, finalize_execution,
     now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, with_authority_env_metadata, write_execution_start,
     ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec, ManagedExecutorKind,
@@ -28,6 +28,7 @@ const WORKFLOW_REPORTS_ROOT_REL: &str = ".octon/state/evidence/runs/workflows";
 #[derive(Debug, Clone)]
 pub struct RunPipelineOptions {
     pub pipeline_id: String,
+    pub run_id: Option<String>,
     pub mission_id: Option<String>,
     pub executor: ExecutorKind,
     pub executor_bin: Option<PathBuf>,
@@ -603,8 +604,12 @@ fn run_generic_pipeline(
             )
         })
         .transpose()?;
+    let request_id = match options.run_id.as_deref() {
+        Some(value) => validate_run_id(value)?,
+        None => new_request_id("workflow"),
+    };
     let workflow_request = ExecutionRequest {
-        request_id: new_request_id("workflow"),
+        request_id,
         caller_path: "workflow".to_string(),
         action_type: if options.prepare_only {
             "prepare_workflow".to_string()
@@ -1396,6 +1401,32 @@ fn new_request_id(prefix: &str) -> String {
     format!("{prefix}-{millis}-{}", std::process::id())
 }
 
+fn validate_run_id(input: &str) -> Result<String> {
+    let trimmed = input.trim();
+    if trimmed.is_empty() {
+        bail!("workflow --run-id must not be empty");
+    }
+    if trimmed.len() > 128 {
+        bail!("workflow --run-id must be 128 characters or fewer");
+    }
+    if trimmed == "." || trimmed == ".." {
+        bail!("workflow --run-id must not be a dot-segment");
+    }
+    if trimmed.contains('/') || trimmed.contains('\\') {
+        bail!("workflow --run-id must not contain path separators");
+    }
+    if !trimmed
+        .chars()
+        .all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-')
+    {
+        bail!("workflow --run-id must match ^[a-z0-9-]+$");
+    }
+    if trimmed.starts_with('-') || trimmed.ends_with('-') || trimmed.contains("--") {
+        bail!("workflow --run-id must use canonical hyphen-separated segments");
+    }
+    Ok(trimmed.to_string())
+}
+
 fn slugify(input: &str) -> String {
     let mut out = String::with_capacity(input.len());
     let mut prev_dash = false;
@@ -1465,8 +1496,12 @@ mod tests {
             .expect("create evidence root");
         fs::create_dir_all(octon_dir.join("instance/charter"))
             .expect("create workspace charter root");
+        fs::create_dir_all(octon_dir.join("instance/governance"))
+            .expect("create governance root");
         fs::create_dir_all(octon_dir.join("framework/capabilities/governance/policy"))
             .expect("create policy root");
+        fs::create_dir_all(octon_dir.join("framework/capabilities/_ops/scripts"))
+            .expect("create ACP ops root");
         fs::write(
             octon_dir.join("instance/charter/workspace.yml"),
             "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
@@ -1482,6 +1517,16 @@ mod tests {
             octon_dir.join("framework/capabilities/governance/policy/deny-by-default.v2.yml"),
         )
         .expect("copy ACP policy");
+        fs::copy(
+            source_repo_root().join(".octon/framework/capabilities/_ops/scripts/policy-receipt-write.sh"),
+            octon_dir.join("framework/capabilities/_ops/scripts/policy-receipt-write.sh"),
+        )
+        .expect("copy ACP receipt writer");
+        fs::copy(
+            source_repo_root().join(".octon/instance/governance/support-targets.yml"),
+            octon_dir.join("instance/governance/support-targets.yml"),
+        )
+        .expect("copy support targets");
 
         fs::write(
             octon_dir.join("orchestration/runtime/workflows/manifest.yml"),
@@ -1602,7 +1647,7 @@ stages:
         .expect("write mission autonomy policy");
         fs::write(
             octon_dir.join("instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-transitional\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
         )
         .expect("write ownership registry");
         fs::copy(
@@ -1726,6 +1771,7 @@ stages:
             &octon_dir,
             RunPipelineOptions {
                 pipeline_id: "sample-workflow".to_string(),
+                run_id: None,
                 mission_id: Some("sample-mission".to_string()),
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
@@ -1767,6 +1813,47 @@ stages:
     }
 
     #[test]
+    fn validate_run_id_accepts_canonical_value() {
+        let run_id = validate_run_id("workflow-20260330-1").expect("canonical run id should pass");
+        assert_eq!(run_id, "workflow-20260330-1");
+    }
+
+    #[test]
+    fn validate_run_id_rejects_path_traversal() {
+        let error = validate_run_id("../escape").expect_err("path traversal must fail");
+        assert!(error
+            .to_string()
+            .contains("must not contain path separators"));
+    }
+
+    #[test]
+    fn generic_workflow_rejects_invalid_run_id() {
+        let root = make_temp_root("invalid-run-id");
+        let octon_dir = seed_generic_workflow_fixture(&root);
+
+        let error = run_pipeline_from_octon_dir(
+            &octon_dir,
+            RunPipelineOptions {
+                pipeline_id: "sample-workflow".to_string(),
+                run_id: Some("../escape".to_string()),
+                mission_id: None,
+                executor: ExecutorKind::Mock,
+                executor_bin: None,
+                output_slug: Some("invalid-run-id".to_string()),
+                model: None,
+                prepare_only: false,
+                input_overrides: HashMap::new(),
+            },
+        )
+        .expect_err("invalid run id must fail before execution");
+
+        assert!(error
+            .to_string()
+            .contains("must not contain path separators"));
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
     fn generic_workflow_without_mission_id_stays_human_only() {
         let root = make_temp_root("human-only");
         let octon_dir = seed_generic_workflow_fixture(&root);
@@ -1775,6 +1862,7 @@ stages:
             &octon_dir,
             RunPipelineOptions {
                 pipeline_id: "sample-workflow".to_string(),
+                run_id: None,
                 mission_id: None,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
@@ -1806,6 +1894,7 @@ stages:
             &octon_dir,
             RunPipelineOptions {
                 pipeline_id: "sample-workflow".to_string(),
+                run_id: None,
                 mission_id: Some("sample-mission".to_string()),
                 executor: ExecutorKind::Auto,
                 executor_bin: None,
@@ -1843,6 +1932,7 @@ stages:
             &octon_dir,
             RunPipelineOptions {
                 pipeline_id: "sample-workflow".to_string(),
+                run_id: None,
                 mission_id: Some("sample-mission".to_string()),
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
