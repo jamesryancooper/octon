@@ -23,21 +23,21 @@ path while implementing it.
 Read these before making changes:
 
 1. `/.octon/instance/ingress/AGENTS.md`
-2. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/README.md`
-3. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/architecture/target-architecture.md`
-4. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/resources/implementation-audit.md`
-5. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/resources/closure-certification-baseline.md`
-6. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/resources/current-state-gap-analysis.md`
-7. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/resources/final-remediation-ledger.md`
-8. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/resources/closure-manifest-spec.md`
-9. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/resources/de-hosting-authority-closeout.md`
-10. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/resources/support-target-runtime-disclosure-shim-proof.md`
-11. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/architecture/implementation-plan.md`
-12. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/architecture/acceptance-criteria.md`
-13. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/architecture/validation-plan.md`
-14. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/navigation/source-of-truth-map.md`
-15. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/navigation/change-map.md`
-16. `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/architecture/cutover-checklist.md`
+2. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/README.md`
+3. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/architecture/target-architecture.md`
+4. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/resources/implementation-audit.md`
+5. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/resources/closure-certification-baseline.md`
+6. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/resources/current-state-gap-analysis.md`
+7. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/resources/final-remediation-ledger.md`
+8. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/resources/closure-manifest-spec.md`
+9. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/resources/de-hosting-authority-closeout.md`
+10. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/resources/support-target-runtime-disclosure-shim-proof.md`
+11. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/architecture/implementation-plan.md`
+12. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/architecture/acceptance-criteria.md`
+13. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/architecture/validation-plan.md`
+14. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/navigation/source-of-truth-map.md`
+15. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/navigation/change-map.md`
+16. `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/architecture/cutover-checklist.md`
 17. `/.octon/instance/governance/support-targets.yml`
 18. `/.octon/instance/governance/disclosure/harness-card.yml`
 19. `/.octon/framework/constitution/contracts/registry.yml`
@@ -343,7 +343,7 @@ Exit gate:
 Do not stop until all of the following are true:
 
 - every criterion in
-  `/.octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover/architecture/acceptance-criteria.md`
+  `/.octon/inputs/exploratory/proposals/.archive/architecture/unified-execution-constitution-closure-certification-cutover/architecture/acceptance-criteria.md`
   is green
 - the migration plan and evidence bundle exist at the required canonical paths
 - the closure manifest governs release wording and HarnessCard wording exactly

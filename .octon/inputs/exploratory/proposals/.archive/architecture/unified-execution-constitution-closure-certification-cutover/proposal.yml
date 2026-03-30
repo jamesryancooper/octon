@@ -4,7 +4,7 @@ title: "Unified Execution Constitution Closure Certification Cutover"
 summary: "Land one final atomic, clean-break closure-certification cutover that bounds Octon's unified execution constitution claim to its declared supported envelope and makes that claim release-blocked by canonical authority routing, universal run-bundle proof, executable support-target tests, disclosure parity, shim independence, and build-to-delete evidence."
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
-status: "in-review"
+status: "archived"
 cutover_style:
   - "atomic"
   - "clean-break"
@@ -25,6 +25,14 @@ promotion_targets:
   - ".octon/state/control/execution/runs/"
   - ".octon/state/evidence/disclosure/"
   - ".octon/state/evidence/validation/publication/build-to-delete/"
+archive:
+  archived_at: "2026-03-30"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/unified-execution-constitution-closure-certification-cutover"
+  promotion_evidence:
+    - ".octon/state/evidence/migration/2026-03-30-unified-execution-constitution-closure-certification-cutover/bundle.yml"
+    - ".octon/state/evidence/migration/2026-03-30-unified-execution-constitution-closure-certification-cutover/evidence.md"
 lifecycle:
   temporary: true
   exit_expectation: "Promote the bounded closure manifest, release-blocking validators, disclosure-parity rules, shim-independence proof, and retirement evidence into durable .octon/** surfaces; treat repo-local CI/workflow bindings as downstream non-authoritative projections; cut the certification release; and archive this packet after landing."
