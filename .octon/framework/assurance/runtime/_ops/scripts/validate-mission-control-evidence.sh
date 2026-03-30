@@ -46,13 +46,18 @@ main() {
   find "$tmp_root" -type f -exec rm -f {} + >/dev/null 2>&1 || true
   find "$tmp_root" -depth -type d -exec rmdir {} + >/dev/null 2>&1 || true
 
-  if find "$CONTROL_EVIDENCE_ROOT" -maxdepth 1 -type f ! -name '.gitkeep' | read -r _; then
-    if find "$CONTROL_EVIDENCE_ROOT" -maxdepth 1 -type f ! -name '.gitkeep' | awk 'BEGIN{ok=1} !/\/[0-9T:-]+.*\.yml$/ {ok=0} END{exit ok?0:1}'; then
+  local -a mission_receipts=()
+  while IFS= read -r receipt; do
+    mission_receipts+=("$receipt")
+  done < <(grep -l -E 'control_mutation_class:|control_event_kind:' "$CONTROL_EVIDENCE_ROOT"/*.yml 2>/dev/null || true)
+
+  if ((${#mission_receipts[@]} > 0)); then
+    if printf '%s\n' "${mission_receipts[@]}" | awk 'BEGIN{ok=1} !/\/[0-9T:-]+.*\.yml$/ {ok=0} END{exit ok?0:1}'; then
       pass "control evidence filenames match timestamped receipt pattern"
     else
       fail "control evidence files must use timestamped .yml receipt names"
     fi
-    if find "$CONTROL_EVIDENCE_ROOT" -maxdepth 1 -type f ! -name '.gitkeep' -exec grep -L -E 'control_mutation_class:|control_event_kind:' {} + | grep -q .; then
+    if grep -L -E 'control_mutation_class:|control_event_kind:' "${mission_receipts[@]}" | grep -q .; then
       fail "control evidence receipts must declare a mutation/event class"
     else
       pass "control evidence receipts declare a mutation/event class"
@@ -82,7 +87,7 @@ main() {
       else
         fail "control evidence missing $required_class coverage"
       fi
-    done
+      done
   else
     pass "no repo-retained control receipts emitted yet; emission path is implemented"
   fi

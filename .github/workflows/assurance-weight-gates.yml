@@ -54,6 +54,8 @@ jobs:
         uses: swatinem/rust-cache@v2
         with:
           cache-bin: true
+          workspaces: |
+            .octon/framework/engine/runtime/crates -> target
 
       - name: Resolve baseline files
         shell: bash

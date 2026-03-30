@@ -32,7 +32,13 @@ require_text() {
   local needle="$1"
   local file="$2"
   local label="$3"
-  if rg -Fq "$needle" "$file"; then
+  if command -v rg >/dev/null 2>&1; then
+    if rg -Fq "$needle" "$file"; then
+      pass "$label"
+    else
+      fail "$label"
+    fi
+  elif grep -Fq -- "$needle" "$file"; then
     pass "$label"
   else
     fail "$label"
