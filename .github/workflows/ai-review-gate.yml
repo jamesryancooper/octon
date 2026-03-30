@@ -234,10 +234,13 @@ jobs:
           decision_file=".octon/generated/.tmp/ai-gate/decision.json"
           control_json=".octon/generated/.tmp/ai-gate/authority.json"
           decision="$(jq -r '.decision' "${decision_file}")"
+          gate_pass="$(jq -r '.gate_pass' "${decision_file}")"
           blockers="$(jq -r '.blockers_total' "${decision_file}")"
           status="granted"
 
-          if [[ "${blockers}" -gt 0 ]]; then
+          if [[ "${gate_pass}" != "true" ]]; then
+            status="denied"
+          elif [[ "${blockers}" -gt 0 ]]; then
             status="staged"
           fi
 

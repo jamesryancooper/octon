@@ -1493,6 +1493,8 @@ write_run_evidence_expansion() {
   write_external_replay_index_file "$run_id" "$recorded_at"
   write_replay_pointer_file "$run_id" "$recorded_at"
   write_trace_pointer_file "$run_id" "$recorded_at"
+  write_evidence_classification_file "$run_id" "$recorded_at"
+  write_retained_evidence_file "$run_id" "$recorded_at"
   write_proof_report_file \
     "$run_id" \
     "structural" \
@@ -1519,7 +1521,6 @@ write_run_evidence_expansion() {
   if [[ -n "$decision_id" ]]; then
     write_run_card_file "$run_id" "$status" "$summary" "$recorded_at" "$decision_id"
   fi
-  write_evidence_classification_file "$run_id" "$recorded_at"
   write_retained_evidence_file "$run_id" "$recorded_at"
   write_run_continuity_file "$run_id" "$status" "$recorded_at"
 }
@@ -2012,6 +2013,12 @@ PY
     run_json="$(yq -o=json '.' "$run_file" | jq --arg status "$status" --arg summary "$summary" --arg completed_at "$completed_at" '.status=$status | .summary=$summary | .completed_at=$completed_at')"
     printf '%s\n' "$run_json" | yq -P -p=json '.' > "$run_file"
     update_run_contract_status "$run_id" "$status" "$completed_at"
+    if [[ -f "$(external_replay_index_path "$run_id")" ]]; then
+      run_json="$(yq -o=json '.' "$run_file" | jq --arg external_replay_index_path "$(external_replay_index_relpath "$run_id")" '.external_replay_index_path=$external_replay_index_path')"
+    else
+      run_json="$(yq -o=json '.' "$run_file" | jq 'del(.external_replay_index_path)')"
+    fi
+    printf '%s\n' "$run_json" | yq -P -p=json '.' > "$run_file"
     workflow_group="$(yq -r '.workflow_ref.workflow_group // ""' "$run_file")"
     workflow_id="$(yq -r '.workflow_ref.workflow_id // ""' "$run_file")"
     mission_id="$(yq -r '.mission_id // ""' "$run_file")"
