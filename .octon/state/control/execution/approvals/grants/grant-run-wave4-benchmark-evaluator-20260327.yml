@@ -6,6 +6,7 @@ state: "active"
 issued_by: "operator://octon-governance"
 issued_at: "2026-03-29T02:59:14Z"
 expires_at: null
+quorum_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
 projection_sources:
   - kind: "historical-backfill"
     ref: "operator://phase2/authority-backfill/run-wave4"

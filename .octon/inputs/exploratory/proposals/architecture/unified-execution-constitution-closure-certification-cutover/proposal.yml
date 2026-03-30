@@ -1,0 +1,30 @@
+schema_version: "proposal-v1"
+proposal_id: "unified-execution-constitution-closure-certification-cutover"
+title: "Unified Execution Constitution Closure Certification Cutover"
+summary: "Land one final atomic, clean-break closure-certification cutover that bounds Octon's unified execution constitution claim to its declared supported envelope and makes that claim release-blocked by canonical authority routing, universal run-bundle proof, executable support-target tests, disclosure parity, shim independence, and build-to-delete evidence."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+status: "in-review"
+cutover_style:
+  - "atomic"
+  - "clean-break"
+  - "repo-wide"
+  - "pre-1.0"
+  - "closure-certification"
+related_proposals:
+  - "mission-scoped-reversible-autonomy-final-closeout-cutover"
+  - "self-audit-and-release-hardening"
+  - "validation-fail-closed-quarantine-staleness"
+promotion_targets:
+  - ".octon/instance/governance/closure/"
+  - ".octon/instance/governance/disclosure/harness-card.yml"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/framework/assurance/governance/"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/engine/runtime/adapters/host/"
+  - ".octon/state/control/execution/runs/"
+  - ".octon/state/evidence/disclosure/"
+  - ".octon/state/evidence/validation/publication/build-to-delete/"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promote the bounded closure manifest, release-blocking validators, disclosure-parity rules, shim-independence proof, and retirement evidence into durable .octon/** surfaces; treat repo-local CI/workflow bindings as downstream non-authoritative projections; cut the certification release; and archive this packet after landing."

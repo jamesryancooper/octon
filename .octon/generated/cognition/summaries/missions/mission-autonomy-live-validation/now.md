@@ -10,7 +10,7 @@ generated_from:
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/autonomy-budget.yml
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/circuit-breakers.yml
   - .octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml
-generated_at: "2026-03-30T00:28:24Z"
+generated_at: "2026-03-30T13:26:31Z"
 generator_version: "0.6.8"
 ---
 
@@ -31,5 +31,5 @@ generator_version: "0.6.8"
 - autonomy_budget_state: `healthy`
 - breaker_state: `clear`
 - recovery_window: `P30D`
-- scenario_route_generated_at: `2026-03-30T00:28:24Z`
-- scenario_route_fresh_until: `2026-03-30T00:43:24Z`
+- scenario_route_generated_at: `2026-03-30T13:26:31Z`
+- scenario_route_fresh_until: `2026-03-30T13:41:31Z`
