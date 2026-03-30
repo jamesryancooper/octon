@@ -55,13 +55,43 @@ create_fixture() {
   cleanup_paths+=("$fixture_root")
 
   mkdir -p "$fixture_root/.octon/framework/orchestration/runtime"
+  mkdir -p "$fixture_root/.octon/framework/cognition/_meta/architecture"
+  mkdir -p "$fixture_root/.octon/instance/governance/contracts"
   mkdir -p "$fixture_root/.octon/state/evidence/decisions/repo"
+  mkdir -p "$fixture_root/.octon/state/evidence/lab"
   mkdir -p "$fixture_root/.octon/state/evidence/runs"
 
   cp -R "$REPO_ROOT/.octon/framework/orchestration/runtime" "$fixture_root/.octon/framework/orchestration/"
+  cp -R "$REPO_ROOT/.octon/framework/assurance" "$fixture_root/.octon/framework/"
+  cp -R "$REPO_ROOT/.octon/framework/lab" "$fixture_root/.octon/framework/"
+  cp -R "$REPO_ROOT/.octon/framework/constitution" "$fixture_root/.octon/framework/"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/contract-registry.yml" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  cp "$REPO_ROOT/.octon/instance/governance/support-targets.yml" \
+    "$fixture_root/.octon/instance/governance/support-targets.yml"
+  cp "$REPO_ROOT/.octon/instance/governance/contracts/disclosure-retention.yml" \
+    "$fixture_root/.octon/instance/governance/contracts/disclosure-retention.yml"
   cp "$REPO_ROOT/.octon/state/evidence/decisions/repo/README.md" "$fixture_root/.octon/state/evidence/decisions/repo/README.md"
   cp "$REPO_ROOT/.octon/state/evidence/decisions/repo/retention.json" "$fixture_root/.octon/state/evidence/decisions/repo/retention.json"
+  cp -R "$REPO_ROOT/.octon/state/evidence/lab/." "$fixture_root/.octon/state/evidence/lab/"
   cp "$REPO_ROOT/.octon/state/evidence/runs/README.md" "$fixture_root/.octon/state/evidence/runs/README.md"
+
+  # Keep the fixture isolated from committed live run projections.
+  find "$fixture_root/.octon/framework/orchestration/runtime/runs" \
+    -mindepth 1 \
+    -maxdepth 1 \
+    ! -name 'README.md' \
+    ! -name 'index.yml' \
+    ! -name '.gitkeep' \
+    -exec rm -rf {} +
+  mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/workflows"
+  mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/missions"
+  mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/automations"
+  mkdir -p "$fixture_root/.octon/framework/orchestration/runtime/runs/by-surface/incidents"
+  cat > "$fixture_root/.octon/framework/orchestration/runtime/runs/index.yml" <<'EOF'
+schema_version: "orchestration-runs-index-v1"
+runs: []
+EOF
 
   printf '%s\n' "$fixture_root"
 }
