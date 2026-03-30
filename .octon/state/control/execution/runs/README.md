@@ -14,8 +14,10 @@ This root is the primary execution-time unit of truth:
   control root
 - mutable resumability and handoff continuity belongs under the matching
   `state/continuity/runs/<run-id>/` root
-- assurance, measurement, intervention, replay, and disclosure evidence belong
-  under the matching retained run evidence root
+- assurance, measurement, intervention, and replay evidence belong under the
+  matching retained run evidence root
+- canonical run disclosure lives under the matching
+  `state/evidence/disclosure/runs/<run-id>/` root
 - mission remains the continuity and long-horizon autonomy container, but it
   consumes run evidence instead of substituting for it
 

@@ -4138,6 +4138,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "octon_authority_engine"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "octon_core",
+ "octon_wasm_host",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha2",
+ "time",
+]
+
+[[package]]
 name = "octon_core"
 version = "1.0.0"
 dependencies = [
@@ -4163,6 +4177,7 @@ dependencies = [
  "anyhow",
  "clap",
  "hex",
+ "octon_authority_engine",
  "octon_core",
  "octon_wasm_host",
  "serde",

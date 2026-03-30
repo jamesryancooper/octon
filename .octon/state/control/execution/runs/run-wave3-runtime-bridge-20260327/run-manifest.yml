@@ -11,7 +11,7 @@ receipt_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/recei
 assurance_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/assurance
 measurement_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/measurements
 intervention_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/interventions
-disclosure_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/disclosure
+disclosure_root: .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327
 retained_evidence_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/retained-run-evidence.yml
 replay_pointers_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
 trace_pointers_ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/trace-pointers.yml

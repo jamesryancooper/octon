@@ -54,9 +54,20 @@ amendment_policy:
     - "documented rationale"
     - "documented rollback posture"
 review_cadence: "quarterly and on each material constitutional change"
-adoption_state:
+live_model:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  atomic_mode: "clean-break"
+  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"
+  consequential_execution_unit: "run-contract"
+  authority_engine: "runtime-consumed"
+  disclosure_roots:
+    authored: ".octon/instance/governance/disclosure/**"
+    runs: ".octon/state/evidence/disclosure/runs/**"
+    releases: ".octon/state/evidence/disclosure/releases/**"
+historical_adoption_lineage:
+  status: "historical-non-live"
   wave: 6
-  change_profile: "transitional"
   staged_cutovers:
     run_contract_requirement: "wave-1"
     authority_artifact_normalization: "wave-2-active"

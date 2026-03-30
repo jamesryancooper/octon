@@ -104,6 +104,13 @@ integration_surfaces:
   disclosure_contract_family:
     root: ".octon/framework/constitution/contracts/disclosure/**"
     status: "active"
+  governance_disclosure_source:
+    path: ".octon/instance/governance/disclosure/**"
+    status: "active"
+  retained_disclosure_roots:
+    runs: ".octon/state/evidence/disclosure/runs/**"
+    releases: ".octon/state/evidence/disclosure/releases/**"
+    status: "active"
   adapter_contract_family:
     root: ".octon/framework/constitution/contracts/adapters/**"
     status: "active"
@@ -127,6 +134,9 @@ integration_surfaces:
     status: "active"
   run_evidence_root:
     path: ".octon/state/evidence/runs/**"
+    status: "active"
+  disclosure_evidence_root:
+    path: ".octon/state/evidence/disclosure/**"
     status: "active"
   external_evidence_index_root:
     path: ".octon/state/evidence/external-index/**"

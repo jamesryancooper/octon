@@ -252,7 +252,7 @@ jobs:
             --action-type "github-ai-review-gate" \
             --issued-by "github://workflow/ai-review-gate" \
             --status "${status}" \
-            --support-tier "repo-local-transitional" \
+            --support-tier "repo-local-consequential" \
             --workflow-mode "human-only" \
             --required-evidence "ai-review-gate-decision" \
             --required-evidence "provider-findings" \

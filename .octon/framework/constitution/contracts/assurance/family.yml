@@ -20,14 +20,14 @@ proof_planes:
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "deterministic-run-proof"
     blocking_support_tiers:
-      - "repo-local-transitional"
+      - "repo-local-consequential"
       - "release-and-boundary-sensitive"
   behavioral:
     root: ".octon/framework/assurance/behavioral"
     suites_root: ".octon/framework/assurance/behavioral/suites"
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     blocking_support_tiers:
-      - "repo-local-transitional"
+      - "repo-local-consequential"
     required_evidence_classes:
       - "lab-scenario"
       - "replay"
@@ -39,7 +39,7 @@ proof_planes:
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "architecture-health"
     blocking_support_tiers:
-      - "repo-local-transitional"
+      - "repo-local-consequential"
       - "release-and-boundary-sensitive"
   recovery:
     root: ".octon/framework/assurance/recovery"
@@ -47,7 +47,7 @@ proof_planes:
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "checkpoint-and-rollback-proof"
     blocking_support_tiers:
-      - "repo-local-transitional"
+      - "repo-local-consequential"
   evaluators:
     root: ".octon/framework/assurance/evaluators"
     adapter_registry_ref: ".octon/framework/assurance/evaluators/adapters/registry.yml"
@@ -73,4 +73,4 @@ retained_run_extensions:
     - "assurance/**"
     - "measurements/**"
     - "interventions/**"
-    - "disclosure/**"
+  canonical_disclosure_root: ".octon/state/evidence/disclosure/runs"

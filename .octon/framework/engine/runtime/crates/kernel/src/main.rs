@@ -1,4 +1,3 @@
-mod authorization;
 mod context;
 mod orchestration;
 mod pipeline;
@@ -6,7 +5,7 @@ mod scaffold;
 mod stdio;
 mod workflow;
 
-use crate::authorization::{
+use octon_authority_engine::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
     with_authority_env_metadata, write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
     ScopeConstraints, SideEffectFlags, SideEffectSummary,
@@ -114,7 +113,10 @@ enum WorkflowCmd {
     Run {
         /// Canonical workflow id.
         workflow_id: String,
-        /// Mission id required for autonomous workflow execution.
+        /// Optional explicit canonical run id override.
+        #[arg(long = "run-id")]
+        run_id: Option<String>,
+        /// Optional mission id for continuity-backed autonomous execution.
         #[arg(long = "mission-id")]
         mission_id: Option<String>,
         /// Input override in the form key=value. Repeatable.
@@ -732,6 +734,7 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
         }
         WorkflowCmd::Run {
             workflow_id,
+            run_id,
             mission_id,
             set,
             executor,
@@ -745,6 +748,7 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
                 &octon_dir,
                 RunPipelineOptions {
                     pipeline_id: workflow_id,
+                    run_id,
                     mission_id,
                     executor,
                     executor_bin: executor_bin.map(Into::into),

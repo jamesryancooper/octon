@@ -1,4 +1,7 @@
 # Harness Cards
 
-HarnessCards disclose system-level support, benchmark, and release claims from
-support-target-backed retained evidence.
+This directory retains historical lab-local HarnessCard mirrors.
+
+Canonical authored HarnessCards now live under
+`/.octon/instance/governance/disclosure/`, and canonical retained release
+disclosure lives under `/.octon/state/evidence/disclosure/releases/**`.

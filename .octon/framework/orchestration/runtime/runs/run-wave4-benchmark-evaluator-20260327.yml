@@ -14,7 +14,7 @@ receipt_root: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/
 assurance_root: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance
 measurements_root: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/measurements
 interventions_root: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/interventions
-run_card_path: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/disclosure/run-card.yml
+run_card_path: .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml
 replay_pointers_path: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay-pointers.yml
 trace_pointers_path: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/trace-pointers.yml
 evidence_classification_path: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/evidence-classification.yml

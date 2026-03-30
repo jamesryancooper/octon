@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/quorum-policy-v1.schema.json",
+  "title": "Octon Quorum Policy v1",
+  "description": "Canonical quorum-policy contract for approval-bearing authority routes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "policy_ref",
+    "quorum_levels"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "authority-quorum-policy-v1"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "policy_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "quorum_levels": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "required",
+          "rules"
+        ],
+        "properties": {
+          "required": {
+            "type": [
+              "integer",
+              "string"
+            ]
+          },
+          "rules": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

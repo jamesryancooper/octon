@@ -3,13 +3,13 @@ scenario_id: scn-wave4-benchmark-disclosure-20260327
 purpose: Validate benchmark disclosure for a higher-scrutiny support tier with approved evaluator review.
 subject_refs:
   - .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
-  - .octon/state/evidence/lab/harness-cards/hc-wave4-benchmark-disclosure-20260327.yml
+  - .octon/state/evidence/disclosure/releases/archive-wave4-benchmark-disclosure-20260327/harness-card.yml
 procedure:
   - Read the benchmark run contract, retained run evidence, and RunCard.
   - Confirm maintainability, replay, and evaluator evidence are present before benchmark disclosure.
   - Verify the benchmark HarnessCard stays bounded by the support-target declaration and approved evaluator review.
 evidence_refs:
-  - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/disclosure/run-card.yml
+  - .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml
   - .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/maintainability.yml
   - .octon/state/evidence/lab/benchmarks/bmk-wave4-disclosure-parity-20260327/summary.yml
   - .octon/state/evidence/lab/evaluator-reviews/evr-wave4-benchmark-disclosure-20260327.yml

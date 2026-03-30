@@ -3,8 +3,8 @@ family_id: "disclosure"
 status: "active"
 activation_wave: 4
 release_state: "pre-1.0"
-change_profile: "transitional"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-28-wave6-retirement-cutover/plan.md"
+change_profile: "atomic"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"
 authority_rules:
   subordinate_to:
     - ".octon/state/control/execution/runs/<run-id>/run-contract.yml"
@@ -15,9 +15,10 @@ authority_rules:
     widen, revoke, or replace durable authority.
 run_card:
   schema_ref: ".octon/framework/constitution/contracts/disclosure/run-card-v1.schema.json"
-  evidence_root: ".octon/state/evidence/runs"
-  canonical_file: "disclosure/run-card.yml"
-  projection_file: "disclosure/run-card.md"
+  evidence_root: ".octon/state/evidence/disclosure/runs"
+  canonical_file: "run-card.yml"
+  projection_file: "run-card.md"
+  historical_mirror_root: ".octon/state/evidence/runs/<run-id>/disclosure"
   required_refs:
     - "run-contract"
     - "decision-artifact"
@@ -30,9 +31,11 @@ run_card:
     - "replay"
 harness_card:
   schema_ref: ".octon/framework/constitution/contracts/disclosure/harness-card-v1.schema.json"
-  evidence_root: ".octon/state/evidence/lab/harness-cards"
-  canonical_file_pattern: "<card-id>.yml"
-  projection_file_pattern: "<card-id>.md"
+  authored_source_ref: ".octon/instance/governance/disclosure/harness-card.yml"
+  evidence_root: ".octon/state/evidence/disclosure/releases"
+  canonical_file_pattern: "<release-id>/harness-card.yml"
+  projection_file_pattern: "<release-id>/harness-card.md"
+  historical_mirror_root: ".octon/state/evidence/lab/harness-cards"
   required_refs:
     - "support-target-declaration"
     - "adapter-support"

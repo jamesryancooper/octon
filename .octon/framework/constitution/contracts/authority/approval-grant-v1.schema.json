@@ -44,6 +44,12 @@
     "expires_at": {
       "type": ["string", "null"]
     },
+    "quorum_policy_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "projection_sources": {
       "type": "array",
       "items": {
