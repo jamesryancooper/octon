@@ -1,0 +1,60 @@
+{
+  "request": {
+    "action_type": "execute_workflow",
+    "actor_ref": null,
+    "autonomy_context": null,
+    "caller_path": "workflow",
+    "environment_hint": null,
+    "intent_ref": null,
+    "locality_scope": null,
+    "metadata": {
+      "workflow_id": "audit-architecture-proposal"
+    },
+    "parent_run_ref": null,
+    "policy_mode_requested": null,
+    "request_id": "uec-audit-architecture-20260331-2",
+    "requested_capabilities": [
+      "workflow.execute",
+      "evidence.write"
+    ],
+    "review_requirements": {
+      "human_approval": false,
+      "quorum": false,
+      "rollback_metadata": false
+    },
+    "risk_tier": "low",
+    "scope_constraints": {
+      "executor_profile": null,
+      "locality_scope": null,
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/analysis",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows"
+      ]
+    },
+    "side_effect_flags": {
+      "branch_mutation": false,
+      "model_invoke": false,
+      "network": false,
+      "publication": false,
+      "shell": false,
+      "state_mutation": false,
+      "write_evidence": true,
+      "write_repo": true
+    },
+    "target_id": "audit-architecture-proposal",
+    "workflow_mode": "human-only"
+  },
+  "resolved_actor_ref": {
+    "id": "octon-kernel",
+    "kind": "system"
+  },
+  "resolved_autonomy_context": null,
+  "resolved_intent_ref": {
+    "id": "intent://octon/octon-governed-harness",
+    "version": "1.1.0"
+  },
+  "schema_version": "execution-request-v2"
+}

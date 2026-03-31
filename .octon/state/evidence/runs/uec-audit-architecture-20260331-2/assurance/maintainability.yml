@@ -1,0 +1,14 @@
+evidence_refs:
+- .octon/framework/assurance/maintainability/suites/runtime-ssot-alignment.yml
+- .octon/framework/constitution/contracts/registry.yml
+- .octon/framework/cognition/_meta/architecture/contract-registry.yml
+- .octon/generated/proposals/registry.yml
+generated_at: 2026-03-31T21:23:37.027213Z
+known_limits: []
+outcome: pass
+plane: maintainability
+proof_class: deterministic
+schema_version: proof-plane-report-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-contract.yml
+summary: Maintainability proof confirms the successful run remains aligned to the constitutional registry, runtime SSOT, and generated proposal registry projection.

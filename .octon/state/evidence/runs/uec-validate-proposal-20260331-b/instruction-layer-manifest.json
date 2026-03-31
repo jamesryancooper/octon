@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-03-31T20:34:07.232245Z",
+  "layers": [
+    {
+      "bytes": 0,
+      "layer_id": "provider",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": "upstream",
+      "visibility": "partial"
+    },
+    {
+      "bytes": 0,
+      "layer_id": "system",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": "octon-system",
+      "visibility": "partial"
+    },
+    {
+      "bytes": 508,
+      "layer_id": "developer",
+      "sha256": "e3cfa0970e341b4b0b6720b126a7f78dd71da432731760147987f9486bc9fe7c",
+      "source": "AGENTS.md",
+      "visibility": "full"
+    },
+    {
+      "bytes": 984,
+      "layer_id": "user",
+      "sha256": "9288439eb38f0149e8c52e6edb277746d625ee1cbfb81050a279460347242ad0",
+      "source": "execution-request",
+      "visibility": "full"
+    }
+  ],
+  "schema_version": "instruction-layer-manifest-v1"
+}

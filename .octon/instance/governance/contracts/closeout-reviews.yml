@@ -1,9 +1,17 @@
-schema_version: "repo-closeout-reviews-v2"
+schema_version: "repo-closeout-reviews-v3"
 review_set_id: "execution-constitution-build-to-delete"
 owner: "Octon governance"
 status: "active"
 evidence_root: ".octon/state/evidence/validation/publication/build-to-delete"
 latest_review_packet: ".octon/state/evidence/validation/publication/build-to-delete/2026-03-30"
+claim_status_matrix_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
+required_checklists:
+  - checklist_id: "claim-readiness"
+    source_ref: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/CLAIM_READINESS_CHECKLIST.md"
+  - checklist_id: "release-promotion"
+    source_ref: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/RELEASE_PROMOTION_CHECKLIST.md"
+  - checklist_id: "brownfield-retrofit"
+    source_ref: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/BROWNFIELD_RETROFIT_CHECKLIST.md"
 required_reviews:
   - review_id: "drift-review"
     contract_ref: ".octon/instance/governance/contracts/drift-review.yml"

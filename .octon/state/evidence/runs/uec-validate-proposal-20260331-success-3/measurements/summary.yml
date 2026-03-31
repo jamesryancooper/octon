@@ -1,0 +1,22 @@
+metrics:
+- label: Retained lifecycle receipts
+  metric_id: receipt-count
+  unit: count
+  value: 1
+- label: Retained checkpoints
+  metric_id: checkpoint-count
+  unit: count
+  value: 3
+- label: Run-local proof-plane reports
+  metric_id: proof-plane-count
+  unit: count
+  value: 7
+- label: Material interventions
+  metric_id: intervention-count
+  unit: count
+  value: 0
+recorded_at: 2026-03-31T21:24:10.910615Z
+schema_version: measurement-summary-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-contract.yml
+summary: Run emitted the canonical receipt, checkpoint, proof-plane, and disclosure families.

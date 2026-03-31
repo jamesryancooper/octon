@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: uec-validate-proposal-20260331-b
+status: failed
+run_contract_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-03-31T20:34:32.440284Z

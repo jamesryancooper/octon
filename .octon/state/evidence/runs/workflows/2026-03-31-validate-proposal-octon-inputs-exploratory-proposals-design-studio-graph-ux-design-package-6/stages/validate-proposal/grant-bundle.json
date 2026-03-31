@@ -1,0 +1,76 @@
+{
+  "grant": {
+    "actor_ref": {
+      "id": "octon-kernel",
+      "kind": "system"
+    },
+    "approval_grant_refs": [],
+    "approval_request_ref": null,
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-validate-proposal-validate-proposal.yml",
+    "autonomy_budget_state": null,
+    "autonomy_context": null,
+    "breaker_state": null,
+    "budget": null,
+    "compensation_handle": null,
+    "decision": "ALLOW",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-validate-proposal-validate-proposal.yml",
+    "effective_policy_mode": "hard-enforce",
+    "environment_class": "development",
+    "exception_lease_refs": [],
+    "expires_after": null,
+    "grant_id": "grant-validate-proposal-validate-proposal",
+    "granted_capabilities": [
+      "workflow.stage.execute",
+      "evidence.write"
+    ],
+    "instruction_manifest_path": ".octon/state/evidence/runs/validate-proposal-validate-proposal/instruction-layer-manifest.json",
+    "intent_ref": {
+      "id": "intent://octon/octon-governed-harness",
+      "version": "1.1.0"
+    },
+    "network_egress_posture": null,
+    "ownership_refs": [
+      "operator://octon-maintainers"
+    ],
+    "policy_digest_path": ".octon/state/evidence/runs/validate-proposal-validate-proposal/receipts/policy-digest.latest.md",
+    "policy_receipt_path": ".octon/state/evidence/runs/validate-proposal-validate-proposal/receipts/policy-receipt.latest.json",
+    "quorum_policy_ref": ".octon/instance/governance/policies/mission-autonomy.yml#quorum",
+    "reason_codes": [
+      "ACP_EVIDENCE_INVALID"
+    ],
+    "receipt_requirements": [
+      "execution-request.json",
+      "policy-decision.json",
+      "grant-bundle.json",
+      "side-effects.json",
+      "outcome.json",
+      "execution-receipt.json"
+    ],
+    "recovery_window": null,
+    "replay_pointers_path": ".octon/state/evidence/runs/validate-proposal-validate-proposal/replay-pointers.yml",
+    "request_id": "validate-proposal-validate-proposal",
+    "retained_evidence_path": ".octon/state/evidence/runs/validate-proposal-validate-proposal/retained-run-evidence.yml",
+    "review_metadata": {},
+    "revocation_refs": [],
+    "rollback_handle": null,
+    "run_control_root": ".octon/state/control/execution/runs/validate-proposal-validate-proposal",
+    "run_receipts_root": ".octon/state/evidence/runs/validate-proposal-validate-proposal/receipts",
+    "run_root": ".octon/state/evidence/runs/validate-proposal-validate-proposal",
+    "scope_constraints": {
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null,
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-03-31-validate-proposal-octon-inputs-exploratory-proposals-design-studio-graph-ux-design-package-6/standard-validator.log",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-03-31-validate-proposal-octon-inputs-exploratory-proposals-design-studio-graph-ux-design-package-6/stages/validate-proposal"
+      ]
+    },
+    "stage_attempt_ref": ".octon/state/control/execution/runs/validate-proposal-validate-proposal/stage-attempts/validate-proposal--initial.yml",
+    "support_tier": "repo-local-consequential",
+    "trace_pointers_path": ".octon/state/evidence/runs/validate-proposal-validate-proposal/trace-pointers.yml",
+    "workflow_mode": "human-only"
+  },
+  "schema_version": "execution-grant-v1"
+}

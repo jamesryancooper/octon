@@ -1,0 +1,61 @@
+{
+  "request": {
+    "action_type": "execute_stage",
+    "actor_ref": null,
+    "autonomy_context": null,
+    "caller_path": "workflow-stage",
+    "environment_hint": null,
+    "intent_ref": null,
+    "locality_scope": null,
+    "metadata": {
+      "stage_id": "validate-proposal",
+      "workflow_id": "validate-proposal"
+    },
+    "parent_run_ref": "validate-proposal",
+    "policy_mode_requested": null,
+    "request_id": "validate-proposal-validate-proposal",
+    "requested_capabilities": [
+      "workflow.stage.execute",
+      "evidence.write"
+    ],
+    "review_requirements": {
+      "human_approval": false,
+      "quorum": false,
+      "rollback_metadata": false
+    },
+    "risk_tier": "low",
+    "scope_constraints": {
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null,
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-03-31-validate-proposal-octon-inputs-exploratory-proposals-design-studio-graph-ux-design-package-6/standard-validator.log",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-03-31-validate-proposal-octon-inputs-exploratory-proposals-design-studio-graph-ux-design-package-6/stages/validate-proposal"
+      ]
+    },
+    "side_effect_flags": {
+      "branch_mutation": false,
+      "model_invoke": false,
+      "network": false,
+      "publication": false,
+      "shell": true,
+      "state_mutation": false,
+      "write_evidence": true,
+      "write_repo": false
+    },
+    "target_id": "validate-proposal::validate-proposal",
+    "workflow_mode": "human-only"
+  },
+  "resolved_actor_ref": {
+    "id": "octon-kernel",
+    "kind": "system"
+  },
+  "resolved_autonomy_context": null,
+  "resolved_intent_ref": {
+    "id": "intent://octon/octon-governed-harness",
+    "version": "1.1.0"
+  },
+  "schema_version": "execution-request-v2"
+}

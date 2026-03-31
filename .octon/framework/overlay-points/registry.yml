@@ -16,6 +16,14 @@ overlay_points:
     precedence: 20
     artifact_kinds:
       - "contract"
+  - overlay_point_id: "instance-governance-adoption"
+    owning_domain: "governance"
+    instance_glob: ".octon/instance/governance/adoption/**"
+    merge_mode: "replace_by_path"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-overlay-points.sh"
+    precedence: 25
+    artifact_kinds:
+      - "playbook"
   - overlay_point_id: "instance-agency-runtime"
     owning_domain: "agency"
     instance_glob: ".octon/instance/agency/runtime/**"

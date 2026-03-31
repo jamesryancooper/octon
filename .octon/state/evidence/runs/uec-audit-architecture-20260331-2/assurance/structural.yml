@@ -1,0 +1,14 @@
+evidence_refs:
+- .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-contract.yml
+- .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-manifest.yml
+- .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/checkpoints/bound.yml
+- .octon/state/continuity/runs/uec-audit-architecture-20260331-2/handoff.yml
+generated_at: 2026-03-31T21:23:37.027213Z
+known_limits: []
+outcome: pass
+plane: structural
+proof_class: deterministic
+schema_version: proof-plane-report-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-contract.yml
+summary: Structural proof confirms the canonical run contract, manifest, and checkpoint topology were emitted for this successful run.

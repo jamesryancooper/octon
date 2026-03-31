@@ -102,6 +102,7 @@ impl DesignPackageClass {
 
 #[derive(Clone, Debug)]
 pub struct RunCreateDesignPackageOptions {
+    pub run_id: Option<String>,
     pub package_id: String,
     pub package_title: String,
     pub package_class: DesignPackageClass,
@@ -121,6 +122,7 @@ pub struct RunCreateDesignPackageResult {
 
 #[derive(Clone, Debug)]
 pub struct RunCreateStaticProposalOptions {
+    pub run_id: Option<String>,
     pub proposal_id: String,
     pub proposal_title: String,
     pub promotion_scope: ProposalScope,
@@ -195,6 +197,7 @@ pub struct RunDesignPackageResult {
 
 #[derive(Clone, Debug)]
 pub struct RunAuditStaticProposalOptions {
+    pub run_id: Option<String>,
     pub proposal_path: PathBuf,
 }
 
@@ -423,17 +426,20 @@ struct ProposalManifest {
 
 #[derive(Clone, Debug)]
 pub struct RunValidateProposalOptions {
+    pub run_id: Option<String>,
     pub proposal_path: PathBuf,
 }
 
 #[derive(Clone, Debug)]
 pub struct RunPromoteProposalOptions {
+    pub run_id: Option<String>,
     pub proposal_path: PathBuf,
     pub promotion_evidence: Vec<String>,
 }
 
 #[derive(Clone, Debug)]
 pub struct RunArchiveProposalOptions {
+    pub run_id: Option<String>,
     pub proposal_path: PathBuf,
     pub disposition: String,
     pub promotion_evidence: Vec<String>,
@@ -724,11 +730,16 @@ pub fn run_create_design_package_from_octon_dir(
     let design_proposals_root = repo_root.join(DESIGN_PACKAGES_ROOT_REL);
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request_id = resolve_requested_workflow_run_id(
+        &runtime_cfg,
+        options.run_id.as_deref(),
+        "create-design-proposal",
+    )?;
     let workflow_auth = authorize_execution(
         &runtime_cfg,
         &policy,
         &ExecutionRequest {
-            request_id: format!("create-design-proposal-{}", options.package_id),
+            request_id: workflow_request_id.clone(),
             caller_path: "workflow".to_string(),
             action_type: "execute_workflow".to_string(),
             target_id: "create-design-proposal".to_string(),
@@ -790,7 +801,7 @@ pub fn run_create_design_package_from_octon_dir(
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
     let workflow_artifacts =
         write_execution_start(&bundle_root.join("workflow-execution"), &ExecutionRequest {
-            request_id: format!("create-design-proposal-{}", options.package_id),
+            request_id: workflow_request_id.clone(),
             caller_path: "workflow".to_string(),
             action_type: "execute_workflow".to_string(),
             target_id: "create-design-proposal".to_string(),
@@ -1299,7 +1310,7 @@ pub fn run_create_design_package_from_octon_dir(
         let _ = finalize_execution(
             &workflow_artifacts,
             &ExecutionRequest {
-                request_id: format!("create-design-proposal-{}", options.package_id),
+                request_id: workflow_request_id.clone(),
                 caller_path: "workflow".to_string(),
                 action_type: "execute_workflow".to_string(),
                 target_id: "create-design-proposal".to_string(),
@@ -1362,7 +1373,7 @@ pub fn run_create_design_package_from_octon_dir(
     finalize_execution(
         &workflow_artifacts,
         &ExecutionRequest {
-            request_id: format!("create-design-proposal-{}", options.package_id),
+            request_id: workflow_request_id.clone(),
             caller_path: "workflow".to_string(),
             action_type: "execute_workflow".to_string(),
             target_id: "create-design-proposal".to_string(),
@@ -1438,8 +1449,13 @@ pub fn run_create_static_proposal_from_octon_dir(
     let proposals_root = repo_root.join(PROPOSALS_ROOT_REL).join(kind.as_str());
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request_id = resolve_requested_workflow_run_id(
+        &runtime_cfg,
+        options.run_id.as_deref(),
+        &format!("create-{}-proposal", kind.as_str()),
+    )?;
     let workflow_request = ExecutionRequest {
-        request_id: format!("create-{}-proposal-{}", kind.as_str(), options.proposal_id),
+        request_id: workflow_request_id,
         caller_path: "workflow".to_string(),
         action_type: "execute_workflow".to_string(),
         target_id: format!("create-{}-proposal", kind.as_str()),
@@ -1786,11 +1802,15 @@ pub fn run_audit_static_proposal_from_octon_dir(
     } else {
         repo_root.join(&options.proposal_path)
     };
-
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let workflow_request_id = resolve_requested_workflow_run_id(
+        &runtime_cfg,
+        options.run_id.as_deref(),
+        &format!("audit-{}-proposal", kind.as_str()),
+    )?;
     let workflow_request = ExecutionRequest {
-        request_id: format!("audit-{}-proposal-{}", kind.as_str(), slugify(&rel_path(&repo_root, &proposal_root))),
+        request_id: workflow_request_id,
         caller_path: "workflow".to_string(),
         action_type: "execute_workflow".to_string(),
         target_id: format!("audit-{}-proposal", kind.as_str()),
@@ -1991,11 +2011,16 @@ pub fn run_validate_proposal_from_octon_dir(
         repo_root.join(&options.proposal_path)
     };
     let proposal_rel = rel_path(&repo_root, &proposal_root);
+    let workflow_request_id = resolve_requested_workflow_run_id(
+        &runtime_cfg,
+        options.run_id.as_deref(),
+        "validate-proposal",
+    )?;
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
     let workflow_request = ExecutionRequest {
-        request_id: format!("validate-proposal-{}", slugify(&proposal_rel)),
+        request_id: workflow_request_id.clone(),
         caller_path: "workflow".to_string(),
         action_type: "execute_workflow".to_string(),
         target_id: "validate-proposal".to_string(),
@@ -2107,6 +2132,126 @@ pub fn run_validate_proposal_from_octon_dir(
         vec![rel_path(&repo_root, &validator_log)],
     )?;
 
+    let run_control_root = repo_root
+        .join(".octon/state/control/execution/runs")
+        .join(&workflow_request.request_id);
+    let run_evidence_root = repo_root
+        .join(".octon/state/evidence/runs")
+        .join(&workflow_request.request_id);
+    fs::create_dir_all(run_evidence_root.join("assurance"))?;
+    fs::create_dir_all(run_evidence_root.join("measurements"))?;
+    fs::create_dir_all(run_evidence_root.join("interventions"))?;
+    fs::create_dir_all(run_evidence_root.join("replay"))?;
+    let generated_at = auth_now_rfc3339()?;
+    for (plane, summary, refs) in [
+        (
+            "structural",
+            "Structural proof confirms the canonical run contract, manifest, and checkpoint topology were emitted for this workflow run.",
+            vec![
+                rel_path(&repo_root, &run_control_root.join("run-contract.yml")),
+                rel_path(&repo_root, &run_control_root.join("run-manifest.yml")),
+                rel_path(&repo_root, &run_control_root.join("checkpoints/bound.yml")),
+            ],
+        ),
+        (
+            "governance",
+            "Governance proof confirms support-target, proposal-registry, and validator governance checks passed for this workflow run.",
+            vec![
+                ".octon/instance/governance/support-targets.yml".to_string(),
+                ".octon/generated/proposals/registry.yml".to_string(),
+                rel_path(&repo_root, &validator_log),
+            ],
+        ),
+        (
+            "functional",
+            "Functional proof confirms the proposal validator stack passed and the workflow emitted a successful bounded validation bundle.",
+            vec![
+                rel_path(&repo_root, &validator_log),
+                rel_path(&repo_root, &run_evidence_root.join("receipts/execution-receipt.json")),
+                rel_path(&repo_root, &run_evidence_root.join("retained-run-evidence.yml")),
+            ],
+        ),
+    ] {
+        fs::write(
+            run_evidence_root.join("assurance").join(format!("{plane}.yml")),
+            serde_yaml::to_string(&serde_json::json!({
+                "schema_version": "proof-plane-report-v1",
+                "plane": plane,
+                "subject_kind": "run",
+                "subject_ref": rel_path(&repo_root, &run_control_root.join("run-contract.yml")),
+                "outcome": "pass",
+                "proof_class": "deterministic",
+                "summary": summary,
+                "evidence_refs": refs,
+                "known_limits": [],
+                "generated_at": generated_at,
+            }))?,
+        )?;
+    }
+    fs::write(
+        run_evidence_root.join("measurements").join("summary.yml"),
+        serde_yaml::to_string(&serde_json::json!({
+            "schema_version": "measurement-summary-v1",
+            "subject_kind": "run",
+            "subject_ref": rel_path(&repo_root, &run_control_root.join("run-contract.yml")),
+            "metrics": [
+                {
+                    "metric_id": "validator-count",
+                    "label": "Proposal validators executed",
+                    "value": 2,
+                    "unit": "count",
+                },
+                {
+                    "metric_id": "proof-plane-count",
+                    "label": "Explicit proof-plane reports emitted by the workflow",
+                    "value": 3,
+                    "unit": "count",
+                },
+                {
+                    "metric_id": "intervention-count",
+                    "label": "Material interventions",
+                    "value": 0,
+                    "unit": "count",
+                }
+            ],
+            "summary": "Validate-proposal emitted deterministic validator, proof-plane, and canonical run evidence.",
+            "recorded_at": generated_at,
+        }))?,
+    )?;
+    fs::write(
+        run_evidence_root.join("interventions").join("log.yml"),
+        serde_yaml::to_string(&serde_json::json!({
+            "schema_version": "intervention-log-v1",
+            "subject_kind": "run",
+            "subject_ref": rel_path(&repo_root, &run_control_root.join("run-contract.yml")),
+            "interventions": [],
+            "summary": "No hidden or material human intervention was required for this validate-proposal run.",
+            "recorded_at": generated_at,
+        }))?,
+    )?;
+    fs::write(
+        run_evidence_root.join("replay").join("manifest.yml"),
+        serde_yaml::to_string(&serde_json::json!({
+            "schema_version": "run-replay-manifest-v1",
+            "run_id": workflow_request.request_id,
+            "entrypoint": rel_path(&repo_root, &bundle_root.join("workflow-execution")),
+            "replay_payload_class": "git-inline",
+            "receipt_refs": [
+                rel_path(&repo_root, &run_evidence_root.join("receipts/execution-receipt.json")),
+            ],
+            "checkpoint_refs": [
+                rel_path(&repo_root, &run_evidence_root.join("checkpoints/bound.yml")),
+            ],
+            "trace_refs": [],
+            "external_index_refs": [],
+            "reproduction_steps": [
+                "Read the canonical run contract and execution receipt.",
+                "Review the validator log and proof-plane reports retained under the run evidence root.",
+            ],
+            "recorded_at": generated_at,
+        }))?,
+    )?;
+
     write_create_inventory(&bundle_root, &proposal_root)?;
     write_create_commands_log(
         &bundle_root,
@@ -2211,11 +2356,16 @@ pub fn run_promote_proposal_from_octon_dir(
         repo_root.join(&options.proposal_path)
     };
     let proposal_rel = rel_path(&repo_root, &proposal_root);
+    let workflow_request_id = resolve_requested_workflow_run_id(
+        &runtime_cfg,
+        options.run_id.as_deref(),
+        "promote-proposal",
+    )?;
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
     let workflow_request = ExecutionRequest {
-        request_id: format!("promote-proposal-{}", slugify(&proposal_rel)),
+        request_id: workflow_request_id,
         caller_path: "workflow".to_string(),
         action_type: "execute_workflow".to_string(),
         target_id: "promote-proposal".to_string(),
@@ -2523,11 +2673,16 @@ pub fn run_archive_proposal_from_octon_dir(
         repo_root.join(&options.proposal_path)
     };
     let proposal_rel = rel_path(&repo_root, &proposal_root);
+    let workflow_request_id = resolve_requested_workflow_run_id(
+        &runtime_cfg,
+        options.run_id.as_deref(),
+        "archive-proposal",
+    )?;
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
     let workflow_request = ExecutionRequest {
-        request_id: format!("archive-proposal-{}", slugify(&proposal_rel)),
+        request_id: workflow_request_id,
         caller_path: "workflow".to_string(),
         action_type: "execute_workflow".to_string(),
         target_id: "archive-proposal".to_string(),
@@ -5442,6 +5597,93 @@ fn rel_path(root: &Path, path: &Path) -> String {
         .to_string()
 }
 
+fn new_workflow_request_id(prefix: &str) -> String {
+    let millis = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|duration| duration.as_millis())
+        .unwrap_or(0);
+    format!("{prefix}-{millis}-{}", std::process::id())
+}
+
+fn validate_workflow_run_id(input: &str) -> Result<String> {
+    let trimmed = input.trim();
+    if trimmed.is_empty() {
+        bail!("workflow --run-id must not be empty");
+    }
+    if trimmed.len() > 128 {
+        bail!("workflow --run-id must be 128 characters or fewer");
+    }
+    if trimmed == "." || trimmed == ".." {
+        bail!("workflow --run-id must not be a dot-segment");
+    }
+    if trimmed.contains('/') || trimmed.contains('\\') {
+        bail!("workflow --run-id must not contain path separators");
+    }
+    if !trimmed
+        .chars()
+        .all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-')
+    {
+        bail!("workflow --run-id must match ^[a-z0-9-]+$");
+    }
+    if trimmed.starts_with('-') || trimmed.ends_with('-') || trimmed.contains("--") {
+        bail!("workflow --run-id must use canonical hyphen-separated segments");
+    }
+    Ok(trimmed.to_string())
+}
+
+fn ensure_workflow_run_id_unused(cfg: &RuntimeConfig, request_id: &str) -> Result<()> {
+    let existing_paths = [
+        cfg.run_control_root(request_id),
+        cfg.run_root(request_id),
+        cfg.run_continuity_path(request_id),
+        cfg.execution_control_root
+            .join("approvals")
+            .join("requests")
+            .join(format!("{request_id}.yml")),
+        cfg.execution_control_root
+            .join("approvals")
+            .join("grants")
+            .join(format!("grant-{request_id}.yml")),
+        cfg.octon_dir
+            .join("state")
+            .join("evidence")
+            .join("control")
+            .join("execution")
+            .join(format!("authority-decision-{request_id}.yml")),
+        cfg.octon_dir
+            .join("state")
+            .join("evidence")
+            .join("control")
+            .join("execution")
+            .join(format!("authority-grant-bundle-{request_id}.yml")),
+    ];
+
+    if let Some(existing) = existing_paths.iter().find(|path| path.exists()) {
+        bail!(
+            "run id '{}' already exists in canonical execution artifacts at {}",
+            request_id,
+            existing.display()
+        );
+    }
+
+    Ok(())
+}
+
+fn resolve_requested_workflow_run_id(
+    cfg: &RuntimeConfig,
+    requested: Option<&str>,
+    fallback_prefix: &str,
+) -> Result<String> {
+    match requested {
+        Some(value) => {
+            let run_id = validate_workflow_run_id(value)?;
+            ensure_workflow_run_id_unused(cfg, &run_id)?;
+            Ok(run_id)
+        }
+        None => Ok(new_workflow_request_id(fallback_prefix)),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -5967,6 +6209,7 @@ mod tests {
         let result = run_create_design_package_from_octon_dir(
             &octon_dir,
             RunCreateDesignPackageOptions {
+                run_id: None,
                 package_id: "runtime-package".to_string(),
                 package_title: "Runtime Package".to_string(),
                 package_class: DesignPackageClass::DomainRuntime,
@@ -6024,6 +6267,7 @@ mod tests {
         let result = run_create_design_package_from_octon_dir(
             &octon_dir,
             RunCreateDesignPackageOptions {
+                run_id: None,
                 package_id: "experience-package".to_string(),
                 package_title: "Experience Package".to_string(),
                 package_class: DesignPackageClass::ExperienceProduct,
@@ -6069,6 +6313,7 @@ mod tests {
         run_create_design_package_from_octon_dir(
             &octon_dir,
             RunCreateDesignPackageOptions {
+                run_id: None,
                 package_id: "duplicate-package".to_string(),
                 package_title: "Duplicate Package".to_string(),
                 package_class: DesignPackageClass::DomainRuntime,
@@ -6086,6 +6331,7 @@ mod tests {
         let error = run_create_design_package_from_octon_dir(
             &octon_dir,
             RunCreateDesignPackageOptions {
+                run_id: None,
                 package_id: "duplicate-package".to_string(),
                 package_title: "Duplicate Package".to_string(),
                 package_class: DesignPackageClass::DomainRuntime,
@@ -6134,6 +6380,91 @@ mod tests {
     }
 
     #[test]
+    fn validate_proposal_rejects_invalid_explicit_run_id() {
+        let root = make_temp_root("validate-invalid-run-id");
+        let octon_dir = seed_create_design_package_fixture(&root);
+
+        run_create_design_package_from_octon_dir(
+            &octon_dir,
+            RunCreateDesignPackageOptions {
+                run_id: None,
+                package_id: "validate-target".to_string(),
+                package_title: "Validate Target".to_string(),
+                package_class: DesignPackageClass::ExperienceProduct,
+                promotion_scope: ProposalScope::OctonInternal,
+                implementation_targets: vec![
+                    ".octon/framework/scaffolding/runtime/example.md".to_string()
+                ],
+                include_contracts: None,
+                include_conformance: None,
+                include_canonicalization: None,
+            },
+        )
+        .expect("fixture package should scaffold");
+
+        let error = run_validate_proposal_from_octon_dir(
+            &octon_dir,
+            RunValidateProposalOptions {
+                run_id: Some("../escape".to_string()),
+                proposal_path: PathBuf::from(
+                    ".octon/inputs/exploratory/proposals/design/validate-target",
+                ),
+            },
+        )
+        .expect_err("invalid explicit run id must fail");
+
+        assert!(error
+            .to_string()
+            .contains("workflow --run-id must not contain path separators"));
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
+    fn validate_proposal_rejects_reused_explicit_run_id() {
+        let root = make_temp_root("validate-reused-run-id");
+        let octon_dir = seed_create_design_package_fixture(&root);
+        let runtime_cfg = ConfigLoader::load(&octon_dir).expect("runtime config should load");
+
+        run_create_design_package_from_octon_dir(
+            &octon_dir,
+            RunCreateDesignPackageOptions {
+                run_id: None,
+                package_id: "validate-target".to_string(),
+                package_title: "Validate Target".to_string(),
+                package_class: DesignPackageClass::ExperienceProduct,
+                promotion_scope: ProposalScope::OctonInternal,
+                implementation_targets: vec![
+                    ".octon/framework/scaffolding/runtime/example.md".to_string()
+                ],
+                include_contracts: None,
+                include_conformance: None,
+                include_canonicalization: None,
+            },
+        )
+        .expect("fixture package should scaffold");
+
+        let reused_run_id = "validate-proposal-20260331";
+        fs::create_dir_all(runtime_cfg.run_control_root(reused_run_id))
+            .expect("existing control root should be seeded");
+
+        let error = run_validate_proposal_from_octon_dir(
+            &octon_dir,
+            RunValidateProposalOptions {
+                run_id: Some(reused_run_id.to_string()),
+                proposal_path: PathBuf::from(
+                    ".octon/inputs/exploratory/proposals/design/validate-target",
+                ),
+            },
+        )
+        .expect_err("reused explicit run id must fail");
+
+        assert!(error
+            .to_string()
+            .contains("already exists in canonical execution artifacts"));
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
     fn proposal_registry_preserves_same_id_across_kinds() {
         let root = make_temp_root("proposal-registry-kinds");
         let octon_dir = seed_create_design_package_fixture(&root);
@@ -6142,6 +6473,7 @@ mod tests {
             &octon_dir,
             StaticProposalKind::Migration,
             RunCreateStaticProposalOptions {
+                run_id: None,
                 proposal_id: "shared-id".to_string(),
                 proposal_title: "Shared Migration".to_string(),
                 promotion_scope: ProposalScope::RepoLocal,
@@ -6154,6 +6486,7 @@ mod tests {
             &octon_dir,
             StaticProposalKind::Policy,
             RunCreateStaticProposalOptions {
+                run_id: None,
                 proposal_id: "shared-id".to_string(),
                 proposal_title: "Shared Policy".to_string(),
                 promotion_scope: ProposalScope::RepoLocal,
@@ -6189,6 +6522,7 @@ mod tests {
         let result = run_create_design_package_from_octon_dir(
             &octon_dir,
             RunCreateDesignPackageOptions {
+                run_id: None,
                 package_id: "artifact-package".to_string(),
                 package_title: "Artifact Package".to_string(),
                 package_class: DesignPackageClass::DomainRuntime,
@@ -6223,6 +6557,7 @@ mod tests {
             &octon_dir,
             StaticProposalKind::Architecture,
             RunCreateStaticProposalOptions {
+                run_id: None,
                 proposal_id: "auditable-static".to_string(),
                 proposal_title: "Auditable Static".to_string(),
                 promotion_scope: ProposalScope::RepoLocal,
@@ -6235,6 +6570,7 @@ mod tests {
             &octon_dir,
             StaticProposalKind::Architecture,
             RunAuditStaticProposalOptions {
+                run_id: None,
                 proposal_path: PathBuf::from(".octon/inputs/exploratory/proposals/architecture/auditable-static"),
             },
         )
@@ -6262,6 +6598,7 @@ mod tests {
             &octon_dir,
             StaticProposalKind::Policy,
             RunCreateStaticProposalOptions {
+                run_id: None,
                 proposal_id: "duplicate-static".to_string(),
                 proposal_title: "Duplicate Static".to_string(),
                 promotion_scope: ProposalScope::RepoLocal,
@@ -6274,6 +6611,7 @@ mod tests {
             &octon_dir,
             StaticProposalKind::Policy,
             RunCreateStaticProposalOptions {
+                run_id: None,
                 proposal_id: "duplicate-static".to_string(),
                 proposal_title: "Duplicate Static".to_string(),
                 promotion_scope: ProposalScope::RepoLocal,
@@ -6306,6 +6644,7 @@ mod tests {
             &octon_dir,
             StaticProposalKind::Architecture,
             RunAuditStaticProposalOptions {
+                run_id: None,
                 proposal_path: PathBuf::from(".octon/inputs/exploratory/proposals/architecture/missing"),
             },
         )

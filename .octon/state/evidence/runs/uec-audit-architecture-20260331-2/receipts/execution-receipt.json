@@ -1,0 +1,102 @@
+{
+  "schema_version": "execution-receipt-v2",
+  "request_id": "uec-audit-architecture-20260331-2",
+  "grant_id": "grant-uec-audit-architecture-20260331-2",
+  "target_id": "audit-architecture-proposal",
+  "action_type": "execute_workflow",
+  "path_type": "workflow",
+  "environment_class": "development",
+  "workflow_mode": "human-only",
+  "intent_ref": {
+    "id": "intent://octon/octon-governed-harness",
+    "version": "1.1.0"
+  },
+  "mission_ref": null,
+  "slice_ref": null,
+  "mission_class": null,
+  "oversight_mode": null,
+  "execution_posture": null,
+  "reversibility_class": null,
+  "boundary_id": null,
+  "rollback_handle": null,
+  "compensation_handle": null,
+  "recovery_window": null,
+  "autonomy_budget_state": null,
+  "breaker_state": null,
+  "applied_directive_refs": [],
+  "applied_authorize_update_refs": [],
+  "actor_ref": {
+    "kind": "system",
+    "id": "octon-kernel"
+  },
+  "requested_capabilities": [
+    "workflow.execute",
+    "evidence.write"
+  ],
+  "granted_capabilities": [
+    "workflow.execute",
+    "evidence.write"
+  ],
+  "policy_mode_requested": "hard-enforce",
+  "policy_mode_effective": "hard-enforce",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-03-31-audit-architecture-proposal-octon-inputs-exploratory-proposals-archive-architecture-execution-constitution-completion-closeout-1",
+    "/Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/.archive/architecture/execution-constitution-completion-closeout"
+  ],
+  "side_effects": {
+    "touched_scope": [
+      "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-03-31-audit-architecture-proposal-octon-inputs-exploratory-proposals-archive-architecture-execution-constitution-completion-closeout-1",
+      "/Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/.archive/architecture/execution-constitution-completion-closeout"
+    ],
+    "shell_commands": [],
+    "network_targets": [],
+    "publications": [],
+    "branch_mutations": [],
+    "executor_profile": null,
+    "dangerous_flags_blocked": []
+  },
+  "override_requested": false,
+  "override_accepted": true,
+  "ai_review_enforced": false,
+  "autonomy_policy_enforced": false,
+  "evidence_links": {
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-uec-audit-architecture-20260331-2.yml",
+    "authority_grant_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-architecture-20260331-2.yml",
+    "decision": "policy-decision.json",
+    "grant": "grant-bundle.json",
+    "instruction_manifest": ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/instruction-layer-manifest.json",
+    "outcome": "outcome.json",
+    "policy_digest": ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/policy-digest.latest.md",
+    "policy_receipt": ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/policy-receipt.latest.json",
+    "receipt": "execution-receipt.json",
+    "replay_pointers": ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/replay-pointers.yml",
+    "request": "execution-request.json",
+    "retained_evidence": ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/retained-run-evidence.yml",
+    "run_control_root": ".octon/state/control/execution/runs/uec-audit-architecture-20260331-2",
+    "run_receipts_root": ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts",
+    "run_root": ".octon/state/evidence/runs/uec-audit-architecture-20260331-2",
+    "side_effects": "side-effects.json",
+    "stage_attempt": ".octon/state/control/execution/runs/uec-audit-architecture-20260331-2/stage-attempts/initial.yml",
+    "trace_pointers": ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/trace-pointers.yml"
+  },
+  "budget": null,
+  "support_tier": "repo-local-consequential",
+  "ownership_refs": [
+    "operator://octon-maintainers"
+  ],
+  "approval_request_ref": null,
+  "approval_grant_refs": [],
+  "exception_lease_refs": [],
+  "revocation_refs": [],
+  "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-uec-audit-architecture-20260331-2.yml",
+  "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-architecture-20260331-2.yml",
+  "network_egress_posture": null,
+  "timestamps": {
+    "started_at": "2026-03-31T21:23:12.407288Z",
+    "completed_at": "2026-03-31T21:23:37.027213Z"
+  }
+}

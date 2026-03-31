@@ -1,0 +1,12 @@
+{
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-03-31-audit-architecture-proposal-octon-inputs-exploratory-proposals-archive-architecture-execution-constitution-completion-closeout-1",
+    "/Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/.archive/architecture/execution-constitution-completion-closeout"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": null,
+  "dangerous_flags_blocked": []
+}

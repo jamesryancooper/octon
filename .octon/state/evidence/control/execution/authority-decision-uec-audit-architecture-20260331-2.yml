@@ -1,0 +1,71 @@
+schema_version: authority-decision-artifact-v1
+decision_id: decision-uec-audit-architecture-20260331-2
+request_id: uec-audit-architecture-20260331-2
+run_id: uec-audit-architecture-20260331-2
+decision: ALLOW
+reason_codes:
+- ACP_EVIDENCE_INVALID
+ownership:
+  status: resolved
+  source: ownership_registry.default
+  owner_refs:
+  - operator://octon-maintainers
+  matched_asset_ref: null
+support_tier:
+  support_tier: repo-local-consequential
+  model_tier_id: MT-B
+  workload_tier_id: WT-2
+  language_resource_tier_id: LT-REF
+  locale_tier_id: LOC-EN
+  workload_tier_label: repo-local-consequential
+  host_adapter_id: repo-shell
+  host_adapter_status: supported
+  model_adapter_id: repo-local-governed
+  model_adapter_status: supported
+  adapter_conformance_criteria:
+  - HOST-001
+  - HOST-002
+  - HOST-004
+  - MODEL-001
+  - MODEL-002
+  - MODEL-003
+  - MODEL-004
+  support_status: supported
+  route: allow
+  requires_mission: false
+  required_evidence:
+  - authority-decision-artifact
+  - authority-grant-bundle
+  - run-evidence-root
+  - instruction-layer-manifest
+  - control-evidence-root
+  - support-target-declaration
+  - rollback-proof
+  allowed_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  requested_capability_packs:
+  - repo
+  - git
+  - telemetry
+  declaration_ref: .octon/instance/governance/support-targets.yml
+reversibility:
+  effective: reversible
+  requested: reversible
+  rollback_ref_present: false
+  workflow_mode: human-only
+budget:
+  route: not-applicable
+egress:
+  artifact_ref: null
+  matched_rule_id: null
+  route: ''
+  source_kind: null
+  target_url: null
+approval_request_ref: null
+approval_grant_refs: []
+exception_refs: []
+revocation_refs: []
+generated_at: 2026-03-31T21:23:12.403798Z

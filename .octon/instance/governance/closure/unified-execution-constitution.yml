@@ -1,17 +1,25 @@
 schema_version: "unified-execution-constitution-closure-v1"
 claim_id: "unified-execution-constitution"
 claim_kind: "release"
-claim_status: "candidate"
+claim_status: "ready"
 owner: "Octon governance"
 profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-closure-certification-cutover/plan.md"
+status_matrix_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
+closeout_contract_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
+checklist_refs:
+  claim_readiness: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/CLAIM_READINESS_CHECKLIST.md"
+  workstream_execution: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/WORKSTREAM_EXECUTION_CHECKLIST.md"
+  release_promotion: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/RELEASE_PROMOTION_CHECKLIST.md"
+  brownfield_retrofit: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/BROWNFIELD_RETROFIT_CHECKLIST.md"
+blocking_reason: null
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 supported_claim:
   claim_statement: >-
-    Octon's March 30 atomic live model is run-contract-first,
-    authority-artifactized, disclosure-canonical, and
-    support-target-enforced. The currently proved live consequential
-    envelope is MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host
-    adapter and the repo-local-governed model adapter.
+    Octon has reached full unified execution constitution. Its live model is
+    run-contract-first, authority-artifactized, disclosure-canonical, and
+    support-target-enforced. The currently proved live consequential envelope
+    is MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host adapter and the
+    repo-local-governed model adapter.
   model_tier: "MT-B"
   workload_tier: "WT-2"
   language_resource_tier: "LT-REF"
@@ -72,6 +80,8 @@ required_proof_artifacts:
   - artifact_id: "measurement-summary"
   - artifact_id: "run-card"
   - artifact_id: "harness-card-proof-bundle"
+  - artifact_id: "status-matrix"
+  - artifact_id: "brownfield-retrofit-playbook"
 allowed_historical_shims:
   - path: ".octon/AGENTS.md"
     status: "adapter-only"
@@ -93,14 +103,15 @@ publication_refs:
   post_cutover_atomic_alignment_remediation: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/post-cutover-atomic-alignment-remediation.md"
   summary: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/summary.md"
 permitted_release_wording: >-
-  Octon's March 30 atomic live model is run-contract-first,
-  authority-artifactized, disclosure-canonical, and
-  support-target-enforced. The currently proved live consequential
-  envelope is MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host
-  adapter and the repo-local-governed model adapter.
+  Octon has reached full unified execution constitution. Its live model is
+  run-contract-first, authority-artifactized, disclosure-canonical, and
+  support-target-enforced. The currently proved live consequential envelope is
+  MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host adapter and the
+  repo-local-governed model adapter.
 known_limits:
+  - "Current successful disclosure is evidenced by `uec-validate-proposal-20260331-success-3` and `uec-audit-architecture-20260331-2` for the bounded supported envelope."
   - "Historical lab-local HarnessCard files remain retained as non-live mirrors under state/evidence/lab/harness-cards."
   - "WT-3 remains a retained reduced stage_only envelope rather than part of the proved supported live claim."
   - "MT-A / WT-1, LT-EXT, LOC-MX, studio-control-plane, github-control-plane, and ci-control-plane remain experimental stage_only until retained disclosure proof lands."
   - "MT-C remains experimental and WT-4 remains unsupported and denied by default."
-generated_at: "2026-03-30T00:00:00Z"
+generated_at: "2026-03-31T00:00:00Z"

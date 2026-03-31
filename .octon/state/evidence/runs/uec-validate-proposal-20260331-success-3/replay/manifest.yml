@@ -1,0 +1,14 @@
+checkpoint_refs:
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/checkpoints/bound.yml
+entrypoint: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3
+external_index_refs: []
+receipt_refs:
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts/execution-receipt.json
+recorded_at: 2026-03-31T21:24:10.910615Z
+replay_payload_class: git-inline
+reproduction_steps:
+- Read the bound run contract and execution receipt.
+- Follow the replay manifest, checkpoints, and RunCard refs to reproduce the consequential path.
+run_id: uec-validate-proposal-20260331-success-3
+schema_version: run-replay-manifest-v1
+trace_refs: []

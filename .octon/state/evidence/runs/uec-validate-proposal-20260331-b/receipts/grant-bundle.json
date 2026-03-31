@@ -1,0 +1,76 @@
+{
+  "grant": {
+    "actor_ref": {
+      "id": "octon-kernel",
+      "kind": "system"
+    },
+    "approval_grant_refs": [],
+    "approval_request_ref": null,
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260331-b.yml",
+    "autonomy_budget_state": null,
+    "autonomy_context": null,
+    "breaker_state": null,
+    "budget": null,
+    "compensation_handle": null,
+    "decision": "ALLOW",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260331-b.yml",
+    "effective_policy_mode": "hard-enforce",
+    "environment_class": "development",
+    "exception_lease_refs": [],
+    "expires_after": null,
+    "grant_id": "grant-uec-validate-proposal-20260331-b",
+    "granted_capabilities": [
+      "workflow.execute",
+      "evidence.write"
+    ],
+    "instruction_manifest_path": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/instruction-layer-manifest.json",
+    "intent_ref": {
+      "id": "intent://octon/octon-governed-harness",
+      "version": "1.1.0"
+    },
+    "network_egress_posture": null,
+    "ownership_refs": [
+      "operator://octon-maintainers"
+    ],
+    "policy_digest_path": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/policy-digest.latest.md",
+    "policy_receipt_path": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/policy-receipt.latest.json",
+    "quorum_policy_ref": ".octon/instance/governance/policies/mission-autonomy.yml#quorum",
+    "reason_codes": [
+      "ACP_EVIDENCE_INVALID"
+    ],
+    "receipt_requirements": [
+      "execution-request.json",
+      "policy-decision.json",
+      "grant-bundle.json",
+      "side-effects.json",
+      "outcome.json",
+      "execution-receipt.json"
+    ],
+    "recovery_window": null,
+    "replay_pointers_path": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/replay-pointers.yml",
+    "request_id": "uec-validate-proposal-20260331-b",
+    "retained_evidence_path": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/retained-run-evidence.yml",
+    "review_metadata": {},
+    "revocation_refs": [],
+    "rollback_handle": null,
+    "run_control_root": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b",
+    "run_receipts_root": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts",
+    "run_root": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b",
+    "scope_constraints": {
+      "executor_profile": null,
+      "locality_scope": null,
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/analysis",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows"
+      ]
+    },
+    "stage_attempt_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/stage-attempts/initial.yml",
+    "support_tier": "repo-local-consequential",
+    "trace_pointers_path": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/trace-pointers.yml",
+    "workflow_mode": "human-only"
+  },
+  "schema_version": "execution-grant-v1"
+}

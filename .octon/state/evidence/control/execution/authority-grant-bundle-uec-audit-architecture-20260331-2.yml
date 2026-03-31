@@ -1,0 +1,11 @@
+approval_grant_refs: []
+approval_request_ref: null
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-audit-architecture-20260331-2.yml
+exception_refs: []
+generated_at: 2026-03-31T21:23:12.404178Z
+grant_id: grant-uec-audit-architecture-20260331-2
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+request_id: uec-audit-architecture-20260331-2
+revocation_refs: []
+run_id: uec-audit-architecture-20260331-2
+schema_version: authority-grant-bundle-v1

@@ -1,0 +1,14 @@
+evidence_refs:
+- .octon/instance/governance/support-targets.yml
+- .octon/instance/governance/contracts/closeout-reviews.yml
+- .octon/framework/constitution/contracts/authority/README.md
+- .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260331-success-3.yml
+generated_at: 2026-03-31T21:24:10.910615Z
+known_limits: []
+outcome: pass
+plane: governance
+proof_class: deterministic
+schema_version: proof-plane-report-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-contract.yml
+summary: Governance proof confirms support-target, authority-routing, and closeout-governance surfaces passed for this successful run.

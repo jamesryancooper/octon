@@ -299,7 +299,7 @@ main() {
     ".octon/framework/constitution/contracts/runtime/" \
     "policy interface spec references constitutional runtime contracts"
   require_contains \
-    "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/authorization.rs" \
+    "$OCTON_DIR/framework/engine/runtime/crates/authority_engine/src/implementation.rs" \
     "bind_run_lifecycle" \
     "authorization path binds canonical run lifecycle roots"
   require_contains \

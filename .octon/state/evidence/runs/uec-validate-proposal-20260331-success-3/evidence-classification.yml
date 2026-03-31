@@ -1,0 +1,16 @@
+artifacts:
+- artifact_id: run-contract
+  artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-contract.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: run-manifest
+  artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-manifest.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: replay-pointers
+  artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/replay-pointers.yml
+  evidence_class: B
+  storage_class: git-pointer
+run_id: uec-validate-proposal-20260331-success-3
+schema_version: run-evidence-classification-v1
+updated_at: 2026-03-31T21:23:44.372374Z

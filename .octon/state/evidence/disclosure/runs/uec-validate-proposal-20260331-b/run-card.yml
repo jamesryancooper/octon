@@ -1,0 +1,39 @@
+adapter_support:
+  conformance_criteria:
+  - HOST-001
+  - HOST-002
+  - MODEL-001
+  - MODEL-002
+  - MODEL-003
+  - MODEL-004
+  host_adapter: repo-shell
+  host_support_status: supported
+  model_adapter: repo-local-governed
+  model_support_status: supported
+authority_refs:
+  decision_artifact: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260331-b.yml
+  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260331-b.yml
+  retained_run_evidence: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/retained-run-evidence.yml
+  run_contract: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-contract.yml
+generated_at: 2026-03-31T20:34:32.439133Z
+intervention_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/interventions/log.yml
+known_limits:
+- Proof-plane artifacts for this run currently include placeholder disclosure files when no routine proof artifact was emitted.
+- Support posture remains bounded to the support-target declaration under .octon/instance/governance/support-targets.yml.
+- Run completed with status failed and should not be treated as positive proof of successful execution.
+measurement_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/measurements/summary.yml
+proof_plane_refs:
+  behavioral: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/assurance/behavioral.yml
+  evaluator: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/assurance/evaluator.yml
+  functional: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/assurance/functional.yml
+  governance: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/assurance/governance.yml
+  maintainability: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/assurance/maintainability.yml
+  recovery: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/assurance/recovery.yml
+  structural: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/assurance/structural.yml
+replay_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/replay/manifest.yml
+run_id: uec-validate-proposal-20260331-b
+schema_version: run-card-v1
+status: failed
+summary: Consequential run uec-validate-proposal-20260331-b for target validate-proposal completed with status failed under support tier repo-local-consequential.
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_tier: repo-local-consequential

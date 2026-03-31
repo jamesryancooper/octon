@@ -1,0 +1,14 @@
+evidence_refs:
+- .octon/framework/assurance/functional/suites/run-lifecycle-integrity.yml
+- .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/execution-receipt.json
+- .octon/state/evidence/runs/uec-audit-architecture-20260331-2/retained-run-evidence.yml
+- .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-manifest.yml
+generated_at: 2026-03-31T21:23:37.027213Z
+known_limits: []
+outcome: pass
+plane: functional
+proof_class: deterministic
+schema_version: proof-plane-report-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-contract.yml
+summary: Functional proof confirms the run emitted the canonical receipt, retained evidence, and replay chain for a successful consequential workflow.

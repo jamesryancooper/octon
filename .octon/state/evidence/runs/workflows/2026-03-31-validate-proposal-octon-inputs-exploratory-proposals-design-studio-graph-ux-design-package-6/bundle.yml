@@ -1,0 +1,27 @@
+kind: workflow-execution-bundle
+id: 2026-03-31-validate-proposal-octon-inputs-exploratory-proposals-design-studio-graph-ux-design-package-6
+workflow_id: validate-proposal
+package_path: .octon/inputs/exploratory/proposals/design/studio-graph-ux-design-package
+mode: n/a
+executor: n/a
+prepare_only: false
+slug: octon-inputs-exploratory-proposals-design-studio-graph-ux-design-package
+started_at: 2026-03-31T21:23:44.669832Z
+completed_at: 2026-03-31T21:24:10.910373Z
+summary: summary.md
+reports_dir: reports
+stage_inputs_dir: stage-inputs
+stage_logs_dir: stage-logs
+selected_stages:
+- validate-proposal
+- report
+report_paths: {}
+changed_files: {}
+plan: plan.md
+inventory: inventory.md
+commands: commands.md
+validation: validation.md
+summary_report: .octon/state/evidence/validation/analysis/2026-03-31-validate-proposal-3.md
+final_verdict: validated
+failure_class: null
+failed_stage: null

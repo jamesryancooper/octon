@@ -1,0 +1,12 @@
+schema_version: run-rollback-posture-v1
+run_id: uec-audit-architecture-20260331-2
+reversibility_class: reversible
+rollback_strategy: rollback
+rollback_ref: null
+rollback_handle: null
+compensation_handle: null
+recovery_window: null
+contamination_state: clean
+hard_reset_required: false
+posture_source: run-contract-default
+updated_at: 2026-03-31T21:23:12.1287Z

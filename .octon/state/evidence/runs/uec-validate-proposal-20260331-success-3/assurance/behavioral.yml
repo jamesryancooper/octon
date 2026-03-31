@@ -1,0 +1,15 @@
+evidence_refs:
+- .octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml
+- .octon/state/evidence/lab/scenarios/scn-runtime-proof-supported-20260329/scenario-proof.yml
+- .octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml
+- .octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/replay/manifest.yml
+generated_at: 2026-03-31T21:24:10.910615Z
+known_limits: []
+outcome: pass
+plane: behavioral
+proof_class: shadow-run
+schema_version: proof-plane-report-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-contract.yml
+summary: Behavioral proof is backed by the current successful run plus retained scenario, replay, and shadow-run evidence for the supported consequential envelope.

@@ -1,0 +1,11 @@
+approval_grant_refs: []
+approval_request_ref: null
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260331-b.yml
+exception_refs: []
+generated_at: 2026-03-31T20:34:07.459737Z
+grant_id: grant-uec-validate-proposal-20260331-b
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+request_id: uec-validate-proposal-20260331-b
+revocation_refs: []
+run_id: uec-validate-proposal-20260331-b
+schema_version: authority-grant-bundle-v1

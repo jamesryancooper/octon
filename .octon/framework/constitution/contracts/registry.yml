@@ -115,6 +115,9 @@ integration_surfaces:
   closure_claim_manifest:
     path: ".octon/instance/governance/closure/unified-execution-constitution.yml"
     status: "active"
+  closure_claim_status_matrix:
+    path: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
+    status: "active"
   retained_disclosure_roots:
     runs: ".octon/state/evidence/disclosure/runs/**"
     releases: ".octon/state/evidence/disclosure/releases/**"

@@ -1,0 +1,23 @@
+schema_version: retained-run-evidence-v1
+run_id: uec-validate-proposal-20260331-b
+evidence_refs:
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260331-b.yml
+  authority_grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260331-b.yml
+  control_checkpoint: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/checkpoints/bound.yml
+  evidence_checkpoint: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/checkpoints/bound.yml
+  execution_receipt: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/execution-receipt.json
+  execution_request: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/execution-request.json
+  grant_bundle: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/grant-bundle.json
+  instruction_manifest: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/instruction-layer-manifest.json
+  outcome: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/outcome.json
+  policy_decision: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/policy-decision.json
+  policy_digest: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/policy-digest.latest.md
+  policy_receipt: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/policy-receipt.latest.json
+  replay_pointers: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/replay-pointers.yml
+  rollback_posture: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/rollback-posture.yml
+  run_contract: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-manifest.yml
+  runtime_state: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/runtime-state.yml
+  side_effects: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/side-effects.json
+  trace_pointers: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/trace-pointers.yml
+updated_at: 2026-03-31T20:34:32.442408Z

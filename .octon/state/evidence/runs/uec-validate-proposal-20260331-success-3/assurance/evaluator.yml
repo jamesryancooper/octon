@@ -1,0 +1,16 @@
+disposition: approved
+evaluator_id: evaluator-router://phase4-review-routing
+evidence_refs:
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/assurance/functional.yml
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/assurance/behavioral.yml
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/assurance/maintainability.yml
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/assurance/recovery.yml
+- .octon/framework/assurance/evaluators/review-routing.yml
+- .octon/framework/assurance/evaluators/adapters/openai-review.yml
+- .octon/framework/assurance/evaluators/adapters/anthropic-review.yml
+known_limits:
+- Independent human review remains available for higher-risk support tiers.
+recorded_at: 2026-03-31T21:24:10.910615Z
+schema_version: evaluator-review-v1
+subject_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-contract.yml
+summary: Independent evaluator approval is retained for the supported consequential envelope and current successful workflow evidence.

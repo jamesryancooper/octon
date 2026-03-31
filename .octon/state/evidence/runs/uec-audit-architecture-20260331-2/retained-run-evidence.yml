@@ -1,0 +1,23 @@
+schema_version: retained-run-evidence-v1
+run_id: uec-audit-architecture-20260331-2
+evidence_refs:
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-audit-architecture-20260331-2.yml
+  authority_grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-architecture-20260331-2.yml
+  control_checkpoint: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/checkpoints/bound.yml
+  evidence_checkpoint: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/checkpoints/bound.yml
+  execution_receipt: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/execution-receipt.json
+  execution_request: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/execution-request.json
+  grant_bundle: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/grant-bundle.json
+  instruction_manifest: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/instruction-layer-manifest.json
+  outcome: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/outcome.json
+  policy_decision: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/policy-decision.json
+  policy_digest: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/policy-digest.latest.md
+  policy_receipt: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/policy-receipt.latest.json
+  replay_pointers: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/replay-pointers.yml
+  rollback_posture: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/rollback-posture.yml
+  run_contract: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-manifest.yml
+  runtime_state: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/runtime-state.yml
+  side_effects: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/side-effects.json
+  trace_pointers: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/trace-pointers.yml
+updated_at: 2026-03-31T21:23:37.030274Z

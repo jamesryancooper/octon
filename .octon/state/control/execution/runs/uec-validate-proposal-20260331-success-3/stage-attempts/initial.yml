@@ -1,0 +1,17 @@
+attempt_kind: initial
+created_at: 2026-03-31T21:23:12.158934Z
+evidence_refs:
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts/grant-bundle.json
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts/execution-receipt.json
+objective_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-contract.yml
+requested_capabilities:
+- workflow.execute
+- evidence.write
+rollback_candidate: true
+run_id: uec-validate-proposal-20260331-success-3
+schema_version: stage-attempt-v1
+stage_attempt_id: initial
+stage_ref: workflow:validate-proposal
+status: succeeded
+updated_at: 2026-03-31T21:24:10.912502Z

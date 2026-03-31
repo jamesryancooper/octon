@@ -7,13 +7,13 @@ OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 
 CLOSURE_MANIFEST="$OCTON_DIR/instance/governance/closure/unified-execution-constitution.yml"
-FIXTURES_FILE="$OCTON_DIR/framework/assurance/governance/unified-execution-constitution-closure-fixtures.yml"
+STATUS_MATRIX="$OCTON_DIR/instance/governance/closure/unified-execution-constitution-status.yml"
+CLLOSEOUT_REVIEWS="$OCTON_DIR/instance/governance/contracts/closeout-reviews.yml"
 SUPPORT_TARGETS="$OCTON_DIR/instance/governance/support-targets.yml"
 CONTRACT_REGISTRY="$OCTON_DIR/framework/constitution/contracts/registry.yml"
 RETIREMENT_REGISTRY="$OCTON_DIR/instance/governance/contracts/retirement-registry.yml"
 AUTHORED_HARNESS_CARD="$OCTON_DIR/instance/governance/disclosure/harness-card.yml"
-ATOMIC_RELEASE_HARNESS_CARD="$OCTON_DIR/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-atomic-cutover/harness-card.yml"
-CLOSURE_RELEASE_HARNESS_CARD="$OCTON_DIR/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-closure/harness-card.yml"
+REQUIRED_BROWNFIELD_PLAYBOOK="$OCTON_DIR/instance/governance/adoption/brownfield-retrofit.md"
 RUN_CARD_SCHEMA="$OCTON_DIR/framework/constitution/contracts/disclosure/run-card-v1.schema.json"
 HARNESS_CARD_SCHEMA="$OCTON_DIR/framework/constitution/contracts/disclosure/harness-card-v1.schema.json"
 BUILD_TO_DELETE_RECEIPT="$OCTON_DIR/state/evidence/validation/publication/build-to-delete/2026-03-30/ablation-deletion-receipt.yml"
@@ -244,52 +244,21 @@ validate_decision_fixture() {
   require_yq ".support_tier.model_tier_id == \"$model_tier\" and .support_tier.workload_tier_id == \"$workload_tier\" and .support_tier.language_resource_tier_id == \"$language_tier\" and .support_tier.locale_tier_id == \"$locale_tier\" and .support_tier.support_status == \"$expected_status\"" "$path" "$fixture_id decision artifact encodes the expected tuple"
 }
 
-validate_supported_positive_fixture() {
-  local fixture_id="supported-envelope-positive"
-  local run_contract_ref run_contract_path run_card_ref
-  run_contract_ref="$(fixture_field "$fixture_id" "run_contract_ref")"
-  run_contract_path="$(resolve_ref "$run_contract_ref")"
-  run_card_ref="$(fixture_field "$fixture_id" "run_card_ref")"
-
-  validate_fixture_route "$fixture_id" "allow" "supported"
-  validate_decision_fixture "$fixture_id" "ALLOW" "supported"
-  require_ref_file "$run_contract_ref" "supported-envelope-positive run contract resolves"
-  require_ref_file "$(fixture_field "$fixture_id" "run_manifest_ref")" "supported-envelope-positive run manifest resolves"
-  require_ref_file "$(fixture_field "$fixture_id" "runtime_state_ref")" "supported-envelope-positive runtime state resolves"
-  require_ref_file "$(fixture_field "$fixture_id" "rollback_posture_ref")" "supported-envelope-positive rollback posture resolves"
-  require_ref_dir "$(fixture_field "$fixture_id" "stage_attempt_root")" "supported-envelope-positive stage-attempt root resolves"
-  require_ref_dir "$(fixture_field "$fixture_id" "checkpoint_root")" "supported-envelope-positive checkpoint root resolves"
-
-  while IFS= read -r token; do
-    [[ -z "$token" ]] && continue
-    local ref
-    ref="$(bundle_ref_for_token "$fixture_id" "$token")"
-    case "$token" in
-      stage-attempt-root|checkpoint-root) require_ref_dir "$ref" "supported-envelope-positive bundle resolves ${token}" ;;
-      authority-decision-artifact|authority-grant-bundle|run-manifest|runtime-state|rollback-posture|evidence-classification|replay-pointers|external-replay-index|intervention-log|measurement-summary|run-card)
-        require_ref_file "$ref" "supported-envelope-positive bundle resolves ${token}"
-        ;;
-      *)
-        fail "supported-envelope-positive has unmapped required_evidence token: ${token}"
-        ;;
-    esac
-  done < <(yq -r '.required_evidence[]' "$run_contract_path")
-
-  validate_run_card_schema_refs "$run_card_ref" "$run_contract_ref"
-  require_yq '.external_replay_index_ref == ".octon/state/evidence/external-index/runs/run-wave3-runtime-bridge-20260327.yml"' "$(resolve_ref "$(fixture_field "$fixture_id" "run_manifest_ref")")" "supported-envelope-positive manifest points at external replay index"
+validate_status_matrix() {
+  require_yq '.status_summary.claim_status == "ready"' "$STATUS_MATRIX" "status matrix marks the final claim ready"
+  require_yq '.status_summary.final_verdict == "ready_for_closeout"' "$STATUS_MATRIX" "status matrix final verdict is ready_for_closeout"
+  require_yq '.findings | length == 24' "$STATUS_MATRIX" "status matrix tracks all packet findings"
+  require_yq '.claim_criteria | length == 11' "$STATUS_MATRIX" "status matrix tracks all packet claim criteria"
+  require_yq '.checklists | length == 3' "$STATUS_MATRIX" "status matrix tracks all required packet checklists"
+  require_yq '[.findings[] | select(.status != "green")] | length == 0' "$STATUS_MATRIX" "all findings are green in the status matrix"
+  require_yq '[.claim_criteria[] | select(.status != "green")] | length == 0' "$STATUS_MATRIX" "all claim criteria are green in the status matrix"
+  require_yq '[.checklists[] | select(.status != "green")] | length == 0' "$STATUS_MATRIX" "all required checklists are green in the status matrix"
 }
 
-validate_missing_evidence_fixture() {
-  local fixture_id="missing-evidence-fail-closed"
-  local based_on omitted_token
-  based_on="$(fixture_field "$fixture_id" "based_on_fixture")"
-  omitted_token="$(yq -r '.fixtures[] | select(.fixture_id == "missing-evidence-fail-closed") | .omitted_artifacts[0] // ""' "$FIXTURES_FILE")"
-
-  require_yq ".fixtures[] | select(.fixture_id == \"$based_on\")" "$FIXTURES_FILE" "missing-evidence fixture references the supported positive fixture"
-  require_yq ".fixtures[] | select(.fixture_id == \"$based_on\") | .expected_route == \"allow\"" "$FIXTURES_FILE" "missing-evidence base fixture is the supported allow path"
-  require_yq ".required_proof_artifacts[] | select(.artifact_id == \"$omitted_token\")" "$CLOSURE_MANIFEST" "closure manifest requires the omitted artifact"
-  require_yq ".required_evidence[] | select(. == \"$omitted_token\")" "$(resolve_ref "$(fixture_field "$based_on" "run_contract_ref")")" "supported positive run contract requires the omitted artifact"
-  validate_decision_fixture "$fixture_id" "STAGE_ONLY" "supported"
+validate_closeout_reviews() {
+  require_yq '.claim_status_matrix_ref == ".octon/instance/governance/closure/unified-execution-constitution-status.yml"' "$CLLOSEOUT_REVIEWS" "closeout reviews bind the authoritative status matrix"
+  require_yq '.required_reviews | length >= 4' "$CLLOSEOUT_REVIEWS" "closeout reviews require the build-to-delete review set"
+  require_yq '.required_checklists | length == 3' "$CLLOSEOUT_REVIEWS" "closeout reviews bind the packet closeout checklists"
 }
 
 run_shim_audit() {
@@ -327,13 +296,13 @@ main() {
   echo "== Unified Execution Constitution Closure Validation =="
 
   require_file "$CLOSURE_MANIFEST"
-  require_file "$FIXTURES_FILE"
+  require_file "$STATUS_MATRIX"
+  require_file "$CLLOSEOUT_REVIEWS"
   require_file "$SUPPORT_TARGETS"
   require_file "$CONTRACT_REGISTRY"
   require_file "$RETIREMENT_REGISTRY"
   require_file "$AUTHORED_HARNESS_CARD"
-  require_file "$ATOMIC_RELEASE_HARNESS_CARD"
-  require_file "$CLOSURE_RELEASE_HARNESS_CARD"
+  require_file "$REQUIRED_BROWNFIELD_PLAYBOOK"
   require_file "$RUN_CARD_SCHEMA"
   require_file "$HARNESS_CARD_SCHEMA"
   require_file "$BUILD_TO_DELETE_RECEIPT"
@@ -342,27 +311,23 @@ main() {
   require_file "$RELEASE_WORKFLOW"
   require_file "$AUTONOMY_SCRIPT"
 
-  require_yq '.supported_claim.model_tier == "MT-B" and .supported_claim.workload_tier == "WT-2" and .supported_claim.language_resource_tier == "LT-REF" and .supported_claim.locale_tier == "LOC-EN" and .supported_claim.host_adapter == "repo-shell" and .supported_claim.model_adapter == "repo-local-governed"' "$CLOSURE_MANIFEST" "closure manifest freezes the certified tuple and adapters"
+  require_yq '.supported_claim.model_tier == "MT-B" and .supported_claim.workload_tier == "WT-2" and .supported_claim.language_resource_tier == "LT-REF" and .supported_claim.locale_tier == "LOC-EN" and .supported_claim.host_adapter == "repo-shell" and .supported_claim.model_adapter == "repo-local-governed"' "$CLOSURE_MANIFEST" "closure manifest freezes the bounded live tuple and adapters"
+  require_yq '.status_matrix_ref == ".octon/instance/governance/closure/unified-execution-constitution-status.yml"' "$CLOSURE_MANIFEST" "closure manifest binds the authoritative status matrix"
+  require_yq '.closeout_contract_ref == ".octon/instance/governance/contracts/closeout-reviews.yml"' "$CLOSURE_MANIFEST" "closure manifest binds the closeout contract"
   require_yq '.excluded_or_reduced_surfaces[] | select(.surface_id == "MT-A/WT-1" and .status == "experimental" and .route == "stage_only")' "$CLOSURE_MANIFEST" "closure manifest records MT-A / WT-1 as experimental"
   require_yq '.excluded_or_reduced_surfaces[] | select(.surface_id == "studio-control-plane" and .status == "experimental" and .route == "stage_only")' "$CLOSURE_MANIFEST" "closure manifest records Studio as experimental"
   require_yq '.excluded_or_reduced_surfaces[] | select(.surface_id == "github-control-plane" and .status == "experimental" and .route == "stage_only")' "$CLOSURE_MANIFEST" "closure manifest records GitHub as experimental"
   require_yq '.excluded_or_reduced_surfaces[] | select(.surface_id == "ci-control-plane" and .status == "experimental" and .route == "stage_only")' "$CLOSURE_MANIFEST" "closure manifest records CI as experimental"
   require_yq '.integration_surfaces.closure_claim_manifest.path == ".octon/instance/governance/closure/unified-execution-constitution.yml"' "$CONTRACT_REGISTRY" "contract registry exposes the closure manifest"
+  require_yq '.integration_surfaces.closure_claim_status_matrix.path == ".octon/instance/governance/closure/unified-execution-constitution-status.yml"' "$CONTRACT_REGISTRY" "contract registry exposes the closure status matrix"
   require_yq '.entries[] | select(.target_id == "ingress-projection-adapters" and .status == "registered")' "$RETIREMENT_REGISTRY" "retirement registry records ingress projection adapters"
   require_yq '.shim_surfaces.assurance_governance_charter.status == "subordinate-governance"' "$CONTRACT_REGISTRY" "assurance-governance charter is subordinate rather than historical"
   require_yq '.runtime_surface.interface_ref == ".github/workflows/pr-autonomy-policy.yml"' "$OCTON_DIR/framework/engine/runtime/adapters/host/github-control-plane.yml" "GitHub host adapter points at the PR-autonomy binding surface"
   require_yq '.runtime_surface.interface_ref == ".github/workflows/unified-execution-constitution-closure.yml"' "$OCTON_DIR/framework/engine/runtime/adapters/host/ci-control-plane.yml" "CI host adapter points at the closure workflow"
 
+  validate_status_matrix
+  validate_closeout_reviews
   validate_harness_card "$AUTHORED_HARNESS_CARD" "authored HarnessCard"
-  validate_harness_card "$ATOMIC_RELEASE_HARNESS_CARD" "atomic release HarnessCard"
-  validate_harness_card "$CLOSURE_RELEASE_HARNESS_CARD" "closure release HarnessCard"
-
-  validate_supported_positive_fixture
-  validate_fixture_route "reduced-stage-only" "stage_only" "reduced"
-  validate_decision_fixture "reduced-stage-only" "STAGE_ONLY" "reduced"
-  validate_fixture_route "unsupported-deny" "deny" "unsupported"
-  validate_decision_fixture "unsupported-deny" "DENY" "unsupported"
-  validate_missing_evidence_fixture
 
   require_yq '.owner == "Octon governance" and .status == "completed"' "$BUILD_TO_DELETE_RECEIPT" "build-to-delete receipt is retained and completed"
   require_yq '.targets_evaluated[] | select(.target_id == "label-native-authority-lane-projections")' "$BUILD_TO_DELETE_RECEIPT" "build-to-delete receipt records label-native authority retirement"

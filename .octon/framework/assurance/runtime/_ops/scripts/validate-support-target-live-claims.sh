@@ -8,8 +8,7 @@ ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 
 SUPPORT_TARGETS="$OCTON_DIR/instance/governance/support-targets.yml"
 AUTHORED_CARD="$OCTON_DIR/instance/governance/disclosure/harness-card.yml"
-ATOMIC_RELEASE_CARD="$OCTON_DIR/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-atomic-cutover/harness-card.yml"
-CLOSURE_RELEASE_CARD="$OCTON_DIR/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-closure/harness-card.yml"
+CURRENT_RELEASE_CARD="$OCTON_DIR/state/evidence/disclosure/releases/2026-03-31-unified-execution-constitution-clean-break/harness-card.yml"
 CLOSURE_MANIFEST="$OCTON_DIR/instance/governance/closure/unified-execution-constitution.yml"
 
 errors=0
@@ -146,22 +145,17 @@ main() {
 
   require_file "$SUPPORT_TARGETS"
   require_file "$AUTHORED_CARD"
-  require_file "$ATOMIC_RELEASE_CARD"
-  require_file "$CLOSURE_RELEASE_CARD"
+  require_file "$CURRENT_RELEASE_CARD"
   require_file "$CLOSURE_MANIFEST"
 
   compare_scalar_exprs "authored HarnessCard wording matches closure manifest" '.claim_summary' "$AUTHORED_CARD" '.permitted_release_wording' "$CLOSURE_MANIFEST"
   compare_scalar_exprs "closure supported claim statement matches permitted release wording" '.supported_claim.claim_statement' "$CLOSURE_MANIFEST" '.permitted_release_wording' "$CLOSURE_MANIFEST"
-  compare_scalar "atomic release HarnessCard wording matches authored claim" '.claim_summary' "$ATOMIC_RELEASE_CARD" "$AUTHORED_CARD"
-  compare_scalar "closure release HarnessCard wording matches authored claim" '.claim_summary' "$CLOSURE_RELEASE_CARD" "$AUTHORED_CARD"
+  compare_scalar "current release HarnessCard wording matches authored claim" '.claim_summary' "$CURRENT_RELEASE_CARD" "$AUTHORED_CARD"
 
-  compare_json "atomic release tuple matches authored tuple" '.compatibility_tuple' "$ATOMIC_RELEASE_CARD" "$AUTHORED_CARD"
-  compare_json "closure release tuple matches authored tuple" '.compatibility_tuple' "$CLOSURE_RELEASE_CARD" "$AUTHORED_CARD"
-  compare_json "atomic release adapter tuple matches authored tuple" '.adapter_support' "$ATOMIC_RELEASE_CARD" "$AUTHORED_CARD"
-  compare_json "closure release adapter tuple matches authored tuple" '.adapter_support' "$CLOSURE_RELEASE_CARD" "$AUTHORED_CARD"
+  compare_json "current release tuple matches authored tuple" '.compatibility_tuple' "$CURRENT_RELEASE_CARD" "$AUTHORED_CARD"
+  compare_json "current release adapter tuple matches authored tuple" '.adapter_support' "$CURRENT_RELEASE_CARD" "$AUTHORED_CARD"
   compare_json "closure manifest known limits match authored HarnessCard" '.known_limits' "$CLOSURE_MANIFEST" "$AUTHORED_CARD"
-  compare_json "atomic release known limits match authored HarnessCard" '.known_limits' "$ATOMIC_RELEASE_CARD" "$AUTHORED_CARD"
-  compare_json "closure release known limits match authored HarnessCard" '.known_limits' "$CLOSURE_RELEASE_CARD" "$AUTHORED_CARD"
+  compare_json "current release known limits match authored HarnessCard" '.known_limits' "$CURRENT_RELEASE_CARD" "$AUTHORED_CARD"
 
   if [[ "$(yq -r '[.compatibility_matrix[] | select(.support_status == "supported")] | length' "$SUPPORT_TARGETS")" == "1" ]]; then
     pass "support matrix has exactly one supported tuple"
@@ -210,8 +204,7 @@ main() {
   require_yq '.excluded_or_reduced_surfaces[] | select(.surface_id == "WT-4" and .status == "unsupported" and .route == "deny")' "$CLOSURE_MANIFEST" "closure manifest preserves unsupported deny surface"
 
   check_proof_bundle "$AUTHORED_CARD" "authored HarnessCard"
-  check_proof_bundle "$ATOMIC_RELEASE_CARD" "atomic release HarnessCard"
-  check_proof_bundle "$CLOSURE_RELEASE_CARD" "closure release HarnessCard"
+  check_proof_bundle "$CURRENT_RELEASE_CARD" "current release HarnessCard"
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]

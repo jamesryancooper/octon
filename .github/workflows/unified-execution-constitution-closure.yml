@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - ".octon/instance/governance/closure/**"
+      - ".octon/instance/governance/adoption/**"
       - ".octon/instance/governance/disclosure/**"
       - ".octon/instance/governance/support-targets.yml"
       - ".octon/instance/governance/contracts/**"
@@ -24,6 +25,7 @@ on:
       - main
     paths:
       - ".octon/instance/governance/closure/**"
+      - ".octon/instance/governance/adoption/**"
       - ".octon/instance/governance/disclosure/**"
       - ".octon/instance/governance/support-targets.yml"
       - ".octon/instance/governance/contracts/**"

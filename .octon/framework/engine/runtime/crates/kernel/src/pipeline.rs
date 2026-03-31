@@ -25,6 +25,14 @@ use crate::workflow::{
 
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".octon/state/evidence/runs/workflows";
 
+fn workflows_root(octon_dir: &Path) -> PathBuf {
+    octon_dir
+        .join("framework")
+        .join("orchestration")
+        .join("runtime")
+        .join("workflows")
+}
+
 #[derive(Debug, Clone)]
 pub struct RunPipelineOptions {
     pub pipeline_id: String,
@@ -213,10 +221,7 @@ pub fn validate_pipelines_from_octon_dir(
     octon_dir: &Path,
     pipeline_id: Option<&str>,
 ) -> Result<()> {
-    let script = octon_dir
-        .join("orchestration")
-        .join("runtime")
-        .join("workflows")
+    let script = workflows_root(octon_dir)
         .join("_ops")
         .join("scripts")
         .join("validate-workflows.sh");
@@ -372,6 +377,7 @@ fn run_create_design_package_pipeline(
     let result = workflow::run_create_design_package_from_octon_dir(
         octon_dir,
         RunCreateDesignPackageOptions {
+            run_id: options.run_id,
             package_id,
             package_title,
             package_class,
@@ -433,6 +439,7 @@ fn run_create_static_proposal_pipeline(
         octon_dir,
         kind,
         RunCreateStaticProposalOptions {
+            run_id: options.run_id,
             proposal_id,
             proposal_title,
             promotion_scope,
@@ -463,6 +470,7 @@ fn run_audit_static_proposal_pipeline(
         octon_dir,
         kind,
         RunAuditStaticProposalOptions {
+            run_id: options.run_id,
             proposal_path: proposal_path.into(),
         },
     )?;
@@ -487,6 +495,7 @@ fn run_validate_proposal_pipeline(
     let result = workflow::run_validate_proposal_from_octon_dir(
         octon_dir,
         RunValidateProposalOptions {
+            run_id: options.run_id,
             proposal_path: proposal_path.into(),
         },
     )?;
@@ -516,6 +525,7 @@ fn run_promote_proposal_pipeline(
     let result = workflow::run_promote_proposal_from_octon_dir(
         octon_dir,
         RunPromoteProposalOptions {
+            run_id: options.run_id,
             proposal_path: proposal_path.into(),
             promotion_evidence: parse_csv_list(&promotion_evidence),
         },
@@ -551,6 +561,7 @@ fn run_archive_proposal_pipeline(
     let result = workflow::run_archive_proposal_from_octon_dir(
         octon_dir,
         RunArchiveProposalOptions {
+            run_id: options.run_id,
             proposal_path: proposal_path.into(),
             disposition,
             promotion_evidence: parse_csv_list(&promotion_evidence),
@@ -1097,10 +1108,7 @@ fn run_generic_pipeline(
 fn load_pipeline_collection(
     octon_dir: &Path,
 ) -> Result<(PipelineCollectionManifest, PipelineRegistry, PathBuf)> {
-    let pipelines_root = octon_dir
-        .join("orchestration")
-        .join("runtime")
-        .join("workflows");
+    let pipelines_root = workflows_root(octon_dir);
     let manifest: PipelineCollectionManifest = serde_yaml::from_str(
         &fs::read_to_string(pipelines_root.join("manifest.yml"))
             .with_context(|| format!("read {}", pipelines_root.join("manifest.yml").display()))?,
@@ -1498,6 +1506,16 @@ mod tests {
     use super::*;
     use std::collections::HashMap;
     use std::path::PathBuf;
+    use std::sync::{Mutex, OnceLock};
+
+    static PIPELINE_TEST_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+
+    fn acquire_pipeline_test_lock() -> std::sync::MutexGuard<'static, ()> {
+        PIPELINE_TEST_LOCK
+            .get_or_init(|| Mutex::new(()))
+            .lock()
+            .expect("pipeline test lock should acquire")
+    }
 
     fn source_repo_root() -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -1532,7 +1550,7 @@ mod tests {
     fn seed_generic_workflow_fixture(root: &Path) -> PathBuf {
         seed_policy_runtime_env();
         let octon_dir = root.join(".octon");
-        let workflows_dir = octon_dir.join("orchestration/runtime/workflows/test/sample-workflow");
+        let workflows_dir = octon_dir.join("framework/orchestration/runtime/workflows/test/sample-workflow");
         fs::create_dir_all(workflows_dir.join("stages")).expect("create workflow stages");
         fs::create_dir_all(octon_dir.join("state/evidence/validation/analysis"))
             .expect("create evidence root");
@@ -1571,7 +1589,7 @@ mod tests {
         .expect("copy support targets");
 
         fs::write(
-            octon_dir.join("orchestration/runtime/workflows/manifest.yml"),
+            octon_dir.join("framework/orchestration/runtime/workflows/manifest.yml"),
             r#"workflows:
   - id: "sample-workflow"
     path: "test/sample-workflow/"
@@ -1580,7 +1598,7 @@ mod tests {
         )
         .expect("write manifest");
         fs::write(
-            octon_dir.join("orchestration/runtime/workflows/registry.yml"),
+            octon_dir.join("framework/orchestration/runtime/workflows/registry.yml"),
             r#"workflows:
   sample-workflow:
     version: "1.0.0"
@@ -1806,6 +1824,7 @@ stages:
 
     #[test]
     fn mock_generic_workflow_materializes_workflow_bundle_contract() {
+        let _guard = acquire_pipeline_test_lock();
         let root = make_temp_root("mock");
         let octon_dir = seed_generic_workflow_fixture(&root);
 
@@ -1870,6 +1889,7 @@ stages:
 
     #[test]
     fn generic_workflow_rejects_invalid_run_id() {
+        let _guard = acquire_pipeline_test_lock();
         let root = make_temp_root("invalid-run-id");
         let octon_dir = seed_generic_workflow_fixture(&root);
 
@@ -1897,6 +1917,7 @@ stages:
 
     #[test]
     fn generic_workflow_rejects_reused_run_id() {
+        let _guard = acquire_pipeline_test_lock();
         let root = make_temp_root("reused-run-id");
         let octon_dir = seed_generic_workflow_fixture(&root);
         let runtime_cfg = ConfigLoader::load(&octon_dir).expect("runtime config should load");
@@ -1929,6 +1950,7 @@ stages:
 
     #[test]
     fn generic_workflow_without_mission_id_stays_human_only() {
+        let _guard = acquire_pipeline_test_lock();
         let root = make_temp_root("human-only");
         let octon_dir = seed_generic_workflow_fixture(&root);
 
@@ -1961,6 +1983,7 @@ stages:
 
     #[test]
     fn prepare_only_generic_workflow_still_writes_bundle_contract_files() {
+        let _guard = acquire_pipeline_test_lock();
         let root = make_temp_root("prepare-only");
         let octon_dir = seed_generic_workflow_fixture(&root);
 
@@ -1999,6 +2022,7 @@ stages:
 
     #[test]
     fn mock_generic_workflow_writes_execution_artifacts() {
+        let _guard = acquire_pipeline_test_lock();
         let root = make_temp_root("artifact-receipts");
         let octon_dir = seed_generic_workflow_fixture(&root);
 

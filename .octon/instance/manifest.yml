@@ -4,6 +4,7 @@ framework_id: "octon-core"
 enabled_overlay_points:
   - "instance-governance-policies"
   - "instance-governance-contracts"
+  - "instance-governance-adoption"
   - "instance-agency-runtime"
   - "instance-assurance-runtime"
 locality:

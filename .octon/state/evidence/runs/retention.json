@@ -19,6 +19,8 @@
         "runtime-soft-delete-",
         "runtime-agent-quorum-",
         "snippet-emit-",
+        "uec-audit-",
+        "uec-validate-proposal-",
         "validate-proposal-"
       ],
       "retention_days": 365,

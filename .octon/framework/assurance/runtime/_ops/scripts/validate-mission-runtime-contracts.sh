@@ -79,9 +79,9 @@ main() {
   has_pattern 'mission_projection_root' "$CONFIG_FILE" && pass "policy interface exposes mission projection root" || fail "policy interface missing mission_projection_root path"
   has_pattern 'policy-receipt-v2' "$OCTON_DIR/framework/capabilities/_ops/scripts/policy-receipt-write.sh" && pass "shared policy receipt writer emits v2 schema" || fail "shared policy receipt writer still emits v1 schema"
   has_pattern 'policy-digest-v2' "$OCTON_DIR/framework/capabilities/_ops/scripts/policy-receipt-write.sh" && pass "shared policy receipt writer emits v2 digest format" || fail "shared policy receipt writer still emits v1 digest format"
-  has_pattern 'autonomy_context' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/authorization.rs" && pass "kernel authorization uses autonomy_context" || fail "kernel authorization missing autonomy_context"
+  has_pattern 'autonomy_context' "$OCTON_DIR/framework/engine/runtime/crates/authority_engine/src/implementation.rs" && pass "kernel authorization uses autonomy_context" || fail "kernel authorization missing autonomy_context"
   has_pattern 'workflow_mode' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/pipeline.rs" && pass "pipeline emits workflow_mode" || fail "pipeline missing workflow_mode"
-  has_pattern 'effective_scenario_resolution_ref' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/authorization.rs" && pass "kernel authorization reads route linkage" || fail "kernel authorization missing route linkage handling"
+  has_pattern 'effective_scenario_resolution_ref' "$OCTON_DIR/framework/engine/runtime/crates/authority_engine/src/implementation.rs" && pass "kernel authorization reads route linkage" || fail "kernel authorization missing route linkage handling"
 
   run_test \
     "authorization denies autonomous execution without mission context" \

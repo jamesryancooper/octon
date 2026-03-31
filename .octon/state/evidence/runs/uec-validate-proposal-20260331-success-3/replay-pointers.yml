@@ -1,0 +1,14 @@
+schema_version: run-replay-pointers-v1
+run_id: uec-validate-proposal-20260331-success-3
+replay_manifest_refs: []
+receipt_refs:
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts/grant-bundle.json
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts/execution-receipt.json
+checkpoint_refs:
+- .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/checkpoints/bound.yml
+- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/checkpoints/execution-start.yml
+- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/checkpoints/execution-complete.yml
+trace_refs: []
+external_index_refs: []
+updated_at: 2026-03-31T21:24:10.9131Z

@@ -1,12 +1,12 @@
 schema_version: harness-card-v1
-card_id: hc-unified-execution-constitution-closure-certification-20260330
+card_id: hc-unified-execution-constitution-status-20260331
 claim_kind: release
 claim_summary: >-
-  Octon's March 30 atomic live model is run-contract-first,
-  authority-artifactized, disclosure-canonical, and support-target-enforced.
-  The currently proved live consequential envelope is MT-B / WT-2 / LT-REF /
-  LOC-EN using the repo-shell host adapter and the repo-local-governed model
-  adapter.
+  Octon has reached full unified execution constitution. Its live model is
+  run-contract-first, authority-artifactized, disclosure-canonical, and
+  support-target-enforced. The currently proved live consequential envelope is
+  MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host adapter and the
+  repo-local-governed model adapter.
 support_target_ref: .octon/instance/governance/support-targets.yml
 compatibility_tuple:
   model_tier: MT-B
@@ -29,18 +29,22 @@ adapter_support:
     - MODEL-004
 proof_bundle_refs:
   - .octon/instance/governance/closure/unified-execution-constitution.yml
-  - .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
-  - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/supported-envelope-positive.md
-  - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/reduced-stage-only.md
-  - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/unsupported-deny.md
-  - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/missing-evidence-fail-closed.md
-  - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/disclosure-parity.md
-  - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/build-to-delete-receipt.md
-  - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/post-cutover-atomic-alignment-remediation.md
-  - .octon/state/evidence/migration/2026-03-30-unified-execution-constitution-closure-certification-cutover/evidence.md
+  - .octon/instance/governance/closure/unified-execution-constitution-status.yml
+  - .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-b/run-card.yml
+  - .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-success-3/run-card.yml
+  - .octon/state/evidence/disclosure/runs/uec-audit-architecture-20260331-2/run-card.yml
+  - .octon/instance/governance/contracts/closeout-reviews.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-03-30/drift-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-03-30/support-target-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-03-30/adapter-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-03-30/retirement-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-03-30/ablation-deletion-receipt.yml
+  - .octon/instance/governance/adoption/brownfield-retrofit.md
+  - .octon/state/evidence/validation/publication/brownfield/2026-03-31-snake-game-retrofit-walkthrough.md
 known_limits:
+  - "Current successful disclosure is evidenced by `uec-validate-proposal-20260331-success-3` and `uec-audit-architecture-20260331-2` for the bounded supported envelope."
   - Historical lab-local HarnessCard files remain retained as non-live mirrors under state/evidence/lab/harness-cards.
   - WT-3 remains a retained reduced stage_only envelope rather than part of the proved supported live claim.
   - MT-A / WT-1, LT-EXT, LOC-MX, studio-control-plane, github-control-plane, and ci-control-plane remain experimental stage_only until retained disclosure proof lands.
   - MT-C remains experimental and WT-4 remains unsupported and denied by default.
-generated_at: "2026-03-30T00:00:00Z"
+generated_at: "2026-03-31T00:00:00Z"

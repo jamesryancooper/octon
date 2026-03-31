@@ -1,0 +1,14 @@
+schema_version: run-replay-pointers-v1
+run_id: uec-audit-architecture-20260331-2
+replay_manifest_refs: []
+receipt_refs:
+- .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/grant-bundle.json
+- .octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/execution-receipt.json
+checkpoint_refs:
+- .octon/state/evidence/runs/uec-audit-architecture-20260331-2/checkpoints/bound.yml
+- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-audit-architecture-20260331-2/checkpoints/execution-start.yml
+- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-audit-architecture-20260331-2/checkpoints/execution-complete.yml
+trace_refs: []
+external_index_refs: []
+updated_at: 2026-03-31T21:23:37.029206Z

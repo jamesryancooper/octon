@@ -1,0 +1,187 @@
+{
+  "actor": {
+    "id": "octon-kernel",
+    "type": "system"
+  },
+  "approval_grant_refs": [],
+  "approval_request_ref": null,
+  "attestations": [],
+  "autonomy_budget_state": null,
+  "boundaries": "workflow",
+  "boundary_id": "workflow",
+  "boundary_set_version": "v1",
+  "breaker_state": null,
+  "budget_reason_codes": [],
+  "budget_rule_id": null,
+  "budgets": {},
+  "capability_classification": "human-only",
+  "compensation_handle": null,
+  "context_acquisition": {
+    "commands": 1,
+    "duration_ms": 0,
+    "file_reads": 0,
+    "search_queries": 0,
+    "subagent_spawns": 0
+  },
+  "context_overhead_ratio": 0,
+  "cost_evidence_path": null,
+  "counters": {},
+  "decision": "ALLOW",
+  "effective_acp": "ACP-1",
+  "evidence": [
+    {
+      "ref": ".octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/execution-request.json",
+      "type": "diff"
+    }
+  ],
+  "exception_refs": [],
+  "execution_posture": null,
+  "flag_metadata_valid": null,
+  "instruction_layers": [
+    {
+      "bytes": 0,
+      "layer_id": "provider",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": "upstream",
+      "visibility": "partial"
+    },
+    {
+      "bytes": 0,
+      "layer_id": "system",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": "octon-system",
+      "visibility": "partial"
+    },
+    {
+      "bytes": 508,
+      "layer_id": "developer",
+      "sha256": "e3cfa0970e341b4b0b6720b126a7f78dd71da432731760147987f9486bc9fe7c",
+      "source": "AGENTS.md",
+      "visibility": "full"
+    },
+    {
+      "bytes": 992,
+      "layer_id": "user",
+      "sha256": "89a9657f0a173484bc681e26aaa7f8f69bcce4322481765baa7efb29208981f5",
+      "source": "execution-request",
+      "visibility": "full"
+    }
+  ],
+  "intent": "execution authorization for validate-proposal",
+  "intent_ref": {
+    "id": "intent://octon/octon-governed-harness",
+    "version": "1.1.0"
+  },
+  "material_side_effect": null,
+  "mission_ref": null,
+  "network_egress": {},
+  "operation": {
+    "class": "execution.authorize",
+    "resources": [
+      "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/analysis",
+      "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows"
+    ],
+    "target": {
+      "boundary_route": null,
+      "capability_classification": "human-only",
+      "material_side_effect": false,
+      "telemetry_profile": "full",
+      "workflow_mode": "human-only"
+    },
+    "targets": [
+      "validate-proposal"
+    ]
+  },
+  "oversight_mode": null,
+  "ownership": {
+    "matched_asset_ref": null,
+    "owner_refs": [
+      "operator://octon-maintainers"
+    ],
+    "source": "ownership_registry.default",
+    "status": "resolved"
+  },
+  "phase": "stage",
+  "profile": "docs",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "reason_details": [
+    {
+      "code": "ACP_EVIDENCE_INVALID",
+      "remediation": "Regenerate and attach complete, hash-bound evidence artifacts for this gate."
+    }
+  ],
+  "recovery_window": "P14D",
+  "remediation": "Regenerate and attach complete, hash-bound evidence artifacts for this gate.",
+  "remediation_steps": [
+    "Regenerate and attach complete, hash-bound evidence artifacts for this gate."
+  ],
+  "requirements": {
+    "budget_remaining": {
+      "repo.max_commits": 10.0,
+      "repo.max_files_touched": 50.0,
+      "repo.max_loc_delta": 1500.0,
+      "time.max_seconds": 5400.0
+    }
+  },
+  "reversibility": {
+    "compensation_handle": null,
+    "primitive": "git.revert_commit",
+    "recovery_window": "P14D",
+    "reversible": true,
+    "rollback_handle": "rollback-uec-validate-proposal-20260331-success-3"
+  },
+  "reversibility_class": null,
+  "revocation_refs": [],
+  "rollback_handle": "rollback-uec-validate-proposal-20260331-success-3",
+  "run_id": "uec-validate-proposal-20260331-success-3",
+  "schema_version": "policy-receipt-v2",
+  "slice_ref": null,
+  "support_tier": {
+    "adapter_conformance_criteria": [
+      "HOST-001",
+      "HOST-002",
+      "HOST-004",
+      "MODEL-001",
+      "MODEL-002",
+      "MODEL-003",
+      "MODEL-004"
+    ],
+    "allowed_capability_packs": [
+      "repo",
+      "git",
+      "shell",
+      "telemetry"
+    ],
+    "declaration_ref": ".octon/instance/governance/support-targets.yml",
+    "host_adapter_id": "repo-shell",
+    "host_adapter_status": "supported",
+    "language_resource_tier_id": "LT-REF",
+    "locale_tier_id": "LOC-EN",
+    "model_adapter_id": "repo-local-governed",
+    "model_adapter_status": "supported",
+    "model_tier_id": "MT-B",
+    "requested_capability_packs": [
+      "repo",
+      "telemetry"
+    ],
+    "required_evidence": [
+      "authority-decision-artifact",
+      "authority-grant-bundle",
+      "run-evidence-root",
+      "instruction-layer-manifest",
+      "control-evidence-root",
+      "support-target-declaration"
+    ],
+    "requires_mission": false,
+    "route": "allow",
+    "support_status": "supported",
+    "support_tier": "repo-local-consequential",
+    "workload_tier_id": "WT-2",
+    "workload_tier_label": "repo-local-consequential"
+  },
+  "telemetry_profile": "full",
+  "timestamp": "2026-03-31T21:23:12Z",
+  "workflow_mode": "human-only"
+}

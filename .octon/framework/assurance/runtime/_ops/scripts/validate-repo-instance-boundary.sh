@@ -64,6 +64,8 @@ check_required_structure() {
   require_dir "$INSTANCE_DIR/governance/disclosure"
   require_file "$INSTANCE_DIR/governance/disclosure/README.md"
   require_file "$INSTANCE_DIR/governance/disclosure/harness-card.yml"
+  require_dir "$INSTANCE_DIR/governance/adoption"
+  require_file "$INSTANCE_DIR/governance/adoption/brownfield-retrofit.md"
   require_dir "$INSTANCE_DIR/capabilities/runtime/commands"
   require_file "$INSTANCE_DIR/capabilities/runtime/commands/README.md"
 }
@@ -100,6 +102,8 @@ check_overlay_domain_shape() {
       ! -path "$INSTANCE_DIR/governance/closure/*" \
       ! -path "$INSTANCE_DIR/governance/disclosure" \
       ! -path "$INSTANCE_DIR/governance/disclosure/*" \
+      ! -path "$INSTANCE_DIR/governance/adoption" \
+      ! -path "$INSTANCE_DIR/governance/adoption/*" \
       ! -path "$INSTANCE_DIR/governance/ownership" \
       ! -path "$INSTANCE_DIR/governance/ownership/*" \
       ! -path "$INSTANCE_DIR/governance/support-targets.yml" \
