@@ -21,11 +21,21 @@ pass() {
   echo "[OK] $1"
 }
 
+file_contains() {
+  local needle="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -Fq -- "$needle" "$file"
+  else
+    grep -Fq -- "$needle" "$file"
+  fi
+}
+
 require_text() {
   local needle="$1"
   local file="$2"
   local label="$3"
-  if rg -Fq -- "$needle" "$file"; then
+  if file_contains "$needle" "$file"; then
     pass "$label"
   else
     fail "$label"
@@ -37,7 +47,7 @@ check_list_block_has_no_inputs() {
   local anchor="$2"
   local label="$3"
 
-  if ! rg -Fq -- "$anchor" "$file"; then
+  if ! file_contains "$anchor" "$file"; then
     fail "${label} anchor exists"
     return
   fi

@@ -38,12 +38,22 @@ yaml_value() {
   yq -r "${expr} // \"\"" "$file"
 }
 
+file_contains() {
+  local needle="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -Fq -- "$needle" "$file"
+  else
+    grep -Fq -- "$needle" "$file"
+  fi
+}
+
 check_lineage_ref() {
   local family_file="$1"
   local family_id="$2"
   local receipt="$3"
 
-  if rg -Fq -- "$receipt" "$family_file"; then
+  if file_contains "$receipt" "$family_file"; then
     if yq -e ".activation_lineage_refs[] | select(. == \"$receipt\")" "$family_file" >/dev/null 2>&1; then
       pass "${family_id} preserves historical lineage for ${receipt##*/migrations/}"
     else
