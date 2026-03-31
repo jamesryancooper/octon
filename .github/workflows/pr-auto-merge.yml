@@ -299,7 +299,9 @@ jobs:
               break
             fi
 
-            if grep -qiE 'HTTP 405|HTTP 409|HTTP 422|Pull Request is not mergeable|required status check|review' <<<"${direct_merge_output}"; then
+            # Treat GitHub-side merge endpoint flakiness like other transient
+            # mergeability conditions so scheduled/next-event retries can recover.
+            if grep -qiE 'HTTP 405|HTTP 409|HTTP 422|HTTP 5[0-9][0-9]|Pull Request is not mergeable|required status check|review|Server Error|Bad Gateway|Service Unavailable|Gateway Timeout' <<<"${direct_merge_output}"; then
               sleep 5
               continue
             fi
