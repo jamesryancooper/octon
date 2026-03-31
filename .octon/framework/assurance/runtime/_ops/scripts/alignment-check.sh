@@ -196,6 +196,18 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-assurance-disclosure-expansion.sh"
 
   run_step \
+    "Validate constitutional family live-model selector alignment" \
+    bash "$SCRIPT_DIR/validate-constitutional-family-live-model.sh"
+
+  run_step \
+    "Validate support-target live claims stay proof-bounded" \
+    bash "$SCRIPT_DIR/validate-support-target-live-claims.sh"
+
+  run_step \
+    "Validate disclosure live roots stay canonical" \
+    bash "$SCRIPT_DIR/validate-disclosure-live-roots.sh"
+
+  run_step \
     "Validate Wave 5 agency simplification and adapter hardening" \
     bash "$SCRIPT_DIR/validate-wave5-agency-adapter-hardening.sh"
 
@@ -210,6 +222,10 @@ run_harness() {
   run_step \
     "Validate bootstrap ingress and objective contract" \
     bash "$SCRIPT_DIR/validate-bootstrap-ingress.sh"
+
+  run_step \
+    "Validate bootstrap authority surfaces stay bounded" \
+    bash "$SCRIPT_DIR/validate-bootstrap-authority-surfaces.sh"
 
   run_step \
     "Validate bootstrap projection parity" \
@@ -260,6 +276,10 @@ run_harness() {
   run_step \
     "Validate canonical framing alignment" \
     bash "$SCRIPT_DIR/validate-framing-alignment.sh"
+
+  run_step \
+    "Validate subordinate governance owner identifiers" \
+    bash "$SCRIPT_DIR/validate-subordinate-owner-identifiers.sh"
 }
 
 run_framing() {

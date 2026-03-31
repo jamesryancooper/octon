@@ -58,8 +58,8 @@ compatibility_matrix:
     workload_tier: "WT-1"
     language_resource_tier: "LT-REF"
     locale_tier: "LOC-EN"
-    support_status: "supported"
-    default_route: "allow"
+    support_status: "experimental"
+    default_route: "stage_only"
     requires_mission: false
     allowed_capability_packs:
       - "repo"
@@ -118,7 +118,7 @@ compatibility_matrix:
     workload_tier: "WT-2"
     language_resource_tier: "LT-EXT"
     locale_tier: "LOC-EN"
-    support_status: "reduced"
+    support_status: "experimental"
     default_route: "stage_only"
     requires_mission: false
     allowed_capability_packs:
@@ -133,7 +133,7 @@ compatibility_matrix:
     workload_tier: "WT-2"
     language_resource_tier: "LT-REF"
     locale_tier: "LOC-MX"
-    support_status: "reduced"
+    support_status: "experimental"
     default_route: "stage_only"
     requires_mission: false
     allowed_capability_packs:
@@ -215,19 +215,14 @@ host_adapters:
       - "HOST-002"
       - "HOST-004"
     allowed_model_tiers:
-      - "MT-A"
       - "MT-B"
-      - "MT-C"
     allowed_workload_tiers:
-      - "WT-1"
       - "WT-2"
       - "WT-3"
     allowed_language_resource_tiers:
       - "LT-REF"
-      - "LT-EXT"
     allowed_locale_tiers:
       - "LOC-EN"
-      - "LOC-MX"
     required_evidence:
       - "authority-decision-artifact"
       - "instruction-layer-manifest"
@@ -235,8 +230,8 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/studio-control-plane.yml"
     authority_mode: "non_authoritative"
     replaceable: true
-    support_status: "supported"
-    default_route: "allow"
+    support_status: "experimental"
+    default_route: "stage_only"
     criteria_refs:
       - "HOST-001"
       - "HOST-002"
@@ -261,8 +256,8 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
     authority_mode: "non_authoritative"
     replaceable: true
-    support_status: "reduced"
-    default_route: "allow"
+    support_status: "experimental"
+    default_route: "stage_only"
     criteria_refs:
       - "HOST-001"
       - "HOST-003"
@@ -284,7 +279,7 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/ci-control-plane.yml"
     authority_mode: "projection_only"
     replaceable: true
-    support_status: "reduced"
+    support_status: "experimental"
     default_route: "stage_only"
     criteria_refs:
       - "HOST-001"
@@ -317,18 +312,14 @@ model_adapters:
       - "MODEL-003"
       - "MODEL-004"
     allowed_model_tiers:
-      - "MT-A"
       - "MT-B"
     allowed_workload_tiers:
-      - "WT-1"
       - "WT-2"
       - "WT-3"
     allowed_language_resource_tiers:
       - "LT-REF"
-      - "LT-EXT"
     allowed_locale_tiers:
       - "LOC-EN"
-      - "LOC-MX"
     required_evidence:
       - "authority-decision-artifact"
       - "instruction-layer-manifest"
@@ -359,3 +350,5 @@ model_adapters:
 notes:
   - "Wave 2 expands support-target coverage enough for authority routing across workload, model, context, and locale axes."
   - "Wave 5 adds bounded adapter envelopes, canonical host-family coverage, governed capability-pack admission, and adapter-conformance criteria for host and model support claims."
+  - "Only the retained MT-B / WT-2 / LT-REF / LOC-EN repo-shell plus repo-local-governed tuple is currently proved as supported live consequential execution."
+  - "The retained MT-B / WT-3 / LT-REF / LOC-EN tuple is proved only as reduced stage_only closure evidence; broader tuples and host adapters remain experimental or unsupported until retained proof lands."

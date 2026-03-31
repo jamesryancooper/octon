@@ -221,6 +221,14 @@ trust activation policy; `full_fidelity` is advisory only and uses a normal
 Git clone. `inputs/exploratory/**`,
 `state/**`, and `generated/**` stay out of clean bootstrap and repo snapshots.
 
+This is architectural transport intent, not a blanket live support claim. The
+currently proved live consequential envelope is the retained
+`MT-B / WT-2 / LT-REF / LOC-EN` tuple using the `repo-shell` host adapter and
+the `repo-local-governed` model adapter. Broader adapter, locale, context, or
+cross-environment support requires explicit support-target declaration plus
+retained disclosure proof before it may be published as supported or
+reduced-live.
+
 Raw additive pack compatibility and provenance travel with
 `inputs/additive/extensions/<pack-id>/pack.yml`.
 Repo trust stays authored in `instance/extensions.yml`.

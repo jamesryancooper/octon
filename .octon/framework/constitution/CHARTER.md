@@ -18,11 +18,18 @@ status: Active
 
 ## Purpose
 
-Octon is a portable harness that turns any repository into a governed
-autonomous engineering environment.
+Octon is an authored harness core designed for profile-driven portability and
+replaceable adapters across repositories.
 
 Enable reliable agent execution that is deterministic enough to trust,
 observable enough to debug, and flexible enough to evolve.
+
+The currently proved live consequential support envelope in this repository is
+the retained `MT-B / WT-2 / LT-REF / LOC-EN` tuple using the `repo-shell` host
+adapter and the `repo-local-governed` model adapter. Broader portability,
+adapter, locale, or context coverage requires explicit support-target
+declaration plus retained disclosure proof before it may be claimed as live
+support.
 
 The harness exists to make consequential autonomous work explicitly scoped,
 authorized, fail-closed, observable, and reviewable.
@@ -75,6 +82,8 @@ model:
 - mission authority remains the continuity and long-horizon autonomy surface
 - authority, assurance, disclosure, and adapter families are active
 - host and model adapters remain replaceable and non-authoritative
+- live support claims remain bounded by the published support-target
+  declaration and retained release or run disclosure evidence
 
 ## Canonical References
 

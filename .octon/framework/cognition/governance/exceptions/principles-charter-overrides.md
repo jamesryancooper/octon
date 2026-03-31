@@ -33,7 +33,7 @@ Every record must include:
 
 - date: 2026-02-24
 - rationale: Align principles governance to human-override-controlled direct edits and retire successor-file sprawl.
-- responsible_owner: "@you"
+- responsible_owner: "octon-maintainers"
 - review_date: 2026-05-31
 - override_scope: Charter change-control framing, discovery-surface alignment, and successor retirement.
 - review_and_agreement_evidence: Explicit human override instructions in Codex session on 2026-02-24.
@@ -47,7 +47,7 @@ Every record must include:
 
 - date: 2026-03-04
 - rationale: Explicitly encode Convivial constraints in the authoritative charter and bind them to enforceable governance controls.
-- responsible_owner: "@you"
+- responsible_owner: "octon-maintainers"
 - review_date: 2026-06-30
 - override_scope: Direct charter clarification adding normative Convivial constraints language and canonical control references.
 - review_and_agreement_evidence: Explicit human override instruction in Codex session on 2026-03-04 ("I am giving you human-override change control to explicitly call out Convivial constraints.").
@@ -61,7 +61,7 @@ Every record must include:
 
 - date: 2026-03-13
 - rationale: Rename the canonical harness, governed runtime, and public framing from Octon to Octon.
-- responsible_owner: "@you"
+- responsible_owner: "octon-maintainers"
 - review_date: 2026-06-30
 - override_scope: Direct charter framing rename plus aligned canonical governance terminology for the Octon cutover.
 - review_and_agreement_evidence: Explicit human instruction in Codex session on 2026-03-13 to rename Octon to Octon and implement the clean-break cutover.

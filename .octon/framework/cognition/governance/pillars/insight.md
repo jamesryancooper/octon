@@ -164,7 +164,7 @@ contributing_factors:
   - "Factor 2"
 action_items:
   - description: "What needs to be done"
-    owner: "@person"
+    owner: "octon-maintainers"
     due_date: YYYY-MM-DD
     type: process | technical | training | tooling
 learning_summary: "What we learned from this incident"
@@ -179,14 +179,14 @@ convivial_impact_review:
 ```yaml
 sprint_id: "Sprint-NN"
 date: YYYY-MM-DD
-participants: ["@you"]
+participants: ["octon-maintainers"]
 wins:
   - "What went well"
 challenges:
   - "What was difficult"
 action_items:
   - description: "Improvement to make"
-    owner: "@person"
+    owner: "octon-maintainers"
     pillar_alignment: Direction | Focus | Velocity | Trust | Continuity | Insight
 methodology_updates:
   - type: kit_enhancement | process_change | guardrail_addition | documentation
