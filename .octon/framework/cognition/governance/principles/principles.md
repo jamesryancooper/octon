@@ -6,7 +6,7 @@ mutability: immutable
 agent_editable: false
 risk_tier: critical
 change_policy: human-override-only
-owner: "@you"
+owner: "octon-maintainers"
 last_reviewed: 2026-03-13
 applies_to:
   - Architecture
@@ -26,7 +26,7 @@ applies_to:
 **Status:** Binding
 **Applies to:** Architecture, code, documentation, configuration, delivery practices
 **Canonical goal:** Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
-**Operational goal:** High-integrity delivery with **minimal sufficient complexity**, strong auditability, and durable cross-project consistency for agent operation.
+**Operational goal:** High-integrity delivery with **minimal sufficient complexity**, strong auditability, and durable profile-driven reuse intent for agent operation, with live support claims bounded by published support targets and retained disclosure proof.
 
 > This authoritative charter is immutable by default and may be changed only
 > through explicit human override under `change_policy: human-override-only`.
@@ -36,7 +36,7 @@ applies_to:
 
 - override_ledger_id: `OVR-2026-03-13-001`
 - rationale: Rename the canonical harness and governed runtime identity from Octon to Octon.
-- responsible_owner: `@you`
+- responsible_owner: `octon-maintainers`
 - review_date: `2026-06-30`
 - override_scope: Direct charter framing rename for the active product and runtime identity, plus aligned terminology in canonical governance text.
 - review_and_agreement_evidence: Explicit human instruction in Codex on 2026-03-13 to rename Octon to Octon and implement the clean-break cutover.
@@ -56,7 +56,7 @@ applies_to:
 
 ## 0) Non-Negotiables (Always True)
 
-1. **Agent-first purpose**: Octon standardizes how agents operate across projects through shared contracts, workflows, capabilities, safety controls, and auditability.
+1. **Agent-first purpose**: Octon standardizes governed agent operation through shared contracts, workflows, capabilities, safety controls, and auditability.
 2. **System-governed model**: governance is encoded in contracts, policies, workflows, and enforcement checks that run by default.
 3. **Human governance role**: humans remain policy authors, exception handlers, and escalation authority.
 4. **Complexity calibration**: complexity must be justified by risk, scale, safety, performance, or compliance; reject under-engineering and over-engineering.
@@ -73,7 +73,10 @@ applies_to:
 
 ### 0B.1 Agent-First Purpose
 
-- Octon standardizes agent operation across projects through shared contracts, workflows, capabilities, safety controls, and auditability.
+- Octon standardizes governed agent operation through shared contracts, workflows, capabilities, safety controls, and auditability.
+- Profile-driven reuse across projects remains an architectural goal; live
+  support claims stay bounded by published support targets and retained
+  disclosure proof.
 - Humans are governance and escalation authority, not the primary standardization target.
 
 ### 0B.2 System-Governed Model

@@ -2,13 +2,11 @@ schema_version: harness-card-v1
 card_id: hc-unified-execution-constitution-closure-certification-20260330
 claim_kind: release
 claim_summary: >-
-  Octon is a fully realized unified execution constitution within its declared
-  supported envelope for MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell
-  host adapter and the repo-local-governed model adapter, with canonical
-  authority artifacts, run-contract-first lifecycle control,
-  disclosure-canonical evidence, executable support-target enforcement,
-  release-blocking disclosure parity, shim independence, and live
-  build-to-delete evidence.
+  Octon's March 30 atomic live model is run-contract-first,
+  authority-artifactized, disclosure-canonical, and support-target-enforced.
+  The currently proved live consequential envelope is MT-B / WT-2 / LT-REF /
+  LOC-EN using the repo-shell host adapter and the repo-local-governed model
+  adapter.
 support_target_ref: .octon/instance/governance/support-targets.yml
 compatibility_tuple:
   model_tier: MT-B
@@ -38,9 +36,11 @@ proof_bundle_refs:
   - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/missing-evidence-fail-closed.md
   - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/disclosure-parity.md
   - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/build-to-delete-receipt.md
+  - .octon/state/evidence/validation/publication/unified-execution-constitution-closure/post-cutover-atomic-alignment-remediation.md
   - .octon/state/evidence/migration/2026-03-30-unified-execution-constitution-closure-certification-cutover/evidence.md
 known_limits:
-  - GitHub remains reduced to projection-only control-plane behavior outside the certified release envelope.
-  - CI remains reduced to stage-only release binding and may not mint support or approval authority.
-  - WT-3, LT-EXT, LOC-MX, MT-C, and WT-4 remain explicitly outside the fully realized claim.
+  - Historical lab-local HarnessCard files remain retained as non-live mirrors under state/evidence/lab/harness-cards.
+  - WT-3 remains a retained reduced stage_only envelope rather than part of the proved supported live claim.
+  - MT-A / WT-1, LT-EXT, LOC-MX, studio-control-plane, github-control-plane, and ci-control-plane remain experimental stage_only until retained disclosure proof lands.
+  - MT-C remains experimental and WT-4 remains unsupported and denied by default.
 generated_at: "2026-03-30T00:00:00Z"

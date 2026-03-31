@@ -5,9 +5,15 @@ description: Boot sequence and orientation for the root .octon harness.
 
 # .octon: Start Here
 
-Octon is a portable harness that turns any repository into a governed autonomous engineering environment.
+Octon is an authored harness core designed for profile-driven portability and replaceable adapters across repositories.
 
 Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
+
+The currently proved live consequential envelope in this repository is the
+retained `MT-B / WT-2 / LT-REF / LOC-EN` tuple using the `repo-shell` host
+adapter and the `repo-local-governed` model adapter. Broader portability or
+adapter coverage remains architectural intent until retained disclosure proof
+and support-target publication promote it into a live claim.
 
 ## Single-Root Model
 
@@ -182,7 +188,16 @@ Instance-native repo authority lives at:
 - `instance/capabilities/runtime/**`
 - `instance/orchestration/missions/**`
 - `instance/extensions.yml`
-- `inputs/additive/extensions/<pack-id>/**`
+
+Raw additive inputs remain non-authoritative and activate only through the
+authored publication chain:
+
+- raw pack input: `inputs/additive/extensions/<pack-id>/**`
+- desired trust activation: `instance/extensions.yml`
+- actual active state: `state/control/extensions/active.yml`
+- quarantine state: `state/control/extensions/quarantine.yml`
+- publication receipts: `state/evidence/validation/publication/extensions/**`
+- compiled runtime-facing outputs: `generated/effective/extensions/**`
 
 Canonical locality resolution and publication surfaces are:
 

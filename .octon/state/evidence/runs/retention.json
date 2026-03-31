@@ -32,7 +32,8 @@
         "run-",
         "service-",
         "tool-",
-        "stdio-"
+        "stdio-",
+        "workflow-"
       ],
       "retention_days": 30,
       "action_after_retention": "prune"

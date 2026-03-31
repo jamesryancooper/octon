@@ -2,13 +2,11 @@
 
 Release claim wording:
 
-> Octon is a fully realized unified execution constitution within its declared
-> supported envelope for MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell
-> host adapter and the repo-local-governed model adapter, with canonical
-> authority artifacts, run-contract-first lifecycle control,
-> disclosure-canonical evidence, executable support-target enforcement,
-> release-blocking disclosure parity, shim independence, and live
-> build-to-delete evidence.
+> Octon's March 30 atomic live model is run-contract-first,
+> authority-artifactized, disclosure-canonical, and support-target-enforced.
+> The currently proved live consequential envelope is
+> MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host adapter and the
+> repo-local-governed model adapter.
 
 Retained proof bundle:
 
@@ -19,6 +17,7 @@ Retained proof bundle:
 - `disclosure-parity.md`
 - `shim-independence.md`
 - `build-to-delete-receipt.md`
+- `post-cutover-atomic-alignment-remediation.md`
 
 This publication root is the stable retained summary for closure-certification
 rounds after the packet is promoted.

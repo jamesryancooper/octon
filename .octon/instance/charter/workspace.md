@@ -18,9 +18,15 @@ profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrati
 
 ## Workspace Goal
 
-Octon is a portable harness that turns any repository into a governed
-autonomous engineering environment. Use Octon in `octon` to evolve the harness
-itself with safe, reviewable, and verifiable changes.
+Octon is an authored harness core designed for profile-driven portability and
+replaceable adapters across repositories. Use Octon in `octon` to evolve the
+harness itself with safe, reviewable, and verifiable changes.
+
+The currently proved live consequential envelope in this repository is the
+retained `MT-B / WT-2 / LT-REF / LOC-EN` tuple using the `repo-shell` host
+adapter and the `repo-local-governed` model adapter. Broader portability or
+adapter coverage remains architectural intent until support targets and
+retained disclosure proof promote it into a live claim.
 
 ## Constitutional Role
 
@@ -35,7 +41,8 @@ execution unit.
 ## What Octon Should Optimize For
 
 - correctness and coherence of the harness runtime, governance, and bootstrap model
-- portability and self-containment across repositories and agent environments
+- profile-driven portability and self-containment intent without claiming live
+  support beyond retained disclosure proof
 - deterministic validation, safe autonomy boundaries, and clear operational evidence
 - constitutional objective binding that keeps mission continuity distinct from
   per-run execution authority
@@ -44,7 +51,8 @@ execution unit.
 
 - `.octon/` runtime, governance, practices, and scaffolding surfaces in this repository
 - harness tooling, validation, docs, workflows, and bootstrap behavior
-- repo-local changes that materially improve Octon's reliability, portability, or operator clarity
+- repo-local changes that materially improve Octon's reliability, portability
+  intent, or operator clarity
 
 ## Out of Scope
 
@@ -54,7 +62,8 @@ execution unit.
 
 ## Success Signals
 
-- bootstrap and execution surfaces remain self-contained, discoverable, and internally consistent
+- bootstrap and execution surfaces remain self-contained, discoverable, and
+  internally consistent within the proved repo-local governed envelope
 - active docs, validators, and runtime behavior agree on the same authority model
 - changes ship with enough evidence and verification to trust autonomous use of the harness
 
@@ -63,4 +72,4 @@ execution unit.
 - keep authored governance surfaces canonical and generated ingress surfaces deterministic
 - tighten validation whenever architecture or bootstrap paths change materially
 - prefer the target-state-correct refactor that removes authority drift and
-  preserves portability
+  preserves portability intent without widening live support claims
