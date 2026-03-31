@@ -6,7 +6,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/octon-post-cutover-atomic-constitutional-alignment-remediation"
     title: "Octon Post-Cutover Atomic Constitutional Alignment Remediation"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/constitution/contracts/objective/"
       - ".octon/framework/constitution/contracts/authority/"
