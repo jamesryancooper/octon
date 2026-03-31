@@ -24,6 +24,16 @@ pass() {
   echo "[OK] $1"
 }
 
+file_contains() {
+  local needle="$1"
+  local file="$2"
+  if command -v rg >/dev/null 2>&1; then
+    rg -Fq -- "$needle" "$file"
+  else
+    grep -Fq -- "$needle" "$file"
+  fi
+}
+
 require_file() {
   local path="$1"
   if [[ -f "$path" ]]; then
@@ -37,7 +47,7 @@ require_text() {
   local needle="$1"
   local file="$2"
   local label="$3"
-  if rg -Fq -- "$needle" "$file"; then
+  if file_contains "$needle" "$file"; then
     pass "$label"
   else
     fail "$label"
@@ -79,12 +89,12 @@ main() {
   require_text "$HISTORICAL_MIRROR_NOTE" "$ATOMIC_RELEASE_CARD" "atomic release HarnessCard keeps the historical mirror note"
   require_text "$HISTORICAL_MIRROR_NOTE" "$CLOSURE_RELEASE_CARD" "closure release HarnessCard keeps the historical mirror note"
 
-  if rg -Fq -- ".octon/state/evidence/lab/harness-cards" "$ATOMIC_RELEASE_CARD" && ! rg -Fq -- "$HISTORICAL_MIRROR_NOTE" "$ATOMIC_RELEASE_CARD"; then
+  if file_contains ".octon/state/evidence/lab/harness-cards" "$ATOMIC_RELEASE_CARD" && ! file_contains "$HISTORICAL_MIRROR_NOTE" "$ATOMIC_RELEASE_CARD"; then
     fail "atomic release HarnessCard does not treat lab HarnessCards as historical only"
   else
     pass "atomic release HarnessCard does not promote lab HarnessCards into live roots"
   fi
-  if rg -Fq -- ".octon/state/evidence/lab/harness-cards" "$CLOSURE_RELEASE_CARD" && ! rg -Fq -- "$HISTORICAL_MIRROR_NOTE" "$CLOSURE_RELEASE_CARD"; then
+  if file_contains ".octon/state/evidence/lab/harness-cards" "$CLOSURE_RELEASE_CARD" && ! file_contains "$HISTORICAL_MIRROR_NOTE" "$CLOSURE_RELEASE_CARD"; then
     fail "closure release HarnessCard does not treat lab HarnessCards as historical only"
   else
     pass "closure release HarnessCard does not promote lab HarnessCards into live roots"
