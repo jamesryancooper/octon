@@ -253,7 +253,7 @@ jobs:
             --issued-by "github://workflow/ai-review-gate" \
             --status "${status}" \
             --support-tier "repo-local-consequential" \
-            --workflow-mode "human-only" \
+            --workflow-mode "agent-augmented" \
             --required-evidence "ai-review-gate-decision" \
             --required-evidence "provider-findings" \
             --reason-code "AI_GATE_DECISION_$(printf '%s' "${decision}" | tr '[:lower:]-' '[:upper:]_')" \

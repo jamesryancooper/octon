@@ -402,10 +402,7 @@ pub fn load_network_egress_policy(repo_root: &Path) -> Result<NetworkEgressPolic
 
 pub fn load_execution_exception_leases(repo_root: &Path) -> Result<ExecutionExceptionLeases> {
     let canonical = repo_root.join(".octon/state/control/execution/exceptions/leases.yml");
-    if canonical.is_file() {
-        return load_yaml_or_default(&canonical);
-    }
-    load_yaml_or_default(&repo_root.join(".octon/state/control/execution/exception-leases.yml"))
+    load_yaml_or_default(&canonical)
 }
 
 pub fn load_execution_budget_policy(repo_root: &Path) -> Result<ExecutionBudgetPolicy> {

@@ -30,6 +30,22 @@ pub struct ActorRef {
     pub id: String,
 }
 
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct SupportTargetTuple {
+    #[serde(default)]
+    pub model_tier: String,
+    #[serde(default)]
+    pub workload_tier: String,
+    #[serde(default)]
+    pub language_resource_tier: String,
+    #[serde(default)]
+    pub locale_tier: String,
+    #[serde(default)]
+    pub host_adapter: String,
+    #[serde(default)]
+    pub model_adapter: String,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AutonomyRef {
     pub id: String,
@@ -392,6 +408,8 @@ pub struct GrantBundle {
     #[serde(default)]
     pub support_tier: Option<String>,
     #[serde(default)]
+    pub support_posture: Option<SupportTierPosture>,
+    #[serde(default)]
     pub quorum_policy_ref: Option<String>,
     #[serde(default)]
     pub ownership_refs: Vec<String>,
@@ -573,7 +591,7 @@ pub fn default_actor_ref() -> ActorRef {
 }
 
 fn default_workflow_mode() -> String {
-    "human-only".to_string()
+    "agent-augmented".to_string()
 }
 
 fn canonical_quorum_policy_ref() -> &'static str {
@@ -753,6 +771,14 @@ struct RunContractRecord {
     #[serde(default)]
     support_tier: String,
     #[serde(default)]
+    support_target: SupportTargetTuple,
+    #[serde(default)]
+    requested_capability_packs: Vec<String>,
+    #[serde(default)]
+    intent_ref: Option<IntentRef>,
+    #[serde(default)]
+    actor_ref: Option<ActorRef>,
+    #[serde(default)]
     required_approvals: Vec<String>,
     #[serde(default)]
     required_evidence: Vec<String>,
@@ -781,8 +807,6 @@ struct OwnershipOperatorRecord {
 struct OwnershipDefaultsRecord {
     #[serde(default)]
     operator_id: Option<String>,
-    #[serde(default)]
-    support_tier: Option<String>,
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -1447,16 +1471,33 @@ fn stage_ref_for_request(request: &ExecutionRequest) -> String {
     request.target_id.clone()
 }
 
-fn requested_support_tier(cfg: &RuntimeConfig, request: &ExecutionRequest) -> CoreResult<String> {
-    if let Some(support_tier) = request.metadata.get("support_tier") {
-        if !support_tier.trim().is_empty() {
-            return Ok(support_tier.clone());
-        }
-    }
-    Ok(load_ownership_registry(cfg)?
-        .defaults
-        .support_tier
-        .unwrap_or_else(|| "repo-local-consequential".to_string()))
+fn required_request_metadata(request: &ExecutionRequest, key: &str) -> CoreResult<String> {
+    request
+        .metadata
+        .get(key)
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .ok_or_else(|| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                format!("execution request missing required support-target binding: {key}"),
+            )
+            .with_details(json!({"reason_codes":["SUPPORT_TARGET_BINDING_MISSING"],"missing_key":key}))
+        })
+}
+
+fn requested_support_target_tuple(request: &ExecutionRequest) -> CoreResult<SupportTargetTuple> {
+    Ok(SupportTargetTuple {
+        model_tier: required_request_metadata(request, "support_model_tier")?,
+        workload_tier: required_request_metadata(request, "support_tier")?,
+        language_resource_tier: required_request_metadata(
+            request,
+            "support_language_resource_tier",
+        )?,
+        locale_tier: required_request_metadata(request, "support_locale_tier")?,
+        host_adapter: required_request_metadata(request, "support_host_adapter")?,
+        model_adapter: required_request_metadata(request, "support_model_adapter")?,
+    })
 }
 
 fn bind_run_lifecycle(
@@ -1511,7 +1552,24 @@ fn bind_run_lifecycle(
         })?;
     }
 
-    let support_tier = requested_support_tier(cfg, request)?;
+    let support_target = requested_support_target_tuple(request)?;
+    let support_tier = support_target.workload_tier.clone();
+    let requested_capability_packs = infer_requested_capability_packs(request);
+    let resolved_intent_ref = request
+        .intent_ref
+        .clone()
+        .or_else(|| active_intent_ref(cfg))
+        .ok_or_else(|| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                "execution request missing active intent binding",
+            )
+            .with_details(json!({"reason_codes":["INTENT_MISSING"]}))
+        })?;
+    let resolved_actor_ref = request
+        .actor_ref
+        .clone()
+        .unwrap_or_else(default_actor_ref);
     let reversibility_class = autonomy_state
         .map(|state| state.context.reversibility_class.clone())
         .unwrap_or_else(|| "reversible".to_string());
@@ -1527,6 +1585,9 @@ fn bind_run_lifecycle(
         || autonomy_state
             .map(|state| state.approval_required || state.break_glass_required)
             .unwrap_or(false);
+    let approval_request_ref = format!(
+        ".octon/state/control/execution/approvals/requests/{run_id}.yml"
+    );
     let expected_approval_ref = format!(
         ".octon/state/control/execution/approvals/grants/grant-{run_id}.yml"
     );
@@ -1545,6 +1606,23 @@ fn bind_run_lifecycle(
     let evidence_root_rel = path_tail(&cfg.repo_root, &evidence_root);
     let run_contract_ref = path_tail(&cfg.repo_root, &run_contract_path);
     let run_manifest_ref = path_tail(&cfg.repo_root, &run_manifest_path);
+    let decision_artifact_ref = format!(
+        ".octon/state/evidence/control/execution/authority-decision-{run_id}.yml"
+    );
+    let authority_grant_bundle_ref = format!(
+        ".octon/state/evidence/control/execution/authority-grant-bundle-{run_id}.yml"
+    );
+    let run_card_ref = format!(".octon/state/evidence/disclosure/runs/{run_id}/run-card.yml");
+    let external_replay_index_ref =
+        format!(".octon/state/evidence/external-index/runs/{run_id}.yml");
+    let host_adapter_ref = format!(
+        ".octon/framework/engine/runtime/adapters/host/{}.yml",
+        support_target.host_adapter
+    );
+    let model_adapter_ref = format!(
+        ".octon/framework/engine/runtime/adapters/model/{}.yml",
+        support_target.model_adapter
+    );
     let runtime_state_ref = path_tail(&cfg.repo_root, &runtime_state_path);
     let rollback_posture_ref = path_tail(&cfg.repo_root, &rollback_posture_path);
     let control_checkpoint_ref = path_tail(&cfg.repo_root, &control_checkpoint_path);
@@ -1604,9 +1682,27 @@ fn bind_run_lifecycle(
                 "scope_in": scope_in,
                 "scope_out": dedupe_strings(&request.scope_constraints.write),
                 "requested_capabilities": dedupe_strings(&request.requested_capabilities),
+                "requested_capability_packs": requested_capability_packs.clone(),
                 "risk_class": request.risk_tier,
+                "intent_ref": {
+                    "id": resolved_intent_ref.id,
+                    "version": resolved_intent_ref.version,
+                },
+                "actor_ref": {
+                    "kind": resolved_actor_ref.kind,
+                    "id": resolved_actor_ref.id,
+                },
                 "reversibility_class": reversibility_class,
                 "support_tier": support_tier,
+                "support_target": {
+                    "model_tier": support_target.model_tier.clone(),
+                    "workload_tier": support_target.workload_tier.clone(),
+                    "language_resource_tier": support_target.language_resource_tier.clone(),
+                    "locale_tier": support_target.locale_tier.clone(),
+                    "host_adapter": support_target.host_adapter.clone(),
+                    "model_adapter": support_target.model_adapter.clone(),
+                },
+                "support_target_ref": ".octon/instance/governance/support-targets.yml",
                 "required_approvals": required_approvals,
                 "required_evidence": required_evidence,
                 "closure_conditions": [
@@ -1615,6 +1711,12 @@ fn bind_run_lifecycle(
                 ],
                 "stage_attempt_root": path_tail(&cfg.repo_root, &stage_attempt_root),
                 "run_manifest_ref": run_manifest_ref,
+                "decision_artifact_ref": decision_artifact_ref,
+                "authority_grant_bundle_ref": authority_grant_bundle_ref,
+                "run_card_ref": run_card_ref,
+                "host_adapter_ref": host_adapter_ref,
+                "model_adapter_ref": model_adapter_ref,
+                "external_replay_index_ref": external_replay_index_ref,
                 "control_checkpoint_root": path_tail(&cfg.repo_root, &control_root.join("checkpoints")),
                 "runtime_state_ref": runtime_state_ref,
                 "rollback_posture_ref": rollback_posture_ref,
@@ -1642,6 +1744,31 @@ fn bind_run_lifecycle(
             "schema_version": "run-manifest-v1",
             "run_id": run_id,
             "run_contract_ref": run_contract_ref,
+            "intent_ref": {
+                "id": resolved_intent_ref.id,
+                "version": resolved_intent_ref.version,
+            },
+            "actor_ref": {
+                "kind": resolved_actor_ref.kind,
+                "id": resolved_actor_ref.id,
+            },
+            "support_tier": support_tier,
+            "support_target": {
+                "model_tier": support_target.model_tier.clone(),
+                "workload_tier": support_target.workload_tier.clone(),
+                "language_resource_tier": support_target.language_resource_tier.clone(),
+                "locale_tier": support_target.locale_tier.clone(),
+                "host_adapter": support_target.host_adapter.clone(),
+                "model_adapter": support_target.model_adapter.clone(),
+            },
+            "support_target_ref": ".octon/instance/governance/support-targets.yml",
+            "requested_capability_packs": requested_capability_packs.clone(),
+            "decision_artifact_ref": decision_artifact_ref,
+            "authority_grant_bundle_ref": authority_grant_bundle_ref,
+            "approval_request_ref": if approval_expected { Some(approval_request_ref.clone()) } else { None },
+            "approval_grant_refs": if approval_expected { vec![expected_approval_ref.clone()] } else { Vec::<String>::new() },
+            "host_adapter_ref": host_adapter_ref,
+            "model_adapter_ref": model_adapter_ref,
             "runtime_state_ref": runtime_state_ref,
             "run_continuity_ref": path_tail(&cfg.repo_root, &continuity_handoff_path),
             "stage_attempt_root": path_tail(&cfg.repo_root, &stage_attempt_root),
@@ -1657,6 +1784,8 @@ fn bind_run_lifecycle(
             "replay_pointers_ref": replay_pointers_ref,
             "trace_pointers_ref": trace_pointers_ref,
             "evidence_classification_ref": evidence_classification_ref,
+            "run_card_ref": run_card_ref,
+            "external_replay_index_ref": external_replay_index_ref,
             "created_at": now,
             "updated_at": now,
             "mission_id": mission_id,
@@ -2371,18 +2500,24 @@ fn load_run_contract_record(
 ) -> CoreResult<RunContractRecord> {
     let path = run_contract_path(cfg, &request.request_id);
     let mut record: RunContractRecord = read_yaml_or_default(&path)?;
+    let request_support_target = requested_support_target_tuple(request)?;
     if record.support_tier.trim().is_empty() {
-        record.support_tier = request
-            .metadata
-            .get("support_tier")
-            .cloned()
-            .unwrap_or_default();
+        record.support_tier = request_support_target.workload_tier.clone();
     }
-    if record.support_tier.trim().is_empty() {
-        record.support_tier = load_ownership_registry(cfg)?
-            .defaults
-            .support_tier
-            .unwrap_or_else(|| "repo-local-consequential".to_string());
+    if record.support_target.workload_tier.trim().is_empty() {
+        record.support_target = request_support_target;
+    }
+    if record.requested_capability_packs.is_empty() {
+        record.requested_capability_packs = infer_requested_capability_packs(request);
+    }
+    if record.intent_ref.is_none() {
+        record.intent_ref = request
+            .intent_ref
+            .clone()
+            .or_else(|| active_intent_ref(cfg));
+    }
+    if record.actor_ref.is_none() {
+        record.actor_ref = Some(request.actor_ref.clone().unwrap_or_else(default_actor_ref));
     }
     if record.reversibility_class.trim().is_empty() {
         record.reversibility_class = autonomy_state
@@ -2987,33 +3122,22 @@ fn resolve_support_tier_posture(
     autonomy_state: Option<&ResolvedAutonomyState>,
 ) -> CoreResult<SupportTierPosture> {
     let declaration = load_support_targets(cfg)?;
-    let requested_tier = run_contract.support_tier.trim();
-    let model_tier = request
-        .metadata
-        .get("support_model_tier")
-        .cloned()
-        .unwrap_or_else(|| "MT-B".to_string());
-    let host_adapter_id = request
-        .metadata
-        .get("support_host_adapter")
-        .cloned()
-        .unwrap_or_else(|| "repo-shell".to_string());
-    let model_adapter_id = request
-        .metadata
-        .get("support_model_adapter")
-        .cloned()
-        .unwrap_or_else(|| "repo-local-governed".to_string());
-    let language_resource_tier = request
-        .metadata
-        .get("support_language_resource_tier")
-        .cloned()
-        .unwrap_or_else(|| "LT-REF".to_string());
-    let locale_tier = request
-        .metadata
-        .get("support_locale_tier")
-        .cloned()
-        .unwrap_or_else(|| "LOC-EN".to_string());
-    let requested_capability_packs = infer_requested_capability_packs(request);
+    let requested_tuple = if run_contract.support_target.workload_tier.trim().is_empty() {
+        requested_support_target_tuple(request)?
+    } else {
+        run_contract.support_target.clone()
+    };
+    let requested_tier = requested_tuple.workload_tier.trim();
+    let model_tier = requested_tuple.model_tier.clone();
+    let host_adapter_id = requested_tuple.host_adapter.clone();
+    let model_adapter_id = requested_tuple.model_adapter.clone();
+    let language_resource_tier = requested_tuple.language_resource_tier.clone();
+    let locale_tier = requested_tuple.locale_tier.clone();
+    let requested_capability_packs = if run_contract.requested_capability_packs.is_empty() {
+        infer_requested_capability_packs(request)
+    } else {
+        dedupe_strings(&run_contract.requested_capability_packs)
+    };
     let Some(workload) = declaration
         .tiers
         .workload
@@ -3479,6 +3603,23 @@ fn write_authority_grant_bundle(cfg: &RuntimeConfig, grant: &GrantBundle) -> Cor
             "grant_id": grant.grant_id,
             "request_id": grant.request_id,
             "run_id": grant.request_id,
+            "workflow_mode": grant.workflow_mode,
+            "support_tier": grant.support_tier,
+            "support_target": grant.support_posture.as_ref().map(|posture| json!({
+                "model_tier": posture.model_tier_id,
+                "workload_tier": posture.workload_tier_id,
+                "language_resource_tier": posture.language_resource_tier_id,
+                "locale_tier": posture.locale_tier_id,
+                "host_adapter": posture.host_adapter_id,
+                "model_adapter": posture.model_adapter_id,
+                "support_status": posture.support_status,
+                "route": posture.route,
+            })),
+            "requested_capability_packs": grant
+                .support_posture
+                .as_ref()
+                .map(|posture| posture.requested_capability_packs.clone())
+                .unwrap_or_default(),
             "quorum_policy_ref": grant.quorum_policy_ref,
             "approval_request_ref": grant.approval_request_ref,
             "approval_grant_refs": grant.approval_grant_refs,
@@ -4543,6 +4684,7 @@ pub fn authorize_execution(
             .as_ref()
             .map(|state| state.breaker_state.clone()),
         support_tier: Some(run_contract.support_tier.clone()),
+        support_posture: Some(support_tier.clone()),
         quorum_policy_ref: Some(canonical_quorum_policy_ref().to_string()),
         ownership_refs: ownership.owner_refs.clone(),
         approval_request_ref: approval_request_ref.clone(),
@@ -5249,18 +5391,27 @@ fn materialize_run_disclosure(
         }),
     )?;
 
-    let host_adapter = "repo-shell".to_string();
-    let model_adapter = "repo-local-governed".to_string();
-    let host_support_status = "supported".to_string();
-    let model_support_status = "supported".to_string();
-    let conformance_criteria = vec![
-        "HOST-001".to_string(),
-        "HOST-002".to_string(),
-        "MODEL-001".to_string(),
-        "MODEL-002".to_string(),
-        "MODEL-003".to_string(),
-        "MODEL-004".to_string(),
-    ];
+    let support_posture = grant
+        .support_posture
+        .clone()
+        .unwrap_or_default();
+    let host_adapter = support_posture
+        .host_adapter_id
+        .clone()
+        .unwrap_or_else(|| "unknown-host-adapter".to_string());
+    let model_adapter = support_posture
+        .model_adapter_id
+        .clone()
+        .unwrap_or_else(|| "unknown-model-adapter".to_string());
+    let host_support_status = support_posture
+        .host_adapter_status
+        .clone()
+        .unwrap_or_else(|| "unsupported".to_string());
+    let model_support_status = support_posture
+        .model_adapter_status
+        .clone()
+        .unwrap_or_else(|| "unsupported".to_string());
+    let conformance_criteria = support_posture.adapter_conformance_criteria.clone();
     let summary = format!(
         "Consequential run {} for target {} completed with status {} under support tier {}.",
         request.request_id,
@@ -5292,8 +5443,17 @@ fn materialize_run_disclosure(
             "run_id": request.request_id,
             "status": outcome.status,
             "summary": summary,
+            "workflow_mode": grant.workflow_mode,
             "support_tier": grant.support_tier.clone().unwrap_or_else(|| "unknown".to_string()),
+            "support_target_tuple": {
+                "model_tier": support_posture.model_tier_id,
+                "workload_tier": support_posture.workload_tier_id,
+                "language_resource_tier": support_posture.language_resource_tier_id,
+                "locale_tier": support_posture.locale_tier_id,
+                "support_status": support_posture.support_status,
+            },
             "support_target_ref": ".octon/instance/governance/support-targets.yml",
+            "requested_capability_packs": support_posture.requested_capability_packs,
             "adapter_support": {
                 "host_adapter": host_adapter,
                 "model_adapter": model_adapter,
@@ -5543,6 +5703,14 @@ fn dangerous_flags_for(kind: &ManagedExecutorKind) -> Vec<String> {
     match kind {
         ManagedExecutorKind::Codex => vec!["--full-auto".to_string()],
         ManagedExecutorKind::Claude => vec!["--permission-mode bypassPermissions".to_string()],
+    }
+}
+
+fn capability_classification_for_mode(workflow_mode: &str) -> &str {
+    match workflow_mode {
+        "human-only" => "human-only",
+        "agent-augmented" => "agent-augmented",
+        _ => "agent-ready",
     }
 }
 
@@ -6015,7 +6183,7 @@ fn build_policy_request_json(
                 "material_side_effect": material_side_effect(request),
                 "telemetry_profile": if effective_policy_mode == "hard-enforce" { "full" } else { "minimal" },
                 "workflow_mode": request.workflow_mode.clone(),
-                "capability_classification": if request.workflow_mode == "human-only" { "human-only" } else { "agent-ready" },
+                "capability_classification": capability_classification_for_mode(&request.workflow_mode),
                 "boundary_route": if service_mode {
                     serde_json::Value::String("allow".to_string())
                 } else {
@@ -6044,7 +6212,7 @@ fn build_policy_request_json(
         "reversibility_class": autonomy_state.as_ref().map(|state| json!(state.context.reversibility_class.clone())).unwrap_or(serde_json::Value::Null),
         "autonomy_budget_state": autonomy_state.as_ref().map(|state| json!(state.autonomy_budget_state.clone())).unwrap_or(serde_json::Value::Null),
         "breaker_state": autonomy_state.as_ref().map(|state| json!(state.breaker_state.clone())).unwrap_or(serde_json::Value::Null),
-        "capability_classification": if request.workflow_mode == "human-only" { "human-only" } else { "agent-ready" },
+        "capability_classification": capability_classification_for_mode(&request.workflow_mode),
         "mission_ref": autonomy_state.as_ref().map(|state| json!(state.context.mission_ref.clone())).unwrap_or(serde_json::Value::Null),
         "slice_ref": autonomy_state.as_ref().map(|state| json!(state.context.slice_ref.clone())).unwrap_or(serde_json::Value::Null),
         "reversibility": {

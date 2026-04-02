@@ -23,6 +23,9 @@ PATH_PREFIX=""
 EXPIRES_AT=""
 TTL_SECONDS=""
 REASON=""
+OWNER=""
+ROLLBACK_POSTURE=""
+RETIREMENT_TRIGGER=""
 
 usage() {
   cat <<'USAGE'
@@ -42,6 +45,7 @@ Usage:
     [--port <n>] \
     [--path-prefix <prefix>] \
     [--expires-at <ts> | --ttl-seconds <n>] \
+    [--owner <ref>] \
     [--reason <text>]
 USAGE
 }
@@ -64,6 +68,9 @@ main() {
       --path-prefix) PATH_PREFIX="$2"; shift 2 ;;
       --expires-at) EXPIRES_AT="$2"; shift 2 ;;
       --ttl-seconds) TTL_SECONDS="$2"; shift 2 ;;
+      --owner) OWNER="$2"; shift 2 ;;
+      --rollback-posture) ROLLBACK_POSTURE="$2"; shift 2 ;;
+      --retirement-trigger) RETIREMENT_TRIGGER="$2"; shift 2 ;;
       --reason) REASON="$2"; shift 2 ;;
       -h|--help) usage; exit 0 ;;
       *) echo "Unknown option: $1" >&2; usage >&2; exit 1 ;;
@@ -83,6 +90,10 @@ main() {
     EXPIRES_AT="$(jq -nr --arg ts "$ts" --argjson seconds "$TTL_SECONDS" '$ts | fromdateiso8601 + $seconds | todateiso8601')"
   fi
   [[ -n "$EXPIRES_AT" ]] || EXPIRES_AT="2099-01-01T00:00:00Z"
+  [[ -n "$OWNER" ]] || OWNER="$ISSUED_BY"
+  [[ -n "$REASON" ]] || REASON="Bounded canonical exception lease."
+  [[ -n "$ROLLBACK_POSTURE" ]] || ROLLBACK_POSTURE="Revert the widened path and re-run under the canonical deny or stage_only route."
+  [[ -n "$RETIREMENT_TRIGGER" ]] || RETIREMENT_TRIGGER="Retire once a canonical policy or adapter rule supersedes the lease."
 
   local tmp_json tmp_yaml
   tmp_json="$(mktemp "${TMPDIR:-/tmp}/authority-exception.XXXXXX.json")"
@@ -94,9 +105,12 @@ main() {
     --arg request_id "$REQUEST_ID" \
     --arg run_id "$RUN_ID" \
     --arg issued_by "$ISSUED_BY" \
+    --arg owner "$OWNER" \
     --arg issued_at "$ts" \
     --arg expires_at "$EXPIRES_AT" \
     --arg reason "$REASON" \
+    --arg rollback_posture "$ROLLBACK_POSTURE" \
+    --arg retirement_trigger "$RETIREMENT_TRIGGER" \
     --arg service "$SERVICE" \
     --arg adapter "$ADAPTER" \
     --arg method "$METHOD" \
@@ -121,10 +135,13 @@ main() {
         host: (if ($host | length) > 0 then $host else null end),
         port: (if ($port | length) > 0 then ($port | tonumber) else null end),
         path_prefix: (if ($path_prefix | length) > 0 then $path_prefix else null end),
+        owner: $owner,
         issued_by: $issued_by,
         issued_at: $issued_at,
         expires_at: $expires_at,
-        reason: (if ($reason | length) > 0 then $reason else null end)
+        reason: $reason,
+        rollback_posture: $rollback_posture,
+        retirement_trigger: $retirement_trigger
       }]
     ' > "$tmp_json"
   yq -oy -p=json '.' "$tmp_json" > "$tmp_yaml"

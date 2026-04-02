@@ -83,6 +83,27 @@ main() {
   require_file "$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-authority-control-tooling.sh"
   require_file "$SCRIPT_DIR/assert-protected-execution-posture.sh"
 
+  if [[ -f "$OCTON_DIR/state/control/execution/exception-leases.yml" ]]; then
+    fail "legacy flat exception-leases.yml must be deleted once the canonical lease family is live"
+  else
+    pass "legacy flat exception-leases.yml is deleted"
+  fi
+
+  if has_pattern_in_files 'workflow_mode:[[:space:]]*"human-only"|workflow_mode:[[:space:]]*human-only|WORKFLOW_MODE="human-only"|--workflow-mode "human-only"' \
+    "$ROOT_DIR/.github/workflows/ai-review-gate.yml" \
+    "$ROOT_DIR/.github/workflows/pr-auto-merge.yml" \
+    "$OCTON_DIR/framework/engine/_ops/scripts/materialize-authority-approval.sh" \
+    "$OCTON_DIR/framework/engine/_ops/scripts/project-github-control-approval.sh" \
+    "$OCTON_DIR/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh" \
+    "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/main.rs" \
+    "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/pipeline.rs" \
+    "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/stdio.rs" \
+    "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/workflow.rs"; then
+    fail "live consequential request paths must not default to human-only workflow mode"
+  else
+    pass "live consequential request paths no longer default to human-only workflow mode"
+  fi
+
   if yq -e '.execution_governance.policy_mode.default == "hard-enforce"' "$ROOT_MANIFEST" >/dev/null; then
     pass "root manifest declares hard-enforce default policy mode"
   else

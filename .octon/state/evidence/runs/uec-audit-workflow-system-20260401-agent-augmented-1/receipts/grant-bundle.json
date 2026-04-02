@@ -1,0 +1,120 @@
+{
+  "grant": {
+    "actor_ref": {
+      "id": "octon-kernel",
+      "kind": "system"
+    },
+    "approval_grant_refs": [],
+    "approval_request_ref": null,
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-workflow-system-20260401-agent-augmented-1.yml",
+    "autonomy_budget_state": null,
+    "autonomy_context": null,
+    "breaker_state": null,
+    "budget": null,
+    "compensation_handle": null,
+    "decision": "ALLOW",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-uec-audit-workflow-system-20260401-agent-augmented-1.yml",
+    "effective_policy_mode": "hard-enforce",
+    "environment_class": "protected",
+    "exception_lease_refs": [],
+    "expires_after": null,
+    "grant_id": "grant-uec-audit-workflow-system-20260401-agent-augmented-1",
+    "granted_capabilities": [
+      "workflow.execute",
+      "evidence.write"
+    ],
+    "instruction_manifest_path": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/instruction-layer-manifest.json",
+    "intent_ref": {
+      "id": "intent://octon/octon-governed-harness",
+      "version": "1.1.0"
+    },
+    "network_egress_posture": null,
+    "ownership_refs": [
+      "operator://octon-maintainers"
+    ],
+    "policy_digest_path": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts/policy-digest.latest.md",
+    "policy_receipt_path": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts/policy-receipt.latest.json",
+    "quorum_policy_ref": ".octon/instance/governance/policies/mission-autonomy.yml#quorum",
+    "reason_codes": [
+      "ACP_EVIDENCE_INVALID"
+    ],
+    "receipt_requirements": [
+      "execution-request.json",
+      "policy-decision.json",
+      "grant-bundle.json",
+      "side-effects.json",
+      "outcome.json",
+      "execution-receipt.json"
+    ],
+    "recovery_window": null,
+    "replay_pointers_path": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay-pointers.yml",
+    "request_id": "uec-audit-workflow-system-20260401-agent-augmented-1",
+    "retained_evidence_path": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/retained-run-evidence.yml",
+    "review_metadata": {},
+    "revocation_refs": [],
+    "rollback_handle": null,
+    "run_control_root": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1",
+    "run_receipts_root": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts",
+    "run_root": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1",
+    "scope_constraints": {
+      "executor_profile": null,
+      "locality_scope": null,
+      "read": [
+        "workflow-contract"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows"
+      ]
+    },
+    "stage_attempt_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/stage-attempts/initial.yml",
+    "support_posture": {
+      "adapter_conformance_criteria": [
+        "HOST-001",
+        "HOST-002",
+        "HOST-004",
+        "MODEL-001",
+        "MODEL-002",
+        "MODEL-003",
+        "MODEL-004"
+      ],
+      "allowed_capability_packs": [
+        "repo",
+        "git",
+        "shell",
+        "telemetry"
+      ],
+      "declaration_ref": ".octon/instance/governance/support-targets.yml",
+      "host_adapter_id": "repo-shell",
+      "host_adapter_status": "supported",
+      "language_resource_tier_id": "LT-REF",
+      "locale_tier_id": "LOC-EN",
+      "model_adapter_id": "repo-local-governed",
+      "model_adapter_status": "supported",
+      "model_tier_id": "MT-B",
+      "requested_capability_packs": [
+        "repo",
+        "git",
+        "telemetry"
+      ],
+      "required_evidence": [
+        "authority-decision-artifact",
+        "authority-grant-bundle",
+        "run-evidence-root",
+        "instruction-layer-manifest",
+        "control-evidence-root",
+        "support-target-declaration",
+        "rollback-proof"
+      ],
+      "requires_mission": false,
+      "route": "allow",
+      "support_status": "supported",
+      "support_tier": "repo-local-consequential",
+      "workload_tier_id": "WT-2",
+      "workload_tier_label": "repo-local-consequential"
+    },
+    "support_tier": "repo-local-consequential",
+    "trace_pointers_path": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/trace-pointers.yml",
+    "workflow_mode": "agent-augmented"
+  },
+  "schema_version": "execution-grant-v1"
+}

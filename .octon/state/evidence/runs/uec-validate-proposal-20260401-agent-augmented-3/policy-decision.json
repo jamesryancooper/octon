@@ -1,0 +1,20 @@
+{
+  "allow": true,
+  "decision": "ALLOW",
+  "effective_acp": "ACP-1",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "remediation": "Regenerate and attach complete, hash-bound evidence artifacts for this gate.",
+  "remediation_steps": [
+    "Regenerate and attach complete, hash-bound evidence artifacts for this gate."
+  ],
+  "requirements": {
+    "budget_remaining": {
+      "repo.max_commits": 10.0,
+      "repo.max_files_touched": 50.0,
+      "repo.max_loc_delta": 1500.0,
+      "time.max_seconds": 5400.0
+    }
+  }
+}

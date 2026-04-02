@@ -1,0 +1,14 @@
+schema_version: run-replay-pointers-v1
+run_id: uec-evaluate-harness-20260401-agent-augmented-1
+replay_manifest_refs: []
+receipt_refs:
+- .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts/grant-bundle.json
+- .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts/execution-receipt.json
+checkpoint_refs:
+- .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/checkpoints/bound.yml
+- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/checkpoints/execution-start.yml
+- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/checkpoints/execution-complete.yml
+trace_refs: []
+external_index_refs: []
+updated_at: 2026-04-01T14:28:16.191559Z

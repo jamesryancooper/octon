@@ -1,0 +1,15 @@
+evidence_refs:
+- .octon/framework/assurance/recovery/suites/checkpoint-fault-recovery.yml
+- .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/rollback-posture.yml
+- .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/checkpoints/bound.yml
+- .octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml
+- .octon/state/evidence/lab/faults/flt-runtime-proof-supported-20260329/fault-report.yml
+generated_at: 2026-04-01T14:28:33.960219Z
+known_limits: []
+outcome: pass
+plane: recovery
+proof_class: lab
+schema_version: proof-plane-report-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-contract.yml
+summary: Recovery proof is backed by rollback posture, checkpoints, replay, and the retained fault rehearsal for the supported consequential envelope.

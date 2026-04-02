@@ -492,8 +492,8 @@ acp:
         class: service.execute
         phase: [promote]
         target:
-          workflow_mode: [human-only]
-          capability_classification: [human-only]
+          workflow_mode: [human-only, agent-augmented]
+          capability_classification: [human-only, agent-augmented]
           boundary_route: [allow]
       require:
         acp: ACP-1

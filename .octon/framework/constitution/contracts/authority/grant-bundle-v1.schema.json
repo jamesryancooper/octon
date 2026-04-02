@@ -9,6 +9,9 @@
     "grant_id",
     "request_id",
     "run_id",
+    "workflow_mode",
+    "support_tier",
+    "requested_capability_packs",
     "decision_artifact_ref",
     "generated_at"
   ],
@@ -27,6 +30,23 @@
     "run_id": {
       "type": "string",
       "minLength": 1
+    },
+    "workflow_mode": {
+      "type": "string",
+      "enum": ["autonomous", "agent-augmented", "human-only"]
+    },
+    "support_tier": {
+      "type": ["string", "null"]
+    },
+    "support_target": {
+      "type": ["object", "null"]
+    },
+    "requested_capability_packs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "quorum_policy_ref": {
       "type": [

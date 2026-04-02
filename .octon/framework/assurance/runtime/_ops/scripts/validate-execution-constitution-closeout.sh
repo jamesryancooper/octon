@@ -82,6 +82,11 @@ main() {
   require_dir "$OCTON_DIR/state/evidence/disclosure"
   require_dir "$OCTON_DIR/instance/governance/disclosure"
   require_dir "$GOVERNANCE_CONTRACTS"
+  if [[ -f "$OCTON_DIR/state/control/execution/exception-leases.yml" ]]; then
+    fail "legacy flat exception-leases.yml must be deleted"
+  else
+    pass "legacy flat exception-leases.yml is deleted"
+  fi
   if [[ -z "$BUILD_TO_DELETE_REVIEWS" ]]; then
     fail "closeout review contract does not publish latest_review_packet"
   elif [[ "$BUILD_TO_DELETE_REVIEWS" == .octon/* ]]; then
@@ -117,6 +122,9 @@ main() {
   require_file "$BUILD_TO_DELETE_REVIEWS/ablation-deletion-receipt.yml"
 
   require_yq '.families[] | select(.family_id == "retention" and .status == "active")' "$CONTRACT_REGISTRY" "constitutional registry activates retention family"
+  require_yq '.required[] | select(. == "support_target")' "$OCTON_DIR/framework/constitution/contracts/objective/run-contract-v1.schema.json" "run-contract schema requires support_target tuple"
+  require_yq '.required[] | select(. == "support_target")' "$OCTON_DIR/framework/constitution/contracts/runtime/run-manifest-v1.schema.json" "run-manifest schema requires support_target tuple"
+  require_yq '.required[] | select(. == "support_target_tuple")' "$OCTON_DIR/framework/constitution/contracts/disclosure/run-card-v1.schema.json" "run-card schema requires support_target_tuple"
   require_yq '.integration_surfaces.run_continuity_root.path == ".octon/state/continuity/runs/**"' "$CONTRACT_REGISTRY" "contract registry exposes run continuity root"
   require_yq '.integration_surfaces.external_evidence_index_root.path == ".octon/state/evidence/external-index/**"' "$CONTRACT_REGISTRY" "contract registry exposes external evidence index root"
   require_yq '.integration_surfaces.build_to_delete_review_evidence_root.path == ".octon/state/evidence/validation/publication/build-to-delete/**"' "$CONTRACT_REGISTRY" "contract registry exposes build-to-delete review evidence root"

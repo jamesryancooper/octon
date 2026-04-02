@@ -1,0 +1,25 @@
+approval_grant_refs: []
+approval_request_ref: null
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260401-agent-augmented-3.yml
+exception_refs: []
+generated_at: 2026-04-01T14:24:37.102546Z
+grant_id: grant-uec-validate-proposal-20260401-agent-augmented-3
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+request_id: uec-validate-proposal-20260401-agent-augmented-3
+requested_capability_packs:
+- repo
+- telemetry
+revocation_refs: []
+run_id: uec-validate-proposal-20260401-agent-augmented-3
+schema_version: authority-grant-bundle-v1
+support_target:
+  host_adapter: repo-shell
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  model_adapter: repo-local-governed
+  model_tier: MT-B
+  route: allow
+  support_status: supported
+  workload_tier: WT-2
+support_tier: repo-local-consequential
+workflow_mode: agent-augmented

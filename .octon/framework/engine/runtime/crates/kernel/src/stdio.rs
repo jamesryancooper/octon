@@ -1,10 +1,10 @@
 use octon_authority_engine::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
-    with_authority_env_metadata,
     write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
     ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
 use crate::context::KernelContext;
+use crate::request;
 use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::execution_integrity::service_capability_profile;
 use octon_core::jsonlines::{read_json_line, write_json_line};
@@ -198,6 +198,19 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         &input,
                         &service.manifest.capabilities_required,
                     );
+                    let (intent_ref, actor_ref, metadata) =
+                        match request::bind_repo_local_request(&ctx.cfg, service_profile.metadata.clone()) {
+                            Ok(bindings) => bindings,
+                            Err(error) => {
+                                let err = KernelError::new(
+                                    ErrorCode::CapabilityDenied,
+                                    format!("failed to bind canonical execution request: {error}"),
+                                );
+                                let _ = out_tx.send(response_error(&id, err));
+                                let _ = inflight.lock().unwrap().remove(&id);
+                                return;
+                            }
+                        };
 
                     let request = ExecutionRequest {
                         request_id: format!("stdio-{id}"),
@@ -212,11 +225,11 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                             ..SideEffectFlags::default()
                         },
                         risk_tier: "medium".to_string(),
-                        workflow_mode: "human-only".to_string(),
+                        workflow_mode: request::agent_augmented_mode(),
                         locality_scope: None,
-                        intent_ref: None,
+                        intent_ref: Some(intent_ref),
                         autonomy_context: None,
-                        actor_ref: None,
+                        actor_ref: Some(actor_ref),
                         parent_run_ref: None,
                         review_requirements: ReviewRequirements::default(),
                         scope_constraints: ScopeConstraints {
@@ -227,7 +240,7 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         },
                         policy_mode_requested: None,
                         environment_hint: None,
-                        metadata: with_authority_env_metadata(service_profile.metadata.clone()),
+                        metadata,
                     };
                     let grant = match authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(&service)) {
                         Ok(grant) => grant,

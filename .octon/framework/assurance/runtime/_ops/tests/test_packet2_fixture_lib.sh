@@ -295,7 +295,7 @@ execution:
     execution_budgets: ".octon/instance/governance/policies/execution-budgets.yml"
   control_state:
     budget_state: ".octon/state/control/execution/budget-state.yml"
-    exception_leases: ".octon/state/control/execution/exception-leases.yml"
+    exception_leases: ".octon/state/control/execution/exceptions/leases.yml"
   forbidden_write_prefixes:
     - ".octon/framework/engine/_ops/state"
   required_doc_surfaces:
@@ -619,8 +619,9 @@ updated_at: "2026-03-22T00:00:00Z"
 rules: {}
 EOF
 
-  cat >"$fixture_root/.octon/state/control/execution/exception-leases.yml" <<'EOF'
-schema_version: "execution-exception-leases-v1"
+  mkdir -p "$fixture_root/.octon/state/control/execution/exceptions"
+  cat >"$fixture_root/.octon/state/control/execution/exceptions/leases.yml" <<'EOF'
+schema_version: "authority-exception-lease-set-v1"
 leases: []
 EOF
 
