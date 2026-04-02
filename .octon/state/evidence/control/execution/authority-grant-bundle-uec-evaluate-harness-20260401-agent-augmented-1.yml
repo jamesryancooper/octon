@@ -1,0 +1,26 @@
+approval_grant_refs: []
+approval_request_ref: null
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-evaluate-harness-20260401-agent-augmented-1.yml
+exception_refs: []
+generated_at: 2026-04-01T14:28:15.499897Z
+grant_id: grant-uec-evaluate-harness-20260401-agent-augmented-1
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+request_id: uec-evaluate-harness-20260401-agent-augmented-1
+requested_capability_packs:
+- repo
+- git
+- telemetry
+revocation_refs: []
+run_id: uec-evaluate-harness-20260401-agent-augmented-1
+schema_version: authority-grant-bundle-v1
+support_target:
+  host_adapter: repo-shell
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  model_adapter: repo-local-governed
+  model_tier: MT-B
+  route: allow
+  support_status: supported
+  workload_tier: WT-2
+support_tier: repo-local-consequential
+workflow_mode: agent-augmented

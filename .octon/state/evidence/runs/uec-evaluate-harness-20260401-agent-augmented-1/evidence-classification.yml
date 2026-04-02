@@ -1,0 +1,16 @@
+artifacts:
+- artifact_id: run-contract
+  artifact_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: run-manifest
+  artifact_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-manifest.yml
+  evidence_class: A
+  storage_class: git-inline
+- artifact_id: replay-pointers
+  artifact_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/replay-pointers.yml
+  evidence_class: B
+  storage_class: git-pointer
+run_id: uec-evaluate-harness-20260401-agent-augmented-1
+schema_version: run-evidence-classification-v1
+updated_at: 2026-04-01T14:28:15.200349Z

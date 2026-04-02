@@ -1,0 +1,12 @@
+schema_version: run-rollback-posture-v1
+run_id: uec-audit-workflow-system-20260401-agent-augmented-1
+reversibility_class: reversible
+rollback_strategy: rollback
+rollback_ref: null
+rollback_handle: null
+compensation_handle: null
+recovery_window: null
+contamination_state: clean
+hard_reset_required: false
+posture_source: run-contract-default
+updated_at: 2026-04-01T14:28:31.847273Z

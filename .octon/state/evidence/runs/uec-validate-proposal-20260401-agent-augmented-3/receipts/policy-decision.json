@@ -1,0 +1,9 @@
+{
+  "decision": "ALLOW",
+  "effective_policy_mode": "hard-enforce",
+  "environment_class": "development",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "schema_version": "execution-authorization-v1"
+}

@@ -1,13 +1,14 @@
 mod context;
 mod orchestration;
 mod pipeline;
+mod request;
 mod scaffold;
 mod stdio;
 mod workflow;
 
 use octon_authority_engine::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
-    with_authority_env_metadata, write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
+    write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
     ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
 use clap::{Args, Parser, Subcommand, ValueEnum};
@@ -348,6 +349,8 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
     };
     let service_profile =
         service_capability_profile(&svc.key.id(), &input, &svc.manifest.capabilities_required);
+    let (intent_ref, actor_ref, metadata) =
+        request::bind_repo_local_request(&ctx.cfg, service_profile.metadata.clone())?;
 
     let request = ExecutionRequest {
         request_id: new_request_id("tool"),
@@ -362,11 +365,11 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: "human-only".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -377,7 +380,7 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: with_authority_env_metadata(service_profile.metadata.clone()),
+        metadata,
     };
     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(svc))?;
     let artifacts = write_execution_start(
@@ -444,6 +447,8 @@ fn cmd_studio() -> anyhow::Result<()> {
         .join("engine")
         .join("build")
         .join("runtime-crates-target");
+    let (intent_ref, actor_ref, metadata) =
+        request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
 
     let request = ExecutionRequest {
         request_id: new_request_id("studio"),
@@ -463,11 +468,11 @@ fn cmd_studio() -> anyhow::Result<()> {
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: "human-only".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements {
             human_approval: true,
@@ -482,7 +487,7 @@ fn cmd_studio() -> anyhow::Result<()> {
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: std::collections::BTreeMap::new(),
+        metadata,
     };
     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
     let artifacts = write_execution_start(
@@ -555,6 +560,8 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 .join("services")
                 .join(&category)
                 .join(&name);
+            let (intent_ref, actor_ref, metadata) =
+                request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
             let request = ExecutionRequest {
                 request_id: new_request_id("service-new"),
                 caller_path: "kernel".to_string(),
@@ -571,11 +578,11 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                     ..SideEffectFlags::default()
                 },
                 risk_tier: "medium".to_string(),
-                workflow_mode: "human-only".to_string(),
+                workflow_mode: request::agent_augmented_mode(),
                 locality_scope: None,
-                intent_ref: None,
+                intent_ref: Some(intent_ref),
                 autonomy_context: None,
-                actor_ref: None,
+                actor_ref: Some(actor_ref),
                 parent_run_ref: None,
                 review_requirements: ReviewRequirements {
                     human_approval: true,
@@ -590,7 +597,7 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 },
                 policy_mode_requested: None,
                 environment_hint: None,
-                metadata: std::collections::BTreeMap::new(),
+                metadata,
             };
             let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
             let artifacts = write_execution_start(
@@ -640,6 +647,8 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 .join("state")
                 .join("build")
                 .join(format!("{category}-{name}-target"));
+            let (intent_ref, actor_ref, metadata) =
+                request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
             let request = ExecutionRequest {
                 request_id: new_request_id("service-build"),
                 caller_path: "kernel".to_string(),
@@ -658,11 +667,11 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                     ..SideEffectFlags::default()
                 },
                 risk_tier: "medium".to_string(),
-                workflow_mode: "human-only".to_string(),
+                workflow_mode: request::agent_augmented_mode(),
                 locality_scope: None,
-                intent_ref: None,
+                intent_ref: Some(intent_ref),
                 autonomy_context: None,
-                actor_ref: None,
+                actor_ref: Some(actor_ref),
                 parent_run_ref: None,
                 review_requirements: ReviewRequirements {
                     human_approval: true,
@@ -677,7 +686,7 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 },
                 policy_mode_requested: None,
                 environment_hint: None,
-                metadata: std::collections::BTreeMap::new(),
+                metadata,
             };
             let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
             let artifacts = write_execution_start(
@@ -788,6 +797,8 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
         } => {
             let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
             if let Some(path) = output_report.as_ref() {
+                let (intent_ref, actor_ref, metadata) =
+                    request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
                 let request = ExecutionRequest {
                     request_id: new_request_id("orchestration-lookup"),
                     caller_path: "kernel".to_string(),
@@ -800,11 +811,11 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                         ..SideEffectFlags::default()
                     },
                     risk_tier: "low".to_string(),
-                    workflow_mode: "human-only".to_string(),
+                    workflow_mode: request::agent_augmented_mode(),
                     locality_scope: None,
-                    intent_ref: None,
+                    intent_ref: Some(intent_ref),
                     autonomy_context: None,
-                    actor_ref: None,
+                    actor_ref: Some(actor_ref),
                     parent_run_ref: None,
                     review_requirements: ReviewRequirements::default(),
                     scope_constraints: ScopeConstraints {
@@ -815,7 +826,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                     },
                     policy_mode_requested: None,
                     environment_hint: None,
-                    metadata: std::collections::BTreeMap::new(),
+                    metadata,
                 };
                 let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
                 let artifacts = write_execution_start(
@@ -857,6 +868,8 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
         } => {
             let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
             if let Some(path) = output_report.as_ref() {
+                let (intent_ref, actor_ref, metadata) =
+                    request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
                 let request = ExecutionRequest {
                     request_id: new_request_id("orchestration-summary"),
                     caller_path: "kernel".to_string(),
@@ -869,11 +882,11 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                         ..SideEffectFlags::default()
                     },
                     risk_tier: "low".to_string(),
-                    workflow_mode: "human-only".to_string(),
+                    workflow_mode: request::agent_augmented_mode(),
                     locality_scope: None,
-                    intent_ref: None,
+                    intent_ref: Some(intent_ref),
                     autonomy_context: None,
-                    actor_ref: None,
+                    actor_ref: Some(actor_ref),
                     parent_run_ref: None,
                     review_requirements: ReviewRequirements::default(),
                     scope_constraints: ScopeConstraints {
@@ -884,7 +897,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                     },
                     policy_mode_requested: None,
                     environment_hint: None,
-                    metadata: std::collections::BTreeMap::new(),
+                    metadata,
                 };
                 let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
                 let artifacts = write_execution_start(
@@ -927,6 +940,10 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
             } => {
                 let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
                 if let Some(path) = output_report.as_ref() {
+                    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+                        &ctx.cfg,
+                        std::collections::BTreeMap::new(),
+                    )?;
                     let request = ExecutionRequest {
                         request_id: new_request_id("orchestration-closure"),
                         caller_path: "kernel".to_string(),
@@ -939,11 +956,11 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                             ..SideEffectFlags::default()
                         },
                         risk_tier: "low".to_string(),
-                        workflow_mode: "human-only".to_string(),
+                        workflow_mode: request::agent_augmented_mode(),
                         locality_scope: None,
-                        intent_ref: None,
+                        intent_ref: Some(intent_ref),
                         autonomy_context: None,
-                        actor_ref: None,
+                        actor_ref: Some(actor_ref),
                         parent_run_ref: None,
                         review_requirements: ReviewRequirements::default(),
                         scope_constraints: ScopeConstraints {
@@ -954,7 +971,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                         },
                         policy_mode_requested: None,
                         environment_hint: None,
-                        metadata: std::collections::BTreeMap::new(),
+                        metadata,
                     };
                     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
                     let artifacts = write_execution_start(

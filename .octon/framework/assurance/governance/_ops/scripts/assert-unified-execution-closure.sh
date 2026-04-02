@@ -146,6 +146,12 @@ validate_harness_card() {
   while IFS= read -r ref; do
     [[ -z "$ref" ]] && continue
     require_ref_file "$ref" "$label_prefix proof bundle resolves: $ref"
+    if [[ "$ref" == *.octon/state/evidence/disclosure/runs/*/run-card.yml || "$ref" == .octon/state/evidence/disclosure/runs/*/run-card.yml ]]; then
+      local run_card_path
+      run_card_path="$(resolve_ref "$ref")"
+      require_yq '.workflow_mode != "human-only"' "$run_card_path" "$label_prefix cited RunCard is not human-only"
+      require_yq '.support_target_tuple.model_tier == "MT-B" and .support_target_tuple.workload_tier == "WT-2" and .support_target_tuple.language_resource_tier == "LT-REF" and .support_target_tuple.locale_tier == "LOC-EN" and .support_target_tuple.support_status == "supported"' "$run_card_path" "$label_prefix cited RunCard carries the supported tuple"
+    fi
   done < <(yq -r '.proof_bundle_refs[]' "$card_path")
 }
 
@@ -158,6 +164,8 @@ validate_run_card_schema_refs() {
   require_file "$run_card_path"
   require_yq '.schema_version == "run-card-v1"' "$run_card_path" "RunCard uses run-card schema"
   require_yq ".authority_refs.run_contract == $(printf '%s' "$run_contract_ref" | jq -R '.') " "$run_card_path" "RunCard points at the supported fixture run contract"
+  require_yq '.workflow_mode != "human-only"' "$run_card_path" "RunCard workflow mode is not human-only"
+  require_yq '.support_target_tuple.model_tier == "MT-B" and .support_target_tuple.workload_tier == "WT-2" and .support_target_tuple.language_resource_tier == "LT-REF" and .support_target_tuple.locale_tier == "LOC-EN" and .support_target_tuple.support_status == "supported"' "$run_card_path" "RunCard carries the bounded supported tuple"
 
   while IFS= read -r key; do
     [[ -z "$key" ]] && continue

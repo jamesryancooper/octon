@@ -1,0 +1,62 @@
+actor_ref:
+  id: octon-kernel
+  kind: system
+authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-workflow-system-20260401-agent-augmented-1.yml
+closure_conditions:
+- Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.
+- Canonical receipts and replay pointers remain linked to the run root.
+control_checkpoint_root: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/checkpoints
+created_at: 2026-04-01T14:28:31.847273Z
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-audit-workflow-system-20260401-agent-augmented-1.yml
+evidence_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1
+external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-audit-workflow-system-20260401-agent-augmented-1.yml
+host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
+intent_ref:
+  id: intent://octon/octon-governed-harness
+  version: 1.1.0
+model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+notes_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/stage-attempts/initial.yml
+objective_refs:
+  workspace_intent_ref: .octon/instance/charter/workspace.yml
+  workspace_objective_ref: .octon/instance/charter/workspace.md
+receipt_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts
+replay_pointers_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay-pointers.yml
+requested_capabilities:
+- workflow.execute
+- evidence.write
+requested_capability_packs:
+- repo
+- git
+- telemetry
+required_approvals: []
+required_evidence:
+- decision-artifact
+- execution-receipt
+- policy-receipt
+- replay-pointers
+- trace-pointers
+reversibility_class: reversible
+risk_class: medium
+rollback_or_compensation_expectation: Wave 3 binds rollback posture and contamination state under the canonical run root before consequential side effects.
+rollback_posture_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/rollback-posture.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-card.yml
+run_id: uec-audit-workflow-system-20260401-agent-augmented-1
+run_manifest_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-manifest.yml
+runtime_state_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/runtime-state.yml
+schema_version: run-contract-v1
+scope_in:
+- workflow-contract
+scope_out:
+- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows
+stage_attempt_root: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/stage-attempts
+status: bound
+support_target:
+  host_adapter: repo-shell
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  model_adapter: repo-local-governed
+  model_tier: MT-B
+  workload_tier: repo-local-consequential
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_tier: repo-local-consequential
+updated_at: 2026-04-01T14:28:31.847273Z

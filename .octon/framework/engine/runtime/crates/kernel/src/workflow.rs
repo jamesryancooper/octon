@@ -16,10 +16,11 @@ use walkdir::WalkDir;
 use octon_authority_engine::{
     authorize_execution, build_executor_command, finalize_execution,
     now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
-    with_authority_env_metadata, ExecutionArtifactPaths, ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec,
+    ExecutionArtifactPaths, ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec,
     GrantBundle, ManagedExecutorKind, ReviewRequirements, ScopeConstraints,
     SideEffectFlags, SideEffectSummary,
 };
+use crate::request;
 
 const WORKFLOW_ID: &str = "audit-design-proposal";
 const WORKFLOW_ROOT_REL: &str =
@@ -608,6 +609,13 @@ fn authorize_workflow_stage(
     risk_tier: &str,
     executor_profile: Option<&str>,
 ) -> Result<AuthorizedWorkflowStage> {
+    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+        runtime_cfg,
+        BTreeMap::from([
+            ("workflow_id".to_string(), workflow_id.to_string()),
+            ("stage_id".to_string(), stage_id.to_string()),
+        ]),
+    )?;
     let request = ExecutionRequest {
         request_id: format!("{workflow_id}-{stage_id}"),
         caller_path: "workflow-stage".to_string(),
@@ -625,11 +633,11 @@ fn authorize_workflow_stage(
             branch_mutation: false,
         },
         risk_tier: risk_tier.to_string(),
-        workflow_mode: "human-only".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: Some(workflow_id.to_string()),
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -640,10 +648,7 @@ fn authorize_workflow_stage(
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: BTreeMap::from([
-            ("workflow_id".to_string(), workflow_id.to_string()),
-            ("stage_id".to_string(), stage_id.to_string()),
-        ]),
+        metadata,
     };
     let grant = authorize_execution(runtime_cfg, policy, &request, None)?;
     let artifacts = write_execution_start(&bundle_root.join("stages").join(stage_id), &request, &grant)?;
@@ -735,51 +740,48 @@ pub fn run_create_design_package_from_octon_dir(
         options.run_id.as_deref(),
         "create-design-proposal",
     )?;
-    let workflow_auth = authorize_execution(
+    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
         &runtime_cfg,
-        &policy,
-        &ExecutionRequest {
-            request_id: workflow_request_id.clone(),
-            caller_path: "workflow".to_string(),
-            action_type: "execute_workflow".to_string(),
-            target_id: "create-design-proposal".to_string(),
-            requested_capabilities: vec![
-                "workflow.execute".to_string(),
-                "repo.write".to_string(),
-                "evidence.write".to_string(),
-            ],
-            side_effect_flags: SideEffectFlags {
-                write_repo: true,
-                write_evidence: true,
-                ..SideEffectFlags::default()
-            },
-            risk_tier: "medium".to_string(),
-            workflow_mode: "human-only".to_string(),
-            locality_scope: None,
-            intent_ref: None,
-            autonomy_context: None,
-            actor_ref: None,
-            parent_run_ref: None,
-            review_requirements: ReviewRequirements::default(),
-            scope_constraints: ScopeConstraints {
-                read: vec!["workflow-scope".to_string()],
-                write: vec![
-                    design_proposals_root.display().to_string(),
-                    reports_root.display().to_string(),
-                    workflow_bundles_root.display().to_string(),
-                ],
-                executor_profile: None,
-                locality_scope: None,
-            },
-            policy_mode_requested: None,
-            environment_hint: None,
-            metadata: BTreeMap::from([(
-                "workflow_id".to_string(),
-                "create-design-proposal".to_string(),
-            )]),
-        },
-        None,
+        BTreeMap::from([("workflow_id".to_string(), "create-design-proposal".to_string())]),
     )?;
+    let workflow_request = ExecutionRequest {
+        request_id: workflow_request_id.clone(),
+        caller_path: "workflow".to_string(),
+        action_type: "execute_workflow".to_string(),
+        target_id: "create-design-proposal".to_string(),
+        requested_capabilities: vec![
+            "workflow.execute".to_string(),
+            "repo.write".to_string(),
+            "evidence.write".to_string(),
+        ],
+        side_effect_flags: SideEffectFlags {
+            write_repo: true,
+            write_evidence: true,
+            ..SideEffectFlags::default()
+        },
+        risk_tier: "medium".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
+        locality_scope: None,
+        intent_ref: Some(intent_ref),
+        autonomy_context: None,
+        actor_ref: Some(actor_ref),
+        parent_run_ref: None,
+        review_requirements: ReviewRequirements::default(),
+        scope_constraints: ScopeConstraints {
+            read: vec!["workflow-scope".to_string()],
+            write: vec![
+                design_proposals_root.display().to_string(),
+                reports_root.display().to_string(),
+                workflow_bundles_root.display().to_string(),
+            ],
+            executor_profile: None,
+            locality_scope: None,
+        },
+        policy_mode_requested: None,
+        environment_hint: None,
+        metadata,
+    };
+    let workflow_auth = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&design_proposals_root)
         .with_context(|| format!("create {}", design_proposals_root.display()))?;
     fs::create_dir_all(&reports_root)
@@ -800,46 +802,7 @@ pub fn run_create_design_package_from_octon_dir(
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
     let workflow_artifacts =
-        write_execution_start(&bundle_root.join("workflow-execution"), &ExecutionRequest {
-            request_id: workflow_request_id.clone(),
-            caller_path: "workflow".to_string(),
-            action_type: "execute_workflow".to_string(),
-            target_id: "create-design-proposal".to_string(),
-            requested_capabilities: vec![
-                "workflow.execute".to_string(),
-                "repo.write".to_string(),
-                "evidence.write".to_string(),
-            ],
-            side_effect_flags: SideEffectFlags {
-                write_repo: true,
-                write_evidence: true,
-                ..SideEffectFlags::default()
-            },
-            risk_tier: "medium".to_string(),
-            workflow_mode: "human-only".to_string(),
-            locality_scope: None,
-            intent_ref: None,
-            autonomy_context: None,
-            actor_ref: None,
-            parent_run_ref: None,
-            review_requirements: ReviewRequirements::default(),
-            scope_constraints: ScopeConstraints {
-                read: vec!["workflow-scope".to_string()],
-                write: vec![
-                    design_proposals_root.display().to_string(),
-                    reports_root.display().to_string(),
-                    workflow_bundles_root.display().to_string(),
-                ],
-                executor_profile: None,
-                locality_scope: None,
-            },
-            policy_mode_requested: None,
-            environment_hint: None,
-            metadata: BTreeMap::from([(
-                "workflow_id".to_string(),
-                "create-design-proposal".to_string(),
-            )]),
-        }, &workflow_auth)?;
+        write_execution_start(&bundle_root.join("workflow-execution"), &workflow_request, &workflow_auth)?;
     let summary_report =
         unique_file(&reports_root, &format!("{date}-create-design-proposal"), "md")?;
 
@@ -1309,46 +1272,7 @@ pub fn run_create_design_package_from_octon_dir(
     if let Some(failure) = failure {
         let _ = finalize_execution(
             &workflow_artifacts,
-            &ExecutionRequest {
-                request_id: workflow_request_id.clone(),
-                caller_path: "workflow".to_string(),
-                action_type: "execute_workflow".to_string(),
-                target_id: "create-design-proposal".to_string(),
-                requested_capabilities: vec![
-                    "workflow.execute".to_string(),
-                    "repo.write".to_string(),
-                    "evidence.write".to_string(),
-                ],
-                side_effect_flags: SideEffectFlags {
-                    write_repo: true,
-                    write_evidence: true,
-                    ..SideEffectFlags::default()
-                },
-                risk_tier: "medium".to_string(),
-                workflow_mode: "human-only".to_string(),
-                locality_scope: None,
-                intent_ref: None,
-                autonomy_context: None,
-                actor_ref: None,
-                parent_run_ref: None,
-                review_requirements: ReviewRequirements::default(),
-                scope_constraints: ScopeConstraints {
-                    read: vec!["workflow-scope".to_string()],
-                    write: vec![
-                        design_proposals_root.display().to_string(),
-                        reports_root.display().to_string(),
-                        workflow_bundles_root.display().to_string(),
-                    ],
-                    executor_profile: None,
-                    locality_scope: None,
-                },
-                policy_mode_requested: None,
-                environment_hint: None,
-                metadata: BTreeMap::from([(
-                    "workflow_id".to_string(),
-                    "create-design-proposal".to_string(),
-                )]),
-            },
+            &workflow_request,
             &workflow_auth,
             &started_at,
             &ExecutionOutcome {
@@ -1372,46 +1296,7 @@ pub fn run_create_design_package_from_octon_dir(
 
     finalize_execution(
         &workflow_artifacts,
-        &ExecutionRequest {
-            request_id: workflow_request_id.clone(),
-            caller_path: "workflow".to_string(),
-            action_type: "execute_workflow".to_string(),
-            target_id: "create-design-proposal".to_string(),
-            requested_capabilities: vec![
-                "workflow.execute".to_string(),
-                "repo.write".to_string(),
-                "evidence.write".to_string(),
-            ],
-            side_effect_flags: SideEffectFlags {
-                write_repo: true,
-                write_evidence: true,
-                ..SideEffectFlags::default()
-            },
-            risk_tier: "medium".to_string(),
-            workflow_mode: "human-only".to_string(),
-            locality_scope: None,
-            intent_ref: None,
-            autonomy_context: None,
-            actor_ref: None,
-            parent_run_ref: None,
-            review_requirements: ReviewRequirements::default(),
-            scope_constraints: ScopeConstraints {
-                read: vec!["workflow-scope".to_string()],
-                write: vec![
-                    design_proposals_root.display().to_string(),
-                    reports_root.display().to_string(),
-                    workflow_bundles_root.display().to_string(),
-                ],
-                executor_profile: None,
-                locality_scope: None,
-            },
-            policy_mode_requested: None,
-            environment_hint: None,
-            metadata: BTreeMap::from([(
-                "workflow_id".to_string(),
-                "create-design-proposal".to_string(),
-            )]),
-        },
+        &workflow_request,
         &workflow_auth,
         &started_at,
         &ExecutionOutcome {
@@ -1454,6 +1339,13 @@ pub fn run_create_static_proposal_from_octon_dir(
         options.run_id.as_deref(),
         &format!("create-{}-proposal", kind.as_str()),
     )?;
+    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+        &runtime_cfg,
+        BTreeMap::from([(
+            "workflow_id".to_string(),
+            format!("create-{}-proposal", kind.as_str()),
+        )]),
+    )?;
     let workflow_request = ExecutionRequest {
         request_id: workflow_request_id,
         caller_path: "workflow".to_string(),
@@ -1470,11 +1362,11 @@ pub fn run_create_static_proposal_from_octon_dir(
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: "human-only".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -1489,10 +1381,7 @@ pub fn run_create_static_proposal_from_octon_dir(
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: BTreeMap::from([(
-            "workflow_id".to_string(),
-            format!("create-{}-proposal", kind.as_str()),
-        )]),
+        metadata,
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&proposals_root)?;
@@ -1809,6 +1698,13 @@ pub fn run_audit_static_proposal_from_octon_dir(
         options.run_id.as_deref(),
         &format!("audit-{}-proposal", kind.as_str()),
     )?;
+    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+        &runtime_cfg,
+        BTreeMap::from([(
+            "workflow_id".to_string(),
+            format!("audit-{}-proposal", kind.as_str()),
+        )]),
+    )?;
     let workflow_request = ExecutionRequest {
         request_id: workflow_request_id,
         caller_path: "workflow".to_string(),
@@ -1824,11 +1720,11 @@ pub fn run_audit_static_proposal_from_octon_dir(
             ..SideEffectFlags::default()
         },
         risk_tier: "low".to_string(),
-        workflow_mode: "human-only".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -1842,10 +1738,7 @@ pub fn run_audit_static_proposal_from_octon_dir(
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: BTreeMap::from([(
-            "workflow_id".to_string(),
-            format!("audit-{}-proposal", kind.as_str()),
-        )]),
+        metadata,
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -2019,6 +1912,10 @@ pub fn run_validate_proposal_from_octon_dir(
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+        &runtime_cfg,
+        BTreeMap::from([("workflow_id".to_string(), "validate-proposal".to_string())]),
+    )?;
     let workflow_request = ExecutionRequest {
         request_id: workflow_request_id.clone(),
         caller_path: "workflow".to_string(),
@@ -2033,11 +1930,11 @@ pub fn run_validate_proposal_from_octon_dir(
             ..SideEffectFlags::default()
         },
         risk_tier: "low".to_string(),
-        workflow_mode: "human-only".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -2051,7 +1948,7 @@ pub fn run_validate_proposal_from_octon_dir(
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: BTreeMap::from([("workflow_id".to_string(), "validate-proposal".to_string())]),
+        metadata,
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -2364,6 +2261,10 @@ pub fn run_promote_proposal_from_octon_dir(
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+        &runtime_cfg,
+        BTreeMap::from([("workflow_id".to_string(), "promote-proposal".to_string())]),
+    )?;
     let workflow_request = ExecutionRequest {
         request_id: workflow_request_id,
         caller_path: "workflow".to_string(),
@@ -2380,11 +2281,11 @@ pub fn run_promote_proposal_from_octon_dir(
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: "human-only".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -2399,7 +2300,7 @@ pub fn run_promote_proposal_from_octon_dir(
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: BTreeMap::from([("workflow_id".to_string(), "promote-proposal".to_string())]),
+        metadata,
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -2681,6 +2582,10 @@ pub fn run_archive_proposal_from_octon_dir(
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
+    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+        &runtime_cfg,
+        BTreeMap::from([("workflow_id".to_string(), "archive-proposal".to_string())]),
+    )?;
     let workflow_request = ExecutionRequest {
         request_id: workflow_request_id,
         caller_path: "workflow".to_string(),
@@ -2697,11 +2602,11 @@ pub fn run_archive_proposal_from_octon_dir(
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: "human-only".to_string(),
+        workflow_mode: request::agent_augmented_mode(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -2716,7 +2621,7 @@ pub fn run_archive_proposal_from_octon_dir(
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: BTreeMap::from([("workflow_id".to_string(), "archive-proposal".to_string())]),
+        metadata,
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -3285,10 +3190,12 @@ impl Runner {
         &self,
         stage: &StageDefinition,
         mut metadata: BTreeMap<String, String>,
-    ) -> ExecutionRequest {
+    ) -> Result<ExecutionRequest> {
         metadata.insert("workflow_id".to_string(), WORKFLOW_ID.to_string());
         metadata.insert("stage_id".to_string(), stage.id.to_string());
-        ExecutionRequest {
+        let (intent_ref, actor_ref, metadata) =
+            request::bind_repo_local_request(&self.runtime_cfg, metadata)?;
+        Ok(ExecutionRequest {
             request_id: format!("{}-stage-{}", self.slug, stage.id),
             caller_path: "workflow-stage".to_string(),
             action_type: "execute_stage".to_string(),
@@ -3320,11 +3227,11 @@ impl Runner {
             } else {
                 "low".to_string()
             },
-            workflow_mode: "human-only".to_string(),
+            workflow_mode: request::agent_augmented_mode(),
             locality_scope: None,
-            intent_ref: None,
+            intent_ref: Some(intent_ref),
             autonomy_context: None,
-            actor_ref: None,
+            actor_ref: Some(actor_ref),
             parent_run_ref: Some(self.slug.clone()),
             review_requirements: ReviewRequirements {
                 human_approval: false,
@@ -3346,8 +3253,8 @@ impl Runner {
             },
             policy_mode_requested: None,
             environment_hint: None,
-            metadata: with_authority_env_metadata(metadata),
-        }
+            metadata,
+        })
     }
 
     fn execute_stages(
@@ -3435,7 +3342,13 @@ impl Runner {
                     prompt_markdown.as_bytes().len(),
                 )
             };
-            let stage_request = self.stage_request(stage, executor_metadata);
+            let stage_request = self.stage_request(stage, executor_metadata).map_err(|error| {
+                RunFailure::new(
+                    FailureClass::ExecutorEnvironment,
+                    Some(stage.id),
+                    error.to_string(),
+                )
+            })?;
             let stage_grant = authorize_execution(&self.runtime_cfg, &policy, &stage_request, None)
                 .map_err(|error| {
                     RunFailure::new(

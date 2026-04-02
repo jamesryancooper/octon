@@ -9,9 +9,13 @@
     "id",
     "state",
     "lease_kind",
+    "owner",
     "issued_by",
     "issued_at",
-    "expires_at"
+    "expires_at",
+    "reason",
+    "rollback_posture",
+    "retirement_trigger"
   ],
   "properties": {
     "schema_version": {
@@ -35,6 +39,10 @@
     "run_id": {
       "type": ["string", "null"]
     },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
     "issued_by": {
       "type": "string",
       "minLength": 1
@@ -48,7 +56,16 @@
       "minLength": 1
     },
     "reason": {
-      "type": ["string", "null"]
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_posture": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retirement_trigger": {
+      "type": "string",
+      "minLength": 1
     }
   }
 }

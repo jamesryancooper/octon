@@ -11,7 +11,7 @@ use time::format_description;
 
 use octon_authority_engine::{
     authorize_execution, build_executor_command, default_autonomy_context, finalize_execution,
-    now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, with_authority_env_metadata, write_execution_start,
+    now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
     ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec, ManagedExecutorKind,
     ReviewRequirements, ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
@@ -22,6 +22,7 @@ use crate::workflow::{
     RunDesignPackageOptions, RunPromoteProposalOptions, RunValidateProposalOptions,
     StaticProposalKind,
 };
+use crate::request;
 
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".octon/state/evidence/runs/workflows";
 
@@ -595,11 +596,7 @@ fn run_generic_pipeline(
         .context("failed to canonicalize repository root")?;
 
     let reports_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
-    let workflow_mode = if options.mission_id.is_some() {
-        "autonomous".to_string()
-    } else {
-        "human-only".to_string()
-    };
+    let workflow_mode = request::workflow_mode(options.mission_id.as_deref());
     let workflow_autonomy_context = options
         .mission_id
         .as_deref()
@@ -623,6 +620,10 @@ fn run_generic_pipeline(
         }
         None => new_request_id("workflow"),
     };
+    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+        &runtime_cfg,
+        BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
+    )?;
     let workflow_request = ExecutionRequest {
         request_id,
         caller_path: "workflow".to_string(),
@@ -649,9 +650,9 @@ fn run_generic_pipeline(
         },
         workflow_mode: workflow_mode.clone(),
         locality_scope: None,
-        intent_ref: None,
+        intent_ref: Some(intent_ref),
         autonomy_context: workflow_autonomy_context.clone(),
-        actor_ref: None,
+        actor_ref: Some(actor_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -662,7 +663,7 @@ fn run_generic_pipeline(
         },
         policy_mode_requested: None,
         environment_hint: None,
-        metadata: with_authority_env_metadata(BTreeMap::from([("workflow_id".to_string(), entry.id.clone())])),
+        metadata,
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -825,6 +826,10 @@ fn run_generic_pipeline(
                 )
             })
             .transpose()?;
+        let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+            &runtime_cfg,
+            executor_metadata,
+        )?;
         let stage_request = ExecutionRequest {
             request_id: format!("{}-stage-{}", workflow_request.request_id, stage.id),
             caller_path: "workflow-stage".to_string(),
@@ -844,9 +849,9 @@ fn run_generic_pipeline(
             risk_tier: stage.authorization.risk_tier.clone(),
             workflow_mode: workflow_mode.clone(),
             locality_scope: None,
-            intent_ref: None,
+            intent_ref: Some(intent_ref),
             autonomy_context: stage_autonomy_context,
-            actor_ref: None,
+            actor_ref: Some(actor_ref),
             parent_run_ref: Some(workflow_request.request_id.clone()),
             review_requirements: ReviewRequirements {
                 human_approval: stage.authorization.review_requirements.human_approval,
@@ -866,7 +871,7 @@ fn run_generic_pipeline(
             policy_mode_requested: None,
             environment_hint: None,
             metadata: {
-                let mut metadata = executor_metadata;
+                let mut metadata = metadata;
                 metadata.insert("workflow_id".to_string(), entry.id.clone());
                 metadata.insert("stage_id".to_string(), stage.id.clone());
                 metadata
@@ -1949,9 +1954,9 @@ stages:
     }
 
     #[test]
-    fn generic_workflow_without_mission_id_stays_human_only() {
+    fn generic_workflow_without_mission_id_uses_agent_augmented_mode() {
         let _guard = acquire_pipeline_test_lock();
-        let root = make_temp_root("human-only");
+        let root = make_temp_root("agent-augmented");
         let octon_dir = seed_generic_workflow_fixture(&root);
 
         let result = run_pipeline_from_octon_dir(
@@ -1962,20 +1967,20 @@ stages:
                 mission_id: None,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
-                output_slug: Some("human-only".to_string()),
+                output_slug: Some("agent-augmented".to_string()),
                 model: None,
                 prepare_only: false,
                 input_overrides: HashMap::new(),
             },
         )
-        .expect("workflow without mission id should still run in human-only mode");
+        .expect("workflow without mission id should run in agent-augmented mode");
 
         let workflow_receipt: serde_json::Value = serde_json::from_str(
             &fs::read_to_string(result.bundle_root.join("workflow-execution/execution-receipt.json"))
                 .expect("workflow receipt should exist"),
         )
         .expect("workflow receipt should parse");
-        assert_eq!(workflow_receipt["workflow_mode"], "human-only");
+        assert_eq!(workflow_receipt["workflow_mode"], "agent-augmented");
         assert!(workflow_receipt["mission_ref"].is_null());
 
         fs::remove_dir_all(root).ok();

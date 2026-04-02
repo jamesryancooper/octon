@@ -281,7 +281,7 @@ main() {
         --issued-by "$ISSUED_BY" \
         --status "$project_status" \
         --support-tier "$SUPPORT_TIER" \
-        --workflow-mode "human-only" \
+        --workflow-mode "agent-augmented" \
         --required-evidence "pr-autonomy-policy" \
         --required-evidence "required-checks" \
         --reason-code "$reason_code" \

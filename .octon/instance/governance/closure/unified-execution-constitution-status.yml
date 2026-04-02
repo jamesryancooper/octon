@@ -27,7 +27,7 @@ status_summary:
   claim_status: "ready"
   final_verdict: "ready_for_closeout"
   current_blocker: null
-  updated_at: "2026-03-31"
+  updated_at: "2026-04-01"
 surface_sets:
   WS0: &ws0_surfaces
     - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
@@ -85,17 +85,17 @@ surface_sets:
     - ".octon/instance/governance/adoption/**"
 checklists:
   - id: "claim-readiness"
-    source_ref: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/CLAIM_READINESS_CHECKLIST.md"
+    source_ref: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/CLAIM_READINESS_CHECKLIST.md"
     status: "green"
     current_blocker: null
     final_verdict: "met"
   - id: "release-promotion"
-    source_ref: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/RELEASE_PROMOTION_CHECKLIST.md"
+    source_ref: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/RELEASE_PROMOTION_CHECKLIST.md"
     status: "green"
     current_blocker: null
     final_verdict: "met"
   - id: "brownfield-retrofit"
-    source_ref: ".octon/inputs/exploratory/proposals/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/BROWNFIELD_RETROFIT_CHECKLIST.md"
+    source_ref: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/BROWNFIELD_RETROFIT_CHECKLIST.md"
     status: "green"
     current_blocker: null
     final_verdict: "met"
@@ -109,7 +109,7 @@ findings:
       - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
       - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
       - ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
-      - ".octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-contract.yml"
+      - ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml"
     disclosure_refs:
       - ".octon/instance/governance/closure/unified-execution-constitution.yml"
     retirement_refs: []
@@ -162,12 +162,12 @@ findings:
     evidence_refs:
       - ".octon/state/control/execution/runs/**"
       - ".octon/state/evidence/runs/**"
-      - ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-contract.yml"
-      - ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/retained-run-evidence.yml"
-      - ".octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-manifest.yml"
-      - ".octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/retained-run-evidence.yml"
-      - ".octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-manifest.yml"
-      - ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/retained-run-evidence.yml"
+      - ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml"
+      - ".octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/retained-run-evidence.yml"
+      - ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml"
+      - ".octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/retained-run-evidence.yml"
+      - ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-manifest.yml"
+      - ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/retained-run-evidence.yml"
     disclosure_refs:
       - ".octon/instance/governance/closure/unified-execution-constitution.yml"
     retirement_refs: []
@@ -284,9 +284,9 @@ findings:
     evidence_refs:
       - ".octon/instance/governance/disclosure/harness-card.yml"
       - ".octon/state/evidence/disclosure/runs/**"
-      - ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-b/run-card.yml"
-      - ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-success-3/run-card.yml"
-      - ".octon/state/evidence/disclosure/runs/uec-audit-architecture-20260331-2/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260401-agent-augmented-3/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-card.yml"
     disclosure_refs:
       - ".octon/instance/governance/disclosure/harness-card.yml"
     retirement_refs: []
@@ -428,7 +428,7 @@ claim_criteria:
       - ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
     disclosure_refs:
       - ".octon/instance/governance/closure/unified-execution-constitution.yml"
-      - ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-success-3/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260401-agent-augmented-3/run-card.yml"
     retirement_refs: []
     current_blocker: null
     final_verdict: "met"
@@ -451,12 +451,12 @@ claim_criteria:
     evidence_refs:
       - ".octon/state/control/execution/runs/**"
       - ".octon/state/evidence/runs/**"
-      - ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-manifest.yml"
-      - ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/receipts/execution-receipt.json"
-      - ".octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-manifest.yml"
-      - ".octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts/execution-receipt.json"
-      - ".octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-manifest.yml"
-      - ".octon/state/evidence/runs/uec-audit-architecture-20260331-2/receipts/execution-receipt.json"
+      - ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-manifest.yml"
+      - ".octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts/execution-receipt.json"
+      - ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml"
+      - ".octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/execution-receipt.json"
+      - ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-manifest.yml"
+      - ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts/execution-receipt.json"
     disclosure_refs:
       - ".octon/instance/governance/closure/unified-execution-constitution.yml"
     retirement_refs: []
@@ -528,9 +528,9 @@ claim_criteria:
     evidence_refs:
       - ".octon/state/evidence/disclosure/runs/**"
       - ".octon/instance/governance/disclosure/harness-card.yml"
-      - ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-b/run-card.yml"
-      - ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-success-3/run-card.yml"
-      - ".octon/state/evidence/disclosure/runs/uec-audit-architecture-20260331-2/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260401-agent-augmented-3/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-card.yml"
     disclosure_refs:
       - ".octon/instance/governance/disclosure/harness-card.yml"
     retirement_refs: []

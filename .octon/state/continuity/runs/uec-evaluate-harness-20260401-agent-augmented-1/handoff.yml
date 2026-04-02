@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: uec-evaluate-harness-20260401-agent-augmented-1
+status: succeeded
+run_contract_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-04-01T14:28:16.190671Z

@@ -1,0 +1,11 @@
+{
+  "touched_scope": [
+    "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-04-01-audit-workflow-system"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": null,
+  "dangerous_flags_blocked": []
+}

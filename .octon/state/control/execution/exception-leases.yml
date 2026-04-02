@@ -1,3 +1,0 @@
-schema_version: "execution-exception-leases-v1"
-compatibility_projection_of: ".octon/state/control/execution/exceptions/leases.yml"
-leases: []
