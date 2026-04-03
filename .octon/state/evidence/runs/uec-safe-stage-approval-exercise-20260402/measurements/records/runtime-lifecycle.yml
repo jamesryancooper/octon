@@ -1,0 +1,15 @@
+schema_version: measurement-record-v1
+record_id: uec-safe-stage-approval-exercise-20260402-authority-artifact-count
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
+metric_id: authority-artifact-count
+label: Authority artifacts retained
+value: 3
+unit: count
+method: Counted decision, approval, grant bundle, and optional lease/revocation artifacts.
+evidence_refs:
+- .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-approval-exercise-20260402.yml
+- .octon/state/control/execution/approvals/requests/uec-safe-stage-approval-exercise-20260402.yml
+- .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-approval-exercise-20260402.yml
+notes: Supports the retained safe-stage approval exercise for AG-05.
+recorded_at: '2026-04-02T00:00:00Z'

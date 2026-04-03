@@ -1,0 +1,13 @@
+{
+  "touched_scope": [
+    ".octon/state/control/execution/approvals"
+  ],
+  "shell_commands": [],
+  "network_targets": [
+    "https://example.invalid/safe-stage"
+  ],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": null,
+  "dangerous_flags_blocked": []
+}

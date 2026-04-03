@@ -229,7 +229,11 @@ validate_supported_run_card_bundle() {
   require_ref_file "$last_checkpoint_ref" "$label_prefix latest checkpoint resolves"
   require_no_absolute_repo_paths "$(resolve_ref "$last_checkpoint_ref")" "$label_prefix checkpoint has no absolute host paths"
 
-  if yq -e '.decision == "ALLOW"' "$(resolve_ref "$decision_ref")" >/dev/null 2>&1 && rg -Fq 'ACP_EVIDENCE_INVALID' "$(resolve_ref "$decision_ref")"; then
+  if yq -e '.decision == "ALLOW"' "$(resolve_ref "$decision_ref")" >/dev/null 2>&1 && \
+     (
+       (command -v rg >/dev/null 2>&1 && rg -Fq 'ACP_EVIDENCE_INVALID' "$(resolve_ref "$decision_ref")") || \
+       (! command -v rg >/dev/null 2>&1 && grep -Fq 'ACP_EVIDENCE_INVALID' "$(resolve_ref "$decision_ref")")
+     ); then
     fail "$label_prefix decision artifact reason codes match allow state"
   else
     pass "$label_prefix decision artifact reason codes match allow state"
@@ -352,16 +356,26 @@ validate_status_matrix() {
 
 validate_complete_claim_prerequisites() {
   require_yq '.status_summary.blocking_gates | length == 0' "$STATUS_MATRIX" "complete claim has no blocking gates"
-  if rg -qi 'hidden-check|held-out|anti-overfitting' "$AUTHORED_HARNESS_CARD"; then
+  if command -v rg >/dev/null 2>&1; then
+    rg -qi 'hidden-check|held-out|anti-overfitting' "$AUTHORED_HARNESS_CARD"
+  else
+    grep -Eqi 'hidden-check|held-out|anti-overfitting' "$AUTHORED_HARNESS_CARD"
+  fi && {
     pass "complete claim discloses hidden-check posture"
-  else
+  } || {
     fail "complete claim discloses hidden-check posture"
-  fi
-  if rg -l 'workflow_mode:[[:space:]]*"agent-augmented"' "$OCTON_DIR/state/control/execution/approvals/requests"/*.yml >/dev/null 2>&1; then
-    pass "complete claim retains a live approval exercise"
+  }
+  if command -v rg >/dev/null 2>&1; then
+    rg -l 'workflow_mode:[[:space:]]*"agent-augmented"|workflow_mode:[[:space:]]*agent-augmented' \
+      "$OCTON_DIR/state/control/execution/approvals/requests"/*.yml >/dev/null 2>&1
   else
+    grep -El 'workflow_mode:[[:space:]]*"agent-augmented"|workflow_mode:[[:space:]]*agent-augmented' \
+      "$OCTON_DIR/state/control/execution/approvals/requests"/*.yml >/dev/null 2>&1
+  fi && {
+    pass "complete claim retains a live approval exercise"
+  } || {
     fail "complete claim retains a live approval exercise"
-  fi
+  }
   if yq -e '.leases[] | select(.run_id != null and (.run_id | test("^uec-")))' "$OCTON_DIR/state/control/execution/exceptions/leases.yml" >/dev/null 2>&1 && \
      yq -e '.revocations[] | select(.run_id != null and (.run_id | test("^uec-")))' "$OCTON_DIR/state/control/execution/revocations/grants.yml" >/dev/null 2>&1; then
     pass "complete claim retains a live lease and revocation exercise"

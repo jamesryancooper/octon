@@ -1,0 +1,18 @@
+schema_version: measurement-summary-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-contract.yml
+metrics:
+- metric_id: approval-artifact-count
+  label: Authority artifacts retained
+  value: 4
+  unit: count
+- metric_id: measurement-record-count
+  label: Detailed measurement records
+  value: 1
+  unit: count
+- metric_id: intervention-count
+  label: Material interventions
+  value: 0
+  unit: count
+summary: Governance exercise emitted approval, decision, and disclosure artifacts.
+recorded_at: '2026-04-02T00:00:00Z'

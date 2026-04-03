@@ -1,0 +1,8 @@
+schema_version: run-trace-pointers-v1
+run_id: uec-safe-stage-approval-exercise-20260402
+trace_id: uec-safe-stage-approval-exercise-20260402-canonical-trace-index
+trace_refs: []
+external_index_refs:
+- .octon/state/evidence/external-index/runs/uec-safe-stage-approval-exercise-20260402.yml
+notes: No separate class-C trace payload was retained for this governance exercise.
+updated_at: '2026-04-02T00:00:00Z'

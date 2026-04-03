@@ -1,0 +1,7 @@
+schema_version: intervention-log-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-contract.yml
+interventions: []
+summary: No hidden or material human intervention occurred beyond the explicit canonical
+  governance artifacts.
+recorded_at: '2026-04-02T00:00:00Z'
