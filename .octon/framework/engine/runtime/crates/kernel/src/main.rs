@@ -838,6 +838,7 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
                     pipeline_id: workflow_id,
                     run_id,
                     mission_id,
+                    resume_existing: false,
                     executor,
                     executor_bin: executor_bin.map(Into::into),
                     output_slug,
@@ -875,6 +876,7 @@ fn cmd_run(cmd: RunCmd) -> anyhow::Result<()> {
             run_descriptor_start(
                 &octon_dir,
                 descriptor,
+                false,
                 executor,
                 executor_bin,
                 model,
@@ -885,9 +887,24 @@ fn cmd_run(cmd: RunCmd) -> anyhow::Result<()> {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
             print_run_inspection(&octon_dir, &descriptor)
         }
-        RunCmd::Resume { run_id, .. } => {
+        RunCmd::Resume {
+            run_id,
+            executor,
+            executor_bin,
+            model,
+            prepare_only,
+        } => {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
-            print_resume_summary(&octon_dir, &descriptor)
+            print_resume_summary(&octon_dir, &descriptor)?;
+            run_descriptor_start(
+                &octon_dir,
+                descriptor,
+                true,
+                executor,
+                executor_bin,
+                model,
+                prepare_only,
+            )
         }
         RunCmd::Checkpoint { run_id } => {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
@@ -1385,6 +1402,7 @@ fn path_to_repo_ref(octon_dir: &std::path::Path, path: &std::path::Path) -> anyh
 fn run_descriptor_start(
     octon_dir: &std::path::Path,
     descriptor: RunDescriptor,
+    resume_existing: bool,
     executor: ExecutorKind,
     executor_bin: Option<String>,
     model: Option<String>,
@@ -1397,6 +1415,7 @@ fn run_descriptor_start(
             pipeline_id: descriptor.workflow_id,
             run_id: Some(descriptor.run_id),
             mission_id: descriptor.mission_id,
+            resume_existing,
             executor,
             executor_bin: executor_bin.map(Into::into),
             output_slug: None,

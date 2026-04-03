@@ -9,20 +9,19 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 use time::format_description;
 
+use crate::request;
+use crate::workflow::{
+    self, DesignPackageClass, ExecutorKind, PipelineMode, ProposalScope, RunArchiveProposalOptions,
+    RunAuditStaticProposalOptions, RunCreateDesignPackageOptions, RunCreateStaticProposalOptions,
+    RunDesignPackageOptions, RunPromoteProposalOptions, RunValidateProposalOptions,
+    StaticProposalKind,
+};
 use octon_authority_engine::{
     authorize_execution, build_executor_command, default_autonomy_context, finalize_execution,
     now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
     ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec, ManagedExecutorKind,
     ReviewRequirements, ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
-use crate::workflow::{
-    self, DesignPackageClass, ExecutorKind, PipelineMode, ProposalScope,
-    RunArchiveProposalOptions, RunAuditStaticProposalOptions,
-    RunCreateDesignPackageOptions, RunCreateStaticProposalOptions,
-    RunDesignPackageOptions, RunPromoteProposalOptions, RunValidateProposalOptions,
-    StaticProposalKind,
-};
-use crate::request;
 
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".octon/state/evidence/runs/workflows";
 
@@ -39,6 +38,7 @@ pub struct RunPipelineOptions {
     pub pipeline_id: String,
     pub run_id: Option<String>,
     pub mission_id: Option<String>,
+    pub resume_existing: bool,
     pub executor: ExecutorKind,
     pub executor_bin: Option<PathBuf>,
     pub output_slug: Option<String>,
@@ -252,22 +252,38 @@ pub fn run_pipeline_from_octon_dir(
         return run_create_design_package_pipeline(octon_dir, options);
     }
     if options.pipeline_id == "create-migration-proposal" {
-        return run_create_static_proposal_pipeline(octon_dir, options, StaticProposalKind::Migration);
+        return run_create_static_proposal_pipeline(
+            octon_dir,
+            options,
+            StaticProposalKind::Migration,
+        );
     }
     if options.pipeline_id == "create-policy-proposal" {
         return run_create_static_proposal_pipeline(octon_dir, options, StaticProposalKind::Policy);
     }
     if options.pipeline_id == "create-architecture-proposal" {
-        return run_create_static_proposal_pipeline(octon_dir, options, StaticProposalKind::Architecture);
+        return run_create_static_proposal_pipeline(
+            octon_dir,
+            options,
+            StaticProposalKind::Architecture,
+        );
     }
     if options.pipeline_id == "audit-migration-proposal" {
-        return run_audit_static_proposal_pipeline(octon_dir, options, StaticProposalKind::Migration);
+        return run_audit_static_proposal_pipeline(
+            octon_dir,
+            options,
+            StaticProposalKind::Migration,
+        );
     }
     if options.pipeline_id == "audit-policy-proposal" {
         return run_audit_static_proposal_pipeline(octon_dir, options, StaticProposalKind::Policy);
     }
     if options.pipeline_id == "audit-architecture-proposal" {
-        return run_audit_static_proposal_pipeline(octon_dir, options, StaticProposalKind::Architecture);
+        return run_audit_static_proposal_pipeline(
+            octon_dir,
+            options,
+            StaticProposalKind::Architecture,
+        );
     }
     if options.pipeline_id == "validate-proposal" {
         return run_validate_proposal_pipeline(octon_dir, options);
@@ -340,7 +356,9 @@ fn run_create_design_package_pipeline(
         .get("proposal_title")
         .cloned()
         .ok_or_else(|| {
-            anyhow::anyhow!("workflow 'create-design-proposal' requires --set proposal_title=<value>")
+            anyhow::anyhow!(
+                "workflow 'create-design-proposal' requires --set proposal_title=<value>"
+            )
         })?;
     let implementation_targets = options
         .input_overrides
@@ -416,23 +434,31 @@ fn run_create_static_proposal_pipeline(
         .input_overrides
         .get("proposal_id")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_id=<value>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_id=<value>")
+        })?;
     let proposal_title = options
         .input_overrides
         .get("proposal_title")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_title=<value>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_title=<value>")
+        })?;
     let promotion_targets = options
         .input_overrides
         .get("promotion_targets")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set promotion_targets=<value>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow '{workflow_id}' requires --set promotion_targets=<value>")
+        })?;
     let promotion_scope = parse_promotion_scope(
         options
             .input_overrides
             .get("promotion_scope")
             .map(String::as_str)
-            .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set promotion_scope=<value>"))?,
+            .ok_or_else(|| {
+                anyhow::anyhow!("workflow '{workflow_id}' requires --set promotion_scope=<value>")
+            })?,
         &workflow_id,
     )?;
 
@@ -465,13 +491,16 @@ fn run_audit_static_proposal_pipeline(
         .input_overrides
         .get("proposal_path")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_path=<path>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_path=<path>")
+        })?;
 
     let result = workflow::run_audit_static_proposal_from_octon_dir(
         octon_dir,
         kind,
         RunAuditStaticProposalOptions {
             run_id: options.run_id,
+            resume_existing: options.resume_existing,
             proposal_path: proposal_path.into(),
         },
     )?;
@@ -491,12 +520,15 @@ fn run_validate_proposal_pipeline(
         .input_overrides
         .get("proposal_path")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow 'validate-proposal' requires --set proposal_path=<path>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow 'validate-proposal' requires --set proposal_path=<path>")
+        })?;
 
     let result = workflow::run_validate_proposal_from_octon_dir(
         octon_dir,
         RunValidateProposalOptions {
             run_id: options.run_id,
+            resume_existing: options.resume_existing,
             proposal_path: proposal_path.into(),
         },
     )?;
@@ -516,17 +548,22 @@ fn run_promote_proposal_pipeline(
         .input_overrides
         .get("proposal_path")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow 'promote-proposal' requires --set proposal_path=<path>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow 'promote-proposal' requires --set proposal_path=<path>")
+        })?;
     let promotion_evidence = options
         .input_overrides
         .get("promotion_evidence")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow 'promote-proposal' requires --set promotion_evidence=<csv>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow 'promote-proposal' requires --set promotion_evidence=<csv>")
+        })?;
 
     let result = workflow::run_promote_proposal_from_octon_dir(
         octon_dir,
         RunPromoteProposalOptions {
             run_id: options.run_id,
+            resume_existing: options.resume_existing,
             proposal_path: proposal_path.into(),
             promotion_evidence: parse_csv_list(&promotion_evidence),
         },
@@ -547,12 +584,16 @@ fn run_archive_proposal_pipeline(
         .input_overrides
         .get("proposal_path")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow 'archive-proposal' requires --set proposal_path=<path>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow 'archive-proposal' requires --set proposal_path=<path>")
+        })?;
     let disposition = options
         .input_overrides
         .get("disposition")
         .cloned()
-        .ok_or_else(|| anyhow::anyhow!("workflow 'archive-proposal' requires --set disposition=<value>"))?;
+        .ok_or_else(|| {
+            anyhow::anyhow!("workflow 'archive-proposal' requires --set disposition=<value>")
+        })?;
     let promotion_evidence = options
         .input_overrides
         .get("promotion_evidence")
@@ -563,6 +604,7 @@ fn run_archive_proposal_pipeline(
         octon_dir,
         RunArchiveProposalOptions {
             run_id: options.run_id,
+            resume_existing: options.resume_existing,
             proposal_path: proposal_path.into(),
             disposition,
             promotion_evidence: parse_csv_list(&promotion_evidence),
@@ -615,7 +657,9 @@ fn run_generic_pipeline(
     let request_id = match options.run_id.as_deref() {
         Some(value) => {
             let run_id = validate_run_id(value)?;
-            ensure_run_id_unused(&runtime_cfg, &run_id)?;
+            if !options.resume_existing {
+                ensure_run_id_unused(&runtime_cfg, &run_id)?;
+            }
             run_id
         }
         None => new_request_id("workflow"),
@@ -633,10 +677,7 @@ fn run_generic_pipeline(
             "execute_workflow".to_string()
         },
         target_id: entry.id.clone(),
-        requested_capabilities: vec![
-            "workflow.execute".to_string(),
-            "evidence.write".to_string(),
-        ],
+        requested_capabilities: vec!["workflow.execute".to_string(), "evidence.write".to_string()],
         side_effect_flags: SideEffectFlags {
             write_repo: true,
             write_evidence: true,
@@ -682,8 +723,11 @@ fn run_generic_pipeline(
     fs::create_dir_all(&reports_dir)?;
     fs::create_dir_all(&stage_inputs_dir)?;
     fs::create_dir_all(&stage_logs_dir)?;
-    let workflow_artifacts =
-        write_execution_start(&bundle_root.join("workflow-execution"), &workflow_request, &workflow_grant)?;
+    let workflow_artifacts = write_execution_start(
+        &bundle_root.join("workflow-execution"),
+        &workflow_request,
+        &workflow_grant,
+    )?;
 
     let summary_report = bundle_root.join("summary.md");
     let commands_report = bundle_root.join("commands.md");
@@ -701,9 +745,12 @@ fn run_generic_pipeline(
         .or_else(|| input_map.get("docs_root"))
         .map(|value| resolve_relative_to_repo(&repo_root, value))
         .transpose()?;
-    let target_root_rel = target_root
-        .as_ref()
-        .map(|path| path.strip_prefix(&repo_root).unwrap_or(path).display().to_string());
+    let target_root_rel = target_root.as_ref().map(|path| {
+        path.strip_prefix(&repo_root)
+            .unwrap_or(path)
+            .display()
+            .to_string()
+    });
 
     let final_verdict = if options.prepare_only {
         "prepared-only".to_string()
@@ -826,10 +873,8 @@ fn run_generic_pipeline(
                 )
             })
             .transpose()?;
-        let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
-            &runtime_cfg,
-            executor_metadata,
-        )?;
+        let (intent_ref, actor_ref, metadata) =
+            request::bind_repo_local_request(&runtime_cfg, executor_metadata)?;
         let stage_request = ExecutionRequest {
             request_id: format!("{}-stage-{}", workflow_request.request_id, stage.id),
             caller_path: "workflow-stage".to_string(),
@@ -839,9 +884,12 @@ fn run_generic_pipeline(
             side_effect_flags: SideEffectFlags {
                 write_repo: stage.authorization.side_effects.write_repo,
                 write_evidence: stage.authorization.side_effects.write_evidence,
-                shell: stage.authorization.side_effects.shell && options.executor != ExecutorKind::Mock,
-                network: stage.authorization.side_effects.network && options.executor != ExecutorKind::Mock,
-                model_invoke: stage.authorization.side_effects.model_invoke && options.executor != ExecutorKind::Mock,
+                shell: stage.authorization.side_effects.shell
+                    && options.executor != ExecutorKind::Mock,
+                network: stage.authorization.side_effects.network
+                    && options.executor != ExecutorKind::Mock,
+                model_invoke: stage.authorization.side_effects.model_invoke
+                    && options.executor != ExecutorKind::Mock,
                 state_mutation: stage.authorization.side_effects.state_mutation,
                 publication: stage.authorization.side_effects.publication,
                 branch_mutation: stage.authorization.side_effects.branch_mutation,
@@ -878,8 +926,11 @@ fn run_generic_pipeline(
             },
         };
         let stage_grant = authorize_execution(&runtime_cfg, &policy, &stage_request, None)?;
-        let stage_artifacts =
-            write_execution_start(&bundle_root.join("stages").join(&stage.id), &stage_request, &stage_grant)?;
+        let stage_artifacts = write_execution_start(
+            &bundle_root.join("stages").join(&stage.id),
+            &stage_request,
+            &stage_grant,
+        )?;
         let stage_started_at = auth_now_rfc3339()?;
 
         match options.executor {
@@ -1085,7 +1136,10 @@ fn run_generic_pipeline(
         stage_reports,
         target_root: target_root_rel,
     };
-    fs::write(bundle_root.join("bundle.yml"), serde_yaml::to_string(&metadata)?)?;
+    fs::write(
+        bundle_root.join("bundle.yml"),
+        serde_yaml::to_string(&metadata)?,
+    )?;
     finalize_execution(
         &workflow_artifacts,
         &workflow_request,
@@ -1537,7 +1591,9 @@ mod tests {
         );
         std::env::set_var(
             "OCTON_POLICY_BIN",
-            source_root.join(".octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy"),
+            source_root.join(
+                ".octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy",
+            ),
         );
     }
 
@@ -1555,14 +1611,14 @@ mod tests {
     fn seed_generic_workflow_fixture(root: &Path) -> PathBuf {
         seed_policy_runtime_env();
         let octon_dir = root.join(".octon");
-        let workflows_dir = octon_dir.join("framework/orchestration/runtime/workflows/test/sample-workflow");
+        let workflows_dir =
+            octon_dir.join("framework/orchestration/runtime/workflows/test/sample-workflow");
         fs::create_dir_all(workflows_dir.join("stages")).expect("create workflow stages");
         fs::create_dir_all(octon_dir.join("state/evidence/validation/analysis"))
             .expect("create evidence root");
         fs::create_dir_all(octon_dir.join("instance/charter"))
             .expect("create workspace charter root");
-        fs::create_dir_all(octon_dir.join("instance/governance"))
-            .expect("create governance root");
+        fs::create_dir_all(octon_dir.join("instance/governance")).expect("create governance root");
         fs::create_dir_all(octon_dir.join("framework/capabilities/governance/policy"))
             .expect("create policy root");
         fs::create_dir_all(octon_dir.join("framework/capabilities/_ops/scripts"))
@@ -1578,12 +1634,14 @@ mod tests {
         )
         .expect("write root manifest");
         fs::copy(
-            source_repo_root().join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"),
+            source_repo_root()
+                .join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"),
             octon_dir.join("framework/capabilities/governance/policy/deny-by-default.v2.yml"),
         )
         .expect("copy ACP policy");
         fs::copy(
-            source_repo_root().join(".octon/framework/capabilities/_ops/scripts/policy-receipt-write.sh"),
+            source_repo_root()
+                .join(".octon/framework/capabilities/_ops/scripts/policy-receipt-write.sh"),
             octon_dir.join("framework/capabilities/_ops/scripts/policy-receipt-write.sh"),
         )
         .expect("copy ACP receipt writer");
@@ -1688,8 +1746,10 @@ stages:
             .expect("create governance fixture");
         fs::create_dir_all(octon_dir.join("state/control/execution/missions/sample-mission"))
             .expect("create mission control fixture");
-        fs::create_dir_all(octon_dir.join("generated/effective/orchestration/missions/sample-mission"))
-            .expect("create mission effective fixture");
+        fs::create_dir_all(
+            octon_dir.join("generated/effective/orchestration/missions/sample-mission"),
+        )
+        .expect("create mission effective fixture");
         fs::write(
             octon_dir.join("instance/charter/workspace.yml"),
             "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
@@ -1745,7 +1805,8 @@ stages:
         )
         .expect("copy repo-shell adapter");
         fs::copy(
-            source_repo_root().join(".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"),
+            source_repo_root()
+                .join(".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"),
             octon_dir.join("framework/engine/runtime/adapters/model/repo-local-governed.yml"),
         )
         .expect("copy repo-local-governed adapter");
@@ -1839,6 +1900,7 @@ stages:
                 pipeline_id: "sample-workflow".to_string(),
                 run_id: None,
                 mission_id: Some("sample-mission".to_string()),
+                resume_existing: false,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
                 output_slug: Some("fixture".to_string()),
@@ -1872,8 +1934,14 @@ stages:
         assert!(result.bundle_root.join("validation.md").is_file());
         assert!(result.bundle_root.join("reports/01-report.md").is_file());
         assert!(result.bundle_root.join("reports/02-report.md").is_file());
-        assert!(result.bundle_root.join("stage-inputs/01-packet.md").is_file());
-        assert!(result.bundle_root.join("stage-logs/01-executor.log").is_file());
+        assert!(result
+            .bundle_root
+            .join("stage-inputs/01-packet.md")
+            .is_file());
+        assert!(result
+            .bundle_root
+            .join("stage-logs/01-executor.log")
+            .is_file());
 
         fs::remove_dir_all(root).ok();
     }
@@ -1904,6 +1972,7 @@ stages:
                 pipeline_id: "sample-workflow".to_string(),
                 run_id: Some("../escape".to_string()),
                 mission_id: None,
+                resume_existing: false,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
                 output_slug: Some("invalid-run-id".to_string()),
@@ -1937,6 +2006,7 @@ stages:
                 pipeline_id: "sample-workflow".to_string(),
                 run_id: Some(reused_run_id.to_string()),
                 mission_id: None,
+                resume_existing: false,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
                 output_slug: Some("reused-run-id".to_string()),
@@ -1954,6 +2024,38 @@ stages:
     }
 
     #[test]
+    fn generic_workflow_allows_reused_run_id_when_resuming() {
+        let _guard = acquire_pipeline_test_lock();
+        let root = make_temp_root("resume-run-id");
+        let octon_dir = seed_generic_workflow_fixture(&root);
+        let runtime_cfg = ConfigLoader::load(&octon_dir).expect("runtime config should load");
+        let reused_run_id = "workflow-20260330-1";
+
+        fs::create_dir_all(runtime_cfg.run_control_root(reused_run_id))
+            .expect("existing control root should be seeded");
+
+        let result = run_pipeline_from_octon_dir(
+            &octon_dir,
+            RunPipelineOptions {
+                pipeline_id: "sample-workflow".to_string(),
+                run_id: Some(reused_run_id.to_string()),
+                mission_id: None,
+                resume_existing: true,
+                executor: ExecutorKind::Mock,
+                executor_bin: None,
+                output_slug: Some("resume-run-id".to_string()),
+                model: None,
+                prepare_only: true,
+                input_overrides: HashMap::new(),
+            },
+        )
+        .expect("resume_existing should allow a reused run id");
+
+        assert_eq!(result.final_verdict, "prepared-only");
+        fs::remove_dir_all(root).ok();
+    }
+
+    #[test]
     fn generic_workflow_without_mission_id_uses_agent_augmented_mode() {
         let _guard = acquire_pipeline_test_lock();
         let root = make_temp_root("agent-augmented");
@@ -1965,6 +2067,7 @@ stages:
                 pipeline_id: "sample-workflow".to_string(),
                 run_id: None,
                 mission_id: None,
+                resume_existing: false,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
                 output_slug: Some("agent-augmented".to_string()),
@@ -1976,8 +2079,12 @@ stages:
         .expect("workflow without mission id should run in agent-augmented mode");
 
         let workflow_receipt: serde_json::Value = serde_json::from_str(
-            &fs::read_to_string(result.bundle_root.join("workflow-execution/execution-receipt.json"))
-                .expect("workflow receipt should exist"),
+            &fs::read_to_string(
+                result
+                    .bundle_root
+                    .join("workflow-execution/execution-receipt.json"),
+            )
+            .expect("workflow receipt should exist"),
         )
         .expect("workflow receipt should parse");
         assert_eq!(workflow_receipt["workflow_mode"], "agent-augmented");
@@ -1998,6 +2105,7 @@ stages:
                 pipeline_id: "sample-workflow".to_string(),
                 run_id: None,
                 mission_id: Some("sample-mission".to_string()),
+                resume_existing: false,
                 executor: ExecutorKind::Auto,
                 executor_bin: None,
                 output_slug: Some("prepare".to_string()),
@@ -2037,6 +2145,7 @@ stages:
                 pipeline_id: "sample-workflow".to_string(),
                 run_id: None,
                 mission_id: Some("sample-mission".to_string()),
+                resume_existing: false,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
                 output_slug: Some("artifact-receipts".to_string()),
@@ -2048,14 +2157,22 @@ stages:
         .expect("mock workflow run should succeed");
 
         for path in [
-            result.bundle_root.join("workflow-execution/execution-receipt.json"),
-            result.bundle_root.join("workflow-execution/grant-bundle.json"),
+            result
+                .bundle_root
+                .join("workflow-execution/execution-receipt.json"),
+            result
+                .bundle_root
+                .join("workflow-execution/grant-bundle.json"),
             result.bundle_root.join("stages/01/execution-receipt.json"),
             result.bundle_root.join("stages/01/grant-bundle.json"),
             result.bundle_root.join("stages/02/execution-receipt.json"),
             result.bundle_root.join("stages/02/grant-bundle.json"),
         ] {
-            assert!(path.is_file(), "expected execution artifact {}", path.display());
+            assert!(
+                path.is_file(),
+                "expected execution artifact {}",
+                path.display()
+            );
         }
 
         let receipt: serde_json::Value = serde_json::from_str(
@@ -2065,7 +2182,10 @@ stages:
         .expect("stage receipt should parse");
         assert_eq!(receipt["schema_version"], "execution-receipt-v2");
         assert_eq!(receipt["workflow_mode"], "autonomous");
-        assert!(receipt["reason_codes"].as_array().map(|v| !v.is_empty()).unwrap_or(false));
+        assert!(receipt["reason_codes"]
+            .as_array()
+            .map(|v| !v.is_empty())
+            .unwrap_or(false));
 
         fs::remove_dir_all(root).ok();
     }
@@ -2080,7 +2200,13 @@ stages:
         )
         .expect("metadata should infer claude from wrapper filename");
 
-        assert_eq!(metadata.get("executor_kind").map(String::as_str), Some("claude"));
-        assert_eq!(metadata.get("budget_provider").map(String::as_str), Some("anthropic"));
+        assert_eq!(
+            metadata.get("executor_kind").map(String::as_str),
+            Some("claude")
+        );
+        assert_eq!(
+            metadata.get("budget_provider").map(String::as_str),
+            Some("anthropic")
+        );
     }
 }
