@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: uec-safe-stage-lease-revocation-exercise-20260402
+checkpoint_id: bound
+stage_attempt_id: initial
+checkpoint_kind: binding
+status: materialized
+control_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/checkpoints/bound.yml
+evidence_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/checkpoints/bound.yml
+notes: Canonical governance exercise checkpoint.
+created_at: '2026-04-02T00:00:00Z'
+updated_at: '2026-04-02T00:00:00Z'

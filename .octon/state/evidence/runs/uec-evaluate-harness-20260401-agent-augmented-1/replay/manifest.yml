@@ -1,14 +1,17 @@
 checkpoint_refs:
 - .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/checkpoints/bound.yml
 entrypoint: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1
-external_index_refs: []
+external_index_refs:
+- .octon/state/evidence/external-index/runs/uec-evaluate-harness-20260401-agent-augmented-1.yml
 receipt_refs:
 - .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts/execution-receipt.json
 recorded_at: 2026-04-01T14:28:16.189628Z
-replay_payload_class: git-inline
+replay_payload_class: git-pointer
 reproduction_steps:
 - Read the bound run contract and execution receipt.
-- Follow the replay manifest, checkpoints, and RunCard refs to reproduce the consequential path.
+- Follow the replay manifest, checkpoints, trace pointers, and RunCard refs to reproduce the consequential path.
+- Use the external replay index when trace or replay payload retrieval needs a canonical pointer source.
 run_id: uec-evaluate-harness-20260401-agent-augmented-1
 schema_version: run-replay-manifest-v1
-trace_refs: []
+trace_refs:
+- .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/trace-pointers.yml

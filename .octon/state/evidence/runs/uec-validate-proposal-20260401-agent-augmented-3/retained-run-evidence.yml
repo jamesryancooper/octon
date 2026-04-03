@@ -3,6 +3,7 @@ run_id: uec-validate-proposal-20260401-agent-augmented-3
 evidence_refs:
   authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260401-agent-augmented-3.yml
   authority_grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260401-agent-augmented-3.yml
+  contamination_record: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/contamination/current.yml
   control_checkpoint: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/bound.yml
   evidence_checkpoint: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/bound.yml
   execution_receipt: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/execution-receipt.json
@@ -13,11 +14,27 @@ evidence_refs:
   policy_decision: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/policy-decision.json
   policy_digest: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/policy-digest.latest.md
   policy_receipt: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/policy-receipt.latest.json
+  replay_manifest: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay/manifest.yml
   replay_pointers: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay-pointers.yml
+  external_replay_index: .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
   rollback_posture: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/rollback-posture.yml
   run_contract: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
+  run_card: .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260401-agent-augmented-3/run-card.yml
   run_manifest: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml
   runtime_state: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/runtime-state.yml
   side_effects: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/side-effects.json
+  evidence_classification: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/evidence-classification.yml
+  intervention_record: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/interventions/records/no-human-intervention.yml
+  measurement_summary: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/measurements/summary.yml
+  measurement_record: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/measurements/records/runtime-lifecycle.yml
+  intervention_log: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/interventions/log.yml
+  structural_report: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/structural.yml
+  governance_report: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/governance.yml
+  functional_report: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/functional.yml
+  behavioral_report: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/behavioral.yml
+  maintainability_report: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/maintainability.yml
+  recovery_report: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/recovery.yml
+  retry_record: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/retry-records/baseline.yml
+  evaluator_review: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/evaluator.yml
   trace_pointers: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/trace-pointers.yml
-updated_at: 2026-04-01T14:26:11.556439Z
+updated_at: 2026-04-02T00:00:00Z

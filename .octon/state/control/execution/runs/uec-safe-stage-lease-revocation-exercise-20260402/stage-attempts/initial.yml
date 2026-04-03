@@ -1,0 +1,34 @@
+schema_version: stage-attempt-v1
+run_id: uec-safe-stage-lease-revocation-exercise-20260402
+stage_attempt_id: initial
+stage_ref: governance:safe-stage-lease-revocation-exercise
+attempt_kind: initial
+status: failed
+objective_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-contract.yml
+objective_slice: Safe-stage lease and revocation exercise retained to prove canonical
+  exception and revocation obedience under the supported envelope.
+entry_criteria:
+- Run contract is bound under the canonical run root.
+exit_criteria:
+- Decision artifact, request/grant, and retained evidence remain linked.
+requested_capabilities:
+- evidence.write
+allowed_capabilities:
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/**
+- .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/**
+retry_class: manual_review_required
+predecessor_refs: []
+successor_refs: []
+evidence_refs:
+- .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-lease-revocation-exercise-20260402.yml
+- .octon/state/control/execution/approvals/requests/uec-safe-stage-lease-revocation-exercise-20260402.yml
+- .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-lease-revocation-exercise-20260402.yml
+completion_status: manual-review-required
+rollback_candidate: true
+rollback_notes: Governance exercise remains locally reversible.
+issued_by: octon-kernel
+validated_by: octon-kernel
+created_at: '2026-04-02T00:00:00Z'
+updated_at: '2026-04-02T00:00:00Z'

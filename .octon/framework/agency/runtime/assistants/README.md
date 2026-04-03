@@ -7,6 +7,8 @@ description: Focused specialists that perform bounded tasks for agents or humans
 
 Assistants are focused specialists within the Octon agency model. They provide bounded execution for scoped tasks and can be invoked directly by humans or delegated to by agents.
 
+They are optional overlays, not constitutional kernel authority surfaces.
+
 ## Assistants in the Multi-Agent Hierarchy
 
 ```

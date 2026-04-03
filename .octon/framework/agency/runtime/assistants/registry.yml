@@ -8,6 +8,7 @@ assistants:
   - id: reviewer
     name: reviewer
     path: reviewer/
+    classification: optional-overlay
     aliases: ["@reviewer", "@review", "@rev"]
     description: "Code review specialist for quality, style, and correctness."
     delegation_value: "separation-of-duties and focused review context"
@@ -17,6 +18,7 @@ assistants:
   - id: refactor
     name: refactor
     path: refactor/
+    classification: optional-overlay
     aliases: ["@refactor", "@ref"]
     description: "Refactoring specialist for code improvements."
     delegation_value: "context isolation for bounded code restructuring"
@@ -26,6 +28,7 @@ assistants:
   - id: docs
     name: docs
     path: docs/
+    classification: optional-overlay
     aliases: ["@docs", "@doc"]
     description: "Documentation specialist for clarity and completeness."
     delegation_value: "focused documentation work that can run in parallel with implementation"

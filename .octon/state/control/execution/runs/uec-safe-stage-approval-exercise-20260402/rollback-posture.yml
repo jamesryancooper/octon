@@ -1,0 +1,17 @@
+schema_version: run-rollback-posture-v1
+run_id: uec-safe-stage-approval-exercise-20260402
+reversibility_class: reversible
+rollback_strategy: local_compensation
+rollback_ref: null
+rollback_handle: null
+compensation_handle: null
+recovery_window: null
+contamination_state: clean
+retry_record_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/retry-records/baseline.yml
+contamination_record_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/contamination/current.yml
+resume_allowed: true
+reset_action: No reset required; the governance exercise remained coherent.
+invalidated_artifacts: []
+hard_reset_required: false
+posture_source: governance-exercise
+updated_at: '2026-04-02T00:00:00Z'

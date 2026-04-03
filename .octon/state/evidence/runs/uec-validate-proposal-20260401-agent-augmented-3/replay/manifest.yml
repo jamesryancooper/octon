@@ -1,14 +1,17 @@
 checkpoint_refs:
 - .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/bound.yml
 entrypoint: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3
-external_index_refs: []
+external_index_refs:
+- .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
 receipt_refs:
 - .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/execution-receipt.json
 recorded_at: 2026-04-01T14:26:11.553247Z
-replay_payload_class: git-inline
+replay_payload_class: git-pointer
 reproduction_steps:
 - Read the bound run contract and execution receipt.
-- Follow the replay manifest, checkpoints, and RunCard refs to reproduce the consequential path.
+- Follow the replay manifest, checkpoints, trace pointers, and RunCard refs to reproduce the consequential path.
+- Use the external replay index when trace or replay payload retrieval needs a canonical pointer source.
 run_id: uec-validate-proposal-20260401-agent-augmented-3
 schema_version: run-replay-manifest-v1
-trace_refs: []
+trace_refs:
+- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/trace-pointers.yml

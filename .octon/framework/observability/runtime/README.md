@@ -7,6 +7,7 @@ Canonical retained outputs live under:
 
 - `/.octon/state/evidence/runs/<run-id>/measurements/**`
 - `/.octon/state/evidence/runs/<run-id>/interventions/**`
+- `/.octon/state/evidence/validation/publication/**/drift-*.yml`
 
 Runtime contracts also define:
 

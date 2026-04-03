@@ -1,0 +1,9 @@
+{
+  "schema_version": "execution-authorization-v1",
+  "decision": "ALLOW",
+  "effective_policy_mode": "hard-enforce",
+  "environment_class": "development",
+  "reason_codes": [
+    "LIVE_SAFE_STAGE_APPROVAL_EXERCISE"
+  ]
+}

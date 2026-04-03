@@ -32,6 +32,18 @@ run_lifecycle:
     schema_ref: ".octon/framework/constitution/contracts/runtime/replay-pointers-v1.schema.json"
     evidence_root: ".octon/state/evidence/runs"
     canonical_file: "replay-pointers.yml"
+  trace_pointers:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/trace-pointers-v1.schema.json"
+    evidence_root: ".octon/state/evidence/runs"
+    canonical_file: "trace-pointers.yml"
+  retry_records:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/retry-record-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_dir: "retry-records"
+  contamination_records:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/contamination-record-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_dir: "contamination"
   retained_run_evidence:
     evidence_root: ".octon/state/evidence/runs"
     canonical_families:
@@ -41,6 +53,7 @@ run_lifecycle:
       - "assurance/**"
       - "measurements/**"
       - "interventions/**"
+      - "trace/**"
       - "disclosure/**"
       - "trace-pointers.yml"
       - "evidence-classification.yml"

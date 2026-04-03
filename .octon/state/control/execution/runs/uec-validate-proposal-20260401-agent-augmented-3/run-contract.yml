@@ -2,23 +2,37 @@ actor_ref:
   id: octon-kernel
   kind: system
 authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260401-agent-augmented-3.yml
+contract_version: 1.1.0
 closure_conditions:
 - Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.
 - Canonical receipts and replay pointers remain linked to the run root.
 control_checkpoint_root: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints
 created_at: 2026-04-01T14:24:36.851912Z
 decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260401-agent-augmented-3.yml
+disclosure_expectations:
+- Emit a canonical RunCard, replay manifest, replay pointers, trace pointers, and evidence classification.
+- Retain detailed measurement and intervention records before promoting any disclosure claim.
 evidence_root: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3
+exclusions:
+- .octon/inputs/exploratory/ideation/**
+expires_at: null
 external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
 host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
 intent_ref:
   id: intent://octon/octon-governed-harness
   version: 1.1.0
+issued_at: 2026-04-01T14:24:36.851912Z
+materiality: low
+mission_mode: none
 model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
 notes_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/stage-attempts/initial.yml
+objective_summary: Validate the proposal workflow run bundle and retained evidence against the bounded supported consequential envelope.
 objective_refs:
   workspace_intent_ref: .octon/instance/charter/workspace.yml
   workspace_objective_ref: .octon/instance/charter/workspace.md
+protected_zones:
+- .octon/framework/constitution/**
+- .octon/instance/governance/**
 receipt_root: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts
 replay_pointers_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay-pointers.yml
 requested_capabilities:
@@ -34,6 +48,7 @@ required_evidence:
 - policy-receipt
 - replay-pointers
 - trace-pointers
+retry_class: manual_review_required
 reversibility_class: reversible
 risk_class: low
 rollback_or_compensation_expectation: Wave 3 binds rollback posture and contamination state under the canonical run root before consequential side effects.
@@ -46,10 +61,16 @@ schema_version: run-contract-v1
 scope_in:
 - workflow-scope
 scope_out:
-- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/analysis
-- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows
+- .octon/state/evidence/validation/analysis
+- .octon/state/evidence/runs/workflows
+start_conditions:
+- Support-target tuple MT-B / WT-2 / LT-REF / LOC-EN remains admitted for repo-shell and repo-local-governed.
+- Canonical run root, decision artifact root, and evidence root are writable before stage execution begins.
 stage_attempt_root: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/stage-attempts
 status: bound
+stop_conditions:
+- Stop immediately if runtime routing returns STAGE_ONLY, ESCALATE, or DENY.
+- Stop if replay, trace, or disclosure references cannot be materialized under canonical run roots.
 support_target:
   host_adapter: repo-shell
   language_resource_tier: LT-REF
@@ -60,3 +81,9 @@ support_target:
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_tier: repo-local-consequential
 updated_at: 2026-04-01T14:24:36.851912Z
+acceptance_criteria:
+- Canonical replay, trace, and disclosure references resolve for the retained run bundle.
+- Bound run evidence stays within the supported consequential envelope without widening authority.
+done_when:
+- The proposal validation workflow completes and the retained run bundle validates against closure gating.
+- Run disclosure truthfully reflects the evidence emitted by the canonical run root.

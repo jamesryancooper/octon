@@ -6,37 +6,37 @@ objective_refs:
   mission_id: mission-autonomy-live-validation
   mission_ref: .octon/instance/orchestration/missions/mission-autonomy-live-validation/mission.yml
 scope_in:
-  - .octon/framework/orchestration/runtime/workflows/meta/evaluate-harness
-  - .octon/instance/orchestration/missions/mission-autonomy-live-validation
+- .octon/framework/orchestration/runtime/workflows/meta/evaluate-harness
+- .octon/instance/orchestration/missions/mission-autonomy-live-validation
 scope_out: []
 requested_capabilities:
-  - evidence.write
-  - state.write
-  - workflow.execute
-  - mission.context
+- evidence.write
+- state.write
+- workflow.execute
+- mission.context
 risk_class: high
 reversibility_class: reversible
 support_tier: release-and-boundary-sensitive
 required_approvals:
-  - .octon/state/control/execution/approvals/grants/grant-run-wave4-benchmark-evaluator-20260327.yml
+- .octon/state/control/execution/approvals/grants/grant-run-wave4-benchmark-evaluator-20260327.yml
 required_evidence:
-  - approval-grant
-  - decision-artifact
-  - run-evidence-root
-  - orchestration-run-projection
-  - policy-receipt
-  - assurance-reports
-  - measurement-summary
-  - intervention-log
-  - run-card
-  - maintainability-report
-  - replay-pointers
-  - trace-pointers
-  - evidence-classification
-  - external-replay-index
+- approval-grant
+- decision-artifact
+- run-evidence-root
+- orchestration-run-projection
+- policy-receipt
+- assurance-reports
+- measurement-summary
+- intervention-log
+- run-card
+- maintainability-report
+- replay-pointers
+- trace-pointers
+- evidence-classification
+- external-replay-index
 closure_conditions:
-  - Run reaches a terminal projection status.
-  - Decision and retained run evidence remain linked.
+- Run reaches a terminal projection status.
+- Decision and retained run evidence remain linked.
 stage_attempt_root: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/stage-attempts
 run_manifest_ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-manifest.yml
 control_checkpoint_root: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/checkpoints
@@ -50,8 +50,37 @@ intervention_root: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-2026
 disclosure_root: .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327
 run_card_ref: .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml
 replay_pointers_ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay-pointers.yml
-rollback_or_compensation_expectation: Rollback or compensation posture is handled by downstream runtime lifecycle waves; Wave 1 records the execution contract and initial attempt root.
+rollback_or_compensation_expectation: Rollback or compensation posture is handled
+  by downstream runtime lifecycle waves; Wave 1 records the execution contract and
+  initial attempt root.
 status: completed
-created_at: "2026-03-27T22:46:32Z"
-updated_at: "2026-03-29T21:26:52Z"
+created_at: '2026-03-27T22:46:32Z'
+updated_at: '2026-03-29T21:26:52Z'
 notes_ref: .octon/framework/orchestration/runtime/runs/run-wave4-benchmark-evaluator-20260327.yml
+mission_mode: none
+objective_summary: Historical benchmark evaluator validation retained under the canonical
+  run-first model.
+exclusions:
+- .octon/inputs/exploratory/ideation/**
+done_when:
+- The retained run reaches a terminal status with canonical evidence and disclosure
+  artifacts.
+acceptance_criteria:
+- Canonical replay, trace, and disclosure references resolve from the retained run
+  root.
+materiality: high
+protected_zones:
+- .octon/framework/constitution/**
+- .octon/instance/governance/**
+start_conditions:
+- Canonical run control, evidence, and disclosure roots are available before execution
+  starts.
+stop_conditions:
+- Stop on STAGE_ONLY, ESCALATE, or DENY authority routes.
+retry_class: manual_review_required
+disclosure_expectations:
+- Emit RunCard, replay pointers, trace pointers, and evidence classification for the
+  retained run bundle.
+contract_version: 1.1.0
+issued_at: '2026-03-27T22:46:32Z'
+expires_at: null

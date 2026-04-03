@@ -6,17 +6,19 @@ mod scaffold;
 mod stdio;
 mod workflow;
 
+use clap::{Args, Parser, Subcommand, ValueEnum};
 use octon_authority_engine::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
     write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
     ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
-use clap::{Args, Parser, Subcommand, ValueEnum};
 use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::execution_integrity::service_capability_profile;
 use octon_core::tiers::validate_runtime_discovery_tiers;
 use octon_core::trace::TraceWriter;
 use octon_wasm_host::policy::GrantSet;
+use serde_yaml::{Mapping, Value};
+use std::fs;
 use std::path::PathBuf;
 use std::process::Command as ProcessCommand;
 use std::sync::Arc;
@@ -26,11 +28,7 @@ use crate::pipeline::RunPipelineOptions;
 use crate::workflow::ExecutorKind;
 
 #[derive(Parser)]
-#[command(
-    name = "octon",
-    version,
-    about = "Octon executable runtime layer (v1)"
-)]
+#[command(name = "octon", version, about = "Octon executable runtime layer (v1)")]
 struct Cli {
     #[command(subcommand)]
     cmd: Command,
@@ -73,7 +71,13 @@ enum Command {
         cmd: ServiceCmd,
     },
 
-    /// Canonical workflow execution entry points.
+    /// Run-first lifecycle execution commands.
+    Run {
+        #[command(subcommand)]
+        cmd: RunCmd,
+    },
+
+    /// Compatibility workflow wrapper over run-first lifecycle semantics.
     Workflow {
         #[command(subcommand)]
         cmd: WorkflowCmd,
@@ -107,10 +111,74 @@ enum ServiceCmd {
 }
 
 #[derive(Subcommand)]
+enum RunCmd {
+    /// Start a run from a canonical run contract.
+    Start {
+        /// Path to the run contract.
+        #[arg(long = "contract")]
+        contract: PathBuf,
+        /// Executor used for prompt stages.
+        #[arg(long, value_enum, default_value_t = ExecutorKind::Auto)]
+        executor: ExecutorKind,
+        /// Optional explicit executor binary path.
+        #[arg(long = "executor-bin")]
+        executor_bin: Option<String>,
+        /// Optional model override.
+        #[arg(long)]
+        model: Option<String>,
+        /// Materialize stage packets and reports without invoking executors.
+        #[arg(long = "prepare-only", default_value_t = false)]
+        prepare_only: bool,
+    },
+    /// Inspect canonical run artifacts for one run id.
+    Inspect {
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
+    /// Resume a run from its canonical contract and continuity artifacts.
+    Resume {
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Executor used for prompt stages.
+        #[arg(long, value_enum, default_value_t = ExecutorKind::Auto)]
+        executor: ExecutorKind,
+        /// Optional explicit executor binary path.
+        #[arg(long = "executor-bin")]
+        executor_bin: Option<String>,
+        /// Optional model override.
+        #[arg(long)]
+        model: Option<String>,
+        /// Materialize stage packets and reports without invoking executors.
+        #[arg(long = "prepare-only", default_value_t = false)]
+        prepare_only: bool,
+    },
+    /// Print the latest canonical checkpoint for one run.
+    Checkpoint {
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
+    /// Print canonical closeout state for one run.
+    Close {
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
+    /// Print canonical replay artifacts for one run.
+    Replay {
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
+    /// Print canonical disclosure artifacts for one run.
+    Disclose {
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
+}
+
+#[derive(Subcommand)]
 enum WorkflowCmd {
     /// List canonical workflows.
     List,
-    /// Run a canonical workflow.
+    /// Run a canonical workflow through the compatibility wrapper.
     Run {
         /// Canonical workflow id.
         workflow_id: String,
@@ -275,6 +343,7 @@ fn main() -> anyhow::Result<()> {
         Command::ServeStdio => cmd_serve_stdio(),
         Command::Studio => cmd_studio(),
         Command::Service { cmd } => cmd_service(cmd),
+        Command::Run { cmd } => cmd_run(cmd),
         Command::Workflow { cmd } => cmd_workflow(cmd),
         Command::Orchestration { cmd } => cmd_orchestration(cmd),
     }
@@ -290,7 +359,10 @@ fn cmd_info() -> anyhow::Result<()> {
         "execution_control_root: {}",
         ctx.cfg.execution_control_root.display()
     );
-    println!("execution_tmp_root: {}", ctx.cfg.execution_tmp_root.display());
+    println!(
+        "execution_tmp_root: {}",
+        ctx.cfg.execution_tmp_root.display()
+    );
     println!("os: {}", std::env::consts::OS);
     println!("arch: {}", std::env::consts::ARCH);
     println!("services: {}", ctx.registry.list().len());
@@ -397,19 +469,17 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
     let run_root = ctx.cfg.repo_root.join(&grant.run_root);
     ctx.cfg.ensure_execution_write_path(&run_root)?;
     let trace = TraceWriter::new(&run_root, None).ok();
-    let out = ctx
-        .invoker
-        .invoke(
-            svc,
-            grants,
-            op,
-            input,
-            trace.as_ref(),
-            &run_root,
-            service_profile.adapter_id.as_deref(),
-            None,
-            None,
-        )?;
+    let out = ctx.invoker.invoke(
+        svc,
+        grants,
+        op,
+        input,
+        trace.as_ref(),
+        &run_root,
+        service_profile.adapter_id.as_deref(),
+        None,
+        None,
+    )?;
     finalize_execution(
         &artifacts,
         &request,
@@ -680,7 +750,10 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 },
                 scope_constraints: ScopeConstraints {
                     read: vec![service_root.display().to_string()],
-                    write: vec![service_root.display().to_string(), build_root.display().to_string()],
+                    write: vec![
+                        service_root.display().to_string(),
+                        build_root.display().to_string(),
+                    ],
                     executor_profile: Some("scoped_repo_mutation".to_string()),
                     locality_scope: None,
                 },
@@ -712,7 +785,10 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                     error: None,
                 },
                 &SideEffectSummary {
-                    touched_scope: vec![service_root.display().to_string(), build_root.display().to_string()],
+                    touched_scope: vec![
+                        service_root.display().to_string(),
+                        build_root.display().to_string(),
+                    ],
                     shell_commands: vec![
                         "cargo fetch --locked --target wasm32-wasip1".to_string(),
                         "cargo component build --release --offline".to_string(),
@@ -752,6 +828,9 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
             model,
             prepare_only,
         } => {
+            eprintln!(
+                "workflow run is a compatibility wrapper; prefer `octon run start --contract ...`."
+            );
             let input_overrides = parse_kv_overrides(&set)?;
             let result = pipeline::run_pipeline_from_octon_dir(
                 &octon_dir,
@@ -759,6 +838,7 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
                     pipeline_id: workflow_id,
                     run_id,
                     mission_id,
+                    resume_existing: false,
                     executor,
                     executor_bin: executor_bin.map(Into::into),
                     output_slug,
@@ -781,6 +861,76 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
     Ok(())
 }
 
+fn cmd_run(cmd: RunCmd) -> anyhow::Result<()> {
+    let octon_dir = octon_core::root::RootResolver::resolve()?;
+    match cmd {
+        RunCmd::Start {
+            contract,
+            executor,
+            executor_bin,
+            model,
+            prepare_only,
+        } => {
+            let contract_path = resolve_octon_path(&octon_dir, &contract);
+            let descriptor = load_run_descriptor(&octon_dir, &contract_path)?;
+            run_descriptor_start(
+                &octon_dir,
+                descriptor,
+                false,
+                executor,
+                executor_bin,
+                model,
+                prepare_only,
+            )
+        }
+        RunCmd::Inspect { run_id } => {
+            let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            print_run_inspection(&octon_dir, &descriptor)
+        }
+        RunCmd::Resume {
+            run_id,
+            executor,
+            executor_bin,
+            model,
+            prepare_only,
+        } => {
+            let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            print_resume_summary(&octon_dir, &descriptor)?;
+            run_descriptor_start(
+                &octon_dir,
+                descriptor,
+                true,
+                executor,
+                executor_bin,
+                model,
+                prepare_only,
+            )
+        }
+        RunCmd::Checkpoint { run_id } => {
+            let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            print_yaml_file(&resolve_ref_path(
+                &octon_dir,
+                &descriptor.last_checkpoint_ref,
+            )?)
+        }
+        RunCmd::Close { run_id } => {
+            let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            print_yaml_file(&resolve_ref_path(&octon_dir, &descriptor.run_card_ref)?)
+        }
+        RunCmd::Replay { run_id } => {
+            let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            print_yaml_file(&resolve_ref_path(
+                &octon_dir,
+                &descriptor.replay_manifest_ref,
+            )?)
+        }
+        RunCmd::Disclose { run_id } => {
+            let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            print_yaml_file(&resolve_ref_path(&octon_dir, &descriptor.run_card_ref)?)
+        }
+    }
+}
+
 fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
     let ctx = KernelContext::load()?;
     let octon_dir = ctx.cfg.octon_dir.clone();
@@ -795,7 +945,9 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
             format,
             output_report,
         } => {
-            let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
+            let output_report = output_report
+                .as_deref()
+                .map(|path| resolve_output_path(&repo_root, path));
             if let Some(path) = output_report.as_ref() {
                 let (intent_ref, actor_ref, metadata) =
                     request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
@@ -839,7 +991,12 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                     &grant,
                 )?;
                 let started_at = now_rfc3339()?;
-                orchestration::write_lookup(&octon_dir, query.try_into()?, format, output_report.clone())?;
+                orchestration::write_lookup(
+                    &octon_dir,
+                    query.try_into()?,
+                    format,
+                    output_report.clone(),
+                )?;
                 finalize_execution(
                     &artifacts,
                     &request,
@@ -866,7 +1023,9 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
             format,
             output_report,
         } => {
-            let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
+            let output_report = output_report
+                .as_deref()
+                .map(|path| resolve_output_path(&repo_root, path));
             if let Some(path) = output_report.as_ref() {
                 let (intent_ref, actor_ref, metadata) =
                     request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
@@ -910,7 +1069,12 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                     &grant,
                 )?;
                 let started_at = now_rfc3339()?;
-                orchestration::write_summary(&octon_dir, surface.into(), format, output_report.clone())?;
+                orchestration::write_summary(
+                    &octon_dir,
+                    surface.into(),
+                    format,
+                    output_report.clone(),
+                )?;
                 finalize_execution(
                     &artifacts,
                     &request,
@@ -938,7 +1102,9 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                 format,
                 output_report,
             } => {
-                let output_report = output_report.as_deref().map(|path| resolve_output_path(&repo_root, path));
+                let output_report = output_report
+                    .as_deref()
+                    .map(|path| resolve_output_path(&repo_root, path));
                 if let Some(path) = output_report.as_ref() {
                     let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
                         &ctx.cfg,
@@ -1073,14 +1239,334 @@ fn new_request_id(prefix: &str) -> String {
     format!("{prefix}-{millis}-{}", std::process::id())
 }
 
+#[derive(Debug, Clone)]
+struct RunDescriptor {
+    run_id: String,
+    workflow_id: String,
+    run_contract_ref: String,
+    run_manifest_ref: String,
+    runtime_state_ref: String,
+    continuity_ref: String,
+    replay_manifest_ref: String,
+    run_card_ref: String,
+    last_checkpoint_ref: String,
+    mission_id: Option<String>,
+}
+
+fn resolve_octon_path(octon_dir: &std::path::Path, raw: &std::path::Path) -> PathBuf {
+    if raw.is_absolute() {
+        raw.to_path_buf()
+    } else if raw.starts_with(".octon") {
+        octon_dir.parent().unwrap_or(octon_dir).join(raw)
+    } else {
+        octon_dir.join(raw)
+    }
+}
+
+fn resolve_ref_path(octon_dir: &std::path::Path, raw: &str) -> anyhow::Result<PathBuf> {
+    let path = PathBuf::from(raw);
+    let resolved = resolve_octon_path(octon_dir, &path);
+    if resolved.exists() {
+        Ok(resolved)
+    } else {
+        anyhow::bail!("referenced artifact does not exist: {}", resolved.display());
+    }
+}
+
+fn load_yaml_value(path: &std::path::Path) -> anyhow::Result<Value> {
+    let content = fs::read_to_string(path)?;
+    Ok(serde_yaml::from_str(&content)?)
+}
+
+fn yaml_get_string<'a>(mapping: &'a Mapping, key: &str) -> anyhow::Result<&'a str> {
+    mapping
+        .get(Value::String(key.to_string()))
+        .and_then(Value::as_str)
+        .ok_or_else(|| anyhow::anyhow!("missing string field `{key}`"))
+}
+
+fn yaml_get_optional_string(mapping: &Mapping, key: &str) -> Option<String> {
+    mapping
+        .get(Value::String(key.to_string()))
+        .and_then(Value::as_str)
+        .map(ToString::to_string)
+}
+
+fn yaml_get_mapping<'a>(mapping: &'a Mapping, key: &str) -> anyhow::Result<&'a Mapping> {
+    mapping
+        .get(Value::String(key.to_string()))
+        .and_then(Value::as_mapping)
+        .ok_or_else(|| anyhow::anyhow!("missing mapping field `{key}`"))
+}
+
+fn load_run_descriptor(
+    octon_dir: &std::path::Path,
+    contract_path: &std::path::Path,
+) -> anyhow::Result<RunDescriptor> {
+    let contract = load_yaml_value(contract_path)?;
+    let contract = contract
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("run contract must be a mapping"))?;
+    let run_id = yaml_get_string(contract, "run_id")?.to_string();
+    let run_manifest_ref = yaml_get_string(contract, "run_manifest_ref")?.to_string();
+    let runtime_state_ref = yaml_get_string(contract, "runtime_state_ref")?.to_string();
+    let run_card_ref = yaml_get_string(contract, "run_card_ref")?.to_string();
+    let last_checkpoint_ref = yaml_get_string(contract, "rollback_posture_ref")
+        .ok()
+        .map(ToString::to_string);
+    let workflow_id = yaml_get_optional_string(contract, "workflow_id")
+        .or_else(|| {
+            yaml_get_optional_string(contract, "notes_ref").and_then(|notes_ref| {
+                let notes_path = resolve_ref_path(octon_dir, &notes_ref).ok()?;
+                let notes = load_yaml_value(&notes_path).ok()?;
+                let notes = notes.as_mapping()?;
+                let stage_ref = notes
+                    .get(Value::String("stage_ref".to_string()))?
+                    .as_str()?;
+                stage_ref.strip_prefix("workflow:").map(ToString::to_string)
+            })
+        })
+        .ok_or_else(|| {
+            anyhow::anyhow!("run contract does not declare a workflow_id or workflow stage_ref")
+        })?;
+    let run_manifest_path = resolve_ref_path(octon_dir, &run_manifest_ref)?;
+    let run_manifest = load_yaml_value(&run_manifest_path)?;
+    let run_manifest = run_manifest
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("run manifest must be a mapping"))?;
+    let continuity_ref = yaml_get_string(run_manifest, "run_continuity_ref")?.to_string();
+    let replay_manifest_ref = yaml_get_string(run_manifest, "replay_pointers_ref")
+        .ok()
+        .and_then(|replay_pointers_ref| {
+            let replay_pointers_path = resolve_ref_path(octon_dir, replay_pointers_ref).ok()?;
+            let replay_pointers = load_yaml_value(&replay_pointers_path).ok()?;
+            let replay_pointers = replay_pointers.as_mapping()?;
+            replay_pointers
+                .get(Value::String("replay_manifest_refs".to_string()))
+                .and_then(Value::as_sequence)
+                .and_then(|seq| seq.first())
+                .and_then(Value::as_str)
+                .map(ToString::to_string)
+        })
+        .or_else(|| yaml_get_optional_string(run_manifest, "replay_manifest_ref"))
+        .ok_or_else(|| anyhow::anyhow!("run manifest does not resolve a replay manifest ref"))?;
+    let continuity_path = resolve_ref_path(octon_dir, &continuity_ref)?;
+    let continuity = load_yaml_value(&continuity_path)?;
+    let continuity = continuity
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("continuity artifact must be a mapping"))?;
+    let last_checkpoint_ref = yaml_get_optional_string(continuity, "last_checkpoint_ref")
+        .or(last_checkpoint_ref)
+        .ok_or_else(|| {
+            anyhow::anyhow!("continuity artifact does not declare last_checkpoint_ref")
+        })?;
+    let mission_id = yaml_get_mapping(contract, "objective_refs")
+        .ok()
+        .and_then(|objective_refs| yaml_get_optional_string(objective_refs, "mission_id"));
+
+    Ok(RunDescriptor {
+        run_id,
+        workflow_id,
+        run_contract_ref: path_to_repo_ref(octon_dir, contract_path)?,
+        run_manifest_ref,
+        runtime_state_ref,
+        continuity_ref,
+        replay_manifest_ref,
+        run_card_ref,
+        last_checkpoint_ref,
+        mission_id,
+    })
+}
+
+fn load_run_descriptor_by_id(
+    octon_dir: &std::path::Path,
+    run_id: &str,
+) -> anyhow::Result<RunDescriptor> {
+    let contract_path = octon_dir
+        .parent()
+        .unwrap_or(octon_dir)
+        .join(".octon/state/control/execution/runs")
+        .join(run_id)
+        .join("run-contract.yml");
+    load_run_descriptor(octon_dir, &contract_path)
+}
+
+fn path_to_repo_ref(octon_dir: &std::path::Path, path: &std::path::Path) -> anyhow::Result<String> {
+    let repo_root = octon_dir.parent().unwrap_or(octon_dir);
+    let relative = path
+        .strip_prefix(repo_root)
+        .map_err(|_| anyhow::anyhow!("path is outside the repo root: {}", path.display()))?;
+    Ok(relative.to_string_lossy().to_string())
+}
+
+fn run_descriptor_start(
+    octon_dir: &std::path::Path,
+    descriptor: RunDescriptor,
+    resume_existing: bool,
+    executor: ExecutorKind,
+    executor_bin: Option<String>,
+    model: Option<String>,
+    prepare_only: bool,
+) -> anyhow::Result<()> {
+    let input_overrides = derive_run_input_overrides(octon_dir, &descriptor)?;
+    let result = pipeline::run_pipeline_from_octon_dir(
+        octon_dir,
+        RunPipelineOptions {
+            pipeline_id: descriptor.workflow_id,
+            run_id: Some(descriptor.run_id),
+            mission_id: descriptor.mission_id,
+            resume_existing,
+            executor,
+            executor_bin: executor_bin.map(Into::into),
+            output_slug: None,
+            model,
+            prepare_only,
+            input_overrides,
+        },
+    )?;
+    println!("bundle_root: {}", result.bundle_root.display());
+    println!("summary_report: {}", result.summary_report.display());
+    println!("final_verdict: {}", result.final_verdict);
+    Ok(())
+}
+
+fn print_run_inspection(
+    octon_dir: &std::path::Path,
+    descriptor: &RunDescriptor,
+) -> anyhow::Result<()> {
+    let summary = serde_json::json!({
+        "run_id": descriptor.run_id,
+        "run_contract_ref": descriptor.run_contract_ref,
+        "run_manifest_ref": descriptor.run_manifest_ref,
+        "runtime_state_ref": descriptor.runtime_state_ref,
+        "continuity_ref": descriptor.continuity_ref,
+        "replay_manifest_ref": descriptor.replay_manifest_ref,
+        "run_card_ref": descriptor.run_card_ref,
+        "last_checkpoint_ref": descriptor.last_checkpoint_ref,
+    });
+    println!("{}", serde_json::to_string_pretty(&summary)?);
+    print_yaml_file(&resolve_ref_path(octon_dir, &descriptor.run_manifest_ref)?)
+}
+
+fn derive_run_input_overrides(
+    octon_dir: &std::path::Path,
+    descriptor: &RunDescriptor,
+) -> anyhow::Result<std::collections::HashMap<String, String>> {
+    let mut overrides = std::collections::HashMap::new();
+    if descriptor.workflow_id != "validate-proposal"
+        && !descriptor.workflow_id.starts_with("audit-")
+        && !descriptor.workflow_id.ends_with("-proposal")
+        && descriptor.workflow_id != "promote-proposal"
+        && descriptor.workflow_id != "archive-proposal"
+    {
+        return Ok(overrides);
+    }
+
+    let run_manifest =
+        load_yaml_value(&resolve_ref_path(octon_dir, &descriptor.run_manifest_ref)?)?;
+    let run_manifest = run_manifest
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("run manifest must be a mapping"))?;
+    let retained_evidence_ref = yaml_get_string(run_manifest, "retained_evidence_ref")?;
+    let retained = load_yaml_value(&resolve_ref_path(octon_dir, retained_evidence_ref)?)?;
+    let retained = retained
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("retained run evidence must be a mapping"))?;
+    let evidence_refs = yaml_get_mapping(retained, "evidence_refs")?;
+    let side_effects_ref = evidence_refs
+        .get(Value::String("side_effects".to_string()))
+        .and_then(Value::as_str)
+        .ok_or_else(|| anyhow::anyhow!("retained run evidence is missing side_effects ref"))?;
+    let side_effects_path = resolve_ref_path(octon_dir, side_effects_ref)?;
+    let side_effects: serde_json::Value =
+        serde_json::from_str(&fs::read_to_string(side_effects_path)?)?;
+    let bundle_root = side_effects
+        .get("touched_scope")
+        .and_then(serde_json::Value::as_array)
+        .and_then(|items| items.first())
+        .and_then(serde_json::Value::as_str)
+        .ok_or_else(|| anyhow::anyhow!("side-effects receipt is missing workflow bundle root"))?;
+    let bundle_path = resolve_octon_path(octon_dir, &PathBuf::from(bundle_root));
+    let bundle_yaml = load_yaml_value(&bundle_path.join("bundle.yml"))?;
+    let bundle_yaml = bundle_yaml
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("workflow bundle.yml must be a mapping"))?;
+
+    if let Some(path) = yaml_get_optional_string(bundle_yaml, "package_path")
+        .or_else(|| yaml_get_optional_string(bundle_yaml, "proposal_path"))
+    {
+        overrides.insert("proposal_path".to_string(), path);
+    }
+
+    Ok(overrides)
+}
+
+fn print_resume_summary(
+    octon_dir: &std::path::Path,
+    descriptor: &RunDescriptor,
+) -> anyhow::Result<()> {
+    let run_manifest =
+        load_yaml_value(&resolve_ref_path(octon_dir, &descriptor.run_manifest_ref)?)?;
+    let run_manifest = run_manifest
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("run manifest must be a mapping"))?;
+    let rollback_posture_ref = yaml_get_string(run_manifest, "rollback_posture_ref")?;
+    let rollback_posture = load_yaml_value(&resolve_ref_path(octon_dir, rollback_posture_ref)?)?;
+    let rollback_posture = rollback_posture
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("rollback posture must be a mapping"))?;
+    let contamination_record_ref = yaml_get_string(rollback_posture, "contamination_record_ref")?;
+    let contamination_record =
+        load_yaml_value(&resolve_ref_path(octon_dir, contamination_record_ref)?)?;
+    let contamination_record = contamination_record
+        .as_mapping()
+        .ok_or_else(|| anyhow::anyhow!("contamination record must be a mapping"))?;
+    let contamination_state = yaml_get_string(contamination_record, "contamination_state")?;
+    let resume_allowed = rollback_posture
+        .get(Value::String("resume_allowed".to_string()))
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
+    if !resume_allowed {
+        anyhow::bail!(
+            "run {} is not resumable under its rollback posture",
+            descriptor.run_id
+        );
+    }
+    if contamination_state != "clean" {
+        anyhow::bail!(
+            "run {} cannot resume because contamination_state is {}",
+            descriptor.run_id,
+            contamination_state
+        );
+    }
+
+    let resume_plan = serde_json::json!({
+        "run_id": descriptor.run_id,
+        "resume_allowed": true,
+        "last_checkpoint_ref": descriptor.last_checkpoint_ref,
+        "continuity_ref": descriptor.continuity_ref,
+        "replay_manifest_ref": descriptor.replay_manifest_ref,
+        "input_overrides": derive_run_input_overrides(octon_dir, descriptor)?,
+    });
+    println!("{}", serde_json::to_string_pretty(&resume_plan)?);
+    Ok(())
+}
+
+fn print_yaml_file(path: &std::path::Path) -> anyhow::Result<()> {
+    let content = fs::read_to_string(path)?;
+    println!("{content}");
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::{
-        Cli, Command, OrchestrationCmd, OrchestrationIncidentCmd, OrchestrationSurfaceArg,
+        Cli, Command, OrchestrationCmd, OrchestrationIncidentCmd, OrchestrationSurfaceArg, RunCmd,
         WorkflowCmd,
     };
     use crate::workflow::ExecutorKind;
     use clap::{CommandFactory, Parser};
+    use std::path::PathBuf;
 
     #[test]
     fn cli_parses_studio_subcommand() {
@@ -1143,6 +1629,54 @@ mod tests {
     }
 
     #[test]
+    fn cli_parses_run_start_subcommand() {
+        let cli = Cli::try_parse_from([
+            "octon",
+            "run",
+            "start",
+            "--contract",
+            ".octon/state/control/execution/runs/example/run-contract.yml",
+            "--executor",
+            "mock",
+            "--prepare-only",
+        ])
+        .expect("run start should parse successfully");
+
+        match cli.cmd {
+            Command::Run {
+                cmd:
+                    RunCmd::Start {
+                        contract,
+                        executor,
+                        prepare_only,
+                        ..
+                    },
+            } => {
+                assert_eq!(
+                    contract,
+                    PathBuf::from(".octon/state/control/execution/runs/example/run-contract.yml")
+                );
+                assert_eq!(executor, ExecutorKind::Mock);
+                assert!(prepare_only);
+            }
+            _ => panic!("parsed command should be run start"),
+        }
+    }
+
+    #[test]
+    fn cli_parses_run_inspect_subcommand() {
+        let cli = Cli::try_parse_from(["octon", "run", "inspect", "--run-id", "run-001"])
+            .expect("run inspect should parse successfully");
+
+        match cli.cmd {
+            Command::Run {
+                cmd: RunCmd::Inspect { run_id },
+            } => assert_eq!(run_id, "run-001"),
+            _ => panic!("parsed command should be run inspect"),
+        }
+    }
+
+    #[test]
     fn cli_help_lists_workflow_command() {
         let mut cmd = Cli::command();
         let mut help = Vec::new();
@@ -1160,14 +1694,26 @@ mod tests {
     }
 
     #[test]
+    fn cli_help_lists_run_command() {
+        let mut cmd = Cli::command();
+        let mut help = Vec::new();
+        cmd.write_long_help(&mut help)
+            .expect("long help should render");
+        let help = String::from_utf8(help).expect("help should be valid utf-8");
+        assert!(
+            help.contains("run"),
+            "help output should contain run command"
+        );
+        assert!(
+            help.contains("Run-first lifecycle execution commands"),
+            "help output should include run command description"
+        );
+    }
+
+    #[test]
     fn cli_parses_workflow_validate_subcommand() {
-        let cli = Cli::try_parse_from([
-            "octon",
-            "workflow",
-            "validate",
-            "audit-design-proposal",
-        ])
-        .expect("workflow validate should parse successfully");
+        let cli = Cli::try_parse_from(["octon", "workflow", "validate", "audit-design-proposal"])
+            .expect("workflow validate should parse successfully");
 
         match cli.cmd {
             Command::Workflow {
@@ -1194,12 +1740,7 @@ mod tests {
 
         match cli.cmd {
             Command::Orchestration {
-                cmd:
-                    OrchestrationCmd::Lookup {
-                        query,
-                        format,
-                        ..
-                    },
+                cmd: OrchestrationCmd::Lookup { query, format, .. },
             } => {
                 assert_eq!(query.run_id.as_deref(), Some("run-001"));
                 assert_eq!(format, crate::orchestration::OutputFormat::Markdown);
@@ -1210,14 +1751,8 @@ mod tests {
 
     #[test]
     fn cli_parses_orchestration_summary_subcommand() {
-        let cli = Cli::try_parse_from([
-            "octon",
-            "orchestration",
-            "summary",
-            "--surface",
-            "all",
-        ])
-        .expect("orchestration summary should parse");
+        let cli = Cli::try_parse_from(["octon", "orchestration", "summary", "--surface", "all"])
+            .expect("orchestration summary should parse");
 
         match cli.cmd {
             Command::Orchestration {
@@ -1243,8 +1778,7 @@ mod tests {
             Command::Orchestration {
                 cmd:
                     OrchestrationCmd::Incident {
-                        cmd:
-                            OrchestrationIncidentCmd::ClosureReadiness { incident_id, .. },
+                        cmd: OrchestrationIncidentCmd::ClosureReadiness { incident_id, .. },
                     },
             } => assert_eq!(incident_id, "inc-001"),
             _ => panic!("parsed command should be incident closure-readiness"),

@@ -1,8 +1,9 @@
 closure_conditions:
-- Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.
+- Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots
+  before consequential side effects.
 - Canonical receipts and replay pointers remain linked to the run root.
 control_checkpoint_root: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/checkpoints
-created_at: 2026-03-31T21:23:12.1287Z
+created_at: &id001 2026-03-31 21:23:12.128700+00:00
 evidence_root: .octon/state/evidence/runs/uec-audit-architecture-20260331-2
 notes_ref: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/stage-attempts/initial.yml
 objective_refs:
@@ -22,7 +23,8 @@ required_evidence:
 - trace-pointers
 reversibility_class: reversible
 risk_class: low
-rollback_or_compensation_expectation: Wave 3 binds rollback posture and contamination state under the canonical run root before consequential side effects.
+rollback_or_compensation_expectation: Wave 3 binds rollback posture and contamination
+  state under the canonical run root before consequential side effects.
 rollback_posture_ref: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/rollback-posture.yml
 run_id: uec-audit-architecture-20260331-2
 run_manifest_ref: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/run-manifest.yml
@@ -31,9 +33,35 @@ schema_version: run-contract-v1
 scope_in:
 - workflow-scope
 scope_out:
-- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/analysis
-- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows
+- .octon/state/evidence/validation/analysis
+- .octon/state/evidence/runs/workflows
 stage_attempt_root: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/stage-attempts
 status: bound
 support_tier: repo-local-consequential
-updated_at: 2026-03-31T21:23:12.1287Z
+updated_at: 2026-03-31 21:23:12.128700+00:00
+mission_mode: none
+objective_summary: Architecture audit retained under the canonical run-first model.
+exclusions:
+- .octon/inputs/exploratory/ideation/**
+done_when:
+- The retained run reaches a terminal status with canonical evidence and disclosure
+  artifacts.
+acceptance_criteria:
+- Canonical replay, trace, and disclosure references resolve from the retained run
+  root.
+materiality: low
+protected_zones:
+- .octon/framework/constitution/**
+- .octon/instance/governance/**
+start_conditions:
+- Canonical run control, evidence, and disclosure roots are available before execution
+  starts.
+stop_conditions:
+- Stop on STAGE_ONLY, ESCALATE, or DENY authority routes.
+retry_class: manual_review_required
+disclosure_expectations:
+- Emit RunCard, replay pointers, trace pointers, and evidence classification for the
+  retained run bundle.
+contract_version: 1.1.0
+issued_at: *id001
+expires_at: null

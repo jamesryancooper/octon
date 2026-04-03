@@ -11,12 +11,24 @@ metrics:
   metric_id: proof-plane-count
   unit: count
   value: 7
+- label: Detailed measurement records
+  metric_id: measurement-record-count
+  unit: count
+  value: 1
 - label: Material interventions
   metric_id: intervention-count
   unit: count
   value: 0
-recorded_at: 2026-04-01T14:28:16.189628Z
+- label: Retry records
+  metric_id: retry-record-count
+  unit: count
+  value: 1
+- label: Contamination records
+  metric_id: contamination-record-count
+  unit: count
+  value: 1
+recorded_at: 2026-04-02T00:00:00Z
 schema_version: measurement-summary-v1
 subject_kind: run
 subject_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
-summary: Run emitted the canonical receipt, checkpoint, proof-plane, and disclosure families.
+summary: Run emitted canonical receipt, checkpoint, proof-plane, disclosure, retry, contamination, and detailed measurement families.

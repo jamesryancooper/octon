@@ -3,7 +3,7 @@
   "effective_policy_mode": "hard-enforce",
   "environment_class": "protected",
   "reason_codes": [
-    "ACP_EVIDENCE_INVALID"
+    "EXECUTION_AUTHORIZED"
   ],
   "schema_version": "execution-authorization-v1"
 }

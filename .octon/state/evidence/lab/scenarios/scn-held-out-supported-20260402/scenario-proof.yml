@@ -1,0 +1,9 @@
+schema_version: scenario-proof-v1
+scenario_id: scn-held-out-supported-20260402
+class: held-out-support-validation
+status: pass
+summary: Held-out scenario proof for the supported consequential envelope retained outside the routine happy-path evaluation set.
+evidence_refs:
+  - .octon/framework/assurance/behavioral/suites/held-out-supported-envelope.yml
+  - .octon/framework/assurance/governance/anti-overfitting-policy.yml
+recorded_at: 2026-04-02T00:00:00Z

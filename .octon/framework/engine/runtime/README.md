@@ -25,8 +25,22 @@
 
 ## Operator Surfaces
 
-The engine runtime now exposes orchestration operator inspection through the
-shared `octon` CLI and Studio host:
+The engine runtime now exposes run-first operator surfaces through the shared
+`octon` CLI:
+
+- `octon run start --contract <run-contract>`
+- `octon run inspect --run-id <run-id>`
+- `octon run resume --run-id <run-id>`
+- `octon run checkpoint --run-id <run-id>`
+- `octon run close --run-id <run-id>`
+- `octon run replay --run-id <run-id>`
+- `octon run disclose --run-id <run-id>`
+
+`octon workflow run ...` remains available only as a compatibility wrapper
+over the canonical run-first lifecycle.
+
+The runtime also exposes orchestration operator inspection through the same
+CLI and Studio host:
 
 - `octon orchestration lookup ...`
 - `octon orchestration summary --surface ...`

@@ -9,6 +9,7 @@
     "schema_version",
     "card_id",
     "claim_kind",
+    "claim_status",
     "claim_summary",
     "support_target_ref",
     "compatibility_tuple",
@@ -31,6 +32,13 @@
         "support",
         "benchmark",
         "release"
+      ]
+    },
+    "claim_status": {
+      "type": "string",
+      "enum": [
+        "provisional",
+        "complete"
       ]
     },
     "claim_summary": {

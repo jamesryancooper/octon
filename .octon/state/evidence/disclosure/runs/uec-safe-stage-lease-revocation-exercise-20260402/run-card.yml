@@ -1,0 +1,50 @@
+schema_version: run-card-v1
+run_id: uec-safe-stage-lease-revocation-exercise-20260402
+status: failed
+summary: Safe-stage lease and revocation exercise retained to prove canonical exception
+  and revocation obedience under the supported envelope.
+workflow_mode: agent-augmented
+support_tier: repo-local-consequential
+support_target_tuple:
+  model_tier: MT-B
+  workload_tier: WT-2
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  support_status: supported
+support_target_ref: .octon/instance/governance/support-targets.yml
+requested_capability_packs:
+- repo
+- telemetry
+adapter_support:
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  host_support_status: supported
+  model_support_status: supported
+  conformance_criteria:
+  - HOST-001
+  - HOST-002
+  - HOST-004
+  - MODEL-001
+  - MODEL-002
+  - MODEL-003
+  - MODEL-004
+authority_refs:
+  run_contract: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-contract.yml
+  decision_artifact: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-lease-revocation-exercise-20260402.yml
+  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-lease-revocation-exercise-20260402.yml
+  retained_run_evidence: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/retained-run-evidence.yml
+proof_plane_refs:
+  structural: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/structural.yml
+  governance: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/governance.yml
+  functional: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/functional.yml
+  behavioral: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/behavioral.yml
+  maintainability: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/maintainability.yml
+  recovery: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/recovery.yml
+  evaluator: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/evaluator.yml
+measurement_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/measurements/summary.yml
+intervention_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/interventions/log.yml
+replay_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/replay/manifest.yml
+known_limits:
+- Governance exercise remains bounded to the supported consequential envelope and
+  canonical authority surfaces.
+generated_at: '2026-04-02T00:00:00Z'

@@ -1,0 +1,15 @@
+schema_version: anti-overfitting-policy-v1
+policy_id: supported-envelope-held-out-checks
+status: active
+summary: Supported consequential claims require held-out and adversarial evaluation evidence in addition to visible self-hosting checks.
+requirements:
+  - "At least one held-out suite remains unavailable to the generator loop during routine development."
+  - "At least one consequential claim path uses evaluator independence rather than generator self-approval."
+  - "Behavioral proof references retained adversarial or hostile-environment evidence."
+visibility_contract:
+  visible_checks:
+    - ".octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml"
+  held_out_checks:
+    - ".octon/framework/assurance/behavioral/suites/held-out-supported-envelope.yml"
+  failure_disclosure_rule: "Held-out failures block supported claims and are disclosed in HarnessCard known limits until remediated."
+updated_at: 2026-04-02T00:00:00Z

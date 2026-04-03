@@ -9,8 +9,15 @@
     "schema_version",
     "run_id",
     "objective_refs",
+    "mission_mode",
+    "objective_summary",
     "scope_in",
     "scope_out",
+    "exclusions",
+    "done_when",
+    "acceptance_criteria",
+    "materiality",
+    "protected_zones",
     "requested_capabilities",
     "requested_capability_packs",
     "risk_class",
@@ -22,12 +29,19 @@
     "support_target_ref",
     "required_approvals",
     "required_evidence",
+    "start_conditions",
+    "stop_conditions",
+    "retry_class",
     "closure_conditions",
+    "disclosure_expectations",
     "stage_attempt_root",
     "run_manifest_ref",
     "decision_artifact_ref",
     "authority_grant_bundle_ref",
     "run_card_ref",
+    "contract_version",
+    "issued_at",
+    "expires_at",
     "status",
     "created_at"
   ],
@@ -39,6 +53,14 @@
     "run_id": {
       "type": "string",
       "minLength": 1
+    },
+    "mission_mode": {
+      "type": "string",
+      "enum": [
+        "required",
+        "optional",
+        "none"
+      ]
     },
     "objective_refs": {
       "type": "object",
@@ -66,6 +88,10 @@
         }
       }
     },
+    "objective_summary": {
+      "type": "string",
+      "minLength": 1
+    },
     "scope_in": {
       "type": "array",
       "minItems": 1,
@@ -76,6 +102,47 @@
     },
     "scope_out": {
       "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "^(?!/Users/)(?!/home/).+"
+      }
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "done_when": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "materiality": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "protected_zones": {
+      "type": "array",
+      "minItems": 1,
       "items": {
         "type": "string",
         "minLength": 1
@@ -166,7 +233,43 @@
         "minLength": 1
       }
     },
+    "start_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "stop_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "retry_class": {
+      "type": "string",
+      "enum": [
+        "retryable_transient",
+        "retryable_validation",
+        "retryable_environment",
+        "rollback_then_retry",
+        "manual_review_required",
+        "non_retryable_contract_violation",
+        "contamination_reset_required"
+      ]
+    },
     "closure_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "disclosure_expectations": {
       "type": "array",
       "minItems": 1,
       "items": {
@@ -264,6 +367,20 @@
         "completed",
         "failed",
         "cancelled"
+      ]
+    },
+    "contract_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "issued_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expires_at": {
+      "type": [
+        "string",
+        "null"
       ]
     },
     "created_at": {

@@ -1,0 +1,22 @@
+schema_version: "authority-control-receipt-v1"
+receipt_id: "20260403T022312Z-approval-request-materialized"
+control_mutation_class: "approval_request_materialized"
+source_ref: ".octon/state/control/execution/approvals/requests/uec-safe-stage-lease-revocation-exercise-20260402.yml"
+applied_to_ref: ".octon/state/control/execution/approvals/requests/uec-safe-stage-lease-revocation-exercise-20260402.yml"
+issuer_ref: "operator://octon-governance"
+timestamp: "2026-04-03T02:23:12Z"
+result: "applied"
+reason: "Canonical safe-stage lease and revocation exercise for unified execution constitution remediation."
+reason_codes:
+  - "LIVE_SAFE_STAGE_LEASE_REVOCATION_EXERCISE"
+affected_paths:
+  - ".octon/state/control/execution/approvals/requests/uec-safe-stage-lease-revocation-exercise-20260402.yml"
+policy_refs:
+  []
+projection_refs:
+  []
+approval_request_ref: ".octon/state/control/execution/approvals/requests/uec-safe-stage-lease-revocation-exercise-20260402.yml"
+approval_grant_ref: null
+exception_lease_ref: null
+revocation_ref: null
+linked_run_id: "uec-safe-stage-lease-revocation-exercise-20260402"

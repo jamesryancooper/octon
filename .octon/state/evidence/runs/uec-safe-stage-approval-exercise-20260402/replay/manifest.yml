@@ -1,0 +1,17 @@
+schema_version: run-replay-manifest-v1
+run_id: uec-safe-stage-approval-exercise-20260402
+entrypoint: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402
+replay_payload_class: git-pointer
+receipt_refs:
+- .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/receipts/execution-receipt.json
+checkpoint_refs:
+- .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/checkpoints/bound.yml
+trace_refs:
+- .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/trace-pointers.yml
+external_index_refs:
+- .octon/state/evidence/external-index/runs/uec-safe-stage-approval-exercise-20260402.yml
+reproduction_steps:
+- Read the bound run contract and approval artifacts.
+- Follow the replay manifest, checkpoints, trace pointers, and RunCard refs to reproduce
+  the bounded governance exercise.
+recorded_at: '2026-04-02T00:00:00Z'

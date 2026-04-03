@@ -1,0 +1,7 @@
+{
+  "grant_ref": ".octon/state/control/execution/approvals/grants/grant-uec-safe-stage-approval-exercise-20260402.yml",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "LIVE_SAFE_STAGE_APPROVAL_EXERCISE"
+  ]
+}

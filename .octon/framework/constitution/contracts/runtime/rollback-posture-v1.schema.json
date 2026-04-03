@@ -11,6 +11,11 @@
     "reversibility_class",
     "rollback_strategy",
     "contamination_state",
+    "retry_record_ref",
+    "contamination_record_ref",
+    "resume_allowed",
+    "reset_action",
+    "invalidated_artifacts",
     "hard_reset_required",
     "updated_at"
   ],
@@ -37,7 +42,11 @@
         "rollback",
         "compensate",
         "observe_only",
-        "none"
+        "none",
+        "local_compensation",
+        "checkpoint_restore",
+        "whole_run_revert",
+        "whole_release_revert"
       ]
     },
     "rollback_ref": {
@@ -72,6 +81,28 @@
         "contaminated",
         "hard-reset-required"
       ]
+    },
+    "retry_record_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contamination_record_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "resume_allowed": {
+      "type": "boolean"
+    },
+    "reset_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "invalidated_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "hard_reset_required": {
       "type": "boolean"

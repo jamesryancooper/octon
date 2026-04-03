@@ -1,0 +1,12 @@
+schema_version: run-contamination-record-v1
+contamination_id: uec-safe-stage-lease-revocation-exercise-20260402-current
+run_id: uec-safe-stage-lease-revocation-exercise-20260402
+subject_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/checkpoints/execution-complete.yml
+contamination_state: clean
+contamination_class: none
+reset_action: No reset required; the governance exercise remained coherent.
+invalidated_artifacts: []
+replay_continuity: preserved
+approved_by: null
+notes: No contamination event was recorded.
+recorded_at: '2026-04-02T00:00:00Z'

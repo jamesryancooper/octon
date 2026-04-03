@@ -4,7 +4,7 @@ request_id: uec-audit-architecture-20260331-2
 run_id: uec-audit-architecture-20260331-2
 decision: ALLOW
 reason_codes:
-- ACP_EVIDENCE_INVALID
+- EXECUTION_AUTHORIZED
 ownership:
   status: resolved
   source: ownership_registry.default

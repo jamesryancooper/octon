@@ -1,0 +1,15 @@
+schema_version: "authority-approval-grant-v1"
+grant_id: "grant-uec-safe-stage-approval-exercise-20260402"
+request_id: "uec-safe-stage-approval-exercise-20260402"
+run_id: "uec-safe-stage-approval-exercise-20260402"
+state: "active"
+issued_by: "operator://octon-governance"
+issued_at: "2026-04-03T02:23:12Z"
+expires_at: null
+quorum_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
+projection_sources:
+  []
+review_metadata: {}
+required_evidence:
+  - "authority-grant-bundle"
+  - "rollback-proof"

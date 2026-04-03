@@ -1,0 +1,22 @@
+schema_version: "authority-control-receipt-v1"
+receipt_id: "20260403T022312Z-authority-revocation-upsert"
+control_mutation_class: "authority_revocation_upsert"
+source_ref: ".octon/state/control/execution/revocations/grants.yml#revoke-uec-safe-stage-lease-revocation-exercise-20260402"
+applied_to_ref: ".octon/state/control/execution/revocations/grants.yml#revoke-uec-safe-stage-lease-revocation-exercise-20260402"
+issuer_ref: "operator://octon-governance"
+timestamp: "2026-04-03T02:23:12Z"
+result: "applied"
+reason: null
+reason_codes:
+  - "LIVE_SAFE_STAGE_REVOCATION_EXERCISE"
+affected_paths:
+  - ".octon/state/control/execution/revocations/grants.yml"
+policy_refs:
+  []
+projection_refs:
+  []
+approval_request_ref: null
+approval_grant_ref: null
+exception_lease_ref: null
+revocation_ref: ".octon/state/control/execution/revocations/grants.yml#revoke-uec-safe-stage-lease-revocation-exercise-20260402"
+linked_run_id: "uec-safe-stage-lease-revocation-exercise-20260402"

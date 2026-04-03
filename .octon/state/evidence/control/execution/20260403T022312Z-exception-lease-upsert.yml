@@ -1,0 +1,22 @@
+schema_version: "authority-control-receipt-v1"
+receipt_id: "20260403T022312Z-exception-lease-upsert"
+control_mutation_class: "exception_lease_upsert"
+source_ref: ".octon/state/control/execution/exceptions/leases.yml#lease-uec-safe-stage-lease-revocation-exercise-20260402"
+applied_to_ref: ".octon/state/control/execution/exceptions/leases.yml#lease-uec-safe-stage-lease-revocation-exercise-20260402"
+issuer_ref: "operator://octon-governance"
+timestamp: "2026-04-03T02:23:12Z"
+result: "applied"
+reason: "Bounded safe-stage exception lease for revocation obedience exercise."
+reason_codes:
+  - "EXCEPTION_LEASE_UPSERTED"
+affected_paths:
+  - ".octon/state/control/execution/exceptions/leases.yml"
+policy_refs:
+  []
+projection_refs:
+  []
+approval_request_ref: null
+approval_grant_ref: null
+exception_lease_ref: ".octon/state/control/execution/exceptions/leases.yml#lease-uec-safe-stage-lease-revocation-exercise-20260402"
+revocation_ref: null
+linked_run_id: "uec-safe-stage-lease-revocation-exercise-20260402"

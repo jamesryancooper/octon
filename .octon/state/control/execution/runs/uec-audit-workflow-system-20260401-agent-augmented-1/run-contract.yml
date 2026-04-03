@@ -2,23 +2,37 @@ actor_ref:
   id: octon-kernel
   kind: system
 authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-workflow-system-20260401-agent-augmented-1.yml
+contract_version: 1.1.0
 closure_conditions:
 - Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.
 - Canonical receipts and replay pointers remain linked to the run root.
 control_checkpoint_root: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/checkpoints
 created_at: 2026-04-01T14:28:31.847273Z
 decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-audit-workflow-system-20260401-agent-augmented-1.yml
+disclosure_expectations:
+- Emit a canonical RunCard, replay manifest, replay pointers, trace pointers, evidence classification, and proof-plane reports.
+- Retain detailed measurement and intervention records before promoting any disclosure claim.
 evidence_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1
+exclusions:
+- .octon/inputs/exploratory/ideation/**
+expires_at: null
 external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-audit-workflow-system-20260401-agent-augmented-1.yml
 host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
 intent_ref:
   id: intent://octon/octon-governed-harness
   version: 1.1.0
+issued_at: 2026-04-01T14:28:31.847273Z
+materiality: medium
+mission_mode: none
 model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
 notes_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/stage-attempts/initial.yml
+objective_summary: Audit the workflow system bundle and retained evidence against the supported consequential envelope.
 objective_refs:
   workspace_intent_ref: .octon/instance/charter/workspace.yml
   workspace_objective_ref: .octon/instance/charter/workspace.md
+protected_zones:
+- .octon/framework/constitution/**
+- .octon/instance/governance/**
 receipt_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts
 replay_pointers_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay-pointers.yml
 requested_capabilities:
@@ -35,6 +49,7 @@ required_evidence:
 - policy-receipt
 - replay-pointers
 - trace-pointers
+retry_class: manual_review_required
 reversibility_class: reversible
 risk_class: medium
 rollback_or_compensation_expectation: Wave 3 binds rollback posture and contamination state under the canonical run root before consequential side effects.
@@ -47,9 +62,15 @@ schema_version: run-contract-v1
 scope_in:
 - workflow-contract
 scope_out:
-- /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows
+- .octon/state/evidence/runs/workflows
+start_conditions:
+- Support-target tuple MT-B / WT-2 / LT-REF / LOC-EN remains admitted for repo-shell and repo-local-governed.
+- Canonical assurance, measurement, intervention, and disclosure roots exist before audit execution begins.
 stage_attempt_root: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/stage-attempts
 status: bound
+stop_conditions:
+- Stop immediately if runtime routing returns STAGE_ONLY, ESCALATE, or DENY.
+- Stop if replay, trace, or proof-plane references cannot be retained under canonical run roots.
 support_target:
   host_adapter: repo-shell
   language_resource_tier: LT-REF
@@ -60,3 +81,9 @@ support_target:
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_tier: repo-local-consequential
 updated_at: 2026-04-01T14:28:31.847273Z
+acceptance_criteria:
+- Canonical replay, trace, proof-plane, and disclosure references resolve for the retained run bundle.
+- Audit output remains bounded to the supported consequential envelope without widening authority.
+done_when:
+- The workflow-system audit completes and the retained run bundle validates against closure gating.
+- Run disclosure truthfully reflects the evidence emitted by the canonical run root.

@@ -1,0 +1,58 @@
+schema_version: agency-surface-classification-ledger-v1
+updated_at: 2026-04-02T00:00:00Z
+surfaces:
+  - surface_id: orchestrator
+    path: .octon/framework/agency/runtime/agents/orchestrator/AGENT.md
+    current_role: accountable-orchestrator
+    live_use_evidence:
+      - .octon/framework/constitution/CHARTER.md
+      - .octon/instance/ingress/AGENTS.md
+    supported_envelope_relevance: kernel
+    deletion_risk: high
+    decision: kernel
+    review_date: 2026-04-02
+  - surface_id: verifier
+    path: .octon/framework/agency/runtime/agents/verifier/AGENT.md
+    current_role: independent-verification
+    live_use_evidence:
+      - .octon/framework/assurance/evaluators/review-routing.yml
+    supported_envelope_relevance: conditional
+    deletion_risk: medium
+    decision: defer-delete-pending-proof
+    review_date: 2026-04-02
+  - surface_id: reviewer-assistant
+    path: .octon/framework/agency/runtime/assistants/reviewer/assistant.md
+    current_role: bounded-specialist
+    live_use_evidence:
+      - .octon/framework/agency/runtime/assistants/registry.yml
+    supported_envelope_relevance: optional
+    deletion_risk: low
+    decision: optional-overlay
+    review_date: 2026-04-02
+  - surface_id: refactor-assistant
+    path: .octon/framework/agency/runtime/assistants/refactor/assistant.md
+    current_role: bounded-specialist
+    live_use_evidence:
+      - .octon/framework/agency/runtime/assistants/registry.yml
+    supported_envelope_relevance: optional
+    deletion_risk: low
+    decision: optional-overlay
+    review_date: 2026-04-02
+  - surface_id: docs-assistant
+    path: .octon/framework/agency/runtime/assistants/docs/assistant.md
+    current_role: bounded-specialist
+    live_use_evidence:
+      - .octon/framework/agency/runtime/assistants/registry.yml
+    supported_envelope_relevance: optional
+    deletion_risk: low
+    decision: optional-overlay
+    review_date: 2026-04-02
+  - surface_id: delivery-core-team
+    path: .octon/framework/agency/runtime/teams/delivery-core/team.md
+    current_role: composition-wrapper
+    live_use_evidence:
+      - .octon/framework/agency/runtime/teams/registry.yml
+    supported_envelope_relevance: optional
+    deletion_risk: medium
+    decision: optional-overlay
+    review_date: 2026-04-02

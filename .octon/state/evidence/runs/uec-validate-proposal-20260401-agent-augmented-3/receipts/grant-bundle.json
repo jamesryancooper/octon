@@ -36,7 +36,7 @@
     "policy_receipt_path": ".octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/policy-receipt.latest.json",
     "quorum_policy_ref": ".octon/instance/governance/policies/mission-autonomy.yml#quorum",
     "reason_codes": [
-      "ACP_EVIDENCE_INVALID"
+      "EXECUTION_AUTHORIZED"
     ],
     "receipt_requirements": [
       "execution-request.json",

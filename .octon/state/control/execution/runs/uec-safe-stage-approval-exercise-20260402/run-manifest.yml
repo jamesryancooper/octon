@@ -1,0 +1,49 @@
+schema_version: run-manifest-v1
+run_id: uec-safe-stage-approval-exercise-20260402
+run_contract_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
+intent_ref:
+  id: intent://octon/octon-governed-harness
+  version: 1.1.0
+actor_ref:
+  kind: system
+  id: octon-kernel
+support_tier: repo-local-consequential
+support_target:
+  model_tier: MT-B
+  workload_tier: repo-local-consequential
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+support_target_ref: .octon/instance/governance/support-targets.yml
+requested_capability_packs:
+- repo
+- telemetry
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-approval-exercise-20260402.yml
+authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-approval-exercise-20260402.yml
+approval_request_ref: .octon/state/control/execution/approvals/requests/uec-safe-stage-approval-exercise-20260402.yml
+approval_grant_refs:
+- .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-approval-exercise-20260402.yml
+host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
+model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+runtime_state_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/runtime-state.yml
+run_continuity_ref: .octon/state/continuity/runs/uec-safe-stage-approval-exercise-20260402/handoff.yml
+stage_attempt_root: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/stage-attempts
+control_checkpoint_root: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/checkpoints
+rollback_posture_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/rollback-posture.yml
+evidence_root: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402
+receipt_root: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/receipts
+assurance_root: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance
+measurement_root: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/measurements
+intervention_root: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/interventions
+disclosure_root: .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402
+retained_evidence_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay-pointers.yml
+trace_pointers_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/trace-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/evidence-classification.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
+external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-safe-stage-approval-exercise-20260402.yml
+created_at: '2026-04-02T00:00:00Z'
+updated_at: '2026-04-02T00:00:00Z'
+mission_id: null
+parent_run_ref: null

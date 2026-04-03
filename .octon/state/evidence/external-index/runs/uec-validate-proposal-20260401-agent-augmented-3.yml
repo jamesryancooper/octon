@@ -1,0 +1,24 @@
+schema_version: external-replay-index-v1
+index_id: external-replay-uec-validate-proposal-20260401-agent-augmented-3
+scope: run
+run_id: uec-validate-proposal-20260401-agent-augmented-3
+entries:
+  - entry_id: uec-validate-proposal-20260401-agent-augmented-3-replay-manifest
+    run_id: uec-validate-proposal-20260401-agent-augmented-3
+    artifact_kind: replay-payload
+    evidence_class: B
+    storage_class: git-pointer
+    content_digest: sha256:4f081c7cb1bf444ea560073f672609924bc7ba61fa3931d37903c28441e75419
+    locator: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay/manifest.yml
+    manifest_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay/manifest.yml
+    recorded_at: 2026-04-01T14:26:11.553247Z
+  - entry_id: uec-validate-proposal-20260401-agent-augmented-3-trace-pointers
+    run_id: uec-validate-proposal-20260401-agent-augmented-3
+    artifact_kind: trace-payload
+    evidence_class: B
+    storage_class: git-pointer
+    content_digest: sha256:098a74cbf65051f6b63f3b9217c4a781f6cf8659ba6014574b9ad2c3f756e658
+    locator: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/trace-pointers.yml
+    manifest_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/trace-pointers.yml
+    recorded_at: 2026-04-01T14:26:11.553247Z
+updated_at: 2026-04-02T00:00:00Z

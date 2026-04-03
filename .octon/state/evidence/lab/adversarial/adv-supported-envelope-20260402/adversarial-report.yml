@@ -1,0 +1,9 @@
+schema_version: adversarial-report-v1
+report_id: adv-supported-envelope-20260402
+subject_scope: supported-consequential-envelope
+status: pass
+summary: Adversarial exercise retained for the supported consequential envelope to demonstrate non-happy-path behavioral coverage.
+evidence_refs:
+  - .octon/framework/lab/runtime/contracts/adversarial-report-v1.schema.json
+  - .octon/framework/assurance/governance/anti-overfitting-policy.yml
+recorded_at: 2026-04-02T00:00:00Z

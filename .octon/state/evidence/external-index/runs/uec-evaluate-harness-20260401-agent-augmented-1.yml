@@ -1,0 +1,24 @@
+schema_version: external-replay-index-v1
+index_id: external-replay-uec-evaluate-harness-20260401-agent-augmented-1
+scope: run
+run_id: uec-evaluate-harness-20260401-agent-augmented-1
+entries:
+  - entry_id: uec-evaluate-harness-20260401-agent-augmented-1-replay-manifest
+    run_id: uec-evaluate-harness-20260401-agent-augmented-1
+    artifact_kind: replay-payload
+    evidence_class: B
+    storage_class: git-pointer
+    content_digest: sha256:dc624f94cb5042a0d886ef3d604c26b5e6ecdc30740bdd5ef13618344db0fd26
+    locator: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/replay/manifest.yml
+    manifest_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/replay/manifest.yml
+    recorded_at: 2026-04-01T14:28:16.189628Z
+  - entry_id: uec-evaluate-harness-20260401-agent-augmented-1-trace-pointers
+    run_id: uec-evaluate-harness-20260401-agent-augmented-1
+    artifact_kind: trace-payload
+    evidence_class: B
+    storage_class: git-pointer
+    content_digest: sha256:1f422efee9a8703277510a60da4258c015dad5186e336b7eb36261f972ae8987
+    locator: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/trace-pointers.yml
+    manifest_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/trace-pointers.yml
+    recorded_at: 2026-04-01T14:28:16.189628Z
+updated_at: 2026-04-02T00:00:00Z

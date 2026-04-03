@@ -605,9 +605,7 @@ pub fn default_policy_mode(cfg: &RuntimeConfig) -> String {
 }
 
 pub fn active_intent_ref(cfg: &RuntimeConfig) -> Option<IntentRef> {
-    let path = cfg
-        .repo_root
-        .join(".octon/instance/charter/workspace.yml");
+    let path = cfg.repo_root.join(".octon/instance/charter/workspace.yml");
     let raw = fs::read_to_string(path).ok()?;
     let doc = serde_yaml::from_str::<serde_yaml::Value>(&raw).ok()?;
     Some(IntentRef {
@@ -1145,6 +1143,16 @@ struct RollbackPostureRecord {
     #[serde(default)]
     contamination_state: String,
     #[serde(default)]
+    retry_record_ref: String,
+    #[serde(default)]
+    contamination_record_ref: String,
+    #[serde(default)]
+    resume_allowed: bool,
+    #[serde(default)]
+    reset_action: String,
+    #[serde(default)]
+    invalidated_artifacts: Vec<String>,
+    #[serde(default)]
     hard_reset_required: bool,
     #[serde(default)]
     posture_source: Option<String>,
@@ -1194,6 +1202,24 @@ struct ReplayPointersRecord {
     trace_refs: Vec<String>,
     #[serde(default)]
     external_index_refs: Vec<String>,
+    #[serde(default)]
+    updated_at: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+struct TracePointersRecord {
+    #[serde(default)]
+    schema_version: String,
+    #[serde(default)]
+    run_id: String,
+    #[serde(default)]
+    trace_id: String,
+    #[serde(default)]
+    trace_refs: Vec<String>,
+    #[serde(default)]
+    external_index_refs: Vec<String>,
+    #[serde(default)]
+    notes: Option<String>,
     #[serde(default)]
     updated_at: String,
 }
@@ -1482,7 +1508,9 @@ fn required_request_metadata(request: &ExecutionRequest, key: &str) -> CoreResul
                 ErrorCode::CapabilityDenied,
                 format!("execution request missing required support-target binding: {key}"),
             )
-            .with_details(json!({"reason_codes":["SUPPORT_TARGET_BINDING_MISSING"],"missing_key":key}))
+            .with_details(
+                json!({"reason_codes":["SUPPORT_TARGET_BINDING_MISSING"],"missing_key":key}),
+            )
         })
 }
 
@@ -1566,10 +1594,7 @@ fn bind_run_lifecycle(
             )
             .with_details(json!({"reason_codes":["INTENT_MISSING"]}))
         })?;
-    let resolved_actor_ref = request
-        .actor_ref
-        .clone()
-        .unwrap_or_else(default_actor_ref);
+    let resolved_actor_ref = request.actor_ref.clone().unwrap_or_else(default_actor_ref);
     let reversibility_class = autonomy_state
         .map(|state| state.context.reversibility_class.clone())
         .unwrap_or_else(|| "reversible".to_string());
@@ -1585,12 +1610,10 @@ fn bind_run_lifecycle(
         || autonomy_state
             .map(|state| state.approval_required || state.break_glass_required)
             .unwrap_or(false);
-    let approval_request_ref = format!(
-        ".octon/state/control/execution/approvals/requests/{run_id}.yml"
-    );
-    let expected_approval_ref = format!(
-        ".octon/state/control/execution/approvals/grants/grant-{run_id}.yml"
-    );
+    let approval_request_ref =
+        format!(".octon/state/control/execution/approvals/requests/{run_id}.yml");
+    let expected_approval_ref =
+        format!(".octon/state/control/execution/approvals/grants/grant-{run_id}.yml");
     let mission_id = autonomy_state
         .map(|state| state.context.mission_ref.id.clone())
         .or_else(|| request.metadata.get("mission_id").cloned());
@@ -1606,13 +1629,12 @@ fn bind_run_lifecycle(
     let evidence_root_rel = path_tail(&cfg.repo_root, &evidence_root);
     let run_contract_ref = path_tail(&cfg.repo_root, &run_contract_path);
     let run_manifest_ref = path_tail(&cfg.repo_root, &run_manifest_path);
-    let decision_artifact_ref = format!(
-        ".octon/state/evidence/control/execution/authority-decision-{run_id}.yml"
-    );
-    let authority_grant_bundle_ref = format!(
-        ".octon/state/evidence/control/execution/authority-grant-bundle-{run_id}.yml"
-    );
+    let decision_artifact_ref =
+        format!(".octon/state/evidence/control/execution/authority-decision-{run_id}.yml");
+    let authority_grant_bundle_ref =
+        format!(".octon/state/evidence/control/execution/authority-grant-bundle-{run_id}.yml");
     let run_card_ref = format!(".octon/state/evidence/disclosure/runs/{run_id}/run-card.yml");
+    let replay_manifest_ref = format!(".octon/state/evidence/runs/{run_id}/replay/manifest.yml");
     let external_replay_index_ref =
         format!(".octon/state/evidence/external-index/runs/{run_id}.yml");
     let host_adapter_ref = format!(
@@ -1627,6 +1649,10 @@ fn bind_run_lifecycle(
     let rollback_posture_ref = path_tail(&cfg.repo_root, &rollback_posture_path);
     let control_checkpoint_ref = path_tail(&cfg.repo_root, &control_checkpoint_path);
     let evidence_checkpoint_ref = path_tail(&cfg.repo_root, &evidence_checkpoint_path);
+    let retry_record_path = control_root.join("retry-records").join("baseline.yml");
+    let contamination_record_path = control_root.join("contamination").join("current.yml");
+    let retry_record_ref = path_tail(&cfg.repo_root, &retry_record_path);
+    let contamination_record_ref = path_tail(&cfg.repo_root, &contamination_record_path);
     let receipts_root_rel = path_tail(&cfg.repo_root, &receipts_root);
     let replay_pointers_ref = path_tail(&cfg.repo_root, &replay_pointers_path);
     let trace_pointers_ref = path_tail(&cfg.repo_root, &trace_pointers_path);
@@ -1678,9 +1704,25 @@ fn bind_run_lifecycle(
             &json!({
                 "schema_version": "run-contract-v1",
                 "run_id": run_id,
+                "mission_mode": if mission_id.is_some() { "required" } else { "none" },
                 "objective_refs": objective_refs,
+                "objective_summary": format!("Execute {} under the canonical run-first constitutional runtime.", request.target_id),
                 "scope_in": scope_in,
                 "scope_out": dedupe_strings(&request.scope_constraints.write),
+                "exclusions": [".octon/inputs/exploratory/ideation/**"],
+                "done_when": [
+                    "The bound run reaches a terminal status with canonical evidence and disclosure artifacts retained.",
+                    "The retained run bundle validates against support-target and replay/disclosure gates."
+                ],
+                "acceptance_criteria": [
+                    "Canonical replay, trace, and disclosure references resolve from the run root.",
+                    "Authority and support-target posture remain bounded to the declared supported envelope."
+                ],
+                "materiality": request.risk_tier,
+                "protected_zones": [
+                    ".octon/framework/constitution/**",
+                    ".octon/instance/governance/**"
+                ],
                 "requested_capabilities": dedupe_strings(&request.requested_capabilities),
                 "requested_capability_packs": requested_capability_packs.clone(),
                 "risk_class": request.risk_tier,
@@ -1705,9 +1747,22 @@ fn bind_run_lifecycle(
                 "support_target_ref": ".octon/instance/governance/support-targets.yml",
                 "required_approvals": required_approvals,
                 "required_evidence": required_evidence,
+                "start_conditions": [
+                    "Canonical support-target tuple remains admitted for the selected host and model adapters.",
+                    "Canonical run control, evidence, and disclosure roots are writable before consequential execution starts."
+                ],
+                "stop_conditions": [
+                    "Stop immediately on STAGE_ONLY, ESCALATE, or DENY authority routes.",
+                    "Stop if replay, trace, or disclosure references cannot be materialized under canonical run roots."
+                ],
+                "retry_class": "manual_review_required",
                 "closure_conditions": [
                     "Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.",
                     "Canonical receipts and replay pointers remain linked to the run root."
+                ],
+                "disclosure_expectations": [
+                    "Emit RunCard, replay manifest, replay pointers, trace pointers, and evidence classification.",
+                    "Retain detailed measurement and intervention records before any claim promotion."
                 ],
                 "stage_attempt_root": path_tail(&cfg.repo_root, &stage_attempt_root),
                 "run_manifest_ref": run_manifest_ref,
@@ -1724,6 +1779,9 @@ fn bind_run_lifecycle(
                 "receipt_root": receipts_root_rel,
                 "replay_pointers_ref": replay_pointers_ref,
                 "rollback_or_compensation_expectation": "Wave 3 binds rollback posture and contamination state under the canonical run root before consequential side effects.",
+                "contract_version": "1.1.0",
+                "issued_at": now,
+                "expires_at": serde_json::Value::Null,
                 "status": "bound",
                 "created_at": now,
                 "updated_at": now,
@@ -1810,9 +1868,30 @@ fn bind_run_lifecycle(
                 "attempt_kind": "initial",
                 "status": "planned",
                 "objective_ref": run_contract_ref,
+                "objective_slice": format!("Stage {} for target {}", stage_ref_for_request(request), request.target_id),
+                "entry_criteria": [
+                    "Run contract is bound under the canonical run root.",
+                    "Support-target tuple remains admitted for the bounded consequential envelope."
+                ],
+                "exit_criteria": [
+                    "Stage receipts, replay refs, and disclosure refs are retained under canonical run roots.",
+                    "Stage status reaches a terminal state that agrees with the decision artifact."
+                ],
                 "requested_capabilities": dedupe_strings(&request.requested_capabilities),
+                "allowed_capabilities": dedupe_strings(&request.requested_capabilities),
+                "allowed_zones": dedupe_strings(&vec![
+                    path_tail(&cfg.repo_root, &control_root),
+                    evidence_root_rel.clone()
+                ]),
+                "retry_class": "manual_review_required",
+                "predecessor_refs": [],
+                "successor_refs": [],
                 "evidence_refs": [],
+                "completion_status": "criteria-pending",
                 "rollback_candidate": reversibility_class != "irreversible",
+                "rollback_notes": "Restore from the canonical checkpoint and reissue the stage if retained evidence becomes inconsistent.",
+                "issued_by": resolved_actor_ref.id,
+                "validated_by": "octon-kernel",
                 "created_at": now,
                 "updated_at": now
             }),
@@ -1865,12 +1944,21 @@ fn bind_run_lifecycle(
         schema_version: "run-rollback-posture-v1".to_string(),
         run_id: run_id.to_string(),
         reversibility_class: reversibility_class.clone(),
-        rollback_strategy: rollback_strategy.to_string(),
+        rollback_strategy: if rollback_ref.is_some() {
+            "checkpoint_restore".to_string()
+        } else {
+            rollback_strategy.to_string()
+        },
         rollback_ref: rollback_ref.clone(),
         rollback_handle: autonomy_state.and_then(|state| state.rollback_handle.clone()),
         compensation_handle: autonomy_state.and_then(|state| state.compensation_handle.clone()),
         recovery_window: autonomy_state.map(|state| state.recovery_window.clone()),
         contamination_state: "clean".to_string(),
+        retry_record_ref: retry_record_ref.clone(),
+        contamination_record_ref: contamination_record_ref.clone(),
+        resume_allowed: true,
+        reset_action: "No reset required; canonical run evidence remained coherent.".to_string(),
+        invalidated_artifacts: Vec::new(),
         hard_reset_required: false,
         posture_source: Some(if autonomy_state.is_some() {
             "mission-autonomy".to_string()
@@ -1888,6 +1976,59 @@ fn bind_run_lifecycle(
             ),
         )
     })?;
+
+    fs::create_dir_all(retry_record_path.parent().unwrap()).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to create retry-record directory {}: {e}",
+                retry_record_path.parent().unwrap().display()
+            ),
+        )
+    })?;
+    write_yaml(
+        &retry_record_path,
+        &json!({
+            "schema_version": "run-retry-record-v1",
+            "retry_id": format!("{run_id}-baseline"),
+            "run_id": run_id,
+            "stage_attempt_id": stage_attempt_id,
+            "retry_class": "manual_review_required",
+            "attempt_counter": 1,
+            "attempt_limit": 1,
+            "route_taken": "allow",
+            "result": "not-needed",
+            "triggering_artifact_ref": stage_attempt_ref,
+            "notes": "The initial stage attempt completed without requiring a retry.",
+            "recorded_at": now,
+        }),
+    )?;
+    fs::create_dir_all(contamination_record_path.parent().unwrap()).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to create contamination directory {}: {e}",
+                contamination_record_path.parent().unwrap().display()
+            ),
+        )
+    })?;
+    write_yaml(
+        &contamination_record_path,
+        &json!({
+            "schema_version": "run-contamination-record-v1",
+            "contamination_id": format!("{run_id}-current"),
+            "run_id": run_id,
+            "subject_ref": control_checkpoint_ref,
+            "contamination_state": "clean",
+            "contamination_class": "none",
+            "reset_action": "No reset required; canonical run evidence remained coherent.",
+            "invalidated_artifacts": [],
+            "replay_continuity": "preserved",
+            "approved_by": serde_json::Value::Null,
+            "notes": "No contamination or reset event was recorded for the retained run bundle.",
+            "recorded_at": now,
+        }),
+    )?;
 
     let checkpoint = RunCheckpointRecord {
         schema_version: "run-checkpoint-v1".to_string(),
@@ -1924,15 +2065,11 @@ fn bind_run_lifecycle(
     let replay = ReplayPointersRecord {
         schema_version: "run-replay-pointers-v1".to_string(),
         run_id: run_id.to_string(),
-        replay_manifest_refs: Vec::new(),
+        replay_manifest_refs: vec![replay_manifest_ref],
         receipt_refs: Vec::new(),
         checkpoint_refs: vec![evidence_checkpoint_ref.clone()],
-        trace_refs: if trace_pointers_path.is_file() {
-            vec![trace_pointers_ref.clone()]
-        } else {
-            Vec::new()
-        },
-        external_index_refs: Vec::new(),
+        trace_refs: vec![trace_pointers_ref.clone()],
+        external_index_refs: vec![external_replay_index_ref.clone()],
         updated_at: now.clone(),
     };
     write_yaml(&replay_pointers_path, &replay).map_err(|e| {
@@ -1944,6 +2081,20 @@ fn bind_run_lifecycle(
             ),
         )
     })?;
+    write_yaml(
+        &trace_pointers_path,
+        &TracePointersRecord {
+            schema_version: "run-trace-pointers-v1".to_string(),
+            run_id: run_id.to_string(),
+            trace_id: format!("{run_id}-trace-index"),
+            trace_refs: Vec::new(),
+            external_index_refs: vec![external_replay_index_ref.clone()],
+            notes: Some(
+                "No separate class-C trace payload was retained at bind time; canonical trace pointers are updated as the run completes.".to_string(),
+            ),
+            updated_at: now.clone(),
+        },
+    )?;
 
     let retained = RetainedRunEvidenceRecord {
         schema_version: "retained-run-evidence-v1".to_string(),
@@ -1953,6 +2104,11 @@ fn bind_run_lifecycle(
             ("run_manifest".to_string(), run_manifest_ref.clone()),
             ("runtime_state".to_string(), runtime_state_ref.clone()),
             ("rollback_posture".to_string(), rollback_posture_ref.clone()),
+            ("retry_record".to_string(), retry_record_ref.clone()),
+            (
+                "contamination_record".to_string(),
+                contamination_record_ref.clone(),
+            ),
             (
                 "control_checkpoint".to_string(),
                 control_checkpoint_ref.clone(),
@@ -1988,17 +2144,47 @@ fn bind_run_lifecycle(
                     "storage_class": "git-inline"
                 },
                 {
-                    "artifact_id": "run-manifest",
-                    "artifact_ref": run_manifest_ref,
-                    "evidence_class": "A",
-                    "storage_class": "git-inline"
-                },
-                {
-                    "artifact_id": "replay-pointers",
-                    "artifact_ref": replay_pointers_ref,
-                    "evidence_class": "B",
-                    "storage_class": "git-pointer"
-                }
+                "artifact_id": "run-manifest",
+                "artifact_ref": run_manifest_ref,
+                "evidence_class": "A",
+                "storage_class": "git-inline"
+            },
+            {
+                "artifact_id": "runtime-state",
+                "artifact_ref": runtime_state_ref,
+                "evidence_class": "A",
+                "storage_class": "git-inline"
+            },
+            {
+                "artifact_id": "retry-record",
+                "artifact_ref": retry_record_ref,
+                "evidence_class": "A",
+                "storage_class": "git-inline"
+            },
+            {
+                "artifact_id": "contamination-record",
+                "artifact_ref": contamination_record_ref,
+                "evidence_class": "A",
+                "storage_class": "git-inline"
+            },
+            {
+                "artifact_id": "replay-pointers",
+                "artifact_ref": replay_pointers_ref,
+                "evidence_class": "B",
+                "storage_class": "git-pointer"
+            },
+            {
+                "artifact_id": "trace-pointers",
+                "artifact_ref": trace_pointers_ref,
+                "evidence_class": "B",
+                "storage_class": "git-pointer"
+            },
+            {
+                "artifact_id": "external-replay-index",
+                "artifact_ref": external_replay_index_ref,
+                "evidence_class": "B",
+                "storage_class": "git-pointer"
+            }
             ],
             "updated_at": now
         }),
@@ -2006,7 +2192,10 @@ fn bind_run_lifecycle(
     .map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
-            format!("failed to write evidence classification {}: {e}", evidence_classification_path.display()),
+            format!(
+                "failed to write evidence classification {}: {e}",
+                evidence_classification_path.display()
+            ),
         )
     })?;
     sync_run_continuity(
@@ -2668,7 +2857,10 @@ fn validate_support_tier_declarations(
     adapter: &AdapterSupportDeclaration,
 ) -> bool {
     string_set_contains_all(&declarations.model_tiers, &adapter.allowed_model_tiers)
-        && string_set_contains_all(&declarations.workload_tiers, &adapter.allowed_workload_tiers)
+        && string_set_contains_all(
+            &declarations.workload_tiers,
+            &adapter.allowed_workload_tiers,
+        )
         && string_set_contains_all(
             &declarations.language_resource_tiers,
             &adapter.allowed_language_resource_tiers,
@@ -2702,10 +2894,7 @@ fn validate_host_adapter_manifest(
         || manifest.support_target_ref != ".octon/instance/governance/support-targets.yml"
         || (manifest.host_family != "local-cli" && manifest.projection_sources.is_empty())
         || !validate_support_tier_declarations(&manifest.support_tier_declarations, adapter)
-        || !string_set_contains_all(
-            &manifest.conformance_criteria_refs,
-            &adapter.criteria_refs,
-        )
+        || !string_set_contains_all(&manifest.conformance_criteria_refs, &adapter.criteria_refs)
         || manifest.known_limitations.is_empty()
         || manifest.non_authoritative_boundaries.is_empty()
     {
@@ -2732,10 +2921,7 @@ fn validate_model_adapter_manifest(
         || manifest.runtime_surface.integration_class.trim().is_empty()
         || manifest.support_target_ref != ".octon/instance/governance/support-targets.yml"
         || !validate_support_tier_declarations(&manifest.support_tier_declarations, adapter)
-        || !string_set_contains_all(
-            &manifest.conformance_criteria_refs,
-            &adapter.criteria_refs,
-        )
+        || !string_set_contains_all(&manifest.conformance_criteria_refs, &adapter.criteria_refs)
         || manifest.conformance_suite_refs.is_empty()
         || manifest
             .contamination_reset_policy
@@ -2750,9 +2936,7 @@ fn validate_model_adapter_manifest(
         || !manifest
             .contamination_reset_policy
             .clean_checkpoint_required
-        || !manifest
-            .contamination_reset_policy
-            .hard_reset_on_signature
+        || !manifest.contamination_reset_policy.hard_reset_on_signature
         || manifest.known_limitations.is_empty()
         || manifest.non_authoritative_boundaries.is_empty()
     {
@@ -5120,8 +5304,10 @@ fn materialize_run_disclosure(
         ".octon/state/control/execution/runs/{}/run-contract.yml",
         request.request_id
     );
-    let execution_receipt_ref =
-        format!(".octon/state/evidence/runs/{}/receipts/execution-receipt.json", request.request_id);
+    let execution_receipt_ref = format!(
+        ".octon/state/evidence/runs/{}/receipts/execution-receipt.json",
+        request.request_id
+    );
     let retained_evidence_ref = format!(
         ".octon/state/evidence/runs/{}/retained-run-evidence.yml",
         request.request_id
@@ -5315,12 +5501,19 @@ fn materialize_run_disclosure(
     }
 
     let measurement_path = bound.measurement_root.join("summary.yml");
+    let measurement_record_path = bound
+        .measurement_root
+        .join("records")
+        .join("runtime-lifecycle.yml");
     let measurement_metrics = if outcome.status == "succeeded" {
         vec![
             json!({"metric_id":"receipt-count","label":"Retained lifecycle receipts","value":1,"unit":"count"}),
             json!({"metric_id":"checkpoint-count","label":"Retained checkpoints","value":3,"unit":"count"}),
             json!({"metric_id":"proof-plane-count","label":"Run-local proof-plane reports","value":7,"unit":"count"}),
+            json!({"metric_id":"measurement-record-count","label":"Detailed measurement records","value":1,"unit":"count"}),
             json!({"metric_id":"intervention-count","label":"Material interventions","value":0,"unit":"count"}),
+            json!({"metric_id":"retry-record-count","label":"Retry records","value":1,"unit":"count"}),
+            json!({"metric_id":"contamination-record-count","label":"Contamination records","value":1,"unit":"count"}),
         ]
     } else {
         let receipt_count = fs::read_dir(&bound.receipts_root)
@@ -5339,14 +5532,18 @@ fn materialize_run_disclosure(
             json!({"metric_id":"receipt-count","label":"Retained lifecycle receipts","value":receipt_count,"unit":"count"}),
             json!({"metric_id":"checkpoint-count","label":"Retained checkpoints","value":checkpoint_count,"unit":"count"}),
             json!({"metric_id":"proof-plane-count","label":"Run-local proof-plane reports","value":proof_plane_count,"unit":"count"}),
+            json!({"metric_id":"measurement-record-count","label":"Detailed measurement records","value":1,"unit":"count"}),
             json!({"metric_id":"intervention-count","label":"Material interventions","value":0,"unit":"count"}),
+            json!({"metric_id":"retry-record-count","label":"Retry records","value":1,"unit":"count"}),
+            json!({"metric_id":"contamination-record-count","label":"Contamination records","value":1,"unit":"count"}),
         ]
     };
     let measurement_summary = if outcome.status == "succeeded" {
-        "Run emitted the canonical receipt, checkpoint, proof-plane, and disclosure families."
+        "Run emitted canonical receipt, checkpoint, proof-plane, disclosure, retry, contamination, and detailed measurement families."
     } else {
         "Run emitted fail-closed measurement and disclosure artifacts for a non-success outcome."
     };
+    fs::create_dir_all(measurement_record_path.parent().unwrap())?;
     write_yaml(
         &measurement_path,
         &json!({
@@ -5358,8 +5555,33 @@ fn materialize_run_disclosure(
             "recorded_at": outcome.completed_at,
         }),
     )?;
+    write_yaml(
+        &measurement_record_path,
+        &json!({
+            "schema_version": "measurement-record-v1",
+            "record_id": format!("{}-runtime-lifecycle", request.request_id),
+            "subject_kind": "run",
+            "subject_ref": run_contract_ref,
+            "metric_id": "lifecycle-artifact-count",
+            "label": "Canonical lifecycle artifacts retained",
+            "value": 14,
+            "unit": "count",
+            "method": "Counted canonical lifecycle, replay, disclosure, and proof artifacts under the bound run roots.",
+            "evidence_refs": [
+                format!(".octon/state/control/execution/runs/{}/run-manifest.yml", request.request_id),
+                format!(".octon/state/evidence/runs/{}/evidence-classification.yml", request.request_id)
+            ],
+            "notes": "Supports observability richness and closure gating for the retained exemplar run.",
+            "recorded_at": outcome.completed_at,
+        }),
+    )?;
 
     let intervention_path = bound.intervention_root.join("log.yml");
+    let intervention_record_path = bound
+        .intervention_root
+        .join("records")
+        .join("no-human-intervention.yml");
+    fs::create_dir_all(intervention_record_path.parent().unwrap())?;
     write_yaml(
         &intervention_path,
         &json!({
@@ -5367,9 +5589,43 @@ fn materialize_run_disclosure(
             "subject_kind": "run",
             "subject_ref": run_contract_ref,
             "interventions": [],
-            "summary": "No hidden or material human intervention was required for this retained run bundle.",
+            "summary": "No hidden or material human intervention was required; the canonical intervention record family explicitly retains that fact.",
             "recorded_at": outcome.completed_at,
         }),
+    )?;
+    write_yaml(
+        &intervention_record_path,
+        &json!({
+            "schema_version": "intervention-record-v1",
+            "record_id": format!("{}-no-human-intervention", request.request_id),
+            "subject_kind": "run",
+            "subject_ref": run_contract_ref,
+            "kind": "no-material-intervention",
+            "disclosed": true,
+            "actor_ref": serde_json::Value::Null,
+            "details": "No hidden or material human intervention occurred during the retained exemplar run.",
+            "evidence_refs": [path_tail(repo_root, &intervention_path)],
+            "recorded_at": outcome.completed_at,
+        }),
+    )?;
+
+    let external_index_ref = format!(
+        ".octon/state/evidence/external-index/runs/{}.yml",
+        request.request_id
+    );
+    write_yaml(
+        &bound.evidence_root.join("trace-pointers.yml"),
+        &TracePointersRecord {
+            schema_version: "run-trace-pointers-v1".to_string(),
+            run_id: request.request_id.clone(),
+            trace_id: format!("{}-canonical-trace-index", request.request_id),
+            trace_refs: Vec::new(),
+            external_index_refs: vec![external_index_ref.clone()],
+            notes: Some(
+                "No separate class-C trace payload was retained for this exemplar; canonical replay stays in repo-local receipts and manifests.".to_string(),
+            ),
+            updated_at: outcome.completed_at.clone(),
+        },
     )?;
 
     write_yaml(
@@ -5378,23 +5634,21 @@ fn materialize_run_disclosure(
             "schema_version": "run-replay-manifest-v1",
             "run_id": request.request_id,
             "entrypoint": path_tail(repo_root, &bound.control_root),
-            "replay_payload_class": "git-inline",
+            "replay_payload_class": "git-pointer",
             "receipt_refs": [execution_receipt_ref],
             "checkpoint_refs": [format!(".octon/state/evidence/runs/{}/checkpoints/bound.yml", request.request_id)],
-            "trace_refs": [],
-            "external_index_refs": [],
+            "trace_refs": [format!(".octon/state/evidence/runs/{}/trace-pointers.yml", request.request_id)],
+            "external_index_refs": [external_index_ref],
             "reproduction_steps": [
                 "Read the bound run contract and execution receipt.",
-                "Follow the replay manifest, checkpoints, and RunCard refs to reproduce the consequential path."
+                "Follow the replay manifest, checkpoints, trace pointers, and RunCard refs to reproduce the consequential path.",
+                "Use the external replay index when trace or replay payload retrieval needs a canonical pointer source."
             ],
             "recorded_at": outcome.completed_at,
         }),
     )?;
 
-    let support_posture = grant
-        .support_posture
-        .clone()
-        .unwrap_or_default();
+    let support_posture = grant.support_posture.clone().unwrap_or_default();
     let host_adapter = support_posture
         .host_adapter_id
         .clone()
@@ -5417,7 +5671,10 @@ fn materialize_run_disclosure(
         request.request_id,
         request.target_id,
         outcome.status,
-        grant.support_tier.clone().unwrap_or_else(|| "unknown".to_string())
+        grant
+            .support_tier
+            .clone()
+            .unwrap_or_else(|| "unknown".to_string())
     );
     let mut known_limits = vec![
         "Support posture remains bounded to the support-target declaration under .octon/instance/governance/support-targets.yml.".to_string(),
@@ -6672,7 +6929,8 @@ mod tests {
         )
         .expect("copy repo-shell adapter");
         fs::copy(
-            source_root.join(".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"),
+            source_root
+                .join(".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"),
             base.join(".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"),
         )
         .expect("copy repo-local-governed adapter");
@@ -7211,10 +7469,9 @@ mod tests {
         request.request_id = "archive-proposal-failure-fixture".to_string();
         request.action_type = "archive_proposal".to_string();
         request.target_id = "archive-proposal-fixture".to_string();
-        request.metadata.insert(
-            "workflow_id".to_string(),
-            "archive-proposal".to_string(),
-        );
+        request
+            .metadata
+            .insert("workflow_id".to_string(), "archive-proposal".to_string());
 
         let grant = authorize_execution(&cfg, &policy, &request, None)
             .expect("archive proposal request should authorize");

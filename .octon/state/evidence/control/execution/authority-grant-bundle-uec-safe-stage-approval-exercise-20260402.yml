@@ -1,0 +1,26 @@
+schema_version: authority-grant-bundle-v1
+grant_id: grant-uec-safe-stage-approval-exercise-20260402
+request_id: uec-safe-stage-approval-exercise-20260402
+run_id: uec-safe-stage-approval-exercise-20260402
+workflow_mode: agent-augmented
+support_tier: repo-local-consequential
+support_target:
+  model_tier: MT-B
+  workload_tier: WT-2
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  support_status: supported
+  route: allow
+approval_request_ref: .octon/state/control/execution/approvals/requests/uec-safe-stage-approval-exercise-20260402.yml
+approval_grant_refs:
+- .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-approval-exercise-20260402.yml
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-approval-exercise-20260402.yml
+exception_refs: []
+revocation_refs: []
+requested_capability_packs:
+- repo
+- telemetry
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+generated_at: '2026-04-02T00:00:00Z'

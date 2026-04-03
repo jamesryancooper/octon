@@ -1,17 +1,37 @@
 attempt_kind: initial
 created_at: 2026-04-01T14:28:31.847273Z
+allowed_capabilities:
+- workflow.execute
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/**
+- .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/**
+completion_status: criteria-met
+entry_criteria:
+- Run contract is bound under the canonical run root.
+- Support-target tuple remains admitted for the supported consequential envelope.
 evidence_refs:
 - .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts/policy-receipt.latest.json
 - .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts/grant-bundle.json
 - .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts/execution-receipt.json
+exit_criteria:
+- Stage receipts, replay refs, proof-plane refs, and disclosure refs are retained under canonical run roots.
+- Stage status is terminal and agrees with the retained decision artifact.
 objective_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-contract.yml
+objective_slice: Audit workflow-system execution and retained evidence closure for the bounded supported envelope.
+issued_by: octon-kernel
+predecessor_refs: []
 requested_capabilities:
 - workflow.execute
 - evidence.write
+retry_class: manual_review_required
 rollback_candidate: true
+rollback_notes: Restore from the bound checkpoint and reissue the stage if retained evidence becomes inconsistent.
 run_id: uec-audit-workflow-system-20260401-agent-augmented-1
 schema_version: stage-attempt-v1
 stage_attempt_id: initial
 stage_ref: workflow:audit-workflow-system
 status: succeeded
+successor_refs: []
 updated_at: 2026-04-01T14:28:33.96176Z
+validated_by: octon-kernel

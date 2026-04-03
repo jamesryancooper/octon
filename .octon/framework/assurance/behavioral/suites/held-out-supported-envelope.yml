@@ -1,0 +1,12 @@
+schema_version: proof-suite-v1
+suite_id: held-out-supported-envelope
+plane: behavioral
+visibility: held-out
+enforcement_mode: blocking-for-supported-claims
+rotation_policy: Rotate the held-out scenarios on each material support-target or adapter change.
+evaluator_mode: independent-review-required
+summary: Held-out behavioral suite for the currently supported consequential envelope.
+evidence_requirements:
+  - .octon/framework/assurance/governance/anti-overfitting-policy.yml
+  - .octon/state/evidence/lab/scenarios/scn-held-out-supported-20260402/scenario-proof.yml
+  - .octon/state/evidence/lab/adversarial/adv-supported-envelope-20260402/adversarial-report.yml

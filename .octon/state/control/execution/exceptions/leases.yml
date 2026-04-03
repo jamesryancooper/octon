@@ -20,3 +20,23 @@ leases:
     reason: Phase 2 canonical lease sample for authority-root population
     rollback_posture: Revoke the lease and fall back to deny-by-default network egress routing.
     retirement_trigger: Retire once canonical adapter or policy conformance eliminates the exception path.
+  - schema_version: authority-exception-lease-v1
+    id: lease-uec-safe-stage-lease-revocation-exercise-20260402
+    state: active
+    lease_kind: network-egress
+    request_id: uec-safe-stage-lease-revocation-exercise-20260402
+    run_id: uec-safe-stage-lease-revocation-exercise-20260402
+    service: governance/exercise
+    adapter: repo-shell
+    method: POST
+    scheme: https
+    host: example.invalid
+    port: null
+    path_prefix: /safe-stage
+    owner: operator://octon-governance
+    issued_by: operator://octon-governance
+    issued_at: "2026-04-03T02:23:12Z"
+    expires_at: "2026-04-03T03:23:12Z"
+    reason: Bounded safe-stage exception lease for revocation obedience exercise.
+    rollback_posture: Revoke the temporary safe-stage exception and return to deny-by-default routing.
+    retirement_trigger: Retire after the AG-05 governance exercise is superseded by a newer retained run.

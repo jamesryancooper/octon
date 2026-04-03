@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/contamination-record-v1.schema.json",
+  "title": "Octon Contamination Record v1",
+  "description": "Canonical contamination and reset accounting for one run or checkpoint lineage.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contamination_id",
+    "run_id",
+    "subject_ref",
+    "contamination_state",
+    "contamination_class",
+    "reset_action",
+    "invalidated_artifacts",
+    "replay_continuity",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "run-contamination-record-v1"
+    },
+    "contamination_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contamination_state": {
+      "type": "string",
+      "enum": [
+        "clean",
+        "suspect",
+        "contaminated",
+        "reset-required",
+        "reset-complete"
+      ]
+    },
+    "contamination_class": {
+      "type": "string",
+      "enum": [
+        "none",
+        "tool-output-contamination",
+        "worktree-contamination",
+        "unsupported-host-mutation",
+        "stale-generated-view-contamination",
+        "invalid-replay-pointer-contamination"
+      ]
+    },
+    "reset_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "invalidated_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "replay_continuity": {
+      "type": "string",
+      "enum": [
+        "preserved",
+        "forked",
+        "invalidated"
+      ]
+    },
+    "approved_by": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

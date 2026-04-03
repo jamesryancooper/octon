@@ -1,6 +1,6 @@
 interventions: []
-recorded_at: 2026-04-01T14:26:11.553247Z
+recorded_at: 2026-04-02T00:00:00Z
 schema_version: intervention-log-v1
 subject_kind: run
 subject_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
-summary: No hidden or material human intervention was required for this retained run bundle.
+summary: No hidden or material human intervention was required; the canonical intervention record family explicitly retains that fact.

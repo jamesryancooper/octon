@@ -1,12 +1,13 @@
 schema_version: harness-card-v1
 card_id: hc-unified-execution-constitution-status-20260401
 claim_kind: release
+claim_status: complete
 claim_summary: >-
-  Octon has reached full unified execution constitution. Its live model is
-  run-contract-first, authority-artifactized, disclosure-canonical, and
-  support-target-enforced. The currently proved live consequential envelope is
-  MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host adapter and the
-  repo-local-governed model adapter.
+  Octon is a fully unified execution constitution: run-first,
+  authority-artifactized, disclosure-canonical, support-target-enforced,
+  replayable, auditable, and proven across structural, functional,
+  behavioral, governance, recovery, and maintainability planes for its
+  supported live envelope.
 support_target_ref: .octon/instance/governance/support-targets.yml
 compatibility_tuple:
   model_tier: MT-B
@@ -33,6 +34,14 @@ proof_bundle_refs:
   - .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260401-agent-augmented-3/run-card.yml
   - .octon/state/evidence/disclosure/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-card.yml
   - .octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-card.yml
+  - .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
+  - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
+  - .octon/framework/assurance/governance/anti-overfitting-policy.yml
+  - .octon/framework/assurance/behavioral/suites/held-out-supported-envelope.yml
+  - .octon/state/evidence/lab/scenarios/scn-held-out-supported-20260402/scenario-proof.yml
+  - .octon/state/evidence/lab/adversarial/adv-supported-envelope-20260402/adversarial-report.yml
+  - .octon/instance/governance/contracts/agency-surface-classification-ledger.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-02/drift-runtime-disclosure-mismatch.yml
   - .octon/instance/governance/contracts/closeout-reviews.yml
   - .octon/state/evidence/validation/publication/build-to-delete/2026-03-30/drift-review.yml
   - .octon/state/evidence/validation/publication/build-to-delete/2026-03-30/support-target-review.yml

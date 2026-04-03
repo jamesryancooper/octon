@@ -1,17 +1,37 @@
 attempt_kind: initial
 created_at: 2026-04-01T14:24:36.851912Z
+allowed_capabilities:
+- workflow.execute
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/**
+- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/**
+completion_status: criteria-met
+entry_criteria:
+- Run contract is bound under the canonical run root.
+- Support-target tuple remains admitted for the supported consequential envelope.
 evidence_refs:
 - .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/policy-receipt.latest.json
 - .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/grant-bundle.json
 - .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/execution-receipt.json
+exit_criteria:
+- Stage receipts, replay refs, and disclosure refs are retained under canonical run roots.
+- Stage status is terminal and agrees with the retained decision artifact.
 objective_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
+objective_slice: Validate proposal workflow execution and retained evidence closure for the current proposal bundle.
+issued_by: octon-kernel
+predecessor_refs: []
 requested_capabilities:
 - workflow.execute
 - evidence.write
+retry_class: manual_review_required
 rollback_candidate: true
+rollback_notes: Restore from the bound checkpoint and reissue the stage if retained evidence becomes inconsistent.
 run_id: uec-validate-proposal-20260401-agent-augmented-3
 schema_version: stage-attempt-v1
 stage_attempt_id: initial
 stage_ref: workflow:validate-proposal
 status: succeeded
+successor_refs: []
 updated_at: 2026-04-01T14:26:11.554683Z
+validated_by: octon-kernel

@@ -4,8 +4,8 @@ checkpoint_id: execution-complete
 stage_attempt_id: initial
 checkpoint_kind: execution-complete
 status: materialized
-control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-audit-architecture-20260331-2/checkpoints/execution-complete.yml
-evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-audit-architecture-20260331-2/checkpoints/execution-complete.yml
+control_ref: .octon/state/control/execution/runs/uec-audit-architecture-20260331-2/checkpoints/execution-complete.yml
+evidence_ref: .octon/state/evidence/runs/uec-audit-architecture-20260331-2/checkpoints/execution-complete.yml
 notes: Execution outcome materialized under the canonical run root.
 created_at: 2026-03-31T21:23:37.027894Z
 updated_at: 2026-03-31T21:23:37.027894Z

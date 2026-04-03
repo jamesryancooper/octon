@@ -7,6 +7,7 @@ default: delivery-core
 teams:
   - id: delivery-core
     path: delivery-core/
+    classification: optional-overlay
     purpose: "Default delivery composition anchored on one orchestrator with optional independent verification"
     lead_agent: orchestrator
     members:

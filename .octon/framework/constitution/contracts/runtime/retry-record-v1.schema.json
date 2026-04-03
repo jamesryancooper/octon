@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/retry-record-v1.schema.json",
+  "title": "Octon Retry Record v1",
+  "description": "Typed retry accounting for one run or stage attempt.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "retry_id",
+    "run_id",
+    "stage_attempt_id",
+    "retry_class",
+    "attempt_counter",
+    "attempt_limit",
+    "route_taken",
+    "result",
+    "triggering_artifact_ref",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "run-retry-record-v1"
+    },
+    "retry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage_attempt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "retry_class": {
+      "type": "string",
+      "enum": [
+        "retryable_transient",
+        "retryable_validation",
+        "retryable_environment",
+        "rollback_then_retry",
+        "manual_review_required",
+        "non_retryable_contract_violation",
+        "contamination_reset_required"
+      ]
+    },
+    "attempt_counter": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "attempt_limit": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "route_taken": {
+      "type": "string",
+      "enum": [
+        "allow",
+        "stage_only",
+        "deny",
+        "escalate",
+        "observe_only"
+      ]
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "not-needed",
+        "succeeded",
+        "failed",
+        "blocked"
+      ]
+    },
+    "triggering_artifact_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

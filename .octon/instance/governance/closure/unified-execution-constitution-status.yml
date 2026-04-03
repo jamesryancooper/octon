@@ -24,10 +24,11 @@ historical_artifacts_do_not_satisfy_green:
 blocking_rule: >-
   Final closeout is valid only when every claim criterion, every critical finding, every required checklist, and every live closeout review is green and backed by ordinary live-path evidence emitted from the supported consequential envelope.
 status_summary:
-  claim_status: "ready"
-  final_verdict: "ready_for_closeout"
+  claim_status: "complete"
+  final_verdict: "claim_complete"
   current_blocker: null
-  updated_at: "2026-04-01"
+  blocking_gates: []
+  updated_at: "2026-04-02"
 surface_sets:
   WS0: &ws0_surfaces
     - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"

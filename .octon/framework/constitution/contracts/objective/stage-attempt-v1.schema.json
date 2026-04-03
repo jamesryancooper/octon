@@ -13,7 +13,19 @@
     "attempt_kind",
     "status",
     "objective_ref",
+    "objective_slice",
+    "entry_criteria",
+    "exit_criteria",
     "requested_capabilities",
+    "allowed_capabilities",
+    "allowed_zones",
+    "retry_class",
+    "predecessor_refs",
+    "successor_refs",
+    "completion_status",
+    "rollback_notes",
+    "issued_by",
+    "validated_by",
     "created_at",
     "updated_at"
   ],
@@ -59,7 +71,69 @@
       "type": "string",
       "minLength": 1
     },
+    "objective_slice": {
+      "type": "string",
+      "minLength": 1
+    },
+    "entry_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "exit_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
     "requested_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "allowed_capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "allowed_zones": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "retry_class": {
+      "type": "string",
+      "enum": [
+        "retryable_transient",
+        "retryable_validation",
+        "retryable_environment",
+        "rollback_then_retry",
+        "manual_review_required",
+        "non_retryable_contract_violation",
+        "contamination_reset_required"
+      ]
+    },
+    "predecessor_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "successor_refs": {
       "type": "array",
       "items": {
         "type": "string",
@@ -73,8 +147,29 @@
         "minLength": 1
       }
     },
+    "completion_status": {
+      "type": "string",
+      "enum": [
+        "criteria-pending",
+        "criteria-met",
+        "criteria-failed",
+        "manual-review-required"
+      ]
+    },
     "rollback_candidate": {
       "type": "boolean"
+    },
+    "rollback_notes": {
+      "type": "string",
+      "minLength": 1
+    },
+    "issued_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validated_by": {
+      "type": "string",
+      "minLength": 1
     },
     "created_at": {
       "type": "string",

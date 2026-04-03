@@ -4,7 +4,7 @@ request_id: uec-validate-proposal-20260401-agent-augmented-3
 run_id: uec-validate-proposal-20260401-agent-augmented-3
 decision: ALLOW
 reason_codes:
-- ACP_EVIDENCE_INVALID
+- EXECUTION_AUTHORIZED
 ownership:
   status: resolved
   source: ownership_registry.default

@@ -22,6 +22,11 @@ catalog:
       retained_proof_ref: ".octon/state/evidence/lab/scenarios/scn-wave4-benchmark-disclosure-20260327/scenario-proof.yml"
       supports_claims:
         - "benchmark"
+    - scenario_id: "scn-held-out-supported-20260402"
+      class: "held-out-support-validation"
+      retained_proof_ref: ".octon/state/evidence/lab/scenarios/scn-held-out-supported-20260402/scenario-proof.yml"
+      supports_claims:
+        - "support"
   experiment_classes:
     - class_id: "shadow-run"
       purpose: "Retain replayable shadow execution evidence without mutating canonical control roots."
@@ -38,6 +43,9 @@ catalog:
   faults:
     - fault_id: "flt-runtime-proof-supported-20260329"
       retained_fault_ref: ".octon/state/evidence/lab/faults/flt-runtime-proof-supported-20260329/fault-report.yml"
+  adversarial_reports:
+    - adversarial_id: "adv-supported-envelope-20260402"
+      retained_report_ref: ".octon/state/evidence/lab/adversarial/adv-supported-envelope-20260402/adversarial-report.yml"
   harness_cards:
     - card_id: "hc-wave4-assurance-disclosure-20260327"
       claim_kind: "support"

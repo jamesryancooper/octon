@@ -1,16 +1,115 @@
-artifacts:
-- artifact_id: run-contract
-  artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
-  evidence_class: A
-  storage_class: git-inline
-- artifact_id: run-manifest
-  artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml
-  evidence_class: A
-  storage_class: git-inline
-- artifact_id: replay-pointers
-  artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay-pointers.yml
-  evidence_class: B
-  storage_class: git-pointer
-run_id: uec-validate-proposal-20260401-agent-augmented-3
 schema_version: run-evidence-classification-v1
-updated_at: 2026-04-01T14:24:36.851912Z
+run_id: uec-validate-proposal-20260401-agent-augmented-3
+updated_at: 2026-04-02T00:00:00Z
+artifacts:
+  - artifact_id: run-contract
+    artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: run-manifest
+    artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: runtime-state
+    artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/runtime-state.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: run-continuity
+    artifact_ref: .octon/state/continuity/runs/uec-validate-proposal-20260401-agent-augmented-3/handoff.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: stage-attempt
+    artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/stage-attempts/initial.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: checkpoint-execution-complete
+    artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/execution-complete.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: retry-record
+    artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/retry-records/baseline.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: contamination-record
+    artifact_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/contamination/current.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: decision-artifact
+    artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260401-agent-augmented-3.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: authority-grant-bundle
+    artifact_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260401-agent-augmented-3.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: run-card
+    artifact_ref: .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260401-agent-augmented-3/run-card.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: retained-run-evidence
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/retained-run-evidence.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: measurement-summary
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/measurements/summary.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: measurement-record
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/measurements/records/runtime-lifecycle.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: intervention-log
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/interventions/log.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: intervention-record
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/interventions/records/no-human-intervention.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: assurance-structural
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/structural.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: assurance-functional
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/functional.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: assurance-behavioral
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/behavioral.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: assurance-governance
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/governance.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: assurance-recovery
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/recovery.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: assurance-maintainability
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/maintainability.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: assurance-evaluator
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/assurance/evaluator.yml
+    evidence_class: A
+    storage_class: git-inline
+  - artifact_id: replay-manifest
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay/manifest.yml
+    evidence_class: B
+    storage_class: git-pointer
+    external_index_ref: .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
+  - artifact_id: replay-pointers
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay-pointers.yml
+    evidence_class: B
+    storage_class: git-pointer
+    external_index_ref: .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
+  - artifact_id: trace-pointers
+    artifact_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/trace-pointers.yml
+    evidence_class: B
+    storage_class: git-pointer
+    external_index_ref: .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
+  - artifact_id: external-replay-index
+    artifact_ref: .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
+    evidence_class: B
+    storage_class: git-pointer

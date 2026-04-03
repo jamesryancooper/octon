@@ -1,7 +1,7 @@
 schema_version: "unified-execution-constitution-closure-v1"
 claim_id: "unified-execution-constitution"
 claim_kind: "release"
-claim_status: "ready"
+claim_status: "complete"
 owner: "Octon governance"
 profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-closure-certification-cutover/plan.md"
 status_matrix_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
@@ -15,11 +15,11 @@ blocking_reason: null
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 supported_claim:
   claim_statement: >-
-    Octon has reached full unified execution constitution. Its live model is
-    run-contract-first, authority-artifactized, disclosure-canonical, and
-    support-target-enforced. The currently proved live consequential envelope
-    is MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host adapter and the
-    repo-local-governed model adapter.
+    Octon is a fully unified execution constitution: run-first,
+    authority-artifactized, disclosure-canonical, support-target-enforced,
+    replayable, auditable, and proven across structural, functional,
+    behavioral, governance, recovery, and maintainability planes for its
+    supported live envelope.
   model_tier: "MT-B"
   workload_tier: "WT-2"
   language_resource_tier: "LT-REF"
@@ -80,6 +80,10 @@ required_proof_artifacts:
   - artifact_id: "measurement-summary"
   - artifact_id: "run-card"
   - artifact_id: "harness-card-proof-bundle"
+  - artifact_id: "anti-overfitting-policy"
+  - artifact_id: "held-out-suite"
+  - artifact_id: "adversarial-lab-report"
+  - artifact_id: "agency-surface-classification-ledger"
   - artifact_id: "status-matrix"
   - artifact_id: "brownfield-retrofit-playbook"
 allowed_historical_shims:
@@ -102,12 +106,26 @@ publication_refs:
   build_to_delete_receipt: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/build-to-delete-receipt.md"
   post_cutover_atomic_alignment_remediation: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/post-cutover-atomic-alignment-remediation.md"
   summary: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/summary.md"
+claim_wording:
+  provisional: >-
+    Octon has implemented a bounded-envelope constitutional harness and is
+    completing the remaining run-first runtime, replay, authority-proof, and
+    disclosure requirements needed for a full unified execution constitution
+    claim. The currently proved live consequential envelope remains MT-B / WT-2
+    / LT-REF / LOC-EN using the repo-shell host adapter and the
+    repo-local-governed model adapter.
+  complete: >-
+    Octon is a fully unified execution constitution: run-first,
+    authority-artifactized, disclosure-canonical, support-target-enforced,
+    replayable, auditable, and proven across structural, functional,
+    behavioral, governance, recovery, and maintainability planes for its
+    supported live envelope.
 permitted_release_wording: >-
-  Octon has reached full unified execution constitution. Its live model is
-  run-contract-first, authority-artifactized, disclosure-canonical, and
-  support-target-enforced. The currently proved live consequential envelope is
-  MT-B / WT-2 / LT-REF / LOC-EN using the repo-shell host adapter and the
-  repo-local-governed model adapter.
+  Octon is a fully unified execution constitution: run-first,
+  authority-artifactized, disclosure-canonical, support-target-enforced,
+  replayable, auditable, and proven across structural, functional,
+  behavioral, governance, recovery, and maintainability planes for its
+  supported live envelope.
 known_limits:
   - "Current successful disclosure is evidenced by `uec-validate-proposal-20260401-agent-augmented-3`, `uec-evaluate-harness-20260401-agent-augmented-1`, and `uec-audit-workflow-system-20260401-agent-augmented-1` for the bounded supported envelope."
   - "Historical lab-local HarnessCard files remain retained as non-live mirrors under state/evidence/lab/harness-cards."

@@ -1,0 +1,86 @@
+schema_version: run-contract-v1
+run_id: uec-safe-stage-lease-revocation-exercise-20260402
+mission_mode: none
+objective_refs:
+  workspace_objective_ref: .octon/instance/charter/workspace.md
+  workspace_intent_ref: .octon/instance/charter/workspace.yml
+objective_summary: Safe-stage lease and revocation exercise retained to prove canonical
+  exception and revocation obedience under the supported envelope.
+scope_in:
+- governance-exercise
+scope_out:
+- .octon/state/control/execution/approvals
+- .octon/state/evidence/control/execution
+exclusions:
+- .octon/inputs/exploratory/ideation/**
+done_when:
+- Governance exercise artifacts are retained under canonical control and evidence
+  roots.
+acceptance_criteria:
+- Canonical approval or revocation artifacts resolve and match the decision artifact.
+materiality: low
+protected_zones:
+- .octon/framework/constitution/**
+- .octon/instance/governance/**
+requested_capabilities:
+- evidence.write
+requested_capability_packs:
+- repo
+- telemetry
+risk_class: low
+intent_ref:
+  id: intent://octon/octon-governed-harness
+  version: 1.1.0
+actor_ref:
+  kind: system
+  id: octon-kernel
+reversibility_class: reversible
+support_tier: repo-local-consequential
+support_target:
+  model_tier: MT-B
+  workload_tier: repo-local-consequential
+  language_resource_tier: LT-REF
+  locale_tier: LOC-EN
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+support_target_ref: .octon/instance/governance/support-targets.yml
+required_approvals:
+- .octon/state/control/execution/approvals/requests/uec-safe-stage-lease-revocation-exercise-20260402.yml
+required_evidence:
+- decision-artifact
+- approval-grant
+- replay-pointers
+- trace-pointers
+start_conditions:
+- Canonical authority artifacts exist for the bounded safe-stage governance exercise.
+stop_conditions:
+- Stop when governance route is no longer ALLOW or when revocation blocks the bounded
+  action.
+retry_class: manual_review_required
+closure_conditions:
+- Run remains bounded to the safe-stage governance exercise.
+disclosure_expectations:
+- Emit a RunCard and retained evidence for the governance exercise.
+stage_attempt_root: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/stage-attempts
+run_manifest_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-manifest.yml
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-lease-revocation-exercise-20260402.yml
+authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-lease-revocation-exercise-20260402.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
+host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
+model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-safe-stage-lease-revocation-exercise-20260402.yml
+control_checkpoint_root: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/checkpoints
+runtime_state_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/runtime-state.yml
+rollback_posture_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/rollback-posture.yml
+evidence_root: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402
+receipt_root: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/receipts
+replay_pointers_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/replay-pointers.yml
+rollback_or_compensation_expectation: Safe-stage governance exercise remains reversible
+  and local to canonical control roots.
+contract_version: 1.1.0
+issued_at: '2026-04-02T00:00:00Z'
+expires_at: null
+status: failed
+created_at: '2026-04-02T00:00:00Z'
+updated_at: '2026-04-02T00:00:00Z'
+notes_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/stage-attempts/initial.yml

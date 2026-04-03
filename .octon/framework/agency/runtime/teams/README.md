@@ -7,7 +7,7 @@ description: Reusable multi-actor compositions that coordinate agents and assist
 
 Teams define reusable collaboration topologies across accountable roles and assistants.
 
-A team is a composition artifact, not a separate runtime actor class.
+A team is a composition artifact, not a separate runtime actor class or constitutional kernel surface.
 
 ## Composition Boundaries
 

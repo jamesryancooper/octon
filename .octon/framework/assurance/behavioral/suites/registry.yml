@@ -4,3 +4,6 @@ suites:
   - suite_id: "replay-shadow-substance"
     path: ".octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml"
     enforcement_mode: "blocking-for-supported-claims"
+  - suite_id: "held-out-supported-envelope"
+    path: ".octon/framework/assurance/behavioral/suites/held-out-supported-envelope.yml"
+    enforcement_mode: "blocking-for-supported-claims"

@@ -1,0 +1,21 @@
+schema_version: "authority-approval-request-v1"
+request_id: "uec-safe-stage-lease-revocation-exercise-20260402"
+run_id: "uec-safe-stage-lease-revocation-exercise-20260402"
+status: "granted"
+target_id: "governance:safe-stage-lease-revocation-exercise"
+action_type: "execute_stage"
+workflow_mode: "agent-augmented"
+support_tier: "repo-local-consequential"
+quorum_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
+ownership_refs:
+  - "operator://octon-maintainers"
+reversibility_class: null
+reason_codes:
+  - "LIVE_SAFE_STAGE_LEASE_REVOCATION_EXERCISE"
+required_evidence:
+  - "authority-grant-bundle"
+  - "rollback-proof"
+projection_sources:
+  []
+created_at: "2026-04-03T02:23:12Z"
+updated_at: "2026-04-03T02:23:12Z"

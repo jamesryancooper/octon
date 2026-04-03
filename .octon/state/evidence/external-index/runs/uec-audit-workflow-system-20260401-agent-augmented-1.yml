@@ -1,0 +1,24 @@
+schema_version: external-replay-index-v1
+index_id: external-replay-uec-audit-workflow-system-20260401-agent-augmented-1
+scope: run
+run_id: uec-audit-workflow-system-20260401-agent-augmented-1
+entries:
+  - entry_id: uec-audit-workflow-system-20260401-agent-augmented-1-replay-manifest
+    run_id: uec-audit-workflow-system-20260401-agent-augmented-1
+    artifact_kind: replay-payload
+    evidence_class: B
+    storage_class: git-pointer
+    content_digest: sha256:7485099f7078d988a1140305d6da879ecad1de081260e6a297610a4f568270b0
+    locator: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay/manifest.yml
+    manifest_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay/manifest.yml
+    recorded_at: 2026-04-01T14:28:33.960219Z
+  - entry_id: uec-audit-workflow-system-20260401-agent-augmented-1-trace-pointers
+    run_id: uec-audit-workflow-system-20260401-agent-augmented-1
+    artifact_kind: trace-payload
+    evidence_class: B
+    storage_class: git-pointer
+    content_digest: sha256:f94c14799a5abe24266941fe4c0dc4a6463616f1e4c041cbd30e3411f17dd4bb
+    locator: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/trace-pointers.yml
+    manifest_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/trace-pointers.yml
+    recorded_at: 2026-04-01T14:28:33.960219Z
+updated_at: 2026-04-02T00:00:00Z

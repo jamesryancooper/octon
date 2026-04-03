@@ -1,0 +1,13 @@
+schema_version: drift-incident-v1
+incident_id: drift-runtime-disclosure-mismatch-2026-04-02
+drift_class: runtime-disclosure-mismatch-drift
+status: mitigated
+summary: Closure remediation on 2026-04-02 corrected replay-index truthfulness, run-first CLI disclosure, and canonical path hygiene mismatches that had drifted ahead of live retained evidence.
+evidence_refs:
+  - .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh
+  - .octon/instance/governance/closure/unified-execution-constitution.yml
+  - .octon/instance/governance/disclosure/harness-card.yml
+  - .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
+remediation_refs:
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-03-30/drift-review.yml
+recorded_at: 2026-04-02T00:00:00Z
