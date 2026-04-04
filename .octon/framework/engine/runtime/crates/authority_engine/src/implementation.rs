@@ -5705,7 +5705,7 @@ fn materialize_run_disclosure(
     write_yaml(
         &run_card_path,
         &json!({
-            "schema_version": "run-card-v1",
+            "schema_version": "run-card-v2",
             "run_id": request.request_id,
             "status": outcome.status,
             "summary": summary,
@@ -5733,6 +5733,11 @@ fn materialize_run_disclosure(
                 "grant_bundle": grant.authority_grant_bundle_ref,
                 "retained_run_evidence": bound.retained_evidence_ref,
             },
+            "runtime_service_refs": {
+                "replay_store": ".octon/framework/engine/runtime/crates/replay_store",
+                "telemetry_sink": ".octon/framework/engine/runtime/crates/telemetry_sink",
+                "runtime_bus": ".octon/framework/engine/runtime/crates/runtime_bus",
+            },
             "proof_plane_refs": {
                 "structural": path_tail(repo_root, &bound.assurance_root.join("structural.yml")),
                 "governance": path_tail(repo_root, &bound.assurance_root.join("governance.yml")),
@@ -5745,6 +5750,7 @@ fn materialize_run_disclosure(
             "measurement_ref": path_tail(repo_root, &measurement_path),
             "intervention_ref": path_tail(repo_root, &intervention_path),
             "replay_ref": path_tail(repo_root, &bound.replay_manifest_path),
+            "recovery_ref": path_tail(repo_root, &bound.assurance_root.join("recovery.yml")),
             "known_limits": known_limits,
             "generated_at": outcome.completed_at,
         }),
