@@ -352,10 +352,10 @@ write_event_ledger() {
     jq -Rcs 'split("\n") | map(select(length > 0) | fromjson) | length' "$events_file"
   )"
   first_event_id="$(
-    jq -Rcs 'split("\n") | map(select(length > 0) | fromjson) | .[0].event_id' "$events_file"
+    jq -Rr 'fromjson | .event_id' < <(head -n 1 "$events_file")
   )"
   last_event_id="$(
-    jq -Rcs 'split("\n") | map(select(length > 0) | fromjson) | .[-1].event_id' "$events_file"
+    jq -Rr 'fromjson | .event_id' < <(tail -n 1 "$events_file")
   )"
 
   jq -n \

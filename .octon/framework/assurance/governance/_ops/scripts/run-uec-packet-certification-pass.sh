@@ -24,7 +24,10 @@ run_step() {
   local log_file="$OUTPUT_DIR/${step_id}.log"
 
   echo "== $step_id ==" | tee "$log_file"
-  if bash -lc "$cmd" >>"$log_file" 2>&1; then
+  if (
+    cd "$ROOT_DIR"
+    bash -lc "$cmd"
+  ) >>"$log_file" 2>&1; then
     echo "PASS" >"$OUTPUT_DIR/${step_id}.status"
   else
     echo "FAIL" >"$OUTPUT_DIR/${step_id}.status"
