@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/run-event-v1.schema.json",
+  "title": "Octon Run Event v1",
+  "description": "Canonical append-only event record for one run-lifecycle transition.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "run_id",
+    "event_type",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-event-v1"
+    },
+    "event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "run-created",
+        "authority-requested",
+        "authority-granted",
+        "authority-denied",
+        "lease-issued",
+        "lease-expired",
+        "revocation-activated",
+        "stage-started",
+        "stage-completed",
+        "attempt-started",
+        "checkpoint-created",
+        "replay-materialized",
+        "intervention-recorded",
+        "rollback-entered",
+        "rollback-completed",
+        "disclosure-generated",
+        "run-closed"
+      ]
+    },
+    "subject_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "governing_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "details": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "payload": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

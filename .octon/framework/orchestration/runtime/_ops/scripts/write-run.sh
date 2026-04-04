@@ -1585,7 +1585,7 @@ upsert_run_contract() {
         run_id: $run_id,
         objective_refs: {
           workspace_objective_ref: ".octon/instance/charter/workspace.md",
-          workspace_intent_ref: ".octon/instance/charter/workspace.yml"
+          workspace_machine_charter_ref: ".octon/instance/charter/workspace.yml"
         },
         scope_in: $scope_in,
         scope_out: [],

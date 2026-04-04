@@ -1,16 +1,3 @@
-schema_version: run-replay-pointers-v1
-run_id: uec-validate-proposal-20260401-agent-augmented-3
-replay_manifest_refs:
-- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay/manifest.yml
-receipt_refs:
-- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/policy-receipt.latest.json
-- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/grant-bundle.json
-- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/execution-receipt.json
-checkpoint_refs:
-- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/bound.yml
-- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/execution-start.yml
-- .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/execution-complete.yml
-trace_refs: []
 external_index_refs:
-- .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
-updated_at: 2026-04-02T00:00:00Z
+  - .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
+updated_at: "2026-04-04T04:04:23Z"

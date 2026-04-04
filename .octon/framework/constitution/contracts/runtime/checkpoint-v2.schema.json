@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/checkpoint-v2.schema.json",
+  "title": "Octon Run Checkpoint v2",
+  "description": "Durable checkpoint with event-ledger linkage and replay digests.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "checkpoint_id",
+    "stage_attempt_id",
+    "checkpoint_kind",
+    "status",
+    "control_ref",
+    "event_position",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-checkpoint-v2"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage_attempt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_kind": {
+      "type": "string",
+      "enum": [
+        "binding",
+        "execution-start",
+        "execution-complete",
+        "recovery",
+        "resume"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "materialized",
+        "superseded",
+        "consumed",
+        "failed"
+      ]
+    },
+    "control_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "event_position": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mutable_state_digest": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "artifact_digests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "contamination_reset_posture": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "rollback_or_compensation_note": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

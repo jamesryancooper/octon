@@ -1,0 +1,4 @@
+schema_version: authority-run-revocation-index-v1
+run_id: uec-safe-stage-approval-exercise-20260402
+source_ref: .octon/state/control/execution/revocations/grants.yml
+revocations: []

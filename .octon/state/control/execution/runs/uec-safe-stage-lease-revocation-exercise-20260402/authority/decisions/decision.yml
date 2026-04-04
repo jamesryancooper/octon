@@ -1,0 +1,67 @@
+schema_version: authority-decision-artifact-v1
+decision_id: decision-uec-safe-stage-lease-revocation-exercise-20260402
+request_id: uec-safe-stage-lease-revocation-exercise-20260402
+run_id: uec-safe-stage-lease-revocation-exercise-20260402
+decision: DENY
+reason_codes:
+- LIVE_SAFE_STAGE_REVOCATION_EXERCISE
+ownership:
+  status: resolved
+  source: ownership_registry.default
+  owner_refs:
+  - operator://octon-maintainers
+  matched_asset_ref: null
+support_tier:
+  support_tier: repo-local-consequential
+  model_tier_id: MT-B
+  workload_tier_id: WT-2
+  language_resource_tier_id: LT-REF
+  locale_tier_id: LOC-EN
+  workload_tier_label: repo-local-consequential
+  host_adapter_id: repo-shell
+  host_adapter_status: supported
+  model_adapter_id: repo-local-governed
+  model_adapter_status: supported
+  adapter_conformance_criteria:
+  - HOST-001
+  - HOST-002
+  - HOST-004
+  - MODEL-001
+  - MODEL-002
+  - MODEL-003
+  - MODEL-004
+  support_status: supported
+  route: deny
+  requires_mission: false
+  required_evidence:
+  - authority-decision-artifact
+  - authority-grant-bundle
+  - support-target-declaration
+  allowed_capability_packs:
+  - repo
+  - telemetry
+  requested_capability_packs:
+  - repo
+  - telemetry
+  declaration_ref: .octon/instance/governance/support-targets.yml
+reversibility:
+  effective: reversible
+  requested: reversible
+  rollback_ref_present: false
+  workflow_mode: agent-augmented
+budget:
+  route: not-applicable
+egress:
+  artifact_ref: .octon/state/control/execution/exceptions/leases.yml#lease-uec-safe-stage-lease-revocation-exercise-20260402
+  matched_rule_id: null
+  route: deny
+  source_kind: exception-lease
+  target_url: https://example.invalid/safe-stage
+approval_request_ref: .octon/state/control/execution/approvals/requests/uec-safe-stage-lease-revocation-exercise-20260402.yml
+approval_grant_refs:
+- .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-lease-revocation-exercise-20260402.yml
+exception_refs:
+- .octon/state/control/execution/exceptions/leases.yml#lease-uec-safe-stage-lease-revocation-exercise-20260402
+revocation_refs:
+- .octon/state/control/execution/revocations/grants.yml#revoke-uec-safe-stage-lease-revocation-exercise-20260402
+generated_at: '2026-04-02T00:00:00Z'

@@ -3,22 +3,22 @@ index_id: external-replay-uec-validate-proposal-20260401-agent-augmented-3
 scope: run
 run_id: uec-validate-proposal-20260401-agent-augmented-3
 entries:
-  - entry_id: uec-validate-proposal-20260401-agent-augmented-3-replay-manifest
+  - entry_id: uec-validate-proposal-20260401-agent-augmented-3-replay-payload
     run_id: uec-validate-proposal-20260401-agent-augmented-3
     artifact_kind: replay-payload
-    evidence_class: B
-    storage_class: git-pointer
-    content_digest: sha256:4f081c7cb1bf444ea560073f672609924bc7ba61fa3931d37903c28441e75419
-    locator: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay/manifest.yml
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:16715fb765bebb57b40c1d7ea813c90b469d842e5cf542b539bcd99515b0ecd5
+    locator: immutable://octon/replays/uec-validate-proposal-20260401-agent-augmented-3/bundle.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay/manifest.yml
-    recorded_at: 2026-04-01T14:26:11.553247Z
-  - entry_id: uec-validate-proposal-20260401-agent-augmented-3-trace-pointers
+    recorded_at: "2026-04-04T04:04:23Z"
+  - entry_id: uec-validate-proposal-20260401-agent-augmented-3-trace-payload
     run_id: uec-validate-proposal-20260401-agent-augmented-3
     artifact_kind: trace-payload
-    evidence_class: B
-    storage_class: git-pointer
-    content_digest: sha256:098a74cbf65051f6b63f3b9217c4a781f6cf8659ba6014574b9ad2c3f756e658
-    locator: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/trace-pointers.yml
-    manifest_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/trace-pointers.yml
-    recorded_at: 2026-04-01T14:26:11.553247Z
-updated_at: 2026-04-02T00:00:00Z
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:b7b0674d24cb460dd04436c802b6103afbcb354f31814e0ff4c02881906077fa
+    locator: immutable://octon/replays/uec-validate-proposal-20260401-agent-augmented-3/trace.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay/manifest.yml
+    recorded_at: "2026-04-04T04:04:23Z"
+updated_at: "2026-04-04T04:04:23Z"

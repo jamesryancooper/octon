@@ -67,14 +67,14 @@
       "additionalProperties": false,
       "required": [
         "workspace_objective_ref",
-        "workspace_intent_ref"
+        "workspace_machine_charter_ref"
       ],
       "properties": {
         "workspace_objective_ref": {
           "type": "string",
           "minLength": 1
         },
-        "workspace_intent_ref": {
+        "workspace_machine_charter_ref": {
           "type": "string",
           "minLength": 1
         },

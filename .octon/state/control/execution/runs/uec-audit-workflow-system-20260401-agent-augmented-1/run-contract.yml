@@ -28,7 +28,7 @@ model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-gov
 notes_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/stage-attempts/initial.yml
 objective_summary: Audit the workflow system bundle and retained evidence against the supported consequential envelope.
 objective_refs:
-  workspace_intent_ref: .octon/instance/charter/workspace.yml
+  workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
   workspace_objective_ref: .octon/instance/charter/workspace.md
 protected_zones:
 - .octon/framework/constitution/**

@@ -8,6 +8,7 @@ ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 
 CLOSURE_MANIFEST="$OCTON_DIR/instance/governance/closure/unified-execution-constitution.yml"
 STATUS_MATRIX="$OCTON_DIR/instance/governance/closure/unified-execution-constitution-status.yml"
+PACKET_ISSUES="$OCTON_DIR/instance/governance/closure/unified-execution-constitution-packet-issues.yml"
 CLLOSEOUT_REVIEWS="$OCTON_DIR/instance/governance/contracts/closeout-reviews.yml"
 SUPPORT_TARGETS="$OCTON_DIR/instance/governance/support-targets.yml"
 CONTRACT_REGISTRY="$OCTON_DIR/framework/constitution/contracts/registry.yml"
@@ -354,6 +355,21 @@ validate_status_matrix() {
   require_yq '.checklists | length == 3' "$STATUS_MATRIX" "status matrix tracks all required packet checklists"
 }
 
+validate_packet_issue_status() {
+  local claim_status
+  claim_status="$(yq -r '.claim_status' "$CLOSURE_MANIFEST")"
+
+  require_file "$PACKET_ISSUES"
+  require_yq '.summary.total_count == 18' "$PACKET_ISSUES" "packet issue register tracks all 18 packet issues"
+  require_yq '.summary.partial_count == 0' "$PACKET_ISSUES" "packet issue register records zero partial issues"
+  require_yq '.summary.deferred_count == 0' "$PACKET_ISSUES" "packet issue register records zero deferred issues"
+  if [[ "$claim_status" == "complete" ]]; then
+    require_yq '.summary.open_count == 0 and .summary.closed_count == 18 and .summary.closure_ready == true' "$PACKET_ISSUES" "complete claim requires a fully closed packet issue register"
+  else
+    require_yq '.summary.open_count > 0 and .summary.closure_ready == false' "$PACKET_ISSUES" "provisional claim requires an open packet issue register"
+  fi
+}
+
 validate_complete_claim_prerequisites() {
   require_yq '.status_summary.blocking_gates | length == 0' "$STATUS_MATRIX" "complete claim has no blocking gates"
   if command -v rg >/dev/null 2>&1; then
@@ -428,6 +444,7 @@ main() {
 
   require_file "$CLOSURE_MANIFEST"
   require_file "$STATUS_MATRIX"
+  require_file "$PACKET_ISSUES"
   require_file "$CLLOSEOUT_REVIEWS"
   require_file "$SUPPORT_TARGETS"
   require_file "$CONTRACT_REGISTRY"
@@ -445,6 +462,7 @@ main() {
   require_yq '.claim_status == "provisional" or .claim_status == "complete"' "$CLOSURE_MANIFEST" "closure manifest exposes packet claim_status"
   require_yq '.supported_claim.model_tier == "MT-B" and .supported_claim.workload_tier == "WT-2" and .supported_claim.language_resource_tier == "LT-REF" and .supported_claim.locale_tier == "LOC-EN" and .supported_claim.host_adapter == "repo-shell" and .supported_claim.model_adapter == "repo-local-governed"' "$CLOSURE_MANIFEST" "closure manifest freezes the bounded live tuple and adapters"
   require_yq '.status_matrix_ref == ".octon/instance/governance/closure/unified-execution-constitution-status.yml"' "$CLOSURE_MANIFEST" "closure manifest binds the authoritative status matrix"
+  require_yq '.packet_issue_status_ref == ".octon/instance/governance/closure/unified-execution-constitution-packet-issues.yml"' "$CLOSURE_MANIFEST" "closure manifest binds the packet issue register"
   require_yq '.closeout_contract_ref == ".octon/instance/governance/contracts/closeout-reviews.yml"' "$CLOSURE_MANIFEST" "closure manifest binds the closeout contract"
   require_yq '.excluded_or_reduced_surfaces[] | select(.surface_id == "MT-A/WT-1" and .status == "experimental" and .route == "stage_only")' "$CLOSURE_MANIFEST" "closure manifest records MT-A / WT-1 as experimental"
   require_yq '.excluded_or_reduced_surfaces[] | select(.surface_id == "studio-control-plane" and .status == "experimental" and .route == "stage_only")' "$CLOSURE_MANIFEST" "closure manifest records Studio as experimental"
@@ -460,6 +478,7 @@ main() {
   require_text 'workflow run is a compatibility wrapper' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/main.rs" "workflow run is documented as a compatibility wrapper"
 
   validate_status_matrix
+  validate_packet_issue_status
   if [[ "$claim_status" == "complete" ]]; then
     validate_complete_claim_prerequisites
   fi

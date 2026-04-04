@@ -8,10 +8,10 @@ Canonical pair:
 - `workspace.md` - narrative workspace charter
 - `workspace.yml` - machine workspace charter
 
-Compatibility shims remain at:
+Historical compatibility shims may remain retained at:
 
 - `instance/bootstrap/OBJECTIVE.md`
 - `instance/cognition/context/shared/intent.contract.yml`
 
-Those shim paths are retained for compatibility only and may not replace the
-canonical pair above.
+Those shim paths are non-runtime lineage artifacts and may not replace or join
+the live workspace-charter path above.

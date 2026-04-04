@@ -7,7 +7,7 @@ created_at: &id001 2026-03-31 21:23:12.158934+00:00
 evidence_root: .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3
 notes_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/stage-attempts/initial.yml
 objective_refs:
-  workspace_intent_ref: .octon/instance/charter/workspace.yml
+  workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
   workspace_objective_ref: .octon/instance/charter/workspace.md
 receipt_root: .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/receipts
 replay_pointers_ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-success-3/replay-pointers.yml

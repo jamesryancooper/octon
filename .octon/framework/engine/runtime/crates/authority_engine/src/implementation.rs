@@ -608,8 +608,17 @@ pub fn active_intent_ref(cfg: &RuntimeConfig) -> Option<IntentRef> {
     let path = cfg.repo_root.join(".octon/instance/charter/workspace.yml");
     let raw = fs::read_to_string(path).ok()?;
     let doc = serde_yaml::from_str::<serde_yaml::Value>(&raw).ok()?;
+    let chart_id = doc
+        .get("workspace_charter_id")
+        .and_then(|value| value.as_str())
+        .or_else(|| doc.get("intent_id").and_then(|value| value.as_str()))
+        .or_else(|| {
+            doc.get("legacy_intent_lineage")
+                .and_then(|value| value.get("intent_id"))
+                .and_then(|value| value.as_str())
+        })?;
     Some(IntentRef {
-        id: doc.get("intent_id")?.as_str()?.to_string(),
+        id: chart_id.to_string(),
         version: doc.get("version")?.as_str()?.to_string(),
     })
 }
@@ -1687,7 +1696,7 @@ fn bind_run_lifecycle(
             json!(".octon/instance/charter/workspace.md"),
         );
         objective_refs.insert(
-            "workspace_intent_ref".to_string(),
+            "workspace_machine_charter_ref".to_string(),
             json!(".octon/instance/charter/workspace.yml"),
         );
         if let Some(mission_id) = mission_id.as_ref() {
@@ -6890,7 +6899,7 @@ mod tests {
             .expect("create runtime pack dir");
         fs::write(
             base.join(".octon/instance/charter/workspace.yml"),
-            "intent_id: intent://test/example\nversion: 1.0.0\n",
+            "schema_version: workspace-charter-v1\nworkspace_charter_id: workspace-charter://test/example\nversion: 1.0.0\n",
         )
         .expect("write workspace machine charter");
         fs::write(

@@ -8,6 +8,13 @@ profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrati
 activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization/plan.md"
 run_lifecycle:
+  event_ledger:
+    event_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-v1.schema.json"
+    ledger_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-ledger-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_files:
+      - "events.ndjson"
+      - "events.manifest.yml"
   run_manifest:
     schema_ref: ".octon/framework/constitution/contracts/runtime/run-manifest-v1.schema.json"
     control_root: ".octon/state/control/execution/runs"
@@ -25,7 +32,7 @@ run_lifecycle:
     control_root: ".octon/state/control/execution/runs"
     canonical_file: "rollback-posture.yml"
   checkpoints:
-    schema_ref: ".octon/framework/constitution/contracts/runtime/checkpoint-v1.schema.json"
+    schema_ref: ".octon/framework/constitution/contracts/runtime/checkpoint-v2.schema.json"
     control_root: ".octon/state/control/execution/runs"
     canonical_dir: "checkpoints"
   replay_pointers:
@@ -59,6 +66,9 @@ run_lifecycle:
       - "evidence-classification.yml"
       - "retained-run-evidence.yml"
 bridges:
+  state_reconstruction:
+    ref: ".octon/framework/constitution/contracts/runtime/state-reconstruction-v1.md"
+    rule: "Mutable run state is derived from the append-only event ledger plus bounded side artifacts."
   run_continuity:
     source_root: ".octon/state/continuity/runs"
     rule: "Run continuity carries resumability and handoff state; `run-manifest.yml`, checkpoints, replay pointers, and retained evidence remain the authoritative artifact-rooted resume set."

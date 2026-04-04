@@ -9,6 +9,10 @@ This root is the primary execution-time unit of truth:
   side effects occur
 - every consequential run must also bind `run-manifest.yml` as the canonical
   run-topology manifest
+- every consequential run must retain `events.ndjson` plus
+  `events.manifest.yml` as the canonical append-only event ledger
+- every consequential run must retain a run-bound `authority/**` bundle for
+  request, decision, grant, lease, and revocation material
 - stage attempts belong under `stage-attempts/**` beneath the bound run root
 - checkpoints, runtime-state, and rollback-posture belong under the same run
   control root
@@ -27,6 +31,9 @@ This root is the primary execution-time unit of truth:
 state/control/execution/runs/<run-id>/
   run-contract.yml
   run-manifest.yml
+  events.ndjson
+  events.manifest.yml
+  authority/
   stage-attempts/
   checkpoints/
   runtime-state.yml

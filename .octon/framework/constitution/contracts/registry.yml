@@ -128,7 +128,8 @@ integration_surfaces:
   workspace_charter_pair:
     narrative: ".octon/instance/charter/workspace.md"
     machine: ".octon/instance/charter/workspace.yml"
-    compatibility_shims:
+    machine_schema_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-v1.schema.json"
+    historical_shims:
       - ".octon/instance/bootstrap/OBJECTIVE.md"
       - ".octon/instance/cognition/context/shared/intent.contract.yml"
     contract_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"

@@ -1625,7 +1625,7 @@ mod tests {
             .expect("create ACP ops root");
         fs::write(
             octon_dir.join("instance/charter/workspace.yml"),
-            "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
+            "schema_version: \"workspace-charter-v1\"\nworkspace_charter_id: \"workspace-charter://test/sample-workflow\"\nversion: \"1.0.0\"\n",
         )
         .expect("write workspace machine charter");
         fs::write(
@@ -1752,7 +1752,7 @@ stages:
         .expect("create mission effective fixture");
         fs::write(
             octon_dir.join("instance/charter/workspace.yml"),
-            "intent_id: \"intent://test/sample-workflow\"\nversion: \"1.0.0\"\n",
+            "schema_version: \"workspace-charter-v1\"\nworkspace_charter_id: \"workspace-charter://test/sample-workflow\"\nversion: \"1.0.0\"\n",
         )
         .expect("write workspace machine charter");
         fs::write(

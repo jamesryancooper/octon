@@ -1,0 +1,4 @@
+schema_version: authority-run-revocation-index-v1
+run_id: uec-evaluate-harness-20260401-agent-augmented-1
+source_ref: .octon/state/control/execution/revocations/grants.yml
+revocations: []

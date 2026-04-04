@@ -9,6 +9,10 @@ Run roots are the primary execution-time unit of truth.
 
 - canonical run-topology manifests live under:
   `/.octon/state/control/execution/runs/<run-id>/run-manifest.yml`
+- canonical run event ledgers live under:
+  `/.octon/state/control/execution/runs/<run-id>/{events.ndjson,events.manifest.yml}`
+- canonical run-bound authority bundles live under:
+  `/.octon/state/control/execution/runs/<run-id>/authority/**`
 - canonical runtime state lives under:
   `/.octon/state/control/execution/runs/<run-id>/runtime-state.yml`
 - canonical resumability and handoff continuity live under:
@@ -28,6 +32,7 @@ Run roots are the primary execution-time unit of truth.
 ## Final Rules
 
 - `run-manifest.yml` is the canonical bound run-manifest model.
+- `events.ndjson` is the canonical append-only run transition record.
 - `runtime-state.yml` carries mutable execution status only; it must not serve
   as the only run-topology manifest.
 - Mission remains the continuity and long-horizon autonomy container.
@@ -41,9 +46,12 @@ Run roots are the primary execution-time unit of truth.
 ## Canonical Files
 
 - `family.yml`
+- `run-event-v1.schema.json`
+- `run-event-ledger-v1.schema.json`
 - `run-manifest-v1.schema.json`
 - `runtime-state-v1.schema.json`
 - `run-continuity-v1.schema.json`
 - `rollback-posture-v1.schema.json`
-- `checkpoint-v1.schema.json`
+- `checkpoint-v2.schema.json`
+- `state-reconstruction-v1.md`
 - `replay-pointers-v1.schema.json`

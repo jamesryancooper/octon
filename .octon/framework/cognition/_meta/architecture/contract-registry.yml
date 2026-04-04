@@ -39,9 +39,7 @@ execution:
   objective_binding:
     contract_family_root: ".octon/framework/constitution/contracts/objective"
     workspace_objective_brief: ".octon/instance/charter/workspace.md"
-    workspace_intent_contract: ".octon/instance/charter/workspace.yml"
-    workspace_objective_shim: ".octon/instance/bootstrap/OBJECTIVE.md"
-    workspace_intent_shim: ".octon/instance/cognition/context/shared/intent.contract.yml"
+    workspace_machine_charter: ".octon/instance/charter/workspace.yml"
   runtime_binding:
     contract_family_root: ".octon/framework/constitution/contracts/runtime"
     run_manifest_file: ".octon/state/control/execution/runs/<run-id>/run-manifest.yml"

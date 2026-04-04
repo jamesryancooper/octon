@@ -1,0 +1,7 @@
+schema_version: authority-run-bundle-index-v1
+run_id: uec-safe-stage-approval-exercise-20260402
+request_ref: .octon/state/control/execution/approvals/requests/uec-safe-stage-approval-exercise-20260402.yml
+decision_ref: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-approval-exercise-20260402.yml
+grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-approval-exercise-20260402.yml
+lease_index_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/authority/leases/index.yml
+revocation_index_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/authority/revocations/index.yml

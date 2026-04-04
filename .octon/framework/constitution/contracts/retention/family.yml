@@ -34,6 +34,7 @@ storage_classes:
   - class_id: "external-immutable"
     description: "Canonical evidence stores a content-addressed pointer to immutable payloads outside the Git tree."
 schemas:
+  evidence_retention_contract: ".octon/framework/constitution/contracts/retention/evidence-retention-contract-v1.schema.json"
   evidence_classification: ".octon/framework/constitution/contracts/retention/evidence-classification-v1.schema.json"
   external_replay_index: ".octon/framework/constitution/contracts/retention/external-replay-index-v1.schema.json"
   replay_storage_class: ".octon/framework/constitution/contracts/retention/replay-storage-class-v1.schema.json"

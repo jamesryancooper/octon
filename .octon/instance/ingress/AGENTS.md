@@ -25,9 +25,6 @@ observable enough to debug, and flexible enough to evolve.
 - active workspace objective pair:
   - `.octon/instance/charter/workspace.md`
   - `.octon/instance/charter/workspace.yml`
-- compatibility workspace-charter shims:
-  - `.octon/instance/bootstrap/OBJECTIVE.md`
-  - `.octon/instance/cognition/context/shared/intent.contract.yml`
 - optional bootstrap orientation:
   - `.octon/instance/bootstrap/START.md`
 

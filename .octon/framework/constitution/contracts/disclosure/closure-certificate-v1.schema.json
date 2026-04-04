@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/disclosure/closure-certificate-v1.schema.json",
+  "title": "Octon Closure Certificate v1",
+  "description": "Machine-readable closure certificate for a completed Unified Execution Constitution certification attempt.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "certificate_id",
+    "certified_commit",
+    "certification_date",
+    "pass_1_report_bundle",
+    "pass_2_report_bundle",
+    "support_target_declaration_snapshot",
+    "certified_support_envelope",
+    "mandatory_assertions",
+    "proof_bundle_refs",
+    "sign_off"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "closure-certificate-v1"
+    },
+    "certificate_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "certified_commit": {
+      "type": "string",
+      "minLength": 1
+    },
+    "certification_date": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pass_1_report_bundle": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pass_2_report_bundle": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_target_declaration_snapshot": {
+      "type": "string",
+      "minLength": 1
+    },
+    "certified_support_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_tier",
+        "workload_tier",
+        "language_resource_tier",
+        "locale_tier",
+        "host_adapter",
+        "model_adapter"
+      ],
+      "properties": {
+        "model_tier": { "type": "string", "minLength": 1 },
+        "workload_tier": { "type": "string", "minLength": 1 },
+        "language_resource_tier": { "type": "string", "minLength": 1 },
+        "locale_tier": { "type": "string", "minLength": 1 },
+        "host_adapter": { "type": "string", "minLength": 1 },
+        "model_adapter": { "type": "string", "minLength": 1 }
+      }
+    },
+    "mandatory_assertions": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "proof_bundle_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "structural",
+        "functional",
+        "behavioral",
+        "governance",
+        "recovery",
+        "maintainability",
+        "lab",
+        "adapter_conformance",
+        "capability_pack_admission",
+        "disclosure_derivation",
+        "intervention_hidden_repair"
+      ],
+      "properties": {
+        "structural": { "type": "string", "minLength": 1 },
+        "functional": { "type": "string", "minLength": 1 },
+        "behavioral": { "type": "string", "minLength": 1 },
+        "governance": { "type": "string", "minLength": 1 },
+        "recovery": { "type": "string", "minLength": 1 },
+        "maintainability": { "type": "string", "minLength": 1 },
+        "lab": { "type": "string", "minLength": 1 },
+        "adapter_conformance": { "type": "string", "minLength": 1 },
+        "capability_pack_admission": { "type": "string", "minLength": 1 },
+        "disclosure_derivation": { "type": "string", "minLength": 1 },
+        "intervention_hidden_repair": { "type": "string", "minLength": 1 }
+      }
+    },
+    "sign_off": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "governance_signatory",
+        "runtime_signatory",
+        "assurance_signatory",
+        "date"
+      ],
+      "properties": {
+        "governance_signatory": { "type": "string", "minLength": 1 },
+        "runtime_signatory": { "type": "string", "minLength": 1 },
+        "assurance_signatory": { "type": "string", "minLength": 1 },
+        "date": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

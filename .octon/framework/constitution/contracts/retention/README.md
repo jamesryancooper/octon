@@ -36,6 +36,7 @@ The retention family is active.
 ## Canonical Files
 
 - `family.yml`
+- `evidence-retention-contract-v1.schema.json`
 - `evidence-classification-v1.schema.json`
 - `external-replay-index-v1.schema.json`
 - `replay-storage-class-v1.schema.json`

@@ -3,7 +3,7 @@ run_id: uec-safe-stage-approval-exercise-20260402
 mission_mode: none
 objective_refs:
   workspace_objective_ref: .octon/instance/charter/workspace.md
-  workspace_intent_ref: .octon/instance/charter/workspace.yml
+  workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
 objective_summary: Safe-stage approval exercise retained to prove canonical ApprovalRequest
   and ApprovalGrant flow under the supported envelope.
 scope_in:

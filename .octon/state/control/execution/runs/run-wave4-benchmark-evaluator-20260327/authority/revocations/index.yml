@@ -1,0 +1,15 @@
+schema_version: authority-run-revocation-index-v1
+run_id: run-wave4-benchmark-evaluator-20260327
+source_ref: .octon/state/control/execution/revocations/grants.yml
+revocations:
+  - schema_version: authority-revocation-v1
+    revocation_id: phase2-revocation-sample
+    grant_id: grant-run-wave4-benchmark-evaluator-20260327
+    request_id: run-wave4-benchmark-evaluator-20260327
+    run_id: run-wave4-benchmark-evaluator-20260327
+    state: cleared
+    revoked_at: "2026-03-29T03:05:36Z"
+    revoked_by: operator://octon-governance
+    reason_codes:
+      - PHASE2_CANONICAL_REVOCATION_SAMPLE
+    notes: Phase 2 canonical revocation sample kept cleared to avoid blocking the seeded grant.

@@ -1,12 +1,15 @@
 schema_version: "octon-workspace-charter-pair-v1"
 objective_layer: "workspace-charter-pair"
 status: "active"
-objective_id: "octon-governed-harness"
-intent_id: "intent://octon/octon-governed-harness"
-intent_version: "1.1.0"
+workspace_charter_id: "workspace-charter://octon/octon-governed-harness"
+version: "1.2.0"
+legacy_intent_lineage:
+  intent_id: "intent://octon/octon-governed-harness"
+  version: "1.1.0"
 narrative_ref: ".octon/instance/charter/workspace.md"
 machine_ref: ".octon/instance/charter/workspace.yml"
-compatibility_shims:
+machine_schema_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-v1.schema.json"
+historical_shims:
   - ".octon/instance/bootstrap/OBJECTIVE.md"
   - ".octon/instance/cognition/context/shared/intent.contract.yml"
 contract_family_ref: ".octon/framework/constitution/contracts/objective/family.yml"

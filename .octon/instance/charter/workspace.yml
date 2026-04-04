@@ -1,12 +1,15 @@
-schema_version: "intent-contract-v1"
-intent_id: "intent://octon/octon-governed-harness"
-version: "1.1.0"
+schema_version: "workspace-charter-v1"
+workspace_charter_id: "workspace-charter://octon/octon-governed-harness"
+version: "1.2.0"
+legacy_intent_lineage:
+  intent_id: "intent://octon/octon-governed-harness"
+  version: "1.1.0"
 objective_layer: "workspace-charter-pair"
 constitutional_role: "workspace-charter-machine"
 constitutional_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-03-uec-clean-break-packet-implementation/plan.md"
 objective_signals:
   - id: harness-coherence
     description: "Keep bootstrap, runtime, validators, and docs aligned to the same governing model."

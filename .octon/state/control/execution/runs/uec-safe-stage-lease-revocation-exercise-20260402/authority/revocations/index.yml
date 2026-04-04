@@ -1,0 +1,15 @@
+schema_version: authority-run-revocation-index-v1
+run_id: uec-safe-stage-lease-revocation-exercise-20260402
+source_ref: .octon/state/control/execution/revocations/grants.yml
+revocations:
+  - schema_version: authority-revocation-v1
+    revocation_id: revoke-uec-safe-stage-lease-revocation-exercise-20260402
+    grant_id: grant-uec-safe-stage-lease-revocation-exercise-20260402
+    request_id: uec-safe-stage-lease-revocation-exercise-20260402
+    run_id: uec-safe-stage-lease-revocation-exercise-20260402
+    state: active
+    revoked_at: "2026-04-03T02:23:12Z"
+    revoked_by: operator://octon-governance
+    reason_codes:
+      - LIVE_SAFE_STAGE_REVOCATION_EXERCISE
+    notes: Active revocation proving the runtime must obey canonical revocation artifacts during the safe-stage exercise.

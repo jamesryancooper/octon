@@ -1,0 +1,7 @@
+schema_version: authority-run-bundle-index-v1
+run_id: uec-validate-proposal-20260401-agent-augmented-3
+request_ref: null
+decision_ref: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260401-agent-augmented-3.yml
+grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260401-agent-augmented-3.yml
+lease_index_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/authority/leases/index.yml
+revocation_index_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/authority/revocations/index.yml

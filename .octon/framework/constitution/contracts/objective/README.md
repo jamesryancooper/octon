@@ -10,7 +10,9 @@ The objective family is fully active.
 - workspace-charter pair remains:
   `/.octon/instance/charter/workspace.md` and
   `/.octon/instance/charter/workspace.yml`
-- compatibility shims remain at:
+- live workspace machine validation uses:
+  `/.octon/framework/constitution/contracts/objective/workspace-charter-v1.schema.json`
+- historical compatibility shims remain retained at:
   `/.octon/instance/bootstrap/OBJECTIVE.md` and
   `/.octon/instance/cognition/context/shared/intent.contract.yml`
 - mission charter pair remains under:
@@ -43,5 +45,6 @@ The objective family is fully active.
 
 - `family.yml`
 - `workspace-charter-pair.yml`
+- `workspace-charter-v1.schema.json`
 - `run-contract-v1.schema.json`
 - `stage-attempt-v1.schema.json`

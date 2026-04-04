@@ -5919,7 +5919,7 @@ mod tests {
             .expect("workspace charter dir should exist");
         write_file(
             &octon_dir.join("instance/charter/workspace.yml"),
-            "intent_id: \"intent://test/design-workflow\"\nversion: \"1.0.0\"\n",
+            "schema_version: \"workspace-charter-v1\"\nworkspace_charter_id: \"workspace-charter://test/design-workflow\"\nversion: \"1.0.0\"\n",
         );
         fs::create_dir_all(octon_dir.join("framework/capabilities/governance/policy"))
             .expect("policy root should exist");
@@ -6050,7 +6050,7 @@ mod tests {
             .expect("governance ownership dir should exist");
         write_file(
             &octon_dir.join("instance/charter/workspace.yml"),
-            "intent_id: \"intent://test/create-design-package\"\nversion: \"1.0.0\"\n",
+            "schema_version: \"workspace-charter-v1\"\nworkspace_charter_id: \"workspace-charter://test/create-design-package\"\nversion: \"1.0.0\"\n",
         );
         write_file(
             &octon_dir.join("instance/governance/ownership/registry.yml"),

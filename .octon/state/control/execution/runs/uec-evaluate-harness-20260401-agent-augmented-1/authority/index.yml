@@ -1,0 +1,7 @@
+schema_version: authority-run-bundle-index-v1
+run_id: uec-evaluate-harness-20260401-agent-augmented-1
+request_ref: null
+decision_ref: .octon/state/evidence/control/execution/authority-decision-uec-evaluate-harness-20260401-agent-augmented-1.yml
+grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-evaluate-harness-20260401-agent-augmented-1.yml
+lease_index_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/authority/leases/index.yml
+revocation_index_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/authority/revocations/index.yml

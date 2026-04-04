@@ -1,8 +1,4 @@
-schema_version: run-trace-pointers-v1
-run_id: uec-validate-proposal-20260401-agent-augmented-3
-trace_id: uec-validate-proposal-20260401-agent-augmented-3-canonical-trace-index
-trace_refs: []
 external_index_refs:
   - .octon/state/evidence/external-index/runs/uec-validate-proposal-20260401-agent-augmented-3.yml
-updated_at: 2026-04-02T00:00:00Z
-notes: No separate class-C trace payload was retained for this exemplar; canonical replay stays in repo-local receipts and manifests.
+updated_at: "2026-04-04T04:04:23Z"
+notes: Canonical Class C trace payload retained through the external immutable index.

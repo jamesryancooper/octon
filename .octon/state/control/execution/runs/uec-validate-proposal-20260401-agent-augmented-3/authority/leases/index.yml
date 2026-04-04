@@ -1,0 +1,4 @@
+schema_version: authority-run-lease-index-v1
+run_id: uec-validate-proposal-20260401-agent-augmented-3
+source_ref: .octon/state/control/execution/exceptions/leases.yml
+leases: []
