@@ -9,14 +9,14 @@ generated_from:
   - /.octon/state/continuity/repo/missions/mission-autonomy-live-validation/handoff.md
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/directives.yml
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/authorize-updates.yml
-generated_at: "2026-03-30T13:26:31Z"
-generator_version: "0.6.8"
+generated_at: "2026-04-04T11:41:50Z"
+generator_version: "0.6.10"
 ---
 
 # Mission Recent
 
 - mission_id: `mission-autonomy-live-validation`
-- route_fresh_until: `2026-03-30T13:41:31Z`
+- route_fresh_until: `2026-04-04T11:56:50Z`
 - retained_run_evidence_root: `/.octon/state/evidence/runs/`
 - run_count: `2`
 - active_run_ids: `run-wave3-runtime-bridge-20260327,run-wave4-benchmark-evaluator-20260327`

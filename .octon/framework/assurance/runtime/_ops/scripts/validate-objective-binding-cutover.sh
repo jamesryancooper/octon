@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
+CHARTER_FILE="$OCTON_DIR/framework/constitution/charter.yml"
 
 FAMILY_DIR="$OCTON_DIR/framework/constitution/contracts/objective"
 FAMILY_FILE="$FAMILY_DIR/family.yml"
@@ -105,6 +106,7 @@ main() {
   echo "== Objective Binding Cutover Validation =="
 
   require_file "$FAMILY_FILE"
+  require_file "$CHARTER_FILE"
   require_file "$WORKSPACE_FILE"
   require_file "$WORKSPACE_SCHEMA"
   require_file "$RUN_SCHEMA"
@@ -132,8 +134,11 @@ main() {
   require_yq '.schema_version == "octon-constitutional-objective-family-v1"' "$FAMILY_FILE" "objective family schema version is correct"
   require_yq '.release_state == "pre-1.0"' "$FAMILY_FILE" "objective family records release_state"
   require_yq '.change_profile == "atomic"' "$FAMILY_FILE" "objective family records atomic change profile"
-  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-04-03-uec-clean-break-packet-implementation/plan.md"' "$FAMILY_FILE" "objective family points to the packet implementation selector"
+  local live_selector
+  live_selector="$(yq -r '.live_model.profile_selection_receipt_ref' "$CHARTER_FILE")"
+  require_yq ".profile_selection_receipt_ref == \"$live_selector\"" "$FAMILY_FILE" "objective family points to the charter live selector"
   require_yq '.activation_lineage_refs[] | select(. == ".octon/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md")' "$FAMILY_FILE" "objective family preserves the Phase 2 receipt as lineage"
+  require_yq '.activation_lineage_refs[] | select(. == ".octon/instance/cognition/context/shared/migrations/2026-04-03-uec-clean-break-packet-implementation/plan.md")' "$FAMILY_FILE" "objective family preserves the packet implementation receipt as lineage"
   require_yq '.objective_stack.workspace_charter_pair.machine_schema_ref == ".octon/framework/constitution/contracts/objective/workspace-charter-v1.schema.json"' "$FAMILY_FILE" "objective family binds the workspace-charter machine schema"
   require_yq '.objective_stack.run_contract.control_root == ".octon/state/control/execution/runs"' "$FAMILY_FILE" "objective family binds the run control root"
   require_yq '.objective_stack.stage_attempt_contract.canonical_dir == "stage-attempts"' "$FAMILY_FILE" "objective family defines stage-attempt placement"

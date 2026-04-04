@@ -1,9 +1,9 @@
 schema_version: "octon-extension-effective-catalog-v4"
 generator_version: "extension-publication-v3"
 generation_id: "extensions-d81e117f4c8a"
-published_at: "2026-04-02T02:34:00Z"
+published_at: "2026-04-04T11:40:44Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-02T02-34-00Z-extensions-d81e117f4c8a.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-04T11-40-44Z-extensions-d81e117f4c8a.yml"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -18,4 +18,4 @@ source:
   desired_config_path: ".octon/instance/extensions.yml"
   desired_config_sha256: "d81e117f4c8a5a1b552a77708a62ae299ac86143f3eacd414a03c85bb07c7785"
   root_manifest_path: ".octon/octon.yml"
-  root_manifest_sha256: "22ebfa7bac1e66fc4b741a7c982c8ae46e0d98c361921d90b3d7707638ea0ad7"
+  root_manifest_sha256: "fb904ee7e475153f316d2d9d2e3895d393c6f30a959fd63b7362fd538e676c38"
