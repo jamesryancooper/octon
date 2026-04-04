@@ -1,0 +1,51 @@
+== 05-richness ==
+== Global Runtime Richness Validation ==
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/measurements/summary.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 uses RunCard v2
+[OK] uec-global-frontier-browser-api-studio-20260404 cites replay_store
+[OK] uec-global-frontier-browser-api-studio-20260404 cites telemetry_sink
+[OK] uec-global-frontier-browser-api-studio-20260404 cites runtime_bus
+[OK] uec-global-frontier-browser-api-studio-20260404 records token usage
+[OK] uec-global-frontier-browser-api-studio-20260404 records latency
+[OK] uec-global-frontier-browser-api-studio-20260404 records cost
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/measurements/summary.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+[OK] uec-global-github-repo-consequential-20260404 uses RunCard v2
+[OK] uec-global-github-repo-consequential-20260404 cites replay_store
+[OK] uec-global-github-repo-consequential-20260404 cites telemetry_sink
+[OK] uec-global-github-repo-consequential-20260404 cites runtime_bus
+[OK] uec-global-github-repo-consequential-20260404 records token usage
+[OK] uec-global-github-repo-consequential-20260404 records latency
+[OK] uec-global-github-repo-consequential-20260404 records cost
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/measurements/summary.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml
+[OK] uec-global-ci-observe-read-20260404 uses RunCard v2
+[OK] uec-global-ci-observe-read-20260404 cites replay_store
+[OK] uec-global-ci-observe-read-20260404 cites telemetry_sink
+[OK] uec-global-ci-observe-read-20260404 cites runtime_bus
+[OK] uec-global-ci-observe-read-20260404 records token usage
+[OK] uec-global-ci-observe-read-20260404 records latency
+[OK] uec-global-ci-observe-read-20260404 records cost
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/measurements/summary.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml
+[OK] uec-global-repo-shell-observe-read-20260404 uses RunCard v2
+[OK] uec-global-repo-shell-observe-read-20260404 cites replay_store
+[OK] uec-global-repo-shell-observe-read-20260404 cites telemetry_sink
+[OK] uec-global-repo-shell-observe-read-20260404 cites runtime_bus
+[OK] uec-global-repo-shell-observe-read-20260404 records token usage
+[OK] uec-global-repo-shell-observe-read-20260404 records latency
+[OK] uec-global-repo-shell-observe-read-20260404 records cost
+Validation summary: errors=0

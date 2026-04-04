@@ -1,0 +1,4 @@
+schema_version: "fault-injection-plan-v1"
+fault_plan_id: "browser-replay-fault"
+surface: "browser"
+summary: "Fault rehearsal for missing browser replay evidence."

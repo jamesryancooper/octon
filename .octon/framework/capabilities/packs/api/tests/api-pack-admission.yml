@@ -1,0 +1,7 @@
+schema_version: "capability-pack-admission-test-v1"
+pack_id: "api"
+admission_status: "admitted"
+required_assertions:
+  - "egress policy remains explicit"
+  - "request and response disclosure remains required"
+  - "negative tests exist for excluded external effects"

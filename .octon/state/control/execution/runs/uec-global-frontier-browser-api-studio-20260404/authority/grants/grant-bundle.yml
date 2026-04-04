@@ -1,0 +1,29 @@
+approval_grant_refs: []
+approval_request_ref: null
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-global-frontier-browser-api-studio-20260404.yml
+exception_refs: []
+generated_at: 2026-04-01T14:24:37.102546Z
+grant_id: grant-uec-global-frontier-browser-api-studio-20260404
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+request_id: uec-global-frontier-browser-api-studio-20260404
+requested_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - browser
+  - api
+revocation_refs: []
+run_id: uec-global-frontier-browser-api-studio-20260404
+schema_version: authority-grant-bundle-v1
+support_target:
+  host_adapter: studio-control-plane
+  language_resource_tier: extended-governed
+  locale_tier: spanish-secondary
+  model_adapter: frontier-governed
+  model_tier: frontier-governed
+  route: allow
+  support_status: supported
+  workload_tier: boundary-sensitive
+support_tier: boundary-sensitive
+workflow_mode: agent-augmented

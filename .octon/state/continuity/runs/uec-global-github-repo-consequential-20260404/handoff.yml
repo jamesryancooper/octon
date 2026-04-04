@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: uec-global-github-repo-consequential-20260404
+status: succeeded
+run_contract_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-04-01T14:26:11.554148Z

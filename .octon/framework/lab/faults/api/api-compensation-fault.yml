@@ -1,0 +1,4 @@
+schema_version: "fault-injection-plan-v1"
+fault_plan_id: "api-compensation-fault"
+surface: "api"
+summary: "Fault rehearsal for API compensation and disclosure integrity."

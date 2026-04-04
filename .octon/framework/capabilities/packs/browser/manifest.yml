@@ -2,13 +2,40 @@ schema_version: "octon-capability-pack-v1"
 pack_id: "browser"
 surface: "browser"
 display_name: "Browser Automation Pack"
-description: "Browser automation, replay capture, and UI-driving surfaces that require governed admission."
+description: "Governed browser automation, replay capture, and UI-driving surfaces for the final retained support universe."
 runtime_surface_refs:
   - ".octon/framework/lab/replay/**"
   - ".octon/framework/lab/shadow/**"
+  - ".octon/framework/assurance/functional/browser/**"
 required_evidence:
-  - "lab-followup"
+  - "authority-decision-artifact"
   - "external-replay-index"
+  - "runtime-event-ledger"
+  - "run-card-v2"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
+least_privilege_defaults:
+  default_route: "allow"
+  required_grant_scope: "browser-governed"
+policy_routes:
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/exclusions/action-classes.yml"
+grant_semantics:
+  requires_authority_artifacts: true
+  requires_replay: true
+  requires_disclosure: true
+replay_requirements:
+  - "DOM capture"
+  - "screenshot capture"
+  - "session topology"
+audit_requirements:
+  - "negative tests"
+  - "lab scenarios"
+negative_test_refs:
+  - ".octon/framework/capabilities/packs/browser/tests/browser-pack-admission.yml"
+lab_scenario_refs:
+  - ".octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml"
+disclosure_requirements:
+  - "RunCard capability-pack set"
+  - "HarnessCard support-universe coverage"
 known_limitations:
-  - "Browser execution is unadmitted in the current repo-local support envelope."
+  - "Browser actions remain fail-closed when a requested run lacks the admitted pack, authority route, or replay evidence."

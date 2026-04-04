@@ -355,7 +355,7 @@ write_event_ledger() {
     jq -Rr 'fromjson | .event_id' < <(head -n 1 "$events_file")
   )"
   last_event_id="$(
-    jq -Rr 'fromjson | .event_id' < <(tail -n 1 "$events_file")
+    jq -Rr 'fromjson | .event_id' < <(tail -n 2 "$events_file" | head -n 1)
   )"
 
   jq -n \

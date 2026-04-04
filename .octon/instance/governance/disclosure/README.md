@@ -8,3 +8,7 @@ canonical release disclosure roots in `state/evidence/disclosure/releases/**`.
 
 Lab-local HarnessCard files may remain only as historical mirrors or benchmark
 adjacent evidence, never as the canonical live disclosure source.
+
+Global completion claims must summarize the retained finite support universe,
+governance exclusions, coverage ledger, and closure certificate without falling
+back to a narrower bounded-envelope caveat.

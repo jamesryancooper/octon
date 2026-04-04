@@ -2,13 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://octon.local/framework/constitution/support-targets.schema.json",
   "title": "Octon Support Target Matrix",
-  "description": "Schema for .octon/instance/governance/support-targets.yml with bounded support tiers, adapter declarations, and adapter-conformance criteria.",
+  "description": "Schema for .octon/instance/governance/support-targets.yml with the globally complete finite support universe, adapter declarations, and adapter-conformance criteria.",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "schema_version",
     "owner",
     "default_route",
+    "governance_exclusions_ref",
     "tiers",
     "compatibility_matrix",
     "adapter_conformance_criteria",
@@ -25,11 +26,28 @@
     },
     "default_route": {
       "type": "string",
-      "enum": ["deny", "stage_only", "escalate"]
+      "enum": ["deny", "escalate"]
     },
     "review_cadence": {
       "type": "string",
       "minLength": 1
+    },
+    "governance_exclusions_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "live_support_universe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model_classes": { "$ref": "#/$defs/string_array" },
+        "workload_classes": { "$ref": "#/$defs/string_array" },
+        "context_classes": { "$ref": "#/$defs/string_array" },
+        "locale_classes": { "$ref": "#/$defs/string_array" },
+        "host_adapters": { "$ref": "#/$defs/string_array" },
+        "model_adapters": { "$ref": "#/$defs/string_array" },
+        "capability_packs": { "$ref": "#/$defs/string_array" }
+      }
     },
     "tiers": {
       "type": "object",
@@ -89,14 +107,14 @@
       "type": "array",
       "minItems": 1,
       "items": {
-        "$ref": "#/$defs/host_adapter_declaration"
+        "$ref": "#/$defs/adapter_declaration"
       }
     },
     "model_adapters": {
       "type": "array",
       "minItems": 1,
       "items": {
-        "$ref": "#/$defs/model_adapter_declaration"
+        "$ref": "#/$defs/adapter_declaration"
       }
     },
     "notes": {
@@ -104,9 +122,21 @@
       "items": {
         "type": "string"
       }
+    },
+    "retired_surfaces": {
+      "$ref": "#/$defs/string_array"
     }
   },
   "$defs": {
+    "string_array": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
     "model_tier": {
       "type": "object",
       "additionalProperties": false,
@@ -114,7 +144,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "enum": ["MT-A", "MT-B", "MT-C"]
+          "enum": ["frontier-governed", "repo-local-governed"]
         },
         "label": {
           "type": "string",
@@ -122,7 +152,7 @@
         },
         "default_autonomy": {
           "type": "string",
-          "enum": ["full", "bounded", "read_only", "stage_only"]
+          "enum": ["full", "bounded", "read_only"]
         },
         "description": {
           "type": "string",
@@ -137,7 +167,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "enum": ["WT-1", "WT-2", "WT-3", "WT-4"]
+          "enum": ["observe-and-read", "repo-consequential", "boundary-sensitive"]
         },
         "label": {
           "type": "string",
@@ -145,7 +175,7 @@
         },
         "default_route": {
           "type": "string",
-          "enum": ["allow", "stage_only", "escalate", "deny"]
+          "enum": ["allow", "escalate"]
         },
         "description": {
           "type": "string",
@@ -160,7 +190,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "enum": ["LT-REF", "LT-EXT", "LT-EXP"]
+          "enum": ["reference-owned", "extended-governed"]
         },
         "label": {
           "type": "string",
@@ -179,7 +209,7 @@
       "properties": {
         "id": {
           "type": "string",
-          "enum": ["LOC-EN", "LOC-MX", "LOC-EXP"]
+          "enum": ["english-primary", "spanish-secondary"]
         },
         "label": {
           "type": "string",
@@ -208,46 +238,36 @@
       "properties": {
         "model_tier": {
           "type": "string",
-          "enum": ["MT-A", "MT-B", "MT-C"]
+          "enum": ["frontier-governed", "repo-local-governed"]
         },
         "workload_tier": {
           "type": "string",
-          "enum": ["WT-1", "WT-2", "WT-3", "WT-4"]
+          "enum": ["observe-and-read", "repo-consequential", "boundary-sensitive"]
         },
         "language_resource_tier": {
           "type": "string",
-          "enum": ["LT-REF", "LT-EXT", "LT-EXP"]
+          "enum": ["reference-owned", "extended-governed"]
         },
         "locale_tier": {
           "type": "string",
-          "enum": ["LOC-EN", "LOC-MX", "LOC-EXP"]
+          "enum": ["english-primary", "spanish-secondary"]
         },
         "support_status": {
           "type": "string",
-          "enum": ["supported", "reduced", "experimental", "unsupported"]
+          "enum": ["supported"]
         },
         "default_route": {
           "type": "string",
-          "enum": ["allow", "stage_only", "escalate", "deny"]
+          "enum": ["allow"]
         },
         "requires_mission": {
           "type": "boolean"
         },
         "allowed_capability_packs": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
+          "$ref": "#/$defs/string_array"
         },
         "required_evidence": {
-          "type": "array",
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
+          "$ref": "#/$defs/string_array"
         }
       }
     },
@@ -273,15 +293,11 @@
           "minLength": 1
         },
         "required_evidence": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
+          "$ref": "#/$defs/string_array"
         }
       }
     },
-    "adapter_support_declaration": {
+    "adapter_declaration": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -295,7 +311,8 @@
         "allowed_model_tiers",
         "allowed_workload_tiers",
         "allowed_language_resource_tiers",
-        "allowed_locale_tiers"
+        "allowed_locale_tiers",
+        "required_evidence"
       ],
       "properties": {
         "adapter_id": {
@@ -308,96 +325,38 @@
         },
         "authority_mode": {
           "type": "string",
-          "enum": ["projection_only", "non_authoritative"]
+          "enum": ["non_authoritative", "projection_only"]
         },
         "replaceable": {
-          "const": true
+          "type": "boolean"
         },
         "support_status": {
           "type": "string",
-          "enum": ["supported", "reduced", "experimental", "unsupported"]
+          "enum": ["supported"]
         },
         "default_route": {
           "type": "string",
-          "enum": ["allow", "stage_only", "escalate", "deny"]
+          "enum": ["allow"]
         },
         "criteria_refs": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
+          "$ref": "#/$defs/string_array"
         },
         "allowed_model_tiers": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string",
-            "enum": ["MT-A", "MT-B", "MT-C"]
-          }
+          "$ref": "#/$defs/string_array"
         },
         "allowed_workload_tiers": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string",
-            "enum": ["WT-1", "WT-2", "WT-3", "WT-4"]
-          }
+          "$ref": "#/$defs/string_array"
         },
         "allowed_language_resource_tiers": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string",
-            "enum": ["LT-REF", "LT-EXT", "LT-EXP"]
-          }
+          "$ref": "#/$defs/string_array"
         },
         "allowed_locale_tiers": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "string",
-            "enum": ["LOC-EN", "LOC-MX", "LOC-EXP"]
-          }
+          "$ref": "#/$defs/string_array"
         },
         "required_evidence": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "minLength": 1
-          }
+          "$ref": "#/$defs/string_array"
         }
       }
-    },
-    "host_adapter_declaration": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/adapter_support_declaration"
-        },
-        {
-          "properties": {
-            "authority_mode": {
-              "type": "string",
-              "enum": ["projection_only", "non_authoritative"]
-            }
-          }
-        }
-      ]
-    },
-    "model_adapter_declaration": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/adapter_support_declaration"
-        },
-        {
-          "properties": {
-            "authority_mode": {
-              "const": "non_authoritative"
-            }
-          }
-        }
-      ]
     }
   }
 }

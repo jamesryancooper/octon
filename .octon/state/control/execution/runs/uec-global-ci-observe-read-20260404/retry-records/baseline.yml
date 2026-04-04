@@ -1,0 +1,12 @@
+schema_version: run-retry-record-v1
+retry_id: uec-global-ci-observe-read-20260404-baseline
+run_id: uec-global-ci-observe-read-20260404
+stage_attempt_id: initial
+retry_class: manual_review_required
+attempt_counter: 1
+attempt_limit: 1
+route_taken: allow
+result: not-needed
+triggering_artifact_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/stage-attempts/initial.yml
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-04-02T00:00:00Z

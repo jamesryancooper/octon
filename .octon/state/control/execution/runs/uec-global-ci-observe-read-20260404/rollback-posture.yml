@@ -1,0 +1,17 @@
+schema_version: run-rollback-posture-v1
+run_id: uec-global-ci-observe-read-20260404
+reversibility_class: reversible
+rollback_strategy: rollback
+rollback_ref: null
+rollback_handle: null
+compensation_handle: null
+recovery_window: null
+contamination_state: clean
+retry_record_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/retry-records/baseline.yml
+contamination_record_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/contamination/current.yml
+resume_allowed: true
+reset_action: No reset required; replay continuity remains preserved for the canonical run root.
+invalidated_artifacts: []
+hard_reset_required: false
+posture_source: run-contract-default
+updated_at: 2026-04-01T14:24:36.851912Z

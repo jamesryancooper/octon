@@ -1,0 +1,4 @@
+schema_version: authority-run-revocation-index-v1
+run_id: uec-global-repo-shell-observe-read-20260404
+source_ref: .octon/state/control/execution/revocations/grants.yml
+revocations: []

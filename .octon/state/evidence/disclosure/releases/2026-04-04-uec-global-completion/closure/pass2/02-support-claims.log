@@ -1,0 +1,16 @@
+== 02-support-claims ==
+== Global Support-Target Claim Validation ==
+[OK] live matrix contains only supported entries
+[OK] live matrix routes supported tuples through allow
+[OK] no host adapter remains liminal
+[OK] no model adapter remains liminal
+[OK] retired model placeholder is recorded
+[OK] rebound deny-only tier is recorded
+[OK] browser pack is admitted in runtime registry
+[OK] api pack is admitted in runtime registry
+[OK] authored HarnessCard wording matches closure manifest
+[OK] release HarnessCard wording matches authored disclosure
+[OK] authored HarnessCard has no bounded-envelope caveat
+[OK] release HarnessCard has no bounded-envelope caveat
+[OK] coverage ledger spans the retained support universe
+Validation summary: errors=0

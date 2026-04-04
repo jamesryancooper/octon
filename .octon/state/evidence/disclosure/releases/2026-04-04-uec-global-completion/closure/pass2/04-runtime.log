@@ -1,0 +1,17 @@
+== 04-runtime ==
+== Global Runtime Normalization Validation ==
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/instance/governance/closure/uec-packet-certification-runs.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/replay_store/Cargo.toml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/telemetry_sink/Cargo.toml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/runtime_bus/Cargo.toml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/constitution/contracts/runtime/compensation-record-v1.schema.json
+[OK] replay_store tests pass
+[OK] telemetry_sink tests pass
+[OK] runtime_bus tests pass
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/events.ndjson
+[OK] uec-global-repo-shell-observe-read-20260404 event ledger parses
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/events.ndjson
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 event ledger parses
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/events.ndjson
+[OK] uec-safe-stage-approval-exercise-20260402 event ledger parses
+Validation summary: errors=0

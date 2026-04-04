@@ -1,0 +1,7 @@
+schema_version: "capability-pack-admission-test-v1"
+pack_id: "browser"
+admission_status: "admitted"
+required_assertions:
+  - "least-privilege default route remains governed"
+  - "browser replay artifacts are required"
+  - "negative tests exist for excluded external effects"

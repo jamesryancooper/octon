@@ -3,3 +3,7 @@ domain: "faults"
 entries:
   - fault_plan_id: "runtime-proof-fault"
     path: ".octon/framework/lab/faults/plans/runtime-proof-fault.yml"
+  - fault_plan_id: "browser-replay-fault"
+    path: ".octon/framework/lab/faults/browser/browser-replay-fault.yml"
+  - fault_plan_id: "api-compensation-fault"
+    path: ".octon/framework/lab/faults/api/api-compensation-fault.yml"

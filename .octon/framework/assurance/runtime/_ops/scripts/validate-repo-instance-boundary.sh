@@ -98,6 +98,8 @@ check_overlay_domain_shape() {
       ! -path "$INSTANCE_DIR/governance/policies/*" \
       ! -path "$INSTANCE_DIR/governance/contracts" \
       ! -path "$INSTANCE_DIR/governance/contracts/*" \
+      ! -path "$INSTANCE_DIR/governance/exclusions" \
+      ! -path "$INSTANCE_DIR/governance/exclusions/*" \
       ! -path "$INSTANCE_DIR/governance/closure" \
       ! -path "$INSTANCE_DIR/governance/closure/*" \
       ! -path "$INSTANCE_DIR/governance/disclosure" \

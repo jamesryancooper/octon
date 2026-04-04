@@ -4,7 +4,7 @@ status: "active"
 activation_wave: 3
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
 activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization/plan.md"
 run_lifecycle:
@@ -51,6 +51,10 @@ run_lifecycle:
     schema_ref: ".octon/framework/constitution/contracts/runtime/contamination-record-v1.schema.json"
     control_root: ".octon/state/control/execution/runs"
     canonical_dir: "contamination"
+  compensation_records:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/compensation-record-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_dir: "compensation"
   retained_run_evidence:
     evidence_root: ".octon/state/evidence/runs"
     canonical_families:
@@ -66,6 +70,11 @@ run_lifecycle:
       - "evidence-classification.yml"
       - "retained-run-evidence.yml"
 bridges:
+  runtime_services:
+    replay_store: ".octon/framework/engine/runtime/crates/replay_store"
+    telemetry_sink: ".octon/framework/engine/runtime/crates/telemetry_sink"
+    runtime_bus: ".octon/framework/engine/runtime/crates/runtime_bus"
+    rule: "Replay, telemetry, and runtime-event services are first-class runtime inputs and not merely post hoc evidence conventions."
   state_reconstruction:
     ref: ".octon/framework/constitution/contracts/runtime/state-reconstruction-v1.md"
     rule: "Mutable run state is derived from the append-only event ledger plus bounded side artifacts."

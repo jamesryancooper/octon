@@ -1,0 +1,12 @@
+schema_version: run-contamination-record-v1
+contamination_id: uec-global-frontier-browser-api-studio-20260404-current
+run_id: uec-global-frontier-browser-api-studio-20260404
+subject_ref: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/checkpoints/execution-complete.yml
+contamination_state: clean
+contamination_class: none
+reset_action: No reset required; canonical run evidence remained coherent.
+invalidated_artifacts: []
+replay_continuity: preserved
+approved_by: null
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-04-02T00:00:00Z

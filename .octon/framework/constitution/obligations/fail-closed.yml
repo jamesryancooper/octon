@@ -69,3 +69,11 @@ rules:
     route: "DENY"
     adoption_status: "active"
     activation_wave: 5
+  - id: "FCR-015"
+    condition: "A prohibited action class is routed through the live support matrix instead of governance exclusions."
+    route: "DENY"
+    adoption_status: "active"
+  - id: "FCR-016"
+    condition: "A final disclosure or closure claim depends on a bounded-envelope caveat, experimental surface, stage_only surface, unsupported live tier, or unadmitted pack."
+    route: "DENY"
+    adoption_status: "active"

@@ -4190,6 +4190,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "octon_replay_store"
+version = "1.0.0"
+dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "octon_runtime_bus"
+version = "1.0.0"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "octon_studio"
 version = "1.0.0"
 dependencies = [
@@ -4200,6 +4214,13 @@ dependencies = [
  "slint",
  "slint-build",
  "walkdir",
+]
+
+[[package]]
+name = "octon_telemetry_sink"
+version = "1.0.0"
+dependencies = [
+ "serde",
 ]
 
 [[package]]

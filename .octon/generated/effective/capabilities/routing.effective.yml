@@ -13,7 +13,7 @@ invalidation_conditions:
   - extensions-lock-sha-changed
 source:
   root_manifest_path: .octon/octon.yml
-  root_manifest_sha256: fb904ee7e475153f316d2d9d2e3895d393c6f30a959fd63b7362fd538e676c38
+  root_manifest_sha256: "4922b3f7178d1a73a71c846ed844df9898d1bef35cbfaf03ac8e079a2c1ba039"
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: 2b63b6238042bcd6367e63a6df82ad39561bffd463c37d82065ef8e1bc3bfd6f
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 9295f13e56e3db5da70696efc5248294445e6b340464d0cbc02945d203c66809
+  extensions_catalog_sha256: "61e7afd5e80c9be16938c8b00669a542a48d455440017a2c798a01c747ac1845"
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 4665f491fe4c7a0e7f0f13ee3767df74527a077535b23e22627c0c4cfd5f730c
+  extensions_generation_lock_sha256: "2944069305fbf2604469c4ff773cfed4592b15cee93017b076aaa943d13ecedb"
   extensions_generation_id: extensions-d81e117f4c8a
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1

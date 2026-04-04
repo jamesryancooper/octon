@@ -1,33 +1,25 @@
 schema_version: "uec-packet-certification-runs-v1"
 owner: "Octon governance"
-supported_envelope:
-  model_tier: "MT-B"
-  workload_tier: "WT-2"
-  language_resource_tier: "LT-REF"
-  locale_tier: "LOC-EN"
-  host_adapter: "repo-shell"
-  model_adapter: "repo-local-governed"
+support_universe:
+  support_target_ref: ".octon/instance/governance/support-targets.yml"
+  governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
 run_roles:
   supported_run_only:
-    run_id: "uec-validate-proposal-20260401-agent-augmented-3"
-  mission_backed_stage_only:
-    run_id: "run-wave4-benchmark-evaluator-20260327"
+    run_id: "uec-global-repo-shell-observe-read-20260404"
   authority_exercise:
     run_id: "uec-safe-stage-lease-revocation-exercise-20260402"
-  recovery_replay:
-    run_id: "uec-evaluate-harness-20260401-agent-augmented-1"
   external_evidence:
-    run_id: "uec-validate-proposal-20260401-agent-augmented-3"
+    run_id: "uec-global-frontier-browser-api-studio-20260404"
   intervention_control:
     run_id: "uec-safe-stage-approval-exercise-20260402"
   disclosure_derivation:
-    run_id: "uec-validate-proposal-20260401-agent-augmented-3"
+    run_id: "uec-global-frontier-browser-api-studio-20260404"
+  github_projection:
+    run_id: "uec-global-github-repo-consequential-20260404"
+  ci_projection:
+    run_id: "uec-global-ci-observe-read-20260404"
 static_evidence:
-  lab_bundle:
-    scenario_proof: ".octon/state/evidence/lab/scenarios/scn-held-out-supported-20260402/scenario-proof.yml"
-    replay_bundle: ".octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml"
-    shadow_run: ".octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml"
-    fault_report: ".octon/state/evidence/lab/faults/flt-runtime-proof-supported-20260329/fault-report.yml"
-    adversarial_report: ".octon/state/evidence/lab/adversarial/adv-supported-envelope-20260402/adversarial-report.yml"
-    cross_system_validation: ".octon/state/evidence/lab/evaluator-reviews/evr-wave4-benchmark-disclosure-20260327.yml"
-  hidden_repair_detection: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/hidden-repair-detection.yml"
+  support_universe_coverage: ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml"
+  replay_bundle: ".octon/framework/lab/replay/workload-packs/global-support-universe.yml"
+  browser_scenario: ".octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml"
+  api_scenario: ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"

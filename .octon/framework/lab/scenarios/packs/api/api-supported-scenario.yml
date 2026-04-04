@@ -1,0 +1,4 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "api-supported-scenario"
+surface: "api"
+summary: "Exercises admitted API calls with explicit egress, replay, and disclosure coverage."

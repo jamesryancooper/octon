@@ -2,12 +2,38 @@ schema_version: "octon-capability-pack-v1"
 pack_id: "api"
 surface: "api"
 display_name: "Outbound API Pack"
-description: "Outbound API and connector surfaces that require governed admission and egress evidence."
+description: "Governed outbound API and connector surfaces with explicit egress, replay, and disclosure obligations."
 runtime_surface_refs:
   - ".octon/instance/governance/policies/network-egress.yml"
+  - ".octon/framework/assurance/functional/api/**"
 required_evidence:
   - "authority-decision-artifact"
   - "run-evidence-root"
+  - "runtime-event-ledger"
+  - "run-card-v2"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
+least_privilege_defaults:
+  default_route: "allow"
+  required_grant_scope: "api-governed"
+policy_routes:
+  - ".octon/instance/governance/policies/network-egress.yml"
+  - ".octon/instance/governance/exclusions/action-classes.yml"
+grant_semantics:
+  requires_authority_artifacts: true
+  requires_compensation: true
+  requires_disclosure: true
+replay_requirements:
+  - "request/response trace pointers"
+  - "external immutable index when required"
+audit_requirements:
+  - "negative tests"
+  - "boundary experiments"
+negative_test_refs:
+  - ".octon/framework/capabilities/packs/api/tests/api-pack-admission.yml"
+lab_scenario_refs:
+  - ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"
+disclosure_requirements:
+  - "RunCard capability-pack set"
+  - "HarnessCard support-universe coverage"
 known_limitations:
-  - "Outbound API execution is unadmitted in the current repo-local support envelope."
+  - "Outbound API actions remain fail-closed when the requested egress target or authority route is excluded."

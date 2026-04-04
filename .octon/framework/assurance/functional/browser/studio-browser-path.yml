@@ -1,0 +1,4 @@
+suite_id: "studio-browser-path"
+plane: "functional"
+target_surface: "studio-control-plane"
+summary: "Studio host path preserves projection-only authority while exercising the admitted browser pack."

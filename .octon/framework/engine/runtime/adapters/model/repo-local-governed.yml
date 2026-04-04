@@ -1,30 +1,30 @@
 schema_version: "octon-model-adapter-v1"
 adapter_id: "repo-local-governed"
 display_name: "Repo-Local Governed Model"
-description: "Default bounded model adapter for governed repo-local execution."
+description: "Default repo-local model adapter for the globally complete governed support universe."
 replaceable: true
 authority_mode: "non_authoritative"
 runtime_surface:
   interface_ref: ".octon/framework/engine/runtime/spec/policy-interface-v1.md"
   integration_class: "native-planning"
 tier_hints:
-  - "MT-A"
-  - "MT-B"
+  - "frontier-governed"
+  - "repo-local-governed"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 support_tier_declarations:
   model_tiers:
-    - "MT-A"
-    - "MT-B"
+    - "frontier-governed"
+    - "repo-local-governed"
   workload_tiers:
-    - "WT-1"
-    - "WT-2"
-    - "WT-3"
+    - "observe-and-read"
+    - "repo-consequential"
+    - "boundary-sensitive"
   language_resource_tiers:
-    - "LT-REF"
-    - "LT-EXT"
+    - "reference-owned"
+    - "extended-governed"
   locale_tiers:
-    - "LOC-EN"
-    - "LOC-MX"
+    - "english-primary"
+    - "spanish-secondary"
 conformance_criteria_refs:
   - "MODEL-001"
   - "MODEL-002"
@@ -33,14 +33,19 @@ conformance_criteria_refs:
 conformance_suite_refs:
   - ".octon/framework/assurance/maintainability/suites/runtime-ssot-alignment.yml"
   - ".octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml"
+  - ".octon/framework/assurance/functional/api/repo-local-api-pack.yml"
 contamination_reset_policy:
   clean_checkpoint_required: true
   hard_reset_on_signature: true
   contamination_signal_ref: ".octon/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json"
   evidence_log_ref: ".octon/state/evidence/runs/<run-id>/interventions/log.yml"
+memory_discipline_policy:
+  source_of_truth: "run-evidence-root"
+  durable_reset_required: true
+instruction_layer_manifest_ref: ".octon/state/evidence/runs/<run-id>/instruction-layer-manifest.json"
 known_limitations:
-  - "Repo-local governed models remain bounded to declared support tiers and repo-owned context."
-  - "Provider- or browser-specific behavior must stay behind separate governed adapters or packs."
+  - "Repo-local governed models remain bounded to declared support targets, admitted packs, and governance exclusions."
+  - "Provider- or browser-specific behavior stays behind separate governed adapters or packs."
 non_authoritative_boundaries:
   - "Model-family behavior may shape planning and execution quality but may not widen authority or support tiers."
   - "Memory discipline must remain grounded in canonical run evidence and approved cognition surfaces."

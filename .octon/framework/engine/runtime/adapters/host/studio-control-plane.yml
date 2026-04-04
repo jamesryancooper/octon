@@ -15,24 +15,27 @@ projection_sources:
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 support_tier_declarations:
   model_tiers:
-    - "MT-A"
-    - "MT-B"
+    - "frontier-governed"
+    - "repo-local-governed"
   workload_tiers:
-    - "WT-1"
-    - "WT-2"
-    - "WT-3"
+    - "observe-and-read"
+    - "repo-consequential"
+    - "boundary-sensitive"
   language_resource_tiers:
-    - "LT-REF"
-    - "LT-EXT"
+    - "reference-owned"
+    - "extended-governed"
   locale_tiers:
-    - "LOC-EN"
-    - "LOC-MX"
+    - "english-primary"
+    - "spanish-secondary"
 conformance_criteria_refs:
   - "HOST-001"
   - "HOST-002"
   - "HOST-004"
+conformance_suite_refs:
+  - ".octon/framework/assurance/functional/browser/studio-browser-path.yml"
+failure_taxonomy_ref: ".octon/framework/observability/governance/failure-taxonomy.yml"
 known_limitations:
-  - "Studio is governed for repo-local and reduced boundary-sensitive work only; it does not widen support beyond the matrix."
+  - "Studio is governed only through the declared support universe and does not widen support beyond the matrix."
   - "Desktop affordances remain operator UX and never substitute for runtime receipts."
 non_authoritative_boundaries:
   - "Studio may render or launch governed flows, but it may not approve, revoke, or widen authority."

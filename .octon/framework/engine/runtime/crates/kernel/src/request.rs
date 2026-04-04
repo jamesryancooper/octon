@@ -5,10 +5,10 @@ use octon_authority_engine::{
 use octon_core::config::RuntimeConfig;
 use std::collections::BTreeMap;
 
-pub const DEFAULT_MODEL_TIER: &str = "MT-B";
-pub const DEFAULT_WORKLOAD_TIER: &str = "repo-local-consequential";
-pub const DEFAULT_LANGUAGE_RESOURCE_TIER: &str = "LT-REF";
-pub const DEFAULT_LOCALE_TIER: &str = "LOC-EN";
+pub const DEFAULT_MODEL_TIER: &str = "repo-local-governed";
+pub const DEFAULT_WORKLOAD_TIER: &str = "repo-consequential";
+pub const DEFAULT_LANGUAGE_RESOURCE_TIER: &str = "reference-owned";
+pub const DEFAULT_LOCALE_TIER: &str = "english-primary";
 pub const DEFAULT_HOST_ADAPTER: &str = "repo-shell";
 pub const DEFAULT_MODEL_ADAPTER: &str = "repo-local-governed";
 

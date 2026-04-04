@@ -1,0 +1,4 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "browser-supported-scenario"
+surface: "browser"
+summary: "Exercises admitted browser steps with replay, screenshot, and disclosure coverage."

@@ -15,6 +15,6 @@ required_inputs:
   - ".octon/framework/constitution/contracts/adapters/**"
 evidence_requirements:
   - "Approved support-target-review receipt under .octon/state/evidence/validation/publication/build-to-delete/<date>/support-target-review.yml"
-  - "Validation evidence that unsupported tuples and unadmitted packs still fail closed."
+  - "Validation evidence that governance exclusions still fail closed and admitted packs remain bounded by the declared support universe."
 blocking_rule: "Reject when support posture, pack admission, or disclosure claims exceed the declared support-target matrix."
 retirement_path: "Retire only if support-target review is subsumed by a stricter successor governance review with the same fail-closed guarantees."

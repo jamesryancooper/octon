@@ -78,7 +78,9 @@ main() {
   require_yq '.schema_version == "octon-constitutional-runtime-family-v1"' "$RUNTIME_FAMILY_FILE" "runtime family schema version is correct"
   require_yq '.release_state == "pre-1.0"' "$RUNTIME_FAMILY_FILE" "runtime family records release_state"
   require_yq '.change_profile == "atomic"' "$RUNTIME_FAMILY_FILE" "runtime family records atomic profile"
-  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"' "$RUNTIME_FAMILY_FILE" "runtime family points to the live atomic selector"
+  local live_selector
+  live_selector="$(yq -r '.live_model.profile_selection_receipt_ref' "$OCTON_DIR/framework/constitution/charter.yml")"
+  require_yq ".profile_selection_receipt_ref == \"$live_selector\"" "$RUNTIME_FAMILY_FILE" "runtime family points to the live atomic selector"
   require_yq '.activation_lineage_refs[] | select(. == ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization/plan.md")' "$RUNTIME_FAMILY_FILE" "runtime family preserves the Phase 3 receipt as lineage"
   require_yq '.run_lifecycle.run_manifest.canonical_file == "run-manifest.yml"' "$RUNTIME_FAMILY_FILE" "runtime family defines run-manifest placement"
   require_yq '.run_lifecycle.runtime_state.canonical_file == "runtime-state.yml"' "$RUNTIME_FAMILY_FILE" "runtime family defines runtime-state placement"

@@ -1,0 +1,48 @@
+schema_version: "octon-model-adapter-v1"
+adapter_id: "frontier-governed"
+display_name: "Frontier Governed Model"
+description: "Supported frontier model adapter with governed routing, contamination reset, memory discipline, and disclosure coverage."
+replaceable: true
+authority_mode: "non_authoritative"
+runtime_surface:
+  interface_ref: ".octon/framework/engine/runtime/spec/policy-interface-v1.md"
+  integration_class: "provider-bridge"
+tier_hints:
+  - "frontier-governed"
+  - "repo-local-governed"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+support_tier_declarations:
+  model_tiers:
+    - "frontier-governed"
+    - "repo-local-governed"
+  workload_tiers:
+    - "observe-and-read"
+    - "repo-consequential"
+    - "boundary-sensitive"
+  language_resource_tiers:
+    - "reference-owned"
+    - "extended-governed"
+  locale_tiers:
+    - "english-primary"
+    - "spanish-secondary"
+conformance_criteria_refs:
+  - "MODEL-001"
+  - "MODEL-002"
+  - "MODEL-003"
+  - "MODEL-004"
+conformance_suite_refs:
+  - ".octon/framework/assurance/functional/browser/frontier-browser-pack.yml"
+  - ".octon/framework/assurance/functional/api/frontier-api-pack.yml"
+contamination_reset_policy:
+  clean_checkpoint_required: true
+  hard_reset_on_signature: true
+  contamination_signal_ref: ".octon/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json"
+  evidence_log_ref: ".octon/state/evidence/runs/<run-id>/interventions/log.yml"
+memory_discipline_policy:
+  source_of_truth: "run-evidence-root"
+  durable_reset_required: true
+instruction_layer_manifest_ref: ".octon/state/evidence/runs/<run-id>/instruction-layer-manifest.json"
+known_limitations:
+  - "Frontier behavior remains bounded by declared support targets, admitted packs, and governance exclusions."
+non_authoritative_boundaries:
+  - "Provider-specific behavior may shape execution quality but may not widen authority or support tiers."

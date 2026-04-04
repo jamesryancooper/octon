@@ -1,0 +1,32 @@
+== 03-adapters ==
+== Global Adapter And Pack Certification Validation ==
+== Global Adapter And Pack Hardening Validation ==
+[OK] found .octon/framework/constitution/contracts/registry.yml
+[OK] found .octon/instance/governance/support-targets.yml
+[OK] found .octon/instance/capabilities/runtime/packs/registry.yml
+[OK] found .octon/framework/engine/runtime/adapters/host/repo-shell.yml
+[OK] found .octon/framework/engine/runtime/adapters/host/studio-control-plane.yml
+[OK] found .octon/framework/engine/runtime/adapters/host/github-control-plane.yml
+[OK] found .octon/framework/engine/runtime/adapters/host/ci-control-plane.yml
+[OK] found .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+[OK] found .octon/framework/engine/runtime/adapters/model/frontier-governed.yml
+[OK] found .octon/framework/capabilities/packs/browser/tests/browser-pack-admission.yml
+[OK] found .octon/framework/capabilities/packs/api/tests/api-pack-admission.yml
+[OK] contract registry exposes replay_store
+[OK] contract registry exposes telemetry_sink
+[OK] contract registry exposes runtime_bus
+[OK] root manifest exposes governance exclusions
+[OK] policy config exposes governance exclusions
+[OK] policy config exposes runtime_bus
+[OK] all retained host adapters are supported
+[OK] all retained model adapters are supported
+[OK] browser pack is admitted
+[OK] api pack is admitted
+[OK] Studio supports the final locale universe
+[OK] frontier-governed supports boundary-sensitive work
+Validation summary: errors=0
+[OK] kernel admits declared api pack
+[OK] kernel admits declared browser pack
+[OK] kernel denies undeclared host adapter
+[OK] kernel denies invalid model adapter manifest
+Validation summary: errors=0

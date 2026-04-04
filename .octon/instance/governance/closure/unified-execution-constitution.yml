@@ -3,129 +3,73 @@ claim_id: "unified-execution-constitution"
 claim_kind: "release"
 claim_status: "complete"
 owner: "Octon governance"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-03-uec-clean-break-packet-implementation/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
 status_matrix_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
 packet_issue_status_ref: ".octon/instance/governance/closure/unified-execution-constitution-packet-issues.yml"
 closeout_contract_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
-checklist_refs:
-  claim_readiness: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/CLAIM_READINESS_CHECKLIST.md"
-  workstream_execution: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/WORKSTREAM_EXECUTION_CHECKLIST.md"
-  release_promotion: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/RELEASE_PROMOTION_CHECKLIST.md"
-  brownfield_retrofit: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/BROWNFIELD_RETROFIT_CHECKLIST.md"
-blocking_reason: null
 support_target_ref: ".octon/instance/governance/support-targets.yml"
-supported_claim:
-  claim_statement: >-
-    Octon is a fully realized unified execution constitution within its
-    declared support-target envelope, as proved by the retained closure
-    evidence bundle.
-  model_tier: "MT-B"
-  workload_tier: "WT-2"
-  language_resource_tier: "LT-REF"
-  locale_tier: "LOC-EN"
-  host_adapter: "repo-shell"
-  model_adapter: "repo-local-governed"
-  support_status: "supported"
-excluded_or_reduced_surfaces:
-  - surface_id: "MT-A/WT-1"
-    status: "experimental"
-    route: "stage_only"
-    rationale: "The read-heavy MT-A / WT-1 tuple remains outside the presently proved live consequential envelope."
-  - surface_id: "studio-control-plane"
-    status: "experimental"
-    route: "stage_only"
-    rationale: "Studio remains declared, but this release does not retain disclosure proof for a live supported envelope through it."
-  - surface_id: "github-control-plane"
-    status: "experimental"
-    route: "stage_only"
-    rationale: "GitHub remains a projection surface and is not part of the currently proved live release envelope."
-  - surface_id: "ci-control-plane"
-    status: "experimental"
-    route: "stage_only"
-    rationale: "CI remains a release-binding projection surface and is not part of the currently proved live release envelope."
-  - surface_id: "WT-3"
-    status: "reduced"
-    route: "stage_only"
-    rationale: "Release- and boundary-sensitive work remains outside the fully realized claim."
-  - surface_id: "LT-EXT"
-    status: "experimental"
-    route: "stage_only"
-    rationale: "Extended-context work remains declared but unproved as live support."
-  - surface_id: "LOC-MX"
-    status: "experimental"
-    route: "stage_only"
-    rationale: "Secondary-locale support remains declared but unproved as live support."
-  - surface_id: "MT-C"
-    status: "experimental"
-    route: "stage_only"
-    rationale: "Experimental model-adapter work is not part of the certified envelope."
-  - surface_id: "WT-4"
-    status: "unsupported"
-    route: "deny"
-    rationale: "External or irreversible work remains denied by default."
+governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
+claim_statement: >-
+  Octon is a globally complete Unified Execution Constitution across the
+  retained finite support universe declared in the authoritative support-target
+  declaration and governance exclusions doctrine.
+final_support_universe:
+  model_classes:
+    - "frontier-governed"
+    - "repo-local-governed"
+  workload_classes:
+    - "observe-and-read"
+    - "repo-consequential"
+    - "boundary-sensitive"
+  context_classes:
+    - "reference-owned"
+    - "extended-governed"
+  locale_classes:
+    - "english-primary"
+    - "spanish-secondary"
+  host_adapters:
+    - "repo-shell"
+    - "studio-control-plane"
+    - "github-control-plane"
+    - "ci-control-plane"
+  model_adapters:
+    - "repo-local-governed"
+    - "frontier-governed"
+  capability_packs:
+    - "repo"
+    - "git"
+    - "shell"
+    - "telemetry"
+    - "browser"
+    - "api"
+resolution_ledger_ref: ".octon/instance/governance/closure/global-support-surface-ledger.yml"
+retired_or_rebound_surfaces:
+  - "MT-C"
+  - "LT-EXP"
+  - "LOC-EXP"
+  - "WT-4"
 required_proof_artifacts:
-  - artifact_id: "authority-decision-artifact"
-  - artifact_id: "authority-grant-bundle"
-  - artifact_id: "run-contract"
-  - artifact_id: "run-manifest"
-  - artifact_id: "runtime-state"
-  - artifact_id: "rollback-posture"
-  - artifact_id: "stage-attempt-root"
-  - artifact_id: "checkpoint-root"
-  - artifact_id: "evidence-classification"
-  - artifact_id: "replay-pointers"
-  - artifact_id: "external-replay-index"
-  - artifact_id: "intervention-log"
-  - artifact_id: "measurement-summary"
-  - artifact_id: "run-card"
-  - artifact_id: "harness-card-proof-bundle"
-  - artifact_id: "anti-overfitting-policy"
-  - artifact_id: "held-out-suite"
-  - artifact_id: "adversarial-lab-report"
-  - artifact_id: "agency-surface-classification-ledger"
-  - artifact_id: "status-matrix"
-  - artifact_id: "brownfield-retrofit-playbook"
-allowed_historical_shims:
-  - path: ".octon/AGENTS.md"
-    status: "adapter-only"
-    retirement_condition: "Delete once supported tooling enters directly through /.octon/instance/ingress/AGENTS.md."
-  - path: "AGENTS.md"
-    status: "adapter-only"
-    retirement_condition: "Delete once repo-root ingress adapters are no longer required by supported tools."
-  - path: "CLAUDE.md"
-    status: "adapter-only"
-    retirement_condition: "Delete once repo-root Claude-specific ingress adapters are no longer required by supported tools."
-publication_refs:
-  supported_positive: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/supported-envelope-positive.md"
-  reduced_stage_only: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/reduced-stage-only.md"
-  unsupported_deny: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/unsupported-deny.md"
-  missing_evidence_fail_closed: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/missing-evidence-fail-closed.md"
-  disclosure_parity: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/disclosure-parity.md"
-  shim_independence: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/shim-independence.md"
-  build_to_delete_receipt: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/build-to-delete-receipt.md"
-  post_cutover_atomic_alignment_remediation: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/post-cutover-atomic-alignment-remediation.md"
-  hidden_repair_detection: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/hidden-repair-detection.yml"
-  summary: ".octon/state/evidence/validation/publication/unified-execution-constitution-closure/summary.md"
-certification_refs:
-  pass_1: ".octon/state/evidence/disclosure/releases/2026-04-03-uec-clean-break-closure/closure/pass1/summary.yml"
-  pass_2: ".octon/state/evidence/disclosure/releases/2026-04-03-uec-clean-break-closure/closure/pass2/summary.yml"
-  closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-03-uec-clean-break-closure/closure/closure-certificate.yml"
-claim_wording:
-  provisional: >-
-    Architecturally aligned but not yet closure-certified. Supported only for
-    the declared supported tuple. Experimental outside the declared envelope.
-  complete: >-
-    Octon is a fully realized unified execution constitution within its
-    declared support-target envelope, as proved by the retained closure
-    evidence bundle.
+  - "authority-decision-artifact"
+  - "authority-grant-bundle"
+  - "run-contract"
+  - "run-manifest"
+  - "runtime-state"
+  - "runtime-event-ledger"
+  - "replay-store"
+  - "telemetry-sink"
+  - "runtime-bus"
+  - "measurement-summary"
+  - "run-card-v2"
+  - "harness-card-v2"
+  - "support-universe-coverage"
 permitted_release_wording: >-
-  Octon is a fully realized unified execution constitution within its
-  declared support-target envelope, as proved by the retained closure
-  evidence bundle.
-known_limits:
-  - "Current successful disclosure is evidenced by `uec-validate-proposal-20260401-agent-augmented-3`, `uec-evaluate-harness-20260401-agent-augmented-1`, and `uec-audit-workflow-system-20260401-agent-augmented-1` for the bounded supported envelope."
-  - "Historical lab-local HarnessCard files remain retained as non-live mirrors under state/evidence/lab/harness-cards."
-  - "WT-3 remains a retained reduced stage_only envelope rather than part of the proved supported live claim."
-  - "MT-A / WT-1, LT-EXT, LOC-MX, studio-control-plane, github-control-plane, and ci-control-plane remain experimental stage_only until retained disclosure proof lands."
-  - "MT-C remains experimental and WT-4 remains unsupported and denied by default."
-generated_at: "2026-04-03T23:59:00Z"
+  Octon is a globally complete Unified Execution Constitution across its
+  retained finite support universe, with every retained critical surface
+  governed, runtime-backed, validator-covered, proof-backed, disclosure-backed,
+  and non-liminal.
+known_limits: []
+certification_refs:
+  pass_1: ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass1/summary.yml"
+  pass_2: ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass2/summary.yml"
+  closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/closure-certificate.yml"
+generated_at: "2026-04-04T12:00:00Z"

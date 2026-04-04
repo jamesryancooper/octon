@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/disclosure/run-card-v2.schema.json",
+  "title": "Octon RunCard v2",
+  "description": "Runtime-backed disclosure artifact for one consequential run in the globally complete support universe.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "status",
+    "summary",
+    "workflow_mode",
+    "support_tier",
+    "support_target_tuple",
+    "support_target_ref",
+    "requested_capability_packs",
+    "adapter_support",
+    "authority_refs",
+    "runtime_service_refs",
+    "proof_plane_refs",
+    "measurement_ref",
+    "intervention_ref",
+    "replay_ref",
+    "recovery_ref",
+    "known_limits",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "run-card-v2" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "minLength": 1 },
+    "summary": { "type": "string", "minLength": 1 },
+    "workflow_mode": { "type": "string", "minLength": 1 },
+    "support_tier": { "type": "string", "minLength": 1 },
+    "support_target_tuple": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_tier",
+        "workload_tier",
+        "language_resource_tier",
+        "locale_tier",
+        "support_status"
+      ],
+      "properties": {
+        "model_tier": { "type": "string", "minLength": 1 },
+        "workload_tier": { "type": "string", "minLength": 1 },
+        "language_resource_tier": { "type": "string", "minLength": 1 },
+        "locale_tier": { "type": "string", "minLength": 1 },
+        "support_status": { "type": "string", "enum": ["supported"] }
+      }
+    },
+    "support_target_ref": { "type": "string", "minLength": 1 },
+    "requested_capability_packs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "adapter_support": { "type": "object" },
+    "authority_refs": { "type": "object" },
+    "runtime_service_refs": { "type": "object" },
+    "proof_plane_refs": { "type": "object" },
+    "measurement_ref": { "type": "string", "minLength": 1 },
+    "intervention_ref": { "type": "string", "minLength": 1 },
+    "replay_ref": { "type": "string", "minLength": 1 },
+    "recovery_ref": { "type": "string", "minLength": 1 },
+    "known_limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "generated_at": { "type": "string", "minLength": 1 }
+  }
+}

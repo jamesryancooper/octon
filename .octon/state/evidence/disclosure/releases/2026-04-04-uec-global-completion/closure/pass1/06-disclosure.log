@@ -1,0 +1,20 @@
+== 06-disclosure ==
+== Assurance And Disclosure Expansion Validation ==
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/constitution/contracts/disclosure/run-card-v2.schema.json
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/constitution/contracts/disclosure/harness-card-v2.schema.json
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/assurance/functional/browser/frontier-browser-pack.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/assurance/functional/api/frontier-api-pack.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/lab/replay/workload-packs/global-support-universe.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/lab/shadow/browser-api-shadow.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/lab/faults/browser/browser-replay-fault.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/lab/faults/api/api-compensation-fault.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/assurance/evaluators/conformance/global-support-universe.yml
+[OK] disclosure family points to RunCard v2
+[OK] disclosure family points to HarnessCard v2
+[OK] HarnessCard points to support-universe coverage ledger
+[OK] coverage ledger includes browser
+[OK] coverage ledger includes api
+[OK] coverage ledger includes GitHub adapter
+Validation summary: errors=0

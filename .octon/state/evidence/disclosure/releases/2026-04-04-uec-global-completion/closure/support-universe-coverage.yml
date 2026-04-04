@@ -1,0 +1,144 @@
+schema_version: "support-universe-coverage-v1"
+release_id: "2026-04-04-uec-global-completion"
+generated_at: "2026-04-04T12:00:00Z"
+surfaces:
+  - surface_id: "frontier-governed"
+    category: "model"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/assurance/functional/browser/frontier-browser-pack.yml"
+      - ".octon/framework/assurance/functional/api/frontier-api-pack.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "repo-local-governed"
+    category: "model"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/assurance/functional/api/repo-local-api-pack.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "observe-and-read"
+    category: "workload"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/lab/replay/workload-packs/global-support-universe.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "repo-consequential"
+    category: "workload"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/assurance/functional/api/github-control-plane.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "boundary-sensitive"
+    category: "workload"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/lab/faults/api/api-compensation-fault.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "reference-owned"
+    category: "context"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/lab/replay/workload-packs/global-support-universe.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "extended-governed"
+    category: "context"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "english-primary"
+    category: "locale"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/lab/replay/workload-packs/global-support-universe.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "spanish-secondary"
+    category: "locale"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "repo-shell"
+    category: "host-adapter"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/assurance/functional/suites/run-lifecycle-integrity.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "studio-control-plane"
+    category: "host-adapter"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/assurance/functional/browser/studio-browser-path.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "github-control-plane"
+    category: "host-adapter"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/assurance/functional/api/github-control-plane.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "ci-control-plane"
+    category: "host-adapter"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/assurance/functional/api/ci-control-plane.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "browser"
+    category: "capability-pack"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/capabilities/packs/browser/tests/browser-pack-admission.yml"
+      - ".octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "api"
+    category: "capability-pack"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/framework/capabilities/packs/api/tests/api-pack-admission.yml"
+      - ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+retired_or_rebound:
+  - surface_id: "MT-C"
+    resolution: "retired"
+  - surface_id: "LT-EXP"
+    resolution: "retired"
+  - surface_id: "LOC-EXP"
+    resolution: "retired"
+  - surface_id: "WT-4"
+    resolution: "rebound-to-governance-exclusion"

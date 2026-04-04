@@ -1,0 +1,8 @@
+== 07-disclosure-roots ==
+== Disclosure Live-Root Validation ==
+[OK] run disclosure root remains canonical
+[OK] release disclosure root remains canonical
+[OK] authored HarnessCard cites support-target declaration
+[OK] authored HarnessCard cites governance exclusions
+[OK] release HarnessCard matches authored disclosure
+Validation summary: errors=0

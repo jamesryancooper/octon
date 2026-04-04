@@ -1,6 +1,6 @@
 ---
 title: Octon Harness Charter
-description: Supreme repo-local constitutional charter for the Octon super-root.
+description: Supreme repo-local constitutional charter for the globally complete Octon super-root.
 status: Active
 ---
 
@@ -24,12 +24,13 @@ replaceable adapters across repositories.
 Enable reliable agent execution that is deterministic enough to trust,
 observable enough to debug, and flexible enough to evolve.
 
-The currently proved live consequential support envelope in this repository is
-the retained `MT-B / WT-2 / LT-REF / LOC-EN` tuple using the `repo-shell` host
-adapter and the `repo-local-governed` model adapter. Broader portability,
-adapter, locale, or context coverage requires explicit support-target
-declaration plus retained disclosure proof before it may be claimed as live
-support.
+The live support universe in this repository is the globally complete finite
+universe declared in `/.octon/instance/governance/support-targets.yml`.
+Retained surfaces must be final, governed, runtime-real, validator-covered,
+proof-backed, disclosure-backed, and non-liminal. Any surface that cannot meet
+those conditions must be removed from the live claim instead of surviving as
+experimental, stage-only, unadmitted, reduced, or unsupported architectural
+debt.
 
 The harness exists to make consequential autonomous work explicitly scoped,
 authorized, fail-closed, observable, and reviewable.
@@ -50,6 +51,8 @@ authorized, fail-closed, observable, and reviewable.
 - keep `generated/**` derived-only and `inputs/**` non-authoritative
 - fail closed on missing ownership, missing required evidence, unsupported
   support claims, or unresolved policy conflicts
+- require the retained support universe to stay explicit, finite, and globally
+  complete with no liminal critical surfaces
 - require explicit authority routing before material side effects
 - prohibit hidden human intervention and silent authority widening
 - require long-horizon or recurring autonomy to remain mission-backed
@@ -63,6 +66,8 @@ authorized, fail-closed, observable, and reviewable.
   authority and retained evidence
 - keep run-contract, disclosure, and support-target obligations live under the
   canonical constitutional families and control roots
+- keep deny-only and prohibited cases in explicit governance exclusions, never
+  as faux support tiers inside the live support matrix
 - treat labels, comments, checks, and similar host affordances as
   non-authoritative projections that may mirror status but never mint
   authority
@@ -70,7 +75,10 @@ authorized, fail-closed, observable, and reviewable.
 - treat host adapters and model adapters as replaceable, non-authoritative
   boundaries
 - require adapter-backed support claims to remain bounded by explicit
-  support-target declarations and adapter-conformance criteria
+  support-target declarations, governance exclusions, and adapter-conformance
+  criteria
+- require final disclosure to remove bounded-envelope caveats once the support
+  universe is globally complete and evidence-backed
 
 ## Adoption Status
 
@@ -82,8 +90,9 @@ model:
 - mission authority remains the continuity and long-horizon autonomy surface
 - authority, assurance, disclosure, and adapter families are active
 - host and model adapters remain replaceable and non-authoritative
-- live support claims remain bounded by the published support-target
-  declaration and retained release or run disclosure evidence
+- the final support universe is declared, governed, evidenced, and disclosed as
+  one globally complete product architecture with no experimental critical
+  holdouts
 
 ## Canonical References
 
@@ -107,17 +116,21 @@ model:
   `/.octon/framework/constitution/contracts/disclosure/**`
 - constitutional adapter contracts:
   `/.octon/framework/constitution/contracts/adapters/**`
+- constitutional retention contracts:
+  `/.octon/framework/constitution/contracts/retention/**`
 - support-target schema:
   `/.octon/framework/constitution/support-targets.schema.json`
 - support-target declaration:
   `/.octon/instance/governance/support-targets.yml`
+- governance exclusions declaration:
+  `/.octon/instance/governance/exclusions/action-classes.yml`
 
 ## Amendment Policy
 
 - changes require human governance approval plus aligned doc and validator
   updates in the same branch
 - constitutional amendments must record rationale, rollback posture, and any
-  staged adoption notes that remain live
+  retirement, exclusion, or staged adoption notes that remain live
 - subordinate surfaces that project this charter must be updated in the same
   change set when the live model changes
 

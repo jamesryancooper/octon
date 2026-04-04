@@ -243,7 +243,7 @@ case_terminal_high_tier_run_persists_external_replay_pointer() {
     --workflow-id evaluate-harness \
     --executor-id executor-test-03 \
     --lease-seconds 300 \
-    --support-tier release-and-boundary-sensitive >/dev/null
+    --support-tier boundary-sensitive >/dev/null
 
   env "${envs[@]}" bash "$REPO_ROOT/$RUN_SCRIPT" complete \
     --run-id run-test-003 \

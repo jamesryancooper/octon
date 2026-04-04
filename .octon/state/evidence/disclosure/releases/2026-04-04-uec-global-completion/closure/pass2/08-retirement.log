@@ -1,0 +1,7 @@
+== 08-retirement ==
+== Global Retirement Closure Validation ==
+[OK] retirement registry is closed
+[OK] no registered or active retirement entry remains
+[OK] surface ledger records MT-C retirement
+[OK] surface ledger records WT-4 rebound
+Validation summary: errors=0

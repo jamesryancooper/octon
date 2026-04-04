@@ -3,3 +3,7 @@ domain: "scenarios"
 entries:
   - scenario_id: "runtime-proof-pack"
     path: ".octon/framework/lab/scenarios/packs/runtime-proof-pack.yml"
+  - scenario_id: "browser-supported-scenario"
+    path: ".octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml"
+  - scenario_id: "api-supported-scenario"
+    path: ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"

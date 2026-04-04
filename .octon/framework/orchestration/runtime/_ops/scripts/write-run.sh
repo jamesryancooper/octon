@@ -881,7 +881,7 @@ write_replay_pointer_file() {
   if [[ -f "$(receipt_dir "$run_id")/orchestration-lifecycle.yml" ]]; then
     receipt_ref="$(orchestration_receipt_relpath "$run_id")"
   fi
-  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
+  support_tier="$(yq -r '.support_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
   replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
   existing_manifests_json="$(yaml_json_or_default "$replay_file" '.replay_manifest_refs // []' '[]')"
   existing_receipts_json="$(yaml_json_or_default "$replay_file" '.receipt_refs // []' '[]')"
@@ -1044,7 +1044,7 @@ write_replay_manifest_file() {
   local run_id="$1"
   local recorded_at="$2"
   local support_tier replay_payload_class external_index_refs_json
-  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
+  support_tier="$(yq -r '.support_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
   replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
   if [[ "$replay_payload_class" == "external-immutable" ]]; then
     external_index_refs_json="$(jq -cn --arg ref "$(external_replay_index_relpath "$run_id")" '[$ref]')"
@@ -1080,7 +1080,7 @@ write_external_replay_index_file() {
   local run_id="$1"
   local recorded_at="$2"
   local support_tier replay_payload_class
-  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
+  support_tier="$(yq -r '.support_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
   replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
   if [[ "$replay_payload_class" != "external-immutable" ]]; then
     return 0
@@ -1130,7 +1130,7 @@ write_evidence_classification_file() {
   local run_id="$1"
   local updated_at="$2"
   local support_tier replay_payload_class external_index_ref
-  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
+  support_tier="$(yq -r '.support_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
   replay_payload_class="$(replay_payload_class_for_support_tier "$support_tier")"
   external_index_ref=""
   if [[ "$replay_payload_class" == "external-immutable" ]]; then
@@ -1270,18 +1270,18 @@ run_phase4_proof_suite() {
 write_evaluator_review_file() {
   local run_id="$1"
   local recorded_at="$2"
-  local support_tier="repo-local-consequential"
+  local support_tier="repo-consequential"
   local risk_class="low"
   local disposition="not_required"
   local summary="Deterministic functional, behavioral replay, recovery, and maintainability proof were sufficient for this run."
   local evaluator_id="evaluator-router://phase4-review-routing"
   local evidence_refs_json
   if [[ -f "$(run_contract_path "$run_id")" ]]; then
-    support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
+    support_tier="$(yq -r '.support_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
     risk_class="$(yq -r '.risk_class // "low"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'low')"
   fi
   case "$support_tier" in
-    release-and-boundary-sensitive|external-or-irreversible)
+    boundary-sensitive)
       disposition="approved"
       summary="Independent evaluator approval was required because this run used a widened support tier."
       ;;
@@ -1373,7 +1373,13 @@ write_run_card_file() {
   local summary="$3"
   local generated_at="$4"
   local decision_id="$5"
-  local support_tier="repo-local-consequential"
+  local support_tier="repo-consequential"
+  local workflow_mode="agent-augmented"
+  local model_tier="repo-local-governed"
+  local workload_tier="repo-consequential"
+  local language_resource_tier="reference-owned"
+  local locale_tier="english-primary"
+  local requested_capability_packs_json='["repo","telemetry"]'
   local host_adapter="${OCTON_SUPPORT_HOST_ADAPTER:-repo-shell}"
   local model_adapter="${OCTON_SUPPORT_MODEL_ADAPTER:-repo-local-governed}"
   local host_support_status="unsupported"
@@ -1382,7 +1388,14 @@ write_run_card_file() {
   local model_criteria_json='[]'
   local conformance_criteria_json='[]'
   if [[ -f "$(run_contract_path "$run_id")" ]]; then
-    support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
+    support_tier="$(yq -r '.support_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
+    workflow_mode="$(yq -r '.mission_mode // "agent-augmented"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'agent-augmented')"
+    model_tier="$(yq -r '.support_target.model_tier // "repo-local-governed"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-governed')"
+    workload_tier="$(yq -r '.support_target.workload_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
+    language_resource_tier="$(yq -r '.support_target.language_resource_tier // "reference-owned"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'reference-owned')"
+    locale_tier="$(yq -r '.support_target.locale_tier // "english-primary"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'english-primary')"
+    requested_capability_packs_json="$(yq -o=json '.requested_capability_packs // ["repo","telemetry"]' "$(run_contract_path "$run_id")" 2>/dev/null || printf '["repo","telemetry"]')"
+    [[ "$workflow_mode" == "none" ]] && workflow_mode="agent-augmented"
   fi
   if [[ -f "$OCTON_DIR/instance/governance/support-targets.yml" ]]; then
     host_support_status="$(adapter_status "host_adapters" "$host_adapter")"
@@ -1404,18 +1417,33 @@ write_run_card_file() {
     --arg decision_artifact "$(resolve_authority_decision_ref "$run_id" "$decision_id")" \
     --arg grant_bundle "$(resolve_authority_grant_bundle_ref "$run_id")" \
     --arg support_tier "$support_tier" \
+    --arg workflow_mode "$workflow_mode" \
+    --arg model_tier "$model_tier" \
+    --arg workload_tier "$workload_tier" \
+    --arg language_resource_tier "$language_resource_tier" \
+    --arg locale_tier "$locale_tier" \
     --arg host_adapter "$host_adapter" \
     --arg model_adapter "$model_adapter" \
     --arg host_support_status "$host_support_status" \
     --arg model_support_status "$model_support_status" \
+    --argjson requested_capability_packs "$requested_capability_packs_json" \
     --argjson conformance_criteria "$conformance_criteria_json" '
       {
-        schema_version: "run-card-v1",
+        schema_version: "run-card-v2",
         run_id: $run_id,
         status: $status,
         summary: $summary,
+        workflow_mode: $workflow_mode,
         support_tier: $support_tier,
+        support_target_tuple: {
+          model_tier: $model_tier,
+          workload_tier: $workload_tier,
+          language_resource_tier: $language_resource_tier,
+          locale_tier: $locale_tier,
+          support_status: "supported"
+        },
         support_target_ref: ".octon/instance/governance/support-targets.yml",
+        requested_capability_packs: $requested_capability_packs,
         adapter_support: {
           host_adapter: $host_adapter,
           model_adapter: $model_adapter,
@@ -1427,6 +1455,11 @@ write_run_card_file() {
           run_contract: ".octon/state/control/execution/runs/\($run_id)/run-contract.yml",
           decision_artifact: $decision_artifact,
           retained_run_evidence: ".octon/state/evidence/runs/\($run_id)/retained-run-evidence.yml"
+        },
+        runtime_service_refs: {
+          replay_store: ".octon/framework/engine/runtime/crates/replay_store",
+          telemetry_sink: ".octon/framework/engine/runtime/crates/telemetry_sink",
+          runtime_bus: ".octon/framework/engine/runtime/crates/runtime_bus"
         },
         proof_plane_refs: {
           structural: ".octon/state/evidence/runs/\($run_id)/assurance/structural.yml",
@@ -1440,6 +1473,7 @@ write_run_card_file() {
         measurement_ref: ".octon/state/evidence/runs/\($run_id)/measurements/summary.yml",
         intervention_ref: ".octon/state/evidence/runs/\($run_id)/interventions/log.yml",
         replay_ref: ".octon/state/evidence/runs/\($run_id)/replay/manifest.yml",
+        recovery_ref: ".octon/state/evidence/runs/\($run_id)/assurance/recovery.yml",
         known_limits: [
           "Support posture remains bounded to the \($support_tier) tier declared in support-targets.yml.",
           "Disclosure summarizes authority and evidence; it does not replace them."
@@ -1485,9 +1519,9 @@ write_run_evidence_expansion() {
   local summary="$3"
   local recorded_at="$4"
   local decision_id=""
-  local support_tier="repo-local-consequential"
+  local support_tier="repo-consequential"
   decision_id="$( [[ -f "$RUNTIME_RUNS_DIR/$run_id.yml" ]] && yq -r '.decision_id // ""' "$RUNTIME_RUNS_DIR/$run_id.yml" 2>/dev/null || printf '' )"
-  support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-consequential')"
+  support_tier="$(yq -r '.support_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
 
   write_replay_manifest_file "$run_id" "$recorded_at"
   write_external_replay_index_file "$run_id" "$recorded_at"
@@ -1720,7 +1754,7 @@ update_run_contract_status() {
   created_at="$( [[ -f "$(runtime_state_path "$run_id")" ]] && yq -r '.created_at // ""' "$(runtime_state_path "$run_id")" 2>/dev/null || printf '' )"
   [[ -n "$created_at" ]] || created_at="$updated_at"
   local support_tier=""
-  support_tier="$( [[ -f "$contract_file" ]] && yq -r '.support_tier // "repo-local-consequential"' "$contract_file" 2>/dev/null || printf 'repo-local-consequential' )"
+  support_tier="$( [[ -f "$contract_file" ]] && yq -r '.support_tier // "repo-consequential"' "$contract_file" 2>/dev/null || printf 'repo-consequential' )"
   write_run_manifest_file "$run_id" "$created_at" "$updated_at" "$mission_id" "$parent_run_id" "$support_tier"
   write_runtime_state_file "$run_id" "$projection_status" "$created_at" "$updated_at" "$mission_id" "$parent_run_id" "$(orchestration_receipt_relpath "$run_id")"
   write_rollback_posture_file "$run_id" "$updated_at"
@@ -1841,7 +1875,7 @@ case "$cmd" in
     status="running"
     risk_class="low"
     reversibility_class="reversible"
-    support_tier="repo-local-consequential"
+    support_tier="repo-consequential"
     while [[ $# -gt 0 ]]; do
       case "$1" in
         --run-id) run_id="$2"; shift 2 ;;

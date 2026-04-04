@@ -1,0 +1,24 @@
+schema_version: external-replay-index-v1
+index_id: external-replay-uec-global-frontier-browser-api-studio-20260404
+scope: run
+run_id: uec-global-frontier-browser-api-studio-20260404
+entries:
+  - entry_id: uec-global-frontier-browser-api-studio-20260404-replay-payload
+    run_id: uec-global-frontier-browser-api-studio-20260404
+    artifact_kind: replay-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:49912d9a85d60ddeeb6d67468cf2b955f98e32139433ed177636fcd550fdcb4f
+    locator: immutable://octon/replays/uec-global-frontier-browser-api-studio-20260404/bundle.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay/manifest.yml
+    recorded_at: "2026-04-04T18:49:59Z"
+  - entry_id: uec-global-frontier-browser-api-studio-20260404-trace-payload
+    run_id: uec-global-frontier-browser-api-studio-20260404
+    artifact_kind: trace-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:b6e899f35fe7178bc122ff19331a0554bed9d2184dbe72243b8334c8db710eba
+    locator: immutable://octon/replays/uec-global-frontier-browser-api-studio-20260404/trace.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay/manifest.yml
+    recorded_at: "2026-04-04T18:49:59Z"
+updated_at: "2026-04-04T18:49:59Z"

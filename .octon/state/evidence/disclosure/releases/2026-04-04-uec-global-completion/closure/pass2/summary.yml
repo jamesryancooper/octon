@@ -1,0 +1,17 @@
+schema_version: uec-packet-certification-pass-summary-v1
+pass_id: pass2
+generated_at: "2026-04-04T18:50:01Z"
+include_closure_validator: true
+status: pass
+certified_commit: 9150b6e5fb92cc4e3b0bf8d83321d547f6b00c65
+worktree: /Users/jamesryancooper/Projects/octon
+commands:
+  - normalize-uec-packet-certification-runs.sh
+  - validate-support-target-live-claims.sh
+  - validate-phase5-adapter-support-target-hardening.sh
+  - validate-uec-packet-runtime-normalization.sh
+  - validate-unified-execution-richness.sh
+  - validate-assurance-disclosure-expansion.sh
+  - validate-disclosure-live-roots.sh
+  - validate-global-retirement-closure.sh
+  - assert-unified-execution-closure.sh

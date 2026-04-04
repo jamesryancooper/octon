@@ -1,11 +1,12 @@
 schema_version: "octon-constitution-charter-v1"
 charter_id: "octon-harness-charter"
-version: "1.0.0-wave6"
+version: "1.1.0-global-completion"
 owner: "Octon governance"
 purpose: >-
   Provide one explicit repo-local constitutional kernel for the Octon
   super-root so consequential autonomous work stays scoped, fail-closed,
-  evidence-backed, and reviewable.
+  evidence-backed, reviewable, and globally complete across the retained
+  finite support universe.
 non_goals:
   - "Make raw inputs authoritative for runtime or policy."
   - "Allow host UI state, chat transcripts, or generated projections to become control-plane authority."
@@ -36,7 +37,11 @@ non_negotiables:
   - id: "NK-012"
     rule: "Treat host adapters and model adapters as replaceable, non-authoritative boundaries."
   - id: "NK-013"
-    rule: "Require adapter-backed support claims to remain bounded by explicit support-target declarations and adapter-conformance criteria."
+    rule: "Require adapter-backed support claims to remain bounded by explicit support-target declarations, governance exclusions, and adapter-conformance criteria."
+  - id: "NK-014"
+    rule: "No retained critical surface may remain experimental, reduced, stage_only, unsupported, or unadmitted in the live architecture."
+  - id: "NK-015"
+    rule: "Final disclosure may not rely on a narrower bounded-envelope caveat once global completion is claimed."
 fail_closed_rules_ref: ".octon/framework/constitution/obligations/fail-closed.yml"
 evidence_obligations_ref: ".octon/framework/constitution/obligations/evidence.yml"
 normative_precedence_ref: ".octon/framework/constitution/precedence/normative.yml"
@@ -44,6 +49,9 @@ epistemic_precedence_ref: ".octon/framework/constitution/precedence/epistemic.ym
 support_targets_ref:
   schema: ".octon/framework/constitution/support-targets.schema.json"
   authoritative_declaration: ".octon/instance/governance/support-targets.yml"
+  declaration_status: "active"
+governance_exclusions_ref:
+  authoritative_declaration: ".octon/instance/governance/exclusions/action-classes.yml"
   declaration_status: "active"
 amendment_policy:
   change_control: "explicit constitutional amendment workflow"
@@ -58,20 +66,32 @@ live_model:
   release_state: "pre-1.0"
   change_profile: "atomic"
   atomic_mode: "clean-break"
-  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"
+  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
   consequential_execution_unit: "run-contract"
   authority_engine: "runtime-consumed"
+  support_universe_mode: "globally-complete-finite-product"
+  support_universe_doctrine: >-
+    The live support universe remains finite but every retained surface must be
+    fully governed, runtime-real, validator-covered, proof-backed,
+    disclosure-backed, and non-liminal.
+  governance_exclusions_doctrine: >-
+    Prohibited or non-claimed action classes live under explicit governance
+    exclusions and must not survive as unsupported support tiers.
   disclosure_roots:
     authored: ".octon/instance/governance/disclosure/**"
     runs: ".octon/state/evidence/disclosure/runs/**"
     releases: ".octon/state/evidence/disclosure/releases/**"
+  runtime_service_roots:
+    replay_store: ".octon/framework/engine/runtime/crates/replay_store"
+    telemetry_sink: ".octon/framework/engine/runtime/crates/telemetry_sink"
+    runtime_bus: ".octon/framework/engine/runtime/crates/runtime_bus"
 historical_adoption_lineage:
   status: "historical-non-live"
-  wave: 6
+  wave: 7
   staged_cutovers:
     run_contract_requirement: "wave-1"
     authority_artifact_normalization: "wave-2-active"
     assurance_families: "wave-4-active"
     disclosure_families: "wave-4-active"
     adapter_contracts: "wave-5-active"
-    support_target_declarations: "wave-2-active for routing, wave-4-active for disclosure claims, wave-5-active for adapter envelopes"
+    support_target_declarations: "wave-7-global-completion-active"

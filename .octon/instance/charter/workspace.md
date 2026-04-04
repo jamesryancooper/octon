@@ -11,7 +11,7 @@ constitutional_role: "workspace-charter-narrative"
 constitutional_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-03-uec-clean-break-packet-implementation/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
 ---
 
 # Workspace Charter: Octon Governed Harness
@@ -22,11 +22,12 @@ Octon is an authored harness core designed for profile-driven portability and
 replaceable adapters across repositories. Use Octon in `octon` to evolve the
 harness itself with safe, reviewable, and verifiable changes.
 
-The currently proved live consequential envelope in this repository is the
-retained `MT-B / WT-2 / LT-REF / LOC-EN` tuple using the `repo-shell` host
-adapter and the `repo-local-governed` model adapter. Broader portability or
-adapter coverage remains architectural intent until support targets and
-retained disclosure proof promote it into a live claim.
+Octon now targets one globally complete finite support universe rather than a
+bounded consequential envelope. Live support is whatever the authoritative
+support-target declaration keeps and proves. Any critical surface that cannot
+be fully governed, runtime-backed, validated, evidenced, and disclosed must be
+removed from the live claim instead of surviving as staged architectural
+intent.
 
 ## Constitutional Role
 
@@ -41,11 +42,13 @@ execution unit.
 ## What Octon Should Optimize For
 
 - correctness and coherence of the harness runtime, governance, and bootstrap model
-- profile-driven portability and self-containment intent without claiming live
-  support beyond retained disclosure proof
+- profile-driven portability and self-containment without leaving liminal live
+  support surfaces behind
 - deterministic validation, safe autonomy boundaries, and clear operational evidence
 - constitutional objective binding that keeps mission continuity distinct from
   per-run execution authority
+- truthful disclosure that matches the retained support universe without a
+  bounded-envelope caveat
 
 ## In Scope
 
@@ -63,7 +66,7 @@ execution unit.
 ## Success Signals
 
 - bootstrap and execution surfaces remain self-contained, discoverable, and
-  internally consistent within the proved repo-local governed envelope
+  internally consistent across the retained globally complete support universe
 - active docs, validators, and runtime behavior agree on the same authority model
 - changes ship with enough evidence and verification to trust autonomous use of the harness
 
@@ -71,5 +74,5 @@ execution unit.
 
 - keep authored governance surfaces canonical and generated ingress surfaces deterministic
 - tighten validation whenever architecture or bootstrap paths change materially
-- prefer the target-state-correct refactor that removes authority drift and
-  preserves portability intent without widening live support claims
+- prefer the target-state-correct refactor that removes authority drift,
+  retires liminal placeholders, and keeps the final support universe truthful

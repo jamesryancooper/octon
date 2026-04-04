@@ -1,0 +1,24 @@
+schema_version: external-replay-index-v1
+index_id: external-replay-uec-global-ci-observe-read-20260404
+scope: run
+run_id: uec-global-ci-observe-read-20260404
+entries:
+  - entry_id: uec-global-ci-observe-read-20260404-replay-payload
+    run_id: uec-global-ci-observe-read-20260404
+    artifact_kind: replay-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:0147520361762e15c5d6d086bf90db486997495e6a01ea8c2ece42fff6528038
+    locator: immutable://octon/replays/uec-global-ci-observe-read-20260404/bundle.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/replay/manifest.yml
+    recorded_at: "2026-04-04T11:12:40Z"
+  - entry_id: uec-global-ci-observe-read-20260404-trace-payload
+    run_id: uec-global-ci-observe-read-20260404
+    artifact_kind: trace-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:76064c0fdf500b3abe8d09d70069ad82362fd6519d1e240df9dfbedb76c425e7
+    locator: immutable://octon/replays/uec-global-ci-observe-read-20260404/trace.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/replay/manifest.yml
+    recorded_at: "2026-04-04T11:12:40Z"
+updated_at: "2026-04-04T11:12:40Z"

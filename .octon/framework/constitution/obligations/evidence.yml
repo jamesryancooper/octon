@@ -53,3 +53,9 @@ obligations:
       conformance criteria under bound run evidence or disclosure artifacts.
     adoption_status: "active"
     activation_wave: 5
+  - id: "EVI-012"
+    requirement: >-
+      Every retained support surface appears in at least one runtime-backed run
+      bundle, one proof or lab bundle, and final disclosure coverage.
+    adoption_status: "active"
+    activation_wave: 7

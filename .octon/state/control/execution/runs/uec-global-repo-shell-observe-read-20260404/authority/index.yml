@@ -1,0 +1,7 @@
+schema_version: authority-run-bundle-index-v1
+run_id: uec-global-repo-shell-observe-read-20260404
+request_ref: null
+decision_ref: .octon/state/evidence/control/execution/authority-decision-uec-global-repo-shell-observe-read-20260404.yml
+grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-repo-shell-observe-read-20260404.yml
+lease_index_ref: .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/authority/leases/index.yml
+revocation_index_ref: .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/authority/revocations/index.yml

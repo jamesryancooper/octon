@@ -1,0 +1,3 @@
+schema_version: "shadow-run-v1"
+shadow_run_id: "browser-api-shadow"
+summary: "Shadow coverage for admitted browser and API execution surfaces."

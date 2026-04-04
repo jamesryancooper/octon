@@ -1,0 +1,14 @@
+schema_version: run-event-ledger-v1
+run_id: uec-global-github-repo-consequential-20260404
+ledger_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/events.ndjson
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v1.schema.json
+event_count: 9
+first_event_id: evt-001-run-created
+last_event_id: evt-012-run-closed
+governing_event_refs:
+  runtime_state_ref: evt-012-run-closed
+  rollback_posture_ref: evt-012-run-closed
+  stage_attempt_ref: evt-009-stage-completed
+  disclosure_ref: evt-011-disclosure-generated
+  authority_root_ref: evt-003-authority-resolution
+updated_at: "2026-04-01T14:26:11.554148Z"

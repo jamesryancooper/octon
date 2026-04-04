@@ -3,3 +3,5 @@ domain: "replay"
 entries:
   - replay_bundle_id: "runtime-proof-bundle"
     path: ".octon/framework/lab/replay/bundles/runtime-proof-bundle.yml"
+  - replay_bundle_id: "global-support-universe"
+    path: ".octon/framework/lab/replay/workload-packs/global-support-universe.yml"

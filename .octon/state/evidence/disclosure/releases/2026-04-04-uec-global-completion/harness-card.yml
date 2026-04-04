@@ -1,0 +1,50 @@
+schema_version: harness-card-v2
+card_id: hc-unified-execution-constitution-global-release-20260404
+claim_kind: release
+claim_status: complete
+claim_summary: >-
+  Octon is a globally complete Unified Execution Constitution across its
+  retained finite support universe, with every retained critical surface
+  governed, runtime-backed, validator-covered, proof-backed, disclosure-backed,
+  and non-liminal.
+support_target_ref: .octon/instance/governance/support-targets.yml
+governance_exclusions_ref: .octon/instance/governance/exclusions/action-classes.yml
+support_universe:
+  model_classes:
+    - frontier-governed
+    - repo-local-governed
+  workload_classes:
+    - observe-and-read
+    - repo-consequential
+    - boundary-sensitive
+  context_classes:
+    - reference-owned
+    - extended-governed
+  locale_classes:
+    - english-primary
+    - spanish-secondary
+retained_adapters:
+  host_adapters:
+    - repo-shell
+    - studio-control-plane
+    - github-control-plane
+    - ci-control-plane
+  model_adapters:
+    - repo-local-governed
+    - frontier-governed
+capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - browser
+  - api
+coverage_ledger_ref: .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml
+proof_bundle_refs:
+  - .octon/instance/governance/disclosure/harness-card.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass1/summary.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass2/summary.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/closure-certificate.yml
+known_limits: []
+generated_at: "2026-04-04T12:00:00Z"

@@ -19,6 +19,10 @@ kernel_surfaces:
     schema: ".octon/framework/constitution/support-targets.schema.json"
     authoritative_declaration: ".octon/instance/governance/support-targets.yml"
     status: "active"
+  governance_exclusions:
+    schema: ".octon/framework/constitution/contracts/authority/prohibited-action-class-v1.schema.json"
+    authoritative_declaration: ".octon/instance/governance/exclusions/action-classes.yml"
+    status: "active"
 shim_surfaces:
   ingress_projection_adapters:
     paths:
@@ -26,7 +30,7 @@ shim_surfaces:
       - "AGENTS.md"
       - "CLAUDE.md"
     role: "adapter-only projected ingress surfaces"
-    status: "active-shim"
+    status: "permanent-projection"
     retirement_condition: "Remove when supported tools can enter directly through /.octon/instance/ingress/AGENTS.md without repo-root adapters."
   agency_constitution_application:
     path: ".octon/framework/agency/governance/CONSTITUTION.md"
@@ -91,8 +95,16 @@ integration_surfaces:
   authority_contract_family:
     root: ".octon/framework/constitution/contracts/authority/**"
     status: "active"
+  governance_exclusions:
+    path: ".octon/instance/governance/exclusions/**"
+    status: "active"
   runtime_contract_family:
     root: ".octon/framework/constitution/contracts/runtime/**"
+    status: "active"
+  runtime_service_roots:
+    replay_store: ".octon/framework/engine/runtime/crates/replay_store/**"
+    telemetry_sink: ".octon/framework/engine/runtime/crates/telemetry_sink/**"
+    runtime_bus: ".octon/framework/engine/runtime/crates/runtime_bus/**"
     status: "active"
   retention_contract_family:
     root: ".octon/framework/constitution/contracts/retention/**"
@@ -192,5 +204,6 @@ notes:
   - "Wave 4 remediation adds the maintainability proof plane, reusable evaluator and HarnessCard writers, benchmark-backed lab catalogs, and a generic run evidence backfill path."
   - "Wave 5 activates the adapter contract family, publishes runtime host/model adapter manifests, governs capability packs, and bounds adapter support claims through support-target declarations and conformance criteria."
   - "Wave 6 activates retention governance, separates run continuity from retained run evidence, and retires staged coexistence markers so the final constitutional model remains the only live target."
+  - "Wave 7 completes the finite global support universe, admits browser and API packs, adds runtime service roots, and moves deny-only classes into governance exclusions."
   - "Phase 3 codifies `run-manifest.yml` as the canonical run-manifest model, adds per-run evidence classification, and requires external immutable replay indexing for supported boundary-sensitive run classes."
   - "Phase 7 institutionalizes build-to-delete governance with a retirement registry, recurring drift/support-target/adapter/retirement reviews, and ablation-backed deletion receipts."

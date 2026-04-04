@@ -102,7 +102,7 @@ validate_run_record() {
   [[ -n "$evidence_classification_path" && -f "$OCTON_DIR/${evidence_classification_path#.octon/}" ]] && pass "run '$run_id' evidence classification resolves" || fail "run '$run_id' evidence classification missing"
   [[ -n "$summary" ]] && pass "run '$run_id' summary present" || fail "run '$run_id' summary missing"
 
-  if [[ ("$support_tier" == "release-and-boundary-sensitive" || "$support_tier" == "external-or-irreversible") && "$status" != "running" ]]; then
+  if [[ "$support_tier" == "boundary-sensitive" && "$status" != "running" ]]; then
     [[ -n "$external_replay_index_path" && -f "$OCTON_DIR/${external_replay_index_path#.octon/}" ]] && pass "run '$run_id' external replay index resolves" || fail "run '$run_id' external replay index missing"
     yq -e '.external_index_refs | length > 0' "$OCTON_DIR/state/evidence/runs/$run_id/replay/manifest.yml" >/dev/null 2>&1 && pass "run '$run_id' replay manifest links external index" || fail "run '$run_id' replay manifest must link external index"
     yq -e '.external_index_refs | length > 0' "$OCTON_DIR/${replay_pointers_path#.octon/}" >/dev/null 2>&1 && pass "run '$run_id' replay pointers link external index" || fail "run '$run_id' replay pointers must link external index"

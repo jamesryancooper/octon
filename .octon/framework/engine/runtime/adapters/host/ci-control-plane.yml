@@ -15,22 +15,28 @@ projection_sources:
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 support_tier_declarations:
   model_tiers:
-    - "MT-B"
-    - "MT-C"
+    - "frontier-governed"
+    - "repo-local-governed"
   workload_tiers:
-    - "WT-2"
-    - "WT-3"
+    - "observe-and-read"
+    - "repo-consequential"
+    - "boundary-sensitive"
   language_resource_tiers:
-    - "LT-REF"
+    - "reference-owned"
+    - "extended-governed"
   locale_tiers:
-    - "LOC-EN"
+    - "english-primary"
+    - "spanish-secondary"
 conformance_criteria_refs:
   - "HOST-001"
   - "HOST-003"
   - "HOST-004"
+conformance_suite_refs:
+  - ".octon/framework/assurance/functional/api/ci-control-plane.yml"
+failure_taxonomy_ref: ".octon/framework/observability/governance/failure-taxonomy.yml"
 known_limitations:
   - "CI is a projection boundary for protected checks and must defer to canonical authority artifacts."
-  - "This host remains staged for broader locale or experimental-context claims."
+  - "CI may block promotion or certification, but it never mints approval or support authority."
 non_authoritative_boundaries:
   - "CI checks and workflow state may block promotion, but they do not mint approval or support authority."
   - "Protected execution posture still resolves through canonical control roots and runtime receipts."

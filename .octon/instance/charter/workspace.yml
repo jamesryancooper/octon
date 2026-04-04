@@ -1,6 +1,6 @@
 schema_version: "workspace-charter-v1"
 workspace_charter_id: "workspace-charter://octon/octon-governed-harness"
-version: "1.2.0"
+version: "1.3.0"
 legacy_intent_lineage:
   intent_id: "intent://octon/octon-governed-harness"
   version: "1.1.0"
@@ -9,16 +9,19 @@ constitutional_role: "workspace-charter-machine"
 constitutional_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-03-uec-clean-break-packet-implementation/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
 objective_signals:
   - id: harness-coherence
     description: "Keep bootstrap, runtime, validators, and docs aligned to the same governing model."
   - id: portable-bootstrap
     description: "Preserve a self-contained, reproducible bootstrap path for adopted repositories."
+  - id: global-completion
+    description: "Keep the retained support universe globally complete with no liminal critical surfaces."
 authorized_actions:
   - "Create and update Octon runtime, governance, assurance, scaffolding, workflow, and documentation artifacts inside this repository."
   - "Refactor bootstrap, validation, portability, and authority-routing surfaces when the change remains reviewable and verifiable."
   - "Run repo-local verification and continuity updates required to ship Octon changes safely."
+  - "Retire, rebind, or fully realize retained support surfaces when required to keep the live architecture globally complete."
 hard_boundaries:
   - boundary_id: repo-local-only
     rule: "Stay within this managed repository unless an explicit authority surface authorizes external effects."
@@ -37,6 +40,9 @@ execution_binding:
   run_contract_schema_ref: ".octon/framework/constitution/contracts/objective/run-contract-v1.schema.json"
   stage_attempt_schema_ref: ".octon/framework/constitution/contracts/objective/stage-attempt-v1.schema.json"
   mission_authority_root: ".octon/instance/orchestration/missions"
+  support_target_ref: ".octon/instance/governance/support-targets.yml"
+  governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
+  support_universe_claim_mode: "global-complete-finite"
   mission_required_for:
     - "recurring-autonomy"
     - "overlapping-work"

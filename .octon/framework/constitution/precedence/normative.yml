@@ -29,6 +29,7 @@ layers:
     authority: "repo-governance-declarations"
     surfaces:
       - ".octon/instance/governance/support-targets.yml"
+      - ".octon/instance/governance/exclusions/action-classes.yml"
       - ".octon/instance/governance/policies/**"
       - ".octon/instance/governance/contracts/**"
     decision_rule: >-
@@ -131,3 +132,5 @@ layers:
 conflict_rule: >-
   When two applicable surfaces occupy the same layer, resolve by declared
   overlay rules and class-root fallback order without overriding higher layers.
+  If support-target declarations and governance exclusions disagree, exclusions
+  win for deny-only routing and the mismatch must emit drift evidence.

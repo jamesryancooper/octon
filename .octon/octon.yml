@@ -83,6 +83,7 @@ resolution:
     disclosure_contract_family: .octon/framework/constitution/contracts/disclosure
     retention_contract_family: .octon/framework/constitution/contracts/retention
     adapter_contract_family: .octon/framework/constitution/contracts/adapters
+    governance_exclusions: .octon/instance/governance/exclusions/action-classes.yml
     workspace_objective_brief: .octon/instance/charter/workspace.md
     workspace_machine_charter: .octon/instance/charter/workspace.yml
     proposals_registry: .octon/generated/proposals/registry.yml
@@ -95,6 +96,9 @@ resolution:
     external_evidence_index_root: .octon/state/evidence/external-index
     host_adapter_root: .octon/framework/engine/runtime/adapters/host
     model_adapter_root: .octon/framework/engine/runtime/adapters/model
+    runtime_bus_root: .octon/framework/engine/runtime/crates/runtime_bus
+    replay_store_root: .octon/framework/engine/runtime/crates/replay_store
+    telemetry_sink_root: .octon/framework/engine/runtime/crates/telemetry_sink
     framework_capability_pack_root: .octon/framework/capabilities/packs
     runtime_capability_pack_root: .octon/instance/capabilities/runtime/packs
     lab_framework_root: .octon/framework/lab

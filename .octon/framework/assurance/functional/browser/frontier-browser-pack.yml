@@ -1,0 +1,4 @@
+suite_id: "frontier-browser-pack"
+plane: "functional"
+target_surface: "browser"
+summary: "Frontier-governed browser pack path is admitted, governed, replay-backed, and disclosed."

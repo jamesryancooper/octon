@@ -1,13 +1,13 @@
 schema_version: "repo-retirement-registry-v1"
 registry_id: "execution-constitution-build-to-delete"
 owner: "Octon governance"
-status: "active"
-default_review_cadence: "before final claim and quarterly while any non-retired target remains"
+status: "closed"
+default_review_cadence: "post-global-completion audit only"
 review_set_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
 ablation_workflow_ref: ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
 entries:
   - target_id: "ingress-projection-adapters"
-    status: "registered"
+    status: "permanent-projection"
     disposition: "projection-only"
     paths:
       - ".octon/AGENTS.md"
@@ -30,7 +30,7 @@ entries:
       - "retirement-review"
     retirement_path: "Delete the ingress adapter files once supported tools bind directly to /.octon/instance/ingress/AGENTS.md without a repo-root adapter."
   - target_id: "workspace-objective-compatibility-shims"
-    status: "registered"
+    status: "retained-noncritical"
     disposition: "compatibility-shim"
     paths:
       - ".octon/instance/bootstrap/OBJECTIVE.md"
@@ -52,7 +52,7 @@ entries:
       - "ablation-deletion-receipt"
     retirement_path: "Delete both compatibility shims once scaffold/bootstrap consumers bind directly to instance/charter/workspace.{md,yml}."
   - target_id: "duplicate-constitutional-shims"
-    status: "historical-retained"
+    status: "historical-retained-noncritical"
     disposition: "historical-shim"
     paths:
       - ".octon/framework/agency/governance/CONSTITUTION.md"
@@ -75,7 +75,7 @@ entries:
       - "retirement-review"
     retirement_path: "Delete retained duplicate surfaces once lineage docs, maintainability evidence, and assurance-local weighting all point at canonical or subordinate non-shim successors."
   - target_id: "legacy-per-run-decision-lineage"
-    status: "historical-retained"
+    status: "historical-retained-noncritical"
     disposition: "historical-lineage-only"
     paths:
       - ".octon/state/evidence/decisions/repo/**"
@@ -95,7 +95,7 @@ entries:
       - "ablation-deletion-receipt"
     retirement_path: "Delete the historical lineage root after downstream readers have migrated and the ablation suite shows no disclosure regression."
   - target_id: "helper-authored-run-projections"
-    status: "registered"
+    status: "retained-noncritical"
     disposition: "projection-only"
     paths:
       - ".octon/framework/orchestration/runtime/_ops/scripts/write-decision.sh"
@@ -117,7 +117,7 @@ entries:
       - "ablation-deletion-receipt"
     retirement_path: "Delete helper projection scripts after canonical runtime writers and generated surfaces fully replace them."
   - target_id: "run-local-disclosure-mirrors"
-    status: "historical-retained"
+    status: "historical-retained-noncritical"
     disposition: "historical-mirror"
     paths:
       - ".octon/state/evidence/runs/*/disclosure/**"
@@ -138,7 +138,7 @@ entries:
       - "ablation-deletion-receipt"
     retirement_path: "Delete run-local disclosure mirrors once historical lineage and benchmark fixtures point only at the canonical disclosure roots."
   - target_id: "lab-local-harness-card-mirrors"
-    status: "historical-retained"
+    status: "historical-retained-noncritical"
     disposition: "historical-mirror"
     paths:
       - ".octon/state/evidence/lab/harness-cards/**"

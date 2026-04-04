@@ -4,11 +4,12 @@ status: "active"
 activation_wave: 5
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
 activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase5-adapter-support-target-hardening/plan.md"
 adapter_boundaries:
   support_target_declaration: ".octon/instance/governance/support-targets.yml"
+  governance_exclusions_declaration: ".octon/instance/governance/exclusions/action-classes.yml"
   host_runtime_root: ".octon/framework/engine/runtime/adapters/host"
   model_runtime_root: ".octon/framework/engine/runtime/adapters/model"
   framework_capability_pack_root: ".octon/framework/capabilities/packs"

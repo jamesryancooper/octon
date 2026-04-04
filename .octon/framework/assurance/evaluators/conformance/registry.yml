@@ -1,0 +1,4 @@
+schema_version: "evaluator-conformance-registry-v1"
+entries:
+  - evaluator_id: "global-support-universe"
+    path: ".octon/framework/assurance/evaluators/conformance/global-support-universe.yml"

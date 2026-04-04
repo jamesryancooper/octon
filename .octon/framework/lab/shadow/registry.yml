@@ -3,3 +3,5 @@ domain: "shadow"
 entries:
   - shadow_manifest_id: "runtime-proof-shadow"
     path: ".octon/framework/lab/shadow/manifests/runtime-proof-shadow.yml"
+  - shadow_manifest_id: "browser-api-shadow"
+    path: ".octon/framework/lab/shadow/browser-api-shadow.yml"

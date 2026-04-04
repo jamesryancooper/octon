@@ -4,7 +4,7 @@ status: "active"
 activation_wave: 4
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
 activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion/plan.md"
 proof_planes:
@@ -22,14 +22,14 @@ proof_planes:
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "deterministic-run-proof"
     blocking_support_tiers:
-      - "repo-local-consequential"
-      - "release-and-boundary-sensitive"
+      - "repo-consequential"
+      - "boundary-sensitive"
   behavioral:
     root: ".octon/framework/assurance/behavioral"
     suites_root: ".octon/framework/assurance/behavioral/suites"
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     blocking_support_tiers:
-      - "repo-local-consequential"
+      - "repo-consequential"
     required_evidence_classes:
       - "lab-scenario"
       - "replay"
@@ -41,15 +41,15 @@ proof_planes:
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "architecture-health"
     blocking_support_tiers:
-      - "repo-local-consequential"
-      - "release-and-boundary-sensitive"
+      - "repo-consequential"
+      - "boundary-sensitive"
   recovery:
     root: ".octon/framework/assurance/recovery"
     suites_root: ".octon/framework/assurance/recovery/suites"
     report_schema_ref: ".octon/framework/constitution/contracts/assurance/proof-plane-report-v1.schema.json"
     evidence_mode: "checkpoint-and-rollback-proof"
     blocking_support_tiers:
-      - "repo-local-consequential"
+      - "repo-consequential"
   evaluators:
     root: ".octon/framework/assurance/evaluators"
     adapter_registry_ref: ".octon/framework/assurance/evaluators/adapters/registry.yml"

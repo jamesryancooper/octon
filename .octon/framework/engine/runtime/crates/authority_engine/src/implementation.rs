@@ -5705,7 +5705,7 @@ fn materialize_run_disclosure(
     write_yaml(
         &run_card_path,
         &json!({
-            "schema_version": "run-card-v1",
+            "schema_version": "run-card-v2",
             "run_id": request.request_id,
             "status": outcome.status,
             "summary": summary,
@@ -5733,6 +5733,11 @@ fn materialize_run_disclosure(
                 "grant_bundle": grant.authority_grant_bundle_ref,
                 "retained_run_evidence": bound.retained_evidence_ref,
             },
+            "runtime_service_refs": {
+                "replay_store": ".octon/framework/engine/runtime/crates/replay_store",
+                "telemetry_sink": ".octon/framework/engine/runtime/crates/telemetry_sink",
+                "runtime_bus": ".octon/framework/engine/runtime/crates/runtime_bus",
+            },
             "proof_plane_refs": {
                 "structural": path_tail(repo_root, &bound.assurance_root.join("structural.yml")),
                 "governance": path_tail(repo_root, &bound.assurance_root.join("governance.yml")),
@@ -5745,6 +5750,7 @@ fn materialize_run_disclosure(
             "measurement_ref": path_tail(repo_root, &measurement_path),
             "intervention_ref": path_tail(repo_root, &intervention_path),
             "replay_ref": path_tail(repo_root, &bound.replay_manifest_path),
+            "recovery_ref": path_tail(repo_root, &bound.assurance_root.join("recovery.yml")),
             "known_limits": known_limits,
             "generated_at": outcome.completed_at,
         }),
@@ -6842,7 +6848,7 @@ mod tests {
         workload_default_route: &str,
     ) -> String {
         format!(
-            "schema_version: \"octon-support-targets-v1\"\nowner: \"test\"\ndefault_route: \"deny\"\ntiers:\n  model:\n    - id: \"MT-B\"\n      label: \"repo-local-governed\"\n      default_autonomy: \"bounded\"\n      description: \"fixture\"\n  workload:\n    - id: \"{workload_id}\"\n      label: \"{workload_label}\"\n      default_route: \"{workload_default_route}\"\n      description: \"fixture\"\n  language_resource:\n    - id: \"LT-REF\"\n      label: \"reference-owned\"\n      description: \"fixture\"\n  locale:\n    - id: \"LOC-EN\"\n      label: \"english-primary\"\n      description: \"fixture\"\ncompatibility_matrix:\n  - model_tier: \"MT-B\"\n    workload_tier: \"{workload_id}\"\n    language_resource_tier: \"LT-REF\"\n    locale_tier: \"LOC-EN\"\n    support_status: \"supported\"\n    default_route: \"allow\"\n    requires_mission: false\n    allowed_capability_packs:\n      - \"repo\"\n      - \"shell\"\n      - \"telemetry\"\n    required_evidence:\n      - \"authority-decision-artifact\"\nadapter_conformance_criteria:\n  - criterion_id: \"HOST-001\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"HOST-002\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-001\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"MODEL-002\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-003\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"run-evidence-root\"\nhost_adapters:\n  - adapter_id: \"repo-shell\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/host/repo-shell.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"HOST-001\"\n      - \"HOST-002\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"{workload_id}\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\nmodel_adapters:\n  - adapter_id: \"repo-local-governed\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"MODEL-001\"\n      - \"MODEL-002\"\n      - \"MODEL-003\"\n    allowed_model_tiers:\n      - \"MT-B\"\n    allowed_workload_tiers:\n      - \"{workload_id}\"\n    allowed_language_resource_tiers:\n      - \"LT-REF\"\n    allowed_locale_tiers:\n      - \"LOC-EN\"\n    required_evidence:\n      - \"run-evidence-root\"\n"
+            "schema_version: \"octon-support-targets-v1\"\nowner: \"test\"\ndefault_route: \"deny\"\ngovernance_exclusions_ref: \".octon/instance/governance/exclusions/action-classes.yml\"\ntiers:\n  model:\n    - id: \"repo-local-governed\"\n      label: \"repo-local-governed\"\n      default_autonomy: \"bounded\"\n      description: \"fixture\"\n  workload:\n    - id: \"{workload_id}\"\n      label: \"{workload_label}\"\n      default_route: \"{workload_default_route}\"\n      description: \"fixture\"\n  language_resource:\n    - id: \"reference-owned\"\n      label: \"reference-owned\"\n      description: \"fixture\"\n  locale:\n    - id: \"english-primary\"\n      label: \"english-primary\"\n      description: \"fixture\"\ncompatibility_matrix:\n  - model_tier: \"repo-local-governed\"\n    workload_tier: \"{workload_id}\"\n    language_resource_tier: \"reference-owned\"\n    locale_tier: \"english-primary\"\n    support_status: \"supported\"\n    default_route: \"allow\"\n    requires_mission: false\n    allowed_capability_packs:\n      - \"repo\"\n      - \"shell\"\n      - \"telemetry\"\n      - \"browser\"\n      - \"api\"\n    required_evidence:\n      - \"authority-decision-artifact\"\nadapter_conformance_criteria:\n  - criterion_id: \"HOST-001\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"HOST-002\"\n    adapter_kind: \"host\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-001\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"authority-decision-artifact\"\n  - criterion_id: \"MODEL-002\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\n  - criterion_id: \"MODEL-003\"\n    adapter_kind: \"model\"\n    description: \"fixture\"\n    required_evidence:\n      - \"run-evidence-root\"\nhost_adapters:\n  - adapter_id: \"repo-shell\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/host/repo-shell.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"HOST-001\"\n      - \"HOST-002\"\n    allowed_model_tiers:\n      - \"repo-local-governed\"\n    allowed_workload_tiers:\n      - \"{workload_id}\"\n    allowed_language_resource_tiers:\n      - \"reference-owned\"\n    allowed_locale_tiers:\n      - \"english-primary\"\n    required_evidence:\n      - \"instruction-layer-manifest\"\nmodel_adapters:\n  - adapter_id: \"repo-local-governed\"\n    contract_ref: \".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml\"\n    authority_mode: \"non_authoritative\"\n    replaceable: true\n    support_status: \"supported\"\n    default_route: \"allow\"\n    criteria_refs:\n      - \"MODEL-001\"\n      - \"MODEL-002\"\n      - \"MODEL-003\"\n    allowed_model_tiers:\n      - \"repo-local-governed\"\n    allowed_workload_tiers:\n      - \"{workload_id}\"\n    allowed_language_resource_tiers:\n      - \"reference-owned\"\n    allowed_locale_tiers:\n      - \"english-primary\"\n    required_evidence:\n      - \"run-evidence-root\"\n"
         )
     }
 
@@ -6904,12 +6910,12 @@ mod tests {
         .expect("write workspace machine charter");
         fs::write(
             base.join(".octon/instance/governance/support-targets.yml"),
-            support_targets_fixture("WT-2", "repo-local-consequential", "allow"),
+            support_targets_fixture("repo-consequential", "repo-consequential", "allow"),
         )
         .expect("write support targets");
         fs::write(
             base.join(".octon/instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"workflow-evidence\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-consequential\"\nassets:\n  - asset_id: \"workflow-evidence\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
         )
         .expect("write ownership registry");
         fs::write(
@@ -7034,7 +7040,7 @@ mod tests {
         .expect("write mission autonomy policy");
         fs::write(
             cfg.octon_dir.join("instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"fixture\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"test\"\n    display_name: \"Test\"\n    contact: \"repo://test\"\ndefaults:\n  operator_id: \"test\"\n  support_tier: \"repo-consequential\"\nassets:\n  - asset_id: \"fixture\"\n    path_globs:\n      - \"workflow-evidence\"\n    owners:\n      - \"test\"\nservices: []\nsubscriptions: {}\n",
         )
         .expect("write ownership registry");
         fs::write(
@@ -7339,7 +7345,7 @@ mod tests {
         fs::write(
             cfg.octon_dir
                 .join("instance/governance/support-targets.yml"),
-            support_targets_fixture("WT-3", "not-the-requested-tier", "deny"),
+            support_targets_fixture("boundary-sensitive", "not-the-requested-tier", "deny"),
         )
         .expect("rewrite support targets");
         let err = authorize_execution(&cfg, &policy, &minimal_request(), None)
@@ -7369,22 +7375,45 @@ mod tests {
     }
 
     #[test]
-    fn unadmitted_api_pack_denies_execution() {
+    fn admitted_api_pack_allows_declared_execution() {
         let cfg = temp_runtime_config();
         let policy = PolicyEngine::new(cfg.clone());
         let mut request = minimal_request();
-        request.requested_capabilities.push("net.http".to_string());
-        request.side_effect_flags.network = true;
-        request.metadata.insert(
-            "network_egress_url".to_string(),
-            "https://example.com".to_string(),
-        );
+        request
+            .metadata
+            .insert("support_capability_packs".to_string(), "api".to_string());
 
-        let err = authorize_execution(&cfg, &policy, &request, None)
-            .expect_err("unadmitted api pack should deny execution");
-        assert_eq!(
-            err.details["reason_codes"][0].as_str(),
-            Some("SUPPORT_TIER_UNSUPPORTED")
+        let grant = authorize_execution(&cfg, &policy, &request, None)
+            .expect("admitted api pack should authorize when declared");
+        assert!(
+            grant
+                .support_posture
+                .as_ref()
+                .expect("support posture")
+                .allowed_capability_packs
+                .contains(&"api".to_string())
+        );
+    }
+
+    #[test]
+    fn admitted_browser_pack_allows_declared_execution() {
+        let cfg = temp_runtime_config();
+        let policy = PolicyEngine::new(cfg.clone());
+        let mut request = minimal_request();
+        request.requested_capabilities.push("browser.click".to_string());
+        request
+            .metadata
+            .insert("support_capability_packs".to_string(), "browser".to_string());
+
+        let grant = authorize_execution(&cfg, &policy, &request, None)
+            .expect("admitted browser pack should authorize when declared");
+        assert!(
+            grant
+                .support_posture
+                .as_ref()
+                .expect("support posture")
+                .allowed_capability_packs
+                .contains(&"browser".to_string())
         );
     }
 
@@ -7395,7 +7424,7 @@ mod tests {
         fs::write(
             cfg.octon_dir
                 .join("framework/engine/runtime/adapters/model/repo-local-governed.yml"),
-            "schema_version: \"octon-model-adapter-v1\"\nadapter_id: \"repo-local-governed\"\ndisplay_name: \"Broken\"\nreplaceable: true\nauthority_mode: \"non_authoritative\"\nruntime_surface:\n  interface_ref: \".octon/framework/engine/runtime/spec/policy-interface-v1.md\"\n  integration_class: \"native-planning\"\nsupport_target_ref: \".octon/instance/governance/support-targets.yml\"\nsupport_tier_declarations:\n  model_tiers:\n    - \"MT-B\"\n  workload_tiers:\n    - \"WT-2\"\n  language_resource_tiers:\n    - \"LT-REF\"\n  locale_tiers:\n    - \"LOC-EN\"\nconformance_criteria_refs:\n  - \"MODEL-001\"\nconformance_suite_refs: []\ncontamination_reset_policy:\n  clean_checkpoint_required: true\n  hard_reset_on_signature: true\n  contamination_signal_ref: \".octon/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json\"\n  evidence_log_ref: \".octon/state/evidence/runs/<run-id>/interventions/log.yml\"\nknown_limitations:\n  - \"fixture\"\nnon_authoritative_boundaries:\n  - \"fixture\"\n",
+            "schema_version: \"octon-model-adapter-v1\"\nadapter_id: \"repo-local-governed\"\ndisplay_name: \"Broken\"\nreplaceable: true\nauthority_mode: \"non_authoritative\"\nruntime_surface:\n  interface_ref: \".octon/framework/engine/runtime/spec/policy-interface-v1.md\"\n  integration_class: \"native-planning\"\nsupport_target_ref: \".octon/instance/governance/support-targets.yml\"\nsupport_tier_declarations:\n  model_tiers:\n    - \"repo-local-governed\"\n  workload_tiers:\n    - \"repo-consequential\"\n  language_resource_tiers:\n    - \"reference-owned\"\n  locale_tiers:\n    - \"english-primary\"\nconformance_criteria_refs:\n  - \"MODEL-001\"\nconformance_suite_refs: []\ncontamination_reset_policy:\n  clean_checkpoint_required: true\n  hard_reset_on_signature: true\n  contamination_signal_ref: \".octon/framework/constitution/contracts/runtime/rollback-posture-v1.schema.json\"\n  evidence_log_ref: \".octon/state/evidence/runs/<run-id>/interventions/log.yml\"\nknown_limitations:\n  - \"fixture\"\nnon_authoritative_boundaries:\n  - \"fixture\"\n",
         )
         .expect("write invalid model adapter manifest");
 

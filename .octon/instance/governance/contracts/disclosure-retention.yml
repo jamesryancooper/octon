@@ -43,15 +43,15 @@ storage_classes:
   run_card: "Class A"
   harness_card: "Class A"
 supported_run_classes:
-  repo-local-consequential:
+  observe-and-read:
     replay_payload_class: "git-inline"
     replay_manifest_class: "B"
     external_index_required: false
-  release-and-boundary-sensitive:
-    replay_payload_class: "external-immutable"
+  repo-consequential:
+    replay_payload_class: "git-inline"
     replay_manifest_class: "B"
-    external_index_required: true
-  external-or-irreversible:
+    external_index_required: false
+  boundary-sensitive:
     replay_payload_class: "external-immutable"
     replay_manifest_class: "B"
     external_index_required: true

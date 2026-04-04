@@ -1,0 +1,48 @@
+schema_version: "repo-governance-action-exclusions-v1"
+owner: "Octon governance"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+contract_ref: ".octon/framework/constitution/contracts/authority/prohibited-action-class-v1.schema.json"
+summary: >-
+  Explicit deny-only and non-claimed action classes for the globally complete
+  Unified Execution Constitution. These exclusions are governance controls, not
+  live support tiers.
+prohibited_action_classes:
+  - action_class_id: "external-irreversible"
+    prior_support_surface: "WT-4"
+    route: "deny"
+    rationale: "External irreversible operations are outside the retained repo-governed execution product."
+    required_authority: "break-glass-review"
+    required_evidence:
+      - "authority-route-receipt"
+      - "escalation-record"
+  - action_class_id: "unsupported-deployment-destination"
+    prior_support_surface: "WT-4"
+    route: "deny"
+    rationale: "Unsupported deployment destinations are excluded instead of surviving as faux support targets."
+    required_authority: "human-governance"
+    required_evidence:
+      - "authority-route-receipt"
+  - action_class_id: "non-admitted-external-effect-channel"
+    prior_support_surface: "WT-4"
+    route: "deny"
+    rationale: "External effect channels outside admitted capability packs remain fail-closed."
+    required_authority: "human-governance"
+    required_evidence:
+      - "authority-route-receipt"
+  - action_class_id: "break-glass-only"
+    prior_support_surface: "WT-4"
+    route: "deny"
+    rationale: "Break-glass paths are not part of the ordinary supported universe."
+    required_authority: "break-glass-review"
+    required_evidence:
+      - "authority-route-receipt"
+      - "escalation-record"
+retired_live_support_surfaces:
+  - surface_id: "MT-C"
+    resolution: "retired"
+  - surface_id: "LT-EXP"
+    resolution: "retired"
+  - surface_id: "LOC-EXP"
+    resolution: "retired"
+  - surface_id: "WT-4"
+    resolution: "rebound-to-governance-exclusion"

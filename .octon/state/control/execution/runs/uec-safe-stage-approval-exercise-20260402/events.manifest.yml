@@ -3,8 +3,8 @@ run_id: uec-safe-stage-approval-exercise-20260402
 ledger_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/events.ndjson
 event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v1.schema.json
 event_count: 10
-first_event_id: '"evt-001-run-created"'
-last_event_id: '"evt-012-run-closed"'
+first_event_id: evt-001-run-created
+last_event_id: evt-012-run-closed
 governing_event_refs:
   runtime_state_ref: evt-012-run-closed
   rollback_posture_ref: evt-012-run-closed

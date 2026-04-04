@@ -1,0 +1,92 @@
+actor_ref:
+  id: octon-kernel
+  kind: system
+authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-github-repo-consequential-20260404.yml
+contract_version: 1.1.0
+closure_conditions:
+  - Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.
+  - Canonical receipts and replay pointers remain linked to the run root.
+control_checkpoint_root: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/checkpoints
+created_at: 2026-04-01T14:24:36.851912Z
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-global-github-repo-consequential-20260404.yml
+disclosure_expectations:
+  - Emit a canonical RunCard v2, replay manifest, replay pointers, trace pointers, evidence classification, and recovery reference.
+  - Retain detailed measurement, intervention, and capability-pack disclosure before promoting any release claim.
+evidence_root: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404
+exclusions:
+  - .octon/inputs/exploratory/ideation/**
+expires_at: null
+external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-global-github-repo-consequential-20260404.yml
+host_adapter_ref: .octon/framework/engine/runtime/adapters/host/github-control-plane.yml
+intent_ref:
+  id: intent://octon/octon-governed-harness
+  version: 1.1.0
+issued_at: 2026-04-01T14:24:36.851912Z
+materiality: low
+mission_mode: none
+model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+notes_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/stage-attempts/initial.yml
+objective_summary: Repo-consequential GitHub control-plane run completed under the globally complete support universe.
+objective_refs:
+  workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
+  workspace_objective_ref: .octon/instance/charter/workspace.md
+protected_zones:
+  - .octon/framework/constitution/**
+  - .octon/instance/governance/**
+receipt_root: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/receipts
+replay_pointers_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay-pointers.yml
+requested_capabilities:
+  - workflow.execute
+  - evidence.write
+requested_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - api
+required_approvals: []
+required_evidence:
+  - decision-artifact
+  - execution-receipt
+  - policy-receipt
+  - replay-pointers
+  - trace-pointers
+retry_class: manual_review_required
+reversibility_class: reversible
+risk_class: low
+rollback_or_compensation_expectation: Wave 3 binds rollback posture and contamination state under the canonical run root before consequential side effects.
+rollback_posture_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/rollback-posture.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+run_id: uec-global-github-repo-consequential-20260404
+run_manifest_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-manifest.yml
+runtime_state_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/runtime-state.yml
+schema_version: run-contract-v1
+scope_in:
+  - workflow-scope
+scope_out:
+  - .octon/state/evidence/validation/analysis
+  - .octon/state/evidence/runs/workflows
+start_conditions:
+  - Support-target tuple repo-local-governed / repo-consequential / reference-owned / english-primary is admitted for github-control-plane and repo-local-governed.
+  - Canonical run root, decision artifact root, and evidence root are writable before stage execution begins.
+stage_attempt_root: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/stage-attempts
+status: bound
+stop_conditions:
+  - Stop immediately if runtime routing returns STAGE_ONLY, ESCALATE, or DENY.
+  - Stop if replay, trace, or disclosure references cannot be materialized under canonical run roots.
+support_target:
+  host_adapter: github-control-plane
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  model_adapter: repo-local-governed
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_tier: repo-consequential
+updated_at: 2026-04-01T14:24:36.851912Z
+acceptance_criteria:
+  - Canonical replay, trace, recovery, and disclosure references resolve for the retained run bundle.
+  - Run disclosure truthfully reflects the globally complete support surface exercised by the canonical run root.
+done_when:
+  - The retained run bundle validates against global completion closure gating.
+  - Run disclosure truthfully reflects the evidence emitted by the canonical run root.

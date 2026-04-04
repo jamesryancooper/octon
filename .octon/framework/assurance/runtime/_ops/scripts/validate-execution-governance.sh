@@ -213,8 +213,8 @@ main() {
     "kernel undeclared host adapter denies execution" \
     cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::undeclared_host_adapter_denies_execution -- --exact
   run_test \
-    "kernel unadmitted api pack denies execution" \
-    cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::unadmitted_api_pack_denies_execution -- --exact
+    "kernel admitted api pack allows declared execution" \
+    cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::admitted_api_pack_allows_declared_execution -- --exact
   run_test \
     "kernel invalid model adapter manifest denies execution" \
     cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::invalid_model_adapter_manifest_denies_execution -- --exact

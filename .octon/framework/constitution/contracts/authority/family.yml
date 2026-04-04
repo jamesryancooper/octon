@@ -4,7 +4,7 @@ status: "active"
 activation_wave: 2
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-03-30-unified-execution-constitution-atomic-cutover/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
 activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md"
 authority_routing:
@@ -23,6 +23,15 @@ authority_routing:
   quorum_policy:
     schema_ref: ".octon/framework/constitution/contracts/authority/quorum-policy-v1.schema.json"
     instance_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
+  prohibited_action_class:
+    schema_ref: ".octon/framework/constitution/contracts/authority/prohibited-action-class-v1.schema.json"
+    instance_policy_ref: ".octon/instance/governance/exclusions/action-classes.yml"
+  escalation_record:
+    schema_ref: ".octon/framework/constitution/contracts/authority/escalation-record-v1.schema.json"
+    evidence_root: ".octon/state/evidence/control/execution"
+  authority_route_receipt:
+    schema_ref: ".octon/framework/constitution/contracts/authority/authority-route-receipt-v1.schema.json"
+    evidence_root: ".octon/state/evidence/control/execution"
   decision_artifact:
     schema_ref: ".octon/framework/constitution/contracts/authority/decision-artifact-v1.schema.json"
     evidence_root: ".octon/state/evidence/control/execution"

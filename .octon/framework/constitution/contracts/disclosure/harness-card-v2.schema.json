@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/disclosure/harness-card-v2.schema.json",
+  "title": "Octon HarnessCard v2",
+  "description": "Global support-universe disclosure artifact for the fully realized Unified Execution Constitution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "card_id",
+    "claim_kind",
+    "claim_status",
+    "claim_summary",
+    "support_target_ref",
+    "governance_exclusions_ref",
+    "support_universe",
+    "retained_adapters",
+    "capability_packs",
+    "coverage_ledger_ref",
+    "proof_bundle_refs",
+    "known_limits",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "harness-card-v2" },
+    "card_id": { "type": "string", "minLength": 1 },
+    "claim_kind": { "type": "string", "minLength": 1 },
+    "claim_status": { "type": "string", "enum": ["provisional", "complete"] },
+    "claim_summary": { "type": "string", "minLength": 1 },
+    "support_target_ref": { "type": "string", "minLength": 1 },
+    "governance_exclusions_ref": { "type": "string", "minLength": 1 },
+    "support_universe": { "type": "object" },
+    "retained_adapters": { "type": "object" },
+    "capability_packs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "coverage_ledger_ref": { "type": "string", "minLength": 1 },
+    "proof_bundle_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "known_limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "generated_at": { "type": "string", "minLength": 1 }
+  }
+}

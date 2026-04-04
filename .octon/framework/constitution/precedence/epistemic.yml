@@ -55,4 +55,6 @@ layers:
     decision_rule: "Model priors are the weakest epistemic source."
 conflict_rule: >-
   If runtime evidence conflicts with docs, runtime evidence wins for factual
-  state and the mismatch becomes a drift incident or alignment failure.
+  state and the mismatch becomes a drift incident or alignment failure. Stale
+  generated or mirrored views are invalid once their cited runtime evidence or
+  authored governance source has changed.

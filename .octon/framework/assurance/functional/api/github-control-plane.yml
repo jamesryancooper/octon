@@ -1,0 +1,4 @@
+suite_id: "github-control-plane"
+plane: "functional"
+target_surface: "github-control-plane"
+summary: "GitHub control-plane projections remain non-authoritative while reporting supported execution state."
