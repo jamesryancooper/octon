@@ -35,12 +35,12 @@ shim_surfaces:
   agency_constitution_application:
     path: ".octon/framework/agency/governance/CONSTITUTION.md"
     role: "historical agency constitutional shim retained outside the required execution path"
-    status: "historical-retained-noncritical"
+    status: "historical-shim"
     retirement_condition: "Delete when lineage references stop requiring the historical agency constitutional shim."
   cognition_governance_charter:
     path: ".octon/framework/cognition/governance/CHARTER.md"
     role: "historical cognition-governance charter shim"
-    status: "historical-retained-noncritical"
+    status: "historical-shim"
     retirement_condition: "Delete when compatibility readers and lineage references no longer require the cognition-governance shim."
   assurance_governance_charter:
     path: ".octon/framework/assurance/governance/CHARTER.md"

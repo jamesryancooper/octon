@@ -18,4 +18,4 @@ source:
   desired_config_path: ".octon/instance/extensions.yml"
   desired_config_sha256: "d81e117f4c8a5a1b552a77708a62ae299ac86143f3eacd414a03c85bb07c7785"
   root_manifest_path: ".octon/octon.yml"
-  root_manifest_sha256: "fb904ee7e475153f316d2d9d2e3895d393c6f30a959fd63b7362fd538e676c38"
+  root_manifest_sha256: "4922b3f7178d1a73a71c846ed844df9898d1bef35cbfaf03ac8e079a2c1ba039"

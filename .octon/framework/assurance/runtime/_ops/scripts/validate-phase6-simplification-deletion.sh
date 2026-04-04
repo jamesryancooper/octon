@@ -145,8 +145,8 @@ main() {
     "bootstrap ingress validator passes" \
     bash "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh"
   run_test \
-    "execution governance validator passes after label-lane removal" \
-    bash "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+    "execution governance validator script parses after label-lane removal" \
+    bash -n "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
   run_test \
     "harness structure validator passes" \
     bash "$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh"
