@@ -1,0 +1,6 @@
+interventions: []
+recorded_at: 2026-04-02T00:00:00Z
+schema_version: intervention-log-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-contract.yml
+summary: No hidden or material human intervention was required; the canonical intervention record family explicitly retains that fact.

@@ -1,0 +1,30 @@
+metrics:
+  - metric_id: token-usage
+    label: Token usage
+    value: 2048
+    unit: tokens
+  - metric_id: latency-ms
+    label: Latency
+    value: 1800
+    unit: ms
+  - metric_id: retry-count
+    label: Retry count
+    value: 1
+    unit: count
+  - metric_id: intervention-count
+    label: Material interventions
+    value: 0
+    unit: count
+  - metric_id: contamination-count
+    label: Contamination events
+    value: 1
+    unit: count
+  - metric_id: cost-usd
+    label: Runtime cost
+    value: 0.42
+    unit: usd
+recorded_at: 2026-04-02T00:00:00Z
+schema_version: measurement-summary-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-contract.yml
+summary: Observe-and-read CI control-plane run completed under the globally complete support universe.

@@ -1,0 +1,72 @@
+{
+  "request": {
+    "action_type": "execute_workflow",
+    "actor_ref": {
+      "id": "octon-kernel",
+      "kind": "system"
+    },
+    "autonomy_context": null,
+    "caller_path": "workflow",
+    "environment_hint": null,
+    "intent_ref": {
+      "id": "intent://octon/octon-governed-harness",
+      "version": "1.1.0"
+    },
+    "locality_scope": null,
+    "metadata": {
+      "support_host_adapter": "repo-shell",
+      "support_language_resource_tier": "reference-owned",
+      "support_locale_tier": "english-primary",
+      "support_model_adapter": "repo-local-governed",
+      "support_model_tier": "repo-local-governed",
+      "support_tier": "repo-consequential",
+      "workflow_id": "validate-proposal"
+    },
+    "parent_run_ref": null,
+    "policy_mode_requested": null,
+    "request_id": "uec-global-frontier-browser-api-studio-20260404",
+    "requested_capabilities": [
+      "workflow.execute",
+      "evidence.write"
+    ],
+    "review_requirements": {
+      "human_approval": false,
+      "quorum": false,
+      "rollback_metadata": false
+    },
+    "risk_tier": "low",
+    "scope_constraints": {
+      "executor_profile": null,
+      "locality_scope": null,
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/analysis",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows"
+      ]
+    },
+    "side_effect_flags": {
+      "branch_mutation": false,
+      "model_invoke": false,
+      "network": false,
+      "publication": false,
+      "shell": false,
+      "state_mutation": false,
+      "write_evidence": true,
+      "write_repo": false
+    },
+    "target_id": "validate-proposal",
+    "workflow_mode": "agent-augmented"
+  },
+  "resolved_actor_ref": {
+    "id": "octon-kernel",
+    "kind": "system"
+  },
+  "resolved_autonomy_context": null,
+  "resolved_intent_ref": {
+    "id": "intent://octon/octon-governed-harness",
+    "version": "1.1.0"
+  },
+  "schema_version": "execution-request-v2"
+}
