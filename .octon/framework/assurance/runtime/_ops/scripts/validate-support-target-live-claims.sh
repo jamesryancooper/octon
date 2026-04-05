@@ -24,8 +24,8 @@ main() {
   require_yq '[.compatibility_matrix[] | select(.default_route != "allow")] | length == 0' "$SUPPORT_TARGETS" "live matrix routes supported tuples through allow"
   require_yq '[.host_adapters[] | select(.support_status != "supported")] | length == 0' "$SUPPORT_TARGETS" "no host adapter remains liminal"
   require_yq '[.model_adapters[] | select(.support_status != "supported")] | length == 0' "$SUPPORT_TARGETS" "no model adapter remains liminal"
-  require_yq '.retired_surfaces[] | select(. == "MT-C")' "$SUPPORT_TARGETS" "retired model placeholder is recorded"
-  require_yq '.retired_surfaces[] | select(. == "WT-4")' "$SUPPORT_TARGETS" "rebound deny-only tier is recorded"
+  require_yq '.retired_surfaces[] | select(. == "experimental-model-surface")' "$SUPPORT_TARGETS" "retired model surface is recorded"
+  require_yq '.retired_surfaces[] | select(. == "deny-only-external-irreversible-surface")' "$SUPPORT_TARGETS" "rebound deny-only surface is recorded"
   require_yq '.packs[] | select(.pack_id == "browser" and .admission_status == "admitted")' "$PACK_REGISTRY" "browser pack is admitted in runtime registry"
   require_yq '.packs[] | select(.pack_id == "api" and .admission_status == "admitted")' "$PACK_REGISTRY" "api pack is admitted in runtime registry"
 

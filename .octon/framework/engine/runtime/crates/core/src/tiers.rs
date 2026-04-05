@@ -199,14 +199,10 @@ pub fn validate_runtime_discovery_tiers(
     // Registry keys must match Tier 1 IDs.
     let registry_ids: BTreeSet<String> = registry.services.keys().cloned().collect();
     if registry_ids != seen_ids {
-        let missing_in_registry: Vec<String> = seen_ids
-            .difference(&registry_ids)
-            .cloned()
-            .collect();
-        let missing_in_manifest: Vec<String> = registry_ids
-            .difference(&seen_ids)
-            .cloned()
-            .collect();
+        let missing_in_registry: Vec<String> =
+            seen_ids.difference(&registry_ids).cloned().collect();
+        let missing_in_manifest: Vec<String> =
+            registry_ids.difference(&seen_ids).cloned().collect();
 
         return Err(KernelError::new(
             ErrorCode::Internal,

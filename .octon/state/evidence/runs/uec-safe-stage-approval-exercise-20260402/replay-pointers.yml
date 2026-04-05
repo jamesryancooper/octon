@@ -1,13 +1,5 @@
-schema_version: run-replay-pointers-v1
+schema_version: replay-pointer-v2
 run_id: uec-safe-stage-approval-exercise-20260402
-replay_manifest_refs:
-- .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay/manifest.yml
-receipt_refs:
-- .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/receipts/execution-receipt.json
-checkpoint_refs:
-- .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/checkpoints/bound.yml
-- .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/checkpoints/execution-complete.yml
-trace_refs: []
 external_index_refs:
-- .octon/state/evidence/external-index/runs/uec-safe-stage-approval-exercise-20260402.yml
-updated_at: '2026-04-02T00:00:00Z'
+  - .octon/state/evidence/external-index/runs/uec-safe-stage-approval-exercise-20260402.yml
+updated_at: "2026-04-05T00:56:33Z"

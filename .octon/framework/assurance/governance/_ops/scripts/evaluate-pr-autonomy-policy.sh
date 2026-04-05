@@ -15,7 +15,7 @@ REQUEST_ID=""
 RUN_ID=""
 TARGET_ID=""
 ISSUED_BY=""
-SUPPORT_TIER="repo-local-consequential"
+SUPPORT_TIER="repo-consequential"
 
 usage() {
   cat <<'USAGE'

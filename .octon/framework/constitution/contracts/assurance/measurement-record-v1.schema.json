@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/measurement-record-v1.schema.json",
+  "title": "Octon Measurement Record v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "metric_id",
+    "value"
+  ],
+  "properties": {
+    "schema_version": { "const": "measurement-record-v1" },
+    "metric_id": { "type": "string", "minLength": 1 },
+    "value": {}
+  }
+}

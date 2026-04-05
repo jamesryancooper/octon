@@ -5875,7 +5875,17 @@ fn resolve_requested_workflow_run_id(
 mod tests {
     use super::*;
     use std::os::unix::fs::PermissionsExt;
+    use std::sync::{Mutex, OnceLock};
     use std::time::{SystemTime, UNIX_EPOCH};
+
+    static WORKFLOW_TEST_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+
+    fn acquire_workflow_test_lock() -> std::sync::MutexGuard<'static, ()> {
+        WORKFLOW_TEST_LOCK
+            .get_or_init(|| Mutex::new(()))
+            .lock()
+            .expect("workflow test lock should acquire")
+    }
 
     fn make_temp_root(label: &str) -> PathBuf {
         let stamp = SystemTime::now()
@@ -5888,6 +5898,12 @@ mod tests {
         ));
         fs::create_dir_all(&root).expect("temp root should be created");
         root
+    }
+
+    fn make_locked_temp_root(label: &str) -> (std::sync::MutexGuard<'static, ()>, PathBuf) {
+        let guard = acquire_workflow_test_lock();
+        let root = make_temp_root(label);
+        (guard, root)
     }
 
     fn seed_policy_runtime_env() {
@@ -5941,7 +5957,7 @@ mod tests {
             .expect("ownership registry dir should exist");
         write_file(
             &octon_dir.join("instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-consequential\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
         );
         fs::copy(
             source_repo_root().join(".octon/instance/governance/support-targets.yml"),
@@ -6054,7 +6070,7 @@ mod tests {
         );
         write_file(
             &octon_dir.join("instance/governance/ownership/registry.yml"),
-            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-local-consequential\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
+            "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"repo-consequential\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
         );
         fs::copy(
             source_repo_root().join(".octon/instance/governance/support-targets.yml"),
@@ -6131,7 +6147,7 @@ mod tests {
 
     #[test]
     fn render_stage_prompt_injects_prior_reports() {
-        let root = make_temp_root("render");
+        let (_guard, root) = make_locked_temp_root("render");
         let (octon_dir, target_package) = seed_pipeline_fixture(&root);
         let runner = Runner::new(
             &octon_dir,
@@ -6178,7 +6194,7 @@ mod tests {
 
     #[test]
     fn prepare_only_run_materializes_bundle_and_prompt_packets() {
-        let root = make_temp_root("prepare-only");
+        let (_guard, root) = make_locked_temp_root("prepare-only");
         let (octon_dir, target_package) = seed_pipeline_fixture(&root);
 
         let result = run_design_package_from_octon_dir(
@@ -6220,7 +6236,7 @@ mod tests {
 
     #[test]
     fn mock_executor_run_materializes_reports_and_package_delta() {
-        let root = make_temp_root("mock-run");
+        let (_guard, root) = make_locked_temp_root("mock-run");
         let (octon_dir, target_package) = seed_pipeline_fixture(&root);
 
         let result = run_design_package_from_octon_dir(
@@ -6271,7 +6287,7 @@ mod tests {
 
     #[test]
     fn rigorous_mock_executor_run_materializes_rigorous_reports() {
-        let root = make_temp_root("mock-rigorous");
+        let (_guard, root) = make_locked_temp_root("mock-rigorous");
         let (octon_dir, target_package) = seed_pipeline_fixture(&root);
 
         let result = run_design_package_from_octon_dir(
@@ -6310,7 +6326,7 @@ mod tests {
 
     #[test]
     fn failing_executor_writes_failure_receipts() {
-        let root = make_temp_root("failing-executor");
+        let (_guard, root) = make_locked_temp_root("failing-executor");
         let (octon_dir, target_package) = seed_pipeline_fixture(&root);
 
         let fake_codex = root.join("bin/codex");
@@ -6395,7 +6411,7 @@ mod tests {
 
     #[test]
     fn create_design_package_scaffolds_domain_runtime_defaults() {
-        let root = make_temp_root("create-runtime");
+        let (_guard, root) = make_locked_temp_root("create-runtime");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         let result = run_create_design_package_from_octon_dir(
@@ -6453,7 +6469,7 @@ mod tests {
 
     #[test]
     fn create_design_package_scaffolds_experience_product_defaults() {
-        let root = make_temp_root("create-experience");
+        let (_guard, root) = make_locked_temp_root("create-experience");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         let result = run_create_design_package_from_octon_dir(
@@ -6502,7 +6518,7 @@ mod tests {
 
     #[test]
     fn create_design_package_duplicate_id_writes_failure_receipts() {
-        let root = make_temp_root("create-duplicate");
+        let (_guard, root) = make_locked_temp_root("create-duplicate");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         run_create_design_package_from_octon_dir(
@@ -6576,7 +6592,7 @@ mod tests {
 
     #[test]
     fn validate_proposal_rejects_invalid_explicit_run_id() {
-        let root = make_temp_root("validate-invalid-run-id");
+        let (_guard, root) = make_locked_temp_root("validate-invalid-run-id");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         run_create_design_package_from_octon_dir(
@@ -6617,7 +6633,7 @@ mod tests {
 
     #[test]
     fn validate_proposal_rejects_reused_explicit_run_id() {
-        let root = make_temp_root("validate-reused-run-id");
+        let (_guard, root) = make_locked_temp_root("validate-reused-run-id");
         let octon_dir = seed_create_design_package_fixture(&root);
         let runtime_cfg = ConfigLoader::load(&octon_dir).expect("runtime config should load");
 
@@ -6663,7 +6679,7 @@ mod tests {
 
     #[test]
     fn proposal_registry_preserves_same_id_across_kinds() {
-        let root = make_temp_root("proposal-registry-kinds");
+        let (_guard, root) = make_locked_temp_root("proposal-registry-kinds");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         run_create_static_proposal_from_octon_dir(
@@ -6713,7 +6729,7 @@ mod tests {
 
     #[test]
     fn create_design_package_writes_execution_artifacts() {
-        let root = make_temp_root("create-artifacts");
+        let (_guard, root) = make_locked_temp_root("create-artifacts");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         let result = run_create_design_package_from_octon_dir(
@@ -6757,7 +6773,7 @@ mod tests {
 
     #[test]
     fn create_static_and_audit_proposal_write_execution_artifacts() {
-        let root = make_temp_root("static-artifacts");
+        let (_guard, root) = make_locked_temp_root("static-artifacts");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         let create_result = run_create_static_proposal_from_octon_dir(
@@ -6815,7 +6831,7 @@ mod tests {
 
     #[test]
     fn create_static_proposal_failure_writes_execution_artifacts() {
-        let root = make_temp_root("static-create-failure");
+        let (_guard, root) = make_locked_temp_root("static-create-failure");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         run_create_static_proposal_from_octon_dir(
@@ -6865,7 +6881,7 @@ mod tests {
 
     #[test]
     fn audit_static_missing_target_writes_execution_artifacts() {
-        let root = make_temp_root("static-audit-failure");
+        let (_guard, root) = make_locked_temp_root("static-audit-failure");
         let octon_dir = seed_create_design_package_fixture(&root);
 
         let error = run_audit_static_proposal_from_octon_dir(

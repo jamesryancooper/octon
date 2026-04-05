@@ -1,5 +1,16 @@
 {
-  "status": "succeeded",
-  "touched_scope": [],
-  "completed_at": "2026-04-02T00:00:00Z"
+  "schema_version": "execution-receipt-v2",
+  "request_id": "uec-safe-stage-approval-exercise-20260402",
+  "action_type": "governance-exercise",
+  "decision": "ALLOW",
+  "timestamps": {
+    "started_at": "2026-04-02T00:00:00Z",
+    "completed_at": "2026-04-05T00:36:45Z"
+  },
+  "evidence_links": {
+    "run_control_root": ".octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402",
+    "run_receipts_root": ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/receipts",
+    "replay_pointers": ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay-pointers.yml",
+    "trace_pointers": ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/trace-pointers.yml"
+  }
 }

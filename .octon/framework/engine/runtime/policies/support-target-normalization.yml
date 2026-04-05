@@ -1,0 +1,26 @@
+schema_version: "support-target-normalization-policy-v1"
+policy_id: "semantic-support-target-normalization"
+owner: "Octon governance"
+status: "active"
+canonical_declaration_ref: ".octon/instance/governance/support-targets.yml"
+legacy_aliases:
+  MT-A: frontier-governed
+  MT-B: repo-local-governed
+  WT-1: observe-and-read
+  WT-2: repo-consequential
+  WT-3: boundary-sensitive
+  LT-REF: reference-owned
+  LT-EXT: extended-governed
+  LOC-EN: english-primary
+  LOC-ES: spanish-secondary
+blocked_in_regenerated_artifacts:
+  - "MT-A"
+  - "MT-B"
+  - "WT-1"
+  - "WT-2"
+  - "WT-3"
+  - "LT-REF"
+  - "LT-EXT"
+  - "LOC-EN"
+  - "LOC-ES"
+  - "repo-local-consequential"

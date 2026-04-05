@@ -10,4 +10,4 @@ required_artifacts:
   - "replay-bundle"
   - "fault-report"
 blocking_support_tiers:
-  - "repo-local-consequential"
+  - "repo-consequential"

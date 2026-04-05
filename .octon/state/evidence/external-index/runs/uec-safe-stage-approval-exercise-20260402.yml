@@ -3,22 +3,22 @@ index_id: external-replay-uec-safe-stage-approval-exercise-20260402
 scope: run
 run_id: uec-safe-stage-approval-exercise-20260402
 entries:
-- entry_id: uec-safe-stage-approval-exercise-20260402-replay-manifest
-  run_id: uec-safe-stage-approval-exercise-20260402
-  artifact_kind: replay-payload
-  evidence_class: B
-  storage_class: git-pointer
-  content_digest: sha256:054a03ed15fefa089fd90e3a6b16ad9019b1dfa936ce2d8f77fc2bd38ef8aeb5
-  locator: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay/manifest.yml
-  manifest_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay/manifest.yml
-  recorded_at: '2026-04-02T00:00:00Z'
-- entry_id: uec-safe-stage-approval-exercise-20260402-trace-pointers
-  run_id: uec-safe-stage-approval-exercise-20260402
-  artifact_kind: trace-payload
-  evidence_class: B
-  storage_class: git-pointer
-  content_digest: sha256:73ebb38d58233f106a134d9340d44b3de3f2f60ed55a2b9d089ea94b559eea7a
-  locator: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/trace-pointers.yml
-  manifest_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/trace-pointers.yml
-  recorded_at: '2026-04-02T00:00:00Z'
-updated_at: '2026-04-02T00:00:00Z'
+  - entry_id: uec-safe-stage-approval-exercise-20260402-replay-payload
+    run_id: uec-safe-stage-approval-exercise-20260402
+    artifact_kind: replay-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:fecbfbdbeff5907f37920c1f6f6f2cde4f8cfaacd57c83bd7f215b7231b254d9
+    locator: immutable://octon/replays/uec-safe-stage-approval-exercise-20260402/bundle.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay/manifest.yml
+    recorded_at: "2026-04-05T00:56:33Z"
+  - entry_id: uec-safe-stage-approval-exercise-20260402-trace-payload
+    run_id: uec-safe-stage-approval-exercise-20260402
+    artifact_kind: trace-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:4b97d11d30c224d40d4a6000dc0088d8bee0aab129e958bde3b73bdb44693094
+    locator: immutable://octon/replays/uec-safe-stage-approval-exercise-20260402/trace.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay/manifest.yml
+    recorded_at: "2026-04-05T00:56:33Z"
+updated_at: "2026-04-05T00:56:33Z"

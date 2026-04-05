@@ -1081,7 +1081,9 @@ fn validate_declared_skill_services(
         return None;
     }
 
-    let Some(services_manifest_path) = infer_services_manifest_from_skills_manifest(&request.manifest_path) else {
+    let Some(services_manifest_path) =
+        infer_services_manifest_from_skills_manifest(&request.manifest_path)
+    else {
         return Some(deny(
             "hard-enforce",
             "DDB026_ALLOWED_SERVICE_MANIFEST_UNRESOLVABLE",
@@ -1697,8 +1699,7 @@ fn evaluate_acp_internal(
         push_reason(&mut reason_codes, &mut reason_seen, "ACP_ALLOW_POLICY_PASS");
     }
 
-    let (remediation, remediation_steps) =
-        build_acp_remediation(&final_decision, &reason_codes);
+    let (remediation, remediation_steps) = build_acp_remediation(&final_decision, &reason_codes);
 
     Ok(AcpDecision {
         allow: matches!(final_decision, AcpDecisionKind::Allow),
@@ -3614,10 +3615,7 @@ pub fn validate_receipt(request: &ReceiptValidateRequest) -> Result<ReceiptValid
         errors.push("receipt must be a JSON object".to_string());
     }
 
-    match receipt
-        .get("schema_version")
-        .and_then(Value::as_str)
-    {
+    match receipt.get("schema_version").and_then(Value::as_str) {
         Some("policy-receipt-v1") | Some("policy-receipt-v2") => {}
         Some(other) => errors.push(format!("unsupported receipt schema_version '{other}'")),
         None => errors.push("missing required receipt field 'schema_version'".to_string()),
@@ -3648,7 +3646,10 @@ pub fn validate_receipt(request: &ReceiptValidateRequest) -> Result<ReceiptValid
     for code in &receipt_reason_codes {
         let mut found = false;
         for detail in &reason_details {
-            let detail_code = detail.get("code").and_then(Value::as_str).unwrap_or_default();
+            let detail_code = detail
+                .get("code")
+                .and_then(Value::as_str)
+                .unwrap_or_default();
             let detail_remediation = detail
                 .get("remediation")
                 .and_then(Value::as_str)

@@ -16,10 +16,8 @@ pub fn service_new(octon_dir: &Path, category: &str, name: &str) -> anyhow::Resu
     let rust_src = rust_dir.join("src");
     let rust_wit = rust_dir.join("wit");
 
-    std::fs::create_dir_all(&rust_src)
-        .with_context(|| format!("create {}", rust_src.display()))?;
-    std::fs::create_dir_all(&rust_wit)
-        .with_context(|| format!("create {}", rust_wit.display()))?;
+    std::fs::create_dir_all(&rust_src).with_context(|| format!("create {}", rust_src.display()))?;
+    std::fs::create_dir_all(&rust_wit).with_context(|| format!("create {}", rust_wit.display()))?;
 
     // Copy canonical WIT world.
     let world_src = octon_dir
@@ -57,8 +55,7 @@ world = "octon-service"
 "#
     );
 
-    std::fs::write(rust_dir.join("Cargo.toml"), cargo_toml)
-        .with_context(|| "write Cargo.toml")?;
+    std::fs::write(rust_dir.join("Cargo.toml"), cargo_toml).with_context(|| "write Cargo.toml")?;
 
     let lib_rs = r#"use serde::{Deserialize, Serialize};
 
@@ -206,7 +203,9 @@ pub fn service_build(octon_dir: &Path, category: &str, name: &str) -> anyhow::Re
         .env("CARGO_TARGET_DIR", &build_target_dir)
         .current_dir(&rust_dir)
         .status()
-        .with_context(|| "failed to run 'cargo component build --release' (is cargo-component installed?)")?;
+        .with_context(|| {
+            "failed to run 'cargo component build --release' (is cargo-component installed?)"
+        })?;
 
     if !status.success() {
         anyhow::bail!("cargo component build failed");
@@ -233,9 +232,8 @@ pub fn service_build(octon_dir: &Path, category: &str, name: &str) -> anyhow::Re
         }
     }
 
-    let (_, wasm_path) = newest.ok_or_else(|| {
-        anyhow::anyhow!("no .wasm artifact found under {}", target_dir.display())
-    })?;
+    let (_, wasm_path) = newest
+        .ok_or_else(|| anyhow::anyhow!("no .wasm artifact found under {}", target_dir.display()))?;
 
     let wasm_bytes = std::fs::read(&wasm_path)
         .with_context(|| format!("read wasm artifact {}", wasm_path.display()))?;
@@ -248,7 +246,8 @@ pub fn service_build(octon_dir: &Path, category: &str, name: &str) -> anyhow::Re
     let sha = hex::encode(Sha256::digest(&wasm_bytes));
 
     let service_json_path = service_dir.join("service.json");
-    let mut manifest: serde_json::Value = serde_json::from_slice(&std::fs::read(&service_json_path)?)?;
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&std::fs::read(&service_json_path)?)?;
     manifest["integrity"] = serde_json::json!({"wasm_sha256": sha});
 
     atomic_write(&service_json_path, &serde_json::to_vec_pretty(&manifest)?)?;
@@ -278,7 +277,9 @@ fn validate_ident(s: &str) -> anyhow::Result<()> {
 }
 
 fn atomic_write(path: &Path, data: &[u8]) -> anyhow::Result<()> {
-    let dir = path.parent().ok_or_else(|| anyhow::anyhow!("missing parent dir"))?;
+    let dir = path
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("missing parent dir"))?;
     std::fs::create_dir_all(dir)?;
 
     let tmp = path.with_file_name(format!(

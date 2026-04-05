@@ -55,14 +55,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - name: Install yq
-        run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
+      - name: Install jq and yq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
 
-      - name: Assert unified-execution closure
+      - name: Run unified-execution completion pass
         run: |
           set -euo pipefail
+          chmod +x .octon/framework/assurance/governance/_ops/scripts/run-uec-packet-certification-pass.sh
           chmod +x .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh
-          .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh
+          .octon/framework/assurance/governance/_ops/scripts/run-uec-packet-certification-pass.sh \
+            --output-dir .octon/generated/.tmp/unified-execution-completion-ci \
+            --include-closure-validator
 
       - name: Upload closure publication bundle
         if: always()
@@ -70,7 +77,7 @@ jobs:
         with:
           name: unified-execution-constitution-closure-publication
           path: |
-            .octon/state/evidence/validation/publication/unified-execution-constitution-closure/
-            .octon/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-closure/
+            .octon/generated/.tmp/unified-execution-completion-ci/
+            .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/
           if-no-files-found: error
           retention-days: 7

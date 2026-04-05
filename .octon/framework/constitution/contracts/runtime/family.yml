@@ -16,7 +16,7 @@ run_lifecycle:
       - "events.ndjson"
       - "events.manifest.yml"
   run_manifest:
-    schema_ref: ".octon/framework/constitution/contracts/runtime/run-manifest-v1.schema.json"
+    schema_ref: ".octon/framework/constitution/contracts/runtime/run-manifest-v2.schema.json"
     control_root: ".octon/state/control/execution/runs"
     canonical_file: "run-manifest.yml"
   run_continuity:
@@ -40,7 +40,7 @@ run_lifecycle:
     evidence_root: ".octon/state/evidence/runs"
     canonical_file: "replay-pointers.yml"
   trace_pointers:
-    schema_ref: ".octon/framework/constitution/contracts/runtime/trace-pointers-v1.schema.json"
+    schema_ref: ".octon/framework/constitution/contracts/runtime/trace-pointer-v2.schema.json"
     evidence_root: ".octon/state/evidence/runs"
     canonical_file: "trace-pointers.yml"
   retry_records:

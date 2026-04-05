@@ -29,11 +29,11 @@ execution:
     support_targets: ".octon/instance/governance/support-targets.yml"
     missions_registry: ".octon/instance/orchestration/missions/registry.yml"
   control_state:
-    budget_state: ".octon/state/control/execution/budget-state.yml"
+    budget_state: ".octon/state/control/execution/budgets/"
     approval_requests_root: ".octon/state/control/execution/approvals/requests"
     approval_grants_root: ".octon/state/control/execution/approvals/grants"
-    exception_leases: ".octon/state/control/execution/exceptions/leases.yml"
-    revocations: ".octon/state/control/execution/revocations/grants.yml"
+    exception_leases: ".octon/state/control/execution/exceptions/leases/"
+    revocations: ".octon/state/control/execution/revocations/"
     runs_root: ".octon/state/control/execution/runs"
     missions_root: ".octon/state/control/execution/missions"
   objective_binding:

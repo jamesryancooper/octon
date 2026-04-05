@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/proof-plane-coverage-v1.schema.json",
+  "title": "Octon Proof Plane Coverage v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "coverage_id",
+    "support_tuple",
+    "planes"
+  ],
+  "properties": {
+    "schema_version": { "const": "proof-plane-coverage-v1" },
+    "coverage_id": { "type": "string", "minLength": 1 },
+    "support_tuple": { "type": "object" },
+    "planes": { "type": "object" }
+  }
+}

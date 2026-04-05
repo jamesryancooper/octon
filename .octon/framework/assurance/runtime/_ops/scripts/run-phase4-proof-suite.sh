@@ -57,7 +57,7 @@ shadow_run=".octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20
 fault_report=".octon/state/evidence/lab/faults/flt-runtime-proof-supported-20260329/fault-report.yml"
 scenario_pack=".octon/framework/lab/scenarios/packs/runtime-proof-pack.yml"
 
-support_tier="$(yq -r '.support_tier // "repo-local-consequential"' "$OCTON_DIR/${run_contract#.octon/}" 2>/dev/null || printf 'repo-local-consequential')"
+support_tier="$(yq -r '.support_tier // "repo-consequential"' "$OCTON_DIR/${run_contract#.octon/}" 2>/dev/null || printf 'repo-consequential')"
 
 report_file="$OCTON_DIR/state/evidence/runs/$run_id/assurance/${plane}.yml"
 execution_file="$OCTON_DIR/state/evidence/runs/$run_id/assurance/${plane}-suite-execution.yml"
@@ -94,7 +94,7 @@ case "$plane" in
   behavioral)
     suite_id="replay-shadow-substance"
     suite_rel=".octon/framework/assurance/behavioral/suites/replay-shadow-substance.yml"
-    if [[ "$support_tier" == "repo-local-consequential" ]]; then
+    if [[ "$support_tier" == "repo-consequential" ]]; then
       proof_class="shadow-run"
       summary="Behavioral proof is backed by scenario, replay, and shadow-run evidence for a supported consequential run."
       for rel in "$suite_rel" "$scenario_proof" "$replay_bundle" "$shadow_run" "$replay_manifest"; do require_relpath "$rel"; done
@@ -117,7 +117,7 @@ case "$plane" in
   recovery)
     suite_id="checkpoint-fault-recovery"
     suite_rel=".octon/framework/assurance/recovery/suites/checkpoint-fault-recovery.yml"
-    if [[ "$support_tier" == "repo-local-consequential" ]]; then
+    if [[ "$support_tier" == "repo-consequential" ]]; then
       proof_class="lab"
       summary="Recovery proof is backed by rollback posture, checkpoints, replay, and a retained fault rehearsal."
       for rel in "$suite_rel" "$rollback_posture" "$checkpoint" "$replay_bundle" "$fault_report"; do require_relpath "$rel"; done

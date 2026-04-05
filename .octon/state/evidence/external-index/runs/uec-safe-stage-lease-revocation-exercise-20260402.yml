@@ -3,22 +3,22 @@ index_id: external-replay-uec-safe-stage-lease-revocation-exercise-20260402
 scope: run
 run_id: uec-safe-stage-lease-revocation-exercise-20260402
 entries:
-- entry_id: uec-safe-stage-lease-revocation-exercise-20260402-replay-manifest
-  run_id: uec-safe-stage-lease-revocation-exercise-20260402
-  artifact_kind: replay-payload
-  evidence_class: B
-  storage_class: git-pointer
-  content_digest: sha256:813483b81cb48f318c3189ccacb48f4fbd51941a84ebf9bd1b6e88dbe7b4f573
-  locator: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/replay/manifest.yml
-  manifest_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/replay/manifest.yml
-  recorded_at: '2026-04-02T00:00:00Z'
-- entry_id: uec-safe-stage-lease-revocation-exercise-20260402-trace-pointers
-  run_id: uec-safe-stage-lease-revocation-exercise-20260402
-  artifact_kind: trace-payload
-  evidence_class: B
-  storage_class: git-pointer
-  content_digest: sha256:62894d9182ad48a49ac71567290edca8bc3a92f8ad1a1c2fccf32e4a30e3a59d
-  locator: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/trace-pointers.yml
-  manifest_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/trace-pointers.yml
-  recorded_at: '2026-04-02T00:00:00Z'
-updated_at: '2026-04-02T00:00:00Z'
+  - entry_id: uec-safe-stage-lease-revocation-exercise-20260402-replay-payload
+    run_id: uec-safe-stage-lease-revocation-exercise-20260402
+    artifact_kind: replay-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:36085c5005c60de147f83123d498af267cf7a5edb994eb18787f00c95b902764
+    locator: immutable://octon/replays/uec-safe-stage-lease-revocation-exercise-20260402/bundle.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/replay/manifest.yml
+    recorded_at: "2026-04-05T00:56:33Z"
+  - entry_id: uec-safe-stage-lease-revocation-exercise-20260402-trace-payload
+    run_id: uec-safe-stage-lease-revocation-exercise-20260402
+    artifact_kind: trace-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:eed87aca4556610bd146526a14b7357f321a44b42741645b3dc82fd813a6ff50
+    locator: immutable://octon/replays/uec-safe-stage-lease-revocation-exercise-20260402/trace.jsonl
+    manifest_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/replay/manifest.yml
+    recorded_at: "2026-04-05T00:56:33Z"
+updated_at: "2026-04-05T00:56:33Z"

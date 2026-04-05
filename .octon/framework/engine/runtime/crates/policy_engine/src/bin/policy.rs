@@ -8,10 +8,12 @@ use serde::Serialize;
 use std::fs;
 use std::path::PathBuf;
 
-const DEFAULT_POLICY_PATH: &str = ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml";
+const DEFAULT_POLICY_PATH: &str =
+    ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml";
 const DEFAULT_SCHEMA_PATH: &str =
     ".octon/framework/capabilities/governance/policy/deny-by-default.v2.schema.json";
-const DEFAULT_REASON_CODES_PATH: &str = ".octon/framework/capabilities/governance/policy/reason-codes.md";
+const DEFAULT_REASON_CODES_PATH: &str =
+    ".octon/framework/capabilities/governance/policy/reason-codes.md";
 
 #[derive(Parser, Debug)]
 #[command(name = "octon-policy")]

@@ -1,4 +1,4 @@
-schema_version: "support-universe-coverage-v1"
+schema_version: "support-universe-coverage-v2"
 release_id: "2026-04-04-uec-global-completion"
 generated_at: "2026-04-04T12:00:00Z"
 surfaces:
@@ -134,11 +134,11 @@ surfaces:
     disclosure_refs:
       - ".octon/instance/governance/disclosure/harness-card.yml"
 retired_or_rebound:
-  - surface_id: "MT-C"
+  - surface_id: "experimental-model-surface"
     resolution: "retired"
-  - surface_id: "LT-EXP"
+  - surface_id: "experimental-context-surface"
     resolution: "retired"
-  - surface_id: "LOC-EXP"
+  - surface_id: "experimental-locale-surface"
     resolution: "retired"
-  - surface_id: "WT-4"
+  - surface_id: "deny-only-external-irreversible-surface"
     resolution: "rebound-to-governance-exclusion"

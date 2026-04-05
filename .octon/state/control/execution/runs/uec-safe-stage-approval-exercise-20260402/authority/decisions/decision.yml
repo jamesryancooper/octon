@@ -12,12 +12,12 @@ ownership:
   - operator://octon-maintainers
   matched_asset_ref: null
 support_tier:
-  support_tier: repo-local-consequential
-  model_tier_id: MT-B
-  workload_tier_id: WT-2
-  language_resource_tier_id: LT-REF
-  locale_tier_id: LOC-EN
-  workload_tier_label: repo-local-consequential
+  support_tier: repo-consequential
+  model_tier_id: repo-local-governed
+  workload_tier_id: repo-consequential
+  language_resource_tier_id: reference-owned
+  locale_tier_id: english-primary
+  workload_tier_label: repo-consequential
   host_adapter_id: repo-shell
   host_adapter_status: supported
   model_adapter_id: repo-local-governed

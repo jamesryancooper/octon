@@ -43,24 +43,27 @@ main() {
 
   local -a steps=(
     "01-normalize|bash .octon/framework/assurance/governance/_ops/scripts/normalize-uec-packet-certification-runs.sh"
-    "02-support-claims|bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh"
-    "03-adapters|bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase5-adapter-support-target-hardening.sh"
-    "04-runtime|bash .octon/framework/assurance/governance/_ops/scripts/validate-uec-packet-runtime-normalization.sh"
-    "05-richness|bash .octon/framework/assurance/runtime/_ops/scripts/validate-unified-execution-richness.sh"
-    "06-disclosure|bash .octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
-    "07-disclosure-roots|bash .octon/framework/assurance/runtime/_ops/scripts/validate-disclosure-live-roots.sh"
-    "08-retirement|bash .octon/framework/assurance/runtime/_ops/scripts/validate-global-retirement-closure.sh"
+    "02-run-binding|bash .octon/framework/assurance/governance/_ops/scripts/validate-run-binding-enforcement.sh"
+    "03-runtime|bash .octon/framework/assurance/governance/_ops/scripts/validate-uec-packet-runtime-normalization.sh"
+    "04-authority|bash .octon/framework/assurance/governance/_ops/scripts/validate-authority-bundle-resolution.sh"
+    "05-support-targets|bash .octon/framework/assurance/governance/_ops/scripts/validate-support-target-normalization.sh"
+    "06-capabilities|bash .octon/framework/assurance/governance/_ops/scripts/validate-capability-truthfulness.sh"
+    "07-disclosure|bash .octon/framework/assurance/governance/_ops/scripts/validate-disclosure-referential-integrity.sh"
+    "08-proof-planes|bash .octon/framework/assurance/governance/_ops/scripts/validate-proof-plane-coverage.sh"
+    "09-replay|bash .octon/framework/assurance/governance/_ops/scripts/validate-replay-sufficiency.sh"
+    "10-interventions|bash .octon/framework/assurance/governance/_ops/scripts/validate-hidden-repair-intervention-disclosure.sh"
+    "11-retirement|bash .octon/framework/assurance/runtime/_ops/scripts/validate-global-retirement-closure.sh"
   )
 
   if [[ "$INCLUDE_CLOSURE_VALIDATOR" == "true" ]]; then
-    steps+=("09-closure|bash .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh")
+    steps+=("12-closure|bash .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh")
   fi
 
   local item step_id cmd
   for item in "${steps[@]}"; do
     step_id="${item%%|*}"
     cmd="${item#*|}"
-    run_step "$step_id" "$cmd"
+    run_step "$step_id" "UEC_VALIDATE_CLOSURE_REFS=$INCLUDE_CLOSURE_VALIDATOR $cmd"
   done
 
   local pass_id

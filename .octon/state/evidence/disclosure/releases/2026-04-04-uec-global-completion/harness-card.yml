@@ -43,6 +43,7 @@ coverage_ledger_ref: .octon/state/evidence/disclosure/releases/2026-04-04-uec-gl
 proof_bundle_refs:
   - .octon/instance/governance/disclosure/harness-card.yml
   - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/proof-plane-coverage.yml
   - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass1/summary.yml
   - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass2/summary.yml
   - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/closure-certificate.yml

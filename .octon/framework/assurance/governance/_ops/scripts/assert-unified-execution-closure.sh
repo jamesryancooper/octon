@@ -12,6 +12,8 @@ AUTHORED_HARNESS_CARD="$OCTON_DIR/instance/governance/disclosure/harness-card.ym
 SUPPORT_TARGETS="$OCTON_DIR/instance/governance/support-targets.yml"
 RETIREMENT_REGISTRY="$OCTON_DIR/instance/governance/contracts/retirement-registry.yml"
 COVERAGE_LEDGER="$OCTON_DIR/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml"
+CLOSURE_CERTIFICATE="$OCTON_DIR/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/closure-certificate.yml"
+PROOF_COVERAGE="$OCTON_DIR/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/proof-plane-coverage.yml"
 
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
@@ -29,6 +31,13 @@ main() {
   require_yq '.claim_summary == load("'"$CLOSURE_MANIFEST"'").permitted_release_wording' "$AUTHORED_HARNESS_CARD" "HarnessCard wording matches closure manifest"
   require_yq '.surfaces | length >= 14' "$COVERAGE_LEDGER" "coverage ledger spans retained support surfaces"
   require_yq '[.compatibility_matrix[] | select(.support_status != "supported")] | length == 0' "$SUPPORT_TARGETS" "support-target declaration contains no liminal live entry"
+  require_yq '.schema_version == "support-universe-coverage-v2"' "$COVERAGE_LEDGER" "coverage ledger uses v2 schema"
+  require_yq '.schema_version == "closure-certificate-v2"' "$CLOSURE_CERTIFICATE" "closure certificate uses v2 schema"
+  require_yq '.schema_version == "proof-plane-coverage-v1"' "$PROOF_COVERAGE" "proof-plane coverage artifact exists"
+  while IFS= read -r ref; do
+    [[ -n "$ref" ]] || continue
+    [[ -e "$DEFAULT_OCTON_DIR/../$ref" ]] && pass "closure proof ref resolves: $ref" || fail "closure proof ref missing: $ref"
+  done < <(yq -r '.proof_bundle_refs.*' "$CLOSURE_CERTIFICATE")
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]

@@ -44,10 +44,10 @@ final_support_universe:
     - "api"
 resolution_ledger_ref: ".octon/instance/governance/closure/global-support-surface-ledger.yml"
 retired_or_rebound_surfaces:
-  - "MT-C"
-  - "LT-EXP"
-  - "LOC-EXP"
-  - "WT-4"
+  - "experimental-model-surface"
+  - "experimental-context-surface"
+  - "experimental-locale-surface"
+  - "deny-only-external-irreversible-surface"
 required_proof_artifacts:
   - "authority-decision-artifact"
   - "authority-grant-bundle"

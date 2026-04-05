@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/trace-pointer-v2.schema.json",
+  "title": "Octon Trace Pointer v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "run_id",
+    "external_index_refs",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "trace-pointer-v2" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "external_index_refs": { "type": "array" },
+    "recorded_at": { "type": "string", "minLength": 1 }
+  }
+}

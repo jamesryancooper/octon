@@ -11,9 +11,12 @@ impl RootResolver {
             return Ok(override_path);
         }
 
-        let cur = start
-            .canonicalize()
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to canonicalize cwd: {e}")))?;
+        let cur = start.canonicalize().map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to canonicalize cwd: {e}"),
+            )
+        })?;
 
         let candidates: Vec<PathBuf> = cur
             .ancestors()
@@ -47,8 +50,9 @@ impl RootResolver {
             return Ok(override_path);
         }
 
-        let cwd = std::env::current_dir()
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to read cwd: {e}")))?;
+        let cwd = std::env::current_dir().map_err(|e| {
+            KernelError::new(ErrorCode::Internal, format!("failed to read cwd: {e}"))
+        })?;
         Self::resolve_from(&cwd)
     }
 }
@@ -59,13 +63,19 @@ fn override_octon_dir() -> Result<Option<PathBuf>> {
         let canonical = path.canonicalize().map_err(|e| {
             KernelError::new(
                 ErrorCode::Internal,
-                format!("failed to canonicalize OCTON_DIR_OVERRIDE {}: {e}", path.display()),
+                format!(
+                    "failed to canonicalize OCTON_DIR_OVERRIDE {}: {e}",
+                    path.display()
+                ),
             )
         })?;
         if !canonical.is_dir() {
             return Err(KernelError::new(
                 ErrorCode::Internal,
-                format!("OCTON_DIR_OVERRIDE is not a directory: {}", canonical.display()),
+                format!(
+                    "OCTON_DIR_OVERRIDE is not a directory: {}",
+                    canonical.display()
+                ),
             ));
         }
         return Ok(Some(canonical));
@@ -77,13 +87,19 @@ fn override_octon_dir() -> Result<Option<PathBuf>> {
         let canonical = octon_dir.canonicalize().map_err(|e| {
             KernelError::new(
                 ErrorCode::Internal,
-                format!("failed to canonicalize OCTON_ROOT_DIR/.octon {}: {e}", octon_dir.display()),
+                format!(
+                    "failed to canonicalize OCTON_ROOT_DIR/.octon {}: {e}",
+                    octon_dir.display()
+                ),
             )
         })?;
         if !canonical.is_dir() {
             return Err(KernelError::new(
                 ErrorCode::Internal,
-                format!("OCTON_ROOT_DIR does not contain .octon/: {}", canonical.display()),
+                format!(
+                    "OCTON_ROOT_DIR does not contain .octon/: {}",
+                    canonical.display()
+                ),
             ));
         }
         return Ok(Some(canonical));
@@ -136,10 +152,12 @@ mod tests {
         let cwd = lower_level_root.join("src");
 
         fs::create_dir_all(repo_root.join(".octon")).expect("repo harness should be created");
-        fs::create_dir_all(lower_level_root.join(".octon")).expect("second harness should be created");
+        fs::create_dir_all(lower_level_root.join(".octon"))
+            .expect("second harness should be created");
         fs::create_dir_all(&cwd).expect("cwd should be created");
 
-        let error = RootResolver::resolve_from(&cwd).expect_err("multiple harness roots should fail");
+        let error =
+            RootResolver::resolve_from(&cwd).expect_err("multiple harness roots should fail");
         let error_text = error.to_string();
         let repo_octon = repo_root
             .join(".octon")
@@ -194,7 +212,8 @@ mod tests {
         fs::create_dir_all(sibling_root.join(".octon")).expect("sibling harness should be created");
         fs::create_dir_all(&cwd).expect("cwd should be created");
 
-        let resolved = RootResolver::resolve_from(&cwd).expect("single ancestor-chain harness should resolve");
+        let resolved =
+            RootResolver::resolve_from(&cwd).expect("single ancestor-chain harness should resolve");
 
         assert_eq!(
             resolved,

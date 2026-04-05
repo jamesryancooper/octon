@@ -1,9 +1,9 @@
 use anyhow::{Context, Result};
-use octon_core::orchestration::{
-    ClosureReadiness, LookupQuery, LookupResult, OrchestrationInspector, OpsSnapshot, SurfaceSummary,
-    SummarySurface,
-};
 use clap::ValueEnum;
+use octon_core::orchestration::{
+    ClosureReadiness, LookupQuery, LookupResult, OpsSnapshot, OrchestrationInspector,
+    SummarySurface, SurfaceSummary,
+};
 use serde::Serialize;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -162,8 +162,7 @@ fn render_summary_markdown(summary: &SurfaceSummary, snapshot: &OpsSnapshot) -> 
     body.push_str("## Payload\n\n");
     body.push_str("```json\n");
     body.push_str(
-        &serde_json::to_string_pretty(&summary.payload)
-            .unwrap_or_else(|_| "{}".to_string()),
+        &serde_json::to_string_pretty(&summary.payload).unwrap_or_else(|_| "{}".to_string()),
     );
     body.push_str("\n```\n");
     body

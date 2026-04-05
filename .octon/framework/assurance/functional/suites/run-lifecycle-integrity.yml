@@ -12,5 +12,5 @@ required_artifacts:
   - "receipt"
   - "retained-run-evidence"
 blocking_support_tiers:
-  - "repo-local-consequential"
+  - "repo-consequential"
   - "release-and-boundary-sensitive"

@@ -1,10 +1,10 @@
+use crate::context::KernelContext;
+use crate::request;
 use octon_authority_engine::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
     write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
     ScopeConstraints, SideEffectFlags, SideEffectSummary,
 };
-use crate::context::KernelContext;
-use crate::request;
 use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::execution_integrity::service_capability_profile;
 use octon_core::jsonlines::{read_json_line, write_json_line};
@@ -41,10 +41,7 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
         }
     };
 
-    let protocol = hello
-        .get("protocol")
-        .and_then(|v| v.as_str())
-        .unwrap_or("");
+    let protocol = hello.get("protocol").and_then(|v| v.as_str()).unwrap_or("");
     let msg_type = hello.get("type").and_then(|v| v.as_str()).unwrap_or("");
 
     if msg_type != "hello" || protocol != "octon-stdio-v1" {
@@ -150,7 +147,10 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                 let input = params.get("input").cloned().unwrap_or(json!({}));
 
                 let meta = v.get("meta").cloned().unwrap_or(json!({}));
-                let trace_id = meta.get("trace_id").and_then(|v| v.as_str()).map(|s| s.to_string());
+                let trace_id = meta
+                    .get("trace_id")
+                    .and_then(|v| v.as_str())
+                    .map(|s| s.to_string());
                 let deadline_ms = meta.get("deadline_ms").and_then(|v| v.as_u64());
 
                 let ctx = ctx.clone();
@@ -198,19 +198,21 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         &input,
                         &service.manifest.capabilities_required,
                     );
-                    let (intent_ref, actor_ref, metadata) =
-                        match request::bind_repo_local_request(&ctx.cfg, service_profile.metadata.clone()) {
-                            Ok(bindings) => bindings,
-                            Err(error) => {
-                                let err = KernelError::new(
-                                    ErrorCode::CapabilityDenied,
-                                    format!("failed to bind canonical execution request: {error}"),
-                                );
-                                let _ = out_tx.send(response_error(&id, err));
-                                let _ = inflight.lock().unwrap().remove(&id);
-                                return;
-                            }
-                        };
+                    let (intent_ref, actor_ref, metadata) = match request::bind_repo_local_request(
+                        &ctx.cfg,
+                        service_profile.metadata.clone(),
+                    ) {
+                        Ok(bindings) => bindings,
+                        Err(error) => {
+                            let err = KernelError::new(
+                                ErrorCode::CapabilityDenied,
+                                format!("failed to bind canonical execution request: {error}"),
+                            );
+                            let _ = out_tx.send(response_error(&id, err));
+                            let _ = inflight.lock().unwrap().remove(&id);
+                            return;
+                        }
+                    };
 
                     let request = ExecutionRequest {
                         request_id: format!("stdio-{id}"),
@@ -242,7 +244,12 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         environment_hint: None,
                         metadata,
                     };
-                    let grant = match authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(&service)) {
+                    let grant = match authorize_execution(
+                        &ctx.cfg,
+                        &ctx.policy,
+                        &request,
+                        Some(&service),
+                    ) {
                         Ok(grant) => grant,
                         Err(e) => {
                             let _ = out_tx.send(response_error(&id, e));
@@ -313,7 +320,8 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                                 &ExecutionOutcome {
                                     status: "succeeded".to_string(),
                                     started_at: started_at.clone(),
-                                    completed_at: now_rfc3339().unwrap_or_else(|_| started_at.clone()),
+                                    completed_at: now_rfc3339()
+                                        .unwrap_or_else(|_| started_at.clone()),
                                     error: None,
                                 },
                                 &SideEffectSummary {
@@ -332,7 +340,8 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                                 &ExecutionOutcome {
                                     status: "failed".to_string(),
                                     started_at: started_at.clone(),
-                                    completed_at: now_rfc3339().unwrap_or_else(|_| started_at.clone()),
+                                    completed_at: now_rfc3339()
+                                        .unwrap_or_else(|_| started_at.clone()),
                                     error: Some(e.to_string()),
                                 },
                                 &SideEffectSummary {

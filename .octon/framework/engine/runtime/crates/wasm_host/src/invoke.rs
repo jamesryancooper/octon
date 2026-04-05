@@ -67,10 +67,7 @@ impl Invoker {
             .clone();
 
         if let Some(t) = trace {
-            let _ = t.event(
-                "request.received",
-                json!({"service": service_id, "op": op}),
-            );
+            let _ = t.event("request.received", json!({"service": service_id, "op": op}));
         }
 
         // Input schema validation.
@@ -83,7 +80,10 @@ impl Invoker {
 
         // Serialize input JSON (canonical form) and enforce max_request_bytes.
         let input_json = serde_json::to_string(&input).map_err(|e| {
-            KernelError::new(ErrorCode::MalformedJson, format!("failed to serialize input: {e}"))
+            KernelError::new(
+                ErrorCode::MalformedJson,
+                format!("failed to serialize input: {e}"),
+            )
         })?;
 
         if input_json.as_bytes().len() as u64 > service.manifest.limits.max_request_bytes {
@@ -127,10 +127,7 @@ impl Invoker {
         let kv_root = self.cfg.execution_control_root.join("kv");
         self.cfg.ensure_execution_write_path(&kv_root)?;
         let kv = KvStore::open(kv_root).map_err(|e| {
-            KernelError::new(
-                ErrorCode::Internal,
-                format!("failed to open kv store: {e}"),
-            )
+            KernelError::new(ErrorCode::Internal, format!("failed to open kv store: {e}"))
         })?;
 
         let fs = ScopedFs::new(self.cfg.repo_root.clone()).map_err(|e| {
@@ -165,10 +162,14 @@ impl Invoker {
         };
 
         // Call Wasm.
-        let out_json = match self
-            .wasm
-            .invoke(&service.wasm_path, state, op, &input_json, timeout_ms, cancel)
-        {
+        let out_json = match self.wasm.invoke(
+            &service.wasm_path,
+            state,
+            op,
+            &input_json,
+            timeout_ms,
+            cancel,
+        ) {
             Ok(s) => s,
             Err(e) => {
                 let ke = map_wasmtime_error(e, cancelled_flag.as_ref());
@@ -220,7 +221,10 @@ impl Invoker {
     }
 }
 
-fn map_wasmtime_error(err: wasmtime::Error, cancelled_flag: Option<&Arc<AtomicBool>>) -> KernelError {
+fn map_wasmtime_error(
+    err: wasmtime::Error,
+    cancelled_flag: Option<&Arc<AtomicBool>>,
+) -> KernelError {
     let msg = err.to_string();
     let mut full = msg.clone();
     for cause in err.chain().skip(1) {

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/intervention-record-v1.schema.json",
+  "title": "Octon Intervention Record v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "record_id",
+    "subject_ref",
+    "kind",
+    "disclosed",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "intervention-record-v1" },
+    "record_id": { "type": "string", "minLength": 1 },
+    "subject_ref": { "type": "string", "minLength": 1 },
+    "kind": { "type": "string", "minLength": 1 },
+    "disclosed": { "type": "boolean" },
+    "recorded_at": { "type": "string", "minLength": 1 }
+  }
+}

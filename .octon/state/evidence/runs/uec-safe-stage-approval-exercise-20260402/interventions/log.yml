@@ -1,7 +1,10 @@
+schema_version: intervention-log-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
 interventions:
   - event_id: evt-manual-review-override
     kind: manual-review-override
     disclosed: true
     details: Human governance intervention was recorded and linked to the canonical approval artifacts.
 summary: One disclosed human governance intervention was exercised; hidden repair was checked and no undisclosed intervention path remained.
-recorded_at: "2026-04-04T18:49:59Z"
+recorded_at: "2026-04-05T00:56:33Z"

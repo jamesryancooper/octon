@@ -292,15 +292,15 @@ constitutional kernel.
 - extension actual state: `/.octon/state/control/extensions/active.yml`
 - extension quarantine state: `/.octon/state/control/extensions/quarantine.yml`
 - locality quarantine: `/.octon/state/control/locality/quarantine.yml`
-- execution budget state: `/.octon/state/control/execution/budget-state.yml`
+- execution budget state: `/.octon/state/control/execution/budgets/`
 - approval request root:
   `/.octon/state/control/execution/approvals/requests`
 - approval grant root:
   `/.octon/state/control/execution/approvals/grants`
 - execution exception leases:
-  `/.octon/state/control/execution/exceptions/leases.yml`
+  `/.octon/state/control/execution/exceptions/leases/`
 - execution revocations:
-  `/.octon/state/control/execution/revocations/grants.yml`
+  `/.octon/state/control/execution/revocations/`
 - mission control root:
   `/.octon/state/control/execution/missions/`
 - retained control evidence:

@@ -3,12 +3,12 @@ grant_id: grant-uec-safe-stage-approval-exercise-20260402
 request_id: uec-safe-stage-approval-exercise-20260402
 run_id: uec-safe-stage-approval-exercise-20260402
 workflow_mode: agent-augmented
-support_tier: repo-local-consequential
+support_tier: repo-consequential
 support_target:
-  model_tier: MT-B
-  workload_tier: WT-2
-  language_resource_tier: LT-REF
-  locale_tier: LOC-EN
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
   host_adapter: repo-shell
   model_adapter: repo-local-governed
   support_status: supported
