@@ -15,11 +15,20 @@ role_run_id() { yq -r ".run_roles.${1}.run_id" "$CONFIG_FILE"; }
 check_clean() {
   local label="$1"
   shift
-  if rg -n "$LEGACY_PATTERN" "$@" >/dev/null 2>&1; then
-    rg -n "$LEGACY_PATTERN" "$@" || true
-    fail "$label contains legacy support-target vocabulary"
+  if command -v rg >/dev/null 2>&1; then
+    if rg -n "$LEGACY_PATTERN" "$@" >/dev/null 2>&1; then
+      rg -n "$LEGACY_PATTERN" "$@" || true
+      fail "$label contains legacy support-target vocabulary"
+    else
+      pass "$label uses semantic support-target vocabulary"
+    fi
   else
-    pass "$label uses semantic support-target vocabulary"
+    if grep -REn "$LEGACY_PATTERN" "$@" >/dev/null 2>&1; then
+      grep -REn "$LEGACY_PATTERN" "$@" || true
+      fail "$label contains legacy support-target vocabulary"
+    else
+      pass "$label uses semantic support-target vocabulary"
+    fi
   fi
 }
 

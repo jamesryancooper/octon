@@ -12,7 +12,16 @@ errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
 pass() { echo "[OK] $1"; }
 require_file() { [[ -f "$1" ]] && pass "found $1" || fail "missing $1"; }
-require_text() { rg -q "$1" "$2" && pass "$3" || fail "$3"; }
+require_text() {
+  local pattern="$1"
+  local path="$2"
+  local label="$3"
+  if command -v rg >/dev/null 2>&1; then
+    rg -q "$pattern" "$path" && pass "$label" || fail "$label"
+  else
+    grep -Eq "$pattern" "$path" && pass "$label" || fail "$label"
+  fi
+}
 role_run_id() { yq -r ".run_roles.${1}.run_id" "$CONFIG_FILE"; }
 
 main() {
