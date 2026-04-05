@@ -47,6 +47,15 @@ require_file() {
   fi
 }
 
+require_path() {
+  local path="$1"
+  if [[ -e "$path" ]]; then
+    pass "found ${path#$ROOT_DIR/}"
+  else
+    fail "missing ${path#$ROOT_DIR/}"
+  fi
+}
+
 require_contains() {
   local path="$1"
   local needle="$2"
@@ -85,9 +94,9 @@ main() {
   require_file "$ROOT_DIR/$budget_policy"
   require_file "$ROOT_DIR/$support_targets"
   [[ -d "$ROOT_DIR/$lab_evidence_root" ]] && pass "found ${lab_evidence_root}" || fail "missing ${lab_evidence_root}"
-  require_file "$ROOT_DIR/$budget_state"
-  require_file "$ROOT_DIR/$exception_leases"
-  require_file "$ROOT_DIR/$revocations"
+  require_path "$ROOT_DIR/$budget_state"
+  require_path "$ROOT_DIR/$exception_leases"
+  require_path "$ROOT_DIR/$revocations"
   [[ -d "$ROOT_DIR/$approval_requests" ]] && pass "found ${approval_requests}" || fail "missing ${approval_requests}"
   [[ -d "$ROOT_DIR/$approval_grants" ]] && pass "found ${approval_grants}" || fail "missing ${approval_grants}"
 

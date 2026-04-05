@@ -1,0 +1,37 @@
+== 04-authority ==
+== Authority Bundle Resolution Validation ==
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/authority/grant-bundle.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/authority/decision.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/authority/budget-ledger.yml
+[OK] uec-global-repo-shell-observe-read-20260404 uses grant-bundle v2
+[OK] uec-global-repo-shell-observe-read-20260404 uses decision artifact v2
+[OK] uec-global-repo-shell-observe-read-20260404 has per-run budget ledger
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/authority/grant-bundle.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/authority/decision.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/authority/budget-ledger.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 uses grant-bundle v2
+[OK] uec-global-frontier-browser-api-studio-20260404 uses decision artifact v2
+[OK] uec-global-frontier-browser-api-studio-20260404 has per-run budget ledger
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/authority/grant-bundle.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/authority/decision.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/authority/budget-ledger.yml
+[OK] uec-global-github-repo-consequential-20260404 uses grant-bundle v2
+[OK] uec-global-github-repo-consequential-20260404 uses decision artifact v2
+[OK] uec-global-github-repo-consequential-20260404 has per-run budget ledger
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/authority/grant-bundle.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/authority/decision.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/authority/budget-ledger.yml
+[OK] uec-global-ci-observe-read-20260404 uses grant-bundle v2
+[OK] uec-global-ci-observe-read-20260404 uses decision artifact v2
+[OK] uec-global-ci-observe-read-20260404 has per-run budget ledger
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/authority/grant-bundle.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/authority/decision.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/authority/budget-ledger.yml
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 uses grant-bundle v2
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 uses decision artifact v2
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 has per-run budget ledger
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/exceptions/leases/lease-uec-safe-stage-lease-revocation-exercise-20260402.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/revocations/revoke-uec-safe-stage-lease-revocation-exercise-20260402.yml
+[OK] authority exercise resolves canonical lease ref
+[OK] authority exercise resolves canonical revocation ref
+Validation summary: errors=0

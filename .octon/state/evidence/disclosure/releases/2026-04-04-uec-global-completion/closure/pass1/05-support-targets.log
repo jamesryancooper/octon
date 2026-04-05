@@ -1,0 +1,15 @@
+== 05-support-targets ==
+== Support-Target Normalization Validation ==
+[OK] support-target declaration uses semantic support-target vocabulary
+[OK] governance exclusions uses semantic support-target vocabulary
+[OK] closure manifest uses semantic support-target vocabulary
+[OK] support surface ledger uses semantic support-target vocabulary
+[OK] runtime adapters and capability manifests uses semantic support-target vocabulary
+[OK] current release disclosure uses semantic support-target vocabulary
+[OK] run bundle uec-global-repo-shell-observe-read-20260404 uses semantic support-target vocabulary
+[OK] run bundle uec-safe-stage-lease-revocation-exercise-20260402 uses semantic support-target vocabulary
+[OK] run bundle uec-global-frontier-browser-api-studio-20260404 uses semantic support-target vocabulary
+[OK] run bundle uec-safe-stage-approval-exercise-20260402 uses semantic support-target vocabulary
+[OK] run bundle uec-global-github-repo-consequential-20260404 uses semantic support-target vocabulary
+[OK] run bundle uec-global-ci-observe-read-20260404 uses semantic support-target vocabulary
+Validation summary: errors=0

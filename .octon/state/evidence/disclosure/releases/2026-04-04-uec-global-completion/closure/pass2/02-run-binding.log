@@ -1,0 +1,28 @@
+== 02-run-binding ==
+== Run-Binding Enforcement Validation ==
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/kernel/src/run_binding.rs
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/policies/run-required.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/policies/materiality-classification.yml
+[OK] kernel loads run_binding module
+[OK] tool command is run-bound
+[OK] studio command is run-bound
+[OK] service commands are run-bound
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/runtime-state.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-manifest.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/runtime-state.yml
+Validation summary: errors=0

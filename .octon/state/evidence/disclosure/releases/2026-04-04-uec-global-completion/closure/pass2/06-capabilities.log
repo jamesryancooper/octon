@@ -1,0 +1,16 @@
+== 06-capabilities ==
+== Capability Truthfulness Validation ==
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/runtime/services/browser-session/contract.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/runtime/services/api-client/contract.yml
+[OK] browser pack cites browser-session runtime contract
+[OK] api pack cites api-client runtime contract
+[OK] browser registry binds runtime contract
+[OK] api registry binds runtime contract
+[OK] browser run card records browser pack
+[OK] boundary-sensitive run card records api pack
+[OK] repo consequential run card records api pack
+[OK] coverage ledger retains browser runtime refs
+[OK] coverage ledger retains api runtime refs
+[OK] coverage ledger retains browser proof refs
+[OK] coverage ledger retains api proof refs
+Validation summary: errors=0
