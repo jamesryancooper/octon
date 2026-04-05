@@ -6153,6 +6153,22 @@ mod tests {
         }
     }
 
+    fn replace_yaml_scalar(source: &str, key: &str, value: &str) -> String {
+        let mut output = source
+            .lines()
+            .map(|line| {
+                if line.starts_with(&format!("{key}: ")) {
+                    format!("{key}: \"{value}\"")
+                } else {
+                    line.to_string()
+                }
+            })
+            .collect::<Vec<_>>()
+            .join("\n");
+        output.push('\n');
+        output
+    }
+
     fn seed_create_design_package_fixture(root: &Path) -> PathBuf {
         seed_policy_runtime_env();
         let octon_dir = root.join(".octon");
@@ -6257,6 +6273,8 @@ mod tests {
             "generated/effective/orchestration/missions/mission-autonomy-live-validation/scenario-resolution.yml",
         );
         let scenario = fs::read_to_string(&scenario_path).expect("read mission scenario resolution");
+        let scenario = replace_yaml_scalar(&scenario, "generated_at", "2099-03-23T00:00:00Z");
+        let scenario = replace_yaml_scalar(&scenario, "fresh_until", "2099-03-30T00:00:00Z");
         fs::write(
             &scenario_path,
             scenario
