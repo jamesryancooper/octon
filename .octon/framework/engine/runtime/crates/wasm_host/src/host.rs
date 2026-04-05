@@ -1,9 +1,9 @@
+use crate::cancel::CancelHandle;
 use crate::run_component::invoke_component;
 use crate::state::HostState;
-use crate::cancel::CancelHandle;
 use octon_core::config::RuntimeConfig;
 use std::path::Path;
-use std::sync::{Arc, atomic::AtomicBool};
+use std::sync::{atomic::AtomicBool, Arc};
 
 pub struct WasmHost {
     engine: wasmtime::Engine,

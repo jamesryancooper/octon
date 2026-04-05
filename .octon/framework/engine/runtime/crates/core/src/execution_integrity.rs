@@ -401,8 +401,63 @@ pub fn load_network_egress_policy(repo_root: &Path) -> Result<NetworkEgressPolic
 }
 
 pub fn load_execution_exception_leases(repo_root: &Path) -> Result<ExecutionExceptionLeases> {
-    let canonical = repo_root.join(".octon/state/control/execution/exceptions/leases.yml");
-    load_yaml_or_default(&canonical)
+    let canonical_dir = repo_root.join(".octon/state/control/execution/exceptions/leases");
+    if canonical_dir.is_dir() {
+        let mut leases = Vec::new();
+        for entry in fs::read_dir(&canonical_dir).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to read canonical exception lease dir {}: {e}",
+                    canonical_dir.display()
+                ),
+            )
+        })? {
+            let entry = entry.map_err(|e| {
+                KernelError::new(
+                    ErrorCode::Internal,
+                    format!("failed to read canonical exception lease entry: {e}"),
+                )
+            })?;
+            let path = entry.path();
+            if path.extension().and_then(|value| value.to_str()) != Some("yml") {
+                continue;
+            }
+            let raw = fs::read_to_string(&path).map_err(|e| {
+                KernelError::new(
+                    ErrorCode::Internal,
+                    format!(
+                        "failed to read canonical exception lease {}: {e}",
+                        path.display()
+                    ),
+                )
+            })?;
+            let mut lease: ExecutionExceptionLease = serde_yaml::from_str(&raw).map_err(|e| {
+                KernelError::new(
+                    ErrorCode::Internal,
+                    format!(
+                        "failed to parse canonical exception lease {}: {e}",
+                        path.display()
+                    ),
+                )
+            })?;
+            if lease.id.is_empty() {
+                if let Some(stem) = path.file_stem().and_then(|value| value.to_str()) {
+                    lease.id = stem.to_string();
+                }
+            }
+            leases.push(lease);
+        }
+        if !leases.is_empty() {
+            return Ok(ExecutionExceptionLeases {
+                schema_version: "authority-exception-lease-directory-v1".to_string(),
+                leases,
+            });
+        }
+    }
+
+    let legacy = repo_root.join(".octon/state/control/execution/exceptions/leases.yml");
+    load_yaml_or_default(&legacy)
 }
 
 pub fn load_execution_budget_policy(repo_root: &Path) -> Result<ExecutionBudgetPolicy> {

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/assurance-report-v2.schema.json",
+  "title": "Octon Assurance Report v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "plane",
+    "outcome",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": { "const": "assurance-report-v2" },
+    "plane": { "type": "string", "minLength": 1 },
+    "outcome": { "type": "string", "minLength": 1 },
+    "evidence_refs": { "type": "array" }
+  }
+}

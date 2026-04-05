@@ -22,7 +22,10 @@ mod tests {
     #[test]
     fn canonical_bundle_ref_uses_runtime_roots() {
         let bundle = canonical_bundle_ref("run-123");
-        assert_eq!(bundle.manifest_ref, ".octon/state/evidence/runs/run-123/replay/manifest.yml");
+        assert_eq!(
+            bundle.manifest_ref,
+            ".octon/state/evidence/runs/run-123/replay/manifest.yml"
+        );
         assert_eq!(
             bundle.external_index_ref,
             ".octon/state/evidence/external-index/runs/run-123.yml"

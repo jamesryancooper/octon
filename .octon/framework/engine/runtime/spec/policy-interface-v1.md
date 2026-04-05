@@ -69,8 +69,8 @@ These launchers are the canonical invocation boundary for policy operations.
   - `/.octon/state/control/execution/approvals/requests`
   - `/.octon/state/control/execution/approvals/grants`
 - Canonical exception and revocation control roots are published under:
-  - `/.octon/state/control/execution/exceptions/leases.yml`
-  - `/.octon/state/control/execution/revocations/grants.yml`
+  - `/.octon/state/control/execution/exceptions/leases/`
+  - `/.octon/state/control/execution/revocations/`
 - Generated mission summaries are published under:
   - `/.octon/generated/cognition/summaries/missions/`
 - Generated operator digests are published under:

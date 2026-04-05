@@ -1,9 +1,9 @@
 use octon_core::config::{ConfigLoader, RuntimeConfig};
 use octon_core::discovery::ServiceDiscovery;
 use octon_core::policy::PolicyEngine;
+use octon_core::registry::ServiceRegistry;
 use octon_core::root::RootResolver;
 use octon_core::schema::SchemaStore;
-use octon_core::registry::ServiceRegistry;
 
 use octon_wasm_host::invoke::Invoker;
 

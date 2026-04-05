@@ -7,6 +7,8 @@ runtime_surface_refs:
   - ".octon/framework/lab/replay/**"
   - ".octon/framework/lab/shadow/**"
   - ".octon/framework/assurance/functional/browser/**"
+runtime_service_contract_refs:
+  - ".octon/framework/capabilities/runtime/services/browser-session/contract.yml"
 required_evidence:
   - "authority-decision-artifact"
   - "external-replay-index"
@@ -37,5 +39,6 @@ lab_scenario_refs:
 disclosure_requirements:
   - "RunCard capability-pack set"
   - "HarnessCard support-universe coverage"
+  - "browser-session runtime service contract"
 known_limitations:
   - "Browser actions remain fail-closed when a requested run lacks the admitted pack, authority route, or replay evidence."

@@ -1,0 +1,184 @@
+== 07-disclosure ==
+== Disclosure Referential Integrity Validation ==
+[OK] authored HarnessCard coverage ref resolves
+[OK] authored HarnessCard proof ref .octon/instance/governance/closure/unified-execution-constitution.yml resolves
+[OK] authored HarnessCard proof ref .octon/instance/governance/closure/unified-execution-constitution-status.yml resolves
+[OK] authored HarnessCard proof ref .octon/instance/governance/closure/global-support-surface-ledger.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass1/summary.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass2/summary.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/closure-certificate.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/assurance/functional/browser/frontier-browser-pack.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/assurance/functional/api/frontier-api-pack.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/assurance/functional/api/github-control-plane.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/assurance/functional/api/ci-control-plane.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/lab/replay/workload-packs/global-support-universe.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/lab/faults/browser/browser-replay-fault.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/lab/faults/api/api-compensation-fault.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/lab/shadow/browser-api-shadow.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/assurance/evaluators/conformance/global-support-universe.yml resolves
+[OK] authored HarnessCard proof ref .octon/framework/assurance/evaluators/conformance/evaluator-independence.yml resolves
+[OK] authored HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/proof-plane-coverage.yml resolves
+[OK] authored HarnessCard proof ref .octon/instance/governance/contracts/retirement-registry.yml resolves
+[OK] release HarnessCard proof ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] release HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml resolves
+[OK] release HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/proof-plane-coverage.yml resolves
+[OK] release HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass1/summary.yml resolves
+[OK] release HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass2/summary.yml resolves
+[OK] release HarnessCard proof ref .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/closure-certificate.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml resolves
+[OK] coverage runtime ref .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml resolves
+[OK] coverage proof ref .octon/framework/assurance/functional/browser/frontier-browser-pack.yml resolves
+[OK] coverage proof ref .octon/framework/assurance/functional/api/frontier-api-pack.yml resolves
+[OK] coverage proof ref .octon/framework/assurance/functional/api/repo-local-api-pack.yml resolves
+[OK] coverage proof ref .octon/framework/lab/replay/workload-packs/global-support-universe.yml resolves
+[OK] coverage proof ref .octon/framework/assurance/functional/api/github-control-plane.yml resolves
+[OK] coverage proof ref .octon/framework/lab/faults/api/api-compensation-fault.yml resolves
+[OK] coverage proof ref .octon/framework/lab/replay/workload-packs/global-support-universe.yml resolves
+[OK] coverage proof ref .octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml resolves
+[OK] coverage proof ref .octon/framework/lab/replay/workload-packs/global-support-universe.yml resolves
+[OK] coverage proof ref .octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml resolves
+[OK] coverage proof ref .octon/framework/assurance/functional/suites/run-lifecycle-integrity.yml resolves
+[OK] coverage proof ref .octon/framework/assurance/functional/browser/studio-browser-path.yml resolves
+[OK] coverage proof ref .octon/framework/assurance/functional/api/github-control-plane.yml resolves
+[OK] coverage proof ref .octon/framework/assurance/functional/api/ci-control-plane.yml resolves
+[OK] coverage proof ref .octon/framework/capabilities/packs/browser/tests/browser-pack-admission.yml resolves
+[OK] coverage proof ref .octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml resolves
+[OK] coverage proof ref .octon/framework/capabilities/packs/api/tests/api-pack-admission.yml resolves
+[OK] coverage proof ref .octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] coverage disclosure ref .octon/instance/governance/disclosure/harness-card.yml resolves
+[OK] closure proof refs are validated by the final closure assertion
+[OK] uec-global-repo-shell-observe-read-20260404 support target ref resolves
+[OK] uec-global-repo-shell-observe-read-20260404 run contract ref resolves
+[OK] uec-global-repo-shell-observe-read-20260404 decision ref resolves
+[OK] uec-global-repo-shell-observe-read-20260404 grant bundle ref resolves
+[OK] uec-global-repo-shell-observe-read-20260404 measurement ref resolves
+[OK] uec-global-repo-shell-observe-read-20260404 intervention ref resolves
+[OK] uec-global-repo-shell-observe-read-20260404 replay ref resolves
+[OK] uec-global-repo-shell-observe-read-20260404 recovery ref resolves
+[OK] uec-global-repo-shell-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/behavioral.yml resolves
+[OK] uec-global-repo-shell-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/evaluator.yml resolves
+[OK] uec-global-repo-shell-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/functional.yml resolves
+[OK] uec-global-repo-shell-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/governance.yml resolves
+[OK] uec-global-repo-shell-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/maintainability.yml resolves
+[OK] uec-global-repo-shell-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/recovery.yml resolves
+[OK] uec-global-repo-shell-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/structural.yml resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 support target ref resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 run contract ref resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 decision ref resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 grant bundle ref resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 measurement ref resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 intervention ref resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 replay ref resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 recovery ref resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/structural.yml resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/governance.yml resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/functional.yml resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/behavioral.yml resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/maintainability.yml resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/recovery.yml resolves
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/evaluator.yml resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 support target ref resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 run contract ref resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 decision ref resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 grant bundle ref resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 measurement ref resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 intervention ref resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 replay ref resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 recovery ref resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 proof ref .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/behavioral.yml resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 proof ref .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/evaluator.yml resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 proof ref .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/functional.yml resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 proof ref .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/governance.yml resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 proof ref .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/maintainability.yml resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 proof ref .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/recovery.yml resolves
+[OK] uec-global-frontier-browser-api-studio-20260404 proof ref .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/structural.yml resolves
+[OK] uec-safe-stage-approval-exercise-20260402 support target ref resolves
+[OK] uec-safe-stage-approval-exercise-20260402 run contract ref resolves
+[OK] uec-safe-stage-approval-exercise-20260402 decision ref resolves
+[OK] uec-safe-stage-approval-exercise-20260402 grant bundle ref resolves
+[OK] uec-safe-stage-approval-exercise-20260402 measurement ref resolves
+[OK] uec-safe-stage-approval-exercise-20260402 intervention ref resolves
+[OK] uec-safe-stage-approval-exercise-20260402 replay ref resolves
+[OK] uec-safe-stage-approval-exercise-20260402 recovery ref resolves
+[OK] uec-safe-stage-approval-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/structural.yml resolves
+[OK] uec-safe-stage-approval-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/governance.yml resolves
+[OK] uec-safe-stage-approval-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/functional.yml resolves
+[OK] uec-safe-stage-approval-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/behavioral.yml resolves
+[OK] uec-safe-stage-approval-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/maintainability.yml resolves
+[OK] uec-safe-stage-approval-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/recovery.yml resolves
+[OK] uec-safe-stage-approval-exercise-20260402 proof ref .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/evaluator.yml resolves
+[OK] uec-global-github-repo-consequential-20260404 support target ref resolves
+[OK] uec-global-github-repo-consequential-20260404 run contract ref resolves
+[OK] uec-global-github-repo-consequential-20260404 decision ref resolves
+[OK] uec-global-github-repo-consequential-20260404 grant bundle ref resolves
+[OK] uec-global-github-repo-consequential-20260404 measurement ref resolves
+[OK] uec-global-github-repo-consequential-20260404 intervention ref resolves
+[OK] uec-global-github-repo-consequential-20260404 replay ref resolves
+[OK] uec-global-github-repo-consequential-20260404 recovery ref resolves
+[OK] uec-global-github-repo-consequential-20260404 proof ref .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/behavioral.yml resolves
+[OK] uec-global-github-repo-consequential-20260404 proof ref .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/evaluator.yml resolves
+[OK] uec-global-github-repo-consequential-20260404 proof ref .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/functional.yml resolves
+[OK] uec-global-github-repo-consequential-20260404 proof ref .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/governance.yml resolves
+[OK] uec-global-github-repo-consequential-20260404 proof ref .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/maintainability.yml resolves
+[OK] uec-global-github-repo-consequential-20260404 proof ref .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/recovery.yml resolves
+[OK] uec-global-github-repo-consequential-20260404 proof ref .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/structural.yml resolves
+[OK] uec-global-ci-observe-read-20260404 support target ref resolves
+[OK] uec-global-ci-observe-read-20260404 run contract ref resolves
+[OK] uec-global-ci-observe-read-20260404 decision ref resolves
+[OK] uec-global-ci-observe-read-20260404 grant bundle ref resolves
+[OK] uec-global-ci-observe-read-20260404 measurement ref resolves
+[OK] uec-global-ci-observe-read-20260404 intervention ref resolves
+[OK] uec-global-ci-observe-read-20260404 replay ref resolves
+[OK] uec-global-ci-observe-read-20260404 recovery ref resolves
+[OK] uec-global-ci-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/behavioral.yml resolves
+[OK] uec-global-ci-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/evaluator.yml resolves
+[OK] uec-global-ci-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/functional.yml resolves
+[OK] uec-global-ci-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/governance.yml resolves
+[OK] uec-global-ci-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/maintainability.yml resolves
+[OK] uec-global-ci-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/recovery.yml resolves
+[OK] uec-global-ci-observe-read-20260404 proof ref .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/structural.yml resolves
+Validation summary: errors=0

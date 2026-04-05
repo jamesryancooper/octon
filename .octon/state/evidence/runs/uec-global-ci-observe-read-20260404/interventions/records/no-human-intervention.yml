@@ -1,0 +1,11 @@
+schema_version: intervention-record-v1
+record_id: uec-global-ci-observe-read-20260404-no-human-intervention
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-contract.yml
+kind: no-material-intervention
+disclosed: true
+actor_ref: null
+details: No hidden or material human intervention occurred during the retained exemplar run.
+evidence_refs:
+  - .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/interventions/log.yml
+recorded_at: 2026-04-02T00:00:00Z

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/disclosure/support-universe-coverage-v2.schema.json",
+  "title": "Octon Support Universe Coverage v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "release_id",
+    "surfaces",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "support-universe-coverage-v2" },
+    "release_id": { "type": "string", "minLength": 1 },
+    "surfaces": { "type": "array" },
+    "generated_at": { "type": "string", "minLength": 1 }
+  }
+}

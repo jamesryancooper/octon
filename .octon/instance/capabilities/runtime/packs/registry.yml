@@ -31,6 +31,8 @@ packs:
     contract_ref: ".octon/framework/capabilities/packs/browser/manifest.yml"
     admission_status: "admitted"
     default_route: "allow"
+    runtime_service_contract_refs:
+      - ".octon/framework/capabilities/runtime/services/browser-session/contract.yml"
     required_evidence:
       - "authority-decision-artifact"
       - "external-replay-index"
@@ -40,6 +42,8 @@ packs:
     contract_ref: ".octon/framework/capabilities/packs/api/manifest.yml"
     admission_status: "admitted"
     default_route: "allow"
+    runtime_service_contract_refs:
+      - ".octon/framework/capabilities/runtime/services/api-client/contract.yml"
     required_evidence:
       - "run-evidence-root"
       - "authority-decision-artifact"

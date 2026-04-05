@@ -420,7 +420,7 @@ notes:
   - "Deny-only and non-claimed action classes live in governance exclusions rather than the support matrix."
   - "Experimental, reduced, stage_only, unsupported, and unadmitted critical surfaces are retired or rebound and no longer survive as live support tiers."
 retired_surfaces:
-  - "MT-C"
-  - "LT-EXP"
-  - "LOC-EXP"
-  - "WT-4"
+  - "experimental-model-surface"
+  - "experimental-context-surface"
+  - "experimental-locale-surface"
+  - "deny-only-external-irreversible-surface"

@@ -254,7 +254,10 @@ impl AppState {
                 );
                 (snapshot, status)
             }
-            Err(error) => (empty_ops_snapshot(), format!("Operations snapshot unavailable: {error}")),
+            Err(error) => (
+                empty_ops_snapshot(),
+                format!("Operations snapshot unavailable: {error}"),
+            ),
         };
 
         let mut state = Self {
@@ -788,8 +791,7 @@ impl AppState {
         let inspector = match OrchestrationInspector::from_repo_root(&self.root) {
             Ok(inspector) => inspector,
             Err(error) => {
-                self.ops_lookup_result =
-                    format!("# Lookup Failed\n\nerror: {error}");
+                self.ops_lookup_result = format!("# Lookup Failed\n\nerror: {error}");
                 self.ops_status = format!("Lookup failed: {error}");
                 return;
             }
@@ -1119,7 +1121,9 @@ fn render_ops_runs(snapshot: &OpsSnapshot) -> String {
             "- `{}` status=`{}` recovery=`{}` decision=`{}` evidence=`{}`\n",
             run.run_id,
             run.status,
-            run.recovery_status.clone().unwrap_or_else(|| "-".to_string()),
+            run.recovery_status
+                .clone()
+                .unwrap_or_else(|| "-".to_string()),
             run.decision_link_health,
             run.evidence_link_health
         ));
@@ -1263,7 +1267,8 @@ fn render_ops_missions(snapshot: &OpsSnapshot) -> String {
 }
 
 fn render_ops_playbooks(root: &Path) -> String {
-    let path = root.join(".octon/framework/orchestration/practices/orchestration-failure-playbooks.md");
+    let path =
+        root.join(".octon/framework/orchestration/practices/orchestration-failure-playbooks.md");
     fs::read_to_string(&path).unwrap_or_else(|_| {
         "# Playbooks\n\nNo orchestration failure playbooks are available yet.\n".to_string()
     })
@@ -1787,11 +1792,15 @@ mod tests {
         let mut state = AppState::load(harness.root_path()).expect("app state should load");
 
         state.set_ops_section(3);
-        assert!(state.ops_section_body_text().contains("missing linked runs"));
+        assert!(state
+            .ops_section_body_text()
+            .contains("missing linked runs"));
         assert!(state.ops_section_body_text().contains("missing closure.md"));
 
         state.set_ops_section(8);
-        assert!(state.ops_section_body_text().contains("watcher source unreadable"));
+        assert!(state
+            .ops_section_body_text()
+            .contains("watcher source unreadable"));
     }
 
     fn write_fixture_harness(root: &Path) {
@@ -1852,11 +1861,15 @@ mod tests {
             "automation_id: \"example\"\ntitle: \"Example Automation\"\nworkflow_ref:\n  workflow_group: \"alpha\"\n  workflow_id: \"alpha\"\nowner: \"@orchestrator\"\nstatus: \"active\"\n",
         );
         write_file(
-            &root.join(".octon/framework/orchestration/runtime/automations/example/state/counters.json"),
+            &root.join(
+                ".octon/framework/orchestration/runtime/automations/example/state/counters.json",
+            ),
             "{\n  \"blocked\": 2\n}\n",
         );
         write_file(
-            &root.join(".octon/framework/orchestration/runtime/automations/example/state/status.json"),
+            &root.join(
+                ".octon/framework/orchestration/runtime/automations/example/state/status.json",
+            ),
             "{\n  \"status\": \"active\"\n}\n",
         );
         write_file(
@@ -1868,7 +1881,9 @@ mod tests {
             "{\n  \"status\": \"healthy\",\n  \"checked_at\": \"2026-03-11T10:00:00Z\"\n}\n",
         );
         write_file(
-            &root.join(".octon/framework/orchestration/runtime/watchers/example/state/suppressions.json"),
+            &root.join(
+                ".octon/framework/orchestration/runtime/watchers/example/state/suppressions.json",
+            ),
             "{\n  \"suppressed\": [\"evt-old\"]\n}\n",
         );
         write_file(

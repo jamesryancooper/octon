@@ -1,0 +1,7 @@
+== 11-retirement ==
+== Global Retirement Closure Validation ==
+[OK] retirement registry is closed
+[OK] no registered or active retirement entry remains
+[OK] surface ledger records retired model surface
+[OK] surface ledger records rebound deny-only surface
+Validation summary: errors=0

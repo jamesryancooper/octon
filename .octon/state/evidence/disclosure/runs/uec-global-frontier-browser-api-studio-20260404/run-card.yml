@@ -1,0 +1,56 @@
+adapter_support:
+  conformance_criteria:
+    - HOST-001
+    - HOST-002
+    - HOST-004
+    - MODEL-001
+    - MODEL-002
+    - MODEL-003
+    - MODEL-004
+  host_adapter: studio-control-plane
+  host_support_status: supported
+  model_adapter: frontier-governed
+  model_support_status: supported
+authority_refs:
+  decision_artifact: .octon/state/evidence/control/execution/authority-decision-uec-global-frontier-browser-api-studio-20260404.yml
+  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-frontier-browser-api-studio-20260404.yml
+  retained_run_evidence: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/retained-run-evidence.yml
+  run_contract: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
+generated_at: "2026-04-04T12:00:00Z"
+intervention_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/interventions/log.yml
+known_limits: []
+measurement_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/measurements/summary.yml
+proof_plane_refs:
+  behavioral: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/behavioral.yml
+  evaluator: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/evaluator.yml
+  functional: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/functional.yml
+  governance: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/governance.yml
+  maintainability: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/maintainability.yml
+  recovery: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/recovery.yml
+  structural: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/structural.yml
+replay_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay/manifest.yml
+requested_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - browser
+  - api
+run_id: uec-global-frontier-browser-api-studio-20260404
+schema_version: run-card-v2
+status: succeeded
+summary: Boundary-sensitive frontier-governed Studio run completed with browser and API packs under the globally complete support universe.
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_target_tuple:
+  language_resource_tier: extended-governed
+  locale_tier: spanish-secondary
+  model_tier: frontier-governed
+  support_status: supported
+  workload_tier: boundary-sensitive
+support_tier: boundary-sensitive
+workflow_mode: agent-augmented
+runtime_service_refs:
+  replay_store: .octon/framework/engine/runtime/crates/replay_store
+  telemetry_sink: .octon/framework/engine/runtime/crates/telemetry_sink
+  runtime_bus: .octon/framework/engine/runtime/crates/runtime_bus
+recovery_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/recovery.yml

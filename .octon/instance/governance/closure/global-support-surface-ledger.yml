@@ -22,13 +22,13 @@ realized:
   - "telemetry_sink"
   - "runtime_bus"
 rebound:
-  - surface_id: "WT-4"
+  - surface_id: "deny-only-external-irreversible-surface"
     final_form: "governance-exclusion"
   - surface_id: "sparse-disclosure-and-replay-semantics"
     final_form: "runtime-backed disclosure and retention"
 retired:
-  - "MT-C"
-  - "LT-EXP"
-  - "LOC-EXP"
+  - "experimental-model-surface"
+  - "experimental-context-surface"
+  - "experimental-locale-surface"
   - "unsupported support tiers"
   - "bounded-envelope release caveat"

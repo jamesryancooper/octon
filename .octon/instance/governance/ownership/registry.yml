@@ -11,14 +11,14 @@ operators:
     contact: "repo://maintainers"
 defaults:
   operator_id: "octon-maintainers"
-  support_tier: "repo-local-consequential"
+  support_tier: "repo-consequential"
 assets:
   - asset_id: "octon-harness"
     path_globs:
       - ".octon/**"
     owners:
       - "octon-maintainers"
-    support_tier: "repo-local-consequential"
+    support_tier: "repo-consequential"
 services:
   - service_id: "execution/flow"
     owners:

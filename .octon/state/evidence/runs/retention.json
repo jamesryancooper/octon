@@ -20,6 +20,7 @@
         "runtime-agent-quorum-",
         "snippet-emit-",
         "uec-audit-",
+        "uec-global-",
         "uec-evaluate-harness-",
         "uec-safe-stage-",
         "uec-validate-proposal-",

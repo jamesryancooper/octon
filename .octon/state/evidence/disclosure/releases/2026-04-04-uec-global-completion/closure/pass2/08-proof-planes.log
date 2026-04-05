@@ -1,0 +1,86 @@
+== 08-proof-planes ==
+== Proof-Plane Coverage Validation ==
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/constitution/contracts/assurance/proof-plane-coverage-v1.schema.json
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/constitution/contracts/assurance/evaluator-independence-manifest-v1.schema.json
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/assurance/evaluators/conformance/global-support-universe.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/framework/assurance/evaluators/conformance/evaluator-independence.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/proof-plane-coverage.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/structural.yml
+[OK] uec-global-repo-shell-observe-read-20260404 structural proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/functional.yml
+[OK] uec-global-repo-shell-observe-read-20260404 functional proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/behavioral.yml
+[OK] uec-global-repo-shell-observe-read-20260404 behavioral proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/governance.yml
+[OK] uec-global-repo-shell-observe-read-20260404 governance proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/recovery.yml
+[OK] uec-global-repo-shell-observe-read-20260404 recovery proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/maintainability.yml
+[OK] uec-global-repo-shell-observe-read-20260404 maintainability proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/evaluator.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/structural.yml
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 structural proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/functional.yml
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 functional proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/behavioral.yml
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 behavioral proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/governance.yml
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 governance proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/recovery.yml
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 recovery proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/maintainability.yml
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 maintainability proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/evaluator.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/structural.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 structural proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/functional.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 functional proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/behavioral.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 behavioral proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/governance.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 governance proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/recovery.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 recovery proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/maintainability.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 maintainability proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/evaluator.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/structural.yml
+[OK] uec-safe-stage-approval-exercise-20260402 structural proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/functional.yml
+[OK] uec-safe-stage-approval-exercise-20260402 functional proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/behavioral.yml
+[OK] uec-safe-stage-approval-exercise-20260402 behavioral proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/governance.yml
+[OK] uec-safe-stage-approval-exercise-20260402 governance proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/recovery.yml
+[OK] uec-safe-stage-approval-exercise-20260402 recovery proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/maintainability.yml
+[OK] uec-safe-stage-approval-exercise-20260402 maintainability proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/evaluator.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/structural.yml
+[OK] uec-global-github-repo-consequential-20260404 structural proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/functional.yml
+[OK] uec-global-github-repo-consequential-20260404 functional proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/behavioral.yml
+[OK] uec-global-github-repo-consequential-20260404 behavioral proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/governance.yml
+[OK] uec-global-github-repo-consequential-20260404 governance proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/recovery.yml
+[OK] uec-global-github-repo-consequential-20260404 recovery proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/maintainability.yml
+[OK] uec-global-github-repo-consequential-20260404 maintainability proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/evaluator.yml
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/structural.yml
+[OK] uec-global-ci-observe-read-20260404 structural proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/functional.yml
+[OK] uec-global-ci-observe-read-20260404 functional proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/behavioral.yml
+[OK] uec-global-ci-observe-read-20260404 behavioral proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/governance.yml
+[OK] uec-global-ci-observe-read-20260404 governance proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/recovery.yml
+[OK] uec-global-ci-observe-read-20260404 recovery proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/maintainability.yml
+[OK] uec-global-ci-observe-read-20260404 maintainability proof passes
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/evaluator.yml
+Validation summary: errors=0

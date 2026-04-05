@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/disclosure/proof-bundle-manifest-v1.schema.json",
+  "title": "Octon Proof Bundle Manifest v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "proof_refs",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "proof-bundle-manifest-v1" },
+    "bundle_id": { "type": "string", "minLength": 1 },
+    "proof_refs": { "type": "array" },
+    "generated_at": { "type": "string", "minLength": 1 }
+  }
+}

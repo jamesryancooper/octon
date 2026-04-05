@@ -107,15 +107,26 @@ impl ScopedFs {
     pub fn read_text(&self, user_path: &str, max_bytes: usize) -> io::Result<String> {
         let bytes = self.read_bytes(user_path)?;
         if bytes.len() > max_bytes {
-            return Err(io::Error::new(io::ErrorKind::InvalidInput, "file too large"));
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "file too large",
+            ));
         }
         String::from_utf8(bytes)
             .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "file is not valid UTF-8"))
     }
 
-    pub fn write_text_atomic(&self, user_path: &str, text: &str, max_bytes: usize) -> io::Result<()> {
+    pub fn write_text_atomic(
+        &self,
+        user_path: &str,
+        text: &str,
+        max_bytes: usize,
+    ) -> io::Result<()> {
         if text.as_bytes().len() > max_bytes {
-            return Err(io::Error::new(io::ErrorKind::InvalidInput, "text too large"));
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "text too large",
+            ));
         }
         self.write_bytes_atomic(user_path, text.as_bytes())
     }
@@ -151,7 +162,10 @@ impl ScopedFs {
             return Err(io::Error::new(io::ErrorKind::Other, "path is symlink"));
         }
         if !md.is_dir() {
-            return Err(io::Error::new(io::ErrorKind::InvalidInput, "not a directory"));
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "not a directory",
+            ));
         }
 
         let mut out = Vec::new();
@@ -190,9 +204,9 @@ impl ScopedFs {
                 continue;
             }
 
-            let rel = canon.strip_prefix(&self.root).map_err(|_| {
-                io::Error::new(io::ErrorKind::Other, "strip prefix failed")
-            })?;
+            let rel = canon
+                .strip_prefix(&self.root)
+                .map_err(|_| io::Error::new(io::ErrorKind::Other, "strip prefix failed"))?;
             out.push(rel.to_string_lossy().to_string());
 
             if out.len() >= max_results {
@@ -234,7 +248,9 @@ impl ScopedFs {
         let from_canon = canonicalize_existing(&from_joined)?;
         ensure_under_root(&self.root, &from_canon)?;
 
-        let to_parent = to_rel.parent().ok_or_else(|| io_err("destination has no parent"))?;
+        let to_parent = to_rel
+            .parent()
+            .ok_or_else(|| io_err("destination has no parent"))?;
         create_dir_all_checked(&self.root, to_parent)?;
         let to_parent_joined = self.root.join(to_parent);
         let to_parent_canon = canonicalize_existing(&to_parent_joined)?;
@@ -261,10 +277,16 @@ impl ScopedFs {
 
         let md = fs::symlink_metadata(&joined)?;
         if md.file_type().is_symlink() {
-            return Err(io::Error::new(io::ErrorKind::Other, "refusing to remove symlink"));
+            return Err(io::Error::new(
+                io::ErrorKind::Other,
+                "refusing to remove symlink",
+            ));
         }
         if md.is_dir() {
-            return Err(io::Error::new(io::ErrorKind::InvalidInput, "path is a directory"));
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "path is a directory",
+            ));
         }
 
         let canon = canonicalize_existing(&joined)?;
@@ -289,7 +311,10 @@ impl ScopedFs {
             ));
         }
         if !md.is_dir() {
-            return Err(io::Error::new(io::ErrorKind::InvalidInput, "not a directory"));
+            return Err(io::Error::new(
+                io::ErrorKind::InvalidInput,
+                "not a directory",
+            ));
         }
 
         let canon = canonicalize_existing(&joined)?;
@@ -477,7 +502,9 @@ fn create_dir_all_checked(root: &Path, rel_dir: &Path) -> io::Result<()> {
             }
             Component::CurDir => {}
             Component::ParentDir => return Err(io_err(".. not allowed")),
-            Component::RootDir | Component::Prefix(_) => return Err(io_err("absolute paths not allowed")),
+            Component::RootDir | Component::Prefix(_) => {
+                return Err(io_err("absolute paths not allowed"))
+            }
         }
     }
 
@@ -493,7 +520,10 @@ fn remove_dir_all_checked(dir: &Path) -> io::Result<()> {
 
         let md = fs::symlink_metadata(&path)?;
         if md.file_type().is_symlink() {
-            return Err(io::Error::new(io::ErrorKind::Other, "refusing to traverse symlink"));
+            return Err(io::Error::new(
+                io::ErrorKind::Other,
+                "refusing to traverse symlink",
+            ));
         }
 
         if md.is_dir() {

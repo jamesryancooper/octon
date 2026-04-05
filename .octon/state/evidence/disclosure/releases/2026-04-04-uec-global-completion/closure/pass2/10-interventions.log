@@ -1,0 +1,23 @@
+== 10-interventions ==
+== Hidden-Repair And Intervention Disclosure Validation ==
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/interventions/log.yml
+[OK] uec-global-repo-shell-observe-read-20260404 intervention log schema is stable
+[OK] uec-global-repo-shell-observe-read-20260404 intervention log has summary
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/interventions/log.yml
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 intervention log schema is stable
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 intervention log has summary
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/interventions/log.yml
+[OK] uec-global-frontier-browser-api-studio-20260404 intervention log schema is stable
+[OK] uec-global-frontier-browser-api-studio-20260404 intervention log has summary
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/interventions/log.yml
+[OK] uec-safe-stage-approval-exercise-20260402 intervention log schema is stable
+[OK] uec-safe-stage-approval-exercise-20260402 intervention log has summary
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/interventions/log.yml
+[OK] uec-global-github-repo-consequential-20260404 intervention log schema is stable
+[OK] uec-global-github-repo-consequential-20260404 intervention log has summary
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/uec-global-ci-observe-read-20260404/interventions/log.yml
+[OK] uec-global-ci-observe-read-20260404 intervention log schema is stable
+[OK] uec-global-ci-observe-read-20260404 intervention log has summary
+[OK] found /Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/publication/unified-execution-constitution-closure/hidden-repair-detection.yml
+[OK] hidden repair detection passes
+Validation summary: errors=0

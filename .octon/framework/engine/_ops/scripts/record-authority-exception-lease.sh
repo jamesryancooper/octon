@@ -82,7 +82,9 @@ main() {
   [[ -n "$ISSUED_BY" ]] || { echo "--issued-by is required" >&2; exit 1; }
 
   local leases_file="$OCTON_DIR/state/control/execution/exceptions/leases.yml"
-  mkdir -p "$(dirname "$leases_file")"
+  local canonical_dir="$OCTON_DIR/state/control/execution/exceptions/leases"
+  local canonical_file="$canonical_dir/${LEASE_ID}.yml"
+  mkdir -p "$(dirname "$leases_file")" "$canonical_dir"
   [[ -f "$leases_file" ]] || printf 'schema_version: "authority-exception-lease-set-v1"\nleases: []\n' > "$leases_file"
   local ts
   ts="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
@@ -148,13 +150,59 @@ main() {
   mv "$tmp_yaml" "$leases_file"
   rm -f "$tmp_json"
 
-  local lease_ref=".octon/state/control/execution/exceptions/leases.yml#${LEASE_ID}"
+  jq -n \
+    --arg lease_id "$LEASE_ID" \
+    --arg lease_kind "$LEASE_KIND" \
+    --arg state "$STATE" \
+    --arg request_id "$REQUEST_ID" \
+    --arg run_id "$RUN_ID" \
+    --arg issued_by "$ISSUED_BY" \
+    --arg owner "$OWNER" \
+    --arg issued_at "$ts" \
+    --arg expires_at "$EXPIRES_AT" \
+    --arg reason "$REASON" \
+    --arg rollback_posture "$ROLLBACK_POSTURE" \
+    --arg retirement_trigger "$RETIREMENT_TRIGGER" \
+    --arg service "$SERVICE" \
+    --arg adapter "$ADAPTER" \
+    --arg method "$METHOD" \
+    --arg scheme "$SCHEME" \
+    --arg host "$HOST" \
+    --arg port "$PORT" \
+    --arg path_prefix "$PATH_PREFIX" \
+    '
+      {
+        schema_version: "authority-exception-lease-v2",
+        id: $lease_id,
+        lease_id: $lease_id,
+        state: $state,
+        lease_kind: $lease_kind,
+        request_id: (if ($request_id | length) > 0 then $request_id else null end),
+        run_id: (if ($run_id | length) > 0 then $run_id else null end),
+        service: (if ($service | length) > 0 then $service else null end),
+        adapter: (if ($adapter | length) > 0 then $adapter else null end),
+        method: (if ($method | length) > 0 then $method else null end),
+        scheme: (if ($scheme | length) > 0 then $scheme else null end),
+        host: (if ($host | length) > 0 then $host else null end),
+        port: (if ($port | length) > 0 then ($port | tonumber) else null end),
+        path_prefix: (if ($path_prefix | length) > 0 then $path_prefix else null end),
+        owner: $owner,
+        issued_by: $issued_by,
+        issued_at: $issued_at,
+        expires_at: $expires_at,
+        reason: $reason,
+        rollback_posture: $rollback_posture,
+        retirement_trigger: $retirement_trigger
+      }
+    ' | yq -P -p=json '.' > "$canonical_file"
+
+  local lease_ref=".octon/state/control/execution/exceptions/leases/${LEASE_ID}.yml"
   bash "$RECEIPT_WRITER" \
     --receipt-type "exception_lease_upsert" \
     --issued-by "$ISSUED_BY" \
     --source-ref "$lease_ref" \
     --applied-to-ref "$lease_ref" \
-    --affected-path ".octon/state/control/execution/exceptions/leases.yml" \
+    --affected-path ".octon/state/control/execution/exceptions/leases/${LEASE_ID}.yml" \
     --reason "${REASON:-Upsert canonical authority exception lease}" \
     --reason-code "EXCEPTION_LEASE_UPSERTED" \
     --exception-lease-ref "$lease_ref" \

@@ -76,7 +76,9 @@ impl fs::Host for HostState {
     fn create_file_exclusive(&mut self, path: String, data: Vec<u8>) -> wasmtime::Result<bool> {
         self.grants.require("fs.write")?;
         if data.len() > 1024 * 1024 {
-            return Err(anyhow::anyhow!("INVALID_INPUT: create-file-exclusive payload too large").into());
+            return Err(
+                anyhow::anyhow!("INVALID_INPUT: create-file-exclusive payload too large").into(),
+            );
         }
         Ok(self.fs.create_file_exclusive(&path, &data)?)
     }
@@ -133,7 +135,9 @@ impl fs::Host for HostState {
 
     fn get_stat(&mut self, path: String) -> wasmtime::Result<Option<fs::Stat>> {
         self.grants.require("fs.read")?;
-        let Some(st) = self.fs.stat(&path)? else { return Ok(None); };
+        let Some(st) = self.fs.stat(&path)? else {
+            return Ok(None);
+        };
 
         let kind = match st.kind {
             crate::scoped_fs::NodeKind::File => fs::NodeKind::File,
@@ -224,7 +228,9 @@ impl http::Host for HostState {
             .map_err(map_http_error)?;
 
         let request_bytes = build_http_request(&method, &url, req.headers, &req.body)?;
-        stream.write_all(&request_bytes).map_err(map_io_http_error)?;
+        stream
+            .write_all(&request_bytes)
+            .map_err(map_io_http_error)?;
         stream.flush().map_err(map_io_http_error)?;
 
         let mut raw = Vec::new();
@@ -260,8 +266,7 @@ fn record_network_event(
     url: &str,
     decision: NetworkEgressDecision,
 ) -> wasmtime::Result<()> {
-    let target = parse_network_target(url)
-        .map_err(|e| anyhow::anyhow!("HTTP_ERROR: {}", e))?;
+    let target = parse_network_target(url).map_err(|e| anyhow::anyhow!("HTTP_ERROR: {}", e))?;
     let event = NetworkEgressEvent {
         schema_version: "network-egress-event-v1".to_string(),
         request_id: run_root
@@ -297,10 +302,26 @@ fn normalize_method(method: &str) -> wasmtime::Result<String> {
         return Err(anyhow::anyhow!("INVALID_INPUT: missing http method").into());
     }
 
-    if !method
-        .bytes()
-        .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'!' | b'#' | b'$' | b'%' | b'&' | b'\'' | b'*' | b'+' | b'-' | b'.' | b'^' | b'_' | b'`' | b'|' | b'~'))
-    {
+    if !method.bytes().all(|b| {
+        b.is_ascii_alphanumeric()
+            || matches!(
+                b,
+                b'!' | b'#'
+                    | b'$'
+                    | b'%'
+                    | b'&'
+                    | b'\''
+                    | b'*'
+                    | b'+'
+                    | b'-'
+                    | b'.'
+                    | b'^'
+                    | b'_'
+                    | b'`'
+                    | b'|'
+                    | b'~'
+            )
+    }) {
         return Err(anyhow::anyhow!("INVALID_INPUT: invalid http method '{}'", method).into());
     }
 
@@ -445,8 +466,7 @@ fn build_http_request(
     body: &[u8],
 ) -> wasmtime::Result<Vec<u8>> {
     let mut request = Vec::with_capacity(512 + body.len());
-    write!(&mut request, "{method} {} HTTP/1.1\r\n", url.path_and_query)
-        .map_err(map_http_error)?;
+    write!(&mut request, "{method} {} HTTP/1.1\r\n", url.path_and_query).map_err(map_http_error)?;
 
     let mut has_host = false;
     let mut has_connection = false;
@@ -488,10 +508,26 @@ fn validate_header_name(name: &str) -> wasmtime::Result<()> {
     if name.is_empty() {
         return Err(anyhow::anyhow!("INVALID_INPUT: http header name cannot be empty").into());
     }
-    if !name
-        .bytes()
-        .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'!' | b'#' | b'$' | b'%' | b'&' | b'\'' | b'*' | b'+' | b'-' | b'.' | b'^' | b'_' | b'`' | b'|' | b'~'))
-    {
+    if !name.bytes().all(|b| {
+        b.is_ascii_alphanumeric()
+            || matches!(
+                b,
+                b'!' | b'#'
+                    | b'$'
+                    | b'%'
+                    | b'&'
+                    | b'\''
+                    | b'*'
+                    | b'+'
+                    | b'-'
+                    | b'.'
+                    | b'^'
+                    | b'_'
+                    | b'`'
+                    | b'|'
+                    | b'~'
+            )
+    }) {
         return Err(anyhow::anyhow!("INVALID_INPUT: invalid http header name '{}'", name).into());
     }
     Ok(())
@@ -681,8 +717,9 @@ mod tests {
     #[test]
     fn http_send_denies_without_capability() {
         let mut state = test_state(&[]);
-        let err = <HostState as http::Host>::send(&mut state, get_request("http://127.0.0.1:1/", 50))
-            .expect_err("expected capability denied");
+        let err =
+            <HostState as http::Host>::send(&mut state, get_request("http://127.0.0.1:1/", 50))
+                .expect_err("expected capability denied");
         assert!(err.to_string().contains("CAPABILITY_DENIED"));
     }
 

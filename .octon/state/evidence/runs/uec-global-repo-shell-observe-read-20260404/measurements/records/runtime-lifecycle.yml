@@ -1,0 +1,14 @@
+schema_version: measurement-record-v1
+record_id: uec-global-repo-shell-observe-read-20260404-runtime-lifecycle
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-contract.yml
+metric_id: lifecycle-artifact-count
+label: Canonical lifecycle artifacts retained
+value: 14
+unit: count
+method: Counted canonical lifecycle, replay, disclosure, and proof artifacts under the bound run roots.
+evidence_refs:
+  - .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-manifest.yml
+  - .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/evidence-classification.yml
+notes: Supports observability richness and closure gating for the retained exemplar run.
+recorded_at: 2026-04-02T00:00:00Z

@@ -16,7 +16,7 @@ authority_routing:
     control_root: ".octon/state/control/execution/approvals/grants"
   exception_lease:
     schema_ref: ".octon/framework/constitution/contracts/authority/exception-lease-v1.schema.json"
-    control_root: ".octon/state/control/execution/exceptions"
+    control_root: ".octon/state/control/execution/exceptions/leases"
   revocation:
     schema_ref: ".octon/framework/constitution/contracts/authority/revocation-v1.schema.json"
     control_root: ".octon/state/control/execution/revocations"
@@ -33,10 +33,10 @@ authority_routing:
     schema_ref: ".octon/framework/constitution/contracts/authority/authority-route-receipt-v1.schema.json"
     evidence_root: ".octon/state/evidence/control/execution"
   decision_artifact:
-    schema_ref: ".octon/framework/constitution/contracts/authority/decision-artifact-v1.schema.json"
+    schema_ref: ".octon/framework/constitution/contracts/authority/decision-artifact-v2.schema.json"
     evidence_root: ".octon/state/evidence/control/execution"
   grant_bundle:
-    schema_ref: ".octon/framework/constitution/contracts/authority/grant-bundle-v1.schema.json"
+    schema_ref: ".octon/framework/constitution/contracts/authority/grant-bundle-v2.schema.json"
     evidence_root: ".octon/state/evidence/control/execution"
 projection_rules:
   host_affordances:

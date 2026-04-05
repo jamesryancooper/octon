@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/disclosure/closure-certificate-v2.schema.json",
+  "title": "Octon Closure Certificate v2",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "certificate_id",
+    "claim_validating_gate",
+    "closure_certification",
+    "proof_bundle_refs",
+    "sign_off"
+  ],
+  "properties": {
+    "schema_version": { "const": "closure-certificate-v2" },
+    "certificate_id": { "type": "string", "minLength": 1 },
+    "claim_validating_gate": { "type": "string", "enum": ["satisfied", "blocked"] },
+    "closure_certification": { "type": "string", "enum": ["certified", "blocked"] },
+    "proof_bundle_refs": { "type": "object" },
+    "sign_off": { "type": "object" }
+  }
+}

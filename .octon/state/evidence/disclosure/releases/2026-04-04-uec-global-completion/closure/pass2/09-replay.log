@@ -1,0 +1,27 @@
+== 09-replay ==
+== Replay Sufficiency Validation ==
+[OK] uec-global-repo-shell-observe-read-20260404 execution receipt is replay-sufficient
+[OK] uec-global-repo-shell-observe-read-20260404 replay manifest uses v2
+[OK] uec-global-repo-shell-observe-read-20260404 trace pointers use v2
+[OK] uec-global-repo-shell-observe-read-20260404 replay pointers retain external indexes
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 execution receipt is replay-sufficient
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 replay manifest uses v2
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 trace pointers use v2
+[OK] uec-safe-stage-lease-revocation-exercise-20260402 replay pointers retain external indexes
+[OK] uec-global-frontier-browser-api-studio-20260404 execution receipt is replay-sufficient
+[OK] uec-global-frontier-browser-api-studio-20260404 replay manifest uses v2
+[OK] uec-global-frontier-browser-api-studio-20260404 trace pointers use v2
+[OK] uec-global-frontier-browser-api-studio-20260404 replay pointers retain external indexes
+[OK] uec-safe-stage-approval-exercise-20260402 execution receipt is replay-sufficient
+[OK] uec-safe-stage-approval-exercise-20260402 replay manifest uses v2
+[OK] uec-safe-stage-approval-exercise-20260402 trace pointers use v2
+[OK] uec-safe-stage-approval-exercise-20260402 replay pointers retain external indexes
+[OK] uec-global-github-repo-consequential-20260404 execution receipt is replay-sufficient
+[OK] uec-global-github-repo-consequential-20260404 replay manifest uses v2
+[OK] uec-global-github-repo-consequential-20260404 trace pointers use v2
+[OK] uec-global-github-repo-consequential-20260404 replay pointers retain external indexes
+[OK] uec-global-ci-observe-read-20260404 execution receipt is replay-sufficient
+[OK] uec-global-ci-observe-read-20260404 replay manifest uses v2
+[OK] uec-global-ci-observe-read-20260404 trace pointers use v2
+[OK] uec-global-ci-observe-read-20260404 replay pointers retain external indexes
+Validation summary: errors=0

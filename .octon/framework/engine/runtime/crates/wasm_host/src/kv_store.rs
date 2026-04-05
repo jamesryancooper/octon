@@ -120,7 +120,10 @@ fn validate_key(key: &str) -> io::Result<()> {
 
 fn validate_value(value: &str) -> io::Result<()> {
     if value.len() > 1_000_000 {
-        return Err(io::Error::new(io::ErrorKind::InvalidInput, "value too large"));
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "value too large",
+        ));
     }
     if value.chars().any(|c| c == '\0') {
         return Err(io::Error::new(
@@ -140,9 +143,7 @@ fn temp_path(path: &Path) -> PathBuf {
         .as_nanos();
     let file_name = format!(
         "{}.tmp.{}.{}",
-        path.file_name()
-            .and_then(|x| x.to_str())
-            .unwrap_or("file"),
+        path.file_name().and_then(|x| x.to_str()).unwrap_or("file"),
         pid,
         nanos
     );

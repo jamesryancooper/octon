@@ -38,7 +38,9 @@ impl ServiceDiscovery {
             let service_dir = service_json_path
                 .parent()
                 .map(Path::to_path_buf)
-                .ok_or_else(|| KernelError::new(ErrorCode::Internal, "service.json has no parent dir"))?;
+                .ok_or_else(|| {
+                    KernelError::new(ErrorCode::Internal, "service.json has no parent dir")
+                })?;
 
             let bytes = std::fs::read(&service_json_path).map_err(|e| {
                 KernelError::new(
@@ -50,18 +52,22 @@ impl ServiceDiscovery {
             let manifest_json: serde_json::Value = serde_json::from_slice(&bytes).map_err(|e| {
                 KernelError::new(
                     ErrorCode::Internal,
-                    format!("service.json is not valid JSON at {}: {e}", service_json_path.display()),
+                    format!(
+                        "service.json is not valid JSON at {}: {e}",
+                        service_json_path.display()
+                    ),
                 )
             })?;
 
             schemas.validate_service_manifest(&manifest_json)?;
 
-            let manifest: ServiceManifestV1 = serde_json::from_value(manifest_json).map_err(|e| {
-                KernelError::new(
-                    ErrorCode::Internal,
-                    format!("service.json could not be decoded into ServiceManifestV1: {e}"),
-                )
-            })?;
+            let manifest: ServiceManifestV1 =
+                serde_json::from_value(manifest_json).map_err(|e| {
+                    KernelError::new(
+                        ErrorCode::Internal,
+                        format!("service.json could not be decoded into ServiceManifestV1: {e}"),
+                    )
+                })?;
 
             // Required behavior: format_version must match exactly.
             if manifest.format_version != "service-manifest-v1" {

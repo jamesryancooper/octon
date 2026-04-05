@@ -17,8 +17,8 @@ main() {
   echo "== Global Retirement Closure Validation =="
   require_yq '.status == "closed"' "$REGISTRY" "retirement registry is closed"
   require_yq '[.entries[] | select(.status == "registered" or .status == "active")] | length == 0' "$REGISTRY" "no registered or active retirement entry remains"
-  require_yq '.retired[] | select(. == "MT-C")' "$LEDGER" "surface ledger records MT-C retirement"
-  require_yq '.rebound[] | select(.surface_id == "WT-4")' "$LEDGER" "surface ledger records WT-4 rebound"
+  require_yq '.retired[] | select(. == "experimental-model-surface")' "$LEDGER" "surface ledger records retired model surface"
+  require_yq '.rebound[] | select(.surface_id == "deny-only-external-irreversible-surface")' "$LEDGER" "surface ledger records rebound deny-only surface"
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]
 }

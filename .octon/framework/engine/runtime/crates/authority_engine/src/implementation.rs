@@ -1407,6 +1407,10 @@ fn revocation_registry_path(cfg: &RuntimeConfig) -> PathBuf {
         .join("grants.yml")
 }
 
+fn revocation_directory_path(cfg: &RuntimeConfig) -> PathBuf {
+    authority_control_root(cfg).join("revocations")
+}
+
 fn authority_evidence_root(cfg: &RuntimeConfig) -> PathBuf {
     cfg.repo_root
         .join(".octon/state/evidence/control/execution")
@@ -3656,6 +3660,44 @@ fn load_active_revocation_refs(
     request_id: &str,
     grant_id: &str,
 ) -> CoreResult<Vec<String>> {
+    let canonical_dir = revocation_directory_path(cfg);
+    if canonical_dir.is_dir() {
+        let mut refs = Vec::new();
+        for entry in fs::read_dir(&canonical_dir).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to read canonical revocation dir {}: {e}",
+                    canonical_dir.display()
+                ),
+            )
+        })? {
+            let entry = entry.map_err(|e| {
+                KernelError::new(
+                    ErrorCode::Internal,
+                    format!("failed to read canonical revocation entry: {e}"),
+                )
+            })?;
+            let path = entry.path();
+            if path.extension().and_then(|value| value.to_str()) != Some("yml") {
+                continue;
+            }
+            if path.file_name().and_then(|value| value.to_str()) == Some("grants.yml") {
+                continue;
+            }
+            let revocation: RevocationArtifact = read_yaml_file(&path)?;
+            if revocation.state == "active"
+                && (revocation.request_id.as_deref() == Some(request_id)
+                    || revocation.grant_id.as_deref() == Some(grant_id))
+            {
+                refs.push(path_tail(&cfg.repo_root, &path));
+            }
+        }
+        if !refs.is_empty() {
+            return Ok(refs);
+        }
+    }
+
     let path = revocation_registry_path(cfg);
     let registry: RevocationRegistry = read_yaml_or_default(&path)?;
     Ok(registry
@@ -7175,7 +7217,26 @@ mod tests {
             },
             policy_mode_requested: Some("soft-enforce".to_string()),
             environment_hint: Some("development".to_string()),
-            metadata: BTreeMap::new(),
+            metadata: BTreeMap::from([
+                ("support_tier".to_string(), "repo-consequential".to_string()),
+                (
+                    "support_model_tier".to_string(),
+                    "repo-local-governed".to_string(),
+                ),
+                (
+                    "support_language_resource_tier".to_string(),
+                    "reference-owned".to_string(),
+                ),
+                (
+                    "support_locale_tier".to_string(),
+                    "english-primary".to_string(),
+                ),
+                ("support_host_adapter".to_string(), "repo-shell".to_string()),
+                (
+                    "support_model_adapter".to_string(),
+                    "repo-local-governed".to_string(),
+                ),
+            ]),
         }
     }
 
@@ -7339,6 +7400,24 @@ mod tests {
     }
 
     #[test]
+    fn active_revocation_refs_prefer_canonical_files_when_present() {
+        let cfg = temp_runtime_config();
+        let revocation_dir = cfg.octon_dir.join("state/control/execution/revocations");
+        fs::write(
+            revocation_dir.join("revoke-2.yml"),
+            "schema_version: \"authority-revocation-v2\"\nrevocation_id: \"revoke-2\"\ngrant_id: \"grant-req-2\"\nrequest_id: \"req-2\"\nrun_id: \"req-2\"\nstate: \"active\"\nrevoked_at: \"2026-03-27T00:00:00Z\"\nrevoked_by: \"operator://test\"\nreason_codes: []\nnotes: null\n",
+        )
+        .expect("write canonical revocation fixture");
+
+        let refs =
+            load_active_revocation_refs(&cfg, "req-2", "grant-req-2").expect("load revocations");
+        assert_eq!(
+            refs,
+            vec![".octon/state/control/execution/revocations/revoke-2.yml".to_string()]
+        );
+    }
+
+    #[test]
     fn unsupported_support_tier_denies_execution() {
         let cfg = temp_runtime_config();
         let policy = PolicyEngine::new(cfg.clone());
@@ -7385,14 +7464,12 @@ mod tests {
 
         let grant = authorize_execution(&cfg, &policy, &request, None)
             .expect("admitted api pack should authorize when declared");
-        assert!(
-            grant
-                .support_posture
-                .as_ref()
-                .expect("support posture")
-                .allowed_capability_packs
-                .contains(&"api".to_string())
-        );
+        assert!(grant
+            .support_posture
+            .as_ref()
+            .expect("support posture")
+            .allowed_capability_packs
+            .contains(&"api".to_string()));
     }
 
     #[test]
@@ -7400,21 +7477,22 @@ mod tests {
         let cfg = temp_runtime_config();
         let policy = PolicyEngine::new(cfg.clone());
         let mut request = minimal_request();
-        request.requested_capabilities.push("browser.click".to_string());
         request
-            .metadata
-            .insert("support_capability_packs".to_string(), "browser".to_string());
+            .requested_capabilities
+            .push("browser.click".to_string());
+        request.metadata.insert(
+            "support_capability_packs".to_string(),
+            "browser".to_string(),
+        );
 
         let grant = authorize_execution(&cfg, &policy, &request, None)
             .expect("admitted browser pack should authorize when declared");
-        assert!(
-            grant
-                .support_posture
-                .as_ref()
-                .expect("support posture")
-                .allowed_capability_packs
-                .contains(&"browser".to_string())
-        );
+        assert!(grant
+            .support_posture
+            .as_ref()
+            .expect("support posture")
+            .allowed_capability_packs
+            .contains(&"browser".to_string()));
     }
 
     #[test]

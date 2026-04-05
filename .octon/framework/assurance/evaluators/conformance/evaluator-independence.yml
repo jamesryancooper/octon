@@ -1,0 +1,15 @@
+schema_version: "evaluator-independence-manifest-v1"
+manifest_id: "global-support-universe-evaluator-independence"
+generator_scope: "run generation, runtime emission, and disclosure assembly"
+evaluator_scope: "assurance review routing and independent evaluator adapters"
+independence_rule: >-
+  Generators may emit candidate artifacts and deterministic checks, but final
+  support and closure claims must be backed by retained evaluator artifacts
+  that are not solely self-certified by the generator path.
+hidden_check_categories:
+  - "quality-judgment"
+  - "cross-plane-consistency"
+  - "closure-readiness"
+material_intervention_disclosure_rule: >-
+  Any material human or repair-agent intervention must be disclosed in the
+  canonical run intervention log and in release-level hidden-repair reporting.

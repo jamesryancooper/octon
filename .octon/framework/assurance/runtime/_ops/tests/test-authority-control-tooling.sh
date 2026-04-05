@@ -29,7 +29,7 @@ OCTON_DIR_OVERRIDE="$tmp_root/.octon" OCTON_ROOT_DIR="$tmp_root" bash "$APPROVAL
   --target-id "github-pr:101" \
   --action-type "pr-autonomy-merge" \
   --issued-by "github://pull/101" \
-  --support-tier "repo-local-consequential" \
+  --support-tier "repo-consequential" \
   --request-state "granted" \
   --grant-state "active" \
   --ownership-ref "operator://octon-maintainers" \

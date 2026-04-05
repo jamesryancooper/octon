@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/evaluator-independence-manifest-v1.schema.json",
+  "title": "Octon Evaluator Independence Manifest v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "generator_scope",
+    "evaluator_scope",
+    "independence_rule"
+  ],
+  "properties": {
+    "schema_version": { "const": "evaluator-independence-manifest-v1" },
+    "manifest_id": { "type": "string", "minLength": 1 },
+    "generator_scope": { "type": "string", "minLength": 1 },
+    "evaluator_scope": { "type": "string", "minLength": 1 },
+    "independence_rule": { "type": "string", "minLength": 1 }
+  }
+}

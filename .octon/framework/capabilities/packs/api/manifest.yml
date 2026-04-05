@@ -6,6 +6,8 @@ description: "Governed outbound API and connector surfaces with explicit egress,
 runtime_surface_refs:
   - ".octon/instance/governance/policies/network-egress.yml"
   - ".octon/framework/assurance/functional/api/**"
+runtime_service_contract_refs:
+  - ".octon/framework/capabilities/runtime/services/api-client/contract.yml"
 required_evidence:
   - "authority-decision-artifact"
   - "run-evidence-root"
@@ -35,5 +37,6 @@ lab_scenario_refs:
 disclosure_requirements:
   - "RunCard capability-pack set"
   - "HarnessCard support-universe coverage"
+  - "api-client runtime service contract"
 known_limitations:
   - "Outbound API actions remain fail-closed when the requested egress target or authority route is excluded."

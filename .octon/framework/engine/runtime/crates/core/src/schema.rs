@@ -19,7 +19,10 @@ impl SchemaStore {
         let bytes = std::fs::read(&schema_path).map_err(|e| {
             KernelError::new(
                 ErrorCode::Internal,
-                format!("failed to read manifest schema at {}: {e}", schema_path.display()),
+                format!(
+                    "failed to read manifest schema at {}: {e}",
+                    schema_path.display()
+                ),
             )
         })?;
         let schema_json: serde_json::Value = serde_json::from_slice(&bytes).map_err(|e| {
@@ -32,7 +35,12 @@ impl SchemaStore {
         let compiled = JSONSchema::options()
             .with_draft(Draft::Draft202012)
             .compile(&schema_json)
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("failed to compile schema: {e}")))?;
+            .map_err(|e| {
+                KernelError::new(
+                    ErrorCode::Internal,
+                    format!("failed to compile schema: {e}"),
+                )
+            })?;
 
         Ok(Self {
             manifest_schema: std::sync::Arc::new(compiled),
@@ -72,7 +80,9 @@ impl SchemaStore {
         let compiled = JSONSchema::options()
             .with_draft(Draft::Draft202012)
             .compile(schema)
-            .map_err(|e| KernelError::new(ErrorCode::Internal, format!("invalid JSON schema: {e}")))?;
+            .map_err(|e| {
+                KernelError::new(ErrorCode::Internal, format!("invalid JSON schema: {e}"))
+            })?;
 
         let mut problems = Vec::new();
         if let Err(errors) = compiled.validate(instance) {

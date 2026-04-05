@@ -51,7 +51,9 @@ main() {
   [[ -n "$REVOKED_BY" ]] || { echo "--revoked-by is required" >&2; exit 1; }
 
   local revocations_file="$OCTON_DIR/state/control/execution/revocations/grants.yml"
-  mkdir -p "$(dirname "$revocations_file")"
+  local canonical_dir="$OCTON_DIR/state/control/execution/revocations"
+  local canonical_file="$canonical_dir/${REVOCATION_ID}.yml"
+  mkdir -p "$(dirname "$revocations_file")" "$canonical_dir"
   [[ -f "$revocations_file" ]] || printf 'schema_version: "authority-revocation-set-v1"\nrevocations: []\n' > "$revocations_file"
   local ts
   ts="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
@@ -91,6 +93,31 @@ main() {
   mv "$tmp_yaml" "$revocations_file"
   rm -f "$tmp_json"
 
+  jq -n \
+    --arg revocation_id "$REVOCATION_ID" \
+    --arg grant_id "$GRANT_ID" \
+    --arg request_id "$REQUEST_ID" \
+    --arg run_id "$RUN_ID" \
+    --arg state "$STATE" \
+    --arg revoked_at "$ts" \
+    --arg revoked_by "$REVOKED_BY" \
+    --arg notes "$NOTES" \
+    --argjson reason_codes "$reason_codes_json" \
+    '
+      {
+        schema_version: "authority-revocation-v2",
+        revocation_id: $revocation_id,
+        grant_id: (if ($grant_id | length) > 0 then $grant_id else null end),
+        request_id: (if ($request_id | length) > 0 then $request_id else null end),
+        run_id: (if ($run_id | length) > 0 then $run_id else null end),
+        state: $state,
+        revoked_at: $revoked_at,
+        revoked_by: $revoked_by,
+        reason_codes: $reason_codes,
+        notes: (if ($notes | length) > 0 then $notes else null end)
+      }
+    ' | yq -P -p=json '.' > "$canonical_file"
+
   if [[ "${#REASON_CODES[@]}" -gt 0 ]]; then
     local args=()
     local code
@@ -100,27 +127,27 @@ main() {
     bash "$RECEIPT_WRITER" \
       --receipt-type "authority_revocation_upsert" \
       --issued-by "$REVOKED_BY" \
-      --source-ref ".octon/state/control/execution/revocations/grants.yml#${REVOCATION_ID}" \
-      --applied-to-ref ".octon/state/control/execution/revocations/grants.yml#${REVOCATION_ID}" \
-      --affected-path ".octon/state/control/execution/revocations/grants.yml" \
+      --source-ref ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml" \
+      --applied-to-ref ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml" \
+      --affected-path ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml" \
       "${args[@]}" \
-      --revocation-ref ".octon/state/control/execution/revocations/grants.yml#${REVOCATION_ID}" \
+      --revocation-ref ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml" \
       --linked-run-id "$RUN_ID" \
       >/dev/null
   else
     bash "$RECEIPT_WRITER" \
       --receipt-type "authority_revocation_upsert" \
       --issued-by "$REVOKED_BY" \
-      --source-ref ".octon/state/control/execution/revocations/grants.yml#${REVOCATION_ID}" \
-      --applied-to-ref ".octon/state/control/execution/revocations/grants.yml#${REVOCATION_ID}" \
-      --affected-path ".octon/state/control/execution/revocations/grants.yml" \
+      --source-ref ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml" \
+      --applied-to-ref ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml" \
+      --affected-path ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml" \
       --reason-code "AUTHORITY_REVOCATION_UPSERTED" \
-      --revocation-ref ".octon/state/control/execution/revocations/grants.yml#${REVOCATION_ID}" \
+      --revocation-ref ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml" \
       --linked-run-id "$RUN_ID" \
       >/dev/null
   fi
 
-  printf '%s\n' ".octon/state/control/execution/revocations/grants.yml#${REVOCATION_ID}"
+  printf '%s\n' ".octon/state/control/execution/revocations/${REVOCATION_ID}.yml"
 }
 
 main "$@"

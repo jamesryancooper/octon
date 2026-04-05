@@ -2,6 +2,7 @@ mod context;
 mod orchestration;
 mod pipeline;
 mod request;
+mod run_binding;
 mod scaffold;
 mod stdio;
 mod workflow;
@@ -455,6 +456,7 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
         metadata,
     };
     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(svc))?;
+    run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "tool")?;
     let artifacts = write_execution_start(
         &artifact_root_from_relative(
             &ctx.cfg.repo_root,
@@ -560,6 +562,7 @@ fn cmd_studio() -> anyhow::Result<()> {
         metadata,
     };
     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+    run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "studio")?;
     let artifacts = write_execution_start(
         &artifact_root_from_relative(
             &ctx.cfg.repo_root,
@@ -670,6 +673,7 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 metadata,
             };
             let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+            run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "service")?;
             let artifacts = write_execution_start(
                 &artifact_root_from_relative(
                     &ctx.cfg.repo_root,
@@ -762,6 +766,7 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 metadata,
             };
             let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
+            run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "service")?;
             let artifacts = write_execution_start(
                 &artifact_root_from_relative(
                     &ctx.cfg.repo_root,
@@ -1688,7 +1693,7 @@ mod tests {
             "help output should contain workflow command"
         );
         assert!(
-            help.contains("Canonical workflow execution entry points"),
+            help.contains("Compatibility workflow wrapper over run-first lifecycle semantics"),
             "help output should include workflow command description"
         );
     }

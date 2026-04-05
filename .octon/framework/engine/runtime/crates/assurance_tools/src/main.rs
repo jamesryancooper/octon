@@ -38,7 +38,10 @@ struct ScoreArgs {
     )]
     scores: PathBuf,
 
-    #[arg(long, default_value = ".octon/framework/assurance/governance/CHARTER.md")]
+    #[arg(
+        long,
+        default_value = ".octon/framework/assurance/governance/CHARTER.md"
+    )]
     charter: PathBuf,
 
     #[arg(
@@ -53,7 +56,10 @@ struct ScoreArgs {
     )]
     subsystem_classes: PathBuf,
 
-    #[arg(long, default_value = ".octon/framework/assurance/governance/overrides.yml")]
+    #[arg(
+        long,
+        default_value = ".octon/framework/assurance/governance/overrides.yml"
+    )]
     overrides: PathBuf,
 
     #[arg(long)]
@@ -77,16 +83,28 @@ struct ScoreArgs {
     #[arg(long)]
     out_dir: Option<PathBuf>,
 
-    #[arg(long, default_value = ".octon/state/evidence/validation/assurance/effective")]
+    #[arg(
+        long,
+        default_value = ".octon/state/evidence/validation/assurance/effective"
+    )]
     effective_dir: PathBuf,
 
-    #[arg(long, default_value = ".octon/state/evidence/validation/assurance/results")]
+    #[arg(
+        long,
+        default_value = ".octon/state/evidence/validation/assurance/results"
+    )]
     results_dir: PathBuf,
 
-    #[arg(long, default_value = ".octon/state/evidence/validation/assurance/policy/deviations")]
+    #[arg(
+        long,
+        default_value = ".octon/state/evidence/validation/assurance/policy/deviations"
+    )]
     deviations_dir: PathBuf,
 
-    #[arg(long, default_value = ".octon/state/evidence/validation/assurance/effective")]
+    #[arg(
+        long,
+        default_value = ".octon/state/evidence/validation/assurance/effective"
+    )]
     lock_dir: PathBuf,
 }
 
@@ -107,7 +125,10 @@ struct GateArgs {
     )]
     scores: PathBuf,
 
-    #[arg(long, default_value = ".octon/framework/assurance/governance/CHARTER.md")]
+    #[arg(
+        long,
+        default_value = ".octon/framework/assurance/governance/CHARTER.md"
+    )]
     charter: PathBuf,
 
     #[arg(
@@ -116,7 +137,10 @@ struct GateArgs {
     )]
     subsystem_classes: PathBuf,
 
-    #[arg(long, default_value = ".octon/framework/assurance/governance/overrides.yml")]
+    #[arg(
+        long,
+        default_value = ".octon/framework/assurance/governance/overrides.yml"
+    )]
     overrides: PathBuf,
 
     #[arg(long)]
@@ -4519,7 +4543,9 @@ mod tests {
             .and_then(Path::parent)
             .and_then(Path::parent)
             .and_then(Path::parent)
-            .expect("assurance_tools should be under <repo>/.octon/framework/engine/runtime/crates/")
+            .expect(
+                "assurance_tools should be under <repo>/.octon/framework/engine/runtime/crates/",
+            )
             .to_path_buf()
     }
 
