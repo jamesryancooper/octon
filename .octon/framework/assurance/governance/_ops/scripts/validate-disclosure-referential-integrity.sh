@@ -36,6 +36,10 @@ validate_run_card() {
   require_ref "$(yq -r '.intervention_ref' "$card")" "$run_id intervention ref"
   require_ref "$(yq -r '.replay_ref' "$card")" "$run_id replay ref"
   require_ref "$(yq -r '.recovery_ref' "$card")" "$run_id recovery ref"
+  while IFS= read -r ref; do
+    [[ -n "$ref" ]] || continue
+    require_ref "$ref" "$run_id proof ref $ref"
+  done < <(yq -r '.proof_plane_refs[]' "$card")
   yq -e '.claim_status' "$card" >/dev/null 2>&1 && pass "$run_id claim_status present" || fail "$run_id claim_status present"
 }
 

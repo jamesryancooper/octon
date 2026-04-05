@@ -49,6 +49,10 @@ main() {
     [[ -n "$ref" ]] || continue
     [[ -e "$ROOT_DIR/$ref" ]] && pass "closure proof ref resolves: $ref" || fail "closure proof ref missing: $ref"
   done < <(yq -r '.proof_bundle_refs[]' "$AUTHORED_HARNESS_CARD")
+  while IFS= read -r ref; do
+    [[ -n "$ref" ]] || continue
+    [[ -e "$ROOT_DIR/$ref" ]] && pass "certificate proof ref resolves: $ref" || fail "certificate proof ref missing: $ref"
+  done < <(yq -r '.proof_bundle_refs[]' "$CLOSURE_CERTIFICATE")
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]
