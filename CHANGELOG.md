@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.12](https://github.com/jamesryancooper/octon/compare/octon-v0.6.11...octon-v0.6.12) (2026-04-05)
+
+
+### Features
+
+* **uec:** complete global support universe ([#251](https://github.com/jamesryancooper/octon/issues/251)) ([8455bca](https://github.com/jamesryancooper/octon/commit/8455bcab106a713be5199610977677d8bc333265))
+
 ## [0.6.11](https://github.com/jamesryancooper/octon/compare/octon-v0.6.10...octon-v0.6.11) (2026-04-04)
 
 
