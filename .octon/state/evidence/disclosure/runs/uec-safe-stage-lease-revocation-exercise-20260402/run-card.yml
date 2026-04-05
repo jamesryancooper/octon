@@ -1,5 +1,6 @@
 schema_version: run-card-v2
 run_id: uec-safe-stage-lease-revocation-exercise-20260402
+claim_status: supported
 status: failed
 summary: Safe-stage lease and revocation exercise retained to prove canonical exception
   and revocation obedience under the supported envelope.

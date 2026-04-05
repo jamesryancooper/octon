@@ -1,12 +1,12 @@
 schema_version: "octon-constitution-charter-v1"
 charter_id: "octon-harness-charter"
-version: "1.1.0-global-completion"
+version: "1.2.0-proposal-packet-completion"
 owner: "Octon governance"
 purpose: >-
   Provide one explicit repo-local constitutional kernel for the Octon
   super-root so consequential autonomous work stays scoped, fail-closed,
-  evidence-backed, reviewable, and globally complete across the retained
-  finite support universe.
+  evidence-backed, reviewable, and fully unified across the admitted bounded
+  support universe.
 non_goals:
   - "Make raw inputs authoritative for runtime or policy."
   - "Allow host UI state, chat transcripts, or generated projections to become control-plane authority."
@@ -39,9 +39,9 @@ non_negotiables:
   - id: "NK-013"
     rule: "Require adapter-backed support claims to remain bounded by explicit support-target declarations, governance exclusions, and adapter-conformance criteria."
   - id: "NK-014"
-    rule: "No retained critical surface may remain experimental, reduced, stage_only, unsupported, or unadmitted in the live architecture."
+    rule: "No surface may enter the live claim unless it is dossier-backed, runtime-backed, proof-backed, and disclosure-backed."
   - id: "NK-015"
-    rule: "Final disclosure may not rely on a narrower bounded-envelope caveat once global completion is claimed."
+    rule: "Final disclosure must state the admitted claim envelope and may not outstate stage-only, unsupported, or unadmitted surfaces."
 fail_closed_rules_ref: ".octon/framework/constitution/obligations/fail-closed.yml"
 evidence_obligations_ref: ".octon/framework/constitution/obligations/evidence.yml"
 normative_precedence_ref: ".octon/framework/constitution/precedence/normative.yml"
@@ -66,14 +66,14 @@ live_model:
   release_state: "pre-1.0"
   change_profile: "atomic"
   atomic_mode: "clean-break"
-  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
+  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
   consequential_execution_unit: "run-contract"
   authority_engine: "runtime-consumed"
-  support_universe_mode: "globally-complete-finite-product"
+  support_universe_mode: "bounded-admitted-finite-product"
   support_universe_doctrine: >-
-    The live support universe remains finite but every retained surface must be
-    fully governed, runtime-real, validator-covered, proof-backed,
-    disclosure-backed, and non-liminal.
+    The live support universe remains finite and admitted; only dossier-backed,
+    runtime-real, validator-covered, proof-backed, disclosure-backed surfaces
+    may enter the claim.
   governance_exclusions_doctrine: >-
     Prohibited or non-claimed action classes live under explicit governance
     exclusions and must not survive as unsupported support tiers.
@@ -94,4 +94,4 @@ historical_adoption_lineage:
     assurance_families: "wave-4-active"
     disclosure_families: "wave-4-active"
     adapter_contracts: "wave-5-active"
-    support_target_declarations: "wave-7-global-completion-active"
+    support_target_declarations: "wave-7-bounded-admission-active"

@@ -1,0 +1,21 @@
+schema_version: closure-summary-v1
+updated_at: "2026-04-05T12:00:00Z"
+claim_id: unified-execution-constitution
+claim_status: complete
+support_universe_mode: bounded-admitted-finite
+preclaim_blockers_open: 0
+green_gates:
+  - G0
+  - G1
+  - G2
+  - G3
+  - G4
+  - G5
+  - G6
+  - G7
+  - G8
+  - G9
+  - G10
+notes:
+  - Stage-only surfaces remain explicit and excluded from the live claim.
+  - Phase 4 deletion follow-through remains post-claim only.

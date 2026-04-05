@@ -1,0 +1,38 @@
+schema_version: release-lineage-v1
+owner: Octon governance
+updated_at: "2026-04-05T12:30:00Z"
+active_release:
+  release_id: 2026-04-05-uec-proposal-packet-completion
+  status: active
+  claim_scope: bounded-admitted-finite
+  harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/harness-card.yml
+  closure_certificate_ref: .octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/closure-certificate.yml
+historical_releases:
+  - release_id: 2026-04-04-uec-global-completion
+    status: superseded
+    superseded_by: 2026-04-05-uec-proposal-packet-completion
+    reason: Global-complete claim was replaced by the bounded admitted proposal-packet completion claim.
+    harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/harness-card.yml
+  - release_id: 2026-04-03-uec-clean-break-closure
+    status: historical
+    superseded_by: 2026-04-05-uec-proposal-packet-completion
+    reason: Earlier clean-break closure evidence remains historical lineage only.
+    harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-03-uec-clean-break-closure/harness-card.yml
+  - release_id: 2026-03-31-unified-execution-constitution-clean-break
+    status: historical
+    superseded_by: 2026-04-05-uec-proposal-packet-completion
+    reason: Earlier bounded-envelope release evidence remains historical lineage only.
+    harness_card_ref: .octon/state/evidence/disclosure/releases/2026-03-31-unified-execution-constitution-clean-break/harness-card.yml
+  - release_id: 2026-03-30-unified-execution-constitution-atomic-cutover
+    status: historical
+    superseded_by: 2026-04-05-uec-proposal-packet-completion
+    reason: Earlier atomic cutover release evidence remains historical lineage only.
+    harness_card_ref: .octon/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-atomic-cutover/harness-card.yml
+  - release_id: 2026-03-30-unified-execution-constitution-closure
+    status: historical
+    superseded_by: 2026-04-05-uec-proposal-packet-completion
+    reason: Earlier closure-certification release evidence remains historical lineage only.
+    harness_card_ref: .octon/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-closure/harness-card.yml
+notes:
+  - Historical release bundles remain retained evidence, not the active live claim.
+  - The active claim-bearing release is the only release that may be cited for current support scope and closure truth.

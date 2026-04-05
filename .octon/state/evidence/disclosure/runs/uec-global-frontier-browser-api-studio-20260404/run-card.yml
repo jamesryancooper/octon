@@ -18,7 +18,9 @@ authority_refs:
   run_contract: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
 generated_at: "2026-04-04T12:00:00Z"
 intervention_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/interventions/log.yml
-known_limits: []
+known_limits:
+  - Frontier-governed, spanish-secondary, browser, and API remain stage-only and excluded from the bounded admitted live claim.
+  - Boundary-sensitive execution remains outside the live claim until recovery and behavioral proof are promoted together.
 measurement_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/measurements/summary.yml
 proof_plane_refs:
   behavioral: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/behavioral.yml
@@ -37,15 +39,16 @@ requested_capability_packs:
   - browser
   - api
 run_id: uec-global-frontier-browser-api-studio-20260404
+claim_status: stage_only
 schema_version: run-card-v2
 status: succeeded
-summary: Boundary-sensitive frontier-governed Studio run completed with browser and API packs under the globally complete support universe.
+summary: Boundary-sensitive frontier-governed Studio run is retained as stage-only evidence for browser/API, locale, and frontier-model evaluation outside the live claim envelope.
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_target_tuple:
   language_resource_tier: extended-governed
   locale_tier: spanish-secondary
   model_tier: frontier-governed
-  support_status: supported
+  support_status: stage_only
   workload_tier: boundary-sensitive
 support_tier: boundary-sensitive
 workflow_mode: agent-augmented

@@ -1,69 +1,45 @@
 schema_version: "unified-execution-constitution-packet-issues-v1"
 claim_id: "unified-execution-constitution"
 owner: "Octon governance"
-updated_at: "2026-04-04"
+updated_at: "2026-04-05"
 summary:
-  total_count: 8
+  total_count: 18
   open_count: 0
-  closed_count: 8
+  closed_count: 18
   partial_count: 0
   deferred_count: 0
   closure_ready: true
 issues:
-  - issue_id: "CB-1"
+  - issue_id: "OCT-F001"
     status: "closed"
-    title: "Universal run-contract enforcement"
+    title: "Support-target matrix over-admits missionless execution"
     evidence_refs:
-      - ".octon/framework/engine/runtime/policies/run-required.yml"
-      - ".octon/framework/engine/runtime/policies/materiality-classification.yml"
-      - ".octon/framework/engine/runtime/crates/kernel/src/run_binding.rs"
-      - ".octon/framework/assurance/governance/_ops/scripts/validate-run-binding-enforcement.sh"
-  - issue_id: "CB-2"
-    status: "closed"
-    title: "Disclosure and proof-bundle integrity"
-    evidence_refs:
-      - ".octon/framework/assurance/governance/_ops/scripts/validate-disclosure-referential-integrity.sh"
-      - ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml"
-      - ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/closure-certificate.yml"
-  - issue_id: "CB-3"
-    status: "closed"
-    title: "Support-target vocabulary drift"
-    evidence_refs:
-      - ".octon/framework/engine/runtime/policies/support-target-normalization.yml"
       - ".octon/instance/governance/support-targets.yml"
-      - ".octon/framework/assurance/governance/_ops/scripts/validate-support-target-normalization.sh"
-  - issue_id: "CB-4"
+      - ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"
+  - issue_id: "OCT-F003"
     status: "closed"
-    title: "Browser/API capability truthfulness"
+    title: "Capability-pack admission is internally contradictory"
     evidence_refs:
-      - ".octon/framework/capabilities/runtime/services/browser-session/contract.yml"
-      - ".octon/framework/capabilities/runtime/services/api-client/contract.yml"
-      - ".octon/framework/assurance/governance/_ops/scripts/validate-capability-truthfulness.sh"
-  - issue_id: "H-5"
+      - ".octon/instance/capabilities/runtime/packs/registry.yml"
+      - ".octon/framework/capabilities/packs/browser/README.md"
+      - ".octon/framework/capabilities/packs/api/README.md"
+  - issue_id: "OCT-F004"
     status: "closed"
-    title: "Per-run authority and budget granularity"
+    title: "Evidence classification exists in form but not substance"
     evidence_refs:
-      - ".octon/framework/assurance/governance/_ops/scripts/validate-authority-bundle-resolution.sh"
-      - ".octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/authority/grant-bundle.yml"
-      - ".octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/authority/budget-ledger.yml"
-  - issue_id: "H-6"
+      - ".octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/evidence-classification.yml"
+      - ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/evidence-classification.yml"
+      - ".octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/evidence-classification.yml"
+  - issue_id: "OCT-F005"
     status: "closed"
-    title: "Receipt richness and replay sufficiency"
+    title: "Disclosure over-claims completion relative to proof"
     evidence_refs:
-      - ".octon/framework/assurance/governance/_ops/scripts/validate-replay-sufficiency.sh"
-      - ".octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay/manifest.yml"
-      - ".octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/receipts/execution-receipt.json"
-  - issue_id: "H-7"
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+      - ".octon/instance/governance/closure/unified-execution-constitution.yml"
+  - issue_id: "OCT-F018"
     status: "closed"
-    title: "Proof-plane depth"
+    title: "Closure certification lacks a strict truth boundary"
     evidence_refs:
-      - ".octon/framework/assurance/governance/_ops/scripts/validate-proof-plane-coverage.sh"
-      - ".octon/framework/assurance/evaluators/conformance/evaluator-independence.yml"
-      - ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/proof-plane-coverage.yml"
-  - issue_id: "H-8"
-    status: "closed"
-    title: "Transitional surface retirement"
-    evidence_refs:
-      - ".octon/instance/governance/contracts/retirement-registry.yml"
-      - ".octon/framework/assurance/runtime/_ops/scripts/validate-global-retirement-closure.sh"
-      - ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass2/11-retirement.log"
+      - ".octon/framework/constitution/claim-truth-conditions.yml"
+      - ".octon/instance/governance/closure/gate-status.yml"
+      - ".octon/instance/governance/closure/closure-summary.yml"

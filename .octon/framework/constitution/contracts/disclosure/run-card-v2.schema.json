@@ -8,6 +8,7 @@
   "required": [
     "schema_version",
     "run_id",
+    "claim_status",
     "status",
     "summary",
     "workflow_mode",
@@ -29,6 +30,10 @@
   "properties": {
     "schema_version": { "const": "run-card-v2" },
     "run_id": { "type": "string", "minLength": 1 },
+    "claim_status": {
+      "type": "string",
+      "enum": ["supported", "stage_only", "unsupported"]
+    },
     "status": { "type": "string", "minLength": 1 },
     "summary": { "type": "string", "minLength": 1 },
     "workflow_mode": { "type": "string", "minLength": 1 },
@@ -48,7 +53,7 @@
         "workload_tier": { "type": "string", "minLength": 1 },
         "language_resource_tier": { "type": "string", "minLength": 1 },
         "locale_tier": { "type": "string", "minLength": 1 },
-        "support_status": { "type": "string", "enum": ["supported"] }
+        "support_status": { "type": "string", "enum": ["supported", "stage_only", "unsupported"] }
       }
     },
     "support_target_ref": { "type": "string", "minLength": 1 },

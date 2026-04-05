@@ -4,6 +4,7 @@ owner: "Octon governance"
 status: "active"
 canonical_disclosure_roots:
   authored_harness_card: ".octon/instance/governance/disclosure/harness-card.yml"
+  release_lineage_registry: ".octon/instance/governance/disclosure/release-lineage.yml"
   run_cards: ".octon/state/evidence/disclosure/runs/<run-id>"
   harness_cards: ".octon/state/evidence/disclosure/releases/<release-id>"
   historical_lab_harness_card_mirrors: ".octon/state/evidence/lab/harness-cards"
@@ -60,4 +61,5 @@ rules:
   - "External replay payloads require a content-addressed index entry."
   - "Run-local evidence classification must encode the packet Class A/B/C model."
   - "Disclosure artifacts stay subordinate to run-contract, authority, and retained evidence roots."
+  - "Exactly one release in the release-lineage registry may represent the active live claim."
   - "Lab-local HarnessCard files are historical mirrors only once canonical disclosure roots are published."

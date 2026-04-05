@@ -1,0 +1,34 @@
+schema_version: support-target-admission-v1
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+status: stage_only
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: github-control-plane
+  model_adapter: repo-local-governed
+requires_mission: true
+consequence_class: repo-local-medium
+reversibility_class: fully_reversible
+execution_horizon: single_run_multi_stage
+recurrence_class: one_shot
+protected_zone_scope:
+  - repo-governance
+allowed_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - api
+required_proof_planes:
+  - governance
+  - maintainability
+required_authority_artifacts:
+  - approval-request
+  - approval-grant
+  - decision-artifact
+evidence_refs:
+  - .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+review_due_at: "2026-06-30T00:00:00Z"
+claim_effect: excluded-from-live-claim-until-projection-regeneration-proof-is-closed

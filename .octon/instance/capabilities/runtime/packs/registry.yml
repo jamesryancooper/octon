@@ -1,17 +1,26 @@
 schema_version: "octon-runtime-capability-pack-registry-v1"
 owner: "Octon governance"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
+generated_from:
+  - ".octon/instance/capabilities/runtime/packs/admissions/repo.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/git.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/shell.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/telemetry.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/browser.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/api.yml"
 packs:
   - pack_id: "repo"
     contract_ref: ".octon/framework/capabilities/packs/repo/manifest.yml"
     admission_status: "admitted"
     default_route: "allow"
+    dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/repo.yml"
     required_evidence:
       - "authority-decision-artifact"
   - pack_id: "git"
     contract_ref: ".octon/framework/capabilities/packs/git/manifest.yml"
     admission_status: "admitted"
     default_route: "allow"
+    dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/git.yml"
     required_evidence:
       - "authority-grant-bundle"
       - "rollback-proof"
@@ -19,18 +28,21 @@ packs:
     contract_ref: ".octon/framework/capabilities/packs/shell/manifest.yml"
     admission_status: "admitted"
     default_route: "allow"
+    dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/shell.yml"
     required_evidence:
       - "instruction-layer-manifest"
   - pack_id: "telemetry"
     contract_ref: ".octon/framework/capabilities/packs/telemetry/manifest.yml"
     admission_status: "admitted"
     default_route: "allow"
+    dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/telemetry.yml"
     required_evidence:
       - "run-evidence-root"
   - pack_id: "browser"
     contract_ref: ".octon/framework/capabilities/packs/browser/manifest.yml"
-    admission_status: "admitted"
-    default_route: "allow"
+    admission_status: "stage_only"
+    default_route: "escalate"
+    dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/browser.yml"
     runtime_service_contract_refs:
       - ".octon/framework/capabilities/runtime/services/browser-session/contract.yml"
     required_evidence:
@@ -40,8 +52,9 @@ packs:
       - "run-card-v2"
   - pack_id: "api"
     contract_ref: ".octon/framework/capabilities/packs/api/manifest.yml"
-    admission_status: "admitted"
-    default_route: "allow"
+    admission_status: "stage_only"
+    default_route: "escalate"
+    dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/api.yml"
     runtime_service_contract_refs:
       - ".octon/framework/capabilities/runtime/services/api-client/contract.yml"
     required_evidence:

@@ -2,5 +2,6 @@
 
 Governed outbound API pack surface.
 
-This surface remains fail-closed until repo-local admission, egress policy,
-and support-target evidence are published together.
+This surface now has a repo-local admission dossier, but it remains
+`stage_only` and outside the live claim envelope until egress, replay,
+behavioral proof, and support-target closure are promoted together.

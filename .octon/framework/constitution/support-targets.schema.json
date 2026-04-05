@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://octon.local/framework/constitution/support-targets.schema.json",
   "title": "Octon Support Target Matrix",
-  "description": "Schema for .octon/instance/governance/support-targets.yml with the globally complete finite support universe, adapter declarations, and adapter-conformance criteria.",
+  "description": "Schema for .octon/instance/governance/support-targets.yml with a bounded admitted support universe, dossier-backed tuple admissions, runtime projections, and adapter-conformance criteria.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -10,6 +10,7 @@
     "owner",
     "default_route",
     "governance_exclusions_ref",
+    "support_claim_mode",
     "tiers",
     "compatibility_matrix",
     "adapter_conformance_criteria",
@@ -32,11 +33,40 @@
       "type": "string",
       "minLength": 1
     },
+    "support_claim_mode": {
+      "type": "string",
+      "enum": ["bounded-admitted-finite", "global-complete-finite"]
+    },
     "governance_exclusions_ref": {
       "type": "string",
       "minLength": 1
     },
+    "generated_projection_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pack_registry_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "admission_review_contract_ref": {
+      "type": "string",
+      "minLength": 1
+    },
     "live_support_universe": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model_classes": { "$ref": "#/$defs/string_array" },
+        "workload_classes": { "$ref": "#/$defs/string_array" },
+        "context_classes": { "$ref": "#/$defs/string_array" },
+        "locale_classes": { "$ref": "#/$defs/string_array" },
+        "host_adapters": { "$ref": "#/$defs/string_array" },
+        "model_adapters": { "$ref": "#/$defs/string_array" },
+        "capability_packs": { "$ref": "#/$defs/string_array" }
+      }
+    },
+    "non_admitted_or_stage_only_surfaces": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -94,6 +124,13 @@
       "minItems": 1,
       "items": {
         "$ref": "#/$defs/matrix_entry"
+      }
+    },
+    "tuple_admissions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/tuple_admission"
       }
     },
     "adapter_conformance_criteria": {
@@ -271,6 +308,116 @@
         }
       }
     },
+    "tuple_admission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "admission_id",
+        "support_status",
+        "tuple",
+        "requires_mission",
+        "consequence_class",
+        "reversibility_class",
+        "execution_horizon",
+        "recurrence_class",
+        "allowed_capability_packs",
+        "required_proof_planes",
+        "required_authority_artifacts",
+        "admission_dossier_ref",
+        "review_date"
+      ],
+      "properties": {
+        "admission_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "support_status": {
+          "type": "string",
+          "enum": ["supported", "stage_only", "unsupported", "deprecated"]
+        },
+        "tuple": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "model_tier",
+            "workload_tier",
+            "language_resource_tier",
+            "locale_tier",
+            "host_adapter",
+            "model_adapter"
+          ],
+          "properties": {
+            "model_tier": {
+              "type": "string",
+              "minLength": 1
+            },
+            "workload_tier": {
+              "type": "string",
+              "minLength": 1
+            },
+            "language_resource_tier": {
+              "type": "string",
+              "minLength": 1
+            },
+            "locale_tier": {
+              "type": "string",
+              "minLength": 1
+            },
+            "host_adapter": {
+              "type": "string",
+              "minLength": 1
+            },
+            "model_adapter": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "requires_mission": {
+          "type": "boolean"
+        },
+        "consequence_class": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reversibility_class": {
+          "type": "string",
+          "minLength": 1
+        },
+        "execution_horizon": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recurrence_class": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protected_zone_scope": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allowed_capability_packs": {
+          "$ref": "#/$defs/string_array"
+        },
+        "required_proof_planes": {
+          "$ref": "#/$defs/string_array"
+        },
+        "required_authority_artifacts": {
+          "$ref": "#/$defs/string_array"
+        },
+        "admission_dossier_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review_date": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "adapter_conformance_criterion": {
       "type": "object",
       "additionalProperties": false,
@@ -325,18 +472,18 @@
         },
         "authority_mode": {
           "type": "string",
-          "enum": ["non_authoritative", "projection_only"]
+          "minLength": 1
         },
         "replaceable": {
           "type": "boolean"
         },
         "support_status": {
           "type": "string",
-          "enum": ["supported"]
+          "enum": ["supported", "stage_only", "unsupported", "deprecated", "retired"]
         },
         "default_route": {
           "type": "string",
-          "enum": ["allow"]
+          "enum": ["allow", "escalate", "deny"]
         },
         "criteria_refs": {
           "$ref": "#/$defs/string_array"

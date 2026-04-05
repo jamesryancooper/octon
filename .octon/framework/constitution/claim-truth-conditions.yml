@@ -1,0 +1,75 @@
+schema_version: claim-truth-conditions-v1
+claim_id: unified-execution-constitution
+claim_phrase: fully unified execution constitution
+authoritative_kernel_ref: ".octon/framework/constitution/contracts/registry.yml"
+status_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
+conditions:
+  - id: TC-01
+    title: constitutional-singularity
+    required: true
+    evidence_ref: ".octon/framework/constitution/contracts/registry.yml"
+    invalidated_by:
+      - constitutional-kernel-change
+      - new-authoritative-surface-outside-kernel
+  - id: TC-02
+    title: objective-hierarchy
+    required: true
+    evidence_ref: ".octon/instance/governance/closure/phase-status.yml"
+    invalidated_by:
+      - mission-binding-policy-change
+      - run-contract-family-change
+  - id: TC-03
+    title: bounded-support-universe
+    required: true
+    evidence_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
+    invalidated_by:
+      - support-target-admission-change
+      - support-claim-expansion-without-dossier
+  - id: TC-04
+    title: canonical-authority
+    required: true
+    evidence_ref: ".octon/instance/governance/closure/gate-status.yml"
+    invalidated_by:
+      - authority-family-change
+      - host-only-approval-detected
+  - id: TC-05
+    title: durable-run-semantics
+    required: true
+    evidence_ref: ".octon/instance/governance/closure/gate-status.yml"
+    invalidated_by:
+      - consequential-run-missing-bundle
+      - checkpoint-or-ledger-regression
+  - id: TC-06
+    title: classed-evidence
+    required: true
+    evidence_ref: ".octon/instance/governance/closure/gate-status.yml"
+    invalidated_by:
+      - empty-evidence-classification
+      - external-index-digest-regression
+  - id: TC-07
+    title: complete-proof
+    required: true
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/proof-plane-coverage.yml"
+    invalidated_by:
+      - proof-plane-failure
+      - evaluator-independence-regression
+  - id: TC-08
+    title: claim-calibrated-disclosure
+    required: true
+    evidence_ref: ".octon/instance/governance/disclosure/harness-card.yml"
+    invalidated_by:
+      - authored-claim-outstates-ledgers
+      - support-universe-drift
+  - id: TC-09
+    title: closure-certification
+    required: true
+    evidence_ref: ".octon/instance/governance/closure/closure-summary.yml"
+    invalidated_by:
+      - preclaim-blocker-open
+      - gate-red
+  - id: TC-10
+    title: recertification-discipline
+    required: true
+    evidence_ref: ".octon/instance/governance/closure/recertification-trigger-log.yml"
+    invalidated_by:
+      - material-trigger-without-recertification

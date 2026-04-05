@@ -1,0 +1,44 @@
+schema_version: "proof-plane-coverage-v1"
+coverage_id: "uec-proposal-packet-proof-plane-coverage-20260405"
+generated_at: "2026-04-05T12:00:00Z"
+support_tuple:
+  support_target_ref: ".octon/instance/governance/support-targets.yml"
+  cited_runs:
+    - "uec-global-repo-shell-observe-read-20260404"
+    - "uec-safe-stage-approval-exercise-20260402"
+    - "uec-safe-stage-lease-revocation-exercise-20260402"
+    - "uec-global-github-repo-consequential-20260404"
+    - "uec-global-ci-observe-read-20260404"
+    - "uec-global-frontier-browser-api-studio-20260404"
+planes:
+  structural:
+    status: "pass"
+    refs:
+      - ".octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/structural.yml"
+      - ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/structural.yml"
+  functional:
+    status: "pass"
+    refs:
+      - ".octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/functional.yml"
+      - ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/functional.yml"
+  behavioral:
+    status: "pass"
+    refs:
+      - ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/behavioral.yml"
+      - ".octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/behavioral.yml"
+  governance:
+    status: "pass"
+    refs:
+      - ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/governance.yml"
+      - ".octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/governance.yml"
+  recovery:
+    status: "pass"
+    refs:
+      - ".octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/recovery.yml"
+      - ".octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/recovery.yml"
+  maintainability:
+    status: "pass"
+    refs:
+      - ".octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/maintainability.yml"
+      - ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/maintainability.yml"
+evaluator_independence_ref: ".octon/framework/assurance/evaluators/conformance/evaluator-independence.yml"

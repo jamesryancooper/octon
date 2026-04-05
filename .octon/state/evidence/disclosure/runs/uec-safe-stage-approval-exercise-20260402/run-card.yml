@@ -1,5 +1,6 @@
 schema_version: run-card-v2
 run_id: uec-safe-stage-approval-exercise-20260402
+claim_status: supported
 status: succeeded
 summary: Safe-stage approval exercise retained to prove canonical ApprovalRequest
   and ApprovalGrant flow under the supported envelope.

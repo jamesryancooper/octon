@@ -33,14 +33,14 @@ requested_capability_packs:
   - repo
   - shell
   - telemetry
-  - browser
 run_id: uec-global-repo-shell-observe-read-20260404
+claim_status: supported
 schema_version: run-card-v2
 status: succeeded
-summary: Observe-and-read repo-shell run completed with extended governed context under the globally complete support universe.
+summary: Observe-and-read repo-shell run completed inside the bounded admitted support universe.
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_target_tuple:
-  language_resource_tier: extended-governed
+  language_resource_tier: reference-owned
   locale_tier: english-primary
   model_tier: repo-local-governed
   support_status: supported

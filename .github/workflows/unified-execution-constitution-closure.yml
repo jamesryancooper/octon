@@ -7,10 +7,13 @@ on:
       - ".octon/instance/governance/adoption/**"
       - ".octon/instance/governance/disclosure/**"
       - ".octon/instance/governance/support-targets.yml"
+      - ".octon/instance/governance/support-target-admissions/**"
       - ".octon/instance/governance/contracts/**"
       - ".octon/framework/constitution/contracts/registry.yml"
+      - ".octon/framework/constitution/claim-truth-conditions.yml"
       - ".octon/framework/engine/runtime/adapters/host/**"
       - ".octon/framework/assurance/governance/**"
+      - ".octon/instance/capabilities/runtime/packs/admissions/**"
       - ".octon/state/control/execution/runs/**"
       - ".octon/state/evidence/control/execution/**"
       - ".octon/state/evidence/runs/**"
@@ -28,10 +31,13 @@ on:
       - ".octon/instance/governance/adoption/**"
       - ".octon/instance/governance/disclosure/**"
       - ".octon/instance/governance/support-targets.yml"
+      - ".octon/instance/governance/support-target-admissions/**"
       - ".octon/instance/governance/contracts/**"
       - ".octon/framework/constitution/contracts/registry.yml"
+      - ".octon/framework/constitution/claim-truth-conditions.yml"
       - ".octon/framework/engine/runtime/adapters/host/**"
       - ".octon/framework/assurance/governance/**"
+      - ".octon/instance/capabilities/runtime/packs/admissions/**"
       - ".octon/state/control/execution/runs/**"
       - ".octon/state/evidence/control/execution/**"
       - ".octon/state/evidence/runs/**"
@@ -78,6 +84,6 @@ jobs:
           name: unified-execution-constitution-closure-publication
           path: |
             .octon/generated/.tmp/unified-execution-completion-ci/
-            .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/
+            .octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/
           if-no-files-found: error
           retention-days: 7

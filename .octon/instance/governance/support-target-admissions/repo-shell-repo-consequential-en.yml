@@ -1,0 +1,42 @@
+schema_version: support-target-admission-v1
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+status: supported
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+requires_mission: true
+consequence_class: repo-local-medium
+reversibility_class: fully_reversible
+execution_horizon: multi_stage_single_run
+recurrence_class: one_shot
+protected_zone_scope:
+  - repo-governance
+  - repo-state
+allowed_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+required_proof_planes:
+  - structural
+  - functional
+  - behavioral
+  - governance
+  - maintainability
+  - recovery
+required_authority_artifacts:
+  - approval-request
+  - approval-grant
+  - decision-artifact
+  - exception-lease
+  - revocation
+  - quorum-policy
+evidence_refs:
+  - .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
+  - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
+review_due_at: "2026-06-30T00:00:00Z"
+claim_effect: included-in-live-claim

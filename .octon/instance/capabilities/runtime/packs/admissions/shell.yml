@@ -1,0 +1,11 @@
+schema_version: capability-pack-admission-v1
+pack_id: shell
+status: admitted
+support_target_refs:
+  - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+  - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+required_proof:
+  - structural
+  - governance
+docs_alignment_ref: .octon/framework/capabilities/packs/shell/README.md
+review_due_at: "2026-06-30T00:00:00Z"

@@ -1,0 +1,5 @@
+schema_version: uec-packet-certification-pass-summary-v1
+pass_id: pass1
+generated_at: "2026-04-05T12:52:10Z"
+include_closure_validator: true
+status: pass

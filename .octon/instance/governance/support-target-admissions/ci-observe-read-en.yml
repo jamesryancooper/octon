@@ -1,0 +1,29 @@
+schema_version: support-target-admission-v1
+tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+status: stage_only
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: observe-and-read
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: ci-control-plane
+  model_adapter: repo-local-governed
+requires_mission: false
+consequence_class: repo-local-low
+reversibility_class: fully_reversible
+execution_horizon: single_run_single_stage
+recurrence_class: one_shot
+protected_zone_scope: []
+allowed_capability_packs:
+  - repo
+  - shell
+  - telemetry
+required_proof_planes:
+  - governance
+  - maintainability
+required_authority_artifacts:
+  - decision-artifact
+evidence_refs:
+  - .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml
+review_due_at: "2026-06-30T00:00:00Z"
+claim_effect: excluded-from-live-claim-until-projection-regeneration-proof-is-closed

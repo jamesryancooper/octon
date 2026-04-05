@@ -1,0 +1,43 @@
+schema_version: support-target-admission-v1
+tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+status: stage_only
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: boundary-sensitive
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+requires_mission: true
+consequence_class: boundary-sensitive
+reversibility_class: compensable
+execution_horizon: multi_run_or_multi_stage
+recurrence_class: review_bound
+protected_zone_scope:
+  - protected-constitution
+  - protected-governance
+allowed_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - browser
+  - api
+required_proof_planes:
+  - structural
+  - functional
+  - behavioral
+  - governance
+  - maintainability
+  - recovery
+required_authority_artifacts:
+  - approval-request
+  - approval-grant
+  - decision-artifact
+  - exception-lease
+  - revocation
+  - quorum-policy
+evidence_refs:
+  - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
+review_due_at: "2026-06-30T00:00:00Z"
+claim_effect: excluded-from-live-claim-until-recovery-and-behavioral-proof-close

@@ -8,17 +8,17 @@ entries:
     artifact_kind: replay-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:8794abf7e4c8d2b798c7115e63cf2ce014a418ecd3aa2aae4f363bc58314a108
+    content_digest: sha256:1d9fdb6f26c7a1fc55cbe604b91434d9e56110f0f14f54a1d95e77a8b6eaa977
     locator: immutable://octon/replays/uec-global-frontier-browser-api-studio-20260404/bundle.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay/manifest.yml
-    recorded_at: "2026-04-05T00:56:33Z"
+    recorded_at: "2026-04-05T12:52:26Z"
   - entry_id: uec-global-frontier-browser-api-studio-20260404-trace-payload
     run_id: uec-global-frontier-browser-api-studio-20260404
     artifact_kind: trace-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:f9420aa55475674e3eeecb586403dc709521824c9a67d012b005f591cfef5d0f
+    content_digest: sha256:b56c88caf392c5da2f8a888d760686459c2c0d0c83599a8cf59a437c80149822
     locator: immutable://octon/replays/uec-global-frontier-browser-api-studio-20260404/trace.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay/manifest.yml
-    recorded_at: "2026-04-05T00:56:33Z"
-updated_at: "2026-04-05T00:56:33Z"
+    recorded_at: "2026-04-05T12:52:26Z"
+updated_at: "2026-04-05T12:52:26Z"

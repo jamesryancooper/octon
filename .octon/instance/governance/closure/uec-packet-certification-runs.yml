@@ -19,7 +19,7 @@ run_roles:
   ci_projection:
     run_id: "uec-global-ci-observe-read-20260404"
 static_evidence:
-  support_universe_coverage: ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/support-universe-coverage.yml"
+  support_universe_coverage: ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/support-universe-coverage.yml"
   replay_bundle: ".octon/framework/lab/replay/workload-packs/global-support-universe.yml"
   browser_scenario: ".octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml"
   api_scenario: ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"

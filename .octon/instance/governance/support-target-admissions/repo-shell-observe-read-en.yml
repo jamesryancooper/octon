@@ -1,0 +1,32 @@
+schema_version: support-target-admission-v1
+tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+status: supported
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: observe-and-read
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+requires_mission: false
+consequence_class: repo-local-low
+reversibility_class: fully_reversible
+execution_horizon: single_run_single_stage
+recurrence_class: one_shot
+protected_zone_scope: []
+allowed_capability_packs:
+  - repo
+  - shell
+  - telemetry
+required_proof_planes:
+  - structural
+  - functional
+  - governance
+  - maintainability
+required_authority_artifacts:
+  - decision-artifact
+evidence_refs:
+  - .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml
+  - .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/measurements/summary.yml
+review_due_at: "2026-06-30T00:00:00Z"
+claim_effect: included-in-live-claim

@@ -5,6 +5,8 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../.." && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 CONFIG_FILE="$OCTON_DIR/instance/governance/closure/uec-packet-certification-runs.yml"
+AUTHORED="$OCTON_DIR/instance/governance/disclosure/harness-card.yml"
+PROOF_COVERAGE="$OCTON_DIR/../$(yq -r '.proof_bundle_refs[] | select(test("proof-plane-coverage.yml$"))' "$AUTHORED" | head -n1)"
 
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
@@ -31,14 +33,14 @@ main() {
   require_file "$OCTON_DIR/framework/constitution/contracts/assurance/evaluator-independence-manifest-v1.schema.json"
   require_file "$OCTON_DIR/framework/assurance/evaluators/conformance/global-support-universe.yml"
   require_file "$OCTON_DIR/framework/assurance/evaluators/conformance/evaluator-independence.yml"
-  require_file "$OCTON_DIR/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/proof-plane-coverage.yml"
+  require_file "$PROOF_COVERAGE"
 
   validate_planes "$(role_run_id supported_run_only)"
   validate_planes "$(role_run_id authority_exercise)"
-  validate_planes "$(role_run_id external_evidence)"
   validate_planes "$(role_run_id intervention_control)"
   validate_planes "$(role_run_id github_projection)"
   validate_planes "$(role_run_id ci_projection)"
+  validate_planes "$(role_run_id external_evidence)"
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]

@@ -5,12 +5,14 @@ stage_ref: governance:safe-stage-approval-exercise
 attempt_kind: initial
 status: succeeded
 objective_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
-objective_slice: Safe-stage approval exercise retained to prove canonical ApprovalRequest
-  and ApprovalGrant flow under the supported envelope.
+objective_slice: Safe-stage approval exercise retained to prove canonical ApprovalRequest and ApprovalGrant flow under the supported envelope.
+stage_name: safe-stage-approval-exercise
 entry_criteria:
 - Run contract is bound under the canonical run root.
 exit_criteria:
 - Decision artifact, request/grant, and retained evidence remain linked.
+done_when:
+- Canonical approval request, grant, and run disclosure resolve from the run bundle.
 requested_capabilities:
 - evidence.write
 allowed_capabilities:
@@ -25,6 +27,17 @@ evidence_refs:
 - .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-approval-exercise-20260402.yml
 - .octon/state/control/execution/approvals/requests/uec-safe-stage-approval-exercise-20260402.yml
 - .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-approval-exercise-20260402.yml
+required_evidence:
+- decision-artifact
+- approval-request
+- approval-grant
+- measurement-summary
+checkpoint_expectation: required
+contamination_state: clean
+protected_zone_scope:
+- repo-governance
+- repo-state
+rollback_posture_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/rollback-posture.yml
 completion_status: criteria-met
 rollback_candidate: true
 rollback_notes: Governance exercise remains locally reversible.

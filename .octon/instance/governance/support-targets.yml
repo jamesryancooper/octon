@@ -3,45 +3,57 @@ owner: "Octon governance"
 default_route: "deny"
 review_cadence: "quarterly and before any support-universe amendment"
 governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
+support_claim_mode: "bounded-admitted-finite"
+generated_projection_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
+pack_registry_ref: ".octon/instance/capabilities/runtime/packs/registry.yml"
+admission_review_contract_ref: ".octon/instance/governance/contracts/support-target-review.yml"
 live_support_universe:
   model_classes:
-    - "frontier-governed"
     - "repo-local-governed"
   workload_classes:
     - "observe-and-read"
     - "repo-consequential"
-    - "boundary-sensitive"
   context_classes:
     - "reference-owned"
-    - "extended-governed"
   locale_classes:
     - "english-primary"
-    - "spanish-secondary"
   host_adapters:
     - "repo-shell"
-    - "studio-control-plane"
-    - "github-control-plane"
-    - "ci-control-plane"
   model_adapters:
     - "repo-local-governed"
-    - "frontier-governed"
   capability_packs:
     - "repo"
     - "git"
     - "shell"
     - "telemetry"
+non_admitted_or_stage_only_surfaces:
+  model_classes:
+    - "frontier-governed"
+  workload_classes:
+    - "boundary-sensitive"
+  context_classes:
+    - "extended-governed"
+  locale_classes:
+    - "spanish-secondary"
+  host_adapters:
+    - "studio-control-plane"
+    - "github-control-plane"
+    - "ci-control-plane"
+  model_adapters:
+    - "frontier-governed"
+  capability_packs:
     - "browser"
     - "api"
 tiers:
   model:
     - id: "frontier-governed"
       label: "frontier-governed"
-      default_autonomy: "full"
-      description: "Frontier model execution with governed routing, contamination reset, conformance evidence, and disclosure coverage."
+      default_autonomy: "bounded"
+      description: "Frontier model execution remains available only for stage-only evaluation until dossier-backed admission is approved."
     - id: "repo-local-governed"
       label: "repo-local-governed"
       default_autonomy: "bounded"
-      description: "Repo-local governed execution with explicit runtime receipts, bounded autonomy, and complete disclosure."
+      description: "Repo-local governed execution with runtime receipts, bounded autonomy, and canonical disclosure."
   workload:
     - id: "observe-and-read"
       label: "observe-and-read"
@@ -49,28 +61,28 @@ tiers:
       description: "Read-heavy or observation-first work with no consequential externality."
     - id: "repo-consequential"
       label: "repo-consequential"
-      default_route: "allow"
-      description: "Consequential harness maintenance and architecture work governed inside this repository."
+      default_route: "escalate"
+      description: "Consequential repository work that is admitted only inside the bounded claim envelope when mission-backed and fully evidenced."
     - id: "boundary-sensitive"
       label: "boundary-sensitive"
-      default_route: "allow"
-      description: "Boundary-sensitive work with mission-backed recovery, replay, and disclosure requirements."
+      default_route: "escalate"
+      description: "Boundary-sensitive work that remains outside the live claim and is stage-only until proof and recovery posture are fully closed."
   language_resource:
     - id: "reference-owned"
       label: "reference-owned"
       description: "Authoritative repository surfaces and durable runtime receipts."
     - id: "extended-governed"
       label: "extended-governed"
-      description: "Broader governed context admitted into the final support universe with explicit routing and disclosure."
+      description: "Broader governed context retained only for stage-only evaluation and review-bound experiments."
   locale:
     - id: "english-primary"
       label: "english-primary"
       description: "Primary English operator and governance surfaces."
     - id: "spanish-secondary"
       label: "spanish-secondary"
-      description: "Secondary locale with governed translation, review, and disclosure guarantees."
+      description: "Secondary locale retained only for stage-only evaluation until live proof and review cadence are complete."
 compatibility_matrix:
-  - model_tier: "frontier-governed"
+  - model_tier: "repo-local-governed"
     workload_tier: "observe-and-read"
     language_resource_tier: "reference-owned"
     locale_tier: "english-primary"
@@ -79,13 +91,11 @@ compatibility_matrix:
     requires_mission: false
     allowed_capability_packs:
       - "repo"
-      - "telemetry"
       - "shell"
-      - "browser"
-      - "api"
+      - "telemetry"
     required_evidence:
       - "authority-decision-artifact"
-      - "runtime-event-ledger"
+      - "measurement-summary"
       - "run-card-v2"
   - model_tier: "repo-local-governed"
     workload_tier: "repo-consequential"
@@ -93,63 +103,102 @@ compatibility_matrix:
     locale_tier: "english-primary"
     support_status: "supported"
     default_route: "allow"
-    requires_mission: false
+    requires_mission: true
     allowed_capability_packs:
       - "repo"
       - "git"
       - "shell"
       - "telemetry"
-      - "browser"
-      - "api"
     required_evidence:
       - "authority-decision-artifact"
       - "authority-grant-bundle"
-      - "run-evidence-root"
-      - "run-card-v2"
-  - model_tier: "repo-local-governed"
-    workload_tier: "boundary-sensitive"
-    language_resource_tier: "reference-owned"
-    locale_tier: "english-primary"
-    support_status: "supported"
-    default_route: "allow"
-    requires_mission: false
-    allowed_capability_packs:
-      - "repo"
-      - "git"
-      - "shell"
-      - "telemetry"
-      - "browser"
-      - "api"
-    required_evidence:
-      - "authority-decision-artifact"
-      - "authority-grant-bundle"
-      - "rollback-proof"
       - "runtime-event-ledger"
-      - "closure-proof-plane-coverage"
-  - model_tier: "repo-local-governed"
-    workload_tier: "observe-and-read"
-    language_resource_tier: "extended-governed"
-    locale_tier: "english-primary"
+      - "run-evidence-classification-v1"
+      - "run-card-v2"
+tuple_admissions:
+  - admission_id: "tuple-repo-shell-observe-read-en"
     support_status: "supported"
-    default_route: "allow"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "observe-and-read"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
     requires_mission: false
+    consequence_class: "repo-local-low"
+    reversibility_class: "fully_reversible"
+    execution_horizon: "single_run_single_stage"
+    recurrence_class: "one_shot"
+    protected_zone_scope: []
     allowed_capability_packs:
       - "repo"
       - "shell"
       - "telemetry"
-      - "browser"
-      - "api"
-    required_evidence:
-      - "authority-decision-artifact"
-      - "extended-context-review"
-      - "run-card-v2"
-  - model_tier: "frontier-governed"
-    workload_tier: "repo-consequential"
-    language_resource_tier: "extended-governed"
-    locale_tier: "spanish-secondary"
+    required_proof_planes:
+      - "structural"
+      - "functional"
+      - "governance"
+      - "maintainability"
+    required_authority_artifacts:
+      - "decision-artifact"
+    admission_dossier_ref: ".octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml"
+    review_date: "2026-04-05"
+  - admission_id: "tuple-repo-shell-repo-consequential-en"
     support_status: "supported"
-    default_route: "allow"
-    requires_mission: false
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "repo-consequential"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
+    requires_mission: true
+    consequence_class: "repo-local-medium"
+    reversibility_class: "fully_reversible"
+    execution_horizon: "multi_stage_single_run"
+    recurrence_class: "one_shot"
+    protected_zone_scope:
+      - "repo-governance"
+      - "repo-state"
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
+    required_proof_planes:
+      - "structural"
+      - "functional"
+      - "behavioral"
+      - "governance"
+      - "maintainability"
+      - "recovery"
+    required_authority_artifacts:
+      - "approval-request"
+      - "approval-grant"
+      - "decision-artifact"
+      - "exception-lease"
+      - "revocation"
+      - "quorum-policy"
+    admission_dossier_ref: ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"
+    review_date: "2026-04-05"
+  - admission_id: "tuple-repo-shell-boundary-sensitive-en"
+    support_status: "stage_only"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "boundary-sensitive"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
+    requires_mission: true
+    consequence_class: "boundary-sensitive"
+    reversibility_class: "compensable"
+    execution_horizon: "multi_run_or_multi_stage"
+    recurrence_class: "review_bound"
+    protected_zone_scope:
+      - "protected-constitution"
+      - "protected-governance"
     allowed_capability_packs:
       - "repo"
       - "git"
@@ -157,18 +206,96 @@ compatibility_matrix:
       - "telemetry"
       - "browser"
       - "api"
-    required_evidence:
-      - "authority-decision-artifact"
-      - "authority-grant-bundle"
-      - "locale-review"
-      - "run-card-v2"
-  - model_tier: "frontier-governed"
-    workload_tier: "boundary-sensitive"
-    language_resource_tier: "extended-governed"
-    locale_tier: "spanish-secondary"
-    support_status: "supported"
-    default_route: "allow"
+    required_proof_planes:
+      - "structural"
+      - "functional"
+      - "behavioral"
+      - "governance"
+      - "maintainability"
+      - "recovery"
+    required_authority_artifacts:
+      - "approval-request"
+      - "approval-grant"
+      - "decision-artifact"
+      - "exception-lease"
+      - "revocation"
+      - "quorum-policy"
+    admission_dossier_ref: ".octon/instance/governance/support-target-admissions/repo-shell-boundary-sensitive-en.yml"
+    review_date: "2026-04-05"
+  - admission_id: "tuple-github-repo-consequential-en"
+    support_status: "stage_only"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "repo-consequential"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "github-control-plane"
+      model_adapter: "repo-local-governed"
+    requires_mission: true
+    consequence_class: "repo-local-medium"
+    reversibility_class: "fully_reversible"
+    execution_horizon: "single_run_multi_stage"
+    recurrence_class: "one_shot"
+    protected_zone_scope:
+      - "repo-governance"
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
+      - "api"
+    required_proof_planes:
+      - "governance"
+      - "maintainability"
+    required_authority_artifacts:
+      - "approval-request"
+      - "approval-grant"
+      - "decision-artifact"
+    admission_dossier_ref: ".octon/instance/governance/support-target-admissions/github-repo-consequential-en.yml"
+    review_date: "2026-04-05"
+  - admission_id: "tuple-ci-observe-read-en"
+    support_status: "stage_only"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "observe-and-read"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "ci-control-plane"
+      model_adapter: "repo-local-governed"
     requires_mission: false
+    consequence_class: "repo-local-low"
+    reversibility_class: "fully_reversible"
+    execution_horizon: "single_run_single_stage"
+    recurrence_class: "one_shot"
+    protected_zone_scope: []
+    allowed_capability_packs:
+      - "repo"
+      - "shell"
+      - "telemetry"
+    required_proof_planes:
+      - "governance"
+      - "maintainability"
+    required_authority_artifacts:
+      - "decision-artifact"
+    admission_dossier_ref: ".octon/instance/governance/support-target-admissions/ci-observe-read-en.yml"
+    review_date: "2026-04-05"
+  - admission_id: "tuple-frontier-studio-boundary-sensitive-es"
+    support_status: "stage_only"
+    tuple:
+      model_tier: "frontier-governed"
+      workload_tier: "boundary-sensitive"
+      language_resource_tier: "extended-governed"
+      locale_tier: "spanish-secondary"
+      host_adapter: "studio-control-plane"
+      model_adapter: "frontier-governed"
+    requires_mission: true
+    consequence_class: "boundary-sensitive"
+    reversibility_class: "compensable"
+    execution_horizon: "multi_run_or_multi_stage"
+    recurrence_class: "review_bound"
+    protected_zone_scope:
+      - "protected-constitution"
+      - "protected-governance"
     allowed_capability_packs:
       - "repo"
       - "git"
@@ -176,30 +303,17 @@ compatibility_matrix:
       - "telemetry"
       - "browser"
       - "api"
-    required_evidence:
-      - "authority-decision-artifact"
-      - "authority-grant-bundle"
-      - "locale-review"
-      - "rollback-proof"
-      - "closure-proof-plane-coverage"
-  - model_tier: "frontier-governed"
-    workload_tier: "observe-and-read"
-    language_resource_tier: "extended-governed"
-    locale_tier: "spanish-secondary"
-    support_status: "supported"
-    default_route: "allow"
-    requires_mission: false
-    allowed_capability_packs:
-      - "repo"
-      - "shell"
-      - "telemetry"
-      - "browser"
-      - "api"
-    required_evidence:
-      - "authority-decision-artifact"
-      - "extended-context-review"
-      - "locale-review"
-      - "run-card-v2"
+    required_proof_planes:
+      - "behavioral"
+      - "governance"
+      - "recovery"
+    required_authority_artifacts:
+      - "approval-request"
+      - "approval-grant"
+      - "decision-artifact"
+      - "quorum-policy"
+    admission_dossier_ref: ".octon/instance/governance/support-target-admissions/frontier-studio-boundary-sensitive-es.yml"
+    review_date: "2026-04-05"
 adapter_conformance_criteria:
   - criterion_id: "HOST-001"
     adapter_kind: "host"
@@ -281,8 +395,8 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/studio-control-plane.yml"
     authority_mode: "non_authoritative"
     replaceable: true
-    support_status: "supported"
-    default_route: "allow"
+    support_status: "stage_only"
+    default_route: "escalate"
     criteria_refs:
       - "HOST-001"
       - "HOST-002"
@@ -308,8 +422,8 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
     authority_mode: "non_authoritative"
     replaceable: true
-    support_status: "supported"
-    default_route: "allow"
+    support_status: "stage_only"
+    default_route: "escalate"
     criteria_refs:
       - "HOST-001"
       - "HOST-003"
@@ -335,8 +449,8 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/ci-control-plane.yml"
     authority_mode: "projection_only"
     replaceable: true
-    support_status: "supported"
-    default_route: "allow"
+    support_status: "stage_only"
+    default_route: "escalate"
     criteria_refs:
       - "HOST-001"
       - "HOST-003"
@@ -391,8 +505,8 @@ model_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/model/frontier-governed.yml"
     authority_mode: "non_authoritative"
     replaceable: true
-    support_status: "supported"
-    default_route: "allow"
+    support_status: "stage_only"
+    default_route: "escalate"
     criteria_refs:
       - "MODEL-001"
       - "MODEL-002"
@@ -416,11 +530,11 @@ model_adapters:
       - "instruction-layer-manifest"
       - "run-evidence-root"
 notes:
-  - "The live support universe is globally complete but finite: retained surfaces are supported, governed, runtime-backed, validated, proven, and disclosed."
-  - "Deny-only and non-claimed action classes live in governance exclusions rather than the support matrix."
-  - "Experimental, reduced, stage_only, unsupported, and unadmitted critical surfaces are retired or rebound and no longer survive as live support tiers."
+  - "The live claim is bounded to the admitted finite support universe recorded above; compatibility_matrix is the supported runtime projection compiled from tuple_admissions."
+  - "Stage-only or unsupported surfaces remain explicit and reviewable, but they are excluded from the live claim until dossier-backed proof is closed."
+  - "Mission-backed repo-consequential work is supported; missionless consequential and boundary-sensitive work are excluded from the live claim."
 retired_surfaces:
   - "experimental-model-surface"
   - "experimental-context-surface"
   - "experimental-locale-surface"
-  - "deny-only-external-irreversible-surface"
+  - "unsupported support tiers"

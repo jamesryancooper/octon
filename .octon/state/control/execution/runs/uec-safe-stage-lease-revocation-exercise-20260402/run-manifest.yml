@@ -1,12 +1,10 @@
 schema_version: run-manifest-v1
 run_id: uec-safe-stage-lease-revocation-exercise-20260402
 run_contract_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-contract.yml
-intent_ref:
-  id: intent://octon/octon-governed-harness
-  version: 1.1.0
-actor_ref:
-  kind: system
-  id: octon-kernel
+runtime_state_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/runtime-state.yml
+run_continuity_ref: .octon/state/continuity/runs/uec-safe-stage-lease-revocation-exercise-20260402/handoff.yml
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-lease-revocation-exercise-20260402.yml
+authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-lease-revocation-exercise-20260402.yml
 support_tier: repo-consequential
 support_target:
   model_tier: repo-local-governed
@@ -16,34 +14,27 @@ support_target:
   host_adapter: repo-shell
   model_adapter: repo-local-governed
 support_target_ref: .octon/instance/governance/support-targets.yml
-requested_capability_packs:
-- repo
-- telemetry
-decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-lease-revocation-exercise-20260402.yml
-authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-lease-revocation-exercise-20260402.yml
-approval_request_ref: .octon/state/control/execution/approvals/requests/uec-safe-stage-lease-revocation-exercise-20260402.yml
-approval_grant_refs:
-- .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-lease-revocation-exercise-20260402.yml
+mission_id: mission-autonomy-live-validation
+parent_run_ref: null
 host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
 model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
-runtime_state_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/runtime-state.yml
-run_continuity_ref: .octon/state/continuity/runs/uec-safe-stage-lease-revocation-exercise-20260402/handoff.yml
+requested_capability_packs:
+  - repo
+  - telemetry
 stage_attempt_root: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/stage-attempts
 control_checkpoint_root: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/checkpoints
 rollback_posture_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/rollback-posture.yml
 evidence_root: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402
-receipt_root: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/receipts
+evidence_classification_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/evidence-classification.yml
 assurance_root: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance
 measurement_root: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/measurements
 intervention_root: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/interventions
-disclosure_root: .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402
-retained_evidence_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/retained-run-evidence.yml
 replay_pointers_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/replay-pointers.yml
 trace_pointers_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/trace-pointers.yml
-evidence_classification_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/evidence-classification.yml
-run_card_ref: .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
 external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-safe-stage-lease-revocation-exercise-20260402.yml
+retained_evidence_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/retained-run-evidence.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
+disclosure_root: .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402
+receipt_root: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/receipts
 created_at: '2026-04-02T00:00:00Z'
-updated_at: '2026-04-02T00:00:00Z'
-mission_id: null
-parent_run_ref: null
+updated_at: '2026-04-05T12:00:00Z'

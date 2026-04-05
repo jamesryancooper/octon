@@ -1,0 +1,101 @@
+schema_version: "support-universe-coverage-v2"
+release_id: "2026-04-05-uec-proposal-packet-completion"
+generated_at: "2026-04-05T12:00:00Z"
+surfaces:
+  - surface_id: "repo-local-governed"
+    category: "model"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml"
+    proof_refs:
+      - ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/proof-plane-coverage.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "observe-and-read"
+    category: "workload"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/assurance/functional.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "repo-consequential"
+    category: "workload"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml"
+    proof_refs:
+      - ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/assurance/governance.yml"
+      - ".octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/assurance/recovery.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "reference-owned"
+    category: "context"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml"
+    proof_refs:
+      - ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/proof-plane-coverage.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "english-primary"
+    category: "locale"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml"
+    proof_refs:
+      - ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/proof-plane-coverage.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "repo-shell"
+    category: "host-adapter"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml"
+    proof_refs:
+      - ".octon/framework/engine/runtime/adapters/host/repo-shell.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "repo"
+    category: "capability-pack"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/instance/capabilities/runtime/packs/admissions/repo.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "git"
+    category: "capability-pack"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml"
+    proof_refs:
+      - ".octon/instance/capabilities/runtime/packs/admissions/git.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "shell"
+    category: "capability-pack"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+    proof_refs:
+      - ".octon/instance/capabilities/runtime/packs/admissions/shell.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+  - surface_id: "telemetry"
+    category: "capability-pack"
+    runtime_refs:
+      - ".octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml"
+      - ".octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml"
+    proof_refs:
+      - ".octon/instance/capabilities/runtime/packs/admissions/telemetry.yml"
+    disclosure_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+excluded_surfaces:
+  - "frontier-governed"
+  - "browser"
+  - "api"
+  - "github-control-plane"
+  - "ci-control-plane"
+  - "studio-control-plane"
+  - "boundary-sensitive"

@@ -75,6 +75,10 @@
       "type": "string",
       "minLength": 1
     },
+    "stage_name": {
+      "type": "string",
+      "minLength": 1
+    },
     "entry_criteria": {
       "type": "array",
       "minItems": 1,
@@ -86,6 +90,13 @@
     "exit_criteria": {
       "type": "array",
       "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "done_when": {
+      "type": "array",
       "items": {
         "type": "string",
         "minLength": 1
@@ -146,6 +157,32 @@
         "type": "string",
         "minLength": 1
       }
+    },
+    "required_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "checkpoint_expectation": {
+      "type": "string",
+      "enum": ["required", "optional", "none"]
+    },
+    "contamination_state": {
+      "type": "string",
+      "enum": ["clean", "suspected", "confirmed", "reset_required"]
+    },
+    "protected_zone_scope": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "rollback_posture_ref": {
+      "type": "string",
+      "minLength": 1
     },
     "completion_status": {
       "type": "string",

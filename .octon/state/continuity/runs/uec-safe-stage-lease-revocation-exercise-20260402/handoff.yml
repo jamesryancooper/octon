@@ -9,7 +9,7 @@ evidence_classification_ref: .octon/state/evidence/runs/uec-safe-stage-lease-rev
 last_receipt_ref: .octon/state/evidence/runs/uec-safe-stage-lease-revocation-exercise-20260402/receipts/execution-receipt.json
 last_checkpoint_ref: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/checkpoints/execution-complete.yml
 resume_from_stage_attempt_id: initial
-mission_id: null
+mission_id: mission-autonomy-live-validation
 parent_run_ref: null
 next_action: null
-updated_at: '2026-04-02T00:00:00Z'
+updated_at: '2026-04-05T12:00:00Z'

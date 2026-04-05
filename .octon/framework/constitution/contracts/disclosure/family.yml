@@ -4,7 +4,7 @@ status: "active"
 activation_wave: 4
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
 authority_rules:
   subordinate_to:
     - ".octon/state/control/execution/runs/<run-id>/run-contract.yml"
@@ -35,6 +35,7 @@ run_card:
 harness_card:
   schema_ref: ".octon/framework/constitution/contracts/disclosure/harness-card-v2.schema.json"
   authored_source_ref: ".octon/instance/governance/disclosure/harness-card.yml"
+  release_lineage_ref: ".octon/instance/governance/disclosure/release-lineage.yml"
   evidence_root: ".octon/state/evidence/disclosure/releases"
   canonical_file_pattern: "<release-id>/harness-card.yml"
   projection_file_pattern: "<release-id>/harness-card.md"
@@ -53,4 +54,4 @@ gating:
     - "scenario"
     - "shadow-run"
   support_claims_require_support_target_ref: true
-  global_completion_claims_require_zero_liminal_surfaces: true
+  live_claim_requires_release_lineage_registry: true

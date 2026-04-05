@@ -3,73 +3,64 @@ claim_id: "unified-execution-constitution"
 claim_kind: "release"
 claim_status: "complete"
 owner: "Octon governance"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
+truth_conditions_ref: ".octon/framework/constitution/claim-truth-conditions.yml"
 status_matrix_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
-packet_issue_status_ref: ".octon/instance/governance/closure/unified-execution-constitution-packet-issues.yml"
 closeout_contract_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
 claim_statement: >-
-  Octon is a globally complete Unified Execution Constitution across the
-  retained finite support universe declared in the authoritative support-target
-  declaration and governance exclusions doctrine.
+  Octon is a fully unified execution constitution across the admitted bounded
+  support universe declared in the authoritative support-target declaration.
 final_support_universe:
   model_classes:
-    - "frontier-governed"
     - "repo-local-governed"
   workload_classes:
     - "observe-and-read"
     - "repo-consequential"
-    - "boundary-sensitive"
   context_classes:
     - "reference-owned"
-    - "extended-governed"
   locale_classes:
     - "english-primary"
-    - "spanish-secondary"
   host_adapters:
     - "repo-shell"
-    - "studio-control-plane"
-    - "github-control-plane"
-    - "ci-control-plane"
   model_adapters:
     - "repo-local-governed"
-    - "frontier-governed"
   capability_packs:
     - "repo"
     - "git"
     - "shell"
     - "telemetry"
-    - "browser"
-    - "api"
 resolution_ledger_ref: ".octon/instance/governance/closure/global-support-surface-ledger.yml"
 retired_or_rebound_surfaces:
-  - "experimental-model-surface"
-  - "experimental-context-surface"
-  - "experimental-locale-surface"
-  - "deny-only-external-irreversible-surface"
+  - "frontier-governed"
+  - "browser"
+  - "api"
+  - "github-control-plane"
+  - "ci-control-plane"
+  - "studio-control-plane"
+  - "boundary-sensitive"
 required_proof_artifacts:
   - "authority-decision-artifact"
   - "authority-grant-bundle"
   - "run-contract"
   - "run-manifest"
   - "runtime-state"
-  - "runtime-event-ledger"
-  - "replay-store"
-  - "telemetry-sink"
-  - "runtime-bus"
   - "measurement-summary"
+  - "run-evidence-classification-v1"
   - "run-card-v2"
   - "harness-card-v2"
   - "support-universe-coverage"
+  - "proof-plane-coverage"
 permitted_release_wording: >-
-  Octon is a globally complete Unified Execution Constitution across its
-  retained finite support universe, with every retained critical surface
-  governed, runtime-backed, validator-covered, proof-backed, disclosure-backed,
-  and non-liminal.
-known_limits: []
+  Octon is a fully unified execution constitution across its admitted bounded
+  support universe, with one singular constitutional kernel, mission-backed
+  consequential execution, non-authoritative host boundaries, retained
+  evidence, generated disclosure, and two-pass closure certification.
+known_limits:
+  - Stage-only surfaces remain explicit and disclosed rather than being claimed as supported.
 certification_refs:
-  pass_1: ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass1/summary.yml"
-  pass_2: ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/pass2/summary.yml"
-  closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/closure/closure-certificate.yml"
-generated_at: "2026-04-04T12:00:00Z"
+  pass_1: ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/pass1/summary.yml"
+  pass_2: ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/pass2/summary.yml"
+  closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/closure-certificate.yml"
+generated_at: "2026-04-05T12:00:00Z"

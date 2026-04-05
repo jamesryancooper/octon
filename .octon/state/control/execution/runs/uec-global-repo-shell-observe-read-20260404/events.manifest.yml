@@ -11,4 +11,4 @@ governing_event_refs:
   stage_attempt_ref: evt-009-stage-completed
   disclosure_ref: evt-011-disclosure-generated
   authority_root_ref: evt-003-authority-resolution
-updated_at: "2026-04-01T14:26:11.554148Z"
+updated_at: "2026-04-05T12:00:00Z"

@@ -32,4 +32,7 @@ objective_binding:
     - "recurring-autonomy"
     - "overlapping-work"
     - "long-horizon-continuity"
+    - "boundary-sensitive-execution"
+    - "protected-zone-mutation"
+    - "medium-high-consequence-change"
 notes_ref: "mission.md"

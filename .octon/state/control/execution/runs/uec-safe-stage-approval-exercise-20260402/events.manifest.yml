@@ -2,7 +2,7 @@ schema_version: run-event-ledger-v1
 run_id: uec-safe-stage-approval-exercise-20260402
 ledger_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/events.ndjson
 event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v1.schema.json
-event_count: 10
+event_count: 9
 first_event_id: evt-001-run-created
 last_event_id: evt-012-run-closed
 governing_event_refs:
@@ -11,4 +11,4 @@ governing_event_refs:
   stage_attempt_ref: evt-009-stage-completed
   disclosure_ref: evt-011-disclosure-generated
   authority_root_ref: evt-003-authority-resolution
-updated_at: "2026-04-02T00:00:00Z"
+updated_at: "2026-04-05T12:00:00Z"

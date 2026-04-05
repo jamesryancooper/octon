@@ -2,6 +2,6 @@ schema_version: trace-pointer-v2
 run_id: uec-safe-stage-lease-revocation-exercise-20260402
 external_index_refs:
   - .octon/state/evidence/external-index/runs/uec-safe-stage-lease-revocation-exercise-20260402.yml
-updated_at: "2026-04-05T00:56:33Z"
-recorded_at: "2026-04-05T00:56:33Z"
+updated_at: "2026-04-05T12:52:26Z"
+recorded_at: "2026-04-05T12:52:26Z"
 notes: Canonical Class C trace payload retained through the external immutable index.

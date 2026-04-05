@@ -4,11 +4,12 @@ status: "active"
 activation_wave: 1
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
 activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md"
   - ".octon/instance/cognition/context/shared/migrations/2026-04-03-uec-clean-break-packet-implementation/plan.md"
   - ".octon/instance/cognition/context/shared/migrations/2026-04-04-uec-global-completion/plan.md"
+  - ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
 objective_stack:
   workspace_charter_pair:
     ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"

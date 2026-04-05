@@ -1,0 +1,36 @@
+schema_version: gate-status-v1
+updated_at: "2026-04-05T12:00:00Z"
+gates:
+  - gate_id: G0
+    title: truth-boundary-compilation
+    status: green
+  - gate_id: G1
+    title: support-target-and-pack-alignment
+    status: green
+  - gate_id: G2
+    title: authority-family-completeness
+    status: green
+  - gate_id: G3
+    title: run-bundle-completeness
+    status: green
+  - gate_id: G4
+    title: evidence-classification-and-retention
+    status: green
+  - gate_id: G5
+    title: host-projection-proof
+    status: green
+  - gate_id: G6
+    title: proof-plane-coverage
+    status: green
+  - gate_id: G7
+    title: lab-coverage
+    status: green
+  - gate_id: G8
+    title: intervention-measurement-disclosure
+    status: green
+  - gate_id: G9
+    title: generated-disclosure
+    status: green
+  - gate_id: G10
+    title: two-pass-closure
+    status: green

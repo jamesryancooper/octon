@@ -19,6 +19,9 @@ kernel_surfaces:
     schema: ".octon/framework/constitution/support-targets.schema.json"
     authoritative_declaration: ".octon/instance/governance/support-targets.yml"
     status: "active"
+  claim_truth_conditions:
+    path: ".octon/framework/constitution/claim-truth-conditions.yml"
+    status: "active"
   governance_exclusions:
     schema: ".octon/framework/constitution/contracts/authority/prohibited-action-class-v1.schema.json"
     authoritative_declaration: ".octon/instance/governance/exclusions/action-classes.yml"
@@ -130,6 +133,12 @@ integration_surfaces:
   closure_claim_status_matrix:
     path: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
     status: "active"
+  closure_truth_conditions:
+    path: ".octon/framework/constitution/claim-truth-conditions.yml"
+    status: "active"
+  effective_support_target_projection:
+    path: ".octon/generated/effective/governance/support-target-matrix.yml"
+    status: "active"
   retained_disclosure_roots:
     runs: ".octon/state/evidence/disclosure/runs/**"
     releases: ".octon/state/evidence/disclosure/releases/**"
@@ -178,6 +187,8 @@ integration_surfaces:
     - ".octon/instance/governance/contracts/**"
     - ".octon/instance/governance/ownership/registry.yml"
     - ".octon/instance/governance/support-targets.yml"
+    - ".octon/instance/governance/support-target-admissions/**"
+    - ".octon/instance/capabilities/runtime/packs/admissions/**"
   runtime_adapter_roots:
     host: ".octon/framework/engine/runtime/adapters/host/**"
     model: ".octon/framework/engine/runtime/adapters/model/**"

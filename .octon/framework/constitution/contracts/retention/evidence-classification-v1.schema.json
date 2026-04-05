@@ -61,6 +61,24 @@
               "null"
             ]
           },
+          "content_digest": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "retention_window": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "disclosure_relevance": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
           "notes": {
             "type": [
               "string",

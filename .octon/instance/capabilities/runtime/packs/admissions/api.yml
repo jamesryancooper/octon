@@ -1,0 +1,13 @@
+schema_version: capability-pack-admission-v1
+pack_id: api
+status: stage_only
+support_target_refs:
+  - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+  - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+  - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+required_proof:
+  - behavioral
+  - governance
+  - recovery
+docs_alignment_ref: .octon/framework/capabilities/packs/api/README.md
+review_due_at: "2026-06-30T00:00:00Z"

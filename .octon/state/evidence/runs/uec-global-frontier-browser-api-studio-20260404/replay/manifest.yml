@@ -12,4 +12,4 @@ class_c_refs:
 replay_payload_class: external-immutable
 external_index_refs:
   - .octon/state/evidence/external-index/runs/uec-global-frontier-browser-api-studio-20260404.yml
-recorded_at: "2026-04-05T00:56:33Z"
+recorded_at: "2026-04-05T12:52:26Z"

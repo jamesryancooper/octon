@@ -20,8 +20,25 @@
     "run_id": { "type": "string", "minLength": 1 },
     "status": { "type": "string", "enum": ["bound", "active", "closed"] },
     "workflow_mode": { "type": "string", "minLength": 1 },
+    "mission_id": { "type": ["string", "null"] },
+    "requires_mission": { "type": ["boolean", "null"] },
     "support_target_ref": { "type": "string", "minLength": 1 },
     "support_target": { "type": "object" },
+    "support_target_tuple": { "type": "object" },
+    "protected_zone_scope": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "reversibility_class": { "type": ["string", "null"] },
+    "execution_horizon": { "type": ["string", "null"] },
+    "recurrence_class": { "type": ["string", "null"] },
+    "requested_capability_packs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "stage_attempt_root": { "type": ["string", "null"] },
+    "control_checkpoint_root": { "type": ["string", "null"] },
+    "evidence_root": { "type": ["string", "null"] },
     "authority_bundle_ref": { "type": "string", "minLength": 1 },
     "run_manifest_ref": { "type": "string", "minLength": 1 },
     "runtime_state_ref": { "type": "string", "minLength": 1 }

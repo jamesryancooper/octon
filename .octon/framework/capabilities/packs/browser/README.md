@@ -2,6 +2,6 @@
 
 Governed browser automation pack surface.
 
-This surface is defined so future browser admission has an explicit contract,
-but it remains fail-closed until repo-local admission and support-target
-evidence are published.
+This surface now has a repo-local admission dossier, but it remains
+`stage_only` and outside the live claim envelope until dossier-backed browser
+proof, recovery posture, and support-target closure are promoted together.

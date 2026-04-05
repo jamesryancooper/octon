@@ -18,7 +18,8 @@ authority_refs:
   run_contract: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-contract.yml
 generated_at: "2026-04-04T12:00:00Z"
 intervention_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/interventions/log.yml
-known_limits: []
+known_limits:
+  - CI remains a projection-only host and is excluded from the bounded admitted live claim.
 measurement_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/measurements/summary.yml
 proof_plane_refs:
   behavioral: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/assurance/behavioral.yml
@@ -34,15 +35,16 @@ requested_capability_packs:
   - shell
   - telemetry
 run_id: uec-global-ci-observe-read-20260404
+claim_status: stage_only
 schema_version: run-card-v2
 status: succeeded
-summary: Observe-and-read CI control-plane run completed under the globally complete support universe.
+summary: Observe-and-read CI control-plane run is retained as stage-only projection proof outside the live claim envelope.
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_target_tuple:
   language_resource_tier: reference-owned
   locale_tier: english-primary
-  model_tier: frontier-governed
-  support_status: supported
+  model_tier: repo-local-governed
+  support_status: stage_only
   workload_tier: observe-and-read
 support_tier: observe-and-read
 workflow_mode: agent-augmented

@@ -1,11 +1,14 @@
-schema_version: run-contract-v1
+schema_version: run-contract-v2
 run_id: uec-safe-stage-approval-exercise-20260402
-mission_mode: none
+status: closed
+workflow_mode: agent-augmented
+mission_id: mission-autonomy-live-validation
+mission_mode: mission-bound
+requires_mission: true
 objective_refs:
   workspace_objective_ref: .octon/instance/charter/workspace.md
   workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
-objective_summary: Safe-stage approval exercise retained to prove canonical ApprovalRequest
-  and ApprovalGrant flow under the supported envelope.
+objective_summary: Safe-stage approval exercise retained to prove canonical ApprovalRequest and ApprovalGrant flow under the mission-backed supported consequential envelope.
 scope_in:
 - governance-exercise
 scope_out:
@@ -14,14 +17,16 @@ scope_out:
 exclusions:
 - .octon/inputs/exploratory/ideation/**
 done_when:
-- Governance exercise artifacts are retained under canonical control and evidence
-  roots.
+- Governance exercise artifacts are retained under canonical control and evidence roots.
 acceptance_criteria:
-- Canonical approval or revocation artifacts resolve and match the decision artifact.
+- Canonical approval artifacts resolve and match the decision artifact.
 materiality: low
 protected_zones:
 - .octon/framework/constitution/**
 - .octon/instance/governance/**
+protected_zone_scope:
+- repo-governance
+- repo-state
 requested_capabilities:
 - evidence.write
 requested_capability_packs:
@@ -34,7 +39,9 @@ intent_ref:
 actor_ref:
   kind: system
   id: octon-kernel
-reversibility_class: reversible
+reversibility_class: fully_reversible
+execution_horizon: multi_stage_single_run
+recurrence_class: one_shot
 support_tier: repo-consequential
 support_target:
   model_tier: repo-local-governed
@@ -43,6 +50,14 @@ support_target:
   locale_tier: english-primary
   host_adapter: repo-shell
   model_adapter: repo-local-governed
+support_target_tuple:
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  support_status: supported
 support_target_ref: .octon/instance/governance/support-targets.yml
 required_approvals:
 - .octon/state/control/execution/approvals/requests/uec-safe-stage-approval-exercise-20260402.yml
@@ -51,11 +66,12 @@ required_evidence:
 - approval-grant
 - replay-pointers
 - trace-pointers
+- run-evidence-classification-v1
 start_conditions:
-- Canonical authority artifacts exist for the bounded safe-stage governance exercise.
+- Canonical authority artifacts exist for the mission-backed safe-stage governance exercise.
+- Mission `mission-autonomy-live-validation` remains active for consequential autonomy.
 stop_conditions:
-- Stop when governance route is no longer ALLOW or when revocation blocks the bounded
-  action.
+- Stop when governance route is no longer ALLOW or when revocation blocks the bounded action.
 retry_class: manual_review_required
 closure_conditions:
 - Run remains bounded to the safe-stage governance exercise.
@@ -65,6 +81,7 @@ stage_attempt_root: .octon/state/control/execution/runs/uec-safe-stage-approval-
 run_manifest_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-manifest.yml
 decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-approval-exercise-20260402.yml
 authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-approval-exercise-20260402.yml
+authority_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-approval-exercise-20260402.yml
 run_card_ref: .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
 host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
 model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
@@ -75,12 +92,8 @@ rollback_posture_ref: .octon/state/control/execution/runs/uec-safe-stage-approva
 evidence_root: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402
 receipt_root: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/receipts
 replay_pointers_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay-pointers.yml
-rollback_or_compensation_expectation: Safe-stage governance exercise remains reversible
-  and local to canonical control roots.
-contract_version: 1.1.0
-issued_at: '2026-04-02T00:00:00Z'
-expires_at: null
-status: completed
+rollback_or_compensation_expectation: Safe-stage governance exercise remains reversible and local to canonical control roots.
+contract_version: 1.2.0
 created_at: '2026-04-02T00:00:00Z'
-updated_at: '2026-04-02T00:00:00Z'
-notes_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/stage-attempts/initial.yml
+issued_at: '2026-04-02T00:00:00Z'
+updated_at: '2026-04-05T12:00:00Z'

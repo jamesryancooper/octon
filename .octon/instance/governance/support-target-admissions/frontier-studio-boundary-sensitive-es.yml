@@ -1,0 +1,38 @@
+schema_version: support-target-admission-v1
+tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+status: stage_only
+tuple:
+  model_tier: frontier-governed
+  workload_tier: boundary-sensitive
+  language_resource_tier: extended-governed
+  locale_tier: spanish-secondary
+  host_adapter: studio-control-plane
+  model_adapter: frontier-governed
+requires_mission: true
+consequence_class: boundary-sensitive
+reversibility_class: compensable
+execution_horizon: multi_run_or_multi_stage
+recurrence_class: review_bound
+protected_zone_scope:
+  - protected-constitution
+  - protected-governance
+allowed_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - browser
+  - api
+required_proof_planes:
+  - behavioral
+  - governance
+  - recovery
+required_authority_artifacts:
+  - approval-request
+  - approval-grant
+  - decision-artifact
+  - quorum-policy
+evidence_refs:
+  - .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml
+review_due_at: "2026-06-30T00:00:00Z"
+claim_effect: excluded-from-live-claim-until-pack-admission-and-locale-proof-close
