@@ -31,9 +31,9 @@ main() {
   local browser_run api_run
   browser_run="$(role_run_id external_evidence)"
   api_run="$(role_run_id github_projection)"
-  require_yq '.requested_capability_packs[] | select(. == "browser")' "$OCTON_DIR/state/evidence/disclosure/runs/$browser_run/run-card.yml" "browser run card records browser pack"
-  require_yq '.requested_capability_packs[] | select(. == "api")' "$OCTON_DIR/state/evidence/disclosure/runs/$browser_run/run-card.yml" "boundary-sensitive run card records api pack"
-  require_yq '.requested_capability_packs[] | select(. == "api")' "$OCTON_DIR/state/evidence/disclosure/runs/$api_run/run-card.yml" "repo consequential run card records api pack"
+  require_yq '.requested_capability_packs | contains(["browser"])' "$OCTON_DIR/state/evidence/disclosure/runs/$browser_run/run-card.yml" "browser run card records browser pack"
+  require_yq '.requested_capability_packs | contains(["api"])' "$OCTON_DIR/state/evidence/disclosure/runs/$browser_run/run-card.yml" "boundary-sensitive run card records api pack"
+  require_yq '.requested_capability_packs | contains(["api"])' "$OCTON_DIR/state/evidence/disclosure/runs/$api_run/run-card.yml" "repo consequential run card records api pack"
   require_yq '.surfaces[] | select(.surface_id == "browser") | .runtime_refs | length > 0' "$RELEASE_ROOT/closure/support-universe-coverage.yml" "coverage ledger retains browser runtime refs"
   require_yq '.surfaces[] | select(.surface_id == "api") | .runtime_refs | length > 0' "$RELEASE_ROOT/closure/support-universe-coverage.yml" "coverage ledger retains api runtime refs"
   require_yq '.surfaces[] | select(.surface_id == "browser") | .proof_refs | length > 0' "$RELEASE_ROOT/closure/support-universe-coverage.yml" "coverage ledger retains browser proof refs"
