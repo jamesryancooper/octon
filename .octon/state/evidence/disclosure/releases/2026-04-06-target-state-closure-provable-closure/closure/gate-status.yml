@@ -1,6 +1,6 @@
 schema_version: octon-closure-gate-report-v1
 release_id: 2026-04-06-target-state-closure-provable-closure
-generated_at: "2026-04-06T15:30:02Z"
+generated_at: "2026-04-06T16:10:39Z"
 gates:
   - gate_id: G0
     title: single-canonical-run-contract-family

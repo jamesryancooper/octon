@@ -1,6 +1,6 @@
 schema_version: octon-projection-parity-report-v1
 release_id: 2026-04-06-target-state-closure-provable-closure
-generated_at: "2026-04-06T15:30:11Z"
+generated_at: "2026-04-06T16:10:48Z"
 status: pass
 comparisons:
   - source: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/harness-card.yml

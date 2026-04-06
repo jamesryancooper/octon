@@ -8,11 +8,13 @@ ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 CHARTER_FILE="$OCTON_DIR/framework/constitution/charter.yml"
 
 FAMILY_DIR="$OCTON_DIR/framework/constitution/contracts/objective"
+RUNTIME_FAMILY_DIR="$OCTON_DIR/framework/constitution/contracts/runtime"
 FAMILY_FILE="$FAMILY_DIR/family.yml"
 WORKSPACE_FILE="$FAMILY_DIR/workspace-charter-pair.yml"
 WORKSPACE_SCHEMA="$FAMILY_DIR/workspace-charter-v1.schema.json"
-RUN_SCHEMA="$FAMILY_DIR/run-contract-v1.schema.json"
-STAGE_SCHEMA="$FAMILY_DIR/stage-attempt-v1.schema.json"
+MISSION_SCHEMA="$FAMILY_DIR/mission-charter-v1.schema.json"
+RUN_SCHEMA="$RUNTIME_FAMILY_DIR/run-contract-v3.schema.json"
+STAGE_SCHEMA="$RUNTIME_FAMILY_DIR/stage-attempt-v2.schema.json"
 CONTRACT_REGISTRY="$OCTON_DIR/framework/constitution/contracts/registry.yml"
 WORKSPACE_BRIEF_FILE="$OCTON_DIR/instance/charter/workspace.md"
 WORKSPACE_MACHINE_FILE="$OCTON_DIR/instance/charter/workspace.yml"
@@ -28,7 +30,7 @@ RUN_LINKAGE_GUIDE="$OCTON_DIR/framework/orchestration/practices/run-linkage-stan
 WRITE_RUN_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/write-run.sh"
 ROOT_MANIFEST="$OCTON_DIR/octon.yml"
 POLICY_CONFIG="$OCTON_DIR/framework/engine/runtime/config/policy-interface.yml"
-MIGRATION_PLAN="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
+MIGRATION_PLAN="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md"
 
 errors=0
 
@@ -109,6 +111,7 @@ main() {
   require_file "$CHARTER_FILE"
   require_file "$WORKSPACE_FILE"
   require_file "$WORKSPACE_SCHEMA"
+  require_file "$MISSION_SCHEMA"
   require_file "$RUN_SCHEMA"
   require_file "$STAGE_SCHEMA"
   require_file "$CONTRACT_REGISTRY"
@@ -136,11 +139,18 @@ main() {
   require_yq '.change_profile == "atomic"' "$FAMILY_FILE" "objective family records atomic change profile"
   local live_selector
   live_selector="$(yq -r '.live_model.profile_selection_receipt_ref' "$CHARTER_FILE")"
-  require_yq ".profile_selection_receipt_ref == \"$live_selector\"" "$FAMILY_FILE" "objective family points to the charter live selector"
+  if [[ "$(yq -r '.profile_selection_receipt_ref' "$FAMILY_FILE")" == "$live_selector" || "$(yq -r '.profile_selection_receipt_ref' "$FAMILY_FILE")" == ".octon/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md" ]]; then
+    pass "objective family points to a valid live selector"
+  else
+    fail "objective family points to a valid live selector"
+  fi
   require_yq '.activation_lineage_refs[] | select(. == ".octon/instance/cognition/context/shared/migrations/2026-03-28-unified-execution-constitution-phase2-objective-authority-cutover/plan.md")' "$FAMILY_FILE" "objective family preserves the Phase 2 receipt as lineage"
-  require_yq '.activation_lineage_refs[] | select(. == ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md")' "$FAMILY_FILE" "objective family preserves the bounded proposal-packet receipt as lineage"
+  require_yq '.activation_lineage_refs[] | select(. == ".octon/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md")' "$FAMILY_FILE" "objective family preserves the target-state closure receipt as lineage"
+  require_yq '.objective_stack.mission_charter_pair.machine_schema_ref == ".octon/framework/constitution/contracts/objective/mission-charter-v1.schema.json"' "$FAMILY_FILE" "objective family binds mission-charter-v1"
   require_yq '.objective_stack.workspace_charter_pair.machine_schema_ref == ".octon/framework/constitution/contracts/objective/workspace-charter-v1.schema.json"' "$FAMILY_FILE" "objective family binds the workspace-charter machine schema"
   require_yq '.objective_stack.run_contract.control_root == ".octon/state/control/execution/runs"' "$FAMILY_FILE" "objective family binds the run control root"
+  require_yq '.objective_stack.run_contract.schema_ref == ".octon/framework/constitution/contracts/runtime/run-contract-v3.schema.json"' "$FAMILY_FILE" "objective family binds run-contract-v3"
+  require_yq '.objective_stack.stage_attempt_contract.schema_ref == ".octon/framework/constitution/contracts/runtime/stage-attempt-v2.schema.json"' "$FAMILY_FILE" "objective family binds stage-attempt-v2"
   require_yq '.objective_stack.stage_attempt_contract.canonical_dir == "stage-attempts"' "$FAMILY_FILE" "objective family defines stage-attempt placement"
   require_yq 'has("mission_only_execution") | not' "$FAMILY_FILE" "objective family no longer carries mission-only execution shims"
 
@@ -150,6 +160,8 @@ main() {
   require_yq '.historical_shims[] | select(. == ".octon/instance/bootstrap/OBJECTIVE.md")' "$WORKSPACE_FILE" "workspace charter pair records bootstrap objective shim as historical"
   require_yq '.historical_shims[] | select(. == ".octon/instance/cognition/context/shared/intent.contract.yml")' "$WORKSPACE_FILE" "workspace charter pair records intent shim as historical"
   require_yq '.execution_binding.run_contract_control_root == ".octon/state/control/execution/runs"' "$WORKSPACE_FILE" "workspace charter pair points to the run control root"
+  require_yq '.execution_binding.run_contract_schema_ref == ".octon/framework/constitution/contracts/runtime/run-contract-v3.schema.json"' "$WORKSPACE_FILE" "workspace charter pair points to run-contract-v3"
+  require_yq '.execution_binding.stage_attempt_schema_ref == ".octon/framework/constitution/contracts/runtime/stage-attempt-v2.schema.json"' "$WORKSPACE_FILE" "workspace charter pair points to stage-attempt-v2"
 
   [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "objective_layer")" == "workspace-charter-pair" ]] \
     && pass "workspace charter narrative declares workspace-charter layer" \
@@ -163,9 +175,9 @@ main() {
   [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "change_profile")" == "atomic" ]] \
     && pass "workspace charter narrative records change_profile" \
     || fail "workspace charter narrative must record atomic change_profile"
-  [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "profile_selection_receipt_ref")" == ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md" ]] \
-    && pass "workspace charter narrative points to the bounded proposal-packet receipt" \
-    || fail "workspace charter narrative must point to the bounded proposal-packet receipt"
+  [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "profile_selection_receipt_ref")" =~ ^\.octon/instance/cognition/context/shared/migrations/2026-04-(05-unified-execution-constitution-proposal-packet-implementation|06-target-state-closure-provable-closure)/plan\.md$ ]] \
+    && pass "workspace charter narrative points to a valid closure migration receipt" \
+    || fail "workspace charter narrative must point to a valid closure migration receipt"
 
   require_yq '.schema_version == "workspace-charter-v1"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine uses workspace-charter-v1"
   require_yq '.workspace_charter_id == "workspace-charter://octon/octon-governed-harness"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine declares a canonical workspace charter id"
@@ -176,6 +188,8 @@ main() {
   require_yq '.change_profile == "atomic"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine records atomic change profile"
   require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine points to the bounded proposal-packet receipt"
   require_yq '.execution_binding.run_contract_control_root == ".octon/state/control/execution/runs"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine binds the run control root"
+  require_yq '.execution_binding.run_contract_schema_ref == ".octon/framework/constitution/contracts/runtime/run-contract-v3.schema.json"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine points to run-contract-v3"
+  require_yq '.execution_binding.stage_attempt_schema_ref == ".octon/framework/constitution/contracts/runtime/stage-attempt-v2.schema.json"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine points to stage-attempt-v2"
 
   [[ "$(frontmatter_field "$OBJECTIVE_FILE" "objective_layer")" == "workspace-charter-pair" ]] \
     && pass "objective brief declares workspace-charter layer" \
@@ -207,10 +221,10 @@ main() {
 
   for file in "$MISSION_TEMPLATE" "$LIVE_MISSION"; do
     local label="${file#$ROOT_DIR/}"
-    require_yq '.objective_binding.execution_unit == "run-contract"' "$file" "$label binds run-contract execution unit"
-    require_yq '.objective_binding.run_control_root == ".octon/state/control/execution/runs"' "$file" "$label points to run control root"
-    require_yq '.objective_binding.mission_role == "continuity-container"' "$file" "$label records continuity-container role"
-    require_yq 'has("transitional_execution_model") | not' "$file" "$label no longer carries transitional execution metadata"
+  require_yq '.objective_binding.execution_unit == "run-contract"' "$file" "$label binds run-contract execution unit"
+  require_yq '.objective_binding.run_control_root == ".octon/state/control/execution/runs"' "$file" "$label points to run control root"
+  require_yq '.objective_binding.mission_role == "continuity-container"' "$file" "$label records continuity-container role"
+  require_yq 'has("transitional_execution_model") | not' "$file" "$label no longer carries transitional execution metadata"
   done
 
   require_yq '.resolution.runtime_inputs.objective_contract_family == ".octon/framework/constitution/contracts/objective"' "$ROOT_MANIFEST" "root manifest exposes objective contract family runtime input"

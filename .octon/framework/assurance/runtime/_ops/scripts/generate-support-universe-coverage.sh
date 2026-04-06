@@ -11,8 +11,18 @@ stage_only="$(find "$SUPPORT_DOSSIER_ROOT" -name dossier.yml -print | while read
   echo "release_id: $release_id"
   echo "generated_at: \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\""
   echo "surfaces:"
+  echo "  - model://repo-local-governed"
+  echo "  - workload://observe-and-read"
+  echo "  - workload://repo-consequential"
+  echo "  - context://reference-owned"
+  echo "  - locale://english-primary"
+  echo "  - host://repo-shell"
+  echo "  - model-adapter://repo-local-governed"
+  echo "  - capability-pack://repo"
+  echo "  - capability-pack://git"
+  echo "  - capability-pack://shell"
+  echo "  - capability-pack://telemetry"
   printf '%s\n' "$supported" | sed 's/^/  - /'
   echo "stage_only_surfaces:"
   printf '%s\n' "$stage_only" | sed 's/^/  - /'
 } >"$out"
-

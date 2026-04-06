@@ -5,21 +5,21 @@ release_state: "pre-1.0"
 change_profile: "atomic"
 atomic_mode: "clean-break"
 selection_rationale: >-
-  The proposal-packet completion cutover converges one bounded admitted claim,
-  one live constitutional authority path, and one generated closure path.
+  The target-state closure cutover converges one bounded admitted claim, one
+  live constitutional authority path, and one generated closure path.
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
 truth_conditions_ref: ".octon/framework/constitution/claim-truth-conditions.yml"
 phase_status_ref: ".octon/instance/governance/closure/phase-status.yml"
 preclaim_blockers_ref: ".octon/instance/governance/closure/preclaim-blockers.yml"
 gate_status_ref: ".octon/instance/governance/closure/gate-status.yml"
-coverage_ledger_ref: ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/support-universe-coverage.yml"
+coverage_ledger_ref: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/support-universe-coverage.yml"
 status_summary:
   claim_status: "complete"
   final_verdict: "claim_complete"
   current_blocker: null
   blocking_gates: []
-  updated_at: "2026-04-05"
+  updated_at: "2026-04-06"
 findings:
   - id: "OCT-F001"
     severity: "critical"
