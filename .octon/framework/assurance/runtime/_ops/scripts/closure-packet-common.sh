@@ -5,8 +5,8 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../.." && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
-DEFAULT_RELEASE_ID="${CLOSURE_RELEASE_ID:-2026-04-06-target-state-closure-provable-closure}"
 SUPPORT_DOSSIER_ROOT="$OCTON_DIR/instance/governance/support-dossiers"
+RELEASE_LINEAGE_PATH="$OCTON_DIR/instance/governance/disclosure/release-lineage.yml"
 
 require_yq() {
   command -v yq >/dev/null 2>&1 || {
@@ -18,8 +18,13 @@ require_yq() {
 resolve_release_id() {
   if [[ $# -gt 0 && -n "${1:-}" ]]; then
     printf '%s\n' "$1"
+  elif [[ -n "${CLOSURE_RELEASE_ID:-}" ]]; then
+    printf '%s\n' "$CLOSURE_RELEASE_ID"
+  elif command -v yq >/dev/null 2>&1 && [[ -f "$RELEASE_LINEAGE_PATH" ]]; then
+    yq -r '.active_release.release_id' "$RELEASE_LINEAGE_PATH"
   else
-    printf '%s\n' "$DEFAULT_RELEASE_ID"
+    echo "unable to resolve active release id" >&2
+    exit 1
   fi
 }
 
@@ -114,4 +119,3 @@ sha256_file() {
 forbidden_phrase_pattern() {
   printf '%s\n' 'global complete|globally complete support universe'
 }
-
