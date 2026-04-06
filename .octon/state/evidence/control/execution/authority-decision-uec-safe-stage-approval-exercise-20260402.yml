@@ -32,7 +32,7 @@ support_tier:
   - MODEL-004
   support_status: supported
   route: allow
-  requires_mission: false
+  requires_mission: true
   required_evidence:
   - authority-decision-artifact
   - authority-grant-bundle

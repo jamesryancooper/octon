@@ -18,11 +18,11 @@ approval_grant_refs:
 - .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-lease-revocation-exercise-20260402.yml
 decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-lease-revocation-exercise-20260402.yml
 exception_refs:
-- .octon/state/control/execution/exceptions/leases.yml#lease-uec-safe-stage-lease-revocation-exercise-20260402
+- .octon/state/control/execution/exceptions/leases/lease-uec-safe-stage-lease-revocation-exercise-20260402.yml
 revocation_refs:
-- .octon/state/control/execution/revocations/grants.yml#revoke-uec-safe-stage-lease-revocation-exercise-20260402
+- .octon/state/control/execution/revocations/revoke-uec-safe-stage-lease-revocation-exercise-20260402.yml
 requested_capability_packs:
 - repo
 - telemetry
-quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+quorum_policy_ref: .octon/instance/governance/contracts/quorum-policies/default.yml
 generated_at: '2026-04-02T00:00:00Z'

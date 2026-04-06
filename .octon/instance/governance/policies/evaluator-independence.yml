@@ -1,0 +1,9 @@
+schema_version: evaluator-independence-policy-v1
+status: active
+same-generator-and-acceptance-model_allowed: false
+independent_evaluator_required_per_live_tuple: true
+human_intervention_must_be_disclosed: true
+required_outputs:
+  - evaluator-proof-plane
+  - intervention-disclosure
+

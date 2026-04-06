@@ -1,0 +1,14 @@
+schema_version: authority-quorum-policy-v1
+quorum_policy_id: default
+required: 1
+rules:
+  - role: operator
+    count: 1
+applicable_action_classes:
+  - repo-consequential
+  - boundary-sensitive
+support_tiers:
+  - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+escalation_paths:
+  - operator://octon-maintainers

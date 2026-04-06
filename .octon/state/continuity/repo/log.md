@@ -31,6 +31,85 @@ mutability: append-only
 
 - None
 
+## 2026-04-06
+
+**Session focus:** Create a repo-local execution prompt for the current
+target-state-closure packet
+
+**Completed:**
+
+- Read the repo ingress, constitutional kernel, workspace charter pair, and
+  the current `target-state-closure` proposal packet to extract the live
+  authority boundaries and the packet's closure-hardening program
+- Created a new execution-grade prompt at
+  `/.octon/framework/scaffolding/practices/prompts/2026-04-06-target-state-closure-provable-closure.prompt.md`
+  that treats the packet as implementation input and centers provable closure
+  on generated release bundles, validator enforcement, and dual-pass
+  certification
+- Wrote the matching `refine-prompt` run log under
+  `/.octon/state/evidence/runs/skills/refine-prompt/2026-04-06-target-state-closure-provable-closure.md`
+
+**Next:**
+
+- Execute the prompt if implementation work should begin against the current
+  packet
+
+**Blockers:**
+
+- None
+
+## 2026-04-06
+
+**Session focus:** Execute the target-state-closure provable-closure prompt
+
+**Completed:**
+
+- Added packet-era contract surfaces for `mission-charter-v1`,
+  `run-contract-v3`, `stage-attempt-v2`, `evidence-classification-v2`, and
+  release-bundle report schemas
+- Introduced support dossiers, hidden-check and evaluator-independence policy
+  surfaces, and a default quorum-policy declaration under canonical instance
+  governance roots
+- Backfilled the representative supported and stage-only exemplar runs to the
+  new run/evidence families, normalized the supported consequential authority
+  bundle references, and generated a new release bundle at
+  `/.octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/`
+- Promoted the new release in `release-lineage.yml`, regenerated the active
+  HarnessCard and closure mirrors from the release bundle, and passed the
+  targeted packet validator sweep plus `validate-contract-governance.sh`,
+  `validate-harness-structure.sh`, and `validate-bootstrap-ingress.sh`
+
+**Next:**
+
+- Review the branch diff for any further cleanup or commit shaping before
+  branch closeout
+
+**Blockers:**
+
+- None
+
+## 2026-04-06
+
+**Session focus:** Archive the target-state-closure proposal packet
+
+**Completed:**
+
+- Moved `/.octon/inputs/exploratory/proposals/architecture/target-state-closure`
+  to the canonical archive location at
+  `/.octon/inputs/exploratory/proposals/.archive/architecture/target-state-closure`
+- Updated the live execution prompt at
+  `/.octon/framework/scaffolding/practices/prompts/2026-04-06-target-state-closure-provable-closure.prompt.md`
+  so its packet read-order points at the archived location instead of the
+  exploratory path
+
+**Next:**
+
+- None
+
+**Blockers:**
+
+- None
+
 ## 2026-03-28
 
 **Session focus:** Complete the fully unified execution constitution archival

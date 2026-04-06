@@ -9,7 +9,7 @@ adapter_support:
     - MODEL-004
   host_adapter: ci-control-plane
   host_support_status: supported
-  model_adapter: frontier-governed
+  model_adapter: repo-local-governed
   model_support_status: supported
 authority_refs:
   decision_artifact: .octon/state/evidence/control/execution/authority-decision-uec-global-ci-observe-read-20260404.yml

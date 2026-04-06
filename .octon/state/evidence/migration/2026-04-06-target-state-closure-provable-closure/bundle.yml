@@ -1,0 +1,10 @@
+schema_version: migration-evidence-bundle-v1
+bundle_id: 2026-04-06-target-state-closure-provable-closure
+plan_ref: .octon/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md
+status: complete
+artifacts:
+  - evidence.md
+  - commands.md
+  - validation.md
+  - inventory.md
+updated_at: "2026-04-06T15:30:00Z"

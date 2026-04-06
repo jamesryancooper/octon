@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/run-contract-v3.schema.json",
+  "title": "Octon Run Contract v3",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "run_id",
+    "status",
+    "workflow_mode",
+    "objective_refs",
+    "objective_summary",
+    "scope_in",
+    "scope_out",
+    "done_when",
+    "acceptance_criteria",
+    "materiality",
+    "risk_class",
+    "reversibility_class",
+    "requested_capabilities",
+    "requested_capability_packs",
+    "protected_zone_scope",
+    "support_target_ref",
+    "support_target_tuple",
+    "mission_id",
+    "requires_mission",
+    "required_approvals",
+    "required_evidence",
+    "retry_class",
+    "rollback_posture_ref",
+    "stage_attempt_root",
+    "checkpoint_root",
+    "continuity_root_ref",
+    "authority_bundle_ref",
+    "run_manifest_ref",
+    "runtime_state_ref",
+    "run_card_ref"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "run-contract-v3"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflow_mode": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objective_refs": {
+      "type": "object"
+    },
+    "objective_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope_in": {
+      "type": "array"
+    },
+    "scope_out": {
+      "type": "array"
+    },
+    "done_when": {
+      "type": "array"
+    },
+    "acceptance_criteria": {
+      "type": "array"
+    },
+    "materiality": {
+      "type": "string",
+      "minLength": 1
+    },
+    "risk_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reversibility_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requested_capabilities": {
+      "type": "array"
+    },
+    "requested_capability_packs": {
+      "type": "array"
+    },
+    "protected_zone_scope": {
+      "type": "array"
+    },
+    "support_target_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_target_tuple": {
+      "type": "object"
+    },
+    "mission_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requires_mission": {
+      "type": "boolean"
+    },
+    "required_approvals": {
+      "type": "array"
+    },
+    "required_evidence": {
+      "type": "array"
+    },
+    "retry_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_posture_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stage_attempt_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkpoint_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "continuity_root_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "authority_bundle_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_manifest_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_state_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_card_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}
+

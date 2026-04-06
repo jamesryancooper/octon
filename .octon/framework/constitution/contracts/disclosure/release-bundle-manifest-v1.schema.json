@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/disclosure/release-bundle-manifest-v1.schema.json",
+  "title": "Octon Release Bundle Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_id",
+    "generated_at",
+    "generator_versions",
+    "validator_versions",
+    "authored_input_digests",
+    "proof_bundle_runs",
+    "bundle_contents"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-release-bundle-manifest-v1"
+    },
+    "release_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generator_versions": {
+      "type": "object"
+    },
+    "validator_versions": {
+      "type": "object"
+    },
+    "authored_input_digests": {
+      "type": "object"
+    },
+    "proof_bundle_runs": {
+      "type": "array"
+    },
+    "bundle_contents": {
+      "type": "array"
+    }
+  }
+}
+

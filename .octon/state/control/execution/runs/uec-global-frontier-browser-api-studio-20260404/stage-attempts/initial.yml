@@ -42,7 +42,7 @@ required_evidence:
 rollback_candidate: true
 rollback_notes: Restore from the bound checkpoint and reissue the stage if retained evidence becomes inconsistent.
 run_id: uec-global-frontier-browser-api-studio-20260404
-schema_version: stage-attempt-v1
+schema_version: stage-attempt-v2
 stage_attempt_id: initial
 stage_ref: workflow:validate-proposal
 status: succeeded

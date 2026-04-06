@@ -1,4 +1,4 @@
-schema_version: stage-attempt-v1
+schema_version: stage-attempt-v2
 run_id: uec-safe-stage-lease-revocation-exercise-20260402
 stage_attempt_id: initial
 stage_ref: governance:safe-stage-lease-revocation-exercise

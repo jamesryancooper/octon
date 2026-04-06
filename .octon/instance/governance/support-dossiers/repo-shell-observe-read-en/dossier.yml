@@ -1,0 +1,31 @@
+schema_version: support-dossier-v1
+tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+status: supported
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: observe-and-read
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+admitted_host_adapters:
+  - repo-shell
+admitted_model_adapters:
+  - repo-local-governed
+admitted_capability_packs:
+  - repo
+  - shell
+  - telemetry
+required_proof_planes:
+  - structural
+  - functional
+  - governance
+  - maintainability
+required_lab_scenarios:
+  - hidden-check-baseline
+  - adversarial-baseline
+  - replay-shadow-baseline
+representative_retained_runs:
+  - .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-contract.yml
+known_exclusions: []
+recertification_cadence: quarterly
+support_admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml
+
