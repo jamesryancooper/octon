@@ -26,4 +26,8 @@ stage_only="$(find "$SUPPORT_DOSSIER_ROOT" -name dossier.yml -print | while read
   printf '%s\n' "$supported" | sed 's/^/  - /'
   echo "stage_only_surfaces:"
   printf '%s\n' "$stage_only" | sed 's/^/  - /'
+  echo "excluded_surfaces:"
+  echo "  - browser"
+  echo "  - api"
+  echo "  - github-control-plane"
 } >"$out"
