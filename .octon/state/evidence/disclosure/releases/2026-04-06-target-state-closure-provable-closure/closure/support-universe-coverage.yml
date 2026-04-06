@@ -1,0 +1,26 @@
+schema_version: support-universe-coverage-v2
+release_id: 2026-04-06-target-state-closure-provable-closure
+generated_at: "2026-04-06T15:28:40Z"
+surfaces:
+  - model://repo-local-governed
+  - workload://observe-and-read
+  - workload://repo-consequential
+  - context://reference-owned
+  - locale://english-primary
+  - host://repo-shell
+  - model-adapter://repo-local-governed
+  - capability-pack://repo
+  - capability-pack://git
+  - capability-pack://shell
+  - capability-pack://telemetry
+  - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+  - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+stage_only_surfaces:
+  - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+  - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+  - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+  - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+excluded_surfaces:
+  - browser
+  - api
+  - github-control-plane

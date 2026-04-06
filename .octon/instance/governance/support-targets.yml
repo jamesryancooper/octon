@@ -7,6 +7,7 @@ support_claim_mode: "bounded-admitted-finite"
 generated_projection_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
 pack_registry_ref: ".octon/instance/capabilities/runtime/packs/registry.yml"
 admission_review_contract_ref: ".octon/instance/governance/contracts/support-target-review.yml"
+support_dossier_root: ".octon/instance/governance/support-dossiers"
 live_support_universe:
   model_classes:
     - "repo-local-governed"
@@ -113,7 +114,7 @@ compatibility_matrix:
       - "authority-decision-artifact"
       - "authority-grant-bundle"
       - "runtime-event-ledger"
-      - "run-evidence-classification-v1"
+      - "run-evidence-classification-v2"
       - "run-card-v2"
 tuple_admissions:
   - admission_id: "tuple-repo-shell-observe-read-en"
@@ -143,6 +144,7 @@ tuple_admissions:
     required_authority_artifacts:
       - "decision-artifact"
     admission_dossier_ref: ".octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/repo-shell-observe-read-en/dossier.yml"
     review_date: "2026-04-05"
   - admission_id: "tuple-repo-shell-repo-consequential-en"
     support_status: "supported"
@@ -181,6 +183,7 @@ tuple_admissions:
       - "revocation"
       - "quorum-policy"
     admission_dossier_ref: ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml"
     review_date: "2026-04-05"
   - admission_id: "tuple-repo-shell-boundary-sensitive-en"
     support_status: "stage_only"
@@ -221,6 +224,7 @@ tuple_admissions:
       - "revocation"
       - "quorum-policy"
     admission_dossier_ref: ".octon/instance/governance/support-target-admissions/repo-shell-boundary-sensitive-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml"
     review_date: "2026-04-05"
   - admission_id: "tuple-github-repo-consequential-en"
     support_status: "stage_only"
@@ -252,6 +256,7 @@ tuple_admissions:
       - "approval-grant"
       - "decision-artifact"
     admission_dossier_ref: ".octon/instance/governance/support-target-admissions/github-repo-consequential-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/github-repo-consequential-en/dossier.yml"
     review_date: "2026-04-05"
   - admission_id: "tuple-ci-observe-read-en"
     support_status: "stage_only"
@@ -278,6 +283,7 @@ tuple_admissions:
     required_authority_artifacts:
       - "decision-artifact"
     admission_dossier_ref: ".octon/instance/governance/support-target-admissions/ci-observe-read-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/ci-observe-read-en/dossier.yml"
     review_date: "2026-04-05"
   - admission_id: "tuple-frontier-studio-boundary-sensitive-es"
     support_status: "stage_only"
@@ -313,6 +319,7 @@ tuple_admissions:
       - "decision-artifact"
       - "quorum-policy"
     admission_dossier_ref: ".octon/instance/governance/support-target-admissions/frontier-studio-boundary-sensitive-es.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/frontier-studio-boundary-sensitive-es/dossier.yml"
     review_date: "2026-04-05"
 adapter_conformance_criteria:
   - criterion_id: "HOST-001"

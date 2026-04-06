@@ -1,13 +1,18 @@
 schema_version: release-lineage-v1
 owner: Octon governance
-updated_at: "2026-04-05T12:30:00Z"
+updated_at: "2026-04-06T15:28:40Z"
 active_release:
-  release_id: 2026-04-05-uec-proposal-packet-completion
+  release_id: 2026-04-06-target-state-closure-provable-closure
   status: active
   claim_scope: bounded-admitted-finite
-  harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/harness-card.yml
-  closure_certificate_ref: .octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/closure-certificate.yml
+  harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/harness-card.yml
+  closure_certificate_ref: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-certificate.yml
 historical_releases:
+  - release_id: 2026-04-05-uec-proposal-packet-completion
+    status: superseded
+    superseded_by: 2026-04-06-target-state-closure-provable-closure
+    reason: Proposal-packet completion release was superseded by packet-era provable closure with generated support dossiers, v3 run contracts, and full closure bundle artifacts.
+    harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/harness-card.yml
   - release_id: 2026-04-04-uec-global-completion
     status: superseded
     superseded_by: 2026-04-05-uec-proposal-packet-completion

@@ -1,2 +1,24 @@
-updated_at: "2026-04-05T12:52:27Z"
-artifacts: []
+schema_version: octon-evidence-classification-v2
+run_id: uec-safe-stage-approval-exercise-20260402
+generated_at: "2026-04-06T15:03:21Z"
+class_a:
+  - .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-approval-exercise-20260402.yml
+  - .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-approval-exercise-20260402.yml
+  - .octon/state/control/execution/approvals/requests/uec-safe-stage-approval-exercise-20260402.yml
+  - .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-approval-exercise-20260402.yml
+class_b:
+  - .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-manifest.yml
+  - .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/retained-run-evidence.yml
+  - .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/measurements/summary.yml
+  - .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/interventions/log.yml
+  - .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay/manifest.yml
+  - .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
+class_c:
+  - immutable://octon/replays/uec-safe-stage-approval-exercise-20260402/bundle.jsonl
+  - immutable://octon/replays/uec-safe-stage-approval-exercise-20260402/trace.jsonl
+coverage_status: complete
+retention_policy_ref: .octon/instance/governance/contracts/disclosure-retention.yml
+external_index_ref: .octon/state/evidence/external-index/runs/uec-safe-stage-approval-exercise-20260402.yml
+missing_artifacts: []
+notes: []
+

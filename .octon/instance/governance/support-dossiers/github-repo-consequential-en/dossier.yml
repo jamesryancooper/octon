@@ -1,0 +1,30 @@
+schema_version: support-dossier-v1
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+status: stage_only
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+admitted_host_adapters:
+  - github-control-plane
+admitted_model_adapters:
+  - repo-local-governed
+admitted_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - api
+required_proof_planes:
+  - governance
+  - maintainability
+required_lab_scenarios:
+  - projection-receipt-baseline
+representative_retained_runs:
+  - .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
+known_exclusions:
+  - excluded-from-live-claim-until-projection-regeneration-proof-is-closed
+recertification_cadence: quarterly
+support_admission_ref: .octon/instance/governance/support-target-admissions/github-repo-consequential-en.yml
+

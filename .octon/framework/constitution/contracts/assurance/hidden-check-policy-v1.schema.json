@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/hidden-check-policy-v1.schema.json",
+  "title": "Octon Hidden Check Policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "aggregate_disclosure_required",
+    "hidden_checks_may_be_only_proof_plane",
+    "sealed_assertion_details_allowed",
+    "required_policy_level_outputs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "hidden-check-policy-v1"
+    },
+    "status": {
+      "type": "string"
+    },
+    "aggregate_disclosure_required": {
+      "type": "boolean"
+    },
+    "hidden_checks_may_be_only_proof_plane": {
+      "type": "boolean"
+    },
+    "sealed_assertion_details_allowed": {
+      "type": "boolean"
+    },
+    "required_policy_level_outputs": {
+      "type": "array"
+    }
+  }
+}
+

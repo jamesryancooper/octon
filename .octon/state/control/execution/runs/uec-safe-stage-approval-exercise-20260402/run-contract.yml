@@ -1,4 +1,4 @@
-schema_version: run-contract-v2
+schema_version: run-contract-v3
 run_id: uec-safe-stage-approval-exercise-20260402
 status: closed
 workflow_mode: agent-augmented
@@ -66,7 +66,7 @@ required_evidence:
 - approval-grant
 - replay-pointers
 - trace-pointers
-- run-evidence-classification-v1
+- run-evidence-classification-v2
 start_conditions:
 - Canonical authority artifacts exist for the mission-backed safe-stage governance exercise.
 - Mission `mission-autonomy-live-validation` remains active for consequential autonomy.
@@ -87,6 +87,8 @@ host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
 model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
 external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-safe-stage-approval-exercise-20260402.yml
 control_checkpoint_root: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/checkpoints
+checkpoint_root: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/checkpoints
+continuity_root_ref: .octon/state/continuity/runs/uec-safe-stage-approval-exercise-20260402/handoff.yml
 runtime_state_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/runtime-state.yml
 rollback_posture_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/rollback-posture.yml
 evidence_root: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402

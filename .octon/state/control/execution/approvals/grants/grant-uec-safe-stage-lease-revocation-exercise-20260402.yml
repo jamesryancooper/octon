@@ -6,7 +6,7 @@ state: "active"
 issued_by: "operator://octon-governance"
 issued_at: "2026-04-03T02:23:12Z"
 expires_at: null
-quorum_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
+quorum_policy_ref: ".octon/instance/governance/contracts/quorum-policies/default.yml"
 projection_sources:
   []
 review_metadata: {}

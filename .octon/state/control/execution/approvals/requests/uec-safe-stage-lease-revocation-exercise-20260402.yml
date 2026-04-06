@@ -6,7 +6,7 @@ target_id: "governance:safe-stage-lease-revocation-exercise"
 action_type: "execute_stage"
 workflow_mode: "agent-augmented"
 support_tier: "repo-consequential"
-quorum_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#quorum"
+quorum_policy_ref: ".octon/instance/governance/contracts/quorum-policies/default.yml"
 ownership_refs:
   - "operator://octon-maintainers"
 reversibility_class: null

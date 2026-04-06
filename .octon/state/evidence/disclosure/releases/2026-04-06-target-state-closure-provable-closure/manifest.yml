@@ -1,0 +1,32 @@
+schema_version: octon-release-bundle-manifest-v1
+release_id: 2026-04-06-target-state-closure-provable-closure
+generated_at: "2026-04-06T15:28:40Z"
+generator_versions:
+  release_bundle: 1
+  harness_card: 1
+  closure_bundle: 1
+validator_versions:
+  evidence_classification: 1
+  cross_artifact: 1
+  wording: 1
+authored_input_digests:
+  charter: sha256:7d543b25c85ee6bb63db7ba9d39dfd3cf4d7aa7554bafd1715f3fc915f409298
+  support_targets: sha256:ed0b99686b1f46bffdc40b2562f3ff3066f6637f75a1feee6aa69ec285ad05cd
+  workspace_charter: sha256:c872d8dd569ac5b354e884fe715b9f79886ede9d241fbfb8381fc2d4530e2607
+proof_bundle_runs:
+  - run://uec-global-ci-observe-read-20260404
+  - run://uec-global-frontier-browser-api-studio-20260404
+  - run://uec-global-github-repo-consequential-20260404
+  - run://uec-global-repo-shell-observe-read-20260404
+  - run://uec-safe-stage-approval-exercise-20260402
+  - run://uec-safe-stage-lease-revocation-exercise-20260402
+bundle_contents:
+  - harness-card.yml
+  - closure/gate-status.yml
+  - closure/closure-summary.yml
+  - closure/closure-certificate.yml
+  - closure/support-universe-coverage.yml
+  - closure/proof-plane-coverage.yml
+  - closure/cross-artifact-consistency.yml
+  - closure/claim-drift-report.yml
+  - closure/projection-parity-report.yml

@@ -1,0 +1,10 @@
+schema_version: hidden-check-policy-v1
+status: active
+aggregate_disclosure_required: true
+hidden_checks_may_be_only_proof_plane: false
+sealed_assertion_details_allowed: true
+required_policy_level_outputs:
+  - coverage-count
+  - scenario-pack-identity
+  - release-level-disclosure
+

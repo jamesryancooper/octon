@@ -1,0 +1,39 @@
+schema_version: proof-plane-coverage-v1
+release_id: 2026-04-06-target-state-closure-provable-closure
+generated_at: "2026-04-06T15:28:40Z"
+tuples:
+  - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
+    required_proof_planes:
+      - governance
+      - maintainability
+  - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+    required_proof_planes:
+      - behavioral
+      - governance
+      - recovery
+  - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+    required_proof_planes:
+      - governance
+      - maintainability
+  - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+    required_proof_planes:
+      - structural
+      - functional
+      - behavioral
+      - governance
+      - maintainability
+      - recovery
+  - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+    required_proof_planes:
+      - structural
+      - functional
+      - governance
+      - maintainability
+  - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+    required_proof_planes:
+      - structural
+      - functional
+      - behavioral
+      - governance
+      - maintainability
+      - recovery

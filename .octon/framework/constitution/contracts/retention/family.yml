@@ -8,6 +8,7 @@ profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrati
 activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase3-runtime-evidence-normalization/plan.md"
   - ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
+  - ".octon/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md"
 retention_model:
   run_continuity_root: ".octon/state/continuity/runs"
   run_evidence_root: ".octon/state/evidence/runs"
@@ -36,7 +37,7 @@ storage_classes:
     description: "Canonical evidence stores a content-addressed pointer to immutable payloads outside the Git tree."
 schemas:
   evidence_retention_contract: ".octon/framework/constitution/contracts/retention/evidence-retention-contract-v1.schema.json"
-  evidence_classification: ".octon/framework/constitution/contracts/retention/evidence-classification-v1.schema.json"
+  evidence_classification: ".octon/framework/constitution/contracts/retention/evidence-classification-v2.schema.json"
   external_replay_index: ".octon/framework/constitution/contracts/retention/external-replay-index-v1.schema.json"
   replay_storage_class: ".octon/framework/constitution/contracts/retention/replay-storage-class-v1.schema.json"
 rules:

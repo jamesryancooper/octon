@@ -32,7 +32,7 @@ support_tier:
   - MODEL-004
   support_status: supported
   route: deny
-  requires_mission: false
+  requires_mission: true
   required_evidence:
   - authority-decision-artifact
   - authority-grant-bundle
@@ -52,7 +52,7 @@ reversibility:
 budget:
   route: not-applicable
 egress:
-  artifact_ref: .octon/state/control/execution/exceptions/leases.yml#lease-uec-safe-stage-lease-revocation-exercise-20260402
+  artifact_ref: .octon/state/control/execution/exceptions/leases/lease-uec-safe-stage-lease-revocation-exercise-20260402.yml
   matched_rule_id: null
   route: deny
   source_kind: exception-lease
@@ -61,7 +61,7 @@ approval_request_ref: .octon/state/control/execution/approvals/requests/uec-safe
 approval_grant_refs:
 - .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-lease-revocation-exercise-20260402.yml
 exception_refs:
-- .octon/state/control/execution/exceptions/leases.yml#lease-uec-safe-stage-lease-revocation-exercise-20260402
+- .octon/state/control/execution/exceptions/leases/lease-uec-safe-stage-lease-revocation-exercise-20260402.yml
 revocation_refs:
-- .octon/state/control/execution/revocations/grants.yml#revoke-uec-safe-stage-lease-revocation-exercise-20260402
+- .octon/state/control/execution/revocations/revoke-uec-safe-stage-lease-revocation-exercise-20260402.yml
 generated_at: '2026-04-02T00:00:00Z'

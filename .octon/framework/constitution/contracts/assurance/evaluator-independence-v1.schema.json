@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/evaluator-independence-v1.schema.json",
+  "title": "Octon Evaluator Independence v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "same-generator-and-acceptance-model_allowed",
+    "independent_evaluator_required_per_live_tuple",
+    "human_intervention_must_be_disclosed",
+    "required_outputs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "evaluator-independence-policy-v1"
+    },
+    "status": {
+      "type": "string"
+    },
+    "same-generator-and-acceptance-model_allowed": {
+      "type": "boolean"
+    },
+    "independent_evaluator_required_per_live_tuple": {
+      "type": "boolean"
+    },
+    "human_intervention_must_be_disclosed": {
+      "type": "boolean"
+    },
+    "required_outputs": {
+      "type": "array"
+    }
+  }
+}
+

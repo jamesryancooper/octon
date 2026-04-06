@@ -1,0 +1,32 @@
+schema_version: support-dossier-v1
+tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+status: stage_only
+tuple:
+  model_tier: frontier-governed
+  workload_tier: boundary-sensitive
+  language_resource_tier: extended-governed
+  locale_tier: spanish-secondary
+admitted_host_adapters:
+  - studio-control-plane
+admitted_model_adapters:
+  - frontier-governed
+admitted_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - browser
+  - api
+required_proof_planes:
+  - behavioral
+  - governance
+  - recovery
+required_lab_scenarios:
+  - adversarial-baseline
+  - recovery-fault-baseline
+representative_retained_runs:
+  - .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
+known_exclusions:
+  - excluded-from-live-claim-until-pack-admission-and-locale-proof-close
+recertification_cadence: quarterly
+support_admission_ref: .octon/instance/governance/support-target-admissions/frontier-studio-boundary-sensitive-es.yml

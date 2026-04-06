@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/disclosure/projection-parity-report-v1.schema.json",
+  "title": "Octon Projection Parity Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release_id",
+    "generated_at",
+    "status",
+    "comparisons"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-projection-parity-report-v1"
+    },
+    "release_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail"
+      ]
+    },
+    "comparisons": {
+      "type": "array"
+    }
+  }
+}
+

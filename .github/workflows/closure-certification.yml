@@ -1,0 +1,81 @@
+name: Closure Certification
+
+on:
+  pull_request:
+    paths:
+      - ".octon/framework/constitution/contracts/**"
+      - ".octon/instance/charter/**"
+      - ".octon/instance/orchestration/missions/**"
+      - ".octon/instance/governance/**"
+      - ".octon/state/control/execution/**"
+      - ".octon/state/evidence/**"
+      - ".octon/framework/lab/**"
+      - ".octon/framework/assurance/runtime/_ops/scripts/**"
+      - ".github/workflows/closure-certification.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - ".octon/framework/constitution/contracts/**"
+      - ".octon/instance/charter/**"
+      - ".octon/instance/orchestration/missions/**"
+      - ".octon/instance/governance/**"
+      - ".octon/state/control/execution/**"
+      - ".octon/state/evidence/**"
+      - ".octon/framework/lab/**"
+      - ".octon/framework/assurance/runtime/_ops/scripts/**"
+      - ".github/workflows/closure-certification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+
+      - name: Install jq and yq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Pass 1
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/generate-release-bundle.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/generate-closure-projections.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-single-canonical-run-contract-family.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-charter-bindings.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-stage-attempt-family.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-bundle-completeness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-classification-schema.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-classification-nonempty.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-cross-artifact-support-tuple-consistency.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-cross-artifact-capability-pack-consistency.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-cross-artifact-route-consistency.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-quorum-policy-bindings.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-projection-non-authority.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-approval-grant-lease-revocation-linkage.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-proof-plane-completeness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-evaluator-independence.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-lab-hidden-check-coverage.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-adversarial-scenario-coverage.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-intervention-disclosure-completeness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-disclosure-wording-coherence.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-release-bundle-freshness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-projection-byte-parity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-claim-truth-boundary.sh
+          git diff --exit-code -- .octon/state/evidence/disclosure/releases .octon/instance/governance/disclosure/harness-card.yml .octon/instance/governance/closure
+
+      - name: Pass 2
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/generate-release-bundle.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/generate-closure-projections.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-release-bundle-freshness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-projection-byte-parity.sh
+          git diff --exit-code -- .octon/state/evidence/disclosure/releases .octon/instance/governance/disclosure/harness-card.yml .octon/instance/governance/closure

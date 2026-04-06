@@ -10,6 +10,7 @@ DISCLOSURE_FAMILY="$OCTON_DIR/framework/constitution/contracts/disclosure/family
 AUTHORED_CARD="$OCTON_DIR/instance/governance/disclosure/harness-card.yml"
 RELEASE_LINEAGE="$OCTON_DIR/instance/governance/disclosure/release-lineage.yml"
 ACTIVE_RELEASE_CARD="$ROOT_DIR/$(yq -r '.active_release.harness_card_ref' "$RELEASE_LINEAGE")"
+ACTIVE_RELEASE_ID="$(yq -r '.active_release.release_id' "$RELEASE_LINEAGE")"
 
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
@@ -25,7 +26,7 @@ main() {
   require_yq '.support_target_ref == ".octon/instance/governance/support-targets.yml"' "$AUTHORED_CARD" "authored HarnessCard cites support-target declaration"
   require_yq '.governance_exclusions_ref == ".octon/instance/governance/exclusions/action-classes.yml"' "$AUTHORED_CARD" "authored HarnessCard cites governance exclusions"
   require_yq '.claim_summary == load("'"$AUTHORED_CARD"'").claim_summary' "$ACTIVE_RELEASE_CARD" "active release HarnessCard matches authored disclosure"
-  require_yq '.active_release.release_id == "2026-04-05-uec-proposal-packet-completion"' "$RELEASE_LINEAGE" "release-lineage marks the bounded release active"
+  require_yq ".active_release.release_id == \"$ACTIVE_RELEASE_ID\"" "$RELEASE_LINEAGE" "release-lineage marks the bounded release active"
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]

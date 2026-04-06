@@ -1,0 +1,11 @@
+schema_version: closure-certificate-v2
+release_id: 2026-04-06-target-state-closure-provable-closure
+generated_at: "2026-04-06T15:28:40Z"
+status: certified
+proof_bundle_refs:
+  - .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/gate-status.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-summary.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/support-universe-coverage.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/proof-plane-coverage.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/cross-artifact-consistency.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/claim-drift-report.yml

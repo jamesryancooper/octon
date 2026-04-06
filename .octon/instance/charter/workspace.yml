@@ -37,8 +37,8 @@ tradeoff_hierarchy:
 execution_binding:
   workspace_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
   run_contract_control_root: ".octon/state/control/execution/runs"
-  run_contract_schema_ref: ".octon/framework/constitution/contracts/runtime/run-contract-v2.schema.json"
-  stage_attempt_schema_ref: ".octon/framework/constitution/contracts/objective/stage-attempt-v1.schema.json"
+  run_contract_schema_ref: ".octon/framework/constitution/contracts/runtime/run-contract-v3.schema.json"
+  stage_attempt_schema_ref: ".octon/framework/constitution/contracts/runtime/stage-attempt-v2.schema.json"
   mission_authority_root: ".octon/instance/orchestration/missions"
   support_target_ref: ".octon/instance/governance/support-targets.yml"
   governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"

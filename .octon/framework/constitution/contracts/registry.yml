@@ -188,6 +188,7 @@ integration_surfaces:
     - ".octon/instance/governance/ownership/registry.yml"
     - ".octon/instance/governance/support-targets.yml"
     - ".octon/instance/governance/support-target-admissions/**"
+    - ".octon/instance/governance/support-dossiers/**"
     - ".octon/instance/capabilities/runtime/packs/admissions/**"
   runtime_adapter_roots:
     host: ".octon/framework/engine/runtime/adapters/host/**"

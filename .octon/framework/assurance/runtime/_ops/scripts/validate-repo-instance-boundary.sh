@@ -111,6 +111,8 @@ check_overlay_domain_shape() {
       ! -path "$INSTANCE_DIR/governance/support-targets.yml" \
       ! -path "$INSTANCE_DIR/governance/support-target-admissions" \
       ! -path "$INSTANCE_DIR/governance/support-target-admissions/*" \
+      ! -path "$INSTANCE_DIR/governance/support-dossiers" \
+      ! -path "$INSTANCE_DIR/governance/support-dossiers/*" \
       -print | sort || true)"
     if [[ -n "$stray_paths" ]]; then
       fail "ad hoc governance overlay content exists outside ratified roots"
