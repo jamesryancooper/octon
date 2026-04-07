@@ -6,6 +6,7 @@ enabled_overlay_points:
   - "instance-governance-contracts"
   - "instance-governance-exclusions"
   - "instance-governance-adoption"
+  - "instance-governance-retirement"
   - "instance-agency-runtime"
   - "instance-assurance-runtime"
 locality:

@@ -123,7 +123,7 @@ Your packet must be:
 
 For every major design decision, include:
 
-- target-state subsystem(s) and exact repo path(s) affected
+- target-state subsystems and exact repo paths affected
 - relation to current repo baseline
 - judgment category: preserve / harden / normalize / re-bound / simplify / delete / postpone
 - why that choice is correct

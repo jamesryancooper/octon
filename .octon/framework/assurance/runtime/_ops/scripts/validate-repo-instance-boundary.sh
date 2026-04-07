@@ -106,6 +106,8 @@ check_overlay_domain_shape() {
       ! -path "$INSTANCE_DIR/governance/disclosure/*" \
       ! -path "$INSTANCE_DIR/governance/adoption" \
       ! -path "$INSTANCE_DIR/governance/adoption/*" \
+      ! -path "$INSTANCE_DIR/governance/retirement" \
+      ! -path "$INSTANCE_DIR/governance/retirement/*" \
       ! -path "$INSTANCE_DIR/governance/ownership" \
       ! -path "$INSTANCE_DIR/governance/ownership/*" \
       ! -path "$INSTANCE_DIR/governance/support-targets.yml" \

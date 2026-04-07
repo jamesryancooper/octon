@@ -24,6 +24,14 @@ overlay_points:
     precedence: 25
     artifact_kinds:
       - "playbook"
+  - overlay_point_id: "instance-governance-retirement"
+    owning_domain: "governance"
+    instance_glob: ".octon/instance/governance/retirement/**"
+    merge_mode: "replace_by_path"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-overlay-points.sh"
+    precedence: 26
+    artifact_kinds:
+      - "contract"
   - overlay_point_id: "instance-governance-exclusions"
     owning_domain: "governance"
     instance_glob: ".octon/instance/governance/exclusions/**"
