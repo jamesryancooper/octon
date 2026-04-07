@@ -19,6 +19,9 @@ green_gates:
   - G11
   - G12
   - G13
+  - G14
+  - G15
+blocked_by:
 notes:
   - Stable mirrors are generated from the active release bundle only.
   - Stage-only surfaces remain explicit and excluded from the live claim.

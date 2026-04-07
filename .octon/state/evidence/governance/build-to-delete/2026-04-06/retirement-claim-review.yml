@@ -1,0 +1,60 @@
+schema_version: "governance-retirement-claim-review-v1"
+review_id: "retirement-claim-readiness-2026-04-06"
+owner: "Octon governance"
+reviewed_at: "2026-04-06T15:28:40Z"
+gate_ref: ".octon/instance/governance/retirement/claim-gate.yml"
+registry_ref: ".octon/instance/governance/contracts/retirement-registry.yml"
+review_packet_ref: ".octon/state/evidence/validation/publication/build-to-delete/2026-04-06"
+summary: >-
+  All non-retired build-to-delete targets remain owner-backed, review-dated,
+  explicitly non-authoritative, and evaluated in the current ablation packet.
+  None are overdue or claim-blocking as of 2026-04-06.
+claim_ready: true
+claim_blocking_count: 0
+entries:
+  - target_id: "ingress-projection-adapters"
+    status: "permanent-projection"
+    claim_blocking: false
+    review_date: "2026-06-30"
+    rationale: "Compatibility adapters remain explicit projections and are not overdue."
+  - target_id: "workspace-objective-compatibility-shims"
+    status: "retained-noncritical"
+    claim_blocking: false
+    review_date: "2026-06-29"
+    rationale: "Bootstrap compatibility shims remain bounded, explicit, and scheduled for review."
+  - target_id: "duplicate-constitutional-shims"
+    status: "historical-retained-noncritical"
+    claim_blocking: false
+    review_date: "2026-06-29"
+    rationale: "Historical and subordinate shims remain outside the kernel path and are review-scheduled."
+  - target_id: "legacy-per-run-decision-lineage"
+    status: "historical-retained-noncritical"
+    claim_blocking: false
+    review_date: "2026-06-29"
+    rationale: "Historical decision lineage remains retained only for audit continuity."
+  - target_id: "helper-authored-run-projections"
+    status: "retained-noncritical"
+    claim_blocking: false
+    review_date: "2026-06-29"
+    rationale: "Helper projections remain explicitly bounded and are backed by an ablation path."
+  - target_id: "run-local-disclosure-mirrors"
+    status: "historical-retained-noncritical"
+    claim_blocking: false
+    review_date: "2026-06-30"
+    rationale: "Run-local disclosure mirrors remain historical and non-canonical."
+  - target_id: "lab-local-harness-card-mirrors"
+    status: "historical-retained-noncritical"
+    claim_blocking: false
+    review_date: "2026-06-30"
+    rationale: "Lab-local HarnessCard mirrors remain historical and non-canonical."
+  - target_id: "superseded-release-disclosure-bundles"
+    status: "historical-retained-noncritical"
+    claim_blocking: false
+    review_date: "2026-06-30"
+    rationale: "Superseded release bundles remain retained evidence, not the live claim."
+evidence_refs:
+  - ".octon/instance/governance/retirement/claim-gate.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"
+  - ".octon/instance/governance/contracts/closeout-reviews.yml"
+  - ".octon/state/evidence/validation/publication/build-to-delete/2026-04-06/retirement-review.yml"
+  - ".octon/state/evidence/validation/publication/build-to-delete/2026-04-06/ablation-deletion-receipt.yml"

@@ -1,0 +1,42 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-completion"
+title: "Octon Completion Proposal Pack"
+summary: >-
+  Repository-grounded completion architecture packet that defines the
+  evidence-gated work required for Octon to honestly claim a bounded fully
+  unified execution constitution.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/constitution/"
+  - ".octon/framework/engine/runtime/"
+  - ".octon/framework/agency/"
+  - ".octon/framework/assurance/"
+  - ".octon/framework/lab/"
+  - ".octon/framework/observability/"
+  - ".octon/instance/charter/"
+  - ".octon/instance/governance/"
+  - ".octon/instance/orchestration/missions/"
+  - ".octon/state/control/execution/"
+  - ".octon/state/evidence/"
+  - ".octon/generated/effective/"
+status: "archived"
+archive:
+  archived_at: "2026-04-06"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-completion"
+  promotion_evidence:
+    - ".octon/state/evidence/migration/2026-04-06-target-state-closure-provable-closure/evidence.md"
+    - ".octon/state/evidence/migration/2026-04-06-target-state-closure-provable-closure/validation.md"
+    - ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-certificate.yml"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the accepted completion architecture into durable .octon
+    authority, runtime, evidence, and generated surfaces, then archive this
+    package once the promoted work stands on its own outside the proposal path
+    and the resulting validation evidence is retained under state/evidence/**.
+related_proposals:
+  - "execution-constitution-completion-closeout"
+  - "target-state-closure"

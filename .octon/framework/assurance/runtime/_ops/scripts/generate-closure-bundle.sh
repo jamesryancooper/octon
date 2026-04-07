@@ -8,6 +8,7 @@ bash "$SCRIPT_DIR/generate-support-universe-coverage.sh" "$release_id"
 bash "$SCRIPT_DIR/generate-proof-plane-coverage-report.sh" "$release_id"
 bash "$SCRIPT_DIR/generate-cross-artifact-consistency-report.sh" "$release_id"
 bash "$SCRIPT_DIR/generate-claim-drift-report.sh" "$release_id"
+bash "$SCRIPT_DIR/generate-recertification-status.sh" "$release_id"
 gate_status="$out_root/gate-status.yml"
 summary="$out_root/closure-summary.yml"
 certificate="$out_root/closure-certificate.yml"
@@ -31,7 +32,9 @@ gate_failures=0
     "G10:proof-plane-completeness:validate-proof-plane-completeness.sh" \
     "G11:wording-coherence:validate-disclosure-wording-coherence.sh" \
     "G12:legacy-active-path:validate-no-legacy-active-path.sh" \
-    "G13:retirement-and-drift:validate-retirement-registry.sh"; do
+    "G13:retirement-and-drift:validate-retirement-registry.sh" \
+    "G14:claim-truth-boundary:validate-claim-truth-boundary.sh" \
+    "G15:recertification-discipline:validate-recertification-status.sh"; do
     gate_id="${pair%%:*}"
     rest="${pair#*:}"
     title="${rest%%:*}"
@@ -53,9 +56,14 @@ gate_failures=0
   echo "preclaim_blockers_open: $gate_failures"
   echo "green_gates:"
   yq -r '.gates[] | select(.status == "green") | .gate_id' "$gate_status" | sed 's/^/  - /'
+  echo "blocked_by:"
+  yq -r '.gates[] | select(.status != "green") | .gate_id' "$gate_status" | sed 's/^/  - /'
   echo "notes:"
   echo "  - Stable mirrors are generated from the active release bundle only."
   echo "  - Stage-only surfaces remain explicit and excluded from the live claim."
+  if [[ $gate_failures -gt 0 ]]; then
+    echo "  - Final bounded completion remains blocked until every red gate closes."
+  fi
 } >"$summary"
 {
   echo "schema_version: closure-certificate-v2"
@@ -65,8 +73,11 @@ gate_failures=0
   echo "proof_bundle_refs:"
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/gate-status.yml"
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/closure-summary.yml"
+  echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/recertification-status.yml"
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/support-universe-coverage.yml"
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/proof-plane-coverage.yml"
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/cross-artifact-consistency.yml"
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/claim-drift-report.yml"
+  echo "certification_mode: equally-strong-recertification-rule"
+  echo "recertification_status_ref: .octon/state/evidence/disclosure/releases/$release_id/closure/recertification-status.yml"
 } >"$certificate"

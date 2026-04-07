@@ -14,9 +14,6 @@ authored_input_digests:
   support_targets: sha256:ed0b99686b1f46bffdc40b2562f3ff3066f6637f75a1feee6aa69ec285ad05cd
   workspace_charter: sha256:c872d8dd569ac5b354e884fe715b9f79886ede9d241fbfb8381fc2d4530e2607
 proof_bundle_runs:
-  - run://uec-global-ci-observe-read-20260404
-  - run://uec-global-frontier-browser-api-studio-20260404
-  - run://uec-global-github-repo-consequential-20260404
   - run://uec-global-repo-shell-observe-read-20260404
   - run://uec-safe-stage-approval-exercise-20260402
   - run://uec-safe-stage-lease-revocation-exercise-20260402
@@ -25,6 +22,7 @@ bundle_contents:
   - closure/gate-status.yml
   - closure/closure-summary.yml
   - closure/closure-certificate.yml
+  - closure/recertification-status.yml
   - closure/support-universe-coverage.yml
   - closure/proof-plane-coverage.yml
   - closure/cross-artifact-consistency.yml

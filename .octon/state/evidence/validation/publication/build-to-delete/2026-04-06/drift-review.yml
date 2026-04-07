@@ -1,0 +1,19 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "drift-review"
+contract_ref: ".octon/instance/governance/contracts/drift-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-04-06T15:28:40Z"
+triggered_by:
+  - "Closure truth-freeze and retirement-claim readiness"
+  - "Preclaim blocker review before bounded completion evaluation"
+summary: >-
+  Historical and compatibility-only surfaces remain explicitly registered and
+  non-authoritative, and no reviewed retained surface re-enters the live
+  execution path.
+findings: []
+evidence_refs:
+  - ".octon/instance/ingress/AGENTS.md"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"
+  - ".octon/instance/governance/retirement/claim-gate.yml"

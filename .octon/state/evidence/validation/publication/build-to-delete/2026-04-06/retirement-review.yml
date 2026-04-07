@@ -1,0 +1,25 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "retirement-review"
+contract_ref: ".octon/instance/governance/contracts/retirement-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-04-06T15:28:40Z"
+triggered_by:
+  - "Closure truth-freeze and retirement-claim readiness"
+  - "Preclaim build-to-delete packet refresh"
+summary: >-
+  Every non-retired build-to-delete target is owner-backed, review-dated,
+  evaluated in the current ablation packet, and non-authoritative for the
+  live kernel path.
+counts:
+  permanent_projection: 1
+  retained_noncritical: 2
+  historical_retained_noncritical: 5
+  retired: 2
+findings: []
+evidence_refs:
+  - ".octon/instance/governance/contracts/retirement-policy.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"
+  - ".octon/instance/governance/retirement/claim-gate.yml"
+  - ".octon/state/evidence/governance/build-to-delete/2026-04-06/retirement-claim-review.yml"
+  - ".octon/state/evidence/validation/publication/build-to-delete/2026-04-06/ablation-deletion-receipt.yml"

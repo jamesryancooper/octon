@@ -12,3 +12,6 @@ comparisons:
   - source: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-summary.yml
     target: .octon/instance/governance/closure/closure-summary.yml
     status: pass
+  - source: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/recertification-status.yml
+    target: .octon/generated/effective/closure/recertification-status.yml
+    status: pass

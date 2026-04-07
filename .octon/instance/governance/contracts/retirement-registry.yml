@@ -1,8 +1,8 @@
 schema_version: "repo-retirement-registry-v1"
 registry_id: "execution-constitution-build-to-delete"
 owner: "Octon governance"
-status: "closed"
-default_review_cadence: "post-bounded-claim audit only"
+status: "active"
+default_review_cadence: "quarterly and before any bounded completion claim"
 review_set_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
 ablation_workflow_ref: ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
 entries:

@@ -143,8 +143,8 @@ main() {
   require_yq '.required_reviews[] | select(.review_id == "retirement-review" and .contract_ref == ".octon/instance/governance/contracts/retirement-review.yml")' "$CLOSEOUT_REVIEWS_CONTRACT" "closeout reviews require retirement review"
   require_yq '.required_workflows[] | select(.workflow_id == "ablation-driven-deletion" and .contract_ref == ".octon/instance/governance/contracts/ablation-deletion-workflow.yml")' "$CLOSEOUT_REVIEWS_CONTRACT" "closeout reviews require ablation workflow"
 
-  require_yq '.entries[] | select(.target_id == "workspace-objective-compatibility-shims" and .status == "registered")' "$RETIREMENT_REGISTRY" "retirement registry tracks workspace-objective compatibility shims"
-  require_yq '.entries[] | select(.target_id == "duplicate-constitutional-shims" and .status == "historical-retained")' "$RETIREMENT_REGISTRY" "retirement registry tracks duplicate constitutional shims"
+  require_yq '.entries[] | select(.target_id == "workspace-objective-compatibility-shims" and .status == "retained-noncritical")' "$RETIREMENT_REGISTRY" "retirement registry tracks workspace-objective compatibility shims"
+  require_yq '.entries[] | select(.target_id == "duplicate-constitutional-shims" and .status == "historical-retained-noncritical")' "$RETIREMENT_REGISTRY" "retirement registry tracks duplicate constitutional shims"
   require_yq '.entries[] | select(.target_id == "runtime-agent-soul-overlays" and .status == "retired")' "$RETIREMENT_REGISTRY" "retirement registry records retired SOUL overlays"
   require_yq '.entries[] | select(.target_id == "label-native-authority-lane-projections" and .status == "retired")' "$RETIREMENT_REGISTRY" "retirement registry records retired label projections"
 

@@ -1,8 +1,9 @@
-schema_version: claim-truth-conditions-v1
+schema_version: claim-truth-conditions-v2
 claim_id: unified-execution-constitution
 claim_phrase: fully unified execution constitution
 authoritative_kernel_ref: ".octon/framework/constitution/contracts/registry.yml"
-status_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
+status_ref: ".octon/generated/effective/closure/claim-status.yml"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-06-closure-truth-freeze/plan.md"
 conditions:
   - id: TC-01
     title: constitutional-singularity
@@ -14,7 +15,7 @@ conditions:
   - id: TC-02
     title: objective-hierarchy
     required: true
-    evidence_ref: ".octon/instance/governance/closure/phase-status.yml"
+    evidence_ref: ".octon/generated/effective/closure/claim-status.yml"
     invalidated_by:
       - mission-binding-policy-change
       - run-contract-family-change
@@ -28,48 +29,48 @@ conditions:
   - id: TC-04
     title: canonical-authority
     required: true
-    evidence_ref: ".octon/instance/governance/closure/gate-status.yml"
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/cross-artifact-consistency.yml"
     invalidated_by:
       - authority-family-change
       - host-only-approval-detected
   - id: TC-05
     title: durable-run-semantics
     required: true
-    evidence_ref: ".octon/instance/governance/closure/gate-status.yml"
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/cross-artifact-consistency.yml"
     invalidated_by:
       - consequential-run-missing-bundle
       - checkpoint-or-ledger-regression
   - id: TC-06
     title: classed-evidence
     required: true
-    evidence_ref: ".octon/instance/governance/closure/gate-status.yml"
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/cross-artifact-consistency.yml"
     invalidated_by:
       - empty-evidence-classification
       - external-index-digest-regression
   - id: TC-07
     title: complete-proof
     required: true
-    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-05-uec-proposal-packet-completion/closure/proof-plane-coverage.yml"
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/proof-plane-coverage.yml"
     invalidated_by:
       - proof-plane-failure
       - evaluator-independence-regression
   - id: TC-08
     title: claim-calibrated-disclosure
     required: true
-    evidence_ref: ".octon/instance/governance/disclosure/harness-card.yml"
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/harness-card.yml"
     invalidated_by:
       - authored-claim-outstates-ledgers
       - support-universe-drift
   - id: TC-09
     title: closure-certification
     required: true
-    evidence_ref: ".octon/instance/governance/closure/closure-summary.yml"
+    evidence_ref: ".octon/generated/effective/closure/claim-status.yml"
     invalidated_by:
       - preclaim-blocker-open
       - gate-red
   - id: TC-10
     title: recertification-discipline
     required: true
-    evidence_ref: ".octon/instance/governance/closure/recertification-trigger-log.yml"
+    evidence_ref: ".octon/generated/effective/closure/recertification-status.yml"
     invalidated_by:
       - material-trigger-without-recertification

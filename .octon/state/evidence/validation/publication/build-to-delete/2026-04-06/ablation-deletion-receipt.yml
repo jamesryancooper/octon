@@ -1,0 +1,123 @@
+schema_version: "ablation-deletion-receipt-v1"
+workflow_id: "ablation-driven-deletion"
+contract_ref: ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
+owner: "Octon governance"
+status: "completed"
+executed_at: "2026-04-06T15:28:40Z"
+targets_evaluated:
+  - target_id: "ingress-projection-adapters"
+    decision: "retain"
+    status_after_review: "permanent-projection"
+    regression_result: "none"
+    next_review_date: "2026-06-30"
+    rationale: "Supported ingress adapters are still required for bounded compatibility and remain explicitly projection-only."
+    evidence_refs:
+      - ".octon/instance/governance/contracts/retirement-registry.yml"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
+  - target_id: "workspace-objective-compatibility-shims"
+    decision: "retain"
+    status_after_review: "retained-noncritical"
+    regression_result: "none"
+    next_review_date: "2026-06-29"
+    rationale: "Legacy workspace-objective readers still depend on the bounded compatibility shims."
+    evidence_refs:
+      - ".octon/instance/governance/contracts/retirement-registry.yml"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"
+  - target_id: "duplicate-constitutional-shims"
+    decision: "retain"
+    status_after_review: "historical-retained-noncritical"
+    regression_result: "none"
+    next_review_date: "2026-06-29"
+    rationale: "Historical and subordinate constitutional shims remain out of the ingress path and are retained only for lineage and local weighting."
+    evidence_refs:
+      - ".octon/instance/governance/contracts/retirement-registry.yml"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+  - target_id: "legacy-per-run-decision-lineage"
+    decision: "retain"
+    status_after_review: "historical-retained-noncritical"
+    regression_result: "none"
+    next_review_date: "2026-06-29"
+    rationale: "Historical decision lineage remains retained only for audit continuity and does not sit in the canonical authority path."
+    evidence_refs:
+      - ".octon/instance/governance/contracts/retirement-registry.yml"
+    ablation_suite:
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh"
+  - target_id: "helper-authored-run-projections"
+    decision: "retain"
+    status_after_review: "retained-noncritical"
+    regression_result: "none"
+    next_review_date: "2026-06-29"
+    rationale: "Helper projections remain bounded compatibility surfaces while canonical runtime writers continue to converge."
+    evidence_refs:
+      - ".octon/instance/governance/contracts/retirement-registry.yml"
+    ablation_suite:
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh"
+      - ".octon/framework/orchestration/runtime/runs/_ops/scripts/validate-runs.sh"
+  - target_id: "run-local-disclosure-mirrors"
+    decision: "retain"
+    status_after_review: "historical-retained-noncritical"
+    regression_result: "none"
+    next_review_date: "2026-06-30"
+    rationale: "Run-local disclosure mirrors remain historical only and are no longer canonical disclosure roots."
+    evidence_refs:
+      - ".octon/instance/governance/contracts/retirement-registry.yml"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
+      - ".octon/framework/orchestration/runtime/runs/_ops/scripts/validate-runs.sh"
+  - target_id: "lab-local-harness-card-mirrors"
+    decision: "retain"
+    status_after_review: "historical-retained-noncritical"
+    regression_result: "none"
+    next_review_date: "2026-06-30"
+    rationale: "Lab-local HarnessCard mirrors remain historical only and are not part of the live disclosure path."
+    evidence_refs:
+      - ".octon/instance/governance/contracts/retirement-registry.yml"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
+  - target_id: "superseded-release-disclosure-bundles"
+    decision: "retain"
+    status_after_review: "historical-retained-noncritical"
+    regression_result: "none"
+    next_review_date: "2026-06-30"
+    rationale: "Superseded release bundles remain retained evidence only, with release-lineage.yml defining the active claim-bearing release."
+    evidence_refs:
+      - ".octon/instance/governance/contracts/retirement-registry.yml"
+    ablation_suite:
+      - ".octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh"
+      - ".octon/framework/assurance/governance/_ops/scripts/validate-disclosure-referential-integrity.sh"
+  - target_id: "runtime-agent-soul-overlays"
+    decision: "delete"
+    status_after_review: "retired"
+    regression_result: "none"
+    evidence_refs:
+      - ".octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase6-simplification-deletion/"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh"
+      - ".octon/framework/agency/_ops/scripts/validate/validate-agency.sh"
+  - target_id: "label-native-authority-lane-projections"
+    decision: "delete"
+    status_after_review: "retired"
+    regression_result: "none"
+    evidence_refs:
+      - ".octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase6-simplification-deletion/"
+    ablation_suite:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh"
+      - ".octon/framework/agency/_ops/scripts/validate/validate-autonomy-labels.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
+non_regression_summary: >-
+  Every remaining non-retired target stays explicitly bounded, reviewed, and
+  outside the live authority path, while previously deleted targets remain
+  absent.

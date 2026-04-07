@@ -68,6 +68,7 @@ jobs:
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-intervention-disclosure-completeness.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-disclosure-wording-coherence.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-release-bundle-freshness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-recertification-status.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-projection-byte-parity.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-claim-truth-boundary.sh
           git diff --exit-code -- .octon/state/evidence/disclosure/releases .octon/instance/governance/disclosure/harness-card.yml .octon/instance/governance/closure
@@ -77,5 +78,6 @@ jobs:
           bash .octon/framework/assurance/runtime/_ops/scripts/generate-release-bundle.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/generate-closure-projections.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-release-bundle-freshness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-recertification-status.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-projection-byte-parity.sh
           git diff --exit-code -- .octon/state/evidence/disclosure/releases .octon/instance/governance/disclosure/harness-card.yml .octon/instance/governance/closure

@@ -25,5 +25,10 @@ status="pass"
     echo "  - run_id: $run_id"
     echo "    status: $( [[ "$mismatch" == "false" ]] && echo pass || echo fail )"
   done < <(representative_run_ids)
+  echo "excluded_runs:"
+  while IFS= read -r run_id; do
+    [[ -n "$run_id" ]] || continue
+    echo "  - $run_id"
+  done < <(stage_only_representative_run_ids)
   echo "status: $status"
 } >"$out"

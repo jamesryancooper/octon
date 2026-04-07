@@ -3,7 +3,7 @@ claim_id: "unified-execution-constitution"
 claim_kind: "release"
 claim_status: "complete"
 owner: "Octon governance"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-06-closure-truth-freeze/plan.md"
 truth_conditions_ref: ".octon/framework/constitution/claim-truth-conditions.yml"
 status_matrix_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
 closeout_contract_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
@@ -60,7 +60,9 @@ permitted_release_wording: >-
 known_limits:
   - Stage-only surfaces remain explicit and disclosed rather than being claimed as supported.
 certification_refs:
-  pass_1: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/gate-status.yml"
-  pass_2: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/gate-status.yml"
+  certification_mode: "equally-strong-recertification-rule"
+  recertification_status: ".octon/generated/effective/closure/recertification-status.yml"
+  trigger_log: ".octon/instance/governance/closure/recertification-trigger-log.yml"
+  release_bundle_manifest: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/manifest.yml"
   closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-certificate.yml"
 generated_at: "2026-04-06T15:30:10Z"

@@ -1,0 +1,25 @@
+schema_version: effective-closure-claim-status-v1
+claim_id: unified-execution-constitution
+claim_phrase: fully unified execution constitution
+release_id: 2026-04-06-target-state-closure-provable-closure
+generated_at: "2026-04-06T15:28:40Z"
+profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-06-closure-truth-freeze/plan.md
+truth_conditions_ref: .octon/framework/constitution/claim-truth-conditions.yml
+active_release_refs:
+  harness_card: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/harness-card.yml
+  gate_status: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/gate-status.yml
+  closure_summary: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-summary.yml
+  closure_certificate: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-certificate.yml
+  recertification_status: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/recertification-status.yml
+  support_universe_coverage: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/support-universe-coverage.yml
+  proof_plane_coverage: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/proof-plane-coverage.yml
+  cross_artifact_consistency: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/cross-artifact-consistency.yml
+summary:
+  claim_status: complete
+  final_verdict: claim_complete
+  blocker_count: 0
+  ready_for_bounded_completion_claim: true
+  support_universe_mode: bounded-admitted-finite
+  claim_scope: admitted-supported-only
+  blocked_by:
+blockers:

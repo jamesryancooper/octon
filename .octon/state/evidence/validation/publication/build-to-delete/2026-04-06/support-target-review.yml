@@ -1,0 +1,17 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "support-target-review"
+contract_ref: ".octon/instance/governance/contracts/support-target-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-04-06T15:28:40Z"
+triggered_by:
+  - "Closure truth-freeze and retirement-claim readiness"
+  - "Bounded support-envelope revalidation"
+summary: >-
+  The admitted support envelope remains limited to the two repo-shell tuples,
+  and every stage-only tuple remains outside the live claim.
+findings: []
+evidence_refs:
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/support-universe-coverage.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh"

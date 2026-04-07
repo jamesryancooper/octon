@@ -14,5 +14,11 @@ mkdir -p "$(dirname "$out")"
     echo "  - tuple_id: \"$tuple_id\""
     echo "    required_proof_planes:"
     yq -r '.required_proof_planes[]?' "$dossier" | sed 's/^/      - /'
-  done < <(support_dossier_files)
+  done < <(supported_dossier_files)
+  echo "excluded_tuples:"
+  while IFS= read -r dossier; do
+    tuple_id="$(yq -r '.tuple_id' "$dossier")"
+    [[ -n "$tuple_id" ]] || continue
+    echo "  - \"$tuple_id\""
+  done < <(stage_only_dossier_files)
 } >"$out"

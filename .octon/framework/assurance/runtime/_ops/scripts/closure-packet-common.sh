@@ -7,6 +7,7 @@ OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 SUPPORT_DOSSIER_ROOT="$OCTON_DIR/instance/governance/support-dossiers"
 RELEASE_LINEAGE_PATH="$OCTON_DIR/instance/governance/disclosure/release-lineage.yml"
+RETIREMENT_REGISTRY_PATH="$OCTON_DIR/instance/governance/contracts/retirement-registry.yml"
 
 require_yq() {
   command -v yq >/dev/null 2>&1 || {
@@ -38,11 +39,34 @@ support_dossier_files() {
   find "$SUPPORT_DOSSIER_ROOT" -name dossier.yml -print | sort
 }
 
-representative_run_contracts() {
+supported_dossier_files() {
+  local dossier
+  while IFS= read -r dossier; do
+    yq -e 'select(.status == "supported")' "$dossier" >/dev/null 2>&1 || continue
+    printf '%s\n' "$dossier"
+  done < <(support_dossier_files)
+}
+
+stage_only_dossier_files() {
+  local dossier
+  while IFS= read -r dossier; do
+    yq -e 'select(.status == "stage_only")' "$dossier" >/dev/null 2>&1 || continue
+    printf '%s\n' "$dossier"
+  done < <(support_dossier_files)
+}
+
+all_representative_run_contracts() {
   local dossier
   while IFS= read -r dossier; do
     yq -r '.representative_retained_runs[]?' "$dossier"
   done < <(support_dossier_files)
+}
+
+representative_run_contracts() {
+  local dossier
+  while IFS= read -r dossier; do
+    yq -r '.representative_retained_runs[]?' "$dossier"
+  done < <(supported_dossier_files)
 }
 
 run_id_from_contract_ref() {
@@ -55,6 +79,16 @@ representative_run_ids() {
     [[ -n "$ref" ]] || continue
     run_id_from_contract_ref "$ref"
   done < <(representative_run_contracts) | sort -u
+}
+
+stage_only_representative_run_ids() {
+  local ref dossier
+  while IFS= read -r dossier; do
+    while IFS= read -r ref; do
+      [[ -n "$ref" ]] || continue
+      run_id_from_contract_ref "$ref"
+    done < <(yq -r '.representative_retained_runs[]?' "$dossier")
+  done < <(stage_only_dossier_files) | sort -u
 }
 
 run_contract_path() { printf '%s/state/control/execution/runs/%s/run-contract.yml\n' "$OCTON_DIR" "$1"; }
@@ -123,6 +157,10 @@ deterministic_generated_at() {
     git log -1 --format=%cI 2>/dev/null || date -u +"%Y-%m-%dT%H:%M:%SZ"
   fi
 }
+
+effective_closure_root() { printf '%s/generated/effective/closure\n' "$OCTON_DIR"; }
+effective_claim_status_path() { printf '%s/claim-status.yml\n' "$(effective_closure_root)"; }
+effective_recertification_status_path() { printf '%s/recertification-status.yml\n' "$(effective_closure_root)"; }
 
 forbidden_phrase_pattern() {
   printf '%s\n' 'global complete|globally complete support universe'

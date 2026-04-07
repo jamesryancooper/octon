@@ -15,5 +15,5 @@ phases:
     status: "green"
   - phase_id: "phase-4"
     title: "post-claim-simplification-and-deletion-follow-through"
-    status: "amber"
-    note: "Post-claim deletion follow-through remains open but is outside claim truth."
+    status: "green"
+    note: "Build-to-delete governance remains live inside claim truth and currently passes the bounded completion gate."

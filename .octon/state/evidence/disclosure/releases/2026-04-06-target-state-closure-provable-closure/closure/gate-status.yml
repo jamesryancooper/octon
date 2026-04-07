@@ -44,3 +44,9 @@ gates:
   - gate_id: G13
     title: retirement-and-drift
     status: green
+  - gate_id: G14
+    title: claim-truth-boundary
+    status: green
+  - gate_id: G15
+    title: recertification-discipline
+    status: green

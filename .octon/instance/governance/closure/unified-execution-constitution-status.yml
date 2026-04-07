@@ -5,8 +5,9 @@ release_state: "pre-1.0"
 change_profile: "atomic"
 atomic_mode: "clean-break"
 selection_rationale: >-
-  The target-state closure cutover converges one bounded admitted claim, one
-  live constitutional authority path, and one generated closure path.
+  The truth-freeze and build-to-delete claim-gate slices converge one bounded
+  admitted claim envelope, one generated closure truth path, and one current
+  build-to-delete review packet.
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
 truth_conditions_ref: ".octon/framework/constitution/claim-truth-conditions.yml"
@@ -52,4 +53,8 @@ findings:
   - id: "OCT-F018"
     severity: "critical"
     status: "green"
-    title: "Truth boundary, gate stack, and two-pass closure are explicit"
+    title: "Truth boundary, gate stack, and effective closure projection are explicit"
+  - id: "OCT-F019"
+    severity: "critical"
+    status: "green"
+    title: "Build-to-delete governance is current and no longer blocks the bounded completion claim"

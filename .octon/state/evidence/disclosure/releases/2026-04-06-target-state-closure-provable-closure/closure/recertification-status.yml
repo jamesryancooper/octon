@@ -1,0 +1,29 @@
+schema_version: recertification-status-v1
+release_id: 2026-04-06-target-state-closure-provable-closure
+generated_at: "2026-04-06T15:28:40Z"
+profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-06-recertification-hardening/plan.md
+certification_mode: equally-strong-recertification-rule
+status: valid
+trigger_log_ref: .octon/instance/governance/closure/recertification-trigger-log.yml
+active_certificate_ref: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-certificate.yml
+active_harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/harness-card.yml
+input_digests:
+  charter: sha256:7d543b25c85ee6bb63db7ba9d39dfd3cf4d7aa7554bafd1715f3fc915f409298
+  support_targets: sha256:ed0b99686b1f46bffdc40b2562f3ff3066f6637f75a1feee6aa69ec285ad05cd
+  workspace_charter: sha256:c872d8dd569ac5b354e884fe715b9f79886ede9d241fbfb8381fc2d4530e2607
+trigger_summary:
+  total: 10
+  clear: 10
+  blocking: 0
+blocking_triggers:
+rule_checks:
+  - check_id: trigger-log-clear
+    status: pass
+  - check_id: current-certificate-ref
+    status: pass
+  - check_id: current-authored-input-digests
+    status: pass
+summary: >-
+  The active closure certificate remains valid under the explicit
+  recertification rule because all invalidation triggers are clear and the
+  current authored inputs match the release evidence snapshot.
