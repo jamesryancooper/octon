@@ -1,8 +1,8 @@
 schema_version: closure-summary-v2
 release_id: 2026-04-06-target-state-closure-provable-closure
-generated_at: "2026-04-06T15:28:40Z"
+generated_at: "2026-04-08T00:00:00Z"
 claim_status: complete
-support_universe_mode: bounded-admitted-finite
+support_universe_mode: global-complete-finite
 preclaim_blockers_open: 0
 green_gates:
   - G0
@@ -24,4 +24,4 @@ green_gates:
 blocked_by:
 notes:
   - Stable mirrors are generated from the active release bundle only.
-  - Stage-only surfaces remain explicit and excluded from the live claim.
+  - Explicitly excluded non-live surfaces remain disclosed outside the live claim.

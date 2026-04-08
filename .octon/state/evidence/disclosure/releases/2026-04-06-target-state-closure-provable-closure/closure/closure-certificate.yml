@@ -1,6 +1,6 @@
 schema_version: closure-certificate-v2
 release_id: 2026-04-06-target-state-closure-provable-closure
-generated_at: "2026-04-06T15:28:40Z"
+generated_at: "2026-04-08T00:00:00Z"
 status: certified
 proof_bundle_refs:
   - .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/gate-status.yml

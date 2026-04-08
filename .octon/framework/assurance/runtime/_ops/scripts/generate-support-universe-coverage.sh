@@ -6,7 +6,7 @@ out="$(release_root "$release_id")/closure/support-universe-coverage.yml"
 mkdir -p "$(dirname "$out")"
 supported="$(find "$SUPPORT_DOSSIER_ROOT" -name dossier.yml -print | while read -r f; do yq -r 'select(.status == "supported") | .tuple_id' "$f"; done | awk 'NF')"
 supported="$(find "$SUPPORT_DOSSIER_ROOT" -name dossier.yml -print | while read -r f; do yq -r 'select(.status == "supported") | .tuple_id' "$f"; done | awk 'NF' | sort)"
-stage_only="$(find "$SUPPORT_DOSSIER_ROOT" -name dossier.yml -print | while read -r f; do yq -r 'select(.status == "stage_only") | .tuple_id' "$f"; done | awk 'NF' | sort)"
+non_live="$(find "$SUPPORT_DOSSIER_ROOT" -name dossier.yml -print | while read -r f; do yq -r 'select(.status != "supported") | .tuple_id' "$f"; done | awk 'NF' | sort)"
 {
   echo "schema_version: support-universe-coverage-v2"
   echo "release_id: $release_id"
@@ -24,10 +24,15 @@ stage_only="$(find "$SUPPORT_DOSSIER_ROOT" -name dossier.yml -print | while read
   echo "  - capability-pack://shell"
   echo "  - capability-pack://telemetry"
   printf '%s\n' "$supported" | sed 's/^/  - /'
-  echo "stage_only_surfaces:"
-  printf '%s\n' "$stage_only" | sed 's/^/  - /'
   echo "excluded_surfaces:"
+  printf '%s\n' "$non_live" | sed 's/^/  - /'
+  echo "  - frontier-governed"
+  echo "  - boundary-sensitive"
+  echo "  - extended-governed"
+  echo "  - spanish-secondary"
+  echo "  - studio-control-plane"
+  echo "  - github-control-plane"
+  echo "  - ci-control-plane"
   echo "  - browser"
   echo "  - api"
-  echo "  - github-control-plane"
 } >"$out"

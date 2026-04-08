@@ -1,0 +1,11 @@
+bundle_id: 2026-04-07-two-packet-final-state-execution
+plan_ref: .octon/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md
+executed_on: "2026-04-08"
+status: completed
+artifacts:
+  - evidence.md
+  - commands.md
+  - validation.md
+  - inventory.md
+  - packet-coverage.md
+  - profile-selection-receipt.md

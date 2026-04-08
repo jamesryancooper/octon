@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://octon.local/framework/constitution/support-targets.schema.json",
   "title": "Octon Support Target Matrix",
-  "description": "Schema for .octon/instance/governance/support-targets.yml with a bounded admitted support universe, dossier-backed tuple admissions, runtime projections, and adapter-conformance criteria.",
+  "description": "Schema for .octon/instance/governance/support-targets.yml with an explicitly admitted live support universe, resolved non-live surfaces, dossier-backed tuple admissions, runtime projections, and adapter-conformance criteria.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -66,7 +66,7 @@
         "capability_packs": { "$ref": "#/$defs/string_array" }
       }
     },
-    "non_admitted_or_stage_only_surfaces": {
+    "resolved_non_live_surfaces": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -212,7 +212,7 @@
         },
         "default_route": {
           "type": "string",
-          "enum": ["allow", "escalate"]
+          "enum": ["allow", "escalate", "deny"]
         },
         "description": {
           "type": "string",

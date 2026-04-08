@@ -3,7 +3,7 @@ card_id: hc-target-state-closure-2026-04-06-target-state-closure-provable-closur
 claim_kind: release
 claim_status: complete
 claim_summary: >-
-  Octon's closure claim is provable across its admitted bounded support universe because release disclosure, support claims, and exemplar run evidence are regenerated from canonical repo surfaces and dual-pass certification.
+  Octon's final admitted-universe claim is provable because release disclosure, support claims, and exemplar run evidence are regenerated from canonical repo surfaces and dual-pass certification for the explicitly admitted live support universe.
 support_target_ref: .octon/instance/governance/support-targets.yml
 governance_exclusions_ref: .octon/instance/governance/exclusions/action-classes.yml
 support_universe:
@@ -44,7 +44,7 @@ proof_bundle_refs:
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
 known_limits:
-  - Frontier-governed execution remains stage-only and excluded from the live claim.
-  - Browser and API packs remain stage-only and excluded from the live claim.
-  - GitHub, CI, and Studio host adapters remain projection-only and stage-only outside the live claim.
-generated_at: "2026-04-06T15:28:40Z"
+  - Frontier-governed execution is explicitly excluded from the live claim.
+  - Browser and API packs are explicitly excluded from the live claim.
+  - GitHub, CI, and Studio host adapters remain projection-only and explicitly excluded from the live claim.
+generated_at: "2026-04-08T00:00:00Z"

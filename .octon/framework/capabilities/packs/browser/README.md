@@ -2,6 +2,7 @@
 
 Governed browser automation pack surface.
 
-This surface now has a repo-local admission dossier, but it remains
-`stage_only` and outside the live claim envelope until dossier-backed browser
-proof, recovery posture, and support-target closure are promoted together.
+This surface has a repo-local admission dossier, but it is explicitly
+unsupported and outside the final live claim envelope unless a future
+support-target amendment admits it with browser proof, recovery posture, and
+closure evidence.

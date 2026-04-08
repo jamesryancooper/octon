@@ -52,7 +52,7 @@ gate_failures=0
   echo "release_id: $release_id"
   echo "generated_at: \"$(deterministic_generated_at)\""
   echo "claim_status: $( [[ $gate_failures -eq 0 ]] && echo complete || echo incomplete )"
-  echo "support_universe_mode: bounded-admitted-finite"
+  echo "support_universe_mode: global-complete-finite"
   echo "preclaim_blockers_open: $gate_failures"
   echo "green_gates:"
   yq -r '.gates[] | select(.status == "green") | .gate_id' "$gate_status" | sed 's/^/  - /'
@@ -60,9 +60,9 @@ gate_failures=0
   yq -r '.gates[] | select(.status != "green") | .gate_id' "$gate_status" | sed 's/^/  - /'
   echo "notes:"
   echo "  - Stable mirrors are generated from the active release bundle only."
-  echo "  - Stage-only surfaces remain explicit and excluded from the live claim."
+  echo "  - Explicitly excluded non-live surfaces remain disclosed outside the live claim."
   if [[ $gate_failures -gt 0 ]]; then
-    echo "  - Final bounded completion remains blocked until every red gate closes."
+    echo "  - Final admitted-universe completion remains blocked until every red gate closes."
   fi
 } >"$summary"
 {

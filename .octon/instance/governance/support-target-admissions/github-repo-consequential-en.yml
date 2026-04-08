@@ -1,6 +1,6 @@
 schema_version: support-target-admission-v1
 tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
-status: stage_only
+status: unsupported
 tuple:
   model_tier: repo-local-governed
   workload_tier: repo-consequential
@@ -31,4 +31,4 @@ required_authority_artifacts:
 evidence_refs:
   - .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
 review_due_at: "2026-06-30T00:00:00Z"
-claim_effect: excluded-from-live-claim-until-projection-regeneration-proof-is-closed
+claim_effect: excluded-from-final-live-claim

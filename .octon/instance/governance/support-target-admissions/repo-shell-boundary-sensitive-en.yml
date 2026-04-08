@@ -1,6 +1,6 @@
 schema_version: support-target-admission-v1
 tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
-status: stage_only
+status: unsupported
 tuple:
   model_tier: repo-local-governed
   workload_tier: boundary-sensitive
@@ -40,4 +40,4 @@ required_authority_artifacts:
 evidence_refs:
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
 review_due_at: "2026-06-30T00:00:00Z"
-claim_effect: excluded-from-live-claim-until-recovery-and-behavioral-proof-close
+claim_effect: excluded-from-final-live-claim
