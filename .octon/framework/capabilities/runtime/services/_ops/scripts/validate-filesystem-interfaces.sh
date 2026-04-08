@@ -19,6 +19,11 @@ CONTEXT_INDEX="$OCTON_DIR/instance/cognition/context/index.yml"
 RUNTIME_RUN="$OCTON_DIR/framework/engine/runtime/run"
 export OCTON_RUNTIME_PREFER_SOURCE="${OCTON_RUNTIME_PREFER_SOURCE:-1}"
 export OCTON_SUPPORT_TIER="${OCTON_SUPPORT_TIER:-observe-and-read}"
+export OCTON_SUPPORT_MODEL_TIER="${OCTON_SUPPORT_MODEL_TIER:-repo-local-governed}"
+export OCTON_SUPPORT_HOST_ADAPTER="${OCTON_SUPPORT_HOST_ADAPTER:-repo-shell}"
+export OCTON_SUPPORT_MODEL_ADAPTER="${OCTON_SUPPORT_MODEL_ADAPTER:-repo-local-governed}"
+export OCTON_SUPPORT_LANGUAGE_RESOURCE_TIER="${OCTON_SUPPORT_LANGUAGE_RESOURCE_TIER:-reference-owned}"
+export OCTON_SUPPORT_LOCALE_TIER="${OCTON_SUPPORT_LOCALE_TIER:-english-primary}"
 SMOKE_ROOT=".octon/framework/capabilities/runtime/services/interfaces"
 
 errors=0
