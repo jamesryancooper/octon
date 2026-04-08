@@ -40,8 +40,8 @@ packs:
       - "run-evidence-root"
   - pack_id: "browser"
     contract_ref: ".octon/framework/capabilities/packs/browser/manifest.yml"
-    admission_status: "stage_only"
-    default_route: "escalate"
+    admission_status: "unsupported"
+    default_route: "deny"
     dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/browser.yml"
     runtime_service_contract_refs:
       - ".octon/framework/capabilities/runtime/services/browser-session/contract.yml"
@@ -52,8 +52,8 @@ packs:
       - "run-card-v2"
   - pack_id: "api"
     contract_ref: ".octon/framework/capabilities/packs/api/manifest.yml"
-    admission_status: "stage_only"
-    default_route: "escalate"
+    admission_status: "unsupported"
+    default_route: "deny"
     dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/api.yml"
     runtime_service_contract_refs:
       - ".octon/framework/capabilities/runtime/services/api-client/contract.yml"

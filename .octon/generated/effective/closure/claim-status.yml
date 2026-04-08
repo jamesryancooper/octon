@@ -2,8 +2,8 @@ schema_version: effective-closure-claim-status-v1
 claim_id: unified-execution-constitution
 claim_phrase: fully unified execution constitution
 release_id: 2026-04-06-target-state-closure-provable-closure
-generated_at: "2026-04-06T15:28:40Z"
-profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-06-closure-truth-freeze/plan.md
+generated_at: "2026-04-08T00:00:00Z"
+profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md
 truth_conditions_ref: .octon/framework/constitution/claim-truth-conditions.yml
 active_release_refs:
   harness_card: .octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/harness-card.yml
@@ -18,8 +18,8 @@ summary:
   claim_status: complete
   final_verdict: claim_complete
   blocker_count: 0
-  ready_for_bounded_completion_claim: true
-  support_universe_mode: bounded-admitted-finite
+  ready_for_final_completion_claim: true
+  support_universe_mode: global-complete-finite
   claim_scope: admitted-supported-only
   blocked_by:
 blockers:

@@ -1,6 +1,6 @@
 schema_version: recertification-trigger-log-v1
-updated_at: "2026-04-06T15:28:40Z"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-06-recertification-hardening/plan.md"
+updated_at: "2026-04-08T00:00:00Z"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md"
 certification_mode: "equally-strong-recertification-rule"
 active_certificate_ref: ".octon/state/evidence/disclosure/releases/2026-04-06-target-state-closure-provable-closure/closure/closure-certificate.yml"
 active_recertification_ref: ".octon/generated/effective/closure/recertification-status.yml"

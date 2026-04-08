@@ -39,9 +39,9 @@ main() {
   require_yq '.packs[] | select(.pack_id == "git" and .admission_status == "admitted")' "$REGISTRY" "git pack is admitted"
   require_yq '.packs[] | select(.pack_id == "shell" and .admission_status == "admitted")' "$REGISTRY" "shell pack is admitted"
   require_yq '.packs[] | select(.pack_id == "telemetry" and .admission_status == "admitted")' "$REGISTRY" "telemetry pack is admitted"
-  require_yq '.packs[] | select(.pack_id == "browser" and .admission_status == "stage_only")' "$REGISTRY" "browser pack is stage_only"
-  require_yq '.packs[] | select(.pack_id == "api" and .admission_status == "stage_only")' "$REGISTRY" "api pack is stage_only"
-  require_yq '.requested_capability_packs | contains(["browser","api"])' "$EXTERNAL_RUN" "stage-only external run retains browser/api evidence"
+  require_yq '.packs[] | select(.pack_id == "browser" and .admission_status == "unsupported" and .default_route == "deny")' "$REGISTRY" "browser pack is explicitly unsupported"
+  require_yq '.packs[] | select(.pack_id == "api" and .admission_status == "unsupported" and .default_route == "deny")' "$REGISTRY" "api pack is explicitly unsupported"
+  require_yq '.requested_capability_packs | contains(["browser","api"])' "$EXTERNAL_RUN" "historical non-live external run retains browser/api evidence"
   require_yq '[.supported_tuples[].capability_packs[] | select(. == "browser" or . == "api")] | length == 0' "$EFFECTIVE_MATRIX" "supported tuples exclude browser/api"
 
   while IFS= read -r ref; do
@@ -49,15 +49,15 @@ main() {
     require_ref "$ref" "pack admission dossier $ref"
   done < <(yq -r '.generated_from[]' "$REGISTRY")
 
-  if contains_text 'stage_only' "$OCTON_DIR/framework/capabilities/packs/browser/README.md"; then
-    pass "browser README matches stage_only posture"
+  if contains_text 'unsupported' "$OCTON_DIR/framework/capabilities/packs/browser/README.md"; then
+    pass "browser README matches unsupported posture"
   else
-    fail "browser README matches stage_only posture"
+    fail "browser README matches unsupported posture"
   fi
-  if contains_text 'stage_only' "$OCTON_DIR/framework/capabilities/packs/api/README.md"; then
-    pass "api README matches stage_only posture"
+  if contains_text 'unsupported' "$OCTON_DIR/framework/capabilities/packs/api/README.md"; then
+    pass "api README matches unsupported posture"
   else
-    fail "api README matches stage_only posture"
+    fail "api README matches unsupported posture"
   fi
 
   echo "Validation summary: errors=$errors"

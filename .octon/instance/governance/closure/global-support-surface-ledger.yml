@@ -1,7 +1,7 @@
 schema_version: "global-support-surface-ledger-v1"
-ledger_id: "uec-bounded-support-surface-ledger-20260405"
+ledger_id: "uec-final-support-surface-ledger-20260408"
 owner: "Octon governance"
-generated_at: "2026-04-05T12:00:00Z"
+generated_at: "2026-04-08T00:00:00Z"
 realized:
   - "repo-local-governed"
   - "observe-and-read"
@@ -16,7 +16,7 @@ realized:
   - "replay_store"
   - "telemetry_sink"
   - "runtime_bus"
-stage_only:
+excluded:
   - "frontier-governed"
   - "boundary-sensitive"
   - "extended-governed"
@@ -28,7 +28,7 @@ stage_only:
   - "api"
 rebound:
   - surface_id: "inflated-global-completion-claim"
-    final_form: "bounded-admitted-claim"
+    final_form: "final-admitted-universe-claim"
   - surface_id: "missionless-consequential-support"
     final_form: "mission-required-supported-tuple"
   - surface_id: "deny-only-external-irreversible-surface"

@@ -1,6 +1,6 @@
 schema_version: support-target-admission-v1
 tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
-status: stage_only
+status: unsupported
 tuple:
   model_tier: frontier-governed
   workload_tier: boundary-sensitive
@@ -35,4 +35,4 @@ required_authority_artifacts:
 evidence_refs:
   - .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml
 review_due_at: "2026-06-30T00:00:00Z"
-claim_effect: excluded-from-live-claim-until-pack-admission-and-locale-proof-close
+claim_effect: excluded-from-final-live-claim

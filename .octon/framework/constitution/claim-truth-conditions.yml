@@ -3,7 +3,7 @@ claim_id: unified-execution-constitution
 claim_phrase: fully unified execution constitution
 authoritative_kernel_ref: ".octon/framework/constitution/contracts/registry.yml"
 status_ref: ".octon/generated/effective/closure/claim-status.yml"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-06-closure-truth-freeze/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md"
 conditions:
   - id: TC-01
     title: constitutional-singularity
@@ -20,12 +20,13 @@ conditions:
       - mission-binding-policy-change
       - run-contract-family-change
   - id: TC-03
-    title: bounded-support-universe
+    title: admitted-live-support-universe
     required: true
     evidence_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
     invalidated_by:
       - support-target-admission-change
       - support-claim-expansion-without-dossier
+      - non-live-surface-left-in-liminal-stage
   - id: TC-04
     title: canonical-authority
     required: true

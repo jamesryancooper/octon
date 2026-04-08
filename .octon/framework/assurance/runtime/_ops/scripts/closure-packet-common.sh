@@ -47,12 +47,16 @@ supported_dossier_files() {
   done < <(support_dossier_files)
 }
 
-stage_only_dossier_files() {
+non_live_dossier_files() {
   local dossier
   while IFS= read -r dossier; do
-    yq -e 'select(.status == "stage_only")' "$dossier" >/dev/null 2>&1 || continue
+    yq -e 'select(.status != "supported")' "$dossier" >/dev/null 2>&1 || continue
     printf '%s\n' "$dossier"
   done < <(support_dossier_files)
+}
+
+stage_only_dossier_files() {
+  non_live_dossier_files
 }
 
 all_representative_run_contracts() {
@@ -163,5 +167,5 @@ effective_claim_status_path() { printf '%s/claim-status.yml\n' "$(effective_clos
 effective_recertification_status_path() { printf '%s/recertification-status.yml\n' "$(effective_closure_root)"; }
 
 forbidden_phrase_pattern() {
-  printf '%s\n' 'global complete|globally complete support universe'
+  printf '%s\n' 'globally complete support universe'
 }

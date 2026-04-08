@@ -21,17 +21,17 @@ require_yq() { yq -e "$1" "$2" >/dev/null 2>&1 && pass "$3" || fail "$3"; }
 main() {
   echo "== Support-Target Live Claim Validation =="
 
-  require_yq '.support_claim_mode == "bounded-admitted-finite"' "$SUPPORT_TARGETS" "support-target declaration uses bounded admitted claim mode"
+  require_yq '.support_claim_mode == "global-complete-finite"' "$SUPPORT_TARGETS" "support-target declaration uses final global-complete claim mode"
   require_yq '[.tuple_admissions[] | select(.support_status == "supported")] | length == 2' "$SUPPORT_TARGETS" "exactly two tuples are live supported"
   require_yq '[.host_adapters[] | select(.support_status == "supported")] | length == 1' "$SUPPORT_TARGETS" "only one host adapter is live supported"
   require_yq '[.model_adapters[] | select(.support_status == "supported")] | length == 1' "$SUPPORT_TARGETS" "only one model adapter is live supported"
-  require_yq '.packs[] | select(.pack_id == "browser" and .admission_status == "stage_only")' "$PACK_REGISTRY" "browser pack is stage_only"
-  require_yq '.packs[] | select(.pack_id == "api" and .admission_status == "stage_only")' "$PACK_REGISTRY" "api pack is stage_only"
+  require_yq '.packs[] | select(.pack_id == "browser" and .admission_status == "unsupported" and .default_route == "deny")' "$PACK_REGISTRY" "browser pack is explicitly unsupported"
+  require_yq '.packs[] | select(.pack_id == "api" and .admission_status == "unsupported" and .default_route == "deny")' "$PACK_REGISTRY" "api pack is explicitly unsupported"
 
   require_yq '.claim_summary == load("'"$AUTHORED_CARD"'").claim_summary' "$RELEASE_CARD" "active release HarnessCard wording matches authored disclosure"
-  require_yq '.known_limits | length >= 1' "$AUTHORED_CARD" "authored HarnessCard discloses excluded stage-only surfaces"
-  require_yq '.known_limits | length >= 1' "$RELEASE_CARD" "active release HarnessCard discloses excluded stage-only surfaces"
-  require_yq '[.excluded_surfaces[] | select(. == "browser" or . == "api" or . == "github-control-plane")] | length == 3' "$COVERAGE_LEDGER" "coverage ledger excludes stage-only browser/api/github surfaces from the live claim"
+  require_yq '.known_limits | length >= 1' "$AUTHORED_CARD" "authored HarnessCard discloses explicit non-live surfaces"
+  require_yq '.known_limits | length >= 1' "$RELEASE_CARD" "active release HarnessCard discloses explicit non-live surfaces"
+  require_yq '[.excluded_surfaces[] | select(. == "browser" or . == "api" or . == "github-control-plane" or . == "ci-control-plane" or . == "studio-control-plane" or . == "frontier-governed" or . == "boundary-sensitive")] | length >= 7' "$COVERAGE_LEDGER" "coverage ledger excludes final non-live surfaces from the live claim"
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]

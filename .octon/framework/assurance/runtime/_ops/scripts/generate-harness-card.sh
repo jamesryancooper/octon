@@ -6,9 +6,9 @@ out="$(release_root "$release_id")/harness-card.yml"
 mkdir -p "$(dirname "$out")"
 summary_file="$(release_root "$release_id")/closure/closure-summary.yml"
 claim_status="$(yq -r '.claim_status // "incomplete"' "$summary_file" 2>/dev/null || printf 'incomplete')"
-claim_summary="Octon's bounded completion claim is not yet supportable; this release discloses admitted evidence and open preclaim blockers without overstating closure."
+claim_summary="Octon's final admitted-universe claim is not yet supportable; this release discloses admitted evidence and open preclaim blockers without overstating closure."
 if [[ "$claim_status" == "complete" ]]; then
-  claim_summary="Octon's closure claim is provable across its admitted bounded support universe because release disclosure, support claims, and exemplar run evidence are regenerated from canonical repo surfaces and dual-pass certification."
+  claim_summary="Octon's final admitted-universe claim is provable because release disclosure, support claims, and exemplar run evidence are regenerated from canonical repo surfaces and dual-pass certification for the explicitly admitted live support universe."
 fi
 {
   echo "schema_version: harness-card-v2"
@@ -58,10 +58,10 @@ fi
   done < <(representative_run_ids)
   echo "known_limits:"
   if [[ "$claim_status" != "complete" ]]; then
-    echo "  - Final bounded completion remains blocked until the open preclaim blockers are resolved."
+    echo "  - Final admitted-universe completion remains blocked until the open preclaim blockers are resolved."
   fi
-  echo "  - Frontier-governed execution remains stage-only and excluded from the live claim."
-  echo "  - Browser and API packs remain stage-only and excluded from the live claim."
-  echo "  - GitHub, CI, and Studio host adapters remain projection-only and stage-only outside the live claim."
+  echo "  - Frontier-governed execution is explicitly excluded from the live claim."
+  echo "  - Browser and API packs are explicitly excluded from the live claim."
+  echo "  - GitHub, CI, and Studio host adapters remain projection-only and explicitly excluded from the live claim."
   echo "generated_at: \"$(deterministic_generated_at)\""
 } >"$out"

@@ -1,6 +1,6 @@
 schema_version: support-dossier-v1
 tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
-status: stage_only
+status: unsupported
 tuple:
   model_tier: frontier-governed
   workload_tier: boundary-sensitive
@@ -27,6 +27,6 @@ required_lab_scenarios:
 representative_retained_runs:
   - .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
 known_exclusions:
-  - excluded-from-live-claim-until-pack-admission-and-locale-proof-close
+  - excluded-from-final-live-claim
 recertification_cadence: quarterly
 support_admission_ref: .octon/instance/governance/support-target-admissions/frontier-studio-boundary-sensitive-es.yml

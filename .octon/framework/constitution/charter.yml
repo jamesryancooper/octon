@@ -5,8 +5,8 @@ owner: "Octon governance"
 purpose: >-
   Provide one explicit repo-local constitutional kernel for the Octon
   super-root so consequential autonomous work stays scoped, fail-closed,
-  evidence-backed, reviewable, and fully unified across the admitted bounded
-  support universe.
+  evidence-backed, reviewable, and fully unified across the explicitly
+  admitted live support universe.
 non_goals:
   - "Make raw inputs authoritative for runtime or policy."
   - "Allow host UI state, chat transcripts, or generated projections to become control-plane authority."
@@ -66,14 +66,15 @@ live_model:
   release_state: "pre-1.0"
   change_profile: "atomic"
   atomic_mode: "clean-break"
-  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
+  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md"
   consequential_execution_unit: "run-contract"
   authority_engine: "runtime-consumed"
-  support_universe_mode: "bounded-admitted-finite-product"
+  support_universe_mode: "global-complete-finite-product"
   support_universe_doctrine: >-
-    The live support universe remains finite and admitted; only dossier-backed,
-    runtime-real, validator-covered, proof-backed, disclosure-backed surfaces
-    may enter the claim.
+    The live support universe remains finite and globally complete; every
+    claim-critical modeled surface must be either dossier-backed, runtime-real,
+    validator-covered, proof-backed, and disclosure-backed inside the admitted
+    claim, or explicitly excluded or retired outside it.
   governance_exclusions_doctrine: >-
     Prohibited or non-claimed action classes live under explicit governance
     exclusions and must not survive as unsupported support tiers.
@@ -94,4 +95,4 @@ historical_adoption_lineage:
     assurance_families: "wave-4-active"
     disclosure_families: "wave-4-active"
     adapter_contracts: "wave-5-active"
-    support_target_declarations: "wave-7-bounded-admission-active"
+    support_target_declarations: "wave-7-global-complete-active"

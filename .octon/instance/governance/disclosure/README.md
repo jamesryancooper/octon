@@ -12,7 +12,7 @@ HarnessCards remain retained evidence only.
 Lab-local HarnessCard files may remain only as historical mirrors or benchmark
 adjacent evidence, never as the canonical live disclosure source.
 
-Live claim-bearing disclosure must summarize the admitted bounded support
-universe, governance exclusions, coverage ledger, closure certificate, and
-active recertification status without outstating stage-only or historical
+Live claim-bearing disclosure must summarize the explicitly admitted live
+support universe, governance exclusions, coverage ledger, closure certificate,
+and active recertification status without outstating excluded or historical
 surfaces.

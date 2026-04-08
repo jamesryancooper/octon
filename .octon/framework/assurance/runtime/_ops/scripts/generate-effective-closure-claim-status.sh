@@ -28,7 +28,7 @@ fi
   echo "claim_phrase: fully unified execution constitution"
   echo "release_id: $release_id"
   echo "generated_at: \"$(deterministic_generated_at)\""
-  echo "profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-06-closure-truth-freeze/plan.md"
+  echo "profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md"
   echo "truth_conditions_ref: .octon/framework/constitution/claim-truth-conditions.yml"
   echo "active_release_refs:"
   echo "  harness_card: .octon/state/evidence/disclosure/releases/$release_id/harness-card.yml"
@@ -43,8 +43,8 @@ fi
   echo "  claim_status: $claim_status"
   echo "  final_verdict: $final_verdict"
   echo "  blocker_count: $blocker_count"
-  echo "  ready_for_bounded_completion_claim: $ready"
-  echo "  support_universe_mode: bounded-admitted-finite"
+  echo "  ready_for_final_completion_claim: $ready"
+  echo "  support_universe_mode: global-complete-finite"
   echo "  claim_scope: admitted-supported-only"
   echo "  blocked_by:"
   yq -r '.gates[] | select(.status != "green") | .gate_id' "$gate_status" | sed 's/^/    - /'
@@ -53,13 +53,13 @@ fi
     [[ -n "$gate_id" ]] || continue
     ac="AC-unknown"
     blocker_id="closure-blocker-${gate_id,,}"
-    reason="This gate remains red and continues to block the bounded completion claim."
+    reason="This gate remains red and continues to block the final admitted-universe claim."
     evidence_ref=".octon/state/evidence/disclosure/releases/$release_id/closure/gate-status.yml"
     case "$gate_id" in
       G13)
         ac="AC-11"
         blocker_id="closure-blocker-build-to-delete-open"
-        reason="Retirement and build-to-delete governance is still active, so final completion cannot be claimed honestly."
+        reason="Retirement and build-to-delete governance is still active, so the final admitted-universe claim cannot be made honestly."
         evidence_ref=".octon/instance/governance/contracts/retirement-registry.yml"
         ;;
       G14)

@@ -4,7 +4,7 @@ status: "active"
 activation_wave: 4
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md"
 authority_rules:
   subordinate_to:
     - ".octon/state/control/execution/runs/<run-id>/run-contract.yml"

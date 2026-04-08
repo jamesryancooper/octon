@@ -1,6 +1,6 @@
 schema_version: capability-pack-admission-v1
 pack_id: browser
-status: stage_only
+status: unsupported
 support_target_refs:
   - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
   - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane

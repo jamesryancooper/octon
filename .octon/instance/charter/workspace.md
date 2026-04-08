@@ -11,7 +11,7 @@ constitutional_role: "workspace-charter-narrative"
 constitutional_objective_ref: ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md"
 ---
 
 # Workspace Charter: Octon Governed Harness
@@ -22,11 +22,11 @@ Octon is an authored harness core designed for profile-driven portability and
 replaceable adapters across repositories. Use Octon in `octon` to evolve the
 harness itself with safe, reviewable, and verifiable changes.
 
-Octon now targets one bounded admitted support universe. Live support is
+Octon now targets one explicitly admitted live support universe. Live support is
 whatever the authoritative support-target declaration admits and proves. Any
 critical surface that cannot be fully governed, runtime-backed, validated,
-evidenced, and disclosed must remain explicit `stage_only` or be removed from
-the live claim instead of surviving as staged architectural intent.
+evidenced, and disclosed must be explicitly excluded or retired outside the
+live claim instead of surviving as staged architectural intent.
 
 ## Constitutional Role
 
@@ -65,7 +65,7 @@ execution unit.
 ## Success Signals
 
 - bootstrap and execution surfaces remain self-contained, discoverable, and
-  internally consistent across the admitted bounded support universe
+  internally consistent across the admitted live support universe
 - active docs, validators, and runtime behavior agree on the same authority model
 - changes ship with enough evidence and verification to trust autonomous use of the harness
 

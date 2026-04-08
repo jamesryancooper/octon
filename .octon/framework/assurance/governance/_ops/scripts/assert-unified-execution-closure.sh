@@ -36,7 +36,7 @@ main() {
   require_yq '[.gates[] | select(.status != "green")] | length == 0' "$GATE_STATUS" "all closure gates are green"
   require_yq '.claim_status == "complete" and .preclaim_blockers_open == 0' "$CLOSURE_SUMMARY" "closure summary is complete"
   bash "$RETIREMENT_VALIDATOR" >/dev/null 2>&1 && pass "retirement governance is claim-ready" || fail "retirement governance is claim-ready"
-  require_yq '.claim_summary == "Octon'\''s closure claim is provable across its admitted bounded support universe because release disclosure, support claims, and exemplar run evidence are regenerated from canonical repo surfaces and dual-pass certification."' "$AUTHORED_HARNESS_CARD" "HarnessCard wording matches closure manifest"
+  require_yq '.claim_summary == "Octon'\''s final admitted-universe claim is provable because release disclosure, support claims, and exemplar run evidence are regenerated from canonical repo surfaces and dual-pass certification for the explicitly admitted live support universe."' "$AUTHORED_HARNESS_CARD" "HarnessCard wording matches closure manifest"
   require_yq ".active_release.release_id == \"$ACTIVE_RELEASE_ID\"" "$RELEASE_LINEAGE" "release lineage marks the active certified release"
   require_yq '.historical_releases[] | select(.release_id == "2026-04-04-uec-global-completion" and .status == "superseded")' "$RELEASE_LINEAGE" "release lineage supersedes the prior global-completion release"
   require_yq '(.surfaces | length) >= 8' "$COVERAGE_LEDGER" "coverage ledger spans admitted support surfaces"
