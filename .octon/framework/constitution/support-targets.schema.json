@@ -212,7 +212,7 @@
         },
         "default_route": {
           "type": "string",
-          "enum": ["allow", "escalate"]
+          "enum": ["allow", "escalate", "deny"]
         },
         "description": {
           "type": "string",
