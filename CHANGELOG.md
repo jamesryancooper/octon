@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.13](https://github.com/jamesryancooper/octon/compare/octon-v0.6.12...octon-v0.6.13) (2026-04-08)
+
+
+### Features
+
+* **governance:** close out uec full attainment ([#261](https://github.com/jamesryancooper/octon/issues/261)) ([02d7b54](https://github.com/jamesryancooper/octon/commit/02d7b545400ff200a58d6650b7a1d17453afa0ec))
+
 ## [0.6.12](https://github.com/jamesryancooper/octon/compare/octon-v0.6.11...octon-v0.6.12) (2026-04-05)
 
 
