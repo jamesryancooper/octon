@@ -30,7 +30,7 @@ RUN_LINKAGE_GUIDE="$OCTON_DIR/framework/orchestration/practices/run-linkage-stan
 WRITE_RUN_SCRIPT="$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/write-run.sh"
 ROOT_MANIFEST="$OCTON_DIR/octon.yml"
 POLICY_CONFIG="$OCTON_DIR/framework/engine/runtime/config/policy-interface.yml"
-MIGRATION_PLAN="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md"
+MIGRATION_PLAN="$OCTON_DIR/instance/cognition/context/shared/migrations/2026-04-07-two-packet-final-state-execution/plan.md"
 
 errors=0
 
@@ -175,7 +175,7 @@ main() {
   [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "change_profile")" == "atomic" ]] \
     && pass "workspace charter narrative records change_profile" \
     || fail "workspace charter narrative must record atomic change_profile"
-  [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "profile_selection_receipt_ref")" =~ ^\.octon/instance/cognition/context/shared/migrations/2026-04-(05-unified-execution-constitution-proposal-packet-implementation|06-target-state-closure-provable-closure)/plan\.md$ ]] \
+  [[ "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "profile_selection_receipt_ref")" == "$live_selector" || "$(frontmatter_field "$WORKSPACE_BRIEF_FILE" "profile_selection_receipt_ref")" == ".octon/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md" ]] \
     && pass "workspace charter narrative points to a valid closure migration receipt" \
     || fail "workspace charter narrative must point to a valid closure migration receipt"
 
@@ -186,7 +186,7 @@ main() {
   require_yq '.constitutional_role == "workspace-charter-machine"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine declares machine constitutional role"
   require_yq '.constitutional_objective_ref == ".octon/framework/constitution/contracts/objective/workspace-charter-pair.yml"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine points to workspace-charter pair contract"
   require_yq '.change_profile == "atomic"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine records atomic change profile"
-  require_yq '.profile_selection_receipt_ref == ".octon/instance/cognition/context/shared/migrations/2026-04-05-unified-execution-constitution-proposal-packet-implementation/plan.md"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine points to the bounded proposal-packet receipt"
+  require_yq ".profile_selection_receipt_ref == \"$live_selector\"" "$WORKSPACE_MACHINE_FILE" "workspace charter machine points to the live profile-selection receipt"
   require_yq '.execution_binding.run_contract_control_root == ".octon/state/control/execution/runs"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine binds the run control root"
   require_yq '.execution_binding.run_contract_schema_ref == ".octon/framework/constitution/contracts/runtime/run-contract-v3.schema.json"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine points to run-contract-v3"
   require_yq '.execution_binding.stage_attempt_schema_ref == ".octon/framework/constitution/contracts/runtime/stage-attempt-v2.schema.json"' "$WORKSPACE_MACHINE_FILE" "workspace charter machine points to stage-attempt-v2"
