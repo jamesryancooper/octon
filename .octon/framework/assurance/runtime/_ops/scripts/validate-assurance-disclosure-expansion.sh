@@ -26,11 +26,16 @@ main() {
 
   require_yq '.run_card.schema_ref == ".octon/framework/constitution/contracts/disclosure/run-card-v2.schema.json"' "$DISCLOSURE_FAMILY" "disclosure family points to RunCard v2"
   require_yq '.harness_card.schema_ref == ".octon/framework/constitution/contracts/disclosure/harness-card-v2.schema.json"' "$DISCLOSURE_FAMILY" "disclosure family points to HarnessCard v2"
-  require_yq ".coverage_ledger_ref == \".octon/state/evidence/disclosure/releases/$ACTIVE_RELEASE_ID/closure/support-universe-coverage.yml\"" "$AUTHORED_CARD" "HarnessCard points to bounded support-universe coverage ledger"
+  require_yq ".coverage_ledger_ref == \".octon/state/evidence/disclosure/releases/$ACTIVE_RELEASE_ID/closure/support-universe-coverage.yml\"" "$AUTHORED_CARD" "HarnessCard points to the active support-universe coverage ledger"
   require_yq '.surfaces[] | select(. == "model://repo-local-governed")' "$COVERAGE_LEDGER" "coverage ledger includes live supported model"
   require_yq '.surfaces[] | select(. == "host://repo-shell")' "$COVERAGE_LEDGER" "coverage ledger includes live supported host adapter"
-  require_yq '.excluded_surfaces[] | select(. == "browser")' "$COVERAGE_LEDGER" "coverage ledger excludes browser from the live claim"
-  require_yq '.excluded_surfaces[] | select(. == "api")' "$COVERAGE_LEDGER" "coverage ledger excludes api from the live claim"
+  require_yq '.surfaces[] | select(. == "host://github-control-plane")' "$COVERAGE_LEDGER" "coverage ledger includes github host adapter"
+  require_yq '.surfaces[] | select(. == "host://ci-control-plane")' "$COVERAGE_LEDGER" "coverage ledger includes ci host adapter"
+  require_yq '.surfaces[] | select(. == "host://studio-control-plane")' "$COVERAGE_LEDGER" "coverage ledger includes studio host adapter"
+  require_yq '.surfaces[] | select(. == "model://frontier-governed")' "$COVERAGE_LEDGER" "coverage ledger includes frontier-governed model"
+  require_yq '.surfaces[] | select(. == "capability-pack://browser")' "$COVERAGE_LEDGER" "coverage ledger includes browser in the live claim"
+  require_yq '.surfaces[] | select(. == "capability-pack://api")' "$COVERAGE_LEDGER" "coverage ledger includes api in the live claim"
+  require_yq '(.excluded_surfaces | length) == 0' "$COVERAGE_LEDGER" "coverage ledger has no in-scope exclusions"
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]
