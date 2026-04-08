@@ -2,9 +2,9 @@ schema_version: run-contract-v3
 run_id: uec-global-frontier-browser-api-studio-20260404
 status: closed
 workflow_mode: agent-augmented
-mission_id: null
-requires_mission: false
-mission_mode: run-only
+mission_id: mission-autonomy-live-validation
+requires_mission: true
+mission_mode: mission-bound
 objective_refs:
   workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
   workspace_objective_ref: .octon/instance/charter/workspace.md

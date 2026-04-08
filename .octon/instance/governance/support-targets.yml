@@ -96,7 +96,7 @@ compatibility_matrix:
     locale_tier: "english-primary"
     support_status: "supported"
     default_route: "allow"
-    requires_mission: false
+    requires_mission: true
     allowed_capability_packs:
       - "repo"
       - "shell"
@@ -143,6 +143,26 @@ compatibility_matrix:
       - "runtime-event-ledger"
       - "run-evidence-classification-v2"
       - "run-card-v2"
+  - model_tier: "frontier-governed"
+    workload_tier: "boundary-sensitive"
+    language_resource_tier: "extended-governed"
+    locale_tier: "spanish-secondary"
+    support_status: "supported"
+    default_route: "escalate"
+    requires_mission: true
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
+      - "browser"
+      - "api"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "authority-grant-bundle"
+      - "runtime-event-ledger"
+      - "run-evidence-classification-v2"
+      - "run-card-v2"
 tuple_admissions:
   - admission_id: "tuple-repo-shell-observe-read-en"
     support_status: "supported"
@@ -153,7 +173,7 @@ tuple_admissions:
       locale_tier: "english-primary"
       host_adapter: "repo-shell"
       model_adapter: "repo-local-governed"
-    requires_mission: false
+    requires_mission: true
     consequence_class: "repo-local-low"
     reversibility_class: "fully_reversible"
     execution_horizon: "single_run_single_stage"
@@ -262,7 +282,7 @@ tuple_admissions:
       locale_tier: "english-primary"
       host_adapter: "github-control-plane"
       model_adapter: "repo-local-governed"
-    requires_mission: false
+    requires_mission: true
     consequence_class: "repo-local-medium"
     reversibility_class: "fully_reversible"
     execution_horizon: "single_run_multi_stage"
@@ -439,8 +459,8 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/studio-control-plane.yml"
     authority_mode: "non_authoritative"
     replaceable: true
-    support_status: "unsupported"
-    default_route: "deny"
+    support_status: "supported"
+    default_route: "escalate"
     criteria_refs:
       - "HOST-001"
       - "HOST-002"
@@ -466,8 +486,8 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
     authority_mode: "non_authoritative"
     replaceable: true
-    support_status: "unsupported"
-    default_route: "deny"
+    support_status: "supported"
+    default_route: "allow"
     criteria_refs:
       - "HOST-001"
       - "HOST-003"
@@ -493,8 +513,8 @@ host_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/host/ci-control-plane.yml"
     authority_mode: "projection_only"
     replaceable: true
-    support_status: "unsupported"
-    default_route: "deny"
+    support_status: "supported"
+    default_route: "allow"
     criteria_refs:
       - "HOST-001"
       - "HOST-003"
@@ -549,8 +569,8 @@ model_adapters:
     contract_ref: ".octon/framework/engine/runtime/adapters/model/frontier-governed.yml"
     authority_mode: "non_authoritative"
     replaceable: true
-    support_status: "unsupported"
-    default_route: "deny"
+    support_status: "supported"
+    default_route: "escalate"
     criteria_refs:
       - "MODEL-001"
       - "MODEL-002"
@@ -574,9 +594,8 @@ model_adapters:
       - "instruction-layer-manifest"
       - "run-evidence-root"
 notes:
-  - "The live claim is the explicitly admitted live support universe recorded above; compatibility_matrix is the supported runtime projection compiled from tuple_admissions."
-  - "Non-live surfaces remain explicit and reviewable, but they are excluded from the live claim unless a future support-target amendment admits them."
-  - "Mission-backed repo-consequential work is supported; missionless consequential and boundary-sensitive work are excluded from the live claim."
+  - "The live claim is the full admitted live support universe recorded above; compatibility_matrix is the supported runtime projection compiled from tuple_admissions."
+  - "Mission-backed repo-consequential and boundary-sensitive work remains explicit and fail-closed."
 retired_surfaces:
   - "experimental-model-surface"
   - "experimental-context-surface"

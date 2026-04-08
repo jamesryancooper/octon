@@ -8,7 +8,7 @@ tuple:
   locale_tier: spanish-secondary
   host_adapter: studio-control-plane
   model_adapter: frontier-governed
-requires_mission: false
+requires_mission: true
 consequence_class: boundary-sensitive
 reversibility_class: compensable
 execution_horizon: multi_run_or_multi_stage

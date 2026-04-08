@@ -18,7 +18,7 @@ intent_ref:
   version: 1.1.0
 intervention_root: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/interventions
 measurement_root: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/measurements
-mission_id: null
+mission_id: mission-autonomy-live-validation
 model_adapter_ref: .octon/framework/engine/runtime/adapters/model/frontier-governed.yml
 parent_run_ref: null
 receipt_root: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/receipts
