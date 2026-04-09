@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.15](https://github.com/jamesryancooper/octon/compare/octon-v0.6.14...octon-v0.6.15) (2026-04-09)
+
+
+### Features
+
+* **governance:** add hardening recertification release ([#266](https://github.com/jamesryancooper/octon/issues/266)) ([547af0c](https://github.com/jamesryancooper/octon/commit/547af0ceea26ff7342c5ae6855de225fc79d8881))
+
 ## [0.6.14](https://github.com/jamesryancooper/octon/compare/octon-v0.6.13...octon-v0.6.14) (2026-04-09)
 
 
