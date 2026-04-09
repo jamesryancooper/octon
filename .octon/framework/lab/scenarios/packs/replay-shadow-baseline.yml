@@ -1,0 +1,12 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "replay-shadow-baseline"
+summary: "Baseline replay-plus-shadow scenario for admitted tuples that claim behavioral replayability without widening authority."
+authored_inputs:
+  - ".octon/framework/lab/scenarios/packs/runtime-proof-pack.yml"
+  - ".octon/framework/lab/replay/bundles/runtime-proof-bundle.yml"
+  - ".octon/framework/lab/shadow/manifests/runtime-proof-shadow.yml"
+evidence_expectations:
+  - "scenario-proof"
+  - "replay-bundle"
+  - "shadow-run"
+

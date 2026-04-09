@@ -1,10 +1,67 @@
-schema_version: retirement-register-v1
+schema_version: retirement-register-v2
 owner: Octon governance
-updated_at: "2026-04-08T14:44:31Z"
+updated_at: "2026-04-09T00:00:00Z"
 entries:
-  - surface: .octon/instance/bootstrap/OBJECTIVE.md
-    status: archived-non-authoritative
+  - surface: ingress-projection-adapters
+    paths:
+      - .octon/AGENTS.md
+      - AGENTS.md
+      - CLAUDE.md
+    status: retained_with_rationale
+    disposition: projection-only
+    claim_adjacent: true
+    rationale: Repo-root and .octon ingress adapters remain useful compatibility surfaces, but they are not runtime or policy authority.
+    review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    next_review_due: "2026-06-30"
+  - surface: workspace-objective-compatibility-shims
+    paths:
+      - .octon/instance/bootstrap/OBJECTIVE.md
+      - .octon/instance/cognition/context/shared/intent.contract.yml
+    status: archived_non_authoritative
+    disposition: compatibility-shim
+    claim_adjacent: false
     rationale: Objective authority now lives in the workspace, mission, run, and stage contract stack.
-  - surface: .octon/instance/cognition/context/shared/intent.contract.yml
-    status: archived-non-authoritative
-    rationale: Intent authority now lives in constitutional and instance objective surfaces, not shared compatibility shims.
+    review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    next_review_due: "2026-06-29"
+  - surface: duplicate-constitutional-shims
+    paths:
+      - .octon/framework/agency/governance/CONSTITUTION.md
+      - .octon/framework/cognition/governance/CHARTER.md
+      - .octon/framework/assurance/governance/CHARTER.md
+    status: retained_with_rationale
+    disposition: historical-shim
+    claim_adjacent: true
+    rationale: Historical or subordinate charter-shaped surfaces remain retained for lineage and local weighting, but they must not regain peer constitutional authority.
+    review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    next_review_due: "2026-06-29"
+  - surface: run-local-disclosure-mirrors
+    paths:
+      - .octon/state/evidence/runs/*/disclosure/**
+    status: retained_with_rationale
+    disposition: historical-mirror
+    claim_adjacent: true
+    rationale: Run-local disclosure directories are retained only for lineage; canonical live RunCards resolve from state/evidence/disclosure/runs/**.
+    review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    next_review_due: "2026-06-30"
+  - surface: lab-local-harness-card-mirrors
+    paths:
+      - .octon/state/evidence/lab/harness-cards/**
+    status: retained_with_rationale
+    disposition: historical-mirror
+    claim_adjacent: true
+    rationale: Lab-local HarnessCards remain historical mirrors only; canonical release disclosure lives under instance/governance/disclosure and state/evidence/disclosure/releases/**.
+    review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    next_review_due: "2026-06-30"
+  - surface: superseded-release-disclosure-bundles
+    paths:
+      - .octon/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-atomic-cutover/**
+      - .octon/state/evidence/disclosure/releases/2026-03-30-unified-execution-constitution-closure/**
+      - .octon/state/evidence/disclosure/releases/2026-03-31-unified-execution-constitution-clean-break/**
+      - .octon/state/evidence/disclosure/releases/2026-04-03-uec-clean-break-closure/**
+      - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/**
+    status: retained_with_rationale
+    disposition: historical-release-evidence
+    claim_adjacent: true
+    rationale: Superseded release bundles remain retained evidence only and must not be cited for current support scope or closure truth.
+    review_artifact_ref: .octon/instance/governance/contracts/closeout-reviews.yml
+    next_review_due: "2026-06-30"

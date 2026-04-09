@@ -18,7 +18,7 @@ jobs:
   drift-watch:
     runs-on: ubuntu-latest
     env:
-      CLOSURE_RELEASE_ID: 2026-04-08-uec-full-attainment-cutover
+      CLOSURE_RELEASE_ID: 2026-04-09-uec-hardening-recertification
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - name: Install jq and yq
@@ -30,8 +30,16 @@ jobs:
       - name: Run drift checks
         run: |
           chmod +x .octon/framework/assurance/scripts/*.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/verify-*.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/generate-release-bundle.sh "$CLOSURE_RELEASE_ID"
           bash .octon/framework/assurance/runtime/_ops/scripts/generate-closure-projections.sh "$CLOSURE_RELEASE_ID"
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-support-dossier-parity.sh "$CLOSURE_RELEASE_ID"
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-lab-reference-integrity.sh "$CLOSURE_RELEASE_ID"
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-host-authority-purity.sh "$CLOSURE_RELEASE_ID"
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-runtime-family-depth.sh "$CLOSURE_RELEASE_ID"
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-continuity-linkage.sh "$CLOSURE_RELEASE_ID"
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-retirement-rationale.sh "$CLOSURE_RELEASE_ID"
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-release-known-limits.sh "$CLOSURE_RELEASE_ID"
           bash .octon/framework/assurance/scripts/validate-support-target-canonicality.sh "$CLOSURE_RELEASE_ID"
           bash .octon/framework/assurance/scripts/validate-canonical-authority-purity.sh "$CLOSURE_RELEASE_ID"
           bash .octon/framework/assurance/scripts/validate-claim-calibrated-disclosure.sh "$CLOSURE_RELEASE_ID"

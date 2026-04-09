@@ -1,0 +1,10 @@
+schema_version: "proof-suite-v1"
+suite_id: "continuity-linkage"
+plane: "runtime"
+purpose: "Require every admitted representative run to keep continuity refs resolvable across run contract, manifest, and continuity roots."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-continuity-linkage.sh"
+required_artifacts:
+  - "continuity-root"
+  - "run-manifest"
+  - "runtime-state"
+

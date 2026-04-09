@@ -9,6 +9,9 @@ SUPPORT_DOSSIER_ROOT="$OCTON_DIR/instance/governance/support-dossiers"
 SUPPORT_TARGETS_DECLARATION="$OCTON_DIR/instance/governance/support-targets.yml"
 RELEASE_LINEAGE_PATH="$OCTON_DIR/instance/governance/disclosure/release-lineage.yml"
 RETIREMENT_REGISTRY_PATH="$OCTON_DIR/instance/governance/contracts/retirement-registry.yml"
+RETIREMENT_DISCLOSURE_PATH="$OCTON_DIR/instance/governance/retirement-register.yml"
+LAB_SCENARIO_REGISTRY_PATH="$OCTON_DIR/framework/lab/scenarios/registry.yml"
+LAB_SCENARIO_INDEX_PATH="$OCTON_DIR/state/evidence/lab/index/by-scenario.yml"
 
 require_yq() {
   command -v yq >/dev/null 2>&1 || {
@@ -34,6 +37,16 @@ release_root() {
   local release_id
   release_id="$(resolve_release_id "${1:-}")"
   printf '%s/state/evidence/disclosure/releases/%s\n' "$OCTON_DIR" "$release_id"
+}
+
+closure_root() {
+  printf '%s/closure\n' "$(release_root "${1:-}")"
+}
+
+closure_report_path() {
+  local release_id="$1"
+  local report_name="$2"
+  printf '%s/%s\n' "$(closure_root "$release_id")" "$report_name"
 }
 
 support_dossier_files() {
@@ -217,6 +230,20 @@ deterministic_generated_at() {
 effective_closure_root() { printf '%s/generated/effective/closure\n' "$OCTON_DIR"; }
 effective_claim_status_path() { printf '%s/claim-status.yml\n' "$(effective_closure_root)"; }
 effective_recertification_status_path() { printf '%s/recertification-status.yml\n' "$(effective_closure_root)"; }
+
+migration_run_id_for_release() {
+  local release_id="$1"
+  local release_date release_slug
+  release_date="$(printf '%s\n' "$release_id" | awk -F- '{print $1 "-" $2 "-" $3}')"
+  release_slug="$(printf '%s\n' "$release_id" | cut -d- -f4-)"
+  printf '%s-octon-%s\n' "$release_date" "$release_slug"
+}
+
+migration_plan_ref_for_release() {
+  local release_id
+  release_id="$(resolve_release_id "${1:-}")"
+  printf '.octon/instance/cognition/context/shared/migrations/%s/plan.md\n' "$(migration_run_id_for_release "$release_id")"
+}
 
 forbidden_phrase_pattern() {
   printf '%s\n' 'globally complete support universe'

@@ -1,0 +1,9 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "projection-receipt-baseline"
+summary: "Baseline projection-receipt scenario for host workflows whose support claim depends on authority and disclosure receipts remaining canonical."
+authored_inputs:
+  - ".octon/framework/lab/scenarios/packs/runtime-proof-pack.yml"
+  - ".octon/framework/lab/probes/runtime-proof-probe.yml"
+evidence_expectations:
+  - "scenario-proof"
+

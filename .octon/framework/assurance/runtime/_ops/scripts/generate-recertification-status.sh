@@ -20,7 +20,7 @@ fi
   echo "schema_version: recertification-status-v1"
   echo "release_id: $release_id"
   echo "generated_at: \"$(deterministic_generated_at)\""
-  echo "profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-08-octon-uec-full-attainment-cutover/plan.md"
+  echo "profile_selection_receipt_ref: $(migration_plan_ref_for_release "$release_id")"
   echo "certification_mode: equally-strong-recertification-rule"
   echo "status: $status"
   echo "trigger_log_ref: .octon/instance/governance/closure/recertification-trigger-log.yml"

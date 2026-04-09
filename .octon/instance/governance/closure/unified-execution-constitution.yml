@@ -3,16 +3,16 @@ claim_id: "unified-execution-constitution"
 claim_kind: "release"
 claim_status: "complete"
 owner: "Octon governance"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-08-octon-uec-full-attainment-cutover/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
 truth_conditions_ref: ".octon/framework/constitution/claim-truth-conditions.yml"
 status_matrix_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
 closeout_contract_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
 governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
 claim_statement: >-
-  Octon is a fully attained Unified Execution Constitution for the full
-  in-scope live support universe declared in the authoritative support-target
-  declaration.
+  Octon materially substantiates a bounded Unified Execution Constitution for
+  the admitted live support universe declared in the authoritative
+  support-target declaration.
 final_support_universe:
   model_classes:
     - "repo-local-governed"
@@ -57,15 +57,18 @@ required_proof_artifacts:
   - "support-universe-coverage"
   - "proof-plane-coverage"
 permitted_release_wording: >-
-  Octon is a fully attained Unified Execution Constitution for the full
-  in-scope target support universe, with release disclosure, support claims,
+  Octon materially substantiates a bounded Unified Execution Constitution for
+  the admitted live support universe, with release disclosure, support claims,
   exemplar run evidence, and dual-pass certification regenerated from
   canonical repo surfaces.
-known_limits: []
+known_limits:
+  - "The attainment claim remains bounded to the admitted live support universe only; no universal support claim is made outside active support-target tuples."
+  - "Residual persona, projection, and historical mirror surfaces remain non-authoritative and retirement-tracked."
+  - "Evaluator diversity and hidden-check breadth remain bounded to the currently admitted adapter and scenario set."
 certification_refs:
   certification_mode: "equally-strong-recertification-rule"
   recertification_status: ".octon/generated/effective/closure/recertification-status.yml"
   trigger_log: ".octon/instance/governance/closure/recertification-trigger-log.yml"
-  release_bundle_manifest: ".octon/state/evidence/disclosure/releases/2026-04-08-uec-full-attainment-cutover/manifest.yml"
-  closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-08-uec-full-attainment-cutover/closure/closure-certificate.yml"
-generated_at: "2026-04-08T14:44:31Z"
+  release_bundle_manifest: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/manifest.yml"
+  closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-certificate.yml"
+generated_at: "2026-04-09T12:00:00Z"

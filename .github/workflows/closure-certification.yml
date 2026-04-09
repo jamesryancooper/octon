@@ -47,6 +47,7 @@ jobs:
 
       - name: Pass 1
         run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/verify-*.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/generate-release-bundle.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/generate-closure-projections.sh
           bash .octon/framework/assurance/scripts/validate-support-target-canonicality.sh
@@ -64,6 +65,13 @@ jobs:
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-quorum-policy-bindings.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-projection-non-authority.sh
           bash .octon/framework/assurance/scripts/validate-canonical-authority-purity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-support-dossier-parity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-lab-reference-integrity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-host-authority-purity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-runtime-family-depth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-continuity-linkage.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-retirement-rationale.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-release-known-limits.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-approval-grant-lease-revocation-linkage.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-proof-plane-completeness.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-evaluator-independence.sh
@@ -82,8 +90,15 @@ jobs:
 
       - name: Pass 2
         run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/verify-*.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/generate-release-bundle.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/generate-closure-projections.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-lab-reference-integrity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-host-authority-purity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-runtime-family-depth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-continuity-linkage.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-retirement-rationale.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/verify-release-known-limits.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-blocker-ledger-zero.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-release-bundle-freshness.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-recertification-status.sh

@@ -1,0 +1,9 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "hidden-check-baseline"
+visibility: "held-out"
+summary: "Baseline hidden-check scenario for admitted support tuples that require non-happy-path behavioral scrutiny."
+authored_inputs:
+  - ".octon/framework/assurance/behavioral/suites/held-out-supported-envelope.yml"
+evidence_expectations:
+  - "scenario-proof"
+

@@ -1,0 +1,51 @@
+schema_version: proof-plane-coverage-v1
+release_id: 2026-04-09-uec-hardening-recertification
+generated_at: "2026-04-09T12:00:00Z"
+tuples:
+  - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
+    required_proof_planes:
+      - structural
+      - functional
+      - behavioral
+      - governance
+      - maintainability
+      - recovery
+  - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+    required_proof_planes:
+      - structural
+      - functional
+      - behavioral
+      - governance
+      - maintainability
+      - recovery
+  - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+    required_proof_planes:
+      - structural
+      - functional
+      - behavioral
+      - governance
+      - maintainability
+      - recovery
+  - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+    required_proof_planes:
+      - structural
+      - functional
+      - behavioral
+      - governance
+      - maintainability
+      - recovery
+  - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+    required_proof_planes:
+      - structural
+      - functional
+      - governance
+      - maintainability
+  - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+    required_proof_planes:
+      - structural
+      - functional
+      - behavioral
+      - governance
+      - maintainability
+      - recovery
+excluded_tuples: []

@@ -1,0 +1,10 @@
+schema_version: "proof-suite-v1"
+suite_id: "host-authority-purity"
+plane: "governance"
+purpose: "Require workflows, labels, checks, and host adapters to remain projections only and never act as authority."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-host-authority-purity.sh"
+required_artifacts:
+  - "host-adapter-contract"
+  - "workflow-scan"
+  - "authority-decision-artifact"
+

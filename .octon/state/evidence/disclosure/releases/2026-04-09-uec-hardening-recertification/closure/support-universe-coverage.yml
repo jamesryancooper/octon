@@ -1,0 +1,32 @@
+schema_version: support-universe-coverage-v2
+release_id: 2026-04-09-uec-hardening-recertification
+generated_at: "2026-04-09T12:00:00Z"
+surfaces:
+  - model://repo-local-governed
+  - model://frontier-governed
+  - workload://observe-and-read
+  - workload://repo-consequential
+  - workload://boundary-sensitive
+  - context://reference-owned
+  - context://extended-governed
+  - locale://english-primary
+  - locale://spanish-secondary
+  - host://repo-shell
+  - host://github-control-plane
+  - host://ci-control-plane
+  - host://studio-control-plane
+  - model-adapter://repo-local-governed
+  - model-adapter://frontier-governed
+  - capability-pack://repo
+  - capability-pack://git
+  - capability-pack://shell
+  - capability-pack://telemetry
+  - capability-pack://browser
+  - capability-pack://api
+  - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+  - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+  - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+  - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+  - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+  - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+excluded_surfaces: []

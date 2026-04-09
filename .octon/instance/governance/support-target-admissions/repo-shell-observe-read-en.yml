@@ -24,6 +24,10 @@ required_proof_planes:
   - functional
   - governance
   - maintainability
+required_lab_scenarios:
+  - hidden-check-baseline
+  - adversarial-baseline
+  - replay-shadow-baseline
 required_authority_artifacts:
   - decision-artifact
 evidence_refs:

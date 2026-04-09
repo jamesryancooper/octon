@@ -1,0 +1,10 @@
+schema_version: "proof-suite-v1"
+suite_id: "authority-lineage-completeness"
+plane: "governance"
+purpose: "Require every governed representative run to resolve canonical decision, grant, exception, and revocation lineage where applicable."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-host-authority-purity.sh"
+required_artifacts:
+  - "decision-artifact"
+  - "grant-bundle"
+  - "authority-lineage"
+

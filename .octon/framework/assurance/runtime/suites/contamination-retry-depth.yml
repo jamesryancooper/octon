@@ -1,0 +1,9 @@
+schema_version: "proof-suite-v1"
+suite_id: "contamination-retry-depth"
+plane: "runtime"
+purpose: "Require contamination and retry posture to remain explicit and disclosed for admitted representative runs."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-runtime-family-depth.sh"
+required_artifacts:
+  - "contamination-record"
+  - "retry-record"
+  - "run-card"

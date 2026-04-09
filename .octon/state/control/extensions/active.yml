@@ -9,8 +9,8 @@ generation_id: "extensions-d81e117f4c8a"
 published_effective_catalog: ".octon/generated/effective/extensions/catalog.effective.yml"
 published_artifact_map: ".octon/generated/effective/extensions/artifact-map.yml"
 published_generation_lock: ".octon/generated/effective/extensions/generation.lock.yml"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-08T16-08-14Z-extensions-d81e117f4c8a.yml"
-publication_receipt_sha256: "b86284cadce0ed7ba9812bb58bf090e8a2b28d47a20bdf1ef7ef589c1a29d1f7"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-09T16-07-50Z-extensions-d81e117f4c8a.yml"
+publication_receipt_sha256: "0b86bbaf6cf8ad0e602295c7b602e68a7df8126236d92b9c5ad12de270988048"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -20,5 +20,5 @@ invalidation_conditions:
 required_inputs:
   - ".octon/instance/extensions.yml"
   - ".octon/octon.yml"
-validation_timestamp: "2026-04-08T16:08:14Z"
+validation_timestamp: "2026-04-09T16:07:50Z"
 status: "published"

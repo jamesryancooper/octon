@@ -14,13 +14,13 @@ truth_conditions_ref: ".octon/framework/constitution/claim-truth-conditions.yml"
 phase_status_ref: ".octon/instance/governance/closure/phase-status.yml"
 preclaim_blockers_ref: ".octon/instance/governance/closure/preclaim-blockers.yml"
 gate_status_ref: ".octon/instance/governance/closure/gate-status.yml"
-coverage_ledger_ref: ".octon/state/evidence/disclosure/releases/2026-04-08-uec-full-attainment-cutover/closure/support-universe-coverage.yml"
+coverage_ledger_ref: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/support-universe-coverage.yml"
 status_summary:
   claim_status: "complete"
   final_verdict: "claim_complete"
   current_blocker: null
   blocking_gates: []
-  updated_at: "2026-04-08"
+  updated_at: "2026-04-09"
 findings:
   - id: "OCT-F001"
     severity: "critical"

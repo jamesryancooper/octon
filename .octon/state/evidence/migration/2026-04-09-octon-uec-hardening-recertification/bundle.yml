@@ -1,0 +1,12 @@
+schema_version: migration-evidence-bundle-v1
+run_id: 2026-04-09-octon-uec-hardening-recertification
+release_id: 2026-04-09-uec-hardening-recertification
+status: in_progress
+artifacts:
+  - plan.md
+  - commands.md
+  - inventory.md
+  - evidence.md
+  - validation.md
+  - profile-selection-receipt.md
+

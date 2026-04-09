@@ -1,0 +1,13 @@
+schema_version: "proof-suite-v1"
+suite_id: "lab-replay-shadow-fault-integrity"
+plane: "recovery"
+purpose: "Require replay, shadow, and fault evidence to remain linked to the authored lab scenarios used in supported tuple dossiers."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-lab-reference-integrity.sh"
+required_artifacts:
+  - "replay-bundle"
+  - "shadow-run"
+  - "fault-report"
+blocking_support_tiers:
+  - "repo-consequential"
+  - "boundary-sensitive"
+

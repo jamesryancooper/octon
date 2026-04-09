@@ -1,15 +1,20 @@
 schema_version: release-lineage-v1
 owner: Octon governance
-updated_at: "2026-04-08T14:44:31Z"
+updated_at: "2026-04-09T12:00:00Z"
 active_release:
-  release_id: 2026-04-08-uec-full-attainment-cutover
+  release_id: 2026-04-09-uec-hardening-recertification
   status: active
   claim_scope: global-complete-finite
   claim_status: complete
-  harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-08-uec-full-attainment-cutover/harness-card.yml
-  closure_certificate_ref: .octon/state/evidence/disclosure/releases/2026-04-08-uec-full-attainment-cutover/closure/closure-certificate.yml
+  harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/harness-card.yml
+  closure_certificate_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-certificate.yml
   recertification_status_ref: .octon/generated/effective/closure/recertification-status.yml
 historical_releases:
+  - release_id: 2026-04-08-uec-full-attainment-cutover
+    status: superseded
+    superseded_by: 2026-04-09-uec-hardening-recertification
+    reason: Superseded by hardening recertification release; no support-universe widening.
+    harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-08-uec-full-attainment-cutover/harness-card.yml
   - release_id: 2026-04-06-target-state-closure-provable-closure
     status: superseded
     superseded_by: 2026-04-08-uec-full-attainment-cutover
@@ -48,4 +53,5 @@ historical_releases:
 notes:
   - Historical release bundles remain retained evidence, not the active live claim.
   - The active release is the only release that may be cited for current support scope and closure truth.
-  - The active release is the certified full-attainment claim for the full admitted target universe.
+  - The active release remains bounded to the admitted live support universe.
+  - The hardening recertification release preserves the admitted support universe and discloses residual non-critical limits through the active release bundle.

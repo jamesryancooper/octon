@@ -4,11 +4,11 @@ status: "active"
 activation_wave: 4
 release_state: "pre-1.0"
 change_profile: "atomic"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-08-octon-uec-full-attainment-cutover/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
 activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion/plan.md"
   - ".octon/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md"
-  - ".octon/instance/cognition/context/shared/migrations/2026-04-08-octon-uec-full-attainment-cutover/plan.md"
+  - ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
 authority_rules:
   subordinate_to:
     - ".octon/state/control/execution/runs/<run-id>/run-contract.yml"

@@ -1,0 +1,26 @@
+schema_version: closure-certificate-v2
+release_id: 2026-04-09-uec-hardening-recertification
+generated_at: "2026-04-09T12:00:00Z"
+status: certified
+proof_bundle_refs:
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/gate-status.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-summary.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/recertification-status.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/support-universe-coverage.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/proof-plane-coverage.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/cross-artifact-consistency.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/claim-drift-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/residual-ledger.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/disclosure-calibration-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/lab-reference-integrity-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/host-authority-purity-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/runtime-family-depth-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/replay-integrity.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/continuity-linkage-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/contamination-retry-depth-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/support-universe-evidence-depth-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/retirement-rationale-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/ablation-review-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/hardening-delta.yml
+certification_mode: equally-strong-recertification-rule
+recertification_status_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/recertification-status.yml

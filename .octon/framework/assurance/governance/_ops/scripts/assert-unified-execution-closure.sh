@@ -21,6 +21,7 @@ ACTIVE_RELEASE_ID="$(yq -r '.active_release.release_id' "$RELEASE_LINEAGE")"
 COVERAGE_LEDGER="$ROOT_DIR/$(yq -r '.coverage_ledger_ref' "$AUTHORED_HARNESS_CARD")"
 PROOF_COVERAGE="$ROOT_DIR/$(yq -r '.proof_bundle_refs[] | select(test("proof-plane-coverage.yml$"))' "$AUTHORED_HARNESS_CARD" | head -n1)"
 CLOSURE_CERTIFICATE="$ROOT_DIR/$(yq -r '.proof_bundle_refs[] | select(test("closure-certificate.yml$"))' "$AUTHORED_HARNESS_CARD" | head -n1)"
+PERMITTED_WORDING="$(yq -r '.permitted_release_wording' "$CLOSURE_MANIFEST")"
 
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
@@ -36,7 +37,7 @@ main() {
   require_yq '[.gates[] | select(.status != "green")] | length == 0' "$GATE_STATUS" "all closure gates are green"
   require_yq '.claim_status == "complete" and .preclaim_blockers_open == 0' "$CLOSURE_SUMMARY" "closure summary is complete"
   bash "$RETIREMENT_VALIDATOR" >/dev/null 2>&1 && pass "retirement governance is claim-ready" || fail "retirement governance is claim-ready"
-  require_yq '.claim_summary == "Octon is a fully attained Unified Execution Constitution for the full in-scope target support universe, with release disclosure, support claims, exemplar run evidence, and dual-pass certification regenerated from canonical repo surfaces."' "$AUTHORED_HARNESS_CARD" "HarnessCard wording matches closure manifest"
+  require_yq ".claim_summary == \"$PERMITTED_WORDING\"" "$AUTHORED_HARNESS_CARD" "HarnessCard wording matches closure manifest"
   require_yq ".active_release.release_id == \"$ACTIVE_RELEASE_ID\"" "$RELEASE_LINEAGE" "release lineage marks the active certified release"
   require_yq '.historical_releases[] | select(.release_id == "2026-04-04-uec-global-completion" and .status == "superseded")' "$RELEASE_LINEAGE" "release lineage supersedes the prior global-completion release"
   require_yq '(.surfaces | length) >= 8' "$COVERAGE_LEDGER" "coverage ledger spans admitted support surfaces"

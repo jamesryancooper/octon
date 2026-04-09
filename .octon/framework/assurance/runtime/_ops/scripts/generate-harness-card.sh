@@ -6,10 +6,11 @@ out="$(release_root "$release_id")/harness-card.yml"
 mkdir -p "$(dirname "$out")"
 summary_file="$(release_root "$release_id")/closure/closure-summary.yml"
 blocker_ledger="$(effective_closure_root)/blocker-ledger.yml"
+residual_ledger="$(release_root "$release_id")/closure/residual-ledger.yml"
 claim_status="$(yq -r '.claim_status // "incomplete"' "$summary_file" 2>/dev/null || printf 'incomplete')"
 claim_summary="Octon's full Unified Execution Constitution attainment is not yet supportable; this release discloses open certification blockers without overstating closure."
 if [[ "$claim_status" == "complete" ]]; then
-  claim_summary="Octon is a fully attained Unified Execution Constitution for the full in-scope target support universe, with release disclosure, support claims, exemplar run evidence, and dual-pass certification regenerated from canonical repo surfaces."
+  claim_summary="Octon materially substantiates a bounded Unified Execution Constitution for the admitted live support universe, with release disclosure, support claims, exemplar run evidence, and dual-pass certification regenerated from canonical repo surfaces."
 fi
 {
   echo "schema_version: harness-card-v2"
@@ -64,10 +65,20 @@ fi
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/cross-artifact-consistency.yml"
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/claim-drift-report.yml"
   echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/projection-parity-report.yml"
+  echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/residual-ledger.yml"
+  echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/disclosure-calibration-report.yml"
+  echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/lab-reference-integrity-report.yml"
+  echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/host-authority-purity-report.yml"
+  echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/runtime-family-depth-report.yml"
+  echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/continuity-linkage-report.yml"
+  echo "  - .octon/state/evidence/disclosure/releases/$release_id/closure/retirement-rationale-report.yml"
   while IFS= read -r run_id; do
     echo "  - .octon/state/evidence/disclosure/runs/$run_id/run-card.yml"
   done < <(representative_run_ids)
-  if [[ "$claim_status" != "complete" ]]; then
+  if [[ -f "$residual_ledger" ]] && yq -e '(.known_limits // []) | length > 0' "$residual_ledger" >/dev/null 2>&1; then
+    echo "known_limits:"
+    yq -r '.known_limits[]' "$residual_ledger" | sed 's/^/  - /'
+  elif [[ "$claim_status" != "complete" ]]; then
     echo "known_limits:"
     yq -r '.open_blockers[].title' "$blocker_ledger" 2>/dev/null | sed 's/^/  - Open blocker: /'
     if [[ "$(yq -r '.open_blocker_count' "$blocker_ledger")" == "0" ]]; then

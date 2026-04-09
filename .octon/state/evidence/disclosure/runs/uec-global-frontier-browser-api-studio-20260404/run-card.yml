@@ -16,6 +16,24 @@ authority_refs:
   grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-frontier-browser-api-studio-20260404.yml
   retained_run_evidence: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/retained-run-evidence.yml
   run_contract: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
+runtime_artifact_depth:
+  validation_status: pass
+  replay_integrity: pass
+  stage_attempts:
+    applicable: true
+    present: true
+  checkpoints:
+    applicable: true
+    present: true
+  continuity:
+    applicable: true
+    present: true
+  contamination:
+    applicable: true
+    present: true
+  retries:
+    applicable: true
+    present: true
 generated_at: "2026-04-04T12:00:00Z"
 intervention_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/interventions/log.yml
 known_limits:
