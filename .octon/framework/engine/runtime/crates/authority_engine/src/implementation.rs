@@ -3443,7 +3443,8 @@ fn resolve_support_tier_posture(
         });
     }
 
-    let admission = if !run_contract.support_target_admission_ref.trim().is_empty() {
+    let explicit_admission_ref = !run_contract.support_target_admission_ref.trim().is_empty();
+    let admission = if explicit_admission_ref {
         let path = resolve_contract_path(&cfg.repo_root, &run_contract.support_target_admission_ref);
         if path.is_file() {
             Some(read_yaml_file(&path)?)
@@ -3463,6 +3464,35 @@ fn resolve_support_tier_posture(
             })
             .cloned()
     };
+    if explicit_admission_ref
+        && admission
+            .as_ref()
+            .map(|entry| {
+                entry.tuple.model_tier != model_tier
+                    || entry.tuple.workload_tier != workload.id
+                    || entry.tuple.language_resource_tier != language_resource_tier
+                    || entry.tuple.locale_tier != locale_tier
+                    || entry.tuple.host_adapter != host_adapter_id
+                    || entry.tuple.model_adapter != model_adapter_id
+            })
+            .unwrap_or(true)
+    {
+        return Ok(SupportTierPosture {
+            support_tier: requested_tier.to_string(),
+            model_tier_id: Some(model_tier),
+            workload_tier_id: Some(workload.id.clone()),
+            language_resource_tier_id: Some(language_resource_tier),
+            locale_tier_id: Some(locale_tier),
+            workload_tier_label: Some(workload.label),
+            support_status: "unsupported".to_string(),
+            route: declaration.default_route,
+            host_adapter_id: Some(host_adapter_id),
+            model_adapter_id: Some(model_adapter_id),
+            requested_capability_packs,
+            declaration_ref: Some(run_contract.support_target_admission_ref.clone()),
+            ..SupportTierPosture::default()
+        });
+    }
     let matrix_entry = declaration.compatibility_matrix.iter().find(|entry| {
         entry.model_tier == model_tier
             && entry.workload_tier == workload.id
