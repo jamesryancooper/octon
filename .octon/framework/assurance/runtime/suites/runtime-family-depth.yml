@@ -1,0 +1,12 @@
+schema_version: "proof-suite-v1"
+suite_id: "runtime-family-depth"
+plane: "runtime"
+purpose: "Require stage-attempt, checkpoint, contamination, retry, and replay families to resolve for every admitted representative run."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-runtime-family-depth.sh"
+required_artifacts:
+  - "stage-attempt"
+  - "checkpoint"
+  - "contamination-record"
+  - "retry-record"
+  - "replay-manifest"
+

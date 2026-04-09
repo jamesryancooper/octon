@@ -1,0 +1,10 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "recovery-fault-baseline"
+summary: "Baseline recovery and fault scenario for admitted tuples that claim checkpoint, rollback, retry, and resumability evidence."
+authored_inputs:
+  - ".octon/framework/lab/scenarios/packs/runtime-proof-pack.yml"
+  - ".octon/framework/lab/faults/plans/runtime-proof-fault.yml"
+evidence_expectations:
+  - "scenario-proof"
+  - "fault-report"
+

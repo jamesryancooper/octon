@@ -1,0 +1,16 @@
+schema_version: "proof-suite-registry-v1"
+plane: "governance"
+suites:
+  - suite_id: "support-dossier-admission-parity"
+    path: ".octon/framework/assurance/governance/suites/support-dossier-admission-parity.yml"
+    enforcement_mode: "blocking-for-supported-claims"
+  - suite_id: "host-authority-purity"
+    path: ".octon/framework/assurance/governance/suites/host-authority-purity.yml"
+    enforcement_mode: "blocking-for-supported-claims"
+  - suite_id: "host-projection-parity"
+    path: ".octon/framework/assurance/governance/suites/host-projection-parity.yml"
+    enforcement_mode: "blocking-for-supported-claims"
+  - suite_id: "authority-lineage-completeness"
+    path: ".octon/framework/assurance/governance/suites/authority-lineage-completeness.yml"
+    enforcement_mode: "blocking-for-supported-claims"
+

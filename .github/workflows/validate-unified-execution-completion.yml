@@ -56,9 +56,17 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x .octon/framework/assurance/governance/_ops/scripts/run-uec-packet-certification-pass.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/verify-*.sh
           .octon/framework/assurance/governance/_ops/scripts/run-uec-packet-certification-pass.sh \
             --output-dir .octon/generated/.tmp/unified-execution-completion \
             --include-closure-validator
+          .octon/framework/assurance/runtime/_ops/scripts/verify-support-dossier-parity.sh
+          .octon/framework/assurance/runtime/_ops/scripts/verify-lab-reference-integrity.sh
+          .octon/framework/assurance/runtime/_ops/scripts/verify-host-authority-purity.sh
+          .octon/framework/assurance/runtime/_ops/scripts/verify-runtime-family-depth.sh
+          .octon/framework/assurance/runtime/_ops/scripts/verify-continuity-linkage.sh
+          .octon/framework/assurance/runtime/_ops/scripts/verify-retirement-rationale.sh
+          .octon/framework/assurance/runtime/_ops/scripts/verify-release-known-limits.sh
 
       - name: Upload validation bundle
         if: always()
@@ -68,6 +76,6 @@ jobs:
           path: |
             .octon/generated/.tmp/unified-execution-completion/
             .octon/generated/effective/closure/blocker-ledger.yml
-            .octon/state/evidence/disclosure/releases/2026-04-08-uec-full-attainment-cutover/
+            .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/
           if-no-files-found: error
           retention-days: 7

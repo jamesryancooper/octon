@@ -1,0 +1,11 @@
+schema_version: octon-lab-reference-integrity-v1
+release_id: 2026-04-09-uec-hardening-recertification
+status: pass
+summary:
+  authored_scenarios_checked: 5
+  dossier_refs_checked: 15
+  admission_refs_checked: 15
+  proof_refs_checked: 8
+  unresolved_refs: 0
+violations: []
+generated_at: "2026-04-09T12:00:00Z"

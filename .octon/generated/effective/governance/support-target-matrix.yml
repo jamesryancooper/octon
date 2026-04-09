@@ -1,5 +1,5 @@
 schema_version: effective-support-target-matrix-v1
-generated_at: "2026-04-08T14:44:31Z"
+generated_at: "2026-04-09T12:00:00Z"
 source_ref: .octon/instance/governance/support-targets.yml
 admission_source_root: .octon/instance/governance/support-target-admissions
 default_route: deny

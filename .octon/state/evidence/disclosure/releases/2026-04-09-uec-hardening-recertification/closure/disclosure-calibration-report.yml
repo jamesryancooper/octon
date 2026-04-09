@@ -1,0 +1,7 @@
+schema_version: octon-disclosure-calibration-v1
+release_id: 2026-04-09-uec-hardening-recertification
+status: pass
+summary:
+  known_limits_count: 3
+  support_scope_change: none
+  residual_ledger_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/residual-ledger.yml

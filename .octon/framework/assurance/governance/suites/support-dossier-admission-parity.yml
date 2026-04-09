@@ -1,0 +1,9 @@
+schema_version: "proof-suite-v1"
+suite_id: "support-dossier-admission-parity"
+plane: "governance"
+purpose: "Require dossier and admission scenario references to stay in deterministic parity for every admitted tuple."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-support-dossier-parity.sh"
+required_artifacts:
+  - "support-dossier"
+  - "support-target-admission"
+

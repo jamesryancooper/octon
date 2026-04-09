@@ -1,0 +1,9 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "adversarial-baseline"
+visibility: "bounded"
+summary: "Baseline adversarial scenario for admitted tuples that require anti-overfitting and non-happy-path behavioral evidence."
+authored_inputs:
+  - ".octon/framework/assurance/governance/anti-overfitting-policy.yml"
+evidence_expectations:
+  - "adversarial-report"
+

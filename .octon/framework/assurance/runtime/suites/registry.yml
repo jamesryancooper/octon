@@ -1,0 +1,13 @@
+schema_version: "proof-suite-registry-v1"
+plane: "runtime"
+suites:
+  - suite_id: "runtime-family-depth"
+    path: ".octon/framework/assurance/runtime/suites/runtime-family-depth.yml"
+    enforcement_mode: "blocking-for-supported-claims"
+  - suite_id: "continuity-linkage"
+    path: ".octon/framework/assurance/runtime/suites/continuity-linkage.yml"
+    enforcement_mode: "blocking-for-supported-claims"
+  - suite_id: "contamination-retry-depth"
+    path: ".octon/framework/assurance/runtime/suites/contamination-retry-depth.yml"
+    enforcement_mode: "blocking-for-supported-claims"
+

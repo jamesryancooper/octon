@@ -1,0 +1,18 @@
+schema_version: cross-artifact-consistency-v1
+release_id: 2026-04-09-uec-hardening-recertification
+generated_at: "2026-04-09T12:00:00Z"
+runs:
+  - run_id: uec-global-ci-observe-read-20260404
+    status: pass
+  - run_id: uec-global-frontier-browser-api-studio-20260404
+    status: pass
+  - run_id: uec-global-github-repo-consequential-20260404
+    status: pass
+  - run_id: uec-global-repo-shell-observe-read-20260404
+    status: pass
+  - run_id: uec-safe-stage-approval-exercise-20260402
+    status: pass
+  - run_id: uec-safe-stage-lease-revocation-exercise-20260402
+    status: pass
+excluded_runs: []
+status: pass

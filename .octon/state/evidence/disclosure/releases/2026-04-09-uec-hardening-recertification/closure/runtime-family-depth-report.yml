@@ -1,0 +1,22 @@
+schema_version: octon-runtime-family-depth-v1
+release_id: 2026-04-09-uec-hardening-recertification
+status: pass
+summary:
+  representative_runs_checked: 6
+  unresolved_runs: 0
+families:
+  stage_attempts:
+    schema_validated: true
+    disclosure_backed: true
+  checkpoints:
+    schema_validated: true
+    disclosure_backed: true
+  continuity:
+    schema_validated: true
+    disclosure_backed: true
+  contamination:
+    schema_validated: true
+    disclosure_backed: true
+  retries:
+    schema_validated: true
+    disclosure_backed: true

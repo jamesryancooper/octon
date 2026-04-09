@@ -1,0 +1,14 @@
+schema_version: "proof-suite-v1"
+suite_id: "lab-reference-integrity"
+plane: "behavioral"
+purpose: "Require dossier and admission scenario ids to resolve through the authored lab scenario registry and retained evidence index."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-lab-reference-integrity.sh"
+required_artifacts:
+  - "scenario-registry"
+  - "support-dossier-scenario-refs"
+  - "retained-lab-evidence-index"
+blocking_support_tiers:
+  - "observe-and-read"
+  - "repo-consequential"
+  - "boundary-sensitive"
+

@@ -1,0 +1,5 @@
+schema_version: octon-claim-drift-report-v1
+release_id: 2026-04-09-uec-hardening-recertification
+generated_at: "2026-04-09T12:00:00Z"
+status: pass
+findings:

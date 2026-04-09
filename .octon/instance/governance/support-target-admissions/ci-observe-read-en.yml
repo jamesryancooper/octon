@@ -26,6 +26,8 @@ required_proof_planes:
   - governance
   - maintainability
   - recovery
+required_lab_scenarios:
+  - projection-receipt-baseline
 required_authority_artifacts:
   - decision-artifact
 evidence_refs:

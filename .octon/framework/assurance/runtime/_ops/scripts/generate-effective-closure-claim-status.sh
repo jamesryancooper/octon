@@ -30,7 +30,7 @@ fi
   echo "claim_phrase: fully unified execution constitution"
   echo "release_id: $release_id"
   echo "generated_at: \"$(deterministic_generated_at)\""
-  echo "profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-08-octon-uec-full-attainment-cutover/plan.md"
+  echo "profile_selection_receipt_ref: $(migration_plan_ref_for_release "$release_id")"
   echo "truth_conditions_ref: .octon/framework/constitution/claim-truth-conditions.yml"
   echo "active_release_refs:"
   echo "  harness_card: .octon/state/evidence/disclosure/releases/$release_id/harness-card.yml"
@@ -47,7 +47,7 @@ fi
   echo "  blocker_count: $blocker_count"
   echo "  ready_for_final_completion_claim: $ready"
   echo "  support_universe_mode: global-complete-finite"
-  echo "  claim_scope: universal-target-universe"
+  echo "  claim_scope: admitted-live-support-universe"
   echo "  blocked_by:"
   yq -r '.blocked_by[]' "$summary" 2>/dev/null | sed 's/^/    - /'
   if [[ "$blocker_count" != "0" ]]; then

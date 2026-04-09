@@ -29,6 +29,11 @@ required_proof_planes:
   - governance
   - maintainability
   - recovery
+required_lab_scenarios:
+  - hidden-check-baseline
+  - adversarial-baseline
+  - replay-shadow-baseline
+  - recovery-fault-baseline
 required_authority_artifacts:
   - approval-request
   - approval-grant

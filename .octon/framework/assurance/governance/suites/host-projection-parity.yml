@@ -1,0 +1,9 @@
+schema_version: "proof-suite-v1"
+suite_id: "host-projection-parity"
+plane: "governance"
+purpose: "Require supported host adapters to keep projection-only contracts and parity with the admitted support universe."
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/verify-host-adapter-projection-parity.sh"
+required_artifacts:
+  - "host-adapter-contract"
+  - "support-target-declaration"
+

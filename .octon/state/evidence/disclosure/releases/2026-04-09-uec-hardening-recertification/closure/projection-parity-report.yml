@@ -1,0 +1,17 @@
+schema_version: octon-projection-parity-report-v1
+release_id: 2026-04-09-uec-hardening-recertification
+generated_at: "2026-04-09T12:00:00Z"
+status: pass
+comparisons:
+  - source: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/harness-card.yml
+    target: .octon/instance/governance/disclosure/harness-card.yml
+    status: pass
+  - source: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/gate-status.yml
+    target: .octon/instance/governance/closure/gate-status.yml
+    status: pass
+  - source: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-summary.yml
+    target: .octon/instance/governance/closure/closure-summary.yml
+    status: pass
+  - source: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/recertification-status.yml
+    target: .octon/generated/effective/closure/recertification-status.yml
+    status: pass

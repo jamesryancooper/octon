@@ -1,0 +1,38 @@
+schema_version: "lab-scenario-index-v1"
+updated_at: "2026-04-09T00:00:00Z"
+entries:
+  - scenario_id: "hidden-check-baseline"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/hidden-checks/hidden-check-baseline.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/scenarios/scn-held-out-supported-20260402/scenario-proof.yml"
+  - scenario_id: "adversarial-baseline"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/adversarial/adversarial-baseline.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/adversarial/adv-supported-envelope-20260402/adversarial-report.yml"
+  - scenario_id: "projection-receipt-baseline"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/packs/projection-receipt-baseline.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/scenarios/scn-wave4-assurance-disclosure-20260327/scenario-proof.yml"
+  - scenario_id: "replay-shadow-baseline"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/packs/replay-shadow-baseline.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/scenarios/scn-runtime-proof-supported-20260329/scenario-proof.yml"
+      - ".octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml"
+      - ".octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml"
+  - scenario_id: "recovery-fault-baseline"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/packs/recovery-fault-baseline.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/scenarios/scn-runtime-proof-supported-20260329/scenario-proof.yml"
+      - ".octon/state/evidence/lab/faults/flt-runtime-proof-supported-20260329/fault-report.yml"
+  - scenario_id: "runtime-proof-pack"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/packs/runtime-proof-pack.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/scenarios/scn-runtime-proof-supported-20260329/scenario-proof.yml"
+  - scenario_id: "browser-supported-scenario"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/scenarios/scn-wave4-benchmark-disclosure-20260327/scenario-proof.yml"
+  - scenario_id: "api-supported-scenario"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/scenarios/scn-wave4-assurance-disclosure-20260327/scenario-proof.yml"

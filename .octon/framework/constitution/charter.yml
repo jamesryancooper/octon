@@ -66,7 +66,7 @@ live_model:
   release_state: "pre-1.0"
   change_profile: "atomic"
   atomic_mode: "clean-break"
-  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-08-octon-uec-full-attainment-cutover/plan.md"
+  profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
   consequential_execution_unit: "run-contract"
   authority_engine: "runtime-consumed"
   support_universe_mode: "global-complete-finite-product"
