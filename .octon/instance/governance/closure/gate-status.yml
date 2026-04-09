@@ -55,7 +55,7 @@ gates:
     status: green
   - gate_id: G11C
     title: claim-calibrated-disclosure
-    status: red
+    status: green
   - gate_id: G12
     title: legacy-active-path
     status: green

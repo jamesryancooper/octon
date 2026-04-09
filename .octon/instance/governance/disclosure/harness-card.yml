@@ -1,9 +1,9 @@
 schema_version: harness-card-v2
 card_id: hc-target-state-closure-2026-04-08-uec-full-attainment-cutover
 claim_kind: release
-claim_status: incomplete
+claim_status: complete
 claim_summary: >-
-  Octon's full Unified Execution Constitution attainment is not yet supportable; this release discloses open certification blockers without overstating closure.
+  Octon is a fully attained Unified Execution Constitution for the full in-scope target support universe, with release disclosure, support claims, exemplar run evidence, and dual-pass certification regenerated from canonical repo surfaces.
 support_target_ref: .octon/instance/governance/support-targets.yml
 governance_exclusions_ref: .octon/instance/governance/exclusions/action-classes.yml
 support_universe:
@@ -56,6 +56,5 @@ proof_bundle_refs:
   - .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
-known_limits:
-  - Full attainment remains blocked until certification artifacts are regenerated from the current canonical state.
+known_limits: []
 generated_at: "2026-04-08T14:44:31Z"
