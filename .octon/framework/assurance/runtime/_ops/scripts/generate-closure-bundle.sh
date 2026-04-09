@@ -46,7 +46,7 @@ gate_failures=0
     "G10A:lab-reference-integrity:verify-lab-reference-integrity.sh" \
     "G11:wording-coherence:validate-disclosure-wording-coherence.sh" \
     "G11A:stage-attempt-disclosure-separation:../../../scripts/validate-stage-attempt-disclosure-separation.sh" \
-    "G11B:release-known-limits:verify-release-known-limits.sh" \
+    "G11B:known-limits-coherence:../../../scripts/validate-known-limits-coherence.sh" \
     "G11C:claim-calibrated-disclosure:../../../scripts/validate-claim-calibrated-disclosure.sh" \
     "G11D:runtime-family-depth:verify-runtime-family-depth.sh" \
     "G11E:continuity-linkage:verify-continuity-linkage.sh" \
@@ -61,7 +61,7 @@ gate_failures=0
     title="${rest%%:*}"
     script_name="${rest##*:}"
     status="green"
-    bash "$SCRIPT_DIR/$script_name" >/dev/null 2>&1 || status="red"
+    bash "$SCRIPT_DIR/$script_name" "$release_id" >/dev/null 2>&1 || status="red"
     [[ "$status" == "green" ]] || gate_failures=$((gate_failures + 1))
     echo "  - gate_id: $gate_id"
     echo "    title: $title"
