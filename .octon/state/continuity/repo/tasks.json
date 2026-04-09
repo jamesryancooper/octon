@@ -366,6 +366,18 @@
       "description": "Execute the octon_uec_remediation_packet remediation prompt and close blocker classes A-E",
       "status": "completed",
       "completed_at": "2026-04-08"
+    },
+    {
+      "id": "archive-octon-uec-remediation-packet-and-ignore-prompts",
+      "description": "Archive the octon_uec_remediation_packet and ignore the local .prompts directory",
+      "status": "completed",
+      "completed_at": "2026-04-09"
+    },
+    {
+      "id": "archive-octon-hardening-recertification-packet-v2",
+      "description": "Archive the octon_hardening_recertification_packet_v2 proposal packet in the canonical archive tree",
+      "status": "completed",
+      "completed_at": "2026-04-09"
     }
   ]
 }
