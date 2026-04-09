@@ -128,6 +128,35 @@ mutability: append-only
 
 - None
 
+## 2026-04-09
+
+**Session focus:** Archive remediation and hardening proposal packets and
+ignore local `.prompts/`
+
+**Completed:**
+
+- Moved
+  `/.octon/inputs/exploratory/proposals/architecture/octon_uec_remediation_packet/`
+  into the canonical archive tree at
+  `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_uec_remediation_packet/`
+- Moved
+  `/.octon/inputs/exploratory/proposals/architecture/octon_hardening_recertification_packet_v2/`
+  into the canonical archive tree at
+  `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_hardening_recertification_packet_v2/`
+- Updated `/.gitignore` so the archived remediation packet remains tracked in
+  the archive tree, and added the same tracked-archive exception for the
+  hardening recertification packet
+- Added `.prompts/` to `/.gitignore` so local prompt scratch files stay
+  untracked
+
+**Next:**
+
+- Commit the archive and ignore-rule changes if they should be retained
+
+**Blockers:**
+
+- None
+
 ## 2026-04-08
 
 **Session focus:** Execute the 2026-04-08 Unified Execution Constitution

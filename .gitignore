@@ -81,6 +81,7 @@ runs/
 
 # Additional local outputs and proposal workspaces
 out/
+.prompts/
 
 # OS-specific files
 .DS_Store
@@ -142,3 +143,7 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/execution-constitution-completion-closeout/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/migration-rollout/
 !.octon/inputs/exploratory/proposals/.archive/architecture/migration-rollout/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/octon_uec_remediation_packet/
+!.octon/inputs/exploratory/proposals/.archive/architecture/octon_uec_remediation_packet/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/octon_hardening_recertification_packet_v2/
+!.octon/inputs/exploratory/proposals/.archive/architecture/octon_hardening_recertification_packet_v2/**
